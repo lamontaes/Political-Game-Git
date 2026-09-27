@@ -12,6 +12,7 @@ import {
   publishTransitReport,
 } from "./transit-work";
 import { prepareRecordedLegislativeSitting } from "./legislative-authored-sitting";
+import { publishLegislativeTransition } from "./publish-legislative-transition";
 import {
   applyLegislativeCommand,
   resolveLegislativeAssignmentForMeasure,
@@ -25,6 +26,7 @@ import { searchLifePlaces } from "../simulation/life-places";
 import { generatePoliticalStartingConditions } from "../simulation/world-setup/political-start";
 import { ensureWorldStartingConditions } from "../simulation/world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../simulation/world-setup/types";
+import { stateTaxServiceProfileForJurisdictionKey } from "../simulation/world-setup/state-tax-service-profiles";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 import { assertWorldIntegrity } from "../simulation/world";
@@ -59,7 +61,8 @@ function enacted(chamber: "house" | "senate") {
       playerPersonId: seat.personId,
     });
     if (assignment.kind !== "available") throw new Error(assignment.reason);
-    world = applyLegislativeCommand(world, assignment.assignment, {
+    const before = world;
+    const acted = applyLegislativeCommand(world, assignment.assignment, {
       kind: recordedInstitutionalStepRequiresWait(
         world,
         assignment.assignment,
@@ -69,6 +72,7 @@ function enacted(chamber: "house" | "senate") {
         : "take-step",
       step: action,
     }).world;
+    world = publishLegislativeTransition(before, acted);
   }
   for (const other of [false, true]) {
     for (const action of [
@@ -106,9 +110,11 @@ it.each(["house", "senate"] as const)(
     expect(ready.currentDate).toBe(addDays(life.world.currentDate, 90));
     const mandate = funding(ready, life.personId);
     const beforeInspection = serializeWorld(ready);
-    expect(
-      projectTransitWork(ready, life.personId).bills[0]!.cashSnapshot.kind,
-    ).toBe("account-missing");
+    const cash = projectTransitWork(ready, life.personId).bills[0]!
+      .cashSnapshot;
+    expect(cash.kind).toBe("recorded-cash");
+    if (cash.kind === "recorded-cash")
+      expect(cash.recordedLiquidBalance.minorUnits).toBe(0);
     expect(serializeWorld(ready)).toBe(beforeInspection);
     expect(mandate.kind).toBe("available");
     if (mandate.kind === "available") {
@@ -213,10 +219,16 @@ it("files Colorado's complete state transit mandate through the ordinary office 
     startingLife: "ordinary-life",
     questionnaire: "skipped",
   });
+  expect(
+    stateTaxServiceProfileForJurisdictionKey(game.world, "US-CO"),
+  ).toBeNull();
   const opened = ensureWorldStartingConditions(game.world, {
     openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
     political: generatePoliticalStartingConditions,
   });
+  expect(
+    stateTaxServiceProfileForJurisdictionKey(opened, "US-CO"),
+  ).not.toBeNull();
   const seat = addSuppliedLegislativeSeat(
     opened,
     game.playerPersonId,
@@ -246,7 +258,7 @@ it("files Colorado's complete state transit mandate through the ordinary office 
   ]);
   expect(
     projectTransitWork(filed.world, seat.personId).bills.some(
-      (bill) => bill.measureId === filed.bill.measureId,
+      (entry) => entry.bill.measureId === filed.bill.measureId,
     ),
   ).toBe(true);
 });

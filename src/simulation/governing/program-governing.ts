@@ -400,6 +400,11 @@ export function appropriationFromEnactedMeasure(
     lineage.variantKey === TRANSIT_VARIANT_KEY &&
     lineage.authorityKey === TRANSIT_PROGRAM_KEY &&
     lineage.authorityMeasureId === undefined;
+  if (
+    pinnedLegacyTransit &&
+    measure.jurisdictionId !== stateJurisdictionForKey("US-AK")?.id
+  )
+    return world;
   const pinnedOperativeDate = pinnedLegacyTransit
     ? operativeDateForEnactment(enactment)?.date
     : null;

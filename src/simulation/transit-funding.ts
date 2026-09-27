@@ -16,6 +16,7 @@ import {
   TRANSIT_VARIANT_KEY,
 } from "./legislation-transit-families";
 import { legislativeWorkKey } from "./legislative-work-key";
+import { stateJurisdictionForKey } from "./life-places";
 import { rulePackById } from "./legislature-rule-packs";
 import { stateTransitServiceProfileForMeasure } from "./state-transit-service-profile";
 import type { EntityId, IsoDate, MoneyAmount, World } from "./types";
@@ -60,6 +61,13 @@ export function resolveTransitFunding(
   )
     return no(
       "No supported pinned transit appropriation and administrative mandate is recorded.",
+    );
+  if (
+    lineage.variantKey === TRANSIT_VARIANT_KEY &&
+    measure.jurisdictionId !== stateJurisdictionForKey("US-AK")?.id
+  )
+    return no(
+      "The explicit ninety-day transit clause is compiled only for Alaska.",
     );
   if (
     lineage.authorityKey !== TRANSIT_PROGRAM_KEY ||

@@ -14,6 +14,12 @@ import { stateJurisdictionForKey } from "../life-places";
 import { legislatureProfilePackId } from "../legislature-game-profile";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import { stateTransitServiceProfileForMeasure } from "../state-transit-service-profile";
+import {
+  STATE_TRANSIT_VARIANT_KEY,
+  TRANSIT_PROGRAM_KEY,
+  TRANSIT_VARIANT_KEY,
+} from "../legislation-transit-families";
+import { resolveTransitFunding } from "../transit-funding";
 import { openAppropriationsFor } from "./program-governing";
 import type { EntityId, World } from "../types";
 import { fileDraft } from "../../presentation/legislation-docket";
@@ -86,6 +92,38 @@ function appropriations(world: World) {
 }
 
 describe("one program identity per named spending target", () => {
+  it("keeps the legacy Alaska transit clause out of Nebraska while v2 writes its own authority", () => {
+    // This core fixture bypasses the ordinary operative-section filing gate,
+    // as an older save might. The enacted writer and payment adapter must
+    // still refuse the pinned Alaska-specific v1 text in Nebraska.
+    const legacy = enact(scenario.world, {
+      familyKey: "appropriations",
+      variantKey: TRANSIT_VARIANT_KEY,
+      authorityKey: TRANSIT_PROGRAM_KEY,
+    });
+    expect(
+      appropriations(legacy.world).filter(
+        (record) => record.sourceMeasureId === legacy.measureId,
+      ),
+    ).toHaveLength(0);
+    expect(resolveTransitFunding(legacy.world, legacy.measureId)).toEqual({
+      kind: "unavailable",
+      reason:
+        "The explicit ninety-day transit clause is compiled only for Alaska.",
+    });
+
+    const statewide = enact(legacy.world, {
+      familyKey: "appropriations",
+      variantKey: STATE_TRANSIT_VARIANT_KEY,
+      authorityKey: TRANSIT_PROGRAM_KEY,
+    });
+    expect(
+      appropriations(statewide.world).filter(
+        (record) => record.sourceMeasureId === statewide.measureId,
+      ),
+    ).toMatchObject([{ programKey: "transit:ne" }]);
+  });
+
   it("has one distinct state transit game profile in every state", () => {
     const keys = new Set<string>();
     for (const stateUsps of US_STATE_USPS) {
