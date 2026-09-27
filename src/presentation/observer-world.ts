@@ -28,6 +28,10 @@ import type { NewGameSetup } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { currentPublicOfficeholders } from "./opening-officeholders";
 import { passOrdinaryDays } from "./ordinary-life";
+import {
+  observerElectionSummaries,
+  type ObserverElectionSummary,
+} from "./observer-election-summaries";
 
 /**
  * OBSERVER MODE — the world with nobody played in it (Constitution rule 30).
@@ -176,6 +180,7 @@ export interface ObserverRecord {
   readonly enactedCount: number;
   readonly amendments: readonly ObserverAmendmentRow[];
   readonly elections: readonly ObserverElectionRow[];
+  readonly electionSummaries: readonly ObserverElectionSummary[];
   readonly officeholders: readonly ObserverOfficeRow[];
   readonly news: readonly ObserverHappening[];
   readonly happenings: readonly ObserverHappening[];
@@ -328,6 +333,7 @@ export function projectObserverRecord(world: World): ObserverRecord {
     ).length,
     amendments,
     elections,
+    electionSummaries: observerElectionSummaries(world),
     officeholders,
     news,
     happenings,

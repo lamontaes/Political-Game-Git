@@ -8,6 +8,10 @@ import {
   projectObserverRecord,
 } from "../presentation/observer-world";
 import { proseDate } from "../presentation/prose-dates";
+import { observerElectionSummaryPage } from "../presentation/observer-election-summaries";
+import { GameSelect } from "./controls/GameSelect";
+
+const ELECTION_SUMMARY_PAGE_SIZE = 25;
 
 /**
  * Observer Mode's two pieces of furniture: the clock, and the whole record.
@@ -115,6 +119,35 @@ export function ObserverRecordWorkspace({
   readonly onOpenPerson: (personId: EntityId) => void;
 }) {
   const record = useMemo(() => projectObserverRecord(world), [world]);
+  const [electionSummaryYear, setElectionSummaryYear] = useState<string | null>(
+    null,
+  );
+  const [shownElectionSummaries, setShownElectionSummaries] = useState(
+    ELECTION_SUMMARY_PAGE_SIZE,
+  );
+  const electionSummaryYears = useMemo(
+    () => [
+      ...new Set(record.electionSummaries.map((row) => row.date.slice(0, 4))),
+    ],
+    [record.electionSummaries],
+  );
+  const selectedElectionSummaryYear =
+    electionSummaryYear && electionSummaryYears.includes(electionSummaryYear)
+      ? electionSummaryYear
+      : (electionSummaryYears[0] ?? null);
+  const electionSummaryPage = useMemo(
+    () =>
+      observerElectionSummaryPage(
+        record.electionSummaries,
+        selectedElectionSummaryYear ?? "",
+        shownElectionSummaries,
+      ),
+    [
+      record.electionSummaries,
+      selectedElectionSummaryYear,
+      shownElectionSummaries,
+    ],
+  );
   const [query, setQuery] = useState("");
   const people = useMemo(() => observerPeople(world, query), [world, query]);
   const [selected, setSelected] = useState<EntityId | null>(null);
@@ -251,8 +284,60 @@ export function ObserverRecordWorkspace({
 
       <section data-testid="world-record-elections">
         <h3>Elections</h3>
+        <h4>General election summaries</h4>
+        {record.electionSummaries.length === 0 ? (
+          <p className="game-note">
+            No general election summary is recorded yet.
+          </p>
+        ) : (
+          <>
+            <label>
+              Year{" "}
+              <GameSelect
+                data-testid="observer-election-summary-year"
+                value={selectedElectionSummaryYear ?? ""}
+                onChange={(event) => {
+                  setElectionSummaryYear(event.target.value);
+                  setShownElectionSummaries(ELECTION_SUMMARY_PAGE_SIZE);
+                }}
+              >
+                {electionSummaryYears.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </GameSelect>
+            </label>
+            <ul data-testid="observer-election-summaries">
+              {electionSummaryPage.entries.map((row) => (
+                <li key={row.id}>
+                  {proseDate(row.date)} · {row.kind}
+                  {row.jurisdiction ? `, ${row.jurisdiction}` : ""}:{" "}
+                  {row.summary}
+                </li>
+              ))}
+            </ul>
+            {shownElectionSummaries < electionSummaryPage.total ? (
+              <button
+                type="button"
+                className="ui-action ui-action--subtle"
+                data-testid="observer-election-summaries-more"
+                onClick={() =>
+                  setShownElectionSummaries(
+                    (count) => count + ELECTION_SUMMARY_PAGE_SIZE,
+                  )
+                }
+              >
+                Show more
+              </button>
+            ) : null}
+          </>
+        )}
+        <h4>Individual contest results</h4>
         {record.elections.length === 0 ? (
-          <p className="game-note">No election has been decided yet.</p>
+          <p className="game-note">
+            No individual contest result is recorded yet.
+          </p>
         ) : (
           <ul>
             {record.elections.slice(0, 60).map((election) => (
