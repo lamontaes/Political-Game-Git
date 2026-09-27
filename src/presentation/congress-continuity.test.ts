@@ -11,6 +11,7 @@ import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import { seatStartingCondition } from "../simulation/world-setup/conditions";
+import { SEAT_VACANCY_EVENT } from "../simulation/living-world/opening";
 
 function openLife(seed: string) {
   const game = generateOpeningLife(
@@ -47,6 +48,48 @@ describe("GOVERNING 3: Congress continues across term boundaries", () => {
     expect(
       autumn.history.events.some((e) => e.type === CONGRESS_RESULTS_EVENT),
     ).toBe(false);
+    const slates = autumn.history.events.filter(
+      (event) => event.type === "election.congress-candidate-slate",
+    );
+    expect(slates).toHaveLength(468);
+    expect(slates.every((slate) => slate.participants.length > 0)).toBe(true);
+    expect(
+      slates.every((slate) =>
+        slate.participants.every((candidate) =>
+          Boolean(autumn.people[candidate.personId]),
+        ),
+      ),
+    ).toBe(true);
+    expect(slates.every((slate) => slate.occurredAt < "2026-11-03")).toBe(true);
+    const prospectChoices = new Set(
+      autumn.history.decisionTraces
+        .filter(
+          (trace) =>
+            trace.context.decisionType === "election.consider-congress-run",
+        )
+        .map((trace) => trace.context.actorPersonId),
+    );
+    expect(
+      autumn.history.decisionTraces.some(
+        (trace) =>
+          trace.context.decisionType === "election.consider-congress-run" &&
+          trace.selectedOptionKey === "decline",
+      ),
+    ).toBe(true);
+    expect(
+      slates.every((slate) =>
+        slate.participants.every(
+          (candidate) =>
+            candidate.detail?.endsWith("|incumbent") ||
+            prospectChoices.has(candidate.personId),
+        ),
+      ),
+    ).toBe(true);
+    expect(
+      deserializeWorld(before).history.events.filter(
+        (event) => event.type === "election.congress-candidate-slate",
+      ),
+    ).toEqual(slates);
 
     // Election day: one public results record; nobody is seated early.
     const counted = monthsUntil(autumn, "2026-11-10");
@@ -56,20 +99,68 @@ describe("GOVERNING 3: Congress continues across term boundaries", () => {
     expect(results).toHaveLength(1);
     expect(results[0]!.visibility).toBe("public");
     expect(results[0]!.occurredAt).toBe("2026-11-03");
-    // 435 House seats and the 33 Senate seats whose terms end.
-    expect(results[0]!.participants).toHaveLength(468);
+    const slatesBySeat = new Map(
+      slates.map((slate) => [
+        slate.tags.find((tag) => tag.startsWith("seat:"))?.slice(5),
+        slate,
+      ]),
+    );
+    // 435 House seats and 33 Senate seats end. A slate with no living
+    // candidate remains unfilled and becomes a dated vacancy at term start.
+    const unfilledKeys = results[0]!.tags
+      .filter((tag) => tag.startsWith("unfilled:"))
+      .map((tag) => tag.slice("unfilled:".length));
+    expect(results[0]!.participants.length + unfilledKeys.length).toBe(468);
+    expect(
+      unfilledKeys.every((seatKey) =>
+        slatesBySeat
+          .get(seatKey)
+          ?.participants.every((candidate) =>
+            counted.history.personDeaths.some(
+              (death) =>
+                death.personId === candidate.personId &&
+                death.diedAt <= results[0]!.occurredAt,
+            ),
+          ),
+      ),
+    ).toBe(true);
+    expect(
+      results[0]!.participants.every((winner) => {
+        const seatKey = (winner.detail ?? "").split("|")[0];
+        return slatesBySeat
+          .get(seatKey)
+          ?.participants.some(
+            (candidate) => candidate.personId === winner.personId,
+          );
+      }),
+    ).toBe(true);
     const clearLeanWinners = results[0]!.participants.flatMap((winner) => {
       const [seatKey, party] = (winner.detail ?? "").split("|");
       const share = seatStartingCondition(world, seatKey!)?.generatedShare;
       if (share === null || share === undefined) return [];
-      if (share >= 0.6) return [{ party, expected: "democratic" }];
-      if (share <= 0.4) return [{ party, expected: "republican" }];
+      if (share >= 0.6)
+        return [{ seatKey, party, expected: "democratic", share }];
+      if (share <= 0.4)
+        return [{ seatKey, party, expected: "republican", share }];
       return [];
     });
-    expect(clearLeanWinners.length).toBeGreaterThan(0);
-    expect(clearLeanWinners.every((row) => row.party === row.expected)).toBe(
-      true,
+    const eligibleClearLeans = clearLeanWinners.filter((row) =>
+      slatesBySeat
+        .get(row.seatKey)
+        ?.participants.some(
+          (candidate) =>
+            candidate.detail?.startsWith(`${row.expected}|`) &&
+            !counted.history.personDeaths.some(
+              (death) =>
+                death.personId === candidate.personId &&
+                death.diedAt <= results[0]!.occurredAt,
+            ),
+        ),
     );
+    expect(eligibleClearLeans.length).toBeGreaterThan(0);
+    expect(
+      eligibleClearLeans.filter((row) => row.party !== row.expected),
+    ).toEqual([]);
     expect(projectCongress(counted)!.house).toEqual(
       projectCongress(autumn)!.house,
     );
@@ -79,12 +170,9 @@ describe("GOVERNING 3: Congress continues across term boundaries", () => {
     const first = projectCongress(seated)!;
     expect(count(first.house, "no-current-record")).toBe(0);
     expect(count(first.senate, "no-current-record")).toBe(0);
-    // Every one of the 435 seats is accounted for, and a seat is only vacant
-    // because somebody died AFTER the new Congress was seated — never because
-    // the election failed to fill it. CRISIS mortality runs from the opening,
-    // so members and members-elect do die across these two years; a chamber
-    // that always reads exactly 435 living members would mean the roll was
-    // ignoring them. What must hold is that no vacancy predates the term.
+    // Every one of the 435 seats has a member or a dated vacancy. Members and
+    // candidates can die before or after January 3, so the roll must preserve
+    // the cause rather than silently extend an old tenure.
     const TERM_BEGAN = "2027-01-03";
     const vacancies = first.house.seats.filter(
       (seat) => seat.occupant.kind === "vacancy",
@@ -100,6 +188,16 @@ describe("GOVERNING 3: Congress continues across term boundaries", () => {
       // A vacancy names the event that caused it, so it can be explained.
       expect(occupant.eventId).toBeTruthy();
     }
+    expect(
+      unfilledKeys.every((seatKey) =>
+        seated.history.events.some(
+          (event) =>
+            event.type === SEAT_VACANCY_EVENT &&
+            event.tags.includes(`seat:${seatKey}`) &&
+            event.tags.includes("vacancy-cause:no-living-candidate"),
+        ),
+      ),
+    ).toBe(true);
     // Some seats change hands and some members return; nobody is extended
     // without an election.
     const changed = first.house.seats.filter(

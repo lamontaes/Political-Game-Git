@@ -5,6 +5,7 @@ import {
 import { scheduleSeatFilling } from "../governing/office-continuity";
 import type { CharacterHistoryContextPersonInput } from "../character-history";
 import { makeIsoDate } from "../dates";
+import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { electionContestResult } from "../election-contests";
 import { stateJurisdictionForKey } from "../life-places";
 import { drawCanonicalNamedIdentity, personName } from "../people";
@@ -14,6 +15,13 @@ import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { seatStartingCondition } from "../world-setup/conditions";
 import { aggregateCongressAffiliation } from "./congress-aggregate-outcome";
+import {
+  congressCandidateIntakeDay,
+  congressCandidateSlate,
+  congressCandidates,
+  prepareCongressCandidateSlates,
+  type CongressCandidateSeatPlan,
+} from "./congress-candidates";
 import {
   endCongressSeatWork,
   takeCongressSeatWork,
@@ -43,7 +51,8 @@ import {
  * - On the general election day (2 U.S.C. § 7: the Tuesday after the first
  *   Monday in November of every even year) the seats whose terms end the
  *   following January 3 are decided, and one public results record names the
- *   winners. A successor who is new to the World is created then.
+ *   winners. Candidate slates usually establish successors earlier in the
+ *   year; an older save can still use the election-day fallback.
  * - On January 3 each winner's new term record is written, dated that day.
  *   A member-elect who died in between leaves an actual vacancy with its cause.
  *
@@ -174,6 +183,10 @@ export function recordSeatCandidacyIntent(
   incumbentPersonId: EntityId | null,
   seeking: boolean,
   reason: string,
+  options: {
+    readonly occurredAt?: IsoDate;
+    readonly decisionTraceId?: EntityId;
+  } = {},
 ): World {
   const stableKey = seekingKey(seat.seatKey, year);
   if (world.history.events.some((event) => event.stableKey === stableKey))
@@ -186,7 +199,7 @@ export function recordSeatCandidacyIntent(
   return recordWorldEvent(world, {
     stableKey,
     type: SEEKS_TERM_EVENT,
-    occurredAt: world.currentDate,
+    occurredAt: options.occurredAt ?? world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id,
     involvedEntityIds: [
@@ -211,6 +224,9 @@ export function recordSeatCandidacyIntent(
       `seat:${seat.seatKey}`,
       `intent:${seeking ? "seeking" : "not-seeking"}`,
       `provenance:${CONGRESS_TURNOVER_PROFILE.id}`,
+      ...(options.decisionTraceId
+        ? [`decision-trace:${options.decisionTraceId}`]
+        : []),
     ],
     summary: seeking
       ? `The ${title} is seeking another term.`
@@ -236,6 +252,133 @@ export function seatCandidacyIntent(
     (candidate) => candidate.stableKey === seekingKey(seatKey, year),
   );
   return event ? event.tags.includes("intent:seeking") : null;
+}
+
+// PLACEHOLDER(overnight): this preference age is a game assumption until a
+// person-level ambition and retirement model has admitted calibration.
+const CANDIDACY_STEP_DOWN_PREFERENCE_AGE = 75;
+
+/** A dated NPC choice precedes the public candidate slate. */
+function prepareCongressIntake(
+  world: World,
+  year: number,
+  due: readonly { readonly seat: CongressSeat; readonly intakeDate: IsoDate }[],
+): World {
+  if (due.length === 0) return world;
+  const latest = latestSeatRecords(world);
+  const electionDay = congressionalElectionDay(year);
+  let next = world;
+  const plans: CongressCandidateSeatPlan[] = [];
+  for (const { seat, intakeDate } of due) {
+    if (congressCandidateSlate(next, seat.seatKey, year)) continue;
+    const record = latest.get(seat.seatKey);
+    const incumbentPersonId =
+      record?.type === SEAT_TENURE_EVENT
+        ? (record.participants.find((row) => row.role === "focus:subject")
+            ?.personId ?? null)
+        : null;
+    // A controlled member's decision belongs to the player. A separately
+    // filed contest likewise owns its own candidate list and result.
+    if (
+      (incumbentPersonId && isControlled(next, incumbentPersonId)) ||
+      recordedSeatContest(next, seat, electionDay)
+    )
+      continue;
+    const incumbent = incumbentPersonId
+      ? next.people[incumbentPersonId]
+      : undefined;
+    const alive = incumbentPersonId
+      ? aliveOn(next, incumbentPersonId, intakeDate)
+      : false;
+    const tooOld =
+      incumbent !== undefined &&
+      ageOn(incumbent.birthDate, electionDay) >=
+        CONGRESS_TURNOVER_PROFILE.retirementAge;
+    let seeking = false;
+    let decisionTraceId: EntityId | undefined;
+    if (incumbent && alive && !tooOld && record) {
+      const decisionKey = `${seekingKey(seat.seatKey, year)}:decision`;
+      const age = ageOn(incumbent.birthDate, electionDay);
+      const evaluation = evaluateDecision(next, {
+        stableKey: decisionKey,
+        decisionType: "election.consider-another-congress-term",
+        actorPersonId: incumbent.id,
+        cutoff: {
+          asOfDate: intakeDate,
+          historySequenceExclusive: next.history.nextSequence,
+        },
+        subject: { kind: "context:life", key: seat.seatKey, entityId: null },
+        options: [
+          {
+            key: "seek",
+            label: "Seek another term",
+            description: "Run again.",
+          },
+          {
+            key: "step-down",
+            label: "Step down",
+            description: "Leave the seat.",
+          },
+        ],
+        constraints: [],
+        considerations: [
+          {
+            stableKey: `${decisionKey}:serving`,
+            optionKey: "seek",
+            sourceType: "institution:current-office",
+            direction: "supports",
+            importance: "strong",
+            confidence: "high",
+            explanation: "They are serving in this seat.",
+            sourceRefs: [{ kind: "historical-event", eventId: record.id }],
+          },
+          ...(age >= CANDIDACY_STEP_DOWN_PREFERENCE_AGE
+            ? [
+                {
+                  stableKey: `${decisionKey}:age`,
+                  optionKey: "step-down" as const,
+                  sourceType: "context:age" as const,
+                  direction: "supports" as const,
+                  importance: "decisive" as const,
+                  confidence: "medium" as const,
+                  explanation: "They are considering retirement from Congress.",
+                  sourceRefs: [],
+                },
+              ]
+            : []),
+        ],
+        perceptionIds: [],
+        randomness: "none",
+        retention: "durable",
+      });
+      next = recordDurableDecisionTrace(next, evaluation);
+      decisionTraceId = next.history.decisionTraces.at(-1)!.id;
+      seeking = evaluation.selectedOptionKey === "seek";
+    }
+    next = recordSeatCandidacyIntent(
+      next,
+      seat,
+      year,
+      incumbentPersonId,
+      seeking,
+      !incumbentPersonId
+        ? "the seat has no sitting member."
+        : !alive
+          ? "the seat is vacant."
+          : tooOld
+            ? `they are ${CONGRESS_TURNOVER_PROFILE.retirementAge} or older.`
+            : "they decided to step down.",
+      { occurredAt: intakeDate, decisionTraceId },
+    );
+    plans.push({
+      seat,
+      incumbentPersonId,
+      incumbentParty: record ? tagValue(record, SEAT_PARTY_TAG) : null,
+      incumbentSeeking: seeking,
+      intakeDate,
+    });
+  }
+  return prepareCongressCandidateSlates(next, year, plans);
 }
 
 /** Whether this is the person being played, whose seat only their own race decides. */
@@ -279,6 +422,56 @@ function decideSeat(
       recordedWinnerPersonId: result.winnerPersonId,
       party: incumbentWon ? (recordedParty ?? "none") : "none",
       caucus: incumbentWon ? (recordedCaucus ?? "none") : "none",
+      serviceSince: incumbentWon
+        ? ((record
+            ? (tagValue(record, "service-since:") as IsoDate | null)
+            : null) ??
+          record?.occurredAt ??
+          newStart)
+        : newStart,
+    };
+  }
+  const slate = congressCandidateSlate(world, seat.seatKey, year);
+  if (slate) {
+    const viable = congressCandidates(world, seat.seatKey, year).filter(
+      (candidate) => aliveOn(world, candidate.personId, electionDay),
+    );
+    if (viable.length === 0) return null;
+    const condition = seatStartingCondition(world, seat.seatKey);
+    const seeking =
+      eligible && seatCandidacyIntent(world, seat.seatKey, year) === true;
+    const preferredParty = aggregateCongressAffiliation({
+      democraticShare: condition?.generatedShare ?? null,
+      baselineAffiliation: condition?.affiliation ?? null,
+      incumbentAffiliation: recordedParty,
+      incumbentSeeking: seeking,
+    });
+    const supportFor = (party: string): number => {
+      const share = condition?.generatedShare;
+      if (share === null || share === undefined)
+        return condition?.affiliation === party ? 1 : 0;
+      if (party === "democratic") return share;
+      if (party === "republican") return 1 - share;
+      return 0;
+    };
+    const winner =
+      viable.find((candidate) => candidate.party === preferredParty) ??
+      [...viable].sort(
+        (left, right) =>
+          supportFor(right.party) - supportFor(left.party) ||
+          left.personId.localeCompare(right.personId),
+      )[0]!;
+    const incumbentWon = winner.personId === incumbent;
+    return {
+      seat,
+      incumbentPersonId: incumbentWon ? winner.personId : null,
+      successorKey: null,
+      recordedWinnerPersonId: winner.personId,
+      party: winner.party,
+      caucus:
+        winner.party === "democratic" || winner.party === "republican"
+          ? winner.party
+          : (condition?.caucus ?? recordedCaucus ?? "none"),
       serviceSince: incumbentWon
         ? ((record
             ? (tagValue(record, "service-since:") as IsoDate | null)
@@ -355,7 +548,14 @@ function holdCongressElection(world: World, year: number): World {
     (seat) => seatTermWindow(seat, electionDay).endExclusive === newStart,
   );
   const latest = latestSeatRecords(world);
-  let intents = world;
+  // A save first resumed after the placeholder intake window still receives
+  // real candidate people before results are written. Its event date is the
+  // election day, rather than a fabricated earlier filing day.
+  let intents = prepareCongressIntake(
+    world,
+    year,
+    seats.map((seat) => ({ seat, intakeDate: electionDay })),
+  );
   for (const seat of seats) {
     const record = latest.get(seat.seatKey);
     const incumbent =
@@ -403,6 +603,14 @@ function holdCongressElection(world: World, year: number): World {
     );
     return decided ? [decided] : [];
   });
+  // PLACEHOLDER(overnight): a slate with no living candidate produces no
+  // winner. Write-ins and party substitution need their own admitted rules.
+  const decidedSeats = new Set(outcomes.map((outcome) => outcome.seat.seatKey));
+  const unfilledSlates = seats.filter(
+    (seat) =>
+      congressCandidateSlate(intents, seat.seatKey, year) &&
+      !decidedSeats.has(seat.seatKey),
+  );
   const inputs: CharacterHistoryContextPersonInput[] = outcomes.flatMap(
     (outcome) => {
       if (!outcome.successorKey) return [];
@@ -464,6 +672,7 @@ function holdCongressElection(world: World, year: number): World {
       CONGRESS_TURNOVER_VERSION,
       CONGRESS_TURNOVER_PROFILE.id,
       `term-start:${newStart}`,
+      ...unfilledSlates.map((seat) => `unfilled:${seat.seatKey}`),
     ],
     summary: `Voters chose ${outcomes.length} members of Congress in the ${year} general election: ${returning} incumbents return and ${outcomes.length - returning} seats get new members.`,
     context: {
@@ -593,6 +802,56 @@ function seatCongressWinners(world: World, year: number): World {
         )!.id,
       });
   }
+  for (const tag of results.tags) {
+    if (!tag.startsWith("unfilled:")) continue;
+    const seatKey = tag.slice("unfilled:".length);
+    const seat = seatsByKey.get(seatKey);
+    if (!seat) continue;
+    const vacancyKey = `${LIVING_WORLD_KEYS.seat(seatKey)}:vacancy:${newStart}`;
+    if (next.history.events.some((event) => event.stableKey === vacancyKey))
+      continue;
+    const chamberId = livingWorldOrganizationId(
+      next,
+      LIVING_WORLD_KEYS.chamber(seat.chamberKey),
+    );
+    next = endCongressSeatWork(next, {
+      seatKey,
+      continuingPersonId: null,
+      effectiveAt: newStart,
+      sourceEventId: results.id,
+    });
+    next = recordWorldEvent(next, {
+      stableKey: vacancyKey,
+      type: SEAT_VACANCY_EVENT,
+      occurredAt: newStart,
+      recordedAt: next.currentDate,
+      jurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id,
+      involvedEntityIds: [chamberId],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        LIVING_WORLD_WRITER_VERSION,
+        CONGRESS_TURNOVER_VERSION,
+        `office:${seat.chamberKey}`,
+        `seat:${seatKey}`,
+        `state:${seat.stateUsps}`,
+        `term-start:${newStart}`,
+        `term-end:${seatTermWindow(seat, newStart).endExclusive}`,
+        "vacancy-cause:no-living-candidate",
+      ],
+      summary: `The seat of the ${congressSeatTitle(seat)} is vacant: no living candidate remained when the election was held.`,
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    next = scheduleSeatFilling(next, seat, newStart).world;
+  }
   return next;
 }
 
@@ -609,9 +868,18 @@ export function applyCongressTurnover(before: IsoDate, world: World): World {
   for (let year = firstYear; year <= lastYear; year += 1) {
     if (year % 2 !== 0) continue;
     const electionDay = congressionalElectionDay(year);
+    const newStart = makeIsoDate(`${year + 1}-01-03`);
+    const due = congressSeats().flatMap((seat, index) => {
+      if (seatTermWindow(seat, electionDay).endExclusive !== newStart)
+        return [];
+      const intakeDate = congressCandidateIntakeDay(year, index);
+      return before < intakeDate && intakeDate <= after
+        ? [{ seat, intakeDate }]
+        : [];
+    });
+    next = prepareCongressIntake(next, year, due);
     if (before < electionDay && electionDay <= after)
       next = holdCongressElection(next, year);
-    const newStart = makeIsoDate(`${year + 1}-01-03`);
     if (before < newStart && newStart <= after)
       next = seatCongressWinners(next, year);
   }
