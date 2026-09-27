@@ -54,7 +54,6 @@ export function CandidateGuidancePanel({
                 {actor.name}
               </button>{" "}
               · {actor.role}
-              {/* PLACEHOLDER(overnight): The producer's exact words await English review. */}
               {actor.spokenLine ? <p>{actor.spokenLine}</p> : null}
             </li>
           ))}
@@ -88,7 +87,7 @@ export function CandidateGuidancePanel({
                     outcome:
                       next === current
                         ? "That question is no longer available. No time passed."
-                        : "Question recorded. No time passed.",
+                        : "You asked the question. No time passed.",
                   };
                 },
                 (report) => setMessage(report.outcome),

@@ -34,13 +34,9 @@ const SOURCE =
 /** The reviewed packets, outputs and verdicts behind the PT3 first-session copy. */
 const PT3_FIRST_SESSION_SOURCE = "prose-review/pt3-first-session";
 
-/** Retained for previously opened saves, but no longer offered in ordinary play. */
+/** Retired routine scenes are no longer offered in ordinary play. */
 export function isArchivedRoutineOpeningSceneKey(key: string): boolean {
-  return (
-    key === "young.home.choose-activity" ||
-    key === "adult.home.free-time" ||
-    key === "adult.home.plan-week"
-  );
+  return key === "young.home.choose-activity" || key === "adult.home.free-time";
 }
 
 /** Only these choices actually perform a sustained activity. Conversational
@@ -48,7 +44,6 @@ export function isArchivedRoutineOpeningSceneKey(key: string): boolean {
 const PERFORMED_OPENING_CHOICES: Readonly<Record<string, readonly string[]>> = {
   "young.home.choose-activity": ["read", "rest", "draw", "add"],
   "adult.home.free-time": ["read", "rest", "draw"],
-  "adult.home.plan-week": ["read"],
   "early.family.packing-boxes": ["help-label"],
   "early.peer.sidewalk-game": ["give-in-play", "trial"],
   "early.peer.roughhouse-line": ["brush-off-tough", "return"],
@@ -579,35 +574,6 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
     10,
     `${PT3_FIRST_SESSION_SOURCE}/adult-shared-time`,
   ),
-  // A decision with a recorded consequence, so an adult alone at home has
-  // something to decide. Choosing records the plan through
-  // chooseOrdinaryLifeGoal; later choices can keep it.
-  scene(
-    "adult.home.plan-week",
-    [18, 110],
-    "home",
-    "alone",
-    "You're at home, thinking about what to make time for in the days ahead.",
-    [
-      {
-        key: "learning",
-        label: "Make time to learn something",
-        aftermath: "You decided to set aside some time to learn something.",
-      },
-      {
-        key: "connection",
-        label: "Make time for people you know",
-        aftermath: "You decided to make time for people you know.",
-      },
-      {
-        key: "privacy",
-        label: "Make some time for yourself",
-        aftermath: "You decided to make some time for yourself.",
-      },
-    ],
-    5,
-    `${PT3_FIRST_SESSION_SOURCE}/adult-plan-week`,
-  ),
 
   scene(
     "early.community.lost-pet-flyer",
@@ -1081,23 +1047,6 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
         key: "mark",
         label: "Mark your place and stop",
         aftermath: "You marked your place and put it aside.",
-      },
-    ],
-  },
-  "adult.home.plan-week": {
-    afterChoice: "learning",
-    premise:
-      "You've just made a plan to learn something, and there are five minutes open right now.",
-    choices: [
-      {
-        key: "read",
-        label: "Start by reading now",
-        aftermath: "You spent the five minutes reading.",
-      },
-      {
-        key: "later",
-        label: "Leave it for another time",
-        aftermath: "You set the plan aside for another time.",
       },
     ],
   },

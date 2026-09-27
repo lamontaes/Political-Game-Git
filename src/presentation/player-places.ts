@@ -25,7 +25,6 @@ import {
 } from "./scene-venues";
 import { formatRoutineElapsedMinutes } from "./routine-outcome";
 import { venueActivities, venueTimingLabel } from "./venue-activity";
-import { ordinaryGroceryRoute } from "./ordinary-grocery-route";
 
 /** Pure read-model for the feature-local Places workspace. */
 export type PlacesActionKind = "inspect" | "travel" | "return-home" | "attend";
@@ -48,7 +47,6 @@ export interface PlacesOfferView {
   readonly unavailable: string | null;
   readonly companionLabel: string | null;
   readonly walkDestination?: "home" | "neighborhood";
-  readonly groceryDestination?: "grocery" | "home";
   readonly activityId?: EntityId;
   readonly declineActivityId?: EntityId;
   readonly governmentKey?: string;
@@ -87,25 +85,6 @@ export function projectPlacesWorkspace(
   for (const destination of ["neighborhood", "home"] as const) {
     offers.push(projectWalkOffer(world, personId, destination));
   }
-  // A saved arrival at the former store still needs its recorded way home.
-  // Pending errands in older saves no longer create a new shopping choice.
-  const returnFromStore = ordinaryGroceryRoute(world, personId, "home");
-  if (returnFromStore.kind === "available") {
-    const index = offers.findIndex((entry) => entry.id === "walk-home");
-    if (index >= 0) offers.splice(index, 1);
-    offers.push({
-      id: "grocery-home",
-      kind: "return-home",
-      title: returnFromStore.route.destination.label,
-      detail: "Walk home along the recorded outward route.",
-      minutes: returnFromStore.route.duration.minutes,
-      durationLabel: `${returnFromStore.route.duration.minutes} minutes`,
-      unavailable: null,
-      companionLabel: null,
-      groceryDestination: "home",
-    });
-  }
-
   const venueEntries = venueActivities(world, personId);
   const bundledJourneyIds = new Set(
     venueEntries.flatMap((entry) =>

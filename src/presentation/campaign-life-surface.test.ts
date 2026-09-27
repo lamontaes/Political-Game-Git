@@ -132,9 +132,7 @@ describe(
       );
       expect(after.outcomeLines.join(" ")).toMatch(/You met /);
       expect(after.outcomeLines.join(" ")).toMatch(/less of the evening shown/);
-      expect(after.guidanceFacts.join(" ")).toMatch(
-        /not established by this game's sourced rules/,
-      );
+      expect(after.guidanceFacts).toEqual([]);
       expect(allText(after)).not.toMatch(/\b\d{4}-\d{2}-\d{2}\b/);
       expect(allText(after)).not.toMatch(METER_WORDS);
     });
