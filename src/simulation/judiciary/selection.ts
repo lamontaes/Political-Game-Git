@@ -1,12 +1,21 @@
 /** Dated attempts to fill or renew a real seat in the saved judiciary. */
 
 import type { EntityId, IsoDate, World } from "../types";
+import { makeIsoDate } from "../dates";
 import { currentPresidentOf } from "../crisis/offices";
 import { electionContestResult } from "../election-contests";
 import { personName } from "../people";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
+import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
-import { courtById, effectiveCourtRulesAt, seatHolderAt } from "./courts";
+import {
+  courtById,
+  effectiveCourtRulesAt,
+  releaseJudicialSeatForAppointment,
+  seatHolderAt,
+  seatJudge,
+  vacateJudicialSeat,
+} from "./courts";
 import { judicialSelectionProfile } from "./profiles";
 import { judicialPhilosophyHasEvidence } from "./philosophy";
 import type {
@@ -14,6 +23,7 @@ import type {
   JudicialPhilosophyRecord,
   JudicialSelectionRecord,
   JudicialSelectionStageRecord,
+  JudicialSeatSelectionPath,
 } from "./types";
 
 export const JUDICIAL_POPULAR_VOTER_PROFILE = "judicial-popular-voters/v1";
@@ -101,17 +111,36 @@ export function resolveJudicialSelectionPlan(
   if (!seat || seat.retiredAt !== null || seat.createdAt > world.currentDate)
     return { state: "unresolved", reason: "The judicial seat is not active." };
   const court = courtById(world, seat.courtId);
-  if (!court || !court.sourceRecordId || !court.rules.selectionRecordId)
+  if (!court || !court.rules.selectionRecordId)
     return {
       state: "unresolved",
       reason: "The court has no admitted selection profile.",
     };
-  if (court.sourceRecordId !== court.rules.selectionRecordId)
+  const profile = judicialSelectionProfile(court.rules.selectionRecordId);
+  if (
+    profile?.jurisdictionId === "us-fed" &&
+    ((court.level === "federal-supreme" &&
+      (court.courtId !== "us-supreme-court" ||
+        profile.officeFamily !== "highest_court")) ||
+      (court.level === "federal-appellate" &&
+        (!court.sourceRecordId ||
+          profile.officeFamily !== "intermediate_appellate")) ||
+      (court.level === "federal-district" &&
+        (!court.sourceRecordId || profile.officeFamily !== "general_trial")) ||
+      !court.level.startsWith("federal-"))
+  )
+    return {
+      state: "unresolved",
+      reason: "The federal court and selection profile do not match.",
+    };
+  if (
+    profile?.jurisdictionId !== "us-fed" &&
+    court.sourceRecordId !== court.rules.selectionRecordId
+  )
     return {
       state: "unresolved",
       reason: "The court and its selection rule point to different records.",
     };
-  const profile = judicialSelectionProfile(court.sourceRecordId);
   if (
     !profile ||
     profile.officeExists.state !== "KNOWN" ||
@@ -137,6 +166,30 @@ export function resolveJudicialSelectionPlan(
       };
   }
   const path = (() => {
+    if (
+      kind === "vacancy" &&
+      profile.jurisdictionId === "us-fed" &&
+      profile.recordId === court.rules.selectionRecordId &&
+      court.rules.termYears.state === "known" &&
+      court.rules.termYears.value === null
+    ) {
+      // Article III vacancy authority is the same President/Senate pair as
+      // initial appointment. Informal screening in 92L is not a mandatory
+      // appointing actor. See Article II and the U.S. Courts appointment page.
+      const initial = profile.initialSelection;
+      const stages = initial.value?.paths[0]?.stages;
+      if (
+        initial.state !== "KNOWN" ||
+        initial.value?.paths.length !== 1 ||
+        stages?.length !== 2 ||
+        stages[0]?.mechanism !== "EXECUTIVE_NOMINATION" ||
+        stages[0].actor.value !== "President of the United States" ||
+        stages[1]?.mechanism !== "LEGISLATIVE_CONFIRMATION" ||
+        stages[1].actor.value !== "United States Senate"
+      )
+        return null;
+      return { pathId: "article-iii-vacancy", stages };
+    }
     if (kind === "vacancy") {
       const vacancy = profile.interimVacancy;
       if (vacancy.state !== "KNOWN" || !vacancy.value) return null;
@@ -251,12 +304,9 @@ function assertSelectionPlan(
   if (!seat || seat.retiredAt !== null || seat.createdAt > world.currentDate)
     throw new Error(`Judicial seat is not active: ${seatId}`);
   const court = courtById(world, seat.courtId);
-  if (!court || !court.sourceRecordId || !court.rules.selectionRecordId)
+  if (!court || !court.rules.selectionRecordId)
     throw new Error("Judicial court has no admitted selection profile.");
-  if (
-    court.sourceRecordId !== plan.sourceRecordId ||
-    court.rules.selectionRecordId !== plan.sourceRecordId
-  )
+  if (court.rules.selectionRecordId !== plan.sourceRecordId)
     throw new Error("Judicial selection plan belongs to another court source.");
   if (!plan.pathId || plan.stages.length === 0)
     throw new Error("Judicial selection path must have ordered stages.");
@@ -426,9 +476,50 @@ export function recordJudicialSelectionStage(
     input.actorPersonId === null;
   const seat = world.judiciary?.seats[selection.seatId];
   const court = seat ? courtById(world, seat.courtId) : null;
-  const profile = court?.sourceRecordId
-    ? judicialSelectionProfile(court.sourceRecordId)
+  const profile = court?.rules.selectionRecordId
+    ? judicialSelectionProfile(court.rules.selectionRecordId)
     : null;
+  const approvedSenateRollCall =
+    profile?.jurisdictionId === "us-fed" &&
+    stage.mechanism === "LEGISLATIVE_CONFIRMATION" &&
+    stage.actor.value === "United States Senate" &&
+    input.actorPersonId === null &&
+    input.candidatePersonId !== null &&
+    (input.outcome === "completed" || input.outcome === "rejected") &&
+    outcomeEvent?.type === "judicial.senate-result" &&
+    outcomeEvent.occurredAt === input.occurredAt &&
+    outcomeEvent.tags.includes(`selection:${selection.recordId}`) &&
+    outcomeEvent.tags.includes(
+      `outcome:${input.outcome === "completed" ? "confirmed" : "rejected"}`,
+    ) &&
+    outcomeEvent.involvedEntityIds.includes(input.candidatePersonId);
+  if (
+    stage.actor.state === "KNOWN" &&
+    stage.mechanism !== "RETENTION_ELECTION" &&
+    !approvedSenateRollCall &&
+    !input.actorPersonId
+  )
+    throw new Error("The named judicial selection actor is not recorded.");
+  if (
+    profile?.jurisdictionId !== "us-fed" &&
+    (stage.mechanism === "EXECUTIVE_APPOINTMENT" ||
+      stage.mechanism === "EXECUTIVE_REAPPOINTMENT" ||
+      stage.mechanism === "EXECUTIVE_NOMINATION")
+  ) {
+    const stateUsps = profile?.jurisdictionId.slice(3).toUpperCase();
+    const governor = currentStateExecutiveHolders(world).find(
+      (holder) => holder.stateUsps === stateUsps,
+    );
+    if (
+      !stateUsps ||
+      input.occurredAt !== world.currentDate ||
+      !governor ||
+      governor.personId !== input.actorPersonId
+    )
+      throw new Error(
+        "The recorded actor is not the sitting state executive for this judicial selection.",
+      );
+  }
   const contest = input.electionContestId
     ? world.history.electionContests?.find(
         (row) => row.id === input.electionContestId,
@@ -490,6 +581,165 @@ export function recordJudicialSelectionStage(
   };
   assertWorldIntegrity(next);
   return next;
+}
+
+function completedStateSelectionPath(
+  mechanism: string,
+  kind: JudicialSelectionRecord["kind"],
+): JudicialSeatSelectionPath | null {
+  switch (mechanism) {
+    case "EXECUTIVE_APPOINTMENT":
+      return "appointment";
+    case "LEGISLATIVE_CONFIRMATION":
+    case "COUNCIL_CONFIRMATION":
+      return kind === "renewal" ? "reappointment" : "appointment";
+    case "EXECUTIVE_REAPPOINTMENT":
+    case "LEGISLATIVE_REAPPOINTMENT":
+      return "reappointment";
+    case "PARTISAN_GENERAL_ELECTION":
+    case "NONPARTISAN_GENERAL_ELECTION":
+      return "popular-election";
+    case "LEGISLATIVE_ELECTION":
+    case "LEGISLATIVE_REELECTION":
+      return "legislative-election";
+    case "RETENTION_ELECTION":
+    case "LEGISLATIVE_RETENTION":
+    case "COMMISSION_RETENTION":
+      return "retention";
+    default:
+      return null;
+  }
+}
+
+function stateTermEnd(
+  startedAt: IsoDate,
+  years: number | null,
+): IsoDate | null {
+  if (years === null) return null;
+  if (!Number.isSafeInteger(years) || years <= 0)
+    throw new Error("The state judicial term duration is invalid.");
+  const nextYear = Number(startedAt.slice(0, 4)) + years;
+  const monthDay = startedAt.slice(5);
+  return makeIsoDate(
+    `${nextYear}-${monthDay === "02-29" ? "02-28" : monthDay}`,
+  );
+}
+
+/** Seat only an already completed state selection; this creates no candidates or votes. */
+export function completeStateJudicialSelection(
+  world: World,
+  selectionRecordId: string,
+): World {
+  const selection = judicialSelectionById(world, selectionRecordId);
+  if (!selection) throw new Error("No judicial selection attempt matches.");
+  const seat = world.judiciary?.seats[selection.seatId];
+  const court = seat ? courtById(world, seat.courtId) : null;
+  if (!seat || !court || court.level.startsWith("federal-"))
+    throw new Error("This is not a state judicial selection.");
+  const resolved = resolveJudicialSelectionPlan(
+    world,
+    selection.seatId,
+    selection.kind,
+  );
+  if (resolved.state !== "ready") throw new Error(resolved.reason);
+  if (
+    judicialSelectionProgress(world, selectionRecordId, resolved.plan)
+      .status !== "stages-completed"
+  )
+    throw new Error("The state judicial selection is not completed.");
+  if (
+    world.judiciary!.seatTenures.some(
+      (tenure) => tenure.selection.selectionRecordId === selectionRecordId,
+    )
+  )
+    throw new Error("This selection already began a judicial tenure.");
+  const stages = judicialSelectionStages(world, selectionRecordId);
+  if (
+    stages.length !== resolved.plan.stages.length ||
+    stages.some((stage) => stage.outcome !== "completed")
+  )
+    throw new Error("The state judicial selection lacks completed stages.");
+  const finalStage = stages.at(-1)!;
+  const candidateId = finalStage.candidatePersonId;
+  if (!candidateId || !selection.candidatePersonIds.includes(candidateId))
+    throw new Error("The completed selection has no recorded candidate.");
+  if (
+    world.history.personDeaths.some(
+      (death) =>
+        death.personId === candidateId && death.diedAt <= world.currentDate,
+    )
+  )
+    throw new Error("The selected candidate died before taking the seat.");
+  const path = completedStateSelectionPath(
+    finalStage.mechanism,
+    selection.kind,
+  );
+  if (!path)
+    throw new Error("This state selection ending has no seating adapter.");
+  const effective = effectiveCourtRulesAt(world, court.courtId);
+  const years = effective?.rules.termYears;
+  if (years?.state !== "known")
+    throw new Error("The state judicial term duration is unresolved.");
+  const termEndsAt = stateTermEnd(world.currentDate, years.value);
+  const previous = [...world.judiciary!.seatTenures]
+    .reverse()
+    .find((tenure) => tenure.seatId === seat.seatId && tenure.endedAt === null);
+  let next = world;
+  if (selection.kind === "renewal") {
+    if (
+      !previous ||
+      previous.personId !== candidateId ||
+      previous.termEndsAt === null ||
+      previous.termEndsAt > world.currentDate
+    )
+      throw new Error("The incumbent's prior term is not due for renewal.");
+    next = vacateJudicialSeat(next, {
+      seatId: seat.seatId,
+      vacatedAt: world.currentDate,
+      reason: "term-expired",
+    });
+  } else {
+    if (seatHolderAt(world, seat.seatId))
+      throw new Error("The state judicial seat is already filled.");
+    if (previous) {
+      const death = world.history.personDeaths.find(
+        (row) =>
+          row.personId === previous.personId && row.diedAt <= world.currentDate,
+      );
+      const expired =
+        previous.termEndsAt !== null &&
+        previous.termEndsAt <= world.currentDate;
+      if (!death && !expired)
+        throw new Error("The prior judicial tenure has no recorded end cause.");
+      const deathFirst =
+        death && (!expired || death.diedAt <= previous.termEndsAt!);
+      next = vacateJudicialSeat(next, {
+        seatId: seat.seatId,
+        vacatedAt: deathFirst ? death.diedAt : previous.termEndsAt!,
+        reason: deathFirst ? "death" : "term-expired",
+      });
+    }
+    next = releaseJudicialSeatForAppointment(next, candidateId, seat.seatId);
+  }
+  if (next.judiciary?.seats[seat.seatId]?.retiredAt !== null)
+    throw new Error("The state judicial seat was retired before seating.");
+  return seatJudge(next, {
+    seatId: seat.seatId,
+    personId: candidateId,
+    startedAt: next.currentDate,
+    selection: {
+      path,
+      selectionRecordId,
+      decisionRecordId: finalStage.decisionRecordId,
+      selectingPersonId: finalStage.actorPersonId,
+      contestId: finalStage.electionContestId,
+      note: finalStage.outcomeEventId
+        ? `Selection outcome ${finalStage.outcomeEventId}`
+        : null,
+    },
+    termEndsAt,
+    retentionDueAt: null,
+  });
 }
 
 /** A President's explicit nomination records the choice; it does not seat the nominee. */
