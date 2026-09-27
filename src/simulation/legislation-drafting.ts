@@ -61,6 +61,8 @@ export interface CompileBillDraftInput {
   readonly variantKey: string;
   /** Values the player has moved. Anything omitted takes the variant default. */
   readonly parameterValues?: Readonly<Record<string, ProgramParameterValue>>;
+  /** Filed section keys. Omission keeps the complete legacy configuration. */
+  readonly selectedProvisionKeys?: readonly string[];
   /** The legislature this draft is written for. Never assumed. */
   readonly scenarioKey: string;
   readonly jurisdictionId: EntityId;
@@ -463,6 +465,45 @@ export function compileBillDraft(
   );
   checkInstrumentShape(family, variant, rule);
 
+  const selectedKeys = input.selectedProvisionKeys;
+  if (selectedKeys !== undefined) {
+    const known = new Set(variant.clauses.map((clause) => clause.provisionKey));
+    const seen = new Set<string>();
+    for (const key of selectedKeys) {
+      if (!known.has(key))
+        throw new BillConfigurationError(
+          `The ${variant.label} configuration has no '${key}' section to select.`,
+        );
+      if (seen.has(key))
+        throw new BillConfigurationError(
+          `The '${key}' section was selected twice.`,
+        );
+      seen.add(key);
+    }
+    for (const required of rule.requiredDimensions) {
+      if (
+        !variant.clauses.some(
+          (clause) =>
+            clause.dimension === required && seen.has(clause.provisionKey),
+        )
+      )
+        throw new BillConfigurationError(
+          `${rule.label} must retain a ${required} section.`,
+        );
+    }
+  }
+  const templates =
+    selectedKeys === undefined
+      ? variant.clauses
+      : variant.clauses.filter((template) =>
+          selectedKeys.includes(template.provisionKey),
+        );
+  const usedParameterKeys = new Set(
+    templates.flatMap((template) =>
+      template.parameterKey === null ? [] : [template.parameterKey],
+    ),
+  );
+
   const supplied = input.parameterValues ?? {};
   const specsByKey = new Map(
     variant.parameters.map((spec) => [spec.key, spec]),
@@ -478,6 +519,10 @@ export function compileBillDraft(
         `The ${variant.label} configuration has no '${key}' to set.`,
       );
     }
+    if (selectedKeys !== undefined && !usedParameterKeys.has(key))
+      throw new BillConfigurationError(
+        `The selected sections do not use '${key}', so setting it would change no text.`,
+      );
     // The family-level declaration is checked too, so a variant cannot quietly
     // introduce a dimension its family says it does not carry.
     if (!family.acceptedDimensions.includes(spec.dimension)) {
@@ -504,7 +549,13 @@ export function compileBillDraft(
     values[spec.key] = value;
   }
 
-  const timing = resolveTiming(variant, values, input.filedOn);
+  const timing =
+    selectedKeys === undefined ||
+    variant.parameters.some(
+      (spec) => spec.dimension === "timing" && usedParameterKeys.has(spec.key),
+    )
+      ? resolveTiming(variant, values, input.filedOn)
+      : { startsOn: input.filedOn, endsOn: null };
   const resolved = resolveParameters(
     variant,
     values,
@@ -514,7 +565,7 @@ export function compileBillDraft(
     authority,
   );
 
-  const clauses: CompiledClause[] = variant.clauses.map((template, index) => {
+  const clauses: CompiledClause[] = templates.map((template, index) => {
     const rendering = template.render(resolved);
     if (
       rendering.fiscalExposureMinorUnits !== null &&
@@ -600,8 +651,18 @@ export function compileBillDraft(
     startsOn: timing.startsOn,
     endsOn: timing.endsOn,
     clauses,
-    parameterValues: values,
-    parameters: variant.parameters,
+    parameterValues:
+      selectedKeys === undefined
+        ? values
+        : Object.fromEntries(
+            Object.entries(values).filter(([key]) =>
+              usedParameterKeys.has(key),
+            ),
+          ),
+    parameters:
+      selectedKeys === undefined
+        ? variant.parameters
+        : variant.parameters.filter((spec) => usedParameterKeys.has(spec.key)),
     authorizedCeilingMinorUnits: ceiling,
     authorizedCeilingLabel:
       ceiling === null
@@ -668,7 +729,7 @@ function resolveTiming(
  * lands on the same calendar date it started on. February 29 is walked back to
  * the 28th, which is what a statute does with the same problem.
  */
-function addYears(date: IsoDate, years: number): IsoDate {
+export function addYears(date: IsoDate, years: number): IsoDate {
   const year = yearOf(date) + years;
   const monthDay = date.slice(4);
   if (monthDay === "-02-29") {
