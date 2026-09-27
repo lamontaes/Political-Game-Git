@@ -3,6 +3,10 @@ import {
   walkOpeningNeighborhood,
 } from "./life-scene-flow";
 import { describePlacesOutcome } from "./player-places";
+import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
+import { projectCandidateGuidanceScene } from "./candidate-guidance-scene";
+import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
+import { campaignLifeActivityForScheduledActivity } from "../simulation/campaign-life-activities";
 import {
   addDays,
   addSimulationMinutes,
@@ -31,6 +35,7 @@ import { deathNewsBetween } from "./death-news";
 import { nextOwnElection, ownElectionResultsBetween } from "./own-election";
 import { letStoryTimePass, quietStepDays } from "./life-story";
 import {
+  acceptedOfferStarts,
   advanceStoppingForOfferDeadlines,
   offerDeadlines,
 } from "./offer-deadlines";
@@ -129,11 +134,34 @@ function wholeDaysBetween(from: IsoDate, to: IsoDate): number {
   );
 }
 
+function unresolvedWorkNow(
+  world: World,
+  personId: EntityId,
+): "offer" | "start" | null {
+  if (
+    offerDeadlines(world, personId).some(
+      (deadline) => deadline.replyBy === world.currentDate,
+    )
+  )
+    return "offer";
+  if (
+    acceptedOfferStarts(world, personId).some(
+      (entry) => entry.startOn <= world.currentDate,
+    )
+  )
+    return "start";
+  return null;
+}
+
 export function previewTimeCommand(
   world: World,
   personId: EntityId,
   command: TimeCommand,
 ): TimeCommandPreview | null {
+  // "Until something needs me" has already arrived. A further quiet stretch
+  // must hand the choice back; explicit Day/Week can still pass it knowingly.
+  if (command.kind === "quiet-stretch" && unresolvedWorkNow(world, personId))
+    return null;
   if (command.kind === "walk") {
     const offer = openingNeighborhoodWalkOffer(
       world,
@@ -155,7 +183,35 @@ export function previewTimeCommand(
       (item) => item.activity.id === command.activityId,
     );
     if (!entry || entry.refusal) return null;
-    const target = scheduledActivityState(world, entry.activity.id).end;
+    const openingMeeting =
+      entry.activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+      projectOrdinaryMeetingScene(world, personId)?.phase !== "active";
+    const openingGuidance =
+      campaignLifeActivityForScheduledActivity(world, entry.activity.id)
+        ?.form === "candidate-guidance" &&
+      projectCandidateGuidanceScene(world, personId)?.activityId !==
+        entry.activity.id;
+    const lateMeetingJourney =
+      openingMeeting &&
+      !entry.journey &&
+      entry.elapsedMinutes !== null &&
+      world.history.scheduledActivities.some(
+        (item) =>
+          item.kind === "travel" &&
+          item.location.locationKey === "ordinary-life:to-meeting-room" &&
+          item.sourceEntityIds.includes(entry.activity.id) &&
+          (scheduledActivityState(world, item.id).status === "cancelled" ||
+            (scheduledActivityState(world, item.id).status === "scheduled" &&
+              compareSimulationMoments(
+                world.currentMoment,
+                scheduledActivityState(world, item.id).start,
+              ) > 0)),
+      );
+    const target = lateMeetingJourney
+      ? addSimulationMinutes(world.currentMoment, entry.elapsedMinutes!)
+      : (openingMeeting || openingGuidance) && entry.journey
+        ? scheduledActivityState(world, entry.journey.activity.id).end
+        : scheduledActivityState(world, entry.activity.id).end;
     return {
       target,
       elapsedMinutes: simulationMinutesBetween(world.currentMoment, target),
@@ -242,6 +298,9 @@ function run(
         passOrdinaryDays(from, n, {
           handlers: interruptionHandlers(interruptions),
           stopForTentativeHolds: interruptions.stopForTentativeHolds,
+          // A chosen day count must not carry the player past a posted civic
+          // occasion. The ordinary clock already owns this stop boundary.
+          stopForCivicHolds: true,
         }),
       ),
     );
@@ -271,7 +330,7 @@ function run(
         world,
         next,
         request.personId,
-        simulationMinutesBetween(world.currentMoment, next.currentMoment),
+        simulationMinutesBetween(world.currentMoment, preview.target),
       ),
     ].join(" "),
   };
@@ -317,7 +376,11 @@ export function submitTimeCommand(
       }),
     };
   const preview = previewTimeCommand(world, request.personId, request.command);
-  if (!preview)
+  if (!preview) {
+    const waiting =
+      request.command.kind === "quiet-stretch"
+        ? unresolvedWorkNow(world, request.personId)
+        : null;
     return {
       world,
       receipt: remember({
@@ -327,9 +390,15 @@ export function submitTimeCommand(
         reached: world.currentMoment,
         stoppedEarly: false,
         elapsedMs: now() - started,
-        outcome: "That event does not start later than now.",
+        outcome:
+          waiting === "offer"
+            ? "The work offer needs an answer under Work before another quiet stretch."
+            : waiting === "start"
+              ? "Your accepted work can begin under Work before another quiet stretch."
+              : "That event does not start later than now.",
       }),
     };
+  }
   const result = run(world, request, preview);
   return {
     world: result.world,

@@ -40,8 +40,7 @@ export function CampaignOwnMoney({
   if (balance === null) {
     return (
       <p className="game-note" data-testid="campaign-own-money">
-        The game is not tracking your own money yet, so you cannot put any into
-        the campaign.
+        None of your own money can go into the campaign yet.
       </p>
     );
   }

@@ -1,0 +1,57 @@
+[
+  {
+    "id": "cook-county-2025-fy26-budget",
+    "jurisdiction": "Cook County, Illinois",
+    "level": "county",
+    "session": "FY2026",
+    "bill_number": "FY2026 Annual Appropriation Bill",
+    "law_citation": null,
+    "short_title": "FY2026 budget with no new taxes or fees",
+    "enacted_date": "2025-11-20",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.cookcountyil.gov/Budget",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": ["02", "10"],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Total county budget across all funds.",
+        "numbers": [
+          {
+            "value": 10100000000,
+            "unit": "USD",
+            "text": "10100000000 USD"
+          }
+        ]
+      },
+      {
+        "kind": "amount",
+        "description": "Projected gap closed without tax or fee increases.",
+        "numbers": [
+          {
+            "value": 211400000,
+            "unit": "USD gap",
+            "text": "211400000 USD gap"
+          }
+        ]
+      },
+      {
+        "kind": "funding-source",
+        "description": "Sales tax collections above forecast."
+      }
+    ],
+    "touches": ["county hospital system", "jail and courts"],
+    "daily_life": "County services continue without a new tax.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

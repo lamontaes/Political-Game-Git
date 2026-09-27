@@ -138,8 +138,8 @@ describe("NEXT24 combined private-citizen routine route", () => {
         scheduledActivityState(attended, entry.activity.id).outcomeEventId,
     )!;
     expect(arrival.sequence).toBeLessThan(attendance.sequence);
-    expect(describeRoutineOutcome(morning, attended, personId)).toContain(
-      "1 ordinary work shift completed",
+    expect(describeRoutineOutcome(morning, attended, personId)).not.toContain(
+      "work shift",
     );
     expect(describeRoutineOutcome(morning, attended, personId)).toContain(
       "has not posted yet",

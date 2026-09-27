@@ -8,6 +8,7 @@ import {
   type World,
 } from "../simulation";
 import { moneyText } from "../simulation/money-text";
+import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import { proseDate, proseWeekdayDate } from "./prose-dates";
 
 /** "7:00 a.m.": a time of day as a person would say it. */
@@ -69,10 +70,6 @@ export function describeRoutineOutcome(
       e.type === "life-paths2.work-session" &&
       e.involvedEntityIds.includes(personId),
   );
-  if (work.length)
-    lines.push(
-      `${work.length} ordinary work shift${work.length === 1 ? "" : "s"} completed.`,
-    );
   const amounts = new Map<
     string,
     { label: string; currency: string; minorUnits: number }
@@ -113,7 +110,7 @@ export function describeRoutineOutcome(
         "scheduled"
     )
       lines.push(
-        `Earned shift pay is due ${proseDate(due.dueAt)}; it has not posted yet.`,
+        `Earned pay is due ${proseDate(due.dueAt)}; it has not posted yet.`,
       );
   }
   for (const state of after.history.futureDueItemStates.slice(
@@ -149,10 +146,21 @@ export function describeRoutineOutcome(
         ids.includes(a.id) &&
         scheduledActivityState(after, a.id).status === "scheduled",
     );
+    const meeting =
+      activity?.kind === "travel" &&
+      activity.location.locationKey === "ordinary-life:to-meeting-room"
+        ? after.history.scheduledActivities.find(
+            (candidate) =>
+              candidate.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+              activity.sourceEntityIds.includes(candidate.id),
+          )
+        : null;
     lines.push(
-      activity
-        ? `${activity.title} comes first.`
-        : "Something on your calendar comes first.",
+      meeting
+        ? `The public meeting starts at ${proseClockTime(scheduledActivityState(after, meeting.id).start.minuteOfDay)} Choose Go to meeting or Stay home.`
+        : activity
+          ? `${activity.title} comes first.`
+          : "Something on your calendar comes first.",
     );
   }
   return lines.join("\n");

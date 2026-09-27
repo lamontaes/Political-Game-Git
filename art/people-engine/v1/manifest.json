@@ -1,0 +1,289 @@
+{
+  "version": "people-engine-pack-v1",
+  "canvas": {
+    "width": 512,
+    "height": 768
+  },
+  "presentations": {
+    "feminine": {
+      "canonical": {
+        "top": 24,
+        "feet": 752,
+        "neck": {
+          "row": 114,
+          "centerX": 252.5,
+          "width": 44
+        },
+        "head": {
+          "left": 212,
+          "right": 293,
+          "top": 24,
+          "bottom": 114
+        },
+        "shoulderRow": 185
+      },
+      "bodies": {
+        "lean": {
+          "file": "body-feminine-lean.png",
+          "anchors": {
+            "top": 18,
+            "feet": 751,
+            "neck": {
+              "row": 104,
+              "centerX": 252,
+              "width": 43
+            },
+            "head": {
+              "left": 213,
+              "right": 291,
+              "top": 18,
+              "bottom": 104
+            },
+            "shoulderRow": 177
+          },
+          "skin": {
+            "shadow": 124.6,
+            "base": 157.9,
+            "highlight": 171.3
+          }
+        },
+        "average": {
+          "file": "body-feminine-average.png",
+          "anchors": {
+            "top": 24,
+            "feet": 752,
+            "neck": {
+              "row": 114,
+              "centerX": 252.5,
+              "width": 44
+            },
+            "head": {
+              "left": 212,
+              "right": 293,
+              "top": 24,
+              "bottom": 114
+            },
+            "shoulderRow": 185
+          },
+          "skin": {
+            "shadow": 126,
+            "base": 163.1,
+            "highlight": 177.9
+          }
+        },
+        "fuller": {
+          "file": "body-feminine-fuller.png",
+          "anchors": {
+            "top": 30,
+            "feet": 751,
+            "neck": {
+              "row": 115,
+              "centerX": 255,
+              "width": 49
+            },
+            "head": {
+              "left": 213,
+              "right": 296,
+              "top": 30,
+              "bottom": 115
+            },
+            "shoulderRow": 186
+          },
+          "skin": {
+            "shadow": 126.4,
+            "base": 158.1,
+            "highlight": 170.8
+          }
+        }
+      },
+      "faces": [
+        {
+          "id": "20s30s-01",
+          "file": "face-feminine-20s30s-01.png",
+          "skin": {
+            "shadow": 83.4,
+            "base": 152,
+            "highlight": 179.4
+          }
+        }
+      ],
+      "hair": [
+        {
+          "id": "wavy-bob",
+          "back": "hair-feminine-wavy-bob-back.png",
+          "front": "hair-feminine-wavy-bob-front.png"
+        }
+      ],
+      "outfits": {
+        "formal": {
+          "lean": {
+            "file": "outfit-feminine-formal-lean.png",
+            "hides": "outfit-feminine-formal-lean-hides.png"
+          },
+          "average": {
+            "file": "outfit-feminine-formal-average.png",
+            "hides": "outfit-feminine-formal-average-hides.png"
+          },
+          "fuller": {
+            "file": "outfit-feminine-formal-fuller.png",
+            "hides": "outfit-feminine-formal-fuller-hides.png"
+          }
+        },
+        "casual": {
+          "lean": {
+            "file": "outfit-feminine-casual-lean.png",
+            "hides": "outfit-feminine-casual-lean-hides.png"
+          },
+          "average": {
+            "file": "outfit-feminine-casual-average.png",
+            "hides": "outfit-feminine-casual-average-hides.png"
+          },
+          "fuller": {
+            "file": "outfit-feminine-casual-fuller.png",
+            "hides": "outfit-feminine-casual-fuller-hides.png"
+          }
+        }
+      }
+    },
+    "masculine": {
+      "canonical": {
+        "top": 29,
+        "feet": 752,
+        "neck": {
+          "row": 105,
+          "centerX": 254,
+          "width": 55
+        },
+        "head": {
+          "left": 215,
+          "right": 293,
+          "top": 29,
+          "bottom": 105
+        },
+        "shoulderRow": 176
+      },
+      "bodies": {
+        "lean": {
+          "file": "body-masculine-lean.png",
+          "anchors": {
+            "top": 15,
+            "feet": 751,
+            "neck": {
+              "row": 94,
+              "centerX": 254.5,
+              "width": 50
+            },
+            "head": {
+              "left": 216,
+              "right": 293,
+              "top": 15,
+              "bottom": 94
+            },
+            "shoulderRow": 168
+          },
+          "skin": {
+            "shadow": 133.2,
+            "base": 174.8,
+            "highlight": 191.5
+          }
+        },
+        "average": {
+          "file": "body-masculine-average.png",
+          "anchors": {
+            "top": 29,
+            "feet": 752,
+            "neck": {
+              "row": 105,
+              "centerX": 254,
+              "width": 55
+            },
+            "head": {
+              "left": 215,
+              "right": 293,
+              "top": 29,
+              "bottom": 105
+            },
+            "shoulderRow": 176
+          },
+          "skin": {
+            "shadow": 145.3,
+            "base": 189.4,
+            "highlight": 207.1
+          }
+        },
+        "fuller": {
+          "file": "body-masculine-fuller.png",
+          "anchors": {
+            "top": 26,
+            "feet": 751,
+            "neck": {
+              "row": 110,
+              "centerX": 255,
+              "width": 61
+            },
+            "head": {
+              "left": 211,
+              "right": 299,
+              "top": 26,
+              "bottom": 110
+            },
+            "shoulderRow": 182
+          },
+          "skin": {
+            "shadow": 133.2,
+            "base": 172.8,
+            "highlight": 188.7
+          }
+        }
+      },
+      "faces": [
+        {
+          "id": "20s30s-01",
+          "file": "face-masculine-20s30s-01.png",
+          "skin": {
+            "shadow": 76.9,
+            "base": 175.4,
+            "highlight": 214.8
+          }
+        }
+      ],
+      "hair": [
+        {
+          "id": "short-coils",
+          "back": "hair-masculine-short-coils-back.png",
+          "front": "hair-masculine-short-coils-front.png"
+        }
+      ],
+      "outfits": {
+        "formal": {
+          "lean": {
+            "file": "outfit-masculine-formal-lean.png",
+            "hides": "outfit-masculine-formal-lean-hides.png"
+          },
+          "average": {
+            "file": "outfit-masculine-formal-average.png",
+            "hides": "outfit-masculine-formal-average-hides.png"
+          },
+          "fuller": {
+            "file": "outfit-masculine-formal-fuller.png",
+            "hides": "outfit-masculine-formal-fuller-hides.png"
+          }
+        },
+        "casual": {
+          "lean": {
+            "file": "outfit-masculine-casual-lean.png",
+            "hides": "outfit-masculine-casual-lean-hides.png"
+          },
+          "average": {
+            "file": "outfit-masculine-casual-average.png",
+            "hides": "outfit-masculine-casual-average-hides.png"
+          },
+          "fuller": {
+            "file": "outfit-masculine-casual-fuller.png",
+            "hides": "outfit-masculine-casual-fuller-hides.png"
+          }
+        }
+      }
+    }
+  }
+}

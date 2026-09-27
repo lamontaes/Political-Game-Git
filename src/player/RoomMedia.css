@@ -1,0 +1,239 @@
+/*
+ * The room's television and newspaper. Everything is sized in em against the
+ * surface's font size, which SceneSurfaceLayer sets from the slot's rectangle,
+ * so the same markup fills a small screen across the room or a larger one.
+ */
+
+.scene-surface--room-media {
+  background: none;
+  padding: 0;
+  overflow: hidden;
+}
+
+.room-tv {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  color: #fff;
+  background: var(--room-tv-bg);
+  --room-tv-bg: linear-gradient(160deg, #1b2a44, #0b1220);
+  --room-tv-accent: #d4a53a;
+  --room-tv-band: rgba(10, 16, 28, 0.88);
+  --room-tv-ticker: #b3261e;
+}
+
+.room-tv--look-1 {
+  --room-tv-bg: linear-gradient(160deg, #3a1420, #120609);
+  --room-tv-accent: #f2f2f2;
+  --room-tv-band: rgba(140, 20, 34, 0.9);
+  --room-tv-ticker: #1d1d1d;
+}
+
+.room-tv--look-2 {
+  --room-tv-bg: linear-gradient(160deg, #0f3b3a, #041615);
+  --room-tv-accent: #7fd6c2;
+  --room-tv-band: rgba(4, 30, 29, 0.9);
+  --room-tv-ticker: #0d6e63;
+}
+
+.room-tv--look-3 {
+  --room-tv-bg: linear-gradient(160deg, #2c2c34, #0d0d10);
+  --room-tv-accent: #e8793a;
+  --room-tv-band: rgba(245, 245, 245, 0.92);
+  --room-tv-ticker: #e8793a;
+}
+
+.room-tv-bug {
+  position: absolute;
+  top: 0.4em;
+  right: 0.5em;
+  padding: 0.1em 0.3em;
+  font-size: 0.7em;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--room-tv-accent);
+  border: 0.08em solid currentColor;
+  border-radius: 0.2em;
+  opacity: 0.9;
+}
+
+.room-tv-lower-third {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1.1em;
+  max-height: 55%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.05em;
+  padding: 0.25em 0.45em;
+  background: var(--room-tv-band);
+  border-left: 0.25em solid var(--room-tv-accent);
+}
+
+.room-tv--look-3 .room-tv-lower-third {
+  color: #141414;
+}
+
+.room-tv-kicker {
+  font-size: 0.55em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--room-tv-accent);
+}
+
+.room-tv--look-3 .room-tv-kicker {
+  color: #b4521f;
+}
+
+.room-tv-headline {
+  font-size: 0.8em;
+  line-height: 1.15;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.room-tv-detail {
+  font-size: 0.55em;
+  opacity: 0.85;
+}
+
+.room-tv-ticker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1.1em;
+  overflow: hidden;
+  white-space: nowrap;
+  background: var(--room-tv-ticker);
+  font-size: 0.6em;
+  line-height: 1.8;
+}
+
+.room-tv-ticker-track {
+  display: inline-flex;
+  animation: room-tv-ticker 36s linear infinite;
+}
+
+.room-tv-ticker-track > span {
+  padding: 0 2em 0 0.5em;
+}
+
+@keyframes room-tv-ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .room-tv-ticker-track {
+    animation: none;
+  }
+}
+
+.room-paper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1em;
+  padding: 0.25em 0.35em;
+  color: #1c1a17;
+  background: var(--room-paper-bg);
+  font-family: Georgia, "Times New Roman", serif;
+  --room-paper-bg: #f3efe4;
+  --room-paper-rule: #1c1a17;
+}
+
+.room-paper--look-1 {
+  --room-paper-bg: #efe9dc;
+  --room-paper-rule: #6d1f1f;
+}
+
+.room-paper--look-2 {
+  --room-paper-bg: #f6f4ef;
+  --room-paper-rule: #23395b;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+.room-paper--look-3 {
+  --room-paper-bg: #ece6d6;
+  --room-paper-rule: #3b3b3b;
+}
+
+.room-paper-masthead {
+  font-size: 0.95em;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-bottom: 0.08em solid var(--room-paper-rule);
+  padding-bottom: 0.1em;
+}
+
+.room-paper--look-1 .room-paper-masthead {
+  font-family: "Old English Text MT", "UnifrakturCook", Georgia, serif;
+}
+
+.room-paper--look-2 .room-paper-masthead {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.8em;
+}
+
+.room-paper--look-3 .room-paper-masthead {
+  font-style: italic;
+}
+
+.room-paper-dateline {
+  font-size: 0.45em;
+  text-align: center;
+  border-bottom: 0.05em solid var(--room-paper-rule);
+  padding-bottom: 0.15em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.room-paper-headline {
+  font-size: 0.7em;
+  font-weight: 700;
+  line-height: 1.1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.room-paper-deck {
+  font-size: 0.45em;
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.room-paper-columns {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.25em;
+  min-height: 0.4em;
+}
+
+.room-paper-columns i {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(28, 26, 23, 0.35) 0 0.06em,
+    transparent 0.06em 0.22em
+  );
+  border-left: 0.04em solid rgba(28, 26, 23, 0.25);
+}

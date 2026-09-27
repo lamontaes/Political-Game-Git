@@ -21,10 +21,7 @@ import {
   lifeTalkSessionStart,
   lifeTalkTurnCount,
 } from "./life-talk-conversation";
-import {
-  householdConversationRoom,
-  neighborhoodConversationRoom,
-} from "./ordinary-life";
+import { neighborhoodConversationRoom } from "./ordinary-life";
 import {
   RUN_B_AUDIBILITY_OPTIONS,
   availableConversationIntents,
@@ -41,7 +38,6 @@ import type {
   ConversationSessionDescriptor,
 } from "./run-b-conversation";
 import {
-  createHouseholdObligationProgress,
   createLifeTalkProgress,
   createNeighborhoodMeetingProgress,
   createSchoolProjectProgress,
@@ -98,11 +94,6 @@ const WIRINGS: readonly SubjectWiring[] = [
     subject: "life-talk",
     room: lifeTalkConversationRoom,
     opening: createLifeTalkProgress,
-  },
-  {
-    subject: "household-obligation",
-    room: householdConversationRoom,
-    opening: createHouseholdObligationProgress,
   },
   {
     subject: "neighborhood-meeting-notice",

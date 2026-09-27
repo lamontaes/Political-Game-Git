@@ -49,6 +49,14 @@ function contextWithEverything(): AdultLifeContext {
 }
 
 describe("withholding is first-class, not deletion", () => {
+  it("still recognizes people who currently share recorded work", () => {
+    const world = createDemoWorld();
+    const first = world.personOrder[0]!;
+    const second = world.personOrder[1]!;
+    expect(buildAdultLifeContext(world, first).colleagueIds).toContain(second);
+    expect(buildAdultLifeContext(world, second).colleagueIds).toContain(first);
+  });
+
   it("keeps every withheld situation authored, with its own reason", () => {
     for (const key of WITHHELD_KEYS) {
       const situation = adultSituationBank().find(
@@ -78,28 +86,6 @@ describe("withholding is first-class, not deletion", () => {
 });
 
 describe("regrounded availability gates", () => {
-  it("offers the household-standing scene only where the errands record exists", () => {
-    const base = contextWithEverything();
-    const withCompanion = {
-      ...base,
-      householdCompanionIds:
-        base.householdCompanionIds.length > 0
-          ? base.householdCompanionIds
-          : base.familiarPersonIds.slice(0, 1),
-    };
-    const standing = adultSituationBank().find(
-      (situation) => situation.key === "adult.household-standing",
-    )!;
-    expect(
-      standing.available({ ...withCompanion, hasHouseholdWorkItem: false }),
-    ).toBe(false);
-    if (withCompanion.householdCompanionIds.length > 0) {
-      expect(
-        standing.available({ ...withCompanion, hasHouseholdWorkItem: true }),
-      ).toBe(true);
-    }
-  });
-
   it("puts a price on staying only when the record carries a housing payment", () => {
     const base = contextWithEverything();
     const costChange = adultSituationBank().find(

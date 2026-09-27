@@ -57,7 +57,8 @@ test("Contact opens its own screen and closes back to where you were", async ({
     const card = page.getByTestId("quick-dossier");
     await expect(card).toBeVisible();
     const contact = card.getByTestId("person-contact");
-    if (!(await contact.isEnabled())) continue;
+    // The small card draws only the ways of reaching somebody that work.
+    if ((await contact.count()) === 0 || !(await contact.isEnabled())) continue;
     const personId = await card.getAttribute("data-person-id");
     await contact.click();
 
