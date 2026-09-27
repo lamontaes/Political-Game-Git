@@ -1942,7 +1942,7 @@ function FiscalNoteView({
             </p>
             <p>
               {part.forecastMinorUnits === null
-                ? `Total cash change: unknown; needs ${part.missingInput ?? "more information"}.`
+                ? `Cash change for this section: UNKNOWN. Needed: ${part.missingInput ?? "more information"}.`
                 : `Estimated cash change: ${formatMinorUnits(part.forecastMinorUnits, "USD")}.`}
             </p>
           </li>

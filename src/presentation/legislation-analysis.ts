@@ -266,13 +266,15 @@ function fiscalNoteParts(
           : amountKind === "per-unit-charge"
             ? "the number of covered payments or transactions"
             : lever === "who-qualifies"
-              ? "the affected enrollment and amount per recipient"
+              ? "the number of covered people or transactions and the applicable amount"
               : lever === "rule"
-                ? "the enforcer, covered activity and cost per action"
+                ? "recorded compliance and enforcement activity and any applicable cost"
                 : lever === "structure"
-                  ? "the affected units and administrative setup cost"
+                  ? "the affected units and any recorded setup or transition cost"
                   : lever === "process"
-                    ? "the administrative workload and cost"
+                    ? section.dimension === "timing"
+                      ? "the affected activity around the start or end date"
+                      : "recorded administrative workload and any applicable cost"
                     : "the section's current fiscal classification";
     return {
       provisionKey: section.provisionKey,
