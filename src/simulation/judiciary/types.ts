@@ -110,6 +110,7 @@ export interface JudicialSeatTenure {
     | "death"
     | "retirement"
     | "resignation"
+    | "appointment-to-another-seat"
     | "removal"
     | "term-expired"
     | "election-loss"

@@ -9,12 +9,13 @@ import { currentPresidentOf } from "../crisis/offices";
 import { seatedCongressChamber } from "../governing/congress-chambers";
 import { LIFE_MIND_IDS } from "../life-mind-content";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import { addJudicialCourt, seatHolderAt } from "./courts";
+import { addJudicialCourt, seatHolderAt, seatJudge } from "./courts";
 import { recordFederalJudicialCandidateResponse } from "./candidate-interview";
 import {
   federalJudicialSenateVoteStatus,
   JUDICIAL_CONFIRMATION_HEARING_EVENT,
   recordFederalJudicialSenateBallot,
+  resolveFederalJudicialSenateVote,
 } from "./federal-confirmation";
 import { recordFederalJudicialHearing } from "./federal-hearing";
 import {
@@ -169,5 +170,95 @@ describe("federal judicial hearing and Senate ballot", () => {
         attendeeSenatorPersonIds: [first],
       }),
     ).toThrow("already has a recorded hearing");
+  });
+
+  it("moves a confirmed sitting judge once and leaves the former seat vacant", () => {
+    const pending = pendingNomination();
+    let world = pending.world;
+    const sourceCourtId = "fixture:former-judicial-court";
+    const sourceSeatId = judicialSeatId(sourceCourtId, 1);
+    world = addJudicialCourt(world, {
+      courtId: sourceCourtId,
+      jurisdictionId: null,
+      name: "Fixture Former Court",
+      level: "federal-district",
+      parentCourtId: null,
+      sourceRecordId: "us-fed:general_trial",
+      identityBasis: "sourced",
+      createdAt: world.currentDate,
+      rules: {
+        authorizedSeats: {
+          state: "known",
+          value: 1,
+          basis: "game-profile",
+          referenceId: "fixture:former-size",
+        },
+        termYears: {
+          state: "known",
+          value: null,
+          basis: "sourced",
+          referenceId: "us-fed:general_trial",
+        },
+        mandatoryRetirementAge: { state: "unknown", reason: "fixture" },
+        caseJurisdiction: { state: "unknown", reason: "fixture" },
+        selectionRecordId: "us-fed:general_trial",
+        amendmentRoute: { state: "unknown", reason: "fixture" },
+      },
+    });
+    world = seatJudge(world, {
+      seatId: sourceSeatId,
+      personId: pending.nomineeId,
+      startedAt: world.currentDate,
+      selection: {
+        path: "initial-world",
+        selectionRecordId: null,
+        decisionRecordId: null,
+        selectingPersonId: null,
+        contestId: null,
+        note: "Fixture incumbent before confirmation",
+      },
+      termEndsAt: null,
+      retentionDueAt: null,
+    });
+    const before = world;
+    const senators = seatedCongressChamber(world, "senate")!.body.members;
+    world = recordFederalJudicialHearing(world, {
+      selectionRecordId: pending.selectionRecordId,
+      attendeeSenatorPersonIds: senators.map((member) => member.personId!),
+    });
+    for (const senator of senators) {
+      world = recordFederalJudicialSenateBallot(world, {
+        selectionRecordId: pending.selectionRecordId,
+        senatorPersonId: senator.personId!,
+        ballot: "yea",
+        reason: "Fixture Senator's own recorded vote.",
+      });
+    }
+    expect(
+      federalJudicialSenateVoteStatus(world, pending.selectionRecordId),
+    ).toMatchObject({
+      state: "ready",
+      outcome: "confirmed",
+    });
+    world = resolveFederalJudicialSenateVote(world, pending.selectionRecordId);
+    expect(seatHolderAt(before, sourceSeatId)?.personId).toBe(
+      pending.nomineeId,
+    );
+    expect(seatHolderAt(world, sourceSeatId)).toBeNull();
+    expect(seatHolderAt(world, pending.seatId)?.personId).toBe(
+      pending.nomineeId,
+    );
+    expect(
+      world.judiciary!.seatTenures.find((row) => row.seatId === sourceSeatId)
+        ?.endReason,
+    ).toBe("appointment-to-another-seat");
+    const reopened = deserializeWorld(serializeWorld(world));
+    expect(seatHolderAt(reopened, sourceSeatId)).toBeNull();
+    expect(seatHolderAt(reopened, pending.seatId)?.personId).toBe(
+      pending.nomineeId,
+    );
+    expect(() =>
+      resolveFederalJudicialSenateVote(reopened, pending.selectionRecordId),
+    ).toThrow("The judicial seat is already filled");
   });
 });

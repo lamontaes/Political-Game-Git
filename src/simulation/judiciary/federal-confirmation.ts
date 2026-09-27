@@ -15,7 +15,12 @@ import type {
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
-import { courtById, seatHolderAt, seatJudge } from "./courts";
+import {
+  courtById,
+  releaseJudicialSeatForAppointment,
+  seatHolderAt,
+  seatJudge,
+} from "./courts";
 import {
   judicialSelectionById,
   judicialSelectionProgress,
@@ -315,6 +320,13 @@ export function resolveFederalJudicialSenateVote(
     outcomeEventId: resultEventId,
   });
   if (status.outcome === "rejected") return next;
+  // The completed roll call authorizes the move. A pure World update leaves
+  // the original save untouched if the source vacancy or destination fails.
+  next = releaseJudicialSeatForAppointment(
+    next,
+    pending.nomineeId,
+    pending.seat.seatId,
+  );
   if (pending.seat.linkedOfficeId === "us-chief-justice") {
     if (currentFederalTenure(next, "us-chief-justice"))
       throw new Error("The Chief Justiceship is already filled.");
