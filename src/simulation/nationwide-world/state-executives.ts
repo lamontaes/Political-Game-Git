@@ -523,11 +523,13 @@ function readStateExecutiveHolders(
           : [],
       organizationId,
     );
-  const deceasedPersonIds = new Set(
-    world.history.personDeaths
-      .filter((death) => death.diedAt <= world.currentDate)
-      .map((death) => death.personId),
-  );
+  const diedByToday = (personId: EntityId) =>
+    recordsByKey(
+      world.history.personDeaths,
+      "state-executives:death-by-person",
+      (death) => [death.personId],
+      personId,
+    ).some((death) => death.diedAt <= world.currentDate);
   // The last organization with a stable key, as a map built from all of
   // them would hold.
   const organizationByStableKey = (stableKey: string) =>
@@ -588,7 +590,7 @@ function readStateExecutiveHolders(
       ? makeIsoDate(endTag.slice("term-end:".length))
       : null;
     if (endExclusive !== null && world.currentDate >= endExclusive) continue;
-    if (deceasedPersonIds.has(person.id)) continue;
+    if (diedByToday(person.id)) continue;
     records.push({
       officeKey: office.officeKey,
       title: office.displayName,

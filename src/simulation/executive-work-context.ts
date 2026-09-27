@@ -277,12 +277,23 @@ export function recordedExecutiveQualification(
 ) {
   const term = electedExecutiveTermForRelationship(world, relationshipId);
   if (!term) return null;
+  return qualificationForTerm(world, term);
+}
+
+function qualificationForTerm(
+  world: World,
+  term: NonNullable<ReturnType<typeof electedExecutiveTermForRelationship>>,
+) {
   return (
-    world.history.events.find(
+    recordsByKey(
+      world.history.events,
+      "executive-terms:qualification-by-person",
       (event) =>
-        event.type === EXECUTIVE_QUALIFICATION &&
+        event.type === EXECUTIVE_QUALIFICATION ? event.involvedEntityIds : [],
+      term.relationship.personId,
+    ).find(
+      (event) =>
         event.recordedAt <= world.currentDate &&
-        event.involvedEntityIds.includes(term.relationship.personId) &&
         event.involvedEntityIds.includes(term.contest.id) &&
         event.involvedEntityIds.includes(term.result.id),
     ) ?? null
@@ -300,7 +311,7 @@ export function activeElectedExecutiveTermEvidence(
     world.currentDate < term.startsAt ||
     world.currentDate >= term.endsAt ||
     workStatusAt(world, relationshipId)?.status !== "active" ||
-    !recordedExecutiveQualification(world, relationshipId) ||
+    !qualificationForTerm(world, term) ||
     !isPersonAliveAt(world, term.relationship.personId, {
       asOfDate: world.currentDate,
       historySequenceExclusive: world.history.nextSequence,
@@ -308,10 +319,13 @@ export function activeElectedExecutiveTermEvidence(
   )
     return null;
   const entered =
-    world.history.futureDueItemStates.some(
-      (state) =>
-        state.dueItemId === term.entry.id && state.status === "resolved",
-    ) || lateTermEntryRecorded(world, relationshipId);
+    recordsByKey(
+      world.history.futureDueItemStates,
+      "executive-terms:due-state-by-item",
+      (state) => [state.dueItemId],
+      term.entry.id,
+    ).some((state) => state.status === "resolved") ||
+    lateTermEntryRecorded(world, relationshipId);
   return entered ? term : null;
 }
 
