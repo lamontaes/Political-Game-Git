@@ -349,9 +349,9 @@ function PublicInformationArticle({
           </time>
           {item.jurisdictionName ? ` · ${item.jurisdictionName}` : ""}
         </p>
-        <h3>{item.headline}</h3>
+        <h3>{item.readerHeadline}</h3>
       </header>
-      <p>{item.body}</p>
+      {item.body !== item.readerHeadline ? <p>{item.body}</p> : null}
 
       {relevance.length > 0 ? (
         <p

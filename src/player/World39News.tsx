@@ -129,14 +129,14 @@ export function World39News({
               data-publication-id={item.publicationId}
               data-source-event-id={item.sourceEventId}
             >
-              <h5>{item.headline}</h5>
+              <h5>{item.readerHeadline}</h5>
               <p className="world39-meta">
                 {item.outletName} · Published{" "}
                 <time dateTime={item.publicationTime}>
                   {world39Date(item.publicationTime)}
                 </time>
               </p>
-              <p>{item.body}</p>
+              {item.body !== item.readerHeadline ? <p>{item.body}</p> : null}
               <details id={`world39-publication-${item.publicationId}`}>
                 <summary>Publication details</summary>
                 <p>
