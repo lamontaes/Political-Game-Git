@@ -248,7 +248,7 @@ export function bookSocialOccasionTrip(
     stableKey,
     title: `Trip to ${label}`,
     summary:
-      "A short local trip. Travel cost is not represented; no fare is charged.",
+      "A short local trip. There is no fare.",
     kind: "travel",
     start:
       compareSimulationMoments(leaveAt, world.currentMoment) < 0

@@ -225,7 +225,7 @@ function projectVenueOffer(
     journey
       ? journey.alreadyCompleted
         ? `The journey to ${activity.location.label} is complete. Attend begins here.`
-        : `Attend includes the disclosed ${journey.journeyMinutes}-minute journey to ${activity.location.label}. ${journey.costDisclosure}`
+        : `Attending includes the ${journey.journeyMinutes}-minute trip to ${activity.location.label}. ${journey.costDisclosure}`
       : null,
     venue?.isJourney
       ? "This is a journey, not a room you enter at the end."

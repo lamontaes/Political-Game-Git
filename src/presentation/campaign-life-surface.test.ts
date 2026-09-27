@@ -98,7 +98,7 @@ describe(
       expect(row.actions).toEqual(["attend", "attend-condensed"]);
       expect(row.when).toMatch(/^[A-Z][a-z]+ \d{1,2}, \d{4}, 6:30 PM$/);
       expect(row.travelNote).toMatch(/20-minute local journey/);
-      expect(row.travelNote).toMatch(/no fare will be charged/);
+      expect(row.travelNote).toMatch(/There is no fare\./);
       expect(row.hostName.length).toBeGreaterThan(0);
       // The same request is not offered twice while it is on the calendar.
       expect(
