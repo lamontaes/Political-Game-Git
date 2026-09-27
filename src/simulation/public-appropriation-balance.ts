@@ -31,10 +31,13 @@ export function appropriationCommittedMinorUnits(
         ),
       0,
     );
-  return commitments + appropriationPinnedPaymentsMinorUnits(
-    world,
-    appropriation,
-    sequenceExclusive,
+  return (
+    commitments +
+    appropriationPinnedPaymentsMinorUnits(
+      world,
+      appropriation,
+      sequenceExclusive,
+    )
   );
 }
 
@@ -53,12 +56,10 @@ export function appropriationPinnedPaymentsMinorUnits(
           flow.basisReference.mandate.measureId ===
             appropriation.sourceMeasureId &&
           (flow.basisReference.mandate.appropriationId === undefined ||
-            flow.basisReference.mandate.appropriationId ===
-              appropriation.id) &&
+            flow.basisReference.mandate.appropriationId === appropriation.id) &&
           flow.jurisdictionId === appropriation.jurisdictionId &&
           flow.source.kind === "organization" &&
-          flow.source.organizationId ===
-            appropriation.accountOrganizationId,
+          flow.source.organizationId === appropriation.accountOrganizationId,
       )
       .map((flow) => flow.id),
   );

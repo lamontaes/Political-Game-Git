@@ -239,8 +239,7 @@ export function settlePublicResourcePayment(
   }
   const appropriation = (world.history.publicProgramRecords ?? []).find(
     (record): record is PublicProgramAppropriationRecord =>
-      record.kind === "appropriation" &&
-      record.id === mandate.appropriationId,
+      record.kind === "appropriation" && record.id === mandate.appropriationId,
   );
   if (!appropriation)
     return refuse("This payment has no saved program appropriation.");
