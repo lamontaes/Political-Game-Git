@@ -7,6 +7,7 @@ import {
 import { recordWorldEvent } from "./world";
 import { candidacyPackById, candidacyPacks } from "./candidacy-packs";
 import { makeIsoDate } from "./dates";
+import { addDays } from "./dates";
 import {
   electionContestById,
   electionContestResult,
@@ -39,6 +40,18 @@ import {
   type LegislativeTermProfile,
 } from "./legislative-term-rules";
 import { commencementInYear } from "./nationwide-world/state-executive-term-rules";
+import { generalElectionDay } from "./nationwide-world/state-executive-term-rules";
+import {
+  stateLegislativeSeatCyclePhase,
+  stateLegislativeElectionRule,
+  type StateLegislativeSeatIdentity,
+} from "./nationwide-world/state-legislative-election-calendar";
+import {
+  stateLegislativeSeatIdentity,
+  stateSeatsInDistrict,
+} from "./nationwide-world/state-legislature-opening";
+import { districtIdentityCatalog } from "../districts/catalog";
+import type { ElectionContestRecord } from "./types";
 
 export {
   BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
@@ -104,7 +117,10 @@ function legislativeOfficeOption(officeKey: string) {
  * rule, then a reviewed runtime profile, then the marked blanket rule. Never
  * the result date. `basis` says which.
  */
-export function legislativeTermDates(officeKey: string, electionDate: IsoDate) {
+function preWave2LegislativeTermDates(
+  officeKey: string,
+  electionDate: IsoDate,
+) {
   const supported = supportedLegislativeTermDates(officeKey, electionDate);
   if (supported) return { ...supported, basis: "sourced" as const };
   const reviewed = REVIEWED_LEGISLATIVE_TERM_PROFILES.find((candidate) =>
@@ -133,6 +149,129 @@ export function legislativeTermDates(officeKey: string, electionDate: IsoDate) {
   };
 }
 
+export function legislativeTermDates(
+  officeKey: string,
+  electionDate: IsoDate,
+  seatIdentity: StateLegislativeSeatIdentity | null = null,
+) {
+  if (seatIdentity?.legacyElectionProfile && officeKey.endsWith(":senate"))
+    return preWave2LegislativeTermDates(officeKey, electionDate);
+  // The previously admitted/reviewed dates remain authoritative for these
+  // specific office versions, including terms already saved under them.
+  const hasPreviousRule =
+    supportedLegislativeTermDates(officeKey, electionDate) !== null ||
+    REVIEWED_LEGISLATIVE_TERM_PROFILES.some((row) =>
+      row.officeKeys.includes(officeKey),
+    );
+  const old = hasPreviousRule
+    ? preWave2LegislativeTermDates(officeKey, electionDate)
+    : null;
+  if (old && old.basis !== "blanket") return old;
+  const stateUsps = officeKey.match(/^us-([a-z]{2})-/)?.[1]?.toUpperCase();
+  if (!stateUsps) return preWave2LegislativeTermDates(officeKey, electionDate);
+  const phase = stateLegislativeSeatCyclePhase(
+    stateUsps,
+    officeKey,
+    seatIdentity,
+    Number(electionDate.slice(0, 4)),
+  );
+  if (!phase) return old?.basis === "blanket" ? null : old;
+  const { row, termYears } = phase;
+  const startYear = Number(electionDate.slice(0, 4)) + 1;
+  const commencement = row.commencement;
+  const startsAt =
+    commencement?.kind === "day-of-election"
+      ? electionDate
+      : commencement?.kind === "day-after-election"
+        ? addDays(electionDate, 1)
+        : commencement?.kind === "days-after-election"
+          ? addDays(electionDate, commencement.days)
+          : commencement
+            ? commencementInYear(commencement, startYear)
+            : makeIsoDate(`${startYear}-01-01`);
+  const endsAt =
+    commencement?.kind === "day-of-election"
+      ? generalElectionDay(
+          stateLegislativeElectionRule(stateUsps),
+          startYear - 1 + termYears,
+        )
+      : commencement?.kind === "day-after-election"
+        ? addDays(
+            generalElectionDay(
+              stateLegislativeElectionRule(stateUsps),
+              startYear - 1 + termYears,
+            ),
+            1,
+          )
+        : commencement?.kind === "days-after-election"
+          ? addDays(
+              generalElectionDay(
+                stateLegislativeElectionRule(stateUsps),
+                startYear - 1 + termYears,
+              ),
+              commencement.days,
+            )
+          : commencement
+            ? commencementInYear(commencement, startYear + termYears)
+            : makeIsoDate(`${startYear + termYears}-01-01`);
+  return {
+    startsAt,
+    endsAt,
+    ruleVersion: "state-legislative-chamber-cycles/wave2",
+    note:
+      row.commencementBasis === "PLACEHOLDER(wave2)"
+        ? `Official regular election cohort and term length; PLACEHOLDER(wave2): January 1 commencement is a game assumption. ${row.sourceLocator}`
+        : row.sourceLocator,
+    sourceUrl: row.sourceUrls[0] ?? "",
+    sourceUrls: row.sourceUrls,
+    sourceStatus: row.sourceStatus,
+    basis: "reviewed-profile" as const,
+  };
+}
+
+/** Resolve the recorded district's due seat before a campaign freezes its term. */
+export function legislativeTermDatesForContest(
+  world: World,
+  contest: Pick<ElectionContestRecord, "office" | "electionDate">,
+) {
+  const officeKey = contest.office.officeKey;
+  const binding = contest.office.districtBinding;
+  if (!binding) return legislativeTermDates(officeKey, contest.electionDate);
+  const pack = candidacyPacks().find((candidate) =>
+    candidate.offices.some((office) => office.officeKey === officeKey),
+  );
+  if (!pack) return legislativeTermDates(officeKey, contest.electionDate);
+  const identities = stateSeatsInDistrict(
+    world,
+    pack.packId,
+    officeKey,
+    binding.recordId,
+  ).map((seat) =>
+    stateLegislativeSeatIdentity(world, pack.packId, officeKey, seat.ordinal),
+  );
+  const sourceDistrict = districtIdentityCatalog().find(
+    (district) => district.recordId === binding.recordId,
+  );
+  if (identities.length === 0 && sourceDistrict)
+    identities.push({
+      districtCode: sourceDistrict.districtCode,
+      slotWithinDistrict: null,
+    });
+  const timings = identities
+    .map((identity) =>
+      legislativeTermDates(officeKey, contest.electionDate, identity),
+    )
+    .filter((timing): timing is NonNullable<typeof timing> => timing !== null);
+  if (timings.length === 0) return null;
+  return timings.every(
+    (timing) =>
+      timing.startsAt === timings[0]!.startsAt &&
+      timing.endsAt === timings[0]!.endsAt,
+  )
+    ? timings[0]!
+    : null;
+}
+
 /** Frozen dates use existing expected work and future-due records; no second office store. */
 export function scheduleLegislativeTerm(
   world: World,
@@ -144,9 +283,7 @@ export function scheduleLegislativeTerm(
   );
   const contest = electionContestById(world, contestId);
   const result = electionContestResult(world, contestId);
-  const timing =
-    contest &&
-    legislativeTermDates(contest.office.officeKey, contest.electionDate);
+  const timing = contest && legislativeTermDatesForContest(world, contest);
   if (
     !relationship ||
     !contest ||
@@ -206,9 +343,16 @@ export function legislativeTermForRelationship(
       d.transitionKey === LEGISLATIVE_TERM_EXPIRY &&
       d.entityIds.includes(relationshipId),
   );
+  // A saved due item freezes the rule that dated its term. Later national
+  // profiles must not invalidate that recorded office authority on reload.
   const timing =
     contest &&
-    legislativeTermDates(contest.office.officeKey, contest.electionDate);
+    (entry.stableKey.includes(`:${BLANKET_LEGISLATIVE_TERM_RULE_VERSION}:entry`)
+      ? preWave2LegislativeTermDates(
+          contest.office.officeKey,
+          contest.electionDate,
+        )
+      : legislativeTermDatesForContest(world, contest));
   if (
     !relationship ||
     !contest ||
@@ -323,7 +467,10 @@ export function legacyLegislativeSeat(world: World, relationshipId: EntityId) {
   const contest = result && electionContestById(world, result.contestId);
   const timing =
     contest &&
-    legislativeTermDates(contest.office.officeKey, contest.electionDate);
+    preWave2LegislativeTermDates(
+      contest.office.officeKey,
+      contest.electionDate,
+    );
   const governingId = workRoleAt(world, relationshipId)?.locationJurisdictionId;
   if (!result || !contest || !timing || !governingId) return null;
   const expiryStableKey = legacyExpiryStableKey(contest.id, timing.ruleVersion);

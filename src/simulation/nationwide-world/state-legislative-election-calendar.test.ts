@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
+import { STATE_LEGISLATIVE_CHAMBER_CYCLES } from "../legislative-term-rules";
 import {
   legislativeTermDates,
   supportedLegislativeTermDates,
@@ -9,6 +10,7 @@ import {
   isStateLegislativeSeatDue,
   nextStateLegislativeElection,
   REVIEWED_REGULAR_SEAT_CYCLES,
+  stateLegislativeSeatCyclePhase,
   stateLegislativeElectionRule,
 } from "./state-legislative-election-calendar";
 
@@ -143,5 +145,99 @@ describe("when a state legislative seat is next on the ballot", () => {
           expect(isElectionYear(stateRule, year)).toBe(true);
       }
     }
+  });
+
+  it("covers 99 distinct state chambers and does not infer an unknown cohort", () => {
+    expect(STATE_LEGISLATIVE_CHAMBER_CYCLES).toHaveLength(99);
+    expect(
+      new Set(
+        STATE_LEGISLATIVE_CHAMBER_CYCLES.map(
+          (row) => `${row.stateUsps}:${row.chamberKey}`,
+        ),
+      ).size,
+    ).toBe(99);
+    for (const row of STATE_LEGISLATIVE_CHAMBER_CYCLES) {
+      if (row.sourceStatus === "PLACEHOLDER(wave2)")
+        expect(
+          stateLegislativeSeatCyclePhase(
+            row.stateUsps,
+            `us-${row.stateUsps.toLowerCase()}-profile-v1:${row.chamberKey}`,
+            { districtCode: "1", slotWithinDistrict: 1 },
+            2026,
+          ),
+        ).toBeNull();
+    }
+  });
+
+  it("applies the Illinois Senate's three distinct ten-year phases", () => {
+    const senate = "us-il-legislature-profile-v1:senate";
+    const term = (districtCode: string, year: number) =>
+      stateLegislativeSeatCyclePhase(
+        "IL",
+        senate,
+        { districtCode, slotWithinDistrict: 1 },
+        year,
+      )?.termYears ?? null;
+    expect([2026, 2028, 2030, 2032].map((year) => term("2", year))).toEqual([
+      4,
+      null,
+      2,
+      4,
+    ]);
+    expect([2026, 2028, 2030, 2032].map((year) => term("3", year))).toEqual([
+      2,
+      4,
+      null,
+      4,
+    ]);
+    expect([2026, 2028, 2030, 2032].map((year) => term("1", year))).toEqual([
+      null,
+      4,
+      null,
+      2,
+    ]);
+  });
+
+  it("keeps undued districts off the ballot and dates same-day or next-day terms", () => {
+    const florida = "us-fl-legislature-profile-v1:senate";
+    const nevada = "us-nv-legislature-profile-v1:senate";
+    expect(
+      isStateLegislativeSeatDue("FL", florida, 2, 2026, {
+        districtCode: "2",
+        slotWithinDistrict: 1,
+      }),
+    ).toBe(true);
+    expect(
+      isStateLegislativeSeatDue("FL", florida, 1, 2026, {
+        districtCode: "1",
+        slotWithinDistrict: 1,
+      }),
+    ).toBe(false);
+    expect(
+      legislativeTermDates(florida, makeIsoDate("2026-11-03"), {
+        districtCode: "2",
+        slotWithinDistrict: 1,
+      }),
+    ).toMatchObject({
+      startsAt: "2026-11-03",
+      endsAt: "2030-11-05",
+    });
+    expect(
+      legislativeTermDates(nevada, makeIsoDate("2026-11-03"), {
+        districtCode: "2",
+        slotWithinDistrict: 1,
+      }),
+    ).toMatchObject({
+      startsAt: "2026-11-04",
+      endsAt: "2030-11-06",
+    });
+    expect(
+      nextStateLegislativeElection("FL", makeIsoDate("2026-01-05"), {
+        officeKey: florida,
+        ordinal: 1,
+        districtCode: "1",
+        slotWithinDistrict: 1,
+      }).electionDate,
+    ).toBe("2028-11-07");
   });
 });

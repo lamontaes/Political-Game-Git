@@ -10,7 +10,7 @@ import { campaignPollingQuality } from "./campaign-polling";
 import { doorKnockingReturn } from "./campaign-recognition";
 import { startingSupportAdjustment } from "./record-in-office";
 import {
-  legislativeTermDates,
+  legislativeTermDatesForContest,
   supportedLegislativeTermDates,
   scheduleLegislativeTerm,
   createLegislativeTermTransitionRegistry,
@@ -1666,10 +1666,11 @@ function seatTheWinner(
       (organization) => organization.stableKey === bodyKey,
     )!.id;
 
-  const timing = legislativeTermDates(
-    contest.office.officeKey,
-    contest.electionDate,
-  );
+  const timing = legislativeTermDatesForContest(next, contest);
+  if (!timing)
+    throw new Error(
+      "No established legislative term covers this recorded contest.",
+    );
   next = createWorkRelationship(next, {
     stableKey:
       winnerPersonId === campaign.candidatePersonId
@@ -1677,8 +1678,8 @@ function seatTheWinner(
         : `${campaign.stableKey}:rival:${winnerPersonId}:seat`,
     personId: winnerPersonId,
     organizationId: bodyId,
-    startedAt: timing?.startsAt ?? effectiveAt,
-    ...(timing ? { initialStatus: "expected" as const } : {}),
+    startedAt: timing.startsAt,
+    initialStatus: "expected",
     // The prefix the capability rules already read to open the office and the
     // legislative surfaces. A member is not staff, and the kind says which.
     kind: "employment:legislative-member",

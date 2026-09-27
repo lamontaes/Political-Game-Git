@@ -252,6 +252,115 @@ const SETTLED_CHAMBER_SEATS: Readonly<
     }
   >
 > = {
+  "US-AZ": {
+    lower: 60,
+    upper: 30,
+    source: {
+      authority: "constitution",
+      citation: "Ariz. Const. art. IV, pt. 2, § 1(1)",
+      sourceTitle: "Constitution of Arizona",
+      sourceUrl:
+        "https://www.azleg.gov/viewDocument/?docName=http%3A%2F%2Fwww.azleg.gov%2Fconst%2F4%2F1.p2.htm",
+      retrievedAt: null,
+      verification: "verified",
+      note: "Thirty legislative districts elect one senator and two representatives each. Other legislative procedures remain the game's profile.",
+    },
+  },
+  "US-ID": {
+    lower: 70,
+    upper: 35,
+    source: {
+      authority: "research-reference",
+      citation:
+        "Idaho Secretary of State Blue Book 2023–24, Legislative Branch",
+      sourceTitle: "Idaho Blue Book: Legislative Branch",
+      sourceUrl: "https://sos.idaho.gov/blue_book/2023/BlueBook_2023_2024.pdf",
+      retrievedAt: null,
+      verification: "verified",
+      note: "Thirty-five legislative districts each elect one senator and two representatives. Other legislative procedures remain the game's profile.",
+    },
+  },
+  "US-NJ": {
+    lower: 80,
+    upper: 40,
+    source: {
+      authority: "constitution",
+      citation:
+        "N.J. Const. art. IV, § II; New Jersey Legislature, Our Legislature",
+      sourceTitle: "New Jersey Constitution and Legislature",
+      sourceUrl: "https://www.njleg.state.nj.us/constitution",
+      retrievedAt: null,
+      verification: "verified",
+      note: "Forty legislative districts each elect one senator and two Assembly members. Other legislative procedures remain the game's profile.",
+    },
+  },
+  "US-WA": {
+    lower: 98,
+    upper: 49,
+    source: {
+      authority: "statute",
+      citation: "RCW 44.05.090(3)-(4)",
+      sourceTitle: "Washington Revised Code, Redistricting plan",
+      sourceUrl: "https://app.leg.wa.gov/rcw/default.aspx?cite=44.05.090",
+      retrievedAt: null,
+      verification: "verified",
+      note: "Forty-nine legislative districts each elect one senator and two representatives. Other legislative procedures remain the game's profile.",
+    },
+  },
+  "US-WV": {
+    lower: 100,
+    upper: 34,
+    source: {
+      authority: "research-reference",
+      citation: "West Virginia Legislature, District Maps",
+      sourceTitle: "West Virginia Legislature District Maps",
+      sourceUrl: "https://home.wvlegislature.gov/district-maps/",
+      retrievedAt: null,
+      verification: "verified",
+      note: "Seventeen Senate districts each elect two senators; the House has 100 single-member districts. Other legislative procedures remain the game's profile.",
+    },
+  },
+  "US-ND": {
+    lower: 94,
+    upper: 47,
+    source: {
+      authority: "research-reference",
+      citation:
+        "North Dakota Legislative Branch, 69th Legislative Assembly membership by district",
+      sourceTitle: "North Dakota Legislative Branch",
+      sourceUrl: "https://ndlegis.gov/assembly/69-2025/regular/members/house",
+      retrievedAt: null,
+      verification: "verified",
+      note: "Forty-seven Senate districts seat 47 senators; the House has 94 members. House districts 4A and 4B are separate single-member districts; the other district identities are multi-member. Other legislative procedures remain the game's profile.",
+    },
+  },
+  "US-SD": {
+    lower: 70,
+    upper: 35,
+    source: {
+      authority: "statute",
+      citation: "S.D. Codified Laws §§ 2-2-43.1, 2-2-44, 2-2-46",
+      sourceTitle: "South Dakota Codified Laws, legislative apportionment",
+      sourceUrl: "https://sdlegislature.gov/Statutes/2-2-44",
+      retrievedAt: null,
+      verification: "verified",
+      note: "Thirty-five legislative districts elect one senator and two representatives each; House districts 26A/26B and 28A/28B are separately identified single-member districts within their Senate districts. Other legislative procedures remain the game's profile.",
+    },
+  },
+  "US-VT": {
+    lower: 150,
+    upper: 30,
+    source: {
+      authority: "statute",
+      citation: "17 V.S.A. §§ 1892, 1893b, 1881",
+      sourceTitle: "Vermont Statutes Online, state legislative apportionment",
+      sourceUrl:
+        "https://legislature.vermont.gov/statutes/section/17/034/01893b",
+      retrievedAt: null,
+      verification: "verified",
+      note: "The House consists of 150 members; § 1893b specifies one or two representatives by district, and § 1881 specifies one to three senators by senatorial district. Other legislative procedures remain the game's profile.",
+    },
+  },
   "US-NH": {
     lower: 400,
     upper: 24,

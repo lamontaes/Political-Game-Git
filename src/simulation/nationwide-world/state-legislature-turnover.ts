@@ -44,6 +44,7 @@ import {
   campaignSeatHolders,
   seatTenureMatch,
   stateLegislativeSeats,
+  stateLegislativeSeatIdentity,
   stateSeatsInDistrict,
 } from "./state-legislature-opening";
 import { electionContestResult } from "../election-contests";
@@ -148,9 +149,40 @@ interface SeatOutcome {
   readonly electedPersonId: EntityId;
 }
 
-const termStartOf = (officeKey: string, electionDay: IsoDate) =>
-  legislativeTermDates(officeKey, electionDay)?.startsAt ??
-  makeIsoDate(`${Number(electionDay.slice(0, 4)) + 1}-01-01`);
+const termStartOf = (
+  world: World,
+  packId: string,
+  officeKey: string,
+  ordinal: number,
+  electionDay: IsoDate,
+) => {
+  const identity = stateLegislativeSeatIdentity(
+    world,
+    packId,
+    officeKey,
+    ordinal,
+  );
+  const date = legislativeTermDates(officeKey, electionDay, identity)?.startsAt;
+  if (!date)
+    throw new Error("No established term start covers this legislative seat.");
+  return date;
+};
+
+const seatIsDue = (
+  world: World,
+  packId: string,
+  usps: string,
+  officeKey: string,
+  ordinal: number,
+  year: number,
+) =>
+  isStateLegislativeSeatDue(
+    usps,
+    officeKey,
+    ordinal,
+    year,
+    stateLegislativeSeatIdentity(world, packId, officeKey, ordinal),
+  );
 
 /** One regular ballot boundary for intake, result and future-seat queries. */
 function regularSeatsDue(world: World, packId: string, year: number) {
@@ -158,7 +190,7 @@ function regularSeatsDue(world: World, packId: string, year: number) {
   if (!pack) return [];
   const usps = pack.jurisdictionKey.replace(/^US-/, "");
   return stateLegislativeSeats(world, packId).filter((seat) =>
-    isStateLegislativeSeatDue(usps, seat.officeKey, seat.ordinal, year),
+    seatIsDue(world, packId, usps, seat.officeKey, seat.ordinal, year),
   );
 }
 
@@ -193,10 +225,22 @@ function contestedStateSeats(
   for (const contest of contests) {
     const officeKey = contest.office.officeKey;
     const open = stateSeatsInDistrict(
+      world,
       packId,
       officeKey,
       contest.office.districtBinding!.recordId,
-    ).filter((seat) => !contested.has(`${officeKey}|${seat.ordinal}`));
+    ).filter(
+      (seat) =>
+        !contested.has(`${officeKey}|${seat.ordinal}`) &&
+        seatIsDue(
+          world,
+          packId,
+          pack.jurisdictionKey.replace(/^US-/, ""),
+          officeKey,
+          seat.ordinal,
+          Number(electionDay.slice(0, 4)),
+        ),
+    );
     const seat =
       open.find((candidate) =>
         holders.some(
@@ -209,7 +253,15 @@ function contestedStateSeats(
       open.find((candidate) => {
         const through = heldThrough(officeKey, candidate.ordinal);
         return (
-          through === null || through <= termStartOf(officeKey, electionDay)
+          through === null ||
+          through <=
+            termStartOf(
+              world,
+              packId,
+              officeKey,
+              candidate.ordinal,
+              electionDay,
+            )
         );
       });
     if (seat) contested.set(`${officeKey}|${seat.ordinal}`, contest.id);
@@ -267,7 +319,11 @@ function prepareStateIntake(
           latest === null || holder.endsAt > latest ? holder.endsAt : latest,
         null,
       );
-    if (through !== null && through > termStartOf(row.officeKey, electionDay))
+    if (
+      through !== null &&
+      through >
+        termStartOf(next, packId, row.officeKey, row.ordinal, electionDay)
+    )
       continue;
     const seatKey = stateCandidateSeatKey(packId, row.officeKey, row.ordinal);
     if (stateCandidateSlate(next, seatKey, year)) continue;
@@ -501,13 +557,17 @@ function holdStateLegislativeElection(
     const contestId = contested.get(seatKey);
     if (contestId) {
       campaignSeats.push(
-        `campaign-seat:${seatKey}|${contestId}|${termStartOf(seat.officeKey, electionDay)}`,
+        `campaign-seat:${seatKey}|${contestId}|${termStartOf(next, packId, seat.officeKey, seat.ordinal, electionDay)}`,
       );
       continue;
     }
     // A campaign's winner still serving their term is not on this ballot.
     const through = heldThrough(seat.officeKey, seat.ordinal);
-    if (through !== null && through > termStartOf(seat.officeKey, electionDay))
+    if (
+      through !== null &&
+      through >
+        termStartOf(next, packId, seat.officeKey, seat.ordinal, electionDay)
+    )
       continue;
     const sitting = seat.member;
     const canonicalKey = stateCandidateSeatKey(
@@ -524,7 +584,9 @@ function holdStateLegislativeElection(
         ),
     );
     if (candidates.length === 0) {
-      unfilled.push(`${seatKey}|${termStartOf(seat.officeKey, electionDay)}`);
+      unfilled.push(
+        `${seatKey}|${termStartOf(next, packId, seat.officeKey, seat.ordinal, electionDay)}`,
+      );
       continue;
     }
     const share = stateSeatDemocraticShare(
@@ -586,7 +648,15 @@ function holdStateLegislativeElection(
   const returning = outcomes.filter((o) => o.returningPersonId).length;
   const termStarts = [
     ...new Set([
-      ...outcomes.map((outcome) => termStartOf(outcome.officeKey, electionDay)),
+      ...outcomes.map((outcome) =>
+        termStartOf(
+          next,
+          packId,
+          outcome.officeKey,
+          outcome.ordinal,
+          electionDay,
+        ),
+      ),
       ...campaignSeats.map((tag) => tag.split("|").at(-1)!),
       ...unfilled.map((tag) => tag.split("|").at(-1)!),
     ]),
@@ -611,7 +681,13 @@ function holdStateLegislativeElection(
         outcome.party ?? "none",
         outcome.returningPersonId ? "returning" : "new",
         outcome.leavingPersonId ?? "",
-        termStartOf(outcome.officeKey, electionDay),
+        termStartOf(
+          next,
+          packId,
+          outcome.officeKey,
+          outcome.ordinal,
+          electionDay,
+        ),
       ].join("|"),
     })),
     personFactConstraints: [],
@@ -955,7 +1031,9 @@ export function nextStateSeatFilling(
     year += 1
   ) {
     if (
-      !isStateLegislativeSeatDue(
+      !seatIsDue(
+        world,
+        packId,
         pack.jurisdictionKey.replace(/^US-/, ""),
         officeKey,
         ordinal,
@@ -964,9 +1042,13 @@ export function nextStateSeatFilling(
     )
       continue;
     const electionDay = generalElectionDay(rule, year);
-    const termStart =
-      legislativeTermDates(officeKey, electionDay)?.startsAt ??
-      makeIsoDate(`${year + 1}-01-01`);
+    const termStart = termStartOf(
+      world,
+      packId,
+      officeKey,
+      ordinal,
+      electionDay,
+    );
     const results = world.history.events.find(
       (event) => event.stableKey === resultsKey(packId, electionDay),
     );
@@ -1023,11 +1105,13 @@ export function applyStateLegislatureTurnover(
     year <= Number(after.slice(0, 4)) && !crossesAny;
     year += 1
   ) {
-    const january = `${year}-01-01`;
     crossesAny =
-      (before < january && january <= after) ||
+      // A chamber can commence later in January, even when the clock moves
+      // one day at a time after January 1. Florida and Nevada can enter in
+      // November on or just after the election.
+      (before < `${year}-02-01` && `${year}-01-01` <= after) ||
       (before < `${year}-03-07` && `${year}-01-06` <= after) ||
-      (before < `${year}-11-08` && `${year}-11-02` <= after);
+      (before < `${year}-12-01` && `${year}-11-01` <= after);
   }
   if (!crossesAny) return world;
   const packs = seatedPacks(world);
@@ -1046,9 +1130,7 @@ export function applyStateLegislatureTurnover(
       if (!isElectionYear(rule, year)) continue;
       const electionDay = generalElectionDay(rule, year);
       const due = stateLegislativeSeats(next, packId).flatMap((seat, index) => {
-        if (
-          !isStateLegislativeSeatDue(usps, seat.officeKey, seat.ordinal, year)
-        )
+        if (!seatIsDue(next, packId, usps, seat.officeKey, seat.ordinal, year))
           return [];
         const intakeDate = stateCandidateIntakeDay(year, index);
         return before < intakeDate && intakeDate <= after

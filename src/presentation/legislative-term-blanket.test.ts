@@ -13,7 +13,6 @@ import {
   bindRuleCapabilityResolver,
   OFFICE_OATH_TAKEN,
   oathChoiceOf,
-  BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
   legislativeBlueprint,
   legislativeTermDates,
   legislativeTermForRelationship,
@@ -34,8 +33,8 @@ import { resolvePlayerCapabilities } from "./player-capabilities";
 
 afterEach(() => bindRuleCapabilityResolver(unadmittedRuleCapabilityResolver));
 
-describe("a legislative term in a state with no sourced term rule", () => {
-  it("uses the sourced rule where there is one and the marked blanket everywhere else", () => {
+describe("a legislative term in a state with a reviewed chamber cycle", () => {
+  it("keeps Kentucky admission and dates other states from their own chamber cycles", () => {
     const election = makeIsoDate("2026-11-03");
     const ky = legislativeTermDates(
       "us-ky-general-assembly-v1:house",
@@ -48,19 +47,21 @@ describe("a legislative term in a state with no sourced term rule", () => {
       "us-il-general-assembly-v1:house",
       election,
     )!;
-    expect(ilHouse.basis).toBe("blanket");
-    expect(ilHouse.ruleVersion).toBe(BLANKET_LEGISLATIVE_TERM_RULE_VERSION);
+    expect(ilHouse.basis).toBe("reviewed-profile");
+    expect(ilHouse.ruleVersion).toBe("state-legislative-chamber-cycles/wave2");
     expect([ilHouse.startsAt, ilHouse.endsAt]).toEqual([
       "2027-01-01",
       "2029-01-01",
     ]);
     expect(
-      legislativeTermDates("us-nv-legislature-v1:senate", election)!.endsAt,
-    ).toBe("2031-01-01");
-    // A known term length from the qualification corpus beats the blanket.
+      legislativeTermDates("us-nv-legislature-v1:senate", election, {
+        districtCode: "2",
+        slotWithinDistrict: 1,
+      })!.endsAt,
+    ).toBe("2030-11-06");
     expect(
-      legislativeTermDates("us-ak-legislature-v1:senate", election)!.endsAt,
-    ).toBe("2031-01-01");
+      legislativeTermDates("us-ak-legislature-v1:house", election)!.endsAt,
+    ).toBe("2029-01-16");
     // Not a legislative office the game offers: no invented term.
     expect(legislativeTermDates("fixture:no-such-office", election)).toBeNull();
   });
@@ -80,7 +81,7 @@ describe("a legislative term in a state with no sourced term rule", () => {
     expect(workStatusAt(decided, seat.id)?.status).toBe("expected");
     const term = legislativeTermForRelationship(decided, seat.id)!;
     expect(term.entry.stableKey).toContain(
-      BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
+      "state-legislative-chamber-cycles/wave2",
     );
     expect(activeLegislativeTermEvidence(decided, seat.id)).toBeNull();
     const theirs = personPronouns(decided.people[personId]).possessivePronoun;
@@ -116,7 +117,7 @@ describe.each(["ME", "GA", "MT", "IA", "TX", "MO"])(
       )!;
       expect(workStatusAt(decided, seat.id)?.status).toBe("expected");
       const transition = projectOfficeTransition(decided, personId)!;
-      expect(transition.startsAt.endsWith("-01-01")).toBe(true);
+      expect(transition.startsAt > decided.currentDate).toBe(true);
 
       const seated = passUntil(decided, transition.startsAt);
       expect(workStatusAt(seated, seat.id)?.status).toBe("active");

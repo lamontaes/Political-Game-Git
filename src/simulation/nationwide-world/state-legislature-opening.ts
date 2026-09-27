@@ -174,17 +174,132 @@ export function planStateChambers(pack: CandidacyPack): {
       size,
       AT_LARGE_SEATS[pack.jurisdictionKey]?.[chamberKey] ?? 0,
     );
+    const mapped = districtMemberCounts(
+      pack.jurisdictionKey,
+      chamberKey,
+      districts,
+    );
+    const mappedSize = mapped.reduce((sum, entry) => sum + entry.members, 0);
+    const plannedDistricts =
+      mappedSize === size - atLargeSeats
+        ? districts.flatMap((district, index) =>
+            Array.from({ length: mapped[index]!.members }, () => district),
+          )
+        : bindDistricts(size - atLargeSeats, districts, size);
     chambers.push({
       officeKey: office.officeKey,
       chamberKey,
       chamberName: office.chamberName,
       size,
       basis,
-      districts: bindDistricts(size - atLargeSeats, districts, size),
+      districts:
+        plannedDistricts.length === size
+          ? plannedDistricts
+          : [
+              ...plannedDistricts,
+              ...Array.from(
+                { length: size - plannedDistricts.length },
+                () => null,
+              ),
+            ],
       atLargeSeats,
     });
   }
   return { chambers, unseated };
+}
+
+/** District seat allocations grounded in the state's cited composition. */
+function districtMemberCounts(
+  jurisdictionKey: string,
+  chamberKey: string,
+  districts: readonly DistrictIdentity[],
+): readonly { members: number }[] {
+  const state = jurisdictionKey.replace(/^US-/, "");
+  const upperCounts: Readonly<Record<string, number>> = {
+    ADD: 2,
+    BEN: 2,
+    CAL: 1,
+    CHC: 3,
+    CHN: 1,
+    CHS: 3,
+    ESX: 1,
+    FRA: 2,
+    GRI: 1,
+    LAM: 1,
+    ORA: 1,
+    ORL: 1,
+    RUT: 3,
+    WAS: 3,
+    WDH: 2,
+    WSR: 3,
+  };
+  const vtHouseTwo = new Set([
+    "ADDISON-1",
+    "ADDISON-3",
+    "ADDISON-4",
+    "BENNINGTON-2",
+    "BENNINGTON-4",
+    "BENNINGTON-5",
+    "CALEDONIA-3",
+    "CALEDONIA-ESSEX",
+    "CHITTENDEN-2",
+    "CHITTENDEN-3",
+    "CHITTENDEN-13",
+    "CHITTENDEN-14",
+    "CHITTENDEN-15",
+    "CHITTENDEN-16",
+    "CHITTENDEN-18",
+    "CHITTENDEN-19",
+    "CHITTENDEN-20",
+    "CHITTENDEN-21",
+    "CHITTENDEN-22",
+    "CHITTENDEN-23",
+    "CHITTENDEN-FRANKLIN",
+    "FRANKLIN-1",
+    "FRANKLIN-4",
+    "FRANKLIN-5",
+    "GRAND ISLE-CHITTENDEN",
+    "LAMOILLE-2",
+    "LAMOILLE-WASHINGTON",
+    "ORANGE-WASHINGTON-ADDISON",
+    "ORLEANS-LAMOILLE",
+    "RUTLAND-2",
+    "WASHINGTON-1",
+    "WASHINGTON-2",
+    "WASHINGTON-3",
+    "WASHINGTON-4",
+    "WASHINGTON-CHITTENDEN",
+    "WASHINGTON-ORANGE",
+    "WINDHAM-3",
+    "WINDSOR-1",
+    "WINDSOR-3",
+    "WINDSOR-6",
+    "WINDSOR-ORANGE-2",
+  ]);
+  return districts.map((district) => {
+    if (state === "AZ" || state === "ID" || state === "WA") {
+      return { members: chamberKey === "house" ? 2 : 1 };
+    }
+    // PLACEHOLDER(wave2): two seats are mapped to each Senate district, but
+    // their staggered election-class assignment is not sourced here.
+    if (state === "WV" && chamberKey === "senate") return { members: 2 };
+    if (state === "ND" && chamberKey === "house") {
+      return { members: /^0*4[AB]$/i.test(district.districtCode) ? 1 : 2 };
+    }
+    if (state === "SD" && chamberKey === "house") {
+      return { members: /^\d+(?:A|B)$/i.test(district.districtCode) ? 1 : 2 };
+    }
+    if (state === "VT") {
+      if (chamberKey === "senate") {
+        return { members: upperCounts[district.districtCode] ?? 1 };
+      }
+      const sourceName = (district.sourceName ?? "")
+        .replace(/ State House District$/i, "")
+        .toUpperCase();
+      return { members: vtHouseTwo.has(sourceName) ? 2 : 1 };
+    }
+    return { members: 1 };
+  });
 }
 
 /**
@@ -546,6 +661,22 @@ export function ensureStateLegislatureOpening(
         (chamber) =>
           `chamber:${chamber.chamberKey}:${chamber.size}:${chamber.basis}`,
       ),
+      ...members.flatMap((member) => {
+        if (!member.district) {
+          return [
+            `seat-plan:${encodeURIComponent(member.office.officeKey)}|${member.ordinal}||`,
+          ];
+        }
+        const slot = members.filter(
+          (candidate) =>
+            candidate.office.officeKey === member.office.officeKey &&
+            candidate.district?.recordId === member.district!.recordId &&
+            candidate.ordinal <= member.ordinal,
+        ).length;
+        return [
+          `seat-plan:${encodeURIComponent(member.office.officeKey)}|${member.ordinal}|${encodeURIComponent(member.district.recordId)}|${slot}`,
+        ];
+      }),
       ...unseated.map((entry) => `unseated:${entry.officeKey}`),
     ],
     summary: `${pack.displayName} is seated: ${chambers
@@ -785,26 +916,155 @@ function seatedPlans(packId: string): readonly SeatedChamberPlan[] {
   return plans;
 }
 
+function openingSeatPlan(
+  world: World,
+  packId: string,
+  officeKey: string,
+): SeatedChamberPlan | null {
+  const event = world.history.events.find(
+    (candidate) =>
+      candidate.stableKey === STATE_LEGISLATURE_KEYS.opening(packId),
+  );
+  if (!event) return null;
+  const current = seatedPlans(packId).find(
+    (plan) => plan.officeKey === officeKey,
+  );
+  const chamberKey = officeKey.split(":").at(-1) ?? "";
+  const chamberTag = event.tags.find((tag) =>
+    tag.startsWith(`chamber:${chamberKey}:`),
+  );
+  const savedSize = chamberTag
+    ? Number(chamberTag.split(":")[2])
+    : current?.size;
+  if (!Number.isInteger(savedSize) || savedSize! < 0) return null;
+  const savedSeatTags = event.tags
+    .filter((tag) => tag.startsWith("seat-plan:"))
+    .map((tag) => {
+      const rest = tag.slice("seat-plan:".length).split("|");
+      const decodedOffice = decodeURIComponent(rest[0] ?? "");
+      if (decodedOffice !== officeKey) return null;
+      return {
+        ordinal: Number(rest[1]),
+        recordId: rest[2] ? decodeURIComponent(rest[2]) : null,
+        slot: rest[3] ? Number(rest[3]) : null,
+      };
+    })
+    .filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+  const districts =
+    savedSeatTags.length > 0
+      ? Array.from({ length: savedSize! }, (_, index) => {
+          const entry = savedSeatTags.find((tag) => tag.ordinal === index + 1);
+          if (!entry?.recordId) return null;
+          return (
+            districtIdentityCatalog().find(
+              (identity) => identity.recordId === entry.recordId,
+            ) ?? null
+          );
+        })
+      : current
+        ? bindDistricts(
+            Math.max(0, savedSize! - current.atLargeSeats),
+            [
+              ...new Set(
+                current.districts.filter(
+                  (d): d is DistrictIdentity => d !== null,
+                ),
+              ),
+            ],
+            savedSize!,
+          )
+        : Array.from({ length: savedSize! }, () => null);
+  if (!current) return null;
+  return { ...current, size: savedSize!, districts };
+}
+
+/** The district and within-district slot recorded for an opening seat. */
+export function stateLegislativeSeatIdentity(
+  world: World,
+  packId: string,
+  officeKey: string,
+  ordinal: number,
+): {
+  readonly districtCode: string | null;
+  readonly slotWithinDistrict: number | null;
+  readonly legacyElectionProfile?: true;
+} {
+  const plan = openingSeatPlan(world, packId, officeKey);
+  const district =
+    Number.isInteger(ordinal) && ordinal > 0
+      ? (plan?.districts[ordinal - 1] ?? null)
+      : null;
+  if (!district) return { districtCode: null, slotWithinDistrict: null };
+  const event = world.history.events.find(
+    (candidate) =>
+      candidate.stableKey === STATE_LEGISLATURE_KEYS.opening(packId),
+  );
+  const savedTag = event?.tags.find((tag) => {
+    if (!tag.startsWith("seat-plan:")) return false;
+    const [encodedOffice, tagOrdinal] = tag
+      .slice("seat-plan:".length)
+      .split("|");
+    return (
+      decodeURIComponent(encodedOffice ?? "") === officeKey &&
+      Number(tagOrdinal) === ordinal
+    );
+  });
+  const slot = savedTag ? Number(savedTag.split("|")[3]) : null;
+  const inferredSlot = plan!.districts
+    .slice(0, ordinal)
+    .filter((candidate) => candidate?.recordId === district.recordId).length;
+  // Older West Virginia openings saved one Senate seat per district and used
+  // the biennial game ballot. Their recorded plan must not acquire the new
+  // two-seat stagger merely because the current source plan is larger.
+  const legacyElectionProfile =
+    officeKey.endsWith(":senate") &&
+    candidacyPackById(packId)?.jurisdictionKey === "US-WV" &&
+    !event?.tags.some((tag) => tag.startsWith("seat-plan:"));
+  return {
+    districtCode: district.districtCode,
+    slotWithinDistrict:
+      Number.isInteger(slot) && slot! > 0 ? slot : inferredSlot,
+    ...(legacyElectionProfile ? { legacyElectionProfile: true as const } : {}),
+  };
+}
+
 /**
  * The seats a district elects in one chamber, in seat order, with the title
  * each carries. More than one where the state elects several members per
  * district.
  */
 export function stateSeatsInDistrict(
-  packId: string,
-  officeKey: string,
-  districtRecordId: string,
+  worldOrPackId: World | string,
+  packIdOrOfficeKey: string,
+  officeKeyOrDistrictRecordId: string,
+  optionalDistrictRecordId?: string,
 ): readonly { ordinal: number; title: string }[] {
-  const plan = seatedPlans(packId).find((p) => p.officeKey === officeKey);
-  if (!plan) return [];
+  const world = typeof worldOrPackId === "string" ? null : worldOrPackId;
+  const packId =
+    typeof worldOrPackId === "string" ? worldOrPackId : packIdOrOfficeKey;
+  const officeKey =
+    typeof worldOrPackId === "string"
+      ? packIdOrOfficeKey
+      : officeKeyOrDistrictRecordId;
+  const districtRecordId =
+    typeof worldOrPackId === "string"
+      ? officeKeyOrDistrictRecordId
+      : optionalDistrictRecordId;
+  if (!districtRecordId) return [];
+  const plan =
+    world && stateLegislatureEstablished(world, packId)
+      ? openingSeatPlan(world, packId, officeKey)
+      : null;
+  const current =
+    plan ?? seatedPlans(packId).find((p) => p.officeKey === officeKey);
+  if (!current) return [];
   const seats: { ordinal: number; title: string }[] = [];
-  plan.districts.forEach((district, index) => {
+  current.districts.forEach((district, index) => {
     const ordinal = index + 1;
-    if (ordinal > plan.size - plan.atLargeSeats) return;
     if (district?.recordId !== districtRecordId) return;
     seats.push({
       ordinal,
-      title: stateSeatTitle(plan.chamberName, district, ordinal),
+      title: stateSeatTitle(current.chamberName, district, ordinal),
     });
   });
   return seats;
@@ -869,6 +1129,7 @@ export function campaignSeatHolders(
   for (const { work, status, term } of terms) {
     const officeKey = term!.contest.office.officeKey;
     const seats = stateSeatsInDistrict(
+      world,
       packId,
       officeKey,
       term!.contest.office.districtBinding!.recordId,

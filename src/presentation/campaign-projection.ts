@@ -1,6 +1,6 @@
 import {
   legacyLegislativeSeat,
-  legislativeTermDates,
+  legislativeTermDatesForContest,
   legislativeTermForRelationship,
 } from "../simulation/legislative-office-terms";
 import { workStatusAt } from "../simulation/life-queries";
@@ -66,7 +66,10 @@ import type {
 import { moneyText } from "../simulation/money-text";
 import { personPronouns } from "../simulation/person-identity";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
-import { stateSeatsInDistrict } from "../simulation/nationwide-world/state-legislature-opening";
+import {
+  stateLegislativeSeatIdentity,
+  stateSeatsInDistrict,
+} from "../simulation/nationwide-world/state-legislature-opening";
 
 /**
  * What a candidate can actually see.
@@ -609,8 +612,7 @@ function wonSeatTerm(
     : undefined;
   const startsAt =
     (won && legislativeTermForRelationship(world, won.id)?.startsAt) ??
-    legislativeTermDates(contest.office.officeKey, contest.electionDate)
-      ?.startsAt;
+    legislativeTermDatesForContest(world, contest)?.startsAt;
   if (!startsAt) return null;
   const alreadyHeld = seats.some((relationship) => {
     if (relationship.id === won?.id || relationship.startedAt >= startsAt)
@@ -956,7 +958,12 @@ export function campaignElectionDate(
   const pack = stateCandidacyPack(stateKey);
   const matchingSeats =
     pack && districtBinding
-      ? stateSeatsInDistrict(pack.packId, officeKey, districtBinding.recordId)
+      ? stateSeatsInDistrict(
+          world,
+          pack.packId,
+          officeKey,
+          districtBinding.recordId,
+        )
       : [];
   if (districtBinding && pack && matchingSeats.length === 0)
     throw new Error("This district does not identify a seat in that chamber.");
@@ -966,6 +973,12 @@ export function campaignElectionDate(
       nextStateLegislativeElection(stateUsps, world.currentDate, {
         officeKey,
         ordinal: seat.ordinal,
+        ...stateLegislativeSeatIdentity(
+          world,
+          pack!.packId,
+          officeKey,
+          seat.ordinal,
+        ),
       }).electionDate,
   );
   if (new Set(dates).size > 1)
