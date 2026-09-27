@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
-import { daysBetween } from "../simulation/dates";
+import { daysBetween, makeIsoDate } from "../simulation/dates";
 import { applyEnactedLawEffects } from "../simulation/enacted-law-effects";
 import {
   commitPublicProgram,
@@ -14,6 +14,7 @@ import {
   legislativePackForJurisdiction,
   legislativeWorkKey,
 } from "../simulation/legislative-institutions";
+import { legislativeProcedureForJurisdiction } from "../simulation/legislative-procedure-world";
 import {
   availableMeasureSteps,
   measurePosition,
@@ -37,6 +38,7 @@ import {
   currentStateExecutiveHolders,
   ensureStateExecutiveIncumbent,
 } from "../simulation/nationwide-world/state-executives";
+import { US_STATE_USPS } from "../simulation/nationwide-world/state-executive-candidacy-packs";
 import { money } from "../simulation/resources";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { publicTaxAccountForJurisdiction } from "../simulation/tax-policy";
@@ -72,6 +74,24 @@ function enactedTransitBill(stateUsps: string) {
     openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
     political: generatePoliticalStartingConditions,
   });
+  const savedProcedure = legislativeProcedureForJurisdiction(
+    world,
+    jurisdictionId,
+  );
+  if (!savedProcedure)
+    throw new Error(`${stateUsps}: no saved opening procedure`);
+  // A biennial odd-year opening remains on its own calendar. Time advances
+  // through the ordinary world writer before this synthetic bill is filed.
+  if (
+    savedProcedure.sessionCadence === "biennial" &&
+    savedProcedure.sessionYearParity === "odd"
+  ) {
+    world = advanceWorld(
+      world,
+      daysBetween(world.currentDate, makeIsoDate("2027-01-05")),
+      createCampaignElectionTransitionRegistry(),
+    );
+  }
   world = ensureStateExecutiveIncumbent(world, game.playerPersonId, stateUsps);
   const pack = legislativePackForJurisdiction(jurisdictionId);
   if (!pack) throw new Error(`${stateUsps}: no legislature`);
@@ -267,8 +287,8 @@ function paidService(stateUsps: string) {
 }
 
 describe("same fictional state transit bill reaches exact paid service", () => {
-  it.each(["AK", "CO"])(
-    "%s pilot: enacted authority pays one saved hour",
+  it.each(US_STATE_USPS)(
+    "%s: enacted authority pays one saved hour",
     (usps) => {
       const world: World = paidService(usps);
       expect(
