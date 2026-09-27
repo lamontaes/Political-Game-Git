@@ -237,6 +237,22 @@ describe("JudiciaryPanel", () => {
       const hearingHtml = renderSenator();
       expect(hearingHtml).toContain("Attend hearing");
       expect(hearingHtml).toContain("Decline hearing");
+      projection.mockReturnValue({
+        ...projected,
+        playerSenateAction: "report-notice",
+        senateStatus: "The recorded hearing needs later report business.",
+      });
+      expect(renderSenator()).toContain("Schedule Judiciary report business");
+      projection.mockReturnValue({
+        ...projected,
+        playerSenateAction: "report-business",
+        senateStatus:
+          "Choose your separate business attendance and report vote.",
+      });
+      const reportHtml = renderSenator();
+      expect(reportHtml).toContain("Attend and report favorably");
+      expect(reportHtml).toContain("Attend and oppose reporting");
+      expect(reportHtml).toContain("Do not attend report business");
     } finally {
       projection.mockRestore();
     }

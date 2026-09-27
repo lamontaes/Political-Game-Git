@@ -25,6 +25,12 @@ import {
   organizeSenateJudiciary,
   senateJudiciaryAppointment,
 } from "./committee-organization";
+import {
+  JUDICIAL_FLOOR_TRANSITION,
+  JUDICIAL_REPORT_TRANSITION,
+  judicialNominationFloorHandler,
+  judicialReportBusinessHandler,
+} from "./senate-committee-report";
 import { seatHolderAt } from "./courts";
 import { pendingFederalJudicialNomination } from "./federal-confirmation";
 import {
@@ -463,4 +469,6 @@ export const JUDICIAL_SENATE_HANDLERS = [
   ],
   [JUDICIAL_COMMITTEE_SESSION_TRANSITION, judicialCommitteeSessionHandler],
   [JUDICIAL_PUBLIC_HEARING_TRANSITION, judicialPublicHearingHandler],
+  [JUDICIAL_REPORT_TRANSITION, judicialReportBusinessHandler],
+  [JUDICIAL_FLOOR_TRANSITION, judicialNominationFloorHandler],
 ] as const;

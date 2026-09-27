@@ -23,6 +23,11 @@ import {
   recordControlledJudiciaryChairHearingChoice,
   recordControlledOrganizationAndHearingNotice,
 } from "../../simulation/judiciary/senate-hearing-process";
+import {
+  recordControlledJudiciaryReportChoice,
+  recordControlledJudiciaryReportNotice,
+  type ReportBallot,
+} from "../../simulation/judiciary/senate-committee-report";
 import { PersonPortrait } from "../PersonPortrait";
 import type {
   JudiciaryView,
@@ -210,6 +215,68 @@ function FederalSenateAction({
             }
           >
             Decline hearing
+          </button>
+        </div>
+      ) : null}
+      {selection.playerSenateAction === "report-notice" ? (
+        <button
+          type="button"
+          onClick={() =>
+            run(() =>
+              recordControlledJudiciaryReportNotice(
+                world,
+                selection.selectionRecordId!,
+              ),
+            )
+          }
+        >
+          Schedule Judiciary report business
+        </button>
+      ) : null}
+      {selection.playerSenateAction === "report-business" ? (
+        <div>
+          <p>Choose your own attendance and committee report ballot.</p>
+          {(
+            [
+              ["report-favorably", "Attend and report favorably"],
+              ["report-unfavorably", "Attend and report unfavorably"],
+              [
+                "report-without-recommendation",
+                "Attend and report without recommendation",
+              ],
+              ["oppose-report", "Attend and oppose reporting"],
+              ["present", "Attend and answer present"],
+            ] as const
+          ).map(([ballot, label]) => (
+            <button
+              key={ballot}
+              type="button"
+              onClick={() =>
+                run(() =>
+                  recordControlledJudiciaryReportChoice(
+                    world,
+                    selection.selectionRecordId!,
+                    { attendance: "attend", ballot: ballot as ReportBallot },
+                  ),
+                )
+              }
+            >
+              {label}
+            </button>
+          ))}
+          <button
+            type="button"
+            onClick={() =>
+              run(() =>
+                recordControlledJudiciaryReportChoice(
+                  world,
+                  selection.selectionRecordId!,
+                  { attendance: "absent", ballot: null },
+                ),
+              )
+            }
+          >
+            Do not attend report business
           </button>
         </div>
       ) : null}

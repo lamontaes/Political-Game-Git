@@ -41,6 +41,8 @@ export interface SenateJudiciaryAppointment {
   readonly congressStartedAt: IsoDate;
   readonly chairPersonId: EntityId;
   readonly memberPersonIds: readonly EntityId[];
+  readonly minorityMemberPersonIds: readonly EntityId[];
+  readonly minorityPartyKey: string | null;
 }
 
 function congressStartedAt(world: World): IsoDate {
@@ -92,6 +94,13 @@ export function senateJudiciaryAppointment(
   const memberPersonIds = event.tags
     .filter((tag) => tag.startsWith("member:"))
     .map((tag) => tag.slice("member:".length) as EntityId);
+  const minorityMemberPersonIds = event.tags
+    .filter((tag) => tag.startsWith("minority-member:"))
+    .map((tag) => tag.slice("minority-member:".length) as EntityId);
+  const minorityPartyKey =
+    event.tags
+      .find((tag) => tag.startsWith("minority-party:"))
+      ?.slice("minority-party:".length) ?? null;
   const voteId = event.tags
     .find((tag) => tag.startsWith("vote:"))
     ?.slice("vote:".length);
@@ -136,6 +145,9 @@ export function senateJudiciaryAppointment(
     new Set(memberPersonIds).size !== memberPersonIds.length ||
     !memberPersonIds.includes(chairPersonId) ||
     memberPersonIds.some((id) => !seated.has(id)) ||
+    new Set(minorityMemberPersonIds).size !== minorityMemberPersonIds.length ||
+    minorityMemberPersonIds.some((id) => !memberPersonIds.includes(id)) ||
+    (minorityPartyKey === null && minorityMemberPersonIds.length > 0) ||
     vote?.type !== SENATE_JUDICIARY_ORGANIZATION_VOTE_EVENT ||
     !vote.tags.includes(`congress-start:${term}`) ||
     !vote.tags.includes("result:adopted") ||
@@ -156,6 +168,11 @@ export function senateJudiciaryAppointment(
     !slate.tags.includes(`congress-start:${term}`) ||
     !slate.tags.includes(`chair:${chairPersonId}`) ||
     memberPersonIds.some((id) => !slate.tags.includes(`member:${id}`)) ||
+    minorityMemberPersonIds.some(
+      (id) => !slate.tags.includes(`minority-member:${id}`),
+    ) ||
+    (minorityPartyKey !== null &&
+      !slate.tags.includes(`minority-party:${minorityPartyKey}`)) ||
     slate.occurredAt > sitting.occurredAt ||
     sitting.occurredAt > vote.occurredAt ||
     vote.occurredAt > event.occurredAt
@@ -166,6 +183,8 @@ export function senateJudiciaryAppointment(
     congressStartedAt: term,
     chairPersonId,
     memberPersonIds,
+    minorityMemberPersonIds,
+    minorityPartyKey,
   };
 }
 
@@ -232,6 +251,9 @@ export function organizeSenateJudiciary(
   )
     throw new Error("No recorded Senate majority can recommend a chair.");
   const majorityParty = rankedParties[0][0];
+  // PLACEHOLDER(overnight): this fictional resolution records the runner-up
+  // party conference's appointed members as its minority designation.
+  const minorityParty = rankedParties[1]?.[0] ?? null;
   const chairCandidates = proposed.filter(
     (member) => member.partyKey === majorityParty && member.personId !== null,
   );
@@ -245,6 +267,9 @@ export function organizeSenateJudiciary(
   const chair = chairCandidates[rng.integer(0, chairCandidates.length)]!;
   const chairPersonId = chair.personId!;
   const proposedIds = proposed.map((member) => member.personId!);
+  const minorityIds = proposed
+    .filter((member) => member.partyKey === minorityParty)
+    .map((member) => member.personId!);
   let next = recordWorldEvent(world, {
     stableKey: `senate-judiciary-slate:${term}`,
     type: SENATE_JUDICIARY_SLATE_EVENT,
@@ -269,6 +294,8 @@ export function organizeSenateJudiciary(
       `profile:${SENATE_JUDICIARY_ORGANIZATION_PROFILE}`,
       `chair:${chairPersonId}`,
       ...proposedIds.map((id) => `member:${id}`),
+      ...(minorityParty ? [`minority-party:${minorityParty}`] : []),
+      ...minorityIds.map((id) => `minority-member:${id}`),
     ],
     summary: `A fictional Senate party-conference profile recommended ${personName(nextPerson(world, chairPersonId))} and an eligible Judiciary slate for Senate approval.`,
     context: {
@@ -598,6 +625,8 @@ export function organizeSenateJudiciary(
       `vote:${voteEventId}`,
       `chair:${chairPersonId}`,
       ...proposedIds.map((id) => `member:${id}`),
+      ...(minorityParty ? [`minority-party:${minorityParty}`] : []),
+      ...minorityIds.map((id) => `minority-member:${id}`),
     ],
     summary: `By recorded Senate resolution, ${personName(nextPerson(next, chairPersonId))} became Judiciary chair with the approved committee members.`,
     context: {

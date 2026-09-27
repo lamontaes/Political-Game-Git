@@ -33,6 +33,7 @@ import {
   pendingFederalJudicialNomination,
 } from "./federal-confirmation";
 import { recordFederalJudicialHearing } from "./federal-hearing";
+import { scheduleJudicialReportBusiness } from "./senate-committee-report";
 
 export const JUDICIAL_PUBLIC_HEARING_NOTICE_EVENT =
   "judicial.public-hearing-notice";
@@ -546,12 +547,13 @@ export function conductPublicJudicialHearing(
     .filter((tag) => tag.startsWith("attendee:"))
     .map((tag) => tag.slice("attendee:".length) as EntityId);
   if (!nomineePresent || attendeeIds.length === 0) return withAttendance;
-  return recordFederalJudicialHearing(withAttendance, {
+  const heard = recordFederalJudicialHearing(withAttendance, {
     selectionRecordId,
     attendeeSenatorPersonIds: attendeeIds,
     noticeEventId: notice.id,
     attendanceEventId: attendance.id,
   });
+  return scheduleJudicialReportBusiness(heard, selectionRecordId);
 }
 
 /** At midnight, a controlled committee member's choice remains theirs. */

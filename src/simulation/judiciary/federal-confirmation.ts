@@ -34,6 +34,37 @@ export const JUDICIAL_SENATE_RESULT_EVENT = "judicial.senate-result";
 export const JUDICIAL_CONFIRMATION_HEARING_EVENT =
   "judicial.confirmation-hearing";
 
+/** A report, calendar admission, and actual floor sitting admit new ballots. */
+function admittedNominationAtFloorSitting(
+  world: World,
+  selectionRecordId: string,
+): boolean {
+  const report = world.history.events.find(
+    (event) =>
+      event.type === "judicial.committee-report-result" &&
+      event.tags.includes(`selection:${selectionRecordId}`) &&
+      event.tags.includes("result:reported"),
+  );
+  const calendar = report
+    ? world.history.events.find(
+        (event) =>
+          event.type === "judicial.executive-calendar-admission" &&
+          event.tags.includes(`selection:${selectionRecordId}`) &&
+          event.tags.includes(`report:${report.id}`),
+      )
+    : null;
+  return Boolean(
+    calendar &&
+    world.history.events.some(
+      (event) =>
+        event.type === "judicial.senate-floor-sitting" &&
+        event.tags.includes(`selection:${selectionRecordId}`) &&
+        event.tags.includes(`calendar:${calendar.id}`) &&
+        event.occurredAt >= calendar.occurredAt,
+    ),
+  );
+}
+
 type SenateBallot = LegislativeMemberDisposition;
 
 export function pendingFederalJudicialNomination(
@@ -96,6 +127,41 @@ export function recordFederalJudicialSenateBallot(
     world,
     input.selectionRecordId,
   );
+  const hasNewReportRecord = world.history.events.some(
+    (event) =>
+      (event.type === "judicial.committee-report-result" ||
+        event.type === "judicial.executive-calendar-admission") &&
+      event.tags.includes(`selection:${input.selectionRecordId}`),
+  );
+  // Previously saved partial roll calls can finish only when an earlier
+  // Senator's ballot named this same selection's actual hearing. A new report
+  // record always takes the stricter report/calendar/floor route.
+  const legacyBallotAlreadyRecorded =
+    !hasNewReportRecord &&
+    world.history.events.some((event) => {
+      if (
+        event.type !== JUDICIAL_SENATE_BALLOT_EVENT ||
+        !event.tags.includes(`selection:${input.selectionRecordId}`)
+      )
+        return false;
+      const heardId = event.tags
+        .find((tag) => tag.startsWith("hearing:"))
+        ?.slice("hearing:".length);
+      return world.history.events.some(
+        (hearing) =>
+          hearing.id === heardId &&
+          hearing.type === JUDICIAL_CONFIRMATION_HEARING_EVENT &&
+          hearing.tags.includes(`selection:${input.selectionRecordId}`) &&
+          hearing.occurredAt <= event.occurredAt,
+      );
+    });
+  if (
+    !admittedNominationAtFloorSitting(world, input.selectionRecordId) &&
+    !legacyBallotAlreadyRecorded
+  )
+    throw new Error(
+      "A committee report, Executive Calendar admission, and actual floor sitting are needed before a new Senate ballot.",
+    );
   const senate = seatedCongressChamber(world, "senate");
   if (
     !senate?.body.members.some(

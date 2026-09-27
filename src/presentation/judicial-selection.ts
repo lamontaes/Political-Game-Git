@@ -25,6 +25,13 @@ import {
   JUDICIAL_PUBLIC_HEARING_TRANSITION,
 } from "../simulation/judiciary/senate-hearing-process";
 import { JUDICIAL_CONFIRMATION_HEARING_EVENT } from "../simulation/judiciary/federal-confirmation";
+import {
+  JUDICIAL_EXEC_CALENDAR_EVENT,
+  JUDICIAL_REPORT_NOTICE_EVENT,
+  JUDICIAL_REPORT_RESULT_EVENT,
+  JUDICIAL_REPORT_SITTING_EVENT,
+  JUDICIAL_REPORT_TRANSITION,
+} from "../simulation/judiciary/senate-committee-report";
 import { personName } from "../simulation/people";
 import { proseDate } from "./prose-dates";
 import type {
@@ -57,7 +64,12 @@ export interface JudicialSelectionView {
   }[];
   readonly playerMayNominate: boolean;
   readonly playerSenateAction:
-    "organization" | "announce-hearing" | "hearing-attendance" | null;
+    | "organization"
+    | "announce-hearing"
+    | "hearing-attendance"
+    | "report-notice"
+    | "report-business"
+    | null;
   readonly senateStatus: string | null;
 }
 
@@ -168,6 +180,39 @@ export function projectJudicialSelection(
           event.tags.includes(`selection:${selection.recordId}`),
       )
     : null;
+  const reportNotice = senateStage
+    ? world.history.events.find(
+        (event) =>
+          event.type === JUDICIAL_REPORT_NOTICE_EVENT &&
+          event.tags.includes(`selection:${selection.recordId}`),
+      )
+    : null;
+  const reportSitting = senateStage
+    ? world.history.events.find(
+        (event) =>
+          event.type === JUDICIAL_REPORT_SITTING_EVENT &&
+          event.tags.includes(`selection:${selection.recordId}`),
+      )
+    : null;
+  const reportResult = senateStage
+    ? world.history.events.find(
+        (event) =>
+          event.type === JUDICIAL_REPORT_RESULT_EVENT &&
+          event.tags.includes(`selection:${selection.recordId}`),
+      )
+    : null;
+  const calendarAdmission = senateStage
+    ? world.history.events.find(
+        (event) =>
+          event.type === JUDICIAL_EXEC_CALENDAR_EVENT &&
+          event.tags.includes(`selection:${selection.recordId}`),
+      )
+    : null;
+  const reportDue = world.history.futureDueItems.find(
+    (item) =>
+      item.transitionKey === JUDICIAL_REPORT_TRANSITION &&
+      item.stableKey.endsWith(`:${selection.recordId}`),
+  );
   const hearingDue = world.history.futureDueItems.find(
     (item) =>
       item.transitionKey === JUDICIAL_PUBLIC_HEARING_TRANSITION &&
@@ -213,7 +258,18 @@ export function projectJudicialSelection(
               hearingDue?.dueAt === world.currentDate &&
               appointment?.memberPersonIds.includes(controlledPersonId)
             ? ("hearing-attendance" as const)
-            : null;
+            : hearing &&
+                appointment?.chairPersonId === controlledPersonId &&
+                !reportNotice
+              ? ("report-notice" as const)
+              : hearing &&
+                  reportNotice &&
+                  !reportSitting &&
+                  !reportResult &&
+                  reportDue?.dueAt === world.currentDate &&
+                  appointment?.memberPersonIds.includes(controlledPersonId)
+                ? ("report-business" as const)
+                : null;
   const senateStatus = (() => {
     if (!senateStage) return null;
     const dueFor = (transitionKey: string) =>
@@ -232,8 +288,20 @@ export function projectJudicialSelection(
         ? `Senate referral is scheduled for ${proseDate(due.dueAt)}.`
         : "The Senate referral has not been scheduled.";
     }
+    if (reportResult?.tags.includes("result:reported"))
+      return calendarAdmission
+        ? "Judiciary reported the nomination and it entered the Executive Calendar. A final Senate vote is not recorded."
+        : "Judiciary reported the nomination, but Executive Calendar admission is missing.";
+    if (reportResult)
+      return "Judiciary did not report the nomination; it remains before the committee.";
+    if (reportSitting)
+      return "The distinct report business sitting lacked the actual attendance needed for a nomination report.";
+    if (reportNotice)
+      return reportDue
+        ? `The chair noticed distinct report business for ${proseDate(reportDue.dueAt)}. No business attendance or report is recorded.`
+        : "The chair noticed report business, but no valid business date is recorded.";
     if (hearing)
-      return "The Senate Judiciary hearing and its actual attendees are recorded. A committee report is not recorded.";
+      return "The Senate Judiciary hearing and its actual attendees are recorded. The chair has not noticed later report business.";
     if (hearingNotice) {
       const state = hearingDue ? stateFor(hearingDue.id) : null;
       if (

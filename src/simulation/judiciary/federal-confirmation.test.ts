@@ -132,6 +132,59 @@ function pendingNomination() {
   return { world, selectionRecordId, seatId, nomineeId };
 }
 
+/** Test-only admission for ballot arithmetic; report business is tested separately. */
+function withFixtureFloorAdmission(world: World, selectionRecordId: string) {
+  const nomineeId = world.judiciary!.selections.find(
+    (selection) => selection.recordId === selectionRecordId,
+  )!.candidatePersonIds[0]!;
+  const event = (
+    current: World,
+    type:
+      | "judicial.committee-report-result"
+      | "judicial.executive-calendar-admission"
+      | "judicial.senate-floor-sitting",
+    tags: readonly string[],
+  ) =>
+    recordWorldEvent(current, {
+      stableKey: `fixture:${type}:${selectionRecordId}`,
+      type,
+      occurredAt: current.currentDate,
+      recordedAt: current.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [nomineeId],
+      participants: [
+        {
+          personId: nomineeId,
+          role: "focus:subject",
+          detail: "Fixture nominee",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [`selection:${selectionRecordId}`, ...tags],
+      summary: `Fixture ${type} for isolated Senate ballot checks.`,
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+  let next = event(world, "judicial.committee-report-result", [
+    "result:reported",
+  ]);
+  const reportId = next.history.events.at(-1)!.id;
+  next = event(next, "judicial.executive-calendar-admission", [
+    `report:${reportId}`,
+  ]);
+  const calendarId = next.history.events.at(-1)!.id;
+  return event(next, "judicial.senate-floor-sitting", [
+    `calendar:${calendarId}`,
+  ]);
+}
+
 /** A test-only occurrence for direct hearing-writer and tenure assertions. */
 function preparedHearingForAttendees(
   inputWorld: World,
@@ -518,6 +571,7 @@ describe("federal judicial hearing and Senate ballot", () => {
       confidence: "high",
       source: { kind: "direct" },
     });
+    world = withFixtureFloorAdmission(world, selectionRecordId);
     const qualified = judicialNominationRecommendation(
       world,
       selectionRecordId,
@@ -596,7 +650,7 @@ describe("federal judicial hearing and Senate ballot", () => {
         ballot: "yea",
         reason: "I support the nominee.",
       }),
-    ).toThrow("recorded hearing basis");
+    ).toThrow("committee report, Executive Calendar admission");
 
     const prepared = preparedHearingForAttendees(world, selectionRecordId, [
       first,
@@ -662,6 +716,7 @@ describe("federal judicial hearing and Senate ballot", () => {
         (row) => row.personId === second && row.eventId === hearing.id,
       ),
     ).toBe(false);
+    world = withFixtureFloorAdmission(world, selectionRecordId);
     expect(() =>
       recordFederalJudicialSenateBallot(world, {
         selectionRecordId,
@@ -783,6 +838,7 @@ describe("federal judicial hearing and Senate ballot", () => {
         source: { kind: "public-record", reference: publicHearing.id },
       });
     }
+    world = withFixtureFloorAdmission(world, pending.selectionRecordId);
     for (const senator of senators) {
       world = recordFederalJudicialSenateBallot(world, {
         selectionRecordId: pending.selectionRecordId,

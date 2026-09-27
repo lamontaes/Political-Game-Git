@@ -318,6 +318,6 @@ describe("public Senate Judiciary hearing route", () => {
     expect(seatHolderAt(world, pending.seatId)).toBeNull();
     expect(
       projectJudicialSelection(world, pending.seatId)?.playerSenateAction,
-    ).toBeNull();
+    ).toBe("report-notice");
   }, 45_000);
 });
