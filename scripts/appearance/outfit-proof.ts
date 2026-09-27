@@ -14,6 +14,7 @@ import { skinInGarment } from "../../src/presentation/appearance-engine/checks";
 import { extractGarment } from "../../src/presentation/appearance-engine/extract";
 import {
   fabricRamp,
+  measureFabricLuminance,
   recolorFabric,
 } from "../../src/presentation/appearance-engine/fabric";
 import type { Raster } from "../../src/presentation/appearance-engine/raster";
@@ -47,6 +48,11 @@ const bodyFile = (sex: string, build: string) =>
   sex === "masculine" && build === "average"
     ? "masculine-average-standing-front-bare-v2"
     : `${sex}-${build}-standing-front-bare-v1`;
+/**
+ * The Sept. 27 men's crewneck paintings shade the chest in curves that read
+ * as breasts once colored (Lamontae); keep a little of their folds only.
+ */
+const MEN_TOP_SHADING = 0.45;
 const LOOKS: Record<string, readonly [string, string, number][]> = {
   // [top color, legwear color, skin shade index]
   feminine: [
@@ -131,8 +137,27 @@ for (const sex of ["feminine", "masculine"]) {
           slot: "bottoms",
           raster: recolorFabric(legwear.layer, fabricRamp(legColor)),
           hidesBody: legwear.hidesBody,
+          tucksTop: legwear.waistline
+            ? { waistline: legwear.waistline }
+            : undefined,
         },
-        { slot: "top", raster: recolorFabric(top.layer, fabricRamp(topColor)) },
+        {
+          slot: "top",
+          tuckTail: top.tuckTail
+            ? recolorFabric(
+                top.tuckTail,
+                fabricRamp(topColor),
+                measureFabricLuminance(top.layer),
+                sex === "masculine" ? MEN_TOP_SHADING : 1,
+              )
+            : null,
+          raster: recolorFabric(
+            top.layer,
+            fabricRamp(topColor),
+            undefined,
+            sex === "masculine" ? MEN_TOP_SHADING : 1,
+          ),
+        },
         {
           slot: "head",
           raster: recolorSkin(head, shade),

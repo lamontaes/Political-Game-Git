@@ -100,6 +100,19 @@ export interface ExtractedGarment {
    * foot in a pump), the body stays.
    */
   readonly hidesBody: Uint8Array | null;
+  /**
+   * For trousers: the top edge of the painted waistband per column (-1 where
+   * there is none). The layer starts there, so it can be drawn over a
+   * tucked-in shirt.
+   */
+  readonly waistline: Int32Array | null;
+  /**
+   * For tops: the painting's cloth on the hips just below the waist, which
+   * the top layer leaves out because it may be the painting's own underwear.
+   * A tucked shirt uses it down to the trousers' waistband, so a band that
+   * sits low leaves no gap.
+   */
+  readonly tuckTail: Raster | null;
 }
 
 /** How far from empty background an outline pixel may be and still be the body's contour. */
@@ -188,6 +201,127 @@ export function measureLegColumns(
   return columns;
 }
 
+/** The most a waistband's top edge may move from one column to the next. */
+const WAIST_STEP = 3;
+
+/**
+ * The top edge of a painted waistband, per column (-1 where there is none).
+ *
+ * A shirt is tucked in by drawing the trousers over it from their waistband
+ * down, so the waistband must be found in the trouser painting. It is the
+ * first ink line from above, in the rows around the top of the underwear
+ * bottoms, that has a second ink line a band's width below it (the
+ * waistband's lower edge). Vertical lines (a fly, a seam, belt loops) are
+ * removed by a running median across the columns. Columns from the hips out
+ * to the middle of the gap before each arm take the nearest hip value.
+ */
+export function measureWaistline(
+  painting: Raster,
+  bare: Raster,
+  anchors: BodyAnchors,
+  bands: BodyBands,
+  legColumns: readonly (readonly [number, number])[],
+): Int32Array {
+  const { width } = painting;
+  const figure = anchors.feet - anchors.top;
+  const from = bands.bottomsTopRow - Math.round(figure * 0.055);
+  const to = bands.bottomsTopRow + Math.round(figure * 0.02);
+  const bandMin = Math.round(figure * 0.006);
+  const bandMax = Math.round(figure * 0.028);
+  const waist = new Int32Array(width).fill(-1);
+  const row = bands.bottomsTopRow;
+  let hipLeft = -1;
+  let hipRight = -1;
+  for (let x = Math.round(anchors.neck.centerX); x >= 0; x -= 1) {
+    if (bare.data[(row * width + x) * 4 + 3]! <= OPAQUE_ALPHA) break;
+    hipLeft = x;
+  }
+  for (let x = Math.round(anchors.neck.centerX); x < width; x += 1) {
+    if (bare.data[(row * width + x) * 4 + 3]! <= OPAQUE_ALPHA) break;
+    hipRight = x;
+  }
+  if (hipLeft < 0 || hipRight < 0) return waist;
+  const margin = Math.max(4, Math.round(width * 0.012));
+  const left = hipLeft + margin;
+  const right = hipRight - margin;
+  const values: number[] = [];
+  for (let y = from; y <= to; y += 1)
+    for (let x = left; x <= right; x += 1) {
+      const i = (y * width + x) * 4;
+      if (painting.data[i + 3]! > OPAQUE_ALPHA)
+        values.push(
+          luminance(
+            painting.data[i]!,
+            painting.data[i + 1]!,
+            painting.data[i + 2]!,
+          ),
+        );
+    }
+  if (values.length === 0) return waist;
+  values.sort((a, b) => a - b);
+  const inkBelow = values[Math.floor(values.length / 2)]! * 0.55;
+  const isInk = (x: number, y: number) => {
+    const i = (y * width + x) * 4;
+    return (
+      painting.data[i + 3]! > OPAQUE_ALPHA &&
+      luminance(
+        painting.data[i]!,
+        painting.data[i + 1]!,
+        painting.data[i + 2]!,
+      ) < inkBelow
+    );
+  };
+  const raw = new Int32Array(width).fill(-1);
+  for (let x = left; x <= right; x += 1) {
+    const lines: [number, number][] = [];
+    for (let y = from; y <= to; y += 1) {
+      if (!isInk(x, y)) continue;
+      const last = lines[lines.length - 1];
+      if (last && y - last[1] <= 2) last[1] = y;
+      else lines.push([y, y]);
+    }
+    const band = lines.find(([, end], k) =>
+      lines
+        .slice(k + 1)
+        .some(([start]) => start - end >= bandMin && start - end <= bandMax),
+    );
+    raw[x] = (band ?? lines[0])?.[0] ?? -1;
+  }
+  const reach = Math.max(5, Math.round(width * 0.01));
+  const smooth = new Int32Array(width).fill(-1);
+  for (let x = left; x <= right; x += 1) {
+    const near: number[] = [];
+    for (
+      let k = Math.max(left, x - reach);
+      k <= Math.min(right, x + reach);
+      k += 1
+    )
+      if (raw[k]! >= 0) near.push(raw[k]!);
+    if (near.length === 0) continue;
+    near.sort((a, b) => a - b);
+    smooth[x] = near[Math.floor(near.length / 2)]!;
+  }
+  // A waistband is a smooth curve. Walk out from the middle; where the line
+  // found jumps (a pocket top, a seam of the suit above), hold the last
+  // height instead. Out to the middle of the gap before each arm, hold the
+  // outermost height.
+  const middle = Math.round((left + right) / 2);
+  if (smooth[middle]! < 0) return waist;
+  waist[middle] = smooth[middle]!;
+  const [zoneLeft, zoneRight] = legColumns[row]!;
+  for (const step of [-1, 1]) {
+    let held = smooth[middle]!;
+    const end =
+      step < 0 ? Math.max(0, zoneLeft) : Math.min(width - 1, zoneRight);
+    for (let x = middle + step; step < 0 ? x >= end : x <= end; x += step) {
+      const found = x >= left && x <= right ? smooth[x]! : -1;
+      if (found >= 0 && Math.abs(found - held) <= WAIST_STEP) held = found;
+      waist[x] = held;
+    }
+  }
+  return waist;
+}
+
 type Under = "skin" | "underwear" | "outline" | "background";
 
 function underKind(r: number, g: number, b: number, a: number): Under {
@@ -230,6 +364,12 @@ export function extractGarment(
     const [left, right] = legColumns![y]!;
     return x >= left && x <= right;
   };
+  const waistline =
+    slot === "bottoms" || slot === "legwear"
+      ? measureWaistline(onBody, bare, anchors, bands, legColumns!)
+      : null;
+  const legStart = (x: number): number =>
+    waistline && waistline[x]! >= 0 ? waistline[x]! : legTop;
   /** Within a few pixels of empty background along the row: the body's contour. */
   const onEdge = (x: number, y: number): boolean => {
     for (let d = 1; d <= EDGE_REACH; d += 1) {
@@ -266,14 +406,14 @@ export function extractGarment(
           ? y < shoeTop
           : y < shoeTop;
       case "bottoms":
-        if (y < legTop || !onLegs(x, y)) return false;
+        if (y < legStart(x) || !onLegs(x, y)) return false;
         return under === "background" || under === "outline"
           ? y < shoeTop
           : y < shoeTop + Math.round(figure * 0.03);
       case "shoes":
         return y >= shoeTop;
       case "legwear":
-        return y >= legTop && onLegs(x, y);
+        return y >= legStart(x) && onLegs(x, y);
       case "outfit":
         // Collars and ties rise to the neck; everything below is the outfit.
         return y >= anchors.neck.row;
@@ -340,5 +480,30 @@ export function extractGarment(
       }
     }
   }
-  return { layer, clothPixels, refusedPixels, hidesBody };
+  let tuckTail: Raster | null = null;
+  if (slot === "top") {
+    tuckTail = createRaster(onBody.width, onBody.height);
+    const to = Math.min(onBody.height - 1, bands.bottomsTopRow + hemAllowance);
+    for (let y = bands.bottomsTopRow; y <= to; y += 1)
+      for (let x = 0; x < onBody.width; x += 1) {
+        const i = (y * onBody.width + x) * 4;
+        if (
+          layer.data[i + 3]! > 0 ||
+          src[i + 3]! <= OPAQUE_ALPHA ||
+          under[i + 3]! <= OPAQUE_ALPHA ||
+          !onLegs(x, y) ||
+          isSkinPixel(src[i]!, src[i + 1]!, src[i + 2]!, src[i + 3]!)
+        )
+          continue;
+        tuckTail.data.set(src.subarray(i, i + 4), i);
+      }
+  }
+  return {
+    layer,
+    clothPixels,
+    refusedPixels,
+    hidesBody,
+    waistline,
+    tuckTail,
+  };
 }

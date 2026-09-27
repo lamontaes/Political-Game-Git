@@ -4,12 +4,15 @@ import { luminance, mix, parseHex, type Raster, type Rgb } from "./raster";
 /**
  * GARMENT COLOR BY CODE.
  *
- * Garments are painted in gray. The engine reads where each cloth pixel sits
- * between the painting's own shadow, base and highlight and repaints it at
- * the same place on the chosen fabric ramp, so one painted pair of trousers
- * comes in navy, charcoal or black. Pixels darker than the cloth's shadow are
- * ink lines and fold creases: they keep the painting's own dark value, so the
- * drawing survives on a white shirt as well as a navy suit.
+ * Garments are painted in gray. The engine keeps the painting's own light and
+ * shade and changes only the color: each cloth pixel's brightness relative to
+ * the cloth's base gray is applied to the chosen fabric's base color, so a
+ * fold that is 13 percent darker in the painting is 13 percent darker in navy
+ * or white. Stretching the painted shading across a color's full ramp made
+ * soft chest folds read as breasts on the Sept. 27 men's crewnecks, so the
+ * contrast is never increased. Pixels far darker than the cloth are ink lines:
+ * they keep a dark line on any color, so the drawing survives on a white shirt
+ * as well as a navy suit.
  */
 
 export interface FabricRamp {
@@ -53,15 +56,13 @@ export function fabricRamp(id: string): FabricRamp {
 }
 
 export interface MeasuredFabric {
-  readonly shadow: number;
+  /** The cloth's own base gray: the median of its pixels. */
   readonly base: number;
-  readonly highlight: number;
 }
 
-/**
- * The cloth's own shadow, base and highlight. The low end is taken above the
- * darkest tenth, which is mostly ink, so the outlines do not set the shadow.
- */
+/** Below this share of the cloth's base brightness a pixel is an ink line. */
+export const INK_SHARE = 0.55;
+
 export function measureFabricLuminance(layer: Raster): MeasuredFabric {
   const values: number[] = [];
   const { data } = layer;
@@ -71,55 +72,64 @@ export function measureFabricLuminance(layer: Raster): MeasuredFabric {
   }
   if (values.length === 0) throw new Error("The garment layer is empty.");
   values.sort((a, b) => a - b);
-  const at = (fraction: number) =>
-    values[Math.min(values.length - 1, Math.floor(values.length * fraction))]!;
-  const shadow = at(0.15);
-  const base = at(0.55);
-  const highlight = Math.max(
-    at(0.98),
-    base + Math.max(10, (base - shadow) * 0.5),
-  );
-  return { shadow, base, highlight };
+  return { base: values[Math.floor(values.length / 2)]! };
 }
 
 function darker(a: Rgb, b: Rgb): Rgb {
   return luminance(a.r, a.g, a.b) <= luminance(b.r, b.g, b.b) ? a : b;
 }
 
+const scale = (color: Rgb, factor: number): Rgb => ({
+  r: color.r * factor,
+  g: color.g * factor,
+  b: color.b * factor,
+});
+
 /** A copy of a gray garment layer in the chosen fabric color. */
 export function recolorFabric(
   layer: Raster,
   target: FabricRamp,
   source: MeasuredFabric = measureFabricLuminance(layer),
+  /**
+   * How much of the painting's fold shading to keep: 1 keeps it all, lower
+   * flattens it. Ink lines are never flattened. A garment whose painted folds
+   * give the wrong shape (curved chest shading on a man's shirt) lowers it.
+   */
+  shading = 1,
 ): Raster {
   const shadow = parseHex(target.shadow);
   const base = parseHex(target.base);
   const highlight = parseHex(target.highlight);
-  const ink: Rgb = {
-    r: shadow.r * 0.55,
-    g: shadow.g * 0.55,
-    b: shadow.b * 0.55,
-  };
+  const baseValue = luminance(base.r, base.g, base.b);
+  const ink = scale(shadow, 0.55);
+  const inkBelow = source.base * INK_SHARE;
   const data = new Uint8ClampedArray(layer.data);
   for (let i = 0; i < data.length; i += 4) {
     if (data[i + 3]! === 0) continue;
     const own: Rgb = { r: data[i]!, g: data[i + 1]!, b: data[i + 2]! };
     const value = luminance(own.r, own.g, own.b);
+    const painted = value / Math.max(1, source.base);
+    const ratio = value >= inkBelow ? 1 - (1 - painted) * shading : painted;
     let color: Rgb;
-    if (value >= source.base) {
-      const span = Math.max(1, source.highlight - source.base);
-      color = mix(base, highlight, Math.min(1, (value - source.base) / span));
-    } else if (value >= source.shadow) {
-      const span = Math.max(1, source.base - source.shadow);
-      color = mix(shadow, base, (value - source.shadow) / span);
+    if (ratio >= 1) {
+      // Lighter than the base: toward the fabric's highlight, as painted.
+      const room =
+        luminance(highlight.r, highlight.g, highlight.b) / baseValue - 1;
+      color = mix(
+        base,
+        highlight,
+        Math.min(1, (ratio - 1) / Math.max(0.05, room)),
+      );
+    } else if (value >= inkBelow) {
+      // Shade: exactly the painting's relative darkening, in the new color.
+      color = scale(base, ratio);
     } else {
-      // Ink and creases: from the fabric's shadow toward a dark line that is
-      // never lighter than the painting's own.
+      // Ink: a dark line never lighter than the painting's own.
       const depth = Math.min(
         1,
-        (source.shadow - value) / Math.max(1, source.shadow * 0.5),
+        (inkBelow - value) / Math.max(1, inkBelow * 0.5),
       );
-      color = mix(shadow, darker(own, ink), depth);
+      color = mix(scale(base, INK_SHARE), darker(own, ink), depth);
     }
     data[i] = color.r;
     data[i + 1] = color.g;

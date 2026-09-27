@@ -39,6 +39,29 @@ export interface PersonLayer {
   readonly authoredFor?: BodyAnchors;
   /** For garments: body pixels the garment hides entirely (see extract.ts). */
   readonly hidesBody?: Uint8Array | null;
+  /**
+   * For trousers: the shirt is tucked in. The trousers are drawn over the top
+   * from their waistband down, and the top ends just under the waistband's
+   * top edge (the waistline from extract.ts).
+   */
+  readonly tucksTop?: { readonly waistline: Int32Array };
+  /** For tops: cloth just below the waist, used only when tucked in (extract.ts). */
+  readonly tuckTail?: Raster | null;
+}
+
+/** How far under the waistband's top edge a tucked shirt still reaches. */
+const TUCK_DEPTH = 6;
+
+/** A top cut off just under a waistband, where it goes into the trousers. */
+function tuckInto(raster: Raster, waistline: Int32Array): Raster {
+  const data = new Uint8ClampedArray(raster.data);
+  for (let x = 0; x < raster.width; x += 1) {
+    const waist = waistline[x]!;
+    if (waist < 0) continue;
+    for (let y = waist + TUCK_DEPTH; y < raster.height; y += 1)
+      data[(y * raster.width + x) * 4 + 3] = 0;
+  }
+  return { width: raster.width, height: raster.height, data };
 }
 
 export interface PlacedLayer {
@@ -85,21 +108,23 @@ export function placeLayers(
   layers: readonly PersonLayer[],
 ): readonly PlacedLayer[] {
   const slots = new Set(layers.map((layer) => layer.slot));
+  const shown = (layer: PersonLayer) =>
+    !(
+      slots.has("dress") &&
+      (layer.slot === "top" || layer.slot === "bottoms")
+    ) &&
+    !(
+      slots.has("outfit") &&
+      (layer.slot === "top" ||
+        layer.slot === "bottoms" ||
+        layer.slot === "shoes" ||
+        layer.slot === "dress")
+    );
+  const tucking = layers.find(
+    (layer) => layer.tucksTop && shown(layer),
+  )?.tucksTop;
   return layers
-    .filter(
-      (layer) =>
-        !(
-          slots.has("dress") &&
-          (layer.slot === "top" || layer.slot === "bottoms")
-        ) &&
-        !(
-          slots.has("outfit") &&
-          (layer.slot === "top" ||
-            layer.slot === "bottoms" ||
-            layer.slot === "shoes" ||
-            layer.slot === "dress")
-        ),
-    )
+    .filter(shown)
     .map((layer) => {
       const offset =
         HEAD_BOUND.has(layer.slot) && layer.authoredFor
@@ -111,10 +136,25 @@ export function placeLayers(
               layer.raster,
               Math.round(layer.raster.height * HEAD_FEATHER_SHARE),
             )
-          : layer.raster;
-      return { slot: layer.slot, raster, ...offset };
+          : layer.slot === "top" && tucking
+            ? tuckInto(
+                layer.tuckTail
+                  ? composite(layer.raster.width, layer.raster.height, [
+                      { slot: "top", raster: layer.tuckTail, dx: 0, dy: 0 },
+                      { slot: "top", raster: layer.raster, dx: 0, dy: 0 },
+                    ])
+                  : layer.raster,
+                tucking.waistline,
+              )
+            : layer.raster;
+      // Trousers a shirt is tucked into are drawn right after the top.
+      const rank = layer.tucksTop
+        ? LAYER_ORDER.indexOf("top") + 0.5
+        : LAYER_ORDER.indexOf(layer.slot);
+      return { placed: { slot: layer.slot, raster, ...offset }, rank };
     })
-    .sort((a, b) => LAYER_ORDER.indexOf(a.slot) - LAYER_ORDER.indexOf(b.slot));
+    .sort((a, b) => a.rank - b.rank)
+    .map(({ placed }) => placed);
 }
 
 /** Straight-alpha "over" compositing of placed layers onto one canvas. */

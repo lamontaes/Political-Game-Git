@@ -390,3 +390,55 @@ describe("registration and fabric color", () => {
     expect(lum(white, 9)).toBeLessThan(40); // the drawing survives on white
   });
 });
+
+describe("a shirt tucked into trousers", () => {
+  const bare = figureWithArms();
+  const anchors = measureBodyAnchors(bare);
+  const SUIT: Rgba = [120, 120, 124, 255];
+  const TROUSERS: Rgba = [100, 100, 104, 255];
+  const INK: Rgba = [20, 20, 22, 255];
+  const painting = copy(bare);
+  fill(painting, 26, 36, 53, 54, SUIT); // the fitting suit's top above the waistband
+  fill(painting, 40, 36, 40, 54, INK); // a vertical seam in it
+  fill(painting, 26, 55, 53, 80, TROUSERS);
+  fill(painting, 28, 81, 37, 115, TROUSERS);
+  fill(painting, 42, 81, 51, 115, TROUSERS);
+  fill(painting, 26, 55, 53, 55, INK); // waistband top edge
+  fill(painting, 26, 57, 53, 57, INK); // waistband lower edge
+  const legwear = extractGarment(painting, bare, anchors, "legwear");
+
+  it("finds the painted waistband and starts the trousers there", () => {
+    expect(legwear.waistline![35]).toBe(55);
+    expect(legwear.waistline![40]).toBe(55); // the seam does not count
+    expect(alphaOf(legwear.layer, 35, 50)).toBe(0); // the suit above is not trousers
+    expect(alphaOf(legwear.layer, 35, 56)).toBe(255);
+  });
+
+  it("draws the waistband over the shirt and ends the shirt under it", () => {
+    const shirt = createRaster(80, 120);
+    const SHIRT: Rgba = [200, 60, 60, 255];
+    fill(shirt, 26, 36, 53, 59, SHIRT);
+    const bottoms = {
+      slot: "bottoms" as const,
+      raster: legwear.layer,
+      tucksTop: { waistline: legwear.waistline! },
+    };
+    expect(
+      placeLayers(anchors, [
+        { slot: "body", raster: bare },
+        bottoms,
+        { slot: "top", raster: shirt },
+      ]).map((layer) => layer.slot),
+    ).toEqual(["body", "top", "bottoms"]);
+    const out = assemblePerson(anchors, [
+      { slot: "body", raster: bare },
+      bottoms,
+      { slot: "top", raster: shirt },
+    ]);
+    const px = (x: number, y: number) =>
+      Array.from(out.data.slice((y * 80 + x) * 4, (y * 80 + x) * 4 + 3));
+    expect(px(35, 50)).toEqual([200, 60, 60]); // shirt above the waistband
+    expect(px(35, 55)).toEqual([20, 20, 22]); // the waistband's edge over it
+    expect(px(35, 58)).toEqual([100, 100, 104]); // trousers, not shirt, below
+  });
+});
