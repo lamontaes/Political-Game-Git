@@ -5,13 +5,8 @@ import { chooseOption } from "./support/controls";
 import { enterLife, goTo, startLife } from "./support/creator";
 
 /*
- * This walks the whole creator, enters a life, opens a moment and crosses two
- * surfaces. Measured headlessly and alone it takes about twenty-five seconds,
- * which fits inside Playwright's thirty-second default only while nothing
- * else is running; on a loaded shard it died on the clock and reported a
- * control that never appeared, which reads like a broken screen rather than a
- * budget. Nothing is skipped or loosened: the assertions are unchanged and
- * the walk is the same one.
+ * This walks the full creator, enters a life, prepares a personnel question,
+ * then saves and reopens it. Keep the existing whole-journey time budget.
  */
 test.setTimeout(120_000);
 
@@ -26,25 +21,17 @@ test("ordinary Day and Work expose private personnel preparation", async ({
     route: "normal",
   });
   await enterLife(page);
-  /*
-   * Study, jobs and hiring are the Personal half of the old Work record.
-   *
-   * `elsewhere-work` became "Politics -> Your office" at the hub split, and
-   * both halves render the `personal-work-section` test id while the player
-   * holds no office. This case therefore found a panel, and then failed
-   * looking for a job offer in the office panel, which reads as a missing
-   * offer rather than a wrong door.
-   */
+  // Jobs and study is under Personal. The authored Shop assistant path is in
+  // the optional paths section below the town's current job listings.
   await goTo(page, "nav-jobs");
   const paths = page.getByTestId("personal-work-section");
+  await paths.getByText("Other paths and invitations", { exact: true }).click();
   // Actual supported LIFE engagement, through its ordinary button.
   const accept = paths.getByRole("button", {
     name: "Accept Shop assistant",
     exact: true,
   });
-  // First read of a freshly opened surface after a full creator walk: under
-  // shard load it has arrived after the five-second default. Budget only.
-  await expect(accept).toBeEnabled({ timeout: 15_000 });
+  await expect(accept).toBeEnabled();
   await accept.click();
   const panel = page.getByRole("region", {
     name: "Public employment preparation",
