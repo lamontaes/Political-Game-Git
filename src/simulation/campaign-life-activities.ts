@@ -1,4 +1,5 @@
 import { eventById } from "./event-index";
+import { modelCampaignFieldReach } from "./campaign-contact-calibration";
 import { wasRefused } from "./scheduled-activity-answer";
 import { rememberedAdverseFindingsAgainst } from "./press/findings";
 import {
@@ -761,8 +762,7 @@ export function offerCampaignLifeActivity(
         label: entry.locationLabel,
         setting: entry.presence === "remote" ? "from home" : "community room",
       },
-      socialContext:
-        "An optional party or campaign activity. Coming is not joining, endorsing or voting.",
+      socialContext: "An optional party or campaign activity.",
       pressure: null,
       choice: null,
       motivation: null,
@@ -1748,8 +1748,7 @@ export function recordCampaignLifeAttendance(
         label: activity.location.label,
         setting: entry.presence === "remote" ? "from home" : "community room",
       },
-      socialContext:
-        "Taking part is not joining, endorsing, registering or voting.",
+      socialContext: null,
       pressure: null,
       choice: null,
       motivation: null,
@@ -1944,6 +1943,9 @@ export function recordCampaignLifeAttendance(
     attendance,
     outcomeEventId: outcomeEvent.id,
     contactPersonIds,
+    fieldReach: openCampaign
+      ? modelCampaignFieldReach(record.form, minutes)
+      : null,
     relationshipInteractionIds,
     resourceFlowId,
     raisedAmount,

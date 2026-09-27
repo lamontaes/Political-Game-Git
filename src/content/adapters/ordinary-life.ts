@@ -15,7 +15,8 @@ const SOURCE_MODULE = "src/presentation/ordinary-life.ts";
 /**
  * The week a character who does not work in a legislature actually has.
  *
- * The public meeting item declares three things: a key, a title and a summary. That is the whole of
+ * The posted meeting is the authored item. Its bank declares a key, a title,
+ * and a summary. That is the whole of
  * `OrdinaryLifeWorkItemDefinition`, and it is the whole of what this adapter
  * may report as declared.
  *
@@ -37,7 +38,8 @@ export function ordinaryLifeBank(): ContentBank {
   return {
     id: BANK_ID,
     title: "Ordinary life",
-    description: "A posted public meeting the player can go to or skip.",
+    description:
+      "A posted public meeting the player can choose to attend or skip.",
     domain: "life",
     authority: "authored",
     status: "production",

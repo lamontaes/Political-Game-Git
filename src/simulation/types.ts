@@ -542,6 +542,25 @@ export interface PersonAppearance {
    * absence as the first generation. This is an appearance pin, not biography.
    */
   readonly catalogGeneration?: number;
+  /**
+   * The people engine (Sept. 27, 2026): what the player chose in the creator.
+   * Every field left unset comes from the person's seed, so a person nobody
+   * chose for still looks the same every time. See
+   * src/presentation/appearance-engine/recipe.ts.
+   */
+  readonly engine?: EngineAppearanceChoice;
+}
+
+export interface EngineAppearanceChoice {
+  readonly version: "people-engine-v1";
+  readonly presentation?: "feminine" | "masculine";
+  readonly build?: "lean" | "average" | "fuller";
+  /** Skin shade 1 (lightest) to 7 (darkest). */
+  readonly shade?: number;
+  readonly face?: string;
+  readonly hair?: string;
+  /** The outfit worn when the occasion does not decide. */
+  readonly outfit?: "formal" | "casual";
 }
 
 export type PersonGenerationProfile = "production" | "stress";

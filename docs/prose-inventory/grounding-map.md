@@ -26,7 +26,7 @@ declare is reported as undeclared rather than filled in from a guess.
 | `legislative/measure-briefing` | 97 | 0 | 0 | measure |
 | `life/adult` | 292 | 238 | 0 | colleague-identity, household-kinship, persistent-cast |
 | `life/callback` | 33 | 0 | 0 | — |
-| `life/episode` | 1020 | 204 | 0 | activity-evidence, age, colleague-identity, elapsed-time, enrollment, household-kinship, incident-locality, persistent-cast, work-standing |
+| `life/episode` | 1003 | 204 | 0 | activity-evidence, age, colleague-identity, elapsed-time, enrollment, household-kinship, incident-locality, persistent-cast, work-standing |
 | `life/formative` | 177 | 0 | 0 | persistent-cast |
 | `life/introduction` | 12 | 0 | 0 | — |
 | `life/life-continuation` | 11 | 0 | 0 | — |

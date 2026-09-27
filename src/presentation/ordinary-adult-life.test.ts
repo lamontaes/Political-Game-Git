@@ -24,10 +24,7 @@ import type { NewGameSetup } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
 
 /**
- * Ordinary adult life, from the long playthrough (Fatima Erickson in
- * Eastport, Maine; Seth Woodward in Ely, Nevada): the errands that never got
- * done. Played in Minneapolis so the proof does not lean on the Kentucky
- * fixture.
+ * Ordinary adult life in Minneapolis, away from the Kentucky fixture.
  */
 function newLife(seed = "ordinary-adult-life"): {
   world: World;
@@ -46,6 +43,35 @@ function newLife(seed = "ordinary-adult-life"): {
     personId: created.playerPersonId,
   };
 }
+
+describe("ordinary time without a recurring chore", () => {
+  it("opens and advances without creating a grocery task or generic errand scene", () => {
+    const { world, personId } = newLife();
+    expect(
+      world.history.workItems.some((item) =>
+        item.stableKey.startsWith("ordinary-life:household-errands"),
+      ),
+    ).toBe(false);
+    expect(
+      availableAdultSituations(buildAdultLifeContext(world, personId)).map(
+        (situation) => situation.key,
+      ),
+    ).not.toContain("adult.ordinary-good-day");
+    const later = letAdultTimePass(world, 8);
+    assertWorldIntegrity(later);
+    expect(
+      later.history.workItems.some((item) =>
+        item.stableKey.startsWith("ordinary-life:household-errands"),
+      ),
+    ).toBe(false);
+    const reloaded = deserializeWorld(serializeWorld(later));
+    expect(
+      reloaded.history.workItems.some((item) =>
+        item.stableKey.startsWith("ordinary-life:household-errands"),
+      ),
+    ).toBe(false);
+  });
+});
 
 describe("living costs are charged on the first of each month", () => {
   const positionOf = (world: World, personId: EntityId) =>

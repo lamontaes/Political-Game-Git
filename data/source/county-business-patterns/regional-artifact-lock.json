@@ -1,0 +1,20 @@
+{
+  "artifacts": [
+    {
+      "length": 12919520,
+      "localPath": "data/source/county-business-patterns/raw/cbp-county-2023.zip",
+      "mediaType": "application/zip",
+      "members": [
+        {
+          "length": 107735449,
+          "path": "cbp23co.txt",
+          "sha256": "83b5099fed522a6e4e430811e16fe224b77744e45f71860b8b9722781e8833c5"
+        }
+      ],
+      "sha256": "e9539e96ceb91608ad44ab1cfc651d7c1ff9b88bddfe7a8ff64134ccde6e9603",
+      "url": "https://www2.census.gov/programs-surveys/cbp/datasets/2023/cbp23co.zip",
+      "vintage": "2023"
+    }
+  ],
+  "asOf": "2026-09-26"
+}

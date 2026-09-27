@@ -45,15 +45,23 @@ function opened(): { world: World; personId: EntityId } {
 }
 
 describe("a life is given something to do", () => {
-  it("leaves an opened adult life with a grounded opportunity", () => {
+  it("opens civic and personal opportunities without a routine grocery chore", () => {
     const { world, personId } = opened();
     const open = lifeOpportunitiesFor(world, personId);
     expect(open.length).toBeGreaterThan(0);
     expect(open.length).toBeLessThanOrEqual(OPEN_LIFE_OPPORTUNITY_LIMIT);
-    // The situation list stays populated without chore or favor requests.
+    const situations = availableAdultSituations(
+      buildAdultLifeContext(world, personId),
+    );
+    expect(situations.length).toBeGreaterThan(0);
+    expect(situations.map((situation) => situation.key)).not.toContain(
+      "adult.ordinary-good-day",
+    );
     expect(
-      availableAdultSituations(buildAdultLifeContext(world, personId)).length,
-    ).toBeGreaterThan(0);
+      world.history.workItems.some((item) =>
+        item.stableKey.startsWith("ordinary-life:household-errands"),
+      ),
+    ).toBe(false);
   });
 
   it("writes the same world twice when it is called twice", () => {

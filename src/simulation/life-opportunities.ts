@@ -38,10 +38,8 @@ import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
  * The adult scene bank reads premises and never invents them, which is right,
  * and on its own it is not enough: a world that never writes a request, an
  * invitation or a notice has nothing for the bank to read, and the life runs
- * out. The audited failure was exactly that shape — the week's errands are
- * completed after a hundred and fifty minutes, both remaining scenes lose the
- * record they stand on, and no amount of further time restores either, because
- * nothing in the game was ever going to write another one.
+ * out. The audited failure was exactly that shape: no later transition wrote
+ * another grounded opportunity after the first scenes had run their course.
  *
  * This module is the missing writer, and it is a writer: every function that
  * returns a `World` here creates canonical records during a transition the

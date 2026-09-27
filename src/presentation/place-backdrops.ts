@@ -2,7 +2,7 @@ import manifest from "../../art/backdrops/manifest.json";
 import { activeWorkRelationshipsAt } from "../simulation/life-queries";
 import { activeDwellingOccupanciesAt } from "../simulation/resource-queries";
 import { householdMembershipsAt } from "../simulation";
-import { optionalGlob } from "./optional-glob";
+import { backdropUrl } from "./backdrop-urls";
 import type {
   DwellingClassification,
   EntityId,
@@ -42,18 +42,9 @@ interface BackdropRecord {
   readonly file: string;
 }
 
-// Outside Vite (plain Node tools) there is no glob, and no place has a picture.
-const urls = optionalGlob(() =>
-  import.meta.glob<string>("../../art/backdrops/*.jpg", {
-    eager: true,
-    query: "?url",
-    import: "default",
-  }),
-);
-
 const BY_PLACE = new Map<string, Map<string, string>>();
 for (const record of manifest.backdrops as readonly BackdropRecord[]) {
-  const url = urls[`../../art/backdrops/${record.file}`];
+  const url = backdropUrl(record.file);
   if (!url) continue;
   const variants = BY_PLACE.get(record.place) ?? new Map<string, string>();
   variants.set(record.variant, url);
@@ -311,6 +302,9 @@ const LOCATION_PLACE: Readonly<Record<string, string>> = {
   "life-circumstance:covered-shift": "workplace",
   "incident-response:current-office": "workplace",
   "ordinary-life:to-meeting-room": "main-street",
+  // The posted public meeting's own plate was retired (FRONTDOOR44).
+  "ordinary-life:meeting-room": "public-meeting-room",
+  "east-end-community-room": "community-room",
   "office-to-east-end": "main-street",
   "executive-office": "governor-office",
   "executive-work:office": "governor-office",

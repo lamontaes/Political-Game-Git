@@ -1,0 +1,165 @@
+[
+  {
+    "id": "wv-2025-hb2014-microgrids",
+    "jurisdiction": "West Virginia",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 2014",
+    "law_citation": null,
+    "short_title": "Power Generation and Consumption Act (data centers and microgrids)",
+    "enacted_date": "2025-04-30",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.wvlegislature.gov/Bill_Status/Bills_history.cfm?input=2014&year=2025&sessiontype=RS&btype=bill",
+    "aggregator_url": null,
+    "menu": "08",
+    "menu_name": "Business & Economic Development",
+    "sub_topic": "Development incentives",
+    "secondary_menus": ["09"],
+    "instrument": "program creation",
+    "secondary_instruments": ["preemption"],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "exemption",
+        "description": "Regulatory exemptions inside designated microgrid districts."
+      },
+      {
+        "kind": "tax-base",
+        "description": "Special valuation for high-impact data centers."
+      },
+      {
+        "kind": "revenue-distribution",
+        "description": "Tax revenue split among income tax cuts, host counties and funds.",
+        "numbers": [
+          {
+            "value": 50,
+            "unit": "percent income tax reduction fund",
+            "text": "50 percent income tax reduction fund"
+          },
+          {
+            "value": 30,
+            "unit": "percent host counties",
+            "text": "30 percent host counties"
+          },
+          {
+            "value": 10,
+            "unit": "percent all counties per capita",
+            "text": "10 percent all counties per capita"
+          },
+          {
+            "value": 5,
+            "unit": "percent economic grant fund",
+            "text": "5 percent economic grant fund"
+          },
+          {
+            "value": 5,
+            "unit": "percent grid stabilization fund",
+            "text": "5 percent grid stabilization fund"
+          }
+        ]
+      },
+      {
+        "kind": "preemption",
+        "description": "Limits local zoning control over certified data centers (reported, inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["counties", "electric utilities", "income tax rate"],
+    "daily_life": "A data center can locate in a county with fewer local permits; tax money flows back.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "wv-2025-hb2354-food-dyes",
+    "jurisdiction": "West Virginia",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 2354",
+    "law_citation": null,
+    "short_title": "Synthetic food dyes and preservatives ban",
+    "enacted_date": "2025-03-24",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2025-08-01 schools (inferred)",
+      "2028-01-01 statewide sales (inferred)"
+    ],
+    "official_text_url": "https://www.wvlegislature.gov/Bill_Status/Bills_history.cfm?input=2354&year=2025&sessiontype=RS&btype=bill",
+    "aggregator_url": null,
+    "menu": "14",
+    "menu_name": "Agriculture & Food",
+    "sub_topic": "Food production and safety",
+    "secondary_menus": ["02"],
+    "instrument": "prohibition",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Bans listed synthetic dyes and two preservatives in food sold in the state.",
+        "numbers": [
+          {
+            "value": 7,
+            "unit": "dyes (inferred)",
+            "text": "7 dyes (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "phase-in",
+        "description": "School meals first, statewide sales later.",
+        "inferred": true
+      },
+      {
+        "kind": "enforcement",
+        "description": "State health department."
+      }
+    ],
+    "touches": ["food manufacturers", "school meal vendors"],
+    "daily_life": "Candy and cereal sold in the state change recipes.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "wv-2025-hb2009-arts-tourism-merger",
+    "jurisdiction": "West Virginia",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 2009",
+    "law_citation": null,
+    "short_title": "Department of Arts, Culture and History moved into Department of Tourism",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.wvlegislature.gov/Bill_Status/Bills_history.cfm?input=2009&year=2025&sessiontype=RS&btype=bill",
+    "aggregator_url": null,
+    "menu": "15",
+    "menu_name": "Parks, Culture & Community Life",
+    "sub_topic": "Arts and museums / tourism",
+    "secondary_menus": ["11"],
+    "instrument": "agency/structure",
+    "secondary_instruments": [],
+    "operation": "replace",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "administering-agency",
+        "description": "Arts, culture and history functions placed under the tourism department."
+      },
+      {
+        "kind": "transition",
+        "description": "Transfers staff, powers and funds."
+      }
+    ],
+    "touches": ["state museums", "tourism marketing"],
+    "daily_life": "State museums are run by the tourism agency.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  }
+]

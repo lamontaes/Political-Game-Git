@@ -742,7 +742,7 @@ describe("Acceptance 9 — a situation can rank highly because two priorities co
       .filter((situation) =>
         [
           "adult.family-request",
-          "adult.friend-good-news",
+          "adult.weekend-invitation",
           "adult.household-repair",
         ].includes(situation.key),
       )
@@ -915,7 +915,7 @@ describe("Acceptance 13 — an adult life is not one long dilemma", () => {
         followsFromHistory: false,
       },
       {
-        key: "adult.friend-good-news" as LifeSituationKey,
+        key: "adult.weekend-invitation" as LifeSituationKey,
         band: "adulthood",
         stakes: "ordinary",
         tensions: [],

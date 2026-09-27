@@ -9,7 +9,10 @@ import {
   planCampaignLifeRequest,
 } from "./campaign-life-activities";
 import { campaignLifeCatalogEntry } from "./campaign-life-catalog";
-import type { CampaignLifeForm } from "./campaign-life-types";
+import type {
+  CampaignFieldReach,
+  CampaignLifeForm,
+} from "./campaign-life-types";
 import { addDays, addSimulationMinutes } from "./dates";
 import {
   electionContestStatus,
@@ -71,6 +74,7 @@ export interface CampaignWeekActionResult {
   readonly completedAt: IsoDate;
   readonly contactPersonIds: readonly EntityId[];
   readonly contactNames: readonly string[];
+  readonly fieldReach: CampaignFieldReach | null;
   readonly raisedAmount: MoneyAmount | null;
   readonly summary: string;
 }
@@ -184,6 +188,24 @@ function recentResults(
         contactNames: outcome.contactPersonIds.map((id) =>
           personName(world.people[id]!),
         ),
+        fieldReach: outcome.fieldReach
+          ? {
+              ...outcome.fieldReach,
+              estimatedDoorKnocks: outcome.fieldReach.estimatedDoorKnocks
+                ? { ...outcome.fieldReach.estimatedDoorKnocks }
+                : null,
+              estimatedPhoneDials: outcome.fieldReach.estimatedPhoneDials
+                ? { ...outcome.fieldReach.estimatedPhoneDials }
+                : null,
+              estimatedCompletedConversations: outcome.fieldReach
+                .estimatedCompletedConversations
+                ? { ...outcome.fieldReach.estimatedCompletedConversations }
+                : null,
+              sourceObservationIds: [
+                ...outcome.fieldReach.sourceObservationIds,
+              ],
+            }
+          : null,
         raisedAmount: outcome.raisedAmount ? { ...outcome.raisedAmount } : null,
         summary: event?.summary ?? "",
       };

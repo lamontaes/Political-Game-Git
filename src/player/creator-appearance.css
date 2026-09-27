@@ -434,3 +434,37 @@
   background: rgba(20, 32, 51, 0.88);
   border-radius: 0.4rem;
 }
+
+/* People engine appearance (Sept. 27, 2026). */
+.engine-creator-stage {
+  position: relative;
+  height: min(62vh, 560px);
+  aspect-ratio: 1 / 2;
+  margin-inline: auto;
+}
+.engine-appearance-controls {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 22rem;
+}
+.engine-appearance-row {
+  display: grid;
+  grid-template-columns: 6.5rem 2rem 1fr 2rem;
+  align-items: center;
+  gap: 0.5rem;
+}
+.engine-appearance-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+.engine-appearance-swatch {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  border: 1px solid rgb(0 0 0 / 0.35);
+}
+.engine-appearance-randomize {
+  justify-self: start;
+}

@@ -393,9 +393,9 @@ There is a rule at work that nobody follows, and today somebody older is telling
 **Intent.** Ordinary adult life: adult situations, quiet stretches and connective narration between them.
 
 Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
-20 beats, 68 realized lines, 12 linked back to a template.
+20 beats, 69 realized lines, 5 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, connective-narration, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adult, connective-narration, episode:opening.adult.home.shared-time, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
 
 
@@ -417,30 +417,7 @@ _Present: Gage Terrell, your housemate_
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; household-companion is Gage Terrell: Resident on the same household record._
 
-#### Beat 1 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/moment)
-
-
-
-You're at home, thinking about what to make time for in the days ahead.
-
-- **Make time to learn something** ← chosen
-- Make time for people you know
-- Make some time for yourself
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 2 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/follow-through)
-
-
-
-You've just made a plan to learn something, and there are five minutes open right now.
-
-- **Start by reading now** ← chosen
-- Leave it for another time
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose learning, on 2026-01-05._
-
-#### Beat 3 — 2026-01-05, age 34 (ordinary-stretch)
+#### Beat 1 — 2026-01-05, age 34 (ordinary-stretch)
 
 
 
@@ -448,7 +425,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 
 
 
-#### Beat 4 — 2026-03-24, age 34 (ordinary-stretch)
+#### Beat 2 — 2026-03-24, age 34 (ordinary-stretch)
 
 
 
@@ -456,7 +433,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 
 
 
-#### Beat 5 — 2026-05-10, age 35 (ordinary-stretch)
+#### Beat 3 — 2026-05-10, age 35 (ordinary-stretch)
 
 > Half a year on, and you're 35 now.
 > Edward Miles tried to reach you.
@@ -465,7 +442,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 
 
 
-#### Beat 6 — 2026-06-10, age 35 (ordinary-stretch)
+#### Beat 4 — 2026-06-10, age 35 (ordinary-stretch)
 
 > Half a year on, and you're 35 now.
 > Edward Miles tried to reach you.
@@ -474,7 +451,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 
 
 
-#### Beat 7 — 2026-08-17, age 35 (adult)
+#### Beat 5 — 2026-08-17, age 35 (adult)
 
 > Most of a year later, and you're 35 now.
 > Edward Miles tried to reach you.
@@ -486,7 +463,7 @@ David Todd, your dad: “My birthday’s Thursday. Do you want to come over Satu
 
 _Present: David Todd, your dad_
 
-#### Beat 8 — 2026-08-17, age 35 (ordinary-stretch)
+#### Beat 6 — 2026-08-17, age 35 (ordinary-stretch)
 
 
 
@@ -494,7 +471,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 9 — 2026-08-29, age 35 (ordinary-stretch)
+#### Beat 7 — 2026-08-29, age 35 (ordinary-stretch)
 
 
 
@@ -502,7 +479,7 @@ _Present: David Todd, your dad_
 
 - **Attend: Saturday afternoon at David Todd's** ← chosen
 
-#### Beat 10 — 2026-08-29, age 35 (ordinary-stretch)
+#### Beat 8 — 2026-08-29, age 35 (ordinary-stretch)
 
 > A couple of weeks on.
 > You and David Todd were in and out of each other's business more than once.
@@ -511,7 +488,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 11 — 2026-10-15, age 35 (ordinary-stretch)
+#### Beat 9 — 2026-10-15, age 35 (ordinary-stretch)
 
 > A couple of months on.
 > You and David Todd were in and out of each other's business more than once.
@@ -520,7 +497,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 12 — 2027-02-16, age 35 (ordinary-stretch)
+#### Beat 10 — 2027-02-16, age 35 (ordinary-stretch)
 
 > Half a year on.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
@@ -530,7 +507,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 13 — 2027-05-05, age 36 (ordinary-stretch)
+#### Beat 11 — 2027-05-05, age 36 (ordinary-stretch)
 
 > Most of a year later, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
@@ -540,7 +517,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 14 — 2027-08-16, age 36 (ordinary-stretch)
+#### Beat 12 — 2027-08-16, age 36 (ordinary-stretch)
 
 > A year on, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
@@ -550,7 +527,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 15 — 2027-09-16, age 36 (ordinary-stretch)
+#### Beat 13 — 2027-09-16, age 36 (ordinary-stretch)
 
 > A year on, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
@@ -560,7 +537,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 16 — 2028-01-18, age 36 (ordinary-stretch)
+#### Beat 14 — 2028-01-18, age 36 (ordinary-stretch)
 
 > A year and a half on, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
@@ -570,7 +547,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 17 — 2028-04-05, age 36 (ordinary-stretch)
+#### Beat 15 — 2028-04-05, age 36 (ordinary-stretch)
 
 > A year and a half on, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
@@ -580,7 +557,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 18 — 2028-05-22, age 37 (ordinary-stretch)
+#### Beat 16 — 2028-05-22, age 37 (ordinary-stretch)
 
 > The better part of two years later, and you're 37 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
@@ -590,11 +567,31 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 19 — 2028-08-21, age 37 (ordinary-stretch)
+#### Beat 17 — 2028-08-21, age 37 (ordinary-stretch)
 
 > 2 years later, and you're 37 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
 > What you said you'd do about David Todd came up.
+
+
+
+
+
+#### Beat 18 — 2028-12-23, age 37 (ordinary-stretch)
+
+> 2 years later, and you're 37 now.
+> Your dad, David Todd, died after a serious illness on January 28, 2027.
+> What you said you'd do about David Todd came up.
+
+
+
+
+
+#### Beat 19 — 2029-01-23, age 37 (ordinary-stretch)
+
+> 2 years later, and you're 37 now.
+> Your dad, David Todd, died after a serious illness on January 28, 2027.
+> Edward Miles tried to reach you.
 
 
 
@@ -1136,9 +1133,9 @@ _Present: Felix Price_
 **Intent.** The PR #85 spine: filing a candidacy, running the campaign, and whatever the contest resolves to.
 
 Seed `p85c-owner-clock`, start age 34, Luke Vance.
-4 beats, 15 realized lines, 10 linked back to a template.
+2 beats, 8 realized lines, 3 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, legislative-measure-briefing, persistent-instance-continuation, person-introduction, scene:episode, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:opening.adult.home.shared-time, legislative-measure-briefing, person-introduction, scene:episode, scene:ordinary-stretch, thread-recap
 
 ### Campaign
 
@@ -1177,30 +1174,7 @@ _Present: Mark Mullins, your housemate_
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; household-companion is Mark Mullins: Resident on the same household record._
 
-#### Beat 1 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/moment)
-
-
-
-You're at home, thinking about what to make time for in the days ahead.
-
-- **Make time to learn something** ← chosen
-- Make time for people you know
-- Make some time for yourself
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 2 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/follow-through)
-
-
-
-You've just made a plan to learn something, and there are five minutes open right now.
-
-- **Start by reading now** ← chosen
-- Leave it for another time
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose learning, on 2026-01-05._
-
-#### Beat 3 — 2026-01-05, age 34 (ordinary-stretch)
+#### Beat 1 — 2026-01-05, age 34 (ordinary-stretch)
 
 
 
@@ -1216,9 +1190,9 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 **Intent.** A second candidacy on a different seed, so a contest outcome is not read from one run.
 
 Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
-6 beats, 20 realized lines, 9 linked back to a template.
+6 beats, 21 realized lines, 2 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-lost, episode:opening.adult.home.plan-week, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-lost, person-introduction, scene:adult, scene:ordinary-stretch, thread-recap
 
 ### Campaign
 
@@ -1232,42 +1206,19 @@ _No legislative surface: the capability layer did not open one for this run._
 
 ### Beats
 
-#### Beat 0 — 2026-01-05, age 41 (episode, opening.adult.home.plan-week/moment)
+#### Beat 0 — 2026-01-05, age 41 (ordinary-stretch)
 
 > You're 41, and you live in Lexington, Kentucky.
 > You belong to Community Service Club.
 
-You're at home, thinking about what to make time for in the days ahead.
-
-- **Make time to learn something** ← chosen
-- Make time for people you know
-- Make some time for yourself
-
-_Grounded by: Age 41; needs at least 18.; Age 41; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 1 — 2026-01-05, age 41 (episode, opening.adult.home.plan-week/follow-through)
-
-
-
-You've just made a plan to learn something, and there are five minutes open right now.
-
-- **Start by reading now** ← chosen
-- Leave it for another time
-
-_Grounded by: Age 41; needs at least 18.; Age 41; needs to be under 111.; Requires a recorded current household.; At moment they chose learning, on 2026-01-05._
-
-#### Beat 2 — 2026-01-05, age 41 (ordinary-stretch)
 
 
 
 
+#### Beat 1 — 2026-02-09, age 41 (adult)
 
-
-
-#### Beat 3 — 2026-02-09, age 41 (adult)
-
-> A month later.
-> Christopher Marshall tried to reach you.
+> You're 41, and you live in Lexington, Kentucky.
+> You belong to Community Service Club.
 
 John Tillman, your dad: “My birthday’s Tuesday. Do you want to come over Saturday?”
 
@@ -1276,7 +1227,7 @@ John Tillman, your dad: “My birthday’s Tuesday. Do you want to come over Sat
 
 _Present: John Tillman, your dad_
 
-#### Beat 4 — 2026-02-09, age 41 (ordinary-stretch)
+#### Beat 2 — 2026-02-09, age 41 (ordinary-stretch)
 
 
 
@@ -1284,7 +1235,7 @@ _Present: John Tillman, your dad_
 
 
 
-#### Beat 5 — 2026-02-21, age 41 (ordinary-stretch)
+#### Beat 3 — 2026-02-21, age 41 (ordinary-stretch)
 
 > A couple of weeks on.
 > Christopher Marshall tried to reach you.
@@ -1292,6 +1243,26 @@ _Present: John Tillman, your dad_
 
 
 - **Attend: Saturday afternoon at John Tillman's** ← chosen
+
+#### Beat 4 — 2026-02-21, age 41 (ordinary-stretch)
+
+> A couple of weeks on.
+> Christopher Marshall tried to reach you.
+> You and John Tillman were in and out of each other's business more than once.
+
+
+
+
+
+#### Beat 5 — 2026-06-25, age 42 (ordinary-stretch)
+
+> Half a year on, and you're 42 now.
+> Christopher Marshall tried to reach you.
+> You and John Tillman were in and out of each other's business more than once.
+
+
+
+
 
 
 ---
@@ -1301,9 +1272,9 @@ _Present: John Tillman, your dad_
 **Intent.** A filed candidacy that is never worked: the same control seed and the same life as `campaign-and-office`, with the campaign left alone. It is here so the matrix demonstrates a defeat for a reason it can name.
 
 Seed `p85c-owner-clock`, start age 34, Luke Vance.
-4 beats, 15 realized lines, 10 linked back to a template.
+2 beats, 8 realized lines, 3 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, candidacy-filed, connective-narration, election-lost, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:episode, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adult, candidacy-filed, connective-narration, election-lost, episode:opening.adult.home.shared-time, person-introduction, scene:episode, scene:ordinary-stretch, thread-recap
 
 ### Campaign
 
@@ -1333,30 +1304,7 @@ _Present: Mark Mullins, your housemate_
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; household-companion is Mark Mullins: Resident on the same household record._
 
-#### Beat 1 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/moment)
-
-
-
-You're at home, thinking about what to make time for in the days ahead.
-
-- **Make time to learn something** ← chosen
-- Make time for people you know
-- Make some time for yourself
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 2 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/follow-through)
-
-
-
-You've just made a plan to learn something, and there are five minutes open right now.
-
-- **Start by reading now** ← chosen
-- Leave it for another time
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose learning, on 2026-01-05._
-
-#### Beat 3 — 2026-01-05, age 34 (ordinary-stretch)
+#### Beat 1 — 2026-01-05, age 34 (ordinary-stretch)
 
 
 
