@@ -22,7 +22,11 @@ import type {
   FutureTransitionHandlerResult,
   World,
 } from "../types";
-import { recordWorldEvent } from "../world";
+import {
+  advanceWithWorldIntegrityAtEnd,
+  assertWorldIntegrity,
+  recordWorldEvent,
+} from "../world";
 import { senateJudiciaryAppointment } from "./committee-organization";
 import { publishJudiciaryMilestone } from "./news";
 import {
@@ -284,6 +288,23 @@ export function conductJudicialReportBusiness(
   controlled:
     | (ReportBusinessChoice & { readonly completionEventId: EntityId | null })
     | null = null,
+): World {
+  assertWorldIntegrity(world);
+  return advanceWithWorldIntegrityAtEnd(() =>
+    conductJudicialReportBusinessUnchecked(
+      world,
+      selectionRecordId,
+      controlled,
+    ),
+  );
+}
+
+function conductJudicialReportBusinessUnchecked(
+  world: World,
+  selectionRecordId: string,
+  controlled:
+    | (ReportBusinessChoice & { readonly completionEventId: EntityId | null })
+    | null,
 ): World {
   const pending = pendingFederalJudicialNomination(world, selectionRecordId);
   const appointment = senateJudiciaryAppointment(world);
@@ -767,6 +788,21 @@ export function recordControlledJudiciaryReportChoice(
   selectionRecordId: string,
   choice: ReportBusinessChoice,
 ): World {
+  assertWorldIntegrity(world);
+  return advanceWithWorldIntegrityAtEnd(() =>
+    recordControlledJudiciaryReportChoiceUnchecked(
+      world,
+      selectionRecordId,
+      choice,
+    ),
+  );
+}
+
+function recordControlledJudiciaryReportChoiceUnchecked(
+  world: World,
+  selectionRecordId: string,
+  choice: ReportBusinessChoice,
+): World {
   const appointment = senateJudiciaryAppointment(world);
   const notice = reportNotice(world, selectionRecordId);
   const due = reportDue(world, selectionRecordId);
@@ -917,13 +953,30 @@ export function conductJudicialNominationFloor(
     | (JudicialFloorChoice & { readonly completionEventId: EntityId | null })
     | null = null,
 ): World {
-  const pending = pendingFederalJudicialNomination(world, selectionRecordId);
+  assertWorldIntegrity(world);
+  return advanceWithWorldIntegrityAtEnd(() =>
+    conductJudicialNominationFloorUnchecked(
+      world,
+      selectionRecordId,
+      controlled,
+    ),
+  );
+}
+
+function conductJudicialNominationFloorUnchecked(
+  world: World,
+  selectionRecordId: string,
+  controlled:
+    | (JudicialFloorChoice & { readonly completionEventId: EntityId | null })
+    | null,
+): World {
   const due = floorDue(world, selectionRecordId);
   if (
     due &&
     floorSitting(world, selectionRecordId)?.tags.includes(`due:${due.id}`)
   )
     return world;
+  const pending = pendingFederalJudicialNomination(world, selectionRecordId);
   const calendar = world.history.events.find(
     (event) =>
       event.type === JUDICIAL_EXEC_CALENDAR_EVENT &&
@@ -1236,6 +1289,21 @@ export function conductJudicialNominationFloor(
 
 /** The controlled Senator spends a real sitting before their ballot is saved. */
 export function recordControlledJudicialNominationFloorChoice(
+  world: World,
+  selectionRecordId: string,
+  choice: JudicialFloorChoice,
+): World {
+  assertWorldIntegrity(world);
+  return advanceWithWorldIntegrityAtEnd(() =>
+    recordControlledJudicialNominationFloorChoiceUnchecked(
+      world,
+      selectionRecordId,
+      choice,
+    ),
+  );
+}
+
+function recordControlledJudicialNominationFloorChoiceUnchecked(
   world: World,
   selectionRecordId: string,
   choice: JudicialFloorChoice,

@@ -22,7 +22,11 @@ import type {
   FutureTransitionHandlerResult,
   World,
 } from "../types";
-import { recordWorldEvent } from "../world";
+import {
+  advanceWithWorldIntegrityAtEnd,
+  assertWorldIntegrity,
+  recordWorldEvent,
+} from "../world";
 import {
   recordControlledSenateJudiciaryOrganizationChoice,
   senateJudiciaryAppointment,
@@ -527,6 +531,20 @@ export function conductPublicJudicialHearing(
     readonly completionEventId: EntityId | null;
   } | null = null,
 ): World {
+  assertWorldIntegrity(world);
+  return advanceWithWorldIntegrityAtEnd(() =>
+    conductPublicJudicialHearingUnchecked(world, selectionRecordId, controlled),
+  );
+}
+
+function conductPublicJudicialHearingUnchecked(
+  world: World,
+  selectionRecordId: string,
+  controlled: {
+    readonly attended: boolean;
+    readonly completionEventId: EntityId | null;
+  } | null,
+): World {
   if (
     world.history.events.some(
       (event) =>
@@ -631,6 +649,21 @@ export function judicialPublicHearingHandler(
 
 /** Explicit player participation uses a one-person scheduled activity. */
 export function recordControlledJudicialHearingParticipation(
+  world: World,
+  selectionRecordId: string,
+  choice: "attend" | "decline",
+): World {
+  assertWorldIntegrity(world);
+  return advanceWithWorldIntegrityAtEnd(() =>
+    recordControlledJudicialHearingParticipationUnchecked(
+      world,
+      selectionRecordId,
+      choice,
+    ),
+  );
+}
+
+function recordControlledJudicialHearingParticipationUnchecked(
   world: World,
   selectionRecordId: string,
   choice: "attend" | "decline",
