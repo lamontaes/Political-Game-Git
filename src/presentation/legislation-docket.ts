@@ -29,6 +29,7 @@ import {
   compileBillDraft,
   BillConfigurationError,
   draftingSupportsScenario,
+  packMayEnactVariant,
   type CompiledBillDraft,
 } from "../simulation/legislation-drafting";
 import {
@@ -36,6 +37,7 @@ import {
   operativeSectionSupport,
   type OperativeSectionSupport,
 } from "../simulation/legislation-operative-sections";
+import { legislativePackForWorkKey } from "../simulation/legislative-institutions";
 import { formatMinorUnits } from "../simulation/legislation-program-families";
 import {
   draftLineageForMeasure,
@@ -595,7 +597,7 @@ export function availableAuthorities(
       authority.authorizedCeilingMinorUnits === null
         ? null
         : formatMinorUnits(authority.authorizedCeilingMinorUnits, "USD"),
-    note: "An explicitly fictional standing program in this content bank.",
+    note: `Named in-world program: ${authority.programLabel}. This is a fictional game profile, not a real-world fund.`,
   }));
 
   const fromDocket: DraftAuthorityOption[] = [];
@@ -788,7 +790,19 @@ export function availableDraftOptions(
   if (!draftingSupportsScenario(scenarioKey)) return [];
   const jurisdictionId =
     legislativeBlueprint(scenarioKey).context.jurisdiction.id;
-  return programConfigurations().map((configuration) => {
+  const pack = legislativePackForWorkKey(scenarioKey);
+  // Filtered by authority, never by effect: a variant this legislature may
+  // pass is offered even where its effect is not modeled yet.
+  const enactable = programConfigurations().filter(
+    (configuration) =>
+      pack !== null &&
+      packMayEnactVariant(
+        pack,
+        configuration.familyKey,
+        configuration.variantKey,
+      ).ok,
+  );
+  return enactable.map((configuration) => {
     const { family, variant } = programVariant(
       configuration.familyKey,
       configuration.variantKey,
@@ -1001,6 +1015,9 @@ export function fileDraft(
       ...(clause.fiscalPeriod !== undefined
         ? { fiscalPeriod: clause.fiscalPeriod }
         : {}),
+      ...(clause.operativeEffect !== undefined
+        ? { operativeEffect: clause.operativeEffect }
+        : {}),
       beneficiary: clause.beneficiary,
       applicationScope: {
         jurisdictionId: input.jurisdictionId,
@@ -1065,11 +1082,21 @@ export function fileDraft(
   return { world: next, bill, draft };
 }
 
-/** Legacy office filing route; existing callers may omit a section selection. */
-export function fileDraftFromOffice(
+/**
+ * The player-facing office check every docket filing passes: the player is
+ * the current character, holds an active office in this legislature, and the
+ * legislature and jurisdiction are the ones that office files in. Throws a
+ * refusal naming the reason; returns nothing when the filing may proceed.
+ */
+export function assertOfficeForFiling(
   world: World,
-  input: FileDraftInput,
-): FileDraftResult {
+  input: {
+    readonly scenarioKey: string;
+    readonly playerPersonId: EntityId;
+    readonly jurisdictionId: EntityId;
+    readonly memberSeatStableKey?: string;
+  },
+): void {
   if (
     world.control.kind !== "person" ||
     world.control.personId !== input.playerPersonId ||
@@ -1105,6 +1132,14 @@ export function fileDraftFromOffice(
       "This character has no active office for filing in this legislature.",
     );
   }
+}
+
+/** Legacy office filing route; existing callers may omit a section selection. */
+export function fileDraftFromOffice(
+  world: World,
+  input: FileDraftInput,
+): FileDraftResult {
+  assertOfficeForFiling(world, input);
   if (input.selectedProvisionKeys === undefined) return fileDraft(world, input);
   const authority =
     input.authorityKey === undefined

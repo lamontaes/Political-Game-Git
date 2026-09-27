@@ -18,15 +18,16 @@
  * model, and reads the player's own saved ballot. A member cannot vote twice,
  * a non-member cannot vote, and a meeting short of quorum transacts nothing.
  *
- * Financial ordinances are not ordinary ordinances. `admitCouncilAction`
- * answers what an appropriation, tax or borrowing needs under Code of Virginia
- * § 15.2-1428 and City Code § 2-98, and this module's passage writer refuses
- * them: the funded-service chain belongs to its own owner.
+ * A disclosed game fiscal profile admits only a saved, exact local authority,
+ * proposition, lineage and current operative clause. Borrowing has no such
+ * profile. Sourced fiscal conditions still require their own adapter.
  */
 
 import { addDays } from "./dates";
 import { applyEnactedLawEffects } from "./enacted-law-effects";
 import { scheduleFutureDueItem } from "./future-transitions";
+import { admitLocalFiscalMeasure } from "./local-fiscal-authority";
+import { currentMeasureProvisions } from "./legislative-politics";
 import { decideChamberVote } from "./governing/chamber-votes";
 import { memberBallotOn } from "./governing/member-ballots";
 import type { ChamberQuestion } from "./governing/member-ballots";
@@ -56,7 +57,7 @@ import {
   municipalRulePackFor,
   municipalRuleSourceRef,
   municipalVoteThresholdRule,
-  primaryReading,
+  municipalProcedureReading,
 } from "./municipal-government";
 import {
   municipalActionAuthority,
@@ -101,7 +102,7 @@ function refuse(world: World, reason: string): MunicipalOrdinanceResult {
 
 /** " (citation)" for one compiled fact, or nothing when none is recorded. */
 function citationFor(
-  reading: ReturnType<typeof primaryReading>,
+  reading: ReturnType<typeof municipalProcedureReading>,
   path: string,
 ): string {
   const citation = reading.facts.find((fact) => fact.path === path)
@@ -125,6 +126,16 @@ function councilMeasure(
     municipalMeasures(world, governmentKey).find(
       (measure) => measure.id === measureId,
     ) ?? null
+  );
+}
+
+/** A general-policy label cannot carry an unexamined fiscal effect clause. */
+function carriesFiscalClause(world: World, measureId: EntityId): boolean {
+  return currentMeasureProvisions(world, measureId).some(
+    (entry) =>
+      entry.provisionKey === "tax-levy" ||
+      entry.provisionKey === "amount-provided" ||
+      (entry as { readonly operativeEffect?: unknown }).operativeEffect != null,
   );
 }
 
@@ -185,7 +196,7 @@ export function municipalOrdinanceStatus(
   const measure = councilMeasure(world, governmentKey, measureId);
   const government = municipalGovernmentByKey(governmentKey);
   if (!measure || !government) return null;
-  const reading = primaryReading(government);
+  const reading = municipalProcedureReading(government);
   const pack = municipalRulePackFor(government);
   const interval = reading.procedure.introductionToPassage ?? null;
   const enactment = measureEnactment(world, measureId);
@@ -383,6 +394,20 @@ export function placeMunicipalOrdinanceOnAgenda(
   if (!measure) {
     return refuse(world, "That ordinance is not before this council.");
   }
+  if (measure.subjectClass === "general-policy") {
+    if (carriesFiscalClause(world, measure.id))
+      return refuse(
+        world,
+        "A fiscal clause needs the local fiscal authority route.",
+      );
+  } else {
+    const fiscal = admitLocalFiscalMeasure(
+      world,
+      input.governmentKey,
+      measure.id,
+    );
+    if (!fiscal.ok) return refuse(world, fiscal.reason);
+  }
   const phase = measurePosition(world, measure.id).phase;
   if (phase === "on-floor") {
     return refuse(world, "This ordinance is already on the council's agenda.");
@@ -439,7 +464,7 @@ export function recordCouncilReadingVote(
 ): MunicipalOrdinanceResult {
   const government = municipalGovernmentByKey(input.governmentKey);
   if (!government) return refuse(world, "No municipal government is compiled.");
-  const reading = primaryReading(government);
+  const reading = municipalProcedureReading(government);
   const pack = municipalRulePackFor(government);
   if (!pack.ok) {
     return refuse(
@@ -450,11 +475,19 @@ export function recordCouncilReadingVote(
   const measure = councilMeasure(world, input.governmentKey, input.measureId);
   if (!measure)
     return refuse(world, "That ordinance is not before this council.");
-  if (measure.subjectClass !== "general-policy") {
-    return refuse(
+  if (measure.subjectClass === "general-policy") {
+    if (carriesFiscalClause(world, measure.id))
+      return refuse(
+        world,
+        "A fiscal clause needs the local fiscal authority route.",
+      );
+  } else {
+    const fiscal = admitLocalFiscalMeasure(
       world,
-      "Appropriations, taxes and borrowing follow their own recorded-majority rule; this is not the general-ordinance route.",
+      input.governmentKey,
+      measure.id,
     );
+    if (!fiscal.ok) return refuse(world, fiscal.reason);
   }
   if (measurePosition(world, measure.id).phase !== "on-floor") {
     return refuse(
@@ -530,7 +563,7 @@ function checkCouncilVote(
   | { readonly ok: true; readonly present: number; readonly seats: number }
   | { readonly ok: false; readonly reason: string } {
   const government = municipalGovernmentByKey(governmentKey)!;
-  const reading = primaryReading(government);
+  const reading = municipalProcedureReading(government);
   const seats = councilSeats(world, governmentKey);
   const seated = new Set(seats.map((seat) => seat.personId));
   const people = new Set<EntityId>();
@@ -589,7 +622,7 @@ function checkCouncilVote(
 /** The earliest date the measure's next reading may be taken, if a rule fixes one. */
 function earliestNextReading(
   world: World,
-  reading: ReturnType<typeof primaryReading>,
+  reading: ReturnType<typeof municipalProcedureReading>,
   measureId: EntityId,
 ): { readonly date: IsoDate; readonly description: string } | null {
   const between = reading.procedure.betweenReadings ?? null;
@@ -737,7 +770,7 @@ function executiveHolder(world: World, governmentKey: string): EntityId | null {
 
 function executiveWindow(governmentKey: string) {
   const government = municipalGovernmentByKey(governmentKey)!;
-  return primaryReading(government).procedure.mayoralActionWindow;
+  return municipalProcedureReading(government).procedure.mayoralActionWindow;
 }
 
 /** Enroll, present, or record as law, whichever the pack says comes next. */
@@ -747,7 +780,7 @@ function afterFinalPassage(
   measure: LegislativeMeasureRecord,
 ): World {
   const government = municipalGovernmentByKey(governmentKey)!;
-  const reading = primaryReading(government);
+  const reading = municipalProcedureReading(government);
   let next = enrollMeasure(world, {
     stableKey: `${measure.stableKey}:enrolled`,
     measureId: measure.id,
@@ -805,7 +838,7 @@ function enactCouncilMeasure(
 ): World {
   const review = CONGRESSIONAL_REVIEW[governmentKey];
   const government = municipalGovernmentByKey(governmentKey)!;
-  const reading = primaryReading(government);
+  const reading = municipalProcedureReading(government);
   const effectiveAt = review
     ? congressionalReviewEffectiveOn(
         world.currentDate,
@@ -999,8 +1032,17 @@ function resolved(
 }
 
 function councilOfMeasure(measure: LegislativeMeasureRecord): string | null {
-  const match = /^municipal-measure:(.+?):/.exec(measure.stableKey);
-  return match ? match[1]! : null;
+  const municipal = /^municipal-measure:(.+?):/.exec(measure.stableKey);
+  if (municipal) return municipal[1]!;
+  const memberAgenda = /^local-member-agenda\/v1:([^:]+):/.exec(
+    measure.stableKey,
+  );
+  if (!memberAgenda) return null;
+  try {
+    return decodeURIComponent(memberAgenda[1]!);
+  } catch {
+    return null;
+  }
 }
 
 /** A scheduled ordinary council reading uses the seated roll and saved ballot. */

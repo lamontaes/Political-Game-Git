@@ -1,5 +1,9 @@
 import type { TaxTerms } from "../tax-types";
 import type { EntityId, IsoDate, PublicProgramBasis } from "../types";
+import type {
+  LegislativeStartingProcedures,
+  LEGISLATIVE_STARTING_PROCEDURES_VERSION,
+} from "../legislative-starting-procedures";
 import type { CensusRegion } from "./census-regions";
 
 /**
@@ -126,6 +130,13 @@ export interface MacroStartingConditionsRecord extends ConditionRecordBase {
   };
 }
 
+/** The complete, seed-bound state procedure snapshot written once at Begin. */
+export interface LegislativeStartingProceduresRecord extends ConditionRecordBase {
+  readonly kind: "legislative-starting-procedures";
+  readonly contractVersion: typeof LEGISLATIVE_STARTING_PROCEDURES_VERSION;
+  readonly procedures: LegislativeStartingProcedures;
+}
+
 /** Content version for one save's fictional state tax/service assumptions. */
 export const STATE_TAX_SERVICE_GAME_PROFILE_VERSION =
   "state-tax-service-game-profile/v2" as const;
@@ -183,6 +194,7 @@ export type WorldConditionRecord =
   | WorldOpeningRecord
   | PoliticalStartingConditionsRecord
   | MacroStartingConditionsRecord
+  | LegislativeStartingProceduresRecord
   | StateTaxServiceStartingConditionsRecord;
 
 // ---------------------------------------------------------------------------

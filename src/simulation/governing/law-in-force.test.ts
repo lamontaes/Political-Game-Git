@@ -110,6 +110,21 @@ describe("the law in force on a question", () => {
     ).toMatchObject({ answer: "no", operativeBasis: "game-default" });
   });
 
+  it("keeps an explicit fictional route date and basis together", () => {
+    const recorded = law(ohio, "yes", "2026-03-01", "2026-06-01");
+    const profiled = {
+      ...recorded,
+      enactment: {
+        ...recorded.enactment,
+        effectiveDateBasis: "game-default" as const,
+        effectiveDateGameProfile: { version: "fixture-date/v1", days: 92 },
+      },
+    };
+    expect(
+      lawInForce(worldWith("2026-06-01", [profiled]), ohio, QUESTION),
+    ).toMatchObject({ answer: "yes", operativeBasis: "game-default" });
+  });
+
   it("lets the later law govern within a level", () => {
     const first = law(ohio, "yes", "2026-02-01");
     const repeal = law(ohio, "no", "2026-09-01");

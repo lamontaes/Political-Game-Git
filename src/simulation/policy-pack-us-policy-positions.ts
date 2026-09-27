@@ -590,6 +590,19 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       ],
     },
     {
+      key: "transportation-infrastructure.additional-rural-transit-service-hours",
+      issue: "us-state-and-local:transportation-infrastructure.transit",
+      name: "Additional rural transit service hours",
+      question:
+        "Should the state appropriate money for additional rural transit service hours?",
+      tags: ["contested", "appropriation"],
+      principles: [
+        { principle: "collective-provision", bearing: "consistent-with" },
+        { principle: "environmental-stewardship", bearing: "consistent-with" },
+        { principle: "fiscal-restraint", bearing: "against" },
+      ],
+    },
+    {
       key: "transportation-infrastructure.fare-free-transit",
       issue: "us-state-and-local:transportation-infrastructure.transit",
       name: "Fare-free transit",
@@ -632,6 +645,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Fix it first",
       question:
         "Should maintenance of existing infrastructure be funded before new construction?",
+      tags: ["local-fiscal-effect:public-program-appropriation"],
       principles: [
         { principle: "fiscal-restraint", bearing: "consistent-with" },
         { principle: "environmental-stewardship", bearing: "consistent-with" },

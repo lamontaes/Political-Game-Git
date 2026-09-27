@@ -6,63 +6,63 @@ with `--check`. Do not edit by hand.
 The funded-service route (appropriation and tax through their decisions,
 collected public cash, paid delivery) is resolved per state on
 2027-02-01. The legislative institution comes from
-rules-capability/v1; the other fields come from the registries that
-own them. A missing field limits only this route.
+rules-capability/v1; live tax and service assumptions come from
+the current save. Nationwide inventory uses a deterministic test profile set.
 
-States with the full route: 1 of 50 (Alaska).
+States with the full route: 4 of 50 (Alaska, Kentucky, Minnesota, Nevada).
 
-| State          | Route    | Missing                                                                                                            |
-| -------------- | -------- | ------------------------------------------------------------------------------------------------------------------ |
-| Alabama        | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Alaska         | playable | none                                                                                                               |
-| Arizona        | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Arkansas       | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| California     | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Colorado       | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Connecticut    | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Delaware       | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Florida        | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Georgia        | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Hawaii         | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Idaho          | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Illinois       | not yet  | appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account                        |
-| Indiana        | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Iowa           | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Kansas         | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Kentucky       | not yet  | appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account                        |
-| Louisiana      | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Maine          | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Maryland       | not yet  | appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account                        |
-| Massachusetts  | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Michigan       | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Minnesota      | not yet  | appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account                        |
-| Mississippi    | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Missouri       | not yet  | appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account                        |
-| Montana        | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Nebraska       | not yet  | appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account                        |
-| Nevada         | not yet  | appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account                        |
-| New Hampshire  | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| New Jersey     | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| New Mexico     | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| New York       | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| North Carolina | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| North Dakota   | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Ohio           | not yet  | appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account                        |
-| Oklahoma       | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Oregon         | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Pennsylvania   | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Rhode Island   | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| South Carolina | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| South Dakota   | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Tennessee      | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Texas          | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Utah           | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Vermont        | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Virginia       | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Washington     | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| West Virginia  | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Wisconsin      | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
-| Wyoming        | not yet  | legislative-procedure, appropriation-decision, revenue-decision, tax-power, funding-effective-date, public-account |
+| State          | Route    | Missing                                                         |
+| -------------- | -------- | --------------------------------------------------------------- |
+| Alabama        | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Alaska         | playable | none                                                            |
+| Arizona        | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Arkansas       | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| California     | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Colorado       | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Connecticut    | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Delaware       | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Florida        | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Georgia        | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Hawaii         | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Idaho          | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Illinois       | not yet  | appropriation-decision, revenue-decision                        |
+| Indiana        | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Iowa           | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Kansas         | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Kentucky       | playable | none                                                            |
+| Louisiana      | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Maine          | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Maryland       | not yet  | appropriation-decision, revenue-decision                        |
+| Massachusetts  | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Michigan       | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Minnesota      | playable | none                                                            |
+| Mississippi    | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Missouri       | not yet  | appropriation-decision, revenue-decision                        |
+| Montana        | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Nebraska       | not yet  | appropriation-decision, revenue-decision                        |
+| Nevada         | playable | none                                                            |
+| New Hampshire  | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| New Jersey     | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| New Mexico     | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| New York       | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| North Carolina | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| North Dakota   | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Ohio           | not yet  | appropriation-decision, revenue-decision                        |
+| Oklahoma       | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Oregon         | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Pennsylvania   | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Rhode Island   | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| South Carolina | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| South Dakota   | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Tennessee      | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Texas          | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Utah           | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Vermont        | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Virginia       | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Washington     | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| West Virginia  | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Wisconsin      | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| Wyoming        | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
 
 ## Local governments
 
@@ -79,7 +79,7 @@ Every local government currently lacks:
 - `legislative-procedure`: a compiled legislative institution.
 - `appropriation-decision`: member and executive decisions for an appropriation.
 - `revenue-decision`: member and executive decisions for a revenue bill.
-- `tax-power`: acquired state tax-power evidence.
-- `funding-effective-date`: a sourced effective-date and availability rule for appropriations.
+- `tax-power`: acquired tax-power evidence or an explicit fictional tax profile.
+- `funding-effective-date`: a sourced or versioned-profile effective-date and availability rule.
 - `service-program`: an authored standing service program.
 - `public-account`: a public receipts account that collected taxes can fund.

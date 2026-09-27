@@ -92,6 +92,7 @@ export function projectMunicipalGoverning(
     displayName: reading.displayName,
     bodyName: reading.bodyName,
     evidence: reading.evidence,
+    procedureBasis: pack.ok ? pack.pack.basis : null,
     jurisdictionId: municipalGovernmentJurisdictionId(world, government.key),
     standing,
     seats: municipalSeats(world, government.key),

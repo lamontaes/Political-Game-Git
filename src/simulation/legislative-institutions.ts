@@ -13,7 +13,15 @@ import {
 } from "./legislature-game-profile";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import type { LegislativeRulePack } from "./legislature-rules";
+import {
+  localFiscalGameAuthorityForRulePackId,
+  localOrdinanceGameRulePackById,
+} from "./local-ordinance-game-profile";
 import { withCommitteeStandIns } from "./standing-committee";
+import {
+  localFiscalAuthorityScopeForRulePackId,
+  municipalRulePackById,
+} from "./municipal-government";
 import {
   lifePlaceByJurisdictionId,
   searchLifePlaces,
@@ -57,14 +65,22 @@ export function legislativePackForWorkKey(
     (pack) =>
       legislativeWorkKey(pack) === key || `institution:${pack.packId}` === key,
   );
+  const institutionPackId = key.startsWith("institution:")
+    ? key.slice("institution:".length)
+    : null;
   // A researched chamber whose committees are unread refers its bills to the
   // stand-in standing committee, as `rulePackById` does.
-  return (
+  const statePack =
     (compiled ? withCommitteeStandIns(compiled) : null) ??
-    (key.startsWith("institution:")
-      ? legislatureProfilePackById(key.slice("institution:".length))
-      : null)
-  );
+    (institutionPackId
+      ? (legislatureProfilePackById(institutionPackId) ??
+        (localFiscalGameAuthorityForRulePackId(institutionPackId)
+          ? localOrdinanceGameRulePackById(institutionPackId)
+          : localFiscalAuthorityScopeForRulePackId(institutionPackId)
+            ? municipalRulePackById(institutionPackId)
+            : null))
+      : null);
+  return statePack;
 }
 
 export function legislativeInstitutionContext(

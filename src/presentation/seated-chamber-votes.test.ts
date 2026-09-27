@@ -1,6 +1,13 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
+import { seatedChamberMember } from "../../tests/fixtures/seated-chamber-member";
 
-import { deserializeWorld, serializeWorld } from "../simulation";
+import {
+  addDays,
+  daysBetween,
+  deserializeWorld,
+  legislativeBlueprint,
+  serializeWorld,
+} from "../simulation";
 import type {
   EntityId,
   MeasureStepKey,
@@ -14,43 +21,77 @@ import {
 } from "../simulation/governing/chamber-votes";
 import { stateLegislators } from "../simulation/nationwide-world/state-legislature-opening";
 import {
+  castMemberBallot,
+  memberVotesAhead,
+} from "../simulation/governing/legislative-clock";
+import { createOrganizationParticipation } from "../simulation/life";
+import {
+  LIVING_WORLD_KEYS,
+  PARTY_AFFILIATION_KIND,
+  livingWorldOrganizationId,
+} from "../simulation/living-world/opening";
+import { legislativeRulePackForWorld } from "../simulation/legislative-procedure-world";
+import {
   applyLegislativeCommand,
   institutionOwnsStep,
-  openLegislativeWork,
+  resolveLegislativeAssignmentForMeasure,
 } from "./legislation-world";
 import type { LegislativeAssignment } from "./legislation-world";
+import { fileDraftFromOffice } from "./legislation-docket";
+import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
+import { regularSessionActionRefusal } from "./legislative-session-window";
+import { passOrdinaryDays } from "./ordinary-life";
 import { projectMeasureBriefing } from "./legislation-projection";
-import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
-import { resolvePlayerCapabilities } from "./player-capabilities";
 
 /**
  * A bill the player works on is decided by the state's seated legislators,
  * each for their own reasons, not by a head count written in advance.
  *
  * Nebraska's one-house legislature and Alaska's two chambers with a joint
- * override session: the two legislatures outside Kentucky that a staffer's
- * job opens in today. Kentucky is here too, on purpose and not as a default:
+ * override session. Kentucky is here too, on purpose and not as a default:
  * an audit found its transit bill always passing the House 58 to 40 on
  * counts copied from a developer fixture, and this is where that stops.
+ * The fixture supplies a fictional election result to a generated resident;
+ * it is not proof of an unsupplied election outcome.
  */
 
-function staffer(placeKey: string) {
-  const game = generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      placeKey,
-      seed: `seated-votes-${placeKey}`,
-      startAge: 30,
-      startingLife: "legislative-office",
-    }),
-  ).game!;
-  const capabilities = resolvePlayerCapabilities(game.world);
-  return openLegislativeWork(game.world, {
-    scenarioKey: capabilities.legislativeScenarioKey!,
-    playerPersonId: game.playerPersonId,
-    jurisdictionId: capabilities.legislativeJurisdictionId!,
+function memberBill(
+  placeKey: string,
+  elected: ReturnType<typeof seatedChamberMember>,
+) {
+  let world = elected.world;
+  const personId = elected.personId;
+  const pack = legislativeBlueprint(placeKey).pack;
+  const activePack = legislativeRulePackForWorld(world, pack.packId);
+  let sessionDate = world.currentDate;
+  for (
+    let day = 0;
+    day < 370 && regularSessionActionRefusal(activePack, sessionDate);
+    day += 1
+  )
+    sessionDate = addDays(sessionDate, 1);
+  expect(regularSessionActionRefusal(activePack, sessionDate)).toBeNull();
+  if (sessionDate > world.currentDate)
+    world = passOrdinaryDays(
+      world,
+      daysBetween(world.currentDate, sessionDate),
+    );
+  const entry = resolveLegislativeFilingEntry(world, personId);
+  if (entry.kind !== "available") throw new Error(entry.reason);
+  const filed = fileDraftFromOffice(world, {
+    playerPersonId: personId,
+    scenarioKey: entry.scenarioKey,
+    jurisdictionId: entry.jurisdictionId,
+    familyKey: "broadband-access",
+    variantKey: "unserved-buildout",
   });
+  const opened = resolveLegislativeAssignmentForMeasure(filed.world, {
+    measureId: filed.bill.measureId,
+    playerPersonId: personId,
+    memberSeatStableKey: entry.seat.relationshipStableKey,
+  });
+  if (opened.kind !== "available") throw new Error(opened.reason);
+  return { world: filed.world, assignment: opened.assignment };
 }
 
 /** Takes whatever step is open next, waiting where it is not the office's. */
@@ -61,6 +102,20 @@ function advance(
 ): World {
   let next = world;
   for (let i = 0; i < 40 && !until(next); i++) {
+    // The fictional controlled member explicitly chooses on their own bill.
+    // The clock cannot decide or dismiss the player's ballot for them.
+    for (const vote of memberVotesAhead(
+      next,
+      assignment.playerPersonId!,
+    ).filter(
+      (entry) =>
+        entry.measure.id === assignment.measureId && entry.ballot === null,
+    ))
+      next = castMemberBallot(next, {
+        personId: assignment.playerPersonId!,
+        question: vote.question,
+        ballot: "yea",
+      });
     const briefing = projectMeasureBriefing(next, assignment.measureId);
     if (briefing.finished) break;
     const option = briefing.options.find(
@@ -68,12 +123,14 @@ function advance(
     );
     if (!option) break;
     const step: MeasureStepKey = option.actionKey;
-    next = applyLegislativeCommand(next, assignment, {
-      kind: institutionOwnsStep(next, assignment, step)
-        ? "await-institution"
-        : "take-step",
+    const owned = institutionOwnsStep(next, assignment, step);
+    const result = applyLegislativeCommand(next, assignment, {
+      kind: owned ? "await-institution" : "take-step",
       step,
-    }).world;
+    });
+    if (owned && result.world === next)
+      throw new Error(`The institution made no clock progress on ${step}.`);
+    next = result.world;
   }
   return next;
 }
@@ -85,14 +142,29 @@ function votesOn(world: World, measureId: string) {
 }
 
 describe.each(["nebraska", "alaska", "kentucky"])(
-  "a staffer's bill in %s",
+  "a seated member's bill in %s",
   (place) => {
-    const { world, assignment } = staffer(place);
-    const pack = assignment.procedure.pack;
-    const members = stateLegislators(world, `${pack.packId}:candidacy`);
-    const floor = advance(world, assignment, (w) =>
-      votesOn(w, assignment.measureId).some((v) => v.purpose === "floor-stage"),
-    );
+    let world: World;
+    let assignment: LegislativeAssignment;
+    let pack: LegislativeAssignment["procedure"]["pack"];
+    let members: ReturnType<typeof stateLegislators>;
+    let floor: World;
+    let elected: ReturnType<typeof seatedChamberMember>;
+    beforeAll(() => {
+      elected = seatedChamberMember(
+        place === "nebraska" ? "NE" : place === "alaska" ? "AK" : "KY",
+      );
+    });
+    beforeAll(() => {
+      ({ world, assignment } = memberBill(place, elected));
+      pack = assignment.procedure.pack;
+      members = stateLegislators(world, `${pack.packId}:candidacy`);
+      floor = advance(world, assignment, (w) =>
+        votesOn(w, assignment.measureId).some(
+          (v) => v.purpose === "floor-stage",
+        ),
+      );
+    });
 
     it("works for a legislator who actually holds a seat", () => {
       expect(assignment.procedure.memberDecisions).toBeDefined();
@@ -132,7 +204,7 @@ describe.each(["nebraska", "alaska", "kentucky"])(
           expect(entry.personId).not.toBeNull();
           expect(entry.reason).toMatch(/^member:/);
           if (entry.personId === assignment.sponsorPersonId)
-            expect(entry.reason).toBe("member:own-bill");
+            expect(entry.reason).toBe("member:own-ballot");
         }
       }
       if (onFloor) {
@@ -160,26 +232,50 @@ describe.each(["nebraska", "alaska", "kentucky"])(
 );
 
 describe("a seated chamber deciding one question", () => {
-  const { world, assignment } = staffer("alaska");
-  const pack = assignment.procedure.pack;
-  const chamberKey = pack.chamberOrder[0]!;
-  const chamber = seatedChamberForPack(
-    world,
-    pack.packId,
-    chamberKey,
-    "House",
-  )!;
-  const question = {
-    question: {
-      measureId: assignment.measureId,
-      purpose: "floor-stage" as const,
-      forumKey: chamberKey,
-      floorStageKey: null,
-      amendmentStableKey: null,
-      provisionKey: null,
-    },
-    questionLabel: "Pass the bill",
-  };
+  let world: World;
+  let assignment: LegislativeAssignment;
+  let chamber: NonNullable<ReturnType<typeof seatedChamberForPack>>;
+  let question: Parameters<typeof decideChamberVote>[1]["question"];
+  let elected: ReturnType<typeof seatedChamberMember>;
+  beforeAll(() => {
+    elected = seatedChamberMember("AK");
+  });
+  beforeAll(() => {
+    ({ world, assignment } = memberBill("alaska", elected));
+    // This isolated party-cue question explicitly gives its fictional sponsor
+    // a public affiliation; a generated resident does not acquire one merely
+    // by winning a seat or filing a bill.
+    world = createOrganizationParticipation(world, {
+      stableKey: "seated-chamber-vote:fictional-sponsor-affiliation",
+      personId: assignment.sponsorPersonId,
+      organizationId: livingWorldOrganizationId(
+        world,
+        LIVING_WORLD_KEYS.nationalParty("democratic"),
+      ),
+      startedAt: world.currentDate,
+      kind: PARTY_AFFILIATION_KIND,
+      roleKind: "member:public-affiliation",
+      context: "Explicit fictional party-cue fixture affiliation.",
+      provenance: {
+        kind: "authored",
+        note: "Unit fixture choice, not a generated political affiliation.",
+      },
+    });
+    const pack = assignment.procedure.pack;
+    const chamberKey = pack.chamberOrder[0]!;
+    chamber = seatedChamberForPack(world, pack.packId, chamberKey, "House")!;
+    question = {
+      question: {
+        measureId: assignment.measureId,
+        purpose: "floor-stage",
+        forumKey: chamberKey,
+        floorStageKey: null,
+        amendmentStableKey: null,
+        provisionKey: null,
+      },
+      questionLabel: "Pass the bill",
+    };
+  });
 
   it("never votes for the player", () => {
     const player = chamber.body.members[3]!;

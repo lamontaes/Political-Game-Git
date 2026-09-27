@@ -26,7 +26,7 @@ import { standingAuthority } from "./legislation-program-families";
 const KENTUCKY = {
   scenarioKey: "kentucky",
   jurisdictionId: createStableId("jurisdiction", "us-ky"),
-  rulePackId: "us-ky-general-assembly",
+  rulePackId: "us-ky-general-assembly-v1",
 } as const;
 
 const transitFund = () =>

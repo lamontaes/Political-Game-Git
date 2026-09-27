@@ -17,7 +17,7 @@ function compile(
     parameterValues,
     scenarioKey: "kentucky",
     jurisdictionId: createStableId("jurisdiction", "us-ky"),
-    rulePackId: "us-ky-general-assembly",
+    rulePackId: "us-ky-general-assembly-v1",
     designation: "HB 901",
     filedOn: makeIsoDate("2026-01-14"),
   });

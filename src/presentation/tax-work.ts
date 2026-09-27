@@ -6,6 +6,10 @@ import { canonicalJson } from "../simulation/canonical-json";
 import { stateTaxServiceProfileForJurisdictionKey } from "../simulation/world-setup/state-tax-service-profiles";
 import { recordWorldEvent, assertWorldIntegrity } from "../simulation/world";
 import {
+  publicGovernmentIdentityForRecord,
+  samePublicGovernmentIdentity,
+} from "../simulation/public-government-identity";
+import {
   attachTaxProposal,
   assessTaxBase,
   effectiveTaxPolicy,
@@ -14,7 +18,7 @@ import {
   TAX_MODEL_NOTE,
 } from "../simulation/tax-policy";
 import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
-import type { EntityId, World } from "../simulation";
+import type { EntityId, PublicGovernmentIdentity, World } from "../simulation";
 import type { TaxTerms } from "../simulation/tax-types";
 
 /** The current office is re-resolved at the action boundary; a cached panel
@@ -194,18 +198,48 @@ export function declarePersonalTaxOccurrence(
 /** Public readers see only actual published general receipts. No payer/base
  * or campaign balance is exposed, and policy enactment is never revenue.
  */
-export function readPublicTaxReceipts(world: World, jurisdictionId: EntityId) {
+export function readPublicTaxReceipts(
+  world: World,
+  scope: EntityId | PublicGovernmentIdentity,
+) {
+  const requestedIdentity =
+    typeof scope === "string"
+      ? ({ kind: "jurisdiction", jurisdictionId: scope } as const)
+      : scope;
   return (world.history.taxCollections ?? [])
-    .filter(
-      (row) =>
-        row.status === "collected" &&
+    .filter((row) => {
+      if (row.status !== "collected") return false;
+      const assessment = world.history.taxAssessments!.find(
+        (item) => item.id === row.assessmentId,
+      );
+      const policy = assessment
+        ? world.history.taxPolicies!.find(
+            (item) => item.id === assessment.policyId,
+          )
+        : undefined;
+      const proposal = policy
+        ? world.history.taxProposals!.find(
+            (item) => item.id === policy.proposalId,
+          )
+        : undefined;
+      if (!proposal) return false;
+      const identity = publicGovernmentIdentityForRecord(proposal);
+      const collectionIdentity = row.publicGovernmentIdentity
+        ? publicGovernmentIdentityForRecord({
+            jurisdictionId: proposal.jurisdictionId,
+            publicGovernmentIdentity: row.publicGovernmentIdentity,
+          })
+        : identity;
+      return (
+        samePublicGovernmentIdentity(collectionIdentity, requestedIdentity) &&
         world.history.events.some(
           (event) =>
             event.id === row.outcomeEventId &&
             event.visibility === "public" &&
-            event.jurisdictionId === jurisdictionId,
-        ),
-    )
+            event.jurisdictionId === requestedIdentity.jurisdictionId,
+        )
+      );
+    })
     .map((row) => {
       const assessment = world.history.taxAssessments!.find(
         (item) => item.id === row.assessmentId,
@@ -220,6 +254,7 @@ export function readPublicTaxReceipts(world: World, jurisdictionId: EntityId) {
         date: row.recordedAt,
         measureId: proposal.measureId,
         publicOrganizationId: proposal.publicOrganizationId,
+        publicGovernmentIdentity: publicGovernmentIdentityForRecord(proposal),
         amount: row.transferredAmount,
         sourceEventId: row.outcomeEventId,
       };

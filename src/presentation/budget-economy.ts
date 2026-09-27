@@ -93,7 +93,7 @@ function projectFiscalGraphs(
   return [
     ...graphsByCurrency(
       "budget-history",
-      "Government revenue and outlays",
+      "Recorded tax receipts and program outlays",
       flowRecords,
     ),
     ...graphsByCurrency("debt-history", "Government debt", debtRecords),
@@ -184,5 +184,7 @@ function periodKey(period: MetricReferencePeriod): string {
 function periodLabel(period: MetricReferencePeriod): string {
   return period.kind === "point"
     ? period.at
-    : `${period.startsAt}–${period.endsAt}`;
+    : period.startsAt === period.endsAt
+      ? period.startsAt
+      : `${period.startsAt}–${period.endsAt}`;
 }
