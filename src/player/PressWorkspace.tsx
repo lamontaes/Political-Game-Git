@@ -114,7 +114,7 @@ export function PressPreparationTimeControl({
                         : elapsed < PRESS_PREPARATION_STEP_MINUTES
                           ? `${describeInterval(elapsed)} passed, stopping short of ${describeInterval(
                               PRESS_PREPARATION_STEP_MINUTES,
-                            )} for something protected. It is now ${describeTimeTarget(
+                            )} because something else needed you. It is now ${describeTimeTarget(
                               next.currentMoment,
                             )}.`
                           : `${describeInterval(elapsed)} passed. It is now ${describeTimeTarget(
