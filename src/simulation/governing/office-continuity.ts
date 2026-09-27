@@ -1127,6 +1127,21 @@ function congressSeatHeldBy(
     : undefined;
 }
 
+/** A confirmed federal judge leaves any Congress seat through the normal vacancy route. */
+export function leaveCongressSeatForConfirmedJudge(
+  world: World,
+  personId: EntityId,
+): World {
+  const seat = congressSeatHeldBy(world, personId);
+  return seat
+    ? vacateSeat(world, seat, {
+        effectiveDate: world.currentDate,
+        key: "member-became-federal-judge",
+        clause: "after the member became a federal judge",
+      }).world
+    : world;
+}
+
 /** The Senate confirms a Chief Justice, who leaves any seat in Congress. */
 export function chiefJusticeConfirmationHandler(
   world: World,
