@@ -7,6 +7,7 @@ import type {
   CampaignWeeklyPlanRecord,
 } from "./campaign-life-types";
 import type { WorldContentPacks } from "./runtime-content-packs";
+import type { JudiciaryState } from "./judiciary/types";
 
 import type { AppearanceMaterial } from "./appearance-material";
 import type { MediaOutletKey, PressRecord } from "./press/records";
@@ -4808,6 +4809,8 @@ export interface SetupPriorStore {
 }
 
 export interface World {
+  /** Saved courts and seated judges; absent in lives created before courts opened. */
+  readonly judiciary?: JudiciaryState;
   /** Immutable validated definitions accepted for this life; absent in legacy saves. */
   readonly contentPacks?: WorldContentPacks;
   readonly schemaVersion: 15;
