@@ -1,6 +1,6 @@
 import { makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { introduceMeasure, measurePosition } from "../legislation";
+import { measurePosition } from "../legislation";
 import {
   legislativePackForJurisdiction,
   legislativePackForWorkKey,
@@ -12,7 +12,6 @@ import {
   legislativeRulePackForWorld,
   regularSessionRefusalText,
 } from "../legislative-procedure-world";
-import { SeededRng } from "../rng";
 import {
   municipalGovernmentByKey,
   municipalGovernmentsWithProcedure,
@@ -94,21 +93,6 @@ function stateEffectQuestionKeys(): ReadonlySet<string> {
       (mapping) => mapping.governmentLevel === "state",
     ).map((mapping) => mapping.propositionKey),
   );
-}
-
-/**
- * The direction a position bill may take so that enacting it changes the
- * recorded law in force: support enacts where the law does not already say
- * yes; opposition repeals only a law that says yes. Opposing something that is
- * not law files nothing, because enacting "no" over no law changes nothing a
- * reader of the law record could see.
- */
-function positionBillAnswer(
-  score: number,
-  lawAnswer: "yes" | "no" | null,
-): "yes" | "no" | null {
-  if (score > 0) return lawAnswer === "yes" ? null : "yes";
-  return lawAnswer === "yes" ? "no" : null;
 }
 
 /** A bill still moving in this jurisdiction that answers the question. */
@@ -210,7 +194,6 @@ export function fileMemberAgendaBills(
   const coolingDown = new Map<EntityId, boolean>();
   const filedPropositions = new Set<EntityId>();
   const unavailablePropositions = new Set<EntityId>();
-  const filedSponsors = new Set<EntityId>();
 
   const lawAnswerFor = (propositionId: EntityId) => {
     if (!lawAnswers.has(propositionId)) {
@@ -342,87 +325,12 @@ export function fileMemberAgendaBills(
       }
       next = scheduleInstitutionStep(introduced.world, introduced.measureId);
       filedPropositions.add(candidate.propositionId);
-      filedSponsors.add(sponsor.personId);
       break;
     }
   }
-
-  // Pass two: position and repeal bills. A question with a registered effect
-  // writer at this level is answered only by that writer, so a bill never
-  // claims a direction on a program it cannot move. Every other question may
-  // be answered by a position bill, and only in a direction that changes the
-  // recorded law in force (`positionBillAnswer`): that record is what later
-  // members, Congress's own agenda and each voter's issue record read, so the
-  // enacted bill changes the world even where no money moves.
-  //
-  // One position bill per intake, the rate this agenda filed at before the
-  // money bills existed, in a seeded member order so the same member does not
-  // speak first every session.
-  const rng = new SeededRng(next.seed).fork(batchKey);
-  const order = sponsors.filter(
-    (sponsor) => !filedSponsors.has(sponsor.personId),
-  );
-  for (let i = order.length - 1; i > 0; i -= 1) {
-    const j = rng.fork(`order:${i}`).integer(0, i + 1);
-    [order[i], order[j]] = [order[j]!, order[i]!];
-  }
-  for (const sponsor of order) {
-    let best: {
-      propositionId: EntityId;
-      answer: "yes" | "no";
-      weight: number;
-    } | null = null;
-    for (const propositionId of questions) {
-      const proposition = next.policyCatalog.propositions[propositionId]!;
-      if (effectKeys.has(proposition.stableKey)) continue;
-      const score = principledLeaning(
-        next,
-        sponsor.personId,
-        propositionId,
-      ).score;
-      if (Math.abs(score) < FILING_THRESHOLD) continue;
-      if (best && Math.abs(score) <= best.weight) continue;
-      const answer = positionBillAnswer(score, lawAnswerFor(propositionId));
-      if (!answer || !questionOpen(propositionId)) continue;
-      best = { propositionId, answer, weight: Math.abs(score) };
-    }
-    if (!best) continue;
-    const permitted = permittedOriginChambers(pack, "general-policy");
-    if (
-      permitted.kind === "known" &&
-      !permitted.value.includes(sponsor.chamber.chamberKey)
-    )
-      continue;
-    const proposition = next.policyCatalog.propositions[best.propositionId]!;
-    next = introduceMeasure(next, {
-      stableKey: measureStableKeyFor(proposition.stableKey, sponsor.personId),
-      jurisdictionId: input.jurisdictionId,
-      rulePackId: pack.packId,
-      designation: nextMeasureDesignation(next, {
-        jurisdictionId: input.jurisdictionId,
-        originChamber: sponsor.chamber,
-      }),
-      shortTitle:
-        best.answer === "yes"
-          ? proposition.name
-          : `Repeal: ${proposition.name}`,
-      summary:
-        best.answer === "yes"
-          ? `${proposition.question} This bill says yes.`
-          : `${proposition.question} This bill repeals the law that says yes.`,
-      origin: "member-introduction",
-      subjectClass: "general-policy",
-      sponsorPersonId: sponsor.personId,
-      originChamberKey: sponsor.chamber.chamberKey,
-      propositionIds: [best.propositionId],
-      propositionAnswers: [
-        { propositionId: best.propositionId, answer: best.answer },
-      ],
-    });
-    const measure = next.history.legislativeMeasures!.at(-1)!;
-    next = scheduleInstitutionStep(next, measure.id);
-    break;
-  }
+  // Other questions may still matter to members, but a bare position answer
+  // has no compiled operative provision. Preserve previously saved measures;
+  // new autonomous filings wait for an exact content-to-effect mapping.
   return next;
 }
 

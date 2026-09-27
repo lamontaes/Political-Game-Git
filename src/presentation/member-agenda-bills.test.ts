@@ -11,9 +11,9 @@ import {
   stateTransitAutomaticLawContext,
 } from "../simulation/governing/automatic-legislation";
 import { principledLeaning } from "../simulation/governing/officeholder-principles";
-import { lawInForce } from "../simulation/governing/law-in-force";
 import { stateLegislators } from "../simulation/nationwide-world/state-legislature-opening";
 import { legislativePackForJurisdiction } from "../simulation/legislative-institutions";
+import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import type { World } from "../simulation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -194,31 +194,51 @@ describe("a member files a bill of their own", () => {
         expect(pendingQuestions.has(row.propositionId)).toBe(false);
   });
 
-  it("files a position or repeal bill only where it changes the law in force", () => {
+  it("refuses unmapped concerns instead of filing question-only laws", () => {
+    const sponsorIds = stateLegislators(world, `${pack.packId}:candidacy`).map(
+      (member) => member.personId,
+    );
+    let strongUnmappedConcerns = 0;
+    for (const sponsorId of sponsorIds) {
+      if (sponsorId === game.playerPersonId) continue;
+      for (const propositionId of world.policyCatalog.propositionOrder) {
+        const proposition = world.policyCatalog.propositions[propositionId]!;
+        const issue = world.policyCatalog.issues[proposition.issueId];
+        if (!issue?.levels?.includes("state")) continue;
+        const score = principledLeaning(world, sponsorId, propositionId).score;
+        if (Math.abs(score) < 3) continue;
+        const answer = score > 0 ? "yes" : "no";
+        if (!automaticLawMappingFor(proposition.stableKey, answer, "state"))
+          strongUnmappedConcerns += 1;
+      }
+    }
+    expect(strongUnmappedConcerns).toBeGreaterThan(0);
+
     const before = world.history.legislativeMeasures?.length ?? 0;
     const laterIntake = fileMemberAgendaBill(world, {
       jurisdictionId: colorado,
       intakeKey: "later-intake-position-bill",
     });
     const added = (laterIntake.history.legislativeMeasures ?? []).slice(before);
-    const positionBills = added.filter(
-      (bill) =>
-        !(laterIntake.history.legislativeDraftLineages ?? []).some(
+    for (const bill of added) {
+      expect(
+        (laterIntake.history.legislativeDraftLineages ?? []).some(
           (lineage) => lineage.measureId === bill.id,
         ),
-    );
-    expect(positionBills.length).toBeGreaterThan(0);
-    for (const bill of positionBills) {
-      const { propositionId, answer } = bill.propositionAnswers![0]!;
-      const law = lawInForce(world, colorado, propositionId)?.answer ?? null;
-      // Enacting it must move the recorded answer.
-      expect(law).not.toBe(answer);
-      if (answer === "no") expect(law).toBe("yes");
-      // A question with a registered money writer is never a position bill.
-      const stableKey =
-        world.policyCatalog.propositions[propositionId]!.stableKey;
-      expect(automaticLawMappingFor(stableKey, "yes", "state")).toBeNull();
-      expect(automaticLawMappingFor(stableKey, "no", "state")).toBeNull();
+      ).toBe(true);
+      expect(
+        (laterIntake.history.legislativeProvisions ?? []).some(
+          (provision) =>
+            provision.measureId === bill.id &&
+            provision.operativeEffect?.kind === "public-program-appropriation",
+        ),
+      ).toBe(true);
     }
+    expect(
+      deserializeWorld(serializeWorld(laterIntake)).history.legislativeMeasures,
+    ).toEqual(laterIntake.history.legislativeMeasures);
+    process.stdout.write(
+      `member-agenda diagnostic: strong_unmapped_concerns=${strongUnmappedConcerns}, added=${added.length}, operative_added=${added.length}, unsupported_filed=0\n`,
+    );
   });
 }, 900_000);
