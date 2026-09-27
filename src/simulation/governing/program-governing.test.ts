@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { addDays } from "../dates";
+import { addDays, makeIsoDate } from "../dates";
 import { applyEnactedLawEffects } from "../enacted-law-effects";
 import {
   availableMeasureSteps,
@@ -9,6 +9,10 @@ import {
   recordEnactment,
 } from "../legislation";
 import { createLegislativeScenario } from "../legislation-scenarios";
+import { createStableId } from "../ids";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
+import { createLightweightPerson } from "../people";
+import { createProductionPolicyCatalog } from "../production-catalog";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { stateJurisdictionForKey } from "../life-places";
 import { legislatureProfilePackId } from "../legislature-game-profile";
@@ -20,8 +24,13 @@ import {
   TRANSIT_VARIANT_KEY,
 } from "../legislation-transit-families";
 import { resolveTransitFunding } from "../transit-funding";
-import { openAppropriationsFor } from "./program-governing";
-import type { EntityId, World } from "../types";
+import { createWorld, createWorldId } from "../world";
+import { introduceAutomaticLawMeasure } from "./automatic-legislation";
+import {
+  appropriationFromEnactedMeasure,
+  openAppropriationsFor,
+} from "./program-governing";
+import type { EntityId, LegislativeEnactmentRecord, World } from "../types";
 import { fileDraft } from "../../presentation/legislation-docket";
 import { applyLegislativeStep } from "../../presentation/legislation-session";
 import { publishLegislativeTransition } from "../../presentation/publish-legislative-transition";
@@ -216,5 +225,144 @@ describe("one program identity per named spending target", () => {
         (record) => record.sourceMeasureId === funded.measureId,
       ),
     ).toEqual([]);
+  });
+});
+
+function enactedFederalRailFixture(): { world: World; measureId: EntityId } {
+  const seed = "federal-mapped-appropriation-writer";
+  const currentDate = makeIsoDate("2026-01-05");
+  const home = stateJurisdictionForKey("US-KY")!;
+  const person = createLightweightPerson({
+    worldId: createWorldId(seed),
+    worldSeed: seed,
+    index: 0,
+    currentDate,
+    homeJurisdictionId: home.id,
+  });
+  const world = createWorld({
+    seed,
+    currentDate,
+    policyCatalog: createProductionPolicyCatalog(),
+    jurisdictions: [home, NATIONAL_ELECTION_JURISDICTION],
+    people: [person],
+    control: { kind: "person", personId: person.id },
+  });
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (row) =>
+      row.stableKey ===
+      "us-federal-positions:transport-water.expand-passenger-rail",
+  );
+  if (!proposition) throw new Error("The federal rail question is missing.");
+  const filed = introduceAutomaticLawMeasure(world, {
+    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    governmentLevel: "federal",
+    propositionId: proposition.id,
+    answer: "yes",
+    intakeKey: "federal-mapped-appropriation-writer",
+    stableKey: "federal-mapped-appropriation-writer:measure",
+    designation: "H.R. 101",
+    sponsorPersonId: person.id,
+    originChamberKey: "house",
+    principleRecordIds: [],
+    principleScore: 1,
+  });
+  if (!filed) throw new Error("The federal rail bill was not compiled.");
+  // This writer fixture supplies the enacted record directly. Procedure and
+  // presentment are tested in their own route; only the consumer runs here.
+  const enactment: LegislativeEnactmentRecord = {
+    id: createStableId(
+      "legislative-enactment",
+      `${filed.measureId}:federal-writer-fixture`,
+    ),
+    stableKey: "federal-writer-fixture:enactment",
+    sequence: filed.world.history.nextSequence,
+    measureId: filed.measureId,
+    resolvedAt: currentDate,
+    outcome: "enacted",
+    actDesignation: null,
+    effectiveAt: currentDate,
+  };
+  return {
+    world: {
+      ...filed.world,
+      history: {
+        ...filed.world.history,
+        legislativeEnactments: [
+          ...(filed.world.history.legislativeEnactments ?? []),
+          enactment,
+        ],
+        nextSequence: filed.world.history.nextSequence + 1,
+      },
+    },
+    measureId: filed.measureId,
+  };
+}
+
+describe("mapped federal appropriation writer", () => {
+  it("records one authority from the exact enacted amount and remains idempotent", () => {
+    const { world, measureId } = enactedFederalRailFixture();
+    const amount = world.history.legislativeProvisions?.find(
+      (row) =>
+        row.measureId === measureId && row.provisionKey === "amount-provided",
+    )?.fiscalExposureMinorUnits;
+    const next = appropriationFromEnactedMeasure(world, measureId);
+    const records = appropriations(next).filter(
+      (row) => row.sourceMeasureId === measureId,
+    );
+    expect(records).toHaveLength(1);
+    expect(records[0]).toMatchObject({
+      programKey: "appropriations:us",
+      amount: { minorUnits: amount, currency: "USD" },
+    });
+    expect(next.history.resourceFlows).toHaveLength(
+      world.history.resourceFlows.length,
+    );
+    const replayed = appropriationFromEnactedMeasure(next, measureId);
+    expect(
+      appropriations(replayed).filter(
+        (row) => row.sourceMeasureId === measureId,
+      ),
+    ).toHaveLength(1);
+  });
+
+  it("refuses mismatched authority, unknown amount and an effectless ceiling", () => {
+    const { world, measureId } = enactedFederalRailFixture();
+    const wrongAuthority: World = {
+      ...world,
+      history: {
+        ...world.history,
+        legislativeDraftLineages: (
+          world.history.legislativeDraftLineages ?? []
+        ).map((row) =>
+          row.measureId === measureId
+            ? { ...row, authorityKey: "game-profile:unrelated" }
+            : row,
+        ),
+      },
+    };
+    expect(appropriationFromEnactedMeasure(wrongAuthority, measureId)).toBe(
+      wrongAuthority,
+    );
+    const mutateProvision = (
+      patch: Partial<
+        NonNullable<World["history"]["legislativeProvisions"]>[number]
+      >,
+    ): World => ({
+      ...world,
+      history: {
+        ...world.history,
+        legislativeProvisions: (world.history.legislativeProvisions ?? []).map(
+          (row) =>
+            row.measureId === measureId &&
+            row.provisionKey === "amount-provided"
+              ? { ...row, ...patch }
+              : row,
+        ),
+      },
+    });
+    const unknown = mutateProvision({ fiscalExposureMinorUnits: null });
+    expect(appropriationFromEnactedMeasure(unknown, measureId)).toBe(unknown);
+    const ceiling = mutateProvision({ operativeEffect: undefined });
+    expect(appropriationFromEnactedMeasure(ceiling, measureId)).toBe(ceiling);
   });
 });
