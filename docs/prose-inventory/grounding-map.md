@@ -13,9 +13,9 @@ declare is reported as undeclared rather than filled in from a guess.
 | Family | Templates | Withheld | Undeclared grounding | Canonical concerns |
 | --- | --- | --- | --- | --- |
 | `campaign/campaign-status` | 29 | 0 | 0 | candidacy |
-| `conversation/commit-contract` | 110 | 0 | 0 | — |
-| `conversation/contextual-scene` | 244 | 0 | 0 | — |
-| `conversation/conversation-subject` | 64 | 0 | 0 | — |
+| `conversation/commit-contract` | 95 | 0 | 0 | — |
+| `conversation/contextual-scene` | 201 | 0 | 0 | — |
+| `conversation/conversation-subject` | 47 | 0 | 0 | — |
 | `conversation/conversation-turn` | 24 | 0 | 0 | — |
 | `governing/municipal-attendance-and-work` | 40 | 0 | 0 | activity-evidence, work-standing |
 | `governing/municipal-authority-refusals` | 19 | 0 | 0 | — |
@@ -24,9 +24,9 @@ declare is reported as undeclared rather than filled in from a guess.
 | `governing/municipal-work-and-session` | 7 | 0 | 0 | activity-evidence, work-standing |
 | `governing/municipal-workspace` | 88 | 0 | 0 | — |
 | `legislative/measure-briefing` | 97 | 0 | 0 | measure |
-| `life/adult` | 358 | 238 | 0 | colleague-identity, household-kinship, persistent-cast |
-| `life/callback` | 39 | 0 | 0 | — |
-| `life/episode` | 1020 | 204 | 0 | activity-evidence, age, colleague-identity, elapsed-time, enrollment, household-kinship, incident-locality, persistent-cast, work-standing |
+| `life/adult` | 292 | 238 | 0 | colleague-identity, household-kinship, persistent-cast |
+| `life/callback` | 33 | 0 | 0 | — |
+| `life/episode` | 1003 | 204 | 0 | activity-evidence, age, colleague-identity, elapsed-time, enrollment, household-kinship, incident-locality, persistent-cast, work-standing |
 | `life/formative` | 177 | 0 | 0 | persistent-cast |
 | `life/introduction` | 12 | 0 | 0 | — |
 | `life/life-continuation` | 11 | 0 | 0 | — |
@@ -35,10 +35,10 @@ declare is reported as undeclared rather than filled in from a guess.
 | `life/opening-conversation-replies` | 62 | 0 | 0 | — |
 | `life/personal-aims` | 19 | 0 | 0 | — |
 | `life/press-disclosure` | 5 | 0 | 0 | — |
-| `life/recall-cards` | 10 | 0 | 0 | — |
+| `life/recall-cards` | 2 | 0 | 0 | — |
 | `narration/connective` | 47 | 0 | 0 | elapsed-time |
 | `narration/thread-recap` | 36 | 0 | 0 | — |
-| `ordinary/work-item` | 4 | 0 | 4 | — |
+| `ordinary/work-item` | 2 | 0 | 2 | — |
 | `setup/questionnaire` | 618 | 0 | 0 | — |
 | `shell/art-preview` | 2 | 0 | 0 | — |
 | `shell/save-transfer` | 35 | 0 | 0 | — |

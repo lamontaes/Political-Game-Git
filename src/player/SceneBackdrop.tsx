@@ -4,6 +4,7 @@ import {
   type SceneConversationFrame,
 } from "../presentation/scene-conversation-frame";
 import { MaterialGroup, MaterialImage } from "./ModularCharacter";
+import { EngineFigure } from "./EnginePerson";
 import {
   useLayoutEffect,
   useMemo,
@@ -15,6 +16,7 @@ import {
 
 import { SCENE_REGISTRY } from "../presentation/scene-registry";
 import type { PlacedScenePerson } from "../presentation/life-scene-people";
+import type { PlaceBackdrop } from "../presentation/place-backdrops";
 import {
   bindSceneSurfaces,
   dynamicSurfacePayloads,
@@ -23,6 +25,14 @@ import {
   EMPTY_SURFACE_PROJECTION,
   type DynamicSurfaceProjection,
 } from "../presentation/surface-projection";
+import {
+  ROOM_PAPERS_SLOT_ID,
+  ROOM_TELEVISION_SLOT_ID,
+  roomBroadcastLine,
+  roomFrontPageLine,
+  type RoomMedia,
+} from "../presentation/room-media";
+import { RoomNewspaper, RoomTelevision } from "./RoomMedia";
 import { SceneSurfaceLayer } from "./SceneSurfaceLayer";
 import { SceneSurfaceReader } from "./SceneSurfaceReader";
 import {
@@ -85,10 +95,12 @@ export function SceneBackdrop({
   people = [],
   surfaces = EMPTY_SURFACE_PROJECTION,
   readableSurfaces,
+  roomMedia,
   onOpenSurfaceEntity,
   onSelectPerson,
   selectedPersonId = null,
   objects,
+  placeBackdrop = null,
   children,
 }: {
   readonly sceneId: string | null;
@@ -102,6 +114,11 @@ export function SceneBackdrop({
    */
   readonly surfaces?: DynamicSurfaceProjection;
   readonly readableSurfaces?: ReadonlyMap<string, LivingSurfaceRecord>;
+  /**
+   * The room's live television and newspaper. Where the scene has the TV or
+   * papers slot, it is drawn as a broadcast or a front page every day.
+   */
+  readonly roomMedia?: RoomMedia;
   readonly onOpenSurfaceEntity?: (ref: ShellRef) => void;
   /**
    * The generated people standing in this room, positioned by the registry's
@@ -146,6 +163,12 @@ export function SceneBackdrop({
    * one because a caller asked for papers on it.
    */
   readonly objects?: readonly SceneObjectMount[];
+  /**
+   * A place picture for a screen with no registered room (work, school, the
+   * campaign, the street). Painted only when the scene has no plate of its
+   * own. Nobody stands in it and nothing on it is clickable.
+   */
+  readonly placeBackdrop?: PlaceBackdrop | null;
   readonly children: ReactNode;
 }) {
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -326,13 +349,15 @@ export function SceneBackdrop({
     () =>
       scene
         ? bindSceneSurfaces(scene, (contentClass, slot) => {
+            const live = roomMediaLine(roomMedia, slot.slot_id);
+            if (live) return live;
             const record = readableSurfaces?.get(slot.slot_id);
             return record
               ? livingSceneSurfacePayload(record)(contentClass, slot)
               : dynamicSurfacePayloads(surfaces)(contentClass, slot);
           })
         : [],
-    [scene, surfaces, readableSurfaces],
+    [scene, surfaces, readableSurfaces, roomMedia],
   );
   const readableSlotIds = new Set(
     bindings
@@ -362,14 +387,23 @@ export function SceneBackdrop({
     });
   };
 
+  const placePainted = !painted && placeBackdrop !== null;
+
   return (
     <div
       className={
-        painted ? "scene-backdrop scene-backdrop--art" : "scene-backdrop"
+        painted
+          ? "scene-backdrop scene-backdrop--art"
+          : placePainted
+            ? "scene-backdrop scene-backdrop--art scene-backdrop--place"
+            : "scene-backdrop"
       }
       data-testid="scene-backdrop"
       data-scene-id={scene?.sceneId ?? ""}
       data-has-plate={painted ? "true" : "false"}
+      data-place-backdrop={
+        placePainted ? `${placeBackdrop.place}__${placeBackdrop.variant}` : ""
+      }
       data-headroom={headroom}
     >
       <div
@@ -377,6 +411,15 @@ export function SceneBackdrop({
         className="scene-backdrop-stage"
         aria-hidden={readableSlotIds.size ? undefined : true}
       >
+        {placePainted ? (
+          <img
+            className="scene-place-backdrop"
+            src={placeBackdrop.url}
+            alt=""
+            draggable="false"
+            data-testid="scene-place-backdrop"
+          />
+        ) : null}
         {/*
           Headroom is lowered camera, and the band it opens above the plate is
           filled with the same painting, softened, rather than left black. It
@@ -419,6 +462,13 @@ export function SceneBackdrop({
               plate={plate}
               readableSlotIds={readableSlotIds}
               onRead={(slotId) => setReadingSlot({ sceneId, slotId })}
+              renderSurface={(slotId) =>
+                slotId === ROOM_TELEVISION_SLOT_ID && roomMedia?.broadcast ? (
+                  <RoomTelevision broadcast={roomMedia.broadcast} />
+                ) : slotId === ROOM_PAPERS_SLOT_ID && roomMedia?.frontPage ? (
+                  <RoomNewspaper frontPage={roomMedia.frontPage} />
+                ) : null
+              }
             />
           ) : null}
         </div>
@@ -579,7 +629,13 @@ export function SceneBackdrop({
                     }}
                   />
                 ) : null}
-                {person.hasArt ? (
+                {person.engine ? (
+                  <EngineFigure
+                    recipe={person.engine}
+                    className="scene-person-art scene-person-engine"
+                    testId={`scene-person-engine-${person.personId}`}
+                  />
+                ) : person.hasArt ? (
                   <MaterialGroup layers={person.layers}>
                     {person.layers.map((layer, index) => (
                       <MaterialImage
@@ -735,4 +791,16 @@ export function SceneBackdrop({
       </div>
     </div>
   );
+}
+
+/** The one-line text a live TV or papers slot binds, or null for any other. */
+function roomMediaLine(
+  media: RoomMedia | undefined,
+  slotId: string,
+): string | null {
+  if (slotId === ROOM_TELEVISION_SLOT_ID && media?.broadcast)
+    return roomBroadcastLine(media.broadcast);
+  if (slotId === ROOM_PAPERS_SLOT_ID && media?.frontPage)
+    return roomFrontPageLine(media.frontPage);
+  return null;
 }

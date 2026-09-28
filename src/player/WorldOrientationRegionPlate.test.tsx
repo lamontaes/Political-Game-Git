@@ -89,7 +89,7 @@ describe("the regional plate on the locality step", () => {
     expect(markup).toContain("Illustration, not this address");
   });
 
-  it("renders the step with no image when no region covers the place", () => {
+  it("renders the step over city hall, not a region, when no region covers the place", () => {
     for (const miss of [
       undefined,
       {
@@ -115,7 +115,7 @@ describe("the regional plate on the locality step", () => {
     ]) {
       const markup = render(miss);
       expect(markup).not.toContain("orientation-region-plate");
-      expect(markup).not.toContain("<img");
+      expect(markup).toContain('data-place="city-hall-exterior"');
       // The step itself still works: the place's own facts are unaffected.
       expect(markup).toContain("Tucson");
       expect(markup).toContain("Regina Romero is Mayor.");
@@ -141,11 +141,11 @@ describe("the full-screen opening card", () => {
     expect(markup).toContain(">Done</button>");
   });
 
-  it("stands on a plain ground, reading in the middle, when no approved picture resolves", () => {
+  it("stands over city hall when no regional picture resolves", () => {
     const markup = render(undefined);
-    expect(markup).toContain('data-backdrop="neutral"');
-    expect(markup).toContain('data-layout="centered"');
-    expect(markup).not.toContain("<img");
+    expect(markup).toContain('data-backdrop="place"');
+    expect(markup).toContain("orientation-place-backdrop");
+    expect(markup).not.toContain("orientation-region-plate");
   });
 });
 
@@ -196,8 +196,16 @@ describe("which approved picture stands behind each card", () => {
         whiteHouse: raster,
         regionalPlate: null,
         regionScene: null,
-      }).kind,
-    ).toBe("neutral");
+      }),
+    ).toMatchObject({ kind: "place", place: "state-capitol-dome" });
+    expect(
+      orientationBackdrop("state", {
+        whiteHouse: raster,
+        regionalPlate: null,
+        regionScene: null,
+        homeStateUsps: "NE",
+      }),
+    ).toMatchObject({ kind: "place", place: "state-capitol-tower" });
   });
 
   it("falls back from the civic building to the regional plate on the town card", () => {
@@ -211,15 +219,31 @@ describe("which approved picture stands behind each card", () => {
     ).toBe("region");
   });
 
-  it("never paints the White House or a region behind Congress or your life", () => {
-    for (const key of ["congress", "your-life"])
-      expect(
-        orientationBackdrop(key, {
-          whiteHouse: raster,
-          regionalPlate: plate,
-          regionScene: raster,
-        }).kind,
-      ).toBe("neutral");
+  it("paints the Capitol behind Congress and your town's street behind your life, never the White House or a region", () => {
+    expect(
+      orientationBackdrop("congress", {
+        whiteHouse: raster,
+        regionalPlate: plate,
+        regionScene: raster,
+      }),
+    ).toMatchObject({ kind: "place", place: "us-capitol-exterior" });
+    expect(
+      orientationBackdrop("your-life", {
+        whiteHouse: raster,
+        regionalPlate: plate,
+        regionScene: raster,
+      }),
+    ).toMatchObject({ kind: "place", place: "main-street" });
+  });
+
+  it("paints city hall behind the town card when no regional plate exists", () => {
+    expect(
+      orientationBackdrop("locality", {
+        whiteHouse: null,
+        regionalPlate: null,
+        regionScene: null,
+      }),
+    ).toMatchObject({ kind: "place", place: "city-hall-exterior" });
   });
 });
 

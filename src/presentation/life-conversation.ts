@@ -18,6 +18,19 @@ import {
   toldSummary,
 } from "./life-talk-topics";
 import { currentKnownMatter, matterAwareness } from "./current-matters";
+import { linePartsTag, type ComposedPart } from "./english-composition";
+import {
+  greetAgainLine,
+  matterUninformedLine,
+  type SmallTalkLine,
+} from "./small-talk-english";
+import {
+  answerRunning,
+  isRunningIntent,
+  runningTopicLabel,
+  runningTopics,
+  type RunningIntent,
+} from "./life-talk-running";
 import {
   ageOnDate,
   describePersonContext,
@@ -71,7 +84,9 @@ export const LIFE_TALK_INTENTS = {
  * life (`tell:<topic>`); see `life-talk-topics.ts`.
  */
 export type LifeTalkIntent =
-  keyof typeof LIFE_TALK_INTENTS | `${typeof TELL_PREFIX}${string}`;
+  | keyof typeof LIFE_TALK_INTENTS
+  | `${typeof TELL_PREFIX}${string}`
+  | RunningIntent;
 
 function isTellIntent(
   intent: LifeTalkIntent,
@@ -86,6 +101,8 @@ export function lifeTalkIntentLabel(
   personId: EntityId,
   intent: LifeTalkIntent,
 ): string {
+  if (isRunningIntent(intent))
+    return runningTopicLabel(world, playerPersonId, personId, intent);
   if (!isTellIntent(intent)) return LIFE_TALK_INTENTS[intent];
   return (
     findTellTopic(world, playerPersonId, personId, intent)?.label ??
@@ -156,7 +173,31 @@ export function projectLifeConversation(
   const previousIntent = previous?.tags
     .find((tag) => tag.startsWith("life.talk:"))
     ?.slice(10);
+  // Telling them you are thinking of running: while that talk is under way it
+  // is the whole conversation, three to eight exchanges (life-talk-running.ts).
+  const running = runningTopics(world, playerPersonId, personId);
+  if (running.inThread)
+    return {
+      context,
+      person: describePersonContext(world, playerPersonId, personId)!,
+      revision: world.history.nextSequence,
+      proposal: null,
+      matter: null,
+      intents: [
+        ...running.topics,
+        ...(running.mayLeave
+          ? [{ key: "leave" as LifeTalkIntent, label: LIFE_TALK_INTENTS.leave }]
+          : []),
+      ],
+      transcript: history.map((event) => ({
+        eventId: event.id,
+        date: event.occurredAt,
+        action: event.context.choice!,
+        reply: event.context.immediateReaction!,
+      })),
+    };
   const intents: LifeTalkIntent[] = ["greet", "scene", "activity", "share"];
+  intents.push(...running.topics.map((topic) => topic.key));
   // A current public or known matter the player could actually raise; the
   // counterpart's answer depends on what their own records say they know.
   const matter = currentKnownMatter(world, playerPersonId);
@@ -262,10 +303,13 @@ export function projectLifeConversation(
               ? `Decline to ${proposal.label}`
               : proposal && key === "spendTime"
                 ? `Spend 30 minutes: ${proposal.label}`
-                : isTellIntent(key)
-                  ? (topics.find((topic) => topic.key === key)?.label ??
-                    "Tell them something")
-                  : LIFE_TALK_INTENTS[key],
+                : isRunningIntent(key)
+                  ? (running.topics.find((topic) => topic.key === key)?.label ??
+                    LIFE_TALK_INTENTS.leave)
+                  : isTellIntent(key)
+                    ? (topics.find((topic) => topic.key === key)?.label ??
+                      "Tell them something")
+                    : LIFE_TALK_INTENTS[key],
     })),
     transcript: history.map((event) => ({
       eventId: event.id,
@@ -328,10 +372,29 @@ function activityPreference(world: World, personId: EntityId): string {
 }
 
 /** Replies follow the actual intent and this person's previous turn. No scoring. */
+/**
+ * The counterpart's reply, and the reviewed parts it was built from when the
+ * English engine worded it. The parts are saved with the turn so a person
+ * does not keep reaching for the same words with the player.
+ */
+function replyWithParts(
+  world: World,
+  context: LifeTalkContext,
+  intent: LifeTalkIntent,
+): { readonly text: string; readonly parts: readonly ComposedPart[] } {
+  let parts: readonly ComposedPart[] = [];
+  const text = replyFor(world, context, intent, (line) => {
+    parts = line.parts;
+    return line.text;
+  });
+  return { text, parts };
+}
+
 function replyFor(
   world: World,
   context: LifeTalkContext,
   intent: LifeTalkIntent,
+  worded: (line: SmallTalkLine) => string,
 ): string {
   const { playerPersonId, personId } = context;
   const history = turns(world, playerPersonId, personId);
@@ -375,6 +438,10 @@ function replyFor(
   const privatePerson =
     latestPersonalValue(world, personId, LIFE_MIND_IDS.privacy)?.orientation ===
     "embraces";
+  if (isRunningIntent(intent))
+    throw new Error(
+      "A step of the talk about running is answered by answerRunning.",
+    );
   if (isTellIntent(intent)) {
     const topic = findTellTopic(world, playerPersonId, personId, intent);
     return topic
@@ -457,9 +524,11 @@ function replyFor(
         return history.length
           ? "Hi, sweetheart. What is it?"
           : "Hi, sweetheart.";
-      return history.length
-        ? "Hi again."
-        : `Hi, ${world.people[playerPersonId]!.givenName}.`;
+      if (history.length) {
+        const again = greetAgainLine(world, personId, playerPersonId, history);
+        return again ? worded(again) : "Hi again.";
+      }
+      return `Hi, ${world.people[playerPersonId]!.givenName}.`;
     case "activity":
       if (activeOrdinaryGoal(world, personId, "privacy"))
         return "I need some privacy right now. Let's leave activities for another time.";
@@ -511,7 +580,16 @@ function replyFor(
       const matter = currentKnownMatter(world, playerPersonId);
       if (!matter) return "What did you want to talk about?";
       const awareness = matterAwareness(world, personId, matter.eventId);
-      if (awareness === "uninformed") return "I hadn't heard about that.";
+      if (awareness === "uninformed") {
+        const unheard = matterUninformedLine(
+          world,
+          personId,
+          playerPersonId,
+          history,
+          matter.eventId,
+        );
+        return unheard ? worded(unheard) : "I hadn't heard about that.";
+      }
       if (activeOrdinaryGoal(world, personId, "privacy"))
         return "I'd rather not get into that right now.";
       return awareness === "involved"
@@ -595,16 +673,32 @@ export function commitLifeConversation(
         "The half hour overlaps your scheduled activity or work. No time has passed; the agreed activity is still pending.",
       );
   }
-  const advanced = minutes
-    ? advanceWorldMinutes(world, minutes, handlers)
-    : world;
+  const stableKey = `opening-life:talk:${input.playerPersonId}:${input.personId}:${input.revision}`;
+  // A step of the talk about running: the listener's answer, and for a
+  // decision, the decision itself kept with its reasons before the turn.
+  const running = isRunningIntent(input.intent)
+    ? answerRunning(
+        world,
+        input.playerPersonId,
+        input.personId,
+        input.intent,
+        stableKey,
+      )
+    : null;
+  const advanced = running
+    ? running.world
+    : minutes
+      ? advanceWorldMinutes(world, minutes, handlers)
+      : world;
   if (
     minutes &&
     simulationMinutesBetween(world.currentMoment, advanced.currentMoment) !==
       minutes
   )
     return advanced;
-  const reply = replyFor(world, view.context, input.intent);
+  const { text: reply, parts: replyParts } = running
+    ? { text: running.reply, parts: [] as readonly ComposedPart[] }
+    : replyWithParts(world, view.context, input.intent);
   const tellTopic = isTellIntent(input.intent)
     ? findTellTopic(world, input.playerPersonId, input.personId, input.intent)
     : null;
@@ -669,10 +763,11 @@ export function commitLifeConversation(
         condition: null,
       }
     : null;
-  const answer =
-    input.intent === "suggestGame" ||
-    input.intent === "suggestQuiet" ||
-    input.intent === "acceptProposal"
+  const answer = running
+    ? running.answer
+    : input.intent === "suggestGame" ||
+        input.intent === "suggestQuiet" ||
+        input.intent === "acceptProposal"
       ? accepted
         ? "company-accepted"
         : "company-declined"
@@ -695,7 +790,6 @@ export function commitLifeConversation(
                   )?.orientation === "embraces"
                 ? "private"
                 : "open";
-  const stableKey = `opening-life:talk:${input.playerPersonId}:${input.personId}:${input.revision}`;
   const intentLabel = lifeTalkIntentLabel(
     world,
     input.playerPersonId,
@@ -739,6 +833,7 @@ export function commitLifeConversation(
       `scene:${currentLifeTalkScene(world, input.playerPersonId)!.eventId}`,
       `moment:${JSON.stringify(advanced.currentMoment)}`,
       `life.answer:${answer}`,
+      ...(replyParts.length > 0 ? [linePartsTag(replyParts)] : []),
       ...(input.intent === "matter" && view.matter
         ? [`life.matter:${view.matter.eventId}`]
         : []),
@@ -755,7 +850,8 @@ export function commitLifeConversation(
           ]
         : []),
     ],
-    summary: `${personName(world.people[input.playerPersonId]!)}: ${intentLabel}. ${personName(world.people[input.personId]!)}: ${reply}`,
+    // A news choice already ends with its headline's own period.
+    summary: `${personName(world.people[input.playerPersonId]!)}: ${intentLabel}${/[.?!]$/.test(intentLabel) ? "" : "."} ${personName(world.people[input.personId]!)}: ${reply}`,
     context: {
       location: {
         jurisdictionId: world.people[input.playerPersonId]!.homeJurisdictionId,

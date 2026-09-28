@@ -464,9 +464,9 @@ describe("the shell's own store", () => {
       defaultPinSize: "tiny",
       followedNewsOutletKeys: [],
       interruptions: {
-        stopForWorkShifts: false,
         stopForTentativeHolds: false,
       },
+      morningThoughts: true,
       // Reader layouts added later load with their defaults from older records.
       proposalLayout: "auto",
       newsMode: "front",

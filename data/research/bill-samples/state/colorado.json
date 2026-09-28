@@ -1,0 +1,193 @@
+[
+  {
+    "id": "co-2025-sb25-003-semiauto-permit",
+    "jurisdiction": "Colorado",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB25-003",
+    "law_citation": null,
+    "short_title": "Semiautomatic firearms with detachable magazines - permit to purchase",
+    "enacted_date": "2025-04-10",
+    "enactment_path": "signed",
+    "effective_dates": ["2026-08-01 (inferred)"],
+    "official_text_url": "https://leg.colorado.gov/bills/sb25-003",
+    "aggregator_url": null,
+    "menu": "10",
+    "menu_name": "Justice & Public Safety",
+    "sub_topic": "Firearms and weapons rules",
+    "secondary_menus": [],
+    "instrument": "license/permit",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Sale of specified semiautomatic firearms that accept detachable magazines is barred unless the buyer qualifies."
+      },
+      {
+        "kind": "license",
+        "description": "Buyer must complete a training course and hold a firearms safety course eligibility card.",
+        "inferred": true
+      },
+      {
+        "kind": "fee",
+        "description": "Fees for the course eligibility card.",
+        "inferred": true
+      },
+      {
+        "kind": "administering-agency",
+        "description": "Parks and Wildlife and sheriffs administer training and cards (inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "effective-date",
+        "description": "Delayed start.",
+        "inferred": true
+      }
+    ],
+    "touches": ["gun dealers", "sheriffs", "hunter education system"],
+    "daily_life": "Buying certain rifles now requires a class and a permit card first.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "co-2025-hb25-1090-hidden-fees",
+    "jurisdiction": "Colorado",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB25-1090",
+    "law_citation": null,
+    "short_title": "Protections against deceptive pricing (junk fees)",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": ["2026-01-01 (inferred)"],
+    "official_text_url": "https://leg.colorado.gov/bills/hb25-1090",
+    "aggregator_url": null,
+    "menu": "12",
+    "menu_name": "Rights, Family & Consumer Protection",
+    "sub_topic": "Fraud and unfair practices",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "disclosure",
+        "description": "Advertised prices must include all mandatory fees and charges."
+      },
+      {
+        "kind": "covered-population",
+        "description": "Businesses selling goods, services, and short-term lodging and rentals."
+      },
+      {
+        "kind": "enforcement",
+        "description": "Violations are deceptive trade practices under the consumer protection act."
+      }
+    ],
+    "touches": ["hotels", "ticket sellers", "landlords"],
+    "daily_life": "The price on the website is the price you pay.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "co-2025-sb25-144-famli-nicu",
+    "jurisdiction": "Colorado",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB25-144",
+    "law_citation": null,
+    "short_title": "Paid family leave extension for NICU parents",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": ["2026-01-01"],
+    "official_text_url": "https://leg.colorado.gov/bills/sb25-144",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Paid and unpaid leave",
+    "secondary_menus": ["05"],
+    "instrument": "eligibility/benefit",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "benefit",
+        "description": "Additional paid leave for parents of a newborn in neonatal intensive care.",
+        "numbers": [
+          {
+            "value": 12,
+            "unit": "weeks additional",
+            "text": "12 weeks additional"
+          }
+        ]
+      },
+      {
+        "kind": "funding-source",
+        "description": "State paid family and medical leave insurance fund (payroll premiums)."
+      },
+      {
+        "kind": "administering-agency",
+        "description": "Colorado Department of Labor and Employment, FAMLI Division."
+      }
+    ],
+    "touches": ["FAMLI premium rate", "employers"],
+    "daily_life": "A parent can stay with a baby in the NICU without losing pay.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "co-2025-sb25b-004-ai-delay",
+    "jurisdiction": "Colorado",
+    "level": "state",
+    "session": "2025 First Extraordinary Session",
+    "bill_number": "SB25B-004",
+    "law_citation": null,
+    "short_title": "Delay of the Colorado AI Act",
+    "enacted_date": "2025-08-28",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://leg.colorado.gov/bills/sb25b-004",
+    "aggregator_url": null,
+    "menu": "13",
+    "menu_name": "Science, Technology & Communications",
+    "sub_topic": "Artificial intelligence and automated systems",
+    "secondary_menus": [],
+    "instrument": "other",
+    "secondary_instruments": [],
+    "operation": "replace",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "effective-date",
+        "description": "Moves the start of the state's high-risk AI law.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-02-01 date old",
+            "text": "2026-02-01 date old"
+          },
+          {
+            "value": 2026,
+            "unit": "-06-30 date new",
+            "text": "2026-06-30 date new"
+          }
+        ]
+      },
+      {
+        "kind": "transition",
+        "description": "Only outcome of a special session called for fiscal and AI concerns; substantive changes left for later."
+      }
+    ],
+    "touches": ["SB24-205 (Colorado AI Act)", "employers using AI in hiring"],
+    "daily_life": "AI hiring and lending rules start five months later than planned.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": "Pure timing law: changes only an effective date."
+  }
+]

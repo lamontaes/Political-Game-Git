@@ -81,7 +81,7 @@ describe("the content-bank contract", () => {
     for (const key of [
       "us-ky-general-assembly-v1",
       "formative.lunch-table",
-      "household-obligation",
+      "school-project-share",
       "incident/incident.localized-natural-hazard",
     ]) {
       expect(() =>

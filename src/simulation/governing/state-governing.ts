@@ -4,7 +4,12 @@ import { addDays, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createStableId } from "../ids";
 import { createWorkRelationship, recordWorkStatus } from "../life";
-import { activeWorkRelationshipsAt, workStatusAt } from "../life-queries";
+import {
+  currentLifeCutoff,
+  workRelationshipHistoryForOrganization,
+  workRoleAt,
+  workStatusAt,
+} from "../life-queries";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng, pickDistinct } from "../rng";
@@ -221,16 +226,41 @@ function chiefOfStaffWork(
   world: World,
   organizationId: EntityId,
 ): readonly { readonly personId: EntityId; readonly workId: EntityId }[] {
-  return world.personOrder.flatMap((personId) =>
-    activeWorkRelationshipsAt(world, personId)
-      .filter(
-        ({ relationship, role }) =>
-          relationship.organizationId === organizationId &&
-          relationship.kind === "employment:executive-staff" &&
-          role.occupationClassification === CHIEF_OF_STAFF_CLASSIFICATION,
-      )
-      .map(({ relationship }) => ({ personId, workId: relationship.id })),
+  const cutoff = currentLifeCutoff(world);
+  const active = workRelationshipHistoryForOrganization(
+    world,
+    organizationId,
+    cutoff,
+  ).filter(
+    (relationship) =>
+      relationship.organizationId === organizationId &&
+      relationship.kind === "employment:executive-staff" &&
+      relationship.sequence < cutoff.historySequenceExclusive &&
+      (relationship.startedAt < relationship.recordedAt
+        ? relationship.startedAt
+        : relationship.recordedAt) <= cutoff.asOfDate &&
+      relationship.startedAt <= cutoff.asOfDate &&
+      workStatusAt(world, relationship.id, cutoff)?.status === "active" &&
+      workRoleAt(world, relationship.id, cutoff)?.occupationClassification ===
+        CHIEF_OF_STAFF_CLASSIFICATION,
   );
+  // Most offices have no hired chief. Only build a person-order lookup when
+  // there are actually two or more active jobs to order.
+  const personOrder =
+    active.length > 1
+      ? new Map(world.personOrder.map((personId, index) => [personId, index]))
+      : new Map<EntityId, number>();
+  return active
+    .sort(
+      (left, right) =>
+        (personOrder.get(left.personId) ?? Infinity) -
+          (personOrder.get(right.personId) ?? Infinity) ||
+        left.sequence - right.sequence,
+    )
+    .map((relationship) => ({
+      personId: relationship.personId,
+      workId: relationship.id,
+    }));
 }
 
 /** Whether this person is already a chief of staff in this office. */

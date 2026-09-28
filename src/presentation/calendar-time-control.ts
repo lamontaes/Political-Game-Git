@@ -14,6 +14,14 @@ import {
   CONTACT_LOCATION_KEY,
 } from "../simulation/people-contact";
 import { interruptionHandlers } from "./interruption-policy";
+import {
+  arriveAtCandidateGuidance,
+  projectCandidateGuidanceScene,
+} from "./candidate-guidance-scene";
+import { arriveAtOrdinaryMeeting } from "./ordinary-meeting-actions";
+import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
+import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
+import { campaignLifeActivityForScheduledActivity } from "../simulation/campaign-life-activities";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
 import { describeRoutineOutcome } from "./routine-outcome";
 import {
@@ -47,6 +55,8 @@ export function simulateCalendarDays(
   const next = passOrdinaryDays(world, days, {
     handlers: interruptionHandlers(interruptions),
     stopForTentativeHolds: interruptions.stopForTentativeHolds,
+    // The direct Calendar day/week controls use the same civic stop boundary.
+    stopForCivicHolds: true,
   });
   // The canonical day skip ends at the requested morning, not 24 hours
   // from the current time. Report that same target, including offset changes.
@@ -113,7 +123,18 @@ export function playCalendarActivity(
   }
   let next: World;
   try {
-    next = performVenueActivity(world, personId, activityId);
+    const openingMeeting =
+      entry?.activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+      projectOrdinaryMeetingScene(world, personId)?.phase !== "active";
+    const openingGuidance =
+      campaignLifeActivityForScheduledActivity(world, activityId)?.form ===
+        "candidate-guidance" &&
+      projectCandidateGuidanceScene(world, personId)?.activityId !== activityId;
+    next = openingMeeting
+      ? arriveAtOrdinaryMeeting(world, personId, activityId)
+      : openingGuidance
+        ? arriveAtCandidateGuidance(world, personId, activityId)
+        : performVenueActivity(world, personId, activityId);
   } catch (error) {
     // A writer that refuses (a buy the committee can no longer pay for, a
     // session that is not the week's next) says why, and nothing is written:
@@ -139,8 +160,13 @@ export function playCalendarActivity(
     world: next,
     reached: next.currentMoment,
     outcome:
-      activityCompletionOutcome(next, personId, activityId) ??
-      describeRoutineOutcome(before, next, personId),
+      projectOrdinaryMeetingScene(next, personId)?.phase === "active"
+        ? projectOrdinaryMeetingScene(next, personId)!.caption
+        : projectCandidateGuidanceScene(next, personId)?.activityId ===
+            activityId
+          ? projectCandidateGuidanceScene(next, personId)!.caption
+          : (activityCompletionOutcome(next, personId, activityId) ??
+            describeRoutineOutcome(before, next, personId)),
   };
 }
 
@@ -183,9 +209,8 @@ export function authorizeCalendarSimulation(
   if (!handlers.routine?.isAutoResolvableActivity(world, activityId)) {
     return {
       authorized: false,
-      reason: interruptions.stopForWorkShifts
-        ? "Your interruption preferences ask to stop for work shifts, so attendance is not simulated. Play it, or change the preference."
-        : "Standing preferences did not authorize simulated attendance. Advance and Play stay distinct.",
+      reason:
+        "This activity does not run on its own. Advance and Play stay distinct.",
     };
   }
   return {
@@ -251,13 +276,13 @@ export function declineCalendarActivity(
       world,
       reached: world.currentMoment,
       outcome:
-        "Decline applies to a tentative hold you own. Confirmed commitments stay until they are played or otherwise resolved.",
+        "You can only decline something you might go to. A confirmed commitment stays until it happens or is settled.",
     };
   }
   return {
     world: next,
     reached: next.currentMoment,
-    outcome: "The tentative hold was released. No time passed.",
+    outcome: "You won't go. No time passed.",
   };
 }
 

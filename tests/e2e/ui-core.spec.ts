@@ -256,6 +256,8 @@ test.describe("people, and who was chosen", () => {
     await beginOrdinaryLife(page);
     await goTo(page, "elsewhere-people");
     await page.locator('[data-testid^="people-person-"]').first().click();
+    // The small card is a glance; what the record says is under More details.
+    await page.getByTestId("quick-dossier-full").click();
 
     /* Ordinary knowledge carries no badge; anything marked says which kind of
        claim it is, in words rather than only in color. */
@@ -455,7 +457,7 @@ test.describe("the deliberate workspaces", () => {
       .locator('[data-testid^="calendar-entry-"] small')
       .allTextContents();
     for (const note of notes) {
-      expect(note).toMatch(/You are on this|chamber's agenda/);
+      expect(note).toMatch(/You're going|You might go|chamber's agenda/);
     }
 
     await page.getByTestId("calendar-workspace-close").click();

@@ -474,12 +474,10 @@ test.describe("What the world records, it keeps", () => {
     );
   });
 
-  test("keeps a household conversation settled after a reload", async ({
-    page,
-  }) => {
+  test("keeps a doorstep conversation after a reload", async ({ page }) => {
     await freshBrowser(page);
-    // A shared home, so there is somebody to hold the kitchen conversation with;
-    // a normal start (Task E) generates the household and may be solo.
+    // A person on the ordinary neighborhood route can answer a posted meeting
+    // notice; this request has its own record and survives Save/Continue.
     await startLife(page, {
       place: "Lexington",
       state: "Kentucky",
@@ -487,22 +485,23 @@ test.describe("What the world records, it keeps", () => {
       household: "shares-a-home",
     });
     await openElsewhere(page, "people");
-    // A day now offers more than one conversation, so everything below is
-    // scoped to the kitchen one rather than to whichever the page drew first.
-    // PT3: People starts it; the conversation is the one box in the room.
-    await page.getByTestId("conversation-start-household-obligation").click();
-    const kitchen = page.getByTestId("conversation-household-obligation");
-    await expect(kitchen).toBeVisible();
+    await page
+      .getByTestId("conversation-start-neighborhood-meeting-notice")
+      .click();
+    const doorstep = page.getByTestId(
+      "conversation-neighborhood-meeting-notice",
+    );
+    await expect(doorstep).toBeVisible();
 
-    const topic = await kitchen.getByTestId("conversation-topic").innerText();
+    const topic = await doorstep.getByTestId("conversation-topic").innerText();
     expect(topic).not.toMatch(/constituent|referral|office/i);
 
-    await kitchen
+    await doorstep
       .getByTestId("conversation-intents")
       .getByRole("button")
       .first()
       .click();
-    const afterTurn = await kitchen
+    const afterTurn = await doorstep
       .getByTestId("conversation-briefing")
       .innerText();
     await keepAndWait(page);
@@ -510,12 +509,14 @@ test.describe("What the world records, it keeps", () => {
     await page.reload();
     await page.getByTestId("continue").click();
     await openElsewhere(page, "people");
-    await page.getByTestId("conversation-start-household-obligation").click();
+    await page
+      .getByTestId("conversation-start-neighborhood-meeting-notice")
+      .click();
     // The conversation picks up where it was left, rather than reopening at
     // turn one because the screen forgot what the world remembered.
     await expect(
       page
-        .getByTestId("conversation-household-obligation")
+        .getByTestId("conversation-neighborhood-meeting-notice")
         .getByTestId("conversation-briefing"),
     ).toHaveText(afterTurn);
   });

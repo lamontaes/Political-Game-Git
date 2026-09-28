@@ -6,6 +6,7 @@ import {
   openingChoiceMinutes,
 } from "../simulation/opening-life-content";
 import { scheduleAgreedCoverShift } from "../simulation/life-circumstances";
+import { recordFormativePlayerTraitChoice } from "../simulation/people-player-traits";
 import { formatMinute } from "./player-calendar";
 import {
   blockingHoldsToday,
@@ -19,6 +20,14 @@ import {
 } from "./scheduled-activity-choice";
 import { passOrdinaryDays } from "./ordinary-life";
 import { performVenueActivity } from "./venue-activity";
+import {
+  arriveAtCandidateGuidance,
+  projectCandidateGuidanceScene,
+} from "./candidate-guidance-scene";
+import { campaignLifeActivityForScheduledActivity } from "../simulation/campaign-life-activities";
+import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
+import { arriveAtOrdinaryMeeting } from "./ordinary-meeting-actions";
+import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import {
   lifeActivityHandlers,
   type OrdinaryLifeDayAdvance,
@@ -378,7 +387,17 @@ function gatherCandidates(
         (!beat.episodeKey.startsWith("opening.") ||
           !isArchivedRoutineOpeningSceneKey(
             beat.episodeKey.slice("opening.".length),
-          )),
+          ) ||
+          (beat.stageKey === "follow-through" &&
+            world.history.events.some(
+              (event) =>
+                event.type === "life.scene.opened" &&
+                event.tags.includes(
+                  `family:${beat.episodeKey.slice("opening.".length)}`,
+                ) &&
+                event.tags.includes("opening-stage:moment") &&
+                event.participants.some((actor) => actor.personId === personId),
+            ))),
     )
     .map((beat) => {
       const thread = threadForEpisodeBeat(threads, beat);
@@ -660,6 +679,28 @@ export function chooseTodayCalendarOption(
       (candidate) => candidate.id === wanted,
     );
     if (!activity) return world;
+    if (
+      activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+      projectOrdinaryMeetingScene(world, input.personId)?.phase !== "active"
+    )
+      return arriveAtOrdinaryMeeting(
+        world,
+        input.personId,
+        activity.id,
+        input.transitionHandlers,
+      );
+    if (
+      campaignLifeActivityForScheduledActivity(world, activity.id)?.form ===
+        "candidate-guidance" &&
+      projectCandidateGuidanceScene(world, input.personId)?.activityId !==
+        activity.id
+    )
+      return arriveAtCandidateGuidance(
+        world,
+        input.personId,
+        activity.id,
+        input.transitionHandlers,
+      );
     return performVenueActivity(
       world,
       input.personId,
@@ -936,19 +977,31 @@ export function chooseStoryOption(
           )
         : played.world;
     }
-    case "formative":
-      return chooseFormativeOption(world, {
+    case "formative": {
+      const chosen = chooseFormativeOption(world, {
         personId: input.personId,
         situationKey: scene.situationKey,
         optionKey: input.optionKey,
         withPersonId: scene.withPersonId,
       });
+      if (
+        formativeIntervalAt(world, input.personId)?.agency === "caregiver-led"
+      )
+        return chosen;
+      return recordFormativePlayerTraitChoice(world, chosen, {
+        personId: input.personId,
+        situationKey: scene.situationKey,
+        optionKey: input.optionKey,
+        choiceLabel:
+          scene.options.find((option) => option.key === input.optionKey)
+            ?.label ?? input.optionKey,
+      });
+    }
     case "adult":
       return chooseAdultOption(world, {
         personId: input.personId,
         situationKey: scene.situationKey,
         optionKey: input.optionKey,
-        transitionHandlers: lifeActivityHandlers(input.transitionHandlers),
       });
     case "ordinary-stretch": {
       const today = chooseTodayCalendarOption(world, input);

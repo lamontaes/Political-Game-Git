@@ -1,0 +1,171 @@
+[
+  {
+    "id": "wi-2025-act15-budget",
+    "jurisdiction": "Wisconsin",
+    "level": "state",
+    "session": "2025-2026 Legislature",
+    "bill_number": "SB 45 (inferred)",
+    "law_citation": "2025 Wisconsin Act 15",
+    "short_title": "2025-2027 biennial budget",
+    "enacted_date": "2025-07-03",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://docs.legis.wisconsin.gov/2025/related/acts/15",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets / income and sales taxes",
+    "secondary_menus": ["03", "05"],
+    "instrument": "appropriation",
+    "secondary_instruments": ["tax"],
+    "operation": "create",
+    "secondary_operations": ["lower"],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Two-year all-funds budget.",
+        "numbers": [
+          {
+            "value": 111000000000,
+            "unit": "USD",
+            "text": "111000000000 USD"
+          }
+        ]
+      },
+      {
+        "kind": "amount",
+        "description": "Tax cuts over the biennium.",
+        "numbers": [
+          {
+            "value": 1300000000,
+            "unit": "USD",
+            "text": "1300000000 USD"
+          }
+        ]
+      },
+      {
+        "kind": "exclusion",
+        "description": "Retirement income exclusion for older residents.",
+        "numbers": [
+          {
+            "value": 24000,
+            "unit": "USD",
+            "text": "24000 USD"
+          }
+        ]
+      },
+      {
+        "kind": "exemption",
+        "description": "Ends sales tax on residential electricity and natural gas."
+      },
+      {
+        "kind": "rate",
+        "description": "Second income tax bracket widened so more income is taxed at a lower rate.",
+        "numbers": [
+          {
+            "value": 800000,
+            "unit": "taxpayers affected",
+            "text": "800000 taxpayers affected"
+          }
+        ]
+      },
+      {
+        "kind": "amount",
+        "description": "Special education reimbursement rate and child care funding.",
+        "numbers": [
+          {
+            "value": 45,
+            "unit": "percent reimbursement rate",
+            "text": "45 percent reimbursement rate"
+          },
+          {
+            "value": 330000000,
+            "unit": "USD child care",
+            "text": "330000000 USD child care"
+          }
+        ]
+      }
+    ],
+    "touches": ["school districts", "University of Wisconsin", "utilities"],
+    "daily_life": "Retirees and middle earners pay less income tax; home heating bills drop the sales tax.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "wi-2025-act48-sextortion",
+    "jurisdiction": "Wisconsin",
+    "level": "state",
+    "session": "2025-2026 Legislature",
+    "bill_number": "see 2025 Wisconsin Act 48",
+    "law_citation": "2025 Wisconsin Act 48",
+    "short_title": "Bradyn's Law (sexual extortion penalties)",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://docs.legis.wisconsin.gov/2025/related/acts/48",
+    "aggregator_url": null,
+    "menu": "10",
+    "menu_name": "Justice & Public Safety",
+    "sub_topic": "Criminal law and sentencing",
+    "secondary_menus": ["13"],
+    "instrument": "penalty",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Creates a crime of sexual extortion."
+      },
+      {
+        "kind": "penalty",
+        "description": "Felony penalties, enhanced when the victim is a minor or dies by suicide (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["prosecutors", "online platforms"],
+    "daily_life": "Online blackmail of teens with images becomes a specific felony.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "wi-2025-act54-move-over",
+    "jurisdiction": "Wisconsin",
+    "level": "state",
+    "session": "2025-2026 Legislature",
+    "bill_number": "AB 409",
+    "law_citation": "2025 Wisconsin Act 54",
+    "short_title": "Move over / slow down law expansion",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://docs.legis.wisconsin.gov/2025/related/acts/54",
+    "aggregator_url": null,
+    "menu": "01",
+    "menu_name": "Infrastructure",
+    "sub_topic": "Roads & bridges - crossings and road safety",
+    "secondary_menus": ["10"],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "duty",
+        "description": "Drivers must move over or slow down for more types of stopped vehicles (inferred scope).",
+        "inferred": true
+      },
+      {
+        "kind": "penalty",
+        "description": "Traffic forfeiture for violations."
+      }
+    ],
+    "touches": ["state patrol", "tow operators"],
+    "daily_life": "Drivers must change lanes for any vehicle stopped with flashers on.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

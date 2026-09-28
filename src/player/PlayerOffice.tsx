@@ -1,4 +1,5 @@
 import { useReviewEnvironment, useReviewStorage } from "../ui/review-context";
+import { describeInterval } from "../presentation/time-target-label";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { useEffect, useMemo, useReducer, useState } from "react";
 
@@ -393,7 +394,7 @@ export function PlayerOffice() {
       type: "set-feedback",
       message: `${entry.activity.title} is ${updatedEntry?.state.status ?? "updated"} at ${formatRunATime(
         result.currentMoment.minuteOfDay,
-      )} after ${entry.execution.totalElapsedMinutes} minutes. ${
+      )} after ${describeInterval(entry.execution.totalElapsedMinutes)}. ${
         nextCommitment
           ? `Next commitment: ${nextCommitment.activity.title} at ${formatRunATime(
               nextCommitment.state.start.minuteOfDay,

@@ -1,3 +1,4 @@
+import { readerHeadline } from "./news-headlines";
 import {
   projectPublicInformationDigest,
   type PublicInformationDigest,
@@ -9,6 +10,8 @@ import { civicGlossaryEntry } from "./civic-glossary";
 
 export interface PublicInformationPanelItem extends PublicInformationDigestItem {
   readonly civicReferences: readonly CivicGlossaryEntry[];
+  /** The short headline a reader sees above the saved copy. */
+  readonly readerHeadline: string;
 }
 
 export interface PublicInformationPanelOutlet {
@@ -44,6 +47,7 @@ export function projectPublicInformationPanel(
     outlets: [...outlets.values()],
     items: digest.items.map((item) => ({
       ...item,
+      readerHeadline: readerHeadline(world, item),
       civicReferences: conceptIdsFor(item, world)
         .map(civicGlossaryEntry)
         .filter((entry): entry is CivicGlossaryEntry => entry !== null),
@@ -66,7 +70,7 @@ export function projectPublicInformationHeadline(
   const lead = projectPublicInformationDigest(world, jurisdictionId).items[0];
   return lead
     ? {
-        text: lead.headline,
+        text: readerHeadline(world, lead),
         publicationId: lead.publicationId,
         sourceEventId: lead.sourceEventId,
       }

@@ -118,20 +118,20 @@ export function projectLivingSceneSurface(
         .find((item) => item.publicationId === article.id)
         ?.corrections.map((correction) => correction.publicationId) ?? []),
     ];
-    put("headline", article.headline, "published", ids);
+    put("headline", article.readerHeadline, "published", ids);
     put("calendar-date", proseDate(article.publishedAt), "published", [
       article.id,
     ]);
     put(
       "document-body",
-      `${article.outletName}\n${article.headline}\n${proseDate(article.publishedAt)}\n${article.body}`,
+      `${article.outletName}\n${article.readerHeadline}\n${proseDate(article.publishedAt)}\n${article.body}`,
       "published",
       ids,
     );
     return {
       ...base,
       status: "bound",
-      heading: article.headline,
+      heading: article.readerHeadline,
       masthead: article.outletName,
       lines: [article.body],
       dateLabel: proseDate(article.publishedAt),

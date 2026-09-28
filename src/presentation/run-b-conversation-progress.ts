@@ -1,7 +1,4 @@
-import {
-  householdErrandsFor,
-  PUBLIC_MEETING_KEY,
-} from "../simulation/life-opportunities";
+import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import type { World } from "../simulation/types";
 import type { ContextualSceneProgress } from "./contextual-scenes";
 export type RunBConversationPhase =
@@ -217,34 +214,6 @@ export interface LegislativeBargainingProgress {
 }
 
 /**
- * A household deciding who carries the week.
- *
- * The third subject family, and the one the ordinary-life spine uses. It has
- * nothing to do with an office, which is the point: the conversation engine's
- * room, hearing and commitment rules are general, and only the subject is not.
- */
-export interface HouseholdObligationSubjectFacts {
-  readonly obligation: string;
-  readonly shortObligation: string;
-}
-
-export type HouseholdObligationCover =
-  "unsettled" | "shared" | "taken-by-other" | "taken-by-player";
-
-export type HouseholdObligationProposition =
-  "share-the-week" | "ask-them-to-take-it" | "take-it-yourself";
-
-export interface HouseholdObligationConversationProgress {
-  readonly subject: "household-obligation";
-  readonly subjectFacts: HouseholdObligationSubjectFacts;
-  readonly phase: "opening" | "raised" | "settled";
-  readonly cover: HouseholdObligationCover;
-  readonly latestProposition: HouseholdObligationProposition | null;
-  readonly pendingContributions: readonly [];
-  readonly silenceSettled: boolean;
-}
-
-/**
  * Two students with one piece of work between them.
  *
  * The fourth family, and the first that belongs to a child. It exists to prove
@@ -369,7 +338,6 @@ export type ConversationProgress =
   | RunBConversationProgress
   | RunCLegislativeConversationProgress
   | LegislativeBargainingProgress
-  | HouseholdObligationConversationProgress
   | SchoolProjectConversationProgress
   | NeighborhoodMeetingConversationProgress
   | LifeTalkConversationProgress;
@@ -382,34 +350,6 @@ export function isLegislativeBargainingProgress(
 
 /** Every subject family the game can currently hold a conversation about. */
 export type ConversationSubjectKey = ConversationProgress["subject"];
-
-export function createHouseholdObligationProgress(
-  world?: World,
-  personId?: EntityId,
-): HouseholdObligationConversationProgress {
-  return {
-    subject: "household-obligation",
-    subjectFacts: {
-      obligation:
-        world && personId
-          ? (householdErrandsFor(world, personId)?.summary ??
-            "The errands still need attention.")
-          : "The errands still need attention.",
-      shortObligation: "the week's errands",
-    },
-    phase: "opening",
-    cover: "unsettled",
-    latestProposition: null,
-    pendingContributions: [],
-    silenceSettled: false,
-  };
-}
-
-export function isHouseholdObligationConversationProgress(
-  progress: ConversationProgress,
-): progress is HouseholdObligationConversationProgress {
-  return progress.subject === "household-obligation";
-}
 
 export function createLifeTalkProgress(): LifeTalkConversationProgress {
   return {

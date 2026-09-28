@@ -97,6 +97,123 @@ export function recordPlayerTraitChoice(
 }
 
 /**
+ * A formative choice says something about temperament only where its own
+ * meaning does. A key includes its situation so a similarly named option in
+ * another situation cannot silently inherit the same interpretation. It never
+ * depends on the option's position among the choices the player saw.
+ */
+const FORMATIVE_CHOICE_TRAITS: Readonly<
+  Record<string, { readonly trait: PeopleTrait; readonly value: TraitValue }>
+> = {
+  "formative.school-entry:join-in": { trait: "sociability", value: 1 },
+  "formative.school-entry:hang-back": { trait: "sociability", value: -1 },
+  "formative.small-money:spend": { trait: "deliberation", value: 1 },
+  "formative.small-money:put-it-away": { trait: "deliberation", value: -1 },
+  "formative.lunch-table:make-room": { trait: "sociability", value: 1 },
+  "formative.lunch-table:look-away": { trait: "sociability", value: -1 },
+  "formative.lunch-table:go-with-them": { trait: "sociability", value: 1 },
+  "formative.friend-conflict:repair": { trait: "conflict", value: -1 },
+  "formative.friend-conflict:ask-someone": { trait: "deliberation", value: -1 },
+  "formative.school-rule-input:speak-up": { trait: "conflict", value: 1 },
+  "formative.school-rule-input:write-it-down": {
+    trait: "deliberation",
+    value: -1,
+  },
+  "formative.care-conflict:keep-the-commitment": {
+    trait: "reliability",
+    value: 1,
+  },
+  "formative.care-conflict:do-both-badly": {
+    trait: "reliability",
+    value: -1,
+  },
+  "formative.money-shortfall:ask-what-happened": {
+    trait: "deliberation",
+    value: -1,
+  },
+  "formative.civic-volunteering:observe": {
+    trait: "deliberation",
+    value: -1,
+  },
+  "formative.student-organizing:help-organize": {
+    trait: "conflict",
+    value: 1,
+  },
+  "formative.belief-challenge:say-you-disagree": {
+    trait: "conflict",
+    value: 1,
+  },
+  "formative.belief-challenge:let-it-pass": {
+    trait: "conflict",
+    value: -1,
+  },
+  // Read the same way as the choice evidence in life-choice-evidence.ts:
+  // preparing leans toward security, keeping options open toward risk.
+  "formative.future-preparation:prepare": { trait: "risk", value: -1 },
+  "formative.future-preparation:keep-options-open": { trait: "risk", value: 1 },
+  "formative.future-preparation:ask-someone-who-knows": {
+    trait: "deliberation",
+    value: -1,
+  },
+  "formative.caring-for-someone:take-it-on": {
+    trait: "reliability",
+    value: 1,
+  },
+  "formative.caring-for-someone:hold-the-line": {
+    trait: "deliberation",
+    value: -1,
+  },
+  "formative.workplace-rule:say-nobody-does": {
+    trait: "conflict",
+    value: 1,
+  },
+  "formative.workplace-rule:say-it-after": {
+    trait: "deliberation",
+    value: -1,
+  },
+};
+
+/** Records a played formative choice only after its canonical event exists. */
+export function recordFormativePlayerTraitChoice(
+  before: World,
+  after: World,
+  input: {
+    readonly personId: EntityId;
+    readonly situationKey: string;
+    readonly optionKey: string;
+    readonly choiceLabel: string;
+  },
+): World {
+  const trait =
+    FORMATIVE_CHOICE_TRAITS[`${input.situationKey}:${input.optionKey}`];
+  if (
+    !trait ||
+    after.control.kind !== "person" ||
+    after.control.personId !== input.personId
+  )
+    return after;
+  const choiceEvent = after.history.events
+    .slice(before.history.events.length)
+    .find(
+      (event) =>
+        event.participants.some(
+          (participant) =>
+            participant.personId === input.personId &&
+            participant.role === "agency:actor",
+        ) &&
+        event.tags.includes(input.situationKey) &&
+        event.tags.includes(`choice.${input.optionKey}`),
+    );
+  if (!choiceEvent) return after;
+  return recordPlayerTraitChoice(after, {
+    personId: input.personId,
+    ...trait,
+    choice: input.choiceLabel,
+    stableKey: choiceEvent.id,
+  });
+}
+
+/**
  * What the played character has said about themselves, and what they have not.
  *
  * `said` is the traits they have chosen; `unsaid` is the rest. The second is

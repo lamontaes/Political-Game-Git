@@ -1,4 +1,7 @@
 import type { AppearanceMaterial } from "../simulation/appearance-material";
+import type { EngineRecipe, OutfitKind } from "./appearance-engine/pack";
+import { engineRecipeFor } from "./appearance-engine/recipe";
+import { PEOPLE_PACK, peoplePackAvailable } from "./appearance-engine/runtime";
 import type { PersonRenderSnapshot } from "./person-render-snapshot";
 import {
   SCENE_REGISTRY,
@@ -124,6 +127,12 @@ export interface PlacedScenePerson {
   readonly heightPercent: number;
   /** Released art, when it exists. Empty until a body master is released. */
   readonly layers: readonly ScenePersonLayer[];
+  /**
+   * The people engine's recipe for this person, when the engine draws them
+   * (every standing adult, Sept. 27, 2026). The figure stands in this box,
+   * soles on its bottom edge; `layers` is then empty.
+   */
+  readonly engine?: EngineRecipe;
   /** True only when real art drew; false means the placeholder is showing. */
   readonly hasArt: boolean;
   /** One honest player-facing sentence for the placeholder. */
@@ -497,6 +506,18 @@ function releasedLayers(
  * there is nothing to stand people in, so the list is empty and the People rail
  * carries them instead.
  */
+/**
+ * What people wear in a room: formal where government is done (a chamber, a
+ * capitol, a hearing, an office of state), everyday clothes everywhere else.
+ */
+export function sceneOccasion(sceneId: string): OutfitKind {
+  return /chamber|capitol|legislat|senate|assembly|hearing|court|oval|city-hall|statehouse|governor|mayor/i.test(
+    sceneId,
+  )
+    ? "formal"
+    : "casual";
+}
+
 export function planLifeScenePeople(
   world: World,
   present: readonly ScenePerson[],
@@ -555,6 +576,39 @@ export function planLifeScenePeople(
      */
     const topPercent = anchor.contactFloorYPercent - heightPercent;
     let overflowPercent = Math.max(0, -topPercent);
+    const record = world.people[person.personId];
+    const engine =
+      !seated && record && !savedWardrobes?.artPreview && peoplePackAvailable()
+        ? engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
+            occasion: sceneOccasion(sceneId),
+          })
+        : null;
+    if (engine) {
+      return {
+        personId: person.personId,
+        name: person.name,
+        relationship: person.relationship,
+        anchorId: anchor.id,
+        seated,
+        leftPercent,
+        topPercent,
+        widthPercent,
+        heightPercent,
+        layers: [],
+        engine,
+        hasArt: true,
+        presence: person.relationship
+          ? `${person.name}, ${person.relationship}`
+          : person.name,
+        ...(overflowPercent > 0
+          ? {
+              artDiagnostics: [
+                `figure-taller-than-space-above-contact-line: ${overflowPercent.toFixed(1)}% of the plate is above the top edge, so this figure is cropped at the head.`,
+              ],
+            }
+          : {}),
+      } satisfies PlacedScenePerson;
+    }
     let personWardrobe = wardrobe;
     let wardrobeRefusal: string | undefined;
     if (

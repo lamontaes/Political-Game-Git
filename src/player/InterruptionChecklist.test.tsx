@@ -19,6 +19,6 @@ describe("the interruption checklist", () => {
     expect(row).toMatch(/checked=""/);
     expect(row).toMatch(/disabled=""/);
     expect(html).toContain('data-testid="shell-stop-always"');
-    expect(html).toContain('data-testid="shell-stop-stopForWorkShifts"');
+    expect(html).not.toContain("Ordinary work shifts");
   });
 });

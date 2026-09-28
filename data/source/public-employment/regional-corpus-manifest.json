@@ -1,0 +1,28 @@
+{
+  "asOf": "2026-09-26",
+  "canonicalSha256": "bf40cd57efa6e8196105812486ec0e04a6b03934aa4aa3c08c724fec426197af",
+  "compiler": "scripts/source/regional-money/compile.ts",
+  "compression": "gzip",
+  "corpusPath": "data/source/public-employment/regional-corpus.json.gz",
+  "coverage": {
+    "officeSpecificSalaryCoverage": "not published in OEWS ownership table",
+    "publicResearchStateCount": 54,
+    "requiredStateAndDcCount": 51,
+    "sectorCodes": [
+      "999101",
+      "999201",
+      "999301"
+    ]
+  },
+  "inputs": [
+    {
+      "localPath": "data/source/public-employment/raw/oews-industry-2025.zip",
+      "sha256": "3ef0e42fab1b42a7dac8a3a9b3e7024f5d7a07eff308bff5fc91808061ec08e1"
+    },
+    {
+      "localPath": "data/source/public-employment/raw/oews-state-ownership-research-2025.xlsx",
+      "sha256": "82e8eb29e93060d12bbf5a80261ea5059ab597ad5bf3c8a55a21e2edee6fc46d"
+    }
+  ],
+  "recordCount": 36639
+}

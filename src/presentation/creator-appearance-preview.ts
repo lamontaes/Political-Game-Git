@@ -1,3 +1,4 @@
+import { withEngineChoice } from "./appearance-engine/recipe";
 import {
   createStartingPerson,
   createWorld,
@@ -143,10 +144,17 @@ export function applyCreatorAppearance(
 ): World {
   // A public checkout has no prepared candidate bodies, so there is no
   // complete outfit to commit; the ordinary generated appearance stands.
-  if (!choice || !PRIVATE_CANDIDATE_ART_AVAILABLE) return world;
-  return commitCompleteOutfit(world, choice.personId, choice.appearance, {
-    library,
-    poseFamily: "standing-neutral",
-    families: choice.appearance.outfit?.families,
-  });
+  const dressed =
+    !choice || !PRIVATE_CANDIDATE_ART_AVAILABLE
+      ? world
+      : commitCompleteOutfit(world, choice.personId, choice.appearance, {
+          library,
+          poseFamily: "standing-neutral",
+          families: choice.appearance.outfit?.families,
+        });
+  // The people engine's choices travel in every build.
+  const engine = choice?.appearance.engine;
+  return choice && engine
+    ? withEngineChoice(dressed, choice.personId, engine)
+    : dressed;
 }

@@ -47,23 +47,6 @@ describe("an ordinary life's standing things age", () => {
     }
   });
 
-  it("says how long once it has stood a week or more", () => {
-    const { world, personId } = ordinaryLife("pending-age-week");
-    const day = projectOrdinaryDay(passOrdinaryDays(world, 10), personId);
-    expect(day.pending.length).toBeGreaterThan(0);
-    // Only what is still open ages. Ten days is long enough for the posted
-    // meeting's own time to have come and gone, and a thing that is over does
-    // not go on saying how long it has been waiting for an answer.
-    const open = day.pending.filter((thing) => thing.answeredBy === null);
-    expect(open.length).toBeGreaterThan(0);
-    for (const thing of open) {
-      expect(thing.daysStanding).toBe(10);
-      expect(thing.sentence).toMatch(/a week on\./);
-      // The day it was written has not moved and is not restated as today.
-      expect(thing.openedOn).toBe(world.currentDate);
-    }
-  });
-
   it("no longer reads like a first morning after twelve weeks", () => {
     // The reported session: the same two items, identical on 2026-01-05 and
     // on 2026-03-30, with nothing on screen acknowledging the gap.

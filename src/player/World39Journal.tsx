@@ -1,4 +1,8 @@
 import { proseDate } from "../presentation/prose-dates";
+import {
+  journalChronicleInFirstPerson,
+  journalInFirstPerson,
+} from "../presentation/journal-first-person";
 import { useState, type ReactNode } from "react";
 import type { EntityId, World } from "../simulation";
 import type {
@@ -58,7 +62,7 @@ export function World39Journal({
       aria-label="Life journal"
       data-testid="world39-journal"
     >
-      <h3>Your life so far</h3>
+      <h3>My life so far</h3>
       <p>{biography.name}</p>
       {!biography.entries.some((entry) => entry.at > birthDate) ? (
         <p data-testid="world39-journal-sparse">
@@ -105,65 +109,89 @@ export function World39Journal({
         data-testid="world39-biography"
         data-view={shown.view}
       >
-        {shown.sections.map((chapter) => (
-          <section
-            key={chapter.key}
-            className="world39-chapter"
-            data-testid="world39-chapter"
-            data-year={chapter.span ?? undefined}
-          >
-            <h4>
-              {chapter.heading}
-              {chapter.span && !chapter.heading.startsWith(chapter.span) ? (
-                <span className="world39-chapter-span"> · {chapter.span}</span>
+        {shown.sections.map((chapter) => {
+          // The Journal is the character's own: "I", and past tense.
+          const told = new Map(
+            journalChronicleInFirstPerson(
+              chapter.chronicle.map((line) => ({
+                id: line.entry.id,
+                text: line.entry.text,
+              })),
+            ).map((line) => [line.id, line]),
+          );
+          return (
+            <section
+              key={chapter.key}
+              className="world39-chapter"
+              data-testid="world39-chapter"
+              data-year={chapter.span ?? undefined}
+            >
+              <h4>
+                {chapter.heading}
+                {chapter.span && !chapter.heading.startsWith(chapter.span) ? (
+                  <span className="world39-chapter-span">
+                    {" "}
+                    · {chapter.span}
+                  </span>
+                ) : null}
+              </h4>
+              {chronicleParagraphs(chapter.chronicle).map((paragraph) => (
+                <p key={paragraph[0]!.entry.id}>
+                  {paragraph
+                    .filter((line) => !told.get(line.entry.id)?.absorbed)
+                    .map((line, index) => (
+                      <span
+                        key={line.entry.id}
+                        id={`world39-journal-${line.entry.id}`}
+                        data-entry-kind={line.entry.kind}
+                        data-source-id={line.entry.sourceId}
+                        data-at={line.entry.at}
+                      >
+                        {index > 0 ? " " : ""}
+                        {line.entry.kind === "account" ? (
+                          <>
+                            <span className="world39-meta">
+                              As I heard it:{" "}
+                            </span>
+                            {told.get(line.entry.id)?.firstPerson ??
+                              line.entry.text}
+                          </>
+                        ) : (
+                          withChronicleLead(
+                            line.lead,
+                            told.get(line.entry.id)?.firstPerson ??
+                              line.entry.text,
+                          )
+                        )}
+                      </span>
+                    ))}
+                </p>
+              ))}
+              {chapter.repeats.length > 0 ? (
+                <p
+                  className="world39-repeats"
+                  data-testid="world39-chapter-repeats"
+                >
+                  {chapter.repeats.map((repeat, index) => (
+                    <span
+                      key={repeat.first.id}
+                      id={`world39-journal-${repeat.first.id}`}
+                      data-entry-kind={repeat.first.kind}
+                      data-source-id={repeat.first.sourceId}
+                      data-at={repeat.first.at}
+                      data-count={repeat.count}
+                    >
+                      {index > 0 ? " " : ""}
+                      {journalInFirstPerson(repeat.first.text)}{" "}
+                      {repeat.count - 1} more like it followed, the last on{" "}
+                      {proseDate(repeat.lastAt)}.
+                    </span>
+                  ))}
+                </p>
               ) : null}
-            </h4>
-            {chronicleParagraphs(chapter.chronicle).map((paragraph) => (
-              <p key={paragraph[0]!.entry.id}>
-                {paragraph.map((line, index) => (
-                  <span
-                    key={line.entry.id}
-                    id={`world39-journal-${line.entry.id}`}
-                    data-entry-kind={line.entry.kind}
-                    data-source-id={line.entry.sourceId}
-                    data-at={line.entry.at}
-                  >
-                    {index > 0 ? " " : ""}
-                    {line.entry.kind === "account" ? (
-                      <>
-                        <span className="world39-meta">As you heard it: </span>
-                        {line.entry.text}
-                      </>
-                    ) : (
-                      withChronicleLead(line.lead, line.entry.text)
-                    )}
-                  </span>
-                ))}
-              </p>
-            ))}
-            {chapter.repeats.length > 0 ? (
-              <p
-                className="world39-repeats"
-                data-testid="world39-chapter-repeats"
-              >
-                {chapter.repeats.map((repeat, index) => (
-                  <span
-                    key={repeat.first.id}
-                    id={`world39-journal-${repeat.first.id}`}
-                    data-entry-kind={repeat.first.kind}
-                    data-source-id={repeat.first.sourceId}
-                    data-at={repeat.first.at}
-                    data-count={repeat.count}
-                  >
-                    {index > 0 ? " " : ""}
-                    {repeat.first.text} {repeat.count - 1} more like it
-                    followed, the last on {proseDate(repeat.lastAt)}.
-                  </span>
-                ))}
-              </p>
-            ) : null}
-          </section>
-        ))}
+            </section>
+          );
+        })}
       </div>
       <details className="world39-notes">
         <summary>Private notes and intentions</summary>

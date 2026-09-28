@@ -142,6 +142,16 @@ export type {
   CommitCampaignWeekInput,
 } from "./campaign-weekly-plans";
 export {
+  chooseCampaignWeekAction,
+  projectCampaignWeekActions,
+} from "./campaign-week-actions";
+export type {
+  CampaignWeekActionChoice,
+  CampaignWeekActionResult,
+  CampaignWeekActionView,
+  ChooseCampaignWeekActionInput,
+} from "./campaign-week-actions";
+export {
   CAMPAIGN_ACTION_KINDS,
   CAMPAIGN_ORGANIZATION_CLASSIFICATION,
   CAMPAIGN_STATUSES,
