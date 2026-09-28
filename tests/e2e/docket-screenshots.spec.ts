@@ -1,7 +1,16 @@
-import { fileCandidacy, workOfferedOutreach } from "./support/campaign";
+import { fileCandidacy } from "./support/campaign";
+import {
+  campaignHostedUntilDecided,
+  secureCampaignHost,
+} from "./support/legislative-entry";
 import { expect, test, type Page } from "./fixtures";
 
-import { enterLife, openElsewhere, startLife } from "./support/creator";
+import {
+  enterLife,
+  openElsewhere,
+  passShellTime,
+  startLife,
+} from "./support/creator";
 import { shotPath } from "./support/shot-path";
 
 /**
@@ -36,15 +45,10 @@ async function freshBrowser(page: Page) {
   });
 }
 
-async function liveUntilDecided(page: Page, maxDays = 45) {
-  for (let day = 0; day < maxDays; day += 1) {
-    if (await page.getByTestId("campaign-result").isVisible()) return true;
-    await page.getByTestId("shell-pass-day").click();
-  }
-  return page.getByTestId("campaign-result").isVisible();
-}
-
 test("captures the five-minute click path", async ({ page }) => {
+  // Measured on 730accec: the hosted campaign to the November result takes
+  // about 165 s and the walk to the January term start follows it.
+  test.setTimeout(360_000);
   await freshBrowser(page);
   await page.goto("/?seed=p85c-owner-0");
   await startLife(page, {
@@ -56,19 +60,19 @@ test("captures the five-minute click path", async ({ page }) => {
   await enterLife(page);
   await openElsewhere(page, "campaign");
   await fileCandidacy(page);
-  await page.getByTestId("campaign-fundraising").click();
-  // Work every day the control is offered rather than a fixed three. The rival
-  // campaigns weekly since d60b2975, and measured headlessly three outreach
-  // days lose and six also lose while working every offered day wins. This
-  // case is about the docket downstream of a win, so it needs a premise that
-  // still reaches one.
-  for (let day = 0; day < 48; day += 1) {
-    if (await page.getByTestId("campaign-result").isVisible()) break;
-    await page.getByTestId("shell-pass-day").click();
-    await workOfferedOutreach(page);
-  }
-  expect(await liveUntilDecided(page)).toBe(true);
+  // This case is about the docket downstream of a win, so it needs a premise
+  // that still reaches one. Since c73ce6024 (PR #805) that is the hosted,
+  // dated campaign work; the "Do this now" row it used to press is retired.
+  await secureCampaignHost(page);
+  expect(await campaignHostedUntilDecided(page)).toBe(true);
   await openElsewhere(page, "work");
+  // The election result is not office authority: the recorded winner enters
+  // the supported term on its start date, so the week is lived until the
+  // office exists, as pr79f does.
+  for (let week = 0; week < 52; week += 1) {
+    if (await page.getByTestId("office-section").isVisible()) break;
+    await passShellTime(page, "week");
+  }
   await expect(page.getByTestId("office-section")).toBeVisible();
 
   // 1. Work, with an empty docket and a way to start.

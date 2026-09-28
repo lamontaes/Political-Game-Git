@@ -5,6 +5,8 @@ import {
   enterLife,
   openElsewhere,
   saveLife,
+  browseStudy,
+  openFolded,
 } from "./support/creator";
 
 async function passDays(page: Page, days: number) {
@@ -28,6 +30,7 @@ test("normal dated education offer, period progression, interruption and repeate
   });
   await enterLife(page);
   await openElsewhere(page, "jobs");
+  await browseStudy(page);
   const education = page.getByRole("region", {
     name: "Real education options",
     exact: true,
@@ -35,8 +38,11 @@ test("normal dated education offer, period progression, interruption and repeate
   await education
     .getByRole("textbox", { name: "Search institutions" })
     .fill("Bluegrass");
+  // Since 508c8736a the row names the institution and its place only; the
+  // federal unit ID (156392) is no longer part of the button's name.
   const institution = education.getByRole("button", {
-    name: /Bluegrass Community and Technical College.*156392/,
+    name: "Bluegrass Community and Technical College — Lexington, KY",
+    exact: true,
   });
   await expect(institution).toBeVisible();
   await institution.click();
@@ -88,7 +94,10 @@ test("normal dated education offer, period progression, interruption and repeate
 test("normal invitation pointer refusal preserves time and survives saving", async ({
   page,
 }) => {
-  await page.goto("/?seed=ui-invitation-pointer");
+  // Since 5c04dfb47 an invitation needs a reason in the host's own life, and
+  // the reasonless "Something on Saturday" is no longer written. This seed's
+  // Lexington life opens with a grounded one (seed found by search).
+  await page.goto("/?seed=ui-invitation-pointer-41");
   await startLife(page, {
     place: "Lexington",
     state: "Kentucky",
@@ -100,17 +109,20 @@ test("normal invitation pointer refusal preserves time and survives saving", asy
   await saveLife(page);
   const before = await readSavedLegislativeWorld(page);
   await openElsewhere(page, "jobs");
+  await openFolded(page, "Other paths and invitations");
   const invitations = page.getByRole("region", {
     name: "Invitations",
     exact: true,
   });
+  // Since e79d4ec33 the reply wording is SOCIAL_INVITATION_REPLIES, and the
+  // panel keeps the spoken answer on screen until time moves.
   await invitations
     .getByRole("button", {
-      name: "Decline invitation: Something on Saturday",
-      exact: true,
+      name: /^Say you can’t make it: Saturday afternoon at /,
     })
     .click();
-  await expect(invitations).toHaveCount(0);
+  await expect(invitations.getByRole("article")).toHaveCount(0);
+  await expect(invitations).toContainText("I can’t make it.");
   await saveLife(page);
   const after = await readSavedLegislativeWorld(page);
   expect(after.currentMoment).toEqual(before.currentMoment);

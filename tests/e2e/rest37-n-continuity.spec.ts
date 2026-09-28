@@ -42,7 +42,7 @@ test("recorded result enters its supported term through ordinary Work and files/
   await enterLife(page);
   await openElsewhere(page, "campaign");
   await expect(page.getByTestId("campaign-afterword")).toContainText(
-    "2027-01-01",
+    "The term begins January 1, 2027",
   );
   await expect(page.getByTestId("open-legislation")).toHaveCount(0);
   // Time moves from the shell's own Day control: Work and Campaigns stopped

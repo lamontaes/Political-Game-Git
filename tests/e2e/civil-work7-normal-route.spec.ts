@@ -2,7 +2,7 @@
 // Tests preparation reachability only, not lawful public hiring or review.
 import { test, expect } from "./fixtures";
 import { chooseOption } from "./support/controls";
-import { enterLife, goTo, startLife } from "./support/creator";
+import { enterLife, goTo, startLife, openFolded } from "./support/creator";
 
 /*
  * This walks the whole creator, enters a life, opens a moment and crosses two
@@ -37,6 +37,8 @@ test("ordinary Day and Work expose private personnel preparation", async ({
    */
   await goTo(page, "nav-jobs");
   const paths = page.getByTestId("personal-work-section");
+  // The supported paths are folded under "Other paths and invitations".
+  await openFolded(paths, "Other paths and invitations");
   // Actual supported LIFE engagement, through its ordinary button.
   const accept = paths.getByRole("button", {
     name: "Accept Shop assistant",

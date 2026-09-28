@@ -260,7 +260,7 @@ test("the owner journey: brief → batch → restart → filter → approve → 
       .getByRole("button", { name: "Approve", exact: true })
       .click();
     await expect(page.getByTestId("art-desk-status")).toContainText(
-      "approve recorded",
+      "Approved. Moved to Approved",
     );
     await expect(page.getByTestId("art-desk-decision-approve")).toBeVisible();
     state = await benchState(page);
@@ -277,12 +277,13 @@ test("the owner journey: brief → batch → restart → filter → approve → 
       state.projection.candidates[first.candidateId].decisions[0].eventId;
 
     // 5. Add tags after approval; the integration item stays; filters find it.
+    // Since 163b1e48 the tag editor sits in the "Organize this image"
+    // disclosure, closed until the owner opens it.
+    await page.getByText("Organize this image", { exact: true }).click();
     await page.getByTestId("art-desk-tag-region").fill("southwest");
     await page.getByTestId("art-desk-tag-assetType").fill("environment-plate");
     await page.getByTestId("art-desk-tags-save").click();
-    await expect(page.getByTestId("art-desk-status")).toContainText(
-      "Tags saved",
-    );
+    await expect(page.getByTestId("art-desk-status")).toHaveText("Saved.");
     state = await benchState(page);
     expect(state.projection.candidates[first.candidateId].tags.region).toEqual([
       "southwest",
@@ -312,7 +313,7 @@ test("the owner journey: brief → batch → restart → filter → approve → 
     await page.getByTestId("art-desk-revision-text").fill(instructions);
     await page.getByTestId("art-desk-revision-send").click();
     await expect(page.getByTestId("art-desk-status")).toContainText(
-      "request-revision recorded",
+      "Changes requested. Your note is saved.",
     );
     state = await benchState(page);
     const revisionDecision =
@@ -390,8 +391,10 @@ test("the owner journey: brief → batch → restart → filter → approve → 
     await expect(page.getByTestId("art-desk-lineage")).toContainText(
       "original → upscale",
     );
+    // The projection above already says "awaiting-review"; the panel words an
+    // undecided image as having no decision yet (since 163b1e48).
     await expect(page.getByTestId("art-desk-decisions")).toContainText(
-      "Awaiting review",
+      "No decision yet.",
     );
 
     // Transparent edit from the original card: alpha measured, checkerboard shown.
@@ -438,7 +441,7 @@ test("the owner journey: brief → batch → restart → filter → approve → 
       .getByRole("button", { name: "Approve", exact: true })
       .click();
     await expect(page.getByTestId("art-desk-status")).toContainText(
-      "approve recorded",
+      "Approved. Moved to Approved",
     );
     state = await benchState(page);
     expect(state.projection.candidates[upscaled!.candidateId].status).toBe(
@@ -546,7 +549,7 @@ test("the owner journey: brief → batch → restart → filter → approve → 
   }
 });
 
-test("source-switch persistence: the data root outlives the worktree and a second store sees the same events", async ({
+test("the store's event log on disk matches what the bridge reports, in this run's own isolated data root", async ({
   request,
   baseURL,
 }) => {
@@ -558,7 +561,12 @@ test("source-switch persistence: the data root outlives the worktree and a secon
     .trim()
     .split("\n");
   expect(log.length).toBe(events.events.length);
-  expect(dataRoot.startsWith(process.cwd())).toBe(false);
-  expect(state.store.dataRootLabel).toContain("outside the worktree");
+  /*
+   * Since 867e8df14 every browser run writes to its own disposable store under
+   * the run's artifacts, never the owner's persistent store or Drive mirror,
+   * so the data root is inside this run's folder by design.
+   */
+  expect(dataRoot).toContain(process.env.PG_RUN_ID!);
+  expect(state.store).toBeTruthy();
   expect(baseURL).toMatch(/127\.0\.0\.1|localhost/);
 });

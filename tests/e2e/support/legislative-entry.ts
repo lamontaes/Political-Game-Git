@@ -1,12 +1,137 @@
-import { expect, type Page } from "@playwright/test";
-import { campaignWeeklyUntilDecided, workOfferedOutreach } from "./campaign";
-import { enterLife, goTo, passShellTime } from "./creator";
+import { expect, type Locator, type Page } from "@playwright/test";
+import { enterLife, goTo, passShellTime, waitForClockIdle } from "./creator";
 import {
   chooseStateLegislativeOffice,
   type ChamberChoice,
 } from "./jurisdictions";
 import { resolveActiveMemberSeat } from "../../../src/presentation/legislative-member-seat";
 import type { World } from "../../../src/simulation";
+
+/**
+ * Campaign work as the Campaign page offers it since PR #805.
+ *
+ * c73ce6024 replaced the "Do this now" row (campaign-fundraising,
+ * campaign-outreach) with dated, hosted choices, and 12f389322 routes a
+ * campaign with no staff to a chapter's support first: until a chapter
+ * organizer has agreed to host its work, "Campaign choices this week" offers
+ * nothing. So a candidate joins a local chapter, asks for its support, and
+ * then puts the offered work on the calendar and goes to it. Every step is a
+ * control the player presses; nothing here writes the World.
+ *
+ * The chapter's answer is a decision with close-choice randomness, and a
+ * newcomer who shares no recorded party with it is turned down. Each request
+ * the candidate turns up for is itself time spent with the organizer, which
+ * the next decision counts, so asking again is the ordinary way through.
+ */
+export async function secureCampaignHost(page: Page, maxAsks = 6) {
+  await goTo(page, "nav-parties");
+  const join = page.locator('[data-testid^="chapter-join-"]').first();
+  const organizationId = (await join.getAttribute("data-testid"))!.replace(
+    "chapter-join-",
+    "",
+  );
+  await join.click();
+  await expect(
+    page.getByTestId(`chapter-leave-${organizationId}`),
+  ).toBeVisible();
+  await goTo(page, "elsewhere-campaign");
+  const choices = page.getByTestId("campaign-action-choices");
+  await expect(choices).toBeVisible();
+  for (let ask = 0; ask < maxAsks; ask += 1) {
+    if (!(await hostIsMissing(page))) return organizationId;
+    await workPartyRow(
+      page,
+      page.getByTestId(`party-work-request-support-request-${organizationId}`),
+    );
+  }
+  expect(await hostIsMissing(page), "no chapter agreed to host").toBe(false);
+  return organizationId;
+}
+
+async function hostIsMissing(page: Page) {
+  return (
+    (await page
+      .getByTestId("campaign-action-choices-empty")
+      .filter({ hasText: "No one has agreed to host" })
+      .count()) > 0
+  );
+}
+
+/**
+ * Presses `create` (a request or a booking), then goes to the calendar entry
+ * it made, the way the party-work row offers it. An earlier commitment on the
+ * calendar comes first, so the day is lived until the entry can be reached.
+ * Returns whether the entry's outcome was recorded.
+ */
+async function workPartyRow(page: Page, create: Locator) {
+  const rows = page.locator('li[data-testid^="party-work-"][data-state]');
+  const before = new Set(
+    await rows.evaluateAll((items) =>
+      items.map((item) => item.getAttribute("data-testid")),
+    ),
+  );
+  await waitForClockIdle(page);
+  await create.click();
+  await expect(rows).toHaveCount(before.size + 1);
+  const rowId = (
+    await rows.evaluateAll((items) =>
+      items.map((item) => item.getAttribute("data-testid")),
+    )
+  ).find((id) => !before.has(id))!;
+  const activityId = rowId.replace("party-work-", "");
+  const outcome = page.getByTestId(`party-work-outcome-${activityId}`);
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const go = page
+      .getByTestId(rowId)
+      .locator(
+        [
+          `[data-testid="party-work-attend-condensed-${activityId}"]`,
+          `[data-testid="party-work-take-shift-${activityId}"]`,
+          `[data-testid="party-work-attend-${activityId}"]`,
+        ].join(", "),
+      )
+      .first();
+    if ((await go.count()) === 0) break;
+    await waitForClockIdle(page);
+    await go.click();
+    await waitForClockIdle(page);
+    if ((await outcome.count()) > 0) return true;
+    await passShellTime(page);
+  }
+  return (await outcome.count()) > 0;
+}
+
+/**
+ * Books each offered piece of field work this week and goes to it. Returns
+ * how many were done. Field work (a door canvass or a phone shift) is what
+ * moves the campaign's support since c73ce6024.
+ */
+export async function workOfferedCampaignChoices(
+  page: Page,
+  forms: readonly string[] = ["door-canvass", "phone-shift"],
+) {
+  let done = 0;
+  for (const form of forms) {
+    const book = page.getByTestId(`campaign-book-${form}`);
+    if ((await book.count()) === 0) continue;
+    if (await workPartyRow(page, book)) done += 1;
+  }
+  return done;
+}
+
+/**
+ * Campaigns with hosted work until the contest is decided: every week the
+ * offered field work is booked and attended, then the week is lived.
+ */
+export async function campaignHostedUntilDecided(page: Page, maxWeeks = 110) {
+  for (let week = 0; week < maxWeeks; week += 1) {
+    if (await page.getByTestId("campaign-result").isVisible()) return true;
+    await workOfferedCampaignChoices(page);
+    if (await page.getByTestId("campaign-result").isVisible()) return true;
+    await passShellTime(page, "week");
+  }
+  return page.getByTestId("campaign-result").isVisible();
+}
 
 /**
  * Replay the banked ordinary entry; never inject a World, seat or result.
@@ -31,25 +156,18 @@ export async function reachMemberOffice(
   const officeKey = await chooseStateLegislativeOffice(page, chamber);
   await expect(page.getByTestId("file-candidacy")).toBeEnabled();
   await page.getByTestId("file-candidacy").press("Enter");
-  await page.getByTestId("campaign-fundraising").click();
-  // Work every day the control is offered, rather than for a fixed number of
-  // days. Three was true when this was written and is not now: the rival
-  // campaigns weekly since d60b2975, and measured headlessly on this route
-  // three outreach days LOSE, six also LOSE — only five actions were even
-  // available — and working every offered day WINS with 26 actions. Any day
-  // count is a guess about a model that has already changed once; "do the
-  // work the game offers" cannot go stale the same way, and if the player
-  // does everything available and still loses, that is a finding worth a
-  // failure rather than a premise to re-tune.
-  for (let day = 0; day < 48; day += 1) {
-    if (await page.getByTestId("campaign-result").isVisible()) break;
-    await passShellTime(page);
-    await workOfferedOutreach(page);
-  }
-  // The seat is decided on the state's election day, not after 48 days.
-  await campaignWeeklyUntilDecided(page);
+  // Do the work the game offers rather than a fixed number of days: since
+  // c73ce6024 (PR #805) that is the hosted, dated choices on the Campaign
+  // page, which open once a chapter agrees to host the campaign's work. The
+  // "Do this now" fundraising and outreach row this route used is retired.
+  // If the player does everything offered and still loses, that is a
+  // finding worth a failure rather than a premise to re-tune.
+  await secureCampaignHost(page);
+  await campaignHostedUntilDecided(page);
   await expect(page.getByTestId("campaign-result")).toBeVisible();
-  await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
+  await expect(page.getByTestId("campaign-afterword")).toContainText(
+    /\bwon[,.]/,
+  );
   await goTo(page, "elsewhere-work");
   // The election result is not office authority: the recorded winner enters
   // the supported term on its start date, so the ordinary shell clock moves

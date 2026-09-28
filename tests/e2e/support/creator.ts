@@ -1,4 +1,4 @@
-import { expect, type Page } from "@playwright/test";
+import { expect, type Locator, type Page } from "@playwright/test";
 import { chooseOption } from "./controls";
 
 import { resolveExplicitCreatorHometown } from "../../../src/presentation/new-game-geography";
@@ -216,8 +216,15 @@ export async function chooseStartAge(page: Page, age: number): Promise<void> {
     page.getByTestId("start-birth-year"),
     String(2026 - age - (notYet ? 1 : 0)),
   );
+  /*
+   * With month and day chosen the creator states the exact age ("You begin
+   * at age 30, on …"). With either still blank it states the range that year
+   * allows ("Age 29–30 on …"), and Next fills the rest.
+   */
   await expect(page.getByTestId("creator-derived-age")).toContainText(
-    `age ${age},`,
+    month > 0 && day > 0
+      ? `age ${age},`
+      : new RegExp(`^Age (?:${age - 1}–)?${age} on `),
   );
 }
 
@@ -396,6 +403,13 @@ export async function openShellMenu(page: Page): Promise<void> {
    * ends. The cluster's own aria-expanded is the state the shell keeps, it is
    * always there to be read, and it is what this decides and waits on.
    */
+  /*
+   * A workspace that was just closed fades for 160ms (70d6f538b) and only
+   * then tells the shell it has gone, which settles the shell and shuts any
+   * menu opened in the meantime. Wait for the fade to finish, as a player
+   * sees it do.
+   */
+  await expect(page.locator(".pg-workspace[data-closing]")).toHaveCount(0);
   if ((await cluster.getAttribute("aria-expanded")) !== "true") {
     await cluster.click();
   }
@@ -407,9 +421,16 @@ export async function openShellMenu(page: Page): Promise<void> {
    * not enough: a flyout left open on Personal holds no Politics entry at
    * all, and waiting for one there waits for something the player cannot see
    * either. Come back up the way a player does, with the menu's own Back.
+   *
+   * Since the labeled section bar (20d9209d0), a submenu belongs to its bar
+   * section, so its Back returns to the bar and closes the menu rather than
+   * showing the corner menu. The portrait is then pressed again to open it.
    */
   if ((await flyout.getAttribute("data-level")) === "submenu") {
     await page.getByTestId("nav-submenu-back").click();
+    await expect(cluster).toHaveAttribute("aria-expanded", "false");
+    await cluster.click();
+    await expect(cluster).toHaveAttribute("aria-expanded", "true");
     await expect(flyout).toHaveAttribute("data-level", "primary");
   }
 }
@@ -459,7 +480,12 @@ export async function advanceQuietStory(page: Page): Promise<void> {
 const POLITICS_HUB: Readonly<Record<string, readonly string[]>> = {
   "elsewhere-work": ["politics-tab-office"],
   "elsewhere-campaign": ["politics-tab-campaigns"],
-  "nav-politics-government": ["politics-tab-government"],
+  // Politics opens Government at the map (owner, 2026-09-22); "Who governs"
+  // is the Government tab's overview section.
+  "nav-politics-government": [
+    "politics-tab-government",
+    "politics-sub-overview",
+  ],
   "nav-municipal": ["politics-tab-government", "politics-sub-records"],
   "nav-parties": ["politics-tab-parties"],
   "nav-politics-budget": ["politics-tab-issues", "politics-sub-budget"],
@@ -680,3 +706,30 @@ export async function chooseStateThenTown(
 
 /** Compatibility name used by the completed L route. */
 export const KENTUCKY_REGRESSION_HOMETOWN = KENTUCKY_LEXINGTON_REGRESSION;
+
+/**
+ * The Jobs screen shows Work or Study, one at a time, behind "Browse
+ * opportunities". Study (the real-college finder and programs) is one press.
+ */
+export async function browseStudy(scope: Page | Locator): Promise<void> {
+  const study = scope
+    .getByRole("group", { name: "Browse opportunities" })
+    .getByRole("button", { name: "Study", exact: true })
+    .first();
+  await study.click();
+  await expect(study).toHaveAttribute("aria-pressed", "true");
+}
+
+/**
+ * Opens a folded section ("Other work", "Other paths and invitations") the
+ * way a player does, and leaves an already open one alone.
+ */
+export async function openFolded(
+  scope: Page | Locator,
+  summary: string,
+): Promise<void> {
+  const label = scope.locator("summary", { hasText: summary }).first();
+  const details = label.locator("xpath=..");
+  if ((await details.getAttribute("open")) === null) await label.click();
+  await expect(details).toHaveAttribute("open", "");
+}

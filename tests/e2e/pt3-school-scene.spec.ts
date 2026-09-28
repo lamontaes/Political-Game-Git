@@ -89,7 +89,9 @@ async function playToCorridor(
       (await page.getByTestId("story-prose").count()) > 0
         ? await page.getByTestId("story-prose").innerText()
         : "";
-    if (/is broken at school/i.test(prose)) {
+    // Since 9804f3625 the scene names the child's own school ("is broken at
+    // Lexington Middle School"); an old replay still reads "at school".
+    if (/is broken at (?:school|[A-Z][^,.]*)[,.]/.test(prose)) {
       return { prose, options: await optionLabels(page) };
     }
     const buttons = page.getByTestId("story-options").getByRole("button");
@@ -176,6 +178,14 @@ test.describe("PT3 — the corridor scene on the screen", () => {
     test(`${route.label} route names the incident and peer through reload and continuation`, async ({
       page,
     }) => {
+      // Since 5c04dfb47 (dialogue review, 2026-09-23) the "blamed" stage of
+      // school.the-thing-you-got-blamed-for carries a "withheld" requirement:
+      // no record produces the broken object or the blame, so a new life never
+      // reaches the corridor. Re-enable when a producer records the incident.
+      test.skip(
+        true,
+        "The corridor scene is withheld until a record produces its incident (5c04dfb47).",
+      );
       // A year-later continuation may require fifty-two Week presses.
       test.setTimeout(240_000);
       await freshBrowser(page, route.seed);

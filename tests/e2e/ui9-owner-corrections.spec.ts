@@ -160,9 +160,9 @@ test("UI9-10: the starting age is derived from the birthday, never a half-typed 
    */
   const derived = page.getByTestId("creator-derived-age");
   await expect(page.getByTestId("creator-continue-character")).toBeDisabled();
-  await expect(derived).toContainText("Choose a birth year");
+  await expect(derived).toContainText("Next fills any blank birthday fields");
   await chooseStartAge(page, 25);
-  await expect(derived).toContainText("age 25,");
+  await expect(derived).toContainText("Age 24–25 on January 5, 2026.");
   await chooseOption(page.getByTestId("start-birth-month"), "7");
   await chooseOption(page.getByTestId("start-birth-day"), "14");
   await expectChosen(page.getByTestId("start-birth-year"), "2001");

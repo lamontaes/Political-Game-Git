@@ -13,11 +13,13 @@ import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
 import { proseDate } from "../../src/presentation/prose-dates";
 import { replayDescriptorUrl } from "../../src/presentation/new-game-identity";
 import { expect, test } from "./fixtures";
-import { goTo, startLife } from "./support/creator";
+import { enterLife, goTo, startLife } from "./support/creator";
 
 /** Only visible opening controls; no fixture World or hidden state injection. */
 async function enterOpening(page: Page) {
-  await expect(page.getByTestId("play-screen")).toBeVisible();
+  // The world orientation ("The White House", 1 of 5) opens first; skip it
+  // the way a player does before reaching the household.
+  await enterLife(page);
   const introduction = page.getByTestId("opening-life-panel");
   if (await introduction.isVisible()) {
     await introduction
@@ -62,6 +64,13 @@ async function savedWorld(page: Page): Promise<World> {
 async function save(page: Page) {
   await saveLife(page);
   await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
+  // saveLife leaves the game menu open, and goTo returns early when the
+  // Politics destination is already current, so close the menu here or its
+  // flyout covers the workspace controls underneath.
+  const cluster = page.getByTestId("shell-nav-cluster");
+  if ((await cluster.getAttribute("aria-expanded")) === "true")
+    await cluster.click();
+  await expect(cluster).not.toHaveAttribute("aria-expanded", "true");
 }
 
 async function continueSaved(page: Page) {
@@ -72,6 +81,23 @@ async function continueSaved(page: Page) {
   await page.goto("/");
   await page.getByTestId("continue").click();
   await enterOpening(page);
+}
+
+/**
+ * The attendance is recorded and listed, but no room is drawn for it: fe8a69dee
+ * retired the baked-audience meeting-room plate, so the Carson City binding has
+ * no production raster and the venue status stays away until an approved
+ * replacement exists (see "records Carson attendance without reviving the
+ * retired meeting-room plate" in src/presentation/municipal-public-work.test.ts).
+ */
+async function expectAttendedWithoutRetiredRoom(page: Page) {
+  await expect(page.getByTestId("municipal-workspace")).toContainText(
+    "Attended the public meeting — Game-authored session: Carson City Board of Supervisors: regular meeting",
+  );
+  await expect(page.getByTestId("municipal-current-venue")).toHaveCount(0);
+  await expect(
+    page.locator('[data-scene-id="civic-community-meeting-room"]'),
+  ).toHaveCount(0);
 }
 
 test("normal Carson City citizen attends a public session and retains the real venue and World on reload", async ({
@@ -106,11 +132,7 @@ test("normal Carson City citizen attends a public session and retains the real v
   await workspace
     .getByRole("button", { name: "Attend public meeting" })
     .press("Enter");
-  await expect(page.getByTestId("municipal-current-venue")).toBeVisible();
-  await expect(page.getByTestId("scene-backdrop")).toHaveAttribute(
-    "data-scene-id",
-    "civic-community-meeting-room",
-  );
+  await expectAttendedWithoutRetiredRoom(page);
   await save(page);
   const attended = await savedWorld(page);
   expect(attended.id).toBe(initial.id);
@@ -135,11 +157,7 @@ test("normal Carson City citizen attends a public session and retains the real v
   expect(await savedWorld(page)).toEqual(attended);
   await continueSaved(page);
   await goTo(page, "nav-municipal");
-  await expect(page.getByTestId("municipal-current-venue")).toBeVisible();
-  await expect(page.getByTestId("scene-backdrop")).toHaveAttribute(
-    "data-scene-id",
-    "civic-community-meeting-room",
-  );
+  await expectAttendedWithoutRetiredRoom(page);
   await expect(
     workspace.getByRole("button", { name: "Prepare meeting notes" }),
   ).toBeDisabled();
@@ -396,7 +414,10 @@ for (const place of ["Lexington, Kentucky", "Carson City, Nevada"]) {
       await unavailable.press("Enter");
       await expect(unavailable.locator("..")).toHaveAttribute("open", "");
     } else {
-      await expect(panel).toHaveCount(0);
+      // The economic data now covers every state (economic-context-nationwide),
+      // so the panel appears here too, for this place.
+      await expect(panel).toBeVisible();
+      await expect(panel).toContainText(place.split(",")[0]!);
     }
     await save(page);
     expect(await savedWorld(page)).toEqual(initial);
@@ -405,7 +426,10 @@ for (const place of ["Lexington, Kentucky", "Carson City, Nevada"]) {
     if (place === "Lexington, Kentucky") {
       await expect(panel).toContainText(proseDate(initial.currentDate));
     } else {
-      await expect(panel).toHaveCount(0);
+      // The economic data now covers every state (economic-context-nationwide),
+      // so the panel appears here too, for this place.
+      await expect(panel).toBeVisible();
+      await expect(panel).toContainText(place.split(",")[0]!);
     }
     await save(page);
     expect(await savedWorld(page)).toEqual(initial);
