@@ -109,14 +109,13 @@ export function placeOutcomesForMonth(
       const jurisdictionId = stateJurisdictionForKey(placeKey)?.id;
       if (!jurisdictionId) continue;
       const last = previous.get(`${measure}|${placeKey}`);
+      const before = last ? (last.structural ?? last.base) : base;
+      const moved =
+        definition.scale === "index"
+          ? before * Math.exp(step(placeKey))
+          : fromLogit(logit(before) + step(placeKey));
       const structural = last
-        ? Math.min(
-            drift.maxPct,
-            Math.max(
-              drift.minPct,
-              fromLogit(logit(last.structural ?? last.base) + step(placeKey)),
-            ),
-          )
+        ? Math.min(drift.maxPct, Math.max(drift.minPct, moved))
         : base;
       const reading = outcomeFactor(world, jurisdictionId, measure, month);
       records.push({

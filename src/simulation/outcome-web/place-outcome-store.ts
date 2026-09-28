@@ -73,6 +73,12 @@ export interface PlaceOutcomeMeasureBase {
   readonly source: string;
   readonly places: Readonly<Record<string, number>>;
   readonly drift?: PlaceOutcomeDrift;
+  /**
+   * "share" (the default): a percent, drifting in log-odds. "index": a level
+   * where 100 is the place's start, drifting in logs; `monthlySdLogit` is
+   * then a standard deviation in logs.
+   */
+  readonly scale?: "share" | "index";
 }
 
 export const PLACE_OUTCOME_BASES = bases.measures as Readonly<

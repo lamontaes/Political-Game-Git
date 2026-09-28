@@ -3,24 +3,24 @@
  "version": "outcome-web-v1",
  "targets": {
   "crime.burglary": {
-   "floor": 0.5,
-   "ceiling": 2
+   "floor": 0.25,
+   "ceiling": 3
   },
   "crime.vandalism": {
-   "floor": 0.5,
-   "ceiling": 2
+   "floor": 0.25,
+   "ceiling": 3
   },
   "crime.robbery": {
-   "floor": 0.5,
-   "ceiling": 2
+   "floor": 0.25,
+   "ceiling": 3
   },
   "crime.assault": {
-   "floor": 0.5,
-   "ceiling": 2
+   "floor": 0.25,
+   "ceiling": 3
   },
   "births.rate": {
-   "floor": 0.7,
-   "ceiling": 1.3
+   "floor": 0.4,
+   "ceiling": 1.8
   },
   "health.uninsured-pct": {
    "floor": 0.3,
@@ -2662,6 +2662,111 @@
    "range": [
     -0.008,
     -0.001
+   ]
+  },
+  {
+   "key": "crime-level-to-burglary",
+   "from": "crime.rate-index",
+   "to": "crime.burglary",
+   "strength": "strong",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": 0.01,
+   "per": "index point above the place's start",
+   "lagMonths": 0,
+   "group": "place",
+   "owner": "O",
+   "anchor": "The place's drifting crime level scales every offense one for one (index 150: half again as much).",
+   "source": "Spec part 6: the entire world changes",
+   "evidence": "researched",
+   "range": [
+    0.01,
+    0.01
+   ]
+  },
+  {
+   "key": "crime-level-to-robbery",
+   "from": "crime.rate-index",
+   "to": "crime.robbery",
+   "strength": "strong",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": 0.01,
+   "per": "index point above the place's start",
+   "lagMonths": 0,
+   "group": "place",
+   "owner": "O",
+   "anchor": "The place's drifting crime level scales every offense one for one (index 150: half again as much).",
+   "source": "Spec part 6: the entire world changes",
+   "evidence": "researched",
+   "range": [
+    0.01,
+    0.01
+   ]
+  },
+  {
+   "key": "crime-level-to-assault",
+   "from": "crime.rate-index",
+   "to": "crime.assault",
+   "strength": "strong",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": 0.01,
+   "per": "index point above the place's start",
+   "lagMonths": 0,
+   "group": "place",
+   "owner": "O",
+   "anchor": "The place's drifting crime level scales every offense one for one (index 150: half again as much).",
+   "source": "Spec part 6: the entire world changes",
+   "evidence": "researched",
+   "range": [
+    0.01,
+    0.01
+   ]
+  },
+  {
+   "key": "crime-level-to-vandalism",
+   "from": "crime.rate-index",
+   "to": "crime.vandalism",
+   "strength": "strong",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": 0.01,
+   "per": "index point above the place's start",
+   "lagMonths": 0,
+   "group": "place",
+   "owner": "O",
+   "anchor": "The place's drifting crime level scales every offense one for one (index 150: half again as much).",
+   "source": "Spec part 6: the entire world changes",
+   "evidence": "researched",
+   "range": [
+    0.01,
+    0.01
+   ]
+  },
+  {
+   "key": "births-level-to-births",
+   "from": "births.rate-index",
+   "to": "births.rate",
+   "strength": "strong",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": 0.01,
+   "per": "index point above the place's start",
+   "lagMonths": 0,
+   "group": "place",
+   "owner": "B",
+   "anchor": "The place's drifting birth level scales births one for one.",
+   "source": "Spec part 6: the entire world changes",
+   "evidence": "researched",
+   "range": [
+    0.01,
+    0.01
    ]
   }
  ],
