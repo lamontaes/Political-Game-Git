@@ -192,34 +192,39 @@ describe("GOVERNING D1: an enacted appropriation becomes a program the office co
     // while this governor holds the office, not a predecessor's.
     // Every legislature now files bills on the same clock, so the bill must
     // be this state's: another state's appropriation never reaches this desk.
-    const filedAppropriation = (w: World) =>
-      (w.history.legislativeMeasures ?? []).find(
+    // A bill can fail on the floor, so the test waits for this state's
+    // appropriation that actually reaches the governor's desk.
+    const isFiledAppropriation = (w: World, measureId: EntityId | null) =>
+      (w.history.legislativeMeasures ?? []).some(
         (measure) =>
+          measure.id === measureId &&
           measure.jurisdictionId === office.jurisdictionId &&
           measure.subjectClass === "appropriation" &&
           measure.introducedAt >= "2027-01-10",
       );
-    for (let step = 0; step < 60 && !filedAppropriation(world); step += 1)
+    const desk = (w: World) =>
+      governingMatters(w, office.officeKey).find(
+        (m) => m.family === "bill" && isFiledAppropriation(w, m.measureId),
+      );
+    for (let step = 0; step < 72 && !desk(world); step += 1)
       world = passOrdinaryDays(world, 15);
-    const appropriationBill = filedAppropriation(world)!;
-    expect(appropriationBill).toBeDefined();
+    const billMatter = desk(world);
+    expect(
+      billMatter,
+      (world.history.legislativeMeasures ?? [])
+        .filter((m) => isFiledAppropriation(world, m.id))
+        .map((m) => `${m.designation}: ${measurePosition(world, m.id).phase}`)
+        .join("; "),
+    ).toBeDefined();
+    const appropriationBill = world.history.legislativeMeasures!.find(
+      (measure) => measure.id === billMatter!.measureId,
+    )!;
     const amount = currentMeasureProvisions(world, appropriationBill.id).find(
       (provision) => provision.provisionKey === "amount-provided",
     )!.fiscalExposureMinorUnits!;
     expect(amount).toBeGreaterThan(0);
 
-    // Carry it to the desk and sign it.
-    const desk = (w: World) =>
-      governingMatters(w, office.officeKey).find(
-        (m) => m.family === "bill" && m.measureId === appropriationBill.id,
-      );
-    for (let step = 0; step < 12 && !desk(world); step += 1)
-      world = passOrdinaryDays(world, 15);
-    const billMatter = desk(world);
-    expect(
-      billMatter,
-      measurePosition(world, appropriationBill.id).phase,
-    ).toBeDefined();
+    // Sign it.
     const signed = decideGoverningMatter(world, billMatter!.id, "bill:sign");
     expect(signed.ok, signed.ok ? "" : signed.reason).toBe(true);
     world = signed.world;
