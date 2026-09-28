@@ -15,6 +15,7 @@ import { outcomeFactor } from ".";
 import {
   DEFAULT_PLACE_OUTCOME_DRIFT,
   driftsInLogs,
+  placeOutcomeValue,
   PLACE_OUTCOME_BASES,
   PLACE_OUTCOME_MEASURES,
   type PlaceOutcomeDrift,
@@ -114,9 +115,12 @@ export function placeOutcomesForMonth(
       if (!jurisdictionId) continue;
       const last = previous.get(`${measure}|${placeKey}`);
       const before = last ? (last.structural ?? last.base) : base;
-      const moved = driftsInLogs(definition)
-        ? before * Math.exp(step(placeKey))
-        : fromLogit(logit(before) + step(placeKey));
+      const moved =
+        definition.scale === "level"
+          ? before + step(placeKey)
+          : driftsInLogs(definition)
+            ? before * Math.exp(step(placeKey))
+            : fromLogit(logit(before) + step(placeKey));
       const structural = last
         ? Math.min(drift.maxPct, Math.max(drift.minPct, moved))
         : base;
@@ -129,7 +133,15 @@ export function placeOutcomesForMonth(
         base,
         structural: Math.round(structural * 10000) / 10000,
         multiplier: reading.multiplier,
-        value: Math.round(structural * reading.multiplier * 100) / 100,
+        value:
+          Math.round(
+            placeOutcomeValue(
+              definition,
+              structural,
+              reading.multiplier,
+              reading.causes.map((cause) => cause.factor),
+            ) * 100,
+          ) / 100,
         causes: reading.causes
           .filter((cause) => cause.factor !== 1)
           .map((cause) => ({ key: cause.key, factor: cause.factor })),

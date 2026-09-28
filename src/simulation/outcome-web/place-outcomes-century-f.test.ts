@@ -4,6 +4,7 @@ import type { IsoDate, World } from "../types";
 import {
   DEFAULT_PLACE_OUTCOME_DRIFT,
   PLACE_OUTCOME_BASES,
+  placeOutcomeValue,
   placeOutcomesForMonth,
   type PlaceOutcomeRecord,
 } from "./place-outcomes";
@@ -25,6 +26,7 @@ const MEASURES = [
   "health.overdose-deaths",
   "labor.median-earnings",
   "transit.service-access",
+  "population.net-migration",
 ] as const;
 
 const WORLDS = [
@@ -96,7 +98,9 @@ function century(seed: string, measure: string) {
  * any other in log-odds.
  */
 function driftSpace(measure: string, value: number): number {
-  if (PLACE_OUTCOME_BASES[measure]!.scale === "rate") return Math.log(value);
+  const scale = PLACE_OUTCOME_BASES[measure]!.scale;
+  if (scale === "level") return value;
+  if (scale === "rate") return Math.log(value);
   const share = value / 100;
   return Math.log(share / (1 - share));
 }
@@ -113,6 +117,20 @@ const median = (values: readonly number[]) => {
 };
 
 describe("food, reading, degrees, broadband, asthma, overdoses, earnings and transit over a century in ten worlds", () => {
+  it("a level adds each link's effect in its own unit, so a law reads the same way below zero", () => {
+    const level = PLACE_OUTCOME_BASES["population.net-migration"]!;
+    expect(level.scale).toBe("level");
+    // A law adding 0.4 per 1,000 raises a negative level, not lowers it.
+    expect(placeOutcomeValue(level, -3, 1.4, [1.4])).toBeCloseTo(-2.6, 10);
+    expect(placeOutcomeValue(level, 5, 1.4 * 0.9, [1.4, 0.9])).toBeCloseTo(
+      5.3,
+      10,
+    );
+    // Shares and rates still multiply.
+    const share = PLACE_OUTCOME_BASES["household.food-insecurity"]!;
+    expect(placeOutcomeValue(share, 10, 0.98, [0.98])).toBeCloseTo(9.8, 10);
+  });
+
   it("each is a place outcome with its own drift and plausible bounds, starting from real bases only", () => {
     for (const measure of MEASURES) {
       const definition = PLACE_OUTCOME_BASES[measure];
@@ -121,7 +139,10 @@ describe("food, reading, degrees, broadband, asthma, overdoses, earnings and tra
       expect(definition!.drift).not.toBe(DEFAULT_PLACE_OUTCOME_DRIFT);
       for (const [placeKey, base] of Object.entries(definition!.places)) {
         // An unsourced place is left out (unknown), never written as zero.
-        expect(base, `${measure} ${placeKey}`).toBeGreaterThan(0);
+        // A level (net migration) may sit at or below zero; nothing else may.
+        expect(Number.isFinite(base), `${measure} ${placeKey}`).toBe(true);
+        if (definition!.scale !== "level")
+          expect(base, `${measure} ${placeKey}`).toBeGreaterThan(0);
         expect(base).toBeGreaterThanOrEqual(definition!.drift!.minPct);
         expect(base).toBeLessThanOrEqual(definition!.drift!.maxPct);
       }

@@ -79,8 +79,13 @@ export interface PlaceOutcomeMeasureBase {
    * then a standard deviation in logs. "rate": a level in the measure's own
    * unit (crimes per 100,000 people, micrograms per cubic meter), drifting in
    * logs like an index; `minPct` and `maxPct` are then bounds in that unit.
+   * "level": a signed number in the measure's own unit (net movers per 1,000
+   * residents), which can be below zero. It drifts by adding each month's
+   * step (`monthlySdLogit` is then a standard deviation in that unit), and a
+   * link adds to it rather than multiplying it: a factor of 1.4 adds 0.4 of
+   * the unit, since multiplying a negative level would reverse the law.
    */
-  readonly scale?: "share" | "index" | "rate";
+  readonly scale?: "share" | "index" | "rate" | "level";
   /** How a value reads in a report: "per 10,000 people". Shares read as %. */
   readonly shortUnit?: string;
 }
@@ -90,13 +95,29 @@ export function driftsInLogs(definition: PlaceOutcomeMeasureBase): boolean {
   return definition.scale === "index" || definition.scale === "rate";
 }
 
+/**
+ * A place's value this month from its underlying level and the outcome web's
+ * causes: the level times their product, or for a level measure, the level
+ * plus each cause's own excess over 1 (see `scale`).
+ */
+export function placeOutcomeValue(
+  definition: PlaceOutcomeMeasureBase,
+  structural: number,
+  multiplier: number,
+  factors: readonly number[],
+): number {
+  return definition.scale === "level"
+    ? factors.reduce((total, factor) => total + (factor - 1), structural)
+    : structural * multiplier;
+}
+
 /** A value as a report writes it: "16.7%", "412.3 per 100,000 people". */
 export function placeOutcomeValueText(
   definition: PlaceOutcomeMeasureBase,
   value: number,
 ): string {
   if (definition.scale === "index") return `${value}`;
-  if (definition.scale === "rate")
+  if (definition.scale === "rate" || definition.scale === "level")
     return definition.shortUnit
       ? `${value} ${definition.shortUnit}`
       : `${value}`;
