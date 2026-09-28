@@ -1032,7 +1032,7 @@ function schoolLines(reader: WorldRecordReader): ChronicleLine[] {
     return {
       date: year.countedAt,
       section: "schools" as const,
-      text: `${name} counted ${count(year.enrollment, "pupil")} and ${count(year.teachers, "teacher")} for ${year.schoolYear}, ${ratio}${why.length ? `: ${list(why)}` : year.causes.length === 0 && years.indexOf(year) > 0 ? ", unchanged" : ""}.`,
+      text: `${name} counted ${count(year.enrollment, "pupil")} and ${count(year.teachers, "teacher")} for ${year.schoolYear}, ${ratio}${why.length ? `: ${list(why)}` : year.causes.length === 0 && years.indexOf(year) > 0 ? ", unchanged" : ""}.${law}${scale}${vacant}`,
       sources: [year.id],
     };
   });

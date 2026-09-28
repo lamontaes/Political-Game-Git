@@ -156,6 +156,7 @@ export const OUTCOMES_PRODUCED: ReadonlySet<string> = new Set([
   "crime.burglary",
   "crime.vandalism",
   "births.rate",
+  "school.test-scores",
 ]);
 
 const LAW_CAUSE_PREFIX = "law:";
