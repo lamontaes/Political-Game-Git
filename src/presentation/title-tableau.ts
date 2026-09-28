@@ -4,6 +4,8 @@ import {
   type RegisteredScene,
   type SceneRegistry,
 } from "./scene-registry";
+import type { TitlePicture } from "./title-civic-rotation";
+import type { TitlePictureHero } from "./title-picture-hero";
 
 /**
  * Title tableau primitives.
@@ -112,6 +114,13 @@ export interface TitlePresentation {
   readonly description: string;
   /** Developer-facing reasons the ladder fell to this rung. */
   readonly reasons: readonly string[];
+  /**
+   * A place backdrop painted instead of a registered scene: the title's civic
+   * rotation (title-civic-rotation.ts). Absent for a registered room.
+   */
+  readonly picture?: TitlePicture | null;
+  /** The returning player, standing in front of that picture. */
+  readonly pictureHero?: TitlePictureHero | null;
 }
 
 export interface TitlePresentationRequest {
@@ -125,9 +134,6 @@ export interface TitlePresentationRequest {
   readonly registry: TitleTableauRegistry;
   readonly scenes: SceneRegistry;
 }
-
-/** Tableau families set in someone's home. */
-const DOMESTIC_FAMILIES: ReadonlySet<string> = new Set(["apartment-ordinary"]);
 
 function heroSatisfies(
   tableau: TitleTableauDefinition,
@@ -256,17 +262,8 @@ export function resolveTitlePresentation(
     heroSatisfies(tableau, hero),
   );
 
-  // A civic room wins over a home whenever the character can stand in one
-  // (Lamontae, Sept. 27: the title is civic, not apartments).
-  const civic = compatible.filter(
-    (tableau) => !DOMESTIC_FAMILIES.has(tableau.familyId),
-  );
   const chosen = selectTableauDeterministically(
-    civic.length > 0
-      ? civic
-      : compatible.length > 0
-        ? compatible
-        : byCapability,
+    compatible.length > 0 ? compatible : byCapability,
     `${hero.heroIdentityKey}:${assetLibraryVersion}`,
     (tableau) => tableau.tableauId,
   );
@@ -317,8 +314,11 @@ export function resolveTitlePresentation(
  * that would justify it — which jurisdiction this character's job answers to —
  * is not something a title screen can know.
  *
- * What replaced it is production art with no jurisdiction in it: two ordinary
- * apartment living rooms and a generic public meeting hall.
+ * What replaced it is production art with no jurisdiction in it: a generic
+ * public hearing room and a legislative chamber. The two apartment living
+ * rooms that stood here were removed on Sept. 28: the title is civic, and a
+ * returning player never arrives at home (Lamontae, Sept. 27 and 28). The
+ * title's rotation of place pictures lives in title-civic-rotation.ts.
  *
  * Adding a tableau is adding a definition and a scene. There is still no
  * title-specific React below this line.
@@ -329,36 +329,6 @@ export function resolveTitlePresentation(
  */
 export const TITLE_TABLEAU_REGISTRY: TitleTableauRegistry = {
   tableaux: [
-    {
-      /**
-       * Where an ordinary adult belongs: their own living room. It requires
-       * nothing of a life except that it is grown and lived somewhere, which
-       * is what `residence` on a save actually attests.
-       */
-      tableauId: "an-evening-at-home",
-      familyId: "apartment-ordinary",
-      label: "A living room",
-      sceneId: "residence-apartment-living-canonical-03",
-      heroAnchorId: "living-room-floor-standing",
-      requiredPoseFamily: "standing-neutral",
-      requiredFacing: "front",
-      requiredCapabilities: ["adult", "residence-known"],
-      supportsNoCharacter: true,
-      emptyHeroTreatment: "the room alone",
-    },
-    {
-      /** The same claim, a different room, so two saves do not look alike. */
-      tableauId: "a-quiet-room-at-home",
-      familyId: "apartment-ordinary",
-      label: "A second living room",
-      sceneId: "residence-apartment-living-ordinary-02",
-      heroAnchorId: "living-room-floor-standing",
-      requiredPoseFamily: "standing-neutral",
-      requiredFacing: "front",
-      requiredCapabilities: ["adult", "residence-known"],
-      supportsNoCharacter: true,
-      emptyHeroTreatment: "the room alone",
-    },
     {
       /**
        * A hearing is somewhere a legislator is actually expected to be, which
@@ -400,18 +370,6 @@ export const TITLE_TABLEAU_REGISTRY: TitleTableauRegistry = {
   /** Rooms that read correctly with nobody in them. */
   neutralBank: [
     {
-      tableauId: "an-empty-living-room",
-      familyId: "apartment-ordinary",
-      label: "A living room",
-      sceneId: "residence-apartment-living-canonical-03",
-      heroAnchorId: "living-room-floor-standing",
-      requiredPoseFamily: "standing-neutral",
-      requiredFacing: "front",
-      requiredCapabilities: [],
-      supportsNoCharacter: true,
-      emptyHeroTreatment: "the room alone",
-    },
-    {
       tableauId: "an-empty-hearing-room",
       familyId: "civic-hearing-room",
       label: "A hearing room",
@@ -423,7 +381,19 @@ export const TITLE_TABLEAU_REGISTRY: TitleTableauRegistry = {
       supportsNoCharacter: true,
       emptyHeroTreatment: "the room alone",
     },
+    {
+      tableauId: "an-empty-legislative-chamber",
+      familyId: "legislative-chamber",
+      label: "A legislative chamber",
+      sceneId: "legislative-chamber-production",
+      heroAnchorId: "well-floor-standing",
+      requiredPoseFamily: "standing-neutral",
+      requiredFacing: "front",
+      requiredCapabilities: [],
+      supportsNoCharacter: true,
+      emptyHeroTreatment: "the room alone",
+    },
   ],
 
-  frontDoorTableauId: "an-empty-living-room",
+  frontDoorTableauId: "an-empty-hearing-room",
 };

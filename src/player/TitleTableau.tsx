@@ -248,6 +248,124 @@ function TitleStage({
   );
 }
 
+/** Every place picture is painted at this size (art/backdrops). */
+const PICTURE_PLATE = { width: 1672, height: 941 } as const;
+const PICTURE_CAMERA = {
+  minimumAspectRatio: 1.5,
+  maximumAspectRatio: 12 / 5,
+  horizontalFocus: 0.5,
+  verticalFocus: 0.62,
+} as const;
+
+/**
+ * One place picture from the civic rotation, covering the window the same way
+ * a registered room does, with the returning player standing in front of it
+ * when the resolver put them there. Nothing here chooses the picture.
+ */
+function PictureStage({
+  presentation,
+  role,
+  drifting,
+}: {
+  readonly presentation: TitlePresentation;
+  readonly role: TitleStageRole;
+  readonly drifting: boolean;
+}) {
+  const picture = presentation.picture!;
+  const hero = presentation.pictureHero ?? null;
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const transform = useSceneCoverTransform(
+    viewportRef,
+    PICTURE_PLATE,
+    PICTURE_CAMERA,
+  );
+  return (
+    <div
+      ref={viewportRef}
+      className={`title-tableau-stage title-tableau-stage--${role}`}
+      data-testid={
+        role === "leaving"
+          ? "title-tableau-stage-leaving"
+          : "title-tableau-stage"
+      }
+      data-title-kind={hero ? "hero-in-tableau" : presentation.kind}
+      data-scene-id={`picture:${picture.place}`}
+      data-place={picture.place}
+      data-civic-kind={picture.kind}
+      data-tableau-id={`picture:${picture.place}`}
+      data-drifting={drifting ? "true" : "false"}
+      aria-hidden="true"
+    >
+      <div
+        className={titleCameraClassName(drifting)}
+        data-testid="title-tableau-camera"
+        data-painted-tier={PICTURE_PLATE.width}
+        style={
+          {
+            width: `${PICTURE_PLATE.width}px`,
+            height: `${PICTURE_PLATE.height}px`,
+            transform: `translate3d(${transform.xOffset}px, ${transform.yOffset}px, 0) scale(${transform.uniformScale})`,
+          } satisfies CSSProperties
+        }
+      >
+        <div className="title-tableau-motion">
+          <img
+            className="scene-environment-art"
+            src={picture.url}
+            alt=""
+            draggable="false"
+            data-testid="title-tableau-plate"
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "block",
+              objectFit: "cover",
+            }}
+          />
+          {hero ? (
+            <div
+              data-testid="title-hero"
+              data-person-id={hero.personId}
+              style={{
+                position: "absolute",
+                left: `${hero.leftPercent}%`,
+                top: `${hero.topPercent}%`,
+                width: `${hero.widthPercent}%`,
+                height: `${hero.heightPercent}%`,
+              }}
+            >
+              <EngineFigure
+                recipe={hero.engine}
+                className="title-hero-art title-hero-engine"
+                testId="title-hero-engine"
+              />
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** A registered room or a place picture, whichever the presentation holds. */
+function AnyStage(props: {
+  readonly presentation: TitlePresentation;
+  readonly role: TitleStageRole;
+  readonly drifting: boolean;
+  readonly visualLibrary: RuntimeVisualLibrary;
+  readonly hero?: PlacedScenePerson | null;
+}) {
+  return props.presentation.picture ? (
+    <PictureStage
+      presentation={props.presentation}
+      role={props.role}
+      drifting={props.drifting}
+    />
+  ) : (
+    <TitleStage {...props} />
+  );
+}
+
 /**
  * PACKET 77 SEAM. Three props were added and no architecture was.
  *
@@ -293,6 +411,7 @@ export function TitleTableau({
 }) {
   const hasPlate =
     Boolean(illustration) ||
+    Boolean(presentation.picture) ||
     (!NO_PLATE_KINDS.has(presentation.kind) &&
       presentation.scene?.raster !== null &&
       presentation.scene?.raster !== undefined);
@@ -328,7 +447,7 @@ export function TitleTableau({
         </div>
       ) : null}
       {!illustration && leaving && !NO_PLATE_KINDS.has(leaving.kind) ? (
-        <TitleStage
+        <AnyStage
           key={leavingCycleKey ?? `leaving:${cycleKey}`}
           visualLibrary={visualLibrary}
           presentation={leaving}
@@ -337,7 +456,7 @@ export function TitleTableau({
         />
       ) : null}
       {illustration || NO_PLATE_KINDS.has(presentation.kind) ? null : (
-        <TitleStage
+        <AnyStage
           key={cycleKey}
           visualLibrary={visualLibrary}
           hero={hero}
