@@ -1,3 +1,4 @@
+import { ensurePostedMeetingOnCouncilAgenda } from "./living-world/local-council-meetings";
 import {
   lifeRequestDetailsTag,
   type LifeRequestDetails,
@@ -385,7 +386,7 @@ export function openOrdinaryLifeRecords(
     access: { kind: "private", personIds: [personId] },
   });
 
-  return createWorkItem(next, {
+  next = createWorkItem(next, {
     stableKey: PUBLIC_MEETING_KEY,
     title: authoredWorkItem(PUBLIC_MEETING_KEY).title,
     summary: authoredWorkItem(PUBLIC_MEETING_KEY).summary,
@@ -400,6 +401,9 @@ export function openOrdinaryLifeRecords(
     blocker: null,
     scheduledActivityId: meeting.id,
   });
+  // Where the town's council is seated, the posted meeting is its meeting,
+  // and its agenda item goes before the council to be voted on.
+  return ensurePostedMeetingOnCouncilAgenda(next, personId);
 }
 
 /**

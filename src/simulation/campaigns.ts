@@ -29,6 +29,8 @@ import { PRESIDENTIAL_TURNOVER_HANDLERS } from "./nationwide-world/presidential-
 import { RECALL_HANDLERS } from "./recall";
 import { COUNCIL_ACT_HANDLERS } from "./municipal-ordinance-procedure";
 import { DC_COUNCIL_SITTING_HANDLERS } from "./dc-council-sittings";
+import { LOCAL_COUNCIL_MEETING_HANDLERS } from "./living-world/local-council-meetings";
+import { localGoverningBodyRules } from "./nationwide-world/local-governing-body-rules";
 import {
   createNationalElectionTransitionRegistry,
   linkedNationalUnitTransition,
@@ -43,6 +45,12 @@ import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility, districtSeatMustBeNamed } from "./candidacy";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
+import {
+  LOCAL_ELECTION_HANDLERS,
+  localCampaignSeat,
+  localSeatHolder,
+  withdrawTownRaceForCampaign,
+} from "./living-world/local-elections";
 import { congressSeatIdentityForOfficeKey } from "./nationwide-world/congress-candidacy-packs";
 import type { LocalGoverningBodyIdentity } from "./nationwide-world/local-governing-body-candidacy-packs";
 import {
@@ -55,7 +63,6 @@ import {
   installMunicipalGovernment,
   municipalOrganizationFor,
   municipalSeatKey,
-  municipalSeats,
 } from "./municipal-public-work";
 import { planOrdinaryStateExecutiveTerm } from "./nationwide-world/state-executive-terms";
 import {
@@ -896,6 +903,9 @@ export function fileCampaign(
   // CRUNCH46 CAMPAIGN: the rivals in this race start campaigning on the
   // world's weekly clock.
   world = ensureCampaignWeeklyEvaluation(world, campaignRecord.id);
+  // A town seat the town's own election already has on its ballot is decided
+  // in this campaign's election instead.
+  world = withdrawTownRaceForCampaign(world, campaignRecord.contestId);
   return { world, campaign: campaignRecord };
 }
 
@@ -1756,13 +1766,6 @@ function seatOnLocalGoverningBody(
       formedAt: next.currentDate,
     });
     organizationId = municipalOrganizationFor(next, compiled.key)?.id;
-    if (!mayor) {
-      const bodySize = primaryReading(compiled).bodySize;
-      const seated = municipalSeats(next, compiled.key).filter(
-        (seat) => seat.role === "member" || seat.role === "presiding-member",
-      ).length;
-      if (bodySize !== null && seated >= bodySize) return next;
-    }
     stableKey = municipalSeatKey(compiled.key, winnerPersonId);
   } else {
     next = ensureLocalGovernmentOrganization(next, unit);
@@ -1787,12 +1790,52 @@ function seatOnLocalGoverningBody(
     )
   )
     return next;
-  if (mayor) {
-    // The sitting mayor's term ends as the new one's begins.
-    for (const participation of next.history.organizationParticipations) {
-      if (participation.organizationId !== organizationId) continue;
+  // The sitting mayor's term ends as the new one's begins. A member takes
+  // the seat the town's own elections left off this year's ballot for the
+  // campaign; on a full body without one, the seat of the member who has held
+  // theirs longest, whose term is the one most likely up.
+  const campaignSeat = localCampaignSeat(unit, mayor, contest.electionDate);
+  const campaignHolder =
+    campaignSeat === null ? null : localSeatHolder(next, unit, campaignSeat);
+  const seatLimit = mayor
+    ? 1
+    : compiled
+      ? primaryReading(compiled).bodySize
+      : (localGoverningBodyRules(unit)?.seats?.value ?? null);
+  const sitting = next.history.organizationParticipations
+    .filter((participation) => {
+      if (participation.organizationId !== organizationId) return false;
       const state = organizationParticipationStateAt(next, participation.id);
-      if (state?.status !== "active" || state.roleKind !== roleKind) continue;
+      return (
+        state?.status === "active" &&
+        (state.roleKind === roleKind ||
+          (!mayor && state.roleKind === "leader:municipal-presiding-member"))
+      );
+    })
+    .sort(
+      (left, right) =>
+        left.startedAt.localeCompare(right.startedAt) ||
+        left.sequence - right.sequence,
+    );
+  const displaced = Math.max(0, sitting.length - (seatLimit ?? Infinity) + 1);
+  const held = sitting.find(
+    (participation) => participation.id === campaignHolder?.participationId,
+  );
+  const succeeded =
+    seatLimit === null || displaced === 0
+      ? []
+      : held
+        ? [
+            held,
+            ...sitting
+              .filter((participation) => participation !== held)
+              .slice(0, displaced - 1),
+          ]
+        : sitting.slice(0, displaced);
+  {
+    for (const participation of succeeded) {
+      const state = organizationParticipationStateAt(next, participation.id);
+      if (state?.status !== "active") continue;
       next = recordOrganizationParticipationState(next, {
         stableKey: `${participation.stableKey}:state:succeeded:${contest.id}`,
         participationId: participation.id,
@@ -1822,7 +1865,10 @@ function seatOnLocalGoverningBody(
     startedAt: effectiveAt,
     kind: "leadership:municipal-office",
     roleKind,
-    context: `Elected ${contest.electionDate}`,
+    context:
+      mayor || campaignSeat === null
+        ? `Elected ${contest.electionDate}`
+        : `Elected ${contest.electionDate}, seat ${campaignSeat}`,
     provenance: { kind: "simulated-event", eventId: outcomeEventId },
   });
   assertWorldIntegrity(next);
@@ -2039,6 +2085,10 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         ...COUNCIL_ACT_HANDLERS,
         // The Council of the District of Columbia sitting on its own.
         ...DC_COUNCIL_SITTING_HANDLERS,
+        // The player's town electing its council and mayor on its own.
+        ...LOCAL_ELECTION_HANDLERS,
+        // The player's town council meeting and voting on ordinances.
+        ...LOCAL_COUNCIL_MEETING_HANDLERS,
         ...PUBLIC_PROGRAM_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
         [

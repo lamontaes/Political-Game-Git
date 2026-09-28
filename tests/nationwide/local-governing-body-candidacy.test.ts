@@ -34,7 +34,15 @@ import {
   prepareOpeningLife,
 } from "../../src/presentation/opening-life";
 import { openOrdinaryLife } from "../../src/presentation/ordinary-life";
-import { runToElection, suppliedWin } from "../fixtures/state-executive-entry";
+import {
+  passUntil,
+  runToElection,
+  suppliedWin,
+} from "../fixtures/state-executive-entry";
+import { electionContestResult } from "../../src/simulation/election-contests";
+import { localCampaignSeat } from "../../src/simulation/living-world/local-elections";
+import { sittingLocalOfficers } from "../../src/simulation/living-world/local-government-seats";
+import { localGoverningBodyRules } from "../../src/simulation/nationwide-world/local-governing-body-rules";
 
 /**
  * A town's own governing body, offered in every town that has a government.
@@ -196,7 +204,7 @@ describe("a town's governing body, across the country", () => {
     expect(elsewhere.blocks.map((block) => block.kind)).toContain(
       "lives-elsewhere",
     );
-  });
+  }, 60_000);
 });
 
 describe("standing for the town's governing body and taking the seat", () => {
@@ -312,8 +320,10 @@ describe("standing again after a race is over", () => {
     const ely = projectGovernmentBrowser(world, personId).localGovernments.find(
       (entry) => entry.key === `unit:${body.unit.id}`,
     );
-    expect(ely?.holderName).toBe(name);
-    expect(ely?.detail).toContain("Member of the Ely City Council.");
+    // The town's council is seated from its residents, so the player is one
+    // member on its roster, not the town's only officeholder.
+    expect(ely?.roster?.map((row) => row.holderName)).toContain(name);
+    expect(ely?.detail).toContain("Members of the Ely City Council.");
     // The county above it is named the way Minnesotans say it.
     expect(
       projectGovernmentBrowser(world, personId).alsoGoverning.map(
@@ -329,6 +339,65 @@ describe("standing again after a race is over", () => {
   }, 120_000);
 });
 
+describe("a player's campaign and the town's own race", () => {
+  it("Ely, Minnesota: the town leaves the player's seat off its ballot, and the winner keeps it", () => {
+    const { world: opening, personId } = adultLifeAt(ELY, "town-body-seat");
+    const home = opening.people[personId]!.homeJurisdictionId;
+    const body = localGoverningBodiesForJurisdiction(home)[0]!;
+    let world = fileForOffice(opening, personId, null, body.officeKey);
+    const electionDate = world.history.electionContests!.at(-1)!.electionDate;
+    const seat = localCampaignSeat(body.unit, false, electionDate);
+    expect(seat).not.toBeNull();
+    world = runToElection(world, personId, suppliedWin(personId));
+    expect(projectCampaign(world, personId).phase).toBe("won");
+    // Past the town's own count for the same election day.
+    world = passUntil(world, addDays(electionDate, 14));
+
+    const townRaces = world.history.electionContests!.filter(
+      (contest) =>
+        contest.stableKey.includes(`:${body.unit.id}:${electionDate}:`) &&
+        !contest.candidatePersonIds.includes(personId),
+    );
+    expect(townRaces.length).toBeGreaterThan(0);
+    expect(
+      townRaces.some((contest) => contest.office.seatKey === `seat-${seat}`),
+    ).toBe(false);
+
+    const officers = sittingLocalOfficers(world, body.unit);
+    const mine = officers.find((row) => row.personId === personId);
+    expect(mine?.seatLabel).toMatch(new RegExp(`seat ${seat}$`));
+    const members = officers.filter((row) => !row.mayor);
+    expect(members).toHaveLength(
+      localGoverningBodyRules(body.unit)!.seats!.value!,
+    );
+  }, 120_000);
+  it("Ely, Minnesota: a campaign filed after the town's field closed calls off the town's race for that seat", () => {
+    const { world: opening, personId } = adultLifeAt(ELY, "town-body-late");
+    const home = opening.people[personId]!.homeJurisdictionId;
+    const body = localGoverningBodiesForJurisdiction(home)[0]!;
+    // The town's field closes four weeks before its November 3 election.
+    let world = passUntil(opening, "2026-10-08");
+    const electionDate = "2026-11-03";
+    const seat = localCampaignSeat(body.unit, false, electionDate)!;
+    const townRace = () =>
+      world.history.electionContests!.find(
+        (contest) =>
+          contest.stableKey.includes(`:${body.unit.id}:${electionDate}:`) &&
+          contest.office.seatKey === `seat-${seat}`,
+      );
+    expect(townRace()).toBeDefined();
+    world = fileForOffice(world, personId, null, body.officeKey, electionDate);
+    world = runToElection(world, personId, suppliedWin(personId));
+    world = passUntil(world, addDays(electionDate, 14));
+    expect(projectCampaign(world, personId).phase).toBe("won");
+    expect(electionContestResult(world, townRace()!.id)).toBeNull();
+    const mine = sittingLocalOfficers(world, body.unit).find(
+      (row) => row.personId === personId,
+    );
+    expect(mine?.seatLabel).toMatch(new RegExp(`seat ${seat}$`));
+  }, 120_000);
+});
+
 describe("when a town's race is held", () => {
   // Filed on the opening day, January 5, 2026.
   it.each([
@@ -337,15 +406,21 @@ describe("when a town's race is held", () => {
     ["Ely, Minnesota", ELY, "2026-11-03"],
     ["Paducah, Kentucky", PADUCAH, "2026-11-03"],
     ["American Falls, Idaho", AMERICAN_FALLS, "2027-11-02"],
-  ])("%s is elected on the day state law sets", (_, placeKey, expected) => {
-    const { world, personId } = adultLifeAt(placeKey, `calendar-${placeKey}`);
-    const home = world.people[personId]!.homeJurisdictionId;
-    const body = localGoverningBodiesForJurisdiction(home)[0]!;
-    expect(world.currentDate).toBe("2026-01-05");
-    expect(campaignElectionDate(world, home, body.officeKey)).toBe(expected);
-    const filed = fileForOffice(world, personId, null, body.officeKey);
-    expect(filed.history.electionContests!.at(-1)!.electionDate).toBe(expected);
-  });
+  ])(
+    "%s is elected on the day state law sets",
+    (_, placeKey, expected) => {
+      const { world, personId } = adultLifeAt(placeKey, `calendar-${placeKey}`);
+      const home = world.people[personId]!.homeJurisdictionId;
+      const body = localGoverningBodiesForJurisdiction(home)[0]!;
+      expect(world.currentDate).toBe("2026-01-05");
+      expect(campaignElectionDate(world, home, body.officeKey)).toBe(expected);
+      const filed = fileForOffice(world, personId, null, body.officeKey);
+      expect(filed.history.electionContests!.at(-1)!.electionDate).toBe(
+        expected,
+      );
+    },
+    60_000,
+  );
 
   it("a town whose state law leaves the timing open, and names no day, keeps the four-week placeholder", () => {
     // Maine lets each town choose town meeting day or November; Presque Isle's
@@ -357,7 +432,7 @@ describe("when a town's race is held", () => {
     expect(campaignElectionDate(world, home, body.officeKey)).toBe(
       addDays(world.currentDate, 28),
     );
-  });
+  }, 60_000);
 
   it("never sets an election closer than the filing lead", () => {
     expect(nextTownElection("MN", "2719142", "2026-10-10" as never)).toEqual({

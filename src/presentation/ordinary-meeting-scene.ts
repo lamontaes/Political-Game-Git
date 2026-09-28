@@ -1,3 +1,4 @@
+import { postedMeetingVoteSentence } from "../simulation/living-world/local-council-meetings";
 import { livingSceneStagePacket } from "./living-scene-prose";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { personName, type EntityId, type World } from "../simulation";
@@ -140,7 +141,7 @@ export function projectOrdinaryMeetingScene(world: World, personId: EntityId) {
     caption:
       phase === "active"
         ? `${personName(world.people[chair.personId]!)} chairs the meeting${event.tags.includes("attendance:late-entry") ? ", which is underway" : ""}.`
-        : `The discussion ended without a vote. ${personName(world.people[chair.personId]!)} chaired it.`,
+        : `${(event.tags.some((tag) => tag.startsWith("council-vote:")) && event.jurisdictionId ? postedMeetingVoteSentence(world, event.jurisdictionId) : null) ?? "The discussion ended without a vote."} ${personName(world.people[chair.personId]!)} chaired it.`,
     stage:
       phase === "active"
         ? livingSceneStagePacket({

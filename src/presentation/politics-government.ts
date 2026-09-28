@@ -439,20 +439,32 @@ function localBranches(
             unit,
             "leader:municipal-member",
           );
-          const holders = [...new Set([...mayors, ...members])];
+          // The mayor is the office's holder; the members are its roster,
+          // the same shape as a compiled council's.
+          const mayor = mayors.length === 1 ? mayors[0]! : null;
           const offices = [
             mayors.length ? "Mayor." : null,
             members.length
               ? `${members.length === 1 ? "Member" : "Members"} of the ${localGoverningBodyName(unit).bodyName}.`
               : null,
           ].filter((part): part is string => part !== null);
+          const roster: GovernmentSeatRow[] = members.map((id) => ({
+            key: `local-seat:${unit.id}:${id}`,
+            seatLabel: "Member",
+            stateUsps: null,
+            status: "member",
+            holderName: personName(world.people[id]!),
+            holderPersonId: id,
+            note: null,
+          }));
           return {
             key: `unit:${unit.id}`,
             title: localGovernmentDisplayName(unit),
-            holderName: holders.length
-              ? holders.map((id) => personName(world.people[id]!)).join(", ")
+            holderName: mayors.length
+              ? mayors.map((id) => personName(world.people[id]!)).join(", ")
               : null,
-            holderPersonId: holders.length === 1 ? holders[0]! : null,
+            holderPersonId: mayor,
+            ...(roster.length ? { roster } : {}),
             detail: offices.length
               ? `${offices.join(" ")} Other government details are limited.`
               : "Government details are limited.",

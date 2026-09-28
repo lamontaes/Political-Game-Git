@@ -3,6 +3,9 @@ import { ensureTownResidents } from "../simulation/living-world/town-residents";
 import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
 import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/state-legislature-opening";
 import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
+import { ensureLocalCouncilMeetings } from "../simulation/living-world/local-council-meetings";
+import { ensureLocalElectionCalendar } from "../simulation/living-world/local-elections";
+import { ensureLocalGovernmentSeats } from "../simulation/living-world/local-government-seats";
 import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import {
@@ -194,9 +197,19 @@ function openedWorld(
   // The town's residents are seated before migration is scheduled, so the
   // first quarterly review already has neighbors who might leave.
   if (!pressOpeningApplies(world)) return world;
-  const opened = ensureMigrationSchedule(
+  // The town government is seated from the same residents, so the council
+  // and the mayor are people who live in the town, and its elections go on
+  // the calendar with its council's meetings.
+  const seated = ensureLocalGovernmentSeats(
     ensureTownResidents(
       ensurePressOpening(world, playerPersonId),
+      playerPersonId,
+    ),
+    playerPersonId,
+  );
+  const opened = ensureMigrationSchedule(
+    ensureLocalCouncilMeetings(
+      ensureLocalElectionCalendar(seated, playerPersonId),
       playerPersonId,
     ),
   );

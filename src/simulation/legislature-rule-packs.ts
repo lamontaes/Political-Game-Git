@@ -1303,8 +1303,10 @@ export const MINNESOTA_RULE_PACK: LegislativeRulePack = {
   basis: "researched",
   structure: "bicameral",
   chambers: [
-    minnesotaChamber("house", "House of Representatives", "HB", 134),
-    minnesotaChamber("senate", "Senate", "SB", 67),
+    // Minnesota files House Files and Senate Files, as its recorded bill
+    // samples show (data/research/bill-samples/state/minnesota.json).
+    minnesotaChamber("house", "House of Representatives", "HF", 134),
+    minnesotaChamber("senate", "Senate", "SF", 67),
   ],
   chamberOrder: ["house", "senate"],
   origination: {
@@ -2605,6 +2607,29 @@ export const LEGISLATIVE_RULE_PACKS: readonly LegislativeRulePack[] = [
  * engine a pack object — the id is the only handle — so a fabricated council
  * with a plausible id resolves to nothing.
  */
+type RulePackResolver = (packId: string) => LegislativeRulePack | null;
+
+const registeredResolvers: RulePackResolver[] = [];
+
+/**
+ * Adds a generated pack family that `rulePackById` resolves after the compiled
+ * and federal ones. A module that generates packs from data this module cannot
+ * import without a cycle (a town council's seat count reaches back here
+ * through the capability resolver) registers its resolver on load.
+ */
+export function registerRulePackResolver(resolver: RulePackResolver): void {
+  if (!registeredResolvers.includes(resolver))
+    registeredResolvers.push(resolver);
+}
+
+function registeredRulePackById(packId: string): LegislativeRulePack | null {
+  for (const resolver of registeredResolvers) {
+    const pack = resolver(packId);
+    if (pack) return pack;
+  }
+  return null;
+}
+
 export function rulePackById(packId: string): LegislativeRulePack {
   const researched = LEGISLATIVE_RULE_PACKS.find(
     (candidate) => candidate.packId === packId,
@@ -2617,6 +2642,9 @@ export function rulePackById(packId: string): LegislativeRulePack {
     // state legislature.
     federalRulePackById(packId) ??
     municipalRulePackById(packId) ??
+    // A town council whose charter has not been read plays under the
+    // labeled town profile (`town-council-profile.ts`, registered below).
+    registeredRulePackById(packId) ??
     // A save made in a state with no compiled pack records a generated one, and
     // it has to resolve or the save opens onto a seat with no chamber under it.
     // It resolves last, so a state that gets compiled later takes over the

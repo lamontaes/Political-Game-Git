@@ -17,7 +17,8 @@ import {
   BillConfigurationError,
   draftingSupportsScenario,
 } from "../simulation/legislation-drafting";
-import { chamberDesignationPrefix } from "../simulation/legislature-rules";
+import { chamberByKey } from "../simulation/legislature-rules";
+import { nextMeasureNumbering } from "../simulation/measure-numbering";
 import {
   draftLineageComponents,
   draftParameterValues,
@@ -259,7 +260,14 @@ export function fileBundleDraft(
   const measureStableKey = docketMeasureStableKey(input.scenarioKey, sequence);
   const chamberKey =
     actualSeat?.chamberKey ?? blueprint.pack.chambers[0]?.chamberKey ?? "house";
-  const designation = `${chamberDesignationPrefix(blueprint.pack, chamberKey)} ${400 + sequence}`;
+  // The same numbering every other filed bill takes: this legislature's own
+  // prefix, restarting each session (decision OCD-LEG-NUM-001).
+  const numbering = nextMeasureNumbering(world, {
+    jurisdictionId: input.jurisdictionId,
+    originChamber: chamberByKey(blueprint.pack, chamberKey),
+    rulePackId: blueprint.pack.packId,
+  });
+  const designation = numbering.designation;
 
   const bundle = compileMeasureBundle({
     scenarioKey: input.scenarioKey,
@@ -345,7 +353,7 @@ export function fileBundleDraft(
     stableKey: measureStableKey,
     jurisdictionId: input.jurisdictionId,
     rulePackId: blueprint.pack.packId,
-    designation,
+    ...numbering,
     shortTitle,
     summary,
     origin: "member-introduction",
@@ -450,7 +458,7 @@ export function fileBundleDraft(
 
   next = createWorkItem(next, {
     stableKey: `${docketKey}:work`,
-    title: `${designation} — ${shortTitle}`,
+    title: `${numbering.numberingSession.fullDesignation} — ${shortTitle}`,
     summary,
     jurisdictionId: input.jurisdictionId,
     sourceEntityIds: [measureId, input.jurisdictionId],

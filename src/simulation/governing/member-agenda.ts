@@ -1,7 +1,7 @@
 import { measurePosition, introduceMeasure } from "../legislation";
 import { legislativePackForJurisdiction } from "../legislative-institutions";
 import { defaultOriginChamber } from "../legislature-rules";
-import { nextMeasureDesignation } from "../measure-numbering";
+import { nextMeasureNumbering } from "../measure-numbering";
 import { SeededRng } from "../rng";
 import type { EntityId, World } from "../types";
 import { seatedChamberForPack } from "./chamber-votes";
@@ -167,9 +167,10 @@ export function fileMemberAgendaBill(
       stableKey,
       jurisdictionId: input.jurisdictionId,
       rulePackId: pack.packId,
-      designation: nextMeasureDesignation(next, {
+      ...nextMeasureNumbering(next, {
         jurisdictionId: input.jurisdictionId,
         originChamber,
+        rulePackId: pack.packId,
       }),
       shortTitle:
         best.answer === "yes"

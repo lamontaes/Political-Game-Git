@@ -290,7 +290,7 @@ function MeasureView({
         <div>
           <p className="legislation-eyebrow">{briefing.legislatureName}</p>
           <h1>
-            {briefing.designation} — {briefing.shortTitle}
+            {briefing.fullDesignation} — {briefing.shortTitle}
           </h1>
           <p className="legislation-summary">{briefing.summary}</p>
           <p
