@@ -1,0 +1,96 @@
+{
+  "schema": "ocd-tags/v1",
+  "note": "One tag vocabulary for backdrops, poses, views, outfits, people and occasions. A tag set carries any subset of these dimensions; a dimension it leaves out says nothing, and is never read as a match or a mismatch. Time, weather and season are read from a backdrop's variant, never typed by hand. place is set only where a thing really belongs to one place.",
+  "dimensions": {
+    "place": {
+      "kind": "object",
+      "fields": {
+        "usps": "two-letter state, D.C. or territory code",
+        "countyFips": "five-digit county code",
+        "cityId": "the world's jurisdiction id for a town"
+      }
+    },
+    "level": [
+      "federal",
+      "state",
+      "county",
+      "city",
+      "school",
+      "party",
+      "private"
+    ],
+    "institution": [
+      "upper-chamber",
+      "lower-chamber",
+      "unicameral-chamber",
+      "council",
+      "commission",
+      "supreme-court",
+      "appellate-court",
+      "trial-court",
+      "executive-office",
+      "agency",
+      "campaign",
+      "newsroom",
+      "union",
+      "church",
+      "school",
+      "hospital",
+      "business",
+      "home",
+      "public-space",
+      "residence-street"
+    ],
+    "setting": ["interior", "exterior"],
+    "occasion": [
+      "session",
+      "hearing",
+      "rally",
+      "debate",
+      "election-night",
+      "town-hall",
+      "door-knocking",
+      "phone-bank",
+      "press-conference",
+      "trial",
+      "ceremony",
+      "meeting",
+      "work-shift",
+      "home-life"
+    ],
+    "roleFit": [
+      "legislator",
+      "executive",
+      "judge",
+      "lawyer",
+      "candidate",
+      "organizer",
+      "volunteer",
+      "staffer",
+      "clerk",
+      "reporter",
+      "worker",
+      "teacher",
+      "student",
+      "nurse",
+      "officer",
+      "clergy",
+      "resident"
+    ],
+    "time": ["morning", "midday", "night"],
+    "weather": ["clear", "rain"],
+    "season": ["winter"],
+    "tone": ["celebratory", "tense", "somber", "ordinary"],
+    "wearFit": ["formal", "business", "work", "uniform", "casual", "robe"]
+  },
+  "weights": {
+    "place": 5,
+    "occasion": 4,
+    "institution": 3,
+    "level": 3,
+    "roleFit": 2,
+    "setting": 1,
+    "tone": 1,
+    "wearFit": 2
+  }
+}
