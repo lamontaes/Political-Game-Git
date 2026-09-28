@@ -3,10 +3,10 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 258,
+    "markers": 274,
     "byPath": {
-      "other": 63,
-      "law": 91,
+      "other": 78,
+      "law": 92,
       "government": 40,
       "money": 64
     },
@@ -87,7 +87,7 @@
     },
     {
       "file": "src/simulation/campaigns.ts",
-      "line": 1744,
+      "line": 1752,
       "text": "* (PLACEHOLDER, see local-chief-executive-rules.ts).",
       "path": "government",
       "researchQuestionId": null,
@@ -663,7 +663,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 87,
+      "line": 88,
       "text": "* PLACEHOLDER(research: job-market-calibration). Nobody has researched any",
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -671,7 +671,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 91,
+      "line": 92,
       "text": "export const JOB_MARKET_PLACEHOLDER = {",
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -679,7 +679,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 121,
+      "line": 122,
       "text": "* PLACEHOLDER(research: public-employer-roles-and-pay). One role for every",
       "path": "money",
       "researchQuestionId": "public-employer-roles-and-pay",
@@ -687,7 +687,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 127,
+      "line": 128,
       "text": "export const PUBLIC_BODY_ROLE_PLACEHOLDER = {",
       "path": "money",
       "researchQuestionId": "public-employer-roles-and-pay",
@@ -695,7 +695,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 149,
+      "line": 150,
       "text": "* PLACEHOLDER(research: teen-first-jobs). What a teenager's first job pays by",
       "path": "money",
       "researchQuestionId": "teen-first-jobs",
@@ -703,7 +703,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 153,
+      "line": 154,
       "text": "export const FIRST_JOB_PAY_PLACEHOLDER = {",
       "path": "money",
       "researchQuestionId": "teen-first-jobs",
@@ -711,7 +711,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 249,
+      "line": 250,
       "text": "const role = PUBLIC_BODY_ROLE_PLACEHOLDER;",
       "path": "money",
       "researchQuestionId": "minimum-wages-by-place",
@@ -719,7 +719,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 306,
+      "line": 307,
       "text": "// PLACEHOLDER(research: job-market-calibration): which work is",
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -727,7 +727,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 623,
+      "line": 625,
       "text": "const spread = 1 + (rng.next() * 2 - 1) * JOB_MARKET_PLACEHOLDER.offerSpread;",
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -735,7 +735,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 625,
+      "line": 627,
       "text": "!role.salaried && rng.next() < JOB_MARKET_PLACEHOLDER.partTimeShare;",
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -743,7 +743,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 630,
+      "line": 632,
       "text": "JOB_MARKET_PLACEHOLDER.partTimeMinimumHours,",
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -751,7 +751,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 635,
+      "line": 637,
       "text": "minimum + between(rng, JOB_MARKET_PLACEHOLDER.partTimeSpreadHours),",
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -759,7 +759,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 681,
+      "line": 683,
       "text": "if (rng.next() >= JOB_MARKET_PLACEHOLDER.weeklyOpeningChance) continue;",
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -767,7 +767,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 704,
+      "line": 706,
       "text": "? `${PROVENANCE_NOTE} The role and its pay are the placeholder public-body profile (research: ${PUBLIC_BODY_ROLE_PLACEHOLDER.researchQuestionId}).`",
       "path": "money",
       "researchQuestionId": "minimum-wages-by-place",
@@ -775,7 +775,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 862,
+      "line": 864,
       "text": "between(rng, JOB_MARKET_PLACEHOLDER.decisionDays),",
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -783,7 +783,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 987,
+      "line": 989,
       "text": "JOB_MARKET_PLACEHOLDER.fullTimeHours,",
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -791,7 +791,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 998,
+      "line": 1000,
       "text": "opening.weeklyHours.minimumHours >= JOB_MARKET_PLACEHOLDER.fullTimeHours &&",
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -799,7 +799,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 1012,
+      "line": 1014,
       "text": "if (rng.next() >= JOB_MARKET_PLACEHOLDER.hireChance[application.route])",
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -807,7 +807,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 1024,
+      "line": 1026,
       "text": "between(rng, JOB_MARKET_PLACEHOLDER.startLeadDays),",
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -815,7 +815,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 1405,
+      "line": 1410,
       "text": "FIRST_JOB_PAY_PLACEHOLDER.hourlyMinor * hours,",
       "path": "money",
       "researchQuestionId": "teen-first-jobs",
@@ -823,7 +823,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 1407,
+      "line": 1412,
       "text": "`A first job, paid weekly from ${world.currentDate} for ${hours} hours at the placeholder rate (research: ${FIRST_JOB_PAY_PLACEHOLDER.researchQuestionId}).`,",
       "path": "money",
       "researchQuestionId": "teen-first-jobs",
@@ -831,7 +831,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 1447,
+      "line": 1452,
       "text": "JOB_MARKET_PLACEHOLDER.missedStartGraceDays,",
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -839,7 +839,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 1455,
+      "line": 1460,
       "text": "rng.next() < JOB_MARKET_PLACEHOLDER.followUpChance);",
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -847,7 +847,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 1459,
+      "line": 1464,
       "text": "between(rng, JOB_MARKET_PLACEHOLDER.followUpStartDays),",
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -918,9 +918,33 @@
       "researchQuestionFiled": false
     },
     {
+      "file": "src/simulation/law-exposure.ts",
+      "line": 42,
+      "text": "// PLACEHOLDER: pay is read over the four weeks before the exposure and scaled",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/law-exposure.ts",
+      "line": 135,
+      "text": "// PLACEHOLDER: \"reflection happens within days\" (spec 5); three days.",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
       "file": "src/simulation/legislative-member-decisions.ts",
-      "line": 310,
+      "line": 313,
       "text": "// PLACEHOLDER(overnight): map recorded conviction and salience to the",
+      "path": "law",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/legislative-member-decisions.ts",
+      "line": 367,
+      "text": "// PLACEHOLDER: net view points to the engine's ordinal weight.",
       "path": "law",
       "researchQuestionId": null,
       "researchQuestionFiled": false
@@ -1119,7 +1143,7 @@
     },
     {
       "file": "src/simulation/living-world/local-elections.ts",
-      "line": 90,
+      "line": 91,
       "text": "* PLACEHOLDERS, pending `local-election-behavior`:",
       "path": "government",
       "researchQuestionId": "local-election-behavior",
@@ -1131,6 +1155,86 @@
       "text": "* PLACEHOLDER, pending `local-seats-at-the-opening`: every member's term is",
       "path": "law",
       "researchQuestionId": "local-seats-at-the-opening",
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/official-views.ts",
+      "line": 56,
+      "text": "// PLACEHOLDER, approved provisional: executives carry the blame for a visible",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/official-views.ts",
+      "line": 60,
+      "text": "// PLACEHOLDER, approved provisional: about 11 percent of people can recall",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/official-views.ts",
+      "line": 67,
+      "text": "// PLACEHOLDER, approved provisional (Pew 2024): the share who follow local",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/official-views.ts",
+      "line": 73,
+      "text": "// PLACEHOLDER, approved provisional: people have about 2 to 4 political",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/official-views.ts",
+      "line": 79,
+      "text": "// PLACEHOLDER: what a friend went through moves a view less than one's own",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/official-views.ts",
+      "line": 82,
+      "text": "// PLACEHOLDER: a family member's paycheck is felt at home, less than one's own.",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/official-views.ts",
+      "line": 84,
+      "text": "// PLACEHOLDER, approved provisional: partisans are anchored. Blame for their",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/official-views.ts",
+      "line": 87,
+      "text": "// PLACEHOLDER: a money effect whose size next to pay is unknown is felt at a",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/official-views.ts",
+      "line": 334,
+      "text": "// PLACEHOLDER: a law costing a tenth of a month's pay is felt fully; the",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/official-views.ts",
+      "line": 350,
+      "text": "// PLACEHOLDER multipliers.",
+      "path": "other",
+      "researchQuestionId": null,
       "researchQuestionFiled": false
     },
     {
@@ -1151,7 +1255,7 @@
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
-      "line": 85,
+      "line": 90,
       "text": "* PLACEHOLDER: the size used for a place the Census estimates do not cover",
       "path": "other",
       "researchQuestionId": null,
@@ -1159,7 +1263,7 @@
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
-      "line": 98,
+      "line": 103,
       "text": "* PLACEHOLDER pending `town-household-composition`: the share of households of",
       "path": "other",
       "researchQuestionId": "town-household-composition",
@@ -1167,7 +1271,7 @@
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
-      "line": 122,
+      "line": 127,
       "text": "* population. PLACEHOLDER with them, pending `town-household-composition`.",
       "path": "other",
       "researchQuestionId": "town-household-composition",
@@ -1175,7 +1279,7 @@
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
-      "line": 138,
+      "line": 143,
       "text": "* PLACEHOLDER pending `town-congregations`: how many congregations a town has,",
       "path": "other",
       "researchQuestionId": "town-congregations",
@@ -1183,7 +1287,7 @@
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
-      "line": 155,
+      "line": 160,
       "text": "/** PLACEHOLDER: residents each kind of town employer is staffed with. */",
       "path": "other",
       "researchQuestionId": null,
@@ -1191,7 +1295,7 @@
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
-      "line": 161,
+      "line": 166,
       "text": "/** PLACEHOLDER: the player's nearest neighbors, written out at the start. */",
       "path": "other",
       "researchQuestionId": null,
@@ -1199,7 +1303,7 @@
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
-      "line": 228,
+      "line": 233,
       "text": "* The town's size and household count. PLACEHOLDER: the owner decided the",
       "path": "other",
       "researchQuestionId": null,
@@ -1207,7 +1311,7 @@
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
-      "line": 499,
+      "line": 504,
       "text": "// PLACEHOLDER pending `town-household-composition`: every couple is",
       "path": "other",
       "researchQuestionId": "town-household-composition",
@@ -1572,6 +1676,30 @@
       "path": "money",
       "researchQuestionId": "what-public-officials-are-paid",
       "researchQuestionFiled": true
+    },
+    {
+      "file": "src/simulation/official-view-reads.ts",
+      "line": 12,
+      "text": "// PLACEHOLDER: the points one fully felt law moves a view.",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/official-view-reads.ts",
+      "line": 64,
+      "text": "// PLACEHOLDER, approved provisional: an election weighs recent exposures more.",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/official-view-reads.ts",
+      "line": 69,
+      "text": "// PLACEHOLDER: the most a town's views can raise or cut a candidate's support.",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
     },
     {
       "file": "src/simulation/ordinary-meeting-presence.ts",
