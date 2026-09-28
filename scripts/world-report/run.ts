@@ -1013,10 +1013,22 @@ function schoolLines(reader: WorldRecordReader): ChronicleLine[] {
     const why = year.causes.map((cause) => {
       const more = cause.change > 0;
       const size = Math.abs(cause.change);
+      if (cause.kind === "class-size-law")
+        return `${count(size, "teacher")} hired under ${year.classSizeLaw?.designation ?? "a class-size law"}`;
       return cause.kind === "enrollment"
         ? `${count(size, "pupil")} ${more ? "more" : "fewer"} (enrollment)`
         : `${count(size, "teacher")} ${more ? "more" : "fewer"} (staffing)`;
     });
+    const law = year.classSizeLaw
+      ? ` Under ${year.classSizeLaw.designation}, classes are capped at ${year.classSizeLaw.maximum}.`
+      : "";
+    const scale =
+      year.classSize == null
+        ? ""
+        : ` Classes average ${year.classSize} at the national scale${year.proficiencyPct == null ? "" : `, and ${year.proficiencyPct}% of pupils are at grade level`}.`;
+    const vacant = year.teacherVacancies
+      ? ` ${count(year.teacherVacancies, "teaching job")} went unfilled.`
+      : "";
     return {
       date: year.countedAt,
       section: "schools" as const,

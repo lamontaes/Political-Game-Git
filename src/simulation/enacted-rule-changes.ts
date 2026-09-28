@@ -109,6 +109,19 @@ export const AMENDABLE_RULE_FIELDS = {
     max: 100_000,
     family: "labor",
   },
+  /**
+   * The most pupils a state's public schools may teach for each teacher, the
+   * game's class. The office key is the state's education law,
+   * `us-xx-education-law`. Read by the town school district
+   * (`living-world/town-schools.ts`), which hires teachers each fall so that
+   * no school has more pupils per teacher than this.
+   */
+  "education.classSize.maximum": {
+    kind: "integer",
+    min: 5,
+    max: 60,
+    family: "education",
+  },
 } as const;
 
 /** The office key a state's law on its towns is recorded under. */
@@ -119,6 +132,11 @@ export function municipalLawOfficeKey(stateUsps: string): string {
 /** The office key a state's labor law is recorded under. */
 export function laborLawOfficeKey(stateUsps: string): string {
   return `us-${stateUsps.toLowerCase()}-labor-law`;
+}
+
+/** The office key a state's education law is recorded under. */
+export function educationLawOfficeKey(stateUsps: string): string {
+  return `us-${stateUsps.toLowerCase()}-education-law`;
 }
 
 /** A term limit as a law states it; null in any part means the law is silent on it. */
@@ -184,6 +202,7 @@ const AMENDABLE_RULE_FIELD_LABELS: Readonly<
   "executive.term.limit": "the chief executive's term limit",
   "municipal.recall.doctrine": "how towns' voters may recall an official",
   "labor.minimumWage.hourlyCents": "state minimum wage",
+  "education.classSize.maximum": "the most pupils in a class",
 };
 
 const CHOICE_WORDS: Readonly<Record<string, string>> = {
@@ -204,6 +223,8 @@ export function describeRuleChangeValue(
 ): string {
   if (field === "labor.minimumWage.hourlyCents" && typeof value === "number")
     return `$${(value / 100).toFixed(2)} an hour`;
+  if (field === "education.classSize.maximum" && typeof value === "number")
+    return `${value} pupils a class`;
   if (value === null) return "no limit";
   if (typeof value === "number") return String(value);
   if (typeof value === "string") return CHOICE_WORDS[value] ?? value;

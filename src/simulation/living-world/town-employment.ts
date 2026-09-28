@@ -1162,6 +1162,8 @@ export function fillTownJobs(
     readonly into?: {
       readonly workplace: string;
       readonly organizationId: EntityId;
+      /** Hire everyone into this one role (the district adds teachers). */
+      readonly title?: string;
     };
   },
 ): World {
@@ -1290,10 +1292,18 @@ export function fillTownJobs(
   if (options.into) {
     const workplace = WORKPLACE.get(options.into.workplace);
     if (!workplace) return next;
-    let lead = workplace.roles.find(
-      (entry) => entry.authority === "directs-others",
-    );
+    const only = options.into.title
+      ? workplace.roles.find((entry) => entry.title === options.into!.title)
+      : undefined;
+    let lead = options.into.title
+      ? undefined
+      : workplace.roles.find((entry) => entry.authority === "directs-others");
     for (const resident of open) {
+      if (only) {
+        if (resident.age >= (only.minAge ?? WORKING_AGE_MIN))
+          hire(resident, workplace, only, options.into.organizationId);
+        continue;
+      }
       const fits = workplace.roles.filter(
         (entry) => resident.age >= (entry.minAge ?? WORKING_AGE_MIN),
       );

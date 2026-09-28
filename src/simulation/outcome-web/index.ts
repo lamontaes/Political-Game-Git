@@ -29,8 +29,7 @@ export const OUTCOME_WEB_VERSION = web.version;
 
 export type OutcomeEvidence =
   "researched" | "provisional" | "contested" | "about-zero" | "to-confirm";
-export type OutcomeStrength =
-  "strong" | "moderate" | "weak" | "about-zero";
+export type OutcomeStrength = "strong" | "moderate" | "weak" | "about-zero";
 
 export type OutcomeLinkShape =
   | { readonly kind: "linear" }
@@ -107,9 +106,26 @@ export const OUTCOME_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
     // otherwise (the rule crime has always used).
     read: (world, jurisdictionId, asOf) => {
       const record =
-        macroConditionsAt(world, macroScopeForJurisdiction(jurisdictionId), asOf) ??
-        macroConditionsAt(world, "national", asOf);
+        macroConditionsAt(
+          world,
+          macroScopeForJurisdiction(jurisdictionId),
+          asOf,
+        ) ?? macroConditionsAt(world, "national", asOf);
       return record ? record.unemploymentPct : null;
+    },
+  },
+  "school.class-size": {
+    key: "school.class-size",
+    unit: "pupils in a class, at the national scale",
+    // The town school district's latest fall count on or before the date
+    // (`living-world/town-schools.ts`); none before its first count, or when
+    // it counted no teacher.
+    read: (world, jurisdictionId, asOf) => {
+      let latest: number | null = null;
+      for (const row of world.history.schoolDistrictYears ?? [])
+        if (row.jurisdictionId === jurisdictionId && row.countedAt <= asOf)
+          latest = row.classSize ?? null;
+      return latest;
     },
   },
 };
