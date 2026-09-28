@@ -41,6 +41,7 @@ import { createSaveId } from "./new-game-identity";
 import type { EngineRecipe } from "./appearance-engine/pack";
 import { engineRecipeFor } from "./appearance-engine/recipe";
 import { PEOPLE_PACK } from "./appearance-engine/runtime";
+import { savedRoleSummary, type SavedRoleSummary } from "./save-role-summary";
 
 export {
   BROWSER_WORLD_RECORD_KIND,
@@ -167,6 +168,14 @@ export interface BrowserWorldSummary {
   readonly playerLooks?: Partial<
     Record<"casual" | "business" | "formal", EngineRecipe>
   >;
+  /**
+   * The civic role the character holds when saved (save-role-summary.ts):
+   * the office, seat, court, campaign or government job. It is what lets the
+   * title show a returning player in their chamber or courtroom rather than
+   * at home. Absent when they hold none, and in saves made before it existed
+   * until they are saved again.
+   */
+  readonly playerRole?: SavedRoleSummary;
   readonly currentMoment: SimulationMoment;
   readonly actionSequence: number;
   readonly createdAt: string;
@@ -1210,6 +1219,7 @@ function worldRecordFields(
     ...(watchedFromStart(world) ? { observing: true as const } : {}),
     residence: currentResidence(world, player),
     ...playerLooks(world, player),
+    ...playerRole(world, player),
     currentMoment: { ...world.currentMoment },
     actionSequence: world.actionSequence,
   };
@@ -1228,6 +1238,14 @@ function playerLooks(
     }),
   );
   return Object.keys(looks).length > 0 ? { playerLooks: looks } : {};
+}
+
+function playerRole(
+  world: World,
+  player: Person,
+): Pick<BrowserWorldSummary, "playerRole"> {
+  const role = savedRoleSummary(world, player.id);
+  return role ? { playerRole: role } : {};
 }
 
 function completeRecord(
