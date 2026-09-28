@@ -128,7 +128,7 @@ export const WORK_PATTERNS: Readonly<Record<WorkPatternKey, WorkPattern>> = {
 };
 
 /** GAME ASSUMPTION: which pattern each town workplace works by. */
-const WORKPLACE_PATTERN: Readonly<Record<string, WorkPatternKey>> = {
+export const WORKPLACE_PATTERN: Readonly<Record<string, WorkPatternKey>> = {
   farm: "farm",
   quarry: "day-trade",
   utility: "day-trade",
@@ -187,7 +187,7 @@ const TITLE_PATTERN: readonly (readonly [RegExp, WorkPatternKey])[] = [
  * at a different place in the same building: the city clerk stands at the
  * clerk counter, not outside city hall.
  */
-const WORKPLACE_PLACE: Readonly<Record<string, string>> = {
+export const WORKPLACE_PLACE: Readonly<Record<string, string>> = {
   farm: "rural-farmhouse",
   quarry: "construction-site",
   utility: "office",

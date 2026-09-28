@@ -17,6 +17,8 @@ import {
   townWorkplaceWeights,
 } from "../../src/simulation/living-world/town-employment";
 import {
+  WORKPLACE_PATTERN,
+  WORKPLACE_PLACE,
   onShiftAt,
   peopleAtWorkAt,
   whereaboutsAt,
@@ -92,6 +94,23 @@ describe("every job's working week comes from one rule", () => {
       expect(place, key).toBeDefined();
       const weights = townWorkplaceWeights(place!.context.jurisdiction.id);
       expect(weights.size, key).toBeGreaterThan(0);
+      for (const [workplace, weight] of weights) {
+        if (weight <= 0) continue;
+        expect(
+          WORKPLACE_PATTERN[workplace],
+          `${key} ${workplace}`,
+        ).toBeDefined();
+        expect(
+          pictures.has(WORKPLACE_PLACE[workplace]!),
+          `${key} ${workplace}`,
+        ).toBe(true);
+      }
+    }
+    for (const workplace of TOWN_WORKPLACES) {
+      expect(WORKPLACE_PATTERN[workplace.key], workplace.key).toBeDefined();
+      expect(pictures.has(WORKPLACE_PLACE[workplace.key]!), workplace.key).toBe(
+        true,
+      );
     }
     // Every workplace the towns can write has a picture that exists.
     const world = openAt(LEXINGTON, "schedules-pictures").world;
