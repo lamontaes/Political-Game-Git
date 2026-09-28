@@ -5,6 +5,8 @@ import {
 } from "../presentation/scene-conversation-frame";
 import { MaterialGroup, MaterialImage } from "./ModularCharacter";
 import { EngineFigure } from "./EnginePerson";
+import { PlacePeopleLayer } from "./PlacePeopleLayer";
+import type { BackdropPerson } from "../presentation/backdrop-people";
 import {
   useLayoutEffect,
   useMemo,
@@ -101,6 +103,7 @@ export function SceneBackdrop({
   selectedPersonId = null,
   objects,
   placeBackdrop = null,
+  placePeople = [],
   children,
 }: {
   readonly sceneId: string | null;
@@ -169,6 +172,11 @@ export function SceneBackdrop({
    * own. Nobody stands in it and nothing on it is clickable.
    */
   readonly placeBackdrop?: PlaceBackdrop | null;
+  /**
+   * The people on shift at that place (backdrop-people.ts), standing on its
+   * marked spots. Drawn only over a place picture.
+   */
+  readonly placePeople?: readonly BackdropPerson[];
   readonly children: ReactNode;
 }) {
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -418,6 +426,14 @@ export function SceneBackdrop({
             alt=""
             draggable="false"
             data-testid="scene-place-backdrop"
+          />
+        ) : null}
+        {placePainted ? (
+          <PlacePeopleLayer
+            people={placePeople}
+            stageRef={viewportRef}
+            onSelectPerson={onSelectPerson}
+            selectedPersonId={selectedPersonId}
           />
         ) : null}
         {/*
