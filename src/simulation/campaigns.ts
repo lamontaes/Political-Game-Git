@@ -30,7 +30,6 @@ import { RECALL_HANDLERS } from "./recall";
 import { COUNCIL_ACT_HANDLERS } from "./municipal-ordinance-procedure";
 import { DC_COUNCIL_SITTING_HANDLERS } from "./dc-council-sittings";
 import { LOCAL_COUNCIL_MEETING_HANDLERS } from "./living-world/local-council-meetings";
-import { LOCAL_ELECTION_HANDLERS } from "./living-world/local-elections";
 import { localGoverningBodyRules } from "./nationwide-world/local-governing-body-rules";
 import {
   createNationalElectionTransitionRegistry,
@@ -46,6 +45,12 @@ import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility, districtSeatMustBeNamed } from "./candidacy";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
+import {
+  LOCAL_ELECTION_HANDLERS,
+  localCampaignSeat,
+  localSeatHolder,
+  withdrawTownRaceForCampaign,
+} from "./living-world/local-elections";
 import { congressSeatIdentityForOfficeKey } from "./nationwide-world/congress-candidacy-packs";
 import type { LocalGoverningBodyIdentity } from "./nationwide-world/local-governing-body-candidacy-packs";
 import {
@@ -898,6 +903,9 @@ export function fileCampaign(
   // CRUNCH46 CAMPAIGN: the rivals in this race start campaigning on the
   // world's weekly clock.
   world = ensureCampaignWeeklyEvaluation(world, campaignRecord.id);
+  // A town seat the town's own election already has on its ballot is decided
+  // in this campaign's election instead.
+  world = withdrawTownRaceForCampaign(world, campaignRecord.contestId);
   return { world, campaign: campaignRecord };
 }
 
@@ -1783,9 +1791,12 @@ function seatOnLocalGoverningBody(
   )
     return next;
   // The sitting mayor's term ends as the new one's begins. A member takes
-  // a seat on a full body from the member who has held theirs longest, whose
-  // term is the one most likely up; which seat was on the ballot is not
-  // recorded on a campaign's contest.
+  // the seat the town's own elections left off this year's ballot for the
+  // campaign; on a full body without one, the seat of the member who has held
+  // theirs longest, whose term is the one most likely up.
+  const campaignSeat = localCampaignSeat(unit, mayor, contest.electionDate);
+  const campaignHolder =
+    campaignSeat === null ? null : localSeatHolder(next, unit, campaignSeat);
   const seatLimit = mayor
     ? 1
     : compiled
@@ -1806,10 +1817,21 @@ function seatOnLocalGoverningBody(
         left.startedAt.localeCompare(right.startedAt) ||
         left.sequence - right.sequence,
     );
+  const displaced = Math.max(0, sitting.length - (seatLimit ?? Infinity) + 1);
+  const held = sitting.find(
+    (participation) => participation.id === campaignHolder?.participationId,
+  );
   const succeeded =
-    seatLimit === null
+    seatLimit === null || displaced === 0
       ? []
-      : sitting.slice(0, Math.max(0, sitting.length - seatLimit + 1));
+      : held
+        ? [
+            held,
+            ...sitting
+              .filter((participation) => participation !== held)
+              .slice(0, displaced - 1),
+          ]
+        : sitting.slice(0, displaced);
   {
     for (const participation of succeeded) {
       const state = organizationParticipationStateAt(next, participation.id);
@@ -1843,7 +1865,10 @@ function seatOnLocalGoverningBody(
     startedAt: effectiveAt,
     kind: "leadership:municipal-office",
     roleKind,
-    context: `Elected ${contest.electionDate}`,
+    context:
+      mayor || campaignSeat === null
+        ? `Elected ${contest.electionDate}`
+        : `Elected ${contest.electionDate}, seat ${campaignSeat}`,
     provenance: { kind: "simulated-event", eventId: outcomeEventId },
   });
   assertWorldIntegrity(next);

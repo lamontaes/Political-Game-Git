@@ -1,10 +1,17 @@
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
+import { campaigns } from "../campaign-queries";
 import {
+  cancelElectionContest,
+  electionContestById,
   electionContestResult,
+  electionContestStatus,
   resolveElectionContest,
   scheduleElectionContest,
 } from "../election-contests";
-import { scheduleFutureDueItem } from "../future-transitions";
+import {
+  cancelFutureDueItem,
+  scheduleFutureDueItem,
+} from "../future-transitions";
 import { governmentUnit } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import {
@@ -22,6 +29,7 @@ import { localChiefExecutiveRules } from "../nationwide-world/local-chief-execut
 import {
   localChiefExecutiveIdentity,
   localGoverningBodyIdentity,
+  localGoverningBodyIdentityForOfficeKey,
 } from "../nationwide-world/local-governing-body-candidacy-packs";
 import type { LocalGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
 import { localGoverningBodyRules } from "../nationwide-world/local-governing-body-rules";
@@ -245,6 +253,120 @@ export function seatIsUp(
   const cycles = Math.max(1, Math.round(termYears / cadenceYears));
   const cycle = Math.floor(electionYear / cadenceYears);
   return (cycle + n) % cycles === 0;
+}
+
+/**
+ * The seat a campaign for this town's council or mayor runs for in its
+ * election year: the mayor's office, or the lowest-numbered member seat on
+ * that year's ballot. The town's own elections leave it off their ballot, and
+ * the campaign's winner takes it, so the two never seat two people for one
+ * seat. A year with no member seat up has none.
+ */
+export function localCampaignSeat(
+  unit: GovernmentUnitIdentity,
+  mayor: boolean,
+  electionDate: IsoDate,
+): number | null {
+  if (mayor) return 0;
+  const rules = localGoverningBodyRules(unit);
+  const seatCount = rules?.seats?.value ?? 0;
+  const termYears = rules?.termYears?.value ?? 4;
+  const year = Number(electionDate.slice(0, 4));
+  const { cadenceYears } = nextTownElectionDay(unit, addDays(electionDate, -1));
+  for (let n = 1; n <= seatCount; n += 1)
+    if (seatIsUp(n, year, cadenceYears, termYears)) return n;
+  return null;
+}
+
+/** The seats campaigns (a player's, won, lost or running) hold in this town's `year`. */
+function campaignSeats(
+  world: World,
+  unit: GovernmentUnitIdentity,
+  year: number,
+): ReadonlySet<number> {
+  const seats = new Set<number>();
+  for (const campaign of campaigns(world)) {
+    const contest = electionContestById(world, campaign.contestId);
+    if (!contest || Number(contest.electionDate.slice(0, 4)) !== year) continue;
+    const office = localGoverningBodyIdentityForOfficeKey(
+      contest.office.officeKey,
+    );
+    if (office?.unit.id !== unit.id) continue;
+    const seat = localCampaignSeat(
+      unit,
+      office.seat === "chief-executive",
+      contest.electionDate,
+    );
+    if (seat !== null) seats.add(seat);
+  }
+  return seats;
+}
+
+/**
+ * A campaign filed after the town's field closed runs for a seat the town
+ * already put on its ballot. That seat is decided in the campaign's own
+ * election, so the town's pending race for it is called off: its contest and
+ * its count. Called when a campaign is filed, never from a due item.
+ */
+export function withdrawTownRaceForCampaign(
+  world: World,
+  contestId: EntityId,
+): World {
+  const contest = electionContestById(world, contestId);
+  if (!contest) return world;
+  const office = localGoverningBodyIdentityForOfficeKey(
+    contest.office.officeKey,
+  );
+  if (!office) return world;
+  const { unit } = office;
+  const seat = localCampaignSeat(
+    unit,
+    office.seat === "chief-executive",
+    contest.electionDate,
+  );
+  if (seat === null) return world;
+  const year = contest.electionDate.slice(0, 4);
+  const prefix = `${V}:${unit.id}:${year}-`;
+  const suffix = `:seat-${seat}`;
+  let next = world;
+  for (const row of world.history.electionContests ?? []) {
+    const race = row.stableKey.replace(/:(primary|general)$/, "");
+    if (!race.startsWith(prefix) || !race.endsWith(suffix)) continue;
+    if (electionContestStatus(next, row.id) !== "pending") continue;
+    const why = `${seatPhrase(officeFor(unit, seat) ?? office, seat)} is decided in a campaign's own election.`;
+    next = cancelElectionContest(next, {
+      stableKey: `${row.stableKey}:called-off`,
+      contestId: row.id,
+      effectiveAt: next.currentDate,
+      reason: why,
+    });
+    const count = next.history.futureDueItems.find(
+      (item) =>
+        item.stableKey === `${row.stableKey}:count` &&
+        !next.history.futureDueItemStates.some(
+          (state) =>
+            state.dueItemId === item.id && state.status !== "scheduled",
+        ),
+    );
+    if (count)
+      next = cancelFutureDueItem(next, {
+        stableKey: `${row.stableKey}:count:called-off`,
+        dueItemId: count.id,
+        effectiveAt: next.currentDate,
+        reasonKey: "election:contest-cancelled",
+        context: why,
+      });
+  }
+  return next;
+}
+
+/** Who holds `seat` (0 for the mayor) on the town's government now. */
+export function localSeatHolder(
+  world: World,
+  unit: GovernmentUnitIdentity,
+  seat: number,
+): SeatedLocalOffice | null {
+  return holderOf(sittingLocalOfficers(world, unit), seat);
 }
 
 function pick(rng: SeededRng, shares: readonly number[]): number {
@@ -687,9 +809,10 @@ export function localElectionFilingHandler(
   const primaryDate = addDays(generalDate, -P.primaryLeadDays);
   let races = 0;
   let primaries = 0;
+  const campaigned = campaignSeats(next, unit, year);
   for (const seat of seatsUp) {
     const office = officeFor(unit, seat);
-    if (!office) continue;
+    if (!office || campaigned.has(seat)) continue;
     const race = raceKey(unit.id, generalDate, seat);
     if (
       (next.history.electionContests ?? []).some((row) =>

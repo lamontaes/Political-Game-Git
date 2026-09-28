@@ -34,7 +34,15 @@ import {
   prepareOpeningLife,
 } from "../../src/presentation/opening-life";
 import { openOrdinaryLife } from "../../src/presentation/ordinary-life";
-import { runToElection, suppliedWin } from "../fixtures/state-executive-entry";
+import {
+  passUntil,
+  runToElection,
+  suppliedWin,
+} from "../fixtures/state-executive-entry";
+import { electionContestResult } from "../../src/simulation/election-contests";
+import { localCampaignSeat } from "../../src/simulation/living-world/local-elections";
+import { sittingLocalOfficers } from "../../src/simulation/living-world/local-government-seats";
+import { localGoverningBodyRules } from "../../src/simulation/nationwide-world/local-governing-body-rules";
 
 /**
  * A town's own governing body, offered in every town that has a government.
@@ -328,6 +336,65 @@ describe("standing again after a race is over", () => {
         (office) => office.officeKey,
       ),
     ).toContain(body.officeKey);
+  }, 120_000);
+});
+
+describe("a player's campaign and the town's own race", () => {
+  it("Ely, Minnesota: the town leaves the player's seat off its ballot, and the winner keeps it", () => {
+    const { world: opening, personId } = adultLifeAt(ELY, "town-body-seat");
+    const home = opening.people[personId]!.homeJurisdictionId;
+    const body = localGoverningBodiesForJurisdiction(home)[0]!;
+    let world = fileForOffice(opening, personId, null, body.officeKey);
+    const electionDate = world.history.electionContests!.at(-1)!.electionDate;
+    const seat = localCampaignSeat(body.unit, false, electionDate);
+    expect(seat).not.toBeNull();
+    world = runToElection(world, personId, suppliedWin(personId));
+    expect(projectCampaign(world, personId).phase).toBe("won");
+    // Past the town's own count for the same election day.
+    world = passUntil(world, addDays(electionDate, 14));
+
+    const townRaces = world.history.electionContests!.filter(
+      (contest) =>
+        contest.stableKey.includes(`:${body.unit.id}:${electionDate}:`) &&
+        !contest.candidatePersonIds.includes(personId),
+    );
+    expect(townRaces.length).toBeGreaterThan(0);
+    expect(
+      townRaces.some((contest) => contest.office.seatKey === `seat-${seat}`),
+    ).toBe(false);
+
+    const officers = sittingLocalOfficers(world, body.unit);
+    const mine = officers.find((row) => row.personId === personId);
+    expect(mine?.seatLabel).toMatch(new RegExp(`seat ${seat}$`));
+    const members = officers.filter((row) => !row.mayor);
+    expect(members).toHaveLength(
+      localGoverningBodyRules(body.unit)!.seats!.value!,
+    );
+  }, 120_000);
+  it("Ely, Minnesota: a campaign filed after the town's field closed calls off the town's race for that seat", () => {
+    const { world: opening, personId } = adultLifeAt(ELY, "town-body-late");
+    const home = opening.people[personId]!.homeJurisdictionId;
+    const body = localGoverningBodiesForJurisdiction(home)[0]!;
+    // The town's field closes four weeks before its November 3 election.
+    let world = passUntil(opening, "2026-10-08");
+    const electionDate = "2026-11-03";
+    const seat = localCampaignSeat(body.unit, false, electionDate)!;
+    const townRace = () =>
+      world.history.electionContests!.find(
+        (contest) =>
+          contest.stableKey.includes(`:${body.unit.id}:${electionDate}:`) &&
+          contest.office.seatKey === `seat-${seat}`,
+      );
+    expect(townRace()).toBeDefined();
+    world = fileForOffice(world, personId, null, body.officeKey, electionDate);
+    world = runToElection(world, personId, suppliedWin(personId));
+    world = passUntil(world, addDays(electionDate, 14));
+    expect(projectCampaign(world, personId).phase).toBe("won");
+    expect(electionContestResult(world, townRace()!.id)).toBeNull();
+    const mine = sittingLocalOfficers(world, body.unit).find(
+      (row) => row.personId === personId,
+    );
+    expect(mine?.seatLabel).toMatch(new RegExp(`seat ${seat}$`));
   }, 120_000);
 });
 
