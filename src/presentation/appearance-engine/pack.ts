@@ -106,8 +106,68 @@ export const BODY_POSES = [
   "podium",
   "seated-leaning",
   "seated-legs-crossed",
+  "hands-in-pockets",
+  "seated-ankle-on-knee",
 ] as const;
 export type BodyPose = (typeof BODY_POSES)[number];
+
+/**
+ * Each presentation's own body language (Lamontae, Sept. 28, 2026: the men
+ * read effeminate in the women's poses). A man puts his hands in his pockets
+ * where a woman rests a hand on her hip, and sits with an ankle on his knee
+ * where she crosses her legs; the rest they share, each painted for their
+ * own bodies.
+ */
+export const POSES_BY_PRESENTATION: Readonly<
+  Record<BodyPresentation, readonly BodyPose[]>
+> = {
+  feminine: [
+    "standing",
+    "seated",
+    "arms-folded",
+    "explaining",
+    "hand-on-hip",
+    "podium",
+    "seated-leaning",
+    "seated-legs-crossed",
+  ],
+  masculine: [
+    "standing",
+    "seated",
+    "arms-folded",
+    "explaining",
+    "hands-in-pockets",
+    "podium",
+    "seated-leaning",
+    "seated-ankle-on-knee",
+  ],
+};
+
+/** The same gesture in the other presentation's set. */
+const COUNTERPART: Partial<Record<BodyPose, BodyPose>> = {
+  "hand-on-hip": "hands-in-pockets",
+  "hands-in-pockets": "hand-on-hip",
+  "seated-legs-crossed": "seated-ankle-on-knee",
+  "seated-ankle-on-knee": "seated-legs-crossed",
+};
+
+/**
+ * A pose as this presentation strikes it: the pose itself when it is theirs,
+ * otherwise its counterpart in their set.
+ */
+export function presentationPose(
+  pose: BodyPose,
+  presentation: BodyPresentation,
+): BodyPose {
+  const own = POSES_BY_PRESENTATION[presentation];
+  if (own.includes(pose)) return pose;
+  const counterpart = COUNTERPART[pose];
+  return counterpart && own.includes(counterpart)
+    ? counterpart
+    : isSeatedPose(pose)
+      ? "seated"
+      : "standing";
+}
 /** The poses the pack keeps in its `poses` tables: all but the first two. */
 export type NamedBodyPose = Exclude<BodyPose, "standing" | "seated">;
 
@@ -115,6 +175,7 @@ const SEATED_POSES: ReadonlySet<BodyPose> = new Set([
   "seated",
   "seated-leaning",
   "seated-legs-crossed",
+  "seated-ankle-on-knee",
 ]);
 
 export function isSeatedPose(pose: BodyPose): boolean {
@@ -150,6 +211,8 @@ export const POSE_PAINTED_TOWARD: Readonly<
   podium: null,
   "seated-leaning": null,
   "seated-legs-crossed": null,
+  "hands-in-pockets": null,
+  "seated-ankle-on-knee": null,
 };
 
 export interface PackBody {
@@ -408,7 +471,9 @@ export function posedPieces(
   const hair = pack.hair.find((h) => h.id === recipe.hair) ?? pack.hair[0]!;
   const views: readonly BodyView[] =
     recipe.view && recipe.view !== "front" ? [recipe.view, "front"] : ["front"];
-  for (const pose of poseFallbacks(recipe.pose ?? "standing"))
+  for (const pose of poseFallbacks(
+    presentationPose(recipe.pose ?? "standing", recipe.presentation),
+  ))
     for (const view of views) {
       const turned = view === "front" ? undefined : pack.views?.[view];
       if (view !== "front" && !turned) continue;

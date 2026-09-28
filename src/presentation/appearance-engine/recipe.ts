@@ -10,6 +10,7 @@ import {
   BODY_BUILDS,
   HAIR_COLORS,
   PART_PALETTES,
+  presentationPose,
   type BodyBuild,
   type BodyPose,
   type BodyView,
@@ -227,8 +228,9 @@ export function engineRecipeFor(
     // Everyday clothes unless the person chose otherwise or the place calls
     // for something else (work clothes, formal wear, a coat).
     outfit: outfit.id,
-    ...(options.pose && options.pose !== "standing"
-      ? { pose: options.pose }
+    ...(options.pose &&
+    presentationPose(options.pose, presentation) !== "standing"
+      ? { pose: presentationPose(options.pose, presentation) }
       : {}),
     ...(options.view && options.view !== "front" ? { view: options.view } : {}),
     ...(options.expression && options.expression !== "neutral"
