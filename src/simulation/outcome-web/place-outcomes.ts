@@ -14,6 +14,7 @@ import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { outcomeFactor } from ".";
 import {
   DEFAULT_PLACE_OUTCOME_DRIFT,
+  driftsInLogs,
   PLACE_OUTCOME_BASES,
   PLACE_OUTCOME_MEASURES,
   type PlaceOutcomeDrift,
@@ -84,11 +85,14 @@ function driftSteps(
  * `month`. The place's underlying level carries on from its last record
  * (the 2024 base in its first month) and drifts; nothing pulls it back to
  * the base. Laws and conditions then act on it through the outcome web's
- * multiplier, and the links that moved it are kept.
+ * multiplier, and the links that moved it are kept. `measures` narrows the
+ * pass to some outcomes (a test of one measure over a century); play records
+ * them all.
  */
 export function placeOutcomesForMonth(
   world: World,
   month: IsoDate,
+  measures: readonly string[] = PLACE_OUTCOME_MEASURES,
 ): readonly PlaceOutcomeRecord[] {
   const records: PlaceOutcomeRecord[] = [];
   const previous = new Map<string, PlaceOutcomeRecord>();
@@ -101,7 +105,7 @@ export function placeOutcomesForMonth(
       previous.set(`${record.measure}|${record.placeKey}`, record);
     break;
   }
-  for (const measure of PLACE_OUTCOME_MEASURES) {
+  for (const measure of measures) {
     const definition = PLACE_OUTCOME_BASES[measure]!;
     const drift = definition.drift ?? DEFAULT_PLACE_OUTCOME_DRIFT;
     const step = driftSteps(world, measure, month, drift);
@@ -110,10 +114,9 @@ export function placeOutcomesForMonth(
       if (!jurisdictionId) continue;
       const last = previous.get(`${measure}|${placeKey}`);
       const before = last ? (last.structural ?? last.base) : base;
-      const moved =
-        definition.scale === "index"
-          ? before * Math.exp(step(placeKey))
-          : fromLogit(logit(before) + step(placeKey));
+      const moved = driftsInLogs(definition)
+        ? before * Math.exp(step(placeKey))
+        : fromLogit(logit(before) + step(placeKey));
       const structural = last
         ? Math.min(drift.maxPct, Math.max(drift.minPct, moved))
         : base;
