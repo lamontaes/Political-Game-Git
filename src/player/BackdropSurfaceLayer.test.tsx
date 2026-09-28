@@ -199,6 +199,87 @@ describe("live content on the painted surfaces of place pictures", () => {
     }
   });
 
+  it("reads a bill whose rules this game no longer knows without failing", () => {
+    // An old save can hold a bill filed under a retired rule set. The board
+    // only needs its number, title and filing, never its rules.
+    const measures = world.history.legislativeMeasures ?? [];
+    const actions = world.history.legislativeActions ?? [];
+    const town = world.people[personId]!.homeJurisdictionId!;
+    const filed = actions.find(
+      (action) =>
+        action.kind === "introduced" &&
+        measures.find((measure) => measure.id === action.measureId)
+          ?.jurisdictionId === town,
+    )!;
+    const original = measures.find(
+      (measure) => measure.id === filed.measureId,
+    )!;
+    const retired = {
+      ...original,
+      id: "measure_retired-rules",
+      stableKey: `${original.stableKey}:retired`,
+      designation: "ORD 900",
+      rulePackId: "retired-rule-pack",
+      sequence: original.sequence + 100_000,
+    };
+    const old: World = {
+      ...world,
+      history: {
+        ...world.history,
+        legislativeMeasures: [...measures, retired],
+        legislativeActions: [
+          ...actions,
+          {
+            ...filed,
+            id: "action_retired-rules",
+            measureId: retired.id,
+            occurredAt: world.currentDate,
+          },
+        ],
+      },
+    };
+    // Room media validates the whole save, which a hand-built record would
+    // not pass; the bills reader alone is what is under test here.
+    const office = projectBackdropSurfaces(
+      old,
+      personId,
+      { place: "office", variant: "midday" },
+      { broadcast: null, frontPage: null },
+    );
+    const bills = office.flatMap((surface) =>
+      surface.content.kind === "bills" ? surface.content.bills : [],
+    );
+    expect(bills[0]?.designation).toBe("ORD 900");
+    expect(render(office)).toContain("ORD 900");
+  });
+
+  it("shows no candidates for a district the player does not live in", () => {
+    const town = world.people[personId]!.homeJurisdictionId!;
+    const neighbors = world.personOrder
+      .filter(
+        (id) =>
+          id !== personId && world.people[id]?.homeJurisdictionId === town,
+      )
+      .slice(0, 2);
+    const elsewhere = scheduleElectionContest(world, {
+      stableKey: "backdrop-surfaces:council-ward-9",
+      jurisdictionId: town,
+      office: {
+        officeKey: "council:ward-9",
+        title: "City Council Member, Ward 9",
+        seatKey: "ward-9",
+        occupationClassification: null,
+      },
+      electionDate: addDays(world.currentDate, 20),
+      candidatePersonIds: neighbors,
+      provenance: { method: "authored", sourceEntityIds: [], note: null },
+    });
+    const posters = surfacesAt(elsewhere, "school-gym-town-hall").filter(
+      (surface) => surface.content.kind === "candidates",
+    );
+    expect(posters).toEqual([]);
+  });
+
   it("never repeats one list on two boards of the same room", () => {
     for (const place of Object.keys(PLACE_SURFACES)) {
       const seen = new Set<string>();

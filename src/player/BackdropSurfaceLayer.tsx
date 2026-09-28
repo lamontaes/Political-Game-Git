@@ -147,7 +147,7 @@ function SurfaceContent({
           <ul className="bs-board-rows">
             {content.lines.map((line) => (
               <li
-                key={`${line.designation}-${line.question}`}
+                key={line.id}
                 className={
                   line.passed ? "bs-row bs-row--yes" : "bs-row bs-row--no"
                 }
@@ -168,7 +168,7 @@ function SurfaceContent({
           <ul className="bs-board-rows">
             {content.rows.map((row) => (
               <li
-                key={row.name}
+                key={row.personId}
                 className={row.won ? "bs-row bs-row--yes" : "bs-row"}
               >
                 <span className="bs-row-name">
@@ -207,7 +207,7 @@ function SurfaceContent({
           data-testid="backdrop-plans"
         >
           {content.notes.map((note) => (
-            <div key={`${note.when}-${note.title}`} className="bs-note">
+            <div key={note.activityId} className="bs-note">
               <span className="bs-note-when">{note.when}</span>
               <span className="bs-note-title">{note.title}</span>
             </div>
@@ -227,7 +227,7 @@ function SurfaceContent({
             ) : null}
             <ul className="bs-board-rows">
               {content.bills.map((bill) => (
-                <li key={bill.designation} className="bs-row">
+                <li key={bill.id} className="bs-row">
                   <span className="bs-row-name">{bill.designation}</span>
                   <span className="bs-row-note">{bill.title}</span>
                 </li>
@@ -245,7 +245,7 @@ function SurfaceContent({
             <span className="bs-sheet-place">{content.place}</span>
           ) : null}
           {content.bills.map((bill) => (
-            <span key={bill.designation} className="bs-sheet-line">
+            <span key={bill.id} className="bs-sheet-line">
               <b>{bill.designation}</b> {bill.title}
             </span>
           ))}
@@ -258,7 +258,7 @@ function SurfaceContent({
           data-testid="backdrop-programs"
         >
           {content.services.map((service) => (
-            <div key={service.title} className="bs-brochure-panel">
+            <div key={service.programKey} className="bs-brochure-panel">
               <strong className="bs-brochure-title">{service.title}</strong>
               <span className="bs-brochure-place">{content.place}</span>
               <span className="bs-brochure-body">{service.summary}</span>

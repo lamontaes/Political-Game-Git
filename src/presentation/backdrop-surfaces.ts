@@ -1,10 +1,10 @@
 import surfaceData from "../../art/backdrops/surfaces.json" with { type: "json" };
 import { electionContestStatus } from "../simulation/election-contests";
-import { measurePosition } from "../simulation/legislation";
 import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
 import { stateOfJurisdiction } from "../simulation/press/outlets";
 import { personName } from "../simulation/people";
 import type {
+  ElectionContestRecord,
   EntityId,
   LegislativeMeasureRecord,
   LegislativeVoteRecord,
@@ -123,6 +123,8 @@ export function backdropSurfaceSlots(
 /* -------------------------------------------------------------------------- */
 
 export interface VoteBoardLine {
+  /** The recorded vote. */
+  readonly id: EntityId;
   readonly designation: string;
   readonly title: string;
   /** "Passed 61–35" or "Failed 12–40". */
@@ -173,6 +175,7 @@ export interface ResultsContent {
   /** "Decided November 3, 2026". */
   readonly dateLine: string;
   readonly rows: readonly {
+    readonly personId: EntityId;
     readonly name: string;
     /** "54%". */
     readonly share: string;
@@ -181,6 +184,7 @@ export interface ResultsContent {
 }
 
 export interface PlanNote {
+  readonly activityId: EntityId;
   /** "Tue. 7:00 p.m." */
   readonly when: string;
   readonly title: string;
@@ -192,6 +196,7 @@ export interface PlansContent {
 }
 
 export interface BillLine {
+  readonly id: EntityId;
   readonly designation: string;
   readonly title: string;
 }
@@ -208,6 +213,7 @@ export interface ProgramsContent {
   readonly kind: "programs";
   readonly place: string;
   readonly services: readonly {
+    readonly programKey: string;
     readonly title: string;
     readonly summary: string;
   }[];
@@ -404,6 +410,7 @@ export function readVoteBoard(
       const measure = measures.get(vote.measureId)!;
       const passed = vote.outcome === "passed";
       return {
+        id: vote.id,
         designation: measure.designation,
         title: measure.shortTitle,
         result: `${passed ? "Passed" : "Failed"} ${vote.tally.yea}–${vote.tally.nay}`,
@@ -429,18 +436,26 @@ export function readBills(
   jurisdictions: readonly EntityId[],
 ): BillsContent | null {
   const wanted = new Set(jurisdictions);
+  // A bill is filed when it is introduced; a draft nobody introduced is an
+  // office's own paper, not a public one. One pass over the recorded actions
+  // gives each filed bill its filing date.
+  const filedOn = new Map<EntityId, string>();
+  for (const action of world.history.legislativeActions ?? []) {
+    if (action.kind !== "introduced" || action.occurredAt > world.currentDate)
+      continue;
+    const earlier = filedOn.get(action.measureId);
+    if (earlier === undefined || action.occurredAt < earlier)
+      filedOn.set(action.measureId, action.occurredAt);
+  }
   const filed = (world.history.legislativeMeasures ?? [])
     .filter(
       (measure) =>
-        wanted.has(measure.jurisdictionId) &&
-        measure.introducedAt <= world.currentDate &&
-        // A draft that has not been filed is an office's own paper, not a
-        // public one.
-        measurePosition(world, measure.id).phase !== "drafting",
+        wanted.has(measure.jurisdictionId) && filedOn.has(measure.id),
     )
     .sort(
       (a, b) =>
-        b.introducedAt.localeCompare(a.introducedAt) || b.sequence - a.sequence,
+        filedOn.get(b.id)!.localeCompare(filedOn.get(a.id)!) ||
+        b.sequence - a.sequence,
     )
     .slice(0, BILLS_ON_A_SHEET);
   if (filed.length === 0) return null;
@@ -450,6 +465,7 @@ export function readBills(
     heading: "Bills filed",
     place,
     bills: filed.map((measure) => ({
+      id: measure.id,
       designation: measure.designation,
       title: measure.shortTitle,
     })),
@@ -479,6 +495,29 @@ function ballotJurisdictions(
 }
 
 /**
+ * Whether the player votes in this contest's seat. A seat bound to a district
+ * counts only when the player's recorded residence is in that district; a
+ * district seat with no binding cannot be placed, and unknown is not a vote.
+ */
+function playerVotesForSeat(
+  world: World,
+  personId: EntityId,
+  contest: ElectionContestRecord,
+): boolean {
+  const binding = contest.office.districtBinding ?? null;
+  if (binding === null) return contest.office.seatKey === null;
+  const today = world.currentDate;
+  return (world.history.districtResidenceIntervals ?? []).some(
+    (interval) =>
+      interval.personId === personId &&
+      interval.startedOn <= today &&
+      (interval.endedOn === null || interval.endedOn > today) &&
+      interval.binding.chamber === binding.chamber &&
+      interval.binding.geoid === binding.geoid,
+  );
+}
+
+/**
  * The candidates in the player's races: the contests the player is standing
  * in first, then the races still to be decided where the player lives.
  */
@@ -495,7 +534,8 @@ export function readCandidates(
         contest.electionDate >= today &&
         electionContestStatus(world, contest.id) === "pending" &&
         (contest.candidatePersonIds.includes(personId) ||
-          ballot.has(contest.jurisdictionId)),
+          (ballot.has(contest.jurisdictionId) &&
+            playerVotesForSeat(world, personId, contest))),
     )
     .sort(
       (a, b) =>
@@ -553,7 +593,8 @@ export function readResults(
         contest !== undefined &&
         record.resolvedAt <= today &&
         record.resolvedAt > since &&
-        (ballot.has(contest.jurisdictionId) ||
+        ((ballot.has(contest.jurisdictionId) &&
+          playerVotesForSeat(world, personId, contest)) ||
           contest.candidatePersonIds.includes(personId))
       );
     })
@@ -571,6 +612,7 @@ export function readResults(
       if (!person) return [];
       return [
         {
+          personId: tally.candidatePersonId,
           name: personName(person),
           share: `${Math.round(tally.voteShare * 100)}%`,
           won: tally.candidatePersonId === result.winnerPersonId,
@@ -612,6 +654,7 @@ export function readPlans(
     )
     .slice(0, NOTES_ON_A_BOARD)
     .map((entry): PlanNote => ({
+      activityId: entry.activityId,
       when:
         entry.start.date === world.currentDate
           ? `Today ${formatMinute(entry.start.minuteOfDay)}`
@@ -634,6 +677,7 @@ export function readPrograms(
       kind: "programs",
       place: world.jurisdictions[jurisdictionId]?.name ?? "",
       services: services.slice(0, SERVICES_ON_A_RACK).map((service) => ({
+        programKey: service.programKey,
         title: service.serviceLabel,
         summary: service.summary,
       })),
