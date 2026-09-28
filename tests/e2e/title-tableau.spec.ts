@@ -82,19 +82,17 @@ test.describe("The title screen shows the game", () => {
     await expect(tableau).toHaveAttribute("data-has-plate", "true");
 
     const plate = await paintedPlate(page);
-    // FRONTDOOR44 preserves the accepted living-room front door and excludes
-    // the retired baked-audience meeting-room asset.
-    await expect(plate).toHaveAttribute(
-      "src",
-      /env_residence_apartment_living_canonical_03/,
-    );
+    // The front door is civic (Lamontae, Sept. 27 and 28): the White House
+    // leads the rotation, never the apartment, and the retired baked-audience
+    // meeting-room asset stays out.
+    await expect(plate).not.toHaveAttribute("src", /residence|apartment/);
     await expect(plate).not.toHaveAttribute(
       "src",
       /title_bg_civic_community_meeting_hero_slot/,
     );
     await expect(page.getByTestId("title-tableau-stage")).toHaveAttribute(
-      "data-scene-id",
-      "residence-apartment-living-canonical-03",
+      "data-civic-kind",
+      "white-house",
     );
 
     // THE REGRESSION. A pale page is a page whose backdrop paints nothing.
