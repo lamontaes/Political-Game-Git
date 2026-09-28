@@ -467,7 +467,9 @@ function scheduleOf(index: JobIndex, job: JobFacts): WorkSchedule {
   // covered and nobody always has the weekend.
   const shiftCount = pattern.shifts.length;
   const lane = Math.floor(slot / shiftCount);
-  const start = (lane * days) % 7;
+  // Each employer's rotation starts on its own day, so two small employers
+  // do not leave the same night uncovered.
+  const start = (lane * days + employerOffset(job)) % 7;
   return {
     workRelationshipId: job.relationship.id,
     pattern: shape.pattern,
@@ -481,6 +483,15 @@ function scheduleOf(index: JobIndex, job: JobFacts): WorkSchedule {
       return day < days;
     },
   };
+}
+
+/** A fixed day of the week, 0 to 6, for an employer's rotation. */
+function employerOffset(job: JobFacts): number {
+  const key = job.relationship.organizationId ?? job.relationship.id;
+  let hash = 0;
+  for (let n = 0; n < key.length; n += 1)
+    hash = (hash * 31 + key.charCodeAt(n)) % 7;
+  return hash;
 }
 
 /** A person's working weeks, one per active job, as of `date`. */
