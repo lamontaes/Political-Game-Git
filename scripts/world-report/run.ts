@@ -50,6 +50,11 @@ import {
   outcomeLinkStatus,
 } from "../../src/simulation/outcome-web";
 import {
+  PLACE_OUTCOME_BASES,
+  PLACE_OUTCOME_MEASURES,
+  placeOutcomeKey,
+} from "../../src/simulation/outcome-web/place-outcomes";
+import {
   anniversary,
   createObserverDayButton,
   formattedMarkdown,
@@ -1835,6 +1840,25 @@ function lawOutcomeLines(run: WorldReportRun): string[] {
     out.push(
       `- ${outcome}: ${reading.multiplier.toFixed(3)} times its base rate${moved.length ? `, from ${moved.map((cause) => `${cause.key} (${cause.factor.toFixed(3)})`).join(", ")}` : ", nothing moved it"}.`,
     );
+  }
+  const stateKey = placeOutcomeKey(town);
+  const records = (world.placeOutcomes?.records ?? []).filter(
+    (record) => record.placeKey === stateKey,
+  );
+  if (records.length) {
+    out.push("", `How the state's outcomes moved (${stateKey}):`, "");
+    for (const measure of PLACE_OUTCOME_MEASURES) {
+      const series = records.filter((record) => record.measure === measure);
+      const first = series[0];
+      const last = series.at(-1);
+      if (!first || !last) continue;
+      const moved = [
+        ...new Set(series.flatMap((r) => r.causes.map((c) => c.key))),
+      ];
+      out.push(
+        `- ${PLACE_OUTCOME_BASES[measure]!.name}: ${first.value}% in ${monthTitle(first.month.slice(0, 7))}, ${last.value}% in ${monthTitle(last.month.slice(0, 7))}${moved.length ? `; moved by ${moved.join(", ")}` : "; nothing moved it"}.`,
+      );
+    }
   }
   return out;
 }

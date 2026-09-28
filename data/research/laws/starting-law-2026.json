@@ -166,16 +166,12 @@
    }
   },
   "us-policy-positions:health-human-services.work-requirement-for-assistance": {
-   "source": "Public Law 119-21 (the 2025 budget reconciliation law), per KFF and CHCS summaries: SNAP time-limit rules widened from Nov. 1, 2025; Medicaid community engagement (80 hours a month) for expansion adults 19 to 64 by Jan. 1, 2027. Georgia Pathways since July 1, 2023.",
-   "note": "The federal law answers yes for every place. The Medicaid part starts Jan. 1, 2027 unless a state starts sooner.",
+   "source": "Public Law 119-21 (the 2025 budget reconciliation law), per KFF and CHCS summaries: SNAP work rules widened (ages 55 to 64; parents of children 14 and older) from Nov. 1, 2025. Georgia's Pathways since July 1, 2023 applies to Medicaid, not food or income assistance, and is under the Medicaid question.",
+   "note": "The federal law answers yes for every place.",
    "answers": {
     "US": {
      "answer": "yes",
      "operativeAt": "2025-11-01"
-    },
-    "US-GA": {
-     "answer": "yes",
-     "operativeAt": "2023-07-01"
     }
    }
   },
@@ -1214,6 +1210,20 @@
     "US-IL": {
      "answer": "yes",
      "operativeAt": "2023-09-18"
+    }
+   }
+  },
+  "us-policy-positions:health-human-services.medicaid-work-requirement": {
+   "source": "Public Law 119-21: Medicaid community engagement (80 hours a month of work, training or study) for expansion adults 19 to 64, by Jan. 1, 2027 unless a state starts sooner (KFF, CHCS). Georgia Pathways since July 1, 2023.",
+   "note": "",
+   "answers": {
+    "US": {
+     "answer": "yes",
+     "operativeAt": "2027-01-01"
+    },
+    "US-GA": {
+     "answer": "yes",
+     "operativeAt": "2023-07-01"
     }
    }
   }

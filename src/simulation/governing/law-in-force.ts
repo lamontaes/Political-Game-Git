@@ -95,31 +95,8 @@ export function lawInForce(
     };
     if (!best || governs(candidate, best)) best = candidate;
   }
-  const questionKey =
-    world.policyCatalog?.propositions?.[propositionId]?.stableKey ?? null;
-  const starting = questionKey ? STARTING_LAW.questions[questionKey] : null;
-  if (starting) {
-    for (const [placeId, level] of chain) {
-      const placeKey = startingLawPlaceKey(placeId);
-      const row = placeKey ? starting.answers[placeKey] : undefined;
-      if (!row) continue;
-      const operativeAt = makeIsoDate(
-        row.operativeAt ?? STARTING_LAW.defaultOperativeAt,
-      );
-      if (operativeAt > onDate) continue;
-      const candidate = {
-        answer: row.answer,
-        measureId: `starting-law:${placeKey}:${questionKey}` as EntityId,
-        level,
-        operativeAt,
-        operativeBasis: "enacted-date" as const,
-        origin: "in-force-at-start" as const,
-        // Before any enactment: a law enacted in play on the same day governs.
-        sequence: -1,
-      };
-      if (!best || governs(candidate, best)) best = candidate;
-    }
-  }
+  const starting = startingLawCandidate(world, chain, propositionId, onDate);
+  if (starting && (!best || governs(starting, best))) best = starting;
   if (!best) return null;
   return {
     answer: best.answer,
@@ -160,6 +137,68 @@ function startingLawPlaceKey(jurisdictionId: EntityId): string | undefined {
     }),
   ]);
   return startingLawPlaceKeys.get(jurisdictionId);
+}
+
+type Candidate = LawInForce & { readonly sequence: number };
+
+/**
+ * The law each place already had when the game began, as it stood on
+ * `onDate`: the highest-ranked starting law in the governing chain.
+ */
+function startingLawCandidate(
+  world: World,
+  chain: ReadonlyMap<EntityId, LawLevel>,
+  propositionId: EntityId,
+  onDate: IsoDate,
+): Candidate | null {
+  let best: Candidate | null = null;
+  const questionKey =
+    world.policyCatalog?.propositions?.[propositionId]?.stableKey ?? null;
+  const starting = questionKey ? STARTING_LAW.questions[questionKey] : null;
+  if (starting) {
+    for (const [placeId, level] of chain) {
+      const placeKey = startingLawPlaceKey(placeId);
+      const row = placeKey ? starting.answers[placeKey] : undefined;
+      if (!row) continue;
+      const operativeAt = makeIsoDate(
+        row.operativeAt ?? STARTING_LAW.defaultOperativeAt,
+      );
+      if (operativeAt > onDate) continue;
+      const candidate = {
+        answer: row.answer,
+        measureId: `starting-law:${placeKey}:${questionKey}` as EntityId,
+        level,
+        operativeAt,
+        operativeBasis: "enacted-date" as const,
+        origin: "in-force-at-start" as const,
+        // Before any enactment: a law enacted in play on the same day governs.
+        sequence: -1,
+      };
+      if (!best || governs(candidate, best)) best = candidate;
+    }
+  }
+  return best;
+}
+
+/**
+ * What the law a place began with said on a question on `onDate`, ignoring
+ * every law enacted in play. The outcome web measures a law's effect from
+ * this, because a place's base data already reflects the law it had then.
+ */
+export function lawInForceAtStart(
+  world: World,
+  jurisdictionId: EntityId,
+  propositionId: EntityId,
+  onDate: IsoDate,
+): PropositionAnswer | null {
+  return (
+    startingLawCandidate(
+      world,
+      governingChain(jurisdictionId),
+      propositionId,
+      onDate,
+    )?.answer ?? null
+  );
 }
 
 function governs(
