@@ -303,7 +303,10 @@ describe("sizes are a baseline, not literal numbers", () => {
 });
 
 describe("every state policy question has researched effects (F-cloud rows)", () => {
-  const rows = OUTCOME_LINKS.filter((link) => link.owner === "F-cloud");
+  const all = OUTCOME_LINKS.filter((link) => link.owner === "F-cloud");
+  // Rows into a measure another lane is adding: they switch on when it lands.
+  const waiting = all.filter((link) => link.to === "housing.homelessness");
+  const rows = all.filter((link) => !waiting.includes(link));
   const places = Object.keys(STATES).flatMap((usps) => {
     const id = stateJurisdictionForKey(`US-${usps}`)?.id;
     return id ? [{ key: `US-${usps}`, id }] : [];
@@ -379,6 +382,28 @@ describe("every state policy question has researched effects (F-cloud rows)", ()
         expect(link.size!, link.key).toBeLessThanOrEqual(Math.max(low, high));
       }
     }
+  });
+
+  it("rows waiting on the homelessness measure say so, and the state override does not count by-right permitting twice", () => {
+    expect(waiting.map((link) => link.key).sort()).toEqual([
+      "by-right-permitting-to-homelessness",
+      "housing-preemption-to-homelessness",
+    ]);
+    for (const link of waiting) {
+      expect(outcomeMeasure(link.from), link.key).not.toBeNull();
+      expect(outcomeLinkStatus(link), link.key).toBe(
+        OUTCOMES_PRODUCED.has(link.to) ? "built" : "outcome-not-produced",
+      );
+    }
+    const preemption = waiting.find(
+      (link) => link.key === "housing-preemption-to-homelessness",
+    )!;
+    expect(preemption.moderator).toEqual({
+      measure: "law:us-policy-positions:housing-land-use.by-right-permitting",
+      effectAtFull: -0.5,
+      mode: "scale",
+    });
+    expect(outcomeMeasure(preemption.moderator!.measure)).not.toBeNull();
   });
 
   it("each row reads its law in force in every place: a change from the starting law moves the outcome by its size, after its lag", () => {
