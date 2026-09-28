@@ -1,4 +1,4 @@
-import manifestJson from "../../../art/people-engine/v1/manifest.json";
+import manifestJson from "../../../art/people-engine/v1/manifest.json" with { type: "json" };
 import { optionalGlob } from "../optional-glob";
 import type { BodyAnchors } from "./anchors";
 import {

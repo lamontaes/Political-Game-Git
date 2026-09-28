@@ -1,4 +1,4 @@
-import web from "../../../data/research/outcome-web/links.json";
+import web from "../../../data/research/outcome-web/links.json" with { type: "json" };
 import { addDays, daysBetween } from "../dates";
 import {
   macroConditionsAt,
@@ -11,7 +11,7 @@ import {
   placeOutcomeAt,
   placeOutcomeKey,
 } from "./place-outcome-store";
-import minimumWages from "../../../data/research/money/minimum-wage-2026.json";
+import minimumWages from "../../../data/research/money/minimum-wage-2026.json" with { type: "json" };
 import { US_FEDERAL_POSITIONS_PACK } from "../policy-pack-us-federal-positions";
 import { US_POLICY_POSITIONS_PACK } from "../policy-pack-us-policy-positions";
 import { SeededRng } from "../rng";

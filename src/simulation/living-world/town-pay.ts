@@ -916,3 +916,51 @@ export function payTownPaydays(
   for (const id of ids) next = assessPaycheckTaxes(next, id);
   return next;
 }
+
+/**
+ * What each of the town's paid jobs pays an hour today, in cents: the terms
+ * in force today over the hours the job is paid for. One entry per job held
+ * today; a job whose pay is not on record yet is left out, never read as
+ * zero.
+ */
+export function townHourlyPayCents(
+  world: World,
+  town: EntityId,
+): readonly number[] {
+  const prefix = `${TOWN_EMPLOYMENT_VERSION}:${town}:job:`;
+  const latest = new Map<EntityId, string>();
+  for (const status of world.history.workStatuses)
+    if (status.effectiveAt <= world.currentDate)
+      latest.set(status.workRelationshipId, status.status);
+  const held = new Set(
+    world.history.workRelationships
+      .filter(
+        (work) =>
+          work.stableKey.startsWith(prefix) && latest.get(work.id) === "active",
+      )
+      .map((work) => work.id),
+  );
+  if (held.size === 0) return [];
+  const roles = latestRoles(world);
+  const terms = termsByPayFlow(world);
+  const rates: number[] = [];
+  for (const flow of world.history.resourceFlows) {
+    if (!flow.stableKey.startsWith(PAY_KEY_PREFIX)) continue;
+    const basis = flow.basisReference;
+    if (basis?.kind !== "work" || !held.has(basis.workRelationshipId)) continue;
+    const workId = basis.workRelationshipId;
+    const role = roles.get(workId);
+    const current = termsOn(terms.get(flow.id) ?? [], world.currentDate);
+    const note = current ? payNoteOf(current.cadenceKind) : null;
+    if (!role || !current || !note || current.status === "ended") continue;
+    const hours = weeklyHoursOf(role);
+    if (hours <= 0) continue;
+    rates.push(
+      Math.round(
+        (current.amount.minorUnits * PERIODS_PER_YEAR[note.period]) /
+          (52 * hours),
+      ),
+    );
+  }
+  return rates;
+}

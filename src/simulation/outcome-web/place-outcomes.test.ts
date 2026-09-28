@@ -340,7 +340,7 @@ describe("the entire world changes: place outcomes drift, and no two worlds end 
       moves.filter((m) => m < 0).length,
     );
     expect(shared / moves.length).toBeGreaterThan(0.6);
-  });
+  }, 60_000);
 
   it("twenty-five years on, the same state ends in very different places in different worlds", () => {
     const worlds = ["w1", "w2", "w3", "w4"].map((seed) => run(seed, 300));

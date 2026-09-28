@@ -1,4 +1,4 @@
-import bases from "../../../data/research/outcome-web/place-outcome-bases-2024.json";
+import bases from "../../../data/research/outcome-web/place-outcome-bases-2024.json" with { type: "json" };
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
