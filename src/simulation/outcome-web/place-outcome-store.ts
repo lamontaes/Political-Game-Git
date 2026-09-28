@@ -22,14 +22,49 @@ export interface PlaceOutcomeRecord {
   /** The first day of the month the value holds for. */
   readonly month: IsoDate;
   readonly base: number;
+  /**
+   * The place's underlying level this month, before laws and conditions:
+   * the base in the first month, then drifting (part national, part the
+   * state's own) with now and then a society-wide wave. Absent on records
+   * written before drift existed, which read as the base.
+   */
+  readonly structural?: number;
   readonly multiplier: number;
   readonly value: number;
   /** Each outcome-web link that moved it this month, and by how much. */
   readonly causes: readonly { readonly key: string; readonly factor: number }[];
 }
 
-export interface PlaceOutcomeStore {
+/** One month's records for every place, kept together. */
+export interface PlaceOutcomeMonth {
+  readonly month: IsoDate;
   readonly records: readonly PlaceOutcomeRecord[];
+}
+
+/**
+ * Month by month, oldest first. Kept as one entry per month so a century of
+ * play appends a short list, not every record ever written.
+ */
+export interface PlaceOutcomeStore {
+  readonly months: readonly PlaceOutcomeMonth[];
+}
+
+/** Every record in the store, oldest month first. */
+export function placeOutcomeRecords(
+  world: World,
+): readonly PlaceOutcomeRecord[] {
+  return (world.placeOutcomes?.months ?? []).flatMap((entry) => entry.records);
+}
+
+export interface PlaceOutcomeDrift {
+  /** Monthly standard deviation of the level, in log-odds. */
+  readonly monthlySdLogit: number;
+  /** Share of the drift every place shares in a month (the nation's). */
+  readonly nationalShare: number;
+  readonly waveMonthlyChance: number;
+  readonly waveSdLogit: number;
+  readonly minPct: number;
+  readonly maxPct: number;
 }
 
 export interface PlaceOutcomeMeasureBase {
@@ -37,11 +72,16 @@ export interface PlaceOutcomeMeasureBase {
   readonly unit: string;
   readonly source: string;
   readonly places: Readonly<Record<string, number>>;
+  readonly drift?: PlaceOutcomeDrift;
 }
 
 export const PLACE_OUTCOME_BASES = bases.measures as Readonly<
   Record<string, PlaceOutcomeMeasureBase>
 >;
+
+/** Drift for a measure that names none. */
+export const DEFAULT_PLACE_OUTCOME_DRIFT =
+  bases.defaultDrift as PlaceOutcomeDrift;
 
 /** The place outcomes the world computes. */
 export const PLACE_OUTCOME_MEASURES: readonly string[] =
@@ -72,15 +112,14 @@ export function placeOutcomeAt(
 ): PlaceOutcomeRecord | null {
   const key = placeOutcomeKey(jurisdictionId);
   if (!key) return null;
-  const records = world.placeOutcomes?.records ?? [];
-  for (let index = records.length - 1; index >= 0; index -= 1) {
-    const record = records[index]!;
-    if (
-      record.measure === measure &&
-      record.placeKey === key &&
-      record.month <= asOf
-    )
-      return record;
+  const months = world.placeOutcomes?.months ?? [];
+  for (let index = months.length - 1; index >= 0; index -= 1) {
+    const entry = months[index]!;
+    if (entry.month > asOf) continue;
+    const record = entry.records.find(
+      (row) => row.measure === measure && row.placeKey === key,
+    );
+    if (record) return record;
   }
   return null;
 }

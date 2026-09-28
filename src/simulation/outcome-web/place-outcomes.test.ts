@@ -11,6 +11,7 @@ import type {
 import {
   PLACE_OUTCOME_BASES,
   placeOutcomeAt,
+  placeOutcomeRecords,
   placeOutcomesForMonth,
 } from "./place-outcomes";
 
@@ -176,7 +177,12 @@ describe("place outcomes", () => {
     const world = {
       ...worldAt("2026-02-15"),
       placeOutcomes: {
-        records: placeOutcomesForMonth(worldAt("2026-01-01"), month),
+        months: [
+          {
+            month,
+            records: placeOutcomesForMonth(worldAt("2026-01-01"), month),
+          },
+        ],
       },
     } as World;
     expect(
@@ -227,5 +233,69 @@ describe("place outcomes", () => {
     );
     expect(valueFor(records, POVERTY, "US-WA").multiplier).toBe(1);
     expect(valueFor(records, POVERTY, "US-CA").multiplier).toBe(1);
+  });
+});
+
+describe("the entire world changes: place outcomes drift, and no two worlds end alike", () => {
+  /** Runs `months` of monthly passes from January 2026 on a seeded world. */
+  function run(seed: string, months: number): World {
+    let world = { ...worldAt("2026-01-01"), seed } as World;
+    let month = makeIsoDate("2026-01-01");
+    for (let index = 0; index < months; index += 1) {
+      world = {
+        ...world,
+        currentDate: month,
+        placeOutcomes: {
+          months: [
+            ...(world.placeOutcomes?.months ?? []),
+            { month, records: placeOutcomesForMonth(world, month) },
+          ],
+        },
+      } as World;
+      const next = new Date(`${month}T00:00:00Z`);
+      next.setUTCMonth(next.getUTCMonth() + 1);
+      month = makeIsoDate(next.toISOString().slice(0, 10));
+    }
+    return world;
+  }
+  const last = (world: World, placeKey: string, measure = UNINSURED) =>
+    placeOutcomeRecords(world)
+      .filter((r) => r.measure === measure && r.placeKey === placeKey)
+      .at(-1)!;
+
+  it("over a decade each state's level wanders from its base, partly with the nation, within its bounds", () => {
+    const world = run("drift-a", 120);
+    const ends = Object.keys(PLACE_OUTCOME_BASES[UNINSURED]!.places).map(
+      (placeKey) => last(world, placeKey),
+    );
+    expect(ends.filter((r) => r.structural !== r.base).length).toBe(
+      ends.length,
+    );
+    for (const record of ends) {
+      expect(record.structural!).toBeGreaterThanOrEqual(1);
+      expect(record.structural!).toBeLessThanOrEqual(40);
+    }
+    // Most states moved the same way as the nation did.
+    const moves = ends.map((r) => Math.sign(r.structural! - r.base));
+    const shared = Math.max(
+      moves.filter((m) => m > 0).length,
+      moves.filter((m) => m < 0).length,
+    );
+    expect(shared / moves.length).toBeGreaterThan(0.6);
+  });
+
+  it("twenty-five years on, the same state ends in very different places in different worlds", () => {
+    const texas = ["w1", "w2", "w3", "w4"].map(
+      (seed) => last(run(seed, 300), "US-TX").value,
+    );
+    expect(Math.max(...texas) - Math.min(...texas)).toBeGreaterThan(3);
+  }, 120_000);
+
+  it("laws still act on top of the drift: the work requirement multiplies Ohio's level from mid-2027", () => {
+    const world = run("drift-b", 20);
+    const ohio = last(world, "US-OH");
+    expect(ohio.month).toBe("2027-08-01");
+    expect(ohio.multiplier).toBeGreaterThan(1.19);
+    expect(ohio.value).toBeCloseTo(ohio.structural! * ohio.multiplier, 1);
   });
 });
