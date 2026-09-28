@@ -4,6 +4,8 @@ import {
   macroConditionsAt,
   macroScopeForJurisdiction,
 } from "../macro-economy/readers";
+import { lawInForce } from "../governing/law-in-force";
+import { US_POLICY_POSITIONS_PACK } from "../policy-pack-us-policy-positions";
 import type { EntityId, IsoDate, World } from "../types";
 
 /**
@@ -23,14 +25,19 @@ import type { EntityId, IsoDate, World } from "../types";
  * the reason, so a later lane knows where to plug in. A cause with no recorded
  * value is not a value of zero: its link is skipped and the base rate stands.
  * An "about-zero" link is zero on purpose: research found no effect.
+ *
+ * A cause named `law:<qualified question key>` is what the law in force says
+ * on a policy question in that place (`governing/law-in-force.ts`, federal
+ * over state over local): 1 when it says yes, 0 when it says no. Where no law
+ * has answered the question, the cause is unrecorded and the base rate, which
+ * reflects the status quo, stands.
  */
 
 export const OUTCOME_WEB_VERSION = web.version;
 
 export type OutcomeEvidence =
   "researched" | "provisional" | "contested" | "about-zero" | "to-confirm";
-export type OutcomeStrength =
-  "strong" | "moderate" | "weak" | "about-zero";
+export type OutcomeStrength = "strong" | "moderate" | "weak" | "about-zero";
 
 export type OutcomeLinkShape =
   | { readonly kind: "linear" }
@@ -107,8 +114,11 @@ export const OUTCOME_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
     // otherwise (the rule crime has always used).
     read: (world, jurisdictionId, asOf) => {
       const record =
-        macroConditionsAt(world, macroScopeForJurisdiction(jurisdictionId), asOf) ??
-        macroConditionsAt(world, "national", asOf);
+        macroConditionsAt(
+          world,
+          macroScopeForJurisdiction(jurisdictionId),
+          asOf,
+        ) ?? macroConditionsAt(world, "national", asOf);
       return record ? record.unemploymentPct : null;
     },
   },
@@ -119,7 +129,57 @@ export type OutcomeLinkStatus =
   | "about-zero"
   | "size-not-set"
   | "cause-not-recorded"
+  | "outcome-not-produced"
   | "person-level";
+
+/**
+ * Outcomes some producer computes from `outcomeFactor` today. A link into any
+ * other outcome is ready but has nothing to move until that producer reads it.
+ */
+export const OUTCOMES_PRODUCED: ReadonlySet<string> = new Set([
+  "crime.assault",
+  "crime.robbery",
+  "crime.burglary",
+  "crime.vandalism",
+  "births.rate",
+]);
+
+const LAW_CAUSE_PREFIX = "law:";
+
+/** The qualified keys of every shipped policy question a law can answer. */
+const LAW_QUESTION_KEYS: ReadonlySet<string> = new Set(
+  (US_POLICY_POSITIONS_PACK.propositions ?? []).map(
+    (row) => `${US_POLICY_POSITIONS_PACK.pack}:${row.key}`,
+  ),
+);
+
+/** The reader for a cause: a registered measure, or the law on a question. */
+export function outcomeMeasure(key: string): OutcomeMeasure | null {
+  const registered = OUTCOME_MEASURES[key];
+  if (registered) return registered;
+  if (!key.startsWith(LAW_CAUSE_PREFIX)) return null;
+  const questionKey = key.slice(LAW_CAUSE_PREFIX.length);
+  if (!LAW_QUESTION_KEYS.has(questionKey)) return null;
+  return {
+    key,
+    unit: "1 when the law in force says yes, 0 when it says no",
+    read: (world, jurisdictionId, asOf) => {
+      const proposition = Object.values(
+        world.policyCatalog?.propositions ?? {},
+      ).find((definition) => definition.stableKey === questionKey);
+      if (!proposition) return null;
+      const law = lawInForce(world, jurisdictionId, proposition.id, asOf);
+      if (!law) return null;
+      return law.answer === "yes" ? 1 : 0;
+    },
+  };
+}
+
+function baselineOf(cause: string): number | undefined {
+  // A law cause's baseline is "no law says yes".
+  if (cause.startsWith(LAW_CAUSE_PREFIX)) return 0;
+  return BASELINES[cause]?.value;
+}
 
 /** Whether a link acts in the world today, and if not, why not. */
 export function outcomeLinkStatus(link: OutcomeLink): OutcomeLinkStatus {
@@ -131,10 +191,11 @@ export function outcomeLinkStatus(link: OutcomeLink): OutcomeLinkStatus {
     return "person-level";
   }
   if (link.size === null) return "size-not-set";
-  if (!OUTCOME_MEASURES[link.from]) return "cause-not-recorded";
-  if (link.moderator && !OUTCOME_MEASURES[link.moderator.measure]) {
+  if (!outcomeMeasure(link.from)) return "cause-not-recorded";
+  if (link.moderator && !outcomeMeasure(link.moderator.measure)) {
     return "cause-not-recorded";
   }
+  if (!OUTCOMES_PRODUCED.has(link.to)) return "outcome-not-produced";
   return "built";
 }
 
@@ -227,15 +288,15 @@ export function outcomeFactor(
   const causes: OutcomeCause[] = [];
   for (const link of OUTCOME_LINKS) {
     if (link.to !== outcome || outcomeLinkStatus(link) !== "built") continue;
-    const measure = OUTCOME_MEASURES[link.from]!;
+    const measure = outcomeMeasure(link.from)!;
     const readAt = lagged(asOf, link.lagMonths);
     const value = measure.read(world, jurisdictionId, readAt);
     if (value === null) continue;
-    const baseline = BASELINES[link.from]?.value;
+    const baseline = baselineOf(link.from);
     if (baseline === undefined) continue;
     let factor = shapedLinkFactor(link, value, baseline);
     if (link.moderator) {
-      const level = OUTCOME_MEASURES[link.moderator.measure]!.read(
+      const level = outcomeMeasure(link.moderator.measure)!.read(
         world,
         jurisdictionId,
         readAt,

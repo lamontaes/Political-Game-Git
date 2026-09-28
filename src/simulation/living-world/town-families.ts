@@ -707,7 +707,12 @@ export function reviewTownFamilies(
   }
   // Hard times and other causes in the outcome web move the town's birth
   // rate (unemployment nine months earlier: about 1.4% fewer births per point).
-  const birthFactor = outcomeFactor(next, town, "births.rate", today).multiplier;
+  const birthFactor = outcomeFactor(
+    next,
+    town,
+    "births.rate",
+    today,
+  ).multiplier;
   for (const mother of mothers) {
     const tally = bandWeight.get(bandOf(mother.person.age))!;
     const mean = tally.sum / tally.count;
