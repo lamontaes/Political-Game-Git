@@ -30,6 +30,7 @@ import {
   PUBLIC_PROGRAM_HANDLERS,
 } from "./public-program";
 import {
+  decideGoverningMatter,
   GOVERNING_NPC_DECISION,
   GOVERNING_PROGRAM_AVAILABLE,
   governingMatters,
@@ -216,6 +217,92 @@ describe("ordinary local officeholder program matter", () => {
     expect(programInstallments(reopened, PROGRAM, identity)).toEqual(
       installments,
     );
+  }, 120_000);
+
+  it("asks an office that committed nothing again a month later", () => {
+    const g = city("local-program-matter-review", 1_000_000_00);
+    const identity: PublicGovernmentIdentity = {
+      kind: "local-government",
+      jurisdictionId: g.jurisdictionId,
+      governmentKey: g.governmentKey,
+    };
+    let world: World = {
+      ...g.world,
+      control: { kind: "person" as const, personId: g.manager },
+    };
+    world = ensureLocalPublicAccount(world, identity);
+    const account = publicTaxAccountForIdentity(world, identity)!;
+    world = pay(
+      world,
+      "local-program-matter-review:local-receipt",
+      g.payer,
+      account.organizationId,
+      120_000_00,
+    );
+    const adopted = recordProgramAppropriation(world, {
+      edition: "review-office-clock-fixture",
+      programKey: PROGRAM,
+      jurisdictionId: g.jurisdictionId,
+      publicGovernmentIdentity: identity,
+      accountOrganizationId: account.organizationId,
+      amount: money(120_000_00, "USD"),
+      availableFrom: world.currentDate,
+      availableThrough: addDays(world.currentDate, 365),
+      basis: FIXTURE,
+    });
+    world = openProgramMattersForAllOffices(adopted.world);
+    const mattersFor = (candidate: World) =>
+      governingMatters(candidate).filter(
+        (matter) => matter.appropriationId === adopted.id,
+      );
+    const first = mattersFor(world)[0]!;
+    const held = decideGoverningMatter(world, first.id, "program:no-action");
+    expect(held.ok).toBe(true);
+    world = held.world;
+    const decidedOn = world.currentDate;
+    expect(mattersFor(world)).toMatchObject([{ status: "decided" }]);
+    expect(mattersFor(openProgramMattersForAllOffices(world))).toHaveLength(1);
+
+    const handlers = createFutureTransitionHandlerRegistry([
+      ...stateGoverningHandlers(),
+      ...PUBLIC_PROGRAM_HANDLERS,
+    ]);
+    const before = advanceWorld(
+      deserializeWorld(serializeWorld(world)),
+      29,
+      handlers,
+    );
+    expect(mattersFor(before)).toHaveLength(1);
+    const reviewed = advanceWorld(before, 1, handlers);
+    expect(daysBetween(decidedOn, reviewed.currentDate)).toBe(30);
+    const again = mattersFor(reviewed);
+    expect(again).toHaveLength(2);
+    const review = again.find((matter) => matter.id !== first.id)!;
+    expect(review).toMatchObject({
+      family: "program",
+      holderPersonId: g.manager,
+      status: "open",
+    });
+    expect(review.options.map((option) => option.key)).toContain(
+      "program:operate-three-months",
+    );
+    expect(mattersFor(openProgramMattersForAllOffices(reviewed))).toHaveLength(
+      2,
+    );
+
+    const spent = decideGoverningMatter(
+      reviewed,
+      review.id,
+      "program:operate-three-months",
+    );
+    expect(spent.ok).toBe(true);
+    const committed = programCommitments(spent.world, PROGRAM, identity).filter(
+      (commitment) => commitment.installments.length > 0,
+    );
+    expect(committed).toHaveLength(1);
+    expect(committed[0]?.appropriationId).toBe(adopted.id);
+    const later = advanceWorld(spent.world, 31, handlers);
+    expect(mattersFor(later)).toHaveLength(2);
   }, 120_000);
 });
 

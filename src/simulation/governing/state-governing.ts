@@ -745,10 +745,12 @@ function matterFromEvent(
   // A commitment made through the public-program route already answers this
   // appropriation's matter. Its own saved record is the decision evidence;
   // the later NPC due item must not make another choice for the same money.
+  // A decision to commit nothing answers only the matter it was made on: the
+  // review a month later is a new question.
   const programCommitted =
     family === "program" &&
     appropriationId !== null &&
-    hasProgramCommitment(world, appropriationId);
+    hasProgramCommitment(world, appropriationId, event.sequence);
   const decision =
     world.history.events.find(
       (candidate) =>
@@ -792,15 +794,22 @@ function matterFromEvent(
   };
 }
 
+/**
+ * Whether money was committed from this appropriation, or, when `since` is
+ * given, whether any decision on it (committing nothing included) was saved
+ * after that history sequence.
+ */
 function hasProgramCommitment(
   world: World,
   appropriationId: EntityId,
+  since = Number.POSITIVE_INFINITY,
 ): boolean {
   return (
     world.history.publicProgramRecords?.some(
       (record) =>
         record.kind === "commitment" &&
-        record.appropriationId === appropriationId,
+        record.appropriationId === appropriationId &&
+        (record.installments.length > 0 || record.sequence > since),
     ) ?? false
   );
 }
@@ -1213,6 +1222,8 @@ function openProgramMatter(
   if (hasProgramCommitment(world, appropriation.id)) return world;
   if (world.currentDate < appropriation.availableFrom)
     return scheduleProgramAvailability(world, appropriation);
+  const instance = programMatterInstance(world, office, appropriation);
+  if (!instance) return world;
   const authority = programAuthority(
     world,
     office.holderPersonId,
@@ -1220,15 +1231,6 @@ function openProgramMatter(
     appropriation,
   );
   if (authority.status !== "available") return world;
-  const instance = `appropriation:${appropriation.id}`;
-  if (
-    world.history.events.some(
-      (event) =>
-        event.type === GOVERNING_MATTER_OPENED &&
-        event.stableKey === matterStableKey(office, "program", instance),
-    )
-  )
-    return world;
   return openMatter(world, office, {
     family: "program",
     instance,
@@ -1237,16 +1239,61 @@ function openProgramMatter(
   });
 }
 
+/**
+ * Which program question this office should be asked about this money now,
+ * or null when none is due. The first is asked once the money is available.
+ * An office that committed nothing, or let the question lapse, is asked again
+ * PROGRAM_REVIEW_DAYS after that decision, for as long as uncommitted money
+ * remains and the appropriation has not lapsed: "Commit nothing for now" is
+ * not a decision never to spend it.
+ */
+function programMatterInstance(
+  world: World,
+  office: GoverningOffice,
+  appropriation: PublicProgramAppropriationRecord,
+): string | null {
+  const base = `appropriation:${appropriation.id}`;
+  let instance = base;
+  for (;;) {
+    const key = matterStableKey(office, "program", instance);
+    const opened = world.history.events.some(
+      (event) =>
+        event.type === GOVERNING_MATTER_OPENED && event.stableKey === key,
+    );
+    if (!opened) return instance;
+    const decided = world.history.events.find(
+      (event) =>
+        event.type === GOVERNING_MATTER_DECIDED &&
+        event.stableKey === `${key}:decided`,
+    );
+    if (!decided) return null;
+    const reviewOn = programReviewDate(decided.occurredAt);
+    if (world.currentDate < reviewOn) return null;
+    instance = `${base}:review:${reviewOn}`;
+  }
+}
+
+/** A month after an office commits nothing, the money is put to it again. */
+const PROGRAM_REVIEW_DAYS = 30;
+
+function programReviewDate(decidedOn: IsoDate): IsoDate {
+  return addDays(decidedOn, PROGRAM_REVIEW_DAYS);
+}
+
 function scheduleProgramAvailability(
   world: World,
   appropriation: PublicProgramAppropriationRecord,
+  dueAt: IsoDate = appropriation.availableFrom,
 ): World {
-  const stableKey = `${STATE_GOVERNING_VERSION}:program-available:${appropriation.id}`;
+  const stableKey =
+    dueAt === appropriation.availableFrom
+      ? `${STATE_GOVERNING_VERSION}:program-available:${appropriation.id}`
+      : `${STATE_GOVERNING_VERSION}:program-review:${appropriation.id}:${dueAt}`;
   return world.history.futureDueItems.some((due) => due.stableKey === stableKey)
     ? world
     : scheduleFutureDueItem(world, {
         stableKey,
-        dueAt: appropriation.availableFrom,
+        dueAt,
         transitionKey: GOVERNING_PROGRAM_AVAILABLE,
         entityIds: [appropriation.eventId],
         jurisdictionId: appropriation.jurisdictionId,
@@ -1585,7 +1632,14 @@ function applyConsequence(
       });
       // A refusal is truthful: the money stays uncommitted and the office is
       // told why through the decision record already written.
-      return committed.ok ? committed.world : world;
+      const next = committed.ok ? committed.world : world;
+      // Money left uncommitted comes back to the office a month later while
+      // the appropriation can still be spent.
+      const reviewOn = programReviewDate(next.currentDate);
+      return hasProgramCommitment(next, appropriation.id) ||
+        reviewOn > appropriation.availableThrough
+        ? next
+        : scheduleProgramAvailability(next, appropriation, reviewOn);
     }
     case "implementation": {
       if (option.key === "pace:hold") return world;
