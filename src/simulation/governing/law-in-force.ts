@@ -13,6 +13,7 @@ import {
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
+import { mayAnswerQuestion } from "./question-authority";
 
 /**
  * What the law in force says on one policy question, for one place.
@@ -37,11 +38,21 @@ import type { EntityId, IsoDate, World } from "../types";
  * law, so a law enacted in play at the same or a higher level governs once it
  * takes effect. A place the file leaves out has no answer, not "no".
  *
- * NOT MODELED, blanket rule meanwhile: floor preemption (every conflict is
- * resolved by rank), and whether a state's local-authority doctrine lets an
- * ordinance answer a given question at all (an ordinance counts only where no
- * higher law answers it). Constitutional amendments do not answer catalog
- * questions yet.
+ * A level answers only the questions its powers cover (`question-authority.ts`):
+ * an enacted measure whose level may not answer the question (a city ordinance
+ * on the state's income tax) is kept on the record and governs nothing.
+ *
+ * A starting-law state "no" says whether it preempts (`preempts` on the row):
+ * "no, and localities are barred" outranks a local ordinance like any state
+ * law; "no statewide law, localities may act" (`preempts: false`) yields to a
+ * city's or county's own answer where that local government may give one. A
+ * row that does not say keeps the blanket rank.
+ *
+ * NOT MODELED, blanket rule meanwhile: floor preemption for laws enacted in
+ * play (every conflict is resolved by rank), and each state's local-authority
+ * doctrine beyond the powers catalog (where the catalog has not settled a
+ * power, an ordinance counts where no higher law answers it). Constitutional
+ * amendments do not answer catalog questions yet.
  */
 
 export interface LawInForce {
@@ -67,7 +78,7 @@ export function lawInForce(
   onDate: IsoDate = world.currentDate,
 ): LawInForce | null {
   const chain = governingChain(jurisdictionId);
-  let best: (LawInForce & { readonly sequence: number }) | null = null;
+  let best: Candidate | null = null;
   for (const enactment of world.history.legislativeEnactments ?? []) {
     if (enactment.outcome !== "enacted") continue;
     const measure = world.history.legislativeMeasures?.find(
@@ -78,6 +89,9 @@ export function lawInForce(
     if (!level) continue;
     const answer = measurePropositionAnswer(measure, propositionId);
     if (!answer) continue;
+    // Beyond its level's powers: on the record, and governing nothing.
+    if (!mayAnswerQuestion(world, measure.jurisdictionId, propositionId))
+      continue;
     const operativeAt =
       enactment.effectiveAt ??
       addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS);
@@ -111,6 +125,12 @@ export function lawInForce(
 interface StartingLawRow {
   readonly answer: PropositionAnswer;
   readonly operativeAt?: string;
+  /**
+   * On a state's "no": true when the state also bars its localities from
+   * answering otherwise, false when it leaves them free. Unsaid keeps the
+   * blanket rank.
+   */
+  readonly preempts?: boolean;
 }
 
 const STARTING_LAW = startingLaw as unknown as {
@@ -139,7 +159,11 @@ function startingLawPlaceKey(jurisdictionId: EntityId): string | undefined {
   return startingLawPlaceKeys.get(jurisdictionId);
 }
 
-type Candidate = LawInForce & { readonly sequence: number };
+type Candidate = LawInForce & {
+  readonly sequence: number;
+  /** A state "no" that leaves its localities free to answer otherwise. */
+  readonly yieldsToLocal?: boolean;
+};
 
 /**
  * The law each place already had when the game began, as it stood on
@@ -164,7 +188,7 @@ function startingLawCandidate(
         row.operativeAt ?? STARTING_LAW.defaultOperativeAt,
       );
       if (operativeAt > onDate) continue;
-      const candidate = {
+      const candidate: Candidate = {
         answer: row.answer,
         measureId: `starting-law:${placeKey}:${questionKey}` as EntityId,
         level,
@@ -173,6 +197,11 @@ function startingLawCandidate(
         origin: "in-force-at-start" as const,
         // Before any enactment: a law enacted in play on the same day governs.
         sequence: -1,
+        ...(level === "state-statute" &&
+        row.answer === "no" &&
+        row.preempts === false
+          ? { yieldsToLocal: true }
+          : {}),
       };
       if (!best || governs(candidate, best)) best = candidate;
     }
@@ -201,11 +230,19 @@ export function lawInForceAtStart(
   );
 }
 
-function governs(
-  candidate: LawInForce & { readonly sequence: number },
-  current: LawInForce & { readonly sequence: number },
-): boolean {
-  const rank = lawLevelRank(candidate.level) - lawLevelRank(current.level);
+/**
+ * A law's rank when laws conflict. A state "no" that leaves its localities
+ * free sits just below their ordinances, so a local answer governs in that
+ * place and the state's "no" governs everywhere no ordinance answers.
+ */
+function governingRank(law: Candidate): number {
+  return law.yieldsToLocal
+    ? lawLevelRank("local-ordinance") - 0.5
+    : lawLevelRank(law.level);
+}
+
+function governs(candidate: Candidate, current: Candidate): boolean {
+  const rank = governingRank(candidate) - governingRank(current);
   if (rank !== 0) return rank > 0;
   if (candidate.operativeAt !== current.operativeAt)
     return candidate.operativeAt > current.operativeAt;
