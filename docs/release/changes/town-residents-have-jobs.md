@@ -18,3 +18,10 @@ a pastor at each church, police officers and firefighters, a nurse at the
 hospital, a community organizer, a union representative, staff at each party
 office and a few campaign workers. A few neighbors are still in school,
 retired, at home with small children or looking for work.
+
+The town's jobs also change hands as time passes. Every few months some
+neighbors quit, most of them for another job, a few are laid off, and people
+retire when they reach 67. Somebody looking for work, a newcomer or a young
+person who has just turned 18 can be hired. Layoffs come more often and hiring
+more slowly when unemployment is high. A neighbor with a job can now move away;
+the move ends their job instead of keeping them in town.

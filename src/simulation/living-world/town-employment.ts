@@ -828,14 +828,14 @@ const NOT_WORKING = {
 export type TownLaborStatus =
   "employed" | "student" | "retired" | "parent-at-home" | "looking-for-work";
 
-interface Resident {
+export interface Resident {
   readonly personId: EntityId;
   readonly age: number;
   readonly enrolled: boolean;
   readonly parentOfYoungChild: boolean;
 }
 
-function laborStatus(world: World, resident: Resident): TownLaborStatus {
+export function laborStatus(world: World, resident: Resident): TownLaborStatus {
   const rng = new SeededRng(world.seed).fork(
     `${TOWN_EMPLOYMENT_VERSION}:status:${resident.personId}`,
   );
@@ -877,7 +877,10 @@ function townOrganizationsOf(
 }
 
 /** The town's written working-age residents, with what their status needs. */
-function townResidents(world: World, town: EntityId): readonly Resident[] {
+export function townResidents(
+  world: World,
+  town: EntityId,
+): readonly Resident[] {
   const dead = new Set(world.history.personDeaths.map((row) => row.personId));
   const enrolled = new Set(
     world.history.educationEnrollments.map((row) => row.personId),
@@ -943,6 +946,22 @@ export interface TownEmploymentSummary {
   readonly byStatus: Readonly<Record<TownLaborStatus, number>>;
 }
 
+/** Everyone with a job whose latest status today is active. */
+export function activeWorkers(world: World): ReadonlySet<EntityId> {
+  const personOf = new Map(
+    world.history.workRelationships.map((row) => [row.id, row.personId]),
+  );
+  // A relationship's latest status decides whether it is active now.
+  const latest = new Map<EntityId, string>();
+  for (const row of world.history.workStatuses)
+    if (row.effectiveAt <= world.currentDate)
+      latest.set(row.workRelationshipId, row.status);
+  const working = new Set<EntityId>();
+  for (const [relationshipId, status] of latest)
+    if (status === "active") working.add(personOf.get(relationshipId)!);
+  return working;
+}
+
 /**
  * Fill the town's jobs for every working-age resident written out who has no
  * job and whose place in the labor force has not been decided. Idempotent:
@@ -954,10 +973,6 @@ export function ensureTownEmployment(
   town: EntityId,
   playerPersonId: EntityId | null,
 ): World {
-  const place = lifePlaceByJurisdictionId(town);
-  if (!place) return world;
-  const today = world.currentDate;
-  const prefix = `${TOWN_EMPLOYMENT_VERSION}:${town}`;
   const working = new Set(
     world.history.workRelationships.map((row) => row.personId),
   );
@@ -967,7 +982,35 @@ export function ensureTownEmployment(
       !working.has(resident.personId) &&
       laborStatus(world, resident) === "employed",
   );
-  if (open.length === 0) return world;
+  return fillTownJobs(world, town, open, { round: null });
+}
+
+/**
+ * Hire these residents into the town's jobs: any civic role nobody holds
+ * today first, then by the town's own mix. At the opening (`round` null) a
+ * hire is backdated as if they had held the job for years; a later round
+ * hires on the day it runs, keyed by the round so one person can be hired
+ * again after leaving a job.
+ */
+export function fillTownJobs(
+  world: World,
+  town: EntityId,
+  open: readonly Resident[],
+  options: { readonly round: string | null },
+): World {
+  const place = lifePlaceByJurisdictionId(town);
+  if (!place || open.length === 0) return world;
+  const today = world.currentDate;
+  const prefix = `${TOWN_EMPLOYMENT_VERSION}:${town}`;
+  const round = options.round;
+  const jobKey = (personId: EntityId) =>
+    round === null
+      ? `${prefix}:job:${personId}`
+      : `${prefix}:job:${personId}:${round}`;
+  const drawKey = (kind: string, personId: EntityId) =>
+    round === null
+      ? `${prefix}:${kind}:${personId}`
+      : `${prefix}:${kind}:${personId}:${round}`;
 
   const [townName = "Town", stateName = ""] = place.displayName
     .split(",")
@@ -1032,19 +1075,22 @@ export function ensureTownEmployment(
     at?: EntityId,
   ) => {
     const rng = new SeededRng(next.seed).fork(
-      `${prefix}:hire:${resident.personId}`,
+      drawKey("hire", resident.personId),
     );
     const organizationId =
       at ?? employer(workplace, rng.fork("outlet").integer(0, 1_000));
     const person = next.people[resident.personId]!;
     const adultSince = yearsBefore(person.birthDate, -WORKING_AGE_MIN);
-    const tenure = rng
-      .fork("tenure")
-      .integer(0, Math.min(20, resident.age - WORKING_AGE_MIN) + 1);
+    const tenure =
+      round === null
+        ? rng
+            .fork("tenure")
+            .integer(0, Math.min(20, resident.age - WORKING_AGE_MIN) + 1)
+        : 0;
     const hired = yearsBefore(today, tenure);
     const [minimumHours, maximumHours] = chosen.hours ?? [35, 45];
     jobs.push({
-      stableKey: `${prefix}:job:${resident.personId}`,
+      stableKey: jobKey(resident.personId),
       personId: resident.personId,
       organizationId,
       startedAt: hired < adultSince ? adultSince : hired,
@@ -1070,8 +1116,8 @@ export function ensureTownEmployment(
     });
   };
 
-  // Civic roles first, from the oldest residents who fit, so a town always
-  // has its clerk, its pastors and its principals.
+  // Civic roles nobody in town holds today come first, so a town always has
+  // its clerk, its pastors and its principals.
   const pool = [...open].sort(
     (a, b) => b.age - a.age || a.personId.localeCompare(b.personId),
   );
@@ -1083,28 +1129,29 @@ export function ensureTownEmployment(
     pool.splice(pool.indexOf(pick), 1);
     return pick;
   };
-  const alreadyHeld = new Set(
-    next.history.workRoles
-      .filter((row) => row.stableKey.startsWith(prefix))
-      .map((row) => row.title),
-  );
+  const held = heldTownRoles(next, prefix);
   for (const [key, title] of CIVIC_MINIMUM) {
-    if (alreadyHeld.has(title)) continue;
     const workplace = WORKPLACE.get(key)!;
     const chosen = workplace.roles.find((entry) => entry.title === title)!;
     const organizationIds = existingOf(workplace);
     // One per existing organization (each school its principal), else one.
     for (let n = 0; n < Math.max(1, organizationIds.length); n += 1) {
+      const at = organizationIds[n] ?? null;
+      const heldKey = `${title}|${at ?? key}`;
+      if ((held.get(heldKey) ?? 0) > 0) {
+        held.set(heldKey, held.get(heldKey)! - 1);
+        continue;
+      }
       const resident = take(chosen.minAge ?? WORKING_AGE_MIN);
       if (!resident) break;
-      hire(resident, workplace, chosen, organizationIds[n]);
+      hire(resident, workplace, chosen, at ?? undefined);
     }
   }
 
   // Everyone else by the town's own mix.
   for (const resident of pool) {
     const rng = new SeededRng(next.seed).fork(
-      `${prefix}:workplace:${resident.personId}`,
+      drawKey("workplace", resident.personId),
     );
     const key = pickWeighted(rng.fork("workplace"), weights);
     const workplace = key ? WORKPLACE.get(key) : undefined;
@@ -1118,6 +1165,43 @@ export function ensureTownEmployment(
     if (chosen) hire(resident, workplace, chosen);
   }
   return jobs.length === 0 ? next : createWorkRelationships(next, jobs);
+}
+
+/**
+ * The town's civic roles held today, counted by title and by the existing
+ * organization (a school, a congregation) or the workplace they are held at.
+ */
+function heldTownRoles(world: World, prefix: string): Map<string, number> {
+  const workplaceOf = new Map<EntityId, string>();
+  for (const organization of world.history.organizations) {
+    const match = organization.stableKey.match(/:employer:([a-z-]+):\d+$/);
+    if (match && organization.stableKey.startsWith(prefix))
+      workplaceOf.set(organization.id, match[1]!);
+  }
+  const counts = new Map<string, number>();
+  const active = new Set<EntityId>();
+  const latest = new Map<EntityId, string>();
+  for (const row of world.history.workStatuses)
+    if (row.effectiveAt <= world.currentDate)
+      latest.set(row.workRelationshipId, row.status);
+  for (const [id, status] of latest) if (status === "active") active.add(id);
+  const relationships = new Map(
+    world.history.workRelationships.map((row) => [row.id, row]),
+  );
+  for (const role of world.history.workRoles) {
+    if (
+      !role.stableKey.startsWith(prefix) ||
+      !active.has(role.workRelationshipId)
+    )
+      continue;
+    const organizationId = relationships.get(
+      role.workRelationshipId,
+    )?.organizationId;
+    if (!organizationId) continue;
+    const key = `${role.title}|${workplaceOf.get(organizationId) ?? organizationId}`;
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+  return counts;
 }
 
 /** The town's working-age residents by labor status, for a report or test. */
@@ -1135,17 +1219,7 @@ export function describeTownEmployment(
     "parent-at-home": 0,
     "looking-for-work": 0,
   };
-  const personOf = new Map(
-    world.history.workRelationships.map((row) => [row.id, row.personId]),
-  );
-  // A relationship's latest status decides whether it is active now.
-  const latest = new Map<EntityId, string>();
-  for (const row of world.history.workStatuses)
-    if (row.effectiveAt <= world.currentDate)
-      latest.set(row.workRelationshipId, row.status);
-  const working = new Set<EntityId>();
-  for (const [relationshipId, status] of latest)
-    if (status === "active") working.add(personOf.get(relationshipId)!);
+  const working = activeWorkers(world);
   let workingAge = 0;
   let employed = 0;
   for (const resident of townResidents(world, town)) {

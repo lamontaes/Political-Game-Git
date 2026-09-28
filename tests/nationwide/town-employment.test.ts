@@ -8,9 +8,23 @@ import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
 import { ageOnDate } from "../../src/simulation/dates";
 import {
   activeWorkRelationshipsAt,
+  householdMembershipsAt,
   organizationProfileAt,
+  peopleInHouseholdAt,
 } from "../../src/simulation/life-queries";
-import { lifePlaceByKey } from "../../src/simulation/life-places";
+import {
+  TOWN_JOB_END_REASONS,
+  reviewTownJobs,
+} from "../../src/simulation/living-world/town-labor-market";
+import {
+  moveTieReader,
+  relocateHousehold,
+} from "../../src/simulation/migration/relocate";
+import {
+  lifePlaceByKey,
+  stateJurisdictionForKey,
+} from "../../src/simulation/life-places";
+import { recordPersonDeath } from "../../src/simulation/vitality";
 import {
   TOWN_EMPLOYMENT_VERSION,
   describeTownEmployment,
@@ -169,5 +183,98 @@ describe("a new game's town is at work", { timeout: 180_000 }, () => {
 
     // Filling the town's jobs again changes nothing.
     expect(ensureTownEmployment(world, town, personId)).toBe(world);
+  });
+});
+
+describe("the town's jobs change hands", { timeout: 180_000 }, () => {
+  const opened = openAt(LEXINGTON, "jobs-turnover");
+
+  it("quits, layoffs and hires are dated records, and a round runs once", () => {
+    const { world, personId, town } = opened;
+    let next = world;
+    for (let round = 0; round < 8; round += 1)
+      next = reviewTownJobs(next, town, personId, `test-${round}`);
+    const ended = next.history.workStatuses.filter(
+      (row) =>
+        row.status === "ended" &&
+        row.stableKey.startsWith(TOWN_EMPLOYMENT_VERSION),
+    );
+    const reasons = new Set(ended.map((row) => row.reason));
+    expect(reasons).toContain(TOWN_JOB_END_REASONS.quit);
+    expect(reasons).toContain(TOWN_JOB_END_REASONS.laidOff);
+    for (const row of ended) expect(row.effectiveAt).toBe(next.currentDate);
+    const hired = next.history.workRelationships.filter(
+      (row) =>
+        row.stableKey.startsWith(`${TOWN_EMPLOYMENT_VERSION}:${town}:job:`) &&
+        row.stableKey.includes(":test-"),
+    );
+    expect(hired.length).toBeGreaterThan(0);
+    for (const job of hired) expect(job.startedAt).toBe(next.currentDate);
+    // Nobody holds two town jobs at once, and the player is never hired.
+    const holders = townJobs(next, town)
+      .filter(({ job }) =>
+        job.relationship.stableKey.startsWith(TOWN_EMPLOYMENT_VERSION),
+      )
+      .map(({ personId: worker }) => worker);
+    expect(new Set(holders).size).toBe(holders.length);
+    expect(holders).not.toContain(personId);
+    // Most of the town is still at work.
+    const summary = describeTownEmployment(next, town, personId);
+    expect(summary.employed / summary.workingAge).toBeGreaterThanOrEqual(0.8);
+    // The same round again writes nothing.
+    expect(reviewTownJobs(next, town, personId, "test-7")).toBe(next);
+  });
+
+  it("a worker who dies leaves the job", () => {
+    const { world, personId, town } = opened;
+    const [worker] = townJobs(world, town).filter(({ job }) =>
+      job.relationship.stableKey.startsWith(TOWN_EMPLOYMENT_VERSION),
+    );
+    const died = recordPersonDeath(world, {
+      stableKey: "town-employment-test:death",
+      personId: worker!.personId,
+      diedAt: world.currentDate,
+      causeKey: "cause:town-employment-fixture",
+      sourceEntityIds: [world.id],
+      summary: "Died; the cause is not recorded.",
+      provenance: { kind: "authored", note: "Town employment fixture." },
+    });
+    const next = reviewTownJobs(died, town, personId, "ending");
+    const ended = next.history.workStatuses.find(
+      (row) =>
+        row.workRelationshipId === worker!.job.relationship.id &&
+        row.status === "ended",
+    );
+    expect(ended?.reason).toBe(TOWN_JOB_END_REASONS.died);
+  });
+
+  it("moving away ends a town job instead of blocking the move", () => {
+    const { world, town } = opened;
+    const reader = moveTieReader(world);
+    const mover = townJobs(world, town).find(
+      ({ personId: worker, job }) =>
+        job.relationship.stableKey.startsWith(TOWN_EMPLOYMENT_VERSION) &&
+        householdMembershipsAt(world, worker)[0] !== undefined &&
+        peopleInHouseholdAt(
+          world,
+          householdMembershipsAt(world, worker)[0]!.household.id,
+        ).every((id) => !reader.bindingTie(id) && !reader.housingTie(id)),
+    );
+    expect(mover).toBeDefined();
+    const destination = stateJurisdictionForKey("US-OR")!.id;
+    const moved = relocateHousehold(world, {
+      stableKey: "town-employment-test:move",
+      personId: mover!.personId,
+      toJurisdictionId: destination,
+      reason: "life-course:unrecorded",
+      waveKey: null,
+    });
+    expect(activeWorkRelationshipsAt(moved, mover!.personId)).toHaveLength(0);
+    const ended = moved.history.workStatuses.find(
+      (row) =>
+        row.workRelationshipId === mover!.job.relationship.id &&
+        row.status === "ended",
+    );
+    expect(ended?.reason).toBe("labor:moved-away");
   });
 });
