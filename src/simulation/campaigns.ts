@@ -1,3 +1,4 @@
+import { PAYDAY_HANDLERS } from "./living-world/town-pay";
 import { jailTermOn } from "./justice/jail-terms";
 import { contestDistrictGeography } from "./campaign-geography";
 import {
@@ -2060,6 +2061,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
         // MIGRATION: households leave town, newcomers arrive, waves step.
         [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
+        // PAYDAY: everyone with a recorded job is paid, every four weeks.
+        ...PAYDAY_HANDLERS,
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...CAMPAIGN_LIFE_HANDLERS,
       ]),

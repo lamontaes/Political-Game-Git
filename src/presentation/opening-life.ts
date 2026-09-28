@@ -25,6 +25,7 @@ import {
   CRUNCH46_WORLD_OPENING_VERSION,
 } from "../simulation";
 import { ensureMigrationSchedule } from "../simulation/migration";
+import { ensurePaydaySchedule } from "../simulation/living-world/town-pay";
 import { ensureCrimeProduction } from "../simulation/crime";
 import { ensureOpeningJudiciary } from "../simulation/judiciary/opening";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
@@ -194,10 +195,13 @@ function openedWorld(
   // The town's residents are seated before migration is scheduled, so the
   // first quarterly review already has neighbors who might leave.
   if (!pressOpeningApplies(world)) return world;
-  const opened = ensureMigrationSchedule(
-    ensureTownResidents(
-      ensurePressOpening(world, playerPersonId),
-      playerPersonId,
+  // Payday starts with the same opening, so a watched world's jobs pay too.
+  const opened = ensurePaydaySchedule(
+    ensureMigrationSchedule(
+      ensureTownResidents(
+        ensurePressOpening(world, playerPersonId),
+        playerPersonId,
+      ),
     ),
   );
   return openingDataVersion === "playtest65-v3"
