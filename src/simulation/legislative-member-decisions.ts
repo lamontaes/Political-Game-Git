@@ -2,7 +2,7 @@ import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import { requireMeasure } from "./legislation";
 import { lawInForce } from "./governing/law-in-force";
 import { measurePropositionAnswer } from "./issue-record";
-import { netViewOnLaw } from "./living-world/official-views";
+import { netViewOnLaw } from "./official-view-reads";
 import {
   assessCommitment,
   commitmentObligation,

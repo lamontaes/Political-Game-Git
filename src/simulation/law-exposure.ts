@@ -1,7 +1,7 @@
 import { addDays } from "./dates";
 import { createStableId } from "./ids";
 import { activePartnershipsAt } from "./life-queries";
-import { scheduleOfficialViewReflection } from "./living-world/official-views";
+import { scheduleFutureDueItem } from "./future-transitions";
 import type {
   EntityId,
   IsoDate,
@@ -128,6 +128,44 @@ export function recordHeardExposure(
     cadence: told.cadence,
     monthlyPay: told.monthlyPay,
     sourceRecordId: told.sourceRecordId,
+  });
+}
+
+export const OFFICIAL_VIEW_TRANSITION_KEY = "people:official-view-reflection";
+// PLACEHOLDER: "reflection happens within days" (spec 5); three days.
+const REFLECTION_DAYS = 3;
+
+/*
+ * The reflection is scheduled here, where the exposure is written, and run by
+ * living-world/official-views.ts. Keeping the scheduler here means the tax
+ * collector and the other writers do not load the reflection's dependencies.
+ */
+export function officialViewReflectionKey(exposure: LawExposureRecord): string {
+  return `official-view:reflect:${exposure.id}`;
+}
+
+/** Schedules the reflection on one exposure. The player decides their own mind. */
+export function scheduleOfficialViewReflection(
+  world: World,
+  exposure: LawExposureRecord,
+): World {
+  if (exposure.direction === "none") return world;
+  if (
+    world.control.kind === "person" &&
+    world.control.personId === exposure.personId
+  )
+    return world;
+  const stableKey = officialViewReflectionKey(exposure);
+  if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
+    return world;
+  return scheduleFutureDueItem(world, {
+    stableKey,
+    dueAt: addDays(world.currentDate, REFLECTION_DAYS),
+    transitionKey: OFFICIAL_VIEW_TRANSITION_KEY,
+    // The exposure itself is named in the key; due items reference people.
+    entityIds: [exposure.personId],
+    jurisdictionId: null,
+    provenance: { kind: "initialization", reference: `official-view:reflect` },
   });
 }
 

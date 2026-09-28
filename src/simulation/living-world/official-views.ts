@@ -1,7 +1,11 @@
-import { addDays, ageOnDate } from "../dates";
-import { scheduleFutureDueItem } from "../future-transitions";
+import { ageOnDate } from "../dates";
 import { createStableId } from "../ids";
-import { recordHeardExposure } from "../law-exposure";
+import {
+  OFFICIAL_VIEW_TRANSITION_KEY,
+  officialViewReflectionKey,
+  recordHeardExposure,
+} from "../law-exposure";
+import { OFFICIAL_VIEW_BASE_POINTS as BASE_POINTS } from "../official-view-reads";
 import {
   activePartnershipsAt,
   activeWorkRelationshipsAt,
@@ -14,7 +18,6 @@ import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
-  IsoDate,
   LawExposureRecord,
   OfficialViewReason,
   OfficialViewRecord,
@@ -37,14 +40,19 @@ import { affiliationAt } from "./party-evolution";
  * checkpoint, not on player screens.
  */
 
-export const OFFICIAL_VIEW_TRANSITION_KEY = "people:official-view-reflection";
-
 const V = "official-view";
 
-// PLACEHOLDER: "reflection happens within days" (spec 5); three days.
-const REFLECTION_DAYS = 3;
-// PLACEHOLDER: the points one fully felt law moves a view.
-const BASE_POINTS = 20;
+export {
+  OFFICIAL_VIEW_TRANSITION_KEY,
+  scheduleOfficialViewReflection,
+} from "../law-exposure";
+export {
+  assertOfficialViewIntegrity,
+  netViewOnLaw,
+  townSupportFromViews,
+  viewOfOfficial,
+} from "../official-view-reads";
+
 // PLACEHOLDER, approved provisional: executives carry the blame for a visible
 // law they signed; a legislator's single vote carries less.
 const EXECUTIVE_VISIBILITY = 1;
@@ -86,35 +94,6 @@ interface OfficialAct {
   readonly executive: boolean;
 }
 
-function reflectionKey(exposure: LawExposureRecord): string {
-  return `${V}:reflect:${exposure.id}`;
-}
-
-/** Schedules the reflection on one exposure. The player decides their own mind. */
-export function scheduleOfficialViewReflection(
-  world: World,
-  exposure: LawExposureRecord,
-): World {
-  if (exposure.direction === "none") return world;
-  if (
-    world.control.kind === "person" &&
-    world.control.personId === exposure.personId
-  )
-    return world;
-  const stableKey = reflectionKey(exposure);
-  if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
-    return world;
-  return scheduleFutureDueItem(world, {
-    stableKey,
-    dueAt: addDays(world.currentDate, REFLECTION_DAYS),
-    transitionKey: OFFICIAL_VIEW_TRANSITION_KEY,
-    // The exposure itself is named in the key; due items reference people.
-    entityIds: [exposure.personId],
-    jurisdictionId: null,
-    provenance: { kind: "initialization", reference: `${V}:reflect` },
-  });
-}
-
 export function officialViewReflectionHandler(
   world: World,
   dueItem: FutureDueItem,
@@ -132,7 +111,7 @@ export function officialViewReflectionHandler(
     outcomeEventId: null,
   });
   const exposure = (world.history.lawExposures ?? []).find(
-    (row) => reflectionKey(row) === dueItem.stableKey,
+    (row) => officialViewReflectionKey(row) === dueItem.stableKey,
   );
   if (!exposure || !world.people[exposure.personId])
     return done(world, "exposure-not-present");
@@ -162,18 +141,6 @@ export function officialViewReflectionHandler(
     for (const hearerId of hearersOf(world, exposure))
       next = recordHeardExposure(next, exposure, hearerId);
   return done(next, "reflected");
-}
-
-/** A person's standing view of an official: the sum of every reflection. */
-export function viewOfOfficial(
-  world: World,
-  personId: EntityId,
-  officialId: EntityId,
-): { readonly points: number; readonly rows: readonly OfficialViewRecord[] } {
-  const rows = (world.history.officialViews ?? []).filter(
-    (row) => row.personId === personId && row.officialId === officialId,
-  );
-  return { points: rows.reduce((sum, row) => sum + row.points, 0), rows };
 }
 
 /** Who signed a law and how each simulated member voted on its passage. */
@@ -413,97 +380,4 @@ function append(
       officialViews: [...existing, record],
     },
   };
-}
-
-/**
- * Saved views must reconcile: real people, an exposure of this person to this
- * law that came first, and points that are the sum of their reasons.
- */
-export function assertOfficialViewIntegrity(
-  world: World,
-  ids: Set<EntityId>,
-): void {
-  const exposures = new Map(
-    (world.history.lawExposures ?? []).map((row) => [row.id, row]),
-  );
-  const keys = new Set<string>();
-  for (const row of world.history.officialViews ?? []) {
-    if (ids.has(row.id)) throw new Error(`Duplicate entity ID: ${row.id}`);
-    ids.add(row.id);
-    if (keys.has(row.stableKey))
-      throw new Error("Duplicate official view identity.");
-    keys.add(row.stableKey);
-    if (!world.people[row.personId] || !world.people[row.officialId])
-      throw new Error("An official view names a person not in the world.");
-    const exposure = exposures.get(row.exposureId);
-    if (
-      !exposure ||
-      exposure.personId !== row.personId ||
-      exposure.measureId !== row.measureId ||
-      exposure.sequence >= row.sequence
-    )
-      throw new Error("An official view must follow its law exposure.");
-    if (
-      row.reasons.length === 0 ||
-      row.points !== row.reasons.reduce((sum, reason) => sum + reason.points, 0)
-    )
-      throw new Error("An official view's points are the sum of its reasons.");
-  }
-}
-
-// PLACEHOLDER, approved provisional: an election weighs recent exposures more.
-// No half-life was found, so a view formed in the half year before the vote
-// counts half again as much.
-const RECENT_DAYS = 183;
-const RECENT_WEIGHT = 1.5;
-// PLACEHOLDER: the most a town's views can raise or cut a candidate's support.
-const MAX_SUPPORT_SHIFT = 0.5;
-
-/**
- * What a town's residents think of a candidate, as a multiplier on their
- * support in a town count: 1 when nobody has reflected on anything they did.
- * The sum of residents' views, recent ones weighted more, is spread over every
- * grown resident the game has written for the town, so a view held by a few
- * moves the count a little and one held by many moves it a lot.
- */
-export function townSupportFromViews(
-  world: World,
-  town: EntityId,
-  candidateId: EntityId,
-  electionDate: IsoDate,
-): number {
-  let residents = 0;
-  const inTown = new Set<EntityId>();
-  for (const personId of world.personOrder) {
-    const person = world.people[personId];
-    if (!person || person.homeJurisdictionId !== town) continue;
-    inTown.add(personId);
-    residents += 1;
-  }
-  if (residents === 0) return 1;
-  const recentFrom = addDays(electionDate, -RECENT_DAYS);
-  let weighted = 0;
-  for (const row of world.history.officialViews ?? []) {
-    if (row.officialId !== candidateId || !inTown.has(row.personId)) continue;
-    if (row.recordedAt > electionDate) continue;
-    weighted += row.points * (row.recordedAt >= recentFrom ? RECENT_WEIGHT : 1);
-  }
-  const shift = weighted / (residents * BASE_POINTS);
-  return 1 + Math.max(-MAX_SUPPORT_SHIFT, Math.min(MAX_SUPPORT_SHIFT, shift));
-}
-
-/**
- * What the people a law reached made of one official's part in it: the net
- * points of every view of this official formed about this law.
- */
-export function netViewOnLaw(
-  world: World,
-  officialId: EntityId,
-  measureId: EntityId,
-): number {
-  let net = 0;
-  for (const row of world.history.officialViews ?? [])
-    if (row.officialId === officialId && row.measureId === measureId)
-      net += row.points;
-  return net;
 }

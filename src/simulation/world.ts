@@ -55,7 +55,7 @@ import {
 } from "./tax-policy";
 import { assertStatutoryTaxIntegrity } from "./statutory-tax";
 import { assertLawExposureIntegrity } from "./law-exposure";
-import { assertOfficialViewIntegrity } from "./living-world/official-views";
+import { assertOfficialViewIntegrity } from "./official-view-reads";
 import {
   addDays,
   assertSimulationMoment,

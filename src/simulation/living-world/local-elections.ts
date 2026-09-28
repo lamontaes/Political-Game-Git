@@ -1,5 +1,5 @@
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
-import { townSupportFromViews } from "./official-views";
+import { townSupportFromViews } from "../official-view-reads";
 import { campaigns } from "../campaign-queries";
 import {
   cancelElectionContest,
