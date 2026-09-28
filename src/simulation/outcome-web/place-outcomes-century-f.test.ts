@@ -26,7 +26,8 @@ const MEASURES = [
   "health.overdose-deaths",
   "labor.median-earnings",
   "transit.service-access",
-  "population.net-migration",
+  "population.in-migration",
+  "population.out-migration",
   "gov.borrowing-cost",
 ] as const;
 
@@ -119,9 +120,9 @@ const median = (values: readonly number[]) => {
 
 describe("food, reading, degrees, broadband, asthma, overdoses, earnings and transit over a century in ten worlds", () => {
   it("a level adds each link's effect in its own unit, so a law reads the same way below zero", () => {
-    const level = PLACE_OUTCOME_BASES["population.net-migration"]!;
+    const level = PLACE_OUTCOME_BASES["gov.borrowing-cost"]!;
     expect(level.scale).toBe("level");
-    // A law adding 0.4 per 1,000 raises a negative level, not lowers it.
+    // A law adding 0.4 basis points raises a level below zero, not lowers it.
     expect(placeOutcomeValue(level, -3, 1.4, [1.4])).toBeCloseTo(-2.6, 10);
     expect(placeOutcomeValue(level, 5, 1.4 * 0.9, [1.4, 0.9])).toBeCloseTo(
       5.3,
@@ -140,7 +141,8 @@ describe("food, reading, degrees, broadband, asthma, overdoses, earnings and tra
       expect(definition!.drift).not.toBe(DEFAULT_PLACE_OUTCOME_DRIFT);
       for (const [placeKey, base] of Object.entries(definition!.places)) {
         // An unsourced place is left out (unknown), never written as zero.
-        // A level (net migration) may sit at or below zero; nothing else may.
+        // A level (borrowing cost over AAA) may sit at or below zero; nothing
+        // else may.
         expect(Number.isFinite(base), `${measure} ${placeKey}`).toBe(true);
         if (definition!.scale !== "level")
           expect(base, `${measure} ${placeKey}`).toBeGreaterThan(0);

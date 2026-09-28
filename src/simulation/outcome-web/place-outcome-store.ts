@@ -79,11 +79,12 @@ export interface PlaceOutcomeMeasureBase {
    * then a standard deviation in logs. "rate": a level in the measure's own
    * unit (crimes per 100,000 people, micrograms per cubic meter), drifting in
    * logs like an index; `minPct` and `maxPct` are then bounds in that unit.
-   * "level": a signed number in the measure's own unit (net movers per 1,000
-   * residents), which can be below zero. It drifts by adding each month's
-   * step (`monthlySdLogit` is then a standard deviation in that unit), and a
-   * link adds to it rather than multiplying it: a factor of 1.4 adds 0.4 of
-   * the unit, since multiplying a negative level would reverse the law.
+   * "level": a number in the measure's own unit that can sit at or below
+   * zero (a state's borrowing cost over the best-rated states, where a AAA
+   * state starts at 0). It drifts by adding each month's step
+   * (`monthlySdLogit` is then a standard deviation in that unit), and a link
+   * adds to it rather than multiplying it: a factor of 1.4 adds 0.4 of the
+   * unit, since no multiplier moves a zero and a negative one would reverse.
    */
   readonly scale?: "share" | "index" | "rate" | "level";
   /** How a value reads in a report: "per 10,000 people". Shares read as %. */

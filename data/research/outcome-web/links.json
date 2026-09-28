@@ -3217,9 +3217,9 @@
       "source": "Deming and Walters 2017 (NBER w23736)"
     },
     {
-      "key": "income-tax-to-net-migration",
+      "key": "income-tax-to-out-migration",
       "from": "law:us-policy-positions:fiscal.adopt-income-tax",
-      "to": "population.net-migration",
+      "to": "population.out-migration",
       "strength": "about-zero",
       "shape": {
         "kind": "linear"
@@ -3234,9 +3234,9 @@
       "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review"
     },
     {
-      "key": "graduated-income-tax-to-net-migration",
+      "key": "graduated-income-tax-to-out-migration",
       "from": "law:us-policy-positions:fiscal.graduated-income-tax",
-      "to": "population.net-migration",
+      "to": "population.out-migration",
       "strength": "about-zero",
       "shape": {
         "kind": "linear"
