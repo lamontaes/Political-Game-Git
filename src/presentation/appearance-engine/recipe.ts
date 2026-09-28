@@ -11,6 +11,7 @@ import {
   HAIR_COLORS,
   PART_PALETTES,
   type BodyBuild,
+  type BodyPose,
   type BodyPresentation,
   type EngineRecipe,
   type OutfitOccasion,
@@ -104,6 +105,8 @@ function hairColorFor(seed: string, age: number): string {
 export interface EngineRecipeOptions {
   /** The occasion decides the outfit when it matters: formal at work in government. */
   readonly occasion?: Exclude<OutfitOccasion, "work">;
+  /** Seated where the place has a seat for them. */
+  readonly pose?: BodyPose;
 }
 
 /**
@@ -166,6 +169,7 @@ export function engineRecipeFor(
     // Everyday clothes unless the person chose otherwise or the occasion is
     // formal (a chamber, an office, a hearing).
     outfit: outfit.id,
+    ...(options.pose === "seated" ? { pose: "seated" as const } : {}),
     // Each garment part in a color of its own, kept per person.
     colors: Object.fromEntries(
       Object.entries(outfit.parts).map(([part, paletteId]) => {

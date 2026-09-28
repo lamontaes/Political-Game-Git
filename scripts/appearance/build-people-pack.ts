@@ -10,15 +10,26 @@
  *
  * Usage: node --import tsx scripts/appearance/build-people-pack.ts <bodiesDir> <peopleAppearanceDir> [outDir]
  */
-import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from "node:fs";
 import { join } from "node:path";
 import { PNG } from "pngjs";
-import { measureBodyAnchors } from "../../src/presentation/appearance-engine/anchors";
+import {
+  measureBodyAnchors,
+  type BodyAnchors,
+} from "../../src/presentation/appearance-engine/anchors";
 import { extractGarment } from "../../src/presentation/appearance-engine/extract";
 import {
   PEOPLE_PACK_VERSION,
   type BodyBuild,
+  type OutfitBuilds,
   type OutfitOccasion,
+  type PackBody,
   type PackOutfit,
   type PeoplePackManifest,
   type PackPresentation,
@@ -287,7 +298,8 @@ const OUTFITS: Record<"feminine" | "masculine", readonly OutfitSpec[]> = {
       id: "hi-vis",
       label: "Safety vest",
       occasion: "work",
-      parts: { shirt: ["gray", "top"], bottom: ["blue", "bottom"] },
+      // The vest's silver stripes are the shirt's gray, so only the jeans recolor.
+      parts: { bottom: ["blue", "bottom"] },
     },
     { id: "police", label: "Police uniform", occasion: "work", parts: {} },
     { id: "judge-robe", label: "Judge's robe", occasion: "work", parts: {} },
@@ -298,7 +310,8 @@ const OUTFITS: Record<"feminine" | "masculine", readonly OutfitSpec[]> = {
       label: "Everyday",
       occasion: "casual",
       art: "casual",
-      parts: { top: ["blue", "top"], bottom: ["gray", "bottom"] },
+      // A pale blue shirt: much of it reads as white in the light.
+      parts: { top: [["blue", "white"], "top"], bottom: ["gray", "bottom"] },
     },
     {
       id: "formal",
@@ -373,12 +386,180 @@ const OUTFITS: Record<"feminine" | "masculine", readonly OutfitSpec[]> = {
       id: "hi-vis",
       label: "Safety vest",
       occasion: "work",
-      parts: { shirt: ["gray", "top"], bottom: ["blue", "bottom"] },
+      // The vest's silver stripes are the shirt's gray, so only the jeans recolor.
+      parts: { bottom: ["blue", "bottom"] },
     },
     { id: "police", label: "Police uniform", occasion: "work", parts: {} },
     { id: "judge-robe", label: "Judge's robe", occasion: "work", parts: {} },
   ],
 };
+
+/**
+ * One outfit on one body: registered by the head, extracted as a whole
+ * outfit (with the painting's skin mask, when it has one), halved, and its
+ * garment parts told apart. Writes the files and returns the pack entry.
+ */
+function dressedBody(
+  sex: "feminine" | "masculine",
+  spec: OutfitSpec,
+  build: BodyBuild,
+  bareFull: Raster,
+  anchors: BodyAnchors,
+  paintingFile: string,
+  skinFile: string | null,
+  stem: string,
+  /** Applied to the painting and its skin mask as read (the seated scale). */
+  transform: (raster: Raster) => Raster = (raster) => raster,
+): NonNullable<OutfitBuilds[BodyBuild]> {
+  const anchorsFull = measureBodyAnchors(bareFull);
+  const painting = transform(read(paintingFile));
+  const offset = registrationOffset(
+    measureBodyAnchors(painting),
+    anchorsFull,
+    "head",
+  );
+  const skinFull = skinFile
+    ? translateRaster(transform(read(skinFile)), offset.dx, offset.dy)
+    : null;
+  const skinMask = skinFull
+    ? Uint8Array.from({ length: skinFull.width * skinFull.height }, (_, p) =>
+        skinFull.data[p * 4 + 3]! > 128 ? 1 : 0,
+      )
+    : undefined;
+  const garment = extractGarment(
+    translateRaster(painting, offset.dx, offset.dy),
+    bareFull,
+    anchorsFull,
+    "outfit",
+    40,
+    skinMask,
+  );
+  const hides = createRaster(bareFull.width, bareFull.height);
+  garment.hidesBody!.forEach((hidden, p) => {
+    if (hidden) hides.data[p * 4 + 3] = 255;
+  });
+  const halve = (mask: Raster) => {
+    const half = downscaleHalf(mask);
+    for (let i = 3; i < half.data.length; i += 4)
+      half.data[i] = half.data[i]! >= 128 ? 255 : 0;
+    return half;
+  };
+  const halfLayer = downscaleHalf(garment.layer);
+  // The skin the extraction settled on: the mask, plus a neck that is
+  // skin-colored above the neckline (see extract.ts).
+  const usedSkin = garment.skin
+    ? createRaster(bareFull.width, bareFull.height)
+    : null;
+  garment.skin?.forEach((skin, p) => {
+    if (skin) usedSkin!.data[p * 4 + 3] = 255;
+  });
+  const halfSkin = usedSkin ? halve(usedSkin) : null;
+  const regions = Object.fromEntries(
+    Object.entries(
+      outfitRegions(
+        halfLayer,
+        Object.fromEntries(
+          Object.entries(spec.parts).map(([part, [hue]]) => [
+            part,
+            typeof hue === "string" ? [hue] : hue,
+          ]),
+        ),
+        halfSkin
+          ? Uint8Array.from(
+              { length: halfSkin.width * halfSkin.height },
+              (_, p) => (halfSkin.data[p * 4 + 3]! ? 1 : 0),
+            )
+          : null,
+        anchors.feet - Math.round((anchors.feet - anchors.top) * 0.08),
+      ),
+    ).map(([part, mask]) => [part, write(mask, `${stem}-${part}.png`)]),
+  );
+  console.log(stem, JSON.stringify(offset), garment.clothPixels);
+  return {
+    file: write(halfLayer, `${stem}.png`),
+    hides: write(halve(hides), `${stem}-hides.png`),
+    regions,
+    ...(halfSkin ? { skin: write(halfSkin, `${stem}-skin.png`) } : {}),
+  };
+}
+
+/**
+ * The art team's seated bodies (Sept. 2026, output/modular-seated-front-v1):
+ * men with open knees and hands on the thighs, women with knees together and
+ * hands in the lap, each registered so the seat (the bottom of the underwear
+ * at the centerline) is row 951 and the soles row 1503 on every build
+ * (seat-registration-v1.json, close-knees-seat-registration-v1.json).
+ */
+const SEATED_BODIES =
+  "/Users/lamontae/Documents/PG-LAND/output/modular-seated-front-v1/prepared";
+const SEATED_FILE: Record<
+  "feminine" | "masculine",
+  Record<BodyBuild, string>
+> = {
+  masculine: {
+    lean: "seat-registered/masculine-lean-seated-front-bare-v1.png",
+    average: "seat-registered/masculine-average-seated-front-bare-v1.png",
+    fuller: "seat-registered/masculine-fuller-seated-front-bare-v1.png",
+  },
+  feminine: {
+    lean: "close-knees-seat-registered/feminine-lean-seated-front-close-knees-bare-v1.png",
+    average:
+      "close-knees-seat-registered/feminine-average-seated-front-close-knees-bare-v1.png",
+    fuller:
+      "close-knees-seat-registered/feminine-fuller-seated-front-close-knees-bare-v1.png",
+  },
+};
+const SEAT_ROW = 951;
+
+/**
+ * A raster scaled by k about a point (bilinear, alpha-premultiplied), on the
+ * same canvas.
+ */
+function scaleAbout(raster: Raster, k: number, cx: number, cy: number): Raster {
+  const { width, height, data } = raster;
+  const out = createRaster(width, height);
+  const taps = [
+    [0, 0],
+    [1, 0],
+    [0, 1],
+    [1, 1],
+  ] as const;
+  for (let y = 0; y < height; y += 1)
+    for (let x = 0; x < width; x += 1) {
+      const sx = cx + (x - cx) / k;
+      const sy = cy + (y - cy) / k;
+      const x0 = Math.floor(sx);
+      const y0 = Math.floor(sy);
+      const fx = sx - x0;
+      const fy = sy - y0;
+      let alpha = 0;
+      let r = 0;
+      let g = 0;
+      let b = 0;
+      for (const [dx, dy] of taps) {
+        const tx = x0 + dx;
+        const ty = y0 + dy;
+        if (tx < 0 || ty < 0 || tx >= width || ty >= height) continue;
+        const w = (dx ? fx : 1 - fx) * (dy ? fy : 1 - fy);
+        const i = (ty * width + tx) * 4;
+        const pa = (data[i + 3]! / 255) * w;
+        alpha += pa;
+        r += data[i]! * pa;
+        g += data[i + 1]! * pa;
+        b += data[i + 2]! * pa;
+      }
+      if (alpha <= 0) continue;
+      const o = (y * width + x) * 4;
+      out.data[o] = r / alpha;
+      out.data[o + 1] = g / alpha;
+      out.data[o + 2] = b / alpha;
+      out.data[o + 3] = alpha * 255;
+    }
+  return out;
+}
+/** Firefly outfits painted on the seated bodies, cut like the standing ones. */
+const FIREFLY_OUTFITS_SEATED =
+  "/Users/lamontae/political-game-play/cto-notes/firefly/outfits/cut-seated";
 
 const presentations: Record<string, PackPresentation> = {};
 for (const sex of ["feminine", "masculine"] as const) {
@@ -393,106 +574,89 @@ for (const sex of ["feminine", "masculine"] as const) {
       skin: skinOf(bare),
     };
   }
+  const seatedBodies = {} as Record<
+    BodyBuild,
+    PackBody & { readonly seatRow: number }
+  >;
+  // One head size for everybody. The seated bodies were painted larger than
+  // the standing ones, so each is scaled, about the middle of its soles, by
+  // the ratio of the standing average body's head to the seated average
+  // body's head (width and height averaged). Its outfits scale with it.
+  const headOf = (anchors: BodyAnchors) => ({
+    w: anchors.head.right - anchors.head.left,
+    h: anchors.neck.row - anchors.top,
+  });
+  const standingHead = headOf(
+    measureBodyAnchors(
+      read(join(bodiesDir, `${bodyFile(sex, "average")}.png`)),
+    ),
+  );
+  const seatedHead = headOf(
+    measureBodyAnchors(read(join(SEATED_BODIES, SEATED_FILE[sex].average))),
+  );
+  const seatedScale =
+    (standingHead.w / seatedHead.w + standingHead.h / seatedHead.h) / 2;
+  console.log(sex, "seated scale", seatedScale.toFixed(3));
+  const seatedBareFull = {} as Record<BodyBuild, Raster>;
+  const seatedTransform = {} as Record<BodyBuild, (raster: Raster) => Raster>;
+  for (const build of BUILDS) {
+    const source = read(join(SEATED_BODIES, SEATED_FILE[sex][build]));
+    const at = measureBodyAnchors(source);
+    seatedTransform[build] = (raster) =>
+      scaleAbout(raster, seatedScale, at.neck.centerX, at.feet);
+    seatedBareFull[build] = seatedTransform[build](source);
+    const bare = downscaleHalf(seatedBareFull[build]);
+    seatedBodies[build] = {
+      file: write(bare, `body-${sex}-${build}-seated.png`),
+      anchors: measureBodyAnchors(bare),
+      skin: skinOf(bare),
+      seatRow: Math.round(
+        (at.feet - (at.feet - (SEAT_ROW + HEADROOM)) * seatedScale) / 2,
+      ),
+    };
+  }
   const outfits: PackOutfit[] = [];
   for (const spec of OUTFITS[sex]) {
-    const builds: Record<string, PackOutfit["builds"][BodyBuild]> = {};
+    const builds: OutfitBuilds = {};
+    const seated: OutfitBuilds = {};
     for (const build of BUILDS) {
-      const bareFull = read(join(bodiesDir, `${bodyFile(sex, build)}.png`));
-      const anchorsFull = measureBodyAnchors(bareFull);
-      const painting = spec.art
-        ? read(
-            join(
+      (builds as Record<string, unknown>)[build] = dressedBody(
+        sex,
+        spec,
+        build,
+        read(join(bodiesDir, `${bodyFile(sex, build)}.png`)),
+        bodies[build].anchors,
+        spec.art
+          ? join(
               appearanceDir,
               "wardrobe",
               `${sex}-${spec.art}-${build}-onbody-v1.png`,
-            ),
-          )
-        : read(
-            join(FIREFLY_OUTFITS, `${sex}-${spec.id}-${build}-onbody-v1.png`),
-          );
-      const offset = registrationOffset(
-        measureBodyAnchors(painting),
-        anchorsFull,
-        "head",
+            )
+          : join(FIREFLY_OUTFITS, `${sex}-${spec.id}-${build}-onbody-v1.png`),
+        spec.art
+          ? null
+          : join(FIREFLY_OUTFITS, `${sex}-${spec.id}-${build}-skin-v1.png`),
+        `outfit-${sex}-${spec.id}-${build}`,
       );
-      const skinFull = spec.art
-        ? null
-        : translateRaster(
-            read(
-              join(FIREFLY_OUTFITS, `${sex}-${spec.id}-${build}-skin-v1.png`),
-            ),
-            offset.dx,
-            offset.dy,
-          );
-      const skinMask = skinFull
-        ? Uint8Array.from(
-            { length: skinFull.width * skinFull.height },
-            (_, p) => (skinFull.data[p * 4 + 3]! > 128 ? 1 : 0),
-          )
-        : undefined;
-      const garment = extractGarment(
-        translateRaster(painting, offset.dx, offset.dy),
-        bareFull,
-        anchorsFull,
-        "outfit",
-        40,
-        skinMask,
+      const seatedPainting = join(
+        FIREFLY_OUTFITS_SEATED,
+        `${sex}-${spec.id}-${build}-onbody-v1.png`,
       );
-      const hides = createRaster(bareFull.width, bareFull.height);
-      garment.hidesBody!.forEach((hidden, p) => {
-        if (hidden) hides.data[p * 4 + 3] = 255;
-      });
-      const halve = (mask: Raster) => {
-        const half = downscaleHalf(mask);
-        for (let i = 3; i < half.data.length; i += 4)
-          half.data[i] = half.data[i]! >= 128 ? 255 : 0;
-        return half;
-      };
-      const halfLayer = downscaleHalf(garment.layer);
-      // The skin the extraction settled on: the mask, plus a neck that is
-      // skin-colored above the neckline (see extract.ts).
-      const usedSkin = garment.skin
-        ? createRaster(bareFull.width, bareFull.height)
-        : null;
-      garment.skin?.forEach((skin, p) => {
-        if (skin) usedSkin!.data[p * 4 + 3] = 255;
-      });
-      const halfSkin = usedSkin ? halve(usedSkin) : null;
-      const anchors = bodies[build].anchors;
-      const stem = `outfit-${sex}-${spec.id}-${build}`;
-      const regions = Object.fromEntries(
-        Object.entries(
-          outfitRegions(
-            halfLayer,
-            Object.fromEntries(
-              Object.entries(spec.parts).map(([part, [hue]]) => [
-                part,
-                typeof hue === "string" ? [hue] : hue,
-              ]),
-            ),
-            halfSkin
-              ? Uint8Array.from(
-                  { length: halfSkin.width * halfSkin.height },
-                  (_, p) => (halfSkin.data[p * 4 + 3]! ? 1 : 0),
-                )
-              : null,
-            anchors.feet - Math.round((anchors.feet - anchors.top) * 0.08),
+      if (existsSync(seatedPainting))
+        (seated as Record<string, unknown>)[build] = dressedBody(
+          sex,
+          spec,
+          build,
+          seatedBareFull[build],
+          seatedBodies[build].anchors,
+          seatedPainting,
+          join(
+            FIREFLY_OUTFITS_SEATED,
+            `${sex}-${spec.id}-${build}-skin-v1.png`,
           ),
-        ).map(([part, mask]) => [part, write(mask, `${stem}-${part}.png`)]),
-      );
-      builds[build] = {
-        file: write(halfLayer, `${stem}.png`),
-        hides: write(halve(hides), `${stem}-hides.png`),
-        regions,
-        ...(halfSkin ? { skin: write(halfSkin, `${stem}-skin.png`) } : {}),
-      };
-      console.log(
-        sex,
-        spec.id,
-        build,
-        JSON.stringify(offset),
-        garment.clothPixels,
-      );
+          `outfit-${sex}-${spec.id}-${build}-seated`,
+          seatedTransform[build],
+        );
     }
     outfits.push({
       id: spec.id,
@@ -505,6 +669,8 @@ for (const sex of ["feminine", "masculine"] as const) {
         ]),
       ),
       builds,
+      // Seated only when every body has it.
+      ...(BUILDS.every((build) => seated[build]) ? { seated } : {}),
     });
   }
   const faces = SOURCES[sex].faces.map((face) => {
@@ -547,6 +713,7 @@ for (const sex of ["feminine", "masculine"] as const) {
     bodies,
     faces,
     hair,
+    seated: { bodies: seatedBodies },
     outfits,
   };
 }
