@@ -581,10 +581,14 @@ export function orientationBackdrop(
       ? { kind: "place", place: name, url }
       : { kind: "neutral" };
   };
+  // Without the exterior plate (a build that does not show reviewed art),
+  // the White House card stands in the Oval Office: the same building, and
+  // the Resolute Desk alternate the Sept. 20 ratification names. Never
+  // another place's picture.
   if (stepKey === "executive")
     return sources.whiteHouse
       ? { kind: "white-house", raster: sources.whiteHouse }
-      : { kind: "neutral" };
+      : place("oval-office");
   if (stepKey === "congress") return place("us-capitol-exterior");
   // The street of your town, not a home: the play screen's own room decides
   // what your home looks like, and the two must never disagree.
