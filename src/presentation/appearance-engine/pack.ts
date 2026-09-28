@@ -90,8 +90,65 @@ export type OutfitTag = "casual" | "business" | "formal" | "cold" | "uniform";
 
 export const BODY_BUILDS: readonly BodyBuild[] = ["lean", "average", "fuller"];
 
-/** How the body is posed: standing, or seated facing front on a chair. */
-export type BodyPose = "standing" | "seated";
+/**
+ * How the body is posed. Each pose is its own painting of every body and
+ * outfit, named with the pose id as a suffix (body-feminine-lean-podium.png),
+ * the way the seated ones are named -seated. Every standing pose keeps the
+ * head where the standing body has it; every seated pose sits on a chair
+ * facing front.
+ */
+export const BODY_POSES = [
+  "standing",
+  "seated",
+  "arms-folded",
+  "explaining",
+  "hand-on-hip",
+  "podium",
+  "seated-leaning",
+  "seated-legs-crossed",
+] as const;
+export type BodyPose = (typeof BODY_POSES)[number];
+/** The poses the pack keeps in its `poses` tables: all but the first two. */
+export type NamedBodyPose = Exclude<BodyPose, "standing" | "seated">;
+
+const SEATED_POSES: ReadonlySet<BodyPose> = new Set([
+  "seated",
+  "seated-leaning",
+  "seated-legs-crossed",
+]);
+
+export function isSeatedPose(pose: BodyPose): boolean {
+  return SEATED_POSES.has(pose);
+}
+
+/**
+ * The poses tried, in order, until one has art: the pose itself, then plain
+ * seated for a seated pose, then standing. Standing always has art.
+ */
+export function poseFallbacks(pose: BodyPose): readonly BodyPose[] {
+  if (pose === "standing") return ["standing"];
+  if (pose === "seated") return ["seated", "standing"];
+  return isSeatedPose(pose) ? [pose, "seated", "standing"] : [pose, "standing"];
+}
+
+/**
+ * Which way a pose's painting turns toward: the side of the picture its
+ * gesture, lean or gaze points to. A mirrored figure turns the other way.
+ * PLACEHOLDER(wave2): the posed paintings are not in yet; a pack entry's own
+ * `toward` wins over this.
+ */
+export const POSE_PAINTED_TOWARD: Readonly<
+  Record<BodyPose, "left" | "right" | null>
+> = {
+  standing: null,
+  seated: null,
+  "arms-folded": "right",
+  explaining: "right",
+  "hand-on-hip": "right",
+  podium: null,
+  "seated-leaning": "right",
+  "seated-legs-crossed": "right",
+};
 
 export interface PackBody {
   readonly file: string;
@@ -99,9 +156,17 @@ export interface PackBody {
   readonly skin: MeasuredRamp;
 }
 
-export interface PackPresentation {
-  /** The average body's anchors: every head and hair layer is drawn for them. */
-  readonly canonical: BodyAnchors;
+/**
+ * Which way the whole person is turned: facing front, or turned three
+ * quarters (body, outfit, face and hair all painted turned). A turned view is
+ * painted turned one way (PackView.toward) and mirrored for the other.
+ */
+export const BODY_VIEWS = ["front", "three-quarter"] as const;
+export type BodyView = (typeof BODY_VIEWS)[number];
+export type TurnedBodyView = Exclude<BodyView, "front">;
+
+/** Every pose's bodies, as painted in one view. */
+export interface PackPostures {
   readonly bodies: Readonly<Record<BodyBuild, PackBody>>;
   /**
    * The same people seated facing front: the art team's seated bodies,
@@ -112,28 +177,61 @@ export interface PackPresentation {
       Record<BodyBuild, PackBody & { readonly seatRow: number }>
     >;
   };
-  readonly faces: readonly {
-    readonly id: string;
-    readonly file: string;
-    readonly skin: MeasuredRamp;
-  }[];
-  readonly hair: readonly {
-    readonly id: string;
-    readonly back: string;
-    readonly front: string;
-  }[];
-  /** Every outfit style, in the order the creator's arrows step through. */
-  readonly outfits: readonly PackOutfit[];
+  /**
+   * The other poses, as they are painted: each body in the pose (a seated
+   * pose's bodies carry their seatRow), and which way the painting turns.
+   */
+  readonly poses?: Partial<Readonly<Record<NamedBodyPose, PackPose>>>;
 }
 
-export interface PackOutfit {
+export interface PackFace {
   readonly id: string;
-  /** Player-facing name, for the creator's Outfit arrows. */
-  readonly label: string;
-  /** Where and when it is worn (see OutfitTag); an outfit may fit several. */
-  readonly tags: readonly OutfitTag[];
-  /** The palette (PART_PALETTES) of each garment part that takes its own color. */
-  readonly parts: Readonly<Record<string, string>>;
+  readonly file: string;
+  readonly skin: MeasuredRamp;
+}
+
+export interface PackHair {
+  readonly id: string;
+  readonly back: string;
+  readonly front: string;
+}
+
+/**
+ * The whole person turned: every piece of them painted in the view, file
+ * names ending in the view id (body-feminine-lean-three-quarter.png,
+ * body-feminine-lean-explaining-three-quarter.png, face-...-three-quarter.png).
+ */
+export interface PackView extends PackPostures {
+  /** The average body's anchors in this view, for its heads and hair. */
+  readonly canonical: BodyAnchors;
+  /** Faces and hair by the same ids as the front ones. */
+  readonly faces: readonly PackFace[];
+  readonly hair: readonly PackHair[];
+  /** The side of the picture the painted person is turned toward. */
+  readonly toward: "left" | "right";
+}
+
+export interface PackPresentation extends PackPostures {
+  /** The average body's anchors: every head and hair layer is drawn for them. */
+  readonly canonical: BodyAnchors;
+  readonly faces: readonly PackFace[];
+  readonly hair: readonly PackHair[];
+  /** Every outfit style, in the order the creator's arrows step through. */
+  readonly outfits: readonly PackOutfit[];
+  /** The whole person turned, when it has been painted. */
+  readonly views?: Partial<Readonly<Record<TurnedBodyView, PackView>>>;
+}
+
+export interface PackPose {
+  readonly bodies: Partial<
+    Readonly<Record<BodyBuild, PackBody & { readonly seatRow?: number }>>
+  >;
+  /** Overrides POSE_PAINTED_TOWARD for this painting. */
+  readonly toward?: "left" | "right" | null;
+}
+
+/** An outfit's paintings in every pose, in one view. */
+export interface OutfitPostures {
   /**
    * Per body: the layer, a mask of the body it hides, a mask per garment
    * part, and a mask of the skin the outfit shows (hands, legs, an open
@@ -142,6 +240,20 @@ export interface PackOutfit {
   readonly builds: OutfitBuilds;
   /** The same outfit on the seated bodies, when it has been painted seated. */
   readonly seated?: OutfitBuilds;
+  /** The same outfit in each other pose it has been painted in. */
+  readonly poses?: Partial<Readonly<Record<NamedBodyPose, OutfitBuilds>>>;
+}
+
+export interface PackOutfit extends OutfitPostures {
+  readonly id: string;
+  /** Player-facing name, for the creator's Outfit arrows. */
+  readonly label: string;
+  /** Where and when it is worn (see OutfitTag); an outfit may fit several. */
+  readonly tags: readonly OutfitTag[];
+  /** The palette (PART_PALETTES) of each garment part that takes its own color. */
+  readonly parts: Readonly<Record<string, string>>;
+  /** The same outfit on the turned person, when it has been painted. */
+  readonly views?: Partial<Readonly<Record<TurnedBodyView, OutfitPostures>>>;
 }
 
 export type OutfitBuilds = Partial<
@@ -158,25 +270,143 @@ export type OutfitBuilds = Partial<
   >
 >;
 
+/** A pose's body for a build, or undefined when that body is not painted. */
+function poseBody(
+  postures: PackPostures,
+  pose: BodyPose,
+  build: BodyBuild,
+): (PackBody & { readonly seatRow?: number }) | undefined {
+  if (pose === "standing") return postures.bodies[build];
+  if (pose === "seated") return postures.seated?.bodies[build];
+  return postures.poses?.[pose]?.bodies[build];
+}
+
+function poseOutfit(
+  outfit: OutfitPostures,
+  pose: BodyPose,
+  build: BodyBuild,
+): OutfitBuilds[BodyBuild] {
+  if (pose === "standing") return outfit.builds[build];
+  if (pose === "seated") return outfit.seated?.[build];
+  return outfit.poses?.[pose]?.[build];
+}
+
+function outfitFiles(
+  outfit: NonNullable<OutfitBuilds[BodyBuild]>,
+): readonly string[] {
+  return [
+    outfit.file,
+    outfit.hides,
+    ...Object.values(outfit.regions ?? {}),
+    ...(outfit.skin ? [outfit.skin] : []),
+  ];
+}
+
 /**
- * The body and outfit pieces a recipe draws from, in its pose. A seated
- * recipe falls back to standing where the pack has no seated art.
+ * The pieces a recipe draws from, in its pose and view. The pose's fallbacks
+ * are tried in order (poseFallbacks), and at each pose the recipe's view and
+ * then the front: what a person is doing shows before which way they turn.
+ * A pose and view are drawn only when the pack has the body, the recipe's
+ * outfit, face and hair in them for the recipe's build, and `available` has
+ * every one of their files (every file, when omitted). Standing in front
+ * always draws.
  */
-export function posedPieces(pack: PackPresentation, recipe: EngineRecipe) {
+export function posedPieces(
+  pack: PackPresentation,
+  recipe: EngineRecipe,
+  available: (file: string) => boolean = () => true,
+) {
   const outfit = packOutfit(pack, recipe.outfit);
-  const seated =
-    recipe.pose === "seated" &&
-    pack.seated !== undefined &&
-    outfit?.seated?.[recipe.build] !== undefined;
-  return {
-    body: seated
-      ? pack.seated!.bodies[recipe.build]
-      : pack.bodies[recipe.build],
-    outfit: seated
-      ? outfit!.seated![recipe.build]
-      : outfit?.builds[recipe.build],
-    seated,
-  };
+  const face = pack.faces.find((f) => f.id === recipe.face) ?? pack.faces[0]!;
+  const hair = pack.hair.find((h) => h.id === recipe.hair) ?? pack.hair[0]!;
+  const views: readonly BodyView[] =
+    recipe.view && recipe.view !== "front" ? [recipe.view, "front"] : ["front"];
+  for (const pose of poseFallbacks(recipe.pose ?? "standing"))
+    for (const view of views) {
+      const turned = view === "front" ? undefined : pack.views?.[view];
+      if (view !== "front" && !turned) continue;
+      const postures: PackPostures = turned ?? pack;
+      const body = poseBody(postures, pose, recipe.build);
+      const outfitPostures =
+        outfit && (turned ? outfit.views?.[view as TurnedBodyView] : outfit);
+      const worn = outfitPostures
+        ? poseOutfit(outfitPostures, pose, recipe.build)
+        : undefined;
+      const viewFace = turned
+        ? turned.faces.find((f) => f.id === face.id)
+        : face;
+      const viewHair = turned
+        ? turned.hair.find((h) => h.id === hair.id)
+        : hair;
+      if (!body || !viewFace || !viewHair) continue;
+      const plain = pose === "standing" && view === "front";
+      if (
+        !plain &&
+        ((outfit && !worn) ||
+          ![
+            body.file,
+            ...(worn ? outfitFiles(worn) : []),
+            ...(turned ? [viewFace.file, viewHair.back, viewHair.front] : []),
+          ].every(available))
+      )
+        continue;
+      return {
+        body,
+        outfit: worn,
+        face: viewFace,
+        hair: viewHair,
+        /** The anchors every head and hair layer in this view is drawn for. */
+        canonical: turned?.canonical ?? pack.canonical,
+        pose,
+        view,
+        seated: isSeatedPose(pose),
+        /** The side of the picture the drawn figure turns toward. */
+        toward: towardOf(pack, pose, view, recipe.mirrored === true),
+      };
+    }
+  // Standing in front has no condition above: the loop always returns.
+  throw new Error("unreachable: standing in front always resolves");
+}
+
+function towardOf(
+  pack: PackPresentation,
+  pose: BodyPose,
+  view: BodyView,
+  mirrored: boolean,
+): "left" | "right" | null {
+  const posed = pack.views?.[view as TurnedBodyView] ?? pack;
+  const painted =
+    view !== "front"
+      ? pack.views![view]!.toward
+      : pose === "standing" || pose === "seated"
+        ? POSE_PAINTED_TOWARD[pose]
+        : posed.poses?.[pose]?.toward !== undefined
+          ? posed.poses[pose]!.toward!
+          : POSE_PAINTED_TOWARD[pose];
+  if (!painted || !mirrored) return painted;
+  return painted === "left" ? "right" : "left";
+}
+
+/**
+ * Whether a person must be mirrored to turn toward a point: a figure drawn
+ * turned right (in the pose and view the recipe actually resolves to) is
+ * mirrored for a point on its left, and the reverse. A figure that turns
+ * neither way is never mirrored.
+ */
+export function mirrorToFace(
+  pack: PackPresentation,
+  recipe: EngineRecipe,
+  fromXPercent: number,
+  towardXPercent: number,
+  available?: (file: string) => boolean,
+): boolean {
+  const { toward } = posedPieces(
+    pack,
+    { ...recipe, mirrored: false },
+    available,
+  );
+  if (!toward || towardXPercent === fromXPercent) return false;
+  return (towardXPercent < fromXPercent ? "left" : "right") !== toward;
 }
 
 export interface PeoplePackManifest {
@@ -288,8 +518,12 @@ export interface EngineRecipe {
   readonly outfit: string;
   /** Fabric color per garment part of the outfit (PART_PALETTES). */
   readonly colors?: Readonly<Record<string, string>>;
-  /** Standing unless the place calls for sitting. */
+  /** Standing unless the place calls for sitting or the scene for a pose. */
   readonly pose?: BodyPose;
+  /** Facing front unless the scene turns them (pose-chooser.ts). */
+  readonly view?: BodyView;
+  /** The whole figure flipped left to right, to turn the other way. */
+  readonly mirrored?: boolean;
 }
 
 export function engineRecipeKey(recipe: EngineRecipe): string {
@@ -302,6 +536,8 @@ export function engineRecipeKey(recipe: EngineRecipe): string {
     recipe.hairColor,
     recipe.outfit,
     recipe.pose ?? "standing",
+    ...(recipe.view && recipe.view !== "front" ? [recipe.view] : []),
+    ...(recipe.mirrored ? ["mirrored"] : []),
     ...Object.entries(recipe.colors ?? {})
       .sort()
       .map(([part, color]) => `${part}=${color}`),
@@ -312,25 +548,47 @@ export function engineRecipeKey(recipe: EngineRecipe): string {
 export function recipeFiles(
   manifest: PeoplePackManifest,
   recipe: EngineRecipe,
+  available?: (file: string) => boolean,
 ): readonly string[] {
   const pack = manifest.presentations[recipe.presentation];
-  const face = pack.faces.find((f) => f.id === recipe.face) ?? pack.faces[0]!;
-  const hair = pack.hair.find((h) => h.id === recipe.hair) ?? pack.hair[0]!;
-  const { body, outfit } = posedPieces(pack, recipe);
+  const { body, outfit, face, hair } = posedPieces(pack, recipe, available);
   return [
     body.file,
     face.file,
     hair.back,
     hair.front,
-    ...(outfit
-      ? [
-          outfit.file,
-          outfit.hides,
-          ...Object.values(outfit.regions ?? {}),
-          ...(outfit.skin ? [outfit.skin] : []),
-        ]
-      : []),
+    ...(outfit ? outfitFiles(outfit) : []),
   ];
+}
+
+/** The raster flipped left to right. */
+function mirrorRaster(raster: Raster): Raster {
+  const { width, height, data } = raster;
+  const out = new Uint8ClampedArray(data.length);
+  for (let y = 0; y < height; y += 1)
+    for (let x = 0; x < width; x += 1) {
+      const from = (y * width + x) * 4;
+      const to = (y * width + (width - 1 - x)) * 4;
+      out.set(data.subarray(from, from + 4), to);
+    }
+  return { width, height, data: out };
+}
+
+/** Anchors measured on a raster, as they fall on its mirror image. */
+export function mirrorAnchors(
+  anchors: BodyAnchors,
+  width: number,
+): BodyAnchors {
+  const flip = (x: number) => width - 1 - x;
+  return {
+    ...anchors,
+    neck: { ...anchors.neck, centerX: flip(anchors.neck.centerX) },
+    head: {
+      ...anchors.head,
+      left: flip(anchors.head.right),
+      right: flip(anchors.head.left),
+    },
+  };
 }
 
 /** The layer with one garment part (its mask's opaque pixels) recolored. */
@@ -365,18 +623,22 @@ export function composeEnginePerson(
   manifest: PeoplePackManifest,
   image: (file: string) => Raster,
   recipe: EngineRecipe,
+  available?: (file: string) => boolean,
 ): {
   readonly raster: Raster;
   readonly anchors: BodyAnchors;
+  /** The pose drawn: the recipe's, or the one it fell back to. */
+  readonly pose: BodyPose;
+  /** The view drawn: the recipe's, or front when it has no art. */
+  readonly view: BodyView;
   /** For a seated person: the row the seat is at. */
   readonly seatRow?: number;
 } {
   const pack = manifest.presentations[recipe.presentation];
-  const { body, outfit, seated } = posedPieces(pack, recipe);
+  const { body, outfit, face, hair, canonical, pose, view, seated } =
+    posedPieces(pack, recipe, available);
   const ramp =
     SKIN_RAMPS[Math.min(SKIN_RAMPS.length, Math.max(1, recipe.shade)) - 1]!;
-  const face = pack.faces.find((f) => f.id === recipe.face) ?? pack.faces[0]!;
-  const hair = pack.hair.find((h) => h.id === recipe.hair) ?? pack.hair[0]!;
   const color = HAIR_COLORS.find((c) => c.id === recipe.hairColor);
   const front = image(hair.front);
   const tint = (layer: Raster) =>
@@ -387,7 +649,7 @@ export function composeEnginePerson(
     {
       slot: "back-hair",
       raster: tint(image(hair.back)),
-      authoredFor: pack.canonical,
+      authoredFor: canonical,
     },
     { slot: "body", raster: recolorSkin(image(body.file), ramp, body.skin) },
   ];
@@ -412,17 +674,29 @@ export function composeEnginePerson(
     {
       slot: "head",
       raster: recolorSkin(image(face.file), ramp, face.skin),
-      authoredFor: pack.canonical,
+      authoredFor: canonical,
     },
     {
       slot: "front-hair",
       raster: tint(front),
-      authoredFor: pack.canonical,
+      authoredFor: canonical,
     },
   );
-  return {
-    raster: assemblePerson(body.anchors, layers),
-    anchors: body.anchors,
-    ...(seated ? { seatRow: pack.seated!.bodies[recipe.build].seatRow } : {}),
-  };
+  const raster = assemblePerson(body.anchors, layers);
+  const seatRow = seated ? body.seatRow : undefined;
+  return recipe.mirrored
+    ? {
+        raster: mirrorRaster(raster),
+        anchors: mirrorAnchors(body.anchors, raster.width),
+        pose,
+        view,
+        ...(seatRow === undefined ? {} : { seatRow }),
+      }
+    : {
+        raster,
+        anchors: body.anchors,
+        pose,
+        view,
+        ...(seatRow === undefined ? {} : { seatRow }),
+      };
 }
