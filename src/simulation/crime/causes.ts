@@ -1,7 +1,4 @@
-import {
-  macroConditionsAt,
-  macroScopeForJurisdiction,
-} from "../macro-economy/readers";
+import { webFactor } from "../outcome-web/combine";
 import type { EntityId, IsoDate, World } from "../types";
 import type { CrimeOffense } from "./contract";
 
@@ -135,7 +132,8 @@ export interface CrimeRateReading {
 
 /**
  * How much the causes the game can read move one offense in one place on one
- * date. 1 means the base rate.
+ * date. 1 means the base rate. The causes are the outcome web's links into
+ * `safety.crime.<offense>`; the unemployment rule above is the first of them.
  */
 export function crimeRateMultiplier(
   world: World,
@@ -143,21 +141,20 @@ export function crimeRateMultiplier(
   offense: CrimeOffense,
   asOf: IsoDate,
 ): CrimeRateReading {
-  const rule = UNRESEARCHED_UNEMPLOYMENT_EFFECT;
-  const causes: { key: string; factor: number }[] = [];
-  const record =
-    macroConditionsAt(world, macroScopeForJurisdiction(jurisdictionId), asOf) ??
-    macroConditionsAt(world, "national", asOf);
-  if (record) {
-    const factor =
-      1 +
-      (record.unemploymentPct - rule.baselinePct) * rule.perPointAbove[offense];
-    causes.push({ key: "cause-unemployment", factor });
-  }
-  const product = causes.reduce((total, cause) => total * cause.factor, 1);
-  return {
-    offense,
-    multiplier: Math.min(rule.ceiling, Math.max(rule.floor, product)),
-    causes,
-  };
+  const reading = webFactor(
+    world,
+    `safety.crime.${offense}`,
+    jurisdictionId,
+    asOf,
+  );
+  const causes = reading.chain
+    .filter((step) => step.status === "counted")
+    .map((step) => ({
+      key:
+        step.from === "economy.unemployment-rate"
+          ? "cause-unemployment"
+          : step.linkId,
+      factor: step.amount,
+    }));
+  return { offense, multiplier: reading.factor, causes };
 }
