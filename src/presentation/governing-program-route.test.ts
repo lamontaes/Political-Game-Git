@@ -190,9 +190,12 @@ describe("GOVERNING D1: an enacted appropriation becomes a program the office co
     // amount its own clause states.
     // Bill days fall through the spring; wait for an appropriation filed
     // while this governor holds the office, not a predecessor's.
+    // Every legislature now files bills on the same clock, so the bill must
+    // be this state's: another state's appropriation never reaches this desk.
     const filedAppropriation = (w: World) =>
       (w.history.legislativeMeasures ?? []).find(
         (measure) =>
+          measure.jurisdictionId === office.jurisdictionId &&
           measure.subjectClass === "appropriation" &&
           measure.introducedAt >= "2027-01-10",
       );
