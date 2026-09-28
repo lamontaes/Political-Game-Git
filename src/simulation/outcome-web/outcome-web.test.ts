@@ -80,6 +80,8 @@ describe("the outcome web table", () => {
       expect.arrayContaining([
         "unemployment-to-burglary",
         "unemployment-to-assault",
+        // Births read the web too: unemployment nine months earlier.
+        "unemployment-to-births",
       ]),
     );
     for (const row of built) {
