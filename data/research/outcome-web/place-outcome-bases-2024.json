@@ -269,6 +269,72 @@
     "minPct": 5,
     "maxPct": 75
    }
+  },
+  "voting.turnout-pct": {
+   "name": "Share of eligible voters who voted in a presidential election",
+   "unit": "percent of the voting-eligible population, total ballots counted",
+   "source": "University of Florida Election Lab, 2024 General Election Turnout v0.4 (VEP turnout rate).",
+   "places": {
+    "US-AK": 63.55,
+    "US-AL": 58.7,
+    "US-AR": 54.06,
+    "US-AZ": 63.88,
+    "US-CA": 62.26,
+    "US-CO": 73.4,
+    "US-CT": 67.0,
+    "US-DC": 64.94,
+    "US-DE": 66.78,
+    "US-FL": 67.4,
+    "US-GA": 67.97,
+    "US-HI": 50.26,
+    "US-IA": 70.95,
+    "US-ID": 64.18,
+    "US-IL": 63.51,
+    "US-IN": 59.05,
+    "US-KS": 63.32,
+    "US-KY": 62.9,
+    "US-LA": 61.15,
+    "US-MA": 68.44,
+    "US-MD": 69.43,
+    "US-ME": 74.55,
+    "US-MI": 74.85,
+    "US-MN": 76.5,
+    "US-MO": 64.62,
+    "US-MS": 57.75,
+    "US-MT": 68.35,
+    "US-NC": 70.65,
+    "US-ND": 63.89,
+    "US-NE": 68.61,
+    "US-NH": 73.74,
+    "US-NJ": 67.51,
+    "US-NM": 59.71,
+    "US-NV": 66.15,
+    "US-NY": 60.5,
+    "US-OH": 65.4,
+    "US-OK": 53.46,
+    "US-OR": 71.87,
+    "US-PA": 71.44,
+    "US-RI": 63.32,
+    "US-SC": 62.26,
+    "US-SD": 64.51,
+    "US-TN": 57.92,
+    "US-TX": 56.83,
+    "US-UT": 64.71,
+    "US-VA": 71.46,
+    "US-VT": 70.75,
+    "US-WA": 70.23,
+    "US-WI": 76.66,
+    "US-WV": 55.56,
+    "US-WY": 61.23
+   },
+   "drift": {
+    "monthlySdLogit": 0.01,
+    "nationalShare": 0.7,
+    "waveMonthlyChance": 0.00125,
+    "waveSdLogit": 0.25,
+    "minPct": 30,
+    "maxPct": 90
+   }
   }
  },
  "defaultDrift": {
@@ -278,5 +344,8 @@
   "waveSdLogit": 0.3,
   "minPct": 0.5,
   "maxPct": 60
+ },
+ "pending": {
+  "housing.homelessness-per-10k": "HUD 2024 AHAR Part 1, state table (huduser.gov blocks automated reads; a lane with a browser or the owner can pull it)."
  }
 }

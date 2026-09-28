@@ -127,6 +127,10 @@ describe("place outcomes", () => {
         (record) => record.measure === "school.math-proficient-pct",
       ).length,
     ).toBe(51);
+    expect(
+      records.filter((record) => record.measure === "voting.turnout-pct")
+        .length,
+    ).toBe(51);
     for (const record of records) {
       expect(record.multiplier, record.placeKey).toBe(1);
       expect(record.value, record.placeKey).toBe(record.base);
