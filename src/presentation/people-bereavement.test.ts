@@ -11,8 +11,10 @@ import {
   BEREAVEMENT_NOTICE_EVENT,
   applyDeathNotices,
   relationWord,
+  tellOfDeath,
 } from "../simulation/people-bereavement";
 import type { PersonDeathRecipientNotice } from "../simulation/people-bereavement";
+import { crisisPersonDeathRecipientNotices } from "../simulation/crisis/notices";
 import { recordFamilyAddition } from "../simulation/people-family";
 import {
   ensurePeopleTraits,
@@ -136,6 +138,94 @@ describe("PEOPLE B1: what a family learns when somebody dies", () => {
     expect(serializeWorld(applyDeathNotices(told, notices))).toBe(
       serializeWorld(told),
     );
+  });
+
+  it("tells current-life relatives the day the death is written, and a Day does not tell them again", () => {
+    // Each death writer calls tellOfDeath when it records a death during play
+    // (crisis/mortality.ts, disaster.ts, international.ts). This fixture
+    // records the death directly, so it makes the same call.
+    const recipients = crisisPersonDeathRecipientNotices(dead, {
+      afterSequence: death.sequence - 1,
+    }).filter((entry) => entry.deathRecordId === death.id);
+    const outside = dead.personOrder.find(
+      (id) =>
+        id !== sibling &&
+        !recipients.some((entry) => entry.recipientPersonId === id),
+    );
+    expect(outside).toBeDefined();
+    // The two relatives the fixture recorded are among those the reader names,
+    // so the count below is not the reader agreeing with itself about nobody.
+    const named = recipients.map((entry) => entry.recipientPersonId);
+    expect(named).toEqual(expect.arrayContaining([player, other]));
+    const afterDay = letAdultTimePass(tellOfDeath(dead, death.id), 1);
+    const learned = afterDay.history.events.filter(
+      (event) =>
+        event.type === BEREAVEMENT_NOTICE_EVENT &&
+        event.involvedEntityIds.includes(sibling),
+    );
+    expect(learned).toHaveLength(recipients.length);
+    expect(
+      new Set(
+        learned.map(
+          (event) =>
+            event.participants.find((entry) => entry.role === "focus:told")!
+              .personId,
+        ),
+      ).size,
+    ).toBe(recipients.length);
+    expect(
+      afterDay.history.knowledge.some(
+        (entry) => entry.personId === player && entry.eventId === death.eventId,
+      ),
+    ).toBe(true);
+    expect(
+      afterDay.history.knowledge.some(
+        (entry) => entry.personId === other && entry.eventId === death.eventId,
+      ),
+    ).toBe(true);
+    expect(
+      afterDay.history.knowledge.some(
+        (entry) =>
+          entry.personId === outside && entry.eventId === death.eventId,
+      ),
+    ).toBe(false);
+    const anotherDay = letAdultTimePass(afterDay, 1);
+    expect(
+      anotherDay.history.events.filter(
+        (event) =>
+          event.type === BEREAVEMENT_NOTICE_EVENT &&
+          event.involvedEntityIds.includes(sibling),
+      ),
+    ).toHaveLength(recipients.length);
+    assertWorldIntegrity(anotherDay);
+  });
+
+  it("does not bring a generated prelife death into this life's notices", () => {
+    const beforeStart = recordPersonDeath(second.world, {
+      stableKey: "fixture:grief-prelife-death",
+      personId: sibling,
+      diedAt: yearsBefore(second.world.startedAt, 1) as never,
+      causeKey: "cause:people-fixture",
+      sourceEntityIds: [second.world.id],
+      summary: "Died before this life began.",
+      provenance: { kind: "authored", note: "PEOPLE prelife death fixture." },
+    });
+    const prelifeDeath = beforeStart.history.personDeaths.find(
+      (entry) => entry.personId === sibling,
+    )!;
+    const afterDay = letAdultTimePass(beforeStart, 1);
+    expect(
+      afterDay.history.events.some(
+        (event) =>
+          event.type === BEREAVEMENT_NOTICE_EVENT &&
+          event.involvedEntityIds.includes(sibling),
+      ),
+    ).toBe(false);
+    expect(
+      afterDay.history.knowledge.some(
+        (entry) => entry.eventId === prelifeDeath.eventId,
+      ),
+    ).toBe(false);
   });
 
   it("keeps a private cause private, and says so where it was disclosed", () => {

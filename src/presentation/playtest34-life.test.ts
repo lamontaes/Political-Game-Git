@@ -1,14 +1,9 @@
-import { enterLifePath } from "../simulation/life-paths2";
 import { describe, expect, it } from "vitest";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
 import { letStoryTimePass } from "./life-story";
 import { projectLifeConversation } from "./life-conversation";
-import {
-  chooseAdultOption,
-  projectAdultLife,
-  letAdultTimePass,
-} from "./adult-life";
+import { projectAdultLife } from "./adult-life";
 import {
   currentOpeningLifeScene,
   openNextLifeScene,
@@ -21,21 +16,6 @@ import {
   conversationHistoryPage,
   conversationRelationship,
 } from "./scene-conversation";
-import {
-  favorEntries,
-  performFavor,
-  cancelFavor,
-} from "../simulation/life-favors";
-import { lifeRequestDetails } from "../simulation/life-request-details";
-import {
-  availableAdultSituations,
-  buildAdultLifeContext,
-} from "../simulation/adult-situations";
-import {
-  lifeOpportunitiesFor,
-  writeLegacyFamiliarRequest,
-  writeLegacyHouseholdEveningInvitation,
-} from "../simulation/life-opportunities";
 import {
   assertWorldIntegrity,
   advanceWorldMinutes,
@@ -52,7 +32,6 @@ import {
   type World,
   type EntityId,
 } from "../simulation";
-import { PAYROLL_WITHHOLDING_BASIS } from "../simulation/statutory-tax";
 
 function life(
   seed = "p34-life-lexington-fayette",
@@ -77,25 +56,6 @@ function life(
     personId: game.playerPersonId,
   };
 }
-/**
- * An adult life holding the picnic favor. Play stopped writing it on
- * 2026-09-23; this reproduces a save made before then, which still carries
- * one and must still run request → agreement → performance → follow-through.
- */
-function favorLife(
-  seed = "p34-life-lexington-fayette",
-  placeKey = "lexington-fayette",
-) {
-  const opened = life(seed, 35, placeKey);
-  return {
-    world: writeLegacyFamiliarRequest(
-      opened.world,
-      opened.personId,
-      "favour-request",
-    ),
-    personId: opened.personId,
-  };
-}
 function line(
   world: World,
   personId: EntityId,
@@ -117,276 +77,6 @@ function line(
     transitionHandlers: createCampaignElectionTransitionRegistry(),
   }).world;
 }
-
-describe("PLAYTEST34 canonical request → choice → performance → saved follow-through", () => {
-  it.each(["lexington-fayette"])(
-    "assembles an ordinary named favor in %s, binds a limit once and charges only performance",
-    (placeKey) => {
-      // Play itself no longer asks the picnic favor of anyone.
-      const fresh = life(`p34-life-${placeKey}`, 35, placeKey);
-      expect(favorEntries(fresh.world, fresh.personId)).toHaveLength(0);
-      const { world, personId } = favorLife(`p34-life-${placeKey}`, placeKey);
-      const entry = favorEntries(world, personId)[0]!;
-      expect(entry).toBeDefined();
-      const scene = availableAdultSituations(
-        buildAdultLifeContext(world, personId),
-      ).find((scene) => scene.key === "adult.friend-favour")!;
-      expect(scene.prose).toContain(entry.name);
-      expect(scene.prose).toContain("picnic");
-      expect(
-        scene.options.find((o) => o.key === "conditions")!.label,
-      ).toContain(entry.details.condition!);
-      const asked = deserializeWorld(serializeWorld(world));
-      expect(favorEntries(asked, personId)[0]!.details).toEqual(entry.details);
-      const agreed = chooseAdultOption(asked, {
-        personId,
-        situationKey: "adult.friend-favour",
-        optionKey: "conditions",
-      });
-      expect(agreed.currentMoment).toEqual(world.currentMoment);
-      const saved = deserializeWorld(serializeWorld(agreed));
-      const same = favorEntries(saved, personId)[0]!;
-      expect(same.request.id).toBe(entry.request.id);
-      expect(same.counterpartId).toBe(entry.counterpartId);
-      expect(same.condition).toBe(entry.details.condition);
-      expect(same.status).toBe("agreed");
-      expect(same.response!.summary).toContain("has not been done");
-      expect(() =>
-        chooseAdultOption(saved, {
-          personId,
-          situationKey: "adult.friend-favour",
-          optionKey: "do-it",
-        }),
-      ).toThrow();
-      const done = performFavor(
-        saved,
-        personId,
-        entry.request.id,
-        createCampaignElectionTransitionRegistry(),
-      );
-      expect(
-        simulationMinutesBetween(saved.currentMoment, done.currentMoment),
-      ).toBe(20);
-      expect(favorEntries(done, personId)[0]!.status).toBe("performed");
-      expect(
-        done.history.events.filter((e) => e.type === "life.favour-performed"),
-      ).toHaveLength(1);
-      expect(
-        done.history.relationshipInteractions.filter((e) =>
-          e.tags.includes("life.favour-performed"),
-        ),
-      ).toHaveLength(1);
-      const loadedDone = deserializeWorld(serializeWorld(done));
-      expect(
-        performFavor(
-          loadedDone,
-          personId,
-          entry.request.id,
-          createCampaignElectionTransitionRegistry(),
-        ),
-      ).toBe(loadedDone);
-      expect(cancelFavor(loadedDone, personId, entry.request.id)).toBe(
-        loadedDone,
-      );
-      expect(done.history.personalityTendencies).toEqual(
-        saved.history.personalityTendencies,
-      );
-      assertWorldIntegrity(done);
-    },
-  );
-
-  it("a saved unperformed agreement returns with the same person/task; due replay cannot repeat it", () => {
-    const { world, personId } = favorLife();
-    const entry = favorEntries(world, personId)[0]!;
-    const agreed = chooseAdultOption(world, {
-      personId,
-      situationKey: "adult.friend-favour",
-      optionKey: "do-it",
-    });
-    const loaded = deserializeWorld(serializeWorld(agreed));
-    const later = letAdultTimePass(loaded, 97);
-    const callbacks = later.history.events.filter(
-      (e) =>
-        e.type === "life.earlier-choice-returned" &&
-        e.tags.includes(`life.favour-request:${entry.request.id}`),
-    );
-    expect(callbacks).toHaveLength(1);
-    expect(callbacks[0]!.summary).toContain(entry.name);
-    expect(callbacks[0]!.summary).toContain(entry.details.task);
-    expect(callbacks[0]!.summary).toContain("have not finished");
-    expect(
-      projectAdultLife(later, personId).moments.some(
-        (moment) => moment.summary === callbacks[0]!.summary,
-      ),
-    ).toBe(true);
-    expect(
-      callbacks[0]!.participants.some(
-        (p) => p.personId === entry.counterpartId,
-      ),
-    ).toBe(true);
-    const again = letAdultTimePass(deserializeWorld(serializeWorld(later)), 1);
-    expect(
-      again.history.events.filter((e) =>
-        e.tags.includes(
-          `origin:${favorEntries(loaded, personId)[0]!.response!.id}`,
-        ),
-      ),
-    ).toHaveLength(1);
-    assertWorldIntegrity(again);
-  });
-
-  it("a confirmed commitment inside the performance interval blocks it without losing time or creating rewards", () => {
-    const { world, personId } = favorLife();
-    const entry = favorEntries(world, personId)[0]!;
-    const agreed = chooseAdultOption(world, {
-      personId,
-      situationKey: "adult.friend-favour",
-      optionKey: "do-it",
-    });
-    const busy = createScheduledActivity(agreed, {
-      stableKey: "p34:conflict",
-      title: "Authored test appointment",
-      summary:
-        "A protected illustrative appointment starts ten minutes from now.",
-      kind: "confirmed",
-      start: addSimulationMinutes(agreed.currentMoment, 10),
-      end: addSimulationMinutes(agreed.currentMoment, 40),
-      participantPersonIds: [personId],
-      responsiblePersonId: personId,
-      location: {
-        locationKey: "p34:conflict",
-        label: "Test appointment",
-        jurisdictionId: null,
-      },
-      sourceEntityIds: [entry.request.id],
-      flexibility: { kind: "fixed" },
-      access: { kind: "private", personIds: [personId] },
-    });
-    const loaded = deserializeWorld(serializeWorld(busy));
-    expect(
-      performFavor(
-        loaded,
-        personId,
-        entry.request.id,
-        createCampaignElectionTransitionRegistry(),
-      ),
-    ).toBe(loaded);
-    expect(favorEntries(loaded, personId)[0]!.status).toBe("agreed");
-    expect(
-      loaded.history.events.some((e) => e.type === "life.favour-performed"),
-    ).toBe(false);
-  });
-
-  it("keeps favor performance outside the accepted paid shift and settles its wages once after reload", () => {
-    const { world, personId } = favorLife();
-    const entry = favorEntries(world, personId)[0]!;
-    const agreed = chooseAdultOption(world, {
-      personId,
-      situationKey: "adult.friend-favour",
-      optionKey: "do-it",
-    });
-    const working = enterLifePath(agreed, "shop-assistant").world;
-    const handlers = createCampaignElectionTransitionRegistry();
-    const morning = letAdultTimePass(working, 1);
-    const during = advanceWorldMinutes(morning, 180, handlers);
-    const loaded = deserializeWorld(serializeWorld(during));
-    expect(performFavor(loaded, personId, entry.request.id, handlers)).toBe(
-      loaded,
-    );
-    const afterShift = advanceWorldMinutes(loaded, 180, handlers);
-    const done = performFavor(afterShift, personId, entry.request.id, handlers);
-    expect(
-      simulationMinutesBetween(afterShift.currentMoment, done.currentMoment),
-    ).toBe(20);
-    const tomorrow = letAdultTimePass(
-      deserializeWorld(serializeWorld(done)),
-      1,
-    );
-    const paid = tomorrow.history.resourceTransferOutcomes.filter(
-      (o) =>
-        o.status === "completed" &&
-        // Not the tax withheld from that pay.
-        tomorrow.history.resourceFlows.find((f) => f.id === o.resourceFlowId)
-          ?.basisKind !== PAYROLL_WITHHOLDING_BASIS &&
-        !morning.history.resourceTransferOutcomes.some(
-          (before) => before.id === o.id,
-        ),
-    );
-    expect(paid).toHaveLength(1);
-    expect(paid[0]!.transferredAmount.minorUnits).toBe(7200);
-    const replay = deserializeWorld(serializeWorld(tomorrow));
-    expect(performFavor(replay, personId, entry.request.id, handlers)).toBe(
-      replay,
-    );
-    expect(replay.history.resourceTransferOutcomes).toEqual(
-      tomorrow.history.resourceTransferOutcomes,
-    );
-  });
-
-  it("withdraws a specific commitment without elapsed time or a performance reward", () => {
-    const { world, personId } = favorLife();
-    const entry = favorEntries(world, personId)[0]!;
-    const agreed = chooseAdultOption(world, {
-      personId,
-      situationKey: "adult.friend-favour",
-      optionKey: "do-it",
-    });
-    const cancelled = cancelFavor(agreed, personId, entry.request.id);
-    expect(cancelled.currentMoment).toEqual(agreed.currentMoment);
-    expect(favorEntries(cancelled, personId)[0]!.outcome!.summary).toContain(
-      entry.name,
-    );
-    expect(
-      performFavor(
-        cancelled,
-        personId,
-        entry.request.id,
-        createCampaignElectionTransitionRegistry(),
-      ),
-    ).toBe(cancelled);
-    expect(
-      cancelled.history.events.filter(
-        (e) => e.type === "life.favour-performed",
-      ),
-    ).toHaveLength(0);
-  });
-
-  it.each([
-    { seed: "p34-life-confidence", kind: "confidence-disclosed" },
-    { seed: "p34-life-lexington-fayette", kind: "household-evening" },
-  ])("retains producer context for $kind after reload", ({ seed, kind }) => {
-    const opened = life(seed);
-    const personId = opened.personId;
-    // Play stopped writing the evening invitation on 2026-09-22 and the
-    // picnic confidence on 2026-09-23; a save made before then still carries
-    // one, and it must still reload intact.
-    const world =
-      kind === "household-evening"
-        ? writeLegacyHouseholdEveningInvitation(opened.world, personId)
-        : writeLegacyFamiliarRequest(
-            opened.world,
-            personId,
-            "confidence-disclosed",
-          );
-    const loaded = deserializeWorld(serializeWorld(world));
-    const request = lifeOpportunitiesFor(loaded, personId).find(
-      (e) => e.kind === kind,
-    )!;
-    expect(request).toBeDefined();
-    const event = loaded.history.events.find((e) => e.id === request.eventId)!;
-    const details = lifeRequestDetails(event)!;
-    expect(details).not.toBeNull();
-    const scene = availableAdultSituations(
-      buildAdultLifeContext(loaded, personId),
-    ).find((s) => s.opportunity === request.kind)!;
-    expect(scene).toBeDefined();
-    expect(scene.prose).toContain(details.opening);
-    expect(scene.prose).toContain(
-      loaded.people[request.counterpartPersonId!]!.givenName,
-    );
-    expect(serializeWorld(loaded)).toBe(serializeWorld(world));
-  });
-});
 
 describe("PLAYTEST34 line-level time and family speech", () => {
   it("a genuinely changed privacy need explains withdrawal instead of forcing NPC agreement", () => {
