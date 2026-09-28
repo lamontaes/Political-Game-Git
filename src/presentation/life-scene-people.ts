@@ -1,3 +1,4 @@
+import { workUniform } from "./work-uniform";
 import type { AppearanceMaterial } from "../simulation/appearance-material";
 import type { SceneSeatContact } from "../environment/environment-scene-spec";
 import type { EngineRecipe } from "./appearance-engine/pack";
@@ -647,6 +648,11 @@ export function planLifeScenePeople(
       peoplePackAvailable()
         ? engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
             wear: placeWear(sceneId, world.currentDate),
+            uniform: workUniform(
+              world,
+              person.personId,
+              placeWear(sceneId, world.currentDate),
+            ),
             ...(seated ? { pose: "seated" as const } : {}),
           })
         : null;

@@ -1,3 +1,4 @@
+import { workUniform } from "../presentation/work-uniform";
 import type { PersonRenderSnapshot } from "../presentation/person-render-snapshot";
 import { useSavedRenderSnapshot, useSavedWardrobe } from "./SavedAppearance";
 import { resolvePersonWardrobeContext } from "../presentation/person-visual-selection";
@@ -94,7 +95,10 @@ export function PersonPortrait({
    */
   const engine =
     !visualLibraries && peoplePackAvailable()
-      ? engineRecipeFor(person, world.currentDate, PEOPLE_PACK)
+      ? engineRecipeFor(person, world.currentDate, PEOPLE_PACK, {
+          // Their own portrait: in uniform when their job wears one.
+          uniform: workUniform(world, person.id, undefined),
+        })
       : null;
   if (engine) {
     return (
