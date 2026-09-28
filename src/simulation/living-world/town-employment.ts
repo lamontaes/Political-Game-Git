@@ -36,7 +36,10 @@ import { createOrganization, createWorkRelationships } from "../life";
 import type { CreateWorkRelationshipInput } from "../life";
 import { organizationProfileAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
-import { countyGeoidsForPlace } from "../government-units";
+import {
+  countyGeoidsForPlace,
+  countyGovernmentUnitsForPlace,
+} from "../government-units";
 import { drawCanonicalNameForGender } from "../people";
 import { nameCorpusVersionForWorld } from "../place-name-corpus";
 import { SeededRng } from "../rng";
@@ -213,6 +216,8 @@ interface NameContext {
   readonly town: string;
   readonly state: string;
   readonly family: string;
+  /** The county government's name, such as "Humphreys County". */
+  readonly county: string;
 }
 
 export interface Workplace {
@@ -616,6 +621,19 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     ],
   },
   {
+    // The clerk who keeps the county's records and takes filings. Only a
+    // town inside a county with a county government has one.
+    key: "county-clerk",
+    classification: "sector:local-government-office",
+    kind: "employment:public-service",
+    name: ({ county }) => `${county} Clerk's Office`,
+    outlets: 1,
+    roles: [
+      role("County clerk", "profession:county-clerk", 0, { minAge: 30 }),
+      role("Deputy county clerk", "occupation:office-clerk", 0),
+    ],
+  },
+  {
     key: "police",
     classification: "service:police",
     kind: "employment:public-safety",
@@ -721,6 +739,25 @@ export const TOWN_PART_TIME_SHARE: Readonly<Record<string, number>> = {
 };
 export const TOWN_PART_TIME_DEFAULT = 0.08;
 
+/**
+ * A county government's listed name as people say it: "COUNTY OF HUMPHREYS"
+ * is "Humphreys County", "PARISH OF ORLEANS" is "Orleans Parish".
+ */
+export function countyDisplayName(listed: string): string {
+  const title = (text: string) =>
+    text
+      .toLowerCase()
+      .split(" ")
+      .map((word) =>
+        word === "and" || word === "of"
+          ? word
+          : word.replace(/(^|-)([a-z])/g, (found) => found.toUpperCase()),
+      )
+      .join(" ");
+  const match = /^(.+?) OF (.+)$/.exec(listed.trim());
+  return match ? `${title(match[2]!)} ${title(match[1]!)}` : title(listed);
+}
+
 /** The town workplace an employer was written from, and the role held. */
 export function townWorkplaceFor(
   organizationStableKey: string,
@@ -814,6 +851,7 @@ const LOCAL_GROUP_WORKPLACES: Readonly<
  */
 const CIVIC_MINIMUM: readonly (readonly [string, string])[] = [
   ["city-hall", "City clerk"],
+  ["county-clerk", "County clerk"],
   ["city-hall", "City planner"],
   ["public-school", "Principal"],
   ["public-school", "Teacher"],
@@ -1061,6 +1099,11 @@ export function fillTownJobs(
     .split(",")
     .map((part) => part.trim());
   const corpusVersion = nameCorpusVersionForWorld(world, town);
+  // The county government the town mostly lies in, when it has one.
+  const countyUnit = place.sourceGeoid
+    ? countyGovernmentUnitsForPlace(place.sourceGeoid)[0]?.unit
+    : undefined;
+  const countyName = countyUnit ? countyDisplayName(countyUnit.name) : null;
   const weights = [...townWorkplaceWeights(town)].filter(([, w]) => w > 0);
   let next = world;
   const organizations = new Map<string, EntityId>();
@@ -1097,6 +1140,7 @@ export function fillTownJobs(
           name: workplace.name({
             town: townName,
             state: stateName,
+            county: countyName ?? townName,
             family: drawCanonicalNameForGender(
               rng.fork("family"),
               "unstated",
@@ -1185,6 +1229,7 @@ export function fillTownJobs(
   };
   const held = heldTownRoles(next, prefix);
   for (const [key, title] of CIVIC_MINIMUM) {
+    if (key === "county-clerk" && !countyName) continue;
     const workplace = WORKPLACE.get(key)!;
     const chosen = workplace.roles.find((entry) => entry.title === title)!;
     const organizationIds = existingOf(workplace);
