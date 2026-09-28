@@ -307,7 +307,8 @@ function readFamilies(world: World, town: EntityId): FamilyView {
       latestWork.set(status.workRelationshipId, status.status);
       if (
         status.status === "ended" &&
-        status.reason === TOWN_JOB_END_REASONS.laidOff &&
+        (status.reason === TOWN_JOB_END_REASONS.laidOff ||
+          status.reason === TOWN_JOB_END_REASONS.businessClosed) &&
         status.effectiveAt > yearAgo
       )
         endedWork.set(status.workRelationshipId, status.reason);

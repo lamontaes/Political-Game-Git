@@ -24,12 +24,15 @@ import {
   futureDueItemStateAt,
 } from "./future-transitions";
 import { publishPublicEvent } from "./public-information";
+import { recordLawExposure } from "./law-exposure";
+import { householdMembershipsAt } from "./life-queries";
 import { recordWorldEvent, assertWorldIntegrity } from "./world";
 import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
   IsoDate,
+  ResourcePositionOwner,
   World,
 } from "./types";
 import type {
@@ -593,12 +596,55 @@ export function taxCollectionTransition(
     reason,
   };
   next = append(next, "taxCollections", collection);
+  if (status === "collected" && transferred.minorUnits > 0)
+    next = exposePayer(next, base.payer, proposal.measureId, collection);
   if (status === "collected")
     next = publishPublicEvent(next, {
       stableKey: `${key}:publication`,
       sourceEventId: outcomeEventId,
     });
   return collectionResult(next, collection);
+}
+
+/** The people a collected tax reached: the payer, or the household's residents. */
+function exposePayer(
+  world: World,
+  payer: ResourcePositionOwner,
+  measureId: EntityId,
+  collection: TaxCollectionRecord,
+): World {
+  const personIds =
+    payer.kind === "person"
+      ? [payer.personId]
+      : payer.kind === "household"
+        ? world.history.householdMemberships
+            .filter((row) => row.householdId === payer.householdId)
+            .map((row) => row.personId)
+            .filter(
+              (personId, index, all) =>
+                all.indexOf(personId) === index &&
+                householdMembershipsAt(world, personId).some(
+                  (active) =>
+                    active.membership.householdId === payer.householdId,
+                ),
+            )
+        : [];
+  let next = world;
+  for (const personId of personIds)
+    next = recordLawExposure(next, {
+      stableKey: `${collection.stableKey}:exposure:${personId}`,
+      personId,
+      measureId,
+      channel: "tax-payment",
+      direction: "cost",
+      amount: collection.transferredAmount,
+      cadence: "one-time",
+      sourceRecordId: collection.id,
+      // A household's residents each carry their own row, so partners in it
+      // are not also family-exposed.
+      includeFamily: payer.kind === "person",
+    });
+  return next;
 }
 
 function collectionResult(

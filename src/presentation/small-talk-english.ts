@@ -1,5 +1,6 @@
 import { ageOnDate } from "../simulation";
 import { readRelationshipStanding } from "../simulation/relationship-standing";
+import type { OfficialViewRecord } from "../simulation/types";
 import type { EntityId, HistoricalEvent, World } from "../simulation";
 import {
   composeGroundedLine,
@@ -320,5 +321,229 @@ export function matterUninformedLine(
   );
 }
 
+/*
+ * A person saying what they think of an official over a law that reached them
+ * (spec 5, "conversation lines"). Every clause copies a recorded fact: who
+ * acted, how (voted for, voted against, signed), the law's short title,
+ * whether the speaker blames or credits them, and how it reached the speaker
+ * (their own money, a family member's, or what a friend told them). Nothing
+ * shows the size of the view as a number. Drafted for Lamontae's editorial
+ * review; not yet reviewed.
+ */
+const OFFICIAL_VIEW: ComposedLineBank = {
+  key: "small-talk.official-view",
+  version: "1",
+  surface: "dialogue",
+  act: "answer",
+  parts: {
+    core: {
+      variants: [
+        {
+          key: "blame-voted-for",
+          kind: "template",
+          text: "{{official-name}} voted for {{law-name}}, and I'm not happy about it.",
+          requiresFacts: ["blame", "voted-for"],
+        },
+        {
+          key: "blame-voted-for-think",
+          kind: "template",
+          text: "{{official-name}} voted for {{law-name}}. I don't think much of that.",
+          requiresFacts: ["blame", "voted-for"],
+        },
+        {
+          key: "blame-signed",
+          kind: "template",
+          text: "{{official-name}} signed {{law-name}}, and I hold it against them.",
+          requiresFacts: ["blame", "signed"],
+        },
+        {
+          key: "blame-voted-against",
+          kind: "template",
+          text: "{{official-name}} voted against {{law-name}}, and I hold that against them.",
+          requiresFacts: ["blame", "voted-against"],
+        },
+        {
+          key: "credit-voted-for",
+          kind: "template",
+          text: "{{official-name}} voted for {{law-name}}, and I'm glad they did.",
+          requiresFacts: ["credit", "voted-for"],
+        },
+        {
+          key: "credit-signed",
+          kind: "template",
+          text: "{{official-name}} signed {{law-name}}. I give them credit for that.",
+          requiresFacts: ["credit", "signed"],
+        },
+        {
+          key: "credit-voted-against",
+          kind: "template",
+          text: "{{official-name}} voted against {{law-name}}. I appreciate that.",
+          requiresFacts: ["credit", "voted-against"],
+        },
+      ],
+    },
+    reason: {
+      required: true,
+      variants: [
+        {
+          key: "own-cost",
+          kind: "template",
+          text: "It cost me money.",
+          requiresFacts: ["own", "cost"],
+        },
+        {
+          key: "own-cost-felt",
+          kind: "template",
+          text: "I felt it in my own pocket.",
+          requiresFacts: ["own", "cost"],
+        },
+        {
+          key: "own-gain",
+          kind: "template",
+          text: "It put money in my pocket.",
+          requiresFacts: ["own", "gain"],
+        },
+        {
+          key: "family-cost",
+          kind: "template",
+          text: "It cost {{relative-name}} money.",
+          requiresFacts: ["family", "cost"],
+        },
+        {
+          key: "family-gain",
+          kind: "template",
+          text: "{{relative-name}} came out ahead on it.",
+          requiresFacts: ["family", "gain"],
+        },
+        {
+          key: "friend-told",
+          kind: "template",
+          text: "{{friend-name}} told me what it did to them.",
+          requiresFacts: ["friend"],
+        },
+      ],
+    },
+  },
+};
+
+/**
+ * The view the speaker holds most strongly over one law: the official and law
+ * whose reflections add up furthest from zero, the later one on a tie.
+ */
+export function strongestOfficialView(
+  world: World,
+  speakerId: EntityId,
+): {
+  readonly rows: readonly OfficialViewRecord[];
+  readonly points: number;
+} | null {
+  const groups = new Map<string, OfficialViewRecord[]>();
+  for (const row of world.history.officialViews ?? []) {
+    if (row.personId !== speakerId || row.recordedAt > world.currentDate)
+      continue;
+    const key = `${row.officialId}:${row.measureId}`;
+    groups.set(key, [...(groups.get(key) ?? []), row]);
+  }
+  let best: { rows: OfficialViewRecord[]; points: number } | null = null;
+  for (const rows of groups.values()) {
+    const points = rows.reduce((sum, row) => sum + row.points, 0);
+    if (points === 0) continue;
+    if (
+      !best ||
+      Math.abs(points) > Math.abs(best.points) ||
+      (Math.abs(points) === Math.abs(best.points) &&
+        rows.at(-1)!.sequence > best.rows.at(-1)!.sequence)
+    )
+      best = { rows, points };
+  }
+  return best;
+}
+
+/** A person saying what they think of an official over a law, or null. */
+export function officialViewLine(
+  world: World,
+  speakerId: EntityId,
+  playerPersonId: EntityId,
+  history: readonly HistoricalEvent[],
+): SmallTalkLine | null {
+  const view = strongestOfficialView(world, speakerId);
+  if (!view) return null;
+  const latest = view.rows.at(-1)!;
+  const official = world.people[latest.officialId];
+  const measure = world.history.legislativeMeasures?.find(
+    (row) => row.id === latest.measureId,
+  );
+  const exposure = world.history.lawExposures?.find(
+    (row) => row.id === latest.exposureId,
+  );
+  if (!official || !measure || !exposure) return null;
+  const via = exposure.viaPersonId ? world.people[exposure.viaPersonId] : null;
+  const sources = [latest.id, exposure.id];
+  const flag = (key: string, ids: readonly EntityId[] = sources) => ({
+    [key]: { text: key, sourceRecordIds: ids },
+  });
+  const facts: GroundedEnglishPacket["facts"] = {
+    "official-name": {
+      text: `${official.givenName} ${official.familyName}`,
+      sourceRecordIds: [latest.officialId, latest.id],
+    },
+    "law-name": {
+      text: measure.shortTitle,
+      sourceRecordIds: [measure.id],
+    },
+    ...flag(view.points < 0 ? "blame" : "credit"),
+    ...flag(latest.act),
+    ...flag(exposure.relation),
+    ...(exposure.direction === "none" ? {} : flag(exposure.direction)),
+    ...(via && exposure.relation === "family"
+      ? {
+          "relative-name": {
+            text: via.givenName,
+            sourceRecordIds: [via.id, exposure.id],
+          },
+        }
+      : {}),
+    ...(via && exposure.relation === "friend"
+      ? {
+          "friend-name": {
+            text: via.givenName,
+            sourceRecordIds: [via.id, exposure.id],
+          },
+        }
+      : {}),
+  };
+  const packet: GroundedEnglishPacket = {
+    surface: "dialogue",
+    momentKey: `official-view:${speakerId}:${playerPersonId}:${latest.id}:${history.length}`,
+    worldSeed: world.seed,
+    bankVersion: OFFICIAL_VIEW.version,
+    stage: stageOf(world, speakerId),
+    sourceRecordIds: sources,
+    facts,
+    speaker: { personId: speakerId, traits: {} },
+    viewer: { personId: playerPersonId, traits: {} },
+    // The speaker's own reflection and exposure are the record of their
+    // learning each of these: whom they judged, for what, and how it reached
+    // them.
+    knowledge: Object.keys(facts).map((factKey) => ({
+      personId: speakerId,
+      factKey,
+      sourceRecordIds: sources,
+    })),
+  };
+  return compose(
+    world,
+    speakerId,
+    playerPersonId,
+    history,
+    packet,
+    OFFICIAL_VIEW,
+  );
+}
+
 /** Exported for review tooling and tests. */
-export const SMALL_TALK_BANKS = [GREET_AGAIN, MATTER_UNINFORMED] as const;
+export const SMALL_TALK_BANKS = [
+  GREET_AGAIN,
+  MATTER_UNINFORMED,
+  OFFICIAL_VIEW,
+] as const;

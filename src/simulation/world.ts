@@ -55,6 +55,8 @@ import {
 } from "./tax-policy";
 import { assertStatutoryTaxIntegrity } from "./statutory-tax";
 import { assertHouseholdLoanIntegrity } from "./household-loans";
+import { assertLawExposureIntegrity } from "./law-exposure";
+import { assertOfficialViewIntegrity } from "./official-view-reads";
 import {
   addDays,
   assertSimulationMoment,
@@ -2064,6 +2066,8 @@ function validateHistoryIntegrity(
     ? delta.appended
     : [
         ...taxHistoryRecords(world),
+        ...(history.lawExposures ?? []),
+        ...(history.officialViews ?? []),
         ...jobMarketHistoryRecords(world),
         ...lifeHistoryRecords(world),
         ...resourceHousingHistoryRecords(world),
@@ -2263,6 +2267,8 @@ function validateHistoryIntegrity(
   assertPressIntegrity(world, ids);
   for (const record of crisisRecords(world)) assertUniqueId(ids, record.id);
   assertCrisisIntegrity(world);
+  assertLawExposureIntegrity(world, ids);
+  assertOfficialViewIntegrity(world, ids);
   for (const interval of history.districtResidenceIntervals ?? []) {
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {

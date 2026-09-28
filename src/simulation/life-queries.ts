@@ -120,6 +120,20 @@ export function organizationProfileAt(
   return organizationProfileHistory(world, organizationId, cutoff).at(-1);
 }
 
+/**
+ * The profile that closed this organization, when it has closed by the
+ * cutoff; undefined while it is open. An organization closes when its latest
+ * profile says so.
+ */
+export function organizationClosingAt(
+  world: World,
+  organizationId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): OrganizationProfileRecord | undefined {
+  const profile = organizationProfileAt(world, organizationId, cutoff);
+  return profile?.closed ? profile : undefined;
+}
+
 export function educationEnrollmentHistoryForPerson(
   world: World,
   personId: EntityId,
