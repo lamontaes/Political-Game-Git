@@ -2,13 +2,12 @@ import type {
   BodyBuild,
   BodyPresentation,
   EngineRecipe,
-  OutfitKind,
 } from "../presentation/appearance-engine/pack";
 import {
   BODY_BUILDS,
   HAIR_COLORS,
-  OUTFIT_KINDS,
-  OUTFIT_PALETTES,
+  PART_PALETTES,
+  packOutfit,
 } from "../presentation/appearance-engine/pack";
 import { fabricRamp } from "../presentation/appearance-engine/fabric";
 import { PEOPLE_PACK } from "../presentation/appearance-engine/runtime";
@@ -25,20 +24,26 @@ const BUILD_LABEL: Record<BodyBuild, string> = {
   average: "Average",
   fuller: "Heavier",
 };
-const OUTFIT_LABEL: Record<OutfitKind, string> = {
-  casual: "Everyday",
-  formal: "Formal",
-};
-
 const PART_LABEL: Record<string, string> = {
   top: "Top color",
   bottom: "Bottom color",
   suit: "Suit color",
   shirt: "Shirt color",
   tie: "Tie color",
+  dress: "Dress color",
+  jacket: "Jacket color",
+  sweater: "Sweater color",
+  coat: "Coat color",
+  scarf: "Scarf color",
+  scrubs: "Scrubs color",
 };
 const colorLabel = (id: string) =>
   id.replace("-", " ").replace(/^./, (first) => first.toUpperCase());
+
+/** Outfits a player picks from: work uniforms come with a job, not the creator. */
+const wearable = <T extends { readonly tags: readonly string[] }>(
+  outfits: readonly T[],
+): readonly T[] => outfits.filter((outfit) => !outfit.tags.includes("uniform"));
 
 function step<T>(items: readonly T[], current: T, by: number): T {
   const index = Math.max(0, items.indexOf(current));
@@ -60,6 +65,7 @@ export function EngineAppearanceControls({
   readonly onRandomize?: () => void;
 }) {
   const pack = PEOPLE_PACK.presentations[recipe.presentation];
+  const outfit = packOutfit(pack, recipe.outfit);
   const shades = SKIN_RAMPS.map((_, index) => index + 1);
   const rows: {
     readonly id: string;
@@ -80,6 +86,9 @@ export function EngineAppearanceControls({
           presentation,
           face: next.faces[0]!.id,
           hair: next.hair[0]!.id,
+          outfit: next.outfits.some((outfit) => outfit.id === recipe.outfit)
+            ? recipe.outfit
+            : wearable(next.outfits)[0]!.id,
         };
       },
     },
@@ -149,13 +158,18 @@ export function EngineAppearanceControls({
     {
       id: "outfit",
       label: "Outfit",
-      value: OUTFIT_LABEL[recipe.outfit],
+      value: outfit?.label ?? "",
       move: (by) => ({
         ...recipe,
-        outfit: step(OUTFIT_KINDS, recipe.outfit, by),
+        outfit: step(
+          wearable(pack.outfits).map((o) => o.id),
+          recipe.outfit,
+          by,
+        ),
       }),
     },
-    ...Object.entries(OUTFIT_PALETTES[recipe.outfit]).map(([part, palette]) => {
+    ...Object.entries(outfit?.parts ?? {}).map(([part, paletteId]) => {
+      const palette = PART_PALETTES[paletteId] ?? [];
       const current = recipe.colors?.[part] ?? palette[0]!;
       return {
         id: `color-${part}`,

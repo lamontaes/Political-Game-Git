@@ -101,6 +101,11 @@ export interface ExtractedGarment {
    */
   readonly hidesBody: Uint8Array | null;
   /**
+   * For a whole outfit given a skin mask: the skin the layer shows (1 = skin),
+   * as the rules here decided it, so assembly recolors exactly that skin.
+   */
+  readonly skin?: Uint8Array | null;
+  /**
    * For trousers: the top edge of the painted waistband per column (-1 where
    * there is none). The layer starts there, so it can be drawn over a
    * tucked-in shirt.
@@ -355,6 +360,13 @@ export function extractGarment(
   anchors: BodyAnchors,
   slot: GarmentSlot,
   hemAllowance = 40,
+  /**
+   * For whole outfits: where the painting shows skin, when that is known
+   * better than by color (a Firefly outfit painted over our own bare body
+   * leaves its skin untouched). A camel coat, a cream blouse or brown shoes
+   * are skin-colored, and are not skin.
+   */
+  skinMask?: Uint8Array,
 ): ExtractedGarment {
   if (onBody.width !== bare.width || onBody.height !== bare.height)
     throw new Error("The painting and the bare body must share one canvas.");
@@ -390,8 +402,22 @@ export function extractGarment(
     }
     return false;
   };
+  const skinAt = (x: number, y: number): boolean => {
+    const i = (y * onBody.width + x) * 4;
+    // Above the neckline only a collar is cloth, so a skin color there is
+    // skin even when the mask missed it (a generator that redrew the neck).
+    if (skinMask && skinMask[y * onBody.width + x] === 1) return true;
+    if (skinMask && y >= bands.necklineRow) return false;
+    return isSkinPixel(
+      onBody.data[i]!,
+      onBody.data[i + 1]!,
+      onBody.data[i + 2]!,
+      onBody.data[i + 3]!,
+    );
+  };
   const paintedSkin = (x: number, y: number): boolean => {
     if (x < 0 || y < 0 || x >= onBody.width || y >= onBody.height) return false;
+    if (skinMask) return skinAt(x, y);
     const i = (y * onBody.width + x) * 4;
     return isSkinPixel(
       onBody.data[i]!,
@@ -457,6 +483,10 @@ export function extractGarment(
     }
   };
   const layer = createRaster(onBody.width, onBody.height);
+  const usedSkin =
+    slot === "outfit" && skinMask
+      ? new Uint8Array(onBody.width * onBody.height)
+      : null;
   let clothPixels = 0;
   let refusedPixels = 0;
   const src = onBody.data;
@@ -476,7 +506,9 @@ export function extractGarment(
         // neckline only the collar is taken: the generator redraws the head
         // a little lower, and its jaw and neck lines there, thin lines across
         // painted skin, must never cover the face.
-        const skin = isSkinPixel(src[i]!, src[i + 1]!, src[i + 2]!, a);
+        const skin = skinAt(x, y);
+        if (usedSkin && skin && y >= anchors.neck.row)
+          usedSkin[y * onBody.width + x] = 1;
         const keep =
           (y >= bands.necklineRow && !(skin && y < openCollarEnd)) ||
           (y >= anchors.neck.row && !skin && !lineOnSkin(x, y));
@@ -518,9 +550,7 @@ export function extractGarment(
     hidesBody.fill(1, bands.necklineRow * bare.width);
     for (let y = bands.necklineRow; y < openCollarEnd; y += 1)
       for (let x = 0; x < bare.width; x += 1) {
-        const i = (y * bare.width + x) * 4;
-        if (isSkinPixel(src[i]!, src[i + 1]!, src[i + 2]!, src[i + 3]!))
-          hidesBody[y * bare.width + x] = 0;
+        if (skinAt(x, y)) hidesBody[y * bare.width + x] = 0;
       }
   } else if (HIDES_LEGS.has(slot)) {
     const columns = legColumns ?? measureLegColumns(bare, anchors, legTop);
@@ -557,6 +587,7 @@ export function extractGarment(
     clothPixels,
     refusedPixels,
     hidesBody,
+    skin: usedSkin,
     waistline,
     tuckTail,
   };

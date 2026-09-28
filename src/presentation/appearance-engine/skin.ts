@@ -151,13 +151,21 @@ export function recolorSkin(
   raster: Raster,
   target: SkinRamp,
   source: MeasuredRamp = measureSkinLuminance(raster),
+  /**
+   * Where the skin is, when the painting says so (an outfit's skin mask):
+   * a camel coat or brown shoes are skin-colored but are not skin.
+   */
+  within?: Raster,
 ): Raster {
   const data = new Uint8ClampedArray(raster.data);
   for (let i = 0; i < data.length; i += 4) {
     const r = data[i]!;
     const g = data[i + 1]!;
     const b = data[i + 2]!;
-    if (!isSkinPixel(r, g, b, data[i + 3]!)) continue;
+    if (
+      within ? within.data[i + 3]! <= 128 : !isSkinPixel(r, g, b, data[i + 3]!)
+    )
+      continue;
     const color = rampColor(target, rampPosition(luminance(r, g, b), source));
     data[i] = color.r;
     data[i + 1] = color.g;
