@@ -10,6 +10,10 @@ import {
   scheduleFutureDueItem,
 } from "../future-transitions";
 import { governmentUnitsForPlace } from "../government-units";
+import {
+  municipalGovernmentByKey,
+  primaryReading,
+} from "../municipal-government";
 import type { PrincipleRecordInput } from "../history";
 import { measurePosition } from "../legislation";
 import { currentMeasureProvisions } from "../legislative-politics";
@@ -57,7 +61,10 @@ function openedWorld(): World {
   const seats = municipalSeats(world, city.id).filter(
     (seat) => seat.role === "member" || seat.role === "presiding-member",
   );
-  expect(seats).toHaveLength(5);
+  // The council is the size its compiled government declares (not always five).
+  expect(seats).toHaveLength(
+    primaryReading(municipalGovernmentByKey(city.id)!).bodySize!,
+  );
   // As in the existing local authority fixture, control one councilor and
   // leave the other seated people to file and vote for themselves.
   world = {

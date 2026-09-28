@@ -11,6 +11,10 @@ import {
   scheduleFutureDueItem,
 } from "../future-transitions";
 import { governmentUnitsForPlace } from "../government-units";
+import {
+  municipalGovernmentByKey,
+  primaryReading,
+} from "../municipal-government";
 import type { PrincipleRecordInput } from "../history";
 import { measurePosition } from "../legislation";
 import { currentMeasureProvisions } from "../legislative-politics";
@@ -56,7 +60,10 @@ function thirtyDayLawOpening(): {
   const members = municipalSeats(world, government.id).filter(
     (seat) => seat.role === "member" || seat.role === "presiding-member",
   );
-  expect(members).toHaveLength(5);
+  // The council is the size its compiled government declares (not always five).
+  expect(members).toHaveLength(
+    primaryReading(municipalGovernmentByKey(government.id)!).bodySize!,
+  );
   const principles = ["fiscal-restraint", "environmental-stewardship"].map(
     (key) =>
       Object.values(world.policyCatalog.principles).find(

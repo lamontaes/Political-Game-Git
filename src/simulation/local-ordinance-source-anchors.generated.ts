@@ -799,9 +799,18 @@ export const LOCAL_ORDINANCE_SOURCE_ANCHORS = {
     governmentKey: "us-oh-columbus",
     sourceEvidence: "research-transcription",
     safeGameProcedure: true,
-    bodyName: null,
-    bodySize: null,
-    bodySizeSource: null,
+    bodyName: "Columbus City Council",
+    bodySize: 9,
+    bodySizeSource: {
+      authority: "research-reference",
+      citation: "body size",
+      sourceTitle: "THE COUNCIL, Columbus City Charter section 17",
+      sourceUrl:
+        "https://library.municode.com/oh/columbus/codes/code_of_ordinances?nodeId=CHTR_THECICOOH_THCO_S17LEPR",
+      retrievedAt: "2026-09-28",
+      verification: "partial",
+      note: "Research transcription; not independently verified operative law.",
+    },
   },
   "gus2025:209170": {
     governmentKey: "us-ok-oklahoma-city",

@@ -83,7 +83,8 @@ describe("local ordinance game profile", () => {
     }
   });
   it.each([
-    ["gus2025:100019", "municipality", 5],
+    // The draw is stable per unit id: this town's typical council is seven.
+    ["gus2025:100019", "municipality", 7],
     ["gus2025:100001", "county", 5],
     ["gus2025:101703", "township", 3],
   ] as const)(
