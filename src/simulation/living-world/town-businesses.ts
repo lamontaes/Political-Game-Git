@@ -8,7 +8,11 @@ import {
 } from "../life";
 import { createStableId } from "../ids";
 import { lifePlaceByJurisdictionId } from "../life-places";
-import { organizationClosingAt, organizationProfileAt } from "../life-queries";
+import {
+  activeWorkRelationshipsAt,
+  organizationClosingAt,
+  organizationProfileAt,
+} from "../life-queries";
 import { SeededRng } from "../rng";
 import type {
   EntityId,
@@ -208,8 +212,10 @@ export function reviewTownBusinesses(
   };
   let next = world;
 
-  // Closings.
+  // Closings. A business the player works at stays open for now: the game
+  // has no way yet to tell the player their workplace closed.
   for (const business of businesses) {
+    if (business.jobs.some((job) => job.personId === playerPersonId)) continue;
     if (
       rng.fork(`close:${business.organizationId}`).next() >=
       TOWN_BUSINESS_TURNOVER.exitPerYear / 4
@@ -294,19 +300,39 @@ export function reviewTownBusinesses(
     const lead =
       workplace.roles.find((entry) => entry.authority === "directs-others")
         ?.minAge ?? WORKING_AGE_MIN;
-    // The one who opens it: a resident out of work and old enough to run it.
-    const owner = townResidents(next, town)
+    // The one who opens it: a resident old enough to run it, out of work if
+    // anybody is; otherwise somebody who works for someone else quits to.
+    const able = townResidents(next, town)
       .filter(
         (resident) =>
           resident.personId !== playerPersonId &&
-          !working.has(resident.personId) &&
           resident.age >= lead &&
           laborStatus(next, resident) !== "retired" &&
           laborStatus(next, resident) !== "student",
       )
       .sort((a, b) => a.personId.localeCompare(b.personId));
+    const idle = able.filter((resident) => !working.has(resident.personId));
+    const owner =
+      idle.length > 0
+        ? idle
+        : able.filter((resident) =>
+            activeWorkRelationshipsAt(next, resident.personId).every(
+              (job) => job.relationship.authority !== "directs-others",
+            ),
+          );
     if (owner.length === 0) break;
     const chosen = owner[rng.fork(`owner:${n}`).integer(0, owner.length)]!;
+    if (idle.length === 0)
+      for (const job of activeWorkRelationshipsAt(next, chosen.personId))
+        next = recordWorkStatus(next, {
+          stableKey: `${prefix}founder-quit:${job.relationship.id}`,
+          workRelationshipId: job.relationship.id,
+          effectiveAt: today,
+          status: "ended",
+          reason: TOWN_JOB_END_REASONS.quit,
+          supersedesStatusId: job.status.id,
+          provenance,
+        });
     // A new outlet number, after every one of this kind ever written.
     const written = new Set(
       next.history.organizations.map((organization) => organization.stableKey),

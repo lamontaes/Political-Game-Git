@@ -28,6 +28,8 @@ import {
 import { TOWN_JOB_END_REASONS } from "../../src/simulation/living-world/town-labor-market";
 import { reviewTownJobs } from "../../src/simulation/living-world/town-labor-market";
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
+import { openingTakesApplications } from "../../src/simulation/job-market";
+import type { JobOpeningRecord } from "../../src/simulation/types";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import { townWorkplaceWeights } from "../../src/simulation/living-world/town-employment";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
@@ -118,7 +120,7 @@ describe("the town's businesses open and close", { timeout: 600_000 }, () => {
       const { world, town, start, before } = fiveYears(placeKey);
       const summary = describeTownBusinesses(world, town, start);
       expect(before).toBeGreaterThan(5);
-      expect(summary.closed).toBeGreaterThan(0);
+      expect(summary.closed, JSON.stringify(summary)).toBeGreaterThan(0);
       expect(summary.opened).toBeGreaterThan(0);
       // 11.6% a year each way over five years is about 58% of the town's
       // businesses; well inside twice that either way.
@@ -143,6 +145,17 @@ describe("the town's businesses open and close", { timeout: 600_000 }, () => {
               profile.organizationId,
             );
       }
+      // A closed business takes no job applications, whatever its listing says.
+      for (const profile of world.history.organizationProfiles)
+        if (profile.closed)
+          expect(
+            openingTakesApplications(world, {
+              id: `opening:${profile.organizationId}`,
+              organizationId: profile.organizationId,
+              opensAt: start,
+              closesAt: addDays(world.currentDate, 30),
+            } as unknown as JobOpeningRecord),
+          ).toBe(false);
       expect(
         world.history.workStatuses.filter(
           (row) => row.reason === TOWN_JOB_END_REASONS.businessClosed,

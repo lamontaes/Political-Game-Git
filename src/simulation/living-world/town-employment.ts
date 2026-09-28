@@ -1341,7 +1341,14 @@ export function fillTownJobs(
       }
       const resident = take(chosen.minAge ?? WORKING_AGE_MIN);
       if (!resident) break;
-      hire(resident, workplace, chosen, at ?? undefined, true);
+      if (hire(resident, workplace, chosen, at ?? undefined, true)) continue;
+      // Every employer of that kind in town has closed: the resident goes
+      // back to the pool and draws from the town's mix instead.
+      pool.push(resident);
+      pool.sort(
+        (a, b) => b.age - a.age || a.personId.localeCompare(b.personId),
+      );
+      break;
     }
   }
 
