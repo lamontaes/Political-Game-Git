@@ -71,8 +71,9 @@ describe("Which rooms the title screen may drift through", () => {
   });
 
   it("never admits the retired baked-audience meeting room", () => {
+    // The front door is civic (Lamontae, Sept. 27 and 28), never a home.
     expect(TITLE_TABLEAU_REGISTRY.frontDoorTableauId).toBe(
-      "an-empty-living-room",
+      "an-empty-hearing-room",
     );
     expect(
       TITLE_TABLEAU_REGISTRY.neutralBank.map((entry) => entry.tableauId),
