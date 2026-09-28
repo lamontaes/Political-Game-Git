@@ -247,7 +247,10 @@
         {
           "id": "casual",
           "label": "Everyday",
-          "occasion": "casual",
+          "tags": [
+            "casual",
+            "business"
+          ],
           "parts": {
             "top": "top",
             "bottom": "bottom"
@@ -311,7 +314,10 @@
         {
           "id": "formal",
           "label": "Pantsuit",
-          "occasion": "formal",
+          "tags": [
+            "formal",
+            "business"
+          ],
           "parts": {
             "suit": "suit",
             "shirt": "shirt"
@@ -375,7 +381,9 @@
         {
           "id": "cardigan-jeans",
           "label": "Cardigan and jeans",
-          "occasion": "casual",
+          "tags": [
+            "casual"
+          ],
           "parts": {
             "sweater": "sweater",
             "shirt": "shirt",
@@ -449,7 +457,9 @@
         {
           "id": "hoodie-jeans",
           "label": "Hoodie and jeans",
-          "occasion": "casual",
+          "tags": [
+            "casual"
+          ],
           "parts": {
             "top": "top",
             "bottom": "bottom"
@@ -516,7 +526,10 @@
         {
           "id": "sweater-slacks",
           "label": "Sweater and slacks",
-          "occasion": "casual",
+          "tags": [
+            "casual",
+            "business"
+          ],
           "parts": {
             "sweater": "sweater",
             "bottom": "bottom"
@@ -583,7 +596,9 @@
         {
           "id": "winter-coat",
           "label": "Winter coat",
-          "occasion": "casual",
+          "tags": [
+            "cold"
+          ],
           "parts": {
             "coat": "coat",
             "scarf": "scarf",
@@ -657,7 +672,10 @@
         {
           "id": "blouse-skirt",
           "label": "Blouse and skirt",
-          "occasion": "formal",
+          "tags": [
+            "business",
+            "formal"
+          ],
           "parts": {
             "top": "shirt",
             "bottom": "suit"
@@ -724,7 +742,10 @@
         {
           "id": "dress-blazer",
           "label": "Dress and blazer",
-          "occasion": "formal",
+          "tags": [
+            "business",
+            "formal"
+          ],
           "parts": {
             "dress": "dress",
             "jacket": "suit"
@@ -791,7 +812,10 @@
         {
           "id": "skirt-suit",
           "label": "Skirt suit",
-          "occasion": "formal",
+          "tags": [
+            "formal",
+            "business"
+          ],
           "parts": {
             "suit": "suit",
             "shirt": "shirt"
@@ -858,7 +882,9 @@
         {
           "id": "scrubs",
           "label": "Scrubs",
-          "occasion": "work",
+          "tags": [
+            "uniform"
+          ],
           "parts": {
             "scrubs": "scrubs"
           },
@@ -918,7 +944,9 @@
         {
           "id": "hi-vis",
           "label": "Safety vest",
-          "occasion": "work",
+          "tags": [
+            "uniform"
+          ],
           "parts": {
             "bottom": "bottom"
           },
@@ -978,7 +1006,9 @@
         {
           "id": "police",
           "label": "Police uniform",
-          "occasion": "work",
+          "tags": [
+            "uniform"
+          ],
           "parts": {},
           "builds": {
             "lean": {
@@ -1024,7 +1054,9 @@
         {
           "id": "judge-robe",
           "label": "Judge's robe",
-          "occasion": "work",
+          "tags": [
+            "uniform"
+          ],
           "parts": {},
           "builds": {
             "lean": {
@@ -1331,7 +1363,10 @@
         {
           "id": "casual",
           "label": "Everyday",
-          "occasion": "casual",
+          "tags": [
+            "casual",
+            "business"
+          ],
           "parts": {
             "top": "top",
             "bottom": "bottom"
@@ -1395,7 +1430,10 @@
         {
           "id": "formal",
           "label": "Suit and tie",
-          "occasion": "formal",
+          "tags": [
+            "formal",
+            "business"
+          ],
           "parts": {
             "suit": "suit",
             "shirt": "shirt",
@@ -1466,7 +1504,10 @@
         {
           "id": "polo-khakis",
           "label": "Polo and khakis",
-          "occasion": "casual",
+          "tags": [
+            "casual",
+            "business"
+          ],
           "parts": {
             "top": "top",
             "bottom": "bottom"
@@ -1533,7 +1574,9 @@
         {
           "id": "hoodie-jeans",
           "label": "Hoodie and jeans",
-          "occasion": "casual",
+          "tags": [
+            "casual"
+          ],
           "parts": {
             "top": "top",
             "bottom": "bottom"
@@ -1600,7 +1643,10 @@
         {
           "id": "sweater-collar",
           "label": "Sweater and collar",
-          "occasion": "casual",
+          "tags": [
+            "casual",
+            "business"
+          ],
           "parts": {
             "sweater": "sweater",
             "shirt": "shirt",
@@ -1674,7 +1720,9 @@
         {
           "id": "work-jacket",
           "label": "Work jacket",
-          "occasion": "casual",
+          "tags": [
+            "casual"
+          ],
           "parts": {
             "jacket": "coat",
             "shirt": "top",
@@ -1748,7 +1796,9 @@
         {
           "id": "overcoat",
           "label": "Overcoat",
-          "occasion": "casual",
+          "tags": [
+            "cold"
+          ],
           "parts": {
             "coat": "coat",
             "scarf": "scarf",
@@ -1822,7 +1872,9 @@
         {
           "id": "double-breasted",
           "label": "Double-breasted suit",
-          "occasion": "formal",
+          "tags": [
+            "formal"
+          ],
           "parts": {
             "suit": "suit",
             "shirt": "shirt",
@@ -1896,7 +1948,9 @@
         {
           "id": "scrubs",
           "label": "Scrubs",
-          "occasion": "work",
+          "tags": [
+            "uniform"
+          ],
           "parts": {
             "scrubs": "scrubs"
           },
@@ -1956,7 +2010,9 @@
         {
           "id": "hi-vis",
           "label": "Safety vest",
-          "occasion": "work",
+          "tags": [
+            "uniform"
+          ],
           "parts": {
             "bottom": "bottom"
           },
@@ -2016,7 +2072,9 @@
         {
           "id": "police",
           "label": "Police uniform",
-          "occasion": "work",
+          "tags": [
+            "uniform"
+          ],
           "parts": {},
           "builds": {
             "lean": {
@@ -2062,7 +2120,9 @@
         {
           "id": "judge-robe",
           "label": "Judge's robe",
-          "occasion": "work",
+          "tags": [
+            "uniform"
+          ],
           "parts": {},
           "builds": {
             "lean": {

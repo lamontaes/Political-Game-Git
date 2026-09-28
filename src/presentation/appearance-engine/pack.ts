@@ -81,11 +81,12 @@ export const PEOPLE_PACK_VERSION = "people-engine-pack-v1";
 export type BodyPresentation = "feminine" | "masculine";
 export type BodyBuild = "lean" | "average" | "fuller";
 /**
- * When an outfit is worn: everyday clothes, formal wear (where government is
- * done), or a work uniform (scrubs, a safety vest, a police uniform, a judge's
- * robe), which comes with a job and is never drawn at random.
+ * What an outfit is worn for. A place asks for everyday, business or formal
+ * clothes (src/presentation/dress-code.ts); "cold" is what a person wears
+ * outdoors in the cold months; a "uniform" (scrubs, a safety vest, a police
+ * uniform, a judge's robe) comes with a job and is never drawn at random.
  */
-export type OutfitOccasion = "formal" | "casual" | "work";
+export type OutfitTag = "casual" | "business" | "formal" | "cold" | "uniform";
 
 export const BODY_BUILDS: readonly BodyBuild[] = ["lean", "average", "fuller"];
 
@@ -129,7 +130,8 @@ export interface PackOutfit {
   readonly id: string;
   /** Player-facing name, for the creator's Outfit arrows. */
   readonly label: string;
-  readonly occasion: OutfitOccasion;
+  /** Where and when it is worn (see OutfitTag); an outfit may fit several. */
+  readonly tags: readonly OutfitTag[];
   /** The palette (PART_PALETTES) of each garment part that takes its own color. */
   readonly parts: Readonly<Record<string, string>>;
   /**
