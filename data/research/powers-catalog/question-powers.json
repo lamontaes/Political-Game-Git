@@ -1,0 +1,381 @@
+{
+  "id": "question-powers/v1",
+  "about": "Which level's own law answers each policy question, and which dial of the powers catalog (catalog.json) the answer turns. A level answers a question only when the question is its own (levels) and the catalog does not say no for that dial at that level. \"state\" also covers D.C. and the territories, which answer through their own catalog columns; the D.C. Council also holds the District's city and county powers, and a consolidated city-county holds both. A catalog cell that is UNKNOWN or varies by state neither permits nor refuses (Decision Register, Sept. 22): the level may act and its authority stays unsettled until researched. why says why a question is narrower than its issue's levels, or why federal law answers a state question. Read by src/simulation/governing/question-authority.ts.",
+  "questions": {
+    "us-policy-positions:fiscal.adopt-income-tax": {
+      "dial": "income-tax",
+      "levels": ["state"],
+      "why": "It asks whether the state levies an income tax. A local income tax is levied under state law, and is not this question."
+    },
+    "us-policy-positions:fiscal.graduated-income-tax": {
+      "dial": "income-tax",
+      "levels": ["state"],
+      "why": "It asks about the state's own personal income tax. Where a city or county taxes income, state law sets that tax's rates."
+    },
+    "us-policy-positions:fiscal.cap-property-tax-growth": {
+      "dial": "property-tax",
+      "levels": ["state"],
+      "why": "A property tax bill adds up every local levy on a home, so only state law can cap how fast the bill grows. A local government setting its own levy is a budget decision."
+    },
+    "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
+      "dial": "sales-tax",
+      "levels": ["state", "county", "city"]
+    },
+    "us-policy-positions:fiscal.balanced-operating-budget": {
+      "dial": "budget-lines",
+      "levels": ["state", "county", "city"]
+    },
+    "us-policy-positions:fiscal.fund-pensions-to-schedule": {
+      "dial": "budget-lines",
+      "levels": ["state", "county", "city"]
+    },
+    "us-policy-positions:fiscal.minimum-reserve-balance": {
+      "dial": "budget-lines",
+      "levels": ["state", "county", "city"]
+    },
+    "us-policy-positions:government-operations.independent-redistricting": {
+      "dial": "election-rules",
+      "levels": ["state"],
+      "why": "It asks who draws the legislature's district lines, which state law settles. A commission for a city's own wards is a charter question the catalog does not ask yet."
+    },
+    "us-policy-positions:government-operations.require-photo-id-to-vote": {
+      "dial": "election-rules",
+      "levels": ["state"]
+    },
+    "us-policy-positions:government-operations.automatic-voter-registration": {
+      "dial": "election-rules",
+      "levels": ["state"],
+      "why": "Residents are registered when they deal with a state agency, under the state's election law."
+    },
+    "us-policy-positions:government-operations.legislative-term-limits": {
+      "dial": "charters-and-structure",
+      "levels": ["state"],
+      "why": "It asks about the state's legislators. Limits on a council's own terms are a charter question the catalog does not ask yet."
+    },
+    "us-policy-positions:government-operations.ban-lobbying-after-office": {
+      "dial": "campaign-finance",
+      "levels": ["state"]
+    },
+    "us-policy-positions:government-operations.broaden-local-authority": {
+      "dial": "local-preemption",
+      "levels": ["state"]
+    },
+    "us-policy-positions:education.equalize-school-funding": {
+      "dial": "school-funding",
+      "levels": ["state"],
+      "why": "It asks whether the state evens out funding across its districts, which no single district can do."
+    },
+    "us-policy-positions:education.public-funds-for-private-schooling": {
+      "dial": "school-choice",
+      "levels": ["state"]
+    },
+    "us-policy-positions:education.raise-teacher-minimum-salary": {
+      "dial": "school-funding",
+      "levels": ["state"],
+      "why": "It asks for a state salary floor. A district sets its own pay above the floor."
+    },
+    "us-policy-positions:education.universal-preschool": {
+      "dial": "family-policy",
+      "levels": ["state"]
+    },
+    "us-policy-positions:education.freeze-public-tuition": {
+      "dial": "college",
+      "levels": ["state"]
+    },
+    "us-policy-positions:education.state-curriculum-standards": {
+      "dial": "curriculum-and-school-rules",
+      "levels": ["state"],
+      "why": "It asks whether the state sets standards that every district must follow."
+    },
+    "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
+      "dial": "medicaid",
+      "levels": ["state"]
+    },
+    "us-policy-positions:health-human-services.medicaid-work-requirement": {
+      "dial": "medicaid",
+      "levels": ["federal", "state"],
+      "why": "Federal law requires it of expansion adults from 2027 (the starting law's federal row), and a state may also impose one."
+    },
+    "us-policy-positions:health-human-services.work-requirement-for-assistance": {
+      "dial": "food-aid",
+      "levels": ["federal", "state", "county"],
+      "why": "Federal food-aid work rules answer it nationwide (the starting law's federal row)."
+    },
+    "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response": {
+      "dial": "public-health",
+      "levels": ["state"],
+      "why": "It asks whether the state funds a crisis response."
+    },
+    "us-policy-positions:health-human-services.harm-reduction-services": {
+      "dial": "public-health",
+      "levels": ["state"],
+      "why": "It asks whether the state funds needle exchange and overdose reversal."
+    },
+    "us-policy-positions:health-human-services.housing-first-homelessness": {
+      "dial": "homelessness",
+      "levels": ["state", "county", "city"]
+    },
+    "us-policy-positions:justice-public-safety.end-cash-bail": {
+      "dial": "bail-and-prisons",
+      "levels": ["state"],
+      "why": "Release before trial is set by state statute and court rule. A county runs the jail but does not set bail law."
+    },
+    "us-policy-positions:justice-public-safety.mandatory-minimum-sentences": {
+      "dial": "crimes-and-penalties",
+      "levels": ["state"]
+    },
+    "us-policy-positions:justice-public-safety.civilian-oversight-of-police": {
+      "dial": "policing",
+      "levels": ["state", "county", "city"]
+    },
+    "us-policy-positions:justice-public-safety.permit-to-carry-concealed": {
+      "dial": "guns",
+      "levels": ["state"]
+    },
+    "us-policy-positions:justice-public-safety.raise-juvenile-court-age": {
+      "dial": "crimes-and-penalties",
+      "levels": ["state"],
+      "why": "The age that juvenile court reaches is set by state statute."
+    },
+    "us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
+      "dial": "election-rules",
+      "levels": ["state"],
+      "why": "Who may vote is set by the state's constitution and statutes."
+    },
+    "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
+      "dial": "zoning",
+      "levels": ["county", "city"]
+    },
+    "us-policy-positions:housing-land-use.rent-stabilization": {
+      "dial": "rent-rules",
+      "levels": ["state", "city"]
+    },
+    "us-policy-positions:housing-land-use.by-right-permitting": {
+      "dial": "zoning",
+      "levels": ["county", "city"]
+    },
+    "us-policy-positions:housing-land-use.inclusionary-requirement": {
+      "dial": "zoning",
+      "levels": ["state", "county", "city"]
+    },
+    "us-policy-positions:housing-land-use.preempt-local-housing-limits": {
+      "dial": "local-preemption",
+      "levels": ["state"]
+    },
+    "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
+      "dial": "rent-rules",
+      "levels": ["state", "city"]
+    },
+    "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
+      "dial": "roads-and-transit",
+      "levels": ["state", "county", "city"]
+    },
+    "us-policy-positions:transportation-infrastructure.fare-free-transit": {
+      "dial": "roads-and-transit",
+      "levels": ["state", "county", "city"]
+    },
+    "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
+      "dial": "excise-and-fees",
+      "levels": ["state"],
+      "why": "The fuel tax a road charge would replace is the state's. A local fuel tax, where one exists, is an add-on the state allows."
+    },
+    "us-policy-positions:transportation-infrastructure.public-broadband": {
+      "dial": "roads-and-transit",
+      "levels": ["state"],
+      "why": "It asks whether local governments may build broadband, which the state's law decides."
+    },
+    "us-policy-positions:transportation-infrastructure.fix-it-first": {
+      "dial": "budget-lines",
+      "levels": ["state", "county", "city"]
+    },
+    "us-policy-positions:business-commerce.reduce-occupational-licensing": {
+      "dial": "licensing",
+      "levels": ["state"],
+      "why": "It asks whether the state drops licenses the state requires."
+    },
+    "us-policy-positions:business-commerce.legalize-cannabis-sales": {
+      "dial": "marijuana",
+      "levels": ["state"],
+      "why": "Whether adults may buy cannabis is state law. A town can only refuse stores the state allows, which is a different question."
+    },
+    "us-policy-positions:business-commerce.cap-development-incentives": {
+      "dial": "business-incentives",
+      "levels": ["state", "county", "city"]
+    },
+    "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
+      "dial": "consumer-rules",
+      "levels": ["state"]
+    },
+    "us-policy-positions:labor-workforce.raise-minimum-wage": {
+      "dial": "minimum-wage",
+      "levels": ["state"],
+      "why": "It asks about the state minimum wage. A city's own wage floor is a question the catalog does not ask yet."
+    },
+    "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
+      "dial": "local-preemption",
+      "levels": ["state"],
+      "why": "It asks whether the state lets cities set a higher wage."
+    },
+    "us-policy-positions:labor-workforce.paid-family-leave": {
+      "dial": "paid-leave",
+      "levels": ["state"],
+      "why": "It asks whether the state runs a leave insurance program."
+    },
+    "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
+      "dial": "public-bargaining",
+      "levels": ["state"]
+    },
+    "us-policy-positions:labor-workforce.right-to-work": {
+      "dial": "right-to-work",
+      "levels": ["state"]
+    },
+    "us-policy-positions:environment-energy.clean-electricity-standard": {
+      "dial": "utility-rates",
+      "levels": ["state"]
+    },
+    "us-policy-positions:environment-energy.price-carbon": {
+      "dial": "emissions-permits",
+      "levels": ["state"],
+      "why": "It asks whether the state prices carbon."
+    },
+    "us-policy-positions:environment-energy.ban-new-gas-hookups": {
+      "dial": "building-codes",
+      "levels": ["state", "county", "city"]
+    },
+    "us-policy-positions:environment-energy.restrict-building-in-flood-zones": {
+      "dial": "zoning",
+      "levels": ["state", "county", "city"]
+    },
+    "us-policy-positions:environment-energy.bottle-deposit": {
+      "dial": "consumer-rules",
+      "levels": ["state", "county", "city"]
+    },
+    "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
+      "dial": "water",
+      "levels": ["state"]
+    },
+    "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
+      "dial": "farm-and-food",
+      "levels": ["state"]
+    },
+    "us-policy-positions:agriculture-natural-resources.expand-public-land-access": {
+      "dial": "parks-and-culture",
+      "levels": ["state", "county"]
+    },
+    "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
+      "dial": "nondiscrimination",
+      "levels": ["state"],
+      "why": "It asks what state law covers. A city's own fairness ordinance is a question the catalog does not ask yet."
+    },
+    "us-policy-positions:civil-family-community.restrict-abortion": {
+      "dial": "abortion",
+      "levels": ["state"]
+    },
+    "us-policy-positions:civil-family-community.fund-public-libraries": {
+      "dial": "parks-and-culture",
+      "levels": ["state"],
+      "why": "It asks whether the state guarantees every library a funding floor."
+    },
+    "us-policy-positions:civil-family-community.local-control-of-library-materials": {
+      "dial": "parks-and-culture",
+      "levels": ["state"],
+      "why": "It asks whether the state leaves the choice to local boards."
+    },
+    "us-policy-positions:civil-family-community.dedicated-parks-funding": {
+      "dial": "budget-lines",
+      "levels": ["state", "county", "city"]
+    },
+    "us-policy-positions:technology-privacy.consumer-data-privacy-law": {
+      "dial": "tech-rules",
+      "levels": ["state"]
+    },
+    "us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
+      "dial": "tech-rules",
+      "levels": ["state"]
+    },
+    "us-policy-positions:technology-privacy.age-verification-for-social-media": {
+      "dial": "tech-rules",
+      "levels": ["state"]
+    },
+    "us-federal-positions:budget.pay-for-a-higher-debt-limit": {
+      "dial": "borrowing",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:tax.raise-top-income-tax-rate": {
+      "dial": "income-tax",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:monetary-financial.cap-consumer-loan-interest": {
+      "dial": "consumer-rules",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:defense.grow-defense-spending": {
+      "dial": "defense-and-veterans",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:foreign-affairs.increase-foreign-aid": {
+      "dial": "budget-lines",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:trade.raise-tariffs": {
+      "dial": "trade-and-treaties",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:immigration.admit-more-immigrants": {
+      "dial": "immigration-admission",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:health.medicare-drug-price-negotiation": {
+      "dial": "medicare",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:social-insurance.raise-retirement-age": {
+      "dial": "social-security",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:education.forgive-student-loans": {
+      "dial": "college",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
+      "dial": "minimum-wage",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:housing.vouchers-for-every-eligible-family": {
+      "dial": "budget-lines",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:transport-water.expand-passenger-rail": {
+      "dial": "roads-and-transit",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:energy-environment.limit-power-plant-carbon": {
+      "dial": "emissions-permits",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:agriculture.cut-farm-subsidies": {
+      "dial": "farm-and-food",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:emergencies.states-share-disaster-costs": {
+      "dial": "revenue-sharing",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:justice-rights.reduce-mandatory-minimums": {
+      "dial": "crimes-and-penalties",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:government.ban-congressional-stock-trading": {
+      "dial": "campaign-finance",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:science-communications.national-data-privacy": {
+      "dial": "tech-rules",
+      "levels": ["federal"]
+    },
+    "us-federal-positions:territories-culture.statehood-for-dc": {
+      "dial": "charters-and-structure",
+      "levels": ["federal"]
+    }
+  }
+}
