@@ -11,6 +11,7 @@ import {
   governmentUnitsForPlace,
 } from "./government-units";
 import type { GovernmentUnitIdentity } from "./government-units";
+import { localGoverningBodyRules } from "./nationwide-world/local-governing-body-rules";
 import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
 import {
   knownRule,
@@ -302,7 +303,10 @@ function body(unit: GovernmentUnitIdentity): { name: string; seats: number } {
               : unit.name.startsWith("BOROUGH OF ")
                 ? "Borough Council"
                 : "Council",
-        seats: 5,
+        // The town's own council size, the one its seats and elections use
+        // (read where the game has read it, the ICMA typical draw otherwise),
+        // so the ordinance procedure never counts a different council.
+        seats: localGoverningBodyRules(unit)?.seats?.value ?? 5,
       };
   }
 }
