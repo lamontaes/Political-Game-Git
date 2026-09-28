@@ -193,8 +193,10 @@ export function glassesFor(
  * necklace and a lapel pin. The sample: legislators-current.yaml from
  * unitedstates/congress-legislators (539 sitting members), 80 women and 80
  * men drawn with random seed 20260928, portraits from unitedstates/images
- * (the Congressional bioguide photographs). Four men had no portrait yet, so
- * the sample is 76 women and 80 men (156).
+ * (the Congressional bioguide photographs). Of the 539 members, 156 are women
+ * and 383 are men. Four of the 80 women drawn had no portrait yet, so the
+ * sample is 76 women and 80 men (156 portraits). Each share is counted within
+ * its own sex, so Congress's makeup does not weight it.
  *
  * What the count can and cannot say, stated so nobody trusts it further:
  * 1. It is a count of what a portrait shows. A small stud under hair or a
@@ -208,8 +210,7 @@ export function glassesFor(
  *    a lapel pin.
  * 4. A portrait is head and shoulders. No wrist and no hand showed in any of
  *    the 156, so it says nothing about watches or rings. Those two shares are
- *    PLACEHOLDER(accessories) until a source is found (filed with the
- *    research intake).
+ *    PLACEHOLDER(accessories) until a source is found.
  * 5. No share varies with age: 156 portraits are too few to split by age.
  */
 export const ACCESSORY_SHARE: Readonly<

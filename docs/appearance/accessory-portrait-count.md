@@ -13,7 +13,9 @@ and a lapel pin. The shares in `src/presentation/appearance-engine/face-extras.t
 2. Eighty women and eighty men were drawn at random with seed 20260928.
 3. The portraits are the Congressional bioguide photographs mirrored by the
    unitedstates/images project (450 by 550 pixels).
-4. Four men had no portrait yet, so the sample is 76 women and 80 men.
+4. Four of the 80 women drawn had no portrait yet, so the sample is 76 women
+   and 80 men. Of the 539 members, 156 are women and 383 are men. Each share
+   is counted within its own sex, so Congress's makeup does not weight it.
 
 ## The counts
 
