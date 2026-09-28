@@ -1,3 +1,4 @@
+import type { MacroEra } from "./kernel";
 import type { EntityId, IsoDate } from "../types";
 import type { MacroLatents, MacroStartValues } from "./kernel";
 import type {
@@ -89,6 +90,11 @@ export interface MacroMonthRecord {
   };
   /** Shocks whose intensity contributed to this month, sorted. */
   readonly shockKeys: readonly string[];
+  /**
+   * The national era this month stood in (MACRO_ERA_POLICY). Absent on local
+   * layers and on records written before eras existed.
+   */
+  readonly era?: MacroEra;
   /**
    * The unemployment rule that wrote this month. Absent on months written
    * before unemployment returned toward its normal rate; those stay as they
