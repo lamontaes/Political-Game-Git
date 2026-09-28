@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { makeIsoDate } from "./dates";
 import { memberVoteConsiderations } from "./legislative-member-decisions";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import type { EntityId, PrivateBeliefRecord, World } from "./types";
 
 const memberId = "person_member" as EntityId;
@@ -125,5 +126,95 @@ describe("member votes from formed views on an explicit bill answer", () => {
     expect(
       considerations(worldWith("yes", [belief("support", 1)]), "amendment"),
     ).toEqual([]);
+  });
+});
+
+describe("member votes read what constituents made of an existing law", () => {
+  const federal = NATIONAL_ELECTION_JURISDICTION.id;
+  const lawId = "measure_existing_law" as EntityId;
+
+  function withLaw(billAnswer: "yes" | "no", points: readonly number[]) {
+    return {
+      currentDate: makeIsoDate("2026-06-01"),
+      policyCatalog: {
+        propositions: {
+          [propositionId]: { question: "Should the state fund rural transit?" },
+        },
+      },
+      history: {
+        legislativeMeasures: [
+          {
+            id: lawId,
+            stableKey: "test:law",
+            jurisdictionId: federal,
+            sponsorPersonId: null,
+            propositionIds: [propositionId],
+            propositionAnswers: [{ propositionId, answer: "yes" }],
+          },
+          {
+            id: measureId,
+            stableKey: "test:measure",
+            jurisdictionId: federal,
+            sponsorPersonId: null,
+            propositionIds: [propositionId],
+            propositionAnswers: [{ propositionId, answer: billAnswer }],
+          },
+        ],
+        legislativeEnactments: [
+          {
+            measureId: lawId,
+            outcome: "enacted",
+            sequence: 1,
+            resolvedAt: makeIsoDate("2026-01-01"),
+            effectiveAt: makeIsoDate("2026-01-01"),
+          },
+        ],
+        officialViews: points.map((value, index) => ({
+          officialId: memberId,
+          measureId: lawId,
+          points: value,
+          personId: `person_${index}`,
+        })),
+        legislativeProvisions: [],
+        legislativeCommitments: [],
+        privateBeliefs: [],
+        relationshipInteractions: [],
+      },
+    } as unknown as World;
+  }
+
+  function constituents(world: World) {
+    return memberVoteConsiderations(world, {
+      stableKey: "test:vote",
+      personId: memberId,
+      question: {
+        question: {
+          measureId,
+          purpose: "floor-stage",
+          forumKey: "house",
+          floorStageKey: null,
+          amendmentStableKey: null,
+          provisionKey: null,
+        },
+        questionLabel: "Pass this measure?",
+      },
+    }).filter((row) => row.sourceType === "context:constituents-view");
+  }
+
+  it("a member blamed for a law leans toward the bill that changes it, and away from one that keeps it", () => {
+    expect(constituents(withLaw("no", [-20, -15]))).toMatchObject([
+      { optionKey: "vote-yea", importance: "moderate" },
+    ]);
+    expect(constituents(withLaw("yes", [-20, -15]))).toMatchObject([
+      { optionKey: "vote-nay" },
+    ]);
+  });
+
+  it("credit argues for keeping the law, and a wash or no views adds nothing", () => {
+    expect(constituents(withLaw("no", [10]))).toMatchObject([
+      { optionKey: "vote-nay", importance: "slight" },
+    ]);
+    expect(constituents(withLaw("no", [10, -10]))).toEqual([]);
+    expect(constituents(withLaw("no", []))).toEqual([]);
   });
 });

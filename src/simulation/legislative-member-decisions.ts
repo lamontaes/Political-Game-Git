@@ -1,5 +1,8 @@
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import { requireMeasure } from "./legislation";
+import { lawInForce } from "./governing/law-in-force";
+import { measurePropositionAnswer } from "./issue-record";
+import { netViewOnLaw } from "./official-view-reads";
 import {
   assessCommitment,
   commitmentObligation,
@@ -334,6 +337,44 @@ function memberConsiderations(
           ? `The member's own view agrees with the bill's answer to ${proposition.question}`
           : `The member's own view conflicts with the bill's answer to ${proposition.question}`,
         sourceRefs: [{ kind: "private-belief", beliefId: belief.id }],
+      });
+    }
+  }
+
+  // Spec 5: what the people an existing law reached told this member about
+  // their part in it. A bill that would change that law answers them: blame
+  // argues for changing it, credit for keeping it.
+  if (asked.purpose !== "amendment" && pending === null) {
+    const measure = requireMeasure(world, measureId);
+    for (const answer of measure.propositionAnswers ?? []) {
+      const law = lawInForce(
+        world,
+        measure.jurisdictionId,
+        answer.propositionId,
+      );
+      if (!law || law.measureId === measureId) continue;
+      const net = netViewOnLaw(world, input.personId, law.measureId);
+      if (net === 0) continue;
+      const billAnswer = measurePropositionAnswer(
+        measure,
+        answer.propositionId,
+      );
+      if (!billAnswer) continue;
+      const changes = law.answer !== billAnswer;
+      const yea = net < 0 ? changes : !changes;
+      const proposition =
+        world.policyCatalog.propositions[answer.propositionId];
+      // PLACEHOLDER: net view points to the engine's ordinal weight.
+      const size = Math.abs(net);
+      considerations.push({
+        stableKey: `member:constituents:${law.measureId}:${answer.propositionId}`,
+        optionKey: yea ? "vote-yea" : "vote-nay",
+        sourceType: "context:constituents-view",
+        direction: "supports",
+        importance: size >= 60 ? "strong" : size >= 20 ? "moderate" : "slight",
+        confidence: "medium",
+        explanation: `People the current law on ${proposition?.question ?? "this question"} reached ${net < 0 ? "blame" : "credit"} the member for it, and this bill would ${changes ? "change" : "keep"} that law.`,
+        sourceRefs: [],
       });
     }
   }
