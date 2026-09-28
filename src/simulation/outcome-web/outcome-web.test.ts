@@ -388,11 +388,16 @@ describe("every state policy question has researched effects (F-cloud rows)", ()
     expect(waiting.map((link) => link.key).sort()).toEqual([
       "by-right-permitting-to-homelessness",
       "housing-preemption-to-homelessness",
+      "inclusionary-to-homelessness",
     ]);
     for (const link of waiting) {
       expect(outcomeMeasure(link.from), link.key).not.toBeNull();
       expect(outcomeLinkStatus(link), link.key).toBe(
-        OUTCOMES_PRODUCED.has(link.to) ? "built" : "outcome-not-produced",
+        link.evidence === "about-zero"
+          ? "about-zero"
+          : OUTCOMES_PRODUCED.has(link.to)
+            ? "built"
+            : "outcome-not-produced",
       );
     }
     const preemption = waiting.find(

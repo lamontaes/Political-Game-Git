@@ -3068,6 +3068,23 @@
         "effectAtFull": -0.5,
         "mode": "scale"
       }
+    },
+    {
+      "key": "inclusionary-to-homelessness",
+      "from": "law:us-policy-positions:housing-land-use.inclusionary-requirement",
+      "to": "housing.homelessness",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "Inclusionary rules raised prices and slowed building in Boston's suburbs and had no significant effect around San Francisco; the few below-market homes and the slower building roughly cancel",
+      "source": "Schuetz, Meltzer and Been 2011, Urban Studies"
     }
   ],
   "calibratedAt": "2024-07-01"
