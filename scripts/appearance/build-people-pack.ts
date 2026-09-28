@@ -29,6 +29,7 @@ import {
   PEOPLE_PACK_VERSION,
   type BodyBuild,
   FACE_EXPRESSIONS,
+  FACIAL_HAIR_STYLES,
   isSeatedPose,
   type BodyPose,
   type NamedBodyPose,
@@ -680,6 +681,56 @@ function paintedExpressions(
   return Object.keys(expressions).length > 0 ? { expressions } : {};
 }
 
+/**
+ * Claude CTO's facial hair and glasses (Sept. 28, 2026): each a separate head
+ * layer painted at full size on the canonical average head, on the same
+ * canvas. Facial hair is facial-hair/facial-hair-<sex>-<style>.png, painted
+ * dark brown so it takes the hair's color; glasses are glasses/glasses-<frame>
+ * .png, the same frames for both presentations. The three-quarter heads keep
+ * theirs in FIREFLY_THREE_QUARTER's facial-hair/ and glasses/. What is not
+ * painted is left out, and the game draws no layer for it.
+ */
+const FIREFLY_FACIAL_HAIR =
+  "/Users/lamontae/political-game-play/cto-notes/firefly/facial-hair";
+const FIREFLY_GLASSES =
+  "/Users/lamontae/political-game-play/cto-notes/firefly/glasses";
+
+function headLayers(
+  sex: string,
+  facialHairDir: string,
+  glassesDir: string,
+  suffix: string,
+): Pick<PackPresentation, "facialHair" | "glasses"> {
+  const facialHair = FACIAL_HAIR_STYLES.filter((style) =>
+    existsSync(join(facialHairDir, `facial-hair-${sex}-${style}.png`)),
+  ).map((style) => ({
+    id: style,
+    file: write(
+      downscaleHalf(
+        read(join(facialHairDir, `facial-hair-${sex}-${style}.png`)),
+      ),
+      `facial-hair-${sex}-${style}${suffix}.png`,
+    ),
+  }));
+  const frames = existsSync(glassesDir)
+    ? readdirSync(glassesDir)
+        .filter((file) => /^glasses-[a-z0-9-]+\.png$/.test(file))
+        .map((file) => file.slice("glasses-".length, -".png".length))
+        .sort()
+    : [];
+  const glasses = frames.map((frame) => ({
+    id: frame,
+    file: write(
+      downscaleHalf(read(join(glassesDir, `glasses-${frame}.png`))),
+      `glasses-${sex}-${frame}${suffix}.png`,
+    ),
+  }));
+  return {
+    ...(facialHair.length > 0 ? { facialHair } : {}),
+    ...(glasses.length > 0 ? { glasses } : {}),
+  };
+}
+
 function packPoses(
   painted: Map<BodyPose, Record<BodyBuild, { readonly body: PackBody }>>,
   poses: readonly NamedBodyPose[],
@@ -1073,6 +1124,12 @@ for (const sex of ["feminine", "masculine"] as const) {
         : {}),
       faces: turnedFaces,
       hair: turnedHair,
+      ...headLayers(
+        sex,
+        join(dir, "facial-hair"),
+        join(dir, "glasses"),
+        "-three-quarter",
+      ),
       toward: "right",
     };
   };
@@ -1083,6 +1140,7 @@ for (const sex of ["feminine", "masculine"] as const) {
     bodies,
     faces,
     hair,
+    ...headLayers(sex, FIREFLY_FACIAL_HAIR, FIREFLY_GLASSES, ""),
     seated: { bodies: seatedBodies },
     ...(namedPoses(posed).length > 0
       ? { poses: packPoses(posed, namedPoses(posed)) }

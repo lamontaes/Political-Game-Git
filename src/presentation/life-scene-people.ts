@@ -405,9 +405,12 @@ function posedFor(
   readonly pose: BodyPose;
   readonly view: BodyView;
   readonly expression: FaceExpression;
+  readonly reading: boolean;
 } {
   const record = world.people[personId]!;
   return {
+    // At a desk or table: anyone who wears glasses to read has them on.
+    reading: activity === "desk",
     expression: conversationExpression(
       world,
       personId,

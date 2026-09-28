@@ -149,7 +149,7 @@ export function lineTone(world: World, event: HistoricalEvent): LineTone {
   return "plain";
 }
 
-/** A recorded catalogue quality's value, or null when it is not recorded. */
+/** A recorded catalog quality's value, or null when it is not recorded. */
 function recordedQuality(
   world: World,
   personId: EntityId,

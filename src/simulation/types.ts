@@ -572,6 +572,12 @@ export interface EngineAppearanceChoice {
   readonly outfit?: string;
   /** Fabric color per garment part (top, bottom, suit, shirt, tie, coat...). */
   readonly colors?: Readonly<Record<string, string>>;
+  /** A facial hair style (appearance-engine/pack.ts), or "none". */
+  readonly facialHair?: string;
+  /** A glasses frame id, or "none". */
+  readonly glasses?: string;
+  /** Whether the glasses are worn all day or only to read. */
+  readonly glassesWear?: "always" | "reading";
 }
 
 export type PersonGenerationProfile = "production" | "stress";
