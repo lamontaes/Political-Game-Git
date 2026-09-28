@@ -12,6 +12,7 @@ import {
   PART_PALETTES,
   type BodyBuild,
   type BodyPose,
+  type BodyView,
   type BodyPresentation,
   type EngineRecipe,
   type OutfitTag,
@@ -139,8 +140,13 @@ export interface EngineRecipeOptions {
    * formal clothes at work, a coat outdoors in the cold months.
    */
   readonly wear?: Exclude<OutfitTag, "uniform">;
-  /** Seated where the place has a seat for them. */
+  /**
+   * Seated where the place has a seat for them, or the pose the scene gives
+   * them (pose-chooser.ts).
+   */
   readonly pose?: BodyPose;
+  /** Turned toward something in the scene, rather than facing front. */
+  readonly view?: BodyView;
   /**
    * A work uniform (an outfit id) this person wears here because of their
    * job (src/presentation/work-uniform.ts). It replaces the outfit.
@@ -210,7 +216,10 @@ export function engineRecipeFor(
     // Everyday clothes unless the person chose otherwise or the place calls
     // for something else (work clothes, formal wear, a coat).
     outfit: outfit.id,
-    ...(options.pose === "seated" ? { pose: "seated" as const } : {}),
+    ...(options.pose && options.pose !== "standing"
+      ? { pose: options.pose }
+      : {}),
+    ...(options.view && options.view !== "front" ? { view: options.view } : {}),
     // Each garment part in a color of its own, kept per person.
     colors: Object.fromEntries(
       Object.entries(outfit.parts).map(([part, paletteId]) => {

@@ -1627,6 +1627,10 @@ function PlayingScreen({
     [session.world, shell.personWardrobes],
   );
 
+  const conversationSpeaker =
+    conversation && conversation.addressee !== "everyone"
+      ? conversation.addressee
+      : null;
   const scenePeople = useMemo(
     () =>
       planLifeScenePeople(
@@ -1639,6 +1643,8 @@ function PlayingScreen({
           snapshotsByPersonId: renderSnapshots,
           ...(artPreview ? { artPreview } : {}),
         },
+        // The person the player is talking with answers; the rest listen.
+        { speakerId: conversationSpeaker },
       ),
     [
       session.world,
@@ -1647,6 +1653,7 @@ function PlayingScreen({
       shell.personWardrobes,
       renderSnapshots,
       artPreview,
+      conversationSpeaker,
     ],
   );
 
