@@ -1,4 +1,5 @@
 import { eventById } from "./event-index";
+import { hasStableKey } from "./history-index";
 import { assertPublicFundingMandate } from "./public-fiscal";
 import { assertProgramInstallmentBasis } from "./public-program-integrity";
 import { makeIsoDate } from "./dates";
@@ -1418,7 +1419,7 @@ function assertUniqueStableKey(
   label: string,
 ): void {
   assertNonEmpty(stableKey, `${label} stable key`);
-  if (records.some((record) => record.stableKey === stableKey))
+  if (hasStableKey(records, stableKey))
     throw new Error(`${label} stable key already exists: ${stableKey}`);
 }
 

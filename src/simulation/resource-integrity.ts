@@ -2,6 +2,7 @@ import { assertPublicFundingMandate } from "./public-fiscal";
 import { assertProgramInstallmentBasis } from "./public-program-integrity";
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
+import { recordById } from "./history-index";
 import {
   activeDwellingOccupanciesAt,
   dwellingOccupancyStateHistory,
@@ -72,7 +73,11 @@ export function resourceHousingEntityExists(
     h.dwellings,
     h.dwellingOccupancies,
     h.housingTenures,
-  ].some((records) => records.some((record) => record.id === id));
+  ].some(
+    (records) =>
+      recordById(records as readonly { readonly id: EntityId }[], id) !==
+      undefined,
+  );
 }
 
 export function resourceHousingEntityAvailableAt(
