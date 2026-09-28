@@ -6,7 +6,11 @@ import {
 } from "../macro-economy/readers";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import { ruleValueInWorld, laborLawOfficeKey } from "../enacted-rule-changes";
-import { placeOutcomeAt, placeOutcomeKey } from "./place-outcome-store";
+import {
+  PLACE_OUTCOME_BASES,
+  placeOutcomeAt,
+  placeOutcomeKey,
+} from "./place-outcome-store";
 import minimumWages from "../../../data/research/money/minimum-wage-2026.json";
 import { US_FEDERAL_POSITIONS_PACK } from "../policy-pack-us-federal-positions";
 import { US_POLICY_POSITIONS_PACK } from "../policy-pack-us-policy-positions";
@@ -161,25 +165,13 @@ function stateMinimumHourlyAt(
 }
 
 /**
- * Every measure the web can read today. Each area adds its measures here as
- * the world starts recording them; a link switches on when its cause does.
+ * Measures the web reads that are not place outcomes. Each area adds its
+ * measures here as the world starts recording them; a link switches on when
+ * its cause does. Place outcomes need no entry: adding one to
+ * place-outcome-bases makes it readable, produced and drifting.
  */
-export const OUTCOME_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
-  // The place outcomes the world records monthly, read for a place's state.
-  "health.uninsured-pct": {
-    key: "health.uninsured-pct",
-    unit: "percent of people without health insurance",
-    read: (world, jurisdictionId, asOf) =>
-      placeOutcomeAt(world, "health.uninsured-pct", jurisdictionId, asOf)
-        ?.value ?? null,
-  },
-  "household.poverty-pct": {
-    key: "household.poverty-pct",
-    unit: "percent of people below the poverty line",
-    read: (world, jurisdictionId, asOf) =>
-      placeOutcomeAt(world, "household.poverty-pct", jurisdictionId, asOf)
-        ?.value ?? null,
-  },
+const FIXED_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
+  // Every place outcome (place-outcome-bases) is added below.
   "labor.minimum-wage-gap-to-15": {
     key: "labor.minimum-wage-gap-to-15",
     unit: "share of the way from $15 down to $7.25 the state's minimum sits",
@@ -222,6 +214,25 @@ export const OUTCOME_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
   },
 };
 
+/**
+ * Every measure the web can read today: the fixed ones above, and every
+ * place outcome the world records monthly, read for a place's state.
+ */
+export const OUTCOME_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
+  ...FIXED_MEASURES,
+  ...Object.fromEntries(
+    Object.entries(PLACE_OUTCOME_BASES).map(([key, definition]) => [
+      key,
+      {
+        key,
+        unit: definition.unit,
+        read: (world: World, jurisdictionId: EntityId, asOf: IsoDate) =>
+          placeOutcomeAt(world, key, jurisdictionId, asOf)?.value ?? null,
+      },
+    ]),
+  ),
+};
+
 export type OutcomeLinkStatus =
   | "built"
   | "about-zero"
@@ -240,8 +251,7 @@ export const OUTCOMES_PRODUCED: ReadonlySet<string> = new Set([
   "crime.burglary",
   "crime.vandalism",
   "births.rate",
-  "health.uninsured-pct",
-  "household.poverty-pct",
+  ...Object.keys(PLACE_OUTCOME_BASES),
 ]);
 
 const LAW_CAUSE_PREFIX = "law:";
@@ -281,6 +291,12 @@ function baselineOf(
   cause: string,
 ): number | undefined {
   if (CHANGE_MEASURES.has(cause)) return 0;
+  // A place outcome is measured from where the place began.
+  const placeBase = PLACE_OUTCOME_BASES[cause];
+  if (placeBase) {
+    const key = placeOutcomeKey(jurisdictionId);
+    return key ? placeBase.places[key] : undefined;
+  }
   if (cause.startsWith(LAW_CAUSE_PREFIX)) {
     // The law the place had when its base data was measured: only a change
     // from it moves the outcome. No law then counts as "not yes".
