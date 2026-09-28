@@ -8,6 +8,7 @@ import type {
   World,
 } from "../types";
 import {
+  drawnLinkSize,
   OUTCOME_LINKS,
   OUTCOMES_PRODUCED,
   outcomeFactor,
@@ -250,5 +251,50 @@ describe("laws as causes", () => {
       );
       expect(reading.multiplier, String(answer)).toBe(1);
     }
+  });
+});
+
+describe("sizes are a baseline, not literal numbers", () => {
+  const link = OUTCOME_LINKS.find(
+    (candidate) => candidate.key === "unemployment-to-poverty",
+  )!;
+  const place = "place_a" as EntityId;
+  const seeded = (seed: string) => ({ seed }) as unknown as World;
+
+  it("each world draws each place's size within the research range, and keeps it", () => {
+    const [low, high] = link.range!;
+    const sizes = new Set<number>();
+    for (let index = 0; index < 40; index += 1) {
+      const size = drawnLinkSize(seeded(`world-${index}`), link, place);
+      expect(size).toBeGreaterThanOrEqual(low);
+      expect(size).toBeLessThanOrEqual(high);
+      expect(drawnLinkSize(seeded(`world-${index}`), link, place)).toBe(size);
+      sizes.add(size);
+    }
+    // Different worlds play out differently.
+    expect(sizes.size).toBeGreaterThan(30);
+    // So do different places in one world.
+    expect(drawnLinkSize(seeded("w"), link, "place_b" as EntityId)).not.toBe(
+      drawnLinkSize(seeded("w"), link, place),
+    );
+  });
+
+  it("a link without a researched range spreads by its evidence, and an about-zero link stays zero", () => {
+    const researched = {
+      key: "x",
+      size: 0.1,
+      evidence: "researched" as const,
+    };
+    for (let index = 0; index < 20; index += 1) {
+      const size = drawnLinkSize(seeded(`s${index}`), researched, place);
+      expect(size).toBeGreaterThanOrEqual(0.075);
+      expect(size).toBeLessThanOrEqual(0.125);
+    }
+    for (const zero of OUTCOME_LINKS.filter(
+      (candidate) => candidate.evidence === "about-zero",
+    ))
+      expect(drawnLinkSize(seeded("w"), zero, place)).toBe(0);
+    // A fixture world with no seed uses the central size.
+    expect(drawnLinkSize({} as World, link, place)).toBe(link.size);
   });
 });

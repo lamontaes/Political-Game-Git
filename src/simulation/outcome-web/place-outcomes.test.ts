@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import type {
   EntityId,
   LegislativeEnactmentRecord,
@@ -184,5 +185,47 @@ describe("place outcomes", () => {
     expect(
       placeOutcomeAt(world, UNINSURED, texas, makeIsoDate("2025-12-31")),
     ).toBeNull();
+  });
+
+  it("a federal minimum wage raise lowers poverty about 3.5% where the state sits at $7.25, and not where it is already above $15", () => {
+    const RAISE = "proposition_federal_minimum" as EntityId;
+    const federal = NATIONAL_ELECTION_JURISDICTION.id;
+    const world = {
+      ...worldAt("2029-01-01"),
+      policyCatalog: {
+        propositions: {
+          [RAISE]: {
+            id: RAISE,
+            stableKey:
+              "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          },
+        },
+      },
+      history: {
+        legislativeMeasures: [
+          {
+            ...texasExpansion("2026-07-01").measure,
+            id: "measure_us" as EntityId,
+            jurisdictionId: federal,
+            propositionIds: [RAISE],
+            propositionAnswers: [{ propositionId: RAISE, answer: "yes" }],
+          },
+        ],
+        legislativeEnactments: [
+          {
+            ...texasExpansion("2026-07-01").enactment,
+            measureId: "measure_us" as EntityId,
+          },
+        ],
+      },
+    } as unknown as World;
+    const records = placeOutcomesForMonth(world, makeIsoDate("2029-01-01"));
+    const POVERTY = "household.poverty-pct";
+    expect(valueFor(records, POVERTY, "US-KY").multiplier).toBeCloseTo(
+      0.965,
+      10,
+    );
+    expect(valueFor(records, POVERTY, "US-WA").multiplier).toBe(1);
+    expect(valueFor(records, POVERTY, "US-CA").multiplier).toBe(1);
   });
 });
