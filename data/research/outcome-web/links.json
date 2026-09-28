@@ -1967,16 +1967,20 @@
    "shape": {
     "kind": "linear"
    },
-   "size": null,
+   "size": 0.05,
    "per": "law in force, high-quality program",
-   "lagMonths": 0,
+   "lagMonths": 168,
    "group": "4-year-olds, later",
    "owner": "M",
-   "anchor": "Boston: +6 points graduation, +8 college; quality matters (Tennessee worse)",
+   "anchor": "Boston's universal preschool: +6 points on-time graduation for children who enrolled; with about 70% enrolled, about +5% of a state's rate, 14 years after the first four-year-olds. Tennessee's program did worse; quality decides where in the range a world lands.",
    "source": "Gray-Lobe, Pathak and Walters 2023; Vanderbilt TN-VPK",
    "evidence": "researched",
    "from": "law:us-policy-positions:education.universal-preschool",
-   "to": "school.graduation"
+   "to": "school.graduation-pct",
+   "range": [
+    -0.02,
+    0.08
+   ]
   },
   {
    "key": "equalized-funding-to-spending",
@@ -2487,6 +2491,174 @@
    "evidence": "to-confirm",
    "from": "law:us-federal-positions:immigration.admit-more-immigrants",
    "to": "labor.workforce"
+  },
+  {
+   "key": "universal-prek-to-math-proficiency",
+   "strength": "weak",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": -0.005,
+   "per": "law in force",
+   "lagMonths": 60,
+   "group": "children who enrolled, later",
+   "owner": "M",
+   "anchor": "Boston: no detectable effect on state test scores; Tennessee: lower scores by 6th grade.",
+   "source": "Gray-Lobe, Pathak and Walters 2023; Vanderbilt TN-VPK",
+   "evidence": "contested",
+   "from": "law:us-policy-positions:education.universal-preschool",
+   "to": "school.math-proficient-pct",
+   "range": [
+    -0.03,
+    0.01
+   ]
+  },
+  {
+   "key": "equalized-funding-to-math-proficiency",
+   "strength": "moderate",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": 0.06,
+   "per": "law in force",
+   "lagMonths": 36,
+   "group": "students in low-income districts",
+   "owner": "M",
+   "anchor": "School finance reforms raise spending in low-income districts at once, and achievement there rises over the following years; the implied effect of resources is large (size to confirm).",
+   "source": "Lafortune, Rothstein and Schanzenbach 2018 (AEJ Applied)",
+   "evidence": "provisional",
+   "from": "law:us-policy-positions:education.equalize-school-funding",
+   "to": "school.math-proficient-pct",
+   "range": [
+    0.02,
+    0.1
+   ]
+  },
+  {
+   "key": "equalized-funding-to-graduation",
+   "strength": "moderate",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": 0.02,
+   "per": "law in force",
+   "lagMonths": 60,
+   "group": "students in low-income districts",
+   "owner": "M",
+   "anchor": "10% more per student every year raises completed schooling 0.31 years, far more for low-income children; statewide about +2% on the rate once cohorts pass through (size to confirm).",
+   "source": "Jackson, Johnson and Persico 2016 (QJE)",
+   "evidence": "provisional",
+   "from": "law:us-policy-positions:education.equalize-school-funding",
+   "to": "school.graduation-pct",
+   "range": [
+    0.005,
+    0.04
+   ]
+  },
+  {
+   "key": "vouchers-to-math-proficiency",
+   "strength": "weak",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": -0.01,
+   "per": "law in force",
+   "lagMonths": 12,
+   "group": "students who use them",
+   "owner": "M",
+   "anchor": "Statewide voucher users lost ground in math at first (Louisiana, Indiana, Ohio), fading after a few years; few students use them, so the state moves little.",
+   "source": "Abdulkadiroglu, Pathak and Walters 2018; Waddington and Berends 2018 (to confirm)",
+   "evidence": "contested",
+   "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
+   "to": "school.math-proficient-pct",
+   "range": [
+    -0.03,
+    0.005
+   ]
+  },
+  {
+   "key": "vouchers-to-graduation",
+   "strength": "weak",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": 0.005,
+   "per": "law in force",
+   "lagMonths": 48,
+   "group": "students who use them",
+   "owner": "M",
+   "anchor": "D.C. voucher users graduated more (about +12 points for users); few students use them.",
+   "source": "Wolf et al. 2013 (to confirm)",
+   "evidence": "contested",
+   "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
+   "to": "school.graduation-pct",
+   "range": [
+    0,
+    0.015
+   ]
+  },
+  {
+   "key": "poverty-to-math-proficiency",
+   "strength": "moderate",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": -0.01,
+   "per": "point of poverty above the state's start",
+   "lagMonths": 12,
+   "group": "children",
+   "owner": "M",
+   "anchor": "More family income raises children's scores (about +0.06 SD per $1,000); a point more poverty lowers a state's proficient share about 1% (to confirm).",
+   "source": "Dahl and Lochner 2012 (AER)",
+   "evidence": "provisional",
+   "from": "household.poverty-pct",
+   "to": "school.math-proficient-pct",
+   "range": [
+    -0.02,
+    0
+   ]
+  },
+  {
+   "key": "uninsured-to-graduation",
+   "strength": "weak",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": -0.002,
+   "per": "point of uninsured above the state's start",
+   "lagMonths": 60,
+   "group": "children, over their school years",
+   "owner": "M",
+   "anchor": "Child coverage raises high-school completion (1980s-90s expansions cut non-completion 10%); the state's uninsured rate stands in for child coverage (to confirm).",
+   "source": "Cohodes et al. 2016 (JHR)",
+   "evidence": "provisional",
+   "from": "health.uninsured-pct",
+   "to": "school.graduation-pct",
+   "range": [
+    -0.004,
+    0
+   ]
+  },
+  {
+   "key": "graduation-to-poverty",
+   "strength": "moderate",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": -0.004,
+   "per": "point of graduation above the state's start",
+   "lagMonths": 120,
+   "group": "adults, years later",
+   "owner": "F",
+   "anchor": "More schooling lowers adult poverty (+0.31 years of school: -3.2 points of adult poverty for low-income children); a state's graduation gain reaches poverty a decade on (to confirm).",
+   "source": "Jackson, Johnson and Persico 2016 (QJE)",
+   "evidence": "provisional",
+   "from": "school.graduation-pct",
+   "to": "household.poverty-pct",
+   "range": [
+    -0.008,
+    -0.001
+   ]
   }
  ],
  "calibratedAt": "2024-07-01"

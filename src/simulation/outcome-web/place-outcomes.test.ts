@@ -118,6 +118,15 @@ describe("place outcomes", () => {
       records.filter((record) => record.measure === "household.poverty-pct")
         .length,
     ).toBe(52);
+    expect(
+      records.filter((record) => record.measure === "school.graduation-pct")
+        .length,
+    ).toBe(52);
+    expect(
+      records.filter(
+        (record) => record.measure === "school.math-proficient-pct",
+      ).length,
+    ).toBe(51);
     for (const record of records) {
       expect(record.multiplier, record.placeKey).toBe(1);
       expect(record.value, record.placeKey).toBe(record.base);
@@ -169,6 +178,51 @@ describe("place outcomes", () => {
     expect(later.causes.map((cause) => cause.key).sort()).toEqual([
       "medicaid-expansion-to-coverage",
       "work-requirement-to-coverage",
+    ]);
+  });
+
+  it("a Texas law equalizing school funding raises its math proficiency about 6% three years on", () => {
+    const EQUALIZE = "proposition_equalize" as EntityId;
+    const law = texasExpansion("2027-01-01");
+    const world = (date: string) =>
+      ({
+        ...worldAt(date),
+        policyCatalog: {
+          propositions: {
+            [EQUALIZE]: {
+              id: EQUALIZE,
+              stableKey:
+                "us-policy-positions:education.equalize-school-funding",
+            },
+          },
+        },
+        history: {
+          legislativeMeasures: [
+            {
+              ...law.measure,
+              propositionIds: [EQUALIZE],
+              propositionAnswers: [{ propositionId: EQUALIZE, answer: "yes" }],
+            },
+          ],
+          legislativeEnactments: [law.enactment],
+        },
+      }) as unknown as World;
+    const MATH = "school.math-proficient-pct";
+    expect(
+      valueFor(
+        placeOutcomesForMonth(world("2029-12-01"), makeIsoDate("2029-12-01")),
+        MATH,
+        "US-TX",
+      ).multiplier,
+    ).toBe(1);
+    const after = valueFor(
+      placeOutcomesForMonth(world("2030-01-01"), makeIsoDate("2030-01-01")),
+      MATH,
+      "US-TX",
+    );
+    expect(after.multiplier).toBeCloseTo(1.06, 10);
+    expect(after.causes.map((cause) => cause.key)).toEqual([
+      "equalized-funding-to-math-proficiency",
     ]);
   });
 
@@ -285,10 +339,15 @@ describe("the entire world changes: place outcomes drift, and no two worlds end 
   });
 
   it("twenty-five years on, the same state ends in very different places in different worlds", () => {
-    const texas = ["w1", "w2", "w3", "w4"].map(
-      (seed) => last(run(seed, 300), "US-TX").value,
-    );
-    expect(Math.max(...texas) - Math.min(...texas)).toBeGreaterThan(3);
+    const worlds = ["w1", "w2", "w3", "w4"].map((seed) => run(seed, 300));
+    const spread = (measure: string) => {
+      const values = worlds.map((world) => last(world, "US-TX", measure).value);
+      return Math.max(...values) - Math.min(...values);
+    };
+    expect(spread(UNINSURED)).toBeGreaterThan(3);
+    // Schools change too: graduation and math proficiency end apart.
+    expect(spread("school.graduation-pct")).toBeGreaterThan(2);
+    expect(spread("school.math-proficient-pct")).toBeGreaterThan(2);
   }, 120_000);
 
   it("laws still act on top of the drift: the work requirement multiplies Ohio's level from mid-2027", () => {
