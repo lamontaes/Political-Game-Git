@@ -7414,6 +7414,11 @@ body:where(.pg-game) .game-campaign-tallies {
  * width and the control sits at its right edge, which is the side the cluster
  * is not on, and above the name-plate band.
  */
+/*
+ * The opened moment stands above the corner cluster too, so "Return to the
+ * room" is never under it: at 1440x900 the cluster took the click. A long
+ * moment scrolls inside its own panel instead of pushing past the reserve.
+ */
 .pg-opening-pending {
   display: flex;
   flex-direction: column;
@@ -7421,11 +7426,17 @@ body:where(.pg-game) .game-campaign-tallies {
   gap: 0.5rem;
   width: min(42rem, 100%);
   min-height: 0;
+  max-height: calc(
+    var(--pg-vv-height, 100dvh) - var(--pg-content-top, 1rem) -
+      max(5rem, var(--pg-nav-reserve, 5.5rem)) - 2rem
+  );
+  margin-bottom: max(5rem, var(--pg-nav-reserve, 5.5rem));
 }
 
 .pg-opening-pending > .life-moment {
   min-height: 0;
   flex: 0 1 auto;
+  overflow-y: auto;
 }
 
 .pg-opening-pending > [data-testid="pending-life-return"] {
@@ -7448,7 +7459,13 @@ body:where(.pg-game) .game-campaign-tallies {
   align-items: flex-start;
   gap: 0.1rem;
   align-self: flex-end;
-  margin-bottom: 5rem;
+  /*
+   * Above the corner cluster's measured reserve, like the meeting panel
+   * beside it. A fixed 5rem left the button's lower half under the cluster at
+   * 1280x800 (button 649-702px, cluster from 664px), so only its top edge
+   * showed and a click there landed on the cluster.
+   */
+  margin-bottom: max(5rem, var(--pg-nav-reserve, 5.5rem));
   padding: 0.5rem 0.9rem;
   max-width: min(22rem, 100%);
   color: var(--run-a-ink);

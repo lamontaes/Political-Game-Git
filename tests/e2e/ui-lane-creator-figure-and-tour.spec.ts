@@ -125,3 +125,50 @@ for (const viewport of [
     await expect(page.getByTestId("morning-thought")).toBeVisible();
   });
 }
+
+/*
+ * The room's way into the moment says what it opens, and it can be clicked.
+ * It read "What's happening", and at 1280x800 the corner cluster covered its
+ * lower half, so a click on its label landed on the cluster instead.
+ */
+for (const viewport of [
+  { width: 1280, height: 800 },
+  { width: 1440, height: 1000 },
+]) {
+  test(`the room's choices button is named and clear of the cluster at ${viewport.width}x${viewport.height}`, async ({
+    page,
+  }) => {
+    test.setTimeout(240_000);
+    await page.setViewportSize(viewport);
+    await reachAppearance(page);
+    await page.getByTestId("begin").click();
+    await expect(page.getByTestId("world-orientation")).toBeVisible({
+      timeout: 120_000,
+    });
+    await page.getByTestId("orientation-skip").click();
+    const opener = page.getByTestId("open-moment");
+    await expect(opener).toBeVisible();
+    await expect(opener).toContainText("Your choices here");
+    await expect(opener).not.toContainText("happening");
+    const clear = await opener.evaluate((node) => {
+      const rect = node.getBoundingClientRect();
+      const points = [
+        [rect.left + 8, rect.top + 8],
+        [rect.left + 8, rect.bottom - 8],
+        [rect.right - 8, rect.bottom - 8],
+      ];
+      return points.every(([x, y]) => {
+        const hit = document.elementFromPoint(x!, y!);
+        return hit !== null && node.contains(hit);
+      });
+    });
+    expect(clear).toBe(true);
+    await opener.click();
+    await expect(page.getByTestId("story-section")).toBeVisible();
+    // Opened, its way back is clear of the cluster too.
+    const back = page.getByTestId("pending-life-return");
+    await back.click({ trial: true, timeout: 5_000 });
+    await back.click();
+    await expect(page.getByTestId("story-section")).toHaveCount(0);
+  });
+}
