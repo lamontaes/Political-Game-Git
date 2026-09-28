@@ -4,7 +4,10 @@ import {
   macroConditionsAt,
   macroScopeForJurisdiction,
 } from "../macro-economy/readers";
-import { lawInForce } from "../governing/law-in-force";
+import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
+import { ruleValueInWorld, laborLawOfficeKey } from "../enacted-rule-changes";
+import { placeOutcomeAt, placeOutcomeKey } from "./place-outcome-store";
+import minimumWages from "../../../data/research/money/minimum-wage-2026.json";
 import { US_POLICY_POSITIONS_PACK } from "../policy-pack-us-policy-positions";
 import type { EntityId, IsoDate, World } from "../types";
 
@@ -35,6 +38,17 @@ import type { EntityId, IsoDate, World } from "../types";
 
 export const OUTCOME_WEB_VERSION = web.version;
 
+/**
+ * The date the outcomes' base data describes. A law cause is measured from
+ * the place's law on this date, because the base already includes it.
+ */
+export const OUTCOME_WEB_CALIBRATED_AT = web.calibratedAt as IsoDate;
+
+const FEDERAL_MINIMUM_HOURLY = minimumWages.federalHourly;
+const STARTING_MINIMUM_HOURLY = minimumWages.places as Readonly<
+  Record<string, { readonly basicHourly: number | null }>
+>;
+
 export type OutcomeEvidence =
   "researched" | "provisional" | "contested" | "about-zero" | "to-confirm";
 export type OutcomeStrength = "strong" | "moderate" | "weak" | "about-zero";
@@ -56,6 +70,12 @@ export interface OutcomeLinkModerator {
   readonly measure: string;
   /** How much the link changes when the moderator is at 1 (-0.75: 75% less). */
   readonly effectAtFull: number;
+  /**
+   * "only-when": the link acts only as far as the moderator is present (a
+   * Medicaid work requirement only where Medicaid covers the adults it binds).
+   * Otherwise the moderator scales the link by `effectAtFull` at full level.
+   */
+  readonly mode?: "scale" | "only-when";
 }
 
 export interface OutcomeLink {
@@ -88,6 +108,9 @@ const BASELINES = web.baselines as Readonly<
   Record<string, { readonly value: number; readonly note: string }>
 >;
 
+/** Measures whose baseline is zero: a change from where the place began. */
+const CHANGE_MEASURES = new Set(["labor.minimum-wage-change-pct"]);
+
 /**
  * A measure the world records, read for one place on one date. `read` returns
  * null when nothing was recorded; that is never treated as zero.
@@ -107,6 +130,49 @@ export interface OutcomeMeasure {
  * the world starts recording them; a link switches on when its cause does.
  */
 export const OUTCOME_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
+  // The place outcomes the world records monthly, read for a place's state.
+  "health.uninsured-pct": {
+    key: "health.uninsured-pct",
+    unit: "percent of people without health insurance",
+    read: (world, jurisdictionId, asOf) =>
+      placeOutcomeAt(world, "health.uninsured-pct", jurisdictionId, asOf)
+        ?.value ?? null,
+  },
+  "household.poverty-pct": {
+    key: "household.poverty-pct",
+    unit: "percent of people below the poverty line",
+    read: (world, jurisdictionId, asOf) =>
+      placeOutcomeAt(world, "household.poverty-pct", jurisdictionId, asOf)
+        ?.value ?? null,
+  },
+  "labor.minimum-wage-change-pct": {
+    key: "labor.minimum-wage-change-pct",
+    unit: "percent the state minimum wage in force is above its 2026 level",
+    // A state law enacted in play replaces the state's rate (#868); without
+    // one the 2026 rate stands and the change is zero.
+    read: (world, jurisdictionId, asOf) => {
+      const key = placeOutcomeKey(jurisdictionId);
+      if (!key || !/^US-[A-Z]{2}$/.test(key)) return null;
+      const starting = STARTING_MINIMUM_HOURLY[key]?.basicHourly;
+      if (starting === null || starting === undefined) return null;
+      const before = Math.max(FEDERAL_MINIMUM_HOURLY, starting);
+      const law = ruleValueInWorld(
+        world,
+        {
+          jurisdiction: key,
+          officeKey: laborLawOfficeKey(key.slice(3)),
+          field: "labor.minimumWage.hourlyCents",
+          onDate: asOf,
+        },
+        null,
+      );
+      const now =
+        law.source === "enacted" && typeof law.value === "number"
+          ? Math.max(FEDERAL_MINIMUM_HOURLY, law.value / 100)
+          : before;
+      return (now / before - 1) * 100;
+    },
+  },
   "labor.unemployment-pct": {
     key: "labor.unemployment-pct",
     unit: "percent of the labor force",
@@ -142,6 +208,8 @@ export const OUTCOMES_PRODUCED: ReadonlySet<string> = new Set([
   "crime.burglary",
   "crime.vandalism",
   "births.rate",
+  "health.uninsured-pct",
+  "household.poverty-pct",
 ]);
 
 const LAW_CAUSE_PREFIX = "law:";
@@ -175,9 +243,29 @@ export function outcomeMeasure(key: string): OutcomeMeasure | null {
   };
 }
 
-function baselineOf(cause: string): number | undefined {
-  // A law cause's baseline is "no law says yes".
-  if (cause.startsWith(LAW_CAUSE_PREFIX)) return 0;
+function baselineOf(
+  world: World,
+  jurisdictionId: EntityId,
+  cause: string,
+): number | undefined {
+  if (CHANGE_MEASURES.has(cause)) return 0;
+  if (cause.startsWith(LAW_CAUSE_PREFIX)) {
+    // The law the place had when its base data was measured: only a change
+    // from it moves the outcome. No law then counts as "not yes".
+    const questionKey = cause.slice(LAW_CAUSE_PREFIX.length);
+    const proposition = Object.values(
+      world.policyCatalog?.propositions ?? {},
+    ).find((definition) => definition.stableKey === questionKey);
+    if (!proposition) return 0;
+    return lawInForceAtStart(
+      world,
+      jurisdictionId,
+      proposition.id,
+      OUTCOME_WEB_CALIBRATED_AT,
+    ) === "yes"
+      ? 1
+      : 0;
+  }
   return BASELINES[cause]?.value;
 }
 
@@ -292,7 +380,7 @@ export function outcomeFactor(
     const readAt = lagged(asOf, link.lagMonths);
     const value = measure.read(world, jurisdictionId, readAt);
     if (value === null) continue;
-    const baseline = baselineOf(link.from);
+    const baseline = baselineOf(world, jurisdictionId, link.from);
     if (baseline === undefined) continue;
     let factor = shapedLinkFactor(link, value, baseline);
     if (link.moderator) {
@@ -302,7 +390,14 @@ export function outcomeFactor(
         readAt,
       );
       if (level !== null) {
-        factor = 1 + (factor - 1) * (1 + link.moderator.effectAtFull * level);
+        const scale =
+          link.moderator.mode === "only-when"
+            ? Math.min(1, Math.max(0, level))
+            : 1 + link.moderator.effectAtFull * level;
+        factor = 1 + (factor - 1) * scale;
+      } else if (link.moderator.mode === "only-when") {
+        // Unknown whether the condition holds: the link cannot be said to act.
+        continue;
       }
     }
     factor = Math.min(
