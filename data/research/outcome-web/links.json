@@ -1162,20 +1162,24 @@
   },
   {
    "key": "graduation-to-turnout",
-   "to": "voting.turnout",
+   "to": "voting.turnout-pct",
    "strength": "moderate",
    "shape": {
     "kind": "linear"
    },
-   "size": null,
-   "per": "graduating",
-   "lagMonths": 0,
+   "size": 0.002,
+   "per": "point of graduation above the state's start",
+   "lagMonths": 60,
    "group": "graduates",
    "owner": "C",
-   "anchor": "Experiments: big; draft-era college: none",
+   "anchor": "Experiments that raised graduation raised graduates' turnout a lot (Sondheimer and Green 2010); draft-era college found none (Berinsky and Lenz 2011). About +0.2% of a state's turnout per point of graduation, as graduates reach voting age; from none to twice that.",
    "source": "Sondheimer and Green 2010; Berinsky and Lenz 2011",
-   "from": "school.graduation",
-   "evidence": "contested"
+   "from": "school.graduation-pct",
+   "evidence": "contested",
+   "range": [
+    0,
+    0.004
+   ]
   },
   {
    "key": "education-to-mortality",
@@ -1666,7 +1670,7 @@
   },
   {
    "key": "voter-id-to-turnout",
-   "to": "voting.turnout",
+   "to": "voting.turnout-pct",
    "strength": "about-zero",
    "shape": {
     "kind": "linear"
@@ -1700,7 +1704,7 @@
   },
   {
    "key": "all-mail-voting-to-turnout",
-   "to": "voting.turnout",
+   "to": "voting.turnout-pct",
    "strength": "weak",
    "shape": {
     "kind": "linear"
@@ -1734,7 +1738,7 @@
   },
   {
    "key": "polling-distance-to-turnout",
-   "to": "voting.turnout",
+   "to": "voting.turnout-pct",
    "strength": "moderate",
    "shape": {
     "kind": "linear"
@@ -2082,7 +2086,7 @@
    "source": "to confirm",
    "evidence": "to-confirm",
    "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
-   "to": "voting.turnout"
+   "to": "voting.turnout-pct"
   },
   {
    "key": "restore-voting-to-turnout",
@@ -2099,7 +2103,7 @@
    "source": "to confirm",
    "evidence": "to-confirm",
    "from": "law:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
-   "to": "voting.turnout"
+   "to": "voting.turnout-pct"
   },
   {
    "key": "housing-by-right-to-new-buildings",
