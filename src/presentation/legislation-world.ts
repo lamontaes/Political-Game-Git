@@ -32,7 +32,7 @@ import {
   makeIsoDate,
   measurePosition,
   rulePackForMeasure,
-  nextMeasureDesignation,
+  nextMeasureNumbering,
   personName,
   seatBodyForPack,
   SeededRng,
@@ -464,9 +464,10 @@ export function openLegislativeWork(
     jurisdictionId: input.jurisdictionId,
     rulePackId: content.pack.packId,
     // This jurisdiction's numbering, in this world — never the bank's literal.
-    designation: nextMeasureDesignation(next, {
+    ...nextMeasureNumbering(next, {
       jurisdictionId: input.jurisdictionId,
       originChamber,
+      rulePackId: content.pack.packId,
     }),
     shortTitle: content.shortTitle,
     summary: content.summary,

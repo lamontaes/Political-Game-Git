@@ -1,0 +1,164 @@
+[
+  {
+    "id": "ct-2025-hb7287-budget",
+    "jurisdiction": "Connecticut",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 7287",
+    "law_citation": "Public Act 25-168",
+    "short_title": "FY2026-FY2027 biennial budget",
+    "enacted_date": "2025-06",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.cga.ct.gov/2025/act/Pa/pdf/2025PA-00168-R00HB-07287-PA.PDF",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": [],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Two-year appropriations by agency for fiscal years 2026 and 2027."
+      },
+      {
+        "kind": "cap",
+        "description": "Operates under the state constitutional spending cap and volatility rules.",
+        "inferred": true
+      },
+      {
+        "kind": "tax-base",
+        "description": "Revenue changes implementing the budget."
+      }
+    ],
+    "touches": ["municipal aid", "state agencies"],
+    "daily_life": "Sets town aid and state services for two years.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "ct-2025-sb4-energy-affordability",
+    "jurisdiction": "Connecticut",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB 4",
+    "law_citation": "Public Act 25-173",
+    "short_title": "Energy Affordability, Access and Accountability",
+    "enacted_date": "2025-07-01",
+    "enactment_path": "signed",
+    "effective_dates": ["2025-07-01 (most sections)"],
+    "official_text_url": "https://www.cga.ct.gov/2025/act/pa/pdf/2025PA-00173-R00SB-00004-PA.pdf",
+    "aggregator_url": null,
+    "menu": "09",
+    "menu_name": "Energy & Environment",
+    "sub_topic": "Utility regulation",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": ["appropriation"],
+    "operation": "replace",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "bond",
+        "description": "State bonds to pay certain public-benefits costs instead of ratepayers.",
+        "numbers": [
+          {
+            "value": 125000000,
+            "unit": "USD max per fiscal year",
+            "text": "125000000 USD max per fiscal year"
+          },
+          {
+            "value": 2026,
+            "unit": "and 2027 fiscal years",
+            "text": "2026 and 2027 fiscal years"
+          }
+        ]
+      },
+      {
+        "kind": "rate",
+        "description": "Expected savings to ratepayers over two years.",
+        "numbers": [
+          {
+            "value": 300000000,
+            "unit": "USD savings claim",
+            "text": "300000000 USD savings claim"
+          }
+        ]
+      },
+      {
+        "kind": "tax-base",
+        "description": "Creates a uniform solar capacity tax on certain solar facilities in place of local property tax.",
+        "numbers": [
+          {
+            "value": null,
+            "unit": null,
+            "text": "July 1-June 30 tax year"
+          }
+        ]
+      },
+      {
+        "kind": "oversight-body",
+        "description": "Changes to utility regulator process and accountability."
+      }
+    ],
+    "touches": ["electric bills", "PURA", "state bonding"],
+    "daily_life": "A modest line-item cut on the monthly electric bill.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "ct-2025-hb8002-housing",
+    "jurisdiction": "Connecticut",
+    "level": "state",
+    "session": "2025 November Special Session",
+    "bill_number": "HB 8002",
+    "law_citation": "Public Act 25-1 (special session)",
+    "short_title": "Housing growth and zoning reform",
+    "enacted_date": "2025-11-26",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.cga.ct.gov/",
+    "aggregator_url": null,
+    "menu": "06",
+    "menu_name": "Housing & Land Use",
+    "sub_topic": "Planning and zoning",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": ["preemption"],
+    "operation": "replace",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "duty",
+        "description": "Towns must prepare housing growth plans."
+      },
+      {
+        "kind": "preemption",
+        "description": "Limits local minimum off-street parking requirements for new housing."
+      },
+      {
+        "kind": "oversight-body",
+        "description": "Expands fair rent commissions."
+      },
+      {
+        "kind": "benefit",
+        "description": "Incentives (priority for state funds) to towns that take pro-housing steps."
+      },
+      {
+        "kind": "transition",
+        "description": "Replaces the regular-session bill that was vetoed (HB 5002)."
+      }
+    ],
+    "touches": ["local zoning boards", "state infrastructure grants"],
+    "daily_life": "New apartments are not blocked just because they lack a large parking lot.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": "Special session law, included because the regular-session version was vetoed; shows veto-then-rework pattern."
+  }
+]

@@ -3,21 +3,16 @@ import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 import {
   addDays,
   candidacyPackForJurisdiction,
-  createScheduledActivity,
   ensureCampaignOpponents,
   fileCampaign,
   makeCurrencyCode,
   scheduledActivityState,
-  simulationMomentAtLocalTime,
 } from "../simulation";
-import type { EntityId, IsoDate, World } from "../simulation";
+import type { EntityId, World } from "../simulation";
 import { claimStanceOf } from "../simulation/claim-stances";
 import { CHAPTER_JOINED_EVENT } from "../simulation/living-world/party-chapters";
 import { seekCivicPressContact } from "../simulation/press-reach";
-import { writeLegacyHouseholdEveningInvitation } from "../simulation/life-opportunities";
 import { sceneBindingsFor } from "../simulation/scene-bindings";
-import { letAdultTimePass } from "./adult-life";
-import { refreshContextualScenes } from "./contextual-scene-producers";
 import type { ContextualSceneSubject } from "./contextual-scenes";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -231,87 +226,5 @@ describe("a filing is news at home and to a reporter", () => {
     const quiet = passOrdinaryDays(withReporter, 1);
     expect(variantOf(quiet, player, "campaign-reaction")).toBeUndefined();
     expect(variantOf(quiet, player, "reporter-question")).toBeUndefined();
-  });
-});
-
-describe("an evening in, promised, and a commitment the same evening", () => {
-  // Play no longer writes the evening invitation (the owner removed it on
-  // 2026-09-22). A save made before then still holds one, and the scenes that
-  // answer it still have to read it correctly.
-  const life = adultLife("people-evening-3");
-  const player = life.playerPersonId;
-  const offered = refreshContextualScenes(
-    writeLegacyHouseholdEveningInvitation(
-      letAdultTimePass(life.world, 1),
-      player,
-    ),
-    player,
-  );
-
-  it("play itself no longer writes the invitation", () => {
-    // This life reached the invitation within twenty days before it was
-    // removed, which is what this describe used to wait for.
-    let world = life.world;
-    for (let day = 0; day < 20; day += 1) world = letAdultTimePass(world, 1);
-    expect(
-      world.history.events.filter(
-        (event) => event.type === "life.household-evening-proposed",
-      ),
-    ).toEqual([]);
-  });
-
-  it("the housemate's own invitation is a favor scene the same day", () => {
-    expect(variantOf(offered, player, "favor")).toBe("household-evening");
-    const view = openView(offered, player, "scene-favor")!;
-    expect(view.intents.map((intent) => intent.key)).toContain("spend-evening");
-  });
-
-  const at = (date: IsoDate, minuteOfDay: number) =>
-    simulationMomentAtLocalTime({
-      date,
-      minuteOfDay,
-      timeZone: offered.currentMoment.timeZone,
-      preferredUtcOffsetMinutes: offered.currentMoment.utcOffsetMinutes,
-    });
-  const booked = createScheduledActivity(offered, {
-    stableKey: "fixture:variants:potluck",
-    title: "neighborhood potluck",
-    summary: "A potluck the player said they would go to.",
-    kind: "confirmed",
-    start: at(offered.currentDate, 18 * 60 + 30),
-    end: at(offered.currentDate, 19 * 60 + 30),
-    participantPersonIds: [player],
-    responsiblePersonId: player,
-    location: {
-      locationKey: "fixture:potluck",
-      label: "A neighbor's house",
-      jurisdictionId: offered.people[player]!.homeJurisdictionId,
-    },
-    sourceEntityIds: [player],
-    flexibility: { kind: "fixed" },
-    access: { kind: "private", personIds: [player] },
-  });
-  const promised = say(booked, player, "scene-favor", "spend-evening");
-  const asked = passOrdinaryDays(promised, 1, { stopForTentativeHolds: true });
-
-  it("agreeing to the evening, then reaching the clash, brings the housemate's question", () => {
-    expect(asked.currentDate).toBe(promised.currentDate);
-    expect(variantOf(asked, player, "home-evening")).toBe("promised-evening");
-    const view = openView(asked, player, "scene-home-evening")!;
-    expect(view.topicLabel).toBe("Tonight");
-    expect(view.openingLine).toMatch(/neighborhood potluck/);
-    const lie = view.intents.find((intent) => intent.key === "say-home");
-    expect(lie?.truthIntent).toBe("deliberate-deception");
-    expect(
-      view.intents.find((intent) => intent.key === "still-going")?.truthIntent,
-    ).toBe("sincere");
-  });
-
-  it("saying so honestly records no deception", () => {
-    const honest = say(asked, player, "scene-home-evening", "still-going");
-    expect(claimStanceOf(honest.history.events.at(-1)!)?.truthIntent).not.toBe(
-      "deliberate-deception",
-    );
-    expect(honest.currentMoment).toEqual(asked.currentMoment);
   });
 });

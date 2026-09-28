@@ -44,9 +44,7 @@ async function freshBrowser(page: Page) {
 }
 
 async function startLife(page: Page, age: number, childhood = false) {
-  // A shared home, because this whole file is about talking to somebody at
-  // home; a normal start (Task E) generates the household and may be solo, so
-  // pinning it takes the custom route that keeps a peer in the house.
+  // Pin a custom opening with known people for room and listener checks.
   await walkCreator(page, {
     place: "Lexington",
     state: "Kentucky",
@@ -73,14 +71,16 @@ async function openConversation(page: Page, subject: string) {
 }
 
 test.describe("A player can choose how loudly to speak, and to whom", () => {
-  test("offers the three volumes at home, and says who hears it", async ({
+  test("offers volume controls at the doorstep, and says who hears it", async ({
     page,
   }) => {
     await freshBrowser(page);
     await startLife(page, 34);
-    await openConversation(page, "household-obligation");
+    await openConversation(page, "neighborhood-meeting-notice");
 
-    const conversation = page.getByTestId("conversation-household-obligation");
+    const conversation = page.getByTestId(
+      "conversation-neighborhood-meeting-notice",
+    );
     await expect(conversation).toBeVisible();
 
     const controls = conversation.getByTestId("conversation-audibility");
@@ -96,8 +96,10 @@ test.describe("A player can choose how loudly to speak, and to whom", () => {
     // Choosing a different volume changes what the surface is committed to.
     await conversation.getByTestId("audibility-quiet").click();
     await expect(conversation).toHaveAttribute("data-audibility", "quiet");
-    await conversation.getByTestId("audibility-private").click();
-    await expect(conversation).toHaveAttribute("data-audibility", "private");
+    await expect(conversation.getByTestId("audibility-private")).toBeDisabled();
+    await expect(
+      conversation.getByTestId("audibility-unavailable"),
+    ).toBeVisible();
 
     // And none of it is described in the engine's words.
     expect(await controls.innerText()).not.toMatch(MACHINERY);
@@ -171,7 +173,7 @@ test.describe("A player can choose how loudly to speak, and to whom", () => {
 });
 
 test.describe("More than one conversation is reachable", () => {
-  test("puts the doorstep and the kitchen on an ordinary adult day", async ({
+  test("puts the doorstep on an ordinary adult day without retired chores", async ({
     page,
   }) => {
     await freshBrowser(page);
@@ -179,7 +181,7 @@ test.describe("More than one conversation is reachable", () => {
 
     await expect(
       page.getByTestId("conversation-start-household-obligation"),
-    ).toBeVisible();
+    ).toHaveCount(0);
     await expect(
       page.getByTestId("conversation-start-neighborhood-meeting-notice"),
     ).toBeVisible();
@@ -196,9 +198,11 @@ test.describe("More than one conversation is reachable", () => {
   test("says something back, and shows it", async ({ page }) => {
     await freshBrowser(page);
     await startLife(page, 34);
-    await openConversation(page, "household-obligation");
+    await openConversation(page, "neighborhood-meeting-notice");
 
-    const conversation = page.getByTestId("conversation-household-obligation");
+    const conversation = page.getByTestId(
+      "conversation-neighborhood-meeting-notice",
+    );
     const before = await conversation
       .getByTestId("conversation-beat")
       .innerText();

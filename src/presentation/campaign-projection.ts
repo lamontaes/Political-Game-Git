@@ -66,6 +66,8 @@ import type {
 import { moneyText } from "../simulation/money-text";
 import { personPronouns } from "../simulation/person-identity";
 import { municipalSeatChoiceByKey } from "../simulation/municipal-seat-identity";
+import { stateCandidacyPack } from "../simulation/candidacy-packs";
+import { stateSeatsInDistrict } from "../simulation/nationwide-world/state-legislature-opening";
 
 /**
  * What a candidate can actually see.
@@ -944,6 +946,7 @@ export function campaignElectionDate(
   world: World,
   jurisdictionId: EntityId,
   officeKey: string,
+  districtBinding: DistrictSeatBinding | null = null,
 ) {
   const stateKey =
     lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey ?? null;
@@ -960,10 +963,30 @@ export function campaignElectionDate(
     );
   }
   if (!stateKey) return addDays(world.currentDate, 28);
-  return nextStateLegislativeElection(
-    stateKey.replace(/^US-/, ""),
-    world.currentDate,
-  ).electionDate;
+  const pack = stateCandidacyPack(stateKey);
+  const matchingSeats =
+    pack && districtBinding
+      ? stateSeatsInDistrict(pack.packId, officeKey, districtBinding.recordId)
+      : [];
+  if (districtBinding && pack && matchingSeats.length === 0)
+    throw new Error("This district does not identify a seat in that chamber.");
+  const stateUsps = stateKey.replace(/^US-/, "");
+  const dates = matchingSeats.map(
+    (seat) =>
+      nextStateLegislativeElection(stateUsps, world.currentDate, {
+        officeKey,
+        ordinal: seat.ordinal,
+      }).electionDate,
+  );
+  if (new Set(dates).size > 1)
+    throw new Error("Choose the specific seat before filing in this district.");
+  return (
+    dates[0] ??
+    nextStateLegislativeElection(stateUsps, world.currentDate, {
+      officeKey,
+      ordinal: null,
+    }).electionDate
+  );
 }
 
 export function fileForOffice(
@@ -996,7 +1019,7 @@ export function fileForOffice(
   });
   const electionDate =
     authoredElectionDate ??
-    campaignElectionDate(world, jurisdictionId, officeKey);
+    campaignElectionDate(world, jurisdictionId, officeKey, districtBinding);
   return fileCampaign(opponents.world, {
     stableKey,
     candidatePersonId: personId,

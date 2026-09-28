@@ -1,5 +1,4 @@
 import type { ClaimStance } from "./claim-stances";
-import { peopleRequestContradictionRoute } from "./people-request-route";
 import { pressMatterContradictionRoute } from "./press/claim-route";
 import type { SceneFamily } from "./scene-bindings";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "./types";
@@ -54,6 +53,4 @@ export interface ContradictionRoute {
 export const CONTRADICTION_ROUTES: readonly ContradictionRoute[] = [
   // CRUNCH46 PRESS: a denial to a reporter meets a published finding or the ledger.
   pressMatterContradictionRoute,
-  // CRUNCH47 PEOPLE: an answer about a request meets the asker's own memory.
-  peopleRequestContradictionRoute,
 ];

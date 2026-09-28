@@ -1,0 +1,108 @@
+[
+  {
+    "id": "dc-2025-fy26-bsa-tipped-wage",
+    "jurisdiction": "District of Columbia",
+    "level": "dc",
+    "session": "Council Period 26",
+    "bill_number": "B26-0265",
+    "law_citation": null,
+    "short_title": "Fiscal Year 2026 Budget Support Act of 2025 (tipped minimum wage changes)",
+    "enacted_date": "2025-07",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "tipped wage frozen through 2026-07-01",
+      "percentage schedule from 2026-07-01"
+    ],
+    "official_text_url": "https://lims.dccouncil.gov/Legislation/B26-0265",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Wages and working hours",
+    "secondary_menus": ["04"],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "replace",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Tipped minimum wage held flat, then set as a percentage of the regular minimum wage.",
+        "numbers": [
+          {
+            "value": 10,
+            "unit": "USD per hour through 2026-07-01",
+            "text": "10 USD per hour through 2026-07-01"
+          },
+          {
+            "value": 56,
+            "unit": "percent of minimum wage from 2026-07-01",
+            "text": "56 percent of minimum wage from 2026-07-01"
+          },
+          {
+            "value": 60,
+            "unit": "percent from 2028-07-01",
+            "text": "60 percent from 2028-07-01"
+          }
+        ]
+      },
+      {
+        "kind": "repeal",
+        "description": "Replaces the voter-approved Initiative 82 schedule that would have ended the tip credit."
+      },
+      {
+        "kind": "delegation",
+        "description": "Budget support acts carry many unrelated policy changes alongside the budget."
+      },
+      {
+        "kind": "oversight-body",
+        "description": "District laws undergo a congressional review period before taking effect (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["Initiative 82", "restaurants", "congressional review"],
+    "daily_life": "A DC server's base wage stays lower and tips remain part of pay.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": "Budget Support Act as a policy vehicle; DC laws also need a congressional review period."
+  },
+  {
+    "id": "dc-2025-fy26-local-budget-act",
+    "jurisdiction": "District of Columbia",
+    "level": "dc",
+    "session": "Council Period 26",
+    "bill_number": "B26-0260",
+    "law_citation": "D.C. Law 26-51",
+    "short_title": "Fiscal Year 2026 Local Budget Act",
+    "enacted_date": "2025-09-04",
+    "enactment_path": "signed",
+    "effective_dates": ["2025-10-23"],
+    "official_text_url": "https://code.dccouncil.gov/us/dc/council/laws/26-51",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": [],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Adopts agency appropriations for the fiscal year ending September 30, 2026."
+      },
+      {
+        "kind": "oversight-body",
+        "description": "Act 26-147 was transmitted to Congress for Home Rule Act review; federal payments in the budget depend on separate congressional appropriation."
+      }
+    ],
+    "touches": [
+      "District agencies",
+      "Congressional review and separate federal payments"
+    ],
+    "daily_life": "Council budget authority funds District services; specified federal payments depend on separate congressional appropriation.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": "D.C. Law Library identifies Bill 26-260, Act 26-147 and October 23, 2025 effective date. B26-0264 is a different FY2025 revised budget bill; July 2025 was Council consideration, not this law’s effective date."
+  }
+]

@@ -1,0 +1,64 @@
+{
+  "artifacts": [
+    {
+      "length": 31514940,
+      "localPath": "data/source/public-employment/raw/oews-industry-2025.zip",
+      "mediaType": "application/zip",
+      "members": [
+        {
+          "length": 12054,
+          "path": "oesm25in4/file_descriptions.xlsx",
+          "sha256": "056f054ef94fc4ee71198ae09e3f33dcf418f08f1b7043b74e5c9aff0673bc64"
+        },
+        {
+          "length": 7131947,
+          "path": "oesm25in4/nat3d_M2025_dl.xlsx",
+          "sha256": "2ff31601098f3f9827738f14a293ac5fd93f2e9ef960138ef9078e8a5f799e64"
+        },
+        {
+          "length": 854044,
+          "path": "oesm25in4/nat3d_owner_M2025_dl.xlsx",
+          "sha256": "bc525f6f2d8bb7efc2e5054bf888c0ab7fbfcb0b4e6bd0a4bed0b7ca53dc521a"
+        },
+        {
+          "length": 15261521,
+          "path": "oesm25in4/nat4d_M2025_dl.xlsx",
+          "sha256": "d9d2528dd98f565dcaa471ecc7bbedbc2da3db2a7b7de81a8fcf103f2ee1b77c"
+        },
+        {
+          "length": 1843390,
+          "path": "oesm25in4/nat4d_owner_M2025_dl.xlsx",
+          "sha256": "eaed060a51ffe58738d98ad02cda8f6f8883284e903e65519d57757068ff0a37"
+        },
+        {
+          "length": 3200923,
+          "path": "oesm25in4/nat5d_6d_M2025_dl.xlsx",
+          "sha256": "dca9beafa91124701ea7afac6073cf491f926f47361e6c00a3f20c2e6a697419"
+        },
+        {
+          "length": 1030998,
+          "path": "oesm25in4/national_owner_M2025_dl.xlsx",
+          "sha256": "b1009c647aa0cb5be4ca50a81656a94b4fa11e245fda33ce38b772f1cb4155f8"
+        },
+        {
+          "length": 3027354,
+          "path": "oesm25in4/natsector_M2025_dl.xlsx",
+          "sha256": "dcb37fd339fe44e10744663d95d2e371a977550495653f9f8eaa5b97ce4ff753"
+        }
+      ],
+      "sha256": "3ef0e42fab1b42a7dac8a3a9b3e7024f5d7a07eff308bff5fc91808061ec08e1",
+      "url": "https://www.bls.gov/oes/special-requests/oesm25in4.zip",
+      "vintage": "May 2025"
+    },
+    {
+      "length": 15670838,
+      "localPath": "data/source/public-employment/raw/oews-state-ownership-research-2025.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "members": [],
+      "sha256": "82e8eb29e93060d12bbf5a80261ea5059ab597ad5bf3c8a55a21e2edee6fc46d",
+      "url": "https://www.bls.gov/oes/special-requests/oes_research_2025_state_ownership.xlsx",
+      "vintage": "May 2025 research"
+    }
+  ],
+  "asOf": "2026-09-26"
+}

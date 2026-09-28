@@ -435,7 +435,7 @@ for (const how of ["pointer", "keyboard"] as const) {
     for (let count = 0; count < 3 && (await blocker.isVisible()); count += 1) {
       await blocker.click();
       await expect(page.getByTestId("calendar-event-detail")).toContainText(
-        "Tentative hold",
+        "Maybe",
       );
       await page.getByTestId("calendar-decline-event").click();
       await open.click();

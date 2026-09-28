@@ -23,7 +23,6 @@ import type { UnsavedSlot } from "./browser-world-repository";
 import { exportPortableSave, importPortableSave } from "./portable-save";
 import { guardUnsavedWork } from "./unsaved-work-guard";
 import type { UnloadTarget } from "./unsaved-work-guard";
-import { recordedConversationIntents } from "./conversation-continuity";
 import {
   applyLegislativeCommand,
   openLegislativeWork,
@@ -31,12 +30,10 @@ import {
 import { createNewGameWorld } from "./new-game";
 import { observeWorld, retireFromPlay } from "./people-continuation";
 import { resolvePlayerCapabilities } from "./player-capabilities";
-import { householdConversationRoom, openOrdinaryLife } from "./ordinary-life";
-import {
-  commitConversationTurn,
-  createConversationSessionDescriptor,
-} from "./run-b-conversation";
-import { createHouseholdObligationProgress } from "./run-b-conversation-progress";
+import { openOrdinaryLife } from "./ordinary-life";
+import { openNextLifeScene } from "./life-scene-flow";
+import { projectPlayerConversation } from "./player-conversation";
+import { commitConversationTurn } from "./run-b-conversation";
 
 /**
  * A fake IndexedDB that can be made slow or made to fail.
@@ -1186,7 +1183,7 @@ describe("Durability is content identity and request order, not actionSequence",
 
 describe("A player's conversation survives leaving", () => {
   // B. The real production conversation path, not a synthetic mutation.
-  it("keeps a household turn that did not advance the action sequence", async () => {
+  it("keeps a scene conversation that did not advance the action sequence", async () => {
     const factory = new FakeIndexedDbFactory();
     const store = new BrowserSaveStore({
       indexedDB: factory.asFactory(),
@@ -1196,8 +1193,7 @@ describe("A player's conversation survives leaving", () => {
     });
 
     const game = createNewGameWorld({
-      // Custom, because this needs a peer at home to hold a household turn; on
-      // a normal start (Task E) the household is generated and may be solo.
+      // Custom, because this needs a present person to hold a conversation.
       startKind: "custom",
       placeKey: "kentucky",
       startAge: 34,
@@ -1208,19 +1204,26 @@ describe("A player's conversation survives leaving", () => {
       givenName: null,
       familyName: null,
     });
-    const opened = openOrdinaryLife(game.world, game.playerPersonId);
+    const opened = openNextLifeScene(
+      openOrdinaryLife(game.world, game.playerPersonId),
+      game.playerPersonId,
+    );
     const saveId = store.newSaveId(opened);
     expect((await store.save(opened, saveId)).status).toBe("saved");
 
-    const room = householdConversationRoom(opened, game.playerPersonId)!;
+    const view = projectPlayerConversation(
+      opened,
+      game.playerPersonId,
+      "life-talk",
+    )!;
     const spoken = commitConversationTurn(opened, {
-      session: createConversationSessionDescriptor(opened, room),
-      room,
-      progress: createHouseholdObligationProgress(),
-      turnOrdinal: 1,
-      addressee: room.eligibleAddresseePersonIds[0]!,
-      audibility: "normal",
-      intent: "listen",
+      session: view.session,
+      room: view.room,
+      progress: view.progress,
+      turnOrdinal: view.turnOrdinal,
+      addressee: view.addressee,
+      audibility: view.audibility,
+      intent: "greet",
     }).world;
 
     // The behavior this test is guarding against: a real player turn that
@@ -1233,10 +1236,10 @@ describe("A player's conversation survives leaving", () => {
 
     const reloaded = await store.load(saveId);
     expect(
-      recordedConversationIntents(
-        reloaded!,
-        game.playerPersonId,
-        "household-obligation",
+      reloaded!.history.events.filter(
+        (event) =>
+          event.type === "life.conversation" &&
+          event.involvedEntityIds.includes(game.playerPersonId),
       ),
     ).toHaveLength(1);
     expect(contentId(reloaded!)).toBe(contentId(spoken));

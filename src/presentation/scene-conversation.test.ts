@@ -1,26 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { deserializeWorld, serializeWorld } from "../simulation";
+import { serializeWorld } from "../simulation";
 import type { EntityId, World } from "../simulation";
-import { CLAIM_STANCE_TAG_PREFIX } from "../simulation/claim-stances";
 import { openNextLifeScene } from "./life-scene-flow";
 import { createNewGameWorld, type NewGameSetup } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
-import { householdConversationRoom } from "./ordinary-life";
-import {
-  availablePlayerConversations,
-  projectPlayerConversation,
-} from "./player-conversation";
-import {
-  availableConversationIntents,
-  commitConversationTurn,
-  createConversationSessionDescriptor,
-} from "./run-b-conversation";
-import {
-  conversationProgressFromHistory,
-  recordedConversationIntents,
-} from "./conversation-continuity";
-import { createHouseholdObligationProgress } from "./run-b-conversation-progress";
+import { projectPlayerConversation } from "./player-conversation";
+import { commitConversationTurn } from "./run-b-conversation";
 import type { ConversationSubjectKey } from "./run-b-conversation-progress";
 import {
   addresseeHeardTurn,
@@ -61,22 +47,6 @@ function say(
     audibility?: "normal" | "quiet" | "private";
   } = {},
 ): World {
-  if (subject === "household-obligation") {
-    const room = householdConversationRoom(world, personId)!;
-    const progress =
-      conversationProgressFromHistory(world, personId, subject) ??
-      createHouseholdObligationProgress();
-    return commitConversationTurn(world, {
-      session: createConversationSessionDescriptor(world, room),
-      room,
-      progress,
-      turnOrdinal:
-        recordedConversationIntents(world, personId, subject).length + 1,
-      addressee: room.eligibleAddresseePersonIds[0]!,
-      audibility: "normal",
-      intent,
-    }).world;
-  }
   const view = projectPlayerConversation(world, personId, subject, choice)!;
   return commitConversationTurn(world, {
     session: view.session,
@@ -87,18 +57,6 @@ function say(
     audibility: view.audibility,
     intent,
   }).world;
-}
-
-function archivedHousehold(world: World, personId: EntityId) {
-  const room = householdConversationRoom(world, personId)!;
-  const addressee = room.eligibleAddresseePersonIds[0]!;
-  const progress =
-    conversationProgressFromHistory(world, personId, "household-obligation") ??
-    createHouseholdObligationProgress();
-  return {
-    addressee,
-    intents: availableConversationIntents(world, room, addressee, progress),
-  };
 }
 
 describe("PT3 — the scene conversation box reads the record back", () => {
@@ -120,77 +78,6 @@ describe("PT3 — the scene conversation box reads the record back", () => {
     expect(current.playerLine).toBe("You say hello.");
     expect(current.speakerPersonId).toBe(other);
     expect(current.reply.length).toBeGreaterThan(0);
-  });
-
-  it("reads the household subject's record in the second person", () => {
-    const { world, personId } = life({}, "pt3-talk-household");
-    const view = archivedHousehold(world, personId);
-    const after = say(
-      world,
-      personId,
-      "household-obligation",
-      "raise-obligation",
-    );
-    const current = currentExchangeTurn(
-      conversationExchangeTurns(
-        after,
-        personId,
-        "household-obligation",
-        view.addressee as EntityId,
-      ),
-    )!;
-    expect(current.playerLine).toMatch(/^You brought up the week/);
-    expect(current.playerLine).not.toMatch(/The player/);
-  });
-
-  it("uses the recorded action if an older claim tag has no spoken words", () => {
-    const { world, personId } = life({}, "pt3-blank-claim-words");
-    const view = archivedHousehold(world, personId);
-    const after = say(
-      world,
-      personId,
-      "household-obligation",
-      "raise-obligation",
-    );
-    const original = currentExchangeTurn(
-      conversationExchangeTurns(
-        after,
-        personId,
-        "household-obligation",
-        view.addressee as EntityId,
-      ),
-    )!;
-    const malformed: World = {
-      ...after,
-      history: {
-        ...after.history,
-        events: after.history.events.map((event) =>
-          event.id === original.eventId
-            ? {
-                ...event,
-                tags: [
-                  ...event.tags,
-                  `${CLAIM_STANCE_TAG_PREFIX}${JSON.stringify({
-                    version: 1,
-                    propositionKey: "old-save",
-                    statement: "   ",
-                    recipientPersonIds: [],
-                  })}`,
-                ],
-              }
-            : event,
-        ),
-      },
-    };
-    const projected = currentExchangeTurn(
-      conversationExchangeTurns(
-        malformed,
-        personId,
-        "household-obligation",
-        view.addressee as EntityId,
-      ),
-    )!;
-    expect(projected.playerLine).toBe(original.playerLine);
   });
 
   it("keeps the last turn when the player turns to somebody else, and says who heard it", () => {
@@ -256,48 +143,6 @@ describe("PT3 — the scene conversation box reads the record back", () => {
     );
   });
 
-  it("offers Listen only while the subject has something pending, and never forever", () => {
-    const { world, personId } = life({}, "pt3-talk-listen");
-    const view = archivedHousehold(world, personId);
-    expect(view.intents.map((option) => option.key)).toContain("listen");
-    const next = say(world, personId, "household-obligation", "listen");
-    // Somebody took the silence and raised it; Listen is no longer an offer.
-    const after = archivedHousehold(next, personId);
-    expect(after.intents.map((option) => option.key)).not.toContain("listen");
-    expect(() =>
-      say(next, personId, "household-obligation", "listen"),
-    ).toThrow();
-  });
-
-  it("retires the errand topic from a fresh and reloaded adult conversation", () => {
-    const { world, personId } = life({}, "pt3-no-errand-topic");
-    const archived = say(
-      world,
-      personId,
-      "household-obligation",
-      "raise-obligation",
-    );
-    const reloaded = deserializeWorld(serializeWorld(archived));
-    expect(
-      conversationExchangeTurns(
-        reloaded,
-        personId,
-        "household-obligation",
-        archivedHousehold(reloaded, personId).addressee,
-      ),
-    ).toHaveLength(1);
-    for (const current of [world, reloaded]) {
-      expect(
-        availablePlayerConversations(current, personId).some(
-          (entry) => entry.subject === "household-obligation",
-        ),
-      ).toBe(false);
-      expect(
-        projectPlayerConversation(current, personId, "household-obligation"),
-      ).toBeNull();
-    }
-  });
-
   it("never offers life-talk a Listen that would only write an empty event", () => {
     const { world, personId } = life({}, "pt3-talk-life");
     const talk = projectPlayerConversation(world, personId, "life-talk")!;
@@ -338,7 +183,6 @@ describe("PT3 — the scene conversation box reads the record back", () => {
       .addressee as EntityId;
     const before = serializeWorld(world);
     conversationExchangeTurns(world, personId, "life-talk", other);
-    conversationExchangeTurns(world, personId, "household-obligation", other);
     expect(serializeWorld(world)).toBe(before);
   });
 });

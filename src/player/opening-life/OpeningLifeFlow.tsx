@@ -82,8 +82,8 @@ export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
         data-testid="open-moment"
         onClick={props.onOpenPending}
       >
-        What&rsquo;s happening
-        <small>What is happening here, and what you can do</small>
+        Your choices here
+        <small>Who is here with you, and what you can do</small>
       </button>
     ) : null;
   if (!scene) return <>{opener}</>;

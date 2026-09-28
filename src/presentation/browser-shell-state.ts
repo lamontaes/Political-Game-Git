@@ -159,10 +159,6 @@ function readPreferences(value: unknown): ShellPreferences {
     : [];
   const stored = isRecord(value.interruptions) ? value.interruptions : {};
   const interruptions = {
-    stopForWorkShifts:
-      typeof stored.stopForWorkShifts === "boolean"
-        ? stored.stopForWorkShifts
-        : DEFAULT_PREFERENCES.interruptions.stopForWorkShifts,
     stopForTentativeHolds:
       typeof stored.stopForTentativeHolds === "boolean"
         ? stored.stopForTentativeHolds

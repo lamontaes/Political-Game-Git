@@ -126,7 +126,7 @@ describe.each([
       const ages = ageMinimums(governor);
       expect(ages, governor).toHaveLength(1);
       expect(governor).toContain(
-        `You must be at least ${ages[0]} to stand for this office.`,
+        `You must be at least ${ages[0]} to run for this office.`,
       );
       expect(governor).not.toMatch(PROVENANCE);
 
@@ -186,7 +186,7 @@ describe.each([
       );
       expect(() =>
         fileForStateExecutiveOffice(tooYoung.world, tooYoung.personId),
-      ).toThrow(`You must be at least ${shown} to stand for this office.`);
+      ).toThrow(`You must be at least ${shown} to run for this office.`);
 
       const oldEnough = openLife(
         placeName,
@@ -260,7 +260,7 @@ describe.each([
       const ages = ageMinimums(governor);
       expect(ages, governor).toHaveLength(1);
       expect(governor).toContain(
-        `You must be at least ${ages[0]} to stand for this office.`,
+        `You must be at least ${ages[0]} to run for this office.`,
       );
       expect(governor).toContain(unrecorded);
       expect(governor).toContain("nothing yet shows that you meet it.");
@@ -298,7 +298,7 @@ describe.each([
           .filter((reason) => ageMinimums(reason).length > 0);
       };
       expect(ageBlocks(shown! - 1)).toEqual([
-        `You must be at least ${shown} to stand for this office.`,
+        `You must be at least ${shown} to run for this office.`,
       ]);
       expect(ageBlocks(shown!)).toEqual([]);
     }, 60_000);

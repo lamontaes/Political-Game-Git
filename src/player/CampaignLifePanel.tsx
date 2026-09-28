@@ -179,9 +179,6 @@ export function CampaignLifePanel({
       aria-labelledby="party-work-title"
     >
       <h3 id="party-work-title">Party and community work</h3>
-      <p className="game-note">
-        Coming to any of this is not joining, endorsing or voting.
-      </p>
 
       {view.rows.length === 0 ? (
         <p data-testid="party-work-empty">

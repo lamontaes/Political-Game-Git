@@ -1,0 +1,38 @@
+{
+  "asOf": "2026-09-26",
+  "canonicalSha256": "286216052a7400410b6b502af324eb74ac54f57dd80e7b8c598df532a46b68de",
+  "compiler": "scripts/source/regional-money/compile-consumer-expenditure.ts",
+  "compression": "gzip",
+  "corpusPath": "data/source/consumer-expenditure/regional-corpus.json.gz",
+  "coverage": [
+    {
+      "cohorts": 10,
+      "dimension": "income-before-taxes",
+      "expenditureItems": 101
+    },
+    {
+      "cohorts": 5,
+      "dimension": "region-of-residence",
+      "expenditureItems": 101
+    },
+    {
+      "cohorts": 7,
+      "dimension": "consumer-unit-size",
+      "expenditureItems": 101
+    }
+  ],
+  "inputs": [
+    {
+      "localPath": "data/source/consumer-expenditure/raw/cu-income-before-taxes-2024.xlsx",
+      "sha256": "6b522693e16b2cdfe4e4d3b2dc37c97f7301b891f35d11c5a1e8c077fe3a5418"
+    },
+    {
+      "localPath": "data/source/consumer-expenditure/raw/cu-region-1-year-average-2024.xlsx",
+      "sha256": "9d7cbb5437dd975b918d11c454e74c626e9809e1418887ae05da00a7b35c0843"
+    },
+    {
+      "localPath": "data/source/consumer-expenditure/raw/cu-size-2024.xlsx",
+      "sha256": "6378f4aa2e2f54bfe758c7604aeb366e8cc38d0d626a583bd77ba6aee87d28f9"
+    }
+  ]
+}

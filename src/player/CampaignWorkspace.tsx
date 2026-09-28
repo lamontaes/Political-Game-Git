@@ -624,7 +624,7 @@ export function CampaignWorkspace({
             </p>
           ) : view.phase === "active" ? (
             <p className="game-note" data-testid="campaign-no-memo">
-              Nobody has counted anything yet.
+              There is no poll yet.
             </p>
           ) : null}
 

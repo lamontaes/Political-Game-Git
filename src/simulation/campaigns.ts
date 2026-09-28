@@ -32,6 +32,8 @@ import { PRESIDENTIAL_TURNOVER_HANDLERS } from "./nationwide-world/presidential-
 import { RECALL_HANDLERS } from "./recall";
 import { COUNCIL_ACT_HANDLERS } from "./municipal-ordinance-procedure";
 import { DC_COUNCIL_SITTING_HANDLERS } from "./dc-council-sittings";
+import { LOCAL_COUNCIL_MEETING_HANDLERS } from "./living-world/local-council-meetings";
+import { localGoverningBodyRules } from "./nationwide-world/local-governing-body-rules";
 import {
   LOCAL_MEMBER_AGENDA_HANDLERS,
   scheduleLocalMemberAgendaIntakes,
@@ -50,6 +52,12 @@ import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility, districtSeatMustBeNamed } from "./candidacy";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
+import {
+  LOCAL_ELECTION_HANDLERS,
+  localCampaignSeat,
+  localSeatHolder,
+  withdrawTownRaceForCampaign,
+} from "./living-world/local-elections";
 import { congressSeatIdentityForOfficeKey } from "./nationwide-world/congress-candidacy-packs";
 import type { LocalGoverningBodyIdentity } from "./nationwide-world/local-governing-body-candidacy-packs";
 import {
@@ -58,7 +66,6 @@ import {
   municipalWorkspaceGovernmentForUnit,
 } from "./nationwide-world/local-governments";
 import { primaryReading } from "./municipal-government";
-import { MUNICIPAL_COUNCIL_OPENING_VERSION } from "./municipal-council-opening";
 import {
   municipalSeatChoiceByKey,
   municipalSeatMustBeNamed,
@@ -112,6 +119,7 @@ import {
 } from "./life";
 import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
 import { PEOPLE_CONTACT_HANDLERS } from "./people-contact";
+import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
 import { PEOPLE_FAMILY_HANDLERS } from "./people-family-plan";
 import {
   CLAIM_CONTRADICTION_TRANSITION_KEY,
@@ -911,6 +919,9 @@ export function fileCampaign(
   // CRUNCH46 CAMPAIGN: the rivals in this race start campaigning on the
   // world's weekly clock.
   world = ensureCampaignWeeklyEvaluation(world, campaignRecord.id);
+  // A town seat the town's own election already has on its ballot is decided
+  // in this campaign's election instead.
+  world = withdrawTownRaceForCampaign(world, campaignRecord.contestId);
   return { world, campaign: campaignRecord };
 }
 
@@ -1802,70 +1813,71 @@ function seatOnLocalGoverningBody(
     )
   )
     return next;
-  if (compiled && !mayor) {
-    const bodySize = primaryReading(compiled).bodySize;
-    const seated = municipalSeats(next, compiled.key).filter(
-      (seat) => seat.role === "member" || seat.role === "presiding-member",
+  // The sitting mayor's term ends as the new one's begins. A member takes
+  // the seat the town's own elections left off this year's ballot for the
+  // campaign; on a full body without one, the seat of the member who has held
+  // theirs longest, whose term is the one most likely up.
+  // A named seat (a D.C. ward or at-large place) displaces whoever holds that
+  // very seat; the town's own ballot seat applies only without one.
+  const namedHolder =
+    namedSeat && compiled
+      ? municipalSeats(next, compiled.key).filter(
+          (seat) =>
+            (seat.role === "member" || seat.role === "presiding-member") &&
+            seat.seatLabel === namedSeat.label,
+        )
+      : [];
+  if (namedHolder.length > 1)
+    throw new Error(
+      "More than one sitting councilor holds the contested seat.",
     );
-    if (
-      namedSeat &&
-      seated.filter((seat) => seat.seatLabel === namedSeat.label).length > 1
-    )
-      throw new Error(
-        "More than one sitting councilor holds the contested seat.",
-      );
-    if (bodySize !== null && seated.length >= bodySize) {
-      const opening = next.history.events.find(
-        (event) =>
-          event.stableKey ===
-          `${MUNICIPAL_COUNCIL_OPENING_VERSION}:${compiled.key}`,
-      );
-      // The at-large election has no recorded numbered seat. Its fictional
-      // opening roll yields the first still-seated generated member in the
-      // recorded opening order; this does not imply a sourced ward assignment.
-      const displacedSeat = namedSeat
-        ? seated.find((seat) => seat.seatLabel === namedSeat.label)
-        : seated.find((seat) =>
-            opening?.involvedEntityIds.includes(seat.personId),
-          );
-      const participation = next.history.organizationParticipations.find(
-        (entry) => entry.id === displacedSeat?.participationId,
-      );
-      const state = participation
-        ? organizationParticipationStateAt(next, participation.id)
-        : undefined;
-      if (
-        (!namedSeat && !opening) ||
-        !displacedSeat ||
-        !participation ||
-        (!namedSeat &&
-          (participation.provenance.kind !== "simulated-event" ||
-            participation.provenance.eventId !== opening?.id)) ||
-        !state ||
-        state.status !== "active"
-      )
-        return next;
-      next = recordOrganizationParticipationState(next, {
-        stableKey: `${participation.stableKey}:state:succeeded:${contest.id}`,
-        participationId: participation.id,
-        effectiveAt:
-          effectiveAt > participation.startedAt
-            ? effectiveAt
-            : participation.startedAt,
-        status: "ended",
-        roleKind: state.roleKind,
-        context: `Succeeded after the election of ${contest.electionDate}`,
-        provenance: { kind: "simulated-event", eventId: outcomeEventId },
-        supersedesStateId: state.id,
-      });
-    }
-  }
-  if (mayor) {
-    // The sitting mayor's term ends as the new one's begins.
-    for (const participation of next.history.organizationParticipations) {
-      if (participation.organizationId !== organizationId) continue;
+  const campaignSeat = namedSeat
+    ? null
+    : localCampaignSeat(unit, mayor, contest.electionDate);
+  const campaignHolder = namedSeat
+    ? (namedHolder[0] ?? null)
+    : campaignSeat === null
+      ? null
+      : localSeatHolder(next, unit, campaignSeat);
+  const seatLimit = mayor
+    ? 1
+    : compiled
+      ? primaryReading(compiled).bodySize
+      : (localGoverningBodyRules(unit)?.seats?.value ?? null);
+  const sitting = next.history.organizationParticipations
+    .filter((participation) => {
+      if (participation.organizationId !== organizationId) return false;
       const state = organizationParticipationStateAt(next, participation.id);
-      if (state?.status !== "active" || state.roleKind !== roleKind) continue;
+      return (
+        state?.status === "active" &&
+        (state.roleKind === roleKind ||
+          (!mayor && state.roleKind === "leader:municipal-presiding-member"))
+      );
+    })
+    .sort(
+      (left, right) =>
+        left.startedAt.localeCompare(right.startedAt) ||
+        left.sequence - right.sequence,
+    );
+  const displaced = Math.max(0, sitting.length - (seatLimit ?? Infinity) + 1);
+  const held = sitting.find(
+    (participation) => participation.id === campaignHolder?.participationId,
+  );
+  const succeeded =
+    seatLimit === null || displaced === 0
+      ? []
+      : held
+        ? [
+            held,
+            ...sitting
+              .filter((participation) => participation !== held)
+              .slice(0, displaced - 1),
+          ]
+        : sitting.slice(0, displaced);
+  {
+    for (const participation of succeeded) {
+      const state = organizationParticipationStateAt(next, participation.id);
+      if (state?.status !== "active") continue;
       next = recordOrganizationParticipationState(next, {
         stableKey: `${participation.stableKey}:state:succeeded:${contest.id}`,
         participationId: participation.id,
@@ -1895,7 +1907,11 @@ function seatOnLocalGoverningBody(
     startedAt: effectiveAt,
     kind: "leadership:municipal-office",
     roleKind,
-    context: namedSeat?.label ?? `Elected ${contest.electionDate}`,
+    context:
+      namedSeat?.label ??
+      (mayor || campaignSeat === null
+        ? `Elected ${contest.electionDate}`
+        : `Elected ${contest.electionDate}, seat ${campaignSeat}`),
     provenance: { kind: "simulated-event", eventId: outcomeEventId },
   });
   next = scheduleLocalMemberAgendaIntakes(next);
@@ -2109,6 +2125,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         ...PRESIDENTIAL_TURNOVER_HANDLERS,
         // Voters recalling a town official: petition, then recall election.
         ...RECALL_HANDLERS,
+        // The player's town electing its council and mayor on its own.
+        ...LOCAL_ELECTION_HANDLERS,
         // Local councils enact on their own clocks. Money they appropriate
         // goes to their executive the same day, as a legislature's does.
         ...[
@@ -2118,6 +2136,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
           ...DC_COUNCIL_SITTING_HANDLERS,
           // Admitted city and county councils use a separate quarterly game clock.
           ...LOCAL_MEMBER_AGENDA_HANDLERS,
+          // The player's town council meeting and voting on ordinances.
+          ...LOCAL_COUNCIL_MEETING_HANDLERS,
         ].map(([key, handler]) => [key, withProgramMatters(handler)] as const),
         ...PUBLIC_PROGRAM_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
@@ -2147,6 +2167,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
       createPressTransitionRegistry(),
       // CRUNCH47 PEOPLE: somebody answers a request to meet, in their own time.
       PEOPLE_CONTACT_HANDLERS,
+      // 1A PEOPLE: residents take their own steps toward private goals.
+      PEOPLE_GOAL_HANDLERS,
       // CRUNCH47 PEOPLE: a family two people agreed to, on the day it lands.
       PEOPLE_FAMILY_HANDLERS,
       LIFE_TRANSITION_HANDLERS,

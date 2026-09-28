@@ -557,6 +557,29 @@ export interface PersonAppearance {
    * absence as the first generation. This is an appearance pin, not biography.
    */
   readonly catalogGeneration?: number;
+  /**
+   * The people engine (Sept. 27, 2026): what the player chose in the creator.
+   * Every field left unset comes from the person's seed, so a person nobody
+   * chose for still looks the same every time. See
+   * src/presentation/appearance-engine/recipe.ts.
+   */
+  readonly engine?: EngineAppearanceChoice;
+}
+
+export interface EngineAppearanceChoice {
+  readonly version: "people-engine-v1";
+  readonly presentation?: "feminine" | "masculine";
+  readonly build?: "lean" | "average" | "fuller";
+  /** Skin shade 1 (lightest) to 7 (darkest). */
+  readonly shade?: number;
+  readonly face?: string;
+  readonly hair?: string;
+  /** One of the engine's hair colors (appearance-engine/pack.ts HAIR_COLORS). */
+  readonly hairColor?: string;
+  /** The outfit (a people-engine outfit id) worn when the occasion does not decide. */
+  readonly outfit?: string;
+  /** Fabric color per garment part (top, bottom, suit, shirt, tie, coat...). */
+  readonly colors?: Readonly<Record<string, string>>;
 }
 
 export type PersonGenerationProfile = "production" | "stress";
@@ -3987,6 +4010,19 @@ export type LegislativeMeasureOrigin =
 export type LegislativeSubjectClass =
   "general-policy" | "appropriation" | "revenue";
 
+/**
+ * The numbering session a measure was filed in (decision OCD-LEG-NUM-001).
+ * Numbers restart each session, so the session is part of a bill's name.
+ */
+export interface LegislativeMeasureNumberingSession {
+  /** Stable key of the run of numbers: "2027", "2027-2028", "congress-120". */
+  readonly key: string;
+  /** "2027 Regular Session", "120th Congress". */
+  readonly label: string;
+  /** "HB 1 (2027 Regular Session)", "H.R. 1, 120th Congress". */
+  readonly fullDesignation: string;
+}
+
 export interface LegislativeMeasureRecord {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -3996,6 +4032,12 @@ export interface LegislativeMeasureRecord {
   readonly rulePackId: string;
   /** Institutional designation, e.g. "HB 214" or "LB 88". */
   readonly designation: string;
+  /**
+   * The session the designation was numbered in. Absent on measures saved
+   * before sessions were recorded and on authored designations; those keep
+   * the designation exactly as saved.
+   */
+  readonly numberingSession?: LegislativeMeasureNumberingSession;
   readonly shortTitle: string;
   readonly summary: string;
   readonly origin: LegislativeMeasureOrigin;
@@ -4741,12 +4783,10 @@ export type FormativeLifeSituationKey =
 export type AdultLifeSituationKey =
   | "adult.household-repair"
   | "adult.household-money-shortfall"
-  | "adult.household-quiet-evening"
   | "adult.family-request"
   | "adult.care-request"
   | "adult.partner-plan"
   | "adult.work-rule-pressure"
-  | "adult.work-extra-hours"
   | "adult.work-credit"
   | "adult.work-colleague-struggling"
   | "adult.work-good-week"
@@ -4755,7 +4795,6 @@ export type AdultLifeSituationKey =
   | "adult.debt-call"
   | "adult.unexpected-expense"
   | "adult.small-windfall"
-  | "adult.friend-favour"
   | "adult.friend-in-difficulty"
   | "adult.friend-good-news"
   | "adult.local-dispute"
@@ -4768,7 +4807,6 @@ export type AdultLifeSituationKey =
   | "adult.incident-aftermath"
   | "adult.incident-neighbour-help"
   | "adult.promise-comes-due"
-  | "adult.old-favour-returns"
   | "adult.weekend-invitation";
 
 export type LifeSituationKey =

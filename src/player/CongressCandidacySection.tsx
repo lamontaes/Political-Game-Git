@@ -35,7 +35,7 @@ export function CongressCandidacySection({
     return (
       <p className="game-note" data-testid="congress-unavailable">
         This life is not set in one of the fifty states, so there is no voting
-        seat in Congress to stand for.
+        seat in Congress to run for.
       </p>
     );
   const seat =
@@ -97,7 +97,7 @@ export function CongressCandidacySection({
           {seat.eligible ? (
             <p>
               {seat.identity.title === "U.S. Senator"
-                ? "You may stand for this seat. A Senator represents the whole state."
+                ? "You may run for this seat. A Senator represents the whole state."
                 : "You may stand here. A Representative need only live in the state, so every district in it is open to you."}
             </p>
           ) : (

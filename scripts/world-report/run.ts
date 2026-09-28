@@ -34,6 +34,7 @@ import {
   publicPartyAffiliation,
 } from "../../src/simulation/living-world";
 import { deathCausePhrase } from "../../src/simulation/crisis/death-causes";
+import { organizationParticipationStateAt } from "../../src/simulation/life-queries";
 import { MISCONDUCT_FAMILY_LABELS } from "../../src/simulation/press/records";
 import {
   deserializeWorld,
@@ -1026,7 +1027,14 @@ function peopleLines(reader: WorldRecordReader): ChronicleLine[] {
     const [first, second] = kinship.personIds as [EntityId, EntityId];
     if (!touches([first, second])) continue;
     const kind = kinship.kind as string;
-    const child = kind === "lineal:parent-child" ? second : null;
+    // Any parent-and-child kinship: the town's own, and the biological and
+    // adoptive ones the family writer records. The child is the younger.
+    const younger =
+      (reader.world.people[first]?.birthDate ?? "") >
+      (reader.world.people[second]?.birthDate ?? "")
+        ? first
+        : second;
+    const child = /(^|:|-)parent-child$/.test(kind) ? younger : null;
     const childPerson = child ? reader.world.people[child] : undefined;
     if (
       child &&
@@ -1034,7 +1042,7 @@ function peopleLines(reader: WorldRecordReader): ChronicleLine[] {
       childPerson.birthDate === (kinship.establishedAt as string)
     ) {
       const seen = births.get(child) ?? { parents: [], ids: [] };
-      seen.parents.push(first);
+      seen.parents.push(child === first ? second : first);
       seen.ids.push(kinship.id);
       births.set(child, seen);
       continue;
@@ -1290,12 +1298,20 @@ export function neverChecks(
   const localGovernmentIds = new Set(
     localGovernments.map((row) => row.organizationId as string),
   );
-  const localSeats = (reader.history.workRelationships ?? []).filter((row) =>
-    localGovernmentIds.has(row.organizationId as string),
-  );
-  const localSeatChanges = reader
-    .added("workRelationships")
-    .filter((row) => localGovernmentIds.has(row.organizationId as string));
+  // A town seat is a participation in the town government (a council
+  // member, a mayor); older records kept some as work relationships.
+  const localSeats = [
+    ...(reader.history.workRelationships ?? []),
+    ...(reader.history.organizationParticipations ?? []).filter(
+      (row) =>
+        organizationParticipationStateAt(reader.world, row.id as EntityId)
+          ?.status === "active",
+    ),
+  ].filter((row) => localGovernmentIds.has(row.organizationId as string));
+  const localSeatChanges = [
+    ...reader.added("workRelationships"),
+    ...reader.added("organizationParticipations"),
+  ].filter((row) => localGovernmentIds.has(row.organizationId as string));
   const localVotes = (reader.history.legislativeVotes ?? []).filter(
     (vote) =>
       reader.isNew(vote) &&
@@ -1342,6 +1358,10 @@ export function neverChecks(
     if (holder && candidates.includes(holder) && holder !== winner)
       incumbentsLost += 1;
   }
+  // A town's own elections record the sitting member they unseat.
+  incumbentsLost += reader.newEvents.filter(
+    (event) => event.type === "local.incumbent-defeated",
+  ).length;
   const seatChanges = congressSeatChanges(reader);
   const congressChanges = seatChanges.length;
   const congressIncumbentsLost = seatChanges.filter(

@@ -1,3 +1,4 @@
+import { describeInterval } from "./time-target-label";
 import {
   activeChildAuthoritiesAt,
   ageOnDate,
@@ -161,7 +162,7 @@ function projectWalkOffer(
     title: offer.label,
     detail: offer.fromLabel ? `From ${offer.fromLabel}.` : null,
     minutes: offer.minutes,
-    durationLabel: `${offer.minutes} minutes`,
+    durationLabel: describeInterval(offer.minutes),
     unavailable: offer.unavailable,
     companionLabel,
     walkDestination: destination,
@@ -183,7 +184,7 @@ function projectVenueOffer(
     journey
       ? journey.alreadyCompleted
         ? `The journey to ${activity.location.label} is complete. Attend begins here.`
-        : `Attend includes the disclosed ${journey.journeyMinutes}-minute journey to ${activity.location.label}. ${journey.costDisclosure}`
+        : `Attending includes the ${journey.journeyMinutes}-minute trip to ${activity.location.label}. ${journey.costDisclosure}`
       : null,
     venue?.isJourney
       ? "This is a journey, not a room you enter at the end."
@@ -236,7 +237,7 @@ function projectMunicipalMeetingOffer(
     else {
       try {
         const timing = scheduledActivityPerformanceTiming(world, meeting.id);
-        durationLabel = `${timing.totalElapsedMinutes} minutes for this session.`;
+        durationLabel = `${describeInterval(timing.totalElapsedMinutes)} for this session.`;
       } catch (error) {
         unavailable =
           error instanceof Error

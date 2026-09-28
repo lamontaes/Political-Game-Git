@@ -119,11 +119,14 @@ export function resolveTransitFunding(
         (r) => r.id === other.measureId,
       )!;
       if (endingMeasure.jurisdictionId !== measure.jurisdictionId) continue;
-      if (repealing.effectiveAt === null)
+      // The same operative date every other reader of this law uses: its
+      // recorded date, or the game-default date its enactment carries.
+      const repealOperative = operativeDateForEnactment(repealing);
+      if (!repealOperative)
         return no(
           "A recorded terminating authority has an unresolved operative date.",
         );
-      if (repealing.effectiveAt > world.currentDate) continue;
+      if (repealOperative.date > world.currentDate) continue;
       if (other.authorityMeasureId)
         return no(
           "The recorded authority change requires a supported adopted-term adapter.",

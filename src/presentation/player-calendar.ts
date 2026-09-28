@@ -35,7 +35,7 @@ export interface CalendarEntry {
   readonly title: string;
   readonly summary: string;
   readonly kind: ScheduledActivityKind;
-  /** "Confirmed", "Tentative hold", "Flexible work", "Travel". */
+  /** "Confirmed", "Maybe", "Flexible work", "Travel". */
   readonly kindLabel: string;
   readonly group: CalendarGroup;
   readonly start: SimulationMoment;
@@ -72,7 +72,7 @@ export interface PlayerCalendar {
 
 const KIND_LABELS: Readonly<Record<ScheduledActivityKind, string>> = {
   confirmed: "Confirmed",
-  tentative: "Tentative hold",
+  tentative: "Maybe",
   flexible: "Flexible work",
   travel: "Travel",
 };
@@ -149,7 +149,9 @@ function entryFor(
     locationLabel: activity.location.label,
     participantNames: namesOf(world, activity.participantPersonIds),
     ownershipNote: mine
-      ? "You are on this."
+      ? activity.kind === "tentative"
+        ? "You might go."
+        : "You're going."
       : "On the chamber's agenda. Not an appointment of yours.",
     arrangementNote: arrangementNote(world, personId, activity),
     attendeeNames: [
@@ -176,10 +178,10 @@ function arrangementNote(
 ): string | null {
   const parts: string[] = [];
   const responsible = activity.responsiblePersonId;
-  if (responsible === personId) parts.push("You are responsible for it.");
+  if (responsible === personId) parts.push("You're in charge of it.");
   else if (responsible) {
     const [name] = namesOf(world, [responsible]);
-    if (name) parts.push(`${name} is responsible for it.`);
+    if (name) parts.push(`${name} is in charge of it.`);
   }
   const through = namesOf(
     world,
@@ -188,7 +190,7 @@ function arrangementNote(
     ),
   );
   if (through.length > 0)
-    parts.push(`The record ties it to ${through.join(", ")}.`);
+    parts.push(`It came about through ${through.join(", ")}.`);
   return parts.length > 0 ? parts.join(" ") : null;
 }
 

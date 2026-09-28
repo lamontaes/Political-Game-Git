@@ -26,7 +26,6 @@ import {
   lifePathEntryReason,
   pathForRelationship,
   performLifePathSession,
-  performLifePathWork,
   progressLifePathWork,
   recruitLifePathPerson,
   scheduleLifePathSession,
@@ -257,11 +256,7 @@ export function LifePathsPanel({
         */}
         <details open={olderWorkInPlay}>
           <summary>Other work</summary>
-          <CareerPathsPanel
-            world={world}
-            onWorldChange={onWorldChange}
-            transitionHandlers={handlers}
-          />
+          <CareerPathsPanel world={world} onWorldChange={onWorldChange} />
         </details>
       </div>
       <div hidden={browse !== "study"}>
@@ -422,15 +417,7 @@ export function LifePathsPanel({
                       Schedule next session
                     </button>
                   )
-                ) : (
-                  <button
-                    onClick={() =>
-                      act(performLifePathWork(world, record.id, handlers))
-                    }
-                  >
-                    Perform work
-                  </button>
-                )}
+                ) : null}
                 <button
                   onClick={() =>
                     act(changeLifePathStatus(world, record.id, "pause"))
@@ -458,26 +445,27 @@ export function LifePathsPanel({
                 Leave
               </button>
             )}
-            {sessions.map((a) => {
-              const state = scheduledActivityState(world, a.id);
-              return (
-                <div key={a.id}>
-                  <p>
-                    {proseDate(state.start.date)},{" "}
-                    {formatMinute(state.start.minuteOfDay)} —{" "}
-                    {path.sessionMinutes / 60} hours. Attending advances the
-                    clock to the end of this session.
-                  </p>
-                  <button
-                    onClick={() =>
-                      act(performLifePathSession(world, a.id, handlers))
-                    }
-                  >
-                    Attend {path.title}
-                  </button>
-                </div>
-              );
-            })}
+            {path.kind === "study" &&
+              sessions.map((a) => {
+                const state = scheduledActivityState(world, a.id);
+                return (
+                  <div key={a.id}>
+                    <p>
+                      {proseDate(state.start.date)},{" "}
+                      {formatMinute(state.start.minuteOfDay)} —{" "}
+                      {path.sessionMinutes / 60} hours. Attending advances the
+                      clock to the end of this session.
+                    </p>
+                    <button
+                      onClick={() =>
+                        act(performLifePathSession(world, a.id, handlers))
+                      }
+                    >
+                      Attend {path.title}
+                    </button>
+                  </div>
+                );
+              })}
           </article>
         );
       })}

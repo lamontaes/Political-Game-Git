@@ -171,7 +171,7 @@ describe("office discovery's election date", () => {
     }
     // Eligibility is said plainly, not in the rules' own vocabulary.
     for (const office of offices.filter((office) => office.eligible))
-      expect(office.eligibility).toBe("You can stand for this office.");
+      expect(office.eligibility).toBe("You can run for this office.");
     expect(serializeWorld(world)).toBe(before);
 
     const filed = fileForOffice(world, personId);

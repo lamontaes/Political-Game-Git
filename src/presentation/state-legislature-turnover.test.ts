@@ -298,6 +298,178 @@ describe("STATE LEGISLATIVE CONTINUITY: seats are refilled at each regular elect
   }, 900_000);
 });
 
+describe("reviewed regular legislative seat cohorts", () => {
+  const slatesIn = (world: World, year: string) =>
+    world.history.events.filter(
+      (event) =>
+        event.type === "election.state-legislative-candidate-slate" &&
+        event.occurredAt.startsWith(`${year}-`),
+    );
+  const resultIn = (world: World, year: string) =>
+    world.history.events.find(
+      (event) =>
+        event.type === STATE_LEGISLATIVE_RESULTS_EVENT &&
+        event.occurredAt.startsWith(`${year}-`),
+    );
+  const slateOffice = (event: World["history"]["events"][number]) =>
+    event.tags.find((tag) => tag.startsWith("seat:"))?.split("|")[1];
+  const slateOrdinal = (event: World["history"]["events"][number]) =>
+    Number(event.tags.find((tag) => tag.startsWith("seat:"))?.split("|")[2]);
+
+  it("elects Kansas House in 2026, keeps the Senate cohort seated, then offers the Senate in 2028", () => {
+    const opening = adultLifeIn("KS", "ks-reviewed-regular-seats").world;
+    const packId = stateCandidacyPack("US-KS")!.packId;
+    const house = "us-ks-legislature-profile-v1:house";
+    const senate = "us-ks-legislature-profile-v1:senate";
+    const openingSenators = stateLegislativeSeats(opening, packId).filter(
+      (seat) => seat.officeKey === senate,
+    );
+    expect(openingSenators).toHaveLength(40);
+
+    const spring = passUntil(opening, "2026-03-10");
+    expect(
+      slatesIn(spring, "2026").filter((event) => slateOffice(event) === house),
+    ).toHaveLength(125);
+    expect(
+      slatesIn(spring, "2026").filter((event) => slateOffice(event) === senate),
+    ).toHaveLength(0);
+
+    const counted = passUntil(spring, "2026-11-04");
+    const result = resultIn(counted, "2026")!;
+    expect(result).toBeDefined();
+    expect(result.tags).toContain("term-start:2027-01-11");
+    expect(
+      result.participants.every((row) => row.detail?.startsWith(`${house}|`)),
+    ).toBe(true);
+    expect(
+      result.participants.length +
+        result.tags.filter((tag) => tag.startsWith("unfilled:")).length,
+    ).toBe(125);
+
+    const seated = passUntil(counted, "2027-01-12");
+    const senators = stateLegislativeSeats(seated, packId).filter(
+      (seat) => seat.officeKey === senate,
+    );
+    for (const original of openingSenators) {
+      const personId = original.member?.personId;
+      if (
+        !personId ||
+        seated.history.personDeaths.some((row) => row.personId === personId)
+      )
+        continue;
+      expect(
+        senators.find((seat) => seat.ordinal === original.ordinal)?.member
+          ?.personId,
+      ).toBe(personId);
+    }
+    expect(
+      seated.history.events.some(
+        (event) =>
+          event.type === "election.state-legislative-seat-vacancy" &&
+          event.tags.some((tag) => tag.includes(`${senate}|`)),
+      ),
+    ).toBe(false);
+    expect(nextStateSeatFilling(seated, packId, senate, 39)).toEqual({
+      electedOn: "2028-11-07",
+      takesOfficeOn: null,
+    });
+    const saved = serializeWorld(seated);
+    const reopened = deserializeWorld(saved);
+    expect(serializeWorld(reopened)).toBe(saved);
+
+    const later = passUntil(reopened, "2028-11-08");
+    expect(
+      slatesIn(later, "2028").filter((event) => slateOffice(event) === house),
+    ).toHaveLength(125);
+    expect(
+      slatesIn(later, "2028").filter((event) => slateOffice(event) === senate),
+    ).toHaveLength(40);
+    expect(
+      resultIn(later, "2028")?.participants.some((row) =>
+        row.detail?.startsWith(`${senate}|`),
+      ),
+    ).toBe(true);
+  }, 300_000);
+
+  it("alternates Nebraska's 24 even and 25 odd districts without replacing non-due members", () => {
+    const opening = adultLifeIn("NE", "ne-reviewed-regular-seats").world;
+    const packId = stateCandidacyPack("US-NE")!.packId;
+    const officeKey = "us-ne-legislature-v1:legislature";
+    const openingOdd = stateLegislativeSeats(opening, packId).filter(
+      (seat) => seat.ordinal % 2 === 1,
+    );
+    expect(openingOdd).toHaveLength(25);
+
+    const spring = passUntil(opening, "2026-03-10");
+    expect(slatesIn(spring, "2026")).toHaveLength(24);
+    expect(
+      slatesIn(spring, "2026").every((event) => slateOrdinal(event) % 2 === 0),
+    ).toBe(true);
+    const counted = passUntil(spring, "2026-11-04");
+    const result = resultIn(counted, "2026")!;
+    expect(result).toBeDefined();
+    expect(result.tags).toContain("term-start:2027-01-07");
+    expect(
+      result.participants.every(
+        (row) => Number(row.detail?.split("|")[1]) % 2 === 0,
+      ),
+    ).toBe(true);
+    expect(
+      result.participants.length +
+        result.tags.filter((tag) => tag.startsWith("unfilled:")).length,
+    ).toBe(24);
+
+    const seated = passUntil(counted, "2027-01-08");
+    const oddSeats = stateLegislativeSeats(seated, packId).filter(
+      (seat) => seat.ordinal % 2 === 1,
+    );
+    for (const original of openingOdd) {
+      const personId = original.member?.personId;
+      if (
+        !personId ||
+        seated.history.personDeaths.some((row) => row.personId === personId)
+      )
+        continue;
+      expect(
+        oddSeats.find((seat) => seat.ordinal === original.ordinal)?.member
+          ?.personId,
+      ).toBe(personId);
+    }
+    expect(nextStateSeatFilling(seated, packId, officeKey, 41)).toEqual({
+      electedOn: "2028-11-07",
+      takesOfficeOn: null,
+    });
+    const saved = serializeWorld(seated);
+    const reopened = deserializeWorld(saved);
+    expect(serializeWorld(reopened)).toBe(saved);
+
+    const later = passUntil(reopened, "2028-11-08");
+    expect(slatesIn(later, "2028")).toHaveLength(25);
+    expect(
+      slatesIn(later, "2028").every((event) => slateOrdinal(event) % 2 === 1),
+    ).toBe(true);
+    expect(
+      resultIn(later, "2028")?.participants.every(
+        (row) => Number(row.detail?.split("|")[1]) % 2 === 1,
+      ),
+    ).toBe(true);
+  }, 300_000);
+
+  it("keeps Georgia's disclosed whole-chamber 2026 game profile", () => {
+    const opening = adultLifeIn("GA", "ga-existing-regular-seats").world;
+    const packId = stateCandidacyPack("US-GA")!.packId;
+    const spring = passUntil(opening, "2026-03-10");
+    expect(slatesIn(spring, "2026")).toHaveLength(236);
+    const counted = passUntil(spring, "2026-11-04");
+    const result = resultIn(counted, "2026")!;
+    expect(result).toBeDefined();
+    expect(
+      result.participants.length +
+        result.tags.filter((tag) => tag.startsWith("unfilled:")).length,
+    ).toBe(stateLegislativeSeats(counted, packId).length);
+  }, 300_000);
+});
+
 /** Passes time with the player's own race decided in their favor. */
 function passWinning(world: World, personId: EntityId, date: string): World {
   const handlers = suppliedWin(personId);

@@ -1,0 +1,1962 @@
+[
+  {
+    "id": "us-119-pl1-laken-riley",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "S. 5",
+    "law_citation": "Pub. L. 119-1",
+    "short_title": "Laken Riley Act",
+    "enacted_date": "2025-01-29",
+    "enactment_path": "signed",
+    "effective_dates": ["2025-01-29 (on enactment)"],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/1?link-type=html",
+    "aggregator_url": null,
+    "menu": "16",
+    "menu_name": "Immigration & Citizenship",
+    "sub_topic": "Immigration proceedings / detention",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": ["procedure/election rule"],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "covered-population",
+        "description": "Noncitizens who are inadmissible and are charged with, arrested for, convicted of, or admit to theft, burglary, larceny, shoplifting, assault of a police officer, or a crime causing death or serious injury."
+      },
+      {
+        "kind": "duty",
+        "description": "The Homeland Security Secretary must issue a detainer and take the person into custody; detention becomes mandatory rather than discretionary."
+      },
+      {
+        "kind": "administering-agency",
+        "description": "Department of Homeland Security (ICE)."
+      },
+      {
+        "kind": "private-right-of-action",
+        "description": "A state attorney general may sue the federal government for harm to the state or its residents caused by certain immigration release and parole decisions."
+      },
+      {
+        "kind": "effective-date",
+        "description": "Takes effect on enactment; no phase-in."
+      }
+    ],
+    "touches": [
+      "federal immigration detention capacity",
+      "state attorneys general",
+      "local police arrest records"
+    ],
+    "daily_life": "Changes whether a noncitizen arrested for shoplifting stays in federal custody while the case proceeds.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl4-fy25-full-year-cr",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "H.R. 1968",
+    "law_citation": "Pub. L. 119-4",
+    "short_title": "Full-Year Continuing Appropriations and Extensions Act, 2025",
+    "enacted_date": "2025-03-15",
+    "enactment_path": "signed",
+    "effective_dates": ["2025-03-15", "funds available through 2025-09-30"],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/4?link-type=html",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": [],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "replace",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Continues federal agency funding for the rest of fiscal year 2025 at roughly prior-year rates, with listed exceptions (anomalies)."
+      },
+      {
+        "kind": "availability-period",
+        "description": "Funding runs to the end of the fiscal year.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-09-30 date",
+            "text": "2025-09-30 date"
+          }
+        ]
+      },
+      {
+        "kind": "transition",
+        "description": "Replaces a short-term stopgap with a full-year continuing resolution instead of twelve regular appropriations bills."
+      },
+      {
+        "kind": "sunset",
+        "description": "Extends several expiring programs and authorities (extenders) to a new date."
+      }
+    ],
+    "touches": ["every federal agency budget", "shutdown risk"],
+    "daily_life": "Keeps federal offices, parks and benefit processing open for the rest of the fiscal year.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl5-cra-defi-broker-rule",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "H.J. Res. 25",
+    "law_citation": "Pub. L. 119-5",
+    "short_title": "Disapproval of IRS digital-asset broker reporting rule",
+    "enacted_date": "2025-04-10",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/5?link-type=html",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Taxes - information reporting",
+    "secondary_menus": ["13"],
+    "instrument": "other",
+    "secondary_instruments": [],
+    "operation": "repeal",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "repeal",
+        "description": "Congress disapproves an agency rule under the Congressional Review Act; the rule has no force or effect."
+      },
+      {
+        "kind": "covered-population",
+        "description": "Decentralized finance platforms that would have been treated as brokers required to report gross proceeds of digital-asset sales."
+      },
+      {
+        "kind": "definition",
+        "description": "A one-sentence law: it names the rule by its Federal Register citation and voids it.",
+        "numbers": [
+          {
+            "value": 89,
+            "unit": "Fed. Reg. 106928",
+            "text": "89 Fed. Reg. 106928"
+          }
+        ]
+      }
+    ],
+    "touches": ["IRS information reporting", "crypto platforms"],
+    "daily_life": "Crypto users on decentralized platforms do not get new IRS forms from those platforms.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": "Congressional Review Act resolutions are a distinct federal instrument: a repeal of a regulation, not a statute."
+  },
+  {
+    "id": "us-119-pl10-cra-overdraft-rule",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "S.J. Res. 18",
+    "law_citation": "Pub. L. 119-10",
+    "short_title": "Disapproval of CFPB overdraft lending rule",
+    "enacted_date": "2025-05-09",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/10?link-type=html",
+    "aggregator_url": null,
+    "menu": "08",
+    "menu_name": "Business & Economic Development",
+    "sub_topic": "Banking and credit",
+    "secondary_menus": ["12"],
+    "instrument": "other",
+    "secondary_instruments": [],
+    "operation": "repeal",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "repeal",
+        "description": "Voids the Consumer Financial Protection Bureau rule on overdraft lending by very large financial institutions."
+      },
+      {
+        "kind": "covered-population",
+        "description": "Banks and credit unions with more than $10 billion in assets (the rule's scope).",
+        "numbers": [
+          {
+            "value": 10000000000,
+            "unit": "USD assets threshold",
+            "text": "10000000000 USD assets threshold"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "cap",
+        "description": "The voided rule would have capped overdraft fees (for example at $5 or at cost); that cap never takes effect.",
+        "numbers": [
+          {
+            "value": 5,
+            "unit": "USD per overdraft",
+            "text": "5 USD per overdraft"
+          }
+        ],
+        "inferred": true
+      }
+    ],
+    "touches": ["bank fee income", "consumer checking accounts"],
+    "daily_life": "Large banks may keep charging their existing overdraft fees.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl12-take-it-down",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "S. 146",
+    "law_citation": "Pub. L. 119-12",
+    "short_title": "TAKE IT DOWN Act (Tools to Address Known Exploitation by Immobilizing Technological Deepfakes on Websites and Networks Act)",
+    "enacted_date": "2025-05-19",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2025-05-19 (criminal provisions)",
+      "platform notice-and-removal process due 1 year after enactment"
+    ],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/12?link-type=html",
+    "aggregator_url": null,
+    "menu": "13",
+    "menu_name": "Science, Technology & Communications",
+    "sub_topic": "Online platforms / AI-generated imagery",
+    "secondary_menus": ["12", "10"],
+    "instrument": "prohibition",
+    "secondary_instruments": ["penalty", "mandate/regulation"],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Knowingly publishing nonconsensual intimate images, including computer-generated 'digital forgeries', is a federal crime."
+      },
+      {
+        "kind": "penalty",
+        "description": "Prison terms up to about 2 years when the victim is an adult and about 3 years when a minor.",
+        "numbers": [
+          {
+            "value": 2,
+            "unit": "years max (adult victim)",
+            "text": "2 years max (adult victim)"
+          },
+          {
+            "value": 3,
+            "unit": "years max (minor victim)",
+            "text": "3 years max (minor victim)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "duty",
+        "description": "Covered online platforms must set up a process to receive removal requests and remove the image within 48 hours of a valid request.",
+        "numbers": [
+          {
+            "value": 48,
+            "unit": "hours removal deadline",
+            "text": "48 hours removal deadline"
+          }
+        ]
+      },
+      {
+        "kind": "deadline",
+        "description": "Platforms get one year to build the removal process.",
+        "numbers": [
+          {
+            "value": 1,
+            "unit": "year",
+            "text": "1 year"
+          }
+        ]
+      },
+      {
+        "kind": "enforcement",
+        "description": "Failure to comply with removal duties is treated as an unfair or deceptive practice enforced by the Federal Trade Commission."
+      }
+    ],
+    "touches": ["social media platforms", "FTC", "federal criminal code"],
+    "daily_life": "A person can make a platform take down a fake explicit image of them within two days.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl15-cra-california-truck-waiver",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "H.J. Res. 87",
+    "law_citation": "Pub. L. 119-15",
+    "short_title": "Disapproval of EPA waiver for California Advanced Clean Trucks",
+    "enacted_date": "2025-06-12",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/15?link-type=html",
+    "aggregator_url": null,
+    "menu": "09",
+    "menu_name": "Energy & Environment",
+    "sub_topic": "Air and emissions",
+    "secondary_menus": [],
+    "instrument": "preemption",
+    "secondary_instruments": [],
+    "operation": "repeal",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "repeal",
+        "description": "Voids the EPA decision that had waived federal preemption for California's heavy-truck emission standards."
+      },
+      {
+        "kind": "preemption",
+        "description": "With the waiver gone, federal preemption of state vehicle emission standards applies again to these California rules."
+      },
+      {
+        "kind": "covered-population",
+        "description": "Heavy-duty truck makers selling in California and states that adopted California's standards."
+      }
+    ],
+    "touches": [
+      "California Air Resources Board",
+      "states that copy California rules",
+      "truck manufacturers"
+    ],
+    "daily_life": "Truck buyers in California and follower states are not required to see a rising share of zero-emission trucks.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl21-obbba-tips-overtime",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "H.R. 1",
+    "law_citation": "Pub. L. 119-21",
+    "short_title": "One Big Beautiful Bill Act - no tax on tips and overtime deductions",
+    "enacted_date": "2025-07-04",
+    "enactment_path": "signed",
+    "effective_dates": ["tax years 2025 through 2028"],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/21?link-type=html",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Individual income tax - deductions",
+    "secondary_menus": ["07"],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "lower",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "deduction",
+        "description": "New deduction for qualified tips received in tipped occupations.",
+        "numbers": [
+          {
+            "value": 25000,
+            "unit": "USD max per return",
+            "text": "25000 USD max per return"
+          }
+        ]
+      },
+      {
+        "kind": "deduction",
+        "description": "New deduction for the premium part of required overtime pay.",
+        "numbers": [
+          {
+            "value": 12500,
+            "unit": "USD max (single)",
+            "text": "12500 USD max (single)"
+          },
+          {
+            "value": 25000,
+            "unit": "USD max (joint)",
+            "text": "25000 USD max (joint)"
+          }
+        ]
+      },
+      {
+        "kind": "threshold",
+        "description": "Deductions phase down for higher earners.",
+        "numbers": [
+          {
+            "value": 150000,
+            "unit": "USD modified AGI (single)",
+            "text": "150000 USD modified AGI (single)"
+          },
+          {
+            "value": 300000,
+            "unit": "USD modified AGI (joint)",
+            "text": "300000 USD modified AGI (joint)"
+          }
+        ]
+      },
+      {
+        "kind": "sunset",
+        "description": "Both deductions are temporary.",
+        "numbers": [
+          {
+            "value": 2028,
+            "unit": "last tax year",
+            "text": "2028 last tax year"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "reporting",
+        "description": "Employers must report tips and overtime separately on wage statements."
+      }
+    ],
+    "touches": ["IRS", "payroll systems", "restaurant and hospitality workers"],
+    "daily_life": "A server who earns $15,000 in tips can deduct it from federal taxable income through 2028.",
+    "provision_of": "us-119-pl21 (reconciliation act)",
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl21-obbba-medicaid-work",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "H.R. 1",
+    "law_citation": "Pub. L. 119-21",
+    "short_title": "One Big Beautiful Bill Act - Medicaid community engagement requirement",
+    "enacted_date": "2025-07-04",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "states must start by the first quarter beginning after 2026-12-31; waivers can delay"
+    ],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/21?link-type=html",
+    "aggregator_url": null,
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Public coverage programs - eligibility",
+    "secondary_menus": ["05"],
+    "instrument": "eligibility/benefit",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "covered-population",
+        "description": "Adults in the Medicaid expansion group, roughly ages 19 to 64, with exemptions."
+      },
+      {
+        "kind": "work-requirement",
+        "description": "Must show at least 80 hours a month of work, community service, a work program, or school (or income equal to that).",
+        "numbers": [
+          {
+            "value": 80,
+            "unit": "hours per month",
+            "text": "80 hours per month"
+          }
+        ]
+      },
+      {
+        "kind": "exemption",
+        "description": "Exempts groups such as parents of young children, medically frail people, and some others."
+      },
+      {
+        "kind": "effective-date",
+        "description": "States start no later than the first quarter after December 31, 2026, with a limited good-faith delay option.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-12-31 date",
+            "text": "2026-12-31 date"
+          }
+        ]
+      },
+      {
+        "kind": "administering-agency",
+        "description": "State Medicaid agencies verify compliance under federal HHS rules."
+      }
+    ],
+    "touches": ["state Medicaid budgets", "hospitals", "SNAP work rules"],
+    "daily_life": "A 40-year-old on expansion Medicaid must document 80 hours of monthly activity or lose coverage.",
+    "provision_of": "us-119-pl21 (reconciliation act)",
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl21-obbba-snap-cost-share",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "H.R. 1",
+    "law_citation": "Pub. L. 119-21",
+    "short_title": "One Big Beautiful Bill Act - SNAP state cost share by error rate",
+    "enacted_date": "2025-07-04",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "benefit cost share starts fiscal year 2028 (inferred)"
+    ],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/21?link-type=html",
+    "aggregator_url": null,
+    "menu": "05",
+    "menu_name": "Assistance & Social Insurance",
+    "sub_topic": "Food assistance - funding formula",
+    "secondary_menus": ["04"],
+    "instrument": "eligibility/benefit",
+    "secondary_instruments": ["appropriation"],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "cost-share",
+        "description": "States pay part of SNAP benefit costs, set by their payment error rate.",
+        "numbers": [
+          {
+            "value": 0,
+            "unit": "percent state share if error < 6%",
+            "text": "0 percent state share if error < 6%"
+          },
+          {
+            "value": 5,
+            "unit": "percent state share if error 6-8%",
+            "text": "5 percent state share if error 6-8%"
+          },
+          {
+            "value": 10,
+            "unit": "percent if error 8-10% (inferred)",
+            "text": "10 percent if error 8-10% (inferred)"
+          },
+          {
+            "value": 15,
+            "unit": "percent if error >= 10% (inferred)",
+            "text": "15 percent if error >= 10% (inferred)"
+          }
+        ]
+      },
+      {
+        "kind": "cost-share",
+        "description": "The state share of SNAP administrative costs rises.",
+        "numbers": [
+          {
+            "value": 75,
+            "unit": "percent state admin share (inferred)",
+            "text": "75 percent state admin share (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "phase-in",
+        "description": "Benefit cost share begins a few years after enactment.",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "state budgets",
+      "SNAP error-rate reporting",
+      "state agency staffing"
+    ],
+    "daily_life": "If a state processes SNAP cases badly, its own budget pays more of every family's food benefit.",
+    "provision_of": "us-119-pl21 (reconciliation act)",
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl26-halt-fentanyl",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "S. 331",
+    "law_citation": "Pub. L. 119-26",
+    "short_title": "HALT Fentanyl Act (Halt All Lethal Trafficking of Fentanyl Act)",
+    "enacted_date": "2025-07-16",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/26?link-type=html",
+    "aggregator_url": null,
+    "menu": "10",
+    "menu_name": "Justice & Public Safety",
+    "sub_topic": "Criminal law and sentencing",
+    "secondary_menus": ["02"],
+    "instrument": "penalty",
+    "secondary_instruments": ["prohibition"],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "definition",
+        "description": "Places fentanyl-related substances as a class permanently in Schedule I of the Controlled Substances Act."
+      },
+      {
+        "kind": "penalty",
+        "description": "Brings these substances under the existing mandatory minimum sentences keyed to drug weight.",
+        "numbers": [
+          {
+            "value": 10,
+            "unit": "grams (5-year minimum tier, inferred)",
+            "text": "10 grams (5-year minimum tier, inferred)"
+          },
+          {
+            "value": 100,
+            "unit": "grams (10-year minimum tier, inferred)",
+            "text": "100 grams (10-year minimum tier, inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "exemption",
+        "description": "Streamlines registration for researchers studying Schedule I substances."
+      },
+      {
+        "kind": "repeal",
+        "description": "Replaces a temporary class-wide scheduling order with permanent law."
+      }
+    ],
+    "touches": ["DEA scheduling", "federal prosecutors", "research labs"],
+    "daily_life": "Trafficking look-alike fentanyl compounds carries the same mandatory prison terms as fentanyl.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl27-genius-stablecoins",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "S. 1582",
+    "law_citation": "Pub. L. 119-27",
+    "short_title": "GENIUS Act (Guiding and Establishing National Innovation for U.S. Stablecoins Act)",
+    "enacted_date": "2025-07-18",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "earlier of 18 months after enactment or 120 days after final regulations (inferred)"
+    ],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/27?link-type=html",
+    "aggregator_url": null,
+    "menu": "08",
+    "menu_name": "Business & Economic Development",
+    "sub_topic": "Banking and credit / payments",
+    "secondary_menus": ["13"],
+    "instrument": "license/permit",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "license",
+        "description": "Only permitted payment stablecoin issuers may issue payment stablecoins to U.S. persons."
+      },
+      {
+        "kind": "standard",
+        "description": "Issuers must hold reserves backing outstanding coins one-to-one in cash, deposits or short Treasuries.",
+        "numbers": [
+          {
+            "value": 1,
+            "unit": "to 1 reserve ratio",
+            "text": "1 to 1 reserve ratio"
+          }
+        ]
+      },
+      {
+        "kind": "threshold",
+        "description": "Issuers above a size limit fall under federal supervision; smaller ones may choose a qualifying state regime.",
+        "numbers": [
+          {
+            "value": 10000000000,
+            "unit": "USD outstanding (inferred)",
+            "text": "10000000000 USD outstanding (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "disclosure",
+        "description": "Monthly public reports of reserve composition, examined by an accountant.",
+        "inferred": true
+      },
+      {
+        "kind": "administering-agency",
+        "description": "Federal banking regulators (OCC, Fed, FDIC) and state regulators."
+      },
+      {
+        "kind": "effective-date",
+        "description": "Delayed start tied to regulations.",
+        "inferred": true
+      }
+    ],
+    "touches": ["banks", "crypto exchanges", "Treasury market"],
+    "daily_life": "A dollar stablecoin in a phone wallet must be backed by real dollars or Treasuries held by a licensed issuer.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl28-rescissions-2025",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "H.R. 4",
+    "law_citation": "Pub. L. 119-28",
+    "short_title": "Rescissions Act of 2025",
+    "enacted_date": "2025-07-24",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/28?link-type=html",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations - rescission",
+    "secondary_menus": ["18", "15"],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "lower",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rescission",
+        "description": "Cancels previously appropriated, unspent budget authority."
+      },
+      {
+        "kind": "amount",
+        "description": "About $9 billion in total, mostly foreign aid accounts plus public broadcasting funds.",
+        "numbers": [
+          {
+            "value": 9000000000,
+            "unit": "USD total (inferred)",
+            "text": "9000000000 USD total (inferred)"
+          },
+          {
+            "value": 1100000000,
+            "unit": "USD Corporation for Public Broadcasting (inferred)",
+            "text": "1100000000 USD Corporation for Public Broadcasting (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "trigger",
+        "description": "Moves under the Impoundment Control Act after a presidential rescission request."
+      }
+    ],
+    "touches": [
+      "State Department and foreign aid programs",
+      "public radio and TV stations"
+    ],
+    "daily_life": "Local public radio stations lose federal grant money they expected.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl37-cr-shutdown-end",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "H.R. 5371",
+    "law_citation": "Pub. L. 119-37",
+    "short_title": "Continuing Appropriations, Agriculture, Legislative Branch, Military Construction and Veterans Affairs, and Extensions Act, 2026",
+    "enacted_date": "2025-11-12",
+    "enactment_path": "signed",
+    "effective_dates": ["2025-11-12", "stopgap through 2026-01-30 (inferred)"],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/37?link-type=html",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": ["14", "17"],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Three full-year appropriations bills (Agriculture-FDA, Legislative Branch, Military Construction-VA) plus a stopgap for everything else."
+      },
+      {
+        "kind": "availability-period",
+        "description": "Stopgap funding for other agencies to a date in early 2026.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-01-30 date",
+            "text": "2026-01-30 date"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "transition",
+        "description": "Ends a lapse in appropriations (government shutdown) and provides back pay for furloughed workers.",
+        "inferred": true
+      },
+      {
+        "kind": "sunset",
+        "description": "Extends expiring programs (extenders)."
+      }
+    ],
+    "touches": ["SNAP benefit payments", "federal workforce", "shutdown"],
+    "daily_life": "Federal workers go back to work and get back pay; food assistance resumes on schedule.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl38-epstein-files",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "H.R. 4405",
+    "law_citation": "Pub. L. 119-38",
+    "short_title": "Epstein Files Transparency Act",
+    "enacted_date": "2025-11-19",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/38?link-type=html",
+    "aggregator_url": null,
+    "menu": "11",
+    "menu_name": "Government & Democracy",
+    "sub_topic": "Public records and meetings",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "duty",
+        "description": "The Attorney General must publish, in searchable form, unclassified Justice Department records about a named criminal investigation."
+      },
+      {
+        "kind": "deadline",
+        "description": "Release within about 30 days of enactment.",
+        "numbers": [
+          {
+            "value": 30,
+            "unit": "days",
+            "text": "30 days"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "exemption",
+        "description": "Allows withholding of victims' personal information and material that would jeopardize an active investigation."
+      },
+      {
+        "kind": "reporting",
+        "description": "Report to congressional judiciary committees listing what was withheld and why."
+      }
+    ],
+    "touches": ["Department of Justice", "FOIA practice"],
+    "daily_life": "The public can read case files that were previously withheld.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl44-support-reauth",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "H.R. 2483",
+    "law_citation": "Pub. L. 119-44",
+    "short_title": "SUPPORT for Patients and Communities Reauthorization Act of 2025",
+    "enacted_date": "2025-12-01",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/44?link-type=html",
+    "aggregator_url": null,
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Mental health and addiction services",
+    "secondary_menus": [],
+    "instrument": "program creation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "authorization-ceiling",
+        "description": "Reauthorizes opioid prevention, treatment and recovery grant programs with annual funding ceilings."
+      },
+      {
+        "kind": "sunset",
+        "description": "Program authorizations run through fiscal year 2030.",
+        "numbers": [
+          {
+            "value": 2030,
+            "unit": "-09-30 date",
+            "text": "2030-09-30 date"
+          }
+        ]
+      },
+      {
+        "kind": "grant-program",
+        "description": "Grants for prenatal and postnatal care, recovery housing, and first responder training (examples from the table of contents)."
+      },
+      {
+        "kind": "administering-agency",
+        "description": "HHS and SAMHSA."
+      }
+    ],
+    "touches": ["state opioid response grants", "treatment providers"],
+    "daily_life": "Keeps federal money flowing to local addiction treatment and recovery programs.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl60-ndaa-fy2026",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "S. 1071",
+    "law_citation": "Pub. L. 119-60",
+    "short_title": "National Defense Authorization Act for Fiscal Year 2026",
+    "enacted_date": "2025-12-18",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/60?link-type=html",
+    "aggregator_url": null,
+    "menu": "17",
+    "menu_name": "Defense & Veterans",
+    "sub_topic": "Defense authorization and oversight",
+    "secondary_menus": [],
+    "instrument": "program creation",
+    "secondary_instruments": ["agency/structure"],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "authorization-ceiling",
+        "description": "Authorizes (does not appropriate) defense spending by account in funding tables.",
+        "numbers": [
+          {
+            "value": 291544245,
+            "unit": "thousand USD operation and maintenance line total (column reading inferred)",
+            "text": "291544245 thousand USD operation and maintenance line total (column reading inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "duty",
+        "description": "Hundreds of policy provisions on personnel, procurement, bases and reporting."
+      },
+      {
+        "kind": "reporting",
+        "description": "Many required reports and briefings to the armed services committees."
+      },
+      {
+        "kind": "effective-date",
+        "description": "Most provisions apply for fiscal year 2026."
+      }
+    ],
+    "touches": [
+      "defense appropriations",
+      "military pay and benefits",
+      "defense contractors"
+    ],
+    "daily_life": "Sets the rules and spending limits the Pentagon operates under for the year.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl69-whole-milk",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "S. 222",
+    "law_citation": "Pub. L. 119-69",
+    "short_title": "Whole Milk for Healthy Kids Act of 2025",
+    "enacted_date": "2026-01-14",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/69?link-type=html",
+    "aggregator_url": null,
+    "menu": "14",
+    "menu_name": "Agriculture & Food",
+    "sub_topic": "Food production and safety / school meals",
+    "secondary_menus": ["03"],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "duty",
+        "description": "Schools in the lunch program must offer a variety of fluid milk and may offer whole, reduced-fat, low-fat and fat-free, flavored or not."
+      },
+      {
+        "kind": "exclusion",
+        "description": "Milk fat is not counted as saturated fat when measuring a meal against the saturated-fat limit."
+      },
+      {
+        "kind": "exemption",
+        "description": "A parent or guardian (not only a physician) can request a nondairy substitute."
+      },
+      {
+        "kind": "standard",
+        "description": "Nondairy beverages must be fortified to cow's-milk levels of calcium, protein, and vitamins A and D."
+      }
+    ],
+    "touches": [
+      "USDA meal pattern rules",
+      "dairy producers",
+      "school cafeterias"
+    ],
+    "daily_life": "Children can get whole milk with school lunch again.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl75-consolidated-approps-2026",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "H.R. 7148",
+    "law_citation": "Pub. L. 119-75",
+    "short_title": "Consolidated Appropriations Act, 2026",
+    "enacted_date": "2026-02-03",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/75?link-type=html",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": ["17", "02", "01", "18"],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Full-year appropriations in divisions: Defense; Labor-HHS-Education; Transportation-HUD; Financial Services; National Security-State."
+      },
+      {
+        "kind": "availability-period",
+        "description": "Most amounts available through September 30, 2026; some multi-year.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-09-30 date",
+            "text": "2026-09-30 date"
+          }
+        ]
+      },
+      {
+        "kind": "earmark",
+        "description": "Includes community project funding (earmarks) listed in explanatory statements.",
+        "inferred": true
+      },
+      {
+        "kind": "sunset",
+        "description": "Separate divisions extend expiring health programs (health care extenders) and other authorities."
+      }
+    ],
+    "touches": ["nearly every federal agency", "state grant allocations"],
+    "daily_life": "Sets this year's funding for schools grants, housing vouchers, highways and the military.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl89-rural-broadband-protection",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "S. 98",
+    "law_citation": "Pub. L. 119-89",
+    "short_title": "Rural Broadband Protection Act of 2025",
+    "enacted_date": "2026-05-11",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/89?link-type=html",
+    "aggregator_url": null,
+    "menu": "13",
+    "menu_name": "Science, Technology & Communications",
+    "sub_topic": "Broadband and telecommunications",
+    "secondary_menus": ["01"],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rulemaking",
+        "description": "The FCC must start a rulemaking to create a vetting process for applicants for new high-cost Universal Service Fund broadband awards.",
+        "numbers": [
+          {
+            "value": 180,
+            "unit": "days to start rulemaking",
+            "text": "180 days to start rulemaking"
+          }
+        ]
+      },
+      {
+        "kind": "eligibility",
+        "description": "Applicants must show technical, financial and operational capability and a reasonable business plan in the first application."
+      },
+      {
+        "kind": "standard",
+        "description": "Technology-neutral evaluation against established standards."
+      }
+    ],
+    "touches": ["Universal Service Fund", "rural broadband providers"],
+    "daily_life": "Rural areas are less likely to be promised internet by a company that cannot build it.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl98-secure-america-reconciliation",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "S. 2",
+    "law_citation": "Pub. L. 119-98",
+    "short_title": "Secure America Act (budget reconciliation)",
+    "enacted_date": "2026-06-10",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/98?link-type=html",
+    "aggregator_url": null,
+    "menu": "16",
+    "menu_name": "Immigration & Citizenship",
+    "sub_topic": "Border administration",
+    "secondary_menus": ["04", "10"],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Mandatory appropriation to Customs and Border Protection for Border Patrol agents and support staff (non-enforcement functions).",
+        "numbers": [
+          {
+            "value": 9550000000,
+            "unit": "USD",
+            "text": "9550000000 USD"
+          }
+        ]
+      },
+      {
+        "kind": "amount",
+        "description": "Mandatory appropriation to ICE Homeland Security Investigations, with a set-aside for child-exploitation investigators.",
+        "numbers": [
+          {
+            "value": 7450000000,
+            "unit": "USD",
+            "text": "7450000000 USD"
+          },
+          {
+            "value": 108500000,
+            "unit": "USD set-aside",
+            "text": "108500000 USD set-aside"
+          }
+        ]
+      },
+      {
+        "kind": "availability-period",
+        "description": "Money stays available for several years.",
+        "numbers": [
+          {
+            "value": 2029,
+            "unit": "-09-30 date",
+            "text": "2029-09-30 date"
+          }
+        ]
+      },
+      {
+        "kind": "sunset",
+        "description": "Money may not be used to hire processing coordinators after a date.",
+        "numbers": [
+          {
+            "value": 2028,
+            "unit": "-10-31 date",
+            "text": "2028-10-31 date"
+          }
+        ]
+      },
+      {
+        "kind": "funding-source",
+        "description": "Out of the general Treasury under a budget resolution's reconciliation instructions."
+      }
+    ],
+    "touches": ["DHS staffing", "annual homeland security appropriations"],
+    "daily_life": "Funds more federal agents and investigators without an annual vote.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl101-road-to-housing",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "H.R. 6644",
+    "law_citation": "Pub. L. 119-101",
+    "short_title": "21st Century ROAD to Housing Act",
+    "enacted_date": "2026-07-11",
+    "enactment_path": "became law without the President's signature",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/101?link-type=html",
+    "aggregator_url": null,
+    "menu": "06",
+    "menu_name": "Housing & Land Use",
+    "sub_topic": "Affordable housing / homeownership / rental rules",
+    "secondary_menus": ["08"],
+    "instrument": "prohibition",
+    "secondary_instruments": ["program creation", "mandate/regulation"],
+    "operation": "restrict",
+    "secondary_operations": ["expand"],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Large institutional investors may not buy single-family homes, with listed exceptions.",
+        "numbers": [
+          {
+            "value": 350,
+            "unit": "homes investor size threshold",
+            "text": "350 homes investor size threshold"
+          }
+        ]
+      },
+      {
+        "kind": "exemption",
+        "description": "Build-to-rent, new construction for sale, substantial renovation (at least 15 percent of price), and qualifying rent-to-own programs are excepted.",
+        "numbers": [
+          {
+            "value": 15,
+            "unit": "percent of purchase price minimum renovation",
+            "text": "15 percent of purchase price minimum renovation"
+          }
+        ]
+      },
+      {
+        "kind": "grandfather",
+        "description": "No forced sale of homes owned before enactment."
+      },
+      {
+        "kind": "rulemaking",
+        "description": "Treasury may write rules but may not change the numeric threshold or definitions."
+      },
+      {
+        "kind": "waiver",
+        "description": "Homelessness grant recipients may seek waivers of spending caps for fiscal years 2027-2030.",
+        "numbers": [
+          {
+            "value": 2027,
+            "unit": "-2030 fiscal years",
+            "text": "2027-2030 fiscal years"
+          }
+        ]
+      },
+      {
+        "kind": "indexation",
+        "description": "FHA multifamily loan limits indexed to a Census construction price deflator."
+      },
+      {
+        "kind": "grant-program",
+        "description": "New and reauthorized programs, including a HOME program reauthorization and planning grants."
+      },
+      {
+        "kind": "authorization-ceiling",
+        "description": "States that no additional funds are authorized by the act."
+      }
+    ],
+    "touches": [
+      "FHA",
+      "HUD homelessness grants",
+      "single-family rental companies",
+      "banking rules"
+    ],
+    "daily_life": "Big investment firms can no longer outbid families for existing starter homes.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl103-cr-fy2027",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "H.R. 6500",
+    "law_citation": "Pub. L. 119-103",
+    "short_title": "Continuing Appropriations and Extensions Act, 2027",
+    "enacted_date": "2026-09-02",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/103?link-type=html",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": [],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Continues funding at prior-year rates for fiscal year 2027 agencies."
+      },
+      {
+        "kind": "availability-period",
+        "description": "Stopgap runs to a date in December.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-12-11 date",
+            "text": "2026-12-11 date"
+          }
+        ]
+      },
+      {
+        "kind": "sunset",
+        "description": "Extends expiring authorities to the same date."
+      }
+    ],
+    "touches": ["all federal agencies"],
+    "daily_life": "Avoids a shutdown on October 1.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-119-pl111-russia-iran-sanctions",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "119th Congress (2025-2026)",
+    "bill_number": "H.R. 5334",
+    "law_citation": "Pub. L. 119-111",
+    "short_title": "Lindsey O. Graham Sanctioning Russia and Iran Act of 2026",
+    "enacted_date": "2026-09-18",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/111?link-type=html",
+    "aggregator_url": null,
+    "menu": "18",
+    "menu_name": "Foreign Affairs & Trade",
+    "sub_topic": "Sanctions and export controls / trade and customs",
+    "secondary_menus": ["04"],
+    "instrument": "prohibition",
+    "secondary_instruments": ["tax"],
+    "operation": "create",
+    "secondary_operations": ["raise"],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Bans on transfers of funds, new investment, sovereign debt purchases, securities listings and energy exports involving Russia."
+      },
+      {
+        "kind": "rate",
+        "description": "Duties on all goods imported from Russia raised to up to 500 percent ad valorem, on top of other duties.",
+        "numbers": [
+          {
+            "value": 500,
+            "unit": "percent max duty",
+            "text": "500 percent max duty"
+          }
+        ]
+      },
+      {
+        "kind": "rate",
+        "description": "Duties up to 100 percent on goods from countries that buy Russian oil or gas or help evade sanctions.",
+        "numbers": [
+          {
+            "value": 100,
+            "unit": "percent max duty",
+            "text": "100 percent max duty"
+          }
+        ]
+      },
+      {
+        "kind": "deadline",
+        "description": "President must act within 30 days of enactment.",
+        "numbers": [
+          {
+            "value": 30,
+            "unit": "days",
+            "text": "30 days"
+          }
+        ]
+      },
+      {
+        "kind": "waiver",
+        "description": "Presidential waiver and termination on certification to Congress."
+      },
+      {
+        "kind": "sunset",
+        "description": "Main division ends five years after enactment.",
+        "numbers": [
+          {
+            "value": 5,
+            "unit": "years",
+            "text": "5 years"
+          }
+        ]
+      },
+      {
+        "kind": "deduction",
+        "description": "Division B, unrelated: extends the educator expense deduction to early childhood educators."
+      }
+    ],
+    "touches": ["Treasury OFAC", "Customs", "trade partners"],
+    "daily_life": "Some imported goods get sharply more expensive; banks block certain transfers.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-118-pl5-fiscal-responsibility",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "118th Congress (2023-2024)",
+    "bill_number": "H.R. 3746",
+    "law_citation": "Pub. L. 118-5",
+    "short_title": "Fiscal Responsibility Act of 2023",
+    "enacted_date": "2023-06-03",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/118/public/5?link-type=html",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Debt and borrowing / fiscal rules",
+    "secondary_menus": ["05", "09"],
+    "instrument": "procedure/election rule",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "waiver",
+        "description": "Suspends the statutory debt limit until January 1, 2025.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-01-01 date",
+            "text": "2025-01-01 date"
+          }
+        ]
+      },
+      {
+        "kind": "cap",
+        "description": "Statutory discretionary spending caps for fiscal years 2024 and 2025.",
+        "numbers": [
+          {
+            "value": 1,
+            "unit": "percent allowed FY2025 growth (inferred)",
+            "text": "1 percent allowed FY2025 growth (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "work-requirement",
+        "description": "Raises the SNAP able-bodied adult time-limit age range in steps, while adding exemptions for veterans, homeless people and former foster youth.",
+        "numbers": [
+          {
+            "value": 54,
+            "unit": "years upper age after phase-in (inferred)",
+            "text": "54 years upper age after phase-in (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "sunset",
+        "description": "The SNAP changes expire.",
+        "numbers": [
+          {
+            "value": 2030,
+            "unit": "-10-01 date",
+            "text": "2030-10-01 date"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "rescission",
+        "description": "Rescinds unobligated COVID-era funds."
+      },
+      {
+        "kind": "time-limit",
+        "description": "Environmental review page and time limits: about 1 year for assessments, 2 years for impact statements.",
+        "numbers": [
+          {
+            "value": 1,
+            "unit": "year EA",
+            "text": "1 year EA"
+          },
+          {
+            "value": 2,
+            "unit": "years EIS",
+            "text": "2 years EIS"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "Treasury borrowing",
+      "appropriations caps",
+      "NEPA reviews",
+      "SNAP"
+    ],
+    "daily_life": "Avoided a federal default; some adults on SNAP face work rules longer into their 50s.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-118-pl50-foreign-aid-tiktok",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "118th Congress (2023-2024)",
+    "bill_number": "H.R. 815",
+    "law_citation": "Pub. L. 118-50",
+    "short_title": "Security supplemental with Protecting Americans from Foreign Adversary Controlled Applications Act",
+    "enacted_date": "2024-04-24",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/118/public/50?link-type=html",
+    "aggregator_url": null,
+    "menu": "18",
+    "menu_name": "Foreign Affairs & Trade",
+    "sub_topic": "Foreign aid / international security cooperation",
+    "secondary_menus": ["13", "17"],
+    "instrument": "appropriation",
+    "secondary_instruments": ["prohibition"],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Emergency security aid for Ukraine, Israel and the Indo-Pacific.",
+        "numbers": [
+          {
+            "value": 95000000000,
+            "unit": "USD approx total (inferred)",
+            "text": "95000000000 USD approx total (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "prohibition",
+        "description": "App stores and hosting services may not distribute a foreign-adversary-controlled app unless it is divested.",
+        "numbers": [
+          {
+            "value": 270,
+            "unit": "days to divest",
+            "text": "270 days to divest"
+          },
+          {
+            "value": 90,
+            "unit": "days possible extension",
+            "text": "90 days possible extension"
+          }
+        ]
+      },
+      {
+        "kind": "definition",
+        "description": "Defines a 'foreign adversary controlled application', naming one company by name."
+      }
+    ],
+    "touches": ["Pentagon stockpiles", "app stores", "social media users"],
+    "daily_life": "Raised the prospect that a popular video app would disappear from phones unless sold.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-118-pl63-faa-reauth",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "118th Congress (2023-2024)",
+    "bill_number": "H.R. 3935",
+    "law_citation": "Pub. L. 118-63",
+    "short_title": "FAA Reauthorization Act of 2024",
+    "enacted_date": "2024-05-16",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/118/public/63?link-type=html",
+    "aggregator_url": null,
+    "menu": "01",
+    "menu_name": "Infrastructure",
+    "sub_topic": "Aviation",
+    "secondary_menus": ["12"],
+    "instrument": "program creation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "authorization-ceiling",
+        "description": "Authorizes FAA programs and airport grants for fiscal years 2024-2028.",
+        "numbers": [
+          {
+            "value": 2028,
+            "unit": "last fiscal year",
+            "text": "2028 last fiscal year"
+          }
+        ]
+      },
+      {
+        "kind": "duty",
+        "description": "Air traffic controller hiring targets and safety programs.",
+        "inferred": true
+      },
+      {
+        "kind": "benefit",
+        "description": "Codifies automatic cash refunds to passengers for cancelled or significantly delayed flights.",
+        "inferred": true
+      },
+      {
+        "kind": "grant-program",
+        "description": "Airport Improvement Program grants to airports."
+      }
+    ],
+    "touches": ["airports", "airlines", "passengers"],
+    "daily_life": "If a flight is cancelled, the refund arrives without a fight.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-118-pl67-fire-grants-advance",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "118th Congress (2023-2024)",
+    "bill_number": "S. 870",
+    "law_citation": "Pub. L. 118-67",
+    "short_title": "Fire Grants and Safety Act (includes ADVANCE Act of 2024)",
+    "enacted_date": "2024-07-09",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/118/public/67?link-type=html",
+    "aggregator_url": null,
+    "menu": "09",
+    "menu_name": "Energy & Environment",
+    "sub_topic": "Electricity and the grid - nuclear licensing",
+    "secondary_menus": ["10"],
+    "instrument": "fee",
+    "secondary_instruments": ["program creation"],
+    "operation": "lower",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "fee",
+        "description": "Lowers the hourly fees the Nuclear Regulatory Commission charges advanced-reactor applicants.",
+        "inferred": true
+      },
+      {
+        "kind": "benefit",
+        "description": "Prizes for the first advanced reactor licensed and other firsts.",
+        "inferred": true
+      },
+      {
+        "kind": "authorization-ceiling",
+        "description": "Reauthorizes firefighter grant programs (AFG, SAFER) and the U.S. Fire Administration.",
+        "numbers": [
+          {
+            "value": 2028,
+            "unit": "through fiscal year (inferred)",
+            "text": "2028 through fiscal year (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "administering-agency",
+        "description": "NRC; FEMA / U.S. Fire Administration."
+      }
+    ],
+    "touches": ["nuclear developers", "local fire departments"],
+    "daily_life": "Local fire departments keep competing for federal equipment and staffing grants.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-118-pl158-american-relief",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "118th Congress (2023-2024)",
+    "bill_number": "H.R. 10545",
+    "law_citation": "Pub. L. 118-158",
+    "short_title": "American Relief Act, 2025",
+    "enacted_date": "2024-12-21",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/118/public/158?link-type=html",
+    "aggregator_url": null,
+    "menu": "14",
+    "menu_name": "Agriculture & Food",
+    "sub_topic": "Farm support and insurance",
+    "secondary_menus": ["10", "04"],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Disaster relief appropriations of about $100 billion after hurricanes.",
+        "numbers": [
+          {
+            "value": 100000000000,
+            "unit": "USD approx (inferred)",
+            "text": "100000000000 USD approx (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "benefit",
+        "description": "Economic assistance payments to farmers per acre of commodity planted.",
+        "numbers": [
+          {
+            "value": 10000000000,
+            "unit": "USD approx (inferred)",
+            "text": "10000000000 USD approx (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "sunset",
+        "description": "Extends the 2018 farm bill programs another year.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-09-30 date",
+            "text": "2025-09-30 date"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "availability-period",
+        "description": "Stopgap funding for the government into March.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-03-14 date",
+            "text": "2025-03-14 date"
+          }
+        ]
+      }
+    ],
+    "touches": ["USDA", "FEMA", "farm credit"],
+    "daily_life": "Farmers get a per-acre payment; hurricane-hit towns get rebuilding money.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-118-pl210-dole-veterans",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "118th Congress (2023-2024)",
+    "bill_number": "S. 141",
+    "law_citation": "Pub. L. 118-210",
+    "short_title": "Senator Elizabeth Dole 21st Century Veterans Healthcare and Benefits Improvement Act",
+    "enacted_date": "2025-01-02",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/118/public/210?link-type=html",
+    "aggregator_url": null,
+    "menu": "17",
+    "menu_name": "Defense & Veterans",
+    "sub_topic": "Veterans' healthcare / caregiver support",
+    "secondary_menus": ["02", "05"],
+    "instrument": "eligibility/benefit",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "cap",
+        "description": "Raises the cap on VA spending for home care from a share of nursing home cost to the full cost.",
+        "numbers": [
+          {
+            "value": 65,
+            "unit": "percent old cap (inferred)",
+            "text": "65 percent old cap (inferred)"
+          },
+          {
+            "value": 100,
+            "unit": "percent new cap (inferred)",
+            "text": "100 percent new cap (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "benefit",
+        "description": "Expands caregiver, homelessness and survivor benefits across many sections."
+      },
+      {
+        "kind": "administering-agency",
+        "description": "Department of Veterans Affairs."
+      }
+    ],
+    "touches": ["VA health budget", "home health agencies"],
+    "daily_life": "An aging veteran can get more hours of care at home instead of moving to a nursing home.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-118-pl234-explore",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "118th Congress (2023-2024)",
+    "bill_number": "H.R. 6492",
+    "law_citation": "Pub. L. 118-234",
+    "short_title": "EXPLORE Act (Expanding Public Lands Outdoor Recreation Experiences Act)",
+    "enacted_date": "2025-01-04",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/118/public/234?link-type=html",
+    "aggregator_url": null,
+    "menu": "15",
+    "menu_name": "Parks, Culture & Community Life",
+    "sub_topic": "Parks and recreation",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "duty",
+        "description": "Land agencies must improve recreation access, data and permits on federal land."
+      },
+      {
+        "kind": "fee",
+        "description": "Moves toward digital recreation passes and simpler outfitter permits.",
+        "inferred": true
+      },
+      {
+        "kind": "covered-population",
+        "description": "Visitors to national parks, forests and other federal lands, including people with disabilities."
+      }
+    ],
+    "touches": ["National Park Service", "Forest Service", "outfitters"],
+    "daily_life": "Easier to buy a park pass online and get a guide permit.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-118-pl272-wrda-2024",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "118th Congress (2023-2024)",
+    "bill_number": "S. 4367",
+    "law_citation": "Pub. L. 118-272",
+    "short_title": "Thomas R. Carper Water Resources Development Act of 2024",
+    "enacted_date": "2025-01-04",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/118/public/272?link-type=html",
+    "aggregator_url": null,
+    "menu": "01",
+    "menu_name": "Infrastructure",
+    "sub_topic": "Flood control / ports and waterways",
+    "secondary_menus": [],
+    "instrument": "program creation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "authorization-ceiling",
+        "description": "Authorizes specific Army Corps of Engineers projects with cost ceilings."
+      },
+      {
+        "kind": "matching-requirement",
+        "description": "Projects require a non-federal cost share from a local sponsor.",
+        "inferred": true
+      },
+      {
+        "kind": "study",
+        "description": "Directs feasibility studies before construction."
+      }
+    ],
+    "touches": [
+      "Army Corps of Engineers",
+      "port authorities",
+      "levee districts"
+    ],
+    "daily_life": "Lets a town's levee or harbor project move into the federal pipeline.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "us-118-pl273-social-security-fairness",
+    "jurisdiction": "United States",
+    "level": "federal",
+    "session": "118th Congress (2023-2024)",
+    "bill_number": "H.R. 82",
+    "law_citation": "Pub. L. 118-273",
+    "short_title": "Social Security Fairness Act of 2023",
+    "enacted_date": "2025-01-05",
+    "enactment_path": "signed",
+    "effective_dates": ["benefits payable for months after December 2023"],
+    "official_text_url": "https://www.govinfo.gov/link/plaw/118/public/273?link-type=html",
+    "aggregator_url": null,
+    "menu": "05",
+    "menu_name": "Assistance & Social Insurance",
+    "sub_topic": "Retirement and survivor benefits",
+    "secondary_menus": [],
+    "instrument": "eligibility/benefit",
+    "secondary_instruments": [],
+    "operation": "repeal",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "repeal",
+        "description": "Repeals the Windfall Elimination Provision and the Government Pension Offset."
+      },
+      {
+        "kind": "covered-population",
+        "description": "Retirees who also receive a pension from work not covered by Social Security, such as some teachers and police."
+      },
+      {
+        "kind": "effective-date",
+        "description": "Retroactive to benefits payable after December 2023.",
+        "numbers": [
+          {
+            "value": 2023,
+            "unit": "-12 month",
+            "text": "2023-12 month"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "Social Security trust funds",
+      "state and local pension systems"
+    ],
+    "daily_life": "A retired teacher sees a larger Social Security check and a lump-sum back payment.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  }
+]

@@ -1,4 +1,5 @@
 import { describePlacesOutcome } from "../presentation/player-places";
+import { describeInterval } from "../presentation/time-target-label";
 import { useState } from "react";
 import type { EntityId, World } from "../simulation";
 import {
@@ -221,7 +222,9 @@ export function OrdinaryMeetingPanel({
               }
             >
               Stay through the meeting
-              {stay ? ` · ${stay.elapsedMinutes} minutes` : ""}
+              {stay?.elapsedMinutes !== undefined
+                ? ` · ${describeInterval(stay.elapsedMinutes)}`
+                : ""}
             </button>
           ) : null}
           {scene.availableActions.includes("go-briefly") ? (
@@ -263,7 +266,7 @@ export function OrdinaryMeetingPanel({
               Go briefly
               {/* PLACEHOLDER(overnight): The canonical writer currently uses a 15-minute visit. */}
               {leave.kind === "available"
-                ? ` · 15 minutes here, then ${leave.route.duration.minutes} minutes home`
+                ? ` · 15 minutes here, then ${describeInterval(leave.route.duration.minutes)} home`
                 : ""}
             </button>
           ) : null}
@@ -299,7 +302,7 @@ export function OrdinaryMeetingPanel({
             >
               Leave and return home
               {leave.kind === "available"
-                ? ` · ${leave.route.duration.minutes} minutes`
+                ? ` · ${describeInterval(leave.route.duration.minutes)}`
                 : ""}
             </button>
           ) : null}
@@ -316,7 +319,10 @@ export function OrdinaryMeetingPanel({
             )
           }
         >
-          Return home{home ? ` · ${home.elapsedMinutes} minutes` : ""}
+          Return home
+          {home?.elapsedMinutes !== undefined
+            ? ` · ${describeInterval(home.elapsedMinutes)}`
+            : ""}
         </button>
       ) : null}
       {outcome ? <p role="status">{outcome}</p> : null}

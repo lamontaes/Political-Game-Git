@@ -1,4 +1,10 @@
+import { workUniform } from "./work-uniform";
 import type { AppearanceMaterial } from "../simulation/appearance-material";
+import type { SceneSeatContact } from "../environment/environment-scene-spec";
+import type { EngineRecipe } from "./appearance-engine/pack";
+import { placeWear } from "./dress-code";
+import { engineRecipeFor } from "./appearance-engine/recipe";
+import { PEOPLE_PACK, peoplePackAvailable } from "./appearance-engine/runtime";
 import type { PersonRenderSnapshot } from "./person-render-snapshot";
 import {
   SCENE_REGISTRY,
@@ -124,6 +130,12 @@ export interface PlacedScenePerson {
   readonly heightPercent: number;
   /** Released art, when it exists. Empty until a body master is released. */
   readonly layers: readonly ScenePersonLayer[];
+  /**
+   * The people engine's recipe for this person, when the engine draws them
+   * (every standing adult, Sept. 27, 2026). The figure stands in this box,
+   * soles on its bottom edge; `layers` is then empty.
+   */
+  readonly engine?: EngineRecipe;
   /** True only when real art drew; false means the placeholder is showing. */
   readonly hasArt: boolean;
   /** One honest player-facing sentence for the placeholder. */
@@ -291,6 +303,68 @@ export function fitLayersToBox(
     widthPercent: layer.widthPercent * scale,
     heightPercent: layer.heightPercent * scale,
   }));
+}
+
+/**
+ * The box an engine person sits in: the soles on the seat's floor line and
+ * the hips on its seat line. The body's own seat-to-sole distance fixes the
+ * scale, so nothing is tuned per chair. A chair drawn out of proportion with
+ * the room (the figure would come out under 60% or over 160% of the size the
+ * room's perspective gives a person there) keeps the perspective size, with
+ * the feet on the floor.
+ */
+export function seatedEngineBox(
+  recipe: EngineRecipe,
+  seat: SceneSeatContact,
+  standingHeightPercent: number,
+): { readonly topPercent: number; readonly heightPercent: number } {
+  const pack = PEOPLE_PACK.presentations[recipe.presentation];
+  const body = pack.seated?.bodies[recipe.build];
+  const standing = pack.bodies[recipe.build].anchors;
+  if (!body)
+    return {
+      topPercent: seat.floor_y_percent - standingHeightPercent,
+      heightPercent: standingHeightPercent,
+    };
+  const figure = body.anchors.feet - body.anchors.top + 1;
+  const perspective =
+    standingHeightPercent * (figure / (standing.feet - standing.top + 1));
+  const bySeat =
+    ((seat.floor_y_percent - seat.seat_plane_y_percent) * figure) /
+    Math.max(1, body.anchors.feet - body.seatRow);
+  const heightPercent =
+    bySeat > perspective * 0.6 && bySeat < perspective * 1.6
+      ? bySeat
+      : perspective;
+  return { topPercent: seat.floor_y_percent - heightPercent, heightPercent };
+}
+
+/**
+ * How tall a standing engine person is at an anchor, crown to sole, in plate
+ * percent. A scene that measured its standing height uses it, at the
+ * anchor's perspective scale. Otherwise the scene's standard body width is the
+ * width of a modular body canvas (1024 x 1536) at scale 1, and the person's
+ * own crown-to-sole share of that canvas sets the height. The pack's bodies
+ * are that canvas at half size, 768 rows below their headroom.
+ */
+export function engineStandingHeightPercent(
+  scene: RegisteredScene,
+  anchor: RegisteredSceneAnchor,
+  recipe: EngineRecipe,
+): number {
+  const scale = resolvePerspectiveScale(scene, anchor.contactFloorYPercent);
+  if (scene.standingHeightPercent) return scene.standingHeightPercent * scale;
+  const body =
+    PEOPLE_PACK.presentations[recipe.presentation].bodies[recipe.build].anchors;
+  const canvasWidth =
+    scene.standardBodyWidthPercent ?? anchor.footprintPercent ?? 8;
+  return (
+    canvasWidth *
+    scale *
+    (scene.plate.width / scene.plate.height) *
+    1.5 *
+    ((body.feet - body.top + 1) / 768)
+  );
 }
 
 /** A standing figure is roughly this many times as tall as it is wide. */
@@ -497,6 +571,7 @@ function releasedLayers(
  * there is nothing to stand people in, so the list is empty and the People rail
  * carries them instead.
  */
+
 export function planLifeScenePeople(
   world: World,
   present: readonly ScenePerson[],
@@ -555,6 +630,67 @@ export function planLifeScenePeople(
      */
     const topPercent = anchor.contactFloorYPercent - heightPercent;
     let overflowPercent = Math.max(0, -topPercent);
+    const record = world.people[person.personId];
+    // Engine people stand on floor anchors, and sit where the seat is drawn
+    // with its seat and floor lines and faces the viewer. A seat without those
+    // lines, or one facing away or at an angle, keeps the old art until the
+    // engine has people seen from behind and from the side.
+    const seatContact =
+      seated &&
+      (anchor.permittedFacings === null ||
+        anchor.permittedFacings.includes("front"))
+        ? anchor.seatContact
+        : null;
+    const engine =
+      (!seated || seatContact) &&
+      record &&
+      !savedWardrobes?.artPreview &&
+      peoplePackAvailable()
+        ? engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
+            wear: placeWear(sceneId, world.currentDate),
+            uniform: workUniform(
+              world,
+              person.personId,
+              placeWear(sceneId, world.currentDate),
+            ),
+            ...(seated ? { pose: "seated" as const } : {}),
+          })
+        : null;
+    if (engine) {
+      const standingHeight = engineStandingHeightPercent(scene, anchor, engine);
+      const box = seatContact
+        ? seatedEngineBox(engine, seatContact, standingHeight)
+        : {
+            topPercent: anchor.contactFloorYPercent - standingHeight,
+            heightPercent: standingHeight,
+          };
+      if (box.topPercent < 0)
+        overflowPercent = Math.max(overflowPercent, -box.topPercent);
+      return {
+        personId: person.personId,
+        name: person.name,
+        relationship: person.relationship,
+        anchorId: anchor.id,
+        seated,
+        leftPercent,
+        topPercent: box.topPercent,
+        widthPercent,
+        heightPercent: box.heightPercent,
+        layers: [],
+        engine,
+        hasArt: true,
+        presence: person.relationship
+          ? `${person.name}, ${person.relationship}`
+          : person.name,
+        ...(overflowPercent > 0
+          ? {
+              artDiagnostics: [
+                `figure-taller-than-space-above-contact-line: ${overflowPercent.toFixed(1)}% of the plate is above the top edge, so this figure is cropped at the head.`,
+              ],
+            }
+          : {}),
+      } satisfies PlacedScenePerson;
+    }
     let personWardrobe = wardrobe;
     let wardrobeRefusal: string | undefined;
     if (

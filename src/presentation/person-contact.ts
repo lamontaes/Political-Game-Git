@@ -1,4 +1,5 @@
 import { projectContacts } from "./people-contacts";
+import { describeInterval } from "./time-target-label";
 import {
   personName,
   type EntityId,
@@ -145,7 +146,7 @@ export function projectPersonContact(
     if (offer && offer.unavailable === null) {
       walk = destination;
       travelAvailable = true;
-      travelReason = `${offer.label} to ${theirPlace.label}, where ${name} was last recorded. About ${offer.minutes} minutes.`;
+      travelReason = `${offer.label} to ${theirPlace.label}, where ${name} was last recorded. About ${describeInterval(offer.minutes)}.`;
     } else if (offer?.unavailable) {
       travelReason = offer.unavailable;
     } else {

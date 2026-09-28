@@ -120,6 +120,11 @@ import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
 import { GoverningBriefing } from "./GoverningBriefing";
 import { GoverningOfficeDesk } from "./GoverningOfficeDesk";
 import { governingOfficeForPerson } from "../simulation/governing/state-governing";
+import {
+  projectRoomMedia,
+  ROOM_PAPERS_SLOT_ID,
+  ROOM_TELEVISION_SLOT_ID,
+} from "../presentation/room-media";
 import { CampaignLifePanel } from "./CampaignLifePanel";
 import { CandidateGuidancePanel } from "./CandidateGuidancePanel";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
@@ -1604,13 +1609,28 @@ function PlayingScreen({
       playScene.locationKey,
     ],
   );
+  const roomMedia = useMemo(
+    () => projectRoomMedia(session.world, session.personId),
+    [session.world, session.personId],
+  );
   const readableSurfaces = useMemo(() => {
     const news = projectLivingSceneSurface(session.world, session.personId, {
       kind: "news",
     });
+    // The TV and the paper open the story they show, else the day's lead.
+    const shown = (publicationId: EntityId | undefined) =>
+      publicationId
+        ? projectLivingSceneSurface(session.world, session.personId, {
+            kind: "news",
+            publicationId,
+          })
+        : news;
     const records = new Map([
-      ["living-room-television", news],
-      ["coffee-table-papers", news],
+      [
+        ROOM_TELEVISION_SLOT_ID,
+        shown(roomMedia.broadcast?.story?.publicationId),
+      ],
+      [ROOM_PAPERS_SLOT_ID, shown(roomMedia.frontPage?.story?.publicationId)],
     ]);
     const meeting = projectOrdinaryMeetingScene(
       session.world,
@@ -1626,7 +1646,7 @@ function PlayingScreen({
         ),
       );
     return records;
-  }, [session.world, session.personId]);
+  }, [session.world, session.personId, roomMedia]);
 
   const surfaceProjection = useMemo(
     () =>
@@ -2381,6 +2401,7 @@ function PlayingScreen({
               sceneId={sceneId}
               placeBackdrop={placeBackdrop}
               readableSurfaces={readableSurfaces}
+              roomMedia={roomMedia}
               onOpenSurfaceEntity={openEntity}
               visualLibrary={sceneVisuals}
               people={scenePeople}
@@ -2779,7 +2800,11 @@ function PlayingScreen({
                   </button>
                 </p>
               ) : null}
-              {dayRhythm.summary ? (
+              {/*
+                The recap and the morning note are for a life already under
+                way: neither opens over the first orientation tour.
+              */}
+              {!showOrientation && dayRhythm.summary ? (
                 <WorldRecapPanel
                   summary={dayRhythm.summary}
                   onDismiss={(throughSequence, throughMoment) =>
@@ -2797,7 +2822,9 @@ function PlayingScreen({
                   }
                 />
               ) : null}
-              {!dayRhythm.summary && dayRhythm.morningThought ? (
+              {!showOrientation &&
+              !dayRhythm.summary &&
+              dayRhythm.morningThought ? (
                 <MorningThoughtPanel
                   thought={dayRhythm.morningThought}
                   onDismiss={(date) =>
@@ -3552,7 +3579,7 @@ function renderWorkspace({
             </>
           )}
           <details data-testid="personal-life-choices">
-            <summary>Your day, choices and pending favors</summary>
+            <summary>Your day and choices</summary>
             {/*
               Childhood is part of the day, not a place to go, so it mounts
               inside this existing section rather than on a surface of its own.

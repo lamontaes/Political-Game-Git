@@ -98,11 +98,13 @@ describe("automatic law structural coverage", () => {
     expect(dcPack.pack.packId).toBe("us-dc-washington-council-v1");
     expect(legislatureForState("US-DC")).toBeNull();
     expect(stateCandidacyPack("US-DC")).toBeNull();
-    // Current defect: the sourced Council pack exists but the generic member
-    // work-key resolver does not admit it. Profile presence is not a vote route.
+    // The generic member work-key resolver now admits the sourced Council
+    // pack, so a D.C. councilmember's bill has a vote route (formerly a
+    // recorded defect here). D.C. still has no state legislature.
     expect(
-      legislativePackForWorkKey("institution:us-dc-washington-council-v1"),
-    ).toBeNull();
+      legislativePackForWorkKey("institution:us-dc-washington-council-v1")
+        ?.packId,
+    ).toBe("us-dc-washington-council-v1");
 
     const puertoRico = legislatureForState("US-PR");
     expect(puertoRico?.structure).toBe("bicameral");

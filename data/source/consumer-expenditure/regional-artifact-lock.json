@@ -1,0 +1,32 @@
+{
+  "artifacts": [
+    {
+      "length": 35708,
+      "localPath": "data/source/consumer-expenditure/raw/cu-income-before-taxes-2024.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "sha256": "6b522693e16b2cdfe4e4d3b2dc37c97f7301b891f35d11c5a1e8c077fe3a5418",
+      "sheet": "Table 1203",
+      "url": "https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-income-before-taxes-2024.xlsx",
+      "vintage": "calendar year 2024"
+    },
+    {
+      "length": 23675,
+      "localPath": "data/source/consumer-expenditure/raw/cu-region-1-year-average-2024.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "sha256": "9d7cbb5437dd975b918d11c454e74c626e9809e1418887ae05da00a7b35c0843",
+      "sheet": "Table 1800",
+      "url": "https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx",
+      "vintage": "calendar year 2024"
+    },
+    {
+      "length": 28642,
+      "localPath": "data/source/consumer-expenditure/raw/cu-size-2024.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "sha256": "6378f4aa2e2f54bfe758c7604aeb366e8cc38d0d626a583bd77ba6aee87d28f9",
+      "sheet": "Table 1400",
+      "url": "https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx",
+      "vintage": "calendar year 2024"
+    }
+  ],
+  "asOf": "2026-09-26"
+}

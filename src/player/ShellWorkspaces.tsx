@@ -68,6 +68,8 @@ import {
   type InterruptionPreferences,
 } from "../presentation/shell-navigation";
 import { interruptionHandlers } from "../presentation/interruption-policy";
+import { pathForRelationship } from "../simulation/life-paths2";
+import { PERSONAL_WORK_SESSION_NOTE } from "../presentation/work-session-english";
 import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import { PersonPortrait } from "./PersonPortrait";
 import {
@@ -317,7 +319,12 @@ export function WorkspaceFrame({
               top: shown.y,
               width: shown.width,
               height: shown.height,
-              maxHeight: viewport.height - 24,
+              /*
+               * The frame ends above the corner cluster, whose measured height
+               * ShellNav publishes. A plain window-height cap let the People
+               * workspace's last starters sit under the bar, unclickable.
+               */
+              maxHeight: `max(180px, calc(var(--pg-vv-height, 100dvh) - ${shown.y}px - var(--pg-content-bottom, 0px) - max(4.25rem, var(--pg-nav-reserve, 0px))))`,
               transform: "none",
             }
           : undefined
@@ -1057,17 +1064,16 @@ function CalendarEntryDetail({
         {entry.title} · {entry.kindLabel}
         {entry.summary ? <span> {entry.summary}</span> : null}
       </dd>
-      <dt>On the record</dt>
+      <dt>How it was arranged</dt>
       <dd data-testid="calendar-event-arrangement">
-        {entry.arrangementNote ??
-          "The record does not say who arranged it or how it reached you."}{" "}
+        {entry.arrangementNote ? `${entry.arrangementNote} ` : ""}
         {entry.ownershipNote}
       </dd>
       <dt>Who is going</dt>
       <dd data-testid="calendar-event-attendees">
         {entry.attendeeNames.length > 0
           ? entry.attendeeNames.join(", ")
-          : "No attendees are on record."}
+          : "Nobody is listed yet."}
       </dd>
       <dt>Where</dt>
       <dd>{entry.locationLabel}</dd>
@@ -1114,6 +1120,17 @@ function CalendarEventActions({
   readonly interruptions: InterruptionPreferences;
   readonly onOpenBlockingActivity: (id: EntityId) => void;
 }) {
+  const personalWorkSession = world.history.scheduledActivities.some(
+    (activity) =>
+      activity.id === selected.activityId &&
+      activity.sourceEntityIds.some((id) => {
+        const path = pathForRelationship(world, id);
+        return path?.kind === "work" && path.scope === "personal";
+      }),
+  );
+  if (personalWorkSession) {
+    return <p>{PERSONAL_WORK_SESSION_NOTE}</p>;
+  }
   const simulation = authorizeCalendarSimulation(
     world,
     personId,
@@ -1148,7 +1165,7 @@ function CalendarEventActions({
       : venue?.journey
         ? venue.journey.alreadyCompleted
           ? `The journey to ${selected.locationLabel} is complete. Attend begins here.`
-          : `Includes the ${describeInterval(venue.journey.journeyMinutes)} journey to ${selected.locationLabel}. ${venue.journey.costDisclosure}`
+          : `Includes the trip to ${selected.locationLabel}, ${describeInterval(venue.journey.journeyMinutes)}. ${venue.journey.costDisclosure}`
         : null;
   const busy = runner.pending || undefined;
   const attendance = previewTimeCommand(world, personId, {
