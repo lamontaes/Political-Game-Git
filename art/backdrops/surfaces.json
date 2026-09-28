@@ -1370,7 +1370,7 @@
           "id": "us-senate-floor-panel-left",
           "kind": "board",
           "finish": "panel",
-          "what": "blank blue panel in a gilt frame on the wall left of the rostrum; the bottom band behind the desk chair is left out",
+          "what": "blue panel in a gilt frame on the wall left of the rostrum; the bottom band behind the desk chair is left out; kept as painted, because the real Senate chamber has no vote boards",
           "quad": [
             [244, 217],
             [334, 220],
@@ -1378,13 +1378,13 @@
             [244, 345]
           ],
           "perspective": true,
-          "shows": ["votes"]
+          "shows": []
         },
         {
           "id": "us-senate-floor-panel-right",
           "kind": "board",
           "finish": "panel",
-          "what": "blank blue panel in a gilt frame on the wall right of the rostrum; the bottom band behind the desk chair is left out",
+          "what": "blue panel in a gilt frame on the wall right of the rostrum; the bottom band behind the desk chair is left out; kept as painted, because the real Senate chamber has no vote boards",
           "quad": [
             [1337, 221],
             [1427, 218],
@@ -1392,7 +1392,7 @@
             [1337, 345]
           ],
           "perspective": true,
-          "shows": ["bills", "votes"]
+          "shows": []
         }
       ],
       "skipped": [

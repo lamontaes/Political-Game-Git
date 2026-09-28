@@ -1,6 +1,7 @@
 import { addDays } from "../dates";
 import { applyEnactedLawEffects } from "../enacted-law-effects";
 import { scheduleFutureDueItem } from "../future-transitions";
+import { mayAnswerQuestion } from "../governing/question-authority";
 import { governmentUnit } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import { stableHash } from "../ids";
@@ -68,8 +69,8 @@ import { playerTown } from "./town-residents";
  *   District of Columbia's sittings disclose theirs. How a member decides is
  *   not modeled.
  * - An ordinance answers one question from the world's policy catalog that
- *   is decided at the municipal level; what it does beyond being recorded
- *   goes through the one enacted-law effects step.
+ *   the town's own law may answer (`townQuestions`); what it does beyond
+ *   being recorded goes through the one enacted-law effects step.
  */
 
 export const LOCAL_COUNCIL_MEETINGS_VERSION = "local-council-meetings/v1";
@@ -168,16 +169,22 @@ function scheduleMeeting(
 /* Ordinances                                                                  */
 /* -------------------------------------------------------------------------- */
 
-function townQuestions(world: World): readonly PolicyPropositionDefinition[] {
+/**
+ * The questions the town's own law may answer: its own city or county
+ * questions, where the powers catalog does not withhold the power
+ * (`question-authority.ts`). A state's question is never an ordinance.
+ */
+export function townQuestions(
+  world: World,
+  town: EntityId,
+): readonly PolicyPropositionDefinition[] {
   const catalog = world.policyCatalog;
   return catalog.propositionOrder
     .map((id) => catalog.propositions[id])
     .filter(
       (proposition): proposition is PolicyPropositionDefinition =>
         proposition !== undefined &&
-        (catalog.issues[proposition.issueId]?.levels ?? []).includes(
-          "municipality",
-        ),
+        mayAnswerQuestion(world, town, proposition.id),
     );
 }
 
@@ -250,7 +257,7 @@ function introduceOne(
   const sponsors = members(world, unit).filter(
     (seat) => seat.personId !== player,
   );
-  const questions = townQuestions(world);
+  const questions = townQuestions(world, town);
   if (sponsors.length === 0 || questions.length === 0) return world;
   const rng = new SeededRng(world.seed).fork(
     `${V}:${unit.id}:${world.currentDate}:${index}`,
