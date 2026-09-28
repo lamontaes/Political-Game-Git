@@ -26,13 +26,26 @@
   padding: 0.5rem 0.7rem 0.5rem;
   color: var(--run-a-ink);
   font-family: var(--pg-font-ui, inherit);
-  background: linear-gradient(180deg, rgb(14 23 38 / 86%), rgb(9 15 26 / 92%));
-  border: 1px solid var(--run-a-line);
-  border-radius: 0.6rem;
+  /*
+   * Civic Brass with Ink & Scene restraint (spec 8): deep green that thins
+   * toward its edges like a vignette, so the room still reads through it,
+   * one brass hairline for an edge, and cream type with its own shadow.
+   * Nothing in it moves.
+   */
+  background: radial-gradient(
+    130% 150% at 20% 0%,
+    rgb(15 38 29 / 82%),
+    rgb(8 24 18 / 88%) 60%,
+    rgb(5 16 12 / 92%)
+  );
+  border: 1px solid rgb(194 155 72 / 62%);
+  border-radius: 0.5rem;
   box-shadow:
-    0 1px 0 rgb(244 236 224 / 12%) inset,
-    0 1.2rem 3rem rgb(8 13 22 / 42%);
-  backdrop-filter: blur(10px);
+    0 0 0 1px rgb(8 24 18 / 55%),
+    0 1px 0 rgb(245 235 212 / 10%) inset,
+    0 1rem 2.6rem rgb(4 12 9 / 45%);
+  backdrop-filter: blur(6px);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 55%);
 }
 
 .pg-talk-head {
@@ -40,6 +53,8 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.35rem 0.6rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid rgb(194 155 72 / 30%);
 }
 
 /*
@@ -62,9 +77,6 @@
   border-radius: 0.4rem;
   background: none;
   cursor: default;
-  transition:
-    transform 160ms ease,
-    filter 160ms ease;
 }
 
 button.pg-talk-face {
@@ -77,18 +89,14 @@ button.pg-talk-face {
 }
 
 .pg-talk-face .person-portrait-mark {
-  width: 2.1rem;
-  height: 2.1rem;
-  font-size: 0.8rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 0.9rem;
   border-radius: 0.4rem;
-  border: 1px solid var(--run-a-line);
-  background: #1c2a40;
+  border: 1px solid rgb(194 155 72 / 45%);
+  background: #12301f;
   color: var(--run-a-ink);
-  filter: saturate(0.75) brightness(0.85);
-  transition:
-    filter 160ms ease,
-    box-shadow 160ms ease,
-    border-color 160ms ease;
+  filter: saturate(0.8) brightness(0.88);
 }
 
 /* Somebody on the phone: drawn as a call, not as a face in the room. */
@@ -105,13 +113,7 @@ button.pg-talk-face {
 .pg-talk-face[data-speaking="true"] .person-portrait-mark {
   border-color: #f2d68a;
   filter: none;
-  box-shadow:
-    0 0 0 2px rgb(242 214 138 / 55%),
-    0 0 18px 4px rgb(242 214 138 / 45%);
-}
-
-.pg-talk-face[data-speaking="true"] {
-  transform: translateY(-2px);
+  box-shadow: 0 0 0 2px rgb(242 214 138 / 55%);
 }
 
 button.pg-talk-face:hover .person-portrait-mark,
@@ -177,11 +179,9 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
 }
 
 .pg-talk-beat {
-  margin: 0.4rem 0 0.4rem;
-  padding: 0.4rem 0.6rem;
+  margin: 0.4rem 0;
+  padding: 0.1rem 0 0.1rem 0.7rem;
   border-left: 2px solid var(--run-a-gold);
-  background: rgb(8 14 24 / 45%);
-  border-radius: 0 0.4rem 0.4rem 0;
 }
 
 .pg-talk-beat > p,
@@ -246,25 +246,28 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
   color: #ffd9a8;
 }
 
+/* The Lie button stands beside the replies it swaps, not above them. */
 .pg-talk-replies {
   display: grid;
-  gap: 0.35rem;
-  justify-items: start;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 0.45rem;
 }
 
 .pg-talk .pg-talk-lie-toggle {
   min-height: 1.7rem;
   padding: 0.18rem 0.5rem;
-  border: 1px solid #d9826b;
+  border: 1px solid rgb(217 130 107 / 75%);
   border-radius: 0.4rem;
   color: #f2b3a2;
-  background: rgb(24 37 58 / 92%);
+  background: rgb(8 24 18 / 55%);
   font-size: 0.76rem;
   font-weight: 700;
 }
 
 .pg-talk .pg-talk-lie-toggle[aria-pressed="true"] {
-  background: #743a34;
+  background: #6a352e;
+  border-color: #d9826b;
   color: #fff3ed;
 }
 
@@ -276,7 +279,7 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
 .pg-talk-choices {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: 0.2rem 0.35rem;
 }
 
 .pg-talk .pg-talk-choice,
@@ -287,10 +290,21 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
   font-weight: 600;
   line-height: 1.2;
   color: var(--run-a-ink);
-  background: linear-gradient(180deg, rgb(24 37 58 / 92%), rgb(13 20 32 / 94%));
-  border: 1px solid var(--run-a-line);
-  border-radius: 0.5rem;
+  background: rgb(8 24 18 / 40%);
+  border: 1px solid rgb(194 155 72 / 40%);
+  border-radius: 0.4rem;
   text-align: left;
+}
+
+/* A reply is a line you could say: cream words on a brass rule, not a box. */
+.pg-talk .pg-talk-choice {
+  min-height: 1.6rem;
+  padding: 0.2rem 0.55rem;
+  background: transparent;
+  border-color: transparent;
+  border-bottom-color: rgb(194 155 72 / 50%);
+  border-radius: 0;
+  text-shadow: inherit;
 }
 
 .pg-talk .pg-talk-chip {
@@ -337,11 +351,12 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
 .pg-talk .pg-talk-choice:hover:not(:disabled),
 .pg-talk .pg-talk-chip:hover:not(:disabled) {
   border-color: var(--run-a-gold);
-  background: linear-gradient(180deg, rgb(31 46 71 / 95%), rgb(18 29 46 / 96%));
+  background: rgb(194 155 72 / 16%);
 }
 
 .pg-talk .pg-talk-chip[data-selected="true"] {
-  color: #14203a;
+  color: #0f261d;
+  text-shadow: none;
   background: var(--run-a-gold);
   border-color: var(--run-a-gold);
 }
@@ -381,7 +396,7 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
 
 .pg-talk-history-list li {
   padding: 0.45rem 0.7rem;
-  border-left: 2px solid var(--run-a-line);
+  border-left: 2px solid rgb(194 155 72 / 45%);
 }
 
 .pg-talk-date {

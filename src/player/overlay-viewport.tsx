@@ -53,7 +53,13 @@ export function useClampedConversation(
     // The scene owns docking beside its actors. A second fixed-center layout
     // freezes the old rectangle before the scene narrows the panel.
     if (node.closest(".scene-backdrop-content")) {
-      node.style.maxHeight = `min(var(--pg-conversation-max-height, 100dvh), calc(var(--pg-vv-height, 100dvh) - ${reservedBottom + 16}px))`;
+      /*
+       * The box also ends above the corner cluster, whose measured height
+       * ShellNav publishes: the scene anchors it near the window's bottom,
+       * and at 1280x800 the bar covered its replies. A side frame starts at
+       * its own top; a docked box keeps 3rem above it.
+       */
+      node.style.maxHeight = `min(var(--pg-conversation-max-height, 100dvh), calc(var(--pg-vv-height, 100dvh) - ${reservedBottom + 16}px), calc(var(--pg-vv-height, 100dvh) - var(--pg-frame-top, 3rem) - var(--pg-content-bottom, 0px) - var(--pg-nav-reserve, 0px) - 0.5rem))`;
       return;
     }
     const apply = () => {

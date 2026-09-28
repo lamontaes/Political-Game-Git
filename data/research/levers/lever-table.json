@@ -1,0 +1,878 @@
+{
+  "about": "Spec 3 of 04 SYSTEM SPECS: every one of the 61 kinds of bill part in the 220-measure enacted sample (data/research/bill-samples, measured in docs/research/bill-parts-catalog.md) mapped to one of the six levers of the decision register (Sept. 26), the record it changes, the fiscal-note formula, and whether an enacted-law writer reads it on main. A fiscal-note input the world does not hold is UNKNOWN, never zero. Compliance and enforcement cost sizes are provisional game values.",
+  "measuredAt": {
+    "main": "c9e9a672",
+    "samples": "data/research/bill-samples"
+  },
+  "levers": {
+    "money": "An account: appropriation, then payment and delivered service as separate records. The spending costs its amount.",
+    "rate": "The tax record (spec 2), the minimum wage (spec 1), a fee or a price cap. A tax raises rate times base; a wage floor costs employers (floor minus pay) times the hours of everyone below it.",
+    "who-qualifies": "A program's rules, so enrollment and benefit payments change. Enrollment change times benefit.",
+    "rule": "A rule record with its penalty and enforcer; violations recorded when a covered actor breaches. Enforcement cost plus compliance cost for whoever is covered.",
+    "structure": "The government's structure: new offices get seats and staff; preemption voids local rules. The new body's cost, or the savings from abolishing one.",
+    "process": "Due dates on the clock: reports come due, sunsets end rules, triggers switch changes on. Usually a small administrative cost."
+  },
+  "effectWriterStatus": {
+    "partial": "a writer reads this part for some variants or places only",
+    "none": "no enacted-law writer reads it; the law's page says nothing acts on this part yet"
+  },
+  "missingVariantKinds": [
+    {
+      "kind": "bans and penalties",
+      "measures": 53,
+      "parts": [
+        "definition",
+        "prohibition",
+        "exemption",
+        "penalty",
+        "enforcement",
+        "grandfather"
+      ]
+    },
+    {
+      "kind": "tax changes beyond one flat rate",
+      "measures": 18,
+      "parts": [
+        "rate",
+        "credit",
+        "deduction",
+        "phase-in",
+        "trigger",
+        "effective-date"
+      ]
+    },
+    {
+      "kind": "state override of local government, and local options",
+      "measures": 17,
+      "parts": ["preemption", "local-option", "covered-population"]
+    },
+    {
+      "kind": "price caps and wage floors on private parties",
+      "measures": 7,
+      "parts": [
+        "covered-population",
+        "threshold",
+        "cap",
+        "rate",
+        "indexation",
+        "phase-in",
+        "notice",
+        "enforcement"
+      ]
+    },
+    {
+      "kind": "narrower eligibility",
+      "measures": 6,
+      "parts": [
+        "covered-population",
+        "work-requirement",
+        "exemption",
+        "effective-date",
+        "administering-agency"
+      ]
+    }
+  ],
+  "parts": [
+    {
+      "part": "amount",
+      "lever": "money",
+      "recordItChanges": "A program or agency account: the appropriation, then obligation, payment and delivered service as separate records",
+      "fiscalNote": "The amount appropriated, spread over its availability period",
+      "effectWriter": "partial",
+      "effectWriterToday": "Appropriations only: governing/program-governing.ts appropriationFromEnactedMeasure reads amount-provided and records the appropriation; the 50 states only, not D.C. or the territories",
+      "sample": {
+        "measures": 40,
+        "parts": 46,
+        "levels": ["city", "county", "dc", "federal", "state", "territory"],
+        "subjectMenus": 9
+      }
+    },
+    {
+      "part": "funding-source",
+      "lever": "money",
+      "recordItChanges": "The account or revenue the spending draws from, and that source's balance",
+      "fiscalNote": "No new cost; moves the named amount from the source to the program",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 15,
+        "parts": 15,
+        "levels": ["county", "federal", "state", "territory"],
+        "subjectMenus": 7
+      }
+    },
+    {
+      "part": "availability-period",
+      "lever": "money",
+      "recordItChanges": "The date after which unspent budget authority lapses",
+      "fiscalNote": "None by itself; unspent money past the date returns to the fund",
+      "effectWriter": "partial",
+      "effectWriterToday": "Appropriations only: the availability and lapse clauses set the spending window (governing/program-governing.ts)",
+      "sample": {
+        "measures": 11,
+        "parts": 11,
+        "levels": ["federal", "state", "territory"],
+        "subjectMenus": 3
+      }
+    },
+    {
+      "part": "authorization-ceiling",
+      "lever": "money",
+      "recordItChanges": "The most a program may spend, a cap later appropriations must stay under",
+      "fiscalNote": "None until appropriated; the ceiling bounds later spending",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 8,
+        "parts": 8,
+        "levels": ["federal", "state"],
+        "subjectMenus": 6
+      }
+    },
+    {
+      "part": "earmark",
+      "lever": "money",
+      "recordItChanges": "A revenue stream tied to one account, so collections route there instead of the general fund",
+      "fiscalNote": "The earmarked revenue leaves the general fund for the named account",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 7,
+        "parts": 7,
+        "levels": ["city", "federal", "state"],
+        "subjectMenus": 4
+      }
+    },
+    {
+      "part": "grant-program",
+      "lever": "money",
+      "recordItChanges": "A grant account plus the awards, recipients and payments it makes",
+      "fiscalNote": "The grant pool, paid out as awards are made",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 7,
+        "parts": 7,
+        "levels": ["federal", "state"],
+        "subjectMenus": 6
+      }
+    },
+    {
+      "part": "bond",
+      "lever": "money",
+      "recordItChanges": "Debt authority, then issued principal, interest and repayment schedule (spec 11)",
+      "fiscalNote": "Debt service: principal plus interest over the term; proceeds fund the named projects",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 5,
+        "parts": 5,
+        "levels": ["city", "state"],
+        "subjectMenus": 4
+      }
+    },
+    {
+      "part": "revenue-distribution",
+      "lever": "money",
+      "recordItChanges": "A formula that splits one revenue among governments (state, counties, cities)",
+      "fiscalNote": "No net cost to the whole; each recipient gains or loses its formula share",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 5,
+        "parts": 5,
+        "levels": ["state", "territory"],
+        "subjectMenus": 4
+      }
+    },
+    {
+      "part": "loan",
+      "lever": "money",
+      "recordItChanges": "A public loan account: principal lent, repayments and defaults",
+      "fiscalNote": "Principal lent, less expected repayments",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 3,
+        "parts": 3,
+        "levels": ["state"],
+        "subjectMenus": 3
+      }
+    },
+    {
+      "part": "rebate",
+      "lever": "money",
+      "recordItChanges": "A one-time payment to each qualifying person or household",
+      "fiscalNote": "Qualifying count times the rebate",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 3,
+        "parts": 3,
+        "levels": ["state"],
+        "subjectMenus": 1
+      }
+    },
+    {
+      "part": "rescission",
+      "lever": "money",
+      "recordItChanges": "Cancels unspent budget authority on an existing appropriation",
+      "fiscalNote": "Savings equal to the amount rescinded",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 3,
+        "parts": 3,
+        "levels": ["city", "federal"],
+        "subjectMenus": 1
+      }
+    },
+    {
+      "part": "cost-share",
+      "lever": "money",
+      "recordItChanges": "The share of a program's cost a lower government pays",
+      "fiscalNote": "Cost moves between levels: the share times the program cost",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 1,
+        "parts": 2,
+        "levels": ["federal"],
+        "subjectMenus": 1
+      }
+    },
+    {
+      "part": "matching-requirement",
+      "lever": "money",
+      "recordItChanges": "Local money a recipient must commit before funds are released",
+      "fiscalNote": "The match share times the grant, borne by the recipient",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 1,
+        "parts": 1,
+        "levels": ["federal"],
+        "subjectMenus": 1
+      }
+    },
+    {
+      "part": "rate",
+      "lever": "rate",
+      "recordItChanges": "The tax record's rate (spec 2), a wage rate (spec 1), a fee schedule or a price",
+      "fiscalNote": "A tax raises rate times base; a wage floor costs employers (floor minus pay) times the hours of everyone below it",
+      "effectWriter": "partial",
+      "effectWriterToday": "One flat rate on one base: tax-policy.ts adoptEnactedTaxPolicy reads the tax-levy part (Alaska is the only place with compiled tax powers)",
+      "sample": {
+        "measures": 29,
+        "parts": 39,
+        "levels": ["city", "county", "dc", "federal", "state"],
+        "subjectMenus": 6
+      }
+    },
+    {
+      "part": "cap",
+      "lever": "rate",
+      "recordItChanges": "An upper limit on a price, rent, charge or benefit, applied to private parties or a program",
+      "fiscalNote": "Savings to those capped: (charged price minus cap) times the units above it; a benefit cap saves (benefit minus cap) times recipients",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 16,
+        "parts": 17,
+        "levels": ["federal", "state"],
+        "subjectMenus": 7
+      }
+    },
+    {
+      "part": "credit",
+      "lever": "rate",
+      "recordItChanges": "A tax credit on the tax record, with its eligibility",
+      "fiscalNote": "Claimants times the credit, as lost revenue",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 8,
+        "parts": 10,
+        "levels": ["state"],
+        "subjectMenus": 2
+      }
+    },
+    {
+      "part": "fee",
+      "lever": "rate",
+      "recordItChanges": "A fee schedule: amount per permit, service or transaction",
+      "fiscalNote": "Fee times the count of transactions",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 8,
+        "parts": 10,
+        "levels": ["city", "federal", "state", "territory"],
+        "subjectMenus": 7
+      }
+    },
+    {
+      "part": "tax-base",
+      "lever": "rate",
+      "recordItChanges": "What a tax applies to (spec 2): items added to or removed from the base",
+      "fiscalNote": "The rate times the base added or removed",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 8,
+        "parts": 8,
+        "levels": ["city", "state"],
+        "subjectMenus": 4
+      }
+    },
+    {
+      "part": "indexation",
+      "lever": "rate",
+      "recordItChanges": "A number that moves with an index each year (rates, brackets, wage floors, benefits)",
+      "fiscalNote": "The yearly change in the indexed number times what it applies to",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 4,
+        "parts": 4,
+        "levels": ["city", "federal", "state"],
+        "subjectMenus": 3
+      }
+    },
+    {
+      "part": "deduction",
+      "lever": "rate",
+      "recordItChanges": "A deduction from taxable income on the tax record",
+      "fiscalNote": "The deducted amount times the marginal rate of those who claim it",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 3,
+        "parts": 4,
+        "levels": ["federal", "state"],
+        "subjectMenus": 2
+      }
+    },
+    {
+      "part": "exclusion",
+      "lever": "rate",
+      "recordItChanges": "Income or value not counted by a tax",
+      "fiscalNote": "The excluded amount times the rate",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 3,
+        "parts": 3,
+        "levels": ["federal", "state"],
+        "subjectMenus": 3
+      }
+    },
+    {
+      "part": "surcharge",
+      "lever": "rate",
+      "recordItChanges": "An add-on percentage or amount on an existing charge",
+      "fiscalNote": "Surcharge rate times the charged base",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 3,
+        "parts": 3,
+        "levels": ["city", "state"],
+        "subjectMenus": 3
+      }
+    },
+    {
+      "part": "covered-population",
+      "lever": "who-qualifies",
+      "recordItChanges": "Who or what a rule or program reaches",
+      "fiscalNote": "Change in covered count times the per-person cost or compliance cost",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 32,
+        "parts": 32,
+        "levels": ["city", "federal", "state", "territory"],
+        "subjectMenus": 13
+      }
+    },
+    {
+      "part": "exemption",
+      "lever": "who-qualifies",
+      "recordItChanges": "Who is left out of a rule, tax or program",
+      "fiscalNote": "Exempted count times the per-person tax, cost or benefit forgone",
+      "effectWriter": "partial",
+      "effectWriterToday": "Tax exempt bases only, through the same tax-levy route (tax-types.ts)",
+      "sample": {
+        "measures": 29,
+        "parts": 29,
+        "levels": ["city", "county", "federal", "state", "territory"],
+        "subjectMenus": 11
+      }
+    },
+    {
+      "part": "benefit",
+      "lever": "who-qualifies",
+      "recordItChanges": "What each enrollee receives, so benefit payments change",
+      "fiscalNote": "Enrollees times the change in benefit",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 22,
+        "parts": 25,
+        "levels": ["city", "federal", "state", "territory"],
+        "subjectMenus": 10
+      }
+    },
+    {
+      "part": "eligibility",
+      "lever": "who-qualifies",
+      "recordItChanges": "A program's qualification test, so enrollment changes",
+      "fiscalNote": "Change in enrollment times the benefit",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 20,
+        "parts": 20,
+        "levels": ["county", "federal", "state", "territory"],
+        "subjectMenus": 10
+      }
+    },
+    {
+      "part": "definition",
+      "lever": "who-qualifies",
+      "recordItChanges": "The term a rule turns on, so who or what is covered changes",
+      "fiscalNote": "As covered-population: the change in covered count times its per-person effect",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 12,
+        "parts": 12,
+        "levels": ["federal", "state"],
+        "subjectMenus": 6
+      }
+    },
+    {
+      "part": "threshold",
+      "lever": "who-qualifies",
+      "recordItChanges": "A number that decides coverage (income, employees, grams)",
+      "fiscalNote": "Change in count crossing the threshold times the per-person effect",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 11,
+        "parts": 11,
+        "levels": ["county", "federal", "state"],
+        "subjectMenus": 7
+      }
+    },
+    {
+      "part": "work-requirement",
+      "lever": "who-qualifies",
+      "recordItChanges": "Hours of work or activity an enrollee must report to keep a benefit",
+      "fiscalNote": "Enrollees dropped for not meeting it times the benefit, as savings; plus verification cost",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 4,
+        "parts": 4,
+        "levels": ["federal", "state"],
+        "subjectMenus": 2
+      }
+    },
+    {
+      "part": "grandfather",
+      "lever": "who-qualifies",
+      "recordItChanges": "Existing holders kept under the old rule",
+      "fiscalNote": "The protected count times the effect the new rule would have had on them",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 2,
+        "parts": 2,
+        "levels": ["federal", "state"],
+        "subjectMenus": 2
+      }
+    },
+    {
+      "part": "prohibition",
+      "lever": "rule",
+      "recordItChanges": "A rule record forbidding an act, with its penalty and enforcer; violations recorded when a covered actor breaches",
+      "fiscalNote": "Enforcement cost plus compliance cost for whoever is covered",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 40,
+        "parts": 44,
+        "levels": ["city", "federal", "state"],
+        "subjectMenus": 15
+      }
+    },
+    {
+      "part": "duty",
+      "lever": "rule",
+      "recordItChanges": "A rule record requiring a named party to act, with a due date",
+      "fiscalNote": "Compliance cost for whoever is covered plus enforcement cost",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 37,
+        "parts": 40,
+        "levels": ["city", "county", "federal", "state", "territory"],
+        "subjectMenus": 15
+      }
+    },
+    {
+      "part": "enforcement",
+      "lever": "rule",
+      "recordItChanges": "Which agency enforces, and how; the agency bears enforcement cost",
+      "fiscalNote": "Enforcement cost to the named agency",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 22,
+        "parts": 22,
+        "levels": ["city", "federal", "state", "territory"],
+        "subjectMenus": 11
+      }
+    },
+    {
+      "part": "penalty",
+      "lever": "rule",
+      "recordItChanges": "The punishment attached to a rule: fine, jail or loss of license, applied on a recorded violation",
+      "fiscalNote": "Fines collected minus enforcement and custody cost",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 17,
+        "parts": 18,
+        "levels": ["federal", "state"],
+        "subjectMenus": 7
+      }
+    },
+    {
+      "part": "standard",
+      "lever": "rule",
+      "recordItChanges": "A measurable rule to meet (height limit, reserve ratio), checked against covered actors",
+      "fiscalNote": "Compliance cost plus enforcement cost",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 16,
+        "parts": 18,
+        "levels": ["city", "county", "federal", "state"],
+        "subjectMenus": 9
+      }
+    },
+    {
+      "part": "disclosure",
+      "lever": "rule",
+      "recordItChanges": "Information a covered party must publish, recorded when filed",
+      "fiscalNote": "Compliance cost for filers",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 8,
+        "parts": 8,
+        "levels": ["federal", "state", "territory"],
+        "subjectMenus": 5
+      }
+    },
+    {
+      "part": "license",
+      "lever": "rule",
+      "recordItChanges": "A permission record a covered actor must hold before acting",
+      "fiscalNote": "Licensing cost to the agency, offset by license fees",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 4,
+        "parts": 4,
+        "levels": ["federal", "state"],
+        "subjectMenus": 4
+      }
+    },
+    {
+      "part": "private-right-of-action",
+      "lever": "rule",
+      "recordItChanges": "Lets injured people or states sue; lawsuits become enforcement events",
+      "fiscalNote": "Court cost plus damages paid by violators",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 2,
+        "parts": 2,
+        "levels": ["federal", "state"],
+        "subjectMenus": 2
+      }
+    },
+    {
+      "part": "appeal-right",
+      "lever": "rule",
+      "recordItChanges": "A route to challenge a decision, recorded as appeals and outcomes",
+      "fiscalNote": "Hearing cost per appeal",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 1,
+        "parts": 1,
+        "levels": ["state"],
+        "subjectMenus": 1
+      }
+    },
+    {
+      "part": "notice",
+      "lever": "rule",
+      "recordItChanges": "Advance warning a party must give (a rent increase, a layoff)",
+      "fiscalNote": "Small compliance cost",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 1,
+        "parts": 1,
+        "levels": ["state"],
+        "subjectMenus": 1
+      }
+    },
+    {
+      "part": "administering-agency",
+      "lever": "structure",
+      "recordItChanges": "Which office runs the program; its staff and duties",
+      "fiscalNote": "The agency's added staff and operating cost",
+      "effectWriter": "partial",
+      "effectWriterToday": "Transit only: the pinned transit variant's administrative mandate (transit-funding.ts), Alaska only",
+      "sample": {
+        "measures": 25,
+        "parts": 25,
+        "levels": ["federal", "state", "territory"],
+        "subjectMenus": 14
+      }
+    },
+    {
+      "part": "oversight-body",
+      "lever": "structure",
+      "recordItChanges": "A new or empowered board, with seats and staff",
+      "fiscalNote": "The board's cost: seats, staff and operations",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 13,
+        "parts": 13,
+        "levels": ["dc", "state"],
+        "subjectMenus": 10
+      }
+    },
+    {
+      "part": "preemption",
+      "lever": "structure",
+      "recordItChanges": "A higher government voids or bars a lower government's rules on a subject",
+      "fiscalNote": "Lost local revenue, if the voided rule was a tax or fee; otherwise small",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 12,
+        "parts": 12,
+        "levels": ["city", "federal", "state"],
+        "subjectMenus": 8
+      }
+    },
+    {
+      "part": "delegation",
+      "lever": "structure",
+      "recordItChanges": "Power handed to an agency or official to act by rule",
+      "fiscalNote": "Administrative cost of the delegated work",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 7,
+        "parts": 7,
+        "levels": ["dc", "state"],
+        "subjectMenus": 5
+      }
+    },
+    {
+      "part": "local-option",
+      "lever": "structure",
+      "recordItChanges": "A lower government may adopt the rule or tax itself",
+      "fiscalNote": "None until a locality adopts it; then as that rate or rule",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 5,
+        "parts": 5,
+        "levels": ["state"],
+        "subjectMenus": 4
+      }
+    },
+    {
+      "part": "appointment",
+      "lever": "structure",
+      "recordItChanges": "Who names an office or board's members",
+      "fiscalNote": "None or small",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 1,
+        "parts": 1,
+        "levels": ["state"],
+        "subjectMenus": 1
+      }
+    },
+    {
+      "part": "effective-date",
+      "lever": "process",
+      "recordItChanges": "When each section starts, on the shared clock",
+      "fiscalNote": "None by itself; shifts every other effect's timing",
+      "effectWriter": "partial",
+      "effectWriterToday": "Transit's own effective-date part, the appropriation's operative date, and a 90-day default for an enacted tax (tax-policy.ts); no per-section dates",
+      "sample": {
+        "measures": 34,
+        "parts": 34,
+        "levels": ["city", "county", "federal", "state"],
+        "subjectMenus": 16
+      }
+    },
+    {
+      "part": "repeal",
+      "lever": "process",
+      "recordItChanges": "Removes an existing provision; it changes the record the repealed provision had changed",
+      "fiscalNote": "The repealed provision's effect, reversed",
+      "effectWriter": "none",
+      "takesTheLeverOfWhatItRepeals": true,
+      "sample": {
+        "measures": 23,
+        "parts": 24,
+        "levels": ["city", "dc", "federal", "state", "territory"],
+        "subjectMenus": 10
+      }
+    },
+    {
+      "part": "phase-in",
+      "lever": "process",
+      "recordItChanges": "A change arriving in dated steps",
+      "fiscalNote": "Each step's effect on its own date",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 17,
+        "parts": 17,
+        "levels": ["city", "federal", "state"],
+        "subjectMenus": 7
+      }
+    },
+    {
+      "part": "sunset",
+      "lever": "process",
+      "recordItChanges": "A built-in end date after which the rule or program stops",
+      "fiscalNote": "The program's cost stops after the date",
+      "effectWriter": "partial",
+      "effectWriterToday": "program-sunset terminate-on-date, read only against the transit authority (transit-funding.ts)",
+      "sample": {
+        "measures": 14,
+        "parts": 14,
+        "levels": ["city", "federal", "state"],
+        "subjectMenus": 7
+      }
+    },
+    {
+      "part": "transition",
+      "lever": "process",
+      "recordItChanges": "How old rules hand over to new, with a dated window",
+      "fiscalNote": "Small administrative cost",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 14,
+        "parts": 14,
+        "levels": ["federal", "state", "territory"],
+        "subjectMenus": 8
+      }
+    },
+    {
+      "part": "trigger",
+      "lever": "process",
+      "recordItChanges": "A condition checked on the clock that switches a change on",
+      "fiscalNote": "The switched change's effect, only once the condition is met",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 13,
+        "parts": 13,
+        "levels": ["city", "county", "federal", "state", "territory"],
+        "subjectMenus": 5
+      }
+    },
+    {
+      "part": "waiver",
+      "lever": "process",
+      "recordItChanges": "Permission to skip a rule for a named party or period (and line-item vetoes)",
+      "fiscalNote": "The waived rule's cost or revenue, forgone for its scope",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 13,
+        "parts": 13,
+        "levels": ["federal", "state", "territory"],
+        "subjectMenus": 7
+      }
+    },
+    {
+      "part": "deadline",
+      "lever": "process",
+      "recordItChanges": "Time allowed to comply, as a due date",
+      "fiscalNote": "Small administrative cost",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 10,
+        "parts": 10,
+        "levels": ["federal", "state"],
+        "subjectMenus": 7
+      }
+    },
+    {
+      "part": "reporting",
+      "lever": "process",
+      "recordItChanges": "A report that comes due to a named body on a date",
+      "fiscalNote": "Small administrative cost",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 8,
+        "parts": 8,
+        "levels": ["federal", "state"],
+        "subjectMenus": 5
+      }
+    },
+    {
+      "part": "veto-override",
+      "lever": "process",
+      "recordItChanges": "Enactment over the executive's veto: the law's enactment route",
+      "fiscalNote": "None: a route of enactment, not a change",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 8,
+        "parts": 8,
+        "levels": ["city", "county", "state", "territory"],
+        "subjectMenus": 7
+      }
+    },
+    {
+      "part": "voter-approval",
+      "lever": "process",
+      "recordItChanges": "The change waits on a ballot question passing",
+      "fiscalNote": "None until voters approve; then the change's own effect",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 5,
+        "parts": 5,
+        "levels": ["city", "state"],
+        "subjectMenus": 4
+      }
+    },
+    {
+      "part": "rulemaking",
+      "lever": "process",
+      "recordItChanges": "An agency must write rules by a date (spec 19)",
+      "fiscalNote": "Agency drafting cost; the rule's own effects come when it is adopted",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 4,
+        "parts": 4,
+        "levels": ["federal", "state"],
+        "subjectMenus": 4
+      }
+    },
+    {
+      "part": "referendum",
+      "lever": "process",
+      "recordItChanges": "Citizens may petition a new law onto the ballot; the law is suspended while the petition stands",
+      "fiscalNote": "None, or the suspended law's effect forgone",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 3,
+        "parts": 3,
+        "levels": ["city", "state"],
+        "subjectMenus": 2
+      }
+    },
+    {
+      "part": "time-limit",
+      "lever": "process",
+      "recordItChanges": "How long something may last (a permit, a term, a benefit)",
+      "fiscalNote": "The affected cost or benefit ends at the limit",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 3,
+        "parts": 3,
+        "levels": ["city", "federal", "state"],
+        "subjectMenus": 3
+      }
+    },
+    {
+      "part": "study",
+      "lever": "process",
+      "recordItChanges": "A study due before action",
+      "fiscalNote": "The study's cost",
+      "effectWriter": "none",
+      "sample": {
+        "measures": 2,
+        "parts": 2,
+        "levels": ["federal", "state"],
+        "subjectMenus": 2
+      }
+    }
+  ]
+}
