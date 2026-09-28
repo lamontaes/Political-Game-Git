@@ -89,6 +89,8 @@ export type EntityKind =
   | "tax-collection"
   | "statutory-tax-liability"
   | "statutory-tax-payment"
+  | "law-exposure"
+  | "official-view"
   | "job-opening"
   | "job-application"
   | "job-application-step"
@@ -867,6 +869,84 @@ export interface PropositionExposureRecord {
   readonly provenance: PropositionExposureProvenance;
 }
 
+/** How an enacted law reached a person (spec 5, "Exposure"). */
+export type LawExposureChannel =
+  | "paycheck"
+  | "tax-payment"
+  | "benefit"
+  | "job-rule"
+  | "business-rule"
+  | "public-service"
+  | "rent";
+
+/**
+ * A dated record that an enacted law actually reached one person: the law, how
+ * it reached them, and the money involved next to their pay. Written only by
+ * `recordLawExposure` from the record that shows the effect happened; a law
+ * that has not reached anyone has no exposure.
+ */
+export interface LawExposureRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly personId: EntityId;
+  /** The enacted measure. */
+  readonly measureId: EntityId;
+  /** The section that did it, where the effect names one. */
+  readonly sectionKey: string | null;
+  readonly channel: LawExposureChannel;
+  /**
+   * Their own money or service, a family member's, or something a person
+   * they know told them it did to them ("friend").
+   */
+  readonly relation: "own" | "family" | "friend";
+  /** For a family or friend exposure, whose paycheck, bill or service it was. */
+  readonly viaPersonId: EntityId | null;
+  /** Whether the law cost them or paid them; "none" for a non-money effect. */
+  readonly direction: "cost" | "gain" | "none";
+  /** Null for a non-money effect or an amount not recorded. */
+  readonly amount: MoneyAmount | null;
+  readonly cadence: "one-time" | "monthly" | null;
+  /**
+   * Their pay over the four weeks before, scaled to a month. Null when the
+   * game does not track this person's money: unknown, never zero. A friend
+   * exposure carries the teller's pay, since it measures how hard the law
+   * landed on them.
+   */
+  readonly monthlyPay: MoneyAmount | null;
+  /** The record showing the effect happened (a tax collection, a paycheck). */
+  readonly sourceRecordId: EntityId;
+}
+
+/** Why a person's view of an official moved (spec 5, "Reasons for a view"). */
+export interface OfficialViewReason {
+  readonly kind: "personal" | "family" | "friend" | "party";
+  /** Signed points this reason moved the view: credit up, blame down. */
+  readonly points: number;
+}
+
+/**
+ * One reflection on one official: what the official did about a law that
+ * reached this person, how far it moved the person's view of them, and why.
+ * A person's standing view of an official is the sum of these rows; nothing
+ * fades on its own (no passive decay).
+ */
+export interface OfficialViewRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly personId: EntityId;
+  readonly officialId: EntityId;
+  readonly measureId: EntityId;
+  readonly act: "voted-for" | "voted-against" | "signed";
+  readonly exposureId: EntityId;
+  /** Signed total of `reasons`. */
+  readonly points: number;
+  readonly reasons: readonly OfficialViewReason[];
+}
+
 export interface PrivateBeliefRecord {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -1246,6 +1326,18 @@ export interface OrganizationProfileRecord {
   readonly locationJurisdictionId: EntityId | null;
   readonly provenance: LifeRecordProvenance;
   readonly supersedesProfileId: EntityId | null;
+  /**
+   * Set on the profile that closes the organization: from `effectiveAt` it
+   * has closed, and its history stays. Absent on every open organization and
+   * on every profile saved before closings were recorded.
+   */
+  readonly closed?: OrganizationClosing;
+}
+
+/** Why an organization closed, as the game records it. */
+export interface OrganizationClosing {
+  /** An open taxonomy key such as "business:owner-retired". */
+  readonly reason: string;
 }
 
 export type EducationProgramNamespace =
@@ -3843,6 +3935,10 @@ export interface HistoryStore {
   /** Taxes that exist in law, assessed per occurrence; see `statutory-tax.ts`. */
   readonly statutoryTaxLiabilities?: readonly StatutoryTaxLiabilityRecord[];
   readonly statutoryTaxPayments?: readonly StatutoryTaxPaymentRecord[];
+  /** Optional: when an enacted law reached a person; see `law-exposure.ts`. */
+  readonly lawExposures?: readonly LawExposureRecord[];
+  /** Optional: credit or blame for officials; see `living-world/official-views.ts`. */
+  readonly officialViews?: readonly OfficialViewRecord[];
   /** Optional: job openings and applications; see `job-market.ts`. */
   readonly jobOpenings?: readonly JobOpeningRecord[];
   readonly jobApplications?: readonly JobApplicationRecord[];

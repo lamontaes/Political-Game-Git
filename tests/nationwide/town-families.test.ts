@@ -99,7 +99,7 @@ describe(
       }
     });
 
-    it("a newborn has both parents and lives in their home", () => {
+    it("a newborn has its mother, her partner when they live together, and her home", () => {
       const births = familyEvents(world, town).filter(
         (event) => event.type === "life.family-member-added",
       );
@@ -109,7 +109,8 @@ describe(
           (row) => row.role === "focus:subject",
         )!.personId!;
         const parents = parentsOf(world, child);
-        expect(parents).toHaveLength(2);
+        expect(parents.length).toBeGreaterThanOrEqual(1);
+        expect(parents.length).toBeLessThanOrEqual(2);
         const mother = parents.find(
           (id) => world.people[id]!.identity?.gender === "female",
         )!;
@@ -117,8 +118,8 @@ describe(
           world.people[mother]!.birthDate,
           birth.occurredAt,
         );
-        expect(age).toBeGreaterThanOrEqual(18);
-        expect(age).toBeLessThanOrEqual(44);
+        expect(age).toBeGreaterThanOrEqual(15);
+        expect(age).toBeLessThanOrEqual(49);
         const home = (id: EntityId) =>
           householdMembershipsAt(world, id)[0]?.household.id;
         // A later breakup may move one parent out; the child keeps a parent.

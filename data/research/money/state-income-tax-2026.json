@@ -1,0 +1,925 @@
+{
+  "id": "state-income-tax-2026",
+  "asOf": "2026-09-28",
+  "sourceKind": "secondary compilation, labeled provisional for calibration (spec 2 allows a reputable compilation if labeled)",
+  "source": {
+    "title": "State Individual Income Tax Rates and Brackets, 2026",
+    "publisher": "Tax Foundation",
+    "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+    "retrieved": "2026-09-28 from the Mac (the cloud lanes cannot reach it); values transcribed from a fetched summary of the page"
+  },
+  "officialChecks": [
+    {
+      "place": "US-MS",
+      "url": "https://www.dor.ms.gov/individual/tax-rates",
+      "finding": "0% on the first $10,000 of taxable income; 4% on the excess for tax year 2026; 3.75% in 2027. Matches."
+    }
+  ],
+  "scope": "Single-filer brackets and the single standard deduction only. Married and head-of-household schedules, exemptions and credits are NOT here and stay UNKNOWN until read. Territories are not covered.",
+  "places": {
+    "US-AL": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 4.0,
+          "overSingle": 500
+        },
+        {
+          "ratePercent": 5.0,
+          "overSingle": 3000
+        }
+      ],
+      "standardDeductionSingle": 3000
+    },
+    "US-AK": {
+      "wageIncomeTax": "none",
+      "brackets": [],
+      "standardDeductionSingle": null
+    },
+    "US-AZ": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 2.5,
+          "overSingle": 0
+        }
+      ],
+      "standardDeductionSingle": 8350
+    },
+    "US-AR": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 3.9,
+          "overSingle": 4600
+        }
+      ],
+      "standardDeductionSingle": 2470
+    },
+    "US-CA": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 1.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 2.0,
+          "overSingle": 11079
+        },
+        {
+          "ratePercent": 4.0,
+          "overSingle": 26264
+        },
+        {
+          "ratePercent": 6.0,
+          "overSingle": 41452
+        },
+        {
+          "ratePercent": 8.0,
+          "overSingle": 57542
+        },
+        {
+          "ratePercent": 9.3,
+          "overSingle": 72724
+        },
+        {
+          "ratePercent": 10.3,
+          "overSingle": 371479
+        },
+        {
+          "ratePercent": 11.3,
+          "overSingle": 445771
+        },
+        {
+          "ratePercent": 12.3,
+          "overSingle": 742953
+        },
+        {
+          "ratePercent": 13.3,
+          "overSingle": 1000000
+        }
+      ],
+      "standardDeductionSingle": 5540
+    },
+    "US-CO": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4.4,
+          "overSingle": 0
+        }
+      ],
+      "standardDeductionSingle": 16100
+    },
+    "US-CT": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 4.5,
+          "overSingle": 10000
+        },
+        {
+          "ratePercent": 5.5,
+          "overSingle": 50000
+        },
+        {
+          "ratePercent": 6.0,
+          "overSingle": 100000
+        },
+        {
+          "ratePercent": 6.5,
+          "overSingle": 200000
+        },
+        {
+          "ratePercent": 6.9,
+          "overSingle": 250000
+        },
+        {
+          "ratePercent": 6.99,
+          "overSingle": 500000
+        }
+      ],
+      "standardDeductionSingle": null,
+      "standardDeductionNote": "n.a."
+    },
+    "US-DE": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.2,
+          "overSingle": 2000
+        },
+        {
+          "ratePercent": 3.9,
+          "overSingle": 5000
+        },
+        {
+          "ratePercent": 4.8,
+          "overSingle": 10000
+        },
+        {
+          "ratePercent": 5.2,
+          "overSingle": 20000
+        },
+        {
+          "ratePercent": 5.55,
+          "overSingle": 25000
+        },
+        {
+          "ratePercent": 6.6,
+          "overSingle": 60000
+        }
+      ],
+      "standardDeductionSingle": 3250
+    },
+    "US-FL": {
+      "wageIncomeTax": "none",
+      "brackets": [],
+      "standardDeductionSingle": null
+    },
+    "US-GA": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 5.19,
+          "overSingle": 0
+        }
+      ],
+      "standardDeductionSingle": 12000
+    },
+    "US-HI": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 1.4,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 3.2,
+          "overSingle": 9600
+        },
+        {
+          "ratePercent": 5.5,
+          "overSingle": 14400
+        },
+        {
+          "ratePercent": 6.4,
+          "overSingle": 19200
+        },
+        {
+          "ratePercent": 6.8,
+          "overSingle": 24000
+        },
+        {
+          "ratePercent": 7.2,
+          "overSingle": 36000
+        },
+        {
+          "ratePercent": 7.6,
+          "overSingle": 48000
+        },
+        {
+          "ratePercent": 7.9,
+          "overSingle": 125000
+        },
+        {
+          "ratePercent": 8.25,
+          "overSingle": 175000
+        },
+        {
+          "ratePercent": 9.0,
+          "overSingle": 225000
+        },
+        {
+          "ratePercent": 10.0,
+          "overSingle": 275000
+        },
+        {
+          "ratePercent": 11.0,
+          "overSingle": 325000
+        }
+      ],
+      "standardDeductionSingle": 4400
+    },
+    "US-ID": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 5.3,
+          "overSingle": 4811
+        }
+      ],
+      "standardDeductionSingle": 16100
+    },
+    "US-IL": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4.95,
+          "overSingle": 0
+        }
+      ],
+      "standardDeductionSingle": null,
+      "standardDeductionNote": "n.a."
+    },
+    "US-IN": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 2.95,
+          "overSingle": 0
+        }
+      ],
+      "standardDeductionSingle": null,
+      "standardDeductionNote": "n.a."
+    },
+    "US-IA": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 3.8,
+          "overSingle": 0
+        }
+      ],
+      "standardDeductionSingle": 16100
+    },
+    "US-KS": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 5.2,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 5.58,
+          "overSingle": 23000
+        }
+      ],
+      "standardDeductionSingle": 3605
+    },
+    "US-KY": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 3.5,
+          "overSingle": 0
+        }
+      ],
+      "standardDeductionSingle": 3360
+    },
+    "US-LA": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 3.0,
+          "overSingle": 0
+        }
+      ],
+      "standardDeductionSingle": 12875
+    },
+    "US-ME": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 5.8,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 6.75,
+          "overSingle": 27399
+        },
+        {
+          "ratePercent": 7.15,
+          "overSingle": 64849
+        }
+      ],
+      "standardDeductionSingle": 8350
+    },
+    "US-MD": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 3.0,
+          "overSingle": 1000
+        },
+        {
+          "ratePercent": 4.0,
+          "overSingle": 2000
+        },
+        {
+          "ratePercent": 4.75,
+          "overSingle": 3000
+        },
+        {
+          "ratePercent": 5.0,
+          "overSingle": 100000
+        },
+        {
+          "ratePercent": 5.25,
+          "overSingle": 125000
+        },
+        {
+          "ratePercent": 5.5,
+          "overSingle": 150000
+        },
+        {
+          "ratePercent": 5.75,
+          "overSingle": 250000
+        },
+        {
+          "ratePercent": 6.25,
+          "overSingle": 500000
+        },
+        {
+          "ratePercent": 6.5,
+          "overSingle": 1000000
+        }
+      ],
+      "standardDeductionSingle": 3350
+    },
+    "US-MA": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 5.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 9.0,
+          "overSingle": 1083150
+        }
+      ],
+      "standardDeductionSingle": null,
+      "standardDeductionNote": "n.a."
+    },
+    "US-MI": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4.25,
+          "overSingle": 0
+        }
+      ],
+      "standardDeductionSingle": null,
+      "standardDeductionNote": "n.a."
+    },
+    "US-MN": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 5.35,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 6.8,
+          "overSingle": 33310
+        },
+        {
+          "ratePercent": 7.85,
+          "overSingle": 109430
+        },
+        {
+          "ratePercent": 9.85,
+          "overSingle": 203150
+        }
+      ],
+      "standardDeductionSingle": 15300
+    },
+    "US-MS": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4.0,
+          "overSingle": 10000
+        }
+      ],
+      "standardDeductionSingle": 2300
+    },
+    "US-MO": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.0,
+          "overSingle": 1348
+        },
+        {
+          "ratePercent": 2.5,
+          "overSingle": 2696
+        },
+        {
+          "ratePercent": 3.0,
+          "overSingle": 4044
+        },
+        {
+          "ratePercent": 3.5,
+          "overSingle": 5392
+        },
+        {
+          "ratePercent": 4.0,
+          "overSingle": 6740
+        },
+        {
+          "ratePercent": 4.5,
+          "overSingle": 8088
+        },
+        {
+          "ratePercent": 4.7,
+          "overSingle": 9436
+        }
+      ],
+      "standardDeductionSingle": 16100
+    },
+    "US-MT": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 4.7,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 5.65,
+          "overSingle": 47500
+        }
+      ],
+      "standardDeductionSingle": 16100
+    },
+    "US-NE": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.46,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 3.51,
+          "overSingle": 4130
+        },
+        {
+          "ratePercent": 4.55,
+          "overSingle": 24760
+        }
+      ],
+      "standardDeductionSingle": 8850
+    },
+    "US-NV": {
+      "wageIncomeTax": "none",
+      "brackets": [],
+      "standardDeductionSingle": null
+    },
+    "US-NH": {
+      "wageIncomeTax": "none",
+      "brackets": [],
+      "standardDeductionSingle": null
+    },
+    "US-NJ": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 1.4,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 1.75,
+          "overSingle": 20000
+        },
+        {
+          "ratePercent": 3.5,
+          "overSingle": 35000
+        },
+        {
+          "ratePercent": 5.53,
+          "overSingle": 40000
+        },
+        {
+          "ratePercent": 6.37,
+          "overSingle": 75000
+        },
+        {
+          "ratePercent": 8.97,
+          "overSingle": 500000
+        },
+        {
+          "ratePercent": 10.75,
+          "overSingle": 1000000
+        }
+      ],
+      "standardDeductionSingle": null,
+      "standardDeductionNote": "n.a."
+    },
+    "US-NM": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 1.5,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 3.2,
+          "overSingle": 5500
+        },
+        {
+          "ratePercent": 4.3,
+          "overSingle": 16500
+        },
+        {
+          "ratePercent": 4.7,
+          "overSingle": 33500
+        },
+        {
+          "ratePercent": 4.9,
+          "overSingle": 66500
+        },
+        {
+          "ratePercent": 5.9,
+          "overSingle": 210000
+        }
+      ],
+      "standardDeductionSingle": 16100
+    },
+    "US-NY": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 3.9,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 4.4,
+          "overSingle": 8500
+        },
+        {
+          "ratePercent": 5.15,
+          "overSingle": 11700
+        },
+        {
+          "ratePercent": 5.4,
+          "overSingle": 13900
+        },
+        {
+          "ratePercent": 5.9,
+          "overSingle": 80650
+        },
+        {
+          "ratePercent": 6.85,
+          "overSingle": 215400
+        },
+        {
+          "ratePercent": 9.65,
+          "overSingle": 1077550
+        },
+        {
+          "ratePercent": 10.3,
+          "overSingle": 5000000
+        },
+        {
+          "ratePercent": 10.9,
+          "overSingle": 25000000
+        }
+      ],
+      "standardDeductionSingle": 8000
+    },
+    "US-NC": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 3.99,
+          "overSingle": 0
+        }
+      ],
+      "standardDeductionSingle": 12750
+    },
+    "US-ND": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 1.95,
+          "overSingle": 48475
+        },
+        {
+          "ratePercent": 2.5,
+          "overSingle": 244825
+        }
+      ],
+      "standardDeductionSingle": 16100
+    },
+    "US-OH": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 2.75,
+          "overSingle": 26050
+        }
+      ],
+      "standardDeductionSingle": null,
+      "standardDeductionNote": "n.a."
+    },
+    "US-OK": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.5,
+          "overSingle": 3750
+        },
+        {
+          "ratePercent": 3.5,
+          "overSingle": 4900
+        },
+        {
+          "ratePercent": 4.5,
+          "overSingle": 7200
+        }
+      ],
+      "standardDeductionSingle": 6350
+    },
+    "US-OR": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 4.75,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 6.75,
+          "overSingle": 4550
+        },
+        {
+          "ratePercent": 8.75,
+          "overSingle": 11400
+        },
+        {
+          "ratePercent": 9.9,
+          "overSingle": 125000
+        }
+      ],
+      "standardDeductionSingle": 2910
+    },
+    "US-PA": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 3.07,
+          "overSingle": 0
+        }
+      ],
+      "standardDeductionSingle": null,
+      "standardDeductionNote": "n.a."
+    },
+    "US-RI": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 3.75,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 4.75,
+          "overSingle": 82050
+        },
+        {
+          "ratePercent": 5.99,
+          "overSingle": 186450
+        }
+      ],
+      "standardDeductionSingle": 11200
+    },
+    "US-SC": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 0.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 3.0,
+          "overSingle": 3640
+        },
+        {
+          "ratePercent": 6.0,
+          "overSingle": 18230
+        }
+      ],
+      "standardDeductionSingle": 8350
+    },
+    "US-SD": {
+      "wageIncomeTax": "none",
+      "brackets": [],
+      "standardDeductionSingle": null
+    },
+    "US-TN": {
+      "wageIncomeTax": "none",
+      "brackets": [],
+      "standardDeductionSingle": null
+    },
+    "US-TX": {
+      "wageIncomeTax": "none",
+      "brackets": [],
+      "standardDeductionSingle": null
+    },
+    "US-UT": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4.5,
+          "overSingle": 0
+        }
+      ],
+      "standardDeductionSingle": null,
+      "standardDeductionNote": "$966 credit"
+    },
+    "US-VT": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 3.35,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 6.6,
+          "overSingle": 49400
+        },
+        {
+          "ratePercent": 7.6,
+          "overSingle": 119700
+        },
+        {
+          "ratePercent": 8.75,
+          "overSingle": 249700
+        }
+      ],
+      "standardDeductionSingle": 7650
+    },
+    "US-VA": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 3.0,
+          "overSingle": 3000
+        },
+        {
+          "ratePercent": 5.0,
+          "overSingle": 5000
+        },
+        {
+          "ratePercent": 5.75,
+          "overSingle": 17000
+        }
+      ],
+      "standardDeductionSingle": 8750
+    },
+    "US-WA": {
+      "wageIncomeTax": "none",
+      "note": "Washington taxes capital gains only (7% over $0, 9% over $1,000,000, after a $278,000 deduction); wages are not taxed.",
+      "brackets": [],
+      "standardDeductionSingle": null
+    },
+    "US-WV": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.22,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 2.96,
+          "overSingle": 10000
+        },
+        {
+          "ratePercent": 3.33,
+          "overSingle": 25000
+        },
+        {
+          "ratePercent": 4.44,
+          "overSingle": 40000
+        },
+        {
+          "ratePercent": 4.82,
+          "overSingle": 60000
+        }
+      ],
+      "standardDeductionSingle": null,
+      "standardDeductionNote": "n.a."
+    },
+    "US-WI": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 3.5,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 4.4,
+          "overSingle": 15110
+        },
+        {
+          "ratePercent": 5.3,
+          "overSingle": 51950
+        },
+        {
+          "ratePercent": 7.65,
+          "overSingle": 332720
+        }
+      ],
+      "standardDeductionSingle": 13960
+    },
+    "US-WY": {
+      "wageIncomeTax": "none",
+      "brackets": [],
+      "standardDeductionSingle": null
+    },
+    "US-DC": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 4.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 6.0,
+          "overSingle": 10000
+        },
+        {
+          "ratePercent": 6.5,
+          "overSingle": 40000
+        },
+        {
+          "ratePercent": 8.5,
+          "overSingle": 60000
+        },
+        {
+          "ratePercent": 9.25,
+          "overSingle": 250000
+        },
+        {
+          "ratePercent": 9.75,
+          "overSingle": 500000
+        },
+        {
+          "ratePercent": 10.75,
+          "overSingle": 1000000
+        }
+      ],
+      "standardDeductionSingle": 16100
+    }
+  }
+}

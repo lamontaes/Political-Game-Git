@@ -42,7 +42,7 @@ describe("the record of which towns have researched rules", () => {
     expect(coverage.researched).toHaveLength(60);
     expect(
       coverage.researched.filter((row) => row.read.length > 0),
-    ).toHaveLength(39);
+    ).toHaveLength(40);
     expect(coverage.onTypicalValues).toBe(
       coverage.towns -
         coverage.researched.filter((row) => row.read.length > 0).length,
@@ -69,6 +69,15 @@ describe("the record of which towns have researched rules", () => {
     expect(rules.researchedGovernmentKey).not.toBeNull();
     expect(rules.seats?.basis).toBe("read");
     expect(rules.termYears?.basis).toBe("read");
+  });
+});
+
+describe("Columbus, Ohio, read from its charter", () => {
+  it("seats nine members on four-year terms", () => {
+    const rules = rulesAt("3918000");
+    expect(rules.researchedGovernmentKey).toBe("us-oh-columbus");
+    expect(rules.seats).toEqual({ value: 9, basis: "read" });
+    expect(rules.termYears).toEqual({ value: 4, basis: "read" });
   });
 });
 

@@ -32058,7 +32058,7 @@
       {
         "sourceGovernmentKey": "us-oh-columbus",
         "state": "OH",
-        "jurisdictionDisplayName": "Columbus",
+        "jurisdictionDisplayName": "City of Columbus",
         "censusGovernmentUnitReference": {
           "status": "UNKNOWN",
           "reason": "no canonical government-unit key has been reconciled for this government; the Census place crosswalk carried beside this record is an identity assertion and is not a government-unit identifier."
@@ -32083,20 +32083,35 @@
         },
         "electedStructure": {
           "bodyName": {
-            "status": "UNKNOWN",
-            "reason": "The elected body's name has not been normalized from the report."
+            "status": "KNOWN",
+            "value": "Columbus City Council",
+            "sourceKey": "columbus-charter-council",
+            "effectiveDate": "2026-09-28",
+            "legalLocator": "elected body"
           },
           "executiveSelection": {
             "status": "UNKNOWN",
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 9,
+            "sourceKey": "columbus-charter-council",
+            "effectiveDate": "2026-09-28",
+            "legalLocator": "body size"
           },
           "composition": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not apportion this body's seats."
+            "status": "KNOWN",
+            "value": {
+              "pattern": "AT_LARGE",
+              "districtSeats": null,
+              "atLargeSeats": 9,
+              "wardSeats": null,
+              "note": "Nine members elected citywide; each must live in one of nine residential districts."
+            },
+            "sourceKey": "columbus-charter-council",
+            "effectiveDate": "2026-09-28",
+            "legalLocator": "seat apportionment"
           },
           "presidingOffice": {
             "status": "UNKNOWN",
@@ -32108,7 +32123,22 @@
             "status": "UNKNOWN",
             "reason": "election calendar: the national municipal institutional pass recorded structure, administration and meeting practice; it did not read this government's charter or code for this rule, so primary and general timing are not established here."
           },
-          "terms": [],
+          "terms": [
+            {
+              "seatClass": "council member",
+              "termYears": {
+                "status": "KNOWN",
+                "value": 4,
+                "sourceKey": "columbus-charter-council",
+                "effectiveDate": "2026-09-28",
+                "legalLocator": "council member term"
+              },
+              "termLimit": {
+                "status": "UNKNOWN",
+                "reason": "council member: the pass did not read whether a term limit applies."
+              }
+            }
+          ],
           "vacancyMechanism": {
             "status": "UNKNOWN",
             "reason": "vacancy: the national municipal institutional pass recorded structure, administration and meeting practice; it did not read this government's charter or code for this rule, so how a seat is filled between elections is not established here."
@@ -32259,16 +32289,50 @@
             "status": "KNOWN",
             "value": "Research report 43A, Columbus, Ohio — 2024+ NINE-MEMBER HYBRID-DISTRICT TRANSITION:\nVerified institutional/room facts:\n- Columbus City Council is the city's legislative/policymaking authority, including code, budgets, contracts and zoning.\n- In 2024 Council transitioned from seven at-large members to a nine-member hybrid district system: members must reside in the district they represent while voters elect the Council slate citywide under the current system.\n- Current 2026 Council records identify regular meetings in Council Chambers, Room 231, Columbus City Hall, 90 W. Broad Street; official notices also describe it as second-floor Council Chambers.\n- This recent institutional change is exactly why the government pack needs effective dates: a 2020 start should not initialize the 2026 council structure.\n\n\nScene families:\n1. COLUMBUS CITY HALL ROOM 231 COUNCIL CHAMBER.\n2. COUNCIL MEMBER/OFFICE family.\n3. MAYOR/EXECUTIVE family.\n4. COMMITTEE/HEARING configurations in the Council Chamber and other rooms.\n\n\nOfficial sources:\nhttps://www.columbus.gov/files/sharedassets/city/v/1/finance/budget/2026/012-2026.pdf\nhttps://www.columbus.gov/files/sharedassets/city/v/1/city-council/documents/city-bulletins/2026/bulletin20260414.pdf\n\n\nReference status: CURRENT GOVERNANCE/ROOM VERIFIED; visual pack needed.",
             "sourceKey": "research-packet-43A",
-            "effectiveDate": "2026-08-25",
+            "effectiveDate": "2026-09-28",
             "legalLocator": "Columbus, Ohio — 2024+ NINE-MEMBER HYBRID-DISTRICT TRANSITION; captured text line 1268"
           }
         ],
         "unresolved": [
-          "This entry preserves the existing attributed research. Individual structured rules and government/place identity links require their own verified evidence; report headings grant nothing.",
+          "Only the council's size, residency districts, citywide election and four-year staggered terms were read. The mayor's office, ordinance procedure, meetings and budget calendar were not.",
+          "The pages could not be fetched from this session; the council facts come from search excerpts of the named sources.",
           "This record comes from a national institutional research pass over official municipal pages, not from those pages themselves. Its legal procedure was never read and is UNKNOWN throughout."
         ],
-        "asOf": "2026-08-25",
+        "asOf": "2026-09-28",
         "citedSources": [
+          {
+            "sourceKey": "columbus-issue-3-wosu",
+            "authorityType": "News Report",
+            "title": "Columbus City Council Will See Some Reforms, But Not For Another Six Years",
+            "issuingAuthority": "WOSU Public Media",
+            "url": "https://www.wosu.org/news/2018-05-11/columbus-city-council-will-see-some-reforms-but-not-for-another-six-years",
+            "effectiveDate": null,
+            "retrievedDate": "2026-09-28",
+            "retrievable": false,
+            "claimSupported": "Issue 3 (May 2018, 75 percent in favor) expands the council from seven to nine members. One member lives in each district but is elected at large by voters across the city."
+          },
+          {
+            "sourceKey": "columbus-issue-3-10tv",
+            "authorityType": "News Report",
+            "title": "Columbus City Council to grow from 7 to 9 members under new districting system",
+            "issuingAuthority": "WBNS-10TV",
+            "url": "https://www.10tv.com/article/news/politics/elections/columbus-city-council-grow-from-7-to-9-members-under-new-districting-system/530-2d1e94c3-672b-45f8-8c9c-58136912295d",
+            "effectiveDate": null,
+            "retrievedDate": "2026-09-28",
+            "retrievable": false,
+            "claimSupported": "The council grows from seven to nine members under the district system, beginning with the 2023 election."
+          },
+          {
+            "sourceKey": "columbus-charter-council",
+            "authorityType": "Municipal Charter",
+            "title": "THE COUNCIL, Columbus City Charter section 17",
+            "issuingAuthority": "City of Columbus, Ohio",
+            "url": "https://library.municode.com/oh/columbus/codes/code_of_ordinances?nodeId=CHTR_THECICOOH_THCO_S17LEPR",
+            "effectiveDate": null,
+            "retrievedDate": "2026-09-28",
+            "retrievable": false,
+            "claimSupported": "Each member of council shall be elected from one of nine districts by the electors of the city. All council members shall serve for a term of four years; lots drawn in 2024 set which members first served two years, to stagger the terms."
+          },
           {
             "sourceKey": "research-packet-43A",
             "authorityType": "Research Synthesis",
@@ -32276,7 +32340,7 @@
             "issuingAuthority": "Existing project research library",
             "url": "https://docs.google.com/document/d/1cpmq9z2Dje-CeomODu8u02pqyjiyTnyruWdtYXU6S98/edit",
             "effectiveDate": null,
-            "retrievedDate": "2026-08-25",
+            "retrievedDate": "2026-09-28",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
           }
