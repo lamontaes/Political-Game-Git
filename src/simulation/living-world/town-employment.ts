@@ -199,7 +199,7 @@ function nationalPublicRow(): readonly (number | null)[] {
 /* Workplaces and roles (GAME ASSUMPTION)                                      */
 /* -------------------------------------------------------------------------- */
 
-interface Role {
+export interface Role {
   readonly title: string;
   readonly occupation: OccupationClassification;
   readonly weight: number;
@@ -215,7 +215,7 @@ interface NameContext {
   readonly family: string;
 }
 
-interface Workplace {
+export interface Workplace {
   readonly key: string;
   readonly classification: OrganizationClassification;
   readonly kind: WorkRelationshipKind;
@@ -691,6 +691,51 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
 
 const WORKPLACE = new Map(TOWN_WORKPLACES.map((place) => [place.key, place]));
 
+const FULL_TIME_HOURS = [35, 45] as const;
+const PART_TIME_HOURS = [16, 29] as const;
+
+/**
+ * GAME ASSUMPTION: the chance a new hire at each workplace works part-time,
+ * under 35 hours a week. Food service, stores and recreation run on
+ * part-time staff; offices, plants and public agencies mostly do not. Jobs
+ * written before this draw (a household's own job, civic roles) stay
+ * full-time, so a town's share sits below the national one of about one
+ * worker in six until those are drawn too.
+ */
+export const TOWN_PART_TIME_SHARE: Readonly<Record<string, number>> = {
+  restaurant: 0.45,
+  retail: 0.35,
+  recreation: 0.5,
+  "personal-care": 0.3,
+  inn: 0.3,
+  "building-services": 0.25,
+  "care-home": 0.25,
+  "private-school": 0.15,
+  "public-school": 0.08,
+  congregation: 0.3,
+  farm: 0.15,
+  hospital: 0.15,
+  clinic: 0.2,
+  "campaign-staff": 0.2,
+  organizing: 0.2,
+};
+export const TOWN_PART_TIME_DEFAULT = 0.08;
+
+/** The town workplace an employer was written from, and the role held. */
+export function townWorkplaceFor(
+  organizationStableKey: string,
+  classification: string | null,
+): Workplace | null {
+  const employer = /:employer:([a-z-]+):\d+$/.exec(organizationStableKey);
+  if (employer) return WORKPLACE.get(employer[1]!) ?? null;
+  return (
+    TOWN_WORKPLACES.find(
+      (workplace) =>
+        workplace.existing && workplace.existing === classification,
+    ) ?? null
+  );
+}
+
 /** GAME ASSUMPTION: which workplaces stand for each sector, and in what shares. */
 const SECTOR_WORKPLACES: Readonly<
   Record<Sector, readonly (readonly [string, number])[]>
@@ -1073,6 +1118,7 @@ export function fillTownJobs(
     workplace: Workplace,
     chosen: Role,
     at?: EntityId,
+    civic = false,
   ) => {
     const rng = new SeededRng(next.seed).fork(
       drawKey("hire", resident.personId),
@@ -1088,7 +1134,15 @@ export function fillTownJobs(
             .integer(0, Math.min(20, resident.age - WORKING_AGE_MIN) + 1)
         : 0;
     const hired = yearsBefore(today, tenure);
-    const [minimumHours, maximumHours] = chosen.hours ?? [35, 45];
+    // Some jobs are part-time; a civic role and a job that directs others
+    // never are.
+    const partTime =
+      !civic &&
+      chosen.authority !== "directs-others" &&
+      rng.fork("part-time").next() <
+        (TOWN_PART_TIME_SHARE[workplace.key] ?? TOWN_PART_TIME_DEFAULT);
+    const [minimumHours, maximumHours] =
+      chosen.hours ?? (partTime ? PART_TIME_HOURS : FULL_TIME_HOURS);
     jobs.push({
       stableKey: jobKey(resident.personId),
       personId: resident.personId,
@@ -1144,7 +1198,7 @@ export function fillTownJobs(
       }
       const resident = take(chosen.minAge ?? WORKING_AGE_MIN);
       if (!resident) break;
-      hire(resident, workplace, chosen, at ?? undefined);
+      hire(resident, workplace, chosen, at ?? undefined, true);
     }
   }
 
