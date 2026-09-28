@@ -62,7 +62,7 @@ export function projectOpeningYear(
   if (president)
     lines.push(
       president.party
-        ? `${president.name} is President, for the ${president.party}.`
+        ? `${president.name} of the ${president.party} is President.`
         : `${president.name} is President.`,
     );
   const congress = orientation.steps.find((step) => step.key === "congress");
