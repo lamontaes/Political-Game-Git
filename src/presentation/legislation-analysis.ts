@@ -10,6 +10,7 @@ import type {
   World,
 } from "../simulation";
 import { draftLineageComponents } from "../simulation/legislation-draft-lineage";
+import { clauseLever, type BillLever } from "../simulation/legislation-levers";
 import type { CompiledBillDraft } from "../simulation/legislation-drafting";
 import {
   formatMinorUnits,
@@ -108,14 +109,7 @@ export interface BillFiscalReading {
 }
 
 /** A fiscal note classifies the bill's own sections; it is never a cash record. */
-export type FiscalNoteLever =
-  | "money"
-  | "rate"
-  | "who-qualifies"
-  | "rule"
-  | "structure"
-  | "process"
-  | "unclassified";
+export type FiscalNoteLever = BillLever | "unclassified";
 
 export interface FiscalNotePart {
   readonly provisionKey: string;
@@ -233,7 +227,7 @@ function fiscalNoteParts(
   sections: readonly FiscalNoteSection[],
 ): readonly FiscalNotePart[] {
   return sections.map((section) => {
-    const lever = fiscalLever(section.dimension, instrument);
+    const lever = clauseLever(section.dimension, instrument);
     const affectedLabel =
       section.beneficiary.kind === "general-application"
         ? section.beneficiary.appliesToLabel
@@ -291,35 +285,6 @@ function fiscalNoteParts(
       missingInput,
     };
   });
-}
-
-function fiscalLever(
-  dimension: ClauseDimension | null,
-  instrument: LegalInstrument | null,
-): FiscalNoteLever {
-  if (instrument === "sunset-repeal" && dimension === "timing")
-    return "structure";
-  if (
-    instrument === "position-authorization" &&
-    dimension === "eligibility-scope"
-  )
-    return "structure";
-  switch (dimension) {
-    case "funding-cap":
-      return "money";
-    case "revenue":
-      return "rate";
-    case "eligibility-scope":
-      return "who-qualifies";
-    case "oversight":
-      return instrument === "regulatory-requirement" ? "rule" : "process";
-    case "authority-reference":
-      return "structure";
-    case "timing":
-      return "process";
-    default:
-      return "unclassified";
-  }
 }
 
 export function billFiscalReading(
