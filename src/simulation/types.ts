@@ -21,6 +21,7 @@ import type {
   ConstitutionalRuleVersionRecord,
 } from "./constitutional-types";
 import type { RuleChangeProvisionRecord } from "./enacted-rule-changes";
+import type { PlaceOutcomeStore } from "./outcome-web/place-outcome-store";
 import type { PublicFundingMandate } from "./public-fiscal";
 import type { MacroEconomyStore } from "./macro-economy/types";
 import type { PressureStore } from "./pressure/contract";
@@ -5175,6 +5176,8 @@ export interface World {
    * written before it existed has no macro history and is never retrofitted.
    */
   readonly macroEconomy?: MacroEconomyStore;
+  /** Place outcomes by month (outcome-web/place-outcome-store.ts). */
+  readonly placeOutcomes?: PlaceOutcomeStore;
   /**
    * The pressure layer (2026-09-22). Optional and additive: a world written
    * before it existed has no readings and is never retrofitted.

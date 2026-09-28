@@ -1,8 +1,18 @@
 import { describe, expect, it } from "vitest";
+import { makeIsoDate } from "../dates";
+import { stateJurisdictionForKey } from "../life-places";
+import type {
+  EntityId,
+  LegislativeEnactmentRecord,
+  LegislativeMeasureRecord,
+  World,
+} from "../types";
 import {
   OUTCOME_LINKS,
-  OUTCOME_MEASURES,
+  OUTCOMES_PRODUCED,
+  outcomeFactor,
   outcomeLinkStatus,
+  outcomeMeasure,
   outcomeWebStatus,
   shapedLinkFactor,
 } from ".";
@@ -85,8 +95,14 @@ describe("the outcome web table", () => {
       ]),
     );
     for (const row of built) {
-      expect(OUTCOME_MEASURES[row.from], row.key).toBeDefined();
+      expect(outcomeMeasure(row.from), row.key).not.toBeNull();
+      expect(OUTCOMES_PRODUCED.has(row.to), row.key).toBe(true);
     }
+    // A ready link into an outcome nothing computes yet says so.
+    const ready = OUTCOME_LINKS.find(
+      (link) => link.key === "rent-control-to-rental-supply",
+    )!;
+    expect(outcomeLinkStatus(ready)).toBe("outcome-not-produced");
   });
 });
 
@@ -135,6 +151,104 @@ describe("link shapes", () => {
       const shape =
         kind === "acute-decay" ? { kind, halfLifeDays: 7 } : { kind };
       expect(shapedLinkFactor({ shape, size: 0.5 }, 9, 0)).toBe(1);
+    }
+  });
+});
+
+describe("laws as causes", () => {
+  it("every law cause is a policy question a bill can answer", () => {
+    for (const link of OUTCOME_LINKS) {
+      if (!link.from.startsWith("law:")) continue;
+      expect(outcomeMeasure(link.from), link.key).not.toBeNull();
+    }
+    expect(
+      OUTCOME_LINKS.filter((link) => link.from.startsWith("law:")).length,
+    ).toBeGreaterThanOrEqual(25);
+  });
+
+  /*
+   * The first law-to-outcome chain in the game: a state law restricting
+   * abortion raises births in its towns, from about seven months after it
+   * takes effect (about +2.3%; Dench, Pineda-Torres and Myers 2024).
+   */
+  const QUESTION_KEY =
+    "us-policy-positions:civil-family-community.restrict-abortion";
+  const QUESTION = "proposition_restrict_abortion" as EntityId;
+  const ohio = stateJurisdictionForKey("US-OH")!.id;
+
+  function worldWith(currentDate: string, answer: "yes" | "no" | null): World {
+    const measure: LegislativeMeasureRecord = {
+      id: "measure_1" as EntityId,
+      stableKey: "test:1",
+      sequence: 1,
+      jurisdictionId: ohio,
+      rulePackId: "test",
+      designation: "HB 1",
+      shortTitle: "Restrict abortion",
+      summary: "A test act.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: "house",
+      sponsorPersonId: null,
+      introducedAt: makeIsoDate("2026-01-01"),
+      sourceDocumentKey: null,
+      policyAlternativeIds: [],
+      propositionIds: [QUESTION],
+      propositionAnswers: answer ? [{ propositionId: QUESTION, answer }] : [],
+    };
+    const enactment: LegislativeEnactmentRecord = {
+      id: "enactment_1" as EntityId,
+      stableKey: "test:1:enactment",
+      sequence: 1001,
+      measureId: measure.id,
+      resolvedAt: makeIsoDate("2026-06-01"),
+      outcome: "enacted",
+      actDesignation: null,
+      effectiveAt: makeIsoDate("2026-07-01"),
+      outcomeEventId: "event_1" as EntityId,
+    };
+    return {
+      currentDate: makeIsoDate(currentDate),
+      policyCatalog: {
+        propositions: { [QUESTION]: { id: QUESTION, stableKey: QUESTION_KEY } },
+      },
+      history: {
+        legislativeMeasures: [measure],
+        legislativeEnactments: [enactment],
+      },
+    } as unknown as World;
+  }
+
+  it("a restrict-abortion law raises births about 2.3%, seven months after it takes effect", () => {
+    const early = outcomeFactor(
+      worldWith("2026-12-01", "yes"),
+      ohio,
+      "births.rate",
+      makeIsoDate("2026-12-01"),
+    );
+    // Seven months before December 1 the law was not yet in force.
+    expect(early.multiplier).toBe(1);
+    const later = outcomeFactor(
+      worldWith("2027-03-01", "yes"),
+      ohio,
+      "births.rate",
+      makeIsoDate("2027-03-01"),
+    );
+    expect(later.multiplier).toBeCloseTo(1.023, 10);
+    expect(later.causes.map((cause) => cause.key)).toEqual([
+      "abortion-ban-to-births",
+    ]);
+  });
+
+  it("a law that says no, or no law at all, leaves births at the base rate", () => {
+    for (const answer of ["no", null] as const) {
+      const reading = outcomeFactor(
+        worldWith("2027-03-01", answer),
+        ohio,
+        "births.rate",
+        makeIsoDate("2027-03-01"),
+      );
+      expect(reading.multiplier, String(answer)).toBe(1);
     }
   });
 });
