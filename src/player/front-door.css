@@ -495,3 +495,62 @@
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
 }
+
+/*
+ * Saved games and Options on the home screen.
+ *
+ * They open as a panel on the right of the room, beside the menu, and the
+ * pictures keep changing behind both (Lamontae, Sept. 28). The panel keeps the
+ * light card these pages have always had, so their own lists and fields read
+ * exactly as before; it scrolls inside itself and never grows the page.
+ */
+.title-tableau--art.front-door .title-side-panel {
+  margin-left: auto;
+  width: min(36rem, 52vw);
+  max-height: calc(var(--pg-vv-height, 100dvh) - 2 * clamp(2rem, 6vh, 4rem));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-radius: 0.75rem;
+  background: rgb(248 249 252 / 0.95);
+  box-shadow: 0 1.4rem 3rem rgb(8 13 21 / 0.35);
+}
+
+.title-tableau--art.front-door .title-side-panel > main {
+  max-width: none;
+  margin: 0;
+  padding: 1.6rem 1.75rem 1.9rem;
+  color: #16233a;
+  text-shadow: none;
+}
+
+/* The front door's ivory notes are written for the dark room, not this card. */
+.title-tableau--art.front-door .title-side-panel .game-note,
+.title-tableau--art.front-door .title-side-panel .game-hint {
+  color: #47536a;
+  text-shadow: none;
+}
+
+/*
+ * The menu is never part of a picture change. The rooms crossfade in their
+ * own layer beneath it (player.css), and nothing in the menu's layer carries
+ * an animation, so the menu cannot fade, flicker or move with a backdrop.
+ */
+.title-tableau--art.front-door .title-tableau-content {
+  isolation: isolate;
+}
+
+.title-tableau--art.front-door .game-title {
+  animation: none;
+  opacity: 1;
+}
+
+@media (width <= 52rem) {
+  .title-tableau--art.front-door .title-side-panel {
+    position: fixed;
+    inset: 1rem;
+    z-index: 2;
+    width: auto;
+    max-height: none;
+    margin: 0;
+  }
+}
