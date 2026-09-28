@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import manifest from "../../art/backdrops/manifest.json";
 import {
   backdropPlaces,
+  capitolPlaceFor,
   daylightPhase,
   hasBackdrop,
   homePlaceFor,
@@ -31,11 +32,31 @@ function rainyKey(date: string): string {
   }
 }
 
+/** The 50 states, D.C. and the five inhabited territories. */
+const PLACES_WITH_A_CAPITOL = [
+  ..."AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD".split(" "),
+  ..."MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC".split(" "),
+  ..."SD TN TX UT VT VA WA WV WI WY DC PR GU VI AS MP".split(" "),
+];
+
 describe("place backdrops", () => {
-  it("has all 180 pictures for 50 places, each with a midday picture", () => {
-    expect(manifest.backdrops).toHaveLength(180);
-    expect(backdropPlaces()).toHaveLength(50);
+  it("has all 180 shared pictures for 50 places, each with a midday picture", () => {
+    const ownCapitol = /^state-capitol-[a-z]{2}$/;
+    expect(
+      manifest.backdrops.filter((record) => !ownCapitol.test(record.place)),
+    ).toHaveLength(180);
+    expect(
+      backdropPlaces().filter((place) => !ownCapitol.test(place)),
+    ).toHaveLength(50);
     for (const place of backdropPlaces()) expect(hasBackdrop(place)).toBe(true);
+  });
+
+  it("shows every state, D.C. and each territory its own capitol", () => {
+    for (const usps of PLACES_WITH_A_CAPITOL) {
+      expect(capitolPlaceFor(usps)).toBe(`state-capitol-${usps.toLowerCase()}`);
+    }
+    expect(capitolPlaceFor(null)).toBe("state-capitol-dome");
+    expect(capitolPlaceFor("ZZ")).toBe("state-capitol-dome");
   });
 
   it("reads the light from the clock and the month", () => {
