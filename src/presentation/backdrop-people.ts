@@ -53,6 +53,26 @@ interface PlaceStaging {
 
 const PLACES = staging.places as Readonly<Record<string, PlaceStaging>>;
 
+/**
+ * What staff wear at work in each place, where it differs from what a visitor
+ * wears there (dress-code.ts is written for visitors): the clerk, the nurses'
+ * receptionist and the teacher dress for work, while diner, store, union-hall
+ * and community-room staff dress as the place does. A job with a uniform
+ * (scrubs, police, a safety vest) wears it on shift wherever it is.
+ */
+const STAFF_WEAR: Readonly<Record<string, "business" | "casual">> = {
+  "clerk-counter": "business",
+  "hospital-hallway": "business",
+  classroom: "business",
+  "church-supper-hall": "business",
+  office: "business",
+  "county-party-office": "business",
+  "campaign-storefront": "business",
+};
+
+/** Jobs done from behind a counter or desk. */
+const COUNTER_TITLE = /clerk|receptionist|cashier|secretary|office assistant/i;
+
 /** The place pictures are all 1672 x 941. */
 export const BACKDROP_ASPECT = 1672 / 941;
 /** The pictures are cropped to fill the view, anchored this far down. */
@@ -81,19 +101,34 @@ export function placeBackdropPeople(
   if (!stage) return [];
   const town = playerTown(world, playerId);
   if (!town) return [];
-  const wear = placeWear(place, world.currentDate);
+  const wear = STAFF_WEAR[place] ?? placeWear(place, world.currentDate);
   const workers = peopleAtWorkAt(world, town, place, moment).filter(
     (worker) => worker.personId !== playerId,
   );
+  // Counter jobs take the spots behind a counter first; everyone else the
+  // open floor, and whoever is left over takes what remains.
+  const counterJob = (title: string) => COUNTER_TITLE.test(title);
+  const behind = stage.spots.filter((spot) => spot.clipBelowY !== undefined);
+  const open = stage.spots.filter((spot) => spot.clipBelowY === undefined);
+  const assigned = [
+    ...workers.filter((worker) => counterJob(worker.title)),
+    ...workers.filter((worker) => !counterJob(worker.title)),
+  ].map((worker) => ({
+    worker,
+    spot: counterJob(worker.title)
+      ? (behind.shift() ?? open.shift())
+      : (open.shift() ?? behind.shift()),
+  }));
   const placed: BackdropPerson[] = [];
-  for (const [index, worker] of workers.entries()) {
-    const spot = stage.spots[index];
-    if (!spot) break;
+  for (const { worker, spot } of assigned) {
+    if (!spot) continue;
     const record = world.people[worker.personId];
     if (!record) continue;
     const engine = engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
       wear,
-      uniform: workUniform(world, worker.personId, wear),
+      // On shift, a uniformed job wears its uniform (work-uniform.ts reads
+      // "business" as dressed for work).
+      uniform: workUniform(world, worker.personId, "business"),
     });
     if (!engine) continue;
     const heightPercent =
