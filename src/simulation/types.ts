@@ -75,6 +75,9 @@ export type EntityKind =
   | "tax-collection"
   | "statutory-tax-liability"
   | "statutory-tax-payment"
+  | "loan-terms"
+  | "debt-charge"
+  | "debt-standing"
   | "law-exposure"
   | "official-view"
   | "job-opening"
@@ -3019,6 +3022,85 @@ export interface ResourceObligationStateRecord {
   readonly supersedesStateId: EntityId | null;
 }
 
+/** What a household loan is for (spec 11). */
+export type HouseholdLoanKind =
+  "mortgage" | "auto" | "student" | "credit-card" | "personal" | "payday";
+
+export type LenderKind =
+  "bank" | "credit-union" | "federal-government" | "payday-lender" | "other";
+
+/**
+ * How a loan is paid down: a level payment over a term, or a revolving
+ * account whose minimum is a share of the balance plus the month's interest.
+ */
+export type LoanRepayment =
+  | { readonly kind: "installment"; readonly termMonths: number }
+  | {
+      readonly kind: "revolving";
+      readonly principalShareBasisPoints: number;
+      readonly minimumPaymentFloor: MoneyAmount;
+    };
+
+/**
+ * The terms a debt is owed under from `effectiveAt`. A later record
+ * supersedes an earlier one (a new rate under a cap law, a changed plan);
+ * nothing is edited in place. Every value is an input: this record carries
+ * the rate the loan was written at, never a rate the record invents.
+ */
+export interface LoanTermsRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly resourceObligationId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly kind: HouseholdLoanKind;
+  readonly lenderKind: LenderKind;
+  readonly annualRateBasisPoints: number;
+  /** "capped" when a rate cap in force held the rate below the market. */
+  readonly rateBasis: "written" | "capped";
+  /** The measure whose cap applied, when `rateBasis` is "capped". */
+  readonly rateCapMeasureId: EntityId | null;
+  readonly repayment: LoanRepayment;
+  /** Null: this loan's contract states no late fee. */
+  readonly lateFee: MoneyAmount | null;
+  /** Consecutive missed payments after which the loan is in default. */
+  readonly missedPaymentsToDefault: number;
+  /** Consecutive missed payments after which it goes to collections. */
+  readonly missedPaymentsToCollections: number;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesTermsId: EntityId | null;
+}
+
+/** Interest or a fee added to a debt's balance for one month. */
+export interface DebtChargeRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly resourceObligationId: EntityId;
+  readonly chargedAt: IsoDate;
+  readonly kind: "interest" | "late-fee";
+  readonly amount: MoneyAmount;
+  readonly loanTermsId: EntityId;
+}
+
+export type DebtStanding =
+  "current" | "late" | "default" | "collections" | "paid-off";
+
+/** A debt's standing from `effectiveAt`, after that month's payment. */
+export interface DebtStandingRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly resourceObligationId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly standing: DebtStanding;
+  readonly consecutiveMissedPayments: number;
+  readonly supersedesStandingId: EntityId | null;
+}
+
 export type DwellingClassificationNamespace =
   "residential" | "institutional" | "assigned" | "custom";
 export type DwellingClassification =
@@ -3913,6 +3995,9 @@ export interface HistoryStore {
   /** Taxes that exist in law, assessed per occurrence; see `statutory-tax.ts`. */
   readonly statutoryTaxLiabilities?: readonly StatutoryTaxLiabilityRecord[];
   readonly statutoryTaxPayments?: readonly StatutoryTaxPaymentRecord[];
+  readonly loanTerms?: readonly LoanTermsRecord[];
+  readonly debtCharges?: readonly DebtChargeRecord[];
+  readonly debtStandings?: readonly DebtStandingRecord[];
   /** Optional: when an enacted law reached a person; see `law-exposure.ts`. */
   readonly lawExposures?: readonly LawExposureRecord[];
   /** Optional: credit or blame for officials; see `living-world/official-views.ts`. */

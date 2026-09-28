@@ -1,0 +1,4336 @@
+{
+  "id": "government-budgets-2026",
+  "asOf": "2026-09-28",
+  "specRef": "04 SYSTEM SPECS, spec 9: Every government has a budget",
+  "sourceKind": "official compilations (NASBO survey tables, read from the published PDFs) plus WebSearch snippets for Census, NCSL, D.C. and the territories; secondary values labeled 'secondary'",
+  "evidenceNote": "NASBO PDFs on higherlogicdownload.s3.amazonaws.com were downloaded and their tables parsed in full ('verified-in-document'); column sums were checked against NASBO's printed totals (FY2026 general fund spending 1,379,504 vs printed 1,379,503; FY2025 all-funds 3,211,779 matches). census.gov, www2.census.gov, urban.org, ncsl.org, taxpolicycenter.org, congress.gov, oversightboard.pr.gov, cfo.dc.gov and others were blocked by the session's egress proxy; every value from those comes from WebSearch result snippets ('snippet-derived') and must be re-verified before it calibrates play.",
+  "sources": [
+    {
+      "key": "nasbo-fs-spring-2026",
+      "title": "The Fiscal Survey of States, Spring 2026",
+      "publisher": "National Association of State Budget Officers",
+      "url": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Fiscal%20Survey/Spring_2026_Fiscal_Survey_Full_Report_S.pdf",
+      "retrieved": "2026-09-28, PDF downloaded and parsed (Tables 2 and 19)"
+    },
+    {
+      "key": "nasbo-ser-2025",
+      "title": "2025 State Expenditure Report, Fiscal Years 2023-2025",
+      "publisher": "National Association of State Budget Officers",
+      "url": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/SER%20Archive/2025_SER/2025_NASBO_State_Expenditure_Report_S.pdf",
+      "retrieved": "2026-09-28, PDF downloaded and parsed (Tables 1 and 4)"
+    },
+    {
+      "key": "nasbo-bp-2021",
+      "title": "Budget Processes in the States, Spring 2021",
+      "publisher": "National Association of State Budget Officers",
+      "url": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "retrieved": "2026-09-28, PDF downloaded and parsed (Tables 1, 8, 9, 12). Latest edition found; values are as of 2021."
+    },
+    {
+      "key": "ncsl-fy-snippet",
+      "title": "Almost All States Began New Fiscal Year With a Signed Budget",
+      "publisher": "National Conference of State Legislatures",
+      "url": "https://www.ncsl.org/press-room/details/almost-all-states-began-new-fiscal-year-with-a-signed-budget",
+      "retrieved": "2026-09-28 via WebSearch snippet only"
+    },
+    {
+      "key": "ncsl-veto-snippet",
+      "title": "General Legislative Procedures: The Veto Process",
+      "publisher": "National Conference of State Legislatures",
+      "url": "https://documents.ncsl.org/wwwncsl/LegislativeStaff/ASLCS/ILP/98Tab6Pt3.pdf",
+      "retrieved": "2026-09-28 via WebSearch snippet only"
+    },
+    {
+      "key": "urban-slfi-snippet",
+      "title": "State and Local Finance Initiative backgrounders and state fact sheets",
+      "publisher": "Urban Institute (secondary)",
+      "url": "https://www.urban.org/policy-centers/cross-center-initiatives/state-and-local-finance-initiative/state-and-local-backgrounders/state-and-local-expenditures",
+      "retrieved": "2026-09-28 via WebSearch snippet only",
+      "secondary": true
+    },
+    {
+      "key": "census-alfin",
+      "title": "Annual Survey of State and Local Government Finances",
+      "publisher": "U.S. Census Bureau",
+      "url": "https://www.census.gov/programs-surveys/gov-finances.html",
+      "retrieved": "2026-09-28: not reachable (egress blocked). Snippets say FY2023 data released July 2025; FY2024 methodology dated July 30, 2026."
+    },
+    {
+      "key": "dc-fy2026-snippet",
+      "title": "D.C. Law 26-51, Fiscal Year 2026 Local Budget Act of 2025 (and related federal act)",
+      "publisher": "Council of the District of Columbia",
+      "url": "https://code.dccouncil.gov/us/dc/council/laws/26-51",
+      "retrieved": "2026-09-28 via WebSearch snippet only"
+    },
+    {
+      "key": "crs-r48609",
+      "title": "District of Columbia FY2025 Budget Status: In Brief (R48609)",
+      "publisher": "Congressional Research Service",
+      "url": "https://www.congress.gov/crs-product/R48609",
+      "retrieved": "2026-09-28 via WebSearch snippet only"
+    },
+    {
+      "key": "dc-cut-secondary",
+      "title": "House Must Adopt Senate Plan Allowing D.C. To Spend Its Own Funds",
+      "publisher": "Center on Budget and Policy Priorities (secondary)",
+      "url": "https://www.cbpp.org/blog/house-must-adopt-senate-plan-allowing-dc-to-spend-its-own-funds",
+      "retrieved": "2026-09-28 via WebSearch snippet only",
+      "secondary": true
+    },
+    {
+      "key": "fomb-fy2026",
+      "title": "FY26 Commonwealth Certified Budget (media release)",
+      "publisher": "Financial Oversight and Management Board for Puerto Rico",
+      "url": "https://oversightboard.pr.gov/fomb-media-release-fy26-commonwealth-certified-budget/",
+      "retrieved": "2026-09-28 via WebSearch snippet only"
+    },
+    {
+      "key": "fomb-fy2027",
+      "title": "Oversight Board Certifies Fiscal Year 2027 Commonwealth Budget",
+      "publisher": "Financial Oversight and Management Board for Puerto Rico",
+      "url": "https://oversightboard.pr.gov/oversight-board-certifies-fiscal-year-2027-commonwealth-budget/",
+      "retrieved": "2026-09-28 via WebSearch snippet only"
+    },
+    {
+      "key": "aafaf-fy2027",
+      "title": "Senate approves with amendments a $13.18 billion operational budget for FY 2026-2027",
+      "publisher": "Puerto Rico Fiscal Agency and Financial Advisory Authority",
+      "url": "https://www.aafaf.pr.gov/aafafinthenews/senate-approves-with-amendments-a-13-18-billion-operational-budget-for-fy-2026-2027",
+      "retrieved": "2026-09-28 via WebSearch snippet only"
+    },
+    {
+      "key": "guam-snippet",
+      "title": "Understanding the Budget; General and Supplemental Appropriations Acts",
+      "publisher": "Guam Bureau of Budget and Management Research / Office of Finance and Budget",
+      "url": "https://www.ofbguam.org/understanding-the-budget",
+      "retrieved": "2026-09-28 via WebSearch snippet only"
+    },
+    {
+      "key": "vi-fy2026-snippet",
+      "title": "Governor Bryan Submits FY 2026 Executive Budget",
+      "publisher": "Government of the U.S. Virgin Islands",
+      "url": "https://www.vi.gov/governor-bryan-submits-fy-2026-executive-budget-to-virgin-islands-legislature-on-time-and-on-schedule/",
+      "retrieved": "2026-09-28 via WebSearch snippet only"
+    },
+    {
+      "key": "cnmi-snippet",
+      "title": "FY2026 appropriations act (P.L. 24-14) and FY2023 proposed budget (fiscal year Oct. 1 to Sept. 30)",
+      "publisher": "CNMI Law Revision Commission; CNMI Legislature",
+      "url": "https://cnmilaw.gov/document/27913",
+      "retrieved": "2026-09-28 via WebSearch snippet only"
+    },
+    {
+      "key": "samoanews-snippet",
+      "title": "Treasury report shows ASG spending outpaces revenue in 3rd quarter",
+      "publisher": "Samoa News (secondary)",
+      "url": "https://www.samoanews.com/local-news/treasury-report-shows-asg-spending-outpaces-revenue-3rd-quarter",
+      "retrieved": "2026-09-28 via WebSearch snippet only",
+      "secondary": true
+    },
+    {
+      "key": "repo-92N",
+      "title": "92N National State and Local Fiscal Authority (research input)",
+      "publisher": "this repository",
+      "url": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json",
+      "retrieved": "2026-09-28 local read"
+    }
+  ],
+  "scope": "All 50 states, D.C. and five territories. State general fund and rainy-day balances (NASBO Spring 2026), state all-funds spending and its split by six functions (NASBO SER 2025, state government only), fiscal-year start and budget cycle (NASBO 2021), line-item veto and late-budget rules. Census combined state-and-local per-resident revenue by source and spending by function stay UNKNOWN per place: the Census and Urban pages were unreachable, and only a few national snippet values are recorded under national.",
+  "national": {
+    "generalFundFY2026EstimatedMillions": {
+      "expenditures50States": 1379503,
+      "expenditures50StatesDCAndTerritories": 1406804,
+      "source": "nasbo-fs-spring-2026",
+      "table": "Table 2 printed totals",
+      "evidence": "verified-in-document"
+    },
+    "generalFundGrowth": {
+      "fy2027RecommendedPercentChange": 0.6,
+      "source": "nasbo-fs-spring-2026",
+      "evidence": "verified-in-document (report summary)"
+    },
+    "rainyDayFund": {
+      "totalFY2025ActualMillions": 190954,
+      "totalFY2026EstimatedMillions": 182725,
+      "totalFY2027RecommendedMillions": 160454,
+      "medianPercentOfSpending": {
+        "fy2024": 14.9,
+        "fy2025": 13.5,
+        "fy2026": 13.1,
+        "fy2027": 12.6
+      },
+      "withDCAndThreeTerritoriesBillions": {
+        "fy2025": 193.2,
+        "fy2026": 177.5,
+        "fy2027": 162.8
+      },
+      "note": "Totals for FY2026 and FY2027 carry forward the last reported balance for states that could not report (Georgia, Wisconsin; plus Mississippi and Virginia for FY2027).",
+      "source": "nasbo-fs-spring-2026",
+      "table": "Table 19 and text",
+      "evidence": "verified-in-document"
+    },
+    "totalBalances": {
+      "fy2025Billions": 405.4,
+      "fy2025PercentOfSpending": 31.7,
+      "fy2026Billions": 323.9,
+      "fy2026PercentOfSpending": 23.5,
+      "fy2027Billions": 274.5,
+      "fy2027PercentOfSpending": 20.2,
+      "source": "nasbo-fs-spring-2026",
+      "table": "Table E",
+      "evidence": "verified-in-document"
+    },
+    "stateSpendingAllFundsFY2025EstimatedMillions": {
+      "generalFund": 1216008,
+      "federalFunds": 1077138,
+      "otherStateFunds": 873887,
+      "bonds": 44746,
+      "total": 3211779,
+      "fy2024ActualTotal": 3039408,
+      "source": "nasbo-ser-2025",
+      "table": "Table 1",
+      "evidence": "verified-in-document"
+    },
+    "stateSpendingByFunctionFY2025Percent": {
+      "elementarySecondaryEducation": 18.2,
+      "higherEducation": 8.8,
+      "medicaid": 30.7,
+      "corrections": 2.5,
+      "transportation": 7.8,
+      "allOther": 31.9,
+      "basis": "all states, state government only, all funds",
+      "source": "nasbo-ser-2025",
+      "table": "Table 4",
+      "evidence": "verified-in-document"
+    },
+    "fiscalYearPattern": {
+      "rule": "46 states start July 1; Alabama and Michigan October 1; New York April 1; Texas September 1. Federal government and D.C. October 1. Puerto Rico July 1; Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands October 1.",
+      "annualBudgetStates": 30,
+      "biennialBudgetStates": 20,
+      "sources": ["nasbo-bp-2021", "ncsl-fy-snippet"],
+      "evidence": "states verified-in-document (2021); NCSL 2025 snippet agrees on the four exceptions; territories snippet-derived"
+    },
+    "lineItemVeto": {
+      "statesWithItemVeto": 44,
+      "statesWithout": ["US-IN", "US-NV", "US-NH", "US-NC", "US-RI", "US-VT"],
+      "nasboCountVetoOfAppropriationAmounts": 43,
+      "note": "NASBO's 43 also leaves out Maryland, where the governor cannot veto the operating budget bill at all but can item-veto supplementary and capital appropriations. The spec's 44 matches NCSL.",
+      "sources": ["ncsl-veto-snippet", "nasbo-bp-2021"],
+      "evidence": "NCSL snippet-derived; NASBO verified-in-document"
+    },
+    "balancedBudget": {
+      "statesWithRequirement": 49,
+      "governorMustSubmitBalanced": 45,
+      "legislatureMustPassBalanced": 44,
+      "signedBudgetMustBeBalanced": 41,
+      "noDeficitCarryover": 35,
+      "stateWithNoRequirement": "US-VT",
+      "source": "nasbo-bp-2021",
+      "table": "Table 9 text",
+      "evidence": "verified-in-document"
+    },
+    "lateBudgetStatesWithLegalProcedure": {
+      "count": 15,
+      "source": "nasbo-bp-2021",
+      "table": "Table 12",
+      "evidence": "verified-in-document; per-state notes under places.*.lateBudget"
+    },
+    "stateLocalCensus": {
+      "latestYears": {
+        "fy2023": "released July 2025",
+        "fy2024": "state-only tables released March 5, 2026; combined state-and-local methodology dated July 30, 2026",
+        "source": "census-alfin",
+        "evidence": "snippet-derived"
+      },
+      "generalRevenuePerResidentFY2022": {
+        "value": 13619,
+        "source": "urban-slfi-snippet",
+        "secondary": true,
+        "evidence": "snippet-derived"
+      },
+      "fy2021": {
+        "generalRevenueTrillions": 4.1,
+        "taxesShareOfGeneralRevenuePercent": 52,
+        "federalTransfersShareOfGeneralRevenuePercent": 27,
+        "directGeneralSpendingTrillions": 3.7,
+        "stateDirectTrillions": 1.8,
+        "localDirectTrillions": 1.9,
+        "elementarySecondaryEducationBillions": 756,
+        "elementarySecondaryEducationShareOfDirectGeneralPercent": 21,
+        "publicWelfareShareOfStateDirectPercent": 45,
+        "publicWelfareShareOfLocalDirectPercent": 3,
+        "source": "urban-slfi-snippet",
+        "secondary": true,
+        "evidence": "snippet-derived; FY2021 is older than the latest Census year"
+      },
+      "revenuePerResidentBySource": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023 or FY2024 combined state-and-local general revenue per resident by source: property, general sales, selective sales, individual income, corporate income, other taxes, charges and fees, federal aid."
+      },
+      "directGeneralSpendingPerResidentByFunction": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023 or FY2024 per resident: elementary and secondary education, higher education, public welfare, health, hospitals, police, fire, corrections, highways, transit, parks, financial administration and other administration, interest on debt, pensions (insurance trust), other."
+      },
+      "stateVersusLocalSplit": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023 or FY2024 state and local columns for the same items."
+      }
+    },
+    "federal": {
+      "fiscalYearStartsOn": "10-01"
+    },
+    "spotCheck92N": {
+      "file": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json",
+      "comparedWith": "nasbo-bp-2021 Tables 8, 9 notes; ncsl-veto-snippet",
+      "results": [
+        {
+          "place": "US-CA",
+          "92N": "stages 1-3 yes, deficit carryover allowed",
+          "finding": "AGREES. NASBO: the year may end in deficit, but the next budget must be balanced."
+        },
+        {
+          "place": "US-VT",
+          "92N": "no balanced-budget requirement at any stage",
+          "finding": "AGREES. NASBO: Vermont is the one state with no legal requirement; a deficit has never been carried over in practice."
+        },
+        {
+          "place": "US-IN",
+          "92N": "stages 1-4 all yes (carryover prohibited)",
+          "finding": "DISAGREES on stage 4. NASBO: Indiana may carry over annual deficits and has no requirement to fix them next cycle, though it cannot take on debt except narrowly."
+        },
+        {
+          "place": "US-RI",
+          "92N": "stages 1-4 all yes (carryover prohibited)",
+          "finding": "DISAGREES on stage 4. NASBO: spending above revenue covered by the rainy-day fund is carried into the next year, which must cut to rebalance."
+        },
+        {
+          "place": "US-ME",
+          "92N": "line-item veto: no",
+          "finding": "DISAGREES. NCSL (44 states) and NASBO Table 8 both give Maine a line-item veto of appropriation amounts, overridden by a majority of elected members. 92N counts 43 states; NCSL counts 44."
+        }
+      ]
+    }
+  },
+  "places": {
+    "US-AK": {
+      "name": "Alaska",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 0.0,
+        "revenues": 2693.0,
+        "revenueAdjustments": 3834.0,
+        "totalResources": 6527.0,
+        "expenditures": 5776.0,
+        "expenditureAdjustments": 685.0,
+        "endingBalance": 66.0,
+        "rainyDayFundBalance": 2986.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 2959.0,
+        "fy2026EstimatedMillions": 2986.0,
+        "fy2027RecommendedMillions": 1843.0,
+        "fy2025PercentOfSpending": 53.5,
+        "fy2026PercentOfSpending": 51.7,
+        "fy2027PercentOfSpending": 33.5,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 6256.0,
+          "federalFunds": 7167.0,
+          "otherStateFunds": 2401.0,
+          "bonds": 0.0,
+          "total": 15824.0
+        },
+        "fy2024Actual": {
+          "total": 14336.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 12.0,
+        "higherEducation": 6.3,
+        "medicaid": 19.3,
+        "corrections": 3.3,
+        "transportation": 13.7,
+        "allOther": 45.3,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-AL": {
+      "name": "Alabama",
+      "fiscalYear": {
+        "startsOn": "10-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 2747.0,
+        "revenues": 14589.0,
+        "revenueAdjustments": 0.0,
+        "totalResources": 17336.0,
+        "expenditures": 14329.0,
+        "expenditureAdjustments": 1159.0,
+        "endingBalance": 1848.0,
+        "rainyDayFundBalance": 2791.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 2754.0,
+        "fy2026EstimatedMillions": 2791.0,
+        "fy2027RecommendedMillions": 3144.0,
+        "fy2025PercentOfSpending": 20.4,
+        "fy2026PercentOfSpending": 19.5,
+        "fy2027PercentOfSpending": 22.2,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 15655.0,
+          "federalFunds": 17284.0,
+          "otherStateFunds": 10616.0,
+          "bonds": 359.0,
+          "total": 43914.0
+        },
+        "fy2024Actual": {
+          "total": 38110.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 26.6,
+        "higherEducation": 18.4,
+        "medicaid": 20.9,
+        "corrections": 2.4,
+        "transportation": 5.1,
+        "allOther": 26.6,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-AR": {
+      "name": "Arkansas",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "even"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 0.0,
+        "revenues": 6828.0,
+        "revenueAdjustments": 0.0,
+        "totalResources": 6828.0,
+        "expenditures": 6494.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 334.0,
+        "rainyDayFundBalance": 1815.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 1815.0,
+        "fy2026EstimatedMillions": 1815.0,
+        "fy2027RecommendedMillions": 1815.0,
+        "fy2025PercentOfSpending": 28.8,
+        "fy2026PercentOfSpending": 27.9,
+        "fy2027PercentOfSpending": 25.9,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 6164.0,
+          "federalFunds": 11032.0,
+          "otherStateFunds": 15294.0,
+          "bonds": 50.0,
+          "total": 32540.0
+        },
+        "fy2024Actual": {
+          "total": 33515.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 14.8,
+        "higherEducation": 9.7,
+        "medicaid": 28.7,
+        "corrections": 1.6,
+        "transportation": 7.1,
+        "allOther": 38.2,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-AS": {
+      "name": "American Samoa",
+      "fiscalYear": {
+        "startsOn": "10-01",
+        "budgetCycle": "annual",
+        "source": "samoanews-snippet",
+        "evidence": "snippet-derived (FY2026 ends Sept. 30, 2026)"
+      },
+      "fy2026Budget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What is the American Samoa Government's enacted FY2026 budget (local revenue, federal grants, total)? Snippets gave only a year-to-date figure of $123,695,750, not the annual total."
+      },
+      "rainyDayFund": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Does American Samoa report a budget stabilization fund balance? It is not in NASBO's survey."
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Not in NASBO's Fiscal Survey."
+      },
+      "lineItemVeto": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Does the territory's governor have an item veto on appropriations? (The Virgin Islands governor issued 'targeted vetoes' on FY2026 bills per vi.gov, scope UNKNOWN.)"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this territory if no budget is enacted by the fiscal-year start?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census state-and-local finance tables do not cover territories; what source gives territorial revenue by source and spending by function?"
+      }
+    },
+    "US-AZ": {
+      "name": "Arizona",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 1367.0,
+        "revenues": 16995.0,
+        "revenueAdjustments": 0.0,
+        "totalResources": 18363.0,
+        "expenditures": 17804.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 558.0,
+        "rainyDayFundBalance": 1621.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 1545.0,
+        "fy2026EstimatedMillions": 1621.0,
+        "fy2027RecommendedMillions": 1664.0,
+        "fy2025PercentOfSpending": 9.6,
+        "fy2026PercentOfSpending": 9.1,
+        "fy2027PercentOfSpending": 8.9,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 16245.0,
+          "federalFunds": 17982.0,
+          "otherStateFunds": 38896.0,
+          "bonds": 442.0,
+          "total": 73565.0
+        },
+        "fy2024Actual": {
+          "total": 96440.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 14.6,
+        "higherEducation": 13.3,
+        "medicaid": 25.3,
+        "corrections": 2.3,
+        "transportation": 7.5,
+        "allOther": 37.1,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-CA": {
+      "name": "California",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 55951.0,
+        "revenues": 224447.0,
+        "revenueAdjustments": 10715.0,
+        "totalResources": 291113.0,
+        "expenditures": 237662.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 53451.0,
+        "rainyDayFundBalance": 41290.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 50225.0,
+        "fy2026EstimatedMillions": 41290.0,
+        "fy2027RecommendedMillions": 22961.0,
+        "fy2025PercentOfSpending": 21.9,
+        "fy2026PercentOfSpending": 17.4,
+        "fy2027PercentOfSpending": 9.2,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 233577.0,
+          "federalFunds": 172349.0,
+          "otherStateFunds": 98637.0,
+          "bonds": 5720.0,
+          "total": 510283.0
+        },
+        "fy2024Actual": {
+          "total": 452730.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 17.6,
+        "higherEducation": 5.9,
+        "medicaid": 35.1,
+        "corrections": 3.5,
+        "transportation": 6.5,
+        "allOther": 31.5,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "No general provision to continue spending authority; most payments continue under other authority (federal mandates, multiyear appropriations, constitutionally required school payments, court orders, federal wage law).",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-CO": {
+      "name": "Colorado",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 2408.0,
+        "revenues": 17111.0,
+        "revenueAdjustments": 326.0,
+        "totalResources": 19846.0,
+        "expenditures": 18210.0,
+        "expenditureAdjustments": -7.0,
+        "endingBalance": 1643.0,
+        "rainyDayFundBalance": 1643.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 2408.0,
+        "fy2026EstimatedMillions": 1643.0,
+        "fy2027RecommendedMillions": 1666.0,
+        "fy2025PercentOfSpending": 13.0,
+        "fy2026PercentOfSpending": 9.0,
+        "fy2027PercentOfSpending": 8.8,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 16213.0,
+          "federalFunds": 13202.0,
+          "otherStateFunds": 16301.0,
+          "bonds": 544.0,
+          "total": 46260.0
+        },
+        "fy2024Actual": {
+          "total": 42553.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 17.0,
+        "higherEducation": 15.9,
+        "medicaid": 34.0,
+        "corrections": 2.7,
+        "transportation": 4.5,
+        "allOther": 26.0,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-CT": {
+      "name": "Connecticut",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "even"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 0.0,
+        "revenues": 24508.0,
+        "revenueAdjustments": 0.0,
+        "totalResources": 24508.0,
+        "expenditures": 24379.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 129.0,
+        "rainyDayFundBalance": 4585.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 4827.0,
+        "fy2026EstimatedMillions": 4585.0,
+        "fy2027RecommendedMillions": 4698.0,
+        "fy2025PercentOfSpending": 20.6,
+        "fy2026PercentOfSpending": 18.8,
+        "fy2027PercentOfSpending": 18.4,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 23425.0,
+          "federalFunds": 11239.0,
+          "otherStateFunds": 6955.0,
+          "bonds": 3674.0,
+          "total": 45293.0
+        },
+        "fy2024Actual": {
+          "total": 42771.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 15.2,
+        "higherEducation": 8.7,
+        "medicaid": 24.6,
+        "corrections": 1.9,
+        "transportation": 12.1,
+        "allOther": 37.4,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "Governor may issue allotments by executive order, or the General Assembly may adopt a continuing resolution.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-DC": {
+      "name": "District of Columbia",
+      "fiscalYear": {
+        "startsOn": "10-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 4825.0,
+        "revenues": 12422.0,
+        "revenueAdjustments": 0.0,
+        "totalResources": 17247.0,
+        "expenditures": 12090.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 5157.0,
+        "rainyDayFundBalance": 988.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 947.0,
+        "fy2026EstimatedMillions": 988.0,
+        "fy2027RecommendedMillions": 1006.0,
+        "fy2025PercentOfSpending": 8.1,
+        "fy2026PercentOfSpending": 8.2,
+        "fy2027PercentOfSpending": 8.7,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2024Actual": {
+          "generalFund": 11483,
+          "federalFunds": 4831,
+          "otherStateFunds": 1352,
+          "bonds": 1280,
+          "total": 18947
+        },
+        "fy2025Estimated": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "D.C. did not report FY2025 to NASBO's State Expenditure Report; what are D.C.'s FY2025 all-funds expenditures (D.C. ACFR)?"
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "lineItemVeto": {
+        "mayorHasItemVeto": true,
+        "source": "nasbo-bp-2021",
+        "table": "Table 8",
+        "note": "D.C. row marks line-item authority; two-thirds of the Council to override."
+      },
+      "fy2026Budget": {
+        "grossOperatingDollars": 22034524408,
+        "localFundsDollars": 12041393772,
+        "source": "dc-fy2026-snippet",
+        "evidence": "snippet-derived",
+        "note": "Operating appropriation as enacted for FY2026; verify against D.C. Law 26-51 and the federal act that approved it."
+      },
+      "federalPayments": {
+        "fy2026Dollars": 143298000,
+        "status": "UNVERIFIED",
+        "source": "dc-fy2026-snippet",
+        "note": "Snippet says federal payments 'requested to be appropriated by Congress'; the enacted amounts and their items (tuition assistance, school improvement, courts, and others) are UNKNOWN.",
+        "question": "What federal payments to D.C. did the FY2026 Financial Services and General Government appropriation enact, by item?"
+      },
+      "congressionalReview": {
+        "rule": "D.C.'s local budget is set out in the annual federal appropriations act and is subject to congressional review under the Home Rule Act. The 2012 Local Budget Autonomy Amendment Act (approved by 83 percent of D.C. voters) provides for a 30-day layover instead, but Congress continued to act on D.C.'s budget: the March 2025 full-year continuing resolution held D.C.'s own local funds to FY2024 levels (about a $1.1 billion cut) until a fix passed; a later FY2026 act's Division E formally approved the FY2026 local budget.",
+        "sources": ["crs-r48609", "dc-cut-secondary"],
+        "evidence": "snippet-derived"
+      },
+      "lateBudget": {
+        "rule": "Tied to federal appropriations; a federal shutdown or continuing resolution can restrict D.C. spending of local funds unless Congress provides otherwise.",
+        "sources": ["crs-r48609", "dc-cut-secondary"],
+        "evidence": "snippet-derived"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-DE": {
+      "name": "Delaware",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 2925.0,
+        "revenues": 6857.0,
+        "revenueAdjustments": 0.0,
+        "totalResources": 9782.0,
+        "expenditures": 7218.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 2564.0,
+        "rainyDayFundBalance": 367.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 349.0,
+        "fy2026EstimatedMillions": 367.0,
+        "fy2027RecommendedMillions": 380.0,
+        "fy2025PercentOfSpending": 5.0,
+        "fy2026PercentOfSpending": 5.1,
+        "fy2027PercentOfSpending": 5.1,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 6925.0,
+          "federalFunds": 3934.0,
+          "otherStateFunds": 6317.0,
+          "bonds": 299.0,
+          "total": 17475.0
+        },
+        "fy2024Actual": {
+          "total": 16092.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 23.0,
+        "higherEducation": 3.5,
+        "medicaid": 18.6,
+        "corrections": 2.8,
+        "transportation": 7.2,
+        "allOther": 45.0,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-FL": {
+      "name": "Florida",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 15292.0,
+        "revenues": 51540.0,
+        "revenueAdjustments": 0.0,
+        "totalResources": 66832.0,
+        "expenditures": 56398.0,
+        "expenditureAdjustments": 21.0,
+        "endingBalance": 10413.0,
+        "rainyDayFundBalance": 4870.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 4441.0,
+        "fy2026EstimatedMillions": 4870.0,
+        "fy2027RecommendedMillions": 4988.0,
+        "fy2025PercentOfSpending": 8.6,
+        "fy2026PercentOfSpending": 8.6,
+        "fy2027PercentOfSpending": 9.2,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 49932.0,
+          "federalFunds": 39827.0,
+          "otherStateFunds": 27202.0,
+          "bonds": 1944.0,
+          "total": 118905.0
+        },
+        "fy2024Actual": {
+          "total": 130553.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 16.7,
+        "higherEducation": 7.9,
+        "medicaid": 28.4,
+        "corrections": 3.7,
+        "transportation": 13.1,
+        "allOther": 30.2,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-GA": {
+      "name": "Georgia",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 14636.0,
+        "revenues": 36770.0,
+        "revenueAdjustments": 0.0,
+        "totalResources": 51406.0,
+        "expenditures": 41674.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 9732.0,
+        "rainyDayFundBalance": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "NASBO reports N/A for Georgia; what is the state's own FY2026 figure?"
+        },
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 5583.0,
+        "fy2026EstimatedMillions": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "NASBO reports N/A; what is the state's own estimate of this year's rainy-day balance?"
+        },
+        "fy2027RecommendedMillions": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "NASBO reports N/A; what is the state's own estimate of this year's rainy-day balance?"
+        },
+        "fy2025PercentOfSpending": 15.4,
+        "fy2026PercentOfSpending": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "NASBO reports N/A; what is the state's own estimate of this year's rainy-day balance?"
+        },
+        "fy2027PercentOfSpending": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "NASBO reports N/A; what is the state's own estimate of this year's rainy-day balance?"
+        },
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 38041.0,
+          "federalFunds": 21568.0,
+          "otherStateFunds": 15333.0,
+          "bonds": 0.0,
+          "total": 74942.0
+        },
+        "fy2024Actual": {
+          "total": 76398.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 22.6,
+        "higherEducation": 16.9,
+        "medicaid": 23.9,
+        "corrections": 3.3,
+        "transportation": 7.3,
+        "allOther": 26.0,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "Only debt service may be paid without an appropriation; no other expenses are allowed.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-GU": {
+      "name": "Guam",
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 287.0,
+        "revenues": 1046.0,
+        "revenueAdjustments": -51.0,
+        "totalResources": 1282.0,
+        "expenditures": 1041.0,
+        "expenditureAdjustments": 10.0,
+        "endingBalance": 232.0,
+        "rainyDayFundBalance": 88.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 78.0,
+        "fy2026EstimatedMillions": 88.0,
+        "fy2027RecommendedMillions": 95.0,
+        "fy2025PercentOfSpending": 7.8,
+        "fy2026PercentOfSpending": 8.4,
+        "fy2027PercentOfSpending": 9.3,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 450.0,
+          "federalFunds": 435.0,
+          "otherStateFunds": 24.0,
+          "bonds": 0.0,
+          "total": 909.0
+        },
+        "fy2024Actual": {
+          "total": 852.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "fiscalYear": {
+        "startsOn": "10-01",
+        "budgetCycle": "annual",
+        "source": "guam-snippet",
+        "evidence": "snippet-derived"
+      },
+      "fy2026Budget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What is the total of Guam's FY2026 General Appropriations Act? (NASBO lists FY2026 general fund spending of $1,041 million.)"
+      },
+      "lineItemVeto": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Does the territory's governor have an item veto on appropriations? (The Virgin Islands governor issued 'targeted vetoes' on FY2026 bills per vi.gov, scope UNKNOWN.)"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this territory if no budget is enacted by the fiscal-year start?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census state-and-local finance tables do not cover territories; what source gives territorial revenue by source and spending by function?"
+      }
+    },
+    "US-HI": {
+      "name": "Hawaii",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "even"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 2121.0,
+        "revenues": 10408.0,
+        "revenueAdjustments": 550.0,
+        "totalResources": 13078.0,
+        "expenditures": 11199.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 1879.0,
+        "rainyDayFundBalance": 1625.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 1568.0,
+        "fy2026EstimatedMillions": 1625.0,
+        "fy2027RecommendedMillions": 1678.0,
+        "fy2025PercentOfSpending": 14.4,
+        "fy2026PercentOfSpending": 14.5,
+        "fy2027PercentOfSpending": 14.8,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 10931.0,
+          "federalFunds": 4454.0,
+          "otherStateFunds": 3762.0,
+          "bonds": 933.0,
+          "total": 20080.0
+        },
+        "fy2024Actual": {
+          "total": 20157.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 17.8,
+        "higherEducation": 3.9,
+        "medicaid": 15.9,
+        "corrections": 1.6,
+        "transportation": 10.5,
+        "allOther": 50.3,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-IA": {
+      "name": "Iowa",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 0.0,
+        "revenues": 8111.0,
+        "revenueAdjustments": 2516.0,
+        "totalResources": 10627.0,
+        "expenditures": 9407.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 1220.0,
+        "rainyDayFundBalance": 849.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 891.0,
+        "fy2026EstimatedMillions": 849.0,
+        "fy2027RecommendedMillions": 850.0,
+        "fy2025PercentOfSpending": 10.0,
+        "fy2026PercentOfSpending": 9.0,
+        "fy2027PercentOfSpending": 8.8,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 8972.0,
+          "federalFunds": 10945.0,
+          "otherStateFunds": 13105.0,
+          "bonds": 0.0,
+          "total": 33022.0
+        },
+        "fy2024Actual": {
+          "total": 31610.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 15.9,
+        "higherEducation": 24.6,
+        "medicaid": 29.6,
+        "corrections": 1.7,
+        "transportation": 6.7,
+        "allOther": 21.5,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-ID": {
+      "name": "Idaho",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 314.0,
+        "revenues": 5512.0,
+        "revenueAdjustments": 48.0,
+        "totalResources": 5874.0,
+        "expenditures": 5624.0,
+        "expenditureAdjustments": 218.0,
+        "endingBalance": 32.0,
+        "rainyDayFundBalance": 1197.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 1195.0,
+        "fy2026EstimatedMillions": 1197.0,
+        "fy2027RecommendedMillions": 1197.0,
+        "fy2025PercentOfSpending": 22.2,
+        "fy2026PercentOfSpending": 21.3,
+        "fy2027PercentOfSpending": 21.6,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 5325.0,
+          "federalFunds": 6173.0,
+          "otherStateFunds": 4608.0,
+          "bonds": 0.0,
+          "total": 16106.0
+        },
+        "fy2024Actual": {
+          "total": 12128.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 21.3,
+        "higherEducation": 6.4,
+        "medicaid": 29.2,
+        "corrections": 2.8,
+        "transportation": 6.6,
+        "allOther": 33.7,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-IL": {
+      "name": "Illinois",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 5456.0,
+        "revenues": 55226.0,
+        "revenueAdjustments": 2.0,
+        "totalResources": 60684.0,
+        "expenditures": 56562.0,
+        "expenditureAdjustments": -554.0,
+        "endingBalance": 4676.0,
+        "rainyDayFundBalance": 2518.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 2357.0,
+        "fy2026EstimatedMillions": 2518.0,
+        "fy2027RecommendedMillions": 2694.0,
+        "fy2025PercentOfSpending": 4.3,
+        "fy2026PercentOfSpending": 4.5,
+        "fy2027PercentOfSpending": 4.7,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 50576.0,
+          "federalFunds": 25062.0,
+          "otherStateFunds": 74090.0,
+          "bonds": 2338.0,
+          "total": 152066.0
+        },
+        "fy2024Actual": {
+          "total": 139766.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 9.6,
+        "higherEducation": 1.9,
+        "medicaid": 17.5,
+        "corrections": 1.3,
+        "transportation": 5.5,
+        "allOther": 64.2,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-IN": {
+      "name": "Indiana",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "even"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 676.0,
+        "revenues": 23605.0,
+        "revenueAdjustments": 0.0,
+        "totalResources": 24282.0,
+        "expenditures": 23101.0,
+        "expenditureAdjustments": -22.0,
+        "endingBalance": 1202.0,
+        "rainyDayFundBalance": 2196.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 1826.0,
+        "fy2026EstimatedMillions": 2196.0,
+        "fy2027RecommendedMillions": 1900.0,
+        "fy2025PercentOfSpending": 7.9,
+        "fy2026PercentOfSpending": 9.5,
+        "fy2027PercentOfSpending": 8.2,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 21474.0,
+          "federalFunds": 21850.0,
+          "otherStateFunds": 3790.0,
+          "bonds": 0.0,
+          "total": 47114.0
+        },
+        "fy2024Actual": {
+          "total": 50776.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 24.9,
+        "higherEducation": 6.2,
+        "medicaid": 43.5,
+        "corrections": 2.2,
+        "transportation": 3.5,
+        "allOther": 19.6,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": false,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-KS": {
+      "name": "Kansas",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "note": "Reported annual, with notes; Kansas enacts two-year spending bills in some years."
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 2933.0,
+        "revenues": 10224.0,
+        "revenueAdjustments": 0.0,
+        "totalResources": 13158.0,
+        "expenditures": 10927.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 2231.0,
+        "rainyDayFundBalance": 1976.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 1890.0,
+        "fy2026EstimatedMillions": 1976.0,
+        "fy2027RecommendedMillions": 2035.0,
+        "fy2025PercentOfSpending": 18.3,
+        "fy2026PercentOfSpending": 18.1,
+        "fy2027PercentOfSpending": 18.8,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 10315.0,
+          "federalFunds": 7653.0,
+          "otherStateFunds": 9695.0,
+          "bonds": 317.0,
+          "total": 27980.0
+        },
+        "fy2024Actual": {
+          "total": 24286.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 23.7,
+        "higherEducation": 17.2,
+        "medicaid": 23.1,
+        "corrections": 2.2,
+        "transportation": 7.1,
+        "allOther": 26.7,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-KY": {
+      "name": "Kentucky",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "odd"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 193.0,
+        "revenues": 15589.0,
+        "revenueAdjustments": 6034.0,
+        "totalResources": 21816.0,
+        "expenditures": 16761.0,
+        "expenditureAdjustments": 4982.0,
+        "endingBalance": 72.0,
+        "rainyDayFundBalance": 3764.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 4812.0,
+        "fy2026EstimatedMillions": 3764.0,
+        "fy2027RecommendedMillions": 2969.0,
+        "fy2025PercentOfSpending": 30.3,
+        "fy2026PercentOfSpending": 22.5,
+        "fy2027PercentOfSpending": 18.1,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 15931.0,
+          "federalFunds": 22557.0,
+          "otherStateFunds": 18743.0,
+          "bonds": 0.0,
+          "total": 57231.0
+        },
+        "fy2024Actual": {
+          "total": 50899.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 12.8,
+        "higherEducation": 23.5,
+        "medicaid": 35.5,
+        "corrections": 2.0,
+        "transportation": 5.5,
+        "allOther": 20.7,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "Procedures set by the 2005 Kentucky Supreme Court decision Fletcher v. Commonwealth.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-LA": {
+      "name": "Louisiana",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 577.0,
+        "revenues": 12507.0,
+        "revenueAdjustments": 454.0,
+        "totalResources": 13538.0,
+        "expenditures": 12667.0,
+        "expenditureAdjustments": 2.0,
+        "endingBalance": 870.0,
+        "rainyDayFundBalance": 1240.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 1227.0,
+        "fy2026EstimatedMillions": 1240.0,
+        "fy2027RecommendedMillions": 1384.0,
+        "fy2025PercentOfSpending": 9.0,
+        "fy2026PercentOfSpending": 9.8,
+        "fy2027PercentOfSpending": 11.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 13027.0,
+          "federalFunds": 23468.0,
+          "otherStateFunds": 11303.0,
+          "bonds": 537.0,
+          "total": 48335.0
+        },
+        "fy2024Actual": {
+          "total": 43274.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 15.4,
+        "higherEducation": 7.9,
+        "medicaid": 36.4,
+        "corrections": 2.5,
+        "transportation": 5.9,
+        "allOther": 31.9,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-MA": {
+      "name": "Massachusetts",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 14020.0,
+        "revenues": 49879.0,
+        "revenueAdjustments": 19934.0,
+        "totalResources": 83833.0,
+        "expenditures": 51501.0,
+        "expenditureAdjustments": 19934.0,
+        "endingBalance": 12398.0,
+        "rainyDayFundBalance": 8144.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 8524.0,
+        "fy2026EstimatedMillions": 8144.0,
+        "fy2027RecommendedMillions": 8244.0,
+        "fy2025PercentOfSpending": 16.4,
+        "fy2026PercentOfSpending": 15.8,
+        "fy2027PercentOfSpending": 15.7,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 40158.0,
+          "federalFunds": 24549.0,
+          "otherStateFunds": 21226.0,
+          "bonds": 3276.0,
+          "total": 89209.0
+        },
+        "fy2024Actual": {
+          "total": 83659.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 14.6,
+        "higherEducation": 2.4,
+        "medicaid": 28.7,
+        "corrections": 2.0,
+        "transportation": 6.8,
+        "allOther": 45.5,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "Legislature and governor usually pass a temporary budget at prior-year appropriation levels.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-MD": {
+      "name": "Maryland",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 271.0,
+        "revenues": 26915.0,
+        "revenueAdjustments": 988.0,
+        "totalResources": 28174.0,
+        "expenditures": 27996.0,
+        "expenditureAdjustments": -126.0,
+        "endingBalance": 303.0,
+        "rainyDayFundBalance": 2171.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 2531.0,
+        "fy2026EstimatedMillions": 2171.0,
+        "fy2027RecommendedMillions": 2182.0,
+        "fy2025PercentOfSpending": 9.2,
+        "fy2026PercentOfSpending": 7.8,
+        "fy2027PercentOfSpending": 7.8,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 27457.0,
+          "federalFunds": 22169.0,
+          "otherStateFunds": 19181.0,
+          "bonds": 2134.0,
+          "total": 70941.0
+        },
+        "fy2024Actual": {
+          "total": 67707.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 17.4,
+        "higherEducation": 13.3,
+        "medicaid": 21.4,
+        "corrections": 3.1,
+        "transportation": 9.1,
+        "allOther": 35.6,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8",
+        "note": "NCSL counts Maryland among the 44. NASBO: the governor has no veto over the operating budget bill (it becomes law on passage) but may item-veto supplementary appropriations, including the capital budget."
+      },
+      "lateBudget": {
+        "rule": "The session is constitutionally extended if the budget is not passed by the 90th day; nothing else may be considered.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-ME": {
+      "name": "Maine",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "even"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 156.0,
+        "revenues": 5749.0,
+        "revenueAdjustments": 171.0,
+        "totalResources": 6076.0,
+        "expenditures": 5896.0,
+        "expenditureAdjustments": 25.0,
+        "endingBalance": 155.0,
+        "rainyDayFundBalance": 778.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 1030.0,
+        "fy2026EstimatedMillions": 778.0,
+        "fy2027RecommendedMillions": 694.0,
+        "fy2025PercentOfSpending": 18.7,
+        "fy2026PercentOfSpending": 13.2,
+        "fy2027PercentOfSpending": 11.5,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 5485.0,
+          "federalFunds": 5354.0,
+          "otherStateFunds": 3645.0,
+          "bonds": 38.0,
+          "total": 14522.0
+        },
+        "fy2024Actual": {
+          "total": 13110.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 16.1,
+        "higherEducation": 3.1,
+        "medicaid": 35.2,
+        "corrections": 1.8,
+        "transportation": 8.3,
+        "allOther": 35.5,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8",
+        "note": "NASBO Table 8 notes: line-item veto of appropriation amounts; override takes a majority of elected members."
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-MI": {
+      "name": "Michigan",
+      "fiscalYear": {
+        "startsOn": "10-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 315.0,
+        "revenues": 13907.0,
+        "revenueAdjustments": 0.0,
+        "totalResources": 14222.0,
+        "expenditures": 13903.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 319.0,
+        "rainyDayFundBalance": 1817.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 2157.0,
+        "fy2026EstimatedMillions": 1817.0,
+        "fy2027RecommendedMillions": 1871.0,
+        "fy2025PercentOfSpending": 13.7,
+        "fy2026PercentOfSpending": 13.1,
+        "fy2027PercentOfSpending": 13.8,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 14876.0,
+          "federalFunds": 33885.0,
+          "otherStateFunds": 31943.0,
+          "bonds": 297.0,
+          "total": 81001.0
+        },
+        "fy2024Actual": {
+          "total": 85848.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 25.9,
+        "higherEducation": 3.8,
+        "medicaid": 32.0,
+        "corrections": 3.1,
+        "transportation": 8.3,
+        "allOther": 26.9,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "No budget means no appropriation; departments cannot incur obligations or spend.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-MN": {
+      "name": "Minnesota",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "even"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 10273.0,
+        "revenues": 33591.0,
+        "revenueAdjustments": 34.0,
+        "totalResources": 43898.0,
+        "expenditures": 35575.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 8323.0,
+        "rainyDayFundBalance": 3772.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 5395.0,
+        "fy2026EstimatedMillions": 3772.0,
+        "fy2027RecommendedMillions": 3772.0,
+        "fy2025PercentOfSpending": 15.9,
+        "fy2026PercentOfSpending": 10.6,
+        "fy2027PercentOfSpending": 10.9,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 35553.0,
+          "federalFunds": 22339.0,
+          "otherStateFunds": 13187.0,
+          "bonds": 1031.0,
+          "total": 72110.0
+        },
+        "fy2024Actual": {
+          "total": 63469.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 20.0,
+        "higherEducation": 3.5,
+        "medicaid": 29.0,
+        "corrections": 1.3,
+        "transportation": 11.9,
+        "allOther": 34.4,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "No appropriation means no spending; partial shutdowns in 2005 (8 days) and 2011 (20 days); in 2011 a court ordered critical operations to continue.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-MO": {
+      "name": "Missouri",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 4320.0,
+        "revenues": 13150.0,
+        "revenueAdjustments": 229.0,
+        "totalResources": 17699.0,
+        "expenditures": 16507.0,
+        "expenditureAdjustments": -1077.0,
+        "endingBalance": 2270.0,
+        "rainyDayFundBalance": 955.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 955.0,
+        "fy2026EstimatedMillions": 955.0,
+        "fy2027RecommendedMillions": 927.0,
+        "fy2025PercentOfSpending": 6.1,
+        "fy2026PercentOfSpending": 5.8,
+        "fy2027PercentOfSpending": 5.5,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 14129.0,
+          "federalFunds": 17738.0,
+          "otherStateFunds": 9293.0,
+          "bonds": 9.0,
+          "total": 41169.0
+        },
+        "fy2024Actual": {
+          "total": 41708.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 19.9,
+        "higherEducation": 3.4,
+        "medicaid": 40.3,
+        "corrections": 2.3,
+        "transportation": 8.8,
+        "allOther": 25.3,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "Governor may call a special session; except a few items such as public debt, no money may be paid without an appropriation.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-MP": {
+      "name": "Northern Mariana Islands",
+      "fiscalYear": {
+        "startsOn": "10-01",
+        "budgetCycle": "annual",
+        "source": "cnmi-snippet",
+        "evidence": "snippet-derived"
+      },
+      "fy2026Budget": {
+        "lawCited": "Public Law 24-14 (2025)",
+        "budgetCeilingDollars": 179000000.0,
+        "generalRevenueAppropriationDollars": 144300000.0,
+        "status": "CONFLICTING",
+        "source": "cnmi-snippet",
+        "evidence": "snippet-derived",
+        "question": "Which figure is the enacted FY2026 general-revenue appropriation in P.L. 24-14, and what is the all-funds total?"
+      },
+      "rainyDayFund": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Not in NASBO's Fiscal Survey."
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Not in NASBO's Fiscal Survey."
+      },
+      "lineItemVeto": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Does the territory's governor have an item veto on appropriations? (The Virgin Islands governor issued 'targeted vetoes' on FY2026 bills per vi.gov, scope UNKNOWN.)"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this territory if no budget is enacted by the fiscal-year start?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census state-and-local finance tables do not cover territories; what source gives territorial revenue by source and spending by function?"
+      }
+    },
+    "US-MS": {
+      "name": "Mississippi",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 7.0,
+        "revenues": 7552.0,
+        "revenueAdjustments": 0.0,
+        "totalResources": 7559.0,
+        "expenditures": 7142.0,
+        "expenditureAdjustments": 417.0,
+        "endingBalance": 0.0,
+        "rainyDayFundBalance": 704.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 678.0,
+        "fy2026EstimatedMillions": 704.0,
+        "fy2027RecommendedMillions": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "NASBO reports N/A; what is the state's own estimate of this year's rainy-day balance?"
+        },
+        "fy2025PercentOfSpending": 9.7,
+        "fy2026PercentOfSpending": 9.9,
+        "fy2027PercentOfSpending": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "NASBO reports N/A; what is the state's own estimate of this year's rainy-day balance?"
+        },
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 7041.0,
+          "federalFunds": 14307.0,
+          "otherStateFunds": 10290.0,
+          "bonds": 331.0,
+          "total": 31969.0
+        },
+        "fy2024Actual": {
+          "total": 25618.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 16.3,
+        "higherEducation": 15.2,
+        "medicaid": 21.6,
+        "corrections": 1.4,
+        "transportation": 7.6,
+        "allOther": 37.8,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-MT": {
+      "name": "Montana",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "even"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 769.0,
+        "revenues": 3499.0,
+        "revenueAdjustments": 0.0,
+        "totalResources": 4267.0,
+        "expenditures": 3388.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 879.0,
+        "rainyDayFundBalance": 520.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 520.0,
+        "fy2026EstimatedMillions": 520.0,
+        "fy2027RecommendedMillions": 520.0,
+        "fy2025PercentOfSpending": 14.0,
+        "fy2026PercentOfSpending": 15.3,
+        "fy2027PercentOfSpending": 13.9,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 2859.0,
+          "federalFunds": 4288.0,
+          "otherStateFunds": 3348.0,
+          "bonds": 0.0,
+          "total": 10495.0
+        },
+        "fy2024Actual": {
+          "total": 10024.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 13.8,
+        "higherEducation": 4.8,
+        "medicaid": 23.7,
+        "corrections": 2.9,
+        "transportation": 12.0,
+        "allOther": 42.8,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "Only funds that need no appropriation (private grants, contract or settlement funds) continue.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-NC": {
+      "name": "North Carolina",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "even"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 891.0,
+        "revenues": 34709.0,
+        "revenueAdjustments": 0.0,
+        "totalResources": 35600.0,
+        "expenditures": 33274.0,
+        "expenditureAdjustments": 1189.0,
+        "endingBalance": 1138.0,
+        "rainyDayFundBalance": 3691.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 3623.0,
+        "fy2026EstimatedMillions": 3691.0,
+        "fy2027RecommendedMillions": 3752.0,
+        "fy2025PercentOfSpending": 11.6,
+        "fy2026PercentOfSpending": 11.1,
+        "fy2027PercentOfSpending": 10.6,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 31300.0,
+          "federalFunds": 33090.0,
+          "otherStateFunds": 18285.0,
+          "bonds": 563.0,
+          "total": 83238.0
+        },
+        "fy2024Actual": {
+          "total": 70372.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 19.0,
+        "higherEducation": 14.4,
+        "medicaid": 39.9,
+        "corrections": 2.8,
+        "transportation": 9.8,
+        "allOther": 14.0,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": false,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "Continuing budget authority in statute (G.S. 143C).",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-ND": {
+      "name": "North Dakota",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "even"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 1351.0,
+        "revenues": 2602.0,
+        "revenueAdjustments": 118.0,
+        "totalResources": 4071.0,
+        "expenditures": 3128.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 943.0,
+        "rainyDayFundBalance": 939.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 939.0,
+        "fy2026EstimatedMillions": 939.0,
+        "fy2027RecommendedMillions": 939.0,
+        "fy2025PercentOfSpending": 37.8,
+        "fy2026PercentOfSpending": 30.0,
+        "fy2027PercentOfSpending": 30.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 2900.0,
+          "federalFunds": 2706.0,
+          "otherStateFunds": 2240.0,
+          "bonds": 7.0,
+          "total": 7853.0
+        },
+        "fy2024Actual": {
+          "total": 7466.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 19.3,
+        "higherEducation": 24.7,
+        "medicaid": 20.2,
+        "corrections": 2.3,
+        "transportation": 11.9,
+        "allOther": 21.6,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-NE": {
+      "name": "Nebraska",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "even"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 793.0,
+        "revenues": 6950.0,
+        "revenueAdjustments": -1591.0,
+        "totalResources": 6151.0,
+        "expenditures": 5390.0,
+        "expenditureAdjustments": 313.0,
+        "endingBalance": 448.0,
+        "rainyDayFundBalance": 821.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 877.0,
+        "fy2026EstimatedMillions": 821.0,
+        "fy2027RecommendedMillions": 821.0,
+        "fy2025PercentOfSpending": 16.0,
+        "fy2026PercentOfSpending": 15.2,
+        "fy2027PercentOfSpending": 15.5,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 5475.0,
+          "federalFunds": 5595.0,
+          "otherStateFunds": 9155.0,
+          "bonds": 0.0,
+          "total": 20225.0
+        },
+        "fy2024Actual": {
+          "total": 18508.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 12.6,
+        "higherEducation": 20.7,
+        "medicaid": 19.9,
+        "corrections": 3.1,
+        "transportation": 6.6,
+        "allOther": 37.0,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "Cash Reserve Fund covers cash flow until a budget passes; governor calls a special session for the budget only.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-NH": {
+      "name": "New Hampshire",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "even"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 0.0,
+        "revenues": 1765.0,
+        "revenueAdjustments": 99.0,
+        "totalResources": 1864.0,
+        "expenditures": 1958.0,
+        "expenditureAdjustments": -40.0,
+        "endingBalance": -55.0,
+        "rainyDayFundBalance": 225.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 225.0,
+        "fy2026EstimatedMillions": 225.0,
+        "fy2027RecommendedMillions": 250.0,
+        "fy2025PercentOfSpending": 11.2,
+        "fy2026PercentOfSpending": 11.5,
+        "fy2027PercentOfSpending": 12.7,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 2010.0,
+          "federalFunds": 3485.0,
+          "otherStateFunds": 3318.0,
+          "bonds": 34.0,
+          "total": 8847.0
+        },
+        "fy2024Actual": {
+          "total": 8546.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 18.8,
+        "higherEducation": 2.0,
+        "medicaid": 31.9,
+        "corrections": 2.3,
+        "transportation": 8.5,
+        "allOther": 36.5,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": false,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "Legislature and governor must agree on a continuing resolution if no budget by June 30 of the odd year.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-NJ": {
+      "name": "New Jersey",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 8626.0,
+        "revenues": 56473.0,
+        "revenueAdjustments": 813.0,
+        "totalResources": 65912.0,
+        "expenditures": 58654.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 7259.0,
+        "rainyDayFundBalance": 0.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 0.0,
+        "fy2026EstimatedMillions": 0.0,
+        "fy2027RecommendedMillions": 0.0,
+        "fy2025PercentOfSpending": 0.0,
+        "fy2026PercentOfSpending": 0.0,
+        "fy2027PercentOfSpending": 0.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 56906.0,
+          "federalFunds": 29948.0,
+          "otherStateFunds": 12656.0,
+          "bonds": 1652.0,
+          "total": 101162.0
+        },
+        "fy2024Actual": {
+          "total": 91288.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 22.8,
+        "higherEducation": 8.3,
+        "medicaid": 24.0,
+        "corrections": 1.5,
+        "transportation": 8.3,
+        "allOther": 35.1,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "The state must shut down all nonessential operations.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-NM": {
+      "name": "New Mexico",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 3181.0,
+        "revenues": 13746.0,
+        "revenueAdjustments": 1011.0,
+        "totalResources": 17938.0,
+        "expenditures": 13844.0,
+        "expenditureAdjustments": 758.0,
+        "endingBalance": 3337.0,
+        "rainyDayFundBalance": 3337.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 3181.0,
+        "fy2026EstimatedMillions": 3337.0,
+        "fy2027RecommendedMillions": 3393.0,
+        "fy2025PercentOfSpending": 23.1,
+        "fy2026PercentOfSpending": 24.1,
+        "fy2027PercentOfSpending": 25.1,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 10419.0,
+          "federalFunds": 13159.0,
+          "otherStateFunds": 5895.0,
+          "bonds": 174.0,
+          "total": 29647.0
+        },
+        "fy2024Actual": {
+          "total": 27690.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 16.6,
+        "higherEducation": 14.4,
+        "medicaid": 31.7,
+        "corrections": 1.4,
+        "transportation": 7.2,
+        "allOther": 28.7,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-NV": {
+      "name": "Nevada",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "even"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 1505.0,
+        "revenues": 6032.0,
+        "revenueAdjustments": 87.0,
+        "totalResources": 7623.0,
+        "expenditures": 6987.0,
+        "expenditureAdjustments": 14.0,
+        "endingBalance": 622.0,
+        "rainyDayFundBalance": 1295.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 1244.0,
+        "fy2026EstimatedMillions": 1295.0,
+        "fy2027RecommendedMillions": 1347.0,
+        "fy2025PercentOfSpending": 18.8,
+        "fy2026PercentOfSpending": 18.5,
+        "fy2027PercentOfSpending": 21.1,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 6149.0,
+          "federalFunds": 7722.0,
+          "otherStateFunds": 7082.0,
+          "bonds": 68.0,
+          "total": 21021.0
+        },
+        "fy2024Actual": {
+          "total": 19836.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 31.7,
+        "higherEducation": 5.6,
+        "medicaid": 37.7,
+        "corrections": 2.3,
+        "transportation": 5.3,
+        "allOther": 17.4,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": false,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-NY": {
+      "name": "New York",
+      "fiscalYear": {
+        "startsOn": "04-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 56916.0,
+        "revenues": 119740.0,
+        "revenueAdjustments": 1676.0,
+        "totalResources": 178332.0,
+        "expenditures": 126295.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 52037.0,
+        "rainyDayFundBalance": 9756.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 8756.0,
+        "fy2026EstimatedMillions": 9756.0,
+        "fy2027RecommendedMillions": 10756.0,
+        "fy2025PercentOfSpending": 8.3,
+        "fy2026PercentOfSpending": 7.7,
+        "fy2027PercentOfSpending": 8.4,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 97846.0,
+          "federalFunds": 93455.0,
+          "otherStateFunds": 42414.0,
+          "bonds": 7756.0,
+          "total": 241471.0
+        },
+        "fy2024Actual": {
+          "total": 234867.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 19.6,
+        "higherEducation": 5.7,
+        "medicaid": 36.9,
+        "corrections": 1.4,
+        "transportation": 5.4,
+        "allOther": 31.0,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "Emergency extender bills keep essential operations running.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-OH": {
+      "name": "Ohio",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "even"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 2013.0,
+        "revenues": 30575.0,
+        "revenueAdjustments": -35.0,
+        "totalResources": 32552.0,
+        "expenditures": 31655.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 898.0,
+        "rainyDayFundBalance": 3985.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 3943.0,
+        "fy2026EstimatedMillions": 3985.0,
+        "fy2027RecommendedMillions": 3985.0,
+        "fy2025PercentOfSpending": 13.1,
+        "fy2026PercentOfSpending": 12.6,
+        "fy2027PercentOfSpending": 12.7,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 29415.0,
+          "federalFunds": 40585.0,
+          "otherStateFunds": 33167.0,
+          "bonds": 1535.0,
+          "total": 104702.0
+        },
+        "fy2024Actual": {
+          "total": 99702.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 15.3,
+        "higherEducation": 3.2,
+        "medicaid": 41.4,
+        "corrections": 2.7,
+        "transportation": 5.0,
+        "allOther": 32.5,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "The General Assembly may pass interim budgets until the full budget is approved.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-OK": {
+      "name": "Oklahoma",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 2893.0,
+        "revenues": 9841.0,
+        "revenueAdjustments": 0.0,
+        "totalResources": 12734.0,
+        "expenditures": 10381.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 2353.0,
+        "rainyDayFundBalance": 1776.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 1776.0,
+        "fy2026EstimatedMillions": 1776.0,
+        "fy2027RecommendedMillions": 1776.0,
+        "fy2025PercentOfSpending": 16.8,
+        "fy2026PercentOfSpending": 17.1,
+        "fy2027PercentOfSpending": 18.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 7932.0,
+          "federalFunds": 12323.0,
+          "otherStateFunds": 9691.0,
+          "bonds": 586.0,
+          "total": 30532.0
+        },
+        "fy2024Actual": {
+          "total": 27928.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 16.4,
+        "higherEducation": 11.5,
+        "medicaid": 37.9,
+        "corrections": 2.0,
+        "transportation": 9.4,
+        "allOther": 22.8,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-OR": {
+      "name": "Oregon",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "even"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 2166.0,
+        "revenues": 17054.0,
+        "revenueAdjustments": -33.0,
+        "totalResources": 19186.0,
+        "expenditures": 18382.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 805.0,
+        "rainyDayFundBalance": 3142.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 2923.0,
+        "fy2026EstimatedMillions": 3142.0,
+        "fy2027RecommendedMillions": 3413.0,
+        "fy2025PercentOfSpending": 17.2,
+        "fy2026PercentOfSpending": 17.1,
+        "fy2027PercentOfSpending": 17.8,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 16726.0,
+          "federalFunds": 19382.0,
+          "otherStateFunds": 26853.0,
+          "bonds": 851.0,
+          "total": 63812.0
+        },
+        "fy2024Actual": {
+          "total": 58493.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 12.4,
+        "higherEducation": 3.9,
+        "medicaid": 28.5,
+        "corrections": 2.4,
+        "transportation": 5.1,
+        "allOther": 47.8,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "The legislature must pass a continuing resolution to authorize continued spending.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-PA": {
+      "name": "Pennsylvania",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 4156.0,
+        "revenues": 48032.0,
+        "revenueAdjustments": -1645.0,
+        "totalResources": 50543.0,
+        "expenditures": 50543.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 0.0,
+        "rainyDayFundBalance": 7819.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 7473.0,
+        "fy2026EstimatedMillions": 7819.0,
+        "fy2027RecommendedMillions": 3307.0,
+        "fy2025PercentOfSpending": 15.6,
+        "fy2026PercentOfSpending": 15.5,
+        "fy2027PercentOfSpending": 6.2,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 47905.0,
+          "federalFunds": 50628.0,
+          "otherStateFunds": 28487.0,
+          "bonds": 1551.0,
+          "total": 128571.0
+        },
+        "fy2024Actual": {
+          "total": 119040.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 17.7,
+        "higherEducation": 2.0,
+        "medicaid": 38.5,
+        "corrections": 2.9,
+        "transportation": 9.1,
+        "allOther": 29.8,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-PR": {
+      "name": "Puerto Rico",
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 0.0,
+        "revenues": 13039.0,
+        "revenueAdjustments": 0.0,
+        "totalResources": 13039.0,
+        "expenditures": 13039.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 0.0,
+        "rainyDayFundBalance": 1219.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 1251.0,
+        "fy2026EstimatedMillions": 1219.0,
+        "fy2027RecommendedMillions": 1219.0,
+        "fy2025PercentOfSpending": 10.4,
+        "fy2026PercentOfSpending": 9.4,
+        "fy2027PercentOfSpending": 9.3,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 9283.0,
+          "federalFunds": 15000.0,
+          "otherStateFunds": 2900.0,
+          "bonds": 0.0,
+          "total": 27183.0
+        },
+        "fy2024Actual": {
+          "total": 29719.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "fomb-fy2027",
+        "evidence": "snippet-derived"
+      },
+      "oversight": {
+        "body": "Financial Oversight and Management Board for Puerto Rico (PROMESA, 2016)",
+        "rule": "The Board certifies a fiscal plan and then certifies each year's budget as compliant with it; the budget is developed jointly with the governor and the Legislative Assembly.",
+        "source": "fomb-fy2026",
+        "evidence": "snippet-derived",
+        "certifiedFiscalPlanDate": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "On what date was the current Commonwealth fiscal plan certified (2025 or 2026 plan)?"
+        }
+      },
+      "fy2026CertifiedBudget": {
+        "consolidatedDollars": 32700000000.0,
+        "generalFundDollars": 13100000000.0,
+        "specialRevenueFundDollars": 5400000000.0,
+        "federalFundDollars": 14200000000.0,
+        "source": "fomb-fy2026",
+        "evidence": "snippet-derived",
+        "note": "An amended FY2026 budget was later certified; its figures are UNKNOWN."
+      },
+      "fy2027CertifiedBudget": {
+        "consolidatedDollars": 33600000000.0,
+        "certifiedOn": "2026-06-29",
+        "generalFundDollars": 13180500000.0,
+        "source": "fomb-fy2027",
+        "generalFundSource": "aafaf-fy2027",
+        "evidence": "snippet-derived",
+        "note": "General fund figure is the Senate-approved joint resolution (House J.R. 356), with amendments; the certified general fund total is unverified."
+      },
+      "lineItemVeto": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Does the territory's governor have an item veto on appropriations? (The Virgin Islands governor issued 'targeted vetoes' on FY2026 bills per vi.gov, scope UNKNOWN.)"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this territory if no budget is enacted by the fiscal-year start?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census state-and-local finance tables do not cover territories; what source gives territorial revenue by source and spending by function?"
+      }
+    },
+    "US-RI": {
+      "name": "Rhode Island",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 242.0,
+        "revenues": 5823.0,
+        "revenueAdjustments": -143.0,
+        "totalResources": 5922.0,
+        "expenditures": 5825.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 97.0,
+        "rainyDayFundBalance": 303.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 298.0,
+        "fy2026EstimatedMillions": 303.0,
+        "fy2027RecommendedMillions": 307.0,
+        "fy2025PercentOfSpending": 5.4,
+        "fy2026PercentOfSpending": 5.2,
+        "fy2027PercentOfSpending": 5.2,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 5598.0,
+          "federalFunds": 5613.0,
+          "otherStateFunds": 3209.0,
+          "bonds": 147.0,
+          "total": 14567.0
+        },
+        "fy2024Actual": {
+          "total": 12779.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 14.1,
+        "higherEducation": 10.8,
+        "medicaid": 23.2,
+        "corrections": 2.2,
+        "transportation": 7.4,
+        "allOther": 42.2,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": false,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8",
+        "note": "None today. A 2026 Senate Finance file (H7127) discusses a constitutional amendment for one; outcome UNKNOWN."
+      },
+      "lateBudget": {
+        "rule": "Law authorizes monthly appropriations based on the prior year's enacted budget; general obligation debt service is not limited.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-SC": {
+      "name": "South Carolina",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 6604.0,
+        "revenues": 14681.0,
+        "revenueAdjustments": -656.0,
+        "totalResources": 20630.0,
+        "expenditures": 14152.0,
+        "expenditureAdjustments": 370.0,
+        "endingBalance": 6109.0,
+        "rainyDayFundBalance": 1953.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 1442.0,
+        "fy2026EstimatedMillions": 1953.0,
+        "fy2027RecommendedMillions": 1406.0,
+        "fy2025PercentOfSpending": 10.4,
+        "fy2026PercentOfSpending": 13.8,
+        "fy2027PercentOfSpending": 9.4,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 14225.0,
+          "federalFunds": 13791.0,
+          "otherStateFunds": 13762.0,
+          "bonds": 0.0,
+          "total": 41778.0
+        },
+        "fy2024Actual": {
+          "total": 40239.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 18.9,
+        "higherEducation": 19.4,
+        "medicaid": 26.3,
+        "corrections": 2.3,
+        "transportation": 8.7,
+        "allOther": 24.4,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "No statutory procedure; the General Assembly usually passes a continuing resolution each year that continues last year's budget.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-SD": {
+      "name": "South Dakota",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 169.0,
+        "revenues": 2463.0,
+        "revenueAdjustments": 98.0,
+        "totalResources": 2730.0,
+        "expenditures": 2546.0,
+        "expenditureAdjustments": 169.0,
+        "endingBalance": 14.0,
+        "rainyDayFundBalance": 315.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 323.0,
+        "fy2026EstimatedMillions": 315.0,
+        "fy2027RecommendedMillions": 315.0,
+        "fy2025PercentOfSpending": 13.2,
+        "fy2026PercentOfSpending": 12.4,
+        "fy2027PercentOfSpending": 12.5,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 2392.0,
+          "federalFunds": 2910.0,
+          "otherStateFunds": 1564.0,
+          "bonds": 5.0,
+          "total": 6871.0
+        },
+        "fy2024Actual": {
+          "total": 6874.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 14.6,
+        "higherEducation": 13.5,
+        "medicaid": 28.1,
+        "corrections": 2.3,
+        "transportation": 16.7,
+        "allOther": 24.8,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-TN": {
+      "name": "Tennessee",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 3548.0,
+        "revenues": 24403.0,
+        "revenueAdjustments": 62.0,
+        "totalResources": 28013.0,
+        "expenditures": 25815.0,
+        "expenditureAdjustments": 531.0,
+        "endingBalance": 1667.0,
+        "rainyDayFundBalance": 2186.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 2150.0,
+        "fy2026EstimatedMillions": 2186.0,
+        "fy2027RecommendedMillions": 2206.0,
+        "fy2025PercentOfSpending": 9.8,
+        "fy2026PercentOfSpending": 8.5,
+        "fy2027PercentOfSpending": 8.6,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 24219.0,
+          "federalFunds": 25467.0,
+          "otherStateFunds": 9046.0,
+          "bonds": 0.0,
+          "total": 58732.0
+        },
+        "fy2024Actual": {
+          "total": 53078.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 15.4,
+        "higherEducation": 11.2,
+        "medicaid": 31.8,
+        "corrections": 2.4,
+        "transportation": 4.9,
+        "allOther": 34.3,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-TX": {
+      "name": "Texas",
+      "fiscalYear": {
+        "startsOn": "09-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "even"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 36184.0,
+        "revenues": 85290.0,
+        "revenueAdjustments": -2916.0,
+        "totalResources": 118557.0,
+        "expenditures": 117396.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 1162.0,
+        "rainyDayFundBalance": 27400.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 24841.0,
+        "fy2026EstimatedMillions": 27400.0,
+        "fy2027RecommendedMillions": 28480.0,
+        "fy2025PercentOfSpending": 32.6,
+        "fy2026PercentOfSpending": 23.3,
+        "fy2027PercentOfSpending": 34.9,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 46831.0,
+          "federalFunds": 52656.0,
+          "otherStateFunds": 46281.0,
+          "bonds": 852.0,
+          "total": 146620.0
+        },
+        "fy2024Actual": {
+          "total": 144594.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 28.3,
+        "higherEducation": 14.8,
+        "medicaid": 36.6,
+        "corrections": 3.4,
+        "transportation": 15.5,
+        "allOther": 1.4,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-UT": {
+      "name": "Utah",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 626.0,
+        "revenues": 11441.0,
+        "revenueAdjustments": 14.0,
+        "totalResources": 12081.0,
+        "expenditures": 11826.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 256.0,
+        "rainyDayFundBalance": 1284.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 1189.0,
+        "fy2026EstimatedMillions": 1284.0,
+        "fy2027RecommendedMillions": 1284.0,
+        "fy2025PercentOfSpending": 9.4,
+        "fy2026PercentOfSpending": 10.9,
+        "fy2027PercentOfSpending": 10.6,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 12657.0,
+          "federalFunds": 8432.0,
+          "otherStateFunds": 7404.0,
+          "bonds": 0.0,
+          "total": 28493.0
+        },
+        "fy2024Actual": {
+          "total": 25901.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 23.6,
+        "higherEducation": 11.2,
+        "medicaid": 12.5,
+        "corrections": 2.5,
+        "transportation": 12.8,
+        "allOther": 37.4,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-VA": {
+      "name": "Virginia",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "odd"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 13.0,
+        "revenues": 36089.0,
+        "revenueAdjustments": 0.0,
+        "totalResources": 36102.0,
+        "expenditures": 33780.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 2322.0,
+        "rainyDayFundBalance": 4201.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2",
+        "note": "Table 2 row as extracted; Virginia could not report FY2027."
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 4750.0,
+        "fy2026EstimatedMillions": 4201.0,
+        "fy2027RecommendedMillions": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "NASBO reports N/A; what is the state's own estimate of this year's rainy-day balance?"
+        },
+        "fy2025PercentOfSpending": 13.0,
+        "fy2026PercentOfSpending": 12.4,
+        "fy2027PercentOfSpending": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "NASBO reports N/A; what is the state's own estimate of this year's rainy-day balance?"
+        },
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 32948.0,
+          "federalFunds": 24768.0,
+          "otherStateFunds": 30780.0,
+          "bonds": 909.0,
+          "total": 89405.0
+        },
+        "fy2024Actual": {
+          "total": 83987.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 14.4,
+        "higherEducation": 12.5,
+        "medicaid": 27.2,
+        "corrections": 2.1,
+        "transportation": 12.2,
+        "allOther": 31.7,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-VI": {
+      "name": "U.S. Virgin Islands",
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 37.0,
+        "revenues": 915.0,
+        "revenueAdjustments": 202.0,
+        "totalResources": 1154.0,
+        "expenditures": 1131.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 22.0,
+        "rainyDayFundBalance": 13.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 14.0,
+        "fy2026EstimatedMillions": 13.0,
+        "fy2027RecommendedMillions": 13.0,
+        "fy2025PercentOfSpending": 1.3,
+        "fy2026PercentOfSpending": 1.2,
+        "fy2027PercentOfSpending": 1.4,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 918.0,
+          "federalFunds": 256.0,
+          "otherStateFunds": 0.0,
+          "bonds": 0.0,
+          "total": 1174.0
+        },
+        "fy2024Actual": {
+          "total": 1405.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "fiscalYear": {
+        "startsOn": "10-01",
+        "budgetCycle": "annual",
+        "source": "vi-fy2026-snippet",
+        "evidence": "snippet-derived"
+      },
+      "fy2026Budget": {
+        "proposedGeneralFundDollars": 936400000.0,
+        "proposedAllFundsDollars": 1640000000.0,
+        "status": "proposed, enacted totals UNKNOWN",
+        "source": "vi-fy2026-snippet",
+        "evidence": "snippet-derived",
+        "question": "What were the enacted FY2026 general fund and all-funds totals after the governor's line-item vetoes?"
+      },
+      "lineItemVeto": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Does the territory's governor have an item veto on appropriations? (The Virgin Islands governor issued 'targeted vetoes' on FY2026 bills per vi.gov, scope UNKNOWN.)"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this territory if no budget is enacted by the fiscal-year start?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census state-and-local finance tables do not cover territories; what source gives territorial revenue by source and spending by function?"
+      }
+    },
+    "US-VT": {
+      "name": "Vermont",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 257.0,
+        "revenues": 2476.0,
+        "revenueAdjustments": 33.0,
+        "totalResources": 2766.0,
+        "expenditures": 2548.0,
+        "expenditureAdjustments": 218.0,
+        "endingBalance": 0.0,
+        "rainyDayFundBalance": 464.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 328.0,
+        "fy2026EstimatedMillions": 464.0,
+        "fy2027RecommendedMillions": 375.0,
+        "fy2025PercentOfSpending": 12.5,
+        "fy2026PercentOfSpending": 18.2,
+        "fy2027PercentOfSpending": 14.8,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 2419.0,
+          "federalFunds": 3422.0,
+          "otherStateFunds": 3063.0,
+          "bonds": 57.0,
+          "total": 8961.0
+        },
+        "fy2024Actual": {
+          "total": 8348.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 31.0,
+        "higherEducation": 2.3,
+        "medicaid": 24.5,
+        "corrections": 2.5,
+        "transportation": 8.7,
+        "allOther": 31.0,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": false,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "No appropriation means no authority to spend, apart from small carried-forward or separately enacted items.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-WA": {
+      "name": "Washington",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "even"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 1482.0,
+        "revenues": 32761.0,
+        "revenueAdjustments": 2184.0,
+        "totalResources": 36427.0,
+        "expenditures": 35846.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 581.0,
+        "rainyDayFundBalance": 1000.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 1250.0,
+        "fy2026EstimatedMillions": 1000.0,
+        "fy2027RecommendedMillions": 1026.0,
+        "fy2025PercentOfSpending": 3.5,
+        "fy2026PercentOfSpending": 2.8,
+        "fy2027PercentOfSpending": 2.8,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 35595.0,
+          "federalFunds": 20613.0,
+          "otherStateFunds": 21943.0,
+          "bonds": 3541.0,
+          "total": 81692.0
+        },
+        "fy2024Actual": {
+          "total": 74676.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 23.5,
+        "higherEducation": 13.4,
+        "medicaid": 26.8,
+        "corrections": 2.2,
+        "transportation": 5.9,
+        "allOther": 28.2,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-WI": {
+      "name": "Wisconsin",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "even"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 4606.0,
+        "revenues": 22686.0,
+        "revenueAdjustments": 720.0,
+        "totalResources": 28012.0,
+        "expenditures": 22735.0,
+        "expenditureAdjustments": 2273.0,
+        "endingBalance": 3004.0,
+        "rainyDayFundBalance": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "NASBO reports N/A for Wisconsin; what is the state's own FY2026 figure?"
+        },
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 1991.0,
+        "fy2026EstimatedMillions": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "NASBO reports N/A; what is the state's own estimate of this year's rainy-day balance?"
+        },
+        "fy2027RecommendedMillions": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "NASBO reports N/A; what is the state's own estimate of this year's rainy-day balance?"
+        },
+        "fy2025PercentOfSpending": 9.3,
+        "fy2026PercentOfSpending": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "NASBO reports N/A; what is the state's own estimate of this year's rainy-day balance?"
+        },
+        "fy2027PercentOfSpending": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "NASBO reports N/A; what is the state's own estimate of this year's rainy-day balance?"
+        },
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 21118.0,
+          "federalFunds": 18456.0,
+          "otherStateFunds": 29048.0,
+          "bonds": 0.0,
+          "total": 68622.0
+        },
+        "fy2024Actual": {
+          "total": 66255.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 15.9,
+        "higherEducation": 13.1,
+        "medicaid": 23.0,
+        "corrections": 2.6,
+        "transportation": 6.2,
+        "allOther": 39.2,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "Prior-year appropriation levels continue until the new biennial budget is enacted.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-WV": {
+      "name": "West Virginia",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "annual",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 1806.0,
+        "revenues": 5323.0,
+        "revenueAdjustments": 92.0,
+        "totalResources": 7222.0,
+        "expenditures": 6130.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 1091.0,
+        "rainyDayFundBalance": 1440.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 1347.0,
+        "fy2026EstimatedMillions": 1440.0,
+        "fy2027RecommendedMillions": 1470.0,
+        "fy2025PercentOfSpending": 22.6,
+        "fy2026PercentOfSpending": 23.5,
+        "fy2027PercentOfSpending": 24.9,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 4827.0,
+          "federalFunds": 5551.0,
+          "otherStateFunds": 16455.0,
+          "bonds": 185.0,
+          "total": 27018.0
+        },
+        "fy2024Actual": {
+          "total": 25816.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 11.3,
+        "higherEducation": 8.3,
+        "medicaid": 19.2,
+        "corrections": 2.1,
+        "transportation": 8.5,
+        "allOther": 50.6,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "rule": "The governor must extend the session until the budget bill passes; only the budget may be considered.",
+        "source": "nasbo-bp-2021",
+        "table": "Table 12 notes"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    },
+    "US-WY": {
+      "name": "Wyoming",
+      "fiscalYear": {
+        "startsOn": "07-01",
+        "budgetCycle": "biennial",
+        "source": "nasbo-bp-2021",
+        "evidence": "verified-in-document",
+        "bienniumBeginsInCalendarYear": "odd"
+      },
+      "generalFundFY2026EstimatedMillions": {
+        "beginningBalance": 70.0,
+        "revenues": 1777.0,
+        "revenueAdjustments": 536.0,
+        "totalResources": 2383.0,
+        "expenditures": 2314.0,
+        "expenditureAdjustments": 0.0,
+        "endingBalance": 69.0,
+        "rainyDayFundBalance": 1626.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 2"
+      },
+      "rainyDayFund": {
+        "fy2025ActualMillions": 1626.0,
+        "fy2026EstimatedMillions": 1626.0,
+        "fy2027RecommendedMillions": 1290.0,
+        "fy2025PercentOfSpending": 72.5,
+        "fy2026PercentOfSpending": 70.3,
+        "fy2027PercentOfSpending": 62.0,
+        "source": "nasbo-fs-spring-2026",
+        "table": "Table 19"
+      },
+      "stateSpendingAllFundsMillions": {
+        "fy2025Estimated": {
+          "generalFund": 1654.0,
+          "federalFunds": 1006.0,
+          "otherStateFunds": 2928.0,
+          "bonds": 0.0,
+          "total": 5588.0
+        },
+        "fy2024Actual": {
+          "total": 5588.0
+        },
+        "source": "nasbo-ser-2025",
+        "table": "Table 1"
+      },
+      "stateSpendingByFunctionFY2025Percent": {
+        "elementarySecondaryEducation": 18.8,
+        "higherEducation": 7.5,
+        "medicaid": 13.7,
+        "corrections": 3.1,
+        "transportation": 3.4,
+        "allOther": 53.6,
+        "basis": "state government only, all funds, share of total state expenditures",
+        "source": "nasbo-ser-2025",
+        "table": "Table 4"
+      },
+      "lineItemVeto": {
+        "governorHasItemVetoOnBudget": true,
+        "source": "ncsl-veto-snippet",
+        "crossCheck": "nasbo-bp-2021 Table 8"
+      },
+      "lateBudget": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "What happens in this state if no budget is enacted by the start of the fiscal year (shutdown, continuing appropriation, or automatic prior-year levels)?"
+      },
+      "stateLocalPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census FY2023/FY2024 state-and-local per-resident revenue by source and direct general spending by function for this place (census.gov and urban.org were unreachable)."
+      }
+    }
+  }
+}
