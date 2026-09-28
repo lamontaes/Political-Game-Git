@@ -28,7 +28,12 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { ageOnDate, personName } from "../../src/simulation";
-import type { EntityId, IsoDate, World } from "../../src/simulation";
+import type {
+  EntityId,
+  IsoDate,
+  SchoolDistrictYearRecord,
+  World,
+} from "../../src/simulation";
 import {
   organizationNameAt,
   publicPartyAffiliation,
@@ -160,6 +165,7 @@ type Section =
   | "press"
   | "crime"
   | "people"
+  | "schools"
   | "economy"
   | "abroad"
   | "other";
@@ -176,6 +182,7 @@ const SECTION_TITLES: Readonly<Record<Section, string>> = {
   press: "Scandals and the press",
   crime: "Crime",
   people: "People near the place",
+  schools: "Schools",
   economy: "Economy and population",
   abroad: "Abroad",
   other: "Everything else the record shows",
@@ -999,6 +1006,45 @@ function crimeLines(reader: WorldRecordReader): ChronicleLine[] {
   return lines;
 }
 
+function schoolLines(reader: WorldRecordReader): ChronicleLine[] {
+  const years = (reader.world.history.schoolDistrictYears ??
+    []) as readonly SchoolDistrictYearRecord[];
+  return years.map((year) => {
+    const name =
+      organizationNameAt(reader.world, year.districtOrganizationId) ??
+      "The school district";
+    const ratio =
+      year.studentsPerTeacher === null
+        ? "no teacher"
+        : `${year.studentsPerTeacher} pupils per teacher`;
+    const why = year.causes.map((cause) => {
+      const more = cause.change > 0;
+      const size = Math.abs(cause.change);
+      if (cause.kind === "class-size-law")
+        return `${count(size, "teacher")} hired under ${year.classSizeLaw?.designation ?? "a class-size law"}`;
+      return cause.kind === "enrollment"
+        ? `${count(size, "pupil")} ${more ? "more" : "fewer"} (enrollment)`
+        : `${count(size, "teacher")} ${more ? "more" : "fewer"} (staffing)`;
+    });
+    const law = year.classSizeLaw
+      ? ` Under ${year.classSizeLaw.designation}, classes are capped at ${year.classSizeLaw.maximum}.`
+      : "";
+    const scale =
+      year.classSize == null
+        ? ""
+        : ` Classes average ${year.classSize} at the national scale${year.proficiencyPct == null ? "" : `, and ${year.proficiencyPct}% of pupils are at grade level`}.`;
+    const vacant = year.teacherVacancies
+      ? ` ${count(year.teacherVacancies, "teaching job")} went unfilled.`
+      : "";
+    return {
+      date: year.countedAt,
+      section: "schools" as const,
+      text: `${name} counted ${count(year.enrollment, "pupil")} and ${count(year.teachers, "teacher")} for ${year.schoolYear}, ${ratio}${why.length ? `: ${list(why)}` : year.causes.length === 0 && years.indexOf(year) > 0 ? ", unchanged" : ""}.${law}${scale}${vacant}`,
+      sources: [year.id],
+    };
+  });
+}
+
 function peopleLines(reader: WorldRecordReader): ChronicleLine[] {
   const lines: ChronicleLine[] = [];
   const near = reader.nearPeople();
@@ -1209,6 +1255,7 @@ export function chronicle(
     ...pressLines(reader),
     ...crimeLines(reader),
     ...peopleLines(reader),
+    ...schoolLines(reader),
     ...eventLines(
       reader,
       "economy",

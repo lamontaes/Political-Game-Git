@@ -14,6 +14,10 @@ import {
   migrationReviewHandler,
 } from "./migration";
 import { createPressTransitionRegistry } from "./press/transitions";
+import {
+  SCHOOL_DISTRICT_COUNT_TRANSITION_KEY,
+  schoolDistrictCountHandler,
+} from "./living-world/town-schools";
 import { recordElectionSpeech } from "./campaign-speeches";
 import { campaignPollingQuality } from "./campaign-polling";
 import { doorKnockingReturn } from "./campaign-recognition";
@@ -2126,6 +2130,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
         // MIGRATION: households leave town, newcomers arrive, waves step.
         [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
+        // LANE M: the town school district counts its pupils and teachers each fall.
+        [SCHOOL_DISTRICT_COUNT_TRANSITION_KEY, schoolDistrictCountHandler],
         // PAYDAY: everyone with a recorded job is paid, every four weeks.
         ...PAYDAY_HANDLERS,
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.

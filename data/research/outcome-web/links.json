@@ -21,12 +21,20 @@
   "births.rate": {
    "floor": 0.7,
    "ceiling": 1.3
+  },
+  "school.test-scores": {
+   "floor": 0.5,
+   "ceiling": 1.5
   }
  },
  "baselines": {
   "labor.unemployment-pct": {
    "value": 4,
    "note": "The unemployment rate the base rates were calibrated at: crime's base rates, and the town's birth rates by age (national figures from a year near 4%)."
+  },
+  "school.class-size": {
+   "value": 21,
+   "note": "The average class in public primary schools' self-contained classrooms (NCES, National Teacher and Principal Survey, 2017-18); a fully staffed district without a class-size law reads this."
   }
  },
  "links": [
@@ -916,15 +924,17 @@
    "shape": {
     "kind": "linear"
    },
-   "size": null,
-   "per": "small vs regular class",
+   "size": -0.03,
+   "per": "pupil in a class above or below 21: -3% of the share at grade level per extra pupil",
    "lagMonths": 0,
-   "group": "K to 3",
+   "group": "K to 3 in the research; the game reads each district's class at the national scale, all grades",
    "owner": "M",
-   "anchor": "+0.22 SD after 4 years; +2 points college enrollment",
+   "anchor": "+0.22 SD after 4 years for classes about 8 pupils smaller; at a 35% share at grade level that is +8.4 points, or +24%, so 3% per pupil. The effect builds over 4 years in the research; the game applies the year's ratio. +2 points college enrollment is not carried.",
    "source": "Krueger; Tennessee STAR",
-   "from": "school.class-size-k3",
-   "evidence": "researched"
+   "from": "school.class-size",
+   "evidence": "provisional",
+   "floor": 0.76,
+   "ceiling": 1.24
   },
   {
    "key": "prek-to-graduation",

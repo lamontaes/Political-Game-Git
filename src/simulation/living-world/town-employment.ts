@@ -43,6 +43,7 @@ import {
 import { drawCanonicalNameForGender } from "../people";
 import { nameCorpusVersionForWorld } from "../place-name-corpus";
 import { SeededRng } from "../rng";
+import { townTeacherNeed } from "./town-schools";
 import type {
   EntityId,
   IsoDate,
@@ -1161,6 +1162,8 @@ export function fillTownJobs(
     readonly into?: {
       readonly workplace: string;
       readonly organizationId: EntityId;
+      /** Hire everyone into this one role (the district adds teachers). */
+      readonly title?: string;
     };
   },
 ): World {
@@ -1289,10 +1292,18 @@ export function fillTownJobs(
   if (options.into) {
     const workplace = WORKPLACE.get(options.into.workplace);
     if (!workplace) return next;
-    let lead = workplace.roles.find(
-      (entry) => entry.authority === "directs-others",
-    );
+    const only = options.into.title
+      ? workplace.roles.find((entry) => entry.title === options.into!.title)
+      : undefined;
+    let lead = options.into.title
+      ? undefined
+      : workplace.roles.find((entry) => entry.authority === "directs-others");
     for (const resident of open) {
+      if (only) {
+        if (resident.age >= (only.minAge ?? WORKING_AGE_MIN))
+          hire(resident, workplace, only, options.into.organizationId);
+        continue;
+      }
       const fits = workplace.roles.filter(
         (entry) => resident.age >= (entry.minAge ?? WORKING_AGE_MIN),
       );
@@ -1326,6 +1337,7 @@ export function fillTownJobs(
     return pick;
   };
   const held = heldTownRoles(next, prefix);
+  const schoolsTeaching = schoolsWithTeachers(next);
   for (const [key, title] of CIVIC_MINIMUM) {
     if (key === "county-clerk" && !countyName) continue;
     const workplace = WORKPLACE.get(key)!;
@@ -1335,6 +1347,8 @@ export function fillTownJobs(
     for (let n = 0; n < Math.max(1, organizationIds.length); n += 1) {
       const at = organizationIds[n] ?? null;
       const heldKey = `${title}|${at ?? key}`;
+      // A school that already has a teacher, however hired, needs no other.
+      if (at && title === "Teacher" && schoolsTeaching.has(at)) continue;
       if ((held.get(heldKey) ?? 0) > 0) {
         held.set(heldKey, held.get(heldKey)! - 1);
         continue;
@@ -1354,7 +1368,16 @@ export function fillTownJobs(
 
   // Everyone else by the town's own mix.
   // A workplace whose every employer in town has closed hires nobody, and
-  // the resident draws again.
+  // the resident draws again. So does a teaching job the town's pupils do
+  // not need (`town-schools.ts`, PUPILS_PER_TEACHER).
+  let teacherRoom: number | null = null;
+  const teacherWanted = () => {
+    if (teacherRoom === null) {
+      const { needed, teachers } = townTeacherNeed(next, town);
+      teacherRoom = needed - teachers;
+    }
+    return teacherRoom > 0;
+  };
   for (const resident of pool) {
     const rng = new SeededRng(next.seed).fork(
       drawKey("workplace", resident.personId),
@@ -1370,10 +1393,39 @@ export function fillTownJobs(
           .filter((entry) => resident.age >= (entry.minAge ?? WORKING_AGE_MIN))
           .map((entry) => [entry, entry.weight] as const),
       );
-      if (!chosen || hire(resident, workplace, chosen)) break;
+      if (!chosen) break;
+      const teaching =
+        workplace.key === "public-school" &&
+        chosen.occupation === "profession:teacher";
+      if (teaching && !teacherWanted()) continue;
+      if (hire(resident, workplace, chosen)) {
+        if (teaching) teacherRoom = (teacherRoom ?? 0) - 1;
+        break;
+      }
     }
   }
   return jobs.length === 0 ? next : createWorkRelationships(next, jobs);
+}
+
+/** Organizations where somebody's active job today is teaching. */
+function schoolsWithTeachers(world: World): ReadonlySet<EntityId> {
+  const latest = new Map<EntityId, string>();
+  for (const row of world.history.workStatuses)
+    if (row.effectiveAt <= world.currentDate)
+      latest.set(row.workRelationshipId, row.status);
+  const teaching = new Set<EntityId>();
+  for (const role of world.history.workRoles)
+    if (role.occupationClassification === "profession:teacher")
+      teaching.add(role.workRelationshipId);
+  const schools = new Set<EntityId>();
+  for (const job of world.history.workRelationships)
+    if (
+      job.organizationId &&
+      teaching.has(job.id) &&
+      latest.get(job.id) === "active"
+    )
+      schools.add(job.organizationId);
+  return schools;
 }
 
 /**

@@ -122,6 +122,20 @@ export const OUTCOME_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
       return record ? record.unemploymentPct : null;
     },
   },
+  "school.class-size": {
+    key: "school.class-size",
+    unit: "pupils in a class, at the national scale",
+    // The town school district's latest fall count on or before the date
+    // (`living-world/town-schools.ts`); none before its first count, or when
+    // it counted no teacher.
+    read: (world, jurisdictionId, asOf) => {
+      let latest: number | null = null;
+      for (const row of world.history.schoolDistrictYears ?? [])
+        if (row.jurisdictionId === jurisdictionId && row.countedAt <= asOf)
+          latest = row.classSize ?? null;
+      return latest;
+    },
+  },
 };
 
 export type OutcomeLinkStatus =
@@ -142,6 +156,7 @@ export const OUTCOMES_PRODUCED: ReadonlySet<string> = new Set([
   "crime.burglary",
   "crime.vandalism",
   "births.rate",
+  "school.test-scores",
 ]);
 
 const LAW_CAUSE_PREFIX = "law:";

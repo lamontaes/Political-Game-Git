@@ -57,6 +57,7 @@ export interface SimulationMoment {
 }
 
 export type EntityKind =
+  | "school-district-year"
   | "judicial-philosophy"
   | "judicial-professional-qualification"
   | "judicial-retention-contest"
@@ -1494,6 +1495,74 @@ export interface WorkRoleRecord {
   readonly timeDemand: TimeDemandProfile;
   readonly provenance: LifeRecordProvenance;
   readonly supersedesRoleId: EntityId | null;
+}
+
+/** Why a school district's count differs from its year before. */
+export type SchoolDistrictYearCause =
+  | { readonly kind: "enrollment"; readonly change: number }
+  | { readonly kind: "staffing"; readonly change: number }
+  /** Teachers hired because a state class-size law required them. */
+  | {
+      readonly kind: "class-size-law";
+      readonly change: number;
+      readonly measureId: EntityId;
+    };
+
+/** The state class-size law in force on a count day. */
+export interface SchoolClassSizeLaw {
+  readonly measureId: EntityId;
+  readonly designation: string;
+  /** The most pupils per teacher the law allows. */
+  readonly maximum: number;
+}
+
+/** One outcome-web link's part in a district's scores (`outcome-web`). */
+export interface SchoolOutcomeCause {
+  readonly key: string;
+  readonly from: string;
+  readonly factor: number;
+  readonly causeValue: number;
+  readonly causeBaseline: number;
+}
+
+/**
+ * One school year of a town school district, counted from the world's own
+ * enrollments and jobs on the count day. Money is not recorded yet.
+ */
+export interface SchoolDistrictYearRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly districtOrganizationId: EntityId;
+  readonly jurisdictionId: EntityId;
+  /** "2026-27": the fall and spring the year spans. */
+  readonly schoolYear: string;
+  readonly countedAt: IsoDate;
+  readonly schoolIds: readonly EntityId[];
+  readonly enrollment: number;
+  readonly teachers: number;
+  /** Null when the district has no teacher on the count day. */
+  readonly studentsPerTeacher: number | null;
+  /** Empty for the district's first count. */
+  readonly causes: readonly SchoolDistrictYearCause[];
+  /** Absent on counts written before class-size laws were read. */
+  readonly classSizeLaw?: SchoolClassSizeLaw | null;
+  /**
+   * The district's class at the national scale (`town-schools.ts`,
+   * classSizeOf): the national class, or the law's cap, grown for each
+   * teacher still missing. Null with no teacher; absent on older counts.
+   */
+  readonly classSize?: number | null;
+  /** Teachers still needed after the fall hiring; absent on older counts. */
+  readonly teacherVacancies?: number;
+  /**
+   * Percent of pupils at grade level, from the national rate and the outcome
+   * web's links into test scores. Null when the district has no teacher;
+   * absent on older counts.
+   */
+  readonly proficiencyPct?: number | null;
+  readonly proficiencyCauses?: readonly SchoolOutcomeCause[];
+  readonly provenance: LifeRecordProvenance;
 }
 
 export interface Household {
@@ -4089,6 +4158,8 @@ export interface HistoryStore {
   /** Rule changes filed on ordinary bills; see `enacted-rule-changes.ts`. */
   readonly ruleChangeProvisions?: readonly RuleChangeProvisionRecord[];
   /** Optional, preserving pre-tax snapshots without fabricating money/history. */
+  /** A town school district's yearly counts (Lane M). Absent in older saves. */
+  readonly schoolDistrictYears?: readonly SchoolDistrictYearRecord[];
   readonly taxProposals?: readonly TaxProposalRecord[];
   readonly taxPolicies?: readonly TaxPolicyRecord[];
   readonly taxBases?: readonly TaxBaseRecord[];

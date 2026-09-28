@@ -28,6 +28,8 @@ import {
   CRUNCH46_WORLD_OPENING_VERSION,
 } from "../simulation";
 import { ensureMigrationSchedule } from "../simulation/migration";
+import { migrationTown } from "../simulation/migration/review";
+import { ensureTownSchoolDistrict } from "../simulation/living-world/town-schools";
 import { ensurePaydaySchedule } from "../simulation/living-world/town-pay";
 import { ensureCrimeProduction } from "../simulation/crime";
 import { ensureOpeningJudiciary } from "../simulation/judiciary/opening";
@@ -209,7 +211,7 @@ function openedWorld(
     playerPersonId,
   );
   // Payday starts with the same opening, so a watched world's jobs pay too.
-  const opened = ensurePaydaySchedule(
+  const scheduled = ensurePaydaySchedule(
     ensureMigrationSchedule(
       ensureLocalCouncilMeetings(
         ensureLocalElectionCalendar(seated, playerPersonId),
@@ -217,6 +219,12 @@ function openedWorld(
       ),
     ),
   );
+  // The town's school district counts its pupils and teachers from the
+  // residents and jobs just written, and every fall after.
+  const town = migrationTown(scheduled);
+  const opened = town
+    ? ensureTownSchoolDistrict(scheduled, town)
+    : scheduled;
   return openingDataVersion === "playtest65-v3"
     ? ensureOpeningJudiciary(opened)
     : opened;
