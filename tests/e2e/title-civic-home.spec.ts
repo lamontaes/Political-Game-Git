@@ -91,6 +91,7 @@ async function startAndKeepALife(page: Page) {
 for (const viewport of [
   { width: 1280, height: 800 },
   { width: 1440, height: 1000 },
+  { width: 2560, height: 1440 },
 ]) {
   test.describe(`The home screen at ${viewport.width}x${viewport.height}`, () => {
     test.use({ viewport });
