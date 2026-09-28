@@ -6,6 +6,7 @@ vi.setConfig({ testTimeout: 300_000, hookTimeout: 300_000 });
 import {
   PLACE_SURFACES,
   projectBackdropSurfaces,
+  readVoteBoard,
   type BackdropSurface,
 } from "../presentation/backdrop-surfaces";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
@@ -114,39 +115,52 @@ function surfacesAt(
 }
 
 describe("live content on the painted surfaces of place pictures", () => {
-  it("shows the Senate's recorded votes and bills on its chamber wall", () => {
-    const surfaces = surfacesAt(world, "us-senate-floor");
-    const kinds = surfaces.map((surface) => surface.content.kind);
-    expect(kinds).toContain("bills");
+  it("leaves the Senate's wall panels painted, as the real chamber has no vote boards", () => {
+    // Congress has voted and filed bills in this world; the panels still
+    // show only their paint.
+    expect((world.history.legislativeVotes ?? []).length).toBeGreaterThan(0);
+    expect(surfacesAt(world, "us-senate-floor")).toEqual([]);
+  });
+
+  it("reads a legislature's latest recorded votes, chamber by chamber", () => {
+    const federal = world.jurisdictionOrder.find(
+      (id) => world.jurisdictions[id]?.kind === "federal",
+    )!;
     const measures = world.history.legislativeMeasures ?? [];
-    const html = render(surfaces);
-    for (const surface of surfaces) {
-      expect(html).toContain(`data-surface-id="${surface.slot.id}"`);
-      if (surface.content.kind === "bills")
-        for (const bill of surface.content.bills)
-          expect(
-            measures.some(
-              (measure) =>
-                measure.designation === bill.designation &&
-                measure.shortTitle === bill.title,
-            ),
-          ).toBe(true);
-      if (surface.content.kind === "votes") {
-        // Only the Senate's own votes go on the Senate's wall.
-        const votes = world.history.legislativeVotes ?? [];
-        for (const line of surface.content.lines)
-          expect(
-            votes.some(
-              (vote) =>
-                (vote.forum as { chamberKey?: string }).chamberKey ===
-                  "senate" &&
-                measures.find((measure) => measure.id === vote.measureId)
-                  ?.designation === line.designation,
-            ),
-          ).toBe(true);
-      }
-    }
-    expect(html).toContain("backdrop-bills");
+    const votes = world.history.legislativeVotes ?? [];
+    const board = readVoteBoard(world, [federal], "senate");
+    expect(board).not.toBeNull();
+    for (const line of board!.lines)
+      expect(
+        votes.some(
+          (vote) =>
+            vote.id === line.id &&
+            (vote.forum as { chamberKey?: string }).chamberKey === "senate" &&
+            measures.find((measure) => measure.id === vote.measureId)
+              ?.designation === line.designation,
+        ),
+      ).toBe(true);
+    const html = render([
+      {
+        slot: {
+          id: "test-vote-board",
+          kind: "board",
+          finish: "panel",
+          what: "a vote board",
+          quad: [
+            [0, 0],
+            [300, 0],
+            [300, 200],
+            [0, 200],
+          ],
+          perspective: false,
+          shows: ["votes"],
+        },
+        content: board!,
+      },
+    ]);
+    expect(html).toContain("backdrop-vote-board");
+    expect(html).toContain(board!.lines[0]!.result);
   });
 
   it("pins the player's own appointments up in the campaign office", () => {
@@ -294,7 +308,7 @@ describe("live content on the painted surfaces of place pictures", () => {
 
   it("leaves every painted face alone when the world has nothing to show", () => {
     // The opening day of a fresh world: no bills, no votes, no races.
-    for (const place of ["us-senate-floor", "county-commission", "office"]) {
+    for (const place of ["county-commission", "office", "clerk-counter"]) {
       const surfaces = surfacesAt(opening, place).filter(
         (surface) =>
           surface.content.kind !== "plans" &&
