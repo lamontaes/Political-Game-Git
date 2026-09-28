@@ -25,6 +25,10 @@ import {
   ensureMunicipalCouncilOpening,
 } from "../simulation/municipal-council-opening";
 import { municipalSeats } from "../simulation/municipal-public-work";
+import {
+  municipalGovernmentByKey,
+  primaryReading,
+} from "../simulation/municipal-government";
 import { COUNCIL_READING_DUE } from "../simulation/municipal-ordinance-procedure";
 import { ensureHomeLocalGovernments } from "../simulation/nationwide-world/local-governments";
 import {
@@ -57,6 +61,18 @@ const bodies = [
   { label: "city", governmentKey: city.id, level: "municipality" },
   { label: "county", governmentKey: county.id, level: "county" },
 ] as const;
+/**
+ * The council's size is the compiled government's own body size (a town's
+ * council is not always five), so the seated count is checked against that.
+ */
+function compiledBodySize(governmentKey: string): number {
+  const size = primaryReading(
+    municipalGovernmentByKey(governmentKey)!,
+  ).bodySize;
+  expect(size).not.toBeNull();
+  return size!;
+}
+
 const handlers = createCampaignElectionTransitionRegistry();
 
 function advanceTo(world: World, date: IsoDate): World {
@@ -106,7 +122,7 @@ describe("ordinary opening city and county fiscal proposals", () => {
       const seats = municipalSeats(world, body.governmentKey).filter(
         (seat) => seat.role === "member" || seat.role === "presiding-member",
       );
-      expect(seats).toHaveLength(5);
+      expect(seats).toHaveLength(compiledBodySize(body.governmentKey));
       expect(seats.every((seat) => seat.personId !== game.playerPersonId)).toBe(
         true,
       );

@@ -9,11 +9,10 @@ import {
   municipalGovernmentForLifePlace,
   primaryReading,
 } from "../simulation/municipal-government";
-import {
-  ensureMunicipalCouncilOpening,
-  MUNICIPAL_COUNCIL_OPENING_VERSION,
-} from "../simulation/municipal-council-opening";
+import { ensureMunicipalCouncilOpening } from "../simulation/municipal-council-opening";
 import { municipalSeats } from "../simulation/municipal-public-work";
+import { governmentUnitsForPlace } from "../simulation/government-units";
+import { localGovernmentSeatsKey } from "../simulation/living-world/local-government-seats";
 import { requireLifePlace } from "../simulation/life-places";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -22,7 +21,7 @@ import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 vi.setConfig({ testTimeout: 60_000, hookTimeout: 60_000 });
 
 describe("ordinary municipal opening", () => {
-  it("seats a fictional council from its compiled count once and preserves the roll on reload", () => {
+  it("seats the home town council from its compiled count once and preserves the roll on reload", () => {
     const place = requireLifePlace("5114968");
     const government = municipalGovernmentForLifePlace(place)!;
     const game = generateOpeningLife(
@@ -40,22 +39,22 @@ describe("ordinary municipal opening", () => {
     expect(seats).toHaveLength(primaryReading(government).bodySize!);
     expect(new Set(seats.map((seat) => seat.personId)).size).toBe(seats.length);
     expect(seats.every((seat) => world.people[seat.personId])).toBe(true);
-    const opening = world.history.events.find(
-      (event) =>
-        event.stableKey ===
-        `${MUNICIPAL_COUNCIL_OPENING_VERSION}:${government.key}`,
+    // The player's own town is seated from its residents when the life opens
+    // (`local-government-seats`), once, under one event; the council-opening
+    // route that draws a fictional roster is for governments the player does
+    // not live in.
+    const unit = governmentUnitsForPlace(place.sourceGeoid!).find(
+      (row) => row.unitType === "municipality" && row.functionalActive,
+    )!;
+    const seatings = world.history.events.filter(
+      (event) => event.stableKey === localGovernmentSeatsKey(unit.id),
     );
-    expect(opening).toBeDefined();
+    expect(seatings).toHaveLength(1);
+    // Every member on the roll was named by that one seating.
     expect(
-      seats.every((seat) => {
-        const participation = world.history.organizationParticipations.find(
-          (entry) => entry.id === seat.participationId,
-        );
-        return (
-          participation?.provenance.kind === "simulated-event" &&
-          participation.provenance.eventId === opening?.id
-        );
-      }),
+      seats.every((seat) =>
+        seatings[0]!.involvedEntityIds.includes(seat.personId),
+      ),
     ).toBe(true);
     expect(ensureMunicipalCouncilOpening(world, government.key)).toBe(world);
     const reopened = deserializeWorld(serializeWorld(world));

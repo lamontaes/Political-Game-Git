@@ -8,7 +8,10 @@ import {
 import { publicTaxAccountForJurisdiction } from "../simulation/tax-policy";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { money } from "../simulation/resources";
-import { ensureWorldStartingConditions } from "../simulation/world-setup/conditions";
+import {
+  ensureWorldStartingConditions,
+  worldOpeningRecord,
+} from "../simulation/world-setup/conditions";
 import { stateTaxServiceProfileForJurisdictionKey } from "../simulation/world-setup/state-tax-service-profiles";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../simulation/world-setup/types";
 import { openAppropriationsFor } from "../simulation/governing/program-governing";
@@ -19,6 +22,8 @@ import {
 import { applyLegislativeStep } from "./legislation-session";
 import { fileDraft } from "./legislation-docket";
 import { publishLegislativeTransition } from "./publish-legislative-transition";
+import { addYears } from "../simulation/legislation-drafting";
+import type { PublicProgramAppropriationRecord } from "../simulation/types";
 
 const USD = money(0, "USD").currency;
 
@@ -75,17 +80,30 @@ describe("enacted saved service profiles", () => {
     }
 
     expect(measurePosition(world, measureId).outcome).toBe("enacted");
-    const appropriation = openAppropriationsFor(world, jurisdictionId).find(
-      (record) => record.sourceMeasureId === measureId,
+    // The law takes effect on its own saved date, not the day it passes, so
+    // the money is on the record from enactment and open to an office only
+    // once that date arrives.
+    const enactment = world.history.legislativeEnactments!.find(
+      (record) => record.measureId === measureId,
+    )!;
+    const appropriation = (world.history.publicProgramRecords ?? []).find(
+      (record): record is PublicProgramAppropriationRecord =>
+        record.kind === "appropriation" && record.sourceMeasureId === measureId,
     );
     expect(appropriation?.amount.minorUnits).toBe(
       profile.appropriation.amountMinorUnits,
     );
-    expect(appropriation?.availableThrough).toBe(
-      addDays(
-        appropriation!.availableFrom,
-        profile.appropriation.availabilityDays - 1,
+    expect(enactment.effectiveAt).toBeTruthy();
+    expect(appropriation?.availableFrom).toBe(enactment.effectiveAt);
+    expect(enactment.effectiveAt! > world.currentDate).toBe(true);
+    expect(
+      openAppropriationsFor(world, jurisdictionId).some(
+        (record) => record.sourceMeasureId === measureId,
       ),
+    ).toBe(false);
+    // The bill's own stated term (one year) runs from the day it was filed.
+    expect(appropriation?.availableThrough).toBe(
+      addYears(opened.currentDate, 1),
     );
 
     const capacity = programCapacity(world, profile.appropriation.programKey);
@@ -104,6 +122,8 @@ describe("enacted saved service profiles", () => {
         .minorUnits,
     ).toBe(profile.appropriation.amountMinorUnits);
 
+    // The account holds the opening's fictional state cash and nothing else:
+    // the enacted law itself adds no cash to it.
     const account = publicTaxAccountForJurisdiction(world, jurisdictionId);
     expect(account).not.toBeNull();
     expect(
@@ -112,7 +132,11 @@ describe("enacted saved service profiles", () => {
         { kind: "organization", organizationId: account!.organizationId },
         USD,
       )?.liquidBalance.minorUnits,
-    ).toBe(0);
+    ).toBe(
+      worldOpeningRecord(opened)?.publicCashOpening?.stateByJurisdictionId[
+        jurisdictionId
+      ],
+    );
     expect(
       world.history.publicProgramRecords?.filter(
         (record) =>

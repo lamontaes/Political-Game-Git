@@ -105,9 +105,9 @@ it("names a protected commitment, reports a repeated wait truthfully, and resume
   const command = { kind: "await-institution", step } as const;
   const stopped = applyLegislativeCommand(booked, assignment, command);
   expect(stopped.world.currentMoment).toEqual(start);
-  expect(stopped.message).toContain(
-    "Stopped for Care appointment; resolve this commitment before continuing.",
-  );
+  // The stop names what stopped the clock, in the words the routine outcome
+  // uses for every interrupted wait.
+  expect(stopped.message).toContain("Care appointment comes first.");
   expect(measurePosition(stopped.world, assignment.measureId)).toEqual(
     measurePosition(booked, assignment.measureId),
   );
@@ -134,7 +134,7 @@ it("names a protected commitment, reports a repeated wait truthfully, and resume
       (item) => item.id === hearing!.id,
     ),
   ).toBe(false);
-  expect(resumed.message).not.toContain("Stopped for");
+  expect(resumed.message).not.toContain("comes first.");
   const hearingHeld = applyLegislativeCommand(
     resumed.world,
     assignment,
