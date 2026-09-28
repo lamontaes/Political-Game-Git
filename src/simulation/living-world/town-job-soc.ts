@@ -9,7 +9,9 @@
  * field organizer are paid as "Business Operations Specialists, All Other"
  * (13-1199), a community organizer as "Community and Social Service
  * Specialists, All Other" (21-1099), and an emergency dispatcher as other
- * dispatchers (43-5032), because their jobs share one classification. A job
+ * dispatchers (43-5032), because their jobs share one classification. A
+ * county clerk is paid as a town's clerk is, "Court, Municipal, and License
+ * Clerks" (43-4031). A job
  * whose classification is missing here has no pay on record, and none is
  * invented for it.
  */
@@ -65,6 +67,7 @@ export const TOWN_JOB_SOC: Readonly<Record<string, string>> = {
   "profession:lawyer": "23-1011",
   "profession:legal-assistant": "23-2011",
   "profession:loan-officer": "13-2072",
+  "profession:county-clerk": "43-4031",
   "profession:municipal-clerk": "43-4031",
   "profession:physician": "29-1215",
   "profession:police-officer": "33-3051",

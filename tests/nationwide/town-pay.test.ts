@@ -13,6 +13,8 @@ import {
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import { organizationProfileAt } from "../../src/simulation/life-queries";
 import { TOWN_JOB_END_REASONS } from "../../src/simulation/living-world/town-labor-market";
+import { TOWN_WORKPLACES } from "../../src/simulation/living-world/town-employment";
+import { TOWN_JOB_SOC } from "../../src/simulation/living-world/town-job-soc";
 import {
   nextPaydayDate,
   payPeriodEndingOn,
@@ -80,6 +82,14 @@ describe("one pay rule for every state, D.C. and territory", () => {
       );
     }
     expect(paid).toBe(54);
+  });
+
+  it("every kind of town job is paid as a published occupation", () => {
+    for (const workplace of TOWN_WORKPLACES)
+      for (const role of workplace.roles)
+        expect(TOWN_JOB_SOC[role.occupation], role.title).toMatch(
+          /^\d{2}-\d{4}$/,
+        );
   });
 
   it("uses the town's own metro area before its state", () => {
