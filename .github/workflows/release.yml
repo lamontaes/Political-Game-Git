@@ -218,7 +218,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          grep -rqF "\"${NEXT_VERSION}\"" dist/client/assets || {
+          # The title screen shows `v` and the number (displayVersion).
+          grep -rqF "v${NEXT_VERSION}" dist/client/assets || {
             echo "::error::The built client does not carry version ${NEXT_VERSION}."
             exit 1
           }

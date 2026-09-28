@@ -118,7 +118,9 @@ describe("privilege separation", () => {
       "validate_candidate_unit",
     );
     expect(repository).toContain("Prove the built game shows the new version");
-    expect(repository).toContain("dist/client/assets");
+    expect(repository).toContain(
+      'grep -rqF "v${NEXT_VERSION}" dist/client/assets',
+    );
   });
 
   it("gives write authority only to the minimal publisher", () => {
