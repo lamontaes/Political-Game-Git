@@ -2,7 +2,7 @@
  * Writes src/simulation/bill-numbering-styles.generated.ts from the recorded
  * research: the verified enacted-bill samples for all 50 states, the state
  * legislature corpus's chamber names, and each chamber's recorded starting
- * number where it begins above 1. Decisions OCD-LEG-NUM-001 and -002.
+ * number and numbering period where a source states them. Decisions OCD-LEG-NUM-001 and -002.
  *
  *   node --import tsx scripts/research/export-bill-numbering-styles.ts
  *   node --import tsx scripts/research/export-bill-numbering-styles.ts --check
@@ -15,6 +15,7 @@ import { format } from "prettier";
 
 import {
   deriveStateBillNumberingStyle,
+  type BillNumberingPeriodRow,
   type BillNumberingStartRow,
   type BillSampleRow,
   type ChamberNameRow,
@@ -46,9 +47,10 @@ function slug(stateName: string): string {
 export function deriveAllStateStyles(): StateBillNumberingStyle[] {
   const corpus = JSON.parse(readFileSync(CORPUS, "utf8")) as CorpusRecord[];
   const files = new Set(readdirSync(SAMPLES));
-  const starts = JSON.parse(
-    readFileSync(STARTS, "utf8"),
-  ) as BillNumberingStartRow[];
+  const { starts, periods } = JSON.parse(readFileSync(STARTS, "utf8")) as {
+    readonly starts: readonly BillNumberingStartRow[];
+    readonly periods: readonly BillNumberingPeriodRow[];
+  };
   return corpus
     .map((record) => {
       const file = `${slug(record.stateName)}.json`;
@@ -75,6 +77,7 @@ export function deriveAllStateStyles(): StateBillNumberingStyle[] {
         })),
         names,
         starts,
+        periods,
       );
     })
     .sort((a, b) => a.jurisdictionKey.localeCompare(b.jurisdictionKey));
