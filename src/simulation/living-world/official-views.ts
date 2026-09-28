@@ -373,3 +373,19 @@ export function townSupportFromViews(
   const shift = weighted / (residents * BASE_POINTS);
   return 1 + Math.max(-MAX_SUPPORT_SHIFT, Math.min(MAX_SUPPORT_SHIFT, shift));
 }
+
+/**
+ * What the people a law reached made of one official's part in it: the net
+ * points of every view of this official formed about this law.
+ */
+export function netViewOnLaw(
+  world: World,
+  officialId: EntityId,
+  measureId: EntityId,
+): number {
+  let net = 0;
+  for (const row of world.history.officialViews ?? [])
+    if (row.officialId === officialId && row.measureId === measureId)
+      net += row.points;
+  return net;
+}
