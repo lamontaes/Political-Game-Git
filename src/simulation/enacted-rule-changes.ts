@@ -98,11 +98,27 @@ export const AMENDABLE_RULE_FIELDS = {
     ] satisfies readonly MunicipalRecallDoctrine[],
     family: "municipal",
   },
+  /**
+   * A state's basic minimum wage, in cents an hour. The office key is the
+   * state's labor law, `us-xx-labor-law`. Read by town pay, which never pays
+   * below the higher of this and the federal minimum.
+   */
+  "labor.minimumWage.hourlyCents": {
+    kind: "integer",
+    min: 0,
+    max: 100_000,
+    family: "labor",
+  },
 } as const;
 
 /** The office key a state's law on its towns is recorded under. */
 export function municipalLawOfficeKey(stateUsps: string): string {
   return `us-${stateUsps.toLowerCase()}-municipal-law`;
+}
+
+/** The office key a state's labor law is recorded under. */
+export function laborLawOfficeKey(stateUsps: string): string {
+  return `us-${stateUsps.toLowerCase()}-labor-law`;
 }
 
 /** A term limit as a law states it; null in any part means the law is silent on it. */
@@ -167,6 +183,7 @@ const AMENDABLE_RULE_FIELD_LABELS: Readonly<
   "executive.term.years": "the length of the chief executive's term in years",
   "executive.term.limit": "the chief executive's term limit",
   "municipal.recall.doctrine": "how towns' voters may recall an official",
+  "labor.minimumWage.hourlyCents": "state minimum wage",
 };
 
 const CHOICE_WORDS: Readonly<Record<string, string>> = {
