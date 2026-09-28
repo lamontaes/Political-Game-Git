@@ -7,6 +7,7 @@ import { advanceWorld, assertWorldIntegrity } from "./world";
 import { addDays, daysBetween } from "./dates";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import { deserializeWorld, serializeWorld } from "./serialization";
+import { operativeDateForEnactment } from "./legislative-effective-date";
 import { resolveTransitFunding } from "./transit-funding";
 import {
   requestTransitImplementation,
@@ -180,7 +181,7 @@ it("refuses changed adopted terms, wrong actors, expired authority", () => {
   expect(serializeWorld(f.world)).toBe(before);
 });
 
-it("reads the canonical terminating source's operative and expiration dates without inventing an unresolved date", () => {
+it("reads the canonical terminating source's operative and expiration dates, its own or its state's default", () => {
   const base = appropriation();
   const ending = transitTerminationFixture(
     base,
@@ -205,19 +206,38 @@ it("reads the canonical terminating source's operative and expiration dates with
   expect(() => requestTransitImplementation(expired, base)).toThrow(
     /recorded termination/,
   );
+  // A terminating law enacted with no date of its own takes effect on the
+  // date its enactment records from the state's rule (or the game default
+  // where no rule is sourced), and the funding reads that same date: nothing
+  // is left unresolved and nothing else is invented.
   const unknown = transitTerminationFixture(base, null);
-  const operativeUnknown = advanceWorld(
+  const repeal = unknown.world.history.legislativeEnactments!.find(
+    (record) => record.measureId === unknown.terminationId,
+  )!;
+  const operative = operativeDateForEnactment(repeal);
+  expect(repeal.effectiveAt).not.toBeNull();
+  expect(repeal.effectiveDateBasis).toBeDefined();
+  expect(operative?.date).toBe(repeal.effectiveAt);
+  const defaultReady = advanceWorld(
     unknown.world,
     daysBetween(unknown.world.currentDate, base.availableAt),
     createFutureTransitionHandlerRegistry([]),
   );
-  expect(resolveTransitFunding(operativeUnknown, base.measureId)).toEqual({
+  expect(resolveTransitFunding(defaultReady, base.measureId).kind).toBe(
+    "available",
+  );
+  const defaultExpired = advanceWorld(
+    defaultReady,
+    daysBetween(defaultReady.currentDate, addDays(unknown.endsOn, 1)),
+    createFutureTransitionHandlerRegistry([]),
+  );
+  expect(resolveTransitFunding(defaultExpired, base.measureId)).toEqual({
     kind: "unavailable",
     reason:
-      "A recorded terminating authority has an unresolved operative date.",
+      "The transit funding authority has expired under its recorded termination.",
   });
-  expect(() => requestTransitImplementation(operativeUnknown, base)).toThrow(
-    /unresolved operative date/,
+  expect(() => requestTransitImplementation(defaultExpired, base)).toThrow(
+    /recorded termination/,
   );
   expect(expired.history.resourceTransferOutcomes).toEqual(
     base.world.history.resourceTransferOutcomes,
