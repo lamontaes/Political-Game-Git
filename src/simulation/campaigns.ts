@@ -1,3 +1,7 @@
+import {
+  HOUSEHOLD_LOAN_MONTH_KEY,
+  householdLoanMonthHandler,
+} from "./household-loans";
 import { jailTermOn } from "./justice/jail-terms";
 import { contestDistrictGeography } from "./campaign-geography";
 import {
@@ -2106,6 +2110,7 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         ],
         // CRUNCH46 CHANGE: canonical macro history closes each month once.
         [MACRO_MONTHLY_STEP_KEY, macroMonthlyStepHandler],
+        [HOUSEHOLD_LOAN_MONTH_KEY, householdLoanMonthHandler],
         // CRUNCH46 WORLD: party governing bodies meet and may change.
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
         // MIGRATION: households leave town, newcomers arrive, waves step.

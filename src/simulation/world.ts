@@ -54,6 +54,7 @@ import {
   taxHistoryRecords,
 } from "./tax-policy";
 import { assertStatutoryTaxIntegrity } from "./statutory-tax";
+import { assertHouseholdLoanIntegrity } from "./household-loans";
 import {
   addDays,
   assertSimulationMoment,
@@ -2239,6 +2240,7 @@ function validateHistoryIntegrity(
   assertResourceHousingIntegrity(world, ids);
   assertTaxIntegrity(world, ids);
   assertStatutoryTaxIntegrity(world, ids);
+  assertHouseholdLoanIntegrity(world, ids);
   assertJobMarketIntegrity(world, ids);
   assertPublicPaymentIntegrity(world);
   assertWorldMetricIntegrity(world, ids);
