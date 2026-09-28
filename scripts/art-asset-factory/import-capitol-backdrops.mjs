@@ -34,7 +34,8 @@ const WIDTH = 1672;
 const HEIGHT = 941;
 const QUALITY = "80";
 const OWN = /^state-capitol-[a-z]{2}$/;
-const FILE = /^(state-capitol-[a-z]{2})__(midday|morning|night|rain|winter)\.png$/;
+const FILE =
+  /^(state-capitol-[a-z]{2})__(midday|morning|night|rain|winter)\.png$/;
 
 const source = resolve(process.argv[2] ?? DEFAULT_SOURCE);
 const sources = JSON.parse(readFileSync(join(source, "sources.json"), "utf8"));
@@ -94,4 +95,6 @@ writeFileSync(
   manifestPath,
   `${JSON.stringify({ ...manifest, backdrops }, null, 2)}\n`,
 );
-process.stdout.write(`${records.length} capitol pictures written to ${OUT_DIR}\n`);
+process.stdout.write(
+  `${records.length} capitol pictures written to ${OUT_DIR}\n`,
+);
