@@ -1,7 +1,7 @@
 ---
 id: real-state-capitols
 impact: minor
-section: Places
+section: Improved
 title: State capitols look like the real buildings
 ---
 
