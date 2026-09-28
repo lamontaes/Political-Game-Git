@@ -7083,7 +7083,8 @@ body:where(.pg-game) .game-campaign-tallies {
   align-items: flex-end;
   padding-left: 1rem;
   padding-right: 1rem;
-  padding-bottom: 1.2rem;
+  /* Above the corner cluster, not under it (--pg-nav-reserve, ShellNav). */
+  padding-bottom: max(1.2rem, calc(var(--pg-nav-reserve, 0px) + 0.5rem));
 }
 
 .life-shell .scene-backdrop-content[data-content="conversation"] > .pg-talk {

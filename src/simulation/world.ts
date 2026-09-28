@@ -44,6 +44,10 @@ import {
   publicProgramRecords,
 } from "./public-program-integrity";
 import {
+  assertEnactedDutyIntegrity,
+  enactedDutyRecords,
+} from "./enacted-duty-integrity";
+import {
   assertJobMarketIntegrity,
   jobMarketHistoryRecords,
 } from "./job-market-integrity";
@@ -54,6 +58,9 @@ import {
   taxHistoryRecords,
 } from "./tax-policy";
 import { assertStatutoryTaxIntegrity } from "./statutory-tax";
+import { assertHouseholdLoanIntegrity } from "./household-loans";
+import { assertLawExposureIntegrity } from "./law-exposure";
+import { assertOfficialViewIntegrity } from "./official-view-reads";
 import {
   addDays,
   assertSimulationMoment,
@@ -2063,6 +2070,8 @@ function validateHistoryIntegrity(
     ? delta.appended
     : [
         ...taxHistoryRecords(world),
+        ...(history.lawExposures ?? []),
+        ...(history.officialViews ?? []),
         ...jobMarketHistoryRecords(world),
         ...lifeHistoryRecords(world),
         ...resourceHousingHistoryRecords(world),
@@ -2088,6 +2097,7 @@ function validateHistoryIntegrity(
         ...worldSetupHistoryRecords(world),
         ...crisisRecords(world),
         ...publicProgramRecords(world),
+        ...enactedDutyRecords(world),
         ...(history.districtResidenceIntervals ?? []),
         ...(history.schoolDistrictYears ?? []),
         ...(history.officeWorkflowPreferences ?? []),
@@ -2244,6 +2254,7 @@ function validateHistoryIntegrity(
   assertResourceHousingIntegrity(world, ids);
   assertTaxIntegrity(world, ids);
   assertStatutoryTaxIntegrity(world, ids);
+  assertHouseholdLoanIntegrity(world, ids);
   assertJobMarketIntegrity(world, ids);
   assertPublicPaymentIntegrity(world);
   assertWorldMetricIntegrity(world, ids);
@@ -2266,6 +2277,8 @@ function validateHistoryIntegrity(
   assertPressIntegrity(world, ids);
   for (const record of crisisRecords(world)) assertUniqueId(ids, record.id);
   assertCrisisIntegrity(world);
+  assertLawExposureIntegrity(world, ids);
+  assertOfficialViewIntegrity(world, ids);
   for (const interval of history.districtResidenceIntervals ?? []) {
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {
@@ -2362,6 +2375,7 @@ function validateHistoryIntegrity(
   assertPersonnelIntegrity(world, ids);
   assertWorldSetupIntegrity(world, ids);
   assertPublicProgramIntegrity(world, ids);
+  assertEnactedDutyIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
   assertUniqueStableKeys(history.knowledge, "knowledge");

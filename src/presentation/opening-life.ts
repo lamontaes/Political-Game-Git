@@ -30,6 +30,7 @@ import {
 import { ensureMigrationSchedule } from "../simulation/migration";
 import { migrationTown } from "../simulation/migration/review";
 import { ensureTownSchoolDistrict } from "../simulation/living-world/town-schools";
+import { ensurePaydaySchedule } from "../simulation/living-world/town-pay";
 import { ensureCrimeProduction } from "../simulation/crime";
 import { ensureOpeningJudiciary } from "../simulation/judiciary/opening";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
@@ -209,10 +210,13 @@ function openedWorld(
     ),
     playerPersonId,
   );
-  const scheduled = ensureMigrationSchedule(
-    ensureLocalCouncilMeetings(
-      ensureLocalElectionCalendar(seated, playerPersonId),
-      playerPersonId,
+  // Payday starts with the same opening, so a watched world's jobs pay too.
+  const scheduled = ensurePaydaySchedule(
+    ensureMigrationSchedule(
+      ensureLocalCouncilMeetings(
+        ensureLocalElectionCalendar(seated, playerPersonId),
+        playerPersonId,
+      ),
     ),
   );
   // The town's school district counts its pupils and teachers from the

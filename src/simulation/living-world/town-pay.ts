@@ -1,0 +1,918 @@
+/**
+ * Payday: everyone with a town job is paid, on their employer's own payday.
+ *
+ * Before this, only the person being played and officeholders were ever
+ * paid. A town's jobs (`town-employment.ts`) were recorded as paid work with
+ * no pay behind them.
+ *
+ * What each job pays. Its occupation's wage in its area, from the BLS May
+ * 2025 OEWS tables: the metro or nonmetro area the town's county is in, else
+ * the state, else the nation. Each worker sits inside that distribution by
+ * tenure (`townPayPercentile`), between the 10th and 90th percentile, never
+ * everyone at the median. The hourly rate is the annual wage over a
+ * 2,080-hour year, never below the minimum wage where the job is: the higher
+ * of the federal $7.25 and the state's basic rate. A job whose occupation or
+ * place has no published wage gets no pay on record, and none is invented.
+ *
+ * How often. Governments pay every two weeks (Claude CTO's provisional rule:
+ * the BLS table covers private employers only). A private employer's pay
+ * period is drawn once from the BLS shares for its industry and its size.
+ * Weekly and every-two-weeks pay comes on Fridays; twice a month on the 15th
+ * and the last day; monthly on the last day.
+ *
+ * Who pays. The employer: each paycheck is a transfer from the employing
+ * organization to the worker, and it is assessed through
+ * `assessPaycheckTaxes` exactly as the player's pay is, so Social Security
+ * and Medicare apply to everyone at once.
+ *
+ * A state law that raises the minimum wage raises every town job paid below
+ * it, from the first pay period that begins on or after the law takes effect
+ * (`raiseTownPayToMinimum`). A period already running that day is paid at the
+ * old rate, because a period's pay is fixed when it begins (labeled game
+ * simplification: real pay changes for hours worked from the effective day).
+ *
+ * Cost. One scheduled transition a payday date (Fridays, the 15th and the
+ * last day of each month), each writing all of that day's paychecks.
+ */
+
+import { addDays, daysBetween, makeIsoDate } from "../dates";
+import { scheduleFutureDueItem } from "../future-transitions";
+import {
+  enactedRuleChanges,
+  laborLawOfficeKey,
+  ruleChangeInForce,
+  ruleValueInWorld,
+  type EnactedRuleChange,
+} from "../enacted-rule-changes";
+import { countyGeoidsForPlace } from "../government-units";
+import {
+  currentLifeCutoff,
+  organizationProfileAt,
+  workStatusAt,
+} from "../life-queries";
+import { lifePlaceByJurisdictionId } from "../life-places";
+import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
+import { resourceFlowTermsAt } from "../resource-queries";
+import { SeededRng } from "../rng";
+import {
+  createResourceFlows,
+  money,
+  recordResourceFlowTerms,
+  recordResourceTransferOutcomes,
+  type CreateResourceFlowInput,
+  type RecordResourceTransferOutcomeInput,
+} from "../resources";
+import { assessPaycheckTaxes } from "../statutory-tax";
+import type {
+  EntityId,
+  FutureDueItem,
+  FutureTransitionHandlerResult,
+  IsoDate,
+  OrganizationClassification,
+  ResourceFlowTermsRecord,
+  WorkRelationship,
+  WorkRoleRecord,
+  World,
+} from "../types";
+import { TOWN_EMPLOYMENT_VERSION } from "./town-employment";
+import { TOWN_JOB_SOC } from "./town-job-soc";
+import {
+  FEDERAL_MINIMUM_HOURLY,
+  TOWN_MINIMUM_WAGES,
+  TOWN_PAY_COUNTY_AREAS,
+  TOWN_PAY_META,
+  TOWN_PAY_PERCENTILES,
+  TOWN_PAY_PERIOD_SHARES,
+} from "./town-pay.generated";
+
+export const TOWN_PAY_VERSION = "town-pay-v2";
+export const PAYDAY_TRANSITION_KEY = "living-world:payday" as const;
+
+const PAYDAY_KEY_PREFIX = `${TOWN_PAY_VERSION}:payday:`;
+const PAY_KEY_PREFIX = `${TOWN_PAY_VERSION}:job-pay:`;
+const HOURS_PER_YEAR = 2_080;
+/** A job the game wrote long before pay existed is paid from then on only. */
+const CATCH_UP_LIMIT_DAYS = 400;
+
+export type TownPayPeriod = "weekly" | "biweekly" | "semimonthly" | "monthly";
+
+const PERIOD_OF_BLS: Readonly<Record<string, TownPayPeriod>> = {
+  Weekly: "weekly",
+  Biweekly: "biweekly",
+  Semimonthly: "semimonthly",
+  Monthly: "monthly",
+};
+
+/** Paychecks a year, so a period's pay is the annual rate over this. */
+const PERIODS_PER_YEAR: Readonly<Record<TownPayPeriod, number>> = {
+  weekly: 52,
+  biweekly: 26,
+  semimonthly: 24,
+  monthly: 12,
+};
+
+// ─── Wages ──────────────────────────────────────────────────────────────
+
+const PERCENTILE_POINTS = [10, 25, 50, 75, 90] as const;
+type Cells = readonly (number | null)[];
+
+let wagesBySoc: ReadonlyMap<string, ReadonlyMap<string, Cells>> | null = null;
+function wageTable(): ReadonlyMap<string, ReadonlyMap<string, Cells>> {
+  if (wagesBySoc) return wagesBySoc;
+  const parsed = new Map<string, Map<string, Cells>>();
+  for (const entry of TOWN_PAY_PERCENTILES.split(";")) {
+    const [soc, areas] = entry.split("=") as [string, string];
+    const byArea = new Map<string, Cells>();
+    for (const cell of areas.split(",")) {
+      const [area, values] = cell.split(":") as [string, string];
+      byArea.set(
+        area,
+        values.split("/").map((value) => (value === "" ? null : Number(value))),
+      );
+    }
+    parsed.set(soc, byArea);
+  }
+  return (wagesBySoc = parsed);
+}
+
+let areaByCounty: ReadonlyMap<string, string> | null = null;
+function countyArea(countyFips: string): string | undefined {
+  if (!areaByCounty)
+    areaByCounty = new Map(
+      TOWN_PAY_COUNTY_AREAS.split(";").map(
+        (pair) => pair.split(":") as [string, string],
+      ),
+    );
+  return areaByCounty.get(countyFips);
+}
+
+const TERRITORY_FIPS: Readonly<Record<string, string>> = {
+  "US-AS": "60",
+  "US-GU": "66",
+  "US-MP": "69",
+  "US-PR": "72",
+  "US-VI": "78",
+};
+const NOT_IN_OEWS = new Set(["60", "69"]);
+
+/** The wage areas a job in this place is paid by, most local first. */
+export function townPayAreas(jurisdictionId: EntityId | null): string[] {
+  const place = jurisdictionId
+    ? lifePlaceByJurisdictionId(jurisdictionId)
+    : null;
+  if (!place) return [];
+  const geoid =
+    place.sourceGeoid && /^\d{7}$/.test(place.sourceGeoid)
+      ? place.sourceGeoid
+      : null;
+  const stateFips =
+    geoid?.slice(0, 2) ??
+    TERRITORY_FIPS[place.stateJurisdictionKey ?? ""] ??
+    null;
+  // BLS publishes no wages for American Samoa or the Northern Mariana
+  // Islands: pay there is UNKNOWN, not the nation's.
+  if (!stateFips || NOT_IN_OEWS.has(stateFips)) return [];
+  const areas: string[] = [];
+  const county = geoid ? countyGeoidsForPlace(geoid)[0] : undefined;
+  const area = county ? countyArea(county) : undefined;
+  if (area) areas.push(area);
+  areas.push(`S${stateFips}`, "US");
+  return areas;
+}
+
+/**
+ * GAME ASSUMPTION, labeled: where a worker sits in their occupation's wage
+ * distribution. A new hire starts near the 25th percentile and moves toward
+ * the 75th over 20 years at the employer; a seeded draw for the person moves
+ * that 15 points either way, and the result stays between the 10th and 90th.
+ */
+export function townPayPercentile(tenureYears: number, draw: number): number {
+  const byTenure = 25 + 50 * Math.min(1, Math.max(0, tenureYears) / 20);
+  return Math.min(90, Math.max(10, byTenure + (draw * 2 - 1) * 15));
+}
+
+/** The annual wage at `percentile` in the cells, or null when BLS withheld it. */
+function interpolate(cells: Cells, percentile: number): number | null {
+  for (let i = 0; i + 1 < PERCENTILE_POINTS.length; i += 1) {
+    const low = PERCENTILE_POINTS[i]!;
+    const high = PERCENTILE_POINTS[i + 1]!;
+    if (percentile < low || percentile > high) continue;
+    const a = cells[i];
+    const b = cells[i + 1];
+    if (a === null || a === undefined || b === null || b === undefined)
+      return null;
+    return a + ((b - a) * (percentile - low)) / (high - low);
+  }
+  return null;
+}
+
+/** The state's basic minimum wage, or the federal one; null when unknown. */
+export function townMinimumHourly(
+  jurisdictionId: EntityId | null,
+): number | null {
+  const place = jurisdictionId
+    ? lifePlaceByJurisdictionId(jurisdictionId)
+    : null;
+  const key = place?.stateJurisdictionKey ?? null;
+  if (!key || !(key in TOWN_MINIMUM_WAGES)) return FEDERAL_MINIMUM_HOURLY;
+  const state = TOWN_MINIMUM_WAGES[key];
+  if (state === null || state === undefined) return null;
+  return Math.max(FEDERAL_MINIMUM_HOURLY, state);
+}
+
+/**
+ * The minimum wage in force where the job is on `onDate`: the higher of the
+ * federal $7.25 and the state's rate, where a state law the game enacted
+ * replaces the state's rate from the day it takes effect. Null when the
+ * state's rate is unknown and no enacted law sets one.
+ */
+export function townMinimumHourlyAt(
+  world: World,
+  jurisdictionId: EntityId | null,
+  onDate: IsoDate,
+): number | null {
+  const place = jurisdictionId
+    ? lifePlaceByJurisdictionId(jurisdictionId)
+    : null;
+  const key = place?.stateJurisdictionKey ?? null;
+  if (key && /^US-[A-Z]{2}$/.test(key)) {
+    const law = ruleValueInWorld(
+      world,
+      {
+        jurisdiction: key,
+        officeKey: laborLawOfficeKey(key.slice(3)),
+        field: "labor.minimumWage.hourlyCents",
+        onDate,
+      },
+      null,
+    );
+    if (law.source === "enacted" && typeof law.value === "number")
+      return Math.max(FEDERAL_MINIMUM_HOURLY, law.value / 100);
+  }
+  return townMinimumHourly(jurisdictionId);
+}
+
+export interface TownJobRate {
+  readonly soc: string;
+  readonly area: string;
+  readonly percentile: number;
+  /** Cents an hour, after the minimum-wage floor. */
+  readonly hourlyMinor: number;
+  readonly floored: boolean;
+}
+
+/**
+ * What a job classified as `occupation` in `jurisdictionId` pays an hour for
+ * a worker at `percentile`; null when no published wage covers it.
+ */
+export function townJobRate(
+  occupation: string | null,
+  jurisdictionId: EntityId | null,
+  percentile: number,
+  minimum: number | null = townMinimumHourly(jurisdictionId),
+): TownJobRate | null {
+  const soc = occupation ? TOWN_JOB_SOC[occupation] : undefined;
+  const byArea = soc ? wageTable().get(soc) : undefined;
+  if (!soc || !byArea) return null;
+  if (minimum === null) return null;
+  for (const area of townPayAreas(jurisdictionId)) {
+    const cells = byArea.get(area);
+    const annual = cells ? interpolate(cells, percentile) : null;
+    if (annual === null) continue;
+    const hourly = annual / HOURS_PER_YEAR;
+    return {
+      soc,
+      area,
+      percentile,
+      hourlyMinor: Math.round(Math.max(hourly, minimum) * 100),
+      floored: hourly < minimum,
+    };
+  }
+  return null;
+}
+
+// ─── Paydays ────────────────────────────────────────────────────────────
+
+const GOVERNMENT_CLASSIFICATIONS = new Set<string>([
+  "sector:federal-government-office",
+  "sector:state-government-office",
+  "sector:local-government-office",
+  "service:fire",
+  "service:police",
+  "service:public-health",
+  "service:school",
+]);
+
+/** GAME ASSUMPTION, labeled: the BLS industry each kind of employer is in. */
+const INDUSTRY_OF: Readonly<Record<string, string>> = {
+  "enterprise:agriculture": "Mining and logging",
+  "enterprise:mining": "Mining and logging",
+  "enterprise:construction": "Construction",
+  "enterprise:manufacturing": "Manufacturing",
+  "enterprise:retail": "Trade, transportation, and utilities",
+  "enterprise:wholesale": "Trade, transportation, and utilities",
+  "enterprise:transportation": "Trade, transportation, and utilities",
+  "enterprise:utility": "Trade, transportation, and utilities",
+  "enterprise:telecommunications": "Information",
+  "enterprise:banking": "Financial activities",
+  "enterprise:insurance": "Financial activities",
+  "enterprise:real-estate": "Financial activities",
+  "enterprise:professional-services": "Professional and business services",
+  "enterprise:corporate-office": "Professional and business services",
+  "enterprise:building-services": "Professional and business services",
+  "enterprise:political-consulting": "Professional and business services",
+  "service:clinic": "Education and health services",
+  "service:hospital": "Education and health services",
+  "service:nursing-home": "Education and health services",
+  "service:private-school": "Education and health services",
+  "enterprise:food-service": "Leisure and hospitality",
+  "enterprise:lodging": "Leisure and hospitality",
+  "enterprise:recreation": "Leisure and hospitality",
+  "enterprise:repair": "Other services",
+  "enterprise:personal-services": "Other services",
+  "community:congregation": "Other services",
+  "community:organizing-nonprofit": "Other services",
+  "membership:labor-union": "Other services",
+  "membership:party-chapter": "Other services",
+};
+
+function sizeGroup(staff: number): string {
+  if (staff < 10) return "1–9";
+  if (staff < 20) return "10–19";
+  if (staff < 50) return "20–49";
+  if (staff < 100) return "50–99";
+  if (staff < 250) return "100–249";
+  if (staff < 500) return "250–499";
+  if (staff < 1000) return "500–999";
+  return "1,000+";
+}
+
+/**
+ * An employer's pay period. Governments: every two weeks. A private employer:
+ * drawn once, seeded by the organization, from the BLS shares for its
+ * industry and its size combined as if independent (each share over the
+ * all-private share), a labeled simplification.
+ */
+export function townPayPeriod(
+  world: World,
+  organizationId: EntityId,
+  classification: OrganizationClassification | string,
+  staff: number,
+): TownPayPeriod {
+  if (GOVERNMENT_CLASSIFICATIONS.has(classification)) return "biweekly";
+  const overall = TOWN_PAY_PERIOD_SHARES["overall|all private establishments"]!;
+  const industry = INDUSTRY_OF[classification];
+  const byIndustry = industry
+    ? TOWN_PAY_PERIOD_SHARES[`industry|${industry}`]
+    : undefined;
+  const bySize =
+    TOWN_PAY_PERIOD_SHARES[`establishment-size|${sizeGroup(staff)}`];
+  const weights = Object.keys(PERIOD_OF_BLS).map((name) => {
+    const base = overall[name] ?? 0;
+    const weight =
+      base <= 0
+        ? 0
+        : ((byIndustry?.[name] ?? base) * (bySize?.[name] ?? base)) / base;
+    return [name, weight] as const;
+  });
+  const total = weights.reduce((sum, [, weight]) => sum + weight, 0);
+  let roll =
+    new SeededRng(world.seed)
+      .fork(`${TOWN_PAY_VERSION}:period:${organizationId}`)
+      .next() * total;
+  for (const [name, weight] of weights) {
+    roll -= weight;
+    if (roll < 0) return PERIOD_OF_BLS[name]!;
+  }
+  return "biweekly";
+}
+
+function weekday(date: IsoDate): number {
+  return new Date(`${date}T00:00:00Z`).getUTCDay();
+}
+
+function lastDayOfMonth(date: IsoDate): IsoDate {
+  const [year, month] = date.split("-").map(Number) as [number, number];
+  const last = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  return makeIsoDate(
+    `${year}-${String(month).padStart(2, "0")}-${String(last).padStart(2, "0")}`,
+  );
+}
+
+/** Whether `date` is a payday for a period, and the period it closes. */
+export function payPeriodEndingOn(
+  period: TownPayPeriod,
+  date: IsoDate,
+  phase: number,
+): { readonly startsAt: IsoDate; readonly endsAt: IsoDate } | null {
+  if (period === "weekly" || period === "biweekly") {
+    if (weekday(date) !== 5) return null;
+    if (period === "biweekly") {
+      const weeks = Math.floor(
+        daysBetween(makeIsoDate("2000-01-07"), date) / 7,
+      );
+      if ((weeks + phase) % 2 !== 0) return null;
+    }
+    return {
+      startsAt: addDays(date, period === "weekly" ? -6 : -13),
+      endsAt: date,
+    };
+  }
+  const last = lastDayOfMonth(date);
+  const day = Number(date.slice(8, 10));
+  if (period === "semimonthly" && day === 15)
+    return { startsAt: makeIsoDate(`${date.slice(0, 8)}01`), endsAt: date };
+  if (date !== last) return null;
+  return {
+    startsAt:
+      period === "semimonthly"
+        ? makeIsoDate(`${date.slice(0, 8)}16`)
+        : makeIsoDate(`${date.slice(0, 8)}01`),
+    endsAt: date,
+  };
+}
+
+/** The next date after `date` that is any employer's payday. */
+export function nextPaydayDate(date: IsoDate): IsoDate {
+  for (let n = 1; n <= 7; n += 1) {
+    const next = addDays(date, n);
+    if (
+      weekday(next) === 5 ||
+      next.slice(8, 10) === "15" ||
+      next === lastDayOfMonth(next)
+    )
+      return next;
+  }
+  throw new Error("No payday within a week.");
+}
+
+// ─── Schedule ───────────────────────────────────────────────────────────
+
+/** Schedules the first payday for a life opened at the current version. Idempotent. */
+export function ensurePaydaySchedule(world: World): World {
+  if (
+    world.history.futureDueItems.some((item) =>
+      item.stableKey.startsWith(PAYDAY_KEY_PREFIX),
+    )
+  )
+    return world;
+  return scheduleFutureDueItem(world, {
+    stableKey: `${PAYDAY_KEY_PREFIX}${world.currentDate}`,
+    dueAt: nextPaydayDate(world.currentDate),
+    transitionKey: PAYDAY_TRANSITION_KEY,
+    entityIds: [world.id],
+    jurisdictionId: null,
+    provenance: { kind: "initialization", reference: TOWN_PAY_VERSION },
+  });
+}
+
+export function paydayHandler(
+  world: World,
+  dueItem: FutureDueItem,
+): FutureTransitionHandlerResult {
+  if (dueItem.transitionKey !== PAYDAY_TRANSITION_KEY)
+    throw new Error("Payday received another transition.");
+  const since = makeIsoDate(dueItem.stableKey.slice(PAYDAY_KEY_PREFIX.length));
+  const played =
+    world.control.kind === "person" ? world.control.personId : null;
+  let next = startTownJobPay(world, played, since);
+  next = raiseTownPayToMinimum(next, played);
+  next = payTownPaydays(next, since, played);
+  next = scheduleFutureDueItem(next, {
+    stableKey: `${PAYDAY_KEY_PREFIX}${next.currentDate}`,
+    dueAt: nextPaydayDate(next.currentDate),
+    transitionKey: PAYDAY_TRANSITION_KEY,
+    entityIds: [next.id],
+    jurisdictionId: null,
+    provenance: { kind: "simulated", sourceEntityIds: [next.id] },
+  });
+  return {
+    world: next,
+    status: "resolved",
+    reasonKey: "payday:paid",
+    context: null,
+    outcomeEventId: null,
+  };
+}
+
+export const PAYDAY_HANDLERS = [
+  [PAYDAY_TRANSITION_KEY, paydayHandler],
+] as const;
+
+// ─── Pay on record ──────────────────────────────────────────────────────
+
+function statusOn(world: World, workId: EntityId, date: IsoDate) {
+  return workStatusAt(world, workId, {
+    ...currentLifeCutoff(world),
+    asOfDate: date,
+  });
+}
+
+/** The day a job's last active day was, or null while it is still held. */
+function lastDayWorked(world: World, workId: EntityId): IsoDate | null {
+  const status = statusOn(world, workId, world.currentDate);
+  if (!status || status.status === "active") return null;
+  return addDays(status.effectiveAt, -1);
+}
+
+/** The day each person died, for everyone who has. */
+function deathDates(world: World): ReadonlyMap<EntityId, IsoDate> {
+  const dates = new Map<EntityId, IsoDate>();
+  for (const death of world.history.personDeaths)
+    dates.set(death.personId, death.diedAt);
+  return dates;
+}
+
+function latestRoles(world: World): ReadonlyMap<EntityId, WorkRoleRecord> {
+  const roles = new Map<EntityId, WorkRoleRecord>();
+  for (const role of world.history.workRoles)
+    roles.set(role.workRelationshipId, role);
+  return roles;
+}
+
+/** The hours a week a town job is paid for. */
+function weeklyHoursOf(role: WorkRoleRecord): number {
+  const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
+  return (minimumHours + maximumHours) / 2;
+}
+
+/** Every town pay flow's terms, oldest first. */
+function termsByPayFlow(
+  world: World,
+): ReadonlyMap<EntityId, readonly ResourceFlowTermsRecord[]> {
+  const pay = new Set(
+    world.history.resourceFlows
+      .filter((flow) => flow.stableKey.startsWith(PAY_KEY_PREFIX))
+      .map((flow) => flow.id),
+  );
+  const byFlow = new Map<EntityId, ResourceFlowTermsRecord[]>();
+  for (const record of world.history.resourceFlowTerms) {
+    if (!pay.has(record.resourceFlowId)) continue;
+    const list = byFlow.get(record.resourceFlowId) ?? [];
+    list.push(record);
+    byFlow.set(record.resourceFlowId, list);
+  }
+  return byFlow;
+}
+
+/** The terms in force on `date`: the latest that took effect by then. */
+function termsOn(
+  history: readonly ResourceFlowTermsRecord[],
+  date: IsoDate,
+): ResourceFlowTermsRecord | undefined {
+  for (let index = history.length - 1; index >= 0; index -= 1)
+    if (history[index]!.effectiveAt <= date) return history[index];
+  return undefined;
+}
+
+interface PayNote {
+  readonly period: TownPayPeriod;
+  readonly phase: number;
+}
+
+/** What a pay flow's cadence says about its paydays. */
+function payNoteOf(cadenceKind: string): PayNote | null {
+  const match =
+    /^schedule:town-(weekly|biweekly|semimonthly|monthly)(?:-(\d))?$/.exec(
+      cadenceKind,
+    );
+  if (!match) return null;
+  return {
+    period: match[1] as TownPayPeriod,
+    phase: Number(match[2] ?? 0),
+  };
+}
+
+/**
+ * Gives every town job with no pay on record its pay, from `since` or the
+ * day it started, whichever is later: nobody is paid years of back wages for
+ * a job the game wrote before pay existed.
+ */
+export function startTownJobPay(
+  world: World,
+  exceptPersonId: EntityId | null,
+  since: IsoDate,
+): World {
+  const paid = new Set<EntityId>();
+  for (const flow of world.history.resourceFlows)
+    if (flow.basisReference.kind === "work")
+      paid.add(flow.basisReference.workRelationshipId);
+  const roles = latestRoles(world);
+  const dead = deathDates(world);
+  // An employer's size counts everyone it employs in town, paid yet or not.
+  const staff = new Map<EntityId, number>();
+  const candidates: WorkRelationship[] = [];
+  for (const work of world.history.workRelationships) {
+    if (
+      !work.stableKey.startsWith(`${TOWN_EMPLOYMENT_VERSION}:`) ||
+      work.compensation !== "paid" ||
+      !work.organizationId ||
+      statusOn(world, work.id, world.currentDate)?.status !== "active"
+    )
+      continue;
+    staff.set(work.organizationId, (staff.get(work.organizationId) ?? 0) + 1);
+    if (
+      work.personId === exceptPersonId ||
+      paid.has(work.id) ||
+      dead.has(work.personId)
+    )
+      continue;
+    candidates.push(work);
+  }
+  const inputs: CreateResourceFlowInput[] = [];
+  // An employer keeps the payday its workers already have.
+  const periods = new Map<EntityId, TownPayPeriod>();
+  for (const flow of world.history.resourceFlows) {
+    if (
+      !flow.stableKey.startsWith(PAY_KEY_PREFIX) ||
+      flow.source.kind !== "organization"
+    )
+      continue;
+    const terms = resourceFlowTermsAt(world, flow.id);
+    const note = terms ? payNoteOf(terms.cadenceKind) : null;
+    if (note) periods.set(flow.source.organizationId, note.period);
+  }
+  for (const work of candidates) {
+    const role = roles.get(work.id);
+    if (!role) continue;
+    // A job held before `since` is paid from the period that was running
+    // then; a later hire from the day it starts.
+    const earliest = addDays(since, -31);
+    const formedAt =
+      world.history.organizations.find(
+        (organization) => organization.id === work.organizationId,
+      )?.formedAt ?? work.startedAt;
+    const startsAt = [work.startedAt, earliest, formedAt].reduce((a, b) =>
+      a > b ? a : b,
+    );
+    const tenure = daysBetween(work.startedAt, startsAt) / 365.25;
+    const draw = new SeededRng(world.seed)
+      .fork(`${TOWN_PAY_VERSION}:place:${work.personId}`)
+      .next();
+    const rate = townJobRate(
+      role.occupationClassification,
+      role.locationJurisdictionId,
+      townPayPercentile(tenure, draw),
+      // The floor on the first day paid; a later rise is recorded as a raise.
+      townMinimumHourlyAt(world, role.locationJurisdictionId, startsAt),
+    );
+    if (!rate) continue;
+    const organizationId = work.organizationId!;
+    let period = periods.get(organizationId);
+    if (!period) {
+      const profile = organizationProfileAt(world, organizationId);
+      period = townPayPeriod(
+        world,
+        organizationId,
+        profile?.classification ?? "",
+        staff.get(organizationId) ?? 1,
+      );
+      periods.set(organizationId, period);
+    }
+    const phase =
+      period === "biweekly"
+        ? Math.floor(
+            new SeededRng(world.seed)
+              .fork(`${TOWN_PAY_VERSION}:phase:${organizationId}`)
+              .next() * 2,
+          )
+        : 0;
+    const weeklyHours = weeklyHoursOf(role);
+    const perPeriod = Math.round(
+      (rate.hourlyMinor * weeklyHours * 52) / PERIODS_PER_YEAR[period],
+    );
+    if (perPeriod <= 0) continue;
+    inputs.push({
+      stableKey: `${PAY_KEY_PREFIX}${work.id}`,
+      source: { kind: "organization", organizationId },
+      recipient: { kind: "person", personId: work.personId },
+      startsAt,
+      amount: money(perPeriod, "USD"),
+      cadenceKind: `schedule:town-${period}${period === "biweekly" ? `-${phase}` : ""}`,
+      basisKind: "compensation:work",
+      basisReference: { kind: "work", workRelationshipId: work.id },
+      restrictionKind: null,
+      jurisdictionId: null,
+      provenance: {
+        kind: "authored",
+        note: `${TOWN_PAY_VERSION}: $${(rate.hourlyMinor / 100).toFixed(2)} an hour${rate.floored ? " (the minimum wage)" : ""} for ${weeklyHours} hours a week, paid ${period}; the ${Math.round(rate.percentile)}th percentile for SOC ${rate.soc} in OEWS area ${rate.area} (${TOWN_PAY_META.wages}).`,
+      },
+    });
+  }
+  return createResourceFlows(world, inputs);
+}
+
+/** Enacted minimum-wage changes by state postal code, in operative order. */
+function minimumWageLaws(
+  world: World,
+): ReadonlyMap<string, readonly EnactedRuleChange[]> {
+  const byState = new Map<string, EnactedRuleChange[]>();
+  for (const change of enactedRuleChanges(world)) {
+    if (change.field !== "labor.minimumWage.hourlyCents") continue;
+    const list = byState.get(change.stateUsps) ?? [];
+    list.push(change);
+    byState.set(change.stateUsps, list);
+  }
+  return byState;
+}
+
+/**
+ * Raises every town job paid below the minimum wage in force, from the first
+ * pay period that begins on or after the day a law raised it and after the
+ * last period already paid. Each rise between the last paycheck and today is
+ * recorded in turn, and each names its law. A law that lowers or repeals the
+ * rate cuts nobody's pay. Run before paying, so the period is paid at the new
+ * rate.
+ *
+ * NOT MODELED: back pay. A law whose effective date comes before the day it
+ * was recorded raises pay from the first period after it was recorded.
+ */
+export function raiseTownPayToMinimum(
+  world: World,
+  exceptPersonId: EntityId | null,
+): World {
+  const laws = minimumWageLaws(world);
+  // Only a law can move the floor after pay began.
+  if (laws.size === 0) return world;
+  const recordedOn = new Map<EntityId, IsoDate>();
+  const eventOf = new Map<EntityId, EntityId>();
+  for (const enactment of world.history.legislativeEnactments ?? []) {
+    recordedOn.set(enactment.measureId, enactment.resolvedAt);
+    eventOf.set(enactment.measureId, enactment.outcomeEventId);
+  }
+  const roles = latestRoles(world);
+  const termsByFlow = termsByPayFlow(world);
+  const lastPaid = new Map<EntityId, IsoDate>();
+  for (const outcome of world.history.resourceTransferOutcomes) {
+    if (!termsByFlow.has(outcome.resourceFlowId)) continue;
+    const previous = lastPaid.get(outcome.resourceFlowId);
+    if (!previous || previous < outcome.periodEndsAt)
+      lastPaid.set(outcome.resourceFlowId, outcome.periodEndsAt);
+  }
+  let next = world;
+  for (const flow of world.history.resourceFlows) {
+    if (
+      !flow.stableKey.startsWith(PAY_KEY_PREFIX) ||
+      flow.basisReference.kind !== "work" ||
+      (flow.recipient.kind === "person" &&
+        flow.recipient.personId === exceptPersonId)
+    )
+      continue;
+    const role = roles.get(flow.basisReference.workRelationshipId);
+    const place = role?.locationJurisdictionId
+      ? lifePlaceByJurisdictionId(role.locationJurisdictionId)
+      : null;
+    const stateKey = place?.stateJurisdictionKey ?? "";
+    const stateLaws = laws.get(stateKey.replace(/^US-/, ""));
+    if (!role || !stateLaws) continue;
+    let current = termsByFlow.get(flow.id)?.at(-1);
+    const note = current ? payNoteOf(current.cadenceKind) : null;
+    if (!current || current.status !== "active" || !note) continue;
+    const weeklyHours = weeklyHoursOf(role);
+    // The first period that begins after the current terms and the last
+    // paycheck, within one transition's catch-up.
+    const after = [
+      current.effectiveAt,
+      lastPaid.get(flow.id) ?? current.effectiveAt,
+      addDays(world.currentDate, -CATCH_UP_LIMIT_DAYS),
+    ].reduce((a, b) => (a > b ? a : b));
+    for (
+      let day = addDays(after, 1);
+      day <= world.currentDate;
+      day = addDays(day, 1)
+    ) {
+      if (!payPeriodEndingOn(note.period, addDays(day, -1), note.phase))
+        continue;
+      const law = ruleChangeInForce(
+        stateLaws.filter(
+          (change) =>
+            change.operativeAt <= day &&
+            (recordedOn.get(change.measureId) ?? change.operativeAt) <= day,
+        ),
+      );
+      if (!law || typeof law.value !== "number") continue;
+      const hourly = Math.max(FEDERAL_MINIMUM_HOURLY, law.value / 100);
+      // The same arithmetic as a new job's pay, so a job hired at the floor
+      // is never "raised" by a cent of rounding.
+      const amount = Math.round(
+        (Math.round(hourly * 100) * weeklyHours * 52) /
+          PERIODS_PER_YEAR[note.period],
+      );
+      if (amount <= current.amount.minorUnits) continue;
+      const event = eventOf.get(law.measureId);
+      const rate = `$${hourly.toFixed(2)} an hour`;
+      next = recordResourceFlowTerms(next, {
+        stableKey: `${flow.stableKey}:minimum-wage:${day}`,
+        resourceFlowId: flow.id,
+        effectiveAt: day,
+        status: "active",
+        amount: money(amount, current.amount.currency),
+        cadenceKind: current.cadenceKind,
+        reason: `${law.designation} raised the state minimum wage to ${rate}.`,
+        provenance: event
+          ? { kind: "simulated-event", eventId: event }
+          : {
+              kind: "authored",
+              note: `${TOWN_PAY_VERSION}: raised to the minimum wage ${law.designation} set, ${rate}.`,
+            },
+        supersedesTermsId: current.id,
+      });
+      current = next.history.resourceFlowTerms.at(-1)!;
+    }
+  }
+  return next;
+}
+
+/**
+ * Pays every town job's paydays that fell after `since`, up to today. A
+ * period is paid only when the job was held all of it.
+ * Each paycheck is assessed for payroll taxes as the player's is.
+ */
+export function payTownPaydays(
+  world: World,
+  since: IsoDate,
+  exceptPersonId: EntityId | null,
+): World {
+  const flows = world.history.resourceFlows.filter(
+    (flow) =>
+      flow.stableKey.startsWith(PAY_KEY_PREFIX) &&
+      flow.recipient.kind === "person" &&
+      flow.recipient.personId !== exceptPersonId,
+  );
+  if (flows.length === 0) return world;
+  const already = new Set(
+    world.history.resourceTransferOutcomes.map((outcome) => outcome.stableKey),
+  );
+  const earliest =
+    daysBetween(since, world.currentDate) > CATCH_UP_LIMIT_DAYS
+      ? addDays(world.currentDate, -CATCH_UP_LIMIT_DAYS)
+      : since;
+  const dead = deathDates(world);
+  const termsByFlow = termsByPayFlow(world);
+  const inputs: RecordResourceTransferOutcomeInput[] = [];
+  const recipients = new Set<EntityId>();
+  for (const flow of flows) {
+    if (flow.basisReference.kind !== "work") continue;
+    const history = termsByFlow.get(flow.id) ?? [];
+    const current = termsOn(history, world.currentDate);
+    const note = current ? payNoteOf(current.cadenceKind) : null;
+    if (!current || current.status !== "active" || !note) continue;
+    const workId = flow.basisReference.workRelationshipId;
+    // A worker who died is paid through the day before; the job itself is
+    // ended at the town's next quarterly review.
+    const worked = lastDayWorked(world, workId);
+    const died = dead.get((flow.recipient as { personId: EntityId }).personId);
+    const lastDay =
+      died !== undefined && (worked === null || addDays(died, -1) < worked)
+        ? addDays(died, -1)
+        : worked;
+    for (
+      let payday = addDays(earliest, 1);
+      payday <= world.currentDate;
+      payday = addDays(payday, 1)
+    ) {
+      const window = payPeriodEndingOn(note.period, payday, note.phase);
+      if (!window) continue;
+      // GAME SIMPLIFICATION, labeled: a period is paid when the job was held
+      // all of it, so a new hire's first part-period and a leaver's last one
+      // go unpaid, and so does a payday falling on the day the game opens.
+      if (window.startsAt < flow.startsAt) continue;
+      if (lastDay !== null && lastDay < window.endsAt) continue;
+      const stableKey = `${flow.stableKey}:${window.startsAt}`;
+      if (already.has(stableKey)) continue;
+      // A raise takes effect on the first day of a period, and a period is
+      // paid at the terms in force the day it began.
+      const terms = termsOn(history, window.startsAt);
+      if (!terms || terms.status !== "active") continue;
+      inputs.push({
+        stableKey,
+        resourceFlowId: flow.id,
+        periodStartsAt: window.startsAt,
+        periodEndsAt: window.endsAt,
+        occurredAt: payday,
+        status: "completed",
+        attemptedAmount: terms.amount,
+        transferredAmount: terms.amount,
+        reasonKind: null,
+        note: "Pay for the period.",
+        provenance: flow.provenance,
+      });
+      recipients.add((flow.recipient as { personId: EntityId }).personId);
+    }
+  }
+  if (inputs.length === 0) return world;
+  let next = world;
+  for (const personId of recipients)
+    next = ensureLifePathPersonalPosition(
+      next,
+      personId,
+      money(0, "USD").currency,
+    );
+  const first = next.history.resourceTransferOutcomes.length;
+  next = recordResourceTransferOutcomes(next, inputs);
+  const ids = next.history.resourceTransferOutcomes
+    .slice(first)
+    .map((outcome) => outcome.id);
+  for (const id of ids) next = assessPaycheckTaxes(next, id);
+  return next;
+}

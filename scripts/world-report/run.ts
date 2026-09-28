@@ -1496,6 +1496,18 @@ export function neverChecks(
         row.locationJurisdictionId === reader.placeJurisdictionId &&
         !String(row.classification ?? "").startsWith("membership:"),
     );
+  // Businesses, congregations and clubs that closed, with the jobs that
+  // ended because they did.
+  const closedOrganizations = reader
+    .added("organizationProfiles")
+    .filter(
+      (row) =>
+        row.closed !== undefined &&
+        row.locationJurisdictionId === reader.placeJurisdictionId,
+    );
+  const closedJobs = lostJobs.filter((row) =>
+    /^labor:(business|congregation|club)-closed$/.test(String(row.reason)),
+  );
   const placeHazards = reader.newEvents.filter(
     (event) =>
       event.type === "crisis.hazard-occurred" &&
@@ -1676,6 +1688,13 @@ export function neverChecks(
       `A new organization opened in ${place}.`,
       newOrganizations.length > 0,
       `${count(newOrganizations.length, "new organization")} located in ${place}, not counting party units${newOrganizations.length ? ` (${list(newOrganizations.map((row) => `${row.name as string}, ${row.classification as string}`))})` : ""}.`,
+    ),
+    check(
+      "closed-organization",
+      `No business, church or club closed in ${place}.`,
+      `A business, church or club closed in ${place}.`,
+      closedOrganizations.length > 0,
+      `${count(closedOrganizations.length, "closing")} in ${place}, and ${count(closedJobs.length, "job")} ended with them${closedOrganizations.length ? ` (${list(closedOrganizations.map((row) => `${row.name as string}, ${(row.closed as { reason: string }).reason}`))})` : ""}.`,
     ),
     check(
       "housing",

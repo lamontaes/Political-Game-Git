@@ -1,0 +1,3990 @@
+{
+  "about": "Specs 12, 13, 14, 15, 17 and 19 of 04 SYSTEM SPECS: which body at which level may turn each dial, within what limits, and whether that is sourced, a labeled game profile, or UNKNOWN with the research question that would settle it. may is yes, no, limited, varies by state, or UNKNOWN. UNKNOWN is never permission and never zero. A cell marked sourced cites the research file it rests on; for federal, state and D.C. cells that is usually the general grant of legislative power, and a per-state detail inside the cited file still decides each place. currentRule UNKNOWN means the power is known but the rule in force is not.",
+  "measuredAt": {
+    "main": "c9e9a672"
+  },
+  "levels": [
+    "federal",
+    "state",
+    "dc",
+    "territory",
+    "county",
+    "city",
+    "school-district",
+    "special-district"
+  ],
+  "whoActsByDefault": {
+    "federal": "Congress by statute, signed by the President or passed over a veto",
+    "state": "the legislature by statute, signed by the governor or passed over a veto; voters by initiative where the state allows it",
+    "dc": "the D.C. Council by act, signed by the Mayor, then 30 days of congressional review (60 for criminal law)",
+    "territory": "the territorial legislature, signed by the governor",
+    "county": "the county governing body by ordinance or resolution, where the state lets counties legislate",
+    "city": "the city council by ordinance, with the mayor's signature or over a veto where the charter gives one",
+    "school-district": "the school board, often with voter approval for a levy",
+    "special-district": "the district board, within its enabling statute"
+  },
+  "areas": {
+    "01": "Infrastructure",
+    "02": "Healthcare",
+    "03": "Education",
+    "04": "Taxes and public finance",
+    "05": "Assistance and social insurance",
+    "06": "Housing and land use",
+    "07": "Labor and employment",
+    "08": "Business and economic development",
+    "09": "Energy and environment",
+    "10": "Justice and public safety",
+    "11": "Government and democracy",
+    "12": "Rights, family and consumer protection",
+    "13": "Science, technology and communications",
+    "14": "Agriculture and food",
+    "15": "Parks, culture and community life",
+    "16": "Immigration and citizenship",
+    "17": "Defense and veterans",
+    "18": "Foreign affairs and trade"
+  },
+  "routes": [
+    {
+      "id": "statute",
+      "what": "A law passed by the legislature or council",
+      "levers": "all six levers",
+      "undoneBy": null
+    },
+    {
+      "id": "executive-order",
+      "what": "An executive order or directive within the executive's authority",
+      "levers": "rule, structure, process; never money",
+      "undoneBy": "Courts can block it; a later executive can revoke it"
+    },
+    {
+      "id": "regulation",
+      "what": "An agency rule under a law: notice, comment, then an effective date",
+      "levers": "rule, rate where the law delegates it, process",
+      "undoneBy": "Courts can strike it; the legislature can override it"
+    },
+    {
+      "id": "enforcement-priority",
+      "what": "What an agency chooses to pursue",
+      "levers": "rule (enforcement only)",
+      "undoneBy": "The next executive can change it"
+    },
+    {
+      "id": "spending-timing",
+      "what": "When appropriated money is spent, and impoundment fights",
+      "levers": "money (timing only, within the appropriation)",
+      "undoneBy": "Courts and the legislature"
+    },
+    {
+      "id": "emergency",
+      "what": "An emergency declaration and its powers",
+      "levers": "rule, structure, process for its term",
+      "undoneBy": "Ends by its own terms or by the legislature, per state"
+    },
+    {
+      "id": "pardon",
+      "what": "Pardons and commutations",
+      "levers": "rule (for one person)",
+      "undoneBy": "Cannot be undone"
+    },
+    {
+      "id": "appointment",
+      "what": "Appointments, confirmations and firings",
+      "levers": "structure",
+      "undoneBy": "The confirming body; removal rules"
+    },
+    {
+      "id": "court-ruling",
+      "what": "Court rulings and injunctions",
+      "levers": "any lever: a ruling can halt or revive a law",
+      "undoneBy": "A higher court; a constitutional amendment"
+    },
+    {
+      "id": "ballot-measure",
+      "what": "Initiatives and referendums where a state or city allows them",
+      "levers": "all six levers",
+      "undoneBy": "A later measure; courts"
+    },
+    {
+      "id": "bully-pulpit",
+      "what": "Public persuasion through the press channels of section 18",
+      "levers": "none directly; moves views and votes",
+      "undoneBy": "None"
+    }
+  ],
+  "newResearchQuestions": {
+    "subject-preemption-inventory-56-places": "For every state, D.C. and the territories: which subjects the state preempts for counties and cities (firearms, minimum wage, rent, plastic bags, taxes, fluoride, policing and others), each with its statute and date, UNKNOWN where not found.",
+    "school-district-and-special-district-powers": "For every state: what school districts and special districts may levy, borrow and rule on, and when voters must approve.",
+    "state-labor-rules-overtime-leave-bargaining": "Each state's overtime rules (weekly and daily), paid sick and family leave, predictive scheduling, child labor, right-to-work, public-sector bargaining and non-compete limits, from DOL and NCSL.",
+    "rights-and-social-issues-by-state": "Each state's current rule on marriage, abortion, guns, marijuana, the death penalty, nondiscrimination and religious liberty, verified against statute, plus opinion history by age and religion for calibration.",
+    "immigration-state-policies": "The immigrant population by status and state, the refugee ceiling and admissions, each state's cooperation, license, tuition, benefit and E-Verify rules, and enforcement counts."
+  },
+  "dials": [
+    {
+      "id": "income-tax",
+      "area": "04",
+      "name": "Income tax: brackets, rates, deductions, credits",
+      "lever": "rate",
+      "carries": "each place's income-tax schedule on the tax record",
+      "spec": "2",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution (some cap or bar an income tax)",
+          "source": "data/research/money/state-income-tax-2026.json",
+          "note": "2026 single-filer brackets for every state and D.C.; married and head-of-household schedules UNKNOWN"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act bars taxing nonresidents' D.C. income",
+          "source": "docs/research/requests/who-pays-which-taxes-56-places.json"
+        },
+        "territory": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Guam and the Virgin Islands mirror the federal code; Puerto Rico, American Samoa and the Northern Mariana Islands have their own",
+          "source": "docs/research/requests/who-pays-which-taxes-56-places.json"
+        },
+        "county": {
+          "may": "varies by state",
+          "status": "sourced",
+          "limits": "State framework for local taxing and borrowing",
+          "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json#local_income_payroll_tax_authority",
+          "note": "Local income or payroll tax: prohibited in 37 states, general in 7, specific cities in 4, piggyback in 2"
+        },
+        "city": {
+          "may": "varies by state",
+          "status": "sourced",
+          "limits": "State framework for local taxing and borrowing",
+          "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json#local_income_payroll_tax_authority",
+          "note": "As for counties; which cities levy one is in docs/research/requests/which-local-governments-can-tax-income.json"
+        },
+        "school-district": {
+          "may": "varies by state",
+          "status": "sourced",
+          "limits": "Ohio and Pennsylvania school districts levy earned-income taxes",
+          "source": "docs/research/requests/which-local-governments-can-tax-income.json"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "sales-tax",
+      "area": "04",
+      "name": "Sales tax: rate and base",
+      "lever": "rate",
+      "carries": "the sales-tax rate and taxable base",
+      "spec": "2",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "source": "docs/research/requests/who-pays-which-taxes-56-places.json",
+          "question": "inhabited-territories-government-and-statehood"
+        },
+        "county": {
+          "may": "varies by state",
+          "status": "sourced",
+          "limits": "State framework for local taxing and borrowing",
+          "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json#local_sales_tax_authority",
+          "note": "Local sales tax: permitted in 30 states, lodging or resort only in 9, prohibited in 11"
+        },
+        "city": {
+          "may": "varies by state",
+          "status": "sourced",
+          "limits": "State framework for local taxing and borrowing",
+          "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json#local_sales_tax_authority",
+          "note": "As for counties"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "varies by state",
+          "status": "UNKNOWN",
+          "question": "school-district-and-special-district-powers",
+          "note": "Transit and stadium districts levy sales taxes in some states"
+        }
+      }
+    },
+    {
+      "id": "property-tax",
+      "area": "04",
+      "name": "Property tax: rate, assessment, caps and exemptions",
+      "lever": "rate",
+      "carries": "levy rate, assessed values and caps",
+      "spec": "2",
+      "levels": {
+        "federal": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "Direct-tax apportionment rule (Article I, Section 9)",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "varies by state",
+          "status": "sourced",
+          "limits": "State framework for local taxing and borrowing",
+          "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json#property_tax_authority_and_limits",
+          "note": "Millage setting body, rate caps and levy growth caps, 50 states"
+        },
+        "city": {
+          "may": "varies by state",
+          "status": "sourced",
+          "limits": "State framework for local taxing and borrowing",
+          "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json#property_tax_authority_and_limits",
+          "note": "As for counties"
+        },
+        "school-district": {
+          "may": "varies by state",
+          "status": "sourced",
+          "limits": "Levy caps and voter approval",
+          "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json#referendum_requirements"
+        },
+        "special-district": {
+          "may": "varies by state",
+          "status": "UNKNOWN",
+          "question": "school-district-and-special-district-powers"
+        }
+      }
+    },
+    {
+      "id": "excise-and-fees",
+      "area": "04",
+      "name": "Excise taxes and fees: fuel, tobacco, alcohol, lodging, permits",
+      "lever": "rate",
+      "carries": "per-unit or ad valorem charges and fee schedules",
+      "spec": "2",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "yes",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "User fees for the district's own service"
+        }
+      }
+    },
+    {
+      "id": "payroll-tax",
+      "area": "04",
+      "name": "Payroll taxes: Social Security, Medicare, unemployment insurance",
+      "lever": "rate",
+      "carries": "wage-based contributions",
+      "spec": "2",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "source": "docs/research/requests/who-pays-which-taxes-56-places.json"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State unemployment insurance under the federal-state program",
+          "source": "docs/research/requests/employer-payroll-tax-deposits-and-unemployment.json"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "budget-lines",
+      "area": "04",
+      "name": "Budget lines: appropriations by program",
+      "lever": "money",
+      "carries": "appropriation, obligation and payment records per account",
+      "spec": "9",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Balanced-budget rules, line-item veto, rainy-day funds",
+          "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json#state_fiscal_authority"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Balanced-budget and appropriation rules",
+          "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json#state_fiscal_authority"
+        },
+        "city": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Balanced-budget and appropriation rules",
+          "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json"
+        },
+        "school-district": {
+          "may": "yes",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers"
+        },
+        "special-district": {
+          "may": "yes",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers"
+        }
+      }
+    },
+    {
+      "id": "borrowing",
+      "area": "04",
+      "name": "Borrowing: bonds, debt limits, voter approval",
+      "lever": "money",
+      "carries": "debt authority, then issued principal and repayment",
+      "spec": "11",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Statutory debt limit set by Congress",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Constitutional debt restrictions",
+          "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json#debt_restrictions"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "varies by state",
+          "status": "sourced",
+          "limits": "State framework for local taxing and borrowing",
+          "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json#debt_bond_authority",
+          "note": "General-obligation voter approval and debt ceilings, 50 states"
+        },
+        "city": {
+          "may": "varies by state",
+          "status": "sourced",
+          "limits": "State framework for local taxing and borrowing",
+          "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json#debt_bond_authority",
+          "note": "As for counties"
+        },
+        "school-district": {
+          "may": "varies by state",
+          "status": "sourced",
+          "limits": "Bond elections",
+          "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json#referendum_requirements"
+        },
+        "special-district": {
+          "may": "varies by state",
+          "status": "UNKNOWN",
+          "question": "school-district-and-special-district-powers"
+        }
+      }
+    },
+    {
+      "id": "revenue-sharing",
+      "area": "04",
+      "name": "Revenue sharing and aid formulas to lower governments",
+      "lever": "money",
+      "carries": "formula shares and transfers between governments",
+      "spec": "9",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "what-each-level-of-government-may-legislate",
+          "note": "Receives, does not set, state formulas"
+        },
+        "city": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "what-each-level-of-government-may-legislate",
+          "note": "Receives, does not set, state formulas"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "social-security",
+      "area": "05",
+      "name": "Social Security benefit rules",
+      "lever": "who-qualifies",
+      "carries": "program rules, enrollment and benefit payments",
+      "spec": "10",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "A federal program",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "A federal program",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "A federal program",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "county": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "A federal program",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "city": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "A federal program",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "medicare",
+      "area": "05",
+      "name": "Medicare premiums, deductibles and coverage",
+      "lever": "who-qualifies",
+      "carries": "program rules, enrollment and benefit payments",
+      "spec": "10",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "A federal program",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "A federal program",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "A federal program",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "county": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "A federal program",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "city": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "A federal program",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "medicaid",
+      "area": "05",
+      "name": "Medicaid eligibility, expansion and benefits",
+      "lever": "who-qualifies",
+      "carries": "eligibility, enrollment, the federal match",
+      "spec": "10",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Within federal rules; expansion is a state choice",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "limited",
+          "status": "UNKNOWN",
+          "limits": "Capped federal funding",
+          "question": "inhabited-territories-government-and-statehood"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "what-each-level-of-government-may-legislate"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "food-aid",
+      "area": "05",
+      "name": "SNAP and nutrition aid",
+      "lever": "who-qualifies",
+      "carries": "benefit amounts, work rules, the state share",
+      "spec": "10",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "limited",
+          "status": "sourced",
+          "limits": "Administers federal rules; options within them; cost share from Pub. L. 119-21",
+          "source": "data/research/bill-samples/federal"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "limited",
+          "status": "UNKNOWN",
+          "limits": "Puerto Rico receives a nutrition block grant instead of SNAP",
+          "question": "inhabited-territories-government-and-statehood"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "what-each-level-of-government-may-legislate"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "unemployment-insurance",
+      "area": "05",
+      "name": "Unemployment insurance: benefits, duration, tax",
+      "lever": "who-qualifies",
+      "carries": "weekly benefit, weeks, the employer tax",
+      "spec": "10",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "what-each-level-of-government-may-legislate"
+        },
+        "city": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "what-each-level-of-government-may-legislate"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "cash-and-local-assistance",
+      "area": "05",
+      "name": "State and local cash assistance and general relief",
+      "lever": "who-qualifies",
+      "carries": "program rules, enrollment and payments",
+      "spec": "10",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "rent-rules",
+      "area": "06",
+      "name": "Rent limits and tenant protections",
+      "lever": "rate",
+      "carries": "rent caps, notice rules, eviction rules",
+      "spec": "4",
+      "levels": {
+        "federal": {
+          "may": "limited",
+          "status": "sourced",
+          "limits": "Commerce and spending powers; no general rent law",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "zoning",
+      "area": "06",
+      "name": "Zoning and land use",
+      "lever": "rule",
+      "carries": "allowed uses, density, height, lot rules",
+      "spec": "4",
+      "levels": {
+        "federal": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "A state and local police power",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Delegates zoning to localities and may override it",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "building-codes",
+      "area": "06",
+      "name": "Building codes",
+      "lever": "rule",
+      "carries": "standards new and rebuilt homes must meet",
+      "spec": "13",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "homelessness",
+      "area": "06",
+      "name": "Homelessness services and camping rules",
+      "lever": "rule",
+      "carries": "shelters, services, camping bans",
+      "spec": "13",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "minimum-wage",
+      "area": "07",
+      "name": "Minimum wage",
+      "lever": "rate",
+      "carries": "the wage floor per place, with tiers",
+      "spec": "1",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "$7.25 under the Fair Labor Standards Act",
+          "source": "data/research/money/minimum-wage-2026.json"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Every state and D.C.; Georgia and Wyoming below the federal floor",
+          "source": "data/research/money/minimum-wage-2026.json"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "source": "data/research/money/minimum-wage-2026.json"
+        },
+        "territory": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Guam, Puerto Rico, the Virgin Islands and the Northern Mariana Islands; American Samoa UNKNOWN",
+          "source": "data/research/money/minimum-wage-2026.json"
+        },
+        "county": {
+          "may": "varies by state",
+          "status": "UNKNOWN",
+          "question": "minimum-wages-by-place"
+        },
+        "city": {
+          "may": "varies by state",
+          "status": "UNKNOWN",
+          "limits": "Many states preempt local minimum wages",
+          "question": "minimum-wages-by-place"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "overtime",
+      "area": "07",
+      "name": "Overtime: weekly and daily hours, rate, exempt salary threshold",
+      "lever": "rule",
+      "carries": "hours before overtime, the rate, exempt jobs",
+      "spec": "17",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Federal floor; each state's own rule not yet researched",
+          "question": "state-labor-rules-overtime-leave-bargaining",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
+          "currentRule": "UNKNOWN",
+          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "state-labor-rules-overtime-leave-bargaining"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "state-labor-rules-overtime-leave-bargaining"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "paid-leave",
+      "area": "07",
+      "name": "Paid sick and family leave",
+      "lever": "rule",
+      "carries": "accrual, weeks, who pays",
+      "spec": "17",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Federal floor; each state's own rule not yet researched",
+          "question": "state-labor-rules-overtime-leave-bargaining",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
+          "currentRule": "UNKNOWN",
+          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "state-labor-rules-overtime-leave-bargaining"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "state-labor-rules-overtime-leave-bargaining"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "scheduling",
+      "area": "07",
+      "name": "Predictive scheduling",
+      "lever": "rule",
+      "carries": "advance notice and pay for changes",
+      "spec": "17",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Federal floor; each state's own rule not yet researched",
+          "question": "state-labor-rules-overtime-leave-bargaining",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
+          "currentRule": "UNKNOWN",
+          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "state-labor-rules-overtime-leave-bargaining"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "state-labor-rules-overtime-leave-bargaining"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "child-labor",
+      "area": "07",
+      "name": "Child labor limits",
+      "lever": "rule",
+      "carries": "hours and jobs by age",
+      "spec": "17",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Federal floor; each state's own rule not yet researched",
+          "question": "state-labor-rules-overtime-leave-bargaining",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
+          "currentRule": "UNKNOWN",
+          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "state-labor-rules-overtime-leave-bargaining"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "state-labor-rules-overtime-leave-bargaining"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "right-to-work",
+      "area": "07",
+      "name": "Right to work",
+      "lever": "rule",
+      "carries": "whether union fees may be required",
+      "spec": "17",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Federal floor; each state's own rule not yet researched",
+          "question": "state-labor-rules-overtime-leave-bargaining",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
+          "currentRule": "UNKNOWN",
+          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "state-labor-rules-overtime-leave-bargaining"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "state-labor-rules-overtime-leave-bargaining"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "public-bargaining",
+      "area": "07",
+      "name": "Public-sector bargaining",
+      "lever": "rule",
+      "carries": "which public workers may bargain",
+      "spec": "17",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Federal floor; each state's own rule not yet researched",
+          "question": "state-labor-rules-overtime-leave-bargaining",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
+          "currentRule": "UNKNOWN",
+          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "state-labor-rules-overtime-leave-bargaining"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "state-labor-rules-overtime-leave-bargaining"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "non-compete",
+      "area": "07",
+      "name": "Non-compete limits",
+      "lever": "rule",
+      "carries": "which non-competes are void",
+      "spec": "17",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Federal floor; each state's own rule not yet researched",
+          "question": "state-labor-rules-overtime-leave-bargaining",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
+          "currentRule": "UNKNOWN",
+          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "state-labor-rules-overtime-leave-bargaining"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "state-labor-rules-overtime-leave-bargaining"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "licensing",
+      "area": "08",
+      "name": "Occupational and business licensing",
+      "lever": "rule",
+      "carries": "who must hold a license, its fee and test",
+      "spec": "13",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "business-incentives",
+      "area": "08",
+      "name": "Business incentives and abatements",
+      "lever": "money",
+      "carries": "credits, abatements, grants to firms",
+      "spec": "13",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "consumer-rules",
+      "area": "12",
+      "name": "Consumer protection and price rules",
+      "lever": "rule",
+      "carries": "price caps, disclosures, banned practices",
+      "spec": "15",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "utility-rates",
+      "area": "09",
+      "name": "Utility rates and service rules",
+      "lever": "rate",
+      "carries": "rates and service standards through the utility commission",
+      "spec": "13",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "limited",
+          "status": "UNKNOWN",
+          "limits": "Municipal utilities only",
+          "question": "what-each-level-of-government-may-legislate"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "yes",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Utility districts set their own rates"
+        }
+      }
+    },
+    {
+      "id": "emissions-permits",
+      "area": "09",
+      "name": "Emissions, permits and environmental rules",
+      "lever": "rule",
+      "carries": "permits, limits, enforcement",
+      "spec": "13",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "emergency-powers",
+      "area": "09",
+      "name": "Disaster and emergency declarations",
+      "lever": "structure",
+      "carries": "declarations, their powers and end dates",
+      "spec": "19",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Stafford Act and National Emergencies Act",
+          "source": "docs/research/requests/executive-powers-in-every-jurisdiction.json"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Governor's emergency powers and their termination",
+          "source": "docs/research/requests/executive-powers-in-every-jurisdiction.json"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "source": "docs/research/requests/executive-powers-in-every-jurisdiction.json"
+        },
+        "territory": {
+          "may": "yes",
+          "status": "sourced",
+          "source": "docs/research/requests/executive-powers-in-every-jurisdiction.json"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "crimes-and-penalties",
+      "area": "10",
+      "name": "Crimes and penalties",
+      "lever": "rule",
+      "carries": "what is a crime, its sentence and fine",
+      "spec": "15",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "limited",
+          "status": "UNKNOWN",
+          "limits": "Local ordinance violations only; felonies are state law",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "policing",
+      "area": "10",
+      "name": "Policing rules and budgets",
+      "lever": "rule",
+      "carries": "police budgets, use-of-force and stop rules",
+      "spec": "13",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "bail-and-prisons",
+      "area": "10",
+      "name": "Bail, jails and prisons",
+      "lever": "rule",
+      "carries": "pretrial release, jail and prison capacity",
+      "spec": "13",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "death-penalty",
+      "area": "10",
+      "name": "The death penalty",
+      "lever": "rule",
+      "carries": "whether it is available and for what",
+      "spec": "15",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Each state's current rule not yet researched",
+          "question": "rights-and-social-issues-by-state",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
+          "currentRule": "UNKNOWN",
+          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "A state or federal criminal-law matter",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "city": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "A state or federal criminal-law matter",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "guns",
+      "area": "10",
+      "name": "Firearm permits, carry and bans",
+      "lever": "rule",
+      "carries": "permits, carry rules, banned items",
+      "spec": "15",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Second Amendment; each state's rule not yet researched",
+          "question": "rights-and-social-issues-by-state",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
+          "currentRule": "UNKNOWN",
+          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "varies by state",
+          "status": "UNKNOWN",
+          "limits": "Most states preempt local gun rules",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "varies by state",
+          "status": "UNKNOWN",
+          "limits": "Most states preempt local gun rules",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "marijuana",
+      "area": "10",
+      "name": "Marijuana: legal, medical-only or illegal",
+      "lever": "rule",
+      "carries": "possession, sale and its tax",
+      "spec": "15",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Federally illegal; each state's rule not yet researched",
+          "question": "rights-and-social-issues-by-state",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
+          "currentRule": "UNKNOWN",
+          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "court-size-and-terms",
+      "area": "10",
+      "name": "Court size and judges' terms",
+      "lever": "structure",
+      "carries": "seats, terms, selection",
+      "spec": "19",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Congress sets the number of justices and creates lower courts",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Judicial selection per state",
+          "source": "data/source/judicial-office-selection/corpus.json"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "election-rules",
+      "area": "11",
+      "name": "Election rules: voter ID, early voting, primaries, districting",
+      "lever": "rule",
+      "carries": "who may vote and how, and the district lines",
+      "spec": "11",
+      "levels": {
+        "federal": {
+          "may": "limited",
+          "status": "sourced",
+          "limits": "Elections Clause and the voting-rights amendments",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "limited",
+          "status": "UNKNOWN",
+          "limits": "Administers state law",
+          "question": "what-each-level-of-government-may-legislate"
+        },
+        "city": {
+          "may": "limited",
+          "status": "UNKNOWN",
+          "limits": "Local election dates and forms by charter",
+          "question": "what-each-level-of-government-may-legislate"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "campaign-finance",
+      "area": "11",
+      "name": "Campaign finance and ethics",
+      "lever": "rule",
+      "carries": "contribution limits, disclosure, ethics rules",
+      "spec": "11",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "source": "docs/research/92M-campaign-finance-ethics-lobbying.json"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "charters-and-structure",
+      "area": "11",
+      "name": "Charters, offices and boards",
+      "lever": "structure",
+      "carries": "creating or abolishing offices, boards and districts",
+      "spec": "12",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Creates local governments and their powers",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Charter amendment by voters where the city has a charter",
+          "source": "data/source/constitutional-process/corpus.json",
+          "question": "constitutional-amendment-and-city-charter-procedures-everywhere",
+          "currentRule": "UNKNOWN",
+          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "constitutions",
+      "area": "11",
+      "name": "Constitutional amendments",
+      "lever": "structure",
+      "carries": "the amendment and its ratification",
+      "spec": "19",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Article V: two-thirds of Congress, three-fourths of the states",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Each state's amendment route",
+          "source": "data/source/constitutional-process/corpus.json"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "A local government cannot amend a constitution (decision register, Sept. 24)",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "city": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "A local government cannot amend a constitution (decision register, Sept. 24)",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "open-records",
+      "area": "11",
+      "name": "Public records, open meetings and shield laws",
+      "lever": "rule",
+      "carries": "records requests, meeting notice, reporter protections",
+      "spec": "18",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "local-preemption",
+      "area": "11",
+      "name": "State override of local rules and local options",
+      "lever": "structure",
+      "carries": "which local rules the state voids or allows",
+      "spec": "3",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Supremacy Clause preemption: express, field or conflict",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home rule or Dillon's rule: 34 constitutional home rule, 3 statutory, 13 strict Dillon's rule",
+          "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json#state_framework_for_municipal_taxing"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "Lower governments cannot preempt higher ones",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "city": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "Lower governments cannot preempt higher ones",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "marriage",
+      "area": "12",
+      "name": "Marriage, including same-sex marriage",
+      "lever": "rule",
+      "carries": "the jurisdiction's rule and its status, separate from enforcement",
+      "spec": "15",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Federal constitutional floor; each state's rule not yet researched",
+          "question": "rights-and-social-issues-by-state",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
+          "currentRule": "UNKNOWN",
+          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "abortion",
+      "area": "12",
+      "name": "Abortion",
+      "lever": "rule",
+      "carries": "the jurisdiction's rule and its status, separate from enforcement",
+      "spec": "15",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Federal constitutional floor; each state's rule not yet researched",
+          "question": "rights-and-social-issues-by-state",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
+          "currentRule": "UNKNOWN",
+          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "nondiscrimination",
+      "area": "12",
+      "name": "Nondiscrimination protections",
+      "lever": "rule",
+      "carries": "the jurisdiction's rule and its status, separate from enforcement",
+      "spec": "15",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Federal constitutional floor; each state's rule not yet researched",
+          "question": "rights-and-social-issues-by-state",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
+          "currentRule": "UNKNOWN",
+          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "religious-liberty",
+      "area": "12",
+      "name": "Religious-liberty laws",
+      "lever": "rule",
+      "carries": "the jurisdiction's rule and its status, separate from enforcement",
+      "spec": "15",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Federal constitutional floor; each state's rule not yet researched",
+          "question": "rights-and-social-issues-by-state",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
+          "currentRule": "UNKNOWN",
+          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "family-policy",
+      "area": "12",
+      "name": "Family policy: child tax credit, childcare aid, pre-K",
+      "lever": "who-qualifies",
+      "carries": "credits, aid and program rules",
+      "spec": "16",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "yes",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Pre-K programs"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "school-funding",
+      "area": "03",
+      "name": "School funding formulas and per-student aid",
+      "lever": "money",
+      "carries": "aid per student and local shares",
+      "spec": "4",
+      "levels": {
+        "federal": {
+          "may": "limited",
+          "status": "sourced",
+          "limits": "Spending power: conditional grants",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "yes",
+          "status": "game-profile",
+          "limits": "Within state formulas",
+          "question": "school-district-and-special-district-powers"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "curriculum-and-school-rules",
+      "area": "03",
+      "name": "Curriculum, phone bans and school rules",
+      "lever": "rule",
+      "carries": "standards and duties on schools",
+      "spec": "4",
+      "levels": {
+        "federal": {
+          "may": "limited",
+          "status": "sourced",
+          "limits": "Spending conditions only",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "yes",
+          "status": "game-profile",
+          "limits": "Within state standards",
+          "question": "school-district-and-special-district-powers"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "school-choice",
+      "area": "03",
+      "name": "School choice and education accounts",
+      "lever": "money",
+      "carries": "per-student accounts, caps and priorities",
+      "spec": "4",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "college",
+      "area": "03",
+      "name": "College tuition, aid and rules",
+      "lever": "money",
+      "carries": "tuition, grants and campus rules",
+      "spec": "4",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "health-coverage-rules",
+      "area": "02",
+      "name": "Insurer rules and drug price caps",
+      "lever": "rate",
+      "carries": "coverage mandates and cost caps",
+      "spec": "10",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "public-health",
+      "area": "02",
+      "name": "Public health rules",
+      "lever": "rule",
+      "carries": "fluoride, vaccination, food additives",
+      "spec": "13",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "roads-and-transit",
+      "area": "01",
+      "name": "Roads, bridges, transit and broadband",
+      "lever": "money",
+      "carries": "condition, capacity and service",
+      "spec": "13",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "yes",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Transit and port districts"
+        }
+      }
+    },
+    {
+      "id": "water",
+      "area": "01",
+      "name": "Water systems and service lines",
+      "lever": "rule",
+      "carries": "water systems, lines and rates",
+      "spec": "13",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "yes",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Water districts"
+        }
+      }
+    },
+    {
+      "id": "tech-rules",
+      "area": "13",
+      "name": "Data privacy, AI rules and social media age limits",
+      "lever": "rule",
+      "carries": "duties on covered companies",
+      "spec": "13",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "farm-and-food",
+      "area": "14",
+      "name": "Farm aid and food rules",
+      "lever": "money",
+      "carries": "payments and standards",
+      "spec": "13",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "parks-and-culture",
+      "area": "15",
+      "name": "Parks, libraries and community programs",
+      "lever": "money",
+      "carries": "facilities and programs",
+      "spec": "13",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "State constitution; federal supremacy and preemption",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "yes",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Park and library districts"
+        }
+      }
+    },
+    {
+      "id": "immigration-admission",
+      "area": "16",
+      "name": "Who may enter: visas, refugee ceiling, asylum, TPS, citizenship",
+      "lever": "who-qualifies",
+      "carries": "each person's legal status and the ceilings",
+      "spec": "14",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "Naturalization is a federal power (Article I, Section 8)",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "Naturalization is a federal power",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "Naturalization is a federal power",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "county": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "Naturalization is a federal power",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "city": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "Naturalization is a federal power",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "immigration-cooperation",
+      "area": "16",
+      "name": "Cooperation with enforcement, licenses, in-state tuition, E-Verify",
+      "lever": "rule",
+      "carries": "state and local rules for residents by status",
+      "spec": "14",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Federal preemption limits; each state's rule not yet researched",
+          "question": "immigration-state-policies",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
+          "currentRule": "UNKNOWN",
+          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "varies by state",
+          "status": "UNKNOWN",
+          "limits": "Texas requires sheriffs running jails to work with federal agents",
+          "source": "data/research/bill-samples/state",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "defense-and-veterans",
+      "area": "17",
+      "name": "Bases, the armed forces and veterans' benefits",
+      "lever": "money",
+      "carries": "forces, bases, veterans' programs",
+      "spec": "13",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "limited",
+          "status": "sourced",
+          "limits": "The National Guard and state veterans' programs",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "trade-and-treaties",
+      "area": "18",
+      "name": "Tariffs, trade deals and treaties",
+      "lever": "rate",
+      "carries": "tariffs reaching prices and jobs; treaty obligations",
+      "spec": "13",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "no",
+          "status": "sourced",
+          "limits": "Article I, Section 10 bars treaties and import duties",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "dc": {
+          "may": "no",
+          "status": "sourced",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood"
+        },
+        "county": {
+          "may": "no",
+          "status": "sourced",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "city": {
+          "may": "no",
+          "status": "sourced",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    },
+    {
+      "id": "press-rules",
+      "area": "11",
+      "name": "Broadcast rules and government advertising limits",
+      "lever": "rule",
+      "carries": "broadcast licensing and ad limits",
+      "spec": "18",
+      "levels": {
+        "federal": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Enumerated powers (Article I, Section 8); the Bill of Rights",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "state": {
+          "may": "limited",
+          "status": "UNKNOWN",
+          "question": "what-each-level-of-government-may-legislate"
+        },
+        "dc": {
+          "may": "yes",
+          "status": "sourced",
+          "limits": "Home Rule Act limits; congressional review",
+          "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md"
+        },
+        "territory": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "question": "inhabited-territories-government-and-statehood",
+          "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
+        },
+        "county": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "city": {
+          "may": "UNKNOWN",
+          "status": "UNKNOWN",
+          "limits": "State law: home rule or Dillon's rule, and subject preemption",
+          "question": "subject-preemption-inventory-56-places"
+        },
+        "school-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        },
+        "special-district": {
+          "may": "no",
+          "status": "game-profile",
+          "question": "school-district-and-special-district-powers",
+          "note": "Outside the district's purpose under its enabling statute; a labeled game profile until sourced"
+        }
+      }
+    }
+  ]
+}

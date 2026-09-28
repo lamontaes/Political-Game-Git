@@ -335,6 +335,8 @@ export function assertLifeHistoryIntegrity(
       );
     }
     assertNonEmpty(profile.name, "Organization profile name");
+    if (profile.closed !== undefined)
+      assertNonEmpty(profile.closed.reason, "Organization closing reason");
     if (
       !isOpenTaxonomyKey(
         profile.classification,

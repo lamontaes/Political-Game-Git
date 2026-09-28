@@ -1,4 +1,13 @@
+import {
+  HOUSEHOLD_LOAN_MONTH_KEY,
+  householdLoanMonthHandler,
+} from "./household-loans";
+import { PAYDAY_HANDLERS } from "./living-world/town-pay";
 import { jailTermOn } from "./justice/jail-terms";
+import {
+  OFFICIAL_VIEW_TRANSITION_KEY,
+  officialViewReflectionHandler,
+} from "./living-world/official-views";
 import { contestDistrictGeography } from "./campaign-geography";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
@@ -21,6 +30,7 @@ import {
 } from "./legislative-office-terms";
 import { stateGoverningHandlers } from "./governing/state-governing";
 import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
+import { ENACTED_DUTY_HANDLERS } from "./enacted-duties";
 import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
 import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
 import { CONSTITUTIONAL_REFORM_HANDLERS } from "./living-world/constitutional-reform";
@@ -2094,11 +2104,16 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         // The player's town council meeting and voting on ordinances.
         ...LOCAL_COUNCIL_MEETING_HANDLERS,
         ...PUBLIC_PROGRAM_HANDLERS,
+        // An enacted law's duty falling due on the bodies it covers.
+        ...ENACTED_DUTY_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
         [
           POLITICAL_REFLECTION_TRANSITION_KEY,
           politicalReflectionTransitionHandler,
         ],
+        // Spec 5: people credit or blame the officials behind a law that
+        // reached them.
+        [OFFICIAL_VIEW_TRANSITION_KEY, officialViewReflectionHandler],
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.
         [CHAPTER_OUTREACH_TRANSITION_KEY, chapterOutreachTransitionHandler],
         // ALIVE43 W3: background public developments take their next step.
@@ -2110,12 +2125,15 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         ],
         // CRUNCH46 CHANGE: canonical macro history closes each month once.
         [MACRO_MONTHLY_STEP_KEY, macroMonthlyStepHandler],
+        [HOUSEHOLD_LOAN_MONTH_KEY, householdLoanMonthHandler],
         // CRUNCH46 WORLD: party governing bodies meet and may change.
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
         // MIGRATION: households leave town, newcomers arrive, waves step.
         [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
         // LANE M: the town school district counts its pupils and teachers each fall.
         [SCHOOL_DISTRICT_COUNT_TRANSITION_KEY, schoolDistrictCountHandler],
+        // PAYDAY: everyone with a recorded job is paid, every four weeks.
+        ...PAYDAY_HANDLERS,
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...CAMPAIGN_LIFE_HANDLERS,
       ]),

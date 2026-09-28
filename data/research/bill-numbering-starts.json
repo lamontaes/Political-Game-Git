@@ -1,1 +1,257 @@
-[]
+{
+  "_about": "Recorded starting bill numbers and numbering periods (decision OCD-LEG-NUM-002). Only values a source states are built; inferred ones stay UNKNOWN and those chambers start at 1. Approved by Claude CTO, 03 PROJECT LANES, Sept 28, 2026 01:16 EDT. Quotes are search excerpts of the named pages; the pages could not be fetched directly.",
+  "starts": [
+    {
+      "state": "AZ",
+      "chamber": "lower",
+      "firstNumber": 2001,
+      "sourceUrl": "https://addpc.az.gov/sites/default/files/Glossary%20of%20Terms_0.pdf",
+      "quote": "House Bills in Arizona are numbered starting with 2001 and designated \"H.B.\""
+    },
+    {
+      "state": "AZ",
+      "chamber": "upper",
+      "firstNumber": 1001,
+      "sourceUrl": "https://addpc.az.gov/sites/default/files/Glossary%20of%20Terms_0.pdf",
+      "quote": "Senate Bills are numbered starting 1001 and designated \"S.B.\" (supported by https://www.azleg.gov/legtext/56leg/1R/bills/SB1001S.pdf)"
+    },
+    {
+      "state": "CO",
+      "chamber": "lower",
+      "firstNumber": 1001,
+      "sourceUrl": "https://www.coloradosenaterepublicans.com/bill-numbering-in-the-colorado-general-assembly/",
+      "quote": "House bills are assigned four-digit bill numbers, starting with the number \"1001\"... if a House bill were introduced as \"1234\", that would designate the 234th House bill"
+    },
+    {
+      "state": "CO",
+      "chamber": "upper",
+      "firstNumber": 1,
+      "sourceUrl": "https://www.coloradosenaterepublicans.com/bill-numbering-in-the-colorado-general-assembly/",
+      "quote": "Senate bills are assigned three-digit numbers, starting with the number \"001\". (Numbers are year-prefixed, e.g. HB25-1001, and reset each session. A special session uses a letter suffix, e.g. HB25B-1001.)"
+    },
+    {
+      "state": "CT",
+      "chamber": "lower",
+      "firstNumber": 5001,
+      "sourceUrl": "https://www.cga.ct.gov/lco/resources-aboutbills.asp",
+      "quote": "Senate bills are numbered from 1 to 5000, House bills from 5001 to 9999."
+    },
+    {
+      "state": "CT",
+      "chamber": "upper",
+      "firstNumber": 1,
+      "sourceUrl": "https://www.cga.ct.gov/lco/resources-aboutbills.asp",
+      "quote": "Senate bills are numbered from 1 to 5000, House bills from 5001 to 9999."
+    },
+    {
+      "state": "IN",
+      "chamber": "lower",
+      "firstNumber": 1001,
+      "sourceUrl": "https://law.indiana.libguides.com/c.php?g=19805&p=112378",
+      "quote": "Senate bills start numbering at number one, and House bills start at 1000. (The snippet says 1000, but the observed first bill is House Bill 1001 in every session: iga.in.gov/legislative/2021, 2023 and 2026 bills/house/1001, so the first number used is 1001.)"
+    },
+    {
+      "state": "IN",
+      "chamber": "upper",
+      "firstNumber": 1,
+      "sourceUrl": "https://law.indiana.libguides.com/c.php?g=19805&p=112378",
+      "quote": "Senate bills start numbering at number one"
+    },
+    {
+      "state": "KS",
+      "chamber": "lower",
+      "firstNumber": 2001,
+      "sourceUrl": "https://www.kac.org/how_to_read_a_bill",
+      "quote": "House bills (HB) start at number 2001 and Senate bills (SB) start at number 1. ... These numbers will continue into the second year of the biennium."
+    },
+    {
+      "state": "KS",
+      "chamber": "upper",
+      "firstNumber": 1,
+      "sourceUrl": "https://www.kac.org/how_to_read_a_bill",
+      "quote": "Senate bills (SB) start at number 1. ... These numbers will continue into the second year of the biennium."
+    },
+    {
+      "state": "MI",
+      "chamber": "lower",
+      "firstNumber": 4001,
+      "sourceUrl": "https://legislature.mi.gov/Publications/HowBillBecomesLaw.pdf",
+      "quote": "House bills in the Michigan legislature begin with House Bill No. 4001 and Senate bills are numbered starting with Senate Bill No. 1. (search summary: this applies to each two-year session, meaning the even year continues the sequence)"
+    },
+    {
+      "state": "MI",
+      "chamber": "upper",
+      "firstNumber": 1,
+      "sourceUrl": "https://legislature.mi.gov/Publications/HowBillBecomesLaw.pdf",
+      "quote": "Senate bills are numbered starting with Senate Bill No. 1."
+    },
+    {
+      "state": "ND",
+      "chamber": "lower",
+      "firstNumber": 1001,
+      "sourceUrl": "https://ndlegis.gov/general-information",
+      "quote": "House bills begin with the number 1001, and Senate bills begin with the number 2001."
+    },
+    {
+      "state": "ND",
+      "chamber": "upper",
+      "firstNumber": 2001,
+      "sourceUrl": "https://ndlegis.gov/general-information",
+      "quote": "House bills begin with the number 1001, and Senate bills begin with the number 2001."
+    },
+    {
+      "state": "SC",
+      "chamber": "lower",
+      "firstNumber": 3000,
+      "sourceUrl": "https://dc.statelibrary.sc.gov/server/api/core/bitstreams/b9e02541-35b9-4565-8adb-c9945d98539c/content",
+      "quote": "Numbering of Senate bills begins at 1 and numbering of House bills begins at 3000. (Snippet says 3000, not 3001. Bill list page 'List of 2017-2018 House Bills 3000 - 3199' at scstatehouse.gov covers both years, which suggests the numbers continue through the two-year session. That is inferred.)"
+    },
+    {
+      "state": "SC",
+      "chamber": "upper",
+      "firstNumber": 1,
+      "sourceUrl": "https://dc.statelibrary.sc.gov/server/api/core/bitstreams/b9e02541-35b9-4565-8adb-c9945d98539c/content",
+      "quote": "Numbering of Senate bills begins at 1 and numbering of House bills begins at 3000."
+    },
+    {
+      "state": "SD",
+      "chamber": "lower",
+      "firstNumber": 1001,
+      "sourceUrl": "https://mylrc.sdlegislature.gov/api/Documents/171806.pdf",
+      "quote": "Senate bills and resolutions begin with the number 1 and are printed on yellow paper; House bills and resolutions begin with the number 1001 and are printed on blue paper"
+    },
+    {
+      "state": "SD",
+      "chamber": "upper",
+      "firstNumber": 1,
+      "sourceUrl": "https://mylrc.sdlegislature.gov/api/Documents/171806.pdf",
+      "quote": "Senate bills and resolutions begin with the number 1"
+    },
+    {
+      "state": "WA",
+      "chamber": "lower",
+      "firstNumber": 1000,
+      "sourceUrl": "https://leg.wa.gov/bills-meetings-and-session/bills/help-with-bills/",
+      "quote": "House bills (HB) are numbered starting with 1000 at the beginning of each biennium ... The numbering ranges are 1000-3999 for House bills (search-engine summary of leg.wa.gov help pages; numbering belongs to the biennium, so the even-year session continues the sequence instead of restarting)"
+    },
+    {
+      "state": "WA",
+      "chamber": "upper",
+      "firstNumber": 5000,
+      "sourceUrl": "https://leg.wa.gov/bills-meetings-and-session/bills/help-with-bills/",
+      "quote": "Senate bills (SB) are numbered starting with 5000 at the beginning of each biennium ... 5000-7999 for Senate bills. Each bill number is associated with that bill for one legislative biennium"
+    }
+  ],
+  "periods": [
+    {
+      "state": "KS",
+      "period": "biennial",
+      "opensIn": "odd",
+      "sourceUrl": "https://www.kac.org/how_to_read_a_bill",
+      "quote": "House bills (HB) start at number 2001 and Senate bills (SB) start at number 1. ... These numbers will continue into the second year of the biennium."
+    },
+    {
+      "state": "MI",
+      "period": "biennial",
+      "opensIn": "odd",
+      "sourceUrl": "https://legislature.mi.gov/Publications/HowBillBecomesLaw.pdf",
+      "quote": "House bills in the Michigan legislature begin with House Bill No. 4001 and Senate bills are numbered starting with Senate Bill No. 1. (search summary: this applies to each two-year session, meaning the even year continues the sequence)"
+    },
+    {
+      "state": "SC",
+      "period": "biennial",
+      "opensIn": "odd",
+      "sourceUrl": "https://dc.statelibrary.sc.gov/server/api/core/bitstreams/b9e02541-35b9-4565-8adb-c9945d98539c/content",
+      "quote": "Numbering of Senate bills begins at 1 and numbering of House bills begins at 3000. (Snippet says 3000, not 3001. Bill list page 'List of 2017-2018 House Bills 3000 - 3199' at scstatehouse.gov covers both years, which suggests the numbers continue through the two-year session. That is inferred.)"
+    },
+    {
+      "state": "WA",
+      "period": "biennial",
+      "opensIn": "odd",
+      "sourceUrl": "https://leg.wa.gov/bills-meetings-and-session/bills/help-with-bills/",
+      "quote": "House bills (HB) are numbered starting with 1000 at the beginning of each biennium ... The numbering ranges are 1000-3999 for House bills (search-engine summary of leg.wa.gov help pages; numbering belongs to the biennium, so the even-year session continues the sequence instead of restarting)"
+    }
+  ],
+  "unknown": [
+    {
+      "state": "AR",
+      "chamber": "lower",
+      "observedFirstNumber": 1001,
+      "status": "UNKNOWN",
+      "sourceUrl": "https://www.5newsonline.com/article/news/local/how-arkansas-bill-numbering-system-work/91-1f284b92-be7f-4c98-aebd-c2224886404e",
+      "note": "Inferred: \"HB1001\", or House Bill 1001, in the current session, would be unrelated to \"HB1001\" from a different general assembly ... each begins with a reset on bill numbers. No explicit statement that 1001 is the first number."
+    },
+    {
+      "state": "MS",
+      "chamber": "lower",
+      "observedFirstNumber": 1,
+      "status": "UNKNOWN",
+      "sourceUrl": "https://ballotpedia.org/2018_Mississippi_legislative_session",
+      "note": "Inferred: House Bill 1 (HB 1) appears in the 2018 session."
+    },
+    {
+      "state": "MS",
+      "chamber": "upper",
+      "observedFirstNumber": 2001,
+      "status": "UNKNOWN",
+      "sourceUrl": "https://ballotpedia.org/2018_Mississippi_legislative_session",
+      "note": "Inferred: the 2018 session lists HB 1 and SB 2001, and SB2001 also exists in 2021 (legiscan.com/MS/bill/SB2001/2021) and 2024 (fastdemocracy). No rule text was found."
+    },
+    {
+      "state": "MT",
+      "chamber": "lower",
+      "observedFirstNumber": 1,
+      "status": "UNKNOWN",
+      "sourceUrl": "https://legiscan.com/MT/bill/HB1/2025",
+      "note": "Inferred: 'Montana HB1 | 2025 | Regular Session'. HB 1 is the feed bill in both 2023 and 2025, and the legislature meets only in odd years."
+    },
+    {
+      "state": "OK",
+      "chamber": "lower",
+      "observedFirstNumber": 1001,
+      "status": "UNKNOWN",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Oklahoma_House_Bill_1775_(2021)",
+      "note": "WEAK inference only: odd-year House bills are in the 1000s (HB 1775 of 2021, HB 1674 of 2021) and second-session (2026) House bills run HB 2935 to HB 3835, while Senate bills reach SB 2159 in 2026. This suggests the numbers continue across the legislature, but no source states the 1001 start or the Senate start."
+    },
+    {
+      "state": "RI",
+      "chamber": "lower",
+      "observedFirstNumber": 7001,
+      "status": "UNKNOWN",
+      "sourceUrl": "https://catalog.sos.ri.gov/repositories/2/resources/418",
+      "note": "Inferred from archival ranges: 1984 H-7426-9452; 1986 H 7000-7740 (even years in the 7000 series). Whether the first number is 7000 or 7001 is not stated."
+    },
+    {
+      "state": "RI",
+      "chamber": "upper",
+      "observedFirstNumber": 2001,
+      "status": "UNKNOWN",
+      "sourceUrl": "https://webserver.rilegislature.gov/BillText/BillText24/SenateText24/S2500.pdf",
+      "note": "Only evidence: a bill numbered '2024 -- S 2500' exists, so even-year Senate bills are in the 2000s. The starting number 2001 and the odd-year Senate start were NOT confirmed."
+    },
+    {
+      "state": "VA",
+      "chamber": "lower",
+      "observedFirstNumber": 1,
+      "status": "UNKNOWN",
+      "sourceUrl": "https://lis.virginia.gov/bill-details/20261/HB1",
+      "note": "Inferred: 'HB1 - 2026 Regular Session' and 'Virginia HB1 | 2024 | Regular Session' both exist, so numbering restarts at 1 each session."
+    },
+    {
+      "state": "WV",
+      "chamber": "lower",
+      "observedFirstNumber": 4001,
+      "status": "UNKNOWN",
+      "sourceUrl": "https://www.wvlegislature.gov/bill_status/bills_text.cfm?billdoc=hb4001+sub.htm&yr=2002&sesstype=RS&i=4001",
+      "note": "Inferred only: 'HB 4001 Text' exists for the 2002 regular session and even-year bills appear in the 4000s (HB 4015, HB 4082). No rule text was found."
+    },
+    {
+      "state": "WV",
+      "chamber": "upper",
+      "observedFirstNumber": 1,
+      "status": "UNKNOWN",
+      "sourceUrl": "https://legiscan.com/WV/bill/SB1/2026",
+      "note": "Inferred: 'West Virginia SB1 | 2026 | Regular Session' exists, so even-year Senate numbering restarts at 1. No rule text was found."
+    }
+  ]
+}

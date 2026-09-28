@@ -250,7 +250,7 @@ export function ConstitutionalWorkspace({
             {measure.ruleDelta.kind === "proposal-threshold"
               ? `Modeled rule: later proposal threshold ${measure.ruleDelta.numerator}/${measure.ruleDelta.denominatorParts}, applied from the recorded operative date.`
               : measure.ruleDelta.kind === "rule-field"
-                ? `Modeled rule: ${amendableRuleFieldLabel(measure.ruleDelta.field)} becomes ${describeRuleChangeValue(measure.ruleDelta.value)}, applied from the recorded operative date.`
+                ? `Modeled rule: ${amendableRuleFieldLabel(measure.ruleDelta.field)} becomes ${describeRuleChangeValue(measure.ruleDelta.value, measure.ruleDelta.field)}, applied from the recorded operative date.`
                 : measure.ruleDelta.kind === "policy-provision"
                   ? `Recorded policy: ${describePolicyProvision(world, measure.ruleDelta)}. What that changes beyond the record is not modeled yet.`
                   : `Text recorded; effect unavailable: ${measure.ruleDelta.unsupportedEffect}`}

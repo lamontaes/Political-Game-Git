@@ -551,8 +551,11 @@ export function bargainingSubjectFactsForDraft(input: {
     }`,
     // What the bill commits as it reads. Null means it commits nothing, which
     // is a real answer for a mandate and is said rather than shown as zero.
+    // An appropriation states its amount as money provided, not as a ceiling.
     billAmountLabel:
-      draft.authorizedCeilingLabel ?? "nothing; this Act appropriates no money",
+      draft.appropriatedLabel ??
+      draft.authorizedCeilingLabel ??
+      "nothing; this Act appropriates no money",
 
     requestedProvisionKey: invitation.provisionKey,
     // New content has no history to preserve, so its record key is its own

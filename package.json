@@ -101,6 +101,7 @@
     "release:recover": "node --import tsx scripts/release/index.ts recover",
     "release:declare": "node --import tsx scripts/release/index.ts declare",
     "agent:preflight": "node scripts/agent-preflight.mjs",
+    "export:town-pay": "node --import tsx scripts/source/regional-money/export-town-pay.ts",
     "storage": "node scripts/storage/cli.mjs",
     "agent:test-cadence": "node scripts/agent-test-cadence.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",

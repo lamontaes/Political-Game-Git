@@ -102,6 +102,18 @@ export function resourcePositionAt(
   let inflows = 0;
   let outflows = 0;
   const outcomeIds: EntityId[] = [];
+  // Only flows that touch this owner matter; looking each outcome's flow up
+  // in a map keeps a town's paydays linear rather than outcomes times flows.
+  const flows = new Map<
+    EntityId,
+    (typeof world.history.resourceFlows)[number]
+  >();
+  for (const flow of world.history.resourceFlows)
+    if (
+      sameEndpoint(flow.recipient, endpoint) ||
+      sameEndpoint(flow.source, endpoint)
+    )
+      flows.set(flow.id, flow);
   for (const outcome of world.history.resourceTransferOutcomes) {
     if (
       outcome.sequence <= position.sequence ||
@@ -113,9 +125,7 @@ export function resourcePositionAt(
     ) {
       continue;
     }
-    const flow = world.history.resourceFlows.find(
-      (record) => record.id === outcome.resourceFlowId,
-    );
+    const flow = flows.get(outcome.resourceFlowId);
     if (!flow) continue;
     let used = false;
     if (sameEndpoint(flow.recipient, endpoint)) {
@@ -214,8 +224,17 @@ export function outstandingDebtAt(
     }
     paid = addExact(paid, outcome.transferredAmount.minorUnits);
   }
+  // Interest and fees a loan's terms charged are owed on top of principal.
+  let charged = 0;
+  for (const charge of world.history.debtCharges ?? []) {
+    if (
+      charge.resourceObligationId === obligation.id &&
+      availableOn(charge, charge.chargedAt, cutoff)
+    )
+      charged = addExact(charged, charge.amount.minorUnits);
+  }
   return money(
-    Math.max(0, obligation.principal.minorUnits - paid),
+    Math.max(0, obligation.principal.minorUnits + charged - paid),
     obligation.principal.currency,
   );
 }
