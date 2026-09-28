@@ -5,6 +5,7 @@ import {
   composeEnginePerson,
   engineRecipeKey,
   recipeFiles,
+  type BodyPose,
   type EngineRecipe,
   type PeoplePackManifest,
 } from "./pack";
@@ -31,6 +32,17 @@ function packFileUrl(file: string): string | null {
   return urls[`../../../art/people-engine/v1/${file}`] ?? null;
 }
 
+/**
+ * Whether the build has a pack file. A pose whose files are missing is drawn
+ * in the pose it falls back to (posedPieces).
+ */
+export function peoplePackFileAvailable(file: string): boolean {
+  // Outside a bundled build no file is loaded at all, and the manifest is
+  // all there is to go by.
+  if (Object.keys(urls).length === 0) return true;
+  return packFileUrl(file) !== null;
+}
+
 /** False outside a bundled build (plain Node tools and unit tests). */
 export function peoplePackAvailable(): boolean {
   return (
@@ -44,6 +56,8 @@ export interface EnginePersonImage {
   readonly width: number;
   readonly height: number;
   readonly anchors: BodyAnchors;
+  /** The pose drawn: the recipe's, or the one it fell back to. */
+  readonly pose: BodyPose;
   /** For a seated person: the row the seat is at. */
   readonly seatRow?: number;
 }
@@ -84,7 +98,7 @@ export function enginePersonImage(
   let pending = composed.get(key);
   if (!pending) {
     pending = (async () => {
-      const files = recipeFiles(PEOPLE_PACK, recipe);
+      const files = recipeFiles(PEOPLE_PACK, recipe, peoplePackFileAvailable);
       const rasters = new Map(
         await Promise.all(
           files.map(async (file) => [file, await decode(file)] as const),
@@ -95,10 +109,11 @@ export function enginePersonImage(
       );
       queue = turn;
       await turn;
-      const { raster, anchors, seatRow } = composeEnginePerson(
+      const { raster, anchors, pose, seatRow } = composeEnginePerson(
         PEOPLE_PACK,
         (file) => rasters.get(file)!,
         recipe,
+        peoplePackFileAvailable,
       );
       const canvas = document.createElement("canvas");
       canvas.width = raster.width;
@@ -125,6 +140,7 @@ export function enginePersonImage(
         width: raster.width,
         height: raster.height,
         anchors,
+        pose,
         ...(seatRow === undefined ? {} : { seatRow }),
       };
     })();

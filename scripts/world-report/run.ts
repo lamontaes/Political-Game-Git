@@ -1908,7 +1908,64 @@ function lawOutcomeLines(run: WorldReportRun): string[] {
       );
     }
   }
+  out.push("", ...lawsMovingOutcomesEverywhere(world));
   return out;
+}
+
+/**
+ * Every state where a law enacted in play changed its answer on a question the
+ * outcome web reads, and what that law moved there at the end of the run.
+ */
+function lawsMovingOutcomesEverywhere(world: World): string[] {
+  const lawLinks = OUTCOME_LINKS.filter(
+    (link) =>
+      link.from.startsWith("law:") && outcomeLinkStatus(link) === "built",
+  );
+  const questions = [...new Set(lawLinks.map((link) => link.from.slice(4)))];
+  const rows: string[] = [];
+  const moving = new Set<string>();
+  for (const questionKey of questions) {
+    const proposition = Object.values(world.policyCatalog.propositions).find(
+      (definition) => definition.stableKey === questionKey,
+    );
+    if (!proposition) continue;
+    const places: string[] = [];
+    for (const usps of Object.keys(STATES)) {
+      const state = stateJurisdictionForKey(`US-${usps}`)?.id;
+      if (!state) continue;
+      const law = lawInForce(world, state, proposition.id);
+      if (law?.origin !== "enacted") continue;
+      const measure = world.history.legislativeMeasures?.find(
+        (row) => row.id === law.measureId,
+      );
+      const moved = lawLinks
+        .filter((link) => link.from === `law:${questionKey}`)
+        .flatMap((link) => {
+          const cause = outcomeFactor(
+            world,
+            state,
+            link.to,
+            world.currentDate,
+          ).causes.find((row) => row.key === link.key);
+          return cause && cause.factor !== 1
+            ? [`${link.to} ${cause.factor.toFixed(3)}`]
+            : [];
+        });
+      if (moved.length) moving.add(questionKey);
+      places.push(
+        `${usps} ${measure?.designation ?? ""} (${law.answer}): ${moved.length ? moved.join(", ") : "nothing yet (the law's lag, or the state's starting law already said so)"}`,
+      );
+    }
+    if (places.length)
+      rows.push(`- **${proposition.name}**: ${places.join("; ")}.`);
+  }
+  return [
+    "Laws enacted in play, in every state, on questions the outcome web reads (the factor is the multiplier on the outcome at the end of the run):",
+    "",
+    `${count(moving.size, "question")} moved an outcome through a named law.`,
+    "",
+    ...rows,
+  ];
 }
 
 export function worldReportMarkdown(run: WorldReportRun): string {

@@ -28,6 +28,7 @@ import { extractGarment } from "../../src/presentation/appearance-engine/extract
 import {
   PEOPLE_PACK_VERSION,
   type BodyBuild,
+  type NamedBodyPose,
   type OutfitBuilds,
   type OutfitTag,
   type PackBody,
@@ -596,6 +597,31 @@ function scaleAbout(raster: Raster, k: number, cx: number, cy: number): Raster {
 const FIREFLY_OUTFITS_SEATED =
   "/Users/lamontae/political-game-play/cto-notes/firefly/outfits/cut-seated";
 
+/**
+ * Claude CTO's posed paintings (Sept. 28, 2026), one folder per pose, each
+ * with the bare body in the pose (<sex>-<build>-bare-v1.png) and every outfit
+ * painted on it (<sex>-<outfit>-<build>-onbody-v1.png and -skin-v1.png), cut
+ * like the standing ones. A standing pose is painted on the standing canvas
+ * with the head where the standing body has it; a seated pose is registered
+ * like the seated bodies (the seat on SEAT_ROW). A pose goes in the pack for
+ * a presentation only when every build's body is painted, and an outfit in a
+ * pose only when every build of it is; the game falls back for the rest.
+ */
+const FIREFLY_POSES =
+  "/Users/lamontae/political-game-play/cto-notes/firefly/poses";
+const STANDING_POSES = [
+  "arms-folded",
+  "explaining",
+  "hand-on-hip",
+  "podium",
+] as const satisfies readonly NamedBodyPose[];
+const SEATED_POSES = [
+  "seated-leaning",
+  "seated-legs-crossed",
+] as const satisfies readonly NamedBodyPose[];
+/** Rows (at half size) a standing pose's head may sit from the standing one. */
+const HEAD_TOLERANCE = 2;
+
 const presentations: Record<string, PackPresentation> = {};
 for (const sex of ["feminine", "masculine"] as const) {
   const bodies: PackPresentation["bodies"] = {} as PackPresentation["bodies"];
@@ -650,6 +676,68 @@ for (const sex of ["feminine", "masculine"] as const) {
       ),
     };
   }
+  // The posed bodies: the bare painting at full size (for cutting outfits
+  // from), the transform applied to it and its outfits as read, and the
+  // pack entry.
+  const posed = new Map<
+    NamedBodyPose,
+    Record<
+      BodyBuild,
+      {
+        readonly bareFull: Raster;
+        readonly transform: (raster: Raster) => Raster;
+        readonly body: PackBody & { readonly seatRow?: number };
+      }
+    >
+  >();
+  for (const pose of [...STANDING_POSES, ...SEATED_POSES]) {
+    const bareOf = (build: BodyBuild) =>
+      join(FIREFLY_POSES, pose, `${sex}-${build}-bare-v1.png`);
+    if (!BUILDS.every((build) => existsSync(bareOf(build)))) continue;
+    const seatedPose = (SEATED_POSES as readonly string[]).includes(pose);
+    const bodiesInPose = {} as NonNullable<ReturnType<typeof posed.get>>;
+    for (const build of BUILDS) {
+      const source = read(bareOf(build));
+      const at = measureBodyAnchors(source);
+      const transform = seatedPose
+        ? (raster: Raster) =>
+            scaleAbout(raster, seatedScale, at.neck.centerX, at.feet)
+        : (raster: Raster) => raster;
+      const bareFull = transform(source);
+      const bare = downscaleHalf(bareFull);
+      const anchors = measureBodyAnchors(bare);
+      if (!seatedPose) {
+        const standing = bodies[build].anchors;
+        const drift = Math.max(
+          Math.abs(anchors.top - standing.top),
+          Math.abs(anchors.neck.row - standing.neck.row),
+          Math.abs(anchors.neck.centerX - standing.neck.centerX),
+        );
+        if (drift > HEAD_TOLERANCE)
+          throw new Error(
+            `${pose} ${sex} ${build}: the head is ${drift} rows from the standing body's; paint it where the standing head is.`,
+          );
+      }
+      bodiesInPose[build] = {
+        bareFull,
+        transform,
+        body: {
+          file: write(bare, `body-${sex}-${build}-${pose}.png`),
+          anchors,
+          skin: skinOf(bare),
+          ...(seatedPose
+            ? {
+                seatRow: Math.round(
+                  (at.feet - (at.feet - (SEAT_ROW + HEADROOM)) * seatedScale) /
+                    2,
+                ),
+              }
+            : {}),
+        },
+      };
+    }
+    posed.set(pose, bodiesInPose);
+  }
   const outfits: PackOutfit[] = [];
   for (const spec of OUTFITS[sex]) {
     const builds: OutfitBuilds = {};
@@ -693,6 +781,27 @@ for (const sex of ["feminine", "masculine"] as const) {
           seatedTransform[build],
         );
     }
+    const outfitPoses: Partial<Record<NamedBodyPose, OutfitBuilds>> = {};
+    for (const [pose, inPose] of posed) {
+      const painting = (build: BodyBuild, kind: "onbody" | "skin") =>
+        join(FIREFLY_POSES, pose, `${sex}-${spec.id}-${build}-${kind}-v1.png`);
+      if (!BUILDS.every((build) => existsSync(painting(build, "onbody"))))
+        continue;
+      const worn: OutfitBuilds = {};
+      for (const build of BUILDS)
+        (worn as Record<string, unknown>)[build] = dressedBody(
+          sex,
+          spec,
+          build,
+          inPose[build].bareFull,
+          inPose[build].body.anchors,
+          painting(build, "onbody"),
+          painting(build, "skin"),
+          `outfit-${sex}-${spec.id}-${build}-${pose}`,
+          inPose[build].transform,
+        );
+      outfitPoses[pose] = worn;
+    }
     outfits.push({
       id: spec.id,
       label: spec.label,
@@ -706,6 +815,7 @@ for (const sex of ["feminine", "masculine"] as const) {
       builds,
       // Seated only when every body has it.
       ...(BUILDS.every((build) => seated[build]) ? { seated } : {}),
+      ...(Object.keys(outfitPoses).length > 0 ? { poses: outfitPoses } : {}),
     });
   }
   const faces = SOURCES[sex].faces.map((face) => {
@@ -751,6 +861,20 @@ for (const sex of ["feminine", "masculine"] as const) {
     faces,
     hair,
     seated: { bodies: seatedBodies },
+    ...(posed.size > 0
+      ? {
+          poses: Object.fromEntries(
+            [...posed].map(([pose, inPose]) => [
+              pose,
+              {
+                bodies: Object.fromEntries(
+                  BUILDS.map((build) => [build, inPose[build].body]),
+                ),
+              },
+            ]),
+          ),
+        }
+      : {}),
     outfits,
   };
 }
