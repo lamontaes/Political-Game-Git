@@ -28,6 +28,7 @@ import {
   CRUNCH46_WORLD_OPENING_VERSION,
 } from "../simulation";
 import { ensureMigrationSchedule } from "../simulation/migration";
+import { ensurePaydaySchedule } from "../simulation/living-world/town-pay";
 import { ensureCrimeProduction } from "../simulation/crime";
 import { ensureOpeningJudiciary } from "../simulation/judiciary/opening";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
@@ -207,10 +208,13 @@ function openedWorld(
     ),
     playerPersonId,
   );
-  const opened = ensureMigrationSchedule(
-    ensureLocalCouncilMeetings(
-      ensureLocalElectionCalendar(seated, playerPersonId),
-      playerPersonId,
+  // Payday starts with the same opening, so a watched world's jobs pay too.
+  const opened = ensurePaydaySchedule(
+    ensureMigrationSchedule(
+      ensureLocalCouncilMeetings(
+        ensureLocalElectionCalendar(seated, playerPersonId),
+        playerPersonId,
+      ),
     ),
   );
   return openingDataVersion === "playtest65-v3"
