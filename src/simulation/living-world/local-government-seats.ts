@@ -15,6 +15,7 @@ import {
   ensureLocalGovernmentOrganization,
   homeLocalGovernmentUnits,
   localGovernmentOrganizationKey,
+  municipalWorkspaceGovernmentForUnit,
 } from "../nationwide-world/local-governments";
 import { DC_GOVERNMENT_KEY } from "../nationwide-world/district-of-columbia-council-opening";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
@@ -92,7 +93,7 @@ export function organizationIdFor(
   world: World,
   unit: GovernmentUnitIdentity,
 ): EntityId | null {
-  const compiled = municipalGovernmentForUnit(unit);
+  const compiled = municipalWorkspaceGovernmentForUnit(unit);
   if (compiled)
     return municipalOrganizationFor(world, compiled.key)?.id ?? null;
   const key = localGovernmentOrganizationKey(unit);
@@ -178,7 +179,9 @@ function seatOne(
   mayor: boolean,
   seatLabel: string,
 ): World {
-  const compiled = municipalGovernmentForUnit(unit);
+  // The organization a campaign winner joins: a sourced government, or a
+  // matched city's game profile, which uses the same one.
+  const compiled = municipalWorkspaceGovernmentForUnit(unit);
   if (compiled) {
     let next = installMunicipalGovernment(world, {
       governmentKey: compiled.key,

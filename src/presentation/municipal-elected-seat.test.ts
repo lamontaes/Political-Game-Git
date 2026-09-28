@@ -11,7 +11,8 @@ import {
   serializeWorld,
 } from "../simulation";
 import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
-import { MUNICIPAL_COUNCIL_OPENING_VERSION } from "../simulation/municipal-council-opening";
+import { localGovernmentSeatsKey } from "../simulation/living-world/local-government-seats";
+import { LOCAL_COUNCIL_MEETING_HANDLERS } from "../simulation/living-world/local-council-meetings";
 import { resolveCampaignElectionFromRecordedInput } from "../simulation/campaigns";
 import { ELECTION_CONTEST_TRANSITION_KEY } from "../simulation/election-contests";
 import { createFutureTransitionHandlerRegistry } from "../simulation/future-transitions";
@@ -99,10 +100,13 @@ describe("an elected municipal council member", () => {
       const openingSeatCount = municipalSeats(opening, government.key).filter(
         (seat) => seat.role === "member" || seat.role === "presiding-member",
       ).length;
+      // The home town's council is seated once from its residents when the
+      // life opens; that one seating names the opening members.
+      const homeUnit = governmentUnitsForPlace(place.sourceGeoid!).find(
+        (entry) => entry.unitType === "municipality" && entry.functionalActive,
+      )!;
       const openingEvent = opening.history.events.find(
-        (event) =>
-          event.stableKey ===
-          `${MUNICIPAL_COUNCIL_OPENING_VERSION}:${government.key}`,
+        (event) => event.stableKey === localGovernmentSeatsKey(homeUnit.id),
       );
       const openingMemberIds = new Set(
         municipalSeats(opening, government.key)
@@ -203,6 +207,9 @@ describe("an elected municipal council member", () => {
             outcomeEventId: null,
           }),
         ],
+        // The town's own council meeting falls due the next day; it runs on
+        // its real handler.
+        ...LOCAL_COUNCIL_MEETING_HANDLERS,
       ]),
     );
     expect(contest.candidatePersonIds).toHaveLength(2);

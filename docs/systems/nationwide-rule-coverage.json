@@ -34,6 +34,14 @@
       "name": "CITY OF CARSON CITY",
       "state": "NV",
       "unitId": "gus2025:194943"
+    },
+    {
+      "actions": [
+        "introduce-ordinance"
+      ],
+      "name": "CITY OF PORTLAND",
+      "state": "OR",
+      "unitId": "gus2025:211254"
     }
   ],
   "catalog": {
@@ -3369,7 +3377,7 @@
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 276,
         "inheritedDefaultOnly": 0,
-        "introduceOrdinanceAdmitted": 0,
+        "introduceOrdinanceAdmitted": 1,
         "passAppropriationAdmitted": 0,
         "passOrdinanceAdmitted": 0,
         "units": 277,
@@ -4073,7 +4081,7 @@
         "appropriationVoteRuleAdmitted": 227,
         "identityOnly": 19259,
         "inheritedDefaultOnly": 225,
-        "introduceOrdinanceAdmitted": 4,
+        "introduceOrdinanceAdmitted": 5,
         "passAppropriationAdmitted": 2,
         "passOrdinanceAdmitted": 1,
         "units": 19489,
@@ -4095,8 +4103,7 @@
     "loadedRecordsMappedToCatalog": 65,
     "missingMandatoryLocalFields": {
       "body.seats": 38699,
-      "ordinance.introductionToPassage": 3,
-      "ordinance.passage": 1
+      "ordinance.introductionToPassage": 4
     },
     "states": 50,
     "statesWithAnyStandForOfficeAdmitted": 3,
@@ -4109,6 +4116,6 @@
     "statesWithLegislativePack": 50,
     "statesWithResearchedLegislature": 9,
     "statesWithSourceEffectiveDateNeedingAdapter": 4,
-    "unitsWithAdmittedLocalRoute": 4
+    "unitsWithAdmittedLocalRoute": 5
   }
 }

@@ -6,6 +6,10 @@ import { governmentUnitsForPlace } from "./government-units";
 import { requireLifePlace } from "./life-places";
 import { ensureMunicipalCouncilOpening } from "./municipal-council-opening";
 import {
+  municipalGovernmentByKey,
+  primaryReading,
+} from "./municipal-government";
+import {
   installMunicipalGovernment,
   introduceMunicipalOrdinance,
   municipalOrganizationFor,
@@ -36,7 +40,10 @@ function openedSeats(world: ReturnType<typeof worldFor>) {
     (seat) => seat.role === "member" || seat.role === "presiding-member",
   );
   const managers = seats.filter((seat) => seat.role === "professional-manager");
-  expect(council).toHaveLength(5);
+  // The council is the size its compiled government declares (not always five).
+  expect(council).toHaveLength(
+    primaryReading(municipalGovernmentByKey(unit.id)!).bodySize!,
+  );
   expect(managers).toHaveLength(1);
   expect(council.some((seat) => seat.personId === managers[0]!.personId)).toBe(
     false,
