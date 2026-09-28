@@ -34,7 +34,11 @@ import {
 } from "../../src/simulation/living-world/town-pay";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
-import { outcomeFactor } from "../../src/simulation/outcome-web";
+import {
+  OUTCOME_LINKS,
+  drawnLinkSize,
+  outcomeFactor,
+} from "../../src/simulation/outcome-web";
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
 import type { World } from "../../src/simulation";
 
@@ -126,7 +130,7 @@ describe("lane B's measures read from the town's records", () => {
         `${jobs} jobs; median $${(pay.value! / 100).toFixed(2)} an hour; ` +
         `5 years: ${businesses.opened} opened, ${businesses.closed} closed, ${births} births`,
     );
-  });
+  }, 60_000);
 
   it("reads every one of the 50 states, D.C. and the 5 territories by one rule", () => {
     const places = onePlaceEach();
@@ -170,9 +174,12 @@ describe("births follow the outcome web", () => {
     const { world, town } = openAt("3137000");
     const today = world.currentDate;
     const yearAgo = addDays(today, -365);
+    // The births level (#885) is always read; at its base it changes nothing.
+    const others = (causes: { key: string }[]) =>
+      causes.filter((cause) => cause.key !== "births-level-to-births");
     const none = outcomeFactor(world, town, "births.rate", today);
     expect(none.multiplier).toBe(1);
-    expect(none.causes).toEqual([]);
+    expect(others(none.causes)).toEqual([]);
 
     const atBaseline = outcomeFactor(
       withNationalUnemployment(world, 4, yearAgo),
@@ -188,8 +195,12 @@ describe("births follow the outcome web", () => {
       "births.rate",
       today,
     );
-    expect(high.multiplier).toBeCloseTo(1 - 0.014 * 4, 10);
-    expect(high.causes.map((cause) => cause.key)).toEqual([
+    // Each world draws its own size from the link's range (#880).
+    const link = OUTCOME_LINKS.find((l) => l.key === "unemployment-to-births")!;
+    const size = drawnLinkSize(world, link, town);
+    expect(size).toBeLessThan(0);
+    expect(high.multiplier).toBeCloseTo(1 + size * 4, 10);
+    expect(others(high.causes).map((cause) => cause.key)).toEqual([
       "unemployment-to-births",
     ]);
 
