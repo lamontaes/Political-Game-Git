@@ -340,13 +340,24 @@ describe("migration scaffold", () => {
       basis: "Declared test episode; not a local hazard prediction.",
       sourceReference: null,
     });
+    // Damage reaches a household directly, or through the recorded home it
+    // lives in (the town's households have homes, `town-homes.ts`).
     const wrecked = crisisRecords(struck).flatMap((record) =>
       record.kind === "disaster-damage" &&
-      record.targetKind === "household" &&
+      (record.targetKind === "household" || record.targetKind === "dwelling") &&
       record.level !== "service-interrupted"
         ? [record]
         : [],
     );
+    const householdsHit = (record: (typeof wrecked)[number]) =>
+      record.targetKind === "household"
+        ? [record.targetId]
+        : activeDwellingOccupanciesAt(struck).flatMap((occupancy) =>
+            occupancy.dwellingId === record.targetId &&
+            occupancy.occupant.kind === "household"
+              ? [occupancy.occupant.householdId]
+              : [],
+          );
     expect(wrecked.length).toBeGreaterThan(0);
 
     // Everybody whose home was hit leaves, and nobody else does.
@@ -361,20 +372,25 @@ describe("migration scaffold", () => {
     const died = new Set(
       struck.history.personDeaths.map((death) => death.personId),
     );
-    const freeWrecked = wrecked.filter(
-      (record) =>
-        peopleInHouseholdAt(struck, record.targetId).every(
+    const freeWrecked = [
+      ...new Set(wrecked.flatMap((record) => householdsHit(record))),
+    ].filter(
+      (householdId) =>
+        peopleInHouseholdAt(struck, householdId).every(
           (id) => !moveTieReader(struck).bindingTie(id),
         ) &&
-        peopleInHouseholdAt(struck, record.targetId).some(
-          (id) => !died.has(id),
-        ) &&
-        !peopleInHouseholdAt(struck, record.targetId).includes(opened.playerId),
+        peopleInHouseholdAt(struck, householdId).some((id) => !died.has(id)) &&
+        !peopleInHouseholdAt(struck, householdId).includes(opened.playerId),
     );
     expect(freeWrecked.length).toBeGreaterThan(0);
-    expect(moves.map((move) => move.causeId).sort()).toEqual(
-      freeWrecked.map((record) => record.id).sort(),
-    );
+    expect(
+      moves
+        .map(
+          (move) =>
+            householdMembershipsAt(struck, move.personIds[0]!)[0]!.household.id,
+        )
+        .sort(),
+    ).toEqual([...freeWrecked].sort());
     for (const move of moves) {
       const damage = wrecked.find((record) => record.id === move.causeId)!;
       expect(move.reason).toBe(`disaster:home-${damage.level}`);

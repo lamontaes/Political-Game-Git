@@ -21,6 +21,7 @@
 import { createStableId } from "../ids";
 import { buildHouseholdLocationRecord, recordWorkStatus } from "../life";
 import { TOWN_EMPLOYMENT_VERSION } from "../living-world/town-employment";
+import { TOWN_HOMES_VERSION } from "../living-world/town-homes";
 import { activeCampaignForCandidate } from "../campaign-queries";
 import {
   activeEducationEnrollmentsAt,
@@ -119,6 +120,8 @@ export interface MoveTieReader {
   /** A dwelling occupancy or a housing tenure, the person's or the household's. */
   readonly housingTie: (personId: EntityId) => string | null;
   readonly housingOf: (personId: EntityId) => HeldHousing;
+  /** The town homes (`town-homes.ts`) a move ends rather than refuses. */
+  readonly townHomesLeftBehind: (personId: EntityId) => HeldHousing;
   /** Jobs in the town being left that the move itself ends. */
   readonly jobsLeftBehind: (personId: EntityId) => readonly EntityId[];
 }
@@ -137,6 +140,7 @@ export function moveTieReader(world: World): MoveTieReader {
   let index: {
     readonly occupancies: ReadonlyMap<EntityId, EntityId[]>;
     readonly tenures: ReadonlyMap<EntityId, EntityId[]>;
+    readonly townHomes: ReadonlySet<EntityId>;
   } | null = null;
   const housingIndex = () => {
     if (index) return index;
@@ -148,9 +152,13 @@ export function moveTieReader(world: World): MoveTieReader {
       (state) => state.dwellingOccupancyId,
     );
     const occupancies = new Map<EntityId, EntityId[]>();
+    // Homes the town's households live in (`town-homes.ts`) end on a move
+    // instead of holding the household in place, as town jobs do.
+    const townHomes = new Set<EntityId>();
     for (const record of h.dwellingOccupancies) {
       if (record.startedAt > date) continue;
       if (occupancyStates.get(record.id)?.status !== "active") continue;
+      if (isTownHome(record.stableKey)) townHomes.add(record.id);
       add(
         occupancies,
         record.occupant.kind === "person"
@@ -167,12 +175,13 @@ export function moveTieReader(world: World): MoveTieReader {
     for (const record of h.housingTenures) {
       if (record.startedAt > date) continue;
       if (tenureStates.get(record.id)?.status !== "active") continue;
+      if (isTownHome(record.stableKey)) townHomes.add(record.id);
       if (record.holder.kind === "person")
         add(tenures, record.holder.personId, record.id);
       else if (record.holder.kind === "household")
         add(tenures, record.holder.householdId, record.id);
     }
-    index = { occupancies, tenures };
+    index = { occupancies, tenures, townHomes };
     return index;
   };
   const housingOf = (personId: EntityId): HeldHousing => {
@@ -208,18 +217,31 @@ export function moveTieReader(world: World): MoveTieReader {
     },
     housingTie: (personId) => {
       const held = housingOf(personId);
-      if (held.tenureIds.length > 0)
+      const { townHomes } = housingIndex();
+      if (held.tenureIds.some((id) => !townHomes.has(id)))
         return "holds a housing tenure, alone or with their household";
-      if (held.occupancyIds.length > 0)
+      if (held.occupancyIds.some((id) => !townHomes.has(id)))
         return "occupies a recorded dwelling, alone or with their household";
       return null;
     },
     housingOf,
+    townHomesLeftBehind: (personId) => {
+      const held = housingOf(personId);
+      const { townHomes } = housingIndex();
+      return {
+        occupancyIds: held.occupancyIds.filter((id) => townHomes.has(id)),
+        tenureIds: held.tenureIds.filter((id) => townHomes.has(id)),
+      };
+    },
     jobsLeftBehind: (personId) =>
       activeWorkRelationshipsAt(world, personId)
         .filter((active) => isTownEmploymentJob(active.relationship.stableKey))
         .map((active) => active.relationship.id),
   };
+}
+
+function isTownHome(stableKey: string): boolean {
+  return stableKey.startsWith(`${TOWN_HOMES_VERSION}:`);
 }
 
 function isTownEmploymentJob(stableKey: string): boolean {
@@ -339,7 +361,7 @@ export function planMove(
       reason: request.reason,
       waveKey: request.waveKey,
       causeId: request.causeId ?? null,
-      ...endedHousing(personIds, request.endsHousing ? context.ties : null),
+      ...endedHousing(personIds, context.ties, request.endsHousing ?? false),
       endsWorkRelationshipIds: personIds.flatMap((id) =>
         context.ties.jobsLeftBehind(id),
       ),
@@ -349,10 +371,14 @@ export function planMove(
 
 function endedHousing(
   personIds: readonly EntityId[],
-  ties: MoveTieReader | null,
+  ties: MoveTieReader,
+  endsAllHousing: boolean,
 ): Pick<PlannedMove, "endsOccupancyIds" | "endsTenureIds"> {
-  if (!ties) return { endsOccupancyIds: [], endsTenureIds: [] };
-  const held = personIds.map((id) => ties.housingOf(id));
+  // A town home always ends on the move; other housing only when the move
+  // was made to end it.
+  const held = personIds.map((id) =>
+    endsAllHousing ? ties.housingOf(id) : ties.townHomesLeftBehind(id),
+  );
   return {
     endsOccupancyIds: [...new Set(held.flatMap((h) => h.occupancyIds))],
     endsTenureIds: [...new Set(held.flatMap((h) => h.tenureIds))],

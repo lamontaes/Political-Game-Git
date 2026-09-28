@@ -88,6 +88,7 @@ import {
   reviewTownJobs,
 } from "../living-world/town-labor-market";
 import { reviewTownFamilies } from "../living-world/town-families";
+import { reviewTownHomes } from "../living-world/town-homes";
 
 /**
  * BLANKET: the chance an eligible adult resident leaves town in a year.
@@ -196,6 +197,8 @@ export function migrationReviewHandler(
       next.control.kind === "person" ? next.control.personId : null;
     next = reviewTownJobs(next, town, player, String(index));
     next = reviewTownFamilies(next, town, player, String(index));
+    // And its homes: newcomers and new households move in, others move.
+    next = reviewTownHomes(next, town, String(index));
   }
   next = scheduleFutureDueItem(next, {
     stableKey: `${REVIEW_KEY_PREFIX}${index + 1}`,

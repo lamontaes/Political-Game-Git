@@ -177,9 +177,14 @@ export function homePlaceFor(
     case "residential:mobile-home":
     case "residential:other-mobile":
       return "mobile-home";
-    // PLACEHOLDER(wave2): rowhouse, large-house and rural-farmhouse need the
-    // attached/detached split, household wealth and county density, which the
-    // world does not record yet. A detached or unknown house reads suburban.
+    // The town's homes record these kinds (`simulation/living-world/town-homes.ts`).
+    case "residential:rowhouse":
+      return "rowhouse";
+    case "residential:large-house":
+      return "large-house";
+    case "residential:farmhouse":
+      return "rural-farmhouse";
+    // A detached or unknown house reads suburban.
     default:
       return "suburban-house";
   }
