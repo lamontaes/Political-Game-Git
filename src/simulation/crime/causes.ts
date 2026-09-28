@@ -1,41 +1,24 @@
-import {
-  macroConditionsAt,
-  macroScopeForJurisdiction,
-} from "../macro-economy/readers";
+import { outcomeFactor, type OutcomeCause } from "../outcome-web";
 import type { EntityId, IsoDate, World } from "../types";
 import type { CrimeOffense } from "./contract";
 
 /**
  * What makes crime in a place rise or fall. Every cause the game can read
- * today moves the rates in `contract.ts` through `crimeRateMultiplier`; every
- * cause it cannot read yet is listed in `CRIME_CAUSE_SEAMS` with the reason and
- * the rule followed meanwhile, so a later lane knows where to plug in.
- *
- * The sizes are placeholders. How much each cause really moves crime is filed
- * as `how-much-local-conditions-move-crime`.
+ * moves the rates in `contract.ts` through the OUTCOME WEB
+ * (`../outcome-web`, 04 SYSTEM SPECS part 5): the links into each offense in
+ * `data/research/outcome-web/links.json`, sized from causal research. Every
+ * cause it cannot read yet is listed in `CRIME_CAUSE_SEAMS` with the reason
+ * and the rule followed meanwhile, so a later lane knows where to plug in.
  */
-export const CRIME_CAUSES_VERSION = "crime-causes-unresearched-v1" as const;
+export const CRIME_CAUSES_VERSION = "crime-causes-outcome-web-v1" as const;
 
-/**
- * UNRESEARCHED. Recorded unemployment at which the base rates apply, and how
- * much each point above or below it moves each offense (0.03 = 3% more of
- * that offense per point). Property offenses move more than violent ones in
- * this placeholder; whether that holds is part of the research question.
- */
-export const UNRESEARCHED_UNEMPLOYMENT_EFFECT = {
-  version: CRIME_CAUSES_VERSION,
-  provenance: "unresearched-blanket-rule",
-  baselinePct: 4,
-  perPointAbove: {
-    assault: 0.01,
-    robbery: 0.03,
-    burglary: 0.03,
-    vandalism: 0.02,
-  } satisfies Record<CrimeOffense, number>,
-  /** A multiplier never falls below this or rises above `ceiling`. */
-  floor: 0.5,
-  ceiling: 2,
-} as const;
+/** The outcome-web measure each offense's rate is. */
+export const CRIME_OUTCOME_MEASURE = {
+  assault: "crime.assault",
+  robbery: "crime.robbery",
+  burglary: "crime.burglary",
+  vandalism: "crime.vandalism",
+} as const satisfies Record<CrimeOffense, string>;
 
 export type CrimeCauseStatus = "built" | "not-built";
 
@@ -53,8 +36,8 @@ export const CRIME_CAUSE_SEAMS: readonly CrimeCauseSeam[] = [
     key: "cause-unemployment",
     connects: "Work drying up in a place.",
     status: "built",
-    rule: "BLANKET: each point of recorded unemployment above 4% raises each offense by a set share; below 4% lowers it. Local unemployment is read where recorded, national otherwise.",
-    where: "src/simulation/crime/causes.ts",
+    rule: "OUTCOME WEB: each point of recorded unemployment above 4% raises burglary about 3% (researched: property crime rises 2 to 5% per point), vandalism and robbery 2% and assault 1% (provisional: violent crime responds much less). Below 4% lowers them. Local unemployment is read where recorded, national otherwise.",
+    where: "data/research/outcome-web/links.json",
   },
   {
     key: "cause-poverty-and-wealth",
@@ -129,8 +112,8 @@ export const CRIME_CAUSE_SEAMS: readonly CrimeCauseSeam[] = [
 export interface CrimeRateReading {
   readonly offense: CrimeOffense;
   readonly multiplier: number;
-  /** Each built cause that counted, in a fixed order. */
-  readonly causes: readonly { readonly key: string; readonly factor: number }[];
+  /** Each outcome-web link that counted, in the table's order. */
+  readonly causes: readonly OutcomeCause[];
 }
 
 /**
@@ -143,21 +126,11 @@ export function crimeRateMultiplier(
   offense: CrimeOffense,
   asOf: IsoDate,
 ): CrimeRateReading {
-  const rule = UNRESEARCHED_UNEMPLOYMENT_EFFECT;
-  const causes: { key: string; factor: number }[] = [];
-  const record =
-    macroConditionsAt(world, macroScopeForJurisdiction(jurisdictionId), asOf) ??
-    macroConditionsAt(world, "national", asOf);
-  if (record) {
-    const factor =
-      1 +
-      (record.unemploymentPct - rule.baselinePct) * rule.perPointAbove[offense];
-    causes.push({ key: "cause-unemployment", factor });
-  }
-  const product = causes.reduce((total, cause) => total * cause.factor, 1);
-  return {
-    offense,
-    multiplier: Math.min(rule.ceiling, Math.max(rule.floor, product)),
-    causes,
-  };
+  const reading = outcomeFactor(
+    world,
+    jurisdictionId,
+    CRIME_OUTCOME_MEASURE[offense],
+    asOf,
+  );
+  return { offense, multiplier: reading.multiplier, causes: reading.causes };
 }
