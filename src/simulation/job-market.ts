@@ -6,6 +6,7 @@ import {
   currentLifeCutoff,
   householdMembershipsAt,
   kinshipRelationshipsAt,
+  organizationClosingAt,
   organizationProfileAt,
   peopleInHouseholdAt,
   workStatusAt,
@@ -514,7 +515,8 @@ export function openingTakesApplications(
   return (
     opening.opensAt <= world.currentDate &&
     world.currentDate <= opening.closesAt &&
-    !openingFilled(world, opening.id)
+    !openingFilled(world, opening.id) &&
+    !organizationClosingAt(world, opening.organizationId)
   );
 }
 
@@ -1154,6 +1156,9 @@ function startRefusal(
   const latest = latestApplicationStep(world, applicationId);
   if (latest?.kind !== "accepted" && latest?.kind !== "followed-up")
     return "There is no accepted offer to start.";
+  const opening = jobOpening(world, application.openingId);
+  if (opening && organizationClosingAt(world, opening.organizationId))
+    return `${organizationName(world, opening.organizationId)} has closed.`;
   const startAt = expectedStart(world, applicationId)!;
   if (world.currentDate < startAt)
     return isPlayed(world, application.personId)

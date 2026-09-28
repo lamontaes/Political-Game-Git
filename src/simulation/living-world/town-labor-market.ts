@@ -55,6 +55,8 @@ export const TOWN_JOB_TURNOVER = {
 export const TOWN_JOB_END_REASONS = {
   quit: "labor:quit",
   laidOff: "labor:laid-off",
+  /** The business closed, and everybody who worked there lost the job. */
+  businessClosed: "labor:business-closed",
   retired: "labor:retired",
   died: "labor:died",
 } as const;

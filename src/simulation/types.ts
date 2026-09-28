@@ -1231,6 +1231,18 @@ export interface OrganizationProfileRecord {
   readonly locationJurisdictionId: EntityId | null;
   readonly provenance: LifeRecordProvenance;
   readonly supersedesProfileId: EntityId | null;
+  /**
+   * Set on the profile that closes the organization: from `effectiveAt` it
+   * has closed, and its history stays. Absent on every open organization and
+   * on every profile saved before closings were recorded.
+   */
+  readonly closed?: OrganizationClosing;
+}
+
+/** Why an organization closed, as the game records it. */
+export interface OrganizationClosing {
+  /** An open taxonomy key such as "business:owner-retired". */
+  readonly reason: string;
 }
 
 export type EducationProgramNamespace =
