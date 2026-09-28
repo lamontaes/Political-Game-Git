@@ -373,7 +373,7 @@
       "owner": "O",
       "anchor": "Elasticity about 0.5",
       "source": "Chay and Greenstone 2003 (Clean Air Act)",
-      "from": "env.particulates",
+      "from": "env.particulates:pct-of-start",
       "evidence": "researched"
     },
     {
@@ -2643,7 +2643,9 @@
       "anchor": "The place's drifting crime level scales every offense one for one (index 150: half again as much).",
       "source": "Spec part 6: the entire world changes",
       "evidence": "researched",
-      "range": [0.01, 0.01]
+      "range": [0.01, 0.01],
+      "floor": 0.25,
+      "ceiling": 3
     },
     {
       "key": "crime-level-to-robbery",
@@ -2661,7 +2663,9 @@
       "anchor": "The place's drifting crime level scales every offense one for one (index 150: half again as much).",
       "source": "Spec part 6: the entire world changes",
       "evidence": "researched",
-      "range": [0.01, 0.01]
+      "range": [0.01, 0.01],
+      "floor": 0.25,
+      "ceiling": 3
     },
     {
       "key": "crime-level-to-assault",
@@ -2679,7 +2683,9 @@
       "anchor": "The place's drifting crime level scales every offense one for one (index 150: half again as much).",
       "source": "Spec part 6: the entire world changes",
       "evidence": "researched",
-      "range": [0.01, 0.01]
+      "range": [0.01, 0.01],
+      "floor": 0.25,
+      "ceiling": 3
     },
     {
       "key": "crime-level-to-vandalism",
@@ -2697,7 +2703,9 @@
       "anchor": "The place's drifting crime level scales every offense one for one (index 150: half again as much).",
       "source": "Spec part 6: the entire world changes",
       "evidence": "researched",
-      "range": [0.01, 0.01]
+      "range": [0.01, 0.01],
+      "floor": 0.25,
+      "ceiling": 3
     },
     {
       "key": "births-level-to-births",
@@ -3123,24 +3131,6 @@
       "anchor": "States that adopted right-to-carry laws had 13 to 15% more violent crime ten years on than their synthetic controls. The study compares shall-issue with may-issue permits, so it is a proxy for requiring a permit at all",
       "source": "Donohue, Aneja and Weber 2019, Journal of Empirical Legal Studies 16(2); RAND Science of Gun Policy",
       "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed"
-    },
-    {
-      "strength": "weak",
-      "shape": {
-        "kind": "linear"
-      },
-      "group": "place",
-      "owner": "B-cloud",
-      "key": "unemployment-to-violent-crime",
-      "to": "crime.violent",
-      "size": 0.01,
-      "range": [0, 0.025],
-      "per": "percentage point of unemployment above 4%",
-      "lagMonths": 3,
-      "evidence": "provisional",
-      "anchor": "Violent crime responds weakly to unemployment, far less than property crime (about 2% more burglary per point)",
-      "source": "Raphael and Winter-Ebmer 2001, Journal of Law and Economics 44(1)",
-      "from": "labor.unemployment-pct"
     },
     {
       "strength": "about-zero",

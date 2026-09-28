@@ -286,12 +286,14 @@ export function outcomeMeasure(key: string): OutcomeMeasure | null {
       key,
       unit: `percent of the place's starting ${PLACE_OUTCOME_BASES[placeMeasure]!.name.toLowerCase()}`,
       read: (world, jurisdictionId, asOf) => {
-        const record = placeOutcomeAt(
-          world,
-          placeMeasure,
-          jurisdictionId,
-          asOf,
-        );
+        // A save from before the measure replaced an index reads the index
+        // until the next monthly pass records the measure itself.
+        const replaces = PLACE_OUTCOME_BASES[placeMeasure]!.replaces;
+        const record =
+          placeOutcomeAt(world, placeMeasure, jurisdictionId, asOf) ??
+          (replaces
+            ? placeOutcomeAt(world, replaces, jurisdictionId, asOf)
+            : null);
         return record && record.base > 0
           ? (record.value / record.base) * 100
           : null;

@@ -415,6 +415,38 @@ describe("environment, public safety and homelessness", () => {
     }
   });
 
+  it("a save from before violent crime replaced the crime index carries its level on instead of snapping back", () => {
+    const month = makeIsoDate("2026-01-01");
+    const old = {
+      measure: "crime.rate-index",
+      placeKey: "US-TX",
+      jurisdictionId: texas,
+      month,
+      base: 100,
+      structural: 160,
+      multiplier: 1,
+      value: 160,
+      causes: [],
+    };
+    const world = {
+      ...worldAt("2026-02-01"),
+      placeOutcomes: { months: [{ month, records: [old] }] },
+    } as World;
+    // Until the next monthly pass, town crime reads the old index.
+    const early = outcomeFactor(
+      world,
+      texas,
+      "crime.burglary",
+      makeIsoDate("2026-01-20"),
+    ).causes.find((cause) => cause.key === "crime-level-to-burglary")!;
+    expect(early.causeValue).toBe(160);
+    const next = placeOutcomesForMonth(world, makeIsoDate("2026-02-01"));
+    const texasCrime = valueFor(next, CRIME, "US-TX");
+    expect(texasCrime.structural).toBeCloseTo(397.9 * 1.6, 2);
+    // A state with no index record starts at its base.
+    expect(valueFor(next, CRIME, "US-OH").structural).toBe(312);
+  });
+
   it("town crime reads the state's violent crime as a ratio to where the state began", () => {
     const month = makeIsoDate("2026-01-01");
     const records = placeOutcomesForMonth(worldAt("2026-01-01"), month).map(

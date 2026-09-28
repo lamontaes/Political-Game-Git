@@ -472,7 +472,8 @@
         "US-WI": 287.6,
         "US-WV": 263.8,
         "US-WY": 212.5
-      }
+      },
+      "replaces": "crime.rate-index"
     },
     "housing.homelessness": {
       "name": "People homeless per 10,000 people",
@@ -620,13 +621,13 @@
       "shortUnit": "per water system",
       "scale": "rate",
       "source": "America's Health Rankings, Drinking Water Violations, from EPA's Safe Drinking Water Information System, 2024 (https://www.americashealthrankings.org/explore/measures/hb_water_violation), read by CLOUD I on Sept. 28, 2026. U.S. 2.5.",
-      "note": "Hawaii measured 0. A level that drifts in logs cannot start at zero, so Hawaii starts at the 0.05 floor.",
+      "note": "Hawaii measured 0. A level that drifts in logs cannot start at zero, so Hawaii starts at 0.05; the floor sits lower (0.01) so its level can drift down as well as up.",
       "drift": {
         "monthlySdLogit": 0.03,
         "nationalShare": 0.4,
         "waveMonthlyChance": 0.00125,
         "waveSdLogit": 0.3,
-        "minPct": 0.05,
+        "minPct": 0.01,
         "maxPct": 30
       },
       "places": {

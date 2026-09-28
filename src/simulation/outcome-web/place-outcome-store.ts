@@ -83,6 +83,12 @@ export interface PlaceOutcomeMeasureBase {
   readonly scale?: "share" | "index" | "rate";
   /** How a value reads in a report: "per 10,000 people". Shares read as %. */
   readonly shortUnit?: string;
+  /**
+   * An older index measure (100 at the start) this one replaces. A save made
+   * before the change carries its level forward from that index, so the
+   * place does not snap back to its base.
+   */
+  readonly replaces?: string;
 }
 
 /** Whether a measure drifts in logs (an index or a rate), not log-odds. */
