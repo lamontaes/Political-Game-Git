@@ -1,4 +1,4 @@
-import startingLaw from "../../../data/research/laws/starting-law-2026.json";
+import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../dates";
 import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
 import {

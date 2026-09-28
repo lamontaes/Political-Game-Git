@@ -7,7 +7,7 @@ import {
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import { ruleValueInWorld, laborLawOfficeKey } from "../enacted-rule-changes";
 import { placeOutcomeAt, placeOutcomeKey } from "./place-outcome-store";
-import minimumWages from "../../../data/research/money/minimum-wage-2026.json";
+import minimumWages from "../../../data/research/money/minimum-wage-2026.json" with { type: "json" };
 import { US_POLICY_POSITIONS_PACK } from "../policy-pack-us-policy-positions";
 import type { EntityId, IsoDate, World } from "../types";
 
