@@ -4,11 +4,20 @@ import {
   measureAmendments,
   requireMeasure,
 } from "../simulation";
-import type { EntityId, World } from "../simulation";
+import type {
+  EntityId,
+  LegislativeProvisionBeneficiary,
+  World,
+} from "../simulation";
+import { draftLineageComponents } from "../simulation/legislation-draft-lineage";
+import { clauseLever, type BillLever } from "../simulation/legislation-levers";
+import type { CompiledBillDraft } from "../simulation/legislation-drafting";
 import {
   formatMinorUnits,
   legalInstrumentRule,
   programFamily,
+  type ClauseDimension,
+  type LegalInstrument,
   type LegalInstrumentRule,
 } from "../simulation/legislation-program-families";
 import { resolveAuthority, type DocketBill } from "./legislation-docket";
@@ -97,6 +106,185 @@ export interface BillFiscalReading {
     readonly allowedLabel: string | null;
     readonly remainingLabel: string | null;
   } | null;
+}
+
+/** A fiscal note classifies the bill's own sections; it is never a cash record. */
+export type FiscalNoteLever = BillLever | "unclassified";
+
+export interface FiscalNotePart {
+  readonly provisionKey: string;
+  readonly sectionNumber: number;
+  readonly heading: string;
+  readonly lever: FiscalNoteLever;
+  readonly affectedLabel: string;
+  readonly payerLabel: string | null;
+  readonly recipientLabel: string | null;
+  /** A per-unit charge or a stated ceiling is not projected total receipts. */
+  readonly statedAmountLabel: string | null;
+  readonly statedAmountMinorUnits: number | null;
+  readonly amountKind:
+    | "appropriation"
+    | "authorization-ceiling"
+    | "per-unit-charge"
+    | "other-stated-amount"
+    | "none";
+  readonly forecastMinorUnits: number | null;
+  readonly missingInput: string | null;
+}
+
+export interface BillFiscalNote {
+  readonly designation: string;
+  readonly status: "draft" | "filed" | "enacted";
+  /** A draft's proposed start or an enacted law's operative date. */
+  readonly operativeAt: string | null;
+  readonly endsOn: string | null;
+  readonly parts: readonly FiscalNotePart[];
+}
+
+type FiscalNoteSection = Pick<
+  FiscalNotePart,
+  | "provisionKey"
+  | "sectionNumber"
+  | "heading"
+  | "statedAmountLabel"
+  | "statedAmountMinorUnits"
+> & {
+  readonly dimension: ClauseDimension | null;
+  readonly beneficiary: LegislativeProvisionBeneficiary;
+};
+
+/** Available on the pure preview before a measure or tax is recorded. */
+export function draftFiscalNote(draft: CompiledBillDraft): BillFiscalNote {
+  return {
+    designation: draft.designation,
+    status: "draft",
+    operativeAt: draft.startsOn,
+    endsOn: draft.endsOn,
+    parts: fiscalNoteParts(
+      draft.instrument,
+      draft.clauses.map((clause) => ({
+        provisionKey: clause.provisionKey,
+        sectionNumber: clause.sectionNumber,
+        heading: clause.heading,
+        dimension: clause.dimension,
+        beneficiary: clause.beneficiary,
+        statedAmountLabel: clause.fiscalExposureLabel,
+        statedAmountMinorUnits: clause.fiscalExposureMinorUnits,
+      })),
+    ),
+  };
+}
+
+/** Read from current saved provisions, so an adopted amendment changes the note. */
+export function filedFiscalNote(
+  world: World,
+  bill: DocketBill,
+): BillFiscalNote {
+  const dimensions = new Map<string, ClauseDimension>();
+  for (const lineage of draftLineageComponents(world, bill.measureId)) {
+    try {
+      const family = programFamily(lineage.familyKey);
+      if (family.familyVersion !== lineage.familyVersion) continue;
+      const variant = family.variants.find(
+        (entry) => entry.variantKey === lineage.variantKey,
+      );
+      for (const clause of variant?.clauses ?? []) {
+        const key =
+          lineage.componentKey === undefined
+            ? clause.provisionKey
+            : `${lineage.componentKey}:${clause.provisionKey}`;
+        dimensions.set(key, clause.dimension);
+      }
+    } catch {
+      // The current text survives a retired bank version; its lever stays unknown.
+    }
+  }
+  const enactment = (world.history.legislativeEnactments ?? []).find(
+    (row) => row.measureId === bill.measureId && row.outcome === "enacted",
+  );
+  return {
+    designation: bill.designation,
+    status: enactment ? "enacted" : "filed",
+    operativeAt: enactment?.effectiveAt ?? null,
+    endsOn: null,
+    parts: fiscalNoteParts(
+      bill.instrument,
+      currentMeasureProvisions(world, bill.measureId).map((provision) => ({
+        provisionKey: provision.provisionKey,
+        sectionNumber: provision.sectionNumber,
+        heading: provision.heading,
+        dimension: dimensions.get(provision.provisionKey) ?? null,
+        beneficiary: provision.beneficiary,
+        statedAmountLabel: provision.fiscalExposureLabel ?? null,
+        statedAmountMinorUnits: provision.fiscalExposureMinorUnits ?? null,
+      })),
+    ),
+  };
+}
+
+function fiscalNoteParts(
+  instrument: LegalInstrument | null,
+  sections: readonly FiscalNoteSection[],
+): readonly FiscalNotePart[] {
+  return sections.map((section) => {
+    const lever = clauseLever(section.dimension, instrument);
+    const affectedLabel =
+      section.beneficiary.kind === "general-application"
+        ? section.beneficiary.appliesToLabel
+        : section.beneficiary.beneficiaryLabel;
+    const amountKind: FiscalNotePart["amountKind"] =
+      section.dimension === "revenue"
+        ? "per-unit-charge"
+        : section.dimension === "funding-cap" && instrument === "appropriation"
+          ? "appropriation"
+          : section.dimension === "funding-cap"
+            ? "authorization-ceiling"
+            : section.statedAmountLabel !== null
+              ? "other-stated-amount"
+              : "none";
+    const payerLabel =
+      amountKind === "appropriation"
+        ? "the government in this bill's jurisdiction"
+        : amountKind === "per-unit-charge"
+          ? affectedLabel
+          : null;
+    const recipientLabel =
+      amountKind === "per-unit-charge"
+        ? "the government in this bill's jurisdiction"
+        : null;
+    const missingInput =
+      amountKind === "appropriation"
+        ? "when and how much is actually committed and paid"
+        : amountKind === "authorization-ceiling"
+          ? "a later appropriation and actual payment"
+          : amountKind === "per-unit-charge"
+            ? "the number of covered payments or transactions"
+            : lever === "who-qualifies"
+              ? "the number of covered people or transactions and the applicable amount"
+              : lever === "rule"
+                ? "recorded compliance and enforcement activity and any applicable cost"
+                : lever === "structure"
+                  ? "the affected units and any recorded setup or transition cost"
+                  : lever === "process"
+                    ? section.dimension === "timing"
+                      ? "the affected activity around the start or end date"
+                      : "recorded administrative workload and any applicable cost"
+                    : "the section's current fiscal classification";
+    return {
+      provisionKey: section.provisionKey,
+      sectionNumber: section.sectionNumber,
+      heading: section.heading,
+      lever,
+      affectedLabel,
+      payerLabel,
+      recipientLabel,
+      statedAmountLabel: section.statedAmountLabel,
+      statedAmountMinorUnits: section.statedAmountMinorUnits,
+      amountKind,
+      forecastMinorUnits: null,
+      missingInput,
+    };
+  });
 }
 
 export function billFiscalReading(

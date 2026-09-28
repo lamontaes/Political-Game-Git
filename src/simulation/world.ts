@@ -44,6 +44,10 @@ import {
   publicProgramRecords,
 } from "./public-program-integrity";
 import {
+  assertEnactedDutyIntegrity,
+  enactedDutyRecords,
+} from "./enacted-duty-integrity";
+import {
   assertJobMarketIntegrity,
   jobMarketHistoryRecords,
 } from "./job-market-integrity";
@@ -2093,6 +2097,7 @@ function validateHistoryIntegrity(
         ...worldSetupHistoryRecords(world),
         ...crisisRecords(world),
         ...publicProgramRecords(world),
+        ...enactedDutyRecords(world),
         ...(history.districtResidenceIntervals ?? []),
         ...(history.officeWorkflowPreferences ?? []),
         ...(history.officeStaffPositions ?? []),
@@ -2365,6 +2370,7 @@ function validateHistoryIntegrity(
   assertPersonnelIntegrity(world, ids);
   assertWorldSetupIntegrity(world, ids);
   assertPublicProgramIntegrity(world, ids);
+  assertEnactedDutyIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
   assertUniqueStableKeys(history.knowledge, "knowledge");

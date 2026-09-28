@@ -3,14 +3,14 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 279,
+    "markers": 280,
     "byPath": {
       "other": 82,
-      "law": 93,
+      "law": 94,
       "government": 40,
       "money": 64
     },
-    "moneyOrLawQuestions": 53
+    "moneyOrLawQuestions": 54
   },
   "markers": [
     {
@@ -87,7 +87,7 @@
     },
     {
       "file": "src/simulation/campaigns.ts",
-      "line": 1752,
+      "line": 1754,
       "text": "* (PLACEHOLDER, see local-chief-executive-rules.ts).",
       "path": "government",
       "researchQuestionId": null,
@@ -350,8 +350,16 @@
       "researchQuestionFiled": false
     },
     {
+      "file": "src/simulation/enacted-duties.ts",
+      "line": 454,
+      "text": "// PLACEHOLDER (research: law-clause-effects-by-family): a body with someone",
+      "path": "law",
+      "researchQuestionId": "law-clause-effects-by-family",
+      "researchQuestionFiled": true
+    },
+    {
       "file": "src/simulation/enacted-law-effects.ts",
-      "line": 100,
+      "line": 177,
       "text": "* world simply does not know what this part does. PLACEHOLDER until the",
       "path": "law",
       "researchQuestionId": null,
@@ -2119,7 +2127,7 @@
     },
     {
       "file": "src/presentation/law-effects-prose.ts",
-      "line": 96,
+      "line": 126,
       "text": "// PLACEHOLDER: the effect of this part is waiting on research. The",
       "path": "law",
       "researchQuestionId": null,
