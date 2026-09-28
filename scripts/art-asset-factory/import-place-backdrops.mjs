@@ -56,8 +56,11 @@ const kept = entries
 
 mkdirSync(OUT_DIR, { recursive: true });
 const wanted = new Set(kept.map((e) => `${e.place}__${e.variant}.jpg`));
+// Each place's own capitol comes from import-capitol-backdrops.mjs; keep it.
+const OWN_CAPITOL = /^state-capitol-[a-z]{2}__/;
 for (const file of readdirSync(OUT_DIR)) {
-  if (file.endsWith(".jpg") && !wanted.has(file)) rmSync(join(OUT_DIR, file));
+  if (file.endsWith(".jpg") && !wanted.has(file) && !OWN_CAPITOL.test(file))
+    rmSync(join(OUT_DIR, file));
 }
 
 const records = [];
@@ -98,8 +101,15 @@ for (const entry of kept) {
   });
 }
 
+const previous = existsSync(join(OUT_DIR, "manifest.json"))
+  ? JSON.parse(readFileSync(join(OUT_DIR, "manifest.json"), "utf8")).backdrops
+  : [];
+const capitols = previous.filter((r) => OWN_CAPITOL.test(`${r.place}__`));
+const backdrops = [...records, ...capitols].sort((a, b) =>
+  `${a.place}__${a.variant}`.localeCompare(`${b.place}__${b.variant}`),
+);
 writeFileSync(
   join(OUT_DIR, "manifest.json"),
-  `${JSON.stringify({ schema: "ocd-place-backdrops/v1", backdrops: records }, null, 2)}\n`,
+  `${JSON.stringify({ schema: "ocd-place-backdrops/v1", backdrops }, null, 2)}\n`,
 );
 process.stdout.write(`${records.length} backdrops written to ${OUT_DIR}\n`);

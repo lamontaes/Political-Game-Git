@@ -228,7 +228,7 @@ describe("NEXT24 combined private-citizen routine route", () => {
     );
     expect(
       describeRoutineOutcome(conflicted, stopped, personId, 3 * 1440),
-    ).toContain("Stopped for Care appointment");
+    ).toContain("Care appointment comes first.");
   });
   it("keeps unfunded period tuition pending without a credential or invented money", () => {
     const { world, personId } = life("next24-unfunded");

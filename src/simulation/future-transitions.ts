@@ -4,6 +4,7 @@ import {
   stableKeysOf,
 } from "./history-index";
 import { crisisAmbientHandler } from "./crisis/ambient";
+import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
 import { worldIntegrityCheckMode } from "./world-integrity-changed";
 import { crisisEntityAvailableAt, crisisEntityExists } from "./crisis/records";
 import { eventById } from "./event-index";
@@ -408,7 +409,13 @@ function handlerFor(
   registry: FutureTransitionHandlerRegistry,
   transitionKey: FutureTransitionKey,
 ): FutureTransitionHandler | undefined {
-  return registry.get(transitionKey) ?? crisisAmbientHandler(transitionKey);
+  return (
+    registry.get(transitionKey) ??
+    crisisAmbientHandler(transitionKey) ??
+    // The weekly look at people's private goals is on every played life's
+    // clock, so it resolves on every path that passes time, like CRISIS.
+    PEOPLE_GOAL_HANDLERS.get(transitionKey)
+  );
 }
 
 /*

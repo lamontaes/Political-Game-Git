@@ -57,7 +57,9 @@ export type ConversationOutcome =
   | "proposal-refused"
   | "proposal-countered"
   | "inducement-refused"
-  | "commitment-recalled";
+  | "commitment-recalled"
+  /** Answered without deciding yet: the question stays open between them. */
+  | "undecided";
 
 /** Canonical evidence supplied only after the turn's event and claim exist. */
 export interface ConversationConsequenceContext {

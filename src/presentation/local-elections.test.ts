@@ -1,0 +1,153 @@
+import { describe, expect, it } from "vitest";
+
+import { ageOnDate } from "../simulation/dates";
+import { governmentUnitsForState } from "../simulation/government-units";
+import {
+  LOCAL_ELECTION_FILING,
+  LOCAL_GOVERNMENT_YEAR,
+  nextTownElectionDay,
+  seatIsUp,
+} from "../simulation/living-world/local-elections";
+import { sittingLocalOfficers } from "../simulation/living-world/local-government-seats";
+import { localChiefExecutiveRules } from "../simulation/nationwide-world/local-chief-executive-rules";
+import { localGoverningBodyRules } from "../simulation/nationwide-world/local-governing-body-rules";
+import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
+import { STATES } from "../simulation/state-reference";
+import { makeIsoDate } from "../simulation/dates";
+import {
+  advanceObservedWorld,
+  observerSetup,
+  openObserverWorld,
+} from "./observer-world";
+
+/**
+ * Lane C step 3: the town's own elections. The council and mayor seated at
+ * the opening stand again on the town's calendar, neighbors file against
+ * them, a field of more than two meets in a primary, and the winner takes the
+ * seat.
+ */
+
+const FIFTY_STATES = Object.keys(STATES).filter(
+  (usps) =>
+    usps.length === 2 && !["DC", "PR", "GU", "VI", "AS", "MP"].includes(usps),
+);
+
+describe("the town's election calendar, in every state", () => {
+  it("covers fifty states", () => {
+    expect(FIFTY_STATES).toHaveLength(50);
+  });
+
+  for (const usps of FIFTY_STATES) {
+    it(`${usps}: a town's next election has a date and a basis, and every seat comes up within a term`, () => {
+      const unit = governmentUnitsForState(usps).find(
+        (candidate) =>
+          candidate.unitType === "municipality" && candidate.functionalActive,
+      )!;
+      expect(unit, usps).toBeDefined();
+      const onDate = makeIsoDate("2026-01-05");
+      const day = nextTownElectionDay(unit, onDate);
+      expect(day.electionDate > onDate).toBe(true);
+      expect([
+        "state-law-unverified",
+        "local-choice-drawn",
+        "game-default",
+      ]).toContain(day.basis);
+      // An election day is a Tuesday.
+      expect(new Date(`${day.electionDate}T00:00:00Z`).getUTCDay()).toBe(2);
+      const rules = localGoverningBodyRules(unit);
+      const seats = rules?.seats?.value ?? 0;
+      const term = rules?.termYears?.value ?? 4;
+      const year = Number(day.electionDate.slice(0, 4));
+      for (let n = 1; n <= seats; n += 1) {
+        const upWithinTerm = Array.from(
+          { length: Math.max(1, Math.round(term / day.cadenceYears)) },
+          (_, cycle) =>
+            seatIsUp(
+              n,
+              year + cycle * day.cadenceYears,
+              day.cadenceYears,
+              term,
+            ),
+        );
+        expect(upWithinTerm.filter(Boolean), `${usps} seat ${n}`).toHaveLength(
+          1,
+        );
+      }
+    });
+  }
+});
+
+describe("Columbus, Ohio elects its council on its own", () => {
+  it(
+    "holds primaries and a general, with residents running and the winners seated",
+    { timeout: 600_000 },
+    () => {
+      const opened = openObserverWorld(observerSetup("round-1", "3918000"));
+      let world = opened.world;
+      const units = homeLocalGovernmentUnits(
+        world,
+        opened.anchorPersonId,
+      ).municipal;
+      const due = world.history.futureDueItems.filter(
+        (item) =>
+          item.transitionKey === LOCAL_ELECTION_FILING ||
+          item.transitionKey === LOCAL_GOVERNMENT_YEAR,
+      );
+      expect(due.length).toBe(units.length * 2);
+      const town = due[0]!.jurisdictionId!;
+
+      // Through the November 2027 general election, on the observer clock.
+      while (world.currentDate < "2027-11-04")
+        world = advanceObservedWorld(world, 60);
+
+      const contests = (world.history.electionContests ?? []).filter((row) =>
+        row.stableKey.startsWith("local-elections/v1:"),
+      );
+      const primaries = contests.filter((row) =>
+        row.stableKey.endsWith(":primary"),
+      );
+      const generals = contests.filter((row) =>
+        row.stableKey.endsWith(":general"),
+      );
+      expect(primaries.length).toBeGreaterThan(0);
+      expect(generals.length).toBeGreaterThan(0);
+      // A field of more than two belongs only in a primary.
+      for (const row of generals)
+        expect(row.candidatePersonIds.length).toBeLessThanOrEqual(2);
+      expect(
+        Math.max(...primaries.map((row) => row.candidatePersonIds.length)),
+      ).toBeGreaterThan(2);
+      // Every race was counted, and every candidate lives in the town.
+      for (const row of contests) {
+        expect(
+          (world.history.electionContestResults ?? []).some(
+            (result) => result.contestId === row.id,
+          ),
+          row.stableKey,
+        ).toBe(true);
+        for (const id of row.candidatePersonIds) {
+          const person = world.people[id]!;
+          expect(person.homeJurisdictionId).toBe(town);
+          expect(
+            ageOnDate(person.birthDate, row.electionDate),
+          ).toBeGreaterThanOrEqual(21);
+        }
+      }
+      // The body is still its size after the seats change hands.
+      for (const unit of units) {
+        const rules = localGoverningBodyRules(unit);
+        if (!rules?.seats) continue;
+        const officers = sittingLocalOfficers(world, unit);
+        expect(officers.filter((row) => !row.mayor)).toHaveLength(
+          rules.seats.value,
+        );
+        expect(officers.filter((row) => row.mayor)).toHaveLength(
+          localChiefExecutiveRules(unit)?.directlyElected.value ? 1 : 0,
+        );
+      }
+      const types = new Set(world.history.events.map((event) => event.type));
+      expect(types.has("local.election-primary-held")).toBe(true);
+      expect(types.has("local.seat-changed")).toBe(true);
+    },
+  );
+});

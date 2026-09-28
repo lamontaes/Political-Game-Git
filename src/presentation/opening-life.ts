@@ -7,13 +7,11 @@ import {
 } from "../simulation/nationwide-world/state-legislature-opening";
 import type { NationwideStateLegislatureOpeningChunk } from "../simulation/nationwide-world/state-legislature-opening";
 import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
-import {
-  ensureCountyCouncilOpening,
-  ensureMunicipalCouncilOpening,
-} from "../simulation/municipal-council-opening";
-import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { ensureCountyCouncilOpening } from "../simulation/municipal-council-opening";
 import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
+import { ensureLocalCouncilMeetings } from "../simulation/living-world/local-council-meetings";
+import { ensureLocalElectionCalendar } from "../simulation/living-world/local-elections";
+import { ensureLocalGovernmentSeats } from "../simulation/living-world/local-government-seats";
 import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
 import { scheduleLocalMemberAgendaIntakes } from "../simulation/governing/member-agenda";
 import { seatedCongressChamber } from "../simulation/governing/congress-chambers";
@@ -388,18 +386,14 @@ function ensureHomeLocalGovernment(
   world: World,
   playerPersonId: EntityId,
 ): World {
-  const homeId = world.people[playerPersonId]?.homeJurisdictionId;
-  const home = homeId ? lifePlaceByJurisdictionId(homeId) : null;
-  const municipal = home ? municipalGovernmentForLifePlace(home) : null;
-  const withCouncil = municipal
-    ? ensureMunicipalCouncilOpening(world, municipal.key)
-    : world;
+  // The town's own council is seated from its residents in `openedWorld`
+  // (local-government-seats); only the county boards open here.
   const withCountyBoards = homeLocalGovernmentUnits(
-    withCouncil,
+    world,
     playerPersonId,
   ).counties.reduce(
     (next, county) => ensureCountyCouncilOpening(next, county.id),
-    withCouncil,
+    world,
   );
   return withCountyBoards;
 }
@@ -430,9 +424,19 @@ function openedWorld(
   // The town's residents are seated before migration is scheduled, so the
   // first quarterly review already has neighbors who might leave.
   if (!pressOpeningApplies(world)) return world;
-  const opened = ensureMigrationSchedule(
+  // The town government is seated from the same residents, so the council
+  // and the mayor are people who live in the town, and its elections go on
+  // the calendar with its council's meetings.
+  const seated = ensureLocalGovernmentSeats(
     ensureTownResidents(
       ensurePressOpening(world, playerPersonId),
+      playerPersonId,
+    ),
+    playerPersonId,
+  );
+  const opened = ensureMigrationSchedule(
+    ensureLocalCouncilMeetings(
+      ensureLocalElectionCalendar(seated, playerPersonId),
       playerPersonId,
     ),
   );

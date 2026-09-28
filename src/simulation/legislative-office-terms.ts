@@ -46,13 +46,20 @@ import type {
 import {
   BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
   blanketLegislativeTermYears,
+  KS_TERM_RULE_VERSION,
   KY_TERM_RULE_VERSION,
+  NE_TERM_RULE_VERSION,
+  REVIEWED_LEGISLATIVE_TERM_PROFILES,
   SUPPORTED_LEGISLATIVE_TERM_RULES,
+  type LegislativeTermProfile,
 } from "./legislative-term-rules";
+import { commencementInYear } from "./nationwide-world/state-executive-term-rules";
 
 export {
   BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
+  KS_TERM_RULE_VERSION,
   KY_TERM_RULE_VERSION,
+  NE_TERM_RULE_VERSION,
   SUPPORTED_LEGISLATIVE_TERM_RULES,
 };
 
@@ -117,7 +124,29 @@ function legacyUnboundDistrictSeat(
     : null;
 }
 
-/** Date precision only. The bounded first-election calendar remains authored. */
+function datesFromTermProfile(
+  rule: LegislativeTermProfile,
+  electionDate: IsoDate,
+) {
+  const startYear = Number(electionDate.slice(0, 4)) + 1;
+  return {
+    startsAt: commencementInYear(rule.commencement, startYear),
+    endsAt: commencementInYear(
+      rule.commencement,
+      startYear + rule.durationYears,
+    ),
+    ruleVersion: rule.ruleVersion,
+    note:
+      rule.sourceStatus === "admitted"
+        ? `${rule.sourceNote} First-election dates remain the existing authored game calendar, not admission of a real regular or special election.`
+        : `${rule.sourceNote} The official primary rule was reviewed for this bounded runtime profile; the research-only civic-calendar packet has not been admitted and special elections remain separate.`,
+    sourceUrl: rule.sourceUrl,
+    sourceUrls: [rule.sourceUrl, ...(rule.supportingSourceUrls ?? [])],
+    sourceStatus: rule.sourceStatus,
+  };
+}
+
+/** Admission-gated dates for the existing supported-term capability. */
 export function supportedLegislativeTermDates(
   officeKey: string,
   electionDate: IsoDate,
@@ -125,15 +154,7 @@ export function supportedLegislativeTermDates(
   const rule = SUPPORTED_LEGISLATIVE_TERM_RULES.find((candidate) =>
     candidate.officeKeys.some((key) => key === officeKey),
   );
-  if (!rule) return null;
-  const startYear = Number(electionDate.slice(0, 4)) + 1;
-  return {
-    startsAt: makeIsoDate(`${startYear}-01-01`),
-    endsAt: makeIsoDate(`${startYear + rule.durationYears}-01-01`),
-    ruleVersion: rule.ruleVersion,
-    note: `${rule.sourceNote} First-election dates remain the existing authored game calendar, not admission of a real regular or special election.`,
-    sourceUrl: rule.sourceUrl,
-  };
+  return rule ? datesFromTermProfile(rule, electionDate) : null;
 }
 
 /**
@@ -152,13 +173,21 @@ function legislativeOfficeOption(officeKey: string) {
 }
 
 /**
- * When a legislative term won on `electionDate` begins and ends: the sourced
- * rule where there is one, otherwise the marked blanket rule. Never the
- * result date. `basis` says which.
+ * When a legislative term won on `electionDate` begins and ends: an admitted
+ * rule, then a reviewed runtime profile, then the marked blanket rule. Never
+ * the result date. `basis` says which.
  */
 export function legislativeTermDates(officeKey: string, electionDate: IsoDate) {
   const supported = supportedLegislativeTermDates(officeKey, electionDate);
   if (supported) return { ...supported, basis: "sourced" as const };
+  const reviewed = REVIEWED_LEGISLATIVE_TERM_PROFILES.find((candidate) =>
+    candidate.officeKeys.some((key) => key === officeKey),
+  );
+  if (reviewed)
+    return {
+      ...datesFromTermProfile(reviewed, electionDate),
+      basis: "reviewed-profile" as const,
+    };
   const office = legislativeOfficeOption(officeKey);
   if (!office) return null;
   const termYears = office.qualification.termYears;

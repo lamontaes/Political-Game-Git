@@ -29,7 +29,6 @@ import {
 } from "../simulation/governing/legislative-clock";
 import { declineVenueActivity } from "./scheduled-activity-choice";
 import {
-  performCareerWork,
   resignCareer,
   respondCareerOffer,
   seekCareerOffer,
@@ -527,8 +526,6 @@ function earnOrdinaryCash(world: World, personId: EntityId): World {
     shift < 30 && cash(next, { kind: "person", personId }) < 5_000;
     shift++
   ) {
-    result = performCareerWork(next, engagement.id, provider);
-    if (result.ok) next = result.world;
     next = passOrdinaryDays(next, 1);
   }
   expect(cash(next, { kind: "person", personId })).toBeGreaterThanOrEqual(

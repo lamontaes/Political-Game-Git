@@ -38,6 +38,7 @@ import { TRANSIT_PROGRAM_KEY } from "../legislation-transit-families";
 import type {
   EntityId,
   IsoDate,
+  LegislativeMeasureNumberingSession,
   LegislativeMeasureRecord,
   World,
 } from "../types";
@@ -737,6 +738,8 @@ export function introduceAutomaticLawMeasure(
     readonly intakeKey: string;
     readonly stableKey: string;
     readonly designation: string;
+    /** The session `designation` was numbered in, from `nextMeasureNumbering`. */
+    readonly numberingSession?: LegislativeMeasureNumberingSession;
     readonly sponsorPersonId: EntityId;
     readonly originChamberKey: string;
     readonly principleRecordIds: readonly EntityId[];
@@ -774,6 +777,9 @@ export function introduceAutomaticLawMeasure(
     jurisdictionId: draft.jurisdictionId,
     rulePackId: draft.rulePackId,
     designation: input.designation,
+    ...(input.numberingSession
+      ? { numberingSession: input.numberingSession }
+      : {}),
     shortTitle: draft.shortTitle,
     summary: draft.summary,
     origin: "member-introduction",

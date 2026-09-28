@@ -1,0 +1,89 @@
+{
+  "asOf": "2026-09-26",
+  "canonicalSha256": "9cf391daa1f7c6a27576da182c9ae3011a5d81de21ef6d2f4a4bcfd403f6d610",
+  "compiler": "scripts/source/regional-money/compile-acs-county-money.ts",
+  "compression": "gzip",
+  "corpusPath": "data/source/acs-county-housing-commute/regional-corpus.json.gz",
+  "coverage": {
+    "commuteBinsIncludingTotal": 13,
+    "counties": 3222,
+    "jamValues": {
+      "-222222222": 12,
+      "-666666666": 12
+    },
+    "matchedBlsCountyIds": true,
+    "statesAndTerritories": [
+      "01",
+      "02",
+      "04",
+      "05",
+      "06",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12",
+      "13",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35",
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "44",
+      "45",
+      "46",
+      "47",
+      "48",
+      "49",
+      "50",
+      "51",
+      "53",
+      "54",
+      "55",
+      "56",
+      "72"
+    ]
+  },
+  "inputs": [
+    {
+      "localPath": "data/source/acs-county-housing-commute/raw/ACS20245YR_Table_Shells.txt",
+      "sha256": "5b46f4af873744a415c4974204010db976e2a61ff916674732f81c496a6b517d"
+    },
+    {
+      "localPath": "data/source/acs-county-housing-commute/raw/acsdt5y2024-b25077.dat",
+      "sha256": "89eb2153764a2330b23959d8bbc29b3a8f3016f087b990f2a8ea0d5096d9a816"
+    },
+    {
+      "localPath": "data/source/acs-county-housing-commute/raw/acsdt5y2024-b25064.dat",
+      "sha256": "b36e6dc1fcef36b8b307d31b37517b64c80d8b9c70d48c9b1894242860f42eb0"
+    },
+    {
+      "localPath": "data/source/acs-county-housing-commute/raw/acsdt5y2024-b08303.dat",
+      "sha256": "1b9b9243afe6656fa8d760830b0b760e7de759752b49510175fd1853e1c016de"
+    }
+  ],
+  "recordCount": 3222
+}

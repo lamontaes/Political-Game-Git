@@ -11,6 +11,10 @@ import {
 } from "../simulation";
 import { openOrdinaryLifeRecords } from "../simulation/life-opportunities";
 import {
+  localCouncilChair,
+  postedMeetingVote,
+} from "../simulation/living-world/local-council-meetings";
+import {
   recordOrdinaryMeetingPresence,
   enterOrdinaryMeeting,
   speakAtOrdinaryMeeting,
@@ -143,7 +147,18 @@ describe("prospective meeting presence", () => {
       );
       const scene = projectOrdinaryMeetingScene(recorded, personId)!;
       expect(scene.phase).toBe("immediate-aftermath");
-      expect(scene.caption).toContain("The discussion ended without a vote.");
+      // Where the town's council is seated, the posted meeting is its
+      // meeting: a member chairs it and it ends with the council's vote.
+      const town = activity.location.jurisdictionId!;
+      const councilVote = postedMeetingVote(recorded, town);
+      const councilChair = localCouncilChair(completed, town, personId);
+      if (councilVote)
+        expect(scene.caption).toContain(
+          `voted ${councilVote.vote.tally.yea}-${councilVote.vote.tally.nay}`,
+        );
+      else
+        expect(scene.caption).toContain("The discussion ended without a vote.");
+      if (councilChair) expect(scene.actors[0]!.personId).toBe(councilChair);
       expect(scene.agendaText).toContain("one extra evening each week");
       expect(scene.actors).toHaveLength(3);
       expect(scene.actors.slice(1).every((actor) => actor.spokenLine)).toBe(
@@ -153,7 +168,7 @@ describe("prospective meeting presence", () => {
         recorded.people[scene.actors[0]!.personId]!.homeJurisdictionId,
       ).toBe(activity.location.jurisdictionId);
       expect(recorded.personOrder.length).toBe(
-        completed.personOrder.length + 3,
+        completed.personOrder.length + (councilChair ? 2 : 3),
       );
       expect(
         simulationMinutesBetween(

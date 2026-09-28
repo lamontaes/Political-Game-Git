@@ -263,10 +263,10 @@ function noSourcedOfficeReason(authority: CandidacyAuthority): string {
   ) {
     // A territory's Governor stands apart from this list; its legislature and
     // local offices are not on record until the territory research lands.
-    return "None of this territory's legislative or local offices is on record yet, so there is no seat to stand for here. Its Governor is below.";
+    return "None of this territory's legislative or local offices is on record yet, so there is no seat to run for here. Its Governor is below.";
   }
   if (authority.pack === null) {
-    return "The game has not read this state's elected offices yet, so there is nothing to stand for here. It will not borrow another state's rules to fill the gap.";
+    return "The game has not read this state's elected offices yet, so there is nothing to run for here. It will not borrow another state's rules to fill the gap.";
   }
   // A pack governs; the office asked for simply is not one of its seats.
   return "That office is not one the accepted rules for this place establish, so the game will not put it on a ballot.";
@@ -420,7 +420,7 @@ function assessEnactedQualification(
       verdict: meets ? "meets" : "fails",
       reason: meets
         ? `Old enough: ${law} this office has a minimum age of ${change.value}.`
-        : `You must be at least ${change.value} to stand for this office, ${law.slice(0, -1)}.`,
+        : `You must be at least ${change.value} to run for this office, ${law.slice(0, -1)}.`,
       source: null,
     };
   }
@@ -759,7 +759,7 @@ export function candidacyEligibility(
         // as a sourced one is: the player is not told that this office's rule
         // was drawn, and the provenance stays in the record where an auditor
         // looks for it.
-        reason: `You must be at least ${profileMinimumAge} to stand for this office.`,
+        reason: `You must be at least ${profileMinimumAge} to run for this office.`,
       });
     }
   } else if (
@@ -778,7 +778,7 @@ export function candidacyEligibility(
     // kind and this comment, not on the screen.
     blocks.push({
       kind: "below-game-adult-age",
-      reason: `You must be at least ${GAME_ADULT_CANDIDACY_AGE} to stand for this office.`,
+      reason: `You must be at least ${GAME_ADULT_CANDIDACY_AGE} to run for this office.`,
     });
   }
   // Every chief executive's office has a term limit in one of three states:

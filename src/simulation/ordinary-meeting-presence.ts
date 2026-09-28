@@ -31,6 +31,11 @@ import type {
   World,
 } from "./types";
 import { recordWorldEvent } from "./world";
+import {
+  localCouncilChair,
+  postedMeetingVote,
+  postedMeetingVoteSentence,
+} from "./living-world/local-council-meetings";
 
 export const ORDINARY_MEETING_PRESENCE = "ordinary-meeting-presence-v1";
 
@@ -397,6 +402,11 @@ function writePresence(
   if (earlierEntry && !recordedChair) return completed;
   let next = completed;
   let chairId = recordedChair?.personId;
+  // Where the town's council is seated, the posted meeting is its meeting and
+  // its mayor or a member chairs it.
+  const councilChair = localCouncilChair(completed, jurisdictionId, personId);
+  if (!chairId && councilChair && available(councilChair))
+    chairId = councilChair;
   if (!chairId) {
     const key = `${baseKey}:chair`;
     const rng = new SeededRng(completed.seed).fork(key);
@@ -462,6 +472,11 @@ function writePresence(
     }
   }
   const agenda = earlierEntry?.context.socialContext ?? PUBLIC_MEETING_AGENDA;
+  // The council's roll call on the agenda item, when the council took one.
+  const councilVote =
+    phase === "active" ? null : postedMeetingVote(next, jurisdictionId);
+  const voteSentence =
+    phase === "active" ? null : postedMeetingVoteSentence(next, jurisdictionId);
   next = recordWorldEvent(next, {
     stableKey,
     type:
@@ -517,19 +532,21 @@ function writePresence(
       `notice:${notice.id}`,
       ...(lateArrival ? ["attendance:late-entry"] : []),
       ...(outcome ? [`completion:${outcome.id}`] : []),
+      ...(councilVote ? [`council-vote:${councilVote.vote.id}`] : []),
     ],
     summary:
       phase === "active"
         ? `${personName(next.people[chairId]!)} chairs the posted public meeting. The meeting is ${lateArrival ? "underway" : "starting"}.`
-        : `${personName(next.people[chairId]!)} chaired the posted public meeting. The discussion ended without a vote.`,
+        : `${personName(next.people[chairId]!)} chaired the posted public meeting. ${voteSentence ?? "The discussion ended without a vote."}`,
     context: {
       location: {
         jurisdictionId,
         label: activity.location.label,
         setting: "community room",
       },
-      // PLACEHOLDER(overnight): The authored meeting has no sourced body or
-      // voting rule. It records discussion only and no official policy result.
+      // PLACEHOLDER(overnight): Where the town's council is not seated, the
+      // authored meeting has no body or voting rule and records discussion
+      // only. Where it is, the council's recorded roll call is the result.
       socialContext: agenda,
       pressure: null,
       choice:

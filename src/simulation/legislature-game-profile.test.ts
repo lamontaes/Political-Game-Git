@@ -336,9 +336,15 @@ describe("a generated pack is complete enough to name", () => {
   it("names its chambers and numbers its bills", () => {
     const pack = legislatureProfilePack("US-WY", "Wyoming")!;
     expect(pack.displayName).toBe("Wyoming Legislature");
+    // Wyoming's recorded samples file House Bills and Senate Files
+    // (data/research/bill-samples/state/wyoming.json).
     expect(
       pack.chambers.map((chamber) => chamber.billDesignationPrefix),
-    ).toEqual(["HB", "SB"]);
+    ).toEqual(["HB", "SF"]);
+    expect(pack.chambers.map((chamber) => chamber.name)).toEqual([
+      "House of Representatives",
+      "Senate",
+    ]);
     expect(defaultOriginChamber(pack).chamberKey).toBe("house");
   });
 });

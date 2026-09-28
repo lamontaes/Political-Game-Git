@@ -1,0 +1,212 @@
+[
+  {
+    "id": "il-2025-hb2978-nicu-leave",
+    "jurisdiction": "Illinois",
+    "level": "state",
+    "session": "104th General Assembly",
+    "bill_number": "HB 2978",
+    "law_citation": "Public Act 104-0259",
+    "short_title": "Family Neonatal Intensive Care Leave Act",
+    "enacted_date": "2025-08",
+    "enactment_path": "signed",
+    "effective_dates": ["2026-06-01 (inferred)"],
+    "official_text_url": "https://www.ilga.gov/Documents/legislation/publicacts/104/PDF/104-0259.pdf",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Paid and unpaid leave",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "benefit",
+        "description": "Unpaid job-protected leave while a child is in the NICU.",
+        "numbers": [
+          {
+            "value": 10,
+            "unit": "days (16-50 employees)",
+            "text": "10 days (16-50 employees)"
+          },
+          {
+            "value": 20,
+            "unit": "days (more than 50 employees)",
+            "text": "20 days (more than 50 employees)"
+          }
+        ]
+      },
+      {
+        "kind": "threshold",
+        "description": "Applies to employers with at least 16 employees.",
+        "numbers": [
+          {
+            "value": 16,
+            "unit": "employees",
+            "text": "16 employees"
+          }
+        ]
+      },
+      {
+        "kind": "enforcement",
+        "description": "Department of Labor enforcement and private action (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["employers", "FMLA"],
+    "daily_life": "A parent can miss work for a baby in intensive care without being fired.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "il-2025-sb1976-worker-safety-backstop",
+    "jurisdiction": "Illinois",
+    "level": "state",
+    "session": "104th General Assembly",
+    "bill_number": "SB 1976",
+    "law_citation": "Public Act 104-0161",
+    "short_title": "Workers' Rights and Worker Safety Act",
+    "enacted_date": "2025-08",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.ilga.gov/Documents/legislation/publicacts/104/PDF/104-0161.pdf",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Workplace health and safety",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "trigger",
+        "description": "If a federal workplace safety or labor standard is repealed or weakened, the state adopts the prior standard as state law."
+      },
+      {
+        "kind": "administering-agency",
+        "description": "Illinois Department of Labor adopts standards by rule."
+      },
+      {
+        "kind": "duty",
+        "description": "Standards track federal law as it stood on a baseline date (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["federal OSHA", "employers"],
+    "daily_life": "If Washington loosens a safety rule, Illinois workers keep the old protection.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "il-2026-pa104-0468-revenue-omnibus",
+    "jurisdiction": "Illinois",
+    "level": "state",
+    "session": "104th General Assembly (2026)",
+    "bill_number": "SB 3019",
+    "law_citation": "Public Act 104-0468",
+    "short_title": "2026 revenue omnibus (targeted advertising tax, digital asset tax, motor fuel indexing pause)",
+    "enacted_date": "2026-06-16",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2026-07-01 to 2026-12-31 motor fuel indexing pause",
+      "2027-01-01 new taxes"
+    ],
+    "official_text_url": "https://www.ilga.gov/Documents/legislation/publicacts/104/PDF/104-0468.pdf",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Taxes - new excise taxes / fuel",
+    "secondary_menus": ["13", "01"],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": ["lower"],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "New tax on providers of targeted advertising services, on gross receipts from services in the state.",
+        "numbers": [
+          {
+            "value": 10,
+            "unit": "percent of gross receipts",
+            "text": "10 percent of gross receipts"
+          },
+          {
+            "value": 2027,
+            "unit": "-01-01 date",
+            "text": "2027-01-01 date"
+          }
+        ]
+      },
+      {
+        "kind": "rate",
+        "description": "New tax on digital asset business activity, collected by the broker.",
+        "numbers": [
+          {
+            "value": 0.2,
+            "unit": "percent of value",
+            "text": "0.2 percent of value"
+          },
+          {
+            "value": 2027,
+            "unit": "-01-01 date",
+            "text": "2027-01-01 date"
+          }
+        ]
+      },
+      {
+        "kind": "indexation",
+        "description": "Suspends the scheduled inflation increase in the per-gallon motor fuel tax for six months.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-07-01 date start",
+            "text": "2026-07-01 date start"
+          },
+          {
+            "value": 2026,
+            "unit": "-12-31 date end",
+            "text": "2026-12-31 date end"
+          }
+        ]
+      },
+      {
+        "kind": "trigger",
+        "description": "Fuel indexing pause adopted as gas prices rose.",
+        "numbers": [
+          {
+            "value": 4.62,
+            "unit": "USD per gallon average reported",
+            "text": "4.62 USD per gallon average reported"
+          }
+        ]
+      },
+      {
+        "kind": "delegation",
+        "description": "One very large bill: 1,624 pages bundling many revenue articles.",
+        "numbers": [
+          {
+            "value": 1624,
+            "unit": "pages",
+            "text": "1624 pages"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "online advertising platforms",
+      "crypto brokers",
+      "road fund",
+      "FY2027 budget"
+    ],
+    "daily_life": "Gas skips its July tax bump; big ad platforms and crypto trades face new Illinois taxes in 2027.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": "Motor fuel pause confirmed by Department of Revenue bulletins; tax articles read from the enrolled act."
+  }
+]

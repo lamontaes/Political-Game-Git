@@ -42,6 +42,10 @@
  */
 
 import {
+  stateBillNumberingStyle,
+  templatePrefix,
+} from "./bill-numbering-styles";
+import {
   knownRule,
   fractionOf,
   majorityOf,
@@ -583,6 +587,9 @@ function buildLegislatureProfilePack(
 ): LegislativeRulePack | null {
   const profile = legislatureProfileFor(stateJurisdictionKey);
   if (profile === null) return null;
+  // Each state's own chamber names and bill prefixes, read from the recorded
+  // research where it has them (decision OCD-LEG-NUM-001).
+  const numbering = stateBillNumberingStyle(stateJurisdictionKey);
   const override = overrideThresholdFor(
     stateJurisdictionKey,
     profile.overrideFraction,
@@ -608,16 +615,16 @@ function buildLegislatureProfilePack(
     chambers: [
       profileChamber(
         "house",
-        "House of Representatives",
-        "HB",
+        numbering.lower.name,
+        templatePrefix(numbering.lower.template),
         profile.lowerSeats,
         profile.lowerSeatsBasis,
         profile.seatSource,
       ),
       profileChamber(
         "senate",
-        "Senate",
-        "SB",
+        numbering.upper.name,
+        templatePrefix(numbering.upper.template),
         profile.upperSeats,
         profile.upperSeatsBasis,
         profile.seatSource,
@@ -710,7 +717,7 @@ function buildLegislatureProfilePack(
           ],
     unresolvedGaps: [
       "This legislature has not been compiled from its state's own constitution or rules. Its structure, seat counts, veto windows and override threshold are the game's own, drawn from the range the compiled states span, and none of them is a claim about this state's law.",
-      "The chamber names and bill prefixes are the ordinary American ones. A state whose lower chamber is an Assembly or a House of Delegates will say so once its instruments are compiled.",
+      "The chamber names and bill prefixes come from this state's recorded enacted-bill samples and chamber-name research where those record them; a chamber they do not record keeps a labeled game default.",
       "Committee structure, referral among committees, hearing guarantees and report thresholds come from chamber rules that have not been read.",
       "Conference between the chambers is not modeled.",
       "How often this legislature meets and whether a pending measure carries over after adjournment have not been read; the annual session with bills dying at adjournment is the game's standing rule until they are.",

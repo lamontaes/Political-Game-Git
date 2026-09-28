@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { assertWorldIntegrity, serializeWorld } from "../simulation";
 import { formativeIntervalAt } from "../simulation/character-history";
+import { playerTemperament } from "../simulation/people-player-traits";
+import { personTrait } from "../simulation/people-traits";
 import {
   caregiverChoice,
   caregiverFor,
@@ -62,6 +64,7 @@ describe("PEOPLE P14: a childhood that is lived before it is directed", () => {
       world.history.memories.filter((memory) => memory.personId === player)
         .length,
     );
+    expect(playerTemperament(played, player).said).toEqual([]);
     assertWorldIntegrity(played);
   });
 
@@ -85,6 +88,43 @@ describe("PEOPLE P14: a childhood that is lived before it is directed", () => {
       teen.world.history.events.length,
     );
     assertWorldIntegrity(played);
+  });
+
+  it("records different social tendencies from the player's own lunch-table choices", () => {
+    const middle = child("people-childhood-player-traits", 10);
+    let before = middle.world;
+    let foundLunchTable = false;
+    for (let step = 0; step < 8; step += 1) {
+      const moment = projectChildhoodMoment(before, middle.player);
+      if (!moment?.scene) break;
+      if (moment.scene.situationKey !== "formative.lunch-table") {
+        before = playChildhoodMoment(before, {
+          personId: middle.player,
+          optionKey: moment.scene.options[0]!.key,
+        });
+        continue;
+      }
+      foundLunchTable = true;
+      const madeRoom = playChildhoodMoment(before, {
+        personId: middle.player,
+        optionKey: "make-room",
+      });
+      const lookedAway = playChildhoodMoment(before, {
+        personId: middle.player,
+        optionKey: "look-away",
+      });
+      expect(personTrait(madeRoom, middle.player, "sociability").value).toBe(1);
+      expect(personTrait(lookedAway, middle.player, "sociability").value).toBe(
+        -1,
+      );
+      const record = lookedAway.history.personalityTendencies.at(-1)!;
+      expect(record.provenance.kind).toBe("player-choice");
+      expect(record.provenance.note).toBe("Look away");
+      assertWorldIntegrity(madeRoom);
+      assertWorldIntegrity(lookedAway);
+      break;
+    }
+    expect(foundLunchTable).toBe(true);
   });
 
   it("the middle years are shared, and say so", () => {

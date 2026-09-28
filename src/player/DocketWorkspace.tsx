@@ -45,6 +45,7 @@ import {
   availableDraftOptions,
   fileSelectedDraftFromOffice as fileDraft,
   previewDraft,
+  provisionalDocketDesignation,
   queryDocket,
   resolveAuthority,
   type DocketBill,
@@ -550,7 +551,7 @@ function FiledBillPanel({
   return (
     <article className="docket-bill" data-testid="docket-bill">
       <h4 className="docket-bill-heading">
-        {bill.designation} — {bill.shortTitle}
+        {bill.fullDesignation} — {bill.shortTitle}
       </h4>
 
       <dl className="docket-identity" data-testid="docket-identity">
@@ -1174,6 +1175,19 @@ function DraftingTable({
     () => availableAuthorities(world, { scenarioKey, playerPersonId }),
     [world, scenarioKey, playerPersonId],
   );
+  // The number the bill would be filed under now, so the draft shows the
+  // number it will actually get.
+  const provisionalDesignation = useMemo(() => {
+    try {
+      return provisionalDocketDesignation(world, {
+        scenarioKey,
+        jurisdictionId,
+        playerPersonId,
+      });
+    } catch {
+      return undefined;
+    }
+  }, [world, scenarioKey, jurisdictionId, playerPersonId]);
   const [chosen, setChosen] = useState<string | null>(null);
   const [browseMode, setBrowseMode] = useState<"subject" | "group">("subject");
   const [subjectKey, setSubjectKey] = useState<string | null>(null);
@@ -1385,6 +1399,9 @@ function DraftingTable({
         selectedProvisionKeys,
         filedOn: world.currentDate,
         provisionalSequence: nextSequence,
+        ...(provisionalDesignation !== undefined
+          ? { designation: provisionalDesignation }
+          : {}),
         ...(authority !== undefined ? { predicateAuthority: authority } : {}),
       });
     } catch {
@@ -1398,6 +1415,7 @@ function DraftingTable({
     jurisdictionId,
     world.currentDate,
     nextSequence,
+    provisionalDesignation,
   ]);
 
   const asChosen = useMemo<
@@ -1415,6 +1433,9 @@ function DraftingTable({
           selectedProvisionKeys,
           filedOn: world.currentDate,
           provisionalSequence: nextSequence,
+          ...(provisionalDesignation !== undefined
+            ? { designation: provisionalDesignation }
+            : {}),
           ...(authority !== undefined ? { predicateAuthority: authority } : {}),
         }),
       };
@@ -1430,6 +1451,7 @@ function DraftingTable({
     jurisdictionId,
     world.currentDate,
     nextSequence,
+    provisionalDesignation,
   ]);
 
   const specs: readonly ProgramParameterSpec[] = variant

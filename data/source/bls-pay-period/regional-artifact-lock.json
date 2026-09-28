@@ -1,0 +1,14 @@
+{
+  "artifacts": [
+    {
+      "length": 2942,
+      "limitation": "BLS HTML response was browser-readable but direct nonbrowser fetch returned 403; the capture is reviewed table text, not publisher-distributed original bytes",
+      "localPath": "data/source/bls-pay-period/raw/ces-february-2023-page-tables.json",
+      "mediaType": "application/json; source table capture",
+      "sha256": "501e7cf37e2dfaa942f28ed06b7f39020e7c81d0823099b1ae87dc75092dcdad",
+      "url": "https://www.bls.gov/ces/publications/length-pay-period.htm",
+      "vintage": "February 2023"
+    }
+  ],
+  "asOf": "2026-09-26"
+}

@@ -1,4 +1,15 @@
 import { WardrobeFigure } from "./WardrobeFigure";
+import { EngineFigure } from "./EnginePerson";
+import { EngineAppearanceControls } from "./EngineAppearanceControls";
+import {
+  choiceFromRecipe,
+  engineRecipeFor,
+  withEngineChoice,
+} from "../presentation/appearance-engine/recipe";
+import {
+  PEOPLE_PACK,
+  peoplePackAvailable,
+} from "../presentation/appearance-engine/runtime";
 import { PersonPortrait } from "./PersonPortrait";
 import {
   createPersonRenderSnapshot,
@@ -132,6 +143,38 @@ export function SavedAppearanceControls(
         from Personal.
       </p>
     );
+  const person = props.world.people[props.personId];
+  const engine =
+    person && peoplePackAvailable()
+      ? engineRecipeFor(person, props.world.currentDate, PEOPLE_PACK)
+      : null;
+  if (engine && person) {
+    // The people engine's wardrobe: the same arrows as the creator, saved.
+    return (
+      <details
+        className="pg-personal-section"
+        data-testid="saved-appearance-controls"
+        data-appearance-catalog="people-engine"
+      >
+        <summary>Appearance and wardrobe</summary>
+        <div className="engine-creator-stage">
+          <EngineFigure recipe={engine} testId="wardrobe-engine-figure" />
+        </div>
+        <EngineAppearanceControls
+          recipe={engine}
+          onChange={(recipe) =>
+            props.onWorldChange(
+              withEngineChoice(
+                props.world,
+                person.id,
+                choiceFromRecipe(recipe),
+              ),
+            )
+          }
+        />
+      </details>
+    );
+  }
   const library = preview
     ? wearableChoicesIn(preview.characters)
     : NORMAL_APPEARANCE_LIBRARY;

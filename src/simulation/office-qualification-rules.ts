@@ -566,7 +566,7 @@ export function assessOfficeQualifications(
         assessments.push({
           field: row.field,
           verdict: "fails",
-          reason: `There is no such office in ${qualificationStateLabel(row)}, so there is no seat to stand for.`,
+          reason: `There is no such office in ${qualificationStateLabel(row)}, so there is no seat to run for.`,
           source: row,
         });
       }
@@ -622,7 +622,7 @@ export function assessOfficeQualifications(
           age >= required
             ? `Old enough: this office has a minimum age of ${required}.`
             : // The same sentence every other minimum age uses on screen.
-              `You must be at least ${required} to stand for this office.`,
+              `You must be at least ${required} to run for this office.`,
         source: row,
       });
       continue;

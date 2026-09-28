@@ -69,11 +69,14 @@ export function middayBackdropUrl(place: string): string | null {
 const TOWER_CAPITOLS: ReadonlySet<string> = new Set(["FL", "LA", "ND", "NE"]);
 
 /**
- * The state capitol picture. PLACEHOLDER(wave2): Alaska, Hawaii, New Mexico
- * and Oregon have neither a dome nor a tower and get the dome until they have
- * their own pictures.
+ * The capitol picture for a state, D.C. or a territory: its own building when
+ * that place has a picture (`state-capitol-tx`, `state-capitol-dc`), else the
+ * shared tower or dome. D.C.'s is the John A. Wilson Building, where the
+ * Council sits.
  */
 export function capitolPlaceFor(usps: string | null): string {
+  const own = usps ? `state-capitol-${usps.toLowerCase()}` : null;
+  if (own && hasBackdrop(own)) return own;
   return usps && TOWER_CAPITOLS.has(usps)
     ? "state-capitol-tower"
     : "state-capitol-dome";
@@ -177,9 +180,14 @@ export function homePlaceFor(
     case "residential:mobile-home":
     case "residential:other-mobile":
       return "mobile-home";
-    // PLACEHOLDER(wave2): rowhouse, large-house and rural-farmhouse need the
-    // attached/detached split, household wealth and county density, which the
-    // world does not record yet. A detached or unknown house reads suburban.
+    // The town's homes record these kinds (`simulation/living-world/town-homes.ts`).
+    case "residential:rowhouse":
+      return "rowhouse";
+    case "residential:large-house":
+      return "large-house";
+    case "residential:farmhouse":
+      return "rural-farmhouse";
+    // A detached or unknown house reads suburban.
     default:
       return "suburban-house";
   }

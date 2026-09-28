@@ -6,7 +6,7 @@ import {
   legislativePackForWorkKey,
 } from "../legislative-institutions";
 import { permittedOriginChambers } from "../legislature-rules";
-import { nextMeasureDesignation } from "../measure-numbering";
+import { nextMeasureNumbering } from "../measure-numbering";
 import {
   legislativeProcedureForPack,
   legislativeRulePackForWorld,
@@ -298,10 +298,12 @@ export function fileMemberAgendaBills(
         proposition.stableKey,
         sponsor.personId,
       );
-      const designation = nextMeasureDesignation(next, {
+      const numbering = nextMeasureNumbering(next, {
         jurisdictionId: input.jurisdictionId,
         originChamber: sponsor.chamber,
+        rulePackId: pack.packId,
       });
+      const designation = numbering.designation;
       const draft = compileAutomaticLawDraft({
         world: next,
         jurisdictionId: input.jurisdictionId,
@@ -331,6 +333,7 @@ export function fileMemberAgendaBills(
         answer: candidate.answer,
         intakeKey: batchKey + ":" + encodeURIComponent(proposition.stableKey),
         designation,
+        numberingSession: numbering.numberingSession,
         sponsorPersonId: sponsor.personId,
         originChamberKey: sponsor.chamber.chamberKey,
         principleRecordIds: candidate.principleRecordIds,
@@ -398,9 +401,10 @@ export function fileMemberAgendaBills(
       stableKey: measureStableKeyFor(proposition.stableKey, sponsor.personId),
       jurisdictionId: input.jurisdictionId,
       rulePackId: pack.packId,
-      designation: nextMeasureDesignation(next, {
+      ...nextMeasureNumbering(next, {
         jurisdictionId: input.jurisdictionId,
         originChamber: sponsor.chamber,
+        rulePackId: pack.packId,
       }),
       shortTitle:
         best.answer === "yes"
@@ -674,10 +678,12 @@ export function fileLocalMemberAgendaBill(
       );
       if (!pack || !chamber || pack.packId !== grant.authority.rulePackId)
         continue;
-      const designation = nextMeasureDesignation(next, {
+      const numbering = nextMeasureNumbering(next, {
         jurisdictionId: grant.jurisdictionId,
         originChamber: chamber,
+        rulePackId: pack.packId,
       });
+      const designation = numbering.designation;
       const stableKey = `${batchKey}:${sponsor.personId}:${encodeURIComponent(proposition.stableKey)}`;
       const draft = compileAutomaticLawDraft({
         world: actorWorld,
@@ -704,6 +710,7 @@ export function fileLocalMemberAgendaBill(
         intakeKey: batchKey,
         stableKey,
         designation,
+        numberingSession: numbering.numberingSession,
         sponsorPersonId: sponsor.personId,
         originChamberKey: chamber.chamberKey,
         principleRecordIds: leaning.recordIds,

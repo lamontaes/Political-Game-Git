@@ -98,7 +98,7 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
-import { nextMeasureDesignation } from "../measure-numbering";
+import { nextMeasureNumbering } from "../measure-numbering";
 import type {
   EntityId,
   FutureDueItem,
@@ -1092,6 +1092,10 @@ export function pendingChamberQuestions(
   onDate: IsoDate = world.currentDate,
 ): readonly ChamberQuestionForum[] {
   const measure = requireMeasure(world, measureId);
+  // A council's ordinances are voted at its own meetings (the council
+  // procedures in municipal-ordinance-procedure.ts and
+  // living-world/local-council-meetings.ts), never by this clock.
+  if (measure.originChamberKey === "council") return [];
   const owner = effectiveOwner(world, measure);
   if (owner !== "institution" && owner !== "sponsor-office") return [];
   const blueprint = legislativeBlueprintForMeasure(world, measure);
@@ -1575,9 +1579,10 @@ export function fileLegislatureMeasure(
     stableKey,
     jurisdictionId: input.jurisdictionId,
     rulePackId: pack.packId,
-    designation: nextMeasureDesignation(next, {
+    ...nextMeasureNumbering(next, {
       jurisdictionId: input.jurisdictionId,
       originChamber,
+      rulePackId: pack.packId,
     }),
     shortTitle: blueprint.shortTitle,
     summary: blueprint.summary,

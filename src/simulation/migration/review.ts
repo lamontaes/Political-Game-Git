@@ -83,6 +83,12 @@ import {
   stepPressureEvents,
 } from "../pressure";
 import { activeWavesCovering, stepWaves, wavePressure } from "./waves";
+import {
+  TOWN_JOB_ENDS_NOT_LOST,
+  reviewTownJobs,
+} from "../living-world/town-labor-market";
+import { reviewTownFamilies } from "../living-world/town-families";
+import { reviewTownHomes } from "../living-world/town-homes";
 
 /**
  * BLANKET: the chance an eligible adult resident leaves town in a year.
@@ -182,6 +188,18 @@ export function migrationReviewHandler(
     stepped === world ? world : stepPressureEvents(stepped),
     index,
   );
+  // The town's jobs turn over on the same quarterly review, after the moves,
+  // so a newcomer can be hired and a mover's job is already closed.
+  const town = migrationTown(next);
+  // Then its families: couples forming and parting, and children born.
+  if (town) {
+    const player =
+      next.control.kind === "person" ? next.control.personId : null;
+    next = reviewTownJobs(next, town, player, String(index));
+    next = reviewTownFamilies(next, town, player, String(index));
+    // And its homes: newcomers and new households move in, others move.
+    next = reviewTownHomes(next, town, String(index));
+  }
   next = scheduleFutureDueItem(next, {
     stableKey: `${REVIEW_KEY_PREFIX}${index + 1}`,
     dueAt: addDays(next.currentDate, MIGRATION_REVIEW_INTERVAL_DAYS),
@@ -578,7 +596,12 @@ export function lostJobWithinYear(world: World, personId: EntityId): boolean {
   const since = addDays(world.currentDate, -365);
   return workRelationshipHistoryForPerson(world, personId).some((job) => {
     const status = workStatusAt(world, job.id);
-    return status?.status === "ended" && status.effectiveAt > since;
+    // Quitting, retiring or dying ends a job without losing one.
+    return (
+      status?.status === "ended" &&
+      status.effectiveAt > since &&
+      !TOWN_JOB_ENDS_NOT_LOST.has(status.reason ?? "")
+    );
   });
 }
 

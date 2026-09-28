@@ -1,12 +1,15 @@
 import { makeIsoDate } from "../dates";
-import { US_CONGRESS_RULE_PACK } from "../congress-rule-pack";
+import {
+  US_CONGRESS_PACK_ID,
+  US_CONGRESS_RULE_PACK,
+} from "../congress-rule-pack";
 import { currentPresidentOf } from "../crisis/offices";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { measurePosition, measureVotes } from "../legislation";
 import { chamberByKey } from "../legislature-rules";
 import { publicPartyAffiliation } from "../living-world/congress";
 import { livingWorldEstablished } from "../living-world/opening";
-import { nextMeasureDesignation } from "../measure-numbering";
+import { nextMeasureNumbering } from "../measure-numbering";
 import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
@@ -311,10 +314,12 @@ export function fileCongressBill(
   const stableKey = `${CONGRESS_LAWMAKING_VERSION}:${question.issueKey}${intakeSuffix}`;
   next = ensureNationalElectionJurisdiction(next);
   const jurisdictionId = NATIONAL_ELECTION_JURISDICTION.id;
-  const designation = nextMeasureDesignation(next, {
+  const numbering = nextMeasureNumbering(next, {
     jurisdictionId,
     originChamber: chamber,
+    rulePackId: US_CONGRESS_PACK_ID,
   });
+  const designation = numbering.designation;
   const introduced = introduceAutomaticLawMeasure(next, {
     jurisdictionId,
     governmentLevel: "federal",
@@ -323,6 +328,7 @@ export function fileCongressBill(
     intakeKey: stableKey,
     stableKey,
     designation,
+    numberingSession: numbering.numberingSession,
     sponsorPersonId: sponsor.personId!,
     originChamberKey: input.chamberKey,
     principleRecordIds: choice.principleRecordIds,

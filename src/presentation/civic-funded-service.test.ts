@@ -44,7 +44,6 @@ import {
   transitOffice,
 } from "./transit-work";
 import {
-  performCareerWork,
   respondCareerOffer,
   seekCareerOffer,
   startCareerWork,
@@ -262,8 +261,6 @@ function fundedLife(occurrences: 1 | 2): Funded {
     guard < 20 && (cash(world, { kind: "person", personId }) ?? 0) < 20_200;
     guard++
   ) {
-    step = performCareerWork(world, work.id, provider);
-    if (step.ok) world = step.world;
     world = passOrdinaryDays(world, 1);
   }
 

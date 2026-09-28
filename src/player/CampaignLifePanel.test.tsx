@@ -99,13 +99,11 @@ describe("CampaignLifePanel as mounted", () => {
     expect(html).not.toContain('data-testid="party-work-message"');
   });
 
-  it("keeps the panel's own heading and its standing disclaimer on either mount", () => {
+  it("keeps the panel's own heading on either mount, with no standing disclaimer", () => {
     const html = render(life.world);
     expect(html).toContain('id="party-work-title"');
     expect(html).toContain("Party and community work");
-    expect(html).toContain(
-      "Coming to any of this is not joining, endorsing or voting.",
-    );
+    expect(html).not.toContain("not joining, endorsing or voting");
   });
 
   it("with an accepted remote phone shift, draws the row and the control that works it", () => {

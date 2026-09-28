@@ -17,6 +17,7 @@ import {
   floorStageByKey,
   nextChamberKey,
 } from "../simulation/legislature-rules";
+import { measureFullDesignation } from "../simulation/measure-numbering";
 import { personName } from "../simulation/people";
 import { lawEffectSentences } from "./law-effects-prose";
 import type {
@@ -76,6 +77,8 @@ export interface MeasureVoteSummary {
 export interface MeasureBriefing {
   readonly measureId: EntityId;
   readonly designation: string;
+  /** The designation with its session: "HB 1 (2027 Regular Session)". */
+  readonly fullDesignation: string;
   readonly shortTitle: string;
   readonly summary: string;
   /**
@@ -560,6 +563,7 @@ export function projectMeasureBriefing(
   return {
     measureId,
     designation: measure.designation,
+    fullDesignation: measureFullDesignation(measure),
     shortTitle: measure.shortTitle,
     summary: measure.summary,
     questions: measurePropositions(world, measureId).map(

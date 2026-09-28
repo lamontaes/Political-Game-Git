@@ -48,6 +48,7 @@ import type {
   LegislativeActionRecord,
   LegislativeAmendmentRecord,
   LegislativeEnactmentRecord,
+  LegislativeMeasureNumberingSession,
   LegislativeMeasureOrigin,
   LegislativeMeasureRecord,
   LegislativeSubjectClass,
@@ -1486,6 +1487,8 @@ export interface IntroduceMeasureInput {
   readonly jurisdictionId: EntityId;
   readonly rulePackId: string;
   readonly designation: string;
+  /** The session `designation` was numbered in, from `nextMeasureNumbering`. */
+  readonly numberingSession?: LegislativeMeasureNumberingSession;
   readonly shortTitle: string;
   readonly summary: string;
   readonly origin: LegislativeMeasureOrigin;
@@ -1587,6 +1590,17 @@ export function introduceMeasure(
     jurisdictionId: input.jurisdictionId,
     rulePackId: pack.packId,
     designation: input.designation,
+    // Written only when given, so a measure filed under an authored
+    // designation keeps the bytes every measure had before sessions counted.
+    ...(input.numberingSession
+      ? {
+          numberingSession: {
+            key: input.numberingSession.key,
+            label: input.numberingSession.label,
+            fullDesignation: input.numberingSession.fullDesignation,
+          },
+        }
+      : {}),
     shortTitle: input.shortTitle,
     summary: input.summary,
     origin: input.origin,
