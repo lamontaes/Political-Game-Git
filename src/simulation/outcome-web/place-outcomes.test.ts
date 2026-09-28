@@ -352,6 +352,9 @@ describe("the entire world changes: place outcomes drift, and no two worlds end 
     // Schools change too: graduation and math proficiency end apart.
     expect(spread("school.graduation-pct")).toBeGreaterThan(2);
     expect(spread("school.math-proficient-pct")).toBeGreaterThan(2);
+    // Crime and births drift as levels: a quarter century apart in each world.
+    expect(spread("crime.rate-index")).toBeGreaterThan(15);
+    expect(spread("births.rate-index")).toBeGreaterThan(5);
   }, 120_000);
 
   it("laws still act on top of the drift: the work requirement multiplies Ohio's level from mid-2027", () => {
