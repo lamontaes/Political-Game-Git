@@ -3,10 +3,10 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 274,
+    "markers": 279,
     "byPath": {
-      "other": 78,
-      "law": 92,
+      "other": 82,
+      "law": 93,
       "government": 40,
       "money": 64
     },
@@ -943,7 +943,15 @@
     },
     {
       "file": "src/simulation/legislative-member-decisions.ts",
-      "line": 367,
+      "line": 370,
+      "text": "// PLACEHOLDER: group members to the engine's ordinal weight.",
+      "path": "law",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/legislative-member-decisions.ts",
+      "line": 389,
       "text": "// PLACEHOLDER: net view points to the engine's ordinal weight.",
       "path": "law",
       "researchQuestionId": null,
@@ -996,6 +1004,14 @@
       "path": "other",
       "researchQuestionId": "how-bargaining-limits-and-pay-counteroffers-are-set",
       "researchQuestionFiled": true
+    },
+    {
+      "file": "src/simulation/living-world/civic-actions.ts",
+      "line": 34,
+      "text": "// PLACEHOLDER: a person holding a view of an official at least this strong",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
     },
     {
       "file": "src/simulation/living-world/congress-aggregate-outcome.ts",
@@ -1134,6 +1150,22 @@
       "researchQuestionFiled": true
     },
     {
+      "file": "src/simulation/living-world/law-interest-groups.ts",
+      "line": 30,
+      "text": "// PLACEHOLDER: joining odds rise with the loss as a share of a month's pay,",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/law-interest-groups.ts",
+      "line": 89,
+      "text": "// PLACEHOLDER wording, awaiting editorial review.",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
       "file": "src/simulation/living-world/local-council-meetings.ts",
       "line": 63,
       "text": "* PLACEHOLDERS, pending `local-council-legislative-volume`:",
@@ -1159,7 +1191,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 56,
+      "line": 57,
       "text": "// PLACEHOLDER, approved provisional: executives carry the blame for a visible",
       "path": "other",
       "researchQuestionId": null,
@@ -1167,7 +1199,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 60,
+      "line": 61,
       "text": "// PLACEHOLDER, approved provisional: about 11 percent of people can recall",
       "path": "other",
       "researchQuestionId": null,
@@ -1175,7 +1207,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 67,
+      "line": 68,
       "text": "// PLACEHOLDER, approved provisional (Pew 2024): the share who follow local",
       "path": "other",
       "researchQuestionId": null,
@@ -1183,7 +1215,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 73,
+      "line": 74,
       "text": "// PLACEHOLDER, approved provisional: people have about 2 to 4 political",
       "path": "other",
       "researchQuestionId": null,
@@ -1191,7 +1223,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 79,
+      "line": 80,
       "text": "// PLACEHOLDER: what a friend went through moves a view less than one's own",
       "path": "other",
       "researchQuestionId": null,
@@ -1199,7 +1231,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 82,
+      "line": 83,
       "text": "// PLACEHOLDER: a family member's paycheck is felt at home, less than one's own.",
       "path": "other",
       "researchQuestionId": null,
@@ -1207,7 +1239,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 84,
+      "line": 85,
       "text": "// PLACEHOLDER, approved provisional: partisans are anchored. Blame for their",
       "path": "other",
       "researchQuestionId": null,
@@ -1215,7 +1247,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 87,
+      "line": 88,
       "text": "// PLACEHOLDER: a money effect whose size next to pay is unknown is felt at a",
       "path": "other",
       "researchQuestionId": null,
@@ -1223,7 +1255,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 334,
+      "line": 336,
       "text": "// PLACEHOLDER: a law costing a tenth of a month's pay is felt fully; the",
       "path": "other",
       "researchQuestionId": null,
@@ -1231,7 +1263,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 350,
+      "line": 352,
       "text": "// PLACEHOLDER multipliers.",
       "path": "other",
       "researchQuestionId": null,
@@ -1687,7 +1719,15 @@
     },
     {
       "file": "src/simulation/official-view-reads.ts",
-      "line": 64,
+      "line": 15,
+      "text": "// PLACEHOLDER: how much one organized group backing a candidate's opponents",
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/official-view-reads.ts",
+      "line": 67,
       "text": "// PLACEHOLDER, approved provisional: an election weighs recent exposures more.",
       "path": "other",
       "researchQuestionId": null,
@@ -1695,7 +1735,7 @@
     },
     {
       "file": "src/simulation/official-view-reads.ts",
-      "line": 69,
+      "line": 72,
       "text": "// PLACEHOLDER: the most a town's views can raise or cut a candidate's support.",
       "path": "other",
       "researchQuestionId": null,
