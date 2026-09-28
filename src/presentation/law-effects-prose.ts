@@ -92,6 +92,36 @@ function sentenceFor(line: LawEffectLine): string {
         ? `It changed the ${rule}, in effect since ${proseDate(line.operativeAt)}.`
         : `It changes the ${rule} on ${proseDate(line.operativeAt)}.`;
     }
+    case "duty":
+      return dutySentence(line);
+    case "eligibility":
+      return eligibilitySentence(line);
+    case "program-term": {
+      if (line.superseded)
+        return `${line.heading}: another law now sets when the program ends.`;
+      const day = proseDate(line.lastDay);
+      const verb =
+        line.change === "repeal"
+          ? line.status === "ended"
+            ? "The program was repealed; its last day was"
+            : "The program is repealed; its last day is"
+          : line.status === "ended"
+            ? "The program ended; its last day was"
+            : line.change === "extension"
+              ? "The program now runs through"
+              : "Its last day is";
+      return `${line.heading}: ${verb} ${day}.${line.status === "ended" ? " No new spending can be written under it." : ""}`;
+    }
+    case "authorization": {
+      const ceiling = dollars(line.ceilingMinorUnits);
+      if (line.annual)
+        return `${line.heading}: it caps this spending at ${ceiling} a year.`;
+      const used =
+        line.appropriatedAgainstMinorUnits === 0
+          ? "No later law has provided any of it yet."
+          : `Later laws have provided ${dollars(line.appropriatedAgainstMinorUnits)} of it.`;
+      return `${line.heading}: it allows up to ${ceiling}, but provides no money itself. ${used}`;
+    }
     case "not-modeled":
       // PLACEHOLDER: the effect of this part is waiting on research. The
       // sentence says only that nothing acts on it, never what it would do.
@@ -130,4 +160,48 @@ function singularUnitLabel(label: string): string {
   if (/units$/i.test(label)) return label.slice(0, -1);
   if (/ies$/i.test(label)) return `${label.slice(0, -3)}y`;
   return label.endsWith("s") ? label.slice(0, -1) : label;
+}
+
+function dutySentence(line: Extract<LawEffectLine, { kind: "duty" }>): string {
+  const from = proseDate(line.operativeAt);
+  if (line.status === "scheduled")
+    return `${line.heading}: ${line.coveredLabel} must comply by ${proseDate(line.complyBy)}.`;
+  if (line.coverage === "conditional" || line.coverage === "unknown")
+    return `${line.heading}: this applies to ${line.coveredLabel}, in effect since ${from}. None has come under it yet.`;
+  const total = line.complied + line.complianceUnknown + line.coverageUnknown;
+  if (total === 0)
+    return `${line.heading}: this applies to ${line.coveredLabel}, in effect since ${from}. There are none on record here yet.`;
+  const found = [
+    line.complied > 0 ? `${line.complied} of ${total} met it` : null,
+    line.complianceUnknown > 0
+      ? `for ${line.complianceUnknown}, whether it was met is not known`
+      : null,
+    line.coverageUnknown > 0
+      ? `for ${line.coverageUnknown}, whether it applies is not known`
+      : null,
+  ].filter((part): part is string => part !== null);
+  return `${line.heading}: this applies to ${line.coveredLabel}, in effect since ${from}. Of those on record, ${found.join("; ")}.`;
+}
+
+function eligibilitySentence(
+  line: Extract<LawEffectLine, { kind: "eligibility" }>,
+): string {
+  const who = `${line.heading}: it applies to ${line.coveredLabel}.`;
+  const unsure =
+    line.unknown === 1
+      ? "1 more is on record, but whether it applies to it is not known"
+      : `${line.unknown} more are on record, but whether it applies to them is not known`;
+  if (line.qualifying === null)
+    return line.unknown === 0
+      ? `${who} Who meets that test is not known yet.`
+      : `${who} ${unsure.replace(" more", "")}.`;
+  const count =
+    line.qualifying === 0
+      ? "None are on record here yet"
+      : line.qualifying === 1
+        ? "1 is on record here"
+        : `${line.qualifying} are on record here`;
+  return line.unknown === 0
+    ? `${who} ${count}.`
+    : `${who} ${count}; ${unsure}.`;
 }

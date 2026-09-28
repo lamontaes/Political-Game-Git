@@ -1,0 +1,689 @@
+import { describe, expect, it } from "vitest";
+
+import { createLegislativeScenario } from "../simulation";
+import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
+import { advanceWorld } from "../simulation/world";
+import { addDays } from "../simulation/dates";
+import type { EntityId, World } from "../simulation";
+import type { ProgramParameterValue } from "../simulation/legislation-content-contracts";
+import {
+  dutyReaches,
+  ENACTED_DUTY_COMPLIANCE,
+  enactedDutiesOf,
+  enactedDutyComplianceHandler,
+} from "../simulation/enacted-duties";
+import {
+  applyEnactedLawEffects,
+  enactedLawEffects,
+} from "../simulation/enacted-law-effects";
+import {
+  availableMeasureSteps,
+  measurePosition,
+} from "../simulation/legislation";
+import { createOrganization, createWorkRelationship } from "../simulation/life";
+import {
+  lifePlaceStateIdentities,
+  searchLifePlaces,
+  stateJurisdictionForKey,
+} from "../simulation/life-places";
+import { lawEffectSentences } from "./law-effects-prose";
+import {
+  availableAuthorities,
+  fileDraft,
+  resolveAuthority,
+} from "./legislation-docket";
+import {
+  programLastDay,
+  programTermChangeOf,
+} from "../simulation/enacted-program-terms";
+import { applyLegislativeStep } from "./legislation-session";
+import { publishLegislativeTransition } from "./publish-legislative-transition";
+
+/**
+ * Spec 3, the rule lever: a law that places a duty on a class of body records
+ * that duty, and on the Act's own compliance date each body within its reach
+ * is found to have met it or not. Nebraska, because the owner asked that tests
+ * span places.
+ */
+
+function utility(world: World, key: string, name: string, at: EntityId) {
+  const next = createOrganization(world, {
+    stableKey: `duty-test:${key}`,
+    formedAt: world.currentDate,
+    provenance: { kind: "authored", note: "Enacted duty fixture." },
+    initialProfile: {
+      name,
+      classification: "enterprise:utility",
+      locationJurisdictionId: at,
+    },
+  });
+  return { world: next, id: next.history.organizations.at(-1)!.id };
+}
+
+function staff(world: World, personId: EntityId, organizationId: EntityId) {
+  return createWorkRelationship(world, {
+    stableKey: `duty-test:work:${organizationId}`,
+    personId,
+    organizationId,
+    startedAt: world.currentDate,
+    kind: "employment:duty-test",
+    compensation: "paid",
+    authority: "directed",
+    dependency: "partly-dependent",
+    economicRisk: "organization-borne",
+    provenance: { kind: "authored", note: "Enacted duty fixture." },
+    initialRole: {
+      title: "Operator",
+      occupationClassification: null,
+      locationJurisdictionId: world.people[personId]!.homeJurisdictionId,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 20, maximumHours: 40 },
+        attention: "moderate",
+        concurrency: "partly-concurrent",
+        scheduleRigidity: "mixed",
+        interruptibility: "limited",
+        locationJurisdictionId: world.people[personId]!.homeJurisdictionId,
+      },
+    },
+  });
+}
+
+type Scenario = ReturnType<typeof createLegislativeScenario>;
+
+/** Files one bill in the scenario's legislature and carries it to enactment. */
+function pass(
+  scenario: Scenario,
+  start: World,
+  draft: {
+    readonly familyKey: string;
+    readonly variantKey: string;
+    readonly authorityKey?: string;
+    readonly parameterValues?: Readonly<Record<string, ProgramParameterValue>>;
+  },
+) {
+  const filed = fileDraft(start, {
+    scenarioKey: "nebraska",
+    playerPersonId: scenario.playerPersonId,
+    jurisdictionId:
+      scenario.world.history.legislativeMeasures![0]!.jurisdictionId,
+    ...draft,
+  });
+  const measureId = filed.bill.measureId;
+  const context = { ...scenario, measureId };
+  let world = filed.world;
+  for (
+    let guard = 0;
+    guard < 40 && measurePosition(world, measureId).phase !== "enacted";
+    guard++
+  ) {
+    const step = availableMeasureSteps(world, measureId).find(
+      (key) => key !== "offer-amendment",
+    );
+    if (!step) break;
+    world = publishLegislativeTransition(
+      world,
+      applyLegislativeStep(context, world, step).world,
+    );
+  }
+  expect(measurePosition(world, measureId).outcome).toBe("enacted");
+  return { world, measureId, docketKey: filed.bill.docketKey };
+}
+
+/** Two utilities in the state, one with someone working there, then the law. */
+function enact(
+  variantKey: string,
+  familyKey: string,
+  authorityKey?: string,
+  parameterValues?: Readonly<Record<string, ProgramParameterValue>>,
+) {
+  const scenario = createLegislativeScenario("nebraska");
+  const jurisdictionId =
+    scenario.world.history.legislativeMeasures![0]!.jurisdictionId;
+  const staffed = utility(
+    scenario.world,
+    "staffed",
+    "Platte Electric",
+    jurisdictionId,
+  );
+  const empty = utility(staffed.world, "empty", "Loup Water", jurisdictionId);
+  const withStaff = staff(empty.world, scenario.playerPersonId, staffed.id);
+  const { world, measureId } = pass(scenario, withStaff, {
+    familyKey,
+    variantKey,
+    ...(authorityKey ? { authorityKey } : {}),
+    ...(parameterValues ? { parameterValues } : {}),
+  });
+  return { world, measureId, staffedId: staffed.id, emptyId: empty.id };
+}
+
+/** Moves to the compliance date and runs the one due item the duty scheduled. */
+function fallDue(world: World, measureId: EntityId): World {
+  const [{ duty }] = enactedDutiesOf(world, measureId);
+  const due = world.history.futureDueItems.find(
+    (item) =>
+      item.transitionKey === ENACTED_DUTY_COMPLIANCE &&
+      item.entityIds.includes(duty!.eventId),
+  )!;
+  expect(due.dueAt).toBe(duty!.complyBy);
+  // Ordinary time, with the handlers the game runs, up to the compliance date.
+  const days = Math.round(
+    (Date.parse(due.dueAt) - Date.parse(world.currentDate)) / 86_400_000,
+  );
+  return advanceWorld(world, days, createCampaignElectionTransitionRegistry());
+}
+
+describe("a law that places a duty on a class of body", () => {
+  it("records the duty, and on its date finds who complied and who did not", () => {
+    const { world, measureId, staffedId, emptyId } = enact(
+      "continuity-planning-duty",
+      "critical-infrastructure",
+    );
+    const [entry, ...rest] = enactedDutiesOf(world, measureId);
+    expect(rest).toHaveLength(0);
+    const duty = entry!.duty;
+    expect(duty.coverage.kind).toBe("classes");
+    expect(duty.enforcerLabel).toBe("the department");
+    // The Act states no penalty, so none is invented.
+    expect(duty.penaltyLabel).toBeNull();
+    // Its own "not later than" date, which is after the law took effect.
+    expect(duty.complyBy > duty.operativeAt).toBe(true);
+    expect(entry!.findings).toHaveLength(0);
+
+    const before = enactedLawEffects(world, measureId)!;
+    const line = before.lines.find((row) => row.kind === "duty");
+    expect(line?.kind === "duty" && line.status).toBe("scheduled");
+    // The rule section is no longer reported as a part nothing acts on.
+    expect(
+      before.lines.some(
+        (row) => row.kind === "not-modeled" && row.heading === duty.heading,
+      ),
+    ).toBe(false);
+
+    const after = fallDue(world, measureId);
+    const findings = enactedDutiesOf(after, measureId)[0]!.findings;
+    expect(
+      Object.fromEntries(
+        findings.map((row) => [row.organizationId, row.outcome]),
+      ),
+    ).toEqual({ [staffedId]: "complied", [emptyId]: "compliance-unknown" });
+    // The provisional rule is marked as one on the record, and an unstaffed
+    // body is unknown, never a breach.
+    expect(findings.map((row) => row.basis).sort()).toEqual([
+      "game-profile",
+      "unknown",
+    ]);
+    const read = enactedLawEffects(after, measureId)!.lines.find(
+      (row) => row.kind === "duty",
+    );
+    expect(read).toMatchObject({
+      status: "in-effect",
+      complied: 1,
+      complianceUnknown: 1,
+    });
+    expect(lawEffectSentences(after, measureId).join(" ")).toContain(
+      "Of those on record, 1 of 2 met it; for 1, whether it was met is not known.",
+    );
+  });
+
+  it("writes nothing twice", () => {
+    const { world, measureId } = enact(
+      "continuity-planning-duty",
+      "critical-infrastructure",
+    );
+    expect(applyEnactedLawEffects(world, measureId)).toBe(world);
+    const after = fallDue(world, measureId);
+    const again = enactedDutyComplianceHandler(
+      after,
+      after.history.futureDueItems.find(
+        (item) => item.transitionKey === ENACTED_DUTY_COMPLIANCE,
+      )!,
+    );
+    expect(again.world).toBe(after);
+  });
+
+  it("records coverage as unknown where the Act turns on a size the world does not hold", () => {
+    const { world, measureId } = enact(
+      "restoration-standard",
+      "utility-resilience",
+    );
+    const after = fallDue(world, measureId);
+    const findings = enactedDutiesOf(after, measureId)[0]!.findings;
+    expect(findings.map((row) => row.outcome)).toEqual([
+      "coverage-unknown",
+      "coverage-unknown",
+    ]);
+  });
+
+  it("stands with no body under it when the Act reaches only bodies that act first", () => {
+    const { world, measureId } = enact(
+      "transition-referral-duty",
+      "veteran-transition-referrals",
+    );
+    const entries = enactedDutiesOf(world, measureId);
+    // Its operative duty and its safeguard are both rules.
+    expect(entries.length).toBe(2);
+    for (const { duty, findings } of entries) {
+      expect(duty.coverage.kind).toBe("conditional");
+      expect(findings).toHaveLength(0);
+    }
+    const lines = enactedLawEffects(world, measureId)!.lines.filter(
+      (row) => row.kind === "duty",
+    );
+    expect(lines).toHaveLength(2);
+    expect(lawEffectSentences(world, measureId).join(" ")).toContain(
+      "None has come under it yet.",
+    );
+  });
+});
+
+describe("a law that says who it applies to", () => {
+  const eligibility = (world: World, measureId: EntityId) =>
+    enactedLawEffects(world, measureId)!.lines.filter(
+      (row) => row.kind === "eligibility",
+    );
+
+  it("counts the bodies on record it names", () => {
+    const { world, measureId } = enact(
+      "continuity-planning-duty",
+      "critical-infrastructure",
+    );
+    const [line, ...rest] = eligibility(world, measureId);
+    expect(rest).toHaveLength(0);
+    expect(line).toMatchObject({
+      coverage: "classes",
+      subject: "bodies",
+      qualifying: 2,
+      unknown: 0,
+    });
+    // Every section of this Act now does something the world reads.
+    expect(
+      enactedLawEffects(world, measureId)!.lines.filter(
+        (row) => row.kind === "not-modeled",
+      ),
+    ).toEqual([]);
+    expect(lawEffectSentences(world, measureId).join(" ")).toContain(
+      "2 are on record here.",
+    );
+  });
+
+  it("leaves the count unknown where the test turns on a size no record holds", () => {
+    const { world, measureId } = enact(
+      "restoration-standard",
+      "utility-resilience",
+    );
+    expect(eligibility(world, measureId)[0]).toMatchObject({
+      coverage: "unrecorded-test",
+      qualifying: null,
+      unknown: 2,
+    });
+  });
+
+  it("names households it applies to without inventing how many there are", () => {
+    const { world, measureId } = enact(
+      "raise-income-limit",
+      "assistance-eligibility",
+      "standing:household-assistance",
+    );
+    const [line] = eligibility(world, measureId);
+    expect(line).toMatchObject({
+      subject: "households",
+      coverage: "unknown",
+      qualifying: null,
+    });
+    expect(lawEffectSentences(world, measureId).join(" ")).toContain(
+      "Who meets that test is not known yet.",
+    );
+  });
+
+  it("says whom it covers in the words the law was passed with", () => {
+    const { world, measureId } = enact(
+      "raise-income-limit",
+      "assistance-eligibility",
+      "standing:household-assistance",
+      { "limit-share": { kind: "integer", value: 45 } },
+    );
+    const [line] = eligibility(world, measureId);
+    expect(line?.kind === "eligibility" && line.coveredLabel).toContain("45");
+    expect(line?.kind === "eligibility" && line.coveredLabel).not.toContain(
+      "60",
+    );
+  });
+
+  it("reaches local governments only when the law was passed to", () => {
+    const { world, measureId } = enact(
+      "classification-standard",
+      "public-workforce",
+      undefined,
+      { "covered-bodies": { kind: "enumerated", value: "state-and-local" } },
+    );
+    const [{ duty }] = enactedDutiesOf(world, measureId);
+    expect(
+      duty!.coverage.kind === "unrecorded-test" &&
+        duty!.coverage.classifications,
+    ).toContain("sector:local-government-office");
+    // Whether an agency employs people in classified posts is not on record,
+    // so none is counted as covered.
+    expect(eligibility(world, measureId)[0]).toMatchObject({
+      qualifying: null,
+    });
+  });
+
+  it("reads a purpose section as the Act's reason, not as a part nothing acts on", () => {
+    const { world, measureId } = enact(
+      "inventory-and-plan",
+      "water-service-lines",
+    );
+    const effects = enactedLawEffects(world, measureId)!;
+    expect(
+      effects.lines.some(
+        (row) => row.kind === "not-modeled" && /purpose/i.test(row.heading),
+      ),
+    ).toBe(false);
+    expect(eligibility(world, measureId)).toHaveLength(1);
+  });
+});
+
+describe("a law's money sections", () => {
+  it("turns a family's own appropriating section into money the state can spend", () => {
+    const { world, measureId } = enact(
+      "funded-replacement",
+      "water-service-lines",
+    );
+    const fund = (world.history.legislativeProvisions ?? []).find(
+      (row) =>
+        row.measureId === measureId && row.provisionKey === "replacement-fund",
+    )!;
+    const authority = (world.history.publicProgramRecords ?? []).filter(
+      (row) =>
+        row.kind === "appropriation" && row.sourceMeasureId === measureId,
+    );
+    expect(authority).toHaveLength(1);
+    expect(
+      authority[0]!.kind === "appropriation" && authority[0]!.amount.minorUnits,
+    ).toBe(fund.fiscalExposureMinorUnits);
+    const effects = enactedLawEffects(world, measureId)!;
+    expect(effects.lines.some((row) => row.kind === "appropriation")).toBe(
+      true,
+    );
+    expect(
+      effects.lines.some(
+        (row) => row.kind === "not-modeled" && row.heading === fund.heading,
+      ),
+    ).toBe(false);
+    // Idempotent: the same section is not made spendable twice.
+    expect(applyEnactedLawEffects(world, measureId)).toBe(world);
+  });
+
+  it("keeps a pilot's money available for the pilot's own term", () => {
+    const { world, measureId } = enact(
+      "enrollment-fare-relief",
+      "transit-access",
+    );
+    const pilot = (world.history.legislativeProvisions ?? []).find(
+      (row) =>
+        row.measureId === measureId &&
+        row.provisionKey === "pilot-support-limit",
+    )!;
+    const years = /for the (\w+)-year pilot/.exec(pilot.text)?.[1];
+    expect(years).toBeDefined();
+    const record = (world.history.publicProgramRecords ?? []).find(
+      (row) =>
+        row.kind === "appropriation" && row.sourceMeasureId === measureId,
+    );
+    expect(record?.kind).toBe("appropriation");
+    if (record?.kind !== "appropriation") return;
+    // Longer than the one year an appropriation gets when it states no term.
+    expect(record.availableThrough > addDays(record.availableFrom, 364)).toBe(
+      true,
+    );
+  });
+
+  it("reads an authorization as a ceiling that provides no money", () => {
+    const { world, measureId } = enact(
+      "hardening-grants",
+      "utility-resilience",
+    );
+    expect(
+      (world.history.publicProgramRecords ?? []).some(
+        (row) =>
+          row.kind === "appropriation" && row.sourceMeasureId === measureId,
+      ),
+    ).toBe(false);
+    const line = enactedLawEffects(world, measureId)!.lines.find(
+      (row) => row.kind === "authorization",
+    );
+    expect(line).toMatchObject({
+      annual: false,
+      appropriatedAgainstMinorUnits: 0,
+    });
+    expect(lawEffectSentences(world, measureId).join(" ")).toContain(
+      "provides no money itself. No later law has provided any of it yet.",
+    );
+  });
+
+  it("counts what a later law appropriates against the ceiling", () => {
+    const scenario = createLegislativeScenario("nebraska");
+    const first = pass(scenario, scenario.world, {
+      familyKey: "utility-resilience",
+      variantKey: "hardening-grants",
+    });
+    const second = pass(scenario, first.world, {
+      familyKey: "appropriations",
+      variantKey: "single-programme",
+      authorityKey: `docket:${first.docketKey}`,
+    });
+    const provided = (second.world.history.publicProgramRecords ?? []).find(
+      (row) =>
+        row.kind === "appropriation" &&
+        row.sourceMeasureId === second.measureId,
+    );
+    expect(provided).toBeDefined();
+    const line = enactedLawEffects(second.world, first.measureId)!.lines.find(
+      (row) => row.kind === "authorization",
+    );
+    expect(line).toMatchObject({
+      appropriatedAgainstMinorUnits:
+        provided?.kind === "appropriation" ? provided.amount.minorUnits : -1,
+    });
+  });
+
+  it("reads a yearly salary cap as a cap", () => {
+    const { world, measureId } = enact(
+      "authorize-positions",
+      "public-workforce",
+    );
+    const line = enactedLawEffects(world, measureId)!.lines.find(
+      (row) => row.kind === "authorization",
+    );
+    expect(line).toMatchObject({ annual: true });
+    expect(lawEffectSentences(world, measureId).join(" ")).toContain("a year.");
+  });
+});
+
+describe("a law that ends, extends or repeals a program", () => {
+  const TRANSIT = "standing:rural-transit-assistance";
+  const input = (scenario: Scenario) => ({
+    scenarioKey: "nebraska",
+    playerPersonId: scenario.playerPersonId,
+  });
+  const transit = (scenario: Scenario) => ({
+    authorityKey: TRANSIT,
+    jurisdictionId:
+      scenario.world.history.legislativeMeasures![0]!.jurisdictionId,
+  });
+  const daysUntilAfter = (world: World, lastDay: string) =>
+    Math.max(
+      1,
+      Math.round(
+        (Date.parse(lastDay) - Date.parse(world.currentDate)) / 86_400_000,
+      ) + 1,
+    );
+
+  it("stops new spending under a repealed program once the repeal takes effect", () => {
+    const scenario = createLegislativeScenario("nebraska");
+    const repeal = pass(scenario, scenario.world, {
+      familyKey: "program-sunset",
+      variantKey: "repeal-outright",
+      authorityKey: TRANSIT,
+    });
+    const line = enactedLawEffects(repeal.world, repeal.measureId)!.lines.find(
+      (row) => row.kind === "program-term",
+    );
+    expect(line).toMatchObject({ change: "repeal", superseded: false });
+    if (line?.kind !== "program-term") return;
+    expect(
+      resolveAuthority(repeal.world, input(scenario), TRANSIT)
+        ?.authorizesSpending,
+    ).toBe(repeal.world.currentDate <= line.lastDay);
+
+    const days = Math.round(
+      (Date.parse(line.lastDay) - Date.parse(repeal.world.currentDate)) /
+        86_400_000,
+    );
+    const after = advanceWorld(
+      repeal.world,
+      Math.max(1, days + 1),
+      createCampaignElectionTransitionRegistry(),
+    );
+    expect(
+      resolveAuthority(after, input(scenario), TRANSIT)?.authorizesSpending,
+    ).toBe(false);
+    expect(
+      availableAuthorities(after, input(scenario)).find(
+        (row) => row.authorityKey === TRANSIT,
+      )?.note,
+    ).toMatch(/^Ended by /);
+    expect(lawEffectSentences(after, repeal.measureId).join(" ")).toContain(
+      "No new spending can be written under it.",
+    );
+  });
+
+  it("lets a later extension supersede an earlier end date", () => {
+    const scenario = createLegislativeScenario("nebraska");
+    const sunset = pass(scenario, scenario.world, {
+      familyKey: "program-sunset",
+      variantKey: "terminate-on-date",
+      authorityKey: TRANSIT,
+    });
+    const extension = pass(scenario, sunset.world, {
+      familyKey: "program-sunset",
+      variantKey: "extend-authority",
+      authorityKey: TRANSIT,
+    });
+    const now = programLastDay(extension.world, transit(scenario));
+    expect(now?.measureId).toBe(extension.measureId);
+    expect(now?.kind).toBe("extension");
+    const earlier = enactedLawEffects(
+      extension.world,
+      sunset.measureId,
+    )!.lines.find((row) => row.kind === "program-term");
+    expect(earlier).toMatchObject({ superseded: true });
+  });
+  it("does not bring a repealed program back with a later extension", () => {
+    const scenario = createLegislativeScenario("nebraska");
+    const repeal = pass(scenario, scenario.world, {
+      familyKey: "program-sunset",
+      variantKey: "repeal-outright",
+      authorityKey: TRANSIT,
+    });
+    const extension = pass(scenario, repeal.world, {
+      familyKey: "program-sunset",
+      variantKey: "extend-authority",
+      authorityKey: TRANSIT,
+    });
+    const now = programLastDay(extension.world, transit(scenario));
+    const repealed = programLastDay(repeal.world, transit(scenario));
+    // The extension's own date is later than the repeal's, so "latest wins"
+    // alone would revive the program.
+    const extended = programTermChangeOf(extension.world, extension.measureId);
+    expect(extended!.lastDay > repealed!.lastDay).toBe(true);
+    expect(now?.measureId).toBe(repeal.measureId);
+    expect(now?.lastDay).toBe(repealed!.lastDay);
+  });
+
+  it("leaves the same program in another jurisdiction untouched", () => {
+    const scenario = createLegislativeScenario("nebraska");
+    const sunset = pass(scenario, scenario.world, {
+      familyKey: "program-sunset",
+      variantKey: "terminate-on-date",
+      authorityKey: TRANSIT,
+    });
+    expect(programLastDay(sunset.world, transit(scenario))).not.toBeNull();
+    expect(
+      programLastDay(sunset.world, {
+        authorityKey: TRANSIT,
+        jurisdictionId: "jurisdiction_elsewhere",
+      }),
+    ).toBeNull();
+  });
+
+  it("says which law ended a program a bill set up", () => {
+    const scenario = createLegislativeScenario("nebraska");
+    const grants = pass(scenario, scenario.world, {
+      familyKey: "utility-resilience",
+      variantKey: "hardening-grants",
+    });
+    const sunset = pass(scenario, grants.world, {
+      familyKey: "program-sunset",
+      variantKey: "terminate-on-date",
+      authorityKey: `docket:${grants.docketKey}`,
+    });
+    const term = programLastDay(sunset.world, { measureId: grants.measureId });
+    expect(term?.measureId).toBe(sunset.measureId);
+    const after = advanceWorld(
+      sunset.world,
+      daysUntilAfter(sunset.world, term!.lastDay),
+      createCampaignElectionTransitionRegistry(),
+    );
+    const option = availableAuthorities(after, input(scenario)).find(
+      (row) => row.authorityKey === `docket:${grants.docketKey}`,
+    );
+    expect(option?.authorizesSpending).toBe(false);
+    expect(option?.note).toMatch(/^Ended by /);
+  });
+});
+
+describe("the reach of a state law's duty", () => {
+  const states = lifePlaceStateIdentities();
+  const townOf = (key: string) =>
+    searchLifePlaces("", 10, { stateJurisdictionKey: key }).find(
+      (place) => place.scope !== "state",
+    );
+
+  it("covers all 50 states, D.C. and the five territories", () => {
+    expect(states).toHaveLength(56);
+  });
+
+  it.each(
+    states.map((state, index) => [state.jurisdictionKey, index] as const),
+  )("%s reaches its own towns and no other place's", (key, index) => {
+    const law = stateJurisdictionForKey(key)!;
+    const world = { jurisdictions: { [law.id]: law } };
+    const home = townOf(key)!;
+    const away = townOf(states[(index + 1) % states.length]!.jurisdictionKey)!;
+    expect(home).toBeDefined();
+    expect(dutyReaches(world, law.id, home.context.jurisdiction.id)).toBe(true);
+    expect(dutyReaches(world, law.id, away.context.jurisdiction.id)).toBe(
+      false,
+    );
+    // A body whose place is not on record is unknown, not outside.
+    expect(dutyReaches(world, law.id, null)).toBeNull();
+  });
+
+  it("reaches every place for a federal law", () => {
+    const nation = {
+      id: "jurisdiction_nation",
+      slug: "us-federal",
+      name: "United States",
+      kind: "nation",
+      parentName: null,
+    } as never as World["jurisdictions"][string];
+    const world = { jurisdictions: { [nation.id]: nation } };
+    for (const state of states) {
+      const home = townOf(state.jurisdictionKey)!;
+      expect(dutyReaches(world, nation.id, home.context.jurisdiction.id)).toBe(
+        true,
+      );
+    }
+  });
+});

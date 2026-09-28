@@ -54,6 +54,9 @@ export function resourceHousingHistoryRecords(world: World): readonly {
     ...h.dwellingOccupancyStates,
     ...h.housingTenures,
     ...h.housingTenureStates,
+    ...(h.loanTerms ?? []),
+    ...(h.debtCharges ?? []),
+    ...(h.debtStandings ?? []),
   ];
 }
 
@@ -454,6 +457,10 @@ export function assertResourceHousingIntegrity(
         throw new Error(
           `Resource obligation principal currency mismatch: ${obligation.id}`,
         );
+      // Interest and fees a loan's terms charged are owed on top of principal.
+      const charges = (h.debtCharges ?? []).filter(
+        (charge) => charge.resourceObligationId === obligation.id,
+      );
       let paid = 0;
       for (const outcome of h.resourceTransferOutcomes) {
         if (
@@ -464,10 +471,11 @@ export function assertResourceHousingIntegrity(
           continue;
         }
         paid += outcome.transferredAmount.minorUnits;
-        if (
-          !Number.isSafeInteger(paid) ||
-          paid > obligation.principal.minorUnits
-        ) {
+        let owed = obligation.principal.minorUnits;
+        for (const charge of charges)
+          if (charge.sequence < outcome.sequence)
+            owed += charge.amount.minorUnits;
+        if (!Number.isSafeInteger(paid) || paid > owed) {
           throw new Error(`Resource obligation is overpaid: ${obligation.id}`);
         }
       }

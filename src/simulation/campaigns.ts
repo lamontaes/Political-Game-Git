@@ -1,3 +1,8 @@
+import {
+  HOUSEHOLD_LOAN_MONTH_KEY,
+  householdLoanMonthHandler,
+} from "./household-loans";
+import { PAYDAY_HANDLERS } from "./living-world/town-pay";
 import { jailTermOn } from "./justice/jail-terms";
 import {
   OFFICIAL_VIEW_TRANSITION_KEY,
@@ -24,6 +29,7 @@ import {
   withProgramMatters,
 } from "./governing/state-governing";
 import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
+import { ENACTED_DUTY_HANDLERS } from "./enacted-duties";
 import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
 import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
 import { CONSTITUTIONAL_REFORM_HANDLERS } from "./living-world/constitutional-reform";
@@ -2144,6 +2150,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
           ...LOCAL_COUNCIL_MEETING_HANDLERS,
         ].map(([key, handler]) => [key, withProgramMatters(handler)] as const),
         ...PUBLIC_PROGRAM_HANDLERS,
+        // An enacted law's duty falling due on the bodies it covers.
+        ...ENACTED_DUTY_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
         [
           POLITICAL_REFLECTION_TRANSITION_KEY,
@@ -2163,10 +2171,13 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         ],
         // CRUNCH46 CHANGE: canonical macro history closes each month once.
         [MACRO_MONTHLY_STEP_KEY, macroMonthlyStepHandler],
+        [HOUSEHOLD_LOAN_MONTH_KEY, householdLoanMonthHandler],
         // CRUNCH46 WORLD: party governing bodies meet and may change.
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
         // MIGRATION: households leave town, newcomers arrive, waves step.
         [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
+        // PAYDAY: everyone with a recorded job is paid, every four weeks.
+        ...PAYDAY_HANDLERS,
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...CAMPAIGN_LIFE_HANDLERS,
       ]),

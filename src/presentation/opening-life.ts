@@ -37,7 +37,9 @@ import {
   CRUNCH46_WORLD_OPENING_VERSION,
 } from "../simulation";
 import { ensureMigrationSchedule } from "../simulation/migration";
+import { ensurePaydaySchedule } from "../simulation/living-world/town-pay";
 import { ensureCrimeProduction } from "../simulation/crime";
+import { ensurePlaceOutcomes } from "../simulation/outcome-web/place-outcomes";
 import { ensureOpeningJudiciary } from "../simulation/judiciary/opening";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
 import {
@@ -346,8 +348,9 @@ function completeOpeningLife(
   );
   const withHazards = ensureHazardProduction(withDevelopment);
   const withCrime = ensureCrimeProduction(withHazards);
+  const withOutcomes = ensurePlaceOutcomes(withCrime);
   const withMortality = ensureOpeningMortality(
-    withCrime,
+    withOutcomes,
     session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
   );
   const world = openedWorld(
@@ -434,10 +437,13 @@ function openedWorld(
     ),
     playerPersonId,
   );
-  const opened = ensureMigrationSchedule(
-    ensureLocalCouncilMeetings(
-      ensureLocalElectionCalendar(seated, playerPersonId),
-      playerPersonId,
+  // Payday starts with the same opening, so a watched world's jobs pay too.
+  const opened = ensurePaydaySchedule(
+    ensureMigrationSchedule(
+      ensureLocalCouncilMeetings(
+        ensureLocalElectionCalendar(seated, playerPersonId),
+        playerPersonId,
+      ),
     ),
   );
   return openingDataVersion === "playtest65-v3"

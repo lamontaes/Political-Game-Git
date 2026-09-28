@@ -105,9 +105,18 @@ describe("a paycheck in Ely, Nevada", () => {
     expect(nevada.liability?.minorUnits).toBe(0);
     expect(nevada.sourceUrl).toContain("tax.nv.gov");
 
+    // Federal income tax: one shift of a daily payroll is one of 260 working
+    // days, so $72.00 annualizes to $18,720.00; less the $16,100 single
+    // standard deduction, $2,620.00 at 10% is $262.00 a year, $1.0077 a
+    // shift, withheld as $1.01.
+    const federalIncome = byKey["us-federal:income-tax-withholding"]!;
+    expect(federalIncome.status).toBe("assessed");
+    expect(federalIncome.liability?.minorUnits).toBe(101);
+    expect(federalIncome.collection).toBe("withheld-from-pay");
+    expect(federalIncome.sourceUrl).toContain("irs.gov");
+
     // What the research cannot price is UNKNOWN, never zero.
     for (const taxKey of [
-      "us-federal:income-tax-withholding",
       "us-federal:futa",
       "us-nv:local-wage-taxes",
       "us-nv:modified-business-tax",
@@ -116,13 +125,13 @@ describe("a paycheck in Ely, Nevada", () => {
       expect(byKey[taxKey]!.researchQuestionId, taxKey).toBeTruthy();
     }
 
-    // Withholding moved $5.50 out of the $72.00, and paid the employee's share.
-    expect(cash(paid, start.personId)).toBe(7_200 - 550);
+    // Withholding moved $6.51 out of the $72.00, and paid the employee's share.
+    expect(cash(paid, start.personId)).toBe(7_200 - 651);
     const mine = statutoryTaxBalances(paid, {
       kind: "person",
       personId: start.personId,
     });
-    expect(mine.reduce((sum, row) => sum + row.paid.minorUnits, 0)).toBe(550);
+    expect(mine.reduce((sum, row) => sum + row.paid.minorUnits, 0)).toBe(651);
     expect(mine.every((row) => row.unpaid.minorUnits === 0)).toBe(true);
 
     // The employer's share is owed, with no due date the research can give.
@@ -146,23 +155,28 @@ describe("a paycheck in Ely, Nevada", () => {
     );
     const later = advanceWorld(reloaded, 7, LIFE_PATHS2_HANDLERS);
     expect(later.history.statutoryTaxLiabilities).toHaveLength(rows.length);
-    expect(cash(later, start.personId)).toBeLessThanOrEqual(7_200 - 550);
+    expect(cash(later, start.personId)).toBeLessThanOrEqual(7_200 - 651);
   });
 });
 
 describe("a paycheck in Minneapolis", () => {
-  it("records Minnesota's tax as existing but not yet priced", () => {
+  it("withholds Minnesota's income tax and sends it to Minnesota", () => {
     const start = newLife(MINNEAPOLIS, "statutory-tax-minneapolis");
     expect(residenceStateKey(start.world, start.personId)).toBe("US-MN");
     const paid = workOneShift(start.world);
     const minnesota = paid.history.statutoryTaxLiabilities!.find(
       (row) => row.taxKey === "us-mn:wage-income-tax",
     )!;
-    expect(minnesota.status).toBe("rule-unknown");
-    expect(minnesota.liability).toBeNull();
-    expect(minnesota.researchQuestionId).toBe(
-      "state-wage-income-tax-withholding",
+    // $18,720.00 a year less Minnesota's $15,300 single deduction is
+    // $3,420.00; at 5.35% that is $182.97 a year, $0.7037 a shift: $0.70.
+    expect(minnesota.status).toBe("assessed");
+    expect(minnesota.authorityKey).toBe("US-MN");
+    expect(minnesota.liability?.minorUnits).toBe(70);
+    expect(minnesota.researchQuestionId).toBeNull();
+    const toMinnesota = paid.history.resourceTransferOutcomes.find(
+      (row) => row.note === "Withheld from pay for state income tax.",
     );
+    expect(toMinnesota?.transferredAmount.minorUnits).toBe(70);
     expect(
       paid.history.statutoryTaxLiabilities!.some(
         (row) => row.taxKey === "us-nv:modified-business-tax",
@@ -199,7 +213,8 @@ describe("the arithmetic", () => {
       if (place.status === "not-imposed")
         expect(place.sourceUrl, key).toBeTruthy();
     }
-    expect(placeWageIncomeTax("US-MT").status).toBe("unknown");
+    // Montana taxes wages (the 2026 state compilation, #850).
+    expect(placeWageIncomeTax("US-MT").status).toBe("imposed");
     expect(placeWageIncomeTax("US-XX").status).toBe("unknown");
   });
 });

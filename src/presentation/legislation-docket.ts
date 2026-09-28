@@ -1,4 +1,10 @@
+import {
+  programHasEnded,
+  programLastDay,
+  type ProgramTarget,
+} from "../simulation/enacted-program-terms";
 import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
+import { proseDate } from "./prose-dates";
 import {
   activeMemberSeats,
   resolveActiveMemberSeat,
@@ -596,18 +602,28 @@ export function availableAuthorities(
     readonly playerPersonId: EntityId;
   },
 ): readonly DraftAuthorityOption[] {
+  const jurisdictionId = draftingSupportsScenario(input.scenarioKey)
+    ? legislativeBlueprint(input.scenarioKey).context.jurisdiction.id
+    : null;
+  const standingTarget = (authorityKey: string): ProgramTarget | null =>
+    jurisdictionId === null ? null : { authorityKey, jurisdictionId };
   const standing = standingAuthorities().map((authority) => ({
     authorityKey: authority.authorityKey,
     kind: "standing-statute" as const,
     citationLabel: authority.citationLabel,
     programLabel: authority.programLabel,
-    authorizesSpending: authority.authorizesSpending,
+    // A program enacted law has ended can no longer be spent under.
+    authorizesSpending:
+      authority.authorizesSpending &&
+      !programHasEnded(world, standingTarget(authority.authorityKey)),
     authorizedCeilingMinorUnits: authority.authorizedCeilingMinorUnits,
     authorizedCeilingLabel:
       authority.authorizedCeilingMinorUnits === null
         ? null
         : formatMinorUnits(authority.authorizedCeilingMinorUnits, "USD"),
-    note: `Named in-world program: ${authority.programLabel}. This is a fictional game profile, not a real-world fund.`,
+    note:
+      endedNote(world, standingTarget(authority.authorityKey)) ??
+      `Named in-world program: ${authority.programLabel}. This is a fictional game profile, not a real-world fund.`,
   }));
 
   const fromDocket: DraftAuthorityOption[] = [];
@@ -629,17 +645,31 @@ export function availableAuthorities(
       citationLabel: `${bill.designation} (${bill.shortTitle})`,
       programLabel: `the program described in ${bill.designation}`,
       authorizesSpending:
-        rule.mayAuthorizeAppropriation && reading !== null && reading > 0,
+        rule.mayAuthorizeAppropriation &&
+        reading !== null &&
+        reading > 0 &&
+        !programHasEnded(world, { measureId: bill.measureId }),
       authorizedCeilingMinorUnits: reading,
       authorizedCeilingLabel:
         reading === null ? null : formatMinorUnits(reading, "USD"),
       note:
-        measurePosition(world, bill.measureId).phase === "enacted"
+        endedNote(world, { measureId: bill.measureId }) ??
+        (measurePosition(world, bill.measureId).phase === "enacted"
           ? `Enactment recorded for ${bill.designation}.`
-          : `${bill.designation} is a proposal, not law. Any linked bill is conditional on its enactment.`,
+          : `${bill.designation} is a proposal, not law. Any linked bill is conditional on its enactment.`),
     });
   }
   return [...standing, ...fromDocket];
+}
+
+/** Says when and by which law a program ended, if enacted law has ended it. */
+function endedNote(world: World, target: ProgramTarget | null): string | null {
+  const term = target === null ? null : programLastDay(world, target);
+  if (term === null || world.currentDate <= term.lastDay) return null;
+  const measure = (world.history.legislativeMeasures ?? []).find(
+    (row) => row.id === term.measureId,
+  );
+  return `Ended by ${measure?.designation ?? "a later law"}; its last day in force was ${proseDate(term.lastDay)}.`;
 }
 
 /**
@@ -680,11 +710,19 @@ export function resolveAuthority(
   authorityKey: string,
 ): PredicateAuthority | null {
   if (!authorityKey.startsWith(DOCKET_AUTHORITY_PREFIX)) {
-    return (
-      standingAuthorities().find(
-        (authority) => authority.authorityKey === authorityKey,
-      ) ?? null
+    const authority = standingAuthorities().find(
+      (row) => row.authorityKey === authorityKey,
     );
+    if (!authority) return null;
+    const jurisdictionId = draftingSupportsScenario(input.scenarioKey)
+      ? legislativeBlueprint(input.scenarioKey).context.jurisdiction.id
+      : null;
+    return programHasEnded(
+      world,
+      jurisdictionId === null ? null : { authorityKey, jurisdictionId },
+    )
+      ? { ...authority, authorizesSpending: false }
+      : authority;
   }
   const docketKey = authorityKey.slice(DOCKET_AUTHORITY_PREFIX.length);
   const bill = docketBill(world, { ...input, docketKey });
@@ -707,7 +745,10 @@ export function resolveAuthority(
     citationLabel: `${bill.designation} (${bill.shortTitle})`,
     programLabel: `the program described in ${bill.designation}`,
     authorizesSpending:
-      rule.mayAuthorizeAppropriation && ceiling !== null && ceiling > 0,
+      rule.mayAuthorizeAppropriation &&
+      ceiling !== null &&
+      ceiling > 0 &&
+      !programHasEnded(world, { measureId: bill.measureId }),
     authorizedCeilingMinorUnits: ceiling,
     currency: "USD",
     measureId: bill.measureId,

@@ -41,6 +41,7 @@ import type {
 } from "../types";
 import { seatedChamberForPack } from "./chamber-votes";
 import { lawInForce } from "./law-in-force";
+import { mayAnswerQuestion } from "./question-authority";
 import {
   ensureOfficeholderPrinciples,
   principledLeaning,
@@ -76,15 +77,17 @@ const LOCAL_AGENDA_DEFAULT_QUARTERS = 1;
 /** PLACEHOLDER: the least summed weight that moves a member to file a bill. */
 const FILING_THRESHOLD = 3;
 
-/** Every catalog question a state law may answer, in catalog order. */
-function stateQuestions(world: World): readonly EntityId[] {
-  const catalog = world.policyCatalog;
-  return catalog.propositionOrder.filter((propositionId) => {
-    const proposition = catalog.propositions[propositionId];
-    if (!proposition) return false;
-    const issue = catalog.issues[proposition.issueId];
-    return issue?.levels?.includes("state") ?? false;
-  });
+/**
+ * The questions the state's own law may answer (`question-authority.ts`), in
+ * catalog order.
+ */
+function stateQuestions(
+  world: World,
+  jurisdictionId: EntityId,
+): readonly EntityId[] {
+  return world.policyCatalog.propositionOrder.filter((propositionId) =>
+    mayAnswerQuestion(world, jurisdictionId, propositionId),
+  );
 }
 
 /** Questions a state bill answers through a registered World effect writer. */
@@ -153,7 +156,7 @@ export function fileMemberAgendaBills(
   const batchKey = agendaBatchKey(input.intakeKey);
   if (alreadyFiledForIntake(world, batchKey)) return world;
 
-  const questions = stateQuestions(world);
+  const questions = stateQuestions(world, input.jurisdictionId);
   if (questions.length === 0) return world;
 
   const pack = legislativePackForJurisdiction(input.jurisdictionId);

@@ -1,0 +1,330 @@
+{
+  "question": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+  "definition": "yes = a state law in force on 2026-01-01 bars gas hookups in new buildings statewide (preempts false). no with preempts true = the state bars local governments from banning or restricting gas connections by fuel type (energy-choice preemption). no with preempts false = no statewide ban in force and no state preemption, so local governments may act. Places that cannot be confirmed are listed under unknown.",
+  "summarySource": "State codes and enacted bills fetched September 2026: flsenate.gov, codes.ohio.gov, capitol.texas.gov, le.utah.gov, ksrevisor.gov, revisor.mo.gov, legis.iowa.gov, code.wvlegislature.gov, gc.nh.gov, ncleg.gov, apps.legislature.ky.gov, arkleg.state.ar.us, leg.mt.gov, wyoleg.gov, sdlegislature.gov, ndlegis.gov, nebraskalegislature.gov and legislature.maine.gov; the N.Y. Mulhern Gas stipulation (11/12/2025); the Wash. Supreme Court I-2066 opinion (9/17/2026); the Ninth Circuit Berkeley opinion (1/2/2024); Mass. St. 2022 c. 179; NPR (2/22/2021) for Arizona.",
+  "answers": {
+    "US-FL": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Fla. Stat. § 366.032",
+      "operativeAt": "2021-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.flsenate.gov/Laws/Statutes/2025/366.032",
+      "note": "Enacted by ch. 2021-150 (HB 919, effective 7/1/2021 per https://www.flsenate.gov/Session/Bill/2021/919); bars local governments from restricting the fuel sources utilities may supply, and later amendments add appliances."
+    },
+    "US-OH": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Ohio Rev. Code §§ 4933.40-4933.41",
+      "operativeAt": "2021-09-30",
+      "dateBasis": "enacted-effective",
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-4933.41",
+      "note": "HB 201 (134th G.A.); no political subdivision may adopt a building code or other rule that limits consumers' use of available natural gas or propane service."
+    },
+    "US-TX": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Tex. Util. Code § 181.903",
+      "operativeAt": "2021-05-18",
+      "dateBasis": "enacted-effective",
+      "source": "https://capitol.texas.gov/tlodocs/87R/billtext/html/HB00017F.htm",
+      "note": "HB 17 (87th Leg.) took effect immediately when signed on 5/18/2021 (https://capitol.texas.gov/BillLookup/History.aspx?LegSess=87R&Bill=HB17); bars cities from limiting utility connections by the type or source of energy."
+    },
+    "US-UT": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Utah Code § 10-9a-530 (cities); county counterpart enacted as § 17-27a-526",
+      "operativeAt": "2021-02-25",
+      "dateBasis": "enacted-effective",
+      "source": "https://le.utah.gov/~2021/bills/hbillenr/HB0017.htm",
+      "note": "H.B. 17 (2021), effective 2/25/2021 per https://le.utah.gov/~2021/bills/static/HB0017.html; cities and counties may not prohibit connection of an energy utility service."
+    },
+    "US-KS": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "K.S.A. 66-1288 (Kansas Energy Choice Act)",
+      "operativeAt": "2021-04-22",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.ksrevisor.gov/statutes/chapters/ch66/066_012_0088.html",
+      "note": "L. 2021, ch. 26 (SB 24); municipalities may not restrict an end-use customer's use of natural gas or propane."
+    },
+    "US-MO": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Mo. Rev. Stat. § 67.309",
+      "operativeAt": "2021-08-28",
+      "dateBasis": "enacted-effective",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=67.309",
+      "note": "L. 2021 H.B. 734 merged with S.B. 44; no political subdivision may prohibit a utility connection based on the type or source of energy."
+    },
+    "US-IA": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Iowa Code § 364.3(13) (cities); § 331.301(19) (counties)",
+      "operativeAt": "2021-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.legis.iowa.gov/docs/code/364.3.pdf",
+      "note": "2021 Iowa Acts ch. 44; cities and counties may not restrict natural gas or propane service. The date is inferred from the statute's reference to ordinances adopted before 7/1/2021 and Iowa's usual July 1 effective date."
+    },
+    "US-WV": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "W. Va. Code § 8-12-23",
+      "operativeAt": "2021-07-07",
+      "dateBasis": "enacted-effective",
+      "source": "https://code.wvlegislature.gov/8-12-23/",
+      "note": "HB 2842 (2021), effective ninety days from passage on 7/7/2021 per https://www.wvlegislature.gov/Bill_Status/Bills_history.cfm?input=2842&year=2021&sessiontype=RS&btype=bill."
+    },
+    "US-NH": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "N.H. Rev. Stat. § 155-A:2, V-b; § 155-A:3, XI",
+      "operativeAt": "2022-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://gc.nh.gov/rsa/html/XII/155-A/155-A-mrg.htm",
+      "note": "No local ordinance or code may bar a person from installing a heating or energy system of their choice or connecting to an energy provider; both paragraphs trace to 2022 N.H. Laws ch. 311, effective 7/1/2022 (inferred from the section source notes)."
+    },
+    "US-NC": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "N.C. Gen. Stat. § 160A-203.3 (cities); § 153A-145.11 (counties)",
+      "operativeAt": "2023-06-26",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_160A/GS_160A-203.3.html",
+      "note": "S.L. 2023-58 (HB 130) became law without the governor's signature on 6/26/2023 and took effect then (https://www.ncleg.gov/EnactedLegislation/SessionLaws/HTML/2023-2024/SL2023-58.html)."
+    },
+    "US-KY": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "2021 Ky. Acts ch. 120 (HB 207), § 1 (new section of KRS Chapter 65)",
+      "operativeAt": "2021-06-29",
+      "dateBasis": "enacted-effective",
+      "source": "https://apps.legislature.ky.gov/law/acts/21RS/documents/0120.pdf",
+      "note": "Signed 3/25/2021 with no emergency clause, so it took effect on the 2021 normal effective date of 6/29/2021 (https://legislature.ky.gov/Law/Statutes/Pages/KrsEffDates.aspx); the KRS section number was not captured."
+    },
+    "US-AR": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Ark. Code § 14-1-104",
+      "dateBasis": "not-found",
+      "source": "https://www.arkleg.state.ar.us/Home/FTPDocument?path=%2FACTS%2F2021R%2FPublic%2FACT308.pdf",
+      "note": "Act 308 of 2021 (SB 137), approved 3/9/2021 without an emergency clause; the general effective date for 2021 acts was not confirmed."
+    },
+    "US-MT": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Mont. Code Ann. § 7-1-111(28)",
+      "dateBasis": "not-found",
+      "source": "https://leg.mt.gov/bills/mca/title_0070/chapter_0010/part_0010/section_0110/0070-0010-0010-0110.html",
+      "note": "Self-government local units are denied any power to prohibit or impede an electric, natural gas, propane or other energy connection; the 2019 code lacks this clause, so it was added by a 2021 or 2023 amendment (exact chapter and date not confirmed)."
+    },
+    "US-WY": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Wyo. Stat. §§ 15-1-132 (cities and towns), 18-2-116 (counties)",
+      "dateBasis": "not-found",
+      "source": "https://wyoleg.gov/statutes/compress/title15.pdf",
+      "note": "No city, town or county may prohibit the connection of electric, natural gas, propane or other energy utility service; the enacting year and effective date were not found in the compiled titles."
+    },
+    "US-SD": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "S.D. Codified Laws §§ 6-1-23, 6-1-24",
+      "dateBasis": "not-found",
+      "source": "https://sdlegislature.gov/api/Statutes/Statute/6-1",
+      "note": "SL 2023, ch. 19 and ch. 20 bar local bans on fuel gas appliances and on natural gas or propane service; the exact effective date (South Dakota's usual date is 7/1) was not confirmed."
+    },
+    "US-ND": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "N.D. Cent. Code §§ 40-01-25 (cities), 11-10-32 (counties)",
+      "dateBasis": "not-found",
+      "source": "https://ndlegis.gov/cencode/t40c01.pdf",
+      "note": "Cities and counties may not prohibit or impede a utility connection based on fuel source; enacted in 2023 (per the earlier draft), effective date not confirmed. County text at https://ndlegis.gov/cencode/t11c10.pdf."
+    },
+    "US-NE": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Neb. Rev. Stat. § 13-407",
+      "dateBasis": "not-found",
+      "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=13-407",
+      "note": "Laws 2024, LB 867, § 12; no county, city or village may restrict the fuel sources a natural gas utility or propane dealer supplies. The effective date was not confirmed."
+    },
+    "US-ME": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Me. Rev. Stat. tit. 30-A, § 3016",
+      "dateBasis": "not-found",
+      "source": "https://legislature.maine.gov/statutes/30-A/title30-Asec3016.html",
+      "note": "P.L. 2025, c. 456 bars municipalities, unless another statute authorizes it, from prohibiting the heating or energy system a person chooses. It was a 2025 non-emergency law, presumably in force before 1/1/2026, but the effective date was not confirmed."
+    },
+    "US-AZ": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://www.npr.org/2021/02/22/967439914/as-cities-grapple-with-climate-change-gas-utilities-fight-to-stay-in-business",
+      "note": "NPR (2/22/2021) reports that in February 2020 the Legislature passed a bill barring cities and counties from banning new gas hookups (HB 2686). azleg.gov refused automated fetches, so the statute text, cite and exact date were not confirmed from a primary page."
+    },
+    "US-NY": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "N.Y. Energy Law § 11-104(6); Exec. Law § 378(19)",
+      "dateBasis": "not-found",
+      "source": "https://earthjustice.org/wp-content/uploads/2025/11/stipulation-1.pdf",
+      "note": "The All-Electric Buildings Act bars fossil-fuel equipment in most new buildings of seven stories or fewer 'on or after December 31, 2025' (https://www.nysenate.gov/legislation/laws/ENG/11-104), but a stipulation filed 11/12/2025 in Mulhern Gas Co. v. Mosley (N.D.N.Y. 1:23-cv-01267) suspends the implementing code rules (19 NYCRR 1240.6, Subpart 1229-2) until the Second Circuit appeal and any certiorari petition are resolved. So no statewide ban was in force on 1/1/2026. Local action is allowed: New York City Local Law 154 of 2021 bars on-site fossil-fuel combustion in new buildings (https://www.nyc.gov/assets/buildings/local_laws/ll154of2021.pdf)."
+    },
+    "US-MA": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "St. 2022, c. 179, § 84",
+      "dateBasis": "not-found",
+      "source": "https://malegislature.gov/Laws/SessionLaws/Acts/2022/Chapter179",
+      "note": "No statewide ban. The 2022 climate law lets up to 10 cities and towns in a DOER demonstration project require fossil fuel-free new construction 'notwithstanding' chapters 40A, 142 and 164. Outside the pilot, general state law limits local bans, so local action is allowed only for pilot towns."
+    },
+    "US-CA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://cdn.ca9.uscourts.gov/datastore/opinions/2024/01/02/21-16278.pdf",
+      "note": "There is no statewide ban and no state preemption, and cities adopted their own gas bans (Berkeley, 2019). However, the Ninth Circuit held in California Restaurant Ass'n v. City of Berkeley (amended 1/2/2024) that federal EPCA preempts building codes banning gas piping in new buildings, which constrains local bans across the Ninth Circuit."
+    },
+    "US-WA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.courts.wa.gov/opinions/pdf/1042400.pdf",
+      "note": "Initiative 2066 (Laws of 2025, ch. 1) barred local governments from discouraging or prohibiting gas, but the King County Superior Court declared it unconstitutional in its entirety before 1/1/2026, and the state Supreme Court affirmed on 9/17/2026 (Climate Solutions v. State, No. 104240-0). The state has no statewide ban; the WA state energy code favors heat pumps but was not verified as barring gas."
+    }
+  },
+  "unknown": {
+    "US-AK": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched.",
+    "US-CO": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched. NPR (2021) reports Denver planning to phase gas out of new buildings; leg.colorado.gov refused automated fetches.",
+    "US-CT": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched.",
+    "US-DE": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched.",
+    "US-HI": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched.",
+    "US-IL": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched.",
+    "US-MD": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched. Montgomery County Bill 13-22 (2022, all-electric new construction) is believed to exist but was not fetched.",
+    "US-MI": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched.",
+    "US-MN": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched.",
+    "US-NV": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched.",
+    "US-NJ": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched.",
+    "US-NM": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched.",
+    "US-OR": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched. Eugene adopted and later repealed a gas ban for new homes (2023-2024); not confirmed.",
+    "US-PA": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched. A 2021 preemption bill (SB 275) is believed to have been vetoed; not confirmed.",
+    "US-RI": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched.",
+    "US-VT": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched.",
+    "US-VA": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched.",
+    "US-WI": "local-allowed (unverified): no statewide ban and no energy-choice preemption statute is known, but no primary page showing local action or authority was fetched.",
+    "US-TN": "not-found: believed to have a fuel-choice preemption law (2020 law), but the state's code or bill site could not be fetched or navigated (Tennessee Code is not free on a state site; bill numbers not confirmed); needs primary verification.",
+    "US-LA": "not-found: believed to have a fuel-choice preemption law (2021 law), but the state's code or bill site could not be fetched or navigated (legis.la.gov statute browsing uses ASP.NET postbacks; bill number unknown); needs primary verification.",
+    "US-OK": "not-found: believed to have a fuel-choice preemption law (2020-2021 law; SB 1712 (2020) died in committee per https://www.oklegislature.gov/BillInfo.aspx?Bill=SB1712&Session=2000, so the enacting bill is unknown), but the state's code or bill site could not be fetched or navigated (oscn.net refused automated fetches); needs primary verification.",
+    "US-AL": "not-found: believed to have a fuel-choice preemption law (2021 law), but the state's code or bill site could not be fetched or navigated (alison.legislature.state.al.us is a JavaScript app); needs primary verification.",
+    "US-GA": "not-found: believed to have a fuel-choice preemption law (HB 150, 2021-2022 session), but the state's code or bill site could not be fetched or navigated (legis.ga.gov is a JavaScript app and its API returned 401); needs primary verification.",
+    "US-MS": "not-found: believed to have a fuel-choice preemption law (2021 law, possibly SB 2123), but the state's code or bill site could not be fetched or navigated (billstatus.ls.state.ms.us refused (403)); needs primary verification.",
+    "US-IN": "not-found: believed to have a fuel-choice preemption law (2021 law, possibly HEA 1191), but the state's code or bill site could not be fetched or navigated (iga.in.gov is a JavaScript app); needs primary verification.",
+    "US-SC": "not-found: a fuel-choice preemption law was reported as uncertain; none found in S.C. Code tit. 6, ch. 1 or ch. 9 (https://www.scstatehouse.gov/code/t06c001.php); status unknown.",
+    "US-ID": "not-found: a 2023 preemption law was reported, but none was found in Idaho Code ch. 39-41, 67-65 or 50-3 indexes; status unknown.",
+    "US-DC": "not-found: the District has no separate cities to preempt; its Clean Energy DC Building Code Amendment Act (2022) is believed to require net-zero-energy codes by the end of 2026, but whether gas hookups were barred on 1/1/2026 was not verified.",
+    "US-PR": "not-found: no confirmed territorial law either way.",
+    "US-GU": "not-found: no confirmed territorial law either way.",
+    "US-VI": "not-found: no confirmed territorial law either way.",
+    "US-AS": "not-found: no confirmed territorial law either way.",
+    "US-MP": "not-found: no confirmed territorial law either way."
+  },
+  "conflicts": [
+    {
+      "place": "US-NY",
+      "readings": "The statute bars fossil-fuel equipment in new low-rise buildings from 12/31/2025 (yes), but the implementing code rules were suspended by a 11/12/2025 court-filed stipulation pending the Second Circuit appeal, so no ban was in force on 1/1/2026 (no).",
+      "sources": [
+        "https://www.nysenate.gov/legislation/laws/ENG/11-104",
+        "https://earthjustice.org/wp-content/uploads/2025/11/stipulation-1.pdf"
+      ]
+    },
+    {
+      "place": "US-WA",
+      "readings": "I-2066 (Laws of 2025, ch. 1) preempts local gas restrictions (no, preempts true), but a trial court voided it before 1/1/2026 and the state Supreme Court affirmed on 9/17/2026 (no, preempts false). Whether the trial judgment was stayed pending appeal on 1/1/2026 was not confirmed.",
+      "sources": [
+        "https://www.courts.wa.gov/opinions/pdf/1042400.pdf",
+        "https://en.wikipedia.org/wiki/2024_Washington_Initiative_2066"
+      ]
+    },
+    {
+      "place": "US-MA",
+      "readings": "Coded as no local preemption because of the 10-municipality fossil fuel-free pilot, but the pilot law operates 'notwithstanding' general laws, which implies that general state law otherwise blocks local bans outside the pilot.",
+      "sources": [
+        "https://malegislature.gov/Laws/SessionLaws/Acts/2022/Chapter179"
+      ]
+    }
+  ],
+  "refusedHosts": [
+    {
+      "host": "azleg.gov",
+      "reason": "Sucuri JavaScript challenge (307) on most statute and bill pages after the first request"
+    },
+    {
+      "host": "codes.findlaw.com",
+      "reason": "403"
+    },
+    {
+      "host": "oscn.net",
+      "reason": "Turnstile human verification"
+    },
+    {
+      "host": "legiscan.com",
+      "reason": "Cloudflare JavaScript challenge (403)"
+    },
+    {
+      "host": "billstatus.ls.state.ms.us",
+      "reason": "403 over http; https connection failed"
+    },
+    {
+      "host": "legis.ga.gov",
+      "reason": "JavaScript app; API returned 401"
+    },
+    {
+      "host": "iga.in.gov",
+      "reason": "JavaScript app; document URLs returned the app shell"
+    },
+    {
+      "host": "alison.legislature.state.al.us",
+      "reason": "JavaScript app"
+    },
+    {
+      "host": "kslegislature.org / webserver1.lsb.state.ok.us",
+      "reason": "403 (ksrevisor.gov used for Kansas instead)"
+    },
+    {
+      "host": "leg.colorado.gov",
+      "reason": "406"
+    },
+    {
+      "host": "mass.gov",
+      "reason": "403"
+    },
+    {
+      "host": "spglobal.com",
+      "reason": "403"
+    },
+    {
+      "host": "eenews.net",
+      "reason": "403"
+    },
+    {
+      "host": "nrdc.org",
+      "reason": "403"
+    },
+    {
+      "host": "washingtonstatestandard.com",
+      "reason": "403"
+    },
+    {
+      "host": "en.wikipedia.org",
+      "reason": "one 429 rate limit; plain article pages otherwise worked"
+    }
+  ],
+  "counts": {
+    "yes": 0,
+    "no": 23,
+    "unknown": 33
+  }
+}

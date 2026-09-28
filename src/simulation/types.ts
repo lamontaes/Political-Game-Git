@@ -21,6 +21,7 @@ import type {
   ConstitutionalRuleVersionRecord,
 } from "./constitutional-types";
 import type { RuleChangeProvisionRecord } from "./enacted-rule-changes";
+import type { PlaceOutcomeStore } from "./outcome-web/place-outcome-store";
 import type { PublicFundingMandate } from "./public-fiscal";
 import type { MacroEconomyStore } from "./macro-economy/types";
 import type { PressureStore } from "./pressure/contract";
@@ -89,6 +90,9 @@ export type EntityKind =
   | "tax-collection"
   | "statutory-tax-liability"
   | "statutory-tax-payment"
+  | "loan-terms"
+  | "debt-charge"
+  | "debt-standing"
   | "law-exposure"
   | "official-view"
   | "job-opening"
@@ -177,6 +181,7 @@ export type EntityKind =
   | "person-functional-capacity"
   | "personnel-record"
   | "public-program-record"
+  | "enacted-duty-record"
   | "personal-value"
   | "personality-tendency"
   | "personality-tendency-definition"
@@ -3035,6 +3040,85 @@ export interface ResourceObligationStateRecord {
   readonly supersedesStateId: EntityId | null;
 }
 
+/** What a household loan is for (spec 11). */
+export type HouseholdLoanKind =
+  "mortgage" | "auto" | "student" | "credit-card" | "personal" | "payday";
+
+export type LenderKind =
+  "bank" | "credit-union" | "federal-government" | "payday-lender" | "other";
+
+/**
+ * How a loan is paid down: a level payment over a term, or a revolving
+ * account whose minimum is a share of the balance plus the month's interest.
+ */
+export type LoanRepayment =
+  | { readonly kind: "installment"; readonly termMonths: number }
+  | {
+      readonly kind: "revolving";
+      readonly principalShareBasisPoints: number;
+      readonly minimumPaymentFloor: MoneyAmount;
+    };
+
+/**
+ * The terms a debt is owed under from `effectiveAt`. A later record
+ * supersedes an earlier one (a new rate under a cap law, a changed plan);
+ * nothing is edited in place. Every value is an input: this record carries
+ * the rate the loan was written at, never a rate the record invents.
+ */
+export interface LoanTermsRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly resourceObligationId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly kind: HouseholdLoanKind;
+  readonly lenderKind: LenderKind;
+  readonly annualRateBasisPoints: number;
+  /** "capped" when a rate cap in force held the rate below the market. */
+  readonly rateBasis: "written" | "capped";
+  /** The measure whose cap applied, when `rateBasis` is "capped". */
+  readonly rateCapMeasureId: EntityId | null;
+  readonly repayment: LoanRepayment;
+  /** Null: this loan's contract states no late fee. */
+  readonly lateFee: MoneyAmount | null;
+  /** Consecutive missed payments after which the loan is in default. */
+  readonly missedPaymentsToDefault: number;
+  /** Consecutive missed payments after which it goes to collections. */
+  readonly missedPaymentsToCollections: number;
+  readonly provenance: LifeRecordProvenance;
+  readonly supersedesTermsId: EntityId | null;
+}
+
+/** Interest or a fee added to a debt's balance for one month. */
+export interface DebtChargeRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly resourceObligationId: EntityId;
+  readonly chargedAt: IsoDate;
+  readonly kind: "interest" | "late-fee";
+  readonly amount: MoneyAmount;
+  readonly loanTermsId: EntityId;
+}
+
+export type DebtStanding =
+  "current" | "late" | "default" | "collections" | "paid-off";
+
+/** A debt's standing from `effectiveAt`, after that month's payment. */
+export interface DebtStandingRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly resourceObligationId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly standing: DebtStanding;
+  readonly consecutiveMissedPayments: number;
+  readonly supersedesStandingId: EntityId | null;
+}
+
 export type DwellingClassificationNamespace =
   "residential" | "institutional" | "assigned" | "custom";
 export type DwellingClassification =
@@ -3758,6 +3842,107 @@ export interface PublicProgramCapacityOutturnRecord extends PublicProgramRecordB
   readonly placeLabel?: string;
 }
 
+/**
+ * Who an enacted duty or who-qualifies section reaches. Coverage is read from
+ * the Act's own words: a class of body the world records, a class the world
+ * records without the fact the Act's test turns on, or a body that must first
+ * do something the world does not record yet. None of these is a guess at who
+ * is covered. coveredLabel is always the enacted section's rendered text.
+ */
+export type EnactedDutyCoverage =
+  | {
+      readonly kind: "classes";
+      readonly classifications: readonly OrganizationClassification[];
+      readonly coveredLabel: string;
+    }
+  | {
+      /** A class the world records, and a test in the Act no record holds. */
+      readonly kind: "unrecorded-test";
+      readonly classifications: readonly OrganizationClassification[];
+      readonly coveredLabel: string;
+      /** What the test turns on, e.g. "its number of customers". */
+      readonly testLabel: string;
+      readonly researchQuestionId: string;
+    }
+  | {
+      readonly kind: "conditional";
+      readonly coveredLabel: string;
+      /** What a body must first do, which no world record carries yet. */
+      readonly conditionLabel: string;
+      readonly researchQuestionId: string;
+    }
+  | {
+      readonly kind: "unknown";
+      readonly coveredLabel: string;
+      readonly researchQuestionId: string;
+    };
+
+interface EnactedDutyRecordBase {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly eventId: EntityId;
+}
+
+/** A rule an enacted law places on a class of body, from one of its sections. */
+export interface EnactedDutyRuleRecord extends EnactedDutyRecordBase {
+  readonly kind: "duty";
+  readonly measureId: EntityId;
+  readonly provisionId: EntityId;
+  readonly provisionKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly heading: string;
+  readonly coverage: EnactedDutyCoverage;
+  /** The day the law takes effect. */
+  readonly operativeAt: IsoDate;
+  /** The Act's own compliance date; the operative day when it names none. */
+  readonly complyBy: IsoDate;
+  /** Who the Act names to receive filings or enforce it; null when it names no one. */
+  readonly enforcerLabel: string | null;
+  /** The penalty the Act states; null when it states none. */
+  readonly penaltyLabel: string | null;
+}
+
+/** What one body within a duty's reach did by its compliance date. */
+export interface EnactedDutyFindingRecord extends EnactedDutyRecordBase {
+  readonly kind: "finding";
+  readonly dutyId: EntityId;
+  readonly organizationId: EntityId;
+  /**
+   * "complied" is a provisional game rule (basis "game-profile"); the two
+   * unknowns say which fact the world does not hold.
+   */
+  readonly outcome: "complied" | "compliance-unknown" | "coverage-unknown";
+  readonly basis: "game-profile" | "unknown";
+  readonly researchQuestionId: string;
+  readonly reason: string;
+}
+
+/** Who the law says qualifies for, or is subject to, what it does. */
+export type EnactedEligibilitySubject =
+  "bodies" | "households" | "people" | "places" | "structures";
+
+/**
+ * A who-qualifies section of an enacted law: the class it names and the test
+ * it sets. Who meets it is read from the world when asked, never stored as a
+ * count that would go stale.
+ */
+export interface EnactedEligibilityRecord extends EnactedDutyRecordBase {
+  readonly kind: "eligibility";
+  readonly measureId: EntityId;
+  readonly provisionId: EntityId;
+  readonly provisionKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly heading: string;
+  readonly subject: EnactedEligibilitySubject;
+  readonly coverage: EnactedDutyCoverage;
+  readonly operativeAt: IsoDate;
+}
+
+export type EnactedDutyRecord =
+  EnactedDutyRuleRecord | EnactedDutyFindingRecord | EnactedEligibilityRecord;
+
 export type PublicProgramRecord =
   | PublicProgramCapacityRecord
   | PublicProgramAppropriationRecord
@@ -3935,6 +4120,9 @@ export interface HistoryStore {
   /** Taxes that exist in law, assessed per occurrence; see `statutory-tax.ts`. */
   readonly statutoryTaxLiabilities?: readonly StatutoryTaxLiabilityRecord[];
   readonly statutoryTaxPayments?: readonly StatutoryTaxPaymentRecord[];
+  readonly loanTerms?: readonly LoanTermsRecord[];
+  readonly debtCharges?: readonly DebtChargeRecord[];
+  readonly debtStandings?: readonly DebtStandingRecord[];
   /** Optional: when an enacted law reached a person; see `law-exposure.ts`. */
   readonly lawExposures?: readonly LawExposureRecord[];
   /** Optional: credit or blame for officials; see `living-world/official-views.ts`. */
@@ -4068,6 +4256,8 @@ export interface HistoryStore {
   readonly partyRecords?: readonly PartyRecord[];
   /** Optional so pre-GOVERNING-6 snapshots remain structurally readable. */
   readonly publicProgramRecords?: readonly PublicProgramRecord[];
+  /** Duties and who-qualifies rules an enacted law sets, and what each covered body did. */
+  readonly enactedDutyRecords?: readonly EnactedDutyRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];
@@ -5027,6 +5217,8 @@ export interface World {
    * written before it existed has no macro history and is never retrofitted.
    */
   readonly macroEconomy?: MacroEconomyStore;
+  /** Place outcomes by month (outcome-web/place-outcome-store.ts). */
+  readonly placeOutcomes?: PlaceOutcomeStore;
   /**
    * The pressure layer (2026-09-22). Optional and additive: a world written
    * before it existed has no readings and is never retrofitted.

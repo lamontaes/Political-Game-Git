@@ -1,4 +1,22 @@
 import { appropriationFromEnactedMeasure } from "./governing/program-governing";
+import {
+  applyEnactedDuties,
+  clauseOrigins,
+  ENACTED_DUTY_RESEARCH_QUESTION,
+  enactedDutiesOf,
+} from "./enacted-duties";
+import {
+  applyFamilyAppropriations,
+  appropriatedAgainst,
+  isAuthorizationCeiling,
+  isFamilyAppropriation,
+} from "./enacted-appropriations";
+import {
+  applyEnactedEligibility,
+  enactedEligibilityOf,
+  isPurposeSection,
+} from "./enacted-eligibility";
+import { programLastDay, programTermChangeOf } from "./enacted-program-terms";
 import { enactedRuleChanges } from "./enacted-rule-changes";
 import {
   draftLineageComponents,
@@ -111,6 +129,65 @@ export type LawEffectLine =
     }
   | {
       /**
+       * A duty the law places on a class of body, and what the bodies within
+       * its reach did by its compliance date.
+       */
+      readonly kind: "duty";
+      readonly status: "scheduled" | "in-effect";
+      readonly heading: string;
+      readonly coveredLabel: string;
+      readonly coverage:
+        "classes" | "unrecorded-test" | "conditional" | "unknown";
+      readonly operativeAt: IsoDate;
+      readonly complyBy: IsoDate;
+      readonly enforcerLabel: string | null;
+      readonly penaltyLabel: string | null;
+      readonly complied: number;
+      readonly complianceUnknown: number;
+      readonly coverageUnknown: number;
+      /** Who is covered, or whether they complied, awaits this research. */
+      readonly researchQuestionId: string;
+    }
+  | {
+      /**
+       * A sum the law authorizes without providing it: a ceiling a later law
+       * can appropriate against, or a yearly cap on what may be spent.
+       */
+      readonly kind: "authorization";
+      readonly heading: string;
+      readonly ceilingMinorUnits: number;
+      readonly annual: boolean;
+      /** Appropriated by later enacted laws written against this one. */
+      readonly appropriatedAgainstMinorUnits: number;
+    }
+  | {
+      /** A program's end date the law set, extended or brought by repeal. */
+      readonly kind: "program-term";
+      readonly change: "sunset" | "extension" | "repeal";
+      /** What the law acts on, as the bill names it. */
+      readonly heading: string;
+      readonly lastDay: IsoDate;
+      /** Whether a later enacted law has since set a different date. */
+      readonly superseded: boolean;
+      readonly status: "in-force" | "ended";
+    }
+  | {
+      /** Who the law says qualifies for, or is subject to, what it does. */
+      readonly kind: "eligibility";
+      readonly heading: string;
+      readonly coveredLabel: string;
+      readonly subject:
+        "bodies" | "households" | "people" | "places" | "structures";
+      readonly coverage:
+        "classes" | "unrecorded-test" | "conditional" | "unknown";
+      /** Bodies on record that meet it; null when the world cannot say. */
+      readonly qualifying: number | null;
+      /** Bodies on record in the class whose size or place is not known. */
+      readonly unknown: number;
+      readonly researchQuestionId: string;
+    }
+  | {
+      /**
        * A clause the game has no rule for yet. The law is still law; the
        * world simply does not know what this part does. PLACEHOLDER until the
        * research answer arrives.
@@ -183,6 +260,15 @@ export function applyEnactedLawEffects(
   // Every enacted amount has one saved program authority. The pinned transit
   // request consumes that same record and shares its committed balance.
   next = appropriationFromEnactedMeasure(next, measureId);
+  // A family's own appropriating section, e.g. "There is appropriated to a
+  // service line replacement fund a sum not to exceed ...". The pinned transit
+  // clause already wrote its one authority above.
+  if (!isPinnedTransitMeasure(next, measureId))
+    next = applyFamilyAppropriations(next, measureId);
+  // A section that places a duty on a class of body.
+  next = applyEnactedDuties(next, measureId);
+  // A section that says who qualifies for, or is subject to, the Act.
+  next = applyEnactedEligibility(next, measureId);
   return next;
 }
 
@@ -318,6 +404,94 @@ export function enactedLawEffects(
     });
   }
 
+  // Duties the law places on bodies.
+  for (const { duty, findings } of enactedDutiesOf(world, measureId)) {
+    consumed.add(duty.provisionId);
+    const count = (outcome: string) =>
+      findings.filter((row) => row.outcome === outcome).length;
+    lines.push({
+      kind: "duty",
+      status: duty.complyBy <= world.currentDate ? "in-effect" : "scheduled",
+      heading: duty.heading,
+      coveredLabel: duty.coverage.coveredLabel,
+      coverage: duty.coverage.kind,
+      operativeAt: duty.operativeAt,
+      complyBy: duty.complyBy,
+      enforcerLabel: duty.enforcerLabel,
+      penaltyLabel: duty.penaltyLabel,
+      complied: count("complied"),
+      complianceUnknown: count("compliance-unknown"),
+      coverageUnknown: count("coverage-unknown"),
+      researchQuestionId: ENACTED_DUTY_RESEARCH_QUESTION,
+    });
+  }
+
+  // A program's life: an end date set, extended or brought by repeal.
+  const term = programTermChangeOf(world, measureId);
+  if (term) {
+    consumed.add(term.provisionId);
+    const current = programLastDay(world, term.target);
+    const superseded = current !== null && current.measureId !== measureId;
+    const lastDay = superseded ? current!.lastDay : term.lastDay;
+    lines.push({
+      kind: "program-term",
+      change: term.kind,
+      heading:
+        provisions.find((row) => row.id === term.provisionId)?.heading ?? "",
+      lastDay: term.lastDay,
+      superseded,
+      status: world.currentDate > lastDay ? "ended" : "in-force",
+    });
+  }
+
+  // Sums the law authorizes without providing. A later law is written
+  // against the whole Act, so its ceilings are read as one sum, as the docket
+  // reads them; a yearly cap is read on its own.
+  const origins = clauseOrigins(world, measureId);
+  const ceilings = provisions.filter(
+    (provision) =>
+      !consumed.has(provision.id) &&
+      origins.get(provision.provisionKey)?.lever === "money" &&
+      isAuthorizationCeiling(provision),
+  );
+  for (const provision of ceilings) consumed.add(provision.id);
+  const whole = ceilings.filter((row) => row.fiscalPeriod !== "annual");
+  if (whole.length > 0)
+    lines.push({
+      kind: "authorization",
+      heading: whole.map((row) => row.heading).join(" and "),
+      ceilingMinorUnits: whole.reduce(
+        (sum, row) => sum + row.fiscalExposureMinorUnits!,
+        0,
+      ),
+      annual: false,
+      appropriatedAgainstMinorUnits: appropriatedAgainst(world, measureId),
+    });
+  for (const provision of ceilings)
+    if (provision.fiscalPeriod === "annual")
+      lines.push({
+        kind: "authorization",
+        heading: provision.heading,
+        ceilingMinorUnits: provision.fiscalExposureMinorUnits!,
+        annual: true,
+        appropriatedAgainstMinorUnits: 0,
+      });
+
+  // Who the law applies to.
+  for (const reading of enactedEligibilityOf(world, measureId)) {
+    consumed.add(reading.record.provisionId);
+    lines.push({
+      kind: "eligibility",
+      heading: reading.record.heading,
+      coveredLabel: reading.record.coverage.coveredLabel,
+      subject: reading.record.subject,
+      coverage: reading.record.coverage.kind,
+      qualifying: reading.qualifying,
+      unknown: reading.unknown,
+      researchQuestionId: ENACTED_DUTY_RESEARCH_QUESTION,
+    });
+  }
+
   // Everything else the law says, that no system reads yet.
   const clauseIndex = clauseDimensions(world, measureId);
   for (const provision of provisions) {
@@ -327,9 +501,12 @@ export function enactedLawEffects(
     // An appropriation amount the game did not adopt (a city, Congress) is
     // reported below like any other unread clause.
     // Naming the program acted upon identifies the law; it changes nothing.
+    // A purpose section says why the Act exists and names no one.
     if (
       known?.dimension === "timing" ||
-      known?.dimension === "authority-reference"
+      known?.dimension === "authority-reference" ||
+      (known?.dimension === "eligibility-scope" &&
+        isPurposeSection(provision.provisionKey))
     )
       continue;
     lines.push({
@@ -476,7 +653,8 @@ function operativeEffectOutcomes(
 function isMoneyClause(provision: LegislativeProvisionRecord): boolean {
   return (
     provision.provisionKey === "amount-provided" ||
-    provision.provisionKey.endsWith(":amount-provided")
+    provision.provisionKey.endsWith(":amount-provided") ||
+    isFamilyAppropriation(provision)
   );
 }
 

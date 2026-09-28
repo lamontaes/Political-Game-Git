@@ -383,6 +383,19 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       ],
     },
     {
+      key: "health-human-services.medicaid-work-requirement",
+      issue: "us-state-and-local:health-human-services.medicaid",
+      name: "Work requirement for Medicaid",
+      question:
+        "Should able adults be required to work, train or study a set number of hours a month to keep Medicaid?",
+      tags: ["contested"],
+      principles: [
+        { principle: "limited-government", bearing: "consistent-with" },
+        { principle: "tradition", bearing: "consistent-with" },
+        { principle: "collective-provision", bearing: "against" },
+      ],
+    },
+    {
       key: "health-human-services.work-requirement-for-assistance",
       issue:
         "us-state-and-local:health-human-services.food-and-income-assistance",

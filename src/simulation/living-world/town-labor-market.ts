@@ -96,14 +96,17 @@ export function townUnemploymentPressure(world: World, town: EntityId): number {
   );
 }
 
-interface TownJob {
+export interface TownJob {
   readonly relationshipId: EntityId;
   readonly personId: EntityId;
   readonly status: WorkStatusRecord;
 }
 
 /** The town employment's jobs active today, with their current status. */
-function activeTownJobs(world: World, town: EntityId): readonly TownJob[] {
+export function activeTownJobs(
+  world: World,
+  town: EntityId,
+): readonly TownJob[] {
   const prefix = `${TOWN_EMPLOYMENT_VERSION}:${town}:job:`;
   const ours = new Map<EntityId, EntityId>();
   for (const relationship of world.history.workRelationships)

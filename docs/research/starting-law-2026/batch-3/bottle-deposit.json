@@ -1,0 +1,171 @@
+{
+  "question": "us-policy-positions:environment-energy.bottle-deposit",
+  "definition": "yes = a state (or territorial) law requires a refundable deposit on beverage containers, in force 1/1/2026; no = no such deposit law in force (a repealed or not-yet-operative law counts as no, with a note). Every answer row carries preempts: true because a deposit system is a state-level program.",
+  "summarySource": "State codes and agency pages fetched 9/28/2026 (leginfo.legislature.ca.gov, legis.iowa.gov, legislature.maine.gov, malegislature.gov, legislature.mi.gov, oregon.public.law, legislature.vermont.gov, delcode.delaware.gov, col.guamcourts.gov) plus CT DEEP, Hawaii DOH, NY DEC and Oregon OLCC pages; Wikipedia 'Container deposit legislation in the United States' and bottlebill.org (Guam page, Existing Programs list, \u00a9 2026) for context; no 2025 enactment of a new state deposit law was found.",
+  "answers": {
+    "US-CA": {
+      "answer": "yes",
+      "cite": "Cal. Pub. Res. Code \u00a7 14560",
+      "dateBasis": "pre-2000",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PRC&sectionNum=14560.",
+      "note": "California sets a refund value of 5 cents under 24 fluid ounces and 10 cents at 24 fluid ounces or more; the program dates from the 1986 act.",
+      "preempts": true
+    },
+    "US-CT": {
+      "answer": "yes",
+      "cite": "Conn. Gen. Stat. \u00a7 22a-244",
+      "dateBasis": "pre-2000",
+      "source": "https://portal.ct.gov/deep/reduce-reuse-recycle/bottles/connecticut-bottle-bill",
+      "note": "The deposit rose from 5 to 10 cents on 1/1/2024; the statute site cga.ct.gov could not be fetched, so the cite rests on the DEEP page and common citation.",
+      "preempts": true
+    },
+    "US-HI": {
+      "answer": "yes",
+      "cite": "Haw. Rev. Stat. ch. 342G, pt. VIII",
+      "operativeAt": "2005-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://health.hawaii.gov/hi5/",
+      "note": "The Department of Health says the Deposit Beverage Container program has run since January 2005 under the 2002 law; the HRS site returned 403, so the chapter cite is unverified here.",
+      "preempts": true
+    },
+    "US-IA": {
+      "answer": "yes",
+      "cite": "Iowa Code \u00a7 455C.2",
+      "dateBasis": "pre-2000",
+      "source": "https://www.legis.iowa.gov/docs/code/455C.pdf",
+      "note": "A refund value of 5 cents is paid by the consumer on each covered beverage container.",
+      "preempts": true
+    },
+    "US-ME": {
+      "answer": "yes",
+      "cite": "Me. Rev. Stat. tit. 38, \u00a7 3103",
+      "dateBasis": "pre-2000",
+      "source": "https://legislature.maine.gov/statutes/38/title38sec3103.html",
+      "note": "The bottle law now sits in Title 38, chapter 33; the old Title 32, chapter 28 sections are repealed.",
+      "preempts": true
+    },
+    "US-MA": {
+      "answer": "yes",
+      "cite": "Mass. Gen. Laws ch. 94, \u00a7 323",
+      "dateBasis": "pre-2000",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXV/Chapter94/Section323",
+      "note": "The 1982 law covers carbonated beverages only; the 2014 ballot expansion failed.",
+      "preempts": true
+    },
+    "US-MI": {
+      "answer": "yes",
+      "cite": "Mich. Comp. Laws \u00a7 445.572",
+      "dateBasis": "pre-2000",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-445-572",
+      "note": "Initiated Law 1 of 1976 sets a 10-cent deposit.",
+      "preempts": true
+    },
+    "US-NY": {
+      "answer": "yes",
+      "cite": "N.Y. Envtl. Conserv. Law art. 27, tit. 10",
+      "dateBasis": "pre-2000",
+      "source": "https://dec.ny.gov/environmental-protection/recycling-composting/bottle-bill",
+      "note": "The Returnable Container Act requires a deposit of at least 5 cents; the nysenate.gov statute page returned 403.",
+      "preempts": true
+    },
+    "US-OR": {
+      "answer": "yes",
+      "cite": "Or. Rev. Stat. \u00a7 459A.705",
+      "dateBasis": "pre-2000",
+      "source": "https://oregon.public.law/statutes/ors_459a.705",
+      "note": "The refund value is 10 cents since 2017; canned wine was added on 7/1/2025 (OLCC page https://www.oregon.gov/olcc/pages/bottle_bill.aspx).",
+      "preempts": true
+    },
+    "US-VT": {
+      "answer": "yes",
+      "cite": "Vt. Stat. Ann. tit. 10, \u00a7 1522",
+      "dateBasis": "pre-2000",
+      "source": "https://legislature.vermont.gov/statutes/section/10/053/01522",
+      "note": "A 2025 overhaul keeps the deposit and phases in a producer responsibility organization, with labeling changes on 7/1/2026 and PRO participation required from 7/1/2027 (DEC page https://dec.vermont.gov/waste-management/solid/product-stewardship/bottle-bill).",
+      "preempts": true
+    },
+    "US-DE": {
+      "answer": "no",
+      "cite": "Del. Code Ann. tit. 7, \u00a7 6051 et seq. (77 Del. Laws c. 275)",
+      "operativeAt": "2010-12-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://delcode.delaware.gov/title7/c060/sc03/index.html",
+      "note": "Delaware repealed its 5-cent deposit by SB 234 (2010), replacing it with universal recycling; deposits ended 12/1/2010 per the Wikipedia summary, and the current code carries no deposit requirement.",
+      "preempts": true
+    },
+    "US-GU": {
+      "answer": "no",
+      "cite": "10 Guam Code Ann. \u00a7 44119",
+      "dateBasis": "not-found",
+      "source": "https://col.guamcourts.gov/sites/default/files/10gc044.pdf",
+      "note": "The Guam Beverage Container Recycling Act of 2010 (P.L. 30-221) takes effect only after a written agreement with the Navy and Air Force commands, and no government page shows that happened; Guam EPA's 2026 Recycling Guide (https://epa.guam.gov/wp-content/uploads/2026/05/2026-Recycling-Guide.pdf) lists no redemption program.",
+      "preempts": true
+    }
+  },
+  "unknown": {
+    "US-AL": "no state-specific source",
+    "US-AK": "no state-specific source",
+    "US-AZ": "no state-specific source",
+    "US-AR": "no state-specific source",
+    "US-CO": "no state-specific source",
+    "US-FL": "no state-specific source",
+    "US-GA": "no state-specific source",
+    "US-ID": "no state-specific source",
+    "US-IL": "no state-specific source",
+    "US-IN": "no state-specific source",
+    "US-KS": "no state-specific source",
+    "US-KY": "no state-specific source",
+    "US-LA": "no state-specific source",
+    "US-MD": "no state-specific source",
+    "US-MN": "no state-specific source",
+    "US-MS": "no state-specific source",
+    "US-MO": "no state-specific source",
+    "US-MT": "no state-specific source",
+    "US-NE": "no state-specific source",
+    "US-NV": "no state-specific source",
+    "US-NH": "no state-specific source",
+    "US-NJ": "no state-specific source",
+    "US-NM": "no state-specific source",
+    "US-NC": "no state-specific source",
+    "US-ND": "no state-specific source",
+    "US-OH": "no state-specific source",
+    "US-OK": "no state-specific source",
+    "US-PA": "no state-specific source",
+    "US-RI": "no state-specific source",
+    "US-SC": "no state-specific source",
+    "US-SD": "no state-specific source",
+    "US-TN": "no state-specific source",
+    "US-TX": "no state-specific source",
+    "US-UT": "no state-specific source",
+    "US-VA": "no state-specific source",
+    "US-WA": "no state-specific source",
+    "US-WV": "no state-specific source",
+    "US-WI": "no state-specific source",
+    "US-WY": "no state-specific source",
+    "US-DC": "no state-specific source",
+    "US-PR": "no government page found confirming the presence or absence of a deposit law",
+    "US-VI": "no government page found confirming the presence or absence of a deposit law",
+    "US-AS": "no government page found confirming the presence or absence of a deposit law",
+    "US-MP": "the CNMI Bureau of Environmental and Coastal Quality solid-waste and litter pages mention no deposit program, but no page confirms the law either way"
+  },
+  "conflicts": [],
+  "refusedHosts": [
+    "calrecycle.ca.gov (403)",
+    "www.capitol.hawaii.gov (403)",
+    "www.mass.gov (403)",
+    "www.nysenate.gov (403)",
+    "www.cga.ct.gov (TLS chain verification failure; http returned 403)",
+    "dnrec.delaware.gov (request rejected)",
+    "dem.ri.gov (403)",
+    "epa.guam.gov (http: host not in proxy allowlist; https worked intermittently)",
+    "www.guamepa.net (no connection)",
+    "www.becq.gov.mp (no connection)",
+    "dpw.gov.mp (406)",
+    "www.iowadnr.gov, www.maine.gov, www.michigan.gov, www.pca.state.mn.us (404 at tried URLs, not refusals)"
+  ],
+  "counts": {
+    "yes": 10,
+    "no": 2,
+    "unknown": 44
+  }
+}
