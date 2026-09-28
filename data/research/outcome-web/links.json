@@ -812,16 +812,16 @@
         "kind": "threshold",
         "at": 0.59
       },
-      "size": -0.15,
-      "per": "above about 59% of the median wage",
+      "size": -0.25,
+      "per": "unit of the minimum-to-median wage ratio above 0.59",
       "lagMonths": 0,
       "group": "teens, least skilled",
       "owner": "B",
-      "anchor": "No job loss over 5 years across 138 increases up to 59% of the median wage (Cengiz et al.); 59% is the top of what they observed, not a tested threshold. Past it, the all-studies mean teen elasticity: -0.15 (teen median -0.122, mean -0.170)",
+      "anchor": "No job loss over 5 years across 138 increases up to 59% of the median wage (Cengiz et al.); 59% is the top of what they observed, not a tested threshold. Past it, the all-studies mean teen elasticity of -0.15 (teen median -0.122, mean -0.170), converted to the ratio this row reads: going from 0.59 to 0.65 is about 10% more minimum wage, and -0.15 times 10% is -1.5% of low-wage jobs, so -0.25 per unit of the ratio",
       "source": "Cengiz et al. 2019; Neumark and Shirley 2022",
       "from": "labor.minimum-wage-to-median",
       "evidence": "contested",
-      "range": [-0.3, 0]
+      "range": [-0.5, 0]
     },
     {
       "key": "unemployment-to-poverty",
