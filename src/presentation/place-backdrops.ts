@@ -69,11 +69,14 @@ export function middayBackdropUrl(place: string): string | null {
 const TOWER_CAPITOLS: ReadonlySet<string> = new Set(["FL", "LA", "ND", "NE"]);
 
 /**
- * The state capitol picture. PLACEHOLDER(wave2): Alaska, Hawaii, New Mexico
- * and Oregon have neither a dome nor a tower and get the dome until they have
- * their own pictures.
+ * The capitol picture for a state, D.C. or a territory: its own building when
+ * that place has a picture (`state-capitol-tx`, `state-capitol-dc`), else the
+ * shared tower or dome. D.C.'s is the John A. Wilson Building, where the
+ * Council sits.
  */
 export function capitolPlaceFor(usps: string | null): string {
+  const own = usps ? `state-capitol-${usps.toLowerCase()}` : null;
+  if (own && hasBackdrop(own)) return own;
   return usps && TOWER_CAPITOLS.has(usps)
     ? "state-capitol-tower"
     : "state-capitol-dome";
