@@ -75,6 +75,7 @@ export type EntityKind =
   | "tax-collection"
   | "statutory-tax-liability"
   | "statutory-tax-payment"
+  | "law-exposure"
   | "job-opening"
   | "job-application"
   | "job-application-step"
@@ -850,6 +851,51 @@ export interface PropositionExposureRecord {
   readonly encounteredAt: IsoDate;
   readonly summary: string;
   readonly provenance: PropositionExposureProvenance;
+}
+
+/** How an enacted law reached a person (spec 5, "Exposure"). */
+export type LawExposureChannel =
+  | "paycheck"
+  | "tax-payment"
+  | "benefit"
+  | "job-rule"
+  | "business-rule"
+  | "public-service"
+  | "rent";
+
+/**
+ * A dated record that an enacted law actually reached one person: the law, how
+ * it reached them, and the money involved next to their pay. Written only by
+ * `recordLawExposure` from the record that shows the effect happened; a law
+ * that has not reached anyone has no exposure.
+ */
+export interface LawExposureRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly personId: EntityId;
+  /** The enacted measure. */
+  readonly measureId: EntityId;
+  /** The section that did it, where the effect names one. */
+  readonly sectionKey: string | null;
+  readonly channel: LawExposureChannel;
+  /** Their own money or service, or a family member's. */
+  readonly relation: "own" | "family";
+  /** For a family exposure, whose paycheck, bill or service it was. */
+  readonly viaPersonId: EntityId | null;
+  /** Whether the law cost them or paid them; "none" for a non-money effect. */
+  readonly direction: "cost" | "gain" | "none";
+  /** Null for a non-money effect or an amount not recorded. */
+  readonly amount: MoneyAmount | null;
+  readonly cadence: "one-time" | "monthly" | null;
+  /**
+   * Their pay over the four weeks before, scaled to a month. Null when the
+   * game does not track this person's money: unknown, never zero.
+   */
+  readonly monthlyPay: MoneyAmount | null;
+  /** The record showing the effect happened (a tax collection, a paycheck). */
+  readonly sourceRecordId: EntityId;
 }
 
 export interface PrivateBeliefRecord {
@@ -3821,6 +3867,8 @@ export interface HistoryStore {
   /** Taxes that exist in law, assessed per occurrence; see `statutory-tax.ts`. */
   readonly statutoryTaxLiabilities?: readonly StatutoryTaxLiabilityRecord[];
   readonly statutoryTaxPayments?: readonly StatutoryTaxPaymentRecord[];
+  /** Optional: when an enacted law reached a person; see `law-exposure.ts`. */
+  readonly lawExposures?: readonly LawExposureRecord[];
   /** Optional: job openings and applications; see `job-market.ts`. */
   readonly jobOpenings?: readonly JobOpeningRecord[];
   readonly jobApplications?: readonly JobApplicationRecord[];
