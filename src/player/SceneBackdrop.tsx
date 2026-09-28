@@ -6,6 +6,8 @@ import {
 import { MaterialGroup, MaterialImage } from "./ModularCharacter";
 import { EngineFigure } from "./EnginePerson";
 import { PlacePeopleLayer } from "./PlacePeopleLayer";
+import { BackdropSurfaceLayer } from "./BackdropSurfaceLayer";
+import type { BackdropSurface } from "../presentation/backdrop-surfaces";
 import type { BackdropPerson } from "../presentation/backdrop-people";
 import {
   useLayoutEffect,
@@ -104,6 +106,7 @@ export function SceneBackdrop({
   objects,
   placeBackdrop = null,
   placePeople = [],
+  placeSurfaces = [],
   children,
 }: {
   readonly sceneId: string | null;
@@ -177,6 +180,12 @@ export function SceneBackdrop({
    * marked spots. Drawn only over a place picture.
    */
   readonly placePeople?: readonly BackdropPerson[];
+  /**
+   * The place picture's painted screens, boards and papers that have live
+   * content today (backdrop-surfaces.ts). Drawn only over a place picture,
+   * beneath the people standing in it.
+   */
+  readonly placeSurfaces?: readonly BackdropSurface[];
   readonly children: ReactNode;
 }) {
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -426,6 +435,13 @@ export function SceneBackdrop({
             alt=""
             draggable="false"
             data-testid="scene-place-backdrop"
+          />
+        ) : null}
+        {placePainted ? (
+          <BackdropSurfaceLayer
+            surfaces={placeSurfaces}
+            variant={placeBackdrop.variant}
+            stageRef={viewportRef}
           />
         ) : null}
         {placePainted ? (
