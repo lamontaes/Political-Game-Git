@@ -216,7 +216,7 @@ describe("live content on the painted surfaces of place pictures", () => {
     )!;
     const retired = {
       ...original,
-      id: "measure_retired-rules",
+      id: "measure_retired-rules" as EntityId,
       stableKey: `${original.stableKey}:retired`,
       designation: "ORD 900",
       rulePackId: "retired-rule-pack",
@@ -231,7 +231,7 @@ describe("live content on the painted surfaces of place pictures", () => {
           ...actions,
           {
             ...filed,
-            id: "action_retired-rules",
+            id: "action_retired-rules" as EntityId,
             measureId: retired.id,
             occurredAt: world.currentDate,
           },
