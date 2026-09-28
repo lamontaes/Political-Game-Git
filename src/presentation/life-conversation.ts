@@ -22,6 +22,8 @@ import { linePartsTag, type ComposedPart } from "./english-composition";
 import {
   greetAgainLine,
   matterUninformedLine,
+  officialViewLine,
+  strongestOfficialView,
   type SmallTalkLine,
 } from "./small-talk-english";
 import {
@@ -69,6 +71,7 @@ export const LIFE_TALK_INTENTS = {
   suggestQuiet: "Suggest sitting and talking together",
   share: "Ask if you can tell them something",
   matter: "Mention something in the news",
+  officials: "Ask what they think of the people in office",
   remember: "Talk about an earlier conversation",
   acknowledge: "Let them know you heard",
   leave: "Say goodbye",
@@ -202,6 +205,13 @@ export function projectLifeConversation(
   // counterpart's answer depends on what their own records say they know.
   const matter = currentKnownMatter(world, playerPersonId);
   if (matter) intents.push("matter");
+  // Only someone who has formed a view of an official over a law they felt
+  // has one to give; a child is not asked.
+  if (
+    ageOnDate(world.people[personId]!.birthDate, world.currentDate) >= 18 &&
+    strongestOfficialView(world, personId) !== null
+  )
+    intents.push("officials");
   // Having asked to tell them something and been told to go ahead, the
   // player can tell them something real from their own life, or say it can
   // wait. Nothing is offered that the world does not hold.
@@ -595,6 +605,14 @@ function replyFor(
       return awareness === "involved"
         ? "I was involved in that."
         : "I heard about that.";
+    }
+    case "officials": {
+      if (activeOrdinaryGoal(world, personId, "privacy"))
+        return "I'd rather not get into that right now.";
+      const line = officialViewLine(world, personId, playerPersonId, history);
+      return line
+        ? worded(line)
+        : "I don't have much to say about the people in office right now.";
     }
     case "remember": {
       // A matter the two of you discussed is more memorable than small talk.

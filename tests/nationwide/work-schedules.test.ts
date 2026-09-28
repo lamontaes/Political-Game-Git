@@ -10,10 +10,14 @@ import {
   addDays,
   simulationMomentOnLocalDate,
 } from "../../src/simulation/dates";
-import { activeWorkRelationshipsAt } from "../../src/simulation/life-queries";
+import {
+  activeWorkRelationshipsAt,
+  organizationProfileAt,
+} from "../../src/simulation/life-queries";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import {
   TOWN_WORKPLACES,
+  countyDisplayName,
   townWorkplaceWeights,
 } from "../../src/simulation/living-world/town-employment";
 import {
@@ -226,3 +230,42 @@ describe("some jobs are part-time", { timeout: 300_000 }, () => {
     expect(part / all).toBeLessThan(0.25);
   });
 });
+
+describe(
+  "a town in a county has the county clerk's office",
+  { timeout: 180_000 },
+  () => {
+    it("names counties as people say them", () => {
+      expect(countyDisplayName("COUNTY OF HUMPHREYS")).toBe("Humphreys County");
+      expect(countyDisplayName("PARISH OF EAST BATON ROUGE")).toBe(
+        "East Baton Rouge Parish",
+      );
+      expect(countyDisplayName("CITY AND COUNTY OF DENVER")).toBe(
+        "Denver City and County",
+      );
+    });
+
+    it("Belzoni's county clerk works the counter on a weekday", () => {
+      const { world, town } = openAt(BELZONI, "schedules-county-clerk");
+      const morning = at(world, world.currentDate, 3, 10 * 60);
+      const clerk = peopleAtWorkAt(world, town, "clerk-counter", morning).find(
+        (person) => person.title === "County clerk",
+      );
+      expect(clerk).toBeDefined();
+      expect(organizationProfileAt(world, clerk!.organizationId!)?.name).toBe(
+        "Humphreys County Clerk's Office",
+      );
+      const night = at(world, world.currentDate, 3, 21 * 60);
+      expect(whereaboutsAt(world, clerk!.personId, night).kind).toBe("home");
+    });
+
+    it("a town with no county government, such as Lexington, has none", () => {
+      const { world, town } = openAt(LEXINGTON, "schedules-no-county");
+      const titles = townWorkers(world, town).flatMap((id) =>
+        activeWorkRelationshipsAt(world, id).map((job) => job.role.title),
+      );
+      expect(titles).toContain("City clerk");
+      expect(titles).not.toContain("County clerk");
+    });
+  },
+);

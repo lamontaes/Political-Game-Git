@@ -52,7 +52,12 @@ import { organizationProfileAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { placePopulation } from "../nationwide-world/place-population";
 import { recordRelationshipInteraction } from "../records";
-import { ensureTownEmployment } from "./town-employment";
+import {
+  ensureTownEmployment,
+  fillTownJobs,
+  laborStatus,
+  townResidents,
+} from "./town-employment";
 import { ensureTownHomes } from "./town-homes";
 import { DEFAULT_CORPUS_VERSION } from "../names-data";
 import { drawCanonicalNamedIdentity } from "../people";
@@ -608,6 +613,41 @@ export function ensureTownResidents(
   );
   assertWorldIntegrity(next);
   return next;
+}
+
+/**
+ * Write out one more of the town's households after the opening, as a town
+ * government or an election does when it draws a resident, and give it what
+ * every household written at the opening has: its children in school, its
+ * working-age adults in the town's labor force, and a home. A household
+ * already written is returned unchanged.
+ */
+export function materializeSettledTownHousehold(
+  world: World,
+  town: EntityId,
+  index: number,
+): World {
+  if (townHouseholdMaterialized(world, town, index)) return world;
+  let next = enrollWrittenChildren(
+    materializeTownHousehold(world, town, index),
+    town,
+  );
+  const members = new Set(
+    townHouseholdSkeleton(next, town, index).members.map((_, m) =>
+      townResidentId(next, town, index, m),
+    ),
+  );
+  const working = new Set(
+    next.history.workRelationships.map((row) => row.personId),
+  );
+  const open = townResidents(next, town).filter(
+    (resident) =>
+      members.has(resident.personId) &&
+      !working.has(resident.personId) &&
+      laborStatus(next, resident) === "employed",
+  );
+  next = fillTownJobs(next, town, open, { round: null });
+  return ensureTownHomes(next, town);
 }
 
 function seatTownResidents(world: World, playerPersonId: EntityId): World {

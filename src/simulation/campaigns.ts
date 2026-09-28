@@ -1,4 +1,12 @@
+import {
+  HOUSEHOLD_LOAN_MONTH_KEY,
+  householdLoanMonthHandler,
+} from "./household-loans";
 import { jailTermOn } from "./justice/jail-terms";
+import {
+  OFFICIAL_VIEW_TRANSITION_KEY,
+  officialViewReflectionHandler,
+} from "./living-world/official-views";
 import { contestDistrictGeography } from "./campaign-geography";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
@@ -2095,6 +2103,9 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
           POLITICAL_REFLECTION_TRANSITION_KEY,
           politicalReflectionTransitionHandler,
         ],
+        // Spec 5: people credit or blame the officials behind a law that
+        // reached them.
+        [OFFICIAL_VIEW_TRANSITION_KEY, officialViewReflectionHandler],
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.
         [CHAPTER_OUTREACH_TRANSITION_KEY, chapterOutreachTransitionHandler],
         // ALIVE43 W3: background public developments take their next step.
@@ -2106,6 +2117,7 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         ],
         // CRUNCH46 CHANGE: canonical macro history closes each month once.
         [MACRO_MONTHLY_STEP_KEY, macroMonthlyStepHandler],
+        [HOUSEHOLD_LOAN_MONTH_KEY, householdLoanMonthHandler],
         // CRUNCH46 WORLD: party governing bodies meet and may change.
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
         // MIGRATION: households leave town, newcomers arrive, waves step.

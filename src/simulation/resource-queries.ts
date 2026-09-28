@@ -214,8 +214,17 @@ export function outstandingDebtAt(
     }
     paid = addExact(paid, outcome.transferredAmount.minorUnits);
   }
+  // Interest and fees a loan's terms charged are owed on top of principal.
+  let charged = 0;
+  for (const charge of world.history.debtCharges ?? []) {
+    if (
+      charge.resourceObligationId === obligation.id &&
+      availableOn(charge, charge.chargedAt, cutoff)
+    )
+      charged = addExact(charged, charge.amount.minorUnits);
+  }
   return money(
-    Math.max(0, obligation.principal.minorUnits - paid),
+    Math.max(0, obligation.principal.minorUnits + charged - paid),
     obligation.principal.currency,
   );
 }

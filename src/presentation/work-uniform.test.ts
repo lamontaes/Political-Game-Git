@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { activeWorkRelationshipsAt } from "../simulation/life-queries";
-import { workUniform } from "./work-uniform";
+import { isSittingJudge, workUniform } from "./work-uniform";
 
 const LEXINGTON = "2146027";
 
@@ -44,5 +44,20 @@ describe("work uniforms", () => {
     );
     expect(clerk).toBeDefined();
     expect(workUniform(world, clerk as never, undefined)).toBeUndefined();
+  });
+
+  it("robes sitting judges in court and in their portraits, not at home or at the office", () => {
+    const tenure = world.judiciary!.seatTenures.find(
+      (row) => row.endedAt === null && row.startedAt <= world.currentDate,
+    )!;
+    expect(tenure).toBeDefined();
+    const judge = tenure.personId;
+    expect(isSittingJudge(world, judge)).toBe(true);
+    expect(workUniform(world, judge, "formal")).toBe("judge-robe");
+    expect(workUniform(world, judge, undefined)).toBe("judge-robe");
+    expect(workUniform(world, judge, "business")).toBeUndefined();
+    expect(workUniform(world, judge, "casual")).toBeUndefined();
+    const nurse = withOccupation(/^profession:registered-nurse$/)!;
+    expect(isSittingJudge(world, nurse as never)).toBe(false);
   });
 });
