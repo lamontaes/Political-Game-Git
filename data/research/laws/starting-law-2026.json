@@ -829,7 +829,7 @@
     },
     "us-policy-positions:housing-land-use.rent-stabilization": {
       "source": "NMHC and NAA rent-control preemption tracking (2022-2025), Virginia Housing Commission study (June 2026), state code sites and Justia for each statute; searched 2026-09-28.",
-      "note": "No with preempts false: no statewide limit, and cities may set their own. Unknown, and left out: US-AS, US-GU, US-MP, US-NH, US-PR, US-VI, US-WV.",
+      "note": "No with preempts false: no statewide limit, and cities may set their own. Unknown, and left out: US-AS, US-GU, US-MP, US-PR, US-VI.",
       "answers": {
         "US-AK": {
           "answer": "no",
@@ -1035,6 +1035,13 @@
           "source": "https://www.nebraskalegislature.gov/FloorDocs/109/PDF/Slip/LB266.pdf",
           "note": "Signed 2025-04-07; takes effect three months after the 2025 session adjourned (operative date computed, not stated in results)."
         },
+        "US-NH": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.H. RSA 31:39; RSA 47:17 (enumerated bylaw powers; no grant over rents); RSA 540, 540-A (no rent-limit provision)",
+          "source": "https://www.gencourt.state.nh.us/rsa/html/III/31/31-39.htm",
+          "note": "Weak: no statute bars local rent limits, but New Hampshire follows Dillon's Rule and no statute gives towns or cities power over rents."
+        },
         "US-NJ": {
           "answer": "no",
           "preempts": false,
@@ -1162,6 +1169,13 @@
           "preempts": true,
           "cite": "Wis. Stat. § 66.1015",
           "source": "https://docs.legis.wisconsin.gov/statutes/statutes/66/X/1015"
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "W. Va. Code § 8-12-5(43); § 8-12-2(a); § 8-1-7(a); cf. § 8-1-5a(k)",
+          "source": "https://code.wvlegislature.gov/8-12-5/",
+          "note": "Untested: no statute bars local rent limits and cities have broad powers (§ 8-12-5(43)), though § 8-1-5a(k) could be read against a cap."
         },
         "US-WY": {
           "answer": "no",
