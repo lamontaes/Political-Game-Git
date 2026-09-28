@@ -19,6 +19,7 @@
  * Enacted game taxes (`tax-policy.ts`) are a separate route and untouched.
  */
 import { createStableId } from "./ids";
+import { recordById } from "./history-index";
 import {
   FEDERAL_INCOME_TAX_2026,
   filingStatusAt,
@@ -37,7 +38,11 @@ import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
 } from "./national-election-geography";
-import { resourcePositionAt } from "./resource-queries";
+import {
+  resourceFlowsTouching,
+  resourcePositionAt,
+  resourceTransferOutcomesOfFlows,
+} from "./resource-queries";
 import {
   createResourceFlow,
   money,
@@ -82,14 +87,10 @@ type LiabilityDraft = Omit<
  * pay transfer recorded before this existed is never assessed after the fact.
  */
 export function assessPaycheckTaxes(world: World, outcomeId: EntityId): World {
-  const outcome = world.history.resourceTransferOutcomes.find(
-    (row) => row.id === outcomeId,
-  );
+  const outcome = recordById(world.history.resourceTransferOutcomes, outcomeId);
   if (!outcome || outcome.transferredAmount.minorUnits <= 0) return world;
   if (outcome.transferredAmount.currency !== "USD") return world;
-  const flow = world.history.resourceFlows.find(
-    (row) => row.id === outcome.resourceFlowId,
-  );
+  const flow = recordById(world.history.resourceFlows, outcome.resourceFlowId);
   if (
     !flow ||
     flow.basisReference.kind !== "work" ||
@@ -397,21 +398,21 @@ export function wagesPaidEarlierThisYear(
 ): number {
   const year = String(taxYear);
   let total = 0;
-  // The same employer's pay flows to the same worker, looked up by id.
+  // The same employer's pay flows to the same worker, looked up by id. Only
+  // the worker's own flows and their outcomes are read, by index.
   const same = new Set<EntityId>();
-  for (const other of world.history.resourceFlows)
+  for (const other of resourceFlowsTouching(world, flow.recipient))
     if (
       other.basisReference.kind === "work" &&
       sameOwner(other.source, flow.source) &&
       sameOwner(other.recipient, flow.recipient)
     )
       same.add(other.id);
-  for (const row of world.history.resourceTransferOutcomes) {
+  for (const row of resourceTransferOutcomesOfFlows(world, same)) {
     if (row.sequence >= outcome.sequence) continue;
     if (row.occurredAt.slice(0, 4) !== year) continue;
     if (row.transferredAmount.currency !== outcome.transferredAmount.currency)
       continue;
-    if (!same.has(row.resourceFlowId)) continue;
     total += row.transferredAmount.minorUnits;
   }
   return total;
@@ -673,8 +674,9 @@ export function assertStatutoryTaxIntegrity(
   const liabilities = new Map<EntityId, StatutoryTaxLiabilityRecord>();
   for (const row of world.history.statutoryTaxLiabilities ?? []) {
     liabilities.set(row.id, row);
-    const source = world.history.resourceTransferOutcomes.find(
-      (outcome) => outcome.id === row.sourceOutcomeId,
+    const source = recordById(
+      world.history.resourceTransferOutcomes,
+      row.sourceOutcomeId,
     );
     if (
       !source ||
@@ -721,14 +723,13 @@ export function assertStatutoryTaxIntegrity(
   const byLiability = new Map<EntityId, number>();
   for (const payment of world.history.statutoryTaxPayments ?? []) {
     const liability = liabilities.get(payment.liabilityId);
-    const transfer = world.history.resourceTransferOutcomes.find(
-      (row) => row.id === payment.resourceOutcomeId,
+    const transfer = recordById(
+      world.history.resourceTransferOutcomes,
+      payment.resourceOutcomeId,
     );
     const flow =
       transfer &&
-      world.history.resourceFlows.find(
-        (row) => row.id === transfer.resourceFlowId,
-      );
+      recordById(world.history.resourceFlows, transfer.resourceFlowId);
     if (
       !liability ||
       liability.sequence >= payment.sequence ||
@@ -751,8 +752,9 @@ export function assertStatutoryTaxIntegrity(
     );
   }
   for (const [outcomeId, paid] of byOutcome) {
-    const transfer = world.history.resourceTransferOutcomes.find(
-      (row) => row.id === outcomeId,
+    const transfer = recordById(
+      world.history.resourceTransferOutcomes,
+      outcomeId,
     )!;
     if (transfer.transferredAmount.minorUnits !== paid)
       throw new Error("Tax payments must add up to the withholding transfer.");

@@ -2,7 +2,7 @@ import { assertPublicFundingMandate } from "./public-fiscal";
 import { assertProgramInstallmentBasis } from "./public-program-integrity";
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
-import { recordById } from "./history-index";
+import { recordById, recordsWithFieldValue } from "./history-index";
 import {
   activeDwellingOccupanciesAt,
   dwellingOccupancyStateHistory,
@@ -282,7 +282,7 @@ export function assertResourceHousingIntegrity(
       terms,
       terms.supersedesTermsId,
       h.resourceFlowTerms,
-      (record) => record.resourceFlowId,
+      "resourceFlowId",
       (record) => record.effectiveAt,
       "resource-flow terms",
     );
@@ -356,9 +356,12 @@ export function assertResourceHousingIntegrity(
       historySequenceExclusive: outcome.sequence,
     });
     if (
-      h.resourceFlowTerms.some(
+      recordsWithFieldValue(
+        h.resourceFlowTerms,
+        "resourceFlowId",
+        flow.id,
+      ).some(
         (record) =>
-          record.resourceFlowId === flow.id &&
           record.sequence < outcome.sequence &&
           record.effectiveAt > outcome.periodStartsAt &&
           record.effectiveAt <= outcome.periodEndsAt,
@@ -539,7 +542,7 @@ export function assertResourceHousingIntegrity(
       state,
       state.supersedesStateId,
       h.resourceObligationStates,
-      (record) => record.resourceObligationId,
+      "resourceObligationId",
       (record) => record.effectiveAt,
       "resource obligation state",
     );
@@ -651,7 +654,7 @@ export function assertResourceHousingIntegrity(
       state,
       state.supersedesStateId,
       h.dwellingOccupancyStates,
-      (record) => record.dwellingOccupancyId,
+      "dwellingOccupancyId",
       (record) => record.effectiveAt,
       "dwelling occupancy state",
     );
@@ -709,7 +712,7 @@ export function assertResourceHousingIntegrity(
       state,
       state.supersedesStateId,
       h.housingTenureStates,
-      (record) => record.housingTenureId,
+      "housingTenureId",
       (record) => record.effectiveAt,
       "housing tenure state",
     );
@@ -867,19 +870,23 @@ function provenance(
 
 function supersession<
   T extends { readonly id: EntityId; readonly sequence: number },
+  K extends keyof T & string,
 >(
   record: T,
   priorId: EntityId | null,
   records: readonly T[],
-  parent: (value: T) => EntityId,
+  parentField: K,
   date: (value: T) => string,
   label: string,
 ): void {
-  const siblings = records.filter(
-    (candidate) =>
-      parent(candidate) === parent(record) &&
-      candidate.sequence < record.sequence,
-  );
+  const parent = (value: T) => value[parentField];
+  // The records of the same parent, read by index rather than by scanning
+  // every record of the kind for each one checked.
+  const siblings = recordsWithFieldValue(
+    records,
+    parentField,
+    record[parentField],
+  ).filter((candidate) => candidate.sequence < record.sequence);
   const prior = priorId ? byId(records, priorId) : undefined;
   if (siblings.length === 0) {
     if (priorId !== null)
