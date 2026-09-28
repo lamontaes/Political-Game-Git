@@ -57,8 +57,61 @@ const publicPay = load("public-employment");
 const placeParts = JSON.parse(
   readFileSync("data/source/place-county-relations/corpus.json", "utf8"),
 );
+const ctPrefix = "data/source/cbsa-delineations/ct-place-county-2023";
+const ctManifest = JSON.parse(
+  readFileSync(`${ctPrefix}-manifest.json`, "utf8"),
+);
+const ctLock = JSON.parse(
+  readFileSync(`${ctPrefix}-artifact-lock.json`, "utf8"),
+);
+const ctCanonical = gunzipSync(readFileSync(ctManifest.corpusPath));
+if (
+  createHash("sha256").update(ctCanonical).digest("hex") !==
+  ctManifest.canonicalSha256
+)
+  throw new Error("Connecticut corpus digest mismatch");
+const ctArtifact = ctLock.artifacts[0];
+const ctRaw = readFileSync(ctArtifact.localPath);
+if (
+  ctRaw.length !== ctArtifact.length ||
+  createHash("sha256").update(ctRaw).digest("hex") !== ctArtifact.sha256 ||
+  ctManifest.inputs[0].sha256 !== ctArtifact.sha256
+)
+  throw new Error("Connecticut raw artifact mismatch");
+const ctParts = JSON.parse(ctCanonical.toString("utf8")).rows as Array<{
+  placeGeoid: string;
+  countyGeoid: string;
+  sourceGeoId: string;
+}>;
+if (ctParts.length !== ctManifest.recordCount)
+  throw new Error("Connecticut row count mismatch");
+const oldCtPlaces = new Set<string>(
+  placeParts
+    .filter((part: { stateFips: string }) => part.stateFips === "09")
+    .map((part: { placeGeoid: string }) => part.placeGeoid),
+);
+const newCtPlaces = new Set(ctParts.map((part) => part.placeGeoid));
+const retiredCtPlaceIds = [...oldCtPlaces]
+  .filter((place) => !newCtPlaces.has(place))
+  .sort();
+const addedCtPlaceIds = [...newCtPlaces]
+  .filter((place) => !oldCtPlaces.has(place))
+  .sort();
+if (
+  oldCtPlaces.size !== 215 ||
+  newCtPlaces.size !== 215 ||
+  retiredCtPlaceIds.join(",") !== "0908910" ||
+  addedCtPlaceIds.join(",") !== "0909050"
+)
+  throw new Error("Unexpected Connecticut place-vintage difference");
 const places = new Map<string, Set<string>>();
 for (const part of placeParts) {
+  if (part.stateFips === "09") continue;
+  const counties = places.get(part.placeGeoid) ?? new Set<string>();
+  counties.add(part.countyGeoid);
+  places.set(part.placeGeoid, counties);
+}
+for (const part of ctParts) {
   const counties = places.get(part.placeGeoid) ?? new Set<string>();
   counties.add(part.countyGeoid);
   places.set(part.placeGeoid, counties);
@@ -96,18 +149,13 @@ for (const [placeGeoid, counties] of places) {
   if (new Set([...counties].map((county) => countyAreas.get(county))).size > 1)
     placeCoverage.multiAreaPlaces++;
 }
-const expectedLegacyCtCounties =
-  "09001 09003 09005 09007 09009 09011 09013 09015".split(" ");
-if (
-  [...placeCoverage.unmatchedCountyCodes].sort().join(",") !==
-  expectedLegacyCtCounties.join(",")
-)
+if (placeCoverage.unmatchedCountyCodes.size || placeCoverage.unsupportedPlaces)
   throw new Error(
     `Unexpected place-to-area gap: ${[...placeCoverage.unmatchedCountyCodes].sort()}`,
   );
 if (
-  placeCoverage.supportedStateFips.size !== 50 ||
-  [...placeCoverage.unsupportedStateFips].join(",") !== "09"
+  placeCoverage.supportedStateFips.size !== 51 ||
+  placeCoverage.unsupportedStateFips.size
 )
   throw new Error("Unexpected state-level place wage area coverage");
 const areaCodes = new Set(
@@ -199,9 +247,15 @@ console.log(
         supportedStatesAndDc: placeCoverage.supportedStateFips.size,
         supportedStateFips: [...placeCoverage.supportedStateFips].sort(),
         unsupportedStateFips: [...placeCoverage.unsupportedStateFips].sort(),
-        unsupportedState:
-          "Connecticut 2020 legacy counties need a place-level crosswalk to 2025 planning regions",
-        territoryPlaceCoverage: "not in 2020 place-county relation corpus",
+        geographyVintage:
+          "2020 place/county parts outside Connecticut; 2023 ACS 5-year geography for Connecticut",
+        connecticut: {
+          parts: ctParts.length,
+          retired2020PlaceIds: retiredCtPlaceIds,
+          added2023PlaceIds: addedCtPlaceIds,
+        },
+        territoryPlaceCoverage:
+          "not in 2020 place-county relation corpus or this Connecticut 2023 supplement",
       },
       comparisons: results,
     },

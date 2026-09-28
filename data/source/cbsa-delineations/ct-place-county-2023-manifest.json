@@ -1,0 +1,31 @@
+{
+  "asOf": "2026-09-26",
+  "canonicalSha256": "5e90bd52f915a15e2cab98b1d8e0b6204cee15017ffb4354f39d1956d161ed1e",
+  "compiler": "scripts/source/regional-money/compile-ct-place-parts.ts",
+  "compression": "gzip",
+  "corpusPath": "data/source/cbsa-delineations/ct-place-county-2023.json.gz",
+  "coverage": {
+    "countyEquivalents": [
+      "09110",
+      "09120",
+      "09130",
+      "09140",
+      "09150",
+      "09160",
+      "09170",
+      "09180",
+      "09190"
+    ],
+    "countyPartCount": 215,
+    "placeCount": 215,
+    "scope": "Connecticut only; 2023 place IDs and planning-region county equivalents",
+    "stateFips": "09"
+  },
+  "inputs": [
+    {
+      "localPath": "data/source/cbsa-delineations/raw/acs-2023-geos-5yr.txt",
+      "sha256": "f019d5c157e2f4083b2d5e8af116825d7b129cfe57e6fa65b6e6ce615cb564b1"
+    }
+  ],
+  "recordCount": 215
+}
