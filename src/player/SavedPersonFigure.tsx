@@ -1,3 +1,4 @@
+import { workUniform } from "../presentation/work-uniform";
 import type { World } from "../simulation/types";
 import { personName } from "../simulation";
 import { buildCharacterRenderPlan } from "../presentation/character-render-plan";
@@ -57,12 +58,10 @@ export function SavedPersonFigure({
   if (!person) return null;
   const engine =
     !explicitLibraries && peoplePackAvailable()
-      ? engineRecipeFor(
-          person,
-          world.currentDate,
-          PEOPLE_PACK,
-          wear ? { wear } : {},
-        )
+      ? engineRecipeFor(person, world.currentDate, PEOPLE_PACK, {
+          ...(wear ? { wear } : {}),
+          uniform: workUniform(world, person.id, wear),
+        })
       : null;
   if (engine) {
     return (

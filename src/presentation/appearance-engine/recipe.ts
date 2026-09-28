@@ -141,6 +141,11 @@ export interface EngineRecipeOptions {
   readonly wear?: Exclude<OutfitTag, "uniform">;
   /** Seated where the place has a seat for them. */
   readonly pose?: BodyPose;
+  /**
+   * A work uniform (an outfit id) this person wears here because of their
+   * job (src/presentation/work-uniform.ts). It replaces the outfit.
+   */
+  readonly uniform?: string;
 }
 
 /**
@@ -184,7 +189,9 @@ export function engineRecipeFor(
   const pack = manifest.presentations[presentation];
   const pick = <T>(items: readonly T[], question: string): T =>
     items[Math.floor(draw(seed, question) * items.length)]!;
-  const outfit = outfitFor(pack, seed, choice?.outfit, options.wear);
+  const outfit =
+    pack.outfits.find((o) => o.id === options.uniform) ??
+    outfitFor(pack, seed, choice?.outfit, options.wear);
   const age =
     Number(onDate.slice(0, 4)) - Number(String(person.birthDate).slice(0, 4));
   const shade =
