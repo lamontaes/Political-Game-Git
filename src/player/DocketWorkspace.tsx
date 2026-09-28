@@ -1021,8 +1021,12 @@ export function DraftingOptionList({
               data-testid={`drafting-option-${entry.familyKey}-${entry.variantKey}`}
               onClick={() => onChoose(key)}
             >
-              <span className="drafting-option-family">{entry.familyTitle}</span>
-              <span className="drafting-option-variant">{entry.variantLabel}</span>
+              <span className="drafting-option-family">
+                {entry.familyTitle}
+              </span>
+              <span className="drafting-option-variant">
+                {entry.variantLabel}
+              </span>
               <span className="drafting-option-instrument">
                 {entry.instrumentLabel}
               </span>
