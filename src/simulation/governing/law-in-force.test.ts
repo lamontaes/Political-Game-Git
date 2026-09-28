@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 
+import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
+import { STATES } from "../state-reference";
 import type {
   EntityId,
   LegislativeEnactmentRecord,
@@ -205,5 +207,93 @@ describe("the law a place already had when the game began", () => {
 
   it("a question the file does not cover stays unknown", () => {
     expect(lawInForce(worldAt("2027-01-01", []), texas, UNCOVERED)).toBeNull();
+  });
+});
+
+describe("every place reads its starting law on every researched question", () => {
+  const file = startingLaw as unknown as {
+    readonly defaultOperativeAt: string;
+    readonly questions: Readonly<
+      Record<
+        string,
+        {
+          readonly source?: string;
+          readonly answers: Readonly<
+            Record<
+              string,
+              {
+                readonly answer: string;
+                readonly operativeAt?: string;
+                readonly source?: string;
+                readonly preempts?: unknown;
+              }
+            >
+          >;
+        }
+      >
+    >;
+  };
+  const questionKeys = Object.keys(file.questions);
+  const propositionId = (key: string) => `proposition:${key}` as EntityId;
+  const places = Object.keys(STATES).map((usps) => `US-${usps}`);
+  const onDate = "2026-01-01";
+
+  const world = {
+    currentDate: makeIsoDate(onDate),
+    policyCatalog: {
+      propositions: Object.fromEntries(
+        questionKeys.map((key) => [
+          propositionId(key),
+          { id: propositionId(key), stableKey: key },
+        ]),
+      ),
+    },
+    history: { legislativeMeasures: [], legislativeEnactments: [] },
+  } as unknown as World;
+
+  function inForce(
+    row: { readonly operativeAt?: string } | undefined,
+  ): row is { readonly answer: string; readonly operativeAt?: string } {
+    return (
+      row !== undefined &&
+      (row.operativeAt ?? file.defaultOperativeAt) <= onDate
+    );
+  }
+
+  it("names only real places, answers only yes or no, and sources every row; preempts is true or false", () => {
+    const known = new Set(["US", ...places]);
+    for (const key of questionKeys) {
+      const question = file.questions[key]!;
+      for (const [place, row] of Object.entries(question.answers)) {
+        expect(known.has(place), `${key} ${place}`).toBe(true);
+        expect(["yes", "no"], `${key} ${place}`).toContain(row.answer);
+        if (row.operativeAt)
+          expect(row.operativeAt, `${key} ${place}`).toMatch(
+            /^\d{4}-\d{2}-\d{2}$/,
+          );
+        expect(row.source ?? question.source, `${key} ${place}`).toBeTruthy();
+        if (row.preempts !== undefined)
+          expect(typeof row.preempts, `${key} ${place}`).toBe("boolean");
+      }
+    }
+  });
+
+  it.each(questionKeys)("%s, in every state, D.C. and territory", (key) => {
+    const answers = file.questions[key]!.answers;
+    const federal = answers.US;
+    for (const place of places) {
+      const jurisdiction = stateJurisdictionForKey(place);
+      expect(jurisdiction, place).toBeTruthy();
+      const own = answers[place];
+      const expected = inForce(federal)
+        ? federal.answer
+        : inForce(own)
+          ? own.answer
+          : null;
+      expect(
+        lawInForce(world, jurisdiction!.id, propositionId(key))?.answer ?? null,
+        `${key} ${place}`,
+      ).toBe(expected);
+    }
   });
 });

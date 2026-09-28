@@ -1,0 +1,343 @@
+{
+  "question": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+  "definition": "yes = state law operates a per-mile road usage charge in which enrolled drivers pay by the mile instead of (or credited against) the fuel tax or its flat-fee substitute, in operation on 2026-01-01; no = no operating per-mile charge (pilots and studies only; flat annual EV registration fees do not count).",
+  "summarySource": "ODOT OReGO page and ORS 319.885; UDOT RUC history; Va. Code \u00a7 46.2-773 (LIS); HDOT 6/30/2025 release and HRS \u00a7 249-36; Avalara 2/2025 and Utah legislative 2025 summaries listing four permanent state programs; Oregon HB 3991 (2025 special session).",
+  "answers": {
+    "US-AL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-AK": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-AZ": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-AR": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-CA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://caroadcharge.com/projects/road-charge-collection-pilot/",
+      "note": "Pilots and research only (SB 339 road charge collection pilot, 2024-2025); no operating program, and a flat EV registration fee does not count."
+    },
+    "US-CO": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-CT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-DE": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-FL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-GA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-HI": {
+      "answer": "yes",
+      "cite": "Haw. Rev. Stat. \u00a7 249-36",
+      "operativeAt": "2025-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://hidot.hawaii.gov/blog/2025/06/30/hawaiis-state-road-usage-charge-begins-for-electric-vehicles-on-july-1/",
+      "note": "EV-only under Act 222 (2023): EV owners choose 0.8 cents per mile (capped at $50) or a flat $50 surcharge until 6/30/2028, when the per-mile charge becomes mandatory for EVs."
+    },
+    "US-ID": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-IL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-IN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-IA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-KS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-KY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-LA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-ME": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-MD": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-MA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-MI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-MN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/transportation/state-road-usage-charge-toolkit/road-usage-charge-fact-sheet-minnesota",
+      "note": "Pilots and research only; no operating per-mile charge."
+    },
+    "US-MS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-MO": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-MT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-NE": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-NV": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-NH": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-NJ": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-NM": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-NY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-NC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-ND": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-OH": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-OK": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-OR": {
+      "answer": "yes",
+      "cite": "Or. Rev. Stat. \u00a7 319.885",
+      "operativeAt": "2015-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.oregon.gov/odot/programs/pages/orego.aspx",
+      "note": "OReGO is voluntary: enrolled vehicles pay a per-mile charge and receive a credit for fuel tax paid; HB 3991 (signed 11/7/2025) phases in mandatory participation for plug-in electric and hybrid vehicles beginning July 2027."
+    },
+    "US-PA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-RI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-SC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-SD": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-TN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-TX": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-UT": {
+      "answer": "yes",
+      "cite": "Utah Code \u00a7 72-1-213.1",
+      "operativeAt": "2020-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.udot.utah.gov/connect/about-us/legislative/road-usage-charge-history/",
+      "note": "Voluntary and limited to alternative fuel vehicles, whose owners may pay a per-mile charge (capped) in lieu of the flat annual alternative fuel vehicle fee rather than directly against a fuel tax."
+    },
+    "US-VT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-VA": {
+      "answer": "yes",
+      "cite": "Va. Code \u00a7 46.2-773",
+      "operativeAt": "2022-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://law.lis.virginia.gov/vacode/title46.2/chapter7/section46.2-773/",
+      "note": "Mileage Choice is voluntary for electric, hybrid and fuel-efficient vehicles and replaces the flat highway use fee (the fuel-tax substitute for those vehicles) with a per-mile fee capped at that fee."
+    },
+    "US-WA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://mynorthwest.com/mynorthwest-politics/washingtons-road-usage/4048187",
+      "note": "Pilot (2018-2020) and 2025 bills only; the 2025 legislature did not pass a road usage charge."
+    },
+    "US-WV": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-WI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-WY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge on 1/1/2026; national surveys list only Oregon, Utah, Virginia and Hawaii with permanent programs."
+    },
+    "US-DC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.avalara.com/blog/en/north-america/2025/02/hawaii-road-usage-charge.html",
+      "note": "No operating per-mile road usage charge found for D.C.; national surveys list only four states with programs."
+    }
+  },
+  "unknown": {
+    "US-PR": "No territory-specific evidence found; national road usage charge surveys cover only states.",
+    "US-GU": "No territory-specific evidence found; national road usage charge surveys cover only states.",
+    "US-VI": "No territory-specific evidence found; national road usage charge surveys cover only states.",
+    "US-AS": "No territory-specific evidence found; national road usage charge surveys cover only states.",
+    "US-MP": "No territory-specific evidence found; national road usage charge surveys cover only states."
+  },
+  "conflicts": [
+    {
+      "place": "US-WA",
+      "readings": "One search summary described a voluntary Washington RUC program beginning 7/1/2025 at 2.5 cents per mile (apparently the WSTC FAQ describing proposed legislation); news reporting says the 2025 legislature did not pass a road usage charge, and surveys list only four states. Recorded as no.",
+      "sources": [
+        "https://wstc.wa.gov/wp-content/uploads/2025/07/washington-road-usage-charge-faq.pdf",
+        "https://mynorthwest.com/mynorthwest-politics/washingtons-road-usage/4048187"
+      ]
+    }
+  ],
+  "counts": {
+    "yes": 4,
+    "no": 47,
+    "unknown": 5
+  }
+}

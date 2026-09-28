@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
+import { lawInForceAtStart } from "../governing/law-in-force";
 import { stateJurisdictionForKey } from "../life-places";
+import { STATES } from "../state-reference";
 import type {
   EntityId,
   LegislativeEnactmentRecord,
@@ -10,6 +12,7 @@ import type {
 import {
   drawnLinkSize,
   OUTCOME_LINKS,
+  OUTCOME_WEB_CALIBRATED_AT,
   OUTCOMES_PRODUCED,
   outcomeFactor,
   outcomeLinkStatus,
@@ -32,7 +35,7 @@ const EVIDENCE = new Set([
   "about-zero",
   "to-confirm",
 ]);
-const OWNERS = new Set(["M", "F", "O", "B", "C", "G"]);
+const OWNERS = new Set(["M", "F", "O", "B", "C", "G", "F-cloud"]);
 
 describe("the outcome web table", () => {
   it("every link is complete: cause, outcome, strength, shape, owner, evidence and a source", () => {
@@ -296,5 +299,153 @@ describe("sizes are a baseline, not literal numbers", () => {
       expect(drawnLinkSize(seeded("w"), zero, place)).toBe(0);
     // A fixture world with no seed uses the central size.
     expect(drawnLinkSize({} as World, link, place)).toBe(link.size);
+  });
+});
+
+describe("every state policy question has researched effects (F-cloud rows)", () => {
+  const all = OUTCOME_LINKS.filter((link) => link.owner === "F-cloud");
+  // Rows into a measure another lane is adding: they switch on when it lands.
+  const waiting = all.filter((link) => link.to === "housing.homelessness");
+  const rows = all.filter((link) => !waiting.includes(link));
+  const places = Object.keys(STATES).flatMap((usps) => {
+    const id = stateJurisdictionForKey(`US-${usps}`)?.id;
+    return id ? [{ key: `US-${usps}`, id }] : [];
+  });
+
+  /** A world where one enacted state law answers `questionKey` in a place. */
+  function enacted(
+    place: EntityId,
+    questionKey: string,
+    answer: "yes" | "no",
+    effectiveAt: string,
+  ): World {
+    const question = `proposition:${questionKey}` as EntityId;
+    const measure: LegislativeMeasureRecord = {
+      id: "measure_f" as EntityId,
+      stableKey: "test:f",
+      sequence: 1,
+      jurisdictionId: place,
+      rulePackId: "test",
+      designation: "HB 1",
+      shortTitle: "A test act",
+      summary: "A test act.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: "house",
+      sponsorPersonId: null,
+      introducedAt: makeIsoDate("2026-01-01"),
+      sourceDocumentKey: null,
+      policyAlternativeIds: [],
+      propositionIds: [question],
+      propositionAnswers: [{ propositionId: question, answer }],
+    };
+    const enactment: LegislativeEnactmentRecord = {
+      id: "enactment_f" as EntityId,
+      stableKey: "test:f:enactment",
+      sequence: 1001,
+      measureId: measure.id,
+      resolvedAt: makeIsoDate("2026-06-01"),
+      outcome: "enacted",
+      actDesignation: null,
+      effectiveAt: makeIsoDate(effectiveAt),
+      outcomeEventId: "event_f" as EntityId,
+    };
+    return {
+      currentDate: makeIsoDate("2040-01-01"),
+      policyCatalog: {
+        propositions: {
+          [question]: { id: question, stableKey: questionKey },
+        },
+      },
+      history: {
+        legislativeMeasures: [measure],
+        legislativeEnactments: [enactment],
+      },
+    } as unknown as World;
+  }
+
+  it("every row is a state law into an outcome the game produces", () => {
+    for (const link of rows) {
+      expect(link.from.startsWith("law:us-policy-positions:"), link.key).toBe(
+        true,
+      );
+      expect(outcomeMeasure(link.from), link.key).not.toBeNull();
+      expect(OUTCOMES_PRODUCED.has(link.to), link.key).toBe(true);
+      expect(link.shape.kind, link.key).toBe("linear");
+      const status = outcomeLinkStatus(link);
+      expect(["built", "about-zero"], link.key).toContain(status);
+      if (link.range) {
+        const [low, high] = link.range;
+        expect(link.size!, link.key).toBeGreaterThanOrEqual(
+          Math.min(low, high),
+        );
+        expect(link.size!, link.key).toBeLessThanOrEqual(Math.max(low, high));
+      }
+    }
+  });
+
+  it("rows waiting on the homelessness measure say so, and the state override does not count by-right permitting twice", () => {
+    expect(waiting.map((link) => link.key).sort()).toEqual([
+      "by-right-permitting-to-homelessness",
+      "housing-preemption-to-homelessness",
+      "inclusionary-to-homelessness",
+    ]);
+    for (const link of waiting) {
+      expect(outcomeMeasure(link.from), link.key).not.toBeNull();
+      expect(outcomeLinkStatus(link), link.key).toBe(
+        link.evidence === "about-zero"
+          ? "about-zero"
+          : OUTCOMES_PRODUCED.has(link.to)
+            ? "built"
+            : "outcome-not-produced",
+      );
+    }
+    const preemption = waiting.find(
+      (link) => link.key === "housing-preemption-to-homelessness",
+    )!;
+    expect(preemption.moderator).toEqual({
+      measure: "law:us-policy-positions:housing-land-use.by-right-permitting",
+      effectAtFull: -0.5,
+      mode: "scale",
+    });
+    expect(outcomeMeasure(preemption.moderator!.measure)).not.toBeNull();
+  });
+
+  it("each row reads its law in force in every place: a change from the starting law moves the outcome by its size, after its lag", () => {
+    const effectiveAt = "2030-01-01";
+    for (const link of rows) {
+      const questionKey = link.from.slice("law:".length);
+      const afterLag = makeIsoDate(
+        `${2030 + Math.ceil(link.lagMonths / 12) + 1}-01-01`,
+      );
+      for (const place of places) {
+        const factorFor = (answer: "yes" | "no", asOf = afterLag) => {
+          const world = enacted(place.id, questionKey, answer, effectiveAt);
+          return (
+            outcomeFactor(world, place.id, link.to, asOf).causes.find(
+              (cause) => cause.key === link.key,
+            )?.factor ?? 1
+          );
+        };
+        const label = `${link.key} in ${place.key}`;
+        const startedYes =
+          lawInForceAtStart(
+            enacted(place.id, questionKey, "no", effectiveAt),
+            place.id,
+            `proposition:${questionKey}` as EntityId,
+            OUTCOME_WEB_CALIBRATED_AT,
+          ) === "yes";
+        const yes = factorFor("yes");
+        const no = factorFor("no");
+        expect(yes - no, label).toBeCloseTo(link.size ?? 0, 10);
+        // The starting law is the base: keeping it changes nothing.
+        expect(startedYes ? yes : no, label).toBeCloseTo(1, 10);
+        // Before the law takes effect and its lag passes, nothing moves.
+        expect(
+          factorFor(startedYes ? "no" : "yes", makeIsoDate("2029-12-01")),
+          label,
+        ).toBe(1);
+      }
+    }
   });
 });

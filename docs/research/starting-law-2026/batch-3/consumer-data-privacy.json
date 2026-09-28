@@ -1,0 +1,273 @@
+{
+  "question": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+  "definition": "yes = a comprehensive state consumer data privacy law giving residents rights to access, correct and delete personal data is in effect on 1/1/2026 (operativeAt = the date all three rights took effect); a law with only some of the three rights, a narrow-scope law, or a law effective after 1/1/2026 = no, with a note. preempts: true on every row.",
+  "summarySource": "State statute sites and attorney general privacy pages fetched 9/28/2026 (Cal. OAG, Va. LIS, Colo. AG, Conn. AG, Tex. Capitol, Or. Legislature/DOJ, Mont. MCA 2025, Iowa Code 2026, Del. Code/DOJ, Neb. Legislature, N.H. RSA, N.J. P.L.2023 c.266, Tenn. Pub. Ch. 408, Minn. Revisor, Md. 2024 ch. 455, Ky. Acts 2024 ch. 72, R.I. Gen. Laws, Utah Code, Fla. Senate, Vt. Act 145, Nev. NRS, Wash. AG).",
+  "answers": {
+    "US-CA": {
+      "answer": "yes",
+      "cite": "Cal. Civ. Code §§ 1798.100, 1798.105, 1798.106",
+      "operativeAt": "2023-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://oag.ca.gov/privacy/ccpa",
+      "note": "The CCPA gave rights to know and delete on 1/1/2020; the CPRA (Proposition 24) added the right to correct on 1/1/2023, when all three rights were in effect.",
+      "preempts": true
+    },
+    "US-VA": {
+      "answer": "yes",
+      "cite": "Va. Code § 59.1-577",
+      "operativeAt": "2023-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://law.lis.virginia.gov/vacode/title59.1/chapter53/section59.1-577/",
+      "note": "Virginia Consumer Data Protection Act (2021 Sp. Sess. I, ch. 35/36); the enactment clause sets 1/1/2023, confirmed at https://legacylis.virginia.gov/cgi-bin/legp604.exe?212+ful+CHAP0035.",
+      "preempts": true
+    },
+    "US-CO": {
+      "answer": "yes",
+      "cite": "Colo. Rev. Stat. § 6-1-1306",
+      "operativeAt": "2023-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://coag.gov/resources/colorado-privacy-act/",
+      "note": "Colorado Privacy Act (SB 21-190).",
+      "preempts": true
+    },
+    "US-CT": {
+      "answer": "yes",
+      "cite": "Conn. Gen. Stat. § 42-515 et seq. (Connecticut Data Privacy Act)",
+      "operativeAt": "2023-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://portal.ct.gov/ag/sections/privacy/the-connecticut-data-privacy-act",
+      "note": "The attorney general's page confirms the effective date and the rights to access, correct and delete; the statute site cga.ct.gov refused the connection, so the exact rights section is not cited.",
+      "preempts": true
+    },
+    "US-TX": {
+      "answer": "yes",
+      "cite": "Tex. Bus. & Com. Code § 541.051",
+      "operativeAt": "2024-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://capitol.texas.gov/tlodocs/88R/billtext/html/HB00004F.htm",
+      "note": "Texas Data Privacy and Security Act (HB 4, 2023); Section 7 sets 7/1/2024, and the attorney general's page confirms it.",
+      "preempts": true
+    },
+    "US-OR": {
+      "answer": "yes",
+      "cite": "ORS 646A.574",
+      "operativeAt": "2024-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors646A.html",
+      "note": "Oregon Consumer Privacy Act (2023 c.369); the effective date is from the Oregon DOJ privacy page, https://www.doj.state.or.us/consumer-protection/id-theft-data-breaches/privacy/.",
+      "preempts": true
+    },
+    "US-MT": {
+      "answer": "yes",
+      "cite": "Mont. Code Ann. § 30-14-2808",
+      "dateBasis": "not-found",
+      "source": "https://mca.legmt.gov/bills/mca/title_0300/chapter_0140/part_0280/section_0080/0300-0140-0280-0080.html",
+      "note": "Montana Consumer Data Privacy Act (Ch. 681, L. 2023), in the 2025 MCA; its effective date (widely reported as 10/1/2024) was not confirmed on a fetched page because the session-law PDF returned 404 and dojmt.gov refused.",
+      "preempts": true
+    },
+    "US-DE": {
+      "answer": "yes",
+      "cite": "6 Del. C. § 12D-104",
+      "operativeAt": "2025-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://attorneygeneral.delaware.gov/fraud/personal-data-privacy-portal/consumer/",
+      "note": "Delaware Personal Data Privacy Act (84 Del. Laws c. 197); statute text at https://delcode.delaware.gov/title6/c012d/index.html. An amended version of the chapter takes effect 1/1/2027.",
+      "preempts": true
+    },
+    "US-NE": {
+      "answer": "yes",
+      "cite": "Neb. Rev. Stat. § 87-1107",
+      "operativeAt": "2025-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=87-1107",
+      "note": "Nebraska Data Privacy Act (LB 1074, 2024); Section 100 of the act makes it operative 1/1/2025 (https://nebraskalegislature.gov/FloorDocs/108/PDF/Slip/LB1074.pdf).",
+      "preempts": true
+    },
+    "US-NH": {
+      "answer": "yes",
+      "cite": "RSA 507-H:4",
+      "operativeAt": "2025-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://gc.nh.gov/rsa/html/LII/507-H/507-H-4.htm",
+      "note": "The source note reads 2024, 5:1, eff. Jan. 1, 2025.",
+      "preempts": true
+    },
+    "US-NJ": {
+      "answer": "yes",
+      "cite": "N.J.S.A. 56:8-166.10",
+      "operativeAt": "2025-01-15",
+      "dateBasis": "enacted-effective",
+      "source": "https://pub.njleg.state.nj.us/Bills/2022/PL23/266_.HTM",
+      "note": "P.L.2023, c.266 was approved 1/16/2024 and takes effect on the 365th day after enactment, which is 1/15/2025.",
+      "preempts": true
+    },
+    "US-TN": {
+      "answer": "yes",
+      "cite": "Tenn. Code Ann. § 47-18-3203",
+      "operativeAt": "2025-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://publications.tnsosfiles.com/acts/113/pub/pc0408.pdf",
+      "note": "Tennessee Information Protection Act (2023 Pub. Ch. 408, HB 1181); Section 6 sets 7/1/2025.",
+      "preempts": true
+    },
+    "US-MN": {
+      "answer": "yes",
+      "cite": "Minn. Stat. § 325M.14",
+      "operativeAt": "2025-07-31",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.revisor.mn.gov/statutes/cite/325M.14",
+      "note": "Minnesota Consumer Data Privacy Act (Laws 2024, ch. 121, art. 5); postsecondary institutions have until 7/31/2029.",
+      "preempts": true
+    },
+    "US-MD": {
+      "answer": "yes",
+      "cite": "Md. Code, Com. Law § 14-4605",
+      "operativeAt": "2025-10-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://mgaleg.maryland.gov/2024RS/Chapters_noln/CH_455_sb0541e.pdf",
+      "note": "Maryland Online Data Privacy Act (2024 ch. 455, SB 541); Section 4 sets 10/1/2025.",
+      "preempts": true
+    },
+    "US-KY": {
+      "answer": "yes",
+      "cite": "2024 Ky. Acts ch. 72 (HB 15), § 3 (KRS ch. 367)",
+      "operativeAt": "2026-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://apps.legislature.ky.gov/law/acts/24RS/documents/0072.pdf",
+      "note": "Kentucky Consumer Data Protection Act; Section 12 sets 1/1/2026, the reference date itself.",
+      "preempts": true
+    },
+    "US-RI": {
+      "answer": "yes",
+      "cite": "R.I. Gen. Laws § 6-48.1-5",
+      "operativeAt": "2026-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://webserver.rilegislature.gov/Statutes/TITLE6/6-48.1/6-48.1-5.htm",
+      "note": "Rhode Island Data Transparency and Privacy Protection Act (P.L. 2024, ch. 430 and 453), effective 1/1/2026, the reference date itself; the statute says customer rather than consumer.",
+      "preempts": true
+    },
+    "US-UT": {
+      "answer": "no",
+      "cite": "Utah Code § 13-61-201",
+      "dateBasis": "not-found",
+      "source": "https://le.utah.gov/xcode/Title13/Chapter61/C13-61-S201_2026070120250507.html",
+      "note": "The Utah Consumer Privacy Act (in effect 12/31/2023) gave rights to access and delete but no right to correct on 1/1/2026; Laws 2025 ch. 468 adds a right to correct effective 7/1/2026, which turns this into yes on that date.",
+      "preempts": true
+    },
+    "US-IA": {
+      "answer": "no",
+      "cite": "Iowa Code § 715D.3",
+      "dateBasis": "not-found",
+      "source": "https://www.legis.iowa.gov/docs/code/715D.pdf",
+      "note": "The Iowa Consumer Data Protection Act (2023 Acts ch. 17, effective 1/1/2025) gives rights to access, delete, copy and opt out but no right to correct.",
+      "preempts": true
+    },
+    "US-FL": {
+      "answer": "no",
+      "cite": "Fla. Stat. §§ 501.702, 501.705",
+      "dateBasis": "not-found",
+      "source": "https://www.flsenate.gov/Laws/Statutes/2025/501.702",
+      "note": "The Florida Digital Bill of Rights (ch. 2023-201, effective 7/1/2024) gives rights to access, correct and delete, but only against controllers with over $1 billion in global revenue that meet narrow tests, so it is not a comprehensive law.",
+      "preempts": true
+    },
+    "US-VT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://legislature.vermont.gov/Documents/2026/Docs/ACTS/ACT145/ACT145%20Act%20Summary.pdf",
+      "note": "Vermont enacted a comprehensive law (S.71, Act 145, signed 6/16/2026) with access, correct and delete rights, but it takes effect 1/1/2028.",
+      "preempts": true
+    },
+    "US-NV": {
+      "answer": "no",
+      "cite": "NRS 603A.345",
+      "dateBasis": "not-found",
+      "source": "https://www.leg.state.nv.us/nrs/nrs-603a.html",
+      "note": "Nevada's online privacy law (NRS 603A.300 to 603A.360) gives only a right to opt out of sale, not rights to access, correct or delete.",
+      "preempts": true
+    },
+    "US-WA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.atg.wa.gov/data-privacy",
+      "note": "Washington's privacy law is the My Health My Data Act (HB 1155), limited to consumer health data; the attorney general's privacy hub lists no comprehensive consumer data law.",
+      "preempts": true
+    }
+  },
+  "unknown": {
+    "US-AL": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-AK": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-AZ": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-AR": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-GA": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-HI": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-ID": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-IL": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-IN": "Indiana Consumer Data Protection Act (IC 24-15, SEA 5 of 2023) is widely reported effective 1/1/2026, but no fetched page confirmed it: iga.in.gov returns only a JavaScript shell, codes.findlaw.com refused, and no attorney general page was found.",
+    "US-KS": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-LA": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-ME": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-MA": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-MI": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-MS": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-MO": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-NM": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-NY": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-NC": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-ND": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-OH": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-OK": "Oklahoma SB 546 (2025) status could not be checked: oklegislature.gov and webserver1.lsb.state.ok.us are outside the network allowlist, and oscn.net returned no content.",
+    "US-PA": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-SC": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-SD": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-WV": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-WI": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-WY": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-DC": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
+    "US-PR": "Territory: no state-specific source; not confirmed.",
+    "US-GU": "Territory: no state-specific source; not confirmed.",
+    "US-VI": "Territory: no state-specific source; not confirmed.",
+    "US-AS": "Territory: no state-specific source; not confirmed.",
+    "US-MP": "Territory: no state-specific source; not confirmed."
+  },
+  "conflicts": [
+    {
+      "place": "US-UT",
+      "readings": "Often counted among comprehensive privacy states since 12/31/2023, but on 1/1/2026 its statute had no right to correct (added effective 7/1/2026), so it is recorded as no under this definition.",
+      "sources": [
+        "https://le.utah.gov/xcode/Title13/Chapter61/C13-61-S201_2026070120250507.html"
+      ]
+    },
+    {
+      "place": "US-IA",
+      "readings": "Often counted among comprehensive privacy states (effective 1/1/2025), but Iowa Code § 715D.3 has no right to correct, so it is recorded as no under this definition.",
+      "sources": ["https://www.legis.iowa.gov/docs/code/715D.pdf"]
+    },
+    {
+      "place": "US-FL",
+      "readings": "The Florida Digital Bill of Rights grants access, correct and delete rights (yes on its text) but reaches only controllers with over $1 billion in revenue that meet narrow tests (no as a comprehensive law); recorded as no.",
+      "sources": [
+        "https://www.flsenate.gov/Laws/Statutes/2025/501.705",
+        "https://www.flsenate.gov/Laws/Statutes/2025/501.702"
+      ]
+    }
+  ],
+  "refusedHosts": [
+    "www.cga.ct.gov (connection failed)",
+    "www.oklegislature.gov (not in network allowlist)",
+    "webserver1.lsb.state.ok.us (not in network allowlist)",
+    "www.leg.state.fl.us (not in network allowlist)",
+    "dojmt.gov (Cloudflare challenge 403)",
+    "www.doj.nh.gov (403)",
+    "codes.findlaw.com (403)",
+    "iga.in.gov (serves only a JavaScript shell)",
+    "web.archive.org (connection failed)",
+    "statutes.capitol.texas.gov (JavaScript shell)",
+    "mgaleg.maryland.gov StatuteText (JavaScript shell; chapter PDF worked)",
+    "www.oscn.net (empty response)"
+  ],
+  "counts": {
+    "yes": 16,
+    "no": 6,
+    "unknown": 34
+  }
+}

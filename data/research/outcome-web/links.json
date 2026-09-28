@@ -562,15 +562,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.05,
       "per": "point of coverage",
       "lagMonths": 0,
       "group": "low-income adults",
       "owner": "F",
-      "anchor": "ACA expansion: -$3.4 billion in collections in 2 years; better credit and loan terms",
+      "anchor": "Flow base: about $920 a year less in collections per newly insured person against about $150 to $240 of new medical collections per adult per year, so -5% of new medical collections per point of coverage",
       "source": "Brevoort, Grodzicki and Hackmann 2020 (JPubE)",
       "from": "health.coverage-pct",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [-0.06, -0.04]
     },
     {
       "key": "coverage-to-depression",
@@ -579,7 +580,7 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.3,
       "per": "covered",
       "lagMonths": 6,
       "group": "low-income adults",
@@ -587,7 +588,8 @@
       "anchor": "-9 points screening positive",
       "source": "Oregon Health Insurance Experiment",
       "from": "health.coverage",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [-0.56, -0.05]
     },
     {
       "key": "coverage-to-blood-pressure",
@@ -611,17 +613,18 @@
       "to": "health.mortality-55-64",
       "strength": "moderate",
       "shape": {
-        "kind": "linear"
+        "kind": "exposure-years"
       },
-      "size": null,
-      "per": "expansion",
+      "size": -0.25,
+      "per": "covered person-year",
       "lagMonths": 12,
-      "group": "low-income near-elderly",
+      "group": "a low-income person aged 55 to 64 whose own coverage is modeled; that person is left out of the place-level expansion row",
       "owner": "F",
-      "anchor": "-9.4% annual mortality, -11.9% by year 3",
+      "anchor": "Per enrollee: about -0.35 points of annual mortality on a base near 1.4%, so -25% per covered year. The -9.4% (Miller, Johnson and Wherry 2021) is the effect on all low-income 55 to 64s in an expansion state, enrolled or not, and stays on the place-level medicaid-expansion-to-mortality row",
       "source": "Miller, Johnson and Wherry 2021 (QJE)",
       "from": "health.coverage-pct",
-      "evidence": "researched"
+      "evidence": "provisional",
+      "range": [-0.4, -0.1]
     },
     {
       "key": "work-requirement-to-coverage",
@@ -809,15 +812,16 @@
         "kind": "threshold",
         "at": 0.59
       },
-      "size": null,
-      "per": "above about 59% of the median wage",
+      "size": -0.25,
+      "per": "unit of the minimum-to-median wage ratio above 0.59",
       "lagMonths": 0,
       "group": "teens, least skilled",
       "owner": "B",
-      "anchor": "No job loss over 5 years across 138 increases; teen elasticities -0.1 to -0.2 in other studies",
+      "anchor": "No job loss over 5 years across 138 increases up to 59% of the median wage (Cengiz et al.); 59% is the top of what they observed, not a tested threshold. Past it, the all-studies mean teen elasticity of -0.15 (teen median -0.122, mean -0.170), converted to the ratio this row reads: going from 0.59 to 0.65 is about 10% more minimum wage, and -0.15 times 10% is -1.5% of low-wage jobs, so -0.25 per unit of the ratio",
       "source": "Cengiz et al. 2019; Neumark and Shirley 2022",
       "from": "labor.minimum-wage-to-median",
-      "evidence": "contested"
+      "evidence": "contested",
+      "range": [-0.5, 0]
     },
     {
       "key": "unemployment-to-poverty",
@@ -1414,7 +1418,7 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0.35,
       "per": "workers bear 30-35% of the tax",
       "lagMonths": 0,
       "group": "workers",
@@ -1422,7 +1426,8 @@
       "anchor": "Owners about 40%, workers 30-35%, landowners 25-30%",
       "source": "Suarez Serrato and Zidar 2016 (AER)",
       "from": "tax.state-corporate-rate",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [0, 0.7]
     },
     {
       "key": "incentive-deal-to-industry-jobs",
@@ -1465,16 +1470,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": -0.014,
+      "size": -0.0075,
       "per": "percentage point of unemployment",
       "lagMonths": 9,
       "group": "place",
       "owner": "B",
-      "anchor": "+1 point unemployment: -1.4% births",
-      "source": "Kearney, Levine and Pardue 2022 (JEP)",
+      "anchor": "+1 point unemployment: births about 0.75% lower (Kearney, Levine and Pardue; Currie and Schwandt find about 0.7 to 0.75%); the -1.4% in Dettling and Kearney was a control in one model and sets the range's far end",
+      "source": "Dettling and Kearney 2014 (JPubE); Kearney, Levine and Pardue 2022 (JEP); Currie and Schwandt 2014 (PNAS)",
       "from": "labor.unemployment-pct",
       "evidence": "researched",
-      "range": [-0.018, -0.01]
+      "range": [-0.014, -0.005]
     },
     {
       "key": "enforcement-to-undocumented-employment",
@@ -1483,8 +1488,8 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "program in force: -5.7%",
+      "size": -0.057,
+      "per": "a whole commuting zone going from no coverage to full coverage for a year",
       "lagMonths": 0,
       "group": "likely undocumented",
       "owner": "B",
@@ -1500,12 +1505,12 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "program in force",
+      "size": -0.005,
+      "per": "a whole commuting zone going from no coverage to full coverage for a year",
       "lagMonths": 0,
       "group": "U.S.-born workers",
       "owner": "B",
-      "anchor": "Small declines in employment and wages",
+      "anchor": "U.S.-born workers: about -0.5% employment and -0.6% wages",
       "source": "East et al. 2023 (JOLE)",
       "from": "immigration.local-enforcement-partnership",
       "evidence": "researched"
@@ -2696,6 +2701,395 @@
       "source": "Spec part 6: the entire world changes",
       "evidence": "researched",
       "range": [0.01, 0.01]
+    },
+    {
+      "key": "right-to-work-to-turnout",
+      "from": "law:us-policy-positions:labor-workforce.right-to-work",
+      "to": "voting.turnout-pct",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.031,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "researched",
+      "anchor": "Counties across state borders: turnout 2 to 3 points lower after a right-to-work law passes (about 3% of a 65% turnout), with the Democratic presidential share 3.5 points lower, as unions contact fewer voters",
+      "source": "Feigenbaum, Hertel-Fernandez and Williamson 2018, From the Bargaining Table to the Ballot Box (NBER w24259)",
+      "range": [-0.046, -0.015]
+    },
+    {
+      "key": "public-bargaining-to-graduation",
+      "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+      "to": "school.graduation-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "Teacher duty-to-bargain laws had only a modest effect on schooling, consistent with earlier null results on graduation; their measured effect is lower adult earnings for men (3.9%), a measure the game does not keep",
+      "source": "Lovenheim and Willen 2019, AEJ: Economic Policy 11(3)"
+    },
+    {
+      "key": "juvenile-court-age-to-crime",
+      "from": "law:us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+      "to": "crime.rate-index",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "Connecticut raised the age of juvenile jurisdiction: no loss of deterrence and no rise in crime among the teens it covered",
+      "source": "Loeffler and Chalfin 2017, Criminology and Public Policy 16(1)"
+    },
+    {
+      "key": "crisis-response-to-crime",
+      "from": "law:us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+      "to": "crime.rate-index",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.01,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 6,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "Denver's health-responder program cut reports of the targeted low-level offenses 34% where it ran, with no effect on serious crime; scaled down because those offenses are a small share of all crime and a state program reaches part of the state",
+      "source": "Dee and Pyne 2022, Science Advances 8, eabm2106",
+      "range": [-0.02, 0]
+    },
+    {
+      "key": "curriculum-standards-to-math",
+      "from": "law:us-policy-positions:education.state-curriculum-standards",
+      "to": "school.math-proficient-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "College- and career-ready standards brought no gain in the first seven years; estimates were mostly negative and not significant",
+      "source": "Song, Garet and Yang 2022 (IES C-SAIL, ERIC ED620442)"
+    },
+    {
+      "key": "teacher-minimum-salary-to-graduation",
+      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+      "to": "school.graduation-pct",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.0025,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 24,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "10% higher teacher pay cuts dropouts 3 to 4%; a state salary floor is assumed to raise average teacher pay about 5%",
+      "source": "Loeb and Page 2000, Review of Economics and Statistics 82(3)",
+      "range": [0.001, 0.005]
+    },
+    {
+      "key": "property-tax-cap-to-math",
+      "from": "law:us-policy-positions:fiscal.cap-property-tax-growth",
+      "to": "school.math-proficient-pct",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.05,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 60,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "contested",
+      "anchor": "States that imposed tax limits in the 1970s and 1980s saw mean math scores fall 5.5 to 6% against other states (about 0.1 standard deviation, or about a tenth fewer eighth graders at the proficient line), most where spending was already low; reading did not change. Today's growth caps are milder than those limits, so the central size is half",
+      "source": "Figlio 1997, Journal of Public Economics 65(3); Downes and Figlio 1997, IRP DP 1142-97",
+      "range": [-0.11, 0]
+    },
+    {
+      "key": "grocery-exemption-to-poverty",
+      "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+      "to": "household.poverty-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "The official poverty rate counts cash income before taxes, so a sales tax cannot move it; the real effect is on food insecurity (removing the tax cuts it 3.2% for households under $30,000), a measure the game does not keep",
+      "source": "Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101"
+    },
+    {
+      "key": "civilian-oversight-to-crime",
+      "from": "law:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+      "to": "crime.rate-index",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.02,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "contested",
+      "anchor": "217 cities, 1981 to 2015: oversight boards that can investigate and sanction go with lower violent crime; boards that only review go with more",
+      "source": "Ali and Nicholson-Crotty 2021, Public Performance and Management Review",
+      "range": [-0.04, 0.01]
+    },
+    {
+      "key": "harm-reduction-to-crime",
+      "from": "law:us-policy-positions:health-human-services.harm-reduction-services",
+      "to": "crime.rate-index",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "Naloxone access raised opioid-related theft in one study, disputed by a reanalysis; either way too small a slice to move all crime. The real effect is on overdose deaths, a measure the game does not keep",
+      "source": "Doleac and Mukherjee 2022, Journal of Law and Economics 65(2); Alexeev 2026, Economic Inquiry"
+    },
+    {
+      "key": "licensing-reform-to-poverty",
+      "from": "law:us-policy-positions:business-commerce.reduce-occupational-licensing",
+      "to": "household.poverty-pct",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.003,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "Licensing an occupation cuts its employment about 29% and burdens low-income work most; no study measures the poverty change, so the size is scaled to the few percent of workers such a law frees",
+      "source": "Kleiner and Soltas 2019; Institute for Justice, License to Work",
+      "range": [-0.006, 0]
+    },
+    {
+      "key": "independent-redistricting-to-turnout",
+      "from": "law:us-policy-positions:government-operations.independent-redistricting",
+      "to": "voting.turnout-pct",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.005,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 24,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "From 2018 to 2022, turnout rose about 1 point in districts drawn by long-standing commissions and 5 points in court-drawn ones, and being drawn into a competitive district added about 3 points; the comparison is descriptive, not a controlled study, and presidential turnout is barely touched by district lines",
+      "source": "Brennan Center, The Turnout Effects of Redistricting Institutions; PS: Political Science and Politics 2023 (commissions and competitive elections)",
+      "range": [0, 0.015]
+    },
+    {
+      "key": "term-limits-to-turnout",
+      "from": "law:us-policy-positions:government-operations.legislative-term-limits",
+      "to": "voting.turnout-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "California's term limits brought no rise, and perhaps a fall, in legislative-race turnout; nothing shows a statewide change",
+      "source": "Nalder 2007, State Politics and Policy Quarterly 7(2)"
+    },
+    {
+      "key": "library-funding-to-math",
+      "from": "law:us-policy-positions:civil-family-community.fund-public-libraries",
+      "to": "school.math-proficient-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "Library investment raised children's reading scores 0.01 to 0.04 standard deviations, not math; reading is not a measure the game keeps",
+      "source": "Gilpin, Karger and Nencka 2024, AEJ: Economic Policy"
+    },
+    {
+      "key": "income-tax-to-poverty",
+      "from": "law:us-policy-positions:fiscal.adopt-income-tax",
+      "to": "household.poverty-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "The official poverty rate counts cash income before taxes, so an income tax cannot move it; high earners leaving is small",
+      "source": "Census official poverty definition; Young, Varner, Lurie and Prisinzano 2016, American Sociological Review"
+    },
+    {
+      "key": "graduated-income-tax-to-poverty",
+      "from": "law:us-policy-positions:fiscal.graduated-income-tax",
+      "to": "household.poverty-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "The official poverty rate counts cash income before taxes, so the tax's shape cannot move it",
+      "source": "Census official poverty definition"
+    },
+    {
+      "key": "facial-recognition-limit-to-crime",
+      "from": "law:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+      "to": "crime.rate-index",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.01,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "contested",
+      "anchor": "268 cities, 1997 to 2020: police facial recognition went with lower violent crime and homicide, more so the earlier it was adopted; restricting it gives some of that up, and violence is a small part of all crime",
+      "source": "Johnson, Johnson, Topalli, McCurdy and Wallace 2024, Cities",
+      "range": [0, 0.02]
+    },
+    {
+      "key": "anti-discrimination-to-poverty",
+      "from": "law:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+      "to": "household.poverty-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "State employment protections raised gay men's wages 2.7% and lowered lesbian women's employment, too small a group to move a state's poverty rate",
+      "source": "Burn 2018, Journal of Labor Research"
+    },
+    {
+      "key": "incentive-cap-to-poverty",
+      "from": "law:us-policy-positions:business-commerce.cap-development-incentives",
+      "to": "household.poverty-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "Incentive deals add about 1,500 jobs in the target industry and no broader growth, so capping them changes no broad outcome",
+      "source": "Slattery and Zidar 2020, Journal of Economic Perspectives 34(2)"
+    },
+    {
+      "key": "by-right-permitting-to-homelessness",
+      "from": "law:us-policy-positions:housing-land-use.by-right-permitting",
+      "to": "housing.homelessness",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.03,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 60,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "Two steps multiplied: Auckland upzoned three quarters of its land and rents ended 23 to 28% below similar cities after 6 to 8 years; a U.S. state rule reaches far fewer lots, so rents are taken as 1 to 3% lower after 5 years, and $100 more median rent means about 15% more homelessness in metros",
+      "source": "Greenaway-McGrevy 2025, Economic Inquiry; Byrne, Munley, Fargo, Montgomery and Culhane 2013, Journal of Urban Affairs 35(5)",
+      "range": [-0.05, -0.01]
+    },
+    {
+      "key": "housing-preemption-to-homelessness",
+      "from": "law:us-policy-positions:housing-land-use.preempt-local-housing-limits",
+      "to": "housing.homelessness",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.03,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 60,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "The same chain as by-right permitting: overriding local limits frees more building, rents fall a little, and homelessness with them. Both loosen the same rules, so this one acts at half strength where by-right permitting is in force",
+      "source": "Greenaway-McGrevy 2025, Economic Inquiry; Byrne, Munley, Fargo, Montgomery and Culhane 2013, Journal of Urban Affairs 35(5)",
+      "range": [-0.05, -0.01],
+      "moderator": {
+        "measure": "law:us-policy-positions:housing-land-use.by-right-permitting",
+        "effectAtFull": -0.5,
+        "mode": "scale"
+      }
+    },
+    {
+      "key": "inclusionary-to-homelessness",
+      "from": "law:us-policy-positions:housing-land-use.inclusionary-requirement",
+      "to": "housing.homelessness",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "Inclusionary rules raised prices and slowed building in Boston's suburbs and had no significant effect around San Francisco; the few below-market homes and the slower building roughly cancel",
+      "source": "Schuetz, Meltzer and Been 2011, Urban Studies"
     }
   ],
   "calibratedAt": "2024-07-01"
