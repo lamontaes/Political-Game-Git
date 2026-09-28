@@ -87,6 +87,10 @@ import {
   TOWN_JOB_ENDS_NOT_LOST,
   reviewTownJobs,
 } from "../living-world/town-labor-market";
+import {
+  reviewTownBusinesses,
+  reviewTownCongregations,
+} from "../living-world/town-businesses";
 import { reviewTownFamilies } from "../living-world/town-families";
 import { reviewTownHomes } from "../living-world/town-homes";
 
@@ -195,6 +199,10 @@ export function migrationReviewHandler(
   if (town) {
     const player =
       next.control.kind === "person" ? next.control.personId : null;
+    // Businesses close and open first, so their staff look for work with
+    // everyone else this quarter.
+    next = reviewTownBusinesses(next, town, player, String(index));
+    next = reviewTownCongregations(next, town, player, String(index));
     next = reviewTownJobs(next, town, player, String(index));
     next = reviewTownFamilies(next, town, player, String(index));
     // And its homes: newcomers and new households move in, others move.

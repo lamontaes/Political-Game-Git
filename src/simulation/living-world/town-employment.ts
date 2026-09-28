@@ -34,7 +34,7 @@ import { ageOnDate, makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
 import { createOrganization, createWorkRelationships } from "../life";
 import type { CreateWorkRelationshipInput } from "../life";
-import { organizationProfileAt } from "../life-queries";
+import { organizationClosingAt, organizationProfileAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import {
   countyGeoidsForPlace,
@@ -1069,6 +1069,79 @@ export function ensureTownEmployment(
 }
 
 /**
+ * The outlets of one workplace a town can hire into today: each of its
+ * first `outlets` that has not closed (written the first time somebody is
+ * hired there), and each business of that kind opened later that is still
+ * open. Outlet numbers are the last part of the employer's stable key.
+ */
+export function townEmployerOutlets(
+  world: World,
+  town: EntityId,
+  workplace: Workplace,
+): readonly number[] {
+  const stem = `${TOWN_EMPLOYMENT_VERSION}:${town}:employer:${workplace.key}:`;
+  const closed = new Set<number>();
+  const later: number[] = [];
+  for (const organization of world.history.organizations) {
+    if (!organization.stableKey.startsWith(stem)) continue;
+    const outlet = Number(organization.stableKey.slice(stem.length));
+    if (!Number.isInteger(outlet)) continue;
+    if (organizationClosingAt(world, organization.id)) closed.add(outlet);
+    else if (outlet >= workplace.outlets) later.push(outlet);
+  }
+  const outlets: number[] = [];
+  for (let outlet = 0; outlet < workplace.outlets; outlet += 1)
+    if (!closed.has(outlet)) outlets.push(outlet);
+  return [...outlets, ...later.sort((a, b) => a - b)];
+}
+
+/**
+ * Write one of the town's employers, outlet `outlet` of `workplace`, named
+ * for the town or for the family that runs it. Writing one already written
+ * changes nothing.
+ */
+export function writeTownEmployer(
+  world: World,
+  town: EntityId,
+  workplace: Workplace,
+  outlet: number,
+  formedAt: IsoDate,
+): World {
+  const stableKey = `${TOWN_EMPLOYMENT_VERSION}:${town}:employer:${workplace.key}:${outlet}`;
+  const id = createStableId("organization", `${world.id}:${stableKey}`);
+  if (world.history.organizations.some((row) => row.id === id)) return world;
+  const place = lifePlaceByJurisdictionId(town);
+  const [townName = "Town", stateName = ""] = (place?.displayName ?? "")
+    .split(",")
+    .map((part) => part.trim());
+  const countyUnit = place?.sourceGeoid
+    ? countyGovernmentUnitsForPlace(place.sourceGeoid)[0]?.unit
+    : undefined;
+  const countyName = countyUnit ? countyDisplayName(countyUnit.name) : null;
+  const rng = new SeededRng(world.seed).fork(stableKey);
+  return createOrganization(world, {
+    stableKey,
+    formedAt,
+    detailLevel: "lightweight",
+    provenance: PROVENANCE,
+    initialProfile: {
+      name: workplace.name({
+        town: townName,
+        state: stateName,
+        county: countyName ?? townName,
+        family: drawCanonicalNameForGender(
+          rng.fork("family"),
+          "unstated",
+          nameCorpusVersionForWorld(world, town),
+        ).familyName,
+      }),
+      classification: workplace.classification,
+      locationJurisdictionId: town,
+    },
+  });
+}
+
+/**
  * Hire these residents into the town's jobs: any civic role nobody holds
  * today first, then by the town's own mix. At the opening (`round` null) a
  * hire is backdated as if they had held the job for years; a later round
@@ -1079,7 +1152,17 @@ export function fillTownJobs(
   world: World,
   town: EntityId,
   open: readonly Resident[],
-  options: { readonly round: string | null },
+  options: {
+    readonly round: string | null;
+    /**
+     * Hire everyone into this one employer instead (a business just opened):
+     * the first who is old enough runs it, the rest take its other roles.
+     */
+    readonly into?: {
+      readonly workplace: string;
+      readonly organizationId: EntityId;
+    };
+  },
 ): World {
   const place = lifePlaceByJurisdictionId(town);
   if (!place || open.length === 0) return world;
@@ -1095,10 +1178,6 @@ export function fillTownJobs(
       ? `${prefix}:${kind}:${personId}`
       : `${prefix}:${kind}:${personId}:${round}`;
 
-  const [townName = "Town", stateName = ""] = place.displayName
-    .split(",")
-    .map((part) => part.trim());
-  const corpusVersion = nameCorpusVersionForWorld(world, town);
   // The county government the town mostly lies in, when it has one.
   const countyUnit = place.sourceGeoid
     ? countyGovernmentUnitsForPlace(place.sourceGeoid)[0]?.unit
@@ -1107,51 +1186,42 @@ export function fillTownJobs(
   const weights = [...townWorkplaceWeights(town)].filter(([, w]) => w > 0);
   let next = world;
   const organizations = new Map<string, EntityId>();
+  const outletsOf = new Map<string, readonly number[]>();
   const existing = new Map<string, readonly EntityId[]>();
   const existingOf = (workplace: Workplace) => {
     if (!workplace.existing) return [];
     let found = existing.get(workplace.key);
     if (!found) {
-      found = townOrganizationsOf(next, town, workplace.existing);
+      // A closed congregation or school hires nobody.
+      found = townOrganizationsOf(next, town, workplace.existing).filter(
+        (id) => !organizationClosingAt(next, id),
+      );
       existing.set(workplace.key, found);
     }
     return found;
   };
 
-  /** The employer a hire at `workplace`, outlet `slot`, works for. */
-  const employer = (workplace: Workplace, slot: number): EntityId => {
+  /**
+   * The employer a hire at `workplace`, outlet `slot`, works for, or null
+   * when every employer of that kind in town has closed. An outlet that
+   * closed is never written again; a business opened later is another outlet.
+   */
+  const employer = (workplace: Workplace, slot: number): EntityId | null => {
     const already = existingOf(workplace);
-    if (already.length > 0) return already[slot % already.length]!;
-    const outlet = slot % workplace.outlets;
+    if (workplace.existing)
+      return already.length > 0 ? already[slot % already.length]! : null;
+    let outlets = outletsOf.get(workplace.key);
+    if (!outlets) {
+      outlets = townEmployerOutlets(next, town, workplace);
+      outletsOf.set(workplace.key, outlets);
+    }
+    if (outlets.length === 0) return null;
+    const outlet = outlets[slot % outlets.length]!;
     const stableKey = `${prefix}:employer:${workplace.key}:${outlet}`;
     const cached = organizations.get(stableKey);
     if (cached) return cached;
+    next = writeTownEmployer(next, town, workplace, outlet, today);
     const id = createStableId("organization", `${next.id}:${stableKey}`);
-    if (!next.history.organizations.some((row) => row.id === id)) {
-      const rng = new SeededRng(next.seed).fork(stableKey);
-      next = createOrganization(next, {
-        stableKey,
-        // Employers predate the game; their records begin the day they are
-        // written, as the town's other organizations' do.
-        formedAt: today,
-        detailLevel: "lightweight",
-        provenance: PROVENANCE,
-        initialProfile: {
-          name: workplace.name({
-            town: townName,
-            state: stateName,
-            county: countyName ?? townName,
-            family: drawCanonicalNameForGender(
-              rng.fork("family"),
-              "unstated",
-              corpusVersion,
-            ).familyName,
-          }),
-          classification: workplace.classification,
-          locationJurisdictionId: town,
-        },
-      });
-    }
     organizations.set(stableKey, id);
     return id;
   };
@@ -1169,6 +1239,7 @@ export function fillTownJobs(
     );
     const organizationId =
       at ?? employer(workplace, rng.fork("outlet").integer(0, 1_000));
+    if (!organizationId) return false;
     const person = next.people[resident.personId]!;
     const adultSince = yearsBefore(person.birthDate, -WORKING_AGE_MIN);
     const tenure =
@@ -1212,7 +1283,34 @@ export function fillTownJobs(
         },
       },
     });
+    return true;
   };
+
+  if (options.into) {
+    const workplace = WORKPLACE.get(options.into.workplace);
+    if (!workplace) return next;
+    let lead = workplace.roles.find(
+      (entry) => entry.authority === "directs-others",
+    );
+    for (const resident of open) {
+      const fits = workplace.roles.filter(
+        (entry) => resident.age >= (entry.minAge ?? WORKING_AGE_MIN),
+      );
+      const chosen =
+        lead && fits.includes(lead)
+          ? lead
+          : pickWeighted(
+              new SeededRng(next.seed).fork(drawKey("role", resident.personId)),
+              fits
+                .filter((entry) => entry.authority !== "directs-others")
+                .map((entry) => [entry, entry.weight] as const),
+            );
+      if (!chosen) continue;
+      if (chosen === lead) lead = undefined;
+      hire(resident, workplace, chosen, options.into.organizationId);
+    }
+    return jobs.length === 0 ? next : createWorkRelationships(next, jobs);
+  }
 
   // Civic roles nobody in town holds today come first, so a town always has
   // its clerk, its pastors and its principals.
@@ -1248,20 +1346,25 @@ export function fillTownJobs(
   }
 
   // Everyone else by the town's own mix.
+  // A workplace whose every employer in town has closed hires nobody, and
+  // the resident draws again.
   for (const resident of pool) {
     const rng = new SeededRng(next.seed).fork(
       drawKey("workplace", resident.personId),
     );
-    const key = pickWeighted(rng.fork("workplace"), weights);
-    const workplace = key ? WORKPLACE.get(key) : undefined;
-    if (!workplace) continue;
-    const chosen = pickWeighted(
-      rng.fork("role"),
-      workplace.roles
-        .filter((entry) => resident.age >= (entry.minAge ?? WORKING_AGE_MIN))
-        .map((entry) => [entry, entry.weight] as const),
-    );
-    if (chosen) hire(resident, workplace, chosen);
+    for (let attempt = 0; attempt < 4; attempt += 1) {
+      const draw = attempt === 0 ? rng : rng.fork(`again:${attempt}`);
+      const key = pickWeighted(draw.fork("workplace"), weights);
+      const workplace = key ? WORKPLACE.get(key) : undefined;
+      if (!workplace) break;
+      const chosen = pickWeighted(
+        draw.fork("role"),
+        workplace.roles
+          .filter((entry) => resident.age >= (entry.minAge ?? WORKING_AGE_MIN))
+          .map((entry) => [entry, entry.weight] as const),
+      );
+      if (!chosen || hire(resident, workplace, chosen)) break;
+    }
   }
   return jobs.length === 0 ? next : createWorkRelationships(next, jobs);
 }
