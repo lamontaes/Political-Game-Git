@@ -10,6 +10,7 @@ import {
   NEIGHBOR_CONTACT_TAG,
   NEIGHBOR_HOUSEHOLDS,
   PEOPLE_PER_HOUSEHOLD,
+  SAME_SEX_COUPLE_SHARE,
   TOWN_RESIDENTS_VERSION,
   UNKNOWN_TOWN_POPULATION,
   describeTownResidents,
@@ -250,5 +251,31 @@ describe("the town's size", { timeout: 180_000 }, () => {
     expect(once.personOrder.length - world.personOrder.length).toBe(
       members.length,
     );
+  });
+
+  it("pairs most couples as a woman and a man, and a few as two women or two men", () => {
+    const { world, personId } = openAt(RENO, "residents-couples");
+    const town = world.people[personId]!.homeJurisdictionId;
+    const skeletons = Array.from({ length: 400 }, (_, index) =>
+      townHouseholdSkeleton(world, town, index),
+    );
+    let mixed = 0;
+    let same = 0;
+    for (const skeleton of skeletons) {
+      if (
+        skeleton.shape !== "couple" &&
+        skeleton.shape !== "couple-with-children"
+      )
+        continue;
+      const [a, b] = townHouseholdPeople(world, town, skeleton.index).map(
+        (person) => person.identity?.gender,
+      );
+      if (a === "nonbinary" || b === "nonbinary") continue;
+      if (a === b) same += 1;
+      else mixed += 1;
+    }
+    expect(mixed).toBeGreaterThan(150);
+    // Before, each partner's gender was drawn alone and about half matched.
+    expect(same / (mixed + same)).toBeLessThan(SAME_SEX_COUPLE_SHARE * 4);
   });
 });
