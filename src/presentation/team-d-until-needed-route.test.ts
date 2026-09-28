@@ -85,7 +85,13 @@ describe("continue until something needs me on a real civic week", () => {
       const stopped = press(morning.world, personId, "quiet-stretch");
       expect(stopped.receipt.status).toBe("accepted");
       expect(stopped.receipt.stoppedEarly).toBe(true);
-      expect(stopped.receipt.outcome).toContain("Stopped for");
+      // The receipt names what the stop is for: the meeting itself, or the
+      // trip that has to start before the party appointment.
+      expect(stopped.receipt.outcome).toContain(
+        activityId === meeting.id
+          ? "The public meeting starts at"
+          : "comes first.",
+      );
       expect(
         compareSimulationMoments(stopped.world.currentMoment, preview.target),
       ).toBeLessThan(0);
