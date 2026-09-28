@@ -25,11 +25,14 @@ import {
 import { openConversationWith } from "./person-conversation-entry";
 import { createNewGameWorld } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
+import { arriveAtOrdinaryMeeting } from "./ordinary-meeting-actions";
+import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { venueActivities } from "./venue-activity";
 import {
   cancelScheduledActivity,
   createCampaignElectionTransitionRegistry,
   recordWorldEvent,
+  scheduledActivityState,
   serializeWorld,
 } from "../simulation";
 
@@ -260,7 +263,10 @@ describe("PLAYTEST34 C contracts", () => {
     );
     const gate = authorizeCalendarSimulation(world, personId, activity.id);
     expect(gate.authorized).toBe(false);
-    expect(gate.reason).toMatch(/Standing preferences did not authorize/i);
+    // The work-shift interruption preference was retired with manual shifts,
+    // so the refusal no longer names standing preferences; it says the
+    // activity does not run on its own.
+    expect(gate.reason).toMatch(/does not run on its own/i);
     const snapshot = serializeWorld(world);
     const before = world.currentMoment;
     const simulated = simulateAuthorizedCalendarActivity(
@@ -275,5 +281,14 @@ describe("PLAYTEST34 C contracts", () => {
     const played = playCalendarActivity(world, personId, activity.id);
     expect(played.world).not.toBe(world);
     expect(played.reached).not.toEqual(before);
+    expect(scheduledActivityState(played.world, activity.id).status).toBe(
+      "scheduled",
+    );
+    expect(projectOrdinaryMeetingScene(played.world, personId)?.phase).toBe(
+      "active",
+    );
+    expect(arriveAtOrdinaryMeeting(played.world, personId, activity.id)).toBe(
+      played.world,
+    );
   });
 });

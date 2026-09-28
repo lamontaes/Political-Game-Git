@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 
 import { serializeWorld } from "../simulation";
 import type { EntityId, World } from "../simulation";
-import { CLAIM_STANCE_TAG_PREFIX } from "../simulation/claim-stances";
 import { openNextLifeScene } from "./life-scene-flow";
 import { createNewGameWorld, type NewGameSetup } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
@@ -81,86 +80,6 @@ describe("PT3 — the scene conversation box reads the record back", () => {
     expect(current.reply.length).toBeGreaterThan(0);
   });
 
-  it("reads the household subject's record in the second person", () => {
-    const { world, personId } = life({}, "pt3-talk-household");
-    const view = projectPlayerConversation(
-      world,
-      personId,
-      "household-obligation",
-    )!;
-    expect(view).not.toBeNull();
-    const after = say(
-      world,
-      personId,
-      "household-obligation",
-      "raise-obligation",
-    );
-    const current = currentExchangeTurn(
-      conversationExchangeTurns(
-        after,
-        personId,
-        "household-obligation",
-        view.addressee as EntityId,
-      ),
-    )!;
-    expect(current.playerLine).toMatch(/^You brought up the week/);
-    expect(current.playerLine).not.toMatch(/The player/);
-  });
-
-  it("uses the recorded action if an older claim tag has no spoken words", () => {
-    const { world, personId } = life({}, "pt3-blank-claim-words");
-    const view = projectPlayerConversation(
-      world,
-      personId,
-      "household-obligation",
-    )!;
-    const after = say(
-      world,
-      personId,
-      "household-obligation",
-      "raise-obligation",
-    );
-    const original = currentExchangeTurn(
-      conversationExchangeTurns(
-        after,
-        personId,
-        "household-obligation",
-        view.addressee as EntityId,
-      ),
-    )!;
-    const malformed: World = {
-      ...after,
-      history: {
-        ...after.history,
-        events: after.history.events.map((event) =>
-          event.id === original.eventId
-            ? {
-                ...event,
-                tags: [
-                  ...event.tags,
-                  `${CLAIM_STANCE_TAG_PREFIX}${JSON.stringify({
-                    version: 1,
-                    propositionKey: "old-save",
-                    statement: "   ",
-                    recipientPersonIds: [],
-                  })}`,
-                ],
-              }
-            : event,
-        ),
-      },
-    };
-    const projected = currentExchangeTurn(
-      conversationExchangeTurns(
-        malformed,
-        personId,
-        "household-obligation",
-        view.addressee as EntityId,
-      ),
-    )!;
-    expect(projected.playerLine).toBe(original.playerLine);
-  });
-
   it("keeps the last turn when the player turns to somebody else, and says who heard it", () => {
     const { world, personId } = life(
       {
@@ -224,27 +143,6 @@ describe("PT3 — the scene conversation box reads the record back", () => {
     );
   });
 
-  it("offers Listen only while the subject has something pending, and never forever", () => {
-    const { world, personId } = life({}, "pt3-talk-listen");
-    const view = projectPlayerConversation(
-      world,
-      personId,
-      "household-obligation",
-    )!;
-    expect(view.intents.map((option) => option.key)).toContain("listen");
-    const next = say(world, personId, "household-obligation", "listen");
-    // Somebody took the silence and raised it; Listen is no longer an offer.
-    const after = projectPlayerConversation(
-      next,
-      personId,
-      "household-obligation",
-    )!;
-    expect(after.intents.map((option) => option.key)).not.toContain("listen");
-    expect(() =>
-      say(next, personId, "household-obligation", "listen"),
-    ).toThrow();
-  });
-
   it("never offers life-talk a Listen that would only write an empty event", () => {
     const { world, personId } = life({}, "pt3-talk-life");
     const talk = projectPlayerConversation(world, personId, "life-talk")!;
@@ -285,7 +183,6 @@ describe("PT3 — the scene conversation box reads the record back", () => {
       .addressee as EntityId;
     const before = serializeWorld(world);
     conversationExchangeTurns(world, personId, "life-talk", other);
-    conversationExchangeTurns(world, personId, "household-obligation", other);
     expect(serializeWorld(world)).toBe(before);
   });
 });

@@ -37,7 +37,6 @@ import {
   pathForRelationship,
   scheduleLifePathSession,
   performLifePathSession,
-  performLifePathWork,
   changeLifePathStatus,
   LIFE_PATHS2_HANDLERS,
 } from "./life-paths2";
@@ -419,41 +418,6 @@ export function completeCareerTask(
   );
 }
 
-export function performCareerWork(
-  w: World,
-  id: EntityId,
-  p: CareerProvider,
-  handlers: FutureTransitionHandlerRegistry = LIFE_PATHS2_HANDLERS,
-): LifePathResult {
-  const r = owned(w, id, p);
-  if (!r || workStatusAt(w, id)?.status !== "active")
-    return result(w, false, "This work is not active for you.");
-  const reason = careerEligibility(w, p);
-  if (reason) return result(w, false, reason);
-  const performed = performLifePathWork(w, id, handlers);
-  if (!performed.ok) return performed;
-  const activity = performed.world.history.scheduledActivities.find(
-    (a) =>
-      a.sourceEntityIds.includes(id) &&
-      performed.world.history.events.some(
-        (e) =>
-          e.type === "life-paths2.work-session" &&
-          e.involvedEntityIds.includes(a.id) &&
-          e.involvedEntityIds.includes(id),
-      ),
-  );
-  const n = event(
-    performed.world,
-    "work-record",
-    [r.personId, id, ...(activity ? [activity.id] : [])],
-    "Completed shift recorded. No written submission was required.",
-  );
-  return result(
-    n,
-    true,
-    "Your work is recorded. The completed shift is payable on the following day.",
-  );
-}
 export function acceptCareerResponsibilities(
   w: World,
   id: EntityId,

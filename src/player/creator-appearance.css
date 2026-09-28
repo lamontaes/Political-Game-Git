@@ -434,3 +434,77 @@
   background: rgba(20, 32, 51, 0.88);
   border-radius: 0.4rem;
 }
+
+/* People engine appearance (Sept. 27, 2026). */
+.engine-creator-stage {
+  position: relative;
+  height: min(62vh, 560px);
+  aspect-ratio: 1 / 2;
+  margin-inline: auto;
+}
+.engine-appearance-controls {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 22rem;
+}
+.engine-appearance-row {
+  display: grid;
+  grid-template-columns: 6.5rem 2rem 1fr 2rem;
+  align-items: center;
+  gap: 0.5rem;
+}
+.engine-appearance-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+.engine-appearance-swatch {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  border: 1px solid rgb(0 0 0 / 0.35);
+}
+.engine-appearance-randomize {
+  justify-self: start;
+}
+
+/*
+ * The whole person stands above Reset / Undo / Begin.
+ *
+ * The engine stage asked for min(62vh, 560px) whatever room its column had.
+ * In a 1280x800 window the column ends at about 600px while the stage ran to
+ * 675px, and the column clips what overflows, so the row beneath read as a bar
+ * across the legs. On the front door the stage now takes the column's own
+ * height, keeps the figure's 1:2 box and centers in the column; the figure
+ * stands on the stage's bottom edge, so the feet land at the column's end.
+ */
+.title-tableau--art.front-door
+  .kit41-creator-preview:has(.engine-creator-stage) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+.title-tableau--art.front-door .kit41-creator-preview .engine-creator-stage {
+  flex: 0 1 auto;
+  height: 100%;
+  max-height: 560px;
+  min-height: 0;
+  width: auto;
+  max-width: 100%;
+  margin-inline: auto;
+}
+/* Each value sits on its own dark backing, at full strength, over the room. */
+.engine-appearance-value {
+  min-height: 2rem;
+  padding: 0.2rem 0.5rem;
+  color: #f5eddc;
+  opacity: 1;
+  background: rgba(20, 32, 51, 0.9);
+  border-radius: 0.35rem;
+}
+.engine-appearance-label {
+  color: #f5eddc;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}

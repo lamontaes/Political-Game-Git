@@ -38,7 +38,8 @@ describe("title tableau resolution", () => {
     expect(presentation.kind).toBe("hero-in-tableau");
     expect(presentation.heroName).toBe("Jeffrey Schneider");
     expect(presentation.scene!.presentationStatus).toBe("production");
-    expect(presentation.tableau!.familyId).toBe("apartment-ordinary");
+    // Civic, not a home (Lamontae, Sept. 27: "not just a bunch of apartments").
+    expect(presentation.tableau!.familyId).toBe("civic-hearing-room");
     expect(presentation.heroAnchorId).toBe(presentation.tableau!.heroAnchorId);
   });
 

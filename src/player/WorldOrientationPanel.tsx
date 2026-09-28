@@ -30,6 +30,10 @@ import { SceneChapterTransition } from "./SceneChapterTransition";
 import { projectLivingSceneOpening } from "../presentation/living-scene-facts";
 import { candidateEstablishingPlate } from "./candidate-establishing-plate";
 import {
+  capitolPlaceFor,
+  middayBackdropUrl,
+} from "../presentation/place-backdrops";
+import {
   PLAYTEST65_WHITE_HOUSE_LAYOUT,
   OPENING_INFORMATION_PLATES,
 } from "../presentation/playtest65-visual-layout";
@@ -187,6 +191,7 @@ export function WorldOrientationPanel({
       regionalPlate:
         regionalPlate?.kind === "plate" ? regionalPlate.plate : null,
       regionScene,
+      homeStateUsps,
     });
   const backdrop = backdropFor(step.key);
   const nextStep = steps[index + 1];
@@ -279,6 +284,7 @@ export function WorldOrientationPanel({
                             world={world}
                             personId={person.personId}
                             className="pg-opening-figure"
+                            wear="formal"
                           />
                         ) : null)}
                     </article>
@@ -315,6 +321,7 @@ export function WorldOrientationPanel({
                     world={world}
                     personId={actor.person.personId}
                     className="pg-orientation-cast-figure"
+                    wear="formal"
                   />
                   {step.key === "congress" ? (
                     <PersonButton
@@ -554,6 +561,8 @@ export type OrientationBackdrop =
       readonly kind: "region-preview";
       readonly raster: EstablishingRaster;
     }
+  /** One of the owner's place backdrops (art/backdrops). */
+  | { readonly kind: "place"; readonly place: string; readonly url: string }
   | { readonly kind: "neutral" };
 
 export function orientationBackdrop(
@@ -562,18 +571,30 @@ export function orientationBackdrop(
     readonly whiteHouse: EstablishingRaster | null;
     readonly regionalPlate: RegionalOpeningPlate | null;
     readonly regionScene: EstablishingRaster | null;
+    /** The home state's postal code, for the right capitol. */
+    readonly homeStateUsps?: string | null;
   },
 ): OrientationBackdrop {
+  const place = (name: string | null | undefined): OrientationBackdrop => {
+    const url = name ? middayBackdropUrl(name) : null;
+    return name && url
+      ? { kind: "place", place: name, url }
+      : { kind: "neutral" };
+  };
   if (stepKey === "executive")
     return sources.whiteHouse
       ? { kind: "white-house", raster: sources.whiteHouse }
       : { kind: "neutral" };
+  if (stepKey === "congress") return place("us-capitol-exterior");
+  // The street of your town, not a home: the play screen's own room decides
+  // what your home looks like, and the two must never disagree.
+  if (stepKey === "your-life") return place("main-street");
   if (stepKey === "state") {
     if (sources.regionalPlate)
       return { kind: "region", plate: sources.regionalPlate };
     if (sources.regionScene)
       return { kind: "region-preview", raster: sources.regionScene };
-    return { kind: "neutral" };
+    return place(capitolPlaceFor(sources.homeStateUsps ?? null));
   }
   if (stepKey === "locality") {
     const information = OPENING_INFORMATION_PLATES.locality;
@@ -587,7 +608,7 @@ export function orientationBackdrop(
       return { kind: "civic", raster: civic, caption: information.caption };
     if (sources.regionalPlate)
       return { kind: "region", plate: sources.regionalPlate };
-    return { kind: "neutral" };
+    return place("city-hall-exterior");
   }
   return { kind: "neutral" };
 }
@@ -596,6 +617,8 @@ function backdropUrl(backdrop: OrientationBackdrop): string | null {
   switch (backdrop.kind) {
     case "region":
       return backdrop.plate.url;
+    case "place":
+      return backdrop.url;
     case "neutral":
       return null;
     default:
@@ -612,6 +635,21 @@ function SceneBackdrop({
     case "neutral":
     case "white-house":
       return <div className="pg-orientation-backdrop" aria-hidden="true" />;
+    case "place":
+      return (
+        <figure
+          className="pg-orientation-backdrop"
+          data-testid="orientation-place-backdrop"
+          data-place={backdrop.place}
+          aria-hidden="true"
+        >
+          <img
+            className="pg-orientation-backdrop-image"
+            src={backdrop.url}
+            alt=""
+          />
+        </figure>
+      );
     case "region":
       return (
         <figure

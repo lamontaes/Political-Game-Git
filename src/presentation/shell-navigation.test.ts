@@ -151,15 +151,14 @@ describe("the shell's navigation", () => {
   it("keeps interruption choices as preferences with a single writer", () => {
     const state = shellReducer(INITIAL_SHELL_STATE, {
       type: "set-interruption",
-      key: "stopForWorkShifts",
+      key: "stopForTentativeHolds",
       value: true,
     });
-    expect(state.preferences.interruptions.stopForWorkShifts).toBe(true);
-    expect(state.preferences.interruptions.stopForTentativeHolds).toBe(false);
+    expect(state.preferences.interruptions.stopForTentativeHolds).toBe(true);
     expect(
       shellReducer(state, {
         type: "set-interruption",
-        key: "stopForWorkShifts",
+        key: "stopForTentativeHolds",
         value: true,
       }),
     ).toBe(state);
@@ -474,20 +473,20 @@ describe("interface progress", () => {
 /**
  * CRUNCH47 A1 — what Back means, and what is waiting when it lands.
  *
- * The recorded defect: a household conversation started from People, then
+ * The recorded defect: a conversation started from People, then
  * Politics and its Issues and budget tab, then ONE press of the workspace's
  * Back left the player on the tab they had passed through on the way in. Two
  * levels had been stacked for one workspace, because a tab dispatched the same
  * action a menu entry does.
  */
 describe("the workspace, its tabs, and a conversation waiting in the room", () => {
-  const HOUSEHOLD = "household-obligation" as const;
+  const LIFE_TALK = "life-talk" as const;
 
   /** People, then a conversation in the room with somebody from that list. */
   function pendingFromPeople(): ShellState {
     return run([
       { type: "go-to-surface", surface: "people" },
-      { type: "set-conversation", subject: HOUSEHOLD, addressee: ALICE },
+      { type: "set-conversation", subject: LIFE_TALK, addressee: ALICE },
       { type: "talk-in-scene", personId: ALICE },
     ]);
   }
@@ -539,7 +538,7 @@ describe("the workspace, its tabs, and a conversation waiting in the room", () =
     );
     expect(conversationSuspended(browsing)).toBe(true);
     expect(browsing.conversation).toEqual({
-      subject: HOUSEHOLD,
+      subject: LIFE_TALK,
       addressee: ALICE,
     });
 

@@ -208,8 +208,7 @@ describe("what a control says after the clock answers", () => {
   });
 
   it("prefers the runner's own reason where it names the commitment", () => {
-    const outcome =
-      "No time passed.\nStopped for Budget hearing; resolve this commitment before continuing.";
+    const outcome = "No time passed.\nBudget hearing comes first.";
     expect(
       describeTimeCommandReport({
         status: "accepted",

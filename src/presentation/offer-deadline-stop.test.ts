@@ -2,19 +2,26 @@ import { describe, expect, it } from "vitest";
 import type { EntityId, World } from "../simulation/types";
 import { careerReplyBy, seekCareerOffer } from "../simulation/career-path7";
 import {
+  answerJobOffer,
   applicationsFor,
   applyForJob,
+  expectedStart,
   latestApplicationStep,
   openJobListings,
+  startJob,
 } from "../simulation/job-market";
+import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { workStatusAt } from "../simulation/life-queries";
+import { scheduledActivityState } from "../simulation/time-work";
 import { letAdultTimePass } from "./adult-life";
 import { CAREER_PROVIDERS } from "./career-path7-provider";
+import { isCivicHold } from "./civic-hold";
 import { projectToday } from "./day-overview";
 import { projectLifeRecord } from "./life-record";
 import { createExplicitGeographyLife } from "./new-game-geography";
 import { openOrdinaryLife } from "./ordinary-life";
-import { submitTimeCommand } from "./time-command";
+import { previewTimeCommand, submitTimeCommand } from "./time-command";
+import { declineVenueActivity } from "./venue-activity";
 
 /**
  * An offer of work never lapses unseen. In Atlanta, Fulton County offered
@@ -33,13 +40,48 @@ function adult(placeKey: string, seed: string) {
   return { personId, world: openOrdinaryLife(life.game.world, personId) };
 }
 
-function skip(world: World, personId: EntityId, days: number) {
+function skip(
+  world: World,
+  personId: EntityId,
+  days: number,
+  kind: "days" | "quiet-stretch" = "days",
+) {
   return submitTimeCommand(world, {
     requestId: `skip-${world.currentDate}`,
     personId,
     sourceMoment: world.currentMoment,
-    command: { kind: "days", days },
+    command:
+      kind === "quiet-stretch"
+        ? { kind: "quiet-stretch" }
+        : { kind: "days", days },
   });
+}
+
+/** The earlier civic stop is a player choice; decline it before continuing. */
+function skipAfterShownCivicStops(
+  world: World,
+  personId: EntityId,
+  days: number,
+  kind: "days" | "quiet-stretch" = "days",
+) {
+  let result = skip(world, personId, days, kind);
+  const shown: string[] = [];
+  for (let step = 0; step < 12; step += 1) {
+    const civic = result.world.history.scheduledActivities.find((activity) => {
+      if (!isCivicHold(activity)) return false;
+      const state = scheduledActivityState(result.world, activity.id);
+      return (
+        state.status === "scheduled" &&
+        state.start.date === result.world.currentDate
+      );
+    });
+    if (!civic) return { ...result, shown };
+    shown.push(civic.title);
+    const declined = declineVenueActivity(result.world, personId, civic.id);
+    expect(declined).not.toBe(result.world);
+    result = skip(declined, personId, days, kind);
+  }
+  throw new Error("The skip did not get past the recorded civic stops.");
 }
 
 function recordSentences(world: World, personId: EntityId): string[] {
@@ -60,7 +102,12 @@ describe("an offer with a reply date", () => {
         /Answer by .+, or it lapses\./.test(entry.sentence),
       ),
     ).toBe(true);
-    const { world: after, receipt } = skip(sought, personId, 30);
+    const {
+      world: after,
+      receipt,
+      shown,
+    } = skipAfterShownCivicStops(sought, personId, 30);
+    expect(shown).toContain("Posted public meeting");
     expect(after.currentDate).toBe(replyBy);
     expect(workStatusAt(after, offer.id)?.status).toBe("expected");
     expect(receipt.outcome).toMatch(/Today is the last day to answer\./);
@@ -91,10 +138,16 @@ describe("an offer with a reply date", () => {
       const applied = applyForJob(world, start.personId, opening.id);
       if (!applied.ok) continue;
       const application = applicationsFor(applied.world, start.personId)[0]!;
-      const { world: after, receipt } = skip(applied.world, start.personId, 60);
+      const { world: after, receipt } = skipAfterShownCivicStops(
+        applied.world,
+        start.personId,
+        60,
+        "quiet-stretch",
+      );
       const step = latestApplicationStep(after, application.id);
       if (step?.kind !== "offered") continue;
       stopped = true;
+      expect(receipt.command.kind).toBe("quiet-stretch");
       expect(after.currentDate).toBe(step.replyBy);
       expect(receipt.outcome).toMatch(/Today is the last day to answer\./);
       expect(
@@ -102,6 +155,39 @@ describe("an offer with a reply date", () => {
           entry.key.startsWith("job-offer:"),
         ),
       ).toBe(true);
+      const stillWaiting = skip(after, start.personId, 60, "quiet-stretch");
+      expect(stillWaiting.world).toBe(after);
+      expect(stillWaiting.receipt.status).toBe("refused");
+      const accepted = answerJobOffer(after, application.id, true);
+      expect(accepted.ok).toBe(true);
+      const startOn = expectedStart(accepted.world, application.id)!;
+      const saved = deserializeWorld(serializeWorld(accepted.world));
+      expect(
+        previewTimeCommand(saved, start.personId, { kind: "quiet-stretch" }),
+      ).toMatchObject({
+        targetDate: startOn,
+        cappedBy: { title: "Accepted work start", date: startOn },
+      });
+      const startStop = skipAfterShownCivicStops(
+        saved,
+        start.personId,
+        60,
+        "quiet-stretch",
+      );
+      expect(startStop.receipt.command.kind).toBe("quiet-stretch");
+      expect(startStop.world.currentDate).toBe(startOn);
+      expect(latestApplicationStep(startStop.world, application.id)?.kind).toBe(
+        "accepted",
+      );
+      const stillStartable = skip(
+        startStop.world,
+        start.personId,
+        60,
+        "quiet-stretch",
+      );
+      expect(stillStartable.world).toBe(startStop.world);
+      expect(stillStartable.receipt.status).toBe("refused");
+      expect(startJob(startStop.world, application.id).ok).toBe(true);
     }
     expect(stopped).toBe(true);
   });

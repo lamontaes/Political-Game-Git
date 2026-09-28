@@ -139,16 +139,6 @@ describe("P2R1 every historical originating option, including withheld keys", ()
   // The school key is historical: its current commit contract schedules none.
   for (const [subject, intents] of [
     [
-      "household-obligation",
-      [
-        "raise-obligation",
-        "listen",
-        "offer-to-cover",
-        "ask-to-share",
-        "ask-for-time",
-      ],
-    ],
-    [
       "neighborhood-meeting",
       ["mention-meeting", "say-you-will-go", "ask-them-to-go", "listen"],
     ],

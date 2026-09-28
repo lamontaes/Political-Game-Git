@@ -19,6 +19,21 @@ import { WardrobeFigure } from "./WardrobeFigure";
 import { PreparedArtworkPreload } from "./ModularCharacter";
 import { resolvePersonPortrait } from "../presentation/person-visual";
 import "./creator-appearance.css";
+import { EngineFigure } from "./EnginePerson";
+import { EngineAppearanceControls } from "./EngineAppearanceControls";
+import {
+  choiceFromRecipe,
+  engineRecipeFor,
+  withEngineChoice,
+} from "../presentation/appearance-engine/recipe";
+import {
+  PEOPLE_PACK,
+  peoplePackAvailable,
+} from "../presentation/appearance-engine/runtime";
+import {
+  BODY_BUILDS,
+  HAIR_COLORS,
+} from "../presentation/appearance-engine/pack";
 
 /** Reuses the personal wardrobe transaction on an isolated prospective record. */
 export function CreatorAppearanceStep({
@@ -52,6 +67,19 @@ export function CreatorAppearanceStep({
   const ready = Boolean(
     person?.appearance && !refusal && library.components.size,
   );
+  const engine =
+    person && draft && peoplePackAvailable()
+      ? engineRecipeFor(person, draft.currentDate, PEOPLE_PACK)
+      : null;
+  const changeWorld = (world: World) =>
+    setEdited((current) => ({
+      source: initial!,
+      world,
+      previous: [
+        ...(current?.source === initial ? current.previous : []),
+        draft!,
+      ].slice(-20),
+    }));
   const bodyUnavailable = Boolean(
     person?.appearance?.selection?.bodyFamily &&
     !creatorBodyAllowed(setup, person.appearance.selection.bodyFamily),
@@ -61,7 +89,51 @@ export function CreatorAppearanceStep({
       className="creator-stage-panel kit41-creator"
       data-testid="creator-stage-appearance"
     >
-      {person && draft ? (
+      {person && draft && engine ? (
+        <div className="kit41-creator-layout">
+          <div className="kit41-creator-preview">
+            <div className="engine-creator-stage">
+              <EngineFigure recipe={engine} testId="creator-engine-figure" />
+            </div>
+          </div>
+          <div>
+            <h2>How you look</h2>
+            <EngineAppearanceControls
+              recipe={engine}
+              onChange={(recipe) =>
+                changeWorld(
+                  withEngineChoice(draft, person.id, choiceFromRecipe(recipe)),
+                )
+              }
+              onRandomize={() => {
+                const pack = PEOPLE_PACK.presentations[engine.presentation];
+                const any = <T,>(items: readonly T[]) =>
+                  items[Math.floor(Math.random() * items.length)]!;
+                changeWorld(
+                  withEngineChoice(
+                    draft,
+                    person.id,
+                    choiceFromRecipe({
+                      ...engine,
+                      build: any(BODY_BUILDS),
+                      shade: 1 + Math.floor(Math.random() * 7),
+                      face: any(
+                        pack.faces.filter((f) => f.id.startsWith("20s30s-")),
+                      ).id,
+                      hair: any(pack.hair).id,
+                      hairColor: any(HAIR_COLORS).id,
+                      outfit: any(
+                        pack.outfits.filter((o) => !o.tags.includes("uniform")),
+                      ).id,
+                      colors: {},
+                    }),
+                  ),
+                );
+              }}
+            />
+          </div>
+        </div>
+      ) : person && draft ? (
         <div
           className={
             libraries && ready
@@ -227,7 +299,7 @@ export function CreatorAppearanceStep({
           }
           onClick={() =>
             onBegin(
-              ready && person?.appearance
+              (ready || engine) && person?.appearance
                 ? { personId: person.id, appearance: person.appearance }
                 : null,
             )

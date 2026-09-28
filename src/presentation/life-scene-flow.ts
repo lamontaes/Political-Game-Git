@@ -3,12 +3,6 @@ import { lifeActivityHandlers } from "./life-time-handlers";
 import { travelToPlace, type PlaceTravelProvider } from "./place-travel";
 import { runtimeLifeScenes } from "../simulation/runtime-content-packs";
 import {
-  activeOrdinaryGoal,
-  chooseOrdinaryLifeGoal,
-  completeOrdinaryGoal,
-  ORDINARY_LIFE_GOALS,
-} from "../simulation/life-personality";
-import {
   activeChildAuthoritiesAt,
   activeEducationEnrollmentsAt,
   ageOnDate,
@@ -170,11 +164,24 @@ function eligibleOpeningLifeScenes(world: World, personId: EntityId) {
   }).beats;
   return [...OPENING_LIFE_ADDITIONS, ...runtimeLifeScenes(world)].flatMap(
     (definition) => {
-      if (isArchivedRoutineOpeningSceneKey(definition.key)) return [];
       const beat = beats.find(
         (beat) => beat.episodeKey === `opening.${definition.key}`,
       );
       if (!beat) return [];
+      if (
+        isArchivedRoutineOpeningSceneKey(definition.key) &&
+        !(
+          beat.stageKey === "follow-through" &&
+          world.history.events.some(
+            (event) =>
+              event.type === OPEN &&
+              event.tags.includes(`family:${definition.key}`) &&
+              event.tags.includes("opening-stage:moment") &&
+              event.participants.some((actor) => actor.personId === personId),
+          )
+        )
+      )
+        return [];
       if (age < definition.ages[0] || age > definition.ages[1]) return [];
       if (
         definition.key === "early.home.bedtime-delay" &&
@@ -570,57 +577,12 @@ export function chooseOpeningLifeScene(
         tags: ["opening-life-v1", `family:${scene.definition.key}`],
       })
     : answered;
-  // Deciding what to make time for records the plan itself, through the same
-  // writer the personal-plans menu uses. The scene's own answer event is
-  // already written, so the plan follows the choice rather than standing in
-  // for it.
-  if (
-    scene.definition.key === "adult.home.plan-week" &&
-    scene.stageKey === "moment" &&
-    isOrdinaryGoal(choice.key)
-  )
-    return chooseOrdinaryLifeGoal(next, personId, choice.key);
-  const completedGoal = openingChoiceCompletes(
-    scene.definition.key,
-    scene.stageKey,
-    choice.key,
-  );
-  return completedGoal
-    ? completeOrdinaryGoal(
-        next,
-        personId,
-        completedGoal,
-        next.history.events.at(-1)!.id,
-      )
-    : next;
-}
-
-function isOrdinaryGoal(key: string): key is keyof typeof ORDINARY_LIFE_GOALS {
-  return key in ORDINARY_LIFE_GOALS;
-}
-
-/** Which personal plan a performed opening choice keeps, if any. */
-function openingChoiceCompletes(
-  sceneKey: string,
-  stageKey: string,
-  choiceKey: string,
-): keyof typeof ORDINARY_LIFE_GOALS | null {
-  if (
-    sceneKey === "adult.home.plan-week" &&
-    stageKey === "follow-through" &&
-    choiceKey === "read"
-  )
-    return "learning";
-  return null;
+  return next;
 }
 
 /**
  * What each choice in the current scene would do to the player's own plans.
- *
- * A read, never a write: the UI adapter for "say what your next action does".
- * `keeps` names an active personal plan this choice would complete once it is
- * performed; `records` names the plan the choice itself would set. Both are
- * null for a choice that touches no plan, which is most of them.
+ * The retired plan-week scene no longer records or completes a plan.
  */
 export interface OpeningChoiceEffect {
   readonly choiceKey: string;
@@ -635,29 +597,12 @@ export function openingSceneChoiceEffects(
 ): readonly OpeningChoiceEffect[] {
   const scene = currentOpeningLifeScene(world, personId);
   if (!scene) return [];
-  return scene.choices.map((choice) => {
-    const completes = openingChoiceCompletes(
-      scene.definition.key,
-      scene.stageKey,
-      choice.key,
-    );
-    const records =
-      scene.definition.key === "adult.home.plan-week" &&
-      scene.stageKey === "moment" &&
-      isOrdinaryGoal(choice.key) &&
-      !activeOrdinaryGoal(world, personId, choice.key)
-        ? ORDINARY_LIFE_GOALS[choice.key]
-        : null;
-    return {
-      choiceKey: choice.key,
-      minutes: openingChoiceMinutes(scene.definition, choice),
-      keeps:
-        completes && activeOrdinaryGoal(world, personId, completes)
-          ? ORDINARY_LIFE_GOALS[completes]
-          : null,
-      records,
-    };
-  });
+  return scene.choices.map((choice) => ({
+    choiceKey: choice.key,
+    minutes: openingChoiceMinutes(scene.definition, choice),
+    keeps: null,
+    records: null,
+  }));
 }
 
 /** A chosen short walk writes arrival only after uninterrupted canonical time. */

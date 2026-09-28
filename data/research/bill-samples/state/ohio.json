@@ -1,0 +1,169 @@
+[
+  {
+    "id": "oh-2025-hb96-budget-flat-tax",
+    "jurisdiction": "Ohio",
+    "level": "state",
+    "session": "136th General Assembly",
+    "bill_number": "HB 96",
+    "law_citation": null,
+    "short_title": "FY2026-2027 operating budget (flat income tax)",
+    "enacted_date": "2025-06-30",
+    "enactment_path": "signed",
+    "effective_dates": ["tax year 2026 for the flat rate"],
+    "official_text_url": "https://www.legislature.ohio.gov/legislation/136/hb96",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Individual income tax / budgets",
+    "secondary_menus": ["03"],
+    "instrument": "tax",
+    "secondary_instruments": ["appropriation"],
+    "operation": "lower",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Two-bracket income tax becomes a single rate above an exemption threshold.",
+        "numbers": [
+          {
+            "value": 2.75,
+            "unit": "percent",
+            "text": "2.75 percent"
+          },
+          {
+            "value": 26050,
+            "unit": "USD threshold",
+            "text": "26050 USD threshold"
+          }
+        ]
+      },
+      {
+        "kind": "amount",
+        "description": "Revenue cost through mid-2027.",
+        "numbers": [
+          {
+            "value": 1000000000,
+            "unit": "USD approx",
+            "text": "1000000000 USD approx"
+          }
+        ]
+      },
+      {
+        "kind": "cap",
+        "description": "School district carryover balance limit before property owners get refunds.",
+        "numbers": [
+          {
+            "value": 40,
+            "unit": "percent",
+            "text": "40 percent"
+          }
+        ]
+      },
+      {
+        "kind": "waiver",
+        "description": "The governor issued 67 line-item vetoes, many on property tax provisions.",
+        "numbers": [
+          {
+            "value": 67,
+            "unit": "vetoes",
+            "text": "67 vetoes"
+          }
+        ]
+      }
+    ],
+    "touches": ["school funding formula", "local levies"],
+    "daily_life": "Most Ohio earners pay one flat state rate.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "oh-2025-sb1-higher-ed",
+    "jurisdiction": "Ohio",
+    "level": "state",
+    "session": "136th General Assembly",
+    "bill_number": "SB 1",
+    "law_citation": null,
+    "short_title": "Advance Ohio Higher Education Act",
+    "enacted_date": "2025-03-28",
+    "enactment_path": "signed",
+    "effective_dates": ["2025-06-27"],
+    "official_text_url": "https://www.legislature.ohio.gov/legislation/136/sb1",
+    "aggregator_url": null,
+    "menu": "03",
+    "menu_name": "Education",
+    "sub_topic": "Colleges and universities",
+    "secondary_menus": ["07"],
+    "instrument": "prohibition",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Bans DEI offices, mandatory diversity training and diversity statements at public universities."
+      },
+      {
+        "kind": "duty",
+        "description": "Post-tenure review and faculty workload rules (inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "prohibition",
+        "description": "Limits on faculty strikes (inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "duty",
+        "description": "Required civics course for graduation (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["public universities", "faculty unions"],
+    "daily_life": "Students must take a civics course; campus DEI offices close.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "oh-2025-hb15-energy",
+    "jurisdiction": "Ohio",
+    "level": "state",
+    "session": "136th General Assembly",
+    "bill_number": "HB 15",
+    "law_citation": null,
+    "short_title": "Energy law overhaul (ends coal plant subsidy charges)",
+    "enacted_date": "2025-05-15",
+    "enactment_path": "signed",
+    "effective_dates": ["2025-08-14"],
+    "official_text_url": "https://www.legislature.ohio.gov/legislation/136/hb15",
+    "aggregator_url": null,
+    "menu": "09",
+    "menu_name": "Energy & Environment",
+    "sub_topic": "Utility regulation",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "repeal",
+    "secondary_operations": ["replace"],
+    "parts": [
+      {
+        "kind": "repeal",
+        "description": "Repeals provisions of HB 6 supporting Ohio Valley Electric Corporation costs."
+      },
+      {
+        "kind": "repeal",
+        "description": "Eliminates the electric-security-plan option for the standard service offer in favor of a market-rate offer."
+      },
+      {
+        "kind": "duty",
+        "description": "Changes electric-utility rules affecting large-load customers and behind-the-meter generation."
+      }
+    ],
+    "touches": ["electric bills", "PUCO"],
+    "daily_life": "Electric utility charges and rate procedures change under HB 15; an individual bill’s change depends on its utility and tariff.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": "Ohio Legislature status records May 15 signing. Legislative Service Commission analysis identifies the HB 6/OVEC repeal and market-rate-offer change. The earlier promise that every coal surcharge drops immediately was too broad."
+  }
+]

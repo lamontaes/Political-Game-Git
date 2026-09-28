@@ -1,0 +1,81 @@
+[
+  {
+    "id": "austin-2025-fy26-tax-rate-after-propq",
+    "jurisdiction": "Austin, Texas",
+    "level": "city",
+    "session": "FY2025-26",
+    "bill_number": "Tax rate ordinance (November 2025)",
+    "law_citation": null,
+    "short_title": "FY2025-26 property tax rate and budget cuts after failed tax election",
+    "enacted_date": "2025-11-20",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.austintexas.gov/",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Property taxes - levy limits",
+    "secondary_menus": ["11"],
+    "instrument": "tax",
+    "secondary_instruments": ["appropriation"],
+    "operation": "raise",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "voter-approval",
+        "description": "Voters rejected a rate above the state voter-approval limit (Proposition Q).",
+        "numbers": [
+          {
+            "value": 0.574017,
+            "unit": "USD per 100 USD proposed rate",
+            "text": "0.574017 USD per 100 USD proposed rate"
+          }
+        ]
+      },
+      {
+        "kind": "rate",
+        "description": "Council adopted a lower rate within the limit.",
+        "numbers": [
+          {
+            "value": 0.524017,
+            "unit": "USD per 100 USD adopted",
+            "text": "0.524017 USD per 100 USD adopted"
+          },
+          {
+            "value": 0.4776,
+            "unit": "USD per 100 USD prior",
+            "text": "0.4776 USD per 100 USD prior"
+          }
+        ]
+      },
+      {
+        "kind": "rescission",
+        "description": "Cut spending from the budget after the election.",
+        "numbers": [
+          {
+            "value": 95000000,
+            "unit": "USD",
+            "text": "95000000 USD"
+          }
+        ]
+      },
+      {
+        "kind": "preemption",
+        "description": "State law caps city levy growth unless voters approve.",
+        "numbers": [
+          {
+            "value": 3.5,
+            "unit": "percent (inferred state cap)",
+            "text": "3.5 percent (inferred state cap)"
+          }
+        ],
+        "inferred": true
+      }
+    ],
+    "touches": ["Texas property tax limits", "homelessness services"],
+    "daily_life": "Austin homeowners avoid a 20 percent tax increase; park and homeless programs shrink.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  }
+]

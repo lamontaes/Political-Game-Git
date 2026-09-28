@@ -7,6 +7,7 @@ import type {
   CampaignWeeklyPlanRecord,
 } from "./campaign-life-types";
 import type { WorldContentPacks } from "./runtime-content-packs";
+import type { JudiciaryState } from "./judiciary/types";
 
 import type { AppearanceMaterial } from "./appearance-material";
 import type { MediaOutletKey, PressRecord } from "./press/records";
@@ -56,6 +57,10 @@ export interface SimulationMoment {
 }
 
 export type EntityKind =
+  | "judicial-philosophy"
+  | "judicial-professional-qualification"
+  | "judicial-retention-contest"
+  | "judicial-retention-result"
   | "world-condition"
   | "party-record"
   | "constitutional-measure"
@@ -537,6 +542,29 @@ export interface PersonAppearance {
    * absence as the first generation. This is an appearance pin, not biography.
    */
   readonly catalogGeneration?: number;
+  /**
+   * The people engine (Sept. 27, 2026): what the player chose in the creator.
+   * Every field left unset comes from the person's seed, so a person nobody
+   * chose for still looks the same every time. See
+   * src/presentation/appearance-engine/recipe.ts.
+   */
+  readonly engine?: EngineAppearanceChoice;
+}
+
+export interface EngineAppearanceChoice {
+  readonly version: "people-engine-v1";
+  readonly presentation?: "feminine" | "masculine";
+  readonly build?: "lean" | "average" | "fuller";
+  /** Skin shade 1 (lightest) to 7 (darkest). */
+  readonly shade?: number;
+  readonly face?: string;
+  readonly hair?: string;
+  /** One of the engine's hair colors (appearance-engine/pack.ts HAIR_COLORS). */
+  readonly hairColor?: string;
+  /** The outfit (a people-engine outfit id) worn when the occasion does not decide. */
+  readonly outfit?: string;
+  /** Fabric color per garment part (top, bottom, suit, shirt, tie, coat...). */
+  readonly colors?: Readonly<Record<string, string>>;
 }
 
 export type PersonGenerationProfile = "production" | "stress";
@@ -4693,15 +4721,12 @@ export type FormativeLifeSituationKey =
  * frequency, so none is claimed.
  */
 export type AdultLifeSituationKey =
-  | "adult.household-standing"
   | "adult.household-repair"
   | "adult.household-money-shortfall"
-  | "adult.household-quiet-evening"
   | "adult.family-request"
   | "adult.care-request"
   | "adult.partner-plan"
   | "adult.work-rule-pressure"
-  | "adult.work-extra-hours"
   | "adult.work-credit"
   | "adult.work-colleague-struggling"
   | "adult.work-good-week"
@@ -4710,7 +4735,6 @@ export type AdultLifeSituationKey =
   | "adult.debt-call"
   | "adult.unexpected-expense"
   | "adult.small-windfall"
-  | "adult.friend-favour"
   | "adult.friend-in-difficulty"
   | "adult.friend-good-news"
   | "adult.local-dispute"
@@ -4723,8 +4747,6 @@ export type AdultLifeSituationKey =
   | "adult.incident-aftermath"
   | "adult.incident-neighbour-help"
   | "adult.promise-comes-due"
-  | "adult.old-favour-returns"
-  | "adult.ordinary-good-day"
   | "adult.weekend-invitation";
 
 export type LifeSituationKey =
@@ -4808,6 +4830,8 @@ export interface SetupPriorStore {
 }
 
 export interface World {
+  /** Saved courts and seated judges; absent in lives created before courts opened. */
+  readonly judiciary?: JudiciaryState;
   /** Immutable validated definitions accepted for this life; absent in legacy saves. */
   readonly contentPacks?: WorldContentPacks;
   readonly schemaVersion: 15;

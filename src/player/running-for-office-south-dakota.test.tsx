@@ -126,7 +126,7 @@ describe("Running for office from Rapid City, South Dakota, at eighteen", () => 
         `${office.title}: ${office.eligibility}`,
       ).toBe(1);
       expect(office.eligibility).toMatch(
-        /^You must be at least \d+ to stand for this office\.$/,
+        /^You must be at least \d+ to run for this office\.$/,
       );
     }
     const governor = stateExecutiveCandidacyForPerson(world, personId)!;
@@ -180,7 +180,7 @@ describe("Running for office from Rapid City, South Dakota, at eighteen", () => 
     );
     expect(statewide).toContain("Governor of South Dakota");
     expect(statewide).toContain(
-      "You must be at least 21 to stand for this office.",
+      "You must be at least 21 to run for this office.",
     );
     for (const text of [campaign, statewide]) {
       expect(text).not.toMatch(PROVENANCE);

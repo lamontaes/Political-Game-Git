@@ -128,7 +128,7 @@ describe("player-places projection", () => {
     ).toBe("cancelled");
   });
 
-  it("makes the disclosed journey part of one Attend commitment", () => {
+  it("makes the trip part of one Attend commitment", () => {
     const fixture = createRunDLiteFixture("places11-attend-journey");
     let world = performRunDScheduledActivity(
       fixture.world,
@@ -142,14 +142,15 @@ describe("player-places projection", () => {
     );
 
     const model = projectPlacesWorkspace(world, fixture.playerPersonId)!;
+    expect(
+      model.offers.some((offer) => offer.kind === "travel" && offer.activityId),
+    ).toBe(false);
     const meeting = model.offers.find(
       (offer) => offer.activityId === fixture.dLite.meetingActivityId,
     )!;
     expect(meeting.unavailable).toBeNull();
-    expect(meeting.detail).toMatch(
-      /Attend includes the disclosed 20-minute journey/,
-    );
-    expect(meeting.detail).toMatch(/cost is not represented/i);
+    expect(meeting.detail).toMatch(/Attending includes the 20-minute trip/);
+    expect(meeting.detail).toMatch(/There is no fare\./);
     expect(meeting.durationLabel).toMatch(
       /^Starts .+ and takes .+\. The trip there takes 20 minutes before it\.$/,
     );

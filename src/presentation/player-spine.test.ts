@@ -17,30 +17,11 @@ import {
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import { CHARACTER_VISUAL_RECIPES } from "./visual-integration";
-import {
-  advanceHouseholdObligation,
-  conversationSubjectKeys,
-  conversationSubjectPresentation,
-} from "./conversation-subjects";
 import { chooseFormativeOption, projectFormativeYears } from "./formative-play";
-import { createRunBFixture } from "./run-b-fixture";
 import { createNewGameWorld, type NewGameSetup } from "./new-game";
-import {
-  householdConversationRoom,
-  openOrdinaryLife,
-  projectOrdinaryDay,
-} from "./ordinary-life";
+import { openOrdinaryLife, projectOrdinaryDay } from "./ordinary-life";
 import { resolvePlayerCapabilities } from "./player-capabilities";
-import {
-  availableConversationIntents,
-  commitConversationTurn,
-  createConversationSessionDescriptor,
-  openingConversationBeat,
-} from "./run-b-conversation";
-import {
-  createHouseholdObligationProgress,
-  createRunBConversationProgress,
-} from "./run-b-conversation-progress";
+import { projectPlayerConversation } from "./player-conversation";
 import { createEphemeralSeed, readReplaySeed } from "./session-seed";
 import { createRunDLiteFixture } from "./run-d-lite";
 import { createRunAFixture } from "./run-a-fixture";
@@ -237,8 +218,7 @@ describe("Where the game will let a life begin", () => {
   it("keeps the office fixture's Lexington copy out of a life lived elsewhere", () => {
     const game = createNewGameWorld(
       setup({
-        // Custom keeps the shared home the household conversation needs; a
-        // normal start (Task E) generates the household and may be solo.
+        // Keep a shared home so the ordinary conversation has a present peer.
         startKind: "custom",
         seed: "nebraska-clean",
         startAge: 34,
@@ -247,29 +227,18 @@ describe("Where the game will let a life begin", () => {
     );
     const world = openOrdinaryLife(game.world, game.playerPersonId);
     const day = projectOrdinaryDay(world, game.playerPersonId);
-    const room = householdConversationRoom(world, game.playerPersonId)!;
-    const progress = createHouseholdObligationProgress();
-    const subject = conversationSubjectPresentation(progress);
+    const talk = projectPlayerConversation(
+      world,
+      game.playerPersonId,
+      "life-talk",
+    )!;
     const text = [
       day.opening,
       ...day.pending.map((thing) => thing.sentence),
-      subject.topicLabel(progress),
-      subject.describeBriefing(world, room, progress),
-      openingConversationBeat(
-        world,
-        room,
-        room.eligibleAddresseePersonIds[0]!,
-        progress,
-      ).dialogue,
-      ...subject
-        .availableIntents(
-          world,
-          room,
-          room.eligibleAddresseePersonIds[0]!,
-          progress,
-          false,
-        )
-        .flatMap((option) => [option.label, option.description]),
+      talk.topicLabel,
+      talk.briefing,
+      talk.openingLine,
+      ...talk.intents.flatMap((option) => [option.label, option.description]),
     ]
       .join(" ")
       .toLowerCase();
@@ -331,100 +300,6 @@ describe("What the player is allowed to reach", () => {
     expect(capabilities.legislation).toBe(true);
     // The procedure that opens is the one for the place they actually live in.
     expect(capabilities.legislativeScenarioKey).toBe("alaska");
-  });
-});
-
-describe("What people can say", () => {
-  it("gives each subject its own topic, briefing and options", () => {
-    const keys = conversationSubjectKeys();
-    expect(keys).toContain("shared-intake-checklist");
-    expect(keys).toContain("transit-access-pilot-provision");
-    expect(keys).toContain("household-obligation");
-
-    const game = createNewGameWorld(
-      setup({
-        seed: "two-subjects",
-        startAge: 33,
-        depth: "summarize-earlier-life",
-      }),
-    );
-    const world = openOrdinaryLife(game.world, game.playerPersonId);
-    const room = householdConversationRoom(world, game.playerPersonId)!;
-    const addressee = room.eligibleAddresseePersonIds[0]!;
-
-    const householdIntents = availableConversationIntents(
-      world,
-      room,
-      addressee,
-      createHouseholdObligationProgress(),
-    ).map((option) => option.key);
-
-    // Opening a conversation at home offers what belongs at home.
-    expect(householdIntents).toContain("raise-obligation");
-    expect(householdIntents).not.toContain("request-commitment");
-
-    // And the office's casework cannot be run in a kitchen at all: the
-    // referral subject needs a briefing lead and a referral verifier, and a
-    // household has neither. It used to get them anyway, because the room
-    // handed the same person both jobs.
-    expect(() =>
-      availableConversationIntents(
-        world,
-        room,
-        addressee,
-        createRunBConversationProgress(),
-      ),
-    ).toThrow(/Nobody in this room is the briefing-lead/i);
-
-    // The office fixture's room does have them, and offers the casework.
-    const office = createRunBFixture("subject-separation");
-    const officeIntents = availableConversationIntents(
-      office.world,
-      office.roomContext,
-      office.roomContext.eligibleAddresseePersonIds[0]!,
-      createRunBConversationProgress(),
-    ).map((option) => option.key);
-    expect(officeIntents).toContain("request-commitment");
-    expect(officeIntents).not.toContain("raise-obligation");
-  });
-
-  it("refuses an intent that belongs to a different subject", () => {
-    const game = createNewGameWorld(
-      setup({
-        // Custom keeps the shared home the household conversation needs; a
-        // normal start (Task E) generates the household and may be solo.
-        startKind: "custom",
-        seed: "wrong-intent",
-        startAge: 33,
-        depth: "summarize-earlier-life",
-      }),
-    );
-    const world = openOrdinaryLife(game.world, game.playerPersonId);
-    const room = householdConversationRoom(world, game.playerPersonId)!;
-    expect(
-      () =>
-        commitConversationTurn(world, {
-          session: createConversationSessionDescriptor(world, room),
-          room,
-          progress: createHouseholdObligationProgress(),
-          turnOrdinal: 1,
-          addressee: room.eligibleAddresseePersonIds[0]!,
-          audibility: "normal",
-          intent: "request-commitment",
-        }),
-      // Refused at the availability gate, before it ever reaches the subject:
-      // an intent the current subject does not offer is not a thing that can
-      // be said, whatever else is going on in the room.
-    ).toThrow(/unavailable for this addressee/i);
-  });
-
-  it("runs the household subject to a settled answer and then stops offering", () => {
-    let progress = createHouseholdObligationProgress();
-    expect(progress.phase).toBe("opening");
-    progress = advanceHouseholdObligation(progress, "raise-obligation");
-    expect(progress.phase).toBe("raised");
-    progress = advanceHouseholdObligation(progress, "ask-to-share");
-    expect(progress).toMatchObject({ phase: "settled", cover: "shared" });
   });
 });
 
@@ -576,9 +451,11 @@ describe("Words the player should never see", () => {
     );
     const world = openOrdinaryLife(game.world, game.playerPersonId);
     const day = projectOrdinaryDay(world, game.playerPersonId);
-    const room = householdConversationRoom(world, game.playerPersonId)!;
-    const progress = createHouseholdObligationProgress();
-    const subject = conversationSubjectPresentation(progress);
+    const talk = projectPlayerConversation(
+      world,
+      game.playerPersonId,
+      "life-talk",
+    )!;
     const child = createNewGameWorld(
       setup({ seed: "vocabulary-child", startAge: 7 }),
     );
@@ -587,8 +464,8 @@ describe("Words the player should never see", () => {
     const text = [
       day.opening,
       ...day.pending.map((thing) => thing.sentence),
-      subject.topicLabel(progress),
-      subject.describeBriefing(world, room, progress),
+      talk.topicLabel,
+      talk.briefing,
       childView.scene?.prose ?? "",
       ...(childView.scene?.options ?? []).flatMap((option) => [
         option.label,

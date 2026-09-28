@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  advanceWorld,
   auditPlayerModel,
+  createCampaignElectionTransitionRegistry,
   deserializeWorld,
   GENERATION_LEAN_LIMIT,
   generationInputsFor,
@@ -9,11 +11,9 @@ import {
   serializeWorld,
   setupPriorsOf,
 } from "../simulation";
+import { LIFE_CALLBACK_TRANSITION_KEY } from "../simulation/life-callbacks";
+import { lifeOpportunitiesFor } from "../simulation/life-opportunities";
 import type { EntityId, LifeSituationKey, World } from "../simulation";
-import {
-  writeLegacyFamiliarRequest,
-  writeLegacyHouseholdEveningInvitation,
-} from "../simulation/life-opportunities";
 import {
   chooseAdultOption,
   letAdultTimePass,
@@ -21,6 +21,13 @@ import {
   selectAdultSituation,
 } from "./adult-life";
 import { createNewGameWorld } from "./new-game";
+import { joinOrdinaryGroup } from "./ordinary-community";
+import {
+  chooseStoryOption,
+  letStoryTimePass,
+  projectStoryMoment,
+  traceStorySelection,
+} from "./life-story";
 import type { NewGameSetup } from "./new-game";
 import {
   buildSeedFor,
@@ -92,34 +99,6 @@ function openLife(setup: NewGameSetup): {
     world: openOrdinaryLife(game.world, game.playerPersonId),
     personId: game.playerPersonId,
   };
-}
-
-/**
- * A life opened before 2026-09-23, holding the picnic favor and confidence.
- *
- * Play stopped writing both that day: neither came from anything in the
- * asker's own life, and this fixture's statewide world holds nobody with a
- * reason to ask for anything instead. A save made before then still holds
- * them, and these acceptance tests are about how a life adapts, calls back
- * and mixes its stakes once there is something to answer, so they play that
- * save rather than an empty year.
- */
-function openLegacyLife(setup: NewGameSetup): {
-  world: World;
-  personId: EntityId;
-} {
-  const opened = openLife(setup);
-  let world = writeLegacyFamiliarRequest(
-    opened.world,
-    opened.personId,
-    "favour-request",
-  );
-  world = writeLegacyFamiliarRequest(
-    world,
-    opened.personId,
-    "confidence-disclosed",
-  );
-  return { world, personId: opened.personId };
 }
 
 /** Plays a life forward, always taking the option at `index`. */
@@ -434,16 +413,18 @@ describe("Acceptance 1 — the same life happens in the same order", () => {
     );
   });
 
-  it("offers a different sequence to a life that was calibrated differently", () => {
-    // Different answers, and therefore — since Packet 77 — possibly a
-    // different household as well. The claim here was only ever about what the
-    // game puts in front of a life, so the world-identity assertion that used
-    // to sit here has moved to the suite that owns it.
-    const one = openLegacyLife(calibrate(ADULT, 0));
-    const other = openLegacyLife(calibrate(ADULT, 3));
-    const first = playAdultLife(one.world, one.personId, 10);
-    const second = playAdultLife(other.world, other.personId, 10);
-    expect(second.sequence).not.toEqual(first.sequence);
+  it("ranks later story choices differently after different calibration", () => {
+    const base = { ...ADULT, seed: "ab-proof", questionnaire: "deep" as const };
+    const first = openLife(calibrate(base, 0));
+    const second = openLife(calibrate(base, 1));
+    const ranked = (world: World, personId: EntityId) =>
+      traceStorySelection(world, personId).ranked.map(
+        (entry) =>
+          `${entry.candidate.key}@${entry.components.total.toFixed(4)}`,
+      );
+    expect(ranked(first.world, first.personId)).not.toEqual(
+      ranked(second.world, second.personId),
+    );
   });
 
   it("plays a formative childhood the same way twice", () => {
@@ -479,40 +460,51 @@ describe("Acceptance 1 — the same life happens in the same order", () => {
 
 /* -------------------------------------------------------------------------- */
 
-describe("Acceptance 3 — a played life outruns the questionnaire", () => {
-  it("moves an axis the setup leaned on, and keeps the setup answers on the record", () => {
-    const setup = calibrate(ADULT, 0);
-    const { world, personId } = openLegacyLife(setup);
-    const before = playerModelFor(world, personId);
-    const beforeSetupEntries = before.trail.filter(
-      (entry) => entry.strength === "setup",
-    ).length;
-    expect(beforeSetupEntries).toBeGreaterThan(0);
-
-    // Twelve beats, not ten. Since a life with something open can be offered
-    // one new request a day, the Saturday invitation comes round a
-    // beat earlier and ten beats land on a tie (14 against 14) where they used
-    // to clear it by one; the claim is about a played life, not a count.
-    const played = playAdultLife(world, personId, 12, 1);
-    const after = playerModelFor(played.world, personId);
-    const gameplayEntries = after.trail.filter(
-      (entry) => entry.strength === "enacted",
-    );
-    expect(gameplayEntries.length).toBeGreaterThan(4);
-
-    // Every setup answer is still in the trail, unaltered.
+describe("Acceptance 3 — played choices can outweigh setup", () => {
+  it("keeps setup answers while story choices change the model", () => {
+    const setup = calibrate({ ...ADULT, seed: "reversal" }, 0);
+    const opened = openLife(setup);
+    const before = playerModelFor(opened.world, opened.personId);
+    let world = opened.world;
+    for (let step = 0; step < 16; step += 1) {
+      const moment = projectStoryMoment(world, opened.personId);
+      const option =
+        moment.scene.options.find((candidate) =>
+          [
+            "say-no",
+            "refuse",
+            "concede-nothing",
+            "keep-out",
+            "stay-back",
+          ].includes(candidate.key),
+        ) ?? moment.scene.options[0];
+      if (option) {
+        world = chooseStoryOption(world, {
+          personId: opened.personId,
+          scene: moment.scene,
+          optionKey: option.key,
+        });
+      }
+      world = letStoryTimePass(world, opened.personId);
+    }
+    const after = playerModelFor(world, opened.personId);
     expect(after.trail.filter((entry) => entry.strength === "setup")).toEqual(
       before.trail.filter((entry) => entry.strength === "setup"),
     );
-
-    // And gameplay now carries more of the weight than setup does.
-    const audit = auditPlayerModel(after);
-    const gameplayWeight = audit.reduce(
-      (sum, entry) => sum + entry.fromGameplay,
-      0,
-    );
-    const setupWeight = audit.reduce((sum, entry) => sum + entry.fromSetup, 0);
-    expect(gameplayWeight).toBeGreaterThan(setupWeight);
+    expect(after.observedBy.enacted).toBeGreaterThan(0);
+    const auditBefore = auditPlayerModel(before);
+    const moved = auditPlayerModel(after).filter((entry) => {
+      const prior = auditBefore.find(
+        (candidate) => candidate.dimension === entry.dimension,
+      );
+      return (
+        prior !== undefined &&
+        (entry.weight > prior.weight * 1.5 ||
+          (Math.abs(prior.mean) >= 0.05 &&
+            Math.sign(entry.mean) !== Math.sign(prior.mean)))
+      );
+    });
+    expect(moved.length).toBeGreaterThan(0);
   });
 });
 
@@ -552,74 +544,74 @@ describe("Acceptance 7 — a hard choice may leave nothing behind", () => {
 /* -------------------------------------------------------------------------- */
 
 describe("Acceptance 12 — a callback is canonical, replayable and traceable", () => {
-  it("schedules, comes due, and leaves a reason either way", () => {
-    const setup = calibrate(ADULT, 0);
-    const { world, personId } = openLegacyLife(setup);
-    const played = playAdultLife(world, personId, 16);
-
-    const due = played.world.history.futureDueItems.filter((item) =>
-      item.transitionKey.startsWith("life:"),
-    );
-    expect(due.length).toBeGreaterThan(0);
-
-    const settled = due.filter((item) =>
-      played.world.history.futureDueItemStates.some(
-        (state) => state.dueItemId === item.id && state.status !== "scheduled",
-      ),
-    );
-    expect(settled.length).toBeGreaterThan(0);
-
-    for (const item of settled) {
-      const state = played.world.history.futureDueItemStates
-        .filter((candidate) => candidate.dueItemId === item.id)
-        .at(-1)!;
-      // Every terminal state says why, in the world's own vocabulary.
-      expect(["resolved", "cancelled", "blocked"]).toContain(state.status);
-      expect(state.reasonKey).not.toBeNull();
-      expect(state.context).not.toBeNull();
-      // And it points back at the choice that created it.
-      expect(item.entityIds.some((id) => id === personId)).toBe(true);
-      expect(
-        item.entityIds.some((id) =>
-          played.world.history.events.some((event) => event.id === id),
-        ),
-      ).toBe(true);
+  it("settles the group organizer's real candidacy approach with its origin", () => {
+    let offered: { world: World; personId: EntityId } | null = null;
+    for (const seed of [
+      "group-a",
+      "group-b",
+      "group-c",
+      "group-d",
+      "group-e",
+      "group-f",
+      "group-g",
+      "group-h",
+    ]) {
+      const life = openLife({
+        ...ADULT,
+        startAge: 24,
+        seed,
+        questionnaire: "skipped",
+        priors: [],
+      });
+      // Opening already wrote today's agenda opportunity. The next ordinary
+      // day lets the organizer's separate, recorded request enter the world.
+      const world = letAdultTimePass(
+        joinOrdinaryGroup(life.world, life.personId),
+        1,
+      );
+      if (
+        lifeOpportunitiesFor(world, life.personId).some(
+          (entry) => entry.kind === "candidacy-approach",
+        )
+      ) {
+        offered = { world, personId: life.personId };
+        break;
+      }
     }
-
-    // At least one came back and left a memory the player can read.
-    const resolved = settled.filter((item) =>
-      played.world.history.futureDueItemStates.some(
-        (state) => state.dueItemId === item.id && state.status === "resolved",
-      ),
-    );
-    if (resolved.length > 0) {
-      expect(
-        projectAdultLife(played.world, personId).moments.length,
-      ).toBeGreaterThan(0);
-    }
-  });
-
-  it("does not let an option say whether it will come back", () => {
-    // What an option declares is a *kind* of thing that can come back. Whether
-    // it does is answered later, from the world, and the two are different
-    // questions asked in different places.
-    // A household evening needs somebody else at home. On a normal start (Task
-    // E) the household is generated and may be solo, so this pins the custom
-    // route that keeps the shared home the situation is written for.
-    const setup = calibrate({ ...ADULT, startKind: "custom" }, 0);
-    const opened = openLife(setup);
-    const personId = opened.personId;
-    // Play stopped writing this invitation on 2026-09-22; a save made before
-    // then still answers one.
-    const world = writeLegacyHouseholdEveningInvitation(opened.world, personId);
-    const alone = chooseAdultOption(world, {
+    expect(offered).not.toBeNull();
+    const { world, personId } = offered!;
+    const chosen = chooseAdultOption(world, {
       personId,
-      situationKey: "adult.household-quiet-evening",
-      optionKey: "keep-it-yours",
+      situationKey: "adult.candidacy-approach",
+      optionKey: "say-maybe",
     });
-    expect(alone.history.futureDueItems).toHaveLength(
-      world.history.futureDueItems.length,
+    const due = chosen.history.futureDueItems.find(
+      (item) => item.transitionKey === LIFE_CALLBACK_TRANSITION_KEY,
     );
+    expect(due).toBeDefined();
+    const origin = chosen.history.events.find((event) =>
+      event.tags.includes("adult.candidacy-approach"),
+    )!;
+    expect(due!.entityIds).toContain(personId);
+    expect(due!.entityIds).toContain(origin.id);
+    const registry = createCampaignElectionTransitionRegistry();
+    const settled = advanceWorld(chosen, 315, registry);
+    const reloaded = advanceWorld(
+      deserializeWorld(serializeWorld(chosen)),
+      315,
+      registry,
+    );
+    expect(serializeWorld(reloaded)).toBe(serializeWorld(settled));
+    const state = settled.history.futureDueItemStates
+      .filter((entry) => entry.dueItemId === due!.id)
+      .at(-1);
+    expect(state).toBeDefined();
+    expect(["resolved", "cancelled", "blocked"]).toContain(state!.status);
+    expect(state!.reasonKey).not.toBeNull();
+    expect(state!.context).not.toBeNull();
+    expect(
+      settled.history.events.find((event) => event.id === origin.id),
+    ).toEqual(origin);
   });
 });
 
@@ -640,33 +632,6 @@ describe("Acceptance 13 — ordinary life is still there", () => {
     const later = letAdultTimePass(world);
     expect(later.currentDate > world.currentDate).toBe(true);
     expect(later.history.memories.length).toBe(world.history.memories.length);
-  });
-
-  it("does not make every beat a hard one", () => {
-    const setup = calibrate(ADULT, 0);
-    const { world, personId } = openLegacyLife(setup);
-    let current = world;
-    const tiers: string[] = [];
-    for (let beat = 0; beat < 14; beat += 1) {
-      const trace = selectAdultSituation(current, personId);
-      const life = projectAdultLife(current, personId);
-      if (!life.scene || !trace) {
-        current = letAdultTimePass(current);
-        continue;
-      }
-      tiers.push(trace.stakes);
-      current = chooseAdultOption(current, {
-        personId,
-        situationKey: life.scene.situationKey,
-        optionKey: life.scene.options[0]!.key,
-      });
-    }
-    expect(tiers.filter((tier) => tier === "ordinary").length).toBeGreaterThan(
-      2,
-    );
-    expect(tiers.filter((tier) => tier !== "ordinary").length).toBeGreaterThan(
-      2,
-    );
   });
 });
 

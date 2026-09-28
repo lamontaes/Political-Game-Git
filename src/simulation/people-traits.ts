@@ -183,6 +183,30 @@ export function observedTraitLabels(
   world: World,
   personId: EntityId,
 ): readonly string[] {
+  return observedTraitReadings(world, personId).map((reading) => reading.label);
+}
+
+/**
+ * The same observed traits with how strongly each was recorded, strongest
+ * first; ties keep the registry's order. A card that names only a few names
+ * the ones that stand out.
+ */
+export function strongestObservedTraitLabels(
+  world: World,
+  personId: EntityId,
+  limit: number,
+): readonly string[] {
+  return observedTraitReadings(world, personId)
+    .map((reading, index) => ({ ...reading, index }))
+    .sort((a, b) => Math.abs(b.value) - Math.abs(a.value) || a.index - b.index)
+    .slice(0, limit)
+    .map((reading) => reading.label);
+}
+
+function observedTraitReadings(
+  world: World,
+  personId: EntityId,
+): readonly { readonly label: string; readonly value: number }[] {
   // One pass over the person's records first: most of the catalog is
   // unrecorded for anybody, and reading each trait separately would scan the
   // whole history once per trait on every render of a card.
@@ -195,7 +219,7 @@ export function observedTraitLabels(
     if (!recorded.has(traitDefinitionFromPack(trait).id)) return [];
     const reading = readTrait(world, personId, trait);
     return reading.state === "recorded" && reading.label !== null
-      ? [reading.label]
+      ? [{ label: reading.label, value: reading.value }]
       : [];
   });
 }

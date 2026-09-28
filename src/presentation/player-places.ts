@@ -1,3 +1,4 @@
+import { describeInterval } from "./time-target-label";
 import {
   activeChildAuthoritiesAt,
   ageOnDate,
@@ -25,7 +26,6 @@ import {
 } from "./scene-venues";
 import { formatRoutineElapsedMinutes } from "./routine-outcome";
 import { venueActivities, venueTimingLabel } from "./venue-activity";
-import { ordinaryGroceryRoute } from "./ordinary-grocery-route";
 
 /** Pure read-model for the feature-local Places workspace. */
 export type PlacesActionKind = "inspect" | "travel" | "return-home" | "attend";
@@ -48,7 +48,6 @@ export interface PlacesOfferView {
   readonly unavailable: string | null;
   readonly companionLabel: string | null;
   readonly walkDestination?: "home" | "neighborhood";
-  readonly groceryDestination?: "grocery" | "home";
   readonly activityId?: EntityId;
   readonly declineActivityId?: EntityId;
   readonly governmentKey?: string;
@@ -87,29 +86,6 @@ export function projectPlacesWorkspace(
   for (const destination of ["neighborhood", "home"] as const) {
     offers.push(projectWalkOffer(world, personId, destination));
   }
-  for (const destination of ["grocery", "home"] as const) {
-    const offer = ordinaryGroceryRoute(world, personId, destination);
-    if (offer.kind !== "available") continue;
-    if (destination === "home") {
-      const index = offers.findIndex((entry) => entry.id === "walk-home");
-      if (index >= 0) offers.splice(index, 1);
-    }
-    offers.push({
-      id: `grocery-${destination}`,
-      kind: destination === "home" ? "return-home" : "travel",
-      title: offer.route.destination.label,
-      detail:
-        destination === "grocery"
-          ? "Walk to the store. Visiting does not buy anything or finish your household errands."
-          : "Walk home along the recorded outward route.",
-      minutes: offer.route.duration.minutes,
-      durationLabel: `${offer.route.duration.minutes} minutes`,
-      unavailable: null,
-      companionLabel: null,
-      groceryDestination: destination,
-    });
-  }
-
   const venueEntries = venueActivities(world, personId);
   const bundledJourneyIds = new Set(
     venueEntries.flatMap((entry) =>
@@ -117,30 +93,13 @@ export function projectPlacesWorkspace(
     ),
   );
   for (const entry of venueEntries) {
-    // A disclosed journey is part of Attend. Presenting it as a second action
-    // recreates the rejected leave-now click and lets the two halves drift.
-    if (bundledJourneyIds.has(entry.activity.id)) {
-      if (
-        entry.activity.location.locationKey === "ordinary-life:to-meeting-room"
-      ) {
-        offers.push({
-          id: `meeting-journey-${entry.activity.id}`,
-          kind: "travel",
-          title: "Go to the public meeting",
-          detail:
-            "Travel there first, then choose whether to enter and stay. This does not complete attendance.",
-          minutes: entry.elapsedMinutes,
-          durationLabel:
-            entry.elapsedMinutes === null
-              ? null
-              : `${entry.elapsedMinutes} minutes, including the wait before the journey`,
-          unavailable: entry.refusal,
-          companionLabel: null,
-          activityId: entry.activity.id,
-        });
-      }
+    // Attend owns the journey and the destination scene. A bare commute has
+    // no scene of its own, so it is not a separate Places choice.
+    if (
+      entry.activity.kind === "travel" ||
+      bundledJourneyIds.has(entry.activity.id)
+    )
       continue;
-    }
     offers.push(
       projectVenueOffer(
         world,
@@ -203,7 +162,7 @@ function projectWalkOffer(
     title: offer.label,
     detail: offer.fromLabel ? `From ${offer.fromLabel}.` : null,
     minutes: offer.minutes,
-    durationLabel: `${offer.minutes} minutes`,
+    durationLabel: describeInterval(offer.minutes),
     unavailable: offer.unavailable,
     companionLabel,
     walkDestination: destination,
@@ -225,7 +184,7 @@ function projectVenueOffer(
     journey
       ? journey.alreadyCompleted
         ? `The journey to ${activity.location.label} is complete. Attend begins here.`
-        : `Attend includes the disclosed ${journey.journeyMinutes}-minute journey to ${activity.location.label}. ${journey.costDisclosure}`
+        : `Attending includes the ${journey.journeyMinutes}-minute trip to ${activity.location.label}. ${journey.costDisclosure}`
       : null,
     venue?.isJourney
       ? "This is a journey, not a room you enter at the end."
@@ -278,7 +237,7 @@ function projectMunicipalMeetingOffer(
     else {
       try {
         const timing = scheduledActivityPerformanceTiming(world, meeting.id);
-        durationLabel = `${timing.totalElapsedMinutes} minutes for this session.`;
+        durationLabel = `${describeInterval(timing.totalElapsedMinutes)} for this session.`;
       } catch (error) {
         unavailable =
           error instanceof Error

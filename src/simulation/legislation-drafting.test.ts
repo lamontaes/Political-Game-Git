@@ -44,6 +44,7 @@ function compile(
   variantKey: string,
   overrides?: {
     readonly parameterValues?: Readonly<Record<string, ProgramParameterValue>>;
+    readonly selectedProvisionKeys?: readonly string[];
     readonly scenarioKey?: string;
     readonly jurisdictionId?: string;
     readonly predicateAuthority?: PredicateAuthority;
@@ -53,6 +54,7 @@ function compile(
     familyKey,
     variantKey,
     parameterValues: overrides?.parameterValues,
+    selectedProvisionKeys: overrides?.selectedProvisionKeys,
     scenarioKey: overrides?.scenarioKey ?? "kentucky",
     jurisdictionId: (overrides?.jurisdictionId ?? KENTUCKY) as typeof KENTUCKY,
     rulePackId: "us-ky-general-assembly",
@@ -63,6 +65,67 @@ function compile(
       : {}),
   });
 }
+
+describe("selected operative sections", () => {
+  it("renumbers the selected sections and refuses a missing required instrument part", () => {
+    const selected = compile("appropriations", "single-programme", {
+      predicateAuthority: standingAuthorities().find(
+        (authority) => authority.authorityKey === "standing:school-facilities",
+      ),
+      selectedProvisionKeys: [
+        "authority-named",
+        "amount-provided",
+        "availability",
+      ],
+    });
+    expect(selected.clauses.map((clause) => clause.provisionKey)).toEqual([
+      "authority-named",
+      "amount-provided",
+      "availability",
+    ]);
+    expect(selected.clauses.map((clause) => clause.sectionNumber)).toEqual([
+      1, 2, 3,
+    ]);
+    expect(() =>
+      compile("appropriations", "single-programme", {
+        predicateAuthority: standingAuthorities().find(
+          (authority) =>
+            authority.authorityKey === "standing:school-facilities",
+        ),
+        selectedProvisionKeys: ["authority-named", "availability"],
+      }),
+    ).toThrow(/must retain a funding-cap section/);
+    expect(() =>
+      compile("appropriations", "single-programme", {
+        predicateAuthority: standingAuthorities().find(
+          (authority) =>
+            authority.authorityKey === "standing:school-facilities",
+        ),
+        selectedProvisionKeys: [
+          "authority-named",
+          "amount-provided",
+          "made-up",
+        ],
+      }),
+    ).toThrow(/no 'made-up' section/);
+    expect(() =>
+      compile("appropriations", "single-programme", {
+        predicateAuthority: standingAuthorities().find(
+          (authority) =>
+            authority.authorityKey === "standing:school-facilities",
+        ),
+        selectedProvisionKeys: [
+          "authority-named",
+          "amount-provided",
+          "availability",
+        ],
+        parameterValues: {
+          "reporting-duty": { kind: "enumerated", value: "annual-statement" },
+        },
+      }),
+    ).toThrow(/selected sections do not use 'reporting-duty'/);
+  });
+});
 
 /**
  * Compiles a configuration whatever its instrument, supplying an authority

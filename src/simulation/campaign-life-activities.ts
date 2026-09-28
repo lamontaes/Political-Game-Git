@@ -1,4 +1,5 @@
 import { eventById } from "./event-index";
+import { modelCampaignFieldReach } from "./campaign-contact-calibration";
 import { wasRefused } from "./scheduled-activity-answer";
 import { rememberedAdverseFindingsAgainst } from "./press/findings";
 import {
@@ -761,8 +762,7 @@ export function offerCampaignLifeActivity(
         label: entry.locationLabel,
         setting: entry.presence === "remote" ? "from home" : "community room",
       },
-      socialContext:
-        "An optional party or campaign activity. Coming is not joining, endorsing or voting.",
+      socialContext: "An optional party or campaign activity.",
       pressure: null,
       choice: null,
       motivation: null,
@@ -1006,7 +1006,8 @@ export function requestCampaignLifeActivity(
 }
 
 /** Finds the host and the first shared free evening; throws one sentence. */
-function planCampaignLifeRequest(
+/** Read-only preview of the same host and free calendar slot the request writer uses. */
+export function planCampaignLifeRequest(
   world: World,
   personId: EntityId,
   input: RequestCampaignLifeActivityInput,
@@ -1412,43 +1413,58 @@ function planFundraiser(
     currency: campaign.treasuryCurrency,
   };
   const donor = world.people[donorPersonId]!;
+  const kentucky = campaignCompliancePackFor(world, campaign.id);
+  let planned: FundraiserPlan;
+  if (kentucky) {
+    planned = planKentuckyGift(
+      world,
+      campaign,
+      donorPersonId,
+      amount,
+      kentucky,
+    );
+  } else {
+    const ruling = assessContribution(world, {
+      campaignId: campaign.id,
+      sourcePersonId: donorPersonId,
+      incomingMinorUnits: amount.minorUnits,
+      statementOfOrganizationFiled: null,
+      treasurerPersonId: null,
+      treasurerQualifiedElector: null,
+    });
+    planned = {
+      amount,
+      allowed: ruling.decision !== "refused",
+      note:
+        ruling.decision === "refused"
+          ? `The committee could not accept the gift: ${ruling.reason}`
+          : ruling.reason,
+      decisionTag: `compliance:${ruling.decision}`,
+    };
+  }
+  if (!planned.allowed) return planned;
   const donorPosition = resourcePositionAt(
     world,
     { kind: "person", personId: donorPersonId },
-    amount.currency,
+    planned.amount.currency,
   );
-  if (
-    donorPosition &&
-    donorPosition.liquidBalance.minorUnits < amount.minorUnits
-  ) {
+  if (!donorPosition) {
     return {
-      amount,
+      ...planned,
       allowed: false,
-      note: `${personName(donor)} did not have ${formatMoney(amount)} to give, so nothing was collected.`,
+      note: `The available money for ${personName(donor)} is not established, so nothing was collected.`,
       decisionTag: "compliance:not-attempted",
     };
   }
-  const kentucky = campaignCompliancePackFor(world, campaign.id);
-  if (kentucky) {
-    return planKentuckyGift(world, campaign, donorPersonId, amount, kentucky);
+  if (donorPosition.liquidBalance.minorUnits < planned.amount.minorUnits) {
+    return {
+      ...planned,
+      allowed: false,
+      note: `${personName(donor)} did not have ${formatMoney(planned.amount)} to give, so nothing was collected.`,
+      decisionTag: "compliance:not-attempted",
+    };
   }
-  const ruling = assessContribution(world, {
-    campaignId: campaign.id,
-    sourcePersonId: donorPersonId,
-    incomingMinorUnits: amount.minorUnits,
-    statementOfOrganizationFiled: null,
-    treasurerPersonId: null,
-    treasurerQualifiedElector: null,
-  });
-  return {
-    amount,
-    allowed: ruling.decision !== "refused",
-    note:
-      ruling.decision === "refused"
-        ? `The committee could not accept the gift: ${ruling.reason}`
-        : ruling.reason,
-    decisionTag: `compliance:${ruling.decision}`,
-  };
+  return planned;
 }
 
 /** What this donor has already given this committee through recorded gifts. */
@@ -1747,8 +1763,7 @@ export function recordCampaignLifeAttendance(
         label: activity.location.label,
         setting: entry.presence === "remote" ? "from home" : "community room",
       },
-      socialContext:
-        "Taking part is not joining, endorsing, registering or voting.",
+      socialContext: null,
       pressure: null,
       choice: null,
       motivation: null,
@@ -1943,6 +1958,9 @@ export function recordCampaignLifeAttendance(
     attendance,
     outcomeEventId: outcomeEvent.id,
     contactPersonIds,
+    fieldReach: openCampaign
+      ? modelCampaignFieldReach(record.form, minutes)
+      : null,
     relationshipInteractionIds,
     resourceFlowId,
     raisedAmount,
