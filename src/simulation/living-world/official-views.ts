@@ -300,7 +300,7 @@ function reasonsFor(
   const felt =
     felt01(exposure) *
     (act.executive ? EXECUTIVE_VISIBILITY : LEGISLATOR_VISIBILITY) *
-    lens(world, exposure.personId);
+    reactionLens(world, exposure.personId);
   const share =
     exposure.relation === "family"
       ? FAMILY_SHARE
@@ -342,7 +342,7 @@ function felt01(exposure: LawExposureRecord): number {
  * Personality is the lens, not the side: a reactive or combative person moves
  * further on the same law, a patient or conflict-averse one less.
  */
-function lens(world: World, personId: EntityId): number {
+export function reactionLens(world: World, personId: EntityId): number {
   let factor = 1;
   const tempo = latestPersonalityTendency(
     world,
