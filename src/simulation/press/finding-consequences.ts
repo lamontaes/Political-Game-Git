@@ -17,6 +17,11 @@ import { ensureTaxPublicAccount, publicOrganizationKey } from "../tax-policy";
 import type { EntityId, HistoricalEvent, MoneyAmount, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { referForProsecution, regulatorRefers } from "../justice/prosecution";
+import {
+  canInstitutionAct,
+  type AccountableInstitution,
+  type InstitutionAction,
+} from "../governing/institution-authority";
 import { generatedStateOversightBody } from "./generated-state-oversight";
 import {
   isAdversePublicStep,
@@ -63,6 +68,12 @@ import { pressRecordsOfKind, requirePressRecord } from "./store";
  *   their distance. The chapter's later decisions about helping a campaign
  *   read the same finding (`findings.ts`).
  *
+ * - Sanction: a state legislative ethics body's finding carries a public
+ *   reprimand, or a censure where an earlier finding stands against the
+ *   respondent, and a civil fine for campaign money found misused, as far as
+ *   `canInstitutionAct` allows the body (its game-profile sanction set,
+ *   `ETHICS_SANCTION_GAME_PROFILE`, where research has not said).
+ *
  * Nothing here is automatic guilt for somebody not named, and nothing here
  * removes anyone from office.
  */
@@ -71,6 +82,7 @@ export function applyFindingConsequences(
   proceeding: MatterProceedingRecord,
   step: ProceedingStepRecord,
   event: HistoricalEvent,
+  institution: AccountableInstitution | null = null,
 ): World {
   if (!isAdversePublicStep(step)) return world;
   const outcome = step.outcome as AdversePublicOutcome;
@@ -79,9 +91,22 @@ export function applyFindingConsequences(
     if (!next.people[respondentId]) continue;
     next = supportConsequence(next, respondentId, outcome, step, event);
     if (outcome === "finding" || outcome === "conciliation") {
-      next = restitutionConsequence(next, proceeding, respondentId, step);
+      next = restitutionConsequence(
+        next,
+        proceeding,
+        respondentId,
+        step,
+        institution,
+      );
     }
     if (outcome === "finding") {
+      next = sanctionConsequence(
+        next,
+        proceeding,
+        respondentId,
+        step,
+        institution,
+      );
       next = referralConsequence(next, proceeding, respondentId, step, event);
     }
     next = socialConsequence(next, proceeding, respondentId, event);
@@ -384,11 +409,87 @@ function ensureUnitedStatesTreasury(world: World): {
   return { world: next, organizationId: organization.id };
 }
 
+/** Whether a state legislative ethics body may impose `action` on someone. */
+function ethicsBodyMay(
+  world: World,
+  institution: AccountableInstitution | null,
+  action: InstitutionAction,
+  respondentId: EntityId,
+): boolean {
+  return (
+    institution !== null &&
+    institution.startsWith("state-legislative-ethics:") &&
+    canInstitutionAct(world, {
+      institution,
+      action,
+      subjectPersonId: respondentId,
+      onDate: world.currentDate,
+    }).status === "available"
+  );
+}
+
+/**
+ * A state legislative ethics body's finding carries a public reprimand, or a
+ * censure where an earlier public finding already stands against the
+ * respondent. Which one follows from the record, never from a draw.
+ */
+function sanctionConsequence(
+  world: World,
+  proceeding: MatterProceedingRecord,
+  respondentId: EntityId,
+  step: ProceedingStepRecord,
+  institution: AccountableInstitution | null,
+): World {
+  const prior = priorAdverseFindings(world, respondentId, step).length;
+  const action = prior > 0 ? "censure" : "reprimand";
+  if (!ethicsBodyMay(world, institution, action, respondentId)) return world;
+  const name = personName(world.people[respondentId]!);
+  return recordWorldEvent(world, {
+    stableKey: `${step.stableKey}:${action}:${respondentId}:event`,
+    type: `matter.${action}-imposed`,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: requirePressRecord(world, "matter", proceeding.matterId)
+      .jurisdictionId,
+    involvedEntityIds: sortedUnique([respondentId, proceeding.id]),
+    participants: [
+      {
+        personId: respondentId,
+        role: "focus:respondent",
+        detail: action === "censure" ? "Censured" : "Reprimanded",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      PRESS_CONTRACT_VERSION,
+      `${PRESS_MATTER_TAG}${proceeding.matterId}`,
+      `matter.consequence:${action}`,
+    ],
+    summary:
+      action === "censure"
+        ? `The ${proceeding.institutionLabel} censured ${name}, who had been found against before.`
+        : `The ${proceeding.institutionLabel} reprimanded ${name}.`,
+    context: {
+      location: null,
+      socialContext: proceeding.institutionLabel,
+      pressure: null,
+      choice: null,
+      motivation:
+        action === "censure"
+          ? "A censure, because an earlier finding already stood."
+          : "A reprimand with a first finding.",
+      immediateReaction: null,
+    },
+  });
+}
+
 function restitutionConsequence(
   world: World,
   proceeding: MatterProceedingRecord,
   respondentId: EntityId,
   step: ProceedingStepRecord,
+  institution: AccountableInstitution | null,
 ): World {
   let next = world;
   const misused = misusedCampaignMoney(next, proceeding, respondentId);
@@ -412,17 +513,20 @@ function restitutionConsequence(
         "Forfeiture of the misused amount itself, ordered with the finding.",
     });
   }
-  return proceeding.procedureKey === "generated-state-oversight" &&
-    step.outcome === "finding"
+  const fines =
+    proceeding.procedureKey === "generated-state-oversight" ||
+    ethicsBodyMay(world, institution, "civil-penalty", respondentId);
+  return fines && step.outcome === "finding"
     ? civilPenaltyConsequence(next, proceeding, respondentId, step, misused)
     : next;
 }
 
 /**
- * A generated state body's civil penalty: its UNRESEARCHED per-payment scale
+ * A state body's civil penalty: the state's UNRESEARCHED per-payment scale
  * (`generated-state-oversight.ts`) times the payments found, paid to the
- * state. Researched bodies impose none here, because nothing researched says
- * what they may impose; the FEC's conciliation penalties are unresearched too.
+ * state. A legislative ethics body fines on the same scale under its
+ * game-profile sanction set; the FEC's conciliation penalties are
+ * unresearched and not imposed here.
  */
 function civilPenaltyConsequence(
   world: World,

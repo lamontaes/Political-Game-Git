@@ -9,6 +9,8 @@ import {
   submitPublicComment,
 } from "../simulation";
 import type { World } from "../simulation";
+import { searchLifePlaces } from "../simulation";
+import { US_STATE_USPS } from "../simulation/nationwide-world/state-executive-candidacy-packs";
 import { DEFAULT_NEW_GAME_SETUP, createNewGameWorld } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { establishOpeningOfficeholders } from "./opening-officeholders";
@@ -224,5 +226,73 @@ describe("how a town's proposals end with nobody commenting", () => {
       (event) => event.type === "civic.local-matter-adopted",
     )!;
     expect(adopted.summary).toMatch(/ adopted its proposal about /);
+    // What each proposal is about is an issue a county or city decides, from
+    // the World's own policy catalog, not one of four fixed errands; and the
+    // world news draws from more than the two old stories (audit O1).
+    const subjectOf = (event: (typeof world.history.events)[number]) =>
+      event.tags.find((tag) => tag.startsWith("subject:"))!.slice(8);
+    const localSubjects = new Set(
+      world.history.events
+        .filter((event) => event.type === "civic.local-matter-proposal-posted")
+        .map(subjectOf),
+    );
+    for (const issueId of localSubjects)
+      expect(
+        world.policyCatalog.issues[issueId]!.levels!.some(
+          (level) => level === "municipality" || level === "county",
+        ),
+      ).toBe(true);
+    expect(localSubjects.size).toBeGreaterThan(4);
+    const internationalSubjects = new Set(
+      world.history.events
+        .filter((event) => event.type === "international.development-reported")
+        .map(subjectOf),
+    );
+    expect(internationalSubjects.size).toBeGreaterThan(2);
   }, 600_000);
+});
+
+describe("background developments in every state, D.C. and the territories", () => {
+  // One path for every place: the opening's local proposal names an issue a
+  // county or city decides, from the same catalog, wherever the life begins.
+  it("opens each life's local proposal on a catalog issue its local government decides", () => {
+    const places = [...US_STATE_USPS, "DC", "PR", "GU", "VI", "AS", "MP"];
+    let posted = 0;
+    for (const usps of places) {
+      const place = searchLifePlaces("", 1, {
+        stateJurisdictionKey: `US-${usps}`,
+        scope: "locality",
+      })[0]!;
+      const world = generateOpeningLife(
+        prepareOpeningLife({
+          ...DEFAULT_NEW_GAME_SETUP,
+          seed: `developments-${usps}`,
+          placeKey: place.key,
+          startAge: 34,
+          questionnaire: "skipped" as const,
+        }),
+      ).game!.world;
+      const proposal = world.history.events.find(
+        (event) => event.type === "civic.local-matter-proposal-posted",
+      );
+      // A place whose local government the World does not record posts none.
+      if (!proposal) continue;
+      posted += 1;
+      const issueId = proposal.tags
+        .find((tag) => tag.startsWith("subject:"))!
+        .slice(8);
+      const issue = world.policyCatalog.issues[issueId]!;
+      expect(
+        issue.levels!.some(
+          (level) => level === "municipality" || level === "county",
+        ),
+        usps,
+      ).toBe(true);
+      expect(proposal.summary).toContain(issue.name.toLowerCase());
+    }
+    console.info(
+      `[developments] ${posted} of ${places.length} opened a local proposal`,
+    );
+    expect(posted).toBeGreaterThan(places.length / 2);
+  }, 900_000);
 });

@@ -40,6 +40,7 @@ import {
 import { currentGovernorOf } from "../crisis/offices";
 import { crisisRecords } from "../crisis/records";
 import { projectCongress } from "../living-world/congress";
+import { internationalDevelopmentDispute } from "../living-world/developments";
 import { homePartyChapters } from "../living-world/party-chapters";
 import { macroReleasesAt } from "../macro-economy/readers";
 import { personName } from "../people";
@@ -90,16 +91,6 @@ export const BLANKET_INTERNATIONAL_FRICTION = Object.freeze({
   highTensionExcess: 0.25,
   chanceCap: 0.9,
 });
-
-/**
- * What each authored international development is about, by its subject
- * index in `living-world/developments.ts`. A development with no entry here
- * starts no crisis.
- */
-const DEVELOPMENT_DISPUTES: Readonly<Record<string, string>> = {
-  "0": "shipping on an international trade route",
-  "1": "fishing rights in shared waters",
-};
 
 function chance(excess: number, slope: number, cap: number): number {
   return Math.min(cap, Math.max(0, excess * slope));
@@ -343,7 +334,11 @@ export function internationalFriction(
       events.some((event) => event.type === "international.development-eased")
     )
       continue;
-    const subject = DEVELOPMENT_DISPUTES[tagValue(reported, "subject:") ?? ""];
+    // What the development is about, as its own writer names it; a
+    // development with no dispute starts no crisis.
+    const subject = internationalDevelopmentDispute(
+      tagValue(reported, "subject:"),
+    );
     if (!subject) continue;
     const reports = events.reduce(
       (sum, event) =>

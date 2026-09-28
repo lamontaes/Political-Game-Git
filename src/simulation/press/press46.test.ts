@@ -680,6 +680,30 @@ describe("PRESS46 established finding, leak and ground rules", () => {
     ).toBe(true);
   });
 
+  it("reprimands and fines with a first finding, under the game-profile sanction set", () => {
+    const proceeding = pressRecordsOfKind(concluded, "matter-proceeding").find(
+      (p) => p.matterId === opened.matter.id,
+    )!;
+    const finding = proceedingSteps(concluded, proceeding.id).at(-1)!;
+    const reprimand = concluded.history.events.find(
+      (event) => event.type === "matter.reprimand-imposed",
+    )!;
+    expect(reprimand.occurredAt).toBe(finding.at);
+    expect(reprimand.visibility).toBe("public");
+    expect(reprimand.summary).toContain("reprimanded");
+    // A first finding is never a censure.
+    expect(
+      concluded.history.events.some(
+        (event) => event.type === "matter.censure-imposed",
+      ),
+    ).toBe(false);
+    expect(
+      concluded.history.events.some(
+        (event) => event.type === "matter.civil-penalty-imposed",
+      ),
+    ).toBe(true);
+  });
+
   it("surfaces no removal or censure without researched authority", () => {
     // With GOVERNING's real reader in place this is a sourced "unavailable"
     // for somebody who is not a member, rather than the stand-in's "unknown".
