@@ -1,5 +1,5 @@
 import type { AppearanceMaterial } from "../simulation/appearance-material";
-import type { EngineRecipe, OutfitKind } from "./appearance-engine/pack";
+import type { EngineRecipe } from "./appearance-engine/pack";
 import { engineRecipeFor } from "./appearance-engine/recipe";
 import { PEOPLE_PACK, peoplePackAvailable } from "./appearance-engine/runtime";
 import type { PersonRenderSnapshot } from "./person-render-snapshot";
@@ -510,7 +510,7 @@ function releasedLayers(
  * What people wear in a room: formal where government is done (a chamber, a
  * capitol, a hearing, an office of state), everyday clothes everywhere else.
  */
-export function sceneOccasion(sceneId: string): OutfitKind {
+export function sceneOccasion(sceneId: string): "formal" | "casual" {
   return /chamber|capitol|legislat|senate|assembly|hearing|court|oval|city-hall|statehouse|governor|mayor/i.test(
     sceneId,
   )

@@ -12,12 +12,12 @@ import type { Raster } from "./raster";
 
 /**
  * The people engine in the browser: the pack's files, decoded once, and each
- * composed person cached by recipe. With two faces, two hairstyles, three
- * builds, seven shades and two outfits there are at most a few hundred
- * distinct people to draw, so the cache is bounded by the art itself.
+ * composed person cached by recipe. Only the people on screen are drawn,
+ * and each distinct recipe once.
  */
 
-export const PEOPLE_PACK = manifestJson as PeoplePackManifest;
+// JSON reads every occasion as a plain string; the pack builder wrote them.
+export const PEOPLE_PACK = manifestJson as unknown as PeoplePackManifest;
 
 const urls = optionalGlob(() =>
   import.meta.glob<string>("../../../art/people-engine/v1/*.png", {
