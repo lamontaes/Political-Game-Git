@@ -13,7 +13,7 @@ import {
 import { chamberByKey } from "../legislature-rules";
 import { publicPartyAffiliation } from "../living-world/congress";
 import { livingWorldEstablished } from "../living-world/opening";
-import { nextMeasureDesignation } from "../measure-numbering";
+import { nextMeasureNumbering } from "../measure-numbering";
 import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
@@ -307,15 +307,17 @@ export function fileCongressBill(
   next = ensureNationalElectionJurisdiction(next);
   const jurisdictionId = NATIONAL_ELECTION_JURISDICTION.id;
   const year = world.currentDate.slice(0, 4);
-  const designation = nextMeasureDesignation(next, {
+  const numbering = nextMeasureNumbering(next, {
     jurisdictionId,
     originChamber: chamber,
+    rulePackId: US_CONGRESS_PACK_ID,
   });
+  const designation = numbering.designation;
   next = introduceMeasure(next, {
     stableKey,
     jurisdictionId,
     rulePackId: US_CONGRESS_PACK_ID,
-    designation,
+    ...numbering,
     shortTitle:
       answer === "yes"
         ? `${titleCase(proposition.name)} Act of ${year}`

@@ -1303,8 +1303,10 @@ export const MINNESOTA_RULE_PACK: LegislativeRulePack = {
   basis: "researched",
   structure: "bicameral",
   chambers: [
-    minnesotaChamber("house", "House of Representatives", "HB", 134),
-    minnesotaChamber("senate", "Senate", "SB", 67),
+    // Minnesota files House Files and Senate Files, as its recorded bill
+    // samples show (data/research/bill-samples/state/minnesota.json).
+    minnesotaChamber("house", "House of Representatives", "HF", 134),
+    minnesotaChamber("senate", "Senate", "SF", 67),
   ],
   chamberOrder: ["house", "senate"],
   origination: {

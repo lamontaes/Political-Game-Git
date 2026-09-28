@@ -92,7 +92,7 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
-import { nextMeasureDesignation } from "../measure-numbering";
+import { nextMeasureNumbering } from "../measure-numbering";
 import type {
   EntityId,
   FutureDueItem,
@@ -1408,9 +1408,10 @@ export function fileLegislatureMeasure(
     stableKey,
     jurisdictionId: input.jurisdictionId,
     rulePackId: pack.packId,
-    designation: nextMeasureDesignation(next, {
+    ...nextMeasureNumbering(next, {
       jurisdictionId: input.jurisdictionId,
       originChamber,
+      rulePackId: pack.packId,
     }),
     shortTitle: blueprint.shortTitle,
     summary: blueprint.summary,

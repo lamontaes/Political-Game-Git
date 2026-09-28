@@ -24,7 +24,14 @@ import type {
   LegislativeDraftLineageRecord,
   World,
 } from "../simulation";
-import { chamberDesignationPrefix } from "../simulation/legislature-rules";
+import {
+  chamberByKey,
+  chamberDesignationPrefix,
+} from "../simulation/legislature-rules";
+import {
+  measureFullDesignation,
+  nextMeasureNumbering,
+} from "../simulation/measure-numbering";
 import {
   compileBillDraft,
   BillConfigurationError,
@@ -100,6 +107,8 @@ export interface DocketBill {
   readonly measureId: EntityId;
   readonly measureStableKey: string;
   readonly designation: string;
+  /** The designation with its session: "HB 1 (2027 Regular Session)". */
+  readonly fullDesignation: string;
   readonly shortTitle: string;
   readonly summary: string;
   readonly scenarioKey: string;
@@ -336,6 +345,7 @@ export function readDocket(
       measureId: measure.id,
       measureStableKey: measure.stableKey,
       designation: measure.designation,
+      fullDesignation: measureFullDesignation(measure),
       shortTitle: measure.shortTitle,
       summary: measure.summary,
       scenarioKey: input.scenarioKey,
@@ -718,6 +728,12 @@ export interface DraftPreviewInput {
   /** Supplied by the caller so a preview is not numbered by writing anything. */
   readonly provisionalSequence: number;
   /**
+   * The number the bill would take if filed now, from
+   * `provisionalDocketDesignation`. Without it the preview shows the chamber
+   * prefix and the provisional sequence.
+   */
+  readonly designation?: string;
+  /**
    * The authority the draft is written against.
    *
    * Resolved by the caller, because resolving it needs a World and this
@@ -747,12 +763,44 @@ export function previewDraft(input: DraftPreviewInput): CompiledBillDraft {
     scenarioKey: input.scenarioKey,
     jurisdictionId: input.jurisdictionId,
     rulePackId: blueprint.pack.packId,
-    designation: `${chamberDesignationPrefix(blueprint.pack, chamberKey)} ${400 + input.provisionalSequence}`,
+    designation:
+      input.designation ??
+      `${chamberDesignationPrefix(blueprint.pack, chamberKey)} ${400 + input.provisionalSequence}`,
     filedOn: input.filedOn,
     ...(input.predicateAuthority !== undefined
       ? { predicateAuthority: input.predicateAuthority }
       : {}),
   });
+}
+
+/**
+ * The designation a draft would be filed under right now: the member's own
+ * chamber where they hold a seat, numbered the way `fileDraft` numbers it.
+ * Read-only; the preview shows it so the number on the draft is the number
+ * the bill gets.
+ */
+export function provisionalDocketDesignation(
+  world: World,
+  input: {
+    readonly scenarioKey: string;
+    readonly jurisdictionId: EntityId;
+    readonly playerPersonId: EntityId;
+  },
+): string {
+  const blueprint = legislativeBlueprint(input.scenarioKey);
+  const membership = resolveActiveMemberSeat(world, input.playerPersonId, {
+    governingJurisdictionId: input.jurisdictionId,
+    legislativeRulePackId: blueprint.pack.packId,
+  });
+  const chamberKey =
+    (membership.kind === "seated" ? membership.seat.chamberKey : null) ??
+    blueprint.pack.chambers[0]?.chamberKey ??
+    "house";
+  return nextMeasureNumbering(world, {
+    jurisdictionId: input.jurisdictionId,
+    originChamber: chamberByKey(blueprint.pack, chamberKey),
+    rulePackId: blueprint.pack.packId,
+  }).designation;
 }
 
 /** The configurations a player may choose between in this legislature. */
@@ -922,6 +970,13 @@ export function fileDraft(
   const measureStableKey = docketMeasureStableKey(input.scenarioKey, sequence);
   const chamberKey =
     actualSeat?.chamberKey ?? blueprint.pack.chambers[0]?.chamberKey ?? "house";
+  // The same numbering every other filed bill takes: this legislature's own
+  // prefix, restarting each session (decision OCD-LEG-NUM-001).
+  const numbering = nextMeasureNumbering(world, {
+    jurisdictionId: input.jurisdictionId,
+    originChamber: chamberByKey(blueprint.pack, chamberKey),
+    rulePackId: blueprint.pack.packId,
+  });
   const draft = compileBillDraft({
     familyKey: input.familyKey,
     variantKey: input.variantKey,
@@ -930,7 +985,7 @@ export function fileDraft(
     scenarioKey: input.scenarioKey,
     jurisdictionId: input.jurisdictionId,
     rulePackId: blueprint.pack.packId,
-    designation: `${chamberDesignationPrefix(blueprint.pack, chamberKey)} ${400 + sequence}`,
+    designation: numbering.designation,
     filedOn: world.currentDate,
     ...(authority !== null ? { predicateAuthority: authority } : {}),
   });
@@ -971,7 +1026,7 @@ export function fileDraft(
     stableKey: measureStableKey,
     jurisdictionId: input.jurisdictionId,
     rulePackId: blueprint.pack.packId,
-    designation: draft.designation,
+    ...numbering,
     shortTitle: draft.shortTitle,
     summary: draft.summary,
     origin: "member-introduction",
@@ -1036,7 +1091,7 @@ export function fileDraft(
   // appears in Work without a second work system being invented for it.
   next = createWorkItem(next, {
     stableKey: `${docketKeyOf(input.scenarioKey, sequence)}:work`,
-    title: `${draft.designation} — ${draft.shortTitle}`,
+    title: `${numbering.numberingSession.fullDesignation} — ${draft.shortTitle}`,
     summary: draft.synopsis,
     jurisdictionId: input.jurisdictionId,
     sourceEntityIds: [measureId, input.jurisdictionId],
