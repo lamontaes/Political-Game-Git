@@ -131,6 +131,17 @@ while (pressed < days) {
 const world = button.world;
 const perLevel: Record<string, LevelCounts> = {};
 const named: NamedLaw[] = [];
+// Money a law authorized that paid nothing yet, with when it becomes
+// available, so a report can say why rather than guess.
+const unpaid: {
+  level: string;
+  jurisdiction: string;
+  designation: string;
+  enactedOn: string;
+  dollarsAuthorized: number;
+  availableFrom: string | null;
+  committed: boolean;
+}[] = [];
 for (const law of enactedLawsWithEffects(world)) {
   const totals = lawTotals(world, law);
   const level = (perLevel[law.level] ??= {
@@ -147,6 +158,31 @@ for (const law of enactedLawsWithEffects(world)) {
   level.dollarsPaid += totals.paid / 100;
   level.taxCollected += totals.collected / 100;
   level.taxPayments += totals.payments;
+  if (totals.authorized > 0 && totals.paid === 0)
+    unpaid.push({
+      level: law.level,
+      jurisdiction:
+        world.jurisdictions[
+          world.history.legislativeMeasures?.find(
+            (measure) => measure.id === law.measureId,
+          )?.jurisdictionId ?? ""
+        ]?.name ?? "unknown",
+      designation: law.designation,
+      enactedOn: law.enactedOn,
+      dollarsAuthorized: totals.authorized / 100,
+      availableFrom:
+        (world.history.publicProgramRecords ?? [])
+          .filter(
+            (record) =>
+              record.kind === "appropriation" &&
+              record.sourceMeasureId === law.measureId,
+          )
+          .map((record) =>
+            record.kind === "appropriation" ? record.availableFrom : "",
+          )
+          .sort()[0] ?? null,
+      committed: totals.committed > 0,
+    });
   if (totals.paid > 0 || totals.collected > 0)
     named.push({
       level: law.level,
@@ -180,6 +216,7 @@ const report = {
   resourceFlowsByBasis: flowsByBasis,
   perLevel,
   lawsThatPaidOrCollected: named,
+  lawsWithMoneyNotYetPaid: unpaid,
 };
 if (out) {
   mkdirSync(dirname(out), { recursive: true });
