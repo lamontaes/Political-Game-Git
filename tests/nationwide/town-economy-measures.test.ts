@@ -34,6 +34,7 @@ import {
 } from "../../src/simulation/living-world/town-pay";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
+import { outcomeFactor } from "../../src/simulation/outcome-web";
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
 import type { World } from "../../src/simulation";
 
@@ -149,4 +150,61 @@ describe("lane B's measures read from the town's records", () => {
       `No town pay on record, so wages read UNKNOWN: ${unpaid.join(", ") || "none"}`,
     );
   }, 240_000);
+});
+
+describe("births follow the outcome web", () => {
+  function withNationalUnemployment(
+    world: World,
+    pct: number,
+    recordedAt: string,
+  ) {
+    return {
+      ...world,
+      macroEconomy: {
+        months: [{ scope: "national", recordedAt, unemploymentPct: pct }],
+      },
+    } as unknown as World;
+  }
+
+  it("each point of unemployment nine months before lowers births 1.4%, and names the link", () => {
+    const { world, town } = openAt("3137000");
+    const today = world.currentDate;
+    const yearAgo = addDays(today, -365);
+    const none = outcomeFactor(world, town, "births.rate", today);
+    expect(none.multiplier).toBe(1);
+    expect(none.causes).toEqual([]);
+
+    const atBaseline = outcomeFactor(
+      withNationalUnemployment(world, 4, yearAgo),
+      town,
+      "births.rate",
+      today,
+    );
+    expect(atBaseline.multiplier).toBeCloseTo(1, 10);
+
+    const high = outcomeFactor(
+      withNationalUnemployment(world, 8, yearAgo),
+      town,
+      "births.rate",
+      today,
+    );
+    expect(high.multiplier).toBeCloseTo(1 - 0.014 * 4, 10);
+    expect(high.causes.map((cause) => cause.key)).toEqual([
+      "unemployment-to-births",
+    ]);
+
+    // Recorded three months ago: not yet nine months before, so not read.
+    const recent = outcomeFactor(
+      withNationalUnemployment(world, 8, addDays(today, -90)),
+      town,
+      "births.rate",
+      today,
+    );
+    expect(recent.multiplier).toBe(1);
+
+    // The child tax credit is about zero on births: never a cause.
+    expect(
+      high.causes.some((cause) => cause.key === "child-tax-credit-to-births"),
+    ).toBe(false);
+  });
 });

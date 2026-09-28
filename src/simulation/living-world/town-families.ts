@@ -18,7 +18,9 @@
  *   real yearly birth rate; being married or living with a partner, the
  *   children she already has, a first year together and whether anybody at
  *   home works move her chance around it, and the town's total is rescaled
- *   to the age rates. High unemployment lowers it;
+ *   to the age rates. The outcome web's links into the birth rate move it
+ *   (`../outcome-web`): 1.4% fewer for each point of unemployment nine
+ *   months before, as research measures;
  * - a single adult may start dating another single adult in town of a near
  *   age, more often in their twenties and thirties and when they work.
  *
@@ -38,6 +40,7 @@
  */
 
 import { ageOnDate, addDays } from "../dates";
+import { outcomeFactor } from "../outcome-web";
 import { createStableId } from "../ids";
 import {
   createHousehold,
@@ -371,6 +374,9 @@ export function reviewTownFamilies(
   if (view.people.size === 0) return world;
   const today = view.today;
   const pressure = Math.sqrt(townUnemploymentPressure(world, town));
+  // Births move with the outcome web's links into the birth rate (the
+  // town's unemployment nine months before, and any other built cause).
+  const births = outcomeFactor(world, town, "births.rate", today);
   const rngFor = (key: string) =>
     new SeededRng(world.seed).fork(`${prefix}${key}`);
   const touched = new Set<EntityId>();
@@ -709,7 +715,7 @@ export function reviewTownFamilies(
     const mean = tally.sum / tally.count;
     if (mean <= 0) continue;
     const yearly = byAge(TOWN_BIRTH_RATES_BY_AGE, mother.person.age) / 1000;
-    const chance = ((yearly / 4) * (mother.weight / mean)) / pressure;
+    const chance = (yearly / 4) * (mother.weight / mean) * births.multiplier;
     const id = mother.person.person.id;
     const rng = rngFor(`mother:${id}`);
     if (rng.fork("child").next() >= chance) continue;

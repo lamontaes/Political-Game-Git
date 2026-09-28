@@ -2,6 +2,10 @@
  "about": "THE OUTCOME WEB, version 1 (04 SYSTEM SPECS part 5; research in docs/research/outcome-web-2026-09-28.md). Each link: how a cause measure moves an outcome measure. evidence says how well the link is established (researched, provisional, contested, about-zero, to-confirm). size is the proportional change in the outcome per unit of the cause (see per); null means the size is set when both measures exist in the world. about-zero links are zero on purpose and tested. Sources are for developers only and never appear on a player screen.",
  "version": "outcome-web-v1",
  "targets": {
+  "births.rate": {
+   "floor": 0.5,
+   "ceiling": 1.5
+  },
   "crime.burglary": {
    "floor": 0.5,
    "ceiling": 2
