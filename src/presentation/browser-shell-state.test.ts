@@ -464,7 +464,6 @@ describe("the shell's own store", () => {
       defaultPinSize: "tiny",
       followedNewsOutletKeys: [],
       interruptions: {
-        stopForWorkShifts: false,
         stopForTentativeHolds: false,
       },
       morningThoughts: true,

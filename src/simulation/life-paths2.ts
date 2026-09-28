@@ -1,3 +1,4 @@
+import { isLivelihoodGoalKey } from "./people-goal-pursuit-content";
 import { assessPaycheckTaxes } from "./statutory-tax";
 import {
   SCHOOL_STAGE_TRANSITION_KEY,
@@ -746,39 +747,6 @@ export function performLifePathSession(
   next = applyLifePathSessionCompletion(next, activityId);
   return done(next, "The session is complete.");
 }
-export function performLifePathWork(
-  world: World,
-  id: EntityId,
-  handlers: FutureTransitionHandlerRegistry = LIFE_PATHS2_HANDLERS,
-): LifePathResult {
-  const path = pathForRelationship(world, id);
-  if (
-    !path ||
-    path.kind !== "work" ||
-    relationshipActor(world, id) !== controlled(world) ||
-    !relationshipActive(world, id)
-  )
-    return fail(world, "This work is not active for you.");
-  let next = world;
-  const scheduled = next.history.scheduledActivities.find(
-    (a) =>
-      a.sourceEntityIds.includes(id) &&
-      scheduledActivityState(next, a.id).status === "scheduled",
-  );
-  if (!scheduled) {
-    const prepared = scheduleLifePathSession(next, id);
-    if (!prepared.ok) return prepared;
-    next = prepared.world;
-  }
-  const activity = next.history.scheduledActivities.find(
-    (a) =>
-      a.sourceEntityIds.includes(id) &&
-      scheduledActivityState(next, a.id).status === "scheduled",
-  );
-  if (!activity) return fail(next, "This session is no longer available.");
-  return performLifePathSession(next, activity.id, handlers);
-}
-
 function personalWorkWindow(
   world: World,
   id: EntityId,
@@ -1330,7 +1298,7 @@ export function recruitLifePathPerson(
     (g) => g.status === "active" && g.goalKey === "life-paths2:decline-work",
   );
   const seeking = [...latestGoals.values()].some(
-    (g) => g.status === "active" && g.goalKey === "life-paths2:seek-work",
+    (g) => g.status === "active" && isLivelihoodGoalKey(g.goalKey),
   );
   const busy = activeWorkRelationshipsAt(world, personId).some(
     (w) => w.role.timeDemand.scheduleRigidity === "rigid",

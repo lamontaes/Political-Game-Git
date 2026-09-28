@@ -15,3 +15,27 @@
   max-width: 100%;
   max-height: var(--pg-conversation-max-height);
 }
+
+/* A narrow screen has no side column beside the people. Keep the conversation
+   readable above the corner controls instead of applying a desktop dock. */
+@media (width <= 52rem) {
+  .life-shell .scene-backdrop-content[data-content="conversation"][data-dock] {
+    position: fixed;
+    inset: auto 0 calc(6rem + env(safe-area-inset-bottom, 0px)) 0;
+    box-sizing: border-box;
+    width: 100%;
+    max-height: calc(var(--pg-vv-height, 100dvh) - 7rem);
+    padding: 0 0.75rem;
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  .life-shell
+    .scene-backdrop-content[data-content="conversation"][data-dock]
+    > .pg-talk {
+    box-sizing: border-box;
+    width: min(36rem, 100%);
+    max-width: 100%;
+    max-height: min(36rem, calc(var(--pg-vv-height, 100dvh) - 7rem));
+  }
+}

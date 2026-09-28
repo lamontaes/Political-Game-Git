@@ -1,4 +1,3 @@
-import { writeLegacyHouseholdEveningInvitation } from "../simulation/life-opportunities";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -12,7 +11,7 @@ import {
   type World,
 } from "../simulation";
 import { openOrdinaryLife } from "./ordinary-life";
-import { performVenueActivity, venueActivities } from "./venue-activity";
+import { performVenueActivity } from "./venue-activity";
 import { createNewGameWorld, type NewGameSetup } from "./new-game";
 import { resolveLifeScene } from "./life-scene";
 import {
@@ -61,19 +60,6 @@ function anOrdinaryLife(seed: string): Life {
   return {
     world: openOrdinaryLife(created.world, created.playerPersonId),
     personId: created.playerPersonId,
-  };
-}
-
-/** Moves the clock onto an activity without performing it. */
-function atMomentOf(world: World, activityId: EntityId): World {
-  const state = world.history.scheduledActivityStates
-    .filter((entry) => entry.activityId === activityId)
-    .at(-1);
-  if (!state) throw new Error("The activity has no state.");
-  return {
-    ...world,
-    currentDate: state.start.date,
-    currentMoment: { ...state.start },
   };
 }
 
@@ -181,46 +167,6 @@ describe("where a life actually is", () => {
     expect(() => performScheduledActivity(during, meeting!.id)).toThrow();
   });
 
-  it("does not equate a scheduled interval with attendance", () => {
-    // The household's earlier commitment was the evening invitation. Play
-    // stopped writing it on 2026-09-22; a save made before then still holds
-    // one, and the refusal below still has to respect it.
-    const opened = anOrdinaryLife("venue-invitation");
-    const life = {
-      ...opened,
-      world: writeLegacyHouseholdEveningInvitation(
-        opened.world,
-        opened.personId,
-      ),
-    };
-    const meeting = scheduledActivitiesVisibleTo(
-      life.world,
-      life.personId,
-    ).find((a) => a.title === "Posted public meeting")!;
-    expect(
-      resolveVenueScene(atMomentOf(life.world, meeting.id), life.personId)
-        .sceneId,
-    ).toBeNull();
-    // This household's earlier commitment is not the controlled person's to
-    // perform. The refusal must not counterfeit either travel or attendance.
-    expect(
-      venueActivities(life.world, life.personId).find(
-        (e) => e.activity.id === meeting.id,
-      )!.refusal,
-    ).toBe("An earlier commitment must be resolved first.");
-    const done = performVenueActivity(life.world, life.personId, meeting.id);
-    expect(done).toBe(life.world);
-    expect(resolveVenueScene(done, life.personId).sceneId).toBeNull();
-    expect(
-      resolveVenueScene(advanceWorldMinutes(done, 1), life.personId).sceneId,
-    ).toBeNull();
-  });
-
-  /**
-   * The negative control. The same life, the same meeting, at a moment the
-   * meeting is not on: the room must go back to the household, not stay in the
-   * hall and not stick to the last room it painted.
-   */
   it("does not put them in the hall before the meeting starts", () => {
     const life = anOrdinaryLife("venue-negative");
     const resolved = resolveVenueScene(life.world, life.personId);

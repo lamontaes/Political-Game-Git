@@ -1,3 +1,4 @@
+import { isLivelihoodGoalKey } from "./people-goal-pursuit-content";
 import { CIVIL_PERSONNEL_SOURCE_PROJECTION } from "./civil-personnel-sources.generated";
 import { addDays, daysBetween, makeIsoDate } from "./dates";
 import { addSimulationMinutes } from "./dates";
@@ -1812,7 +1813,7 @@ function offerDecisionContext(
     (g) => g.status === "active" && g.goalKey === "life-paths2:decline-work",
   );
   const seeking = [...goals.values()].some(
-    (g) => g.status === "active" && g.goalKey === "life-paths2:seek-work",
+    (g) => g.status === "active" && isLivelihoodGoalKey(g.goalKey),
   );
   const rigid = activeWorkRelationshipsAt(world, personId).some(
     (w) => w.role.timeDemand.scheduleRigidity === "rigid",

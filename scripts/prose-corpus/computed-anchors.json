@@ -195,14 +195,6 @@
       "textRevision": "41b94b4860b3"
     },
     {
-      "anchor": "COMMIT_CONTRACTS-0003",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "COMMIT_CONTRACTS",
-      "text": "A conversation at home about who carries the week.",
-      "occurrence": 0,
-      "textRevision": "4d41df70e308"
-    },
-    {
       "anchor": "COMMIT_CONTRACTS-0004",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
@@ -275,14 +267,6 @@
       "textRevision": "e6fb99ae668b"
     },
     {
-      "anchor": "COMMIT_CONTRACTS-0013",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "COMMIT_CONTRACTS",
-      "text": "Settle who carries the week, so it does not end up carried by whoever notices last.",
-      "occurrence": 0,
-      "textRevision": "ecc7955c7d5d"
-    },
-    {
       "anchor": "COMMIT_CONTRACTS-0014",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
@@ -331,28 +315,12 @@
       "textRevision": "eb232f088678"
     },
     {
-      "anchor": "COMMIT_CONTRACTS-0020",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "COMMIT_CONTRACTS",
-      "text": "The player asked to split the week with {addresseeName}.",
-      "occurrence": 0,
-      "textRevision": "d87a013516c9"
-    },
-    {
       "anchor": "COMMIT_CONTRACTS-0021",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
       "text": "The player asked {addresseeName} to go to the meeting instead.",
       "occurrence": 0,
       "textRevision": "d7d1aed7c100"
-    },
-    {
-      "anchor": "COMMIT_CONTRACTS-0022",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "COMMIT_CONTRACTS",
-      "text": "The player asked {addresseeName} to take the week this time.",
-      "occurrence": 0,
-      "textRevision": "2ad815084ea0"
     },
     {
       "anchor": "COMMIT_CONTRACTS-0023",
@@ -363,28 +331,12 @@
       "textRevision": "f036668fa127"
     },
     {
-      "anchor": "COMMIT_CONTRACTS-0024",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "COMMIT_CONTRACTS",
-      "text": "The player brought up the week's errands with {addresseeName}.",
-      "occurrence": 0,
-      "textRevision": "e878fa3d479b"
-    },
-    {
       "anchor": "COMMIT_CONTRACTS-0025",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
       "text": "The player kept the checklist recommendation narrow and evidence-led.",
       "occurrence": 0,
       "textRevision": "808bfb6802a8"
-    },
-    {
-      "anchor": "COMMIT_CONTRACTS-0026",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "COMMIT_CONTRACTS",
-      "text": "The player left the question of who carries the week unanswered.",
-      "occurrence": 0,
-      "textRevision": "2ae31fdb5849"
     },
     {
       "anchor": "COMMIT_CONTRACTS-0027",
@@ -417,14 +369,6 @@
       "text": "The player mentioned the posted meeting to {addresseeName}.",
       "occurrence": 0,
       "textRevision": "2578afa0ec12"
-    },
-    {
-      "anchor": "COMMIT_CONTRACTS-0031",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "COMMIT_CONTRACTS",
-      "text": "The player offered to cover the week themselves.",
-      "occurrence": 0,
-      "textRevision": "b72700c9bac6"
     },
     {
       "anchor": "COMMIT_CONTRACTS-0032",
@@ -475,28 +419,12 @@
       "textRevision": "8bfe3beddab2"
     },
     {
-      "anchor": "COMMIT_CONTRACTS-0038",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "COMMIT_CONTRACTS",
-      "text": "The week starts whether or not anybody has said who is doing it.",
-      "occurrence": 0,
-      "textRevision": "6da48667fa4c"
-    },
-    {
       "anchor": "COMMIT_CONTRACTS-0039",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
       "text": "Work out whether either of them is going, while the meeting is still ahead of them.",
       "occurrence": 0,
       "textRevision": "f20cfaf37cb1"
-    },
-    {
-      "anchor": "COMMIT_CONTRACTS-0040",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "COMMIT_CONTRACTS",
-      "text": "household obligation",
-      "occurrence": 0,
-      "textRevision": "d08320c0d898"
     },
     {
       "anchor": "COMMIT_CONTRACTS-0041",
@@ -539,22 +467,6 @@
       "textRevision": "d04abff343ef"
     },
     {
-      "anchor": "COMMIT_CONTRACTS-0046",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "COMMIT_CONTRACTS",
-      "text": "the week's errands at home",
-      "occurrence": 0,
-      "textRevision": "c4e0dd9a5cbb"
-    },
-    {
-      "anchor": "COMMIT_CONTRACTS-0047",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "COMMIT_CONTRACTS",
-      "text": "the week's errands at home",
-      "occurrence": 1,
-      "textRevision": "c4e0dd9a5cbb"
-    },
-    {
       "anchor": "COMMIT_CONTRACTS-0048",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
@@ -577,14 +489,6 @@
       "text": "{playerName} asked for an even split and {otherName} would not agree one.",
       "occurrence": 0,
       "textRevision": "19103f6101ee"
-    },
-    {
-      "anchor": "COMMIT_CONTRACTS-0052",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "COMMIT_CONTRACTS",
-      "text": "{playerName} asked {otherName} to take the week, and was told no.",
-      "occurrence": 0,
-      "textRevision": "dccf8c02ff6f"
     },
     {
       "anchor": "COMMIT_CONTRACTS-0053",
@@ -617,14 +521,6 @@
       "text": "{playerName} put the unstarted work in front of {otherName} rather than working around it.",
       "occurrence": 0,
       "textRevision": "f716d2da2332"
-    },
-    {
-      "anchor": "COMMIT_CONTRACTS-0057",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "COMMIT_CONTRACTS",
-      "text": "{playerName} put the week onto {otherName}, who took it and said it was not every week.",
-      "occurrence": 0,
-      "textRevision": "5cc3ecedebda"
     },
     {
       "anchor": "COMMIT_CONTRACTS-0059",
@@ -691,22 +587,6 @@
       "textRevision": "e9ab8d22cf76"
     },
     {
-      "anchor": "COMMIT_CONTRACTS-0069",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "COMMIT_CONTRACTS",
-      "text": "{speakerName} let them take it.",
-      "occurrence": 0,
-      "textRevision": "46917c6d443a"
-    },
-    {
-      "anchor": "COMMIT_CONTRACTS-0070",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "COMMIT_CONTRACTS",
-      "text": "{speakerName} said no.",
-      "occurrence": 0,
-      "textRevision": "445910c8ec6e"
-    },
-    {
       "anchor": "COMMIT_CONTRACTS-0072",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
@@ -721,14 +601,6 @@
       "text": "{speakerName} took a section of it instead.",
       "occurrence": 0,
       "textRevision": "1f2c0114e844"
-    },
-    {
-      "anchor": "COMMIT_CONTRACTS-0074",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "COMMIT_CONTRACTS",
-      "text": "{speakerName} took it on.",
-      "occurrence": 0,
-      "textRevision": "30f3b12a9e84"
     },
     {
       "anchor": "COMMIT_CONTRACTS-0075",
@@ -1019,44 +891,52 @@
       "textRevision": "147de9d6c0f8"
     },
     {
-      "anchor": "COMMIT_CONTRACTS-0111",
+      "anchor": "COMMIT_CONTRACTS-0116",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
-      "text": "{playerName} and {otherName} agreed to share the errands.",
+      "text": "{playerName} asked for an even split, and {otherName} did not say yet.",
       "occurrence": 0,
-      "textRevision": "44caa8094399"
+      "textRevision": "06ba57fd81c9"
     },
     {
-      "anchor": "COMMIT_CONTRACTS-0112",
+      "anchor": "COMMIT_CONTRACTS-0117",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
-      "text": "{playerName} asked {otherName} how to divide the errands.",
+      "text": "{playerName} asked {otherName} to go to the meeting, and {otherName} had not decided.",
       "occurrence": 0,
-      "textRevision": "50ac549097fe"
+      "textRevision": "63b9764fd18a"
     },
     {
-      "anchor": "COMMIT_CONTRACTS-0113",
+      "anchor": "COMMIT_CONTRACTS-0118",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
-      "text": "{playerName} offered to handle the errands, and {otherName} accepted.",
+      "text": "{playerName} asked {otherName} to go to the meeting, and {otherName} suggested {playerName} go instead.",
       "occurrence": 0,
-      "textRevision": "043a2833c2a6"
+      "textRevision": "656c34f38f75"
     },
     {
-      "anchor": "COMMIT_CONTRACTS-0114",
+      "anchor": "COMMIT_CONTRACTS-0119",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
-      "text": "{speakerName} agreed to share the errands.",
+      "text": "{speakerName} did not say yet.",
       "occurrence": 0,
-      "textRevision": "8008ce31ee55"
+      "textRevision": "5f553521616e"
     },
     {
-      "anchor": "COMMIT_CONTRACTS-0115",
+      "anchor": "COMMIT_CONTRACTS-0120",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
-      "text": "{speakerName} was willing to discuss the errands.",
+      "text": "{speakerName} had not decided.",
       "occurrence": 0,
-      "textRevision": "30075e37c876"
+      "textRevision": "bc920d0eafef"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0121",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} suggested you go yourself.",
+      "occurrence": 0,
+      "textRevision": "7fb93f50bf03"
     },
     {
       "anchor": "FAMILY_LABEL-0001",
@@ -2155,22 +2035,6 @@
       "textRevision": "bcca18d1f0ee"
     },
     {
-      "anchor": "RETURN_SUMMARY-0001",
-      "sourcePath": "src/simulation/life-callbacks.ts",
-      "symbol": "RETURN_SUMMARY",
-      "text": "That evening came up between you again.",
-      "occurrence": 0,
-      "textRevision": "53e6679db687"
-    },
-    {
-      "anchor": "RETURN_SUMMARY-0002",
-      "sourcePath": "src/simulation/life-callbacks.ts",
-      "symbol": "RETURN_SUMMARY",
-      "text": "The old favor got a mention.",
-      "occurrence": 0,
-      "textRevision": "92146db4a61f"
-    },
-    {
       "anchor": "RETURN_SUMMARY-0003",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
@@ -2187,28 +2051,12 @@
       "textRevision": "4633abbba3f3"
     },
     {
-      "anchor": "RETURN_SUMMARY-0005",
-      "sourcePath": "src/simulation/life-callbacks.ts",
-      "symbol": "RETURN_SUMMARY",
-      "text": "The favor was put to you once more.",
-      "occurrence": 0,
-      "textRevision": "72b26ee15640"
-    },
-    {
       "anchor": "RETURN_SUMMARY-0006",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
       "text": "The school project was brought up with you again.",
       "occurrence": 0,
       "textRevision": "4d5c020fbb8a"
-    },
-    {
-      "anchor": "RETURN_SUMMARY-0007",
-      "sourcePath": "src/simulation/life-callbacks.ts",
-      "symbol": "RETURN_SUMMARY",
-      "text": "The extra hours were put to you once more.",
-      "occurrence": 0,
-      "textRevision": "d10ed3ed6dc3"
     },
     {
       "anchor": "RETURN_SUMMARY-0008",
@@ -2257,14 +2105,6 @@
       "text": "Your family raised the two weeks they had asked you for.",
       "occurrence": 0,
       "textRevision": "ea5bc08df789"
-    },
-    {
-      "anchor": "RETURN_SUMMARY-0015",
-      "sourcePath": "src/simulation/life-callbacks.ts",
-      "symbol": "RETURN_SUMMARY",
-      "text": "What was said at home about it was raised again.",
-      "occurrence": 0,
-      "textRevision": "84c0d17a6f00"
     },
     {
       "anchor": "RETURN_SUMMARY-0016",
@@ -2393,46 +2233,6 @@
       "text": "Their good news was mentioned to you again.",
       "occurrence": 0,
       "textRevision": "d6b9f53d7541"
-    },
-    {
-      "anchor": "STATUS_LINE-0001",
-      "sourcePath": "src/presentation/people-recall-cards.ts",
-      "symbol": "STATUS_LINE",
-      "text": "It was dropped.",
-      "occurrence": 0,
-      "textRevision": "10dd223d9ff6"
-    },
-    {
-      "anchor": "STATUS_LINE-0002",
-      "sourcePath": "src/presentation/people-recall-cards.ts",
-      "symbol": "STATUS_LINE",
-      "text": "You did it.",
-      "occurrence": 0,
-      "textRevision": "9b6a3a1b82d8"
-    },
-    {
-      "anchor": "STATUS_LINE-0003",
-      "sourcePath": "src/presentation/people-recall-cards.ts",
-      "symbol": "STATUS_LINE",
-      "text": "You have not answered.",
-      "occurrence": 0,
-      "textRevision": "b896df4e1a4b"
-    },
-    {
-      "anchor": "STATUS_LINE-0004",
-      "sourcePath": "src/presentation/people-recall-cards.ts",
-      "symbol": "STATUS_LINE",
-      "text": "You said you could not.",
-      "occurrence": 0,
-      "textRevision": "c367d1ed7c96"
-    },
-    {
-      "anchor": "STATUS_LINE-0005",
-      "sourcePath": "src/presentation/people-recall-cards.ts",
-      "symbol": "STATUS_LINE",
-      "text": "You said you would.",
-      "occurrence": 0,
-      "textRevision": "00dcacb91a8c"
     },
     {
       "anchor": "STEP_COPY-0001",
@@ -2803,14 +2603,6 @@
       "textRevision": "3007525fb9ad"
     },
     {
-      "anchor": "availableIntents-0003",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "availableIntents",
-      "text": "Ask them to take it",
-      "occurrence": 0,
-      "textRevision": "125d978e22d1"
-    },
-    {
       "anchor": "availableIntents-0004",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "availableIntents",
@@ -2833,14 +2625,6 @@
       "text": "Let it stay unmentioned for now.",
       "occurrence": 0,
       "textRevision": "24ecc22bfc3e"
-    },
-    {
-      "anchor": "availableIntents-0010",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "availableIntents",
-      "text": "Let the other person go first.",
-      "occurrence": 0,
-      "textRevision": "de9dd8762dda"
     },
     {
       "anchor": "availableIntents-0011",
@@ -2881,70 +2665,6 @@
       "text": "Stay quiet and hear what the room does next.",
       "occurrence": 0,
       "textRevision": "a5e9576c8335"
-    },
-    {
-      "anchor": "availableIntents-0019",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "availableIntents",
-      "text": "Suggest splitting it",
-      "occurrence": 0,
-      "textRevision": "8cac14ce56a7"
-    },
-    {
-      "anchor": "availableIntents-0021",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "availableIntents",
-      "text": "Ask to share the tasks on the list.",
-      "occurrence": 0,
-      "textRevision": "9d716f4bd8b3"
-    },
-    {
-      "anchor": "availableIntents-0022",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "availableIntents",
-      "text": "Ask whether they can handle the errands.",
-      "occurrence": 0,
-      "textRevision": "ee904917a0a9"
-    },
-    {
-      "anchor": "availableIntents-0023",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "availableIntents",
-      "text": "Ask who can do what.",
-      "occurrence": 0,
-      "textRevision": "1acbe36f3a95"
-    },
-    {
-      "anchor": "availableIntents-0024",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "availableIntents",
-      "text": "Let them speak first",
-      "occurrence": 0,
-      "textRevision": "5a6603fe46e4"
-    },
-    {
-      "anchor": "availableIntents-0025",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "availableIntents",
-      "text": "Offer to handle the errands",
-      "occurrence": 0,
-      "textRevision": "11f4cf64a597"
-    },
-    {
-      "anchor": "availableIntents-0026",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "availableIntents",
-      "text": "Offer to take on the tasks on the list.",
-      "occurrence": 0,
-      "textRevision": "32821bbbcdc0"
-    },
-    {
-      "anchor": "availableIntents-0027",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "availableIntents",
-      "text": "Talk about the errands",
-      "occurrence": 0,
-      "textRevision": "8040c080eaa8"
     },
     {
       "anchor": "bereavedAnswers-0001",
@@ -3755,30 +3475,6 @@
       "textRevision": "61550e0168c1"
     },
     {
-      "anchor": "dialogue-0003",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "dialogue",
-      "text": "“Have you looked at what needs doing this week?” {name} asks.",
-      "occurrence": 0,
-      "textRevision": "ec7bf32bd84e"
-    },
-    {
-      "anchor": "dialogue-0004",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "dialogue",
-      "text": "“What can you take on?” {world.people[speaker.personId]!.givenName} asks.",
-      "occurrence": 0,
-      "textRevision": "d11dd365158d"
-    },
-    {
-      "anchor": "dialogue-0005",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "dialogue",
-      "text": "“Can we sort out this week’s errands?” {name} asks.",
-      "occurrence": 0,
-      "textRevision": "a9593576d559"
-    },
-    {
       "anchor": "directory-0001",
       "sourcePath": "src/player/MunicipalWorkspace.tsx",
       "symbol": "directory",
@@ -3947,84 +3643,36 @@
       "textRevision": "f8d2dd95956e"
     },
     {
-      "anchor": "favor-0001",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "favor",
-      "text": "A favor",
-      "occurrence": 0,
-      "textRevision": "6ece2e163739"
-    },
-    {
-      "anchor": "favor-0002",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "favor",
-      "text": "A favor for {binding.facts.speakerGiven}",
-      "occurrence": 0,
-      "textRevision": "10037ce93246"
-    },
-    {
-      "anchor": "favor-0003",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "favor",
-      "text": "A person the player knows asked for a specific favor.",
-      "occurrence": 0,
-      "textRevision": "a9e6c933e2dc"
-    },
-    {
-      "anchor": "favor-0004",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "favor",
-      "text": "Answer a specific request.",
-      "occurrence": 0,
-      "textRevision": "cc6c8cfff87b"
-    },
-    {
-      "anchor": "favor-0005",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "favor",
-      "text": "Answering a request for help",
-      "occurrence": 0,
-      "textRevision": "561010970b55"
-    },
-    {
-      "anchor": "favor-0006",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "favor",
-      "text": "Extra hours at work",
-      "occurrence": 0,
-      "textRevision": "aca560c4c3af"
-    },
-    {
-      "anchor": "favor-0007",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "favor",
-      "text": "An evening at home",
-      "occurrence": 0,
-      "textRevision": "6f7097468fb9"
-    },
-    {
-      "anchor": "favor-0008",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "favor",
-      "text": "What became of {lowerFirst(binding.facts.task??\"thefavor\")}",
-      "occurrence": 0,
-      "textRevision": "1321fcfc7aa3"
-    },
-    {
-      "anchor": "favor-0009",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "favor",
-      "text": "What you said about it",
-      "occurrence": 0,
-      "textRevision": "47c6c3ef2109"
-    },
-    {
       "anchor": "favor-0010",
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "symbol": "favor",
       "text": "{binding.facts.speakerGiven??\"Somebody\"} wants to meet",
       "occurrence": 0,
       "textRevision": "dd4473cfb6dc"
+    },
+    {
+      "anchor": "favor-0011",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "A person the player knows asked to meet.",
+      "occurrence": 0,
+      "textRevision": "6b3dbb09bc5e"
+    },
+    {
+      "anchor": "favor-0012",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "Answer an invitation to meet.",
+      "occurrence": 0,
+      "textRevision": "bb3577d8b553"
+    },
+    {
+      "anchor": "favor-0013",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "Catching up",
+      "occurrence": 0,
+      "textRevision": "f21c57b2f30c"
     },
     {
       "anchor": "fileForOffice-0001",
@@ -4059,36 +3707,28 @@
       "textRevision": "15d76fc67d7d"
     },
     {
-      "anchor": "homeEvening-0001",
+      "anchor": "homeEvening-0005",
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "symbol": "homeEvening",
-      "text": "Know where each of them will be.",
+      "text": "Remembering {binding.facts.deceasedGiven??\"someone\"}",
       "occurrence": 0,
-      "textRevision": "6a0a0fc8b4ca"
+      "textRevision": "2225963c8c86"
     },
     {
-      "anchor": "homeEvening-0002",
+      "anchor": "homeEvening-0006",
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "symbol": "homeEvening",
-      "text": "Two people who live together, talking about an evening.",
+      "text": "Talk about a death in the family.",
       "occurrence": 0,
-      "textRevision": "a0dcd2aaf639"
+      "textRevision": "782cc033de4b"
     },
     {
-      "anchor": "homeEvening-0003",
+      "anchor": "homeEvening-0007",
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "symbol": "homeEvening",
-      "text": "What you said about that evening",
+      "text": "Two people connected to someone who died.",
       "occurrence": 0,
-      "textRevision": "9e73fcf8b21e"
-    },
-    {
-      "anchor": "homeEvening-0004",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "homeEvening",
-      "text": "Your {binding.date?\"evening\":\"plans\"}",
-      "occurrence": 0,
-      "textRevision": "42c22a984778"
+      "textRevision": "5071343aaeb8"
     },
     {
       "anchor": "householdAbsenceLine-0001",
@@ -6475,86 +6115,6 @@
       "textRevision": "5bfad94d93ba"
     },
     {
-      "anchor": "projectRecallCards-0003",
-      "sourcePath": "src/presentation/people-recall-cards.ts",
-      "symbol": "projectRecallCards",
-      "text": "{STATUS_LINE[entry.status]} You said: {entry.conditions}",
-      "occurrence": 0,
-      "textRevision": "41c6e29e496a"
-    },
-    {
-      "anchor": "projectRecallCards-0004",
-      "sourcePath": "src/presentation/people-recall-cards.ts",
-      "symbol": "projectRecallCards",
-      "text": "{entry.counterpartName} asked you to {entry.task}",
-      "occurrence": 0,
-      "textRevision": "626eb505db83"
-    },
-    {
-      "anchor": "projectRecallCards-0005",
-      "sourcePath": "src/presentation/people-recall-cards.ts",
-      "symbol": "projectRecallCards",
-      "text": "{STATUS_LINE[entry.status]} {entry.counterpartName} has since died.",
-      "occurrence": 0,
-      "textRevision": "faadebb9ddb5"
-    },
-    {
-      "anchor": "promisedExplain-0001",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "promisedExplain",
-      "text": "Explain why this one matters",
-      "occurrence": 0,
-      "textRevision": "781a712b9b12"
-    },
-    {
-      "anchor": "promisedExplain-0002",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "promisedExplain",
-      "text": "I’m sorry. {promisee}, and I don’t want to go back on that.",
-      "occurrence": 0,
-      "textRevision": "6a3b55ef4a6d"
-    },
-    {
-      "anchor": "promisedExplain-0003",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "promisedExplain",
-      "text": "Say you’d already given your word.",
-      "occurrence": 0,
-      "textRevision": "df056cdc724f"
-    },
-    {
-      "anchor": "promisedExplain-0004",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "promisedExplain",
-      "text": "The player told {context.name}, “I’m sorry. {promisee}, and I don’t want to go back on that.”",
-      "occurrence": 0,
-      "textRevision": "1358b41d7097"
-    },
-    {
-      "anchor": "promisedExplain-0005",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "promisedExplain",
-      "text": "{playerName} explained to {otherName} why they were going out after all.",
-      "occurrence": 0,
-      "textRevision": "0fde94511b2e"
-    },
-    {
-      "anchor": "promisedExplain-0006",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "promisedExplain",
-      "text": "“I understand. Just don’t make it a habit,” {name} says.",
-      "occurrence": 0,
-      "textRevision": "7715b781851e"
-    },
-    {
-      "anchor": "promisedExplain-0007",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "promisedExplain",
-      "text": "“Okay. Tomorrow, then,” {name} says.",
-      "occurrence": 0,
-      "textRevision": "1bb970ce6cae"
-    },
-    {
       "anchor": "questionLabel-0001",
       "sourcePath": "src/presentation/legislation-projection.ts",
       "symbol": "questionLabel",
@@ -6713,238 +6273,6 @@
       "text": "This build has no durable interface store. Pins and private notes were not stored with this life.",
       "occurrence": 0,
       "textRevision": "ae7d44d1e40f"
-    },
-    {
-      "anchor": "recalledAnswers-0001",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "Answer from memory. You may be remembering it wrong.",
-      "occurrence": 0,
-      "textRevision": "aea8b8904b0e"
-    },
-    {
-      "anchor": "recalledAnswers-0002",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "I think I said I’d {lowerFirst(task)}. I’d have to think back.",
-      "occurrence": 0,
-      "textRevision": "07b73e3aa011"
-    },
-    {
-      "anchor": "recalledAnswers-0003",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "I’d rather not get into it now.",
-      "occurrence": 0,
-      "textRevision": "07d6d6341c67"
-    },
-    {
-      "anchor": "recalledAnswers-0004",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "Neither confirm nor deny.",
-      "occurrence": 0,
-      "textRevision": "467511007607"
-    },
-    {
-      "anchor": "recalledAnswers-0005",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "Of course. I said I’d {lowerFirst(task)}.",
-      "occurrence": 0,
-      "textRevision": "9c0734304a01"
-    },
-    {
-      "anchor": "recalledAnswers-0006",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "Say you agreed",
-      "occurrence": 0,
-      "textRevision": "274bbfdb16ea"
-    },
-    {
-      "anchor": "recalledAnswers-0007",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "Say you think you agreed, but you’re not certain",
-      "occurrence": 0,
-      "textRevision": "72530dc5177e"
-    },
-    {
-      "anchor": "recalledAnswers-0008",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "Say you think you agreed, though you can’t quite recall",
-      "occurrence": 0,
-      "textRevision": "22d8166d88ce"
-    },
-    {
-      "anchor": "recalledAnswers-0009",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "Say you’d rather not get into it",
-      "occurrence": 0,
-      "textRevision": "9f77fef44dd0"
-    },
-    {
-      "anchor": "recalledAnswers-0010",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "The player declined to say what had become of the {lowerFirst(task)}.",
-      "occurrence": 0,
-      "textRevision": "dbd5eb621d31"
-    },
-    {
-      "anchor": "recalledAnswers-0011",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "The player told {context.name} they had agreed to {lowerFirst(task)}, having declined.",
-      "occurrence": 0,
-      "textRevision": "cb0fb9cacfe5"
-    },
-    {
-      "anchor": "recalledAnswers-0012",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "The player told {context.name}, from memory, that they thought they had agreed to {lowerFirst(task)}.",
-      "occurrence": 0,
-      "textRevision": "b7912d5c3569"
-    },
-    {
-      "anchor": "recalledAnswers-0013",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "You know you declined.",
-      "occurrence": 0,
-      "textRevision": "6dab1320b7e6"
-    },
-    {
-      "anchor": "recalledAnswers-0014",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "{context.player.givenName} said they had agreed to {lowerFirst(task)}.",
-      "occurrence": 0,
-      "textRevision": "d893c88d2245"
-    },
-    {
-      "anchor": "recalledAnswers-0015",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "“All right. I won’t push,” {name} says.",
-      "occurrence": 0,
-      "textRevision": "bebdaf4277b3"
-    },
-    {
-      "anchor": "recalledAnswers-0016",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "“All right. That’s not how I had it,” {name} says.",
-      "occurrence": 0,
-      "textRevision": "0fc56b6d1668"
-    },
-    {
-      "anchor": "recalledAnswers-0017",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "“That’s how I remember it too,” {name} says.",
-      "occurrence": 0,
-      "textRevision": "8c79a9984f06"
-    },
-    {
-      "anchor": "recalledAnswers-0018",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "“Then I must have got it wrong,” {name} says.",
-      "occurrence": 0,
-      "textRevision": "596704390540"
-    },
-    {
-      "anchor": "recalledAnswers-0019",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "“Understood,” {name} says.",
-      "occurrence": 0,
-      "textRevision": "eb9b017cf020"
-    },
-    {
-      "anchor": "recalledAnswers-0020",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "“We can check between us,” {name} says.",
-      "occurrence": 0,
-      "textRevision": "6601ff0fc399"
-    },
-    {
-      "anchor": "recalledAnswers-0021",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "Ask for {revision.label}",
-      "occurrence": 0,
-      "textRevision": "014a50c1f19a"
-    },
-    {
-      "anchor": "recalledAnswers-0022",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "I need to discuss a different arrangement for {lowerFirst(task)} — could we say {revision.label}?",
-      "occurrence": 0,
-      "textRevision": "4a2b27f4d394"
-    },
-    {
-      "anchor": "recalledAnswers-0023",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "The player asked {context.name} for {revision.label} on the {lowerFirst(task)}.",
-      "occurrence": 0,
-      "textRevision": "87c2fbbdfab2"
-    },
-    {
-      "anchor": "recalledAnswers-0024",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "“I can agree to {revision.label},” {name} says.",
-      "occurrence": 0,
-      "textRevision": "8b005c3bdd34"
-    },
-    {
-      "anchor": "recalledAnswers-0025",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "“I can’t take that responsibility over,” {name} says.",
-      "occurrence": 0,
-      "textRevision": "1421f2c7a089"
-    },
-    {
-      "anchor": "recalledAnswers-0026",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "“I still need an answer about {lowerFirst(task)},” {name} says.",
-      "occurrence": 0,
-      "textRevision": "8aa19ab46cfc"
-    },
-    {
-      "anchor": "recalledAnswers-0027",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "“I’m still relying on the arrangement we made,” {name} says.",
-      "occurrence": 0,
-      "textRevision": "7eb6d9717398"
-    },
-    {
-      "anchor": "recalledAnswers-0028",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "“Let’s use {revision.label} instead,” {name} says.",
-      "occurrence": 0,
-      "textRevision": "8cc1f0b126bc"
-    },
-    {
-      "anchor": "recalledAnswers-0029",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "recalledAnswers",
-      "text": "“Please let me know once you have checked,” {name} says.",
-      "occurrence": 0,
-      "textRevision": "34cb358da616"
     },
     {
       "anchor": "recapSentence-0001",
@@ -7881,38 +7209,6 @@
       "text": "{government.key} seat",
       "occurrence": 0,
       "textRevision": "e3a9527cb075"
-    },
-    {
-      "anchor": "settledHouseholdLine-0001",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "settledHouseholdLine",
-      "text": "“All right. It is yours this week,” {speakerName} says.",
-      "occurrence": 0,
-      "textRevision": "487da2c942e6"
-    },
-    {
-      "anchor": "settledHouseholdLine-0002",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "settledHouseholdLine",
-      "text": "“Half each, then,” {speakerName} says. “That I can do.”",
-      "occurrence": 0,
-      "textRevision": "b4c6137425ef"
-    },
-    {
-      "anchor": "settledHouseholdLine-0003",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "settledHouseholdLine",
-      "text": "“I will get it,” {speakerName} says. “Not every week, though.”",
-      "occurrence": 0,
-      "textRevision": "da3a610e6df5"
-    },
-    {
-      "anchor": "settledHouseholdLine-0004",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "settledHouseholdLine",
-      "text": "“We left it where it was,” {speakerName} says.",
-      "occurrence": 0,
-      "textRevision": "96bbce16f4ee"
     },
     {
       "anchor": "staffFollowup-0001",
