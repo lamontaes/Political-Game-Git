@@ -41,9 +41,9 @@ const colorLabel = (id: string) =>
   id.replace("-", " ").replace(/^./, (first) => first.toUpperCase());
 
 /** Outfits a player picks from: work uniforms come with a job, not the creator. */
-const wearable = <T extends { readonly occasion: string }>(
+const wearable = <T extends { readonly tags: readonly string[] }>(
   outfits: readonly T[],
-): readonly T[] => outfits.filter((outfit) => outfit.occasion !== "work");
+): readonly T[] => outfits.filter((outfit) => !outfit.tags.includes("uniform"));
 
 function step<T>(items: readonly T[], current: T, by: number): T {
   const index = Math.max(0, items.indexOf(current));

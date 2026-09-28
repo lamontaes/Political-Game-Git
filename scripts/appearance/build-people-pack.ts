@@ -28,7 +28,7 @@ import {
   PEOPLE_PACK_VERSION,
   type BodyBuild,
   type OutfitBuilds,
-  type OutfitOccasion,
+  type OutfitTag,
   type PackBody,
   type PackOutfit,
   type PeoplePackManifest,
@@ -214,7 +214,7 @@ const FIREFLY_OUTFITS =
 interface OutfitSpec {
   readonly id: string;
   readonly label: string;
-  readonly occasion: OutfitOccasion;
+  readonly tags: readonly OutfitTag[];
   /** Per part: the hue (or hues) it is painted in, and its palette. */
   readonly parts: Readonly<
     Record<string, readonly [Hue | readonly Hue[], string]>
@@ -226,21 +226,21 @@ const OUTFITS: Record<"feminine" | "masculine", readonly OutfitSpec[]> = {
     {
       id: "casual",
       label: "Everyday",
-      occasion: "casual",
+      tags: ["casual", "business"],
       art: "casual",
       parts: { top: ["red", "top"], bottom: ["gray", "bottom"] },
     },
     {
       id: "formal",
       label: "Pantsuit",
-      occasion: "formal",
+      tags: ["formal", "business"],
       art: "formal",
       parts: { suit: ["blue", "suit"], shirt: ["white", "shirt"] },
     },
     {
       id: "cardigan-jeans",
       label: "Cardigan and jeans",
-      occasion: "casual",
+      tags: ["casual"],
       parts: {
         sweater: ["green", "sweater"],
         shirt: ["white", "shirt"],
@@ -250,19 +250,19 @@ const OUTFITS: Record<"feminine" | "masculine", readonly OutfitSpec[]> = {
     {
       id: "hoodie-jeans",
       label: "Hoodie and jeans",
-      occasion: "casual",
+      tags: ["casual"],
       parts: { top: ["gray", "top"], bottom: ["blue", "bottom"] },
     },
     {
       id: "sweater-slacks",
       label: "Sweater and slacks",
-      occasion: "casual",
+      tags: ["casual", "business"],
       parts: { sweater: ["yellow", "sweater"], bottom: ["gray", "bottom"] },
     },
     {
       id: "winter-coat",
       label: "Winter coat",
-      occasion: "casual",
+      tags: ["cold"],
       parts: {
         coat: ["yellow", "coat"],
         scarf: ["red", "scarf"],
@@ -272,43 +272,43 @@ const OUTFITS: Record<"feminine" | "masculine", readonly OutfitSpec[]> = {
     {
       id: "blouse-skirt",
       label: "Blouse and skirt",
-      occasion: "formal",
+      tags: ["business", "formal"],
       // A cream blouse: white in the light, yellowish in its shading.
       parts: { top: [["white", "yellow"], "shirt"], bottom: ["blue", "suit"] },
     },
     {
       id: "dress-blazer",
       label: "Dress and blazer",
-      occasion: "formal",
+      tags: ["business", "formal"],
       parts: { dress: ["red", "dress"], jacket: ["gray", "suit"] },
     },
     {
       id: "skirt-suit",
       label: "Skirt suit",
-      occasion: "formal",
+      tags: ["formal", "business"],
       parts: { suit: ["blue", "suit"], shirt: ["white", "shirt"] },
     },
     {
       id: "scrubs",
       label: "Scrubs",
-      occasion: "work",
+      tags: ["uniform"],
       parts: { scrubs: ["blue", "scrubs"] },
     },
     {
       id: "hi-vis",
       label: "Safety vest",
-      occasion: "work",
+      tags: ["uniform"],
       // The vest's silver stripes are the shirt's gray, so only the jeans recolor.
       parts: { bottom: ["blue", "bottom"] },
     },
-    { id: "police", label: "Police uniform", occasion: "work", parts: {} },
-    { id: "judge-robe", label: "Judge's robe", occasion: "work", parts: {} },
+    { id: "police", label: "Police uniform", tags: ["uniform"], parts: {} },
+    { id: "judge-robe", label: "Judge's robe", tags: ["uniform"], parts: {} },
   ],
   masculine: [
     {
       id: "casual",
       label: "Everyday",
-      occasion: "casual",
+      tags: ["casual", "business"],
       art: "casual",
       // A pale blue shirt: much of it reads as white in the light.
       parts: { top: [["blue", "white"], "top"], bottom: ["gray", "bottom"] },
@@ -316,7 +316,7 @@ const OUTFITS: Record<"feminine" | "masculine", readonly OutfitSpec[]> = {
     {
       id: "formal",
       label: "Suit and tie",
-      occasion: "formal",
+      tags: ["formal", "business"],
       art: "formal",
       parts: {
         suit: ["gray", "suit"],
@@ -327,19 +327,19 @@ const OUTFITS: Record<"feminine" | "masculine", readonly OutfitSpec[]> = {
     {
       id: "polo-khakis",
       label: "Polo and khakis",
-      occasion: "casual",
+      tags: ["casual", "business"],
       parts: { top: ["green", "top"], bottom: ["yellow", "bottom"] },
     },
     {
       id: "hoodie-jeans",
       label: "Hoodie and jeans",
-      occasion: "casual",
+      tags: ["casual"],
       parts: { top: ["red", "top"], bottom: ["blue", "bottom"] },
     },
     {
       id: "sweater-collar",
       label: "Sweater and collar",
-      occasion: "casual",
+      tags: ["casual", "business"],
       parts: {
         sweater: ["gray", "sweater"],
         shirt: ["white", "shirt"],
@@ -349,7 +349,7 @@ const OUTFITS: Record<"feminine" | "masculine", readonly OutfitSpec[]> = {
     {
       id: "work-jacket",
       label: "Work jacket",
-      occasion: "casual",
+      tags: ["casual"],
       parts: {
         jacket: ["yellow", "coat"],
         shirt: ["gray", "top"],
@@ -359,7 +359,7 @@ const OUTFITS: Record<"feminine" | "masculine", readonly OutfitSpec[]> = {
     {
       id: "overcoat",
       label: "Overcoat",
-      occasion: "casual",
+      tags: ["cold"],
       parts: {
         coat: ["gray", "coat"],
         scarf: ["red", "scarf"],
@@ -369,7 +369,7 @@ const OUTFITS: Record<"feminine" | "masculine", readonly OutfitSpec[]> = {
     {
       id: "double-breasted",
       label: "Double-breasted suit",
-      occasion: "formal",
+      tags: ["formal"],
       parts: {
         suit: ["blue", "suit"],
         shirt: ["white", "shirt"],
@@ -379,18 +379,18 @@ const OUTFITS: Record<"feminine" | "masculine", readonly OutfitSpec[]> = {
     {
       id: "scrubs",
       label: "Scrubs",
-      occasion: "work",
+      tags: ["uniform"],
       parts: { scrubs: ["blue", "scrubs"] },
     },
     {
       id: "hi-vis",
       label: "Safety vest",
-      occasion: "work",
+      tags: ["uniform"],
       // The vest's silver stripes are the shirt's gray, so only the jeans recolor.
       parts: { bottom: ["blue", "bottom"] },
     },
-    { id: "police", label: "Police uniform", occasion: "work", parts: {} },
-    { id: "judge-robe", label: "Judge's robe", occasion: "work", parts: {} },
+    { id: "police", label: "Police uniform", tags: ["uniform"], parts: {} },
+    { id: "judge-robe", label: "Judge's robe", tags: ["uniform"], parts: {} },
   ],
 };
 
@@ -661,7 +661,7 @@ for (const sex of ["feminine", "masculine"] as const) {
     outfits.push({
       id: spec.id,
       label: spec.label,
-      occasion: spec.occasion,
+      tags: spec.tags,
       parts: Object.fromEntries(
         Object.entries(spec.parts).map(([part, [, palette]]) => [
           part,

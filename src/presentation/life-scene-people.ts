@@ -1,6 +1,7 @@
 import type { AppearanceMaterial } from "../simulation/appearance-material";
 import type { SceneSeatContact } from "../environment/environment-scene-spec";
 import type { EngineRecipe } from "./appearance-engine/pack";
+import { placeWear } from "./dress-code";
 import { engineRecipeFor } from "./appearance-engine/recipe";
 import { PEOPLE_PACK, peoplePackAvailable } from "./appearance-engine/runtime";
 import type { PersonRenderSnapshot } from "./person-render-snapshot";
@@ -541,17 +542,6 @@ function releasedLayers(
  * there is nothing to stand people in, so the list is empty and the People rail
  * carries them instead.
  */
-/**
- * What people wear in a room: formal where government is done (a chamber, a
- * capitol, a hearing, an office of state), everyday clothes everywhere else.
- */
-export function sceneOccasion(sceneId: string): "formal" | "casual" {
-  return /chamber|capitol|legislat|senate|assembly|hearing|court|oval|city-hall|statehouse|governor|mayor/i.test(
-    sceneId,
-  )
-    ? "formal"
-    : "casual";
-}
 
 export function planLifeScenePeople(
   world: World,
@@ -621,7 +611,7 @@ export function planLifeScenePeople(
       !savedWardrobes?.artPreview &&
       peoplePackAvailable()
         ? engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
-            occasion: sceneOccasion(sceneId),
+            wear: placeWear(sceneId, world.currentDate),
             ...(seated ? { pose: "seated" as const } : {}),
           })
         : null;
