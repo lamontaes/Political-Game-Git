@@ -1,0 +1,320 @@
+{
+  "question": "us-policy-positions:transportation-infrastructure.public-broadband",
+  "definition": "no = state law bars or materially restricts municipal/public broadband (bans, referendum requirements, feasibility or cost tests, unserved-area limits, bans on retail service) in force on 2026-01-01; yes = no such restriction, including states that repealed one (repeal date as operativeAt).",
+  "summarySource": "Official state code pages fetched 9/28/2026 (ncleg.gov, nebraskalegislature.gov, le.utah.gov 2025 text, law.lis.virginia.gov, revisor.mo.gov, flsenate.gov 2025, docs.legis.wisconsin.gov, leg.mt.gov MCA 2025, legislature.mi.gov through PA 103 of 2026, palegis.us, legis.la.gov, scstatehouse.gov, leg.state.nv.us, ALISON, legis.iowa.gov 2026 code, gc.nh.gov); repeal acts (Arkansas Act 67 of 2021, Colorado SB23-183, Washington HB 1336, Minnesota 2024 ch. 114); 6th Cir. 2016 opinion for Tennessee; municipal utility pages for states answered yes without a statute.",
+  "answers": {
+    "US-AK": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.kpunet.net/",
+      "note": "Ketchikan Public Utilities, a city utility, sells retail internet and phone service; no Alaska statute barring it was found."
+    },
+    "US-AL": {
+      "answer": "no",
+      "cite": "Ala. Code \u00a7\u00a7 11-50B-3, 11-50B-8, 11-50B-9",
+      "dateBasis": "not-found",
+      "source": "https://alison.legislature.state.al.us/code-of-alabama?section=11-50B-3",
+      "note": "Act 2000-614 lets municipal providers offer internet only within set territorial limits, requires hearings, and limits financing to revenue-backed debt; text read from the ALISON official code service."
+    },
+    "US-AR": {
+      "answer": "yes",
+      "cite": "Ark. Code Ann. \u00a7 23-17-409(b) (as amended by Act 67 of 2021)",
+      "operativeAt": "2021-02-04",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2021R%2FPublic%2F&file=67.pdf&ddBienniumSession=2021%2F2021R",
+      "note": "Act 67 of 2021 (SB 74, not Act 764 as in the draft) lets any government entity own and operate broadband facilities; bond- or tax-funded projects still need a private operating partner, a hearing and any election the bond law requires."
+    },
+    "US-CA": {
+      "answer": "yes",
+      "cite": "Cal. Pub. Util. Code \u00a7 10001",
+      "dateBasis": "pre-2000",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PUC&sectionNum=10001",
+      "note": "Municipal corporations may operate public utilities supplying their inhabitants with means of communication."
+    },
+    "US-CO": {
+      "answer": "yes",
+      "cite": "SB23-183 (Colo. Sess. Laws 2023, ch. 139)",
+      "operativeAt": "2023-05-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://leg.colorado.gov/bills/sb23-183",
+      "note": "SB23-183 repealed the 2005 requirement that a local government win a referendum before offering broadband."
+    },
+    "US-FL": {
+      "answer": "no",
+      "cite": "Fla. Stat. \u00a7 350.81",
+      "dateBasis": "not-found",
+      "source": "https://www.flsenate.gov/Laws/Statutes/2025/350.81",
+      "note": "A governmental entity must hold two public hearings, adopt a business plan and meet break-even and enterprise-fund conditions before it sells communications service; 2025 statutes text."
+    },
+    "US-GA": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.thomasville.org/",
+      "note": "The City of Thomasville lists CNSNext digital TV, telephone and high-speed internet among its city utility services."
+    },
+    "US-IA": {
+      "answer": "no",
+      "cite": "Iowa Code \u00a7\u00a7 388.2, 388.10",
+      "dateBasis": "not-found",
+      "source": "https://www.legis.iowa.gov/docs/code/388.10.pdf",
+      "note": "Establishing a city utility, including a telecommunications system, needs voter approval (\u00a7 388.2), and \u00a7 388.10 bars general-fund or cross-utility subsidy of city telecommunications; trackers do not list Iowa (see conflicts)."
+    },
+    "US-ID": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.idahofallsfiber.com/",
+      "note": "Idaho Falls Fiber, owned by the city's Idaho Falls Power, runs a fiber network serving homes and businesses on an open-access model with private retail providers."
+    },
+    "US-IL": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.rmu.net/departments/fiber-internet-phone/fiber-internet-phone.html",
+      "note": "Rochelle Municipal Utilities, a city utility, sells fiber internet and phone service to homes and businesses."
+    },
+    "US-IN": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.ci.auburn.in.us/294/Auburn-Essential-Services",
+      "note": "Auburn Essential Services, a City of Auburn department, sells residential internet plans up to multi-gigabit fiber."
+    },
+    "US-KS": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.coffeyville.com/CivicAlerts.aspx?AID=1066",
+      "note": "The City of Coffeyville sells Coffeyville Fiber Internet service; the cited notice (4/7/2026) announces updated rates for an existing service."
+    },
+    "US-KY": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.fpb.cc/",
+      "note": "The Frankfort Plant Board, a municipal utility, sells fiber internet, cable TV and telephone service."
+    },
+    "US-LA": {
+      "answer": "no",
+      "cite": "La. R.S. 45:844.41 et seq. (\u00a7 844.47)",
+      "operativeAt": "2004-07-06",
+      "dateBasis": "enacted-effective",
+      "source": "https://legis.la.gov/Legis/Law.aspx?d=285528",
+      "note": "The Local Government Fair Competition Act bars a local government from providing cable, telecommunications or advanced service except as the chapter allows (feasibility, election and cost conditions)."
+    },
+    "US-MA": {
+      "answer": "yes",
+      "cite": "Mass. Gen. Laws ch. 164, \u00a7 47E",
+      "dateBasis": "not-found",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXII/Chapter164/Section47E",
+      "note": "A municipal lighting plant may build and operate a telecommunications system for its customers; debt needs a town vote under ch. 44 as for any plant debt."
+    },
+    "US-MD": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://eastonutilities.com/",
+      "note": "Easton Utilities, the Town of Easton's utility commission, sells internet, TV and phone service alongside electric, gas and water."
+    },
+    "US-MI": {
+      "answer": "no",
+      "cite": "Mich. Comp. Laws \u00a7 484.2252",
+      "operativeAt": "2005-11-22",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-484-2252",
+      "note": "A public entity may provide telecommunication service only after it seeks bids and receives fewer than three qualified private bids; unamended since 2005 per the MCL page current through PA 103 of 2026."
+    },
+    "US-MN": {
+      "answer": "yes",
+      "cite": "Minn. Stat. \u00a7 237.19 (as amended by 2024 Minn. Laws ch. 114, art. 4, \u00a7 2)",
+      "dateBasis": "not-found",
+      "source": "https://www.revisor.mn.gov/statutes/cite/237.19",
+      "note": "The 2024 amendment removed the 65 percent supermajority election that had been required before a municipality could provide telecommunications service."
+    },
+    "US-MO": {
+      "answer": "no",
+      "cite": "Mo. Rev. Stat. \u00a7 392.410(7)",
+      "dateBasis": "not-found",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=392.410",
+      "note": "Political subdivisions may not sell certificated telecommunications service or facilities to the public, though the subsection exempts internet-type services, so the bar mainly reaches voice and bundled service."
+    },
+    "US-MT": {
+      "answer": "no",
+      "cite": "Mont. Code Ann. \u00a7 2-17-603",
+      "dateBasis": "not-found",
+      "source": "https://leg.mt.gov/bills/mca/title_0020/chapter_0170/part_0060/section_0030/0020-0170-0060-0030.html",
+      "note": "A political subdivision may be an internet service provider only where no private provider is available (or for services it offered before 7/1/2001); the 2025 code keeps this after 2021, 2023 and 2025 amendments."
+    },
+    "US-NC": {
+      "answer": "no",
+      "cite": "N.C. Gen. Stat. \u00a7 160A-340 et seq.",
+      "dateBasis": "not-found",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/ByArticle/Chapter_160A/Article_16A.html",
+      "note": "Session Law 2011-84 imposes cost-imputation, enterprise-fund, special-election (before debt) and service-area conditions on city-owned communications service; a 2025 amendment (S.L. 2025-25) only touched definitions."
+    },
+    "US-NE": {
+      "answer": "no",
+      "cite": "Neb. Rev. Stat. \u00a7 86-594",
+      "dateBasis": "not-found",
+      "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=86-594",
+      "note": "An agency or political subdivision that is not a public power supplier may not provide broadband, internet, telecommunications or video service at retail or wholesale (LB 645, 2005; amended 2021)."
+    },
+    "US-NH": {
+      "answer": "no",
+      "cite": "N.H. Rev. Stat. \u00a7 33:3-g",
+      "dateBasis": "not-found",
+      "source": "https://gc.nh.gov/rsa/html/III/33/33-3-g.htm",
+      "note": "Municipalities may bond for broadband infrastructure only in locations unserved by broadband and only after a request for information to incumbent providers; national trackers do not list New Hampshire (see conflicts)."
+    },
+    "US-NV": {
+      "answer": "no",
+      "cite": "Nev. Rev. Stat. \u00a7\u00a7 268.086, 710.147",
+      "dateBasis": "pre-2000",
+      "source": "https://www.leg.state.nv.us/NRS/NRS-268.html",
+      "note": "Cities of 25,000 or more and counties of 55,000 or more may not sell telecommunication service to the general public."
+    },
+    "US-OH": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.fairlawngig.net/",
+      "note": "FairlawnGig, the City of Fairlawn's municipal broadband utility, sells residential and business fiber internet."
+    },
+    "US-OK": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.sallisawok.org/305/DiamondNet",
+      "note": "The City of Sallisaw's DiamondNet sells fiber internet and phone service over city-owned fiber."
+    },
+    "US-OR": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.ci.sandy.or.us/sandynet",
+      "note": "SandyNet, a City of Sandy public utility, is the local internet service provider, selling fiber and wireless service."
+    },
+    "US-PA": {
+      "answer": "no",
+      "cite": "66 Pa.C.S. \u00a7 3014(h)",
+      "operativeAt": "2004-11-30",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.palegis.us/statutes/consolidated/view-statute?iFrame=true&txtType=HTM&ttl=66&div=0&chapter=30&section=14&subsctn=0",
+      "note": "A political subdivision may not sell broadband in an incumbent's territory unless the incumbent declines a written request for the speeds sought; current consolidated text."
+    },
+    "US-SC": {
+      "answer": "no",
+      "cite": "S.C. Code Ann. \u00a7 58-9-2600 et seq.",
+      "dateBasis": "not-found",
+      "source": "https://www.scstatehouse.gov/code/t58c009.php",
+      "note": "Government-owned communications providers must meet tax-equivalent payments, cost-imputation and no-subsidy rules (2002 Act 360, 2012 Act 284), with relief only for designated unserved areas."
+    },
+    "US-TN": {
+      "answer": "no",
+      "cite": "Tenn. Code Ann. \u00a7 7-52-601",
+      "dateBasis": "pre-2000",
+      "source": "https://www.opn.ca6.uscourts.gov/opinions.pdf/16a0189p-06.pdf",
+      "note": "Municipal electric systems may offer broadband only within their electric service area; the Sixth Circuit (2016) reinstated this limit after the FCC's preemption. The current code text was not reachable (official host requires JavaScript), so the 2026 status rests on this 2016 ruling."
+    },
+    "US-TX": {
+      "answer": "no",
+      "cite": "Tex. Util. Code \u00a7\u00a7 54.201-.202",
+      "dateBasis": "pre-2000",
+      "source": "https://texas.public.law/statutes/tex._util._code_section_54.202",
+      "note": "A municipality or municipal electric system may not sell certificated telecommunications service to the public (1997; amended 2005); the official Texas statutes site serves a JavaScript shell, so a mirror citing it was used."
+    },
+    "US-UT": {
+      "answer": "no",
+      "cite": "Utah Code \u00a7 10-18-101 et seq.",
+      "dateBasis": "not-found",
+      "source": "https://le.utah.gov/xcode/Title10/Chapter18/C10-18_2025050720250507.xml",
+      "note": "The Municipal Cable Television and Communications Services Act requires feasibility studies, hearings and a revenue-over-cost test before a municipality offers broadband; 2025 amendments (effective 5/7/2025) kept and extended it."
+    },
+    "US-VA": {
+      "answer": "no",
+      "cite": "Va. Code \u00a7\u00a7 56-265.4:4, 15.2-2160",
+      "dateBasis": "not-found",
+      "source": "https://law.lis.virginia.gov/vacode/title15.2/chapter21/section15.2-2160/",
+      "note": "Localities with electric systems need a commission certificate and must impute taxes and fees and avoid cross-subsidy when selling telecommunications service; other localities act through broadband or wireless authorities."
+    },
+    "US-VT": {
+      "answer": "yes",
+      "cite": "30 V.S.A. \u00a7 3051 et seq.",
+      "dateBasis": "not-found",
+      "source": "https://legislature.vermont.gov/statutes/section/30/082/03051",
+      "note": "Towns may form communications union districts that build and operate communications plant and deliver service; each town joins by voter approval."
+    },
+    "US-WA": {
+      "answer": "yes",
+      "cite": "RCW 54.16.330 (as amended by HB 1336, 2021)",
+      "operativeAt": "2021-07-25",
+      "dateBasis": "enacted-effective",
+      "source": "https://app.leg.wa.gov/billsummary?BillNumber=1336&Year=2021",
+      "note": "HB 1336 lifted the limits that kept public utility districts and other public entities from selling retail broadband; RCW 54.16.330 now authorizes retail telecommunications service."
+    },
+    "US-WI": {
+      "answer": "no",
+      "cite": "Wis. Stat. \u00a7 66.0422",
+      "dateBasis": "not-found",
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/66/iv/0422",
+      "note": "A city, village or town must hold a hearing and publish a three-year cost-benefit report before building a facility to serve the public, unless it shows the area lacks private broadband."
+    }
+  },
+  "unknown": {
+    "US-AZ": "No primary page found authorizing or showing municipal retail broadband; absence from tracker lists alone does not confirm yes.",
+    "US-CT": "No Connecticut statute or municipal retail broadband provider page was confirmed.",
+    "US-DE": "No primary page found.",
+    "US-HI": "No primary page found.",
+    "US-ME": "No Maine statute or municipal retail provider page was confirmed.",
+    "US-MS": "No primary page found for municipal (as opposed to cooperative) broadband.",
+    "US-ND": "No primary page found.",
+    "US-NJ": "No primary page found.",
+    "US-NM": "No primary page found.",
+    "US-NY": "No primary page found for a municipal retail broadband provider or authorizing statute.",
+    "US-RI": "No primary page found.",
+    "US-SD": "Candidate municipal provider site (Beresford) was unreachable through the proxy; no statute confirmed.",
+    "US-WV": "No primary page found.",
+    "US-WY": "No primary page found.",
+    "US-DC": "Not a state; D.C. government networks (DC-Net) serve government users, and no law on retail sale was confirmed.",
+    "US-PR": "Territory; no primary page found.",
+    "US-GU": "Territory; no primary page found.",
+    "US-VI": "Territory; no primary page found.",
+    "US-AS": "Territory; no primary page found.",
+    "US-MP": "Territory; no primary page found."
+  },
+  "conflicts": [
+    {
+      "place": "US-IA",
+      "readings": "National trackers (ILSR/BroadbandNow, 2024) do not list Iowa; the statute requires voter approval to establish a city telecommunications utility and bars subsidy of it, which the definition counts as a restriction (answered no).",
+      "sources": [
+        "https://www.legis.iowa.gov/docs/code/388.2.pdf",
+        "https://www.legis.iowa.gov/docs/code/388.10.pdf"
+      ]
+    },
+    {
+      "place": "US-NH",
+      "readings": "Trackers do not list New Hampshire; RSA 33:3-g limits municipal broadband bonding to unserved locations after an RFI to incumbents, an unserved-area limit under the definition (answered no). A reading that counts only limits on service itself, not financing, would give yes.",
+      "sources": ["https://gc.nh.gov/rsa/html/III/33/33-3-g.htm"]
+    },
+    {
+      "place": "US-MO",
+      "readings": "Trackers list Missouri as restrictive; \u00a7 392.410(7) bars certificated telecommunications service but expressly exempts internet-type services, so a strict broadband-only reading could give yes.",
+      "sources": ["https://revisor.mo.gov/main/OneSection.aspx?section=392.410"]
+    },
+    {
+      "place": "US-AR",
+      "readings": "Trackers treat Arkansas as having repealed its ban (answered yes); Act 67 of 2021 still requires a private operating partner, a hearing and any required election for bond- or tax-funded networks, which a strict reading could call a material restriction.",
+      "sources": [
+        "https://www.arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2021R%2FPublic%2F&file=67.pdf&ddBienniumSession=2021%2F2021R"
+      ]
+    }
+  ],
+  "refusedHosts": [
+    "law.justia.com (Cloudflare challenge, 403)",
+    "codes.findlaw.com (Cloudflare challenge, 403)",
+    "statutes.capitol.texas.gov (JavaScript shell; no statute text)",
+    "www.diamondnetok.com (proxy: host not in allowlist)",
+    "www.cns-internet.com, www.auburnessentialservices.com, www.rochellefiber.com, www.diamondnet.net (connection reset)",
+    "www.chanute.org, www.chanuteks.gov, www.hudson.oh.us, www.ashland.or.us, www.cityofberesford.com (connection reset or timeout)",
+    "www.ashlandfiber.net (202, empty body)",
+    "www.hillsboro-oregon.gov (403 Access Denied)",
+    "tennessee.public.law, alabama.public.law, louisiana.public.law (no connection)",
+    "leg.colorado.gov (406 to a plain user agent; succeeded with a browser user agent)"
+  ],
+  "counts": {
+    "yes": 18,
+    "no": 18,
+    "unknown": 20
+  }
+}

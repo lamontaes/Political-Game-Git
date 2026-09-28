@@ -205,7 +205,8 @@ describe("which approved picture stands behind each card", () => {
         regionScene: null,
         homeStateUsps: "NE",
       }),
-    ).toMatchObject({ kind: "place", place: "state-capitol-tower" });
+      // Nebraska has its own capitol picture, so it wins over the generic tower.
+    ).toMatchObject({ kind: "place", place: "state-capitol-ne" });
   });
 
   it("falls back from the civic building to the regional plate on the town card", () => {

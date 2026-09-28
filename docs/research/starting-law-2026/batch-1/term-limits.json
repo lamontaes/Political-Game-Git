@@ -1,0 +1,368 @@
+{
+  "question": "us-policy-positions:government-operations.legislative-term-limits",
+  "definition": "yes = the state constitution or statute limits how many terms (or years) a member of the state legislature may serve, in force 2026-01-01; no = no limit, including states whose limits were repealed or struck down.",
+  "summarySource": "NCSL term-limited states and constitutional/statutory provisions pages (current 2025-2026); Ballotpedia state legislatures with term limits and measure pages (2012-2026); state constitution/code pages.",
+  "answers": {
+    "US-AK": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-AL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-AR": {
+      "answer": "yes",
+      "cite": "Ark. Const. amend. 73, \u00a7 2",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/Arkansas_Issue_2,_Change_State_Legislative_Term_Limits_Amendment_(2020)",
+      "note": "Twelve consecutive years total in the General Assembly for members first elected on or after 1/1/2021, eligible again after a four-year break; earlier members use a 16-year aggregate (2014 and 2020 amendments, 2020 Issue 2)."
+    },
+    "US-AS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/American_Samoa_Fono",
+      "note": "Fono senators and representatives are not subject to term limits."
+    },
+    "US-AZ": {
+      "answer": "yes",
+      "cite": "Ariz. Const. art. 4, pt. 2, \u00a7 21",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+      "note": "Eight years (four two-year terms) in each chamber, consecutive; adopted 1992."
+    },
+    "US-CA": {
+      "answer": "yes",
+      "cite": "Cal. Const. art. IV, \u00a7 2(a)",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/California_Proposition_28,_Change_in_State_Legislative_Term_Limits_Initiative_(June_2012)",
+      "note": "Twelve years total in either or both chambers, lifetime (2012 Proposition 28, approved 6/5/2012)."
+    },
+    "US-CO": {
+      "answer": "yes",
+      "cite": "Colo. Const. art. V, \u00a7 3",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+      "note": "Eight years in each chamber (four House terms, two Senate terms), consecutive; adopted 1990."
+    },
+    "US-CT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-DC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://guides.loc.gov/law-us-washington-dc/legislative",
+      "note": "D.C. Councilmembers serve four-year terms with no limit."
+    },
+    "US-DE": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-FL": {
+      "answer": "yes",
+      "cite": "Fla. Const. art. VI, \u00a7 4(b)",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+      "note": "Eight years in each chamber, consecutive; adopted 1992."
+    },
+    "US-GA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-GU": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/Legislature_of_Guam",
+      "note": "Guam senators serve two-year terms without term limits; proposed bills were not enacted."
+    },
+    "US-HI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-IA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-ID": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State_legislatures_with_term_limits",
+      "note": "Voters adopted limits in 1994, but the legislature repealed them in 2002."
+    },
+    "US-IL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-IN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-KS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-KY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-LA": {
+      "answer": "yes",
+      "cite": "La. Const. art. III, \u00a7 4(E)",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+      "note": "Three consecutive terms (12 years) in each chamber, consecutive; adopted 1995."
+    },
+    "US-MA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State_legislatures_with_term_limits",
+      "note": "A 1994 statutory limit was struck down by the Supreme Judicial Court in 1997."
+    },
+    "US-MD": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-ME": {
+      "answer": "yes",
+      "cite": "Me. Rev. Stat. tit. 21-A, \u00a7 553",
+      "dateBasis": "pre-2000",
+      "source": "https://www.mainelegislature.org/legis/statutes/21-a/title21-Asec553.html",
+      "note": "Four consecutive two-year terms (eight years) in each chamber, consecutive; statutory, adopted 1993."
+    },
+    "US-MI": {
+      "answer": "yes",
+      "cite": "Mich. Const. art. IV, \u00a7 54",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-Article-IV-54",
+      "note": "Twelve years total in the House and Senate combined, lifetime (2022 Proposal 1, replacing the 1992 six-year House and eight-year Senate limits).",
+      "operativeAt": "2022-12-23"
+    },
+    "US-MN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-MO": {
+      "answer": "yes",
+      "cite": "Mo. Const. art. III, \u00a7 8",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+      "note": "Eight years in each chamber and 16 years total, lifetime; adopted 1992."
+    },
+    "US-MP": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/Northern_Mariana_Islands_Commonwealth_Legislature",
+      "note": "Commonwealth Legislature senators and representatives serve without term limits."
+    },
+    "US-MS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-MT": {
+      "answer": "yes",
+      "cite": "Mont. Const. art. IV, \u00a7 8",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+      "note": "Eight years in each chamber within any 16-year period; adopted 1992."
+    },
+    "US-NC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-ND": {
+      "answer": "yes",
+      "cite": "N.D. Const. art. XV",
+      "dateBasis": "enacted-effective",
+      "source": "https://ballotpedia.org/North_Dakota_Constitutional_Measure_1,_Term_Limits_for_Governor_and_State_Legislators_Initiative_(2022)",
+      "note": "Eight years in each chamber (16 total), lifetime, for service after 1/1/2023 (2022 Measure 1). A legislatively referred 2026 amendment on the 11/3/2026 ballot would allow four four-year terms regardless of chamber.",
+      "operativeAt": "2023-01-01"
+    },
+    "US-NE": {
+      "answer": "yes",
+      "cite": "Neb. Const. art. III, \u00a7 12",
+      "dateBasis": "not-found",
+      "source": "https://nebraskalegislature.gov/laws/articles.php?article=III-12",
+      "note": "Two consecutive four-year terms (eight years), then four years out (2000 Initiative 415). A 2026 ballot amendment (LR19CA) would allow three consecutive terms; not in force on 1/1/2026."
+    },
+    "US-NH": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-NJ": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-NM": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-NV": {
+      "answer": "yes",
+      "cite": "Nev. Const. art. 4, \u00a7\u00a7 3, 4",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+      "note": "Twelve years in each chamber, lifetime; adopted 1994 and 1996."
+    },
+    "US-NY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-OH": {
+      "answer": "yes",
+      "cite": "Ohio Const. art. II, \u00a7 2",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+      "note": "Eight years (four House terms, two Senate terms) in each chamber, consecutive; adopted 1992."
+    },
+    "US-OK": {
+      "answer": "yes",
+      "cite": "Okla. Const. art. V, \u00a7 17A",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+      "note": "Twelve years total in the House and Senate combined, lifetime; adopted 1990."
+    },
+    "US-OR": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State_legislatures_with_term_limits",
+      "note": "The 1992 limits were ruled unconstitutional by the Oregon Supreme Court in 2002."
+    },
+    "US-PA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-PR": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/Puerto_Rico_House_of_Representatives",
+      "note": "Legislative Assembly members serve four-year terms with no term limits; proposals have not been adopted."
+    },
+    "US-RI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-SC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-SD": {
+      "answer": "yes",
+      "cite": "S.D. Const. art. III, \u00a7 6",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+      "note": "Four consecutive two-year terms (eight years) in each chamber, consecutive; adopted 1992."
+    },
+    "US-TN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-TX": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-UT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State_legislatures_with_term_limits",
+      "note": "Statutory limits adopted in 1994 were repealed by the legislature in 2003."
+    },
+    "US-VA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-VI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/Legislature_of_the_Virgin_Islands",
+      "note": "Virgin Islands senators serve two-year terms without term limits."
+    },
+    "US-VT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-WA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State_legislatures_with_term_limits",
+      "note": "The 1992 statutory limits were voided by the Washington Supreme Court in 1998."
+    },
+    "US-WI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-WV": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "note": "No term limit for state legislators."
+    },
+    "US-WY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://law.justia.com/cases/wyoming/supreme-court/2004/438880.html",
+      "note": "The 1992 initiative limits were held unconstitutional in Cathcart v. Meyer (Wyo. 2004)."
+    }
+  },
+  "unknown": {},
+  "conflicts": [],
+  "counts": {
+    "yes": 16,
+    "no": 40,
+    "unknown": 0
+  }
+}

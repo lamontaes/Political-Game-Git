@@ -1,0 +1,354 @@
+{
+  "question": "us-policy-positions:transportation-infrastructure.public-broadband",
+  "definition": "no = state law bars or materially restricts municipal/public broadband (bans, referendum requirements, feasibility or cost tests, unserved-area limits, bans on retail service) in force on 2026-01-01; yes = no such restriction, including states that repealed one (repeal date as operativeAt).",
+  "summarySource": "ILSR/communitynetworks.org state preemption tracker (16 states after Minnesota's May 2024 repeal); Techdirt 11/07/2024 list; BroadbandNow 2023-2024 roadblocks reports.",
+  "answers": {
+    "US-AK": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-AL": {
+      "answer": "no",
+      "cite": "Ala. Code § 11-50B-1 et seq.",
+      "dateBasis": "not-found",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "Municipalities may provide service but face conditions, including a bar on using local tax revenue for network start-up costs."
+    },
+    "US-AR": {
+      "answer": "yes",
+      "cite": "Ark. Code Ann. § 23-17-409 (as amended by Act 764 of 2021)",
+      "dateBasis": "not-found",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "Act 764 of 2021 removed most of the prior ban on government-provided broadband; the exact effective date was not confirmed."
+    },
+    "US-AZ": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-CA": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-CO": {
+      "answer": "yes",
+      "cite": "Colo. SB23-183 (repealing C.R.S. § 29-27-101 et seq. restrictions)",
+      "dateBasis": "not-found",
+      "source": "https://broadbandnow.com/report/municipal-broadband-roadblocks-2023",
+      "note": "SB23-183, signed in early May 2023, repealed the SB 05-152 referendum requirement; the exact effective date was not confirmed."
+    },
+    "US-CT": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-DE": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-FL": {
+      "answer": "no",
+      "cite": "Fla. Stat. § 350.81",
+      "dateBasis": "not-found",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "Public providers must meet hearing, business-plan and break-even conditions before offering retail service."
+    },
+    "US-GA": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-HI": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-ID": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-IL": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-IN": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-KS": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-KY": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-LA": {
+      "answer": "no",
+      "cite": "La. Rev. Stat. § 45:844.41 et seq.",
+      "dateBasis": "not-found",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "The Local Government Fair Competition Act requires a referendum and imputes phantom costs into rates."
+    },
+    "US-MA": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-MD": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-ME": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-MI": {
+      "answer": "no",
+      "cite": "Mich. Comp. Laws § 484.2252",
+      "dateBasis": "not-found",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "Public entities may offer service only after soliciting bids and receiving fewer than three qualified private bids."
+    },
+    "US-MN": {
+      "answer": "yes",
+      "cite": "Minn. S.F. 4097 (2024)",
+      "dateBasis": "not-found",
+      "source": "https://communitynets.org/content/minnesota-strikes-down-preemption-laws-blocking-municipal-broadband",
+      "note": "The 2024 omnibus bill S.F. 4097 removed the supermajority referendum requirement for municipal telephone and broadband service; the exact effective date was not confirmed."
+    },
+    "US-MO": {
+      "answer": "no",
+      "cite": "Mo. Rev. Stat. § 392.410(7)",
+      "dateBasis": "not-found",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "Political subdivisions are generally barred from selling telecommunications services to the public, with narrow exceptions."
+    },
+    "US-MS": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-MT": {
+      "answer": "no",
+      "cite": "Mont. Code Ann. § 2-17-603",
+      "dateBasis": "not-found",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "Local governments may offer service only where no private provider serves the area."
+    },
+    "US-NC": {
+      "answer": "no",
+      "cite": "N.C. Gen. Stat. § 160A-340 et seq.",
+      "dateBasis": "not-found",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "Session Law 2011-84 imposes cost, pricing, referendum and territorial conditions on city-owned communications service."
+    },
+    "US-ND": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-NE": {
+      "answer": "no",
+      "cite": "Neb. Rev. Stat. § 86-594",
+      "dateBasis": "not-found",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "Public power and other public entities may not sell retail broadband; they may lease dark fiber only."
+    },
+    "US-NH": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-NJ": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-NM": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-NV": {
+      "answer": "no",
+      "cite": "Nev. Rev. Stat. §§ 268.086, 710.147",
+      "dateBasis": "not-found",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "Larger cities and counties are barred from selling telecommunications service; smaller ones face conditions."
+    },
+    "US-NY": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-OH": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-OK": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-OR": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-PA": {
+      "answer": "no",
+      "cite": "66 Pa. C.S. § 3014(h)",
+      "dateBasis": "not-found",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "Political subdivisions may not offer broadband for a fee unless the local incumbent declines to provide it after a request."
+    },
+    "US-RI": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-SC": {
+      "answer": "no",
+      "cite": "S.C. Code Ann. § 58-9-2600 et seq.",
+      "dateBasis": "not-found",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "Governmental providers face cost-imputation, hearing and unserved-area conditions."
+    },
+    "US-SD": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-TN": {
+      "answer": "no",
+      "cite": "Tenn. Code Ann. § 7-52-601 et seq.",
+      "dateBasis": "not-found",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "Municipal electric systems may offer broadband but may not extend it outside their electric service territory."
+    },
+    "US-TX": {
+      "answer": "no",
+      "cite": "Tex. Util. Code §§ 54.201-.202",
+      "dateBasis": "not-found",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "Municipalities and municipal electric utilities may not offer telecommunications services to the public."
+    },
+    "US-UT": {
+      "answer": "no",
+      "cite": "Utah Code § 10-18-101 et seq.",
+      "dateBasis": "not-found",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "The Municipal Cable Television and Public Telecommunications Services Act requires feasibility studies, hearings and cost tests, and bars direct retail service in some structures."
+    },
+    "US-VA": {
+      "answer": "no",
+      "cite": "Va. Code §§ 56-265.4:4, 15.2-2160",
+      "dateBasis": "not-found",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "Localities face cost-imputation, feasibility and pricing conditions on retail service."
+    },
+    "US-VT": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-WA": {
+      "answer": "yes",
+      "cite": "Wash. HB 1336 (2021)",
+      "operativeAt": "2021-07-25",
+      "dateBasis": "enacted-effective",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "HB 1336 (2021) lifted the limits that had kept public utility districts and ports from offering retail broadband; effective date is the state's standard 90-day date."
+    },
+    "US-WI": {
+      "answer": "no",
+      "cite": "Wis. Stat. § 66.0422",
+      "dateBasis": "not-found",
+      "source": "https://communitynetworks.org/content/state-preemption",
+      "note": "Municipalities must hold a hearing and prepare a cost report, or serve only areas lacking private service."
+    },
+    "US-WV": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    },
+    "US-WY": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+      "note": "Not among the 16 states ILSR and BroadbandNow list as restricting municipal broadband (2024); no state-specific statute confirming the absence of a barrier was checked."
+    }
+  },
+  "unknown": {
+    "US-IA": "Not on the ILSR 16-state list, but Iowa Code § 388.2 requires a referendum to establish a city utility, including telecommunications; could not verify whether trackers count this as a restriction (search budget exhausted).",
+    "US-DC": "Not a state; no tracker classifies D.C., and D.C. law on selling retail broadband was not confirmed.",
+    "US-PR": "Territory; no tracker coverage found.",
+    "US-GU": "Territory; no tracker coverage found.",
+    "US-VI": "Territory; no tracker coverage found.",
+    "US-AS": "Territory; no tracker coverage found.",
+    "US-MP": "Territory; no tracker coverage found."
+  },
+  "conflicts": [
+    {
+      "place": "US-IA",
+      "readings": "ILSR's 2024 list of 16 restricted states omits Iowa; Iowa Code § 388.2 nonetheless requires a referendum to create a city utility, which the definition counts as a restriction.",
+      "sources": [
+        "https://www.techdirt.com/2024/11/07/16-u-s-states-still-ban-community-owned-broadband-networks-because-att-and-comcast-told-them-to/",
+        "https://communitynetworks.org/content/state-preemption"
+      ]
+    },
+    {
+      "place": "(multiple)",
+      "readings": "BroadbandNow has also counted up to 25 states with burdensome laws, and ILSR's earlier list had 19; the 2024 consensus list is 16. States outside the 16 were answered yes on the tracker list alone.",
+      "sources": [
+        "https://statescoop.com/more-than-20-states-still-restrict-municipal-broadband/",
+        "https://broadbandnow.com/report/municipal-broadband-roadblocks"
+      ]
+    }
+  ],
+  "counts": {
+    "yes": 33,
+    "no": 16,
+    "unknown": 7
+  }
+}
