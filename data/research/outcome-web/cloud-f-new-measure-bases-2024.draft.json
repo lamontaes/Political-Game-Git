@@ -592,10 +592,284 @@
         "US-WV": 4.16,
         "US-WY": 3.66
       }
+    },
+    "gov.borrowing-cost": {
+      "name": "What a state pays to borrow, over the best-rated states",
+      "unit": "basis points over a AAA-rated state on general-obligation bonds",
+      "source": "S&P general-obligation ratings for 2024 (Wikipedia, List of U.S. states by credit rating, from S&P Global; D.C. from its current S&P rating; Montana from Moody's Aa1, as S&P does not rate it), priced at 6 basis points per notch below AAA through A+ (Joffe, Doubly Bound: The Cost of Issuing Municipal Bonds, Haas Institute 2017, from Bloomberg five-year index yields), and 12 per notch below A+, where the same source says spreads steepen (the 12 is this game's reading, not the source's number)",
+      "scale": "level",
+      "shortUnit": "basis points over AAA",
+      "note": "Puerto Rico and the territories are unknown. A AAA state starts at 0 and may drift a little below it, as top-rated bonds sometimes trade through the benchmark.",
+      "drift": {
+        "monthlySdLogit": 0.5,
+        "nationalShare": 0.3,
+        "waveMonthlyChance": 0.00125,
+        "waveSdLogit": 10,
+        "minPct": -20,
+        "maxPct": 400
+      },
+      "places": {
+        "US-AK": 12,
+        "US-AL": 12,
+        "US-AR": 12,
+        "US-AZ": 12,
+        "US-CA": 18,
+        "US-CO": 12,
+        "US-CT": 18,
+        "US-DC": 6,
+        "US-DE": 0,
+        "US-FL": 0,
+        "US-GA": 0,
+        "US-HI": 6,
+        "US-IA": 0,
+        "US-ID": 6,
+        "US-IL": 48,
+        "US-IN": 0,
+        "US-KS": 18,
+        "US-KY": 24,
+        "US-LA": 12,
+        "US-MA": 6,
+        "US-MD": 0,
+        "US-ME": 12,
+        "US-MI": 12,
+        "US-MN": 0,
+        "US-MO": 0,
+        "US-MS": 12,
+        "US-MT": 6,
+        "US-NC": 0,
+        "US-ND": 6,
+        "US-NE": 0,
+        "US-NH": 6,
+        "US-NJ": 36,
+        "US-NM": 12,
+        "US-NV": 6,
+        "US-NY": 6,
+        "US-OH": 0,
+        "US-OK": 12,
+        "US-OR": 6,
+        "US-PA": 24,
+        "US-RI": 12,
+        "US-SC": 6,
+        "US-SD": 0,
+        "US-TN": 0,
+        "US-TX": 0,
+        "US-UT": 0,
+        "US-VA": 0,
+        "US-VT": 6,
+        "US-WA": 6,
+        "US-WI": 6,
+        "US-WV": 18,
+        "US-WY": 12
+      },
+      "ratings": {
+        "US-AK": {
+          "rating": "AA",
+          "basis": "S&P 2024"
+        },
+        "US-AL": {
+          "rating": "AA",
+          "basis": "S&P 2024"
+        },
+        "US-AR": {
+          "rating": "AA",
+          "basis": "S&P 2024"
+        },
+        "US-AZ": {
+          "rating": "AA",
+          "basis": "S&P 2024"
+        },
+        "US-CA": {
+          "rating": "AA-",
+          "basis": "S&P 2024"
+        },
+        "US-CO": {
+          "rating": "AA",
+          "basis": "S&P 2024"
+        },
+        "US-CT": {
+          "rating": "AA-",
+          "basis": "S&P 2024"
+        },
+        "US-DC": {
+          "rating": "AA+",
+          "basis": "S&P current"
+        },
+        "US-DE": {
+          "rating": "AAA",
+          "basis": "S&P 2024"
+        },
+        "US-FL": {
+          "rating": "AAA",
+          "basis": "S&P 2024"
+        },
+        "US-GA": {
+          "rating": "AAA",
+          "basis": "S&P 2024"
+        },
+        "US-HI": {
+          "rating": "AA+",
+          "basis": "S&P 2024"
+        },
+        "US-IA": {
+          "rating": "AAA",
+          "basis": "S&P 2024"
+        },
+        "US-ID": {
+          "rating": "AA+",
+          "basis": "S&P 2024"
+        },
+        "US-IL": {
+          "rating": "A-",
+          "basis": "S&P 2024"
+        },
+        "US-IN": {
+          "rating": "AAA",
+          "basis": "S&P 2024"
+        },
+        "US-KS": {
+          "rating": "AA-",
+          "basis": "S&P 2024"
+        },
+        "US-KY": {
+          "rating": "A+",
+          "basis": "S&P 2024"
+        },
+        "US-LA": {
+          "rating": "AA",
+          "basis": "S&P 2024"
+        },
+        "US-MA": {
+          "rating": "AA+",
+          "basis": "S&P 2024"
+        },
+        "US-MD": {
+          "rating": "AAA",
+          "basis": "S&P 2024"
+        },
+        "US-ME": {
+          "rating": "AA",
+          "basis": "S&P 2024"
+        },
+        "US-MI": {
+          "rating": "AA",
+          "basis": "S&P 2024"
+        },
+        "US-MN": {
+          "rating": "AAA",
+          "basis": "S&P 2024"
+        },
+        "US-MO": {
+          "rating": "AAA",
+          "basis": "S&P 2024"
+        },
+        "US-MS": {
+          "rating": "AA",
+          "basis": "S&P 2024"
+        },
+        "US-MT": {
+          "rating": "AA+",
+          "basis": "Moody's current (S&P not rated)"
+        },
+        "US-NC": {
+          "rating": "AAA",
+          "basis": "S&P 2024"
+        },
+        "US-ND": {
+          "rating": "AA+",
+          "basis": "S&P 2024"
+        },
+        "US-NE": {
+          "rating": "AAA",
+          "basis": "S&P 2024"
+        },
+        "US-NH": {
+          "rating": "AA+",
+          "basis": "S&P 2024"
+        },
+        "US-NJ": {
+          "rating": "A",
+          "basis": "S&P 2024"
+        },
+        "US-NM": {
+          "rating": "AA",
+          "basis": "S&P 2024"
+        },
+        "US-NV": {
+          "rating": "AA+",
+          "basis": "S&P 2024"
+        },
+        "US-NY": {
+          "rating": "AA+",
+          "basis": "S&P 2024"
+        },
+        "US-OH": {
+          "rating": "AAA",
+          "basis": "S&P 2024"
+        },
+        "US-OK": {
+          "rating": "AA",
+          "basis": "S&P 2024"
+        },
+        "US-OR": {
+          "rating": "AA+",
+          "basis": "S&P 2024"
+        },
+        "US-PA": {
+          "rating": "A+",
+          "basis": "S&P 2024"
+        },
+        "US-RI": {
+          "rating": "AA",
+          "basis": "S&P 2024"
+        },
+        "US-SC": {
+          "rating": "AA+",
+          "basis": "S&P 2024"
+        },
+        "US-SD": {
+          "rating": "AAA",
+          "basis": "S&P 2024"
+        },
+        "US-TN": {
+          "rating": "AAA",
+          "basis": "S&P 2024"
+        },
+        "US-TX": {
+          "rating": "AAA",
+          "basis": "S&P 2024"
+        },
+        "US-UT": {
+          "rating": "AAA",
+          "basis": "S&P 2024"
+        },
+        "US-VA": {
+          "rating": "AAA",
+          "basis": "S&P 2024"
+        },
+        "US-VT": {
+          "rating": "AA+",
+          "basis": "S&P 2024"
+        },
+        "US-WA": {
+          "rating": "AA+",
+          "basis": "S&P 2024"
+        },
+        "US-WI": {
+          "rating": "AA+",
+          "basis": "S&P 2024"
+        },
+        "US-WV": {
+          "rating": "AA-",
+          "basis": "S&P 2024"
+        },
+        "US-WY": {
+          "rating": "AA",
+          "basis": "S&P 2024"
+        }
+      }
     }
   },
   "notFound": {
-    "gov.borrowing-cost": "No free state-level bond yield series. Poterba and Rueben (NBER w6237) give the 15 to 20 basis-point spread strict and lax budget rules make. A proxy from credit ratings would be a game assumption; left for Claude CTO.",
-    "env.recycling": "EPA stopped state-level measurement; only deposit states' container return rates exist. Left unknown."
+    "env.recycling": "Dropped by Claude CTO (14:18): no consistent state series exists."
   }
 }

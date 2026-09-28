@@ -27,6 +27,7 @@ const MEASURES = [
   "labor.median-earnings",
   "transit.service-access",
   "population.net-migration",
+  "gov.borrowing-cost",
 ] as const;
 
 const WORLDS = [
