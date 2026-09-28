@@ -43,6 +43,9 @@ for (const place of places) {
       },
     );
     expect(result.date).toBe("2026-06-05");
+    // The opening begins with the year (Sept. 28), then the White House.
+    await expect(page.getByTestId("orientation-step-year")).toBeVisible();
+    await page.getByTestId("orientation-next").click();
     await expect(page.getByTestId("orientation-step-executive")).toBeVisible();
     await page.getByTestId("orientation-next").focus();
     await page.keyboard.press("Enter");
@@ -130,6 +133,9 @@ for (const place of places) {
           includeBankedTestAlternative: true,
         },
       );
+      // The opening begins with the year (Sept. 28), then the White House.
+      await expect(page.getByTestId("orientation-step-year")).toBeVisible();
+      await page.getByTestId("orientation-next").click();
       await expect(
         page.getByTestId("orientation-step-executive"),
       ).toBeVisible();
@@ -199,6 +205,9 @@ for (const scenario of [
       },
       { ...scenario, reviewCandidates: process.env.PG_REGIONAL_REVIEW === "1" },
     );
+    // The opening begins with the year (Sept. 28), then the White House.
+    await expect(page.getByTestId("orientation-step-year")).toBeVisible();
+    await page.getByTestId("orientation-next").click();
     await expect(page.getByTestId("orientation-step-executive")).toBeVisible();
     await page.getByTestId("orientation-next").click();
     await expect(page.getByTestId("orientation-step-state")).toBeVisible();
@@ -228,6 +237,9 @@ test("District introduction follows the White House and keeps population and Con
       reviewCandidates: false,
     });
   });
+  // The opening begins with the year (Sept. 28), then the White House.
+  await expect(page.getByTestId("orientation-step-year")).toBeVisible();
+  await page.getByTestId("orientation-next").click();
   await expect(page.getByTestId("orientation-step-executive")).toBeVisible();
   await page.getByTestId("orientation-next").click();
   await expect(
