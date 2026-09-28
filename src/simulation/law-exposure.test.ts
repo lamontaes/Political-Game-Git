@@ -21,6 +21,7 @@ import {
   viewOfOfficial,
 } from "./living-world/official-views";
 import {
+  groupsAgainst,
   lawInterestGroup,
   lawInterestMembers,
   membersAgainstLaw,
@@ -390,5 +391,36 @@ describe("a law reaches a person", () => {
     );
     expect(lawInterestMembers(again, groupId)).toEqual(members);
     assertWorldIntegrity(grouped);
+    // A group whose members blame a candidate works against them in a town
+    // count: support falls by a twentieth beyond what the views alone do.
+    const officialId = personId;
+    const blamed = {
+      ...grouped,
+      history: {
+        ...grouped.history,
+        officialViews: [
+          {
+            id: "official-view_test" as typeof officialId,
+            stableKey: "law-exposure-test:blame",
+            sequence: grouped.history.nextSequence,
+            recordedAt: grouped.currentDate,
+            personId: members[0]!,
+            officialId,
+            measureId: row.measureId,
+            act: "voted-for" as const,
+            exposureId: lawExposuresOf(grouped, members[0]!)[0]!.id,
+            points: -1,
+            reasons: [{ kind: "personal" as const, points: -1 }],
+          },
+        ],
+      },
+    };
+    expect(groupsAgainst(blamed, town, officialId)).toHaveLength(1);
+    // A view formed this half year counts 1.5 times.
+    const viewsOnly = 1 + (-1 * 1.5) / (grouped.personOrder.length * 20);
+    expect(
+      townSupportFromViews(blamed, town, officialId, blamed.currentDate),
+    ).toBeCloseTo(viewsOnly - 0.05, 10);
+    expect(groupsAgainst(grouped, town, officialId)).toHaveLength(0);
   });
 });
