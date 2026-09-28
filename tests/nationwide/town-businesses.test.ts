@@ -17,10 +17,12 @@ import {
 import {
   TOWN_BUSINESS_CLOSING_REASONS,
   TOWN_BUSINESS_WORKPLACES,
-  TOWN_CONGREGATION_CLOSING_REASON,
+  TOWN_CLUB_PROFILE,
+  TOWN_CONGREGATION_PROFILE,
   describeTownBusinesses,
   reviewTownBusinesses,
-  reviewTownCongregations,
+  reviewTownGroups,
+  townGroups,
   townBusinesses,
 } from "../../src/simulation/living-world/town-businesses";
 import { TOWN_JOB_END_REASONS } from "../../src/simulation/living-world/town-labor-market";
@@ -49,7 +51,11 @@ function openAt(placeKey: string, seed: string) {
   return { world, personId, town: world.people[personId]!.homeJurisdictionId };
 }
 
-/** Five years of quarterly business and job reviews, on the calendar only. */
+/**
+ * Five years of quarterly business and job reviews, on the calendar only.
+ * The whole-world check is deferred because the world's other due items are
+ * not run here; the watched-world report runs these reviews on the real clock.
+ */
 function fiveYears(placeKey: string) {
   const opened = openAt(placeKey, `businesses-${placeKey}`);
   const { personId, town } = opened;
@@ -158,7 +164,7 @@ describe("the town's businesses open and close", { timeout: 600_000 }, () => {
 });
 
 describe(
-  "the town's congregations disband and are founded",
+  "the town's congregations and clubs disband and are founded",
   {
     timeout: 600_000,
   },
@@ -179,12 +185,12 @@ describe(
               date,
             ),
           };
-          world = reviewTownCongregations(world, town, personId, `c-${round}`);
+          world = reviewTownGroups(world, town, personId, `c-${round}`);
         }
       });
       const closings = world.history.organizationProfiles.filter(
         (profile) =>
-          profile.closed?.reason === TOWN_CONGREGATION_CLOSING_REASON,
+          profile.closed?.reason === TOWN_CONGREGATION_PROFILE.closingReason,
       );
       const founded = world.history.organizations.filter((organization) =>
         organization.stableKey.endsWith(":congregation:founded"),
@@ -204,6 +210,20 @@ describe(
               closing.organizationId,
             );
       }
+      // Clubs are founded and disband by the same rule, up to five at once.
+      const clubs = world.history.organizations.filter((organization) =>
+        organization.stableKey.endsWith(":club:founded"),
+      );
+      expect(clubs.length).toBeGreaterThan(0);
+      expect(
+        world.history.organizationProfiles.some(
+          (profile) =>
+            profile.closed?.reason === TOWN_CLUB_PROFILE.closingReason,
+        ),
+      ).toBe(true);
+      expect(
+        townGroups(world, town, TOWN_CLUB_PROFILE).length,
+      ).toBeLessThanOrEqual(TOWN_CLUB_PROFILE.most);
       // Every founded congregation starts with members from town.
       for (const organization of founded)
         expect(

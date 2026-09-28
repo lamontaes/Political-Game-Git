@@ -89,7 +89,7 @@ import {
 } from "../living-world/town-labor-market";
 import {
   reviewTownBusinesses,
-  reviewTownCongregations,
+  reviewTownGroups,
 } from "../living-world/town-businesses";
 import { reviewTownFamilies } from "../living-world/town-families";
 import { reviewTownHomes } from "../living-world/town-homes";
@@ -202,7 +202,7 @@ export function migrationReviewHandler(
     // Businesses close and open first, so their staff look for work with
     // everyone else this quarter.
     next = reviewTownBusinesses(next, town, player, String(index));
-    next = reviewTownCongregations(next, town, player, String(index));
+    next = reviewTownGroups(next, town, player, String(index));
     next = reviewTownJobs(next, town, player, String(index));
     next = reviewTownFamilies(next, town, player, String(index));
     // And its homes: newcomers and new households move in, others move.

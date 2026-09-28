@@ -12,6 +12,9 @@ import { organizationClosingAt, organizationProfileAt } from "../life-queries";
 import { SeededRng } from "../rng";
 import type {
   EntityId,
+  OrganizationClassification,
+  OrganizationParticipationKind,
+  OrganizationParticipationRoleKind,
   OrganizationParticipationStateRecord,
   World,
   WorkStatusRecord,
@@ -383,45 +386,113 @@ export function describeTownBusinesses(
 }
 
 /**
+ * A kind of town group people belong to, which disbands and is founded by
+ * its membership: a small one is likelier to disband, and a new one is
+ * founded only where enough adults belong to none of its kind.
+ */
+export interface TownGroupProfile {
+  readonly key: string;
+  readonly classification: OrganizationClassification;
+  readonly participationKind: OrganizationParticipationKind;
+  readonly roleKind: OrganizationParticipationRoleKind;
+  /** Chance a year that one of them disbands. */
+  readonly closingPerYear: number;
+  /**
+   * Chance a year that one is founded: per group already in town, or, for a
+   * kind a town may have none of, for the town as a whole.
+   */
+  readonly openingPerYear: number;
+  readonly openingBasis: "per-group" | "per-town";
+  /** Fewer members than this doubles the chance to disband; founding takes this many. */
+  readonly smallMembership: number;
+  /** The most a town has at once. */
+  readonly most: number;
+  readonly names: readonly ((town: string) => string)[];
+  /** The town workplace whose staff work there, if it has paid staff. */
+  readonly staff: {
+    readonly workplace: string;
+    readonly minAge: number;
+  } | null;
+  readonly closingReason: string;
+  readonly closedJobReason: string;
+}
+
+/**
  * CALIBRATION, approved by Claude CTO on 9/28/2026 as provisional: about
  * 4,000 Protestant churches closed and 3,800 opened in 2024 (Lifeway
  * Research), and 1.4% of Southern Baptist congregations closed; inferred as
- * about 1.3% of congregations closing and 1.2% opening a year.
+ * about 1.3% of congregations disbanding and 1.2% founded a year. The
+ * doubling for a small congregation, the founding size and the names are
+ * game assumptions.
  */
-export const TOWN_CONGREGATION_TURNOVER = {
+export const TOWN_CONGREGATION_PROFILE: TownGroupProfile = {
+  key: "congregation",
+  classification: "community:congregation",
+  participationKind: "membership:congregation",
+  roleKind: "member:congregant",
   closingPerYear: 0.013,
   openingPerYear: 0.012,
-  /**
-   * GAME ASSUMPTION: a congregation with fewer members than this is twice as
-   * likely to close, and one opens only where at least this many adults in
-   * town belong to none.
-   */
+  openingBasis: "per-group",
   smallMembership: 10,
-} as const;
+  most: 8,
+  names: [
+    (town) => `New Hope Church of ${town}`,
+    (town) => `${town} Bible Fellowship`,
+    (town) => `Cornerstone Church of ${town}`,
+    (town) => `${town} Chapel`,
+  ],
+  staff: { workplace: "congregation", minAge: 30 },
+  closingReason: "congregation:disbanded",
+  closedJobReason: "labor:congregation-closed",
+};
 
-/** GAME ASSUMPTION: names for congregations founded during play. */
-const NEW_CONGREGATION_NAMES: readonly ((town: string) => string)[] = [
-  (town) => `New Hope Church of ${town}`,
-  (town) => `${town} Bible Fellowship`,
-  (town) => `Cornerstone Church of ${town}`,
-  (town) => `${town} Chapel`,
+/**
+ * GAME PROFILE, approved by Claude CTO on 9/28/2026 as a labeled game
+ * profile (no official series of club openings and closings was found):
+ * a town founds a club about once every four years until it has five, and
+ * one disbands about once in ten years; clubs have no paid staff.
+ */
+export const TOWN_CLUB_PROFILE: TownGroupProfile = {
+  key: "club",
+  classification: "community:association",
+  participationKind: "membership:club",
+  roleKind: "member:club-member",
+  closingPerYear: 0.1,
+  openingPerYear: 0.25,
+  openingBasis: "per-town",
+  smallMembership: 6,
+  most: 5,
+  names: [
+    (town) => `${town} Garden Club`,
+    (town) => `${town} Historical Society`,
+    (town) => `${town} Book Club`,
+    (town) => `${town} Bowling League`,
+    (town) => `${town} Veterans Club`,
+    (town) => `${town} Quilting Circle`,
+  ],
+  staff: null,
+  closingReason: "club:disbanded",
+  closedJobReason: "labor:club-closed",
+};
+
+export const TOWN_GROUP_PROFILES: readonly TownGroupProfile[] = [
+  TOWN_CONGREGATION_PROFILE,
+  TOWN_CLUB_PROFILE,
 ];
 
-/** Why a congregation closed, as its closing profile's reason. */
-export const TOWN_CONGREGATION_CLOSING_REASON = "congregation:disbanded";
-
-/** A town job at a congregation that closed ended for this reason. */
-export const CONGREGATION_CLOSED_JOB_REASON = "labor:congregation-closed";
-
-/** The town's open congregations, each with its active members' records. */
-function townCongregations(world: World, town: EntityId) {
+/** The town's open groups of one kind, each with its active members. */
+export function townGroups(
+  world: World,
+  town: EntityId,
+  profile: TownGroupProfile,
+) {
   const open = world.history.organizations
     .filter((organization) => {
-      const profile = organizationProfileAt(world, organization.id);
+      const current = organizationProfileAt(world, organization.id);
       return (
-        profile?.classification === "community:congregation" &&
-        profile.locationJurisdictionId === town &&
-        !profile.closed
+        current?.classification === profile.classification &&
+        current.locationJurisdictionId === town &&
+        !current.closed
       );
     })
     .map((organization) => organization.id);
@@ -459,18 +530,30 @@ function townCongregations(world: World, town: EntityId) {
 }
 
 /**
- * One quarterly turn of the town's congregations: a small one is likelier
- * to disband, its members' memberships and its staff's jobs end with it,
- * and now and then a new one is founded by neighbors who belong to none.
+ * One quarterly turn of the town's congregations and clubs. A disbanded
+ * group's memberships and its staff's jobs end with it.
  */
-export function reviewTownCongregations(
+export function reviewTownGroups(
   world: World,
   town: EntityId,
   playerPersonId: EntityId | null,
   round: string,
 ): World {
+  let next = world;
+  for (const profile of TOWN_GROUP_PROFILES)
+    next = reviewTownGroupsOf(next, town, playerPersonId, round, profile);
+  return next;
+}
+
+function reviewTownGroupsOf(
+  world: World,
+  town: EntityId,
+  playerPersonId: EntityId | null,
+  round: string,
+  profile: TownGroupProfile,
+): World {
   const today = world.currentDate;
-  const prefix = `${TOWN_BUSINESSES_VERSION}:${town}:${round}:congregation:`;
+  const prefix = `${TOWN_BUSINESSES_VERSION}:${town}:${round}:${profile.key}:`;
   if (
     world.history.organizationProfiles.some((row) =>
       row.stableKey.startsWith(prefix),
@@ -478,38 +561,36 @@ export function reviewTownCongregations(
     world.history.organizations.some((row) => row.stableKey.startsWith(prefix))
   )
     return world;
-  const congregations = townCongregations(world, town);
+  const groups = townGroups(world, town, profile);
   const rng = new SeededRng(world.seed).fork(prefix);
   const provenance = {
     kind: "generated" as const,
     generatorKey: TOWN_BUSINESSES_VERSION,
   };
-  const T = TOWN_CONGREGATION_TURNOVER;
   let next = world;
   const latestWork = new Map<EntityId, WorkStatusRecord>();
   for (const status of world.history.workStatuses)
     if (status.effectiveAt <= today)
       latestWork.set(status.workRelationshipId, status);
 
-  for (const congregation of congregations) {
+  for (const group of groups) {
     const chance =
-      (T.closingPerYear / 4) *
-      (congregation.members.length < T.smallMembership ? 2 : 1);
-    if (rng.fork(`close:${congregation.organizationId}`).next() >= chance)
-      continue;
-    const profile = organizationProfileAt(next, congregation.organizationId)!;
+      (profile.closingPerYear / 4) *
+      (group.members.length < profile.smallMembership ? 2 : 1);
+    if (rng.fork(`close:${group.organizationId}`).next() >= chance) continue;
+    const current = organizationProfileAt(next, group.organizationId)!;
     next = recordOrganizationProfile(next, {
-      stableKey: `${prefix}close:${congregation.organizationId}`,
-      organizationId: congregation.organizationId,
+      stableKey: `${prefix}close:${group.organizationId}`,
+      organizationId: group.organizationId,
       effectiveAt: today,
-      name: profile.name,
-      classification: profile.classification,
-      locationJurisdictionId: profile.locationJurisdictionId,
+      name: current.name,
+      classification: current.classification,
+      locationJurisdictionId: current.locationJurisdictionId,
       provenance,
-      supersedesProfileId: profile.id,
-      closed: { reason: TOWN_CONGREGATION_CLOSING_REASON },
+      supersedesProfileId: current.id,
+      closed: { reason: profile.closingReason },
     });
-    for (const member of congregation.members)
+    for (const member of group.members)
       next = recordOrganizationParticipationState(next, {
         stableKey: `${prefix}ended:${member.participationId}`,
         participationId: member.participationId,
@@ -521,7 +602,7 @@ export function reviewTownCongregations(
         supersedesStateId: member.state.id,
       });
     for (const relationship of next.history.workRelationships) {
-      if (relationship.organizationId !== congregation.organizationId) continue;
+      if (relationship.organizationId !== group.organizationId) continue;
       const status = latestWork.get(relationship.id);
       if (status?.status !== "active") continue;
       next = recordWorkStatus(next, {
@@ -529,21 +610,23 @@ export function reviewTownCongregations(
         workRelationshipId: relationship.id,
         effectiveAt: today,
         status: "ended",
-        reason: CONGREGATION_CLOSED_JOB_REASON,
+        reason: profile.closedJobReason,
         supersedesStatusId: status.id,
         provenance,
       });
     }
   }
 
-  // A founding: at the town's opening rate, where enough adults belong to
-  // no congregation.
-  const expected = Math.max(1, congregations.length) * (T.openingPerYear / 4);
+  // A founding, where enough adults belong to none of this kind.
+  const still = townGroups(next, town, profile);
+  if (still.length >= profile.most) return next;
+  const expected =
+    profile.openingBasis === "per-group"
+      ? Math.max(1, groups.length) * (profile.openingPerYear / 4)
+      : profile.openingPerYear / 4;
   if (rng.fork("found").next() >= expected) return next;
   const belonging = new Set(
-    townCongregations(next, town).flatMap((entry) =>
-      entry.members.map((member) => member.personId),
-    ),
+    still.flatMap((entry) => entry.members.map((member) => member.personId)),
   );
   const unaffiliated = townResidents(next, town)
     .filter(
@@ -552,17 +635,17 @@ export function reviewTownCongregations(
         !belonging.has(resident.personId),
     )
     .sort((a, b) => a.personId.localeCompare(b.personId));
-  if (unaffiliated.length < T.smallMembership) return next;
+  if (unaffiliated.length < profile.smallMembership) return next;
   const place = lifePlaceByJurisdictionId(town);
   const townName = place?.displayName.split(",")[0]!.trim() ?? "Town";
   const taken = new Set(
     next.history.organizationProfiles
-      .filter((profile) => profile.locationJurisdictionId === town)
-      .map((profile) => profile.name),
+      .filter((row) => row.locationJurisdictionId === town)
+      .map((row) => row.name),
   );
-  const name = NEW_CONGREGATION_NAMES.map((named) => named(townName)).find(
-    (candidate) => !taken.has(candidate),
-  );
+  const name = profile.names
+    .map((named) => named(townName))
+    .find((candidate) => !taken.has(candidate));
   if (!name) return next;
   const stableKey = `${prefix}founded`;
   next = createOrganization(next, {
@@ -571,7 +654,7 @@ export function reviewTownCongregations(
     provenance,
     initialProfile: {
       name,
-      classification: "community:congregation",
+      classification: profile.classification,
       locationJurisdictionId: town,
     },
   });
@@ -586,7 +669,7 @@ export function reviewTownCongregations(
       key: rng.fork(`founder:${resident.personId}`).next(),
     }))
     .sort((a, b) => a.key - b.key)
-    .slice(0, T.smallMembership)
+    .slice(0, profile.smallMembership)
     .map((entry) => entry.resident);
   for (const founder of founders)
     next = createOrganizationParticipation(next, {
@@ -594,27 +677,29 @@ export function reviewTownCongregations(
       personId: founder.personId,
       organizationId,
       startedAt: today,
-      kind: "membership:congregation",
-      roleKind: "member:congregant",
+      kind: profile.participationKind,
+      roleKind: profile.roleKind,
       context: null,
       provenance,
     });
-  // Its pastor, from those out of work and old enough.
+  if (!profile.staff) return next;
+  // Its leader, from the founders out of work and old enough.
   const working = new Set(
     next.history.workRelationships
       .filter((row) => latestWork.get(row.id)?.status === "active")
       .map((row) => row.personId),
   );
-  const pastor = founders.find(
+  const minAge = profile.staff.minAge;
+  const leader = founders.find(
     (founder) =>
-      founder.age >= 30 &&
+      founder.age >= minAge &&
       !working.has(founder.personId) &&
       laborStatus(next, founder) !== "retired",
   );
-  if (pastor)
-    next = fillTownJobs(next, town, [pastor], {
-      round: `${round}:founded`,
-      into: { workplace: "congregation", organizationId },
+  if (leader)
+    next = fillTownJobs(next, town, [leader], {
+      round: `${round}:${profile.key}:founded`,
+      into: { workplace: profile.staff.workplace, organizationId },
     });
   return next;
 }
