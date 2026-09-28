@@ -1,6 +1,7 @@
 import { addDays } from "./dates";
 import { createStableId } from "./ids";
 import { activePartnershipsAt } from "./life-queries";
+import { scheduleOfficialViewReflection } from "./living-world/official-views";
 import type {
   EntityId,
   IsoDate,
@@ -20,8 +21,8 @@ import type {
  * money next to their pay. The person's partner gets a family exposure,
  * because a spouse's paycheck is felt at home.
  *
- * This writes no opinion. Reflection reads exposures later and forms views of
- * the officials behind the law.
+ * This writes no opinion. It schedules a reflection a few days later, which
+ * forms views of the officials behind the law (`living-world/official-views.ts`).
  */
 
 export interface LawExposureInput {
@@ -184,14 +185,17 @@ function append(
     sequence: world.history.nextSequence,
     recordedAt: world.currentDate,
   };
-  return {
-    ...world,
-    history: {
-      ...world.history,
-      nextSequence: world.history.nextSequence + 1,
-      lawExposures: [...existing, record],
+  return scheduleOfficialViewReflection(
+    {
+      ...world,
+      history: {
+        ...world.history,
+        nextSequence: world.history.nextSequence + 1,
+        lawExposures: [...existing, record],
+      },
     },
-  };
+    record,
+  );
 }
 
 /**

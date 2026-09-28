@@ -76,6 +76,7 @@ export type EntityKind =
   | "statutory-tax-liability"
   | "statutory-tax-payment"
   | "law-exposure"
+  | "official-view"
   | "job-opening"
   | "job-application"
   | "job-application-step"
@@ -896,6 +897,34 @@ export interface LawExposureRecord {
   readonly monthlyPay: MoneyAmount | null;
   /** The record showing the effect happened (a tax collection, a paycheck). */
   readonly sourceRecordId: EntityId;
+}
+
+/** Why a person's view of an official moved (spec 5, "Reasons for a view"). */
+export interface OfficialViewReason {
+  readonly kind: "personal" | "family" | "party";
+  /** Signed points this reason moved the view: credit up, blame down. */
+  readonly points: number;
+}
+
+/**
+ * One reflection on one official: what the official did about a law that
+ * reached this person, how far it moved the person's view of them, and why.
+ * A person's standing view of an official is the sum of these rows; nothing
+ * fades on its own (no passive decay).
+ */
+export interface OfficialViewRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly personId: EntityId;
+  readonly officialId: EntityId;
+  readonly measureId: EntityId;
+  readonly act: "voted-for" | "voted-against" | "signed";
+  readonly exposureId: EntityId;
+  /** Signed total of `reasons`. */
+  readonly points: number;
+  readonly reasons: readonly OfficialViewReason[];
 }
 
 export interface PrivateBeliefRecord {
@@ -3869,6 +3898,8 @@ export interface HistoryStore {
   readonly statutoryTaxPayments?: readonly StatutoryTaxPaymentRecord[];
   /** Optional: when an enacted law reached a person; see `law-exposure.ts`. */
   readonly lawExposures?: readonly LawExposureRecord[];
+  /** Optional: credit or blame for officials; see `living-world/official-views.ts`. */
+  readonly officialViews?: readonly OfficialViewRecord[];
   /** Optional: job openings and applications; see `job-market.ts`. */
   readonly jobOpenings?: readonly JobOpeningRecord[];
   readonly jobApplications?: readonly JobApplicationRecord[];

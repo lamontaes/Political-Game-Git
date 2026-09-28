@@ -12,6 +12,11 @@ import {
   lawExposuresOf,
   recordLawExposure,
 } from "./law-exposure";
+import {
+  knowsVote,
+  officialsBehind,
+  viewOfOfficial,
+} from "./living-world/official-views";
 import { money } from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { advanceWorld, assertWorldIntegrity } from "./world";
@@ -93,6 +98,43 @@ describe("a law reaches a person", () => {
       },
     ]);
     assertWorldIntegrity(world);
+  });
+
+  it("a few days later the spouse blames the legislators they know voted for it; the player decides for themselves", () => {
+    const { world, personId, spouseId } = collected(true);
+    const later = advanceWorld(
+      world,
+      3,
+      createCampaignElectionTransitionRegistry(),
+    );
+    const exposure = lawExposuresOf(later, spouseId)[0]!;
+    const known = officialsBehind(later, exposure.measureId).filter(
+      (act) =>
+        act.officialId !== spouseId &&
+        (act.executive || knowsVote(later, exposure, act.officialId)),
+    );
+    const views = (later.history.officialViews ?? []).filter(
+      (row) => row.personId === spouseId,
+    );
+    expect(views.map((row) => row.officialId).sort()).toEqual(
+      known.map((act) => act.officialId).sort(),
+    );
+    expect(views.length).toBeGreaterThan(0);
+    for (const view of views) {
+      // Every one of them voted to make the tax law, so it is blame.
+      expect(view.act).toBe("voted-for");
+      expect(view.points).toBeLessThan(0);
+      expect(view.reasons[0]!.kind).toBe("family");
+      expect(viewOfOfficial(later, spouseId, view.officialId).points).toBe(
+        view.points,
+      );
+    }
+    expect(
+      (later.history.officialViews ?? []).some(
+        (row) => row.personId === personId,
+      ),
+    ).toBe(false);
+    assertWorldIntegrity(later);
   });
 
   it("writes nothing twice and survives a save", () => {
