@@ -35,6 +35,8 @@ export type BillNumberingBasis =
   | "session-label"
   /** A recorded starting number, with its source, checked against the samples. */
   | "recorded-start"
+  /** A numbering period a source states outright, with its quote. */
+  | "recorded-period"
   /** Nothing recorded; the game's own labeled default. */
   | "game-default";
 
@@ -72,6 +74,19 @@ export interface BillNumberingStartRow {
   readonly chamber: "lower" | "upper";
   readonly firstNumber: number;
   readonly evenYearFirstNumber?: number | null;
+  readonly sourceUrl: string;
+  readonly quote: string;
+}
+
+/**
+ * One state's numbering period where a source states it (Kansas's numbers
+ * "continue into the second year of the biennium"), as
+ * data/research/bill-numbering-starts.json holds it.
+ */
+export interface BillNumberingPeriodRow {
+  readonly state: string;
+  readonly period: "annual" | "biennial";
+  readonly opensIn: "odd" | "even";
   readonly sourceUrl: string;
   readonly quote: string;
 }
@@ -345,6 +360,7 @@ export function deriveStateBillNumberingStyle(
   samples: readonly BillSampleRow[],
   chamberNames: readonly ChamberNameRow[],
   starts: readonly BillNumberingStartRow[] = [],
+  periods: readonly BillNumberingPeriodRow[] = [],
 ): StateBillNumberingStyle {
   const lowerRecorded = chamberTemplate(samples, "lower");
   const upperRecorded = chamberTemplate(samples, "upper");
@@ -389,7 +405,16 @@ export function deriveStateBillNumberingStyle(
       ? { name: titled(recordedUpperName.name), basis: "recorded" }
       : { name: DEFAULT_UPPER_NAME, basis: "game-default" };
 
-  const period = periodOf(samples);
+  const statedPeriod = periods.find(
+    (row) => `US-${row.state}` === jurisdictionKey,
+  );
+  const period = statedPeriod
+    ? {
+        period: statedPeriod.period,
+        opensIn: statedPeriod.opensIn,
+        basis: "recorded-period" as const,
+      }
+    : periodOf(samples);
   return {
     jurisdictionKey,
     lower: {

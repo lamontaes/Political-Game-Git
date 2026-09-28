@@ -70,6 +70,7 @@ import type {
   OccupationClassification,
   Organization,
   OrganizationClassification,
+  OrganizationClosing,
   OrganizationParticipation,
   OrganizationParticipationKind,
   OrganizationParticipationRoleKind,
@@ -116,6 +117,8 @@ export interface RecordOrganizationProfileInput {
   readonly locationJurisdictionId: EntityId | null;
   readonly provenance: LifeRecordProvenance;
   readonly supersedesProfileId: EntityId;
+  /** Present when this profile closes the organization. */
+  readonly closed?: OrganizationClosing;
 }
 
 export interface CreateEducationEnrollmentInput {
