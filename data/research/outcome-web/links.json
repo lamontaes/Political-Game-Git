@@ -562,15 +562,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.05,
       "per": "point of coverage",
       "lagMonths": 0,
       "group": "low-income adults",
       "owner": "F",
-      "anchor": "ACA expansion: -$3.4 billion in collections in 2 years; better credit and loan terms",
+      "anchor": "Flow base: about $920 a year less in collections per newly insured person against about $150 to $240 of new medical collections per adult per year, so -5% of new medical collections per point of coverage",
       "source": "Brevoort, Grodzicki and Hackmann 2020 (JPubE)",
       "from": "health.coverage-pct",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [-0.06, -0.04]
     },
     {
       "key": "coverage-to-depression",
@@ -579,7 +580,7 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.3,
       "per": "covered",
       "lagMonths": 6,
       "group": "low-income adults",
@@ -587,7 +588,8 @@
       "anchor": "-9 points screening positive",
       "source": "Oregon Health Insurance Experiment",
       "from": "health.coverage",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [-0.56, -0.05]
     },
     {
       "key": "coverage-to-blood-pressure",
@@ -611,17 +613,18 @@
       "to": "health.mortality-55-64",
       "strength": "moderate",
       "shape": {
-        "kind": "linear"
+        "kind": "exposure-years"
       },
-      "size": null,
-      "per": "expansion",
+      "size": -0.25,
+      "per": "covered person-year",
       "lagMonths": 12,
-      "group": "low-income near-elderly",
+      "group": "a low-income person aged 55 to 64 whose own coverage is modeled; that person is left out of the place-level expansion row",
       "owner": "F",
-      "anchor": "-9.4% annual mortality, -11.9% by year 3",
+      "anchor": "Per enrollee: about -0.35 points of annual mortality on a base near 1.4%, so -25% per covered year. The -9.4% (Miller, Johnson and Wherry 2021) is the effect on all low-income 55 to 64s in an expansion state, enrolled or not, and stays on the place-level medicaid-expansion-to-mortality row",
       "source": "Miller, Johnson and Wherry 2021 (QJE)",
       "from": "health.coverage-pct",
-      "evidence": "researched"
+      "evidence": "provisional",
+      "range": [-0.4, -0.1]
     },
     {
       "key": "work-requirement-to-coverage",
@@ -809,15 +812,16 @@
         "kind": "threshold",
         "at": 0.59
       },
-      "size": null,
+      "size": -0.15,
       "per": "above about 59% of the median wage",
       "lagMonths": 0,
       "group": "teens, least skilled",
       "owner": "B",
-      "anchor": "No job loss over 5 years across 138 increases; teen elasticities -0.1 to -0.2 in other studies",
+      "anchor": "No job loss over 5 years across 138 increases up to 59% of the median wage (Cengiz et al.); 59% is the top of what they observed, not a tested threshold. Past it, the all-studies mean teen elasticity: -0.15 (teen median -0.122, mean -0.170)",
       "source": "Cengiz et al. 2019; Neumark and Shirley 2022",
       "from": "labor.minimum-wage-to-median",
-      "evidence": "contested"
+      "evidence": "contested",
+      "range": [-0.3, 0]
     },
     {
       "key": "unemployment-to-poverty",
@@ -1414,7 +1418,7 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0.35,
       "per": "workers bear 30-35% of the tax",
       "lagMonths": 0,
       "group": "workers",
@@ -1422,7 +1426,8 @@
       "anchor": "Owners about 40%, workers 30-35%, landowners 25-30%",
       "source": "Suarez Serrato and Zidar 2016 (AER)",
       "from": "tax.state-corporate-rate",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [0, 0.7]
     },
     {
       "key": "incentive-deal-to-industry-jobs",
@@ -1465,16 +1470,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": -0.014,
+      "size": -0.0075,
       "per": "percentage point of unemployment",
       "lagMonths": 9,
       "group": "place",
       "owner": "B",
-      "anchor": "+1 point unemployment: -1.4% births",
-      "source": "Kearney, Levine and Pardue 2022 (JEP)",
+      "anchor": "+1 point unemployment: births about 0.75% lower (Kearney, Levine and Pardue; Currie and Schwandt find about 0.7 to 0.75%); the -1.4% in Dettling and Kearney was a control in one model and sets the range's far end",
+      "source": "Dettling and Kearney 2014 (JPubE); Kearney, Levine and Pardue 2022 (JEP); Currie and Schwandt 2014 (PNAS)",
       "from": "labor.unemployment-pct",
       "evidence": "researched",
-      "range": [-0.018, -0.01]
+      "range": [-0.014, -0.005]
     },
     {
       "key": "enforcement-to-undocumented-employment",
@@ -1483,8 +1488,8 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "program in force: -5.7%",
+      "size": -0.057,
+      "per": "a whole commuting zone going from no coverage to full coverage for a year",
       "lagMonths": 0,
       "group": "likely undocumented",
       "owner": "B",
@@ -1500,12 +1505,12 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "program in force",
+      "size": -0.005,
+      "per": "a whole commuting zone going from no coverage to full coverage for a year",
       "lagMonths": 0,
       "group": "U.S.-born workers",
       "owner": "B",
-      "anchor": "Small declines in employment and wages",
+      "anchor": "U.S.-born workers: about -0.5% employment and -0.6% wages",
       "source": "East et al. 2023 (JOLE)",
       "from": "immigration.local-enforcement-partnership",
       "evidence": "researched"
