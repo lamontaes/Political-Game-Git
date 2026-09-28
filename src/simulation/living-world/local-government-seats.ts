@@ -21,7 +21,7 @@ import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import type { EntityId, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
-  materializeTownHousehold,
+  materializeSettledTownHousehold,
   playerTown,
   townResidentId,
   townRosterPlace,
@@ -162,7 +162,7 @@ export function drawTownResident(
     );
     if (!found) return { world: next, personId: null };
     taken.add(`${found.household}:${found.member}`);
-    next = materializeTownHousehold(next, town, found.household);
+    next = materializeSettledTownHousehold(next, town, found.household);
     const personId = townResidentId(next, town, found.household, found.member);
     if (!next.people[personId] || excluded.has(personId)) continue;
     return { world: next, personId };
