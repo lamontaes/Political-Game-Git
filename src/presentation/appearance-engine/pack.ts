@@ -81,13 +81,17 @@ export const PEOPLE_PACK_VERSION = "people-engine-pack-v1";
 export type BodyPresentation = "feminine" | "masculine";
 export type BodyBuild = "lean" | "average" | "fuller";
 /**
- * When an outfit is worn: everyday clothes, formal wear (where government is
- * done), or a work uniform (scrubs, a safety vest, a police uniform, a judge's
- * robe), which comes with a job and is never drawn at random.
+ * What an outfit is worn for. A place asks for everyday, business or formal
+ * clothes (src/presentation/dress-code.ts); "cold" is what a person wears
+ * outdoors in the cold months; a "uniform" (scrubs, a safety vest, a police
+ * uniform, a judge's robe) comes with a job and is never drawn at random.
  */
-export type OutfitOccasion = "formal" | "casual" | "work";
+export type OutfitTag = "casual" | "business" | "formal" | "cold" | "uniform";
 
 export const BODY_BUILDS: readonly BodyBuild[] = ["lean", "average", "fuller"];
+
+/** How the body is posed: standing, or seated facing front on a chair. */
+export type BodyPose = "standing" | "seated";
 
 export interface PackBody {
   readonly file: string;
@@ -99,6 +103,15 @@ export interface PackPresentation {
   /** The average body's anchors: every head and hair layer is drawn for them. */
   readonly canonical: BodyAnchors;
   readonly bodies: Readonly<Record<BodyBuild, PackBody>>;
+  /**
+   * The same people seated facing front: the art team's seated bodies,
+   * registered so the seat is one row for every build (seatRow).
+   */
+  readonly seated?: {
+    readonly bodies: Readonly<
+      Record<BodyBuild, PackBody & { readonly seatRow: number }>
+    >;
+  };
   readonly faces: readonly {
     readonly id: string;
     readonly file: string;
@@ -117,7 +130,8 @@ export interface PackOutfit {
   readonly id: string;
   /** Player-facing name, for the creator's Outfit arrows. */
   readonly label: string;
-  readonly occasion: OutfitOccasion;
+  /** Where and when it is worn (see OutfitTag); an outfit may fit several. */
+  readonly tags: readonly OutfitTag[];
   /** The palette (PART_PALETTES) of each garment part that takes its own color. */
   readonly parts: Readonly<Record<string, string>>;
   /**
@@ -125,19 +139,44 @@ export interface PackOutfit {
    * part, and a mask of the skin the outfit shows (hands, legs, an open
    * collar). Without a skin mask, every skin-colored pixel counts as skin.
    */
-  readonly builds: Partial<
-    Readonly<
-      Record<
-        BodyBuild,
-        {
-          readonly file: string;
-          readonly hides: string;
-          readonly regions?: Readonly<Record<string, string>>;
-          readonly skin?: string;
-        }
-      >
+  readonly builds: OutfitBuilds;
+  /** The same outfit on the seated bodies, when it has been painted seated. */
+  readonly seated?: OutfitBuilds;
+}
+
+export type OutfitBuilds = Partial<
+  Readonly<
+    Record<
+      BodyBuild,
+      {
+        readonly file: string;
+        readonly hides: string;
+        readonly regions?: Readonly<Record<string, string>>;
+        readonly skin?: string;
+      }
     >
-  >;
+  >
+>;
+
+/**
+ * The body and outfit pieces a recipe draws from, in its pose. A seated
+ * recipe falls back to standing where the pack has no seated art.
+ */
+export function posedPieces(pack: PackPresentation, recipe: EngineRecipe) {
+  const outfit = packOutfit(pack, recipe.outfit);
+  const seated =
+    recipe.pose === "seated" &&
+    pack.seated !== undefined &&
+    outfit?.seated?.[recipe.build] !== undefined;
+  return {
+    body: seated
+      ? pack.seated!.bodies[recipe.build]
+      : pack.bodies[recipe.build],
+    outfit: seated
+      ? outfit!.seated![recipe.build]
+      : outfit?.builds[recipe.build],
+    seated,
+  };
 }
 
 export interface PeoplePackManifest {
@@ -249,6 +288,8 @@ export interface EngineRecipe {
   readonly outfit: string;
   /** Fabric color per garment part of the outfit (PART_PALETTES). */
   readonly colors?: Readonly<Record<string, string>>;
+  /** Standing unless the place calls for sitting. */
+  readonly pose?: BodyPose;
 }
 
 export function engineRecipeKey(recipe: EngineRecipe): string {
@@ -260,6 +301,7 @@ export function engineRecipeKey(recipe: EngineRecipe): string {
     recipe.hair,
     recipe.hairColor,
     recipe.outfit,
+    recipe.pose ?? "standing",
     ...Object.entries(recipe.colors ?? {})
       .sort()
       .map(([part, color]) => `${part}=${color}`),
@@ -274,9 +316,9 @@ export function recipeFiles(
   const pack = manifest.presentations[recipe.presentation];
   const face = pack.faces.find((f) => f.id === recipe.face) ?? pack.faces[0]!;
   const hair = pack.hair.find((h) => h.id === recipe.hair) ?? pack.hair[0]!;
-  const outfit = packOutfit(pack, recipe.outfit)?.builds[recipe.build];
+  const { body, outfit } = posedPieces(pack, recipe);
   return [
-    pack.bodies[recipe.build].file,
+    body.file,
     face.file,
     hair.back,
     hair.front,
@@ -323,14 +365,18 @@ export function composeEnginePerson(
   manifest: PeoplePackManifest,
   image: (file: string) => Raster,
   recipe: EngineRecipe,
-): { readonly raster: Raster; readonly anchors: BodyAnchors } {
+): {
+  readonly raster: Raster;
+  readonly anchors: BodyAnchors;
+  /** For a seated person: the row the seat is at. */
+  readonly seatRow?: number;
+} {
   const pack = manifest.presentations[recipe.presentation];
-  const body = pack.bodies[recipe.build];
+  const { body, outfit, seated } = posedPieces(pack, recipe);
   const ramp =
     SKIN_RAMPS[Math.min(SKIN_RAMPS.length, Math.max(1, recipe.shade)) - 1]!;
   const face = pack.faces.find((f) => f.id === recipe.face) ?? pack.faces[0]!;
   const hair = pack.hair.find((h) => h.id === recipe.hair) ?? pack.hair[0]!;
-  const outfit = packOutfit(pack, recipe.outfit)?.builds[recipe.build];
   const color = HAIR_COLORS.find((c) => c.id === recipe.hairColor);
   const front = image(hair.front);
   const tint = (layer: Raster) =>
@@ -377,5 +423,6 @@ export function composeEnginePerson(
   return {
     raster: assemblePerson(body.anchors, layers),
     anchors: body.anchors,
+    ...(seated ? { seatRow: pack.seated!.bodies[recipe.build].seatRow } : {}),
   };
 }

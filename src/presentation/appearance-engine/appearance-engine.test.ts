@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { PNG } from "pngjs";
 import { describe, expect, it } from "vitest";
 import type { Person, World } from "../../simulation/types";
-import { sceneOccasion } from "../life-scene-people";
+import { seatedEngineBox } from "../life-scene-people";
 import {
   PART_PALETTES,
   composeEnginePerson,
@@ -501,25 +501,32 @@ describe("the people engine in the game", () => {
       6,
       "formal",
     ]);
-    // Formal wear chosen, and the occasion is formal: it is kept.
+    // Formal wear chosen, and the place is formal: it is kept.
     expect(
-      engineRecipeFor(chosen, "2026-09-27", manifest, { occasion: "formal" })!
+      engineRecipeFor(chosen, "2026-09-27", manifest, { wear: "formal" })!
         .outfit,
     ).toBe("formal");
     // At home she wears one of her everyday outfits, the same one every time.
     const home = engineRecipeFor(chosen, "2026-09-27", manifest, {
-      occasion: "casual",
+      wear: "casual",
     })!.outfit;
-    const everyday = manifest.presentations.feminine.outfits.filter(
-      (outfit) => outfit.occasion === "casual",
+    const everyday = manifest.presentations.feminine.outfits.filter((outfit) =>
+      outfit.tags.includes("casual"),
     );
     expect(everyday.map((outfit) => outfit.id)).toContain(home);
     expect(
-      engineRecipeFor(chosen, "2026-09-27", manifest, { occasion: "casual" })!
+      engineRecipeFor(chosen, "2026-09-27", manifest, { wear: "casual" })!
         .outfit,
     ).toBe(home);
-    expect(sceneOccasion("us-capitol-senate-chamber")).toBe("formal");
-    expect(sceneOccasion("residence-suburban-house-day-wave2")).toBe("casual");
+    // Outdoors in the cold she wears her coat.
+    const coat = engineRecipeFor(chosen, "2026-01-15", manifest, {
+      wear: "cold",
+    })!.outfit;
+    expect(
+      manifest.presentations.feminine.outfits
+        .find((outfit) => outfit.id === coat)!
+        .tags.includes("cold"),
+    ).toBe(true);
   });
 
   it("has every outfit for every body, and composes a whole person from the pack", () => {
@@ -579,17 +586,74 @@ describe("the people engine in the game", () => {
       const outfit = manifest.presentations[recipe.presentation].outfits.find(
         (o) => o.id === recipe.outfit,
       )!;
-      expect(outfit.occasion).toBe("casual");
+      expect(outfit.tags).toContain("casual");
+      expect(outfit.tags).not.toContain("uniform");
       const key = `${recipe.presentation}:${recipe.outfit}`;
       worn.set(key, (worn.get(key) ?? 0) + 1);
     }
     const everyday = (["feminine", "masculine"] as const).flatMap((p) =>
       manifest.presentations[p].outfits
-        .filter((o) => o.occasion === "casual")
+        .filter((o) => o.tags.includes("casual") && !o.tags.includes("uniform"))
         .map((o) => `${p}:${o.id}`),
     );
     // Every everyday outfit turns up in a crowd of 200.
     expect([...worn.keys()].sort()).toEqual(everyday.sort());
+  });
+
+  it("seats people: every outfit on every seated body, hips on the seat, feet on the floor", () => {
+    const read = (file: string): Raster => {
+      const png = PNG.sync.read(readFileSync(`art/people-engine/v1/${file}`));
+      return {
+        width: png.width,
+        height: png.height,
+        data: new Uint8ClampedArray(png.data),
+      };
+    };
+    for (const presentation of ["feminine", "masculine"] as const) {
+      const pack = manifest.presentations[presentation];
+      for (const outfit of pack.outfits)
+        for (const build of ["lean", "average", "fuller"] as const)
+          expect(outfit.seated?.[build]).toBeDefined();
+      const recipe = {
+        presentation,
+        build: "average" as const,
+        shade: 4,
+        face: "",
+        hair: "",
+        hairColor: "natural",
+        outfit: pack.outfits[0]!.id,
+        pose: "seated" as const,
+      };
+      const { raster, anchors, seatRow } = composeEnginePerson(
+        manifest,
+        read,
+        recipe,
+      );
+      expect(seatRow).toBe(pack.seated!.bodies.average.seatRow);
+      // The body is there at the seat, between the soles and the head.
+      expect(seatRow!).toBeGreaterThan(anchors.neck.row);
+      expect(seatRow!).toBeLessThan(anchors.feet);
+      expect(
+        alphaOf(raster, Math.round(anchors.neck.centerX), seatRow! - 4),
+      ).toBe(255);
+      // In a room: the soles on the floor line, the seat row on the seat line.
+      const seat = {
+        seat_plane_y_percent: 62,
+        seat_front_x_percent: 50,
+        seat_width_percent: 9,
+        floor_y_percent: 76,
+        seat_z_order: 2,
+        backrest_z_order: 1,
+      };
+      const standingBox = 34;
+      const box = seatedEngineBox(recipe, seat, standingBox);
+      const body = pack.seated!.bodies.average.anchors;
+      const figure = body.feet - body.top + 1;
+      const rowY = (row: number) =>
+        box.topPercent + ((row - body.top) / figure) * box.heightPercent;
+      expect(rowY(body.feet + 1)).toBeCloseTo(76, 5);
+      expect(rowY(seatRow! + 1)).toBeCloseTo(62, 0);
+    }
   });
 
   it("never cuts off a hairstyle at the top of the picture, on any body", () => {

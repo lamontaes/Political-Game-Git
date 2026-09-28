@@ -44,6 +44,8 @@ export interface EnginePersonImage {
   readonly width: number;
   readonly height: number;
   readonly anchors: BodyAnchors;
+  /** For a seated person: the row the seat is at. */
+  readonly seatRow?: number;
 }
 
 const decoded = new Map<string, Promise<Raster>>();
@@ -93,7 +95,7 @@ export function enginePersonImage(
       );
       queue = turn;
       await turn;
-      const { raster, anchors } = composeEnginePerson(
+      const { raster, anchors, seatRow } = composeEnginePerson(
         PEOPLE_PACK,
         (file) => rasters.get(file)!,
         recipe,
@@ -123,6 +125,7 @@ export function enginePersonImage(
         width: raster.width,
         height: raster.height,
         anchors,
+        ...(seatRow === undefined ? {} : { seatRow }),
       };
     })();
     pending.catch(() => composed.delete(key));
