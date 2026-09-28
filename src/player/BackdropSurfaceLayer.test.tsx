@@ -179,6 +179,26 @@ describe("live content on the painted surfaces of place pictures", () => {
     expect(html).toContain("ORD ");
   });
 
+  it("keeps the town council's votes off the county commission's screen", () => {
+    const town = world.people[personId]!.homeJurisdictionId!;
+    const measures = new Map(
+      (world.history.legislativeMeasures ?? []).map((measure) => [
+        measure.designation,
+        measure.jurisdictionId,
+      ]),
+    );
+    // The town has voted; the county has no record of its own here.
+    expect([...measures.values()]).toContain(town);
+    for (const surface of surfacesAt(world, "county-commission")) {
+      if (surface.content.kind === "votes")
+        for (const line of surface.content.lines)
+          expect(measures.get(line.designation)).not.toBe(town);
+      if (surface.content.kind === "bills")
+        for (const bill of surface.content.bills)
+          expect(measures.get(bill.designation)).not.toBe(town);
+    }
+  });
+
   it("never repeats one list on two boards of the same room", () => {
     for (const place of Object.keys(PLACE_SURFACES)) {
       const seen = new Set<string>();

@@ -9,7 +9,7 @@ The screens, boards, posters and papers painted into the places you visit
 now show what is going on in your world that day, instead of sitting blank.
 
 - In the Senate chamber, the panels on the wall list the latest votes and the
-  bills filed. A county commission's screen shows its latest votes.
+  bills filed. A county commission's screen shows the county's own latest votes.
 - In a campaign office or a party office, the cork board carries posters for
   the people running in your races, and the whiteboard lists your own
   appointments for the week.

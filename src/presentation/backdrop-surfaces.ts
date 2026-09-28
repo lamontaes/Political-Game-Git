@@ -1,6 +1,7 @@
 import surfaceData from "../../art/backdrops/surfaces.json" with { type: "json" };
 import { electionContestStatus } from "../simulation/election-contests";
 import { measurePosition } from "../simulation/legislation";
+import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
 import { stateOfJurisdiction } from "../simulation/press/outlets";
 import { personName } from "../simulation/people";
 import type {
@@ -233,9 +234,10 @@ export interface BackdropSurface {
 
 /**
  * The government a place is part of. A federal room reads Congress, a state
- * room the player's state, and every other place the player's own town.
+ * room the player's state, a county room the player's county, and every
+ * other place the player's own town.
  */
-type PlaceScope = "federal" | "state" | "local";
+type PlaceScope = "federal" | "state" | "county" | "local";
 
 const FEDERAL_PLACES: ReadonlySet<string> = new Set([
   "us-senate-floor",
@@ -252,8 +254,15 @@ const STATE_PLACES: ReadonlySet<string> = new Set([
   "appellate-courtroom",
 ]);
 
+const COUNTY_PLACES: ReadonlySet<string> = new Set([
+  "county-commission",
+  "county-courthouse",
+  "county-courtroom",
+]);
+
 function placeScope(place: string): PlaceScope {
   if (FEDERAL_PLACES.has(place)) return "federal";
+  if (COUNTY_PLACES.has(place)) return "county";
   if (STATE_PLACES.has(place) || place.startsWith("state-capitol-"))
     return "state";
   return "local";
@@ -273,6 +282,26 @@ function federalJurisdiction(world: World): EntityId | null {
   );
 }
 
+/**
+ * The player's county governments as this world records them: the county
+ * jurisdiction for each county the player's home lies in, where the world
+ * has one. A county the world never seated has no records to show.
+ */
+function homeCountyJurisdictions(
+  world: World,
+  personId: EntityId,
+): readonly EntityId[] {
+  const slugs = new Set(
+    homeLocalGovernmentUnits(world, personId)
+      .counties.map((county) => county.countyGeoid)
+      .filter((geoid): geoid is string => geoid !== null)
+      .map((geoid) => `us-county-${geoid}`),
+  );
+  return world.jurisdictionOrder.filter((id) =>
+    slugs.has(world.jurisdictions[id]?.slug ?? ""),
+  );
+}
+
 /** The jurisdictions whose records a place's surfaces may show, nearest first. */
 export function placeJurisdictions(
   world: World,
@@ -282,6 +311,7 @@ export function placeJurisdictions(
   const home = world.people[personId]?.homeJurisdictionId ?? null;
   const state = stateOfJurisdiction(world, home);
   const scope = placeScope(place);
+  if (scope === "county") return homeCountyJurisdictions(world, personId);
   const ids =
     scope === "federal"
       ? [federalJurisdiction(world)]
