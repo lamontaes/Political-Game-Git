@@ -29,8 +29,12 @@ import {
   PEOPLE_PACK_VERSION,
   type BodyBuild,
   FACE_EXPRESSIONS,
+  ACCESSORY_KINDS,
+  BODY_BUILDS,
   FACIAL_HAIR_STYLES,
+  accessoryPlacement,
   isSeatedPose,
+  type PackAccessory,
   type BodyPose,
   type NamedBodyPose,
   type OutfitBuilds,
@@ -733,6 +737,107 @@ function headLayers(
   };
 }
 
+/**
+ * Claude CTO's earrings, necklaces, watches, rings and lapel pins: files in
+ * one folder, cto-notes/firefly/accessories (and its three-quarter/accessories
+ * for the turned person, every name ending -three-quarter). Earrings are a
+ * head layer painted once on the canonical head, like glasses:
+ * earrings-<variant>.png. The others sit on the body, so each is painted per
+ * build and pose like an outfit: <kind>-<variant>-<sex>-<build>.png standing,
+ * <kind>-<variant>-<sex>-<build>-<pose>.png in each other pose. A variant name
+ * is letters and digits only ("pearl", "steel"). Whatever is not painted is
+ * left out, and the game draws no layer for it.
+ */
+const FIREFLY_ACCESSORIES =
+  "/Users/lamontae/political-game-play/cto-notes/firefly/accessories";
+
+function accessoryLayers(
+  sex: string,
+  dir: string,
+  suffix: string,
+): Pick<PackPresentation, "accessories"> {
+  if (!existsSync(dir)) return {};
+  const files = new Set(readdirSync(dir));
+  const painted = (name: string): string | null =>
+    files.has(`${name}.png`) ? name : null;
+  const variantsOf = (kind: string, pattern: RegExp): string[] =>
+    [...files]
+      .flatMap((file) => {
+        const match = pattern.exec(file);
+        return match && file.startsWith(`${kind}-`) ? [match[1]!] : [];
+      })
+      .filter((variant, index, all) => all.indexOf(variant) === index)
+      .sort();
+  const out: PackAccessory[] = [];
+  for (const kind of ACCESSORY_KINDS) {
+    const placement = accessoryPlacement(kind);
+    if (placement === "head") {
+      for (const variant of variantsOf(
+        kind,
+        new RegExp(`^${kind}-([a-z0-9]+)${suffix}\\.png$`),
+      )) {
+        const name = painted(`${kind}-${variant}${suffix}`);
+        if (!name) continue;
+        out.push({
+          id: `${kind}-${variant}`,
+          kind,
+          placement,
+          file: write(
+            downscaleHalf(read(join(dir, `${name}.png`))),
+            `accessory-${sex}-${kind}-${variant}${suffix}.png`,
+          ),
+        });
+      }
+      continue;
+    }
+    for (const variant of variantsOf(
+      kind,
+      new RegExp(`^${kind}-([a-z0-9]+)-${sex}-`),
+    )) {
+      const paint = (build: string, pose?: string) => {
+        const name = painted(
+          `${kind}-${variant}-${sex}-${build}${pose ? `-${pose}` : ""}${suffix}`,
+        );
+        return name
+          ? {
+              file: write(
+                downscaleHalf(read(join(dir, `${name}.png`))),
+                `accessory-${sex}-${name}.png`,
+              ),
+            }
+          : null;
+      };
+      const builds = Object.fromEntries(
+        BODY_BUILDS.flatMap((build) => {
+          const found = paint(build);
+          return found ? [[build, found]] : [];
+        }),
+      );
+      const poses = Object.fromEntries(
+        [...STANDING_POSES, "seated", ...SEATED_POSES].flatMap((pose) => {
+          const byBuild = Object.fromEntries(
+            BODY_BUILDS.flatMap((build) => {
+              const found = paint(build, pose);
+              return found ? [[build, found]] : [];
+            }),
+          );
+          return Object.keys(byBuild).length > 0 ? [[pose, byBuild]] : [];
+        }),
+      );
+      if (Object.keys(builds).length === 0 && Object.keys(poses).length === 0)
+        continue;
+      out.push({
+        id: `${kind}-${variant}`,
+        kind,
+        placement,
+        ...(Object.keys(builds).length > 0 ? { builds } : {}),
+        ...(Object.keys(poses).length > 0 ? { poses } : {}),
+      });
+    }
+  }
+  return out.length > 0 ? { accessories: out } : {};
+}
+
 function packPoses(
   painted: Map<BodyPose, Record<BodyBuild, { readonly body: PackBody }>>,
   poses: readonly NamedBodyPose[],
@@ -1132,6 +1237,7 @@ for (const sex of ["feminine", "masculine"] as const) {
         join(dir, "glasses"),
         "-three-quarter",
       ),
+      ...accessoryLayers(sex, join(dir, "accessories"), "-three-quarter"),
       toward: "right",
     };
   };
@@ -1143,6 +1249,7 @@ for (const sex of ["feminine", "masculine"] as const) {
     faces,
     hair,
     ...headLayers(sex, FIREFLY_FACIAL_HAIR, FIREFLY_GLASSES, ""),
+    ...accessoryLayers(sex, FIREFLY_ACCESSORIES, ""),
     seated: { bodies: seatedBodies },
     ...(namedPoses(posed).length > 0
       ? { poses: packPoses(posed, namedPoses(posed)) }

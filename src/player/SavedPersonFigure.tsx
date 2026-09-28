@@ -1,4 +1,5 @@
 import { workUniform } from "../presentation/work-uniform";
+import { officesHeldBy } from "../simulation/governing/office-consequence";
 import type { World } from "../simulation/types";
 import { personName } from "../simulation";
 import { buildCharacterRenderPlan } from "../presentation/character-render-plan";
@@ -61,6 +62,7 @@ export function SavedPersonFigure({
       ? engineRecipeFor(person, world.currentDate, PEOPLE_PACK, {
           ...(wear ? { wear } : {}),
           uniform: workUniform(world, person.id, wear),
+          officeholder: () => officesHeldBy(world, person.id).length > 0,
         })
       : null;
   if (engine) {

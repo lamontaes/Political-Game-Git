@@ -333,6 +333,25 @@ export interface PackHeadLayer {
 }
 
 /**
+ * The kinds of thing a person can wear beyond the outfit. A kind may be
+ * painted in several variants (earrings-pearl, earrings-hoop): a variant's id
+ * is its kind, then a dash and its name.
+ */
+export const ACCESSORY_KINDS = [
+  "earrings",
+  "necklace",
+  "watch",
+  "ring",
+  "lapel-pin",
+] as const;
+export type AccessoryKind = (typeof ACCESSORY_KINDS)[number];
+
+/** Earrings sit on the head; the rest sit on the body. */
+export function accessoryPlacement(kind: AccessoryKind): "head" | "body" {
+  return kind === "earrings" ? "head" : "body";
+}
+
+/**
  * Something worn beyond the outfit. Earrings sit on the head and are painted
  * once per view, aligned to the head like glasses. A watch, a ring, a
  * necklace or a lapel pin sits on the body, where the wrist, the hand and the
@@ -343,6 +362,7 @@ export interface PackHeadLayer {
  */
 export interface PackAccessory {
   readonly id: string;
+  readonly kind: AccessoryKind;
   readonly placement: "head" | "body";
   /** A head accessory's painting. */
   readonly file?: string;

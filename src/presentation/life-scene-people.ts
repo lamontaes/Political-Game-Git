@@ -11,6 +11,7 @@ import {
 } from "./appearance-engine/pack";
 import { conversationExpression } from "./appearance-engine/expression-chooser";
 import type { ConversationExchangeTurn } from "./scene-conversation";
+import { officesHeldBy } from "../simulation/governing/office-consequence";
 import { placeWear } from "./dress-code";
 import { engineRecipeFor } from "./appearance-engine/recipe";
 import {
@@ -767,6 +768,8 @@ export function planLifeScenePeople(
       peoplePackAvailable()
         ? engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
             wear: placeWear(sceneId, world.currentDate),
+            officeholder: () =>
+              officesHeldBy(world, person.personId).length > 0,
             uniform: workUniform(
               world,
               person.personId,

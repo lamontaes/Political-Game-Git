@@ -1,14 +1,17 @@
 import { stableHash } from "../../simulation/ids";
 import type { EngineAppearanceChoice } from "../../simulation/types";
 import {
+  ACCESSORY_KINDS,
   FACIAL_HAIR_STYLES,
+  type AccessoryKind,
   type BodyPresentation,
   type FacialHairStyle,
+  type OutfitTag,
   type PackPresentation,
 } from "./pack";
 
 /**
- * WHO WEARS A BEARD, AND WHO WEARS GLASSES.
+ * WHO WEARS A BEARD, GLASSES OR JEWELRY.
  *
  * Both come from the person's own seed, at the shares real surveys give for
  * their age, so a crowd has the mix a real one has and each person keeps
@@ -179,4 +182,124 @@ export function glassesFor(
         ? "reading"
         : "always",
   };
+}
+
+/**
+ * WHO WEARS EARRINGS, A NECKLACE, A WATCH, A RING OR A LAPEL PIN.
+ *
+ * No survey gives these shares, so the first three and the pin were counted:
+ * Claude looked at the official portraits of a seeded sample of members of
+ * the 119th Congress and wrote down, for each, whether it showed earrings, a
+ * necklace and a lapel pin. The sample: legislators-current.yaml from
+ * unitedstates/congress-legislators (539 sitting members), 80 women and 80
+ * men drawn with random seed 20260928, portraits from unitedstates/images
+ * (the Congressional bioguide photographs). Four men had no portrait yet, so
+ * the sample is 76 women and 80 men (156).
+ *
+ * What the count can and cannot say, stated so nobody trusts it further:
+ * 1. It is a count of what a portrait shows. A small stud under hair or a
+ *    thin chain under a collar is not seen, so the shares are floors.
+ * 2. Officeholders sit for these portraits in formal clothes, so the shares
+ *    fit a person in business or formal wear, and the lapel pin fits only
+ *    someone who holds an office.
+ * 3. It is one count by one reader, not a coded study; counts were 51 of 76
+ *    women with earrings, 38 of 76 with a necklace, 21 of 76 with a lapel
+ *    pin; 0 of 80 men with earrings, 0 of 80 with a necklace, 18 of 80 with
+ *    a lapel pin.
+ * 4. A portrait is head and shoulders. No wrist and no hand showed in any of
+ *    the 156, so it says nothing about watches or rings. Those two shares are
+ *    PLACEHOLDER(accessories) until a source is found (filed with the
+ *    research intake).
+ * 5. No share varies with age: 156 portraits are too few to split by age.
+ */
+export const ACCESSORY_SHARE: Readonly<
+  Record<AccessoryKind, Readonly<Record<BodyPresentation, number>>>
+> = {
+  earrings: { feminine: 51 / 76, masculine: 0 },
+  necklace: { feminine: 38 / 76, masculine: 0 },
+  "lapel-pin": { feminine: 21 / 76, masculine: 18 / 80 },
+  // PLACEHOLDER(accessories): not countable from a head-and-shoulders portrait.
+  watch: { feminine: 0.25, masculine: 0.4 },
+  // PLACEHOLDER(accessories): not countable from a head-and-shoulders portrait.
+  ring: { feminine: 0.4, masculine: 0.4 },
+};
+
+/** The kinds a player chooses in the creator; a lapel pin comes with an office. */
+export const CHOSEN_ACCESSORY_KINDS: readonly AccessoryKind[] =
+  ACCESSORY_KINDS.filter((kind) => kind !== "lapel-pin");
+
+/** The clothes a lapel pin goes on. */
+const PIN_WEAR: readonly OutfitTag[] = ["business", "formal"];
+
+export interface AccessoryContext {
+  /** What the place calls for (dress-code.ts); a pin needs a jacket. */
+  readonly wear?: Exclude<OutfitTag, "uniform">;
+  /** Whether the person holds a public office now; asked only when a pin could be worn. */
+  readonly officeholder?: () => boolean;
+}
+
+/** The kind an accessory id is a variant of ("earrings-pearl" -> "earrings"). */
+export function accessoryKindOf(id: string): AccessoryKind | null {
+  return (
+    ACCESSORY_KINDS.find((kind) => id === kind || id.startsWith(`${kind}-`)) ??
+    null
+  );
+}
+
+/**
+ * The accessories a person wears now, by id. What the player chose in the
+ * creator (saved as a list, an empty list being a choice of none) wins for
+ * the kinds it covers; the rest come from the person's seed at the shares
+ * above, one variant per kind from the ones the pack has painted. A lapel pin
+ * is never a choice: it goes on a person who holds an office and is dressed
+ * for it. Nothing the pack has not painted is ever worn, so recipes and their
+ * keys do not change until the art lands.
+ */
+export function accessoriesFor(
+  seed: string,
+  age: number,
+  presentation: BodyPresentation,
+  pack: PackPresentation,
+  choice: EngineAppearanceChoice | undefined,
+  context: AccessoryContext = {},
+): readonly string[] {
+  const painted = pack.accessories ?? [];
+  if (painted.length === 0 || age < 18) return [];
+  const worn: string[] = [];
+  for (const kind of ACCESSORY_KINDS) {
+    const variants = painted.filter((entry) => entry.kind === kind);
+    if (variants.length === 0) continue;
+    if (kind === "lapel-pin") {
+      if (
+        context.wear &&
+        PIN_WEAR.includes(context.wear) &&
+        draw(seed, "accessory:lapel-pin") <
+          ACCESSORY_SHARE[kind][presentation] &&
+        context.officeholder?.()
+      )
+        worn.push(pickVariant(seed, kind, variants));
+      continue;
+    }
+    if (choice?.accessories) {
+      const chosen = choice.accessories.find(
+        (id) => accessoryKindOf(id) === kind,
+      );
+      if (chosen && variants.some((entry) => entry.id === chosen))
+        worn.push(chosen);
+      continue;
+    }
+    if (draw(seed, `accessory:${kind}`) < ACCESSORY_SHARE[kind][presentation])
+      worn.push(pickVariant(seed, kind, variants));
+  }
+  return worn;
+}
+
+function pickVariant(
+  seed: string,
+  kind: AccessoryKind,
+  variants: readonly { readonly id: string }[],
+): string {
+  return variants[
+    Math.floor(draw(seed, `accessory-variant:${kind}`) * variants.length)
+  ]!.id;
 }

@@ -23,7 +23,13 @@ import {
   type PeoplePackManifest,
 } from "./pack";
 import { SKIN_RAMPS } from "./skin";
-import { facialHairFor, glassesFor } from "./face-extras";
+import {
+  CHOSEN_ACCESSORY_KINDS,
+  accessoriesFor,
+  accessoryKindOf,
+  facialHairFor,
+  glassesFor,
+} from "./face-extras";
 
 /**
  * WHO LOOKS LIKE WHAT.
@@ -162,6 +168,12 @@ export interface EngineRecipeOptions {
    * to read has them on.
    */
   readonly reading?: boolean;
+  /**
+   * Whether this person holds a public office now (a lapel pin goes on
+   * someone who does). Asked only when a pin could be worn, so a caller may
+   * pass an expensive lookup.
+   */
+  readonly officeholder?: () => boolean;
 }
 
 /**
@@ -214,6 +226,10 @@ export function engineRecipeFor(
     choice?.shade ?? 1 + Math.floor(draw(seed, "shade") * SKIN_RAMPS.length);
   const facialHair = facialHairFor(seed, age, presentation, choice);
   const glasses = glassesFor(seed, age, pack, choice);
+  const accessories = accessoriesFor(seed, age, presentation, pack, choice, {
+    wear: options.wear,
+    officeholder: options.officeholder,
+  });
   return {
     presentation,
     build: choice?.build ?? buildFor(seed),
@@ -250,6 +266,8 @@ export function engineRecipeFor(
           ...(options.reading ? { reading: true } : {}),
         }
       : {}),
+    // Only what the pack has painted (accessoriesFor), for the same reason.
+    ...(accessories.length > 0 ? { accessories } : {}),
     // Each garment part in a color of its own, kept per person.
     colors: Object.fromEntries(
       Object.entries(outfit.parts).map(([part, paletteId]) => {
@@ -308,6 +326,30 @@ export function choiceFromRecipe(
     colors: { ...recipe.colors },
     ...facialHairChoice(recipe, manifest),
     ...glassesChoice(recipe, manifest),
+    ...accessoriesChoice(recipe, manifest),
+  };
+}
+
+/**
+ * The jewelry and watch a recipe saves: what it wears of the kinds a player
+ * chooses (a lapel pin comes with an office, so it is never saved), or an
+ * empty list once the pack has any to choose from (a choice of none is a
+ * choice); nothing before that, so the person's seeded jewelry applies when
+ * the art lands.
+ */
+function accessoriesChoice(
+  recipe: EngineRecipe,
+  manifest: PeoplePackManifest | undefined,
+): Pick<EngineAppearanceChoice, "accessories"> {
+  const chosenKinds = (
+    manifest?.presentations[recipe.presentation].accessories ?? []
+  ).filter((entry) => CHOSEN_ACCESSORY_KINDS.includes(entry.kind));
+  if (chosenKinds.length === 0) return {};
+  return {
+    accessories: (recipe.accessories ?? []).filter((id) => {
+      const kind = accessoryKindOf(id);
+      return kind !== null && CHOSEN_ACCESSORY_KINDS.includes(kind);
+    }),
   };
 }
 

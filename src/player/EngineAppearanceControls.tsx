@@ -10,6 +10,10 @@ import {
   packOutfit,
 } from "../presentation/appearance-engine/pack";
 import { fabricRamp } from "../presentation/appearance-engine/fabric";
+import {
+  CHOSEN_ACCESSORY_KINDS,
+  accessoryKindOf,
+} from "../presentation/appearance-engine/face-extras";
 import { PEOPLE_PACK } from "../presentation/appearance-engine/runtime";
 import { SKIN_RAMPS } from "../presentation/appearance-engine/skin";
 import "./creator-appearance.css";
@@ -45,6 +49,15 @@ const FACIAL_HAIR_LABEL: Record<string, string> = {
   "short-beard": "Short beard",
   "full-beard": "Full beard",
 };
+const ACCESSORY_LABEL: Record<string, string> = {
+  earrings: "Earrings",
+  necklace: "Necklace",
+  watch: "Watch",
+  ring: "Ring",
+};
+/** "earrings-pearl" is "Pearl"; a kind painted in one variant is just "On". */
+const accessoryVariantLabel = (id: string, kind: string) =>
+  colorLabel(id.slice(kind.length + 1) || "on");
 const glassesLabel = (recipe: EngineRecipe) =>
   recipe.glasses
     ? `${colorLabel(recipe.glasses)}${recipe.glassesWear === "reading" ? ", for reading" : ""}`
@@ -110,7 +123,7 @@ export function EngineAppearanceControls({
         const presentation = step(PRESENTATIONS, recipe.presentation, by);
         const next = PEOPLE_PACK.presentations[presentation];
         return {
-          ...recipe,
+          ...without(recipe, ["accessories"]),
           presentation,
           face: next.faces[0]!.id,
           hair: next.hair[0]!.id,
@@ -230,6 +243,32 @@ export function EngineAppearanceControls({
           },
         ]
       : []),
+    ...CHOSEN_ACCESSORY_KINDS.flatMap((kind) => {
+      const variants = (pack.accessories ?? [])
+        .filter((entry) => entry.kind === kind)
+        .map((entry) => entry.id);
+      if (variants.length === 0) return [];
+      const worn = (recipe.accessories ?? []).find(
+        (id) => accessoryKindOf(id) === kind,
+      );
+      return [
+        {
+          id: `accessory-${kind}`,
+          label: ACCESSORY_LABEL[kind] ?? colorLabel(kind),
+          value: worn ? accessoryVariantLabel(worn, kind) : "None",
+          move: (by: number) => {
+            const next = step(["none", ...variants], worn ?? "none", by);
+            const rest = (recipe.accessories ?? []).filter(
+              (id) => accessoryKindOf(id) !== kind,
+            );
+            const accessories = next === "none" ? rest : [...rest, next];
+            return accessories.length > 0
+              ? { ...recipe, accessories }
+              : without(recipe, ["accessories"]);
+          },
+        },
+      ];
+    }),
     {
       id: "outfit",
       label: "Outfit",
