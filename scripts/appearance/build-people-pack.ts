@@ -19,6 +19,7 @@ import {
 } from "node:fs";
 import { join } from "node:path";
 import { PNG } from "pngjs";
+import { format, resolveConfig } from "prettier";
 import {
   measureBodyAnchors,
   type BodyAnchors,
@@ -178,22 +179,54 @@ function fireflyHair(sex: string): { id: string; stem: string; dir: string }[] {
     .sort()
     .map((id) => ({ id, stem: `hair-${sex}-${id}`, dir: FIREFLY_HAIR }));
 }
+/**
+ * The art team's six faces per presentation (Sept. 27, people-appearance/
+ * faces), registered to one head: 01 to 03 as first delivered, 04 to 06 in
+ * their corrected second versions.
+ */
+function artFaces(sex: string): { id: string; file: string }[] {
+  return [1, 2, 3, 4, 5, 6].map((n) => ({
+    id: `20s30s-0${n}`,
+    file: `face-${sex}-20s30s-0${n}-${n >= 4 ? "v2" : "v1"}.png`,
+  }));
+}
+
+/**
+ * The same six faces aged to their fifties and seventies (Sept. 27): Firefly
+ * edits of the art team's faces, cut back onto the face canvas inside each
+ * original face's own silhouette (cto-notes/firefly/faces/cut_faces.py), so
+ * every hairstyle still fits. A person keeps their face number for life.
+ */
+const FIREFLY_FACES =
+  "/Users/lamontae/political-game-play/cto-notes/firefly/faces/cut";
+function agedFaces(sex: string): { id: string; file: string; dir: string }[] {
+  return ["50s", "70s"].flatMap((band) =>
+    [1, 2, 3, 4, 5, 6]
+      .map((n) => ({
+        id: `${band}-0${n}`,
+        file: `face-${sex}-${band}-0${n}-v1.png`,
+        dir: FIREFLY_FACES,
+      }))
+      .filter((face) => existsSync(join(face.dir, face.file))),
+  );
+}
+
 const SOURCES: Record<
   "feminine" | "masculine",
   {
-    faces: readonly { id: string; file: string }[];
+    faces: readonly { id: string; file: string; dir?: string }[];
     hair: readonly { id: string; stem: string; dir?: string }[];
   }
 > = {
   feminine: {
-    faces: [{ id: "20s30s-01", file: "face-feminine-20s30s-01-v1.png" }],
+    faces: [...artFaces("feminine"), ...agedFaces("feminine")],
     hair: [
       { id: "wavy-bob", stem: "hair-feminine-wavy-bob-01" },
       ...fireflyHair("feminine"),
     ],
   },
   masculine: {
-    faces: [{ id: "20s30s-01", file: "face-masculine-20s30s-01-v1.png" }],
+    faces: [...artFaces("masculine"), ...agedFaces("masculine")],
     hair: [
       { id: "short-coils", stem: "hair-masculine-short-coils-01" },
       ...fireflyHair("masculine"),
@@ -413,11 +446,13 @@ function dressedBody(
 ): NonNullable<OutfitBuilds[BodyBuild]> {
   const anchorsFull = measureBodyAnchors(bareFull);
   const painting = transform(read(paintingFile));
-  const offset = registrationOffset(
-    measureBodyAnchors(painting),
-    anchorsFull,
-    "head",
-  );
+  // Firefly outfits were painted on exactly our bodies (cut_outfits.py), so
+  // they are not moved: measuring their heads can be a pixel off, and a pixel
+  // splits every half-size pixel of the skin mask. The art team's paintings
+  // are registered by the head.
+  const offset = skinFile
+    ? { dx: 0, dy: 0 }
+    : registrationOffset(measureBodyAnchors(painting), anchorsFull, "head");
   const skinFull = skinFile
     ? translateRaster(transform(read(skinFile)), offset.dx, offset.dy)
     : null;
@@ -674,7 +709,9 @@ for (const sex of ["feminine", "masculine"] as const) {
     });
   }
   const faces = SOURCES[sex].faces.map((face) => {
-    const head = downscaleHalf(read(join(appearanceDir, "faces", face.file)));
+    const head = downscaleHalf(
+      read(join(face.dir ?? join(appearanceDir, "faces"), face.file)),
+    );
     return {
       id: face.id,
       file: write(head, `face-${sex}-${face.id}.png`),
@@ -723,8 +760,14 @@ const manifest: PeoplePackManifest = {
   canvas: { width: 512, height: 768 + HEADROOM / 2 },
   presentations: presentations as PeoplePackManifest["presentations"],
 };
+// Written as the repository's formatter writes JSON, so `prettier --check`
+// passes on a freshly built pack.
+const manifestFile = join(outDir, "manifest.json");
 writeFileSync(
-  join(outDir, "manifest.json"),
-  `${JSON.stringify(manifest, null, 2)}\n`,
+  manifestFile,
+  await format(JSON.stringify(manifest, null, 2), {
+    ...(await resolveConfig(manifestFile)),
+    filepath: manifestFile,
+  }),
 );
 console.log(`wrote ${outDir}`);

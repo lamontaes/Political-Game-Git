@@ -603,8 +603,15 @@ export function planLifeScenePeople(
     let overflowPercent = Math.max(0, -topPercent);
     const record = world.people[person.personId];
     // Engine people stand on floor anchors, and sit where the seat is drawn
-    // with its seat and floor lines (a seat without them keeps the old art).
-    const seatContact = seated ? anchor.seatContact : null;
+    // with its seat and floor lines and faces the viewer. A seat without those
+    // lines, or one facing away or at an angle, keeps the old art until the
+    // engine has people seen from behind and from the side.
+    const seatContact =
+      seated &&
+      (anchor.permittedFacings === null ||
+        anchor.permittedFacings.includes("front"))
+        ? anchor.seatContact
+        : null;
     const engine =
       (!seated || seatContact) &&
       record &&

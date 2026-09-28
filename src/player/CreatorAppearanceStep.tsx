@@ -117,7 +117,9 @@ export function CreatorAppearanceStep({
                       ...engine,
                       build: any(BODY_BUILDS),
                       shade: 1 + Math.floor(Math.random() * 7),
-                      face: any(pack.faces).id,
+                      face: any(
+                        pack.faces.filter((f) => f.id.startsWith("20s30s-")),
+                      ).id,
                       hair: any(pack.hair).id,
                       hairColor: any(HAIR_COLORS).id,
                       outfit: any(
