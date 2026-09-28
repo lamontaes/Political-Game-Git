@@ -459,14 +459,20 @@ function draftFiscalNoteSummary(world: World, docket: DocketBill): string {
   if ("unavailable" in reread) {
     return `A fiscal note on ${docket.designation} as filed could not restate the bill's configuration, so it states no exposure.`;
   }
-  const ceiling = reread.authorizedCeilingLabel;
   const invited = formatMinorUnits(
     reread.amendmentInvitation.requestedMinorUnits,
     "USD",
   );
-  return ceiling === null
-    ? `A fiscal note on ${docket.designation} as filed records that the Act appropriates nothing, and that the ${invited} requested under Section ${reread.amendmentInvitation.sectionNumber} would be a new appropriation rather than a call on an existing one.`
-    : `A fiscal note on ${docket.designation} as filed put the stated exposure at ${ceiling}, with the caveat that the ${invited} requested under Section ${reread.amendmentInvitation.sectionNumber} would sit on top of that figure rather than inside it.`;
+  const section = reread.amendmentInvitation.sectionNumber;
+  // An appropriation provides money and states no ceiling, so it is read
+  // first; reading only the ceiling told every spending bill it gave nothing.
+  if (reread.appropriatedLabel !== null)
+    return `A fiscal note on ${docket.designation} as filed records that the Act appropriates ${reread.appropriatedLabel}, and that the ${invited} requested under Section ${section} would be added to that sum rather than drawn from it.`;
+  if (reread.authorizedCeilingLabel !== null)
+    return `A fiscal note on ${docket.designation} as filed put the stated exposure at ${reread.authorizedCeilingLabel}, with the caveat that the ${invited} requested under Section ${section} would sit on top of that figure rather than inside it.`;
+  if (reread.revenueLabel !== null)
+    return `A fiscal note on ${docket.designation} as filed records a charge of ${reread.revenueLabel} for each covered payment; what it raises in total is unknown until the number of covered payments is known. The ${invited} requested under Section ${section} would be a new appropriation.`;
+  return `A fiscal note on ${docket.designation} as filed records that the Act appropriates nothing, and that the ${invited} requested under Section ${section} would be a new appropriation rather than a call on an existing one.`;
 }
 
 function ensureFiledBillText(
