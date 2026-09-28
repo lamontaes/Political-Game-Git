@@ -134,20 +134,22 @@ export function poseFallbacks(pose: BodyPose): readonly BodyPose[] {
 /**
  * Which way a pose's painting turns toward: the side of the picture its
  * gesture, lean or gaze points to. A mirrored figure turns the other way.
- * PLACEHOLDER(wave2): the posed paintings are not in yet; a pack entry's own
- * `toward` wins over this.
+ * Every front pose faces the viewer (Claude CTO, Sept. 28, 2026: the
+ * explaining hand is the figure's own right, on the viewer's left, and is
+ * not turned), so only the three-quarter view (PackView.toward) turns. A
+ * pack entry's own `toward` wins over this.
  */
 export const POSE_PAINTED_TOWARD: Readonly<
   Record<BodyPose, "left" | "right" | null>
 > = {
   standing: null,
   seated: null,
-  "arms-folded": "right",
-  explaining: "right",
-  "hand-on-hip": "right",
+  "arms-folded": null,
+  explaining: null,
+  "hand-on-hip": null,
   podium: null,
-  "seated-leaning": "right",
-  "seated-legs-crossed": "right",
+  "seated-leaning": null,
+  "seated-legs-crossed": null,
 };
 
 export interface PackBody {
@@ -184,10 +186,57 @@ export interface PackPostures {
   readonly poses?: Partial<Readonly<Record<NamedBodyPose, PackPose>>>;
 }
 
+/**
+ * The faces a person makes. Each face id is painted in every expression, file
+ * names ending in the expression (face-feminine-20s30s-01-smile.png, and
+ * face-...-01-smile-three-quarter.png turned); neutral is the face itself.
+ */
+export const FACE_EXPRESSIONS = [
+  "neutral",
+  "smile",
+  "laugh",
+  "concerned",
+  "angry",
+  "skeptical",
+  "sad",
+  "surprised",
+] as const;
+export type FaceExpression = (typeof FACE_EXPRESSIONS)[number];
+
 export interface PackFace {
   readonly id: string;
+  /** The neutral face. */
   readonly file: string;
   readonly skin: MeasuredRamp;
+  /** The same face in each other expression it has been painted in. */
+  readonly expressions?: Partial<
+    Readonly<
+      Record<
+        Exclude<FaceExpression, "neutral">,
+        { readonly file: string; readonly skin: MeasuredRamp }
+      >
+    >
+  >;
+}
+
+/**
+ * A face in an expression: the painting of it when the pack has one and the
+ * build has its file, and otherwise the neutral face, never nothing.
+ */
+export function expressedFace(
+  face: PackFace,
+  expression: FaceExpression | undefined,
+  available: (file: string) => boolean = () => true,
+): { readonly face: PackFace; readonly expression: FaceExpression } {
+  if (!expression || expression === "neutral")
+    return { face, expression: "neutral" };
+  const painted = face.expressions?.[expression];
+  if (!painted || !available(painted.file))
+    return { face, expression: "neutral" };
+  return {
+    face: { id: face.id, file: painted.file, skin: painted.skin },
+    expression,
+  };
 }
 
 export interface PackHair {
@@ -350,10 +399,13 @@ export function posedPieces(
           ].every(available))
       )
         continue;
+      const expressed = expressedFace(viewFace, recipe.expression, available);
       return {
         body,
         outfit: worn,
-        face: viewFace,
+        face: expressed.face,
+        /** The expression drawn: the recipe's, or neutral without its art. */
+        expression: expressed.expression,
         hair: viewHair,
         /** The anchors every head and hair layer in this view is drawn for. */
         canonical: turned?.canonical ?? pack.canonical,
@@ -522,6 +574,8 @@ export interface EngineRecipe {
   readonly pose?: BodyPose;
   /** Facing front unless the scene turns them (pose-chooser.ts). */
   readonly view?: BodyView;
+  /** Neutral unless the moment shows on their face (expression-chooser.ts). */
+  readonly expression?: FaceExpression;
   /** The whole figure flipped left to right, to turn the other way. */
   readonly mirrored?: boolean;
 }
@@ -537,6 +591,9 @@ export function engineRecipeKey(recipe: EngineRecipe): string {
     recipe.outfit,
     recipe.pose ?? "standing",
     ...(recipe.view && recipe.view !== "front" ? [recipe.view] : []),
+    ...(recipe.expression && recipe.expression !== "neutral"
+      ? [`face:${recipe.expression}`]
+      : []),
     ...(recipe.mirrored ? ["mirrored"] : []),
     ...Object.entries(recipe.colors ?? {})
       .sort()
@@ -631,12 +688,23 @@ export function composeEnginePerson(
   readonly pose: BodyPose;
   /** The view drawn: the recipe's, or front when it has no art. */
   readonly view: BodyView;
+  /** The expression drawn: the recipe's, or neutral when it has no art. */
+  readonly expression: FaceExpression;
   /** For a seated person: the row the seat is at. */
   readonly seatRow?: number;
 } {
   const pack = manifest.presentations[recipe.presentation];
-  const { body, outfit, face, hair, canonical, pose, view, seated } =
-    posedPieces(pack, recipe, available);
+  const {
+    body,
+    outfit,
+    face,
+    hair,
+    canonical,
+    pose,
+    view,
+    expression,
+    seated,
+  } = posedPieces(pack, recipe, available);
   const ramp =
     SKIN_RAMPS[Math.min(SKIN_RAMPS.length, Math.max(1, recipe.shade)) - 1]!;
   const color = HAIR_COLORS.find((c) => c.id === recipe.hairColor);
@@ -690,6 +758,7 @@ export function composeEnginePerson(
         anchors: mirrorAnchors(body.anchors, raster.width),
         pose,
         view,
+        expression,
         ...(seatRow === undefined ? {} : { seatRow }),
       }
     : {
@@ -697,6 +766,7 @@ export function composeEnginePerson(
         anchors: body.anchors,
         pose,
         view,
+        expression,
         ...(seatRow === undefined ? {} : { seatRow }),
       };
 }

@@ -6,6 +6,7 @@ import { SeededRng } from "../rng";
 import type { EntityId, World } from "../types";
 import { seatedChamberForPack } from "./chamber-votes";
 import { lawInForce } from "./law-in-force";
+import { mayAnswerQuestion } from "./question-authority";
 import {
   ensureOfficeholderPrinciples,
   principledLeaning,
@@ -30,13 +31,17 @@ export const MEMBER_AGENDA_VERSION = "member-agenda/v1";
 /** PLACEHOLDER: the least summed weight that moves a member to file a bill. */
 const FILING_THRESHOLD = 3;
 
-/** The state-level questions in the catalog, in catalog order. */
-function stateQuestions(world: World): readonly EntityId[] {
-  const catalog = world.policyCatalog;
-  return catalog.propositionOrder.filter((propositionId) => {
-    const issue = catalog.issues[catalog.propositions[propositionId]!.issueId];
-    return issue?.levels?.includes("state") ?? false;
-  });
+/**
+ * The questions the state's own law may answer (`question-authority.ts`), in
+ * catalog order.
+ */
+function stateQuestions(
+  world: World,
+  jurisdictionId: EntityId,
+): readonly EntityId[] {
+  return world.policyCatalog.propositionOrder.filter((propositionId) =>
+    mayAnswerQuestion(world, jurisdictionId, propositionId),
+  );
 }
 
 /** A bill still moving in this jurisdiction that answers the question. */
@@ -111,7 +116,7 @@ export function fileMemberAgendaBill(
           .filter((personId): personId is EntityId => personId !== null) ?? [],
     ),
   );
-  const questions = stateQuestions(next);
+  const questions = stateQuestions(next, input.jurisdictionId);
   const rng = new SeededRng(next.seed).fork(stableKey);
   const order = [...members];
   for (let i = order.length - 1; i > 0; i -= 1) {

@@ -155,8 +155,8 @@ describe("a conversation once the posed art lands", async () => {
       const speaker = placed.find((person) => person.personId === speakerId)!;
       expect(speaker.engine!.pose).toBe("explaining");
       expect(speaker.engine!.view ?? "front").toBe("front");
-      // Explaining is painted turned right; the player is at the middle.
-      expect(speaker.engine!.mirrored === true).toBe(x(speaker) > 50);
+      // Explaining faces the viewer, so the speaker is never mirrored.
+      expect(speaker.engine!.mirrored).toBeUndefined();
       for (const listener of placed.filter((person) => person !== speaker)) {
         expect(listener.engine!.view).toBe("three-quarter");
         expect(
