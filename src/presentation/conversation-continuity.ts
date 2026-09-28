@@ -8,17 +8,14 @@ import {
 } from "./contextual-scenes";
 import {
   contextualSceneContract,
-  advanceHouseholdObligation,
   advanceNeighborhoodMeeting,
   advanceSchoolProject,
   conversationCommitContract,
 } from "./conversation-subjects";
 import {
-  createHouseholdObligationProgress,
   createLifeTalkProgress,
   createNeighborhoodMeetingProgress,
   createSchoolProjectProgress,
-  isHouseholdObligationConversationProgress,
   isNeighborhoodMeetingConversationProgress,
   isSchoolProjectConversationProgress,
 } from "./run-b-conversation-progress";
@@ -75,8 +72,6 @@ function openingProgress(
   world?: World,
 ): ConversationProgress | null {
   switch (subject) {
-    case "household-obligation":
-      return createHouseholdObligationProgress();
     case "school-project-share":
       return createSchoolProjectProgress();
     case "neighborhood-meeting-notice":
@@ -94,9 +89,6 @@ function advance(
   progress: ConversationProgress,
   turn: RecordedConversationTurn,
 ): ConversationProgress {
-  if (isHouseholdObligationConversationProgress(progress)) {
-    return advanceHouseholdObligation(progress, turn.intent, turn.outcome);
-  }
   if (isSchoolProjectConversationProgress(progress)) {
     return advanceSchoolProject(progress, turn.intent, turn.outcome);
   }

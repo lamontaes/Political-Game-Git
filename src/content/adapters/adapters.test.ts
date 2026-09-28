@@ -101,7 +101,7 @@ describe("adapters report what their banks actually say", () => {
   });
 
   it("says plainly that a subject's intents cannot be read without a world", () => {
-    const item = itemOf("content.conversation-subjects/household-obligation");
+    const item = itemOf("content.conversation-subjects/school-project-share");
     expect(item.options.kind).toBe("undeclared");
     if (item.options.kind === "undeclared") {
       expect(item.options.reason).toContain("availableIntents");
@@ -471,7 +471,7 @@ describe("adapters report what their banks actually say", () => {
     // The rule the lane turns on, checked in one place. Reading a declarative
     // requirement off a bank is not the same as deciding whether it holds, and
     // nothing here decides: formative eligibility, a conversation's available
-    // intents and the ordinary week's gate are all predicates over a world, and
+    // intents and the public meeting's gate are all predicates over a world, and
     // all three stay undeclared with the reason naming where the rule runs.
     const formative = itemOf(
       `content.life-situations/${lifeSituationCatalog()[0]!.key}`,
@@ -483,12 +483,17 @@ describe("adapters report what their banks actually say", () => {
       );
     }
     const subject = itemOf(
-      "content.conversation-subjects/household-obligation",
+      "content.conversation-subjects/school-project-share",
     );
     expect(subject.options.kind).toBe("undeclared");
     if (subject.options.kind === "undeclared") {
       expect(subject.options.reason).toContain("availableIntents");
     }
+    const meeting = itemOf(
+      "content.ordinary-life/ordinary-life:public-meeting",
+    );
+    expect(meeting.prerequisites.kind).toBe("undeclared");
+
     // And no adapter reports an eligibility VERDICT anywhere: the index never
     // says a stage is or is not offered, only what the stage asks for.
     for (const item of index.items) {

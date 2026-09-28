@@ -1,10 +1,5 @@
 import { eventById } from "./event-index";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
-import {
-  lifeRequestDetails,
-  lifeRequestDetailsTag,
-} from "./life-request-details";
-import { personName } from "./people";
 import type { AdultAftermathKind } from "./adult-situations";
 import { applyCharacterHistoryPlan } from "./character-history";
 import { addDays, makeIsoDate } from "./dates";
@@ -88,14 +83,12 @@ export const RETURN_SUMMARY: Readonly<Record<string, string>> = {
   // way the player answered is not knowable here, so this says what was asked
   // rather than what was given.
   "adult.care-request": "The help that was asked of you was raised again.",
-  "adult.friend-favour": "The favor was put to you once more.",
   // A private disclosure, raised by the person who made it. It does not say
   // that no one else has heard since; nothing in the world records that.
   "adult.friend-in-difficulty":
     "They came back to you about what they had told you.",
   "adult.friend-good-news": "Their good news was mentioned to you again.",
   "adult.work-credit": "Whose work it had been came up at work again.",
-  "adult.work-extra-hours": "The extra hours were put to you once more.",
   // The adult scene has senior staff and colleagues in it, not a customer;
   // that detail belonged to the formative bank and was never true here.
   "adult.work-rule-pressure": "The rule at work is being argued over again.",
@@ -114,8 +107,6 @@ export const RETURN_SUMMARY: Readonly<Record<string, string>> = {
   // and "the flooding" was an invention on top of it.
   "adult.incident-neighbour-help": "Helping the neighbors came back to you.",
   "adult.promise-comes-due": "The promise came back round to you.",
-  "adult.old-favour-returns": "The old favor got a mention.",
-  "adult.household-quiet-evening": "That evening came up between you again.",
   "adult.partner-plan": "The plans were put in front of you again.",
   "adult.debt-call": "Repayment came up between you again.",
   "adult.housing-cost-change": "What it costs to stay came round again.",
@@ -130,8 +121,6 @@ export const RETURN_SUMMARY: Readonly<Record<string, string>> = {
   "adult.housing-repair-standoff":
     "The repairs and the rent are still between you.",
   "adult.small-windfall": "What happened to the money got mentioned.",
-  "conversation.subject.household-obligation":
-    "What was said at home about it was raised again.",
   "conversation.subject.neighborhood-meeting":
     "The neighborhood meeting came up again.",
   "conversation.subject.school-project":
@@ -407,10 +396,7 @@ export function lifeCallbackTransitionHandler(
   // same way here so a callback does not have to know which produced it.
   const situationTag =
     origin.tags.find((tag) => tag.startsWith("adult.")) ??
-    origin.tags.find((tag) => tag.startsWith("conversation.subject.")) ??
-    (origin.context.socialContext === "adult.friend-favour"
-      ? "adult.friend-favour"
-      : undefined);
+    origin.tags.find((tag) => tag.startsWith("conversation.subject."));
   if (
     situationTag === "adult.promise-comes-due" ||
     situationTag === "adult.care-request"
@@ -480,32 +466,8 @@ export function lifeCallbackTransitionHandler(
     }
   }
 
-  const details = lifeRequestDetails(origin);
-  const requestTag = origin.tags.find((tag) =>
-    tag.startsWith("life.favour-request:"),
-  );
-  const performed = requestTag
-    ? world.history.events.find(
-        (event) =>
-          event.type === "life.favour-performed" &&
-          event.tags.includes(requestTag),
-      )
-    : undefined;
-  const cancelled = requestTag
-    ? world.history.events.find(
-        (event) =>
-          event.type === "life.favour-cancelled" &&
-          event.tags.includes(requestTag),
-      )
-    : undefined;
-  const condition = origin.tags.includes("favour.conditions")
-    ? details?.condition
-    : null;
   const returned =
-    details && counterpartId
-      ? `${personName(world.people[counterpartId]!)} brings up the request to ${details.task} again.${condition ? ` The agreed condition was: ${condition}.` : ""}${requestTag ? (performed ? " You finished the proofreading." : cancelled ? " You withdrew the commitment." : origin.tags.includes("favour.declined") ? " You had declined the request." : " You agreed, but have not finished the proofreading.") : ""}`
-      : ((situationTag ? RETURN_SUMMARY[situationTag] : undefined) ??
-        GENERIC_RETURN);
+    (situationTag ? RETURN_SUMMARY[situationTag] : undefined) ?? GENERIC_RETURN;
   const stableKey = `${dueItem.stableKey}:returned`;
   const applied = applyCharacterHistoryPlan(world, {
     stableKey,
@@ -551,9 +513,6 @@ export function lifeCallbackTransitionHandler(
               "life.callback",
               situationTag ?? "life.callback",
               `origin:${origin.id}`,
-              ...(performed ? [`performance:${performed.id}`] : []),
-              ...(requestTag ? [requestTag] : []),
-              ...(details ? [lifeRequestDetailsTag(details)] : []),
             ]),
           ],
           summary: returned,

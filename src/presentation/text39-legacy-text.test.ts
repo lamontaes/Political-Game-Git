@@ -14,11 +14,6 @@ import { lifeOpportunityTag } from "../simulation/life-opportunities";
 
 describe("TEXT39 preserves facts in older saved requests", () => {
   it.each([
-    [
-      "extra-hours-request",
-      "adult.work-extra-hours",
-      /one (extra )?hour|shift date|pay still/i,
-    ],
     ["confidence-disclosed", "adult.friend-in-difficulty", /picnic|guests/i],
     [
       "meeting-agenda-item",

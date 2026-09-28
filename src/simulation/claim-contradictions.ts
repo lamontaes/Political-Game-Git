@@ -13,7 +13,6 @@ import { CONTRADICTION_ROUTES } from "./claim-contradiction-routes";
 import { addDays } from "./dates";
 import { evaluateDecision } from "./decisions";
 import { scheduleFutureDueItem } from "./future-transitions";
-import { currentLifeCutoff, householdMembershipsAt } from "./life-queries";
 import { personName } from "./people";
 import {
   recordClaim,
@@ -22,7 +21,6 @@ import {
   recordRelationshipInteraction,
 } from "./records";
 import { recordSceneBinding, type SceneFamily } from "./scene-bindings";
-import { scheduledActivityState } from "./time-work";
 import type {
   EntityId,
   FutureDueItem,
@@ -45,9 +43,6 @@ import { recordWorldEvent } from "./world";
  *
  * The evidence routes here are all ordinary:
  *
- * - `attends:` — a housemate who was told "I'll be home that evening" sees
- *   the player go out to the event, because they live in the same house on
- *   that date. Nobody outside the household is given that sight.
  * - `promised:` / `accepted:` — a reporter who was told "there was no such
  *   promise" asks somebody who heard or received it. That person decides for
  *   themselves whether to confirm it; one who declines leaves the reporter
@@ -61,7 +56,6 @@ import { recordWorldEvent } from "./world";
  */
 
 export const CLAIM_CONTRADICTION_TRANSITION_KEY = "claim:contradiction-check";
-export const SEEN_GOING_OUT_EVENT = "life.seen-going-out";
 export const SOURCE_CONFIRMED_EVENT = "press.source-confirmed";
 
 /** Days a reporter takes to check an answer with somebody else. Authored. */
@@ -77,15 +71,6 @@ export interface ScheduleContradictionCheckInput {
 /** The date the world could first hold evidence against this stance. */
 function checkDate(world: World, stance: ClaimStance): IsoDate | null {
   const [kind, id] = splitKey(stance.propositionKey);
-  if (kind === "attends" && id) {
-    const activity = world.history.scheduledActivities.find(
-      (candidate) => candidate.id === id,
-    );
-    if (!activity) return null;
-    const end = scheduledActivityState(world, id).end.date;
-    const after = addDays(end, 1);
-    return after > world.currentDate ? after : addDays(world.currentDate, 1);
-  }
   if ((kind === "promised" || kind === "accepted") && id) {
     return addDays(world.currentDate, REPORTER_CHECK_DAYS);
   }
@@ -156,9 +141,6 @@ export function claimContradictionTransitionHandler(
   if (dying(world, speakerId)) return done("speaker-gone");
 
   const [kind, id] = splitKey(stance.propositionKey);
-  if (kind === "attends" && id) {
-    return attendanceCheck(world, stanceEvent, stance, speakerId, id, done);
-  }
   if ((kind === "promised" || kind === "accepted") && id) {
     const basis = promiseBasis(world, kind, id, speakerId);
     if (!basis) return done("promise-missing");
@@ -267,121 +249,6 @@ function dying(world: World, personId: EntityId): boolean {
   return world.history.personDeaths.some(
     (death) => death.personId === personId && death.diedAt <= world.currentDate,
   );
-}
-
-function sharesHousehold(
-  world: World,
-  left: EntityId,
-  right: EntityId,
-): boolean {
-  const cutoff = currentLifeCutoff(world);
-  const mine = new Set(
-    householdMembershipsAt(world, left, cutoff).map(
-      (entry) => entry.membership.householdId,
-    ),
-  );
-  return householdMembershipsAt(world, right, cutoff).some((entry) =>
-    mine.has(entry.membership.householdId),
-  );
-}
-
-function attendanceCheck(
-  world: World,
-  stanceEvent: HistoricalEvent,
-  stance: ClaimStance,
-  speakerId: EntityId,
-  activityId: EntityId,
-  done: Done,
-): FutureTransitionHandlerResult {
-  const activity = world.history.scheduledActivities.find(
-    (candidate) => candidate.id === activityId,
-  );
-  if (!activity) return done("activity-missing");
-  const state = scheduledActivityState(world, activityId);
-  // The player said they would stay in. If they did, the words came true and
-  // there is nothing to find.
-  if (state.status !== "completed") return done("claim-held");
-  const witnesses = stance.recipientPersonIds.filter(
-    (personId) =>
-      personId !== speakerId &&
-      world.people[personId] &&
-      !dying(world, personId) &&
-      sharesHousehold(world, speakerId, personId) &&
-      !contradictionFound(world, stanceEvent.id, personId),
-  );
-  if (witnesses.length === 0) return done("no-witness");
-
-  let next = world;
-  let lastEventId: EntityId | null = null;
-  const speaker = personName(world.people[speakerId]!);
-  for (const witnessId of witnesses) {
-    const witness = personName(next.people[witnessId]!);
-    next = recordWorldEvent(next, {
-      stableKey: `claim-check:${stanceEvent.id}:seen:${witnessId}`,
-      type: SEEN_GOING_OUT_EVENT,
-      occurredAt: state.start.date,
-      recordedAt: next.currentDate,
-      jurisdictionId: activity.location.jurisdictionId,
-      involvedEntityIds: [speakerId, witnessId, activityId],
-      participants: [
-        {
-          personId: witnessId,
-          role: "observation:witness",
-          detail: "Was at home and saw them leave",
-        },
-        {
-          personId: speakerId,
-          role: "focus:subject",
-          detail: `Went out to ${activity.title}`,
-        },
-      ],
-      personFactConstraints: [],
-      visibility: "private",
-      tags: [`${CLAIM_STANCE_EVENT_TAG_PREFIX}${stanceEvent.id}`],
-      summary: `${witness} saw ${speaker} leave for ${activity.title}.`,
-      context: {
-        location: {
-          jurisdictionId: activity.location.jurisdictionId,
-          label: "Home",
-          setting: null,
-        },
-        socialContext: "Two people who share a home.",
-        pressure: null,
-        choice: null,
-        motivation: null,
-        immediateReaction: null,
-      },
-    });
-    const seen = next.history.events.at(-1)!;
-    next = recordEventKnowledge(next, {
-      stableKey: `${seen.stableKey}:knowledge`,
-      personId: witnessId,
-      eventId: seen.id,
-      learnedAt: next.currentDate,
-      believedSummary: `${speaker} went out to ${activity.title} after saying they would be home.`,
-      accuracy: "accurate",
-      confidence: "high",
-      source: { kind: "direct" },
-    });
-    const found = writeDiscovery(next, {
-      stanceEvent,
-      stance,
-      speakerId,
-      discovererId: witnessId,
-      evidenceEventId: seen.id,
-      family: "home-evening",
-      place: "Home",
-      jurisdictionId:
-        activity.location.jurisdictionId ??
-        stanceEvent.jurisdictionId ??
-        fallbackJurisdiction(next),
-      evidenceLabel: `going out to ${activity.title}`,
-      facts: { activityTitle: activity.title },
-    });
-    next = found.world;
-    lastEventId = found.eventId;
-  }
-  return done("contradicted", next, lastEventId);
 }
 
 /** What a promise was, who can speak to it, and the record it lives in. */

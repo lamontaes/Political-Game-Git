@@ -3462,7 +3462,7 @@ function renderWorkspace({
             </>
           )}
           <details data-testid="personal-life-choices">
-            <summary>Your day, choices and pending favors</summary>
+            <summary>Your day and choices</summary>
             {/*
               Childhood is part of the day, not a place to go, so it mounts
               inside this existing section rather than on a surface of its own.

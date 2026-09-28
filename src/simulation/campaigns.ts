@@ -100,6 +100,7 @@ import {
 } from "./life";
 import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
 import { PEOPLE_CONTACT_HANDLERS } from "./people-contact";
+import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
 import { PEOPLE_FAMILY_HANDLERS } from "./people-family-plan";
 import {
   CLAIM_CONTRADICTION_TRANSITION_KEY,
@@ -2066,6 +2067,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
       createPressTransitionRegistry(),
       // CRUNCH47 PEOPLE: somebody answers a request to meet, in their own time.
       PEOPLE_CONTACT_HANDLERS,
+      // 1A PEOPLE: residents take their own steps toward private goals.
+      PEOPLE_GOAL_HANDLERS,
       // CRUNCH47 PEOPLE: a family two people agreed to, on the day it lands.
       PEOPLE_FAMILY_HANDLERS,
       LIFE_TRANSITION_HANDLERS,
