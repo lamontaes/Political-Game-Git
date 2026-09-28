@@ -2,7 +2,7 @@
 id: eight-more-state-outcomes
 impact: minor
 section: Added
-title: Every state now tracks hunger, reading, college degrees, broadband, children's asthma, overdose deaths, earnings, transit, migration and borrowing costs.
+title: Every state now tracks hunger, reading, degrees, broadband, asthma, overdoses, earnings, transit, migration and borrowing costs.
 ---
 
 Each state starts at its real recent share of households that go hungry,
