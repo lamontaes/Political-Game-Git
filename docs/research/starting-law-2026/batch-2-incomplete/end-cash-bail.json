@@ -1,0 +1,334 @@
+{
+  "question": "us-policy-positions:justice-public-safety.end-cash-bail",
+  "definition": "yes = state law has ended or nearly ended money bail as a condition of pretrial release (release decided by risk and conditions, with detention hearings instead of money); no = money bail remains a standard, lawful pretrial release condition statewide.",
+  "summarySource": "Stateline 9/23/2025 and Stanford Law 10/2/2025 national overviews; Illinois 725 ILCS 5/110; N.J.S.A. 2A:162-15 (Justia 2025); D.C. Code § 23-1321 (Justia 2025); Brennan Center (NY); Ballotpedia (NM 2016, CA Prop 25).",
+  "answers": {
+    "US-AL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-AK": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://mustreadalaska.com/new-sheriff-in-town-repeal-of-sb-91-signed-into-law/",
+      "note": "HB 49 (signed 7/8/2019) repealed SB 91's risk-assessment release presumption and the clear-and-convincing finding before monetary bail."
+    },
+    "US-AZ": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-AR": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-CA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/California_Proposition_25,_Replace_Cash_Bail_with_Risk_Assessments_Referendum_(2020)",
+      "note": "Voters rejected SB 10 via Proposition 25 in November 2020; In re Humphrey (2021) requires courts to consider ability to pay, but money bail remains lawful."
+    },
+    "US-CO": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-CT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-DE": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-FL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-GA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-HI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-ID": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-IL": {
+      "answer": "yes",
+      "cite": "725 ILCS 5/110-1.5",
+      "operativeAt": "2023-09-18",
+      "dateBasis": "enacted-effective",
+      "source": "https://bailproject.org/policy/illinois-ends-cash-bail-whats-next/",
+      "note": "The Pretrial Fairness Act (part of the SAFE-T Act) abolished monetary bail on 9/18/2023; release is decided by conditions or a detention hearing."
+    },
+    "US-IN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-IA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-KS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-KY": {
+      "answer": "no",
+      "cite": "KRS 431.510",
+      "dateBasis": "not-found",
+      "source": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=40904",
+      "note": "Partial: Kentucky bans commercial bail bondsmen and uses a statewide non-financial administrative release program, but courts still set cash bail."
+    },
+    "US-LA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-ME": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Partial reforms limiting bail for low-level offenses did not end money bail as a lawful release condition."
+    },
+    "US-MD": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-MA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-MI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-MN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-MS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-MO": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-MT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-NE": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-NV": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-NH": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-NJ": {
+      "answer": "yes",
+      "cite": "N.J.S.A. 2A:162-15 et seq.",
+      "operativeAt": "2017-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://law.justia.com/codes/new-jersey/title-2a/section-2a-162-15/",
+      "note": "The Criminal Justice Reform Act made release primarily non-monetary; money bail is still legally allowed as a last resort but almost never used."
+    },
+    "US-NM": {
+      "answer": "no",
+      "cite": "N.M. Const. art. II, § 13",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/New_Mexico_Changes_in_Regulations_Governing_Bail,_Constitutional_Amendment_1_(2016)",
+      "note": "Partial: the 2016 amendment allows detention without bail for dangerous felony defendants and bars holding someone solely for inability to pay, but money bonds are still used."
+    },
+    "US-NY": {
+      "answer": "no",
+      "cite": "N.Y. Crim. Proc. Law § 510.10",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/facts-bail-reform-new-york-how-pretrial-detention-and-release-works-now",
+      "note": "Partial: since 1/1/2020 cash bail is barred for most misdemeanors and nonviolent felonies, but it remains a standard condition for the (since expanded) list of qualifying offenses."
+    },
+    "US-NC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-ND": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-OH": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-OK": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-OR": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-PA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-RI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-SC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-SD": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-TN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-TX": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-UT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-VT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Partial reforms (e.g., limits on bail for misdemeanors) did not end money bail as a lawful release condition."
+    },
+    "US-VA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-WA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-WV": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-WI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-WY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://stateline.org/2025/09/23/cashless-bail-explained-what-it-is-how-it-works-and-why-trump-is-targeting-it/",
+      "note": "Money bail remains a standard, lawful pretrial release condition statewide; national surveys list Illinois as the only state to abolish it and New Jersey and D.C. as near-abolition systems."
+    },
+    "US-DC": {
+      "answer": "yes",
+      "cite": "D.C. Code § 23-1321(c)(3)",
+      "dateBasis": "pre-2000",
+      "source": "https://law.justia.com/codes/district-of-columbia/title-23/chapter-13/subchapter-ii/section-23-1321/",
+      "note": "A judge may not set a financial condition that results in detention, so money bail is effectively unused (since 1992); H.R. 5214, which would impose cash bail, passed the House on 11/19/2025 but was not law on 1/1/2026 as far as found."
+    }
+  },
+  "unknown": {
+    "US-PR": "Search budget exhausted before the territory's bail law could be confirmed; no source found.",
+    "US-GU": "Search budget exhausted before the territory's bail law could be confirmed; no source found.",
+    "US-VI": "Search budget exhausted before the territory's bail law could be confirmed; no source found.",
+    "US-AS": "Search budget exhausted before the territory's bail law could be confirmed; no source found.",
+    "US-MP": "Search budget exhausted before the territory's bail law could be confirmed; no source found."
+  },
+  "conflicts": [],
+  "counts": {
+    "yes": 3,
+    "no": 48,
+    "unknown": 5
+  }
+}

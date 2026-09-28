@@ -156,4 +156,23 @@ describe("Observer Mode on the title screen", () => {
     expect(markup).toContain("Watching the world");
     expect(markup).not.toContain("Dana Reyes");
   });
+
+  it("names the saved character's role beside their name", () => {
+    const senator = {
+      saveId: "save-4",
+      playerName: "Ada Moss",
+      playerAge: 52,
+      residence: { jurisdictionId: "j", name: "Frankfort" },
+      playerRole: {
+        kind: "state-legislator",
+        title: "State Senator",
+        stateUsps: "KY",
+        chamber: "senate",
+      },
+    } as unknown as BrowserWorldSummary;
+    const markup = render([senator], []);
+    expect(markup).toContain(
+      "Ada Moss, 52 \u00b7 State Senator \u00b7 Frankfort",
+    );
+  });
 });
