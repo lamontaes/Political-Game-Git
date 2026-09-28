@@ -134,20 +134,22 @@ export function poseFallbacks(pose: BodyPose): readonly BodyPose[] {
 /**
  * Which way a pose's painting turns toward: the side of the picture its
  * gesture, lean or gaze points to. A mirrored figure turns the other way.
- * PLACEHOLDER(wave2): the posed paintings are not in yet; a pack entry's own
- * `toward` wins over this.
+ * Every front pose faces the viewer (Claude CTO, Sept. 28, 2026: the
+ * explaining hand is the figure's own right, on the viewer's left, and is
+ * not turned), so only the three-quarter view (PackView.toward) turns. A
+ * pack entry's own `toward` wins over this.
  */
 export const POSE_PAINTED_TOWARD: Readonly<
   Record<BodyPose, "left" | "right" | null>
 > = {
   standing: null,
   seated: null,
-  "arms-folded": "right",
-  explaining: "right",
-  "hand-on-hip": "right",
+  "arms-folded": null,
+  explaining: null,
+  "hand-on-hip": null,
   podium: null,
-  "seated-leaning": "right",
-  "seated-legs-crossed": "right",
+  "seated-leaning": null,
+  "seated-legs-crossed": null,
 };
 
 export interface PackBody {
