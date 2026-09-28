@@ -164,6 +164,85 @@
           "front": "hair-feminine-wavy-shoulder-front.png"
         }
       ],
+      "seated": {
+        "bodies": {
+          "lean": {
+            "file": "body-feminine-lean-seated.png",
+            "anchors": {
+              "top": 195,
+              "feet": 791,
+              "neck": {
+                "row": 285,
+                "centerX": 256,
+                "width": 41
+              },
+              "head": {
+                "left": 214,
+                "right": 297,
+                "top": 195,
+                "bottom": 285
+              },
+              "shoulderRow": 345
+            },
+            "skin": {
+              "shadow": 136.5,
+              "base": 170.6,
+              "highlight": 184.3
+            },
+            "seatRow": 547
+          },
+          "average": {
+            "file": "body-feminine-average-seated.png",
+            "anchors": {
+              "top": 198,
+              "feet": 791,
+              "neck": {
+                "row": 287,
+                "centerX": 255.5,
+                "width": 44
+              },
+              "head": {
+                "left": 214,
+                "right": 298,
+                "top": 198,
+                "bottom": 287
+              },
+              "shoulderRow": 345
+            },
+            "skin": {
+              "shadow": 142.9,
+              "base": 180.3,
+              "highlight": 195.2
+            },
+            "seatRow": 547
+          },
+          "fuller": {
+            "file": "body-feminine-fuller-seated.png",
+            "anchors": {
+              "top": 195,
+              "feet": 791,
+              "neck": {
+                "row": 279,
+                "centerX": 255.5,
+                "width": 48
+              },
+              "head": {
+                "left": 211,
+                "right": 300,
+                "top": 195,
+                "bottom": 279
+              },
+              "shoulderRow": 339
+            },
+            "skin": {
+              "shadow": 132,
+              "base": 168.1,
+              "highlight": 182.5
+            },
+            "seatRow": 547
+          }
+        }
+      },
       "outfits": [
         {
           "id": "casual",
@@ -197,6 +276,35 @@
                 "top": "outfit-feminine-casual-fuller-top.png",
                 "bottom": "outfit-feminine-casual-fuller-bottom.png"
               }
+            }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-feminine-casual-lean-seated.png",
+              "hides": "outfit-feminine-casual-lean-seated-hides.png",
+              "regions": {
+                "top": "outfit-feminine-casual-lean-seated-top.png",
+                "bottom": "outfit-feminine-casual-lean-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-casual-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-casual-average-seated.png",
+              "hides": "outfit-feminine-casual-average-seated-hides.png",
+              "regions": {
+                "top": "outfit-feminine-casual-average-seated-top.png",
+                "bottom": "outfit-feminine-casual-average-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-casual-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-casual-fuller-seated.png",
+              "hides": "outfit-feminine-casual-fuller-seated-hides.png",
+              "regions": {
+                "top": "outfit-feminine-casual-fuller-seated-top.png",
+                "bottom": "outfit-feminine-casual-fuller-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-casual-fuller-seated-skin.png"
             }
           }
         },
@@ -232,6 +340,35 @@
                 "suit": "outfit-feminine-formal-fuller-suit.png",
                 "shirt": "outfit-feminine-formal-fuller-shirt.png"
               }
+            }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-feminine-formal-lean-seated.png",
+              "hides": "outfit-feminine-formal-lean-seated-hides.png",
+              "regions": {
+                "suit": "outfit-feminine-formal-lean-seated-suit.png",
+                "shirt": "outfit-feminine-formal-lean-seated-shirt.png"
+              },
+              "skin": "outfit-feminine-formal-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-formal-average-seated.png",
+              "hides": "outfit-feminine-formal-average-seated-hides.png",
+              "regions": {
+                "suit": "outfit-feminine-formal-average-seated-suit.png",
+                "shirt": "outfit-feminine-formal-average-seated-shirt.png"
+              },
+              "skin": "outfit-feminine-formal-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-formal-fuller-seated.png",
+              "hides": "outfit-feminine-formal-fuller-seated-hides.png",
+              "regions": {
+                "suit": "outfit-feminine-formal-fuller-seated-suit.png",
+                "shirt": "outfit-feminine-formal-fuller-seated-shirt.png"
+              },
+              "skin": "outfit-feminine-formal-fuller-seated-skin.png"
             }
           }
         },
@@ -275,6 +412,38 @@
               },
               "skin": "outfit-feminine-cardigan-jeans-fuller-skin.png"
             }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-feminine-cardigan-jeans-lean-seated.png",
+              "hides": "outfit-feminine-cardigan-jeans-lean-seated-hides.png",
+              "regions": {
+                "sweater": "outfit-feminine-cardigan-jeans-lean-seated-sweater.png",
+                "shirt": "outfit-feminine-cardigan-jeans-lean-seated-shirt.png",
+                "bottom": "outfit-feminine-cardigan-jeans-lean-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-cardigan-jeans-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-cardigan-jeans-average-seated.png",
+              "hides": "outfit-feminine-cardigan-jeans-average-seated-hides.png",
+              "regions": {
+                "sweater": "outfit-feminine-cardigan-jeans-average-seated-sweater.png",
+                "shirt": "outfit-feminine-cardigan-jeans-average-seated-shirt.png",
+                "bottom": "outfit-feminine-cardigan-jeans-average-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-cardigan-jeans-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-cardigan-jeans-fuller-seated.png",
+              "hides": "outfit-feminine-cardigan-jeans-fuller-seated-hides.png",
+              "regions": {
+                "sweater": "outfit-feminine-cardigan-jeans-fuller-seated-sweater.png",
+                "shirt": "outfit-feminine-cardigan-jeans-fuller-seated-shirt.png",
+                "bottom": "outfit-feminine-cardigan-jeans-fuller-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-cardigan-jeans-fuller-seated-skin.png"
+            }
           }
         },
         {
@@ -313,6 +482,35 @@
               },
               "skin": "outfit-feminine-hoodie-jeans-fuller-skin.png"
             }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-feminine-hoodie-jeans-lean-seated.png",
+              "hides": "outfit-feminine-hoodie-jeans-lean-seated-hides.png",
+              "regions": {
+                "top": "outfit-feminine-hoodie-jeans-lean-seated-top.png",
+                "bottom": "outfit-feminine-hoodie-jeans-lean-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-hoodie-jeans-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-hoodie-jeans-average-seated.png",
+              "hides": "outfit-feminine-hoodie-jeans-average-seated-hides.png",
+              "regions": {
+                "top": "outfit-feminine-hoodie-jeans-average-seated-top.png",
+                "bottom": "outfit-feminine-hoodie-jeans-average-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-hoodie-jeans-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-hoodie-jeans-fuller-seated.png",
+              "hides": "outfit-feminine-hoodie-jeans-fuller-seated-hides.png",
+              "regions": {
+                "top": "outfit-feminine-hoodie-jeans-fuller-seated-top.png",
+                "bottom": "outfit-feminine-hoodie-jeans-fuller-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-hoodie-jeans-fuller-seated-skin.png"
+            }
           }
         },
         {
@@ -350,6 +548,35 @@
                 "bottom": "outfit-feminine-sweater-slacks-fuller-bottom.png"
               },
               "skin": "outfit-feminine-sweater-slacks-fuller-skin.png"
+            }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-feminine-sweater-slacks-lean-seated.png",
+              "hides": "outfit-feminine-sweater-slacks-lean-seated-hides.png",
+              "regions": {
+                "sweater": "outfit-feminine-sweater-slacks-lean-seated-sweater.png",
+                "bottom": "outfit-feminine-sweater-slacks-lean-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-sweater-slacks-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-sweater-slacks-average-seated.png",
+              "hides": "outfit-feminine-sweater-slacks-average-seated-hides.png",
+              "regions": {
+                "sweater": "outfit-feminine-sweater-slacks-average-seated-sweater.png",
+                "bottom": "outfit-feminine-sweater-slacks-average-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-sweater-slacks-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-sweater-slacks-fuller-seated.png",
+              "hides": "outfit-feminine-sweater-slacks-fuller-seated-hides.png",
+              "regions": {
+                "sweater": "outfit-feminine-sweater-slacks-fuller-seated-sweater.png",
+                "bottom": "outfit-feminine-sweater-slacks-fuller-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-sweater-slacks-fuller-seated-skin.png"
             }
           }
         },
@@ -393,6 +620,38 @@
               },
               "skin": "outfit-feminine-winter-coat-fuller-skin.png"
             }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-feminine-winter-coat-lean-seated.png",
+              "hides": "outfit-feminine-winter-coat-lean-seated-hides.png",
+              "regions": {
+                "coat": "outfit-feminine-winter-coat-lean-seated-coat.png",
+                "scarf": "outfit-feminine-winter-coat-lean-seated-scarf.png",
+                "bottom": "outfit-feminine-winter-coat-lean-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-winter-coat-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-winter-coat-average-seated.png",
+              "hides": "outfit-feminine-winter-coat-average-seated-hides.png",
+              "regions": {
+                "coat": "outfit-feminine-winter-coat-average-seated-coat.png",
+                "scarf": "outfit-feminine-winter-coat-average-seated-scarf.png",
+                "bottom": "outfit-feminine-winter-coat-average-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-winter-coat-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-winter-coat-fuller-seated.png",
+              "hides": "outfit-feminine-winter-coat-fuller-seated-hides.png",
+              "regions": {
+                "coat": "outfit-feminine-winter-coat-fuller-seated-coat.png",
+                "scarf": "outfit-feminine-winter-coat-fuller-seated-scarf.png",
+                "bottom": "outfit-feminine-winter-coat-fuller-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-winter-coat-fuller-seated-skin.png"
+            }
           }
         },
         {
@@ -430,6 +689,35 @@
                 "bottom": "outfit-feminine-blouse-skirt-fuller-bottom.png"
               },
               "skin": "outfit-feminine-blouse-skirt-fuller-skin.png"
+            }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-feminine-blouse-skirt-lean-seated.png",
+              "hides": "outfit-feminine-blouse-skirt-lean-seated-hides.png",
+              "regions": {
+                "top": "outfit-feminine-blouse-skirt-lean-seated-top.png",
+                "bottom": "outfit-feminine-blouse-skirt-lean-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-blouse-skirt-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-blouse-skirt-average-seated.png",
+              "hides": "outfit-feminine-blouse-skirt-average-seated-hides.png",
+              "regions": {
+                "top": "outfit-feminine-blouse-skirt-average-seated-top.png",
+                "bottom": "outfit-feminine-blouse-skirt-average-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-blouse-skirt-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-blouse-skirt-fuller-seated.png",
+              "hides": "outfit-feminine-blouse-skirt-fuller-seated-hides.png",
+              "regions": {
+                "top": "outfit-feminine-blouse-skirt-fuller-seated-top.png",
+                "bottom": "outfit-feminine-blouse-skirt-fuller-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-blouse-skirt-fuller-seated-skin.png"
             }
           }
         },
@@ -469,6 +757,35 @@
               },
               "skin": "outfit-feminine-dress-blazer-fuller-skin.png"
             }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-feminine-dress-blazer-lean-seated.png",
+              "hides": "outfit-feminine-dress-blazer-lean-seated-hides.png",
+              "regions": {
+                "dress": "outfit-feminine-dress-blazer-lean-seated-dress.png",
+                "jacket": "outfit-feminine-dress-blazer-lean-seated-jacket.png"
+              },
+              "skin": "outfit-feminine-dress-blazer-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-dress-blazer-average-seated.png",
+              "hides": "outfit-feminine-dress-blazer-average-seated-hides.png",
+              "regions": {
+                "dress": "outfit-feminine-dress-blazer-average-seated-dress.png",
+                "jacket": "outfit-feminine-dress-blazer-average-seated-jacket.png"
+              },
+              "skin": "outfit-feminine-dress-blazer-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-dress-blazer-fuller-seated.png",
+              "hides": "outfit-feminine-dress-blazer-fuller-seated-hides.png",
+              "regions": {
+                "dress": "outfit-feminine-dress-blazer-fuller-seated-dress.png",
+                "jacket": "outfit-feminine-dress-blazer-fuller-seated-jacket.png"
+              },
+              "skin": "outfit-feminine-dress-blazer-fuller-seated-skin.png"
+            }
           }
         },
         {
@@ -507,6 +824,35 @@
               },
               "skin": "outfit-feminine-skirt-suit-fuller-skin.png"
             }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-feminine-skirt-suit-lean-seated.png",
+              "hides": "outfit-feminine-skirt-suit-lean-seated-hides.png",
+              "regions": {
+                "suit": "outfit-feminine-skirt-suit-lean-seated-suit.png",
+                "shirt": "outfit-feminine-skirt-suit-lean-seated-shirt.png"
+              },
+              "skin": "outfit-feminine-skirt-suit-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-skirt-suit-average-seated.png",
+              "hides": "outfit-feminine-skirt-suit-average-seated-hides.png",
+              "regions": {
+                "suit": "outfit-feminine-skirt-suit-average-seated-suit.png",
+                "shirt": "outfit-feminine-skirt-suit-average-seated-shirt.png"
+              },
+              "skin": "outfit-feminine-skirt-suit-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-skirt-suit-fuller-seated.png",
+              "hides": "outfit-feminine-skirt-suit-fuller-seated-hides.png",
+              "regions": {
+                "suit": "outfit-feminine-skirt-suit-fuller-seated-suit.png",
+                "shirt": "outfit-feminine-skirt-suit-fuller-seated-shirt.png"
+              },
+              "skin": "outfit-feminine-skirt-suit-fuller-seated-skin.png"
+            }
           }
         },
         {
@@ -541,6 +887,32 @@
               },
               "skin": "outfit-feminine-scrubs-fuller-skin.png"
             }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-feminine-scrubs-lean-seated.png",
+              "hides": "outfit-feminine-scrubs-lean-seated-hides.png",
+              "regions": {
+                "scrubs": "outfit-feminine-scrubs-lean-seated-scrubs.png"
+              },
+              "skin": "outfit-feminine-scrubs-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-scrubs-average-seated.png",
+              "hides": "outfit-feminine-scrubs-average-seated-hides.png",
+              "regions": {
+                "scrubs": "outfit-feminine-scrubs-average-seated-scrubs.png"
+              },
+              "skin": "outfit-feminine-scrubs-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-scrubs-fuller-seated.png",
+              "hides": "outfit-feminine-scrubs-fuller-seated-hides.png",
+              "regions": {
+                "scrubs": "outfit-feminine-scrubs-fuller-seated-scrubs.png"
+              },
+              "skin": "outfit-feminine-scrubs-fuller-seated-skin.png"
+            }
           }
         },
         {
@@ -548,7 +920,6 @@
           "label": "Safety vest",
           "occasion": "work",
           "parts": {
-            "shirt": "top",
             "bottom": "bottom"
           },
           "builds": {
@@ -556,7 +927,6 @@
               "file": "outfit-feminine-hi-vis-lean.png",
               "hides": "outfit-feminine-hi-vis-lean-hides.png",
               "regions": {
-                "shirt": "outfit-feminine-hi-vis-lean-shirt.png",
                 "bottom": "outfit-feminine-hi-vis-lean-bottom.png"
               },
               "skin": "outfit-feminine-hi-vis-lean-skin.png"
@@ -565,7 +935,6 @@
               "file": "outfit-feminine-hi-vis-average.png",
               "hides": "outfit-feminine-hi-vis-average-hides.png",
               "regions": {
-                "shirt": "outfit-feminine-hi-vis-average-shirt.png",
                 "bottom": "outfit-feminine-hi-vis-average-bottom.png"
               },
               "skin": "outfit-feminine-hi-vis-average-skin.png"
@@ -574,10 +943,35 @@
               "file": "outfit-feminine-hi-vis-fuller.png",
               "hides": "outfit-feminine-hi-vis-fuller-hides.png",
               "regions": {
-                "shirt": "outfit-feminine-hi-vis-fuller-shirt.png",
                 "bottom": "outfit-feminine-hi-vis-fuller-bottom.png"
               },
               "skin": "outfit-feminine-hi-vis-fuller-skin.png"
+            }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-feminine-hi-vis-lean-seated.png",
+              "hides": "outfit-feminine-hi-vis-lean-seated-hides.png",
+              "regions": {
+                "bottom": "outfit-feminine-hi-vis-lean-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-hi-vis-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-hi-vis-average-seated.png",
+              "hides": "outfit-feminine-hi-vis-average-seated-hides.png",
+              "regions": {
+                "bottom": "outfit-feminine-hi-vis-average-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-hi-vis-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-hi-vis-fuller-seated.png",
+              "hides": "outfit-feminine-hi-vis-fuller-seated-hides.png",
+              "regions": {
+                "bottom": "outfit-feminine-hi-vis-fuller-seated-bottom.png"
+              },
+              "skin": "outfit-feminine-hi-vis-fuller-seated-skin.png"
             }
           }
         },
@@ -605,6 +999,26 @@
               "regions": {},
               "skin": "outfit-feminine-police-fuller-skin.png"
             }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-feminine-police-lean-seated.png",
+              "hides": "outfit-feminine-police-lean-seated-hides.png",
+              "regions": {},
+              "skin": "outfit-feminine-police-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-police-average-seated.png",
+              "hides": "outfit-feminine-police-average-seated-hides.png",
+              "regions": {},
+              "skin": "outfit-feminine-police-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-police-fuller-seated.png",
+              "hides": "outfit-feminine-police-fuller-seated-hides.png",
+              "regions": {},
+              "skin": "outfit-feminine-police-fuller-seated-skin.png"
+            }
           }
         },
         {
@@ -630,6 +1044,26 @@
               "hides": "outfit-feminine-judge-robe-fuller-hides.png",
               "regions": {},
               "skin": "outfit-feminine-judge-robe-fuller-skin.png"
+            }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-feminine-judge-robe-lean-seated.png",
+              "hides": "outfit-feminine-judge-robe-lean-seated-hides.png",
+              "regions": {},
+              "skin": "outfit-feminine-judge-robe-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-judge-robe-average-seated.png",
+              "hides": "outfit-feminine-judge-robe-average-seated-hides.png",
+              "regions": {},
+              "skin": "outfit-feminine-judge-robe-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-judge-robe-fuller-seated.png",
+              "hides": "outfit-feminine-judge-robe-fuller-seated-hides.png",
+              "regions": {},
+              "skin": "outfit-feminine-judge-robe-fuller-seated-skin.png"
             }
           }
         }
@@ -814,6 +1248,85 @@
           "front": "hair-masculine-wavy-medium-front.png"
         }
       ],
+      "seated": {
+        "bodies": {
+          "lean": {
+            "file": "body-masculine-lean-seated.png",
+            "anchors": {
+              "top": 216,
+              "feet": 791,
+              "neck": {
+                "row": 296,
+                "centerX": 255,
+                "width": 47
+              },
+              "head": {
+                "left": 218,
+                "right": 293,
+                "top": 216,
+                "bottom": 296
+              },
+              "shoulderRow": 354
+            },
+            "skin": {
+              "shadow": 138.9,
+              "base": 185.6,
+              "highlight": 204.3
+            },
+            "seatRow": 557
+          },
+          "average": {
+            "file": "body-masculine-average-seated.png",
+            "anchors": {
+              "top": 223,
+              "feet": 791,
+              "neck": {
+                "row": 296,
+                "centerX": 255,
+                "width": 51
+              },
+              "head": {
+                "left": 217,
+                "right": 293,
+                "top": 223,
+                "bottom": 296
+              },
+              "shoulderRow": 353
+            },
+            "skin": {
+              "shadow": 144.6,
+              "base": 190.9,
+              "highlight": 209.5
+            },
+            "seatRow": 557
+          },
+          "fuller": {
+            "file": "body-masculine-fuller-seated.png",
+            "anchors": {
+              "top": 198,
+              "feet": 791,
+              "neck": {
+                "row": 276,
+                "centerX": 255.5,
+                "width": 56
+              },
+              "head": {
+                "left": 215,
+                "right": 297,
+                "top": 198,
+                "bottom": 276
+              },
+              "shoulderRow": 335
+            },
+            "skin": {
+              "shadow": 142.2,
+              "base": 178.7,
+              "highlight": 193.3
+            },
+            "seatRow": 557
+          }
+        }
+      },
       "outfits": [
         {
           "id": "casual",
@@ -847,6 +1360,35 @@
                 "top": "outfit-masculine-casual-fuller-top.png",
                 "bottom": "outfit-masculine-casual-fuller-bottom.png"
               }
+            }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-masculine-casual-lean-seated.png",
+              "hides": "outfit-masculine-casual-lean-seated-hides.png",
+              "regions": {
+                "top": "outfit-masculine-casual-lean-seated-top.png",
+                "bottom": "outfit-masculine-casual-lean-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-casual-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-casual-average-seated.png",
+              "hides": "outfit-masculine-casual-average-seated-hides.png",
+              "regions": {
+                "top": "outfit-masculine-casual-average-seated-top.png",
+                "bottom": "outfit-masculine-casual-average-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-casual-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-casual-fuller-seated.png",
+              "hides": "outfit-masculine-casual-fuller-seated-hides.png",
+              "regions": {
+                "top": "outfit-masculine-casual-fuller-seated-top.png",
+                "bottom": "outfit-masculine-casual-fuller-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-casual-fuller-seated-skin.png"
             }
           }
         },
@@ -887,6 +1429,38 @@
                 "tie": "outfit-masculine-formal-fuller-tie.png"
               }
             }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-masculine-formal-lean-seated.png",
+              "hides": "outfit-masculine-formal-lean-seated-hides.png",
+              "regions": {
+                "suit": "outfit-masculine-formal-lean-seated-suit.png",
+                "shirt": "outfit-masculine-formal-lean-seated-shirt.png",
+                "tie": "outfit-masculine-formal-lean-seated-tie.png"
+              },
+              "skin": "outfit-masculine-formal-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-formal-average-seated.png",
+              "hides": "outfit-masculine-formal-average-seated-hides.png",
+              "regions": {
+                "suit": "outfit-masculine-formal-average-seated-suit.png",
+                "shirt": "outfit-masculine-formal-average-seated-shirt.png",
+                "tie": "outfit-masculine-formal-average-seated-tie.png"
+              },
+              "skin": "outfit-masculine-formal-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-formal-fuller-seated.png",
+              "hides": "outfit-masculine-formal-fuller-seated-hides.png",
+              "regions": {
+                "suit": "outfit-masculine-formal-fuller-seated-suit.png",
+                "shirt": "outfit-masculine-formal-fuller-seated-shirt.png",
+                "tie": "outfit-masculine-formal-fuller-seated-tie.png"
+              },
+              "skin": "outfit-masculine-formal-fuller-seated-skin.png"
+            }
           }
         },
         {
@@ -925,6 +1499,35 @@
               },
               "skin": "outfit-masculine-polo-khakis-fuller-skin.png"
             }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-masculine-polo-khakis-lean-seated.png",
+              "hides": "outfit-masculine-polo-khakis-lean-seated-hides.png",
+              "regions": {
+                "top": "outfit-masculine-polo-khakis-lean-seated-top.png",
+                "bottom": "outfit-masculine-polo-khakis-lean-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-polo-khakis-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-polo-khakis-average-seated.png",
+              "hides": "outfit-masculine-polo-khakis-average-seated-hides.png",
+              "regions": {
+                "top": "outfit-masculine-polo-khakis-average-seated-top.png",
+                "bottom": "outfit-masculine-polo-khakis-average-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-polo-khakis-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-polo-khakis-fuller-seated.png",
+              "hides": "outfit-masculine-polo-khakis-fuller-seated-hides.png",
+              "regions": {
+                "top": "outfit-masculine-polo-khakis-fuller-seated-top.png",
+                "bottom": "outfit-masculine-polo-khakis-fuller-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-polo-khakis-fuller-seated-skin.png"
+            }
           }
         },
         {
@@ -962,6 +1565,35 @@
                 "bottom": "outfit-masculine-hoodie-jeans-fuller-bottom.png"
               },
               "skin": "outfit-masculine-hoodie-jeans-fuller-skin.png"
+            }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-masculine-hoodie-jeans-lean-seated.png",
+              "hides": "outfit-masculine-hoodie-jeans-lean-seated-hides.png",
+              "regions": {
+                "top": "outfit-masculine-hoodie-jeans-lean-seated-top.png",
+                "bottom": "outfit-masculine-hoodie-jeans-lean-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-hoodie-jeans-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-hoodie-jeans-average-seated.png",
+              "hides": "outfit-masculine-hoodie-jeans-average-seated-hides.png",
+              "regions": {
+                "top": "outfit-masculine-hoodie-jeans-average-seated-top.png",
+                "bottom": "outfit-masculine-hoodie-jeans-average-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-hoodie-jeans-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-hoodie-jeans-fuller-seated.png",
+              "hides": "outfit-masculine-hoodie-jeans-fuller-seated-hides.png",
+              "regions": {
+                "top": "outfit-masculine-hoodie-jeans-fuller-seated-top.png",
+                "bottom": "outfit-masculine-hoodie-jeans-fuller-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-hoodie-jeans-fuller-seated-skin.png"
             }
           }
         },
@@ -1005,6 +1637,38 @@
               },
               "skin": "outfit-masculine-sweater-collar-fuller-skin.png"
             }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-masculine-sweater-collar-lean-seated.png",
+              "hides": "outfit-masculine-sweater-collar-lean-seated-hides.png",
+              "regions": {
+                "sweater": "outfit-masculine-sweater-collar-lean-seated-sweater.png",
+                "shirt": "outfit-masculine-sweater-collar-lean-seated-shirt.png",
+                "bottom": "outfit-masculine-sweater-collar-lean-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-sweater-collar-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-sweater-collar-average-seated.png",
+              "hides": "outfit-masculine-sweater-collar-average-seated-hides.png",
+              "regions": {
+                "sweater": "outfit-masculine-sweater-collar-average-seated-sweater.png",
+                "shirt": "outfit-masculine-sweater-collar-average-seated-shirt.png",
+                "bottom": "outfit-masculine-sweater-collar-average-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-sweater-collar-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-sweater-collar-fuller-seated.png",
+              "hides": "outfit-masculine-sweater-collar-fuller-seated-hides.png",
+              "regions": {
+                "sweater": "outfit-masculine-sweater-collar-fuller-seated-sweater.png",
+                "shirt": "outfit-masculine-sweater-collar-fuller-seated-shirt.png",
+                "bottom": "outfit-masculine-sweater-collar-fuller-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-sweater-collar-fuller-seated-skin.png"
+            }
           }
         },
         {
@@ -1046,6 +1710,38 @@
                 "bottom": "outfit-masculine-work-jacket-fuller-bottom.png"
               },
               "skin": "outfit-masculine-work-jacket-fuller-skin.png"
+            }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-masculine-work-jacket-lean-seated.png",
+              "hides": "outfit-masculine-work-jacket-lean-seated-hides.png",
+              "regions": {
+                "jacket": "outfit-masculine-work-jacket-lean-seated-jacket.png",
+                "shirt": "outfit-masculine-work-jacket-lean-seated-shirt.png",
+                "bottom": "outfit-masculine-work-jacket-lean-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-work-jacket-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-work-jacket-average-seated.png",
+              "hides": "outfit-masculine-work-jacket-average-seated-hides.png",
+              "regions": {
+                "jacket": "outfit-masculine-work-jacket-average-seated-jacket.png",
+                "shirt": "outfit-masculine-work-jacket-average-seated-shirt.png",
+                "bottom": "outfit-masculine-work-jacket-average-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-work-jacket-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-work-jacket-fuller-seated.png",
+              "hides": "outfit-masculine-work-jacket-fuller-seated-hides.png",
+              "regions": {
+                "jacket": "outfit-masculine-work-jacket-fuller-seated-jacket.png",
+                "shirt": "outfit-masculine-work-jacket-fuller-seated-shirt.png",
+                "bottom": "outfit-masculine-work-jacket-fuller-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-work-jacket-fuller-seated-skin.png"
             }
           }
         },
@@ -1089,6 +1785,38 @@
               },
               "skin": "outfit-masculine-overcoat-fuller-skin.png"
             }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-masculine-overcoat-lean-seated.png",
+              "hides": "outfit-masculine-overcoat-lean-seated-hides.png",
+              "regions": {
+                "coat": "outfit-masculine-overcoat-lean-seated-coat.png",
+                "scarf": "outfit-masculine-overcoat-lean-seated-scarf.png",
+                "bottom": "outfit-masculine-overcoat-lean-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-overcoat-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-overcoat-average-seated.png",
+              "hides": "outfit-masculine-overcoat-average-seated-hides.png",
+              "regions": {
+                "coat": "outfit-masculine-overcoat-average-seated-coat.png",
+                "scarf": "outfit-masculine-overcoat-average-seated-scarf.png",
+                "bottom": "outfit-masculine-overcoat-average-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-overcoat-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-overcoat-fuller-seated.png",
+              "hides": "outfit-masculine-overcoat-fuller-seated-hides.png",
+              "regions": {
+                "coat": "outfit-masculine-overcoat-fuller-seated-coat.png",
+                "scarf": "outfit-masculine-overcoat-fuller-seated-scarf.png",
+                "bottom": "outfit-masculine-overcoat-fuller-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-overcoat-fuller-seated-skin.png"
+            }
           }
         },
         {
@@ -1131,6 +1859,38 @@
               },
               "skin": "outfit-masculine-double-breasted-fuller-skin.png"
             }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-masculine-double-breasted-lean-seated.png",
+              "hides": "outfit-masculine-double-breasted-lean-seated-hides.png",
+              "regions": {
+                "suit": "outfit-masculine-double-breasted-lean-seated-suit.png",
+                "shirt": "outfit-masculine-double-breasted-lean-seated-shirt.png",
+                "tie": "outfit-masculine-double-breasted-lean-seated-tie.png"
+              },
+              "skin": "outfit-masculine-double-breasted-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-double-breasted-average-seated.png",
+              "hides": "outfit-masculine-double-breasted-average-seated-hides.png",
+              "regions": {
+                "suit": "outfit-masculine-double-breasted-average-seated-suit.png",
+                "shirt": "outfit-masculine-double-breasted-average-seated-shirt.png",
+                "tie": "outfit-masculine-double-breasted-average-seated-tie.png"
+              },
+              "skin": "outfit-masculine-double-breasted-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-double-breasted-fuller-seated.png",
+              "hides": "outfit-masculine-double-breasted-fuller-seated-hides.png",
+              "regions": {
+                "suit": "outfit-masculine-double-breasted-fuller-seated-suit.png",
+                "shirt": "outfit-masculine-double-breasted-fuller-seated-shirt.png",
+                "tie": "outfit-masculine-double-breasted-fuller-seated-tie.png"
+              },
+              "skin": "outfit-masculine-double-breasted-fuller-seated-skin.png"
+            }
           }
         },
         {
@@ -1165,6 +1925,32 @@
               },
               "skin": "outfit-masculine-scrubs-fuller-skin.png"
             }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-masculine-scrubs-lean-seated.png",
+              "hides": "outfit-masculine-scrubs-lean-seated-hides.png",
+              "regions": {
+                "scrubs": "outfit-masculine-scrubs-lean-seated-scrubs.png"
+              },
+              "skin": "outfit-masculine-scrubs-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-scrubs-average-seated.png",
+              "hides": "outfit-masculine-scrubs-average-seated-hides.png",
+              "regions": {
+                "scrubs": "outfit-masculine-scrubs-average-seated-scrubs.png"
+              },
+              "skin": "outfit-masculine-scrubs-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-scrubs-fuller-seated.png",
+              "hides": "outfit-masculine-scrubs-fuller-seated-hides.png",
+              "regions": {
+                "scrubs": "outfit-masculine-scrubs-fuller-seated-scrubs.png"
+              },
+              "skin": "outfit-masculine-scrubs-fuller-seated-skin.png"
+            }
           }
         },
         {
@@ -1172,7 +1958,6 @@
           "label": "Safety vest",
           "occasion": "work",
           "parts": {
-            "shirt": "top",
             "bottom": "bottom"
           },
           "builds": {
@@ -1180,7 +1965,6 @@
               "file": "outfit-masculine-hi-vis-lean.png",
               "hides": "outfit-masculine-hi-vis-lean-hides.png",
               "regions": {
-                "shirt": "outfit-masculine-hi-vis-lean-shirt.png",
                 "bottom": "outfit-masculine-hi-vis-lean-bottom.png"
               },
               "skin": "outfit-masculine-hi-vis-lean-skin.png"
@@ -1189,7 +1973,6 @@
               "file": "outfit-masculine-hi-vis-average.png",
               "hides": "outfit-masculine-hi-vis-average-hides.png",
               "regions": {
-                "shirt": "outfit-masculine-hi-vis-average-shirt.png",
                 "bottom": "outfit-masculine-hi-vis-average-bottom.png"
               },
               "skin": "outfit-masculine-hi-vis-average-skin.png"
@@ -1198,10 +1981,35 @@
               "file": "outfit-masculine-hi-vis-fuller.png",
               "hides": "outfit-masculine-hi-vis-fuller-hides.png",
               "regions": {
-                "shirt": "outfit-masculine-hi-vis-fuller-shirt.png",
                 "bottom": "outfit-masculine-hi-vis-fuller-bottom.png"
               },
               "skin": "outfit-masculine-hi-vis-fuller-skin.png"
+            }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-masculine-hi-vis-lean-seated.png",
+              "hides": "outfit-masculine-hi-vis-lean-seated-hides.png",
+              "regions": {
+                "bottom": "outfit-masculine-hi-vis-lean-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-hi-vis-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-hi-vis-average-seated.png",
+              "hides": "outfit-masculine-hi-vis-average-seated-hides.png",
+              "regions": {
+                "bottom": "outfit-masculine-hi-vis-average-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-hi-vis-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-hi-vis-fuller-seated.png",
+              "hides": "outfit-masculine-hi-vis-fuller-seated-hides.png",
+              "regions": {
+                "bottom": "outfit-masculine-hi-vis-fuller-seated-bottom.png"
+              },
+              "skin": "outfit-masculine-hi-vis-fuller-seated-skin.png"
             }
           }
         },
@@ -1229,6 +2037,26 @@
               "regions": {},
               "skin": "outfit-masculine-police-fuller-skin.png"
             }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-masculine-police-lean-seated.png",
+              "hides": "outfit-masculine-police-lean-seated-hides.png",
+              "regions": {},
+              "skin": "outfit-masculine-police-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-police-average-seated.png",
+              "hides": "outfit-masculine-police-average-seated-hides.png",
+              "regions": {},
+              "skin": "outfit-masculine-police-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-police-fuller-seated.png",
+              "hides": "outfit-masculine-police-fuller-seated-hides.png",
+              "regions": {},
+              "skin": "outfit-masculine-police-fuller-seated-skin.png"
+            }
           }
         },
         {
@@ -1254,6 +2082,26 @@
               "hides": "outfit-masculine-judge-robe-fuller-hides.png",
               "regions": {},
               "skin": "outfit-masculine-judge-robe-fuller-skin.png"
+            }
+          },
+          "seated": {
+            "lean": {
+              "file": "outfit-masculine-judge-robe-lean-seated.png",
+              "hides": "outfit-masculine-judge-robe-lean-seated-hides.png",
+              "regions": {},
+              "skin": "outfit-masculine-judge-robe-lean-seated-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-judge-robe-average-seated.png",
+              "hides": "outfit-masculine-judge-robe-average-seated-hides.png",
+              "regions": {},
+              "skin": "outfit-masculine-judge-robe-average-seated-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-judge-robe-fuller-seated.png",
+              "hides": "outfit-masculine-judge-robe-fuller-seated-hides.png",
+              "regions": {},
+              "skin": "outfit-masculine-judge-robe-fuller-seated-skin.png"
             }
           }
         }

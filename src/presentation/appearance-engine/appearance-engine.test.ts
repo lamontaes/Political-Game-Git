@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { PNG } from "pngjs";
 import { describe, expect, it } from "vitest";
 import type { Person, World } from "../../simulation/types";
-import { sceneOccasion } from "../life-scene-people";
+import { seatedEngineBox, sceneOccasion } from "../life-scene-people";
 import {
   PART_PALETTES,
   composeEnginePerson,
@@ -590,6 +590,62 @@ describe("the people engine in the game", () => {
     );
     // Every everyday outfit turns up in a crowd of 200.
     expect([...worn.keys()].sort()).toEqual(everyday.sort());
+  });
+
+  it("seats people: every outfit on every seated body, hips on the seat, feet on the floor", () => {
+    const read = (file: string): Raster => {
+      const png = PNG.sync.read(readFileSync(`art/people-engine/v1/${file}`));
+      return {
+        width: png.width,
+        height: png.height,
+        data: new Uint8ClampedArray(png.data),
+      };
+    };
+    for (const presentation of ["feminine", "masculine"] as const) {
+      const pack = manifest.presentations[presentation];
+      for (const outfit of pack.outfits)
+        for (const build of ["lean", "average", "fuller"] as const)
+          expect(outfit.seated?.[build]).toBeDefined();
+      const recipe = {
+        presentation,
+        build: "average" as const,
+        shade: 4,
+        face: "",
+        hair: "",
+        hairColor: "natural",
+        outfit: pack.outfits[0]!.id,
+        pose: "seated" as const,
+      };
+      const { raster, anchors, seatRow } = composeEnginePerson(
+        manifest,
+        read,
+        recipe,
+      );
+      expect(seatRow).toBe(pack.seated!.bodies.average.seatRow);
+      // The body is there at the seat, between the soles and the head.
+      expect(seatRow!).toBeGreaterThan(anchors.neck.row);
+      expect(seatRow!).toBeLessThan(anchors.feet);
+      expect(
+        alphaOf(raster, Math.round(anchors.neck.centerX), seatRow! - 4),
+      ).toBe(255);
+      // In a room: the soles on the floor line, the seat row on the seat line.
+      const seat = {
+        seat_plane_y_percent: 62,
+        seat_front_x_percent: 50,
+        seat_width_percent: 9,
+        floor_y_percent: 76,
+        seat_z_order: 2,
+        backrest_z_order: 1,
+      };
+      const standingBox = 34;
+      const box = seatedEngineBox(recipe, seat, standingBox);
+      const body = pack.seated!.bodies.average.anchors;
+      const figure = body.feet - body.top + 1;
+      const rowY = (row: number) =>
+        box.topPercent + ((row - body.top) / figure) * box.heightPercent;
+      expect(rowY(body.feet + 1)).toBeCloseTo(76, 5);
+      expect(rowY(seatRow! + 1)).toBeCloseTo(62, 0);
+    }
   });
 
   it("never cuts off a hairstyle at the top of the picture, on any body", () => {

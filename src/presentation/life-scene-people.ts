@@ -1,4 +1,5 @@
 import type { AppearanceMaterial } from "../simulation/appearance-material";
+import type { SceneSeatContact } from "../environment/environment-scene-spec";
 import type { EngineRecipe } from "./appearance-engine/pack";
 import { engineRecipeFor } from "./appearance-engine/recipe";
 import { PEOPLE_PACK, peoplePackAvailable } from "./appearance-engine/runtime";
@@ -302,6 +303,40 @@ export function fitLayersToBox(
   }));
 }
 
+/**
+ * The box an engine person sits in: the soles on the seat's floor line and
+ * the hips on its seat line. The body's own seat-to-sole distance fixes the
+ * scale, so nothing is tuned per chair. A chair drawn out of proportion with
+ * the room (the figure would come out under 60% or over 160% of the size the
+ * room's perspective gives a person there) keeps the perspective size, with
+ * the feet on the floor.
+ */
+export function seatedEngineBox(
+  recipe: EngineRecipe,
+  seat: SceneSeatContact,
+  standingHeightPercent: number,
+): { readonly topPercent: number; readonly heightPercent: number } {
+  const pack = PEOPLE_PACK.presentations[recipe.presentation];
+  const body = pack.seated?.bodies[recipe.build];
+  const standing = pack.bodies[recipe.build].anchors;
+  if (!body)
+    return {
+      topPercent: seat.floor_y_percent - standingHeightPercent,
+      heightPercent: standingHeightPercent,
+    };
+  const figure = body.anchors.feet - body.anchors.top + 1;
+  const perspective =
+    standingHeightPercent * (figure / (standing.feet - standing.top + 1));
+  const bySeat =
+    ((seat.floor_y_percent - seat.seat_plane_y_percent) * figure) /
+    Math.max(1, body.anchors.feet - body.seatRow);
+  const heightPercent =
+    bySeat > perspective * 0.6 && bySeat < perspective * 1.6
+      ? bySeat
+      : perspective;
+  return { topPercent: seat.floor_y_percent - heightPercent, heightPercent };
+}
+
 /** A standing figure is roughly this many times as tall as it is wide. */
 const STANDING_HEIGHT_RATIO = 2.55;
 /** A seated figure occupies less height above its contact line. */
@@ -577,13 +612,29 @@ export function planLifeScenePeople(
     const topPercent = anchor.contactFloorYPercent - heightPercent;
     let overflowPercent = Math.max(0, -topPercent);
     const record = world.people[person.personId];
+    // Engine people stand on floor anchors, and sit where the seat is drawn
+    // with its seat and floor lines (a seat without them keeps the old art).
+    const seatContact = seated ? anchor.seatContact : null;
     const engine =
-      !seated && record && !savedWardrobes?.artPreview && peoplePackAvailable()
+      (!seated || seatContact) &&
+      record &&
+      !savedWardrobes?.artPreview &&
+      peoplePackAvailable()
         ? engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
             occasion: sceneOccasion(sceneId),
+            ...(seated ? { pose: "seated" as const } : {}),
           })
         : null;
     if (engine) {
+      const box = seatContact
+        ? seatedEngineBox(
+            engine,
+            seatContact,
+            widthPercent * plateAspect * STANDING_HEIGHT_RATIO,
+          )
+        : { topPercent, heightPercent };
+      if (box.topPercent < 0)
+        overflowPercent = Math.max(overflowPercent, -box.topPercent);
       return {
         personId: person.personId,
         name: person.name,
@@ -591,9 +642,9 @@ export function planLifeScenePeople(
         anchorId: anchor.id,
         seated,
         leftPercent,
-        topPercent,
+        topPercent: box.topPercent,
         widthPercent,
-        heightPercent,
+        heightPercent: box.heightPercent,
         layers: [],
         engine,
         hasArt: true,
