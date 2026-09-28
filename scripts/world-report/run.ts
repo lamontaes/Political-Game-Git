@@ -42,6 +42,13 @@ import {
 } from "../../src/simulation/serialization";
 import { currentPublicOfficeholders } from "../../src/presentation/opening-officeholders";
 import { proseDate } from "../../src/presentation/prose-dates";
+import { lawInForce } from "../../src/simulation/governing/law-in-force";
+import {
+  OUTCOME_LINKS,
+  OUTCOMES_PRODUCED,
+  outcomeFactor,
+  outcomeLinkStatus,
+} from "../../src/simulation/outcome-web";
 import {
   anniversary,
   createObserverDayButton,
@@ -1766,6 +1773,72 @@ function monthDay(date: IsoDate): string {
   return proseDate(date).replace(/, \d{4}$/, "");
 }
 
+/**
+ * What the law in force says in the watched town on each policy question,
+ * where it came from, what each law feeds in the outcome web, and which causes
+ * moved each outcome the world computes (04 SYSTEM SPECS parts 4 and 5).
+ */
+function lawOutcomeLines(run: WorldReportRun): string[] {
+  const world = run.world;
+  const town = world.people[run.anchorPersonId]?.homeJurisdictionId;
+  if (!town) return [];
+  const out = ["## What the laws changed beyond money", ""];
+  const answered: {
+    name: string;
+    stableKey: string;
+    answer: string;
+    origin: string;
+    designation: string;
+    since: IsoDate;
+  }[] = [];
+  for (const propositionId of world.policyCatalog.propositionOrder) {
+    const law = lawInForce(world, town, propositionId);
+    if (!law) continue;
+    const proposition = world.policyCatalog.propositions[propositionId]!;
+    const measure = world.history.legislativeMeasures?.find(
+      (row) => row.id === law.measureId,
+    );
+    answered.push({
+      name: proposition.name,
+      stableKey: proposition.stableKey,
+      answer: law.answer,
+      origin: law.origin,
+      designation: measure?.designation ?? "",
+      since: law.operativeAt,
+    });
+  }
+  const atStart = answered.filter((row) => row.origin === "in-force-at-start");
+  const inPlay = answered.filter((row) => row.origin === "enacted");
+  out.push(
+    `The law in force here answers ${count(answered.length, "policy question")}: ${atStart.length} as the law stood when the game began, and ${inPlay.length} by laws enacted during the run.`,
+    "",
+  );
+  for (const row of [...inPlay, ...atStart]) {
+    const links = OUTCOME_LINKS.filter(
+      (link) => link.from === `law:${row.stableKey}`,
+    );
+    const acting = links.filter((link) => outcomeLinkStatus(link) === "built");
+    out.push(
+      `- **${row.name}**: ${row.answer}${row.origin === "enacted" ? `, ${row.designation}, in force from ${proseDate(row.since)}` : ", as the game began"}. ${links.length ? `Feeds ${count(links.length, "outcome")}; ${acting.length} ${acting.length === 1 ? "acts" : "act"} in the world today.` : "Feeds no outcome yet."}`,
+    );
+    for (const link of links)
+      out.push(`  - ${link.to} (${link.strength}): ${outcomeLinkStatus(link)}`);
+  }
+  out.push(
+    "",
+    "What moved each outcome the world computes, at the end of the run:",
+    "",
+  );
+  for (const outcome of OUTCOMES_PRODUCED) {
+    const reading = outcomeFactor(world, town, outcome, world.currentDate);
+    const moved = reading.causes.filter((cause) => cause.factor !== 1);
+    out.push(
+      `- ${outcome}: ${reading.multiplier.toFixed(3)} times its base rate${moved.length ? `, from ${moved.map((cause) => `${cause.key} (${cause.factor.toFixed(3)})`).join(", ")}` : ", nothing moved it"}.`,
+    );
+  }
+  return out;
+}
+
 export function worldReportMarkdown(run: WorldReportRun): string {
   const reader = new WorldRecordReader(run.world, run.anchorPersonId);
   const lines = chronicle(reader, run.officeholders);
@@ -1810,6 +1883,7 @@ export function worldReportMarkdown(run: WorldReportRun): string {
   const bySection = new Map<Section, number>();
   for (const line of lines)
     bySection.set(line.section, (bySection.get(line.section) ?? 0) + 1);
+  out.push("", ...lawOutcomeLines(run));
   out.push(
     "",
     "## The chronicle in numbers",

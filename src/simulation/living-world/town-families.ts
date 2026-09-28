@@ -37,6 +37,7 @@
  * parent.
  */
 
+import { outcomeFactor } from "../outcome-web";
 import { ageOnDate, addDays } from "../dates";
 import { createStableId } from "../ids";
 import {
@@ -704,12 +705,21 @@ export function reviewTownFamilies(
       couple && couple.stage !== "dating" && together ? couple.partner : null;
     mothers.push({ person: entry, weight, partner });
   }
+  // Hard times and other causes in the outcome web move the town's birth
+  // rate (unemployment nine months earlier: about 1.4% fewer births per point).
+  const birthFactor = outcomeFactor(
+    next,
+    town,
+    "births.rate",
+    today,
+  ).multiplier;
   for (const mother of mothers) {
     const tally = bandWeight.get(bandOf(mother.person.age))!;
     const mean = tally.sum / tally.count;
     if (mean <= 0) continue;
     const yearly = byAge(TOWN_BIRTH_RATES_BY_AGE, mother.person.age) / 1000;
-    const chance = ((yearly / 4) * (mother.weight / mean)) / pressure;
+    const chance =
+      (((yearly / 4) * (mother.weight / mean)) / pressure) * birthFactor;
     const id = mother.person.person.id;
     const rng = rngFor(`mother:${id}`);
     if (rng.fork("child").next() >= chance) continue;
