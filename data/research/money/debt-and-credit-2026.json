@@ -1,0 +1,2467 @@
+{
+  "id": "debt-and-credit-2026",
+  "asOf": "2026-09-28",
+  "specRef": "04 SYSTEM SPECS, spec 11: Debt and credit, governments and households",
+  "evidenceNote": "Every official and secondary page fetch (newyorkfed.org, federalreserve.gov, fiscaldata.treasury.gov, census.gov, consumerfinance.gov, fred.stlouisfed.org and others) was blocked by the session's egress proxy. Every value below comes from WebSearch result snippets ('evidence': 'snippet-derived') and should be re-verified against the named primary page before it calibrates play. Secondary sources are marked 'secondary': true.",
+  "sources": [
+    {
+      "key": "nyfed-hhdc-2026q2",
+      "title": "Household Debt Balances Decreased Slightly; Credit Card Delinquency Transition Rates Remained Steady (Q2 2026 Household Debt and Credit Report)",
+      "publisher": "Federal Reserve Bank of New York",
+      "url": "https://www.newyorkfed.org/newsevents/news/research/2026/20260811",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "wolfstreet-2026q2",
+      "title": "Household Debts ... Delinquencies ... in Q2 2026 (secondary, relays New York Fed data)",
+      "publisher": "Wolf Street",
+      "url": "https://wolfstreet.com/2026/08/11/household-debts-debt-to-income-ratio-delinquencies-foreclosures-collections-bankruptcies-in-q2-2026/",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "scf-2022",
+      "title": "Changes in U.S. Family Finances from 2019 to 2022: Evidence from the Survey of Consumer Finances",
+      "publisher": "Board of Governors of the Federal Reserve System",
+      "url": "https://www.federalreserve.gov/publications/october-2023-changes-in-us-family-finances-from-2019-to-2022.htm",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "g19-rates",
+      "title": "G.19 Consumer Credit, terms of credit (values relayed by Trading Economics and YCharts, secondary)",
+      "publisher": "Board of Governors of the Federal Reserve System",
+      "url": "https://www.federalreserve.gov/releases/g19/current/default.htm",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "te-cc-assessed",
+      "title": "Commercial Bank Interest Rate on Credit Card Plans, Accounts Assessed Interest (secondary)",
+      "publisher": "Trading Economics",
+      "url": "https://tradingeconomics.com/united-states/commercial-bank-interest-rate-on-credit-card-plans-accounts-assessed-interest-fed-data.html",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "te-auto60",
+      "title": "Finance Rate on Consumer Installment Loans at Commercial Banks, New Autos 60 Month Loan (secondary)",
+      "publisher": "Trading Economics",
+      "url": "https://tradingeconomics.com/united-states/finance-rate-on-consumer-installment-loans-at-commercial-banks-new-autos-60-month-loan-fed-data.html",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "te-personal24",
+      "title": "Finance Rate on Personal Loans at Commercial Banks, 24 Month Loan (secondary)",
+      "publisher": "Trading Economics",
+      "url": "https://tradingeconomics.com/united-states/finance-rate-on-personal-loans-at-commercial-banks-24-month-loan-fed-data.html",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "pmms-2026-09-24",
+      "title": "Mortgage Rates Average 7.03% (Primary Mortgage Market Survey)",
+      "publisher": "Freddie Mac",
+      "url": "https://www.globenewswire.com/news-release/2026/09/24/3368592/0/en/mortgage-rates-average-7-03.html",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "fsa-rates-2026-27",
+      "title": "Interest Rates for Federal Direct Loans First Disbursed Between July 1, 2026 and June 30, 2027",
+      "publisher": "U.S. Department of Education, Federal Student Aid",
+      "url": "https://fsapartners.ed.gov/knowledge-center/library/electronic-announcements/2026-06-04/interest-rates-federal-direct-loans-first-disbursed-between-july-1-2026-and-june-30-2027",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "cfpb-payday",
+      "title": "What is a payday loan?",
+      "publisher": "Consumer Financial Protection Bureau",
+      "url": "https://www.consumerfinance.gov/ask-cfpb/what-is-a-payday-loan-en-1567/",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "cfa-payday-status",
+      "title": "Legal Status of Payday Loans by State (secondary)",
+      "publisher": "Consumer Federation of America (paydayloaninfo.org)",
+      "url": "https://paydayloaninfo.org/state-information/",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "crl-map-2023",
+      "title": "Red Alert Rates: Annual Percentage Rates on $400, Single-Payment Payday Loans (secondary)",
+      "publisher": "Center for Responsible Lending",
+      "url": "https://www.responsiblelending.org/research-publication/map-us-payday-interest-rates",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "mla-10usc987",
+      "title": "10 U.S.C. 987 and 32 CFR Part 232 (Military Lending Act)",
+      "publisher": "Office of the Law Revision Counsel; eCFR",
+      "url": "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-M/part-232",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "obbba-student-harvard",
+      "title": "Key Changes to Federal Student Loans Made in the One Big Beautiful Bill Act (secondary, university aid office)",
+      "publisher": "Harvard University Student Financial Services",
+      "url": "https://sfs.harvard.edu/changes-federal-student-loans",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "obbba-rap-nerdwallet",
+      "title": "What Is the New Repayment Assistance Plan (RAP)? (secondary)",
+      "publisher": "NerdWallet",
+      "url": "https://www.nerdwallet.com/student-loans/learn/what-is-the-new-repayment-assistance-plan-rap-for-student-loans",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "nasfaa-professional",
+      "title": "Big Changes to Federal Student Loans: What Professional Students Need to Know (secondary)",
+      "publisher": "NASFAA",
+      "url": "https://www.nasfaa.org/uploads/documents/OB3_What_Professional_Students_Need_to_Know.pdf",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "treasury-dttp",
+      "title": "Debt to the Penny (values for 09/22/2026 relayed by IndexBox, secondary)",
+      "publisher": "U.S. Treasury, Bureau of the Fiscal Service",
+      "url": "https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "indexbox-dttp-0922",
+      "title": "U.S. Public Debt Dips to $40.10 Trillion on September 22, 2026 (secondary)",
+      "publisher": "IndexBox",
+      "url": "https://www.indexbox.io/blog/us-public-debt-outstanding-eases-from-record-level-to-4010-trillion-on-september-22-2026/",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "crs-debt-limit",
+      "title": "The Debt Limit (IF10292, updated September 21, 2026)",
+      "publisher": "Congressional Research Service",
+      "url": "https://www.congress.gov/crs-product/IF10292",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "cbo-mbr-fy2025",
+      "title": "Monthly Budget Review: Summary for Fiscal Year 2025",
+      "publisher": "Congressional Budget Office",
+      "url": "https://www.cbo.gov/publication/61307",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "census-alfin",
+      "title": "Annual Survey of State and Local Government Finances",
+      "publisher": "U.S. Census Bureau",
+      "url": "https://www.census.gov/programs-surveys/gov-finances.html",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "reason-gov-finance-2025",
+      "title": "State and local governments have $6.1 trillion in debt (secondary; ACFR-based, includes pension and retiree-health liabilities)",
+      "publisher": "Reason Foundation",
+      "url": "https://reason.org/transparency-project/gov-finance-2025/",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "sc-treasurer-ratings",
+      "title": "State Credit Ratings",
+      "publisher": "South Carolina Office of the State Treasurer",
+      "url": "https://treasurer.sc.gov/what-we-do/for-businesses/state-credit-ratings/",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "uscourts-ch7",
+      "title": "Chapter 7 - Bankruptcy Basics",
+      "publisher": "Administrative Office of the U.S. Courts",
+      "url": "https://www.uscourts.gov/court-programs/bankruptcy/bankruptcy-basics/chapter-7-bankruptcy-basics",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "cfpb-bankruptcy-report",
+      "title": "How long does a bankruptcy appear on credit reports?",
+      "publisher": "Consumer Financial Protection Bureau",
+      "url": "https://www.consumerfinance.gov/ask-cfpb/how-long-does-a-bankruptcy-appear-on-credit-reports-en-325/",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "fico-insights-2025",
+      "title": "FICO Score Credit Insights Report: Average FICO Score Dips to 714",
+      "publisher": "FICO",
+      "url": "https://investors.fico.com/news-releases/news-release-details/ficor-score-credit-insights-report-average-fico-score-dips-714",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "wa-const-viii-1",
+      "title": "Wash. Const. art. VIII, sec. 1 and 2012 amendment (SJR 8221) house bill report",
+      "publisher": "Washington State Legislature",
+      "url": "https://lawfilesext.leg.wa.gov/Biennium/2011-12/Htm/Bill%20Reports/House/8221.E%20HBR%20APH%2012%20E2.htm",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "ca-const-xvi-1",
+      "title": "Cal. Const. art. XVI, sec. 1",
+      "publisher": "Justia (constitution text, secondary host)",
+      "url": "https://law.justia.com/constitution/california/article-xvi/section-1/",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "ny-const-vii-11",
+      "title": "N.Y. Const. art. VII, sec. 11",
+      "publisher": "Justia (constitution text, secondary host)",
+      "url": "https://law.justia.com/constitution/new-york/article-vii/section-11/",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "fl-const-vii-11",
+      "title": "Fla. Const. art. VII, sec. 11",
+      "publisher": "FindLaw (constitution text, secondary host)",
+      "url": "https://codes.findlaw.com/fl/florida-constitution1968-revision/fl-const-art-7-sect-11/",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    },
+    {
+      "key": "tx-lbb-debt",
+      "title": "Overview of State Debt",
+      "publisher": "Texas Legislative Budget Board",
+      "url": "https://lbb.texas.gov/Documents/Publications/Presentation/5666_debt.pdf",
+      "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
+    }
+  ],
+  "scope": "National household debt, loan rates, federal and state/local government debt, student-loan law after Pub. L. 119-21, bankruptcy basics and credit-score calibration; per-place payday status, small-loan cap class, general usury cap and state+local debt per resident. Unknown is null with status UNKNOWN, never zero. Real data calibrates only.",
+  "household": {
+    "totals_2026Q2": {
+      "asOf": "2026-06-30",
+      "total": {
+        "value": 18800000000000.0,
+        "source": "nyfed-hhdc-2026q2",
+        "unit": "USD",
+        "evidence": "snippet-derived",
+        "note": "Down $13 billion (0.1%) from Q1 2026"
+      },
+      "mortgage": {
+        "value": 13100000000000.0,
+        "source": "nyfed-hhdc-2026q2",
+        "unit": "USD",
+        "evidence": "snippet-derived"
+      },
+      "heloc": {
+        "value": 459000000000.0,
+        "source": "nyfed-hhdc-2026q2",
+        "unit": "USD",
+        "evidence": "snippet-derived"
+      },
+      "auto": {
+        "value": 1710000000000.0,
+        "source": "nyfed-hhdc-2026q2",
+        "unit": "USD",
+        "evidence": "snippet-derived"
+      },
+      "creditCard": {
+        "value": 1260000000000.0,
+        "source": "nyfed-hhdc-2026q2",
+        "unit": "USD",
+        "evidence": "snippet-derived"
+      },
+      "student": {
+        "value": 1650000000000.0,
+        "source": "nyfed-hhdc-2026q2",
+        "unit": "USD",
+        "evidence": "snippet-derived"
+      },
+      "other": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "New York Fed Q2 2026 'other' (consumer finance, retail) balance; not in snippets. Do not derive as a residual: the other totals are rounded."
+      },
+      "newMortgageOriginations": {
+        "value": 505000000000.0,
+        "source": "nyfed-hhdc-2026q2",
+        "unit": "USD per quarter",
+        "evidence": "snippet-derived"
+      }
+    },
+    "delinquency_2026Q2": {
+      "shareOfDebtInAnyDelinquency": {
+        "value": 0.047,
+        "source": "nyfed-hhdc-2026q2",
+        "evidence": "snippet-derived"
+      },
+      "shareOfDebt30to119DaysLate": {
+        "value": 0.017,
+        "source": "wolfstreet-2026q2",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "student90PlusShareOfBalance": {
+        "value": 0.106,
+        "source": "wolfstreet-2026q2",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Seriously delinquent (90+ days) share; exact New York Fed measure (stock share vs. transition rate) not confirmed"
+      },
+      "auto90Plus": {
+        "value": 0.055,
+        "source": "wolfstreet-2026q2",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Measure (stock share vs. annualized transition rate) not confirmed"
+      },
+      "creditCard90Plus": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "New York Fed Q2 2026 credit card 90+ day delinquency (stock and transition rate)"
+      },
+      "mortgage90Plus": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "New York Fed Q2 2026 mortgage 90+ day delinquency"
+      },
+      "heloc90Plus": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "New York Fed Q2 2026 HELOC 90+ day delinquency"
+      },
+      "other90Plus": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "New York Fed Q2 2026 'other' 90+ day delinquency"
+      }
+    },
+    "byBorrowerAge": {
+      "value": null,
+      "status": "UNKNOWN",
+      "question": "New York Fed Q2 2026 debt balance by borrower age group (18-29, 30-39, 40-49, 50-59, 60-69, 70+) and transitions by age; report PDF unreachable"
+    },
+    "scf2022": {
+      "note": "Survey of Consumer Finances 2022, families (not individuals). Medians are among families holding that debt, 2022 dollars.",
+      "shareHoldingPrimaryResidenceDebt": {
+        "value": 0.42,
+        "source": "scf-2022",
+        "evidence": "snippet-derived",
+        "note": "about 42 percent"
+      },
+      "medianPrimaryResidenceDebt": {
+        "value": 155600,
+        "source": "scf-2022",
+        "evidence": "snippet-derived"
+      },
+      "shareWithCreditCardBalance": {
+        "value": 0.45,
+        "source": "scf-2022",
+        "evidence": "snippet-derived",
+        "note": "about 45 percent; carrying a balance after last payment"
+      },
+      "medianCreditCardBalance": {
+        "value": 2700,
+        "source": "scf-2022",
+        "evidence": "snippet-derived"
+      },
+      "shareWithEducationDebt": {
+        "value": 0.22,
+        "source": "scf-2022",
+        "evidence": "snippet-derived"
+      },
+      "medianEducationDebt": {
+        "value": 25000,
+        "source": "scf-2022",
+        "evidence": "snippet-derived",
+        "note": "about $25,000"
+      },
+      "shareWithAnyDebt": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "SCF 2022 share of families with any debt and median total debt"
+      },
+      "vehicleLoans": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "SCF 2022 share holding vehicle installment loans and median balance"
+      },
+      "byAgeOfHead": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "SCF 2022 holding shares and medians by age of head (<35, 35-44, 45-54, 55-64, 65-74, 75+); SCF table tool unreachable"
+      }
+    }
+  },
+  "rates": {
+    "creditCardAllAccounts": {
+      "value": 20.94,
+      "source": "g19-rates",
+      "unit": "percent APR",
+      "period": "2026-05",
+      "evidence": "snippet-derived",
+      "secondary": true
+    },
+    "creditCardAssessedInterest": {
+      "value": 22.15,
+      "source": "te-cc-assessed",
+      "unit": "percent APR",
+      "period": "2026-05",
+      "evidence": "snippet-derived",
+      "secondary": true
+    },
+    "newAuto48Month": {
+      "value": 7.47,
+      "source": "g19-rates",
+      "unit": "percent",
+      "period": "2026-05",
+      "evidence": "snippet-derived",
+      "secondary": true
+    },
+    "newAuto60Month": {
+      "value": 7.52,
+      "source": "te-auto60",
+      "unit": "percent",
+      "period": "2026-02",
+      "evidence": "snippet-derived",
+      "secondary": true,
+      "note": "May 2026 value not in snippets"
+    },
+    "personalLoan24Month": {
+      "value": 11.86,
+      "source": "te-personal24",
+      "unit": "percent",
+      "period": "2026-05",
+      "evidence": "snippet-derived",
+      "secondary": true
+    },
+    "mortgage30YearFixed": {
+      "value": 7.03,
+      "source": "pmms-2026-09-24",
+      "unit": "percent",
+      "period": "week of 2026-09-24",
+      "evidence": "snippet-derived",
+      "history": {
+        "2026-09-10": 6.76,
+        "2026-09-17": 6.95
+      },
+      "yearToDateAverage": 6.41
+    },
+    "federalStudentLoans2026_27": {
+      "tenYearTreasuryHighYield_2026-05-12": {
+        "value": 4.468,
+        "source": "fsa-rates-2026-27",
+        "evidence": "snippet-derived"
+      },
+      "undergraduateDirect": {
+        "value": 6.52,
+        "source": "fsa-rates-2026-27",
+        "unit": "percent fixed",
+        "rule": "10-year yield + 2.05",
+        "evidence": "snippet-derived"
+      },
+      "graduateUnsubsidized": {
+        "value": 8.07,
+        "source": "fsa-rates-2026-27",
+        "unit": "percent fixed",
+        "rule": "10-year yield + 3.60",
+        "evidence": "snippet-derived"
+      },
+      "plus": {
+        "value": 9.07,
+        "source": "fsa-rates-2026-27",
+        "unit": "percent fixed",
+        "rule": "10-year yield + 4.60",
+        "evidence": "snippet-derived"
+      },
+      "check": "4.468 + 2.05 = 6.518; + 3.60 = 8.068; + 4.60 = 9.068; each rounds to the posted rate",
+      "firstDisbursedBetween": ["2026-07-01", "2027-06-30"]
+    },
+    "paydayTypicalAPR": {
+      "value": 391,
+      "source": "cfpb-payday",
+      "unit": "percent APR",
+      "evidence": "snippet-derived",
+      "note": "CFPB: a two-week loan at $15 per $100 equates to 'almost 400 percent' APR; 391 is the arithmetic (15/100 x 365/14 = 391.07), not a CFPB-published figure"
+    },
+    "militaryLendingActMAPRCap": {
+      "value": 36,
+      "source": "mla-10usc987",
+      "unit": "percent MAPR",
+      "evidence": "snippet-derived",
+      "note": "Covers active-duty service members and dependents; MAPR includes most fees, credit insurance and add-on products; state law cannot raise it"
+    }
+  },
+  "studentLoans": {
+    "law": "Pub. L. 119-21 (July 4, 2025)",
+    "repaymentAssistancePlan": {
+      "available": {
+        "value": "2026-07-01",
+        "source": "obbba-student-harvard",
+        "evidence": "snippet-derived"
+      },
+      "payment": {
+        "value": "1 to 10 percent of adjusted gross income per year, minus $50 per month per dependent, minimum $10 per month",
+        "source": "obbba-rap-nerdwallet",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "unpaidInterest": {
+        "value": "Interest not covered by the payment is waived; if principal falls less than $50 in a month, the government makes up the difference",
+        "source": "obbba-rap-nerdwallet",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "forgiveness": {
+        "value": "After 360 qualifying payments (30 years)",
+        "source": "obbba-rap-nerdwallet",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "newLoansOnOrAfter2026-07-01": "Only a standard plan or RAP; IBR, PAYE and SAVE are closed to new loans (snippet-derived, secondary)"
+    },
+    "legacyPlans": {
+      "value": "SAVE, PAYE and ICR borrowers must move to an eligible plan by July 1, 2028",
+      "source": "obbba-student-harvard",
+      "evidence": "snippet-derived",
+      "secondary": true
+    },
+    "gradPlus": {
+      "value": "Ends for new borrowers on 2026-07-01",
+      "source": "obbba-student-harvard",
+      "evidence": "snippet-derived",
+      "secondary": true
+    },
+    "graduateLimits": {
+      "value": {
+        "annual": 20500,
+        "aggregate": 100000
+      },
+      "source": "obbba-student-harvard",
+      "evidence": "snippet-derived",
+      "secondary": true
+    },
+    "professionalLimits": {
+      "value": {
+        "annual": 50000,
+        "aggregate": 200000
+      },
+      "source": "nasfaa-professional",
+      "evidence": "snippet-derived",
+      "secondary": true
+    },
+    "lifetimeAllFederal": {
+      "value": 257500,
+      "source": "obbba-rap-nerdwallet",
+      "evidence": "snippet-derived",
+      "secondary": true
+    },
+    "parentPlus": {
+      "value": {
+        "annualPerStudent": 20000,
+        "aggregatePerStudent": 65000
+      },
+      "source": "obbba-student-harvard",
+      "evidence": "snippet-derived",
+      "secondary": true
+    },
+    "undergraduateLimits": {
+      "value": null,
+      "status": "UNKNOWN",
+      "question": "Confirm undergraduate annual/aggregate Direct Loan limits unchanged by Pub. L. 119-21 (statute text on Congress.gov not reachable)"
+    },
+    "ibrForExistingBorrowers": {
+      "value": null,
+      "status": "UNKNOWN",
+      "question": "Exact IBR changes for existing borrowers (e.g., removal of partial-financial-hardship test) and dates; confirm from statute text"
+    }
+  },
+  "federal": {
+    "debtToThePenny": {
+      "recordDate": "2026-09-22",
+      "totalPublicDebtOutstanding": {
+        "value": 40097834028442,
+        "source": "indexbox-dttp-0922",
+        "unit": "USD",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "primary": "treasury-dttp",
+        "check": "32,375,685,818,022 + 7,722,148,210,420 = 40,097,834,028,442"
+      },
+      "debtHeldByThePublic": {
+        "value": 32375685818022,
+        "source": "indexbox-dttp-0922",
+        "unit": "USD",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "primary": "treasury-dttp"
+      },
+      "intragovernmentalHoldings": {
+        "value": 7722148210420,
+        "source": "indexbox-dttp-0922",
+        "unit": "USD",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "primary": "treasury-dttp"
+      },
+      "crossed40Trillion": {
+        "value": "2026-08-18",
+        "source": "indexbox-dttp-0922",
+        "evidence": "snippet-derived",
+        "secondary": true
+      }
+    },
+    "statutoryDebtLimit": {
+      "value": 41100000000000.0,
+      "source": "crs-debt-limit",
+      "unit": "USD",
+      "evidence": "snippet-derived",
+      "note": "Raised by $5.0 trillion on 2025-07-04 by Pub. L. 119-21; had been reinstated at $36.1 trillion on 2025-01-02"
+    },
+    "netInterestFY2025": {
+      "value": null,
+      "source": "cbo-mbr-fy2025",
+      "status": "UNKNOWN",
+      "question": "Exact FY2025 net interest outlays in dollars; CBO snippet says only that it surpassed $1 trillion for the first time",
+      "lowerBound": 1000000000000.0,
+      "evidence": "snippet-derived"
+    },
+    "deficitFY2025": {
+      "value": 1800000000000.0,
+      "source": "cbo-mbr-fy2025",
+      "unit": "USD",
+      "evidence": "snippet-derived"
+    },
+    "stateCreditRatings": {
+      "note": "Calibration only. Snippet-derived; agency and date often unspecified. Verify with S&P's 'U.S. State Ratings And Outlooks: Current List' before use.",
+      "US-SC": {
+        "value": {
+          "moodys": "Aaa",
+          "sp": "AA+",
+          "fitch": "AAA"
+        },
+        "source": "sc-treasurer-ratings",
+        "evidence": "snippet-derived"
+      },
+      "aaaStatesAgencyUnspecified": {
+        "value": ["DE", "FL", "GA", "IN", "IA", "MD", "MO", "NE"],
+        "source": "sc-treasurer-ratings",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Snippet described these as AAA per 2025 data without naming the agency; list is not exhaustive"
+      },
+      "US-IL": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Illinois S&P and Moody's ratings as of 2026; snippet said 'BBB as of 2025' without agency, which conflicts with other reports of upgrades"
+      },
+      "US-CA": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "California ratings as of 2026; snippet 'AA-' (2024-25) without agency"
+      },
+      "US-NJ": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "New Jersey ratings as of 2026; snippet 'A-' (2024) without agency"
+      },
+      "US-KY": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Kentucky ratings as of 2026; snippet 'A+' without agency"
+      }
+    }
+  },
+  "stateLocal": {
+    "censusLongTermDebtOutstanding": {
+      "value": null,
+      "status": "UNKNOWN",
+      "question": "Census ALFIN (latest year, likely FY2023) total long-term debt outstanding, state vs. local, national and by state; census.gov unreachable from this session",
+      "source": "census-alfin"
+    },
+    "reasonAcfrBased2023": {
+      "value": {
+        "totalLiabilitiesDebt": 6100000000000.0,
+        "longTermDebtIncludingPensionsOPEB": 4900000000000.0,
+        "perResident": 14700,
+        "composition": {
+          "bondsLoansNotes": 0.41,
+          "unfundedPensions": 0.32,
+          "unfundedRetireeHealth": 0.2,
+          "accruedLeave": 0.02
+        }
+      },
+      "source": "reason-gov-finance-2025",
+      "evidence": "snippet-derived",
+      "secondary": true,
+      "note": "Different concept from Census debt outstanding: includes pension and retiree-health liabilities. Do not use as Census bonded debt."
+    },
+    "goVersusRevenueShare": {
+      "value": null,
+      "status": "UNKNOWN",
+      "question": "National share of state and local bonded debt that is general obligation vs. revenue bonds (e.g., Census ALFIN 'full faith and credit' vs. 'nonguaranteed' split)"
+    },
+    "spotCheck92N": {
+      "file": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json",
+      "US-CA": {
+        "agrees": true,
+        "source": "ca-const-xvi-1",
+        "detail": "92N: state GO needs voter majority (art. XVI, sec. 1). Confirmed: debt over $300,000 needs two-thirds of each house and a majority of voters."
+      },
+      "US-NY": {
+        "agrees": true,
+        "source": "ny-const-vii-11",
+        "detail": "92N: state GO needs voter referendum (art. VII, sec. 11). Confirmed: majority at a general election."
+      },
+      "US-FL": {
+        "agrees": true,
+        "source": "fl-const-vii-11",
+        "detail": "92N: state GO needs voter approval. Confirmed: full-faith-and-credit bonds need a vote of the electors."
+      },
+      "US-TX": {
+        "agrees": true,
+        "source": "tx-lbb-debt",
+        "detail": "92N: state GO needs a constitutional amendment. Confirmed: voters must approve a constitutional amendment authorizing GO debt."
+      },
+      "US-WA": {
+        "agrees": "PARTIAL",
+        "source": "wa-const-viii-1",
+        "detail": "92N: no voter approval, debt service capped at 9 percent of general state revenues. Voter-approval value agrees; the cap is out of date: the 2012 amendment set 8.25 percent from July 1, 2016 through June 30, 2034 (8.0 percent after), on a six-year revenue average including state property tax. Flag for correction."
+      }
+    }
+  },
+  "bankruptcy": {
+    "chapter7": {
+      "value": "Liquidation: a trustee sells nonexempt assets and pays creditors; no repayment plan",
+      "source": "uscourts-ch7",
+      "evidence": "snippet-derived"
+    },
+    "chapter13": {
+      "value": "Repayment plan of three years if current monthly income is below the state median, generally five years if above",
+      "source": "uscourts-ch7",
+      "evidence": "snippet-derived"
+    },
+    "meansTest": {
+      "value": "Income test for Chapter 7 against the state median; failing it generally routes the filer to Chapter 13",
+      "source": "uscourts-ch7",
+      "evidence": "snippet-derived"
+    },
+    "creditReportYears": {
+      "value": {
+        "maxUnderFCRA": 10
+      },
+      "source": "cfpb-bankruptcy-report",
+      "evidence": "snippet-derived",
+      "note": "CFPB: up to 10 years from the order for relief or adjudication. The common 7-year practice for completed Chapter 13 is a credit-bureau policy, not in the snippet: UNKNOWN source."
+    },
+    "chapter13SevenYearPractice": {
+      "value": null,
+      "status": "UNKNOWN",
+      "question": "Official or bureau source for removing completed Chapter 13 after 7 years"
+    },
+    "annualFilings": {
+      "value": null,
+      "status": "UNKNOWN",
+      "question": "U.S. Courts bankruptcy filings, 12 months ending June 30, 2026, by chapter"
+    }
+  },
+  "credit": {
+    "averageFICO": {
+      "value": 714,
+      "source": "fico-insights-2025",
+      "evidence": "snippet-derived",
+      "note": "FICO reported the average dipping to 714 in 2025"
+    },
+    "bandShares": {
+      "value": {
+        "300-579": 0.142,
+        "580-669": 0.149,
+        "670-739": 0.204,
+        "740-799": 0.275,
+        "800-850": 0.23
+      },
+      "source": "fico-insights-2025",
+      "evidence": "snippet-derived",
+      "secondary": true,
+      "note": "Figures came from a search summary that did not name the originating publisher reliably; they sum to 100 percent. Treat as low-confidence until confirmed from FICO or Experian.",
+      "confidence": "LOW"
+    }
+  },
+  "places": {
+    "US-AK": {
+      "name": "Alaska",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Alaska, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Alaska (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Alaska, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-AL": {
+      "name": "Alabama",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Alabama, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Alabama (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Alabama, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-AR": {
+      "name": "Arkansas",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Arkansas (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Arkansas, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-AS": {
+      "name": "American Samoa",
+      "payday": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Payday lending status in American Samoa (territory law); not covered by CFA list"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in American Samoa, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in American Samoa (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "American Samoa is outside Census ALFIN; needs the territory's audited financial statements"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-AZ": {
+      "name": "Arizona",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "AT_OR_BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Arizona (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Arizona, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-CA": {
+      "name": "California",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in California, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in California (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for California, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-CO": {
+      "name": "Colorado",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "AT_OR_BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Colorado (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Colorado, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-CT": {
+      "name": "Connecticut",
+      "payday": {
+        "value": "PROHIBITED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "mechanism": "Bans assignment of wages as loan security"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Connecticut, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Connecticut (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Connecticut, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-DC": {
+      "name": "District of Columbia",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in District of Columbia (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for District of Columbia, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-DE": {
+      "name": "Delaware",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Delaware, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Delaware (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Delaware, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-FL": {
+      "name": "Florida",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Florida, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Florida (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Florida, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-GA": {
+      "name": "Georgia",
+      "payday": {
+        "value": "PROHIBITED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "mechanism": "Prohibits payday lending on loans under $3,000"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Georgia, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Georgia (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Georgia, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-GU": {
+      "name": "Guam",
+      "payday": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Payday lending status in Guam (territory law); not covered by CFA list"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Guam, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Guam (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Guam is outside Census ALFIN; needs the territory's audited financial statements"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-HI": {
+      "name": "Hawaii",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "AT_OR_BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Hawaii (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Hawaii, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-IA": {
+      "name": "Iowa",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Iowa, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Iowa (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Iowa, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-ID": {
+      "name": "Idaho",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Idaho, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Idaho (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Idaho, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-IL": {
+      "name": "Illinois",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "AT_OR_BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Illinois (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Illinois, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-IN": {
+      "name": "Indiana",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Indiana, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Indiana (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Indiana, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-KS": {
+      "name": "Kansas",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Kansas, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Kansas (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Kansas, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-KY": {
+      "name": "Kentucky",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Kentucky, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Kentucky (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Kentucky, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-LA": {
+      "name": "Louisiana",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Louisiana, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Louisiana (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Louisiana, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-MA": {
+      "name": "Massachusetts",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Massachusetts (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Massachusetts, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-MD": {
+      "name": "Maryland",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "AT_OR_BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Maryland (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Maryland, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-ME": {
+      "name": "Maine",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Maine, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Maine (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Maine, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-MI": {
+      "name": "Michigan",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Michigan, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Michigan (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Michigan, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-MN": {
+      "name": "Minnesota",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "AT_OR_BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Minnesota (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Minnesota, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-MO": {
+      "name": "Missouri",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Missouri, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Missouri (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Missouri, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-MP": {
+      "name": "Northern Mariana Islands",
+      "payday": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Payday lending status in Northern Mariana Islands (territory law); not covered by CFA list"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Northern Mariana Islands, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Northern Mariana Islands (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Northern Mariana Islands is outside Census ALFIN; needs the territory's audited financial statements"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-MS": {
+      "name": "Mississippi",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Mississippi, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Mississippi (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Mississippi, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-MT": {
+      "name": "Montana",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "AT_OR_BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Montana (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Montana, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-NC": {
+      "name": "North Carolina",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "AT_OR_BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in North Carolina (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for North Carolina, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-ND": {
+      "name": "North Dakota",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in North Dakota, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in North Dakota (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for North Dakota, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-NE": {
+      "name": "Nebraska",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "AT_OR_BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Nebraska (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Nebraska, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-NH": {
+      "name": "New Hampshire",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "AT_OR_BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in New Hampshire (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for New Hampshire, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-NJ": {
+      "name": "New Jersey",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in New Jersey (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for New Jersey, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-NM": {
+      "name": "New Mexico",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "AT_OR_BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in New Mexico (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for New Mexico, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-NV": {
+      "name": "Nevada",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Nevada, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Nevada (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Nevada, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-NY": {
+      "name": "New York",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in New York (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for New York, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-OH": {
+      "name": "Ohio",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Ohio, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Ohio (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Ohio, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-OK": {
+      "name": "Oklahoma",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Oklahoma, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Oklahoma (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Oklahoma, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-OR": {
+      "name": "Oregon",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Oregon, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Oregon (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Oregon, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-PA": {
+      "name": "Pennsylvania",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Pennsylvania (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Pennsylvania, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-PR": {
+      "name": "Puerto Rico",
+      "payday": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Payday lending status in Puerto Rico (territory law); not covered by CFA list"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Puerto Rico, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Puerto Rico (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Puerto Rico is outside Census ALFIN; needs the territory's audited financial statements"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-RI": {
+      "name": "Rhode Island",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Rhode Island, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Rhode Island (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Rhode Island, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-SC": {
+      "name": "South Carolina",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in South Carolina, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in South Carolina (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for South Carolina, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-SD": {
+      "name": "South Dakota",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "AT_OR_BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in South Dakota (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for South Dakota, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-TN": {
+      "name": "Tennessee",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Tennessee, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Tennessee (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Tennessee, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-TX": {
+      "name": "Texas",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Texas, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Texas (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Texas, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-UT": {
+      "name": "Utah",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Utah, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Utah (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Utah, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-VA": {
+      "name": "Virginia",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Virginia, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Virginia (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Virginia, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-VI": {
+      "name": "U.S. Virgin Islands",
+      "payday": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Payday lending status in U.S. Virgin Islands (territory law); not covered by CFA list"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in U.S. Virgin Islands, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in U.S. Virgin Islands (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "U.S. Virgin Islands is outside Census ALFIN; needs the territory's audited financial statements"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-VT": {
+      "name": "Vermont",
+      "payday": {
+        "value": "PROHIBITED_BY_RATE_CAP",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true
+      },
+      "smallLoanRateCap": {
+        "value": "BELOW_36_PERCENT",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Exact statutory percentage and fee add-ons not captured"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Vermont (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Vermont, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-WA": {
+      "name": "Washington",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Washington, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Washington (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Washington, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-WI": {
+      "name": "Wisconsin",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Wisconsin, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Wisconsin (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Wisconsin, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-WV": {
+      "name": "West Virginia",
+      "payday": {
+        "value": "PROHIBITED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "mechanism": "No deferred presentment loans allowed"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in West Virginia, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in West Virginia (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for West Virginia, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    },
+    "US-WY": {
+      "name": "Wyoming",
+      "payday": {
+        "value": "AUTHORIZED",
+        "source": "cfa-payday-status",
+        "evidence": "snippet-derived",
+        "secondary": true,
+        "note": "Authorized by statute, via loophole, or through deregulated small-loan caps; terms vary"
+      },
+      "smallLoanRateCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Statutory small-loan or payday rate/fee cap in Wyoming, with citation"
+      },
+      "generalUsuryCap": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "General civil usury ceiling in Wyoming (percent, citation, exemptions for licensed lenders)"
+      },
+      "stateLocalLongTermDebtPerResident": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Census ALFIN latest-year long-term debt outstanding per resident for Wyoming, state and local separately"
+      },
+      "militaryLendingActCap": {
+        "value": 36,
+        "source": "mla-10usc987",
+        "note": "Federal floor for covered borrowers everywhere"
+      }
+    }
+  }
+}

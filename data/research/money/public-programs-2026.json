@@ -1,0 +1,2954 @@
+{
+  "id": "public-programs-2026",
+  "asOf": "2026-09-28",
+  "method": "All values come from web search result snippets of the named pages. WebFetch and curl to ssa.gov, cms.gov, govinfo.gov, federalregister.gov, macpac.gov, kff.org, fns.usda.gov, aspe.hhs.gov and congress.gov were refused by the session egress proxy (403 policy denial), so no page was opened in full. Status SNIPPET = official source, snippet only; SECONDARY = non-government source, calibration only; UNKNOWN = not verified, never zero.",
+  "sources": [
+    {
+      "key": "ssa-cola-2026",
+      "title": "2026 Cost-of-Living Adjustment (COLA) Fact Sheet",
+      "publisher": "Social Security Administration",
+      "url": "https://www.ssa.gov/news/en/cola/factsheets/2026.html",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "ssa-press-2025-10-24",
+      "title": "Social Security Announces 2.8 Percent Benefit Increase for 2026",
+      "publisher": "Social Security Administration",
+      "url": "https://www.ssa.gov/news/en/press/releases/2025-10-24.html",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "ssa-fra",
+      "title": "Benefits Planner: Retirement age by birth year (1943-1954, 1960 or later)",
+      "publisher": "Social Security Administration",
+      "url": "https://www.ssa.gov/benefits/retirement/planner/ageincrease.html",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "ssa-1960-delay",
+      "title": "Delayed Retirement | Born in 1960",
+      "publisher": "Social Security Administration",
+      "url": "https://www.ssa.gov/benefits/retirement/planner/1960-delay.html",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "ssa-survivor",
+      "title": "What you could get from Survivor benefits",
+      "publisher": "Social Security Administration",
+      "url": "https://www.ssa.gov/survivor/amount",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "ssa-tr-2025",
+      "title": "2025 OASDI Trustees Report, Highlights",
+      "publisher": "Social Security Administration, Office of the Chief Actuary",
+      "url": "https://www.ssa.gov/oact/TR/2025/II_A_highlights.html",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "ssa-tr-2026",
+      "title": "2026 OASDI Trustees Report, Highlights, and press release of 06/09/2026",
+      "publisher": "Social Security Administration",
+      "url": "https://www.ssa.gov/oact/TR/2026/II_A_highlights.html",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "crs-if12890",
+      "title": "The Social Security Fairness Act of 2023 (IF12890)",
+      "publisher": "Congressional Research Service",
+      "url": "https://www.congress.gov/crs-product/IF12890",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "cms-medicare-2026",
+      "title": "2026 Medicare Parts A & B Premiums and Deductibles",
+      "publisher": "Centers for Medicare & Medicaid Services",
+      "url": "https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "cms-partd-2026",
+      "title": "2026 Medicare Part D Bid Information and Part D Premium Stabilization Demonstration Parameters",
+      "publisher": "Centers for Medicare & Medicaid Services",
+      "url": "https://www.cms.gov/newsroom/fact-sheets/2026-medicare-part-d-bid-information-and-part-d-premium-stabilization-demonstration-parameters",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "crfb-medicare-tr-2025",
+      "title": "Analysis of the 2025 Medicare Trustees' Report",
+      "publisher": "Committee for a Responsible Federal Budget",
+      "url": "https://www.crfb.org/papers/analysis-2025-medicare-trustees-report",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "secondary"
+    },
+    {
+      "key": "cms-medicare-tr-2026",
+      "title": "2026 Medicare Trustees Report (and BPC summary)",
+      "publisher": "Centers for Medicare & Medicaid Services; Bipartisan Policy Center",
+      "url": "https://www.cms.gov/oact/tr/2026",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official+secondary summary"
+    },
+    {
+      "key": "kff-expansion",
+      "title": "Status of State Medicaid Expansion Decisions",
+      "publisher": "KFF",
+      "url": "https://www.kff.org/medicaid/status-of-state-medicaid-expansion-decisions/",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "secondary"
+    },
+    {
+      "key": "fr-fmap-fy2026",
+      "title": "Federal Matching Shares for Medicaid, CHIP ... October 1, 2025, Through September 30, 2026 (89 FR 94742, 11/29/2024)",
+      "publisher": "HHS, Federal Register",
+      "url": "https://www.federalregister.gov/documents/2024/11/29/2024-27910/federal-financial-participation-in-state-assistance-expenditures-federal-matching-shares-for",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "crs-r43847",
+      "title": "Medicaid's Federal Medical Assistance Percentage (FMAP) (R43847)",
+      "publisher": "Congressional Research Service",
+      "url": "https://www.congress.gov/crs-product/R43847",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "crs-r47821",
+      "title": "Consolidated Appropriations Act, 2023 (P.L. 117-328): Medicaid and CHIP Provisions (R47821)",
+      "publisher": "Congressional Research Service",
+      "url": "https://www.congress.gov/crs-product/R47821",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "crs-if11012",
+      "title": "Medicaid Financing for the Territories (IF11012)",
+      "publisher": "Congressional Research Service",
+      "url": "https://www.congress.gov/crs-product/IF11012",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "plaw-119-21",
+      "title": "Public Law 119-21, July 4, 2025",
+      "publisher": "U.S. Congress",
+      "url": "https://www.congress.gov/119/plaws/publ21/PLAW-119publ21.pdf",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "crs-r48633",
+      "title": "Health Provisions in P.L. 119-21, the FY2025 Reconciliation Law (R48633)",
+      "publisher": "Congressional Research Service",
+      "url": "https://www.congress.gov/crs-product/R48633",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "crs-r48755",
+      "title": "Work Requirements: Comparison of Medicaid and SNAP After P.L. 119-21 (R48755)",
+      "publisher": "Congressional Research Service",
+      "url": "https://www.congress.gov/crs-product/R48755",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "cms-ce-ifc",
+      "title": "Medicaid Community Engagement Requirement for Certain Individuals, Interim Final Rule (CMS-2454-IFC), FR 06/03/2026",
+      "publisher": "CMS / Federal Register; AHA News summary",
+      "url": "https://www.federalregister.gov/documents/2026/06/03/2026-11094/medicaid-program-community-engagement-requirement-for-certain-individuals",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "ccf-provider-tax",
+      "title": "CMS Issues New Guidance on H.R. 1's Restrictions on State Use of Provider Taxes; law-firm summaries",
+      "publisher": "Georgetown CCF; Hooper Lundy & Bookman",
+      "url": "https://ccf.georgetown.edu/2025/11/18/cms-issues-new-guidance-on-h-r-1s-restrictions-on-state-use-of-provider-taxes-to-finance-medicaid/",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "secondary"
+    },
+    {
+      "key": "hio-trigger",
+      "title": "Which states have trigger laws to automatically end Medicaid expansion",
+      "publisher": "healthinsurance.org",
+      "url": "https://www.healthinsurance.org/faqs/which-states-have-trigger-laws-to-automatically-end-medicaid-expansion-if-federal-funding-drops/",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "secondary"
+    },
+    {
+      "key": "usda-snap-cola-fy26",
+      "title": "SNAP - Fiscal Year 2026 Cost-of-Living Adjustments (memo 08/2025)",
+      "publisher": "USDA Food and Nutrition Service",
+      "url": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "usda-snap-cola-fy27",
+      "title": "SNAP - Fiscal Year 2027 Cost-of-Living Adjustments",
+      "publisher": "USDA Food and Nutrition Administration",
+      "url": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "usda-snap-ies-fy26",
+      "title": "SNAP Income Eligibility Standards FY2026",
+      "publisher": "USDA Food and Nutrition Service",
+      "url": "https://fns-prod.azureedge.us/sites/default/files/resource-files/snap-fy26-incomeEligibilityStandards.pdf",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "crs-r48552",
+      "title": "SNAP and Related Nutrition Programs in P.L. 119-21: An Overview (R48552)",
+      "publisher": "Congressional Research Service",
+      "url": "https://www.congress.gov/crs-product/R48552",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "wi-lfb-snap",
+      "title": "Impact of P.L. 119-21 on Federal Matching for SNAP (10/23/2025)",
+      "publisher": "Wisconsin Legislative Fiscal Bureau",
+      "url": "https://docs.legis.wisconsin.gov/misc/lfb/misc/103_impact_of_p_l_119_21_the_one_big_beautiful_bill_act_of_2025_on_federal_matching_for_the_supplemental_nutrition_assistance_program_10_23_25",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official (state)"
+    },
+    {
+      "key": "crs-in12723",
+      "title": "Senate Committee Considers a Farm Bill Draft that Would Change the Upcoming State Sharing of SNAP Benefit Costs (IN12723); NACo 09/2026",
+      "publisher": "Congressional Research Service; NACo",
+      "url": "https://www.congress.gov/crs-product/IN12723",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "aspe-pg-2026",
+      "title": "HHS Poverty Guidelines 2026 (and FR 2026-00755, 01/15/2026)",
+      "publisher": "HHS ASPE",
+      "url": "https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "fr-pg-2025",
+      "title": "Annual Update of the HHS Poverty Guidelines (FR 2025-01377, 01/17/2025)",
+      "publisher": "HHS, Federal Register",
+      "url": "https://www.federalregister.gov/documents/2025/01/17/2025-01377/annual-update-of-the-hhs-poverty-guidelines",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "irs-rp-2025-25",
+      "title": "Rev. Proc. 2025-25 (2026 applicable percentage table)",
+      "publisher": "Internal Revenue Service",
+      "url": "https://www.irs.gov/pub/irs-drop/rp-25-25.pdf",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "kff-aca-2026",
+      "title": "What We Know So Far About 2026 ACA Marketplace Enrollment, Premiums, and Deductibles",
+      "publisher": "KFF",
+      "url": "https://www.kff.org/affordable-care-act/what-we-know-so-far-about-2026-aca-marketplace-enrollment-premiums-and-deductibles/",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "secondary"
+    },
+    {
+      "key": "ptc-extension-news",
+      "title": "House passes bill extending enhanced premium tax credits (01/09/2026); Senate did not pass",
+      "publisher": "AHA News; Health Affairs Forefront; CBS News",
+      "url": "https://www.aha.org/news/headline/2026-01-09-house-passes-bill-extending-enhanced-premium-tax-credits",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "secondary"
+    },
+    {
+      "key": "scotus-vaello-madero",
+      "title": "United States v. Vaello Madero, 596 U.S. ___ (04/21/2022)",
+      "publisher": "Supreme Court of the United States",
+      "url": "https://www.supremecourt.gov/opinions/21pdf/20-303_6khn.pdf",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "postguam-schaller",
+      "title": "US appeals court voids ruling that could have extended SSI benefits to Guam",
+      "publisher": "Pacific Daily News/Guam Post",
+      "url": "https://www.postguam.com/news/us-appeals-court-voids-ruling-that-could-have-extended-ssi-benefits-to-guam/article_bddcb0a0-c155-11ec-89de-ef43191e7586.html",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "secondary"
+    },
+    {
+      "key": "usda-nap",
+      "title": "Nutrition Assistance Program (NAP) Block Grants; Summary of NAP - Puerto Rico",
+      "publisher": "USDA Food and Nutrition Administration",
+      "url": "https://www.fna.usda.gov/nap/nutrition-assistance-program-block-grants",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "cbpp-cnmi",
+      "title": "Northern Mariana Islands to Receive Substantial Additional Food Assistance",
+      "publisher": "Center on Budget and Policy Priorities",
+      "url": "https://www.cbpp.org/blog/northern-mariana-islands-to-receive-substantial-additional-food-assistance-in-a-move-toward",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "secondary"
+    },
+    {
+      "key": "crs-r44527",
+      "title": "Unemployment Compensation: The Fundamentals of the Federal Unemployment Tax (FUTA) (R44527); DOL FUTA credit reductions",
+      "publisher": "Congressional Research Service; U.S. Department of Labor",
+      "url": "https://oui.doleta.gov/unemploy/futa_credit.asp",
+      "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    }
+  ],
+  "scope": "Federal parameters for Social Security, Medicare, Medicaid, SNAP, SSI, the ACA marketplace, the poverty guidelines and the UI financing basics in effect during 2026, plus Pub. L. 119-21 changes and dates. Per-place: Medicaid expansion, FMAP where verified, nutrition program type, SSI availability. Per-state FY2026 FMAPs, non-expansion parent limits, SNAP error rates and territory Medicaid caps are UNKNOWN.",
+  "federal": {
+    "socialSecurity": {
+      "colaEffectiveJanuary2026Pct": {
+        "value": 2.8,
+        "source": "ssa-press-2025-10-24",
+        "status": "SNIPPET"
+      },
+      "taxableMaximum2026": {
+        "value": 184500,
+        "source": "ssa-cola-2026",
+        "status": "SNIPPET",
+        "note": "up from $176,100 in 2025"
+      },
+      "piaBendPoints2026": {
+        "first": {
+          "value": 1286,
+          "source": "ssa-cola-2026",
+          "status": "SNIPPET"
+        },
+        "second": {
+          "value": 7749,
+          "source": "ssa-cola-2026",
+          "status": "SNIPPET"
+        }
+      },
+      "piaFormula": {
+        "value": "90% of AIME up to the first bend point, plus 32% of AIME between the bend points, plus 15% of AIME above the second bend point",
+        "source": "ssa-cola-2026",
+        "status": "SNIPPET",
+        "note": "Formula percentages are statutory (42 U.S.C. 415(a)); bend points apply to workers first eligible in 2026."
+      },
+      "earningsTestUnderFra2026": {
+        "value": 24480,
+        "source": "ssa-press-2025-10-24",
+        "status": "SNIPPET"
+      },
+      "averageRetiredWorkerMonthly": {
+        "beforeCola": {
+          "value": 2015,
+          "source": "ssa-cola-2026",
+          "status": "SNIPPET"
+        },
+        "afterCola2026": {
+          "value": 2071,
+          "source": "ssa-cola-2026",
+          "status": "SNIPPET"
+        }
+      },
+      "fullRetirementAgeByBirthYear": {
+        "1943-1954": {
+          "value": "66y0m",
+          "source": "ssa-fra",
+          "status": "SNIPPET"
+        },
+        "1955": {
+          "value": "66y2m",
+          "source": "ssa-fra",
+          "status": "SNIPPET"
+        },
+        "1956": {
+          "value": "66y4m",
+          "source": "ssa-fra",
+          "status": "SNIPPET"
+        },
+        "1957": {
+          "value": "66y6m",
+          "source": "ssa-fra",
+          "status": "SNIPPET"
+        },
+        "1958": {
+          "value": "66y8m",
+          "source": "ssa-fra",
+          "status": "SNIPPET"
+        },
+        "1959": {
+          "value": "66y10m",
+          "source": "ssa-fra",
+          "status": "SNIPPET"
+        },
+        "1960+": {
+          "value": "67y0m",
+          "source": "ssa-fra",
+          "status": "SNIPPET"
+        },
+        "1942-and-earlier": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "SSA retirement-age table rows for birth years before 1943 (not needed for a 2026 world but not verified here)"
+        }
+      },
+      "earlyClaimingReduction": {
+        "value": {
+          "first36MonthsPctPerMonth": "5/9 of 1%",
+          "additionalMonthsPctPerMonth": "5/12 of 1%",
+          "atAge62WithFra67Pct": 30
+        },
+        "source": "ssa-1960-delay",
+        "status": "SNIPPET",
+        "note": "The 30% at 62 is derived: 36 x 5/9% + 24 x 5/12% = 20% + 10%."
+      },
+      "delayedRetirementCreditPctPerYear": {
+        "value": 8,
+        "source": "ssa-1960-delay",
+        "status": "SNIPPET",
+        "note": "For birth years 1943 and later; accrues to age 70."
+      },
+      "claimingAgeRange": {
+        "value": {
+          "earliest": 62,
+          "latestCreditAge": 70
+        },
+        "source": "ssa-1960-delay",
+        "status": "SNIPPET"
+      },
+      "spouseBenefitMaxPctOfPia": {
+        "value": 50,
+        "source": "ssa-1960-delay",
+        "status": "SNIPPET",
+        "note": "Delayed credits do not raise the spouse benefit; early claiming reduces it (spouse reduction schedule UNKNOWN here)."
+      },
+      "survivor": {
+        "widowAtFraPct": {
+          "value": 100,
+          "source": "ssa-survivor",
+          "status": "SNIPPET"
+        },
+        "widowAge60ToFraPct": {
+          "value": "71.5 to 99",
+          "source": "ssa-survivor",
+          "status": "SNIPPET"
+        },
+        "widowCaringForChildUnder16Pct": {
+          "value": 75,
+          "source": "ssa-survivor",
+          "status": "SNIPPET"
+        },
+        "childPct": {
+          "value": 75,
+          "source": "ssa-survivor",
+          "status": "SNIPPET"
+        },
+        "familyMaximum": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "Family maximum formula bend points for 2026"
+        }
+      },
+      "trustees2025": {
+        "oasiDepletionYear": {
+          "value": 2033,
+          "source": "ssa-tr-2025",
+          "status": "SNIPPET"
+        },
+        "oasiPayablePctAtDepletion": {
+          "value": 77,
+          "source": "ssa-tr-2025",
+          "status": "SNIPPET"
+        },
+        "oasdiCombinedDepletionYear": {
+          "value": 2034,
+          "source": "ssa-tr-2025",
+          "status": "SNIPPET"
+        },
+        "oasdiPayablePctAtDepletion": {
+          "value": 81,
+          "source": "ssa-tr-2025",
+          "status": "SNIPPET"
+        },
+        "combinedReservesEnd2024": {
+          "value": 2720000000000.0,
+          "source": "ssa-tr-2025",
+          "status": "SNIPPET",
+          "note": "declined $67 billion in 2024"
+        },
+        "diDepletion": {
+          "value": null,
+          "status": "UNKNOWN",
+          "question": "2025 Trustees DI fund depletion year (believed not depleted within 75 years; unverified)"
+        }
+      },
+      "trustees2026": {
+        "note": "The 2026 report came out 06/09/2026 and supersedes 2025 for game calibration.",
+        "oasiDepletion": {
+          "value": "2032 Q4",
+          "source": "ssa-tr-2026",
+          "status": "SNIPPET"
+        },
+        "oasiPayablePctAtDepletion": {
+          "value": 78,
+          "source": "ssa-tr-2026",
+          "status": "SNIPPET"
+        },
+        "oasdiCombinedDepletionYear": {
+          "value": 2034,
+          "source": "ssa-tr-2026",
+          "status": "SNIPPET"
+        },
+        "oasdiPayablePctAtDepletion": {
+          "value": 83,
+          "source": "ssa-tr-2026",
+          "status": "SNIPPET"
+        },
+        "combinedReservesEnd2025": {
+          "value": 2560000000000.0,
+          "source": "ssa-tr-2026",
+          "status": "SNIPPET",
+          "note": "declined $160 billion in 2025"
+        },
+        "longRangeDeficitPctPayroll": {
+          "value": 4.42,
+          "source": "ssa-tr-2026",
+          "status": "SNIPPET",
+          "note": "up from 3.82; figure from secondary summaries (BPC/JPMorgan), secondary"
+        }
+      },
+      "socialSecurityFairnessAct": {
+        "law": "Pub. L. 118-273 (H.R. 82), signed 01/05/2025",
+        "effect": {
+          "value": "Repeals the Windfall Elimination Provision and the Government Pension Offset",
+          "source": "crs-if12890",
+          "status": "SNIPPET"
+        },
+        "effectiveFor": {
+          "value": "Monthly benefits payable after December 2023 (retroactive to January 2024)",
+          "source": "crs-if12890",
+          "status": "SNIPPET"
+        },
+        "retroPaymentsBegan": {
+          "value": "February 2025",
+          "source": "crs-if12890",
+          "status": "SNIPPET",
+          "note": "snippet-derived from secondary pages in the same result set"
+        }
+      },
+      "appliesIn": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Source confirming Social Security covers all 50 states, D.C., PR, GU, VI, AS and MP (expected yes; no snippet captured)"
+      }
+    },
+    "medicare": {
+      "partBStandardPremium2026Monthly": {
+        "value": 202.9,
+        "source": "cms-medicare-2026",
+        "status": "SNIPPET"
+      },
+      "partBDeductible2026": {
+        "value": 283,
+        "source": "cms-medicare-2026",
+        "status": "SNIPPET"
+      },
+      "partAInpatientDeductible2026": {
+        "value": 1736,
+        "source": "cms-medicare-2026",
+        "status": "SNIPPET"
+      },
+      "partAPremiumBuyInFull2026Monthly": {
+        "value": 565,
+        "source": "cms-medicare-2026",
+        "status": "SNIPPET",
+        "note": "for people with fewer than 30 quarters"
+      },
+      "partAPremiumBuyInReduced2026Monthly": {
+        "value": 311,
+        "source": "cms-medicare-2026",
+        "status": "SNIPPET",
+        "note": "30-39 quarters"
+      },
+      "partDBaseBeneficiaryPremium2026Monthly": {
+        "value": 38.99,
+        "source": "cms-partd-2026",
+        "status": "SNIPPET",
+        "note": "up 6%, the legal maximum increase"
+      },
+      "irmaa2026": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "2026 IRMAA income brackets and Part B/D surcharges"
+      },
+      "hiTrustFund": {
+        "depletionYear2025Report": {
+          "value": 2033,
+          "source": "crfb-medicare-tr-2025",
+          "status": "SECONDARY",
+          "note": "payable share at depletion 89%"
+        },
+        "depletion2026Report": {
+          "value": "2033 Q2",
+          "source": "cms-medicare-tr-2026",
+          "status": "SECONDARY"
+        }
+      },
+      "appliesIn": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Source confirming Medicare covers all 50 states, D.C. and the five territories (expected yes; no snippet captured)"
+      }
+    },
+    "medicaid": {
+      "expansionIncomeLimitPctFpl": {
+        "value": 138,
+        "source": "kff-expansion",
+        "status": "SECONDARY",
+        "note": "133% plus the 5% income disregard"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY",
+        "note": "statutory 90% for newly eligible adults since 2020"
+      },
+      "arpaExpansionIncentiveEnds": {
+        "value": "01/01/2026",
+        "source": "hio-trigger",
+        "status": "SECONDARY",
+        "note": "P.L. 119-21 ended the ARPA 5-point incentive for newly expanding states"
+      },
+      "expansionCount": {
+        "value": {
+          "adopted": 41,
+          "including": "D.C.",
+          "notAdopted": 10
+        },
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFloorPct": {
+        "value": 50,
+        "source": "crs-r43847",
+        "status": "SNIPPET",
+        "note": "10 states at the 50% floor in FY2026; which ones is UNKNOWN here"
+      },
+      "fmapHighestFy2026": {
+        "value": {
+          "state": "US-MS",
+          "pct": 76.9
+        },
+        "source": "crs-r43847",
+        "status": "SNIPPET"
+      },
+      "stateFmapTable": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Per-state FY2026 FMAP from 89 FR 94742 table; the Federal Register, govinfo and MACPAC pages were blocked, so only MS, DC and territory rates are recorded."
+      },
+      "nonExpansionParentLimits": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "KFF 'Medicaid Income Eligibility Limits for Parents' 2026 by state; only tertiary sites seen (TX ~17-18% FPL, AL ~18% FPL), not recorded as values"
+      },
+      "pl119_21": {
+        "workRequirement": {
+          "section": "71119",
+          "whoMustComply": {
+            "value": "Expansion adults (and 1115-waiver adults with comparable coverage) aged 19-64",
+            "source": "crs-r48755",
+            "status": "SNIPPET"
+          },
+          "hoursPerMonth": {
+            "value": 80,
+            "source": "crs-r48755",
+            "status": "SNIPPET",
+            "note": "work, community service, work program, or education, or a combination"
+          },
+          "statutoryStart": {
+            "value": "By 12/31/2026 (states may start earlier)",
+            "source": "crs-r48755",
+            "status": "SNIPPET",
+            "note": "CMS rule describes the compliance date as 01/01/2027; statute permits good-faith exemptions to 12/31/2028 (that extension date is UNVERIFIED here)"
+          },
+          "cmsInterimFinalRule": {
+            "value": {
+              "issued": "06/01/2026",
+              "federalRegister": "06/03/2026",
+              "effective": "07/31/2026"
+            },
+            "source": "cms-ce-ifc",
+            "status": "SECONDARY"
+          },
+          "exempt": {
+            "value": [
+              "pregnant or postpartum",
+              "parents/caregivers of a child 13 or younger or a disabled person",
+              "disabled or medically frail",
+              "American Indian/Alaska Native",
+              "people in a SNAP household meeting SNAP work rules"
+            ],
+            "source": "crs-r48633",
+            "status": "SNIPPET",
+            "note": "Other exemptions (veterans with disability ratings, inmates recently released, people in treatment, under-21 former foster youth) UNKNOWN here"
+          }
+        },
+        "sixMonthRedeterminations": {
+          "value": "Expansion adults, for renewals starting after 12/31/2026",
+          "source": "crs-r48755",
+          "status": "SNIPPET"
+        },
+        "retroactiveCoverage": {
+          "value": {
+            "expansionAdultsMonths": 1,
+            "otherEnrolleesMonths": 2,
+            "effective": "01/01/2027"
+          },
+          "source": "crs-r48633",
+          "status": "SECONDARY",
+          "note": "month limits from a secondary snippet; date from CRS snippet"
+        },
+        "costSharing": {
+          "value": {
+            "who": "expansion adults above 100% FPL",
+            "perServiceMax": 35,
+            "familyCapPctIncome": 5,
+            "effective": "10/01/2028"
+          },
+          "source": "crs-r48633",
+          "status": "SECONDARY"
+        },
+        "providerTaxes": {
+          "value": {
+            "newTaxesOrIncreases": "prohibited after enactment",
+            "expansionStatesHoldHarmlessThreshold": "6.0% stepping down 0.5 point a year to 3.5%",
+            "nonExpansionStates": "frozen at current levels",
+            "nursingHomesAndICFs": "exempt from step-down"
+          },
+          "source": "ccf-provider-tax",
+          "status": "SECONDARY",
+          "note": "Start date conflict: summaries say both 'FY2028' and 'beginning 10/01/2028'; UNKNOWN which (research question: first fiscal year of the 5.5% threshold)"
+        },
+        "emergencyMedicaidFmapLimit": {
+          "value": "Emergency Medicaid for noncitizens matched at regular FMAP, not the 90% expansion rate, from 10/01/2026",
+          "source": "crs-r48633",
+          "status": "SNIPPET"
+        },
+        "immigrantEligibility": {
+          "value": "Federal Medicaid limited to citizens/nationals, LPRs, Cuban/Haitian entrants and COFA migrants from 10/01/2026",
+          "source": "crs-r48633",
+          "status": "SNIPPET"
+        },
+        "ruralHealthTransformation": {
+          "value": {
+            "total": 50000000000.0,
+            "perYear": 10000000000.0,
+            "years": "FY2026-FY2030"
+          },
+          "source": "crs-r48633",
+          "status": "SNIPPET",
+          "note": "CMS RHT program page in the same result set"
+        }
+      },
+      "stateTriggerLaws": {
+        "value": "Utah changed its expansion end-date trigger in 2026; Idaho and Oklahoma repeal efforts did not pass",
+        "source": "hio-trigger",
+        "status": "SECONDARY"
+      }
+    },
+    "snap": {
+      "fiscalYear": "FY2026 (10/01/2025-09/30/2026)",
+      "maxAllotment48StatesDc": {
+        "value": {
+          "1": 298,
+          "2": 546,
+          "3": 785,
+          "4": 994,
+          "5": 1183,
+          "6": 1421,
+          "7": 1571,
+          "8": 1789,
+          "eachAdditional": 218
+        },
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "minimumBenefit48StatesDc": {
+        "value": 24,
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "standardDeduction48StatesDc": {
+        "value": {
+          "1-3": 209,
+          "4": 223,
+          "5": 261,
+          "6+": 299
+        },
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "excessShelterCap48StatesDc": {
+        "value": 744,
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "homelessShelterDeduction": {
+        "value": 198.99,
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "earnedIncomeDeductionPct": {
+        "value": 20,
+        "source": "usda-snap-ies-fy26",
+        "status": "SNIPPET",
+        "note": "snippet from CBPP guide in the same result set"
+      },
+      "benefitRule": {
+        "value": "Benefit = maximum allotment minus 30% of net income",
+        "source": "usda-snap-ies-fy26",
+        "status": "SNIPPET",
+        "note": "The 30% expected contribution is statutory; captured only indirectly"
+      },
+      "grossIncomeTestPctFpl": {
+        "value": 130,
+        "source": "usda-snap-ies-fy26",
+        "status": "SNIPPET"
+      },
+      "netIncomeTestPctFpl": {
+        "value": 100,
+        "source": "usda-snap-ies-fy26",
+        "status": "SNIPPET"
+      },
+      "example3PersonMonthly": {
+        "value": {
+          "povertyLine": 2221,
+          "grossLimit130": 2888
+        },
+        "source": "usda-snap-ies-fy26",
+        "status": "SECONDARY",
+        "note": "figures via CBPP snippet"
+      },
+      "fy2027Preview": {
+        "value": {
+          "effective": "10/01/2026",
+          "maxAllotmentFamilyOf4_48StatesDc": 1023,
+          "guamFamilyOf4": 1507,
+          "virginIslandsFamilyOf4": 1315,
+          "hawaiiFamilyOf4": 1655,
+          "alaskaFamilyOf4Range": [1306, 2027]
+        },
+        "source": "usda-snap-cola-fy27",
+        "status": "SNIPPET"
+      },
+      "otherRegionsFy2026": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 maximum allotments for AK, HI, GU, VI by household size"
+      },
+      "pl119_21": {
+        "stateBenefitCostShare": {
+          "value": {
+            "tiersByPaymentErrorRate": [
+              {
+                "errorBelowPct": 6,
+                "stateSharePct": 0
+              },
+              {
+                "errorPct": "6 to <8",
+                "stateSharePct": 5
+              },
+              {
+                "errorPct": "8 to <10",
+                "stateSharePct": 10
+              },
+              {
+                "errorPct": ">=10",
+                "stateSharePct": 15
+              }
+            ],
+            "begins": "FY2028 (10/01/2027)",
+            "fy2028Basis": "lower of FY2025 or FY2026 error rate",
+            "delay": "states with error rate x 1.5 >= 20% (>=13.33%) delayed: FY2025 rate -> 10/01/2028; FY2026 rate -> 10/01/2029"
+          },
+          "source": "wi-lfb-snap",
+          "status": "SNIPPET",
+          "note": "15% top tier inferred from 'range 0 to 15%'; confirm against statute"
+        },
+        "adminCostStateSharePct": {
+          "value": {
+            "from": 50,
+            "to": 75,
+            "begins": "FY2027 (10/01/2026)"
+          },
+          "source": "crs-r48552",
+          "status": "SNIPPET"
+        },
+        "abawd": {
+          "value": {
+            "ageRange": "18-64 (was 18-54)",
+            "parentExemptionOnlyIfChildUnder": 14,
+            "exemptionsRemoved": [
+              "veterans",
+              "people experiencing homelessness",
+              "former foster youth"
+            ],
+            "waivers": "only areas with unemployment above 10% (special rules for AK, HI)",
+            "effective": "on enactment 07/04/2025; USDA implementation guidance followed"
+          },
+          "source": "crs-r48755",
+          "status": "SNIPPET",
+          "note": "exact implementation date per USDA memo UNKNOWN"
+        },
+        "snapEd": {
+          "value": "Federal SNAP-Ed funding ends after FY2025",
+          "source": "crs-r48552",
+          "status": "SNIPPET"
+        },
+        "noncitizens": {
+          "value": "Narrowed eligible lawfully present noncitizen categories",
+          "source": "crs-r48552",
+          "status": "SNIPPET"
+        },
+        "thriftyFoodPlan": {
+          "value": "Future re-evaluations must be cost neutral (effective on enactment)",
+          "source": "crs-r48552",
+          "status": "SNIPPET"
+        }
+      },
+      "pendingFarmBill2026": {
+        "value": "Senate Agriculture passed a farm bill 09/16/2026 that would delay the benefit cost share one year to 10/01/2028; not law as of 09/28/2026; House bill has no such delay",
+        "source": "crs-in12723",
+        "status": "SECONDARY"
+      }
+    },
+    "povertyGuidelines": {
+      "2025": {
+        "value": {
+          "contiguous": {
+            "1": 15650,
+            "4": 32150,
+            "eachAdditional": 5500
+          }
+        },
+        "source": "fr-pg-2025",
+        "status": "SNIPPET"
+      },
+      "2026": {
+        "value": {
+          "contiguous": {
+            "1": 15960,
+            "4": 33000,
+            "eachAdditional": 5680
+          },
+          "alaska": {
+            "1": 19950
+          },
+          "hawaii": {
+            "1": 18360
+          }
+        },
+        "source": "aspe-pg-2026",
+        "status": "SNIPPET",
+        "note": "eachAdditional 5680 is derived as (33000-15960)/3; one snippet said 6530, which does not fit the published family-of-4 figure. Published 01/15/2026 (FR 2026-00755); October 2025 CPI missing due to shutdown."
+      },
+      "note": "Medicaid and the ACA use the prior-year guideline for coverage years in part; the game should key each program to its own guideline year."
+    },
+    "acaMarketplace": {
+      "enhancedCreditsStatus": {
+        "value": "Expired 12/31/2025; House passed a 3-year extension 01/08/2026 (230-196); Senate did not pass it; not extended as of late August 2026",
+        "source": "ptc-extension-news",
+        "status": "SECONDARY"
+      },
+      "subsidyCliffPctFpl": {
+        "value": 400,
+        "source": "kff-aca-2026",
+        "status": "SECONDARY",
+        "note": "no credit above 400% FPL in 2026"
+      },
+      "applicablePercentage2026": {
+        "value": [
+          {
+            "fplPct": "<133",
+            "pct": 2.1
+          },
+          {
+            "fplPct": "133-150",
+            "pct": "3.14-4.19"
+          },
+          {
+            "fplPct": "150-200",
+            "pct": "4.19-6.60"
+          },
+          {
+            "fplPct": "200-250",
+            "pct": "6.60-8.44"
+          },
+          {
+            "fplPct": "250-300",
+            "pct": "8.44-9.96"
+          },
+          {
+            "fplPct": "300-400",
+            "pct": 9.96
+          }
+        ],
+        "source": "irs-rp-2025-25",
+        "status": "SNIPPET",
+        "note": "endpoints from snippets quoting Rev. Proc. 2025-25; 9.96 also the 2026 employer affordability percentage"
+      },
+      "benchmarkPremiumChange2026Pct": {
+        "value": 26,
+        "source": "kff-aca-2026",
+        "status": "SECONDARY"
+      },
+      "benchmarkPremium40yoMonthly": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "KFF average benchmark premium for a 40-year-old, 2026 (a $497 figure appeared only on a tertiary site)"
+      },
+      "enrollment": {
+        "value": {
+          "2025avgEffectuated": 22300000.0,
+          "2026avgEffectuated": 17500000.0
+        },
+        "source": "kff-aca-2026",
+        "status": "SECONDARY"
+      }
+    },
+    "ssi": {
+      "federalBenefitRate2026Monthly": {
+        "value": {
+          "individual": 994,
+          "couple": 1491
+        },
+        "source": "ssa-cola-2026",
+        "status": "SNIPPET",
+        "note": "2025: $967 and $1,450"
+      },
+      "availableIn": {
+        "value": "50 states, D.C., and the Northern Mariana Islands only",
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      },
+      "courtCases": {
+        "value": [
+          {
+            "case": "United States v. Vaello Madero (2022)",
+            "holding": "8-1: the Constitution does not require Congress to extend SSI to Puerto Rico residents"
+          },
+          {
+            "case": "Schaller v. SSA (Guam)",
+            "holding": "2020 district ruling for Guam vacated as moot by the Ninth Circuit in April 2022 after the plaintiff died"
+          }
+        ],
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET",
+        "note": "Schaller item from postguam-schaller (secondary)"
+      }
+    },
+    "unemploymentInsurance": {
+      "note": "Lane A owns spec 1; basics only.",
+      "futaRatePct": {
+        "value": 6.0,
+        "source": "crs-r44527",
+        "status": "SNIPPET"
+      },
+      "futaWageBase": {
+        "value": 7000,
+        "source": "crs-r44527",
+        "status": "SNIPPET"
+      },
+      "stateCreditMaxPct": {
+        "value": 5.4,
+        "source": "crs-r44527",
+        "status": "SNIPPET"
+      },
+      "netFutaPct": {
+        "value": 0.6,
+        "source": "crs-r44527",
+        "status": "SNIPPET"
+      },
+      "borrowing": {
+        "value": "States may take Title XII advances from the federal Unemployment Trust Fund; after two consecutive January 1 balances unpaid by November 10, employers lose 0.3 point or more of the FUTA credit",
+        "source": "crs-r44527",
+        "status": "SNIPPET"
+      },
+      "creditReductionStates2025": {
+        "value": ["US-CA", "US-CT", "US-NY", "US-VI"],
+        "source": "crs-r44527",
+        "status": "SECONDARY",
+        "note": "0.6-point reduction reported for CA, CT, NY and VI in one snippet; final 2025 list per FR 2026-00342 not opened"
+      }
+    }
+  },
+  "places": {
+    "US-AK": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for AK (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP with AK-specific allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for AK (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-AL": {
+      "medicaidExpansion": {
+        "value": false,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": null,
+        "status": "NOT_APPLICABLE"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for AL (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for AL (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-AR": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for AR (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for AR (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-AS": {
+      "medicaidExpansion": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Whether AS covers the ACA adult group and on what terms; territory Medicaid is capped (Social Security Act sec. 1108), so the state expansion model does not apply directly"
+      },
+      "medicaidFunding": {
+        "value": "Annual federal cap (sec. 1108) plus FMAP; statutory FMAP 55% before P.L. 117-328",
+        "source": "crs-if11012",
+        "status": "SNIPPET"
+      },
+      "fmapFy2026Pct": {
+        "value": 83,
+        "source": "crs-r47821",
+        "status": "SNIPPET"
+      },
+      "medicaidCapFy2026": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 federal Medicaid cap amount for AS"
+      },
+      "nutrition": {
+        "value": {
+          "program": "Nutrition Assistance Program block grant (not SNAP)",
+          "fy2026Grant": null,
+          "grantStatus": "UNKNOWN"
+        },
+        "source": "usda-nap",
+        "status": "SNIPPET"
+      },
+      "ssi": {
+        "value": false,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      },
+      "socialSecurityMedicare": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Attach a source confirming Social Security and Medicare apply in this territory (expected yes)"
+      }
+    },
+    "US-AZ": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for AZ (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for AZ (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-CA": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for CA (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for CA (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      },
+      "futaCreditReduction2025Pct": {
+        "value": 0.6,
+        "source": "crs-r44527",
+        "status": "SECONDARY"
+      }
+    },
+    "US-CO": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for CO (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for CO (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-CT": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for CT (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for CT (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      },
+      "futaCreditReduction2025Pct": {
+        "value": 0.6,
+        "source": "crs-r44527",
+        "status": "SECONDARY"
+      }
+    },
+    "US-DC": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": 70,
+        "source": "crs-r43847",
+        "status": "SNIPPET",
+        "note": "statutory, Balanced Budget Act of 1997 sec. 4725(b)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for DC (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-DE": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for DE (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for DE (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-FL": {
+      "medicaidExpansion": {
+        "value": false,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": null,
+        "status": "NOT_APPLICABLE"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for FL (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for FL (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-GA": {
+      "medicaidExpansion": {
+        "value": false,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": null,
+        "status": "NOT_APPLICABLE"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for GA (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for GA (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      },
+      "note": "Not an ACA expansion state; Georgia Pathways covers adults to 100% FPL with a work requirement (secondary)."
+    },
+    "US-GU": {
+      "medicaidExpansion": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Whether GU covers the ACA adult group and on what terms; territory Medicaid is capped (Social Security Act sec. 1108), so the state expansion model does not apply directly"
+      },
+      "medicaidFunding": {
+        "value": "Annual federal cap (sec. 1108) plus FMAP; statutory FMAP 55% before P.L. 117-328",
+        "source": "crs-if11012",
+        "status": "SNIPPET"
+      },
+      "fmapFy2026Pct": {
+        "value": 83,
+        "source": "crs-r47821",
+        "status": "SNIPPET",
+        "note": "permanent under P.L. 117-328"
+      },
+      "medicaidCapFy2026": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 federal Medicaid cap amount for GU"
+      },
+      "nutrition": {
+        "value": {
+          "program": "SNAP with Guam-specific allotments"
+        },
+        "source": "crs-r48552",
+        "status": "SNIPPET"
+      },
+      "ssi": {
+        "value": false,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      },
+      "socialSecurityMedicare": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Attach a source confirming Social Security and Medicare apply in this territory (expected yes)"
+      }
+    },
+    "US-HI": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for HI (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP with HI-specific allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for HI (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-IA": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for IA (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for IA (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-ID": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for ID (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for ID (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-IL": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for IL (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for IL (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-IN": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for IN (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for IN (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-KS": {
+      "medicaidExpansion": {
+        "value": false,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": null,
+        "status": "NOT_APPLICABLE"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for KS (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for KS (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-KY": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for KY (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for KY (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-LA": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for LA (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for LA (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-MA": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for MA (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for MA (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-MD": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for MD (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for MD (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-ME": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for ME (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for ME (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-MI": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for MI (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for MI (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-MN": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for MN (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for MN (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-MO": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for MO (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for MO (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-MP": {
+      "medicaidExpansion": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Whether MP covers the ACA adult group and on what terms; territory Medicaid is capped (Social Security Act sec. 1108), so the state expansion model does not apply directly"
+      },
+      "medicaidFunding": {
+        "value": "Annual federal cap (sec. 1108) plus FMAP; statutory FMAP 55% before P.L. 117-328",
+        "source": "crs-if11012",
+        "status": "SNIPPET"
+      },
+      "fmapFy2026Pct": {
+        "value": 83,
+        "source": "crs-r47821",
+        "status": "SNIPPET"
+      },
+      "medicaidCapFy2026": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 federal Medicaid cap amount for MP"
+      },
+      "nutrition": {
+        "value": {
+          "program": "Nutrition Assistance Program block grant (not SNAP)",
+          "grantHistorically": 12000000,
+          "fy2026Grant": null,
+          "grantStatus": "UNKNOWN"
+        },
+        "source": "cbpp-cnmi",
+        "status": "SECONDARY",
+        "note": "held at $12 million for many years; later increase amount UNKNOWN"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      },
+      "socialSecurityMedicare": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Attach a source confirming Social Security and Medicare apply in this territory (expected yes)"
+      }
+    },
+    "US-MS": {
+      "medicaidExpansion": {
+        "value": false,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": null,
+        "status": "NOT_APPLICABLE"
+      },
+      "fmapFy2026Pct": {
+        "value": 76.9,
+        "source": "crs-r43847",
+        "status": "SNIPPET",
+        "note": "highest in FY2026"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for MS (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-MT": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for MT (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for MT (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-NC": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for NC (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for NC (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-ND": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for ND (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for ND (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-NE": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for NE (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for NE (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-NH": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for NH (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for NH (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-NJ": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for NJ (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for NJ (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-NM": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for NM (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for NM (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-NV": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for NV (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for NV (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-NY": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for NY (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for NY (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      },
+      "futaCreditReduction2025Pct": {
+        "value": 0.6,
+        "source": "crs-r44527",
+        "status": "SECONDARY"
+      }
+    },
+    "US-OH": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for OH (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for OH (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-OK": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for OK (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for OK (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-OR": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for OR (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for OR (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-PA": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for PA (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for PA (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-PR": {
+      "medicaidExpansion": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Whether PR covers the ACA adult group and on what terms; territory Medicaid is capped (Social Security Act sec. 1108), so the state expansion model does not apply directly"
+      },
+      "medicaidFunding": {
+        "value": "Annual federal cap (sec. 1108) plus FMAP; statutory FMAP 55% before P.L. 117-328",
+        "source": "crs-if11012",
+        "status": "SNIPPET"
+      },
+      "fmapFy2026Pct": {
+        "value": 76,
+        "source": "crs-r47821",
+        "status": "SNIPPET",
+        "note": "through FY2027 under P.L. 117-328 sec. 5101; 0.12 point cut from 01/01/2026 if no asset verification program (whether it applies is UNKNOWN)"
+      },
+      "medicaidCapFy2026": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 federal Medicaid cap amount for PR"
+      },
+      "nutrition": {
+        "value": {
+          "program": "Nutrition Assistance Program block grant (not SNAP)",
+          "fy2026Grant": 2978891000
+        },
+        "source": "usda-nap",
+        "status": "SNIPPET"
+      },
+      "ssi": {
+        "value": false,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      },
+      "socialSecurityMedicare": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Attach a source confirming Social Security and Medicare apply in this territory (expected yes)"
+      }
+    },
+    "US-RI": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for RI (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for RI (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-SC": {
+      "medicaidExpansion": {
+        "value": false,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": null,
+        "status": "NOT_APPLICABLE"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for SC (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for SC (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-SD": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for SD (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for SD (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-TN": {
+      "medicaidExpansion": {
+        "value": false,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": null,
+        "status": "NOT_APPLICABLE"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for TN (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for TN (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-TX": {
+      "medicaidExpansion": {
+        "value": false,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": null,
+        "status": "NOT_APPLICABLE"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for TX (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for TX (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-UT": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for UT (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for UT (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      },
+      "note": "2026 law changed the expansion trigger end date after a federal funding cut (secondary: hio-trigger)."
+    },
+    "US-VA": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for VA (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for VA (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-VI": {
+      "medicaidExpansion": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Whether VI covers the ACA adult group and on what terms; territory Medicaid is capped (Social Security Act sec. 1108), so the state expansion model does not apply directly"
+      },
+      "medicaidFunding": {
+        "value": "Annual federal cap (sec. 1108) plus FMAP; statutory FMAP 55% before P.L. 117-328",
+        "source": "crs-if11012",
+        "status": "SNIPPET"
+      },
+      "fmapFy2026Pct": {
+        "value": 83,
+        "source": "crs-r47821",
+        "status": "SNIPPET"
+      },
+      "medicaidCapFy2026": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 federal Medicaid cap amount for VI"
+      },
+      "nutrition": {
+        "value": {
+          "program": "SNAP with Virgin Islands-specific allotments"
+        },
+        "source": "crs-r48552",
+        "status": "SNIPPET"
+      },
+      "ssi": {
+        "value": false,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      },
+      "socialSecurityMedicare": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "Attach a source confirming Social Security and Medicare apply in this territory (expected yes)"
+      },
+      "futaCreditReduction2025Pct": {
+        "value": 0.6,
+        "source": "crs-r44527",
+        "status": "SECONDARY"
+      }
+    },
+    "US-VT": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for VT (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for VT (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-WA": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for WA (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for WA (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-WI": {
+      "medicaidExpansion": {
+        "value": false,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": null,
+        "status": "NOT_APPLICABLE"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for WI (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for WI (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      },
+      "note": "Not an ACA expansion state; covers childless adults to 100% FPL through a waiver, so no coverage gap (secondary)."
+    },
+    "US-WV": {
+      "medicaidExpansion": {
+        "value": true,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": 90,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for WV (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for WV (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    },
+    "US-WY": {
+      "medicaidExpansion": {
+        "value": false,
+        "source": "kff-expansion",
+        "status": "SECONDARY"
+      },
+      "expansionFmapPct": {
+        "value": null,
+        "status": "NOT_APPLICABLE"
+      },
+      "fmapFy2026Pct": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "FY2026 FMAP for WY (89 FR 94742 table)"
+      },
+      "snap": {
+        "value": "SNAP, 48-states-and-D.C. allotments",
+        "source": "usda-snap-cola-fy26",
+        "status": "SNIPPET"
+      },
+      "snapPaymentErrorRate": {
+        "value": null,
+        "status": "UNKNOWN",
+        "question": "USDA FY2025 SNAP payment error rate for WY (drives FY2028 cost share)"
+      },
+      "ssi": {
+        "value": true,
+        "source": "scotus-vaello-madero",
+        "status": "SNIPPET"
+      }
+    }
+  }
+}
