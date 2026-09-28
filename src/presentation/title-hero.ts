@@ -79,7 +79,11 @@ export function titleHeroFromSaveSummary(
     heroIdentityKey: `${summary.worldId}:${summary.playerPersonId}`,
     displayName: summary.playerName,
     capabilities,
-    availablePoseFamilies: [],
-    availableFacings: [],
+    // A save that carries the player's look can stand them anywhere a
+    // standing figure belongs; the people engine draws them facing front.
+    availablePoseFamilies: summary.playerLooks
+      ? ["standing-neutral", "standing-listening", "standing-podium-or-lectern"]
+      : [],
+    availableFacings: summary.playerLooks ? ["front"] : [],
   };
 }

@@ -25,6 +25,10 @@ export function scenePlateClips(scene: RegisteredScene | null) {
             zOrder: occluder.zOrder,
             maskUrl: `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="${occluder.plateClip.points.map(({ x, y }) => `${x},${y}`).join(" ")}" fill="black"/></svg>`)}`,
             clipPath: `polygon(${occluder.plateClip.points.map(({ x, y }) => `${x}% ${y}%`).join(", ")})`,
+            /** The occluder's lowest point on the plate: where it meets the floor. */
+            baseYPercent: Math.max(
+              ...occluder.plateClip.points.map(({ y }) => y),
+            ),
           },
         ]
       : [],
