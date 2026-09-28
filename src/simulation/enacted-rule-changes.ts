@@ -198,7 +198,12 @@ const CHOICE_WORDS: Readonly<Record<string, string>> = {
 };
 
 /** Plain words for a changed value, for a player-facing sentence. */
-export function describeRuleChangeValue(value: RuleChangeValue): string {
+export function describeRuleChangeValue(
+  value: RuleChangeValue,
+  field?: AmendableRuleField,
+): string {
+  if (field === "labor.minimumWage.hourlyCents" && typeof value === "number")
+    return `$${(value / 100).toFixed(2)} an hour`;
   if (value === null) return "no limit";
   if (typeof value === "number") return String(value);
   if (typeof value === "string") return CHOICE_WORDS[value] ?? value;
