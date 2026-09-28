@@ -10,3 +10,7 @@ reads "Your choices here" instead of "What's happening." It also sits above
 the bar at the bottom of the screen: before, the bar covered its lower half,
 and a click on it could land on the bar instead. Once the choices are open,
 "Return to the room" sits clear of the bar too.
+
+The People window, and the other windows opened from the bar, now end above
+the bar as well. Before, the last conversation starters in People could sit
+under it where a click could not reach them.

@@ -319,7 +319,12 @@ export function WorkspaceFrame({
               top: shown.y,
               width: shown.width,
               height: shown.height,
-              maxHeight: viewport.height - 24,
+              /*
+               * The frame ends above the corner cluster, whose measured height
+               * ShellNav publishes. A plain window-height cap let the People
+               * workspace's last starters sit under the bar, unclickable.
+               */
+              maxHeight: `max(180px, calc(var(--pg-vv-height, 100dvh) - ${shown.y}px - var(--pg-content-bottom, 0px) - max(4.25rem, var(--pg-nav-reserve, 0px))))`,
               transform: "none",
             }
           : undefined
