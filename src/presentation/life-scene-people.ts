@@ -338,6 +338,34 @@ export function seatedEngineBox(
   return { topPercent: seat.floor_y_percent - heightPercent, heightPercent };
 }
 
+/**
+ * How tall a standing engine person is at an anchor, crown to sole, in plate
+ * percent. A scene that measured its standing height uses it, at the
+ * anchor's perspective scale. Otherwise the scene's standard body width is the
+ * width of a modular body canvas (1024 x 1536) at scale 1, and the person's
+ * own crown-to-sole share of that canvas sets the height. The pack's bodies
+ * are that canvas at half size, 768 rows below their headroom.
+ */
+export function engineStandingHeightPercent(
+  scene: RegisteredScene,
+  anchor: RegisteredSceneAnchor,
+  recipe: EngineRecipe,
+): number {
+  const scale = resolvePerspectiveScale(scene, anchor.contactFloorYPercent);
+  if (scene.standingHeightPercent) return scene.standingHeightPercent * scale;
+  const body =
+    PEOPLE_PACK.presentations[recipe.presentation].bodies[recipe.build].anchors;
+  const canvasWidth =
+    scene.standardBodyWidthPercent ?? anchor.footprintPercent ?? 8;
+  return (
+    canvasWidth *
+    scale *
+    (scene.plate.width / scene.plate.height) *
+    1.5 *
+    ((body.feet - body.top + 1) / 768)
+  );
+}
+
 /** A standing figure is roughly this many times as tall as it is wide. */
 const STANDING_HEIGHT_RATIO = 2.55;
 /** A seated figure occupies less height above its contact line. */
@@ -623,13 +651,13 @@ export function planLifeScenePeople(
           })
         : null;
     if (engine) {
+      const standingHeight = engineStandingHeightPercent(scene, anchor, engine);
       const box = seatContact
-        ? seatedEngineBox(
-            engine,
-            seatContact,
-            widthPercent * plateAspect * STANDING_HEIGHT_RATIO,
-          )
-        : { topPercent, heightPercent };
+        ? seatedEngineBox(engine, seatContact, standingHeight)
+        : {
+            topPercent: anchor.contactFloorYPercent - standingHeight,
+            heightPercent: standingHeight,
+          };
       if (box.topPercent < 0)
         overflowPercent = Math.max(overflowPercent, -box.topPercent);
       return {

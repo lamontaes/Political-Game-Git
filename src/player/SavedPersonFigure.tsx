@@ -30,11 +30,17 @@ export function SavedPersonFigure({
   personId,
   libraries: explicitLibraries,
   className,
+  wear,
 }: {
   readonly world: World;
   readonly personId: string;
   readonly libraries?: PersonVisualLibraries;
   readonly className?: string;
+  /**
+   * What the place or role calls for (dress-code.ts): the opening tour shows
+   * officeholders at work, so it asks for formal wear.
+   */
+  readonly wear?: "casual" | "business" | "formal";
 }) {
   const snapshot = useSavedRenderSnapshot(personId);
   const preference = useSavedWardrobe(personId);
@@ -51,7 +57,12 @@ export function SavedPersonFigure({
   if (!person) return null;
   const engine =
     !explicitLibraries && peoplePackAvailable()
-      ? engineRecipeFor(person, world.currentDate, PEOPLE_PACK)
+      ? engineRecipeFor(
+          person,
+          world.currentDate,
+          PEOPLE_PACK,
+          wear ? { wear } : {},
+        )
       : null;
   if (engine) {
     return (
