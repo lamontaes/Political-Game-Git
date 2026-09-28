@@ -1,6 +1,6 @@
 import { createOrganizationParticipation } from "../life";
 import { activeOrganizationParticipationsAt } from "../life-queries";
-import { primaryReading } from "../municipal-government";
+import { municipalProcedureReading } from "../municipal-government";
 import {
   installMunicipalGovernment,
   municipalOrganizationFor,
@@ -186,7 +186,9 @@ function seatOne(
       formedAt: world.currentDate,
     });
     if (!mayor) {
-      const bodySize = primaryReading(compiled).bodySize;
+      // The same size seatMunicipalMember enforces: the body's procedure
+      // reading, which is its game profile where no source gave one.
+      const bodySize = municipalProcedureReading(compiled).bodySize;
       const seated = municipalSeats(next, compiled.key).filter(
         (seat) => seat.role === "member" || seat.role === "presiding-member",
       ).length;

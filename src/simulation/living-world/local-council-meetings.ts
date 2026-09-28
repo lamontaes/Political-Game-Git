@@ -15,11 +15,7 @@ import {
 import { chamberByKey } from "../legislature-rules";
 import { rulePackById } from "../legislature-rule-packs";
 import { nextMeasureNumbering } from "../measure-numbering";
-import {
-  municipalRulePackFor,
-  municipalRulePackId,
-  primaryReading,
-} from "../municipal-government";
+import { municipalRulePackFor } from "../municipal-government";
 import { recordCouncilReadingVote } from "../municipal-ordinance-procedure";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
 import { homeLocalGovernmentUnits } from "../nationwide-world/local-governments";
@@ -108,7 +104,9 @@ function councilRules(unit: GovernmentUnitIdentity): CouncilRules | null {
     const pack = municipalRulePackFor(compiled);
     if (pack.ok)
       return {
-        packId: municipalRulePackId(primaryReading(compiled)),
+        // The pack the charter resolved to: its sourced pack, or the labeled
+        // game profile where the charter's procedure was not read.
+        packId: pack.pack.packId,
         governmentKey: compiled.key,
       };
   }
