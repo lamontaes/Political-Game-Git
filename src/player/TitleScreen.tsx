@@ -1,3 +1,5 @@
+import { titleEngineHero } from "../presentation/title-engine-hero";
+import { peoplePackAvailable } from "../presentation/appearance-engine/runtime";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import type {
@@ -299,7 +301,22 @@ export function resolvedTitleLecternHero(
   );
   const library =
     artPreviewLibraries(mode)?.characters ?? PRODUCTION_CHARACTER_LIBRARY;
-  return resolveTitleLecternHero(saves[0], library);
+  return resolveTitleLecternHero(saves[0], library) ?? engineTitleHero(saves);
+}
+
+/**
+ * Without the private lectern art, the people engine draws the returning
+ * player in the room the title resolves for them, dressed for it, from the
+ * look their save carries. Null outside a bundled build or for a save with no
+ * look, which leaves the title exactly as it was.
+ */
+function engineTitleHero(
+  saves: readonly BrowserWorldSummary[],
+): TitleLecternHero | null {
+  if (!peoplePackAvailable()) return null;
+  const presentation = resolvedTitlePresentation(saves);
+  const hero = titleEngineHero(presentation, saves[0]);
+  return hero ? { presentation, hero, visuals: new Map() } : null;
 }
 
 /**

@@ -1,3 +1,4 @@
+import { EngineFigure } from "./EnginePerson";
 import { MaterialImage } from "./ModularCharacter";
 import { scenePlateClips } from "../presentation/scene-occlusion";
 import type { PlacedScenePerson } from "../presentation/life-scene-people";
@@ -143,17 +144,25 @@ function TitleStage({
               data-pose-id={hero.sourcePoseId}
             >
               {[false, true].map((front) => {
-                const masks = scenePlateClips(scene).map(
-                  (clip) => clip.maskUrl,
-                );
+                // Only furniture standing nearer the camera than the hero's
+                // feet hides the hero: a table the hero stands in front of
+                // must not be drawn over them.
+                const heroFloor = hero.topPercent + hero.heightPercent;
+                const masks = scenePlateClips(scene)
+                  .filter((clip) => clip.baseYPercent > heroFloor)
+                  .map((clip) => clip.maskUrl);
                 return (
                   <div
                     key={String(front)}
                     className="title-hero-layers"
                     data-contact-layer={String(front)}
+                    // The layer fills the plate: a mask sized "100% 100%"
+                    // on a layer with no height hides everything in it.
                     style={
                       !front && masks.length
                         ? {
+                            position: "absolute",
+                            inset: 0,
                             maskImage: [
                               "linear-gradient(black, black)",
                               ...masks.map((url) => `url("${url}")`),
@@ -165,9 +174,26 @@ function TitleStage({
                             maskSize: "100% 100%",
                             maskRepeat: "no-repeat",
                           }
-                        : {}
+                        : { position: "absolute", inset: 0 }
                     }
                   >
+                    {!front && hero.engine ? (
+                      <div
+                        style={{
+                          position: "absolute",
+                          left: `${hero.leftPercent}%`,
+                          top: `${hero.topPercent}%`,
+                          width: `${hero.widthPercent}%`,
+                          height: `${hero.heightPercent}%`,
+                        }}
+                      >
+                        <EngineFigure
+                          recipe={hero.engine}
+                          className="title-hero-art title-hero-engine"
+                          testId="title-hero-engine"
+                        />
+                      </div>
+                    ) : null}
                     {hero.layers
                       .filter((layer) =>
                         layer.kind === "accessory" ? front : !front,
