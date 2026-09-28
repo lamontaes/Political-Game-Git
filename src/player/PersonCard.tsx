@@ -16,12 +16,13 @@ import { PersonPortrait } from "./PersonPortrait";
 import { SavedPersonFigure } from "./SavedPersonFigure";
 import { projectPersonContact } from "../presentation/person-contact";
 import {
-  observedTraitLabels,
-  strongestObservedTraitLabels,
-} from "../simulation/people-traits";
+  learnedTraits,
+  strongestLearnedTraits,
+} from "../presentation/learned-traits";
 import {
   CARD_TRAIT_LIMIT,
   howYouKnowLine,
+  learnedTraitWhere,
   observedTraitsSentence,
 } from "../presentation/person-card-english";
 import "./people-web.css";
@@ -229,16 +230,23 @@ export function PersonCard({
   /* Temperament is shown for other people only, never for the one played. */
   const played =
     world.control.kind === "person" ? world.control.personId : null;
-  const traitLabels =
+  /*
+   * Only what the player has learned: a trait that decided an answer this
+   * person gave them. A trait on record that the player never saw at work is
+   * not named, and reading this writes nothing (owner's brief, 2026-09-27).
+   */
+  const learned =
     isYou || dossier.personId === played || !world.people[dossier.personId]
       ? []
       : expanded
-        ? observedTraitLabels(world, dossier.personId)
-        : strongestObservedTraitLabels(
+        ? learnedTraits(world, playerId, dossier.personId)
+        : strongestLearnedTraits(
             world,
+            playerId,
             dossier.personId,
             CARD_TRAIT_LIMIT,
           );
+  const traitLabels = learned.map((trait) => trait.label);
   /*
    * The small card is a glance: who this is, how you know them, what you
    * have seen of them and when you last spoke. Everything else waits behind
@@ -329,16 +337,21 @@ export function PersonCard({
               >
                 {traitsSentence}
               </p>
-            ) : traitLabels.length > 0 ? (
-              <p
-                className="pg-person-card-traits"
+            ) : learned.length > 0 ? (
+              <ul
+                className="pg-person-card-traits pg-person-card-learned"
                 data-testid="person-card-traits"
                 aria-label={`Temperament: ${traitLabels.join(", ")}`}
               >
-                {traitLabels.map((trait) => (
-                  <span key={trait}>{trait}</span>
+                {learned.map((trait) => (
+                  <li key={trait.tendencyId}>
+                    <span>{trait.label}</span>{" "}
+                    <small data-testid="person-card-trait-where">
+                      {learnedTraitWhere(trait)}
+                    </small>
+                  </li>
                 ))}
-              </p>
+              </ul>
             ) : null}
             {!alive ? (
               <p className="pg-right-now" data-testid="person-card-deceased">

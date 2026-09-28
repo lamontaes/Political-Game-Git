@@ -529,11 +529,50 @@ describe("the people engine in the game", () => {
       hairColor: "blonde",
       outfit: "formal",
     });
-    expect([raster.width, raster.height]).toEqual([512, 768]);
+    expect([raster.width, raster.height]).toEqual([
+      manifest.canvas.width,
+      manifest.canvas.height,
+    ]);
     // Opaque from the top of the head to the soles, at the neck point.
     expect(
       alphaOf(raster, Math.round(anchors.neck.centerX), anchors.neck.row),
     ).toBe(255);
     expect(skinInGarment(raster).share).toBeLessThan(0.5);
   });
+
+  it("never cuts off a hairstyle at the top of the picture, on any body", () => {
+    const cache = new Map<string, Raster>();
+    const read = (file: string): Raster => {
+      const cached = cache.get(file);
+      if (cached) return cached;
+      const png = PNG.sync.read(readFileSync(`art/people-engine/v1/${file}`));
+      const raster = {
+        width: png.width,
+        height: png.height,
+        data: new Uint8ClampedArray(png.data),
+      };
+      cache.set(file, raster);
+      return raster;
+    };
+    const clipped: string[] = [];
+    for (const presentation of ["feminine", "masculine"] as const)
+      for (const hair of manifest.presentations[presentation].hair)
+        for (const build of ["lean", "average", "fuller"] as const) {
+          const { raster } = composeEnginePerson(manifest, read, {
+            presentation,
+            build,
+            shade: 3,
+            face: "",
+            hair: hair.id,
+            hairColor: "natural",
+            outfit: "casual",
+          });
+          // The top rows stay empty: the hair ends below the picture's edge.
+          let opaque = 0;
+          for (let i = 3; i < raster.width * 8 * 4; i += 4)
+            if (raster.data[i]! > 0) opaque += 1;
+          if (opaque > 0) clipped.push(`${presentation} ${hair.id} ${build}`);
+        }
+    expect(clipped).toEqual([]);
+  }, 120_000);
 });

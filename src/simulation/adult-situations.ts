@@ -47,9 +47,7 @@ import type {
  * as inspectable evidence, but the provider excludes them before selection and
  * the write boundary checks the same provider before any option-specific write.
  *
- * The fixed authored errands key identifies the shopping and two appointments;
- * its active state, assignment and access also have to belong to this person.
- * A sparse World may therefore have no eligible adult scene. Restoring withheld
+ * A sparse World may have no eligible adult scene. Restoring withheld
  * opportunities requires the missing records named on each entry, not broader
  * gates or invented scene premises.
  *
@@ -244,9 +242,7 @@ export interface AdultLifeContext {
    * answer for, read from `life-opportunities.ts`.
    *
    * A scene that needs somebody to have asked something reads this and nothing
-   * else. It is the difference between "you have a job and a colleague" and
-   * "somebody asked you to work extra hours on these terms", and the second is
-   * the only one that grounds a scene about the second.
+   * else. A job and a colleague alone do not establish a new request.
    */
   readonly openOpportunityKinds: ReadonlySet<LifeOpportunityKind>;
   /** Who asked, per open kind, taken from the request rather than a pool. */
@@ -672,49 +668,6 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     ],
   },
   {
-    key: "adult.household-quiet-evening",
-    // The free evening, the other person being in, and their being willing to
-    // spend it are three separate claims, and all three now come from the same
-    // canonical record: the household-evening opportunity is written by the
-    // person who lives here saying they will be in for it.
-    opportunity: "household-evening",
-    companion: "household-member",
-    stakes: "ordinary",
-    prose:
-      "The evening is free, and the person you live with said they would be in for it.",
-    tensions: [],
-    available: (context) => context.householdCompanionIds.length > 0,
-    options: [
-      {
-        key: "spend-it-together",
-        label: "Spend it together",
-        description: "Accept the invitation to sit and talk.",
-        memory: "You spent the evening at home with company.",
-        witnessed: "They stayed in, and the evening was an easy one.",
-        stance: "engaged",
-        relationalChange: "strengthened",
-        interactionKind: "contact:household",
-        nudges: [nudge("personal-ties", 0.4)],
-        aftermath: "goodwill",
-      },
-      {
-        key: "keep-it-yours",
-        label: "Keep the evening",
-        description: "Say you would like the evening to yourself.",
-        memory: "You spent the evening on your own.",
-        witnessed: null,
-        stance: "engaged",
-        relationalChange: "maintained",
-        interactionKind: "contact:household",
-        nudges: [
-          nudge("privacy-preference", 0.4),
-          nudge("personal-ties", -0.2),
-        ],
-        aftermath: null,
-      },
-    ],
-  },
-  {
     key: "adult.family-request",
     withheld:
       "Kinship does not establish a two-week request or a conflicting plan. The request and its terms need an actual record.",
@@ -1028,77 +981,6 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
           nudge("risk-appetite", 0.35),
         ],
         aftermath: "standing",
-      },
-    ],
-  },
-  {
-    key: "adult.work-extra-hours",
-    // The ask and its terms are the extra-hours opportunity, written by
-    // somebody the player actually works with. Employment alone still
-    // establishes neither, which is why the gate reads both.
-    opportunity: "extra-hours-request",
-    companion: null,
-    stakes: "notable",
-    prose:
-      "Work has asked you to take on more hours, and they would have to come out of everything that is not work.",
-    tensions: [
-      tension(
-        "achievement-ambition",
-        1,
-        "personal-ties",
-        1,
-        "What the job would notice, against what home would.",
-      ),
-      tension(
-        "achievement-ambition",
-        1,
-        "security-stability",
-        1,
-        "Taking it on, against keeping the week the shape it was.",
-      ),
-    ],
-    available: (context) => context.workCount > 0,
-    relevance: (context) => (context.careCount > 0 ? 0.9 : 0.6),
-    options: [
-      {
-        key: "take-them",
-        label: "Take the hours",
-        description:
-          "Agree to the extra hour; the shift date and pay still need agreement.",
-        memory: "You agreed to work the extra hours.",
-        stance: "engaged",
-        nudges: [
-          nudge("achievement-ambition", 0.55),
-          nudge("personal-ties", -0.3),
-          nudge("care-obligation", -0.2),
-        ],
-        aftermath: "goodwill",
-      },
-      {
-        key: "decline",
-        label: "Decline the extra hour",
-        description: "Say you cannot add an hour to your next shift.",
-        memory: "You said you would not take the extra hours.",
-        stance: "engaged",
-        nudges: [
-          nudge("privacy-preference", -0.25),
-          nudge("achievement-ambition", -0.35),
-          nudge("security-stability", 0.4),
-        ],
-        aftermath: "grievance",
-      },
-      {
-        key: "trade",
-        label: "Offer part of the extra hour",
-        description: "Offer to stay for less than the requested hour.",
-        memory:
-          "You offered to take some of the extra hours and declined the rest.",
-        stance: "engaged",
-        nudges: [
-          nudge("decision-style", 0.5),
-          nudge("achievement-ambition", 0.2),
-        ],
-        aftermath: "obligation",
       },
     ],
   },
@@ -1548,75 +1430,6 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   },
 
   /* ------------------------------------------------ friends and the area -- */
-  {
-    key: "adult.friend-favour",
-    // The request and the one thing it is for come from the record. What the
-    // scene will not claim is that it is easy: nothing establishes what this
-    // would cost the player, and a scene that told them it was nothing would
-    // be making their decision for them.
-    opportunity: "favour-request",
-    companion: "other-household",
-    stakes: "notable",
-    prose:
-      "Somebody you know has asked you for a hand with one thing, and said it matters to them.",
-    tensions: [
-      tension(
-        "personal-ties",
-        1,
-        "privacy-preference",
-        1,
-        "Helping, against what helping puts your name to.",
-      ),
-    ],
-    available: (context) => context.familiarPersonIds.length > 0,
-    // An easy favor is easier when nothing is owed either way, and heavier
-    // when it is not.
-    relevance: (context) => Math.min(1, 0.5 + context.strongestDependency / 2),
-    options: [
-      {
-        key: "do-it",
-        label: "Say yes and do it",
-        description: "Say yes and get on with it.",
-        memory: "You said yes to the favor and got on with it.",
-        witnessed: "They said yes straight away.",
-        stance: "engaged",
-        relationalChange: "strengthened",
-        interactionKind: "support:friendship",
-        nudges: [nudge("personal-ties", 0.5), nudge("care-obligation", 0.3)],
-        aftermath: "goodwill",
-      },
-      {
-        key: "conditions",
-        label: "Do it, with conditions",
-        description: "Yes, and be clear about where it stops.",
-        memory: "You said yes, and said where it stopped.",
-        witnessed: "They agreed, and said what they would not do.",
-        stance: "engaged",
-        relationalChange: "maintained",
-        interactionKind: "exchange:friendship",
-        nudges: [
-          nudge("decision-style", 0.45),
-          nudge("privacy-preference", 0.2),
-        ],
-        aftermath: "obligation",
-      },
-      {
-        key: "decline",
-        label: "Tell them you cannot",
-        description: "Not this one.",
-        memory: "You declined the favor.",
-        witnessed: "They said no.",
-        stance: "engaged",
-        relationalChange: "strained",
-        interactionKind: "experience:friendship",
-        nudges: [
-          nudge("personal-ties", -0.4),
-          nudge("privacy-preference", 0.35),
-        ],
-        aftermath: "grievance",
-      },
-    ],
-  },
   {
     key: "adult.friend-in-difficulty",
     // All three of the missing facts are now one record: the disclosure is a
@@ -2379,87 +2192,6 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     ],
   },
   {
-    key: "adult.old-favour-returns",
-    // Was withheld: "An earlier favor-family choice may be a refusal. It does
-    // not establish help given, a new larger request or a recurrence count."
-    // All three now exist as records. Help given is `life.favour-performed`,
-    // which the world writes only when a favor was agreed to, scheduled and
-    // actually carried out — a refusal never produces one. The new larger
-    // request is the `returning-favour` opportunity, written by the same
-    // person who was helped. The recurrence count is a count of performances
-    // rather than of asks, so somebody who asked three times and was helped
-    // once returns on the strength of the one.
-    opportunity: "returning-favour",
-    companion: "community-member",
-    stakes: "notable",
-    prose:
-      "Somebody you helped once, a long time ago and without making anything of it, has turned up needing something rather larger.",
-    tensions: [
-      tension(
-        "personal-ties",
-        1,
-        "security-stability",
-        1,
-        "What you did once, against what it is now being read as meaning.",
-      ),
-    ],
-    // Reachable only from something ordinary that already happened. This is
-    // the callback: the earlier moment was small, was not signposted, and is
-    // what makes this one possible at all.
-    available: (context) =>
-      context.familiarPersonIds.length > 0 &&
-      (context.recallableKeys.has("adult.friend-favour") ||
-        context.recallableKeys.has("adult.household-repair") ||
-        context.recallableKeys.has("adult.work-colleague-struggling") ||
-        context.recallableKeys.has("adult.incident-neighbour-help")),
-    options: [
-      {
-        key: "help-again",
-        label: "Help again",
-        description: "It is larger, and it is still them.",
-        memory: "You agreed to help with the new request.",
-        witnessed: "They helped again.",
-        stance: "engaged",
-        relationalChange: "strengthened",
-        interactionKind: "support:friendship",
-        nudges: [nudge("personal-ties", 0.55), nudge("care-obligation", 0.4)],
-        aftermath: "obligation",
-      },
-      {
-        key: "name-the-difference",
-        label: "Say this is a different thing",
-        description: "Help, and say plainly that it is not the same favor.",
-        memory: "You helped, and said plainly that it was not the same favor.",
-        witnessed: "They helped, and said it was a different thing.",
-        stance: "engaged",
-        relationalChange: "maintained",
-        interactionKind: "exchange:friendship",
-        nudges: [
-          nudge("decision-style", 0.45),
-          nudge("privacy-preference", -0.3),
-        ],
-        aftermath: "obligation",
-      },
-      {
-        key: "no",
-        label: "Not for this one",
-        description: "The first one did not buy this one.",
-        memory: "You declined the new request.",
-        witnessed: "They said no.",
-        stance: "engaged",
-        relationalChange: "strained",
-        interactionKind: "conflict:friendship",
-        nudges: [
-          nudge("personal-ties", -0.4),
-          nudge("security-stability", 0.3),
-        ],
-        aftermath: "grievance",
-      },
-    ],
-  },
-
-  /* -------------------------------------------------------- plain good -- */
-  {
     key: "adult.weekend-invitation",
     // The invitation, the day it is for and the fact that nobody is required
     // there are the social-occasion opportunity's own three facts. It expires
@@ -2650,93 +2382,8 @@ export function bindRequestSituation(
     return {
       ...situation,
       prose: `${who}: ${event.summary}`,
-      options:
-        situation.key !== "adult.work-extra-hours"
-          ? situation.options
-          : situation.options.map((option) => ({
-              ...option,
-              label:
-                option.key === "take-them"
-                  ? "Agree to the requested hours"
-                  : option.key === "decline"
-                    ? "Decline the requested hours"
-                    : "Offer some of the requested hours",
-              description:
-                option.key === "take-them"
-                  ? "Say you will take the hours requested."
-                  : option.key === "decline"
-                    ? "Say you cannot take the hours requested."
-                    : "Offer to take part of the request.",
-            })),
     };
   const prose = `${who}: “${details.opening}”`;
-  // A favor asked for a reason on the asker's own record (`initiatorFavour`).
-  // The old proofreading favor below still reads for a save that holds one.
-  if (
-    situation.key === "adult.friend-favour" &&
-    !details.task.startsWith("proofread")
-  ) {
-    const hours =
-      details.minutes !== null && details.minutes >= 60
-        ? `about ${details.minutes / 60 === 1 ? "an hour" : `${details.minutes / 60} hours`}`
-        : `${details.minutes ?? "a few"} minutes`;
-    return {
-      ...situation,
-      prose: `${prose} It would take ${hours}; answering takes no time.`,
-      options: situation.options.map((option) => ({
-        ...option,
-        label:
-          option.key === "do-it"
-            ? "Say you will come"
-            : option.key === "conditions"
-              ? `Agree: ${details.condition}`
-              : "Tell them you cannot",
-        description:
-          option.key === "decline"
-            ? "Tell them you cannot help this time."
-            : "Agree now; the help itself is its own stretch of time.",
-        memory:
-          option.key === "decline"
-            ? `You told ${person.name} you could not help on Saturday morning.`
-            : `You agreed to ${details.task}${option.key === "conditions" ? `, with the condition: ${details.condition}` : ""}.`,
-        witnessed:
-          option.key === "decline"
-            ? "They said they could not help this time."
-            : `They agreed to ${details.task}.`,
-        relationalChange: option.key === "decline" ? "strained" : "maintained",
-        aftermath: option.key === "decline" ? "grievance" : "obligation",
-      })),
-    };
-  }
-  if (situation.key === "adult.friend-favour")
-    return {
-      ...situation,
-      prose: `${prose} Proofreading takes ${details.minutes} minutes; answering takes no time.`,
-      options: situation.options.map((option) => ({
-        ...option,
-        label:
-          option.key === "do-it"
-            ? `Agree to ${details.task}`
-            : option.key === "conditions"
-              ? `Agree: ${details.condition}`
-              : "Decline the proofreading request",
-        description:
-          option.key === "decline"
-            ? "Tell them you cannot help with this invitation."
-            : "Record the agreement; carry out the proofreading separately.",
-        memory:
-          option.key === "decline"
-            ? `You declined ${person.name}'s request to ${details.task}.`
-            : `You agreed to ${details.task} for ${person.name}${option.key === "conditions" ? `, with the condition: ${details.condition}` : ""}.`,
-        witnessed:
-          option.key === "decline"
-            ? "They declined to proofread the invitation."
-            : `They agreed to ${details.task}${option.key === "conditions" ? `, with the condition: ${details.condition}` : ""}.`,
-        // An agreement carries an expectation; goodwill awaits actual performance.
-        relationalChange: option.key === "decline" ? "strained" : "maintained",
-        aftermath: option.key === "decline" ? "grievance" : "obligation",
-      })),
-    };
   if (situation.key === "adult.friend-in-difficulty")
     return {
       ...situation,
@@ -2775,27 +2422,6 @@ export function bindRequestSituation(
           option.key === "say-yes"
             ? `You told ${person.name} you would ${details.task.replace(/^go to /, "come to ")}.`
             : `You told ${person.name} you would not be coming on Saturday.`,
-      })),
-    };
-  if (situation.key === "adult.household-quiet-evening")
-    return {
-      ...situation,
-      prose,
-      options: situation.options.map((option) => ({
-        ...option,
-        label:
-          option.key === "spend-it-together"
-            ? "Agree to sit and talk this evening"
-            : "Decline; keep the evening to yourself",
-        memory:
-          option.key === "spend-it-together"
-            ? `You agreed to sit and talk with ${person.name} this evening.`
-            : `You declined ${person.name}'s invitation to sit and talk this evening.`,
-        witnessed:
-          option.key === "spend-it-together"
-            ? "They agreed to sit and talk this evening."
-            : "They declined the invitation.",
-        aftermath: option.key === "spend-it-together" ? "obligation" : null,
       })),
     };
   return { ...situation, prose };

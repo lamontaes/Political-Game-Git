@@ -42,13 +42,18 @@ if (!bodiesDir || !appearanceDir)
 const outDir = outArg ?? "art/people-engine/v1";
 mkdirSync(outDir, { recursive: true });
 
+/**
+ * Empty rows added above every source painting (40 at the pack's half size).
+ * A head is moved to each body's own neck, and a tall body's neck sits higher
+ * than the one the hair was drawn for: without this room, buns, top knots and
+ * afros are cut off at the top of the picture.
+ */
+const HEADROOM = 80;
 const read = (path: string): Raster => {
   const png = PNG.sync.read(readFileSync(path));
-  return {
-    width: png.width,
-    height: png.height,
-    data: new Uint8ClampedArray(png.data),
-  };
+  const data = new Uint8ClampedArray(png.width * (png.height + HEADROOM) * 4);
+  data.set(png.data, png.width * HEADROOM * 4);
+  return { width: png.width, height: png.height + HEADROOM, data };
 };
 const write = (raster: Raster, file: string): string => {
   const png = new PNG({ width: raster.width, height: raster.height });
@@ -281,7 +286,7 @@ for (const sex of ["feminine", "masculine"] as const) {
 
 const manifest: PeoplePackManifest = {
   version: PEOPLE_PACK_VERSION,
-  canvas: { width: 512, height: 768 },
+  canvas: { width: 512, height: 768 + HEADROOM / 2 },
   presentations: presentations as PeoplePackManifest["presentations"],
 };
 writeFileSync(

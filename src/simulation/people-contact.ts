@@ -773,6 +773,20 @@ export function npcContactAnswer(
   // its own citation. An unrecorded asker contributes nothing, which is the
   // same answer the player gets before they have said who they are.
   const withTraits = ensurePeopleTraits(world, [to]);
+  // Somebody keeping time for themselves turns down more of what is optional
+  // (NPC goal pursuit research, family G: "decline optional commitments").
+  // It is a lean beside everything else, not a refusal; somebody without that
+  // goal contributes nothing here.
+  considerations.push(
+    ...goalConsiderations(withTraits, to, `contact:${proposalEventId}`, [
+      {
+        optionKey: "decline",
+        goalKey: "opening-life:privacy",
+        direction: "supports",
+        explanation: "They have been keeping time for themselves.",
+      },
+    ]),
+  );
   // Registered effects first: whatever the loaded packs say bears on
   // `contact.answer`. This decision names no trait, and a pack adding one
   // reaches it without this file changing.

@@ -210,7 +210,7 @@ export function authorizeCalendarSimulation(
     return {
       authorized: false,
       reason:
-        "Standing preferences did not authorize simulated attendance. Advance and Play stay distinct.",
+        "This activity does not run on its own. Advance and Play stay distinct.",
     };
   }
   return {

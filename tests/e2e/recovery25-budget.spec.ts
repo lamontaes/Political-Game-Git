@@ -226,7 +226,9 @@ test("normal pending conversation survives Politics Budget Back and saved reopen
   });
   await enterLife(page);
   await goTo(page, "elsewhere-people");
-  await page.getByTestId("conversation-start-household-obligation").click();
+  await page
+    .getByTestId("conversation-start-neighborhood-meeting-notice")
+    .click();
   const conversation = page.getByRole("region", {
     name: /^Conversation with /,
   });
@@ -275,7 +277,9 @@ test("normal pending conversation survives Politics Budget Back and saved reopen
 
   await continueSavedLife(page);
   await goTo(page, "elsewhere-people");
-  await page.getByTestId("conversation-start-household-obligation").click();
+  await page
+    .getByTestId("conversation-start-neighborhood-meeting-notice")
+    .click();
   await expect(conversation).toBeVisible();
   await expect(conversation.getByTestId("talk-name")).toHaveText(name);
   await expect(conversation.getByTestId("conversation-topic")).toHaveText(
