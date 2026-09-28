@@ -14,8 +14,9 @@
  *   child at home and after many years together;
  * - a dating couple may move in together, and a couple living together may
  *   marry, more readily when both of them work;
- * - a woman aged 15 to 49 may have a child. On average she has her age's
- *   real yearly birth rate; being married or living with a partner, the
+ * - a woman aged 16 to 49 may have a child (the game's youngest age at a
+ *   birth is 16, `MINIMUM_PARENT_AGE_AT_BIRTH`). On average she has her
+ *   age band's real yearly birth rate; being married or living with a partner, the
  *   children she already has, a first year together and whether anybody at
  *   home works move her chance around it, and the town's total is rescaled
  *   to the age rates. The outcome web's links into the birth rate move it
@@ -53,7 +54,10 @@ import {
 import { householdMembershipsAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { personName } from "../people";
-import { recordFamilyAddition } from "../people-family";
+import {
+  MINIMUM_PARENT_AGE_AT_BIRTH,
+  recordFamilyAddition,
+} from "../people-family";
 import { SeededRng } from "../rng";
 import type {
   EntityId,
@@ -635,7 +639,7 @@ export function reviewTownFamilies(
     }
   }
 
-  // Children. Each woman aged 15 to 49 has her age's real yearly birth rate
+  // Children. Each woman aged 16 to 49 has her age's real yearly birth rate
   // on average; her own conditions move her chance up or down around it, and
   // the chances are rescaled so the town's total still matches the rates.
   const stageOf = new Map<
@@ -663,6 +667,11 @@ export function reviewTownFamilies(
     const tally = bandWeight.get(band) ?? { sum: 0, count: 0 };
     tally.count += 1;
     bandWeight.set(band, tally);
+    // The 15-19 rate counts her, but nobody under the game's youngest age
+    // at a birth becomes a mother; the rescaling below gives her share of
+    // the band's births to the older women in it, so the town still matches
+    // the rate.
+    if (entry.age < MINIMUM_PARENT_AGE_AT_BIRTH) continue;
     // The player and the player's partner decide their own children.
     const couple = stageOf.get(id);
     if (isPlayer(id) || (couple && isPlayer(couple.partner))) continue;

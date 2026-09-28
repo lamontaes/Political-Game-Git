@@ -14,7 +14,10 @@ import {
   activePartnershipsAt,
   householdMembershipsAt,
 } from "../../src/simulation/life-queries";
-import { parentsOf } from "../../src/simulation/people-family";
+import {
+  MINIMUM_PARENT_AGE_AT_BIRTH,
+  parentsOf,
+} from "../../src/simulation/people-family";
 import {
   TOWN_FAMILIES_VERSION,
   TOWN_FAMILY_EVENTS,
@@ -25,6 +28,7 @@ import { withWorldIntegrityDeferred } from "../../src/simulation/world";
 import type { EntityId, World } from "../../src/simulation";
 
 const LEXINGTON = "2146027";
+const BOISE = "1608830";
 const QUARTERS = 20;
 
 function openAt(placeKey: string, seed: string) {
@@ -118,7 +122,7 @@ describe(
           world.people[mother]!.birthDate,
           birth.occurredAt,
         );
-        expect(age).toBeGreaterThanOrEqual(15);
+        expect(age).toBeGreaterThanOrEqual(MINIMUM_PARENT_AGE_AT_BIRTH);
         expect(age).toBeLessThanOrEqual(49);
         const home = (id: EntityId) =>
           householdMembershipsAt(world, id)[0]?.household.id;
@@ -171,6 +175,62 @@ describe(
       expect(
         reviewTownFamilies(world, town, personId, `test-${QUARTERS - 1}`),
       ).toBe(world);
+    });
+  },
+);
+
+describe(
+  "a girl of 15 in the 15-19 birth band never becomes a mother",
+  { timeout: 300_000 },
+  () => {
+    it("the review passes her over instead of stopping the world", () => {
+      // Before every review, every woman in town is made 15, so before the
+      // fix one of them was all but sure to draw a birth, and the family
+      // writer refused it ("would be under 16 at the birth"), which stopped
+      // watched worlds in Seattle and Philadelphia.
+      const opened = openAt(BOISE, "families-under-sixteen");
+      const { personId, town } = opened;
+      const women = opened.world.personOrder.filter((id) => {
+        const person = opened.world.people[id]!;
+        return (
+          id !== personId &&
+          person.homeJurisdictionId === town &&
+          person.identity?.gender === "female"
+        );
+      });
+      expect(women.length).toBeGreaterThan(20);
+      let world = opened.world;
+      withWorldIntegrityDeferred(() => {
+        for (let round = 0; round < QUARTERS; round += 1) {
+          const date = addDays(world.currentDate, 91);
+          const fifteen = addDays(date, -(15 * 365 + 100));
+          const people = { ...world.people };
+          for (const id of women)
+            people[id] = { ...people[id]!, birthDate: fifteen };
+          world = {
+            ...world,
+            people,
+            currentDate: date,
+            currentMoment: simulationMomentOnLocalDate(
+              world.currentMoment,
+              date,
+            ),
+          };
+          world = reviewTownFamilies(world, town, personId, `minor-${round}`);
+        }
+      });
+      const births = familyEvents(world, town).filter(
+        (event) => event.type === "life.family-member-added",
+      );
+      for (const birth of births)
+        for (const row of birth.participants)
+          if (row.role === "agency:parent")
+            expect(
+              ageOnDate(
+                world.people[row.personId!]!.birthDate,
+                birth.occurredAt,
+              ),
+            ).toBeGreaterThanOrEqual(MINIMUM_PARENT_AGE_AT_BIRTH);
     });
   },
 );
