@@ -4,6 +4,7 @@ import { createLegislativeScenario } from "../simulation";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import { advanceWorld } from "../simulation/world";
 import type { EntityId, World } from "../simulation";
+import type { ProgramParameterValue } from "../simulation/legislation-content-contracts";
 import {
   dutyReaches,
   ENACTED_DUTY_COMPLIANCE,
@@ -79,7 +80,12 @@ function staff(world: World, personId: EntityId, organizationId: EntityId) {
 }
 
 /** Two utilities in the state, one with someone working there, then the law. */
-function enact(variantKey: string, familyKey: string) {
+function enact(
+  variantKey: string,
+  familyKey: string,
+  authorityKey?: string,
+  parameterValues?: Readonly<Record<string, ProgramParameterValue>>,
+) {
   const scenario = createLegislativeScenario("nebraska");
   const jurisdictionId =
     scenario.world.history.legislativeMeasures![0]!.jurisdictionId;
@@ -97,6 +103,8 @@ function enact(variantKey: string, familyKey: string) {
     jurisdictionId,
     familyKey,
     variantKey,
+    ...(authorityKey ? { authorityKey } : {}),
+    ...(parameterValues ? { parameterValues } : {}),
   });
   const measureId = filed.bill.measureId;
   const context = { ...scenario, measureId };
@@ -236,6 +244,113 @@ describe("a law that places a duty on a class of body", () => {
     expect(lawEffectSentences(world, measureId).join(" ")).toContain(
       "None has come under it yet.",
     );
+  });
+});
+
+describe("a law that says who it applies to", () => {
+  const eligibility = (world: World, measureId: EntityId) =>
+    enactedLawEffects(world, measureId)!.lines.filter(
+      (row) => row.kind === "eligibility",
+    );
+
+  it("counts the bodies on record it names", () => {
+    const { world, measureId } = enact(
+      "continuity-planning-duty",
+      "critical-infrastructure",
+    );
+    const [line, ...rest] = eligibility(world, measureId);
+    expect(rest).toHaveLength(0);
+    expect(line).toMatchObject({
+      coverage: "classes",
+      subject: "bodies",
+      qualifying: 2,
+      unknown: 0,
+    });
+    // Every section of this Act now does something the world reads.
+    expect(
+      enactedLawEffects(world, measureId)!.lines.filter(
+        (row) => row.kind === "not-modeled",
+      ),
+    ).toEqual([]);
+    expect(lawEffectSentences(world, measureId).join(" ")).toContain(
+      "2 are on record here.",
+    );
+  });
+
+  it("leaves the count unknown where the test turns on a size no record holds", () => {
+    const { world, measureId } = enact(
+      "restoration-standard",
+      "utility-resilience",
+    );
+    expect(eligibility(world, measureId)[0]).toMatchObject({
+      coverage: "unrecorded-test",
+      qualifying: null,
+      unknown: 2,
+    });
+  });
+
+  it("names households it applies to without inventing how many there are", () => {
+    const { world, measureId } = enact(
+      "raise-income-limit",
+      "assistance-eligibility",
+      "standing:household-assistance",
+    );
+    const [line] = eligibility(world, measureId);
+    expect(line).toMatchObject({
+      subject: "households",
+      coverage: "unknown",
+      qualifying: null,
+    });
+    expect(lawEffectSentences(world, measureId).join(" ")).toContain(
+      "Who meets that test is not known yet.",
+    );
+  });
+
+  it("says whom it covers in the words the law was passed with", () => {
+    const { world, measureId } = enact(
+      "raise-income-limit",
+      "assistance-eligibility",
+      "standing:household-assistance",
+      { "limit-share": { kind: "integer", value: 45 } },
+    );
+    const [line] = eligibility(world, measureId);
+    expect(line?.kind === "eligibility" && line.coveredLabel).toContain("45");
+    expect(line?.kind === "eligibility" && line.coveredLabel).not.toContain(
+      "60",
+    );
+  });
+
+  it("reaches local governments only when the law was passed to", () => {
+    const { world, measureId } = enact(
+      "classification-standard",
+      "public-workforce",
+      undefined,
+      { "covered-bodies": { kind: "enumerated", value: "state-and-local" } },
+    );
+    const [{ duty }] = enactedDutiesOf(world, measureId);
+    expect(
+      duty!.coverage.kind === "unrecorded-test" &&
+        duty!.coverage.classifications,
+    ).toContain("sector:local-government-office");
+    // Whether an agency employs people in classified posts is not on record,
+    // so none is counted as covered.
+    expect(eligibility(world, measureId)[0]).toMatchObject({
+      qualifying: null,
+    });
+  });
+
+  it("reads a purpose section as the Act's reason, not as a part nothing acts on", () => {
+    const { world, measureId } = enact(
+      "inventory-and-plan",
+      "water-service-lines",
+    );
+    const effects = enactedLawEffects(world, measureId)!;
+    expect(
+      effects.lines.some(
+        (row) => row.kind === "not-modeled" && /purpose/i.test(row.heading),
+      ),
+    ).toBe(false);
+    expect(eligibility(world, measureId)).toHaveLength(1);
   });
 });
 

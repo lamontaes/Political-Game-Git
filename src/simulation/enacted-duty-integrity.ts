@@ -53,7 +53,7 @@ export function assertEnactedDutyIntegrity(
       event.sequence > record.sequence
     )
       fail(record, "lacks its paired ordinary event.");
-    if (record.kind === "duty") {
+    if (record.kind === "duty" || record.kind === "eligibility") {
       if (!world.jurisdictions[record.jurisdictionId])
         fail(record, "names a missing jurisdiction.");
       if (
@@ -66,11 +66,11 @@ export function assertEnactedDutyIntegrity(
         )
       )
         fail(record, "does not name an earlier section of its measure.");
-      if (record.complyBy < record.operativeAt)
+      if (record.kind === "duty" && record.complyBy < record.operativeAt)
         fail(record, "falls due before the law takes effect.");
       if (!record.coverage.coveredLabel.trim())
         fail(record, "does not say whom it covers.");
-      duties.set(record.id, record);
+      if (record.kind === "duty") duties.set(record.id, record);
       continue;
     }
     const duty = duties.get(record.dutyId);

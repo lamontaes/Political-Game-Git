@@ -4,6 +4,11 @@ import {
   ENACTED_DUTY_RESEARCH_QUESTION,
   enactedDutiesOf,
 } from "./enacted-duties";
+import {
+  applyEnactedEligibility,
+  enactedEligibilityOf,
+  isPurposeSection,
+} from "./enacted-eligibility";
 import { enactedRuleChanges } from "./enacted-rule-changes";
 import {
   draftLineageComponents,
@@ -109,7 +114,7 @@ export type LawEffectLine =
       readonly heading: string;
       readonly coveredLabel: string;
       readonly coverage:
-        "classes" | "size-threshold" | "conditional" | "unknown";
+        "classes" | "unrecorded-test" | "conditional" | "unknown";
       readonly operativeAt: IsoDate;
       readonly complyBy: IsoDate;
       readonly enforcerLabel: string | null;
@@ -118,6 +123,21 @@ export type LawEffectLine =
       readonly complianceUnknown: number;
       readonly coverageUnknown: number;
       /** Who is covered, or whether they complied, awaits this research. */
+      readonly researchQuestionId: string;
+    }
+  | {
+      /** Who the law says qualifies for, or is subject to, what it does. */
+      readonly kind: "eligibility";
+      readonly heading: string;
+      readonly coveredLabel: string;
+      readonly subject:
+        "bodies" | "households" | "people" | "places" | "structures";
+      readonly coverage:
+        "classes" | "unrecorded-test" | "conditional" | "unknown";
+      /** Bodies on record that meet it; null when the world cannot say. */
+      readonly qualifying: number | null;
+      /** Bodies on record in the class whose size or place is not known. */
+      readonly unknown: number;
       readonly researchQuestionId: string;
     }
   | {
@@ -189,6 +209,8 @@ export function applyEnactedLawEffects(
     next = appropriationFromEnactedMeasure(next, measureId);
   // A section that places a duty on a class of body.
   next = applyEnactedDuties(next, measureId);
+  // A section that says who qualifies for, or is subject to, the Act.
+  next = applyEnactedEligibility(next, measureId);
   return next;
 }
 
@@ -337,6 +359,21 @@ export function enactedLawEffects(
     });
   }
 
+  // Who the law applies to.
+  for (const reading of enactedEligibilityOf(world, measureId)) {
+    consumed.add(reading.record.provisionId);
+    lines.push({
+      kind: "eligibility",
+      heading: reading.record.heading,
+      coveredLabel: reading.record.coverage.coveredLabel,
+      subject: reading.record.subject,
+      coverage: reading.record.coverage.kind,
+      qualifying: reading.qualifying,
+      unknown: reading.unknown,
+      researchQuestionId: ENACTED_DUTY_RESEARCH_QUESTION,
+    });
+  }
+
   // Everything else the law says, that no system reads yet.
   const clauseIndex = clauseDimensions(world, measureId);
   for (const provision of provisions) {
@@ -346,9 +383,12 @@ export function enactedLawEffects(
     // An appropriation amount the game did not adopt (a city, Congress) is
     // reported below like any other unread clause.
     // Naming the program acted upon identifies the law; it changes nothing.
+    // A purpose section says why the Act exists and names no one.
     if (
       known?.dimension === "timing" ||
-      known?.dimension === "authority-reference"
+      known?.dimension === "authority-reference" ||
+      (known?.dimension === "eligibility-scope" &&
+        isPurposeSection(provision.provisionKey))
     )
       continue;
     lines.push({

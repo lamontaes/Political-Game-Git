@@ -94,6 +94,8 @@ function sentenceFor(line: LawEffectLine): string {
     }
     case "duty":
       return dutySentence(line);
+    case "eligibility":
+      return eligibilitySentence(line);
     case "not-modeled":
       // PLACEHOLDER: the effect of this part is waiting on research. The
       // sentence says only that nothing acts on it, never what it would do.
@@ -122,4 +124,27 @@ function dutySentence(line: Extract<LawEffectLine, { kind: "duty" }>): string {
       : null,
   ].filter((part): part is string => part !== null);
   return `${line.heading}: this applies to ${line.coveredLabel}, in effect since ${from}. Of those on record, ${found.join("; ")}.`;
+}
+
+function eligibilitySentence(
+  line: Extract<LawEffectLine, { kind: "eligibility" }>,
+): string {
+  const who = `${line.heading}: it applies to ${line.coveredLabel}.`;
+  const unsure =
+    line.unknown === 1
+      ? "1 more is on record, but whether it applies to it is not known"
+      : `${line.unknown} more are on record, but whether it applies to them is not known`;
+  if (line.qualifying === null)
+    return line.unknown === 0
+      ? `${who} Who meets that test is not known yet.`
+      : `${who} ${unsure.replace(" more", "")}.`;
+  const count =
+    line.qualifying === 0
+      ? "None are on record here yet"
+      : line.qualifying === 1
+        ? "1 is on record here"
+        : `${line.qualifying} are on record here`;
+  return line.unknown === 0
+    ? `${who} ${count}.`
+    : `${who} ${count}; ${unsure}.`;
 }

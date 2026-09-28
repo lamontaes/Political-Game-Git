@@ -4,7 +4,15 @@ import {
   enactedDutyRecords,
 } from "./enacted-duty-integrity";
 import { scheduleFutureDueItem } from "./future-transitions";
-import { draftLineageComponents } from "./legislation-draft-lineage";
+import {
+  draftLineageComponents,
+  draftParameterValues,
+} from "./legislation-draft-lineage";
+import {
+  COVERAGE_RESEARCH_QUESTION,
+  isPurposeSection,
+  resolveCoverage,
+} from "./enacted-coverage";
 import { clauseLever } from "./legislation-levers";
 import { programFamilies } from "./legislation-program-families";
 import { currentMeasureProvisions } from "./legislative-politics";
@@ -28,7 +36,6 @@ import type {
   FutureTransitionHandlerResult,
   IsoDate,
   LegislativeProvisionRecord,
-  OrganizationClassification,
   OrganizationProfileRecord,
   World,
 } from "./types";
@@ -61,87 +68,18 @@ import { assertWorldIntegrity, recordWorldEvent } from "./world";
 
 export const ENACTED_DUTY_VERSION = "enacted-duty/v1";
 export const ENACTED_DUTY_COMPLIANCE = "enacted-duty:compliance";
-export const ENACTED_DUTY_RESEARCH_QUESTION = "law-clause-effects-by-family";
-
-const PUBLIC_STATE_BODIES: readonly OrganizationClassification[] = [
-  "service:state-agency",
-  "sector:state-government-office",
-];
-const UTILITIES: readonly OrganizationClassification[] = ["enterprise:utility"];
-
-/**
- * Coverage for each duty the bank can enact, keyed by family and variant.
- * A variant missing here is recorded as coverage unknown, never as no one.
- */
-const COVERAGE: Readonly<Record<string, EnactedDutyCoverage>> = {
-  "public-workforce/classification-standard": {
-    kind: "classes",
-    classifications: PUBLIC_STATE_BODIES,
-    coveredLabel:
-      "agencies of the state that employ people in classified posts",
-  },
-  "critical-infrastructure/continuity-planning-duty": {
-    kind: "classes",
-    classifications: UTILITIES,
-    coveredLabel: "operators of community water systems and electric utilities",
-  },
-  "utility-resilience/restoration-standard": {
-    kind: "size-threshold",
-    classifications: UTILITIES,
-    coveredLabel: "utilities serving 25,000 or more customers in the state",
-    thresholdLabel: "25,000 or more customers",
-    researchQuestionId: ENACTED_DUTY_RESEARCH_QUESTION,
-  },
-  "water-service-lines/inventory-and-plan": {
-    kind: "size-threshold",
-    classifications: UTILITIES,
-    coveredLabel: "community water systems serving 3,300 or more connections",
-    thresholdLabel: "3,300 or more connections",
-    researchQuestionId: ENACTED_DUTY_RESEARCH_QUESTION,
-  },
-  "disaster-recovery/post-designation-waiver": {
-    kind: "conditional",
-    coveredLabel: "local governments that rely on the waiver",
-    conditionLabel: "applies the waiver to a contract or permit",
-    researchQuestionId: ENACTED_DUTY_RESEARCH_QUESTION,
-  },
-  "health-service-capacity/service-change-referral-plan": {
-    kind: "conditional",
-    coveredLabel: "public bodies planning to withdraw a health service",
-    conditionLabel: "plans to withdraw a health service it operates",
-    researchQuestionId: ENACTED_DUTY_RESEARCH_QUESTION,
-  },
-  "environmental-monitoring/monitoring-gap-response": {
-    kind: "conditional",
-    coveredLabel: "public bodies with a recorded gap in required monitoring",
-    conditionLabel: "records a gap in required environmental monitoring",
-    researchQuestionId: ENACTED_DUTY_RESEARCH_QUESTION,
-  },
-  "social-service-access/application-access-duty": {
-    kind: "conditional",
-    coveredLabel: "public bodies receiving applications for public assistance",
-    conditionLabel: "receives an application for public assistance",
-    researchQuestionId: ENACTED_DUTY_RESEARCH_QUESTION,
-  },
-  "veteran-transition-referrals/transition-referral-duty": {
-    kind: "conditional",
-    coveredLabel:
-      "public bodies offering civilian transition help to former service members",
-    conditionLabel:
-      "offers civilian transition assistance to a former service member",
-    researchQuestionId: ENACTED_DUTY_RESEARCH_QUESTION,
-  },
-};
+export const ENACTED_DUTY_RESEARCH_QUESTION = COVERAGE_RESEARCH_QUESTION;
 
 interface ClauseOrigin {
   readonly familyKey: string;
   readonly variantKey: string;
+  readonly values: ReturnType<typeof draftParameterValues>;
   readonly componentKey: string | undefined;
   readonly lever: ReturnType<typeof clauseLever>;
 }
 
 /** The family, variant and lever behind each provision key the law was compiled from. */
-function clauseOrigins(
+export function clauseOrigins(
   world: World,
   measureId: EntityId,
 ): Map<string, ClauseOrigin> {
@@ -160,12 +98,22 @@ function clauseOrigins(
       index.set(key, {
         familyKey: lineage.familyKey,
         variantKey: lineage.variantKey,
+        values: draftParameterValues(lineage),
         componentKey: lineage.componentKey,
         lever: clauseLever(clause.dimension, variant.instrument),
       });
     }
   }
   return index;
+}
+
+/** Whom a section says it reaches, as rendered in the enacted text. */
+export function beneficiaryLabel(
+  provision: LegislativeProvisionRecord,
+): string {
+  return provision.beneficiary.kind === "general-application"
+    ? provision.beneficiary.appliesToLabel
+    : provision.beneficiary.beneficiaryLabel;
 }
 
 /** Whether a section of this measure is a rule the duty writer turns into a record. */
@@ -192,7 +140,7 @@ const MONTHS = [
   "December",
 ];
 
-function spokenDate(date: IsoDate): string {
+export function spokenDate(date: IsoDate): string {
   const [year, month, day] = date.split("-").map(Number) as [
     number,
     number,
@@ -264,7 +212,14 @@ function statedEnforcer(
   return null;
 }
 
-function writeDutyRecord(
+type NewEnactedDutyRecord = EnactedDutyRecord extends infer R
+  ? R extends EnactedDutyRecord
+    ? Omit<R, "id" | "stableKey" | "sequence" | "recordedAt" | "eventId">
+    : never
+  : never;
+
+/** Appends one record with its paired public event. */
+export function writeDutyRecord(
   world: World,
   stableKey: string,
   input: {
@@ -272,15 +227,7 @@ function writeDutyRecord(
     readonly involved: readonly EntityId[];
     readonly summary: string;
   },
-  record:
-    | Omit<
-        EnactedDutyRuleRecord,
-        "id" | "stableKey" | "sequence" | "recordedAt" | "eventId"
-      >
-    | Omit<
-        EnactedDutyFindingRecord,
-        "id" | "stableKey" | "sequence" | "recordedAt" | "eventId"
-      >,
+  record: NewEnactedDutyRecord,
 ): { readonly world: World; readonly record: EnactedDutyRecord } {
   const withEvent = recordWorldEvent(world, {
     stableKey: `event:${stableKey}`,
@@ -292,7 +239,7 @@ function writeDutyRecord(
     participants: [],
     personFactConstraints: [],
     visibility: "public",
-    tags: ["law", "law:duty"],
+    tags: ["law", `law:${record.kind}`],
     summary: input.summary,
     context: {
       location: null,
@@ -355,14 +302,18 @@ export function applyEnactedDuties(world: World, measureId: EntityId): World {
     const stated = statedComplianceDate(provision, siblings);
     const complyBy =
       stated !== null && stated > operativeAt ? stated : operativeAt;
-    const coverage = COVERAGE[`${origin.familyKey}/${origin.variantKey}`] ?? {
-      kind: "unknown" as const,
-      coveredLabel:
-        provision.beneficiary.kind === "general-application"
-          ? provision.beneficiary.appliesToLabel
-          : provision.beneficiary.beneficiaryLabel,
-      researchQuestionId: ENACTED_DUTY_RESEARCH_QUESTION,
-    };
+    // Whom it binds, in the Act's own words: the section that says who is
+    // subject to it, else the duty's own section.
+    const scope = siblings.find(
+      (row) =>
+        origins.get(row.provisionKey)?.lever === "who-qualifies" &&
+        !isPurposeSection(row.provisionKey),
+    );
+    const { coverage } = resolveCoverage(
+      `${origin.familyKey}/${origin.variantKey}`,
+      origin.values,
+      beneficiaryLabel(scope ?? provision),
+    );
     const written = writeDutyRecord(
       next,
       stableKey,
@@ -449,31 +400,33 @@ function hasWorkers(world: World, organizationId: EntityId): boolean {
 }
 
 /**
- * The bodies a duty's classes name that are within its reach, or whose place
- * is not on record, as the world records them now.
+ * The bodies a coverage's classes name that are within the law's reach, or
+ * whose place is not on record, as the world records them now.
  */
-export function bodiesWithinDuty(
+export function bodiesCovered(
   world: World,
-  duty: EnactedDutyRuleRecord,
+  lawJurisdictionId: EntityId,
+  coverage: EnactedDutyCoverage,
 ): readonly OrganizationProfileRecord[] {
-  if (
-    duty.coverage.kind !== "classes" &&
-    duty.coverage.kind !== "size-threshold"
-  )
+  if (coverage.kind !== "classes" && coverage.kind !== "unrecorded-test")
     return [];
-  const classes = new Set<string>(duty.coverage.classifications);
+  const classes = new Set<string>(coverage.classifications);
   return organizationsAt(world).flatMap((organization) => {
     const profile = organizationProfileAt(world, organization.id);
     return profile &&
       classes.has(profile.classification) &&
-      dutyReaches(
-        world,
-        duty.jurisdictionId,
-        profile.locationJurisdictionId,
-      ) !== false
+      dutyReaches(world, lawJurisdictionId, profile.locationJurisdictionId) !==
+        false
       ? [profile]
       : [];
   });
+}
+
+export function bodiesWithinDuty(
+  world: World,
+  duty: EnactedDutyRuleRecord,
+): readonly OrganizationProfileRecord[] {
+  return bodiesCovered(world, duty.jurisdictionId, duty.coverage);
 }
 
 /**
@@ -503,15 +456,15 @@ export function settleEnactedDuty(world: World, dutyId: EntityId): World {
     // game rule. A body with no one on record is unknown, not in breach: the
     // world fills only some of the jobs a body has.
     const outcome: EnactedDutyFindingRecord["outcome"] =
-      !placed || duty.coverage.kind === "size-threshold"
+      !placed || duty.coverage.kind === "unrecorded-test"
         ? "coverage-unknown"
         : hasWorkers(next, body.organizationId)
           ? "complied"
           : "compliance-unknown";
     const reason = !placed
       ? `Where ${body.name} operates is not on record, so whether the law reaches it is not known.`
-      : duty.coverage.kind === "size-threshold"
-        ? `The law reaches only bodies with ${duty.coverage.thresholdLabel}, and ${body.name}'s size is not on record.`
+      : duty.coverage.kind === "unrecorded-test"
+        ? `Whether the law reaches ${body.name} turns on ${duty.coverage.testLabel}, which is not on record.`
         : outcome === "complied"
           ? `${body.name} met the duty by ${spokenDate(duty.complyBy)}.`
           : `No one is on record as working at ${body.name}, so whether it met the duty is not known.`;

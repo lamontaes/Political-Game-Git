@@ -3820,10 +3820,11 @@ export interface PublicProgramCapacityOutturnRecord extends PublicProgramRecordB
 }
 
 /**
- * Who an enacted duty reaches. Coverage is read from the Act's own words: a
- * class of body the world records, a class the world records only without the
- * size the Act turns on, or a body that must first do something the world
- * does not record yet. None of these is a guess at who is covered.
+ * Who an enacted duty or who-qualifies section reaches. Coverage is read from
+ * the Act's own words: a class of body the world records, a class the world
+ * records without the fact the Act's test turns on, or a body that must first
+ * do something the world does not record yet. None of these is a guess at who
+ * is covered. coveredLabel is always the enacted section's rendered text.
  */
 export type EnactedDutyCoverage =
   | {
@@ -3832,11 +3833,12 @@ export type EnactedDutyCoverage =
       readonly coveredLabel: string;
     }
   | {
-      readonly kind: "size-threshold";
+      /** A class the world records, and a test in the Act no record holds. */
+      readonly kind: "unrecorded-test";
       readonly classifications: readonly OrganizationClassification[];
       readonly coveredLabel: string;
-      /** The size the Act names, which no world record carries yet. */
-      readonly thresholdLabel: string;
+      /** What the test turns on, e.g. "its number of customers". */
+      readonly testLabel: string;
       readonly researchQuestionId: string;
     }
   | {
@@ -3894,8 +3896,29 @@ export interface EnactedDutyFindingRecord extends EnactedDutyRecordBase {
   readonly reason: string;
 }
 
+/** Who the law says qualifies for, or is subject to, what it does. */
+export type EnactedEligibilitySubject =
+  "bodies" | "households" | "people" | "places" | "structures";
+
+/**
+ * A who-qualifies section of an enacted law: the class it names and the test
+ * it sets. Who meets it is read from the world when asked, never stored as a
+ * count that would go stale.
+ */
+export interface EnactedEligibilityRecord extends EnactedDutyRecordBase {
+  readonly kind: "eligibility";
+  readonly measureId: EntityId;
+  readonly provisionId: EntityId;
+  readonly provisionKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly heading: string;
+  readonly subject: EnactedEligibilitySubject;
+  readonly coverage: EnactedDutyCoverage;
+  readonly operativeAt: IsoDate;
+}
+
 export type EnactedDutyRecord =
-  EnactedDutyRuleRecord | EnactedDutyFindingRecord;
+  EnactedDutyRuleRecord | EnactedDutyFindingRecord | EnactedEligibilityRecord;
 
 export type PublicProgramRecord =
   | PublicProgramCapacityRecord
@@ -4210,7 +4233,7 @@ export interface HistoryStore {
   readonly partyRecords?: readonly PartyRecord[];
   /** Optional so pre-GOVERNING-6 snapshots remain structurally readable. */
   readonly publicProgramRecords?: readonly PublicProgramRecord[];
-  /** Duties an enacted law places on bodies, and what each covered body did. */
+  /** Duties and who-qualifies rules an enacted law sets, and what each covered body did. */
   readonly enactedDutyRecords?: readonly EnactedDutyRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];

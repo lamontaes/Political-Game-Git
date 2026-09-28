@@ -351,7 +351,7 @@
     },
     {
       "file": "src/simulation/enacted-duties.ts",
-      "line": 501,
+      "line": 454,
       "text": "// PLACEHOLDER (research: law-clause-effects-by-family): a body with someone",
       "path": "law",
       "researchQuestionId": "law-clause-effects-by-family",
@@ -359,7 +359,7 @@
     },
     {
       "file": "src/simulation/enacted-law-effects.ts",
-      "line": 126,
+      "line": 146,
       "text": "* world simply does not know what this part does. PLACEHOLDER until the",
       "path": "law",
       "researchQuestionId": null,
@@ -2087,7 +2087,7 @@
     },
     {
       "file": "src/presentation/law-effects-prose.ts",
-      "line": 98,
+      "line": 100,
       "text": "// PLACEHOLDER: the effect of this part is waiting on research. The",
       "path": "law",
       "researchQuestionId": null,
