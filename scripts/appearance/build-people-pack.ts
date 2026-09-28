@@ -19,6 +19,7 @@ import {
 } from "node:fs";
 import { join } from "node:path";
 import { PNG } from "pngjs";
+import { format, resolveConfig } from "prettier";
 import {
   measureBodyAnchors,
   type BodyAnchors,
@@ -759,8 +760,14 @@ const manifest: PeoplePackManifest = {
   canvas: { width: 512, height: 768 + HEADROOM / 2 },
   presentations: presentations as PeoplePackManifest["presentations"],
 };
+// Written as the repository's formatter writes JSON, so `prettier --check`
+// passes on a freshly built pack.
+const manifestFile = join(outDir, "manifest.json");
 writeFileSync(
-  join(outDir, "manifest.json"),
-  `${JSON.stringify(manifest, null, 2)}\n`,
+  manifestFile,
+  await format(JSON.stringify(manifest, null, 2), {
+    ...(await resolveConfig(manifestFile)),
+    filepath: manifestFile,
+  }),
 );
 console.log(`wrote ${outDir}`);
