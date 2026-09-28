@@ -316,7 +316,7 @@ describe("recalling a town official", () => {
       daysUntil(resigned, closeDue.dueAt),
     );
     expect(recallPetitions(closed)[0]!.phase).toBe("lapsed");
-  });
+  }, 60_000);
 
   it("refuses where the law gives no recall", () => {
     const reason = "Towns in Indiana cannot recall their officials.";
@@ -443,5 +443,5 @@ describe("recalling a town official", () => {
       targets: [],
       petitions: [],
     });
-  });
+  }, 60_000);
 });

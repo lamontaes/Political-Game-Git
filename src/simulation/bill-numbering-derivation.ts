@@ -29,10 +29,12 @@ export type BillNumberingBasis =
   | "mirrored-from-other-chamber"
   /** Read from the recorded prefix (an "A" bill is an Assembly bill). */
   | "inferred-from-recorded-prefix"
-  /** Named in the Decision Register entry OCD-LEG-NUM-001 itself. */
+  /** Named in the Decision Register (OCD-LEG-NUM-001 or -002) itself. */
   | "decision-register"
   /** Read from the session labels the recorded samples carry. */
   | "session-label"
+  /** A recorded starting number, with its source, checked against the samples. */
+  | "recorded-start"
   /** Nothing recorded; the game's own labeled default. */
   | "game-default";
 
@@ -45,6 +47,33 @@ export interface ChamberNumberingStyle {
   readonly templateBasis: BillNumberingBasis;
   readonly name: string;
   readonly nameBasis: BillNumberingBasis;
+  /**
+   * The number a regular session's first bill carries. Decision
+   * OCD-LEG-NUM-002: where a state's recorded numbers begin above 1
+   * (Washington's Senate at 5001), each session starts there; every other
+   * chamber starts at 1.
+   */
+  readonly firstNumber: number;
+  /**
+   * For a state whose even-year session opens a block of its own (Rhode
+   * Island's House at 7001), that session's first number; otherwise null and
+   * every session starts at `firstNumber`.
+   */
+  readonly evenYearFirstNumber: number | null;
+  readonly firstNumberBasis: BillNumberingBasis;
+}
+
+/**
+ * One chamber's recorded starting number, as
+ * data/research/bill-numbering-starts.json holds it with its source.
+ */
+export interface BillNumberingStartRow {
+  readonly state: string;
+  readonly chamber: "lower" | "upper";
+  readonly firstNumber: number;
+  readonly evenYearFirstNumber?: number | null;
+  readonly sourceUrl: string;
+  readonly quote: string;
 }
 
 export interface StateBillNumberingStyle {
@@ -244,11 +273,78 @@ function periodOf(samples: readonly BillSampleRow[]): {
   return { period: "annual", opensIn: "odd", basis: "session-label" };
 }
 
+/** A regular-session sample's number and the year its session names. */
+function sampleNumbers(
+  samples: readonly BillSampleRow[],
+  role: "lower" | "upper",
+): { readonly number: number; readonly year: number | null }[] {
+  const out: { number: number; year: number | null }[] = [];
+  for (const row of samples) {
+    if (SPECIAL_SESSION.test(row.session)) continue;
+    const year = /\b((?:19|20)\d{2})\b/.exec(row.session)?.[1];
+    for (const part of row.bill_number.split("/")) {
+      const text = part.trim();
+      const parsed = parseBillNumber(text);
+      if (!parsed || (parsed.role !== role && parsed.role !== "both")) continue;
+      const digits =
+        /^[A-Z]{1,2}\d{2}-(\d+)$/.exec(text)?.[1] ??
+        /^[A-Z]{1,3}\.? ?(\d+)/.exec(text)?.[1];
+      if (digits === undefined) continue;
+      out.push({ number: Number(digits), year: year ? Number(year) : null });
+    }
+  }
+  return out;
+}
+
+/**
+ * A chamber's recorded starting number, or 1. The start must agree with the
+ * recorded samples: a sample numbered below it would mean the start is wrong,
+ * so the table refuses to build.
+ */
+function chamberStart(
+  jurisdictionKey: string,
+  samples: readonly BillSampleRow[],
+  starts: readonly BillNumberingStartRow[],
+  role: "lower" | "upper",
+): Pick<
+  ChamberNumberingStyle,
+  "firstNumber" | "evenYearFirstNumber" | "firstNumberBasis"
+> {
+  const usps = jurisdictionKey.replace(/^US-/, "");
+  const row = starts.find(
+    (candidate) => candidate.state === usps && candidate.chamber === role,
+  );
+  // OCD-LEG-NUM-002: a chamber with no recorded higher start begins at 1.
+  if (!row)
+    return {
+      firstNumber: 1,
+      evenYearFirstNumber: null,
+      firstNumberBasis: "decision-register",
+    };
+  const even = row.evenYearFirstNumber ?? null;
+  for (const sample of sampleNumbers(samples, role)) {
+    const floor =
+      even !== null && sample.year !== null && sample.year % 2 === 0
+        ? even
+        : row.firstNumber;
+    if (sample.number < floor)
+      throw new Error(
+        `${jurisdictionKey} ${role}: a recorded sample is numbered ${sample.number}, below the recorded start ${floor}.`,
+      );
+  }
+  return {
+    firstNumber: row.firstNumber,
+    evenYearFirstNumber: even,
+    firstNumberBasis: "recorded-start",
+  };
+}
+
 /** One state's numbering style, read from its samples and chamber names. */
 export function deriveStateBillNumberingStyle(
   jurisdictionKey: string,
   samples: readonly BillSampleRow[],
   chamberNames: readonly ChamberNameRow[],
+  starts: readonly BillNumberingStartRow[] = [],
 ): StateBillNumberingStyle {
   const lowerRecorded = chamberTemplate(samples, "lower");
   const upperRecorded = chamberTemplate(samples, "upper");
@@ -301,12 +397,14 @@ export function deriveStateBillNumberingStyle(
       templateBasis: lowerTemplate.basis,
       name: lowerName.name,
       nameBasis: lowerName.basis,
+      ...chamberStart(jurisdictionKey, samples, starts, "lower"),
     },
     upper: {
       template: upperTemplate.template,
       templateBasis: upperTemplate.basis,
       name: upperName.name,
       nameBasis: upperName.basis,
+      ...chamberStart(jurisdictionKey, samples, starts, "upper"),
     },
     period: period.period,
     biennialOpensIn: period.opensIn,

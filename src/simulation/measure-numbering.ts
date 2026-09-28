@@ -19,8 +19,9 @@ import type {
  *
  * Decision OCD-LEG-NUM-001: bills are numbered the way they are in real life.
  *
- *   - Numbers restart every session. A chamber's numbering returns to 1 when a
- *     new regular session opens, every year or every two years as that state's
+ *   - Numbers restart every session. A chamber's numbering returns to its
+ *     first number (1, or where the state's recorded numbers begin, decision
+ *     OCD-LEG-NUM-002) when a new regular session opens, every year or every two years as that state's
  *     recorded session labels show; Congress restarts with each two-year
  *     Congress. Only the session the world opens in starts partway up, because
  *     bills were already filed before the player arrived. Where that opening
@@ -85,7 +86,11 @@ interface NumberingScheme {
   readonly kind: NumberingKind;
   readonly template: string;
   readonly sessionOf: (year: number) => SessionIdentity;
+  /** The number a session's first bill carries (OCD-LEG-NUM-002). */
+  readonly firstNumberOf: (session: SessionIdentity) => number;
 }
+
+const FROM_ONE = (): number => 1;
 
 interface SessionIdentity {
   readonly key: string;
@@ -144,12 +149,14 @@ function schemeFor(
       kind: "plain",
       template: plainTemplate,
       sessionOf: (year) => annualSession(year, `${year} Regular Session`),
+      firstNumberOf: FROM_ONE,
     };
   }
   if (pack.packId === US_CONGRESS_PACK_ID) {
     return {
       kind: "congress",
       template: plainTemplate,
+      firstNumberOf: FROM_ONE,
       sessionOf: (year) => {
         const congress = congressNumberForYear(year);
         return {
@@ -166,6 +173,7 @@ function schemeFor(
       return {
         kind: "dc-council",
         template: DC_COUNCIL_TEMPLATE,
+        firstNumberOf: FROM_ONE,
         sessionOf: (year) => {
           const period = dcCouncilPeriodForYear(year);
           return {
@@ -183,15 +191,22 @@ function schemeFor(
       kind: "council",
       template: plainTemplate,
       sessionOf: (year) => annualSession(year, `${year}`),
+      firstNumberOf: FROM_ONE,
     };
   }
   const style = stateBillNumberingStyle(pack.jurisdictionKey);
-  const template = stateChamberStyle(style, chamber.chamberKey).template;
+  const chamberStyle = stateChamberStyle(style, chamber.chamberKey);
+  const template = chamberStyle.template;
+  const firstNumberOf = (session: SessionIdentity): number =>
+    chamberStyle.evenYearFirstNumber !== null && session.openingYear % 2 === 0
+      ? chamberStyle.evenYearFirstNumber
+      : chamberStyle.firstNumber;
   if (style.period === "biennial") {
     const opensOdd = style.biennialOpensIn === "odd";
     return {
       kind: "state",
       template,
+      firstNumberOf,
       sessionOf: (year) => {
         const opening = (year % 2 === 1) === opensOdd ? year : year - 1;
         return {
@@ -207,6 +222,7 @@ function schemeFor(
     kind: "state",
     template,
     sessionOf: (year) => annualSession(year, `${year} Regular Session`),
+    firstNumberOf,
   };
 }
 
@@ -231,6 +247,12 @@ function fullDesignationOf(
   // The District's number already carries its council period.
   if (kind === "dc-council") return designation;
   return `${designation} (${label})`;
+}
+
+/** The bill's own number: 1090 from "HB25-1090", 5001 from "SB 5001". */
+function numberOf(designation: string): number | null {
+  const digits = /(\d+)[A-Z]?$/.exec(designation.trim())?.[1];
+  return digits === undefined ? null : Number(digits);
 }
 
 function yearOf(date: IsoDate): number {
@@ -278,25 +300,37 @@ export function nextMeasureNumbering(
 
   // Only the session the world opened in starts partway up. The draw keeps
   // the fork it always had, so an old save's opening count is unchanged.
-  const firstNumber =
-    session.key !== openingSession.key
-      ? 1
-      : scheme.kind === "council"
-        ? councilOpeningNumber(world.startedAt)
-        : new SeededRng(world.seed)
-            .fork(
-              `measure-numbering:${input.jurisdictionId}:${originChamberKey}`,
-            )
-            .integer(OPENING_NUMBER_MINIMUM, OPENING_NUMBER_MAXIMUM_EXCLUSIVE);
-
   const inThisSession = (world.history.legislativeMeasures ?? []).filter(
     (record) =>
       record.jurisdictionId === input.jurisdictionId &&
       sessionKeyOf(record, scheme) === session.key,
   );
-  const alreadyInThisChamber = inThisSession.filter(
+  const inThisChamber = inThisSession.filter(
     (record) => record.originChamberKey === originChamberKey,
-  ).length;
+  );
+  const alreadyInThisChamber = inThisChamber.length;
+
+  // A chamber whose numbers begin above 1 opens its band that far up. A save
+  // whose opening session was already numbered from 1 keeps counting there,
+  // so its bills never jump mid-session.
+  const recordedStart = scheme.firstNumberOf(session);
+  const sessionStart = inThisChamber.some(
+    (record) => (numberOf(record.designation) ?? recordedStart) < recordedStart,
+  )
+    ? 1
+    : recordedStart;
+  const firstNumber =
+    session.key !== openingSession.key
+      ? sessionStart
+      : scheme.kind === "council"
+        ? councilOpeningNumber(world.startedAt)
+        : sessionStart -
+          1 +
+          new SeededRng(world.seed)
+            .fork(
+              `measure-numbering:${input.jurisdictionId}:${originChamberKey}`,
+            )
+            .integer(OPENING_NUMBER_MINIMUM, OPENING_NUMBER_MAXIMUM_EXCLUSIVE);
 
   // Two bills in one session never share a number. The count is the ordinary
   // increment; the loop is what keeps that true when a world already holds a
