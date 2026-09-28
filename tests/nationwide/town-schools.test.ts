@@ -6,6 +6,7 @@ import {
 } from "../../src/presentation/opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
 import {
+  PUPILS_PER_TEACHER,
   SCHOOL_DISTRICT_COUNT_TRANSITION_KEY,
   countSchoolDistrictYear,
   nextSchoolCountDay,
@@ -77,6 +78,28 @@ describe("a town's school district counts its own pupils and teachers", () => {
       expect(first!.countedAt).toBe(world.currentDate);
       expect(first!.enrollment).toBeGreaterThan(0);
       expect(first!.teachers).toBeGreaterThan(0);
+      // The town hires teachers to its pupils, one per school at the least.
+      // A teacher from the opening's written earlier lives comes on top.
+      const teachingJobs = new Set(
+        world.history.workRoles
+          .filter(
+            (role) => role.occupationClassification === "profession:teacher",
+          )
+          .map((role) => role.workRelationshipId),
+      );
+      const townHired = world.history.workRelationships.filter(
+        (job) =>
+          teachingJobs.has(job.id) &&
+          first!.schoolIds.includes(job.organizationId!) &&
+          !job.stableKey.startsWith("production:"),
+      ).length;
+      expect(townHired).toBeGreaterThan(0);
+      expect(townHired).toBeLessThanOrEqual(
+        Math.max(
+          first!.schoolIds.length,
+          Math.ceil(first!.enrollment / PUPILS_PER_TEACHER),
+        ),
+      );
       expect(first!.studentsPerTeacher).toBeCloseTo(
         first!.enrollment / first!.teachers,
         1,
@@ -100,7 +123,7 @@ describe("a town's school district counts its own pupils and teachers", () => {
     const due = world.history.futureDueItems.find(
       (item) => item.transitionKey === SCHOOL_DISTRICT_COUNT_TRANSITION_KEY,
     )!;
-    // One pupil's enrollment ends before the fall count.
+    // One pupil leaves town before the fall count.
     const first = schoolDistrictYears(world, districtId)[0]!;
     const schools = new Set(first.schoolIds);
     const latestOf = (id: string) =>
@@ -120,8 +143,16 @@ describe("a town's school district counts its own pupils and teachers", () => {
     let result!: ReturnType<typeof schoolDistrictCountHandler>;
     // Only the calendar moves; the world's other due items are not run here.
     withWorldIntegrityDeferred(() => {
+      const elsewhere = Object.keys(world.jurisdictions).find(
+        (id) => id !== town,
+      )!;
+      const pupil = world.people[leaving.personId]!;
       const dated: World = {
         ...world,
+        people: {
+          ...world.people,
+          [pupil.id]: { ...pupil, homeJurisdictionId: elsewhere },
+        },
         currentDate: due.dueAt,
         currentMoment: simulationMomentOnLocalDate(
           world.currentMoment,
@@ -147,8 +178,41 @@ describe("a town's school district counts its own pupils and teachers", () => {
       schoolYearOf(due.dueAt),
     ]);
     const second = years[1]!;
-    expect(second.enrollment).toBe(first.enrollment - 1);
-    expect(second.causes).toContainEqual({ kind: "enrollment", change: -1 });
+    // The leaver is gone; children who came of age started, and pupils who
+    // outgrew school finished, so the change names enrollment either way.
+    const change = second.enrollment - first.enrollment;
+    if (change !== 0)
+      expect(second.causes).toContainEqual({ kind: "enrollment", change });
+
+    // After the fall start every school-age child in town is at a school,
+    // and no pupil past 17 is still at a town public school.
+    const after = result.world;
+    const latestAfter = new Map<string, string>();
+    for (const row of after.history.educationEnrollmentStates)
+      if (row.effectiveAt <= due.dueAt)
+        latestAfter.set(row.enrollmentId, row.status);
+    const atSchool = new Set(
+      after.history.educationEnrollments
+        .filter((row) => latestAfter.get(row.id) === "active")
+        .map((row) => row.personId),
+    );
+    const player =
+      after.control.kind === "person" ? after.control.personId : null;
+    const dead = new Set(after.history.personDeaths.map((row) => row.personId));
+    for (const person of Object.values(after.people)) {
+      if (person.homeJurisdictionId !== town || person.id === player) continue;
+      if (dead.has(person.id)) continue;
+      const age = ageOnDate(person.birthDate, due.dueAt);
+      if (age >= 5 && age <= 17) expect(atSchool.has(person.id)).toBe(true);
+    }
+    for (const row of after.history.educationEnrollments) {
+      if (!schools.has(row.organizationId)) continue;
+      if (latestAfter.get(row.id) !== "active") continue;
+      expect(
+        ageOnDate(after.people[row.personId]!.birthDate, due.dueAt),
+      ).toBeLessThanOrEqual(17);
+    }
+    expect(atSchool.has(leaving.personId)).toBe(false);
     expect(
       result.world.history.futureDueItems.some(
         (item) =>

@@ -157,10 +157,14 @@ const CONGREGATION_NAMES: readonly ((town: string) => string)[] = [
   (town) => `${town} Friends Meeting`,
 ];
 
-/** PLACEHOLDER: residents each kind of town employer is staffed with. */
+/**
+ * PLACEHOLDER: residents each kind of town employer is staffed with. A public
+ * school starts with one teacher; the rest are hired to its pupils
+ * (`town-schools.ts`, PUPILS_PER_TEACHER).
+ */
 const STAFF_PER_EMPLOYER: Readonly<Record<string, number>> = {
   "enterprise:retail": 4,
-  "service:school": 3,
+  "service:school": 1,
 };
 
 /** PLACEHOLDER: the player's nearest neighbors, written out at the start. */
@@ -819,15 +823,16 @@ function seatTownResidents(world: World, playerPersonId: EntityId): World {
   );
 }
 
-const SCHOOL_AGES: Readonly<Record<string, readonly [number, number]>> = {
-  "schooling:elementary": [5, 10],
-  "schooling:middle": [11, 13],
-  "schooling:secondary": [14, 17],
-  "schooling:general": [5, 17],
-};
+export const SCHOOL_AGES: Readonly<Record<string, readonly [number, number]>> =
+  {
+    "schooling:elementary": [5, 10],
+    "schooling:middle": [11, 13],
+    "schooling:secondary": [14, 17],
+    "schooling:general": [5, 17],
+  };
 
 /** The program a town school teaches, read from who already attended it. */
-function schoolProgram(world: World, schoolId: EntityId): string | null {
+export function schoolProgram(world: World, schoolId: EntityId): string | null {
   const kinds = new Set(
     world.history.educationEnrollments
       .filter((enrollment) => enrollment.organizationId === schoolId)
