@@ -128,5 +128,4 @@ export function campaignLifeCatalogEntry(
 }
 
 /** Disclosed with every in-person form's journey; no fare model exists. */
-export const CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE =
-  "There is no fare.";
+export const CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE = "There is no fare.";
