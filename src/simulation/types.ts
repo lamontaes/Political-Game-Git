@@ -57,6 +57,7 @@ export interface SimulationMoment {
 }
 
 export type EntityKind =
+  | "school-district-year"
   | "judicial-philosophy"
   | "judicial-professional-qualification"
   | "judicial-retention-contest"
@@ -1398,6 +1399,34 @@ export interface WorkRoleRecord {
   readonly timeDemand: TimeDemandProfile;
   readonly provenance: LifeRecordProvenance;
   readonly supersedesRoleId: EntityId | null;
+}
+
+/** Why a school district's count differs from its year before. */
+export type SchoolDistrictYearCause =
+  | { readonly kind: "enrollment"; readonly change: number }
+  | { readonly kind: "staffing"; readonly change: number };
+
+/**
+ * One school year of a town school district, counted from the world's own
+ * enrollments and jobs on the count day. Money is not recorded yet.
+ */
+export interface SchoolDistrictYearRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly districtOrganizationId: EntityId;
+  readonly jurisdictionId: EntityId;
+  /** "2026-27": the fall and spring the year spans. */
+  readonly schoolYear: string;
+  readonly countedAt: IsoDate;
+  readonly schoolIds: readonly EntityId[];
+  readonly enrollment: number;
+  readonly teachers: number;
+  /** Null when the district has no teacher on the count day. */
+  readonly studentsPerTeacher: number | null;
+  /** Empty for the district's first count. */
+  readonly causes: readonly SchoolDistrictYearCause[];
+  readonly provenance: LifeRecordProvenance;
 }
 
 export interface Household {
@@ -3813,6 +3842,8 @@ export interface HistoryStore {
   /** Rule changes filed on ordinary bills; see `enacted-rule-changes.ts`. */
   readonly ruleChangeProvisions?: readonly RuleChangeProvisionRecord[];
   /** Optional, preserving pre-tax snapshots without fabricating money/history. */
+  /** A town school district's yearly counts (Lane M). Absent in older saves. */
+  readonly schoolDistrictYears?: readonly SchoolDistrictYearRecord[];
   readonly taxProposals?: readonly TaxProposalRecord[];
   readonly taxPolicies?: readonly TaxPolicyRecord[];
   readonly taxBases?: readonly TaxBaseRecord[];

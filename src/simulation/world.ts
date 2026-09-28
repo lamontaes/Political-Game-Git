@@ -2089,6 +2089,7 @@ function validateHistoryIntegrity(
         ...crisisRecords(world),
         ...publicProgramRecords(world),
         ...(history.districtResidenceIntervals ?? []),
+        ...(history.schoolDistrictYears ?? []),
         ...(history.officeWorkflowPreferences ?? []),
         ...(history.officeStaffPositions ?? []),
         ...(history.officeStaffIncumbencies ?? []),
@@ -2159,6 +2160,10 @@ function validateHistoryIntegrity(
   assertSequenceOrdered(
     history.districtResidenceIntervals ?? [],
     "district residence interval",
+  );
+  assertSequenceOrdered(
+    history.schoolDistrictYears ?? [],
+    "school district year",
   );
   assertSequenceOrdered(
     history.electionContestResults ?? [],
@@ -2370,6 +2375,10 @@ function validateHistoryIntegrity(
   assertUniqueStableKeys(
     history.districtResidenceIntervals ?? [],
     "district residence interval",
+  );
+  assertUniqueStableKeys(
+    history.schoolDistrictYears ?? [],
+    "school district year",
   );
   assertUniqueStableKeys(
     history.electionContestResults ?? [],
