@@ -20,6 +20,10 @@ import { establishOpeningOfficeholders } from "./opening-officeholders";
 import { passOrdinaryDays } from "./ordinary-life";
 import { declineVenueActivity } from "./scheduled-activity-choice";
 import { attendChapterMeeting } from "./party-chapter-actions";
+import {
+  blockingCalendarActivityId,
+  playCalendarActivity,
+} from "./calendar-time-control";
 
 function adultLife(seed: string) {
   return generateOpeningLife(
@@ -211,6 +215,46 @@ describe("ALIVE43 W2 home party chapters and organizer encounters", () => {
     expect(met.change).toBe("formed");
     expect(after.playerParticipation).toBeNull();
     expect(publicPartyAffiliation(attended, player)).toBeNull();
+  }, 60_000);
+
+  it("a day stopped by the meeting names it, and the calendar's attend counts as attending", () => {
+    const offered = passUntilOffered(life.world, player)!;
+    const accepted = acceptChapterInvitation(
+      offered.world,
+      player,
+      offered.offer.activityId,
+    );
+    const meetingId = projectPartyEncounters(accepted, player)
+      .find((e) => e.chapterOrganizationId === offered.chapterId)!
+      .activities.find((a) => a.state === "accepted")!.activityId;
+    // Pass days as the corner control does until one stops short.
+    let waited = accepted;
+    for (let day = 0; day < 10; day += 1) {
+      const next = passOrdinaryDays(waited, 1);
+      if (next === waited) break;
+      waited = next;
+    }
+    // The stop is the journey; the calendar entry it points to is the
+    // meeting, which is where going and staying home are offered.
+    expect(blockingCalendarActivityId(waited, player)).toBe(meetingId);
+    expect(blockingCalendarActivityId(accepted, player)).toBeNull();
+
+    const played = playCalendarActivity(waited, player, meetingId).world;
+    expect(scheduledActivityState(played, meetingId).status).toBe("completed");
+    const after = projectPartyEncounters(played, player).find(
+      (e) => e.chapterOrganizationId === offered.chapterId,
+    )!;
+    expect(
+      after.activities.find((a) => a.activityId === meetingId)?.state,
+    ).toBe("attended");
+    expect(played.history.relationshipInteractions.at(-1)!.personIds).toEqual([
+      player,
+      after.organizerPersonId,
+    ]);
+    // And the days pass again.
+    expect(passOrdinaryDays(played, 1).currentDate).not.toBe(
+      played.currentDate,
+    );
   }, 60_000);
 
   it("joining is explicit and exclusive, and leaving keeps the record", () => {

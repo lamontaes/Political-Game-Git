@@ -5,6 +5,7 @@ import {
   scheduledActivityState,
   simulationMinutesBetween,
   advanceWorldMinutes,
+  controlledCommitmentsBlockingMinuteAdvance,
   type EntityId,
   type SimulationMoment,
   type World,
@@ -34,6 +35,8 @@ import {
   venueActivities,
 } from "./venue-activity";
 import { callOffCampaignLifeAppointment } from "./scheduled-activity-choice";
+import { attendChapterMeeting } from "./party-chapter-actions";
+import { calendarEntryFor } from "./player-calendar";
 
 /**
  * Calendar day/week/advance-to-event, using the existing advance/interrupt
@@ -106,6 +109,55 @@ export function advanceCalendarToActivity(
   };
 }
 
+/*
+ * A chapter's open meeting is a venue activity too, but attending it also
+ * records that the player was there and met the organizer, which is what the
+ * chapter's follow-up and its later scenes read. Played from the Calendar it
+ * used to take only the venue route, so the meeting passed and was never
+ * counted as attended.
+ */
+function playVenueOrChapterMeeting(
+  world: World,
+  personId: EntityId,
+  activityId: EntityId,
+): World {
+  const attended = attendChapterMeeting(world, personId, activityId);
+  return attended !== world
+    ? attended
+    : performVenueActivity(world, personId, activityId);
+}
+
+/**
+ * The calendar entry the player must settle before time can move on: the
+ * controlled commitment that stops the clock now, or, when that is a journey
+ * the calendar does not list, the event the journey leads to. Read-only.
+ */
+export function blockingCalendarActivityId(
+  world: World,
+  personId: EntityId,
+): EntityId | null {
+  if (world.control.kind !== "person" || world.control.personId !== personId)
+    return null;
+  for (const id of controlledCommitmentsBlockingMinuteAdvance(world, 1)) {
+    if (calendarEntryFor(world, personId, id)) return id;
+    const activity = world.history.scheduledActivities.find(
+      (record) => record.id === id,
+    );
+    // Only an event still ahead of the player, so the calendar opens on
+    // something that can still be played or declined.
+    const destination = activity?.sourceEntityIds.find(
+      (source) =>
+        world.history.scheduledActivities.some(
+          (record) => record.id === source,
+        ) &&
+        scheduledActivityState(world, source).status === "scheduled" &&
+        calendarEntryFor(world, personId, source),
+    );
+    if (destination) return destination;
+  }
+  return null;
+}
+
 export function playCalendarActivity(
   world: World,
   personId: EntityId,
@@ -135,7 +187,7 @@ export function playCalendarActivity(
       ? arriveAtOrdinaryMeeting(world, personId, activityId)
       : openingGuidance
         ? arriveAtCandidateGuidance(world, personId, activityId)
-        : performVenueActivity(world, personId, activityId);
+        : playVenueOrChapterMeeting(world, personId, activityId);
   } catch (error) {
     // A writer that refuses (a buy the committee can no longer pay for, a
     // session that is not the week's next) says why, and nothing is written:

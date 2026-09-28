@@ -289,10 +289,12 @@ import {
 } from "../simulation";
 import { declineVenueActivity } from "../presentation/scheduled-activity-choice";
 import { attendChapterMeeting } from "../presentation/party-chapter-actions";
+import { blockingCalendarActivityId } from "../presentation/calendar-time-control";
 import { FullDossier, QuickDossier } from "./ShellDossier";
 import type { PersonCardAnchor } from "./PersonCard";
 import {
   CalendarWorkspaceSurface,
+  type CalendarFocus,
   CommitmentSurface,
   MeasureSurface,
   OptionsWorkspace,
@@ -1296,6 +1298,25 @@ function PlayingScreen({
    */
   const [passOutcome, setPassOutcome] = useState<string | null>(null);
   /*
+   * A day that stopped on a commitment says which one; the calendar opens on
+   * it, where going and staying home are, so the stop is never a dead end
+   * (the owner's playtest stalled on a meeting day with nothing to press).
+   */
+  const [calendarFocus, setCalendarFocus] = useState<CalendarFocus | null>(
+    null,
+  );
+  const clockNow = `${session.world.currentMoment.date}:${session.world.currentMoment.minuteOfDay}`;
+  useEffect(() => setCalendarFocus(null), [clockNow]);
+  const passBlocker = useMemo(() => {
+    if (!passOutcome) return null;
+    // A lookup that cannot read this World hides the button, not the screen.
+    try {
+      return blockingCalendarActivityId(session.world, session.personId);
+    } catch {
+      return null;
+    }
+  }, [passOutcome, session.world, session.personId]);
+  /*
    * Where the clicked scene person stands, kept with that person. A card
    * reached any other way, or for somebody else, has no anchor and uses the
    * consistent side placement.
@@ -2258,6 +2279,7 @@ function PlayingScreen({
         onLeave={() => beginReturnToTitle(false)}
       />
     ),
+    calendarFocus,
   });
 
   return (
@@ -2657,6 +2679,26 @@ function PlayingScreen({
                   data-testid="pass-outcome"
                 >
                   {passOutcome}
+                  {passBlocker ? (
+                    <button
+                      type="button"
+                      className="ui-action"
+                      data-testid="pass-outcome-open-blocker"
+                      onClick={() => {
+                        setCalendarFocus((current) => ({
+                          activityId: passBlocker,
+                          request: (current?.request ?? 0) + 1,
+                        }));
+                        setPassOutcome(null);
+                        dispatch({
+                          type: "go-to-surface",
+                          surface: "calendar",
+                        });
+                      }}
+                    >
+                      Open in calendar
+                    </button>
+                  ) : null}
                   <button
                     type="button"
                     className="life-hud-dismiss"
@@ -2873,6 +2915,7 @@ function renderWorkspace({
   guideTermKey,
   onOpenGuideTerm,
   returnToTitle,
+  calendarFocus,
 }: {
   readonly view: ReturnType<typeof activeView>;
   readonly session: Session;
@@ -2911,6 +2954,8 @@ function renderWorkspace({
   readonly onOpenGuideTerm: (semanticKey: string) => void;
   /** The in-game Options way back to the title screen. */
   readonly returnToTitle: ReactNode;
+  /** The entry the calendar opens on, such as the one a stopped day awaits. */
+  readonly calendarFocus: CalendarFocus | null;
 }): ReactNode {
   if (view.surface === "scene") return null;
 
@@ -3344,6 +3389,7 @@ function renderWorkspace({
           onInterruptionChange={(key, value) =>
             dispatch({ type: "set-interruption", key, value })
           }
+          focus={calendarFocus}
           today={
             <TodayView
               session={session}

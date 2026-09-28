@@ -738,6 +738,12 @@ function CalendarEntryRow({
 
 export type CalendarTab = "today" | "history" | "interruptions";
 
+/** A request to open the calendar on one entry. */
+export interface CalendarFocus {
+  readonly activityId: EntityId;
+  readonly request: number;
+}
+
 export function CalendarWorkspaceSurface({
   world,
   personId,
@@ -749,6 +755,7 @@ export function CalendarWorkspaceSurface({
   interruptions = DEFAULT_INTERRUPTIONS,
   onInterruptionChange,
   today,
+  focus = null,
 }: {
   readonly world: World;
   readonly personId: EntityId;
@@ -765,6 +772,9 @@ export function CalendarWorkspaceSurface({
   ) => void;
   /** What is happening now, drawn above the upcoming entries. */
   readonly today?: ReactNode;
+  /** An entry to open with its actions showing, such as the one a stopped day
+   * is waiting on. Each new request selects it again. */
+  readonly focus?: CalendarFocus | null;
 }) {
   const calendar = useMemo(
     () => projectPlayerCalendar(world, personId),
@@ -772,9 +782,17 @@ export function CalendarWorkspaceSurface({
   );
   const [dateOrder] = useCalendarDateOrder();
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [selectedId, setSelectedId] = useState<EntityId | null>(null);
+  const [selectedId, setSelectedId] = useState<EntityId | null>(
+    focus?.activityId ?? null,
+  );
   const [outcome, setOutcome] = useState<string | null>(null);
   const [tab, setTab] = useState<CalendarTab>("today");
+  useEffect(() => {
+    if (!focus) return;
+    setSelectedDate(null);
+    setSelectedId(focus.activityId);
+    setTab("today");
+  }, [focus]);
   const runner = useTimeCommand({
     world,
     personId,

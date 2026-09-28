@@ -16,7 +16,7 @@
  *   Publication 15-T), a week one of 52, two weeks one of 26, half a month one
  *   of 24, a month one of 12, anything else 365 over its length in days.
  */
-import stateIncomeTax2026 from "../../data/research/money/state-income-tax-2026.json";
+import stateIncomeTax2026 from "../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 import { daysBetween } from "./dates";
 import { activePartnershipsAt, householdMembershipsAt } from "./life-queries";
 import { childrenOf } from "./people-family";
