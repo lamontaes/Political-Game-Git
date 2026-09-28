@@ -1,5 +1,5 @@
 {
- "about": "THE OUTCOME WEB, version 1 (04 SYSTEM SPECS part 5; research in docs/research/outcome-web-2026-09-28.md). Each link: how a cause measure moves an outcome measure. evidence says how well the link is established (researched, provisional, contested, about-zero, to-confirm). size is the proportional change in the outcome per unit of the cause (see per); null means the size is set when both measures exist in the world. about-zero links are zero on purpose and tested. Sources are for developers only and never appear on a player screen.",
+ "about": "THE OUTCOME WEB, version 1 (04 SYSTEM SPECS part 5; research in docs/research/outcome-web-2026-09-28.md). Each link: how a cause measure moves an outcome measure. evidence says how well the link is established (researched, provisional, contested, about-zero, to-confirm). size is the proportional change in the outcome per unit of the cause (see per); null means the size is set when both measures exist in the world. about-zero links are zero on purpose and tested. Sources are for developers only and never appear on a player screen. A cause named law:<qualified question key> is what the law in force says on a policy question (governing/law-in-force.ts): 1 when it says yes, 0 when it says no, and unrecorded where no law has answered it.",
  "version": "outcome-web-v1",
  "targets": {
   "crime.burglary": {
@@ -544,7 +544,7 @@
    "anchor": "-1.67 points of men's coverage per point",
    "source": "Cawley, Moriya and Simon 2015",
    "moderator": {
-    "measure": "law.medicaid-adult-eligibility",
+    "measure": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
     "effectAtFull": -0.5
    },
    "from": "labor.unemployment-pct",
@@ -642,14 +642,14 @@
    "shape": {
     "kind": "linear"
    },
-   "size": null,
+   "size": -0.25,
    "per": "rule in force",
    "lagMonths": 3,
    "group": "expansion adults",
    "owner": "F",
-   "anchor": "Arkansas: over 18,000 lost coverage, nearly 1 in 4 subject",
+   "anchor": "Arkansas: over 18,000 lost coverage, nearly 1 in 4 of those subject. The question covers income and food assistance as well as Medicaid.",
    "source": "Sommers et al. 2019 (NEJM)",
-   "from": "law.medicaid-work-requirement",
+   "from": "law:us-policy-positions:health-human-services.work-requirement-for-assistance",
    "evidence": "researched"
   },
   {
@@ -666,7 +666,7 @@
    "owner": "F",
    "anchor": "No change; 97% already met the rule",
    "source": "Sommers et al. 2019 (NEJM)",
-   "from": "law.medicaid-work-requirement",
+   "from": "law:us-policy-positions:health-human-services.work-requirement-for-assistance",
    "evidence": "about-zero"
   },
   {
@@ -1210,14 +1210,14 @@
    "shape": {
     "kind": "linear"
    },
-   "size": null,
+   "size": -0.15,
    "per": "rule in force",
    "lagMonths": 12,
    "group": "covered buildings",
    "owner": "M",
    "anchor": "-15% rental supply among controlled landlords",
    "source": "Diamond, McQuade and Qian 2019 (AER)",
-   "from": "law.rent-control",
+   "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
    "evidence": "researched"
   },
   {
@@ -1227,14 +1227,14 @@
    "shape": {
     "kind": "linear"
    },
-   "size": null,
+   "size": -0.2,
    "per": "rule in force",
    "lagMonths": 0,
    "group": "covered tenants",
    "owner": "M",
    "anchor": "Renter mobility -20%",
    "source": "Diamond, McQuade and Qian 2019 (AER)",
-   "from": "law.rent-control",
+   "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
    "evidence": "researched"
   },
   {
@@ -1587,14 +1587,14 @@
    "shape": {
     "kind": "linear"
    },
-   "size": null,
+   "size": 0.023,
    "per": "ban enforced: about +2.3%",
    "lagMonths": 7,
    "group": "place",
    "owner": "C",
-   "anchor": "About +2.3% births",
+   "anchor": "About +2.3% births in states enforcing near-total bans. The question's own cutoff can be later in pregnancy, which would move births less; the size is for a near-total ban until the cutoff is read.",
    "source": "Dench, Pineda-Torres and Myers 2024 (JPubE)",
-   "from": "law.abortion-ban",
+   "from": "law:us-policy-positions:civil-family-community.restrict-abortion",
    "evidence": "researched"
   },
   {
@@ -1604,14 +1604,14 @@
    "shape": {
     "kind": "linear"
    },
-   "size": null,
+   "size": 0.06,
    "per": "ban enforced: about +6%",
    "lagMonths": 7,
    "group": "infants",
    "owner": "C",
    "anchor": "About +6% infant mortality 2021-2023",
    "source": "Gemmill et al. 2025 (JAMA)",
-   "from": "law.abortion-ban",
+   "from": "law:us-policy-positions:civil-family-community.restrict-abortion",
    "evidence": "researched"
   },
   {
@@ -1638,14 +1638,14 @@
    "shape": {
     "kind": "linear"
    },
-   "size": null,
+   "size": 0.15,
    "per": "program in force: about +10 points",
    "lagMonths": 12,
    "group": "mothers of young children",
    "owner": "C",
-   "anchor": "D.C.: +10 points; Quebec: about +7%",
+   "anchor": "D.C. universal pre-K: +10 points in mothers' participation (about +15% on its base); Quebec child care about +7%",
    "source": "Malik 2018; Baker, Gruber and Milligan 2008",
-   "from": "law.universal-child-care",
+   "from": "law:us-policy-positions:education.universal-preschool",
    "evidence": "researched"
   },
   {
@@ -1662,7 +1662,7 @@
    "owner": "C",
    "anchor": "-0.1 points, not significant, for every group",
    "source": "Cantoni and Pons 2021 (QJE)",
-   "from": "law.strict-voter-id",
+   "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
    "evidence": "about-zero"
   },
   {
@@ -1872,6 +1872,363 @@
    "source": "to confirm",
    "from": "economy.real-income-growth",
    "evidence": "to-confirm"
+  },
+  {
+   "key": "medicaid-expansion-to-coverage",
+   "strength": "strong",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force",
+   "lagMonths": 0,
+   "group": "low-income adults",
+   "owner": "F",
+   "anchor": "Expansion states' low-income adult uninsured rates fell sharply (to confirm the size)",
+   "source": "to confirm",
+   "evidence": "to-confirm",
+   "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+   "to": "health.coverage-pct"
+  },
+  {
+   "key": "medicaid-expansion-to-mortality",
+   "strength": "moderate",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": -0.094,
+   "per": "law in force",
+   "lagMonths": 12,
+   "group": "low-income adults 55 to 64",
+   "owner": "F",
+   "anchor": "-9.4% annual mortality, -11.9% by year 3",
+   "source": "Miller, Johnson and Wherry 2021 (QJE)",
+   "evidence": "researched",
+   "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+   "to": "health.mortality-55-64"
+  },
+  {
+   "key": "medicaid-expansion-to-medical-debt",
+   "strength": "strong",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force",
+   "lagMonths": 6,
+   "group": "low-income adults",
+   "owner": "F",
+   "anchor": "ACA expansion: -$3.4 billion in collections in its first 2 years; better credit and loan terms",
+   "source": "Brevoort, Grodzicki and Hackmann 2020 (JPubE)",
+   "evidence": "researched",
+   "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+   "to": "finance.medical-debt-in-collections"
+  },
+  {
+   "key": "snap-work-requirement-to-participation",
+   "strength": "strong",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force",
+   "lagMonths": 3,
+   "group": "able adults without dependents",
+   "owner": "F",
+   "anchor": "SNAP time limits cut participation about half with no employment gain (to confirm)",
+   "source": "Gray, Leive, Prager, Pukelis and Zaki 2023 (to confirm)",
+   "evidence": "to-confirm",
+   "from": "law:us-policy-positions:health-human-services.work-requirement-for-assistance",
+   "to": "program.snap-receipt"
+  },
+  {
+   "key": "universal-prek-to-graduation",
+   "strength": "moderate",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force, high-quality program",
+   "lagMonths": 0,
+   "group": "4-year-olds, later",
+   "owner": "M",
+   "anchor": "Boston: +6 points graduation, +8 college; quality matters (Tennessee worse)",
+   "source": "Gray-Lobe, Pathak and Walters 2023; Vanderbilt TN-VPK",
+   "evidence": "researched",
+   "from": "law:us-policy-positions:education.universal-preschool",
+   "to": "school.graduation"
+  },
+  {
+   "key": "equalized-funding-to-spending",
+   "strength": "strong",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force",
+   "lagMonths": 12,
+   "group": "low-income districts",
+   "owner": "M",
+   "anchor": "School finance reforms raised spending and achievement in low-income districts (to confirm)",
+   "source": "Lafortune, Rothstein and Schanzenbach 2018 (to confirm)",
+   "evidence": "to-confirm",
+   "from": "law:us-policy-positions:education.equalize-school-funding",
+   "to": "school.spending-per-student"
+  },
+  {
+   "key": "end-cash-bail-to-pretrial-detention",
+   "strength": "strong",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force",
+   "lagMonths": 0,
+   "group": "defendants",
+   "owner": "O",
+   "anchor": "Fewer people held before trial (to confirm the size)",
+   "source": "to confirm",
+   "evidence": "to-confirm",
+   "from": "law:us-policy-positions:justice-public-safety.end-cash-bail",
+   "to": "justice.pretrial-detained"
+  },
+  {
+   "key": "mandatory-minimums-to-incarceration",
+   "strength": "strong",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force",
+   "lagMonths": 12,
+   "group": "people convicted",
+   "owner": "O",
+   "anchor": "Longer sentences raise prison counts (to confirm the size)",
+   "source": "to confirm",
+   "evidence": "to-confirm",
+   "from": "law:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+   "to": "justice.incarcerated-per-100k"
+  },
+  {
+   "key": "concealed-carry-permit-to-firearm-homicide",
+   "strength": "moderate",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "permit required",
+   "lagMonths": 0,
+   "group": "place",
+   "owner": "O",
+   "anchor": "RAND: looser (shall-issue) carry laws raise total and firearm homicides; requiring a permit is the other way",
+   "source": "RAND Science of Gun Policy, 5th ed.",
+   "evidence": "researched",
+   "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+   "to": "crime.firearm-homicide"
+  },
+  {
+   "key": "voter-id-to-registration",
+   "strength": "about-zero",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": 0,
+   "per": "law in force",
+   "lagMonths": 0,
+   "group": "every group",
+   "owner": "C",
+   "anchor": "No effect on registration either, for any group",
+   "source": "Cantoni and Pons 2021 (QJE)",
+   "evidence": "about-zero",
+   "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
+   "to": "voting.registration"
+  },
+  {
+   "key": "automatic-registration-to-turnout",
+   "strength": "weak",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force",
+   "lagMonths": 0,
+   "group": "place",
+   "owner": "C",
+   "anchor": "Registration rises a lot, turnout a little (to confirm)",
+   "source": "to confirm",
+   "evidence": "to-confirm",
+   "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
+   "to": "voting.turnout"
+  },
+  {
+   "key": "restore-voting-to-turnout",
+   "strength": "weak",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force",
+   "lagMonths": 0,
+   "group": "people with past convictions",
+   "owner": "C",
+   "anchor": "(to confirm)",
+   "source": "to confirm",
+   "evidence": "to-confirm",
+   "from": "law:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+   "to": "voting.turnout"
+  },
+  {
+   "key": "housing-by-right-to-new-buildings",
+   "strength": "moderate",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force",
+   "lagMonths": 12,
+   "group": "place",
+   "owner": "M",
+   "anchor": "More homes permitted where zoning allows them (to confirm the size); new buildings then cut nearby rents 5 to 7%",
+   "source": "to confirm",
+   "evidence": "to-confirm",
+   "from": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+   "to": "housing.new-large-buildings"
+  },
+  {
+   "key": "right-to-counsel-to-evictions",
+   "strength": "moderate",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force",
+   "lagMonths": 6,
+   "group": "tenants",
+   "owner": "M",
+   "anchor": "Represented tenants are evicted less (to confirm)",
+   "source": "to confirm",
+   "evidence": "to-confirm",
+   "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+   "to": "housing.eviction"
+  },
+  {
+   "key": "housing-first-to-homelessness",
+   "strength": "moderate",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force",
+   "lagMonths": 6,
+   "group": "people experiencing homelessness",
+   "owner": "M",
+   "anchor": "Housing First keeps people housed (to confirm)",
+   "source": "to confirm",
+   "evidence": "to-confirm",
+   "from": "law:us-policy-positions:health-human-services.housing-first-homelessness",
+   "to": "housing.homelessness"
+  },
+  {
+   "key": "cannabis-sales-to-youth-use",
+   "strength": "about-zero",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force",
+   "lagMonths": 0,
+   "group": "teens",
+   "owner": "F",
+   "anchor": "Legal adult sales did not raise youth use (to confirm)",
+   "source": "Anderson, Hansen and Rees 2019 (to confirm)",
+   "evidence": "to-confirm",
+   "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+   "to": "health.youth-cannabis-use"
+  },
+  {
+   "key": "loan-rate-cap-to-high-cost-borrowing",
+   "strength": "strong",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force",
+   "lagMonths": 0,
+   "group": "borrowers",
+   "owner": "B",
+   "anchor": "(to confirm)",
+   "source": "to confirm",
+   "evidence": "to-confirm",
+   "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+   "to": "finance.high-cost-loans"
+  },
+  {
+   "key": "paid-leave-to-mothers-work",
+   "strength": "weak",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force",
+   "lagMonths": 12,
+   "group": "new mothers",
+   "owner": "B",
+   "anchor": "Mixed evidence (to confirm)",
+   "source": "to confirm",
+   "evidence": "to-confirm",
+   "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
+   "to": "labor.mothers-participation"
+  },
+  {
+   "key": "carbon-price-to-emissions",
+   "strength": "moderate",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force",
+   "lagMonths": 12,
+   "group": "place",
+   "owner": "O",
+   "anchor": "(to confirm)",
+   "source": "to confirm",
+   "evidence": "to-confirm",
+   "from": "law:us-policy-positions:environment-energy.price-carbon",
+   "to": "env.emissions"
+  },
+  {
+   "key": "clean-electricity-to-price",
+   "strength": "weak",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force",
+   "lagMonths": 24,
+   "group": "ratepayers",
+   "owner": "O",
+   "anchor": "(to confirm)",
+   "source": "to confirm",
+   "evidence": "to-confirm",
+   "from": "law:us-policy-positions:environment-energy.clean-electricity-standard",
+   "to": "energy.electricity-price"
+  },
+  {
+   "key": "flood-zone-limits-to-damage",
+   "strength": "moderate",
+   "shape": {
+    "kind": "linear"
+   },
+   "size": null,
+   "per": "law in force",
+   "lagMonths": 24,
+   "group": "place",
+   "owner": "O",
+   "anchor": "(to confirm)",
+   "source": "to confirm",
+   "evidence": "to-confirm",
+   "from": "law:us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+   "to": "disaster.damage"
   }
  ]
 }
