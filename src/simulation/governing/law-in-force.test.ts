@@ -225,6 +225,7 @@ describe("every place reads its starting law on every researched question", () =
                 readonly answer: string;
                 readonly operativeAt?: string;
                 readonly source?: string;
+                readonly preempts?: unknown;
               }
             >
           >;
@@ -259,7 +260,7 @@ describe("every place reads its starting law on every researched question", () =
     );
   }
 
-  it("names only real places, answers only yes or no, and sources every row", () => {
+  it("names only real places, answers only yes or no, and sources every row; preempts is true or false", () => {
     const known = new Set(["US", ...places]);
     for (const key of questionKeys) {
       const question = file.questions[key]!;
@@ -271,6 +272,8 @@ describe("every place reads its starting law on every researched question", () =
             /^\d{4}-\d{2}-\d{2}$/,
           );
         expect(row.source ?? question.source, `${key} ${place}`).toBeTruthy();
+        if (row.preempts !== undefined)
+          expect(typeof row.preempts, `${key} ${place}`).toBe("boolean");
       }
     }
   });
