@@ -21,6 +21,7 @@ import { advanceWorld, assertWorldIntegrity } from "./world";
 import type { EntityId, World } from "./types";
 
 const REGISTRY = createCampaignElectionTransitionRegistry();
+const USD = money(0, "USD").currency;
 const COLUMBUS = "3918000";
 
 /** A new life whose money is tracked, opening with `openingMinor` cents. */
@@ -39,7 +40,7 @@ function newLife(seed: string, openingMinor = 500_000) {
   const existing = resourcePositionAt(
     created.world,
     { kind: "person", personId },
-    "USD",
+    USD,
   );
   const world = existing
     ? created.world
@@ -54,7 +55,7 @@ function newLife(seed: string, openingMinor = 500_000) {
 }
 
 const cash = (world: World, personId: EntityId) =>
-  resourcePositionAt(world, { kind: "person", personId }, "USD")?.liquidBalance
+  resourcePositionAt(world, { kind: "person", personId }, USD)?.liquidBalance
     .minorUnits ?? null;
 
 /** Test inputs only: the loan's rate and terms are what a caller supplies. */
