@@ -19,7 +19,8 @@
  */
 
 import { createStableId } from "../ids";
-import { buildHouseholdLocationRecord } from "../life";
+import { buildHouseholdLocationRecord, recordWorkStatus } from "../life";
+import { TOWN_EMPLOYMENT_VERSION } from "../living-world/town-employment";
 import { activeCampaignForCandidate } from "../campaign-queries";
 import {
   activeEducationEnrollmentsAt,
@@ -29,6 +30,7 @@ import {
   householdLocationAt,
   householdMembershipsAt,
   peopleInHouseholdAt,
+  workStatusAt,
 } from "../life-queries";
 import type {
   EntityId,
@@ -85,6 +87,8 @@ export interface PlannedMove {
   /** Occupancies and tenures the move ends, each with an ended state. */
   readonly endsOccupancyIds: readonly EntityId[];
   readonly endsTenureIds: readonly EntityId[];
+  /** Town jobs the movers leave behind, each ended on the move. */
+  readonly endsWorkRelationshipIds?: readonly EntityId[];
   readonly causeId: EntityId | null;
 }
 
@@ -115,6 +119,8 @@ export interface MoveTieReader {
   /** A dwelling occupancy or a housing tenure, the person's or the household's. */
   readonly housingTie: (personId: EntityId) => string | null;
   readonly housingOf: (personId: EntityId) => HeldHousing;
+  /** Jobs in the town being left that the move itself ends. */
+  readonly jobsLeftBehind: (personId: EntityId) => readonly EntityId[];
 }
 
 export function moveTieReader(world: World): MoveTieReader {
@@ -184,7 +190,13 @@ export function moveTieReader(world: World): MoveTieReader {
   };
   return {
     bindingTie: (personId) => {
-      if (activeWorkRelationshipsAt(world, personId).length > 0)
+      // A job the town's own employers hold (`town-employment.ts`) ends when
+      // its worker leaves town; any other job still holds them.
+      if (
+        activeWorkRelationshipsAt(world, personId).some(
+          (active) => !isTownEmploymentJob(active.relationship.stableKey),
+        )
+      )
         return "has a job";
       if (activeEducationEnrollmentsAt(world, personId).length > 0)
         return "is enrolled in school";
@@ -203,7 +215,15 @@ export function moveTieReader(world: World): MoveTieReader {
       return null;
     },
     housingOf,
+    jobsLeftBehind: (personId) =>
+      activeWorkRelationshipsAt(world, personId)
+        .filter((active) => isTownEmploymentJob(active.relationship.stableKey))
+        .map((active) => active.relationship.id),
   };
+}
+
+function isTownEmploymentJob(stableKey: string): boolean {
+  return stableKey.startsWith(`${TOWN_EMPLOYMENT_VERSION}:`);
 }
 
 /**
@@ -320,6 +340,9 @@ export function planMove(
       waveKey: request.waveKey,
       causeId: request.causeId ?? null,
       ...endedHousing(personIds, request.endsHousing ? context.ties : null),
+      endsWorkRelationshipIds: personIds.flatMap((id) =>
+        context.ties.jobsLeftBehind(id),
+      ),
     },
   };
 }
@@ -459,6 +482,19 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
       reason: move.reason,
       provenance: { kind: "simulated-event", eventId: event.id },
       supersedesStateId: previous.id,
+    });
+  }
+  for (const relationshipId of move.endsWorkRelationshipIds ?? []) {
+    const status = workStatusAt(next, relationshipId);
+    if (status?.status !== "active") continue;
+    next = recordWorkStatus(next, {
+      stableKey: `${eventStableKey}:work:${relationshipId}`,
+      workRelationshipId: relationshipId,
+      effectiveAt: date,
+      status: "ended",
+      reason: "labor:moved-away",
+      provenance: { kind: "simulated-event", eventId: event.id },
+      supersedesStatusId: status.id,
     });
   }
   for (const tenureId of move.endsTenureIds) {
