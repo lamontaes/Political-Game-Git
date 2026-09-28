@@ -265,3 +265,85 @@ export const GAMEPLAY_SECTORS: readonly GameplaySectorKey[] = [
   "information-professional-technology",
   "health-education-public-services",
 ];
+
+/**
+ * THE ECONOMY'S ERAS (04 SYSTEM SPECS part 6, "the entire world changes").
+ *
+ * The anchors the monthly step pulls toward are not fixed. Trend growth
+ * wanders and now and then jumps into a new productivity era; recessions
+ * start and end with drawn depths; the normal unemployment rate drifts and is
+ * scarred by long slumps; the inflation anchor drifts and comes loose when
+ * inflation runs hot. A century run is several different economies, not one
+ * number with noise around it.
+ *
+ * PROVISIONAL sizes, calibrated to the broad U.S. record rather than fitted:
+ * decade growth from about 4.5% (1960s) to about 1.9% (2000s); NBER postwar
+ * expansions about 64 months and recessions about 10 to 11; the Great
+ * Recession about 5 points below trend for 18 months and the Depression about
+ * 11 for 43; decade inflation from 1.8% (2010s) to 7.1% (1970s). Filed for research as
+ * society-wide-waves-causes-pace-scale.
+ */
+export const MACRO_ERA_POLICY = {
+  version: "macro-eras-provisional-v1",
+  start: {
+    trendGrowthPct: CRUNCH46_PROVISIONAL_POLICY.baseline.growthAnchorPct,
+    naturalRatePct: CRUNCH46_PROVISIONAL_POLICY.baseline.unemploymentPct,
+    inflationAnchorPct: CRUNCH46_PROVISIONAL_POLICY.baseline.inflationAnchorPct,
+  },
+  trend: {
+    longRunPct: 2.5,
+    monthlyPull: 0.002,
+    monthlySdPp: 0.07,
+    eraJumpMonthlyChance: 0.00125,
+    eraJumpSdPp: 1,
+    minPct: -0.5,
+    maxPct: 6,
+  },
+  cycle: {
+    minExpansionMonths: 12,
+    recessionStartMonthlyChance: 1 / 64,
+    /** Growth below trend while it lasts (points), and its average length. */
+    depths: [
+      { weight: 0.5, gapPp: 3, meanMonths: 8 },
+      { weight: 0.35, gapPp: 5, meanMonths: 12 },
+      { weight: 0.13, gapPp: 7, meanMonths: 18 },
+      { weight: 0.02, gapPp: 11, meanMonths: 40 },
+    ],
+  },
+  natural: {
+    longRunPct: 4.8,
+    monthlyPull: 0.01,
+    monthlySdPp: 0.03,
+    /** Rise per recession month for each point of depth (hysteresis). */
+    scarringPerGapPp: 0.004,
+    minPct: 3,
+    maxPct: 9,
+  },
+  inflation: {
+    longRunPct: 2,
+    monthlyPull: 0.004,
+    monthlySdPp: 0.03,
+    /** When inflation runs this far from the anchor, the anchor follows it. */
+    deanchorGapPp: 1.5,
+    deanchorRate: 0.06,
+    minPct: -1,
+    maxPct: 14,
+    /**
+     * A price shock (an oil embargo, a war, a supply collapse): its chance a
+     * month, its size range in points, and how much of it stays each month.
+     */
+    shockMonthlyChance: 0.003,
+    shockMinPp: 3,
+    shockMaxPp: 10,
+    shockMonthlyRetention: 0.96,
+    /** Inflation given up per point of recession depth (disinflation). */
+    recessionDisinflationPerGapPp: 0.3,
+    /**
+     * PLACEHOLDER until a central bank decides: the pull back to the long-run
+     * rate grows by this much for each point the anchor sits above
+     * `crackdownAbovePct`, as a Volcker-style crackdown would.
+     */
+    crackdownAbovePct: 4,
+    crackdownPullPerPp: 1.5,
+  },
+} as const;
