@@ -14,7 +14,12 @@ import {
 import type { EntityId, World } from "../simulation";
 import { fileDraft } from "./legislation-docket";
 import type { DocketBill } from "./legislation-docket";
-import { billAnalysis, billEstimateAvailability } from "./legislation-analysis";
+import {
+  billAnalysis,
+  billEstimateAvailability,
+  draftFiscalNote,
+  filedFiscalNote,
+} from "./legislation-analysis";
 
 /**
  * Four things a bill's numbers can be, and the game keeping them apart.
@@ -34,6 +39,7 @@ function kentuckyDocket(
 ): {
   readonly world: World;
   readonly bill: DocketBill;
+  readonly draft: ReturnType<typeof fileDraft>["draft"];
   readonly jurisdictionId: EntityId;
 } {
   const scenario = createLegislativeScenario("kentucky");
@@ -47,8 +53,117 @@ function kentuckyDocket(
     variantKey,
     parameterValues,
   });
-  return { world: filed.world, bill: filed.bill, jurisdictionId };
+  return {
+    world: filed.world,
+    bill: filed.bill,
+    draft: filed.draft,
+    jurisdictionId,
+  };
 }
+
+describe("fiscal notes read every drafted part without claiming cash moved", () => {
+  it("separates a per-permit charge from total receipts and survives reload", () => {
+    const filed = kentuckyDocket("service-charges", "flat-permit-fee");
+    const before = serializeWorld(filed.world);
+    const preview = draftFiscalNote(filed.draft);
+    const fee = preview.parts.find(
+      (part) => part.provisionKey === "fee-imposed",
+    );
+    expect(fee?.lever).toBe("rate");
+    expect(fee?.payerLabel).toBe("every applicant for a permit");
+    expect(fee?.amountKind).toBe("per-unit-charge");
+    expect(fee?.statedAmountMinorUnits).toBe(7_500);
+    expect(fee?.forecastMinorUnits).toBeNull();
+    expect(fee?.missingInput).toContain("number of covered");
+    expect(preview.parts.some((part) => part.lever === "who-qualifies")).toBe(
+      true,
+    );
+    expect(preview.parts.some((part) => part.lever === "process")).toBe(true);
+    expect(
+      preview.parts.find((part) => part.provisionKey === "fee-expiry")
+        ?.missingInput,
+    ).toContain("affected activity around the start or end date");
+    expect(preview.operativeAt).toBe(filed.draft.startsOn);
+
+    const saved = filedFiscalNote(filed.world, filed.bill);
+    expect(saved.status).toBe("filed");
+    expect(saved.operativeAt).toBeNull();
+    expect(
+      saved.parts.find((part) => part.provisionKey === "fee-imposed"),
+    ).toMatchObject({
+      lever: "rate",
+      statedAmountMinorUnits: 7_500,
+      forecastMinorUnits: null,
+    });
+    expect(serializeWorld(filed.world)).toEqual(before);
+  });
+
+  it("changes the stated amount with the chosen rate while retaining an unknown base", () => {
+    const lean = kentuckyDocket("service-charges", "flat-permit-fee");
+    const raised = kentuckyDocket("service-charges", "flat-permit-fee", {
+      "fee-amount": { kind: "money", minorUnits: 20_000, currency: "USD" },
+    });
+    const charge = (draft: typeof lean.draft) =>
+      draftFiscalNote(draft).parts.find(
+        (part) => part.provisionKey === "fee-imposed",
+      )!;
+    expect(charge(lean.draft).statedAmountMinorUnits).toBe(7_500);
+    expect(charge(raised.draft).statedAmountMinorUnits).toBe(20_000);
+    expect(charge(raised.draft).forecastMinorUnits).toBeNull();
+  });
+
+  it("retains a stated amount when its fiscal role is not classified", () => {
+    const filed = kentuckyDocket("service-charges", "flat-permit-fee");
+    const unspecified = {
+      ...filed.draft,
+      clauses: filed.draft.clauses.map((clause) =>
+        clause.provisionKey === "exemption"
+          ? {
+              ...clause,
+              fiscalExposureLabel: "$25 per exemption",
+              fiscalExposureMinorUnits: 2_500,
+            }
+          : clause,
+      ),
+    };
+    expect(
+      draftFiscalNote(unspecified).parts.find(
+        (part) => part.provisionKey === "exemption",
+      ),
+    ).toMatchObject({
+      amountKind: "other-stated-amount",
+      statedAmountLabel: "$25 per exemption",
+      statedAmountMinorUnits: 2_500,
+      forecastMinorUnits: null,
+    });
+  });
+
+  it("keeps authorization, rule, structure and process apart", () => {
+    const authorization = kentuckyDocket(
+      "transit-access",
+      "enrollment-fare-relief",
+    );
+    const money = draftFiscalNote(authorization.draft).parts.find(
+      (part) => part.lever === "money",
+    );
+    expect(money?.amountKind).toBe("authorization-ceiling");
+    expect(money?.forecastMinorUnits).toBeNull();
+
+    const mandate = kentuckyDocket("water-service-lines", "inventory-and-plan");
+    const mandateLevers = draftFiscalNote(mandate.draft).parts.map(
+      (part) => part.lever,
+    );
+    expect(mandateLevers).toContain("rule");
+    expect(mandateLevers).toContain("process");
+
+    const positions = kentuckyDocket("public-workforce", "authorize-positions");
+    expect(
+      draftFiscalNote(positions.draft).parts.some(
+        (part) => part.lever === "structure",
+      ),
+    ).toBe(true);
+  });
+});
 
 describe("what the bill commits is read from the bill", () => {
   it("adds up the ceilings the sections state", () => {
