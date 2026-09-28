@@ -374,7 +374,7 @@ describe("environment, public safety and homelessness", () => {
     ).toBe(1);
   });
 
-  it("vouchers for every eligible family cut homelessness about 30% in every measured place a year on", () => {
+  it("vouchers for every eligible family cut homelessness about 30% in every measured place a year later", () => {
     const VOUCHERS = "proposition_vouchers" as EntityId;
     const federal = NATIONAL_ELECTION_JURISDICTION.id;
     const law = texasExpansion("2027-01-01");
