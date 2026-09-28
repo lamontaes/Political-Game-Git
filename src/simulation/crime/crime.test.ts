@@ -276,11 +276,15 @@ describe("ordinary local crime", () => {
         (cause) => cause.key === "unemployment-to-burglary",
       );
       if (unemployment) {
-        // Burglary moves about 3% per point from 4%, within the offense's
-        // bounds in the outcome web.
-        expect(unemployment.factor).toBeCloseTo(
-          1 + 0.03 * (unemployment.causeValue - 4),
-          10,
+        // Burglary moves 2 to 5% per point from 4% (this world's draw within
+        // the research range), within the offense's bounds.
+        const delta = unemployment.causeValue - 4;
+        const ends = [1 + 0.02 * delta, 1 + 0.05 * delta];
+        expect(unemployment.factor).toBeGreaterThanOrEqual(
+          Math.min(...ends) - 1e-12,
+        );
+        expect(unemployment.factor).toBeLessThanOrEqual(
+          Math.max(...ends) + 1e-12,
         );
         expect(reading.multiplier).toBeGreaterThanOrEqual(0.5);
         expect(reading.multiplier).toBeLessThanOrEqual(2);

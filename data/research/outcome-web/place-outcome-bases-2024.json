@@ -118,7 +118,8 @@
     "US-WI": 10.3,
     "US-WV": 16.7,
     "US-WY": 10.1
-   }
+   },
+   "note": "The official measure: cash income before taxes. Tax credits and non-cash help (SNAP, housing, Medicaid) do not count, so links from them belong on a supplemental poverty measure, not this one."
   }
  }
 }
