@@ -14,4 +14,4 @@ pay every two weeks. Each worker's pay comes from what their occupation
 really pays in the town's area, higher the longer they have held the job,
 and never below the state's minimum wage. Social Security and Medicare are
 taken out of every paycheck, just as they are from yours. In the first 200
-days in Columbus, Ohio, 83 neighbors were paid $2.36 million.
+days in Columbus, Ohio, 84 neighbors were paid $2.38 million.
