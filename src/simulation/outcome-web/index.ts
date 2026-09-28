@@ -1,4 +1,4 @@
-import web from "../../../data/research/outcome-web/links.json";
+import web from "../../../data/research/outcome-web/links.json" with { type: "json" };
 import { addDays, daysBetween } from "../dates";
 import {
   macroConditionsAt,
@@ -29,8 +29,7 @@ export const OUTCOME_WEB_VERSION = web.version;
 
 export type OutcomeEvidence =
   "researched" | "provisional" | "contested" | "about-zero" | "to-confirm";
-export type OutcomeStrength =
-  "strong" | "moderate" | "weak" | "about-zero";
+export type OutcomeStrength = "strong" | "moderate" | "weak" | "about-zero";
 
 export type OutcomeLinkShape =
   | { readonly kind: "linear" }
@@ -107,8 +106,11 @@ export const OUTCOME_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
     // otherwise (the rule crime has always used).
     read: (world, jurisdictionId, asOf) => {
       const record =
-        macroConditionsAt(world, macroScopeForJurisdiction(jurisdictionId), asOf) ??
-        macroConditionsAt(world, "national", asOf);
+        macroConditionsAt(
+          world,
+          macroScopeForJurisdiction(jurisdictionId),
+          asOf,
+        ) ?? macroConditionsAt(world, "national", asOf);
       return record ? record.unemploymentPct : null;
     },
   },
