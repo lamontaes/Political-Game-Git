@@ -28,6 +28,7 @@ import { extractGarment } from "../../src/presentation/appearance-engine/extract
 import {
   PEOPLE_PACK_VERSION,
   type BodyBuild,
+  FACE_EXPRESSIONS,
   isSeatedPose,
   type BodyPose,
   type NamedBodyPose,
@@ -37,6 +38,7 @@ import {
   type PackOutfit,
   type PeoplePackManifest,
   type PackPresentation,
+  type PackFace,
   type PackView,
 } from "../../src/presentation/appearance-engine/pack";
 import {
@@ -638,6 +640,46 @@ const HEAD_TOLERANCE = 2;
 const FIREFLY_THREE_QUARTER =
   "/Users/lamontae/political-game-play/cto-notes/firefly/three-quarter";
 
+/**
+ * Claude CTO's expressions (Sept. 28, 2026): each face painted again in each
+ * expression, as a separate head layer at full size on the same canvas,
+ * face-<sex>-<id>-<expression>.png. The three-quarter faces' expressions sit
+ * beside them in FIREFLY_THREE_QUARTER/faces. An expression not painted is
+ * left out, and the game draws the neutral face for it.
+ */
+const FIREFLY_EXPRESSIONS =
+  "/Users/lamontae/political-game-play/cto-notes/firefly/expressions";
+
+function paintedExpressions(
+  dir: string,
+  sex: string,
+  faceId: string,
+  suffix: string,
+): { readonly expressions?: PackFace["expressions"] } {
+  const expressions = Object.fromEntries(
+    FACE_EXPRESSIONS.filter((expression) => expression !== "neutral")
+      .filter((expression) =>
+        existsSync(join(dir, `face-${sex}-${faceId}-${expression}.png`)),
+      )
+      .map((expression) => {
+        const head = downscaleHalf(
+          read(join(dir, `face-${sex}-${faceId}-${expression}.png`)),
+        );
+        return [
+          expression,
+          {
+            file: write(
+              head,
+              `face-${sex}-${faceId}-${expression}${suffix}.png`,
+            ),
+            skin: skinOf(head),
+          },
+        ];
+      }),
+  );
+  return Object.keys(expressions).length > 0 ? { expressions } : {};
+}
+
 function packPoses(
   painted: Map<BodyPose, Record<BodyBuild, { readonly body: PackBody }>>,
   poses: readonly NamedBodyPose[],
@@ -937,6 +979,7 @@ for (const sex of ["feminine", "masculine"] as const) {
       id: face.id,
       file: write(head, `face-${sex}-${face.id}.png`),
       skin: skinOf(head),
+      ...paintedExpressions(FIREFLY_EXPRESSIONS, sex, face.id, ""),
     };
   });
   const hair = SOURCES[sex].hair.map((style) => ({
@@ -986,6 +1029,12 @@ for (const sex of ["feminine", "masculine"] as const) {
           id: face.id,
           file: write(head, `face-${sex}-${face.id}-three-quarter.png`),
           skin: skinOf(head),
+          ...paintedExpressions(
+            join(dir, "faces"),
+            sex,
+            face.id,
+            "-three-quarter",
+          ),
         };
       });
     const turnedHair = frontHair
