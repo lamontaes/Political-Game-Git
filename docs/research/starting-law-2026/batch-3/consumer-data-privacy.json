@@ -191,37 +191,178 @@
       "source": "https://www.atg.wa.gov/data-privacy",
       "note": "Washington's privacy law is the My Health My Data Act (HB 1155), limited to consumer health data; the attorney general's privacy hub lists no comprehensive consumer data law.",
       "preempts": true
+    },
+    "US-AL": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "A comprehensive privacy law was signed in 2026 but takes effect 2027-05-01."
+    },
+    "US-IN": {
+      "answer": "yes",
+      "operativeAt": "2026-01-01",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "On the IAPP list of signed comprehensive privacy laws, in effect from 2026-01-01."
+    },
+    "US-LA": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "A comprehensive privacy law was signed in 2026 but takes effect 2027-01-01."
+    },
+    "US-OK": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "A comprehensive privacy law was signed in 2026 but takes effect 2027-01-01."
+    },
+    "US-AK": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-AZ": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-AR": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-GA": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-HI": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-ID": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-IL": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-KS": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-ME": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-MA": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-MI": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-MS": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-MO": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-NM": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-NY": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-NC": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-ND": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-OH": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-PA": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-SC": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-SD": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-WV": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-WI": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+    },
+    "US-WY": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+      "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
     }
   },
   "unknown": {
-    "US-AL": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-AK": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-AZ": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-AR": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-GA": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-HI": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-ID": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-IL": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-IN": "Indiana Consumer Data Protection Act (IC 24-15, SEA 5 of 2023) is widely reported effective 1/1/2026, but no fetched page confirmed it: iga.in.gov returns only a JavaScript shell, codes.findlaw.com refused, and no attorney general page was found.",
-    "US-KS": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-LA": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-ME": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-MA": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-MI": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-MS": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-MO": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-NM": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-NY": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-NC": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-ND": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-OH": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-OK": "Oklahoma SB 546 (2025) status could not be checked: oklegislature.gov and webserver1.lsb.state.ok.us are outside the network allowlist, and oscn.net returned no content.",
-    "US-PA": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-SC": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-SD": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-WV": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-WI": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
-    "US-WY": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
     "US-DC": "no state-specific source (no comprehensive law is known, but absence was not confirmed on a fetched state page).",
     "US-PR": "Territory: no state-specific source; not confirmed.",
     "US-GU": "Territory: no state-specific source; not confirmed.",
