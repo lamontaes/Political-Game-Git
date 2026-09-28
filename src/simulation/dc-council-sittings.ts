@@ -1,5 +1,6 @@
 import { addDays } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
+import { mayAnswerQuestion } from "./governing/question-authority";
 import { stableHash } from "./ids";
 import {
   introduceMeasure,
@@ -105,9 +106,13 @@ export function scheduleDcCouncilSitting(
   });
 }
 
-/** Questions the District decides, as a state and as a city. */
+/**
+ * Questions the District decides, as a state and as a city: those its own law
+ * may answer (`question-authority.ts`).
+ */
 function districtQuestions(
   world: World,
+  jurisdictionId: EntityId,
 ): readonly PolicyPropositionDefinition[] {
   const catalog = world.policyCatalog;
   return catalog.propositionOrder
@@ -115,9 +120,7 @@ function districtQuestions(
     .filter(
       (proposition): proposition is PolicyPropositionDefinition =>
         proposition !== undefined &&
-        (catalog.issues[proposition.issueId]?.levels ?? []).some(
-          (level) => level === "state" || level === "municipality",
-        ),
+        mayAnswerQuestion(world, jurisdictionId, proposition.id),
     );
 }
 
@@ -149,7 +152,7 @@ function introduceOne(world: World, index: number): World {
   const sponsors = councilMembers(world).filter(
     (seat) => seat.personId !== player,
   );
-  const questions = districtQuestions(world);
+  const questions = districtQuestions(world, jurisdictionId);
   if (sponsors.length === 0 || questions.length === 0) return world;
   const rng = new SeededRng(world.seed).fork(
     `${DC_COUNCIL_SITTINGS_VERSION}:${world.currentDate}:${index}`,
