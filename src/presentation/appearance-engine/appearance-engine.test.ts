@@ -8,7 +8,7 @@ import {
   composeEnginePerson,
   type PeoplePackManifest,
 } from "./pack";
-import { engineRecipeFor, withEngineChoice } from "./recipe";
+import { engineRecipeFor, faceBand, withEngineChoice } from "./recipe";
 import { measureBodyAnchors, neckOffset } from "./anchors";
 import {
   assemblePerson,
@@ -567,6 +567,23 @@ describe("the people engine in the game", () => {
       alphaOf(raster, Math.round(anchors.neck.centerX), anchors.neck.row),
     ).toBe(255);
     expect(skinInGarment(raster).share).toBeLessThan(0.5);
+  });
+
+  it("ages a face with the person: the same face, painted for their years", () => {
+    const at = (birthDate: string) =>
+      engineRecipeFor(
+        adult({ birthDate, identity: { gender: "male" } } as Partial<Person>),
+        "2026-09-27",
+        manifest,
+      )!.face;
+    const young = at("1996-01-01");
+    expect(young.startsWith("20s30s-")).toBe(true);
+    const number = young.slice(-2);
+    expect(at("1971-01-01")).toBe(`50s-${number}`);
+    expect(at("1950-01-01")).toBe(`70s-${number}`);
+    expect(faceBand(44)).toBe("20s30s");
+    expect(faceBand(45)).toBe("50s");
+    expect(faceBand(65)).toBe("70s");
   });
 
   it("dresses a crowd in many outfits, and nobody in a uniform by chance", () => {

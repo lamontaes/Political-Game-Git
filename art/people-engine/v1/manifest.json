@@ -150,6 +150,114 @@
             "base": 153.8,
             "highlight": 184.1
           }
+        },
+        {
+          "id": "50s-01",
+          "file": "face-feminine-50s-01.png",
+          "skin": {
+            "shadow": 79.9,
+            "base": 147.9,
+            "highlight": 175.1
+          }
+        },
+        {
+          "id": "50s-02",
+          "file": "face-feminine-50s-02.png",
+          "skin": {
+            "shadow": 73.5,
+            "base": 148,
+            "highlight": 177.8
+          }
+        },
+        {
+          "id": "50s-03",
+          "file": "face-feminine-50s-03.png",
+          "skin": {
+            "shadow": 67.6,
+            "base": 135.9,
+            "highlight": 163.2
+          }
+        },
+        {
+          "id": "50s-04",
+          "file": "face-feminine-50s-04.png",
+          "skin": {
+            "shadow": 70.9,
+            "base": 147.6,
+            "highlight": 178.3
+          }
+        },
+        {
+          "id": "50s-05",
+          "file": "face-feminine-50s-05.png",
+          "skin": {
+            "shadow": 67.6,
+            "base": 149.4,
+            "highlight": 182.1
+          }
+        },
+        {
+          "id": "50s-06",
+          "file": "face-feminine-50s-06.png",
+          "skin": {
+            "shadow": 68.6,
+            "base": 147.3,
+            "highlight": 178.8
+          }
+        },
+        {
+          "id": "70s-01",
+          "file": "face-feminine-70s-01.png",
+          "skin": {
+            "shadow": 88.6,
+            "base": 147.7,
+            "highlight": 171.4
+          }
+        },
+        {
+          "id": "70s-02",
+          "file": "face-feminine-70s-02.png",
+          "skin": {
+            "shadow": 80.9,
+            "base": 149,
+            "highlight": 176.2
+          }
+        },
+        {
+          "id": "70s-03",
+          "file": "face-feminine-70s-03.png",
+          "skin": {
+            "shadow": 74.7,
+            "base": 140.6,
+            "highlight": 166.9
+          }
+        },
+        {
+          "id": "70s-04",
+          "file": "face-feminine-70s-04.png",
+          "skin": {
+            "shadow": 76.4,
+            "base": 147.1,
+            "highlight": 175.3
+          }
+        },
+        {
+          "id": "70s-05",
+          "file": "face-feminine-70s-05.png",
+          "skin": {
+            "shadow": 78.6,
+            "base": 148.8,
+            "highlight": 176.9
+          }
+        },
+        {
+          "id": "70s-06",
+          "file": "face-feminine-70s-06.png",
+          "skin": {
+            "shadow": 76.8,
+            "base": 146.7,
+            "highlight": 174.7
+          }
         }
       ],
       "hair": [
@@ -1290,6 +1398,114 @@
             "shadow": 65,
             "base": 167.9,
             "highlight": 209
+          }
+        },
+        {
+          "id": "50s-01",
+          "file": "face-masculine-50s-01.png",
+          "skin": {
+            "shadow": 86.9,
+            "base": 171.9,
+            "highlight": 205.8
+          }
+        },
+        {
+          "id": "50s-02",
+          "file": "face-masculine-50s-02.png",
+          "skin": {
+            "shadow": 74.9,
+            "base": 156.7,
+            "highlight": 189.4
+          }
+        },
+        {
+          "id": "50s-03",
+          "file": "face-masculine-50s-03.png",
+          "skin": {
+            "shadow": 70.1,
+            "base": 155.8,
+            "highlight": 193.1
+          }
+        },
+        {
+          "id": "50s-04",
+          "file": "face-masculine-50s-04.png",
+          "skin": {
+            "shadow": 87.5,
+            "base": 159.9,
+            "highlight": 188.9
+          }
+        },
+        {
+          "id": "50s-05",
+          "file": "face-masculine-50s-05.png",
+          "skin": {
+            "shadow": 84.4,
+            "base": 156.1,
+            "highlight": 186.5
+          }
+        },
+        {
+          "id": "50s-06",
+          "file": "face-masculine-50s-06.png",
+          "skin": {
+            "shadow": 70.3,
+            "base": 160.6,
+            "highlight": 196.8
+          }
+        },
+        {
+          "id": "70s-01",
+          "file": "face-masculine-70s-01.png",
+          "skin": {
+            "shadow": 92.4,
+            "base": 184.4,
+            "highlight": 221.1
+          }
+        },
+        {
+          "id": "70s-02",
+          "file": "face-masculine-70s-02.png",
+          "skin": {
+            "shadow": 70.7,
+            "base": 159.1,
+            "highlight": 214.9
+          }
+        },
+        {
+          "id": "70s-03",
+          "file": "face-masculine-70s-03.png",
+          "skin": {
+            "shadow": 66.1,
+            "base": 159.2,
+            "highlight": 213.8
+          }
+        },
+        {
+          "id": "70s-04",
+          "file": "face-masculine-70s-04.png",
+          "skin": {
+            "shadow": 70.9,
+            "base": 161,
+            "highlight": 198.1
+          }
+        },
+        {
+          "id": "70s-05",
+          "file": "face-masculine-70s-05.png",
+          "skin": {
+            "shadow": 77.4,
+            "base": 157.6,
+            "highlight": 196.3
+          }
+        },
+        {
+          "id": "70s-06",
+          "file": "face-masculine-70s-06.png",
+          "skin": {
+            "shadow": 66.9,
+            "base": 158.2,
+            "highlight": 204.3
           }
         }
       ],
