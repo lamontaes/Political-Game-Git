@@ -1,0 +1,355 @@
+{
+  "question": "us-policy-positions:government-operations.automatic-voter-registration",
+  "definition": "yes = state law (or, where noted, executive/administrative action) registers eligible people automatically (front-end opt-out or back-end) when they transact with the motor vehicle agency or another state agency, and it is in operation by 2026-01-01; no = registration only on the person's own application (opt-in, including the ordinary motor-voter offer or a mandatory-choice question); North Dakota has no registration and is no.",
+  "summarySource": "NCSL Automatic Voter Registration summary (2025) and Brennan Center History of AVR & Implementation Dates, checked against state election-office releases (DE 2023, ME 2022, MN 2024, NM 2025, PA 2023, VA 2020) and the Voting Rights Lab tracker; searched 09/2026.",
+  "answers": {
+    "US-AK": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+      "note": "Approved by 2016 ballot measure (Measure 1); eligible Permanent Fund Dividend applicants are registered with a mailed opt-out notice (back-end), in operation since 2017."
+    },
+    "US-AL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-AR": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-AZ": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-CA": {
+      "answer": "yes",
+      "cite": "Cal. Elec. Code \u00a7 2260 et seq.",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+      "note": "California New Motor Voter Program, enacted 2015 and in operation at the DMV since 2018."
+    },
+    "US-CO": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.congress.gov/crs-product/R46406",
+      "note": "Front-end AVR at the DMV from 2017, converted to back-end AVR (mailed opt-out) in 2020."
+    },
+    "US-CT": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://tracker.votingrightslab.org/issues/automatic-voter-registration",
+      "note": "Administrative DMV system from 2016, codified and expanded to other agencies by 2021 law; applicants must decline at the transaction (front-end, hard-stop design)."
+    },
+    "US-DC": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+      "note": "Automatic Voter Registration Amendment Act passed by the Council on 11/01/2016; implemented at the DMV."
+    },
+    "US-DE": {
+      "answer": "yes",
+      "operativeAt": "2023-06-21",
+      "dateBasis": "enacted-effective",
+      "source": "https://news.delaware.gov/2023/06/20/automatic-voter-registration-at-dmv/",
+      "note": "Enacted 2021 (back-end at the DMV); in operation from 06/21/2023 for voters not already registered."
+    },
+    "US-FL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-GA": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+      "note": "Adopted administratively (opt-out at the Department of Driver Services) in fall 2016, not by a separate AVR statute."
+    },
+    "US-HI": {
+      "answer": "no",
+      "cite": "Haw. Rev. Stat. \u00a7 11-15.7",
+      "dateBasis": "not-found",
+      "source": "https://law.justia.com/codes/hawaii/title-2/chapter-11/section-11-15-7/",
+      "note": "Hawaii's 2021 'automatic registration' law registers a license applicant only if the applicant chooses to register on the form (mandatory choice, not opt-out); a 2026 bill (HB 2132) proposed expanding it."
+    },
+    "US-IA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-ID": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among AVR states; registration is by the person's own application (Idaho is exempt from the NVRA's motor-voter requirement)."
+    },
+    "US-IL": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+      "note": "Signed 08/2017 (unanimous legislature); implemented at the Secretary of State driver facilities and other agencies from 2018."
+    },
+    "US-IN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-KS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-KY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-LA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-MA": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+      "note": "Enacted 08/2018 and implemented at the RMV and MassHealth from 2020 (back-end with mailed opt-out)."
+    },
+    "US-MD": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+      "note": "Secure and Accessible Registration Act signed 04/2018; implemented at the MVA and other agencies."
+    },
+    "US-ME": {
+      "answer": "yes",
+      "operativeAt": "2022-06-21",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.maine.gov/sos/news/2022/AutomaticvoterregistrationtobeunveiledatBMVlocations.html",
+      "note": "Enacted 2019; implemented at the Bureau of Motor Vehicles on 06/21/2022, with the decline offered on the service-window pin pad (front-end)."
+    },
+    "US-MI": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+      "note": "Adopted by 2018 ballot Proposal 3 (Mich. Const. art. 2, \u00a7 4); implemented at Secretary of State branch offices."
+    },
+    "US-MN": {
+      "answer": "yes",
+      "cite": "Minn. Stat. \u00a7 201.161",
+      "operativeAt": "2024-04-29",
+      "dateBasis": "enacted-effective",
+      "source": "https://sos.minnesota.gov/about-the-office/news-room/update-on-automatic-voter-registration-system/",
+      "note": "Enacted 2023; in operation from 04/29/2024, with a 20-day opt-out after processing."
+    },
+    "US-MO": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-MS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-MT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-NC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-ND": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "North Dakota has no voter registration at all, so there is no automatic registration."
+    },
+    "US-NE": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-NH": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among AVR states; registration is by the person's own application (New Hampshire is exempt from the NVRA's motor-voter requirement)."
+    },
+    "US-NJ": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+      "note": "Signed 04/2018; implemented at the Motor Vehicle Commission (front-end opt-out)."
+    },
+    "US-NM": {
+      "answer": "yes",
+      "operativeAt": "2025-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.sos.nm.gov/2025/07/10/successful-launch-of-automatic-voter-registration-sees-thousands-of-new-mexico-voters-registered-in-first-week/",
+      "note": "Enacted in the 2023 New Mexico Voting Rights Act (HB 4); AVR at the Motor Vehicle Division took effect 07/01/2025."
+    },
+    "US-NV": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/2024_Nevada_Question_7",
+      "note": "Adopted by 2018 ballot Question 5; back-end AVR at the DMV in operation since 2020."
+    },
+    "US-OH": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-OK": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-OR": {
+      "answer": "yes",
+      "cite": "Or. Rev. Stat. \u00a7 247.017",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+      "note": "Oregon Motor Voter Act (2015), first state in operation in 2016; back-end with mailed opt-out."
+    },
+    "US-PA": {
+      "answer": "yes",
+      "operativeAt": "2023-09-19",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.pa.gov/governor/newsroom/2023-press-releases/governor-shapiro-implements-automatic-voter-registration-in-penn",
+      "note": "Executive action, not statute: since 09/2023 PennDOT takes eligible license and ID customers through registration unless they opt out; legislative Republicans dispute the governor's authority."
+    },
+    "US-RI": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+      "note": "Signed by Gov. Raimondo 07/2017; implemented at the Division of Motor Vehicles."
+    },
+    "US-SC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-SD": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-TN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-TX": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-UT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+    },
+    "US-VA": {
+      "answer": "yes",
+      "operativeAt": "2020-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.elections.virginia.gov/media/electionadministration/electionlaw/2020-Changes-to-Virginia-Election-Laws.pdf",
+      "note": "2020 law made DMV registration front-end opt-out; a workgroup has studied moving to back-end AVR."
+    },
+    "US-VT": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+      "note": "Signed 04/2016; in operation at the DMV since 01/01/2017."
+    },
+    "US-WA": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+      "note": "Signed 03/2018; implemented at the Department of Licensing (and Health Benefit Exchange) from 2019."
+    },
+    "US-WI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among AVR states; registration is by the person's own application (Wisconsin's DMV does not offer motor-voter registration because the state is exempt from the NVRA)."
+    },
+    "US-WV": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://tracker.votingrightslab.org/states/west-virginia",
+      "note": "Enacted 04/2016; implementation was repeatedly delayed (statutory deadline 2021) and the front-end opt-out system is now in effect at the DMV; exact start date not found."
+    },
+    "US-WY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "note": "Not among AVR states; registration is by the person's own application (Wyoming is exempt from the NVRA's motor-voter requirement)."
+    }
+  },
+  "unknown": {
+    "US-NY": "Automatic registration (N.Y. Elec. Law \u00a7 5-900 et seq., signed 12/2020) was to start 01/2023 but was delayed; the Board of Elections targeted the DMV for early-mid 2025, and no search result confirmed it was operating by 01/01/2026. A pending amendment (S88A) would move the DMV to back-end AVR in 2027.",
+    "US-PR": "No search result confirmed Puerto Rico's registration method; not researched to confirmation.",
+    "US-GU": "No search result confirmed Guam's registration method.",
+    "US-VI": "No search result confirmed the U.S. Virgin Islands' registration method.",
+    "US-AS": "No search result confirmed American Samoa's registration method.",
+    "US-MP": "No search result confirmed the Northern Mariana Islands' registration method."
+  },
+  "conflicts": [
+    {
+      "place": "US-HI",
+      "readings": "NCSL and several trackers list Hawaii among AVR states; the statute registers a license applicant only if the applicant chooses to register (mandatory choice), which this definition treats as no.",
+      "sources": [
+        "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+        "https://law.justia.com/codes/hawaii/title-2/chapter-11/section-11-15-7/"
+      ]
+    },
+    {
+      "place": "US-NY",
+      "readings": "A Brennan Center roundup summary described the DMV as implementing AVR in 01/2023 (the statutory date), while 2024 and 01/2025 reporting said the launch was delayed to 2025 at the earliest.",
+      "sources": [
+        "https://www.brennancenter.org/our-work/research-reports/state-voting-laws-roundup-2025-review",
+        "https://www.timesunion.com/capitol/article/new-york-s-automatic-voter-registration-coming-19961796.php"
+      ]
+    },
+    {
+      "place": "US-PA",
+      "readings": "The governor treats AVR as a procedural PennDOT change within executive authority; legislative Republicans say it required a statute.",
+      "sources": [
+        "https://www.votebeat.org/pennsylvania/2023/10/4/23902492/pennsylvania-automatic-voter-registration-josh-shapiro-motor-voter/"
+      ]
+    }
+  ],
+  "counts": {
+    "yes": 23,
+    "no": 27,
+    "unknown": 6
+  }
+}

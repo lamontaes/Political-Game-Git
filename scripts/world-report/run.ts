@@ -42,7 +42,10 @@ import {
 } from "../../src/simulation/serialization";
 import { currentPublicOfficeholders } from "../../src/presentation/opening-officeholders";
 import { proseDate } from "../../src/presentation/prose-dates";
+import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { lawInForce } from "../../src/simulation/governing/law-in-force";
+import { stateJurisdictionForKey } from "../../src/simulation/life-places";
+import { STATES } from "../../src/simulation/state-reference";
 import {
   OUTCOME_LINKS,
   OUTCOMES_PRODUCED,
@@ -1780,6 +1783,49 @@ function monthDay(date: IsoDate): string {
 }
 
 /**
+ * The law in force in every state, D.C. and territory on each question the
+ * starting-law file covers, as `lawInForce` reads it at the end of the run:
+ * how many places say yes, no, or have no answer (unknown), and how many of
+ * those answers are still the law each place began with.
+ */
+function startingLawAcrossPlaces(world: World): string[] {
+  const places = Object.keys(STATES).flatMap((usps) => {
+    const id = stateJurisdictionForKey(`US-${usps}`)?.id;
+    return id ? [id] : [];
+  });
+  const covered = new Set(Object.keys(startingLaw.questions));
+  const lines: string[] = [];
+  let yes = 0;
+  let no = 0;
+  let unknown = 0;
+  let fromStart = 0;
+  for (const propositionId of world.policyCatalog.propositionOrder) {
+    const proposition = world.policyCatalog.propositions[propositionId]!;
+    if (!covered.has(proposition.stableKey)) continue;
+    const tally = { yes: 0, no: 0, unknown: 0, fromStart: 0 };
+    for (const place of places) {
+      const law = lawInForce(world, place, propositionId);
+      if (!law) tally.unknown += 1;
+      else {
+        tally[law.answer] += 1;
+        if (law.origin === "in-force-at-start") tally.fromStart += 1;
+      }
+    }
+    yes += tally.yes;
+    no += tally.no;
+    unknown += tally.unknown;
+    fromStart += tally.fromStart;
+    lines.push(
+      `  - ${proposition.name}: ${tally.yes} yes, ${tally.no} no, ${tally.unknown} unknown; ${tally.fromStart} as the place began.`,
+    );
+  }
+  return [
+    `Across all ${places.length} places (the states, D.C. and the territories), on the ${count(lines.length, "question")} with researched starting law: ${yes} yes, ${no} no, ${unknown} unknown; ${fromStart} answers are still the law the place began with.`,
+    ...lines,
+  ];
+}
+
+/**
  * What the law in force says in the watched town on each policy question,
  * where it came from, what each law feeds in the outcome web, and which causes
  * moved each outcome the world computes (04 SYSTEM SPECS parts 4 and 5).
@@ -1819,6 +1865,7 @@ function lawOutcomeLines(run: WorldReportRun): string[] {
     `The law in force here answers ${count(answered.length, "policy question")}: ${atStart.length} as the law stood when the game began, and ${inPlay.length} by laws enacted during the run.`,
     "",
   );
+  out.push(...startingLawAcrossPlaces(world), "");
   for (const row of [...inPlay, ...atStart]) {
     const links = OUTCOME_LINKS.filter(
       (link) => link.from === `law:${row.stableKey}`,
