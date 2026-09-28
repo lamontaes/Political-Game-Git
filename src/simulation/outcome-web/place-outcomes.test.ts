@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import type {
   EntityId,
   LegislativeEnactmentRecord,
@@ -10,6 +11,7 @@ import type {
 import {
   PLACE_OUTCOME_BASES,
   placeOutcomeAt,
+  placeOutcomeRecords,
   placeOutcomesForMonth,
 } from "./place-outcomes";
 
@@ -116,6 +118,19 @@ describe("place outcomes", () => {
       records.filter((record) => record.measure === "household.poverty-pct")
         .length,
     ).toBe(52);
+    expect(
+      records.filter((record) => record.measure === "school.graduation-pct")
+        .length,
+    ).toBe(52);
+    expect(
+      records.filter(
+        (record) => record.measure === "school.math-proficient-pct",
+      ).length,
+    ).toBe(51);
+    expect(
+      records.filter((record) => record.measure === "voting.turnout-pct")
+        .length,
+    ).toBe(51);
     for (const record of records) {
       expect(record.multiplier, record.placeKey).toBe(1);
       expect(record.value, record.placeKey).toBe(record.base);
@@ -170,12 +185,62 @@ describe("place outcomes", () => {
     ]);
   });
 
+  it("a Texas law equalizing school funding raises its math proficiency about 6% three years on", () => {
+    const EQUALIZE = "proposition_equalize" as EntityId;
+    const law = texasExpansion("2027-01-01");
+    const world = (date: string) =>
+      ({
+        ...worldAt(date),
+        policyCatalog: {
+          propositions: {
+            [EQUALIZE]: {
+              id: EQUALIZE,
+              stableKey:
+                "us-policy-positions:education.equalize-school-funding",
+            },
+          },
+        },
+        history: {
+          legislativeMeasures: [
+            {
+              ...law.measure,
+              propositionIds: [EQUALIZE],
+              propositionAnswers: [{ propositionId: EQUALIZE, answer: "yes" }],
+            },
+          ],
+          legislativeEnactments: [law.enactment],
+        },
+      }) as unknown as World;
+    const MATH = "school.math-proficient-pct";
+    expect(
+      valueFor(
+        placeOutcomesForMonth(world("2029-12-01"), makeIsoDate("2029-12-01")),
+        MATH,
+        "US-TX",
+      ).multiplier,
+    ).toBe(1);
+    const after = valueFor(
+      placeOutcomesForMonth(world("2030-01-01"), makeIsoDate("2030-01-01")),
+      MATH,
+      "US-TX",
+    );
+    expect(after.multiplier).toBeCloseTo(1.06, 10);
+    expect(after.causes.map((cause) => cause.key)).toEqual([
+      "equalized-funding-to-math-proficiency",
+    ]);
+  });
+
   it("a town reads its state's latest recorded value", () => {
     const month = makeIsoDate("2026-01-01");
     const world = {
       ...worldAt("2026-02-15"),
       placeOutcomes: {
-        records: placeOutcomesForMonth(worldAt("2026-01-01"), month),
+        months: [
+          {
+            month,
+            records: placeOutcomesForMonth(worldAt("2026-01-01"), month),
+          },
+        ],
       },
     } as World;
     expect(
@@ -184,5 +249,119 @@ describe("place outcomes", () => {
     expect(
       placeOutcomeAt(world, UNINSURED, texas, makeIsoDate("2025-12-31")),
     ).toBeNull();
+  });
+
+  it("a federal minimum wage raise lowers poverty about 3.5% where the state sits at $7.25, and not where it is already above $15", () => {
+    const RAISE = "proposition_federal_minimum" as EntityId;
+    const federal = NATIONAL_ELECTION_JURISDICTION.id;
+    const world = {
+      ...worldAt("2029-01-01"),
+      policyCatalog: {
+        propositions: {
+          [RAISE]: {
+            id: RAISE,
+            stableKey:
+              "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          },
+        },
+      },
+      history: {
+        legislativeMeasures: [
+          {
+            ...texasExpansion("2026-07-01").measure,
+            id: "measure_us" as EntityId,
+            jurisdictionId: federal,
+            propositionIds: [RAISE],
+            propositionAnswers: [{ propositionId: RAISE, answer: "yes" }],
+          },
+        ],
+        legislativeEnactments: [
+          {
+            ...texasExpansion("2026-07-01").enactment,
+            measureId: "measure_us" as EntityId,
+          },
+        ],
+      },
+    } as unknown as World;
+    const records = placeOutcomesForMonth(world, makeIsoDate("2029-01-01"));
+    const POVERTY = "household.poverty-pct";
+    expect(valueFor(records, POVERTY, "US-KY").multiplier).toBeCloseTo(
+      0.965,
+      10,
+    );
+    expect(valueFor(records, POVERTY, "US-WA").multiplier).toBe(1);
+    expect(valueFor(records, POVERTY, "US-CA").multiplier).toBe(1);
+  });
+});
+
+describe("the entire world changes: place outcomes drift, and no two worlds end alike", () => {
+  /** Runs `months` of monthly passes from January 2026 on a seeded world. */
+  function run(seed: string, months: number): World {
+    let world = { ...worldAt("2026-01-01"), seed } as World;
+    let month = makeIsoDate("2026-01-01");
+    for (let index = 0; index < months; index += 1) {
+      world = {
+        ...world,
+        currentDate: month,
+        placeOutcomes: {
+          months: [
+            ...(world.placeOutcomes?.months ?? []),
+            { month, records: placeOutcomesForMonth(world, month) },
+          ],
+        },
+      } as World;
+      const next = new Date(`${month}T00:00:00Z`);
+      next.setUTCMonth(next.getUTCMonth() + 1);
+      month = makeIsoDate(next.toISOString().slice(0, 10));
+    }
+    return world;
+  }
+  const last = (world: World, placeKey: string, measure = UNINSURED) =>
+    placeOutcomeRecords(world)
+      .filter((r) => r.measure === measure && r.placeKey === placeKey)
+      .at(-1)!;
+
+  it("over a decade each state's level wanders from its base, partly with the nation, within its bounds", () => {
+    const world = run("drift-a", 120);
+    const ends = Object.keys(PLACE_OUTCOME_BASES[UNINSURED]!.places).map(
+      (placeKey) => last(world, placeKey),
+    );
+    expect(ends.filter((r) => r.structural !== r.base).length).toBe(
+      ends.length,
+    );
+    for (const record of ends) {
+      expect(record.structural!).toBeGreaterThanOrEqual(1);
+      expect(record.structural!).toBeLessThanOrEqual(40);
+    }
+    // Most states moved the same way as the nation did.
+    const moves = ends.map((r) => Math.sign(r.structural! - r.base));
+    const shared = Math.max(
+      moves.filter((m) => m > 0).length,
+      moves.filter((m) => m < 0).length,
+    );
+    expect(shared / moves.length).toBeGreaterThan(0.6);
+  });
+
+  it("twenty-five years on, the same state ends in very different places in different worlds", () => {
+    const worlds = ["w1", "w2", "w3", "w4"].map((seed) => run(seed, 300));
+    const spread = (measure: string) => {
+      const values = worlds.map((world) => last(world, "US-TX", measure).value);
+      return Math.max(...values) - Math.min(...values);
+    };
+    expect(spread(UNINSURED)).toBeGreaterThan(3);
+    // Schools change too: graduation and math proficiency end apart.
+    expect(spread("school.graduation-pct")).toBeGreaterThan(2);
+    expect(spread("school.math-proficient-pct")).toBeGreaterThan(2);
+    // Crime and births drift as levels: a quarter century apart in each world.
+    expect(spread("crime.rate-index")).toBeGreaterThan(15);
+    expect(spread("births.rate-index")).toBeGreaterThan(5);
+  }, 120_000);
+
+  it("laws still act on top of the drift: the work requirement multiplies Ohio's level from mid-2027", () => {
+    const world = run("drift-b", 20);
+    const ohio = last(world, "US-OH");
+    expect(ohio.month).toBe("2027-08-01");
+    expect(ohio.multiplier).toBeGreaterThan(1.19);
+    expect(ohio.value).toBeCloseTo(ohio.structural! * ohio.multiplier, 1);
   });
 });

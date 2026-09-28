@@ -6,6 +6,7 @@ import {
   standardNormal,
 } from "../world-setup/deterministic-math";
 import {
+  MACRO_ERA_POLICY as ERA,
   CRUNCH46_PROVISIONAL_POLICY as POLICY,
   UNRESEARCHED_UNEMPLOYMENT_RECOVERY as RECOVERY,
   type MacroRegime,
@@ -137,21 +138,34 @@ export function stepMonth(
   previous: MacroMonthlyState,
   innovations: MacroInnovations,
   impulses: MacroImpulses,
+  era: MacroEra | null = null,
 ): MacroMonthlyState {
   const m = POLICY.monthly;
-  const anchor = POLICY.baseline.growthAnchorPct;
-  const inflationAnchor = POLICY.baseline.inflationAnchorPct;
+  // The era's anchors when there is one: trend growth less any recession
+  // under way, and the drifting inflation anchor.
+  const anchor = era
+    ? era.trendGrowthPct - era.recessionGapPp
+    : POLICY.baseline.growthAnchorPct;
+  // A price shock lifts inflation's pull; a recession lowers it.
+  const inflationAnchor = era
+    ? era.inflationAnchorPct +
+      era.priceShockPp -
+      ERA.inflation.recessionDisinflationPerGapPp * era.recessionGapPp
+    : POLICY.baseline.inflationAnchorPct;
   const growthPct = roundMacro(
     anchor +
       m.growthPersistence * (previous.growthPct - anchor) +
       innovations.growth +
       impulses.growthPp,
   );
-  const natural = RECOVERY.naturalRatePct;
+  const natural = era ? era.naturalRatePct : RECOVERY.naturalRatePct;
+  // Unemployment answers growth against the trend, so a recession's lost
+  // growth raises it and an expansion's return brings it back.
+  const trend = era ? era.trendGrowthPct : anchor;
   const unemploymentPct = boundedUnemployment(
     natural +
       RECOVERY.monthlyGapRetention * (previous.unemploymentPct - natural) -
-      m.unemploymentGrowthGapCoefficient * (previous.growthPct - anchor) +
+      m.unemploymentGrowthGapCoefficient * (previous.growthPct - trend) +
       innovations.unemployment +
       impulses.laborPp,
   );
@@ -233,4 +247,115 @@ export function twelveMonthChangePct(
     throw new Error("Price indexes must be positive.");
   }
   return roundMacro(100 * (indexNow / indexTwelveMonthsEarlier - 1));
+}
+
+/** The economy's era: the anchors of the month, and the business cycle. */
+export interface MacroEra {
+  readonly trendGrowthPct: number;
+  readonly naturalRatePct: number;
+  readonly inflationAnchorPct: number;
+  readonly phase: "expansion" | "recession";
+  readonly phaseMonths: number;
+  /** Growth below trend while a recession lasts, in points; 0 otherwise. */
+  readonly recessionGapPp: number;
+  /** The drawn recession's average length, in months; 0 otherwise. */
+  readonly recessionMeanMonths: number;
+  /** A price shock still pushing inflation up, in points; fades each month. */
+  readonly priceShockPp: number;
+}
+
+export const START_ERA: MacroEra = {
+  trendGrowthPct: ERA.start.trendGrowthPct,
+  naturalRatePct: ERA.start.naturalRatePct,
+  inflationAnchorPct: ERA.start.inflationAnchorPct,
+  phase: "expansion",
+  phaseMonths: 0,
+  recessionGapPp: 0,
+  recessionMeanMonths: 0,
+  priceShockPp: 0,
+};
+
+function bounded(value: number, min: number, max: number): number {
+  return roundMacro(Math.min(max, Math.max(min, value)));
+}
+
+/**
+ * One month of the era (MACRO_ERA_POLICY): trend growth wanders and can jump
+ * into a new era; a recession can begin, with a drawn depth and length, or
+ * end; the normal unemployment rate drifts and is scarred by slumps; the
+ * inflation anchor drifts and follows inflation that stays far from it.
+ */
+export function stepEra(
+  previous: MacroEra,
+  lastMonth: MacroMonthlyState,
+  rng: SeededRng,
+): MacroEra {
+  const t = ERA.trend;
+  let trend =
+    previous.trendGrowthPct +
+    t.monthlyPull * (t.longRunPct - previous.trendGrowthPct) +
+    standardNormal(rng.fork("trend")) * t.monthlySdPp;
+  if (rng.fork("era").next() < t.eraJumpMonthlyChance)
+    trend += standardNormal(rng.fork("era-size")) * t.eraJumpSdPp;
+  let phase = previous.phase;
+  let phaseMonths = previous.phaseMonths + 1;
+  let gap = previous.recessionGapPp;
+  let meanMonths = previous.recessionMeanMonths;
+  const turn = rng.fork("turn").next();
+  if (
+    phase === "expansion" &&
+    phaseMonths >= ERA.cycle.minExpansionMonths &&
+    turn < ERA.cycle.recessionStartMonthlyChance
+  ) {
+    const pick = rng.fork("depth").next();
+    let cumulative = 0;
+    const depth =
+      ERA.cycle.depths.find((row) => (cumulative += row.weight) > pick) ??
+      ERA.cycle.depths[0]!;
+    phase = "recession";
+    phaseMonths = 0;
+    gap = depth.gapPp;
+    meanMonths = depth.meanMonths;
+  } else if (phase === "recession" && turn < 1 / Math.max(1, meanMonths)) {
+    phase = "expansion";
+    phaseMonths = 0;
+    gap = 0;
+    meanMonths = 0;
+  }
+  const n = ERA.natural;
+  const natural =
+    previous.naturalRatePct +
+    n.monthlyPull * (n.longRunPct - previous.naturalRatePct) +
+    standardNormal(rng.fork("natural")) * n.monthlySdPp +
+    (phase === "recession" ? n.scarringPerGapPp * gap : 0);
+  const i = ERA.inflation;
+  const inflationGap = lastMonth.inflationPct - previous.inflationAnchorPct;
+  const crackdown =
+    1 +
+    i.crackdownPullPerPp *
+      Math.max(0, previous.inflationAnchorPct - i.crackdownAbovePct);
+  const inflationAnchor =
+    previous.inflationAnchorPct +
+    i.monthlyPull * crackdown * (i.longRunPct - previous.inflationAnchorPct) +
+    standardNormal(rng.fork("inflation-anchor")) * i.monthlySdPp +
+    (Math.abs(inflationGap) > i.deanchorGapPp
+      ? i.deanchorRate * inflationGap
+      : 0);
+  let priceShock = roundMacro(
+    (previous.priceShockPp ?? 0) * i.shockMonthlyRetention,
+  );
+  if (rng.fork("price-shock").next() < i.shockMonthlyChance)
+    priceShock +=
+      i.shockMinPp +
+      (i.shockMaxPp - i.shockMinPp) * rng.fork("price-shock-size").next();
+  return {
+    trendGrowthPct: bounded(trend, t.minPct, t.maxPct),
+    naturalRatePct: bounded(natural, n.minPct, n.maxPct),
+    inflationAnchorPct: bounded(inflationAnchor, i.minPct, i.maxPct),
+    phase,
+    phaseMonths,
+    recessionGapPp: gap,
+    recessionMeanMonths: meanMonths,
+    priceShockPp: roundMacro(priceShock),
+  };
 }

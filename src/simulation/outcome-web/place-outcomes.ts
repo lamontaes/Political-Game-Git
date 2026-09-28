@@ -7,12 +7,16 @@ import type {
   IsoDate,
   World,
 } from "../types";
+import { SeededRng } from "../rng";
+import { standardNormal } from "../world-setup/deterministic-math";
 import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { outcomeFactor } from ".";
 import {
+  DEFAULT_PLACE_OUTCOME_DRIFT,
   PLACE_OUTCOME_BASES,
   PLACE_OUTCOME_MEASURES,
+  type PlaceOutcomeDrift,
   type PlaceOutcomeRecord,
 } from "./place-outcome-store";
 
@@ -35,21 +39,84 @@ function firstOfNextMonth(date: IsoDate): IsoDate {
   );
 }
 
+function logit(pct: number): number {
+  const p = pct / 100;
+  return Math.log(p / (1 - p));
+}
+
+function fromLogit(value: number): number {
+  return 100 / (1 + Math.exp(-value));
+}
+
+/**
+ * One month's move in a measure's underlying level for every place, in
+ * log-odds: a national part every place shares, a part of the place's own,
+ * and now and then a society-wide wave (national, so every place feels it).
+ * A world with no seed (a fixture) does not drift.
+ */
+function driftSteps(
+  world: World,
+  measure: string,
+  month: IsoDate,
+  drift: PlaceOutcomeDrift,
+): (placeKey: string) => number {
+  if (!world.seed) return () => 0;
+  const rng = new SeededRng(world.seed).fork(
+    `${PLACE_OUTCOMES_VERSION}:drift:${measure}:${month}`,
+  );
+  const sd = drift.monthlySdLogit;
+  const national =
+    standardNormal(rng.fork("national")) * sd * Math.sqrt(drift.nationalShare);
+  const wave =
+    rng.fork("wave").next() < drift.waveMonthlyChance
+      ? standardNormal(rng.fork("wave-size")) * drift.waveSdLogit
+      : 0;
+  return (placeKey) =>
+    national +
+    wave +
+    standardNormal(rng.fork(`place:${placeKey}`)) *
+      sd *
+      Math.sqrt(1 - drift.nationalShare);
+}
+
 /**
  * Each place outcome for every place with a base, for the month starting
- * `month`: its 2024 base times the outcome web's multiplier for that place
- * and month, with the links that moved it.
+ * `month`. The place's underlying level carries on from its last record
+ * (the 2024 base in its first month) and drifts; nothing pulls it back to
+ * the base. Laws and conditions then act on it through the outcome web's
+ * multiplier, and the links that moved it are kept.
  */
 export function placeOutcomesForMonth(
   world: World,
   month: IsoDate,
 ): readonly PlaceOutcomeRecord[] {
   const records: PlaceOutcomeRecord[] = [];
+  const previous = new Map<string, PlaceOutcomeRecord>();
+  const months = world.placeOutcomes?.months ?? [];
+  // The latest month before this one carries each place's level forward.
+  for (let index = months.length - 1; index >= 0; index -= 1) {
+    const entry = months[index]!;
+    if (entry.month >= month) continue;
+    for (const record of entry.records)
+      previous.set(`${record.measure}|${record.placeKey}`, record);
+    break;
+  }
   for (const measure of PLACE_OUTCOME_MEASURES) {
-    const places = PLACE_OUTCOME_BASES[measure]!.places;
-    for (const [placeKey, base] of Object.entries(places)) {
+    const definition = PLACE_OUTCOME_BASES[measure]!;
+    const drift = definition.drift ?? DEFAULT_PLACE_OUTCOME_DRIFT;
+    const step = driftSteps(world, measure, month, drift);
+    for (const [placeKey, base] of Object.entries(definition.places)) {
       const jurisdictionId = stateJurisdictionForKey(placeKey)?.id;
       if (!jurisdictionId) continue;
+      const last = previous.get(`${measure}|${placeKey}`);
+      const before = last ? (last.structural ?? last.base) : base;
+      const moved =
+        definition.scale === "index"
+          ? before * Math.exp(step(placeKey))
+          : fromLogit(logit(before) + step(placeKey));
+      const structural = last
+        ? Math.min(drift.maxPct, Math.max(drift.minPct, moved))
+        : base;
       const reading = outcomeFactor(world, jurisdictionId, measure, month);
       records.push({
         measure,
@@ -57,8 +124,9 @@ export function placeOutcomesForMonth(
         jurisdictionId,
         month,
         base,
+        structural: Math.round(structural * 10000) / 10000,
         multiplier: reading.multiplier,
-        value: Math.round(base * reading.multiplier * 100) / 100,
+        value: Math.round(structural * reading.multiplier * 100) / 100,
         causes: reading.causes
           .filter((cause) => cause.factor !== 1)
           .map((cause) => ({ key: cause.key, factor: cause.factor })),
@@ -83,10 +151,15 @@ export function ensurePlaceOutcomes(world: World): World {
   const opened: World = {
     ...world,
     placeOutcomes: {
-      records: placeOutcomesForMonth(
-        world,
-        firstOfMonth(makeIsoDate(world.currentDate)),
-      ),
+      months: [
+        {
+          month: firstOfMonth(makeIsoDate(world.currentDate)),
+          records: placeOutcomesForMonth(
+            world,
+            firstOfMonth(makeIsoDate(world.currentDate)),
+          ),
+        },
+      ],
     },
   };
   const dueAt = firstOfNextMonth(makeIsoDate(world.currentDate));
@@ -108,17 +181,17 @@ export function placeOutcomesHandler(
     throw new Error("The place-outcomes pass received another transition.");
   }
   const month = firstOfMonth(makeIsoDate(dueItem.dueAt));
-  const already = (world.placeOutcomes?.records ?? []).some(
-    (record) => record.month === month,
+  const already = (world.placeOutcomes?.months ?? []).some(
+    (entry) => entry.month === month,
   );
   let next: World = already
     ? world
     : {
         ...world,
         placeOutcomes: {
-          records: [
-            ...(world.placeOutcomes?.records ?? []),
-            ...placeOutcomesForMonth(world, month),
+          months: [
+            ...(world.placeOutcomes?.months ?? []),
+            { month, records: placeOutcomesForMonth(world, month) },
           ],
         },
       };

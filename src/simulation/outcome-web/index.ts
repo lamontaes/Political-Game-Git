@@ -6,9 +6,15 @@ import {
 } from "../macro-economy/readers";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import { ruleValueInWorld, laborLawOfficeKey } from "../enacted-rule-changes";
-import { placeOutcomeAt, placeOutcomeKey } from "./place-outcome-store";
+import {
+  PLACE_OUTCOME_BASES,
+  placeOutcomeAt,
+  placeOutcomeKey,
+} from "./place-outcome-store";
 import minimumWages from "../../../data/research/money/minimum-wage-2026.json" with { type: "json" };
+import { US_FEDERAL_POSITIONS_PACK } from "../policy-pack-us-federal-positions";
 import { US_POLICY_POSITIONS_PACK } from "../policy-pack-us-policy-positions";
+import { SeededRng } from "../rng";
 import type { EntityId, IsoDate, World } from "../types";
 
 /**
@@ -95,6 +101,11 @@ export interface OutcomeLink {
   /** Developer reference only. Never shown on a player screen. */
   readonly source: string;
   readonly moderator?: OutcomeLinkModerator;
+  /**
+   * The spread of sizes the research reports, [low, high]. Each world draws
+   * its own size for each place within it; `size` is the central estimate.
+   */
+  readonly range?: readonly [number, number];
   readonly floor?: number;
   readonly ceiling?: number;
 }
@@ -125,25 +136,55 @@ export interface OutcomeMeasure {
   ) => number | null;
 }
 
+/** A state's minimum wage in force and its 2026 level, or null if unknown. */
+function stateMinimumHourlyAt(
+  world: World,
+  jurisdictionId: EntityId,
+  asOf: IsoDate,
+): { readonly now: number; readonly before: number } | null {
+  const key = placeOutcomeKey(jurisdictionId);
+  if (!key || !/^US-[A-Z]{2}$/.test(key)) return null;
+  const starting = STARTING_MINIMUM_HOURLY[key]?.basicHourly;
+  if (starting === null || starting === undefined) return null;
+  const before = Math.max(FEDERAL_MINIMUM_HOURLY, starting);
+  const law = ruleValueInWorld(
+    world,
+    {
+      jurisdiction: key,
+      officeKey: laborLawOfficeKey(key.slice(3)),
+      field: "labor.minimumWage.hourlyCents",
+      onDate: asOf,
+    },
+    null,
+  );
+  const now =
+    law.source === "enacted" && typeof law.value === "number"
+      ? Math.max(FEDERAL_MINIMUM_HOURLY, law.value / 100)
+      : before;
+  return { now, before };
+}
+
 /**
- * Every measure the web can read today. Each area adds its measures here as
- * the world starts recording them; a link switches on when its cause does.
+ * Measures the web reads that are not place outcomes. Each area adds its
+ * measures here as the world starts recording them; a link switches on when
+ * its cause does. Place outcomes need no entry: adding one to
+ * place-outcome-bases makes it readable, produced and drifting.
  */
-export const OUTCOME_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
-  // The place outcomes the world records monthly, read for a place's state.
-  "health.uninsured-pct": {
-    key: "health.uninsured-pct",
-    unit: "percent of people without health insurance",
-    read: (world, jurisdictionId, asOf) =>
-      placeOutcomeAt(world, "health.uninsured-pct", jurisdictionId, asOf)
-        ?.value ?? null,
-  },
-  "household.poverty-pct": {
-    key: "household.poverty-pct",
-    unit: "percent of people below the poverty line",
-    read: (world, jurisdictionId, asOf) =>
-      placeOutcomeAt(world, "household.poverty-pct", jurisdictionId, asOf)
-        ?.value ?? null,
+const FIXED_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
+  // Every place outcome (place-outcome-bases) is added below.
+  "labor.minimum-wage-gap-to-15": {
+    key: "labor.minimum-wage-gap-to-15",
+    unit: "share of the way from $15 down to $7.25 the state's minimum sits",
+    // 1 at the federal $7.25, 0 at $15 or above: how much a federal raise to
+    // about $15 binds in the state.
+    read: (world, jurisdictionId, asOf) => {
+      const minimum = stateMinimumHourlyAt(world, jurisdictionId, asOf);
+      if (minimum === null) return null;
+      return Math.min(
+        1,
+        Math.max(0, (15 - minimum.now) / (15 - FEDERAL_MINIMUM_HOURLY)),
+      );
+    },
   },
   "labor.minimum-wage-change-pct": {
     key: "labor.minimum-wage-change-pct",
@@ -151,28 +192,11 @@ export const OUTCOME_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
     // A state law enacted in play replaces the state's rate (#868); without
     // one the 2026 rate stands and the change is zero.
     read: (world, jurisdictionId, asOf) => {
-      const key = placeOutcomeKey(jurisdictionId);
-      if (!key || !/^US-[A-Z]{2}$/.test(key)) return null;
-      const starting = STARTING_MINIMUM_HOURLY[key]?.basicHourly;
-      if (starting === null || starting === undefined) return null;
-      const before = Math.max(FEDERAL_MINIMUM_HOURLY, starting);
-      const law = ruleValueInWorld(
-        world,
-        {
-          jurisdiction: key,
-          officeKey: laborLawOfficeKey(key.slice(3)),
-          field: "labor.minimumWage.hourlyCents",
-          onDate: asOf,
-        },
-        null,
-      );
-      const now =
-        law.source === "enacted" && typeof law.value === "number"
-          ? Math.max(FEDERAL_MINIMUM_HOURLY, law.value / 100)
-          : before;
-      return (now / before - 1) * 100;
+      const minimum = stateMinimumHourlyAt(world, jurisdictionId, asOf);
+      return minimum === null ? null : (minimum.now / minimum.before - 1) * 100;
     },
   },
+
   "labor.unemployment-pct": {
     key: "labor.unemployment-pct",
     unit: "percent of the labor force",
@@ -188,6 +212,25 @@ export const OUTCOME_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
       return record ? record.unemploymentPct : null;
     },
   },
+};
+
+/**
+ * Every measure the web can read today: the fixed ones above, and every
+ * place outcome the world records monthly, read for a place's state.
+ */
+export const OUTCOME_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
+  ...FIXED_MEASURES,
+  ...Object.fromEntries(
+    Object.entries(PLACE_OUTCOME_BASES).map(([key, definition]) => [
+      key,
+      {
+        key,
+        unit: definition.unit,
+        read: (world: World, jurisdictionId: EntityId, asOf: IsoDate) =>
+          placeOutcomeAt(world, key, jurisdictionId, asOf)?.value ?? null,
+      },
+    ]),
+  ),
 };
 
 export type OutcomeLinkStatus =
@@ -208,16 +251,15 @@ export const OUTCOMES_PRODUCED: ReadonlySet<string> = new Set([
   "crime.burglary",
   "crime.vandalism",
   "births.rate",
-  "health.uninsured-pct",
-  "household.poverty-pct",
+  ...Object.keys(PLACE_OUTCOME_BASES),
 ]);
 
 const LAW_CAUSE_PREFIX = "law:";
 
 /** The qualified keys of every shipped policy question a law can answer. */
 const LAW_QUESTION_KEYS: ReadonlySet<string> = new Set(
-  (US_POLICY_POSITIONS_PACK.propositions ?? []).map(
-    (row) => `${US_POLICY_POSITIONS_PACK.pack}:${row.key}`,
+  [US_POLICY_POSITIONS_PACK, US_FEDERAL_POSITIONS_PACK].flatMap((pack) =>
+    (pack.propositions ?? []).map((row) => `${pack.pack}:${row.key}`),
   ),
 );
 
@@ -249,6 +291,12 @@ function baselineOf(
   cause: string,
 ): number | undefined {
   if (CHANGE_MEASURES.has(cause)) return 0;
+  // A place outcome is measured from where the place began.
+  const placeBase = PLACE_OUTCOME_BASES[cause];
+  if (placeBase) {
+    const key = placeOutcomeKey(jurisdictionId);
+    return key ? placeBase.places[key] : undefined;
+  }
   if (cause.startsWith(LAW_CAUSE_PREFIX)) {
     // The law the place had when its base data was measured: only a change
     // from it moves the outcome. No law then counts as "not yes".
@@ -357,6 +405,39 @@ export function shapedLinkFactor(
   }
 }
 
+/** How far either way a size may fall when the research gave no range. */
+const DEFAULT_SPREAD: Readonly<Record<OutcomeEvidence, number>> = {
+  researched: 0.25,
+  provisional: 0.5,
+  contested: 1,
+  "about-zero": 0,
+  "to-confirm": 0.5,
+};
+
+/**
+ * The size this world uses for a link in one place. Research sizes are a
+ * baseline, not literal numbers (Lamontae, Sept. 28): each world draws each
+ * place's size once, stable for the whole game, within the link's range, or
+ * within a default spread by evidence. A world without a seed (a fixture)
+ * uses the central size.
+ */
+export function drawnLinkSize(
+  world: World,
+  link: Pick<OutcomeLink, "key" | "size" | "range" | "evidence">,
+  jurisdictionId: EntityId,
+): number {
+  const size = link.size ?? 0;
+  if (size === 0 || !world.seed) return size;
+  const spread = DEFAULT_SPREAD[link.evidence];
+  const [low, high] = link.range ?? [size * (1 - spread), size * (1 + spread)];
+  // Two draws averaged: the middle of the range is likelier than its ends.
+  const rng = new SeededRng(world.seed).fork(
+    `outcome-web:${link.key}:${jurisdictionId}`,
+  );
+  const u = (rng.next() + rng.next()) / 2;
+  return Math.min(low, high) + Math.abs(high - low) * u;
+}
+
 function lagged(asOf: IsoDate, lagMonths: number): IsoDate {
   // Months are counted as 30.44 days; a lag is a delay, not a calendar rule.
   return lagMonths === 0 ? asOf : addDays(asOf, -Math.round(lagMonths * 30.44));
@@ -382,7 +463,11 @@ export function outcomeFactor(
     if (value === null) continue;
     const baseline = baselineOf(world, jurisdictionId, link.from);
     if (baseline === undefined) continue;
-    let factor = shapedLinkFactor(link, value, baseline);
+    let factor = shapedLinkFactor(
+      { shape: link.shape, size: drawnLinkSize(world, link, jurisdictionId) },
+      value,
+      baseline,
+    );
     if (link.moderator) {
       const level = outcomeMeasure(link.moderator.measure)!.read(
         world,
