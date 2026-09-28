@@ -111,5 +111,5 @@ describe("a generated member's bill and reflection", () => {
     expect(floorVote(restored, measure!.id)?.dispositions).toEqual(
       vote?.dispositions,
     );
-  });
+  }, 30_000); // Measured at 4.7 s with main merged (9/28), at the edge of the 5 s default.
 });

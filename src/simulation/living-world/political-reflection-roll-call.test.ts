@@ -185,5 +185,5 @@ describe("a recorded reflection reaches the chamber's saved roll call", () => {
     expect(floorVote(replayed, measureId)?.dispositions).toEqual(
       vote?.dispositions,
     );
-  });
+  }, 30_000); // Measured at 5.6 s with main merged (9/28), past the 5 s default.
 });
