@@ -187,6 +187,7 @@ import { gameBuildProfile } from "../presentation/build-profile";
 import { SceneBackdrop } from "./SceneBackdrop";
 import { backdropForLocation } from "../presentation/place-backdrops";
 import { placeBackdropPeople } from "../presentation/backdrop-people";
+import { projectBackdropSurfaces } from "../presentation/backdrop-surfaces";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
 import { projectCandidateGuidanceScene } from "../presentation/candidate-guidance-scene";
@@ -1544,6 +1545,19 @@ function PlayingScreen({
     () => projectRoomMedia(session.world, session.personId),
     [session.world, session.personId],
   );
+  // What the place picture's painted screens, boards and papers show today.
+  const placeSurfaces = useMemo(
+    () =>
+      placeBackdrop
+        ? projectBackdropSurfaces(
+            session.world,
+            session.personId,
+            placeBackdrop,
+            roomMedia,
+          )
+        : [],
+    [placeBackdrop, session.world, session.personId, roomMedia],
+  );
   const readableSurfaces = useMemo(() => {
     const news = projectLivingSceneSurface(session.world, session.personId, {
       kind: "news",
@@ -2320,6 +2334,7 @@ function PlayingScreen({
               sceneId={sceneId}
               placeBackdrop={placeBackdrop}
               placePeople={placePeople}
+              placeSurfaces={placeSurfaces}
               readableSurfaces={readableSurfaces}
               roomMedia={roomMedia}
               onOpenSurfaceEntity={openEntity}
