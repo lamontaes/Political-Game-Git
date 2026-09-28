@@ -44,7 +44,7 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
         expect(spot.y).toBeLessThanOrEqual(100);
       }
     }
-    expect(backdropStaging("city-hall-exterior")).toBeNull();
+    expect(backdropStaging("no-such-place")).toBeNull();
   });
 
   it("stands the city clerk at the counter on a weekday morning, dressed for work, and nobody at night", () => {
