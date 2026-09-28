@@ -66,6 +66,10 @@ export function EngineAppearanceControls({
 }) {
   const pack = PEOPLE_PACK.presentations[recipe.presentation];
   const outfit = packOutfit(pack, recipe.outfit);
+  const young = pack.faces.filter((f) => f.id.startsWith("20s30s-"));
+  const faceIds = (young.length > 0 ? young : pack.faces).map((f) => f.id);
+  const currentFace =
+    faceIds.find((id) => id.slice(-2) === recipe.face.slice(-2)) ?? faceIds[0]!;
   const shades = SKIN_RAMPS.map((_, index) => index + 1);
   const rows: {
     readonly id: string;
@@ -105,19 +109,16 @@ export function EngineAppearanceControls({
       swatch: SKIN_RAMPS[recipe.shade - 1]?.base,
       move: (by) => ({ ...recipe, shade: step(shades, recipe.shade, by) }),
     },
-    ...(pack.faces.length > 1
+    ...(faceIds.length > 1
       ? [
           {
             id: "face",
             label: "Face",
-            value: `${pack.faces.findIndex((f) => f.id === recipe.face) + 1} of ${pack.faces.length}`,
+            value: `${faceIds.indexOf(currentFace) + 1} of ${faceIds.length}`,
+            // A person picks one of the young faces; it ages with them.
             move: (by: number) => ({
               ...recipe,
-              face: step(
-                pack.faces.map((f) => f.id),
-                recipe.face,
-                by,
-              ),
+              face: step(faceIds, currentFace, by),
             }),
           },
         ]
