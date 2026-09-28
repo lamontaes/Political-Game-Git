@@ -19,7 +19,10 @@ import {
   homeLocalGovernmentUnits,
   localGovernmentOrganizationKey,
 } from "./nationwide-world/local-governments";
-import { resourceFlowTermsAt } from "./resource-queries";
+import {
+  resourceFlowTermsAt,
+  resourceFlowTermsHistory,
+} from "./resource-queries";
 import {
   createWorkCompensation,
   money,
@@ -1541,6 +1544,15 @@ function settleWeeklyRecordedPay(
         accepts(row, work),
     );
     if (!flow) continue;
+    // Only weekly terms pay here. Town pay settles its own biweekly,
+    // semimonthly and monthly schedules (living-world/town-pay.ts), and their
+    // periods do not fall on whole weeks from the flow's start.
+    if (
+      !resourceFlowTermsHistory(next, flow.id).some(
+        (terms) => terms.cadenceKind === "schedule:weekly",
+      )
+    )
+      continue;
     let paidWeeks = 0;
     for (const outcome of next.history.resourceTransferOutcomes) {
       if (outcome.resourceFlowId !== flow.id) continue;
