@@ -87,6 +87,7 @@ import {
   TOWN_JOB_ENDS_NOT_LOST,
   reviewTownJobs,
 } from "../living-world/town-labor-market";
+import { reviewTownFamilies } from "../living-world/town-families";
 
 /**
  * BLANKET: the chance an eligible adult resident leaves town in a year.
@@ -189,13 +190,13 @@ export function migrationReviewHandler(
   // The town's jobs turn over on the same quarterly review, after the moves,
   // so a newcomer can be hired and a mover's job is already closed.
   const town = migrationTown(next);
-  if (town)
-    next = reviewTownJobs(
-      next,
-      town,
-      next.control.kind === "person" ? next.control.personId : null,
-      String(index),
-    );
+  // Then its families: couples forming and parting, and children born.
+  if (town) {
+    const player =
+      next.control.kind === "person" ? next.control.personId : null;
+    next = reviewTownJobs(next, town, player, String(index));
+    next = reviewTownFamilies(next, town, player, String(index));
+  }
   next = scheduleFutureDueItem(next, {
     stableKey: `${REVIEW_KEY_PREFIX}${index + 1}`,
     dueAt: addDays(next.currentDate, MIGRATION_REVIEW_INTERVAL_DAYS),
