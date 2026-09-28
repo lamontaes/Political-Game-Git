@@ -105,10 +105,10 @@ export const TOWN_FAMILY_CHANCES = {
 } as const;
 
 /**
- * CALIBRATION, PENDING CLAUDE CTO'S APPROVAL: births per 1,000 women a year,
- * by age, from NCHS "Births: Final Data for 2024" (National Vital Statistics
- * Reports vol. 75 no. 2), as quoted in search excerpts; the report's table
- * itself was not read. The same rates serve every state and territory until
+ * CALIBRATION, approved by Claude CTO on 9/28/2026: births per 1,000 women a
+ * year, by age, from NCHS "Births: Final Data for 2024" (National Vital
+ * Statistics Reports vol. 75 no. 2), as quoted in search excerpts; the
+ * report's table itself was not read. The same rates serve every state and territory until
  * state tables are read. The 45-49 rate includes mothers 50 and over.
  */
 export const TOWN_BIRTH_RATES_BY_AGE: readonly (readonly [number, number])[] = [
