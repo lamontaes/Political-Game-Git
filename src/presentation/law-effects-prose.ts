@@ -92,6 +92,8 @@ function sentenceFor(line: LawEffectLine): string {
         ? `It changed the ${rule}, in effect since ${proseDate(line.operativeAt)}.`
         : `It changes the ${rule} on ${proseDate(line.operativeAt)}.`;
     }
+    case "duty":
+      return dutySentence(line);
     case "not-modeled":
       // PLACEHOLDER: the effect of this part is waiting on research. The
       // sentence says only that nothing acts on it, never what it would do.
@@ -99,4 +101,25 @@ function sentenceFor(line: LawEffectLine): string {
     case "no-operative-text":
       return "This law has no operative text, so it changes nothing in the world.";
   }
+}
+
+function dutySentence(line: Extract<LawEffectLine, { kind: "duty" }>): string {
+  const from = proseDate(line.operativeAt);
+  if (line.status === "scheduled")
+    return `${line.heading}: ${line.coveredLabel} must comply by ${proseDate(line.complyBy)}.`;
+  if (line.coverage === "conditional" || line.coverage === "unknown")
+    return `${line.heading}: this applies to ${line.coveredLabel}, in effect since ${from}. None has come under it yet.`;
+  const total = line.complied + line.complianceUnknown + line.coverageUnknown;
+  if (total === 0)
+    return `${line.heading}: this applies to ${line.coveredLabel}, in effect since ${from}. There are none on record here yet.`;
+  const found = [
+    line.complied > 0 ? `${line.complied} of ${total} met it` : null,
+    line.complianceUnknown > 0
+      ? `for ${line.complianceUnknown}, whether it was met is not known`
+      : null,
+    line.coverageUnknown > 0
+      ? `for ${line.coverageUnknown}, whether it applies is not known`
+      : null,
+  ].filter((part): part is string => part !== null);
+  return `${line.heading}: this applies to ${line.coveredLabel}, in effect since ${from}. Of those on record, ${found.join("; ")}.`;
 }

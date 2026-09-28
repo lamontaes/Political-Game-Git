@@ -1,4 +1,9 @@
 import { appropriationFromEnactedMeasure } from "./governing/program-governing";
+import {
+  applyEnactedDuties,
+  ENACTED_DUTY_RESEARCH_QUESTION,
+  enactedDutiesOf,
+} from "./enacted-duties";
 import { enactedRuleChanges } from "./enacted-rule-changes";
 import {
   draftLineageComponents,
@@ -96,6 +101,27 @@ export type LawEffectLine =
     }
   | {
       /**
+       * A duty the law places on a class of body, and what the bodies within
+       * its reach did by its compliance date.
+       */
+      readonly kind: "duty";
+      readonly status: "scheduled" | "in-effect";
+      readonly heading: string;
+      readonly coveredLabel: string;
+      readonly coverage:
+        "classes" | "size-threshold" | "conditional" | "unknown";
+      readonly operativeAt: IsoDate;
+      readonly complyBy: IsoDate;
+      readonly enforcerLabel: string | null;
+      readonly penaltyLabel: string | null;
+      readonly complied: number;
+      readonly complianceUnknown: number;
+      readonly coverageUnknown: number;
+      /** Who is covered, or whether they complied, awaits this research. */
+      readonly researchQuestionId: string;
+    }
+  | {
+      /**
        * A clause the game has no rule for yet. The law is still law; the
        * world simply does not know what this part does. PLACEHOLDER until the
        * research answer arrives.
@@ -161,6 +187,8 @@ export function applyEnactedLawEffects(
   // from the same clause would let a governor commit the same money twice.
   if (!isPinnedTransitMeasure(next, measureId))
     next = appropriationFromEnactedMeasure(next, measureId);
+  // A section that places a duty on a class of body.
+  next = applyEnactedDuties(next, measureId);
   return next;
 }
 
@@ -284,6 +312,28 @@ export function enactedLawEffects(
       officeKey: change.officeKey,
       operativeAt: change.operativeAt,
       operativeBasis: change.operativeBasis,
+    });
+  }
+
+  // Duties the law places on bodies.
+  for (const { duty, findings } of enactedDutiesOf(world, measureId)) {
+    consumed.add(duty.provisionId);
+    const count = (outcome: string) =>
+      findings.filter((row) => row.outcome === outcome).length;
+    lines.push({
+      kind: "duty",
+      status: duty.complyBy <= world.currentDate ? "in-effect" : "scheduled",
+      heading: duty.heading,
+      coveredLabel: duty.coverage.coveredLabel,
+      coverage: duty.coverage.kind,
+      operativeAt: duty.operativeAt,
+      complyBy: duty.complyBy,
+      enforcerLabel: duty.enforcerLabel,
+      penaltyLabel: duty.penaltyLabel,
+      complied: count("complied"),
+      complianceUnknown: count("compliance-unknown"),
+      coverageUnknown: count("coverage-unknown"),
+      researchQuestionId: ENACTED_DUTY_RESEARCH_QUESTION,
     });
   }
 

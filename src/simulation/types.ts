@@ -166,6 +166,7 @@ export type EntityKind =
   | "person-functional-capacity"
   | "personnel-record"
   | "public-program-record"
+  | "enacted-duty-record"
   | "personal-value"
   | "personality-tendency"
   | "personality-tendency-definition"
@@ -3818,6 +3819,84 @@ export interface PublicProgramCapacityOutturnRecord extends PublicProgramRecordB
   readonly restoredUnits: number | null;
 }
 
+/**
+ * Who an enacted duty reaches. Coverage is read from the Act's own words: a
+ * class of body the world records, a class the world records only without the
+ * size the Act turns on, or a body that must first do something the world
+ * does not record yet. None of these is a guess at who is covered.
+ */
+export type EnactedDutyCoverage =
+  | {
+      readonly kind: "classes";
+      readonly classifications: readonly OrganizationClassification[];
+      readonly coveredLabel: string;
+    }
+  | {
+      readonly kind: "size-threshold";
+      readonly classifications: readonly OrganizationClassification[];
+      readonly coveredLabel: string;
+      /** The size the Act names, which no world record carries yet. */
+      readonly thresholdLabel: string;
+      readonly researchQuestionId: string;
+    }
+  | {
+      readonly kind: "conditional";
+      readonly coveredLabel: string;
+      /** What a body must first do, which no world record carries yet. */
+      readonly conditionLabel: string;
+      readonly researchQuestionId: string;
+    }
+  | {
+      readonly kind: "unknown";
+      readonly coveredLabel: string;
+      readonly researchQuestionId: string;
+    };
+
+interface EnactedDutyRecordBase {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly eventId: EntityId;
+}
+
+/** A rule an enacted law places on a class of body, from one of its sections. */
+export interface EnactedDutyRuleRecord extends EnactedDutyRecordBase {
+  readonly kind: "duty";
+  readonly measureId: EntityId;
+  readonly provisionId: EntityId;
+  readonly provisionKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly heading: string;
+  readonly coverage: EnactedDutyCoverage;
+  /** The day the law takes effect. */
+  readonly operativeAt: IsoDate;
+  /** The Act's own compliance date; the operative day when it names none. */
+  readonly complyBy: IsoDate;
+  /** Who the Act names to receive filings or enforce it; null when it names no one. */
+  readonly enforcerLabel: string | null;
+  /** The penalty the Act states; null when it states none. */
+  readonly penaltyLabel: string | null;
+}
+
+/** What one body within a duty's reach did by its compliance date. */
+export interface EnactedDutyFindingRecord extends EnactedDutyRecordBase {
+  readonly kind: "finding";
+  readonly dutyId: EntityId;
+  readonly organizationId: EntityId;
+  /**
+   * "complied" is a provisional game rule (basis "game-profile"); the two
+   * unknowns say which fact the world does not hold.
+   */
+  readonly outcome: "complied" | "compliance-unknown" | "coverage-unknown";
+  readonly basis: "game-profile" | "unknown";
+  readonly researchQuestionId: string;
+  readonly reason: string;
+}
+
+export type EnactedDutyRecord =
+  EnactedDutyRuleRecord | EnactedDutyFindingRecord;
+
 export type PublicProgramRecord =
   | PublicProgramCapacityRecord
   | PublicProgramAppropriationRecord
@@ -4131,6 +4210,8 @@ export interface HistoryStore {
   readonly partyRecords?: readonly PartyRecord[];
   /** Optional so pre-GOVERNING-6 snapshots remain structurally readable. */
   readonly publicProgramRecords?: readonly PublicProgramRecord[];
+  /** Duties an enacted law places on bodies, and what each covered body did. */
+  readonly enactedDutyRecords?: readonly EnactedDutyRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];

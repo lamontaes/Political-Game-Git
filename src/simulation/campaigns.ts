@@ -25,6 +25,7 @@ import {
 } from "./legislative-office-terms";
 import { stateGoverningHandlers } from "./governing/state-governing";
 import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
+import { ENACTED_DUTY_HANDLERS } from "./enacted-duties";
 import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
 import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
 import { CONSTITUTIONAL_REFORM_HANDLERS } from "./living-world/constitutional-reform";
@@ -2098,6 +2099,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         // The player's town council meeting and voting on ordinances.
         ...LOCAL_COUNCIL_MEETING_HANDLERS,
         ...PUBLIC_PROGRAM_HANDLERS,
+        // An enacted law's duty falling due on the bodies it covers.
+        ...ENACTED_DUTY_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
         [
           POLITICAL_REFLECTION_TRANSITION_KEY,
