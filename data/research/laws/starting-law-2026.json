@@ -829,7 +829,7 @@
     },
     "us-policy-positions:housing-land-use.rent-stabilization": {
       "source": "NMHC and NAA rent-control preemption tracking (2022-2025), Virginia Housing Commission study (June 2026), state code sites and Justia for each statute; searched 2026-09-28.",
-      "note": "No with preempts false: no statewide limit, and cities may set their own. Unknown, and left out: US-AS, US-GU, US-MP, US-NH, US-PA, US-PR, US-VI, US-WV.",
+      "note": "No with preempts false: no statewide limit, and cities may set their own. Unknown, and left out: US-AS, US-GU, US-MP, US-NH, US-PR, US-VI, US-WV.",
       "answers": {
         "US-AK": {
           "answer": "no",
@@ -1085,6 +1085,13 @@
           "cite": "ORS 90.323 (SB 608, 2019; amended by SB 611, 2023)",
           "source": "https://olis.oregonlegislature.gov/liz/2019R1/Downloads/MeasureDocument/SB608/Enrolled",
           "note": "Cap is 7% plus CPI; SB 611 (effective 2023-07-06) added a 10% ceiling; units under 15 years old are exempt; ORS 91.225 still preempts local rent control."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "53 Pa.C.S. § 2962(f); no rent-specific statute",
+          "source": "https://www.palegis.us/statutes/consolidated/view-statute?txtType=PDF&ttl=53&div=0&chapter=29&section=62&subsctn=0",
+          "note": "Weak: no statute bans rent control, but the home-rule law and Dillon's Rule keep cities from capping rents."
         },
         "US-RI": {
           "answer": "no",
