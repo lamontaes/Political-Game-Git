@@ -49,6 +49,18 @@ import type {
 const OPENING_NUMBER_MINIMUM = 12;
 const OPENING_NUMBER_MAXIMUM_EXCLUSIVE = 640;
 
+/**
+ * Where a town council's ordinance count sits on the day a world opens: about
+ * one ordinance a week since January 1, so a life that opens in the first
+ * week of January meets ORD 1. PLACEHOLDER, pending
+ * `local-council-legislative-volume`: no town's volume has been read.
+ */
+export function councilOpeningNumber(startedAt: string): number {
+  const date = new Date(`${startedAt.slice(0, 10)}T00:00:00Z`);
+  const january = Date.UTC(date.getUTCFullYear(), 0, 1);
+  return 1 + Math.floor((date.getTime() - january) / (7 * 86_400_000));
+}
+
 export interface MeasureDesignationInput {
   readonly jurisdictionId: EntityId;
   /** The chamber receiving the introduction, from its own rule pack. */
@@ -267,11 +279,15 @@ export function nextMeasureNumbering(
   // Only the session the world opened in starts partway up. The draw keeps
   // the fork it always had, so an old save's opening count is unchanged.
   const firstNumber =
-    session.key === openingSession.key
-      ? new SeededRng(world.seed)
-          .fork(`measure-numbering:${input.jurisdictionId}:${originChamberKey}`)
-          .integer(OPENING_NUMBER_MINIMUM, OPENING_NUMBER_MAXIMUM_EXCLUSIVE)
-      : 1;
+    session.key !== openingSession.key
+      ? 1
+      : scheme.kind === "council"
+        ? councilOpeningNumber(world.startedAt)
+        : new SeededRng(world.seed)
+            .fork(
+              `measure-numbering:${input.jurisdictionId}:${originChamberKey}`,
+            )
+            .integer(OPENING_NUMBER_MINIMUM, OPENING_NUMBER_MAXIMUM_EXCLUSIVE);
 
   const inThisSession = (world.history.legislativeMeasures ?? []).filter(
     (record) =>

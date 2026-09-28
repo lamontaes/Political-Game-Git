@@ -61,22 +61,41 @@ function ordinaryStart(placeKey: string, seed: string) {
   });
   const townId = municipalGovernmentJurisdictionId(world, government.key)!;
   const player = game.playerPersonId;
-  // The council member is a neighbor who lives in town; seating them is the
-  // fixture, since an ordinary start does not fill the council.
-  const member = world.personOrder.find(
-    (id) =>
-      id !== player &&
-      world.people[id]!.homeJurisdictionId === townId &&
-      world.people[id]!.lifeStatus !== "deceased",
-  )!;
-  world = seatMunicipalMember(world, {
-    governmentKey: government.key,
-    personId: member,
-    startedAt: world.currentDate,
-    role: "member",
-    seatLabel: "Seat 1",
-  });
+  // The council member is a neighbor who lives in town: an ordinary start
+  // seats the council from the town's own residents.
+  const member = municipalSeats(world, government.key).find(
+    (seat) =>
+      seat.role === "member" &&
+      seat.personId !== player &&
+      world.people[seat.personId]!.homeJurisdictionId === townId &&
+      world.people[seat.personId]!.lifeStatus !== "deceased",
+  )!.personId;
   return { world, governmentKey: government.key, player, member, townId };
+}
+
+/** Ends one sitting member's seat other than `keep`'s, as a resignation. */
+function vacateOneSeat(
+  world: World,
+  governmentKey: string,
+  keep: EntityId,
+): World {
+  const seat = municipalSeats(world, governmentKey).find(
+    (row) => row.role === "member" && row.personId !== keep,
+  )!;
+  const prior = organizationParticipationStateHistory(
+    world,
+    seat.participationId,
+  ).at(-1)!;
+  return recordOrganizationParticipationState(world, {
+    stableKey: `fixture:vacated:${seat.participationId}`,
+    participationId: seat.participationId,
+    effectiveAt: world.currentDate,
+    status: "ended",
+    roleKind: prior.roleKind,
+    context: "Resigned.",
+    provenance: { kind: "authored", note: "Vacancy fixture." },
+    supersedesStateId: prior.id,
+  });
 }
 
 function daysUntil(world: World, date: IsoDate): number {
@@ -195,10 +214,13 @@ describe("recalling a town official", () => {
           return "failed-to-qualify";
         return recallYesShare(world.seed, key) > 5_000 ? "removed" : "retained";
       };
+      const seatedIds = new Set(
+        municipalSeats(world, governmentKey).map((seat) => seat.personId),
+      );
       const residents = world.personOrder.filter(
         (id) =>
           id !== player &&
-          id !== member &&
+          !seatedIds.has(id) &&
           world.people[id]!.homeJurisdictionId === townId &&
           world.people[id]!.lifeStatus !== "deceased",
       );
@@ -209,7 +231,10 @@ describe("recalling a town official", () => {
       ] as const) {
         const target = residents.find((id) => outcomeFor(id) === expected)!;
         expect(target, expected).toBeDefined();
-        let seated = seatMunicipalMember(world, {
+        // The council is full from the opening, so a neighbor's seat is
+        // opened for the target first.
+        let seated = vacateOneSeat(world, governmentKey, member);
+        seated = seatMunicipalMember(seated, {
           governmentKey,
           personId: target,
           startedAt: world.currentDate,
@@ -269,7 +294,9 @@ describe("recalling a town official", () => {
     )!;
     // The member resigns a week in: their seat ends on the record.
     let resigned = passOrdinaryDays(started, 7);
-    const seat = municipalSeats(resigned, governmentKey)[0]!;
+    const seat = municipalSeats(resigned, governmentKey).find(
+      (row) => row.personId === member,
+    )!;
     const prior = organizationParticipationStateHistory(
       resigned,
       seat.participationId,
@@ -378,13 +405,18 @@ describe("recalling a town official", () => {
     expect(serializeWorld(world)).toBe(before);
     expect(view.unavailable).toBeNull();
     expect(view.rule).toBe("A petition circulates for 30 days.");
-    expect(view.targets).toEqual([
-      expect.objectContaining({
-        personId: member,
-        seatLabel: "Seat 1",
-        refusal: null,
-      }),
-    ]);
+    // Every seated official of the town can be petitioned against.
+    const seats = municipalSeats(world, governmentKey);
+    expect(view.targets).toHaveLength(seats.length);
+    expect(view.targets).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          personId: member,
+          seatLabel: seats.find((seat) => seat.personId === member)!.seatLabel,
+          refusal: null,
+        }),
+      ]),
+    );
     expect(view.petitions).toEqual([]);
 
     const started = startProjectedRecallPetition(
@@ -394,9 +426,9 @@ describe("recalling a town official", () => {
       member,
     );
     const after = projectRecall(started, governmentKey, player);
-    expect(after.targets[0]!.refusal).toBe(
-      "A recall petition against this official is already under way.",
-    );
+    expect(
+      after.targets.find((target) => target.personId === member)!.refusal,
+    ).toBe("A recall petition against this official is already under way.");
     expect(after.petitions).toHaveLength(1);
     expect(after.petitions[0]).toMatch(
       /: a recall petition is circulating until [A-Z][a-z]+ \d+, \d{4}\.$/,

@@ -995,6 +995,10 @@ export function pendingChamberQuestions(
   onDate: IsoDate = world.currentDate,
 ): readonly ChamberQuestionForum[] {
   const measure = requireMeasure(world, measureId);
+  // A council's ordinances are voted at its own meetings (the council
+  // procedures in municipal-ordinance-procedure.ts and
+  // living-world/local-council-meetings.ts), never by this clock.
+  if (measure.originChamberKey === "council") return [];
   if (effectiveOwner(world, measure) !== "institution") return [];
   const blueprint = legislativeBlueprintForMeasure(world, measure);
   if (!isSeatedChamber(world, blueprint)) return [];

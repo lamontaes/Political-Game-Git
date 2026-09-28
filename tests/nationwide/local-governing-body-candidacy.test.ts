@@ -312,8 +312,10 @@ describe("standing again after a race is over", () => {
     const ely = projectGovernmentBrowser(world, personId).localGovernments.find(
       (entry) => entry.key === `unit:${body.unit.id}`,
     );
-    expect(ely?.holderName).toBe(name);
-    expect(ely?.detail).toContain("Member of the Ely City Council.");
+    // The town's council is seated from its residents, so the player is one
+    // member on its roster, not the town's only officeholder.
+    expect(ely?.roster?.map((row) => row.holderName)).toContain(name);
+    expect(ely?.detail).toContain("Members of the Ely City Council.");
     // The county above it is named the way Minnesotans say it.
     expect(
       projectGovernmentBrowser(world, personId).alsoGoverning.map(

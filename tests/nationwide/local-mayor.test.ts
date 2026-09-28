@@ -245,8 +245,9 @@ describe("running for mayor", () => {
           (entry) => entry.key === `unit:${mayor.unit.id}`,
         );
         expect(row?.holderPersonId).toBe(personId);
-        expect(row?.detail).toBe(
-          "Mayor. Other government details are limited.",
+        // The council the opening seated is listed beside the mayor.
+        expect(row?.detail).toMatch(
+          /^Mayor\. Members of the .+\. Other government details are limited\.$/,
         );
       }
 
@@ -260,23 +261,31 @@ describe("running for mayor", () => {
     const { world: opening, personId } = adultLifeAt(DULUTH, "mayor-succeeds");
     const mayor = mayorOffice(opening, personId)!;
     const government = municipalGovernmentForUnit(mayor.unit)!;
-    const sitting = Object.values(opening.people).find(
-      (person) =>
-        person.id !== personId &&
-        person.birthDate < addDays(opening.currentDate, -365 * 30),
-    )!;
     let world = installMunicipalGovernment(opening, {
       governmentKey: government.key,
       jurisdictionId: opening.people[personId]!.homeJurisdictionId,
       formedAt: opening.currentDate,
     });
-    world = seatMunicipalMember(world, {
-      governmentKey: government.key,
-      personId: sitting.id,
-      startedAt: world.currentDate as IsoDate,
-      role: "mayor",
-      seatLabel: "Mayor",
-    });
+    // The opening seats the town's mayor from its residents; a town it did
+    // not seat gets one here.
+    const seatedMayor = municipalSeats(world, government.key).find(
+      (seat) => seat.role === "mayor",
+    );
+    const sitting = seatedMayor
+      ? opening.people[seatedMayor.personId]!
+      : Object.values(opening.people).find(
+          (person) =>
+            person.id !== personId &&
+            person.birthDate < addDays(opening.currentDate, -365 * 30),
+        )!;
+    if (!seatedMayor)
+      world = seatMunicipalMember(world, {
+        governmentKey: government.key,
+        personId: sitting.id,
+        startedAt: world.currentDate as IsoDate,
+        role: "mayor",
+        seatLabel: "Mayor",
+      });
     expect(
       municipalSeats(world, government.key).filter(
         (seat) => seat.role === "mayor",

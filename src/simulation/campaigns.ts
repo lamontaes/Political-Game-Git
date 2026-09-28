@@ -29,6 +29,9 @@ import { PRESIDENTIAL_TURNOVER_HANDLERS } from "./nationwide-world/presidential-
 import { RECALL_HANDLERS } from "./recall";
 import { COUNCIL_ACT_HANDLERS } from "./municipal-ordinance-procedure";
 import { DC_COUNCIL_SITTING_HANDLERS } from "./dc-council-sittings";
+import { LOCAL_COUNCIL_MEETING_HANDLERS } from "./living-world/local-council-meetings";
+import { LOCAL_ELECTION_HANDLERS } from "./living-world/local-elections";
+import { localGoverningBodyRules } from "./nationwide-world/local-governing-body-rules";
 import {
   createNationalElectionTransitionRegistry,
   linkedNationalUnitTransition,
@@ -55,7 +58,6 @@ import {
   installMunicipalGovernment,
   municipalOrganizationFor,
   municipalSeatKey,
-  municipalSeats,
 } from "./municipal-public-work";
 import { planOrdinaryStateExecutiveTerm } from "./nationwide-world/state-executive-terms";
 import {
@@ -1756,13 +1758,6 @@ function seatOnLocalGoverningBody(
       formedAt: next.currentDate,
     });
     organizationId = municipalOrganizationFor(next, compiled.key)?.id;
-    if (!mayor) {
-      const bodySize = primaryReading(compiled).bodySize;
-      const seated = municipalSeats(next, compiled.key).filter(
-        (seat) => seat.role === "member" || seat.role === "presiding-member",
-      ).length;
-      if (bodySize !== null && seated >= bodySize) return next;
-    }
     stableKey = municipalSeatKey(compiled.key, winnerPersonId);
   } else {
     next = ensureLocalGovernmentOrganization(next, unit);
@@ -1787,12 +1782,38 @@ function seatOnLocalGoverningBody(
     )
   )
     return next;
-  if (mayor) {
-    // The sitting mayor's term ends as the new one's begins.
-    for (const participation of next.history.organizationParticipations) {
-      if (participation.organizationId !== organizationId) continue;
+  // The sitting mayor's term ends as the new one's begins. A member takes
+  // a seat on a full body from the member who has held theirs longest, whose
+  // term is the one most likely up; which seat was on the ballot is not
+  // recorded on a campaign's contest.
+  const seatLimit = mayor
+    ? 1
+    : compiled
+      ? primaryReading(compiled).bodySize
+      : (localGoverningBodyRules(unit)?.seats?.value ?? null);
+  const sitting = next.history.organizationParticipations
+    .filter((participation) => {
+      if (participation.organizationId !== organizationId) return false;
       const state = organizationParticipationStateAt(next, participation.id);
-      if (state?.status !== "active" || state.roleKind !== roleKind) continue;
+      return (
+        state?.status === "active" &&
+        (state.roleKind === roleKind ||
+          (!mayor && state.roleKind === "leader:municipal-presiding-member"))
+      );
+    })
+    .sort(
+      (left, right) =>
+        left.startedAt.localeCompare(right.startedAt) ||
+        left.sequence - right.sequence,
+    );
+  const succeeded =
+    seatLimit === null
+      ? []
+      : sitting.slice(0, Math.max(0, sitting.length - seatLimit + 1));
+  {
+    for (const participation of succeeded) {
+      const state = organizationParticipationStateAt(next, participation.id);
+      if (state?.status !== "active") continue;
       next = recordOrganizationParticipationState(next, {
         stableKey: `${participation.stableKey}:state:succeeded:${contest.id}`,
         participationId: participation.id,
@@ -2039,6 +2060,10 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         ...COUNCIL_ACT_HANDLERS,
         // The Council of the District of Columbia sitting on its own.
         ...DC_COUNCIL_SITTING_HANDLERS,
+        // The player's town electing its council and mayor on its own.
+        ...LOCAL_ELECTION_HANDLERS,
+        // The player's town council meeting and voting on ordinances.
+        ...LOCAL_COUNCIL_MEETING_HANDLERS,
         ...PUBLIC_PROGRAM_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
         [
