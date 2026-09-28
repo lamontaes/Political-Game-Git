@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../dates";
 import { lawInForceAtStart } from "../governing/law-in-force";
 import { stateJurisdictionForKey } from "../life-places";
 import { STATES } from "../state-reference";
@@ -470,23 +470,34 @@ describe("every state policy question has researched effects (F-cloud rows)", ()
           );
         };
         const label = `${link.key} in ${place.key}`;
-        const startedYes =
+        const startingAnswer = (onDate: string) =>
           lawInForceAtStart(
             enacted(place.id, questionKey, "no", effectiveAt),
             place.id,
             `proposition:${questionKey}` as EntityId,
-            OUTCOME_WEB_CALIBRATED_AT,
-          ) === "yes";
+            makeIsoDate(onDate),
+          ) === "yes"
+            ? 1
+            : 0;
+        // The base is the law when the outcome data was measured.
+        const startedYes = startingAnswer(OUTCOME_WEB_CALIBRATED_AT) === 1;
         const yes = factorFor("yes");
         const no = factorFor("no");
         expect(yes - no, label).toBeCloseTo(link.size ?? 0, 10);
-        // The starting law is the base: keeping it changes nothing.
+        // Keeping the law the data was measured under changes nothing.
         expect(startedYes ? yes : no, label).toBeCloseTo(1, 10);
-        // Before the law takes effect and its lag passes, nothing moves.
-        expect(
-          factorFor(startedYes ? "no" : "yes", makeIsoDate("2029-12-01")),
-          label,
-        ).toBe(1);
+        // Before the new law takes effect and its lag passes, only a starting
+        // law that took effect after the data was measured (such as Maryland's
+        // facial recognition limits, 10/1/2024) moves the outcome.
+        const before = makeIsoDate("2029-12-01");
+        // The engine reads a law as of its lag, counting a month as 30.44 days.
+        const readAt = addDays(before, -Math.round(link.lagMonths * 30.44));
+        const startingLawMoved =
+          startingAnswer(readAt) - startingAnswer(OUTCOME_WEB_CALIBRATED_AT);
+        expect(factorFor(startedYes ? "no" : "yes", before), label).toBeCloseTo(
+          1 + (link.size ?? 0) * startingLawMoved,
+          10,
+        );
       }
     }
   });
