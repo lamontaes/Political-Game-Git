@@ -112,6 +112,9 @@ test.describe("A life is played in the room, not on a card", () => {
     // the screen rather than hidden behind a control.
     const cluster = page.getByTestId("shell-nav-cluster");
     await expect(cluster).toBeVisible();
+    // Return to the room sits just above the cluster, inside the 190px band
+    // that raises it, so the pointer leaves that band before rest is checked.
+    await page.mouse.move(720, 40);
     await expect(page.getByTestId("shell-nav")).toHaveAttribute(
       "data-state",
       "rest",
