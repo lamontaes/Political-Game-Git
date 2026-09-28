@@ -10,6 +10,8 @@ import {
 } from "./bill-numbering-styles";
 import {
   deriveStateBillNumberingStyle,
+  type BillNumberingPeriodRow,
+  type BillNumberingStartRow,
   type BillSampleRow,
 } from "./bill-numbering-derivation";
 import { STATE_BILL_NUMBERING_STYLES } from "./bill-numbering-styles.generated";
@@ -124,6 +126,15 @@ describe("the numbering style table", () => {
         name?: { state?: string; value?: unknown };
       }[];
     }[];
+    const research = JSON.parse(
+      readFileSync(
+        resolve(root, "data/research/bill-numbering-starts.json"),
+        "utf8",
+      ),
+    ) as {
+      starts: BillNumberingStartRow[];
+      periods: BillNumberingPeriodRow[];
+    };
     const derived = corpus
       .map((record) =>
         deriveStateBillNumberingStyle(
@@ -153,6 +164,8 @@ describe("the numbering style table", () => {
                 ]
               : [],
           ),
+          research.starts,
+          research.periods,
         ),
       )
       .sort((a, b) => a.jurisdictionKey.localeCompare(b.jurisdictionKey));
@@ -214,9 +227,19 @@ describe("bill numbers restart every session, in every state", () => {
       const style = stateBillNumberingStyle(key);
       for (const chamber of pack.chambers) {
         let world = worldIn(key.toLowerCase());
-        const expectedPrefix = templatePrefix(
-          stateChamberStyle(style, chamber.chamberKey).template,
-        );
+        const chamberStyle = stateChamberStyle(style, chamber.chamberKey);
+        const expectedPrefix = templatePrefix(chamberStyle.template);
+        // OCD-LEG-NUM-002: a regular session starts at the chamber's recorded
+        // first number, or at 1 where none is recorded.
+        const startOf = (openingYear: number) =>
+          openingYear % 2 === 0
+            ? (chamberStyle.evenYearFirstNumber ?? chamberStyle.firstNumber)
+            : chamberStyle.firstNumber;
+        const openingOf = (year: number) =>
+          style.period === "biennial" &&
+          (year % 2 === 0) !== (style.biennialOpensIn === "even")
+            ? year - 1
+            : year;
         // The pack names its chambers the way the numbering does.
         expect(chamber.billDesignationPrefix, key).toBe(expectedPrefix);
 
@@ -226,7 +249,9 @@ describe("bill numbers restart every session, in every state", () => {
         const second = file(world, pack, chamber);
         world = second.world;
         expect(first.designation.startsWith(expectedPrefix), key).toBe(true);
-        expect(numberOf(first.designation)).toBeGreaterThanOrEqual(12);
+        expect(numberOf(first.designation)).toBeGreaterThanOrEqual(
+          startOf(openingOf(2026)) + 11,
+        );
         expect(numberOf(second.designation)).toBe(
           numberOf(first.designation) + 1,
         );
@@ -242,16 +267,18 @@ describe("bill numbers restart every session, in every state", () => {
             numberOf(second.designation) + 1,
           );
         } else {
-          expect(numberOf(nextYear.designation), key).toBe(1);
+          expect(numberOf(nextYear.designation), key).toBe(startOf(2027));
           expect(nextYear.session, key).not.toBe(first.session);
         }
 
-        // Every later session starts at 1, and the new session is in the name.
+        // Every later session starts at its first number, and the new
+        // session is in the name.
         const later = file(on(nextYear.world, "2029-01-15"), pack, chamber);
-        expect(numberOf(later.designation), key).toBe(1);
+        const laterStart = startOf(openingOf(2029));
+        expect(numberOf(later.designation), key).toBe(laterStart);
         expect(later.full).toMatch(/\(20\d\d(-20\d\d)? Regular Session\)$/);
         const followed = file(later.world, pack, chamber);
-        expect(numberOf(followed.designation), key).toBe(2);
+        expect(numberOf(followed.designation), key).toBe(laterStart + 1);
 
         // A filed bill keeps its designation.
         expect(
@@ -284,7 +311,39 @@ describe("bill numbers restart every session, in every state", () => {
       (chamber) => chamber.chamberKey === "house",
     )!;
     const later = file(on(worldIn("us-co"), "2027-01-13"), pack, house);
-    expect(later.designation).toBe("HB27-1");
+    expect(later.designation).toBe("HB27-1001");
+  });
+
+  it("starts where the state's rules say and keeps counting through a stated biennium", () => {
+    const wa = legislatureForState("US-WA")!;
+    const senate = wa.chambers.find(
+      (chamber) => chamber.chamberKey === "senate",
+    )!;
+    const opened = file(on(worldIn("us-wa"), "2027-01-11"), wa, senate);
+    expect(opened.designation).toBe("SB 5000");
+    // Washington numbers by the biennium, so 2028 continues 2027's run.
+    const secondYear = file(on(opened.world, "2028-01-12"), wa, senate);
+    expect(secondYear.designation).toBe("SB 5001");
+
+    const ks = legislatureForState("US-KS")!;
+    const house = ks.chambers.find(
+      (chamber) => chamber.chamberKey === "house",
+    )!;
+    const kansas = file(on(worldIn("us-ks"), "2027-01-11"), ks, house);
+    expect(kansas.designation).toBe("HB 2001");
+    const kansasNext = file(on(kansas.world, "2028-01-08"), ks, house);
+    expect(kansasNext.designation).toBe("HB 2002");
+
+    // A start that was only inferred stays at 1.
+    const ri = legislatureForState("US-RI")!;
+    const riHouse = ri.chambers.find(
+      (chamber) => chamber.chamberKey === "house",
+    )!;
+    expect(
+      numberOf(
+        file(on(worldIn("us-ri"), "2027-01-05"), ri, riHouse).designation,
+      ),
+    ).toBe(1);
   });
 
   it("is the same for the same seed and history, and differs by seed", () => {

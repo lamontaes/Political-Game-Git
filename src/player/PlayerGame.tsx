@@ -186,6 +186,7 @@ import {
 import { gameBuildProfile } from "../presentation/build-profile";
 import { SceneBackdrop } from "./SceneBackdrop";
 import { backdropForLocation } from "../presentation/place-backdrops";
+import { placeBackdropPeople } from "../presentation/backdrop-people";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
 import { projectCandidateGuidanceScene } from "../presentation/candidate-guidance-scene";
@@ -1524,6 +1525,18 @@ function PlayingScreen({
       playScene.locationKey,
     ],
   );
+  // Who is on shift at that place, standing in its picture.
+  const placePeople = useMemo(
+    () =>
+      placeBackdrop
+        ? placeBackdropPeople(
+            session.world,
+            session.personId,
+            placeBackdrop.place,
+          )
+        : [],
+    [placeBackdrop, session.world, session.personId],
+  );
   const roomMedia = useMemo(
     () => projectRoomMedia(session.world, session.personId),
     [session.world, session.personId],
@@ -2296,6 +2309,7 @@ function PlayingScreen({
             <SceneBackdrop
               sceneId={sceneId}
               placeBackdrop={placeBackdrop}
+              placePeople={placePeople}
               readableSurfaces={readableSurfaces}
               roomMedia={roomMedia}
               onOpenSurfaceEntity={openEntity}

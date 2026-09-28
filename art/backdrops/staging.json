@@ -1,0 +1,100 @@
+{
+  "schema": "ocd-place-staging/v1",
+  "note": "Where people stand in a place picture, shared by its morning, midday, night and rain versions. Percent of the picture (1672 x 941). A person's height is 1.7 m x metersPercent x (floorY - horizonY): the floor line's distance below the horizon sets the scale, read from a door, counter, desk or chair of known size in each picture. A spot with clipBelowY stands behind a counter or podium and is cut off at that line. Measured by eye on Sept. 28, 2026; adjust by looking.",
+  "places": {
+    "clerk-counter": {
+      "horizonY": 30,
+      "metersPercent": 0.61,
+      "spots": [
+        { "x": 50, "y": 58, "clipBelowY": 42 },
+        { "x": 36, "y": 58, "clipBelowY": 42 }
+      ]
+    },
+    "diner": {
+      "horizonY": 35,
+      "metersPercent": 0.62,
+      "spots": [
+        { "x": 47, "y": 62 },
+        { "x": 56, "y": 56 },
+        { "x": 44, "y": 70 }
+      ]
+    },
+    "hospital-hallway": {
+      "horizonY": 38,
+      "metersPercent": 0.86,
+      "spots": [
+        { "x": 66, "y": 52, "clipBelowY": 43 },
+        { "x": 45, "y": 58 },
+        { "x": 56, "y": 66 },
+        { "x": 38, "y": 64 }
+      ]
+    },
+    "union-hall": {
+      "horizonY": 36,
+      "metersPercent": 0.68,
+      "spots": [
+        { "x": 53, "y": 58 },
+        { "x": 47, "y": 66 },
+        { "x": 40, "y": 46, "clipBelowY": 38.5 }
+      ]
+    },
+    "church-supper-hall": {
+      "horizonY": 32,
+      "metersPercent": 0.72,
+      "spots": [
+        { "x": 45, "y": 45, "clipBelowY": 37.5 },
+        { "x": 55, "y": 45, "clipBelowY": 37.5 },
+        { "x": 50, "y": 60 }
+      ]
+    },
+    "community-room": {
+      "horizonY": 34,
+      "metersPercent": 0.62,
+      "spots": [
+        { "x": 50, "y": 55 },
+        { "x": 40, "y": 64 },
+        { "x": 62, "y": 60 }
+      ]
+    },
+    "county-party-office": {
+      "horizonY": 38,
+      "metersPercent": 0.85,
+      "spots": [
+        { "x": 50, "y": 62 },
+        { "x": 40, "y": 58 }
+      ]
+    },
+    "campaign-storefront": {
+      "horizonY": 38,
+      "metersPercent": 0.83,
+      "spots": [
+        { "x": 35, "y": 56 },
+        { "x": 44, "y": 54 }
+      ]
+    },
+    "store": {
+      "horizonY": 35,
+      "metersPercent": 0.68,
+      "spots": [
+        { "x": 68, "y": 50, "clipBelowY": 43 },
+        { "x": 42, "y": 60 }
+      ]
+    },
+    "office": {
+      "horizonY": 38,
+      "metersPercent": 0.7,
+      "spots": [
+        { "x": 22, "y": 66 },
+        { "x": 30, "y": 58 }
+      ]
+    },
+    "classroom": {
+      "horizonY": 32,
+      "metersPercent": 0.77,
+      "spots": [
+        { "x": 66, "y": 50 },
+        { "x": 50, "y": 60 }
+      ]
+    }
+  }
+}
