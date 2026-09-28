@@ -178,6 +178,18 @@ function fireflyHair(sex: string): { id: string; stem: string; dir: string }[] {
     .sort()
     .map((id) => ({ id, stem: `hair-${sex}-${id}`, dir: FIREFLY_HAIR }));
 }
+/**
+ * The art team's six faces per presentation (Sept. 27, people-appearance/
+ * faces), registered to one head: 01 to 03 as first delivered, 04 to 06 in
+ * their corrected second versions.
+ */
+function artFaces(sex: string): { id: string; file: string }[] {
+  return [1, 2, 3, 4, 5, 6].map((n) => ({
+    id: `20s30s-0${n}`,
+    file: `face-${sex}-20s30s-0${n}-${n >= 4 ? "v2" : "v1"}.png`,
+  }));
+}
+
 const SOURCES: Record<
   "feminine" | "masculine",
   {
@@ -186,14 +198,14 @@ const SOURCES: Record<
   }
 > = {
   feminine: {
-    faces: [{ id: "20s30s-01", file: "face-feminine-20s30s-01-v1.png" }],
+    faces: artFaces("feminine"),
     hair: [
       { id: "wavy-bob", stem: "hair-feminine-wavy-bob-01" },
       ...fireflyHair("feminine"),
     ],
   },
   masculine: {
-    faces: [{ id: "20s30s-01", file: "face-masculine-20s30s-01-v1.png" }],
+    faces: artFaces("masculine"),
     hair: [
       { id: "short-coils", stem: "hair-masculine-short-coils-01" },
       ...fireflyHair("masculine"),
@@ -413,11 +425,13 @@ function dressedBody(
 ): NonNullable<OutfitBuilds[BodyBuild]> {
   const anchorsFull = measureBodyAnchors(bareFull);
   const painting = transform(read(paintingFile));
-  const offset = registrationOffset(
-    measureBodyAnchors(painting),
-    anchorsFull,
-    "head",
-  );
+  // Firefly outfits were painted on exactly our bodies (cut_outfits.py), so
+  // they are not moved: measuring their heads can be a pixel off, and a pixel
+  // splits every half-size pixel of the skin mask. The art team's paintings
+  // are registered by the head.
+  const offset = skinFile
+    ? { dx: 0, dy: 0 }
+    : registrationOffset(measureBodyAnchors(painting), anchorsFull, "head");
   const skinFull = skinFile
     ? translateRaster(transform(read(skinFile)), offset.dx, offset.dy)
     : null;

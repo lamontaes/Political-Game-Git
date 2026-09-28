@@ -105,6 +105,51 @@
             "base": 152,
             "highlight": 179.4
           }
+        },
+        {
+          "id": "20s30s-02",
+          "file": "face-feminine-20s30s-02.png",
+          "skin": {
+            "shadow": 73.7,
+            "base": 150.4,
+            "highlight": 181.1
+          }
+        },
+        {
+          "id": "20s30s-03",
+          "file": "face-feminine-20s30s-03.png",
+          "skin": {
+            "shadow": 73.1,
+            "base": 142.1,
+            "highlight": 169.7
+          }
+        },
+        {
+          "id": "20s30s-04",
+          "file": "face-feminine-20s30s-04.png",
+          "skin": {
+            "shadow": 74.3,
+            "base": 153.3,
+            "highlight": 184.9
+          }
+        },
+        {
+          "id": "20s30s-05",
+          "file": "face-feminine-20s30s-05.png",
+          "skin": {
+            "shadow": 75.8,
+            "base": 154.5,
+            "highlight": 186
+          }
+        },
+        {
+          "id": "20s30s-06",
+          "file": "face-feminine-20s30s-06.png",
+          "skin": {
+            "shadow": 77.9,
+            "base": 153.8,
+            "highlight": 184.1
+          }
         }
       ],
       "hair": [
@@ -1200,6 +1245,51 @@
             "shadow": 76.9,
             "base": 175.4,
             "highlight": 214.8
+          }
+        },
+        {
+          "id": "20s30s-02",
+          "file": "face-masculine-20s30s-02.png",
+          "skin": {
+            "shadow": 67.2,
+            "base": 162.9,
+            "highlight": 201.1
+          }
+        },
+        {
+          "id": "20s30s-03",
+          "file": "face-masculine-20s30s-03.png",
+          "skin": {
+            "shadow": 63.5,
+            "base": 160.6,
+            "highlight": 199.5
+          }
+        },
+        {
+          "id": "20s30s-04",
+          "file": "face-masculine-20s30s-04.png",
+          "skin": {
+            "shadow": 79,
+            "base": 165.3,
+            "highlight": 199.8
+          }
+        },
+        {
+          "id": "20s30s-05",
+          "file": "face-masculine-20s30s-05.png",
+          "skin": {
+            "shadow": 83.5,
+            "base": 163.8,
+            "highlight": 195.9
+          }
+        },
+        {
+          "id": "20s30s-06",
+          "file": "face-masculine-20s30s-06.png",
+          "skin": {
+            "shadow": 65,
+            "base": 167.9,
+            "highlight": 209
           }
         }
       ],
