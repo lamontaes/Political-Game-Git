@@ -38,6 +38,9 @@ import {
   UNGENERATIONED,
 } from "./browser-world-repository-protocol";
 import { createSaveId } from "./new-game-identity";
+import type { EngineRecipe } from "./appearance-engine/pack";
+import { engineRecipeFor } from "./appearance-engine/recipe";
+import { PEOPLE_PACK } from "./appearance-engine/runtime";
 
 export {
   BROWSER_WORLD_RECORD_KIND,
@@ -156,6 +159,14 @@ export interface BrowserWorldSummary {
    */
   readonly observing?: true;
   readonly residence: BrowserWorldResidenceSummary | null;
+  /**
+   * How the player looks, dressed for each kind of place, as the people
+   * engine draws them: what the title screen paints without loading the
+   * world. Absent for a child, and in saves made before it existed.
+   */
+  readonly playerLooks?: Partial<
+    Record<"casual" | "business" | "formal", EngineRecipe>
+  >;
   readonly currentMoment: SimulationMoment;
   readonly actionSequence: number;
   readonly createdAt: string;
@@ -1198,9 +1209,25 @@ function worldRecordFields(
     playerAge: ageOnDate(player.birthDate, world.currentDate),
     ...(watchedFromStart(world) ? { observing: true as const } : {}),
     residence: currentResidence(world, player),
+    ...playerLooks(world, player),
     currentMoment: { ...world.currentMoment },
     actionSequence: world.actionSequence,
   };
+}
+
+function playerLooks(
+  world: World,
+  player: Person,
+): Pick<BrowserWorldSummary, "playerLooks"> {
+  const looks = Object.fromEntries(
+    (["casual", "business", "formal"] as const).flatMap((wear) => {
+      const recipe = engineRecipeFor(player, world.currentDate, PEOPLE_PACK, {
+        wear,
+      });
+      return recipe ? [[wear, recipe]] : [];
+    }),
+  );
+  return Object.keys(looks).length > 0 ? { playerLooks: looks } : {};
 }
 
 function completeRecord(

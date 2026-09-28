@@ -2689,7 +2689,11 @@ function PlayingScreen({
                   </button>
                 </p>
               ) : null}
-              {dayRhythm.summary ? (
+              {/*
+                The recap and the morning note are for a life already under
+                way: neither opens over the first orientation tour.
+              */}
+              {!showOrientation && dayRhythm.summary ? (
                 <WorldRecapPanel
                   summary={dayRhythm.summary}
                   onDismiss={(throughSequence, throughMoment) =>
@@ -2707,7 +2711,9 @@ function PlayingScreen({
                   }
                 />
               ) : null}
-              {!dayRhythm.summary && dayRhythm.morningThought ? (
+              {!showOrientation &&
+              !dayRhythm.summary &&
+              dayRhythm.morningThought ? (
                 <MorningThoughtPanel
                   thought={dayRhythm.morningThought}
                   onDismiss={(date) =>

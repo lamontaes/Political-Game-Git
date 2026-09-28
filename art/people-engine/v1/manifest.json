@@ -105,6 +105,159 @@
             "base": 152,
             "highlight": 179.4
           }
+        },
+        {
+          "id": "20s30s-02",
+          "file": "face-feminine-20s30s-02.png",
+          "skin": {
+            "shadow": 73.7,
+            "base": 150.4,
+            "highlight": 181.1
+          }
+        },
+        {
+          "id": "20s30s-03",
+          "file": "face-feminine-20s30s-03.png",
+          "skin": {
+            "shadow": 73.1,
+            "base": 142.1,
+            "highlight": 169.7
+          }
+        },
+        {
+          "id": "20s30s-04",
+          "file": "face-feminine-20s30s-04.png",
+          "skin": {
+            "shadow": 74.3,
+            "base": 153.3,
+            "highlight": 184.9
+          }
+        },
+        {
+          "id": "20s30s-05",
+          "file": "face-feminine-20s30s-05.png",
+          "skin": {
+            "shadow": 75.8,
+            "base": 154.5,
+            "highlight": 186
+          }
+        },
+        {
+          "id": "20s30s-06",
+          "file": "face-feminine-20s30s-06.png",
+          "skin": {
+            "shadow": 77.9,
+            "base": 153.8,
+            "highlight": 184.1
+          }
+        },
+        {
+          "id": "50s-01",
+          "file": "face-feminine-50s-01.png",
+          "skin": {
+            "shadow": 79.9,
+            "base": 147.9,
+            "highlight": 175.1
+          }
+        },
+        {
+          "id": "50s-02",
+          "file": "face-feminine-50s-02.png",
+          "skin": {
+            "shadow": 73.5,
+            "base": 148,
+            "highlight": 177.8
+          }
+        },
+        {
+          "id": "50s-03",
+          "file": "face-feminine-50s-03.png",
+          "skin": {
+            "shadow": 67.6,
+            "base": 135.9,
+            "highlight": 163.2
+          }
+        },
+        {
+          "id": "50s-04",
+          "file": "face-feminine-50s-04.png",
+          "skin": {
+            "shadow": 70.9,
+            "base": 147.6,
+            "highlight": 178.3
+          }
+        },
+        {
+          "id": "50s-05",
+          "file": "face-feminine-50s-05.png",
+          "skin": {
+            "shadow": 67.6,
+            "base": 149.4,
+            "highlight": 182.1
+          }
+        },
+        {
+          "id": "50s-06",
+          "file": "face-feminine-50s-06.png",
+          "skin": {
+            "shadow": 68.6,
+            "base": 147.3,
+            "highlight": 178.8
+          }
+        },
+        {
+          "id": "70s-01",
+          "file": "face-feminine-70s-01.png",
+          "skin": {
+            "shadow": 88.6,
+            "base": 147.7,
+            "highlight": 171.4
+          }
+        },
+        {
+          "id": "70s-02",
+          "file": "face-feminine-70s-02.png",
+          "skin": {
+            "shadow": 80.9,
+            "base": 149,
+            "highlight": 176.2
+          }
+        },
+        {
+          "id": "70s-03",
+          "file": "face-feminine-70s-03.png",
+          "skin": {
+            "shadow": 74.7,
+            "base": 140.6,
+            "highlight": 166.9
+          }
+        },
+        {
+          "id": "70s-04",
+          "file": "face-feminine-70s-04.png",
+          "skin": {
+            "shadow": 76.4,
+            "base": 147.1,
+            "highlight": 175.3
+          }
+        },
+        {
+          "id": "70s-05",
+          "file": "face-feminine-70s-05.png",
+          "skin": {
+            "shadow": 78.6,
+            "base": 148.8,
+            "highlight": 176.9
+          }
+        },
+        {
+          "id": "70s-06",
+          "file": "face-feminine-70s-06.png",
+          "skin": {
+            "shadow": 76.8,
+            "base": 146.7,
+            "highlight": 174.7
+          }
         }
       ],
       "hair": [
@@ -247,10 +400,7 @@
         {
           "id": "casual",
           "label": "Everyday",
-          "tags": [
-            "casual",
-            "business"
-          ],
+          "tags": ["casual", "business"],
           "parts": {
             "top": "top",
             "bottom": "bottom"
@@ -314,10 +464,7 @@
         {
           "id": "formal",
           "label": "Pantsuit",
-          "tags": [
-            "formal",
-            "business"
-          ],
+          "tags": ["formal", "business"],
           "parts": {
             "suit": "suit",
             "shirt": "shirt"
@@ -381,9 +528,7 @@
         {
           "id": "cardigan-jeans",
           "label": "Cardigan and jeans",
-          "tags": [
-            "casual"
-          ],
+          "tags": ["casual"],
           "parts": {
             "sweater": "sweater",
             "shirt": "shirt",
@@ -457,9 +602,7 @@
         {
           "id": "hoodie-jeans",
           "label": "Hoodie and jeans",
-          "tags": [
-            "casual"
-          ],
+          "tags": ["casual"],
           "parts": {
             "top": "top",
             "bottom": "bottom"
@@ -526,10 +669,7 @@
         {
           "id": "sweater-slacks",
           "label": "Sweater and slacks",
-          "tags": [
-            "casual",
-            "business"
-          ],
+          "tags": ["casual", "business"],
           "parts": {
             "sweater": "sweater",
             "bottom": "bottom"
@@ -596,9 +736,7 @@
         {
           "id": "winter-coat",
           "label": "Winter coat",
-          "tags": [
-            "cold"
-          ],
+          "tags": ["cold"],
           "parts": {
             "coat": "coat",
             "scarf": "scarf",
@@ -672,10 +810,7 @@
         {
           "id": "blouse-skirt",
           "label": "Blouse and skirt",
-          "tags": [
-            "business",
-            "formal"
-          ],
+          "tags": ["business", "formal"],
           "parts": {
             "top": "shirt",
             "bottom": "suit"
@@ -742,10 +877,7 @@
         {
           "id": "dress-blazer",
           "label": "Dress and blazer",
-          "tags": [
-            "business",
-            "formal"
-          ],
+          "tags": ["business", "formal"],
           "parts": {
             "dress": "dress",
             "jacket": "suit"
@@ -812,10 +944,7 @@
         {
           "id": "skirt-suit",
           "label": "Skirt suit",
-          "tags": [
-            "formal",
-            "business"
-          ],
+          "tags": ["formal", "business"],
           "parts": {
             "suit": "suit",
             "shirt": "shirt"
@@ -882,9 +1011,7 @@
         {
           "id": "scrubs",
           "label": "Scrubs",
-          "tags": [
-            "uniform"
-          ],
+          "tags": ["uniform"],
           "parts": {
             "scrubs": "scrubs"
           },
@@ -944,9 +1071,7 @@
         {
           "id": "hi-vis",
           "label": "Safety vest",
-          "tags": [
-            "uniform"
-          ],
+          "tags": ["uniform"],
           "parts": {
             "bottom": "bottom"
           },
@@ -1006,9 +1131,7 @@
         {
           "id": "police",
           "label": "Police uniform",
-          "tags": [
-            "uniform"
-          ],
+          "tags": ["uniform"],
           "parts": {},
           "builds": {
             "lean": {
@@ -1054,9 +1177,7 @@
         {
           "id": "judge-robe",
           "label": "Judge's robe",
-          "tags": [
-            "uniform"
-          ],
+          "tags": ["uniform"],
           "parts": {},
           "builds": {
             "lean": {
@@ -1200,6 +1321,159 @@
             "shadow": 76.9,
             "base": 175.4,
             "highlight": 214.8
+          }
+        },
+        {
+          "id": "20s30s-02",
+          "file": "face-masculine-20s30s-02.png",
+          "skin": {
+            "shadow": 67.2,
+            "base": 162.9,
+            "highlight": 201.1
+          }
+        },
+        {
+          "id": "20s30s-03",
+          "file": "face-masculine-20s30s-03.png",
+          "skin": {
+            "shadow": 63.5,
+            "base": 160.6,
+            "highlight": 199.5
+          }
+        },
+        {
+          "id": "20s30s-04",
+          "file": "face-masculine-20s30s-04.png",
+          "skin": {
+            "shadow": 79,
+            "base": 165.3,
+            "highlight": 199.8
+          }
+        },
+        {
+          "id": "20s30s-05",
+          "file": "face-masculine-20s30s-05.png",
+          "skin": {
+            "shadow": 83.5,
+            "base": 163.8,
+            "highlight": 195.9
+          }
+        },
+        {
+          "id": "20s30s-06",
+          "file": "face-masculine-20s30s-06.png",
+          "skin": {
+            "shadow": 65,
+            "base": 167.9,
+            "highlight": 209
+          }
+        },
+        {
+          "id": "50s-01",
+          "file": "face-masculine-50s-01.png",
+          "skin": {
+            "shadow": 86.9,
+            "base": 171.9,
+            "highlight": 205.8
+          }
+        },
+        {
+          "id": "50s-02",
+          "file": "face-masculine-50s-02.png",
+          "skin": {
+            "shadow": 74.9,
+            "base": 156.7,
+            "highlight": 189.4
+          }
+        },
+        {
+          "id": "50s-03",
+          "file": "face-masculine-50s-03.png",
+          "skin": {
+            "shadow": 70.1,
+            "base": 155.8,
+            "highlight": 193.1
+          }
+        },
+        {
+          "id": "50s-04",
+          "file": "face-masculine-50s-04.png",
+          "skin": {
+            "shadow": 87.5,
+            "base": 159.9,
+            "highlight": 188.9
+          }
+        },
+        {
+          "id": "50s-05",
+          "file": "face-masculine-50s-05.png",
+          "skin": {
+            "shadow": 84.4,
+            "base": 156.1,
+            "highlight": 186.5
+          }
+        },
+        {
+          "id": "50s-06",
+          "file": "face-masculine-50s-06.png",
+          "skin": {
+            "shadow": 70.3,
+            "base": 160.6,
+            "highlight": 196.8
+          }
+        },
+        {
+          "id": "70s-01",
+          "file": "face-masculine-70s-01.png",
+          "skin": {
+            "shadow": 92.4,
+            "base": 184.4,
+            "highlight": 221.1
+          }
+        },
+        {
+          "id": "70s-02",
+          "file": "face-masculine-70s-02.png",
+          "skin": {
+            "shadow": 70.7,
+            "base": 159.1,
+            "highlight": 214.9
+          }
+        },
+        {
+          "id": "70s-03",
+          "file": "face-masculine-70s-03.png",
+          "skin": {
+            "shadow": 66.1,
+            "base": 159.2,
+            "highlight": 213.8
+          }
+        },
+        {
+          "id": "70s-04",
+          "file": "face-masculine-70s-04.png",
+          "skin": {
+            "shadow": 70.9,
+            "base": 161,
+            "highlight": 198.1
+          }
+        },
+        {
+          "id": "70s-05",
+          "file": "face-masculine-70s-05.png",
+          "skin": {
+            "shadow": 77.4,
+            "base": 157.6,
+            "highlight": 196.3
+          }
+        },
+        {
+          "id": "70s-06",
+          "file": "face-masculine-70s-06.png",
+          "skin": {
+            "shadow": 66.9,
+            "base": 158.2,
+            "highlight": 204.3
           }
         }
       ],
@@ -1363,10 +1637,7 @@
         {
           "id": "casual",
           "label": "Everyday",
-          "tags": [
-            "casual",
-            "business"
-          ],
+          "tags": ["casual", "business"],
           "parts": {
             "top": "top",
             "bottom": "bottom"
@@ -1430,10 +1701,7 @@
         {
           "id": "formal",
           "label": "Suit and tie",
-          "tags": [
-            "formal",
-            "business"
-          ],
+          "tags": ["formal", "business"],
           "parts": {
             "suit": "suit",
             "shirt": "shirt",
@@ -1504,10 +1772,7 @@
         {
           "id": "polo-khakis",
           "label": "Polo and khakis",
-          "tags": [
-            "casual",
-            "business"
-          ],
+          "tags": ["casual", "business"],
           "parts": {
             "top": "top",
             "bottom": "bottom"
@@ -1574,9 +1839,7 @@
         {
           "id": "hoodie-jeans",
           "label": "Hoodie and jeans",
-          "tags": [
-            "casual"
-          ],
+          "tags": ["casual"],
           "parts": {
             "top": "top",
             "bottom": "bottom"
@@ -1643,10 +1906,7 @@
         {
           "id": "sweater-collar",
           "label": "Sweater and collar",
-          "tags": [
-            "casual",
-            "business"
-          ],
+          "tags": ["casual", "business"],
           "parts": {
             "sweater": "sweater",
             "shirt": "shirt",
@@ -1720,9 +1980,7 @@
         {
           "id": "work-jacket",
           "label": "Work jacket",
-          "tags": [
-            "casual"
-          ],
+          "tags": ["casual"],
           "parts": {
             "jacket": "coat",
             "shirt": "top",
@@ -1796,9 +2054,7 @@
         {
           "id": "overcoat",
           "label": "Overcoat",
-          "tags": [
-            "cold"
-          ],
+          "tags": ["cold"],
           "parts": {
             "coat": "coat",
             "scarf": "scarf",
@@ -1872,9 +2128,7 @@
         {
           "id": "double-breasted",
           "label": "Double-breasted suit",
-          "tags": [
-            "formal"
-          ],
+          "tags": ["formal"],
           "parts": {
             "suit": "suit",
             "shirt": "shirt",
@@ -1948,9 +2202,7 @@
         {
           "id": "scrubs",
           "label": "Scrubs",
-          "tags": [
-            "uniform"
-          ],
+          "tags": ["uniform"],
           "parts": {
             "scrubs": "scrubs"
           },
@@ -2010,9 +2262,7 @@
         {
           "id": "hi-vis",
           "label": "Safety vest",
-          "tags": [
-            "uniform"
-          ],
+          "tags": ["uniform"],
           "parts": {
             "bottom": "bottom"
           },
@@ -2072,9 +2322,7 @@
         {
           "id": "police",
           "label": "Police uniform",
-          "tags": [
-            "uniform"
-          ],
+          "tags": ["uniform"],
           "parts": {},
           "builds": {
             "lean": {
@@ -2120,9 +2368,7 @@
         {
           "id": "judge-robe",
           "label": "Judge's robe",
-          "tags": [
-            "uniform"
-          ],
+          "tags": ["uniform"],
           "parts": {},
           "builds": {
             "lean": {

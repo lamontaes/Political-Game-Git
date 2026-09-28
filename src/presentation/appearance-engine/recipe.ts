@@ -102,6 +102,37 @@ function hairColorFor(seed: string, age: number): string {
   return "natural";
 }
 
+/** The age band a face is painted for, from the face id ("50s-03"). */
+export function faceBand(age: number): string {
+  return age >= 65 ? "70s" : age >= 45 ? "50s" : "20s30s";
+}
+
+/**
+ * A person's face: one of the young faces, chosen or drawn from the seed and
+ * kept for life, painted for their age. The same person at 30, 55 and 75
+ * has the same face, older (faces "20s30s-03", "50s-03", "70s-03").
+ */
+function faceFor(
+  pack: PackPresentation,
+  chosen: string | undefined,
+  pick: <T>(items: readonly T[], question: string) => T,
+  age: number,
+): string {
+  const young = pack.faces.filter((face) => face.id.startsWith("20s30s-"));
+  const number = (
+    pack.faces.find((face) => face.id === chosen) ??
+    pick(young.length > 0 ? young : pack.faces, "face")
+  ).id.slice(-2);
+  const aged = pack.faces.find(
+    (face) => face.id === `${faceBand(age)}-${number}`,
+  );
+  return (
+    aged ??
+    young.find((face) => face.id.endsWith(`-${number}`)) ??
+    pack.faces[0]!
+  ).id;
+}
+
 export interface EngineRecipeOptions {
   /**
    * What the place calls for (src/presentation/dress-code.ts): business or
@@ -110,6 +141,11 @@ export interface EngineRecipeOptions {
   readonly wear?: Exclude<OutfitTag, "uniform">;
   /** Seated where the place has a seat for them. */
   readonly pose?: BodyPose;
+  /**
+   * A work uniform (an outfit id) this person wears here because of their
+   * job (src/presentation/work-uniform.ts). It replaces the outfit.
+   */
+  readonly uniform?: string;
 }
 
 /**
@@ -153,26 +189,24 @@ export function engineRecipeFor(
   const pack = manifest.presentations[presentation];
   const pick = <T>(items: readonly T[], question: string): T =>
     items[Math.floor(draw(seed, question) * items.length)]!;
-  const outfit = outfitFor(pack, seed, choice?.outfit, options.wear);
+  const outfit =
+    pack.outfits.find((o) => o.id === options.uniform) ??
+    outfitFor(pack, seed, choice?.outfit, options.wear);
+  const age =
+    Number(onDate.slice(0, 4)) - Number(String(person.birthDate).slice(0, 4));
   const shade =
     choice?.shade ?? 1 + Math.floor(draw(seed, "shade") * SKIN_RAMPS.length);
   return {
     presentation,
     build: choice?.build ?? buildFor(seed),
     shade: Math.min(SKIN_RAMPS.length, Math.max(1, Math.round(shade))),
-    face:
-      pack.faces.find((f) => f.id === choice?.face)?.id ??
-      pick(pack.faces, "face").id,
+    face: faceFor(pack, choice?.face, pick, age),
     hair:
       pack.hair.find((h) => h.id === choice?.hair)?.id ??
       pick(pack.hair, "hair").id,
     hairColor:
       HAIR_COLORS.find((c) => c.id === choice?.hairColor)?.id ??
-      hairColorFor(
-        seed,
-        Number(onDate.slice(0, 4)) -
-          Number(String(person.birthDate).slice(0, 4)),
-      ),
+      hairColorFor(seed, age),
     // Everyday clothes unless the person chose otherwise or the place calls
     // for something else (work clothes, formal wear, a coat).
     outfit: outfit.id,

@@ -131,9 +131,7 @@ export function contributeOwnMoneyToCampaign(
   );
   const have = candidatePersonalBalance(world, personId);
   if (have === null) {
-    throw new Error(
-      "None of your own money can go into the campaign yet.",
-    );
+    throw new Error("None of your own money can go into the campaign yet.");
   }
   if (have < amountMinorUnits) {
     throw new Error("You do not have that much of your own money.");

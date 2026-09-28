@@ -126,6 +126,9 @@ export interface TitlePresentationRequest {
   readonly scenes: SceneRegistry;
 }
 
+/** Tableau families set in someone's home. */
+const DOMESTIC_FAMILIES: ReadonlySet<string> = new Set(["apartment-ordinary"]);
+
 function heroSatisfies(
   tableau: TitleTableauDefinition,
   hero: TitleHeroInput,
@@ -253,8 +256,17 @@ export function resolveTitlePresentation(
     heroSatisfies(tableau, hero),
   );
 
+  // A civic room wins over a home whenever the character can stand in one
+  // (Lamontae, Sept. 27: the title is civic, not apartments).
+  const civic = compatible.filter(
+    (tableau) => !DOMESTIC_FAMILIES.has(tableau.familyId),
+  );
   const chosen = selectTableauDeterministically(
-    compatible.length > 0 ? compatible : byCapability,
+    civic.length > 0
+      ? civic
+      : compatible.length > 0
+        ? compatible
+        : byCapability,
     `${hero.heroIdentityKey}:${assetLibraryVersion}`,
     (tableau) => tableau.tableauId,
   );
@@ -363,6 +375,25 @@ export const TITLE_TABLEAU_REGISTRY: TitleTableauRegistry = {
       requiredCapabilities: ["adult", "legislature"],
       supportsNoCharacter: true,
       emptyHeroTreatment: "an empty lectern",
+    },
+    {
+      /**
+       * Lamontae (Sept. 27): the title is civic, not a row of apartments. Any
+       * adult may attend a public hearing, so this needs nothing but
+       * adulthood. The hero stands on the hearing-room floor facing the
+       * room; the witness lectern faces the dais, away from the viewer, and
+       * waits for people drawn from behind.
+       */
+      tableauId: "at-a-public-hearing",
+      familyId: "civic-hearing-room",
+      label: "A hearing room",
+      sceneId: "civic-hearing-room-production",
+      heroAnchorId: "hearing-floor-standing",
+      requiredPoseFamily: "standing-neutral",
+      requiredFacing: "front",
+      requiredCapabilities: ["adult"],
+      supportsNoCharacter: true,
+      emptyHeroTreatment: "the room alone",
     },
   ],
 

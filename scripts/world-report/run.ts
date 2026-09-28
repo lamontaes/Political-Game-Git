@@ -1027,7 +1027,14 @@ function peopleLines(reader: WorldRecordReader): ChronicleLine[] {
     const [first, second] = kinship.personIds as [EntityId, EntityId];
     if (!touches([first, second])) continue;
     const kind = kinship.kind as string;
-    const child = kind === "lineal:parent-child" ? second : null;
+    // Any parent-and-child kinship: the town's own, and the biological and
+    // adoptive ones the family writer records. The child is the younger.
+    const younger =
+      (reader.world.people[first]?.birthDate ?? "") >
+      (reader.world.people[second]?.birthDate ?? "")
+        ? first
+        : second;
+    const child = /(^|:|-)parent-child$/.test(kind) ? younger : null;
     const childPerson = child ? reader.world.people[child] : undefined;
     if (
       child &&
@@ -1035,7 +1042,7 @@ function peopleLines(reader: WorldRecordReader): ChronicleLine[] {
       childPerson.birthDate === (kinship.establishedAt as string)
     ) {
       const seen = births.get(child) ?? { parents: [], ids: [] };
-      seen.parents.push(first);
+      seen.parents.push(child === first ? second : first);
       seen.ids.push(kinship.id);
       births.set(child, seen);
       continue;
