@@ -17,6 +17,9 @@ import { measureBodyAnchors } from "../../src/presentation/appearance-engine/anc
 import { extractGarment } from "../../src/presentation/appearance-engine/extract";
 import {
   PEOPLE_PACK_VERSION,
+  type BodyBuild,
+  type OutfitOccasion,
+  type PackOutfit,
   type PeoplePackManifest,
   type PackPresentation,
 } from "../../src/presentation/appearance-engine/pack";
@@ -71,52 +74,65 @@ const skinOf = (raster: Raster) => {
   };
 };
 
+type Hue = "red" | "yellow" | "green" | "blue" | "gray" | "white";
+
 /**
- * The garment parts of each painted outfit, told apart by the painting's own
- * colors (Sept. 27 outfits): the women's everyday burgundy top and gray
- * trousers, the men's light-blue shirt and gray chinos, the navy pantsuit and
- * white blouse, the charcoal suit, white shirt and navy tie. Skin (hands, an
- * open collar) and ink lines belong to no part. Each part then spreads one
- * pixel into unclaimed cloth so its anti-aliased edge recolors with it.
+ * The garment parts of a painted outfit, told apart by the painting's own
+ * colors: each part is painted in a hue no other part of that outfit has
+ * (the prompts and Art's paintings chose them so). Skin (hands, legs, an open
+ * collar), ink lines and the shoes belong to no part; shoes keep their
+ * painted color. Each part then spreads one pixel into unclaimed cloth so its
+ * anti-aliased edge recolors with it.
  */
 function outfitRegions(
   layer: Raster,
-  sex: "feminine" | "masculine",
-  kind: "formal" | "casual",
+  parts: Readonly<Record<string, readonly Hue[]>>,
+  skin: Uint8Array | null,
+  shoeTop: number,
 ): Record<string, Raster> {
   const { width, height, data } = layer;
-  type Hue = "red" | "blue" | "gray" | "white";
-  const parts: Record<string, Hue> =
-    kind === "casual"
-      ? { top: sex === "feminine" ? "red" : "blue", bottom: "gray" }
-      : sex === "feminine"
-        ? { suit: "blue", shirt: "white" }
-        : { suit: "gray", shirt: "white", tie: "blue" };
-  const hueAt = (i: number): Hue | "cloth" | null => {
+  const hueAt = (p: number): Hue | null => {
+    const i = p * 4;
     const r = data[i]!;
     const g = data[i + 1]!;
     const b = data[i + 2]!;
-    if (data[i + 3]! <= 128 || isSkinPixel(r, g, b, data[i + 3]!)) return null;
+    if (data[i + 3]! <= 128 || Math.floor(p / width) >= shoeTop) return null;
+    if (skin ? skin[p] : isSkinPixel(r, g, b, data[i + 3]!)) return null;
     const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-    const sat = Math.max(r, g, b) - Math.min(r, g, b);
+    const max = Math.max(r, g, b);
+    const sat = max - Math.min(r, g, b);
     // A color's own deep shadows belong to it; only near-black is ink.
-    if (r > g + 12 && r > b + 5 && lum > 12) return "red";
-    if (b > r + 12 && lum > 12) return "blue";
+    if (sat >= 12 && sat / max >= 0.18 && lum > 12) {
+      const hue =
+        max === r
+          ? (60 * ((g - b) / sat) + 360) % 360
+          : max === g
+            ? 60 * ((b - r) / sat) + 120
+            : 60 * ((r - g) / sat) + 240;
+      if (hue < 18 || hue >= 260) return "red";
+      if (hue < 75) return "yellow";
+      if (hue < 170) return "green";
+      return "blue";
+    }
     if (lum <= 40) return null;
-    if (sat < 25 && lum >= 175) return "white";
-    if (sat < 22) return "gray";
-    return "cloth";
+    if (lum >= 175) return "white";
+    return "gray";
   };
   const out: Record<string, Raster> = {};
-  for (const [part, hue] of Object.entries(parts)) {
+  const claimed = new Set(Object.values(parts).flat());
+  for (const [part, hues] of Object.entries(parts)) {
     const mask = createRaster(width, height);
-    for (let p = 0; p < width * height; p += 1)
-      if (hueAt(p * 4) === hue) mask.data[p * 4 + 3] = 255;
+    for (let p = 0; p < width * height; p += 1) {
+      const kind = hueAt(p);
+      if (kind !== null && hues.includes(kind)) mask.data[p * 4 + 3] = 255;
+    }
     const grown = new Uint8ClampedArray(mask.data);
     for (let y = 1; y < height - 1; y += 1)
       for (let x = 1; x < width - 1; x += 1) {
         const p = y * width + x;
-        if (mask.data[p * 4 + 3] || hueAt(p * 4) !== "cloth") continue;
+        const kind = hueAt(p);
+        if (mask.data[p * 4 + 3] || kind === null || claimed.has(kind))
+          continue;
         if (
           mask.data[(p - 1) * 4 + 3] ||
           mask.data[(p + 1) * 4 + 3] ||
@@ -174,71 +190,322 @@ const SOURCES: Record<
   },
 };
 
+/**
+ * Every outfit style. Art's two paintings (Sept. 27) come first; the rest were
+ * made in Firefly (Sept. 27, evening) by editing a sheet of our own three bare
+ * bodies, so each outfit is painted on exactly our bodies, and cut by
+ * cto-notes/firefly/outfits/cut_outfits.py (with a mask of the skin each one
+ * leaves showing). Each part names the hue it is painted in and the palette
+ * (PART_PALETTES) it may be recolored from.
+ */
+const FIREFLY_OUTFITS =
+  "/Users/lamontae/political-game-play/cto-notes/firefly/outfits/cut";
+interface OutfitSpec {
+  readonly id: string;
+  readonly label: string;
+  readonly occasion: OutfitOccasion;
+  /** Per part: the hue (or hues) it is painted in, and its palette. */
+  readonly parts: Readonly<
+    Record<string, readonly [Hue | readonly Hue[], string]>
+  >;
+  readonly art?: "formal" | "casual";
+}
+const OUTFITS: Record<"feminine" | "masculine", readonly OutfitSpec[]> = {
+  feminine: [
+    {
+      id: "casual",
+      label: "Everyday",
+      occasion: "casual",
+      art: "casual",
+      parts: { top: ["red", "top"], bottom: ["gray", "bottom"] },
+    },
+    {
+      id: "formal",
+      label: "Pantsuit",
+      occasion: "formal",
+      art: "formal",
+      parts: { suit: ["blue", "suit"], shirt: ["white", "shirt"] },
+    },
+    {
+      id: "cardigan-jeans",
+      label: "Cardigan and jeans",
+      occasion: "casual",
+      parts: {
+        sweater: ["green", "sweater"],
+        shirt: ["white", "shirt"],
+        bottom: ["blue", "bottom"],
+      },
+    },
+    {
+      id: "hoodie-jeans",
+      label: "Hoodie and jeans",
+      occasion: "casual",
+      parts: { top: ["gray", "top"], bottom: ["blue", "bottom"] },
+    },
+    {
+      id: "sweater-slacks",
+      label: "Sweater and slacks",
+      occasion: "casual",
+      parts: { sweater: ["yellow", "sweater"], bottom: ["gray", "bottom"] },
+    },
+    {
+      id: "winter-coat",
+      label: "Winter coat",
+      occasion: "casual",
+      parts: {
+        coat: ["yellow", "coat"],
+        scarf: ["red", "scarf"],
+        bottom: ["gray", "bottom"],
+      },
+    },
+    {
+      id: "blouse-skirt",
+      label: "Blouse and skirt",
+      occasion: "formal",
+      // A cream blouse: white in the light, yellowish in its shading.
+      parts: { top: [["white", "yellow"], "shirt"], bottom: ["blue", "suit"] },
+    },
+    {
+      id: "dress-blazer",
+      label: "Dress and blazer",
+      occasion: "formal",
+      parts: { dress: ["red", "dress"], jacket: ["gray", "suit"] },
+    },
+    {
+      id: "skirt-suit",
+      label: "Skirt suit",
+      occasion: "formal",
+      parts: { suit: ["blue", "suit"], shirt: ["white", "shirt"] },
+    },
+    {
+      id: "scrubs",
+      label: "Scrubs",
+      occasion: "work",
+      parts: { scrubs: ["blue", "scrubs"] },
+    },
+    {
+      id: "hi-vis",
+      label: "Safety vest",
+      occasion: "work",
+      parts: { shirt: ["gray", "top"], bottom: ["blue", "bottom"] },
+    },
+    { id: "police", label: "Police uniform", occasion: "work", parts: {} },
+    { id: "judge-robe", label: "Judge's robe", occasion: "work", parts: {} },
+  ],
+  masculine: [
+    {
+      id: "casual",
+      label: "Everyday",
+      occasion: "casual",
+      art: "casual",
+      parts: { top: ["blue", "top"], bottom: ["gray", "bottom"] },
+    },
+    {
+      id: "formal",
+      label: "Suit and tie",
+      occasion: "formal",
+      art: "formal",
+      parts: {
+        suit: ["gray", "suit"],
+        shirt: ["white", "shirt"],
+        tie: ["blue", "tie"],
+      },
+    },
+    {
+      id: "polo-khakis",
+      label: "Polo and khakis",
+      occasion: "casual",
+      parts: { top: ["green", "top"], bottom: ["yellow", "bottom"] },
+    },
+    {
+      id: "hoodie-jeans",
+      label: "Hoodie and jeans",
+      occasion: "casual",
+      parts: { top: ["red", "top"], bottom: ["blue", "bottom"] },
+    },
+    {
+      id: "sweater-collar",
+      label: "Sweater and collar",
+      occasion: "casual",
+      parts: {
+        sweater: ["gray", "sweater"],
+        shirt: ["white", "shirt"],
+        bottom: ["blue", "bottom"],
+      },
+    },
+    {
+      id: "work-jacket",
+      label: "Work jacket",
+      occasion: "casual",
+      parts: {
+        jacket: ["yellow", "coat"],
+        shirt: ["gray", "top"],
+        bottom: ["blue", "bottom"],
+      },
+    },
+    {
+      id: "overcoat",
+      label: "Overcoat",
+      occasion: "casual",
+      parts: {
+        coat: ["gray", "coat"],
+        scarf: ["red", "scarf"],
+        bottom: ["blue", "bottom"],
+      },
+    },
+    {
+      id: "double-breasted",
+      label: "Double-breasted suit",
+      occasion: "formal",
+      parts: {
+        suit: ["blue", "suit"],
+        shirt: ["white", "shirt"],
+        tie: ["red", "tie"],
+      },
+    },
+    {
+      id: "scrubs",
+      label: "Scrubs",
+      occasion: "work",
+      parts: { scrubs: ["blue", "scrubs"] },
+    },
+    {
+      id: "hi-vis",
+      label: "Safety vest",
+      occasion: "work",
+      parts: { shirt: ["gray", "top"], bottom: ["blue", "bottom"] },
+    },
+    { id: "police", label: "Police uniform", occasion: "work", parts: {} },
+    { id: "judge-robe", label: "Judge's robe", occasion: "work", parts: {} },
+  ],
+};
+
 const presentations: Record<string, PackPresentation> = {};
 for (const sex of ["feminine", "masculine"] as const) {
   const bodies: PackPresentation["bodies"] = {} as PackPresentation["bodies"];
-  const outfits: PackPresentation["outfits"] = { formal: {}, casual: {} };
   for (const build of BUILDS) {
-    const bareFull = read(join(bodiesDir, `${bodyFile(sex, build)}.png`));
-    const anchorsFull = measureBodyAnchors(bareFull);
-    const bare = downscaleHalf(bareFull);
+    const bare = downscaleHalf(
+      read(join(bodiesDir, `${bodyFile(sex, build)}.png`)),
+    );
     bodies[build] = {
       file: write(bare, `body-${sex}-${build}.png`),
       anchors: measureBodyAnchors(bare),
       skin: skinOf(bare),
     };
-    for (const kind of ["formal", "casual"] as const) {
-      const painting = read(
-        join(
-          appearanceDir,
-          "wardrobe",
-          `${sex}-${kind}-${build}-onbody-v1.png`,
-        ),
-      );
+  }
+  const outfits: PackOutfit[] = [];
+  for (const spec of OUTFITS[sex]) {
+    const builds: Record<string, PackOutfit["builds"][BodyBuild]> = {};
+    for (const build of BUILDS) {
+      const bareFull = read(join(bodiesDir, `${bodyFile(sex, build)}.png`));
+      const anchorsFull = measureBodyAnchors(bareFull);
+      const painting = spec.art
+        ? read(
+            join(
+              appearanceDir,
+              "wardrobe",
+              `${sex}-${spec.art}-${build}-onbody-v1.png`,
+            ),
+          )
+        : read(
+            join(FIREFLY_OUTFITS, `${sex}-${spec.id}-${build}-onbody-v1.png`),
+          );
       const offset = registrationOffset(
         measureBodyAnchors(painting),
         anchorsFull,
         "head",
       );
+      const skinFull = spec.art
+        ? null
+        : translateRaster(
+            read(
+              join(FIREFLY_OUTFITS, `${sex}-${spec.id}-${build}-skin-v1.png`),
+            ),
+            offset.dx,
+            offset.dy,
+          );
+      const skinMask = skinFull
+        ? Uint8Array.from(
+            { length: skinFull.width * skinFull.height },
+            (_, p) => (skinFull.data[p * 4 + 3]! > 128 ? 1 : 0),
+          )
+        : undefined;
       const garment = extractGarment(
         translateRaster(painting, offset.dx, offset.dy),
         bareFull,
         anchorsFull,
         "outfit",
+        40,
+        skinMask,
       );
-      const hides = {
-        width: bareFull.width,
-        height: bareFull.height,
-        data: new Uint8ClampedArray(bareFull.width * bareFull.height * 4),
-      };
+      const hides = createRaster(bareFull.width, bareFull.height);
       garment.hidesBody!.forEach((hidden, p) => {
         if (hidden) hides.data[p * 4 + 3] = 255;
       });
-      const halfHides = downscaleHalf(hides);
-      for (let i = 3; i < halfHides.data.length; i += 4)
-        halfHides.data[i] = halfHides.data[i]! >= 128 ? 255 : 0;
+      const halve = (mask: Raster) => {
+        const half = downscaleHalf(mask);
+        for (let i = 3; i < half.data.length; i += 4)
+          half.data[i] = half.data[i]! >= 128 ? 255 : 0;
+        return half;
+      };
       const halfLayer = downscaleHalf(garment.layer);
+      // The skin the extraction settled on: the mask, plus a neck that is
+      // skin-colored above the neckline (see extract.ts).
+      const usedSkin = garment.skin
+        ? createRaster(bareFull.width, bareFull.height)
+        : null;
+      garment.skin?.forEach((skin, p) => {
+        if (skin) usedSkin!.data[p * 4 + 3] = 255;
+      });
+      const halfSkin = usedSkin ? halve(usedSkin) : null;
+      const anchors = bodies[build].anchors;
+      const stem = `outfit-${sex}-${spec.id}-${build}`;
       const regions = Object.fromEntries(
-        Object.entries(outfitRegions(halfLayer, sex, kind)).map(
-          ([part, mask]) => [
-            part,
-            write(mask, `outfit-${sex}-${kind}-${build}-${part}.png`),
-          ],
-        ),
+        Object.entries(
+          outfitRegions(
+            halfLayer,
+            Object.fromEntries(
+              Object.entries(spec.parts).map(([part, [hue]]) => [
+                part,
+                typeof hue === "string" ? [hue] : hue,
+              ]),
+            ),
+            halfSkin
+              ? Uint8Array.from(
+                  { length: halfSkin.width * halfSkin.height },
+                  (_, p) => (halfSkin.data[p * 4 + 3]! ? 1 : 0),
+                )
+              : null,
+            anchors.feet - Math.round((anchors.feet - anchors.top) * 0.08),
+          ),
+        ).map(([part, mask]) => [part, write(mask, `${stem}-${part}.png`)]),
       );
-      outfits[kind][build] = {
-        file: write(halfLayer, `outfit-${sex}-${kind}-${build}.png`),
-        hides: write(halfHides, `outfit-${sex}-${kind}-${build}-hides.png`),
+      builds[build] = {
+        file: write(halfLayer, `${stem}.png`),
+        hides: write(halve(hides), `${stem}-hides.png`),
         regions,
+        ...(halfSkin ? { skin: write(halfSkin, `${stem}-skin.png`) } : {}),
       };
       console.log(
         sex,
+        spec.id,
         build,
-        kind,
         JSON.stringify(offset),
         garment.clothPixels,
       );
     }
+    outfits.push({
+      id: spec.id,
+      label: spec.label,
+      occasion: spec.occasion,
+      parts: Object.fromEntries(
+        Object.entries(spec.parts).map(([part, [, palette]]) => [
+          part,
+          palette,
+        ]),
+      ),
+      builds,
+    });
   }
   const faces = SOURCES[sex].faces.map((face) => {
     const head = downscaleHalf(read(join(appearanceDir, "faces", face.file)));

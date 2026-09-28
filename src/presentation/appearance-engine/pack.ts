@@ -80,10 +80,14 @@ export const PEOPLE_PACK_VERSION = "people-engine-pack-v1";
 
 export type BodyPresentation = "feminine" | "masculine";
 export type BodyBuild = "lean" | "average" | "fuller";
-export type OutfitKind = "formal" | "casual";
+/**
+ * When an outfit is worn: everyday clothes, formal wear (where government is
+ * done), or a work uniform (scrubs, a safety vest, a police uniform, a judge's
+ * robe), which comes with a job and is never drawn at random.
+ */
+export type OutfitOccasion = "formal" | "casual" | "work";
 
 export const BODY_BUILDS: readonly BodyBuild[] = ["lean", "average", "fuller"];
-export const OUTFIT_KINDS: readonly OutfitKind[] = ["formal", "casual"];
 
 export interface PackBody {
   readonly file: string;
@@ -105,22 +109,32 @@ export interface PackPresentation {
     readonly back: string;
     readonly front: string;
   }[];
+  /** Every outfit style, in the order the creator's arrows step through. */
+  readonly outfits: readonly PackOutfit[];
+}
+
+export interface PackOutfit {
+  readonly id: string;
+  /** Player-facing name, for the creator's Outfit arrows. */
+  readonly label: string;
+  readonly occasion: OutfitOccasion;
+  /** The palette (PART_PALETTES) of each garment part that takes its own color. */
+  readonly parts: Readonly<Record<string, string>>;
   /**
-   * Per outfit and body: the layer, a mask of the body it hides, and a mask
-   * per garment part (top, bottom, suit, shirt, tie) that takes its own color.
+   * Per body: the layer, a mask of the body it hides, a mask per garment
+   * part, and a mask of the skin the outfit shows (hands, legs, an open
+   * collar). Without a skin mask, every skin-colored pixel counts as skin.
    */
-  readonly outfits: Readonly<
-    Record<
-      OutfitKind,
-      Partial<
-        Record<
-          BodyBuild,
-          {
-            readonly file: string;
-            readonly hides: string;
-            readonly regions?: Readonly<Record<string, string>>;
-          }
-        >
+  readonly builds: Partial<
+    Readonly<
+      Record<
+        BodyBuild,
+        {
+          readonly file: string;
+          readonly hides: string;
+          readonly regions?: Readonly<Record<string, string>>;
+          readonly skin?: string;
+        }
       >
     >
   >;
@@ -133,46 +147,93 @@ export interface PeoplePackManifest {
 }
 
 /**
- * The colors each garment part may take, from fabric.ts. PLACEHOLDER(wave2):
- * picked by eye for variety; formal wear stays in conservative colors.
+ * The colors a garment part may take, by palette, from fabric.ts. Each
+ * outfit names a palette for each of its parts. PLACEHOLDER(wave2): picked by
+ * eye for variety; suits, shirts and ties stay in conservative colors.
  */
-export const OUTFIT_PALETTES: Readonly<
-  Record<OutfitKind, Readonly<Record<string, readonly string[]>>>
-> = {
-  casual: {
-    top: [
-      "burgundy",
-      "forest",
-      "navy",
-      "slate-blue",
-      "light-blue",
-      "white",
-      "gray",
-      "teal",
-      "plum",
-      "mustard",
-      "cream",
-      "pink",
-      "olive",
-      "black",
-    ],
-    bottom: [
-      "gray",
-      "charcoal",
-      "navy",
-      "black",
-      "khaki",
-      "denim",
-      "brown",
-      "olive",
-    ],
-  },
-  formal: {
-    suit: ["navy", "charcoal", "black", "gray", "slate-blue", "brown"],
-    shirt: ["white", "light-blue", "cream", "pink", "gray"],
-    tie: ["navy", "burgundy", "forest", "black", "slate-blue"],
-  },
+export const PART_PALETTES: Readonly<Record<string, readonly string[]>> = {
+  top: [
+    "burgundy",
+    "forest",
+    "navy",
+    "slate-blue",
+    "light-blue",
+    "white",
+    "gray",
+    "teal",
+    "plum",
+    "mustard",
+    "cream",
+    "pink",
+    "olive",
+    "black",
+  ],
+  bottom: [
+    "gray",
+    "charcoal",
+    "navy",
+    "black",
+    "khaki",
+    "denim",
+    "brown",
+    "olive",
+  ],
+  suit: ["navy", "charcoal", "black", "gray", "slate-blue", "brown"],
+  shirt: ["white", "light-blue", "cream", "pink", "gray"],
+  tie: ["navy", "burgundy", "forest", "black", "slate-blue"],
+  dress: [
+    "burgundy",
+    "navy",
+    "black",
+    "forest",
+    "plum",
+    "teal",
+    "slate-blue",
+    "charcoal",
+  ],
+  sweater: [
+    "mustard",
+    "burgundy",
+    "forest",
+    "navy",
+    "gray",
+    "cream",
+    "olive",
+    "teal",
+    "plum",
+    "slate-blue",
+  ],
+  coat: [
+    "brown",
+    "khaki",
+    "charcoal",
+    "navy",
+    "black",
+    "burgundy",
+    "olive",
+    "gray",
+    "cream",
+  ],
+  scarf: [
+    "burgundy",
+    "navy",
+    "forest",
+    "mustard",
+    "gray",
+    "cream",
+    "plum",
+    "teal",
+  ],
+  scrubs: ["light-blue", "navy", "teal", "plum", "forest", "black", "burgundy"],
 };
+
+/** The outfit a recipe names, or the first one when it names none known. */
+export function packOutfit(
+  pack: PackPresentation,
+  id: string,
+): PackOutfit | undefined {
+  return pack.outfits.find((outfit) => outfit.id === id) ?? pack.outfits[0];
+}
 
 /** One whole person, as the engine draws them. */
 export interface EngineRecipe {
@@ -184,8 +245,9 @@ export interface EngineRecipe {
   readonly hair: string;
   /** One of HAIR_COLORS. */
   readonly hairColor: string;
-  readonly outfit: OutfitKind;
-  /** Fabric color per garment part of the outfit (OUTFIT_PALETTES). */
+  /** One of the presentation's outfit ids (PackOutfit). */
+  readonly outfit: string;
+  /** Fabric color per garment part of the outfit (PART_PALETTES). */
   readonly colors?: Readonly<Record<string, string>>;
 }
 
@@ -212,14 +274,19 @@ export function recipeFiles(
   const pack = manifest.presentations[recipe.presentation];
   const face = pack.faces.find((f) => f.id === recipe.face) ?? pack.faces[0]!;
   const hair = pack.hair.find((h) => h.id === recipe.hair) ?? pack.hair[0]!;
-  const outfit = pack.outfits[recipe.outfit][recipe.build];
+  const outfit = packOutfit(pack, recipe.outfit)?.builds[recipe.build];
   return [
     pack.bodies[recipe.build].file,
     face.file,
     hair.back,
     hair.front,
     ...(outfit
-      ? [outfit.file, outfit.hides, ...Object.values(outfit.regions ?? {})]
+      ? [
+          outfit.file,
+          outfit.hides,
+          ...Object.values(outfit.regions ?? {}),
+          ...(outfit.skin ? [outfit.skin] : []),
+        ]
       : []),
   ];
 }
@@ -263,7 +330,7 @@ export function composeEnginePerson(
     SKIN_RAMPS[Math.min(SKIN_RAMPS.length, Math.max(1, recipe.shade)) - 1]!;
   const face = pack.faces.find((f) => f.id === recipe.face) ?? pack.faces[0]!;
   const hair = pack.hair.find((h) => h.id === recipe.hair) ?? pack.hair[0]!;
-  const outfit = pack.outfits[recipe.outfit][recipe.build];
+  const outfit = packOutfit(pack, recipe.outfit)?.builds[recipe.build];
   const color = HAIR_COLORS.find((c) => c.id === recipe.hairColor);
   const front = image(hair.front);
   const tint = (layer: Raster) =>
@@ -283,7 +350,12 @@ export function composeEnginePerson(
     const mask = new Uint8Array(hides.width * hides.height);
     for (let p = 0; p < mask.length; p += 1)
       mask[p] = hides.data[p * 4 + 3]! > OPAQUE_ALPHA ? 1 : 0;
-    let clothes = recolorSkin(image(outfit.file), ramp, body.skin);
+    let clothes = recolorSkin(
+      image(outfit.file),
+      ramp,
+      body.skin,
+      outfit.skin ? image(outfit.skin) : undefined,
+    );
     for (const [part, file] of Object.entries(outfit.regions ?? {})) {
       const color = recipe.colors?.[part];
       if (color) clothes = recolorPart(clothes, image(file), fabricRamp(color));
