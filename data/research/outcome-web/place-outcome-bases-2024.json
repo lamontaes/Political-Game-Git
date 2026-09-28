@@ -1,6 +1,6 @@
 {
  "id": "place-outcome-bases-2024",
- "about": "The real 2024 level of each place outcome, per state, D.C. and Puerto Rico where measured. The world starts each place here, and the outcome web moves it from there as laws and conditions change. A place not listed has no base and records nothing, which is unknown and never zero. Values are percents.",
+ "about": "The real 2024 level of each place outcome, per state, D.C. and Puerto Rico where measured. The world starts each place here, and the outcome web moves it from there as laws and conditions change. A place not listed has no base and records nothing, which is unknown and never zero. Values are percents. After the first month nothing pulls a place back to its base: each outcome's underlying level drifts (part national, part the state's own), and now and then a society-wide wave moves it a long way. Laws and conditions act on top, through the outcome web. Drift sizes are PROVISIONAL game values, set so a decade moves a place about as far as recent decades moved real states, and filed for research as society-wide-waves-causes-pace-scale.",
  "calibratedAt": "2024-07-01",
  "measures": {
   "health.uninsured-pct": {
@@ -59,6 +59,14 @@
     "US-WI": 5.3,
     "US-WV": 5.8,
     "US-WY": 10.3
+   },
+   "drift": {
+    "monthlySdLogit": 0.018,
+    "nationalShare": 0.6,
+    "waveMonthlyChance": 0.00125,
+    "waveSdLogit": 0.3,
+    "minPct": 1,
+    "maxPct": 40
    }
   },
   "household.poverty-pct": {
@@ -119,7 +127,23 @@
     "US-WV": 16.7,
     "US-WY": 10.1
    },
-   "note": "The official measure: cash income before taxes. Tax credits and non-cash help (SNAP, housing, Medicaid) do not count, so links from them belong on a supplemental poverty measure, not this one."
+   "note": "The official measure: cash income before taxes. Tax credits and non-cash help (SNAP, housing, Medicaid) do not count, so links from them belong on a supplemental poverty measure, not this one.",
+   "drift": {
+    "monthlySdLogit": 0.014,
+    "nationalShare": 0.7,
+    "waveMonthlyChance": 0.00125,
+    "waveSdLogit": 0.25,
+    "minPct": 3,
+    "maxPct": 50
+   }
   }
+ },
+ "defaultDrift": {
+  "monthlySdLogit": 0.015,
+  "nationalShare": 0.6,
+  "waveMonthlyChance": 0.00125,
+  "waveSdLogit": 0.3,
+  "minPct": 0.5,
+  "maxPct": 60
  }
 }

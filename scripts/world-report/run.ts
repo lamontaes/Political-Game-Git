@@ -53,6 +53,7 @@ import {
   PLACE_OUTCOME_BASES,
   PLACE_OUTCOME_MEASURES,
   placeOutcomeKey,
+  placeOutcomeRecords,
 } from "../../src/simulation/outcome-web/place-outcomes";
 import {
   anniversary,
@@ -1842,7 +1843,7 @@ function lawOutcomeLines(run: WorldReportRun): string[] {
     );
   }
   const stateKey = placeOutcomeKey(town);
-  const records = (world.placeOutcomes?.records ?? []).filter(
+  const records = placeOutcomeRecords(world).filter(
     (record) => record.placeKey === stateKey,
   );
   if (records.length) {
