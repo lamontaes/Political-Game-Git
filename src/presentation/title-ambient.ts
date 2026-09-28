@@ -1,4 +1,9 @@
 import type { SceneRegistry } from "./scene-registry";
+import {
+  interleaveByKind,
+  type CivicBackdropKind,
+  type TitlePicture,
+} from "./title-civic-rotation";
 import type { TitlePresentation, TitleTableauRegistry } from "./title-tableau";
 import type { RuntimeVisualLibrary } from "./visual-integration";
 
@@ -27,6 +32,11 @@ export interface TitleAmbientRoom {
   readonly sceneId: string;
   /** The room in words, for the line under the title. */
   readonly label: string;
+  /**
+   * Set when this room is a place picture from the civic rotation rather
+   * than a registered scene. Its ids are then `picture:<place>`.
+   */
+  readonly picture?: TitlePicture;
 }
 
 export interface TitleAmbientFrame {
@@ -101,6 +111,68 @@ export function orderedAmbientCycle(
   return [...rooms.slice(frontDoorIndex), ...rooms.slice(0, frontDoorIndex)];
 }
 
+/** The rotation entry for one place picture. */
+export function pictureRoom(picture: TitlePicture): TitleAmbientRoom {
+  return {
+    tableauId: `picture:${picture.place}`,
+    sceneId: `picture:${picture.place}`,
+    label: picture.label,
+    picture,
+  };
+}
+
+/** The civic kind of a registered room in the neutral bank. */
+function registeredRoomKind(familyId: string): CivicBackdropKind {
+  if (/court/.test(familyId)) return "court";
+  if (/campaign/.test(familyId)) return "campaign";
+  return "chamber";
+}
+
+/**
+ * The title's whole rotation: every civic place picture and every released
+ * civic room in the neutral bank, the White House first and each kind spread
+ * through the rest (title-civic-rotation.ts). No home is in either source, so
+ * none is in the rotation.
+ */
+export function civicAmbientCycle(
+  registry: TitleTableauRegistry,
+  scenes: SceneRegistry,
+  library: RuntimeVisualLibrary,
+  pictures: readonly TitlePicture[],
+): readonly TitleAmbientRoom[] {
+  const registered = titleAmbientCycle(registry, scenes, library).flatMap(
+    (room) => {
+      const tableau = registry.neutralBank.find(
+        (entry) => entry.tableauId === room.tableauId,
+      );
+      return tableau
+        ? [
+            {
+              kind: registeredRoomKind(tableau.familyId),
+              place: room.sceneId,
+              room,
+            },
+          ]
+        : [];
+    },
+  );
+  const leading = pictures.filter((picture) => picture.kind === "white-house");
+  const others = [
+    ...pictures
+      .filter((picture) => picture.kind !== "white-house")
+      .map((picture) => ({
+        kind: picture.kind,
+        place: picture.place,
+        room: pictureRoom(picture),
+      })),
+    ...registered,
+  ];
+  return [
+    ...leading.map(pictureRoom),
+    ...interleaveByKind(others).map((entry) => entry.room),
+  ];
+}
+
 /**
  * What to paint at `step` holds into the cycle.
  *
@@ -145,6 +217,18 @@ export function ambientPresentation(
   registry: TitleTableauRegistry,
   scenes: SceneRegistry,
 ): TitlePresentation | null {
+  if (room.picture) {
+    return {
+      kind: "neutral-tableau",
+      tableau: null,
+      scene: null,
+      heroAnchorId: null,
+      heroName: null,
+      description: `${room.picture.label}.`,
+      reasons: ["Civic title rotation."],
+      picture: room.picture,
+    };
+  }
   const tableau = registry.neutralBank.find(
     (entry) => entry.tableauId === room.tableauId,
   );

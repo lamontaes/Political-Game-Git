@@ -187,6 +187,7 @@ import { gameBuildProfile } from "../presentation/build-profile";
 import { SceneBackdrop } from "./SceneBackdrop";
 import { backdropForLocation } from "../presentation/place-backdrops";
 import { placeBackdropPeople } from "../presentation/backdrop-people";
+import { projectBackdropSurfaces } from "../presentation/backdrop-surfaces";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
 import { projectCandidateGuidanceScene } from "../presentation/candidate-guidance-scene";
@@ -198,8 +199,6 @@ import { OrdinaryMeetingPanel } from "./OrdinaryMeetingPanel";
 import {
   AmbientTableau,
   TitleScreen,
-  resolvedTitlePresentation,
-  resolvedTitleLecternHero,
   type SaveListingState,
 } from "./TitleScreen";
 import {
@@ -816,79 +815,111 @@ export function PlayerGame() {
    * them. Only the panel in front of the room is swapped. The room is never
    * released, so there is no frame without it.
    */
-  if (screen.kind === "title") {
+  /*
+   * The front door is one screen. Saved games, Options and Patch notes open
+   * as a panel on it, beside the menu, while the pictures keep changing
+   * behind (Lamontae, Sept. 28: "saved games, options, etc need to stay on
+   * the home screen while it keeps changing"). They used to replace the whole
+   * page, so the menu and the rotation vanished the moment one was opened.
+   */
+  if (
+    screen.kind === "title" ||
+    screen.kind === "saves" ||
+    screen.kind === "options" ||
+    screen.kind === "patch-notes"
+  ) {
     return (
-      <AmbientTableau
-        resolved={resolvedTitlePresentation(saves)}
-        hero={resolvedTitleLecternHero(saves)}
-      >
+      <AmbientTableau recent={saves[0] ?? null}>
         {() => (
-          <TitleScreen
-            saves={saves}
-            damaged={damaged}
-            savesUnavailable={savesUnavailable}
-            saveListing={saveListing}
-            onRetrySaves={() => {
-              setSaveListing("loading");
-              void refreshSaves();
-            }}
-            problem={problem}
-            onNewGame={() => {
-              setProblem(null);
-              if (replaySeed === null) {
-                setSessionSeed(resolveSessionSeed("", window.crypto));
-              }
-              setScreen({ kind: "setup" });
-            }}
-            onWatch={() => {
-              setProblem(null);
-              try {
-                const { seed } = resolveSessionSeed("", window.crypto);
-                const observed = openObserverWorld(observerSetup(seed));
-                startPlaying(
-                  observed.world,
-                  observed.anchorPersonId,
-                  seed,
-                  null,
-                );
-              } catch (error) {
-                setProblem(
-                  error instanceof Error
-                    ? error.message
-                    : "The world could not be opened.",
-                );
-              }
-            }}
-            onContinue={() => void continueMostRecent()}
-            onOpenSaves={() => setScreen({ kind: "saves" })}
-            onOpenOptions={() => setScreen({ kind: "options" })}
-            onOpenPatchNotes={() => setScreen({ kind: "patch-notes" })}
-          />
+          <>
+            <TitleScreen
+              saves={saves}
+              damaged={damaged}
+              savesUnavailable={savesUnavailable}
+              saveListing={saveListing}
+              onRetrySaves={() => {
+                setSaveListing("loading");
+                void refreshSaves();
+              }}
+              // The saved-games panel reports its own problems beside it.
+              problem={screen.kind === "saves" ? null : problem}
+              onNewGame={() => {
+                setProblem(null);
+                if (replaySeed === null) {
+                  setSessionSeed(resolveSessionSeed("", window.crypto));
+                }
+                setScreen({ kind: "setup" });
+              }}
+              onWatch={() => {
+                setProblem(null);
+                try {
+                  const { seed } = resolveSessionSeed("", window.crypto);
+                  const observed = openObserverWorld(observerSetup(seed));
+                  startPlaying(
+                    observed.world,
+                    observed.anchorPersonId,
+                    seed,
+                    null,
+                  );
+                } catch (error) {
+                  setProblem(
+                    error instanceof Error
+                      ? error.message
+                      : "The world could not be opened.",
+                  );
+                }
+              }}
+              onContinue={() => void continueMostRecent()}
+              onOpenSaves={() => setScreen({ kind: "saves" })}
+              onOpenOptions={() => setScreen({ kind: "options" })}
+              onOpenPatchNotes={() => setScreen({ kind: "patch-notes" })}
+            />
+            {screen.kind === "saves" ? (
+              <div className="title-side-panel" data-testid="title-side-panel">
+                <SavesScreen
+                  store={store}
+                  saves={saves}
+                  damaged={damaged}
+                  savesUnavailable={savesUnavailable}
+                  saveListing={saveListing}
+                  onRetrySaves={() => {
+                    setSaveListing("loading");
+                    void refreshSaves();
+                  }}
+                  notice={notice}
+                  problem={problem}
+                  artProvenance={previewMode}
+                  onBack={() => setScreen({ kind: "title" })}
+                  onOpen={(saveId) => void loadSave(saveId)}
+                  onDelete={(saveId) => void deleteSave(saveId)}
+                  onTransferSettled={(nextNotice, nextProblem) => {
+                    setNotice(nextNotice);
+                    setProblem(nextProblem);
+                    void refreshSaves();
+                  }}
+                />
+              </div>
+            ) : null}
+            {screen.kind === "options" ? (
+              <div className="title-side-panel" data-testid="title-side-panel">
+                <OptionsScreen onBack={() => setScreen({ kind: "title" })} />
+              </div>
+            ) : null}
+            {screen.kind === "patch-notes" ? (
+              <WorkspaceFrame
+                title="Patch notes"
+                testid="title-patch-notes-workspace"
+                canGoBack={true}
+                onBack={() => setScreen({ kind: "title" })}
+                onClose={() => setScreen({ kind: "title" })}
+              >
+                <PatchNotesWorkspace />
+              </WorkspaceFrame>
+            ) : null}
+          </>
         )}
       </AmbientTableau>
     );
-  }
-
-  if (screen.kind === "patch-notes") {
-    return (
-      <AmbientTableau resolved={resolvedTitlePresentation(saves)}>
-        {() => (
-          <WorkspaceFrame
-            title="Patch notes"
-            testid="title-patch-notes-workspace"
-            canGoBack={true}
-            onBack={() => setScreen({ kind: "title" })}
-            onClose={() => setScreen({ kind: "title" })}
-          >
-            <PatchNotesWorkspace />
-          </WorkspaceFrame>
-        )}
-      </AmbientTableau>
-    );
-  }
-
-  if (screen.kind === "options") {
-    return <OptionsScreen onBack={() => setScreen({ kind: "title" })} />;
   }
 
   function beginLife(setup: NewGameSetup) {
@@ -901,7 +932,7 @@ export function PlayerGame() {
 
   if (screen.kind === "transition") {
     return (
-      <AmbientTableau resolved={resolvedTitlePresentation(saves)} still>
+      <AmbientTableau recent={saves[0] ?? null} still>
         {() => (
           <LifeStartTransition
             onComplete={() => {
@@ -934,7 +965,7 @@ export function PlayerGame() {
 
   if (screen.kind === "setup") {
     return (
-      <AmbientTableau resolved={resolvedTitlePresentation(saves)} still>
+      <AmbientTableau recent={saves[0] ?? null} still>
         {() => (
           <SetupScreen
             seed={sessionSeed.seed}
@@ -965,7 +996,7 @@ export function PlayerGame() {
 
   if (screen.kind === "questionnaire") {
     return (
-      <AmbientTableau resolved={resolvedTitlePresentation(saves)} still>
+      <AmbientTableau recent={saves[0] ?? null} still>
         {() => (
           <QuestionnaireScreenView
             setup={screen.setup}
@@ -992,33 +1023,6 @@ export function PlayerGame() {
           />
         )}
       </AmbientTableau>
-    );
-  }
-
-  if (screen.kind === "saves") {
-    return (
-      <SavesScreen
-        store={store}
-        saves={saves}
-        damaged={damaged}
-        savesUnavailable={savesUnavailable}
-        saveListing={saveListing}
-        onRetrySaves={() => {
-          setSaveListing("loading");
-          void refreshSaves();
-        }}
-        notice={notice}
-        problem={problem}
-        artProvenance={previewMode}
-        onBack={() => setScreen({ kind: "title" })}
-        onOpen={(saveId) => void loadSave(saveId)}
-        onDelete={(saveId) => void deleteSave(saveId)}
-        onTransferSettled={(nextNotice, nextProblem) => {
-          setNotice(nextNotice);
-          setProblem(nextProblem);
-          void refreshSaves();
-        }}
-      />
     );
   }
 
@@ -1540,6 +1544,19 @@ function PlayingScreen({
   const roomMedia = useMemo(
     () => projectRoomMedia(session.world, session.personId),
     [session.world, session.personId],
+  );
+  // What the place picture's painted screens, boards and papers show today.
+  const placeSurfaces = useMemo(
+    () =>
+      placeBackdrop
+        ? projectBackdropSurfaces(
+            session.world,
+            session.personId,
+            placeBackdrop,
+            roomMedia,
+          )
+        : [],
+    [placeBackdrop, session.world, session.personId, roomMedia],
   );
   const readableSurfaces = useMemo(() => {
     const news = projectLivingSceneSurface(session.world, session.personId, {
@@ -2317,6 +2334,7 @@ function PlayingScreen({
               sceneId={sceneId}
               placeBackdrop={placeBackdrop}
               placePeople={placePeople}
+              placeSurfaces={placeSurfaces}
               readableSurfaces={readableSurfaces}
               roomMedia={roomMedia}
               onOpenSurfaceEntity={openEntity}

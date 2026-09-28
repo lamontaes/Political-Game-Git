@@ -47,6 +47,10 @@ import { lawInForce } from "../../src/simulation/governing/law-in-force";
 import { stateJurisdictionForKey } from "../../src/simulation/life-places";
 import { STATES } from "../../src/simulation/state-reference";
 import {
+  jurisdictionPowersLevels,
+  questionAuthority,
+} from "../../src/simulation/governing/question-authority";
+import {
   OUTCOME_LINKS,
   OUTCOMES_PRODUCED,
   outcomeFactor,
@@ -1784,6 +1788,100 @@ function monthDay(date: IsoDate): string {
 }
 
 /**
+ * Every enacted law that answers a policy question, by the level that made it,
+ * and whether that level's powers cover the question (`question-authority.ts`).
+ * Then what Congress's laws feed in the outcome web.
+ */
+function powersLines(world: World): string[] {
+  const measures = new Map(
+    (world.history.legislativeMeasures ?? []).map((row) => [row.id, row]),
+  );
+  const tally = new Map<
+    string,
+    {
+      laws: number;
+      answers: number;
+      beyond: number;
+      unsettled: number;
+      noQuestion: number;
+    }
+  >();
+  const federal: { key: string; built: number }[] = [];
+  for (const enactment of world.history.legislativeEnactments ?? []) {
+    if (enactment.outcome !== "enacted") continue;
+    const measure = measures.get(enactment.measureId);
+    if (!measure) continue;
+    const levels = jurisdictionPowersLevels(world, measure.jurisdictionId);
+    const level = levels.includes("federal")
+      ? "Congress"
+      : levels.some((l) => l === "state" || l === "dc" || l === "territory")
+        ? "state, D.C. and territory legislatures"
+        : "city and county councils";
+    const row = tally.get(level) ?? {
+      laws: 0,
+      answers: 0,
+      beyond: 0,
+      unsettled: 0,
+      noQuestion: 0,
+    };
+    tally.set(level, row);
+    if (!measure.propositionAnswers?.length) {
+      row.noQuestion += 1;
+      continue;
+    }
+    row.laws += 1;
+    for (const answer of measure.propositionAnswers) {
+      row.answers += 1;
+      const may = questionAuthority(
+        world,
+        measure.jurisdictionId,
+        answer.propositionId,
+      ).may;
+      if (may === "no") row.beyond += 1;
+      if (may === "unknown") row.unsettled += 1;
+      if (level === "Congress") {
+        const key =
+          world.policyCatalog.propositions[answer.propositionId]?.stableKey ??
+          "";
+        federal.push({
+          key,
+          built: OUTCOME_LINKS.filter(
+            (link) =>
+              link.from === `law:${key}` && outcomeLinkStatus(link) === "built",
+          ).length,
+        });
+      }
+    }
+  }
+  const out = ["Laws that answered a policy question, by who made them:", ""];
+  for (const level of [
+    "Congress",
+    "state, D.C. and territory legislatures",
+    "city and county councils",
+  ]) {
+    const row = tally.get(level) ?? {
+      laws: 0,
+      answers: 0,
+      beyond: 0,
+      unsettled: 0,
+      noQuestion: 0,
+    };
+    out.push(
+      `- ${level}: ${count(row.laws, "law")}; ${row.beyond} answered a question that is not theirs to answer${row.unsettled ? `, and ${row.unsettled} rest on a power the research has not settled` : ""}.${row.noQuestion ? ` ${count(row.noQuestion, "more law")} answered no policy question.` : ""}`,
+    );
+  }
+  if (federal.length) {
+    const feeding = federal.filter((row) => row.built > 0);
+    const questions = new Set(federal.map((row) => row.key));
+    out.push(
+      "",
+      `Congress's laws answered ${count(questions.size, "federal question")}; ${count(feeding.length, "law")} of ${federal.length} feed an outcome that acts in the world.`,
+    );
+  }
+  return out;
+}
+
+/**
  * The law in force in every state, D.C. and territory on each question the
  * starting-law file covers, as `lawInForce` reads it at the end of the run:
  * how many places say yes, no, or have no answer (unknown), and how many of
@@ -1864,6 +1962,8 @@ function lawOutcomeLines(run: WorldReportRun): string[] {
   const inPlay = answered.filter((row) => row.origin === "enacted");
   out.push(
     `The law in force here answers ${count(answered.length, "policy question")}: ${atStart.length} as the law stood when the game began, and ${inPlay.length} by laws enacted during the run.`,
+    "",
+    ...powersLines(world),
     "",
   );
   out.push(...startingLawAcrossPlaces(world), "");
