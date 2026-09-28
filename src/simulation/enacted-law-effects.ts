@@ -1,9 +1,16 @@
 import { appropriationFromEnactedMeasure } from "./governing/program-governing";
 import {
   applyEnactedDuties,
+  clauseOrigins,
   ENACTED_DUTY_RESEARCH_QUESTION,
   enactedDutiesOf,
 } from "./enacted-duties";
+import {
+  applyFamilyAppropriations,
+  appropriatedAgainst,
+  isAuthorizationCeiling,
+  isFamilyAppropriation,
+} from "./enacted-appropriations";
 import {
   applyEnactedEligibility,
   enactedEligibilityOf,
@@ -126,6 +133,18 @@ export type LawEffectLine =
       readonly researchQuestionId: string;
     }
   | {
+      /**
+       * A sum the law authorizes without providing it: a ceiling a later law
+       * can appropriate against, or a yearly cap on what may be spent.
+       */
+      readonly kind: "authorization";
+      readonly heading: string;
+      readonly ceilingMinorUnits: number;
+      readonly annual: boolean;
+      /** Appropriated by later enacted laws written against this one. */
+      readonly appropriatedAgainstMinorUnits: number;
+    }
+  | {
       /** Who the law says qualifies for, or is subject to, what it does. */
       readonly kind: "eligibility";
       readonly heading: string;
@@ -205,8 +224,12 @@ export function applyEnactedLawEffects(
   // The pinned transit program reads its own enacted clause when service is
   // requested (`transit-funding.ts`). A second, generic spending authority
   // from the same clause would let a governor commit the same money twice.
-  if (!isPinnedTransitMeasure(next, measureId))
+  if (!isPinnedTransitMeasure(next, measureId)) {
     next = appropriationFromEnactedMeasure(next, measureId);
+    // A family's own appropriating section, e.g. "There is appropriated to a
+    // service line replacement fund a sum not to exceed ...".
+    next = applyFamilyAppropriations(next, measureId);
+  }
   // A section that places a duty on a class of body.
   next = applyEnactedDuties(next, measureId);
   // A section that says who qualifies for, or is subject to, the Act.
@@ -359,6 +382,39 @@ export function enactedLawEffects(
     });
   }
 
+  // Sums the law authorizes without providing. A later law is written
+  // against the whole Act, so its ceilings are read as one sum, as the docket
+  // reads them; a yearly cap is read on its own.
+  const origins = clauseOrigins(world, measureId);
+  const ceilings = provisions.filter(
+    (provision) =>
+      !consumed.has(provision.id) &&
+      origins.get(provision.provisionKey)?.lever === "money" &&
+      isAuthorizationCeiling(provision),
+  );
+  for (const provision of ceilings) consumed.add(provision.id);
+  const whole = ceilings.filter((row) => row.fiscalPeriod !== "annual");
+  if (whole.length > 0)
+    lines.push({
+      kind: "authorization",
+      heading: whole.map((row) => row.heading).join(" and "),
+      ceilingMinorUnits: whole.reduce(
+        (sum, row) => sum + row.fiscalExposureMinorUnits!,
+        0,
+      ),
+      annual: false,
+      appropriatedAgainstMinorUnits: appropriatedAgainst(world, measureId),
+    });
+  for (const provision of ceilings)
+    if (provision.fiscalPeriod === "annual")
+      lines.push({
+        kind: "authorization",
+        heading: provision.heading,
+        ceilingMinorUnits: provision.fiscalExposureMinorUnits!,
+        annual: true,
+        appropriatedAgainstMinorUnits: 0,
+      });
+
   // Who the law applies to.
   for (const reading of enactedEligibilityOf(world, measureId)) {
     consumed.add(reading.record.provisionId);
@@ -421,7 +477,8 @@ export function enactedLawEffects(
 function isMoneyClause(provision: LegislativeProvisionRecord): boolean {
   return (
     provision.provisionKey === "amount-provided" ||
-    provision.provisionKey.endsWith(":amount-provided")
+    provision.provisionKey.endsWith(":amount-provided") ||
+    isFamilyAppropriation(provision)
   );
 }
 

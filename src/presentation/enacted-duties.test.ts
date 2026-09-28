@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { createLegislativeScenario } from "../simulation";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import { advanceWorld } from "../simulation/world";
+import { addDays } from "../simulation/dates";
 import type { EntityId, World } from "../simulation";
 import type { ProgramParameterValue } from "../simulation/legislation-content-contracts";
 import {
@@ -79,32 +80,25 @@ function staff(world: World, personId: EntityId, organizationId: EntityId) {
   });
 }
 
-/** Two utilities in the state, one with someone working there, then the law. */
-function enact(
-  variantKey: string,
-  familyKey: string,
-  authorityKey?: string,
-  parameterValues?: Readonly<Record<string, ProgramParameterValue>>,
+type Scenario = ReturnType<typeof createLegislativeScenario>;
+
+/** Files one bill in the scenario's legislature and carries it to enactment. */
+function pass(
+  scenario: Scenario,
+  start: World,
+  draft: {
+    readonly familyKey: string;
+    readonly variantKey: string;
+    readonly authorityKey?: string;
+    readonly parameterValues?: Readonly<Record<string, ProgramParameterValue>>;
+  },
 ) {
-  const scenario = createLegislativeScenario("nebraska");
-  const jurisdictionId =
-    scenario.world.history.legislativeMeasures![0]!.jurisdictionId;
-  const staffed = utility(
-    scenario.world,
-    "staffed",
-    "Platte Electric",
-    jurisdictionId,
-  );
-  const empty = utility(staffed.world, "empty", "Loup Water", jurisdictionId);
-  const withStaff = staff(empty.world, scenario.playerPersonId, staffed.id);
-  const filed = fileDraft(withStaff, {
+  const filed = fileDraft(start, {
     scenarioKey: "nebraska",
     playerPersonId: scenario.playerPersonId,
-    jurisdictionId,
-    familyKey,
-    variantKey,
-    ...(authorityKey ? { authorityKey } : {}),
-    ...(parameterValues ? { parameterValues } : {}),
+    jurisdictionId:
+      scenario.world.history.legislativeMeasures![0]!.jurisdictionId,
+    ...draft,
   });
   const measureId = filed.bill.measureId;
   const context = { ...scenario, measureId };
@@ -124,6 +118,33 @@ function enact(
     );
   }
   expect(measurePosition(world, measureId).outcome).toBe("enacted");
+  return { world, measureId, docketKey: filed.bill.docketKey };
+}
+
+/** Two utilities in the state, one with someone working there, then the law. */
+function enact(
+  variantKey: string,
+  familyKey: string,
+  authorityKey?: string,
+  parameterValues?: Readonly<Record<string, ProgramParameterValue>>,
+) {
+  const scenario = createLegislativeScenario("nebraska");
+  const jurisdictionId =
+    scenario.world.history.legislativeMeasures![0]!.jurisdictionId;
+  const staffed = utility(
+    scenario.world,
+    "staffed",
+    "Platte Electric",
+    jurisdictionId,
+  );
+  const empty = utility(staffed.world, "empty", "Loup Water", jurisdictionId);
+  const withStaff = staff(empty.world, scenario.playerPersonId, staffed.id);
+  const { world, measureId } = pass(scenario, withStaff, {
+    familyKey,
+    variantKey,
+    ...(authorityKey ? { authorityKey } : {}),
+    ...(parameterValues ? { parameterValues } : {}),
+  });
   return { world, measureId, staffedId: staffed.id, emptyId: empty.id };
 }
 
@@ -351,6 +372,123 @@ describe("a law that says who it applies to", () => {
       ),
     ).toBe(false);
     expect(eligibility(world, measureId)).toHaveLength(1);
+  });
+});
+
+describe("a law's money sections", () => {
+  it("turns a family's own appropriating section into money the state can spend", () => {
+    const { world, measureId } = enact(
+      "funded-replacement",
+      "water-service-lines",
+    );
+    const fund = (world.history.legislativeProvisions ?? []).find(
+      (row) =>
+        row.measureId === measureId && row.provisionKey === "replacement-fund",
+    )!;
+    const authority = (world.history.publicProgramRecords ?? []).filter(
+      (row) =>
+        row.kind === "appropriation" && row.sourceMeasureId === measureId,
+    );
+    expect(authority).toHaveLength(1);
+    expect(
+      authority[0]!.kind === "appropriation" && authority[0]!.amount.minorUnits,
+    ).toBe(fund.fiscalExposureMinorUnits);
+    const effects = enactedLawEffects(world, measureId)!;
+    expect(effects.lines.some((row) => row.kind === "appropriation")).toBe(
+      true,
+    );
+    expect(
+      effects.lines.some(
+        (row) => row.kind === "not-modeled" && row.heading === fund.heading,
+      ),
+    ).toBe(false);
+    // Idempotent: the same section is not made spendable twice.
+    expect(applyEnactedLawEffects(world, measureId)).toBe(world);
+  });
+
+  it("keeps a pilot's money available for the pilot's own term", () => {
+    const { world, measureId } = enact(
+      "enrollment-fare-relief",
+      "transit-access",
+    );
+    const pilot = (world.history.legislativeProvisions ?? []).find(
+      (row) =>
+        row.measureId === measureId &&
+        row.provisionKey === "pilot-support-limit",
+    )!;
+    const years = /for the (\w+)-year pilot/.exec(pilot.text)?.[1];
+    expect(years).toBeDefined();
+    const record = (world.history.publicProgramRecords ?? []).find(
+      (row) =>
+        row.kind === "appropriation" && row.sourceMeasureId === measureId,
+    );
+    expect(record?.kind).toBe("appropriation");
+    if (record?.kind !== "appropriation") return;
+    // Longer than the one year an appropriation gets when it states no term.
+    expect(record.availableThrough > addDays(record.availableFrom, 364)).toBe(
+      true,
+    );
+  });
+
+  it("reads an authorization as a ceiling that provides no money", () => {
+    const { world, measureId } = enact(
+      "hardening-grants",
+      "utility-resilience",
+    );
+    expect(
+      (world.history.publicProgramRecords ?? []).some(
+        (row) =>
+          row.kind === "appropriation" && row.sourceMeasureId === measureId,
+      ),
+    ).toBe(false);
+    const line = enactedLawEffects(world, measureId)!.lines.find(
+      (row) => row.kind === "authorization",
+    );
+    expect(line).toMatchObject({
+      annual: false,
+      appropriatedAgainstMinorUnits: 0,
+    });
+    expect(lawEffectSentences(world, measureId).join(" ")).toContain(
+      "provides no money itself. No later law has provided any of it yet.",
+    );
+  });
+
+  it("counts what a later law appropriates against the ceiling", () => {
+    const scenario = createLegislativeScenario("nebraska");
+    const first = pass(scenario, scenario.world, {
+      familyKey: "utility-resilience",
+      variantKey: "hardening-grants",
+    });
+    const second = pass(scenario, first.world, {
+      familyKey: "appropriations",
+      variantKey: "single-programme",
+      authorityKey: `docket:${first.docketKey}`,
+    });
+    const provided = (second.world.history.publicProgramRecords ?? []).find(
+      (row) =>
+        row.kind === "appropriation" &&
+        row.sourceMeasureId === second.measureId,
+    );
+    expect(provided).toBeDefined();
+    const line = enactedLawEffects(second.world, first.measureId)!.lines.find(
+      (row) => row.kind === "authorization",
+    );
+    expect(line).toMatchObject({
+      appropriatedAgainstMinorUnits:
+        provided?.kind === "appropriation" ? provided.amount.minorUnits : -1,
+    });
+  });
+
+  it("reads a yearly salary cap as a cap", () => {
+    const { world, measureId } = enact(
+      "authorize-positions",
+      "public-workforce",
+    );
+    const line = enactedLawEffects(world, measureId)!.lines.find(
+      (row) => row.kind === "authorization",
+    );
+    expect(line).toMatchObject({ annual: true });
+    expect(lawEffectSentences(world, measureId).join(" ")).toContain("a year.");
   });
 });
 

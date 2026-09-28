@@ -96,6 +96,16 @@ function sentenceFor(line: LawEffectLine): string {
       return dutySentence(line);
     case "eligibility":
       return eligibilitySentence(line);
+    case "authorization": {
+      const ceiling = dollars(line.ceilingMinorUnits);
+      if (line.annual)
+        return `${line.heading}: it caps this spending at ${ceiling} a year.`;
+      const used =
+        line.appropriatedAgainstMinorUnits === 0
+          ? "No later law has provided any of it yet."
+          : `Later laws have provided ${dollars(line.appropriatedAgainstMinorUnits)} of it.`;
+      return `${line.heading}: it allows up to ${ceiling}, but provides no money itself. ${used}`;
+    }
     case "not-modeled":
       // PLACEHOLDER: the effect of this part is waiting on research. The
       // sentence says only that nothing acts on it, never what it would do.
