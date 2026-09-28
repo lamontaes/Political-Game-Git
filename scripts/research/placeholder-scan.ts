@@ -32,7 +32,7 @@ const MONEY =
 
 /** Files that make, number, decide, enact or apply law, or seat the bodies that do. */
 const LAW =
-  /(?:^|\/)(enacted-law-effects|law-effects-prose|measure-numbering|municipal-[a-z-]+|legislature-[a-z-]+|legislative-[a-z-]+|congress-rule-pack|standing-committee|dc-council-sittings|recall|campaign-compliance|ordinary-meeting-[a-z-]+|governing\/[a-z-]+|judiciary\/[a-z-]+|living-world\/(constitutional-reform|federal-reform|local-council-meetings|local-government-seats)|nationwide-world\/(local-governing-body-[a-z-]+|local-chief-executive-rules|district-of-columbia-council-opening|executive-term-limits|governor-succession))\.ts$/;
+  /(?:^|\/)(enacted-law-effects|enacted-duties|law-effects-prose|measure-numbering|municipal-[a-z-]+|legislature-[a-z-]+|legislative-[a-z-]+|congress-rule-pack|standing-committee|dc-council-sittings|recall|campaign-compliance|ordinary-meeting-[a-z-]+|governing\/[a-z-]+|judiciary\/[a-z-]+|living-world\/(constitutional-reform|federal-reform|local-council-meetings|local-government-seats)|nationwide-world\/(local-governing-body-[a-z-]+|local-chief-executive-rules|district-of-columbia-council-opening|executive-term-limits|governor-succession))\.ts$/;
 
 /** Elections, candidacies and offices: who holds power, not what it does. */
 const GOVERNMENT =

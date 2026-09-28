@@ -20,10 +20,19 @@
  */
 import { createStableId } from "./ids";
 import {
+  FEDERAL_INCOME_TAX_2026,
+  filingStatusAt,
+  payPeriodsPerYear,
+  stateIncomeTaxSchedule,
+  withholdingForPaycheck,
+  type IncomeTaxSchedule,
+} from "./income-tax-withholding";
+import {
   lifePlaceByJurisdictionId,
   stateKeyForJurisdiction,
 } from "./life-places";
 import { organizationProfileAt } from "./life-queries";
+import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
@@ -55,6 +64,8 @@ import type {
 } from "./types";
 
 export const PAYROLL_WITHHOLDING_BASIS = "custom:tax-withholding" as const;
+export const FEDERAL_INCOME_TAX_KEY = "us-federal:income-tax-withholding";
+const FEDERAL_INCOME_TAX_SOURCE_URL = "https://www.irs.gov/publications/p15t";
 
 type LiabilityDraft = Omit<
   StatutoryTaxLiabilityRecord,
@@ -190,6 +201,60 @@ function paycheckLiabilities(
           : "employer-payroll-tax-deposits-and-unemployment",
     });
   }
+  const status = filingStatusAt(world, flow.recipient.personId);
+  const periods = payPeriodsPerYear(outcome);
+  const incomeTax = (
+    taxKey: string,
+    authorityKey: string,
+    schedule: IncomeTaxSchedule,
+  ): LiabilityDraft => {
+    const { taxableMinor, withheldMinor } = withholdingForPaycheck(
+      wages.minorUnits,
+      periods,
+      schedule,
+    );
+    return {
+      ...base,
+      stableKey: key(taxKey),
+      taxKey,
+      authorityKey,
+      payer: employee,
+      taxableAmount: money(taxableMinor, wages.currency),
+      liability: money(withheldMinor, wages.currency),
+      status: "assessed",
+      // Withholding, not the final liability: the annual return settles it.
+      collection: "withheld-from-pay",
+      dueAt: outcome.occurredAt,
+      sourceUrl: schedule.sourceUrl,
+      researchQuestionId: null,
+    };
+  };
+  // Federal income tax: a 2026 paycheck of a stateside resident, withheld
+  // under the filing status's schedule where it has been read. Puerto Rico
+  // and the other territories tax their residents' local wages themselves.
+  const federalSchedule = FEDERAL_INCOME_TAX_2026[status];
+  const federalGap =
+    taxYear < FIRST_VERIFIED_TAX_YEAR
+      ? "tax-rules-before-2026"
+      : !stateKey
+        ? "tax-residence-unrecorded"
+        : isTerritory(stateKey)
+          ? "territory-federal-income-tax"
+          : !federalSchedule
+            ? "federal-income-tax-filing-status-schedules-2026"
+            : null;
+  rows.push(
+    federalGap || !federalSchedule
+      ? unknown(
+          FEDERAL_INCOME_TAX_KEY,
+          "US",
+          employee,
+          "rule-unknown",
+          federalGap ?? "federal-income-tax-filing-status-schedules-2026",
+          FEDERAL_INCOME_TAX_SOURCE_URL,
+        )
+      : incomeTax(FEDERAL_INCOME_TAX_KEY, "US", federalSchedule),
+  );
   for (const rule of FEDERAL_UNPRICED_PAYROLL_RULES) {
     rows.push(
       unknown(
@@ -236,17 +301,26 @@ function paycheckLiabilities(
       sourceUrl: place.sourceUrl,
       researchQuestionId: null,
     });
-  else
+  else {
+    const read =
+      place.status === "imposed" && taxYear >= FIRST_VERIFIED_TAX_YEAR
+        ? stateIncomeTaxSchedule(stateKey, status)
+        : null;
     rows.push(
-      unknown(
-        placeTaxKey,
-        stateKey,
-        employee,
-        "rule-unknown",
-        "state-wage-income-tax-withholding",
-        place.sourceUrl,
-      ),
+      read?.kind === "schedule"
+        ? incomeTax(placeTaxKey, stateKey, read.schedule)
+        : unknown(
+            placeTaxKey,
+            stateKey,
+            employee,
+            "rule-unknown",
+            read?.kind === "unknown"
+              ? read.researchQuestionId
+              : "state-wage-income-tax-withholding",
+            place.sourceUrl,
+          ),
     );
+  }
   // The research does not address city or county taxes on wages anywhere.
   rows.push(
     unknown(
@@ -387,26 +461,75 @@ function withhold(
       row.liability !== null &&
       row.liability.minorUnits > 0,
   );
+  // Each government's share goes to its own account: the federal rows to the
+  // United States, a state's income tax to that state.
+  let next = world;
+  const federal = withheld.filter((row) => row.authorityKey === "US");
+  if (federal.length > 0)
+    next = withholdTo(
+      next,
+      personId,
+      outcome,
+      federal,
+      null,
+      `statutory-tax:withholding:${outcome.id}`,
+    );
+  for (const authorityKey of [
+    ...new Set(
+      withheld
+        .map((row) => row.authorityKey)
+        .filter((authority) => authority !== "US"),
+    ),
+  ]) {
+    // The state's own jurisdiction identity, registered once, as statewide
+    // contests register it; nothing else about the state comes with it.
+    const state = chiefExecutiveJurisdiction(authorityKey.slice(3));
+    if (!state) continue;
+    if (!next.jurisdictions[state.id])
+      next = {
+        ...next,
+        jurisdictions: { ...next.jurisdictions, [state.id]: state },
+        jurisdictionOrder: [...next.jurisdictionOrder, state.id],
+      };
+    next = withholdTo(
+      next,
+      personId,
+      outcome,
+      withheld.filter((row) => row.authorityKey === authorityKey),
+      state.id,
+      `statutory-tax:withholding:${outcome.id}:${authorityKey}`,
+    );
+  }
+  return next;
+}
+
+function withholdTo(
+  world: World,
+  personId: EntityId,
+  outcome: ResourceTransferOutcome,
+  withheld: readonly StatutoryTaxLiabilityRecord[],
+  stateJurisdictionId: EntityId | null,
+  flowKey: string,
+): World {
   const total = withheld.reduce(
     (sum, row) => sum + row.liability!.minorUnits,
     0,
   );
   if (total === 0) return world;
   const currency = outcome.transferredAmount.currency;
+  const jurisdictionId =
+    stateJurisdictionId ?? NATIONAL_ELECTION_JURISDICTION.id;
   let next = ensureTaxPublicAccount(
-    ensureNationalElectionJurisdiction(world),
-    NATIONAL_ELECTION_JURISDICTION.id,
+    stateJurisdictionId ? world : ensureNationalElectionJurisdiction(world),
+    jurisdictionId,
   );
   const account = next.history.organizations.find(
-    (row) =>
-      row.stableKey ===
-      publicOrganizationKey(NATIONAL_ELECTION_JURISDICTION.id),
+    (row) => row.stableKey === publicOrganizationKey(jurisdictionId),
   )!;
   const payer: ResourcePositionOwner = { kind: "person", personId };
   const available =
     resourcePositionAt(next, payer, currency)?.liquidBalance.minorUnits ?? 0;
   const moved = Math.max(0, Math.min(total, available));
-  const flowKey = `statutory-tax:withholding:${outcome.id}`;
   next = createResourceFlow(next, {
     stableKey: flowKey,
     source: payer,
@@ -417,7 +540,7 @@ function withhold(
     basisKind: PAYROLL_WITHHOLDING_BASIS,
     basisReference: { kind: "general" },
     restrictionKind: "purpose:public-general-receipts",
-    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    jurisdictionId,
     provenance: {
       kind: "generated",
       generatorKey: "statutory-tax:payroll-withholding",
@@ -434,7 +557,9 @@ function withhold(
     transferredAmount: money(moved, currency),
     status: moved === total ? "completed" : moved === 0 ? "blocked" : "partial",
     reasonKind: moved === total ? null : "capacity:insufficient-funds",
-    note: "Withheld from pay for Social Security and Medicare.",
+    note: stateJurisdictionId
+      ? "Withheld from pay for state income tax."
+      : "Withheld from pay for federal taxes.",
     provenance: {
       kind: "generated",
       generatorKey: "statutory-tax:payroll-withholding",
@@ -561,7 +686,21 @@ export function assertStatutoryTaxIntegrity(
     if (!priced && row.collection !== "none")
       throw new Error("An unknown tax cannot be collected.");
     const rule = rules.get(row.taxKey);
-    if (row.status === "assessed") {
+    const incomeTax =
+      row.taxKey === FEDERAL_INCOME_TAX_KEY ||
+      row.taxKey.endsWith(":wage-income-tax");
+    if (row.status === "assessed" && incomeTax) {
+      // Income tax withholding depends on the filing status on payday, which
+      // can change later, so the record is checked for bounds, not re-derived:
+      // the annualized taxable pay never exceeds the pay, and no rate
+      // reaches 100%.
+      if (
+        row.taxableAmount!.minorUnits > row.wages.minorUnits ||
+        row.liability!.minorUnits > row.taxableAmount!.minorUnits + 1 ||
+        row.collection !== "withheld-from-pay"
+      )
+        throw new Error("An income tax withholding is out of bounds.");
+    } else if (row.status === "assessed") {
       if (
         !rule ||
         row.taxableAmount!.minorUnits > row.wages.minorUnits ||
