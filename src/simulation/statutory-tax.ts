@@ -322,21 +322,21 @@ export function wagesPaidEarlierThisYear(
 ): number {
   const year = String(taxYear);
   let total = 0;
+  // The same employer's pay flows to the same worker, looked up by id.
+  const same = new Set<EntityId>();
+  for (const other of world.history.resourceFlows)
+    if (
+      other.basisReference.kind === "work" &&
+      sameOwner(other.source, flow.source) &&
+      sameOwner(other.recipient, flow.recipient)
+    )
+      same.add(other.id);
   for (const row of world.history.resourceTransferOutcomes) {
     if (row.sequence >= outcome.sequence) continue;
     if (row.occurredAt.slice(0, 4) !== year) continue;
     if (row.transferredAmount.currency !== outcome.transferredAmount.currency)
       continue;
-    const other = world.history.resourceFlows.find(
-      (candidate) => candidate.id === row.resourceFlowId,
-    );
-    if (
-      !other ||
-      other.basisReference.kind !== "work" ||
-      !sameOwner(other.source, flow.source) ||
-      !sameOwner(other.recipient, flow.recipient)
-    )
-      continue;
+    if (!same.has(row.resourceFlowId)) continue;
     total += row.transferredAmount.minorUnits;
   }
   return total;
@@ -631,10 +631,11 @@ function append<K extends "statutoryTaxLiabilities" | "statutoryTaxPayments">(
     sequence: world.history.nextSequence,
     recordedAt: world.currentDate,
   } as NonNullable<World["history"][K]>[number];
+  const duplicate = (row: { id: EntityId; stableKey: string }) =>
+    row.id === record.id || row.stableKey === record.stableKey;
   if (
-    statutoryTaxHistoryRecords(world).some(
-      (row) => row.id === record.id || row.stableKey === record.stableKey,
-    )
+    (world.history.statutoryTaxLiabilities ?? []).some(duplicate) ||
+    (world.history.statutoryTaxPayments ?? []).some(duplicate)
   )
     throw new Error("Duplicate statutory tax identity.");
   return {

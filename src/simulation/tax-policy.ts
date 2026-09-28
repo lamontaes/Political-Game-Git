@@ -691,7 +691,18 @@ export function taxEntityAvailableAt(
   );
 }
 export function taxEntityExists(world: World, id: EntityId): boolean {
-  return taxHistoryRecords(world).some((row) => row.id === id);
+  // Each list is searched in place: copying them all into one array for every
+  // lookup made a town's paydays slow.
+  const history = world.history;
+  return [
+    history.taxProposals,
+    history.taxPolicies,
+    history.taxBases,
+    history.taxAssessments,
+    history.taxCollections,
+    history.statutoryTaxLiabilities,
+    history.statutoryTaxPayments,
+  ].some((rows) => (rows ?? []).some((row) => row.id === id));
 }
 
 function append<
