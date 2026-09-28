@@ -1,8 +1,5 @@
 import { useState } from "react";
-import type {
-  World,
-  FutureTransitionHandlerRegistry,
-} from "../simulation/types";
+import type { World } from "../simulation/types";
 import {
   CAREER_PROVIDERS,
   CAREER_SOURCE_CONTEXT,
@@ -14,7 +11,6 @@ import {
   careerOfferAccepted,
   seekCareerOffer,
   respondCareerOffer,
-  performCareerWork,
   acceptCareerResponsibilities,
   resignCareer,
 } from "../simulation/career-path7";
@@ -22,13 +18,9 @@ import {
   employerName,
   lifePathDefinition,
 } from "../simulation/life-paths2-catalog";
-import {
-  pathForRelationship,
-  LIFE_PATHS2_HANDLERS,
-} from "../simulation/life-paths2";
+import { pathForRelationship } from "../simulation/life-paths2";
 import type { LifePathResult } from "../simulation/life-paths2";
 import { workRoleAt, workStatusAt } from "../simulation/life-queries";
-import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
 import { projectPracticalOpportunities } from "../presentation/practical-opportunities";
 import { InlineDayControl } from "./controls/InlineDayControl";
 import { nationalMedianWageSentence } from "../presentation/career-wage";
@@ -38,11 +30,9 @@ import { JOB_MARKET_PLACEHOLDER } from "../simulation/job-market";
 export function CareerPathsPanel({
   world,
   onWorldChange,
-  transitionHandlers,
 }: {
   readonly world: World;
   readonly onWorldChange: (w: World) => void;
-  readonly transitionHandlers?: FutureTransitionHandlerRegistry;
 }) {
   const [selected, setSelected] = useState(CAREER_PROVIDERS[0]!.id),
     [notice, setNotice] = useState(""),
@@ -70,12 +60,6 @@ export function CareerPathsPanel({
           e.type === "career-path7.offer" && e.involvedEntityIds.includes(r.id),
       ),
   );
-  const handlers = transitionHandlers
-    ? composeFutureTransitionHandlerRegistries(
-        LIFE_PATHS2_HANDLERS,
-        transitionHandlers,
-      )
-    : LIFE_PATHS2_HANDLERS;
   const source = CAREER_SOURCE_CONTEXT.find((r) => r.id === p.occupationCode)!;
   const reason = careerEligibility(world, p);
   return (
@@ -208,13 +192,6 @@ export function CareerPathsPanel({
               </>
             ) : status === "active" ? (
               <>
-                <button
-                  onClick={() =>
-                    act(performCareerWork(world, r.id, p, handlers))
-                  }
-                >
-                  Perform work
-                </button>
                 <button
                   onClick={() =>
                     act(acceptCareerResponsibilities(world, r.id, p))

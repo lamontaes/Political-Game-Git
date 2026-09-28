@@ -4,6 +4,8 @@ import {
 } from "../simulation/contextual-character-history";
 import {
   CHILDHOOD_GENERATION_V2,
+  establishPreStartAdultHistory,
+  establishPreStartChildHistory,
   type ChildhoodGenerationVersion,
 } from "../simulation/character-history";
 import { COUPLE_KIND } from "../simulation/couples";
@@ -62,6 +64,12 @@ import {
   syncDistrictMembershipFromCanonicalHome,
 } from "../simulation";
 import { establishLifePersonality } from "../simulation/life-personality";
+import {
+  LOCAL_BUSINESS_PLACEHOLDER,
+  localBusinessesIn,
+  seatLocalBusinesses,
+} from "../simulation/local-economy";
+import { ensureStartingPersonalMoney } from "../simulation/starting-money";
 import type {
   CharacterHistoryTransition,
   DistrictHomeJoinVersion,
@@ -117,6 +125,12 @@ export interface ProductionWorldInput {
   /** World identity seed, before calibration; topology is not a shaped age range. */
   readonly familyStructureSeed?: string;
   readonly place: LifePlace;
+  /** The explicit new-life prior-date construction; absent for old replay. */
+  readonly preStartYear?: {
+    readonly version: "pre-start-world-year-v1";
+    readonly targetStartDate: IsoDate;
+    readonly priorYearStartDate: IsoDate;
+  };
   readonly age: number;
   readonly birthMonth?: number;
   readonly birthDay?: number;
@@ -217,6 +231,11 @@ export interface ProductionWorld {
   readonly player: Person;
 }
 
+/** A declared new-game pilot; old replay inputs never reach these functions. */
+export type PreStartProductionWorldInput = ProductionWorldInput & {
+  readonly preStartYear: NonNullable<ProductionWorldInput["preStartYear"]>;
+};
+
 /** Below this a character lives in someone else's household by default. */
 export const DEPENDENT_AGE_CEILING = 18;
 /** The age the game assumes ordinary schooling has begun by. */
@@ -258,6 +277,14 @@ export function buildProductionWorld(
   const place = input.place;
   const jurisdiction = place.context.jurisdiction;
   const currentDate = place.context.initialMoment.date as IsoDate;
+  const constructionDate =
+    input.preStartYear?.priorYearStartDate ?? currentDate;
+  if (
+    input.preStartYear &&
+    (input.preStartYear.targetStartDate !== currentDate ||
+      constructionDate >= currentDate)
+  )
+    throw new Error("Invalid pre-start world year dates.");
   const worldId = createWorldId(input.seed, "production");
   const nameCorpusVersion = nameCorpusVersionForPlace(
     stateUsps(place.stateJurisdictionKey),
@@ -271,6 +298,9 @@ export function buildProductionWorld(
     worldId,
     worldSeed: input.seed,
     currentDate,
+    ...(input.preStartYear === undefined
+      ? {}
+      : { initialResidenceDate: constructionDate }),
     homeJurisdictionId: jurisdiction.id,
     age: input.age,
     ...(input.birthMonth === undefined || input.birthDay === undefined
@@ -305,8 +335,11 @@ export function buildProductionWorld(
     // its generator stamp and the catalogs it starts with, so a player's save
     // can no longer be mistaken for — or built out of — a diagnostic fixture.
     lineage: "production",
-    currentDate,
-    currentMoment: place.context.initialMoment,
+    currentDate: constructionDate,
+    currentMoment: {
+      ...place.context.initialMoment,
+      date: constructionDate,
+    },
     jurisdictions: [jurisdiction],
     people: [player],
     setupPriors: input.priors,
@@ -321,19 +354,223 @@ export function buildProductionWorld(
     input.household,
     input.generation ?? null,
     input.familyStructureSeed ?? input.seed,
-    input.givenNameGenerationVersion ?? LEGACY_GIVEN_NAME_GENERATION_VERSION,
+    input.givenNameGenerationVersion ??
+      (input.preStartYear
+        ? COHORT_GIVEN_NAME_GENERATION_VERSION
+        : LEGACY_GIVEN_NAME_GENERATION_VERSION),
     input.earlierLifeGenerationVersion,
-    input.childhoodGenerationVersion,
+    input.childhoodGenerationVersion ??
+      (input.preStartYear ? CHILDHOOD_GENERATION_V2 : undefined),
     input.schoolNameVersion,
-    input.schoolStageVersion,
+    input.schoolStageVersion ??
+      (input.preStartYear ? SCHOOL_STAGES_V2 : undefined),
     input.familyBirthdayVersion,
     input.parentPartnerVersion,
     nameCorpusVersion,
+    input.preStartYear !== undefined,
   );
+  if (
+    input.preStartYear &&
+    ageOnDate(player.birthDate, world.currentDate) < 18
+  ) {
+    world = establishPreStartChildHistory(world, {
+      personId: player.id,
+      jurisdictionId: jurisdiction.id,
+    });
+  }
+  if (
+    input.preStartYear &&
+    ageOnDate(player.birthDate, world.currentDate) >= 19
+  ) {
+    world = seatLocalBusinesses(world, jurisdiction.id);
+    const employer = [...localBusinessesIn(world, jurisdiction.id)].sort(
+      (left, right) =>
+        left.organization.formedAt.localeCompare(right.organization.formedAt),
+    )[0];
+    if (!employer) throw new Error("A pre-start adult needs a local employer.");
+    const employerName = world.history.organizationProfiles.find(
+      (profile) => profile.organizationId === employer.organization.id,
+    )?.name;
+    if (!employerName)
+      throw new Error("A local employer needs a recorded name.");
+    world = establishPreStartAdultHistory(world, {
+      personId: player.id,
+      jurisdictionId: jurisdiction.id,
+      employerId: employer.organization.id,
+      employerName,
+      employerFormedAt: employer.organization.formedAt,
+      monthlyWageMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,
+    });
+    world = ensureStartingPersonalMoney(world, player.id).world;
+  }
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
   }
 
+  for (const personId of world.personOrder) {
+    if (
+      world.history.personDeaths.some(
+        (death) =>
+          death.personId === personId && death.diedAt <= world.currentDate,
+      )
+    )
+      continue;
+    world = establishLifePersonality(world, personId, {
+      seed: input.personalitySeed ?? input.seed,
+      key: `person:${world.personOrder.indexOf(personId)}`,
+    });
+  }
+  world = { ...world, control: { kind: "person", personId: player.id } };
+  world = syncDistrictMembershipFromCanonicalHome(
+    world,
+    player.id,
+    input.districtHomeJoinVersion,
+  );
+  assertWorldIntegrity(world);
+  return { world, playerPersonId: player.id, player };
+}
+
+/**
+ * Make the prior-year world without the prospective player. The world can
+ * advance institutions, businesses and background people before Begin, but
+ * no mortality, election or other global writer can find the chosen person.
+ */
+export function buildPreStartBackgroundWorld(
+  input: PreStartProductionWorldInput,
+): World {
+  const { targetStartDate, priorYearStartDate } = input.preStartYear;
+  if (
+    input.preStartYear.version !== "pre-start-world-year-v1" ||
+    targetStartDate !== input.place.context.initialMoment.date ||
+    priorYearStartDate >= targetStartDate
+  )
+    throw new Error("Invalid pre-start world year dates.");
+  const jurisdiction = input.place.context.jurisdiction;
+  const world = createWorld({
+    seed: input.seed,
+    lineage: "production",
+    currentDate: priorYearStartDate,
+    currentMoment: {
+      ...input.place.context.initialMoment,
+      date: priorYearStartDate,
+    },
+    jurisdictions: [jurisdiction],
+    people: [],
+    setupPriors: input.priors,
+  });
+  const withBusinesses = seatLocalBusinesses(world, jurisdiction.id);
+  assertWorldIntegrity(withBusinesses);
+  return withBusinesses;
+}
+
+/**
+ * Admit the chosen player only after the background World reaches Begin.
+ * Historical close-circle records are appended at this boundary; the person
+ * did not take part in the prior-year global simulation.
+ */
+export function finalizePreStartPlayer(
+  background: World,
+  input: PreStartProductionWorldInput,
+): ProductionWorld {
+  if (input.startingLife === "legislative-office")
+    throw new Error(
+      "A pre-start legislative staff job needs an office work path before player finalization.",
+    );
+  const { targetStartDate } = input.preStartYear;
+  const place = input.place;
+  const jurisdiction = place.context.jurisdiction;
+  if (
+    background.currentDate !== targetStartDate ||
+    background.currentMoment.date !== targetStartDate ||
+    background.id !== createWorldId(input.seed, "production") ||
+    !background.jurisdictions[jurisdiction.id] ||
+    background.control.kind !== "observer"
+  )
+    throw new Error(
+      "Pre-start background has not reached the player boundary.",
+    );
+  const nameCorpusVersion = nameCorpusVersionForPlace(
+    stateUsps(place.stateJurisdictionKey),
+    input.placeNameVersion,
+  );
+  const player = createStartingPerson({
+    worldId: background.id,
+    worldSeed: input.seed,
+    currentDate: targetStartDate,
+    homeJurisdictionId: jurisdiction.id,
+    age: input.age,
+    ...(input.birthMonth === undefined || input.birthDay === undefined
+      ? {}
+      : { birthMonth: input.birthMonth, birthDay: input.birthDay }),
+    givenName: input.givenName,
+    familyName: input.familyName,
+    corpusVersion: nameCorpusVersion,
+    appearanceRecipeVersion:
+      input.appearanceRecipeVersion ?? COHERENT_APPEARANCE_RECIPE_VERSION,
+    appearanceCatalogGeneration:
+      input.appearanceCatalogGeneration ??
+      ((input.appearanceRecipeVersion ?? COHERENT_APPEARANCE_RECIPE_VERSION) ===
+      COHERENT_APPEARANCE_RECIPE_VERSION
+        ? LEGACY_COHERENT_CATALOG_GENERATION
+        : undefined),
+    ...(input.identity === undefined ? {} : { identity: input.identity }),
+  });
+  if (
+    background.people[player.id] ||
+    background.personOrder.includes(player.id)
+  )
+    throw new Error("Prospective player existed before Begin.");
+  let world: World = {
+    ...background,
+    people: { ...background.people, [player.id]: player },
+    personOrder: [...background.personOrder, player.id],
+  };
+  assertWorldIntegrity(world);
+  world = recordCreation(world, player, place, input);
+  world = establishAgeEligibleState(
+    world,
+    player,
+    place,
+    input.depth,
+    input.household,
+    input.generation ?? null,
+    input.familyStructureSeed ?? input.seed,
+    input.givenNameGenerationVersion ?? COHORT_GIVEN_NAME_GENERATION_VERSION,
+    input.earlierLifeGenerationVersion,
+    input.childhoodGenerationVersion ?? CHILDHOOD_GENERATION_V2,
+    input.schoolNameVersion,
+    input.schoolStageVersion ?? SCHOOL_STAGES_V2,
+    input.familyBirthdayVersion,
+    input.parentPartnerVersion,
+    nameCorpusVersion,
+    true,
+  );
+  if (input.age < 18) {
+    world = establishPreStartChildHistory(world, {
+      personId: player.id,
+      jurisdictionId: jurisdiction.id,
+    });
+  } else {
+    const employer = [...localBusinessesIn(world, jurisdiction.id)].sort(
+      (left, right) =>
+        left.organization.formedAt.localeCompare(right.organization.formedAt),
+    )[0];
+    if (!employer) throw new Error("A pre-start adult needs a local employer.");
+    const employerName = world.history.organizationProfiles.find(
+      (profile) => profile.organizationId === employer.organization.id,
+    )?.name;
+    if (!employerName)
+      throw new Error("A local employer needs a recorded name.");
+    world = establishPreStartAdultHistory(world, {
+      personId: player.id,
+      jurisdictionId: jurisdiction.id,
+      employerId: employer.organization.id,
+      employerName,
+      employerFormedAt: employer.organization.formedAt,
+      monthlyWageMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,
+    });
+    world = ensureStartingPersonalMoney(world, player.id).world;
+  }
   for (const personId of world.personOrder) {
     if (
       world.history.personDeaths.some(
@@ -440,6 +677,7 @@ function establishAgeEligibleState(
   familyBirthdayVersion: FamilyBirthdayVersion | undefined,
   parentPartnerVersion: ParentPartnerVersion | undefined,
   nameCorpusVersion: string,
+  preStartDates: boolean,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -526,6 +764,7 @@ function establishAgeEligibleState(
       childhoodGenerationVersion,
       schoolNameVersion,
       nameCorpusVersion,
+      preStartDates,
     );
     transitions.push({
       kind: "household-membership",
@@ -1291,13 +1530,10 @@ function summarizeEarlierLife(
   childhoodGenerationVersion: ChildhoodGenerationVersion | undefined,
   schoolNameVersion: SchoolNameVersion | undefined,
   nameCorpusVersion: string,
+  preStartDates: boolean,
 ): World {
   const stableKey = "production:earlier-life";
-  const generateHistory =
-    version === "context-v2"
-      ? generateContextualCharacterHistory
-      : generateQuickCharacterHistory;
-  const plan = generateHistory(world, {
+  const historyInput = {
     stableKey,
     personId: player.id,
     jurisdictionId,
@@ -1307,7 +1543,14 @@ function summarizeEarlierLife(
       : { childhoodGenerationVersion }),
     ...(schoolNameVersion === undefined ? {} : { schoolNameVersion }),
     nameCorpusVersion,
-  });
+  };
+  const plan =
+    version === "context-v2"
+      ? generateContextualCharacterHistory(world, historyInput)
+      : generateQuickCharacterHistory(world, {
+          ...historyInput,
+          ...(preStartDates ? { preStartDates: true } : {}),
+        });
   const next = applyCharacterHistoryPlan(world, {
     ...plan,
     transitions: cohortNamed(

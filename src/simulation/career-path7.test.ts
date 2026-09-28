@@ -18,7 +18,6 @@ import {
   respondCareerOffer,
   scheduleCareerTask,
   completeCareerTask,
-  performCareerWork,
   resignCareer,
   acceptCareerResponsibilities,
   careerEligibility,
@@ -80,7 +79,7 @@ describe("CAREER-PATH7 source tasks through canonical LIFE work", () => {
     expect(serializeWorld(w)).toBe(before);
     expect(respondCareerOffer(w, "absent" as EntityId, p, true).world).toBe(w);
   });
-  it("issues, refuses, accepts, works, saves, changes responsibilities, resigns and pays only earned shifts", () => {
+  it("issues, refuses, accepts, works automatically, saves, changes responsibilities, resigns and pays only earned shifts", () => {
     let w = fixture();
     w = seekCareerOffer(w, p).world;
     const refused = w.history.workRelationships.at(-1)!;
@@ -97,9 +96,7 @@ describe("CAREER-PATH7 source tasks through canonical LIFE work", () => {
     w = startCareerWork(w, id, p).world;
     expect(acceptCareerResponsibilities(w, id, p).ok).toBe(false);
     for (let i = 0; i < 2; i++) {
-      const done = performCareerWork(w, id, p);
-      expect(done.ok).toBe(true);
-      w = done.world;
+      w = advanceWorldMinutes(w, 24 * 60, LIFE_PATHS2_HANDLERS);
       expect(
         w.history.events.filter((e) => e.type === "life-paths2.work-session"),
       ).toHaveLength(i + 1);
@@ -116,9 +113,6 @@ describe("CAREER-PATH7 source tasks through canonical LIFE work", () => {
     expect(
       w.history.events.filter((e) => e.type === "career-path7.deliverable"),
     ).toHaveLength(0);
-    expect(
-      w.history.events.filter((e) => e.type === "career-path7.work-record"),
-    ).toHaveLength(2);
     w = acceptCareerResponsibilities(w, id, p).world;
     expect(
       w.history.events.some((e) => e.type === "career-path7.responsibilities"),
@@ -232,12 +226,11 @@ describe("ordinary work without mandatory submissions and during fast-forward", 
     const saved = serializeWorld(w);
     expect(serializeWorld(deserializeWorld(saved))).toBe(saved);
   });
-  it("earns pay after Perform work with no written report", () => {
+  it("earns pay as ordinary time passes with no written report", () => {
     const started = employed();
     let w = started.w;
     const id = started.id;
-    expect(performCareerWork(w, id, p).ok).toBe(true);
-    w = performCareerWork(w, id, p).world;
+    w = advanceWorldMinutes(w, 20 * 60, LIFE_PATHS2_HANDLERS);
     expect(sessions(w, id)).toHaveLength(1);
     expect(
       w.history.events.some((e) => e.type === "career-path7.deliverable"),

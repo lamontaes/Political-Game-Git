@@ -561,9 +561,9 @@ export interface EngineAppearanceChoice {
   readonly hair?: string;
   /** One of the engine's hair colors (appearance-engine/pack.ts HAIR_COLORS). */
   readonly hairColor?: string;
-  /** The outfit worn when the occasion does not decide. */
-  readonly outfit?: "formal" | "casual";
-  /** Fabric color per garment part (top, bottom, suit, shirt, tie). */
+  /** The outfit (a people-engine outfit id) worn when the occasion does not decide. */
+  readonly outfit?: string;
+  /** Fabric color per garment part (top, bottom, suit, shirt, tie, coat...). */
   readonly colors?: Readonly<Record<string, string>>;
 }
 
@@ -4723,12 +4723,10 @@ export type FormativeLifeSituationKey =
 export type AdultLifeSituationKey =
   | "adult.household-repair"
   | "adult.household-money-shortfall"
-  | "adult.household-quiet-evening"
   | "adult.family-request"
   | "adult.care-request"
   | "adult.partner-plan"
   | "adult.work-rule-pressure"
-  | "adult.work-extra-hours"
   | "adult.work-credit"
   | "adult.work-colleague-struggling"
   | "adult.work-good-week"
@@ -4737,7 +4735,6 @@ export type AdultLifeSituationKey =
   | "adult.debt-call"
   | "adult.unexpected-expense"
   | "adult.small-windfall"
-  | "adult.friend-favour"
   | "adult.friend-in-difficulty"
   | "adult.friend-good-news"
   | "adult.local-dispute"
@@ -4750,7 +4747,6 @@ export type AdultLifeSituationKey =
   | "adult.incident-aftermath"
   | "adult.incident-neighbour-help"
   | "adult.promise-comes-due"
-  | "adult.old-favour-returns"
   | "adult.weekend-invitation";
 
 export type LifeSituationKey =

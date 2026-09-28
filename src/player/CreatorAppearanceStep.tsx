@@ -120,6 +120,10 @@ export function CreatorAppearanceStep({
                       face: any(pack.faces).id,
                       hair: any(pack.hair).id,
                       hairColor: any(HAIR_COLORS).id,
+                      outfit: any(
+                        pack.outfits.filter((o) => !o.tags.includes("uniform")),
+                      ).id,
+                      colors: {},
                     }),
                   ),
                 );

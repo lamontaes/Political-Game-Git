@@ -9,11 +9,14 @@ import { appearanceAgeState } from "../appearance-lifecycle";
 import {
   BODY_BUILDS,
   HAIR_COLORS,
-  OUTFIT_PALETTES,
+  PART_PALETTES,
   type BodyBuild,
+  type BodyPose,
   type BodyPresentation,
   type EngineRecipe,
-  type OutfitKind,
+  type OutfitTag,
+  type PackOutfit,
+  type PackPresentation,
   type PeoplePackManifest,
 } from "./pack";
 import { SKIN_RAMPS } from "./skin";
@@ -100,8 +103,37 @@ function hairColorFor(seed: string, age: number): string {
 }
 
 export interface EngineRecipeOptions {
-  /** The occasion decides the outfit when it matters: formal at work in government. */
-  readonly occasion?: OutfitKind;
+  /**
+   * What the place calls for (src/presentation/dress-code.ts): business or
+   * formal clothes at work, a coat outdoors in the cold months.
+   */
+  readonly wear?: Exclude<OutfitTag, "uniform">;
+  /** Seated where the place has a seat for them. */
+  readonly pose?: BodyPose;
+}
+
+/**
+ * The outfit a person wears: the one they chose, unless the place calls for
+ * another kind; otherwise one of that kind drawn from their seed, so each
+ * person keeps their own everyday clothes, their own work clothes, their own
+ * formal wear and their own coat. Uniforms are never drawn: they come with a
+ * job.
+ */
+function outfitFor(
+  pack: PackPresentation,
+  seed: string,
+  chosen: string | undefined,
+  wear: Exclude<OutfitTag, "uniform"> | undefined,
+): PackOutfit {
+  const choice = pack.outfits.find((outfit) => outfit.id === chosen);
+  const wanted = wear ?? "casual";
+  if (choice && (!wear || choice.tags.includes(wear))) return choice;
+  const kind = pack.outfits.filter(
+    (outfit) =>
+      outfit.tags.includes(wanted) && !outfit.tags.includes("uniform"),
+  );
+  if (kind.length === 0) return choice ?? pack.outfits[0]!;
+  return kind[Math.floor(draw(seed, `outfit:${wanted}`) * kind.length)]!;
 }
 
 /**
@@ -121,7 +153,7 @@ export function engineRecipeFor(
   const pack = manifest.presentations[presentation];
   const pick = <T>(items: readonly T[], question: string): T =>
     items[Math.floor(draw(seed, question) * items.length)]!;
-  const outfit = options.occasion ?? choice?.outfit ?? "casual";
+  const outfit = outfitFor(pack, seed, choice?.outfit, options.wear);
   const shade =
     choice?.shade ?? 1 + Math.floor(draw(seed, "shade") * SKIN_RAMPS.length);
   return {
@@ -141,19 +173,25 @@ export function engineRecipeFor(
         Number(onDate.slice(0, 4)) -
           Number(String(person.birthDate).slice(0, 4)),
       ),
-    // Everyday clothes unless the person chose otherwise or the occasion is
-    // formal (a chamber, an office, a hearing).
-    outfit,
+    // Everyday clothes unless the person chose otherwise or the place calls
+    // for something else (work clothes, formal wear, a coat).
+    outfit: outfit.id,
+    ...(options.pose === "seated" ? { pose: "seated" as const } : {}),
     // Each garment part in a color of its own, kept per person.
     colors: Object.fromEntries(
-      Object.entries(OUTFIT_PALETTES[outfit]).map(([part, palette]) => [
-        part,
-        palette.includes(choice?.colors?.[part] ?? "")
-          ? choice!.colors![part]!
-          : palette[
-              Math.floor(draw(seed, `color:${outfit}:${part}`) * palette.length)
-            ]!,
-      ]),
+      Object.entries(outfit.parts).map(([part, paletteId]) => {
+        const palette = PART_PALETTES[paletteId] ?? [];
+        return [
+          part,
+          palette.includes(choice?.colors?.[part] ?? "")
+            ? choice!.colors![part]!
+            : palette[
+                Math.floor(
+                  draw(seed, `color:${outfit.id}:${part}`) * palette.length,
+                )
+              ]!,
+        ];
+      }),
     ),
   };
 }

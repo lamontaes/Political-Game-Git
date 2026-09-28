@@ -12,12 +12,12 @@ import type { Raster } from "./raster";
 
 /**
  * The people engine in the browser: the pack's files, decoded once, and each
- * composed person cached by recipe. With two faces, two hairstyles, three
- * builds, seven shades and two outfits there are at most a few hundred
- * distinct people to draw, so the cache is bounded by the art itself.
+ * composed person cached by recipe. Only the people on screen are drawn,
+ * and each distinct recipe once.
  */
 
-export const PEOPLE_PACK = manifestJson as PeoplePackManifest;
+// JSON reads every occasion as a plain string; the pack builder wrote them.
+export const PEOPLE_PACK = manifestJson as unknown as PeoplePackManifest;
 
 const urls = optionalGlob(() =>
   import.meta.glob<string>("../../../art/people-engine/v1/*.png", {
@@ -44,6 +44,8 @@ export interface EnginePersonImage {
   readonly width: number;
   readonly height: number;
   readonly anchors: BodyAnchors;
+  /** For a seated person: the row the seat is at. */
+  readonly seatRow?: number;
 }
 
 const decoded = new Map<string, Promise<Raster>>();
@@ -93,7 +95,7 @@ export function enginePersonImage(
       );
       queue = turn;
       await turn;
-      const { raster, anchors } = composeEnginePerson(
+      const { raster, anchors, seatRow } = composeEnginePerson(
         PEOPLE_PACK,
         (file) => rasters.get(file)!,
         recipe,
@@ -123,6 +125,7 @@ export function enginePersonImage(
         width: raster.width,
         height: raster.height,
         anchors,
+        ...(seatRow === undefined ? {} : { seatRow }),
       };
     })();
     pending.catch(() => composed.delete(key));

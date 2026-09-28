@@ -217,7 +217,7 @@ export interface ContentItem {
   /**
    * The bank's own identifier for this item, preserved exactly.
    *
-   * `formative.lunch-table`, `household-obligation`, `kentucky-signage`,
+   * `formative.lunch-table`, `school-project-share`, `kentucky-signage`,
    * `us-ky-general-assembly-v1`, an `EntityId` — whatever the bank already
    * calls it. This index does not rename existing content, so the key here is
    * the key a reviewer will find when they open the source module.

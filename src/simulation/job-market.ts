@@ -714,12 +714,72 @@ export function openWeeklyListings(world: World, personId: EntityId): World {
 /* -------------------------------------------------------------------------- */
 
 function playerCanAct(world: World, personId: EntityId): string | null {
-  if (world.control.kind !== "person" || world.control.personId !== personId)
+  if (!isPlayed(world, personId))
     return "Only the person being played can apply here.";
+  return applicantCanAct(world, personId);
+}
+
+/**
+ * Whether this is the played person, whose own records speak to them as
+ * "you". Everybody else's are written about them by name.
+ */
+function isPlayed(world: World, personId: EntityId): boolean {
+  return world.control.kind === "person" && world.control.personId === personId;
+}
+
+function applicantCanAct(world: World, personId: EntityId): string | null {
   const person = world.people[personId];
   if (!person) return "This person is not in the world.";
+  if (!isPersonAliveAt(world, personId, currentLifeCutoff(world)))
+    return "This person is no longer living.";
   if (ageOnDate(person.birthDate, world.currentDate) < MINIMUM_APPLICANT_AGE)
     return `Employers here take applicants who are ${MINIMUM_APPLICANT_AGE} or older.`;
+  return null;
+}
+
+/**
+ * The same job market, for somebody other than the person being played.
+ *
+ * A resident looking for work applies to an opening that is actually listed,
+ * hears back from the employer on the day drawn for it, and answers and starts
+ * through the same records the player's own application writes. Nothing is
+ * created for them: no opening, no employer and no offer that the market did
+ * not produce. The played person always applies for themselves.
+ */
+function residentCanAct(world: World, personId: EntityId): string | null {
+  if (isPlayed(world, personId))
+    return "The person being played applies for themselves.";
+  return applicantCanAct(world, personId);
+}
+
+function residentName(world: World, personId: EntityId): string {
+  const person = world.people[personId];
+  return person ? `${person.givenName} ${person.familyName}` : "They";
+}
+
+function openingBlocked(
+  world: World,
+  personId: EntityId,
+  openingId: EntityId,
+): string | null {
+  const opening = jobOpening(world, openingId);
+  if (!opening || !openingTakesApplications(world, opening))
+    return "This opening is no longer taking applications.";
+  const played = isPlayed(world, personId);
+  if (
+    applicationsFor(world, personId).some(
+      (application) => application.openingId === openingId,
+    )
+  )
+    return played
+      ? "You have already applied for this job."
+      : "They have already applied for this job.";
+  if (
+    activeWorkRelationshipsAt(world, personId).some(
+      (entry) => entry.relationship.organizationId === opening.organizationId,
+    )
+  )
+    return played ? "You already work here." : "They already work here.";
   return null;
 }
 
@@ -729,24 +789,21 @@ export function applicationBlocked(
   personId: EntityId,
   openingId: EntityId,
 ): string | null {
-  const refusal = playerCanAct(world, personId);
-  if (refusal) return refusal;
-  const opening = jobOpening(world, openingId);
-  if (!opening || !openingTakesApplications(world, opening))
-    return "This opening is no longer taking applications.";
-  if (
-    applicationsFor(world, personId).some(
-      (application) => application.openingId === openingId,
-    )
-  )
-    return "You have already applied for this job.";
-  if (
-    activeWorkRelationshipsAt(world, personId).some(
-      (entry) => entry.relationship.organizationId === opening.organizationId,
-    )
-  )
-    return "You already work here.";
-  return null;
+  return (
+    playerCanAct(world, personId) ?? openingBlocked(world, personId, openingId)
+  );
+}
+
+/** Why a resident cannot apply for this opening now, or null if they can. */
+export function residentApplicationBlocked(
+  world: World,
+  personId: EntityId,
+  openingId: EntityId,
+): string | null {
+  return (
+    residentCanAct(world, personId) ??
+    openingBlocked(world, personId, openingId)
+  );
 }
 
 /**
@@ -761,6 +818,30 @@ export function applyForJob(
 ): JobMarketResult {
   const blocked = applicationBlocked(world, personId, openingId);
   if (blocked) return { world, ok: false, message: blocked };
+  return submitApplication(world, personId, openingId, introducerPersonId);
+}
+
+/**
+ * A resident applies for a listed opening, or is put forward for it by
+ * somebody they know who works there. Refuses the played person.
+ */
+export function applyForJobAsResident(
+  world: World,
+  personId: EntityId,
+  openingId: EntityId,
+  introducerPersonId: EntityId | null = null,
+): JobMarketResult {
+  const blocked = residentApplicationBlocked(world, personId, openingId);
+  if (blocked) return { world, ok: false, message: blocked };
+  return submitApplication(world, personId, openingId, introducerPersonId);
+}
+
+function submitApplication(
+  world: World,
+  personId: EntityId,
+  openingId: EntityId,
+  introducerPersonId: EntityId | null,
+): JobMarketResult {
   if (
     introducerPersonId !== null &&
     !introducersFor(world, personId, openingId).includes(introducerPersonId)
@@ -784,9 +865,13 @@ export function applyForJob(
   const introducer = introducerPersonId
     ? world.people[introducerPersonId]
     : null;
+  const played = isPlayed(world, personId);
+  const applicant = played ? "you" : residentName(world, personId);
   const summary = introducer
-    ? `${introducer.givenName} ${introducer.familyName} put in a word for you at ${employer} about the ${opening.title.toLowerCase()} opening.`
-    : `You applied to ${employer} for the ${opening.title.toLowerCase()} opening.`;
+    ? `${introducer.givenName} ${introducer.familyName} put in a word for ${applicant} at ${employer} about the ${opening.title.toLowerCase()} opening.`
+    : played
+      ? `You applied to ${employer} for the ${opening.title.toLowerCase()} opening.`
+      : `${applicant} applied to ${employer} for the ${opening.title.toLowerCase()} opening.`;
   const noted = note(world, {
     key: stableKey,
     type: route === "introduced" ? "introduced" : "applied",
@@ -811,9 +896,11 @@ export function applyForJob(
   return {
     world: next,
     ok: true,
-    message: introducer
-      ? `${introducer.givenName} will put in a word for you. ${employer} will be in touch.`
-      : `Your application is in. ${employer} will be in touch.`,
+    message: !played
+      ? `${applicant} applied. ${employer} will be in touch.`
+      : introducer
+        ? `${introducer.givenName} will put in a word for you. ${employer} will be in touch.`
+        : `Your application is in. ${employer} will be in touch.`,
   };
 }
 
@@ -905,6 +992,8 @@ function decide(world: World, application: JobApplicationRecord): World {
   const opening = jobOpening(world, application.openingId)!;
   const employer = organizationName(world, opening.organizationId);
   const on = application.decisionAt;
+  const played = isPlayed(world, application.personId);
+  const name = residentName(world, application.personId);
   if (
     opening.weeklyHours.minimumHours >= JOB_MARKET_PLACEHOLDER.fullTimeHours &&
     holdsFullTimeWork(world, application.personId)
@@ -912,9 +1001,12 @@ function decide(world: World, application: JobApplicationRecord): World {
     return addStep(world, application, {
       kind: "declined",
       occurredAt: on,
-      reason:
-        "They wanted someone free to work these hours, and you already hold a full-time job.",
-      summary: `${employer} turned down your application: they wanted someone free for full-time hours, and you already work full time.`,
+      reason: played
+        ? "They wanted someone free to work these hours, and you already hold a full-time job."
+        : `They wanted someone free to work these hours, and ${name} already holds a full-time job.`,
+      summary: played
+        ? `${employer} turned down your application: they wanted someone free for full-time hours, and you already work full time.`
+        : `${employer} turned down ${name}'s application: they wanted someone free for full-time hours.`,
     });
   const rng = rngFor(world, `${application.stableKey}:decision`);
   if (rng.next() >= JOB_MARKET_PLACEHOLDER.hireChance[application.route])
@@ -922,7 +1014,9 @@ function decide(world: World, application: JobApplicationRecord): World {
       kind: "declined",
       occurredAt: on,
       reason: "They chose another applicant.",
-      summary: `${employer} chose another applicant for the ${opening.title.toLowerCase()} job.`,
+      summary: played
+        ? `${employer} chose another applicant for the ${opening.title.toLowerCase()} job.`
+        : `${employer} chose another applicant over ${name} for the ${opening.title.toLowerCase()} job.`,
     });
   const replyBy = addDays(on, between(rng, JOB_TIMING.offerReplyDays));
   const leadStart = addDays(
@@ -946,7 +1040,7 @@ function decide(world: World, application: JobApplicationRecord): World {
     replyBy,
     startAt,
     agreedWeeklyHours,
-    summary: `${employer} offered you the ${opening.title.toLowerCase()} job at ${payPhrase(opening.pay)}${agreedWeeklyHours ? `, ${agreedWeeklyHours} hours a week` : ""}, starting ${spoken(startAt)}. They asked for an answer by ${spoken(replyBy)}.`,
+    summary: `${employer} offered ${played ? "you" : name} the ${opening.title.toLowerCase()} job at ${payPhrase(opening.pay)}${agreedWeeklyHours ? `, ${agreedWeeklyHours} hours a week` : ""}, starting ${spoken(startAt)}. They asked for an answer by ${spoken(replyBy)}.`,
   });
 }
 
@@ -956,13 +1050,33 @@ export function answerJobOffer(
   applicationId: EntityId,
   accept: boolean,
 ): JobMarketResult {
+  return answerOffer(world, applicationId, accept, playerCanAct);
+}
+
+/** A resident answers an offer still waiting for them. Refuses the played person. */
+export function answerJobOfferAsResident(
+  world: World,
+  applicationId: EntityId,
+  accept: boolean,
+): JobMarketResult {
+  return answerOffer(world, applicationId, accept, residentCanAct);
+}
+
+function answerOffer(
+  world: World,
+  applicationId: EntityId,
+  accept: boolean,
+  canAct: (world: World, personId: EntityId) => string | null,
+): JobMarketResult {
   const application = (world.history.jobApplications ?? []).find(
     (row) => row.id === applicationId,
   );
   if (!application)
     return { world, ok: false, message: "There is no such application." };
-  const refusal = playerCanAct(world, application.personId);
+  const refusal = canAct(world, application.personId);
   if (refusal) return { world, ok: false, message: refusal };
+  const played = isPlayed(world, application.personId);
+  const name = residentName(world, application.personId);
   const latest = latestApplicationStep(world, applicationId);
   if (latest?.kind !== "offered" || world.currentDate > latest.replyBy!)
     return {
@@ -977,7 +1091,9 @@ export function answerJobOffer(
       world: addStep(world, application, {
         kind: "refused",
         occurredAt: world.currentDate,
-        summary: `You turned down ${employer}'s offer.`,
+        summary: played
+          ? `You turned down ${employer}'s offer.`
+          : `${name} turned down ${employer}'s offer.`,
       }),
       ok: true,
       message: `You turned down the offer from ${employer}.`,
@@ -987,7 +1103,9 @@ export function answerJobOffer(
       kind: "accepted",
       occurredAt: world.currentDate,
       startAt: latest.startAt,
-      summary: `You accepted ${employer}'s offer. You start on ${spoken(latest.startAt)}.`,
+      summary: played
+        ? `You accepted ${employer}'s offer. You start on ${spoken(latest.startAt)}.`
+        : `${name} accepted ${employer}'s offer and starts on ${spoken(latest.startAt)}.`,
     }),
     ok: true,
     message: `Accepted. You start on ${spoken(latest.startAt)}.`,
@@ -1019,17 +1137,28 @@ export function startBlocked(
   world: World,
   applicationId: EntityId,
 ): string | null {
+  return startRefusal(world, applicationId, playerCanAct);
+}
+
+function startRefusal(
+  world: World,
+  applicationId: EntityId,
+  canAct: (world: World, personId: EntityId) => string | null,
+): string | null {
   const application = (world.history.jobApplications ?? []).find(
     (row) => row.id === applicationId,
   );
   if (!application) return "There is no such application.";
-  const refusal = playerCanAct(world, application.personId);
+  const refusal = canAct(world, application.personId);
   if (refusal) return refusal;
   const latest = latestApplicationStep(world, applicationId);
   if (latest?.kind !== "accepted" && latest?.kind !== "followed-up")
     return "There is no accepted offer to start.";
   const startAt = expectedStart(world, applicationId)!;
-  if (world.currentDate < startAt) return `You start on ${spoken(startAt)}.`;
+  if (world.currentDate < startAt)
+    return isPlayed(world, application.personId)
+      ? `You start on ${spoken(startAt)}.`
+      : `They start on ${spoken(startAt)}.`;
   return null;
 }
 
@@ -1040,6 +1169,20 @@ export function startJob(
 ): JobMarketResult {
   const blocked = startBlocked(world, applicationId);
   if (blocked) return { world, ok: false, message: blocked };
+  return beginWork(world, applicationId);
+}
+
+/** A resident turns up on (or after) their start date. Refuses the played person. */
+export function startJobAsResident(
+  world: World,
+  applicationId: EntityId,
+): JobMarketResult {
+  const blocked = startRefusal(world, applicationId, residentCanAct);
+  if (blocked) return { world, ok: false, message: blocked };
+  return beginWork(world, applicationId);
+}
+
+function beginWork(world: World, applicationId: EntityId): JobMarketResult {
   const application = (world.history.jobApplications ?? []).find(
     (row) => row.id === applicationId,
   )!;
@@ -1092,9 +1235,17 @@ export function startJob(
     kind: "started",
     occurredAt: world.currentDate,
     workRelationshipId: work.id,
-    summary: `You started as ${opening.title.toLowerCase()} at ${employer}.`,
+    summary: isPlayed(world, application.personId)
+      ? `You started as ${opening.title.toLowerCase()} at ${employer}.`
+      : `${residentName(world, application.personId)} started as ${opening.title.toLowerCase()} at ${employer}.`,
   });
-  return { world: next, ok: true, message: `You started at ${employer}.` };
+  return {
+    world: next,
+    ok: true,
+    message: isPlayed(world, application.personId)
+      ? `You started at ${employer}.`
+      : `${residentName(world, application.personId)} started at ${employer}.`,
+  };
 }
 
 /** Leave a job taken through the job market. */
@@ -1273,6 +1424,8 @@ function advanceApplication(
     const opening = jobOpening(next, application.openingId)!;
     const employer = organizationName(next, opening.organizationId);
     const today = next.currentDate;
+    const played = isPlayed(next, application.personId);
+    const who = played ? "you" : residentName(next, application.personId);
     if (!latest) {
       if (today < application.decisionAt) return next;
       next = decide(next, application);
@@ -1283,7 +1436,7 @@ function advanceApplication(
       next = addStep(next, application, {
         kind: "offer-lapsed",
         occurredAt: addDays(latest.replyBy!, 1),
-        summary: `${employer}'s offer lapsed: you did not answer by ${spoken(latest.replyBy)}.`,
+        summary: `${employer}'s offer lapsed: ${who} did not answer by ${spoken(latest.replyBy)}.`,
       });
       continue;
     }
@@ -1309,8 +1462,12 @@ function advanceApplication(
           kind: "followed-up",
           occurredAt,
           startAt: newStart,
-          reason: `You did not come in on ${spoken(startAt)}.`,
-          summary: `${employer} called when you did not come in on ${spoken(startAt)}. They still want you and asked you to start on ${spoken(newStart)}.`,
+          reason: played
+            ? `You did not come in on ${spoken(startAt)}.`
+            : `${who} did not come in on ${spoken(startAt)}.`,
+          summary: played
+            ? `${employer} called when you did not come in on ${spoken(startAt)}. They still want you and asked you to start on ${spoken(newStart)}.`
+            : `${employer} called when ${who} did not come in on ${spoken(startAt)} and asked them to start on ${spoken(newStart)}.`,
         });
         continue;
       }
@@ -1319,12 +1476,12 @@ function advanceApplication(
         occurredAt,
         reason:
           latest.kind === "followed-up"
-            ? `You missed the second start date, ${spoken(startAt)}.`
-            : `You did not come in on ${spoken(startAt)}.`,
+            ? `${played ? "You" : who} missed the second start date, ${spoken(startAt)}.`
+            : `${played ? "You" : who} did not come in on ${spoken(startAt)}.`,
         summary:
           latest.kind === "followed-up"
-            ? `${employer} withdrew the offer after you missed the second start date, ${spoken(startAt)}.`
-            : `${employer} withdrew the offer when you did not come in on ${spoken(startAt)}.`,
+            ? `${employer} withdrew the offer after ${who} missed the second start date, ${spoken(startAt)}.`
+            : `${employer} withdrew the offer when ${who} did not come in on ${spoken(startAt)}.`,
       });
       continue;
     }
