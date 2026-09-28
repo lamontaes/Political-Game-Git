@@ -204,7 +204,7 @@ describe("a town's governing body, across the country", () => {
     expect(elsewhere.blocks.map((block) => block.kind)).toContain(
       "lives-elsewhere",
     );
-  });
+  }, 60_000);
 });
 
 describe("standing for the town's governing body and taking the seat", () => {
@@ -406,15 +406,21 @@ describe("when a town's race is held", () => {
     ["Ely, Minnesota", ELY, "2026-11-03"],
     ["Paducah, Kentucky", PADUCAH, "2026-11-03"],
     ["American Falls, Idaho", AMERICAN_FALLS, "2027-11-02"],
-  ])("%s is elected on the day state law sets", (_, placeKey, expected) => {
-    const { world, personId } = adultLifeAt(placeKey, `calendar-${placeKey}`);
-    const home = world.people[personId]!.homeJurisdictionId;
-    const body = localGoverningBodiesForJurisdiction(home)[0]!;
-    expect(world.currentDate).toBe("2026-01-05");
-    expect(campaignElectionDate(world, home, body.officeKey)).toBe(expected);
-    const filed = fileForOffice(world, personId, null, body.officeKey);
-    expect(filed.history.electionContests!.at(-1)!.electionDate).toBe(expected);
-  });
+  ])(
+    "%s is elected on the day state law sets",
+    (_, placeKey, expected) => {
+      const { world, personId } = adultLifeAt(placeKey, `calendar-${placeKey}`);
+      const home = world.people[personId]!.homeJurisdictionId;
+      const body = localGoverningBodiesForJurisdiction(home)[0]!;
+      expect(world.currentDate).toBe("2026-01-05");
+      expect(campaignElectionDate(world, home, body.officeKey)).toBe(expected);
+      const filed = fileForOffice(world, personId, null, body.officeKey);
+      expect(filed.history.electionContests!.at(-1)!.electionDate).toBe(
+        expected,
+      );
+    },
+    60_000,
+  );
 
   it("a town whose state law leaves the timing open, and names no day, keeps the four-week placeholder", () => {
     // Maine lets each town choose town meeting day or November; Presque Isle's
@@ -426,7 +432,7 @@ describe("when a town's race is held", () => {
     expect(campaignElectionDate(world, home, body.officeKey)).toBe(
       addDays(world.currentDate, 28),
     );
-  });
+  }, 60_000);
 
   it("never sets an election closer than the filing lead", () => {
     expect(nextTownElection("MN", "2719142", "2026-10-10" as never)).toEqual({

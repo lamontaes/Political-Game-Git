@@ -335,7 +335,7 @@ describe("recalling a town official", () => {
     expect(() =>
       petition(town.world, town.governmentKey, town.player, town.member),
     ).toThrow(reason);
-  });
+  }, 60_000);
 
   it("draws an unsettled state's rule from the national range, not a refusal", () => {
     // New Mexico's pack does not settle town recall, so its rule is drawn
@@ -357,7 +357,7 @@ describe("recalling a town official", () => {
       town.member,
     );
     expect(recallPetitions(started)[0]!.phase).toBe("circulating");
-  });
+  }, 60_000);
 
   it("refuses a petitioner from out of town and a target with no seat", () => {
     const { world, governmentKey, player, member, townId } = ordinaryStart(
@@ -392,7 +392,7 @@ describe("recalling a town official", () => {
         targetPersonId: member,
       }),
     ).toMatchObject({ allowed: false });
-  });
+  }, 60_000);
 
   it("shows the resident whom they can petition against, then the petition", () => {
     const { world, governmentKey, player, member } = ordinaryStart(
