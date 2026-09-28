@@ -9,6 +9,7 @@ import {
   type BackdropSurface,
 } from "../presentation/backdrop-surfaces";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
+import type { BackdropVariant } from "../presentation/place-backdrops";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -99,7 +100,11 @@ beforeAll(() => {
   });
 });
 
-function surfacesAt(target: World, place: string, variant = "midday") {
+function surfacesAt(
+  target: World,
+  place: string,
+  variant: BackdropVariant = "midday",
+) {
   return projectBackdropSurfaces(
     target,
     personId,
