@@ -15,6 +15,20 @@ import { lawInForce } from "../simulation/governing/law-in-force";
 import { stateLegislators } from "../simulation/nationwide-world/state-legislature-opening";
 import { legislativePackForJurisdiction } from "../simulation/legislative-institutions";
 import type { World } from "../simulation";
+import {
+  measurePosition,
+  availableMeasureSteps,
+} from "../simulation/legislation";
+import { seatsForChamber } from "../simulation/legislature-game-profile";
+import {
+  seatBodyForPack,
+  votePlanKeyForCommittee,
+  votePlanKeyForFloor,
+  type LegislativeProcedureContext,
+} from "../simulation/legislation-scenarios";
+import { resolveTransitFunding } from "../simulation/transit-funding";
+import { applyLegislativeStep } from "./legislation-session";
+import { publishLegislativeTransition } from "./publish-legislative-transition";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
@@ -220,5 +234,67 @@ describe("a member files a bill of their own", () => {
       expect(automaticLawMappingFor(stableKey, "yes", "state")).toBeNull();
       expect(automaticLawMappingFor(stableKey, "no", "state")).toBeNull();
     }
+  });
+
+  it("funds the member's transit bill once it is law, under the authority it was filed with", () => {
+    // Before: the bill names the state's own game-profile transit program,
+    // while funding compared it against the standing statute's name, so
+    // every background state transit law read as differing from the
+    // supported terms and none could be implemented.
+    const bill = moneyBills(world)[0]!;
+    // Synthetic passage: this tests funding, not the votes.
+    const bodies = pack.chambers.map((chamber) =>
+      seatBodyForPack(
+        chamber.chamberKey,
+        chamber.name,
+        seatsForChamber(pack, chamber.chamberKey)!.seats,
+        [],
+        pack.structure === "unicameral",
+      ),
+    );
+    const votePlan: Record<string, { readonly yea: number }> = {};
+    for (const chamber of pack.chambers) {
+      const seats = bodies.find(
+        (body) => body.chamberKey === chamber.chamberKey,
+      )!.members.length;
+      for (const committee of chamber.committees)
+        votePlan[votePlanKeyForCommittee(committee.committeeKey)] = {
+          yea: Math.min(seats, committee.appointedMembers),
+        };
+      for (const stage of chamber.floorStages)
+        votePlan[votePlanKeyForFloor(chamber.chamberKey, stage.stageKey)] = {
+          yea: seats,
+        };
+    }
+    const procedure: LegislativeProcedureContext = {
+      pack,
+      measureId: bill.id,
+      bodies,
+      committeeMemberCount: null,
+      votePlan,
+      governorAction: "signed",
+      governorRationale: "Supplied fictional signature for the funding test.",
+    };
+    let enacted = world;
+    for (let guard = 0; guard < 40; guard++) {
+      if (measurePosition(enacted, bill.id).outcome === "enacted") break;
+      const step = availableMeasureSteps(enacted, bill.id).find(
+        (candidate) => candidate !== "offer-amendment",
+      );
+      if (!step) break;
+      enacted = publishLegislativeTransition(
+        enacted,
+        applyLegislativeStep(procedure, enacted, step).world,
+      );
+    }
+    expect(measurePosition(enacted, bill.id).outcome).toBe("enacted");
+    const resolution = resolveTransitFunding(enacted, bill.id);
+    const reason = resolution.kind === "unavailable" ? resolution.reason : "";
+    expect(reason).not.toMatch(/differ from the supported configuration/);
+    expect(
+      resolution.kind === "available" ||
+        reason.startsWith("This appropriation takes effect on "),
+      reason,
+    ).toBe(true);
   });
 }, 900_000);

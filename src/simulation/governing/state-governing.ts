@@ -31,6 +31,7 @@ import { createWorkItem, workItemState } from "../time-work";
 import type {
   EntityId,
   FutureDueItem,
+  FutureTransitionHandler,
   FutureTransitionHandlerResult,
   HistoricalEvent,
   IsoDate,
@@ -1268,6 +1269,15 @@ export function openProgramMattersForAllOffices(
       (onlyRecordIds && !onlyRecordIds.has(appropriation.id))
     )
       continue;
+    if (next.currentDate < appropriation.availableFrom) {
+      // The holder may change before money becomes available. Schedule the
+      // opening, then resolve the current authorized office on that date.
+      // This comes before the open-money test, which counts only money
+      // already available: asked first, it skipped every law with a later
+      // effective date, and that money never reached an office.
+      next = scheduleProgramAvailability(next, appropriation);
+      continue;
+    }
     const identity = publicGovernmentIdentityForRecord(appropriation);
     if (
       !openAppropriationsFor(
@@ -1277,12 +1287,6 @@ export function openProgramMattersForAllOffices(
       ).some((record) => record.id === appropriation.id)
     )
       continue;
-    if (next.currentDate < appropriation.availableFrom) {
-      // The holder may change before money becomes available. Schedule the
-      // opening, then resolve the current authorized office on that date.
-      next = scheduleProgramAvailability(next, appropriation);
-      continue;
-    }
     const office = programOfficeForAppropriation(next, appropriation);
     if (!office) continue;
     next = openProgramMatter(next, office, appropriation);
@@ -2292,12 +2296,28 @@ const executiveDesk: ExecutiveDeskHandler = (world, measure, blueprint) =>
     ? presidentDesk(world, measure)
     : governorDesk(world, measure, blueprint);
 
-const institutionStepWithProgramMatters = (() => {
-  const step = createInstitutionStepHandler(executiveDesk);
+/**
+ * Puts money a step enacted in front of its executive the same day.
+ *
+ * Every route that can enact an appropriation needs this, not only the state
+ * legislature's: before it was shared, a law passed by Congress or a city or
+ * county council became spending authority that no office was ever asked to
+ * commit, so its money never moved.
+ */
+export function withProgramMatters(
+  handler: FutureTransitionHandler,
+): FutureTransitionHandler {
   return (world: World, due: FutureDueItem): FutureTransitionHandlerResult => {
-    const result = step(world, due);
-    // A legislative step opens only the new money it enacted. The explicit
-    // opener and dated availability dues handle money already on record.
+    const result = handler(world, due);
+    // Appropriation records are only appended, so an unchanged count means
+    // the step enacted no money.
+    if (
+      (result.world.history.publicProgramRecords ?? []).length ===
+      (world.history.publicProgramRecords ?? []).length
+    )
+      return result;
+    // A step opens only the new money it enacted. The explicit opener and
+    // dated availability dues handle money already on record.
     const prior = new Set(
       (world.history.publicProgramRecords ?? [])
         .filter((record) => record.kind === "appropriation")
@@ -2316,7 +2336,7 @@ const institutionStepWithProgramMatters = (() => {
       world: openProgramMattersForAllOffices(result.world, added),
     };
   };
-})();
+}
 
 /**
  * The governing handlers, built when a registry asks for them rather than when
@@ -2324,18 +2344,25 @@ const institutionStepWithProgramMatters = (() => {
  * one, and are not defined yet while it is loading.
  */
 export function stateGoverningHandlers() {
-  return [
-    [STATE_LEGISLATURE_OPENING_TRANSITION, stateLegislatureOpeningHandler],
-    [LEGISLATIVE_INSTITUTION_STEP, institutionStepWithProgramMatters],
-    ...CONGRESS_LAWMAKING_HANDLERS,
-    [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
-    [GOVERNING_SEASON, governingSeasonHandler],
-    [GOVERNING_TRANSITION, governingTransitionHandler],
-    [GOVERNING_DEADLINE, governingDeadlineHandler],
-    [GOVERNING_NPC_DECISION, governingNpcDecisionHandler],
-    [GOVERNING_PROGRAM_AVAILABLE, governingProgramAvailableHandler],
-    [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
-  ] as const;
+  // Any of these can enact money: the legislative step, Congress's sittings,
+  // and a governor's or President's signature on the desk.
+  return (
+    [
+      [STATE_LEGISLATURE_OPENING_TRANSITION, stateLegislatureOpeningHandler],
+      [
+        LEGISLATIVE_INSTITUTION_STEP,
+        createInstitutionStepHandler(executiveDesk),
+      ],
+      ...CONGRESS_LAWMAKING_HANDLERS,
+      [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
+      [GOVERNING_SEASON, governingSeasonHandler],
+      [GOVERNING_TRANSITION, governingTransitionHandler],
+      [GOVERNING_DEADLINE, governingDeadlineHandler],
+      [GOVERNING_NPC_DECISION, governingNpcDecisionHandler],
+      [GOVERNING_PROGRAM_AVAILABLE, governingProgramAvailableHandler],
+      [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
+    ] as const
+  ).map(([key, handler]) => [key, withProgramMatters(handler)] as const);
 }
 
 /** Recorded decisions and outcomes for an office, newest first. */

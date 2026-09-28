@@ -19,7 +19,14 @@ import { legislativeWorkKey } from "./legislative-work-key";
 import { stateJurisdictionForKey } from "./life-places";
 import { rulePackById } from "./legislature-rule-packs";
 import { stateTransitServiceProfileForMeasure } from "./state-transit-service-profile";
-import type { EntityId, IsoDate, MoneyAmount, World } from "./types";
+import { stateTransitAutomaticLawContext } from "./governing/automatic-legislation";
+import type {
+  EntityId,
+  IsoDate,
+  LegislativeProvisionRecord,
+  MoneyAmount,
+  World,
+} from "./types";
 
 export interface TransitFundingMandate {
   readonly version: "transit-funding-v1";
@@ -162,23 +169,45 @@ export function resolveTransitFunding(
       }
     }
   }
-  let draft;
-  try {
-    draft = compileBillDraft({
-      familyKey: lineage.familyKey,
-      variantKey: lineage.variantKey,
-      parameterValues: draftParameterValues(lineage),
-      scenarioKey: legislativeWorkKey(rulePackById(measure.rulePackId)),
-      jurisdictionId: measure.jurisdictionId,
-      rulePackId: measure.rulePackId,
-      designation: measure.designation,
-      filedOn: lineage.compiledAt,
-      predicateAuthority: authority,
-    });
-  } catch (e) {
-    return no((e as Error).message);
-  }
   const provisions = currentMeasureProvisions(world, measureId);
+  // A state-wide bill a background lawmaker filed names the state's own
+  // game-profile transit program rather than the standing statute, so the
+  // terms are compared against the authority it could have been filed under.
+  const stateProfileAuthority =
+    lineage.variantKey === STATE_TRANSIT_VARIANT_KEY
+      ? stateTransitAutomaticLawContext(world, measure.jurisdictionId)
+          ?.predicateAuthority
+      : undefined;
+  const candidates = [
+    authority,
+    ...(stateProfileAuthority?.authorityKey === lineage.authorityKey
+      ? [stateProfileAuthority]
+      : []),
+  ];
+  let draft;
+  for (const candidate of candidates) {
+    try {
+      const compiled = compileBillDraft({
+        familyKey: lineage.familyKey,
+        variantKey: lineage.variantKey,
+        parameterValues: draftParameterValues(lineage),
+        scenarioKey: legislativeWorkKey(rulePackById(measure.rulePackId)),
+        jurisdictionId: measure.jurisdictionId,
+        rulePackId: measure.rulePackId,
+        designation: measure.designation,
+        filedOn: lineage.compiledAt,
+        predicateAuthority: candidate,
+      });
+      draft ??= compiled;
+      if (adoptedTermsMatch(compiled.clauses, provisions, measure)) {
+        draft = compiled;
+        break;
+      }
+    } catch (e) {
+      if (candidate === authority) return no((e as Error).message);
+    }
+  }
+  if (!draft) return no("The transit program authority is unavailable.");
   const amountProvision = provisions.find(
     (provision) => provision.provisionKey === "amount-provided",
   );
@@ -193,20 +222,7 @@ export function resolveTransitFunding(
       "The current transit amount clause does not carry an explicit supported appropriation effect.",
     );
   // Exact supported terms, no prose extraction or stale filed parameters. Changed terms require a new adapter.
-  if (
-    provisions.length !== draft.clauses.length ||
-    draft.clauses.some(
-      (c) =>
-        !provisions.some(
-          (p) =>
-            p.provisionKey === c.provisionKey &&
-            p.text === c.text &&
-            p.fiscalExposureMinorUnits === c.fiscalExposureMinorUnits &&
-            p.applicationScope.jurisdictionId === measure.jurisdictionId &&
-            p.applicationScope.segmentKey === null,
-        ),
-    )
-  )
+  if (!adoptedTermsMatch(draft.clauses, provisions, measure))
     return no(
       "The adopted transit terms differ from the supported configuration; implementation is unavailable.",
     );
@@ -256,4 +272,29 @@ export function resolveTransitFunding(
       serviceWindow: servicePeriod.value,
     },
   };
+}
+
+/** The adopted text is exactly the compiled text, clause for clause. */
+function adoptedTermsMatch(
+  clauses: readonly {
+    readonly provisionKey: string;
+    readonly text: string;
+    readonly fiscalExposureMinorUnits: number | null;
+  }[],
+  provisions: readonly LegislativeProvisionRecord[],
+  measure: { readonly jurisdictionId: EntityId },
+): boolean {
+  return (
+    provisions.length === clauses.length &&
+    clauses.every((c) =>
+      provisions.some(
+        (p) =>
+          p.provisionKey === c.provisionKey &&
+          p.text === c.text &&
+          p.fiscalExposureMinorUnits === c.fiscalExposureMinorUnits &&
+          p.applicationScope.jurisdictionId === measure.jurisdictionId &&
+          p.applicationScope.segmentKey === null,
+      ),
+    )
+  );
 }

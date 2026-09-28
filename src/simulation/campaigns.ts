@@ -15,7 +15,10 @@ import {
   scheduleLegislativeTerm,
   createLegislativeTermTransitionRegistry,
 } from "./legislative-office-terms";
-import { stateGoverningHandlers } from "./governing/state-governing";
+import {
+  stateGoverningHandlers,
+  withProgramMatters,
+} from "./governing/state-governing";
 import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
 import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
 import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
@@ -2106,12 +2109,16 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         ...PRESIDENTIAL_TURNOVER_HANDLERS,
         // Voters recalling a town official: petition, then recall election.
         ...RECALL_HANDLERS,
-        // Scheduled council readings and executive/return deadlines.
-        ...COUNCIL_ACT_HANDLERS,
-        // The Council of the District of Columbia sitting on its own.
-        ...DC_COUNCIL_SITTING_HANDLERS,
-        // Admitted city and county councils use a separate quarterly game clock.
-        ...LOCAL_MEMBER_AGENDA_HANDLERS,
+        // Local councils enact on their own clocks. Money they appropriate
+        // goes to their executive the same day, as a legislature's does.
+        ...[
+          // Scheduled council readings and executive/return deadlines.
+          ...COUNCIL_ACT_HANDLERS,
+          // The Council of the District of Columbia sitting on its own.
+          ...DC_COUNCIL_SITTING_HANDLERS,
+          // Admitted city and county councils use a separate quarterly game clock.
+          ...LOCAL_MEMBER_AGENDA_HANDLERS,
+        ].map(([key, handler]) => [key, withProgramMatters(handler)] as const),
         ...PUBLIC_PROGRAM_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
         [
