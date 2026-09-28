@@ -1,4 +1,4 @@
-import web from "../../../data/research/outcome-web/links.json";
+import web from "../../../data/research/outcome-web/links.json" with { type: "json" };
 import { addDays, daysBetween } from "../dates";
 import {
   macroConditionsAt,
