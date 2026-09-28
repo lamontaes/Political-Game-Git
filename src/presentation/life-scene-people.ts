@@ -7,7 +7,10 @@ import {
   type BodyPose,
   type BodyView,
   type EngineRecipe,
+  type FaceExpression,
 } from "./appearance-engine/pack";
+import { conversationExpression } from "./appearance-engine/expression-chooser";
+import type { ConversationExchangeTurn } from "./scene-conversation";
 import { placeWear } from "./dress-code";
 import { engineRecipeFor } from "./appearance-engine/recipe";
 import {
@@ -388,15 +391,29 @@ export function engineStandingHeightPercent(
   );
 }
 
-/** The pose and view the engine draws a person in, for what they are doing. */
+/**
+ * The pose, view and face the engine draws a person in, for what they are
+ * doing and what is being said.
+ */
 function posedFor(
   world: World,
   personId: ScenePerson["personId"],
   activity: SceneActivity,
   seated: boolean,
-): { readonly pose: BodyPose; readonly view: BodyView } {
+  turns: readonly ConversationExchangeTurn[],
+): {
+  readonly pose: BodyPose;
+  readonly view: BodyView;
+  readonly expression: FaceExpression;
+} {
   const record = world.people[personId]!;
   return {
+    expression: conversationExpression(
+      world,
+      personId,
+      record.appearance?.seed ?? record.id,
+      turns,
+    ),
     pose: chooseBodyPose({
       activity,
       seated,
@@ -669,7 +686,14 @@ export function planLifeScenePeople(
    * What is happening in the room: who is answering in its conversation, if
    * anyone. The engine poses people by it (pose-chooser.ts).
    */
-  activity?: { readonly speakerId: string | null },
+  activity?: {
+    readonly speakerId: string | null;
+    /**
+     * The conversation's recorded turns, oldest first
+     * (conversationExchangeTurns): what each person's face reacts to.
+     */
+    readonly turns?: readonly ConversationExchangeTurn[];
+  },
 ): readonly PlacedScenePerson[] {
   if (!sceneId) return [];
   const scene = SCENE_REGISTRY.scenes.get(sceneId);
@@ -755,6 +779,7 @@ export function planLifeScenePeople(
                 seated,
               }),
               seated,
+              activity?.turns ?? [],
             ),
           })
         : null;

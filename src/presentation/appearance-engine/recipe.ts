@@ -13,6 +13,7 @@ import {
   type BodyBuild,
   type BodyPose,
   type BodyView,
+  type FaceExpression,
   type BodyPresentation,
   type EngineRecipe,
   type OutfitTag,
@@ -147,6 +148,8 @@ export interface EngineRecipeOptions {
   readonly pose?: BodyPose;
   /** Turned toward something in the scene, rather than facing front. */
   readonly view?: BodyView;
+  /** The face they make (expression-chooser.ts); neutral when absent. */
+  readonly expression?: FaceExpression;
   /**
    * A work uniform (an outfit id) this person wears here because of their
    * job (src/presentation/work-uniform.ts). It replaces the outfit.
@@ -220,6 +223,9 @@ export function engineRecipeFor(
       ? { pose: options.pose }
       : {}),
     ...(options.view && options.view !== "front" ? { view: options.view } : {}),
+    ...(options.expression && options.expression !== "neutral"
+      ? { expression: options.expression }
+      : {}),
     // Each garment part in a color of its own, kept per person.
     colors: Object.fromEntries(
       Object.entries(outfit.parts).map(([part, paletteId]) => {
