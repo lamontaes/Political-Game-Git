@@ -1127,9 +1127,12 @@ function settlementTermsForPeriod(
     throw new Error("A transfer outcome requires active resource-flow terms.");
   }
   if (
-    world.history.resourceFlowTerms.some(
+    recordsWithFieldValue(
+      world.history.resourceFlowTerms,
+      "resourceFlowId",
+      flow.id,
+    ).some(
       (record) =>
-        record.resourceFlowId === flow.id &&
         record.sequence < world.history.nextSequence &&
         record.effectiveAt > periodStartsAt &&
         record.effectiveAt <= periodEndsAt,

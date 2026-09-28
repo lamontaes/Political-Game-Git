@@ -1,3 +1,4 @@
+import { recordById } from "../history-index";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../dates";
 import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
@@ -70,8 +71,9 @@ export function lawInForce(
   let best: (LawInForce & { readonly sequence: number }) | null = null;
   for (const enactment of world.history.legislativeEnactments ?? []) {
     if (enactment.outcome !== "enacted") continue;
-    const measure = world.history.legislativeMeasures?.find(
-      (entry) => entry.id === enactment.measureId,
+    const measure = recordById(
+      world.history.legislativeMeasures ?? [],
+      enactment.measureId,
     );
     if (!measure) continue;
     const level = chain.get(measure.jurisdictionId);
