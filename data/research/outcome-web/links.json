@@ -2,10 +2,6 @@
  "about": "THE OUTCOME WEB, version 1 (04 SYSTEM SPECS part 5; research in docs/research/outcome-web-2026-09-28.md). Each link: how a cause measure moves an outcome measure. evidence says how well the link is established (researched, provisional, contested, about-zero, to-confirm). size is the proportional change in the outcome per unit of the cause (see per); null means the size is set when both measures exist in the world. about-zero links are zero on purpose and tested. Sources are for developers only and never appear on a player screen.",
  "version": "outcome-web-v1",
  "targets": {
-  "births.rate": {
-   "floor": 0.5,
-   "ceiling": 1.5
-  },
   "crime.burglary": {
    "floor": 0.5,
    "ceiling": 2
@@ -21,12 +17,16 @@
   "crime.assault": {
    "floor": 0.5,
    "ceiling": 2
+  },
+  "births.rate": {
+   "floor": 0.7,
+   "ceiling": 1.3
   }
  },
  "baselines": {
   "labor.unemployment-pct": {
    "value": 4,
-   "note": "The unemployment rate at which the base crime rates apply (the rule crime used before the web)."
+   "note": "The unemployment rate the base rates were calibrated at: crime's base rates, and the town's birth rates by age (national figures from a year near 4%)."
   }
  },
  "links": [
