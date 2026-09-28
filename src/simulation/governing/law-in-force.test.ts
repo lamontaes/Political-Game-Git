@@ -137,3 +137,73 @@ describe("the law in force on a question", () => {
     expect(lawInForce(world, texas, QUESTION)?.measureId).toBe(act.measure.id);
   });
 });
+
+describe("the law a place already had when the game began", () => {
+  const MEDICAID = "proposition_medicaid" as EntityId;
+  const WORK = "proposition_work" as EntityId;
+  const UNCOVERED = "proposition_uncovered" as EntityId;
+  const dc = stateJurisdictionForKey("US-DC")!.id;
+
+  function worldAt(
+    currentDate: string,
+    laws: readonly ReturnType<typeof law>[],
+  ): World {
+    return {
+      currentDate: makeIsoDate(currentDate),
+      policyCatalog: {
+        propositions: {
+          [MEDICAID]: {
+            id: MEDICAID,
+            stableKey:
+              "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+          },
+          [WORK]: {
+            id: WORK,
+            stableKey:
+              "us-policy-positions:health-human-services.work-requirement-for-assistance",
+          },
+          [UNCOVERED]: { id: UNCOVERED, stableKey: "us-policy-positions:none" },
+        },
+      },
+      history: {
+        legislativeMeasures: laws.map((entry) => entry.measure),
+        legislativeEnactments: laws.map((entry) => entry.enactment),
+      },
+    } as unknown as World;
+  }
+
+  it("reads each state's researched answer: Texas has not expanded Medicaid, Ohio and D.C. have", () => {
+    const world = worldAt("2027-01-01", []);
+    expect(lawInForce(world, texas, MEDICAID)).toMatchObject({
+      answer: "no",
+      level: "state-statute",
+      origin: "in-force-at-start",
+    });
+    expect(lawInForce(world, ohio, MEDICAID)?.answer).toBe("yes");
+    expect(lawInForce(world, dc, MEDICAID)?.answer).toBe("yes");
+  });
+
+  it("a law enacted in play governs once it takes effect", () => {
+    const expansion = law(texas, "yes", "2027-05-01", "2027-09-01", MEDICAID);
+    expect(
+      lawInForce(worldAt("2027-08-31", [expansion]), texas, MEDICAID)?.answer,
+    ).toBe("no");
+    expect(
+      lawInForce(worldAt("2027-09-01", [expansion]), texas, MEDICAID),
+    ).toMatchObject({ answer: "yes", origin: "enacted" });
+  });
+
+  it("the federal work requirement outranks a state law saying no, from its operative date", () => {
+    const stateNo = law(ohio, "no", "2025-01-01", "2025-02-01", WORK);
+    expect(
+      lawInForce(worldAt("2025-10-31", [stateNo]), ohio, WORK)?.answer,
+    ).toBe("no");
+    expect(
+      lawInForce(worldAt("2025-11-01", [stateNo]), ohio, WORK),
+    ).toMatchObject({ answer: "yes", level: "federal-statute" });
+  });
+
+  it("a question the file does not cover stays unknown", () => {
+    expect(lawInForce(worldAt("2027-01-01", []), texas, UNCOVERED)).toBeNull();
+  });
+});

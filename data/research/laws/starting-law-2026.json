@@ -1,0 +1,1221 @@
+{
+ "id": "starting-law-2026",
+ "about": "What each place's law already says on a policy question when a game starts (2026). governing/law-in-force.ts reads it as law in force at its level (US is federal, US-XX is the state); an enacted law at the same or a higher level governs after it takes effect. A place that isn't listed for a question has no answer, which is unknown and never read as no. Dates are operative dates; a law with no date has been in force since before any game starts.",
+ "asOf": "2026-09-28",
+ "defaultOperativeAt": "2000-01-01",
+ "questions": {
+  "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
+   "source": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+   "note": "Territories run Medicaid under separate rules and are left unanswered.",
+   "answers": {
+    "US-AK": {
+     "answer": "yes"
+    },
+    "US-AL": {
+     "answer": "no"
+    },
+    "US-AR": {
+     "answer": "yes"
+    },
+    "US-AZ": {
+     "answer": "yes"
+    },
+    "US-CA": {
+     "answer": "yes"
+    },
+    "US-CO": {
+     "answer": "yes"
+    },
+    "US-CT": {
+     "answer": "yes"
+    },
+    "US-DC": {
+     "answer": "yes"
+    },
+    "US-DE": {
+     "answer": "yes"
+    },
+    "US-FL": {
+     "answer": "no"
+    },
+    "US-GA": {
+     "answer": "no",
+     "note": "Pathways covers some adults with a work requirement; not the expansion."
+    },
+    "US-HI": {
+     "answer": "yes"
+    },
+    "US-IA": {
+     "answer": "yes"
+    },
+    "US-ID": {
+     "answer": "yes"
+    },
+    "US-IL": {
+     "answer": "yes"
+    },
+    "US-IN": {
+     "answer": "yes"
+    },
+    "US-KS": {
+     "answer": "no"
+    },
+    "US-KY": {
+     "answer": "yes"
+    },
+    "US-LA": {
+     "answer": "yes"
+    },
+    "US-MA": {
+     "answer": "yes"
+    },
+    "US-MD": {
+     "answer": "yes"
+    },
+    "US-ME": {
+     "answer": "yes"
+    },
+    "US-MI": {
+     "answer": "yes"
+    },
+    "US-MN": {
+     "answer": "yes"
+    },
+    "US-MO": {
+     "answer": "yes"
+    },
+    "US-MS": {
+     "answer": "no"
+    },
+    "US-MT": {
+     "answer": "yes"
+    },
+    "US-NC": {
+     "answer": "yes"
+    },
+    "US-ND": {
+     "answer": "yes"
+    },
+    "US-NE": {
+     "answer": "yes"
+    },
+    "US-NH": {
+     "answer": "yes"
+    },
+    "US-NJ": {
+     "answer": "yes"
+    },
+    "US-NM": {
+     "answer": "yes"
+    },
+    "US-NV": {
+     "answer": "yes"
+    },
+    "US-NY": {
+     "answer": "yes"
+    },
+    "US-OH": {
+     "answer": "yes"
+    },
+    "US-OK": {
+     "answer": "yes"
+    },
+    "US-OR": {
+     "answer": "yes"
+    },
+    "US-PA": {
+     "answer": "yes"
+    },
+    "US-RI": {
+     "answer": "yes"
+    },
+    "US-SC": {
+     "answer": "no"
+    },
+    "US-SD": {
+     "answer": "yes"
+    },
+    "US-TN": {
+     "answer": "no"
+    },
+    "US-TX": {
+     "answer": "no"
+    },
+    "US-UT": {
+     "answer": "yes"
+    },
+    "US-VA": {
+     "answer": "yes"
+    },
+    "US-VT": {
+     "answer": "yes"
+    },
+    "US-WA": {
+     "answer": "yes"
+    },
+    "US-WI": {
+     "answer": "no",
+     "note": "Covers adults to 100% of poverty without adopting the expansion."
+    },
+    "US-WV": {
+     "answer": "yes"
+    },
+    "US-WY": {
+     "answer": "no"
+    }
+   }
+  },
+  "us-policy-positions:health-human-services.work-requirement-for-assistance": {
+   "source": "Public Law 119-21 (the 2025 budget reconciliation law), per KFF and CHCS summaries: SNAP time-limit rules widened from Nov. 1, 2025; Medicaid community engagement (80 hours a month) for expansion adults 19 to 64 by Jan. 1, 2027. Georgia Pathways since July 1, 2023.",
+   "note": "The federal law answers yes for every place. The Medicaid part starts Jan. 1, 2027 unless a state starts sooner.",
+   "answers": {
+    "US": {
+     "answer": "yes",
+     "operativeAt": "2025-11-01"
+    },
+    "US-GA": {
+     "answer": "yes",
+     "operativeAt": "2023-07-01"
+    }
+   }
+  },
+  "us-policy-positions:labor-workforce.right-to-work": {
+   "source": "National Right to Work Legal Defense Foundation and state guides (2026): 26 states; Michigan repealed its law effective Feb. 13, 2024.",
+   "note": "",
+   "answers": {
+    "US-AK": {
+     "answer": "no"
+    },
+    "US-AL": {
+     "answer": "yes"
+    },
+    "US-AR": {
+     "answer": "yes"
+    },
+    "US-AZ": {
+     "answer": "yes"
+    },
+    "US-CA": {
+     "answer": "no"
+    },
+    "US-CO": {
+     "answer": "no"
+    },
+    "US-CT": {
+     "answer": "no"
+    },
+    "US-DC": {
+     "answer": "no"
+    },
+    "US-DE": {
+     "answer": "no"
+    },
+    "US-FL": {
+     "answer": "yes"
+    },
+    "US-GA": {
+     "answer": "yes"
+    },
+    "US-HI": {
+     "answer": "no"
+    },
+    "US-IA": {
+     "answer": "yes"
+    },
+    "US-ID": {
+     "answer": "yes"
+    },
+    "US-IL": {
+     "answer": "no"
+    },
+    "US-IN": {
+     "answer": "yes"
+    },
+    "US-KS": {
+     "answer": "yes"
+    },
+    "US-KY": {
+     "answer": "yes"
+    },
+    "US-LA": {
+     "answer": "yes"
+    },
+    "US-MA": {
+     "answer": "no"
+    },
+    "US-MD": {
+     "answer": "no"
+    },
+    "US-ME": {
+     "answer": "no"
+    },
+    "US-MI": {
+     "answer": "no",
+     "operativeAt": "2024-02-13",
+     "note": "Repealed its right-to-work law in 2024."
+    },
+    "US-MN": {
+     "answer": "no"
+    },
+    "US-MO": {
+     "answer": "no"
+    },
+    "US-MS": {
+     "answer": "yes"
+    },
+    "US-MT": {
+     "answer": "no"
+    },
+    "US-NC": {
+     "answer": "yes"
+    },
+    "US-ND": {
+     "answer": "yes"
+    },
+    "US-NE": {
+     "answer": "yes"
+    },
+    "US-NH": {
+     "answer": "no"
+    },
+    "US-NJ": {
+     "answer": "no"
+    },
+    "US-NM": {
+     "answer": "no"
+    },
+    "US-NV": {
+     "answer": "yes"
+    },
+    "US-NY": {
+     "answer": "no"
+    },
+    "US-OH": {
+     "answer": "no"
+    },
+    "US-OK": {
+     "answer": "yes"
+    },
+    "US-OR": {
+     "answer": "no"
+    },
+    "US-PA": {
+     "answer": "no"
+    },
+    "US-RI": {
+     "answer": "no"
+    },
+    "US-SC": {
+     "answer": "yes"
+    },
+    "US-SD": {
+     "answer": "yes"
+    },
+    "US-TN": {
+     "answer": "yes"
+    },
+    "US-TX": {
+     "answer": "yes"
+    },
+    "US-UT": {
+     "answer": "yes"
+    },
+    "US-VA": {
+     "answer": "yes"
+    },
+    "US-VT": {
+     "answer": "no"
+    },
+    "US-WA": {
+     "answer": "no"
+    },
+    "US-WI": {
+     "answer": "yes"
+    },
+    "US-WV": {
+     "answer": "yes"
+    },
+    "US-WY": {
+     "answer": "yes"
+    },
+    "US-GU": {
+     "answer": "yes"
+    }
+   }
+  },
+  "us-policy-positions:labor-workforce.paid-family-leave": {
+   "source": "State program guides (2026): Bipartisan Policy Center, Center for American Progress, The Standard.",
+   "note": "Operative dates are when benefits begin; Virginia's 2026 law is to confirm.",
+   "answers": {
+    "US-AK": {
+     "answer": "no"
+    },
+    "US-AL": {
+     "answer": "no"
+    },
+    "US-AR": {
+     "answer": "no"
+    },
+    "US-AZ": {
+     "answer": "no"
+    },
+    "US-CA": {
+     "answer": "yes"
+    },
+    "US-CO": {
+     "answer": "yes"
+    },
+    "US-CT": {
+     "answer": "yes"
+    },
+    "US-DC": {
+     "answer": "yes"
+    },
+    "US-DE": {
+     "answer": "yes",
+     "operativeAt": "2026-01-01"
+    },
+    "US-FL": {
+     "answer": "no"
+    },
+    "US-GA": {
+     "answer": "no"
+    },
+    "US-HI": {
+     "answer": "no"
+    },
+    "US-IA": {
+     "answer": "no"
+    },
+    "US-ID": {
+     "answer": "no"
+    },
+    "US-IL": {
+     "answer": "no"
+    },
+    "US-IN": {
+     "answer": "no"
+    },
+    "US-KS": {
+     "answer": "no"
+    },
+    "US-KY": {
+     "answer": "no"
+    },
+    "US-LA": {
+     "answer": "no"
+    },
+    "US-MA": {
+     "answer": "yes"
+    },
+    "US-MD": {
+     "answer": "yes",
+     "operativeAt": "2028-01-01"
+    },
+    "US-ME": {
+     "answer": "yes",
+     "operativeAt": "2026-05-01"
+    },
+    "US-MI": {
+     "answer": "no"
+    },
+    "US-MN": {
+     "answer": "yes",
+     "operativeAt": "2026-01-01"
+    },
+    "US-MO": {
+     "answer": "no"
+    },
+    "US-MS": {
+     "answer": "no"
+    },
+    "US-MT": {
+     "answer": "no"
+    },
+    "US-NC": {
+     "answer": "no"
+    },
+    "US-ND": {
+     "answer": "no"
+    },
+    "US-NE": {
+     "answer": "no"
+    },
+    "US-NH": {
+     "answer": "no"
+    },
+    "US-NJ": {
+     "answer": "yes"
+    },
+    "US-NM": {
+     "answer": "no"
+    },
+    "US-NV": {
+     "answer": "no"
+    },
+    "US-NY": {
+     "answer": "yes"
+    },
+    "US-OH": {
+     "answer": "no"
+    },
+    "US-OK": {
+     "answer": "no"
+    },
+    "US-OR": {
+     "answer": "yes"
+    },
+    "US-PA": {
+     "answer": "no"
+    },
+    "US-RI": {
+     "answer": "yes"
+    },
+    "US-SC": {
+     "answer": "no"
+    },
+    "US-SD": {
+     "answer": "no"
+    },
+    "US-TN": {
+     "answer": "no"
+    },
+    "US-TX": {
+     "answer": "no"
+    },
+    "US-UT": {
+     "answer": "no"
+    },
+    "US-VA": {
+     "answer": "yes",
+     "operativeAt": "2028-01-01",
+     "note": "Enacted April 22, 2026; the benefit start date is to confirm."
+    },
+    "US-VT": {
+     "answer": "no"
+    },
+    "US-WA": {
+     "answer": "yes"
+    },
+    "US-WI": {
+     "answer": "no"
+    },
+    "US-WV": {
+     "answer": "no"
+    },
+    "US-WY": {
+     "answer": "no"
+    }
+   }
+  },
+  "us-policy-positions:business-commerce.legalize-cannabis-sales": {
+   "source": "State cannabis law guides and the Tax Foundation's 2026 marijuana tax map: 24 states legal for adults; Virginia retail from 2027.",
+   "note": "D.C. allows possession but a congressional rider bars sales.",
+   "answers": {
+    "US-AK": {
+     "answer": "yes"
+    },
+    "US-AL": {
+     "answer": "no"
+    },
+    "US-AR": {
+     "answer": "no"
+    },
+    "US-AZ": {
+     "answer": "yes"
+    },
+    "US-CA": {
+     "answer": "yes"
+    },
+    "US-CO": {
+     "answer": "yes"
+    },
+    "US-CT": {
+     "answer": "yes"
+    },
+    "US-DC": {
+     "answer": "no",
+     "note": "Possession legal; sales barred by Congress."
+    },
+    "US-DE": {
+     "answer": "yes"
+    },
+    "US-FL": {
+     "answer": "no"
+    },
+    "US-GA": {
+     "answer": "no"
+    },
+    "US-HI": {
+     "answer": "no"
+    },
+    "US-IA": {
+     "answer": "no"
+    },
+    "US-ID": {
+     "answer": "no"
+    },
+    "US-IL": {
+     "answer": "yes"
+    },
+    "US-IN": {
+     "answer": "no"
+    },
+    "US-KS": {
+     "answer": "no"
+    },
+    "US-KY": {
+     "answer": "no"
+    },
+    "US-LA": {
+     "answer": "no"
+    },
+    "US-MA": {
+     "answer": "yes"
+    },
+    "US-MD": {
+     "answer": "yes"
+    },
+    "US-ME": {
+     "answer": "yes"
+    },
+    "US-MI": {
+     "answer": "yes"
+    },
+    "US-MN": {
+     "answer": "yes"
+    },
+    "US-MO": {
+     "answer": "yes"
+    },
+    "US-MS": {
+     "answer": "no"
+    },
+    "US-MT": {
+     "answer": "yes"
+    },
+    "US-NC": {
+     "answer": "no"
+    },
+    "US-ND": {
+     "answer": "no"
+    },
+    "US-NE": {
+     "answer": "no"
+    },
+    "US-NH": {
+     "answer": "no"
+    },
+    "US-NJ": {
+     "answer": "yes"
+    },
+    "US-NM": {
+     "answer": "yes"
+    },
+    "US-NV": {
+     "answer": "yes"
+    },
+    "US-NY": {
+     "answer": "yes"
+    },
+    "US-OH": {
+     "answer": "yes"
+    },
+    "US-OK": {
+     "answer": "no"
+    },
+    "US-OR": {
+     "answer": "yes"
+    },
+    "US-PA": {
+     "answer": "no"
+    },
+    "US-RI": {
+     "answer": "yes"
+    },
+    "US-SC": {
+     "answer": "no"
+    },
+    "US-SD": {
+     "answer": "no"
+    },
+    "US-TN": {
+     "answer": "no"
+    },
+    "US-TX": {
+     "answer": "no"
+    },
+    "US-UT": {
+     "answer": "no"
+    },
+    "US-VA": {
+     "answer": "yes",
+     "operativeAt": "2027-01-01"
+    },
+    "US-VT": {
+     "answer": "yes"
+    },
+    "US-WA": {
+     "answer": "yes"
+    },
+    "US-WI": {
+     "answer": "no"
+    },
+    "US-WV": {
+     "answer": "no"
+    },
+    "US-WY": {
+     "answer": "no"
+    }
+   }
+  },
+  "us-policy-positions:justice-public-safety.permit-to-carry-concealed": {
+   "source": "Permitless (constitutional) carry state lists, January 2026: 29 states; none added or repealed in 2025 or 2026.",
+   "note": "A permitless-carry state answers no.",
+   "answers": {
+    "US-AK": {
+     "answer": "no"
+    },
+    "US-AL": {
+     "answer": "no"
+    },
+    "US-AR": {
+     "answer": "no"
+    },
+    "US-AZ": {
+     "answer": "no"
+    },
+    "US-CA": {
+     "answer": "yes"
+    },
+    "US-CO": {
+     "answer": "yes"
+    },
+    "US-CT": {
+     "answer": "yes"
+    },
+    "US-DC": {
+     "answer": "yes"
+    },
+    "US-DE": {
+     "answer": "yes"
+    },
+    "US-FL": {
+     "answer": "no"
+    },
+    "US-GA": {
+     "answer": "no"
+    },
+    "US-HI": {
+     "answer": "yes"
+    },
+    "US-IA": {
+     "answer": "no"
+    },
+    "US-ID": {
+     "answer": "no"
+    },
+    "US-IL": {
+     "answer": "yes"
+    },
+    "US-IN": {
+     "answer": "no"
+    },
+    "US-KS": {
+     "answer": "no"
+    },
+    "US-KY": {
+     "answer": "no"
+    },
+    "US-LA": {
+     "answer": "no"
+    },
+    "US-MA": {
+     "answer": "yes"
+    },
+    "US-MD": {
+     "answer": "yes"
+    },
+    "US-ME": {
+     "answer": "no"
+    },
+    "US-MI": {
+     "answer": "yes"
+    },
+    "US-MN": {
+     "answer": "yes"
+    },
+    "US-MO": {
+     "answer": "no"
+    },
+    "US-MS": {
+     "answer": "no"
+    },
+    "US-MT": {
+     "answer": "no"
+    },
+    "US-NC": {
+     "answer": "yes"
+    },
+    "US-ND": {
+     "answer": "no"
+    },
+    "US-NE": {
+     "answer": "no"
+    },
+    "US-NH": {
+     "answer": "no"
+    },
+    "US-NJ": {
+     "answer": "yes"
+    },
+    "US-NM": {
+     "answer": "yes"
+    },
+    "US-NV": {
+     "answer": "yes"
+    },
+    "US-NY": {
+     "answer": "yes"
+    },
+    "US-OH": {
+     "answer": "no"
+    },
+    "US-OK": {
+     "answer": "no"
+    },
+    "US-OR": {
+     "answer": "yes"
+    },
+    "US-PA": {
+     "answer": "yes"
+    },
+    "US-RI": {
+     "answer": "yes"
+    },
+    "US-SC": {
+     "answer": "no"
+    },
+    "US-SD": {
+     "answer": "no"
+    },
+    "US-TN": {
+     "answer": "no"
+    },
+    "US-TX": {
+     "answer": "no"
+    },
+    "US-UT": {
+     "answer": "no"
+    },
+    "US-VA": {
+     "answer": "yes"
+    },
+    "US-VT": {
+     "answer": "no"
+    },
+    "US-WA": {
+     "answer": "yes"
+    },
+    "US-WI": {
+     "answer": "yes"
+    },
+    "US-WV": {
+     "answer": "no"
+    },
+    "US-WY": {
+     "answer": "no"
+    },
+    "US-PR": {
+     "answer": "yes"
+    }
+   }
+  },
+  "us-policy-positions:housing-land-use.rent-stabilization": {
+   "source": "Statewide rent stabilization: California (AB 1482, 2020), Oregon (SB 608, 2019), Washington (HB 1217, 2025), and D.C. rent control, per state guides (2026).",
+   "note": "About 36 states preempt local rent control; that list is to research, so other states are left unanswered.",
+   "answers": {
+    "US-CA": {
+     "answer": "yes",
+     "operativeAt": "2020-01-01"
+    },
+    "US-DC": {
+     "answer": "yes"
+    },
+    "US-OR": {
+     "answer": "yes",
+     "operativeAt": "2019-02-28"
+    },
+    "US-WA": {
+     "answer": "yes",
+     "operativeAt": "2025-05-07"
+    }
+   }
+  },
+  "us-policy-positions:education.universal-preschool": {
+   "source": "Education Commission of the States and NIEER (2025): Colorado, Florida, Oklahoma, Vermont and D.C. offer universal pre-K to four-year-olds.",
+   "note": "Other states run targeted programs and are left unanswered.",
+   "answers": {
+    "US-CO": {
+     "answer": "yes",
+     "operativeAt": "2023-08-01"
+    },
+    "US-DC": {
+     "answer": "yes"
+    },
+    "US-FL": {
+     "answer": "yes"
+    },
+    "US-OK": {
+     "answer": "yes"
+    },
+    "US-VT": {
+     "answer": "yes"
+    }
+   }
+  },
+  "us-policy-positions:labor-workforce.raise-minimum-wage": {
+   "source": "data/research/money/minimum-wage-2026.json (U.S. Department of Labor, July 1, 2026): yes where the state's basic rate is above the federal $7.25.",
+   "note": "",
+   "answers": {
+    "US-AK": {
+     "answer": "yes"
+    },
+    "US-AL": {
+     "answer": "no"
+    },
+    "US-AR": {
+     "answer": "yes"
+    },
+    "US-AZ": {
+     "answer": "yes"
+    },
+    "US-CA": {
+     "answer": "yes"
+    },
+    "US-CO": {
+     "answer": "yes"
+    },
+    "US-CT": {
+     "answer": "yes"
+    },
+    "US-DC": {
+     "answer": "yes"
+    },
+    "US-DE": {
+     "answer": "yes"
+    },
+    "US-FL": {
+     "answer": "yes"
+    },
+    "US-GA": {
+     "answer": "no"
+    },
+    "US-GU": {
+     "answer": "yes"
+    },
+    "US-HI": {
+     "answer": "yes"
+    },
+    "US-IA": {
+     "answer": "no"
+    },
+    "US-ID": {
+     "answer": "no"
+    },
+    "US-IL": {
+     "answer": "yes"
+    },
+    "US-IN": {
+     "answer": "no"
+    },
+    "US-KS": {
+     "answer": "no"
+    },
+    "US-KY": {
+     "answer": "no"
+    },
+    "US-LA": {
+     "answer": "no"
+    },
+    "US-MA": {
+     "answer": "yes"
+    },
+    "US-MD": {
+     "answer": "yes"
+    },
+    "US-ME": {
+     "answer": "yes"
+    },
+    "US-MI": {
+     "answer": "yes"
+    },
+    "US-MN": {
+     "answer": "yes"
+    },
+    "US-MO": {
+     "answer": "yes"
+    },
+    "US-MP": {
+     "answer": "no"
+    },
+    "US-MS": {
+     "answer": "no"
+    },
+    "US-MT": {
+     "answer": "yes"
+    },
+    "US-NC": {
+     "answer": "no"
+    },
+    "US-ND": {
+     "answer": "no"
+    },
+    "US-NE": {
+     "answer": "yes"
+    },
+    "US-NH": {
+     "answer": "no"
+    },
+    "US-NJ": {
+     "answer": "yes"
+    },
+    "US-NM": {
+     "answer": "yes"
+    },
+    "US-NV": {
+     "answer": "yes"
+    },
+    "US-NY": {
+     "answer": "yes"
+    },
+    "US-OH": {
+     "answer": "yes"
+    },
+    "US-OK": {
+     "answer": "no"
+    },
+    "US-OR": {
+     "answer": "yes"
+    },
+    "US-PA": {
+     "answer": "no"
+    },
+    "US-PR": {
+     "answer": "yes"
+    },
+    "US-RI": {
+     "answer": "yes"
+    },
+    "US-SC": {
+     "answer": "no"
+    },
+    "US-SD": {
+     "answer": "yes"
+    },
+    "US-TN": {
+     "answer": "no"
+    },
+    "US-TX": {
+     "answer": "no"
+    },
+    "US-UT": {
+     "answer": "no"
+    },
+    "US-VA": {
+     "answer": "yes"
+    },
+    "US-VI": {
+     "answer": "yes"
+    },
+    "US-VT": {
+     "answer": "yes"
+    },
+    "US-WA": {
+     "answer": "yes"
+    },
+    "US-WI": {
+     "answer": "no"
+    },
+    "US-WV": {
+     "answer": "yes"
+    },
+    "US-WY": {
+     "answer": "no"
+    }
+   }
+  },
+  "us-policy-positions:fiscal.adopt-income-tax": {
+   "source": "data/research/money/state-income-tax-2026.json (2026 brackets): the 9 states with no tax on wages answer no.",
+   "note": "",
+   "answers": {
+    "US-AK": {
+     "answer": "no"
+    },
+    "US-AL": {
+     "answer": "yes"
+    },
+    "US-AR": {
+     "answer": "yes"
+    },
+    "US-AZ": {
+     "answer": "yes"
+    },
+    "US-CA": {
+     "answer": "yes"
+    },
+    "US-CO": {
+     "answer": "yes"
+    },
+    "US-CT": {
+     "answer": "yes"
+    },
+    "US-DC": {
+     "answer": "yes"
+    },
+    "US-DE": {
+     "answer": "yes"
+    },
+    "US-FL": {
+     "answer": "no"
+    },
+    "US-GA": {
+     "answer": "yes"
+    },
+    "US-HI": {
+     "answer": "yes"
+    },
+    "US-IA": {
+     "answer": "yes"
+    },
+    "US-ID": {
+     "answer": "yes"
+    },
+    "US-IL": {
+     "answer": "yes"
+    },
+    "US-IN": {
+     "answer": "yes"
+    },
+    "US-KS": {
+     "answer": "yes"
+    },
+    "US-KY": {
+     "answer": "yes"
+    },
+    "US-LA": {
+     "answer": "yes"
+    },
+    "US-MA": {
+     "answer": "yes"
+    },
+    "US-MD": {
+     "answer": "yes"
+    },
+    "US-ME": {
+     "answer": "yes"
+    },
+    "US-MI": {
+     "answer": "yes"
+    },
+    "US-MN": {
+     "answer": "yes"
+    },
+    "US-MO": {
+     "answer": "yes"
+    },
+    "US-MS": {
+     "answer": "yes"
+    },
+    "US-MT": {
+     "answer": "yes"
+    },
+    "US-NC": {
+     "answer": "yes"
+    },
+    "US-ND": {
+     "answer": "yes"
+    },
+    "US-NE": {
+     "answer": "yes"
+    },
+    "US-NH": {
+     "answer": "no"
+    },
+    "US-NJ": {
+     "answer": "yes"
+    },
+    "US-NM": {
+     "answer": "yes"
+    },
+    "US-NV": {
+     "answer": "no"
+    },
+    "US-NY": {
+     "answer": "yes"
+    },
+    "US-OH": {
+     "answer": "yes"
+    },
+    "US-OK": {
+     "answer": "yes"
+    },
+    "US-OR": {
+     "answer": "yes"
+    },
+    "US-PA": {
+     "answer": "yes"
+    },
+    "US-RI": {
+     "answer": "yes"
+    },
+    "US-SC": {
+     "answer": "yes"
+    },
+    "US-SD": {
+     "answer": "no"
+    },
+    "US-TN": {
+     "answer": "no"
+    },
+    "US-TX": {
+     "answer": "no"
+    },
+    "US-UT": {
+     "answer": "yes"
+    },
+    "US-VA": {
+     "answer": "yes"
+    },
+    "US-VT": {
+     "answer": "yes"
+    },
+    "US-WA": {
+     "answer": "no"
+    },
+    "US-WI": {
+     "answer": "yes"
+    },
+    "US-WV": {
+     "answer": "yes"
+    },
+    "US-WY": {
+     "answer": "no"
+    }
+   }
+  },
+  "us-policy-positions:justice-public-safety.end-cash-bail": {
+   "source": "Illinois ended cash bail under the SAFE-T Act (Sept. 18, 2023); D.C. releases without money bail.",
+   "note": "Other states are left unanswered.",
+   "answers": {
+    "US-DC": {
+     "answer": "yes"
+    },
+    "US-IL": {
+     "answer": "yes",
+     "operativeAt": "2023-09-18"
+    }
+   }
+  }
+ }
+}
