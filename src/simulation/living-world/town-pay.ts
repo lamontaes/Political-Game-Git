@@ -467,6 +467,14 @@ function lastDayWorked(world: World, workId: EntityId): IsoDate | null {
   return addDays(status.effectiveAt, -1);
 }
 
+/** The day each person died, for everyone who has. */
+function deathDates(world: World): ReadonlyMap<EntityId, IsoDate> {
+  const dates = new Map<EntityId, IsoDate>();
+  for (const death of world.history.personDeaths)
+    dates.set(death.personId, death.diedAt);
+  return dates;
+}
+
 function latestRoles(world: World): ReadonlyMap<EntityId, WorkRoleRecord> {
   const roles = new Map<EntityId, WorkRoleRecord>();
   for (const role of world.history.workRoles)
@@ -507,23 +515,40 @@ export function startTownJobPay(
     if (flow.basisReference.kind === "work")
       paid.add(flow.basisReference.workRelationshipId);
   const roles = latestRoles(world);
+  const dead = deathDates(world);
+  // An employer's size counts everyone it employs in town, paid yet or not.
   const staff = new Map<EntityId, number>();
   const candidates: WorkRelationship[] = [];
   for (const work of world.history.workRelationships) {
     if (
-      work.personId === exceptPersonId ||
       !work.stableKey.startsWith(`${TOWN_EMPLOYMENT_VERSION}:`) ||
       work.compensation !== "paid" ||
       !work.organizationId ||
-      paid.has(work.id) ||
       statusOn(world, work.id, world.currentDate)?.status !== "active"
     )
       continue;
-    candidates.push(work);
     staff.set(work.organizationId, (staff.get(work.organizationId) ?? 0) + 1);
+    if (
+      work.personId === exceptPersonId ||
+      paid.has(work.id) ||
+      dead.has(work.personId)
+    )
+      continue;
+    candidates.push(work);
   }
   const inputs: CreateResourceFlowInput[] = [];
+  // An employer keeps the payday its workers already have.
   const periods = new Map<EntityId, TownPayPeriod>();
+  for (const flow of world.history.resourceFlows) {
+    if (
+      !flow.stableKey.startsWith(PAY_KEY_PREFIX) ||
+      flow.source.kind !== "organization"
+    )
+      continue;
+    const terms = resourceFlowTermsAt(world, flow.id);
+    const note = terms ? payNoteOf(terms.cadenceKind) : null;
+    if (note) periods.set(flow.source.organizationId, note.period);
+  }
   for (const work of candidates) {
     const role = roles.get(work.id);
     if (!role) continue;
@@ -617,6 +642,7 @@ export function payTownPaydays(
     daysBetween(since, world.currentDate) > CATCH_UP_LIMIT_DAYS
       ? addDays(world.currentDate, -CATCH_UP_LIMIT_DAYS)
       : since;
+  const dead = deathDates(world);
   const inputs: RecordResourceTransferOutcomeInput[] = [];
   const recipients = new Set<EntityId>();
   for (const flow of flows) {
@@ -626,9 +652,16 @@ export function payTownPaydays(
       historySequenceExclusive: world.history.nextSequence,
     });
     const note = terms ? payNoteOf(terms.cadenceKind) : null;
-    if (!terms || !note) continue;
+    if (!terms || terms.status !== "active" || !note) continue;
     const workId = flow.basisReference.workRelationshipId;
-    const lastDay = lastDayWorked(world, workId);
+    // A worker who died is paid through the day before; the job itself is
+    // ended at the town's next quarterly review.
+    const worked = lastDayWorked(world, workId);
+    const died = dead.get((flow.recipient as { personId: EntityId }).personId);
+    const lastDay =
+      died !== undefined && (worked === null || addDays(died, -1) < worked)
+        ? addDays(died, -1)
+        : worked;
     for (
       let payday = addDays(earliest, 1);
       payday <= world.currentDate;
@@ -638,7 +671,7 @@ export function payTownPaydays(
       if (!window) continue;
       // GAME SIMPLIFICATION, labeled: a period is paid when the job was held
       // all of it, so a new hire's first part-period and a leaver's last one
-      // go unpaid.
+      // go unpaid, and so does a payday falling on the day the game opens.
       if (window.startsAt < flow.startsAt) continue;
       if (lastDay !== null && lastDay < window.endsAt) continue;
       const stableKey = `${flow.stableKey}:${window.startsAt}`;

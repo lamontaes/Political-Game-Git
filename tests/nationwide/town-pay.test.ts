@@ -23,6 +23,7 @@ import {
   townPayPercentile,
 } from "../../src/simulation/living-world/town-pay";
 import { recordWorkStatus } from "../../src/simulation/life";
+import { recordPersonDeath } from "../../src/simulation/vitality";
 import { workStatusAt } from "../../src/simulation/life-queries";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
 import { resourceFlowTermsAt } from "../../src/simulation/resource-queries";
@@ -140,10 +141,50 @@ describe("the town is paid", { timeout: 600_000 }, () => {
     const player = game.playerPersonId;
     let world: World = game.world;
     const since = world.currentDate;
+    const unpaid = world;
     world = startTownJobPay(world, player, since);
     const flows = world.history.resourceFlows.filter((flow) =>
       flow.stableKey.startsWith("town-pay-v2:job-pay:"),
     );
+    const cadence = (on: World, id: string) =>
+      resourceFlowTermsAt(on, id)!.cadenceKind;
+
+    // A worker whose pay starts on a later payday gets the employer's payday.
+    const byEmployer = new Map<string, typeof flows>();
+    for (const flow of flows)
+      if (flow.source.kind === "organization")
+        byEmployer.set(flow.source.organizationId, [
+          ...(byEmployer.get(flow.source.organizationId) ?? []),
+          flow,
+        ]);
+    for (const group of [...byEmployer.values()].filter((g) => g.length > 1)) {
+      const late = group[0]!;
+      const lateId =
+        late.recipient.kind === "person" ? late.recipient.personId : "";
+      const later = startTownJobPay(
+        startTownJobPay(unpaid, lateId, since),
+        player,
+        since,
+      );
+      const lateFlow = later.history.resourceFlows.find(
+        (flow) => flow.stableKey === late.stableKey,
+      )!;
+      expect(cadence(later, lateFlow.id)).toBe(cadence(world, group[1]!.id));
+    }
+
+    // A worker who dies is not paid for any period after the death.
+    const dies = flows[1]!;
+    const diesId =
+      dies.recipient.kind === "person" ? dies.recipient.personId : "";
+    world = recordPersonDeath(world, {
+      stableKey: "town-pay-test:death",
+      personId: diesId,
+      diedAt: since,
+      causeKey: "cause:town-pay-fixture",
+      sourceEntityIds: [world.id],
+      summary: "Died; the cause is not recorded.",
+      provenance: { kind: "authored", note: "Town pay fixture." },
+    });
     expect(flows.length).toBeGreaterThan(20);
     for (const flow of flows) {
       expect(flow.recipient).not.toEqual({ kind: "person", personId: player });
@@ -181,8 +222,9 @@ describe("the town is paid", { timeout: 600_000 }, () => {
     );
     // Two months holds at least 2 paychecks for anyone paid monthly.
     const paid = new Set(paychecks.map((outcome) => outcome.resourceFlowId));
-    expect(paid.size).toBe(flows.length - 1);
+    expect(paid.size).toBe(flows.length - 2);
     expect(paid.has(leaver.id)).toBe(false);
+    expect(paid.has(dies.id)).toBe(false);
     for (const outcome of paychecks) {
       const flow = flows.find((row) => row.id === outcome.resourceFlowId)!;
       const terms = resourceFlowTermsAt(world, flow.id)!;
