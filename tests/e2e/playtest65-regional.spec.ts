@@ -256,6 +256,9 @@ test("District introduction follows the White House and keeps population and Con
   await page.getByTestId("orientation-next").click();
   await expect(page.getByTestId("orientation-step-congress")).toBeVisible();
   await page.getByTestId("orientation-next").click();
+  // Parents or guardians, when the life records any, come before your life.
+  if (await page.getByTestId("orientation-step-parents").isVisible())
+    await page.getByTestId("orientation-next").click();
   await expect(page.getByTestId("orientation-step-your-life")).toBeVisible();
   expect(
     await page.evaluate(async () => {
