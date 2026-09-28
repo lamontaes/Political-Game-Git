@@ -15,6 +15,7 @@ import {
 import {
   knowsVote,
   officialsBehind,
+  townSupportFromViews,
   viewOfOfficial,
 } from "./living-world/official-views";
 import { money } from "./resources";
@@ -135,6 +136,35 @@ describe("a law reaches a person", () => {
       ),
     ).toBe(false);
     assertWorldIntegrity(later);
+  });
+
+  it("a town count reads what residents think of a candidate", () => {
+    const { world, spouseId } = collected(true);
+    const later = advanceWorld(
+      world,
+      3,
+      createCampaignElectionTransitionRegistry(),
+    );
+    const view = (later.history.officialViews ?? []).find(
+      (row) => row.personId === spouseId,
+    )!;
+    const town = later.people[spouseId]!.homeJurisdictionId!;
+    const blamed = townSupportFromViews(
+      later,
+      town,
+      view.officialId,
+      later.currentDate,
+    );
+    expect(blamed).toBeLessThan(1);
+    expect(blamed).toBeGreaterThanOrEqual(0.5);
+    // Nobody in town has reflected on anything this person did.
+    expect(townSupportFromViews(later, town, spouseId, later.currentDate)).toBe(
+      1,
+    );
+    // Before the view was formed, the count could not have read it.
+    expect(
+      townSupportFromViews(later, town, view.officialId, world.currentDate),
+    ).toBe(1);
   });
 
   it("writes nothing twice and survives a save", () => {

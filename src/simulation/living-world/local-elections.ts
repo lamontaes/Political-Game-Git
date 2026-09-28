@@ -1,4 +1,5 @@
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
+import { townSupportFromViews } from "./official-views";
 import { campaigns } from "../campaign-queries";
 import {
   cancelElectionContest,
@@ -901,6 +902,7 @@ function countVotes(
   contestKey: string,
   candidates: readonly EntityId[],
   incumbent: EntityId | null,
+  electionDate: IsoDate,
 ): CandidateTally[] {
   const rng = new SeededRng(world.seed).fork(`${contestKey}:count`);
   const seats = localGoverningBodyRules(unit)?.seats?.value ?? 1;
@@ -914,7 +916,9 @@ function countVotes(
   );
   const support = candidates.map((id) => {
     const base = 0.6 + rng.next() * 0.8;
-    return id === incumbent ? base * P.incumbentEdge : base;
+    // Spec 5: what residents think of what the candidate did in office.
+    const views = townSupportFromViews(world, town, id, electionDate);
+    return (id === incumbent ? base * P.incumbentEdge : base) * views;
   });
   const total = support.reduce((sum, value) => sum + value, 0);
   const votes = support.map((value) =>
@@ -960,7 +964,15 @@ export function localElectionCountHandler(
       : null;
   const living = contest.candidatePersonIds.filter((id) => alive(world, id));
   const field = living.length > 0 ? living : contest.candidatePersonIds;
-  const counted = countVotes(world, unit, town, contestKey, field, incumbent);
+  const counted = countVotes(
+    world,
+    unit,
+    town,
+    contestKey,
+    field,
+    incumbent,
+    electionDate,
+  );
   // Candidates who died before the vote are on the ballot with no votes.
   const tallies: CandidateTally[] = [
     ...counted,

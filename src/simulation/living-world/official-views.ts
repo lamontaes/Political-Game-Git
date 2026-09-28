@@ -8,6 +8,7 @@ import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
+  IsoDate,
   LawExposureRecord,
   OfficialViewReason,
   OfficialViewRecord,
@@ -330,4 +331,45 @@ export function assertOfficialViewIntegrity(
     )
       throw new Error("An official view's points are the sum of its reasons.");
   }
+}
+
+// PLACEHOLDER, approved provisional: an election weighs recent exposures more.
+// No half-life was found, so a view formed in the half year before the vote
+// counts half again as much.
+const RECENT_DAYS = 183;
+const RECENT_WEIGHT = 1.5;
+// PLACEHOLDER: the most a town's views can raise or cut a candidate's support.
+const MAX_SUPPORT_SHIFT = 0.5;
+
+/**
+ * What a town's residents think of a candidate, as a multiplier on their
+ * support in a town count: 1 when nobody has reflected on anything they did.
+ * The sum of residents' views, recent ones weighted more, is spread over every
+ * grown resident the game has written for the town, so a view held by a few
+ * moves the count a little and one held by many moves it a lot.
+ */
+export function townSupportFromViews(
+  world: World,
+  town: EntityId,
+  candidateId: EntityId,
+  electionDate: IsoDate,
+): number {
+  let residents = 0;
+  const inTown = new Set<EntityId>();
+  for (const personId of world.personOrder) {
+    const person = world.people[personId];
+    if (!person || person.homeJurisdictionId !== town) continue;
+    inTown.add(personId);
+    residents += 1;
+  }
+  if (residents === 0) return 1;
+  const recentFrom = addDays(electionDate, -RECENT_DAYS);
+  let weighted = 0;
+  for (const row of world.history.officialViews ?? []) {
+    if (row.officialId !== candidateId || !inTown.has(row.personId)) continue;
+    if (row.recordedAt > electionDate) continue;
+    weighted += row.points * (row.recordedAt >= recentFrom ? RECENT_WEIGHT : 1);
+  }
+  const shift = weighted / (residents * BASE_POINTS);
+  return 1 + Math.max(-MAX_SUPPORT_SHIFT, Math.min(MAX_SUPPORT_SHIFT, shift));
 }
