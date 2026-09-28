@@ -25,12 +25,25 @@
  * `assessPaycheckTaxes` exactly as the player's pay is, so Social Security
  * and Medicare apply to everyone at once.
  *
+ * A state law that raises the minimum wage raises every town job paid below
+ * it, from the first pay period that begins on or after the law takes effect
+ * (`raiseTownPayToMinimum`). A period already running that day is paid at the
+ * old rate, because a period's pay is fixed when it begins (labeled game
+ * simplification: real pay changes for hours worked from the effective day).
+ *
  * Cost. One scheduled transition a payday date (Fridays, the 15th and the
  * last day of each month), each writing all of that day's paychecks.
  */
 
 import { addDays, daysBetween, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
+import {
+  enactedRuleChanges,
+  laborLawOfficeKey,
+  ruleChangeInForce,
+  ruleValueInWorld,
+  type EnactedRuleChange,
+} from "../enacted-rule-changes";
 import { countyGeoidsForPlace } from "../government-units";
 import {
   currentLifeCutoff,
@@ -44,6 +57,7 @@ import { SeededRng } from "../rng";
 import {
   createResourceFlows,
   money,
+  recordResourceFlowTerms,
   recordResourceTransferOutcomes,
   type CreateResourceFlowInput,
   type RecordResourceTransferOutcomeInput,
@@ -55,6 +69,7 @@ import type {
   FutureTransitionHandlerResult,
   IsoDate,
   OrganizationClassification,
+  ResourceFlowTermsRecord,
   WorkRelationship,
   WorkRoleRecord,
   World,
@@ -205,6 +220,38 @@ export function townMinimumHourly(
   return Math.max(FEDERAL_MINIMUM_HOURLY, state);
 }
 
+/**
+ * The minimum wage in force where the job is on `onDate`: the higher of the
+ * federal $7.25 and the state's rate, where a state law the game enacted
+ * replaces the state's rate from the day it takes effect. Null when the
+ * state's rate is unknown and no enacted law sets one.
+ */
+export function townMinimumHourlyAt(
+  world: World,
+  jurisdictionId: EntityId | null,
+  onDate: IsoDate,
+): number | null {
+  const place = jurisdictionId
+    ? lifePlaceByJurisdictionId(jurisdictionId)
+    : null;
+  const key = place?.stateJurisdictionKey ?? null;
+  if (key && /^US-[A-Z]{2}$/.test(key)) {
+    const law = ruleValueInWorld(
+      world,
+      {
+        jurisdiction: key,
+        officeKey: laborLawOfficeKey(key.slice(3)),
+        field: "labor.minimumWage.hourlyCents",
+        onDate,
+      },
+      null,
+    );
+    if (law.source === "enacted" && typeof law.value === "number")
+      return Math.max(FEDERAL_MINIMUM_HOURLY, law.value / 100);
+  }
+  return townMinimumHourly(jurisdictionId);
+}
+
 export interface TownJobRate {
   readonly soc: string;
   readonly area: string;
@@ -222,11 +269,11 @@ export function townJobRate(
   occupation: string | null,
   jurisdictionId: EntityId | null,
   percentile: number,
+  minimum: number | null = townMinimumHourly(jurisdictionId),
 ): TownJobRate | null {
   const soc = occupation ? TOWN_JOB_SOC[occupation] : undefined;
   const byArea = soc ? wageTable().get(soc) : undefined;
   if (!soc || !byArea) return null;
-  const minimum = townMinimumHourly(jurisdictionId);
   if (minimum === null) return null;
   for (const area of townPayAreas(jurisdictionId)) {
     const cells = byArea.get(area);
@@ -429,6 +476,7 @@ export function paydayHandler(
   const played =
     world.control.kind === "person" ? world.control.personId : null;
   let next = startTownJobPay(world, played, since);
+  next = raiseTownPayToMinimum(next, played);
   next = payTownPaydays(next, since, played);
   next = scheduleFutureDueItem(next, {
     stableKey: `${PAYDAY_KEY_PREFIX}${next.currentDate}`,
@@ -480,6 +528,41 @@ function latestRoles(world: World): ReadonlyMap<EntityId, WorkRoleRecord> {
   for (const role of world.history.workRoles)
     roles.set(role.workRelationshipId, role);
   return roles;
+}
+
+/** The hours a week a town job is paid for. */
+function weeklyHoursOf(role: WorkRoleRecord): number {
+  const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
+  return (minimumHours + maximumHours) / 2;
+}
+
+/** Every town pay flow's terms, oldest first. */
+function termsByPayFlow(
+  world: World,
+): ReadonlyMap<EntityId, readonly ResourceFlowTermsRecord[]> {
+  const pay = new Set(
+    world.history.resourceFlows
+      .filter((flow) => flow.stableKey.startsWith(PAY_KEY_PREFIX))
+      .map((flow) => flow.id),
+  );
+  const byFlow = new Map<EntityId, ResourceFlowTermsRecord[]>();
+  for (const record of world.history.resourceFlowTerms) {
+    if (!pay.has(record.resourceFlowId)) continue;
+    const list = byFlow.get(record.resourceFlowId) ?? [];
+    list.push(record);
+    byFlow.set(record.resourceFlowId, list);
+  }
+  return byFlow;
+}
+
+/** The terms in force on `date`: the latest that took effect by then. */
+function termsOn(
+  history: readonly ResourceFlowTermsRecord[],
+  date: IsoDate,
+): ResourceFlowTermsRecord | undefined {
+  for (let index = history.length - 1; index >= 0; index -= 1)
+    if (history[index]!.effectiveAt <= date) return history[index];
+  return undefined;
 }
 
 interface PayNote {
@@ -570,6 +653,8 @@ export function startTownJobPay(
       role.occupationClassification,
       role.locationJurisdictionId,
       townPayPercentile(tenure, draw),
+      // The floor on the first day paid; a later rise is recorded as a raise.
+      townMinimumHourlyAt(world, role.locationJurisdictionId, startsAt),
     );
     if (!rate) continue;
     const organizationId = work.organizationId!;
@@ -592,8 +677,7 @@ export function startTownJobPay(
               .next() * 2,
           )
         : 0;
-    const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
-    const weeklyHours = (minimumHours + maximumHours) / 2;
+    const weeklyHours = weeklyHoursOf(role);
     const perPeriod = Math.round(
       (rate.hourlyMinor * weeklyHours * 52) / PERIODS_PER_YEAR[period],
     );
@@ -616,6 +700,127 @@ export function startTownJobPay(
     });
   }
   return createResourceFlows(world, inputs);
+}
+
+/** Enacted minimum-wage changes by state postal code, in operative order. */
+function minimumWageLaws(
+  world: World,
+): ReadonlyMap<string, readonly EnactedRuleChange[]> {
+  const byState = new Map<string, EnactedRuleChange[]>();
+  for (const change of enactedRuleChanges(world)) {
+    if (change.field !== "labor.minimumWage.hourlyCents") continue;
+    const list = byState.get(change.stateUsps) ?? [];
+    list.push(change);
+    byState.set(change.stateUsps, list);
+  }
+  return byState;
+}
+
+/**
+ * Raises every town job paid below the minimum wage in force, from the first
+ * pay period that begins on or after the day a law raised it and after the
+ * last period already paid. Each rise between the last paycheck and today is
+ * recorded in turn, and each names its law. A law that lowers or repeals the
+ * rate cuts nobody's pay. Run before paying, so the period is paid at the new
+ * rate.
+ *
+ * NOT MODELED: back pay. A law whose effective date comes before the day it
+ * was recorded raises pay from the first period after it was recorded.
+ */
+export function raiseTownPayToMinimum(
+  world: World,
+  exceptPersonId: EntityId | null,
+): World {
+  const laws = minimumWageLaws(world);
+  // Only a law can move the floor after pay began.
+  if (laws.size === 0) return world;
+  const recordedOn = new Map<EntityId, IsoDate>();
+  const eventOf = new Map<EntityId, EntityId>();
+  for (const enactment of world.history.legislativeEnactments ?? []) {
+    recordedOn.set(enactment.measureId, enactment.resolvedAt);
+    eventOf.set(enactment.measureId, enactment.outcomeEventId);
+  }
+  const roles = latestRoles(world);
+  const termsByFlow = termsByPayFlow(world);
+  const lastPaid = new Map<EntityId, IsoDate>();
+  for (const outcome of world.history.resourceTransferOutcomes) {
+    if (!termsByFlow.has(outcome.resourceFlowId)) continue;
+    const previous = lastPaid.get(outcome.resourceFlowId);
+    if (!previous || previous < outcome.periodEndsAt)
+      lastPaid.set(outcome.resourceFlowId, outcome.periodEndsAt);
+  }
+  let next = world;
+  for (const flow of world.history.resourceFlows) {
+    if (
+      !flow.stableKey.startsWith(PAY_KEY_PREFIX) ||
+      flow.basisReference.kind !== "work" ||
+      (flow.recipient.kind === "person" &&
+        flow.recipient.personId === exceptPersonId)
+    )
+      continue;
+    const role = roles.get(flow.basisReference.workRelationshipId);
+    const place = role?.locationJurisdictionId
+      ? lifePlaceByJurisdictionId(role.locationJurisdictionId)
+      : null;
+    const stateKey = place?.stateJurisdictionKey ?? "";
+    const stateLaws = laws.get(stateKey.replace(/^US-/, ""));
+    if (!role || !stateLaws) continue;
+    let current = termsByFlow.get(flow.id)?.at(-1);
+    const note = current ? payNoteOf(current.cadenceKind) : null;
+    if (!current || current.status !== "active" || !note) continue;
+    const weeklyHours = weeklyHoursOf(role);
+    // The first period that begins after the current terms and the last
+    // paycheck, within one transition's catch-up.
+    const after = [
+      current.effectiveAt,
+      lastPaid.get(flow.id) ?? current.effectiveAt,
+      addDays(world.currentDate, -CATCH_UP_LIMIT_DAYS),
+    ].reduce((a, b) => (a > b ? a : b));
+    for (
+      let day = addDays(after, 1);
+      day <= world.currentDate;
+      day = addDays(day, 1)
+    ) {
+      if (!payPeriodEndingOn(note.period, addDays(day, -1), note.phase))
+        continue;
+      const law = ruleChangeInForce(
+        stateLaws.filter(
+          (change) =>
+            change.operativeAt <= day &&
+            (recordedOn.get(change.measureId) ?? change.operativeAt) <= day,
+        ),
+      );
+      if (!law || typeof law.value !== "number") continue;
+      const hourly = Math.max(FEDERAL_MINIMUM_HOURLY, law.value / 100);
+      // The same arithmetic as a new job's pay, so a job hired at the floor
+      // is never "raised" by a cent of rounding.
+      const amount = Math.round(
+        (Math.round(hourly * 100) * weeklyHours * 52) /
+          PERIODS_PER_YEAR[note.period],
+      );
+      if (amount <= current.amount.minorUnits) continue;
+      const event = eventOf.get(law.measureId);
+      const rate = `$${hourly.toFixed(2)} an hour`;
+      next = recordResourceFlowTerms(next, {
+        stableKey: `${flow.stableKey}:minimum-wage:${day}`,
+        resourceFlowId: flow.id,
+        effectiveAt: day,
+        status: "active",
+        amount: money(amount, current.amount.currency),
+        cadenceKind: current.cadenceKind,
+        reason: `${law.designation} raised the state minimum wage to ${rate}.`,
+        provenance: event
+          ? { kind: "simulated-event", eventId: event }
+          : {
+              kind: "authored",
+              note: `${TOWN_PAY_VERSION}: raised to the minimum wage ${law.designation} set, ${rate}.`,
+            },
+        supersedesTermsId: current.id,
+      });
+      current = next.history.resourceFlowTerms.at(-1)!;
+    }
+  }
+  return next;
 }
 
 /**
@@ -643,16 +848,15 @@ export function payTownPaydays(
       ? addDays(world.currentDate, -CATCH_UP_LIMIT_DAYS)
       : since;
   const dead = deathDates(world);
+  const termsByFlow = termsByPayFlow(world);
   const inputs: RecordResourceTransferOutcomeInput[] = [];
   const recipients = new Set<EntityId>();
   for (const flow of flows) {
     if (flow.basisReference.kind !== "work") continue;
-    const terms = resourceFlowTermsAt(world, flow.id, {
-      asOfDate: world.currentDate,
-      historySequenceExclusive: world.history.nextSequence,
-    });
-    const note = terms ? payNoteOf(terms.cadenceKind) : null;
-    if (!terms || terms.status !== "active" || !note) continue;
+    const history = termsByFlow.get(flow.id) ?? [];
+    const current = termsOn(history, world.currentDate);
+    const note = current ? payNoteOf(current.cadenceKind) : null;
+    if (!current || current.status !== "active" || !note) continue;
     const workId = flow.basisReference.workRelationshipId;
     // A worker who died is paid through the day before; the job itself is
     // ended at the town's next quarterly review.
@@ -676,6 +880,10 @@ export function payTownPaydays(
       if (lastDay !== null && lastDay < window.endsAt) continue;
       const stableKey = `${flow.stableKey}:${window.startsAt}`;
       if (already.has(stableKey)) continue;
+      // A raise takes effect on the first day of a period, and a period is
+      // paid at the terms in force the day it began.
+      const terms = termsOn(history, window.startsAt);
+      if (!terms || terms.status !== "active") continue;
       inputs.push({
         stableKey,
         resourceFlowId: flow.id,
