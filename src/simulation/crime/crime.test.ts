@@ -15,7 +15,6 @@ import { personName } from "../people";
 import {
   CRIME_CAUSE_SEAMS,
   crimeRateMultiplier,
-  UNRESEARCHED_UNEMPLOYMENT_EFFECT,
   CRIME_EVENT_TYPES,
   CRIME_SAMPLE_TRANSITION_KEY,
   crimeIncidents,
@@ -274,15 +273,17 @@ describe("ordinary local crime", () => {
         life.world.currentDate,
       );
       const unemployment = reading.causes.find(
-        (cause) => cause.key === "cause-unemployment",
+        (cause) => cause.key === "unemployment-to-burglary",
       );
       if (unemployment) {
-        expect(reading.multiplier).toBeGreaterThanOrEqual(
-          UNRESEARCHED_UNEMPLOYMENT_EFFECT.floor,
+        // Burglary moves about 3% per point from 4%, within the offense's
+        // bounds in the outcome web.
+        expect(unemployment.factor).toBeCloseTo(
+          1 + 0.03 * (unemployment.causeValue - 4),
+          10,
         );
-        expect(reading.multiplier).toBeLessThanOrEqual(
-          UNRESEARCHED_UNEMPLOYMENT_EFFECT.ceiling,
-        );
+        expect(reading.multiplier).toBeGreaterThanOrEqual(0.5);
+        expect(reading.multiplier).toBeLessThanOrEqual(2);
       } else {
         // No figure recorded is not a figure of zero: the base rate applies.
         expect(reading.multiplier).toBe(1);
