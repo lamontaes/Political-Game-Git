@@ -6,6 +6,7 @@ import {
   recordHeardExposure,
 } from "../law-exposure";
 import { OFFICIAL_VIEW_BASE_POINTS as BASE_POINTS } from "../official-view-reads";
+import { joinLawInterestGroup } from "./law-interest-groups";
 import {
   activePartnershipsAt,
   activeWorkRelationshipsAt,
@@ -137,6 +138,7 @@ export function officialViewReflectionHandler(
       reasons,
     });
   }
+  next = joinLawInterestGroup(next, exposure);
   if (exposure.relation === "own")
     for (const hearerId of hearersOf(world, exposure))
       next = recordHeardExposure(next, exposure, hearerId);

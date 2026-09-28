@@ -20,6 +20,12 @@ import {
   townSupportFromViews,
   viewOfOfficial,
 } from "./living-world/official-views";
+import {
+  lawInterestGroup,
+  lawInterestMembers,
+  membersAgainstLaw,
+} from "./official-view-reads";
+import { joinLawInterestGroup } from "./living-world/law-interest-groups";
 import { money } from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { advanceWorld, assertWorldIntegrity } from "./world";
@@ -315,5 +321,74 @@ describe("a law reaches a person", () => {
     }
     expect(close).toBeGreaterThan(0);
     expect(knewClose / close).toBeGreaterThan(knewOthers / (trials - close));
+  });
+
+  it("people a law cost a tenth of a month's pay form a group once six in town are hit", () => {
+    const { world, personId } = collected();
+    const row = lawExposuresOf(world, personId)[0]!;
+    let next = world;
+    for (const id of world.personOrder.filter((id) => id !== personId))
+      next = recordLawExposure(next, {
+        stableKey: `law-exposure-test:group:${id}`,
+        personId: id,
+        measureId: row.measureId,
+        channel: "tax-payment",
+        direction: "cost",
+        amount: row.amount,
+        cadence: "one-time",
+        sourceRecordId: row.sourceRecordId,
+        includeFamily: false,
+      });
+    // The fixture pays nobody from work; give each a recorded month's pay of
+    // $5 so the $1 tax is a fifth of it.
+    const paid = (w: typeof next) => ({
+      ...w,
+      history: {
+        ...w.history,
+        lawExposures: w.history.lawExposures!.map((exposure) => ({
+          ...exposure,
+          monthlyPay: money(500, "USD"),
+        })),
+      },
+    });
+    next = paid(next);
+    const town = next.people[personId]!.homeJurisdictionId!;
+    const everyoneHere = next.personOrder.every(
+      (id) => next.people[id]!.homeJurisdictionId === town,
+    );
+    expect(everyoneHere).toBe(true);
+    // Five qualifying residents are not enough.
+    const five = {
+      ...next,
+      history: {
+        ...next.history,
+        lawExposures: next.history.lawExposures!.filter(
+          (exposure) => exposure.personId !== personId,
+        ),
+      },
+    };
+    const first = lawExposuresOf(
+      five,
+      five.personOrder.find((id) => id !== personId)!,
+    )[0]!;
+    expect(joinLawInterestGroup(five, first)).toBe(five);
+    // With the sixth, the group forms and members join by their odds.
+    let grouped = next;
+    for (const id of next.personOrder.filter((id) => id !== personId))
+      grouped = joinLawInterestGroup(grouped, lawExposuresOf(grouped, id)[0]!);
+    const groupId = lawInterestGroup(grouped, town, row.measureId)!;
+    expect(groupId).toBeTruthy();
+    const members = lawInterestMembers(grouped, groupId);
+    expect(members).not.toContain(personId);
+    expect(members.length).toBeGreaterThan(0);
+    expect(members.length).toBeLessThanOrEqual(5);
+    expect(membersAgainstLaw(grouped, row.measureId)).toBe(members.length);
+    // Joining twice writes nothing.
+    const again = joinLawInterestGroup(
+      grouped,
+      lawExposuresOf(grouped, members[0] ?? personId)[0]!,
+    );
+    expect(lawInterestMembers(again, groupId)).toEqual(members);
+    assertWorldIntegrity(grouped);
   });
 });
