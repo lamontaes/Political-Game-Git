@@ -76,7 +76,7 @@ function loan(
     lateFee: money(3_000, "USD"),
     missedPaymentsToDefault: 3,
     missedPaymentsToCollections: 6,
-    jurisdictionId: Object.keys(world.jurisdictions)[0]!,
+    jurisdictionId: Object.keys(world.jurisdictions)[0]! as EntityId,
     housingTenureId: null,
     provenance: { kind: "authored", note: "A loan written by the test." },
     ...overrides,
