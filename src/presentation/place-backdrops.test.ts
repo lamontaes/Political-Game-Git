@@ -99,6 +99,9 @@ describe("place backdrops", () => {
     expect(homePlaceFor("residential:mobile-home")).toBe("mobile-home");
     expect(homePlaceFor("residential:single-family")).toBe("suburban-house");
     expect(homePlaceFor(null)).toBe("suburban-house");
+    expect(homePlaceFor("residential:rowhouse")).toBe("rowhouse");
+    expect(homePlaceFor("residential:large-house")).toBe("large-house");
+    expect(homePlaceFor("residential:farmhouse")).toBe("rural-farmhouse");
 
     expect(workplacePlaceFor("occupation:cashier")).toBe("store");
     expect(workplacePlaceFor("profession:teacher")).toBe("classroom");
@@ -118,6 +121,9 @@ describe("place backdrops", () => {
         "residential:multi-unit",
         "residential:mobile-home",
         "residential:single-family",
+        "residential:rowhouse",
+        "residential:large-house",
+        "residential:farmhouse",
       ].map((kind) => homePlaceFor(kind as never)),
       ...[
         "occupation:cashier",
