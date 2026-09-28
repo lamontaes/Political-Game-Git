@@ -393,7 +393,7 @@ There is a rule at work that nobody follows, and today somebody older is telling
 **Intent.** Ordinary adult life: adult situations, quiet stretches and connective narration between them.
 
 Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
-20 beats, 70 realized lines, 7 linked back to a template.
+20 beats, 69 realized lines, 5 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, connective-narration, episode:opening.adult.home.shared-time, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
@@ -425,19 +425,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 
 
 
-#### Beat 2 — 2026-03-24, age 34 (adult)
-
-
-
-David Todd, your dad: “There are a few things around the house I cannot manage on my own anymore. Could you come by for an hour or two on Saturday morning?” It would take about 2 hours; answering takes no time.
-
-- **Say you will come** ← chosen
-- Agree: An hour or two, Saturday morning
-- Tell them you cannot
-
-_Present: David Todd, your dad_
-
-#### Beat 3 — 2026-03-24, age 34 (ordinary-stretch)
+#### Beat 2 — 2026-03-24, age 34 (ordinary-stretch)
 
 
 
@@ -445,29 +433,28 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 4 — 2026-05-10, age 35 (ordinary-stretch)
-
-> A couple of months on, and you're 35 now.
-> Edward Miles tried to reach you.
-
-
-
-
-
-#### Beat 5 — 2026-06-10, age 35 (ordinary-stretch)
-
-> A couple of months on, and you're 35 now.
-> Edward Miles tried to reach you.
-
-
-
-
-
-#### Beat 6 — 2026-08-17, age 35 (adult)
+#### Beat 3 — 2026-05-10, age 35 (ordinary-stretch)
 
 > Half a year on, and you're 35 now.
-> You saw David Todd.
-> What you said you'd do about David Todd came up.
+> Edward Miles tried to reach you.
+
+
+
+
+
+#### Beat 4 — 2026-06-10, age 35 (ordinary-stretch)
+
+> Half a year on, and you're 35 now.
+> Edward Miles tried to reach you.
+
+
+
+
+
+#### Beat 5 — 2026-08-17, age 35 (adult)
+
+> Most of a year later, and you're 35 now.
+> Edward Miles tried to reach you.
 
 David Todd, your dad: “My birthday’s Thursday. Do you want to come over Saturday?”
 
@@ -476,7 +463,7 @@ David Todd, your dad: “My birthday’s Thursday. Do you want to come over Satu
 
 _Present: David Todd, your dad_
 
-#### Beat 7 — 2026-08-17, age 35 (ordinary-stretch)
+#### Beat 6 — 2026-08-17, age 35 (ordinary-stretch)
 
 
 
@@ -484,7 +471,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 8 — 2026-08-29, age 35 (ordinary-stretch)
+#### Beat 7 — 2026-08-29, age 35 (ordinary-stretch)
 
 
 
@@ -492,7 +479,7 @@ _Present: David Todd, your dad_
 
 - **Attend: Saturday afternoon at David Todd's** ← chosen
 
-#### Beat 9 — 2026-08-29, age 35 (ordinary-stretch)
+#### Beat 8 — 2026-08-29, age 35 (ordinary-stretch)
 
 > A couple of weeks on.
 > You and David Todd were in and out of each other's business more than once.
@@ -501,7 +488,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 10 — 2026-10-15, age 35 (ordinary-stretch)
+#### Beat 9 — 2026-10-15, age 35 (ordinary-stretch)
 
 > A couple of months on.
 > You and David Todd were in and out of each other's business more than once.
@@ -510,7 +497,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 11 — 2027-02-16, age 35 (ordinary-stretch)
+#### Beat 10 — 2027-02-16, age 35 (ordinary-stretch)
 
 > Half a year on.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
@@ -520,7 +507,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 12 — 2027-05-05, age 36 (ordinary-stretch)
+#### Beat 11 — 2027-05-05, age 36 (ordinary-stretch)
 
 > Most of a year later, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
@@ -530,7 +517,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 13 — 2027-08-16, age 36 (ordinary-stretch)
+#### Beat 12 — 2027-08-16, age 36 (ordinary-stretch)
 
 > A year on, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
@@ -540,7 +527,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 14 — 2027-09-16, age 36 (ordinary-stretch)
+#### Beat 13 — 2027-09-16, age 36 (ordinary-stretch)
 
 > A year on, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
@@ -550,7 +537,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 15 — 2028-01-18, age 36 (ordinary-stretch)
+#### Beat 14 — 2028-01-18, age 36 (ordinary-stretch)
 
 > A year and a half on, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
@@ -560,7 +547,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 16 — 2028-04-05, age 36 (ordinary-stretch)
+#### Beat 15 — 2028-04-05, age 36 (ordinary-stretch)
 
 > A year and a half on, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
@@ -570,7 +557,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 17 — 2028-05-22, age 37 (ordinary-stretch)
+#### Beat 16 — 2028-05-22, age 37 (ordinary-stretch)
 
 > The better part of two years later, and you're 37 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
@@ -580,7 +567,7 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 18 — 2028-08-21, age 37 (ordinary-stretch)
+#### Beat 17 — 2028-08-21, age 37 (ordinary-stretch)
 
 > 2 years later, and you're 37 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
@@ -590,11 +577,21 @@ _Present: David Todd, your dad_
 
 
 
-#### Beat 19 — 2028-12-23, age 37 (ordinary-stretch)
+#### Beat 18 — 2028-12-23, age 37 (ordinary-stretch)
 
 > 2 years later, and you're 37 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
 > What you said you'd do about David Todd came up.
+
+
+
+
+
+#### Beat 19 — 2029-01-23, age 37 (ordinary-stretch)
+
+> 2 years later, and you're 37 now.
+> Your dad, David Todd, died after a serious illness on January 28, 2027.
+> Edward Miles tried to reach you.
 
 
 
@@ -1193,7 +1190,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 **Intent.** A second candidacy on a different seed, so a contest outcome is not read from one run.
 
 Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
-6 beats, 21 realized lines, 4 linked back to a template.
+6 beats, 21 realized lines, 2 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-lost, person-introduction, scene:adult, scene:ordinary-stretch, thread-recap
 
@@ -1223,18 +1220,6 @@ _No legislative surface: the capability layer did not open one for this run._
 > You're 41, and you live in Lexington, Kentucky.
 > You belong to Community Service Club.
 
-John Tillman, your dad: “There are a few things around the house I cannot manage on my own anymore. Could you come by for an hour or two on Saturday morning?” It would take about 2 hours; answering takes no time.
-
-- **Say you will come** ← chosen
-- Agree: An hour or two, Saturday morning
-- Tell them you cannot
-
-_Present: John Tillman, your dad_
-
-#### Beat 2 — 2026-02-09, age 41 (adult)
-
-
-
 John Tillman, your dad: “My birthday’s Tuesday. Do you want to come over Saturday?”
 
 - **Say you will come** ← chosen
@@ -1242,7 +1227,7 @@ John Tillman, your dad: “My birthday’s Tuesday. Do you want to come over Sat
 
 _Present: John Tillman, your dad_
 
-#### Beat 3 — 2026-02-09, age 41 (ordinary-stretch)
+#### Beat 2 — 2026-02-09, age 41 (ordinary-stretch)
 
 
 
@@ -1250,7 +1235,7 @@ _Present: John Tillman, your dad_
 
 
 
-#### Beat 4 — 2026-02-21, age 41 (ordinary-stretch)
+#### Beat 3 — 2026-02-21, age 41 (ordinary-stretch)
 
 > A couple of weeks on.
 > Christopher Marshall tried to reach you.
@@ -1259,9 +1244,19 @@ _Present: John Tillman, your dad_
 
 - **Attend: Saturday afternoon at John Tillman's** ← chosen
 
-#### Beat 5 — 2026-02-21, age 41 (ordinary-stretch)
+#### Beat 4 — 2026-02-21, age 41 (ordinary-stretch)
 
 > A couple of weeks on.
+> Christopher Marshall tried to reach you.
+> You and John Tillman were in and out of each other's business more than once.
+
+
+
+
+
+#### Beat 5 — 2026-06-25, age 42 (ordinary-stretch)
+
+> Half a year on, and you're 42 now.
 > Christopher Marshall tried to reach you.
 > You and John Tillman were in and out of each other's business more than once.
 

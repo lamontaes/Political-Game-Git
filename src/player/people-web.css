@@ -226,3 +226,14 @@
 .pg-relationship-web-legend [data-kind="politics"] .pg-relationship-web-swatch {
   border-top-color: rgba(176, 120, 96, 0.95);
 }
+/* The big card: each learned trait, with where it was seen under it. */
+.pg-person-card-traits.pg-person-card-learned {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0;
+  list-style: none;
+}
+.pg-person-card-learned small {
+  display: block;
+  color: var(--pg-ivory-faint);
+}

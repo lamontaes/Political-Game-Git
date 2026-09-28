@@ -26,8 +26,9 @@ import {
  * after it (`nextOwnElection`, read by the time command and the quiet
  * stretch), so the result is met rather than stepped over.
  *
- * Tentative holds have a real optional consumer today. Passing a day lets an
- * optional hold lapse at its start,
+ * One optional category has a real consumer today:
+ *
+ * - Tentative holds. Passing a day lets an optional hold lapse at its start,
  *   recorded as a decline. Asking to be stopped for holds halts the skip at
  *   the hold instead, with the hold still standing.
  */
@@ -65,10 +66,9 @@ export const INTERRUPTION_CATEGORIES: readonly InterruptionCategory[] = [
 export function interruptionHandlers(
   preferences: InterruptionPreferences = DEFAULT_INTERRUPTIONS,
 ): FutureTransitionHandlerRegistry {
+  // No preference changes the handlers since the work-shift stop was retired
+  // with manual shifts; the stops that remain are read by the day skip itself.
   void preferences;
-  // The old work-shift preference remains readable in saved shell settings,
-  // but routine work now follows the canonical auto-resolving clock in every
-  // case. Confirmed commitments and player decisions still stop time.
   return createCampaignElectionTransitionRegistry();
 }
 

@@ -306,7 +306,8 @@ test.describe("An adult has something to do, and it follows from their life", ()
 
   test("keeps the ordinary day beside the decision", async ({ page }) => {
     await freshBrowser(page);
-    // A shared home, so there is somebody to hold the kitchen conversation with.
+    // A shared home still has a person there; the ordinary day also carries
+    // the posted meeting notice the player can discuss at the doorstep.
     await openSetup(page, 37, "skip", "shares-a-home");
     // The room offers the moment; this reads it, so it opens it.
     await openMoment(page);
@@ -314,11 +315,10 @@ test.describe("An adult has something to do, and it follows from their life", ()
     await openElsewhere(page, "day");
     await expect(page.getByTestId("ordinary-section")).toBeVisible();
     await expect(page.getByTestId("day-pending")).toBeVisible();
-    // And the kitchen conversation, which is now one of several the day
-    // offers rather than the single hard-wired panel it used to be.
+    // The retained conversation stands on that posted notice.
     await openElsewhere(page, "people");
     await expect(
-      page.getByTestId("conversation-start-household-obligation"),
+      page.getByTestId("conversation-start-neighborhood-meeting-notice"),
     ).toBeVisible();
   });
 

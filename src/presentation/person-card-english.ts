@@ -2,11 +2,15 @@
  * The small person card's own words: how you know somebody and what you have
  * seen of their temperament.
  *
- * Only what the card is handed is said. The traits are the ones a written
- * tendency record established (`observedTraitLabels`); a seeded value nobody
- * has seen is never mentioned, and a card with nothing observed says nothing
- * about temperament rather than guessing.
+ * Only what the card is handed is said. The traits are the ones the player
+ * has learned (`learnedTraits`): a trait that decided an answer this person
+ * gave them. A trait on record the player never saw is never mentioned, and a
+ * card with nothing learned says nothing about temperament rather than
+ * guessing.
  */
+
+import { spokenDate } from "../simulation/dates";
+import type { LearnedTrait } from "./learned-traits";
 
 /** At most this many traits are named on the small card. */
 export const CARD_TRAIT_LIMIT = 3;
@@ -72,4 +76,11 @@ export function howYouKnowLine(
     case "acquaintance":
       return "Somebody you have spoken with";
   }
+}
+
+/** "Seen September 27, 2026, in an answer to you. They wait to be called." */
+export function learnedTraitWhere(
+  trait: Pick<LearnedTrait, "learnedOn" | "reason">,
+): string {
+  return `Seen ${spokenDate(trait.learnedOn)}, in an answer to you. ${trait.reason}`;
 }
