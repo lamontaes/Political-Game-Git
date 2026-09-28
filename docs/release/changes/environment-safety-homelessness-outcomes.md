@@ -2,12 +2,15 @@
 id: environment-safety-homelessness-outcomes
 impact: minor
 section: Added
-title: States can now keep their own air, drinking water, violent crime and homelessness levels, and laws move them.
+title: Every state now has its own air, drinking water, violent crime and homelessness levels, and laws move them.
 ---
 
-The world can now track a state's air, drinking water, violent crime and
-homelessness levels month by month, each changing on its own over the years
-and sometimes all at once across the country. Nothing pulls a state back to
-where it started. Each level begins at the state's real recent figure once
-that figure is confirmed; until then a state records nothing rather than a
-guess.
+Each state starts at its real recent levels of fine particles in the air,
+drinking-water violations, violent crime and homelessness, and each changes
+month by month, sometimes along with the whole country. Nothing pulls a
+state back to where it began. Laws act on top: dropping a concealed-carry
+permit raises violent crime over the following years, clean electricity and
+carbon pricing slowly clear the air, and federal housing vouchers for every
+eligible family cut homelessness. A town's crime now rises and falls with
+its state's violent crime. Places with no measured level record nothing
+rather than a guess.

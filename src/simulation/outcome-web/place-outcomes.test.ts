@@ -14,6 +14,7 @@ import {
   placeOutcomeRecords,
   placeOutcomesForMonth,
 } from "./place-outcomes";
+import { outcomeFactor } from ".";
 
 /*
  * Place outcomes start at each state's real 2024 level and move only through
@@ -294,6 +295,164 @@ describe("place outcomes", () => {
   });
 });
 
+describe("environment, public safety and homelessness", () => {
+  const CRIME = "crime.violent";
+  const HOMELESS = "housing.homelessness";
+  const PERMIT = "proposition_carry_permit" as EntityId;
+
+  it("each state, D.C. and the territories where measured start at their real levels, and the rest are unknown", () => {
+    const records = placeOutcomesForMonth(
+      worldAt("2026-01-01"),
+      makeIsoDate("2026-01-01"),
+    );
+    const count = (measure: string) =>
+      records.filter((record) => record.measure === measure).length;
+    expect(count(CRIME)).toBe(52);
+    expect(count(HOMELESS)).toBe(54);
+    expect(count("env.particulates")).toBe(51);
+    expect(count("env.drinking-water-violations")).toBe(51);
+    expect(valueFor(records, CRIME, "US-TX").value).toBe(397.9);
+    expect(valueFor(records, HOMELESS, "US-NY").value).toBe(81);
+    expect(valueFor(records, "env.particulates", "US-CA").value).toBe(11.7);
+    // Unknown is never zero: no record at all.
+    expect(
+      records.some((r) => r.measure === CRIME && r.placeKey === "US-PR"),
+    ).toBe(false);
+    expect(
+      records.some((r) => r.measure === HOMELESS && r.placeKey === "US-AS"),
+    ).toBe(false);
+  });
+
+  it("a Texas law requiring a permit to carry cuts its violent crime about 10% a year after it takes effect", () => {
+    const law = texasExpansion("2027-01-01");
+    const world = (date: string) =>
+      ({
+        ...worldAt(date),
+        policyCatalog: {
+          propositions: {
+            [PERMIT]: {
+              id: PERMIT,
+              stableKey:
+                "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+            },
+          },
+        },
+        history: {
+          legislativeMeasures: [
+            {
+              ...law.measure,
+              shortTitle: "Require a permit to carry concealed",
+              propositionIds: [PERMIT],
+              propositionAnswers: [{ propositionId: PERMIT, answer: "yes" }],
+            },
+          ],
+          legislativeEnactments: [law.enactment],
+        },
+      }) as unknown as World;
+    const before = valueFor(
+      placeOutcomesForMonth(world("2027-12-01"), makeIsoDate("2027-12-01")),
+      CRIME,
+      "US-TX",
+    );
+    expect(before.multiplier).toBe(1);
+    const after = valueFor(
+      placeOutcomesForMonth(world("2028-01-01"), makeIsoDate("2028-01-01")),
+      CRIME,
+      "US-TX",
+    );
+    expect(after.multiplier).toBeCloseTo(0.9, 10);
+    expect(after.causes.map((cause) => cause.key)).toEqual([
+      "carry-permit-to-violent-crime",
+    ]);
+    // California already required a permit: nothing changes there.
+    expect(
+      valueFor(
+        placeOutcomesForMonth(world("2028-01-01"), makeIsoDate("2028-01-01")),
+        CRIME,
+        "US-CA",
+      ).multiplier,
+    ).toBe(1);
+  });
+
+  it("vouchers for every eligible family cut homelessness about 30% in every measured place a year on", () => {
+    const VOUCHERS = "proposition_vouchers" as EntityId;
+    const federal = NATIONAL_ELECTION_JURISDICTION.id;
+    const law = texasExpansion("2027-01-01");
+    const world = {
+      ...worldAt("2028-01-01"),
+      policyCatalog: {
+        propositions: {
+          [VOUCHERS]: {
+            id: VOUCHERS,
+            stableKey:
+              "us-federal-positions:housing.vouchers-for-every-eligible-family",
+          },
+        },
+      },
+      history: {
+        legislativeMeasures: [
+          {
+            ...law.measure,
+            id: "measure_us" as EntityId,
+            jurisdictionId: federal,
+            propositionIds: [VOUCHERS],
+            propositionAnswers: [{ propositionId: VOUCHERS, answer: "yes" }],
+          },
+        ],
+        legislativeEnactments: [
+          { ...law.enactment, measureId: "measure_us" as EntityId },
+        ],
+      },
+    } as unknown as World;
+    const records = placeOutcomesForMonth(
+      world,
+      makeIsoDate("2028-01-01"),
+    ).filter((record) => record.measure === HOMELESS);
+    expect(records.length).toBe(54);
+    for (const record of records) {
+      expect(record.multiplier, record.placeKey).toBeCloseTo(0.7, 10);
+      expect(record.value, record.placeKey).toBeCloseTo(record.base * 0.7, 1);
+    }
+  });
+
+  it("town crime reads the state's violent crime as a ratio to where the state began", () => {
+    const month = makeIsoDate("2026-01-01");
+    const records = placeOutcomesForMonth(worldAt("2026-01-01"), month).map(
+      (record) =>
+        record.measure === CRIME && record.placeKey === "US-TX"
+          ? { ...record, value: Math.round(record.base * 1.2 * 100) / 100 }
+          : record,
+    );
+    const world = {
+      ...worldAt("2026-02-01"),
+      placeOutcomes: { months: [{ month, records }] },
+    } as World;
+    const burglary = outcomeFactor(
+      world,
+      texas,
+      "crime.burglary",
+      makeIsoDate("2026-02-01"),
+    );
+    const level = burglary.causes.find(
+      (cause) => cause.key === "crime-level-to-burglary",
+    )!;
+    expect(level.causeBaseline).toBe(100);
+    expect(level.causeValue).toBeCloseTo(120, 1);
+    expect(level.factor).toBeCloseTo(1.2, 3);
+    // Where violent crime sits at its start, town crime is at its base.
+    const ohio = outcomeFactor(
+      world,
+      stateJurisdictionForKey("US-OH")!.id,
+      "crime.burglary",
+      makeIsoDate("2026-02-01"),
+    );
+    expect(
+      ohio.causes.find((cause) => cause.key === "crime-level-to-burglary")!
+        .factor,
+    ).toBe(1);
+  });
+});
+
 describe("the entire world changes: place outcomes drift, and no two worlds end alike", () => {
   /** Runs `months` of monthly passes from January 2026 on a seeded world. */
   function run(seed: string, months: number): World {
@@ -353,7 +512,7 @@ describe("the entire world changes: place outcomes drift, and no two worlds end 
     expect(spread("school.graduation-pct")).toBeGreaterThan(2);
     expect(spread("school.math-proficient-pct")).toBeGreaterThan(2);
     // Crime and births drift as levels: a quarter century apart in each world.
-    expect(spread("crime.rate-index")).toBeGreaterThan(15);
+    expect(spread("crime.violent")).toBeGreaterThan(60);
     expect(spread("births.rate-index")).toBeGreaterThan(5);
   }, 120_000);
 

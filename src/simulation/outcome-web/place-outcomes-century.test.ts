@@ -123,14 +123,16 @@ describe("environment, public safety and homelessness over a century in ten worl
         const ends = runs.map((run) =>
           run.end.find((record) => record.placeKey === placeKey)!,
         );
-        expect(new Set(ends.map((record) => record.structural)).size).toBe(
-          WORLDS.length,
-        );
         const logs = ends.map((record) => Math.log(record.structural!));
         expect(
           Math.max(...logs) - Math.min(...logs),
           `${placeKey} spread`,
         ).toBeGreaterThan(0.25);
+        // A typical pair of worlds ends well apart, not just the extremes.
+        const pairs = logs.flatMap((a, i) =>
+          logs.slice(i + 1).map((b) => Math.abs(a - b)),
+        );
+        expect(median(pairs), `${placeKey} typical pair`).toBeGreaterThan(0.1);
       }
 
       // No pinning: the distance from the start keeps growing over the
