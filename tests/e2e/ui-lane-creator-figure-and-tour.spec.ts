@@ -1,0 +1,127 @@
+import { expect, test, type Page } from "./fixtures";
+
+import { fillCreator } from "./support/creator";
+
+/*
+ * Two things Lamontae saw on build 13a0757f.
+ *
+ * The creator's Reset appearance / Undo / Begin row sat over the standing
+ * figure's legs, and the morning note opened over the first stop of the
+ * opening tour. Both are layout facts, so both are measured in a real window
+ * at the sizes the owner plays at.
+ */
+
+async function freshBrowser(page: Page) {
+  await page.goto("/");
+  await page.evaluate(async () => {
+    const databases = (await indexedDB.databases?.()) ?? [];
+    await Promise.all(
+      databases.map(
+        (database) =>
+          new Promise<void>((resolve) => {
+            if (!database.name) return resolve();
+            const request = indexedDB.deleteDatabase(database.name);
+            request.onsuccess = () => resolve();
+            request.onerror = () => resolve();
+            request.onblocked = () => resolve();
+          }),
+      ),
+    );
+    window.localStorage.clear();
+  });
+  await page.reload();
+}
+
+async function reachAppearance(page: Page) {
+  await freshBrowser(page);
+  await fillCreator(page, {
+    route: "normal",
+    age: 25,
+    state: "Kentucky",
+    place: "Lexington",
+  });
+  await expect(page.getByTestId("creator-engine-figure")).toBeVisible();
+}
+
+/** The whole figure shows: inside its column, above the action row. */
+async function expectWholeFigure(page: Page, height: number) {
+  const layout = await page.evaluate(() => {
+    const box = (selector: string) => {
+      const node = document.querySelector(selector);
+      if (!node) return null;
+      const rect = node.getBoundingClientRect();
+      return { top: rect.top, bottom: rect.bottom, height: rect.height };
+    };
+    return {
+      stage: box(".engine-creator-stage"),
+      column: box(".kit41-creator-preview"),
+      bar: box(".kit41-creator .game-setup-actions"),
+    };
+  });
+  expect(layout.stage, "figure stage").not.toBeNull();
+  expect(layout.column, "figure column").not.toBeNull();
+  expect(layout.bar, "Reset/Undo/Begin row").not.toBeNull();
+  const { stage, column, bar } = layout as {
+    [key: string]: { top: number; bottom: number; height: number };
+  };
+  expect(stage.height).toBeGreaterThan(200);
+  expect(stage.top).toBeGreaterThanOrEqual(column.top - 0.5);
+  expect(stage.bottom).toBeLessThanOrEqual(column.bottom + 0.5);
+  expect(stage.bottom).toBeLessThanOrEqual(bar.top + 0.5);
+  expect(bar.bottom).toBeLessThanOrEqual(height);
+}
+
+test("the creator shows the whole figure above Begin from 800 to 1300 tall", async ({
+  page,
+}) => {
+  test.setTimeout(180_000);
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await reachAppearance(page);
+  for (const viewport of [
+    { width: 1280, height: 800 },
+    { width: 1440, height: 1000 },
+    { width: 1440, height: 1300 },
+    { width: 1366, height: 900 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await expectWholeFigure(page, viewport.height);
+  }
+  const value = page.locator(".engine-appearance-value").first();
+  await expect(value).toBeVisible();
+  const style = await value.evaluate((node) => {
+    const computed = getComputedStyle(node);
+    return {
+      opacity: Number(computed.opacity),
+      color: computed.color,
+      background: computed.backgroundColor,
+    };
+  });
+  expect(style.opacity).toBe(1);
+  expect(style.background).not.toBe("rgba(0, 0, 0, 0)");
+});
+
+for (const viewport of [
+  { width: 1280, height: 800 },
+  { width: 1440, height: 1000 },
+]) {
+  test(`no morning note during the opening tour at ${viewport.width}x${viewport.height}`, async ({
+    page,
+  }) => {
+    test.setTimeout(240_000);
+    await page.setViewportSize(viewport);
+    await reachAppearance(page);
+    await page.getByTestId("begin").click();
+    await expect(page.getByTestId("world-orientation")).toBeVisible({
+      timeout: 120_000,
+    });
+    await expect(page.getByTestId("morning-thought")).toHaveCount(0);
+    const tour = page.getByTestId("world-orientation");
+    for (let stop = 0; stop < 8 && (await tour.isVisible()); stop += 1) {
+      await expect(page.getByTestId("morning-thought")).toHaveCount(0);
+      await page.getByTestId("orientation-next").click();
+    }
+    // Once the tour is over and play has begun, the note is offered.
+    await expect(tour).toBeHidden();
+    await expect(page.getByTestId("morning-thought")).toBeVisible();
+  });
+}
