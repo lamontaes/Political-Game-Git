@@ -105,17 +105,6 @@ export interface UnpricedPayrollRule {
 
 export const FEDERAL_UNPRICED_PAYROLL_RULES: readonly UnpricedPayrollRule[] = [
   {
-    // Income tax is owed on the annual return; what an employer withholds
-    // from each check comes from the withholding method, which the research
-    // does not carry.
-    taxKey: "us-federal:income-tax-withholding",
-    label: "Federal income tax withholding",
-    side: "employee",
-    status: "rule-unknown",
-    sourceUrl: "https://www.irs.gov/publications/p15",
-    researchQuestionId: "federal-income-tax-withholding-method-2026",
-  },
-  {
     // 6% of the first $7,000, less a credit of up to 5.4% that depends on the
     // employer's state unemployment position. The credit is not established.
     taxKey: "us-federal:futa",
@@ -158,7 +147,10 @@ const NOT_IMPOSED: Readonly<Record<string, string>> = {
     "https://sao.wyo.gov/wp-content/uploads/2026/01/2025-ACFR-12.22.25.pdf",
 };
 
-const UNKNOWN_WAGE_TAX = new Set(["US-MT"]);
+// Montana was UNKNOWN in the 56-place intake; the 2026 state income tax
+// compilation (data/research/money/state-income-tax-2026.json, #850) shows it
+// taxes wages at 4.7% and 5.65%, as Claude CTO directed on September 28, 2026.
+const UNKNOWN_WAGE_TAX = new Set<string>();
 
 const TERRITORIES = new Set(["US-PR", "US-GU", "US-VI", "US-AS", "US-MP"]);
 
@@ -187,6 +179,7 @@ const IMPOSED = new Set([
   "US-MN",
   "US-MS",
   "US-MO",
+  "US-MT",
   "US-NE",
   "US-NJ",
   "US-NM",
