@@ -33,6 +33,7 @@ import {
   performVenueActivity,
   venueActivities,
 } from "./venue-activity";
+import { callOffCampaignLifeAppointment } from "./scheduled-activity-choice";
 
 /**
  * Calendar day/week/advance-to-event, using the existing advance/interrupt
@@ -268,6 +269,15 @@ export function declineCalendarActivity(
       world: calledOff,
       reached: calledOff.currentMoment,
       outcome: `You called it off${given ? `, and ${given} knows` : ""}. No time passed.`,
+    };
+  }
+  const calledOff = callOffCampaignLifeAppointment(world, personId, activityId);
+  if (calledOff !== world) {
+    return {
+      world: calledOff,
+      reached: calledOff.currentMoment,
+      outcome:
+        "You called off the appointment and released its calendar hold and journey. No time passed. The record does not say the host was notified.",
     };
   }
   const next = declineVenueActivity(world, personId, activityId);

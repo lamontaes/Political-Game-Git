@@ -164,60 +164,476 @@
           "front": "hair-feminine-wavy-shoulder-front.png"
         }
       ],
-      "outfits": {
-        "formal": {
-          "lean": {
-            "file": "outfit-feminine-formal-lean.png",
-            "hides": "outfit-feminine-formal-lean-hides.png",
-            "regions": {
-              "suit": "outfit-feminine-formal-lean-suit.png",
-              "shirt": "outfit-feminine-formal-lean-shirt.png"
-            }
+      "outfits": [
+        {
+          "id": "casual",
+          "label": "Everyday",
+          "occasion": "casual",
+          "parts": {
+            "top": "top",
+            "bottom": "bottom"
           },
-          "average": {
-            "file": "outfit-feminine-formal-average.png",
-            "hides": "outfit-feminine-formal-average-hides.png",
-            "regions": {
-              "suit": "outfit-feminine-formal-average-suit.png",
-              "shirt": "outfit-feminine-formal-average-shirt.png"
-            }
-          },
-          "fuller": {
-            "file": "outfit-feminine-formal-fuller.png",
-            "hides": "outfit-feminine-formal-fuller-hides.png",
-            "regions": {
-              "suit": "outfit-feminine-formal-fuller-suit.png",
-              "shirt": "outfit-feminine-formal-fuller-shirt.png"
+          "builds": {
+            "lean": {
+              "file": "outfit-feminine-casual-lean.png",
+              "hides": "outfit-feminine-casual-lean-hides.png",
+              "regions": {
+                "top": "outfit-feminine-casual-lean-top.png",
+                "bottom": "outfit-feminine-casual-lean-bottom.png"
+              }
+            },
+            "average": {
+              "file": "outfit-feminine-casual-average.png",
+              "hides": "outfit-feminine-casual-average-hides.png",
+              "regions": {
+                "top": "outfit-feminine-casual-average-top.png",
+                "bottom": "outfit-feminine-casual-average-bottom.png"
+              }
+            },
+            "fuller": {
+              "file": "outfit-feminine-casual-fuller.png",
+              "hides": "outfit-feminine-casual-fuller-hides.png",
+              "regions": {
+                "top": "outfit-feminine-casual-fuller-top.png",
+                "bottom": "outfit-feminine-casual-fuller-bottom.png"
+              }
             }
           }
         },
-        "casual": {
-          "lean": {
-            "file": "outfit-feminine-casual-lean.png",
-            "hides": "outfit-feminine-casual-lean-hides.png",
-            "regions": {
-              "top": "outfit-feminine-casual-lean-top.png",
-              "bottom": "outfit-feminine-casual-lean-bottom.png"
-            }
+        {
+          "id": "formal",
+          "label": "Pantsuit",
+          "occasion": "formal",
+          "parts": {
+            "suit": "suit",
+            "shirt": "shirt"
           },
-          "average": {
-            "file": "outfit-feminine-casual-average.png",
-            "hides": "outfit-feminine-casual-average-hides.png",
-            "regions": {
-              "top": "outfit-feminine-casual-average-top.png",
-              "bottom": "outfit-feminine-casual-average-bottom.png"
+          "builds": {
+            "lean": {
+              "file": "outfit-feminine-formal-lean.png",
+              "hides": "outfit-feminine-formal-lean-hides.png",
+              "regions": {
+                "suit": "outfit-feminine-formal-lean-suit.png",
+                "shirt": "outfit-feminine-formal-lean-shirt.png"
+              }
+            },
+            "average": {
+              "file": "outfit-feminine-formal-average.png",
+              "hides": "outfit-feminine-formal-average-hides.png",
+              "regions": {
+                "suit": "outfit-feminine-formal-average-suit.png",
+                "shirt": "outfit-feminine-formal-average-shirt.png"
+              }
+            },
+            "fuller": {
+              "file": "outfit-feminine-formal-fuller.png",
+              "hides": "outfit-feminine-formal-fuller-hides.png",
+              "regions": {
+                "suit": "outfit-feminine-formal-fuller-suit.png",
+                "shirt": "outfit-feminine-formal-fuller-shirt.png"
+              }
             }
+          }
+        },
+        {
+          "id": "cardigan-jeans",
+          "label": "Cardigan and jeans",
+          "occasion": "casual",
+          "parts": {
+            "sweater": "sweater",
+            "shirt": "shirt",
+            "bottom": "bottom"
           },
-          "fuller": {
-            "file": "outfit-feminine-casual-fuller.png",
-            "hides": "outfit-feminine-casual-fuller-hides.png",
-            "regions": {
-              "top": "outfit-feminine-casual-fuller-top.png",
-              "bottom": "outfit-feminine-casual-fuller-bottom.png"
+          "builds": {
+            "lean": {
+              "file": "outfit-feminine-cardigan-jeans-lean.png",
+              "hides": "outfit-feminine-cardigan-jeans-lean-hides.png",
+              "regions": {
+                "sweater": "outfit-feminine-cardigan-jeans-lean-sweater.png",
+                "shirt": "outfit-feminine-cardigan-jeans-lean-shirt.png",
+                "bottom": "outfit-feminine-cardigan-jeans-lean-bottom.png"
+              },
+              "skin": "outfit-feminine-cardigan-jeans-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-cardigan-jeans-average.png",
+              "hides": "outfit-feminine-cardigan-jeans-average-hides.png",
+              "regions": {
+                "sweater": "outfit-feminine-cardigan-jeans-average-sweater.png",
+                "shirt": "outfit-feminine-cardigan-jeans-average-shirt.png",
+                "bottom": "outfit-feminine-cardigan-jeans-average-bottom.png"
+              },
+              "skin": "outfit-feminine-cardigan-jeans-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-cardigan-jeans-fuller.png",
+              "hides": "outfit-feminine-cardigan-jeans-fuller-hides.png",
+              "regions": {
+                "sweater": "outfit-feminine-cardigan-jeans-fuller-sweater.png",
+                "shirt": "outfit-feminine-cardigan-jeans-fuller-shirt.png",
+                "bottom": "outfit-feminine-cardigan-jeans-fuller-bottom.png"
+              },
+              "skin": "outfit-feminine-cardigan-jeans-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "hoodie-jeans",
+          "label": "Hoodie and jeans",
+          "occasion": "casual",
+          "parts": {
+            "top": "top",
+            "bottom": "bottom"
+          },
+          "builds": {
+            "lean": {
+              "file": "outfit-feminine-hoodie-jeans-lean.png",
+              "hides": "outfit-feminine-hoodie-jeans-lean-hides.png",
+              "regions": {
+                "top": "outfit-feminine-hoodie-jeans-lean-top.png",
+                "bottom": "outfit-feminine-hoodie-jeans-lean-bottom.png"
+              },
+              "skin": "outfit-feminine-hoodie-jeans-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-hoodie-jeans-average.png",
+              "hides": "outfit-feminine-hoodie-jeans-average-hides.png",
+              "regions": {
+                "top": "outfit-feminine-hoodie-jeans-average-top.png",
+                "bottom": "outfit-feminine-hoodie-jeans-average-bottom.png"
+              },
+              "skin": "outfit-feminine-hoodie-jeans-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-hoodie-jeans-fuller.png",
+              "hides": "outfit-feminine-hoodie-jeans-fuller-hides.png",
+              "regions": {
+                "top": "outfit-feminine-hoodie-jeans-fuller-top.png",
+                "bottom": "outfit-feminine-hoodie-jeans-fuller-bottom.png"
+              },
+              "skin": "outfit-feminine-hoodie-jeans-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "sweater-slacks",
+          "label": "Sweater and slacks",
+          "occasion": "casual",
+          "parts": {
+            "sweater": "sweater",
+            "bottom": "bottom"
+          },
+          "builds": {
+            "lean": {
+              "file": "outfit-feminine-sweater-slacks-lean.png",
+              "hides": "outfit-feminine-sweater-slacks-lean-hides.png",
+              "regions": {
+                "sweater": "outfit-feminine-sweater-slacks-lean-sweater.png",
+                "bottom": "outfit-feminine-sweater-slacks-lean-bottom.png"
+              },
+              "skin": "outfit-feminine-sweater-slacks-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-sweater-slacks-average.png",
+              "hides": "outfit-feminine-sweater-slacks-average-hides.png",
+              "regions": {
+                "sweater": "outfit-feminine-sweater-slacks-average-sweater.png",
+                "bottom": "outfit-feminine-sweater-slacks-average-bottom.png"
+              },
+              "skin": "outfit-feminine-sweater-slacks-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-sweater-slacks-fuller.png",
+              "hides": "outfit-feminine-sweater-slacks-fuller-hides.png",
+              "regions": {
+                "sweater": "outfit-feminine-sweater-slacks-fuller-sweater.png",
+                "bottom": "outfit-feminine-sweater-slacks-fuller-bottom.png"
+              },
+              "skin": "outfit-feminine-sweater-slacks-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "winter-coat",
+          "label": "Winter coat",
+          "occasion": "casual",
+          "parts": {
+            "coat": "coat",
+            "scarf": "scarf",
+            "bottom": "bottom"
+          },
+          "builds": {
+            "lean": {
+              "file": "outfit-feminine-winter-coat-lean.png",
+              "hides": "outfit-feminine-winter-coat-lean-hides.png",
+              "regions": {
+                "coat": "outfit-feminine-winter-coat-lean-coat.png",
+                "scarf": "outfit-feminine-winter-coat-lean-scarf.png",
+                "bottom": "outfit-feminine-winter-coat-lean-bottom.png"
+              },
+              "skin": "outfit-feminine-winter-coat-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-winter-coat-average.png",
+              "hides": "outfit-feminine-winter-coat-average-hides.png",
+              "regions": {
+                "coat": "outfit-feminine-winter-coat-average-coat.png",
+                "scarf": "outfit-feminine-winter-coat-average-scarf.png",
+                "bottom": "outfit-feminine-winter-coat-average-bottom.png"
+              },
+              "skin": "outfit-feminine-winter-coat-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-winter-coat-fuller.png",
+              "hides": "outfit-feminine-winter-coat-fuller-hides.png",
+              "regions": {
+                "coat": "outfit-feminine-winter-coat-fuller-coat.png",
+                "scarf": "outfit-feminine-winter-coat-fuller-scarf.png",
+                "bottom": "outfit-feminine-winter-coat-fuller-bottom.png"
+              },
+              "skin": "outfit-feminine-winter-coat-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "blouse-skirt",
+          "label": "Blouse and skirt",
+          "occasion": "formal",
+          "parts": {
+            "top": "shirt",
+            "bottom": "suit"
+          },
+          "builds": {
+            "lean": {
+              "file": "outfit-feminine-blouse-skirt-lean.png",
+              "hides": "outfit-feminine-blouse-skirt-lean-hides.png",
+              "regions": {
+                "top": "outfit-feminine-blouse-skirt-lean-top.png",
+                "bottom": "outfit-feminine-blouse-skirt-lean-bottom.png"
+              },
+              "skin": "outfit-feminine-blouse-skirt-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-blouse-skirt-average.png",
+              "hides": "outfit-feminine-blouse-skirt-average-hides.png",
+              "regions": {
+                "top": "outfit-feminine-blouse-skirt-average-top.png",
+                "bottom": "outfit-feminine-blouse-skirt-average-bottom.png"
+              },
+              "skin": "outfit-feminine-blouse-skirt-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-blouse-skirt-fuller.png",
+              "hides": "outfit-feminine-blouse-skirt-fuller-hides.png",
+              "regions": {
+                "top": "outfit-feminine-blouse-skirt-fuller-top.png",
+                "bottom": "outfit-feminine-blouse-skirt-fuller-bottom.png"
+              },
+              "skin": "outfit-feminine-blouse-skirt-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "dress-blazer",
+          "label": "Dress and blazer",
+          "occasion": "formal",
+          "parts": {
+            "dress": "dress",
+            "jacket": "suit"
+          },
+          "builds": {
+            "lean": {
+              "file": "outfit-feminine-dress-blazer-lean.png",
+              "hides": "outfit-feminine-dress-blazer-lean-hides.png",
+              "regions": {
+                "dress": "outfit-feminine-dress-blazer-lean-dress.png",
+                "jacket": "outfit-feminine-dress-blazer-lean-jacket.png"
+              },
+              "skin": "outfit-feminine-dress-blazer-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-dress-blazer-average.png",
+              "hides": "outfit-feminine-dress-blazer-average-hides.png",
+              "regions": {
+                "dress": "outfit-feminine-dress-blazer-average-dress.png",
+                "jacket": "outfit-feminine-dress-blazer-average-jacket.png"
+              },
+              "skin": "outfit-feminine-dress-blazer-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-dress-blazer-fuller.png",
+              "hides": "outfit-feminine-dress-blazer-fuller-hides.png",
+              "regions": {
+                "dress": "outfit-feminine-dress-blazer-fuller-dress.png",
+                "jacket": "outfit-feminine-dress-blazer-fuller-jacket.png"
+              },
+              "skin": "outfit-feminine-dress-blazer-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "skirt-suit",
+          "label": "Skirt suit",
+          "occasion": "formal",
+          "parts": {
+            "suit": "suit",
+            "shirt": "shirt"
+          },
+          "builds": {
+            "lean": {
+              "file": "outfit-feminine-skirt-suit-lean.png",
+              "hides": "outfit-feminine-skirt-suit-lean-hides.png",
+              "regions": {
+                "suit": "outfit-feminine-skirt-suit-lean-suit.png",
+                "shirt": "outfit-feminine-skirt-suit-lean-shirt.png"
+              },
+              "skin": "outfit-feminine-skirt-suit-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-skirt-suit-average.png",
+              "hides": "outfit-feminine-skirt-suit-average-hides.png",
+              "regions": {
+                "suit": "outfit-feminine-skirt-suit-average-suit.png",
+                "shirt": "outfit-feminine-skirt-suit-average-shirt.png"
+              },
+              "skin": "outfit-feminine-skirt-suit-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-skirt-suit-fuller.png",
+              "hides": "outfit-feminine-skirt-suit-fuller-hides.png",
+              "regions": {
+                "suit": "outfit-feminine-skirt-suit-fuller-suit.png",
+                "shirt": "outfit-feminine-skirt-suit-fuller-shirt.png"
+              },
+              "skin": "outfit-feminine-skirt-suit-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "scrubs",
+          "label": "Scrubs",
+          "occasion": "work",
+          "parts": {
+            "scrubs": "scrubs"
+          },
+          "builds": {
+            "lean": {
+              "file": "outfit-feminine-scrubs-lean.png",
+              "hides": "outfit-feminine-scrubs-lean-hides.png",
+              "regions": {
+                "scrubs": "outfit-feminine-scrubs-lean-scrubs.png"
+              },
+              "skin": "outfit-feminine-scrubs-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-scrubs-average.png",
+              "hides": "outfit-feminine-scrubs-average-hides.png",
+              "regions": {
+                "scrubs": "outfit-feminine-scrubs-average-scrubs.png"
+              },
+              "skin": "outfit-feminine-scrubs-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-scrubs-fuller.png",
+              "hides": "outfit-feminine-scrubs-fuller-hides.png",
+              "regions": {
+                "scrubs": "outfit-feminine-scrubs-fuller-scrubs.png"
+              },
+              "skin": "outfit-feminine-scrubs-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "hi-vis",
+          "label": "Safety vest",
+          "occasion": "work",
+          "parts": {
+            "shirt": "top",
+            "bottom": "bottom"
+          },
+          "builds": {
+            "lean": {
+              "file": "outfit-feminine-hi-vis-lean.png",
+              "hides": "outfit-feminine-hi-vis-lean-hides.png",
+              "regions": {
+                "shirt": "outfit-feminine-hi-vis-lean-shirt.png",
+                "bottom": "outfit-feminine-hi-vis-lean-bottom.png"
+              },
+              "skin": "outfit-feminine-hi-vis-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-hi-vis-average.png",
+              "hides": "outfit-feminine-hi-vis-average-hides.png",
+              "regions": {
+                "shirt": "outfit-feminine-hi-vis-average-shirt.png",
+                "bottom": "outfit-feminine-hi-vis-average-bottom.png"
+              },
+              "skin": "outfit-feminine-hi-vis-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-hi-vis-fuller.png",
+              "hides": "outfit-feminine-hi-vis-fuller-hides.png",
+              "regions": {
+                "shirt": "outfit-feminine-hi-vis-fuller-shirt.png",
+                "bottom": "outfit-feminine-hi-vis-fuller-bottom.png"
+              },
+              "skin": "outfit-feminine-hi-vis-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "police",
+          "label": "Police uniform",
+          "occasion": "work",
+          "parts": {},
+          "builds": {
+            "lean": {
+              "file": "outfit-feminine-police-lean.png",
+              "hides": "outfit-feminine-police-lean-hides.png",
+              "regions": {},
+              "skin": "outfit-feminine-police-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-police-average.png",
+              "hides": "outfit-feminine-police-average-hides.png",
+              "regions": {},
+              "skin": "outfit-feminine-police-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-police-fuller.png",
+              "hides": "outfit-feminine-police-fuller-hides.png",
+              "regions": {},
+              "skin": "outfit-feminine-police-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "judge-robe",
+          "label": "Judge's robe",
+          "occasion": "work",
+          "parts": {},
+          "builds": {
+            "lean": {
+              "file": "outfit-feminine-judge-robe-lean.png",
+              "hides": "outfit-feminine-judge-robe-lean-hides.png",
+              "regions": {},
+              "skin": "outfit-feminine-judge-robe-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-feminine-judge-robe-average.png",
+              "hides": "outfit-feminine-judge-robe-average-hides.png",
+              "regions": {},
+              "skin": "outfit-feminine-judge-robe-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-feminine-judge-robe-fuller.png",
+              "hides": "outfit-feminine-judge-robe-fuller-hides.png",
+              "regions": {},
+              "skin": "outfit-feminine-judge-robe-fuller-skin.png"
             }
           }
         }
-      }
+      ]
     },
     "masculine": {
       "canonical": {
@@ -398,63 +814,450 @@
           "front": "hair-masculine-wavy-medium-front.png"
         }
       ],
-      "outfits": {
-        "formal": {
-          "lean": {
-            "file": "outfit-masculine-formal-lean.png",
-            "hides": "outfit-masculine-formal-lean-hides.png",
-            "regions": {
-              "suit": "outfit-masculine-formal-lean-suit.png",
-              "shirt": "outfit-masculine-formal-lean-shirt.png",
-              "tie": "outfit-masculine-formal-lean-tie.png"
-            }
+      "outfits": [
+        {
+          "id": "casual",
+          "label": "Everyday",
+          "occasion": "casual",
+          "parts": {
+            "top": "top",
+            "bottom": "bottom"
           },
-          "average": {
-            "file": "outfit-masculine-formal-average.png",
-            "hides": "outfit-masculine-formal-average-hides.png",
-            "regions": {
-              "suit": "outfit-masculine-formal-average-suit.png",
-              "shirt": "outfit-masculine-formal-average-shirt.png",
-              "tie": "outfit-masculine-formal-average-tie.png"
-            }
-          },
-          "fuller": {
-            "file": "outfit-masculine-formal-fuller.png",
-            "hides": "outfit-masculine-formal-fuller-hides.png",
-            "regions": {
-              "suit": "outfit-masculine-formal-fuller-suit.png",
-              "shirt": "outfit-masculine-formal-fuller-shirt.png",
-              "tie": "outfit-masculine-formal-fuller-tie.png"
+          "builds": {
+            "lean": {
+              "file": "outfit-masculine-casual-lean.png",
+              "hides": "outfit-masculine-casual-lean-hides.png",
+              "regions": {
+                "top": "outfit-masculine-casual-lean-top.png",
+                "bottom": "outfit-masculine-casual-lean-bottom.png"
+              }
+            },
+            "average": {
+              "file": "outfit-masculine-casual-average.png",
+              "hides": "outfit-masculine-casual-average-hides.png",
+              "regions": {
+                "top": "outfit-masculine-casual-average-top.png",
+                "bottom": "outfit-masculine-casual-average-bottom.png"
+              }
+            },
+            "fuller": {
+              "file": "outfit-masculine-casual-fuller.png",
+              "hides": "outfit-masculine-casual-fuller-hides.png",
+              "regions": {
+                "top": "outfit-masculine-casual-fuller-top.png",
+                "bottom": "outfit-masculine-casual-fuller-bottom.png"
+              }
             }
           }
         },
-        "casual": {
-          "lean": {
-            "file": "outfit-masculine-casual-lean.png",
-            "hides": "outfit-masculine-casual-lean-hides.png",
-            "regions": {
-              "top": "outfit-masculine-casual-lean-top.png",
-              "bottom": "outfit-masculine-casual-lean-bottom.png"
-            }
+        {
+          "id": "formal",
+          "label": "Suit and tie",
+          "occasion": "formal",
+          "parts": {
+            "suit": "suit",
+            "shirt": "shirt",
+            "tie": "tie"
           },
-          "average": {
-            "file": "outfit-masculine-casual-average.png",
-            "hides": "outfit-masculine-casual-average-hides.png",
-            "regions": {
-              "top": "outfit-masculine-casual-average-top.png",
-              "bottom": "outfit-masculine-casual-average-bottom.png"
+          "builds": {
+            "lean": {
+              "file": "outfit-masculine-formal-lean.png",
+              "hides": "outfit-masculine-formal-lean-hides.png",
+              "regions": {
+                "suit": "outfit-masculine-formal-lean-suit.png",
+                "shirt": "outfit-masculine-formal-lean-shirt.png",
+                "tie": "outfit-masculine-formal-lean-tie.png"
+              }
+            },
+            "average": {
+              "file": "outfit-masculine-formal-average.png",
+              "hides": "outfit-masculine-formal-average-hides.png",
+              "regions": {
+                "suit": "outfit-masculine-formal-average-suit.png",
+                "shirt": "outfit-masculine-formal-average-shirt.png",
+                "tie": "outfit-masculine-formal-average-tie.png"
+              }
+            },
+            "fuller": {
+              "file": "outfit-masculine-formal-fuller.png",
+              "hides": "outfit-masculine-formal-fuller-hides.png",
+              "regions": {
+                "suit": "outfit-masculine-formal-fuller-suit.png",
+                "shirt": "outfit-masculine-formal-fuller-shirt.png",
+                "tie": "outfit-masculine-formal-fuller-tie.png"
+              }
             }
+          }
+        },
+        {
+          "id": "polo-khakis",
+          "label": "Polo and khakis",
+          "occasion": "casual",
+          "parts": {
+            "top": "top",
+            "bottom": "bottom"
           },
-          "fuller": {
-            "file": "outfit-masculine-casual-fuller.png",
-            "hides": "outfit-masculine-casual-fuller-hides.png",
-            "regions": {
-              "top": "outfit-masculine-casual-fuller-top.png",
-              "bottom": "outfit-masculine-casual-fuller-bottom.png"
+          "builds": {
+            "lean": {
+              "file": "outfit-masculine-polo-khakis-lean.png",
+              "hides": "outfit-masculine-polo-khakis-lean-hides.png",
+              "regions": {
+                "top": "outfit-masculine-polo-khakis-lean-top.png",
+                "bottom": "outfit-masculine-polo-khakis-lean-bottom.png"
+              },
+              "skin": "outfit-masculine-polo-khakis-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-polo-khakis-average.png",
+              "hides": "outfit-masculine-polo-khakis-average-hides.png",
+              "regions": {
+                "top": "outfit-masculine-polo-khakis-average-top.png",
+                "bottom": "outfit-masculine-polo-khakis-average-bottom.png"
+              },
+              "skin": "outfit-masculine-polo-khakis-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-polo-khakis-fuller.png",
+              "hides": "outfit-masculine-polo-khakis-fuller-hides.png",
+              "regions": {
+                "top": "outfit-masculine-polo-khakis-fuller-top.png",
+                "bottom": "outfit-masculine-polo-khakis-fuller-bottom.png"
+              },
+              "skin": "outfit-masculine-polo-khakis-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "hoodie-jeans",
+          "label": "Hoodie and jeans",
+          "occasion": "casual",
+          "parts": {
+            "top": "top",
+            "bottom": "bottom"
+          },
+          "builds": {
+            "lean": {
+              "file": "outfit-masculine-hoodie-jeans-lean.png",
+              "hides": "outfit-masculine-hoodie-jeans-lean-hides.png",
+              "regions": {
+                "top": "outfit-masculine-hoodie-jeans-lean-top.png",
+                "bottom": "outfit-masculine-hoodie-jeans-lean-bottom.png"
+              },
+              "skin": "outfit-masculine-hoodie-jeans-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-hoodie-jeans-average.png",
+              "hides": "outfit-masculine-hoodie-jeans-average-hides.png",
+              "regions": {
+                "top": "outfit-masculine-hoodie-jeans-average-top.png",
+                "bottom": "outfit-masculine-hoodie-jeans-average-bottom.png"
+              },
+              "skin": "outfit-masculine-hoodie-jeans-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-hoodie-jeans-fuller.png",
+              "hides": "outfit-masculine-hoodie-jeans-fuller-hides.png",
+              "regions": {
+                "top": "outfit-masculine-hoodie-jeans-fuller-top.png",
+                "bottom": "outfit-masculine-hoodie-jeans-fuller-bottom.png"
+              },
+              "skin": "outfit-masculine-hoodie-jeans-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "sweater-collar",
+          "label": "Sweater and collar",
+          "occasion": "casual",
+          "parts": {
+            "sweater": "sweater",
+            "shirt": "shirt",
+            "bottom": "bottom"
+          },
+          "builds": {
+            "lean": {
+              "file": "outfit-masculine-sweater-collar-lean.png",
+              "hides": "outfit-masculine-sweater-collar-lean-hides.png",
+              "regions": {
+                "sweater": "outfit-masculine-sweater-collar-lean-sweater.png",
+                "shirt": "outfit-masculine-sweater-collar-lean-shirt.png",
+                "bottom": "outfit-masculine-sweater-collar-lean-bottom.png"
+              },
+              "skin": "outfit-masculine-sweater-collar-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-sweater-collar-average.png",
+              "hides": "outfit-masculine-sweater-collar-average-hides.png",
+              "regions": {
+                "sweater": "outfit-masculine-sweater-collar-average-sweater.png",
+                "shirt": "outfit-masculine-sweater-collar-average-shirt.png",
+                "bottom": "outfit-masculine-sweater-collar-average-bottom.png"
+              },
+              "skin": "outfit-masculine-sweater-collar-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-sweater-collar-fuller.png",
+              "hides": "outfit-masculine-sweater-collar-fuller-hides.png",
+              "regions": {
+                "sweater": "outfit-masculine-sweater-collar-fuller-sweater.png",
+                "shirt": "outfit-masculine-sweater-collar-fuller-shirt.png",
+                "bottom": "outfit-masculine-sweater-collar-fuller-bottom.png"
+              },
+              "skin": "outfit-masculine-sweater-collar-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "work-jacket",
+          "label": "Work jacket",
+          "occasion": "casual",
+          "parts": {
+            "jacket": "coat",
+            "shirt": "top",
+            "bottom": "bottom"
+          },
+          "builds": {
+            "lean": {
+              "file": "outfit-masculine-work-jacket-lean.png",
+              "hides": "outfit-masculine-work-jacket-lean-hides.png",
+              "regions": {
+                "jacket": "outfit-masculine-work-jacket-lean-jacket.png",
+                "shirt": "outfit-masculine-work-jacket-lean-shirt.png",
+                "bottom": "outfit-masculine-work-jacket-lean-bottom.png"
+              },
+              "skin": "outfit-masculine-work-jacket-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-work-jacket-average.png",
+              "hides": "outfit-masculine-work-jacket-average-hides.png",
+              "regions": {
+                "jacket": "outfit-masculine-work-jacket-average-jacket.png",
+                "shirt": "outfit-masculine-work-jacket-average-shirt.png",
+                "bottom": "outfit-masculine-work-jacket-average-bottom.png"
+              },
+              "skin": "outfit-masculine-work-jacket-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-work-jacket-fuller.png",
+              "hides": "outfit-masculine-work-jacket-fuller-hides.png",
+              "regions": {
+                "jacket": "outfit-masculine-work-jacket-fuller-jacket.png",
+                "shirt": "outfit-masculine-work-jacket-fuller-shirt.png",
+                "bottom": "outfit-masculine-work-jacket-fuller-bottom.png"
+              },
+              "skin": "outfit-masculine-work-jacket-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "overcoat",
+          "label": "Overcoat",
+          "occasion": "casual",
+          "parts": {
+            "coat": "coat",
+            "scarf": "scarf",
+            "bottom": "bottom"
+          },
+          "builds": {
+            "lean": {
+              "file": "outfit-masculine-overcoat-lean.png",
+              "hides": "outfit-masculine-overcoat-lean-hides.png",
+              "regions": {
+                "coat": "outfit-masculine-overcoat-lean-coat.png",
+                "scarf": "outfit-masculine-overcoat-lean-scarf.png",
+                "bottom": "outfit-masculine-overcoat-lean-bottom.png"
+              },
+              "skin": "outfit-masculine-overcoat-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-overcoat-average.png",
+              "hides": "outfit-masculine-overcoat-average-hides.png",
+              "regions": {
+                "coat": "outfit-masculine-overcoat-average-coat.png",
+                "scarf": "outfit-masculine-overcoat-average-scarf.png",
+                "bottom": "outfit-masculine-overcoat-average-bottom.png"
+              },
+              "skin": "outfit-masculine-overcoat-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-overcoat-fuller.png",
+              "hides": "outfit-masculine-overcoat-fuller-hides.png",
+              "regions": {
+                "coat": "outfit-masculine-overcoat-fuller-coat.png",
+                "scarf": "outfit-masculine-overcoat-fuller-scarf.png",
+                "bottom": "outfit-masculine-overcoat-fuller-bottom.png"
+              },
+              "skin": "outfit-masculine-overcoat-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "double-breasted",
+          "label": "Double-breasted suit",
+          "occasion": "formal",
+          "parts": {
+            "suit": "suit",
+            "shirt": "shirt",
+            "tie": "tie"
+          },
+          "builds": {
+            "lean": {
+              "file": "outfit-masculine-double-breasted-lean.png",
+              "hides": "outfit-masculine-double-breasted-lean-hides.png",
+              "regions": {
+                "suit": "outfit-masculine-double-breasted-lean-suit.png",
+                "shirt": "outfit-masculine-double-breasted-lean-shirt.png",
+                "tie": "outfit-masculine-double-breasted-lean-tie.png"
+              },
+              "skin": "outfit-masculine-double-breasted-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-double-breasted-average.png",
+              "hides": "outfit-masculine-double-breasted-average-hides.png",
+              "regions": {
+                "suit": "outfit-masculine-double-breasted-average-suit.png",
+                "shirt": "outfit-masculine-double-breasted-average-shirt.png",
+                "tie": "outfit-masculine-double-breasted-average-tie.png"
+              },
+              "skin": "outfit-masculine-double-breasted-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-double-breasted-fuller.png",
+              "hides": "outfit-masculine-double-breasted-fuller-hides.png",
+              "regions": {
+                "suit": "outfit-masculine-double-breasted-fuller-suit.png",
+                "shirt": "outfit-masculine-double-breasted-fuller-shirt.png",
+                "tie": "outfit-masculine-double-breasted-fuller-tie.png"
+              },
+              "skin": "outfit-masculine-double-breasted-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "scrubs",
+          "label": "Scrubs",
+          "occasion": "work",
+          "parts": {
+            "scrubs": "scrubs"
+          },
+          "builds": {
+            "lean": {
+              "file": "outfit-masculine-scrubs-lean.png",
+              "hides": "outfit-masculine-scrubs-lean-hides.png",
+              "regions": {
+                "scrubs": "outfit-masculine-scrubs-lean-scrubs.png"
+              },
+              "skin": "outfit-masculine-scrubs-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-scrubs-average.png",
+              "hides": "outfit-masculine-scrubs-average-hides.png",
+              "regions": {
+                "scrubs": "outfit-masculine-scrubs-average-scrubs.png"
+              },
+              "skin": "outfit-masculine-scrubs-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-scrubs-fuller.png",
+              "hides": "outfit-masculine-scrubs-fuller-hides.png",
+              "regions": {
+                "scrubs": "outfit-masculine-scrubs-fuller-scrubs.png"
+              },
+              "skin": "outfit-masculine-scrubs-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "hi-vis",
+          "label": "Safety vest",
+          "occasion": "work",
+          "parts": {
+            "shirt": "top",
+            "bottom": "bottom"
+          },
+          "builds": {
+            "lean": {
+              "file": "outfit-masculine-hi-vis-lean.png",
+              "hides": "outfit-masculine-hi-vis-lean-hides.png",
+              "regions": {
+                "shirt": "outfit-masculine-hi-vis-lean-shirt.png",
+                "bottom": "outfit-masculine-hi-vis-lean-bottom.png"
+              },
+              "skin": "outfit-masculine-hi-vis-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-hi-vis-average.png",
+              "hides": "outfit-masculine-hi-vis-average-hides.png",
+              "regions": {
+                "shirt": "outfit-masculine-hi-vis-average-shirt.png",
+                "bottom": "outfit-masculine-hi-vis-average-bottom.png"
+              },
+              "skin": "outfit-masculine-hi-vis-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-hi-vis-fuller.png",
+              "hides": "outfit-masculine-hi-vis-fuller-hides.png",
+              "regions": {
+                "shirt": "outfit-masculine-hi-vis-fuller-shirt.png",
+                "bottom": "outfit-masculine-hi-vis-fuller-bottom.png"
+              },
+              "skin": "outfit-masculine-hi-vis-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "police",
+          "label": "Police uniform",
+          "occasion": "work",
+          "parts": {},
+          "builds": {
+            "lean": {
+              "file": "outfit-masculine-police-lean.png",
+              "hides": "outfit-masculine-police-lean-hides.png",
+              "regions": {},
+              "skin": "outfit-masculine-police-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-police-average.png",
+              "hides": "outfit-masculine-police-average-hides.png",
+              "regions": {},
+              "skin": "outfit-masculine-police-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-police-fuller.png",
+              "hides": "outfit-masculine-police-fuller-hides.png",
+              "regions": {},
+              "skin": "outfit-masculine-police-fuller-skin.png"
+            }
+          }
+        },
+        {
+          "id": "judge-robe",
+          "label": "Judge's robe",
+          "occasion": "work",
+          "parts": {},
+          "builds": {
+            "lean": {
+              "file": "outfit-masculine-judge-robe-lean.png",
+              "hides": "outfit-masculine-judge-robe-lean-hides.png",
+              "regions": {},
+              "skin": "outfit-masculine-judge-robe-lean-skin.png"
+            },
+            "average": {
+              "file": "outfit-masculine-judge-robe-average.png",
+              "hides": "outfit-masculine-judge-robe-average-hides.png",
+              "regions": {},
+              "skin": "outfit-masculine-judge-robe-average-skin.png"
+            },
+            "fuller": {
+              "file": "outfit-masculine-judge-robe-fuller.png",
+              "hides": "outfit-masculine-judge-robe-fuller-hides.png",
+              "regions": {},
+              "skin": "outfit-masculine-judge-robe-fuller-skin.png"
             }
           }
         }
-      }
+      ]
     }
   }
 }

@@ -531,6 +531,8 @@ export interface StartingPersonInput {
   readonly worldId: EntityId;
   readonly worldSeed: string;
   readonly currentDate: IsoDate;
+  /** Prior-date construction keeps the target birthday but starts residence earlier. */
+  readonly initialResidenceDate?: IsoDate;
   readonly homeJurisdictionId: EntityId;
   readonly birthplaceJurisdictionId?: EntityId;
   /** Exactly how old the person is on `currentDate`. Not a range to sample. */
@@ -688,7 +690,7 @@ export function createStartingPerson(input: StartingPersonInput): Person {
       id: createStableId("fact", `${id}:residence:initial`),
       stableKey: "residence:initial",
       kind: "residence",
-      occurredAt: input.currentDate,
+      occurredAt: input.initialResidenceDate ?? input.currentDate,
       endedAt: null,
       jurisdictionId: input.homeJurisdictionId,
       summary: `${fullName} resides in the recorded home jurisdiction.`,

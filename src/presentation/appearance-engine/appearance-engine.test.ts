@@ -3,7 +3,11 @@ import { PNG } from "pngjs";
 import { describe, expect, it } from "vitest";
 import type { Person, World } from "../../simulation/types";
 import { sceneOccasion } from "../life-scene-people";
-import { composeEnginePerson, type PeoplePackManifest } from "./pack";
+import {
+  PART_PALETTES,
+  composeEnginePerson,
+  type PeoplePackManifest,
+} from "./pack";
 import { engineRecipeFor, withEngineChoice } from "./recipe";
 import { measureBodyAnchors, neckOffset } from "./anchors";
 import {
@@ -497,10 +501,23 @@ describe("the people engine in the game", () => {
       6,
       "formal",
     ]);
+    // Formal wear chosen, and the occasion is formal: it is kept.
+    expect(
+      engineRecipeFor(chosen, "2026-09-27", manifest, { occasion: "formal" })!
+        .outfit,
+    ).toBe("formal");
+    // At home she wears one of her everyday outfits, the same one every time.
+    const home = engineRecipeFor(chosen, "2026-09-27", manifest, {
+      occasion: "casual",
+    })!.outfit;
+    const everyday = manifest.presentations.feminine.outfits.filter(
+      (outfit) => outfit.occasion === "casual",
+    );
+    expect(everyday.map((outfit) => outfit.id)).toContain(home);
     expect(
       engineRecipeFor(chosen, "2026-09-27", manifest, { occasion: "casual" })!
         .outfit,
-    ).toBe("casual");
+    ).toBe(home);
     expect(sceneOccasion("us-capitol-senate-chamber")).toBe("formal");
     expect(sceneOccasion("residence-suburban-house-day-wave2")).toBe("casual");
   });
@@ -515,11 +532,16 @@ describe("the people engine in the game", () => {
       };
     };
     for (const presentation of ["feminine", "masculine"] as const)
-      for (const outfit of ["formal", "casual"] as const)
-        for (const build of ["lean", "average", "fuller"] as const)
+      for (const outfit of manifest.presentations[presentation].outfits)
+        for (const build of ["lean", "average", "fuller"] as const) {
+          expect(outfit.builds[build]).toBeDefined();
+          // Every colorable part has a mask, and every part a known palette.
           expect(
-            manifest.presentations[presentation].outfits[outfit][build],
-          ).toBeDefined();
+            Object.keys(outfit.builds[build]!.regions ?? {}).sort(),
+          ).toEqual(Object.keys(outfit.parts).sort());
+          for (const palette of Object.values(outfit.parts))
+            expect(PART_PALETTES[palette]?.length).toBeGreaterThan(0);
+        }
     const { raster, anchors } = composeEnginePerson(manifest, read, {
       presentation: "masculine",
       build: "average",
@@ -538,6 +560,36 @@ describe("the people engine in the game", () => {
       alphaOf(raster, Math.round(anchors.neck.centerX), anchors.neck.row),
     ).toBe(255);
     expect(skinInGarment(raster).share).toBeLessThan(0.5);
+  });
+
+  it("dresses a crowd in many outfits, and nobody in a uniform by chance", () => {
+    const worn = new Map<string, number>();
+    for (let n = 0; n < 200; n += 1) {
+      const recipe = engineRecipeFor(
+        adult({
+          id: `person:crowd-${n}`,
+          appearance: {
+            seed: `crowd-${n}`,
+            recipeVersion: "appearance-recipe-v1",
+          },
+        } as Partial<Person>),
+        "2026-09-27",
+        manifest,
+      )!;
+      const outfit = manifest.presentations[recipe.presentation].outfits.find(
+        (o) => o.id === recipe.outfit,
+      )!;
+      expect(outfit.occasion).toBe("casual");
+      const key = `${recipe.presentation}:${recipe.outfit}`;
+      worn.set(key, (worn.get(key) ?? 0) + 1);
+    }
+    const everyday = (["feminine", "masculine"] as const).flatMap((p) =>
+      manifest.presentations[p].outfits
+        .filter((o) => o.occasion === "casual")
+        .map((o) => `${p}:${o.id}`),
+    );
+    // Every everyday outfit turns up in a crowd of 200.
+    expect([...worn.keys()].sort()).toEqual(everyday.sort());
   });
 
   it("never cuts off a hairstyle at the top of the picture, on any body", () => {
