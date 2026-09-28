@@ -100,6 +100,37 @@ export function recordLawExposure(
   return next;
 }
 
+/**
+ * Word of mouth: a person tells someone they know what a law did to them. The
+ * hearer gets a friend exposure naming the teller, with the teller's amount and
+ * pay, since it is the teller's hardship or windfall they heard about. Only a
+ * person's own exposure is passed on; hearsay is not retold.
+ */
+export function recordHeardExposure(
+  world: World,
+  told: LawExposureRecord,
+  hearerId: EntityId,
+): World {
+  if (told.relation !== "own")
+    throw new Error("Only a person's own exposure is passed on.");
+  if (!world.people[hearerId] || hearerId === told.personId)
+    throw new Error("Word of mouth needs another person in the world.");
+  return append(world, {
+    stableKey: `${told.stableKey}:heard:${hearerId}`,
+    personId: hearerId,
+    measureId: told.measureId,
+    sectionKey: told.sectionKey,
+    channel: told.channel,
+    relation: "friend",
+    viaPersonId: told.personId,
+    direction: told.direction,
+    amount: told.amount,
+    cadence: told.cadence,
+    monthlyPay: told.monthlyPay,
+    sourceRecordId: told.sourceRecordId,
+  });
+}
+
 /** Everything a law has done to one person, oldest first. */
 export function lawExposuresOf(
   world: World,
@@ -225,8 +256,10 @@ export function assertLawExposureIntegrity(
       throw new Error("A law exposure names a law not enacted by then.");
     if (!ids.has(row.sourceRecordId))
       throw new Error("A law exposure's source record is missing.");
-    if ((row.relation === "family") !== (row.viaPersonId !== null))
-      throw new Error("Only a family exposure names whose effect it was.");
+    if ((row.relation !== "own") !== (row.viaPersonId !== null))
+      throw new Error(
+        "Only a family or friend exposure names whose effect it was.",
+      );
     if ((row.amount === null) !== (row.cadence === null))
       throw new Error("A law exposure's amount and cadence go together.");
     if (row.direction === "none" && row.amount !== null)

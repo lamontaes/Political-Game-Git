@@ -13,8 +13,10 @@ import {
   recordLawExposure,
 } from "./law-exposure";
 import {
+  followsNewsClosely,
   knowsVote,
   officialsBehind,
+  peopleKnownTo,
   townSupportFromViews,
   viewOfOfficial,
 } from "./living-world/official-views";
@@ -236,5 +238,82 @@ describe("a law reaches a person", () => {
     expect(() => assertWorldIntegrity(broken)).toThrow(
       "source record is missing",
     );
+  });
+
+  it("people tell those they know, who reflect on it as something a friend went through", () => {
+    const { world, personId } = collected();
+    const row = lawExposuresOf(world, personId)[0]!;
+    // Everyone else in the fixture has the same law reach them.
+    let told = world;
+    const tellers = world.personOrder.filter((id) => id !== personId);
+    for (const id of tellers)
+      told = recordLawExposure(told, {
+        stableKey: `law-exposure-test:wom:${id}`,
+        personId: id,
+        measureId: row.measureId,
+        channel: "tax-payment",
+        direction: "cost",
+        amount: row.amount,
+        cadence: "one-time",
+        sourceRecordId: row.sourceRecordId,
+        includeFamily: false,
+      });
+    const registry = createCampaignElectionTransitionRegistry();
+    const reflected = advanceWorld(told, 3, registry);
+    const heard = (reflected.history.lawExposures ?? []).filter(
+      (exposure) => exposure.relation === "friend",
+    );
+    expect(heard.length).toBeGreaterThan(0);
+    for (const exposure of heard) {
+      const teller = exposure.viaPersonId!;
+      expect(tellers).toContain(teller);
+      expect(peopleKnownTo(told, teller)).toContain(exposure.personId);
+      expect(exposure.amount).toEqual(row.amount);
+      expect(exposure.recordedAt).toBe(reflected.currentDate);
+    }
+    // At most three discussion partners each, and hearsay is not retold.
+    for (const id of tellers)
+      expect(
+        heard.filter((exposure) => exposure.viaPersonId === id).length,
+      ).toBeLessThanOrEqual(3);
+    const later = advanceWorld(reflected, 3, registry);
+    expect(
+      (later.history.lawExposures ?? []).filter(
+        (exposure) => exposure.relation === "friend",
+      ),
+    ).toEqual(heard);
+    const friendViews = (later.history.officialViews ?? []).filter((view) =>
+      heard.some((exposure) => exposure.id === view.exposureId),
+    );
+    for (const view of friendViews) {
+      expect(view.reasons[0]!.kind).toBe("friend");
+      expect(view.points).toBeLessThan(0);
+    }
+    assertWorldIntegrity(later);
+  });
+
+  it("close news followers are likelier to know a legislator's vote", () => {
+    const { world } = collected();
+    const exposure = lawExposuresOf(world, world.personOrder[0]!)[0]!;
+    let close = 0;
+    let knewClose = 0;
+    let knewOthers = 0;
+    const trials = 4000;
+    for (let index = 0; index < trials; index += 1) {
+      const probe = {
+        ...exposure,
+        personId: world.personOrder[index % world.personOrder.length]!,
+        measureId:
+          `${exposure.measureId}-${index}` as typeof exposure.measureId,
+      };
+      const follows = followsNewsClosely(world, probe.personId);
+      const knows = knowsVote(world, probe, exposure.personId);
+      if (follows) {
+        close += 1;
+        if (knows) knewClose += 1;
+      } else if (knows) knewOthers += 1;
+    }
+    expect(close).toBeGreaterThan(0);
+    expect(knewClose / close).toBeGreaterThan(knewOthers / (trials - close));
   });
 });

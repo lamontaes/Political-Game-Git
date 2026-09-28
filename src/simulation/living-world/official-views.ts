@@ -1,9 +1,15 @@
-import { addDays } from "../dates";
+import { addDays, ageOnDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createStableId } from "../ids";
+import { recordHeardExposure } from "../law-exposure";
+import {
+  activePartnershipsAt,
+  activeWorkRelationshipsAt,
+  householdMembershipsAt,
+} from "../life-queries";
 import { SYNTHETIC_MIND_IDS } from "../mind-catalog";
 import { latestPersonalityTendency } from "../queries";
-import { SeededRng } from "../rng";
+import { SeededRng, pickDistinct } from "../rng";
 import type {
   EntityId,
   FutureDueItem,
@@ -45,8 +51,26 @@ const EXECUTIVE_VISIBILITY = 1;
 const LEGISLATOR_VISIBILITY = 0.6;
 // PLACEHOLDER, approved provisional: about 11 percent of people can recall
 // their state legislator, so blame for one vote reaches only an informed
-// minority of those it touched.
-const KNOWS_LEGISLATOR_VOTE = 0.11;
+// minority of those it touched. A close news follower is likelier to know;
+// the two rates below keep the population average at 11 percent when 22
+// percent follow closely.
+const KNOWS_VOTE_CLOSE_FOLLOWER = 0.3;
+const KNOWS_VOTE_OTHERS = (0.11 - 0.22 * KNOWS_VOTE_CLOSE_FOLLOWER) / 0.78;
+// PLACEHOLDER, approved provisional (Pew 2024): the share who follow local
+// news very closely, by age: 9 percent at 18 to 29, 35 percent at 65 and
+// older, 22 percent overall (used for the ages between).
+const FOLLOWS_CLOSELY_YOUNG = 0.09;
+const FOLLOWS_CLOSELY_MIDDLE = 0.22;
+const FOLLOWS_CLOSELY_OLDER = 0.35;
+// PLACEHOLDER, approved provisional: people have about 2 to 4 political
+// discussion partners, and about half talk politics at least a few times a
+// week. Each of up to three people someone knows hears about the law with
+// even odds.
+const DISCUSSION_PARTNERS = 3;
+const TELLS_EACH = 0.5;
+// PLACEHOLDER: what a friend went through moves a view less than one's own
+// or a family member's.
+const FRIEND_SHARE = 0.25;
 // PLACEHOLDER: a family member's paycheck is felt at home, less than one's own.
 const FAMILY_SHARE = 0.5;
 // PLACEHOLDER, approved provisional: partisans are anchored. Blame for their
@@ -134,6 +158,9 @@ export function officialViewReflectionHandler(
       reasons,
     });
   }
+  if (exposure.relation === "own")
+    for (const hearerId of hearersOf(world, exposure))
+      next = recordHeardExposure(next, exposure, hearerId);
   return done(next, "reflected");
 }
 
@@ -199,7 +226,97 @@ export function knowsVote(
   const rng = new SeededRng(world.seed).fork(
     `${V}:knows:${exposure.personId}:${exposure.measureId}:${officialId}`,
   );
-  return rng.next() < KNOWS_LEGISLATOR_VOTE;
+  return (
+    rng.next() <
+    (followsNewsClosely(world, exposure.personId)
+      ? KNOWS_VOTE_CLOSE_FOLLOWER
+      : KNOWS_VOTE_OTHERS)
+  );
+}
+
+/**
+ * A person's news habit: whether they follow local news very closely. Seeded
+ * once per person and shaped by age, so it holds across laws.
+ * NOT MODELED: interests and temperament beyond age.
+ */
+export function followsNewsClosely(world: World, personId: EntityId): boolean {
+  const person = world.people[personId];
+  if (!person) return false;
+  const age = ageOnDate(person.birthDate, world.currentDate);
+  const share =
+    age < 30
+      ? FOLLOWS_CLOSELY_YOUNG
+      : age >= 65
+        ? FOLLOWS_CLOSELY_OLDER
+        : FOLLOWS_CLOSELY_MIDDLE;
+  return new SeededRng(world.seed).fork(`${V}:news:${personId}`).next() < share;
+}
+
+/**
+ * The people someone knows, from the game's own records: the others in their
+ * home who are not their partner (a partner already feels the law as family),
+ * the people they work alongside, and anyone they have a recorded moment with.
+ */
+export function peopleKnownTo(
+  world: World,
+  personId: EntityId,
+): readonly EntityId[] {
+  const known = new Set<EntityId>();
+  const partners = new Set(
+    activePartnershipsAt(world, personId).flatMap((row) => row.personIds),
+  );
+  const homes = new Set(
+    householdMembershipsAt(world, personId).map(
+      (row) => row.membership.householdId,
+    ),
+  );
+  for (const row of world.history.householdMemberships)
+    if (
+      homes.has(row.householdId) &&
+      !partners.has(row.personId) &&
+      world.people[row.personId] &&
+      householdMembershipsAt(world, row.personId).some((active) =>
+        homes.has(active.membership.householdId),
+      )
+    )
+      known.add(row.personId);
+  const workplaces = new Set(
+    activeWorkRelationshipsAt(world, personId).flatMap((row) =>
+      row.relationship.organizationId ? [row.relationship.organizationId] : [],
+    ),
+  );
+  for (const row of world.history.workRelationships)
+    if (
+      row.organizationId &&
+      workplaces.has(row.organizationId) &&
+      world.people[row.personId] &&
+      activeWorkRelationshipsAt(world, row.personId).some(
+        (active) => active.relationship.organizationId === row.organizationId,
+      )
+    )
+      known.add(row.personId);
+  for (const row of world.history.relationshipInteractions)
+    if (row.personIds.includes(personId))
+      for (const other of row.personIds)
+        if (world.people[other] && !partners.has(other)) known.add(other);
+  known.delete(personId);
+  return [...known].sort();
+}
+
+/** Whom a person tells about what a law did to them: seeded, at most three. */
+function hearersOf(
+  world: World,
+  exposure: LawExposureRecord,
+): readonly EntityId[] {
+  // The player can hear it too; they just decide for themselves what it means.
+  const known = peopleKnownTo(world, exposure.personId);
+  const rng = new SeededRng(world.seed).fork(`${V}:tells:${exposure.id}`);
+  const partners = pickDistinct(
+    rng,
+    known,
+    Math.min(DISCUSSION_PARTNERS, known.length),
+  );
+  return partners.filter((personId) => rng.fork(personId).next() < TELLS_EACH);
 }
 
 function reasonsFor(
@@ -215,16 +332,17 @@ function reasonsFor(
     felt01(exposure) *
     (act.executive ? EXECUTIVE_VISIBILITY : LEGISLATOR_VISIBILITY) *
     lens(world, exposure.personId);
-  const own = Math.round(
-    sign *
-      BASE_POINTS *
-      felt *
-      (exposure.relation === "family" ? FAMILY_SHARE : 1),
-  );
+  const share =
+    exposure.relation === "family"
+      ? FAMILY_SHARE
+      : exposure.relation === "friend"
+        ? FRIEND_SHARE
+        : 1;
+  const own = Math.round(sign * BASE_POINTS * felt * share);
   if (own === 0) return [];
   const reasons: OfficialViewReason[] = [
     {
-      kind: exposure.relation === "family" ? "family" : "personal",
+      kind: exposure.relation === "own" ? "personal" : exposure.relation,
       points: own,
     },
   ];

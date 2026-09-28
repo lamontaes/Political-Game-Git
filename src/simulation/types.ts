@@ -881,9 +881,12 @@ export interface LawExposureRecord {
   /** The section that did it, where the effect names one. */
   readonly sectionKey: string | null;
   readonly channel: LawExposureChannel;
-  /** Their own money or service, or a family member's. */
-  readonly relation: "own" | "family";
-  /** For a family exposure, whose paycheck, bill or service it was. */
+  /**
+   * Their own money or service, a family member's, or something a person
+   * they know told them it did to them ("friend").
+   */
+  readonly relation: "own" | "family" | "friend";
+  /** For a family or friend exposure, whose paycheck, bill or service it was. */
   readonly viaPersonId: EntityId | null;
   /** Whether the law cost them or paid them; "none" for a non-money effect. */
   readonly direction: "cost" | "gain" | "none";
@@ -892,7 +895,9 @@ export interface LawExposureRecord {
   readonly cadence: "one-time" | "monthly" | null;
   /**
    * Their pay over the four weeks before, scaled to a month. Null when the
-   * game does not track this person's money: unknown, never zero.
+   * game does not track this person's money: unknown, never zero. A friend
+   * exposure carries the teller's pay, since it measures how hard the law
+   * landed on them.
    */
   readonly monthlyPay: MoneyAmount | null;
   /** The record showing the effect happened (a tax collection, a paycheck). */
@@ -901,7 +906,7 @@ export interface LawExposureRecord {
 
 /** Why a person's view of an official moved (spec 5, "Reasons for a view"). */
 export interface OfficialViewReason {
-  readonly kind: "personal" | "family" | "party";
+  readonly kind: "personal" | "family" | "friend" | "party";
   /** Signed points this reason moved the view: credit up, blame down. */
   readonly points: number;
 }
