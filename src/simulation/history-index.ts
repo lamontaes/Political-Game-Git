@@ -150,7 +150,7 @@ interface GrowingIndexState<I> {
 const GROWING_STATES = new WeakMap<object, GrowingIndexState<unknown>>();
 
 /** How far back from a list's end to look for the list it grew from. */
-const GROWING_LOOKBACK = 64;
+const GROWING_LOOKBACK = 1024;
 
 export function growingIndex<I>(
   kind: GrowingIndexKind<I>,

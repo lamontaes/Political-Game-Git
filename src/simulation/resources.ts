@@ -1,5 +1,9 @@
 import { eventById } from "./event-index";
-import { hasStableKey } from "./history-index";
+import {
+  hasStableKey,
+  recordById,
+  recordsWithFieldValue,
+} from "./history-index";
 import { assertPublicFundingMandate } from "./public-fiscal";
 import { assertProgramInstallmentBasis } from "./public-program-integrity";
 import { makeIsoDate } from "./dates";
@@ -503,15 +507,17 @@ function buildResourceTransferOutcome(
     throw new Error("Resource transfer period/outcome chronology is invalid.");
   }
   if (
-    world.history.resourceTransferOutcomes.some(
-      (outcome) =>
-        outcome.resourceFlowId === flow.id &&
-        settlementPeriodsOverlap(
-          periodStartsAt,
-          periodEndsAt,
-          outcome.periodStartsAt,
-          outcome.periodEndsAt,
-        ),
+    recordsWithFieldValue(
+      world.history.resourceTransferOutcomes,
+      "resourceFlowId",
+      flow.id,
+    ).some((outcome) =>
+      settlementPeriodsOverlap(
+        periodStartsAt,
+        periodEndsAt,
+        outcome.periodStartsAt,
+        outcome.periodEndsAt,
+      ),
     )
   ) {
     throw new Error(
@@ -1408,7 +1414,7 @@ function requireRecord<T extends { readonly id: EntityId }>(
   id: EntityId,
   label: string,
 ): T {
-  const record = records.find((candidate) => candidate.id === id);
+  const record = recordById(records, id);
   if (!record) throw new Error(`Missing ${label}: ${id}`);
   return record;
 }

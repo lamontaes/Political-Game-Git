@@ -13,6 +13,7 @@ import type {
   ResourceFlowTermsRecord,
   ResourceObligation,
   ResourceObligationStateRecord,
+  ResourcePosition,
   ResourcePositionOwner,
   ResourceTransferOutcome,
   World,
@@ -97,9 +98,8 @@ export function resourcePositionAt(
   currency: CurrencyCode,
   cutoff: HistoricalCutoff = currentResourceCutoff(world),
 ): ResourcePositionSnapshot | undefined {
-  const position = world.history.resourcePositions.find(
+  const position = resourcePositionsOf(world, owner).find(
     (record) =>
-      samePositionOwner(record.owner, owner) &&
       record.openingBalance.currency === currency &&
       availableOn(record, record.openedAt, cutoff),
   );
@@ -586,4 +586,31 @@ export function resourceTransferOutcomesOfFlows(
   }
   positions.sort((left, right) => left - right);
   return positions.map((position) => outcomes[position]!);
+}
+
+/** Where each owner's tracked positions sit in the position list, in order. */
+const POSITION_POSITIONS_BY_OWNER: GrowingIndexKind<Map<string, number[]>> = {
+  create: () => new Map(),
+  add: (index, record, position) => {
+    const key = endpointKey(
+      positionOwnerEndpoint((record as ResourcePosition).owner),
+    );
+    if (key !== null) pushPosition(index, key, position);
+  },
+};
+
+/**
+ * This owner's tracked positions, in history order: exactly the positions for
+ * which `samePositionOwner` holds.
+ */
+export function resourcePositionsOf(
+  world: World,
+  owner: ResourcePositionOwner,
+): ResourcePosition[] {
+  const key = endpointKey(positionOwnerEndpoint(owner));
+  if (key === null) return [];
+  const positions = world.history.resourcePositions;
+  return (
+    growingIndex(POSITION_POSITIONS_BY_OWNER, positions).get(key) ?? []
+  ).map((at) => positions[at]!);
 }
