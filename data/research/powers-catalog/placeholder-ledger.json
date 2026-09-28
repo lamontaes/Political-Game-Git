@@ -359,7 +359,7 @@
     },
     {
       "file": "src/simulation/enacted-law-effects.ts",
-      "line": 165,
+      "line": 177,
       "text": "* world simply does not know what this part does. PLACEHOLDER until the",
       "path": "law",
       "researchQuestionId": null,
@@ -2087,7 +2087,7 @@
     },
     {
       "file": "src/presentation/law-effects-prose.ts",
-      "line": 110,
+      "line": 126,
       "text": "// PLACEHOLDER: the effect of this part is waiting on research. The",
       "path": "law",
       "researchQuestionId": null,

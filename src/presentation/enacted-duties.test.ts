@@ -27,7 +27,15 @@ import {
   stateJurisdictionForKey,
 } from "../simulation/life-places";
 import { lawEffectSentences } from "./law-effects-prose";
-import { fileDraft } from "./legislation-docket";
+import {
+  availableAuthorities,
+  fileDraft,
+  resolveAuthority,
+} from "./legislation-docket";
+import {
+  programLastDay,
+  programTermChangeOf,
+} from "../simulation/enacted-program-terms";
 import { applyLegislativeStep } from "./legislation-session";
 import { publishLegislativeTransition } from "./publish-legislative-transition";
 
@@ -489,6 +497,149 @@ describe("a law's money sections", () => {
     );
     expect(line).toMatchObject({ annual: true });
     expect(lawEffectSentences(world, measureId).join(" ")).toContain("a year.");
+  });
+});
+
+describe("a law that ends, extends or repeals a program", () => {
+  const TRANSIT = "standing:rural-transit-assistance";
+  const input = (scenario: Scenario) => ({
+    scenarioKey: "nebraska",
+    playerPersonId: scenario.playerPersonId,
+  });
+  const transit = (scenario: Scenario) => ({
+    authorityKey: TRANSIT,
+    jurisdictionId:
+      scenario.world.history.legislativeMeasures![0]!.jurisdictionId,
+  });
+  const daysUntilAfter = (world: World, lastDay: string) =>
+    Math.max(
+      1,
+      Math.round(
+        (Date.parse(lastDay) - Date.parse(world.currentDate)) / 86_400_000,
+      ) + 1,
+    );
+
+  it("stops new spending under a repealed program once the repeal takes effect", () => {
+    const scenario = createLegislativeScenario("nebraska");
+    const repeal = pass(scenario, scenario.world, {
+      familyKey: "program-sunset",
+      variantKey: "repeal-outright",
+      authorityKey: TRANSIT,
+    });
+    const line = enactedLawEffects(repeal.world, repeal.measureId)!.lines.find(
+      (row) => row.kind === "program-term",
+    );
+    expect(line).toMatchObject({ change: "repeal", superseded: false });
+    if (line?.kind !== "program-term") return;
+    expect(
+      resolveAuthority(repeal.world, input(scenario), TRANSIT)
+        ?.authorizesSpending,
+    ).toBe(repeal.world.currentDate <= line.lastDay);
+
+    const days = Math.round(
+      (Date.parse(line.lastDay) - Date.parse(repeal.world.currentDate)) /
+        86_400_000,
+    );
+    const after = advanceWorld(
+      repeal.world,
+      Math.max(1, days + 1),
+      createCampaignElectionTransitionRegistry(),
+    );
+    expect(
+      resolveAuthority(after, input(scenario), TRANSIT)?.authorizesSpending,
+    ).toBe(false);
+    expect(
+      availableAuthorities(after, input(scenario)).find(
+        (row) => row.authorityKey === TRANSIT,
+      )?.note,
+    ).toMatch(/^Ended by /);
+    expect(lawEffectSentences(after, repeal.measureId).join(" ")).toContain(
+      "No new spending can be written under it.",
+    );
+  });
+
+  it("lets a later extension supersede an earlier end date", () => {
+    const scenario = createLegislativeScenario("nebraska");
+    const sunset = pass(scenario, scenario.world, {
+      familyKey: "program-sunset",
+      variantKey: "terminate-on-date",
+      authorityKey: TRANSIT,
+    });
+    const extension = pass(scenario, sunset.world, {
+      familyKey: "program-sunset",
+      variantKey: "extend-authority",
+      authorityKey: TRANSIT,
+    });
+    const now = programLastDay(extension.world, transit(scenario));
+    expect(now?.measureId).toBe(extension.measureId);
+    expect(now?.kind).toBe("extension");
+    const earlier = enactedLawEffects(
+      extension.world,
+      sunset.measureId,
+    )!.lines.find((row) => row.kind === "program-term");
+    expect(earlier).toMatchObject({ superseded: true });
+  });
+  it("does not bring a repealed program back with a later extension", () => {
+    const scenario = createLegislativeScenario("nebraska");
+    const repeal = pass(scenario, scenario.world, {
+      familyKey: "program-sunset",
+      variantKey: "repeal-outright",
+      authorityKey: TRANSIT,
+    });
+    const extension = pass(scenario, repeal.world, {
+      familyKey: "program-sunset",
+      variantKey: "extend-authority",
+      authorityKey: TRANSIT,
+    });
+    const now = programLastDay(extension.world, transit(scenario));
+    const repealed = programLastDay(repeal.world, transit(scenario));
+    // The extension's own date is later than the repeal's, so "latest wins"
+    // alone would revive the program.
+    const extended = programTermChangeOf(extension.world, extension.measureId);
+    expect(extended!.lastDay > repealed!.lastDay).toBe(true);
+    expect(now?.measureId).toBe(repeal.measureId);
+    expect(now?.lastDay).toBe(repealed!.lastDay);
+  });
+
+  it("leaves the same program in another jurisdiction untouched", () => {
+    const scenario = createLegislativeScenario("nebraska");
+    const sunset = pass(scenario, scenario.world, {
+      familyKey: "program-sunset",
+      variantKey: "terminate-on-date",
+      authorityKey: TRANSIT,
+    });
+    expect(programLastDay(sunset.world, transit(scenario))).not.toBeNull();
+    expect(
+      programLastDay(sunset.world, {
+        authorityKey: TRANSIT,
+        jurisdictionId: "jurisdiction_elsewhere",
+      }),
+    ).toBeNull();
+  });
+
+  it("says which law ended a program a bill set up", () => {
+    const scenario = createLegislativeScenario("nebraska");
+    const grants = pass(scenario, scenario.world, {
+      familyKey: "utility-resilience",
+      variantKey: "hardening-grants",
+    });
+    const sunset = pass(scenario, grants.world, {
+      familyKey: "program-sunset",
+      variantKey: "terminate-on-date",
+      authorityKey: `docket:${grants.docketKey}`,
+    });
+    const term = programLastDay(sunset.world, { measureId: grants.measureId });
+    expect(term?.measureId).toBe(sunset.measureId);
+    const after = advanceWorld(
+      sunset.world,
+      daysUntilAfter(sunset.world, term!.lastDay),
+      createCampaignElectionTransitionRegistry(),
+    );
+    const option = availableAuthorities(after, input(scenario)).find(
+      (row) => row.authorityKey === `docket:${grants.docketKey}`,
+    );
+    expect(option?.authorizesSpending).toBe(false);
+    expect(option?.note).toMatch(/^Ended by /);
   });
 });
 

@@ -96,6 +96,22 @@ function sentenceFor(line: LawEffectLine): string {
       return dutySentence(line);
     case "eligibility":
       return eligibilitySentence(line);
+    case "program-term": {
+      if (line.superseded)
+        return `${line.heading}: another law now sets when the program ends.`;
+      const day = proseDate(line.lastDay);
+      const verb =
+        line.change === "repeal"
+          ? line.status === "ended"
+            ? "The program was repealed; its last day was"
+            : "The program is repealed; its last day is"
+          : line.status === "ended"
+            ? "The program ended; its last day was"
+            : line.change === "extension"
+              ? "The program now runs through"
+              : "Its last day is";
+      return `${line.heading}: ${verb} ${day}.${line.status === "ended" ? " No new spending can be written under it." : ""}`;
+    }
     case "authorization": {
       const ceiling = dollars(line.ceilingMinorUnits);
       if (line.annual)

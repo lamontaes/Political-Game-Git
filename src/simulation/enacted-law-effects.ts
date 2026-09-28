@@ -16,6 +16,7 @@ import {
   enactedEligibilityOf,
   isPurposeSection,
 } from "./enacted-eligibility";
+import { programLastDay, programTermChangeOf } from "./enacted-program-terms";
 import { enactedRuleChanges } from "./enacted-rule-changes";
 import {
   draftLineageComponents,
@@ -143,6 +144,17 @@ export type LawEffectLine =
       readonly annual: boolean;
       /** Appropriated by later enacted laws written against this one. */
       readonly appropriatedAgainstMinorUnits: number;
+    }
+  | {
+      /** A program's end date the law set, extended or brought by repeal. */
+      readonly kind: "program-term";
+      readonly change: "sunset" | "extension" | "repeal";
+      /** What the law acts on, as the bill names it. */
+      readonly heading: string;
+      readonly lastDay: IsoDate;
+      /** Whether a later enacted law has since set a different date. */
+      readonly superseded: boolean;
+      readonly status: "in-force" | "ended";
     }
   | {
       /** Who the law says qualifies for, or is subject to, what it does. */
@@ -379,6 +391,24 @@ export function enactedLawEffects(
       complianceUnknown: count("compliance-unknown"),
       coverageUnknown: count("coverage-unknown"),
       researchQuestionId: ENACTED_DUTY_RESEARCH_QUESTION,
+    });
+  }
+
+  // A program's life: an end date set, extended or brought by repeal.
+  const term = programTermChangeOf(world, measureId);
+  if (term) {
+    consumed.add(term.provisionId);
+    const current = programLastDay(world, term.target);
+    const superseded = current !== null && current.measureId !== measureId;
+    const lastDay = superseded ? current!.lastDay : term.lastDay;
+    lines.push({
+      kind: "program-term",
+      change: term.kind,
+      heading:
+        provisions.find((row) => row.id === term.provisionId)?.heading ?? "",
+      lastDay: term.lastDay,
+      superseded,
+      status: world.currentDate > lastDay ? "ended" : "in-force",
     });
   }
 
