@@ -1,0 +1,196 @@
+{
+  "id": "minimum-wage-2026",
+  "asOf": "2026-07-01",
+  "source": {
+    "title": "State Minimum Wage Laws",
+    "publisher": "U.S. Department of Labor, Wage and Hour Division",
+    "url": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+    "pageUpdated": "2026-07-01",
+    "retrieved": "2026-09-28 from the Mac; values transcribed from a fetched summary of the page"
+  },
+  "federalHourly": 7.25,
+  "rule": "The higher of the federal, state and local minimum applies to covered work. Where a state rate is below $7.25 (GA, WY) or a state has none, the federal $7.25 applies to covered employers.",
+  "scope": "Basic state rates only. Tipped minimums and city or county minimums are NOT here and stay UNKNOWN. American Samoa uses industry-specific rates: UNKNOWN.",
+  "places": {
+    "US-AL": {
+      "basicHourly": 7.25,
+      "note": "Federal minimum wage applies"
+    },
+    "US-AK": {
+      "basicHourly": 14.0
+    },
+    "US-AS": {
+      "basicHourly": null,
+      "note": "Special rates apply"
+    },
+    "US-AZ": {
+      "basicHourly": 15.15
+    },
+    "US-AR": {
+      "basicHourly": 11.0
+    },
+    "US-CA": {
+      "basicHourly": 16.9
+    },
+    "US-CO": {
+      "basicHourly": 15.16
+    },
+    "US-CT": {
+      "basicHourly": 16.94
+    },
+    "US-DE": {
+      "basicHourly": 15.0
+    },
+    "US-DC": {
+      "basicHourly": 18.4
+    },
+    "US-FL": {
+      "basicHourly": 14.0
+    },
+    "US-GA": {
+      "basicHourly": 5.15,
+      "note": "Federal minimum wage applies to covered employers"
+    },
+    "US-GU": {
+      "basicHourly": 9.25
+    },
+    "US-HI": {
+      "basicHourly": 16.0
+    },
+    "US-ID": {
+      "basicHourly": 7.25
+    },
+    "US-IL": {
+      "basicHourly": 15.0
+    },
+    "US-IN": {
+      "basicHourly": 7.25
+    },
+    "US-IA": {
+      "basicHourly": 7.25
+    },
+    "US-KS": {
+      "basicHourly": 7.25
+    },
+    "US-KY": {
+      "basicHourly": 7.25
+    },
+    "US-LA": {
+      "basicHourly": 7.25,
+      "note": "Federal minimum wage applies"
+    },
+    "US-ME": {
+      "basicHourly": 15.1
+    },
+    "US-MD": {
+      "basicHourly": 15.0
+    },
+    "US-MA": {
+      "basicHourly": 15.0
+    },
+    "US-MI": {
+      "basicHourly": 13.73
+    },
+    "US-MN": {
+      "basicHourly": 11.41
+    },
+    "US-MS": {
+      "basicHourly": 7.25,
+      "note": "Federal minimum wage applies"
+    },
+    "US-MO": {
+      "basicHourly": 15.0
+    },
+    "US-MT": {
+      "basicHourly": 10.85,
+      "note": "businesses over $110,000 sales; $4.00 under $110,000"
+    },
+    "US-NE": {
+      "basicHourly": 15.0
+    },
+    "US-NV": {
+      "basicHourly": 12.0
+    },
+    "US-NH": {
+      "basicHourly": 7.25
+    },
+    "US-NJ": {
+      "basicHourly": 15.92
+    },
+    "US-NM": {
+      "basicHourly": 12.0
+    },
+    "US-NY": {
+      "basicHourly": 17.0,
+      "note": "NYC/Nassau/Suffolk/Westchester; $16.00 remainder"
+    },
+    "US-NC": {
+      "basicHourly": 7.25
+    },
+    "US-ND": {
+      "basicHourly": 7.25
+    },
+    "US-MP": {
+      "basicHourly": 7.25
+    },
+    "US-OH": {
+      "basicHourly": 11.0,
+      "note": "over $405,000 receipts; $7.25 under $405,000"
+    },
+    "US-OK": {
+      "basicHourly": 7.25
+    },
+    "US-OR": {
+      "basicHourly": 15.55,
+      "note": "standard; $16.80 Portland Metro; $14.55 non-urban"
+    },
+    "US-PA": {
+      "basicHourly": 7.25
+    },
+    "US-PR": {
+      "basicHourly": 10.5
+    },
+    "US-RI": {
+      "basicHourly": 16.0
+    },
+    "US-SC": {
+      "basicHourly": 7.25,
+      "note": "Federal minimum wage applies"
+    },
+    "US-SD": {
+      "basicHourly": 11.85
+    },
+    "US-TN": {
+      "basicHourly": 7.25,
+      "note": "Federal minimum wage applies"
+    },
+    "US-TX": {
+      "basicHourly": 7.25
+    },
+    "US-UT": {
+      "basicHourly": 7.25
+    },
+    "US-VT": {
+      "basicHourly": 14.42
+    },
+    "US-VI": {
+      "basicHourly": 10.5
+    },
+    "US-VA": {
+      "basicHourly": 12.77
+    },
+    "US-WA": {
+      "basicHourly": 17.13
+    },
+    "US-WV": {
+      "basicHourly": 8.75
+    },
+    "US-WI": {
+      "basicHourly": 7.25
+    },
+    "US-WY": {
+      "basicHourly": 5.15,
+      "note": "Federal minimum wage applies to covered employers"
+    }
+  }
+}
