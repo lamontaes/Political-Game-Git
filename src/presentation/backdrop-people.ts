@@ -134,6 +134,14 @@ export const BACKDROP_FOCUS_Y = 0.62;
 const STANDING_METERS = 1.7;
 /** Engine figures are about 2.55 times as tall as they are wide. */
 const FIGURE_HEIGHT_TO_WIDTH = 2.55;
+/**
+ * The row of the figure canvas the painted feet stand on (a few rows above
+ * its bottom edge), as a share of the canvas: the feet, not the canvas
+ * edge, go on the foot point.
+ */
+const FEET_OF_CANVAS =
+  PEOPLE_PACK.presentations.feminine.bodies.average.anchors.feet /
+  PEOPLE_PACK.canvas.height;
 
 export function backdropStaging(place: string): PlaceStaging | null {
   return PLACES[place] ?? null;
@@ -154,7 +162,7 @@ export function spotFigure(stage: PlaceStaging, spot: StagingSpot): SpotFigure {
   const widthPercent = heightPercent / FIGURE_HEIGHT_TO_WIDTH / BACKDROP_ASPECT;
   return {
     leftPercent: spot.x - widthPercent / 2,
-    topPercent: spot.y - heightPercent,
+    topPercent: spot.y - heightPercent * FEET_OF_CANVAS,
     widthPercent,
     heightPercent,
     clipBelowPercent: spot.clipBelowY ?? null,

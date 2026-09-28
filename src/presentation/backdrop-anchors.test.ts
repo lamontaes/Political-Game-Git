@@ -42,33 +42,36 @@ describe("people anchors on every place picture", () => {
     expect(Object.keys(STAGES).sort()).toEqual(PLACES);
   });
 
-  it.each(PLACES)("%s: every spot is on a floor inside the picture", (place) => {
-    const stage = backdropStaging(place)!;
-    expect(stage.horizonY).toBeGreaterThan(0);
-    expect(stage.horizonY).toBeLessThan(100);
-    expect(stage.metersPercent).toBeGreaterThan(0);
-    expect(stage.spots.length).toBeGreaterThanOrEqual(3);
-    for (const spot of stage.spots) {
-      // Inside the picture, and below eye level: on a floor, never in the sky.
-      expect(spot.x).toBeGreaterThan(0);
-      expect(spot.x).toBeLessThan(100);
-      expect(spot.y).toBeGreaterThan(stage.horizonY);
-      expect(spot.y).toBeLessThanOrEqual(100);
-      expect(POSES.has(spot.pose ?? "stand")).toBe(true);
-      expect(FACINGS.has(spot.facing ?? "viewer")).toBe(true);
-      if (spot.floor !== undefined)
-        expect(stage.floors?.[spot.floor]).toBeGreaterThan(0);
-      const figure = spotFigure(stage, spot);
-      // A person reads as a person: not a speck, not taller than the picture.
-      expect(figure.heightPercent).toBeGreaterThan(2);
-      expect(figure.heightPercent).toBeLessThan(140);
-      if (spot.clipBelowY !== undefined) {
-        // The desk or counter edge falls across the person, not above them.
-        expect(spot.clipBelowY).toBeGreaterThan(figure.topPercent);
-        expect(spot.clipBelowY).toBeLessThanOrEqual(spot.y);
+  it.each(PLACES)(
+    "%s: every spot is on a floor inside the picture",
+    (place) => {
+      const stage = backdropStaging(place)!;
+      expect(stage.horizonY).toBeGreaterThan(0);
+      expect(stage.horizonY).toBeLessThan(100);
+      expect(stage.metersPercent).toBeGreaterThan(0);
+      expect(stage.spots.length).toBeGreaterThanOrEqual(3);
+      for (const spot of stage.spots) {
+        // Inside the picture, and below eye level: on a floor, never in the sky.
+        expect(spot.x).toBeGreaterThan(0);
+        expect(spot.x).toBeLessThan(100);
+        expect(spot.y).toBeGreaterThan(stage.horizonY);
+        expect(spot.y).toBeLessThanOrEqual(100);
+        expect(POSES.has(spot.pose ?? "stand")).toBe(true);
+        expect(FACINGS.has(spot.facing ?? "viewer")).toBe(true);
+        if (spot.floor !== undefined)
+          expect(stage.floors?.[spot.floor]).toBeGreaterThan(0);
+        const figure = spotFigure(stage, spot);
+        // A person reads as a person: not a speck, not taller than the picture.
+        expect(figure.heightPercent).toBeGreaterThan(2);
+        expect(figure.heightPercent).toBeLessThan(140);
+        if (spot.clipBelowY !== undefined) {
+          // The desk or counter edge falls across the person, not above them.
+          expect(spot.clipBelowY).toBeGreaterThan(figure.topPercent);
+          expect(spot.clipBelowY).toBeLessThanOrEqual(spot.y);
+        }
       }
-    }
-  });
+    },
+  );
 
   it.each(PLACES)("%s: seats, podiums and the hero spot", (place) => {
     const stage = backdropStaging(place)!;
@@ -104,10 +107,7 @@ describe("people anchors on every place picture", () => {
       expect(meters).toBeGreaterThan(stage.metersPercent);
     const byFloor = new Map<string, StagingSpot[]>();
     for (const spot of stage.spots)
-      byFloor.set(floorOf(spot), [
-        ...(byFloor.get(floorOf(spot)) ?? []),
-        spot,
-      ]);
+      byFloor.set(floorOf(spot), [...(byFloor.get(floorOf(spot)) ?? []), spot]);
     for (const spots of byFloor.values()) {
       const sorted = [...spots].sort((a, b) => a.y - b.y);
       for (let i = 1; i < sorted.length; i += 1) {
