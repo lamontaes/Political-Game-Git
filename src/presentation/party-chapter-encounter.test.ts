@@ -252,9 +252,25 @@ describe("ALIVE43 W2 home party chapters and organizer encounters", () => {
     // invitation and never answered it; time ran past it. It used to record
     // a refusal against their name, which is what this now proves it does not.
     expect(state.state).toBe("lapsed");
-    expect(lapsed.history.relationshipInteractions.length).toBe(
+    // Nothing was recorded against the player for it. Other people's lives
+    // go on in the same two weeks (their own calls, an introduction through a
+    // relative's friend), so the check is on what touches the player, not on
+    // the whole world's count.
+    const added = lapsed.history.relationshipInteractions.slice(
       offered.world.history.relationshipInteractions.length,
     );
+    const organizers = new Set(
+      homePartyChapters(lapsed).map((chapter) => chapter.organizerPersonId),
+    );
+    expect(
+      added.filter(
+        (interaction) =>
+          interaction.personIds.includes(player) &&
+          (interaction.change === "strained" ||
+            interaction.change === "ended" ||
+            interaction.personIds.some((id) => organizers.has(id))),
+      ),
+    ).toEqual([]);
     expect(lapsed.currentDate > offered.world.currentDate).toBe(true);
   });
 

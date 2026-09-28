@@ -29,5 +29,20 @@ describe("ordinary life without a situation", () => {
     );
     expect(html).not.toContain('data-testid="blank-moment"');
     expect(html).not.toContain('data-testid="open-moment"');
+
+    const available = renderToStaticMarkup(
+      <OpeningLifeFlow
+        world={life.world}
+        playerPersonId={life.playerPersonId}
+        onWorldChange={() => {}}
+        onTalkTo={() => {}}
+        pendingAvailable
+        pendingOpen={false}
+        pendingLife={<div />}
+        onOpenPending={() => {}}
+      />,
+    );
+    expect(available).toContain("What’s happening");
+    expect(available).not.toContain("The moment");
   });
 });

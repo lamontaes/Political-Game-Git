@@ -28,6 +28,9 @@ import type { NewGameSetup } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { currentPublicOfficeholders } from "./opening-officeholders";
 import { passOrdinaryDays } from "./ordinary-life";
+import { CONGRESS_RESULTS_EVENT } from "../simulation/living-world/congress-turnover";
+import { STATE_LEGISLATIVE_RESULTS_EVENT } from "../simulation/nationwide-world/state-legislature-turnover";
+import { candidacyPackById } from "../simulation/candidacy-packs";
 
 /**
  * OBSERVER MODE — the world with nobody played in it (Constitution rule 30).
@@ -145,6 +148,29 @@ export interface ObserverElectionRow {
   readonly winnerName: string | null;
 }
 
+export interface ObserverElectionSummaryRow {
+  readonly id: EntityId;
+  readonly date: IsoDate;
+  readonly place: string;
+  readonly body: string;
+  /** Includes seats whose campaign contest is recorded separately. */
+  readonly seatCount: number;
+  /** Winners named by this saved aggregate event. */
+  readonly winnerCount: number;
+  readonly offices: readonly {
+    readonly key: string;
+    readonly title: string;
+    readonly winnerCount: number;
+  }[];
+  readonly winners: readonly {
+    readonly seatKey: string;
+    readonly personId: EntityId;
+    readonly personName: string | null;
+  }[];
+  /** These campaign races have their own contest result, outside this event. */
+  readonly separateContestCount: number;
+}
+
 export interface ObserverOfficeRow {
   readonly key: string;
   readonly title: string;
@@ -176,6 +202,7 @@ export interface ObserverRecord {
   readonly enactedCount: number;
   readonly amendments: readonly ObserverAmendmentRow[];
   readonly elections: readonly ObserverElectionRow[];
+  readonly electionSummaries: readonly ObserverElectionSummaryRow[];
   readonly officeholders: readonly ObserverOfficeRow[];
   readonly news: readonly ObserverHappening[];
   readonly happenings: readonly ObserverHappening[];
@@ -281,6 +308,63 @@ export function projectObserverRecord(world: World): ObserverRecord {
       };
     })
     .reverse();
+  const electionSummaries = history.events
+    .filter(
+      (event) =>
+        event.type === CONGRESS_RESULTS_EVENT ||
+        event.type === STATE_LEGISLATIVE_RESULTS_EVENT,
+    )
+    .map((event): ObserverElectionSummaryRow => {
+      const congress = event.type === CONGRESS_RESULTS_EVENT;
+      const packId = event.tags
+        .find((tag) => tag.startsWith("pack:"))
+        ?.slice("pack:".length);
+      const pack = packId ? candidacyPackById(packId) : null;
+      const titles = new Map(
+        congress
+          ? [
+              ["us-house", "U.S. House"],
+              ["us-senate", "U.S. Senate"],
+            ]
+          : (pack?.offices.map((office) => [
+              office.officeKey,
+              office.chamberName,
+            ]) ?? []),
+      );
+      const winners = event.participants
+        .filter((participant) => participant.role === "focus:winner")
+        .map((participant) => ({
+          seatKey: (participant.detail ?? "").split("|")[0] ?? "",
+          personId: participant.personId,
+          personName: nameOf(world, participant.personId),
+        }));
+      const counts = new Map<string, number>();
+      for (const winner of winners) {
+        const key = congress ? winner.seatKey.split(":")[0]! : winner.seatKey;
+        counts.set(key, (counts.get(key) ?? 0) + 1);
+      }
+      const separateContestCount = event.tags.filter((tag) =>
+        tag.startsWith("campaign-seat:"),
+      ).length;
+      return {
+        id: event.id,
+        date: event.occurredAt,
+        place: placeName(world, event.jurisdictionId),
+        body: congress
+          ? "Congress"
+          : (pack?.displayName ?? "State legislature"),
+        seatCount: winners.length + separateContestCount,
+        winnerCount: winners.length,
+        offices: [...counts].map(([key, winnerCount]) => ({
+          key,
+          title: titles.get(key) ?? key,
+          winnerCount,
+        })),
+        winners,
+        separateContestCount,
+      };
+    })
+    .reverse();
   const officeholders = currentPublicOfficeholders(world).map((holder) => ({
     key: `${holder.officeKey}:${holder.personId}`,
     title: holder.title,
@@ -328,6 +412,7 @@ export function projectObserverRecord(world: World): ObserverRecord {
     ).length,
     amendments,
     elections,
+    electionSummaries,
     officeholders,
     news,
     happenings,

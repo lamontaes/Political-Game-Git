@@ -2,6 +2,9 @@ import { beforeAll, describe, expect, it } from "vitest";
 import type { World } from "../simulation";
 import { migrationTown } from "../simulation/migration/review";
 import { observerAnchorPersonId } from "../simulation/people-continuation";
+import { stateCandidacyPack } from "../simulation/candidacy-packs";
+import { stateJurisdictionForKey } from "../simulation/life-places";
+import { recordWorldEvent } from "../simulation/world";
 import {
   createBrowserWorldRecord,
   validateBrowserWorldRecord,
@@ -94,5 +97,91 @@ describe("a world watched from its start", () => {
     const file = projectObserverPerson(world, anchor);
     expect(file?.name.length).toBeGreaterThan(0);
     expect(file?.record.length).toBeGreaterThan(0);
+  });
+
+  it("reads saved congressional and state legislative results without making elections", () => {
+    const [houseWinner, senateWinner] = world.personOrder;
+    const pack = stateCandidacyPack("US-KS")!;
+    const stateId = stateJurisdictionForKey("US-KS")!.id;
+    const context = {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    };
+    const congress = recordWorldEvent(world, {
+      stableKey: "test:observer:congress-results",
+      type: "election.congress-general-results",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [houseWinner!, senateWinner!],
+      participants: [
+        {
+          personId: houseWinner!,
+          role: "focus:winner",
+          detail: "us-house:KS-01|democratic|democratic|new|2027-01-03",
+        },
+        {
+          personId: senateWinner!,
+          role: "focus:winner",
+          detail: "us-senate:KS:class-2|republican|republican|new|2027-01-03",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["congress-turnover/v1"],
+      summary: "Voters chose two members of Congress.",
+      context,
+    });
+    const state = recordWorldEvent(congress, {
+      stableKey: "test:observer:state-results",
+      type: "election.state-legislative-general-results",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: stateId,
+      involvedEntityIds: [stateId, houseWinner!],
+      participants: [
+        {
+          personId: houseWinner!,
+          role: "focus:winner",
+          detail: `${pack.offices[0]!.officeKey}|1|democratic|new||2027-01-01`,
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [`pack:${pack.packId}`, "campaign-seat:another-seat"],
+      summary: "Voters chose members of the Kansas Legislature.",
+      context,
+    });
+
+    const original = world.history.events.length;
+    const rows = projectObserverRecord(state).electionSummaries;
+    expect(world.history.events).toHaveLength(original);
+    expect(rows).toHaveLength(2);
+    expect(rows[0]).toMatchObject({
+      body: pack.displayName,
+      place: "Kansas",
+      seatCount: 2,
+      winnerCount: 1,
+      separateContestCount: 1,
+      offices: [{ key: pack.offices[0]!.officeKey, winnerCount: 1 }],
+    });
+    expect(rows[1]).toMatchObject({
+      body: "Congress",
+      seatCount: 2,
+      winnerCount: 2,
+      separateContestCount: 0,
+      offices: [
+        { key: "us-house", winnerCount: 1 },
+        { key: "us-senate", winnerCount: 1 },
+      ],
+    });
+    expect(rows[1]!.winners.map((winner) => winner.personId)).toEqual([
+      houseWinner,
+      senateWinner,
+    ]);
   });
 });

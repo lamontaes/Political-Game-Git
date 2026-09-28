@@ -82,7 +82,7 @@ export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
         data-testid="open-moment"
         onClick={props.onOpenPending}
       >
-        The moment
+        What&rsquo;s happening
         <small>What is happening here, and what you can do</small>
       </button>
     ) : null;

@@ -18,7 +18,6 @@ import { createResourcePosition, money } from "../simulation/resources";
 import { createOrganization, createWorkRelationship } from "../simulation/life";
 import { OFFICE_SALARY_PLACEHOLDER } from "../simulation/office-salary";
 import type { EntityId, World } from "../simulation";
-import { householdErrandsFor } from "../simulation/life-opportunities";
 import { chooseAdultOption, letAdultTimePass } from "./adult-life";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import type { NewGameSetup } from "./new-game";
@@ -48,10 +47,11 @@ function newLife(seed = "ordinary-adult-life"): {
 describe("ordinary time without a recurring chore", () => {
   it("opens and advances without creating a grocery task or generic errand scene", () => {
     const { world, personId } = newLife();
-    expect(householdErrandsFor(world, personId)).toBeNull();
-    expect(buildAdultLifeContext(world, personId).hasHouseholdWorkItem).toBe(
-      false,
-    );
+    expect(
+      world.history.workItems.some((item) =>
+        item.stableKey.startsWith("ordinary-life:household-errands"),
+      ),
+    ).toBe(false);
     expect(
       availableAdultSituations(buildAdultLifeContext(world, personId)).map(
         (situation) => situation.key,
@@ -59,9 +59,17 @@ describe("ordinary time without a recurring chore", () => {
     ).not.toContain("adult.ordinary-good-day");
     const later = letAdultTimePass(world, 8);
     assertWorldIntegrity(later);
-    expect(householdErrandsFor(later, personId)).toBeNull();
+    expect(
+      later.history.workItems.some((item) =>
+        item.stableKey.startsWith("ordinary-life:household-errands"),
+      ),
+    ).toBe(false);
     const reloaded = deserializeWorld(serializeWorld(later));
-    expect(householdErrandsFor(reloaded, personId)).toBeNull();
+    expect(
+      reloaded.history.workItems.some((item) =>
+        item.stableKey.startsWith("ordinary-life:household-errands"),
+      ),
+    ).toBe(false);
   });
 });
 

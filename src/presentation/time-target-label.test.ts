@@ -123,7 +123,7 @@ describe("the selected calendar entry", () => {
       source: [other],
     });
     const entry = calendarEntryFor(invited.world, personId, invited.id)!;
-    expect(entry.arrangementNote).toMatch(/^.+ is responsible for it\.$/);
+    expect(entry.arrangementNote).toMatch(/^.+ is in charge of it\.$/);
     expect(entry.attendeeNames[0]).toBe("You");
     expect(entry.attendeeNames).toHaveLength(2);
 

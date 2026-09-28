@@ -10,6 +10,7 @@ import { requireLifePlace } from "./life-places";
 import { advanceWorldMinutes } from "./time-work";
 import type { EntityId, FutureTransitionHandlerRegistry, World } from "./types";
 import {
+  advanceWithWorldIntegrityAtEnd,
   advanceWorld,
   assertWorldIntegrity,
   createWorld,
@@ -71,7 +72,55 @@ function broken(world: World): World {
 }
 
 describe("deferred world integrity", () => {
-  // First in the file: a later test switches the guard back on by hand.
+  it("resolves an unchanged schedule without changing the earlier snapshot", () => {
+    const world = scheduled();
+    const registry = createFutureTransitionHandlerRegistry([
+      [
+        "test:integrity-deferred",
+        (current) => ({
+          world: current,
+          status: "resolved",
+          reasonKey: null,
+          context: null,
+          outcomeEventId: null,
+        }),
+      ],
+    ]);
+    const advanced = advanceWorld(world, 2, registry);
+    expect(advanced.history.futureDueItemStates.at(-1)?.status).toBe(
+      "resolved",
+    );
+    expect(world.history.futureDueItemStates.at(-1)?.status).toBe("scheduled");
+  });
+
+  it("rejects replacement of an existing due item even when its identity stays the same", () => {
+    const world = scheduled();
+    const registry = createFutureTransitionHandlerRegistry([
+      [
+        "test:integrity-deferred",
+        (current) => ({
+          world: {
+            ...current,
+            history: {
+              ...current.history,
+              futureDueItems: current.history.futureDueItems.map((item) => ({
+                ...item,
+              })),
+            },
+          },
+          status: "resolved",
+          reasonKey: null,
+          context: null,
+          outcomeEventId: null,
+        }),
+      ],
+    ]);
+    expect(() => advanceWorld(world, 2, registry)).toThrow(
+      /cannot rewrite existing due-item history/,
+    );
+  });
+
+  // Check the suite's default before a later test switches the guard by hand.
   it("runs the deep guard in the test suite, catching an in-place edit", () => {
     const registry = createFutureTransitionHandlerRegistry([
       [
@@ -125,6 +174,60 @@ describe("deferred world integrity", () => {
     expect(() =>
       advanceWorldMinutes(scheduled(), 2 * 24 * 60, brokenRegistry()),
     ).toThrow(/missing involved entity/);
+  });
+
+  it("rechecks old history when a transition replaces a prior record", () => {
+    const world = withEvent(scheduled());
+    const registry = createFutureTransitionHandlerRegistry([
+      [
+        "test:integrity-deferred",
+        (current) => ({
+          world: {
+            ...current,
+            history: {
+              ...current.history,
+              events: current.history.events.map((event, index) =>
+                index === 0
+                  ? {
+                      ...event,
+                      involvedEntityIds: [
+                        "person_doesnotexist0000" as EntityId,
+                      ],
+                    }
+                  : event,
+              ),
+            },
+          },
+          status: "resolved",
+          reasonKey: null,
+          context: null,
+          outcomeEventId: null,
+        }),
+      ],
+    ]);
+    expect(() => advanceWorldMinutes(world, 2 * 24 * 60, registry)).toThrow(
+      /missing involved entity/,
+    );
+  });
+
+  it("rechecks changed starting entities even when history stays append-only", () => {
+    const world = withEvent(base());
+    const jurisdictionId = world.jurisdictionOrder[0]!;
+    expect(() =>
+      advanceWithWorldIntegrityAtEnd(
+        () => ({
+          ...world,
+          jurisdictions: {
+            ...world.jurisdictions,
+            [jurisdictionId]: {
+              ...world.jurisdictions[jurisdictionId]!,
+              id: "jurisdiction_wrong" as EntityId,
+            },
+          },
+        }),
+        world,
+      ),
+    ).toThrow(/miskeyed/);
   });
 
   it("still refuses a handler that pushes onto its input with the deep guard off", () => {

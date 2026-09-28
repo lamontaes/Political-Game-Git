@@ -1,0 +1,149 @@
+[
+  {
+    "id": "nh-2025-hb2-trailer-medicaid-premiums",
+    "jurisdiction": "New Hampshire",
+    "level": "state",
+    "session": "2025 Session",
+    "bill_number": "HB 2",
+    "law_citation": "Chapter 141, Laws of 2025",
+    "short_title": "Budget trailer bill (fees, funds, Medicaid changes)",
+    "enacted_date": "2025-06-27",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://gc.nh.gov/",
+    "aggregator_url": "https://legiscan.com/NH/bill/HB2/2025",
+    "menu": "05",
+    "menu_name": "Assistance & Social Insurance",
+    "sub_topic": "Public coverage / cost sharing",
+    "secondary_menus": ["02", "04"],
+    "instrument": "eligibility/benefit",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "fee",
+        "description": "Monthly Medicaid premiums for some enrollees.",
+        "numbers": [
+          {
+            "value": 60,
+            "unit": "USD per month individual",
+            "text": "60 USD per month individual"
+          },
+          {
+            "value": 100,
+            "unit": "USD per month family of four max",
+            "text": "100 USD per month family of four max"
+          }
+        ]
+      },
+      {
+        "kind": "covered-population",
+        "description": "Enrollees in certain income ranges (details inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "amount",
+        "description": "Implements the two-year budget's fee, fund and revenue changes."
+      }
+    ],
+    "touches": ["NH Medicaid", "state budget HB 1"],
+    "daily_life": "Some Medicaid families start paying a monthly premium.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "nh-2025-hb282-first-responder-retirement",
+    "jurisdiction": "New Hampshire",
+    "level": "state",
+    "session": "2025 Session",
+    "bill_number": "HB 282",
+    "law_citation": "Chapter 142, Laws of 2025",
+    "short_title": "Retirement benefits restored for certain first responders",
+    "enacted_date": "2025-06-27",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://gc.nh.gov/",
+    "aggregator_url": "https://legiscan.com/NH/bill/HB282/2025",
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Pensions",
+    "secondary_menus": ["10"],
+    "instrument": "eligibility/benefit",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "covered-population",
+        "description": "Police and firefighters hired before a 2011 cutoff.",
+        "numbers": [
+          {
+            "value": 1500,
+            "unit": "people approx",
+            "text": "1500 people approx"
+          },
+          {
+            "value": 2011,
+            "unit": "-07-01 date cutoff",
+            "text": "2011-07-01 date cutoff"
+          }
+        ]
+      },
+      {
+        "kind": "benefit",
+        "description": "Restores most retirement benefits reduced in 2011."
+      },
+      {
+        "kind": "benefit",
+        "description": "Raises the maximum first responder critical injury benefit."
+      }
+    ],
+    "touches": [
+      "New Hampshire Retirement System",
+      "municipal employer contributions"
+    ],
+    "daily_life": "A veteran firefighter's pension formula improves.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "nh-2025-hb150-homestead-food",
+    "jurisdiction": "New Hampshire",
+    "level": "state",
+    "session": "2025 Session",
+    "bill_number": "HB 150",
+    "law_citation": "Chapter 18, Laws of 2025",
+    "short_title": "Homestead food operations may use commercial equipment",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://gc.nh.gov/",
+    "aggregator_url": "https://legiscan.com/NH/bill/HB150/2025",
+    "menu": "14",
+    "menu_name": "Agriculture & Food",
+    "sub_topic": "Food production and safety",
+    "secondary_menus": ["08"],
+    "instrument": "license/permit",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "exemption",
+        "description": "Home-based food producers may use commercial kitchen equipment without losing homestead status."
+      },
+      {
+        "kind": "license",
+        "description": "Homestead license rules loosened."
+      }
+    ],
+    "touches": ["home bakers", "state food safety inspectors"],
+    "daily_life": "A home baker can use a commercial oven and still sell under the home license.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  }
+]

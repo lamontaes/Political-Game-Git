@@ -1,0 +1,69 @@
+[
+  {
+    "id": "nyc-2025-ll123-124-grocery-delivery",
+    "jurisdiction": "New York City, New York",
+    "level": "city",
+    "session": "2025",
+    "bill_number": "Local Laws 123 and 124 of 2025",
+    "law_citation": null,
+    "short_title": "Minimum pay for app-based grocery delivery workers",
+    "enacted_date": "2025-09-10",
+    "enactment_path": "veto overridden",
+    "effective_dates": ["2026-01-26"],
+    "official_text_url": "https://legistar.council.nyc.gov/",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Wages and working hours",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Grocery delivery apps must pay the delivery worker minimum pay rate before tips.",
+        "numbers": [
+          {
+            "value": 21.44,
+            "unit": "USD per hour",
+            "text": "21.44 USD per hour"
+          },
+          {
+            "value": 22.13,
+            "unit": "USD per hour from 2026-04-01",
+            "text": "22.13 USD per hour from 2026-04-01"
+          }
+        ]
+      },
+      {
+        "kind": "indexation",
+        "description": "Rate adjusts annually for inflation.",
+        "numbers": [
+          {
+            "value": 3.2,
+            "unit": "percent 2026 adjustment",
+            "text": "3.2 percent 2026 adjustment"
+          }
+        ]
+      },
+      {
+        "kind": "duty",
+        "description": "Weekly payment and bathroom access rights for contracted delivery workers."
+      },
+      {
+        "kind": "veto-override",
+        "description": "Council overrode the mayor's veto."
+      }
+    ],
+    "touches": [
+      "Department of Consumer and Worker Protection",
+      "grocery delivery apps"
+    ],
+    "daily_life": "An Instacart shopper earns at least about $21 an hour before tips.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

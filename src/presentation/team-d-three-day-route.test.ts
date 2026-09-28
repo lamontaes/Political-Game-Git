@@ -2,8 +2,10 @@ import { describe, expect, it } from "vitest";
 
 import {
   assertWorldIntegrity,
+  advanceWorldMinutes,
   campaignLifeActivityRecords,
   campaignLifeOutcomeRecords,
+  cancelScheduledActivity,
   deserializeWorld,
   homePartyChapters,
   scheduledActivityState,
@@ -17,6 +19,11 @@ import {
 } from "./candidate-guidance-scene";
 import { speakAtOrdinaryMeeting } from "../simulation/ordinary-meeting-presence";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
+import {
+  goBrieflyToOrdinaryMeeting,
+  leaveOrdinaryMeeting,
+  planOrdinaryMeetingAttendance,
+} from "./ordinary-meeting-actions";
 import { openOrdinaryLife } from "./ordinary-life";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -74,22 +81,52 @@ describe("a three-day ordinary-player route", () => {
     expect(firstStop.world.currentMoment.minuteOfDay).toBe(18 * 60 + 10);
     expect(firstStop.receipt.stoppedEarly).toBe(true);
     expect(firstStop.receipt.outcome).toContain(
-      "Journey to the public meeting",
+      "The public meeting starts at 6:30 p.m.",
     );
+    expect(firstStop.receipt.outcome).not.toContain("Journey to");
+    expect(
+      firstStop.world.history.events.filter(
+        (event) =>
+          event.type === "life.scene.arrived" &&
+          event.involvedEntityIds.includes(meeting.id),
+      ),
+    ).toHaveLength(0);
     expect(scheduledActivityState(firstStop.world, meeting.id).status).toBe(
       "scheduled",
     );
     const calendarWeek = simulateCalendarDays(world, personId, 7);
     expect(calendarWeek.reached).toEqual(firstStop.world.currentMoment);
-    expect(calendarWeek.outcome).toContain("Journey to the public meeting");
+    expect(calendarWeek.outcome).toContain(
+      "The public meeting starts at 6:30 p.m.",
+    );
     const arrived = press(firstStop.world, personId, {
       kind: "attend-activity",
       activityId: meeting.id,
     });
     expect(arrived.receipt.status).toBe("accepted");
+    expect(arrived.world.currentMoment.minuteOfDay).toBe(18 * 60 + 30);
+    expect(
+      arrived.world.history.events.some(
+        (event) =>
+          event.type === "life.scene.arrived" &&
+          event.involvedEntityIds.includes(meeting.id),
+      ),
+    ).toBe(true);
     expect(projectOrdinaryMeetingScene(arrived.world, personId)?.phase).toBe(
       "active",
     );
+    const left = leaveOrdinaryMeeting(arrived.world, personId, meeting.id);
+    expect(scheduledActivityState(left, meeting.id).status).toBe("cancelled");
+    expect(left.currentMoment.minuteOfDay).toBe(18 * 60 + 50);
+    const brief = goBrieflyToOrdinaryMeeting(
+      arrived.world,
+      personId,
+      meeting.id,
+    );
+    const briefEvent = brief.history.events.find(
+      (event) => event.type === "civic.meeting-brief-visit",
+    );
+    expect(briefEvent?.summary).toContain("opening discussion");
     const spoken = speakAtOrdinaryMeeting(
       arrived.world,
       personId,
@@ -107,11 +144,19 @@ describe("a three-day ordinary-player route", () => {
     expect(scheduledActivityState(stayed.world, meeting.id).status).toBe(
       "completed",
     );
+    expect(stayed.world.currentMoment.minuteOfDay).toBe(19 * 60 + 45);
+    expect(
+      stayed.world.history.events.find(
+        (event) =>
+          event.stableKey === `ordinary-meeting-presence-v1:${meeting.id}`,
+      )?.tags,
+    ).not.toContain("attendance:late-entry");
     const home = press(stayed.world, personId, {
       kind: "walk",
       destination: "home",
     });
     expect(home.receipt.status).toBe("accepted");
+    expect(home.world.currentMoment.minuteOfDay).toBe(20 * 60 + 5);
 
     const secondStop = press(home.world, personId, { kind: "days", days: 2 });
     expect(secondStop.world.currentDate).toBe("2026-01-07");
@@ -149,4 +194,62 @@ describe("a three-day ordinary-player route", () => {
     expect(finished.world.currentDate).not.toBe(startDate);
     assertWorldIntegrity(finished.world);
   }, 10_000); // Two-room save/reload took 5.39–5.68 s under shared-host checks.
+
+  it("takes a saved plan on Day/Week and preserves a real late route", () => {
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "team-e-three-meeting-paths",
+        startAge: 34,
+        startKind: "custom",
+        placeKey: "0406260",
+      }),
+    ).game!;
+    const personId = game.playerPersonId;
+    const world = openOrdinaryLife(game.world, personId);
+    const meeting = world.history.scheduledActivities.find(
+      (item) => item.title === "Posted public meeting",
+    )!;
+    const journey = world.history.scheduledActivities.find(
+      (item) =>
+        item.kind === "travel" && item.sourceEntityIds.includes(meeting.id),
+    )!;
+    const planned = planOrdinaryMeetingAttendance(world, personId, meeting.id);
+    expect(planned).not.toBe(world);
+    expect(planned.currentMoment).toEqual(world.currentMoment);
+    const savedPlan = deserializeWorld(serializeWorld(planned));
+    const committed = press(savedPlan, personId, { kind: "days", days: 3 });
+    expect(committed.world.currentMoment.minuteOfDay).toBe(18 * 60 + 30);
+    expect(scheduledActivityState(committed.world, journey.id).status).toBe(
+      "completed",
+    );
+    expect(projectOrdinaryMeetingScene(committed.world, personId)?.phase).toBe(
+      "active",
+    );
+
+    const choice = press(world, personId, { kind: "days", days: 3 }).world;
+    const missedJourney = cancelScheduledActivity(choice, journey.id);
+    const lateDecision = advanceWorldMinutes(missedJourney, 10);
+    expect(lateDecision.currentMoment.minuteOfDay).toBe(18 * 60 + 20);
+    const lateAttempt = press(lateDecision, personId, {
+      kind: "attend-activity",
+      activityId: meeting.id,
+    });
+    expect(lateAttempt.receipt.status).toBe("accepted");
+    const lateArrival = lateAttempt.world;
+    expect(lateArrival.currentMoment.minuteOfDay).toBe(18 * 60 + 40);
+    expect(projectOrdinaryMeetingScene(lateArrival, personId)?.phase).toBe(
+      "active",
+    );
+    expect(
+      scheduledActivityState(lateArrival, meeting.id).end.minuteOfDay,
+    ).toBe(19 * 60 + 45);
+    expect(
+      lateArrival.history.events.some(
+        (event) =>
+          event.type === "life.scene.arrived" &&
+          event.tags.includes("travel:late-meeting"),
+      ),
+    ).toBe(true);
+  }, 10_000);
 });

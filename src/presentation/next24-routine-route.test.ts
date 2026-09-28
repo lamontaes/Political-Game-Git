@@ -138,8 +138,8 @@ describe("NEXT24 combined private-citizen routine route", () => {
         scheduledActivityState(attended, entry.activity.id).outcomeEventId,
     )!;
     expect(arrival.sequence).toBeLessThan(attendance.sequence);
-    expect(describeRoutineOutcome(morning, attended, personId)).toContain(
-      "1 ordinary work shift completed",
+    expect(describeRoutineOutcome(morning, attended, personId)).not.toContain(
+      "work shift",
     );
     expect(describeRoutineOutcome(morning, attended, personId)).toContain(
       "has not posted yet",
@@ -228,7 +228,7 @@ describe("NEXT24 combined private-citizen routine route", () => {
     );
     expect(
       describeRoutineOutcome(conflicted, stopped, personId, 3 * 1440),
-    ).toContain("Stopped for Care appointment");
+    ).toContain("Care appointment comes first.");
   });
   it("keeps unfunded period tuition pending without a credential or invented money", () => {
     const { world, personId } = life("next24-unfunded");

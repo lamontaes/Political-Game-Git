@@ -1,9 +1,5 @@
-import { writeLegacyHouseholdEveningInvitation } from "../simulation/life-opportunities";
 import { describe, expect, it } from "vitest";
 
-import { addDays, scheduledActivityState, serializeWorld } from "../simulation";
-import { enterLifePath } from "../simulation/life-paths2";
-import { simulateCalendarDays } from "./calendar-time-control";
 import { interruptionHandlers } from "./interruption-policy";
 import {
   openNextLifeScene,
@@ -11,7 +7,7 @@ import {
   walkOpeningNeighborhood,
 } from "./life-scene-flow";
 import { createNewGameWorld } from "./new-game";
-import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
+import { openOrdinaryLife } from "./ordinary-life";
 import { projectPersonContact, travelTowardsPerson } from "./person-contact";
 import { openConversationWith } from "./person-conversation-entry";
 import {
@@ -65,89 +61,24 @@ function childAtHome(seed: string) {
 }
 
 describe("interruption preferences", () => {
-  it("keeps a real routine shift auto-resolving after an old stop preference is loaded", () => {
+  it("leaves routine work automatic when only tentative holds are requested", () => {
     const relaxed = interruptionHandlers(DEFAULT_INTERRUPTIONS);
-    const oldPreference = {
-      stopForWorkShifts: true,
-      stopForTentativeHolds: false,
-    };
-    const strict = interruptionHandlers(oldPreference);
-    const opened = ordinaryAdult("ui36-policy");
-    const entered = enterLifePath(opened.world, "shop-assistant");
-    const world = passOrdinaryDays(entered.world);
-    const target = {
-      ...world.currentMoment,
-      date: addDays(world.currentDate, 1),
-    };
-    const routineWindows = relaxed.routine?.projectWindows(world, target);
-    expect(routineWindows?.some((window) => window.kind === "work")).toBe(true);
-    expect(strict.routine?.projectWindows(world, target)).toEqual(
-      routineWindows,
-    );
-    expect(routineWindows?.every((window) => window.autoResolvable)).toBe(true);
-    const withOldPreference = simulateCalendarDays(
-      world,
-      opened.personId,
-      1,
-      oldPreference,
-    );
-    const withCurrentPreference = simulateCalendarDays(
-      world,
-      opened.personId,
-      1,
-      DEFAULT_INTERRUPTIONS,
-    );
-    expect(serializeWorld(withOldPreference.world)).toBe(
-      serializeWorld(withCurrentPreference.world),
-    );
-    expect(
-      withOldPreference.world.history.events.filter(
-        (event) => event.type === "life-paths2.work-session",
-      ),
-    ).toHaveLength(1);
-    expect(strict.get).toBeTypeOf("function");
-  });
-
-  it("stops a day skip at a tentative hold when asked, leaving the hold and the World alone", () => {
-    const opened = ordinaryAdult("ui36-hold");
-    const personId = opened.personId;
-    // The evening invitation was this life's tentative hold. Play stopped
-    // writing it on 2026-09-22; a save made before then still holds one.
-    const world = writeLegacyHouseholdEveningInvitation(opened.world, personId);
-    const hold = world.history.scheduledActivities.find(
-      (activity) =>
-        activity.kind === "tentative" &&
-        activity.participantPersonIds.includes(personId) &&
-        scheduledActivityState(world, activity.id).start.date ===
-          world.currentDate,
-    );
-    expect(hold).toBeDefined();
-    const stopping = simulateCalendarDays(world, personId, 1, {
-      stopForWorkShifts: false,
+    const strict = interruptionHandlers({
       stopForTentativeHolds: true,
     });
-    const lapsing = simulateCalendarDays(world, personId, 1, {
-      stopForWorkShifts: false,
-      stopForTentativeHolds: false,
-    });
-    /* Asked to stop: time halts at the hold and the hold is still scheduled. */
-    expect(scheduledActivityState(stopping.world, hold!.id).status).toBe(
-      "scheduled",
-    );
-    expect(stopping.reached).toEqual(
-      scheduledActivityState(world, hold!.id).start,
-    );
-    expect(stopping.outcome).toContain(`Stopped for ${hold!.title}`);
-    /* Not asked: the hold lapses and the morning is reached. */
-    expect(lapsing.reached.date > world.currentDate).toBe(true);
-    expect(lapsing.reached.minuteOfDay).toBe(7 * 60);
-    expect(lapsing.outcome).not.toMatch(/Stopped|pending commitment/);
-    expect(scheduledActivityState(lapsing.world, hold!.id).status).toBe(
-      "cancelled",
-    );
-    expect(serializeWorld(stopping.world)).not.toBe(
-      serializeWorld(lapsing.world),
-    );
+    const { world } = ordinaryAdult("ui36-policy");
+    for (const activity of world.history.scheduledActivities) {
+      const base = relaxed.routine?.isAutoResolvableActivity(
+        world,
+        activity.id,
+      );
+      const gated = strict.routine?.isAutoResolvableActivity(
+        world,
+        activity.id,
+      );
+      expect(gated).toBe(base);
+    }
+    expect(strict.get).toBeTypeOf("function");
   });
 });
 

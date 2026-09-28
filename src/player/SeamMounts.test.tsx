@@ -10,11 +10,8 @@ import {
 } from "../presentation/opening-life";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import { askToMeet, projectContacts } from "../presentation/people-contacts";
-import { projectRecallCards } from "../presentation/people-recall-cards";
 import { projectChildhoodMoment } from "../presentation/childhood";
 import { projectDisclosure } from "../presentation/press-disclosure";
-import { recalledRequests } from "../simulation/people-recall";
-import { writeLegacyFamiliarRequest } from "../simulation/life-opportunities";
 import type { EntityId, World } from "../simulation";
 import { ChildhoodMomentPanel } from "./ChildhoodMomentPanel";
 import { availablePlayerConversations } from "../presentation/player-conversation";
@@ -22,7 +19,6 @@ import { ContactDialog } from "./ContactDialog";
 import { ContactsPanel } from "./ContactsPanel";
 import { ConversationStarters, SceneConversation } from "./SceneConversation";
 import { PressSourceDesk } from "./PressSourceDesk";
-import { RecallCardsPanel } from "./RecallCardsPanel";
 
 /**
  * The PEOPLE/PRESS seam mounts, as markup (CRUNCH47 A1).
@@ -312,42 +308,6 @@ describe("A conversation with somebody who is not in the room", () => {
     expect(html).toMatch(
       new RegExp(`data-remote="false"[^>]*data-testid="talk-face-${other}"`),
     );
-  });
-});
-
-describe("What you remember", () => {
-  it("shows a card with the day said the way a person says it", () => {
-    // A save from before 2026-09-23 opened with the picnic favor already
-    // asked; play now asks only for a reason on the asker's record, so this
-    // reads that save rather than building a request of its own.
-    const world = writeLegacyFamiliarRequest(
-      adult.world,
-      adult.personId,
-      "favour-request",
-    );
-    expect(recalledRequests(world, adult.personId).length).toBeGreaterThan(0);
-    const cards = projectRecallCards(world, adult.personId);
-    expect(cards.length).toBeGreaterThan(0);
-    const html = renderToStaticMarkup(
-      <RecallCardsPanel
-        world={world}
-        personId={adult.personId}
-        onOpenEntity={() => {}}
-      />,
-    );
-    expect(html).toContain('data-testid="recall-cards"');
-    expect(html).not.toContain('data-testid="recall-cards-empty"');
-    const card = cards[0]!;
-    expect(html).toContain(`data-testid="recall-card-${card.eventId}"`);
-    expect(html).toContain(card.onSpoken);
-    expect(html).toContain(card.detail);
-    // The ISO `on` is a sort key. It is never what a player reads.
-    expect(html).not.toContain(`>${card.on}<`);
-    if (card.otherPersonId) {
-      // The drilldown opens the shell's own person view, and because that
-      // pushes onto the navigation stack, Back returns to this card.
-      expect(html).toContain(`data-testid="recall-open-${card.eventId}"`);
-    }
   });
 });
 

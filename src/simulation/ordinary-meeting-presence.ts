@@ -7,6 +7,7 @@ import {
   ageOnDate,
   compareSimulationMoments,
   isoDateFromParts,
+  simulationMinutesBetween,
   yearOf,
 } from "./dates";
 import {
@@ -273,7 +274,8 @@ export function ordinaryMeetingEntry(
   const state = scheduledActivityState(world, activityId);
   if (
     state.status !== "scheduled" ||
-    compareSimulationMoments(world.currentMoment, state.start) !== 0
+    compareSimulationMoments(world.currentMoment, state.start) < 0 ||
+    compareSimulationMoments(world.currentMoment, state.end) >= 0
   )
     return null;
   const arrival = world.history.events
@@ -297,6 +299,7 @@ export function ordinaryMeetingEntry(
   )
     return null;
   if (arrival.tags.includes("route:ordinary-life:to-meeting-room")) {
+    const lateArrival = arrival.tags.includes("travel:late-meeting");
     const journey = world.history.scheduledActivities.find(
       (entry) =>
         arrival.involvedEntityIds.includes(entry.id) &&
@@ -304,13 +307,31 @@ export function ordinaryMeetingEntry(
         entry.responsiblePersonId === personId &&
         entry.location.locationKey === "ordinary-life:to-meeting-room" &&
         entry.sourceEntityIds.includes(activityId) &&
-        scheduledActivityState(world, entry.id).status === "completed" &&
+        scheduledActivityState(world, entry.id).status ===
+          (lateArrival ? "cancelled" : "completed") &&
         compareSimulationMoments(
           scheduledActivityState(world, entry.id).end,
           state.start,
         ) === 0,
     );
     if (!journey) return null;
+    if (lateArrival) {
+      const journeyState = scheduledActivityState(world, journey.id);
+      const duration = arrival.tags.find((tag) =>
+        tag.startsWith("duration-minutes:"),
+      );
+      if (
+        !arrival.involvedEntityIds.includes(journey.id) ||
+        duration !==
+          `duration-minutes:${simulationMinutesBetween(journeyState.start, journeyState.end)}` ||
+        compareSimulationMoments(world.currentMoment, state.start) <= 0
+      )
+        return null;
+    } else if (
+      compareSimulationMoments(world.currentMoment, state.start) !== 0
+    ) {
+      return null;
+    }
   } else if (
     // An older save can already record actual presence in this room without
     // the journey record. The saved arrival must be for today's same meeting;
@@ -355,6 +376,13 @@ function writePresence(
   const earlierEntry = completed.history.events.find(
     (event) => event.stableKey === `${baseKey}:entry`,
   );
+  const arrival = completed.history.events.find(
+    (event) => event.id === arrivalId,
+  );
+  const lateArrival =
+    arrival?.tags.includes("travel:late-meeting") ??
+    earlierEntry?.tags.includes("attendance:late-entry") ??
+    false;
   const recordedChair = [
     ...(earlierEntry?.participants ?? []),
     ...notice.participants,
@@ -453,8 +481,12 @@ function writePresence(
         role: "presence:participant",
         detail:
           phase === "active"
-            ? "Entered the posted meeting"
-            : "Attended the posted meeting",
+            ? lateArrival
+              ? "Entered after the meeting began"
+              : "Entered the posted meeting"
+            : lateArrival
+              ? "Stayed from late arrival until the meeting ended"
+              : "Attended the posted meeting",
       },
       {
         personId: chairId,
@@ -467,7 +499,9 @@ function writePresence(
         role: "presence:participant",
         detail:
           phase === "active"
-            ? "Present as this meeting starts"
+            ? lateArrival
+              ? "Present when the player arrived"
+              : "Present as this meeting starts"
             : "Present as this meeting ended",
       },
       ...residents,
@@ -481,11 +515,12 @@ function writePresence(
       `arrival:${arrivalId}`,
       `activity:${activityId}`,
       `notice:${notice.id}`,
+      ...(lateArrival ? ["attendance:late-entry"] : []),
       ...(outcome ? [`completion:${outcome.id}`] : []),
     ],
     summary:
       phase === "active"
-        ? `${personName(next.people[chairId]!)} chairs the posted public meeting. The meeting is starting.`
+        ? `${personName(next.people[chairId]!)} chairs the posted public meeting. The meeting is ${lateArrival ? "underway" : "starting"}.`
         : `${personName(next.people[chairId]!)} chaired the posted public meeting. The discussion ended without a vote.`,
     context: {
       location: {
@@ -499,8 +534,12 @@ function writePresence(
       pressure: null,
       choice:
         phase === "active"
-          ? "Entered the posted public meeting"
-          : "Attended the posted public meeting",
+          ? lateArrival
+            ? "Entered after the posted meeting began"
+            : "Entered the posted public meeting"
+          : lateArrival
+            ? "Stayed until the posted meeting ended"
+            : "Attended the posted public meeting",
       motivation: null,
       immediateReaction: null,
     },

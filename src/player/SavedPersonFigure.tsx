@@ -16,6 +16,12 @@ import {
   previewArtRefusal,
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
+import { EngineFigure } from "./EnginePerson";
+import { engineRecipeFor } from "../presentation/appearance-engine/recipe";
+import {
+  PEOPLE_PACK,
+  peoplePackAvailable,
+} from "../presentation/appearance-engine/runtime";
 
 /** Full-body record leaf. Reads the same saved appearance and wardrobe as the
  * room/headshot. The owning UI sizes this 1:2 stage; no identity reroll occurs. */
@@ -43,6 +49,31 @@ export function SavedPersonFigure({
   );
   const person = world.people[personId];
   if (!person) return null;
+  const engine =
+    !explicitLibraries && peoplePackAvailable()
+      ? engineRecipeFor(person, world.currentDate, PEOPLE_PACK)
+      : null;
+  if (engine) {
+    return (
+      <figure
+        className={className}
+        aria-label={`${personName(person)} — saved full-body appearance`}
+        data-person-id={personId}
+        data-figure-status="ready"
+        data-likeness="engine"
+        style={{
+          position: "relative",
+          aspectRatio: "1 / 2",
+          margin: 0,
+          isolation: "isolate",
+        }}
+      >
+        <div style={{ position: "absolute", inset: "4% 0 2% 0" }}>
+          <EngineFigure recipe={engine} testId="saved-person-full-body" />
+        </div>
+      </figure>
+    );
+  }
   const previewRefusal =
     preview && !explicitLibraries
       ? previewArtRefusal(person, world.currentDate)

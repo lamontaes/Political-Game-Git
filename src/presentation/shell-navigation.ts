@@ -1,5 +1,10 @@
 import type { PersonWardrobePreference } from "./person-visual-selection";
-import type { EntityId } from "../simulation";
+import {
+  compareSimulationMoments,
+  type EntityId,
+  type IsoDate,
+  type SimulationMoment,
+} from "../simulation";
 import type { GovernmentPlace, GovernmentScope } from "./politics-government";
 import {
   DEFAULT_MAP_PREFERENCES,
@@ -175,6 +180,8 @@ export interface ShellPreferences {
    * (`interruption-policy.ts`), which is the only place these are consumed.
    */
   readonly interruptions: InterruptionPreferences;
+  /** Whether the optional morning thought appears. Interface only. */
+  readonly morningThoughts: boolean;
   readonly proposalLayout: ProposalLayout;
   readonly newsMode: NewsMode;
   /** The publication the News reader opens on in publication mode. */
@@ -214,14 +221,11 @@ export interface ShellPreferences {
  * player's own decision always stop a skip; they are not preferences.
  */
 export interface InterruptionPreferences {
-  /** Stop before each ordinary work shift instead of letting routine run it. */
-  readonly stopForWorkShifts: boolean;
   /** Stop when a tentative hold comes due instead of letting it lapse. */
   readonly stopForTentativeHolds: boolean;
 }
 
 export const DEFAULT_INTERRUPTIONS: InterruptionPreferences = {
-  stopForWorkShifts: false,
   stopForTentativeHolds: false,
 };
 
@@ -230,6 +234,7 @@ export const DEFAULT_PREFERENCES: ShellPreferences = {
   defaultPinSize: "normal",
   followedNewsOutletKeys: [],
   interruptions: DEFAULT_INTERRUPTIONS,
+  morningThoughts: true,
   proposalLayout: "auto",
   newsMode: "front",
   newsOutletKey: null,
@@ -273,6 +278,10 @@ export interface InterfaceProgress {
    * never opens with its whole past presented as news.
    */
   readonly recapFrontier: number | null;
+  /** Last World moment whose ordinary day and recap were acknowledged. */
+  readonly recapThroughMoment?: SimulationMoment | null;
+  /** Last local date whose optional morning thought was dismissed. */
+  readonly morningThoughtSeenOn?: IsoDate | null;
 }
 
 export const INITIAL_INTERFACE_PROGRESS: InterfaceProgress = {
@@ -511,8 +520,20 @@ export type ShellAction =
   | { readonly type: "finish-orientation" }
   /** Sets the recap frontier for a life read for the first time. */
   | { readonly type: "start-recap-frontier"; readonly sequence: number }
+  /** Initializes the saved interval without replaying an older life's past. */
+  | {
+      readonly type: "start-day-rhythm";
+      readonly sequence: number;
+      readonly moment: SimulationMoment;
+    }
   /** The player dismissed a recap that covered records through this sequence. */
-  | { readonly type: "acknowledge-recap"; readonly throughSequence: number }
+  | {
+      readonly type: "acknowledge-recap";
+      readonly throughSequence: number;
+      readonly throughMoment?: SimulationMoment;
+    }
+  | { readonly type: "acknowledge-morning-thought"; readonly date: IsoDate }
+  | { readonly type: "set-morning-thoughts"; readonly enabled: boolean }
   /** Drops pins whose target this world no longer has. */
   | { readonly type: "prune-pins"; readonly keep: readonly string[] }
   | { readonly type: "escape" };
@@ -1030,6 +1051,24 @@ export function shellReducer(
         progress: { ...state.progress, recapFrontier: action.sequence },
       };
 
+    case "start-day-rhythm": {
+      const progress = state.progress;
+      if (
+        progress.recapFrontier !== null &&
+        progress.recapThroughMoment !== null &&
+        progress.recapThroughMoment !== undefined
+      )
+        return state;
+      return {
+        ...state,
+        progress: {
+          ...progress,
+          recapFrontier: progress.recapFrontier ?? action.sequence,
+          recapThroughMoment: progress.recapThroughMoment ?? action.moment,
+        },
+      };
+    }
+
     /*
      * Monotone on purpose. A second dismissal of the same recap, or a stale
      * one arriving after a newer one, must not move the frontier backwards and
@@ -1037,15 +1076,42 @@ export function shellReducer(
      */
     case "acknowledge-recap": {
       const current = state.progress.recapFrontier ?? 0;
-      if (action.throughSequence <= current) return state;
+      const previousMoment = state.progress.recapThroughMoment;
+      const laterMoment =
+        action.throughMoment &&
+        (!previousMoment ||
+          compareSimulationMoments(action.throughMoment, previousMoment) > 0)
+          ? action.throughMoment
+          : previousMoment;
+      if (action.throughSequence <= current && laterMoment === previousMoment)
+        return state;
       return {
         ...state,
         progress: {
           ...state.progress,
-          recapFrontier: action.throughSequence,
+          recapFrontier: Math.max(current, action.throughSequence),
+          ...(laterMoment ? { recapThroughMoment: laterMoment } : {}),
         },
       };
     }
+
+    case "acknowledge-morning-thought":
+      if (
+        state.progress.morningThoughtSeenOn &&
+        state.progress.morningThoughtSeenOn >= action.date
+      )
+        return state;
+      return {
+        ...state,
+        progress: { ...state.progress, morningThoughtSeenOn: action.date },
+      };
+
+    case "set-morning-thoughts":
+      if (state.preferences.morningThoughts === action.enabled) return state;
+      return {
+        ...state,
+        preferences: { ...state.preferences, morningThoughts: action.enabled },
+      };
 
     /*
      * A pin points at a canonical entity. Loading a world that never had that

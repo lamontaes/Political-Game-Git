@@ -173,9 +173,7 @@ describe("the canonical time command", () => {
       fixedClock,
     );
     expect(receipt.stoppedEarly).toBe(true);
-    expect(receipt.outcome).toContain(
-      "Stopped for Neighborhood meeting; resolve this commitment before continuing.",
-    );
+    expect(receipt.outcome).toContain("Neighborhood meeting comes first.");
   });
 
   it("refuses a stale request so one click never advances twice", () => {
@@ -292,6 +290,12 @@ describe("the canonical time command", () => {
       meeting.id,
     );
     expect(declined).not.toBe(firstStop.world);
+    expect(
+      previewTimeCommand(declined, personId, { kind: "quiet-stretch" }),
+    ).toMatchObject({
+      targetDate: replyBy,
+      cappedBy: { title: "Answer work offer", date: replyBy },
+    });
     const unanswered = submitTimeCommand(
       declined,
       request(declined, personId, { kind: "quiet-stretch" }),
@@ -299,7 +303,7 @@ describe("the canonical time command", () => {
     );
     expect(unanswered.world.currentDate).toBe(replyBy);
     expect(unanswered.receipt.status).toBe("accepted");
-    expect(unanswered.receipt.stoppedEarly).toBe(true);
+    expect(unanswered.receipt.stoppedEarly).toBe(false);
     expect(careerReplyBy(unanswered.world, offer.id)).toBe(replyBy);
     expect(workStatusAt(unanswered.world, offer.id)?.status).toBe("expected");
     expect(careerOfferAccepted(unanswered.world, offer.id)).toBe(false);
@@ -315,6 +319,19 @@ describe("the canonical time command", () => {
         entry.key.startsWith("work-offer:"),
       ),
     ).toBe(true);
+    expect(
+      previewTimeCommand(unanswered.world, personId, {
+        kind: "quiet-stretch",
+      }),
+    ).toBeNull();
+    const stillWaiting = submitTimeCommand(
+      unanswered.world,
+      request(unanswered.world, personId, { kind: "quiet-stretch" }),
+      fixedClock,
+    );
+    expect(stillWaiting.world).toBe(unanswered.world);
+    expect(stillWaiting.receipt.status).toBe("refused");
+    expect(stillWaiting.receipt.outcome).toMatch(/needs an answer under Work/);
 
     const accepted = respondCareerOffer(sought.world, offer.id, shop, true);
     expect(accepted.ok).toBe(true);
@@ -322,6 +339,12 @@ describe("the canonical time command", () => {
     expect(acceptedOfferStarts(reloaded, personId)).toContainEqual({
       key: `career-start:${offer.id}`,
       startOn: offer.startedAt,
+    });
+    expect(
+      previewTimeCommand(reloaded, personId, { kind: "quiet-stretch" }),
+    ).toMatchObject({
+      targetDate: offer.startedAt,
+      cappedBy: { date: offer.startedAt },
     });
     const reached = submitTimeCommand(
       reloaded,
@@ -334,6 +357,17 @@ describe("the canonical time command", () => {
     expect(workStatusAt(reached.world, offer.id)?.status).toBe("expected");
     expect(careerOfferAccepted(reached.world, offer.id)).toBe(true);
     expect(reached.receipt.outcome).not.toContain("under Work");
+    expect(
+      previewTimeCommand(reached.world, personId, { kind: "quiet-stretch" }),
+    ).toBeNull();
+    const stillStartable = submitTimeCommand(
+      reached.world,
+      request(reached.world, personId, { kind: "quiet-stretch" }),
+      fixedClock,
+    );
+    expect(stillStartable.world).toBe(reached.world);
+    expect(stillStartable.receipt.status).toBe("refused");
+    expect(stillStartable.receipt.outcome).toMatch(/can begin under Work/);
     const started = startCareerWork(reached.world, offer.id, shop);
     expect(started.ok).toBe(true);
     expect(workStatusAt(started.world, offer.id)?.status).toBe("active");

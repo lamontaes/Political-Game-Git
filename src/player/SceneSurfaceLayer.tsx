@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 import type { SceneSurfaceSlot } from "../environment/environment-scene-spec";
 import type { SurfaceBinding } from "../presentation/surface-binding";
@@ -102,6 +102,7 @@ export function SceneSurfaceLayer({
   plate,
   onRead,
   readableSlotIds,
+  renderSurface,
 }: {
   readonly slots: readonly SceneSurfaceSlot[];
   readonly bindings: readonly SurfaceBinding[];
@@ -109,6 +110,11 @@ export function SceneSurfaceLayer({
   readonly plate: { readonly width: number; readonly height: number };
   readonly onRead?: (slotId: string) => void;
   readonly readableSlotIds?: ReadonlySet<string>;
+  /**
+   * A richer drawing for a slot, such as the room's broadcast or front page.
+   * It fills the slot's rectangle in place of the plain text line.
+   */
+  readonly renderSurface?: (slotId: string) => ReactNode | null;
 }) {
   const slotsById = new Map(slots.map((slot) => [slot.slot_id, slot]));
   const painted = bindings.filter((binding) => binding.state === "bound");
@@ -124,19 +130,29 @@ export function SceneSurfaceLayer({
         const slot = slotsById.get(binding.slotId);
         if (!slot) return null;
         const rect = slot.rect_percent;
+        const drawn = renderSurface?.(binding.slotId) ?? null;
         const type = typeSizeFor(rect, slot.kind, binding.shows.length, plate);
+        // A drawn surface is laid out in em: its font size is a share of the
+        // slot's height, held back so a wide, short slot does not overflow.
+        const drawnSize = Math.max(
+          6,
+          Math.min(
+            ((rect.height_percent / 100) * plate.height) / 7,
+            ((rect.width_percent / 100) * plate.width) / 13,
+          ),
+        );
         const style: CSSProperties = {
           left: `${rect.x_percent}%`,
           top: `${rect.y_percent}%`,
           width: `${rect.width_percent}%`,
           height: `${rect.height_percent}%`,
-          fontSize: `${type.fontSize}px`,
+          fontSize: `${drawn ? drawnSize : type.fontSize}px`,
           zIndex: slot.z_order,
         };
         return (
           <div
             key={binding.slotId}
-            className={`scene-surface scene-surface--${slot.kind}`}
+            className={`scene-surface scene-surface--${slot.kind}${drawn ? " scene-surface--room-media" : ""}`}
             data-testid={`scene-surface-${binding.slotId}`}
             data-slot-id={binding.slotId}
             data-surface-kind={slot.kind}
@@ -145,12 +161,14 @@ export function SceneSurfaceLayer({
             data-access={binding.access ?? ""}
             style={style}
           >
-            <span
-              className="scene-surface-text"
-              style={{ ["--scene-surface-lines" as string]: `${type.lines}` }}
-            >
-              {binding.shows}
-            </span>
+            {drawn ?? (
+              <span
+                className="scene-surface-text"
+                style={{ ["--scene-surface-lines" as string]: `${type.lines}` }}
+              >
+                {binding.shows}
+              </span>
+            )}
             {onRead && readableSlotIds?.has(binding.slotId) ? (
               <button
                 type="button"

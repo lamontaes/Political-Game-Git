@@ -1,3 +1,4 @@
+import { readerHeadline } from "./news-headlines";
 import {
   personName,
   projectMeaningfulChanges,
@@ -46,6 +47,8 @@ export interface RecapEntry {
   readonly sequence: number;
   readonly at: IsoDate;
   readonly headline: string;
+  /** The short headline a reader sees, when it differs from the record. */
+  readonly readerHeadline?: string;
   /** How this reached the player, when that matters to how it is read. */
   readonly attribution: string | null;
   readonly inNews: boolean;
@@ -212,6 +215,7 @@ function newsSince(world: World, frontier: number): RecapEntry[] {
       sequence: latestSequence.get(item.publicationId)!,
       at: item.publicationTime,
       headline: item.headline,
+      readerHeadline: readerHeadline(world, item),
       attribution:
         item.corrections.length > 0
           ? `${item.outletName}, corrected`

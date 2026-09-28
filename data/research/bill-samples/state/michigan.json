@@ -1,0 +1,184 @@
+[
+  {
+    "id": "mi-2025-sb8-minimum-wage",
+    "jurisdiction": "Michigan",
+    "level": "state",
+    "session": "103rd Legislature (2025)",
+    "bill_number": "SB 8",
+    "law_citation": "Public Act 1 of 2025",
+    "short_title": "Minimum wage and tipped wage schedule",
+    "enacted_date": "2025-02-21",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://legislature.mi.gov/Bills/Bill?ObjectName=2025-SB-0008",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Wages and working hours",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "raise",
+    "secondary_operations": ["replace"],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Minimum wage steps up to a target.",
+        "numbers": [
+          {
+            "value": 12.48,
+            "unit": "USD per hour 2025",
+            "text": "12.48 USD per hour 2025"
+          },
+          {
+            "value": 15,
+            "unit": "USD per hour by 2027 (inferred)",
+            "text": "15 USD per hour by 2027 (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "phase-in",
+        "description": "Tipped wage rises gradually as a share of the minimum wage instead of being eliminated.",
+        "numbers": [
+          {
+            "value": 38,
+            "unit": "percent old share",
+            "text": "38 percent old share"
+          },
+          {
+            "value": 50,
+            "unit": "percent by 2031",
+            "text": "50 percent by 2031"
+          }
+        ]
+      },
+      {
+        "kind": "indexation",
+        "description": "Inflation indexing after the schedule ends (inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "transition",
+        "description": "Replaces the schedule that a court ruling would have imposed."
+      }
+    ],
+    "touches": ["restaurants", "retail employers"],
+    "daily_life": "A tipped server keeps a lower base wage plus tips; everyone else's minimum rises.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "mi-2025-hb4002-earned-sick-time",
+    "jurisdiction": "Michigan",
+    "level": "state",
+    "session": "103rd Legislature (2025)",
+    "bill_number": "HB 4002",
+    "law_citation": "Public Act 2 of 2025",
+    "short_title": "Earned sick time act amendments",
+    "enacted_date": "2025-02-21",
+    "enactment_path": "signed",
+    "effective_dates": ["2025-02-21", "2025-10-01"],
+    "official_text_url": "https://www.legislature.mi.gov/documents/2025-2026/publicact/pdf/2025-PA-0002.pdf",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Paid and unpaid leave",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "threshold",
+        "description": "Defines a small business generally by 10 or fewer workers, with a 20-workweek lookback rule.",
+        "numbers": [
+          {
+            "value": 10,
+            "unit": "workers",
+            "text": "10 workers"
+          }
+        ]
+      },
+      {
+        "kind": "benefit",
+        "description": "Small-business employees may use up to 40 hours and other employees up to 72 hours of paid earned sick time per year unless the employer allows more.",
+        "numbers": [
+          {
+            "value": 40,
+            "unit": "hours small-business use cap",
+            "text": "40 hours small-business use cap"
+          },
+          {
+            "value": 72,
+            "unit": "hours other-employer use cap",
+            "text": "72 hours other-employer use cap"
+          }
+        ]
+      },
+      {
+        "kind": "phase-in",
+        "description": "Small businesses have a transition period through September 30, 2025."
+      }
+    ],
+    "touches": ["payroll systems", "small businesses"],
+    "daily_life": "Workers accrue paid sick time; small-business employees have a lower annual use limit and later compliance date.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": "Public Act 2 of 2025 text confirms the 10-worker definition, 40/72-hour use limits and February 21 effective date. The transition period requires separate application; do not treat every worker as immediately eligible for 72 hours."
+  },
+  {
+    "id": "mi-2025-hb4951-marijuana-wholesale-tax",
+    "jurisdiction": "Michigan",
+    "level": "state",
+    "session": "103rd Legislature (2025)",
+    "bill_number": "HB 4951",
+    "law_citation": "Public Act 23 of 2025",
+    "short_title": "Marijuana wholesale tax for road funding",
+    "enacted_date": "2025-10-07",
+    "enactment_path": "signed",
+    "effective_dates": ["2026-01-01"],
+    "official_text_url": "https://zeus-milenia.legislature.mi.gov/documents/2025-2026/publicact/pdf/2025-PA-0023.pdf",
+    "aggregator_url": null,
+    "menu": "01",
+    "menu_name": "Infrastructure",
+    "sub_topic": "Roads & bridges - funding",
+    "secondary_menus": ["04"],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Imposes a 24% excise tax on specified wholesale marijuana transfers beginning January 1, 2026.",
+        "numbers": [
+          {
+            "value": 24,
+            "unit": "percent",
+            "text": "24 percent"
+          }
+        ]
+      },
+      {
+        "kind": "earmark",
+        "description": "Allocates $3 million in FY2025-26 to the Comprehensive Road Funding Fund and the balance to the Neighborhood Roads Fund.",
+        "numbers": [
+          {
+            "value": 3000000,
+            "unit": "USD FY2025-26",
+            "text": "3000000 USD FY2025-26"
+          }
+        ]
+      }
+    ],
+    "touches": ["road agencies", "cannabis retailers", "school aid fund"],
+    "daily_life": "Specified marijuana wholesale transfers incur a 24% tax; the law directs most receipts to neighborhood roads.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": "Public Act 23 is HB 4951, not HB 4180. The removed $420 million projection, $1.8 billion package target and fuel-tax redirection are not terms of this act. Later road revenue depends on actual collections."
+  }
+]

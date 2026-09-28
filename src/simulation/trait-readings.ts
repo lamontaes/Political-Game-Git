@@ -12,6 +12,7 @@ import type {
   DecisionImportance,
   EntityId,
   MindSourceReference,
+  PersonalityTendencyRecord,
   World,
 } from "./types";
 
@@ -68,6 +69,18 @@ export function readTrait(
     ? latestPersonalityTendency(world, personId, tendencyId)
     : undefined;
   if (!record) return { state: "unrecorded" };
+  return traitReadingOfRecord(trait, record);
+}
+
+/**
+ * What one given record of this trait says, whether or not it is the person's
+ * latest. A reader that names a trait as it was when somebody saw it (the
+ * person card's learned traits) reads the record that sighting cited.
+ */
+export function traitReadingOfRecord(
+  trait: RegisteredTrait,
+  record: PersonalityTendencyRecord,
+): TraitReading {
   if (record.expressionKey === trait.scale.balancedKey) {
     return { state: "recorded", value: 0, recordId: record.id, label: null };
   }

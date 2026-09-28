@@ -171,8 +171,8 @@ export function NationwideCandidacyWorkspace({
             <>
               {candidacy.eligible ? (
                 <p>
-                  You may stand for {candidacy.identity.displayName} today.
-                  Filing opens a campaign with nothing in it.
+                  You may run for {candidacy.identity.displayName} today. Filing
+                  opens a campaign with nothing in it.
                 </p>
               ) : (
                 <BlockList blocks={candidacy.blocks} />
@@ -254,7 +254,7 @@ export function NationwideCandidacyWorkspace({
       ) : (
         <p className="game-note" data-testid="state-executive-unavailable">
           No chief executive office is on record for where this life is set, so
-          there is none to stand for.
+          there is none to run for.
         </p>
       )}
       <CongressCandidacySection

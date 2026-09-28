@@ -99,10 +99,13 @@ describe("LifeScenePanel variants", () => {
     expect(html).not.toContain("Personal plans");
   });
 
-  it("in Personal, keeps the walks and personal plans beside the scene", () => {
+  it("in Personal, keeps walks beside the scene without the retired leisure prompt", () => {
     const html = render();
     expect(html).toContain('data-testid="life-scene-prose"');
     expect(html).toContain('data-testid="life-walks"');
-    expect(html).toContain("Personal plans");
+    expect(html).not.toContain("Personal plans");
+    expect(html).not.toContain("Make time to learn something");
+    expect(html).not.toContain("Make time for people you know");
+    expect(html).not.toContain("Make some time for yourself");
   });
 });

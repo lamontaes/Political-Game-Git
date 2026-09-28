@@ -268,10 +268,10 @@ function Story({
       ) : null}
       <h3>
         {expanded ? (
-          story.headline
+          story.readerHeadline
         ) : (
           <button className="pg-news-headline" type="button" onClick={onRead}>
-            {story.headline}
+            {story.readerHeadline}
           </button>
         )}
       </h3>
@@ -281,7 +281,7 @@ function Story({
           {world39Date(story.publishedAt)}
         </time>
       </p>
-      {story.body !== story.headline ? (
+      {story.body !== story.readerHeadline ? (
         <p className="pg-news-body">
           {expanded || story.body.length < 280
             ? story.body

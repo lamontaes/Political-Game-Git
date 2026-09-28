@@ -20,7 +20,7 @@ import { projectToday } from "./day-overview";
 import { projectLifeRecord } from "./life-record";
 import { createExplicitGeographyLife } from "./new-game-geography";
 import { openOrdinaryLife } from "./ordinary-life";
-import { submitTimeCommand } from "./time-command";
+import { previewTimeCommand, submitTimeCommand } from "./time-command";
 import { declineVenueActivity } from "./venue-activity";
 
 /**
@@ -155,10 +155,19 @@ describe("an offer with a reply date", () => {
           entry.key.startsWith("job-offer:"),
         ),
       ).toBe(true);
+      const stillWaiting = skip(after, start.personId, 60, "quiet-stretch");
+      expect(stillWaiting.world).toBe(after);
+      expect(stillWaiting.receipt.status).toBe("refused");
       const accepted = answerJobOffer(after, application.id, true);
       expect(accepted.ok).toBe(true);
       const startOn = expectedStart(accepted.world, application.id)!;
       const saved = deserializeWorld(serializeWorld(accepted.world));
+      expect(
+        previewTimeCommand(saved, start.personId, { kind: "quiet-stretch" }),
+      ).toMatchObject({
+        targetDate: startOn,
+        cappedBy: { title: "Accepted work start", date: startOn },
+      });
       const startStop = skipAfterShownCivicStops(
         saved,
         start.personId,
@@ -170,6 +179,14 @@ describe("an offer with a reply date", () => {
       expect(latestApplicationStep(startStop.world, application.id)?.kind).toBe(
         "accepted",
       );
+      const stillStartable = skip(
+        startStop.world,
+        start.personId,
+        60,
+        "quiet-stretch",
+      );
+      expect(stillStartable.world).toBe(startStop.world);
+      expect(stillStartable.receipt.status).toBe("refused");
       expect(startJob(startStop.world, application.id).ok).toBe(true);
     }
     expect(stopped).toBe(true);

@@ -11,6 +11,7 @@ import {
   traitConsiderations,
 } from "../simulation/people-traits";
 import type { PeopleTrait } from "../simulation/people-trait-definitions";
+import { recordFormativePlayerTraitChoice } from "../simulation/people-player-traits";
 import type { DecisionConsideration } from "../simulation/types";
 import { chooseFormativeOption, projectFormativeYears } from "./formative-play";
 import type { FormativeScene, FormativeYears } from "./formative-play";
@@ -126,11 +127,19 @@ export function playChildhoodMoment(
     if (!input.optionKey) {
       throw new Error("This age chooses for themselves; name the choice.");
     }
-    return chooseFormativeOption(world, {
+    const chosen = chooseFormativeOption(world, {
       personId: input.personId,
       situationKey: scene.situationKey,
       optionKey: input.optionKey,
       withPersonId: scene.withPersonId,
+    });
+    return recordFormativePlayerTraitChoice(world, chosen, {
+      personId: input.personId,
+      situationKey: scene.situationKey,
+      optionKey: input.optionKey,
+      choiceLabel:
+        scene.options.find((option) => option.key === input.optionKey)?.label ??
+        input.optionKey,
     });
   }
   if (input.optionKey) {

@@ -30,11 +30,9 @@ import { fixture as p2r1Fixture } from "../../tests/support/p2r1-worlds";
 /**
  * The audited collapse, and the route out of it.
  *
- * P2A2 reproduced an adult life that ran out. One hundred and fifty-one
- * minutes finished the week's errands; both remaining scenes went with it;
- * another six hundred minutes and another five thousand brought nothing back;
- * and a normal browser route reached "Let the weeks run on" with no scene and
- * no choices for the rest of the character's existence.
+ * P2A2 reproduced an adult life that ran out after a week of errands. The
+ * errand producer has since been retired. This suite holds the remaining
+ * record-backed routes, clock, and save continuation to their own contracts.
  *
  * The original audit worlds and seeds remain here. Quiet intervals now move
  * through the shell clock; a missing situation must not manufacture a choice.
@@ -108,26 +106,10 @@ describe("the week runs out, and the life does not", () => {
     };
   }
 
-  it("still reproduces the empty bank the moment the errands are finished", () => {
-    const { world, personId } = audited();
-    expect(buildAdultLifeContext(world, personId).hasHouseholdWorkItem).toBe(
-      true,
-    );
-    // The audited step, unchanged: 151 minutes against a 150-minute item.
-    const finished = advanceWorldMinutes(world, 151);
-    assertWorldIntegrity(finished);
-    const context = buildAdultLifeContext(finished, personId);
-    expect(context.hasHouseholdWorkItem).toBe(false);
-    const offered = availableAdultSituations(context).map((s) => s.key);
-    expect(offered).not.toContain("adult.household-standing");
-    expect(offered).not.toContain("adult.ordinary-good-day");
-  });
-
   it("leaves that same world with somewhere to go anyway", () => {
     const { world, personId } = audited();
     const finished = advanceWorldMinutes(world, 151);
-    // The two household scenes are genuinely gone, and the life is not: the
-    // requests somebody actually made are still open and still answerable.
+    // Requests actually made are still open and answerable.
     const offered = availableAdultSituations(
       buildAdultLifeContext(finished, personId),
     );
@@ -140,66 +122,43 @@ describe("the week runs out, and the life does not", () => {
     );
   });
 
-  it("lets a legacy grocery week finish without creating another chore", () => {
-    const { world, personId } = audited();
-    const finished = advanceWorldMinutes(world, 151);
-    expect(buildAdultLifeContext(finished, personId).hasHouseholdWorkItem).toBe(
-      false,
-    );
-    const sameDay = refreshLifeOpportunities(finished, personId);
-    expect(buildAdultLifeContext(sameDay, personId).hasHouseholdWorkItem).toBe(
-      false,
-    );
-    const laterOn = refreshLifeOpportunities(
-      letAdultTimePass(finished, 8),
-      personId,
-    );
-    assertWorldIntegrity(laterOn);
-    expect(buildAdultLifeContext(laterOn, personId).hasHouseholdWorkItem).toBe(
-      false,
-    );
-    expect(lifeOpportunitiesFor(laterOn, personId).length).toBeGreaterThan(0);
-    const offered = availableAdultSituations(
-      buildAdultLifeContext(laterOn, personId),
-    ).map((s) => s.key);
-    expect(offered).not.toContain("adult.ordinary-good-day");
-    expect(offered).not.toContain("adult.household-standing");
-  });
-
-  it("answers the audited six hundred and five thousand minutes", () => {
+  it("does not restore retired scenes when the clock moves", () => {
     const { world, personId } = audited();
     let current = advanceWorldMinutes(world, 151);
     for (const minutes of [600, 5_000]) {
       current = advanceWorldMinutes(current, minutes);
       assertWorldIntegrity(current);
     }
-    // Minutes alone still write nothing — a clock is not a transition, and
-    // that part of the audit's reasoning was right.
     expect(lifeOpportunitiesFor(current, personId).length).toBeGreaterThan(0);
     const played = refreshLifeOpportunities(
       letAdultTimePass(current, 21),
       personId,
     );
-    expect(buildAdultLifeContext(played, personId).hasHouseholdWorkItem).toBe(
-      false,
-    );
-    expect(lifeOpportunitiesFor(played, personId).length).toBeGreaterThan(0);
+    const offered = availableAdultSituations(
+      buildAdultLifeContext(played, personId),
+    ).map((situation) => situation.key);
+    for (const retired of [
+      "adult.household-standing",
+      "adult.household-quiet-evening",
+      "adult.friend-favour",
+      "adult.work-extra-hours",
+      "adult.ordinary-good-day",
+    ]) {
+      expect(offered).not.toContain(retired);
+    }
   });
 });
 
 describe("a normal route stays a normal route", () => {
   for (const seed of ["p2r2-sustained", "adaptive-life-test", "p1-quiet"]) {
-    it(`lets ${seed} continue through real requests and quiet weeks`, () => {
+    it(`lets ${seed} continue through choices and quiet weeks`, () => {
       const { world, personId } = newLife({ seed });
       const played = playThrough(world, personId, 18);
       assertWorldIntegrity(played.world);
-      // The old variety count included grocery and leisure prompts. The
-      // existing grounded requests remain answerable after those are removed.
+      // The shell clock continues when no record-backed choice is offered.
+      // Scene breadth is an open content gap after retirement of routine
+      // activities; this check only verifies that the remaining route works.
       expect(played.scenes).toContain("adult.local-issue-position");
-      expect(played.scenes).toContain("adult.friend-favour");
-      expect(played.scenes).not.toContain("adult.household-standing");
-      expect(played.scenes).not.toContain("adult.ordinary-good-day");
-      expect(played.scenes).not.toContain("adult.home.plan-week");
       expect(played.quiet).toBeGreaterThan(0);
       const tail = playThrough(played.world, personId, 6);
       assertWorldIntegrity(tail.world);
@@ -230,9 +189,7 @@ describe("a normal route stays a normal route", () => {
     const before = serializeWorld(world);
     // A scene whose request nobody made cannot be reached by naming it.
     for (const [key, option] of [
-      ["adult.friend-favour", "do-it"],
       ["adult.candidacy-approach", "say-maybe"],
-      ["adult.work-extra-hours", "take-them"],
     ] as const) {
       if (
         availableAdultSituations(buildAdultLifeContext(world, personId)).some(
