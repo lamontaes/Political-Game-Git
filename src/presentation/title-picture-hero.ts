@@ -59,7 +59,11 @@ export function titlePictureHero(
   if (!look) return null;
   // Posed for the role (CLOUD G's hero-posture.ts): an official at the
   // podium, a judge seated in the robe, anyone else with arms folded.
-  const engine = heroRecipe(look, summary.playerRole?.kind, PEOPLE_PACK);
+  // The figure's box is a standing person's, so a judge keeps the robe but
+  // stands (CLOUD G: stand them, or seat them with seatedEngineBox).
+  const posed = heroRecipe(look, summary.playerRole?.kind, PEOPLE_PACK);
+  const engine =
+    posed.pose === "seated" ? { ...posed, pose: look.pose } : posed;
   const heightPercent = TITLE_HERO_HEIGHT_PERCENT;
   const widthPercent = heightPercent / FIGURE_HEIGHT_TO_WIDTH / PICTURE_ASPECT;
   return {

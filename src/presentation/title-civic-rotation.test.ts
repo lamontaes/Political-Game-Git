@@ -280,7 +280,8 @@ describe("the saved character in front of their place", () => {
       saved({ kind: "judge", title: "Judge", stateUsps: "KY" }),
       "county-courtroom",
     );
-    expect(judge?.engine.pose).toBe("seated");
+    // In the robe where the pack has one, standing in the standing box.
+    expect(judge?.engine.pose).toBe(look.pose);
     expect(
       titlePictureHero(saved(undefined), "city-hall-exterior")?.engine.pose,
     ).toBe("arms-folded");
