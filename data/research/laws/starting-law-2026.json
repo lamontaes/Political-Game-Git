@@ -1781,11 +1781,11 @@
         },
         "US-NE": {
           "answer": "yes",
-          "operativeAt": "2024-04-01",
+          "operativeAt": "2024-05-14",
           "preempts": true,
           "cite": "Neb. Const. art. I, § 22 (LB 514 of 2023)",
           "source": "https://sos.nebraska.gov/voter-id",
-          "note": "Strict photo with a reasonable impediment certification for voters who cannot obtain ID; first applied to the May 2024 primary."
+          "note": "Strict photo with a reasonable impediment certification for voters who cannot obtain ID. Signed 6/1/2023 (LB 514); first applied at the 5/14/2024 primary."
         },
         "US-NH": {
           "answer": "yes",
