@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import { storyLeads } from "../press/desk";
+import { jailTermOn } from "../justice/jail-terms";
 import { advanceWorld, assertWorldIntegrity } from "../world";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import {
@@ -344,6 +345,10 @@ describe("ordinary local crime", () => {
         expect(arrest.summary).toContain(personName(person));
         // The circumstances that pointed to them ride on the record.
         expect(offender.detail).toMatch(/^Arrested; /);
+        // Nobody is arrested for an offense while serving a jail term.
+        expect(
+          jailTermOn(world, offender.personId, arrest.occurredAt),
+        ).toBeNull();
         expect(
           referrals.some(
             (referral) =>

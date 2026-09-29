@@ -8,6 +8,7 @@ import {
 } from "../life-queries";
 import { latestPersonalityTendency } from "../queries";
 import type { EntityId, HistoricalEvent, World } from "../types";
+import { jailTermOn } from "../justice/jail-terms";
 import { isPersonAliveAt } from "../vitality";
 import type { CrimeOffense } from "./contract";
 
@@ -19,6 +20,7 @@ import type { CrimeOffense } from "./contract";
  * being young, a past record, a grievance against someone they know, a taste
  * for risk), and the offense is laid at the door of the resident whose
  * circumstances point there most, when they point there strongly enough.
+ * Nobody serving a jail term is named.
  * Where nobody the world names fits, the offender is somebody it does not
  * name, and the case stays open.
  *
@@ -165,6 +167,8 @@ export function offenderFor(
     const lastReferral = referred.get(personId);
     // Someone already answering for a recent case is not out offending.
     if (lastReferral && lastReferral >= busyFrom) continue;
+    // Someone serving a jail term is not in town to offend.
+    if (jailTermOn(world, personId, incident.occurredAt)) continue;
     let score = 0;
     const reasons: string[] = [];
     const { peakAges, nextAges } = UNRESEARCHED_OFFENDERS;
