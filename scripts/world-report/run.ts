@@ -2123,6 +2123,7 @@ const DIRECT_PATH_WORDS: Readonly<Record<string, string>> = {
   paycheck: "paychecks",
   "state-revenue": "the state's revenue",
   "rent-and-eviction": "rents and evictions",
+  "home-prices": "home prices and the rents that follow them",
   "seat-turnover": "who holds seats",
 };
 
