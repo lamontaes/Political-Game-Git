@@ -135,8 +135,28 @@ export const HOUSE_SPECIAL_ELECTION = "governing:house-special-election";
 export const HOUSE_SPECIAL_ELECTION_PROFILE = {
   id: "ocd-house-special-election-game-profile/v1",
   daysFromVacancyToElection: 90,
-  samePartyPermille: 750,
 } as const;
+
+/** The party a special election's voters return, from the seat's lean. */
+function voterChoice(
+  world: World,
+  seatKey: string,
+  priorParty: string | null,
+  majors: readonly string[],
+): string | null {
+  const condition = seatStartingCondition(world, seatKey);
+  const party = aggregateCongressAffiliation({
+    democraticShare: condition?.generatedShare ?? null,
+    baselineAffiliation: condition?.affiliation ?? priorParty,
+    incumbentAffiliation: priorParty,
+    incumbentSeeking: false,
+  });
+  return party && majors.includes(party)
+    ? party
+    : priorParty && majors.includes(priorParty)
+      ? priorParty
+      : null;
+}
 
 /**
  * A VACANT U.S. SENATE SEAT. The Seventeenth Amendment has the state's
@@ -696,12 +716,10 @@ function seatNewMember(
     ? legislatureParty
     : mode === "appointment" && appointeeParty
       ? appointeeParty
-      : priorParty && majors.includes(priorParty)
-        ? rng.integer(0, 1000) <
-          HOUSE_SPECIAL_ELECTION_PROFILE.samePartyPermille
-          ? priorParty
-          : majors.find((key) => key !== priorParty)!
-        : rng.pick(majors);
+      : // The voters choose as they would at a regular election: the seat's
+        // own two-party lean, with the prior party where the lean is even
+        // or unread (congress-aggregate-outcome.ts). No draw.
+        (voterChoice(world, seat.seatKey, priorParty, majors) ?? majors[0]!);
   const memberKey = `${due.stableKey}:member`;
   const title = congressSeatTitle(seat);
   // The governor names someone they know (appointments-v1): the state's
