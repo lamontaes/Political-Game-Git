@@ -13,6 +13,7 @@ import {
   BUSINESS_WORKER_WORK_KIND,
   LOCAL_BUSINESS_KINDS,
   OWNER_DRAW_BASIS,
+  localBusinessWageMinor,
   localBusinessesIn,
   refreshLocalEconomy,
 } from "../simulation/local-economy";
@@ -194,10 +195,13 @@ describe("the businesses of a town", () => {
       for (const outcome of outcomesFor(next, basis))
         expect(outcome.status).toBe("completed");
     const usd = money(0, "USD").currency;
-    // $60,000 in, $5,000 to the owner and $2,800 to each of three staff.
+    // $60,000 in, $5,000 to the owner and the town's published cashier wage to
+    // each of three staff.
+    const wage = localBusinessWageMinor(grocery!.kind, townId);
+    expect(wage.sourced).toBe(true);
     expect(
       resourcePositionAt(next, business, usd)!.liquidBalance.minorUnits,
-    ).toBe(months.size * (6_000_000 - 500_000 - 3 * 280_000));
+    ).toBe(months.size * (6_000_000 - 500_000 - 3 * wage.monthlyMinor));
     expect(
       resourcePositionAt(next, { kind: "person", personId: ownerId }, usd)!
         .liquidBalance.minorUnits,

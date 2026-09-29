@@ -65,7 +65,7 @@ import {
 } from "../simulation";
 import { establishLifePersonality } from "../simulation/life-personality";
 import {
-  LOCAL_BUSINESS_PLACEHOLDER,
+  localBusinessWageMinor,
   localBusinessesIn,
   seatLocalBusinesses,
 } from "../simulation/local-economy";
@@ -399,7 +399,8 @@ export function buildProductionWorld(
       employerId: employer.organization.id,
       employerName,
       employerFormedAt: employer.organization.formedAt,
-      monthlyWageMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,
+      monthlyWageMinor: localBusinessWageMinor(employer.kind, jurisdiction.id)
+        .monthlyMinor,
     });
     world = ensureStartingPersonalMoney(world, player.id).world;
   }
@@ -567,7 +568,8 @@ export function finalizePreStartPlayer(
       employerId: employer.organization.id,
       employerName,
       employerFormedAt: employer.organization.formedAt,
-      monthlyWageMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,
+      monthlyWageMinor: localBusinessWageMinor(employer.kind, jurisdiction.id)
+        .monthlyMinor,
     });
     world = ensureStartingPersonalMoney(world, player.id).world;
   }

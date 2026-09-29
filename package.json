@@ -102,6 +102,8 @@
     "release:declare": "node --import tsx scripts/release/index.ts declare",
     "agent:preflight": "node scripts/agent-preflight.mjs",
     "export:town-pay": "node --import tsx scripts/source/regional-money/export-town-pay.ts",
+    "export:county-home-value": "node --import tsx scripts/source/regional-money/export-county-home-value.ts",
+    "export:household-mix": "node --import tsx scripts/source/regional-money/export-household-mix.ts",
     "storage": "node scripts/storage/cli.mjs",
     "agent:test-cadence": "node scripts/agent-test-cadence.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",

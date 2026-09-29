@@ -9,7 +9,7 @@ import { organizationProfileAt } from "../../src/simulation/life-queries";
 import {
   NEIGHBOR_CONTACT_TAG,
   NEIGHBOR_HOUSEHOLDS,
-  PEOPLE_PER_HOUSEHOLD,
+  peoplePerHousehold,
   SAME_SEX_COUPLE_SHARE,
   TOWN_RESIDENTS_VERSION,
   UNKNOWN_TOWN_POPULATION,
@@ -207,7 +207,7 @@ describe("the town's size", { timeout: 180_000 }, () => {
     const town = world.people[personId]!.homeJurisdictionId;
     const roster = townRoster(town);
     expect(roster.referencePopulation).toBe(283_621);
-    expect(roster.households).toBe(Math.ceil(283_621 / PEOPLE_PER_HOUSEHOLD));
+    expect(roster.households).toBe(Math.ceil(283_621 / peoplePerHousehold(town)));
     const described = describeTownResidents(world, town);
     // The sampled estimate lands near the reference it was generated from.
     expect(described.estimated.people / 283_621).toBeGreaterThan(0.95);

@@ -10,6 +10,7 @@ import {
   type CreateWorkRelationshipInput,
 } from "./life";
 import { lifePlaceByJurisdictionId } from "./life-places";
+import { townJobRate } from "./living-world/town-pay";
 import {
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   drawCanonicalNameForGender,
@@ -52,17 +53,57 @@ import type {
 
 /**
  * PLACEHOLDER(research: businesses-owners-and-wealth). Nobody has researched
- * any of this. One list of eight businesses for every town in the country,
- * with invented staff counts, revenue and owner pay, standing in until the
- * count by kind and town size, the size split and revenue bands are answered.
- * Replace it; do not tune it.
+ * the rest of this. One list of eight businesses for every town in the
+ * country, with invented staff counts, revenue and owner pay, standing in
+ * until the count by kind and town size, the size split and revenue bands are
+ * answered. Replace it; do not tune it.
+ *
+ * A worker's pay is not part of that placeholder: it is the published wage
+ * for the worker's occupation where the town is (BLS, May 2025), by
+ * `localBusinessWageMinor`. `monthlyWageMinor` below is used only where no
+ * published wage covers the town, and is marked as the placeholder it is.
  */
 export const LOCAL_BUSINESS_PLACEHOLDER = {
   researchQuestionId: "businesses-owners-and-wealth",
   currency: "USD",
-  /** One worker's monthly pay, the same in every business. */
+  /** PLACEHOLDER: a worker's monthly pay where no published wage covers. */
   monthlyWageMinor: 280_000,
 } as const;
+
+/**
+ * GAME ASSUMPTION: the percentile of the published wage distribution a
+ * business's staff are paid at. Staff have been there for years, so the
+ * middle of the distribution.
+ */
+export const LOCAL_BUSINESS_WAGE_PERCENTILE = 50;
+
+const HOURS_PER_YEAR = 2_080;
+
+/**
+ * What one of a business's workers is paid a month in `jurisdictionId`: the
+ * BLS Occupational Employment and Wage Statistics wage for the worker's
+ * occupation in the town's area, never below the minimum wage. The marked
+ * placeholder pay where no wage is published for that occupation and area.
+ */
+export function localBusinessWageMinor(
+  kind: Pick<LocalBusinessKind, "workerOccupation">,
+  jurisdictionId: EntityId | null,
+): { readonly monthlyMinor: number; readonly sourced: boolean } {
+  const rate = townJobRate(
+    kind.workerOccupation,
+    jurisdictionId,
+    LOCAL_BUSINESS_WAGE_PERCENTILE,
+  );
+  return rate
+    ? {
+        monthlyMinor: Math.round((rate.hourlyMinor * HOURS_PER_YEAR) / 12),
+        sourced: true,
+      }
+    : {
+        monthlyMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,
+        sourced: false,
+      };
+}
 
 export interface LocalBusinessKind {
   readonly key: string;
@@ -458,7 +499,10 @@ export function seatLocalBusinesses(
         source: business,
         recipient: { kind: "person", personId: workerId },
         startsAt: today,
-        amount: money(LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor, currency),
+        amount: money(
+          localBusinessWageMinor(plan.kind, jurisdictionId).monthlyMinor,
+          currency,
+        ),
         cadenceKind: "schedule:monthly",
         basisKind: BUSINESS_WAGES_BASIS,
         basisReference: { kind: "general" },
