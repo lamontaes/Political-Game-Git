@@ -2422,16 +2422,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.177,
       "per": "law in force",
-      "lagMonths": 12,
+      "lagMonths": 0,
       "group": "federal prisoners",
       "owner": "O",
-      "anchor": "Shorter federal minimums lower the federal prison count (to confirm); crime is about unchanged (see incarceration-to-crime)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "USSC Amendment 782 projected an average 17.7 percent reduction in guideline sentences for affected drug offenders. This is a comparison proxy, not the effect of a statutory-minimum bill. The producer counts actual people still serving a recorded covered federal sentence; the filed minimum months and recorded offense facts determine sentences and releases.",
+      "source": "https://guidelines.ussc.gov/apex/r/ussc_apex/guidelinesapp/appendixc-detail?APP_AMEND_ID=782",
+      "evidence": "provisional",
       "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-      "to": "justice.incarcerated-per-100k"
+      "to": "prison.federal-population"
     },
     {
       "key": "power-plant-carbon-to-emissions",
@@ -2586,14 +2586,14 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "law in force",
-      "lagMonths": 12,
+      "size": 0.665,
+      "per": "added working-age residents; comparison benchmark only",
+      "lagMonths": 0,
       "group": "place",
       "owner": "B",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "BLS 2024 foreign-born labor-force participation 66.5 percent is an aggregate comparison proxy, not an individual employment draw. The producer counts actual admitted residents in active jobs; the filed annual admissions count determines the cohort.",
+      "source": "https://www.bls.gov/news.release/archives/forbrn_05202025.htm",
+      "evidence": "provisional",
       "from": "law:us-federal-positions:immigration.admit-more-immigrants",
       "to": "labor.workforce"
     },
@@ -3692,7 +3692,9 @@
       "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
       "to": "health.overdose-deaths",
       "strength": "weak",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": -0.05,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 11,
@@ -3708,7 +3710,9 @@
       "from": "law:us-federal-positions:government.ban-congressional-stock-trading",
       "to": "government.member-market-returns",
       "strength": "about-zero",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": 0,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
@@ -3723,7 +3727,9 @@
       "from": "law:us-policy-positions:technology-privacy.consumer-data-privacy-law",
       "to": "labor.median-earnings",
       "strength": "about-zero",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": 0,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
@@ -3738,7 +3744,9 @@
       "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
       "to": "school.graduation-pct",
       "strength": "about-zero",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": 0,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
@@ -3753,7 +3761,9 @@
       "from": "law:us-policy-positions:civil-family-community.local-control-of-library-materials",
       "to": "school.reading-proficient-pct",
       "strength": "about-zero",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": 0,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
@@ -3768,7 +3778,9 @@
       "from": "law:us-policy-positions:civil-family-community.city-nondiscrimination-ordinance",
       "to": "household.poverty-pct",
       "strength": "about-zero",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": 0,
       "per": "ordinance in force says yes (1) rather than no (0)",
       "lagMonths": 0,

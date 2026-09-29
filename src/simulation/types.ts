@@ -1,3 +1,6 @@
+import type { LibraryMaterialsStore } from "./library-materials-types";
+import type { VoterIdentificationStore } from "./voter-identification-types";
+import type { ImmigrationAdmission } from "./immigration-admission-types";
 import type { CrisisRecord } from "./crisis/types";
 import type {
   CampaignLifeActivityRecord,
@@ -28,6 +31,7 @@ import type { MacroEconomyStore } from "./macro-economy/types";
 import type { PressureStore } from "./pressure/contract";
 import type { TownFinanceStore } from "./living-world/town-finance-types";
 import type { PublicBudgetStore } from "./public-budgets/store";
+import type { CongressionalInvestmentStore } from "./congress-investment-types";
 import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
 import type {
   TaxProposalRecord,
@@ -2736,6 +2740,8 @@ export interface ScheduledActivityRecord {
   readonly summary: string;
   readonly kind: ScheduledActivityKind;
   readonly participantPersonIds: readonly EntityId[];
+  /** Explicit NPC appointments completed by the canonical clock; absent on old saves. */
+  readonly backgroundCompletion?: boolean;
   readonly responsiblePersonId: EntityId | null;
   readonly location: AuthoredActivityLocation;
   readonly sourceEntityIds: readonly EntityId[];
@@ -5546,6 +5552,10 @@ export interface World {
    * and additive: a world written before it existed keeps no budgets.
    */
   readonly publicBudgets?: PublicBudgetStore;
+  readonly libraryMaterials?: LibraryMaterialsStore;
+  readonly voterIdentification?: VoterIdentificationStore;
+  readonly immigrationAdmissions?: readonly ImmigrationAdmission[];
+  readonly congressInvestments?: CongressionalInvestmentStore;
   /**
    * The pressure layer (2026-09-22). Optional and additive: a world written
    * before it existed has no readings and is never retrofitted.

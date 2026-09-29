@@ -2,6 +2,8 @@ import {
   studentDebtReliefOutlay,
   STUDENT_DEBT_RELIEF_QUESTION,
 } from "../student-debt-relief-law";
+import { disasterRepairExpenseDollars } from "../governing/disaster-cost-sharing";
+import { stockBanFineReceipts } from "../congress-stock-trading-law";
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import defenseData from "../../../data/research/federal/defense-contracts-by-state-fy2024.json" with { type: "json" };
 import farmData from "../../../data/research/federal/farm-payments-and-land-values-2025.json" with { type: "json" };
@@ -309,6 +311,8 @@ export function settleFederalTreasuryMonth(
   const receipts = FEDERAL_RECEIPTS.map((key) =>
     line("receipt", key, RECEIPTS[key] / 12),
   );
+  receipts[FEDERAL_RECEIPTS.indexOf("miscellaneousReceipts")]! +=
+    stockBanFineReceipts(world, month);
   const outlays = FEDERAL_OUTLAYS.map((key) =>
     line(
       "outlay",
@@ -327,6 +331,8 @@ export function settleFederalTreasuryMonth(
       amount: relief.dollars,
     });
   }
+  outlays[FEDERAL_OUTLAYS.indexOf("communityAndRegionalDevelopment")]! +=
+    disasterRepairExpenseDollars(world, month);
   const deficit =
     outlays.reduce((sum, amount) => sum + amount, 0) -
     receipts.reduce((sum, amount) => sum + amount, 0);

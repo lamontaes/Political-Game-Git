@@ -430,3 +430,36 @@ export function questionPowersRow(
 
 /** Every question key the powers file maps. */
 export const QUESTION_POWERS_KEYS: readonly string[] = Object.keys(QUESTIONS);
+
+/** Administrative collection and curriculum decisions are separate from the state policy questions that allocate them. */
+export function contentDecisionAuthority(
+  world: World,
+  townId: EntityId,
+  domain: "curriculum" | "library",
+  onDate: IsoDate = world.currentDate,
+): { level: "state" | "local" | "unknown"; reason: string } {
+  const place = lifePlaceByJurisdictionId(townId);
+  const state = place?.stateJurisdictionKey
+    ? stateJurisdictionForKey(place.stateJurisdictionKey)
+    : null;
+  const key =
+    domain === "curriculum"
+      ? "us-policy-positions:education.state-curriculum-standards"
+      : "us-policy-positions:civil-family-community.local-control-of-library-materials";
+  const question = Object.values(world.policyCatalog.propositions).find(
+    (p) => p.stableKey === key,
+  );
+  const law =
+    state && question ? lawInForce(world, state.id, question.id, onDate) : null;
+  if (!law)
+    return {
+      level: "unknown",
+      reason: "No recorded law allocates this content decision.",
+    };
+  const local =
+    domain === "curriculum" ? law.answer === "no" : law.answer === "yes";
+  return {
+    level: local ? "local" : "state",
+    reason: `${key}: ${law.answer}, law ${law.measureId}, operative ${law.operativeAt}.`,
+  };
+}

@@ -1,3 +1,5 @@
+import { federalPrisoners } from "../justice/federal-mandatory-minimums";
+import { admittedWorkforce } from "../immigration-arrival-readers";
 import { pastDueDebtDollars } from "../student-debt-relief-law";
 import web from "../../../data/research/outcome-web/links.json" with { type: "json" };
 import { addDays, daysBetween } from "../dates";
@@ -315,6 +317,8 @@ export type OutcomeLinkStatus =
 export const FLOOD_DAMAGE_OUTCOME = "disaster.flood-damage";
 
 export const OUTCOMES_PRODUCED: ReadonlySet<string> = new Set([
+  "prison.federal-population",
+  "labor.workforce",
   "finance.past-due-debt",
   FLOOD_DAMAGE_OUTCOME,
   "crime.assault",
@@ -423,6 +427,18 @@ function placeOutcomePctMovedByCauses(key: string): string | null {
 
 /** The reader for a cause: a registered measure, or the law on a question. */
 export function outcomeMeasure(key: string): OutcomeMeasure | null {
+  if (key === "prison.federal-population")
+    return {
+      key,
+      unit: "people actually serving a recorded federal jail sentence",
+      read: federalPrisoners,
+    };
+  if (key === "labor.workforce")
+    return {
+      key,
+      unit: "recorded admitted residents in active employment",
+      read: admittedWorkforce,
+    };
   if (key === "finance.past-due-debt")
     return {
       key,

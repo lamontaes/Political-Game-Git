@@ -189,6 +189,14 @@ function principlesByPerson(
 
 const RECENT_PRINCIPLES: (readonly unknown[])[] = [];
 
+/** Recorded political principles for one person, using the append-aware shared index. */
+export function recordedPrinciplesForPerson(
+  world: World,
+  personId: EntityId,
+): readonly PrincipleRecord[] {
+  return principlesByPerson(world).get(personId) ?? [];
+}
+
 /**
  * Which way a person's principles lean on a question, and how hard: a score
  * positive toward yes, negative toward no, zero where nothing they hold bears

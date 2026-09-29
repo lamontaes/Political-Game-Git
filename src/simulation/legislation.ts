@@ -1,3 +1,9 @@
+import {
+  applyVoterIdentification,
+  PHOTO_ID_QUESTION,
+} from "./voter-photo-identification-law";
+import { reviewFederalMinimumSentences } from "./justice/federal-mandatory-minimums";
+import { scheduleCongressStockDeadline } from "./congress-stock-trading-law";
 import { applyStudentDebtRelief } from "./student-debt-relief-law";
 import { addDays, makeIsoDate, spokenDate } from "./dates";
 import { sponsorPolicyTerms } from "./governing/policy-bill-terms";
@@ -2971,17 +2977,28 @@ export function recordEnactment(
     outcomeEventId: event.id,
   };
 
-  return applyStudentDebtRelief({
-    ...next,
-    history: {
-      ...next.history,
-      nextSequence: next.history.nextSequence + 1,
-      legislativeEnactments: [
-        ...(next.history.legislativeEnactments ?? []),
-        enactment,
-      ],
-    },
-  });
+  const applied = reviewFederalMinimumSentences(
+    scheduleCongressStockDeadline(
+      applyStudentDebtRelief({
+        ...next,
+        history: {
+          ...next.history,
+          nextSequence: next.history.nextSequence + 1,
+          legislativeEnactments: [
+            ...(next.history.legislativeEnactments ?? []),
+            enactment,
+          ],
+        },
+      }),
+      enactment,
+    ),
+  );
+  return (measure.propositionIds ?? []).some(
+    (id) =>
+      applied.policyCatalog.propositions[id]?.stableKey === PHOTO_ID_QUESTION,
+  )
+    ? applyVoterIdentification(applied)
+    : applied;
 }
 
 export interface RecordAdjournmentDeathInput {

@@ -1,3 +1,7 @@
+import {
+  introduceAutomaticLawMeasure,
+  type AutomaticLawGovernmentLevel,
+} from "../../src/simulation/governing/automatic-legislation";
 import { createCampaignElectionTransitionRegistry } from "../../src/simulation/campaigns";
 import { addDays, daysBetween } from "../../src/simulation/dates";
 import {
@@ -37,22 +41,45 @@ export function prepareLawPair(
     policyTerms?: readonly PolicyBillTerms[];
     sponsorPersonId: EntityId | null;
     advance?: (world: World, days: number) => World;
+    compiledLevel?: AutomaticLawGovernmentLevel;
+    answer?: "yes" | "no";
   },
 ) {
   const pack = legislativeRulePackForWorld(world, input.rulePackId);
-  const key = `laws-proof:${world.policyCatalog.propositions[input.propositionId]!.stableKey}`;
-  let next = introduceMeasure(world, {
-    ...input,
-    stableKey: key,
-    designation: "Proof Act",
-    shortTitle: "Controlled law intervention",
-    summary: "A development intervention to measure this law's world effects.",
-    origin: "member-introduction",
-    subjectClass: "general-policy",
-    originChamberKey: pack.chambers[0]!.chamberKey,
-    propositionIds: [input.propositionId],
-    propositionAnswers: [{ propositionId: input.propositionId, answer: "yes" }],
-  });
+  const key = `laws-proof:${world.policyCatalog.propositions[input.propositionId]!.stableKey}:${input.answer ?? "yes"}:${world.history.nextSequence}`;
+  const compiled =
+    input.compiledLevel && input.sponsorPersonId
+      ? introduceAutomaticLawMeasure(world, {
+          jurisdictionId: input.jurisdictionId,
+          governmentLevel: input.compiledLevel,
+          propositionId: input.propositionId,
+          answer: input.answer ?? "yes",
+          intakeKey: key,
+          stableKey: key,
+          designation: "Proof Act",
+          sponsorPersonId: input.sponsorPersonId,
+          originChamberKey: pack.chambers[0]!.chamberKey,
+          principleRecordIds: [],
+          principleScore: 0,
+        })
+      : null;
+  let next =
+    compiled?.world ??
+    introduceMeasure(world, {
+      ...input,
+      stableKey: key,
+      designation: "Proof Act",
+      shortTitle: "Controlled law intervention",
+      summary:
+        "A development intervention to measure this law's world effects.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: pack.chambers[0]!.chamberKey,
+      propositionIds: [input.propositionId],
+      propositionAnswers: [
+        { propositionId: input.propositionId, answer: input.answer ?? "yes" },
+      ],
+    });
   const measureId = next.history.legislativeMeasures!.at(-1)!.id;
   const provenance = {
     method: "authored-fixture" as const,
@@ -138,8 +165,11 @@ export function prepareLawPair(
     action: "signed",
     rationale: "Controlled enactment for effect measurement.",
   });
-  const control = next;
-  const treated = recordEnactment(control, {
+  // The control follows the same ordinary preparation clock without filing the intervention.
+  // Leaving a signed bill awaiting enactment would let an autonomous agenda enact it later.
+  const preparationDays = daysBetween(world.currentDate, next.currentDate);
+  const control = preparationDays > 0 ? advance(world, preparationDays) : world;
+  const treated = recordEnactment(next, {
     stableKey: `${key}:enact`,
     measureId,
     effectiveAt: control.currentDate,

@@ -1,7 +1,10 @@
-import { describe, expect, it, vi } from "vitest";
-import type * as StateExecutives from "../nationwide-world/state-executives";
-import type { StateExecutiveHolderRecord } from "../nationwide-world/state-executives";
+import { describe, expect, it } from "vitest";
+import {
+  stateExecutiveOffice,
+  stateExecutiveTenureKeyPrefix,
+} from "../nationwide-world/state-executives";
 import { makeIsoDate } from "../dates";
+import { createHistoryStore } from "../history";
 import { lifePlaceByKey, stateJurisdictionForKey } from "../life-places";
 import { STATES } from "../state-reference";
 import type { EntityId, World } from "../types";
@@ -38,20 +41,6 @@ import {
 } from "./reserve-rule";
 import { fundingGovernment } from "./staffing";
 import { SPENDING_QUESTION_EFFECTS, TAX_QUESTION_EFFECTS } from "./rules";
-
-// A seated governor, for the tests that need one; the partial world here
-// records no executive office.
-const seated: { holders: StateExecutiveHolderRecord[] } = { holders: [] };
-vi.mock("../nationwide-world/state-executives", async (original) => {
-  const actual = await original<typeof StateExecutives>();
-  return {
-    ...actual,
-    currentStateExecutiveHolders: (world: World) =>
-      seated.holders.length
-        ? seated.holders
-        : actual.currentStateExecutiveHolders(world),
-  };
-});
 
 /*
  * Every government keeps a budget, and the three budget laws act on it. The
@@ -113,6 +102,9 @@ function worldAt(
       ),
     },
     history: {
+      ...createHistoryStore(),
+      // Filed fixture laws start at sequence 1000; later records must remain visible.
+      nextSequence: 1001 + laws.length,
       organizations: [],
       resourceFlows: [],
       resourceTransferOutcomes: [],
@@ -1150,15 +1142,8 @@ describe("public budgets", () => {
     // is adopted July 1, 2026, and its governor decides what to do with it.
     const governorId = "person_governor" as EntityId;
     const restraint = "principle_fiscal_restraint" as EntityId;
-    seated.holders = [
-      {
-        officeKey: "il-governor",
-        title: "Governor",
-        stateUsps: "IL",
-        personId: governorId,
-        personName: "Dana Reyes",
-      } as unknown as StateExecutiveHolderRecord,
-    ];
+    const office = stateExecutiveOffice("IL")!;
+    const organizationId = "organization_governor" as EntityId;
     const lowered = worldAt("2026-01-05", {
       laws: [
         { question: JUVENILE_AGE, answer: "no", jurisdictionId: illinois },
@@ -1178,6 +1163,13 @@ describe("public budgets", () => {
     });
     const holding = (stance: "endorses" | "rejects"): World => ({
       ...lowered,
+      people: {
+        [governorId]: {
+          id: governorId,
+          givenName: "Dana",
+          familyName: "Reyes",
+        },
+      } as unknown as World["people"],
       policyCatalog: {
         propositions: {
           ...lowered.policyCatalog.propositions,
@@ -1197,6 +1189,21 @@ describe("public budgets", () => {
       } as unknown as World["policyCatalog"],
       history: {
         ...lowered.history,
+        organizations: [
+          { id: organizationId, stableKey: office.organizationStableKey },
+        ] as unknown as World["history"]["organizations"],
+        events: [
+          {
+            id: "event_governor_tenure" as EntityId,
+            stableKey: `${stateExecutiveTenureKeyPrefix(office)}2023-01-09`,
+            sequence: 2,
+            type: "world.office-tenure",
+            occurredAt: makeIsoDate("2023-01-09"),
+            recordedAt: lowered.currentDate,
+            participants: [{ personId: governorId, role: "focus:subject" }],
+            tags: ["term-end:2027-01-11"],
+          },
+        ] as unknown as World["history"]["events"],
         principles: [
           {
             id: "principle_record_1" as EntityId,
@@ -1213,64 +1220,58 @@ describe("public budgets", () => {
     const juvenile = SPENDING_QUESTION_EFFECTS.find((effect) =>
       effect.questionKey.endsWith("raise-juvenile-court-age"),
     )!;
-    try {
-      for (const stance of ["endorses", "rejects"] as const) {
-        const world = holding(stance);
-        const opening = publicBudgetFor(opened(world), illinois)!;
-        const { government, adjustments } = settleAlone(
+    for (const stance of ["endorses", "rejects"] as const) {
+      const world = holding(stance);
+      const opening = publicBudgetFor(opened(world), illinois)!;
+      const { government, adjustments } = settleAlone(
+        world,
+        opening,
+        "2026-06-01",
+      );
+      const reaction = adjustments.find((row) =>
+        row.kind.startsWith("law-gain"),
+      )!;
+      // The saving is a year of the cost at Illinois's residents.
+      expect(reaction.amount).toBeCloseTo(
+        -juvenile.toNo! * opening.population,
+        -3,
+      );
+      expect(reaction.decidedBy).toEqual({
+        personId: governorId,
+        principleRecordIds: ["principle_record_1"],
+      });
+      expect(reaction.note).toContain(`${office.displayName} Dana Reyes`);
+      const adopted = government.years.at(-1)!;
+      expect(adopted.fiscalYear).toBe(2027);
+      // A loss the laws caused, where no law requires a balanced budget:
+      // the governor who favors restraint cuts, the other keeps programs.
+      // Where a law requires balance, the one who favors a reserve cuts
+      // and the other draws the reserve, when it holds something to draw.
+      const loss = (balanced: boolean, drawable: number) =>
+        decideLawMoneyReaction(
           world,
-          opening,
-          "2026-06-01",
-        );
-        const reaction = adjustments.find((row) =>
-          row.kind.startsWith("law-gain"),
-        )!;
-        // The saving is a year of the cost at Illinois's residents.
-        expect(reaction.amount).toBeCloseTo(
-          -juvenile.toNo! * opening.population,
-          -3,
-        );
-        expect(reaction.decidedBy).toEqual({
-          personId: governorId,
-          principleRecordIds: ["principle_record_1"],
-        });
-        expect(reaction.note).toContain("Governor Dana Reyes");
-        const adopted = government.years.at(-1)!;
-        expect(adopted.fiscalYear).toBe(2027);
-        // A loss the laws caused, where no law requires a balanced budget:
-        // the governor who favors restraint cuts, the other keeps programs.
-        // Where a law requires balance, the one who favors a reserve cuts
-        // and the other draws the reserve, when it holds something to draw.
-        const loss = (balanced: boolean, drawable: number) =>
-          decideLawMoneyReaction(
-            world,
-            government,
-            -5_000_000,
-            balanced,
-            drawable,
-          )?.choice;
-        expect(loss(false, 0)).toBe(stance === "endorses" ? "cut" : "keep");
-        expect(loss(true, 1_000_000)).toBe(
-          stance === "endorses" ? "cut" : "draw",
-        );
-        expect(loss(true, 0)).toBe("cut");
-        // Mid-year, under a balanced-budget law: the governor who favors a
-        // reserve cuts before drawing it; the other draws it first.
-        expect(decideShortfallOrder(world, government).cutFirst).toBe(
-          stance === "endorses",
-        );
-        if (stance === "endorses") {
-          // Fiscal restraint favors a reserve: the saving is set aside.
-          expect(reaction.kind).toBe("law-gain-saved");
-          expect(adopted.reserveDeposit).toBeGreaterThanOrEqual(
-            reaction.amount,
-          );
-        } else {
-          expect(reaction.kind).toBe("law-gain-spent");
-        }
+          government,
+          -5_000_000,
+          balanced,
+          drawable,
+        )?.choice;
+      expect(loss(false, 0)).toBe(stance === "endorses" ? "cut" : "keep");
+      expect(loss(true, 1_000_000)).toBe(
+        stance === "endorses" ? "cut" : "draw",
+      );
+      expect(loss(true, 0)).toBe("cut");
+      // Mid-year, under a balanced-budget law: the governor who favors a
+      // reserve cuts before drawing it; the other draws it first.
+      expect(decideShortfallOrder(world, government).cutFirst).toBe(
+        stance === "endorses",
+      );
+      if (stance === "endorses") {
+        // Fiscal restraint favors a reserve: the saving is set aside.
+        expect(reaction.kind).toBe("law-gain-saved");
+        expect(adopted.reserveDeposit).toBeGreaterThanOrEqual(reaction.amount);
+      } else {
+        expect(reaction.kind).toBe("law-gain-spent");
       }
-    } finally {
-      seated.holders = [];
     }
   });
 

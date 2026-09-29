@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { contentDecisionAuthority } from "../governing/question-authority";
+import { recordCurriculumDecision } from "../governing/curriculum-decisions";
 import { makeIsoDate } from "../dates";
 import {
   lifePlaceStateIdentities,
@@ -161,6 +163,46 @@ function pair(stateKey: string, cents: number, months: number) {
   return { base, enacted, control: run(base), treated: run(enacted) };
 }
 describe("curriculum materials reach school spending", () => {
+  it("moves curriculum authority and refuses local adoption under enacted state standards in all 56 places", () => {
+    for (const place of lifePlaceStateIdentities()) {
+      const { enacted } = pair(place.jurisdictionKey, 20_000, 24);
+      const town = Object.values(enacted.jurisdictions).find(
+        (j) => j.id !== stateJurisdictionForKey(place.jurisdictionKey)!.id,
+      )!;
+      expect(
+        contentDecisionAuthority(enacted, town.id, "curriculum").level,
+        place.jurisdictionKey,
+      ).toBe("state");
+      expect(() =>
+        recordCurriculumDecision(enacted, {
+          stableKey: "unauthorized-local-standards",
+          townId: town.id,
+          authorityLevel: "local",
+          decidingPersonIds: [],
+          standards: "Local standards",
+          reason: "Attempt local adoption",
+        }),
+      ).toThrow("Curriculum adoption refused");
+      const repealed = {
+        ...enacted,
+        history: {
+          ...enacted.history,
+          legislativeMeasures: (enacted.history.legislativeMeasures ?? []).map(
+            (m) => ({
+              ...m,
+              propositionAnswers: [
+                { propositionId: proposition.id, answer: "no" as const },
+              ],
+            }),
+          ),
+        },
+      };
+      expect(
+        contentDecisionAuthority(repealed, town.id, "curriculum").level,
+        place.jurisdictionKey,
+      ).toBe("local");
+    }
+  });
   it("spends filed amounts for a 12-month watched comparison in a named random place drawn from all 56", () => {
     const seed = "curriculum-watched-2026";
     const places = lifePlaceStateIdentities();
