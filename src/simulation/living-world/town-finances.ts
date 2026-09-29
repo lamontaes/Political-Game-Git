@@ -96,18 +96,19 @@ export const TOWN_FINANCE_POLICY = {
     medianCashBufferDays: 27,
     /** PLACEHOLDER: the spread of buffers around it (log scale). */
     cashBufferLogSd: 0.8,
-    /** PLACEHOLDER: a line of credit up to this share of a year's revenue. */
-    creditLineShareOfRevenue: 0.1,
+    /** PLACEHOLDER: a line of credit up to this many days of revenue. */
+    creditLineDaysOfRevenue: 36.5,
     /**
-     * PLACEHOLDER: how much of a business's revenue follows what the town's
-     * employers pay (the rest comes from outside or does not follow).
+     * PLACEHOLDER: how far a business's revenue follows what the town's
+     * employers pay: the percent its sales move for each percent the town's
+     * pay moves (the rest comes from outside or does not follow).
      */
-    localDemandShare: 0.5,
+    localDemandElasticity: 0.5,
     /**
      * GAME ASSUMPTION: the share of a new business's sales that is new
      * spending in town. Zero: a newcomer takes its sales from the businesses
      * of its kind already there, and the pay of the jobs it adds reaches
-     * every business through the town's pay (`localDemandShare`).
+     * every business through the town's pay (`localDemandElasticity`).
      * The same share of a closed business's sales leaves town with it; the
      * rest goes to the ones that stay. A kind the town had none of draws its
      * first business's sales from what residents spent elsewhere.
@@ -116,10 +117,10 @@ export const TOWN_FINANCE_POLICY = {
     /**
      * PLACEHOLDER: how far a quarter's crowding moves a business's prices.
      * A business whose customers want more than its staff can serve raises
-     * its prices by this share of the gap, and one with too few customers
-     * cuts them the same way, at most `priceStepMax` a quarter.
+     * its prices by this much per unit of the gap, and one with too few
+     * customers cuts them the same way, at most `priceStepMax` a quarter.
      */
-    crowdingPriceShare: 0.1,
+    crowdingPriceResponse: 0.1,
     priceStepMax: 0.05,
     /**
      * PLACEHOLDER: how strongly customers choose among a town's businesses
@@ -330,7 +331,7 @@ interface Economy {
    * constant dollars at today's productivity, because game pay follows
    * neither prices nor the trend; what moves sales is the swing around the
    * trend. The town's own downturns reach its businesses through what its
-   * employers pay (`localDemandShare`), not a second time here.
+   * employers pay (`localDemandElasticity`), not a second time here.
    */
   readonly growthGapPct: number;
   readonly trendPct: number;
@@ -614,7 +615,7 @@ function openBusinessBooks(
     openingShare: 1,
     openingMarketSales: round2(annualRevenue),
     bankId,
-    lineLimit: round2(annualRevenue * P.creditLineShareOfRevenue),
+    lineLimit: round2((annualRevenue * P.creditLineDaysOfRevenue) / 365),
     lastQuarterNet: 0,
     lastQuarterPay: round2(quarterPay),
     lastRound: round,
@@ -822,7 +823,7 @@ export function stepTownFinances(
         : 0;
     const step = Math.max(
       -P.priceStepMax,
-      Math.min(P.priceStepMax, P.crowdingPriceShare * crowding),
+      Math.min(P.priceStepMax, P.crowdingPriceResponse * crowding),
     );
     prices.set(organizationId, round6(price * costGrowth * Math.exp(step)));
   }
@@ -891,9 +892,9 @@ export function stepTownFinances(
     // its jobs until then).
     const incomeFactor =
       market.townPay !== undefined && market.townPay > 0 && townPay > 0
-        ? (townPay / market.townPay) ** P.localDemandShare
+        ? (townPay / market.townPay) ** P.localDemandElasticity
         : market.townJobs > 0 && townJobs > 0
-          ? (townJobs / market.townJobs) ** P.localDemandShare
+          ? (townJobs / market.townJobs) ** P.localDemandElasticity
           : 1;
     // Customers buy less of a kind whose prices rose against everything
     // else, and spend more or less on it by the elasticity.
@@ -998,7 +999,7 @@ export function stepTownFinances(
     const lineLimit =
       existing.lineLimit > 0 || !lends(bank, economy)
         ? existing.lineLimit
-        : round2(existing.capacity * P.creditLineShareOfRevenue);
+        : round2((existing.capacity * P.creditLineDaysOfRevenue) / 365);
     if (cash < 0) {
       const room = Math.max(0, lineLimit - debt);
       if (honorsLine(bank) && room >= -cash) {

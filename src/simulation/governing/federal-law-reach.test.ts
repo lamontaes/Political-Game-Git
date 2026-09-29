@@ -9,6 +9,7 @@ import {
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import {
   OUTCOME_LINKS,
+  OUTCOMES_PRODUCED,
   outcomeFactor,
   outcomeLinkStatus,
   outcomeMeasure,
@@ -219,7 +220,61 @@ describe("what federal laws change in the outcome web", () => {
     ]).toEqual([-0.3, "built"]);
   });
 
-  it("sizes the federal rows that wait on an outcome the game does not measure yet", () => {
+  it("moves the prices, drug costs, high-cost loans and older work of every place, once each law's lag has passed", () => {
+    // In force from March 1, 2026. Each row: the measure, the size, the lag.
+    const rows = [
+      ["tariffs-to-prices", "household.prices"],
+      ["drug-negotiation-to-out-of-pocket", "health.drug-out-of-pocket"],
+      ["federal-loan-cap-to-high-cost-loans", "finance.high-cost-loans"],
+      ["retirement-age-to-older-work", "labor.older-employment"],
+    ] as const;
+    for (const [key, measure] of rows) {
+      const row = link(key);
+      expect(row.to).toBe(measure);
+      expect(OUTCOMES_PRODUCED.has(measure), measure).toBe(true);
+      const lagged = new Date(Date.UTC(2026, 2, 2));
+      lagged.setUTCMonth(lagged.getUTCMonth() + row.lagMonths);
+      const after = makeIsoDate(lagged.toISOString().slice(0, 10));
+      let moved = 0;
+      for (const place of STATES) {
+        const cause = outcomeFactor(
+          world,
+          place.id,
+          measure,
+          after,
+        ).causes.find((entry) => entry.key === key);
+        // The loan cap acts only where the state has no cap of its own: a
+        // state that already caps rates gains nothing from the federal one.
+        const stateCaps =
+          row.moderator !== undefined &&
+          outcomeMeasure(row.moderator.measure)!.read(
+            world,
+            place.id,
+            after,
+          ) !== 0;
+        if (stateCaps) {
+          expect(cause?.factor ?? 1, `${place.name} ${key}`).toBeCloseTo(1, 10);
+          continue;
+        }
+        moved += 1;
+        expect(cause?.factor, `${place.name} ${key}`).toBeCloseTo(
+          1 + row.size!,
+          10,
+        );
+        const before = outcomeFactor(
+          world,
+          place.id,
+          measure,
+          makeIsoDate("2026-03-02"),
+        ).causes.find((entry) => entry.key === key);
+        if (row.lagMonths > 0)
+          expect(before, `${place.name} ${key}`).toBeUndefined();
+      }
+      expect(moved, key).toBeGreaterThan(0);
+    }
+  });
+
+  it("acts on the outcomes the game now keeps for them", () => {
     expect(
       Object.fromEntries(
         [
@@ -230,10 +285,10 @@ describe("what federal laws change in the outcome web", () => {
         ].map((key) => [key, [link(key).size, outcomeLinkStatus(link(key))]]),
       ),
     ).toEqual({
-      "drug-negotiation-to-out-of-pocket": [-0.08, "outcome-not-produced"],
-      "federal-loan-cap-to-high-cost-loans": [-0.32, "outcome-not-produced"],
-      "retirement-age-to-older-work": [0.1, "outcome-not-produced"],
-      "tariffs-to-prices": [0.008, "outcome-not-produced"],
+      "drug-negotiation-to-out-of-pocket": [-0.08, "built"],
+      "federal-loan-cap-to-high-cost-loans": [-0.32, "built"],
+      "retirement-age-to-older-work": [0.1, "built"],
+      "tariffs-to-prices": [0.008, "built"],
     });
   });
 });
