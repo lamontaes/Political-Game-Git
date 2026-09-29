@@ -17,6 +17,7 @@
  * Ordering is by state then key, so the generated fixture is stable.
  */
 
+import { includeCouncilSizeReadings } from "./council-size-readings";
 import { includeExistingResearch } from "./research-expansion";
 import type {
   NationalResearchCorpus,
@@ -3990,5 +3991,5 @@ export const NATIONAL_MUNICIPAL_RESEARCH: NationalResearchCorpus = {
   attestedAsOf: ATTESTED,
   readOn: "2026-09-08",
   evidenceClass: "secondary-synthesis",
-  governments: includeExistingResearch(GOVERNMENTS),
+  governments: includeCouncilSizeReadings(includeExistingResearch(GOVERNMENTS)),
 };

@@ -19,10 +19,8 @@ import {
   PROSECUTION_SENTENCED_EVENT,
 } from "../simulation/justice/jail-terms";
 import {
-  caseCourse,
   jailTermOn,
   referForProsecution,
-  referralStableKey,
   sentencesOf,
 } from "../simulation/justice/prosecution";
 import { ageOnDate } from "../simulation/dates";
@@ -52,17 +50,6 @@ function lifeIn(stateKey: string, seed: string) {
   };
 }
 
-/** A referral key whose drawn course, in this world, ends in jail. */
-function jailKey(world: World, prefix: string, from: number): string {
-  for (let index = from; index < from + 500; index += 1) {
-    const key = `${prefix}:${index}`;
-    const course = caseCourse(world, referralStableKey(key), "documentary", 1);
-    if (course.sentence?.kind === "jail" && course.sentence.months >= 9)
-      return key;
-  }
-  throw new Error("No jail course in 500 keys.");
-}
-
 function refer(world: World, personId: EntityId, key: string): World {
   return referForProsecution(world, {
     stableKey: key,
@@ -72,11 +59,13 @@ function refer(world: World, personId: EntityId, key: string): World {
     referredBy: { kind: "regulator", label: "state regulator", personId: null },
     basisEventIds: [],
     evidence: "documentary",
-    standingFindings: 1,
+    // Two findings already stood, so each judge weighs jail seriously; the
+    // sentence itself is the judge's recorded decision.
+    standingFindings: 3,
   }).world;
 }
 
-/** Six of the game's adults in the player's town, each jailed for 9+ months. */
+/** Six of the game's adults in the player's town, each charged with the same offense. */
 function watchedWorld(stateKey: string, seed: string) {
   const start = lifeIn(stateKey, seed);
   const adults = Object.values(start.world.people)
@@ -89,14 +78,12 @@ function watchedWorld(stateKey: string, seed: string) {
     )
     .slice(0, 6);
   let world = start.world;
-  let from = 0;
-  for (const person of adults) {
-    const key = jailKey(world, `clemency-${stateKey}`, from);
-    from = Number(key.split(":").at(-1)) + 1;
-    world = refer(world, person.id, key);
-  }
-  // Charged at 60 days, sentenced at 180, then a year to ask and be answered.
-  return { adults, world, later: passOrdinaryDays(world, 180 + 365) };
+  for (const [index, person] of adults.entries())
+    world = refer(world, person.id, `clemency-${stateKey}:${index}`);
+  // Charged at 60 days, pleaded or tried at 180, then 16 months to ask and be
+  // answered: a board takes a request up once half the term is served, and
+  // half of a 24-month probation is a year.
+  return { adults, world, later: passOrdinaryDays(world, 180 + 485) };
 }
 
 function answersOf(world: World, petitionId: EntityId) {
@@ -115,10 +102,25 @@ function answersOf(world: World, petitionId: EntityId) {
 describe("clemency in a place where the governor decides alone", () => {
   const { adults, world, later } = watchedWorld("US-OR", "clemency-US-OR");
 
-  it("jails the people it refers", () => {
+  it("sentences the people it refers, each by a judge's recorded decision", () => {
     expect(adults).toHaveLength(6);
-    for (const person of adults)
-      expect(sentencesOf(later, person.id).length).toBe(1);
+    const sentences = later.history.decisionTraces.filter(
+      (trace) => trace.context.decisionType === "justice.sentence",
+    );
+    const convicted = adults.filter(
+      (person) => sentencesOf(later, person.id).length === 1,
+    );
+    expect(convicted.length).toBeGreaterThan(0);
+    expect(sentences.length).toBe(convicted.length);
+  });
+
+  it("lets each person referred decide their own plea", () => {
+    const pleas = later.history.decisionTraces.filter(
+      (trace) => trace.context.decisionType === "justice.plea",
+    );
+    expect(pleas.map((trace) => trace.context.actorPersonId).sort()).toEqual(
+      adults.map((person) => person.id).sort(),
+    );
   });
 
   it("answers every request at the governor's desk, and no request is left hanging", () => {

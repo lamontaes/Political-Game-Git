@@ -125,7 +125,7 @@ export type LawEffectLine =
       readonly field: string;
       readonly officeKey: string;
       readonly operativeAt: IsoDate;
-      readonly operativeBasis: "enacted-date" | "game-default";
+      readonly operativeBasis: "enacted-date" | "state-rule" | "game-default";
     }
   | {
       /**

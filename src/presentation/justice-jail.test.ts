@@ -9,10 +9,8 @@ import {
   officesHeldBy,
 } from "../simulation/governing/office-consequence";
 import {
-  caseCourse,
   jailTermOn,
   referForProsecution,
-  referralStableKey,
   UNRESEARCHED_PROSECUTION,
 } from "../simulation/justice/prosecution";
 import { ensurePressOpening } from "../simulation/press/transitions";
@@ -33,26 +31,20 @@ describe("a legislator sentenced to jail", () => {
   );
   const held = officesHeldBy(world, personId);
 
-  // A referral whose drawn course, in this world, ends in jail.
-  let key = "";
-  for (let index = 0; index < 500 && !key; index += 1) {
-    const course = caseCourse(
-      world,
-      referralStableKey(`legislator-jail:${index}`),
-      "documentary",
-      1,
-    );
-    if (course.sentence?.kind === "jail") key = `legislator-jail:${index}`;
-  }
+  // A violent offense with two findings already standing: every judge the
+  // game seats weighs both toward jail (court-reasoning.ts), so this case
+  // ends in jail whichever judge sentences it and however the legislator
+  // pleads.
+  const key = "legislator-jail";
   const referred = referForProsecution(world, {
     stableKey: key,
     subjectPersonId: personId,
     jurisdictionId: world.people[personId]!.homeJurisdictionId,
-    offenseKey: "campaign-funds-personal-use",
-    referredBy: { kind: "regulator", label: "state regulator", personId: null },
+    offenseKey: "crime:robbery",
+    referredBy: { kind: "police", label: "Police", personId: null },
     basisEventIds: [],
     evidence: "documentary",
-    standingFindings: 1,
+    standingFindings: 3,
   }).world;
   const later = passOrdinaryDays(
     referred,

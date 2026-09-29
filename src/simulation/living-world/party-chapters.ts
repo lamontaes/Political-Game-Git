@@ -99,7 +99,15 @@ function chapterName(area: string, partyKey: string, partyName: string) {
 export const RESIDENT_CHAPTER_NAME_VERSION = "resident-names-v1";
 export type PartyChapterNameVersion = typeof RESIDENT_CHAPTER_NAME_VERSION;
 
-const CHAPTER_KEY_PREFIX = `${LIVING_WORLD_WRITER_VERSION}:chapter:home:`;
+/**
+ * Read when called, not when this module loads: the living-world modules
+ * import each other in a cycle, and a prefix built at load time can capture
+ * the writer version before it is defined ("undefined:chapter:home:"), which
+ * silently hides every home chapter.
+ */
+function chapterKeyPrefix(): string {
+  return `${LIVING_WORLD_WRITER_VERSION}:chapter:home:`;
+}
 
 export function chapterStableKey(party: MajorPartyKey): string {
   return `${LIVING_WORLD_WRITER_VERSION}:chapter:home:${party}`;
@@ -134,7 +142,7 @@ export function ensureHomePartyChapters(
   // Written once for a new life: any home chapter means it already ran.
   if (
     world.history.organizations.some((organization) =>
-      organization.stableKey.startsWith(CHAPTER_KEY_PREFIX),
+      organization.stableKey.startsWith(chapterKeyPrefix()),
     )
   )
     return world;
@@ -257,7 +265,7 @@ export function homePartyChapters(world: World): readonly HomePartyChapter[] {
     const organization = world.history.organizations.find(
       (candidate) => candidate.id === unit.organizationId,
     );
-    if (!organization?.stableKey.startsWith(CHAPTER_KEY_PREFIX)) return [];
+    if (!organization?.stableKey.startsWith(chapterKeyPrefix())) return [];
     const organizer = world.history.organizationParticipations.find(
       (participation) =>
         participation.organizationId === organization.id &&

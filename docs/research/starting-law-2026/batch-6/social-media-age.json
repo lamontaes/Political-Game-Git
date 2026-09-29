@@ -1,0 +1,425 @@
+{
+  "question": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+  "definition": "yes = a state law requiring social media platforms to verify users' ages (or obtain verified parental consent for minors) is in force and enforceable on 1/1/2026 (not enjoined); no = no such law, or the law is enjoined/struck or not yet effective on 1/1/2026. App-store and adult-content age laws do not count.",
+  "summarySource": "Wikipedia 'Online age verification laws in the United States' (fetched 9/28/2026) as the complete tracker; Supreme Court order 25A97 (8/14/2025); Fifth Circuit No. 24-60341 (4/17/2025); Tennessee General Assembly HB1891 page; Fla. Stat. 501.1736 (flsenate.gov); Va. Code 59.1-577.1; Utah PI order (9/10/2024); SC HB 3431 page; news reports for LA, NE, TX, VA injunctions.",
+  "answers": {
+    "US-AK": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-AL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-AR": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Arkansas's Social Media Safety Act (SB 396, 2023) was enjoined in August 2023 and permanently struck down in March 2025, so it was not enforceable on 1/1/2026.",
+      "preempts": true,
+      "cite": "Ark. Code Ann. \u00a7 4-88-1401 et seq. (Act 689 of 2023)"
+    },
+    "US-AZ": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-CA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "California's SB 976 requires age assurance only from 1/1/2027, and the Age-Appropriate Design Code (AB 2273) is enjoined; no social media age-verification duty was enforceable on 1/1/2026.",
+      "preempts": true
+    },
+    "US-CO": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026. Colorado's SB26-051 is an operating-system age-attestation law effective 7/1/2028, which does not count here.",
+      "preempts": true
+    },
+    "US-CT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026. Connecticut's 2023 SB 3 is a data-privacy law without an account age-verification mandate, and the 2025 social media bill (HB 6587) died.",
+      "preempts": true
+    },
+    "US-DE": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-FL": {
+      "answer": "yes",
+      "cite": "Fla. Stat. \u00a7 501.1736 (ch. 2024-42, HB 3)",
+      "operativeAt": "2025-11-25",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.flsenate.gov/Laws/Statutes/2025/501.1736",
+      "note": "The law bars accounts for children under 14 and requires parental consent for ages 14 and 15; a federal judge enjoined it on 6/3/2025, but the Eleventh Circuit stayed that injunction on 11/25/2025, so it was enforceable on 1/1/2026 (the statute text does not itself spell out an age-verification method).",
+      "preempts": true
+    },
+    "US-GA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Georgia's SB 351 (Act 463, 2024), requiring age verification and parental consent under 16, was preliminarily enjoined by a federal judge in June 2025 and remained blocked on 1/1/2026.",
+      "preempts": true
+    },
+    "US-HI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-IA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-ID": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Idaho's HB 542 (age estimation and parental consent under 17) was signed 4/2/2026 and took effect 7/1/2026, after the 1/1/2026 reference date.",
+      "preempts": true
+    },
+    "US-IL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Illinois's HB 5511 (Children's Social Media Safety Act) was signed 7/31/2026 and takes effect 1/1/2028.",
+      "preempts": true
+    },
+    "US-IN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Indiana's HB 1408 (parental consent under 16 on large platforms) was signed 3/4/2026 and takes effect 1/1/2027.",
+      "preempts": true
+    },
+    "US-KS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-KY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-LA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.wafb.com/2025/12/16/louisianas-law-requiring-social-media-age-verification-minors-slapped-down-court/",
+      "note": "Louisiana's age-verification law (SB 162, 2023, as amended by HB 577) was permanently enjoined by a federal judge on 12/15/2025; the separate HB 61 (R.S. 9:2717.1) requires written parental consent for minors' online contracts but no age verification.",
+      "preempts": true,
+      "cite": "La. R.S. 51:1751 et seq. (Act 456 of 2023, SB 162)"
+    },
+    "US-MA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-MD": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-ME": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-MI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-MN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Minnesota's HF 4138 (age estimation and parental consent under 16) was signed 5/26/2026 and takes effect 7/1/2027.",
+      "preempts": true
+    },
+    "US-MO": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-MS": {
+      "answer": "yes",
+      "cite": "Miss. H.B. 1126 (2024), \u00a7 4 (Walker Montgomery Protecting Children Online Act)",
+      "dateBasis": "not-found",
+      "source": "https://www.supremecourt.gov/opinions/24pdf/25a97_5h25.pdf",
+      "note": "The law requires commercially reasonable age verification and parental consent for minors; the Fifth Circuit vacated the first injunction on 4/17/2025 and the Supreme Court refused on 8/14/2025 to lift the stay of a later injunction, so it was enforceable on 1/1/2026.",
+      "preempts": true
+    },
+    "US-MT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-NC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-ND": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-NE": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://nebraskapublicmedia.org/en/news/news-articles/federal-judge-blocks-nebraskas-social-media-age-verification-law-from-going-into-effect-in-july/",
+      "note": "Nebraska's LB 383 (Parental Rights in Social Media Act) had a 7/1/2026 effective date and its age-verification and parental-consent provisions were preliminarily enjoined on 6/27/2026.",
+      "preempts": true
+    },
+    "US-NH": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-NJ": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-NM": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-NV": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-NY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://legislation.nysenate.gov/pdf/bills/2023/S7694A",
+      "note": "New York's SAFE for Kids Act requires age determination only after the Attorney General's rules; guidance issued 7/29/2026 makes it effective 1/25/2027.",
+      "preempts": true
+    },
+    "US-OH": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-1349.09",
+      "note": "Ohio's Social Media Parental Notification Act (R.C. 1349.09) was enjoined in January 2024 and permanently enjoined on 4/16/2025; the Sixth Circuit upheld it on 6/18/2026, after the reference date.",
+      "preempts": true,
+      "cite": "Ohio Rev. Code \u00a7 1349.09"
+    },
+    "US-OK": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-OR": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-PA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-RI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-SC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.scstatehouse.gov/sess126_2025-2026/bills/3431.htm",
+      "note": "South Carolina's HB 3431 (age verification and parental consent under 18) was signed and took effect 2/5/2026 as Act No. 96, after the 1/1/2026 reference date.",
+      "preempts": true
+    },
+    "US-SD": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-TN": {
+      "answer": "yes",
+      "cite": "Tenn. Code Ann. \u00a7 47-18-5703 (Pub. Ch. 899, 2024)",
+      "operativeAt": "2025-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://wapp.capitol.tn.gov/apps/BillInfo/Default?BillNumber=HB1891&ga=113",
+      "note": "Platforms must verify the age of new account holders and verify parental consent for minors; a federal judge denied NetChoice a preliminary injunction on 6/18/2025, so the law was in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-TX": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.texastribune.org/2025/02/07/texas-scope-act-minors-social-media-restrictions/",
+      "note": "Texas's SCOPE Act (HB 18) relies on self-declared age at registration, and a federal judge preliminarily enjoined its age-verification provisions on 2/7/2025; the App Store Accountability Act (SB 2420) does not count here.",
+      "preempts": true
+    },
+    "US-UT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://netchoice.org/wp-content/uploads/2024/09/NetChoice-v-Reyes-2024.09.10-ECF-86-ORDER-Granting-PI.pdf",
+      "note": "Utah's Minor Protection in Social Media Act (Utah Code \u00a7\u00a7 13-71-101 to -401, 2024), which replaced the 2023 act, was preliminarily enjoined in full on 9/10/2024 and the appeal was still pending on 1/1/2026.",
+      "preempts": true,
+      "cite": "Utah Code \u00a7\u00a7 13-71-101 to -401"
+    },
+    "US-VA": {
+      "answer": "yes",
+      "cite": "Va. Code \u00a7 59.1-577.1 (2025, c. 703, SB 854)",
+      "operativeAt": "2026-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://law.lis.virginia.gov/vacode/title59.1/chapter53/section59.1-577.1/",
+      "note": "Platforms must use commercially reasonable methods to determine whether a user is under 16 and limit such users to one hour a day absent verifiable parental consent; it took effect 1/1/2026 and was preliminarily enjoined by a federal judge on 2/27/2026.",
+      "preempts": true
+    },
+    "US-VT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Vermont's Age-Appropriate Design Code Act (S.69, 2025) takes full effect 1/1/2027.",
+      "preempts": true
+    },
+    "US-WA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-WI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-WV": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    },
+    "US-WY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+      "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026.",
+      "preempts": true
+    }
+  },
+  "unknown": {
+    "US-DC": "The complete tracker covers only states; no D.C. page confirming the absence of such a law was fetched.",
+    "US-PR": "No territorial source was fetched; territories are answered only when confirmed.",
+    "US-GU": "No territorial source was fetched; territories are answered only when confirmed.",
+    "US-VI": "No territorial source was fetched; territories are answered only when confirmed.",
+    "US-AS": "No territorial source was fetched; territories are answered only when confirmed.",
+    "US-MP": "No territorial source was fetched; territories are answered only when confirmed."
+  },
+  "conflicts": [
+    {
+      "place": "US-FL",
+      "readings": "Yes: HB 3 bars under-14 accounts and requires parental consent for 14- and 15-year-olds, enforceable after the 11th Circuit's 11/25/2025 stay. No: the statute text sets no explicit age-verification method or 'verified' consent standard.",
+      "sources": [
+        "https://www.flsenate.gov/Laws/Statutes/2025/501.1736",
+        "https://en.wikipedia.org/wiki/Computer_%26_Communications_Industry_Association_v._Uthmeier"
+      ]
+    },
+    {
+      "place": "US-LA",
+      "readings": "No: SB 162 was permanently enjoined 12/15/2025. Possible yes: HB 61 (R.S. 9:2717.1), in force since 8/1/2024, requires written parental consent before an online service contracts with a minor, though without any age-verification duty.",
+      "sources": [
+        "https://www.wafb.com/2025/12/16/louisianas-law-requiring-social-media-age-verification-minors-slapped-down-court/",
+        "https://www.legis.la.gov/legis/ViewDocument.aspx?d=1333439"
+      ]
+    },
+    {
+      "place": "US-TX",
+      "readings": "No: the SCOPE Act's age-verification provisions were preliminarily enjoined 2/7/2025. Possible yes: unenjoined parts still require age registration and parental-identity verification for parental tools.",
+      "sources": [
+        "https://www.texastribune.org/2025/02/07/texas-scope-act-minors-social-media-restrictions/",
+        "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States"
+      ]
+    },
+    {
+      "place": "US-UT",
+      "readings": "No: the district court preliminarily enjoined the whole act on 9/10/2024. Ambiguity: Wikipedia says 'a week later the injunction was stayed by the district court' (likely a stay of proceedings, not of the injunction).",
+      "sources": [
+        "https://netchoice.org/wp-content/uploads/2024/09/NetChoice-v-Reyes-2024.09.10-ECF-86-ORDER-Granting-PI.pdf",
+        "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States"
+      ]
+    }
+  ],
+  "refusedHosts": [
+    "netchoice.org (403 on litigation pages; court PDFs under /wp-content/uploads returned 200)",
+    "leg.state.fl.us (403)",
+    "arkansasadvocate.com (403)",
+    "courthousenews.com (403)",
+    "tallahassee.com (402 paywall)",
+    "billstatus.ls.state.ms.us (TLS certificate failure / 403)",
+    "cga.ct.gov (TLS certificate failure)",
+    "law.justia.com (403, known refusal)"
+  ],
+  "counts": {
+    "yes": 4,
+    "no": 46,
+    "unknown": 6
+  }
+}

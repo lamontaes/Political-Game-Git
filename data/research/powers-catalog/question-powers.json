@@ -176,6 +176,11 @@
       "dial": "roads-and-transit",
       "levels": ["state", "county", "city"]
     },
+    "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours": {
+      "dial": "budget-lines",
+      "levels": ["state"],
+      "why": "The question asks whether the state appropriates the money, which is the state's budget to set."
+    },
     "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
       "dial": "excise-and-fees",
       "levels": ["state"],

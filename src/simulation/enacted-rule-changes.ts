@@ -307,10 +307,11 @@ export interface EnactedRuleChange {
   readonly applicability: RuleChangeApplicability;
   readonly operativeAt: IsoDate;
   /**
-   * `enacted-date` when the law's own record dates it; `game-default` when the
-   * state's effective-date rule is not modeled and the blanket rule applied.
+   * `enacted-date` when the law's own record dates it; `state-rule` when the
+   * state's own effective-date rule dates it; `game-default` when that rule is
+   * not researched and the blanket rule applied.
    */
-  readonly operativeBasis: "enacted-date" | "game-default";
+  readonly operativeBasis: "enacted-date" | "state-rule" | "game-default";
   readonly effectiveDateGameProfile?: {
     readonly version: string;
     readonly days: number;
@@ -564,9 +565,13 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       (row) => row.measureId === provision.measureId,
     );
     if (!enactment || enactment.outcome !== "enacted") continue;
-    // Every enactment reads its recorded date or declared game interval. Old
-    // saves without a profile retain the original ninety-day fallback.
-    const operative = operativeDateForEnactment(enactment);
+    // Every enactment reads its recorded date, its state's own rule where
+    // that rule is researched, or the declared game interval. Old saves
+    // without a profile retain the original ninety-day fallback.
+    const operative = operativeDateForEnactment(
+      enactment,
+      `US-${provision.stateUsps}`,
+    );
     if (!operative) continue;
     changes.push({
       stateUsps: provision.stateUsps,

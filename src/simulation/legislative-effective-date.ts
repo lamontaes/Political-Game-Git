@@ -1,4 +1,5 @@
 import { addDays } from "./dates";
+import { stateStatuteOperativeAt } from "./governing/statute-effective-date";
 import type { LegislativeRulePack } from "./legislature-rules";
 import type { IsoDate, LegislativeEnactmentRecord } from "./types";
 
@@ -46,9 +47,11 @@ export function resolveLegislativeEffectiveDate(
 /** One answer shared by every consumer of an enacted measure. */
 export function operativeDateForEnactment(
   enactment: LegislativeEnactmentRecord,
+  /** `US-XX` of a state statute: its own researched rule dates an act that saved none. */
+  stateKey?: string | null,
 ): {
   readonly date: IsoDate;
-  readonly basis: "enacted-date" | "game-default";
+  readonly basis: "enacted-date" | "state-rule" | "game-default";
 } | null {
   if (enactment.effectiveAt) {
     return {
@@ -71,6 +74,11 @@ export function operativeDateForEnactment(
       "An enactment carries an invalid effective-date game profile.",
     );
   }
+  const stateRuleAt =
+    !profile && stateKey?.startsWith("US-")
+      ? stateStatuteOperativeAt(stateKey, enactment.resolvedAt)
+      : null;
+  if (stateRuleAt) return { date: stateRuleAt, basis: "state-rule" };
   return {
     date: addDays(
       enactment.resolvedAt,

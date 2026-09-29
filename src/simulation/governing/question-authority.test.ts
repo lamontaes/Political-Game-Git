@@ -139,7 +139,7 @@ const PLACES = everyPlace();
 
 describe("which question each level may answer", () => {
   it("maps every question in the catalog to a powers dial, at levels its issue allows", () => {
-    expect(QUESTIONS.length).toBe(91);
+    expect(QUESTIONS.length).toBe(92);
     expect(Object.keys(ROWS).sort()).toEqual(
       QUESTIONS.map((question) => question.key).sort(),
     );
@@ -390,11 +390,12 @@ describe("the law in force keeps to each level's powers", () => {
     const key = "us-policy-positions:fiscal.graduated-income-tax";
     const ordinance = enacted(lexington, key, "yes");
     const world = worldWith([ordinance]);
-    // Kentucky now has a real starting answer on this question; the ordinance
-    // must change nothing about it, in the city or in the state.
+    // Kentucky's own starting law answers it; the ordinance changes nothing
+    // about it, in the city or in the state.
+    const state = lawInForce(world, kentucky, questionId(key));
+    expect(state?.origin).toBe("in-force-at-start");
     const inCity = lawInForce(world, lexington, questionId(key));
-    const inState = lawInForce(world, kentucky, questionId(key));
-    expect(inCity).toEqual(inState);
+    expect(inCity).toEqual(state);
     expect(inCity?.level).not.toBe("city-ordinance");
     expect(inCity?.answer).not.toBe("yes");
     expect(world.history.legislativeMeasures).toHaveLength(1);

@@ -442,6 +442,7 @@ function decide(
           ? memberBallotOn(world, world.control.personId, question)
           : null,
       ...(contested === undefined ? {} : { contested }),
+      nonpartisan: blueprint.nonpartisan,
     }),
     method: "member-decisions" as const,
   };
@@ -687,6 +688,7 @@ export function applyInstitutionStep(
             stage,
             members: body.members,
             stableKey,
+            nonpartisan: blueprint.nonpartisan,
             // Only what the chamber's rules put in order, as they stand now.
             admissible: (bill, part) =>
               amendmentAdmissible(world, blueprint.pack, chamberKey, bill, part)
