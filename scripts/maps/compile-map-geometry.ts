@@ -32,6 +32,10 @@ import {
   projectLonLat,
   projectionRegionForStateFips,
 } from "../../src/maps/projection";
+import {
+  applyRedrawn,
+  redrawCongressionalRecords,
+} from "./district-outlines-2026";
 import { readShapefileArchive, type ShapeRecord } from "./shapefile";
 import {
   encodeLayer,
@@ -188,6 +192,17 @@ function buildLayer(
   };
 }
 
+function uniqueSources(
+  sources: readonly { artifactId: string; sha256: string }[],
+): { artifactId: string; sha256: string }[] {
+  const seen = new Set<string>();
+  return sources.filter((source) => {
+    if (seen.has(source.artifactId)) return false;
+    seen.add(source.artifactId);
+    return true;
+  });
+}
+
 function packBbox(
   layers: Partial<Record<MapLayerId, readonly MapFeature[]>>,
 ): [number, number, number, number] {
@@ -253,6 +268,20 @@ async function main() {
     );
   }
 
+  // States that redrew their U.S. House lines for 2026 draw outlines dissolved
+  // from the Census 120th Congress block file; the published 119th Congress
+  // files stay the source for every other state.
+  const redrawn = redrawCongressionalRecords(
+    ROOT,
+    cd500k!.records,
+    state500k!.records,
+    log,
+  );
+  const cd5mRecords = applyRedrawn(cd5m!.records, redrawn);
+  const cd500kRecords = applyRedrawn(cd500k!.records, redrawn);
+  const redrawnSources = (fips: string) =>
+    redrawn.sourcesByState.get(fips) ?? [];
+
   const outputs = new Map<string, string>();
   const manifestPacks: Record<string, unknown>[] = [];
   const excluded: Record<string, unknown>[] = [];
@@ -273,7 +302,7 @@ async function main() {
     );
     const cdLayer = buildLayer(
       LAYER_SPECS.congressional,
-      cd5m!.records,
+      cd5mRecords,
       store,
       options,
     );
@@ -307,10 +336,15 @@ async function main() {
       bbox: packBbox(layers),
       arcs: store.arcs,
       layers,
-      sources: [state5m!, cd5m!].map(({ artifact }) => ({
-        artifactId: artifact.artifactId,
-        sha256: artifact.sha256,
-      })),
+      sources: [
+        ...[state5m!, cd5m!].map(({ artifact }) => ({
+          artifactId: artifact.artifactId,
+          sha256: artifact.sha256,
+        })),
+        ...uniqueSources(
+          [...redrawn.sourcesByState.keys()].flatMap(redrawnSources),
+        ),
+      ],
     };
     const text = serialize(pack);
     outputs.set(join(OUT_DIR, "national.generated.json"), text);
@@ -336,7 +370,7 @@ async function main() {
   };
   const grouped = {
     state: byState(state500k!),
-    congressional: byState(cd500k!),
+    congressional: byState({ records: cd500kRecords }),
     county: byState(county500k!),
     "state-upper": byState(sldu500k!),
     "state-lower": byState(sldl500k!),
@@ -408,10 +442,13 @@ async function main() {
       bbox: packBbox(layers),
       arcs: store.arcs,
       layers,
-      sources: detailSources.map(({ artifact }) => ({
-        artifactId: artifact.artifactId,
-        sha256: artifact.sha256,
-      })),
+      sources: [
+        ...detailSources.map(({ artifact }) => ({
+          artifactId: artifact.artifactId,
+          sha256: artifact.sha256,
+        })),
+        ...redrawnSources(fips),
+      ],
     };
     const text = serialize(pack);
     const file = `states/${fips}-${usps.toLowerCase()}.generated.json`;
@@ -454,6 +491,9 @@ async function main() {
       "Composite Albers equal-area (conterminous) with Alaska and Hawaii insets; insets are not true position or relative scale.",
     simplification:
       "Topology-preserving Visvalingam on shared arcs with fixed junctions; quantized; tiny non-primary rings dropped and counted.",
+    congressionalOutlines:
+      "The 119th Congress files are drawn as published, except in the states listed here. Those draw the U.S. House lines of 2026, dissolved from 2020 blocks by the Census 120th Congress block file (see data/research/district-lines-2026).",
+    redrawnCongressional: redrawn.summary,
     packs: manifestPacks,
     excluded,
   };
