@@ -2369,16 +2369,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0.008,
       "per": "law in force",
-      "lagMonths": 3,
+      "lagMonths": 12,
       "group": "households",
       "owner": "B",
-      "anchor": "The 2018 tariffs passed almost fully into import prices (to confirm)",
-      "source": "Amiti, Redding and Weinstein 2019 (to confirm)",
-      "evidence": "to-confirm",
+      "anchor": "The 2025 tariffs raised consumer prices between 0.5% and 1%",
+      "source": "Yale Budget Lab, One year of tariff analysis (April 2, 2026)",
+      "evidence": "researched",
       "from": "law:us-federal-positions:trade.raise-tariffs",
-      "to": "household.prices"
+      "to": "household.prices",
+      "range": [0.005, 0.01]
     },
     {
       "key": "housing-vouchers-to-homelessness",
@@ -2391,9 +2392,9 @@
       "lagMonths": 12,
       "group": "families who qualify",
       "owner": "M",
-      "anchor": "Families in shelter offered a long-term voucher had about half as many later episodes of homelessness (-0.5); a national program also reaches people not yet in shelter, so the size is set at -0.30",
-      "source": "Gubits, Shinn, Wood et al. 2016, Family Options Study, HUD Office of Policy Development and Research",
-      "evidence": "provisional",
+      "anchor": "A national program reaches more than the families already in shelter, so this uses CLOUD B's universal-scale size (Claude CTO, Sept. 28). Homeless families offered a permanent subsidy had less than half as many later episodes of homelessness over 37 months (-0.5)",
+      "source": "HUD Family Options Study, three-year impacts (2016)",
+      "evidence": "researched",
       "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
       "to": "housing.homelessness",
       "range": [-0.5, -0.15]
@@ -2404,16 +2405,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "law in force",
+      "size": 0.1,
+      "per": "law in force (a two-year rise in the full retirement age, 67 to 69)",
       "lagMonths": 12,
       "group": "people 62 to 67",
       "owner": "B",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "The mean retirement age of the affected cohorts rose about half as much as the full retirement age; the employment share at 62 to 66 is inferred from that",
+      "source": "Mastrobuoni 2009 (JPubE)",
+      "evidence": "provisional",
       "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
-      "to": "labor.older-employment"
+      "to": "labor.older-employment",
+      "range": [0.04, 0.22]
     },
     {
       "key": "drug-negotiation-to-out-of-pocket",
@@ -2421,16 +2423,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.08,
       "per": "law in force",
-      "lagMonths": 12,
+      "lagMonths": 0,
       "group": "Medicare enrollees",
       "owner": "F",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "Negotiated prices for the first ten drugs save enrollees about $1.5 billion in 2026, against $18.9 billion of out-of-pocket Part D spending in 2023 (7.9%)",
+      "source": "CMS fact sheet, negotiated prices for initial price applicability year 2026 (2024)",
+      "evidence": "provisional",
       "from": "law:us-federal-positions:health.medicare-drug-price-negotiation",
-      "to": "health.drug-out-of-pocket"
+      "to": "health.drug-out-of-pocket",
+      "range": [-0.1, -0.06]
     },
     {
       "key": "federal-loan-cap-to-high-cost-loans",
@@ -2438,16 +2441,22 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.32,
       "per": "law in force",
-      "lagMonths": 0,
+      "lagMonths": 12,
       "group": "borrowers",
       "owner": "B",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "Prohibiting payday loans goes with a 35% decline in their use (Urban Institute working paper, read); the published version reports 32%. A 36% APR cap ends storefront payday lending, as a prohibition does. Cross-state survey evidence, not a trial",
+      "source": "McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO)",
+      "evidence": "provisional",
       "from": "law:us-federal-positions:monetary-financial.cap-consumer-loan-interest",
-      "to": "finance.high-cost-loans"
+      "to": "finance.high-cost-loans",
+      "range": [-0.5, -0.2],
+      "moderator": {
+        "measure": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+        "effectAtFull": -1,
+        "mode": "scale"
+      }
     },
     {
       "key": "student-debt-relief-to-finances",
@@ -3218,6 +3227,342 @@
       "anchor": "California's cap-and-trade lowered fine-particle emissions at regulated plants 3 to 9% a year from 2012 to 2017; the statewide change in the air is far smaller",
       "source": "Hernandez-Cortes and Meng 2023, Journal of Public Economics 217",
       "from": "law:us-policy-positions:environment-energy.price-carbon"
+    },
+    {
+      "key": "retirement-age-to-poverty",
+      "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
+      "to": "household.poverty-pct",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.02,
+      "range": [0.011, 0.034],
+      "per": "law in force (a two-year rise in the full retirement age, 67 to 69)",
+      "lagMonths": 60,
+      "group": "people 65 and older",
+      "owner": "C",
+      "evidence": "provisional",
+      "anchor": "A one-year rise cuts benefits 6.7% at any claiming age (5/9 of 1% a month); elderly poverty moves about one for one with benefits; people 65 and older were 6.1 million of the 35.9 million poor people in 2024 (17.0%), so each year of rise raises the poverty rate about 1.1% of itself",
+      "source": "Engelhardt and Gruber 2004 (NBER w10466); 20 CFR 404.410; Census P60-287 (2025)"
+    },
+    {
+      "key": "immigration-to-crime",
+      "from": "law:us-federal-positions:immigration.admit-more-immigrants",
+      "to": "crime.rate-index",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Across all 50 states and D.C., 1990 to 2014, undocumented immigration did not increase violent crime; the relationship was generally negative and not always significant",
+      "source": "Light and Miller 2018 (Criminology); Ousey and Kubrin 2018 (Annual Review of Criminology)"
+    },
+    {
+      "key": "federal-mandatory-minimums-to-crime",
+      "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+      "to": "crime.rate-index",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Drug offenders released early under the 2014 retroactive cut reoffended no more than those who served full terms (27.9% vs 30.5% in three years); federal prisoners are a small share of all prisoners",
+      "source": "U.S. Sentencing Commission 2020 (Drugs Minus Two recidivism); BJS Prisoners in 2023"
+    },
+    {
+      "key": "housing-vouchers-to-graduation",
+      "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "to": "school.graduation-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force",
+      "lagMonths": 0,
+      "group": "children in families who qualify",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Chicago's 1997 voucher lottery (82,607 applicants), children tracked 14 years: effects on schooling mostly statistically insignificant",
+      "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)"
+    },
+    {
+      "key": "housing-vouchers-to-crime",
+      "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "to": "crime.rate-index",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force",
+      "lagMonths": 0,
+      "group": "children in families who qualify",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Same lottery: effects on arrests mostly statistically insignificant",
+      "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)"
+    },
+    {
+      "key": "top-income-tax-rate-to-poverty",
+      "from": "law:us-federal-positions:tax.raise-top-income-tax-rate",
+      "to": "household.poverty-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "The official poverty measure uses money income before taxes, and the top rate reaches no one near the line",
+      "source": "U.S. Census Bureau, How the Census Bureau measures poverty"
+    },
+    {
+      "key": "student-loan-forgiveness-to-poverty",
+      "from": "law:us-federal-positions:education.forgive-student-loans",
+      "to": "household.poverty-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Debt relief is not money income, which is what the official poverty measure counts",
+      "source": "U.S. Census Bureau, How the Census Bureau measures poverty"
+    },
+    {
+      "key": "grocery-exemption-to-food-insecurity",
+      "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+      "to": "household.food-insecurity",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.02,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 6,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "Removing the grocery tax cuts food insecurity 3.2% among households under $30,000, where most food-insecure households are, so about 2% statewide; only states that taxed groceries in 2024 change",
+      "source": "Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101",
+      "range": [-0.035, -0.005]
+    },
+    {
+      "key": "harm-reduction-to-overdose-deaths",
+      "from": "law:us-policy-positions:health-human-services.harm-reduction-services",
+      "to": "health.overdose-deaths",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.05,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "contested",
+      "anchor": "Naloxone access laws: opioid deaths 9 to 11% lower in one study, no net drop in another; opioids are most, not all, overdose deaths",
+      "source": "Rees, Sabia, Argys, Latshaw and Dave 2019, Journal of Law and Economics 62(1); Doleac and Mukherjee 2022, Journal of Law and Economics 65(2)",
+      "range": [-0.11, 0.02]
+    },
+    {
+      "key": "public-bargaining-to-earnings",
+      "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+      "to": "labor.median-earnings",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.01,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 180,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "contested",
+      "anchor": "Men schooled under teacher duty-to-bargain laws earn 3.9% less as adults; only exposed cohorts, and only men, so a small statewide share, arriving as they reach working age",
+      "source": "Lovenheim and Willen 2019, AEJ: Economic Policy 11(3)",
+      "range": [-0.02, 0]
+    },
+    {
+      "key": "library-funding-to-reading",
+      "from": "law:us-policy-positions:civil-family-community.fund-public-libraries",
+      "to": "school.reading-proficient-pct",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.01,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 36,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "Library building investment raised children's reading 0.01 to 0.04 standard deviations, about 3% more at proficient; an operating floor is taken as a third of that",
+      "source": "Gilpin, Karger and Nencka 2024, AEJ: Economic Policy",
+      "range": [0, 0.03]
+    },
+    {
+      "key": "public-broadband-to-home-access",
+      "from": "law:us-policy-positions:transportation-infrastructure.public-broadband",
+      "to": "broadband.home-access",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.01,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 36,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "State bans on municipal broadband cut access about 4.5% from 2012 to 2018; that measured availability, and subscriptions move less",
+      "source": "Whitacre and Gallardo 2020, Telecommunications Policy 44(9)",
+      "range": [0, 0.02]
+    },
+    {
+      "key": "gas-hookup-ban-to-child-asthma",
+      "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
+      "to": "health.child-asthma-pct",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.01,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 120,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "contested",
+      "anchor": "12.7% of childhood asthma is attributed to gas stoves, from a meta-analysis of associations; a ban reaches only new buildings, so a small part of that over a decade",
+      "source": "Gruenwald, Seals, Knibbs and Hosgood 2022, International Journal of Environmental Research and Public Health 20(1)",
+      "range": [-0.03, 0]
+    },
+    {
+      "key": "tuition-freeze-to-college-completion",
+      "from": "law:us-policy-positions:education.freeze-public-tuition",
+      "to": "school.college-completion-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "Price changes at public colleges did not move degree attainment; spending did",
+      "source": "Deming and Walters 2017 (NBER w23736)"
+    },
+    {
+      "key": "income-tax-to-out-migration",
+      "from": "law:us-policy-positions:fiscal.adopt-income-tax",
+      "to": "population.out-migration",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "Taxes move few people: even millionaires rarely leave high-tax states",
+      "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review"
+    },
+    {
+      "key": "graduated-income-tax-to-out-migration",
+      "from": "law:us-policy-positions:fiscal.graduated-income-tax",
+      "to": "population.out-migration",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "Taxes move few people: even millionaires rarely leave high-tax states",
+      "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review"
+    },
+    {
+      "key": "balanced-budget-to-borrowing-cost",
+      "from": "law:us-policy-positions:fiscal.balanced-operating-budget",
+      "to": "gov.borrowing-cost",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -8,
+      "per": "law in force says yes (1) rather than no (0), in basis points",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "researched",
+      "anchor": "States with strict anti-deficit rules paid 15 to 20 basis points less than states with lax rules on general-obligation bonds, 1973 to 1996; a statute moves a state partway, so 8",
+      "source": "Poterba and Rueben 1999, State Fiscal Institutions and the U.S. Municipal Bond Market (NBER w6237)",
+      "range": [-20, 0],
+      "floor": -19
+    },
+    {
+      "key": "pension-funding-to-borrowing-cost",
+      "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
+      "to": "gov.borrowing-cost",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -3,
+      "per": "law in force says yes (1) rather than no (0), in basis points",
+      "lagMonths": 36,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "PLACEHOLDER (research: pension-funding-borrowing-cost-size): spreads rose 7 to 15 basis points for each 10% of revenue lost in pension funds, in states in the lower half of credit quality; paying the full contribution heads off part of that. The size is a provisional range, drawn per world (Claude CTO, September 28, 2026)",
+      "source": "Novy-Marx and Rauh 2012, AEJ: Economic Policy 4(2)",
+      "range": [-8, 0],
+      "floor": -7
+    },
+    {
+      "key": "reserve-balance-to-borrowing-cost",
+      "from": "law:us-policy-positions:fiscal.minimum-reserve-balance",
+      "to": "gov.borrowing-cost",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -3,
+      "per": "law in force says yes (1) rather than no (0), in basis points",
+      "lagMonths": 24,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "PLACEHOLDER (research: reserve-balance-borrowing-cost-size): rainy-day funds raise ratings and lower yields, but no study gives basis points per law; the size is a provisional range, drawn per world (Claude CTO, September 28, 2026)",
+      "source": "Pew Charitable Trusts 2017; Wagner 2004",
+      "range": [-6, 0],
+      "floor": -5
     }
   ],
   "calibratedAt": "2024-07-01"

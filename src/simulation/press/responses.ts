@@ -1,9 +1,8 @@
+import { confidantsOf } from "../confidants";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import {
   activeWorkRelationshipsAt,
   workRelationshipHistoryForOrganization,
-  householdMembershipsAt,
-  kinshipRelationshipsAt,
 } from "../life-queries";
 import {
   CHAPTER_MEMBERSHIP_KIND,
@@ -102,33 +101,16 @@ export function partyContactsForSubject(
 
 /**
  * The people close enough to the subject that a matter about them is also
- * about the household: kin and the people they live with. They react to what
- * they actually learned, like everybody else, and they are not the press.
+ * about them: the ones the subject confides in (`confidantsOf`), kin and the
+ * people they live with first. They react to what they actually learned, like
+ * everybody else, and they are not the press. No fixed number: who is close
+ * comes from the subject's own ties and temperament.
  */
 export function closeContactsOf(
   world: World,
   subjectPersonId: EntityId,
 ): readonly EntityId[] {
-  const people = new Set<EntityId>();
-  for (const kin of kinshipRelationshipsAt(world, subjectPersonId)) {
-    const other = kin.personIds.find((id) => id !== subjectPersonId);
-    if (other) people.add(other);
-  }
-  const homes = new Set(
-    householdMembershipsAt(world, subjectPersonId).map(
-      (entry) => entry.household.id,
-    ),
-  );
-  for (const record of world.history.householdMemberships) {
-    if (record.personId !== subjectPersonId && homes.has(record.householdId)) {
-      people.add(record.personId);
-    }
-  }
-  return sortedUnique(
-    [...people].filter(
-      (personId) => !!world.people[personId] && personId !== subjectPersonId,
-    ),
-  ).slice(0, 6);
+  return confidantsOf(world, subjectPersonId);
 }
 
 export function colleaguesOf(

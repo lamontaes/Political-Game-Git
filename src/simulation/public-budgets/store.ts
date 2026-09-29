@@ -125,6 +125,19 @@ export interface AdoptedBudget {
   /** The nominal economy index the expected revenue was set at, or null. */
   readonly economyAtAdoption: number | null;
   readonly laws: Readonly<Record<BudgetLawName, BudgetLawReading>>;
+  /**
+   * The balance above the reserve target, carried into this year and spent
+   * across it (Claude CTO, 11:54 p.m. ruling of September 28, 2026). It is
+   * one-time: the next budget does not build it into its base. Absent: none.
+   */
+  readonly carriedBalance?: number;
+  /**
+   * A county's or city's: its state's yearly spending on aid to local
+   * governments when this budget was adopted. Aid from the state follows the
+   * state's actual spending against it. Absent or null: a state, or a state
+   * that keeps no budget, and aid stays as adopted.
+   */
+  readonly stateLocalAidAtAdoption?: number | null;
 }
 
 /** One settled month. Arrays align to BUDGET_SOURCES and BUDGET_PROGRAMS. */
@@ -150,7 +163,8 @@ export type BudgetAdjustmentKind =
   | "surplus-to-reserve"
   | "reserve-deposit"
   | "pension-underpaid"
-  | "balanced-at-adoption";
+  | "balanced-at-adoption"
+  | "balance-carried";
 
 /** Each change a law, the economy or a year-end forced, and its size. */
 export interface BudgetAdjustment {
@@ -208,12 +222,40 @@ export interface PublicBudgetGovernment {
   readonly months: readonly BudgetMonthRow[];
 }
 
+export interface StaffingBaseline {
+  readonly town: EntityId;
+  /** The staffed program, such as "police" or "schools". */
+  readonly program: BudgetProgram;
+  /** The budget that funds it. */
+  readonly governmentKey: string;
+  /**
+   * The town workplace and role the budget staffs. From this day on the
+   * budget alone fills that role; the town's job market no longer draws it.
+   */
+  readonly workplace: string;
+  readonly role: string;
+  /** The staff holding the funded role on the first day. */
+  readonly headcount: number;
+  /** That program's funding then, after cuts, in the economy of its year. */
+  readonly realFunding: number;
+  /** The budget year it was read from, and the economy index it used. */
+  readonly yearStartsOn: IsoDate;
+  readonly economyIndex: number;
+  readonly since: IsoDate;
+}
+
 export interface PublicBudgetStore {
   readonly version: typeof PUBLIC_BUDGETS_VERSION;
   /** How far the history's resource flows and outcomes have been read. */
   readonly cursor: { readonly flows: number; readonly outcomes: number };
   readonly governments: readonly PublicBudgetGovernment[];
   readonly adjustments: readonly BudgetAdjustment[];
+  /**
+   * The public jobs a budget funds in the watched town: the staff and the
+   * real funding when the town was first staffed from its budget
+   * (`staffing.ts`). Absent in a world whose town was never staffed.
+   */
+  readonly staffing?: readonly StaffingBaseline[];
   /** Governments in the world that keep no budget, and why. */
   readonly unknown: readonly {
     readonly key: string;
@@ -249,6 +291,17 @@ export function sourceAmount(row: BudgetMonthRow, source: BudgetSource) {
 
 export function programAmount(row: BudgetMonthRow, program: BudgetProgram) {
   return row.spending[BUDGET_PROGRAMS.indexOf(program)] ?? 0;
+}
+
+/**
+ * A state's yearly spending on aid to local governments at its current
+ * adopted budget, less any mid-year cut.
+ */
+export function stateLocalAidRate(state: PublicBudgetGovernment): number {
+  const year = state.years.at(-1);
+  if (!year) return 0;
+  const planned = year.appropriations[BUDGET_PROGRAMS.indexOf("localAid")] ?? 0;
+  return Math.round(planned * (1 - state.cut));
 }
 
 export function sum(values: readonly number[]): number {

@@ -532,6 +532,140 @@ describe("public budgets", () => {
     expect(county.reserve.answer).toBe("unknown");
   });
 
+  it("a place with no government of its own is served by its county's budget, or in Puerto Rico its municipio's, from ACS populations", () => {
+    const world = opened(
+      worldAt("2026-01-05", { places: ["7258365", "1004130"] }),
+    );
+    const store = world.publicBudgets!;
+    expect(store.unknown).toEqual([]);
+    // Palmas and Bear are census-designated places: neither keeps a budget.
+    expect(store.governments.map((row) => row.key)).not.toContain(
+      "place:7258365",
+    );
+    expect(store.governments.map((row) => row.key)).not.toContain(
+      "place:1004130",
+    );
+    // Palmas' residents live in Arroyo (1,097 of 1,119); Bear's in New Castle County.
+    const arroyo = store.governments.find((row) => row.key === "county:72015")!;
+    const newCastle = store.governments.find(
+      (row) => row.key === "county:10003",
+    )!;
+    expect(arroyo.level).toBe("county");
+    expect(arroyo.population).toBe(15_341);
+    expect(arroyo.openingNotes[0]).toMatch(/^ESTIMATED FROM AVERAGE/);
+    expect(arroyo.openingNotes[0]).toMatch(
+      /ACS 2020-2024 five-year population/,
+    );
+    expect(sum(arroyo.years[0]!.appropriations)).toBeGreaterThan(0);
+    expect(newCastle.level).toBe("county");
+    expect(newCastle.openingNotes[0]).toMatch(/BEA 2024 population/);
+    expect(
+      store.governments.find((row) => row.key === "US-PR")!.population,
+    ).toBe(3_184_835);
+  });
+
+  it("a place with no government whose county area has none either keeps no budget, and says why", () => {
+    // Bethel, Connecticut is a census-designated place in a state with no
+    // county governments; its town government is not linked yet.
+    const store = opened(
+      worldAt("2026-01-05", { places: ["0904790"] }),
+    ).publicBudgets!;
+    expect(store.governments.filter((row) => row.level !== "state")).toEqual(
+      [],
+    );
+    expect(store.unknown).toEqual([
+      expect.objectContaining({
+        key: "place:0904790",
+        reason: expect.stringMatching(/no county government/),
+      }),
+    ]);
+  });
+
+  it("the balance above the reserve target is carried into the next budget and spent across the year, once", () => {
+    const world = worldAt("2026-01-05");
+    const state = publicBudgetFor(opened(world), illinois)!;
+    const run = settleAlone(world, state, "2027-06-01");
+    const carried = run.adjustments.filter(
+      (row) => row.kind === "balance-carried",
+    );
+    expect(carried[0]!.fiscalYear).toBe(2027);
+    expect(carried[0]!.law).toBeNull();
+    const [, fy2027, fy2028] = run.government.years;
+    const cuttable = (values: readonly number[]) =>
+      sum(
+        BUDGET_PROGRAMS.map((program, at) =>
+          program === "interest" || program === "pensionContribution"
+            ? 0
+            : values[at]!,
+        ),
+      );
+    // Fiscal 2027 plans the carried balance on top of its programs.
+    expect(fy2027!.carriedBalance).toBe(carried[0]!.amount);
+    const june2026 = run.government.months.find(
+      (row) => row.month === "2026-06-01",
+    )!;
+    const target = 0.05 * sum(state.years[0]!.appropriations);
+    expect(carried[0]!.amount).toBe(
+      Math.round(june2026.balance - Math.max(0, target - june2026.reserve)),
+    );
+    // Spent across the year: the balance ends it near what was kept back.
+    const june2027 = run.government.months.find(
+      (row) => row.month === "2027-06-01",
+    )!;
+    expect(
+      Math.abs(june2027.balance - (june2026.balance - carried[0]!.amount)),
+    ).toBeLessThan(0.01 * sum(fy2027!.appropriations));
+    // Once: fiscal 2028 builds on fiscal 2027's programs without it.
+    expect(
+      Math.abs(
+        cuttable(fy2028!.appropriations) -
+          fy2028!.carriedBalance! -
+          (cuttable(fy2027!.appropriations) - fy2027!.carriedBalance!),
+      ),
+    ).toBeLessThan(0.001 * cuttable(fy2027!.appropriations));
+  });
+
+  it("a city's aid from its state follows what the state spends on local aid, so a state cut reaches it the same month", () => {
+    const world = opened(worldAt("2026-01-05", { places: ["1714000"] }));
+    const store = world.publicBudgets!;
+    const chicago = store.governments.find(
+      (row) => row.key === "place:1714000",
+    )!;
+    const state = publicBudgetFor(world, illinois)!;
+    const localAid = BUDGET_PROGRAMS.indexOf("localAid");
+    const aid = BUDGET_SOURCES.indexOf("intergovernmental");
+    expect(chicago.years[0]!.stateLocalAidAtAdoption).toBe(
+      state.years[0]!.appropriations[localAid],
+    );
+    const cutWorld: World = {
+      ...world,
+      publicBudgets: {
+        ...store,
+        governments: store.governments.map((row) =>
+          row.key === "US-IL" ? { ...row, cut: 0.1 } : row,
+        ),
+      },
+    };
+    const expected = chicago.years[0]!.expectedRevenue[aid]! / 12;
+    const whole = runThrough(world, "2026-01-01");
+    const cut = runThrough(cutWorld, "2026-01-01");
+    const januaryAid = (next: World) =>
+      next.publicBudgets!.governments.find(
+        (row) => row.key === "place:1714000",
+      )!.months[0]!.revenue[aid]!;
+    expect(januaryAid(whole)).toBeCloseTo(expected, -1);
+    expect(januaryAid(cut)).toBeCloseTo(expected * 0.9, -1);
+    // Illinois' fiscal 2027 budget spends its carried balance, local aid
+    // included, and Chicago's aid rises with it from July.
+    const year = runThrough(world, "2026-07-01");
+    const months = year.publicBudgets!.governments.find(
+      (row) => row.key === "place:1714000",
+    )!.months;
+    const june = months.find((row) => row.month === "2026-06-01")!;
+    const july = months.find((row) => row.month === "2026-07-01")!;
+    expect(july.revenue[aid]!).toBeGreaterThan(june.revenue[aid]!);
+  });
+
   it("maps an appropriation's program to its budget line", () => {
     expect(budgetProgramFor("transit-access:il")).toBe("transit");
     expect(budgetProgramFor("bridge-maintenance:il")).toBe("highways");

@@ -23,6 +23,7 @@ import {
   BUDGET_PROGRAMS,
   BUDGET_SOURCES,
   PROTECTED_PROGRAMS,
+  stateLocalAidRate,
   sum,
   type AdoptedBudget,
   type BudgetAdjustment,
@@ -61,6 +62,8 @@ const CUTTABLE = BUDGET_PROGRAMS.map(
 const INCOME_TAX = BUDGET_SOURCES.indexOf("individualIncomeTax");
 const INTEREST = BUDGET_PROGRAMS.indexOf("interest");
 const PENSION_PROGRAM = BUDGET_PROGRAMS.indexOf("pensionContribution");
+const STATE_AID = BUDGET_SOURCES.indexOf("intergovernmental");
+const LOCAL_AID = BUDGET_PROGRAMS.indexOf("localAid");
 
 /** What the history recorded this month, by government key. */
 export interface MonthFlows {
@@ -256,12 +259,17 @@ interface Settled {
   readonly adjustments: readonly BudgetAdjustment[];
 }
 
-/** Settles one government's month, and its year when the month ends one. */
+/**
+ * Settles one government's month, and its year when the month ends one. A
+ * county or city takes its state already settled for the same month, so its
+ * aid follows what the state spent.
+ */
 export function settleGovernmentMonth(
   world: World,
   government: PublicBudgetGovernment,
   month: IsoDate,
   flows: MonthFlows,
+  state: PublicBudgetGovernment | null = null,
 ): Settled {
   if (government.months.some((row) => row.month === month))
     return { government, adjustments: [] };
@@ -290,6 +298,16 @@ export function settleGovernmentMonth(
         government.population,
     );
   revenue[INCOME_TAX]! += Math.round(flows.withheld.get(government.key) ?? 0);
+  // Aid from the state moves with what the state actually spent on aid to
+  // local governments this month, against its rate when this budget was
+  // adopted: a state's cut reaches its cities in the same month.
+  const aidBase = year.stateLocalAidAtAdoption ?? null;
+  const stateRow = state?.months.at(-1);
+  if (aidBase !== null && aidBase > 0 && stateRow?.month === month)
+    revenue[STATE_AID] = Math.round(
+      (year.expectedRevenue[STATE_AID]! / 12) *
+        ((stateRow.spending[LOCAL_AID]! * 12) / aidBase),
+    );
   const levy = flows.levies.get(government.key);
   if (levy)
     for (const [at, value] of levy.entries()) revenue[at]! += Math.round(value);
@@ -519,7 +537,14 @@ export function settleGovernmentMonth(
   };
 
   next = { ...next, balance, reserve, debt, interestRate, pension, cut: 0 };
-  const adopted = adoptNextYear(world, next, year, yearRows, adjustments);
+  const adopted = adoptNextYear(
+    world,
+    next,
+    year,
+    yearRows,
+    adjustments,
+    state,
+  );
   return {
     government: { ...next, years: [...next.years, adopted] },
     adjustments,
@@ -529,11 +554,14 @@ export function settleGovernmentMonth(
 /**
  * The government's own modeled adoption for the next year (automatic; a
  * budget passed as a bill comes later). It expects to collect what it
- * collected last year at today's economy, pays interest and the pension share its law requires,
- * sets aside the reserve deposit its law requires, and plans programs to
- * spend the rest (PLACEHOLDER rule). Under a balanced-budget law programs
- * shrink when that is less than last year; without one they are not cut at
- * adoption, and the gap shows up as a deficit.
+ * collected last year at today's economy, and a county or city expects its
+ * state aid at the state's current rate. It pays interest and the pension
+ * share its law requires, sets aside the reserve deposit its law requires,
+ * and plans programs to spend the rest (PLACEHOLDER rule). Under a
+ * balanced-budget law programs shrink when that is less than last year;
+ * without one they are not cut at adoption, and the gap shows up as a
+ * deficit. The balance above the reserve target is carried in and spent
+ * across the year, once (Claude CTO, 11:54 p.m. ruling of September 28, 2026).
  */
 function adoptNextYear(
   world: World,
@@ -541,6 +569,7 @@ function adoptNextYear(
   prior: AdoptedBudget,
   rows: readonly BudgetMonthRow[],
   adjustments: BudgetAdjustment[],
+  state: PublicBudgetGovernment | null,
 ): AdoptedBudget {
   const startsOn = firstOfNextMonth(prior.endsOn);
   const year = fiscalYearContaining(startsOn, government.fiscalYearStart);
@@ -575,6 +604,20 @@ function adoptNextYear(
     });
     return Math.round((sum(restated) * 12) / rows.length);
   });
+  // A county's or city's aid follows the state's current rate from where the
+  // last budget expected it; a first link starts from last year's collections.
+  const stateLocalAidAtAdoption =
+    government.level !== "state" && state ? stateLocalAidRate(state) : null;
+  const priorAidBase = prior.stateLocalAidAtAdoption ?? null;
+  if (
+    stateLocalAidAtAdoption !== null &&
+    priorAidBase !== null &&
+    priorAidBase > 0
+  )
+    expectedRevenue[STATE_AID] = Math.round(
+      (prior.expectedRevenue[STATE_AID]! * stateLocalAidAtAdoption) /
+        priorAidBase,
+    );
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.shareChange === null) continue;
     const propositionId = propositionIdFor(world, effect.questionKey);
@@ -595,7 +638,19 @@ function adoptNextYear(
     laws.pensions,
   );
   const interest = Math.round(government.debt * government.interestRate);
-  const priorTotal = sum(prior.appropriations);
+  // Last year's programs without the one-time balance it carried in: that
+  // money was spent once and is not a level the new budget builds on.
+  const priorCuttableAll = sum(
+    prior.appropriations.map((value, at) => (CUTTABLE[at] ? value : 0)),
+  );
+  const oneTimeShare =
+    priorCuttableAll > 0
+      ? Math.min(1, (prior.carriedBalance ?? 0) / priorCuttableAll)
+      : 0;
+  const base = prior.appropriations.map((value, at) =>
+    CUTTABLE[at] ? value * (1 - oneTimeShare) : value,
+  );
+  const priorTotal = sum(base);
   const floor = RESERVE.floorShareOfSpending * priorTotal;
   const reserveDeposit =
     laws.reserve.answer === "yes" && government.reserve < floor
@@ -611,19 +666,43 @@ function adoptNextYear(
     sum(expectedRevenue) - interest - pensionPaid - reserveDeposit,
   );
   const cuttablePrior = sum(
-    prior.appropriations.map((value, at) => (CUTTABLE[at] ? value : 0)),
+    base.map((value, at) => (CUTTABLE[at] ? value : 0)),
   );
   const fitted = cuttablePrior > 0 ? available / cuttablePrior : 1;
   const scale = laws.balanced.answer === "yes" ? fitted : Math.max(1, fitted);
-  if (laws.balanced.answer === "yes" && fitted < 1)
+  // The balance above the reserve target is carried into the year and spent
+  // across it. What the reserve still lacks of its target, after this year's
+  // deposit, stays in the balance.
+  const kept = Math.max(0, floor - government.reserve - reserveDeposit);
+  const carried =
+    cuttablePrior > 0 ? Math.max(0, Math.round(government.balance - kept)) : 0;
+  const recurring = cuttablePrior * scale;
+  // Programs revenue cannot pay are paid from the carried balance first;
+  // the rest of it is spent on top of this year's programs.
+  const carriedBalance = Math.max(
+    0,
+    carried - Math.max(0, recurring - available),
+  );
+  const shortfall = Math.round(cuttablePrior * (1 - fitted) - carried);
+  if (laws.balanced.answer === "yes" && fitted < 1 && shortfall > 0)
     adjustments.push({
       governmentKey: government.key,
       on: startsOn,
       fiscalYear: year.fiscalYear,
       kind: "balanced-at-adoption",
-      amount: Math.round(cuttablePrior * (1 - fitted)),
+      amount: shortfall,
       law: { name: "balanced", reading: laws.balanced },
-      note: "Expected revenue fell short of last year's programs, so the adopted budget cut them to balance.",
+      note: "Expected revenue and the carried balance fell short of last year's programs, so the adopted budget cut them to balance.",
+    });
+  if (carried > 0)
+    adjustments.push({
+      governmentKey: government.key,
+      on: startsOn,
+      fiscalYear: year.fiscalYear,
+      kind: "balance-carried",
+      amount: carried,
+      law: null,
+      note: "The balance above the reserve target (5% of a year's spending, PLACEHOLDER) was carried into the new year and is spent across it, once.",
     });
   if (reserveDeposit > 0)
     adjustments.push({
@@ -635,8 +714,18 @@ function adoptNextYear(
       law: { name: "reserve", reading: laws.reserve },
       note: "The reserve is below its required floor, so the adopted budget sets a deposit aside (PLACEHOLDER floor and pace).",
     });
-  const appropriations = prior.appropriations.map((value, at) =>
-    CUTTABLE[at] ? Math.round(value * scale) : 0,
+  const planned = base.map((value, at) => (CUTTABLE[at] ? value * scale : 0));
+  // Spread over this year's programs, or last year's when none is planned.
+  const weights =
+    recurring > 0
+      ? planned
+      : base.map((value, at) => (CUTTABLE[at] ? value : 0));
+  const weightTotal = sum(weights);
+  const appropriations = planned.map((value, at) =>
+    Math.round(
+      value +
+        (weightTotal > 0 ? (carriedBalance * weights[at]!) / weightTotal : 0),
+    ),
   );
   appropriations[INTEREST] = interest;
   appropriations[PENSION_PROGRAM] = pensionPaid;
@@ -653,5 +742,7 @@ function adoptNextYear(
     pensionShare: government.pension.paidShare,
     economyAtAdoption,
     laws,
+    carriedBalance,
+    stateLocalAidAtAdoption,
   };
 }

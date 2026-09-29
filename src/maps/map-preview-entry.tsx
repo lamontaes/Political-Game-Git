@@ -69,7 +69,7 @@ function Preview() {
   return (
     <main
       className="life-shell"
-      style={{ padding: 16, minHeight: "100vh", background: "#0b1019" }}
+      style={{ padding: 16, minHeight: "100vh", background: "#f4ecdc" }}
     >
       <p
         data-testid="preview-opened"

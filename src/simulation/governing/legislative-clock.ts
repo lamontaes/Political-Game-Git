@@ -71,6 +71,11 @@ import {
   type ChamberQuestion,
   type MemberBallot,
 } from "./member-ballots";
+import { offerPlannedAmendment } from "./amendment-authors";
+import {
+  amendmentAdmissible,
+  floorStageTakesAmendments,
+} from "./chamber-procedure";
 import { decideChamberVote, seatedChamberForPack } from "./chamber-votes";
 import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 import {
@@ -227,6 +232,25 @@ export function measureSessionClosedOn(
   return makeIsoDate(
     `${year}-${String(boundary.month).padStart(2, "0")}-${String(boundary.day).padStart(2, "0")}`,
   );
+}
+
+/**
+ * Phases a bill reaches only after both chambers passed it. The session's
+ * end does not stop these: the clerks still enroll and present what the
+ * legislature passed, and the executive acts on it within the window the
+ * rules give after adjournment. A veto override still needs the chambers,
+ * so it is not among them.
+ */
+const PAST_THE_CHAMBERS: ReadonlySet<string> = new Set([
+  "awaiting-enrollment",
+  "awaiting-presentation",
+  "awaiting-executive",
+  "awaiting-enactment",
+]);
+
+/** Whether the session's end stops a bill in this phase. */
+export function adjournmentStopsPhase(phase: string): boolean {
+  return !PAST_THE_CHAMBERS.has(phase);
 }
 
 export function measureSessionIsClosed(
@@ -451,16 +475,14 @@ export function applyInstitutionStep(
   const pack = blueprint.pack;
   const owner = effectiveOwner(world, measure);
   if (owner === null || owner === "sponsor-office") return { kind: "idle" };
+  const closed =
+    measureSessionIsClosed(world, measureId).closed &&
+    adjournmentStopsPhase(measurePosition(world, measureId).phase);
   const session = measureSessionIsClosed(world, measureId);
   // Where the rules say a pending bill dies when the session adjourns, one
   // still before the legislature dies; that is how most bills end.
   const dies = pack.session.measuresDieAtAdjournment;
-  if (
-    session.closed &&
-    owner !== "executive" &&
-    dies.kind === "known" &&
-    dies.value
-  )
+  if (closed && owner !== "executive" && dies.kind === "known" && dies.value)
     return {
       kind: "ended",
       world: recordAdjournmentDeath(world, {
@@ -472,7 +494,7 @@ export function applyInstitutionStep(
         measureId,
       }),
     };
-  if (session.closed)
+  if (closed)
     return {
       kind: "blocked",
       reason: `The session ended on ${session.closedOn}; whether this bill carries over is not established, so nothing more happens to it.`,
@@ -613,9 +635,30 @@ export function applyInstitutionStep(
   if (steps.includes("move-floor-vote")) {
     const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
     const stableKey = key(`floor:${chamberKey}:${stage.stageKey}`);
+    // Before the question is put, a member may offer an amendment for their
+    // own reasons, where this stage takes amendments and the chamber is
+    // seated with people who have reasons (Build 25 step 3).
+    const onFloor =
+      body &&
+      body.members.length > 0 &&
+      body.members.every((member) => member.personId) &&
+      isSeatedChamber(world, blueprint) &&
+      floorStageTakesAmendments(chamber, stage)
+        ? offerPlannedAmendment(world, {
+            measureId,
+            chamber,
+            stage,
+            members: body.members,
+            stableKey,
+            // Only what the chamber's rules put in order, as they stand now.
+            admissible: (bill, part) =>
+              amendmentAdmissible(world, blueprint.pack, chamberKey, bill, part)
+                .admissible,
+          })
+        : world;
     const decided = body
       ? decide(
-          world,
+          onFloor,
           blueprint,
           body.members,
           votePlanKeyForFloor(chamberKey, stage.stageKey),
@@ -641,7 +684,7 @@ export function applyInstitutionStep(
         reason: `The ${chamber.name} has no recorded member decisions on this question.`,
       };
     return applied(
-      takeFloorVote(world, {
+      takeFloorVote(onFloor, {
         stableKey,
         measureId,
         dispositions: decided.dispositions,
@@ -886,7 +929,11 @@ export function scheduleInstitutionStep(
       ? world
       : scheduleCongressSitting(world);
   if (pendingInstitutionStep(world, measureId, excludeDueItemId)) return world;
-  if (measureSessionIsClosed(world, measureId).closed) return world;
+  if (
+    measureSessionIsClosed(world, measureId).closed &&
+    adjournmentStopsPhase(measurePosition(world, measureId).phase)
+  )
+    return world;
   const dueAt =
     on && on > world.currentDate
       ? on
