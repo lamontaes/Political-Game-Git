@@ -274,7 +274,7 @@ describe("what federal laws change in the outcome web", () => {
     }
   });
 
-  it("acts on the four outcomes the game now keeps for them", () => {
+  it("acts on the outcomes the game now keeps for them", () => {
     expect(
       Object.fromEntries(
         [
