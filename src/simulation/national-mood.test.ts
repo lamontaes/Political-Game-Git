@@ -7,7 +7,7 @@ import {
 } from "../presentation/observer-world";
 import { currentPresidentOf } from "./crisis/offices";
 import {
-  MIDTERM_PENALTY_SHARE,
+  MIDTERM_PENALTY_POINTS,
   nationalMoodDemocraticShift,
 } from "./national-mood";
 import { majorPartyOf } from "./statewide-electorate";
@@ -29,7 +29,7 @@ describe("the national mood", () => {
     );
     expect(party).not.toBeNull();
     expect(midterm).toBe(
-      party === "democratic" ? -MIDTERM_PENALTY_SHARE : MIDTERM_PENALTY_SHARE,
+      (party === "democratic" ? -1 : 1) * (MIDTERM_PENALTY_POINTS / 100),
     );
   });
 

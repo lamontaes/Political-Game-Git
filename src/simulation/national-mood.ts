@@ -21,7 +21,8 @@ import type { IsoDate, World } from "./types";
  *
  * GAME ASSUMPTION: an odd-year state election carries no national mood.
  */
-export const MIDTERM_PENALTY_SHARE = 0.036;
+/** Points of the two-party vote, out of 100. */
+export const MIDTERM_PENALTY_POINTS = 3.6;
 
 /**
  * The shift in the Democratic share of the two-party vote that the national
@@ -37,9 +38,6 @@ export function nationalMoodDemocraticShift(
   const president = currentPresidentOf(world);
   if (!president) return 0;
   const party = majorPartyOf(world, president.personId, electionDate);
-  return party === "democratic"
-    ? -MIDTERM_PENALTY_SHARE
-    : party === "republican"
-      ? MIDTERM_PENALTY_SHARE
-      : 0;
+  const shift = MIDTERM_PENALTY_POINTS / 100;
+  return party === "democratic" ? -shift : party === "republican" ? shift : 0;
 }
