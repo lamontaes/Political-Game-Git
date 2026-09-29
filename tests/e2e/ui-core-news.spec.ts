@@ -46,6 +46,9 @@ test("normal completed legislative action publishes News with person Back and un
   await enterRecordedMemberTerm(page);
   await page.getByTestId("open-drafting-table").click();
   await page.locator('[data-testid^="drafting-option-"]').first().click();
+  // A bill that funds a program names the program it funds.
+  const program = page.locator('[data-testid^="drafting-authority-"]').first();
+  if ((await program.count()) > 0) await program.click();
   await page.getByTestId("file-the-draft").press("Enter");
   await expect(page.getByTestId("docket-bill")).toBeVisible();
   await save(page);
@@ -119,6 +122,8 @@ test("legislative staff can preview but cannot file or publish a member bill", a
   await goTo(page, "elsewhere-work");
   await page.getByTestId("open-drafting-table").click();
   await page.locator('[data-testid^="drafting-option-"]').first().click();
+  const program = page.locator('[data-testid^="drafting-authority-"]').first();
+  if ((await program.count()) > 0) await program.click();
   await expect(page.getByTestId("drafting-filing-refusal")).toContainText(
     "member seat",
   );
@@ -213,6 +218,9 @@ test("the office names the bill being worked on and who has it next", async ({
 
   await page.getByTestId("open-drafting-table").click();
   await page.locator('[data-testid^="drafting-option-"]').first().click();
+  // A bill that funds a program names the program it funds.
+  const program = page.locator('[data-testid^="drafting-authority-"]').first();
+  if ((await program.count()) > 0) await program.click();
   await page.getByTestId("file-the-draft").press("Enter");
   await expect(page.getByTestId("docket-bill")).toBeVisible();
 

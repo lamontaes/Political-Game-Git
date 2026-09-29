@@ -393,7 +393,7 @@ There is a rule at work that nobody follows, and today somebody older is telling
 **Intent.** Ordinary adult life: adult situations, quiet stretches and connective narration between them.
 
 Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
-20 beats, 69 realized lines, 5 linked back to a template.
+20 beats, 76 realized lines, 5 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, connective-narration, episode:opening.adult.home.shared-time, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
@@ -405,7 +405,7 @@ Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
 
 > You're 34, and you live in Kentucky.
 > You live with Gage Terrell.
-> You belong to Community Service Club.
+> You work at Winters's Market.
 
 You're home, and so is Gage Terrell, your housemate.
 
@@ -427,7 +427,9 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 
 #### Beat 2 — 2026-03-24, age 34 (ordinary-stretch)
 
-
+> A couple of months on.
+> You and Henry Blanchard were in and out of each other's business more than once.
+> You and Edward Miles were in and out of each other's business more than once.
 
 
 
@@ -436,7 +438,8 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 #### Beat 3 — 2026-05-10, age 35 (ordinary-stretch)
 
 > Half a year on, and you're 35 now.
-> Edward Miles tried to reach you.
+> You and Reuben Peters were in and out of each other's business more than once.
+> You and Edward Miles were in and out of each other's business more than once.
 
 
 
@@ -445,7 +448,8 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 #### Beat 4 — 2026-06-10, age 35 (ordinary-stretch)
 
 > Half a year on, and you're 35 now.
-> Edward Miles tried to reach you.
+> You and Logan Winters were in and out of each other's business more than once.
+> You and Reuben Peters were in and out of each other's business more than once.
 
 
 
@@ -454,7 +458,8 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 #### Beat 5 — 2026-08-17, age 35 (adult)
 
 > Most of a year later, and you're 35 now.
-> Edward Miles tried to reach you.
+> You and Amit Rivera were in and out of each other's business more than once.
+> You and Logan Winters were in and out of each other's business more than once.
 
 David Todd, your dad: “My birthday’s Thursday. Do you want to come over Saturday?”
 
@@ -491,6 +496,7 @@ _Present: David Todd, your dad_
 #### Beat 9 — 2026-10-15, age 35 (ordinary-stretch)
 
 > A couple of months on.
+> You and Elliott Mathews were in and out of each other's business more than once.
 > You and David Todd were in and out of each other's business more than once.
 
 
@@ -501,7 +507,7 @@ _Present: David Todd, your dad_
 
 > Half a year on.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> You and David Todd were in and out of each other's business more than once.
+> Edward Miles tried to reach you.
 
 
 
@@ -511,7 +517,7 @@ _Present: David Todd, your dad_
 
 > Most of a year later, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> What you said you'd do about David Todd came up.
+> Edward Miles tried to reach you.
 
 
 
@@ -521,7 +527,7 @@ _Present: David Todd, your dad_
 
 > A year on, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> What you said you'd do about David Todd came up.
+> Edward Miles tried to reach you.
 
 
 
@@ -531,7 +537,7 @@ _Present: David Todd, your dad_
 
 > A year on, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> What you said you'd do about David Todd came up.
+> Edward Miles tried to reach you.
 
 
 
@@ -541,7 +547,7 @@ _Present: David Todd, your dad_
 
 > A year and a half on, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> What you said you'd do about David Todd came up.
+> Edward Miles tried to reach you.
 
 
 
@@ -551,7 +557,7 @@ _Present: David Todd, your dad_
 
 > A year and a half on, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> What you said you'd do about David Todd came up.
+> Edward Miles tried to reach you.
 
 
 
@@ -561,7 +567,7 @@ _Present: David Todd, your dad_
 
 > The better part of two years later, and you're 37 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> What you said you'd do about David Todd came up.
+> Edward Miles tried to reach you.
 
 
 
@@ -571,7 +577,7 @@ _Present: David Todd, your dad_
 
 > 2 years later, and you're 37 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> What you said you'd do about David Todd came up.
+> Edward Miles tried to reach you.
 
 
 
@@ -581,7 +587,7 @@ _Present: David Todd, your dad_
 
 > 2 years later, and you're 37 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> What you said you'd do about David Todd came up.
+> You and Elliott Mathews were in and out of each other's business more than once.
 
 
 
@@ -591,7 +597,7 @@ _Present: David Todd, your dad_
 
 > 2 years later, and you're 37 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> Edward Miles tried to reach you.
+> You and Elliott Mathews were in and out of each other's business more than once.
 
 
 
@@ -1162,7 +1168,7 @@ Seed `p85c-owner-clock`, start age 34, Luke Vance.
 
 > You're 34, and you live in Lexington, Kentucky.
 > You live with Mark Mullins.
-> You belong to Community Service Club.
+> You work at Peterson Hardware.
 
 You're home, and so is Mark Mullins, your housemate.
 
@@ -1190,7 +1196,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 **Intent.** A second candidacy on a different seed, so a contest outcome is not read from one run.
 
 Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
-6 beats, 21 realized lines, 2 linked back to a template.
+6 beats, 23 realized lines, 2 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-lost, person-introduction, scene:adult, scene:ordinary-stretch, thread-recap
 
@@ -1209,6 +1215,7 @@ _No legislative surface: the capability layer did not open one for this run._
 #### Beat 0 — 2026-01-05, age 41 (ordinary-stretch)
 
 > You're 41, and you live in Lexington, Kentucky.
+> You work at Smith Hardware.
 > You belong to Community Service Club.
 
 
@@ -1218,6 +1225,7 @@ _No legislative surface: the capability layer did not open one for this run._
 #### Beat 1 — 2026-02-09, age 41 (adult)
 
 > You're 41, and you live in Lexington, Kentucky.
+> You work at Smith Hardware.
 > You belong to Community Service Club.
 
 John Tillman, your dad: “My birthday’s Tuesday. Do you want to come over Saturday?”
@@ -1257,8 +1265,8 @@ _Present: John Tillman, your dad_
 #### Beat 5 — 2026-06-25, age 42 (ordinary-stretch)
 
 > Half a year on, and you're 42 now.
+> You and Nicholas Griffith were in and out of each other's business more than once.
 > Christopher Marshall tried to reach you.
-> You and John Tillman were in and out of each other's business more than once.
 
 
 
@@ -1292,7 +1300,7 @@ _No legislative surface: the capability layer did not open one for this run._
 
 > You're 34, and you live in Lexington, Kentucky.
 > You live with Mark Mullins.
-> You belong to Community Service Club.
+> You work at Peterson Hardware.
 
 You're home, and so is Mark Mullins, your housemate.
 
