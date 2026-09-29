@@ -1,6 +1,6 @@
 # Nationwide lawmaking still needs its watched proof
 
-The candidate makes a chamber bring up a bill supported by its majority caucus and a chamber majority. Its sponsor is the member whose recorded principles press hardest. Cross-party cosponsors follow their own principles, and the party cue follows the sponsor. These changes have not established the requested nationwide result. The watched runs, Senate integration, life-formed officeholder integration, and seat calibration still await the shared test slot or the law team's overlapping files.
+The candidate makes a chamber bring up a bill supported by its majority caucus and a chamber majority. Its sponsor is the member whose recorded principles press hardest. Cross-party cosponsors follow their own principles, and the party cue follows the sponsor. These changes have not established the requested nationwide result. The watched runs still await a runtime slot. Senate integration, life-formed officeholder integration, and seat calibration await the law team's overlapping files.
 
 ## MERGED
 
@@ -36,8 +36,8 @@ Complete annual law-output totals for all 56 jurisdictions have not been establi
 | ----------------------------------------------------------- | --------------------------------------------------------------------------------- |
 | Workspace preflight                                         | Passed before source work                                                         |
 | Majority-agenda unit tests                                  | Four of four passed before the later ordering edit; final candidate rerun pending |
-| Changed-file formatting, ESLint, and whitespace             | Passed; behavior and types remain unvalidated                                     |
-| Changed-root type check                                     | Interrupted on coordinator request; NO RESULT                                     |
+| Changed-file formatting, ESLint, and whitespace             | Passed; runtime behavior remains unvalidated                                      |
+| Changed-root type check                                     | Passed at `5082e7634`: 17 roots, 1,145 source/declaration files, zero diagnostics |
 | Five-year random-place baseline and candidate               | NOT RUN                                                                           |
 | Trifecta and split-state comparisons                        | NOT RUN                                                                           |
 | At least 45 of 50 states enacting within real annual ranges | NOT RUN                                                                           |
@@ -51,7 +51,7 @@ Complete annual law-output totals for all 56 jurisdictions have not been establi
 
 ## NEEDS LAMONTAE
 
-No new product decision is requested at this checkpoint. The current blockers are shared-file ownership and the serialized test queue.
+No new product decision is requested at this checkpoint. Shared-file integration still awaits the law team. The owner-approved override allows two heavy jobs besides the speed team. Team 2 completed one scoped typecheck in slot B and released it to Team 3. Further runtime validation uses the rotating slot.
 
 ## PLACEHOLDERS
 
@@ -92,3 +92,5 @@ Economic changes compare saved national conditions with the world's starting con
 A lightweight scan of the changed readers found no new zero-dice findings. The exact removal currently pending in the shared allowlist is one `roll` entry owned by Build 27 in `src/simulation/governing/congress-lawmaking.ts`: `.integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0`. The shared allowlist was not edited. Its current claimed owner is Team 4; the coordinator received this exact removal delta. Removal of the legacy officeholder draw remains pending its shared-file integration. Sponsor selection no longer draws, but the guard did not count that shape in this baseline.
 
 The reused research helper found four completed 2025 regular-session examples in [FiscalNote's September 2026 recap](https://fiscalnote.com/reports/2026-states-session-recap-report): North Dakota enacted 600 of 1,020 introduced bills; Nevada enacted 532 of 1,003; Montana enacted 777 of 1,589; and Texas enacted 1,206 of 7,274. These are that collector's bills-only cohorts, excluding resolutions, memorials, and amendments. They do not fill the all-56 annual coverage gap. The source handoff is `/private/tmp/team2-output-coverage.md`.
+
+The research helper's bounded heading inventory found 73 numbered Acts, contiguous 1–73, in Vermont's official [2025 Act Summary Book](https://legislature.vermont.gov/assets/Legislative-Reports/2025_Act_Summary_book-v2.pdf). This is the summary book's regular-session Act cohort, not a verified all-session calendar-year total. The [June 16 Senate Journal](https://legislature.vermont.gov/Documents/2026/Docs/JOURNAL/sj250616.pdf) records adjournment of the biennium's first half and later governor approvals through July 1. Resolutions use separate numbering. The book's summary disclaimer and unverified later recall coverage limit the comparison. The helper's receipt is `/private/tmp/team2-vermont-output-source.md`; its full heading inventory was not independently rerun by the parent.
