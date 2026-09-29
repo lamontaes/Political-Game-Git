@@ -3,19 +3,19 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 758,
+    "markers": 748,
     "byKind": {
-      "unresearched": 231,
-      "placeholder": 416,
+      "unresearched": 222,
+      "placeholder": 415,
       "blanket": 126
     },
     "byPath": {
       "other": 465,
       "money": 73,
       "law": 132,
-      "government": 88
+      "government": 78
     },
-    "withoutQuestion": 461,
+    "withoutQuestion": 451,
     "questionNotFiled": 29,
     "moneyOrLawQuestions": 61
   },
@@ -3425,7 +3425,7 @@
     {
       "file": "src/simulation/living-world/town-finances.ts",
       "line": 99,
-      "text": "/** PLACEHOLDER: a line of credit up to this share of a year's revenue. */",
+      "text": "/** PLACEHOLDER: a line of credit up to this many days of revenue. */",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3434,7 +3434,7 @@
     {
       "file": "src/simulation/living-world/town-finances.ts",
       "line": 102,
-      "text": "* PLACEHOLDER: how much of a business's revenue follows what the town's",
+      "text": "* PLACEHOLDER: how far a business's revenue follows what the town's",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3442,7 +3442,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 117,
+      "line": 118,
       "text": "* PLACEHOLDER: how far a quarter's crowding moves a business's prices.",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3451,7 +3451,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 125,
+      "line": 126,
       "text": "* PLACEHOLDER: how strongly customers choose among a town's businesses",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3460,7 +3460,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 132,
+      "line": 133,
       "text": "/** PLACEHOLDER: capital as a share of assets when books open. */",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3469,7 +3469,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 140,
+      "line": 141,
       "text": "/** PLACEHOLDER: below this capital ratio it makes no new loans. */",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3478,7 +3478,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 142,
+      "line": 143,
       "text": "/** PLACEHOLDER: below this capital ratio depositors take fright. */",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3487,7 +3487,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 144,
+      "line": 145,
       "text": "/** PLACEHOLDER: how much of a lost cushion it rebuilds a quarter. */",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3496,7 +3496,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 167,
+      "line": 168,
       "text": "* Every other kind: PLACEHOLDER, 0.5.",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3875,7 +3875,7 @@
     {
       "file": "src/simulation/macro-economy/credit.ts",
       "line": 57,
-      "text": "* PLACEHOLDER: share of the debt stock that reprices each month (about two",
+      "text": "* PLACEHOLDER: percent of the debt stock that reprices each month (the",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3883,7 +3883,7 @@
     },
     {
       "file": "src/simulation/macro-economy/credit.ts",
-      "line": 61,
+      "line": 62,
       "text": "/** PLACEHOLDER: extra points lenders charge when credit is fully tight. */",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3892,7 +3892,7 @@
     },
     {
       "file": "src/simulation/macro-economy/credit.ts",
-      "line": 64,
+      "line": 65,
       "text": "* PLACEHOLDER: yearly interest as a share of a year's output that borrowers",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3901,7 +3901,7 @@
     },
     {
       "file": "src/simulation/macro-economy/credit.ts",
-      "line": 70,
+      "line": 71,
       "text": "* inflation are PLACEHOLDER values, calibrated on September 28, 2026 so a",
       "kinds": ["placeholder"],
       "path": "other",
@@ -4019,7 +4019,7 @@
     {
       "file": "src/simulation/macro-economy/sources.ts",
       "line": 322,
-      "text": "* PLACEHOLDER: a closing that ends this share of the jobs held in town is a",
+      "text": "* PLACEHOLDER: a closing that ends this many of every hundred jobs held in",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -4027,7 +4027,7 @@
     },
     {
       "file": "src/simulation/macro-economy/sources.ts",
-      "line": 332,
+      "line": 333,
       "text": "* bank is also a credit squeeze in its town, at full strength (PLACEHOLDER).",
       "kinds": ["placeholder"],
       "path": "other",
@@ -5503,16 +5503,7 @@
     },
     {
       "file": "src/simulation/press/finding-consequences.ts",
-      "line": 428,
-      "text": "* A generated state body's civil penalty: its UNRESEARCHED per-payment scale",
-      "kinds": ["unresearched"],
-      "path": "government",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/press/finding-consequences.ts",
-      "line": 431,
+      "line": 432,
       "text": "* what they may impose; the FEC's conciliation penalties are unresearched too.",
       "kinds": ["unresearched"],
       "path": "government",
@@ -5620,53 +5611,8 @@
     },
     {
       "file": "src/simulation/press/generated-state-oversight.ts",
-      "line": 7,
-      "text": "* UNRESEARCHED calendar and penalties for the state body that oversees",
-      "kinds": ["unresearched"],
-      "path": "government",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/press/generated-state-oversight.ts",
-      "line": 14,
-      "text": "* how long its steps take and what it fines are not researched, so those are",
-      "kinds": ["unresearched"],
-      "path": "government",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/press/generated-state-oversight.ts",
-      "line": 23,
-      "text": "export const UNRESEARCHED_STATE_OVERSIGHT = {",
-      "kinds": ["unresearched"],
-      "path": "government",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/press/generated-state-oversight.ts",
-      "line": 24,
-      "text": "version: \"generated-state-oversight-unresearched-v1\",",
-      "kinds": ["unresearched"],
-      "path": "government",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/press/generated-state-oversight.ts",
-      "line": 25,
-      "text": "provenance: \"unresearched-blanket-rule\",",
-      "kinds": ["unresearched"],
-      "path": "government",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/press/generated-state-oversight.ts",
-      "line": 152,
-      "text": "const rule = UNRESEARCHED_STATE_OVERSIGHT;",
+      "line": 13,
+      "text": "* fines are not researched. Until they are, every state follows the federal",
       "kinds": ["unresearched"],
       "path": "government",
       "researchQuestionId": null,
@@ -5683,8 +5629,8 @@
     },
     {
       "file": "src/simulation/press/outlets.ts",
-      "line": 162,
-      "text": "* PLACEHOLDER, NOT RESEARCHED: the kinds, their staff and the weights below",
+      "line": 164,
+      "text": "* PLACEHOLDER, NOT RESEARCHED: the kinds and their staff below were",
       "kinds": ["placeholder", "unresearched"],
       "path": "government",
       "researchQuestionId": "what-newsrooms-cover-a-town-and-a-state",
@@ -5692,7 +5638,7 @@
     },
     {
       "file": "src/simulation/press/outlets.ts",
-      "line": 182,
+      "line": 184,
       "text": "* drawn (PLACEHOLDER).",
       "kinds": ["placeholder"],
       "path": "government",
@@ -5701,7 +5647,7 @@
     },
     {
       "file": "src/simulation/press/outlets.ts",
-      "line": 323,
+      "line": 325,
       "text": "* are fictional names, like every other masthead here. PLACEHOLDER: the",
       "kinds": ["placeholder"],
       "path": "government",
@@ -5710,7 +5656,7 @@
     },
     {
       "file": "src/simulation/press/outlets.ts",
-      "line": 352,
+      "line": 354,
       "text": "* the territory. PLACEHOLDER, like Puerto Rico's: each territory's press",
       "kinds": ["placeholder"],
       "path": "government",
@@ -5719,7 +5665,7 @@
     },
     {
       "file": "src/simulation/press/outlets.ts",
-      "line": 353,
+      "line": 355,
       "text": "* identity is unresearched.",
       "kinds": ["unresearched"],
       "path": "government",
@@ -5728,7 +5674,7 @@
     },
     {
       "file": "src/simulation/press/outlets.ts",
-      "line": 360,
+      "line": 362,
       "text": "const PLACEHOLDER_TERRITORY_KEYS: ReadonlySet<string> = new Set([",
       "kinds": ["placeholder"],
       "path": "government",
@@ -5737,16 +5683,7 @@
     },
     {
       "file": "src/simulation/press/outlets.ts",
-      "line": 371,
-      "text": "* (PLACEHOLDER, see above).",
-      "kinds": ["placeholder"],
-      "path": "government",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/press/outlets.ts",
-      "line": 522,
+      "line": 528,
       "text": ": key !== null && PLACEHOLDER_TERRITORY_KEYS.has(key)",
       "kinds": ["placeholder"],
       "path": "government",
@@ -5775,33 +5712,6 @@
       "file": "src/simulation/press/ownership.ts",
       "line": 134,
       "text": "* they can, with consequences; how is unresearched), and which sibling picks",
-      "kinds": ["unresearched"],
-      "path": "government",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/press/procedures.ts",
-      "line": 501,
-      "text": "* A state oversight body generated from an UNRESEARCHED range",
-      "kinds": ["unresearched"],
-      "path": "government",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/press/procedures.ts",
-      "line": 529,
-      "text": "UNRESEARCHED_STATE_OVERSIGHT_FALLBACK_DAYS;",
-      "kinds": ["unresearched"],
-      "path": "government",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/press/procedures.ts",
-      "line": 634,
-      "text": "const UNRESEARCHED_STATE_OVERSIGHT_FALLBACK_DAYS = {",
       "kinds": ["unresearched"],
       "path": "government",
       "researchQuestionId": null,
