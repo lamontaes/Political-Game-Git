@@ -160,7 +160,7 @@ describe("a paycheck in Ely, Nevada", () => {
 });
 
 describe("a paycheck in Minneapolis", () => {
-  it("withholds Minnesota's income tax and sends it to Minnesota", () => {
+  it("withholds Minnesota's income tax and paid leave premium and sends them to Minnesota", () => {
     const start = newLife(MINNEAPOLIS, "statutory-tax-minneapolis");
     expect(residenceStateKey(start.world, start.personId)).toBe("US-MN");
     const paid = workOneShift(start.world);
@@ -173,10 +173,20 @@ describe("a paycheck in Minneapolis", () => {
     expect(minnesota.authorityKey).toBe("US-MN");
     expect(minnesota.liability?.minorUnits).toBe(70);
     expect(minnesota.researchQuestionId).toBeNull();
+    // Minnesota's paid leave program collects from January 1, 2026: the
+    // employee's 0.44% of $72.00 is $0.3168, $0.32.
+    const leave = paid.history.statutoryTaxLiabilities!.find(
+      (row) => row.taxKey === "us-mn:paid-leave-premium",
+    )!;
+    expect(leave.status).toBe("assessed");
+    expect(leave.liability?.minorUnits).toBe(32);
+    expect(leave.estimatedFromAverage).toBeUndefined();
     const toMinnesota = paid.history.resourceTransferOutcomes.find(
-      (row) => row.note === "Withheld from pay for state income tax.",
+      (row) =>
+        row.note ===
+        "Withheld from pay for state income tax and the state paid leave premium.",
     );
-    expect(toMinnesota?.transferredAmount.minorUnits).toBe(70);
+    expect(toMinnesota?.transferredAmount.minorUnits).toBe(102);
     expect(
       paid.history.statutoryTaxLiabilities!.some(
         (row) => row.taxKey === "us-nv:modified-business-tax",

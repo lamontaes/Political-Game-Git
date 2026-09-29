@@ -20,7 +20,7 @@ import type {
  * that kind of tax, and a change of shape moves a tax between flat and
  * graduated. Read over hand-written laws: the World around them is partial,
  * because the rule reads nothing but the seed, the catalog and the laws.
- * `state-income-tax-paycheck.test.ts` carries a rule's answer through a real
+ * `state-tax-laws-paycheck.test.ts` carries a rule's answer through a real
  * paycheck.
  */
 

@@ -1,0 +1,199 @@
+/**
+ * The employee's premium for a state paid family and medical leave program,
+ * withheld from a paycheck while the program's law is in force.
+ *
+ * The question is "Should the state run a paid family and medical leave
+ * program?" (`labor-workforce.paid-family-leave`). Fifteen places begin with a
+ * program in the starting-law file; their 2026 premiums are read from each
+ * program's own pages (`state-paid-leave-premiums-2026.json`). A law enacted
+ * in play governs over the program a place began with:
+ * 1. a "no" ends the premium where a program was collecting;
+ * 2. a "yes" where there was none starts one.
+ *
+ * Game rules, labeled:
+ * - A program the place began with collects from the date its own pages give;
+ *   one adopted in play collects from the law's effective date.
+ * - A premium that was not read (Rhode Island's pages refuse the container;
+ *   Virginia sets its rate in 2027), or a program adopted in play, is
+ *   ESTIMATED FROM AVERAGE: the average employee share of the programs read,
+ *   moved by the world's seed within half a standard deviation of the spread
+ *   between them, on wages up to the Social Security wage base ($184,500 in
+ *   2026), the cap most of the read programs use.
+ * - Only the employee's share is withheld here. The employer's share, and the
+ *   small-employer exemptions most programs give it, need the employer's full
+ *   headcount, which a fictional employer does not have in the world.
+ */
+import premiums from "../../data/research/money/state-paid-leave-premiums-2026.json" with { type: "json" };
+import { lawInForce, lawInForceAtStart } from "./governing/law-in-force";
+import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
+import { SeededRng } from "./rng";
+import type { EntityId, IsoDate, World } from "./types";
+
+export const PAID_LEAVE_QUESTION =
+  "us-policy-positions:labor-workforce.paid-family-leave";
+
+/** The Social Security wage base for 2026, which most programs cap at. */
+const COMMON_WAGE_CAP_DOLLARS = 184_500;
+/** Far enough ahead that every starting law the file dates is operative. */
+const ANY_START = "2100-01-01" as IsoDate;
+
+interface PremiumPlace {
+  readonly status: string;
+  readonly employeePercent: number | null;
+  readonly wageCapDollars: number | null;
+  readonly contributionsBeginAt: string | null;
+  readonly sourceUrl: string | null;
+}
+
+const PLACES = premiums.places as unknown as Readonly<
+  Record<string, PremiumPlace>
+>;
+
+export type PaidLeavePremium =
+  /** No program collects from this paycheck and no law in play ended one. */
+  | { readonly kind: "none" }
+  /** A law enacted in play ended the premium a program was collecting. */
+  | { readonly kind: "ended"; readonly lawMeasureIds: readonly EntityId[] }
+  | {
+      readonly kind: "premium";
+      /** Employee share of wages, in millionths (0.44% is 4,400). */
+      readonly employeeRatePerMillion: number;
+      /** Calendar-year wages above which nothing more is owed; null: none. */
+      readonly annualWageCapMinor: number | null;
+      readonly sourceUrl: string | null;
+      readonly lawMeasureIds?: readonly EntityId[];
+      readonly estimatedFromAverage?: string;
+    };
+
+/** The premium on a paycheck paid on `paidAt` to a resident of `stateKey`. */
+export function paidLeavePremium(
+  world: World,
+  stateKey: string,
+  paidAt: IsoDate,
+): PaidLeavePremium {
+  const state = chiefExecutiveJurisdiction(stateKey.slice(3));
+  const proposition = Object.values(
+    world.policyCatalog?.propositions ?? {},
+  ).find((definition) => definition.stableKey === PAID_LEAVE_QUESTION);
+  if (!state || !proposition) return { kind: "none" };
+  const place = PLACES[stateKey];
+  const law = lawInForce(world, state.id, proposition.id, paidAt);
+  const began =
+    lawInForceAtStart(world, state.id, proposition.id, ANY_START) === "yes";
+  if (law?.origin === "enacted") {
+    if (law.answer === "no") {
+      const wasCollecting =
+        began && collectsFrom(world, state.id, proposition.id, place, paidAt);
+      return wasCollecting
+        ? { kind: "ended", lawMeasureIds: [law.measureId] }
+        : { kind: "none" };
+    }
+    // Readopted where the place began with a program: its read premium.
+    const read = began ? readPremium(place) : null;
+    return read
+      ? { ...read, lawMeasureIds: [law.measureId] }
+      : {
+          ...estimatedPremium(world, stateKey),
+          lawMeasureIds: [law.measureId],
+        };
+  }
+  if (!began || !collectsFrom(world, state.id, proposition.id, place, paidAt))
+    return { kind: "none" };
+  return readPremium(place) ?? estimatedPremium(world, stateKey);
+}
+
+/**
+ * Whether the program a place began with collects on `paidAt`: from the date
+ * its pages give, or from the starting law's own date where none was read.
+ */
+function collectsFrom(
+  world: World,
+  stateJurisdictionId: EntityId,
+  propositionId: EntityId,
+  place: PremiumPlace | undefined,
+  paidAt: IsoDate,
+): boolean {
+  if (place?.contributionsBeginAt) return place.contributionsBeginAt <= paidAt;
+  return (
+    lawInForceAtStart(world, stateJurisdictionId, propositionId, paidAt) ===
+    "yes"
+  );
+}
+
+function readPremium(
+  place: PremiumPlace | undefined,
+): Extract<PaidLeavePremium, { kind: "premium" }> | null {
+  if (place?.status !== "read" || place.employeePercent === null) return null;
+  return {
+    kind: "premium",
+    employeeRatePerMillion: Math.round(place.employeePercent * 10_000),
+    annualWageCapMinor:
+      place.wageCapDollars === null ? null : place.wageCapDollars * 100,
+    sourceUrl: place.sourceUrl,
+  };
+}
+
+let average: {
+  readonly mean: number;
+  readonly deviation: number;
+  readonly count: number;
+} | null = null;
+
+/** The average employee share of the programs read, in percent of wages. */
+function averageEmployeeShare() {
+  if (average) return average;
+  const shares = Object.values(PLACES).flatMap((place) =>
+    place.status === "read" && place.employeePercent !== null
+      ? [place.employeePercent]
+      : [],
+  );
+  const mean = shares.reduce((sum, share) => sum + share, 0) / shares.length;
+  const deviation = Math.sqrt(
+    shares.reduce((sum, share) => sum + (share - mean) ** 2, 0) / shares.length,
+  );
+  average = { mean, deviation, count: shares.length };
+  return average;
+}
+
+function estimatedPremium(
+  world: World,
+  stateKey: string,
+): Extract<PaidLeavePremium, { kind: "premium" }> {
+  const { mean, deviation, count } = averageEmployeeShare();
+  const draw = new SeededRng(world.seed)
+    .fork(`state-paid-leave-estimate:${stateKey}`)
+    .next();
+  const percent = Math.max(0, mean + (draw - 0.5) * deviation);
+  return {
+    kind: "premium",
+    employeeRatePerMillion: Math.round(percent * 10_000),
+    annualWageCapMinor: COMMON_WAGE_CAP_DOLLARS * 100,
+    sourceUrl: null,
+    estimatedFromAverage:
+      `ESTIMATED FROM AVERAGE: the average employee premium of the ${count} state paid leave programs read, ` +
+      `${mean.toFixed(3)}% of wages, moved to ${percent.toFixed(3)}% by the world's seed within half the spread between them, ` +
+      `on wages up to $${COMMON_WAGE_CAP_DOLLARS.toLocaleString("en-US")} a year, the cap most of them use. ` +
+      "Source: each program's 2026 premium page (state-paid-leave-premiums-2026.json).",
+  };
+}
+
+/** The premium on the wages of one paycheck, half up to the cent. */
+export function premiumOn(
+  wagesMinor: number,
+  paidEarlierThisYearMinor: number,
+  premium: Extract<PaidLeavePremium, { kind: "premium" }>,
+): { readonly taxableMinor: number; readonly premiumMinor: number } {
+  const taxableMinor =
+    premium.annualWageCapMinor === null
+      ? wagesMinor
+      : Math.min(
+          wagesMinor,
+          Math.max(0, premium.annualWageCapMinor - paidEarlierThisYearMinor),
+        );
+  const numerator =
+    BigInt(taxableMinor) * BigInt(premium.employeeRatePerMillion);
+  return {
+    taxableMinor,
+    premiumMinor: Number((numerator * 2n + 1_000_000n) / 2_000_000n),
+  };
+}

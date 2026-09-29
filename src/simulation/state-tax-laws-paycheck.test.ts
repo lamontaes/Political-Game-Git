@@ -16,15 +16,18 @@ import {
   stateIncomeTaxUnderLaw,
   type StateIncomeTaxUnderLaw,
 } from "./state-income-tax-law";
+import type * as LeaveLaw from "./state-paid-leave-law";
+import { paidLeavePremium } from "./state-paid-leave-law";
 import { residenceStateKey } from "./statutory-tax";
 import type { EntityId, World } from "./types";
 import { advanceWorld } from "./world";
 
 /**
- * What the income tax law rule decides reaches a real paycheck: the rule's
- * answer is set here, because a law enacted in play needs a full legislative
- * history, and the rule itself is read over hand-written laws in
- * `state-income-tax-law.test.ts`. Everything after the answer is the real
+ * What the income tax and paid leave law rules decide reaches a real
+ * paycheck: each rule's answer is set here, because a law enacted in play
+ * needs a full legislative history, and the rules themselves are read over
+ * hand-written laws in `state-income-tax-law.test.ts` and
+ * `state-paid-leave-law.test.ts`. Everything after the answer is the real
  * pay, withholding and save.
  */
 
@@ -33,13 +36,24 @@ vi.mock("./state-income-tax-law", async (importOriginal) => ({
   stateIncomeTaxUnderLaw: vi.fn(),
 }));
 
+vi.mock("./state-paid-leave-law", async (importOriginal) => ({
+  ...(await importOriginal<typeof LeaveLaw>()),
+  paidLeavePremium: vi.fn(),
+}));
+
 const rule = vi.mocked(stateIncomeTaxUnderLaw);
+const leaveRule = vi.mocked(paidLeavePremium);
 const actual = await vi.importActual<typeof TaxLaw>("./state-income-tax-law");
+const actualLeave = await vi.importActual<typeof LeaveLaw>(
+  "./state-paid-leave-law",
+);
 const LAW = "measure_state-income-tax-test" as EntityId;
 
 beforeEach(() => {
   rule.mockReset();
   rule.mockImplementation(actual.stateIncomeTaxUnderLaw);
+  leaveRule.mockReset();
+  leaveRule.mockImplementation(actualLeave.paidLeavePremium);
 });
 
 function newLife(placeKey: string, seed: string) {
@@ -69,7 +83,7 @@ function workOneShift(world: World): World {
   return advanceWorld(worked.world, 1, LIFE_PATHS2_HANDLERS);
 }
 
-describe("a paycheck under a state's new income tax law", () => {
+describe("a paycheck under a state's new income tax or paid leave law", () => {
   it("withholds Nevada's newly adopted income tax, sends it to Nevada, and keeps the estimate's label", () => {
     const start = newLife("3223500", "state-income-tax-law-ely");
     expect(residenceStateKey(start.world, start.personId)).toBe("US-NV");
@@ -143,5 +157,54 @@ describe("a paycheck under a state's new income tax law", () => {
     expect(minnesota.liability!.minorUnits).toBe(70);
     expect(minnesota.lawMeasureIds).toBeUndefined();
     expect(minnesota.estimatedFromAverage).toBeUndefined();
+  });
+
+  it("records a lawful $0 when a law ends Minnesota's paid leave premium", () => {
+    const start = newLife("2743000", "state-paid-leave-law-minneapolis");
+    leaveRule.mockImplementation((_world, stateKey) =>
+      stateKey === "US-MN"
+        ? { kind: "ended", lawMeasureIds: [LAW] }
+        : { kind: "none" },
+    );
+    const worked = workOneShift(start.world);
+    const leave = worked.history.statutoryTaxLiabilities!.find(
+      (row) => row.taxKey === "us-mn:paid-leave-premium",
+    )!;
+    expect(leave.status).toBe("not-imposed");
+    expect(leave.liability!.minorUnits).toBe(0);
+    expect(leave.lawMeasureIds).toEqual([LAW]);
+    // Only the income tax went to Minnesota.
+    const toMinnesota = worked.history.resourceTransferOutcomes.find(
+      (row) => row.note === "Withheld from pay for state income tax.",
+    );
+    expect(toMinnesota?.transferredAmount.minorUnits).toBe(70);
+  });
+
+  it("withholds an estimated premium where a new program collects", () => {
+    const start = newLife("3223500", "state-paid-leave-law-ely");
+    leaveRule.mockImplementation((_world, stateKey) =>
+      stateKey === "US-NV"
+        ? {
+            kind: "premium",
+            employeeRatePerMillion: 5_000,
+            annualWageCapMinor: 18_450_000,
+            sourceUrl: null,
+            lawMeasureIds: [LAW],
+            estimatedFromAverage: "ESTIMATED FROM AVERAGE: test.",
+          }
+        : { kind: "none" },
+    );
+    const worked = workOneShift(start.world);
+    const leave = worked.history.statutoryTaxLiabilities!.find(
+      (row) => row.taxKey === "us-nv:paid-leave-premium",
+    )!;
+    // 0.5% of $72.00 is $0.36.
+    expect(leave.liability!.minorUnits).toBe(36);
+    expect(leave.estimatedFromAverage).toBe("ESTIMATED FROM AVERAGE: test.");
+    const toNevada = worked.history.resourceTransferOutcomes.find(
+      (row) =>
+        row.note === "Withheld from pay for the state paid leave premium.",
+    );
+    expect(toNevada?.transferredAmount.minorUnits).toBe(36);
   });
 });
