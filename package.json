@@ -34,6 +34,7 @@
     "export:state-voting-context": "node --import tsx scripts/source/export-state-voting-context.ts",
     "reconcile:r3h": "node --import tsx scripts/source/r3h-reconciliation.ts",
     "compile:map-geometry": "node --max-old-space-size=3072 --import tsx scripts/maps/compile-map-geometry.ts",
+    "compile:district-lines-2026": "node --import tsx scripts/maps/compile-district-lines-2026.ts",
     "compile:map-membership": "node --import tsx scripts/maps/compile-membership-candidates.ts",
     "compile:place-population": "node --import tsx scripts/world/compile-place-population.ts",
     "test:maps": "vitest run src/maps",
