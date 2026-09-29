@@ -375,7 +375,7 @@ export function previewAuthoredCouncilBallots(
     // A council elected without party labels gives its members no party
     // cue, as the town council meetings do (`body-partisanship.ts`).
     nonpartisan:
-      government !== undefined &&
+      government !== null &&
       primaryReading(government).partisanship.includes("NONPARTISAN"),
   });
   const colleagues = seats

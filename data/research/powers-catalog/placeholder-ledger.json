@@ -3,20 +3,20 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 715,
+    "markers": 717,
     "byKind": {
-      "unresearched": 228,
-      "placeholder": 376,
+      "unresearched": 231,
+      "placeholder": 375,
       "blanket": 126
     },
     "byPath": {
-      "other": 430,
+      "other": 432,
       "money": 74,
       "law": 123,
       "government": 88
     },
-    "withoutQuestion": 426,
-    "questionNotFiled": 15,
+    "withoutQuestion": 427,
+    "questionNotFiled": 16,
     "moneyOrLawQuestions": 56
   },
   "markers": [
@@ -1749,6 +1749,42 @@
       "researchQuestionFiled": false
     },
     {
+      "file": "src/simulation/crisis/official-funeral.ts",
+      "line": 37,
+      "text": "* PLACEHOLDER timing, and the most common real rule for lying in state.",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/crisis/official-funeral.ts",
+      "line": 49,
+      "text": "export const UNRESEARCHED_OFFICIAL_FUNERAL = {",
+      "kinds": ["unresearched"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/crisis/official-funeral.ts",
+      "line": 50,
+      "text": "provenance: \"unresearched-blanket-rule\",",
+      "kinds": ["unresearched"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/crisis/official-funeral.ts",
+      "line": 69,
+      "text": "UNRESEARCHED_OFFICIAL_FUNERAL.daysToFuneral,",
+      "kinds": ["unresearched"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
       "file": "src/simulation/dc-council-sittings.ts",
       "line": 54,
       "text": "* PLACEHOLDER, pending `dc-council-legislative-volume` and",
@@ -3244,7 +3280,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 57,
+      "line": 62,
       "text": "// PLACEHOLDER, approved provisional: executives carry the blame for a visible",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3253,25 +3289,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 69,
-      "text": "// PLACEHOLDER: what a friend went through moves a view less than one's own",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "line": 72,
-      "text": "// PLACEHOLDER: a family member's paycheck is felt at home, less than one's own.",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "line": 74,
+      "line": 84,
       "text": "// PLACEHOLDER, approved provisional: partisans are anchored. Blame for their",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3280,7 +3298,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 77,
+      "line": 87,
       "text": "// PLACEHOLDER: a money effect whose size next to pay is unknown is felt at a",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3289,7 +3307,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 338,
+      "line": 367,
       "text": "// PLACEHOLDER: a law costing a tenth of a month's pay is felt fully; the",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3298,7 +3316,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 354,
+      "line": 383,
       "text": "// PLACEHOLDER multipliers.",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3320,12 +3338,21 @@
       "text": "*   sells and rents an apartment. HARDWIRED, a PLACEHOLDER(research:",
       "kinds": ["placeholder"],
       "path": "other",
-      "researchQuestionId": "first-home-by-household-size",
+      "researchQuestionId": "mortgage-after-eviction",
       "researchQuestionFiled": false
     },
     {
       "file": "src/simulation/living-world/town-homes.ts",
-      "line": 209,
+      "line": 191,
+      "text": "*   period is HARDWIRED, a PLACEHOLDER(research: mortgage-after-eviction).",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "mortgage-after-eviction",
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/town-homes.ts",
+      "line": 215,
       "text": "* PLACEHOLDER(research: first-home-by-household-size).",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3334,7 +3361,7 @@
     },
     {
       "file": "src/simulation/living-world/town-rent.ts",
-      "line": 171,
+      "line": 173,
       "text": "* PLACEHOLDER(research: who-owns-rental-homes). Who owns a rented home of",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3343,7 +3370,7 @@
     },
     {
       "file": "src/simulation/living-world/town-rent.ts",
-      "line": 189,
+      "line": 191,
       "text": "* PLACEHOLDER(research: bedrooms-by-kind-of-home). The share of each kind of",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3352,7 +3379,7 @@
     },
     {
       "file": "src/simulation/living-world/town-rent.ts",
-      "line": 205,
+      "line": 207,
       "text": "* PLACEHOLDER(research: rent-spread-around-fair-market-rent). How far one",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6106,7 +6133,7 @@
     },
     {
       "file": "src/simulation/public-budgets/month.ts",
-      "line": 598,
+      "line": 639,
       "text": "* and plans programs to spend the rest (PLACEHOLDER rule). Under a",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6133,7 +6160,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 527,
+      "line": 571,
       "text": "* PLACEHOLDER.",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6142,16 +6169,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 698,
-      "text": "? \"Opening reserve: NASBO has no figure, so the national median rainy-day share of spending (PLACEHOLDER).\"",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/public-budgets/opening.ts",
-      "line": 809,
+      "line": 854,
       "text": "? `Census 2022 local-government figures per resident in ${base.name}, the ${level} share of each program (PLACEHOLDER table, research: local-government-finances",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6160,7 +6178,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 810,
+      "line": 855,
       "text": ": `ESTIMATED FROM AVERAGE: Census publishes no local-government finances for ${base.name}, so the national average per resident (the 50 states and D.C., weighte",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6169,7 +6187,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 812,
+      "line": 857,
       "text": "\"Opening balance and reserve: the state's general fund balance and rainy-day shares of spending (PLACEHOLDER, research: local-government-finances-by-type).\",",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6178,7 +6196,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 916,
+      "line": 961,
       "text": "\"Pension: the liability's size against spending is PLACEHOLDER (research: public-pension-funding-by-state); the contribution is carved out of salary-paying prog",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6187,7 +6205,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 927,
+      "line": 972,
       "text": "\"Budget year: begins when the state's does (PLACEHOLDER, research: local-government-finances-by-type).\",",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6277,8 +6295,8 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 117,
-      "text": "\"Not researched: a state with no income tax collects none, so adopting one needs a level, not a share.\",",
+      "line": 118,
+      "text": "\"A repeal ends the tax, so the state collects none; adopting one needs a level, not a share, and is not researched.\",",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -6286,7 +6304,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 138,
+      "line": 139,
       "text": "basis: \"Not researched.\",",
       "kinds": ["unresearched"],
       "path": "other",
@@ -6295,7 +6313,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 145,
+      "line": 146,
       "text": "basis: \"Not researched: a cap slows growth rather than moving a level.\",",
       "kinds": ["unresearched"],
       "path": "other",
