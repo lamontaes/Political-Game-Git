@@ -1,6 +1,9 @@
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../dates";
-import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
+import {
+  enactmentStatuteDateContext,
+  STATUTE_EFFECTIVE_DEFAULT_DAYS,
+} from "../enacted-rule-changes";
 import {
   measurePropositionAnswer,
   type PropositionAnswer,
@@ -101,7 +104,11 @@ export function lawInForce(
     const stateRuleAt =
       enactment.effectiveAt || !placeKey?.startsWith("US-")
         ? null
-        : stateStatuteOperativeAt(placeKey, enactment.resolvedAt);
+        : stateStatuteOperativeAt(
+            placeKey,
+            enactment.resolvedAt,
+            enactmentStatuteDateContext(world, measure, enactment),
+          );
     const operativeAt =
       enactment.effectiveAt ??
       stateRuleAt ??

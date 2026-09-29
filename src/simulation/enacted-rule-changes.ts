@@ -32,12 +32,22 @@
 import { constitutionalPosition } from "./constitutional-process";
 import { addDays } from "./dates";
 import { createStableId } from "./ids";
-import { stateStatuteOperativeAt } from "./governing/statute-effective-date";
+import { measureSessionClosedOn } from "./governing/legislative-clock";
+import {
+  stateStatuteOperativeAt,
+  type StatuteDateContext,
+} from "./governing/statute-effective-date";
 import { requireMeasure } from "./legislation";
 import { lawLevelRank, type LawLevel } from "./law-hierarchy";
 import { rulePackById } from "./legislature-rule-packs";
 import type { MunicipalRecallDoctrine } from "./municipal-election-rules";
-import type { EntityId, IsoDate, World } from "./types";
+import type {
+  EntityId,
+  IsoDate,
+  LegislativeEnactmentRecord,
+  LegislativeMeasureRecord,
+  World,
+} from "./types";
 
 /**
  * The rules a law in the game can change today, with the bounds a value must
@@ -234,6 +244,23 @@ export function amendableRuleFieldLabel(field: AmendableRuleField): string {
  * it is a game profile, not a claim about any other state's law.
  */
 export const STATUTE_EFFECTIVE_DEFAULT_DAYS = 90;
+
+/**
+ * The dates an act's own record carries that a state's effective-date rule
+ * may count from: the close of its session as the game records it, and the
+ * final passage its enactment recorded.
+ */
+export function enactmentStatuteDateContext(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  enactment: LegislativeEnactmentRecord,
+): StatuteDateContext {
+  return {
+    sessionClosedOn: () =>
+      measureSessionClosedOn(world, measure, rulePackById(measure.rulePackId)),
+    finalPassageAt: () => enactment.finalPassageAt ?? null,
+  };
+}
 
 export function isAmendableRuleField(
   field: string,
@@ -530,6 +557,11 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       : stateStatuteOperativeAt(
           `US-${provision.stateUsps}`,
           enactment.resolvedAt,
+          enactmentStatuteDateContext(
+            world,
+            requireMeasure(world, provision.measureId),
+            enactment,
+          ),
         );
     changes.push({
       stateUsps: provision.stateUsps,

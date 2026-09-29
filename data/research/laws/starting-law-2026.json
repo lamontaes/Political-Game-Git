@@ -4,7 +4,7 @@
   "asOf": "2026-09-28",
   "defaultOperativeAt": "2000-01-01",
   "effectiveDates": {
-    "about": "When a state law takes effect if the act names no date of its own, as in force on 1/1/2026. Each rule is read from the state's constitution or code (the same sources as the state's legislative rule pack). A place without a rule uses the game's blanket default of 90 days after enactment and says so. notModeled lists places whose rule was read but cannot be dated yet, most because it counts from an adjournment the law does not fix to a date. Acts that name their own date, emergency clauses and appropriation acts are not modeled here.",
+    "about": "When a state law takes effect if the act names no date of its own, as in force on 1/1/2026. Each rule is read from the state's constitution or code (the same sources as the state's legislative rule pack). A place without a rule uses the game's blanket default of 90 days after enactment and says so. A rule that counts from a session's end or from final passage uses the date the game records for the act (Kentucky, Illinois). notModeled lists places whose rule was read but cannot be dated yet, most because it counts from an adjournment the game does not record. Acts that name their own date, emergency clauses and appropriation acts are not modeled here.",
     "rules": {
       "US-AK": {
         "rule": {
@@ -14,6 +14,16 @@
         "cite": "Alaska Const. art. II, § 18",
         "source": "https://www.akleg.gov/basis/constitution.asp",
         "note": "Laws take effect ninety days after enactment unless two-thirds of each house set another date."
+      },
+      "US-CA": {
+        "rule": {
+          "kind": "january-after-days",
+          "days": 90,
+          "oddYearsNextJanuary": true
+        },
+        "cite": "Cal. Const. art. IV, § 8(c)(1)-(2); Cal. Gov. Code § 9600(a)",
+        "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CONS&sectionNum=SEC.%208.&article=IV",
+        "note": "A regular-session statute takes effect on the January 1 after a 90-day period from enactment (§ 8(c)(1), repeated in Gov. Code § 9600(a)). A bill passed before the first year's joint recess and signed after it takes effect the next January 1 (§ 8(c)(2)). The recess runs from September into January, so the game treats every act of the first year, an odd year, as taking effect the next January 1 (inferred from the recess, not stated in the text). Special sessions (91st day after adjournment) and a pending referendum petition are not modeled."
       },
       "US-CO": {
         "rule": {
@@ -81,6 +91,26 @@
         "source": "https://www.legis.iowa.gov/docs/code/3.7.pdf",
         "note": "Regular-session acts take effect on the July 1 after passage; an act passed before July 1 but approved on or after it takes effect 45 days after approval. The game counts both from enactment."
       },
+      "US-IL": {
+        "rule": {
+          "kind": "next-year-date-by-passage",
+          "cutoff": {
+            "month": 6,
+            "day": 1
+          },
+          "early": {
+            "month": 1,
+            "day": 1
+          },
+          "late": {
+            "month": 6,
+            "day": 1
+          }
+        },
+        "cite": "5 ILCS 75/1, 75/2",
+        "source": "https://www.ilga.gov/Documents/legislation/ilcs/documents/000500750K1.htm",
+        "note": "Counted from the legislature's final passage, which the enactment records: a bill passed before June 1 takes effect the next January 1, or on becoming law if that is later (§ 1); one passed after May 31 takes effect June 1 of the next year (§ 2). An act recorded before the game kept the passage date is not dated."
+      },
       "US-IN": {
         "rule": {
           "kind": "next-date",
@@ -90,6 +120,15 @@
         "cite": "Ind. Code § 1-1-3-3(b)",
         "source": "https://law.justia.com/codes/indiana/title-1/article-1/chapter-3/section-1-1-3-3/",
         "note": "Each section of a regular-session act takes effect on the July 1 after its enactment unless it names another time."
+      },
+      "US-KY": {
+        "rule": {
+          "kind": "full-days-after-recorded-session-end",
+          "days": 90
+        },
+        "cite": "Ky. Const. § 55; OAG 26-03",
+        "source": "https://www.ag.ky.gov/Resources/Opinions/Opinions/OAG%2026-03.pdf",
+        "note": "No act becomes law until ninety days after the session adjourns. The Attorney General leaves out the day of adjournment and dates acts from the day after the ninetieth: the 2026 session adjourned April 15, 2026, and its acts took effect July 15, 2026. The game counts from the session end its Kentucky rule pack records, the latest the constitution allows (March 30 in odd years, April 15 in even years), so a session that adjourned before that date is dated late by the difference."
       },
       "US-LA": {
         "rule": {
@@ -347,11 +386,6 @@
         "source": "https://en.wikisource.org/wiki/Constitution_of_Arizona",
         "note": "Ninety days after the session closes, a date the law does not fix."
       },
-      "US-CA": {
-        "cite": "Cal. Const. art. IV, § 8(c)(1)",
-        "source": "https://ballotpedia.org/Article_IV,_California_Constitution",
-        "note": "January 1 next following a 90-day period from enactment. Counted literally, a bill signed in mid-October would wait more than a year, which does not match practice, so how the period is counted must be read before it is modeled."
-      },
       "US-DC": {
         "cite": "D.C. Code § 1-206.02(c)",
         "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-206.02",
@@ -372,20 +406,10 @@
         "source": "https://legislature.idaho.gov/statutesrules/idstat/Title67/T67CH5/SECT67-510/",
         "note": "The later of July 1 or 60 days after the session ends, a date the law does not fix."
       },
-      "US-IL": {
-        "cite": "5 ILCS 75/1",
-        "source": "https://www.illinoiscourts.gov/Opinions/SupremeCourt/2016/120729.pdf",
-        "note": "Counted from legislative passage, not enactment: a bill passed before June 1 takes effect the next January 1 (or on becoming law, if later), and one passed after May 31 on the next June 1. The game records only enactment."
-      },
       "US-KS": {
         "cite": "K.S.A. 45-310(a)",
         "source": "https://www.kslegislature.gov/li/b2025_26/statute/045_000_0000_chapter/045_003_0000_article/045_003_0010_section/045_003_0010_k/",
         "note": "Acts take effect on publication in the session laws; the publication date was not read from the code."
-      },
-      "US-KY": {
-        "cite": "Ky. Const. § 55",
-        "source": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=59",
-        "note": "Ninety days after the session adjourns, a date the law does not fix."
       },
       "US-ME": {
         "cite": "Me. Const. art. IV, pt. 3, § 16",

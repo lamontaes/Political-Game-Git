@@ -10,6 +10,19 @@ import {
 const at = (key: string, enacted: string) =>
   stateStatuteOperativeAt(key, makeIsoDate(enacted));
 
+/** An act whose record carries its session's close and its final passage. */
+const recorded = (
+  key: string,
+  enacted: string,
+  dates: { sessionClosedOn?: string; finalPassageAt?: string },
+) =>
+  stateStatuteOperativeAt(key, makeIsoDate(enacted), {
+    sessionClosedOn: () =>
+      dates.sessionClosedOn ? makeIsoDate(dates.sessionClosedOn) : null,
+    finalPassageAt: () =>
+      dates.finalPassageAt ? makeIsoDate(dates.finalPassageAt) : null,
+  });
+
 describe("when a state law takes effect by its state's own rule", () => {
   it("gives every place either a well-formed rule or none, never a guess", () => {
     const places = new Set([
@@ -24,7 +37,10 @@ describe("when a state law takes effect by its state's own rule", () => {
     let researched = 0;
     for (const key of places) {
       const rule = statuteEffectiveRule(key);
-      const operative = at(key, "2026-03-15");
+      const operative = recorded(key, "2026-03-15", {
+        sessionClosedOn: "2026-04-15",
+        finalPassageAt: "2026-03-10",
+      });
       if (!rule) {
         expect(operative, key).toBeNull();
         continue;
@@ -35,7 +51,7 @@ describe("when a state law takes effect by its state's own rule", () => {
       expect(operative! >= makeIsoDate("2026-03-15"), key).toBe(true);
       expect(operative! < makeIsoDate("2027-09-15"), key).toBe(true);
     }
-    expect(researched).toBe(32);
+    expect(researched).toBe(35);
     expect(statuteEffectiveRule("US-TX")).toBeNull();
     expect(statuteEffectiveRule("US")).toBeNull();
   });
@@ -110,9 +126,9 @@ describe("when a state law takes effect by its state's own rule", () => {
   });
 
   it("leaves out places whose rule the game cannot date", () => {
-    // Ninety days after an adjournment the law does not fix, publication,
-    // Congress's review, and California until its count is settled.
-    for (const key of ["US-TX", "US-FL", "US-KS", "US-HI", "US-DC", "US-CA"]) {
+    // Ninety days after an adjournment the game does not record,
+    // publication, and Congress's review.
+    for (const key of ["US-TX", "US-FL", "US-KS", "US-HI", "US-DC"]) {
       expect(statuteEffectiveRule(key), key).toBeNull();
     }
   });
@@ -123,5 +139,41 @@ describe("when a state law takes effect by its state's own rule", () => {
     // Past the regular session's date: a special session the rule does not
     // date, so the caller keeps its labeled default.
     expect(at("US-MO", "2026-09-15")).toBeNull();
+  });
+
+  it("dates Kentucky from the session's recorded close, the day after ninety full days", () => {
+    // OAG 26-03: adjourned April 15, 2026; acts took effect July 15, 2026.
+    const close = { sessionClosedOn: "2026-04-15" };
+    expect(recorded("US-KY", "2026-03-20", close)).toBe("2026-07-15");
+    // Signed during the governor's days after adjournment: the same date.
+    expect(recorded("US-KY", "2026-04-24", close)).toBe("2026-07-15");
+    // No recorded close: not dated, so the caller keeps its labeled default.
+    expect(recorded("US-KY", "2026-03-20", {})).toBeNull();
+    expect(at("US-KY", "2026-03-20")).toBeNull();
+  });
+
+  it("dates Illinois from final passage: January 1 before June 1, else June 1", () => {
+    expect(
+      recorded("US-IL", "2026-08-20", { finalPassageAt: "2026-05-31" }),
+    ).toBe("2027-01-01");
+    expect(
+      recorded("US-IL", "2026-08-20", { finalPassageAt: "2026-06-01" }),
+    ).toBe("2027-06-01");
+    // Or on becoming law, if that is later.
+    expect(
+      recorded("US-IL", "2027-02-01", { finalPassageAt: "2026-05-30" }),
+    ).toBe("2027-02-01");
+    // An act recorded without its passage date is not dated.
+    expect(recorded("US-IL", "2026-08-20", {})).toBeNull();
+  });
+
+  it("dates California on the January 1 after ninety days, and first-year acts the next January 1", () => {
+    // Second year (even): the January 1 after the 90-day period.
+    expect(at("US-CA", "2026-09-30")).toBe("2027-01-01");
+    expect(at("US-CA", "2026-12-10")).toBe("2028-01-01");
+    // First year (odd): the next January 1, under sec. 8(c)(2), including a
+    // bill signed in October.
+    expect(at("US-CA", "2023-09-05")).toBe("2024-01-01");
+    expect(at("US-CA", "2025-10-10")).toBe("2026-01-01");
   });
 });

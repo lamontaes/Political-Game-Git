@@ -10,12 +10,14 @@ import type { IsoDate } from "../types";
  *
  * NOT MODELED: acts that set their own date, emergency clauses, appropriation
  * acts where a state dates them differently (Minnesota, Missouri, Ohio), and
- * special sessions (Missouri counts from the regular session's end). Rules
- * that count from an adjournment the law does not fix to a date (Texas,
- * Florida and most "ninety days after adjournment" states), from publication
- * (Kansas, Hawaii) or from Congress's review (D.C.) stay out of the file. A
- * rule written from passage or filing is counted from enactment, the one
- * date the game records, and its note says so.
+ * special sessions (Missouri counts from the regular session's end). A rule
+ * that counts from an adjournment is dated only where the game records the
+ * session's end (Kentucky's rule pack); the other "ninety days after
+ * adjournment" states stay out of the file, as do rules counted from
+ * publication (Kansas, Hawaii) or from Congress's review (D.C.). A rule
+ * counted from final passage reads the passage date the enactment records
+ * (Illinois). A rule written from filing is counted from enactment, and its
+ * note says so.
  */
 export type StatuteEffectiveRule =
   | { readonly kind: "days-after-enactment"; readonly days: number }
@@ -42,7 +44,49 @@ export type StatuteEffectiveRule =
       readonly kind: "days-after-session-end";
       readonly days: number;
       readonly sessionEnds: { readonly month: number; readonly day: number };
+    }
+  | {
+      /** The day after `days` full days have passed since the session the
+       * act was introduced in closed, on the closing date the game records
+       * (Kentucky: the day of adjournment is not counted, and the act takes
+       * effect once the ninetieth day has passed). */
+      readonly kind: "full-days-after-recorded-session-end";
+      readonly days: number;
+    }
+  | {
+      /** A date in the year after final passage, earlier for acts passed
+       * before a cutoff in their year, and never before the act is law
+       * (Illinois: January 1 for bills passed before June 1, June 1 for the
+       * rest). */
+      readonly kind: "next-year-date-by-passage";
+      readonly cutoff: { readonly month: number; readonly day: number };
+      readonly early: { readonly month: number; readonly day: number };
+      readonly late: { readonly month: number; readonly day: number };
+    }
+  | {
+      /** The first January 1 after `days` days have passed since the act
+       * (California art. IV, sec. 8(c)(1)). With `oddYearsNextJanuary`, an
+       * act of an odd year takes effect the next January 1: the first year
+       * of California's two-year session ends in a joint recess, and a bill
+       * passed before it and signed after it takes effect "January 1 next
+       * following the enactment date" (sec. 8(c)(2)). */
+      readonly kind: "january-after-days";
+      readonly days: number;
+      readonly oddYearsNextJanuary: boolean;
     };
+
+/**
+ * Dates from the act's own record that some rules count from, read only by
+ * the rule that needs one. A rule whose date the caller does not have does
+ * not date the act.
+ */
+export interface StatuteDateContext {
+  /** The close of the regular session the act was introduced in, as the
+   * game records it (`measureSessionClosedOn`). */
+  readonly sessionClosedOn?: () => IsoDate | null;
+  /** The legislature's final passing vote on the act. */
+  readonly finalPassageAt?: () => IsoDate | null;
+}
 
 const RULES: Readonly<Record<string, { readonly rule: StatuteEffectiveRule }>> =
   (
@@ -68,11 +112,13 @@ export function statuteEffectiveRule(
  * The date a state statute enacted on `enactedAt` takes effect under its
  * state's rule, or null where the state's rule is not researched or does not
  * reach the act (a Missouri act passed after its regular session, which only
- * a special session can do).
+ * a special session can do), or where the rule counts from a date the act's
+ * record does not carry.
  */
 export function stateStatuteOperativeAt(
   jurisdictionKey: string,
   enactedAt: IsoDate,
+  context: StatuteDateContext = {},
 ): IsoDate | null {
   const rule = statuteEffectiveRule(jurisdictionKey);
   if (!rule) return null;
@@ -107,7 +153,34 @@ export function stateStatuteOperativeAt(
       );
       return operative > enactedAt ? operative : null;
     }
+    case "full-days-after-recorded-session-end": {
+      const closedOn = context.sessionClosedOn?.();
+      if (!closedOn) return null;
+      return latest(addDays(closedOn, rule.days + 1), enactedAt);
+    }
+    case "next-year-date-by-passage": {
+      const passedAt = context.finalPassageAt?.();
+      if (!passedAt) return null;
+      const passedYear = yearOf(passedAt);
+      const date =
+        passedAt <
+        isoDateFromParts(passedYear, rule.cutoff.month, rule.cutoff.day)
+          ? rule.early
+          : rule.late;
+      return latest(
+        isoDateFromParts(passedYear + 1, date.month, date.day),
+        enactedAt,
+      );
+    }
+    case "january-after-days":
+      return rule.oddYearsNextJanuary && year % 2 === 1
+        ? nextYearlyDate(enactedAt, 1, 1)
+        : nextYearlyDate(addDays(enactedAt, rule.days), 1, 1);
   }
+}
+
+function latest(a: IsoDate, b: IsoDate): IsoDate {
+  return a > b ? a : b;
 }
 
 /** The first `month`/`day` strictly after `from`. */
