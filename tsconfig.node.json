@@ -38,6 +38,7 @@
     "src/simulation/**/*.ts",
     "src/source/**/*.ts",
     "tests/e2e/**/*.ts",
+    "tests/support/random-place.ts",
     "tests/fixtures/**/*.ts",
     "tests/release/**/*.ts",
     "tests/source/**/*.ts",

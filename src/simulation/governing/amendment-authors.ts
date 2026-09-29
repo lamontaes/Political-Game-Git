@@ -504,7 +504,7 @@ function reasoningFor(
     case "sink":
       return `The author, who opposed the bill, counted it passing ${tally(billNow)} as it read and failing ${tally(withPart)} with this part, which the chamber would adopt ${tally(amendment)}.`;
     case "record":
-      return `The author cares most about this question and expected the amendment to fail ${tally(amendment)}, putting those who voted no on the record.`;
+      return `The author cares most about this question and expected the amendment to fail ${tally(amendment)}, so those who voted no must answer for it later.`;
     case "ride":
       return `The author attached this part to a bill the legislature has to pass, counting the amendment adopted ${tally(amendment)} and the bill still passing ${tally(withPart)}.`;
   }

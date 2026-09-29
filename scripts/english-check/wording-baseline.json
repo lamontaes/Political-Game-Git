@@ -56,8 +56,6 @@
     "src/simulation/crime/journal.ts :: reported": 1,
     "src/simulation/crime/producer.ts :: reported": 1,
     "src/simulation/crisis/disaster.ts :: reported": 1,
-    "src/simulation/dc-council-sittings.ts :: game-authored": 1,
-    "src/simulation/dc-council-sittings.ts :: not modeled": 1,
     "src/simulation/enacted-rule-changes.ts :: not modeled": 5,
     "src/simulation/episode-bank.ts :: on the record": 2,
     "src/simulation/executive-governing-kernel-bank.ts :: not modeled": 1,
@@ -109,7 +107,6 @@
     "src/simulation/press/views.ts :: reported": 1,
     "src/simulation/pressure/contract.ts :: reported": 4,
     "src/simulation/pressure/events.ts :: reported": 1,
-    "src/simulation/rule-capability-resolver.ts :: not modeled": 1,
     "src/simulation/tax-policy.ts :: not modeled": 1,
     "src/simulation/transit-service.ts :: reported": 1
   },
