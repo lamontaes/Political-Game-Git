@@ -372,8 +372,10 @@ describe("the law in force keeps to each level's powers", () => {
     const key = "us-policy-positions:fiscal.graduated-income-tax";
     const ordinance = enacted(lexington, key, "yes");
     const world = worldWith([ordinance]);
-    expect(lawInForce(world, lexington, questionId(key))).toBeNull();
-    expect(lawInForce(world, kentucky, questionId(key))).toBeNull();
+    // Kentucky's own starting law answers it; the ordinance never does.
+    const state = lawInForce(world, kentucky, questionId(key));
+    expect(lawInForce(world, lexington, questionId(key))).toEqual(state);
+    expect(state?.origin ?? "in-force-at-start").toBe("in-force-at-start");
     expect(world.history.legislativeMeasures).toHaveLength(1);
   });
 

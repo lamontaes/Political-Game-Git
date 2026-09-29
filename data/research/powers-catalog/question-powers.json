@@ -144,7 +144,7 @@
     },
     "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
       "dial": "zoning",
-      "levels": ["county", "city"]
+      "levels": ["state", "county", "city"]
     },
     "us-policy-positions:housing-land-use.rent-stabilization": {
       "dial": "rent-rules",
