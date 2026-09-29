@@ -379,6 +379,11 @@ export interface ChamberRule {
    * number at all, so it cannot silently become a legal denominator.
    */
   readonly seats: FormalSeatCount;
+  /**
+   * How many seats beyond the formal count a law may add, such as statehood for
+   * a place with no Senators. Absent means the formal count is the ceiling.
+   */
+  readonly seatsMayGrowBy?: number;
   readonly quorum: RuleValue<VoteThresholdRule>;
   /** Whether this chamber may receive an introduction at all. */
   readonly introductionAllowed: boolean;

@@ -5,6 +5,7 @@ import {
   macroScopeForJurisdiction,
 } from "../macro-economy/readers";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
+import { defenseBoostPct } from "../federal-defense-spending";
 import { stateMinimumSettingAt } from "../minimum-wage";
 import {
   PLACE_OUTCOME_BASES,
@@ -103,6 +104,17 @@ export interface OutcomeLink {
    * its own size for each place within it; `size` is the central estimate.
    */
   readonly range?: readonly [number, number];
+  /**
+   * Where research sizes the link place by place (a law whose effect depends
+   * on how many people it reaches in each state): each place's own central
+   * size and range, by its `US-XX` key. A place not listed uses `size`.
+   */
+  readonly sizeByPlace?: Readonly<
+    Record<
+      string,
+      { readonly size: number; readonly range?: readonly [number, number] }
+    >
+  >;
   readonly floor?: number;
   readonly ceiling?: number;
 }
@@ -117,7 +129,10 @@ const BASELINES = web.baselines as Readonly<
 >;
 
 /** Measures whose baseline is zero: a change from where the place began. */
-const CHANGE_MEASURES = new Set(["labor.minimum-wage-change-pct"]);
+const CHANGE_MEASURES = new Set([
+  "labor.minimum-wage-change-pct",
+  "federal.defense-boost-pct",
+]);
 
 /**
  * A measure the world records, read for one place on one date. `read` returns
@@ -182,6 +197,17 @@ const FIXED_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
     },
   },
 
+  "federal.defense-boost-pct": {
+    key: "federal.defense-boost-pct",
+    unit: "percent of what the state produces that extra defense contracts add",
+    // A federal law that grows defense spending faster than inflation sends
+    // each state more contracts, in proportion to what it draws today
+    // (`federal-defense-spending.ts`); with no such law the boost is zero.
+    read: (world, jurisdictionId, asOf) => {
+      const key = placeOutcomeKey(jurisdictionId);
+      return key === null ? null : defenseBoostPct(world, key, asOf);
+    },
+  },
   "labor.unemployment-pct": {
     key: "labor.unemployment-pct",
     unit: "percent of the labor force",
@@ -230,7 +256,14 @@ export type OutcomeLinkStatus =
  * Outcomes some producer computes from `outcomeFactor` today. A link into any
  * other outcome is ready but has nothing to move until that producer reads it.
  */
+/**
+ * The share of a flood's exposed homes it damages
+ * (`crisis/disaster.ts`, `homeLevel`), as a multiplier on the game's rate.
+ */
+export const FLOOD_DAMAGE_OUTCOME = "disaster.flood-damage";
+
 export const OUTCOMES_PRODUCED: ReadonlySet<string> = new Set([
+  FLOOD_DAMAGE_OUTCOME,
   "crime.assault",
   "crime.robbery",
   "crime.burglary",
@@ -288,6 +321,9 @@ export const LAW_QUESTION_MEASURES: Readonly<
 > = {
   "us-policy-positions:labor-workforce.raise-minimum-wage": [
     "labor.minimum-wage-change-pct",
+  ],
+  "us-federal-positions:defense.grow-defense-spending": [
+    "federal.defense-boost-pct",
   ],
 };
 
@@ -508,13 +544,20 @@ const DEFAULT_SPREAD: Readonly<Record<OutcomeEvidence, number>> = {
  */
 export function drawnLinkSize(
   world: World,
-  link: Pick<OutcomeLink, "key" | "size" | "range" | "evidence">,
+  link: Pick<OutcomeLink, "key" | "size" | "range" | "evidence"> &
+    Partial<Pick<OutcomeLink, "sizeByPlace">>,
   jurisdictionId: EntityId,
 ): number {
-  const size = link.size ?? 0;
+  const own = link.sizeByPlace
+    ? link.sizeByPlace[placeOutcomeKey(jurisdictionId) ?? ""]
+    : undefined;
+  const size = own ? own.size : (link.size ?? 0);
   if (size === 0 || !world.seed) return size;
   const spread = DEFAULT_SPREAD[link.evidence];
-  const [low, high] = link.range ?? [size * (1 - spread), size * (1 + spread)];
+  const [low, high] = (own ? own.range : link.range) ?? [
+    size * (1 - spread),
+    size * (1 + spread),
+  ];
   // Two draws averaged: the middle of the range is likelier than its ends.
   const rng = new SeededRng(world.seed).fork(
     `outcome-web:${link.key}:${jurisdictionId}`,
