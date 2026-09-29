@@ -3347,6 +3347,222 @@
       "evidence": "about-zero",
       "anchor": "Debt relief is not money income, which is what the official poverty measure counts",
       "source": "U.S. Census Bureau, How the Census Bureau measures poverty"
+    },
+    {
+      "key": "grocery-exemption-to-food-insecurity",
+      "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+      "to": "household.food-insecurity",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.02,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 6,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "Removing the grocery tax cuts food insecurity 3.2% among households under $30,000, where most food-insecure households are, so about 2% statewide; only states that taxed groceries in 2024 change",
+      "source": "Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101",
+      "range": [-0.035, -0.005]
+    },
+    {
+      "key": "harm-reduction-to-overdose-deaths",
+      "from": "law:us-policy-positions:health-human-services.harm-reduction-services",
+      "to": "health.overdose-deaths",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.05,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "contested",
+      "anchor": "Naloxone access laws: opioid deaths 9 to 11% lower in one study, no net drop in another; opioids are most, not all, overdose deaths",
+      "source": "Rees, Sabia, Argys, Latshaw and Dave 2019, Journal of Law and Economics 62(1); Doleac and Mukherjee 2022, Journal of Law and Economics 65(2)",
+      "range": [-0.11, 0.02]
+    },
+    {
+      "key": "public-bargaining-to-earnings",
+      "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+      "to": "labor.median-earnings",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.01,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 180,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "contested",
+      "anchor": "Men schooled under teacher duty-to-bargain laws earn 3.9% less as adults; only exposed cohorts, and only men, so a small statewide share, arriving as they reach working age",
+      "source": "Lovenheim and Willen 2019, AEJ: Economic Policy 11(3)",
+      "range": [-0.02, 0]
+    },
+    {
+      "key": "library-funding-to-reading",
+      "from": "law:us-policy-positions:civil-family-community.fund-public-libraries",
+      "to": "school.reading-proficient-pct",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.01,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 36,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "Library building investment raised children's reading 0.01 to 0.04 standard deviations, about 3% more at proficient; an operating floor is taken as a third of that",
+      "source": "Gilpin, Karger and Nencka 2024, AEJ: Economic Policy",
+      "range": [0, 0.03]
+    },
+    {
+      "key": "public-broadband-to-home-access",
+      "from": "law:us-policy-positions:transportation-infrastructure.public-broadband",
+      "to": "broadband.home-access",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.01,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 36,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "State bans on municipal broadband cut access about 4.5% from 2012 to 2018; that measured availability, and subscriptions move less",
+      "source": "Whitacre and Gallardo 2020, Telecommunications Policy 44(9)",
+      "range": [0, 0.02]
+    },
+    {
+      "key": "gas-hookup-ban-to-child-asthma",
+      "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
+      "to": "health.child-asthma-pct",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.01,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 120,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "contested",
+      "anchor": "12.7% of childhood asthma is attributed to gas stoves, from a meta-analysis of associations; a ban reaches only new buildings, so a small part of that over a decade",
+      "source": "Gruenwald, Seals, Knibbs and Hosgood 2022, International Journal of Environmental Research and Public Health 20(1)",
+      "range": [-0.03, 0]
+    },
+    {
+      "key": "tuition-freeze-to-college-completion",
+      "from": "law:us-policy-positions:education.freeze-public-tuition",
+      "to": "school.college-completion-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "Price changes at public colleges did not move degree attainment; spending did",
+      "source": "Deming and Walters 2017 (NBER w23736)"
+    },
+    {
+      "key": "income-tax-to-out-migration",
+      "from": "law:us-policy-positions:fiscal.adopt-income-tax",
+      "to": "population.out-migration",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "Taxes move few people: even millionaires rarely leave high-tax states",
+      "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review"
+    },
+    {
+      "key": "graduated-income-tax-to-out-migration",
+      "from": "law:us-policy-positions:fiscal.graduated-income-tax",
+      "to": "population.out-migration",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "Taxes move few people: even millionaires rarely leave high-tax states",
+      "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review"
+    },
+    {
+      "key": "balanced-budget-to-borrowing-cost",
+      "from": "law:us-policy-positions:fiscal.balanced-operating-budget",
+      "to": "gov.borrowing-cost",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -8,
+      "per": "law in force says yes (1) rather than no (0), in basis points",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "researched",
+      "anchor": "States with strict anti-deficit rules paid 15 to 20 basis points less than states with lax rules on general-obligation bonds, 1973 to 1996; a statute moves a state partway, so 8",
+      "source": "Poterba and Rueben 1999, State Fiscal Institutions and the U.S. Municipal Bond Market (NBER w6237)",
+      "range": [-20, 0],
+      "floor": -19
+    },
+    {
+      "key": "pension-funding-to-borrowing-cost",
+      "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
+      "to": "gov.borrowing-cost",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -3,
+      "per": "law in force says yes (1) rather than no (0), in basis points",
+      "lagMonths": 36,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "PLACEHOLDER (research: pension-funding-borrowing-cost-size): spreads rose 7 to 15 basis points for each 10% of revenue lost in pension funds, in states in the lower half of credit quality; paying the full contribution heads off part of that. The size is a provisional range, drawn per world (Claude CTO, September 28, 2026)",
+      "source": "Novy-Marx and Rauh 2012, AEJ: Economic Policy 4(2)",
+      "range": [-8, 0],
+      "floor": -7
+    },
+    {
+      "key": "reserve-balance-to-borrowing-cost",
+      "from": "law:us-policy-positions:fiscal.minimum-reserve-balance",
+      "to": "gov.borrowing-cost",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -3,
+      "per": "law in force says yes (1) rather than no (0), in basis points",
+      "lagMonths": 24,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "PLACEHOLDER (research: reserve-balance-borrowing-cost-size): rainy-day funds raise ratings and lower yields, but no study gives basis points per law; the size is a provisional range, drawn per world (Claude CTO, September 28, 2026)",
+      "source": "Pew Charitable Trusts 2017; Wagner 2004",
+      "range": [-6, 0],
+      "floor": -5
     }
   ],
   "calibratedAt": "2024-07-01"

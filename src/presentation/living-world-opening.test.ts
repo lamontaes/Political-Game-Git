@@ -24,6 +24,7 @@ import {
 } from "../simulation/nationwide-world/state-legislature-opening";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { establishOpeningOfficeholders } from "./opening-officeholders";
+import { ensureOpeningJudiciary } from "../simulation/judiciary/opening";
 import { projectWorldOrientation } from "./living-world-orientation";
 import { projectWorld39News } from "./world39-news";
 
@@ -300,10 +301,17 @@ describe("ALIVE43 W1 opening world: Congress and parties", () => {
       withLegislature,
       stateCandidacyPack(`US-${homeUsps}`)!.packId,
     ).length;
+    // Every court's opening judges are seated per person on purpose too, so
+    // the courts also have their own per-judge budget.
+    const withJudges = ensureOpeningJudiciary(withLegislature);
+    const judiciary =
+      serializeWorld(withJudges).length -
+      serializeWorld(withLegislature).length;
+    const judges = withJudges.judiciary?.seatTenures.length ?? 0;
     const wholeOpening =
       serializeWorld(a.world).length - serializeWorld(staffed).length;
     console.info(
-      `[alive43-w1] opening ${a.openingMs.toFixed(0)}ms / ${b.openingMs.toFixed(0)}ms; Congress snapshot adds ${added} bytes; the home legislature adds ${legislature} bytes for ${legislatureSeats} seats; the whole current opening adds ${wholeOpening} bytes`,
+      `[alive43-w1] opening ${a.openingMs.toFixed(0)}ms / ${b.openingMs.toFixed(0)}ms; Congress snapshot adds ${added} bytes; the home legislature adds ${legislature} bytes for ${legislatureSeats} seats; the courts add ${judiciary} bytes for ${judges} judges; the whole current opening adds ${wholeOpening} bytes`,
     );
     // The budget only means something for a save that has the snapshot.
     expect(projectCongress(congressOnly)).not.toBeNull();
@@ -315,13 +323,19 @@ describe("ALIVE43 W1 opening world: Congress and parties", () => {
     // The rest of a current opening — party bodies and their committees, the
     // saved starting conditions, CHANGE's macro start and the hazard
     // schedule — is its own budget, stated rather than folded into the one
-    // above. Nothing here is per-seat except the home legislature, which has
-    // its own per-member budget: a person, a seat, and a party affiliation.
+    // above. Nothing here is per-seat except the home legislature and the
+    // courts, which each have their own per-member budget.
     expect(legislatureSeats).toBeGreaterThan(0);
     // About 4 KB a member: the person, the seat (relationship, status and
     // role) and one party affiliation with its state.
     expect(legislature / legislatureSeats).toBeLessThan(4_500);
-    expect(wholeOpening - added - legislature).toBeLessThan(750_000);
+    // About 3.5 KB a judge: the person with one career fact, the tenure and
+    // the professional qualification, plus a share of the court catalog.
+    expect(judges).toBeGreaterThan(0);
+    expect(judiciary / judges).toBeLessThan(4_000);
+    expect(wholeOpening - added - legislature - judiciary).toBeLessThan(
+      750_000,
+    );
     // Seats stay roll tags: no per-member participations. The only
     // participations are the opening's handful of named people (executives,
     // chapter organizers and, in current openings, the WORLD46 standing

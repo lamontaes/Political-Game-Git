@@ -1,6 +1,6 @@
 import { candidacyPackById } from "../candidacy-packs";
 import { addDays, makeIsoDate } from "../dates";
-import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
+import { decideAnotherTerm } from "../careers/another-term";
 import { legislativeTermDates } from "../legislative-office-terms";
 import {
   createOrganizationParticipations,
@@ -47,7 +47,7 @@ import {
   stateSeatsInDistrict,
 } from "./state-legislature-opening";
 import { electionContestResult } from "../election-contests";
-import { fieldIntakeDay } from "../nominations/field-entry";
+import { fieldIntakeDay, filingWindowOpens } from "../nominations/field-entry";
 import { nominationPlan } from "../nominations/nomination-rules";
 import { holdFiledNominations } from "../nominations/party-nominations";
 import {
@@ -105,10 +105,7 @@ export const STATE_LEGISLATURE_TURNOVER_VERSION =
 const V = STATE_LEGISLATURE_TURNOVER_VERSION;
 
 export const STATE_LEGISLATURE_TURNOVER_PROFILE = {
-  id: "ocd-state-legislature-turnover-game-profile/v2",
-  /** Members this old or older retire. */
-  retirementAge: 82,
-  retirementPreferenceAge: 77,
+  id: "ocd-state-legislature-turnover-game-profile/v3",
   // PLACEHOLDER(overnight): deterministic election-to-election variation and
   // a small incumbency effect around the save's recorded generated seat view.
   electionSwingLogit: 0.5,
@@ -122,11 +119,6 @@ const OPENING_EVENT = "world.state-legislature-opening";
 
 const resultsKey = (packId: string, electionDay: IsoDate) =>
   `${V}:${packId}:results:${electionDay}`;
-
-function ageOn(birthDate: IsoDate, date: IsoDate): number {
-  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
-  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
-}
 
 function tagValue(event: HistoricalEvent, prefix: string): string | null {
   const tag = event.tags.find((candidate) => candidate.startsWith(prefix));
@@ -292,95 +284,40 @@ function prepareStateIntake(
         "personId",
         incumbentId,
       ).some((death) => death.diedAt <= row.intakeDate);
-    const tooOld =
-      incumbent !== undefined &&
-      ageOn(incumbent.birthDate, electionDay) >=
-        STATE_LEGISLATURE_TURNOVER_PROFILE.retirementAge;
     const controlled =
       incumbentId !== null &&
       next.control.kind === "person" &&
       next.control.personId === incumbentId;
     let seeking = false;
     let decisionTraceId: EntityId | null = null;
-    if (incumbent && alive && !tooOld && !controlled) {
+    if (incumbent && alive && !controlled) {
       const key = `${stateIntentKey(seatKey, year)}:decision`;
-      const serviceStart = next.history.workRelationships.find(
-        (work) => work.id === seat.member?.workRelationshipId,
-      )?.startedAt;
-      const serviceYears = serviceStart
-        ? Math.max(0, year - Number(serviceStart.slice(0, 4)))
-        : 0;
-      const evaluation = evaluateDecision(next, {
+      const nextTerm = legislativeTermDates(row.officeKey, electionDay);
+      const decided = decideAnotherTerm(next, {
+        personId: incumbent.id,
         stableKey: key,
+        subjectKey: seatKey,
         decisionType: "election.consider-another-state-legislative-term",
-        actorPersonId: incumbent.id,
-        cutoff: {
-          asOfDate: row.intakeDate,
-          historySequenceExclusive: next.history.nextSequence,
-        },
-        subject: { kind: "context:life", key: seatKey, entityId: null },
-        options: [
-          {
-            key: "seek",
-            label: "Seek another term",
-            description: "Run again.",
-          },
-          {
-            key: "step-down",
-            label: "Step down",
-            description: "Leave the seat.",
-          },
-        ],
-        constraints: [],
-        considerations: [
+        onDate: row.intakeDate,
+        termEnds:
+          nextTerm?.endsAt ??
+          makeIsoDate(`${Number(electionDay.slice(0, 4)) + 3}-01-01`),
+        serving: [
           {
             stableKey: `${key}:serving`,
             optionKey: "seek",
             sourceType: "context:current-office",
             direction: "supports",
-            importance: "strong",
+            importance: "moderate",
             confidence: "high",
             explanation: "They are serving in this seat.",
             sourceRefs: [],
           },
-          ...(ageOn(incumbent.birthDate, electionDay) >=
-          STATE_LEGISLATURE_TURNOVER_PROFILE.retirementPreferenceAge
-            ? [
-                {
-                  stableKey: `${key}:retirement`,
-                  optionKey: "step-down" as const,
-                  sourceType: "context:age" as const,
-                  direction: "supports" as const,
-                  importance: "decisive" as const,
-                  confidence: "medium" as const,
-                  explanation: "They are considering retirement.",
-                  sourceRefs: [],
-                },
-              ]
-            : []),
-          ...(serviceYears >= 10
-            ? [
-                {
-                  stableKey: `${key}:long-service`,
-                  optionKey: "step-down" as const,
-                  sourceType: "context:service-tenure" as const,
-                  direction: "supports" as const,
-                  importance: "decisive" as const,
-                  confidence: "medium" as const,
-                  explanation:
-                    "They have served for a long period and are considering leaving.",
-                  sourceRefs: [],
-                },
-              ]
-            : []),
         ],
-        perceptionIds: [],
-        randomness: "none",
-        retention: "durable",
       });
-      next = recordDurableDecisionTrace(next, evaluation);
-      decisionTraceId = next.history.decisionTraces.at(-1)!.id;
-      seeking = evaluation.selectedOptionKey === "seek";
+      next = decided.world;
+      decisionTraceId = decided.decisionTraceId;
+      seeking = decided.seeks;
     }
     const intentKey = stateIntentKey(seatKey, year);
     if (!hasStableKey(next.history.events, intentKey)) {
@@ -1041,8 +978,8 @@ function stateNominationPlan(
     stateUsps: usps,
     family: "state-legislature",
     year,
-    // The law in force when the year's filing opens governs the whole cycle.
-    onDate: stateCandidateIntakeDay(year, 0),
+    // The law in force when the cycle's filing opens governs the whole cycle.
+    onDate: filingWindowOpens(year),
     generalDay: generalElectionDay(rule, year),
   });
 }
@@ -1138,16 +1075,18 @@ export function applyStateLegislatureTurnover(
   const world = holdStateLegislativeNominations(before, start);
   // Cheap window test before any history scan: the game-profile prospect
   // window, a regular election, or a term beginning is due.
+  // A field can file from its filing window in the year before (decision
+  // D-9), so next year's window counts too.
   let crossesAny = false;
   for (
     let year = Number(before.slice(0, 4));
-    year <= Number(after.slice(0, 4)) && !crossesAny;
+    year <= Number(after.slice(0, 4)) + 1 && !crossesAny;
     year += 1
   ) {
     const january = `${year}-01-01`;
     crossesAny =
       (before < january && january <= after) ||
-      (before < `${year}-03-07` && `${year}-01-06` <= after) ||
+      (before < `${year}-03-07` && filingWindowOpens(year) <= after) ||
       (before < `${year}-11-08` && `${year}-11-02` <= after);
   }
   if (!crossesAny) return world;
@@ -1160,12 +1099,15 @@ export function applyStateLegislatureTurnover(
     const usps = pack.jurisdictionKey.replace(/^US-/, "");
     const rule = stateLegislativeElectionRule(usps);
     const firstYear = Number(before.slice(0, 4)) - 4;
-    const lastYear = Number(after.slice(0, 4));
+    const lastYear =
+      Number(after.slice(0, 4)) +
+      (after >= filingWindowOpens(Number(after.slice(0, 4)) + 1) ? 1 : 0);
     for (let year = firstYear; year <= lastYear; year += 1) {
       // Every reviewed seat cycle is a subset of the state's regular general
       // election years; this cheap check avoids a national seat scan each day.
       if (!isElectionYear(rule, year)) continue;
       const electionDay = generalElectionDay(rule, year);
+      let plan: ReturnType<typeof stateNominationPlan> | null = null;
       const due = stateLegislativeSeats(next, packId).flatMap((seat, index) => {
         if (
           !isStateLegislativeSeatDue(usps, seat.officeKey, seat.ordinal, year)
@@ -1174,13 +1116,23 @@ export function applyStateLegislatureTurnover(
         const base = stateCandidateIntakeDay(year, index);
         // The field never files later than the game's own intake day.
         if (base <= before) return [];
-        const intakeDate = fieldIntakeDay(
-          base,
-          stateNominationPlan(next, pack.jurisdictionKey, year),
-          stateCandidateIntakeDay(year, 0),
-        );
-        return before < intakeDate && intakeDate <= after
-          ? [{ officeKey: seat.officeKey, ordinal: seat.ordinal, intakeDate }]
+        plan ??= stateNominationPlan(next, pack.jurisdictionKey, year);
+        const intakeDate = fieldIntakeDay(base, plan, year);
+        const entry = {
+          officeKey: seat.officeKey,
+          ordinal: seat.ordinal,
+          intakeDate,
+        };
+        if (before < intakeDate && intakeDate <= after) return [entry];
+        // Decision D-9: a game that opens after the state's real deadline
+        // starts with the field already filed, dated on the deadline.
+        return intakeDate <= before &&
+          !stateCandidateSlate(
+            next,
+            stateCandidateSeatKey(packId, seat.officeKey, seat.ordinal),
+            year,
+          )
+          ? [entry]
           : [];
       });
       next = prepareStateIntake(next, packId, electionDay, due);

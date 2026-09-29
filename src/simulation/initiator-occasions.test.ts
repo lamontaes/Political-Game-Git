@@ -22,7 +22,7 @@ import type { EntityId, IsoDate, World } from "./types";
 function start() {
   const game = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
-    seed: "saturday-2015900-d",
+    seed: "saturday-2015900-a",
     startAge: 35,
     placeKey: "2015900",
     startKind: "custom",

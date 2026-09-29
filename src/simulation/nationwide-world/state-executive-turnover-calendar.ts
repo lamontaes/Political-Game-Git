@@ -27,19 +27,15 @@ export const GOVERNOR_TURNOVER_VERSION = "governor-turnover/v1";
  *
  * Whether an incumbent MAY stand again is the state's term limit, read per
  * state through `executive-term-limits.ts` (sourced, enacted in this World, or
- * the disclosed per-state draw), never a number here. What remains here is
- * choice, not law: how old an incumbent is when they stop wanting the job,
- * and how often an eligible one runs. Filed as
+ * the disclosed per-state draw), never a number here. Whether they WANT to is
+ * their own decision (`decideAnotherTerm`), with no age or chance here. What
+ * remains is when the field closes, filed as
  * executive-terms-and-incumbency-turnover.
  */
 export const GOVERNOR_TURNOVER_PROFILE = {
   id: "ocd-governor-turnover-game-profile/v2",
   /** The candidate field closes this many days before the general election. */
   fieldClosesDaysBefore: 60,
-  /** Incumbents this old or older do not run. */
-  retirementAge: 78,
-  /** Chance an eligible incumbent runs again, per mille. */
-  incumbentRunsPermille: 800,
 } as const;
 
 export function fieldClosingDate(electionDay: IsoDate): IsoDate {

@@ -43,15 +43,78 @@ export interface Lines2026 {
   readonly vintage: typeof LINES_2026_VINTAGE;
   /** When Census published the block files these lines were compiled from. */
   readonly asOf: string;
-  /**
-   * The first game date the lines are in force.
-   * PLACEHOLDER: the start of the 2026 election year for every state. Each
-   * state's plan took effect on its own enactment date, which is not sourced
-   * yet.
-   */
-  readonly effectiveFrom: string;
-  readonly effectiveFromNote: string;
   readonly states: Readonly<Record<string, StateLines2026>>;
+}
+
+export const ENACTMENT_DATES_FILE = `${LINES_2026_DIRECTORY}/enactment-dates.json`;
+
+/** The day one state's 2026 plan became law or took effect, with its source. */
+export interface StateEnactment {
+  readonly stateUsps: string;
+  /** First game date (YYYY-MM-DD) the state's 2026 lines are in force. */
+  readonly effectiveFrom: string;
+  readonly event: string;
+  readonly citedSource: string;
+}
+
+export interface EnactmentDates {
+  readonly format: "ocd-district-lines-2026-enactment/v1";
+  readonly retrievedOn: string;
+  readonly note: string;
+  readonly articleUrl: string;
+  readonly states: Readonly<Record<string, StateEnactment>>;
+}
+
+/**
+ * Each state's sourced enactment date. A state in the compiled lines with no
+ * date, a date that is not a calendar day, or a date for a state the lines
+ * do not cover is refused rather than guessed.
+ */
+export function loadEnactmentDates(
+  root: string,
+  lines: Lines2026,
+): EnactmentDates {
+  const parsed = JSON.parse(
+    readFileSync(join(root, ENACTMENT_DATES_FILE), "utf8"),
+  ) as EnactmentDates;
+  if (parsed.format !== "ocd-district-lines-2026-enactment/v1")
+    throw new Error(`Unexpected enactment-date format ${parsed.format}.`);
+  const covered = Object.keys(lines.states).sort();
+  const dated = Object.keys(parsed.states).sort();
+  if (covered.join() !== dated.join())
+    throw new Error(
+      `Enactment dates cover ${dated.join(",")} but the lines cover ${covered.join(",")}.`,
+    );
+  for (const [fips, entry] of Object.entries(parsed.states)) {
+    const day = new Date(`${entry.effectiveFrom}T00:00:00Z`);
+    if (
+      !/^\d{4}-\d{2}-\d{2}$/.test(entry.effectiveFrom) ||
+      Number.isNaN(day.getTime()) ||
+      day.toISOString().slice(0, 10) !== entry.effectiveFrom
+    )
+      throw new Error(`State ${fips} has no calendar-day start date.`);
+    if (!entry.event || !entry.citedSource)
+      throw new Error(`State ${fips} names no event or source for its date.`);
+  }
+  return parsed;
+}
+
+/** States that share a start date, oldest date first, each state list sorted. */
+export function statesByStartDate(
+  enactment: EnactmentDates,
+): { effectiveFrom: string; stateFips: string[] }[] {
+  const groups = new Map<string, string[]>();
+  for (const [fips, entry] of Object.entries(enactment.states)) {
+    const list = groups.get(entry.effectiveFrom) ?? [];
+    list.push(fips);
+    groups.set(entry.effectiveFrom, list);
+  }
+  return [...groups]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([effectiveFrom, stateFips]) => ({
+      effectiveFrom,
+      stateFips: stateFips.sort(),
+    }));
 }
 
 export function loadLines2026(root: string): Lines2026 {

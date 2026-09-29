@@ -1,3 +1,4 @@
+import { stableHasher } from "../simulation/ids";
 import { deserializeWorld } from "../simulation/serialization";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
 import { migrateLegacyLegislativeSeats } from "../simulation/legislative-office-terms";
@@ -441,12 +442,20 @@ export async function importPortableSave(
   }
 }
 
+/** A stored world's text, hashed piece by piece, however long it is. */
+function payloadDigest(payload: string | readonly string[]): string {
+  const hasher = stableHasher();
+  for (const piece of typeof payload === "string" ? [payload] : payload)
+    hasher.update(piece);
+  return `${payload.length}:${hasher.digest()}`;
+}
+
 async function snapshotPayloads(store: BrowserSaveStore): Promise<string> {
   const listing = await store.list();
   const rows = [];
   for (const save of listing.saves) {
     const record = await store.inspectRecord(save.saveId);
-    rows.push(`${save.saveId}:${record?.payload ?? ""}`);
+    rows.push(`${save.saveId}:${payloadDigest(record?.payload ?? "")}`);
   }
   for (const damaged of listing.damaged) {
     rows.push(`damaged:${damaged.saveId ?? "?"}:${damaged.defect}`);

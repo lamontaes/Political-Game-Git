@@ -2,10 +2,7 @@ import { recordById } from "../history-index";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../dates";
 import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
-import {
-  measurePropositionAnswer,
-  type PropositionAnswer,
-} from "../issue-record";
+import { type PropositionAnswer } from "../issue-record";
 import { lawLevelRank, type LawLevel } from "../law-hierarchy";
 import {
   lifePlaceByJurisdictionId,
@@ -20,6 +17,7 @@ import type {
   LegislativeMeasureRecord,
   World,
 } from "../types";
+import { measureAnswersAt } from "../vote-bundle";
 import { mayAnswerQuestion } from "./question-authority";
 import { stateStatuteOperativeAt } from "./statute-effective-date";
 
@@ -102,7 +100,11 @@ export function lawInForce(
   ) ?? []) {
     const level = chain.get(measure.jurisdictionId);
     if (!level) continue;
-    const answer = measurePropositionAnswer(measure, propositionId);
+    // The law as enacted, sections an amendment or a rider put in included.
+    const answer =
+      measureAnswersAt(world, measure.id, enactment.sequence).find(
+        (row) => row.propositionId === propositionId,
+      )?.answer ?? null;
     if (!answer) continue;
     // Beyond its level's powers: on the record, and governing nothing.
     let may = authority.get(measure.jurisdictionId);
@@ -186,7 +188,14 @@ function enactedByQuestion(
     if (enactment.outcome !== "enacted") continue;
     const measure = recordById(measures, enactment.measureId);
     if (!measure) continue;
-    for (const propositionId of new Set(measure.propositionIds ?? [])) {
+    // Every question the law answers as enacted: the ones it was filed on,
+    // and any a section an amendment or a rider put in answers (Build 25).
+    for (const propositionId of new Set([
+      ...(measure.propositionIds ?? []),
+      ...measureAnswersAt(world, measure.id, enactment.sequence).map(
+        (row) => row.propositionId,
+      ),
+    ])) {
       const list = byQuestion.get(propositionId) ?? [];
       list.push({ enactment, measure });
       byQuestion.set(propositionId, list);

@@ -49,7 +49,7 @@
   gap: 0.35rem;
   min-width: 0;
   padding: 0.8rem;
-  background: rgba(255, 255, 255, 0.045);
+  background: rgb(92 64 28 / 4%);
   border-left: 0.25rem solid #64a8c9;
 }
 
@@ -76,7 +76,7 @@
   min-width: 0;
   margin: 0;
   padding: 1rem;
-  background: rgba(3, 10, 18, 0.58);
+  background: rgb(255 251 242 / 80%);
   border: 1px solid rgba(180, 201, 220, 0.32);
 }
 
@@ -130,19 +130,19 @@
 }
 
 .economic-mark {
-  fill: #71b8d8;
+  fill: #665437;
 }
 
 .economic-mark--forecast {
-  fill: #e59a55;
+  fill: #935a25;
 }
 
 .economic-mark--draft {
-  fill: #b99add;
+  fill: #552c84;
 }
 
 .economic-mark--outturn {
-  fill: #78bb84;
+  fill: #3c7c47;
 }
 
 .economic-legend {
@@ -201,7 +201,7 @@
 .economic-graph th,
 .economic-graph td {
   padding: 0.45rem;
-  border-bottom: 1px solid rgba(218, 198, 153, 0.22);
+  border-bottom: 1px solid rgb(111 85 42 / 28%);
   text-align: left;
   vertical-align: top;
 }
@@ -226,7 +226,7 @@
 }
 
 .economic-sources a {
-  color: #9dd8f0;
+  color: #55462e;
 }
 
 @media (max-width: 760px) {
