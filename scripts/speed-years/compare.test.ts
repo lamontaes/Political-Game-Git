@@ -45,6 +45,13 @@ describe("year speed budget", () => {
       "Year 1: saved world fingerprint differs",
     ]);
   });
+  it("accepts explicitly coordinated coexistence without claiming exclusivity", () => {
+    const coordinated = { ...baseline, exclusive: false, coordinated: true };
+    expect(compareYears(baseline, coordinated, true)).toEqual([]);
+    expect(
+      compareYears(coordinated, { ...coordinated, coordinated: false }),
+    ).toHaveLength(1);
+  });
   it("rejects invalid elapsed times", () => {
     expect(
       compareYears(baseline, {

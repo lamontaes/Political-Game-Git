@@ -119,8 +119,9 @@ export async function main(): Promise<void> {
   const sourceMain =
     changedSource.status === 0 && !untrackedSource ? mainHead : null;
   const exclusive = args.includes("--exclusive");
+  const coordinated = args.includes("--coordinated");
   console.log(
-    `head=${head} seed=${seed} place=${place} stepDays=${stepDays} exclusive=${exclusive}`,
+    `head=${head} seed=${seed} place=${place} stepDays=${stepDays} exclusive=${exclusive} coordinated=${coordinated}`,
   );
   for (let year = first; year <= years; year += 1) {
     const through = anniversary(start as typeof world.currentDate, year);
@@ -157,6 +158,7 @@ export async function main(): Promise<void> {
       sourceMain,
       host: hostname(),
       exclusive,
+      coordinated,
       rows,
     };
     const out = option("out");
@@ -184,6 +186,7 @@ export async function main(): Promise<void> {
         sourceMain,
         host: hostname(),
         exclusive,
+        coordinated,
         rows,
       },
       args.includes("--identical"),
@@ -192,13 +195,11 @@ export async function main(): Promise<void> {
   }
   if (args.includes("--target")) {
     const firstYear = rows.find((row) => row.year === 1);
-    const tenth = rows.find((row) => row.year === 10);
-    if (!firstYear || !tenth || !exclusive)
-      throw new Error(
-        "Target requires an exclusive 10-year run from the opening",
-      );
-    if (tenth.seconds > firstYear.seconds * 2)
-      throw new Error("Year 10 exceeds twice year 1");
+    const second = rows.find((row) => row.year === 2);
+    if (!firstYear || !second || !(exclusive || coordinated))
+      throw new Error("Target requires two coordinated years from the opening");
+    if (firstYear.seconds >= 60)
+      throw new Error("Year 1 must take less than 60 seconds");
   }
 }
 if (process.argv[1] === fileURLToPath(import.meta.url)) await main();

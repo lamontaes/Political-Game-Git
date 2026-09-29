@@ -13,6 +13,8 @@ export interface SpeedReceipt {
   readonly sourceMain?: string | null;
   readonly host: string;
   readonly exclusive: boolean;
+  /** Coordinator-authorized coexistence, without claiming an empty host. */
+  readonly coordinated?: boolean;
   readonly rows: readonly YearTiming[];
 }
 
@@ -25,8 +27,11 @@ export function compareYears(
   const problems: string[] = [];
   for (const key of ["seed", "place", "stepDays", "host"] as const)
     if (baseline[key] !== candidate[key]) problems.push(`${key} differs`);
-  if (!baseline.exclusive || !candidate.exclusive)
-    problems.push("Both runs must have an exclusive host window");
+  if (
+    !(baseline.exclusive || baseline.coordinated) ||
+    !(candidate.exclusive || candidate.coordinated)
+  )
+    problems.push("Both runs must have a coordinator-approved timing window");
   if (!baseline.rows.length || baseline.rows.length !== candidate.rows.length)
     problems.push("Runs must contain the same nonempty year range");
   for (let i = 0; i < candidate.rows.length; i += 1) {
