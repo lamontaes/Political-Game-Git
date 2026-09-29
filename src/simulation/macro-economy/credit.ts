@@ -54,10 +54,11 @@ export const MACRO_CREDIT_POLICY = {
     chargeOffPct: 0.5,
   },
   /**
-   * PLACEHOLDER: share of the debt stock that reprices each month (about two
-   * and a half years), calibrated with the strengths below.
+   * PLACEHOLDER: percent of the debt stock that reprices each month (the
+   * whole stock in about two and a half years), calibrated with the
+   * strengths below.
    */
-  monthlyRepricingShare: 0.033,
+  debtRepricedPctPerMonth: 3.3,
   /** PLACEHOLDER: extra points lenders charge when credit is fully tight. */
   spreadPerTightnessPp: 3,
   /**
@@ -84,8 +85,8 @@ export const MACRO_CREDIT_POLICY = {
   bank: {
     /** Yearly earnings before losses, as a share of loans. */
     earningsRate: 0.012,
-    /** Share of the tight-credit spread that becomes bank earnings. */
-    spreadEarnedShare: 0.5,
+    /** Points of bank earnings per point of tight-credit spread. */
+    spreadEarnedPerPoint: 0.5,
     /** The capital ratio banks aim to hold. */
     targetCapitalRatio: 0.1,
   },
@@ -249,7 +250,7 @@ export function stepCredit(
     p.spreadPerTightnessPp * (previous.tightness - input.startTightness);
   const debtRatePct =
     previous.debtRatePct +
-    p.monthlyRepricingShare * (offered - previous.debtRatePct);
+    (p.debtRepricedPctPerMonth / 100) * (offered - previous.debtRatePct);
   const burden = (previous.debtRatio * debtRatePct) / 100;
   const burdenPoints = (burden - p.burdenLine) * 100;
   const strainPoints = Math.max(0, burdenPoints);
@@ -270,7 +271,7 @@ export function stepCredit(
   // Tight credit is dear credit: the wider spread is also the banks' margin.
   const earnings =
     p.bank.earningsRate +
-    (p.bank.spreadEarnedShare *
+    (p.bank.spreadEarnedPerPoint *
       p.spreadPerTightnessPp *
       Math.max(0, previous.tightness - input.startTightness)) /
       100;

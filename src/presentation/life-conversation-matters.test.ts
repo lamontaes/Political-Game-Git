@@ -8,6 +8,9 @@ import {
 } from "../simulation";
 import { activeOrdinaryGoal } from "../simulation/life-personality";
 import { publishPublicEvent } from "../simulation/public-information";
+// Loaded first, as the game loads it: the conversation modules import one
+// another, and this is the order that resolves them.
+import "./player-conversation";
 import { matterAwareness } from "./current-matters";
 import { linePartsOf } from "./english-composition";
 import { conversationExchangeTurns } from "./scene-conversation";
