@@ -943,7 +943,7 @@ function yearsBefore(date: IsoDate, years: number): IsoDate {
   return makeIsoDate(`${year}${rest === "-02-29" ? "-02-28" : rest}`);
 }
 
-function townOrganizationsOf(
+export function townOrganizationsOf(
   world: World,
   town: EntityId,
   classification: OrganizationClassification,
@@ -1161,6 +1161,8 @@ export function fillTownJobs(
     readonly into?: {
       readonly workplace: string;
       readonly organizationId: EntityId;
+      /** Hire everyone into this one role (a funded position), when named. */
+      readonly role?: string;
     };
   },
 ): World {
@@ -1289,6 +1291,16 @@ export function fillTownJobs(
   if (options.into) {
     const workplace = WORKPLACE.get(options.into.workplace);
     if (!workplace) return next;
+    const named = options.into.role
+      ? workplace.roles.find((entry) => entry.title === options.into!.role)
+      : undefined;
+    if (named) {
+      for (const resident of open)
+        if (resident.age >= (named.minAge ?? WORKING_AGE_MIN))
+          // A funded position is a full-time one.
+          hire(resident, workplace, named, options.into.organizationId, true);
+      return jobs.length === 0 ? next : createWorkRelationships(next, jobs);
+    }
     let lead = workplace.roles.find(
       (entry) => entry.authority === "directs-others",
     );
