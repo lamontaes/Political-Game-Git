@@ -65,22 +65,12 @@ const SOURCED = new WeakMap<
  * preserves `records.find(record => record.id === id)` even for malformed
  * histories, which the integrity pass must still reject separately.
  */
-const RECORDS_BY_ID = new WeakMap<object, ReadonlyMap<EntityId, unknown>>();
 
 export function recordById<T extends { readonly id: EntityId }>(
   records: readonly T[],
   id: EntityId,
 ): T | undefined {
-  let index = RECORDS_BY_ID.get(records);
-  if (!index) {
-    const built = new Map<EntityId, T>();
-    for (const record of records) {
-      if (!built.has(record.id)) built.set(record.id, record);
-    }
-    index = built;
-    RECORDS_BY_ID.set(records, index);
-  }
-  return index.get(id) as T | undefined;
+  return growingIndex(FIRST_RECORD_BY_ID, records).get(id) as T | undefined;
 }
 
 const RECORDS_BY_STRING_FIELD = new WeakMap<
@@ -133,4 +123,135 @@ export function indexOverArrays<T>(
   const value = build();
   SOURCED.set(anchor, { sources: [...sources], value });
   return value;
+}
+
+/**
+ * An index over a history list that follows the list as it grows.
+ *
+ * A writer appends by copying the list, so an index keyed by the list alone
+ * is rebuilt from every record after every write: checking one new record
+ * against a list of every paycheck cost a little more each Day a world ran.
+ * When a list begins with every record of a list already indexed, that index
+ * is extended with the new records instead, and the older list gives it up
+ * (asked about again, it builds its own). Whether the new list really begins
+ * with the old one is checked record by record, by identity.
+ */
+export interface GrowingIndexKind<I> {
+  readonly create: () => I;
+  readonly add: (index: I, record: unknown, position: number) => void;
+}
+
+interface GrowingIndexState<I> {
+  readonly byList: WeakMap<readonly unknown[], I>;
+  /** The indexed list each record is currently the last record of. */
+  readonly listEndingWith: WeakMap<object, readonly unknown[]>;
+}
+
+const GROWING_STATES = new WeakMap<object, GrowingIndexState<unknown>>();
+
+/** How far back from a list's end to look for the list it grew from. */
+const GROWING_LOOKBACK = 1024;
+
+export function growingIndex<I>(
+  kind: GrowingIndexKind<I>,
+  records: readonly unknown[],
+): I {
+  let state = GROWING_STATES.get(kind) as GrowingIndexState<I> | undefined;
+  if (!state) {
+    state = { byList: new WeakMap(), listEndingWith: new WeakMap() };
+    GROWING_STATES.set(kind, state as GrowingIndexState<unknown>);
+  }
+  const cached = state.byList.get(records);
+  if (cached !== undefined) return cached;
+  let index: I | undefined;
+  let from = 0;
+  const stop = Math.max(0, records.length - GROWING_LOOKBACK);
+  for (let at = records.length - 1; at >= stop; at -= 1) {
+    const record = records[at];
+    if (typeof record !== "object" || record === null) break;
+    const earlier = state.listEndingWith.get(record);
+    if (!earlier) continue;
+    if (earlier.length !== at + 1 || !beginsWith(records, earlier)) break;
+    index = state.byList.get(earlier);
+    if (index === undefined) break;
+    state.byList.delete(earlier);
+    state.listEndingWith.delete(record);
+    from = at + 1;
+    break;
+  }
+  if (index === undefined) {
+    index = kind.create();
+    from = 0;
+  }
+  for (let at = from; at < records.length; at += 1)
+    kind.add(index, records[at], at);
+  state.byList.set(records, index);
+  const last = records.at(-1);
+  if (typeof last === "object" && last !== null)
+    state.listEndingWith.set(last, records);
+  return index;
+}
+
+function beginsWith(
+  records: readonly unknown[],
+  prefix: readonly unknown[],
+): boolean {
+  for (let at = prefix.length - 1; at >= 0; at -= 1)
+    if (records[at] !== prefix[at]) return false;
+  return true;
+}
+
+const STABLE_KEYS: GrowingIndexKind<Set<unknown>> = {
+  create: () => new Set(),
+  add: (keys, record) => {
+    keys.add((record as { readonly stableKey?: unknown }).stableKey);
+  },
+};
+
+/** True when a record in the list has this stable key. */
+export function hasStableKey(
+  records: readonly { readonly stableKey: string }[],
+  stableKey: string,
+): boolean {
+  return growingIndex(STABLE_KEYS, records).has(stableKey);
+}
+
+const FIRST_RECORD_BY_ID: GrowingIndexKind<Map<unknown, unknown>> = {
+  create: () => new Map(),
+  add: (index, record) => {
+    const id = (record as { readonly id?: unknown }).id;
+    if (!index.has(id)) index.set(id, record);
+  },
+};
+
+const GROUPED_BY_FIELD = new Map<
+  string,
+  GrowingIndexKind<Map<unknown, unknown[]>>
+>();
+
+/**
+ * The records whose `field` is `value`, in list order: what
+ * `records.filter((record) => record[field] === value)` returns, read from an
+ * index that follows the list as it grows.
+ */
+export function recordsWithFieldValue<T, K extends keyof T & string>(
+  records: readonly T[],
+  field: K,
+  value: T[K],
+): readonly T[] {
+  let kind = GROUPED_BY_FIELD.get(field);
+  if (!kind) {
+    kind = {
+      create: () => new Map(),
+      add: (index, record) => {
+        const key = (record as Record<string, unknown>)[field];
+        const group = index.get(key);
+        if (group) group.push(record);
+        else index.set(key, [record]);
+      },
+    };
+    GROUPED_BY_FIELD.set(field, kind);
+  }
+  if (typeof value === "number" && Number.isNaN(value)) return [];
+  return (growingIndex(kind, records).get(value) ?? []) as readonly T[];
 }
