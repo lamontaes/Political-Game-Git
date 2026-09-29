@@ -1095,13 +1095,6 @@
       "code": "shockMonthlyChance: 0.003,"
     },
     {
-      "file": "src/simulation/measure-numbering.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "if (pack.jurisdictionKey === \"US-DC\") {"
-    },
-    {
       "file": "src/simulation/migration/review.ts",
       "kind": "fixed-share",
       "build": "Build 24",
