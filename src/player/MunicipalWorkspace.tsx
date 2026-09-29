@@ -15,6 +15,7 @@ import { useEffect, useMemo, useState } from "react";
 import type {
   EntityId,
   FutureTransitionHandlerRegistry,
+  LegislativeMemberDisposition,
   World,
 } from "../simulation/types";
 import {
@@ -56,6 +57,15 @@ function humanLabel(value: string): string {
   const words = value.toLowerCase().replace(/[_-]/g, " ");
   return words.charAt(0).toUpperCase() + words.slice(1);
 }
+
+/** A ballot as the roll call reads it, the player's own and a colleague's. */
+const BALLOT_LABEL: Readonly<Record<LegislativeMemberDisposition, string>> = {
+  yea: "Yea",
+  nay: "Nay",
+  "present-not-voting": "Present, not voting",
+  absent: "Absent",
+  excused: "Absent",
+};
 
 const ORDINANCE_PHASE_LABELS: Readonly<Record<string, string>> = {
   "awaiting-referral": "Introduced; not yet on the council agenda.",
@@ -485,30 +495,32 @@ export function MunicipalWorkspace({
                                   <legend>Your vote</legend>
                                   {(
                                     [
-                                      ["yea", "Yea"],
-                                      ["nay", "Nay"],
-                                      [
-                                        "present-not-voting",
-                                        "Present, not voting",
-                                      ],
+                                      "yea",
+                                      "nay",
+                                      "present-not-voting",
                                     ] as const
-                                  ).map(([value, label]) => (
-                                    <label key={value}>
-                                      <input
-                                        type="radio"
-                                        name={`ballot-${ordinance.measureId}`}
-                                        value={value}
-                                        checked={ballot === value}
-                                        onChange={() =>
-                                          setBallots({
-                                            ...ballots,
-                                            [ordinance.measureId]: value,
-                                          })
-                                        }
-                                      />
-                                      {label}
-                                    </label>
-                                  ))}
+                                  )
+                                    .map(
+                                      (value) =>
+                                        [value, BALLOT_LABEL[value]] as const,
+                                    )
+                                    .map(([value, label]) => (
+                                      <label key={value}>
+                                        <input
+                                          type="radio"
+                                          name={`ballot-${ordinance.measureId}`}
+                                          value={value}
+                                          checked={ballot === value}
+                                          onChange={() =>
+                                            setBallots({
+                                              ...ballots,
+                                              [ordinance.measureId]: value,
+                                            })
+                                          }
+                                        />
+                                        {label}
+                                      </label>
+                                    ))}
                                 </fieldset>
                                 <details>
                                   <summary>Other councilors' ballots</summary>
@@ -526,14 +538,7 @@ export function MunicipalWorkspace({
                                             ? ` (${colleague.seatLabel})`
                                             : ""}
                                           {": "}
-                                          {colleague.disposition === "yea"
-                                            ? "Yea"
-                                            : colleague.disposition === "nay"
-                                              ? "Nay"
-                                              : colleague.disposition ===
-                                                  "present-not-voting"
-                                                ? "Present, not voting"
-                                                : "Absent"}
+                                          {BALLOT_LABEL[colleague.disposition]}
                                         </li>
                                       );
                                     })}
