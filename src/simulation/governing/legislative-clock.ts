@@ -125,7 +125,9 @@ import { hasStableKey, recordByStableKey } from "../history-index";
  * that bill. Where a question has no recorded member decisions, the step is
  * blocked with that reason; no tally is invented. After a session's sourced
  * outer limit, nothing moves: whether the bill carries over is not
- * established, so it is neither advanced nor declared dead.
+ * established, so it is neither advanced nor declared dead. A veto returned
+ * after the close is the exception: it waits for the legislature's next
+ * sitting and is reconsidered then.
  */
 
 export const LEGISLATIVE_CLOCK_VERSION = "legislative-clock/v1";
@@ -246,6 +248,48 @@ export function measureSessionIsClosed(
     closed: closedOn !== null && world.currentDate > closedOn,
     closedOn,
   };
+}
+
+/**
+ * A veto returned after the session closed is reconsidered when the same
+ * legislature next sits (Alaska Const. art. II, § 16 is one such rule),
+ * unless its rules say pending bills die at adjournment. The legislature has
+ * sat again once it takes up a bill introduced after the close.
+ *
+ * GAME ASSUMPTION: the record does not say when one legislature ends and the
+ * next begins, so a veto after a legislature's last session also waits for
+ * the next sitting rather than standing.
+ */
+function vetoWaitsForNextSitting(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  phase: string,
+): boolean {
+  if (phase !== "awaiting-override") return false;
+  const dies = legislativeBlueprintForMeasure(world, measure).pack.session
+    .measuresDieAtAdjournment;
+  return !(dies.kind === "known" && dies.value);
+}
+
+/**
+ * Whether the measure's legislature has taken up a bill introduced after
+ * `closedOn`: the first sign, in the record, that it is sitting again.
+ */
+function maxIsoDate(a: IsoDate, b: IsoDate): IsoDate {
+  return a > b ? a : b;
+}
+
+function legislatureSatSince(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  closedOn: IsoDate,
+): boolean {
+  return (world.history.legislativeMeasures ?? []).some(
+    (candidate) =>
+      candidate.rulePackId === measure.rulePackId &&
+      candidate.introducedAt > closedOn &&
+      candidate.introducedAt <= world.currentDate,
+  );
 }
 
 /* ------------------------------------------------------------------ *
@@ -458,13 +502,31 @@ export function applyInstitutionStep(
   const pack = blueprint.pack;
   const owner = effectiveOwner(world, measure);
   if (owner === null || owner === "sponsor-office") return { kind: "idle" };
-  const closed =
-    measureSessionIsClosed(world, measureId).closed &&
-    adjournmentStopsPhase(measurePosition(world, measureId).phase);
   const session = measureSessionIsClosed(world, measureId);
+  const phase = measurePosition(world, measureId).phase;
+  const reconsidersVetoLater =
+    session.closed && vetoWaitsForNextSitting(world, measure, phase);
+  if (
+    reconsidersVetoLater &&
+    !legislatureSatSince(world, measure, session.closedOn!)
+  )
+    // A closed session's legislature sits again in a later year at the
+    // soonest; from then, it checks on its ordinary cadence.
+    return {
+      kind: "wait-until",
+      date: maxIsoDate(
+        makeIsoDate(`${Number(session.closedOn!.slice(0, 4)) + 1}-01-01`),
+        addDays(
+          world.currentDate,
+          LEGISLATIVE_CADENCE_PROFILE.daysBetweenSteps,
+        ),
+      ),
+    };
+  const closed =
+    session.closed && adjournmentStopsPhase(phase) && !reconsidersVetoLater;
+  const dies = pack.session.measuresDieAtAdjournment;
   // Where the rules say a pending bill dies when the session adjourns, one
   // still before the legislature dies; that is how most bills end.
-  const dies = pack.session.measuresDieAtAdjournment;
   if (closed && owner !== "executive" && dies.kind === "known" && dies.value)
     return {
       kind: "ended",
@@ -913,9 +975,11 @@ export function scheduleInstitutionStep(
       ? world
       : scheduleCongressSitting(world);
   if (pendingInstitutionStep(world, measureId, excludeDueItemId)) return world;
+  const phase = measurePosition(world, measureId).phase;
   if (
     measureSessionIsClosed(world, measureId).closed &&
-    adjournmentStopsPhase(measurePosition(world, measureId).phase)
+    adjournmentStopsPhase(phase) &&
+    !vetoWaitsForNextSitting(world, measure, phase)
   )
     return world;
   const dueAt =

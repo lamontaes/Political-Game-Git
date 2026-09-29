@@ -16,3 +16,7 @@ rules say pending bills do. The legal limit still ends a session the leaders
 have not closed, and it now comes from each state's own limit wherever the
 game has read one. A new law's waiting period counts from the day the leaders
 adjourned.
+
+A bill the governor vetoes after the session has closed waits for the
+legislature's next sitting, where the members vote on the veto, unless the
+state's rules say pending bills die at adjournment.
