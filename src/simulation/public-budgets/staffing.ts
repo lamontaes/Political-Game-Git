@@ -10,6 +10,7 @@ import type {
   EntityId,
   OrganizationClassification,
   World,
+  WorkStatusRecord,
 } from "../types";
 import {
   fillTownJobs,
@@ -18,10 +19,7 @@ import {
   townResidents,
 } from "../living-world/town-employment";
 import type { Resident } from "../living-world/town-employment";
-import {
-  TOWN_JOB_END_REASONS,
-  activeTownJobs,
-} from "../living-world/town-labor-market";
+import { TOWN_JOB_END_REASONS } from "../living-world/town-labor-market";
 import type { TownJob } from "../living-world/town-labor-market";
 import { CRUNCH46_PROVISIONAL_POLICY } from "../macro-economy/policy";
 import { nominalEconomyIndex } from "./fiscal";
@@ -161,27 +159,48 @@ function latestRoleTitles(world: World): ReadonlyMap<EntityId, string> {
   return titles;
 }
 
-/** The town's jobs in this program's funded role, active today. */
+/**
+ * Everyone living in the town who holds the program's funded role at one of
+ * its funded employers today, however the job was first written: at the
+ * opening, in an earlier life, or by the town's job market.
+ */
 export function fundedStaff(
   world: World,
   town: EntityId,
   staffed: StaffedProgram,
 ): readonly TownJob[] {
   const titles = latestRoleTitles(world);
-  const relationships = new Map(
-    world.history.workRelationships.map((row) => [row.id, row]),
-  );
-  return activeTownJobs(world, town).filter((job) => {
-    if (titles.get(job.relationshipId) !== staffed.role) return false;
-    const organizationId = relationships.get(
-      job.relationshipId,
-    )?.organizationId;
-    return (
-      !!organizationId &&
-      organizationProfileAt(world, organizationId)?.classification ===
-        staffed.classification
-    );
-  });
+  const latest = new Map<EntityId, WorkStatusRecord>();
+  for (const status of world.history.workStatuses)
+    if (status.effectiveAt <= world.currentDate)
+      latest.set(status.workRelationshipId, status);
+  const classifications = new Map<EntityId, boolean>();
+  const funds = (organizationId: EntityId) => {
+    let found = classifications.get(organizationId);
+    if (found === undefined) {
+      found =
+        organizationProfileAt(world, organizationId)?.classification ===
+        staffed.classification;
+      classifications.set(organizationId, found);
+    }
+    return found;
+  };
+  const jobs: TownJob[] = [];
+  for (const relationship of world.history.workRelationships) {
+    const status = latest.get(relationship.id);
+    if (status?.status !== "active") continue;
+    if (titles.get(relationship.id) !== staffed.role) continue;
+    if (world.people[relationship.personId]?.homeJurisdictionId !== town)
+      continue;
+    if (!relationship.organizationId || !funds(relationship.organizationId))
+      continue;
+    jobs.push({
+      relationshipId: relationship.id,
+      personId: relationship.personId,
+      status,
+    });
+  }
+  return jobs;
 }
 
 /**
@@ -244,7 +263,8 @@ function staffProgram(
     (baseline.headcount * funding) / baseline.realFunding,
   );
   const key = `${PUBLIC_BUDGETS_VERSION}:staffing:${town}:${staffed.program}:${round}`;
-  if (funded < staff.length) return layOff(world, staff, funded, key);
+  if (funded < staff.length)
+    return layOff(world, staff, funded, key, playerPersonId);
   if (funded > staff.length)
     return hire(
       world,
@@ -262,19 +282,24 @@ function layOff(
   staff: readonly TownJob[],
   funded: number,
   key: string,
+  playerPersonId: EntityId | null,
 ): World {
   const relationships = new Map(
     world.history.workRelationships.map((row) => [row.id, row]),
   );
   // Seniority: the newest hire goes first.
-  const newestFirst = [...staff].sort((a, b) => {
-    const left = relationships.get(a.relationshipId)!;
-    const right = relationships.get(b.relationshipId)!;
-    return (
-      right.startedAt.localeCompare(left.startedAt) ||
-      right.sequence - left.sequence
-    );
-  });
+  // The player's own job is the player's career to decide, never this
+  // review's (HARDWIRED): the next newest goes instead.
+  const newestFirst = [...staff]
+    .filter((job) => job.personId !== playerPersonId)
+    .sort((a, b) => {
+      const left = relationships.get(a.relationshipId)!;
+      const right = relationships.get(b.relationshipId)!;
+      return (
+        right.startedAt.localeCompare(left.startedAt) ||
+        right.sequence - left.sequence
+      );
+    });
   let next = world;
   for (const job of newestFirst.slice(0, staff.length - funded))
     next = recordWorkStatus(next, {
