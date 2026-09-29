@@ -77,7 +77,7 @@ describe("the compiled 2026 lines and the shipped tables", () => {
 
   it("start each state on its own sourced enactment date", () => {
     const start = Object.fromEntries(
-      Object.entries(enactment.states).map(([fips, entry]) => [
+      Object.values(enactment.states).map((entry) => [
         entry.stateUsps,
         entry.effectiveFrom,
       ]),
