@@ -190,8 +190,9 @@ describe(
             /^us-(house|senate):NE/.test(seatOf(event)) &&
             event.occurredAt.startsWith(year),
         );
-      // 2026: filing opened on January 6, before the law took effect in
-      // February, so the old date governs the whole cycle: May 12, 2026.
+      // 2026: the cycle's filing window opened on July 1, 2025, before the
+      // law took effect in February, so the old date governs the whole
+      // cycle: May 12, 2026.
       expect(nebraska("2026").length).toBeGreaterThan(0);
       expect(
         nebraska("2026").every(
@@ -241,6 +242,51 @@ describe(
             event.tags.includes("date-basis:standing-rule"),
         ),
       ).toBe(true);
+
+      // Texas's 2028 fields file in the year before, December 13, 2027: its
+      // own 85-day 2026 gap before the March 7 primary.
+      const texasFields = world.history.events.filter(
+        (event) =>
+          event.type === "election.congress-candidate-slate" &&
+          /^us-house:TX-/.test(seatOf(event)) &&
+          event.stableKey.endsWith(":2028"),
+      );
+      expect(texasFields).toHaveLength(38);
+      expect(
+        texasFields.every((event) =>
+          event.tags.includes("intake-date:2027-12-13"),
+        ),
+      ).toBe(true);
+
+      // Each party asks its past candidates in the district first, so the
+      // 2028 cycle generates far fewer new people than 2026 did, and some
+      // 2028 fields hold someone from the same seat's 2026 field.
+      const generatedIn = (year: number) =>
+        Object.values(world.people).filter((person) =>
+          new RegExp(
+            `^life-context-v1:congress-candidates/v1:.*:${year}:`,
+          ).test(person.generationKey ?? ""),
+        ).length;
+      expect(generatedIn(2026)).toBeGreaterThan(400);
+      expect(generatedIn(2028)).toBeLessThan(generatedIn(2026) / 2);
+      // A challenger from 2026 who is back in the same seat's field in 2028.
+      const challengers = (year: number) =>
+        new Set(
+          world.history.events
+            .filter(
+              (event) =>
+                event.type === "election.congress-candidate-slate" &&
+                event.stableKey.endsWith(`:${year}`),
+            )
+            .flatMap((event) =>
+              event.participants
+                .filter((row) => row.detail?.split("|")[1] === "new")
+                .map((row) => `${seatOf(event)}|${row.personId}`),
+            ),
+        );
+      const earlier = challengers(2026);
+      const returned = [...challengers(2028)].filter((row) => earlier.has(row));
+      expect(returned.length).toBeGreaterThan(0);
     });
   },
 );
