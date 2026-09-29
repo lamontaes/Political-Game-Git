@@ -729,7 +729,7 @@ function adoptNextYear(
       kind: "balance-carried",
       amount: carried,
       law: null,
-      note: "The balance above the reserve target (5% of a year's spending, PLACEHOLDER) was carried into the new year and is spent across it, once.",
+      note: `The balance above what the reserve still lacks of its target (${reserveLaw.floorShare} of a year's spending; ${reserveLaw.basis}) was carried into the new year and is spent across it, once.`,
     });
   if (reserveDeposit > 0)
     adjustments.push({
@@ -739,7 +739,7 @@ function adoptNextYear(
       kind: "reserve-deposit",
       amount: reserveDeposit,
       law: { name: "reserve", reading: laws.reserve },
-      note: "The reserve is below its required floor, so the adopted budget sets a deposit aside (PLACEHOLDER floor and pace).",
+      note: `The reserve is below its required floor, so the adopted budget sets a deposit aside: the floor is ${reserveLaw.floorShare} of a year's spending, at most ${reserveLaw.depositShare} a year (${reserveLaw.basis}).`,
     });
   const planned = base.map((value, at) => (CUTTABLE[at] ? value * scale : 0));
   // Spread over this year's programs, or last year's when none is planned.
