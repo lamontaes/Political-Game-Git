@@ -2172,16 +2172,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.32,
       "per": "law in force",
-      "lagMonths": 0,
+      "lagMonths": 12,
       "group": "borrowers",
       "owner": "B",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "Prohibiting payday loans goes with a 35% decline in their use (Urban Institute working paper, read); the published version reports 32%. A state rate cap of 36% APR ends storefront payday lending as a prohibition does. Cross-state survey evidence, not a trial. Read on the count of consumer lenders, a stand-in for use. Enforced loan limits in Dallas and Austin cut payday loan volume 44% and 61% (Wang and Burke 2021, NBER w28765), inside the range; the effect began when enforcement began",
+      "source": "McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO); Wang and Burke 2021 (NBER w28765) for the range",
+      "evidence": "provisional",
       "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
-      "to": "finance.high-cost-loans"
+      "to": "finance.high-cost-loans",
+      "range": [-0.61, -0.2]
     },
     {
       "key": "paid-leave-to-mothers-work",
@@ -2448,12 +2449,12 @@
       "lagMonths": 12,
       "group": "borrowers",
       "owner": "B",
-      "anchor": "Prohibiting payday loans goes with a 35% decline in their use (Urban Institute working paper, read); the published version reports 32%. A 36% APR cap ends storefront payday lending, as a prohibition does. Cross-state survey evidence, not a trial",
-      "source": "McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO)",
+      "anchor": "Prohibiting payday loans goes with a 35% decline in their use (Urban Institute working paper, read); the published version reports 32%. A 36% APR cap ends storefront payday lending, as a prohibition does. Cross-state survey evidence, not a trial. Enforced loan limits in Dallas and Austin cut payday loan volume 44% and 61% (Wang and Burke 2021, NBER w28765), inside the range; the effect began when enforcement began",
+      "source": "McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO); Wang and Burke 2021 (NBER w28765) for the range",
       "evidence": "provisional",
       "from": "law:us-federal-positions:monetary-financial.cap-consumer-loan-interest",
       "to": "finance.high-cost-loans",
-      "range": [-0.5, -0.2],
+      "range": [-0.61, -0.2],
       "moderator": {
         "measure": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
         "effectAtFull": -1,
@@ -3583,6 +3584,24 @@
       "anchor": "Transit ridership's elasticity with respect to fares is -0.2 to -0.5 in the first year. A fare falling to zero is read on the semi-log curve the paper recommends for fares near zero, where ridership rises by e to the elasticity: 22% to 65%, 42% at the middle of the range. Long-run elasticities of -0.6 to -0.9 would give more, so this is the first year's effect, held.",
       "source": "Litman 2025, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, Table 15 and page 9",
       "range": [0.22, 0.65]
+    },
+    {
+      "key": "highway-money-for-transit-to-service",
+      "from": "law:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "to": "transit.service-access",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.06,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 24,
+      "group": "place",
+      "owner": "M",
+      "evidence": "provisional",
+      "anchor": "Where federal law let highway money go to transit (1992 to 2006), states spent about 3% of the whole federal-aid highway program on transit, 13% of the flexible part; California put nearly 40% of its flexible money there, and 19 states less than 2%. The same 3% of a state's own highway spending (Census Bureau, 2022: $128.0 billion) is 5.9% of what transit agencies spend to run service (FTA National Transit Database, 2024: $65.6 billion), so service rises about 6% at the average cost per mile. The spread takes 2% to 40% of the flexible part. The lag is a budget cycle and the buses it buys, the most common use GAO found.",
+      "source": "GAO-07-772, Highway and Transit Investments: Flexible Funding Supports State and Local Transportation Priorities (2007); Census Bureau, 2022 Census of Governments: Finance, Table 1 (state highways); FTA National Transit Database 2024 (data.transportation.gov ekg5-frzt, total operating expenses)",
+      "range": [0.01, 0.18]
     }
   ],
   "calibratedAt": "2024-07-01"

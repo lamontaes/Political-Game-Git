@@ -3,7 +3,10 @@ import { appendFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 import { addDays } from "../simulation/dates";
-import { COUNCIL_DEFERENCE_REASON } from "../simulation/governing/council-lawmaking";
+import {
+  COUNCIL_DEFERENCE_REASON,
+  COUNCIL_PRECEDENT_REASON,
+} from "../simulation/governing/council-lawmaking";
 import { lawInForce } from "../simulation/governing/law-in-force";
 import { principledLeaning } from "../simulation/governing/officeholder-principles";
 import { ORDINANCE_EFFECTIVE_AFTER_DAYS } from "../simulation/governing/ordinance-effective-date";
@@ -133,6 +136,8 @@ describe("a town council makes law for its own reasons", () => {
             // for want of a reason.
             if (row.reason === COUNCIL_DEFERENCE_REASON)
               expect(row.disposition).toBe("yea");
+            if (row.reason === COUNCIL_PRECEDENT_REASON)
+              expect(row.disposition).toBe("nay");
             expect(row.reason).not.toBe("member:no-reason");
           }
         }
