@@ -175,8 +175,14 @@ describe("births follow the outcome web", () => {
     const today = world.currentDate;
     const yearAgo = addDays(today, -365);
     // The births level (#885) is always read; at its base it changes nothing.
-    const others = (causes: { key: string }[]) =>
-      causes.filter((cause) => cause.key !== "births-level-to-births");
+    // So is the law the state began with (Nebraska's abortion limit), which
+    // moves births only once a later law changes it.
+    const others = (causes: { key: string; factor: number }[]) =>
+      causes.filter(
+        (cause) =>
+          cause.key !== "births-level-to-births" &&
+          !(cause.key === "abortion-ban-to-births" && cause.factor === 1),
+      );
     const none = outcomeFactor(world, town, "births.rate", today);
     expect(none.multiplier).toBe(1);
     expect(others(none.causes)).toEqual([]);
