@@ -15,6 +15,11 @@ import {
   openProposal,
 } from "../simulation/people-contact";
 import {
+  answerFavorAsk,
+  openFavorAsk,
+  type FavorAskAnswer,
+} from "../simulation/favor-collection";
+import {
   decideStudyPeerOutcome,
   recordStudyAnswer,
   studyAnswered,
@@ -436,9 +441,89 @@ const homeEvening: SceneFamilyDefinition = {
     homeRoom(world, bound) ?? withoutSpeakerOthers(world, bound),
 };
 
+/**
+ * Somebody who once helped asks for help back (Build 22, step 5).
+ *
+ * Four real answers: help, something smaller, not now, or no. Each is written
+ * through the ask's own answer, so a yes is a promise the player can later be
+ * held to, and a no costs what it costs between them.
+ */
+function spokenNeed(context: SceneContext): string {
+  return context.fact("need") === "campaign"
+    ? "my campaign"
+    : context.fact("needWords");
+}
+
+function collectAnswers(context: SceneContext): SceneAnswer[] {
+  const askEventId = context.binding.sourceEntityIds[0]!;
+  const need = context.fact("needWords");
+  const answer = (choice: FavorAskAnswer) => (world: World) =>
+    answerFavorAsk(world, askEventId, choice);
+  return [
+    {
+      key: "say-yes",
+      label: "Say you’ll help",
+      description: `Promise to help with ${need}.`,
+      statement: "Of course. Tell me what you need.",
+      replies: says(context, [
+        "“I knew I could count on you,” {name} says.",
+        "“Thank you. I mean it,” {name} says.",
+      ]),
+      record: `The player told ${context.name} “Of course. Tell me what you need.”`,
+      apply: answer("help"),
+      relationship: {
+        kind: "commitment:agreed-to-help-back",
+        change: "strengthened",
+        significance: "minor",
+        summary: ({ playerName, otherName }) =>
+          `${playerName} said they would help ${otherName}.`,
+      },
+    },
+    {
+      key: "offer-less",
+      label: "Offer something smaller",
+      description: "Say you can’t do all of it, but can help a little.",
+      statement: "I can’t take all of that on, but I can help a little.",
+      replies: says(context, [
+        "“I suppose that’s something,” {name} says.",
+        "“All right. Whatever you can do,” {name} says.",
+      ]),
+      record: `The player offered ${context.name} a little help.`,
+      apply: answer("offer-less"),
+    },
+    {
+      key: "not-now",
+      label: "Say not right now",
+      description: "Put it off without saying yes or no.",
+      statement: "Not right now. Can I get back to you?",
+      replies: says(context, [
+        "“Sure,” {name} says, and leaves it there.",
+        "“Okay. When you can,” {name} says.",
+      ]),
+      record: `The player asked ${context.name} to wait for an answer.`,
+      apply: answer("not-now"),
+    },
+    {
+      key: "say-no",
+      label: "Say no",
+      description: "Tell them you won’t help.",
+      statement: "I’m sorry. I can’t help with that.",
+      replies: says(context, [
+        "“Right. I see,” {name} says.",
+        "“I thought you might,” {name} says, and goes quiet.",
+      ]),
+      record: `The player told ${context.name} they could not help.`,
+      apply: answer("refuse"),
+    },
+  ];
+}
+
 /* -------------------------------------------------------------------------- */
-/* 2. A contact asks to meet                                                    */
+/* 2. A contact asks to meet, or asks for help back                            */
 /* -------------------------------------------------------------------------- */
+
+const collecting = (binding: { readonly variant: string }) =>
+  binding.variant === "collect";
 
 const favor: SceneFamilyDefinition = {
   family: "favor",
@@ -448,8 +533,13 @@ const favor: SceneFamilyDefinition = {
   motivation: "Answer an invitation to meet.",
   interactionTags: ["conversation.contact"],
   topic: (binding) =>
-    `${binding.facts.speakerGiven ?? "Somebody"} wants to meet`,
+    collecting(binding)
+      ? `${binding.facts.speakerGiven ?? "Somebody"} asks for help`
+      : `${binding.facts.speakerGiven ?? "Somebody"} wants to meet`,
   briefing(context) {
+    if (collecting(context.binding)) {
+      return `${context.fullName} ${context.fact("helped")} on ${proseDate(context.fact("helpedOn") as never)}, and is asking for help with ${context.fact("needWords")}.`;
+    }
     const who = context.relationship
       ? `${context.fullName}, ${context.relationship},`
       : context.fullName;
@@ -459,14 +549,35 @@ const favor: SceneFamilyDefinition = {
     return `${who} is asking whether you want to meet on ${proseDate(context.binding.date!)}.${last}`;
   },
   opening(context) {
+    if (collecting(context.binding)) {
+      const need = spokenNeed(context);
+      return says(context, [
+        `“I hate to ask, but I could use some help with ${need},” {name} says.`,
+        `“You know I don’t ask much. Could you help me with ${need}?” {name} asks.`,
+      ]);
+    }
     const spoken = spokenDay(context.binding.date!, context.world.currentDate);
     return says(context, [
       `“It’s been a long time. Are you free ${spoken}?” {name} asks.`,
       `“I was thinking about you. Could you do ${spoken}?” {name} asks.`,
     ]);
   },
-  answers: meetUpAnswers,
+  answers: (context) =>
+    collecting(context.binding)
+      ? collectAnswers(context)
+      : meetUpAnswers(context),
   settled(context, answer) {
+    if (collecting(context.binding)) {
+      const collected: Record<string, string> = {
+        "say-yes": "“I’ll be in touch,” {name} says.",
+        "offer-less": "“I’ll take it,” {name} says.",
+        "not-now": "“Let me know,” {name} says.",
+        "say-no": "“Well. Take care,” {name} says.",
+      };
+      return fill(collected[answer ?? ""] ?? "“Okay,” {name} says.", {
+        name: context.name,
+      });
+    }
     const done: Record<string, string> = {
       "say-yes": "“See you then,” {name} says.",
       "offer-another-day": "“I’ll let you know,” {name} says.",
@@ -478,12 +589,15 @@ const favor: SceneFamilyDefinition = {
     });
   },
   relevant: (world, bound) =>
-    bound.binding.variant === "meet-up" &&
-    !!openProposal(
-      world,
-      bound.binding.playerPersonId,
-      bound.binding.speakerPersonId,
-    ),
+    collecting(bound.binding)
+      ? openFavorAsk(world, bound.binding.playerPersonId)?.eventId ===
+        bound.binding.sourceEntityIds[0]
+      : bound.binding.variant === "meet-up" &&
+        !!openProposal(
+          world,
+          bound.binding.playerPersonId,
+          bound.binding.speakerPersonId,
+        ),
   room: withoutSpeakerOthers,
 };
 

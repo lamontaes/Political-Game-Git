@@ -5,6 +5,8 @@ import { personTrait } from "./people-traits";
 import type { StandingBand } from "./relationship-standing";
 import type {
   ClaimAudience,
+  DecisionConsideration,
+  DecisionImportance,
   EntityId,
   FavorKind,
   FavorMotive,
@@ -38,6 +40,11 @@ export interface RecordFavorInput {
   readonly giverPersonId: EntityId;
   readonly receiverPersonId: EntityId;
   readonly kind: FavorKind;
+  /**
+   * What the giver did, as a past-tense phrase with the giver as its subject
+   * and nobody else named by pronoun ("knocked doors for the campaign"), so
+   * it reads after anybody's name.
+   */
   readonly description: string;
   readonly givenAt: string;
   readonly eventId: EntityId;
@@ -178,7 +185,8 @@ export function recordFavor(world: World, input: RecordFavorInput): World {
 /**
  * How much it mattered, as steps on the relationship bands.
  *
- * SET BY HAND, not measured: the step each weight starts at.
+ * GAME ASSUMPTION: a score with no real-world unit, so nothing measures it;
+ * the step each weight starts at, to be tuned against watched worlds.
  * It affects how strongly a receiver feels bound and a giver expects a return,
  * which later decides whether someone asks and how a request is answered.
  */
@@ -266,7 +274,10 @@ function motiveExpects(motive: FavorMotive): number {
   }
 }
 
-/** SET BY HAND: where the steps above cross from one plain word to the next. */
+/**
+ * GAME ASSUMPTION: where the unitless steps above cross from one plain word to
+ * the next.
+ */
 function toBand(steps: number): StandingBand {
   if (steps >= 3) return "strong";
   if (steps >= 1.5) return "marked";
@@ -359,4 +370,47 @@ export function favorsBetween(
       (record.giverPersonId === secondPersonId &&
         record.receiverPersonId === firstPersonId),
   );
+}
+
+const FELT_IMPORTANCE: Readonly<
+  Record<Exclude<StandingBand, "none">, DecisionImportance>
+> = {
+  slight: "slight",
+  marked: "moderate",
+  strong: "strong",
+};
+
+/**
+ * What a person asked for something feels they owe the one asking, as a
+ * reason to say yes. Nothing when they feel they owe nothing.
+ *
+ * Any decision where one person answers another can add this, so help given
+ * earlier changes the answer through the same weighing as everything else,
+ * never by a fixed share of yeses.
+ */
+export function feltDebtConsiderations(
+  world: World,
+  actorPersonId: EntityId,
+  askerPersonId: EntityId,
+  keyPrefix: string,
+  optionKey: string,
+): readonly DecisionConsideration[] {
+  const standing = favorStandingBetween(world, actorPersonId, askerPersonId);
+  if (standing.receiverDebt === "none") return [];
+  const latest = favorRecords(world).find(
+    (record) => record.id === standing.openFavorIds.at(-1),
+  );
+  if (!latest) return [];
+  return [
+    {
+      stableKey: `${keyPrefix}:felt-debt:${askerPersonId}`,
+      optionKey,
+      sourceType: "social:favor",
+      direction: "supports",
+      importance: FELT_IMPORTANCE[standing.receiverDebt],
+      confidence: "high",
+      explanation: `The one asking once ${latest.description}, and it still feels owed.`,
+      sourceRefs: [{ kind: "historical-event", eventId: latest.eventId }],
+    },
+  ];
 }

@@ -21,6 +21,12 @@ import type {
 } from "../simulation";
 import { commitmentPromisee } from "../simulation/claim-contradictions";
 import { evaluateDecision } from "../simulation/decisions";
+import {
+  FAVOR_ASK_OPEN_DAYS,
+  openFavorAsk,
+  produceFavorCollection,
+} from "../simulation/favor-collection";
+import { favorRecords } from "../simulation/favors";
 import { offerBereavementScene } from "../simulation/people-bereavement";
 import {
   contactBases,
@@ -123,6 +129,8 @@ export function refreshContextualScenes(
     // Somebody new may come into this life while time passes; they are then
     // somebody the player can ask to meet, or who may ask.
     produceIntroduction,
+    // Somebody who once helped may come to ask for help back.
+    produceFavorAsk,
     // Last of the request scenes: while somebody is waiting on an answer about
     // meeting, that is the conversation this family is holding.
     produceMeetUp,
@@ -246,6 +254,53 @@ function produceMeetUp(world: World, personId: EntityId): World {
       expiresAt: open.on,
     },
     `${personName(speaker)} asked to meet.`,
+  );
+}
+
+/**
+ * Somebody who once helped the player asks for help back.
+ *
+ * Whether they ask is theirs to decide, from what they expect, what they need
+ * and who they are (`produceFavorCollection`); this binds only the call that
+ * follows, once, for as long as the ask is open.
+ */
+function produceFavorAsk(world: World, personId: EntityId): World {
+  const next = produceFavorCollection(world, personId);
+  const ask = openFavorAsk(next, personId);
+  if (!ask) return next;
+  if (sceneAlreadyBound(next, personId, "favor", "collect", ask.eventId)) {
+    return next;
+  }
+  const speaker = next.people[ask.askerPersonId];
+  const favor = favorRecords(next).find((entry) => entry.id === ask.favorId);
+  if (!speaker || !favor) return next;
+  const until = addDays(ask.askedOn, FAVOR_ASK_OPEN_DAYS);
+  return recordSceneBinding(
+    next,
+    {
+      version: 1,
+      family: "favor",
+      variant: "collect",
+      playerPersonId: personId,
+      speakerPersonId: speaker.id,
+      relationship: relationshipLabel(next, personId, speaker.id),
+      place: "By phone",
+      jurisdictionId: next.people[personId]!.homeJurisdictionId,
+      request: `Whether to help ${personName(speaker)} with ${ask.needWords}.`,
+      sourceEntityIds: [ask.eventId],
+      facts: {
+        speakerGiven: speaker.givenName,
+        need: ask.need,
+        needWords: ask.needWords,
+        helped: favor.description,
+        helpedOn: favor.givenAt,
+      },
+      knownRecordIds: [ask.eventId, favor.eventId],
+      target: null,
+      date: ask.askedOn,
+      expiresAt: until,
+    },
+    `${personName(speaker)} asked for help with ${ask.needWords}.`,
   );
 }
 

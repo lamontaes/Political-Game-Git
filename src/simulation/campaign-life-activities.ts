@@ -95,7 +95,7 @@ import type {
   SimulationMoment,
   World,
 } from "./types";
-import { recordFavor } from "./favors";
+import { feltDebtConsiderations, recordFavor } from "./favors";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
 
 /**
@@ -1338,6 +1338,16 @@ function supportRequestDecision(
       sourceRefs: [],
     });
   }
+  // Help the candidate once gave the host is a reason to say yes now.
+  considerations.push(
+    ...feltDebtConsiderations(
+      world,
+      record.hostPersonId,
+      record.subjectPersonId,
+      decisionKey,
+      "grant",
+    ),
+  );
   for (const finding of rememberedAdverseFindingsAgainst(
     world,
     record.subjectPersonId,
