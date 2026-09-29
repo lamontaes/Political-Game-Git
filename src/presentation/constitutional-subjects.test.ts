@@ -6,6 +6,7 @@ import {
   serializeWorld,
 } from "../simulation";
 import {
+  constitutionalActions,
   constitutionalPosition,
   proposeConstitutionalMeasure,
   recordConstitutionalProposalVote,
@@ -20,6 +21,11 @@ import {
   constitutionalReformReviewHandler,
   reformMeasureCause,
 } from "../simulation/living-world/constitutional-reform";
+import { stateVoice } from "../simulation/governing/article-v";
+import {
+  createFormationContext,
+  recordPrinciples,
+} from "../simulation/politics";
 import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
 import { chiefExecutiveJurisdictionId } from "../simulation/nationwide-world/government-jurisdiction";
 import {
@@ -251,73 +257,131 @@ describe("a state amendment writing a policy into its constitution", () => {
   });
 });
 
-describe("amendments the world proposes with no recorded cause", () => {
-  it("are rare, drawn among the subjects a state can change, and say so", () => {
+describe("policy amendments the legislators' own principles carry", () => {
+  it("decide the same way each year, from the members' principles, and say so", () => {
     const { world } = grandIsland();
     expect(stateDecidedPropositions(world).length).toBeGreaterThan(0);
-    const background: World[] = [];
-    for (let year = 2030; year < 2230; year += 1) {
-      const result = constitutionalReformReviewHandler(
-        world,
-        review(world, year),
-      ).world;
-      if (
-        (result.history.constitutionalMeasures ?? []).some((measure) =>
-          measure.stableKey.endsWith(":background"),
-        )
-      )
-        background.push(result);
-    }
-    expect(background.length).toBeGreaterThan(0);
-    expect(background.length).toBeLessThan(15);
-    for (const result of background) {
-      const measure = result.history.constitutionalMeasures!.at(-1)!;
-      expect(reformMeasureCause(measure)).toBe("No recorded cause");
-      // Nothing is in force yet, so a policy amendment proposes adoption.
-      if (measure.ruleDelta.kind === "policy-provision")
-        expect(measure.ruleDelta.stance).toBe("adopt");
-      else
-        expect(measure.ruleDelta).toMatchObject({
-          kind: "rule-field",
-          field: "municipal.recall.doctrine",
-        });
-      expect(["ratification", "rejected"]).toContain(
-        constitutionalPosition(result, measure.id).phase,
+    const results = [2030, 2031, 2052].map((year) =>
+      constitutionalReformReviewHandler(world, review(world, year)),
+    );
+    const proposed = results.map((result) =>
+      (result.world.history.constitutionalMeasures ?? []).filter((measure) =>
+        measure.stableKey.endsWith(":principles"),
+      ),
+    );
+    // The same members with the same principles give the same answer.
+    expect(new Set(proposed.map((rows) => rows.length)).size).toBe(1);
+    expect(
+      new Set(
+        proposed.map((rows) =>
+          rows.map((row) => JSON.stringify(row.ruleDelta)).join(),
+        ),
+      ).size,
+    ).toBe(1);
+    // Nothing is proposed by a draw any more, and town recall has no cause.
+    for (const result of results)
+      expect(
+        (result.world.history.constitutionalMeasures ?? []).some(
+          (measure) =>
+            measure.stableKey.endsWith(":background") ||
+            measure.ruleDelta.kind === "rule-field",
+        ),
+      ).toBe(false);
+    for (const [index, rows] of proposed.entries()) {
+      const result = results[index]!;
+      if (rows.length === 0) {
+        expect(result.context).toMatch(
+          /No policy has most of the legislature behind a change|would not carry/,
+        );
+        continue;
+      }
+      const measure = rows.at(-1)!;
+      expect(reformMeasureCause(measure)).toBe(
+        "The legislators' own principles",
       );
-      expect(() => assertWorldIntegrity(result)).not.toThrow();
-      const row = projectObserverRecord(result).amendments[0]!;
-      expect(row.cause).toBe("No recorded cause");
+      // Nothing is in force yet, so a policy amendment proposes adoption.
+      expect(measure.ruleDelta).toMatchObject({
+        kind: "policy-provision",
+        stance: "adopt",
+      });
+      // It was filed because it carries, so it goes to the voters.
+      expect(constitutionalPosition(result.world, measure.id).phase).toBe(
+        "ratification",
+      );
+      expect(() => assertWorldIntegrity(result.world)).not.toThrow();
+      const row = projectObserverRecord(result.world).amendments[0]!;
+      expect(row.cause).toBe("The legislators' own principles");
     }
   });
 });
 
-describe("a background amendment on town recall", () => {
-  it("proposes a doctrine other than the one in force", () => {
+describe("a policy amendment most of the legislature holds by conviction", () => {
+  it("is filed, carries every chamber, and names the members' reasons", () => {
     const { world } = grandIsland();
-    let found = null;
-    for (let year = 2030; year < 30_000 && !found; year += 1) {
-      const result = constitutionalReformReviewHandler(
-        world,
-        review(world, year),
-      ).world;
-      const measure = (result.history.constitutionalMeasures ?? []).find(
-        (candidate) =>
-          candidate.stableKey.endsWith(":background") &&
-          candidate.ruleDelta.kind === "rule-field",
-      );
-      if (measure) found = { year, measure };
-    }
-    expect(found).not.toBeNull();
-    expect(found!.measure.ruleDelta).toMatchObject({
-      field: "municipal.recall.doctrine",
-      officeKey: "us-ne-municipal-law",
+    // A policy several principles bear on, so a settled view on each weighs
+    // "strong", past the constitutional bar.
+    const proposition = stateDecidedPropositions(world).find(
+      (candidate) => (candidate.principles ?? []).length >= 2,
+    )!;
+    expect(proposition).toBeDefined();
+    const voice = stateVoice(world, "NE").personIds;
+    expect(voice.length).toBeGreaterThan(0);
+    const convinced = recordPrinciples(
+      world,
+      voice.flatMap((personId) =>
+        proposition.principles!.map((bearing) => ({
+          stableKey: `fixture:convinced:${personId}:${bearing.principleId}`,
+          personId,
+          principleId: bearing.principleId,
+          formedAt: world.currentDate,
+          stance:
+            bearing.bearing === "consistent-with"
+              ? ("endorses" as const)
+              : ("rejects" as const),
+          conviction: "settled" as const,
+          flexibility: "firm" as const,
+          qualification: null,
+          formation: createFormationContext("other:drawn-before-play", {
+            note: "Fixture: every member holds this settled view.",
+          }),
+          supersedesPrincipleRecordId: null,
+        })),
+      ),
+    );
+    const first = constitutionalReformReviewHandler(
+      convinced,
+      review(convinced, 2030),
+    );
+    const again = constitutionalReformReviewHandler(
+      convinced,
+      review(convinced, 2030),
+    );
+    expect(again.world.history.constitutionalMeasures).toEqual(
+      first.world.history.constitutionalMeasures,
+    );
+    const measure = first.world.history.constitutionalMeasures!.find(
+      (candidate) => candidate.stableKey.endsWith(":principles"),
+    )!;
+    expect(measure.ruleDelta).toEqual({
+      kind: "policy-provision",
+      propositionId: proposition.id,
+      stance: "adopt",
     });
-    expect(
-      found!.measure.ruleDelta.kind === "rule-field" &&
-        found!.measure.ruleDelta.value,
-    ).not.toBe("yes-no-retention");
-    expect(found!.measure.text).toMatch(
-      /^How the towns of Nebraska may recall/,
+    expect(first.context).toMatch(/from the legislators' own principles/);
+    expect(constitutionalPosition(first.world, measure.id).phase).toBe(
+      "ratification",
+    );
+    const vote = constitutionalActions(first.world, measure.id).flatMap(
+      (action) =>
+        action.detail.kind === "proposal-vote" ? [action.detail] : [],
+    )[0]!;
+    expect(vote.vote.provenance.note).toMatch(
+      /decided for their own reasons, most often member:principle:for/,
+    );
+    expect(() => assertWorldIntegrity(first.world)).not.toThrow();
+    const saved = deserializeWorld(serializeWorld(first.world));
+    expect(saved.history.constitutionalMeasures).toEqual(
+      first.world.history.constitutionalMeasures,
     );
   });
 });
