@@ -492,8 +492,19 @@ describe("every state policy question has researched effects (F-cloud rows)", ()
         const before = makeIsoDate("2029-12-01");
         // The engine reads a law as of its lag, counting a month as 30.44 days.
         const readAt = addDays(before, -Math.round(link.lagMonths * 30.44));
-        const startingLawMoved =
-          startingAnswer(readAt) - startingAnswer(OUTCOME_WEB_CALIBRATED_AT);
+        // A place with no starting law yet on record at that date (Colorado's
+        // county bargaining law began 7/1/2023) has no known law then, so
+        // nothing moves: an unknown law is not a "no".
+        const knownAtRead =
+          lawInForceAtStart(
+            enacted(place.id, questionKey, "no", effectiveAt),
+            place.id,
+            `proposition:${questionKey}` as EntityId,
+            readAt,
+          ) !== null;
+        const startingLawMoved = knownAtRead
+          ? startingAnswer(readAt) - startingAnswer(OUTCOME_WEB_CALIBRATED_AT)
+          : 0;
         expect(factorFor(startedYes ? "no" : "yes", before), label).toBeCloseTo(
           1 + (link.size ?? 0) * startingLawMoved,
           10,

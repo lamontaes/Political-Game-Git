@@ -1,4 +1,3 @@
-import { FAMILY_SHAPE_V2 } from "../simulation/family-shape";
 import { PLACE_NAMES_V1_VERSION } from "../simulation/names-data";
 import { SCHOOL_NAMES_V2_VERSION } from "../simulation/school-names";
 import {
@@ -243,11 +242,6 @@ export interface NewGameSetup {
    */
   readonly parentPartnerVersion?: typeof PARENT_PARTNERS_V1;
   /**
-   * Absent keeps an old replay's fixed prior-year family. New Game declares
-   * the family drawn from real shares.
-   */
-  readonly familyShapeVersion?: typeof FAMILY_SHAPE_V2;
-  /**
    * Absent keeps an old replay's home join to the state legislative chambers.
    * New Game declares the join that also records the U.S. House district when
    * the Census place file lists the home place with exactly one district.
@@ -308,7 +302,6 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   schoolStageVersion: SCHOOL_STAGES_V2,
   familyBirthdayVersion: FAMILY_BIRTHDAYS_V1,
   parentPartnerVersion: PARENT_PARTNERS_V1,
-  familyShapeVersion: FAMILY_SHAPE_V2,
   districtHomeJoinVersion: CONGRESSIONAL_HOME_JOIN_V1,
   // OFF, deliberately, and not removed. `context-v2` declines to write a
   // school or a job into a grown character's summarized past on the grounds
@@ -567,9 +560,6 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     ...(setup.parentPartnerVersion === undefined
       ? {}
       : { parentPartnerVersion: setup.parentPartnerVersion }),
-    ...(setup.familyShapeVersion === undefined
-      ? {}
-      : { familyShapeVersion: setup.familyShapeVersion }),
     ...(setup.appearanceCatalogGeneration === undefined
       ? {}
       : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),
