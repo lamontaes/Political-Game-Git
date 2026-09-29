@@ -204,17 +204,11 @@ export function evaluateDeterministicContestOutcome(
 }
 
 /**
- * PLACEHOLDER(build-24-governor-vote): a candidate on no major party's line
- * takes this share of a statewide vote. Game assumption, not a measurement;
- * it never decides between the major parties' nominees.
- */
-const MINOR_CANDIDATE_SHARE = 0.02;
-
-/**
  * A statewide race decided by the state's voters rather than by a draw: each
  * major party's nominees split that party's share of the state's two-party
  * vote, and the ballots are the state's (see `statewide-electorate.ts`).
- * Null for a contest that is not statewide.
+ * Null for a contest that is not statewide or has a candidate on neither
+ * major party's line.
  */
 function statewideContestOutcome(
   world: World,
@@ -231,16 +225,16 @@ function statewideContestOutcome(
       majorPartyOf(world, personId, contest.electionDate),
     ]),
   );
+  // The state's lean says how its voters split between the two major
+  // parties and nothing about anyone else, so a field with a candidate on
+  // neither line is left to the older count until minor parties are read.
+  if ([...parties.values()].some((party) => party === null)) return null;
   const count = (party: string | null) =>
     [...parties.values()].filter((value) => value === party).length;
-  const weightOf = (personId: EntityId): number => {
-    const party = parties.get(personId) ?? null;
-    if (party === "democratic")
-      return electorate.democraticShare / count("democratic");
-    if (party === "republican")
-      return (1 - electorate.democraticShare) / count("republican");
-    return MINOR_CANDIDATE_SHARE;
-  };
+  const weightOf = (personId: EntityId): number =>
+    parties.get(personId) === "democratic"
+      ? electorate.democraticShare / count("democratic")
+      : (1 - electorate.democraticShare) / count("republican");
   const weights = contest.candidatePersonIds.map((personId) => ({
     candidatePersonId: personId,
     weight: weightOf(personId),
