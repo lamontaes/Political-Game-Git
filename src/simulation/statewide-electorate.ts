@@ -9,6 +9,7 @@ import { politicalStartingConditions } from "./world-setup/conditions";
 import {
   applySwing,
   calibrationRows,
+  ELECTORAL_CALIBRATION,
   sharedSwing,
 } from "./world-setup/political-start";
 import type { EntityId, IsoDate, World } from "./types";
@@ -36,6 +37,22 @@ export interface StatewideElectorate {
   /** Democratic share of the two-party vote, this world's swing applied. */
   readonly democraticShare: number;
   readonly ballots: number;
+  /**
+   * Share of all ballots cast for anyone outside the two major parties
+   * (independents, minor parties, write-ins) in the same 2024 presidential
+   * count. ESTIMATED FROM AVERAGE: the only race every state reports this way.
+   */
+  readonly neitherMajorShare: number;
+}
+
+function neitherMajorShareOf(stateUsps: string): number {
+  const row = ELECTORAL_CALIBRATION.presidentialByState?.find(
+    (candidate) => candidate.stateUsps === stateUsps,
+  );
+  if (!row || !row.totalVotes || row.totalVotes <= 0) return 0;
+  const major =
+    (row.totalsByParty.democratic ?? 0) + (row.totalsByParty.republican ?? 0);
+  return Math.max(0, (row.totalVotes - major) / row.totalVotes);
 }
 
 const STATE_FOR_JURISDICTION = new Map<EntityId, string | null>();
@@ -80,6 +97,7 @@ export function statewideElectorate(
       conditions ? sharedSwing(conditions, stateUsps) : 0,
     ),
     ballots: row.totalVotes,
+    neitherMajorShare: neitherMajorShareOf(stateUsps),
   };
 }
 
