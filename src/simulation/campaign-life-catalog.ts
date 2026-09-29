@@ -27,6 +27,43 @@ const COMMUNITY_ROOM = {
   journeyMinutes: 20,
 } as const;
 
+/**
+ * A town hall held in a school gym. Only a school or a civic group hosting it
+ * puts it here; a party chapter or a campaign committee uses the community
+ * room. `journeyKey` stays the shared local journey.
+ */
+const SCHOOL_GYM = {
+  locationKey: "campaign-life:town-hall-school-gym",
+  locationLabel: "School gym",
+  journeyKey: "ordinary-life:to-meeting-room",
+  journeyMinutes: 20,
+} as const;
+
+/**
+ * Organization classifications that host in a school gym: schools, and civic
+ * groups (associations, voluntary groups, organizing nonprofits). A
+ * congregation has its own hall and is not listed.
+ */
+const SCHOOL_OR_CIVIC_HOST =
+  /^(service:(private-)?school|community:(association|voluntary|organizing-nonprofit))$/;
+
+/**
+ * Where a form is held for this host. Every form uses the community room
+ * except a town hall hosted by a school or a civic group.
+ */
+export function campaignLifeEntryForHost(
+  entry: CampaignLifeCatalogEntry,
+  hostClassification: string | null,
+): CampaignLifeCatalogEntry {
+  if (
+    entry.form !== "town-hall" ||
+    hostClassification === null ||
+    !SCHOOL_OR_CIVIC_HOST.test(hostClassification)
+  )
+    return entry;
+  return { ...entry, ...SCHOOL_GYM };
+}
+
 /** A remote form: nobody travels, so no journey is disclosed or charged. */
 const PHONE_FROM_HOME = {
   locationKey: "campaign-remote-phone",

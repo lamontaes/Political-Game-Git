@@ -17,6 +17,10 @@ import {
   rotationForSave,
   type BackdropManifestRow,
 } from "./title-civic-rotation";
+import type { EngineRecipe } from "./appearance-engine/pack";
+import { PEOPLE_PACK } from "./appearance-engine/runtime";
+import type { BrowserWorldSummary } from "./browser-world-repository";
+import { titlePictureHero } from "./title-picture-hero";
 import { TITLE_TABLEAU_REGISTRY } from "./title-tableau";
 import { PRODUCTION_VISUAL_LIBRARY } from "./visual-integration";
 
@@ -237,5 +241,64 @@ describe("the role a save records", () => {
     expect(savedRoleSummary(fixture.world, fixture.personId)?.kind).not.toBe(
       "state-legislator",
     );
+  });
+});
+
+describe("the saved character in front of their place", () => {
+  const pack = PEOPLE_PACK.presentations.feminine;
+  const look: EngineRecipe = {
+    presentation: "feminine",
+    build: "average",
+    shade: 4,
+    face: pack.faces[0]!.id,
+    hair: pack.hair[0]!.id,
+    hairColor: "natural",
+    outfit: pack.outfits[0]!.id,
+  };
+  const saved = (role: SavedRoleSummary | undefined) =>
+    ({
+      saveId: "save-1",
+      playerPersonId: "person-1",
+      playerName: "Ada Moss",
+      playerAge: 52,
+      residence: null,
+      playerLooks: { casual: look, business: look, formal: look },
+      ...(role ? { playerRole: role } : {}),
+    }) as unknown as BrowserWorldSummary;
+
+  it("is posed for their role", () => {
+    const legislator = titlePictureHero(
+      saved({
+        kind: "state-legislator",
+        title: "State Senator",
+        stateUsps: "KY",
+      }),
+      "state-legislative-chamber-bicameral",
+    );
+    expect(legislator?.engine.pose).toBe("podium");
+    const judge = titlePictureHero(
+      saved({ kind: "judge", title: "Judge", stateUsps: "KY" }),
+      "county-courtroom",
+    );
+    // In the robe where the pack has one, standing in the standing box.
+    expect(judge?.engine.pose).toBe(look.pose);
+    expect(
+      titlePictureHero(saved(undefined), "city-hall-exterior")?.engine.pose,
+    ).toBe("arms-folded");
+  });
+
+  it("draws nobody for a watched world or a save with no look", () => {
+    expect(
+      titlePictureHero(
+        { ...saved(undefined), observing: true } as BrowserWorldSummary,
+        "city-hall-exterior",
+      ),
+    ).toBeNull();
+    expect(
+      titlePictureHero(
+        { ...saved(undefined), playerLooks: undefined } as BrowserWorldSummary,
+        "city-hall-exterior",
+      ),
+    ).toBeNull();
   });
 });

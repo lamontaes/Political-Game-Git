@@ -57,6 +57,11 @@ import {
   STATE_LEGISLATURE_CANDIDATE_PROFILE,
   type StateCandidateSeatPlan,
 } from "./state-legislature-candidates";
+import {
+  hasStableKey,
+  recordByStableKey,
+  recordsWithFieldValue,
+} from "../history-index";
 
 /**
  * STATE LEGISLATIVE CONTINUITY: the regular elections for the chambers an
@@ -127,8 +132,11 @@ function tagValue(event: HistoricalEvent, prefix: string): string | null {
 /** The candidacy packs whose legislatures an opening seated in this save. */
 function seatedPacks(world: World): string[] {
   const packs: string[] = [];
-  for (const event of world.history.events) {
-    if (event.type !== OPENING_EVENT) continue;
+  for (const event of recordsWithFieldValue(
+    world.history.events,
+    "type",
+    OPENING_EVENT,
+  )) {
     if (!event.tags.includes(STATE_LEGISLATURE_OPENING_VERSION)) continue;
     const packId = tagValue(event, "pack:");
     if (packId && !packs.includes(packId)) packs.push(packId);
@@ -275,10 +283,11 @@ function prepareStateIntake(
     const incumbent = incumbentId ? next.people[incumbentId] : undefined;
     const alive =
       incumbentId !== null &&
-      !next.history.personDeaths.some(
-        (death) =>
-          death.personId === incumbentId && death.diedAt <= row.intakeDate,
-      );
+      !recordsWithFieldValue(
+        next.history.personDeaths,
+        "personId",
+        incumbentId,
+      ).some((death) => death.diedAt <= row.intakeDate);
     const tooOld =
       incumbent !== undefined &&
       ageOn(incumbent.birthDate, electionDay) >=
@@ -370,7 +379,7 @@ function prepareStateIntake(
       seeking = evaluation.selectedOptionKey === "seek";
     }
     const intentKey = stateIntentKey(seatKey, year);
-    if (!next.history.events.some((event) => event.stableKey === intentKey)) {
+    if (!hasStableKey(next.history.events, intentKey)) {
       next = recordWorldEvent(next, {
         stableKey: intentKey,
         type: "election.state-legislative-candidacy-intent",
@@ -461,8 +470,7 @@ function holdStateLegislativeElection(
   electionDay: IsoDate,
 ): World {
   const key = resultsKey(packId, electionDay);
-  if (world.history.events.some((event) => event.stableKey === key))
-    return world;
+  if (hasStableKey(world.history.events, key)) return world;
   const pack = candidacyPackById(packId);
   const jurisdiction = pack
     ? stateJurisdictionForKey(pack.jurisdictionKey)
@@ -517,11 +525,11 @@ function holdStateLegislativeElection(
     );
     const candidates = stateCandidates(next, canonicalKey, year).filter(
       (candidate) =>
-        !next.history.personDeaths.some(
-          (death) =>
-            death.personId === candidate.personId &&
-            death.diedAt <= electionDay,
-        ),
+        !recordsWithFieldValue(
+          next.history.personDeaths,
+          "personId",
+          candidate.personId,
+        ).some((death) => death.diedAt <= electionDay),
     );
     if (candidates.length === 0) {
       unfilled.push(`${seatKey}|${termStartOf(seat.officeKey, electionDay)}`);
@@ -668,8 +676,7 @@ function seatStateLegislativeWinners(
     cause: "no-living-candidate" | "member-elect-died",
   ) => {
     const vacancyKey = `${V}:${packId}:${officeKey}:${ordinal}:vacancy:${termStart}`;
-    if (next.history.events.some((event) => event.stableKey === vacancyKey))
-      return;
+    if (hasStableKey(next.history.events, vacancyKey)) return;
     const incumbent = current.get(`${officeKey}|${ordinal}`)?.member;
     if (incumbent) {
       const status = workStatusAt(next, incumbent.workRelationshipId);
@@ -719,28 +726,28 @@ function seatStateLegislativeWinners(
     if (startsOn && startsOn !== termStart) continue;
     const ordinal = Number(ordinalText);
     if (
-      next.history.personDeaths.some(
-        (death) =>
-          death.personId === participant.personId && death.diedAt <= termStart,
-      )
+      recordsWithFieldValue(
+        next.history.personDeaths,
+        "personId",
+        participant.personId,
+      ).some((death) => death.diedAt <= termStart)
     ) {
       vacate(officeKey, ordinal, "member-elect-died");
       continue;
     }
     if (kind !== "new") continue;
     const tenureKey = `${STATE_LEGISLATURE_KEYS.seat(officeKey, ordinal)}:tenure:${termStart}`;
-    if (next.history.workRelationships.some((w) => w.stableKey === tenureKey))
-      continue;
+    if (hasStableKey(next.history.workRelationships, tenureKey)) continue;
     const seat = current.get(`${officeKey}|${ordinal}`);
     // The member leaving the seat stops serving the day the new term begins.
     const leaving = seat?.member ?? null;
     const leftBeforeTerm =
       leaving !== null &&
-      next.history.personDeaths.some(
-        (death) =>
-          death.personId === leaving.personId &&
-          death.diedAt <= addDays(termStart, -1),
-      );
+      recordsWithFieldValue(
+        next.history.personDeaths,
+        "personId",
+        leaving.personId,
+      ).some((death) => death.diedAt <= addDays(termStart, -1));
     // A campaign's winner leaves when their own term expires.
     if (seat?.member && !seat.member.byCampaign && !leftBeforeTerm) {
       const status = workStatusAt(next, seat.member.workRelationshipId);
@@ -814,9 +821,11 @@ function seatStateLegislativeWinners(
       const status = workStatusAt(next, work.id);
       if (!status || status.status === "ended") continue;
       if (
-        next.history.personDeaths.some(
-          (death) => death.personId === work.personId,
-        )
+        recordsWithFieldValue(
+          next.history.personDeaths,
+          "personId",
+          work.personId,
+        ).length > 0
       )
         continue;
       next = recordWorkStatus(next, {
@@ -859,11 +868,11 @@ function seatStateLegislativeWinners(
         continue;
       if (work.personId === winner || work.startedAt >= termStart) continue;
       if (
-        next.history.personDeaths.some(
-          (death) =>
-            death.personId === work.personId &&
-            death.diedAt <= addDays(termStart, -1),
-        )
+        recordsWithFieldValue(
+          next.history.personDeaths,
+          "personId",
+          work.personId,
+        ).some((death) => death.diedAt <= addDays(termStart, -1))
       )
         continue;
       const status = workStatusAt(next, work.id);
@@ -891,8 +900,9 @@ function seatStateLegislativeWinners(
     );
     if (
       seatedByCampaign ||
-      next.history.workRelationships.some((w) => w.stableKey === tenureKey) ||
-      next.history.personDeaths.some((death) => death.personId === winner)
+      hasStableKey(next.history.workRelationships, tenureKey) ||
+      recordsWithFieldValue(next.history.personDeaths, "personId", winner)
+        .length > 0
     )
       continue;
     seats.push({
@@ -967,14 +977,19 @@ export function nextStateSeatFilling(
     const termStart =
       legislativeTermDates(officeKey, electionDay)?.startsAt ??
       makeIsoDate(`${year + 1}-01-01`);
-    const results = world.history.events.find(
-      (event) => event.stableKey === resultsKey(packId, electionDay),
+    const results = recordByStableKey(
+      world.history.events,
+      resultsKey(packId, electionDay),
     );
     if (results && electionDay <= today && today < termStart) {
       // Only a living winner who has not yet taken this seat fills it.
       const alive = (personId: EntityId) =>
-        !world.history.personDeaths.some(
-          (death) => death.personId === personId,
+        !(
+          recordsWithFieldValue(
+            world.history.personDeaths,
+            "personId",
+            personId,
+          ).length > 0
         );
       const drawn = results.participants.some((participant) => {
         const [key, seat, , kind] = (participant.detail ?? "").split("|");
@@ -1058,8 +1073,9 @@ export function applyStateLegislatureTurnover(
       next = prepareStateIntake(next, packId, electionDay, due);
       if (before < electionDay && electionDay <= after)
         next = holdStateLegislativeElection(next, packId, electionDay);
-      const results = next.history.events.find(
-        (event) => event.stableKey === resultsKey(packId, electionDay),
+      const results = recordByStableKey(
+        next.history.events,
+        resultsKey(packId, electionDay),
       );
       if (!results) continue;
       for (const tag of results.tags) {

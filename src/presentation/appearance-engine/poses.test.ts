@@ -5,12 +5,14 @@ import manifestJson from "../../../art/people-engine/v1/manifest.json" with { ty
 import {
   BODY_BUILDS,
   BODY_POSES,
+  POSES_BY_PRESENTATION,
   composeEnginePerson,
   engineRecipeKey,
   isSeatedPose,
   mirrorToFace,
   posedPieces,
   poseFallbacks,
+  presentationPose,
   type BodyPose,
   type EngineRecipe,
   type PackPresentation,
@@ -214,6 +216,54 @@ describe("the pose chooser", () => {
       );
       expect(pose("idle", true)).toBe("seated");
     }
+  });
+
+  it("chooses only from each presentation's own poses", () => {
+    for (const presentation of ["feminine", "masculine"] as const)
+      for (const seed of seeds)
+        for (const activity of [
+          "speaking",
+          "listening",
+          "waiting",
+          "speech",
+          "desk",
+          "meeting",
+          "idle",
+        ] as const)
+          for (const seated of [false, true])
+            expect(POSES_BY_PRESENTATION[presentation]).toContain(
+              chooseBodyPose({ activity, seated, seed, presentation }),
+            );
+    // A man listening puts his hands in his pockets where a woman rests a
+    // hand on her hip; seated, he rests an ankle on his knee.
+    const men = seeds.map((seed) =>
+      chooseBodyPose({
+        activity: "listening",
+        seated: false,
+        seed,
+        presentation: "masculine",
+      }),
+    );
+    expect(new Set(men)).toEqual(new Set(["arms-folded", "hands-in-pockets"]));
+    expect(
+      new Set(
+        seeds.map((seed) =>
+          chooseBodyPose({
+            activity: "desk",
+            seated: true,
+            seed,
+            presentation: "masculine",
+          }),
+        ),
+      ),
+    ).toEqual(new Set(["seated-leaning", "seated-ankle-on-knee"]));
+    // A pose from the other set, asked of the engine, is drawn as this one's.
+    expect(presentationPose("hand-on-hip", "masculine")).toBe(
+      "hands-in-pockets",
+    );
+    expect(presentationPose("seated-ankle-on-knee", "feminine")).toBe(
+      "seated-legs-crossed",
+    );
   });
 
   it("gives the same person the same pose every time, and a crowd both", () => {
@@ -510,7 +560,9 @@ describe("a conversation in a room", async () => {
     const listeners = talking.filter((person) => person !== speaker);
     expect(listeners.length).toBeGreaterThanOrEqual(1);
     for (const listener of listeners) {
-      expect(["arms-folded", "hand-on-hip"]).toContain(listener.engine!.pose);
+      expect(["arms-folded", "hand-on-hip", "hands-in-pockets"]).toContain(
+        listener.engine!.pose,
+      );
       expect(listener.engine!.view).toBe("three-quarter");
     }
     // Until the posed art lands everyone is drawn standing in front, and a
