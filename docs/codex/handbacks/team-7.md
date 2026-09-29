@@ -4,7 +4,7 @@ All 825 delivered previews have metadata and source hashes. The review records 1
 
 ## MERGED
 
-None. The review package is being published on `codex/sept29-team7-art-review` for Claude CTO review. No merge, runtime import or installation is authorized.
+None. The review package is published on `codex/sept29-team7-art-review` for Claude CTO review. No merge, runtime import or installation is authorized.
 
 ## WHAT EMERGED
 
@@ -32,6 +32,8 @@ The new art matrix is 54 child sheets: two genders, three ages, three poses and 
 - Executed: preflight, supported storage workspace lookup, main fetch, and metadata checks for exact inventory coverage, uniqueness, original hashes, required fields, contact-sheet references, body-size names and approval values. Metadata checks passed for 825 of 825 input records.
 - The storage lookup found no Team 7 workspace; the coordinator’s disjoint-root authorization resolved that operational dependency without a new copy.
 - Input contact sheets: 30 files, covering all 825 previews; produced before the timing hold. All 40 contact sheets are complete; individual inspection covers all 61 candidates. The two guarded commands exited 0, with storage admission and no override. The 886 tags are unique, all 105 claimed files exist, native copies and references are hash-bound, and all approval values remain no.
+- Published candidate commit: `e83fd18f930fa058428175e336b9883c9f60d88e`, 105 added claimed files; shared branch unchanged.
+- Range whitespace check passed. The shared-root release check was blocked by another team’s uncommitted `research2-campaign-action-catalog.md` declaration missing its header; no release-check pass is claimed and no unrelated file was repaired.
 - Runtime art gates, browser proof and simulation timing: NOT RUN; no runtime import or product change is being delivered.
 - Independent report reviewer: NOT RUN. The dispatch permits only a source-research helper, so no report-review helper was started.
 
