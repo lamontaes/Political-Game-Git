@@ -277,12 +277,15 @@ describe("requirements a player has to be able to read", () => {
 
   it("never prints a transport value at a player", () => {
     const { world, personId } = lifeIn("3900198", "playtest-raw", 18);
-    const reasons = eligibility(
+    const checked = eligibility(
       world,
       personId,
       "us-oh-general-assembly-v1:house",
-    ).blocks.map((block) => block.reason);
-    const shown = reasons.join(" ");
+    );
+    const shown = [
+      ...checked.blocks.map((block) => block.reason),
+      ...checked.qualificationAssessments.map((entry) => entry.reason),
+    ].join(" ");
     expect(shown).not.toContain("RESIDENT_1_YEAR");
     expect(shown).not.toContain("requires true");
     expect(shown).toContain("qualified elector");
