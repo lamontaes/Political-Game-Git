@@ -170,7 +170,7 @@ describe("who must agree before clemency is granted", () => {
     }
   });
 
-  it("starts an unread referral rule from the most common read rule, and says so", () => {
+  it("starts an unread referral rule from the approved default, and says so", () => {
     const estimated = clemencyTable().rows.filter((row) =>
       row.gates.some(
         (gate) => gate.advisory?.referralBasis === "estimated-from-common-rule",
@@ -178,7 +178,9 @@ describe("who must agree before clemency is granted", () => {
     );
     expect(estimated.length).toBeGreaterThan(0);
     for (const row of estimated) {
-      expect(row.gates[0]!.advisory!.referral).toBe("optional");
+      // Research 4's default, approved by Claude CTO on September 28, 2026:
+      // the governor refers the request and the board's advice does not bind.
+      expect(row.gates[0]!.advisory!.referral).toBe("required");
       expect(
         row.notes.some((note) => note.startsWith("ESTIMATED FROM COMMON RULE")),
       ).toBe(true);
