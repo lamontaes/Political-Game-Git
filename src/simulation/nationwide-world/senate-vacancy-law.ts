@@ -98,6 +98,9 @@ const ROWS: readonly SenateVacancyLaw[] = [
   // Read in the Oklahoma Senate's 2019 compilation; later amendments unread.
   read("OK", "none", null, prompt(null), "26 O.S. 12-101"),
   read("RI", "none", null, prompt(null), "R.I. Gen. Laws 17-4-9"),
+  // No appointment since P.A. 09-170 (2009): writs within 10 days for an
+  // election on the 150th day.
+  read("CT", "none", null, prompt(150), "Conn. Gen. Stat. 9-211"),
   read("WI", "none", null, prompt(null), "Wis. Stat. 17.18, 8.50(4)(b)"),
   // KRS 63.200, the appointment statute, was repealed by 2024 Ky. Acts
   // ch. 187, sec. 4, effective April 12, 2024. KRS 118.720 sets no date.
@@ -141,7 +144,6 @@ const ROWS: readonly SenateVacancyLaw[] = [
   crs("TX", "governor", prompt(36)),
   // Appointment, then a prompt special election (CRS 2017).
   crs("AL", "governor", prompt(null), "Ala. Code 36-9-7"),
-  crs("CT", "governor", prompt(150)),
   crs("LA", "governor", prompt(77)),
   crs("MS", "governor", prompt(90)),
   crs("VT", "governor", prompt(90)),
