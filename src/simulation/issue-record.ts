@@ -2,6 +2,7 @@ import { ageOnDate } from "./dates";
 import { governingOfficeForPerson } from "./governing/state-governing";
 import { stateKeyForJurisdiction } from "./life-places";
 import { measureById } from "./legislation";
+import { billPartsBefore } from "./vote-bundle";
 import {
   homeJurisdictionResidenceSince,
   stateResidenceSince,
@@ -150,26 +151,45 @@ function stanceFor(
   return (answer === "yes") === backedTheBill ? "for" : "against";
 }
 
+/**
+ * Every question the bill answered as it read before `sequence`: the ones it
+ * was filed to answer and the ones its sections answer, including sections an
+ * adopted amendment added. A vote for a bill carrying a work requirement is a
+ * vote for the work requirement, whatever the bill was filed to do (Build 25,
+ * step 1). A question answered twice the same way counts once.
+ */
 function entriesForMeasure(
+  world: World,
   measure: LegislativeMeasureRecord,
+  sequence: number,
   act: IssueRecordAct,
   at: IsoDate,
 ): readonly IssueRecordEntry[] {
   const backed = act === "voted-yea" || act === "signed";
-  return (measure.propositionIds ?? []).flatMap((propositionId) => {
-    const answer = measurePropositionAnswer(measure, propositionId);
-    if (!answer) return [];
-    return [
-      {
-        propositionId,
-        measureId: measure.id,
-        designation: measure.designation,
-        act,
-        at,
-        stance: stanceFor(answer, backed),
-      },
-    ];
-  });
+  const seen = new Set<string>();
+  const entries: IssueRecordEntry[] = [];
+  for (const part of billPartsBefore(world, measure.id, sequence)) {
+    if (!part.answers) continue;
+    const { propositionId, answer } = part.answers;
+    if (
+      part.source === "filed-question" &&
+      !(measure.propositionIds ?? []).includes(propositionId)
+    )
+      continue;
+    const stance = stanceFor(answer, backed);
+    const key = `${propositionId}:${stance}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    entries.push({
+      propositionId,
+      measureId: measure.id,
+      designation: measure.designation,
+      act,
+      at,
+      stance,
+    });
+  }
+  return entries;
 }
 
 /**
@@ -189,7 +209,7 @@ export function issueRecordFor(
 ): readonly IssueRecordEntry[] {
   const lastVote = new Map<
     EntityId,
-    { readonly at: IsoDate; readonly yea: boolean }
+    { readonly at: IsoDate; readonly yea: boolean; readonly sequence: number }
   >();
   for (const vote of world.history.legislativeVotes ?? []) {
     if (vote.takenAt > asOf || !BILL_VOTE_PURPOSES.has(vote.purpose)) continue;
@@ -201,6 +221,7 @@ export function issueRecordFor(
     lastVote.set(vote.measureId, {
       at: vote.takenAt,
       yea: mine.disposition === "yea",
+      sequence: vote.sequence,
     });
   }
 
@@ -210,7 +231,9 @@ export function issueRecordFor(
     if (!measure) continue;
     entries.push(
       ...entriesForMeasure(
+        world,
         measure,
+        vote.sequence,
         vote.yea ? "voted-yea" : "voted-nay",
         vote.at,
       ),
@@ -226,7 +249,15 @@ export function issueRecordFor(
       !heldExecutiveOffice(world, personId, measure, action.actedAt)
     )
       continue;
-    entries.push(...entriesForMeasure(measure, action.action, action.actedAt));
+    entries.push(
+      ...entriesForMeasure(
+        world,
+        measure,
+        action.sequence,
+        action.action,
+        action.actedAt,
+      ),
+    );
   }
 
   return entries.sort(

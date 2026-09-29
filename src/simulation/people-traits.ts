@@ -29,6 +29,7 @@ import {
 } from "./trait-packs";
 import { readTrait } from "./trait-readings";
 import { traitRegistryFor } from "./trait-registry";
+import { writeWithWorldIntegrityOnce } from "./world";
 import type {
   DecisionConsideration,
   DecisionImportance,
@@ -345,6 +346,18 @@ export function ensurePeopleTraits(
    * the temperament the person already had then. Never before their birth.
    */
   onDate: IsoDate = world.currentDate,
+): World {
+  // Each record's writer checks the whole World; seeding one person writes a
+  // record per trait, so the batch is checked once, against its input.
+  return writeWithWorldIntegrityOnce(world, () =>
+    seedPeopleTraits(world, personIds, onDate),
+  );
+}
+
+function seedPeopleTraits(
+  world: World,
+  personIds: readonly EntityId[],
+  onDate: IsoDate,
 ): World {
   let next = world;
   for (const personId of personIds) {

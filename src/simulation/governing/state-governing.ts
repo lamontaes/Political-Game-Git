@@ -1,3 +1,5 @@
+import { measureAnswersAt } from "../vote-bundle";
+import { applyItemVetoes } from "./item-veto";
 import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
 import { addDays, makeIsoDate } from "../dates";
@@ -1407,6 +1409,10 @@ function applyConsequence(
             ? "The governor signed the bill."
             : "The governor vetoed the bill and returned it.",
         );
+        // A signing governor with an item veto strikes the floor-added
+        // sections they cannot accept (Build 25 step 5).
+        if (signed)
+          next = applyItemVetoes(next, matter.measureId, office.holderPersonId);
         next = scheduleInstitutionStep(next, matter.measureId);
         return signed
           ? openMatter(next, office, {
@@ -1787,10 +1793,12 @@ export function governingNpcDecisionHandler(
     // A governor whose own principles bear on the bill more than slightly
     // signs or returns it on them, whatever the staff advise.
     next = ensureOfficeholderPrinciples(next, [matter.holderPersonId]);
+    // The bill as it was passed, sections amendments added included.
     const bearing = principleVoteConsideration(
       next,
       matter.holderPersonId,
       measure,
+      measureAnswersAt(next, measure.id, undefined, "all"),
     );
     if (bearing && bearing.importance !== "slight")
       principled = matter.options.find(

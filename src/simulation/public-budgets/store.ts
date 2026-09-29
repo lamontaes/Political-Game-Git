@@ -222,12 +222,40 @@ export interface PublicBudgetGovernment {
   readonly months: readonly BudgetMonthRow[];
 }
 
+export interface StaffingBaseline {
+  readonly town: EntityId;
+  /** The staffed program, such as "police" or "schools". */
+  readonly program: BudgetProgram;
+  /** The budget that funds it. */
+  readonly governmentKey: string;
+  /**
+   * The town workplace and role the budget staffs. From this day on the
+   * budget alone fills that role; the town's job market no longer draws it.
+   */
+  readonly workplace: string;
+  readonly role: string;
+  /** The staff holding the funded role on the first day. */
+  readonly headcount: number;
+  /** That program's funding then, after cuts, in the economy of its year. */
+  readonly realFunding: number;
+  /** The budget year it was read from, and the economy index it used. */
+  readonly yearStartsOn: IsoDate;
+  readonly economyIndex: number;
+  readonly since: IsoDate;
+}
+
 export interface PublicBudgetStore {
   readonly version: typeof PUBLIC_BUDGETS_VERSION;
   /** How far the history's resource flows and outcomes have been read. */
   readonly cursor: { readonly flows: number; readonly outcomes: number };
   readonly governments: readonly PublicBudgetGovernment[];
   readonly adjustments: readonly BudgetAdjustment[];
+  /**
+   * The public jobs a budget funds in the watched town: the staff and the
+   * real funding when the town was first staffed from its budget
+   * (`staffing.ts`). Absent in a world whose town was never staffed.
+   */
+  readonly staffing?: readonly StaffingBaseline[];
   /** Governments in the world that keep no budget, and why. */
   readonly unknown: readonly {
     readonly key: string;
