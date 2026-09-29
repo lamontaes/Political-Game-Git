@@ -66,6 +66,7 @@ import {
 import {
   lawEffectPaths,
   type LawEffectPath,
+  unwiredQuestions,
 } from "../../src/simulation/governing/law-effect-paths";
 import {
   anniversary,
@@ -1995,6 +1996,12 @@ function powersLines(world: World): string[] {
       `Congress's laws answered ${count(questions.size, "federal question")}; ${count(feeding.length, "law")} of ${federal.length} feed an outcome that acts in the world.`,
     );
   }
+  const total = world.policyCatalog.propositionOrder.length;
+  const unwired = unwiredQuestions(world.policyCatalog).length;
+  out.push(
+    "",
+    `Wired laws: ${total - unwired} of ${total} policy questions have a sized path that acts in the world, through the outcome web or a rule.`,
+  );
   return out;
 }
 

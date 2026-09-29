@@ -30,6 +30,12 @@ vi.mock("../../../data/research/laws/starting-law-2026.json", () => ({
   default: {
     defaultOperativeAt: "2000-01-01",
     questions: {
+      "us-policy-positions:government-operations.broaden-local-authority": {
+        answers: {
+          "US-AL": { answer: "no", preempts: true },
+          "US-OH": { answer: "yes", preempts: true },
+        },
+      },
       "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
         answers: {
           "US-KY": { answer: "no", preempts: true },
@@ -57,6 +63,10 @@ const CITY_FAIRNESS = id(
   `${P}civil-family-community.city-nondiscrimination-ordinance`,
 );
 const COUNCIL_TERMS = id(`${P}government-operations.council-term-limits`);
+const HOME_RULE = id(`${P}government-operations.broaden-local-authority`);
+const POLICE_OVERSIGHT = id(
+  `${P}justice-public-safety.civilian-oversight-of-police`,
+);
 
 const town = (key: string) => lifePlaceByKey(key)!.context.jurisdiction.id;
 const lexington = town("lexington-fayette");
@@ -64,6 +74,9 @@ const columbus = town("3918000");
 const indianapolis = town("1836003");
 const memphis = searchLifePlaces("Memphis", 5, {
   stateJurisdictionKey: "US-TN",
+}).find((place) => place.scope !== "state")!.context.jurisdiction.id;
+const birmingham = searchLifePlaces("Birmingham", 5, {
+  stateJurisdictionKey: "US-AL",
 }).find((place) => place.scope !== "state")!.context.jurisdiction.id;
 
 let sequence = 0;
@@ -169,6 +182,60 @@ describe("a city's own question, gated by its state", () => {
     // Kentucky bars its cities from the start.
     const kentucky = enacted(lexington, CITY_WAGE, "yes", "2026-03-01");
     expect(lawInForce(worldWith([kentucky]), lexington, CITY_WAGE)).toBeNull();
+  });
+
+  it("settles a power left to home rule or Dillon's rule by the state's law on home rule", () => {
+    // Ohio has home rule; Alabama follows Dillon's rule; Indiana's law is not
+    // in the file, so the power stays unsettled.
+    expect(questionAuthority(empty, columbus, POLICE_OVERSIGHT).may).toBe(
+      "yes",
+    );
+    const dillon = questionAuthority(empty, birmingham, POLICE_OVERSIGHT);
+    expect(dillon.may).toBe("no");
+    expect(dillon.reason).toContain("Dillon's rule");
+    expect(questionAuthority(empty, indianapolis, POLICE_OVERSIGHT).may).toBe(
+      "unknown",
+    );
+    // A power the catalog settles for cities is not touched.
+    expect(questionAuthority(empty, birmingham, COUNCIL_TERMS).may).toBe("yes");
+  });
+
+  it("opens a town's ordinance when its state adopts home rule, and closes it on repeal", () => {
+    const alabama = stateJurisdictionForKey("US-AL")!.id;
+    const ordinance = enacted(
+      birmingham,
+      POLICE_OVERSIGHT,
+      "yes",
+      "2026-03-01",
+    );
+    const adopt = enacted(alabama, HOME_RULE, "yes", "2026-07-01");
+    const repeal = enacted(alabama, HOME_RULE, "no", "2027-07-01");
+    const world = worldWith([ordinance, adopt, repeal]);
+    // Under Dillon's rule the ordinance is on the record and governs nothing.
+    expect(
+      lawInForce(
+        world,
+        birmingham,
+        POLICE_OVERSIGHT,
+        makeIsoDate("2026-06-30"),
+      ),
+    ).toBeNull();
+    expect(
+      lawInForce(
+        world,
+        birmingham,
+        POLICE_OVERSIGHT,
+        makeIsoDate("2026-07-01"),
+      ),
+    ).toMatchObject({ answer: "yes", level: "local-ordinance" });
+    expect(
+      lawInForce(
+        world,
+        birmingham,
+        POLICE_OVERSIGHT,
+        makeIsoDate("2027-07-01"),
+      ),
+    ).toBeNull();
   });
 
   it("reads the state fairness question itself unchanged", () => {
