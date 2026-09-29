@@ -23,7 +23,7 @@ A town's businesses keep books. Each takes in its share of what the town
 spends on its kind of business. It pays its staff and its other costs, and
 borrows from the town's bank when cash runs short. It closes when its cash
 and credit are both gone, no longer at a flat rate a year. A new shop takes
-some sales from the ones already there. Town banks take the shape of real
+its sales from the ones already there. Town banks take the shape of real
 small banks in the same state. A bank whose losses use up its capital fails.
 Each closing or bank failure is recorded with its cause, and it slows the
 town's own economy.
