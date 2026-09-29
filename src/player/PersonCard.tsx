@@ -464,6 +464,47 @@ export function PersonCard({
               </div>
             </section>
           ) : null}
+          {expanded && dossier.laws.length > 0 ? (
+            <section
+              className="pg-dossier-section"
+              aria-label="Laws they wrote"
+              data-testid="dossier-laws"
+            >
+              <h3>Laws they wrote</h3>
+              <ul className="pg-dossier-laws">
+                {dossier.laws.map((law) => (
+                  <li
+                    key={law.measureId}
+                    data-testid={`dossier-law-${law.measureId}`}
+                  >
+                    <button
+                      type="button"
+                      className="pg-dossier-law-title"
+                      onClick={() =>
+                        onOpenLink({ kind: "measure", id: law.measureId })
+                      }
+                    >
+                      {law.title} ({law.designation})
+                    </button>
+                    <small>
+                      {" "}
+                      · law since{" "}
+                      <time dateTime={law.enactedOn}>{law.enactedLabel}</time>
+                    </small>
+                    {law.effects.map((effect) => (
+                      <p
+                        key={effect}
+                        className="pg-dossier-law-effect"
+                        data-testid="dossier-law-effect"
+                      >
+                        {effect}
+                      </p>
+                    ))}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
           {expanded && dossier.sharedHistory.length > 0 ? (
             <section
               className="pg-dossier-section"

@@ -12,6 +12,7 @@ import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
+import results from "../../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import { aggregateCongressAffiliation } from "./congress-aggregate-outcome";
 import { LIVING_WORLD_WRITER_VERSION } from "./opening-keys";
 
@@ -66,6 +67,14 @@ export interface HouseDelegateSeat {
   readonly lean: HouseDelegateLean;
 }
 
+/** The Democratic caucus's share of the two-caucus vote in a place's 2024 race. */
+function twoCaucusShare(usps: "DC" | "GU" | "MP" | "PR" | "VI"): number {
+  const row = results.places[usps];
+  return (
+    row.democraticPercent / (row.democraticPercent + row.republicanPercent)
+  );
+}
+
 const LEAN_SOURCE =
   "2024 U.S. House election results for the six nonvoting seats (Wikipedia's 2024 U.S. House elections page, which cites each territory's election office and the Clerk of the House)";
 
@@ -93,7 +102,7 @@ export const HOUSE_DELEGATE_SEATS: readonly HouseDelegateSeat[] = [
     title: "Delegate",
     termYears: 2,
     lean: {
-      democraticShare: 80.1 / (80.1 + 6.3),
+      democraticShare: twoCaucusShare("DC"),
       baselineCaucus: "democratic",
       nonpartisan: false,
       basis: `Democratic 80.1% against Republican 6.3%; Statehood Green and independent candidates left out. ${LEAN_SOURCE}.`,
@@ -105,7 +114,7 @@ export const HOUSE_DELEGATE_SEATS: readonly HouseDelegateSeat[] = [
     title: "Delegate",
     termYears: 2,
     lean: {
-      democraticShare: 46.8 / (46.8 + 52.7),
+      democraticShare: twoCaucusShare("GU"),
       baselineCaucus: "republican",
       nonpartisan: false,
       basis: `Democratic 46.8% against Republican 52.7%. ${LEAN_SOURCE}.`,
@@ -117,7 +126,7 @@ export const HOUSE_DELEGATE_SEATS: readonly HouseDelegateSeat[] = [
     title: "Delegate",
     termYears: 2,
     lean: {
-      democraticShare: 33.3 / (33.3 + 40.3),
+      democraticShare: twoCaucusShare("MP"),
       baselineCaucus: "republican",
       nonpartisan: false,
       basis: `Democratic 33.3% against Republican 40.3%; two independents (24.4% together) left out, so ESTIMATED FROM AVERAGE for the share of voters they stand for. ${LEAN_SOURCE}.`,
@@ -129,7 +138,7 @@ export const HOUSE_DELEGATE_SEATS: readonly HouseDelegateSeat[] = [
     title: "Resident Commissioner",
     termYears: 4,
     lean: {
-      democraticShare: 44.6 / (44.6 + 35.0),
+      democraticShare: twoCaucusShare("PR"),
       baselineCaucus: "democratic",
       nonpartisan: false,
       basis: `ESTIMATED FROM AVERAGE: Puerto Rico's parties do not map to national ones; the Popular Democratic candidate (44.6%, sits with House Democrats) against the New Progressive candidate (35.0%, sits with House Republicans); other parties left out. ${LEAN_SOURCE}.`,
@@ -141,7 +150,7 @@ export const HOUSE_DELEGATE_SEATS: readonly HouseDelegateSeat[] = [
     title: "Delegate",
     termYears: 2,
     lean: {
-      democraticShare: 73.4 / (73.4 + 9.5),
+      democraticShare: twoCaucusShare("VI"),
       baselineCaucus: "democratic",
       nonpartisan: false,
       basis: `Democratic 73.4% against Republican 9.5%; independent left out. ${LEAN_SOURCE}.`,
