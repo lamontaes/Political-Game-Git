@@ -5288,6 +5288,7 @@ export type FormativeLifeSituationKey =
 export type AdultLifeSituationKey =
   | "adult.household-repair"
   | "adult.household-money-shortfall"
+  | "adult.eviction-case"
   | "adult.family-request"
   | "adult.care-request"
   | "adult.partner-plan"
