@@ -61,6 +61,16 @@ function recipe(
  * The feminine pack with the arms-folded pose painted for the average body
  * and the first outfit, as the pack builder writes it.
  */
+/**
+ * An outfit with no posed or turned art, so a test can show the fallback for
+ * an outfit that has not been painted, whatever the shipped pack now holds.
+ */
+function unpainted(
+  outfit: PackPresentation["outfits"][number],
+): PackPresentation["outfits"][number] {
+  return { ...outfit, poses: undefined, views: undefined };
+}
+
 function withArmsFolded(pack: PackPresentation): PackPresentation {
   const body = pack.bodies.average;
   const worn = pack.outfits[0]!.builds.average!;
@@ -86,7 +96,7 @@ function withArmsFolded(pack: PackPresentation): PackPresentation {
           },
         },
       },
-      ...pack.outfits.slice(1),
+      ...pack.outfits.slice(1).map(unpainted),
     ],
   };
 }
@@ -102,9 +112,13 @@ describe("named poses", () => {
               pack,
               recipe(pack, { presentation, build, outfit: outfit.id, pose }),
             );
-            // Always a body, and always the outfit, in one of the pose's
-            // fallbacks; never nothing and never a layer from another pose.
-            expect(poseFallbacks(pose)).toContain(pieces.pose);
+            // Always a body, and always the outfit, in one of the fallbacks
+            // of the pose this presentation uses (a woman's hand on the hip
+            // for a man's hands in pockets); never nothing and never a layer
+            // from another pose.
+            expect(
+              poseFallbacks(presentationPose(pose, presentation)),
+            ).toContain(pieces.pose);
             expect(pieces.body.file.length).toBeGreaterThan(0);
             expect(pieces.outfit).toBeDefined();
             const suffix = pieces.pose === "standing" ? "" : `-${pieces.pose}`;
@@ -429,7 +443,7 @@ function withThreeQuarter(pack: PackPresentation): PackPresentation {
           },
         },
       },
-      ...pack.outfits.slice(1),
+      ...pack.outfits.slice(1).map(unpainted),
     ],
   };
 }
