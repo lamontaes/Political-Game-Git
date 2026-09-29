@@ -429,10 +429,10 @@ describe("public budgets", () => {
     const chicago = share("place:1714000");
     expect(chicago.years[0]!.pensionShare).toBe(0.8635);
     expect(chicago.openingNotes.join(" ")).toContain(
-      "as its own plans reported",
+      "as its own plans filed",
     );
     expect(share("county:17031").openingNotes.join(" ")).toContain(
-      "as its own plans reported",
+      "as its own plans filed",
     );
     // The share holds from year to year until budgets pass as bills.
     for (const row of world.publicBudgets!.governments)

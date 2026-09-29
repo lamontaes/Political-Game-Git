@@ -719,11 +719,11 @@ export function openGovernmentBudget(
       `Calibration factor ${BUDGET_CALIBRATION}: ${bases.calibration.basis}`,
       "Pension: liability, funded ratio and contribution are PLACEHOLDER (research: public-pension-funding-by-state), carved out of salary-paying programs.",
       paid.basis === "reported"
-        ? `Pension share paid: ${paid.share}, as its own plans reported to the Public Plans Database.`
+        ? `Pension share paid: ${paid.share}, as its own plans filed with the Public Plans Database.`
         : `Pension share paid: ${paid.share}, ESTIMATED FROM AVERAGE (the median of every plan in the Public Plans Database, fiscal 2022 to 2024); its own plans are not listed.`,
       ...(basis === "state-start-placeholder"
         ? [
-            "Fiscal year: the state's start (PLACEHOLDER, research: local-government-finances-by-type).",
+            "Budget year: begins when the state's does (PLACEHOLDER, research: local-government-finances-by-type).",
           ]
         : []),
       "Adoption is automatic each year; a budget passed as a bill comes later.",

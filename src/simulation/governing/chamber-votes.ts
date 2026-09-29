@@ -524,7 +524,8 @@ function committeeRecommendation(
     direction: "supports",
     importance: "slight",
     confidence: "medium",
-    explanation: "The committee that studied it reported it favorably.",
+    explanation:
+      "The committee that studied it sent it to the floor with its backing.",
     sourceRefs: [],
   };
 }

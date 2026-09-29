@@ -138,7 +138,9 @@ export const SCENE_CONSUMERS: readonly SceneConsumerDeclaration[] = [
     sceneId: DOMESTIC_ORDINARY_SCENE_ID,
     // life-scene.ts picks the player's own kind of home in the current light
     // and weather (the 25 home pictures) before this shared living room.
-    alsoResolves: HOME_SCENE_SPECS.map((spec) => spec.scene_id),
+    alsoResolves: HOME_SCENE_SPECS.flatMap((spec) =>
+      spec.scene_id === undefined ? [] : [spec.scene_id],
+    ),
     wiredThrough: "src/player/SceneBackdrop.tsx",
     openRequestIds: [],
     blockedSeam: null,

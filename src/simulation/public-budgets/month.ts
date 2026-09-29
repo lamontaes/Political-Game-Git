@@ -552,7 +552,7 @@ export function settleGovernmentMonth(
           ? "The pension payments fell short of the full actuarial contribution the law requires."
           : pensionLaw.answer === "no"
             ? "No law requires the full actuarial contribution; the unpaid part grows the unfunded liability."
-            : "No law in force when the budget was adopted answered whether pensions must be funded on schedule, so the government paid its own share (its plans' reported share, or the median of every plan where they are not listed).",
+            : "No law in force when the budget was adopted answered whether pensions must be funded on schedule, so the government paid its own share (the share its own plans filed, or the median of every plan where they are not listed).",
     });
   const liability = government.pension.liability;
   const benefits = liability * PENSION.benefitShare * share;
