@@ -620,8 +620,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     // Written by the rent day when a landlord files against the lease the
     // played person holds. The prose shown is that notice's own summary, with
     // the landlord, the amount and the day the case is decided; the line below
-    // is the fallback. An unanswered case is decided on that day as anyone's
-    // is without a lawyer.
+    // is the fallback. A case left unanswered is decided on that day against
+    // a tenant who did not answer.
     opportunity: "eviction-case",
     companion: null,
     stakes: "pressing",

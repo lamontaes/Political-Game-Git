@@ -49,15 +49,18 @@
  *
  * Eviction. When a lease owes two months' rent, the landlord files. On the
  * next rent day the filing is dismissed if the rent was paid; otherwise the
- * household is evicted or settles, drawn once. An evicted household loses its
- * home that day and finds another on the town's next quarterly review, like
- * any household with no home.
+ * case is decided from its facts, with no roll (`decideEvictionCase`): how
+ * far behind the tenant is, whether the landlord follows through, whether the
+ * tenant answers with a lawyer or a plan their pay can carry, and the judge
+ * of the state's trial court. An evicted household loses its home that day
+ * and finds another on the town's next quarterly review, like any household
+ * with no home.
  *
  * The played person is not exempt. When they hold the lease, the filing is
  * put to them as a case to answer before the next rent day decides it
  * (`adult.eviction-case`): pay what is owed, offer a payment plan, take the
- * lawyer a right-to-counsel law provides, or move out first. An unanswered
- * case is decided like anyone's without a lawyer.
+ * lawyer a right-to-counsel law provides, or move out first. A case they do
+ * not answer is decided as a tenant's who did not answer.
  *
  * NOT MODELED, labeled: prorated first months; security deposits; a lease's
  * rent split among the household's adults (the leaseholder pays); utilities
@@ -77,6 +80,8 @@ import { createOrganization } from "../life";
 import { organizationProfileAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { lawInForce } from "../governing/law-in-force";
+import { seatHolderAt, seatsForCourt } from "../judiciary/courts";
+import { personTrait } from "../people-traits";
 import {
   macroConditionsAt,
   macroMonthHistory,
@@ -242,30 +247,47 @@ export const RENT_STABILIZATION_CAP = { overPrices: 0.05, most: 0.1 } as const;
 export const RENT_STABILIZATION_MOBILITY = 0.8;
 
 /**
- * When a landlord files (rent owed, in months) and the chance a filing ends
- * in eviction rather than a settlement, without and with a lawyer.
+ * How an eviction case runs. Nothing here is a chance: a case is decided from
+ * how far behind the tenant is, whether the landlord follows through, what the
+ * tenant does, and the judge. The share of filings that end in eviction is a
+ * result to check against the record (`EVICTION_MEASURED`), never a roll.
  *
- * - Without a lawyer, 40%: Eviction Lab's national estimates for 2000 to 2016
- *   record 36.9 million filings and 15.5 million eviction judgments (42%,
- *   38% to 48% by year), and a judgment is not always a removal.
- * - With a lawyer, 16%: New York City's Office of Civil Justice reports that
- *   represented tenants "were legally required to leave" in 16% of resolved
- *   Housing Court cases in fiscal 2019, 2021 and 2023 (14% in 2020, 22% in
- *   2022).
- *
- * PLACEHOLDER(research: eviction-filing-and-outcome): filing at two months
- * owed, the quiet months, and one national share standing in for each
- * state's courts. PLACEHOLDER(research: eviction-settlement-by-tenant-response):
- * how much a payment plan offered before the hearing lowers the chance.
+ * PLACEHOLDER(research: eviction-filing-and-outcome), set by hand:
+ * - a landlord files at two months owed; a conciliatory person who rents out
+ *   their own home waits a third month;
+ * - a conciliatory person landlord settles a case up to three months behind;
+ * - a tenant who answers with a lawyer keeps the home up to four months
+ *   behind, and further behind before a conciliatory judge;
+ * - a payment plan is one the household's pay can carry: the rent plus a
+ *   sixth of what is owed, within half the household's monthly pay;
+ * - a conciliatory judge gives a tenant who answers time to pay up to two
+ *   months behind;
+ * - the quiet months after a case before a landlord files again.
  */
 export const EVICTION = {
   fileAtMonthsOwed: 2,
-  evictedWithoutCounsel: 0.4,
-  evictedWithCounsel: 0.16,
-  /** The share of the chance left when the tenant offered a payment plan. */
-  planFactor: 0.5,
+  conciliatoryLandlordFilesAt: 3,
+  conciliatoryLandlordSettlesUpTo: 3,
+  lawyerKeepsHomeUpTo: 4,
+  planMonths: 6,
+  planShareOfPay: 0.5,
+  conciliatoryJudgeGivesTimeUpTo: 2,
   /** Months after a filing ends before the landlord files again. */
   quietMonths: 3,
+} as const;
+
+/**
+ * What the record says, for checking a watched world's cases (measured):
+ * - without a lawyer, 42% of filings end in an eviction judgment: Eviction
+ *   Lab's national estimates for 2000 to 2016, 36.9 million filings and 15.5
+ *   million judgments, 38% to 48% by year;
+ * - with a lawyer, 16% of resolved cases end with the tenant required to
+ *   leave: New York City Office of Civil Justice, fiscal 2019, 2021 and 2023
+ *   (14% in 2020, 22% in 2022).
+ */
+export const EVICTION_MEASURED = {
+  evictedWithoutCounsel: 0.42,
+  evictedWithCounsel: 0.16,
 } as const;
 
 // ─── HUD rents ──────────────────────────────────────────────────────────
@@ -1741,6 +1763,7 @@ function actOnArrears(
   const played =
     world.control.kind === "person" ? world.control.personId : null;
   const members = householdMembers(world, dueOn);
+  let pay: Map<EntityId, number> | undefined;
   let next = world;
   for (const lease of leases) {
     const owed = owedAfter.get(lease.flow.id);
@@ -1757,53 +1780,28 @@ function actOnArrears(
         });
         continue;
       }
-      // The played leaseholder answers their own case; an unanswered one is
-      // decided as anyone's without a lawyer. Everyone else is represented
-      // wherever a right-to-counsel law is in force.
-      const answering =
-        played !== null &&
-        lease.leaseholderId === played &&
-        adults.some((member) => member.id === played);
-      const answer =
-        answering && played !== null
-          ? evictionCaseAnswer(next, played, open.filedOn)
-          : null;
-      const law = housingLawYes(
-        next,
-        lease.town,
-        RENT_LAW_KEYS.rightToCounsel,
-        open.filedOn,
-      );
-      const counsel =
-        answering && answer !== EVICTION_CASE_CHOICES.lawyer ? null : law;
-      const chance =
-        (counsel
-          ? EVICTION.evictedWithCounsel
-          : EVICTION.evictedWithoutCounsel) *
-        (answer === EVICTION_CASE_CHOICES.plan ? EVICTION.planFactor : 1);
-      const draw = new SeededRng(next.seed)
-        .fork(`${lease.flow.stableKey}:eviction:${open.filedOn}`)
-        .next();
-      const lawyer = counsel
-        ? ` A lawyer represented them under ${measureDesignation(next, counsel.measureId)}.`
+      pay ??= monthlyPayByPerson(next, dueOn);
+      const facts = evictionCaseFacts(next, lease, adults, owed, open.filedOn, {
+        played,
+        pay,
+      });
+      const decision = decideEvictionCase(facts);
+      const lawyer = facts.lawyer
+        ? ` A lawyer represented them under ${facts.lawyer}.`
         : "";
-      const plan =
-        answer === EVICTION_CASE_CHOICES.plan
-          ? " They had offered to pay it off over the coming months."
-          : "";
-      if (draw < chance) {
+      if (decision.outcome === "evicted") {
         next = rentEvent(next, lease, adults, dueOn, RENT_EVENTS.evicted, {
-          summary: `${householdName(next, lease.householdId)} was evicted from ${bedroomHome(lease)} for ${dollarsOf(owed.owed)} in unpaid rent.${plan}${lawyer}`,
+          summary: `${householdName(next, lease.householdId)} was evicted from ${bedroomHome(lease)} for ${dollarsOf(owed.owed)} in unpaid rent: ${decision.reason(facts.court)}.${lawyer}`,
         });
         next = endTenancy(next, lease, dueOn, "evicted", "Evicted.");
       } else {
         next = rentEvent(next, lease, adults, dueOn, RENT_EVENTS.settled, {
-          summary: `${householdName(next, lease.householdId)} settled the eviction case with ${landlordName(next, lease.flow.recipient)} and kept the home, still owing ${dollarsOf(owed.owed)}.${plan}${lawyer}`,
+          summary: `${householdName(next, lease.householdId)} kept ${bedroomHome(lease)}, still owing ${landlordName(next, lease.flow.recipient)} ${dollarsOf(owed.owed)}: ${decision.reason(facts.court)}.${lawyer}`,
         });
       }
       continue;
     }
-    if (owed.owed < EVICTION.fileAtMonthsOwed * owed.rent) continue;
+    if (owed.owed < fileAtMonths(next, lease) * owed.rent) continue;
     const lastResolved = history.at(-1)?.resolvedOn ?? null;
     if (
       lastResolved !== null &&
@@ -1821,6 +1819,163 @@ function actOnArrears(
       next = recordEvictionNotice(next, lease, played, dueOn, owed.owed);
   }
   return next;
+}
+
+/** Months owed at which this lease's landlord files. */
+function fileAtMonths(world: World, lease: LeaseFacts): number {
+  const landlord = lease.flow.recipient;
+  return landlord.kind === "person" &&
+    personTrait(world, landlord.personId, "conflict").value < 0
+    ? EVICTION.conciliatoryLandlordFilesAt
+    : EVICTION.fileAtMonthsOwed;
+}
+
+/** What an eviction case is decided from, read from the record. */
+export interface EvictionCaseFacts {
+  /** Rent owed over the month's rent. */
+  readonly monthsBehind: number;
+  /** Whether the landlord pursues the case to a hearing. */
+  readonly landlordPursues: boolean;
+  /** Whether the tenant answered the case. */
+  readonly tenantAnswers: boolean;
+  /** The right-to-counsel law that gave them a lawyer, or null. */
+  readonly lawyer: string | null;
+  /**
+   * Whether a payment plan the tenant offered is one their pay can carry,
+   * or null when none was offered.
+   */
+  readonly planCarried: boolean | null;
+  /** The judge's lean: -1 conciliatory, 0 neither, 1 strict; null unseated. */
+  readonly judgeLean: -1 | 0 | 1 | null;
+  /** How the summary names the court: "Judge Ana Ruiz" or "the court". */
+  readonly court: string;
+}
+
+/** The judge of the state's general trial court on a date, if seated. */
+function trialJudge(
+  world: World,
+  town: EntityId,
+  onDate: IsoDate,
+): EntityId | null {
+  const state = lifePlaceByJurisdictionId(town)?.stateJurisdictionKey;
+  if (!state) return null;
+  const courtId = `${state.toLowerCase()}:general_trial`;
+  if (!world.judiciary?.courts[courtId]) return null;
+  for (const seat of seatsForCourt(world, courtId, onDate)) {
+    const holder = seatHolderAt(world, seat.seatId, onDate);
+    if (holder) return holder.personId;
+  }
+  return null;
+}
+
+function evictionCaseFacts(
+  world: World,
+  lease: LeaseFacts,
+  adults: readonly Member[],
+  owed: { readonly owed: number; readonly rent: number },
+  filedOn: IsoDate,
+  read: {
+    readonly played: EntityId | null;
+    readonly pay: ReadonlyMap<EntityId, number>;
+  },
+): EvictionCaseFacts {
+  const monthsBehind = owed.rent > 0 ? owed.owed / owed.rent : 0;
+  const landlord = lease.flow.recipient;
+  const landlordPursues = !(
+    landlord.kind === "person" &&
+    personTrait(world, landlord.personId, "conflict").value < 0 &&
+    monthsBehind <= EVICTION.conciliatoryLandlordSettlesUpTo
+  );
+  const law = housingLawYes(
+    world,
+    lease.town,
+    RENT_LAW_KEYS.rightToCounsel,
+    filedOn,
+  );
+  const householdPay = adults.reduce(
+    (sum, member) => sum + (read.pay.get(member.id) ?? 0),
+    0,
+  );
+  const carried =
+    owed.rent + owed.owed / EVICTION.planMonths <=
+    householdPay * EVICTION.planShareOfPay;
+  // The played leaseholder answers for themselves; anyone else answers as
+  // their own reliability goes, takes the lawyer the law provides, and
+  // offers a plan when their pay could carry one.
+  let tenantAnswers: boolean;
+  let lawyer: boolean;
+  let planCarried: boolean | null;
+  if (read.played !== null && lease.leaseholderId === read.played) {
+    const answer = evictionCaseAnswer(world, read.played, filedOn);
+    tenantAnswers = answer !== null;
+    lawyer = answer === EVICTION_CASE_CHOICES.lawyer && law !== null;
+    planCarried = answer === EVICTION_CASE_CHOICES.plan ? carried : null;
+  } else {
+    tenantAnswers =
+      personTrait(world, lease.leaseholderId, "reliability").value >= 0;
+    lawyer = tenantAnswers && law !== null;
+    planCarried = tenantAnswers && carried ? true : null;
+  }
+  const judge = trialJudge(world, lease.town, filedOn);
+  const conflict = judge ? personTrait(world, judge, "conflict").value : null;
+  return {
+    monthsBehind,
+    landlordPursues,
+    tenantAnswers,
+    lawyer: lawyer && law ? measureDesignation(world, law.measureId) : null,
+    planCarried,
+    judgeLean:
+      conflict === null ? null : conflict < 0 ? -1 : conflict > 0 ? 1 : 0,
+    court: judge ? `Judge ${personName(world.people[judge]!)}` : "the court",
+  };
+}
+
+/** How a case ends, and why, from its facts alone. */
+export function decideEvictionCase(facts: EvictionCaseFacts): {
+  readonly outcome: "evicted" | "settled";
+  readonly reason: (court: string) => string;
+} {
+  const lenient = facts.judgeLean === -1;
+  if (!facts.landlordPursues)
+    return {
+      outcome: "settled",
+      reason: () => "the landlord agreed to wait for the rent",
+    };
+  if (!facts.tenantAnswers)
+    return {
+      outcome: "evicted",
+      reason: (court) =>
+        `the tenant did not answer the case, and ${court} ruled for the landlord`,
+    };
+  if (facts.lawyer)
+    return facts.monthsBehind <= EVICTION.lawyerKeepsHomeUpTo || lenient
+      ? {
+          outcome: "settled",
+          reason: () => "their lawyer settled the case",
+        }
+      : {
+          outcome: "evicted",
+          reason: (court) =>
+            `${court} found them too far behind to stay, even with a lawyer`,
+        };
+  if (facts.planCarried === true)
+    return {
+      outcome: "settled",
+      reason: (court) =>
+        `${court} accepted a plan to pay it off over ${EVICTION.planMonths} months`,
+    };
+  if (lenient && facts.monthsBehind <= EVICTION.conciliatoryJudgeGivesTimeUpTo)
+    return {
+      outcome: "settled",
+      reason: (court) => `${court} gave them time to pay`,
+    };
+  return {
+    outcome: "evicted",
+    reason: (court) =>
+      facts.planCarried === false
+        ? `${court} found their pay could not carry the plan they offered`
+        : `${court} ruled for the landlord`,
+  };
 }
 
 function longDate(date: IsoDate): string {

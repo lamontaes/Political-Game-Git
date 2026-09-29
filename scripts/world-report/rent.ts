@@ -18,6 +18,7 @@ import { addDays } from "../../src/simulation/dates";
 import { lawInForce } from "../../src/simulation/governing/law-in-force";
 import { TOWN_HOME_EVENTS } from "../../src/simulation/living-world/town-homes";
 import {
+  EVICTION_MEASURED,
   RENT_EVENTS,
   RENT_LAW_KEYS,
   townLeases,
@@ -241,11 +242,49 @@ export function rentReport(world: World, town: EntityId) {
     represented: evictions.filter((event) =>
       event.summary.includes("A lawyer represented"),
     ).length,
+    // The cases decided at a hearing, with and without a lawyer, to check
+    // against the record's shares (EVICTION_MEASURED).
+    decided: caseShares(evictions, days[0]!, end),
     renewals: renewals.length,
     capped: capped.length,
     leasesWritten: leases.length,
   };
   return { town, from: days[0], to: world.currentDate, years, all, laws };
+}
+
+function caseShares(
+  events: readonly { type: string; summary: string; occurredAt: IsoDate }[],
+  from: IsoDate,
+  to: IsoDate,
+) {
+  const decided = events.filter(
+    (event) =>
+      event.occurredAt >= from &&
+      event.occurredAt < to &&
+      (event.type === RENT_EVENTS.evicted ||
+        event.type === RENT_EVENTS.settled),
+  );
+  const side = (lawyer: boolean) => {
+    const cases = decided.filter(
+      (event) => event.summary.includes("A lawyer represented") === lawyer,
+    );
+    return {
+      cases: cases.length,
+      evicted: cases.filter((event) => event.type === RENT_EVENTS.evicted)
+        .length,
+    };
+  };
+  return { withoutCounsel: side(false), withCounsel: side(true) };
+}
+
+function caseLine(
+  label: string,
+  side: { cases: number; evicted: number },
+  measured: number,
+): string {
+  return side.cases === 0
+    ? `${label}: no cases decided.`
+    : `${label}: ${side.evicted} of ${side.cases} cases ended in eviction (${pct(side.evicted / side.cases)}); the record says ${pct(measured)}.`;
 }
 
 function markdown(
@@ -263,6 +302,17 @@ function markdown(
     ),
     "",
     `Leases written: ${report.all.leasesWritten}. Renewals: ${report.all.renewals}, ${report.all.capped} held down by rent stabilization. Eviction filings: ${report.all.filings}; ${report.all.evictions} evictions, ${report.all.settled} settled, ${report.all.dismissed} dropped once paid; ${report.all.represented} with a lawyer.`,
+    "",
+    caseLine(
+      "Without a lawyer",
+      report.all.decided.withoutCounsel,
+      EVICTION_MEASURED.evictedWithoutCounsel,
+    ),
+    caseLine(
+      "With a lawyer",
+      report.all.decided.withCounsel,
+      EVICTION_MEASURED.evictedWithCounsel,
+    ),
     "",
     "## Housing laws",
     "",

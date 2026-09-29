@@ -15,7 +15,9 @@ import {
 import { ensureLifePathPersonalPosition } from "../../src/simulation/life-paths2-resources";
 import {
   collectTownRent,
+  decideEvictionCase,
   EVICTION,
+  type EvictionCaseFacts,
   EVICTION_CASE_TAG,
   nextRentDay,
   openEvictionCase,
@@ -190,15 +192,17 @@ describe("the player's own eviction case", { timeout: 900_000 }, () => {
     ).toBe(addDays(open.decidedOn, -1));
   });
 
-  it("decides an unanswered case on the next rent day, as anyone's without a lawyer", () => {
+  it("decides an unanswered case on the next rent day against a tenant who did not answer", () => {
     const { world, player } = filed();
     const open = openEvictionCase(world, player)!;
     const after = stepTo(world, open.decidedOn);
     const outcome = decided(after, open.filedOn);
     expect(outcome).toHaveLength(1);
-    expect([RENT_EVENTS.evicted, RENT_EVENTS.settled]).toContain(
-      outcome[0]!.type,
-    );
+    // Only a landlord who does not follow through spares a tenant who did
+    // not answer.
+    if (outcome[0]!.type === RENT_EVENTS.evicted)
+      expect(outcome[0]!.summary).toMatch(/did not answer the case/);
+    else expect(outcome[0]!.summary).toMatch(/agreed to wait/);
     expect(outcome[0]!.summary).not.toMatch(/lawyer/);
     expect(openEvictionCase(after, player)).toBeNull();
   });
@@ -220,8 +224,10 @@ describe("the player's own eviction case", { timeout: 900_000 }, () => {
     const after = stepTo(answered, open.decidedOn);
     const outcome = decided(after, open.filedOn);
     expect(outcome).toHaveLength(1);
-    expect(outcome[0]!.summary).toMatch(/offered to pay it off/);
-    expect(EVICTION.planFactor).toBeLessThan(1);
+    // With no pay coming in, the plan is one the court cannot accept.
+    expect(outcome[0]!.summary).toMatch(
+      /could not carry the plan|agreed to wait|gave them time/,
+    );
   });
 
   it("moves out before the hearing: the tenancy ends and the case is dropped", () => {
@@ -258,5 +264,51 @@ describe("the player's own eviction case", { timeout: 900_000 }, () => {
     const after = stepTo(paid, open.decidedOn);
     const outcome = decided(after, open.filedOn);
     expect(outcome.map((event) => event.type)).toEqual([RENT_EVENTS.dismissed]);
+  });
+});
+
+describe("how an eviction case is decided, with no roll", () => {
+  const base: EvictionCaseFacts = {
+    monthsBehind: 2,
+    landlordPursues: true,
+    tenantAnswers: true,
+    lawyer: null,
+    planCarried: null,
+    judgeLean: 0,
+    court: "Judge Ana Ruiz",
+  };
+  const outcome = (facts: Partial<EvictionCaseFacts>) =>
+    decideEvictionCase({ ...base, ...facts }).outcome;
+
+  it("reads each fact of the case", () => {
+    // A landlord who does not follow through: the tenant stays.
+    expect(outcome({ landlordPursues: false, tenantAnswers: false })).toBe(
+      "settled",
+    );
+    // A tenant who does not answer loses by default.
+    expect(outcome({ tenantAnswers: false, judgeLean: -1 })).toBe("evicted");
+    // A lawyer keeps the home until the tenant is far behind, and further
+    // before a conciliatory judge.
+    expect(outcome({ lawyer: "Bill 12" })).toBe("settled");
+    const far = EVICTION.lawyerKeepsHomeUpTo + 1;
+    expect(outcome({ lawyer: "Bill 12", monthsBehind: far })).toBe("evicted");
+    expect(
+      outcome({ lawyer: "Bill 12", monthsBehind: far, judgeLean: -1 }),
+    ).toBe("settled");
+    // A plan the household's pay can carry is accepted; one it cannot is not.
+    expect(outcome({ planCarried: true, judgeLean: 1 })).toBe("settled");
+    expect(outcome({ planCarried: false })).toBe("evicted");
+    // Answering alone: a conciliatory judge gives time to a tenant not far
+    // behind, and no one else does.
+    expect(outcome({ judgeLean: -1 })).toBe("settled");
+    expect(outcome({ judgeLean: -1, monthsBehind: 3 })).toBe("evicted");
+    expect(outcome({ judgeLean: null })).toBe("evicted");
+  });
+
+  it("names the court that ruled", () => {
+    const decision = decideEvictionCase({ ...base, tenantAnswers: false });
+    expect(decision.reason(base.court)).toBe(
+      "the tenant did not answer the case, and Judge Ana Ruiz ruled for the landlord",
+    );
   });
 });
