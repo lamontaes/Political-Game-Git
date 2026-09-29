@@ -446,7 +446,12 @@ export function openGovernmentBudget(
   if (typeof opening === "string") return opening;
   const { start, basis } = fiscalStartFor(candidate, base);
   const year = fiscalYearContaining(today, start);
-  const laws = budgetLawReadings(world, candidate.lawJurisdictionId, today);
+  const laws = budgetLawReadings(
+    world,
+    candidate.lawJurisdictionId,
+    today,
+    candidate.level !== "state",
+  );
   const spending = opening.spending;
   const { pension, required } = openingPension(sum(spending));
   // The opening year's contribution, paid at the share its law requires.

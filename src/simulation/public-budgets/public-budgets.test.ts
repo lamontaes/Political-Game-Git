@@ -411,6 +411,34 @@ describe("public budgets", () => {
     expect(settled.publicBudgets!.cursor).toEqual({ flows: 1, outcomes: 1 });
   });
 
+  it("each government reads its own budget laws: Chicago's ordinance governs Chicago's books, and Illinois' statute governs only the state's", () => {
+    const chicagoId = lifePlaceByKey("1714000")!.context.jurisdiction.id;
+    const world = opened(
+      worldAt("2026-01-05", {
+        places: ["1714000", "county:17031"],
+        laws: [
+          { question: BALANCED, answer: "yes", jurisdictionId: illinois },
+          { question: RESERVE, answer: "yes", jurisdictionId: chicagoId },
+        ],
+      }),
+    );
+    const state = publicBudgetFor(world, illinois)!.years[0]!.laws;
+    expect(state.balanced.answer).toBe("yes");
+    expect(state.reserve.answer).toBe("unknown");
+    const city = publicBudgetFor(world, chicagoId)!.years[0]!.laws;
+    expect(city.balanced.answer).toBe("unknown");
+    expect(city.reserve).toEqual({
+      answer: "yes",
+      measureId: "measure_1",
+      level: "local-ordinance",
+    });
+    const county = world.publicBudgets!.governments.find(
+      (row) => row.key === "county:17031",
+    )!.years[0]!.laws;
+    expect(county.balanced.answer).toBe("unknown");
+    expect(county.reserve.answer).toBe("unknown");
+  });
+
   it("maps an appropriation's program to its budget line", () => {
     expect(budgetProgramFor("transit-access:il")).toBe("transit");
     expect(budgetProgramFor("bridge-maintenance:il")).toBe("highways");

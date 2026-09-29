@@ -317,7 +317,12 @@ export function settleGovernmentMonth(
     reserve += deposit;
   }
 
-  const laws = budgetLawReadings(world, government.lawJurisdictionId, asOf);
+  const laws = budgetLawReadings(
+    world,
+    government.lawJurisdictionId,
+    asOf,
+    government.level !== "state",
+  );
   const into = monthsInto(year, month);
   const remaining = 12 - into;
   const yearEnds = asOf > year.endsOn;
@@ -523,7 +528,12 @@ function adoptNextYear(
 ): AdoptedBudget {
   const startsOn = firstOfNextMonth(prior.endsOn);
   const year = fiscalYearContaining(startsOn, government.fiscalYearStart);
-  const laws = budgetLawReadings(world, government.lawJurisdictionId, startsOn);
+  const laws = budgetLawReadings(
+    world,
+    government.lawJurisdictionId,
+    startsOn,
+    government.level !== "state",
+  );
   const stateId = stateJurisdictionForKey(government.stateKey)?.id ?? null;
   const expectedRevenue = BUDGET_SOURCES.map((_, at) =>
     rows.length > 0

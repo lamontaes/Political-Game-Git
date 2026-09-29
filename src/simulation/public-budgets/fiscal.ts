@@ -1,5 +1,8 @@
 import { addDays, makeIsoDate } from "../dates";
+import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
 import { lawInForce } from "../governing/law-in-force";
+import { mayAnswerQuestion } from "../governing/question-authority";
+import { measurePropositionAnswer } from "../issue-record";
 import {
   macroConditionsAt,
   macroScopeForJurisdiction,
@@ -67,31 +70,112 @@ export function propositionIdFor(
   return index.get(questionKey) ?? null;
 }
 
-/** What the law in force says on one budget question, in one place. */
+/**
+ * What the law says on one budget question for one government's own budget.
+ *
+ * A budget law binds the government that enacted it: the state's law governs
+ * the state's books, a city's ordinance the city's. So a state reads the law
+ * in force at its level (`law-in-force.ts`, starting law included), and a
+ * county or city reads only its own enacted ordinances, the latest in force
+ * governing. A state's requirement on its localities' budgets is not modeled
+ * here yet.
+ */
 export function budgetLawReading(
   world: World,
   jurisdictionId: EntityId,
   name: BudgetLawName,
   onDate: IsoDate,
+  ownOrdinancesOnly: boolean,
 ): BudgetLawReading {
   const propositionId = propositionIdFor(world, BUDGET_LAW_KEYS[name]);
-  const law = propositionId
-    ? lawInForce(world, jurisdictionId, propositionId, onDate)
-    : null;
-  if (!law || (law.answer !== "yes" && law.answer !== "no"))
-    return { answer: "unknown", measureId: null, level: null };
+  if (!propositionId) return UNKNOWN_LAW;
+  if (ownOrdinancesOnly)
+    return ownOrdinance(world, jurisdictionId, propositionId, onDate);
+  const law = lawInForce(world, jurisdictionId, propositionId, onDate);
+  if (!law || (law.answer !== "yes" && law.answer !== "no")) return UNKNOWN_LAW;
   return { answer: law.answer, measureId: law.measureId, level: law.level };
+}
+
+const UNKNOWN_LAW: BudgetLawReading = {
+  answer: "unknown",
+  measureId: null,
+  level: null,
+};
+
+function ownOrdinance(
+  world: World,
+  jurisdictionId: EntityId,
+  propositionId: EntityId,
+  onDate: IsoDate,
+): BudgetLawReading {
+  let best: {
+    answer: "yes" | "no";
+    measureId: EntityId;
+    operativeAt: IsoDate;
+    sequence: number;
+  } | null = null;
+  for (const enactment of world.history.legislativeEnactments ?? []) {
+    if (enactment.outcome !== "enacted") continue;
+    const measure = world.history.legislativeMeasures?.find(
+      (entry) => entry.id === enactment.measureId,
+    );
+    if (!measure || measure.jurisdictionId !== jurisdictionId) continue;
+    const answer = measurePropositionAnswer(measure, propositionId);
+    if (answer !== "yes" && answer !== "no") continue;
+    if (!mayAnswerQuestion(world, jurisdictionId, propositionId)) continue;
+    const operativeAt =
+      enactment.effectiveAt ??
+      addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS);
+    if (operativeAt > onDate) continue;
+    if (
+      !best ||
+      operativeAt > best.operativeAt ||
+      (operativeAt === best.operativeAt && enactment.sequence > best.sequence)
+    )
+      best = {
+        answer,
+        measureId: measure.id,
+        operativeAt,
+        sequence: enactment.sequence,
+      };
+  }
+  return best
+    ? {
+        answer: best.answer,
+        measureId: best.measureId,
+        level: "local-ordinance",
+      }
+    : UNKNOWN_LAW;
 }
 
 export function budgetLawReadings(
   world: World,
   jurisdictionId: EntityId,
   onDate: IsoDate,
+  ownOrdinancesOnly: boolean,
 ): Readonly<Record<BudgetLawName, BudgetLawReading>> {
   return {
-    balanced: budgetLawReading(world, jurisdictionId, "balanced", onDate),
-    reserve: budgetLawReading(world, jurisdictionId, "reserve", onDate),
-    pensions: budgetLawReading(world, jurisdictionId, "pensions", onDate),
+    balanced: budgetLawReading(
+      world,
+      jurisdictionId,
+      "balanced",
+      onDate,
+      ownOrdinancesOnly,
+    ),
+    reserve: budgetLawReading(
+      world,
+      jurisdictionId,
+      "reserve",
+      onDate,
+      ownOrdinancesOnly,
+    ),
+    pensions: budgetLawReading(
+      world,
+      jurisdictionId,
+      "pensions",
+      onDate,
+      ownOrdinancesOnly,
+    ),
   };
 }
 
