@@ -14,4 +14,6 @@ a reserve cuts programs before touching it; one who puts public programs
 first draws the reserve before cutting. A governor with no view on it, and
 every county and city, draws the reserve first, since reserves are kept to
 protect services through a temporary revenue shortfall. Each cut and draw
-is recorded with who decided and why.
+is recorded with who decided and why, in the order the money moved.
+When the reserve runs out first, the cut that follows says how much the
+reserve covered and how much was cut.

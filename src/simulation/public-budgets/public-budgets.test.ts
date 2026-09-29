@@ -347,6 +347,14 @@ describe("public budgets", () => {
     expect(cutRun.adjustments.some((row) => row.kind === "reserve-draw")).toBe(
       true,
     );
+    // With no governor principle the reserve goes first, so the first cut
+    // follows a draw on the same day and says what the reserve covered.
+    const firstCut = cutRun.adjustments.indexOf(cuts[0]!);
+    expect(cutRun.adjustments[firstCut - 1]).toMatchObject({
+      kind: "reserve-draw",
+      on: cuts[0]!.on,
+    });
+    expect(cuts[0]!.note).toContain("The reserve covered only $");
     // Interest and pensions are never cut.
     const march = cutRun.government.months.find(
       (row) => row.month === "2026-04-01",

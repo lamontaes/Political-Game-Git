@@ -674,33 +674,41 @@ export function settleGovernmentMonth(
           CUTTABLE[at] ? year.appropriations[at]! / 12 : 0,
         ),
       );
+      const records: BudgetAdjustment[] = [];
+      const drawn = Math.round(draw);
       if (cutTotal > 0 && plannedCuttable > 0) {
         cut = Math.min(1, cut + cutTotal / remaining / plannedCuttable);
-        adjustments.push({
+        // When the reserve went first, the cut is what it could not cover.
+        const after = order.cutFirst
+          ? order.reason
+          : `${order.reason} The reserve covered only ${shortfallDollars(drawn)}, so programs were cut for the remaining ${shortfallDollars(cutTotal)}.`;
+        records.push({
           governmentKey: government.key,
           on: asOf,
           fiscalYear: year.fiscalYear,
           kind: "mid-year-cut",
           amount: cutTotal,
           law: lawNote("balanced", laws.balanced),
-          note: `Collections would leave the year in deficit, so every program except interest and pensions is cut across the board for the rest of the year. ${order.reason}`,
+          note: `Collections would leave the year in deficit, so every program except interest and pensions is cut across the board for the rest of the year. ${after}`,
           ...decidedBy,
         });
       }
-      if (draw > 0) {
-        reserve -= Math.round(draw);
-        balance += Math.round(draw);
-        adjustments.push({
+      if (drawn > 0) {
+        reserve -= drawn;
+        balance += drawn;
+        records.push({
           governmentKey: government.key,
           on: asOf,
           fiscalYear: year.fiscalYear,
           kind: "reserve-draw",
-          amount: Math.round(draw),
+          amount: drawn,
           law: lawNote("balanced", laws.balanced),
           note: `Drawn from the reserve to keep the year balanced. ${order.reason}`,
           ...decidedBy,
         });
       }
+      // Recorded in the order the money moved.
+      adjustments.push(...(order.cutFirst ? records : records.reverse()));
     }
   }
 
@@ -895,6 +903,13 @@ export function lawMoneyChange(
   const costNow = sum(lawSpendingForMonth(world, government, startsOn));
   const costThen = sum(lawSpendingForMonth(world, government, then));
   return change - (costNow - costThen) * 12;
+}
+
+/** Dollars as a shortfall note says them: "$1.42 million" or "$640,000". */
+function shortfallDollars(amount: number): string {
+  return amount >= 1_000_000
+    ? `$${(amount / 1e6).toFixed(2)} million`
+    : `$${Math.round(amount).toLocaleString("en-US")}`;
 }
 
 /**
