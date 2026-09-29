@@ -4,8 +4,9 @@
  * The method Claude CTO approved on September 28, 2026: annualize the
  * paycheck, subtract the standard deduction for the worker's filing status,
  * apply that status's 2026 brackets, and divide the year's tax back over the
- * pay periods. A schedule the research has not read is UNKNOWN, never zero and
- * never borrowed from another filing status or place.
+ * pay periods. Under his 11:54 p.m. ruling that day, a part of a state's
+ * schedule the research has not read is ESTIMATED FROM AVERAGE, never
+ * UNKNOWN (see `stateIncomeTaxSchedule`).
  *
  * Two labeled game rules sit under that method:
  * - Filing status comes from the person's own records: a legal marriage files
@@ -18,6 +19,7 @@
  */
 import stateIncomeTax2026 from "../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 import { daysBetween } from "./dates";
+import { SeededRng } from "./rng";
 import { activePartnershipsAt, householdMembershipsAt } from "./life-queries";
 import { childrenOf } from "./people-family";
 import type { EntityId, ResourceTransferOutcome, World } from "./types";
@@ -40,25 +42,31 @@ export interface IncomeTaxSchedule {
 export const FEDERAL_INCOME_TAX_SOURCE =
   "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill";
 
+/** Revenue Procedure 2025-32, whose Table 2 gives the head-of-household rates. */
+export const FEDERAL_HEAD_OF_HOUSEHOLD_SOURCE =
+  "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf";
+
 const rates = [1000, 1200, 2200, 2400, 3200, 3500, 3700];
 const schedule = (
   standardDeductionDollars: number,
   thresholdsDollars: readonly number[],
+  sourceUrl: string = FEDERAL_INCOME_TAX_SOURCE,
 ): IncomeTaxSchedule => ({
   standardDeductionMinor: standardDeductionDollars * 100,
   brackets: rates.map((rateBasisPoints, index) => ({
     overMinor: index === 0 ? 0 : thresholdsDollars[index - 1]! * 100,
     rateBasisPoints,
   })),
-  sourceUrl: FEDERAL_INCOME_TAX_SOURCE,
+  sourceUrl,
 });
 
 /**
  * Tax year 2026, Revenue Procedure 2025-32 as the IRS announced it. Single:
  * the 56-place intake (checked September 22, 2026). Married filing jointly:
  * the same IRS announcement as a search summary read on September 28, 2026.
- * Head of household: only the standard deduction ($24,150) and the first
- * bracket's top ($17,700) have been read, so its schedule is UNKNOWN.
+ * Head of household: the standard deduction ($24,150) from the announcement
+ * and the brackets from the Revenue Procedure's Table 2, read on September 29,
+ * 2026.
  */
 export const FEDERAL_INCOME_TAX_2026: Readonly<
   Record<FilingStatus, IncomeTaxSchedule | null>
@@ -71,7 +79,11 @@ export const FEDERAL_INCOME_TAX_2026: Readonly<
     32_200,
     [24_800, 100_800, 211_400, 403_550, 512_450, 768_700],
   ),
-  "head-of-household": null,
+  "head-of-household": schedule(
+    24_150,
+    [17_700, 67_450, 105_700, 201_750, 256_200, 640_600],
+    FEDERAL_HEAD_OF_HOUSEHOLD_SOURCE,
+  ),
 };
 
 interface StatePlace {
@@ -89,17 +101,88 @@ const STATE_PLACES = stateIncomeTax2026.places as Readonly<
   Record<string, StatePlace>
 >;
 
+/** A mean and the population standard deviation of some values. */
+export interface Spread {
+  readonly mean: number;
+  readonly standardDeviation: number;
+  readonly count: number;
+}
+
+export function spreadOf(values: readonly number[]): Spread {
+  const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
+  const variance =
+    values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / values.length;
+  return { mean, standardDeviation: Math.sqrt(variance), count: values.length };
+}
+
+/**
+ * The single filer's standard deduction, in dollars, across the states with
+ * this kind of wage income tax whose deduction was read.
+ */
+export function stateDeductionSpread(shape: "flat" | "graduated"): Spread {
+  return spreadOf(
+    Object.values(STATE_PLACES).flatMap((place) =>
+      place.wageIncomeTax === shape && place.standardDeductionSingle !== null
+        ? [place.standardDeductionSingle]
+        : [],
+    ),
+  );
+}
+
+/**
+ * Most common state rules for a filing status whose schedule has not been
+ * read, not yet counted state by state: a joint return doubles the single
+ * brackets and deduction, and a head of household files on the single
+ * schedule.
+ */
+export const STATE_FILING_STATUS_NOTE: Readonly<Record<FilingStatus, string>> =
+  {
+    single: "",
+    "married-filing-jointly":
+      "A joint return doubles the single brackets and deduction, the most common state rule (not yet counted state by state).",
+    "head-of-household":
+      "A head of household files on the single schedule, the most common state rule (not yet counted state by state).",
+  };
+
+export function stateScheduleForFilingStatus(
+  single: IncomeTaxSchedule,
+  status: FilingStatus,
+): IncomeTaxSchedule {
+  if (status !== "married-filing-jointly") return single;
+  return {
+    ...single,
+    standardDeductionMinor: single.standardDeductionMinor * 2,
+    brackets: single.brackets.map((bracket) => ({
+      ...bracket,
+      overMinor: bracket.overMinor * 2,
+    })),
+  };
+}
+
 /**
  * A state's 2026 schedule for this filing status, or the reason there is
- * none. Only single schedules have been read. A state whose single filer has
- * no standard deduction ("n.a." in the compilation) uses personal exemptions
- * or credits instead, which have not been read, so it is UNKNOWN too.
+ * none. Only single schedules have been read. Under Claude CTO's 11:54 p.m.
+ * ruling of September 28, 2026, the parts not read are ESTIMATED FROM
+ * AVERAGE rather than UNKNOWN, and the schedule says so:
+ * - a state whose single filer has no standard deduction ("n.a." in the
+ *   compilation; it uses personal exemptions or credits, not yet read) takes
+ *   the average read deduction of the states with its kind of tax, moved by
+ *   the world's seed within half a standard deviation of their spread;
+ * - another filing status follows `STATE_FILING_STATUS_NOTE`.
+ * A place outside the compilation (the territories) stays UNKNOWN: no state
+ * is like a territory's own income tax.
  */
 export function stateIncomeTaxSchedule(
   stateKey: string,
   status: FilingStatus,
+  worldSeed: string,
 ):
-  | { readonly kind: "schedule"; readonly schedule: IncomeTaxSchedule }
+  | {
+      readonly kind: "schedule";
+      readonly schedule: IncomeTaxSchedule;
+      /** Set when any part of the schedule was estimated. */
+      readonly estimatedFromAverage?: string;
+    }
   | { readonly kind: "none" }
   | { readonly kind: "unknown"; readonly researchQuestionId: string } {
   const place = STATE_PLACES[stateKey];
@@ -109,26 +192,39 @@ export function stateIncomeTaxSchedule(
       researchQuestionId: "state-wage-income-tax-withholding",
     };
   if (place.wageIncomeTax === "none") return { kind: "none" };
+  const notes: string[] = [];
+  let deductionDollars = place.standardDeductionSingle;
+  if (deductionDollars === null) {
+    const shape = place.wageIncomeTax === "flat" ? "flat" : "graduated";
+    const spread = stateDeductionSpread(shape);
+    const draw = new SeededRng(worldSeed)
+      .fork(`state-deduction-estimate:${stateKey}`)
+      .next();
+    deductionDollars = Math.round(
+      spread.mean + (draw - 0.5) * spread.standardDeviation,
+    );
+    notes.push(
+      `ESTIMATED FROM AVERAGE: the state's personal exemptions or credits are not read, so its single filer takes a standard deduction of $${deductionDollars.toLocaleString("en-US")}, ` +
+        `from the average of the ${spread.count} states with a ${shape} tax whose deduction was read ($${Math.round(spread.mean).toLocaleString("en-US")}), moved by the world's seed within half the spread between them. ` +
+        "Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026.",
+    );
+  }
   if (status !== "single")
-    return {
-      kind: "unknown",
-      researchQuestionId: "state-income-tax-filing-status-schedules-2026",
-    };
-  if (place.standardDeductionSingle === null)
-    return {
-      kind: "unknown",
-      researchQuestionId: "state-personal-exemptions-and-credits-2026",
-    };
+    notes.push(
+      `${notes.length === 0 ? "ESTIMATED FROM AVERAGE: the state's own brackets and deduction (Tax Foundation 2026). " : ""}${STATE_FILING_STATUS_NOTE[status]}`,
+    );
+  const single: IncomeTaxSchedule = {
+    standardDeductionMinor: deductionDollars * 100,
+    brackets: place.brackets.map((bracket) => ({
+      overMinor: bracket.overSingle * 100,
+      rateBasisPoints: Math.round(bracket.ratePercent * 100),
+    })),
+    sourceUrl: STATE_SOURCE,
+  };
   return {
     kind: "schedule",
-    schedule: {
-      standardDeductionMinor: place.standardDeductionSingle * 100,
-      brackets: place.brackets.map((bracket) => ({
-        overMinor: bracket.overSingle * 100,
-        rateBasisPoints: Math.round(bracket.ratePercent * 100),
-      })),
-      sourceUrl: STATE_SOURCE,
-    },
+    schedule: stateScheduleForFilingStatus(single, status),
+    ...(notes.length ? { estimatedFromAverage: notes.join(" ") } : {}),
   };
 }
 

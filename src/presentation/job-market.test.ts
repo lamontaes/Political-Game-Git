@@ -6,8 +6,15 @@ import {
   serializeWorld,
 } from "../simulation";
 import type { EntityId, World } from "../simulation/types";
-import { createOrganization, createWorkRelationship } from "../simulation/life";
-import { kinshipRelationshipsAt } from "../simulation/life-queries";
+import {
+  createOrganization,
+  createWorkRelationship,
+  recordWorkStatus,
+} from "../simulation/life";
+import {
+  kinshipRelationshipsAt,
+  workStatusAt,
+} from "../simulation/life-queries";
 import { createResourceFlow, money } from "../simulation/resources";
 import {
   JOB_MARKET_WORK_KIND,
@@ -15,6 +22,7 @@ import {
   advanceJobMarket,
   answerJobOffer,
   applyForJob,
+  applyForJobAsResident,
   applicationsFor,
   introducersFor,
   jobOpening,
@@ -358,12 +366,63 @@ describe("jobs in a town", () => {
     assertWorldIntegrity(world);
   });
 
-  it("follows up or withdraws after a missed start, and lets an unanswered offer lapse", () => {
-    const outcomes = new Set<string>();
-    let lapsed = false;
-    for (let index = 1; index <= 24; index += 1) {
-      if (lapsed && outcomes.size === 2) break;
-      const seed = `miss-${index}`;
+  it("offers the job to the applicant with more time in the same work, and tells the other so", () => {
+    const start = begin(ELY, "jobs-compare");
+    let world = untilListed(start.world, start.personId);
+    const opening = openJobListings(world, start.personId)[0]!;
+    const rivalId = adultStranger(world, start.personId);
+    // The rival has done this work before, for three years ending last year.
+    world = createWorkRelationship(world, {
+      stableKey: "test:rival-past-work",
+      personId: rivalId,
+      organizationId: opening.organizationId,
+      startedAt: "2021-01-04",
+      kind: "employment:local-business",
+      compensation: "paid",
+      authority: "directed",
+      dependency: "partly-dependent",
+      economicRisk: "organization-borne",
+      provenance: { kind: "authored", note: "test fixture" },
+      initialRole: {
+        title: opening.title,
+        occupationClassification: opening.occupationClassification,
+        locationJurisdictionId: null,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 40, maximumHours: 40 },
+          attention: "moderate",
+          concurrency: "mostly-exclusive",
+          scheduleRigidity: "rigid",
+          interruptibility: "limited",
+          locationJurisdictionId: null,
+        },
+      },
+    });
+    const pastWork = world.history.workRelationships.at(-1)!;
+    world = recordWorkStatus(world, {
+      stableKey: "test:rival-past-work:ended",
+      workRelationshipId: pastWork.id,
+      effectiveAt: "2024-01-05",
+      status: "ended",
+      reason: "test fixture",
+      provenance: { kind: "authored", note: "test fixture" },
+      supersedesStatusId: workStatusAt(world, pastWork.id)!.id,
+    });
+    world = applyForJob(world, start.personId, opening.id).world;
+    const rival = applyForJobAsResident(world, rivalId, opening.id);
+    expect(rival.ok, rival.message).toBe(true);
+    world = rival.world;
+    const mine = applicationsFor(world, start.personId)[0]!;
+    const theirs = applicationsFor(world, rivalId)[0]!;
+    expect(theirs.submittedAt).toBe(mine.submittedAt);
+    world = passUntil(world, (w) => latestApplicationStep(w, mine.id) !== null);
+    const mineStep = latestApplicationStep(world, mine.id)!;
+    expect(mineStep.kind).toBe("declined");
+    expect(mineStep.reason).toBe("They chose another applicant.");
+    assertWorldIntegrity(world);
+  });
+
+  it("follows up a missed start when nobody else applied, withdraws it when somebody did, and lets an unanswered offer lapse", () => {
+    function offered(seed: string) {
       const start = begin(ELY, `jobs-${seed}`);
       let world = untilListed(start.world, start.personId);
       const opening = openJobListings(world, start.personId)[0]!;
@@ -373,46 +432,63 @@ describe("jobs in a town", () => {
         world,
         (w) => latestApplicationStep(w, application.id) !== null,
       );
-      const offer = latestApplicationStep(world, application.id)!;
-      if (offer.kind !== "offered") continue;
-      if (!lapsed) {
-        // Nobody answers this one.
-        const ignored = passUntil(
-          world,
-          (w) => latestApplicationStep(w, application.id)!.kind !== "offered",
-        );
-        expect(latestApplicationStep(ignored, application.id)!.kind).toBe(
-          "offer-lapsed",
-        );
-        lapsed = true;
-      }
-      world = answerJobOffer(world, application.id, true).world;
-      // The player never turns up.
-      world = passUntil(
-        world,
-        (w) => latestApplicationStep(w, application.id)!.kind !== "accepted",
+      expect(latestApplicationStep(world, application.id)!.kind).toBe(
+        "offered",
       );
-      const after = latestApplicationStep(world, application.id)!;
-      expect(["followed-up", "withdrawn"]).toContain(after.kind);
-      outcomes.add(after.kind);
-      if (after.kind === "followed-up") {
-        world = passUntil(
-          world,
-          (w) =>
-            latestApplicationStep(w, application.id)!.kind !== "followed-up",
-        );
-        expect(latestApplicationStep(world, application.id)!.kind).toBe(
-          "withdrawn",
-        );
-        expect(
-          projectJobMarket(world, start.personId).applications[0]!.status,
-        ).toMatch(
-          /^They withdrew the offer\. You missed the second start date/,
-        );
-      }
-      assertWorldIntegrity(world);
+      return { personId: start.personId, opening, application, world };
     }
-    expect(lapsed).toBe(true);
-    expect([...outcomes].sort()).toEqual(["followed-up", "withdrawn"]);
+    function missStart(world: World, applicationId: EntityId): World {
+      return passUntil(
+        world,
+        (w) => latestApplicationStep(w, applicationId)!.kind !== "accepted",
+      );
+    }
+
+    // Nobody answers this one.
+    const unanswered = offered("miss-lapse");
+    const ignored = passUntil(
+      unanswered.world,
+      (w) =>
+        latestApplicationStep(w, unanswered.application.id)!.kind !== "offered",
+    );
+    expect(
+      latestApplicationStep(ignored, unanswered.application.id)!.kind,
+    ).toBe("offer-lapsed");
+
+    // The only applicant never turns up: the employer calls once, then
+    // withdraws after the second missed start.
+    const alone = offered("miss-alone");
+    let world = answerJobOffer(alone.world, alone.application.id, true).world;
+    world = missStart(world, alone.application.id);
+    expect(latestApplicationStep(world, alone.application.id)!.kind).toBe(
+      "followed-up",
+    );
+    world = passUntil(
+      world,
+      (w) =>
+        latestApplicationStep(w, alone.application.id)!.kind !== "followed-up",
+    );
+    expect(latestApplicationStep(world, alone.application.id)!.kind).toBe(
+      "withdrawn",
+    );
+    expect(
+      projectJobMarket(world, alone.personId).applications[0]!.status,
+    ).toMatch(/^They withdrew the offer\. You missed the second start date/);
+    assertWorldIntegrity(world);
+
+    // Somebody else applied too: the employer withdraws at the first miss.
+    const rivaled = offered("miss-rival");
+    world = answerJobOffer(rivaled.world, rivaled.application.id, true).world;
+    const rival = applyForJobAsResident(
+      world,
+      adultStranger(world, rivaled.personId),
+      rivaled.opening.id,
+    );
+    expect(rival.ok, rival.message).toBe(true);
+    world = missStart(rival.world, rivaled.application.id);
+    expect(latestApplicationStep(world, rivaled.application.id)!.kind).toBe(
+      "withdrawn",
+    );
+    assertWorldIntegrity(world);
   });
 });

@@ -28,14 +28,15 @@ import {
   affordableRentMinor,
   collectTownRent,
   drawBedrooms,
+  housingLawYes,
   hudRentRowFor,
   INCLUSIONARY_SET_ASIDE,
   inclusionarySetAsideTakes,
   publicHousingRentMinor,
   RENT_BASIS,
   RENT_DAY_TRANSITION_KEY,
+  RENT_LAW_KEYS,
   renewedMarketRent,
-  renterMoveFactor,
   townLeases,
   townRentSnapshot,
   veryLowIncomeLimit,
@@ -281,15 +282,25 @@ describe("rent day", { timeout: 600_000 }, () => {
             ?.classification === "service:public-housing"
         ),
     )!;
-    expect(renterMoveFactor(world, town, privateLease.householdId)).toBe(0.8);
-    // Chicago began with no rent stabilization: its renters move as before.
-    const chicago = liveMonths("1714000", "town-rent-chicago-moves", 2);
-    const chicagoLease = townLeases(chicago.world).find(
-      (lease) => lease.town === chicago.town && !lease.ended,
-    )!;
+    expect(privateLease).toBeDefined();
     expect(
-      renterMoveFactor(chicago.world, chicago.town, chicagoLease.householdId),
-    ).toBe(1);
+      housingLawYes(
+        world,
+        town,
+        RENT_LAW_KEYS.rentStabilization,
+        world.currentDate,
+      ),
+    ).not.toBeNull();
+    // Chicago began with no rent stabilization.
+    const chicago = liveMonths("1714000", "town-rent-chicago-moves", 2);
+    expect(
+      housingLawYes(
+        chicago.world,
+        chicago.town,
+        RENT_LAW_KEYS.rentStabilization,
+        chicago.world.currentDate,
+      ),
+    ).toBeNull();
   });
 
   it("the flat $900 leaves the player's month once their household holds a lease", () => {
