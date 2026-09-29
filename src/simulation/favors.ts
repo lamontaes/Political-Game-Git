@@ -178,7 +178,7 @@ export function recordFavor(world: World, input: RecordFavorInput): World {
 /**
  * How much it mattered, as steps on the relationship bands.
  *
- * PLACEHOLDER (set by hand, not measured): the step each weight starts at.
+ * SET BY HAND, not measured: the step each weight starts at.
  * It affects how strongly a receiver feels bound and a giver expects a return,
  * which later decides whether someone asks and how a request is answered.
  */
@@ -192,39 +192,66 @@ const WEIGHT_STEPS: Readonly<Record<FavorWeight, number>> = {
 /**
  * How many days it takes a receiver's felt debt to halve, by weight.
  *
- * PLACEHOLDER (set by hand from related measurements, not a measured rate).
- * Research 3, section 5, item 1: returning a small favor between people fell
- * 64 percent over one week (Burger and others, 1997, as reported by Chuan,
- * Kessler and Milkman, 2018), and former patients' giving to a hospital fell
- * 30 to 36 percent for each extra 30 days. Neither is a rate between friends or
- * allies. A small favor is therefore read as fading within weeks and a large
- * one over months to years. Sent to the research queue.
+ * ESTIMATED FROM AVERAGE (source: the three reciprocity rates compared in
+ * Chuan, Kessler and Milkman, 2018, PNAS 115(8); Research 3, section 5, item
+ * 1). Giving back to a hospital fell about 33 percent for each extra 30 days,
+ * a half-life of about 52 days, and that rate lies between the other two the
+ * paper compares: a small favor between people, about five times faster (about
+ * 10 days), and a gift before a survey, about four times slower (about 7
+ * months). The weights spread across that range: a slight favor at the fast
+ * end, a moderate one at the average, a life-changing one at the slow end, and
+ * a great one between (52 and 210 days, geometric middle). None of these is a
+ * rate measured between friends or allies. It affects how bound a person still
+ * feels, which decides how they answer when somebody asks.
  */
 const DEBT_HALF_LIFE_DAYS: Readonly<Record<FavorWeight, number>> = {
-  slight: 7,
-  moderate: 90,
-  great: 365,
-  "life-changing": 3650,
+  slight: 10,
+  moderate: 52,
+  great: 104,
+  "life-changing": 210,
 };
 
-/**
- * How many days it takes a giver's expectation to grow by one step.
- *
- * PLACEHOLDER (set by hand, no measured rate). Flynn (2003) found givers value
- * a favor more as time passes and receivers less; the paper's rate is unread
- * (Research 3, section 8). Only a giver who wanted something back grows an
- * expectation; kindness expects nothing.
- */
-const EXPECTATION_GROWTH_DAYS = 365;
+/** The measured range the half-lives above come from, in days. */
+const HALF_LIFE_RANGE_DAYS = { fastest: 10, slowest: 210 } as const;
 
-/** A trait pole stretches or shortens how long a debt is felt. */
-function receiverFadeFactor(world: World, receiverId: EntityId): number {
-  // Somebody who follows through keeps an obligation in mind longer; somebody
-  // who lets things slip loses it sooner. Hand-set, doubling or halving.
+/**
+ * A trait pole stretches or shortens how long a debt is felt.
+ *
+ * SET BY HAND: somebody who follows through keeps an obligation in mind
+ * longer, and somebody who lets things slip loses it sooner, doubling or
+ * halving the half-life. The result stays inside the measured range, so no
+ * temperament makes a debt last longer or fade faster than any rate on record.
+ */
+function receiverHalfLife(
+  world: World,
+  receiverId: EntityId,
+  weight: FavorWeight,
+): number {
   const reliability = personTrait(world, receiverId, "reliability").value;
-  return reliability > 0 ? 2 : reliability < 0 ? 0.5 : 1;
+  const factor = reliability > 0 ? 2 : reliability < 0 ? 0.5 : 1;
+  return Math.min(
+    HALF_LIFE_RANGE_DAYS.slowest,
+    Math.max(
+      HALF_LIFE_RANGE_DAYS.fastest,
+      DEBT_HALF_LIFE_DAYS[weight] * factor,
+    ),
+  );
 }
 
+/**
+ * How far a giver's expectation can grow.
+ *
+ * SET BY HAND. Flynn (2003) found givers value a favor more as time passes and
+ * receivers less; only the abstract was read, and it gives the direction, not
+ * a pace (Research 3, section 5, item 1.9). So the expectation rises at the
+ * same pace the receiver's debt fades, and stops at twice where it started,
+ * which keeps a giver's claim from growing without end. It affects how hard a
+ * giver presses to collect. Only a giver who wanted something back expects
+ * anything; kindness expects nothing.
+ */
+const EXPECTATION_CAP = 2;
+
+/** SET BY HAND: the share of a favor's weight each motive expects back. */
 function motiveExpects(motive: FavorMotive): number {
   switch (motive) {
     case "kindness":
@@ -239,6 +266,7 @@ function motiveExpects(motive: FavorMotive): number {
   }
 }
 
+/** SET BY HAND: where the steps above cross from one plain word to the next. */
 function toBand(steps: number): StandingBand {
   if (steps >= 3) return "strong";
   if (steps >= 1.5) return "marked";
@@ -295,17 +323,19 @@ export function favorStandingBetween(
     )
     .reduce((sum, record) => sum + WEIGHT_STEPS[record.weight], 0);
 
-  const fade = receiverFadeFactor(world, receiverPersonId);
   let debt = 0;
   let expectation = 0;
   for (const record of given) {
     const elapsed = Math.max(0, daysBetween(record.givenAt, asOf));
     const start = WEIGHT_STEPS[record.weight];
-    const halfLife = DEBT_HALF_LIFE_DAYS[record.weight] * fade;
-    debt += start * Math.pow(0.5, elapsed / halfLife);
+    const halfLife = receiverHalfLife(world, receiverPersonId, record.weight);
+    const remaining = Math.pow(0.5, elapsed / halfLife);
+    debt += start * remaining;
+    // What the receiver has let go of, the giver has added on.
     expectation +=
       motiveExpects(record.motive) *
-      Math.min(start + elapsed / EXPECTATION_GROWTH_DAYS, start + 1);
+      start *
+      Math.min(EXPECTATION_CAP, 1 + (1 - remaining));
   }
   return {
     receiverPersonId,

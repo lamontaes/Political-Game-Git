@@ -288,6 +288,11 @@ function answerAct(
       return outstanding;
 
     case "attend": {
+      const calledOff: UndertakingAssessment = {
+        standing: "moot",
+        account: "It was called off, so there was nothing to go to.",
+        evidenceId: null,
+      };
       const activity = world.history.scheduledActivities
         .filter(
           (entry) =>
@@ -295,7 +300,24 @@ function answerAct(
             entry.participantPersonIds.includes(undertaking.holderPersonId),
         )
         .at(-1);
-      if (!activity) return outstanding;
+      if (!activity) {
+        // The occasion is on somebody else's calendar, not theirs, so no
+        // record could place them there or show them missing. Once it has
+        // come and gone, that is all anybody can say.
+        const occasion = world.history.scheduledActivities.find(
+          (entry) => entry.stableKey === act.activityStableKey,
+        );
+        if (!occasion) return outstanding;
+        const held = scheduledActivityState(world, occasion.id);
+        if (held.status === "cancelled") return calledOff;
+        return compareSimulationMoments(world.currentMoment, held.end) >= 0
+          ? {
+              standing: "lapsed",
+              account: `It came and went (${act.description}), and nothing on record says whether they were there.`,
+              evidenceId: occasion.id,
+            }
+          : outstanding;
+      }
       // Being there is a record that places them in the room. A plan to go
       // names the same meeting and the same person, and is not being there.
       const presence = world.history.events.find(
@@ -315,13 +337,7 @@ function answerAct(
         };
       }
       const state = scheduledActivityState(world, activity.id);
-      if (state.status === "cancelled") {
-        return {
-          standing: "moot",
-          account: "It was called off, so there was nothing to go to.",
-          evidenceId: null,
-        };
-      }
+      if (state.status === "cancelled") return calledOff;
       if (compareSimulationMoments(world.currentMoment, state.end) >= 0) {
         return {
           standing: "broken",
