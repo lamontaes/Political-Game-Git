@@ -35,7 +35,11 @@ interface Level {
   readonly level: number;
 }
 
-const cache = new WeakMap<readonly unknown[], Map<string, readonly Level[]>>();
+/** Keyed by the months array and its length, so a month added later counts. */
+const cache = new WeakMap<
+  readonly unknown[],
+  Map<string, { readonly count: number; readonly levels: readonly Level[] }>
+>();
 
 function incomeRate(month: MacroMonthRecord): number {
   return (month.growthPct + month.inflationPct) / 100;
@@ -60,11 +64,12 @@ export function homePriceLevels(
   const incomes: number[] = Array.from({ length: WINDOW }, () =>
     incomeRate(first),
   );
-  const logIncome = (month: MacroMonthRecord) =>
-    Math.log(month.realOutputIndex * month.priceIndex);
-  const startGap = -logIncome(first);
+  // Income is carried as the sum of each month's rate, not read from the
+  // index, so a switch from the nation's months to the town's own does not
+  // jump when the two indexes start from different bases.
+  let logIncome = 0;
   let logPrice = 0;
-  let gap = logPrice - logIncome(first) - startGap;
+  let gap = 0;
   const levels: Level[] = [{ recordedAt: first.recordedAt, level: 1 }];
   for (let index = 1; index < months.length; index += 1) {
     const month = months[index]!;
@@ -80,7 +85,8 @@ export function homePriceLevels(
     });
     changes.push(change);
     logPrice += change;
-    gap = logPrice - logIncome(month) - startGap;
+    logIncome += incomeRate(month) / WINDOW;
+    gap = logPrice - logIncome;
     levels.push({ recordedAt: month.recordedAt, level: Math.exp(logPrice) });
   }
   return levels;
@@ -88,7 +94,8 @@ export function homePriceLevels(
 
 /**
  * The town's home-price level on `date` against the world's first recorded
- * month: its own scope's months when the world keeps them, else the nation's.
+ * month. The nation's months run until the town's own scope begins keeping
+ * months, and the town's own months from then on.
  */
 export function homePriceLevel(
   world: World,
@@ -102,16 +109,22 @@ export function homePriceLevel(
     cache.set(all, byScope);
   }
   const local = macroScopeForJurisdiction(town);
-  const scope = all.some((month) => month.scope === local) ? local : "national";
-  let levels = byScope.get(scope);
-  if (!levels) {
-    levels = homePriceLevels(
-      macroMonthHistory(world, scope, "9999-12-31" as IsoDate),
+  let entry = byScope.get(local);
+  if (!entry || entry.count !== all.length) {
+    const end = "9999-12-31" as IsoDate;
+    const own = macroMonthHistory(world, local, end);
+    const firstOwn = own[0]?.recordedAt;
+    const national = macroMonthHistory(world, "national", end).filter(
+      (month) => firstOwn === undefined || month.recordedAt < firstOwn,
     );
-    byScope.set(scope, levels);
+    entry = {
+      count: all.length,
+      levels: homePriceLevels([...national, ...own]),
+    };
+    byScope.set(local, entry);
   }
   let found = 1;
-  for (const row of levels) {
+  for (const row of entry.levels) {
     if (row.recordedAt > date) break;
     found = row.level;
   }

@@ -273,15 +273,21 @@ function monthsInto(year: AdoptedBudget, month: IsoDate): number {
  * How a state's tax law in force on a date moves a revenue source against
  * the law the state began with (`TAX_QUESTION_EFFECTS`): 1 where nothing
  * changed, where the size is not researched, or for a county or city, whose
- * own taxes these state questions do not set.
+ * own taxes these state questions do not set. Income tax is read on January 1
+ * of the date's year, the law paychecks withhold under for that tax year
+ * (`stateIncomeTaxUnderLaw`), so the budget collects what paychecks withhold.
  */
 export function taxLawFactor(
   world: World,
   government: PublicBudgetGovernment,
   source: BudgetSource,
-  onDate: IsoDate,
+  date: IsoDate,
 ): number {
   if (government.level !== "state") return 1;
+  const onDate =
+    source === "individualIncomeTax"
+      ? (`${date.slice(0, 4)}-01-01` as IsoDate)
+      : date;
   let factor = 1;
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.source !== source) continue;
@@ -303,7 +309,30 @@ export function taxLawFactor(
     if (began === "no" && now === "yes") factor *= 1 + (effect.toYes ?? 0);
     if (began === "yes" && now === "no") factor *= 1 + (effect.toNo ?? 0);
   }
-  return factor;
+  return Math.max(0, factor);
+}
+
+/**
+ * One month of a source at the level the government opened with, under the
+ * law it began with, carried to the economy on `economyIndex`. A tax a law
+ * ended collected nothing to scale from, so a law that restores it starts
+ * again from this level.
+ */
+function openingMonthLevel(
+  government: PublicBudgetGovernment,
+  source: BudgetSource,
+  at: number,
+  economyIndex: number | null,
+): number {
+  const first = government.years[0]!;
+  const since =
+    economyIndex !== null && first.economyAtAdoption
+      ? economyIndex / first.economyAtAdoption
+      : 1;
+  return (
+    (first.expectedRevenue[at]! / 12) *
+    Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (since - 1))
+  );
 }
 
 interface Settled {
@@ -351,16 +380,28 @@ export function settleGovernmentMonth(
   // Revenue.
   const represented = flows.represented.get(government.key) ?? 0;
   // A tax law that changed since adoption moves its source from that month.
-  const revenue = BUDGET_SOURCES.map((source, at) =>
-    Math.round(
+  const revenue = BUDGET_SOURCES.map((source, at) => {
+    const lawNow = taxLawFactor(world, government, source, month);
+    const lawAtAdoption = taxLawFactor(
+      world,
+      government,
+      source,
+      year.startsOn,
+    );
+    // A budget adopted while a law had ended the source expects none of it;
+    // a law restoring it collects from the level the government opened with.
+    if (lawAtAdoption === 0)
+      return Math.round(
+        openingMonthLevel(government, source, at, economyNow) * lawNow,
+      );
+    return Math.round(
       (year.expectedRevenue[at]! / 12) *
         (at === SALES_TAX && townSales !== null
           ? townSales
           : Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (economy - 1))) *
-        (taxLawFactor(world, government, source, month) /
-          taxLawFactor(world, government, source, year.startsOn)),
-    ),
-  );
+        (lawNow / lawAtAdoption),
+    );
+  });
   if (government.population > 0)
     revenue[INCOME_TAX] = Math.round(
       (revenue[INCOME_TAX]! *
@@ -687,7 +728,14 @@ function adoptNextYear(
     // law that changed last year counts once, in full.
     const lawNow = taxLawFactor(world, government, source, startsOn);
     const restated = rows.map((row) => {
-      const law = lawNow / taxLawFactor(world, government, source, row.month);
+      const lawThen = taxLawFactor(world, government, source, row.month);
+      // A month a law had ended the source collected nothing to restate; it
+      // counts at the opening level under today's law.
+      if (lawThen === 0)
+        return (
+          openingMonthLevel(government, source, at, economyAtAdoption) * lawNow
+        );
+      const law = lawNow / lawThen;
       // A city's sales tax collected on its town's sales, restated at
       // today's sales.
       if (at === SALES_TAX && row.townSales && townSalesNow !== null)

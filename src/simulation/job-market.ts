@@ -1,4 +1,10 @@
-import { addDays, ageOnDate, daysBetween, makeIsoDate } from "./dates";
+import {
+  addDays,
+  ageOnDate,
+  dateAtAge,
+  daysBetween,
+  makeIsoDate,
+} from "./dates";
 import { createStableId } from "./ids";
 import { createWorkRelationship, recordWorkStatus } from "./life";
 import {
@@ -12,6 +18,7 @@ import {
   workStatusAt,
 } from "./life-queries";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
+import { adultStartEmployer, localBusinessWageMinor } from "./local-economy";
 import { governmentUnit } from "./government-units";
 import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
 import {
@@ -116,11 +123,6 @@ export const JOB_MARKET_PLACEHOLDER = {
   startLeadDays: { minimum: 1, maximum: 7 },
   /** Days after a start date before the employer treats it as missed. */
   missedStartGraceDays: 2,
-  /**
-   * Read by the career paths only (`career-path7.ts`). The job market's own
-   * employer follows up a missed start when it has nobody else to call.
-   */
-  followUpChance: 0.5,
   /**
    * Days from a follow-up to the new start date: the long end when the
    * applicant has a job to leave first.
@@ -625,6 +627,27 @@ function acquaintancesOf(world: World, personId: EntityId): Set<EntityId> {
 }
 
 /**
+ * Whether someone this person knows works for the organization now, and so
+ * could vouch for them there.
+ */
+export function someoneKnownWorksAt(
+  world: World,
+  personId: EntityId,
+  organizationId: EntityId,
+): boolean {
+  for (const candidate of acquaintancesOf(world, personId)) {
+    if (!world.people[candidate]) continue;
+    if (
+      activeWorkRelationshipsAt(world, candidate).some(
+        (entry) => entry.relationship.organizationId === organizationId,
+      )
+    )
+      return true;
+  }
+  return false;
+}
+
+/**
  * Who could put this person forward for an opening: someone they know who
  * works for that employer now, or owns it.
  */
@@ -1096,7 +1119,7 @@ function holdsFullTimeWork(world: World, personId: EntityId): boolean {
 }
 
 /** Whether the person holds paid work now that they would have to leave. */
-function holdsWork(world: World, personId: EntityId): boolean {
+export function holdsWork(world: World, personId: EntityId): boolean {
   return activeWorkRelationshipsAt(world, personId).some(
     (entry) =>
       entry.relationship.kind.startsWith("employment:") &&
@@ -1523,6 +1546,91 @@ function payWeekly(
     jurisdictionId: null,
     provenance: { kind: "authored", note },
   });
+}
+
+/**
+ * A grown-up new life arrives holding a job in their own town, at the local
+ * business `adultStartEmployer` chooses from their own situation, rather
+ * than between jobs. It is an ordinary job of this market: paid each week,
+ * raised by a minimum-wage law, and left like any other.
+ *
+ * The job began when the person was free to take it: at eighteen, when the
+ * business opened, or the day after their last recorded job ended, whichever
+ * is latest. Pay runs from the day the game opens, at the town's published
+ * monthly pay for the work spread over the weeks of a year; earlier wages
+ * are not claimed. Writes nothing for a person under nineteen, one already
+ * working, or a town with no business they are fit for, and nothing twice.
+ */
+export function hireAtAdultStart(
+  world: World,
+  input: { readonly personId: EntityId; readonly jurisdictionId: EntityId },
+): World {
+  const key = `adult-start-work-v1:${input.personId}`;
+  if (world.history.workRelationships.some((work) => work.stableKey === key))
+    return world;
+  const person = world.people[input.personId];
+  if (!person || ageOnDate(person.birthDate, world.currentDate) < 19)
+    return world;
+  if (activeWorkRelationshipsAt(world, person.id).length > 0) return world;
+  const employer = adultStartEmployer(world, person.id, input.jurisdictionId);
+  if (!employer) return world;
+  const lastEnded = world.history.workRelationships
+    .filter((work) => work.personId === person.id)
+    .flatMap((work) => {
+      const status = workStatusAt(world, work.id);
+      return status?.status === "ended" ? [status.effectiveAt] : [];
+    })
+    .sort()
+    .at(-1);
+  const startedAt = [
+    dateAtAge(person.birthDate, 18),
+    employer.organization.formedAt,
+    ...(lastEnded ? [addDays(lastEnded, 1)] : []),
+  ]
+    .sort()
+    .at(-1)!;
+  if (startedAt > world.currentDate) return world;
+  const note =
+    "A grown-up new life's job at a local business, chosen from the people they know, the work they did before and the town's pay.";
+  const next = createWorkRelationship(world, {
+    stableKey: key,
+    personId: person.id,
+    organizationId: employer.organization.id,
+    startedAt,
+    initialStatus: "active",
+    kind: JOB_MARKET_WORK_KIND,
+    compensation: "paid",
+    authority: "directed",
+    dependency: "dependent",
+    economicRisk: "organization-borne",
+    provenance: { kind: "authored", note },
+    initialRole: {
+      title: employer.kind.workerTitle,
+      occupationClassification: employer.kind.workerOccupation,
+      locationJurisdictionId: input.jurisdictionId,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 35, maximumHours: 45 },
+        attention: "moderate",
+        concurrency: "mostly-exclusive",
+        scheduleRigidity: "rigid",
+        interruptibility: "limited",
+        locationJurisdictionId: input.jurisdictionId,
+      },
+    },
+  });
+  const work = next.history.workRelationships.at(-1)!;
+  const monthly = localBusinessWageMinor(
+    employer.kind,
+    input.jurisdictionId,
+  ).monthlyMinor;
+  return payWeekly(
+    next,
+    person.id,
+    work.id,
+    Math.round((monthly * 12) / 52),
+    "USD",
+    note,
+  );
 }
 
 /**
