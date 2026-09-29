@@ -463,6 +463,7 @@ const POLITICS_HUB: Readonly<Record<string, readonly string[]>> = {
   "nav-municipal": ["politics-tab-government", "politics-sub-records"],
   "nav-parties": ["politics-tab-parties"],
   "nav-politics-budget": ["politics-tab-issues", "politics-sub-budget"],
+  "nav-politics-conditions": ["politics-tab-issues", "politics-sub-conditions"],
   "nav-politics-transit": ["politics-tab-issues", "politics-sub-transit"],
   "nav-politics-tax": ["politics-tab-issues", "politics-sub-tax"],
   "nav-politics-candidacy": ["politics-tab-campaigns"],

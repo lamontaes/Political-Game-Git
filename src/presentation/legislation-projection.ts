@@ -20,6 +20,7 @@ import {
 import { measureFullDesignation } from "../simulation/measure-numbering";
 import { personName } from "../simulation/people";
 import { lawEffectSentences } from "./law-effects-prose";
+import { lawConditionSentences } from "./place-conditions";
 import type {
   EntityId,
   LegislativeActionKind,
@@ -588,6 +589,17 @@ export function projectMeasureBriefing(
     votes: voteSummaries,
     finished: position.terminal,
     outcomeNote,
-    whatItChanged: lawEffectSentences(world, measureId),
+    whatItChanged: [
+      ...lawEffectSentences(world, measureId),
+      // What it is doing to the place's conditions, read where the viewer
+      // lives when the law is federal.
+      ...lawConditionSentences(
+        world,
+        measureId,
+        world.control.kind === "person"
+          ? (world.people[world.control.personId]?.homeJurisdictionId ?? null)
+          : null,
+      ),
+    ],
   };
 }
