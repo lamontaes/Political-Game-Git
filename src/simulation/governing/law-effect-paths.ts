@@ -1,4 +1,5 @@
 import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
+import { COUNCIL_TERM_LIMIT_QUESTION } from "../living-world/local-council-term-limits";
 import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
 import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../nationwide-world/state-legislative-term-limits";
 import { OUTCOME_LINKS, outcomeLinkStatus } from "../outcome-web";
@@ -17,6 +18,7 @@ import {
 import { PAID_LEAVE_QUESTION } from "../state-paid-leave-law";
 import { TEACHER_SALARY_FLOOR_QUESTION } from "../teacher-salary-floor";
 import type { PolicyCatalog } from "../types";
+import { HOME_RULE_QUESTION } from "./question-authority";
 
 /**
  * WHICH LAWS ACT IN THE WORLD (Claude CTO's 8:00 a.m. all-hands, September
@@ -27,8 +29,8 @@ import type { PolicyCatalog } from "../types";
  * 1. a link in the outcome web from `law:<question>` whose status is "built":
  *    its size is set, its cause is read and its outcome is produced;
  * 2. a module that reads the law in force on the question and changes a
- *    paycheck, a budget, a rent, a lease, a town's home prices or a seat from it, with sizes from
- *    its own sources. Each is listed below with the file that does it.
+ *    paycheck, a budget, a rent, a lease, a town's home prices or a seat
+ *    from it, with sizes from its own sources. Each is listed below with the file that does it.
  *
  * An "about-zero" link does not count here: it says one outcome is not moved,
  * not that the law does nothing. A link whose size is not set, whose cause
@@ -42,7 +44,8 @@ export type LawEffectPathKind =
   | "state-spending"
   | "rent-and-eviction"
   | "home-prices"
-  | "seat-turnover";
+  | "seat-turnover"
+  | "local-powers";
 
 export interface LawEffectPath {
   readonly questionKey: string;
@@ -87,6 +90,18 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: LEGISLATIVE_TERM_LIMIT_QUESTION,
     kind: "seat-turnover",
     via: "src/simulation/nationwide-world/state-legislative-term-limits.ts",
+  },
+  {
+    questionKey: COUNCIL_TERM_LIMIT_QUESTION,
+    kind: "seat-turnover",
+    via: "src/simulation/living-world/local-council-term-limits.ts",
+  },
+  // Home rule or Dillon's rule decides which local questions a town's
+  // council may answer, so it opens or closes every ordinance on them.
+  {
+    questionKey: HOME_RULE_QUESTION,
+    kind: "local-powers",
+    via: "src/simulation/governing/question-authority.ts",
   },
   ...Object.values(RENT_LAW_KEYS).map((questionKey): LawEffectPath => ({
     questionKey,

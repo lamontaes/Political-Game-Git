@@ -2069,14 +2069,15 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "law in force",
-      "lagMonths": 0,
+      "size": 0.015,
+      "range": [0.005, 0.055],
+      "per": "law in force: about +1 point on a turnout near 66% of eligible voters",
+      "lagMonths": 12,
       "group": "place",
       "owner": "C",
-      "anchor": "Registration rises a lot, turnout a little (to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "AVR raises registration a lot; the new registrants vote less often than others, but enough of them vote to raise the eligible turnout rate, and the effect builds the longer AVR is in place. Front-end registration (at the agency visit) raised turnout 1.1 points and back-end registration (a notice after the visit) 3.3 points, as Data for Progress quotes the paper; the front-end size is used, with the back-end one as the top of the range. For people whose registration AVR updated when they moved, turnout rose 5.8 points (Orange County, California), which bounds it from above.",
+      "source": "McGhee, Hill and Romero 2021, The Registration and Turnout Effects of Automatic Voter Registration (SSRN 3933442); Kim 2021, APSA preprint (doi 10.33774/apsa-2021-3wzbh)",
+      "evidence": "provisional",
       "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
       "to": "voting.turnout-pct"
     },
@@ -3048,8 +3049,8 @@
       "group": "place",
       "owner": "F-cloud",
       "evidence": "about-zero",
-      "anchor": "State employment protections raised gay men's wages 2.7% and lowered lesbian women's employment, too small a group to move a state's poverty rate",
-      "source": "Burn 2018, Journal of Labor Research"
+      "anchor": "State employment protections raised gay men's wages 2.7% and lowered lesbian women's employment, too small a group to move a state's poverty rate. Enforcing one costs about nothing: the fiscal notes for Utah SB 296 (2015) and West Virginia HB 2266 (2023) each show $0, and the West Virginia commission expected no rise in complaints",
+      "source": "Burn 2018, Journal of Labor Research; Utah Legislative Fiscal Analyst, S.B. 296 fiscal note (3/9/2015); West Virginia Human Rights Commission, HB 2266 fiscal note (1/18/2023)"
     },
     {
       "key": "incentive-cap-to-poverty",
