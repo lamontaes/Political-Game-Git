@@ -22,6 +22,8 @@ import {
 } from "../../src/simulation/living-world/town-residents";
 import { characterHistoryContextPersonId } from "../../src/simulation/character-history";
 import { makeIsoDate } from "../../src/simulation/dates";
+import { lifePlaceByKey } from "../../src/simulation/life-places";
+import { placeReferencePopulation } from "../../src/simulation/nationwide-world/place-population";
 import type { EntityId, World } from "../../src/simulation";
 
 const HOUMA = "2236255";
@@ -215,6 +217,34 @@ describe("the town's size", { timeout: 180_000 }, () => {
     expect(described.estimated.people / 283_621).toBeGreaterThan(0.95);
     expect(described.estimated.people / 283_621).toBeLessThan(1.05);
     expect(UNKNOWN_TOWN_POPULATION).toBeGreaterThan(0);
+  });
+
+  it("a census-designated place takes the five-year survey's count, not the placeholder", () => {
+    // Kittery, Maine and Urban Honolulu have no annual Census estimate; the
+    // American Community Survey 2020-2024 counts 5,110 and 345,482 people.
+    for (const [key, people] of [
+      ["2337235", 5_110],
+      ["1571550", 345_482],
+    ] as const) {
+      expect(placeReferencePopulation(key)).toEqual({
+        value: people,
+        source: "acs-2020-2024",
+      });
+      const town = lifePlaceByKey(key)!.context.jurisdiction.id;
+      const roster = townRoster(town);
+      expect(roster.referencePopulation).toBe(people);
+      expect(roster.population).toBe(people);
+      expect(roster.households).toBe(
+        Math.ceil(people / peoplePerHousehold(town)),
+      );
+    }
+    // An incorporated place keeps its Vintage 2025 estimate.
+    expect(placeReferencePopulation(RENO)).toEqual({
+      value: 283_621,
+      source: "census-estimate-2025",
+    });
+    // A place with no Census figure of either kind stays unknown.
+    expect(placeReferencePopulation("9999999")).toBeNull();
   });
 
   it("a household written years later has the birthdays it would have had on day one", () => {
