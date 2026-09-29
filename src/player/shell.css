@@ -2768,3 +2768,74 @@
     animation: none !important;
   }
 }
+
+/*
+ * The Legal tab of the player's own record: cases, sentences and clemency
+ * requests on framed paper, one ruled entry each, with an oxblood tag on an
+ * open case.
+ */
+.pg-legal-record {
+  display: grid;
+  gap: var(--pg-space-2);
+}
+
+.pg-legal-standing {
+  margin: 0;
+  font-family: var(--pg-font-display);
+  font-size: 1.05rem;
+  color: var(--pg-ivory);
+}
+
+.pg-legal-list {
+  display: grid;
+  gap: var(--pg-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pg-legal-item {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--pg-hairline);
+  border-left: 3px solid var(--pg-brass);
+  border-radius: 4px;
+  background: rgb(255 250 238 / 55%);
+}
+
+.pg-legal-item p {
+  margin: 0.15rem 0;
+}
+
+.pg-legal-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--pg-space-1);
+}
+
+.pg-legal-standing-badge {
+  padding: 0.05rem 0.5rem;
+  border: 1px solid var(--pg-hairline);
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--pg-ivory-dim);
+}
+
+.pg-legal-standing-badge[data-open="true"] {
+  border-color: var(--run-a-oxblood, #7a2e2a);
+  color: var(--run-a-oxblood, #7a2e2a);
+}
+
+.pg-legal-meta {
+  font-size: 0.82rem;
+  color: var(--pg-ivory-faint);
+}
+
+.pg-legal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pg-space-1);
+  margin-top: 0.4rem;
+}

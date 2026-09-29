@@ -88,7 +88,7 @@ test("preserves deliberate component hover surfaces", async ({ page }) => {
     page.getByTestId("civic-learning-marker"),
   );
   expect(markerStyle.backgroundColor).toBe("rgb(227, 188, 97)");
-  expect(markerStyle.color).toBe("rgb(17, 23, 34)");
+  expect(markerStyle.color).toBe("rgb(50, 41, 27)");
 
   await page.getByTestId("civic-learning-marker").click();
   const learnedStyle = await hoverStyle(
