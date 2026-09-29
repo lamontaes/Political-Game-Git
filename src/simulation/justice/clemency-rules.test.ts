@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { makeIsoDate } from "../dates";
 import { knownValueOrNull } from "../legislature-rules";
 import {
   KENTUCKY_EXECUTIVE_PACK,
@@ -13,9 +14,7 @@ import {
   clemencyTable,
   clemencyTableProblems,
   EXECUTIVE_BODY,
-  type ClemencyCaseFacts,
 } from "./clemency-rules";
-import type { IsoDate } from "../types";
 
 const STATES = [
   "AL",
@@ -70,8 +69,8 @@ const STATES = [
   "WY",
 ];
 
-const noCrime: ClemencyCaseFacts = {
-  committedAt: "2027-03-01" as IsoDate,
+const noCrime = {
+  committedAt: makeIsoDate("2027-03-01"),
   priorFelonyConvictions: 0,
 };
 
@@ -129,7 +128,7 @@ describe("who must agree before clemency is granted", () => {
     const arizona = clemencyAuthorityFor("US-AZ")!;
     expect(
       clemencyGateFor(arizona, {
-        committedAt: "1993-06-01" as IsoDate,
+        committedAt: makeIsoDate("1993-06-01"),
         priorFelonyConvictions: 0,
       })!.mustAgree,
     ).toEqual(["board", EXECUTIVE_BODY]);
