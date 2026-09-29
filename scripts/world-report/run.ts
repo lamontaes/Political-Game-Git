@@ -2044,6 +2044,7 @@ function startingLawAcrossPlaces(world: World): string[] {
 const DIRECT_PATH_WORDS: Readonly<Record<string, string>> = {
   paycheck: "paychecks",
   "state-revenue": "the state's revenue",
+  "state-spending": "a state program's spending",
   "rent-and-eviction": "rents and evictions",
   "seat-turnover": "who holds seats",
 };

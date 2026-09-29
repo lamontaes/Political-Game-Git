@@ -165,5 +165,49 @@ export const TAX_QUESTION_EFFECTS: readonly {
   },
 ];
 
+/**
+ * The spending a state's law adds to one program when it moves from the
+ * answer the state began with, in dollars per resident a year: `toYes` when a
+ * "yes" is enacted where the state did not begin answering "yes", `toNo` when
+ * a "yes" it began with becomes "no". Each is a real state's annual cost of
+ * the same law over that state's 2024 population (BEA), so ESTIMATED FROM
+ * AVERAGE for every other state. A law changes the program from the month it
+ * takes effect, and the next budget builds it in.
+ */
+export const SPENDING_QUESTION_EFFECTS: readonly {
+  readonly questionKey: string;
+  readonly program: BudgetProgram;
+  readonly toYes: number;
+  readonly toNo: number;
+  readonly basis: string;
+}[] = [
+  {
+    questionKey:
+      "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+    program: "corrections",
+    // New York's Raise the Age aid to counties, $250 million each state fiscal
+    // year since 2021 (Office of the State Comptroller, "Spending on Raise
+    // the Age Programs in New York", 2025), over 19,867,248 residents.
+    toYes: 250_000_000 / 19_867_248,
+    toNo: -250_000_000 / 19_867_248,
+    basis:
+      "ESTIMATED FROM AVERAGE: New York's Raise the Age appropriation, $250 million a year (Office of the State Comptroller, 2025), per New York resident.",
+  },
+  {
+    questionKey:
+      "us-policy-positions:civil-family-community.dedicated-parks-funding",
+    program: "parks",
+    // Missouri's parks half of its 0.1% Parks, Soils and Water Sales Tax,
+    // about $69.9 million in 2025 (St. Louis Public Radio, August 4, 2026),
+    // over 6,245,466 residents; Minnesota's Parks and Trails Fund, $130.17
+    // million for the 2026-27 biennium (Minnesota House, 2025 session), over
+    // 5,793,151 residents. The average of the two.
+    toYes: (69_900_000 / 6_245_466 + 130_170_000 / 2 / 5_793_151) / 2,
+    toNo: -(69_900_000 / 6_245_466 + 130_170_000 / 2 / 5_793_151) / 2,
+    basis:
+      "ESTIMATED FROM AVERAGE: the average per resident of Missouri's parks sales tax share ($69.9 million, 2025) and Minnesota's Parks and Trails Fund ($65.1 million a year, 2026-27).",
+  },
+];
+
 /** An interest rate for a government whose research shows no debt. */
 export const DEFAULT_INTEREST_RATE = 0.04;

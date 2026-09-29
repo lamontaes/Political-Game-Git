@@ -26,6 +26,7 @@ import {
   ECONOMY_ELASTICITY,
   FIRST_CUT_SHARE,
   PENSION,
+  SPENDING_QUESTION_EFFECTS,
   TAX_QUESTION_EFFECTS,
 } from "./rules";
 import {
@@ -327,6 +328,42 @@ export function taxLawFactor(
 }
 
 /**
+ * What a state's laws in force on a date add to one program a year, in
+ * dollars, against the laws the state began with (`SPENDING_QUESTION_EFFECTS`):
+ * 0 where nothing changed, and for a county or city, whose programs these
+ * state questions do not set.
+ */
+export function spendingLawDollars(
+  world: World,
+  government: PublicBudgetGovernment,
+  program: BudgetProgram,
+  date: IsoDate,
+): number {
+  if (government.level !== "state") return 0;
+  let perResident = 0;
+  for (const effect of SPENDING_QUESTION_EFFECTS) {
+    if (effect.program !== program) continue;
+    const propositionId = propositionIdFor(world, effect.questionKey);
+    if (!propositionId) continue;
+    const now = lawInForce(
+      world,
+      government.lawJurisdictionId,
+      propositionId,
+      date,
+    )?.answer;
+    const began = lawInForceAtStart(
+      world,
+      government.lawJurisdictionId,
+      propositionId,
+      date,
+    );
+    if (began !== "yes" && now === "yes") perResident += effect.toYes;
+    if (began === "yes" && now === "no") perResident += effect.toNo;
+  }
+  return perResident * government.population;
+}
+
+/**
  * How a law adopting a wage income tax moves the income tax of a state that
  * began with none (`income-tax-adoption.ts`): 1 for any other state. A state
  * whose income tax collected nothing at the opening reads 0 until a law
@@ -528,8 +565,14 @@ export function settleGovernmentMonth(
 
   // Spending.
   const payments = flows.payments.get(government.key);
-  const spending = BUDGET_PROGRAMS.map((_, at) => {
-    const planned = year.appropriations[at]! / 12;
+  // A spending law that changed since adoption moves its program from that
+  // month; the next budget builds it in.
+  const spending = BUDGET_PROGRAMS.map((program, at) => {
+    const planned =
+      (year.appropriations[at]! +
+        spendingLawDollars(world, government, program, month) -
+        spendingLawDollars(world, government, program, year.startsOn)) /
+      12;
     return Math.round(CUTTABLE[at] ? planned * (1 - government.cut) : planned);
   });
   spending[INTEREST] = Math.round(
@@ -884,8 +927,17 @@ function adoptNextYear(
     priorCuttableAll > 0
       ? Math.min(1, (prior.carriedBalance ?? 0) / priorCuttableAll)
       : 0;
-  const base = prior.appropriations.map((value, at) =>
-    CUTTABLE[at] ? value * (1 - oneTimeShare) : value,
+  // A spending law enacted since the last budget was adopted is built in.
+  const base = prior.appropriations.map(
+    (value, at) =>
+      (CUTTABLE[at] ? value * (1 - oneTimeShare) : value) +
+      spendingLawDollars(world, government, BUDGET_PROGRAMS[at]!, startsOn) -
+      spendingLawDollars(
+        world,
+        government,
+        BUDGET_PROGRAMS[at]!,
+        prior.startsOn,
+      ),
   );
   const priorTotal = sum(base);
   const reserveLaw = reserveRule(government);
