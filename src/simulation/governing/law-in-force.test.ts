@@ -169,7 +169,9 @@ describe("the law a place already had when the game began", () => {
   const MEDICAID = "proposition_medicaid" as EntityId;
   const WORK = "proposition_work" as EntityId;
   const UNCOVERED = "proposition_uncovered" as EntityId;
+  const LEAVE = "proposition_leave" as EntityId;
   const dc = stateJurisdictionForKey("US-DC")!.id;
+  const maryland = stateJurisdictionForKey("US-MD")!.id;
 
   function worldAt(
     currentDate: string,
@@ -188,6 +190,10 @@ describe("the law a place already had when the game began", () => {
             id: WORK,
             stableKey:
               "us-policy-positions:health-human-services.work-requirement-for-assistance",
+          },
+          [LEAVE]: {
+            id: LEAVE,
+            stableKey: "us-policy-positions:labor-workforce.paid-family-leave",
           },
           [UNCOVERED]: { id: UNCOVERED, stableKey: "us-policy-positions:none" },
         },
@@ -228,6 +234,19 @@ describe("the law a place already had when the game began", () => {
     expect(
       lawInForce(worldAt("2025-11-01", [stateNo]), ohio, WORK),
     ).toMatchObject({ answer: "yes", level: "federal-statute" });
+  });
+
+  it("a repeal enacted in play governs a starting law that takes effect later", () => {
+    // Maryland's paid family leave, already law when the game begins, takes
+    // effect January 1, 2028. A repeal in force from June 1, 2026 leaves
+    // nothing of it to take effect.
+    expect(lawInForce(worldAt("2028-02-01", []), maryland, LEAVE)?.answer).toBe(
+      "yes",
+    );
+    const repeal = law(maryland, "no", "2026-03-01", "2026-06-01", LEAVE);
+    expect(
+      lawInForce(worldAt("2028-02-01", [repeal]), maryland, LEAVE),
+    ).toMatchObject({ answer: "no", origin: "enacted" });
   });
 
   it("a question the file does not cover stays unknown", () => {

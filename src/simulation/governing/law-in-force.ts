@@ -312,6 +312,11 @@ function governingRank(law: Candidate): number {
 function governs(candidate: Candidate, current: Candidate): boolean {
   const rank = governingRank(candidate) - governingRank(current);
   if (rank !== 0) return rank > 0;
+  // A law enacted in play was passed after every law the game began with,
+  // so it governs even when a starting law takes effect later: a repeal of
+  // a starting law not yet in force leaves nothing of it to take effect.
+  if (candidate.origin !== current.origin)
+    return candidate.origin === "enacted";
   if (candidate.operativeAt !== current.operativeAt)
     return candidate.operativeAt > current.operativeAt;
   return candidate.sequence > current.sequence;
