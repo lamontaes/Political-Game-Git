@@ -1,6 +1,6 @@
 .review-hub {
-  color: #e9e5db;
-  background: #19252b;
+  color: #403523;
+  background: #efe7d8;
   min-height: 100vh;
 }
 .review-header {
@@ -44,8 +44,8 @@
 }
 .review-header button,
 .review-office button {
-  background: #31424b;
-  color: #fff;
+  background: #ebe0cd;
+  color: #2e2619;
   border: 1px solid #89999c;
   border-radius: 5px;
   padding: 9px 12px;
@@ -54,10 +54,10 @@
 .review-hub .review-header button[aria-pressed="true"],
 .review-hub .review-header button[aria-pressed="true"]:hover {
   background: #eadcb7;
-  color: #14242d;
+  color: #32291b;
 }
 .review-hub a {
-  color: #f0d494;
+  color: #826521;
 }
 .review-hub :focus-visible {
   outline: 3px solid #f5cf70;
@@ -80,14 +80,14 @@
   top: 0;
   z-index: 10000;
   background: #eadcb7;
-  color: #16242c;
+  color: #32291b;
   padding: 9px 20px;
   font-weight: 700;
   overflow-wrap: anywhere;
 }
 .review-content {
   background: #f0ece3;
-  color: #243b3e;
+  color: #32291b;
 }
 .review-content .review-office button {
   margin: 8px;
@@ -95,5 +95,5 @@
 
 .review-header .eyebrow,
 .review-header dt {
-  color: #b6c5c4;
+  color: #705d3c;
 }

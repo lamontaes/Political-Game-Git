@@ -10,17 +10,13 @@
  */
 
 :root {
-  --pg-control-bg: linear-gradient(
-    180deg,
-    rgb(24 37 58 / 94%),
-    rgb(13 20 32 / 96%)
-  );
-  --pg-control-bg-flat: rgb(15 24 38 / 96%);
-  --pg-control-ink: var(--run-a-ink, #f5ebd4);
-  --pg-control-muted: var(--run-a-muted, #c8b997);
-  --pg-control-line: var(--run-a-line, rgb(218 198 153 / 56%));
-  --pg-control-accent: var(--run-a-gold, #c29b48);
-  --pg-control-focus: var(--run-a-focus, #f6c75a);
+  --pg-control-bg: linear-gradient(180deg, #fbf6ea, #efe3c9);
+  --pg-control-bg-flat: #f6eedd;
+  --pg-control-ink: var(--run-a-ink, #2b2118);
+  --pg-control-muted: var(--run-a-muted, #5f4e3b);
+  --pg-control-line: rgb(122 90 40 / 55%);
+  --pg-control-accent: var(--run-a-gold, #8a6420);
+  --pg-control-focus: var(--run-a-focus, #7a2e2a);
   --pg-control-radius: 0.45rem;
 }
 
@@ -107,8 +103,8 @@
   list-style: none;
   border: 1px solid var(--pg-control-accent);
   border-radius: var(--pg-control-radius);
-  background: rgb(11 19 32 / 98%);
-  box-shadow: 0 18px 44px rgb(0 0 0 / 48%);
+  background: rgb(241 234 221 / 98%);
+  box-shadow: 0 18px 44px rgb(46 30 12 / 34%);
   color: var(--pg-control-ink);
   font-family: var(--pg-font-ui, Georgia, serif);
   font-size: 0.92rem;
@@ -220,8 +216,8 @@
   width: 1.15rem;
   height: 1.15rem;
   margin: 0 0.45rem 0 0;
-  border: 1.5px solid var(--pg-control-line);
-  background: var(--pg-control-bg-flat);
+  border: 1.5px solid rgb(90 62 24 / 75%);
+  background: #fffbf2;
   vertical-align: -0.2rem;
   cursor: pointer;
   appearance: none;
@@ -313,7 +309,7 @@
   margin-top: -0.375rem;
   border: 2px solid var(--pg-control-focus);
   border-radius: 50%;
-  background: var(--run-a-navy, #0b1320);
+  background: var(--run-a-paper, #f1eadd);
   appearance: none;
 }
 
@@ -322,7 +318,7 @@
   height: 1.05rem;
   border: 2px solid var(--pg-control-focus);
   border-radius: 50%;
-  background: var(--run-a-navy, #0b1320);
+  background: var(--run-a-paper, #f1eadd);
 }
 
 .pg-game :where(input[type="range"])::-moz-range-progress {
@@ -352,7 +348,7 @@ body:where(.pg-game) button:where(:hover:not(:disabled)) {
 }
 
 /*
- * The developer focus ring (styles.css, brown) is hard to see on navy. This
+ * The developer focus ring (styles.css, brown) is too faint on paper. This
  * selector outranks `button:focus-visible` by one element, while a skin's own
  * `.class:focus-visible` ring still wins.
  */

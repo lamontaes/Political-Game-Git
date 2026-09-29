@@ -16,10 +16,10 @@
 
 .pg-news-sections button,
 .pg-news-switch button {
-  border: 1px solid var(--pg-hairline, rgba(244, 236, 224, 0.16));
+  border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
   border-radius: 3px;
   padding: 0.3rem 0.7rem;
-  background: rgba(11, 19, 32, 0.55);
+  background: rgb(255 251 242 / 80%);
   color: inherit;
   font: inherit;
   font-size: 0.86rem;
@@ -29,7 +29,7 @@
 .pg-news-sections button[aria-current="page"],
 .pg-news-switch button[aria-pressed="true"] {
   border-color: var(--pg-brass, #c29b48);
-  background: rgba(44, 58, 76, 0.85);
+  background: rgb(235 224 206 / 92%);
   font-weight: 650;
 }
 
@@ -46,22 +46,22 @@
   padding: 1rem 1.2rem 1.3rem;
   border-radius: 4px;
   background: #f6f1e6;
-  color: #1c1a17;
+  color: #32291b;
 }
 
 .pg-news-read .pg-news-switch button {
   background: #ece5d6;
-  color: #1c1a17;
+  color: #32291b;
   border-color: #bfb49f;
 }
 
 .pg-news-read .pg-news-switch button[aria-pressed="true"] {
-  background: #1c1a17;
-  color: #f6f1e6;
+  background: #f1e9dc;
+  color: #372c14;
 }
 
 .pg-news-masthead {
-  border-bottom: 3px double #1c1a17;
+  border-bottom: 3px double #7c643c;
   padding-bottom: 0.4rem;
   text-align: center;
 }
@@ -136,7 +136,7 @@
   margin: 0;
   font-family: ui-sans-serif, system-ui, sans-serif;
   font-size: 0.78rem;
-  color: #5b554b;
+  color: #32291b;
 }
 
 .pg-news-body {

@@ -34,7 +34,7 @@ import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { seatStartingCondition } from "../world-setup/conditions";
 import type { CongressSeat } from "./congress-seats";
-import { MINIMUM_AGE } from "./congress-seats";
+import { MINIMUM_AGE, seatTermWindow } from "./congress-seats";
 import {
   LIVING_WORLD_KEYS,
   PARTY_AFFILIATION_KIND,
@@ -238,6 +238,7 @@ function prospectInput(
 function prospectDecision(
   world: World,
   plan: CongressCandidateSeatPlan,
+  year: number,
   personId: EntityId,
   party: string,
   recruitmentEventId: EntityId,
@@ -252,7 +253,7 @@ function prospectDecision(
         : 1 - condition.generatedShare;
   return recordProspectRunChoice({
     world,
-    stableKey: `${slateKey(plan.seat.seatKey, Number(plan.intakeDate.slice(0, 4)))}:decision:${party}:${personId}`,
+    stableKey: `${slateKey(plan.seat.seatKey, year)}:decision:${party}:${personId}`,
     decisionType: "election.consider-congress-run",
     seatKey: plan.seat.seatKey,
     personId,
@@ -260,6 +261,8 @@ function prospectDecision(
     recruitmentEventId,
     opportunity,
     lowOpportunityShare: CONGRESS_CANDIDATE_PROFILE.lowOpportunityShare,
+    termEnds: seatTermWindow(plan.seat, makeIsoDate(`${year + 1}-01-03`))
+      .endExclusive,
   });
 }
 
@@ -429,6 +432,7 @@ export function prepareCongressCandidateSlates(
       const decision = prospectDecision(
         next,
         plan,
+        year,
         personId,
         party,
         recruitment.id,
