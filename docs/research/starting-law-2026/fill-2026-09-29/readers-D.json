@@ -1,0 +1,581 @@
+{
+  "us-policy-positions:justice-public-safety.permit-to-carry-concealed": {
+    "answers": {
+      "US-GU": {
+        "answer": "yes",
+        "cite": "10 GCA \u00a7\u00a7 60109, 60109.1",
+        "source": "https://col.guamcourts.gov/sites/default/files/10gc060.pdf",
+        "note": "Guam law forbids carrying a concealed firearm without a license from the Guam Police Department (a shall-issue license under 10 GCA \u00a7 60109.1), and it has no permitless-carry law."
+      },
+      "US-MP": {
+        "answer": "yes",
+        "cite": "6 CMC \u00a7\u00a7 10205, 10101(h)",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T6/10205.pdf",
+        "note": "Commonwealth law bars carrying any firearm in public except in listed cases (home, range, hunting, lawful transport in a locked case) and defines a concealed firearm, so there is no permitless concealed carry."
+      },
+      "US-AS": {
+        "answer": "yes",
+        "cite": "A.S.C.A. \u00a7 46.4203(a)(1)",
+        "source": "https://asbar.org/code-annotated/46-4203-unlawful-use-of-weapons/",
+        "note": "American Samoa makes it a felony to carry a firearm concealed on the person, with exemptions only for officers, prison staff and soldiers, and it separately requires an arms license, so there is no permitless carry."
+      },
+      "US-VI": {
+        "answer": "yes",
+        "cite": "14 V.I.C. \u00a7 2253(a)",
+        "source": "https://storage.courtlistener.com/pdf/2024/03/27/heath_v._people_of_the_virgin_islands.pdf",
+        "note": "The V.I. Supreme Court in Heath v. People (2024) upheld convictions under 14 V.I.C. \u00a7 2253(a) for possessing firearms without a license, and the VIPD Firearms License Division still requires a license, so there is no permitless carry."
+      }
+    },
+    "unread": {}
+  },
+  "us-policy-positions:civil-family-community.restrict-abortion": {
+    "answers": {
+      "US-GU": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "9 GCA \u00a7 31.20",
+        "source": "https://col.guamcourts.gov/sites/default/files/9gc031.pdf",
+        "note": "Guam allows abortion only within 13 weeks (26 weeks for a grave defect, rape or incest, and any time to protect the mother), and the Ninth Circuit struck only the 1990 total ban, not this 1978 limit."
+      },
+      "US-AS": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "A.S.C.A. \u00a7\u00a7 46.3902, 46.3903",
+        "source": "https://asbar.org/code-annotated/46-3903-authorized-abortions/",
+        "note": "Abortion is a class D felony unless a physician performs it because the patient's life is endangered or continuing the pregnancy would substantially impair her physical or mental health, so it is banned at every stage with those exceptions."
+      },
+      "US-PR": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "C\u00f3digo Penal de 2012 (Ley 146-2012), Arts. 98-99",
+        "source": "https://en.wikipedia.org/wiki/Abortion_in_Puerto_Rico",
+        "note": "Weak: the 2012 Penal Code still criminalizes abortion except to protect the mother's life or health, but it is de facto allowed with no clear gestational limit, so no enforceable limit was found in force."
+      },
+      "US-VI": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "14 V.I.C. \u00a7 151",
+        "source": "https://en.wikipedia.org/wiki/Abortion_in_the_United_States_Virgin_Islands",
+        "note": "Wikipedia, citing 14 V.I.C. \u00a7 151, says abortion is legal on request to 24 weeks and afterward only to protect the life or health of the mother, which is a gestational limit."
+      }
+    },
+    "unread": {}
+  },
+  "us-policy-positions:transportation-infrastructure.public-broadband": {
+    "answers": {
+      "US-DC": {
+        "answer": "yes",
+        "preempts": false,
+        "cite": "D.C. Code \u00a7 1-1403(11)",
+        "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-1403",
+        "note": "D.C. law does not bar government-built broadband, and it directs the Office of the Chief Technology Officer to develop solutions giving every resident and business equitable, affordable high-speed Internet access."
+      },
+      "US-GU": {
+        "answer": "yes",
+        "preempts": false,
+        "cite": "12 GCA ch. 12, art. 2 (Guam Telecommunications Act of 2004)",
+        "source": "https://col.guamcourts.gov/sites/default/files/12gc012.pdf",
+        "note": "Weak: Guam law has no ban or limit on government-built broadband; its Telecommunications Act only promotes competition and regulates carriers through the Public Utilities Commission."
+      },
+      "US-MP": {
+        "answer": "yes",
+        "preempts": false,
+        "cite": "4 CMC \u00a7 8461 et seq.",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T4/8461.pdf",
+        "note": "Weak: Commonwealth law has no ban or limit on government-built broadband; its telecommunications article only certifies carriers and encourages competition."
+      },
+      "US-AS": {
+        "answer": "yes",
+        "preempts": false,
+        "source": "https://asbar.org/legal-resources/code-annotated/code-annotated-by-title-and-chapter/",
+        "note": "Weak: the American Samoa Code index shows no chapter on telecommunications or broadband and no ban or limit on government-built service."
+      },
+      "US-PR": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "Ley 107-2020, Art. 1.010(t) (21 L.P.R.A. \u00a7 7015(t))",
+        "source": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/107-2020.pdf",
+        "note": "Municipalities may run for-profit municipal enterprises, but the Municipal Code bars them from creating corporations that compete with existing businesses in their limits, which limits municipal broadband where private carriers already serve."
+      },
+      "US-AZ": {
+        "answer": "yes",
+        "preempts": false,
+        "source": "https://broadbandnow.com/report/municipal-broadband-roadblocks/",
+        "note": "Weak: BroadbandNow's May 2024 review of state laws lists no ban or limit on municipal broadband in Arizona, and no law barring it was found."
+      },
+      "US-CT": {
+        "answer": "yes",
+        "preempts": false,
+        "source": "https://broadbandnow.com/report/municipal-broadband-roadblocks/",
+        "note": "Weak: BroadbandNow's May 2024 review of state laws lists no ban or limit on municipal broadband in Connecticut, and no law barring it was found."
+      },
+      "US-DE": {
+        "answer": "yes",
+        "preempts": false,
+        "source": "https://broadbandnow.com/report/municipal-broadband-roadblocks/",
+        "note": "Weak: BroadbandNow's May 2024 review of state laws lists no ban or limit on municipal broadband in Delaware, and no law barring it was found."
+      },
+      "US-HI": {
+        "answer": "yes",
+        "preempts": false,
+        "source": "https://broadbandnow.com/report/municipal-broadband-roadblocks/",
+        "note": "Weak: BroadbandNow's May 2024 review of state laws lists no ban or limit on municipal broadband in Hawaii, and no law barring it was found."
+      },
+      "US-ME": {
+        "answer": "yes",
+        "preempts": false,
+        "source": "https://broadbandnow.com/report/municipal-broadband-roadblocks/",
+        "note": "Weak: BroadbandNow's May 2024 review of state laws lists no ban or limit on municipal broadband in Maine, and no law barring it was found."
+      },
+      "US-MS": {
+        "answer": "yes",
+        "preempts": false,
+        "source": "https://broadbandnow.com/report/municipal-broadband-roadblocks/",
+        "note": "Weak: BroadbandNow's May 2024 review of state laws lists no ban or limit on municipal broadband in Mississippi, and no law barring it was found."
+      },
+      "US-NJ": {
+        "answer": "yes",
+        "preempts": false,
+        "source": "https://broadbandnow.com/report/municipal-broadband-roadblocks/",
+        "note": "Weak: BroadbandNow's May 2024 review of state laws lists no ban or limit on municipal broadband in New Jersey, and no law barring it was found."
+      },
+      "US-NM": {
+        "answer": "yes",
+        "preempts": false,
+        "source": "https://broadbandnow.com/report/municipal-broadband-roadblocks/",
+        "note": "Weak: BroadbandNow's May 2024 review of state laws lists no ban or limit on municipal broadband in New Mexico, and no law barring it was found."
+      },
+      "US-NY": {
+        "answer": "yes",
+        "preempts": false,
+        "source": "https://broadbandnow.com/report/municipal-broadband-roadblocks/",
+        "note": "Weak: BroadbandNow's May 2024 review of state laws lists no ban or limit on municipal broadband in New York, and no law barring it was found."
+      },
+      "US-ND": {
+        "answer": "yes",
+        "preempts": false,
+        "source": "https://broadbandnow.com/report/municipal-broadband-roadblocks/",
+        "note": "Weak: BroadbandNow's May 2024 review of state laws lists no ban or limit on municipal broadband in North Dakota, and no law barring it was found."
+      },
+      "US-RI": {
+        "answer": "yes",
+        "preempts": false,
+        "source": "https://broadbandnow.com/report/municipal-broadband-roadblocks/",
+        "note": "Weak: BroadbandNow's May 2024 review of state laws lists no ban or limit on municipal broadband in Rhode Island, and no law barring it was found."
+      },
+      "US-SD": {
+        "answer": "yes",
+        "preempts": false,
+        "source": "https://broadbandnow.com/report/municipal-broadband-roadblocks/",
+        "note": "Weak: BroadbandNow's May 2024 review of state laws lists no ban or limit on municipal broadband in South Dakota, and no law barring it was found."
+      },
+      "US-WV": {
+        "answer": "yes",
+        "preempts": false,
+        "source": "https://broadbandnow.com/report/municipal-broadband-roadblocks/",
+        "note": "Weak: BroadbandNow's May 2024 review of state laws lists no ban or limit on municipal broadband in West Virginia, and no law barring it was found."
+      },
+      "US-WY": {
+        "answer": "yes",
+        "preempts": false,
+        "cite": "2018 Wyo. Sess. Laws SF0100 (Broadband Enterprise Act grants)",
+        "source": "https://wyoleg.gov/2018/Enroll/SF0100.pdf",
+        "note": "Weak: Wyoming does not bar municipal broadband, but its state broadband grant fund goes only to unserved areas and to private or public-private projects unless no private provider responds."
+      }
+    },
+    "unread": {
+      "US-VI": "Virgin Islands Code copies tried: legvi.org/vicode (404), vicourts.org/publication_and_reports/resources/virgin_islands_code (redirects to advance.lexis.com, needs JavaScript), lexisnexis.com/hottopics/vicode (empty), law.justia.com/codes/virgin-islands (403 even through r.jina.ai), govt.westlaw.com/vicode (timeout), codes.findlaw.com/vi (404), vicode.elaws.us (timeout), lawserver.com (JavaScript redirect), casetext (gone), courtlistener search (throttled); also vivote.gov, bir.vi.gov, dlca.vi.gov, vihfa.gov and vipd.vi.gov, which do not carry it. No Virgin Islands page on municipal broadband law was reachable."
+    }
+  },
+  "us-policy-positions:technology-privacy.consumer-data-privacy-law": {
+    "answers": {
+      "US-DC": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+        "note": "Weak: the District has no comprehensive consumer data privacy law in effect (it is not on the IAPP list of signed laws, updated 9/8/2026), and nothing in D.C. law bars a local rule."
+      },
+      "US-GU": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+        "note": "Weak: Guam has no comprehensive consumer data privacy law in effect (it is not on the IAPP list of signed laws, updated 9/8/2026), and nothing in Guam law bars a local rule."
+      },
+      "US-MP": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+        "note": "Weak: the Commonwealth has no comprehensive consumer data privacy law in effect (it is not on the IAPP list of signed laws, updated 9/8/2026), and nothing in Commonwealth law bars a local rule."
+      },
+      "US-AS": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+        "note": "Weak: American Samoa has no comprehensive consumer data privacy law in effect (it is not on the IAPP list of signed laws, updated 9/8/2026), and nothing in its code bars a local rule."
+      },
+      "US-PR": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+        "note": "Weak: Puerto Rico has no comprehensive consumer data privacy law in effect (it is not on the IAPP list of signed laws, updated 9/8/2026), and nothing in its law bars a local rule."
+      },
+      "US-VI": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+        "note": "Weak: the Virgin Islands has no comprehensive consumer data privacy law in effect (it is not on the IAPP list of signed laws, updated 9/8/2026), and nothing found bars a local rule."
+      }
+    },
+    "unread": {}
+  },
+  "us-policy-positions:government-operations.automatic-voter-registration": {
+    "answers": {
+      "US-GU": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "3 GCA \u00a7\u00a7 3102, 3102.1",
+        "source": "https://col.guamcourts.gov/sites/default/files/03gc003.pdf",
+        "note": "A Guam voter is registered only by the person's own sworn affidavit or online application with proof of citizenship, with no automatic registration through an agency."
+      },
+      "US-MP": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "1 CMC \u00a7 6205",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T1/6205.pdf",
+        "note": "A voter is registered only by signing an affidavit of registration with a registration clerk or by mail, with no automatic registration through an agency."
+      },
+      "US-AS": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "A.S.C.A. \u00a7 6.0214",
+        "source": "https://asbar.org/code-annotated/6-0214-application-to-register/",
+        "note": "A person is registered only by appearing before an election officer with government photo identification and signing a sworn application, with no automatic registration."
+      },
+      "US-PR": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "Ley 58-2020, Art. 5.9 (16 L.P.R.A. \u00a7 4569)",
+        "source": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/58-2020.pdf",
+        "note": "A person joins the voter rolls only by filing a sworn registration application with the State Elections Commission, and agencies only supply data to update the rolls, so registration is not automatic."
+      },
+      "US-NY": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "N.Y. Election Law \u00a7\u00a7 5-900 to 5-906 (art. 5, title 9)",
+        "source": "https://www.nysenate.gov/legislation/laws/ELN/5-900",
+        "note": "Designated agencies, starting with the Department of Motor Vehicles, must send each applicant's voter registration information to the state board, and the applicant is registered unless he or she checks the box declining; the exact start date was not read (Brennan Center: enacted 2020)."
+      },
+      "US-VI": {
+        "answer": "no",
+        "preempts": true,
+        "source": "https://vivote.gov/voters/register-to-vote/",
+        "note": "Weak: the Election System says a person registers by applying online or in person with a birth certificate, passport, DD214 or naturalization certificate, with no automatic registration through an agency."
+      }
+    },
+    "unread": {}
+  },
+  "us-policy-positions:fiscal.fund-pensions-to-schedule": {
+    "answers": {
+      "US-GU": {
+        "answer": "yes",
+        "preempts": true,
+        "operativeAt": "2003-03-01",
+        "cite": "4 GCA \u00a7 8137",
+        "source": "https://col.guamcourts.gov/sites/default/files/04gc008_Q.pdf",
+        "note": "The government must pay the Retirement Fund each year, on an actuarial funded basis, the normal cost plus an amortization of the unfunded liability, and the Board can enforce it in court by writ of mandate; the 100 percent rate has applied since March 1, 2003."
+      },
+      "US-MP": {
+        "answer": "no",
+        "preempts": true,
+        "operativeAt": "2008-01-24",
+        "cite": "1 CMC \u00a7\u00a7 8362, 8368",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T1/8368.pdf",
+        "note": "The Retirement Fund statute calls for actuarial funding, but a 2008 law sets the general-fund employer contribution at a fixed 18 percent of pay against an actuarial rate of 36.7 percent and lets the shortfall accrue as a debt."
+      },
+      "US-AS": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "A.S.C.A. \u00a7 7.1433",
+        "source": "https://asbar.org/code-annotated/7-1433-government-contributions-to-fund/",
+        "note": "The government must pay the retirement fund each year on an actuarially funded basis, the normal cost plus a level payment that pays off the unfunded accrued cost."
+      },
+      "US-PR": {
+        "answer": "no",
+        "preempts": true,
+        "operativeAt": "2017-08-23",
+        "cite": "Ley 106-2017, Art. 1.4 et seq.",
+        "source": "https://www.lexjuris.com/lexlex/Leyes2017/lexl2017106.htm",
+        "note": "Since Act 106 of 2017 the General Fund pays retirement benefits as they come due (pay as you go) instead of funding an actuarial contribution."
+      },
+      "US-MS": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+        "note": "Mississippi statute requires PERS employer contribution rates sufficient to fund the actuarially determined contribution (NASRA 2015 summary; no later change found), after a phase-in in fiscal 2007 and 2008."
+      }
+    },
+    "unread": {
+      "US-VI": "Virgin Islands Code copies tried: legvi.org/vicode (404), vicourts.org/publication_and_reports/resources/virgin_islands_code (redirects to advance.lexis.com, needs JavaScript), lexisnexis.com/hottopics/vicode (empty), law.justia.com/codes/virgin-islands (403 even through r.jina.ai), govt.westlaw.com/vicode (timeout), codes.findlaw.com/vi (404), vicode.elaws.us (timeout), lawserver.com (JavaScript redirect), casetext (gone), courtlistener search (throttled); also vivote.gov, bir.vi.gov, dlca.vi.gov, vihfa.gov and vipd.vi.gov, which do not carry it. No GERS statute or valuation was reachable (gersvi.com is a parked domain)."
+    }
+  },
+  "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
+    "answers": {
+      "US-GU": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "14 GCA \u00a7\u00a7 3201, 3508",
+        "source": "https://col.guamcourts.gov/sites/default/files/14gc003.pdf",
+        "note": "Guam's Uniform Consumer Credit Code caps ordinary consumer loans at 10 percent a year and licensed small loans at 3 percent a month on the first $300 (36 percent a year) with lower rates above that."
+      },
+      "US-MP": {
+        "answer": "yes",
+        "preempts": true,
+        "operativeAt": "2007-09-20",
+        "cite": "4 CMC \u00a7 60151(2)",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T4/60151.pdf",
+        "note": "Licensed finance companies may not charge an annual percentage rate above 34 percent, points and fees aside, and usury is a crime; the cap took effect September 20, 2007."
+      },
+      "US-AS": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "A.S.C.A. \u00a7\u00a7 28.1501, 28.1502",
+        "source": "https://asbar.org/code-annotated/28-1501-interest-rate-agreements-signed-and-written-charge-for-loans/",
+        "note": "American Samoa caps interest at 15 percent a year, lets licensed banks charge up to 24 percent on loans of $5,000 or less, and limits approved small-loan agencies to $8 per $100 per year."
+      }
+    },
+    "unread": {
+      "US-VI": "Virgin Islands Code copies tried: legvi.org/vicode (404), vicourts.org/publication_and_reports/resources/virgin_islands_code (redirects to advance.lexis.com, needs JavaScript), lexisnexis.com/hottopics/vicode (empty), law.justia.com/codes/virgin-islands (403 even through r.jina.ai), govt.westlaw.com/vicode (timeout), codes.findlaw.com/vi (404), vicode.elaws.us (timeout), lawserver.com (JavaScript redirect), casetext (gone), courtlistener search (throttled); also vivote.gov, bir.vi.gov, dlca.vi.gov, vihfa.gov and vipd.vi.gov, which do not carry it. No consumer loan interest cap statute was reachable.",
+      "US-PR": "Ley 4-1985 (bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/4-1985.pdf) lets the Junta Financiera set maximum rates or leave them to free competition and names no cap itself; Ley 106-1965 (bvirtualogp.pr.gov) was tried, and ocif.pr.gov/interes-aplicable and /leyes-reglamentos-y-cartas-circulares list no current Junta Financiera rate regulation."
+    }
+  },
+  "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
+    "answers": {
+      "US-GU": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "11 GCA \u00a7 26202",
+        "source": "https://col.guamcourts.gov/sites/default/files/11gc026_Q.pdf",
+        "note": "Guam has no sales tax but taxes the gross proceeds of every retail seller of tangible goods (4.5 percent from 10/1/2025, 4 percent from 10/1/2026) with no grocery exemption, only a 50 percent cut for retail sales of local produce."
+      },
+      "US-MP": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "4 CMC \u00a7\u00a7 1301, 1305, 1402",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T4/1301.pdf",
+        "note": "The Commonwealth has no sales tax but taxes every seller's gross revenue at 1.5 to 5 percent with no grocery exemption, and adds a 1 percent excise tax on foodstuffs."
+      },
+      "US-AS": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "A.S.C.A. \u00a7\u00a7 11.1001, 11.1002(a)(7)",
+        "source": "https://asbar.org/code-annotated/11-1002-amount-of-tax-on-certain-items/",
+        "note": "American Samoa has no sales tax but levies an import excise tax at the point of entry, including 5 percent of the value of all unlisted items imported for resale, and the code exempts no groceries."
+      },
+      "US-PR": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "Ley 1-2011, Subtitle DD (sales and use tax)",
+        "source": "https://hacienda.pr.gov/ivu/cambios-al-ivu-partir-del-1ro-de-agosto-de-2014",
+        "note": "Puerto Rico's sales and use tax (10.5 percent plus up to 1 percent municipal) applies to groceries generally, and Hacienda's listed food exemption covers only prescription-only foods, though some summaries also list unprocessed foods."
+      }
+    },
+    "unread": {
+      "US-VI": "Virgin Islands Code copies tried: legvi.org/vicode (404), vicourts.org/publication_and_reports/resources/virgin_islands_code (redirects to advance.lexis.com, needs JavaScript), lexisnexis.com/hottopics/vicode (empty), law.justia.com/codes/virgin-islands (403 even through r.jina.ai), govt.westlaw.com/vicode (timeout), codes.findlaw.com/vi (404), vicode.elaws.us (timeout), lawserver.com (JavaScript redirect), casetext (gone), courtlistener search (throttled); also vivote.gov, bir.vi.gov, dlca.vi.gov, vihfa.gov and vipd.vi.gov, which do not carry it. bir.vi.gov has no gross receipts tax page that loads without login."
+    }
+  },
+  "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
+    "answers": {
+      "US-GU": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "21 GCA ch. 48",
+        "source": "https://col.guamcourts.gov/sites/default/files/21gc048_Q.pdf",
+        "note": "Guam's Landlord and Tenant Rental Act of 2018 gives a tenant no right to a free lawyer in an eviction case and does not bar a local program."
+      },
+      "US-MP": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "2 CMC \u00a7 40206",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T2/40206.pdf",
+        "note": "Commonwealth law gives a tenant facing summary eviction in Superior Court no right to a free lawyer and does not bar a local program."
+      },
+      "US-AS": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://asbar.org/legal-resources/code-annotated/code-annotated-by-title-and-chapter/",
+        "note": "Weak: the American Samoa Code has no landlord-tenant or eviction chapter (the counsel chapter, 46.10, covers criminal cases), so no right to a lawyer in eviction exists and no law bars a local program."
+      },
+      "US-PR": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+        "note": "Weak: Puerto Rico is not on the National Coalition for a Civil Right to Counsel list of enacted eviction counsel laws (last modified September 2026), and nothing bars a local program."
+      },
+      "US-VI": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+        "note": "Weak: the Virgin Islands is not on the National Coalition for a Civil Right to Counsel list of enacted eviction counsel laws (last modified September 2026), and nothing bars a local program."
+      }
+    },
+    "unread": {}
+  },
+  "us-policy-positions:housing-land-use.inclusionary-requirement": {
+    "answers": {
+      "US-GU": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "21 GCA \u00a7 612A03",
+        "source": "https://col.guamcourts.gov/sites/default/files/21gc061_Q.pdf",
+        "note": "Guam does not require below-market homes in new developments; its 2025 Affordable Housing Streamline Zoning Act only speeds zoning for projects that choose to include deed-restricted affordable units."
+      },
+      "US-MP": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "2 CMC \u00a7 7221 et seq.",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T2/7221.pdf",
+        "note": "Weak: the Commonwealth zoning code creates a Zoning Board but requires no below-market homes in new developments, and islands keep their own zoning laws."
+      },
+      "US-AS": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "A.S.C.A. \u00a7\u00a7 26.0301 to 26.0323",
+        "source": "https://asbar.org/code-annotated/26-0304-zoning-board-members-term-authority/",
+        "note": "The territorial zoning chapter divides the islands into zones under one Zoning Board and has no requirement for below-market homes in new developments."
+      },
+      "US-PR": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Ley 107-2020, Art. 1.010(o) (21 L.P.R.A. \u00a7 7015(o))",
+        "source": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/107-2020.pdf",
+        "note": "Weak: Puerto Rico law requires no below-market homes in new developments, and the Municipal Code lets municipalities contribute to planning and solving the problem of affordable housing, with no bar on their own rules."
+      }
+    },
+    "unread": {
+      "US-VI": "Virgin Islands Code copies tried: legvi.org/vicode (404), vicourts.org/publication_and_reports/resources/virgin_islands_code (redirects to advance.lexis.com, needs JavaScript), lexisnexis.com/hottopics/vicode (empty), law.justia.com/codes/virgin-islands (403 even through r.jina.ai), govt.westlaw.com/vicode (timeout), codes.findlaw.com/vi (404), vicode.elaws.us (timeout), lawserver.com (JavaScript redirect), casetext (gone), courtlistener search (throttled); also vivote.gov, bir.vi.gov, dlca.vi.gov, vihfa.gov and vipd.vi.gov, which do not carry it. vihfa.gov has no zoning or inclusionary rule."
+    }
+  },
+  "us-policy-positions:government-operations.broaden-local-authority": {
+    "answers": {
+      "US-GU": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "5 GCA \u00a7 40112",
+        "source": "https://col.guamcourts.gov/sites/default/files/05gc040_Q.pdf",
+        "note": "Guam's village mayors hold only listed administrative duties (streets, sanitation, census, emergency help) and have no general legislative power, so every local power is delegated by the territory."
+      },
+      "US-AS": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "A.S.C.A. \u00a7\u00a7 5.0204, 5.0305",
+        "source": "https://asbar.org/code-annotated/5-0305-village-regulations-penalties-enforcement/",
+        "note": "Village councils may make regulations only on matters of a strictly local nature, they take effect only after the Department of Samoan Affairs approves them, and penalties are capped at $25, so local power is narrow and delegated."
+      },
+      "US-MS": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "Miss. Code \u00a7 21-17-5",
+        "source": "https://codes.findlaw.com/ms/title-21-municipalities/ms-code-sect-21-17-5/",
+        "note": "Municipalities may adopt any order, resolution or ordinance on municipal affairs, property and finances that is not inconsistent with the constitution or general law, though they cannot levy taxes or issue bonds without specific authority."
+      }
+    },
+    "unread": {
+      "US-VI": "Virgin Islands Code copies tried: legvi.org/vicode (404), vicourts.org/publication_and_reports/resources/virgin_islands_code (redirects to advance.lexis.com, needs JavaScript), lexisnexis.com/hottopics/vicode (empty), law.justia.com/codes/virgin-islands (403 even through r.jina.ai), govt.westlaw.com/vicode (timeout), codes.findlaw.com/vi (404), vicode.elaws.us (timeout), lawserver.com (JavaScript redirect), casetext (gone), courtlistener search (throttled); also vivote.gov, bir.vi.gov, dlca.vi.gov, vihfa.gov and vipd.vi.gov, which do not carry it. 48 U.S.C. \u00a7 1574 (uscode.house.gov) sets one territorial legislature and does not address counties or cities, and the 1954 Revised Organic Act PDF at vivote.gov is a scan with no text layer."
+    }
+  },
+  "us-policy-positions:fiscal.adopt-income-tax": {
+    "answers": {
+      "US-MP": {
+        "answer": "yes",
+        "cite": "4 CMC \u00a7 1701",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T4/1701.pdf",
+        "note": "The Commonwealth adopts the Internal Revenue Code as the Northern Marianas Territorial Income Tax, a broad income tax on wages."
+      },
+      "US-GU": {
+        "answer": "yes",
+        "cite": "48 U.S.C. \u00a7 1421i",
+        "source": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1421i&num=0&edition=prelim",
+        "note": "The Guam Organic Act applies the federal income-tax laws in Guam as a separate Guam Territorial income tax payable to the government of Guam, so wages are taxed."
+      },
+      "US-AS": {
+        "answer": "yes",
+        "cite": "A.S.C.A. \u00a7 11.0403",
+        "source": "https://asbar.org/code-annotated/11-0403-imposition-of-tax-citation/",
+        "note": "American Samoa adopts the federal income-tax rules as the separate Samoan Income Tax, a territorial income tax with withholding on wages."
+      },
+      "US-PR": {
+        "answer": "yes",
+        "cite": "Ley 1-2011 (Internal Revenue Code for a New Puerto Rico)",
+        "source": "https://www.lexjuris.com/lexlex/Leyes2011/lexl2011001.htm",
+        "note": "Puerto Rico taxes individual income under its own Internal Revenue Code of 2011, with a graduated schedule reaching 33 percent."
+      },
+      "US-VI": {
+        "answer": "yes",
+        "cite": "48 U.S.C. \u00a7 1397",
+        "source": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1397&num=0&edition=prelim",
+        "note": "The federal income tax laws are in force in the Virgin Islands as its own income tax on wages, with the proceeds paid to the territory."
+      }
+    },
+    "unread": {}
+  },
+  "us-policy-positions:government-operations.require-photo-id-to-vote": {
+    "answers": {
+      "US-AS": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "A.S.C.A. \u00a7\u00a7 6.0706, 6.0214",
+        "source": "https://asbar.org/code-annotated/6-0706-signature-required-identification/",
+        "note": "At the polls a voter signs the poll book and gives identification only if a district official asks, with no photo requirement (photo ID is required once, when registering)."
+      },
+      "US-VI": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "18 V.I.C. (not read); vivote.gov voting process",
+        "source": "https://vivote.gov/voters/voters-rights-responsibilities/",
+        "note": "The Election System says a voter gives an election officer identification at the polls but, without proper identification, signs an affidavit and votes, and it names no photo requirement."
+      }
+    },
+    "unread": {}
+  },
+  "us-policy-positions:labor-workforce.raise-minimum-wage": {
+    "answers": {
+      "US-AS": {
+        "answer": "no",
+        "cite": "Pub. L. 110-28 \u00a7 8103, as amended by Pub. L. 114-61; 29 U.S.C. \u00a7 206 note",
+        "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/retail",
+        "note": "American Samoa has no territorial minimum wage; its industry rates are set by federal law and stay below $7.25 (for example $6.20 for retail since September 30, 2024) until they reach the federal rate."
+      }
+    },
+    "unread": {}
+  },
+  "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
+    "answers": {
+      "US-PR": {
+        "answer": "yes",
+        "source": "https://www.macpac.gov/wp-content/uploads/2019/07/Medicaid-and-CHIP-in-the-Territories.pdf",
+        "note": "Puerto Rico covers the ACA new adult group up to 133 percent of the local poverty level, per MACPAC's February 2021 territories fact sheet (no later change was found)."
+      },
+      "US-GU": {
+        "answer": "yes",
+        "source": "https://www.macpac.gov/wp-content/uploads/2019/07/Medicaid-and-CHIP-in-the-Territories.pdf",
+        "note": "Guam covers the ACA new adult group up to 133 percent of the local poverty level, per MACPAC's February 2021 territories fact sheet (no later change was found)."
+      },
+      "US-VI": {
+        "answer": "yes",
+        "source": "https://www.macpac.gov/wp-content/uploads/2019/07/Medicaid-and-CHIP-in-the-Territories.pdf",
+        "note": "The U.S. Virgin Islands covers the ACA new adult group up to 133 percent of the local poverty level, per MACPAC's February 2021 territories fact sheet (no later change was found)."
+      },
+      "US-AS": {
+        "answer": "no",
+        "source": "https://www.macpac.gov/wp-content/uploads/2019/07/Medicaid-and-CHIP-in-the-Territories.pdf",
+        "note": "American Samoa runs Medicaid under a waiver that pays for care in proportion to residents under 200 percent of the poverty level with no individual enrollment, so it has not expanded to the adult group (MACPAC, February 2021)."
+      },
+      "US-MP": {
+        "answer": "no",
+        "source": "https://www.macpac.gov/wp-content/uploads/2019/07/Medicaid-and-CHIP-in-the-Territories.pdf",
+        "note": "The Northern Mariana Islands set Medicaid eligibility using SSI income and asset standards under a waiver and did not expand to the ACA adult group (MACPAC, February 2021)."
+      }
+    },
+    "unread": {}
+  }
+}
