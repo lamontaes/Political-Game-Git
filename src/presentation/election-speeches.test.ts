@@ -11,10 +11,11 @@ import {
 import { electionSpeechGiven } from "../simulation/campaign-speeches";
 import { ageOnDate } from "../simulation/dates";
 import { householdMembershipsAt } from "../simulation/life-queries";
-import { startHouseholdMembership } from "../simulation/life";
+import { recordKinship, startHouseholdMembership } from "../simulation/life";
 import { recordMemory } from "../simulation/records";
 import {
   householdmatesOf,
+  speechReactionOf,
   speechReception,
 } from "../simulation/speech-reception";
 import {
@@ -148,6 +149,27 @@ describe("election-night speeches", () => {
       witnesses.length,
     );
     expect(words!.heard).toBe(reception.event.summary);
+    // No dice (Rule 0): each reaction follows from the witness's reasons, so
+    // a world with another seed gives every witness the same reaction, and
+    // the recorded counts are exactly those reactions.
+    const occasion =
+      result.winnerPersonId === personId ? "victory" : "concession";
+    const reseeded = { ...spoken, seed: `${spoken.seed}:reseeded` };
+    const tally = { cheered: 0, applauded: 0, "stayed-quiet": 0 };
+    for (const witnessId of witnesses) {
+      const reaction = speechReactionOf(
+        spoken,
+        speech,
+        personId,
+        witnessId,
+        occasion,
+      );
+      expect(
+        speechReactionOf(reseeded, speech, personId, witnessId, occasion),
+      ).toBe(reaction);
+      tally[reaction] += 1;
+    }
+    expect(reception.counts).toEqual(tally);
 
     // Step 7: someone who remembers it well tells the people they live with
     // who were not there, and each of them remembers it one step less sharply.
@@ -185,7 +207,37 @@ describe("election-night speeches", () => {
       kind: "resident:member",
       provenance: { kind: "authored", note: "Retelling fixture" },
     });
-    told = retellSpeeches(told);
+    // A sister who lives elsewhere in the same place is told too.
+    const holderHome = spoken.people[holderId]!.homeJurisdictionId;
+    const sisterId = spoken.personOrder.find(
+      (id) =>
+        id !== newcomerId &&
+        !speech.involvedEntityIds.includes(id) &&
+        spoken.people[id]!.homeJurisdictionId === holderHome &&
+        !householdmatesOf(spoken, holderId).includes(id) &&
+        ageOnDate(spoken.people[id]!.birthDate, spoken.currentDate) >= 5 &&
+        !spoken.history.knowledge.some(
+          (row) => row.personId === id && row.eventId === speech.id,
+        ),
+    )!;
+    told = recordKinship(told, {
+      stableKey: "test:holder-sister",
+      personIds: [holderId, sisterId],
+      establishedAt: told.currentDate,
+      kind: "collateral:sibling",
+      provenance: { kind: "authored", note: "Retelling fixture" },
+    });
+    // Retelling runs on the world's own clock, in a world with no economy
+    // record as much as one with it: the next first of the month tells them.
+    expect(told.macroEconomy).toBeFalsy();
+    const month = told.currentDate.slice(0, 7);
+    while (told.currentDate.slice(0, 7) === month)
+      told = passOrdinaryDays(told);
+    expect(
+      told.history.knowledge.find(
+        (row) => row.personId === sisterId && row.eventId === speech.id,
+      )?.source,
+    ).toEqual({ kind: "told-by", sourcePersonId: holderId, claimId: null });
     expect(
       told.history.knowledge.find(
         (row) => row.personId === newcomerId && row.eventId === speech.id,

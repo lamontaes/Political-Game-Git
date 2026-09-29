@@ -140,7 +140,8 @@ export function electionNightWitnesses(
     .sort();
 }
 
-function reactionOf(
+/** How one witness took a speech; the same reasons give the same answer. */
+export function speechReactionOf(
   world: World,
   speech: HistoricalEvent,
   speakerId: EntityId,
@@ -241,7 +242,10 @@ function reactionOf(
     constraints: [],
     considerations,
     perceptionIds: [],
-    randomness: "close-choices",
+    // No draw (Rule 0): the reasons above decide. When they weigh exactly the
+    // same, the engine takes the options in name order, so "applauded" wins a
+    // tie. That order is a HARDWIRED rule, not a measured one.
+    randomness: "none",
     retention: "ephemeral",
   });
   return evaluation.selectedOptionKey as SpeechReaction;
@@ -301,7 +305,7 @@ export function recordSpeechReception(
     });
   const reactions = witnessIds.map((witnessId) => ({
     witnessId,
-    reaction: reactionOf(next, speech, speakerId, witnessId, occasion),
+    reaction: speechReactionOf(next, speech, speakerId, witnessId, occasion),
   }));
   const counts: Record<SpeechReaction, number> = {
     cheered: 0,

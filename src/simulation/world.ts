@@ -8,6 +8,7 @@ import {
 } from "./world-integrity-changed";
 import type { ChangedHistoryFamily } from "./world-integrity-changed";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
+import { applySpeechRetelling } from "./speech-retelling";
 import { applyStateLegislatureTurnover } from "./nationwide-world/state-legislature-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
@@ -1402,23 +1403,26 @@ function advanceWorldUnchecked(
     actionSequence: actionSequence + 1,
   };
 
-  const continued = applyCrisisRepairFunding(
-    applyCrisisOfficeContinuity(
-      applyCongressLawmaking(
-        world.currentDate,
-        applyFederalReform(
+  const continued = applySpeechRetelling(
+    world.currentDate,
+    applyCrisisRepairFunding(
+      applyCrisisOfficeContinuity(
+        applyCongressLawmaking(
           world.currentDate,
-          applyConstitutionalReform(
+          applyFederalReform(
             world.currentDate,
-            applyPresidentialTurnover(
+            applyConstitutionalReform(
               world.currentDate,
-              applyGovernorTurnover(
+              applyPresidentialTurnover(
                 world.currentDate,
-                applyCongressTurnover(
+                applyGovernorTurnover(
                   world.currentDate,
-                  applyStateLegislatureTurnover(
+                  applyCongressTurnover(
                     world.currentDate,
-                    applyNationalTermTransitions(advanced),
+                    applyStateLegislatureTurnover(
+                      world.currentDate,
+                      applyNationalTermTransitions(advanced),
+                    ),
                   ),
                 ),
               ),

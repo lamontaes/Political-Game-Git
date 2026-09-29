@@ -5,6 +5,7 @@ import { recordEventKnowledge, recordMemory } from "./records";
 import {
   SPEECH_OF_TAG,
   SPEECH_RECEPTION_EVENT,
+  familyAndFriendsNearby,
   householdmatesOf,
   speechReception,
 } from "./speech-reception";
@@ -12,7 +13,7 @@ import { speechMovesOf } from "./speech-moves";
 import { eventById } from "./event-index";
 import type {
   EntityId,
-  FutureTransitionHandler,
+  IsoDate,
   HistoricalEvent,
   MemoryRecord,
   MemoryStrength,
@@ -156,8 +157,9 @@ export const RETELLING_MIN_AGE = 5;
 
 /**
  * One month of retelling. A person who remembers a speech well enough tells
- * the people they live with who have not heard of it; an outgoing person
- * tells it from a moderate memory, a reserved one only from a strong one.
+ * the people they live with, and family and close friends in the same place,
+ * who have not heard of it; an outgoing person tells it from a moderate
+ * memory, a reserved one only from a strong one.
  * Each listener keeps a weaker, second-hand memory. A memory its holder has
  * not retold in SPEECH_MEMORY_FADE_DAYS weakens one step.
  */
@@ -173,110 +175,143 @@ export function retellSpeeches(world: World): World {
       .find((tag) => tag.startsWith(SPEECH_OF_TAG))
       ?.slice(SPEECH_OF_TAG.length) as EntityId | undefined;
     const speech = speechId ? eventById(next, speechId) : undefined;
-    if (!speech) continue;
-    const holders = [
-      ...new Set(
-        recordsByStringField(next.history.memories, "eventId", speech.id).map(
-          (memory) => memory.personId,
-        ),
+    if (speech) next = retellSpeech(next, speech);
+  }
+  return next;
+}
+
+/** One month of retelling for one speech. */
+export function retellSpeech(world: World, speech: HistoricalEvent): World {
+  let next = world;
+  const holders = [
+    ...new Set(
+      recordsByStringField(next.history.memories, "eventId", speech.id).map(
+        (memory) => memory.personId,
       ),
-    ].sort();
-    for (const holderId of holders) {
-      if (!alive(next, holderId)) continue;
-      const memory = latestMemory(next, holderId, speech.id)!;
-      const reserved = personTrait(next, holderId, "sociability").value < 0;
-      const threshold = reserved ? 2 : 1;
-      let told = false;
-      if (MEMORY_STRENGTHS.indexOf(memory.strength) >= threshold) {
-        for (const listenerId of householdmatesOf(next, holderId)) {
-          // Nobody is told about a speech they gave or were there to hear.
-          if (
-            speech.involvedEntityIds.includes(listenerId) ||
-            !alive(next, listenerId) ||
-            knows(next, listenerId, speech.id)
-          )
-            continue;
-          const age = ageOnDate(
-            next.people[listenerId]!.birthDate,
-            next.currentDate,
-          );
-          if (age < RETELLING_MIN_AGE) continue;
-          const key = `${speech.stableKey}:told:${holderId}:${listenerId}`;
-          next = recordEventKnowledge(next, {
-            stableKey: key,
-            personId: listenerId,
-            eventId: speech.id,
-            learnedAt: next.currentDate,
-            believedSummary: speech.summary,
-            accuracy: "accurate",
-            confidence: "medium",
-            source: {
-              kind: "told-by",
-              sourcePersonId: holderId,
-              claimId: null,
-            },
-          });
-          // Second hand is one step less sharp than the teller's own memory.
-          const heard = step(memory.strength, -1);
-          next = recordMemory(next, {
-            stableKey: `${key}:memory`,
-            personId: listenerId,
-            eventId: speech.id,
-            formedAt: next.currentDate,
-            rememberedSummary: speech.summary,
-            interpretation: `Heard about it from ${next.people[holderId]!.givenName}.`,
-            strength: heard,
-            relevanceTags: ["speech.retold"],
-            supersedesMemoryId: null,
-          });
-          told = true;
-        }
-      }
-      if (told || memory.strength === "faint") continue;
-      const lastTold = recordsByStringField(
-        next.history.knowledge,
-        "eventId",
-        speech.id,
-      )
-        .filter(
-          (row) =>
-            row.source.kind === "told-by" &&
-            row.source.sourcePersonId === holderId,
+    ),
+  ].sort();
+  for (const holderId of holders) {
+    if (!alive(next, holderId)) continue;
+    const memory = latestMemory(next, holderId, speech.id)!;
+    const reserved = personTrait(next, holderId, "sociability").value < 0;
+    const threshold = reserved ? 2 : 1;
+    let told = false;
+    if (MEMORY_STRENGTHS.indexOf(memory.strength) >= threshold) {
+      // The same circle that fills a room on election night: the people
+      // the holder lives with, then family and close friends in the same
+      // place. Someone who lives alone still tells a sister across town.
+      const listeners = [
+        ...new Set([
+          ...householdmatesOf(next, holderId),
+          ...familyAndFriendsNearby(next, holderId),
+        ]),
+      ];
+      for (const listenerId of listeners) {
+        // Nobody is told about a speech they gave or were there to hear.
+        if (
+          speech.involvedEntityIds.includes(listenerId) ||
+          !alive(next, listenerId) ||
+          knows(next, listenerId, speech.id)
         )
-        .map((row) => row.learnedAt)
-        .sort()
-        .at(-1);
-      const since = [memory.formedAt, lastTold ?? memory.formedAt]
-        .sort()
-        .at(-1)!;
-      if (addDays(since, SPEECH_MEMORY_FADE_DAYS) > next.currentDate) continue;
-      next = recordMemory(next, {
-        stableKey: `${speech.stableKey}:fade:${holderId}:${next.currentDate}`,
-        personId: holderId,
-        eventId: speech.id,
-        formedAt: next.currentDate,
-        rememberedSummary: memory.rememberedSummary,
-        interpretation: memory.interpretation,
-        strength: step(memory.strength, -1),
-        relevanceTags: memory.relevanceTags,
-        supersedesMemoryId: memory.id,
-      });
+          continue;
+        const age = ageOnDate(
+          next.people[listenerId]!.birthDate,
+          next.currentDate,
+        );
+        if (age < RETELLING_MIN_AGE) continue;
+        const key = `${speech.stableKey}:told:${holderId}:${listenerId}`;
+        next = recordEventKnowledge(next, {
+          stableKey: key,
+          personId: listenerId,
+          eventId: speech.id,
+          learnedAt: next.currentDate,
+          believedSummary: speech.summary,
+          accuracy: "accurate",
+          confidence: "medium",
+          source: {
+            kind: "told-by",
+            sourcePersonId: holderId,
+            claimId: null,
+          },
+        });
+        // Second hand is one step less sharp than the teller's own memory.
+        const heard = step(memory.strength, -1);
+        next = recordMemory(next, {
+          stableKey: `${key}:memory`,
+          personId: listenerId,
+          eventId: speech.id,
+          formedAt: next.currentDate,
+          rememberedSummary: speech.summary,
+          interpretation: `Heard about it from ${next.people[holderId]!.givenName}.`,
+          strength: heard,
+          relevanceTags: ["speech.retold"],
+          supersedesMemoryId: null,
+        });
+        told = true;
+      }
     }
+    if (told || memory.strength === "faint") continue;
+    const lastTold = recordsByStringField(
+      next.history.knowledge,
+      "eventId",
+      speech.id,
+    )
+      .filter(
+        (row) =>
+          row.source.kind === "told-by" &&
+          row.source.sourcePersonId === holderId,
+      )
+      .map((row) => row.learnedAt)
+      .sort()
+      .at(-1);
+    const since = [memory.formedAt, lastTold ?? memory.formedAt].sort().at(-1)!;
+    if (addDays(since, SPEECH_MEMORY_FADE_DAYS) > next.currentDate) continue;
+    next = recordMemory(next, {
+      stableKey: `${speech.stableKey}:fade:${holderId}:${next.currentDate}`,
+      personId: holderId,
+      eventId: speech.id,
+      formedAt: next.currentDate,
+      rememberedSummary: memory.rememberedSummary,
+      interpretation: memory.interpretation,
+      strength: step(memory.strength, -1),
+      relevanceTags: memory.relevanceTags,
+      supersedesMemoryId: memory.id,
+    });
   }
   return next;
 }
 
 /**
- * Retelling runs once a month, on the month the economy already closes, so it
- * adds no new item to the calendar that a world without it would stop at.
+ * Retelling on the world's own clock: each time a day advance crosses the
+ * first of a month, one month of retelling happens, in every world, with or
+ * without an economy record. A skip across several months gives each month
+ * its turn, so a story can pass from teller to listener to the listener's
+ * family. Records are dated the day the advance ends.
  */
-export function withSpeechRetelling(
-  handler: FutureTransitionHandler,
-): FutureTransitionHandler {
-  return (world, dueItem) => {
-    const result = handler(world, dueItem);
-    return result.status === "resolved"
-      ? { ...result, world: retellSpeeches(result.world) }
-      : result;
+export function applySpeechRetelling(
+  previousDate: IsoDate,
+  world: World,
+): World {
+  const months = monthStartsCrossed(previousDate, world.currentDate);
+  if (
+    months === 0 ||
+    recordsByStringField(world.history.events, "type", SPEECH_RECEPTION_EVENT)
+      .length === 0
+  )
+    return world;
+  let next = world;
+  for (let month = 0; month < months; month += 1) {
+    const before = next;
+    next = retellSpeeches(next);
+    if (next === before) break;
+  }
+  return next;
+}
+
+function monthStartsCrossed(from: IsoDate, through: IsoDate): number {
+  const index = (date: IsoDate) => {
+    const [year, month] = date.split("-").map(Number) as [number, number];
+    return year * 12 + month;
   };
+  return Math.max(0, index(through) - index(from));
 }

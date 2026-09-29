@@ -1,3 +1,4 @@
+import { applySpeechRetelling } from "./speech-retelling";
 import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
@@ -1974,21 +1975,25 @@ function setCurrentMoment(
   // CRISIS records the death or capacity change; the office consequence is
   // GOVERNING's, and it runs on the same date boundary so a death reaches the
   // office the day it happens. The consumer applies each notice once.
-  return applyCrisisRepairFunding(
-    applyCrisisOfficeContinuity(
-      applyCongressLawmaking(
-        crossedFrom,
-        applyFederalReform(
+  // D-3 step 7: a remembered speech is retold at each first of the month.
+  return applySpeechRetelling(
+    crossedFrom,
+    applyCrisisRepairFunding(
+      applyCrisisOfficeContinuity(
+        applyCongressLawmaking(
           crossedFrom,
-          applyConstitutionalReform(
+          applyFederalReform(
             crossedFrom,
-            applyPresidentialTurnover(
+            applyConstitutionalReform(
               crossedFrom,
-              applyGovernorTurnover(
+              applyPresidentialTurnover(
                 crossedFrom,
-                applyCongressTurnover(
+                applyGovernorTurnover(
                   crossedFrom,
-                  applyStateLegislatureTurnover(crossedFrom, moved),
+                  applyCongressTurnover(
+                    crossedFrom,
+                    applyStateLegislatureTurnover(crossedFrom, moved),
+                  ),
                 ),
               ),
             ),
