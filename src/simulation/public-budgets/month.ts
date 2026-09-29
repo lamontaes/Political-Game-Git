@@ -21,6 +21,7 @@ import { adoptedIncomeTaxPerYear } from "./income-tax-adoption";
 import { actuarialContribution } from "./opening";
 import { pensionFlows, pensionPayment } from "./pension-share";
 import { reserveRule } from "./reserve-rule";
+import { tuitionFreezeFactor } from "./tuition-freeze";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import {
   ECONOMY_ELASTICITY,
@@ -285,6 +286,7 @@ function monthsInto(year: AdoptedBudget, month: IsoDate): number {
  * own taxes these state questions do not set. Income tax is read on January 1
  * of the date's year, the law paychecks withhold under for that tax year
  * (`stateIncomeTaxUnderLaw`), so the budget collects what paychecks withhold.
+ * A tuition freeze moves charges and fees (`tuition-freeze.ts`).
  */
 export function taxLawFactor(
   world: World,
@@ -302,7 +304,9 @@ export function taxLawFactor(
       ? adoptedIncomeTaxFactor(world, government, onDate)
       : source === "selectiveSalesTaxes"
         ? cannabisSalesFactor(world, government, onDate)
-        : 1;
+        : source === "chargesAndFees"
+          ? tuitionFreezeFactor(world, government, onDate)
+          : 1;
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.source !== source) continue;
     if (effect.toYes === null && effect.toNo === null) continue;
