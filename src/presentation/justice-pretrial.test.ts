@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { searchLifePlaces } from "../simulation";
+import { OFFICE_EMPLOYMENT_KINDS } from "../simulation/governing/office-consequence";
 import { workStatusAt } from "../simulation/life-queries";
 import {
   HELD_BEFORE_TRIAL_REASON,
@@ -59,10 +60,16 @@ function noMoneyBailPlace(seed: string) {
   return rng.pick(towns);
 }
 
+function isOffice(kind: string): boolean {
+  return OFFICE_EMPLOYMENT_KINDS.includes(kind) || kind.startsWith("office:");
+}
+
+/** A person's ordinary jobs at work today; a public office is not one. */
 function activeJobs(world: World, personId: EntityId) {
   return world.history.workRelationships.filter(
     (work) =>
       work.personId === personId &&
+      !isOffice(work.kind) &&
       workStatusAt(world, work.id)?.status === "active",
   );
 }
@@ -158,7 +165,8 @@ function checkWatchedWorld(
       console.log(`  because: ${decided.context.motivation}`);
 
       if (held) {
-        // Held before trial: every job they held is on leave, not ended.
+        // Held before trial: every job they held is on leave, not ended. A
+        // public office stays theirs until the law says otherwise.
         expect(activeJobs(charged, personId)).toEqual([]);
         const onLeave = charged.history.workRelationships.filter(
           (work) =>

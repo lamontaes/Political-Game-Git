@@ -1,3 +1,4 @@
+import { OFFICE_EMPLOYMENT_KINDS } from "../governing/office-consequence";
 import { recordWorkStatus } from "../life";
 import { workStatusAt } from "../life-queries";
 import type { EntityId, IsoDate, World } from "../types";
@@ -17,6 +18,10 @@ import {
  * record every payday and schedule already reads. When the term ends, as
  * handed down or cut short by clemency, or the case ends, the job resumes.
  *
+ * A public office is not a job the jailer takes away: whether an officeholder
+ * keeps the seat is the law's answer at sentencing (`recordOfficeConsequence`),
+ * so an office never goes on leave here.
+ *
  * PLACEHOLDER (hand-set): the employer holds the job through the term. No
  * employer in the game is a person who decides yet, so whether one lets a
  * worker go while they are away, or takes them back after, is not decided
@@ -26,6 +31,16 @@ import {
 export const JAIL_ABSENCE_VERSION = "justice-jail-absence-v1";
 export const IN_JAIL_REASON = "Serving a jail term.";
 export const HELD_BEFORE_TRIAL_REASON = "Held in jail before trial.";
+
+/** The person's jobs, leaving out any public office they hold. */
+function jobsOf(world: World, personId: EntityId) {
+  return world.history.workRelationships.filter(
+    (work) =>
+      work.personId === personId &&
+      !OFFICE_EMPLOYMENT_KINDS.includes(work.kind) &&
+      !work.kind.startsWith("office:"),
+  );
+}
 
 function later(a: IsoDate, b: IsoDate): IsoDate {
   return a > b ? a : b;
@@ -51,9 +66,7 @@ function settlePretrialHolds(world: World): World {
     const holds = pretrialHoldsOf(next, personId).filter(
       (hold) => hold.from <= next.currentDate,
     );
-    const jobs = next.history.workRelationships.filter(
-      (work) => work.personId === personId,
-    );
+    const jobs = jobsOf(next, personId);
     for (const hold of holds) {
       const over = hold.until !== null && hold.until <= next.currentDate;
       for (const work of jobs) {
@@ -104,9 +117,7 @@ function settleJailTerms(world: World): World {
         sentence.kind === "jail" && sentence.from <= next.currentDate,
     );
     if (terms.length === 0) continue;
-    const jobs = next.history.workRelationships.filter(
-      (work) => work.personId === personId,
-    );
+    const jobs = jobsOf(next, personId);
     for (const term of terms) {
       for (const work of jobs) {
         const key = `${JAIL_ABSENCE_VERSION}:${term.sentencedEventId}:${work.id}`;

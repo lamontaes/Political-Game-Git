@@ -2,7 +2,7 @@
 id: bail-and-mandatory-minimums
 impact: minor
 section: Added
-title: Cash bail and mandatory minimum sentences change what happens to a defendant
+title: Cash bail, mandatory minimums and the juvenile court age change what happens to a defendant
 ---
 
 When someone is charged, the law in force where the case is tried now decides
@@ -18,3 +18,7 @@ Where a law sets mandatory minimum sentences, a judge can no longer give
 probation for a violent offense, or to someone sentenced before. A law passed
 in the game takes effect on its effective date, and a repeal lifts it on the
 repeal's date.
+
+The juvenile court age now decides who the police charge as an adult. Where
+the law keeps 17-year-olds in juvenile court, only adults 18 and over are
+charged; where it does not, a 17-year-old is charged and tried as an adult.
