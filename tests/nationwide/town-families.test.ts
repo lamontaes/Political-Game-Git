@@ -175,6 +175,61 @@ describe(
       }
     });
 
+    it("after a break-up the children's parent keeps the home, else whoever lived there first, else the elder", () => {
+      let checked = 0;
+      for (const [round, after] of snapshots.entries()) {
+        if (round === 0) continue;
+        const before = snapshots[round - 1]!;
+        for (const parting of familyEvents(after, town).filter(
+          (event) =>
+            event.stableKey.includes(`:test-${round}:`) &&
+            (event.type === TOWN_FAMILY_EVENTS.divorced ||
+              event.type === TOWN_FAMILY_EVENTS.brokeUp),
+        )) {
+          const [a, b] = parting.involvedEntityIds as EntityId[];
+          const homeOf = (w: World, id: EntityId) =>
+            householdMembershipsAt(w, id).find(
+              (entry) => entry.state.residenceRole === "primary",
+            );
+          const shared = homeOf(before, a);
+          if (
+            !shared ||
+            shared.household.id !== homeOf(before, b)?.household.id
+          )
+            continue;
+          const kids = (id: EntityId) =>
+            before.personOrder.filter(
+              (child) =>
+                parentsOf(before, child).includes(id) &&
+                ageOnDate(before.people[child]!.birthDate, before.currentDate) <
+                  18 &&
+                homeOf(before, child)?.household.id === shared.household.id,
+            ).length;
+          const since = (id: EntityId) =>
+            homeOf(before, id)!.membership.startedAt;
+          // Then, with the same date, the older of the two.
+          const born = (id: EntityId) => before.people[id]!.birthDate;
+          const expectedStaying =
+            kids(a) !== kids(b)
+              ? kids(a) > kids(b)
+                ? a
+                : b
+              : since(a) !== since(b)
+                ? since(a) < since(b)
+                  ? a
+                  : b
+                : born(a) <= born(b)
+                  ? a
+                  : b;
+          expect(homeOf(after, expectedStaying)?.household.id).toBe(
+            shared.household.id,
+          );
+          checked += 1;
+        }
+      }
+      expect(checked).toBeGreaterThan(0);
+    });
+
     it("runs a round once", () => {
       expect(
         reviewTownFamilies(world, town, personId, `test-${QUARTERS - 1}`),
