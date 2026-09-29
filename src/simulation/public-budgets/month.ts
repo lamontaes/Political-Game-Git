@@ -298,12 +298,26 @@ export function taxLawFactor(
 }
 
 /**
- * The law factor now against the law factor then. A source a law has ended
- * (factor 0) collects nothing, and a month that collected nothing cannot be
- * scaled back up; either way the ratio is 0, never a division by zero.
+ * One month of a source at the level the government opened with, under the
+ * law it began with, carried to the economy on `economyIndex`. A tax a law
+ * ended collected nothing to scale from, so a law that restores it starts
+ * again from this level.
  */
-function lawRatio(now: number, then: number): number {
-  return then > 0 ? now / then : 0;
+function openingMonthLevel(
+  government: PublicBudgetGovernment,
+  source: BudgetSource,
+  at: number,
+  economyIndex: number | null,
+): number {
+  const first = government.years[0]!;
+  const since =
+    economyIndex !== null && first.economyAtAdoption
+      ? economyIndex / first.economyAtAdoption
+      : 1;
+  return (
+    (first.expectedRevenue[at]! / 12) *
+    Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (since - 1))
+  );
 }
 
 interface Settled {
@@ -338,16 +352,26 @@ export function settleGovernmentMonth(
   // Revenue.
   const represented = flows.represented.get(government.key) ?? 0;
   // A tax law that changed since adoption moves its source from that month.
-  const revenue = BUDGET_SOURCES.map((source, at) =>
-    Math.round(
+  const revenue = BUDGET_SOURCES.map((source, at) => {
+    const lawNow = taxLawFactor(world, government, source, month);
+    const lawAtAdoption = taxLawFactor(
+      world,
+      government,
+      source,
+      year.startsOn,
+    );
+    // A budget adopted while a law had ended the source expects none of it;
+    // a law restoring it collects from the level the government opened with.
+    if (lawAtAdoption === 0)
+      return Math.round(
+        openingMonthLevel(government, source, at, economyNow) * lawNow,
+      );
+    return Math.round(
       (year.expectedRevenue[at]! / 12) *
         Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (economy - 1)) *
-        lawRatio(
-          taxLawFactor(world, government, source, month),
-          taxLawFactor(world, government, source, year.startsOn),
-        ),
-    ),
-  );
+        (lawNow / lawAtAdoption),
+    );
+  });
   if (government.population > 0)
     revenue[INCOME_TAX] = Math.round(
       (revenue[INCOME_TAX]! *
@@ -654,10 +678,14 @@ function adoptNextYear(
     // law that changed last year counts once, in full.
     const lawNow = taxLawFactor(world, government, source, startsOn);
     const restated = rows.map((row) => {
-      const law = lawRatio(
-        lawNow,
-        taxLawFactor(world, government, source, row.month),
-      );
+      const lawThen = taxLawFactor(world, government, source, row.month);
+      // A month a law had ended the source collected nothing to restate; it
+      // counts at the opening level under today's law.
+      if (lawThen === 0)
+        return (
+          openingMonthLevel(government, source, at, economyAtAdoption) * lawNow
+        );
+      const law = lawNow / lawThen;
       if (economyNow === null) return row.revenue[at]! * law;
       const then = scaleAt(row.economy);
       return then > 0

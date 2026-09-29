@@ -973,10 +973,14 @@ describe("public budgets", () => {
     );
   });
 
-  it("a state that repeals its income tax collects none from the next tax year, and its next budget expects none", () => {
-    // Illinois began with an income tax; a repeal is enacted May 12, 2026.
-    const repealed = worldAt("2026-01-05", {
-      laws: [{ question: INCOME_TAX, answer: "no", jurisdictionId: illinois }],
+  it("a state that repeals its income tax collects none from the next tax year, its next budget expects none, and a law restoring it collects again", () => {
+    // Illinois began with an income tax. A repeal takes effect May 12, 2026;
+    // a law restoring the tax takes effect June 1, 2027.
+    const world = worldAt("2026-01-05", {
+      laws: [
+        { question: INCOME_TAX, answer: "no", jurisdictionId: illinois },
+        { question: INCOME_TAX, answer: "yes", jurisdictionId: illinois },
+      ],
       history: {
         legislativeEnactments: [
           {
@@ -987,12 +991,20 @@ describe("public budgets", () => {
             outcome: "enacted",
             effectiveAt: makeIsoDate("2026-05-12"),
           },
+          {
+            id: "enactment_1" as EntityId,
+            sequence: 1001,
+            measureId: "measure_1" as EntityId,
+            resolvedAt: makeIsoDate("2027-06-01"),
+            outcome: "enacted",
+            effectiveAt: makeIsoDate("2027-06-01"),
+          },
         ] as unknown as World["history"]["legislativeEnactments"],
       },
     });
     const government = settleAlone(
-      repealed,
-      publicBudgetFor(opened(repealed), illinois)!,
+      world,
+      publicBudgetFor(opened(world), illinois)!,
       "2028-06-01",
     ).government;
     const at = BUDGET_SOURCES.indexOf("individualIncomeTax");
@@ -1001,10 +1013,17 @@ describe("public budgets", () => {
     // Paychecks withhold until the tax year ends, so the budget collects
     // until then too.
     expect(month("2026-12-01")).toBeGreaterThan(0);
-    for (const on of ["2027-01-01", "2027-06-01", "2028-03-01"])
+    for (const on of ["2027-01-01", "2027-06-01", "2027-12-01"])
       expect(month(on)).toBe(0);
+    // Fiscal 2028 was adopted in July 2027, while the repeal still governed
+    // the tax year: it expects none.
     expect(government.years[2]!.expectedRevenue[at]).toBe(0);
-    // Other sources keep collecting.
+    // The restored tax collects from January 2028 at the level Illinois
+    // opened with (this test world records no economy to carry it by).
+    expect(month("2028-01-01")).toBe(
+      Math.round(government.years[0]!.expectedRevenue[at]! / 12),
+    );
+    // Other sources keep collecting throughout.
     const sales = BUDGET_SOURCES.indexOf("generalSalesTax");
     expect(
       government.months.find((row) => row.month === "2027-01-01")!.revenue[
