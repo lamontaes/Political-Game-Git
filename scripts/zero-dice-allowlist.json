@@ -1200,34 +1200,6 @@
       "code": "rng.fork(\"renter-move\").next() <"
     },
     {
-      "file": "src/simulation/living-world/town-labor-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "rng.fork(\"layoff\").next() <"
-    },
-    {
-      "file": "src/simulation/living-world/town-labor-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "if (rng.fork(\"quit\").next() < TOWN_JOB_TURNOVER.quitPerQuarter / pressure) {"
-    },
-    {
-      "file": "src/simulation/living-world/town-labor-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "if (rng.fork(\"next-job\").next() < TOWN_JOB_TURNOVER.quitToNewJob)"
-    },
-    {
-      "file": "src/simulation/living-world/town-labor-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": ".next() <"
-    },
-    {
       "file": "src/simulation/living-world/town-residents.ts",
       "kind": "fixed-share",
       "build": "Build 24",
