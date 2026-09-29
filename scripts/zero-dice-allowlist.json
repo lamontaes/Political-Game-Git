@@ -227,13 +227,6 @@
       "code": ".next() < (slot.presence_rate ?? 0);"
     },
     {
-      "file": "src/presentation/creator-location.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "if (stateJurisdictionKey !== \"US-DC\") return null;"
-    },
-    {
       "file": "src/presentation/funded-service-capability.ts",
       "kind": "place-in-logic",
       "build": "Build 3",
@@ -246,13 +239,6 @@
       "build": "Build 16",
       "count": 1,
       "code": "const dc = orientation.homeState?.stateUsps === \"DC\";"
-    },
-    {
-      "file": "src/presentation/living-world-orientation.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "stateUsps === \"DC\""
     },
     {
       "file": "src/presentation/new-game.ts",
@@ -295,20 +281,6 @@
       "build": "Build 7",
       "count": 1,
       "code": "new SeededRng(world.seed).fork(`${key}:same-sex`).next() <"
-    },
-    {
-      "file": "src/presentation/world-orientation.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "if (home?.stateUsps === \"DC\") {"
-    },
-    {
-      "file": "src/presentation/world-orientation.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "seat.stateUsps === \"DC\" &&"
     },
     {
       "file": "src/simulation/campaign-life-activities.ts",

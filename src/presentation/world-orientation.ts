@@ -2,6 +2,7 @@ import type { OrientationHolderDisplay } from "./municipal-orientation-holder";
 import type { EntityId } from "../simulation";
 import { proseDate } from "./prose-dates";
 import {
+  isFederalDistrictUsps,
   isTerritoryUsps,
   nonvotingHouseMemberTitle,
   STATES,
@@ -258,7 +259,7 @@ function stateStep(
   stateName: (usps: string) => string | null,
 ): OrientationStep {
   const home = orientation.homeState;
-  if (home?.stateUsps === "DC") {
+  if (isFederalDistrictUsps(home?.stateUsps)) {
     return districtOfColumbiaStep(orientation, parties);
   }
   const name = home ? placeName(home.stateUsps, stateName) : null;
@@ -303,7 +304,7 @@ function districtOfColumbiaStep(
     (government) => government.holders,
   );
   const delegates = (orientation.congress?.house.seats ?? []).flatMap((seat) =>
-    seat.stateUsps === "DC" &&
+    seat.stateUsps === orientation.homeState?.stateUsps &&
     (seat.district === NON_VOTING_DISTRICT || seat.district === "00") &&
     seat.occupant.kind === "member"
       ? [seat.occupant.member]

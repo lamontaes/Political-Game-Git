@@ -44,6 +44,19 @@ export function isTerritoryUsps(usps: string | null | undefined): boolean {
 }
 
 /**
+ * The seat of the national government (U.S. Const. art. I, § 8, cl. 17): no
+ * state and no territory. One government, its Mayor and Council, is both its
+ * local and its state-level government, so its home is that government.
+ */
+export const FEDERAL_DISTRICT_USPS: ReadonlySet<string> = new Set(["DC"]);
+
+export function isFederalDistrictUsps(
+  usps: string | null | undefined,
+): boolean {
+  return usps != null && FEDERAL_DISTRICT_USPS.has(usps);
+}
+
+/**
  * What each territory and the District call the member they send to the U.S.
  * House, who sits on committees but casts no final vote: Puerto Rico's
  * Resident Commissioner (48 U.S.C. § 891), and a Delegate from the District

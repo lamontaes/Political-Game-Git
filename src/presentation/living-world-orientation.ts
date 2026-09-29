@@ -4,6 +4,7 @@ import {
   type MunicipalOrientationHolder,
 } from "./municipal-orientation-holder";
 import { stateJurisdictionForKey } from "../simulation/life-places";
+import { isFederalDistrictUsps } from "../simulation/state-reference";
 import {
   LIVING_WORLD_CONTRACT_VERSION,
   currentStateExecutiveHolders,
@@ -158,10 +159,9 @@ export function projectWorldOrientation(
     homeState: stateUsps
       ? {
           stateUsps,
-          jurisdictionId:
-            stateUsps === "DC"
-              ? player.homeJurisdictionId
-              : (stateJurisdictionForKey(`US-${stateUsps}`)?.id ?? null),
+          jurisdictionId: isFederalDistrictUsps(stateUsps)
+            ? player.homeJurisdictionId
+            : (stateJurisdictionForKey(`US-${stateUsps}`)?.id ?? null),
           governor,
         }
       : null,
