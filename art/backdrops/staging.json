@@ -76,6 +76,66 @@
       ],
       "measuredFrom": "lectern 1.15 m foot 61.3 top 41.8 (0.62, used); pew end post about 0.95 m foot 80.5 top 57.3 gives 0.51, but the painted furniture reads large and people looked small at that scale; bench floor from the judges' high-back chairs: 0.65 m wide (6.5% of the width), back top 1.1 m above the hidden floor at y 21.5, so that floor is at y 41 behind the bench front (top 29.5)"
     },
+    "barbershop": {
+      "horizonY": 33,
+      "metersPercent": 0.62,
+      "spots": [
+        {
+          "x": 46,
+          "y": 62.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 0
+        },
+        {
+          "x": 41,
+          "y": 91,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 6,
+          "hero": true
+        },
+        {
+          "x": 22,
+          "y": 75,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 3,
+          "seatY": 66
+        },
+        {
+          "x": 12,
+          "y": 85,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 5,
+          "seatY": 73
+        },
+        {
+          "x": 27,
+          "y": 73,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 2,
+          "seatY": 64.5
+        },
+        {
+          "x": 64,
+          "y": 80,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 4
+        },
+        {
+          "x": 53,
+          "y": 66,
+          "pose": "lean",
+          "facing": "viewer",
+          "depth": 1
+        }
+      ],
+      "measuredFrom": "front door 2.0 m foot 59 top 26.6 (0.62); waiting chairs 0.45 m seat"
+    },
     "campaign-storefront": {
       "horizonY": 29,
       "metersPercent": 0.44,
@@ -1137,6 +1197,58 @@
       ],
       "measuredFrom": "front door 2.03 m foot 52.5 top 23 (1.00); meeting chair back 0.9 m foot 57 top 42.5 (0.85); front desk 0.75 m foot 87 top 60 (0.73); kept staged 38 / 0.85"
     },
+    "courthouse-hallway": {
+      "horizonY": 30,
+      "metersPercent": 0.7,
+      "spots": [
+        {
+          "x": 30,
+          "y": 58,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 0,
+          "seatY": 49.2
+        },
+        {
+          "x": 68,
+          "y": 63,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 1,
+          "seatY": 52.6
+        },
+        {
+          "x": 50,
+          "y": 68,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 2
+        },
+        {
+          "x": 50,
+          "y": 88,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 5,
+          "hero": true
+        },
+        {
+          "x": 22,
+          "y": 80,
+          "pose": "lean",
+          "facing": "right",
+          "depth": 4
+        },
+        {
+          "x": 80,
+          "y": 78,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 3
+        }
+      ],
+      "measuredFrom": "near double door 2.1 m foot 80.8 top 6.4 (0.70); far side door 2.1 m foot 51 top 20.2 (0.70); benches 0.45 m seat"
+    },
     "debate-stage": {
       "horizonY": 21,
       "metersPercent": 0.47,
@@ -1267,6 +1379,66 @@
         }
       ],
       "measuredFrom": "kept staged 35 / 0.62; checked against counter stools 0.75-0.8 m (x 71 foot 74.5 top 54; x 76.5 foot 83 top 57.5; x 84 foot 93 top 63: 0.65-0.71) and kitchen door 2.03 m foot 47 top 26 (0.86, painted large)"
+    },
+    "dmv-office": {
+      "horizonY": 44,
+      "metersPercent": 0.72,
+      "spots": [
+        {
+          "x": 41,
+          "y": 50.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 0,
+          "clipBelowY": 46.5
+        },
+        {
+          "x": 58,
+          "y": 50.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 1,
+          "clipBelowY": 46.5
+        },
+        {
+          "x": 76,
+          "y": 50.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 2,
+          "clipBelowY": 46.5
+        },
+        {
+          "x": 50,
+          "y": 70,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 5
+        },
+        {
+          "x": 50,
+          "y": 90,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 6,
+          "hero": true
+        },
+        {
+          "x": 17,
+          "y": 60,
+          "pose": "lean",
+          "facing": "right",
+          "depth": 3
+        },
+        {
+          "x": 91,
+          "y": 63,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 4
+        }
+      ],
+      "measuredFrom": "customer chair 0.9 m foot 91 top 62.7 (0.77); service counter about 1.1 m foot 52.6"
     },
     "door-knocking-rural": {
       "horizonY": 41,
@@ -1571,6 +1743,49 @@
       ],
       "measuredFrom": "horizon where the two yellow aisle lines meet (x 51.1, y 46.7); right workbench 0.9 m foot 82 top 59 (0.72); left workbench 0.9 m foot 85 top 59 (0.75); rolling tool cabinet ~0.9 m foot 68 top 52 (0.83)"
     },
+    "fire-station": {
+      "horizonY": 42,
+      "metersPercent": 0.41,
+      "spots": [
+        {
+          "x": 56,
+          "y": 72,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 1
+        },
+        {
+          "x": 27,
+          "y": 74,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 2
+        },
+        {
+          "x": 64,
+          "y": 80,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 3
+        },
+        {
+          "x": 42,
+          "y": 90,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 4,
+          "hero": true
+        },
+        {
+          "x": 88,
+          "y": 66,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 0
+        }
+      ],
+      "measuredFrom": "pumper 3.3 m foot 69 top 36 (0.41); turnout coats about 0.9 m"
+    },
     "governor-office": {
       "horizonY": 15,
       "metersPercent": 0.46,
@@ -1701,6 +1916,54 @@
         }
       ],
       "measuredFrom": "kept staged 38 / 0.86; checked against the waiting chairs: nearest chair back 0.85 m foot 68.3 top 43.6 (0.96), seat 0.45 m top 55.5 (0.94); middle chair seat top 54, legs 65.4"
+    },
+    "hotel-ballroom": {
+      "horizonY": 20,
+      "metersPercent": 0.34,
+      "floors": {
+        "stage": 0.36
+      },
+      "spots": [
+        {
+          "x": 50,
+          "y": 50,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 0,
+          "floor": "stage",
+          "audience": "viewer"
+        },
+        {
+          "x": 50,
+          "y": 64,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 1
+        },
+        {
+          "x": 24,
+          "y": 72,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 2
+        },
+        {
+          "x": 76,
+          "y": 72,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 3
+        },
+        {
+          "x": 50,
+          "y": 88,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 4,
+          "hero": true
+        }
+      ],
+      "measuredFrom": "lectern 1.1 m foot 50 top 38.3 (0.34); banquet chair back 0.9 m foot 88 top 67"
     },
     "large-house": {
       "horizonY": 40.5,
@@ -1877,6 +2140,49 @@
         }
       ],
       "measuredFrom": "horizon from sofa arm pair (near arm foot 83 top 59, far arm foot 65 top 50) and ceiling lines (~40); kitchen doorway 2.03 m foot 55.5 top 21.5 -> 0.82; sofa arm 0.65 m foot 65 top 50 -> 0.77; armchair seat 0.45 m foot 74 top 63 -> 0.63; averaged 0.76"
+    },
+    "newsroom": {
+      "horizonY": 46,
+      "metersPercent": 0.86,
+      "spots": [
+        {
+          "x": 38,
+          "y": 68,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 1
+        },
+        {
+          "x": 54,
+          "y": 57,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 0
+        },
+        {
+          "x": 80,
+          "y": 76,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 3
+        },
+        {
+          "x": 58,
+          "y": 90,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 4,
+          "hero": true
+        },
+        {
+          "x": 91,
+          "y": 70,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 2
+        }
+      ],
+      "measuredFrom": "desk chair 0.95 m foot 66.4 top 50 (0.86); glass-office desk 0.75 m foot 52"
     },
     "office": {
       "horizonY": 38,
@@ -2062,6 +2368,50 @@
       ],
       "measuredFrom": "horizon from the two trash cans (near foot 75.3 top 63.9; far foot 63.2 top 56.5) and the far treeline base; trash can 0.9 m -> 0.43 both; picnic table top 0.75 m foot 59 top 54.2 -> 0.49"
     },
+    "party-headquarters": {
+      "horizonY": 40,
+      "metersPercent": 0.6,
+      "spots": [
+        {
+          "x": 70,
+          "y": 70,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 2
+        },
+        {
+          "x": 52,
+          "y": 90,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 4,
+          "hero": true
+        },
+        {
+          "x": 88,
+          "y": 64,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 0,
+          "clipBelowY": 58
+        },
+        {
+          "x": 62,
+          "y": 66,
+          "pose": "lean",
+          "facing": "viewer",
+          "depth": 1
+        },
+        {
+          "x": 40,
+          "y": 78,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 3
+        }
+      ],
+      "measuredFrom": "folding table 0.75 m foot about 70 top 58; office chair 0.95 m"
+    },
     "phone-bank-room": {
       "horizonY": 32,
       "metersPercent": 0.71,
@@ -2140,6 +2490,189 @@
         }
       ],
       "measuredFrom": "horizon from the far desk end vs the near chair; far desk end 0.75 m foot 55.2 top 43 -> 0.70; near left chair seat 0.45 m foot 92 top 73 -> 0.70; near chair back 0.9 m foot 88.5 top 51.5 -> 0.73; back wall floor 52 to ceiling 7.5 reads 2.7 m"
+    },
+    "police-station": {
+      "horizonY": 52,
+      "metersPercent": 0.75,
+      "spots": [
+        {
+          "x": 40,
+          "y": 61,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 0,
+          "clipBelowY": 55
+        },
+        {
+          "x": 54,
+          "y": 61,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 1,
+          "clipBelowY": 55
+        },
+        {
+          "x": 21,
+          "y": 85,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 5,
+          "seatY": 76
+        },
+        {
+          "x": 62,
+          "y": 75,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 4
+        },
+        {
+          "x": 58,
+          "y": 90,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 6,
+          "hero": true
+        },
+        {
+          "x": 78,
+          "y": 68,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 2
+        },
+        {
+          "x": 93,
+          "y": 72,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 3
+        }
+      ],
+      "measuredFrom": "glass counter about 1.1 m foot 66.4 top 55 (0.75); lobby bench 0.45 m seat"
+    },
+    "polling-place": {
+      "horizonY": 30,
+      "metersPercent": 0.59,
+      "spots": [
+        {
+          "x": 77,
+          "y": 53,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 1,
+          "seatY": 46.8
+        },
+        {
+          "x": 10,
+          "y": 52,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 0,
+          "seatY": 46
+        },
+        {
+          "x": 60,
+          "y": 62,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 3
+        },
+        {
+          "x": 50,
+          "y": 88,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 6,
+          "hero": true
+        },
+        {
+          "x": 90,
+          "y": 67,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 4
+        },
+        {
+          "x": 32,
+          "y": 58,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 2
+        },
+        {
+          "x": 66,
+          "y": 70,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 5
+        }
+      ],
+      "measuredFrom": "near voting booth 1.8 m foot 61 top 28 (0.59); far booth 1.8 m foot 43.6 top 29.3 (0.59)"
+    },
+    "public-library": {
+      "horizonY": 38,
+      "metersPercent": 0.52,
+      "spots": [
+        {
+          "x": 36,
+          "y": 76.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 3,
+          "seatY": 65.9,
+          "group": "table"
+        },
+        {
+          "x": 56.8,
+          "y": 69.1,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 1,
+          "seatY": 61.6,
+          "group": "table"
+        },
+        {
+          "x": 88.5,
+          "y": 66,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 0,
+          "clipBelowY": 61,
+          "seatY": 59,
+          "group": "desk"
+        },
+        {
+          "x": 60,
+          "y": 88,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 6,
+          "hero": true
+        },
+        {
+          "x": 45,
+          "y": 84,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 5
+        },
+        {
+          "x": 52,
+          "y": 78,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 4
+        },
+        {
+          "x": 62,
+          "y": 70,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 2
+        }
+      ],
+      "measuredFrom": "reading table 0.75 m foot 82 top 64.5 (0.52); far table foot 66; reference desk about 1.1 m"
     },
     "public-meeting-room": {
       "horizonY": 32,
@@ -2453,6 +2986,86 @@
         }
       ],
       "measuredFrom": "horizon from the counter run (far end foot 56.1 top 37.8, near foot 71.2 top 42.2 -> 30) and back door vs table (-> 34); back door 2.03 m foot 54.9 top 11 -> 0.95; far counter 0.9 m -> 0.85; near counter -> 0.82; table 0.75 m foot 65.2 top 44.2 -> 0.85; chair seat 0.45 m foot 60 top 49.5 -> 0.82"
+    },
+    "school-board-room": {
+      "horizonY": 30,
+      "metersPercent": 0.61,
+      "floors": {
+        "dais": 0.66
+      },
+      "spots": [
+        {
+          "x": 33,
+          "y": 43,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 0,
+          "clipBelowY": 33.2,
+          "seatY": 38.6,
+          "group": "dais",
+          "floor": "dais"
+        },
+        {
+          "x": 50,
+          "y": 43,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 1,
+          "clipBelowY": 33.2,
+          "seatY": 38.6,
+          "group": "dais",
+          "floor": "dais"
+        },
+        {
+          "x": 67,
+          "y": 43,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 2,
+          "clipBelowY": 33.2,
+          "seatY": 38.6,
+          "group": "dais",
+          "floor": "dais"
+        },
+        {
+          "x": 66.4,
+          "y": 59.3,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 4,
+          "audience": "away"
+        },
+        {
+          "x": 25,
+          "y": 70,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 5
+        },
+        {
+          "x": 82,
+          "y": 70,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 6
+        },
+        {
+          "x": 40,
+          "y": 85,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 7,
+          "hero": true
+        },
+        {
+          "x": 6,
+          "y": 58,
+          "pose": "lean",
+          "facing": "right",
+          "depth": 3
+        }
+      ],
+      "measuredFrom": "public podium 1.1 m foot 59.5 top 39.8 (0.61); board desk about 1.1 m on a raised dais"
     },
     "school-gym-town-hall": {
       "horizonY": 32.5,
