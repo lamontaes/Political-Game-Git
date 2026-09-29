@@ -128,6 +128,11 @@ export interface ChamberVoteInput {
   readonly stableKey: string;
   readonly question: MemberVoteQuestion;
   readonly members: readonly SeatedMember[];
+  /**
+   * Decide only these members (by member key). The whole chamber still names
+   * the parties, so each vote is the one it would be in a full count.
+   */
+  readonly only?: ReadonlySet<string>;
   /** The player, who is never voted for. */
   readonly playerPersonId?: EntityId | null;
   /** The player's own ballot, when they cast one. */
@@ -223,7 +228,10 @@ export function decideChamberVote(
           measureAnswersAt(world, measure.id, undefined, "all"),
           input.question.billAsItWouldRead ?? [],
         );
-  return input.members.map((member): LegislativeVoteDisposition => {
+  const deciding = input.only
+    ? input.members.filter((member) => input.only!.has(member.memberKey))
+    : input.members;
+  return deciding.map((member): LegislativeVoteDisposition => {
     if (member.personId === null) {
       return {
         memberKey: member.memberKey,

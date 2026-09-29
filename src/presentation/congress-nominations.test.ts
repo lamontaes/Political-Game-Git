@@ -67,6 +67,15 @@ describe(`Congress candidates win their party's nomination first (home: ${PLACE.
       );
       expect(tag(slate, "intake-date:")! < primary!.occurredAt).toBe(true);
     }
+    // Texas's real filing deadline, December 8, 2025, fell before the game
+    // opened, so its fields start already filed on that day (decision D-9).
+    const texasSlates = slates.filter((slate) =>
+      seatOf(slate).startsWith("us-house:TX-"),
+    );
+    expect(texasSlates).toHaveLength(38);
+    expect(
+      texasSlates.every((slate) => tag(slate, "intake-date:") === "2025-12-08"),
+    ).toBe(true);
     // Texas votes first, on March 3, 2026; Louisiana's House seats do not
     // hold one, because their primary falls on the general election day.
     const texas = [...primaries.values()].filter((event) =>
