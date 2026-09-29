@@ -227,13 +227,6 @@
       "code": ".next() < (slot.presence_rate ?? 0);"
     },
     {
-      "file": "src/presentation/creator-location.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "if (stateJurisdictionKey !== \"US-DC\") return null;"
-    },
-    {
       "file": "src/presentation/funded-service-capability.ts",
       "kind": "place-in-logic",
       "build": "Build 3",
@@ -246,13 +239,6 @@
       "build": "Build 16",
       "count": 1,
       "code": "const dc = orientation.homeState?.stateUsps === \"DC\";"
-    },
-    {
-      "file": "src/presentation/living-world-orientation.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "stateUsps === \"DC\""
     },
     {
       "file": "src/presentation/new-game.ts",
@@ -283,13 +269,6 @@
       "code": "const district = orientation.homeState?.stateUsps === \"DC\";"
     },
     {
-      "file": "src/presentation/politics-government.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "usps === \"PR\" ? \"Resident Commissioner\" : \"Delegate to the U.S. House\";"
-    },
-    {
       "file": "src/presentation/production-world.ts",
       "kind": "fixed-share",
       "build": "Build 7",
@@ -302,34 +281,6 @@
       "build": "Build 7",
       "count": 1,
       "code": "new SeededRng(world.seed).fork(`${key}:same-sex`).next() <"
-    },
-    {
-      "file": "src/presentation/world-orientation.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "return seat.stateUsps === \"PR\""
-    },
-    {
-      "file": "src/presentation/world-orientation.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "if (home?.stateUsps === \"DC\") {"
-    },
-    {
-      "file": "src/presentation/world-orientation.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "`${name} is a U.S. territory, not a state. It elects its own Governor and legislature, and sends ${home.stateUsps === \"PR\" ? \"a Resident Commissioner\" : \"a Delegate\"} to the U.S. House, who does not cast final votes there. It has no seat in the U.S. Senate.`,"
-    },
-    {
-      "file": "src/presentation/world-orientation.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "seat.stateUsps === \"DC\" &&"
     },
     {
       "file": "src/simulation/campaign-life-activities.ts",
@@ -896,49 +847,7 @@
       "kind": "fixed-share",
       "build": "Build 20",
       "count": 1,
-      "code": "weeklyOpeningChance: 0.35,"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "fixed-share",
-      "build": "Build 20",
-      "count": 1,
-      "code": "partTimeShare: 0.3,"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "fixed-share",
-      "build": "Build 20",
-      "count": 1,
       "code": "followUpChance: 0.5,"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "!role.salaried && rng.next() < JOB_MARKET_PLACEHOLDER.partTimeShare;"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "if (rng.next() >= JOB_MARKET_PLACEHOLDER.weeklyOpeningChance) continue;"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "if (rng.next() >= JOB_MARKET_PLACEHOLDER.hireChance[application.route])"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "rng.next() < JOB_MARKET_PLACEHOLDER.followUpChance);"
     },
     {
       "file": "src/simulation/justice/clemency.ts",
@@ -1155,21 +1064,7 @@
       "kind": "roll",
       "build": "Build 7",
       "count": 1,
-      "code": "rng.fork(\"who-leaves\").next() < 0.5 ? [a, b] : [b, a];"
-    },
-    {
-      "file": "src/simulation/living-world/town-families.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
       "code": "rng.fork(\"move-in\").next() <"
-    },
-    {
-      "file": "src/simulation/living-world/town-families.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "(size(homeA) === size(homeB) && rng.fork(\"host\").next() < 0.5)"
     },
     {
       "file": "src/simulation/living-world/town-families.ts",
@@ -1212,62 +1107,6 @@
       "build": "Build 10",
       "count": 1,
       "code": "return head < 60 && rng.fork(\"mortgage\").next() < 0.7"
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "rng.fork(\"buy\").next() <"
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "rng.fork(\"outgrow\").next() < TOWN_HOME_MOVES.outgrow / pressure"
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "rng.fork(\"downsize\").next() < TOWN_HOME_MOVES.downsize"
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "rng.fork(\"renter-move\").next() <"
-    },
-    {
-      "file": "src/simulation/living-world/town-labor-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "rng.fork(\"layoff\").next() <"
-    },
-    {
-      "file": "src/simulation/living-world/town-labor-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "if (rng.fork(\"quit\").next() < TOWN_JOB_TURNOVER.quitPerQuarter / pressure) {"
-    },
-    {
-      "file": "src/simulation/living-world/town-labor-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "if (rng.fork(\"next-job\").next() < TOWN_JOB_TURNOVER.quitToNewJob)"
-    },
-    {
-      "file": "src/simulation/living-world/town-labor-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": ".next() <"
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
@@ -1492,20 +1331,6 @@
       "build": "Build 27",
       "count": 1,
       "code": "(record.unitKey.startsWith(\"ME\") ? null : source.winnerPersonId) ||"
-    },
-    {
-      "file": "src/simulation/nationwide-world/local-chief-executive-rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 25",
-      "count": 1,
-      "code": "const SELECTION_SHARES: readonly Share<boolean>[] = ["
-    },
-    {
-      "file": "src/simulation/nationwide-world/local-chief-executive-rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 25",
-      "count": 1,
-      "code": "const CHIEF_TERM_SHARES: readonly Share<number>[] = ["
     },
     {
       "file": "src/simulation/nationwide-world/local-governing-body-rules.ts",

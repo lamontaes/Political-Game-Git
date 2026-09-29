@@ -30,6 +30,9 @@ import {
 } from "./ordinary-meeting-actions";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { previewTimeCommand, submitTimeCommand } from "./time-command";
+import { observerPlace } from "./observer-world";
+import { activeOrganizationParticipationsAt } from "../simulation/life-queries";
+import { personName } from "../simulation/people";
 
 function start(placeKey: string) {
   const game = generateOpeningLife(
@@ -169,9 +172,11 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
       expect(
         recorded.people[scene.actors[0]!.personId]!.homeJurisdictionId,
       ).toBe(activity.location.jurisdictionId);
-      expect(recorded.personOrder.length).toBe(
-        completed.personOrder.length + (councilChair ? 2 : 3),
-      );
+      // Everyone at the meeting is a neighbor already in the world: nobody
+      // is made up for the evening.
+      expect(recorded.personOrder).toEqual(completed.personOrder);
+      for (const actor of scene.actors)
+        expect(completed.people[actor.personId]!.homeJurisdictionId).toBe(town);
       expect(
         simulationMinutesBetween(
           completed.currentMoment,
@@ -256,6 +261,54 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
       );
     },
   );
+  // Places drawn by the watched-run rule: Hammond, Indiana and Tafuna,
+  // American Samoa.
+  it.each(["build-25:meeting:1", "build-25:meeting:2"])(
+    "seats neighbors who belong most at the meeting in a watched place (%s)",
+    (seed) => {
+      const place = observerPlace(seed);
+      const { world, personId, activity } = start(place.key);
+      if (!activity) return;
+      const journey = world.history.scheduledActivities.find(
+        (entry) =>
+          entry.location.locationKey === "ordinary-life:to-meeting-room",
+      )!;
+      const completed = performScheduledActivity(
+        performVenueActivity(world, personId, journey.id),
+        activity.id,
+      );
+      const recorded = recordOrdinaryMeetingPresence(
+        world,
+        completed,
+        personId,
+        activity.id,
+      );
+      const scene = projectOrdinaryMeetingScene(recorded, personId)!;
+      const town = activity.location.jurisdictionId!;
+      const belongs = (id: string) =>
+        activeOrganizationParticipationsAt(completed, id).length;
+      console.log(
+        JSON.stringify({
+          seed,
+          place: `${place.displayName} (${place.key})`,
+          councilChair: localCouncilChair(completed, town, personId) !== null,
+          actors: scene.actors.map((actor) => ({
+            name: personName(recorded.people[actor.personId]!),
+            belongs: belongs(actor.personId),
+            line: actor.spokenLine ?? null,
+          })),
+        }),
+      );
+      expect(recorded.personOrder).toEqual(completed.personOrder);
+      for (const actor of scene.actors)
+        expect(completed.people[actor.personId]!.homeJurisdictionId).toBe(town);
+      const speakers = scene.actors
+        .slice(1)
+        .map((actor) => belongs(actor.personId));
+      expect([...speakers].sort((a, b) => b - a)).toEqual(speakers);
+    },
+  );
+
   it("leaves without attendance credit, charges only the recorded return and refuses a changed home endpoint", () => {
     const { world, personId, activity } = start("2309585");
     const journey = world.history.scheduledActivities.find(

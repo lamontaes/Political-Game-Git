@@ -37,6 +37,7 @@ import {
   statuteEffectiveDateEstimated,
   type StatuteDateContext,
 } from "./governing/statute-effective-date";
+import { recordedSessionAdjournment } from "./governing/session-adjournments";
 import { requireMeasure } from "./legislation";
 import { lawLevelRank, type LawLevel } from "./law-hierarchy";
 import { rulePackById } from "./legislature-rule-packs";
@@ -148,6 +149,39 @@ export const AMENDABLE_RULE_FIELDS = {
     family: "senate",
   },
   /**
+   * What a state pays its governor, in whole dollars a year. The office key is
+   * the state's pay law, `us-xx-office-pay-law`. Read by office salaries
+   * (`office-pay.ts`), which pay the published salary until a law sets one.
+   */
+  "pay.governor.annualDollars": {
+    kind: "integer",
+    min: 0,
+    max: 10_000_000,
+    family: "pay",
+  },
+  /**
+   * What a state pays each member of its legislature, in whole dollars a year.
+   * One figure for both chambers: the salary tables the game holds give one.
+   * Office key `us-xx-office-pay-law`.
+   */
+  "pay.stateLegislator.annualDollars": {
+    kind: "integer",
+    min: 0,
+    max: 10_000_000,
+    family: "pay",
+  },
+  /**
+   * What a state pays a trial court judge, in whole dollars a year. Office key
+   * `us-xx-office-pay-law`. NOT MODELED: other courts; the game records no
+   * court level yet.
+   */
+  "pay.trialJudge.annualDollars": {
+    kind: "integer",
+    min: 0,
+    max: 10_000_000,
+    family: "pay",
+  },
+  /**
    * The day a state's parties hold their nominating primary, as an
    * `ElectionDateRule`. The office key is the state's election law,
    * `us-xx-election-law`. Read by the nomination stage
@@ -192,6 +226,11 @@ export function municipalLawOfficeKey(stateUsps: string): string {
 /** The office key a state's labor law is recorded under. */
 export function laborLawOfficeKey(stateUsps: string): string {
   return `us-${stateUsps.toLowerCase()}-labor-law`;
+}
+
+/** The office key a state's law on what its officials are paid is recorded under. */
+export function officePayLawOfficeKey(stateUsps: string): string {
+  return `us-${stateUsps.toLowerCase()}-office-pay-law`;
 }
 
 /** A term limit as a law states it; null in any part means the law is silent on it. */
@@ -260,6 +299,9 @@ const AMENDABLE_RULE_FIELD_LABELS: Readonly<
   "labor.minimumWage.hourlyCents": "state minimum wage",
   "court.seats": "the number of judges on the court",
   "senate.selection": "how each state's U.S. senators are chosen",
+  "pay.governor.annualDollars": "the governor's salary",
+  "pay.stateLegislator.annualDollars": "a state legislator's salary",
+  "pay.trialJudge.annualDollars": "a trial court judge's salary",
   "nomination.primary.dateRule": "the day of the party primary",
   "nomination.method": "how parties choose their candidates",
 };
@@ -289,6 +331,8 @@ export function describeRuleChangeValue(
 ): string {
   if (field === "labor.minimumWage.hourlyCents" && typeof value === "number")
     return `$${(value / 100).toFixed(2)} an hour`;
+  if (field?.startsWith("pay.") && typeof value === "number")
+    return `$${value.toLocaleString("en-US")} a year`;
   if (value === null) return "no limit";
   if (typeof value === "number") return String(value);
   if (typeof value === "string") return CHOICE_WORDS[value] ?? value;
@@ -318,8 +362,9 @@ export function amendableRuleFieldLabel(field: AmendableRuleField): string {
 export function stateRuleBasis(
   jurisdictionKey: string,
   enactedAt: IsoDate,
+  context: StatuteDateContext = {},
 ): "state-rule" | "estimated-state-rule" {
-  return statuteEffectiveDateEstimated(jurisdictionKey, enactedAt)
+  return statuteEffectiveDateEstimated(jurisdictionKey, enactedAt, context)
     ? "estimated-state-rule"
     : "state-rule";
 }
@@ -334,13 +379,26 @@ export function stateRuleBasis(
 export const STATUTE_EFFECTIVE_DEFAULT_DAYS = 90;
 
 /**
- * The dates an act's own record carries that a state's effective-date rule
- * may count from: the final passage its enactment recorded.
+ * The dates an act's record carries that a state's effective-date rule may
+ * count from: the final passage its enactment recorded, and the day its
+ * legislature's leaders adjourned the session, where they did.
  */
 export function enactmentStatuteDateContext(
+  world: World,
   enactment: LegislativeEnactmentRecord,
 ): StatuteDateContext {
-  return { finalPassageAt: () => enactment.finalPassageAt ?? null };
+  return {
+    finalPassageAt: () => enactment.finalPassageAt ?? null,
+    sessionEnds: (year) => {
+      const measure = (world.history.legislativeMeasures ?? []).find(
+        (row) => row.id === enactment.measureId,
+      );
+      const adjourned = measure
+        ? recordedSessionAdjournment(world, measure.rulePackId, year)
+        : null;
+      return adjourned ? [adjourned.adjournedOn] : null;
+    },
+  };
 }
 
 export function isAmendableRuleField(
@@ -697,7 +755,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
         : stateStatuteOperativeAt(
             `US-${provision.stateUsps}`,
             enactment.resolvedAt,
-            enactmentStatuteDateContext(enactment),
+            enactmentStatuteDateContext(world, enactment),
           );
     changes.push({
       stateUsps: provision.stateUsps,
@@ -715,7 +773,11 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       operativeBasis: explicit
         ? "enacted-date"
         : stateRuleAt
-          ? stateRuleBasis(`US-${provision.stateUsps}`, enactment.resolvedAt)
+          ? stateRuleBasis(
+              `US-${provision.stateUsps}`,
+              enactment.resolvedAt,
+              enactmentStatuteDateContext(world, enactment),
+            )
           : "game-default",
       instrument: "statute",
       level: federal ? "federal-statute" : "state-statute",

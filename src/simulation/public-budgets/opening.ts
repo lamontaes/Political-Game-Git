@@ -24,7 +24,11 @@ import { SeededRng } from "../rng";
 import { STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
 import { standardNormal } from "../world-setup/deterministic-math";
-import { openingPaidShare, pensionPayment } from "./pension-share";
+import {
+  openingFundedRatio,
+  openingPaidShare,
+  pensionPayment,
+} from "./pension-share";
 import { reserveRule } from "./reserve-rule";
 import {
   budgetLawReadings,
@@ -54,7 +58,7 @@ import {
 /**
  * THE OPENING DRAW. Each government starts from research:
  *
- * 1. A state draws around its Census 2022 state-government figures per
+ * 1. A state opens at its Census 2022 state-government figures per
  *    resident times its BEA 2024 population, carried forward by the measured
  *    calibration factor (`public-budget-bases.json`). D.C.'s Census "state"
  *    column is empty, so the District reads the local column whole.
@@ -65,9 +69,13 @@ import {
  * 4. A state's opening balance and reserve are NASBO's fiscal 2026 estimates;
  *    a local government's are its state's shares of spending (PLACEHOLDER).
  *
- * Every amount is drawn once per line around its figure, so two worlds differ
- * (Lamontae, September 26, 2026: real data calibrates, the game makes its
- * own). A world without a seed (a fixture) takes the figures as they are.
+ * A figure read for the government itself (a state's Census column, a
+ * territory's NASBO totals) opens exactly as read. An estimate from an
+ * average (a county's or city's share, an unsurveyed territory) opens with a
+ * per-world spread around it, so two worlds differ where the game has no
+ * figure of its own (Lamontae, September 26, 2026: real data calibrates, the
+ * game makes its own; September 28: an estimate starts from the real average
+ * with a spread). A world without a seed (a fixture) takes every figure as is.
  */
 
 interface PerResident {
@@ -482,13 +490,20 @@ function titleCase(name: string): string {
     .join(" ");
 }
 
-function drawn(
+/**
+ * An opening amount. A figure read for this government itself opens exactly
+ * as read. An estimate from an average (a county's or city's share of its
+ * state's local finances, an unsurveyed territory) opens with a per-world
+ * spread around the average, so two worlds do not share one made-up number.
+ */
+function opened(
   world: World,
   governmentKey: string,
   line: string,
   amount: number,
+  read: "read" | "estimated",
 ): number {
-  if (!world.seed || amount === 0) return Math.round(amount);
+  if (read === "read" || !world.seed || amount === 0) return Math.round(amount);
   const rng = new SeededRng(world.seed).fork(
     `${PUBLIC_BUDGETS_VERSION}:open:${governmentKey}:${line}`,
   );
@@ -503,16 +518,22 @@ function emptySpending(): number[] {
   return BUDGET_PROGRAMS.map(() => 0);
 }
 
-/** The opening pension and its actuarial contribution. PLACEHOLDER. */
+/**
+ * The opening pension and its actuarial contribution. The assets are the
+ * liability times the government's own reported funded ratio
+ * (`openingFundedRatio`); the liability's size against spending is still
+ * PLACEHOLDER.
+ */
 export function openingPension(
   spending: number,
   paidShare: number,
+  fundedRatio: number,
 ): {
   pension: PensionRecord;
   required: number;
 } {
   const liability = Math.round(spending * PENSION.liabilityToSpending);
-  const assets = Math.round(liability * PENSION.fundedRatio);
+  const assets = Math.round(liability * fundedRatio);
   return {
     pension: { liability, assets, paidShare },
     required: actuarialContribution({ liability, assets }),
@@ -579,20 +600,28 @@ function stateOpening(
   if (column && population > 0) {
     const scale = population * BUDGET_CALIBRATION;
     for (const [at, source] of BUDGET_SOURCES.entries())
-      revenue[at] = drawn(
+      revenue[at] = opened(
         world,
         candidate.key,
         source,
         (column.revenue[source] ?? 0) * scale,
+        "read",
       );
     for (const [at, program] of BUDGET_PROGRAMS.entries())
-      spending[at] = drawn(
+      spending[at] = opened(
         world,
         candidate.key,
         program,
         (column.spending[program] ?? 0) * scale,
+        "read",
       );
-    debt = drawn(world, candidate.key, "debt", column.debt * population);
+    debt = opened(
+      world,
+      candidate.key,
+      "debt",
+      column.debt * population,
+      "read",
+    );
     const interest = column.spending.interest ?? 0;
     if (column.debt > 0 && interest > 0) interestRate = interest / column.debt;
     notes.push(
@@ -617,17 +646,19 @@ function stateOpening(
     const revenueToSpending = surveyed
       ? general.revenues! / general.expenditures!
       : ISLAND_AREA_AVERAGE.revenueToSpending;
-    spending[BUDGET_PROGRAMS.indexOf("programUnknown")] = drawn(
+    spending[BUDGET_PROGRAMS.indexOf("programUnknown")] = opened(
       world,
       candidate.key,
       "programUnknown",
       total,
+      surveyed ? "read" : "estimated",
     );
-    revenue[BUDGET_SOURCES.indexOf("sourceUnknown")] = drawn(
+    revenue[BUDGET_SOURCES.indexOf("sourceUnknown")] = opened(
       world,
       candidate.key,
       "sourceUnknown",
       total * revenueToSpending,
+      surveyed ? "read" : "estimated",
     );
     notes.push(
       surveyed
@@ -710,11 +741,12 @@ function localOpening(
   const spending = emptySpending();
   for (const [at, program] of BUDGET_PROGRAMS.entries()) {
     const share = LOCAL_PROGRAM_SPLIT[program]?.[level] ?? 0;
-    spending[at] = drawn(
+    spending[at] = opened(
       world,
       candidate.key,
       program,
       (local.spending[program] ?? 0) * share * scale,
+      "estimated",
     );
   }
   const localSpendingPerResident = sum(
@@ -728,17 +760,19 @@ function localOpening(
       : 0;
   const revenue = emptyRevenue();
   for (const [at, source] of BUDGET_SOURCES.entries())
-    revenue[at] = drawn(
+    revenue[at] = opened(
       world,
       candidate.key,
       source,
       (local.revenue[source] ?? 0) * scale * share,
+      "estimated",
     );
-  const debt = drawn(
+  const debt = opened(
     world,
     candidate.key,
     "debt",
     local.debt * population * share,
+    "estimated",
   );
   const interest = local.spending.interest ?? 0;
   const general = base.generalFundFY2026Millions;
@@ -820,7 +854,16 @@ export function openGovernmentBudget(
     candidate.level,
     candidate.name,
   );
-  const { pension, required } = openingPension(sum(spending), paid.share);
+  const funding = openingFundedRatio(
+    candidate.stateKey,
+    candidate.level,
+    candidate.name,
+  );
+  const { pension, required } = openingPension(
+    sum(spending),
+    paid.share,
+    funding.fundedRatio,
+  );
   // The opening year's contribution: in full under a law requiring it, and
   // at the government's own share otherwise.
   carvePension(
@@ -861,7 +904,10 @@ export function openGovernmentBudget(
     openingNotes: [
       ...opening.notes,
       `Calibration factor ${BUDGET_CALIBRATION}: ${bases.calibration.basis}`,
-      "Pension: liability, funded ratio and contribution are PLACEHOLDER (research: public-pension-funding-by-state), carved out of salary-paying programs.",
+      "Pension: the liability's size against spending is PLACEHOLDER (research: public-pension-funding-by-state); the contribution is carved out of salary-paying programs.",
+      funding.basis === "reported"
+        ? `Pension funded ratio: ${funding.fundedRatio}, as its own plans reported to the Public Plans Database.`
+        : `Pension funded ratio: ESTIMATED FROM AVERAGE, ${funding.fundedRatio}, the median of every plan in the Public Plans Database; its own plans are not listed.`,
       `Reserve target under a minimum-reserve law: ${reserveRule(candidate).floorShare} of a year's spending, at most ${reserveRule(candidate).depositShare} a year: ${reserveRule(candidate).basis}.`,
       paid.basis === "reported"
         ? `Pension share paid: ${paid.share}, as its own plans reported to the Public Plans Database.`
