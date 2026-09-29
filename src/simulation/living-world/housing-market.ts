@@ -14,13 +14,17 @@
  *     is zero.
  *   price-to-income gap: the log of home prices over output value, against the
  *     same ratio at the world's first month, as of the month before.
- *   the town's own events: none are wired yet, so zero.
+ *   the town's own events: a law enacted in play that lets more homes be
+ *     built (`HOUSING_SUPPLY_LAWS`), once it has been in force a year
+ *     (`HOUSING_SUPPLY_LAW_EFFECT`). Nothing else is wired yet.
  *
  * HARDWIRED at the start: before the world's first month, home prices are
  * taken to have grown with income and to sit at their usual ratio to it.
  */
 
 import type { EntityId, IsoDate, World } from "../types";
+import { addDays } from "../dates";
+import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import {
   macroMonthHistory,
   macroScopeForJurisdiction,
@@ -30,15 +34,107 @@ import { priceGrowthMonthly } from "./housing-price-model";
 
 const WINDOW = 12;
 
+/**
+ * The laws that let more homes be built. Each is a policy question a state or
+ * a town answers; the law the place began with is already in its prices, so
+ * only a change from it in play moves them.
+ */
+export const HOUSING_SUPPLY_LAWS = [
+  "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+  "us-policy-positions:housing-land-use.by-right-permitting",
+  "us-policy-positions:housing-land-use.preempt-local-housing-limits",
+] as const;
+
+/**
+ * What a law letting more homes be built does to a town's home prices, once
+ * it has been in force long enough for homes to go up. The laws act as one
+ * package: a second such law adds nothing measured.
+ *
+ * Measured, and HARDWIRED as the middle of what was found:
+ *   Minneapolis, which allowed three homes on every residential lot among
+ *   other reforms: from 2017 to 2022 its housing stock grew 12% and rents 1%,
+ *   while in the rest of Minnesota the stock grew 4% and rents 14% (Pew
+ *   Charitable Trusts, January 4, 2024). About 12 log points over five years.
+ *   Auckland's 2016 upzoning: three-bedroom rents 26% to 33% lower after six
+ *   years than in comparable cities (Greenaway-McGrevy, Economic Inquiry,
+ *   2025). Not a U.S. place, so a check, not the size.
+ *   California's SB 9 (2021): 53 homes approved in its first year across 13
+ *   cities (Terner Center, 2022), about zero.
+ *   Sao Paulo's 2014 upzoning: home prices 0.5% lower in the long run
+ *   (Anagol, Ferreira and Rexer, NBER w29440, 2021; Research 1's table of
+ *   September 29, 2026, marks it provisional, not U.S.). The low end.
+ * `monthlyLogChange` is the push each month that, through the price model's
+ * momentum and its pull back toward income, leaves prices the measured 12 log
+ * points lower after five years (worked out on steady growth; the test checks
+ * it). The year before it acts is HARDWIRED, a PLACEHOLDER(research:
+ * months-from-upzoning-to-new-homes).
+ */
+export const HOUSING_SUPPLY_LAW_EFFECT = {
+  fiveYearLogChange: -0.12,
+  monthlyLogChange: -0.00146,
+  actsAfterDays: 365,
+} as const;
+
+const supplyLawIdsByCatalog = new WeakMap<object, readonly EntityId[]>();
+
+/** The catalog ids of `HOUSING_SUPPLY_LAWS`, read once per catalog. */
+function supplyLawIds(world: World): readonly EntityId[] {
+  const propositions = world.policyCatalog?.propositions;
+  if (!propositions) return [];
+  let ids = supplyLawIdsByCatalog.get(propositions);
+  if (!ids) {
+    const wanted = new Set<string>(HOUSING_SUPPLY_LAWS);
+    ids = Object.values(propositions)
+      .filter((row) => wanted.has(row.stableKey))
+      .map((row) => row.id);
+    supplyLawIdsByCatalog.set(propositions, ids);
+  }
+  return ids;
+}
+
+/**
+ * The town's own events that move its home prices in the month recorded on
+ * `date`, as a monthly log change: a supply law enacted in play, a year after
+ * it took effect. Repealing one the town began with moves prices the other
+ * way.
+ */
+export function housingLawEffect(
+  world: World,
+  town: EntityId,
+  date: IsoDate,
+): number {
+  const acting = addDays(date, -HOUSING_SUPPLY_LAW_EFFECT.actsAfterDays);
+  let change = 0;
+  for (const question of supplyLawIds(world)) {
+    const law = lawInForce(world, town, question, date);
+    if (law?.origin !== "enacted" || law.operativeAt > acting) continue;
+    const before =
+      lawInForceAtStart(world, town, question, date) === "yes" ? 1 : 0;
+    change += (law.answer === "yes" ? 1 : 0) - before;
+  }
+  if (change === 0) return 0;
+  return Math.sign(change) * HOUSING_SUPPLY_LAW_EFFECT.monthlyLogChange;
+}
+
 interface Level {
   readonly recordedAt: IsoDate;
   readonly level: number;
 }
 
-/** Keyed by the months array and its length, so a month added later counts. */
+/**
+ * Keyed by the months array; an entry holds while the number of months and of
+ * enacted laws is unchanged, so a month or a law added later counts.
+ */
 const cache = new WeakMap<
   readonly unknown[],
-  Map<string, { readonly count: number; readonly levels: readonly Level[] }>
+  Map<
+    string,
+    {
+      readonly count: number;
+      readonly laws: number;
+      readonly levels: readonly Level[];
+    }
+  >
 >();
 
 function incomeRate(month: MacroMonthRecord): number {
@@ -52,6 +148,7 @@ function rateMidpoint(month: MacroMonthRecord): number {
 /** The home-price level after each recorded month, the first month at 1. */
 export function homePriceLevels(
   months: readonly MacroMonthRecord[],
+  townEffect: (month: MacroMonthRecord) => number = () => 0,
 ): readonly Level[] {
   if (months.length === 0) return [];
   const first = months[0]!;
@@ -81,7 +178,7 @@ export function homePriceLevels(
         incomes.slice(-WINDOW).reduce((sum, row) => sum + row, 0) / WINDOW,
       rateChangePp: rateMidpoint(month) - rateMidpoint(yearAgo),
       priceToIncomeGapLog: gap,
-      housingLawEffect: 0,
+      housingLawEffect: townEffect(month),
     });
     changes.push(change);
     logPrice += change;
@@ -110,7 +207,8 @@ export function homePriceLevel(
   }
   const local = macroScopeForJurisdiction(town);
   let entry = byScope.get(local);
-  if (!entry || entry.count !== all.length) {
+  const laws = world.history.legislativeEnactments?.length ?? 0;
+  if (!entry || entry.count !== all.length || entry.laws !== laws) {
     const end = "9999-12-31" as IsoDate;
     const own = macroMonthHistory(world, local, end);
     const firstOwn = own[0]?.recordedAt;
@@ -119,7 +217,10 @@ export function homePriceLevel(
     );
     entry = {
       count: all.length,
-      levels: homePriceLevels([...national, ...own]),
+      laws,
+      levels: homePriceLevels([...national, ...own], (month) =>
+        housingLawEffect(world, town, month.recordedAt),
+      ),
     };
     byScope.set(local, entry);
   }
