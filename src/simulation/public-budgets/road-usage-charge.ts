@@ -48,12 +48,16 @@ function yearsBetween(start: IsoDate, end: IsoDate): number {
  * first bill: a revenue-neutral charge starts at what the fuel tax then
  * raised, and it bills miles, which the fleet's fuel economy does not
  * change. A county or city collects the state's fuel tax as aid, not as its
- * own tax, so its budget reads 1.
+ * own tax, so its budget reads 1. The law is read on `date` and the fleet's
+ * erosion on `erodedOn` (the same date unless given), so a comparison of the
+ * laws in force on two dates can hold the fleet at one date and count only
+ * what the laws changed.
  */
 export function roadChargeFactor(
   world: World,
   government: PublicBudgetGovernment,
   date: IsoDate,
+  erodedOn: IsoDate = date,
 ): number {
   if (government.level !== "state") return 1;
   const opened = government.years[0]!.adoptedOn;
@@ -63,7 +67,7 @@ export function roadChargeFactor(
     share *
       (1 - Math.pow(1 - FUEL_TAX_EROSION_PER_YEAR, yearsBetween(opened, on)));
   const propositionId = propositionIdFor(world, MILEAGE_FEE_QUESTION);
-  if (!propositionId) return kept(date);
+  if (!propositionId) return kept(erodedOn);
   const law = lawInForce(
     world,
     government.lawJurisdictionId,
@@ -77,11 +81,11 @@ export function roadChargeFactor(
       propositionId,
       date,
     ) ?? "no";
-  if (law?.answer !== "yes") return kept(date);
+  if (law?.answer !== "yes") return kept(erodedOn);
   if (law.origin === "in-force-at-start" || began === "yes") return 1;
   const firstBill = addDays(
     law.operativeAt,
     Math.round(ROAD_CHARGE_FIRST_BILL_LAG_MONTHS * 30.44),
   );
-  return kept(firstBill < date ? firstBill : date);
+  return kept(firstBill < erodedOn ? firstBill : erodedOn);
 }
