@@ -1,0 +1,1780 @@
+{
+  "id": "clemency-gates-2026",
+  "version": "clemency-gates-2026-v2",
+  "asOf": "2026-09-28",
+  "about": "Who must agree before clemency is granted, in each state, D.C., the territories and the federal government, as of 2026. Read by src/simulation/justice/clemency-rules.ts. Each row's gates are tried in order and the first whose offense condition matches applies. mustAgree lists every body whose yes a grant needs, in the order a petition reaches them; 'executive' is the governor (or the President). advisory is a body the grantor hears from without a veto: referral 'required' means the law makes the grantor refer the case or wait for a report (reportWithinDays caps the wait where the law does), and 'optional' means the grantor may ask. referralBasis 'read' means the rule was read; 'estimated-from-common-rule' means it starts from the most common read rule, as the row's note says, until research reads it. toRead lists what research can still read; nothing in it is shown to a player. unansweredRecommendationTakesEffect records a law under which a board's recommendation takes effect when the grantor does not act. A board's members are 'appointed' or a list of the offices that sit on it ex officio. basis: P = constitution or statute text read, G = a state guide that quotes the clause, O = an official page. From Research 4's table, Drive 1W7xojSc3HmxZ5QPGBVEkiZiPXI4_xtqzGHbd82r-kkg (9:20 p.m. 9/28) with its 10:07 p.m. corrections, and the CTO's 9:54 p.m. ruling (record the real gate, not a bucket), 10:24 p.m. ruling (Arizona, North Dakota) and 10:32 p.m. addendum (no value shows UNKNOWN).",
+  "rows": [
+    {
+      "jurisdictionKey": "US-AL",
+      "place": "Alabama",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Pardons and Paroles",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["board"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": [
+        "Ala. Const. sec. 124 as quoted by capitalclemency.org",
+        "Code of Ala. sec. 15-22-36"
+      ],
+      "notes": [
+        "The governor keeps reprieves and commutations of death sentences; everything else belongs to the board."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "place": "Alaska",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Parole Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "estimated-from-common-rule"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": ["Alaska Const. art. III sec. 21 (stored copy)"],
+      "notes": [
+        "ESTIMATED FROM COMMON RULE: the referral rule is not yet read here, so it starts from the most common read rule. Of 19 places with a single read rule, 12 let the grantor act without the board (US, US-AZ, US-CO, US-IA, US-MD, US-ME, US-MS, US-ND, US-SD, US-VA, US-WI, US-WV) and 7 require referral (US-KS, US-MI, US-MO, US-MP, US-MT, US-OH, US-WA). Research can replace it."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-AZ",
+      "place": "Arizona",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Executive Clemency",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "committed-before",
+            "date": "1994-01-01"
+          },
+          "mustAgree": ["board", "executive"],
+          "advisory": null,
+          "note": "A.R.S. sec. 31-402(A): for a felony committed before January 1, 1994 the governor may not act unless the board first recommends."
+        },
+        {
+          "offenses": {
+            "kind": "committed-on-or-after",
+            "date": "1994-01-01"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "read"
+          },
+          "note": "For a later felony the board may recommend and the governor may act alone. A unanimous commutation recommendation the governor does not act on within 90 days 'automatically becomes effective' (A.R.S. 31-402(C), (D)).",
+          "unansweredRecommendationTakesEffect": {
+            "afterDays": 90,
+            "kinds": ["commutation"],
+            "unanimous": true
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": ["A.R.S. 31-402(A)-(D)"],
+      "notes": [],
+      "toRead": ["Whether A.R.S. 31-443 adds a rule."]
+    },
+    {
+      "jurisdictionKey": "US-AR",
+      "place": "Arkansas",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Parole Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "estimated-from-common-rule"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": ["Ark. Const. art. VI sec. 18", "Ark. Code sec. 16-93-204"],
+      "notes": [
+        "The board's recommendation does not bind the governor.",
+        "ESTIMATED FROM COMMON RULE: the referral rule is not yet read here, so it starts from the most common read rule. Of 19 places with a single read rule, 12 let the grantor act without the board (US, US-AZ, US-CO, US-IA, US-MD, US-ME, US-MS, US-ND, US-SD, US-VA, US-WI, US-WV) and 7 require referral (US-KS, US-MI, US-MO, US-MP, US-MT, US-OH, US-WA). Research can replace it."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-CA",
+      "place": "California",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Parole Hearings",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        },
+        {
+          "key": "court",
+          "label": "Supreme Court of California",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "prior-felony-convictions-at-least",
+            "count": 2
+          },
+          "mustAgree": ["court", "executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "required",
+            "referralBasis": "read"
+          },
+          "note": "Cal. Const. art. V sec. 8(a): a person twice convicted of a felony needs the Supreme Court's recommendation, a majority of the judges concurring."
+        },
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": [
+        "Cal. Const. art. V sec. 8(a)",
+        "Cal. Pen. Code sec. 4812",
+        "Cal. Pen. Code secs. 4802, 4812(a)"
+      ],
+      "notes": [
+        "For a person twice convicted of a felony the governor must send the papers to the Board of Parole Hearings (Pen. Code 4802); otherwise the board reports only on request (4812(a))."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-CO",
+      "place": "Colorado",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Executive Clemency Advisory Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": ["Colo. Const. art. IV sec. 7"],
+      "notes": ["The advisory board exists by executive order, not statute."],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-CT",
+      "place": "Connecticut",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Pardons and Paroles",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["board"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": [
+        "Conn. Const. art. IV sec. 13",
+        "Conn. Gen. Stat. sec. 54-130a"
+      ],
+      "notes": [
+        "The governor may grant reprieves until the end of the next legislative session."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-DE",
+      "place": "Delaware",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Pardons",
+          "members": [
+            "Chancellor",
+            "Lieutenant Governor",
+            "Secretary of State",
+            "State Treasurer",
+            "Auditor of Accounts"
+          ],
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["board", "executive"],
+          "advisory": null
+        }
+      ],
+      "basis": "G",
+      "sources": ["Collateral Consequences Resource Center, Delaware guide"],
+      "notes": [],
+      "toRead": ["Clause text not read from the constitution itself."]
+    },
+    {
+      "jurisdictionKey": "US-FL",
+      "place": "Florida",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "cabinet",
+          "label": "Cabinet",
+          "members": [
+            "Attorney General",
+            "Chief Financial Officer",
+            "Commissioner of Agriculture"
+          ],
+          "includesExecutive": false,
+          "vote": "at-least-two"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive", "cabinet"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["Fla. Const. art. IV sec. 4(a), sec. 8(a)"],
+      "notes": [],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-GA",
+      "place": "Georgia",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "State Board of Pardons and Paroles",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["board"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["Ga. Const. art. IV sec. 2 para. II (partial quote)"],
+      "notes": [],
+      "toRead": [
+        "How board members are appointed and confirmed (para. I unread)."
+      ]
+    },
+    {
+      "jurisdictionKey": "US-HI",
+      "place": "Hawaii",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Hawaii Paroling Authority",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "estimated-from-common-rule"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": ["Haw. Const. art. V sec. 5 (stored copy)"],
+      "notes": [
+        "ESTIMATED FROM COMMON RULE: the referral rule is not yet read here, so it starts from the most common read rule. Of 19 places with a single read rule, 12 let the grantor act without the board (US, US-AZ, US-CO, US-IA, US-MD, US-ME, US-MS, US-ND, US-SD, US-VA, US-WI, US-WV) and 7 require referral (US-KS, US-MI, US-MO, US-MP, US-MT, US-OH, US-WA). Research can replace it."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-ID",
+      "place": "Idaho",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Commission of Pardons and Parole",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["board"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["Idaho Const. art. IV sec. 7"],
+      "notes": [
+        "The governor grants reprieves only; treason goes to the legislature. Hearings are public with four weeks of newspaper notice."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "place": "Illinois",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Prisoner Review Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "estimated-from-common-rule"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": [
+        "Ill. Const. art. V sec. 12",
+        "Prisoner Review Board executive clemency page"
+      ],
+      "notes": [
+        "ESTIMATED FROM COMMON RULE: the referral rule is not yet read here, so it starts from the most common read rule. Of 19 places with a single read rule, 12 let the grantor act without the board (US, US-AZ, US-CO, US-IA, US-MD, US-ME, US-MS, US-ND, US-SD, US-VA, US-WI, US-WV) and 7 require referral (US-KS, US-MI, US-MO, US-MP, US-MT, US-OH, US-WA). Research can replace it."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-IN",
+      "place": "Indiana",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Parole Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "estimated-from-common-rule"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": ["Ind. Const. art. 5 sec. 17", "IC 11-9-2-3"],
+      "notes": [
+        "ESTIMATED FROM COMMON RULE: the referral rule is not yet read here, so it starts from the most common read rule. Of 19 places with a single read rule, 12 let the grantor act without the board (US, US-AZ, US-CO, US-IA, US-MD, US-ME, US-MS, US-ND, US-SD, US-VA, US-WI, US-WV) and 7 require referral (US-KS, US-MI, US-MO, US-MP, US-MT, US-OH, US-WA). Research can replace it."
+      ],
+      "toRead": [
+        "Whether any statute creates the council of state officers whose consent art. 5 sec. 17 allows. If one exists, it must also agree."
+      ]
+    },
+    {
+      "jurisdictionKey": "US-IA",
+      "place": "Iowa",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Parole",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": ["Iowa Const. art. IV sec. 16", "Iowa Code sec. 914.2"],
+      "notes": ["An applicant may go straight to the governor."],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-KS",
+      "place": "Kansas",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Prisoner Review Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "required",
+            "reportWithinDays": 120,
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": ["Kan. Const. art. I sec. 7", "K.S.A. 22-3701(d)"],
+      "notes": [
+        "The board must report first, or 120 days must pass; no board yes is required.",
+        "The governor may not act until the board reports or 120 days after referral, whichever is shorter (K.S.A. 22-3701(d))."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "place": "Kentucky",
+      "executiveTitle": "Governor",
+      "bodies": [],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["Ky. Const. sec. 77"],
+      "notes": [
+        "The governor files a written report. A November 2026 amendment would bar grants from 60 days before the governor's election to the fifth Tuesday after; it is not in force at the start (CTO, 9:54 p.m. 9/28)."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-LA",
+      "place": "Louisiana",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Pardons",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["board", "executive"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["La. Const. art. IV sec. 5(E)(1)"],
+      "notes": [
+        "Reprieves and the first-offender automatic pardon need no board."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-ME",
+      "place": "Maine",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Governor's Board on Executive Clemency",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "G",
+      "sources": ["Collateral Consequences Resource Center, Maine guide"],
+      "notes": ["The board exists by executive order."],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-MD",
+      "place": "Maryland",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Parole Commission",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": ["Md. Const. art. II sec. 20", "Md. Corr. Serv. sec. 7-206"],
+      "notes": ["The commission recommends only if the governor asks."],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-MA",
+      "place": "Massachusetts",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "council",
+          "label": "Governor's Council",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        },
+        {
+          "key": "board",
+          "label": "Parole Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive", "council"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "estimated-from-common-rule"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": ["Mass. Const. Part 2, ch. 2, sec. 1, art. 8"],
+      "notes": [
+        "ESTIMATED FROM COMMON RULE: the referral rule is not yet read here, so it starts from the most common read rule. Of 19 places with a single read rule, 12 let the grantor act without the board (US, US-AZ, US-CO, US-IA, US-MD, US-ME, US-MS, US-ND, US-SD, US-VA, US-WI, US-WV) and 7 require referral (US-KS, US-MI, US-MO, US-MP, US-MT, US-OH, US-WA). Research can replace it."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-MI",
+      "place": "Michigan",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Parole Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "required",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "G",
+      "sources": [
+        "Collateral Consequences Resource Center, Michigan guide",
+        "MCL 791.243, 791.244"
+      ],
+      "notes": [],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "place": "Minnesota",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Pardons",
+          "members": ["Governor", "Attorney General", "Chief Justice"],
+          "includesExecutive": true,
+          "vote": "majority-including-executive"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["board"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": [
+        "Minn. Const. art. V sec. 7",
+        "Minn. Stat. 638.01, 638.12 subd. 1(c)"
+      ],
+      "notes": [
+        "A grant 'has no force or effect if the governor or a board majority duly convened opposes the clemency' (638.12 subd. 1(c)), so the governor and at least one other member must support it. Research 4, 10:07 p.m. 9/28 (Drive 1WwVbpuHEdsPvp_l49PjGHvipRlZ9vzaUSDlyC5bjRfI)."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-MS",
+      "place": "Mississippi",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Parole Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": ["Miss. Const. art. V sec. 124"],
+      "notes": ["The applicant must publish notice for a felony."],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-MO",
+      "place": "Missouri",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Probation and Parole Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "required",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": [
+        "Mo. Const. art. IV sec. 7",
+        "RSMo sec. 217.800",
+        "RSMo 217.800.2"
+      ],
+      "notes": [],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-MT",
+      "place": "Montana",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Pardons and Parole",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "required",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "G",
+      "sources": [
+        "Collateral Consequences Resource Center, Montana guide",
+        "MCA 46-23-301(2), 46-23-307"
+      ],
+      "notes": [
+        "Since 2015 the governor may act even on a negative recommendation."
+      ],
+      "toRead": [
+        "Whether the governor may pardon without the board's recommendation (MCA 46-23-308 to 314 are reserved)."
+      ]
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "place": "Nebraska",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Pardons",
+          "members": ["Governor", "Attorney General", "Secretary of State"],
+          "includesExecutive": true,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["board"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["Neb. Const. art. IV sec. 13"],
+      "notes": [
+        "The board meets quarterly in public; the Parole Board's advice does not bind it."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-NV",
+      "place": "Nevada",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Pardons Commissioners",
+          "members": [
+            "Governor",
+            "Justices of the Supreme Court",
+            "Attorney General"
+          ],
+          "includesExecutive": true,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["board"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["Nev. Const. art. 5 sec. 14 (stored copy)"],
+      "notes": [
+        "A majority of the nine members is sufficient for any action; nothing makes the governor's vote necessary (art. 5 sec. 14). Research 4, 10:07 p.m. 9/28 (Drive 1WwVbpuHEdsPvp_l49PjGHvipRlZ9vzaUSDlyC5bjRfI)."
+      ],
+      "toRead": [
+        "Nev. Const. art. 5 sec. 13, which may give the governor a separate reprieve power, is not yet read."
+      ]
+    },
+    {
+      "jurisdictionKey": "US-NH",
+      "place": "New Hampshire",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "council",
+          "label": "Executive Council",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive", "council"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["N.H. Const. Part II art. 52", "RSA 4:21"],
+      "notes": [],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-NJ",
+      "place": "New Jersey",
+      "executiveTitle": "Governor",
+      "bodies": [],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["N.J. Const. art. V sec. II para. 1"],
+      "notes": [],
+      "toRead": [
+        "Whether a statute created the advisory body the constitution allows."
+      ]
+    },
+    {
+      "jurisdictionKey": "US-NM",
+      "place": "New Mexico",
+      "executiveTitle": "Governor",
+      "bodies": [],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["N.M. Const. art. V sec. 6"],
+      "notes": [],
+      "toRead": [
+        "Whether a statute or executive order creates an advisory board."
+      ]
+    },
+    {
+      "jurisdictionKey": "US-NY",
+      "place": "New York",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Executive Clemency Bureau",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "estimated-from-common-rule"
+          }
+        }
+      ],
+      "basis": "G",
+      "sources": ["Collateral Consequences Resource Center, New York guide"],
+      "notes": [
+        "ESTIMATED FROM COMMON RULE: the referral rule is not yet read here, so it starts from the most common read rule. Of 19 places with a single read rule, 12 let the grantor act without the board (US, US-AZ, US-CO, US-IA, US-MD, US-ME, US-MS, US-ND, US-SD, US-VA, US-WI, US-WV) and 7 require referral (US-KS, US-MI, US-MO, US-MP, US-MT, US-OH, US-WA). Research can replace it."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-NC",
+      "place": "North Carolina",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Post-Release Supervision and Parole Commission",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "estimated-from-common-rule"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": [
+        "N.C. Const. art. III sec. 5(6)",
+        "G.S. 143B-1490",
+        "G.S. 147-23"
+      ],
+      "notes": [
+        "The governor may attach conditions to a pardon (G.S. 147-23).",
+        "ESTIMATED FROM COMMON RULE: the referral rule is not yet read here, so it starts from the most common read rule. Of 19 places with a single read rule, 12 let the grantor act without the board (US, US-AZ, US-CO, US-IA, US-MD, US-ME, US-MS, US-ND, US-SD, US-VA, US-WI, US-WV) and 7 require referral (US-KS, US-MI, US-MO, US-MP, US-MT, US-OH, US-WA). Research can replace it."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-ND",
+      "place": "North Dakota",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Pardon Advisory Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": [
+        "N.D. Const. art. V sec. 7",
+        "N.D.C.C. 12-55.1-02, 12-55.1-04"
+      ],
+      "notes": [
+        "The governor may appoint the Pardon Advisory Board and may dissolve it at any time (N.D.C.C. 12-55.1-02). 'With concurrence of the Governor' appears only on the corrections department's page, not in the law. Research 4, 10:07 p.m. 9/28 (Drive 1WwVbpuHEdsPvp_l49PjGHvipRlZ9vzaUSDlyC5bjRfI); CTO 10:24 p.m."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-OH",
+      "place": "Ohio",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Adult Parole Authority",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "required",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": [
+        "Ohio Const. art. III sec. 11",
+        "R.C. 2967.03",
+        "R.C. 2967.07"
+      ],
+      "notes": [],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-OK",
+      "place": "Oklahoma",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Pardon and Parole Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["board", "executive"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["Okla. Const. art. VI sec. 10"],
+      "notes": ["Reprieves up to 60 days need no board."],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-OR",
+      "place": "Oregon",
+      "executiveTitle": "Governor",
+      "bodies": [],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["Or. Const. art. V sec. 14 (stored copy)"],
+      "notes": [],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-PA",
+      "place": "Pennsylvania",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Pardons",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["board", "executive"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["Pa. Const. art. IV sec. 9(a)"],
+      "notes": ["A life or death sentence needs a unanimous board."],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-RI",
+      "place": "Rhode Island",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "senate",
+          "label": "Senate",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive", "senate"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["R.I. Const. art. IX secs. 4, 13"],
+      "notes": [],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-SC",
+      "place": "South Carolina",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Paroles and Pardons",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["board"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": [
+        "S.C. Const. art. IV sec. 14",
+        "S.C. Code secs. 24-21-910, -920"
+      ],
+      "notes": [],
+      "toRead": ["Who appoints the board."]
+    },
+    {
+      "jurisdictionKey": "US-SD",
+      "place": "South Dakota",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Pardons and Paroles",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": [
+        "S.D. Const. art. IV sec. 3 (2003 attorney general opinion)",
+        "SDCL 24-14-1"
+      ],
+      "notes": [],
+      "toRead": ["Whether the clause was amended after 2003."]
+    },
+    {
+      "jurisdictionKey": "US-TN",
+      "place": "Tennessee",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Parole",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "estimated-from-common-rule"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": ["Tenn. Const. art. III sec. 6", "T.C.A. sec. 40-28-126"],
+      "notes": [
+        "ESTIMATED FROM COMMON RULE: the referral rule is not yet read here, so it starts from the most common read rule. Of 19 places with a single read rule, 12 let the grantor act without the board (US, US-AZ, US-CO, US-IA, US-MD, US-ME, US-MS, US-ND, US-SD, US-VA, US-WI, US-WV) and 7 require referral (US-KS, US-MI, US-MO, US-MP, US-MT, US-OH, US-WA). Research can replace it."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-TX",
+      "place": "Texas",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Pardons and Paroles",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["board", "executive"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["Tex. Const. art. IV sec. 11"],
+      "notes": [
+        "Alone, the governor may grant one reprieve of up to 30 days in a capital case."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-UT",
+      "place": "Utah",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Pardons and Parole",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["board"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["Utah Const. art. VII sec. 12"],
+      "notes": [],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-VT",
+      "place": "Vermont",
+      "executiveTitle": "Governor",
+      "bodies": [],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["Vt. Const. ch. II sec. 20"],
+      "notes": [],
+      "toRead": ["Whether any board is consulted."]
+    },
+    {
+      "jurisdictionKey": "US-VA",
+      "place": "Virginia",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Parole Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "G",
+      "sources": ["Collateral Consequences Resource Center, Virginia guide"],
+      "notes": ["The Secretary of the Commonwealth runs applications."],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-WA",
+      "place": "Washington",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Clemency and Pardons Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "required",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": ["Wash. Const. art. III sec. 9", "RCW 9.94A.885"],
+      "notes": [],
+      "toRead": [
+        "Whether the governor may act on a petition that skipped the board."
+      ]
+    },
+    {
+      "jurisdictionKey": "US-WV",
+      "place": "West Virginia",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Parole Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": [
+        "W. Va. Const. art. VII sec. 11",
+        "W. Va. Code sec. 5-1-16",
+        "W. Va. Code sec. 62-12-13(o), (p)"
+      ],
+      "notes": [
+        "The board investigates only if the governor asks, after notifying the sentencing judge and prosecutor."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-WI",
+      "place": "Wisconsin",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Pardon Advisory Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": [
+        "Wis. Const. art. V sec. 6",
+        "Legislative Council brief (2022)"
+      ],
+      "notes": ["The board exists by executive order."],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-WY",
+      "place": "Wyoming",
+      "executiveTitle": "Governor",
+      "bodies": [],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["Wyo. Const. art. 4 sec. 5"],
+      "notes": [],
+      "toRead": [
+        "Whether an advisory board exists; the 10-year wait is unconfirmed."
+      ]
+    },
+    {
+      "jurisdictionKey": "US-DC",
+      "place": "District of Columbia",
+      "executiveTitle": "President",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Clemency Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "estimated-from-common-rule"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": ["D.C. Code secs. 24-481.02, .03"],
+      "notes": [
+        "The President holds clemency for local offenses.",
+        "ESTIMATED FROM COMMON RULE: the referral rule is not yet read here, so it starts from the most common read rule. Of 19 places with a single read rule, 12 let the grantor act without the board (US, US-AZ, US-CO, US-IA, US-MD, US-ME, US-MS, US-ND, US-SD, US-VA, US-WI, US-WV) and 7 require referral (US-KS, US-MI, US-MO, US-MP, US-MT, US-OH, US-WA). Research can replace it."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-PR",
+      "place": "Puerto Rico",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Parole Board",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "estimated-from-common-rule"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": [
+        "P.R. Const. art. IV sec. 4",
+        "Parole Board law sec. 1503(d)"
+      ],
+      "notes": [
+        "ESTIMATED FROM COMMON RULE: the referral rule is not yet read here, so it starts from the most common read rule. Of 19 places with a single read rule, 12 let the grantor act without the board (US, US-AZ, US-CO, US-IA, US-MD, US-ME, US-MS, US-ND, US-SD, US-VA, US-WI, US-WV) and 7 require referral (US-KS, US-MI, US-MO, US-MP, US-MT, US-OH, US-WA). Research can replace it."
+      ],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-GU",
+      "place": "Guam",
+      "executiveTitle": "Governor",
+      "bodies": [],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["48 U.S.C. 1422"],
+      "notes": [],
+      "toRead": ["Whether any local board is consulted."]
+    },
+    {
+      "jurisdictionKey": "US-VI",
+      "place": "U.S. Virgin Islands",
+      "executiveTitle": "Governor",
+      "bodies": [],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["48 U.S.C. 1591"],
+      "notes": [],
+      "toRead": ["Whether any local board is consulted."]
+    },
+    {
+      "jurisdictionKey": "US-AS",
+      "place": "American Samoa",
+      "executiveTitle": "Governor",
+      "bodies": [],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": null
+        }
+      ],
+      "basis": "P",
+      "sources": ["Rev. Const. of American Samoa art. IV sec. 9"],
+      "notes": [],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US-MP",
+      "place": "Northern Mariana Islands",
+      "executiveTitle": "Governor",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Board of Parole",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "required",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": ["CNMI Const. art. III sec. 9(c)", "6 CMC sec. 4251"],
+      "notes": ["Consultation is required and the board has no veto."],
+      "toRead": []
+    },
+    {
+      "jurisdictionKey": "US",
+      "place": "United States",
+      "executiveTitle": "President",
+      "bodies": [
+        {
+          "key": "board",
+          "label": "Office of the Pardon Attorney",
+          "members": "appointed",
+          "includesExecutive": false,
+          "vote": "majority"
+        }
+      ],
+      "gates": [
+        {
+          "offenses": {
+            "kind": "all"
+          },
+          "mustAgree": ["executive"],
+          "advisory": {
+            "body": "board",
+            "referral": "optional",
+            "referralBasis": "read"
+          }
+        }
+      ],
+      "basis": "P",
+      "sources": ["U.S. Const. art. II sec. 2 cl. 1"],
+      "notes": ["Except in cases of impeachment."],
+      "toRead": []
+    }
+  ]
+}
