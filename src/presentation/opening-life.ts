@@ -5,7 +5,10 @@ import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/st
 import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
 import { ensureLocalCouncilMeetings } from "../simulation/living-world/local-council-meetings";
 import { ensureLocalElectionCalendar } from "../simulation/living-world/local-elections";
-import { ensureLocalGovernmentSeats } from "../simulation/living-world/local-government-seats";
+import {
+  ensureLocalGovernmentSeats,
+  playerHousemates,
+} from "../simulation/living-world/local-government-seats";
 import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import {
@@ -189,7 +192,12 @@ function ensureHomeStateLegislature(
   if (!stateUsps) return world;
   // The District's legislature is its Council, which is seated on its own.
   return stateUsps === "DC"
-    ? scheduleDcCouncilSitting(ensureDistrictOfColumbiaCouncilOpening(world))
+    ? scheduleDcCouncilSitting(
+        ensureDistrictOfColumbiaCouncilOpening(
+          world,
+          playerHousemates(world, playerPersonId),
+        ),
+      )
     : ensureStateLegislatureOpening(world, playerPersonId, stateUsps);
 }
 

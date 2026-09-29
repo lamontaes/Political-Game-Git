@@ -4216,7 +4216,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 524,
+      "line": 531,
       "text": "export const MUNICIPAL_EXECUTIVE_PLACEHOLDER_ID =",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4225,7 +4225,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 539,
+      "line": 546,
       "text": "* PLACEHOLDER, pending `dc-congressional-review-day-count`: the days counted",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4234,7 +4234,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 569,
+      "line": 576,
       "text": "* PLACEHOLDER, pending `dc-congressional-review-day-count`: an act in play",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4243,7 +4243,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 951,
+      "line": 960,
       "text": "// PLACEHOLDER, pending `dc-mayor-action-on-council-acts`: an executive the",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4252,7 +4252,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 959,
+      "line": 968,
       "text": "rationale: `${MUNICIPAL_EXECUTIVE_PLACEHOLDER_ID}: signed on the last day to act; how this executive decides is not modeled.`,",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4306,8 +4306,8 @@
     },
     {
       "file": "src/simulation/nationwide-world/district-of-columbia-council-opening.ts",
-      "line": 40,
-      "text": "* PLACEHOLDER, pending `dc-council-membership-at-the-opening`: ages are drawn",
+      "line": 35,
+      "text": "* PLACEHOLDER, pending `dc-council-membership-at-the-opening`: nobody is given",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "dc-council-membership-at-the-opening",
