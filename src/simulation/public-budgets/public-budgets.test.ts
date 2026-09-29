@@ -428,9 +428,7 @@ describe("public budgets", () => {
     // Chicago and Cook County read their own plans.
     const chicago = share("place:1714000");
     expect(chicago.years[0]!.pensionShare).toBe(0.8635);
-    expect(chicago.openingNotes.join(" ")).toContain(
-      "as its own plans filed",
-    );
+    expect(chicago.openingNotes.join(" ")).toContain("as its own plans filed");
     expect(share("county:17031").openingNotes.join(" ")).toContain(
       "as its own plans filed",
     );
