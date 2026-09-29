@@ -125,10 +125,6 @@ export function World39News({
                 ) : (
                   <p>The office has no fixed end date.</p>
                 )}
-                <p>
-                  The person is a character of this fictional world; the office
-                  itself is real.
-                </p>
                 {/*
                   A separation, not a deletion. The institutional sources stay
                   on the record and stay renderable, but a player is never
