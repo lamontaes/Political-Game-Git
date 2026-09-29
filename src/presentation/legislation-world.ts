@@ -55,6 +55,7 @@ import type {
 } from "../simulation";
 import { applyLegislativeStep } from "./legislation-session";
 import { seatedChamberForPack } from "../simulation/governing/chamber-votes";
+import { governorOfficeForJurisdiction } from "../simulation/governing/state-governing";
 import {
   LEGISLATIVE_INSTITUTION_STEP,
   measureSessionIsClosed,
@@ -536,6 +537,15 @@ export function institutionOwnsStep(
   step: MeasureStepKey,
 ): boolean {
   if (assignment.procedure.recordedSittingEventId) return false;
+  // A bill on a seated governor's desk is the governor's to decide, on the
+  // world's clock, the same desk every other bill reaches; the office waits.
+  if (step === "await-executive-decision")
+    return (
+      governorOfficeForJurisdiction(
+        world,
+        assignment.procedure.pack.jurisdictionKey,
+      ) !== null
+    );
   if (WAIT_STEPS.includes(step)) return false;
   const measure = world.history.legislativeMeasures?.find(
     (entry) => entry.id === assignment.measureId,

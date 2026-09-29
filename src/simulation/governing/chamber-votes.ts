@@ -114,18 +114,33 @@ export function seatedChamberForPack(
 
 /** The public party a person holds now, by the national party they joined. */
 export function publicPartyOf(world: World, personId: EntityId): string | null {
+  let known = PUBLIC_PARTIES.get(world);
+  if (!known) {
+    known = new Map();
+    PUBLIC_PARTIES.set(world, known);
+  }
+  if (known.has(personId)) return known.get(personId)!;
   const active = activeOrganizationParticipationsAt(world, personId);
+  let found: string | null = null;
   for (const party of ["democratic", "republican"]) {
     const id = livingWorldOrganizationId(
       world,
       LIVING_WORLD_KEYS.nationalParty(party),
     );
     if (active.some((entry) => entry.participation.organizationId === id)) {
-      return party;
+      found = party;
+      break;
     }
   }
-  return null;
+  known.set(personId, found);
+  return found;
 }
+
+/**
+ * Each world's answers, kept for that world: a world is never edited, and one
+ * floor day asks the same members' parties for every question it predicts.
+ */
+const PUBLIC_PARTIES = new WeakMap<World, Map<EntityId, string | null>>();
 
 export interface ChamberVoteInput {
   readonly stableKey: string;
@@ -190,8 +205,12 @@ export function decideChamberVote(
         )
       : []),
   ];
+  const seatedByPerson = new Map<EntityId, SeatedMember>();
+  for (const member of known)
+    if (member.personId !== null && !seatedByPerson.has(member.personId))
+      seatedByPerson.set(member.personId, member);
   const partyOf = (personId: EntityId): string | null => {
-    const seated = known.find((member) => member.personId === personId);
+    const seated = seatedByPerson.get(personId);
     return seated?.partyKey !== undefined
       ? seated.partyKey
       : publicPartyOf(world, personId);
@@ -540,7 +559,8 @@ function committeeRecommendation(
     direction: "supports",
     importance: "slight",
     confidence: "medium",
-    explanation: "The committee that studied it reported it favorably.",
+    explanation:
+      "The committee that studied it sent it to the floor with its backing.",
     sourceRefs: [],
   };
 }

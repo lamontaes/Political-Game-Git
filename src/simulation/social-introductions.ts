@@ -12,7 +12,6 @@ import { personName } from "./people";
 import { studyPeers } from "./people-study";
 import { recordRelationshipInteraction } from "./records";
 import { readRelationshipStanding } from "./relationship-standing";
-import { SeededRng } from "./rng";
 import type { EntityId, IsoDate, World } from "./types";
 import { recordWorldEvent } from "./world";
 
@@ -490,6 +489,41 @@ export function recordIntroduction(
   return next;
 }
 
+/**
+ * Whom this person meets first among `from`: somebody who turns up in more of
+ * the settings they share (the same employer and the same congregation, say)
+ * is met sooner, and between two equally placed, the one nearest their age,
+ * since people of an age fall into talk more easily (McPherson, Smith-Lovin
+ * and Cook, "Birds of a Feather", Annual Review of Sociology, 2001). Nothing
+ * is drawn: the next day's meeting is the next person, because a person met
+ * is no longer a candidate.
+ */
+function mostLikelyToMeet(
+  world: World,
+  personId: EntityId,
+  from: readonly IntroductionCandidate[],
+  all: readonly IntroductionCandidate[],
+): IntroductionCandidate {
+  const settingsShared = new Map<EntityId, number>();
+  for (const entry of all)
+    settingsShared.set(
+      entry.personId,
+      (settingsShared.get(entry.personId) ?? 0) + 1,
+    );
+  const today = world.currentDate;
+  const age = ageOnDate(world.people[personId]!.birthDate, today);
+  const gap = (id: EntityId) =>
+    Math.abs(ageOnDate(world.people[id]!.birthDate, today) - age);
+  return [...from].sort(
+    (a, b) =>
+      (settingsShared.get(b.personId) ?? 0) -
+        (settingsShared.get(a.personId) ?? 0) ||
+      gap(a.personId) - gap(b.personId) ||
+      a.personId.localeCompare(b.personId) ||
+      a.setting.localeCompare(b.setting),
+  )[0]!;
+}
+
 /** The last day this person met somebody new, if ever. */
 function lastIntroductionOn(world: World, personId: EntityId): IsoDate | null {
   return (
@@ -506,8 +540,8 @@ function lastIntroductionOn(world: World, personId: EntityId): IsoDate | null {
 /**
  * Somebody new comes into this person's life as time passes, when the
  * placeholder pace allows. Called once per day of passing time; writes at most
- * one introduction. Deterministic from the world's seed, the person and the
- * date, so reloading never rerolls it.
+ * one introduction, to the candidate `mostLikelyToMeet` puts first, so
+ * reloading never changes it.
  */
 export function produceIntroduction(world: World, personId: EntityId): World {
   if (!alive(world, personId)) return world;
@@ -519,25 +553,19 @@ export function produceIntroduction(world: World, personId: EntityId): World {
     return world;
   const candidates = introductionCandidates(world, personId);
   if (candidates.length === 0) return world;
-  const settings = [...new Set(candidates.map((entry) => entry.setting))];
-  const rng = new SeededRng(
-    `${world.seed}:introduction:${personId}:${world.currentDate}`,
-  );
-  const setting = settings[rng.integer(0, settings.length)]!;
-  const inSetting = candidates.filter((entry) => entry.setting === setting);
-  const chosen = inSetting[rng.integer(0, inSetting.length)]!;
+  const chosen = mostLikelyToMeet(world, personId, candidates, candidates);
   return recordIntroduction(world, {
     personId,
     otherPersonId: chosen.personId,
-    setting,
+    setting: chosen.setting,
     how: "happened",
   });
 }
 
 /**
  * The player goes and meets somebody in a setting they choose. Who they meet
- * is the world's: one of the real candidates there, drawn from the seed and
- * the day, so the same choice on the same day meets the same person.
+ * is the world's: the real candidate there `mostLikelyToMeet` puts first, so
+ * the same choice on the same day meets the same person.
  */
 export function meetSomebodyNew(
   world: World,
@@ -553,10 +581,12 @@ export function meetSomebodyNew(
   if (inSetting.length === 0) {
     throw new Error("There is nobody new to meet there right now.");
   }
-  const rng = new SeededRng(
-    `${world.seed}:meet:${personId}:${setting}:${viaPersonId ?? ""}:${world.currentDate}`,
+  const chosen = mostLikelyToMeet(
+    world,
+    personId,
+    inSetting,
+    introductionCandidates(world, personId),
   );
-  const chosen = inSetting[rng.integer(0, inSetting.length)]!;
   return recordIntroduction(world, {
     personId,
     otherPersonId: chosen.personId,

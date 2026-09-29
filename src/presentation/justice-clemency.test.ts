@@ -19,6 +19,7 @@ import {
   PROSECUTION_SENTENCED_EVENT,
 } from "../simulation/justice/jail-terms";
 import {
+  courtCasesOf,
   jailTermOn,
   referForProsecution,
   sentencesOf,
@@ -111,16 +112,24 @@ describe("clemency in a place where the governor decides alone", () => {
       (person) => sentencesOf(later, person.id).length === 1,
     );
     expect(convicted.length).toBeGreaterThan(0);
-    expect(sentences.length).toBe(convicted.length);
+    // Since #999 the town's own arrests reach court too, so the count is of
+    // every sentence on record, the staged six's among them.
+    const handedDown = later.history.events.filter(
+      (event) => event.type === PROSECUTION_SENTENCED_EVENT,
+    );
+    expect(sentences.length).toBe(handedDown.length);
   });
 
   it("lets each person referred decide their own plea", () => {
     const pleas = later.history.decisionTraces.filter(
       (trace) => trace.context.decisionType === "justice.plea",
     );
-    expect(pleas.map((trace) => trace.context.actorPersonId).sort()).toEqual(
-      adults.map((person) => person.id).sort(),
-    );
+    // Each of the staged six decides their own plea. The town's own arrests
+    // (#999) add defendants, and can bring one of the six a second case.
+    const pleaded = new Set(pleas.map((trace) => trace.context.actorPersonId));
+    for (const person of adults) expect(pleaded.has(person.id)).toBe(true);
+    for (const personId of pleaded)
+      expect(courtCasesOf(later, personId!).length).toBeGreaterThan(0);
   });
 
   it("answers every request at the governor's desk, and no request is left hanging", () => {

@@ -18,7 +18,16 @@ import {
   toldSummary,
 } from "./life-talk-topics";
 import { currentKnownMatter, matterAwareness } from "./current-matters";
-import { linePartsTag, type ComposedPart } from "./english-composition";
+import {
+  linePartsOf,
+  linePartsTag,
+  type ComposedPart,
+} from "./english-composition";
+import {
+  invitationAgreeLine,
+  invitationDeclineLine,
+  type InvitationKind,
+} from "./refusal-english";
 import {
   greetAgainLine,
   matterUninformedLine,
@@ -26,6 +35,7 @@ import {
   strongestOfficialView,
   type SmallTalkLine,
 } from "./small-talk-english";
+import { speechRememberedLine } from "./speech-remembered-english";
 import {
   answerRunning,
   isRunningIntent,
@@ -452,6 +462,30 @@ function replyFor(
     throw new Error(
       "A step of the talk about running is answered by answerRunning.",
     );
+  // Yes is short and no comes with its reason (design D-3, step 2); the
+  // plain line stays for a moment the record cannot word.
+  const invitationLine = (kind: InvitationKind, yes: boolean) => {
+    const sceneKey = currentLifeTalkScene(world, playerPersonId)!.eventId;
+    const line =
+      yes && kind !== "date"
+        ? invitationAgreeLine(
+            world,
+            personId,
+            playerPersonId,
+            history,
+            sceneKey,
+            kind,
+          )
+        : invitationDeclineLine(
+            world,
+            personId,
+            playerPersonId,
+            history,
+            sceneKey,
+            kind,
+          );
+    return line ? worded(line) : null;
+  };
   if (isTellIntent(intent)) {
     const topic = findTellTopic(world, playerPersonId, personId, intent);
     return topic
@@ -510,15 +544,20 @@ function replyFor(
     case "date":
       return willingToDate(world, personId)
         ? "Yes. I'd like that. We could sit and talk for a while."
-        : "No, thank you. I'd like to keep this as it is.";
+        : (invitationLine("date", false) ??
+            "No, thank you. I'd like to keep this as it is.");
     case "suggestGame":
       return acceptsActivity(world, personId, intent)
-        ? "Yes, I'd like to play a game together."
-        : "Not a game right now, thanks. I'd rather leave it for another time.";
+        ? (invitationLine("game", true) ??
+            "Yes, I'd like to play a game together.")
+        : (invitationLine("game", false) ??
+            "Not a game right now, thanks. I'd rather leave it for another time.");
     case "suggestQuiet":
       return acceptsActivity(world, personId, intent)
-        ? "Yes. Let's sit and talk for a while."
-        : "I'd rather not sit and talk right now. Thanks for asking.";
+        ? (invitationLine("quiet", true) ??
+            "Yes. Let's sit and talk for a while.")
+        : (invitationLine("quiet", false) ??
+            "I'd rather not sit and talk right now. Thanks for asking.");
     case "spendTime":
       return proposal
         ? `I'm glad we took time to ${proposal.label.replace("you both", "we both")}.`
@@ -625,6 +664,16 @@ function replyFor(
         );
       if (matterTurn?.context.choice?.startsWith(MATTER_CHOICE_PREFIX))
         return `I remember you bringing up “${matterTurn.context.choice.slice(MATTER_CHOICE_PREFIX.length)}”`;
+      // The player's own speech, once, if this person heard it or was told.
+      const spokeOfSpeech = history.some((event) =>
+        (linePartsOf(event.tags) ?? []).some((key) =>
+          key.startsWith("small-talk.speech-remembered:"),
+        ),
+      );
+      const speech = spokeOfSpeech
+        ? null
+        : speechRememberedLine(world, personId, playerPersonId);
+      if (speech) return worded(speech);
       const remembered =
         history.find(
           (event) =>

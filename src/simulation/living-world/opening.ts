@@ -35,6 +35,7 @@ import {
   seatTermWindow,
 } from "./congress-seats";
 import type { CongressSeat, SeatTermWindow } from "./congress-seats";
+import { seatHouseDelegates } from "./house-delegates";
 import { LIVING_WORLD_WRITER_VERSION } from "./opening-keys";
 import { SETTING_PARTY_NAMES } from "./party-registry";
 import { politicalStartingConditions } from "../world-setup/conditions";
@@ -526,6 +527,11 @@ export function ensureLivingWorldOpening(
   }
 
   if (political) {
+    // The six nonvoting House members sit outside the 435 voting seats.
+    next = seatHouseDelegates(next);
+  }
+
+  if (political) {
     scenarioTags.push(
       `scenario:${political.contractVersion}`,
       `scenario:regime:${political.regime}`,
@@ -642,6 +648,23 @@ function executiveHoldersNeedingAffiliation(
       startedAt: holder.startedAt ?? world.currentDate,
       stateUsps: holder.stateUsps,
     });
+  }
+  // A governor-elect waiting for the term to begin runs on a party line too.
+  for (const event of world.history.events) {
+    if (
+      event.type !== "world.office-tenure" ||
+      !event.tags.includes("governor-elect") ||
+      event.recordedAt > world.currentDate
+    )
+      continue;
+    const personId = event.participants.find(
+      (p) => p.role === "focus:subject",
+    )?.personId;
+    const stateUsps = event.tags
+      .find((tag) => tag.startsWith("state:"))
+      ?.slice("state:".length);
+    if (personId && stateUsps && world.people[personId])
+      holders.push({ personId, startedAt: world.currentDate, stateUsps });
   }
   return holders.filter(
     (holder, index) =>

@@ -94,6 +94,8 @@ import {
   schoolStageCalendarStart,
 } from "./school-stages";
 import { recordPersonDeath } from "./vitality";
+import { personMortalityThreshold } from "./crisis/mortality";
+import { firstThresholdDay, thresholdUnits } from "./crisis/hazard";
 import { recordWorldEvent, assertWorldIntegrity, advanceWorld } from "./world";
 import {
   createDwelling,
@@ -1051,13 +1053,17 @@ function drawnAdultFamily(
 }
 
 /**
- * Deaths of older relatives before the start, from a lifespan band.
- * PLACEHOLDER, NOT RESEARCHED: the 78 to 90 band, and that no cause is known.
+ * Deaths of older relatives before the start, by the game's own ordinary
+ * mortality (./crisis/mortality.ts): the same SSA 2023 life table and the same
+ * per-person threshold the running world uses, accumulated from the last day
+ * the record shows the relative alive (the birth of their youngest recorded
+ * child) up to the start. Nothing is rolled here beyond that nature value; no
+ * cause is inferred. The 2023 table is applied to earlier decades too, which
+ * slightly shortens lives the record places before it.
  */
 function recordRelativeDeaths(
   world: World,
   next: World,
-  rng: SeededRng,
   key: string,
   relativeIds: readonly EntityId[],
 ): World {
@@ -1067,13 +1073,31 @@ function recordRelativeDeaths(
     )
       continue;
     const relative = next.people[relativeId]!;
-    const lifespan = rng.fork(`lifespan:${relativeId}`).integer(78, 91);
-    const diedAt = preStartEventDate(
-      world,
-      relative.birthDate,
-      lifespan,
-      `${key}:relative-death:${relativeId}`,
+    const knownAlive = next.history.kinshipRelationships
+      .filter(
+        (row) =>
+          row.kind === "lineal:parent-child" &&
+          row.personIds.includes(relativeId),
+      )
+      .flatMap((row) => row.personIds)
+      .map((id) => next.people[id]!.birthDate)
+      .filter((birth) => birth > relative.birthDate)
+      .reduce(
+        (latest, birth) => (birth > latest ? birth : latest),
+        relative.birthDate,
+      );
+    const diedAt = firstThresholdDay(
+      {
+        birthDate: relative.birthDate,
+        category: "equal-mixture",
+        exposureStart: knownAlive,
+        multipliers: [],
+      },
+      thresholdUnits(personMortalityThreshold(world, relativeId)),
+      knownAlive,
+      world.currentDate,
     );
+    if (diedAt === null) continue;
     if (diedAt > world.currentDate) continue;
     next = recordPersonDeath(next, {
       stableKey: `${key}:relative-death:${relativeId}`,
@@ -1084,7 +1108,7 @@ function recordRelativeDeaths(
       summary: `${relative.givenName} ${relative.familyName} died. The cause is not recorded.`,
       provenance: {
         kind: "authored",
-        note: "Generated fictional family history; lifespan band is a placeholder and no cause is inferred.",
+        note: "Generated fictional family history; the death day follows the game's ordinary mortality and no cause is inferred.",
       },
     });
   }
@@ -1129,7 +1153,7 @@ export function establishDrawnAdultFamily(
     taken: existingCloseGivenNames(world, player.id),
     generated: { kind: "generated", generatorKey: key },
   });
-  return recordRelativeDeaths(world, family.world, rng, key, [
+  return recordRelativeDeaths(world, family.world, key, [
     firstParent,
     ...(family.secondParentId === null ? [] : [family.secondParentId]),
     ...family.grandparentIds,
@@ -1270,7 +1294,7 @@ export function establishPreStartAdultHistory(
       { personId: childId, from: childBirthDate },
     );
   }
-  next = recordRelativeDeaths(world, next, rng, key, [
+  next = recordRelativeDeaths(world, next, key, [
     firstParent,
     ...(parentId === null ? [] : [parentId]),
     ...grandparentIds,

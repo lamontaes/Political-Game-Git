@@ -1,4 +1,6 @@
+import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
+import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
 import { publicOrganizationKey } from "../tax-policy";
 import type { EntityId, IsoDate, ResourceFlow, World } from "../types";
@@ -9,14 +11,22 @@ import {
   nominalEconomyIndex,
   propositionIdFor,
 } from "./fiscal";
+import { ADOPT_STATE_INCOME_TAX_QUESTION } from "../state-income-tax-law";
+import {
+  CANNABIS_FIRST_SALE_LAG_MONTHS,
+  CANNABIS_SALES_QUESTION,
+  CANNABIS_TAX_PER_RESIDENT,
+} from "./cannabis-sales-tax";
+import { adoptedIncomeTaxPerYear } from "./income-tax-adoption";
 import { actuarialContribution } from "./opening";
-import { pensionPayment } from "./pension-share";
+import { pensionFlows, pensionPayment } from "./pension-share";
+import { reserveRule } from "./reserve-rule";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import {
   ECONOMY_ELASTICITY,
   FIRST_CUT_SHARE,
   PENSION,
-  RESERVE,
+  SPENDING_QUESTION_EFFECTS,
   TAX_QUESTION_EFFECTS,
 } from "./rules";
 import {
@@ -64,6 +74,21 @@ const INTEREST = BUDGET_PROGRAMS.indexOf("interest");
 const PENSION_PROGRAM = BUDGET_PROGRAMS.indexOf("pensionContribution");
 const STATE_AID = BUDGET_SOURCES.indexOf("intergovernmental");
 const LOCAL_AID = BUDGET_PROGRAMS.indexOf("localAid");
+const SALES_TAX = BUDGET_SOURCES.indexOf("generalSalesTax");
+const SELECTIVE_TAX = BUDGET_SOURCES.indexOf("selectiveSalesTaxes");
+
+/**
+ * A city's taxable sales today, when its town keeps business books
+ * (`living-world/town-finances.ts`); null otherwise.
+ */
+function citySalesNow(
+  world: World,
+  government: PublicBudgetGovernment,
+): number | null {
+  return government.level === "city"
+    ? townTaxableSales(world, government.jurisdictionId)
+    : null;
+}
 
 /** What the history recorded this month, by government key. */
 export interface MonthFlows {
@@ -259,16 +284,27 @@ function monthsInto(year: AdoptedBudget, month: IsoDate): number {
  * How a state's tax law in force on a date moves a revenue source against
  * the law the state began with (`TAX_QUESTION_EFFECTS`): 1 where nothing
  * changed, where the size is not researched, or for a county or city, whose
- * own taxes these state questions do not set.
+ * own taxes these state questions do not set. Income tax is read on January 1
+ * of the date's year, the law paychecks withhold under for that tax year
+ * (`stateIncomeTaxUnderLaw`), so the budget collects what paychecks withhold.
  */
 export function taxLawFactor(
   world: World,
   government: PublicBudgetGovernment,
   source: BudgetSource,
-  onDate: IsoDate,
+  date: IsoDate,
 ): number {
   if (government.level !== "state") return 1;
-  let factor = 1;
+  const onDate =
+    source === "individualIncomeTax"
+      ? (`${date.slice(0, 4)}-01-01` as IsoDate)
+      : date;
+  let factor =
+    source === "individualIncomeTax"
+      ? adoptedIncomeTaxFactor(world, government, onDate)
+      : source === "selectiveSalesTaxes"
+        ? cannabisSalesFactor(world, government, onDate)
+        : 1;
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.source !== source) continue;
     if (effect.toYes === null && effect.toNo === null) continue;
@@ -289,7 +325,161 @@ export function taxLawFactor(
     if (began === "no" && now === "yes") factor *= 1 + (effect.toYes ?? 0);
     if (began === "yes" && now === "no") factor *= 1 + (effect.toNo ?? 0);
   }
-  return factor;
+  return Math.max(0, factor);
+}
+
+/**
+ * What a state's laws cost it to carry out in one month, by program, against
+ * the laws it began with (`SPENDING_QUESTION_EFFECTS`): nothing where no law
+ * changed, where the cost is not researched, or for a county or city, which
+ * these state questions do not bind. A law counts from the day it takes
+ * effect, at the government's own population.
+ */
+export function lawSpendingForMonth(
+  world: World,
+  government: PublicBudgetGovernment,
+  date: IsoDate,
+): readonly number[] {
+  const spending = BUDGET_PROGRAMS.map(() => 0);
+  if (government.level !== "state") return spending;
+  for (const effect of SPENDING_QUESTION_EFFECTS) {
+    const propositionId = propositionIdFor(world, effect.questionKey);
+    if (!propositionId) continue;
+    const now = lawInForce(
+      world,
+      government.lawJurisdictionId,
+      propositionId,
+      date,
+    )?.answer;
+    const began = lawInForceAtStart(
+      world,
+      government.lawJurisdictionId,
+      propositionId,
+      date,
+    );
+    const perResident =
+      began === "no" && now === "yes"
+        ? effect.toYes
+        : began === "yes" && now === "no"
+          ? effect.toNo
+          : null;
+    if (perResident === null) continue;
+    spending[BUDGET_PROGRAMS.indexOf(effect.program)]! +=
+      (perResident * government.population) / 12;
+  }
+  return spending;
+}
+
+/**
+ * How a law adopting a wage income tax moves the income tax of a state that
+ * began with none (`income-tax-adoption.ts`): 1 for any other state. A state
+ * whose income tax collected nothing at the opening reads 0 until a law
+ * adopts one and 1 after, against the adopted tax's level
+ * (`openingMonthLevel`); a state that collected some, such as a tax on
+ * interest and dividends, collects the adopted tax on top of it.
+ */
+function adoptedIncomeTaxFactor(
+  world: World,
+  government: PublicBudgetGovernment,
+  taxYearStart: IsoDate,
+): number {
+  const adopted = adoptedIncomeTaxPerYear(
+    government.stateKey,
+    government.population,
+  );
+  if (adopted === null) return 1;
+  const opening = government.years[0]!.expectedRevenue[INCOME_TAX] ?? 0;
+  const propositionId = propositionIdFor(
+    world,
+    ADOPT_STATE_INCOME_TAX_QUESTION,
+  );
+  const now = propositionId
+    ? lawInForce(
+        world,
+        government.lawJurisdictionId,
+        propositionId,
+        taxYearStart,
+      )?.answer
+    : undefined;
+  const began = propositionId
+    ? lawInForceAtStart(
+        world,
+        government.lawJurisdictionId,
+        propositionId,
+        taxYearStart,
+      )
+    : undefined;
+  const inForce = now === "yes" && began !== "yes";
+  if (opening <= 0) return inForce ? 1 : 0;
+  return inForce ? (opening + adopted) / opening : 1;
+}
+
+/**
+ * How a law on legal cannabis sales moves a state's selective sales taxes
+ * against the law it began with (`cannabis-sales-tax.ts`): a law making sales
+ * legal adds the cannabis tax a resident pays from the first store opening,
+ * and a law ending them takes it away the day it takes effect. 1 for any
+ * other state or date.
+ */
+function cannabisSalesFactor(
+  world: World,
+  government: PublicBudgetGovernment,
+  date: IsoDate,
+): number {
+  const propositionId = propositionIdFor(world, CANNABIS_SALES_QUESTION);
+  const opening = government.years[0]!.expectedRevenue[SELECTIVE_TAX] ?? 0;
+  if (!propositionId || opening <= 0) return 1;
+  const law = (on: IsoDate) =>
+    lawInForce(world, government.lawJurisdictionId, propositionId, on)?.answer;
+  const began = lawInForceAtStart(
+    world,
+    government.lawJurisdictionId,
+    propositionId,
+    date,
+  );
+  const cannabis = CANNABIS_TAX_PER_RESIDENT * government.population;
+  if (began !== "yes" && law(date) === "yes") {
+    const total =
+      Number(date.slice(0, 4)) * 12 +
+      Number(date.slice(5, 7)) -
+      1 -
+      CANNABIS_FIRST_SALE_LAG_MONTHS;
+    const storesOpenedBy = makeIsoDate(
+      `${Math.floor(total / 12)}-${String((total % 12) + 1).padStart(2, "0")}-${date.slice(8, 10) > "28" ? "28" : date.slice(8, 10)}`,
+    );
+    return law(storesOpenedBy) === "yes" ? (opening + cannabis) / opening : 1;
+  }
+  if (began === "yes" && law(date) === "no")
+    return Math.max(0, (opening - cannabis) / opening);
+  return 1;
+}
+
+/**
+ * One month of a source at the level the government opened with, under the
+ * law it began with, carried to the economy on `economyIndex`. A tax a law
+ * ended collected nothing to scale from, so a law that restores it starts
+ * again from this level. A state that opened with no income tax at all
+ * reads the level of the tax a law adopting one would collect.
+ */
+function openingMonthLevel(
+  government: PublicBudgetGovernment,
+  source: BudgetSource,
+  at: number,
+  economyIndex: number | null,
+): number {
+  const first = government.years[0]!;
+  const since =
+    economyIndex !== null && first.economyAtAdoption
+      ? economyIndex / first.economyAtAdoption
+      : 1;
+  const opened =
+    source === "individualIncomeTax" && first.expectedRevenue[at]! <= 0
+      ? (adoptedIncomeTaxPerYear(government.stateKey, government.population) ??
+        0)
+      : first.expectedRevenue[at]!;
+  return (
+    (opened / 12) * Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (since - 1))
+  );
 }
 
 interface Settled {
@@ -321,17 +511,44 @@ export function settleGovernmentMonth(
       ? economyNow / year.economyAtAdoption
       : 1;
 
+  // A city whose town keeps business books collects its general sales tax
+  // on what those businesses sell: the tax follows their taxable sales from
+  // where this budget set it. A budget adopted before the books opened takes
+  // the first reading, carried back by the economy since adoption, as where
+  // it was set, so the tax does not jump.
+  const salesNow = citySalesNow(world, government);
+  const salesAtAdoption =
+    salesNow === null
+      ? null
+      : (year.townSalesAtAdoption ?? (economy > 0 ? salesNow / economy : null));
+  const townSales =
+    salesNow !== null && salesAtAdoption ? salesNow / salesAtAdoption : null;
+
   // Revenue.
   const represented = flows.represented.get(government.key) ?? 0;
   // A tax law that changed since adoption moves its source from that month.
-  const revenue = BUDGET_SOURCES.map((source, at) =>
-    Math.round(
+  const revenue = BUDGET_SOURCES.map((source, at) => {
+    const lawNow = taxLawFactor(world, government, source, month);
+    const lawAtAdoption = taxLawFactor(
+      world,
+      government,
+      source,
+      year.startsOn,
+    );
+    // A budget adopted while a law had ended the source expects none of it;
+    // a law restoring it collects from the level the government opened with.
+    if (lawAtAdoption === 0)
+      return Math.round(
+        openingMonthLevel(government, source, at, economyNow) * lawNow,
+      );
+    return Math.round(
       (year.expectedRevenue[at]! / 12) *
-        Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (economy - 1)) *
-        (taxLawFactor(world, government, source, month) /
-          taxLawFactor(world, government, source, year.startsOn)),
-    ),
-  );
+        (at === SALES_TAX && townSales !== null
+          ? townSales
+          : Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (economy - 1))) *
+        (lawNow / lawAtAdoption),
+    );
+  });
   if (government.population > 0)
     revenue[INCOME_TAX] = Math.round(
       (revenue[INCOME_TAX]! *
@@ -365,6 +582,12 @@ export function settleGovernmentMonth(
   if (payments)
     for (const [at, value] of payments.entries())
       spending[at]! += Math.round(value);
+  // What the state's laws cost to carry out, on top of its programs; a law
+  // that ended a cost the state began with takes it off, never below zero.
+  const lawSpending = lawSpendingForMonth(world, government, month);
+  for (const [at, value] of lawSpending.entries())
+    if (value !== 0)
+      spending[at] = Math.max(0, spending[at]! + Math.round(value));
 
   let balance = government.balance + sum(revenue) - sum(spending);
   let reserve = government.reserve;
@@ -450,6 +673,9 @@ export function settleGovernmentMonth(
     reserve,
     debt,
     economy: Math.round(economy * 10000) / 10000,
+    ...(townSales !== null
+      ? { townSales: Math.round(townSales * 10000) / 10000 }
+      : {}),
     represented,
   };
   let next: PublicBudgetGovernment = {
@@ -459,6 +685,18 @@ export function settleGovernmentMonth(
     debt,
     interestRate,
     cut,
+    // The first reading of a city's sales is kept as where its budget set
+    // the tax.
+    years:
+      salesAtAdoption !== null && year.townSalesAtAdoption == null
+        ? [
+            ...government.years.slice(0, -1),
+            {
+              ...year,
+              townSalesAtAdoption: Math.round(salesAtAdoption * 1e6) / 1e6,
+            },
+          ]
+        : government.years,
     months: [...government.months, row],
   };
   if (!yearEnds) return { government: next, adjustments };
@@ -509,7 +747,7 @@ export function settleGovernmentMonth(
   }
   const yearSpending = sum(year.appropriations);
   if (balance > 0 && laws.reserve.answer === "yes") {
-    const floor = Math.round(RESERVE.floorShareOfSpending * yearSpending);
+    const floor = Math.round(reserveRule(government).floorShare * yearSpending);
     const moved = Math.min(balance, Math.max(0, floor - reserve));
     if (moved > 0) {
       balance -= moved;
@@ -539,8 +777,10 @@ export function settleGovernmentMonth(
   // The adopted budget set the pension share, so the law read at adoption is
   // the one that decided it; a law enacted later governs the next budget.
   const pensionLaw = year.laws.pensions;
-  // Monthly rounding leaves a few dollars either way; that is not underpaying.
-  if (unpaid > required * 0.001)
+  // Each month's payment rounds to a whole dollar, which can leave up to a
+  // dollar a month short even when the whole share is paid; that is not
+  // underpaying.
+  if (unpaid > Math.max(yearRows.length, required * 0.001))
     adjustments.push({
       governmentKey: government.key,
       on: asOf,
@@ -553,16 +793,17 @@ export function settleGovernmentMonth(
           ? "The pension payments fell short of the full actuarial contribution the law requires."
           : pensionLaw.answer === "no"
             ? "No law requires the full actuarial contribution; the unpaid part grows the unfunded liability."
-            : "No law in force when the budget was adopted answered whether pensions must be funded on schedule, so the government paid its own share (its plans' reported share, or the median of every plan where they are not listed).",
+            : "No law in force when the budget was adopted answered whether pensions must be funded on schedule, so the government paid its own share (the share its own plans filed, or the median of every plan where they are not listed).",
     });
   const liability = government.pension.liability;
-  const benefits = liability * PENSION.benefitShare * share;
+  const plans = pensionFlows(government);
+  const benefits = liability * plans.benefitShare * share;
   const pension = {
     // The share stays where it began until budgets pass as bills.
     paidShare: government.pension.paidShare,
     liability: Math.round(
       liability * (1 + PENSION.assumedReturn * share) +
-        liability * PENSION.normalCostShare * share -
+        liability * plans.normalCostShare * share -
         benefits,
     ),
     assets: Math.round(
@@ -576,7 +817,7 @@ export function settleGovernmentMonth(
   const adopted = adoptNextYear(
     world,
     next,
-    year,
+    next.years.at(-1)!,
     yearRows,
     adjustments,
     state,
@@ -619,6 +860,11 @@ function adoptNextYear(
   const economyAtAdoption = stateId
     ? nominalEconomyIndex(world, stateId, startsOn)
     : null;
+  const townSalesAtAdoption = citySalesNow(world, government);
+  const townSalesNow =
+    townSalesAtAdoption !== null && prior.townSalesAtAdoption
+      ? townSalesAtAdoption / prior.townSalesAtAdoption
+      : null;
   // Last year's collections, each month restated at the economy the new
   // budget is adopted in: a growing economy has already raised the base, so
   // last year's average would understate it.
@@ -635,7 +881,18 @@ function adoptNextYear(
     // law that changed last year counts once, in full.
     const lawNow = taxLawFactor(world, government, source, startsOn);
     const restated = rows.map((row) => {
-      const law = lawNow / taxLawFactor(world, government, source, row.month);
+      const lawThen = taxLawFactor(world, government, source, row.month);
+      // A month a law had ended the source collected nothing to restate; it
+      // counts at the opening level under today's law.
+      if (lawThen === 0)
+        return (
+          openingMonthLevel(government, source, at, economyAtAdoption) * lawNow
+        );
+      const law = lawNow / lawThen;
+      // A city's sales tax collected on its town's sales, restated at
+      // today's sales.
+      if (at === SALES_TAX && row.townSales && townSalesNow !== null)
+        return ((row.revenue[at]! * townSalesNow) / row.townSales) * law;
       if (economyNow === null) return row.revenue[at]! * law;
       const then = scaleAt(row.economy);
       return then > 0
@@ -658,7 +915,10 @@ function adoptNextYear(
       (prior.expectedRevenue[STATE_AID]! * stateLocalAidAtAdoption) /
         priorAidBase,
     );
-  const pensionRequired = actuarialContribution(government.pension);
+  const pensionRequired = actuarialContribution(
+    government.pension,
+    pensionFlows(government).normalCostShare,
+  );
   const pensionPaid = pensionPayment(
     pensionRequired,
     government.pension.paidShare,
@@ -678,19 +938,22 @@ function adoptNextYear(
     CUTTABLE[at] ? value * (1 - oneTimeShare) : value,
   );
   const priorTotal = sum(base);
-  const floor = RESERVE.floorShareOfSpending * priorTotal;
+  const reserveLaw = reserveRule(government);
+  const floor = reserveLaw.floorShare * priorTotal;
   const reserveDeposit =
     laws.reserve.answer === "yes" && government.reserve < floor
       ? Math.round(
           Math.min(
             floor - government.reserve,
-            RESERVE.yearlyDepositShareOfSpending * priorTotal,
+            reserveLaw.depositShare * priorTotal,
           ),
         )
       : 0;
+  // What the laws in force cost to carry out comes first, like interest.
+  const lawCost = sum(lawSpendingForMonth(world, government, startsOn)) * 12;
   const available = Math.max(
     0,
-    sum(expectedRevenue) - interest - pensionPaid - reserveDeposit,
+    sum(expectedRevenue) - interest - pensionPaid - reserveDeposit - lawCost,
   );
   const cuttablePrior = sum(
     base.map((value, at) => (CUTTABLE[at] ? value : 0)),
@@ -729,7 +992,7 @@ function adoptNextYear(
       kind: "balance-carried",
       amount: carried,
       law: null,
-      note: "The balance above the reserve target (5% of a year's spending, PLACEHOLDER) was carried into the new year and is spent across it, once.",
+      note: `The balance above what the reserve still lacks of its target (${reserveLaw.floorShare} of a year's spending; ${reserveLaw.basis}) was carried into the new year and is spent across it, once.`,
     });
   if (reserveDeposit > 0)
     adjustments.push({
@@ -739,7 +1002,7 @@ function adoptNextYear(
       kind: "reserve-deposit",
       amount: reserveDeposit,
       law: { name: "reserve", reading: laws.reserve },
-      note: "The reserve is below its required floor, so the adopted budget sets a deposit aside (PLACEHOLDER floor and pace).",
+      note: `The reserve is below its required floor, so the adopted budget sets a deposit aside: the floor is ${reserveLaw.floorShare} of a year's spending, at most ${reserveLaw.depositShare} a year (${reserveLaw.basis}).`,
     });
   const planned = base.map((value, at) => (CUTTABLE[at] ? value * scale : 0));
   // Spread over this year's programs, or last year's when none is planned.
@@ -771,5 +1034,8 @@ function adoptNextYear(
     laws,
     carriedBalance,
     stateLocalAidAtAdoption,
+    ...(townSalesAtAdoption !== null
+      ? { townSalesAtAdoption: Math.round(townSalesAtAdoption * 1e6) / 1e6 }
+      : {}),
   };
 }

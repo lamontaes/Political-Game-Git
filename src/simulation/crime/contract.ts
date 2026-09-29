@@ -29,7 +29,10 @@ export interface CrimeOffenseRule {
   readonly annualRate: number;
   /** UNRESEARCHED. Share of offenses the victim reports to police. */
   readonly reportedShare: number;
-  /** UNRESEARCHED. Share of reported offenses that end in an arrest. */
+  /**
+   * UNRESEARCHED. Share of reported offenses that end in an arrest: a check
+   * on totals only. Who is arrested follows from `./offenders`.
+   */
   readonly arrestShare: number;
 }
 
@@ -102,13 +105,10 @@ export const UNRESEARCHED_TOWN_POLICE_LOG = {
 } as const;
 
 /**
- * Who commits an offense is not drawn. Choosing a represented person to be an
- * offender would invent a motive and a character the world never produced;
- * that has to come from pressure on real people (money, grievance, habit),
- * which is filed as research, not from a die. Until then an arrest names no
- * represented person and its hand-off to prosecution carries no offender.
+ * Who commits an offense is not drawn: `./offenders` lays it at the door of the
+ * resident whose own circumstances point to it, or of nobody the world names.
  */
-export const OFFENDERS_ARE_NOT_REPRESENTED = true as const;
+export const OFFENDERS_ARE_NOT_REPRESENTED = false as const;
 
 /** What the public police log says happened, by offense. */
 export const REPORTED_OFFENSE_PHRASE: Readonly<Record<CrimeOffense, string>> = {

@@ -11,7 +11,10 @@ import { ensureCountyCouncilOpening } from "../simulation/municipal-council-open
 import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
 import { ensureLocalCouncilMeetings } from "../simulation/living-world/local-council-meetings";
 import { ensureLocalElectionCalendar } from "../simulation/living-world/local-elections";
-import { ensureLocalGovernmentSeats } from "../simulation/living-world/local-government-seats";
+import {
+  ensureLocalGovernmentSeats,
+  playerHousemates,
+} from "../simulation/living-world/local-government-seats";
 import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
 import { scheduleLocalMemberAgendaIntakes } from "../simulation/governing/member-agenda";
 import { seatedCongressChamber } from "../simulation/governing/congress-chambers";
@@ -40,6 +43,7 @@ import { ensureMigrationSchedule } from "../simulation/migration";
 import { ensurePaydaySchedule } from "../simulation/living-world/town-pay";
 import { ensureRentDaySchedule } from "../simulation/living-world/town-rent";
 import { ensureCrimeProduction } from "../simulation/crime";
+import { ensureEpidemicProduction } from "../simulation/crisis/epidemic";
 import { ensurePlaceOutcomes } from "../simulation/outcome-web/place-outcomes";
 import { ensurePublicBudgets } from "../simulation/public-budgets";
 import { ensureOpeningJudiciary } from "../simulation/judiciary/opening";
@@ -49,6 +53,7 @@ import {
   macroStartForHistory,
 } from "../simulation/macro-economy";
 import type { World, EntityId } from "../simulation";
+import { isFederalDistrictUsps } from "../simulation/state-reference";
 import { createNewGameWorld } from "./new-game";
 import { proseDate } from "./prose-dates";
 import type { NewGameSetup, NewGame } from "./new-game";
@@ -277,9 +282,12 @@ function beginOpeningLife(session: OpeningLifeSession): OpeningLifeBuildStart {
   );
   const homeUsps = homeStateUsps(withLocalGovernment, game.playerPersonId);
   const withHomeLegislature =
-    homeUsps === "DC"
+    homeUsps && isFederalDistrictUsps(homeUsps)
       ? scheduleDcCouncilSitting(
-          ensureDistrictOfColumbiaCouncilOpening(withLocalGovernment),
+          ensureDistrictOfColumbiaCouncilOpening(
+            withLocalGovernment,
+            playerHousemates(withLocalGovernment, game.playerPersonId),
+          ),
         )
       : homeUsps
         ? ensureStateLegislatureOpening(
@@ -350,7 +358,8 @@ function completeOpeningLife(
   );
   const withHazards = ensureHazardProduction(withDevelopment);
   const withCrime = ensureCrimeProduction(withHazards);
-  const withOutcomes = ensurePlaceOutcomes(withCrime);
+  const withEpidemics = ensureEpidemicProduction(withCrime);
+  const withOutcomes = ensurePlaceOutcomes(withEpidemics);
   const withBudgets = ensurePublicBudgets(withOutcomes);
   const withMortality = ensureOpeningMortality(
     withBudgets,
@@ -360,6 +369,7 @@ function completeOpeningLife(
     withMortality,
     game.playerPersonId,
     session.setup.openingDataVersion,
+    session.setup.livingWorldMemberNameVersion,
   );
   return {
     ...session,
@@ -424,6 +434,7 @@ function openedWorld(
   world: World,
   playerPersonId: EntityId,
   openingDataVersion: NewGameSetup["openingDataVersion"],
+  memberNameVersion?: NewGameSetup["livingWorldMemberNameVersion"],
 ): World {
   // Migration is scheduled only for a current opening too, so a legacy replay
   // keeps the world it always built (MIGRATION_SEAMS "old-saves").
@@ -453,7 +464,7 @@ function openedWorld(
     ),
   );
   return openingDataVersion === "playtest65-v3"
-    ? ensureOpeningJudiciary(opened)
+    ? ensureOpeningJudiciary(opened, memberNameVersion)
     : opened;
 }
 

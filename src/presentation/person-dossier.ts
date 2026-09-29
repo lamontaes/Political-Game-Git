@@ -1,4 +1,5 @@
 import { recentStrain } from "./relationship-strain";
+import { sponsoredLaws, type SponsoredLaw } from "./place-conditions";
 import {
   describeRelationshipStanding,
   readRelationshipStanding,
@@ -105,6 +106,8 @@ export interface PersonDossier {
   readonly strain: string | null;
   /** Canonical entities this dossier can route to. */
   readonly links: readonly ShellRef[];
+  /** Laws they sponsored that were enacted, and what each is doing. */
+  readonly laws: readonly SponsoredLaw[];
 }
 
 function describeInteraction(
@@ -418,6 +421,11 @@ export function projectPersonDossier(
             subject.givenName,
           ),
     links: buildLinks(world, playerId, personId),
+    laws: sponsoredLaws(
+      world,
+      personId,
+      world.people[playerId]?.homeJurisdictionId ?? null,
+    ),
   };
 }
 

@@ -569,7 +569,7 @@ export function MunicipalWorkspace({
                                   <details>
                                     <summary>
                                       {preview.method === "authored-fixture"
-                                        ? "Other councilors' ballots (game-authored)"
+                                        ? "Other councilors' ballots"
                                         : "How other councilors would answer now"}
                                     </summary>
                                     <p>{preview.note}</p>

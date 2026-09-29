@@ -17,6 +17,8 @@ import {
 } from "./rule-capability-port";
 import type { RuleFieldKey } from "./rule-capability-port";
 import {
+  generalElectionDay,
+  isElectionYear,
   regularTermWindowOn,
   stateExecutiveTermRule,
 } from "./state-executive-term-rules";
@@ -334,7 +336,7 @@ export function ensureStateExecutiveIncumbent(
   const organizationId = next.history.organizations.find(
     (organization) => organization.stableKey === office.organizationStableKey,
   )!.id;
-  return recordWorldEvent(next, {
+  const opened = recordWorldEvent(next, {
     stableKey: tenureKey,
     type: "world.office-tenure",
     occurredAt: window.startsAt ?? world.currentDate,
@@ -359,6 +361,114 @@ export function ensureStateExecutiveIncumbent(
         : [`term-end:${window.endExclusive}`]),
     ],
     summary: `${personName(next.people[holderId]!)} holds the office of ${office.displayName} in this fictional world.`,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return options.datedTerms === false
+    ? opened
+    : seatOpeningGovernorElect(
+        opened,
+        subjectPersonId,
+        office,
+        window.endExclusive,
+        organizationId,
+      );
+}
+
+/**
+ * The governor the state already elected, when the World opens between an
+ * election and the start of the term it filled.
+ *
+ * A World opening on January 5, 2026, finds Virginia's governor in the last
+ * days of a term that ends in mid-January, and the November 2025 election for
+ * the next term already held. Nothing in the World runs that election, so
+ * without this the office stood empty from the end of the opening term until
+ * the next regular election four years later. The governor-elect is written
+ * like the opening governor: a fictional person, with a public tenure that
+ * starts when the current term ends and runs one ordinary term.
+ */
+function seatOpeningGovernorElect(
+  world: World,
+  subjectPersonId: EntityId,
+  office: StateExecutiveOffice,
+  termEnds: IsoDate | null,
+  organizationId: EntityId,
+): World {
+  const rule = stateExecutiveTermRule(office.stateUsps);
+  if (!termEnds || !rule || termEnds <= world.currentDate) return world;
+  // The regular election for the term that starts when this one ends.
+  let electionYear = Number(termEnds.slice(0, 4));
+  while (
+    !isElectionYear(rule.election, electionYear) ||
+    generalElectionDay(rule.election, electionYear) >= termEnds
+  ) {
+    electionYear -= 1;
+    if (electionYear < Number(termEnds.slice(0, 4)) - rule.election.cycleYears)
+      return world;
+  }
+  const electionDay = generalElectionDay(rule.election, electionYear);
+  if (electionDay >= world.currentDate) return world;
+  const window = stateExecutiveTermWindow(office, termEnds);
+  if (window.startsAt !== termEnds) return world;
+  const tenureKey = `${stateExecutiveTenureKeyPrefix(office)}${termEnds}`;
+  if (world.history.events.some((event) => event.stableKey === tenureKey))
+    return world;
+  const holderKey = `${tenureKey}:holder`;
+  const rng = new SeededRng(world.seed).fork(holderKey);
+  const next = applyCharacterHistoryPlan(world, {
+    stableKey: tenureKey,
+    mode: "quick-generated",
+    personId: subjectPersonId,
+    transitions: [
+      {
+        kind: "context-person",
+        input: {
+          stableKey: holderKey,
+          ...drawCanonicalNameForGender(rng, "unstated"),
+          birthDate: makeIsoDate(
+            `${Number(termEnds.slice(0, 4)) - rng.integer(45, 70)}-01-01`,
+          ),
+          homeJurisdictionId: office.jurisdictionId,
+        },
+      },
+    ],
+  }).world;
+  const holderId = createStableId(
+    "person",
+    `${next.id}:life-context-v1:${holderKey}`,
+  );
+  return recordWorldEvent(next, {
+    stableKey: tenureKey,
+    type: "world.office-tenure",
+    // Dated by the election that chose them; the term itself begins later.
+    occurredAt: electionDay,
+    recordedAt: world.currentDate,
+    jurisdictionId: office.jurisdictionId,
+    involvedEntityIds: [holderId, organizationId],
+    participants: [
+      { personId: holderId, role: "focus:subject", detail: office.displayName },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      STATE_EXECUTIVE_WRITER_VERSION,
+      `office:${office.officeKey}`,
+      `state:${office.stateUsps}`,
+      "provenance:fictional-initial-tenure",
+      "governor-elect",
+      `term-begins:${termEnds}`,
+      `term-rule:${window.ruleVersion}`,
+      ...(window.endExclusive === null
+        ? []
+        : [`term-end:${window.endExclusive}`]),
+    ],
+    summary: `${personName(next.people[holderId]!)} was elected ${office.displayName} in November ${electionYear} and takes office when the current term ends.`,
     context: {
       location: null,
       socialContext: null,
@@ -446,6 +556,11 @@ const HOLDERS_BY_WORLD = new WeakMap<
   World,
   readonly StateExecutiveHolderRecord[]
 >();
+/** When a governor-elect's term begins, from the tenure's tags. */
+function termBeginsOf(tags: readonly string[]): IsoDate | null {
+  const tag = tags.find((candidate) => candidate.startsWith("term-begins:"));
+  return tag ? makeIsoDate(tag.slice("term-begins:".length)) : null;
+}
 
 export function currentStateExecutiveHolders(
   world: World,
@@ -496,6 +611,8 @@ function readStateExecutiveHolders(
     if (
       event.type !== "world.office-tenure" ||
       event.recordedAt > world.currentDate ||
+      // A governor-elect's term has not started yet.
+      (termBeginsOf(event.tags) ?? event.occurredAt) > world.currentDate ||
       !event.stableKey.startsWith(`${STATE_EXECUTIVE_WRITER_VERSION}:`)
     )
       continue;
@@ -599,7 +716,9 @@ function readStateExecutiveHolders(
       personName: personName(person),
       termId: tenure.id,
       organizationId: organization.id,
-      startedAt: unknownStart ? null : tenure.occurredAt,
+      startedAt: unknownStart
+        ? null
+        : (termBeginsOf(tenure.tags) ?? tenure.occurredAt),
       endExclusive,
       termFactsUnknown:
         unknownStart || unknownEnd ? STATE_EXECUTIVE_TERM_FIELDS : [],

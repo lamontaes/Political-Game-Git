@@ -1,7 +1,15 @@
 import type { EntityId, World } from "../simulation";
+import { lawEffectsHere } from "../presentation/law-effects-here";
 import { projectWorld39News } from "../presentation/world39-news";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import "./world39-readers.css";
+
+const LEVEL_LABEL = {
+  federal: "National law",
+  state: "State law",
+  territory: "Territorial law",
+  local: "Local law",
+} as const;
 
 /** Mount before the existing PressWorkspace and publication search/follow reader. */
 export function World39News({
@@ -14,6 +22,10 @@ export function World39News({
   readonly onOpenPerson: (id: EntityId) => void;
 }) {
   const model = projectWorld39News(world, personId);
+  const homeJurisdictionId = world.people[personId]?.homeJurisdictionId ?? null;
+  const lawEffects = homeJurisdictionId
+    ? lawEffectsHere(world, homeJurisdictionId).slice(0, 6)
+    : [];
   return (
     <section
       className="world39-reader"
@@ -39,6 +51,48 @@ export function World39News({
             >
               <h5>{item.headline}</h5>
               <p>{item.sentence}</p>
+            </article>
+          ))}
+        </section>
+      ) : null}
+      {model.laws.length > 0 ? (
+        <section aria-label="Laws that reach you" data-testid="world39-laws">
+          <h4>Laws that reach you</h4>
+          {model.laws.map((law) => (
+            <article
+              key={law.measureId}
+              data-measure-id={law.measureId}
+              data-level={law.level}
+              data-acts-in-world={law.actsInWorld ? "true" : "false"}
+            >
+              <h5>{law.title}</h5>
+              <p className="world39-meta">
+                {law.designation} · {LEVEL_LABEL[law.level]} · Enacted{" "}
+                <time dateTime={law.enactedOn}>
+                  {world39Date(law.enactedOn)}
+                </time>
+              </p>
+              {law.sentences.map((sentence) => (
+                <p key={sentence}>{sentence}</p>
+              ))}
+            </article>
+          ))}
+        </section>
+      ) : null}
+      {lawEffects.length > 0 ? (
+        <section
+          aria-label="What the laws changed"
+          data-testid="world39-law-effects"
+        >
+          <h4>What the laws changed</h4>
+          {lawEffects.map((effect) => (
+            <article
+              key={effect.key}
+              data-measure={effect.measure}
+              data-direction={effect.direction}
+            >
+              <h5>{effect.headline}</h5>
+              <p>{effect.sentence}</p>
             </article>
           ))}
         </section>

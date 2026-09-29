@@ -809,9 +809,23 @@ export function CampaignWorkspace({
               </ul>
               {view.speech ? (
                 view.speech.given ? (
-                  <p className="game-note" data-testid="campaign-speech-given">
-                    {view.speech.given}
-                  </p>
+                  <div data-testid="campaign-speech-given">
+                    <p className="game-note">{view.speech.given}</p>
+                    {view.speech.words ? (
+                      <details data-testid="campaign-speech-words">
+                        <summary>{view.speech.words.opening}</summary>
+                        <p className="game-scene">{view.speech.words.text}</p>
+                      </details>
+                    ) : null}
+                    {view.speech.words?.heard ? (
+                      <p
+                        className="game-note"
+                        data-testid="campaign-speech-heard"
+                      >
+                        {view.speech.words.heard}
+                      </p>
+                    ) : null}
+                  </div>
                 ) : (
                   <button
                     type="button"

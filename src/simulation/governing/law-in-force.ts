@@ -25,6 +25,8 @@ import type {
 } from "../types";
 import { measureAnswersAt } from "../vote-bundle";
 import { mayAnswerQuestion } from "./question-authority";
+import { unincorporatedCountyJurisdictionIds } from "../nationwide-world/local-governments";
+import { constitutionalPolicyProvisions } from "../policy-provisions";
 
 /**
  * What the law in force says on one policy question, for one place.
@@ -64,8 +66,11 @@ import { mayAnswerQuestion } from "./question-authority";
  * NOT MODELED, blanket rule meanwhile: floor preemption for laws enacted in
  * play (every conflict is resolved by rank), and each state's local-authority
  * doctrine beyond the powers catalog (where the catalog has not settled a
- * power, an ordinance counts where no higher law answers it). Constitutional
- * amendments do not answer catalog questions yet.
+ * power, an ordinance counts where no higher law answers it).
+ *
+ * A ratified amendment that writes a policy into a constitution (a state's,
+ * or the United States') answers its question "yes" at that constitution's
+ * rank, above every statute beneath it (`policy-provisions.ts`).
  */
 
 export interface LawInForce {
@@ -93,11 +98,34 @@ export interface LawInForce {
   readonly preempts?: boolean;
 }
 
+/**
+ * The law in force as a legislature filing a bill reads it: its answer, or
+ * `closed` when a constitution settles the question. A statute ranks below
+ * the constitution, so no bill on it could change what is in force, and a
+ * member files none (only an amendment can).
+ */
+export function statuteAnswer(
+  law: LawInForce | null,
+): PropositionAnswer | null | "closed" {
+  if (!law) return null;
+  return law.level === "federal-constitution" ||
+    law.level === "state-constitution"
+    ? "closed"
+    : law.answer;
+}
+
 export function lawInForce(
   world: World,
   jurisdictionId: EntityId,
   propositionId: EntityId,
   onDate: IsoDate = world.currentDate,
+  /**
+   * `enacted-only` leaves out the law the game began with. A law enacted in
+   * play always comes after the start, so it governs over a starting law on
+   * the same question even where the starting law is dated to take effect
+   * later (a program scheduled for 2028 and repealed in 2026 stays repealed).
+   */
+  scope: "all" | "enacted-only" = "all",
 ): LawInForce | null {
   const chain = governingChain(jurisdictionId);
   let best: Candidate | null = null;
@@ -132,7 +160,7 @@ export function lawInForce(
         : stateStatuteOperativeAt(
             placeKey,
             enactment.resolvedAt,
-            enactmentStatuteDateContext(enactment),
+            enactmentStatuteDateContext(world, enactment),
           );
     const operativeAt =
       enactment.effectiveAt ??
@@ -147,15 +175,24 @@ export function lawInForce(
       operativeBasis: enactment.effectiveAt
         ? ("enacted-date" as const)
         : stateRuleAt
-          ? stateRuleBasis(placeKey!, enactment.resolvedAt)
+          ? stateRuleBasis(
+              placeKey!,
+              enactment.resolvedAt,
+              enactmentStatuteDateContext(world, enactment),
+            )
           : ("game-default" as const),
       origin: "enacted" as const,
       sequence: enactment.sequence,
     };
     if (!best || governs(candidate, best)) best = candidate;
   }
-  const starting = startingLawCandidate(world, chain, propositionId, onDate);
+  const starting =
+    scope === "all"
+      ? startingLawCandidate(world, chain, propositionId, onDate)
+      : null;
   if (starting && (!best || governs(starting, best))) best = starting;
+  const amended = constitutionalCandidate(world, chain, propositionId, onDate);
+  if (amended && (!best || governs(amended, best))) best = amended;
   if (!best) return null;
   return {
     answer: best.answer,
@@ -225,6 +262,15 @@ interface StartingLawRow {
    * blanket rank.
    */
   readonly preempts?: boolean;
+  /**
+   * What the place's law said before `operativeAt`, for a row whose answer
+   * takes effect after the game begins (a program enacted but not yet
+   * started). Unsaid: nothing is known before that date.
+   */
+  readonly before?: {
+    readonly answer: PropositionAnswer;
+    readonly preempts?: boolean;
+  };
 }
 
 const STARTING_LAW = startingLaw as unknown as {
@@ -278,11 +324,16 @@ function startingLawCandidate(
   if (starting) {
     for (const [placeId, level] of chain) {
       const placeKey = startingLawPlaceKey(placeId);
-      const row = placeKey ? starting.answers[placeKey] : undefined;
-      if (!row) continue;
-      const operativeAt = makeIsoDate(
-        row.operativeAt ?? STARTING_LAW.defaultOperativeAt,
-      );
+      const dated = placeKey ? starting.answers[placeKey] : undefined;
+      if (!dated) continue;
+      const defaultAt = makeIsoDate(STARTING_LAW.defaultOperativeAt);
+      const answerAt = makeIsoDate(dated.operativeAt ?? defaultAt);
+      // Before its answer takes effect, a row says what held until then.
+      const row =
+        answerAt > onDate && dated.before
+          ? { ...dated.before, operativeAt: undefined }
+          : dated;
+      const operativeAt = row === dated ? answerAt : defaultAt;
       if (operativeAt > onDate) continue;
       const candidate: Candidate = {
         answer: row.answer,
@@ -302,6 +353,57 @@ function startingLawCandidate(
       };
       if (!best || governs(candidate, best)) best = candidate;
     }
+  }
+  return best;
+}
+
+/**
+ * The answer a constitution in the governing chain writes on the question:
+ * the U.S. Constitution's, then the state's, each only where a ratified
+ * amendment adopted the policy and no later one repealed it.
+ */
+function constitutionalCandidate(
+  world: World,
+  chain: ReadonlyMap<EntityId, LawLevel>,
+  propositionId: EntityId,
+  onDate: IsoDate,
+): Candidate | null {
+  // Cheap guard: only a measure on this very question can answer it.
+  if (
+    !(world.history.constitutionalMeasures ?? []).some(
+      (row) =>
+        row.ruleDelta.kind === "policy-provision" &&
+        row.ruleDelta.propositionId === propositionId,
+    )
+  )
+    return null;
+  let best: Candidate | null = null;
+  for (const [placeId, level] of chain) {
+    const placeKey = startingLawPlaceKey(placeId);
+    if (!placeKey || level === "local-ordinance") continue;
+    const federal = placeKey === "US";
+    // A state constitution answers only what the state may decide, as a
+    // state statute does.
+    if (!federal && !mayAnswerQuestion(world, placeId, propositionId)) continue;
+    const provision = constitutionalPolicyProvisions(
+      world,
+      federal ? "US" : placeKey.slice(3),
+      onDate,
+    ).find((row) => row.propositionId === propositionId);
+    if (!provision || provision.stance !== "adopt") continue;
+    const measure = world.history.constitutionalMeasures!.find(
+      (row) => row.id === provision.measureId,
+    )!;
+    const candidate: Candidate = {
+      answer: "yes",
+      measureId: provision.measureId,
+      level: federal ? "federal-constitution" : "state-constitution",
+      operativeAt: provision.operativeAt,
+      operativeBasis: "enacted-date",
+      origin: "enacted",
+      sequence: measure.sequence,
+    };
+    if (!best || governs(candidate, best)) best = candidate;
   }
   return best;
 }
@@ -372,6 +474,9 @@ function governingChain(
   const state = stateOf(jurisdictionId);
   if (state) chain.set(state, "state-statute");
   if (state !== jurisdictionId) chain.set(jurisdictionId, "local-ordinance");
+  // A place with no town government lives under its county's ordinances.
+  for (const county of unincorporatedCountyJurisdictionIds(jurisdictionId))
+    chain.set(county, "local-ordinance");
   return chain;
 }
 
@@ -399,5 +504,6 @@ export function operativeDateInWorld(
   return operativeDateForEnactment(
     enactment,
     measure ? startingLawPlaceKey(measure.jurisdictionId) : null,
+    enactmentStatuteDateContext(world, enactment),
   );
 }

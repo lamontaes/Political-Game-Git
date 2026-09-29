@@ -57,6 +57,12 @@ export interface ElectoralCalibration {
   readonly schema: string;
   readonly asOfDate: string;
   readonly calibrationRows: readonly CalibrationRow[];
+  /** Each state's certified 2024 presidential ballots, by the party printed. */
+  readonly presidentialByState?: readonly {
+    readonly stateUsps: string;
+    readonly totalVotes: number | null;
+    readonly totalsByParty: Readonly<Record<string, number>>;
+  }[];
 }
 
 export const ELECTORAL_CALIBRATION =
@@ -153,7 +159,10 @@ export function drawPoliticalLatents(
   };
 }
 
-function sharedSwing(latents: PoliticalLatents, stateUsps: string): number {
+export function sharedSwing(
+  latents: PoliticalLatents,
+  stateUsps: string,
+): number {
   return (
     latents.nationalSwingPp +
     latents.regionSwingPp[censusRegionOf(stateUsps)] +

@@ -3,6 +3,10 @@ import { appendFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 import { addDays } from "../simulation/dates";
+import {
+  COUNCIL_DEFERENCE_REASON,
+  COUNCIL_PRECEDENT_REASON,
+} from "../simulation/governing/council-lawmaking";
 import { lawInForce } from "../simulation/governing/law-in-force";
 import { principledLeaning } from "../simulation/governing/officeholder-principles";
 import { ORDINANCE_EFFECTIVE_AFTER_DAYS } from "../simulation/governing/ordinance-effective-date";
@@ -58,7 +62,10 @@ describe("a town council makes law for its own reasons", () => {
         );
         const meetings = world.history.events.filter(
           (event) =>
-            event.type === "local.council-meeting-held" &&
+            // A meeting the chair canceled while an illness went around
+            // was still one the council was due to hold.
+            (event.type === "local.council-meeting-held" ||
+              event.type === "local.council-meeting-canceled") &&
             event.jurisdictionId === town,
         ).length;
         const reasons = new Map<string, number>();
@@ -93,7 +100,11 @@ describe("a town council makes law for its own reasons", () => {
                     .filter((vote) => vote.measureId === measure.id)
                     .map(
                       (vote) =>
-                        `${vote.outcome} ${vote.tally.yea}-${vote.tally.nay}`,
+                        `${vote.outcome} ${vote.tally.yea}-${vote.tally.nay}, ${
+                          vote.dispositions.filter(
+                            (row) => row.reason === COUNCIL_DEFERENCE_REASON,
+                          ).length
+                        } going along`,
                     ),
                 })),
                 reasons: Object.fromEntries(reasons),
@@ -118,9 +129,17 @@ describe("a town council makes law for its own reasons", () => {
         }
         for (const vote of votes) {
           expect(vote.provenance.method).toBe("member-decisions");
-          for (const row of vote.dispositions)
+          for (const row of vote.dispositions) {
             if (row.disposition === "yea" || row.disposition === "nay")
               expect(row.reason).toMatch(/^member:/);
+            // A member with nothing to weigh goes along; nobody abstains
+            // for want of a reason.
+            if (row.reason === COUNCIL_DEFERENCE_REASON)
+              expect(row.disposition).toBe("yea");
+            if (row.reason === COUNCIL_PRECEDENT_REASON)
+              expect(row.disposition).toBe("nay");
+            expect(row.reason).not.toBe("member:no-reason");
+          }
         }
         for (const enactment of enactments) {
           const measure = measures.find(

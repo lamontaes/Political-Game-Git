@@ -33,7 +33,7 @@ import {
   spendCampaignFundsPersonally,
   UNRESEARCHED_FINDING_EFFECTS,
   UNRESEARCHED_REPEAT_OFFENSE,
-  UNRESEARCHED_STATE_OVERSIGHT,
+  STATE_OVERSIGHT_RULE,
 } from "../simulation/press";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
 import {
@@ -356,7 +356,13 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
     // An empty loop below would pass on nothing, so somebody must distance.
     expect(distanced.length).toBeGreaterThan(0);
     const people = projectPeopleDirectory(run.after, run.personId).people;
-    for (const response of distanced) {
+    // Somebody who distances again after a later update has still kept away
+    // since the first time, so the line keeps the first date.
+    const firstDistance = new Map<string, (typeof distanced)[number]>();
+    for (const response of distanced)
+      if (!firstDistance.has(response.actorPersonId))
+        firstDistance.set(response.actorPersonId, response);
+    for (const response of firstDistance.values()) {
       const given = run.after.people[response.actorPersonId]!.givenName;
       const line = `${given} has kept away from you since ${proseDate(response.respondedAt)}, after the case against you became public.`;
       expect(
@@ -383,12 +389,14 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
     );
   }, 900_000);
 
+  // Writing and reading back a campaign-season world took 5.8 seconds on a
+  // busy machine on 9/29, past the 5-second default; the check is unchanged.
   it("survives a save", () => {
     const reopened = deserializeWorld(serializeWorld(run.after));
     expect(publicAdverseFindingsAgainst(reopened, run.personId)).toEqual(
       publicAdverseFindingsAgainst(run.after, run.personId),
     );
-  });
+  }, 60_000);
 });
 
 /**
@@ -752,7 +760,7 @@ describe("a Washington candidate the player stops playing after taking money", (
 });
 
 describe("a generated oversight body", () => {
-  it("is the same body for a state every time and differs between states", () => {
+  it("names each state's own regulator and gives every state the same rule", () => {
     const { world } = adultLifeIn("OR", "generated-body-or");
     const withStates = ["NM", "GA", "ME"].reduce(
       (w, usps) => ensureStateJurisdiction(w, usps),
@@ -775,23 +783,17 @@ describe("a generated oversight body", () => {
       stateJurisdictionForKey("US-GA")!.id,
     );
     expect(again).toEqual(bodies[1]);
-    const rule = UNRESEARCHED_STATE_OVERSIGHT;
+    // No state is drawn a calendar or a penalty of its own (Rule 0): each
+    // follows the one rule until its own is researched.
     for (const body of bodies) {
-      expect(body.reportReviewDays).toBeGreaterThanOrEqual(
-        rule.reportReviewDays[0],
-      );
-      expect(body.reportReviewDays).toBeLessThanOrEqual(
-        rule.reportReviewDays[1],
-      );
-      expect(body.civilPenaltyPerPaymentMinorUnits).toBeGreaterThanOrEqual(
-        rule.civilPenaltyPerPaymentMinorUnits[0],
-      );
-      expect(body.civilPenaltyPerPaymentMinorUnits).toBeLessThanOrEqual(
-        rule.civilPenaltyPerPaymentMinorUnits[1],
+      expect(body.intervalDays).toEqual(STATE_OVERSIGHT_RULE.intervalDays);
+      expect(body.reportReviewDays).toBe(STATE_OVERSIGHT_RULE.reportReviewDays);
+      expect(body.civilPenaltyPerPaymentMinorUnits).toBe(
+        STATE_OVERSIGHT_RULE.civilPenaltyPerPaymentMinorUnits,
       );
     }
-    expect(
-      new Set(bodies.map((body) => JSON.stringify(body.intervalDays))).size,
-    ).toBeGreaterThan(1);
+    // The federal notice and answer periods, 52 U.S.C. 30109(a)(1).
+    expect(STATE_OVERSIGHT_RULE.intervalDays.intake).toBe(5);
+    expect(STATE_OVERSIGHT_RULE.intervalDays.notice).toBe(15);
   });
 });

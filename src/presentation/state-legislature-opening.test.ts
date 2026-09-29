@@ -11,6 +11,7 @@ import {
   ensureStateLegislatureOpening,
   planStateChambers,
   scheduleNationwideStateLegislatureOpenings,
+  recordedChamberParties,
   stateLegislators,
 } from "../simulation/nationwide-world/state-legislature-opening";
 import { US_STATE_USPS } from "../simulation/nationwide-world/state-executive-candidacy-packs";
@@ -229,7 +230,10 @@ describe.each(SEATED)("a fictional roster in %s, %s", (_name, _state, usps) => {
         expect(chamber.basis).toBe("rule-pack");
         expect(chamber.size).toBe(office.seats.value);
       } else {
-        expect(chamber.basis).toBe("one-member-per-district");
+        // A size the profile drew gives way to the state's own districts.
+        expect(["one-member-per-district", "members-per-district"]).toContain(
+          chamber.basis,
+        );
         expect(
           chamber.districts.every(
             (district) => district !== null && district.stateUsps === usps,
@@ -247,6 +251,40 @@ describe.each(SEATED)("a fictional roster in %s, %s", (_name, _state, usps) => {
           member.party === "democratic" || member.party === "republican",
       ),
     ).toBe(true);
+  });
+
+  it("holds each chamber's recorded party balance", () => {
+    const { plan, members } = openingFor(usps);
+    for (const chamber of plan.chambers) {
+      const recorded = recordedChamberParties(usps, chamber.chamberKey);
+      if (!recorded) continue;
+      const inChamber = members.filter(
+        (member) => member.officeKey === chamber.officeKey,
+      );
+      const total =
+        recorded.democrats +
+        recorded.republicans +
+        recorded.other +
+        recorded.vacancies;
+      const count = (party: string) =>
+        inChamber.filter((member) => member.party === party).length;
+      const democrats = Math.round(
+        (inChamber.length * recorded.democrats) / total,
+      );
+      const republicans = Math.min(
+        inChamber.length - democrats,
+        Math.round((inChamber.length * recorded.republicans) / total),
+      );
+      // Seats the record gives to neither party keep their own lean, so each
+      // party holds at least its recorded share and exactly that when the
+      // record lists no one else.
+      expect(count("democratic")).toBeGreaterThanOrEqual(democrats);
+      expect(count("republican")).toBeGreaterThanOrEqual(republicans);
+      if (recorded.other + recorded.vacancies === 0) {
+        expect(count("democratic")).toBe(democrats);
+        expect(count("republican")).toBe(inChamber.length - democrats);
+      }
+    }
   });
 
   it("uses the body a campaign winner joins", () => {

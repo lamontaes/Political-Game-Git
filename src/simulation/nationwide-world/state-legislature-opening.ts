@@ -9,6 +9,7 @@ import type {
 } from "../character-history";
 import { candidacyPackById, stateCandidacyPack } from "../candidacy-packs";
 import { legislativeTermForRelationship } from "../legislative-office-terms";
+import { legislativeTermLimitInForce } from "./state-legislative-term-limits";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
 import { addDays, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
@@ -61,11 +62,13 @@ import {
   logit,
   standardNormal,
 } from "../world-setup/deterministic-math";
+import legislatorsTable from "../../../data/research/laws/legislators-2023.json" with { type: "json" };
 import { districtIdentityCatalog } from "../../districts/catalog";
 import {
   gazetteerChamberForOfficeChamberKey,
   listDistrictIdentities,
 } from "../../districts/query";
+import { seatsByDistrict } from "../../districts/members-per-district";
 import type { DistrictIdentity } from "../../districts/types";
 import {
   hasStableKey,
@@ -102,11 +105,52 @@ import {
  * and spread by how far House districts inside one state differ from each
  * other across the whole save. A state whose House seats carry no two-party
  * share is centered on its own statewide Senate contests; one with neither
- * seats its members without a party rather than guessing one.
+ * seats its members without a party rather than guessing one. Each chamber
+ * then holds the party balance the state recorded (The Book of the States
+ * 2023, Table 3.3): the seats leaning furthest toward each party take that
+ * party's count, and seats the record gives to neither party keep their lean.
  *
  * The player's home state remains first in the opening history; other states
  * follow in the deterministic jurisdiction order.
  */
+
+interface RecordedParties {
+  readonly democrats: number;
+  readonly republicans: number;
+  readonly other: number;
+  readonly vacancies: number;
+}
+
+interface LegislatorPartyRow {
+  readonly usps: string;
+  readonly lowerParties: RecordedParties | null;
+  readonly upperParties: RecordedParties | null;
+  readonly unicameralParties: RecordedParties | null;
+}
+
+const LEGISLATOR_PARTY_ROWS: readonly LegislatorPartyRow[] = (
+  legislatorsTable as { readonly rows: readonly LegislatorPartyRow[] }
+).rows;
+
+/**
+ * A chamber's members by party as The Council of State Governments recorded
+ * them in 2023 (The Book of the States 2023, Table 3.3), or null where the
+ * table gives none, as for a nonpartisan legislature.
+ */
+export function recordedChamberParties(
+  stateUsps: string,
+  chamberKey: string,
+): RecordedParties | null {
+  const row = LEGISLATOR_PARTY_ROWS.find(
+    (candidate) => candidate.usps === stateUsps,
+  );
+  if (!row) return null;
+  const chamber = gazetteerChamberForOfficeChamberKey(chamberKey);
+  if (chamber === "state-lower") return row.lowerParties;
+  if (chamber === "state-upper")
+    return row.upperParties ?? row.unicameralParties;
+  return null;
+}
 
 export const STATE_LEGISLATURE_OPENING_VERSION =
   "state-legislature-opening/v1" as const;
@@ -274,7 +318,8 @@ export const STATE_LEGISLATURE_KEYS = {
 } as const;
 
 /** Where a seated chamber's size came from. */
-export type ChamberSizeBasis = "rule-pack" | "one-member-per-district";
+export type ChamberSizeBasis =
+  "rule-pack" | "one-member-per-district" | "members-per-district";
 
 export interface SeatedChamberPlan {
   readonly officeKey: string;
@@ -317,13 +362,15 @@ export function planStateChambers(pack: CandidacyPack): {
     let basis: ChamberSizeBasis;
     // PLACEHOLDER until research question
     // state-legislature-chamber-sizes-and-quorum is answered: a Census
-    // district is not a seat, and multi-member districts (Arizona's House)
-    // seat fewer members here than the chamber has.
+    // district is not a seat. How many members a district elects is read
+    // from `members-per-district.json`; a chamber it does not list elects
+    // one per district.
     //
     // A size read from law wins. A size the game drew for an unresearched
-    // state's profile gives way to the state's own Census districts, which
-    // are a record of that state rather than a range across others; the draw
-    // seats a chamber only where the Census has no districts for it.
+    // state's profile gives way to the state's own Census districts and their
+    // member counts, which are a record of that state rather than a range
+    // across others; the draw seats a chamber only where the Census has no
+    // districts for it.
     const drawn =
       office.seats.kind === "known" &&
       office.seats.source?.authority === "game-profile";
@@ -331,8 +378,11 @@ export function planStateChambers(pack: CandidacyPack): {
       size = office.seats.value;
       basis = "rule-pack";
     } else if (districts.length > 0) {
-      size = districts.length;
-      basis = "one-member-per-district";
+      size = seatsByDistrict(districts).length;
+      basis =
+        size === districts.length
+          ? "one-member-per-district"
+          : "members-per-district";
     } else {
       unseated.push({
         officeKey: office.officeKey,
@@ -371,16 +421,23 @@ const AT_LARGE_SEATS: Readonly<
 };
 
 /**
- * Seats to districts. One member each where the counts match, an equal number
- * each where the seats divide evenly, and none bound otherwise: a seat is
- * never put in a district the record cannot support. Seats past the district
- * seats are at-large seats, bound to no district.
+ * Seats to districts. Each district takes the members it elects, read from
+ * `members-per-district.json`, when those add up to the seats to bind. Failing
+ * that, an equal number each where the seats divide evenly, and none bound
+ * otherwise: a seat is never put in a district the record cannot support.
+ * Seats past the district seats are at-large seats, bound to no district.
  */
 function bindDistricts(
   districtSeats: number,
   districts: readonly DistrictIdentity[],
   size: number = districtSeats,
 ): readonly (DistrictIdentity | null)[] {
+  const counted = seatsByDistrict(districts);
+  if (districtSeats > 0 && counted.length === districtSeats) {
+    return Array.from({ length: size }, (_, index) =>
+      index < districtSeats ? counted[index]! : null,
+    );
+  }
   if (
     districtSeats <= 0 ||
     districts.length === 0 ||
@@ -574,6 +631,13 @@ export function ensureStateLegislatureOpening(
       office.qualification.minimumAge.kind === "known"
         ? office.qualification.minimumAge.value
         : 18;
+    const limit = legislativeTermLimitInForce(next, stateUsps, date);
+    const limitYears = limit
+      ? Math.min(
+          limit.perChamberYears ?? Number.POSITIVE_INFINITY,
+          limit.totalYears ?? Number.POSITIVE_INFINITY,
+        )
+      : null;
     for (let ordinal = 1; ordinal <= chamber.size; ordinal += 1) {
       const seatKey = STATE_LEGISLATURE_KEYS.seat(chamber.officeKey, ordinal);
       const seatRng = rng.fork(`seat:${chamber.officeKey}:${ordinal}`);
@@ -585,8 +649,12 @@ export function ensureStateLegislatureOpening(
         party = democraticShare >= 0.5 ? "democratic" : "republican";
       }
       const age = seatRng.integer(minimumAge + 7, 81);
+      // A state that limits its legislators' terms has no sitting member
+      // past the limit: service so far is spread over the years under it
+      // (the current term is part of it), not piled at the limit.
+      const drawnYears = seatRng.integer(0, 13);
       const yearsServed = Math.min(
-        seatRng.integer(0, 13),
+        limitYears === null ? drawnYears : drawnYears % limitYears,
         Math.max(0, age - minimumAge - 1),
       );
       const year = Number(date.slice(0, 4));
@@ -620,6 +688,46 @@ export function ensureStateLegislatureOpening(
         },
       });
     }
+  }
+  // Each chamber's party balance is the state's own recorded one: the seats
+  // leaning furthest toward each party take that party's recorded count, and
+  // the seats the record gives to neither keep their own lean.
+  for (const chamber of chambers) {
+    const recorded = recordedChamberParties(stateUsps, chamber.chamberKey);
+    if (!recorded) continue;
+    const indices = members
+      .map((member, index) => ({ member, index }))
+      .filter(
+        ({ member }) =>
+          member.chamber === chamber && member.democraticShare !== null,
+      )
+      .sort(
+        (left, right) =>
+          right.member.democraticShare! - left.member.democraticShare! ||
+          left.member.ordinal - right.member.ordinal,
+      )
+      .map(({ index }) => index);
+    if (indices.length === 0) continue;
+    const total =
+      recorded.democrats +
+      recorded.republicans +
+      recorded.other +
+      recorded.vacancies;
+    if (total === 0) continue;
+    const democrats = Math.round((indices.length * recorded.democrats) / total);
+    const republicans = Math.min(
+      indices.length - democrats,
+      Math.round((indices.length * recorded.republicans) / total),
+    );
+    indices.forEach((index, rank) => {
+      const party =
+        rank < democrats
+          ? "democratic"
+          : rank >= indices.length - republicans
+            ? "republican"
+            : members[index]!.party;
+      members[index] = { ...members[index]!, party };
+    });
   }
   if (members.length === 0) return world;
 
@@ -772,6 +880,42 @@ export interface StateLegislatorView {
  * a vacancy is not a person.
  */
 export function stateLegislators(
+  world: World,
+  packId: string,
+): readonly StateLegislatorView[] {
+  return perWorld(STATE_LEGISLATORS, world, packId, readStateLegislators);
+}
+
+/**
+ * Answers kept for each World, which is never edited: a day's turnover asks
+ * for the same chamber's seats once for every election year it checks, and
+ * each reading walks every tenure the chamber has ever had.
+ */
+function perWorld<T>(
+  cache: WeakMap<World, Map<string, T>>,
+  world: World,
+  packId: string,
+  read: (world: World, packId: string) => T,
+): T {
+  let byPack = cache.get(world);
+  if (!byPack) {
+    byPack = new Map();
+    cache.set(world, byPack);
+  }
+  if (!byPack.has(packId)) byPack.set(packId, read(world, packId));
+  return byPack.get(packId)!;
+}
+
+const STATE_LEGISLATORS = new WeakMap<
+  World,
+  Map<string, readonly StateLegislatorView[]>
+>();
+const STATE_LEGISLATIVE_SEATS = new WeakMap<
+  World,
+  Map<string, readonly StateLegislativeSeatView[]>
+>();
+
+function readStateLegislators(
   world: World,
   packId: string,
 ): readonly StateLegislatorView[] {
@@ -977,6 +1121,18 @@ export interface StateLegislativeSeatView {
  * size on the screen rather than shrinking to its survivors.
  */
 export function stateLegislativeSeats(
+  world: World,
+  packId: string,
+): readonly StateLegislativeSeatView[] {
+  return perWorld(
+    STATE_LEGISLATIVE_SEATS,
+    world,
+    packId,
+    readStateLegislativeSeats,
+  );
+}
+
+function readStateLegislativeSeats(
   world: World,
   packId: string,
 ): readonly StateLegislativeSeatView[] {

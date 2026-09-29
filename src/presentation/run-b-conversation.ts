@@ -1,4 +1,5 @@
 import type { ChoiceTruthDeclaration } from "./lie-marker";
+import { stableHash } from "../simulation/ids";
 import { isContextualSceneProgress } from "./contextual-scenes";
 import {
   assertNpcAutonomousApplication,
@@ -1241,12 +1242,27 @@ function resolveQuietRoom(
     dialogue: null,
     perception: null,
     durableDecisionRecorded: false,
-    roomNarration: selectAuthoredVariant(
-      world,
-      `quiet-room:${context.sceneKey}:${context.turnOrdinal}`,
-      QUIET_ROOM_LINES,
-    ),
+    roomNarration: quietRoomLine(world, context.sceneKey, context.turnOrdinal),
   };
+}
+
+/**
+ * What the room does when nobody answers. The lines are taken in turn, one
+ * step per silent turn, from a starting point that moves with the day, so the
+ * room never says the same thing two turns running and a visit on another day
+ * does not open the way the last one did. Nothing is drawn: the start is the
+ * hash of the world, the place and the date.
+ */
+export function quietRoomLine(
+  world: World,
+  sceneKey: string,
+  turnOrdinal: number,
+): string {
+  const hash = stableHash(
+    `${world.seed}:quiet-room:${sceneKey}:${world.currentDate}`,
+  );
+  const start = Number(BigInt(`0x${hash}`) % BigInt(QUIET_ROOM_LINES.length));
+  return QUIET_ROOM_LINES[(start + turnOrdinal) % QUIET_ROOM_LINES.length]!;
 }
 
 function resolveLegislativeProvisionResponse(

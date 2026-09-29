@@ -17,12 +17,18 @@ import { createOrganization } from "../life";
 import {
   lifePlaceByJurisdictionId,
   lifePlaceByKey,
+  type LifePlace,
   residentNameForJurisdiction,
 } from "../life-places";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import { municipalGovernmentForPlaceGeoid } from "../municipal-government";
 import { municipalOrganizationFor } from "../municipal-public-work";
 import type { EntityId, IsoDate, Jurisdiction, World } from "../types";
+import {
+  countyGoverningBodyRules,
+  municipioUnit,
+  municipiosForPlace,
+} from "./county-governing-body-rules";
 import { governingJurisdictionIdFor } from "./government-jurisdiction";
 import {
   resolveNationwideRuleCapability,
@@ -80,6 +86,13 @@ export function homeLocalGovernmentUnits(
   const place = person
     ? lifePlaceByJurisdictionId(person.homeJurisdictionId)
     : null;
+  return placeLocalGovernmentUnits(place);
+}
+
+/** Which government units serve one place. Reads only. */
+export function placeLocalGovernmentUnits(
+  place: LifePlace | null,
+): HomeLocalGovernmentUnits {
   const none = (
     placeScope: HomeLocalGovernmentUnits["placeScope"],
     countyStatus: CountyGovernmentStatus,
@@ -99,7 +112,9 @@ export function homeLocalGovernmentUnits(
     const geoid = place.key.startsWith("county:")
       ? place.key.slice("county:".length)
       : (place.sourceGeoid ?? null);
-    const county = geoid ? countyGovernmentUnit(geoid) : null;
+    const county = geoid
+      ? (countyGovernmentUnit(geoid) ?? municipioUnit(geoid))
+      : null;
     return county
       ? {
           placeScope: "county",
@@ -136,6 +151,20 @@ export function homeLocalGovernmentUnits(
         unitId: share.unit.id,
         landAreaShare: share.landAreaShare,
       })),
+    };
+  // A municipio is its own government under its place's municipal code,
+  // though the Census listing holds none: every one the place lies in.
+  const municipios = place.sourceGeoid
+    ? municipiosForPlace(place.sourceGeoid)
+    : [];
+  if (municipios.length > 0)
+    return {
+      placeScope: "locality",
+      municipal,
+      counties: municipios,
+      countyStatus: "established",
+      countyReason: null,
+      countyShares: null,
     };
   if (municipal.length === 0)
     return none("locality", "not-established", countyRelationEmpty(term));
@@ -284,6 +313,37 @@ export function localGovernmentOrganizationKey(
   return `local-government:${unit.id}`;
 }
 
+const UNINCORPORATED = new Map<EntityId, readonly EntityId[]>();
+
+/**
+ * The county governments whose ordinances govern a place with no municipal
+ * government of its own: an unincorporated place (a census-designated place,
+ * or a Puerto Rico place under its municipio) is governed by its county's
+ * law, the most common rule in every state. Empty for an incorporated place,
+ * a county or a state, and for a place with no county government.
+ */
+export function unincorporatedCountyJurisdictionIds(
+  jurisdictionId: EntityId,
+): readonly EntityId[] {
+  const cached = UNINCORPORATED.get(jurisdictionId);
+  if (cached) return cached;
+  const place = lifePlaceByJurisdictionId(jurisdictionId);
+  const units = placeLocalGovernmentUnits(place);
+  const ids =
+    units.placeScope === "locality" && units.municipal.length === 0
+      ? units.counties.flatMap((unit) => jurisdictionForUnit(unit)?.id ?? [])
+      : [];
+  UNINCORPORATED.set(jurisdictionId, ids);
+  return ids;
+}
+
+/** The jurisdiction a local government's own law is recorded under, or null. */
+export function localGovernmentJurisdiction(
+  unit: GovernmentUnitIdentity,
+): Jurisdiction | null {
+  return jurisdictionForUnit(unit);
+}
+
 function jurisdictionForUnit(
   unit: GovernmentUnitIdentity,
 ): Jurisdiction | null {
@@ -358,6 +418,32 @@ export function ensureLocalGovernmentOrganization(
       },
       jurisdictionOrder: [...next.jurisdictionOrder, jurisdiction.id],
     };
+  }
+  // A municipio is not in the Census listing: its record is the municipal
+  // code that makes it a government.
+  const code =
+    unit.id === `municipio:${unit.countyGeoid}`
+      ? countyGoverningBodyRules(unit)
+      : null;
+  if (code) {
+    // On the books since the code took effect, so a matter the world dates
+    // before the opening can name it.
+    const since = (code.inForceSince ?? next.currentDate) as IsoDate;
+    return createOrganization(next, {
+      stableKey,
+      formedAt: since <= next.currentDate ? since : next.currentDate,
+      detailLevel: "lightweight",
+      provenance: {
+        kind: "source-record",
+        reference: `${code.citation} (${code.url})`,
+        asOf: since,
+      },
+      initialProfile: {
+        name: unit.name,
+        classification: "service:municipal-government",
+        locationJurisdictionId: jurisdiction.id,
+      },
+    });
   }
   const asOf = unit.asOf as IsoDate;
   const listed = asOf <= next.currentDate;

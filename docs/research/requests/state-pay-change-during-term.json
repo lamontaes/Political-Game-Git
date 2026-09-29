@@ -1,0 +1,22 @@
+{
+  "filedAt": "2026-09-29T09:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "state government",
+  "notes": [
+    "Filed at the CTO's 10:24 p.m. ruling on Build 15. The game reads a law's own statement of whom it reaches (terms beginning after its date, or immediately); a law silent on it is read as reaching the sitting holder at once, a labeled game assumption."
+  ],
+  "priority": "P2",
+  "question": "For each of the 50 states, D.C. and the five territories, does the constitution or a statute bar raising or lowering the pay of the governor, legislators and judges during the term for which they were elected (as the Twenty-seventh Amendment does for Congress until after the next House election)? Give the rule, the citation, and whether it bars raises, cuts or both.",
+  "questionId": "state-pay-change-during-term",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Build 15 · Real Money Numbers",
+  "sourcesChecked": [
+    {
+      "source": "Twenty-seventh Amendment, U.S. Constitution (Congress only)",
+      "whatItDidNotSettle": "Applies to members of Congress. It says nothing about governors, state legislators or judges."
+    }
+  ],
+  "title": "Which states bar changing an official's pay during a term",
+  "usableAnswer": "A table by place and office (governor, legislator, judge) naming the bar (raise only, cut only, both, none), the constitutional or statutory citation, and the year read.",
+  "whyItMatters": "A state pay law now changes an official's paycheck the week it takes effect. Where a real state bars a mid-term change, the game must hold the new pay until the next term begins; until this is answered every place reads as allowing the change at once."
+}

@@ -3,6 +3,10 @@ import { settleSocialInvitationFromScene } from "./social-invitation";
 import { passOrdinaryDays } from "./ordinary-life";
 import type { OrdinaryLifeDayAdvance } from "./life-time-handlers";
 import { bindRequestSituation } from "../simulation/adult-situations";
+import {
+  moveOutBeforeHearing,
+  payRentOwed,
+} from "../simulation/living-world/town-rent";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import {
   adaptiveSelectionSeed,
@@ -237,6 +241,9 @@ export function selectAdultSituation(
   };
 }
 
+/** Hard moments that come once per request rather than once in a life. */
+const ANSWERED_PER_REQUEST: ReadonlySet<string> = new Set(["eviction-case"]);
+
 function eligibleCandidates(
   context: AdultLifeContext,
   history: readonly LifeSituationKey[],
@@ -248,6 +255,14 @@ function eligibleCandidates(
     .filter((situation) => {
       const seenAt = lastIndex.get(situation.key);
       if (seenAt === undefined) return true;
+      // A new request is answered on its own, however hard the moment: a
+      // second eviction case is a second case, not the first one again.
+      // It is offered only while that request is open, which answering ends.
+      if (
+        situation.opportunity !== undefined &&
+        ANSWERED_PER_REQUEST.has(situation.opportunity)
+      )
+        return true;
       // A hard moment happens once. An ordinary one may come round again,
       // eventually, because ordinary life is repetitive and pretending
       // otherwise is what leaves an adult with nothing to do after a month.
@@ -402,7 +417,7 @@ export function chooseAdultOption(
   const stableKey = `adult-life:${input.personId}:${played}:${input.situationKey}`;
 
   const staged = applyOptionWrites(world, input.personId, option, stableKey);
-  const result = resolveLifeSituation(staged, {
+  const answered = resolveLifeSituation(staged, {
     stableKey,
     mode: "played",
     personId: input.personId,
@@ -412,7 +427,14 @@ export function chooseAdultOption(
     jurisdictionId,
     otherPersonId: companionId,
   });
-  if (result.status === "blocked") return result.world;
+  if (answered.status === "blocked") return answered.world;
+  // An eviction case's answer is written after the choice is on record: paid
+  // or moved out, the case is closed, and the scene could no longer be read
+  // as the one that was answered.
+  const result = {
+    ...answered,
+    world: applyCaseAnswer(answered.world, input.personId, option),
+  };
   // What follows, decided here and from the world. Nothing about how the
   // situation was selected is in scope — `scheduleAftermath` cannot see the
   // selector's reason or the stakes tier, because they are not in its input
@@ -510,7 +532,12 @@ function applyOptionWrites(
   stableKey: string,
 ): World {
   const write = option.writes ?? null;
-  if (write === null) return world;
+  if (
+    write === null ||
+    write.kind === "pay-rent-owed" ||
+    write.kind === "move-out-before-hearing"
+  )
+    return world;
   const person = world.people[personId];
   if (!person) return world;
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
@@ -578,6 +605,22 @@ function applyOptionWrites(
       },
     },
   ]);
+}
+
+/**
+ * An eviction case's answers are the rent's own records: the back rent paid
+ * toward the lease, or the tenancy ended before the hearing.
+ */
+function applyCaseAnswer(
+  world: World,
+  personId: EntityId,
+  option: AdultSituationOption,
+): World {
+  const write = option.writes ?? null;
+  if (write?.kind === "pay-rent-owed") return payRentOwed(world, personId);
+  if (write?.kind === "move-out-before-hearing")
+    return moveOutBeforeHearing(world, personId);
+  return world;
 }
 
 function applyPlan(

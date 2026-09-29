@@ -12,13 +12,10 @@ const STATE_GOVERNING_VERSION = "state-governing/v1";
 
 /**
  * PROVISIONAL, and awaiting SOURCED RULES rather than anyone's sign-off. A
- * disclosed game calendar, not any state's law.
- *
- * overrideSucceedsPercent is the weakest of these: one national chance applied
- * without reference to the state's override threshold, the session calendar or
- * who holds the chamber. lamontae ruled against choosing a better number on
- * 2026-09-22 ("no hardcoding"); filed as
- * legislative-step-pacing-and-veto-override.
+ * disclosed game calendar, not any state's law. A returned bill's override
+ * is its members' own vote against the state's threshold, not a chance
+ * (legislative-clock.ts; the national 25 percent chance was removed on
+ * September 29, 2026).
  */
 export const STATE_GOVERNING_CALENDAR = {
   id: "ocd-state-governing-calendar/v1",
@@ -26,8 +23,6 @@ export const STATE_GOVERNING_CALENDAR = {
   budgetSeason: "12-01",
   /** Days in a year when the legislature sends the governor a bill. */
   billDays: ["02-15", "03-15", "04-15"],
-  /** Chance a returned bill is passed again over the governor's objection. */
-  overrideSucceedsPercent: 25,
 } as const;
 
 export const GOVERNING_SEASON = "governing:season" as const;

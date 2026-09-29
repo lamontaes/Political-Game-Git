@@ -1,5 +1,8 @@
 import { addDays } from "./dates";
-import { stateStatuteOperativeAt } from "./governing/statute-effective-date";
+import {
+  stateStatuteOperativeAt,
+  type StatuteDateContext,
+} from "./governing/statute-effective-date";
 import type { LegislativeRulePack } from "./legislature-rules";
 import type { IsoDate, LegislativeEnactmentRecord } from "./types";
 
@@ -49,6 +52,8 @@ export function operativeDateForEnactment(
   enactment: LegislativeEnactmentRecord,
   /** `US-XX` of a state statute: its own researched rule dates an act that saved none. */
   stateKey?: string | null,
+  /** The dates the enactment's record carries that the state's rule may count from. */
+  dateContext?: StatuteDateContext,
 ): {
   readonly date: IsoDate;
   readonly basis: "enacted-date" | "state-rule" | "game-default";
@@ -76,9 +81,13 @@ export function operativeDateForEnactment(
   }
   const stateRuleAt =
     !profile && stateKey?.startsWith("US-")
-      ? stateStatuteOperativeAt(stateKey, enactment.resolvedAt, {
-          finalPassageAt: () => enactment.finalPassageAt ?? null,
-        })
+      ? stateStatuteOperativeAt(
+          stateKey,
+          enactment.resolvedAt,
+          dateContext ?? {
+            finalPassageAt: () => enactment.finalPassageAt ?? null,
+          },
+        )
       : null;
   if (stateRuleAt) return { date: stateRuleAt, basis: "state-rule" };
   return {

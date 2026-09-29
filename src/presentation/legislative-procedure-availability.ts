@@ -1,5 +1,6 @@
 import { measurePosition } from "../simulation/legislation";
 import { chamberByKey } from "../simulation/legislature-rules";
+import { governorOfficeForJurisdiction } from "../simulation/governing/state-governing";
 import {
   votePlanKeyForAmendment,
   votePlanKeyForCommittee,
@@ -45,7 +46,8 @@ export function legislativeProcedureRefusal(
   if (
     step === "await-executive-decision" &&
     procedure.governorAction === null &&
-    !canonicalStateExecutiveWaitAvailable(world, procedure)
+    !canonicalStateExecutiveWaitAvailable(world, procedure) &&
+    !governorOfficeForJurisdiction(world, procedure.pack.jurisdictionKey)
   )
     return procedure.memberDecisions
       ? "No current governor's desk is recorded for this bill. Signature, veto, inaction and an effective date will not be inferred."

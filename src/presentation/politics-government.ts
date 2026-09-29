@@ -21,6 +21,10 @@ import {
 import { stateExecutiveOffice } from "../simulation/nationwide-world/state-executives";
 import { projectCongress } from "../simulation/living-world/congress";
 import {
+  houseDelegateOccupant,
+  houseDelegateSeat,
+} from "../simulation/living-world/house-delegates";
+import {
   US_CONGRESS_PACK_ID,
   US_CONGRESS_RULE_PACK,
 } from "../simulation/congress-rule-pack";
@@ -39,7 +43,10 @@ import {
   stateSeatTitle,
 } from "../simulation/nationwide-world/state-legislature-opening";
 import { nextStateSeatFilling } from "../simulation/nationwide-world/state-legislature-turnover";
-import { isTerritoryUsps } from "../simulation/state-reference";
+import {
+  isTerritoryUsps,
+  nonvotingHouseMemberTitle,
+} from "../simulation/state-reference";
 import {
   US_TERRITORY_GOVERNED_NAMES,
   isUsTerritoryWithGovernor,
@@ -943,18 +950,38 @@ function representedBy(
     : houseSeats.length === 1 && houseSeats[0]!.district === "00"
       ? houseSeats[0]
       : undefined;
-  if (isTerritoryUsps(usps)) {
-    // A territory sends one nonvoting member to the House, elected
-    // territory-wide, and has no seat in the Senate. The 435 seats the game
-    // seats are the states' alone, so this member is not among them yet.
+  if (nonvotingHouseMemberTitle(usps) !== null) {
+    // A territory or the District sends one nonvoting member to the House, elected
+    // territory-wide, and has no seat in the Senate. The 435 voting seats are
+    // the states' alone; this member holds a seat of their own.
+    const member = nonvotingHouseMemberTitle(usps);
     const title =
-      usps === "PR" ? "Resident Commissioner" : "Delegate to the U.S. House";
+      member === "Resident Commissioner"
+        ? member
+        : "Delegate to the U.S. House";
+    const occupant = houseDelegateOccupant(world, usps);
+    const speaksFor = `${title === "Resident Commissioner" ? "The Resident Commissioner" : "The Delegate"} speaks for all of ${nameInSentence(usps, state)} in the House and does not cast final votes there.`;
     rows.push({
       key: "us-house",
       office: title,
       district: nameInSentence(usps, state).replace(/^the /, ""),
-      holders: [],
-      note: `${title === "Resident Commissioner" ? "The Resident Commissioner" : "The Delegate"} speaks for all of ${nameInSentence(usps, state)} in the House and does not cast final votes there. No current record names who holds the seat.`,
+      holders:
+        occupant.kind === "member"
+          ? [
+              {
+                key: houseDelegateSeat(usps)!.seatKey,
+                status: "member",
+                name: occupant.personName,
+                personId: occupant.personId,
+              },
+            ]
+          : [],
+      note:
+        occupant.kind === "member"
+          ? speaksFor
+          : occupant.kind === "no-current-record"
+            ? `${speaksFor} The last term ended on ${proseDate(occupant.lastTermEnded)} and no current record names who holds the seat.`
+            : `${speaksFor} This save did not record who holds the seat.`,
     });
   } else {
     // Holding a House seat does not establish which district contains home.

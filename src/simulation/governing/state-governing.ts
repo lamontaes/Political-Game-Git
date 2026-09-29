@@ -1,4 +1,3 @@
-import { measureAnswersAt } from "../vote-bundle";
 import { applyItemVetoes } from "./item-veto";
 import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
@@ -44,6 +43,11 @@ import type {
 } from "../types";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { recordDurableDecisionTrace } from "../decisions";
+import {
+  BILL_SIGN,
+  evaluateGovernorBill,
+  ownPartyPassageVote,
+} from "./governor-bill-decision";
 import { CLEMENCY_KIND_TAG } from "../justice/jail-terms";
 import {
   CLEMENCY_DENY,
@@ -77,7 +81,6 @@ import {
 } from "./legislative-clock";
 import {
   GOVERNING_SEASON,
-  STATE_GOVERNING_CALENDAR,
   scheduleGoverningSeasons,
 } from "./governing-calendar";
 import {
@@ -88,10 +91,9 @@ import {
 import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { fileMemberAgendaBill } from "./member-agenda";
-import {
-  ensureOfficeholderPrinciples,
-  principleVoteConsideration,
-} from "./officeholder-principles";
+import { ensureOfficeholderPrinciples } from "./officeholder-principles";
+import { publicPartyOf } from "./chamber-votes";
+import { stateLegislatureMajority } from "./senate-selection";
 
 /**
  * STATE GOVERNING — the shared practical loop every governorship runs.
@@ -897,6 +899,20 @@ export function governingMatterById(
     : null;
 }
 
+function billOpposedByOwnParty(
+  world: World,
+  office: GoverningOffice,
+  matter: GoverningMatter,
+): boolean {
+  if (!matter.measureId) return false;
+  const own = ownPartyPassageVote(
+    world,
+    matter.measureId,
+    publicPartyOf(world, office.holderPersonId),
+  );
+  return own.nay > own.yea;
+}
+
 /** What the chief of staff would do, with a reason; null without one. */
 export function staffRecommendation(
   world: World,
@@ -951,19 +967,19 @@ export function staffRecommendation(
             byPersonId: chief,
             reason: "It moves the office's own priority.",
           }
-        : // PLACEHOLDER: three signatures in four. How often a governor signs
-          // what reaches the desk is filed as
-          // `why-a-governor-signs-or-vetoes`; no rate is approved.
-          rng.integer(0, 3) > 0
+        : // The chief reads the floor vote: a bill the governor's own party
+          // voted down is one to send back; any other is not worth a fight.
+          billOpposedByOwnParty(world, office, matter)
           ? {
+              optionKey: "bill:return",
+              byPersonId: chief,
+              reason:
+                "The governor's own party voted against it in the legislature.",
+            }
+          : {
               optionKey: "bill:sign",
               byPersonId: chief,
               reason: `${clause(assessment.background)}, and sees no reason to pick this fight.`,
-            }
-          : {
-              optionKey: "bill:return",
-              byPersonId: chief,
-              reason: "Thinks the agencies cannot absorb it this year.",
             };
     case "program": {
       // The advice is about money that exists: a steady chief spreads it over
@@ -1200,12 +1216,13 @@ function openMatter(
       provenance: { kind: "simulated", sourceEntityIds: [opened.id] },
     });
   }
-  const rng = new SeededRng(`${stableKey}:npc-timing`);
+  // An officeholder the game plays takes the matter up the day before its
+  // deadline (hand-set: the whole window to weigh it, no draw of the day).
   return scheduleFutureDueItem(next, {
     stableKey: `${stableKey}:npc`,
     dueAt: addDays(
       world.currentDate,
-      rng.integer(3, DEADLINE_DAYS[input.family]),
+      Math.max(3, DEADLINE_DAYS[input.family] - 1),
     ),
     transitionKey: GOVERNING_NPC_DECISION,
     entityIds: [opened.id],
@@ -2092,39 +2109,63 @@ export function governingNpcDecisionHandler(
       "The officeholder decided.",
     );
   }
-  let next = world;
-  let principled: GoverningMatter["options"][number] | undefined;
   const measure =
     matter.family === "bill" && matter.measureId
-      ? next.history.legislativeMeasures?.find(
+      ? world.history.legislativeMeasures?.find(
           (entry) => entry.id === matter.measureId,
         )
       : undefined;
   if (measure) {
-    // A governor whose own principles bear on the bill more than slightly
-    // signs or returns it on them, whatever the staff advise.
-    next = ensureOfficeholderPrinciples(next, [matter.holderPersonId]);
-    // The bill as it was passed, sections amendments added included.
-    const bearing = principleVoteConsideration(
-      next,
+    // The governor signs or vetoes for reasons, all of them written down:
+    // their principles, the bill's backers, their party's floor vote, the
+    // sponsor, the override count and the staff's advice
+    // (governor-bill-decision.ts).
+    const principled = ensureOfficeholderPrinciples(world, [
       matter.holderPersonId,
+    ]);
+    const advice = staffRecommendation(principled, matter);
+    const evaluation = evaluateGovernorBill(principled, {
+      stableKey: matter.stableKey,
+      governorId: matter.holderPersonId,
       measure,
-      measureAnswersAt(next, measure.id, undefined, "all"),
+      staff: advice,
+    });
+    const traced = recordDurableDecisionTrace(principled, evaluation);
+    const option = matter.options.find(
+      (o) => o.key === (evaluation.selectedOptionKey ?? BILL_SIGN),
     );
-    if (bearing && bearing.importance !== "slight")
-      principled = matter.options.find(
-        (o) =>
-          o.key ===
-          (bearing.optionKey === "vote-yea" ? "bill:sign" : "bill:return"),
-      );
+    return resolved(
+      recordDecision(
+        traced,
+        matter,
+        option ?? null,
+        option ? "officeholder" : "lapsed",
+        matter.holderPersonId,
+      ),
+      "The officeholder decided.",
+    );
   }
+  // Other matters: the officeholder takes the advice of the staff they
+  // hired, and a new officeholder keeps or hires the steadiest candidate
+  // for chief of staff by their record.
+  const next = world;
   const recommendation = staffRecommendation(next, matter);
-  const rng = new SeededRng(`${matter.stableKey}:npc-choice`);
-  const recommended =
-    recommendation && rng.integer(0, 4) > 0
-      ? matter.options.find((o) => o.key === recommendation.optionKey)
+  const recommended = recommendation
+    ? matter.options.find((o) => o.key === recommendation.optionKey)
+    : undefined;
+  const steadiest =
+    matter.family === "chief-of-staff"
+      ? [...matter.options].sort(
+          (a, b) =>
+            (b.assessment?.steadiness ?? 0) - (a.assessment?.steadiness ?? 0),
+        )[0]
       : undefined;
-  const option = principled ?? recommended ?? rng.pick(matter.options);
+  // PLACEHOLDER (zero-dice row, left): an agenda with no chief of staff to
+  // advise still falls to a seeded pick.
+  const option =
+    recommended ??
+    steadiest ??
+    new SeededRng(`${matter.stableKey}:npc-choice`).pick(matter.options);
   const decided = recordDecision(
     next,
     matter,
@@ -2152,7 +2193,6 @@ function implementationOutcome(
   matter: GoverningMatter,
   decision: HistoricalEvent,
   office: GoverningOffice | null,
-  rng: SeededRng,
 ): FollowUpOutcome {
   const pace = tagValue(decision, "choice:");
   const chief = office ? chiefOfStaffFor(world, office) : null;
@@ -2167,16 +2207,15 @@ function implementationOutcome(
         )
       : false;
   // A careful plan, a steady chief of staff and money the legislature
-  // actually approved all lower the chance of an early problem; an office
-  // that changed hands lets the work stall.
-  const roll =
-    rng.integer(0, 10) +
-    (pace === "pace:careful" ? 3 : 0) +
-    steadiness +
-    (funded ? 2 : 0);
+  // actually approved each make early progress; an office that changed hands
+  // lets the work stall. HAND-SET: two points of the three are needed (a
+  // careful plan counts three, approved money two, the chief's steadiness
+  // its own score), where a draw of 0 to 9 used to fill the gap.
+  const score =
+    (pace === "pace:careful" ? 3 : 0) + steadiness + (funded ? 2 : 0);
   const result: ImplementationResult = !office
     ? "stalled"
-    : roll >= 6
+    : score >= 2
       ? "progress"
       : "problem";
   const subject = subjectLabel(matter.subjectKey);
@@ -2195,7 +2234,6 @@ function budgetOutcome(
   world: World,
   decision: HistoricalEvent,
   office: GoverningOffice | null,
-  rng: SeededRng,
 ): FollowUpOutcome & { readonly funded: string | null } {
   const choice = tagValue(decision, "choice:budget:");
   const chief = office ? chiefOfStaffFor(world, office) : null;
@@ -2207,7 +2245,16 @@ function budgetOutcome(
       funded: null,
     };
   const subject = subjectLabel(choice);
-  const passed = rng.integer(0, 10) + (skilled ? 3 : 0) >= 5;
+  // The legislature funds the request when the governor's party holds its
+  // majority, or a chief of staff who knows the legislature works it.
+  const majority = office
+    ? stateLegislatureMajority(world, office.stateUsps)?.party
+    : null;
+  const passed =
+    skilled ||
+    (!!office &&
+      !!majority &&
+      majority === publicPartyOf(world, office.holderPersonId));
   return passed
     ? {
         tag: "budget:passed-with-request",
@@ -2223,11 +2270,13 @@ function budgetOutcome(
 
 function returnedBillOutcome(
   matter: GoverningMatter,
-  rng: SeededRng,
 ): FollowUpOutcome & { readonly overridden: boolean } {
   const subject = subjectLabel(matter.subjectKey);
-  const overridden =
-    rng.integer(0, 100) < STATE_GOVERNING_CALENDAR.overrideSucceedsPercent;
+  // Only an older save still holds a bill with no measure behind it, so no
+  // member can vote to override it. ESTIMATED FROM AVERAGE: most vetoes are
+  // not overridden, so the veto stands. A real bill's override is its
+  // members' own vote (legislative-clock.ts).
+  const overridden = false;
   return overridden
     ? {
         tag: "bill:overridden",
@@ -2253,26 +2302,19 @@ export function governingFollowUpHandler(
   const office = governingOfficeByKey(world, matter.officeKey);
   const currentOffice =
     office && office.holderPersonId === matter.holderPersonId ? office : null;
-  const rng = new SeededRng(`${due.stableKey}:outcome`);
   let outcome: FollowUpOutcome;
   let extraTags: string[] = [];
   let reopen: "implementation" | null = null;
   if (matter.family === "budget") {
-    const budget = budgetOutcome(world, decision, currentOffice, rng);
+    const budget = budgetOutcome(world, decision, currentOffice);
     outcome = budget;
     if (budget.funded) extraTags = [`funded:${budget.funded}`];
   } else if (matter.family === "bill") {
-    const returned = returnedBillOutcome(matter, rng);
+    const returned = returnedBillOutcome(matter);
     outcome = returned;
     if (returned.overridden) reopen = "implementation";
   } else {
-    outcome = implementationOutcome(
-      world,
-      matter,
-      decision,
-      currentOffice,
-      rng,
-    );
+    outcome = implementationOutcome(world, matter, decision, currentOffice);
   }
   let next = recordWorldEvent(world, {
     stableKey: `${due.stableKey}:outcome`,
@@ -2447,6 +2489,22 @@ export function governingSeasonHandler(
 }
 
 /**
+ * The seated governorship a state legislature's bills go to ("US-NE"), or
+ * null where none has been materialized.
+ */
+export function governorOfficeForJurisdiction(
+  world: World,
+  jurisdictionKey: string,
+): GoverningOffice | null {
+  const stateUsps = jurisdictionKey.replace(/^US-/, "");
+  return (
+    currentGoverningOffices(world).find(
+      (candidate) => candidate.stateUsps === stateUsps,
+    ) ?? null
+  );
+}
+
+/**
  * A bill on the governor's desk. Whoever holds the governorship, player or
  * not, decides it through the same bound matter. Only where no governorship
  * has been materialized does a bill's authored disposition still stand, so an
@@ -2465,9 +2523,9 @@ export const governorDesk: ExecutiveDeskHandler = (
   measure,
   blueprint,
 ) => {
-  const stateUsps = blueprint.pack.jurisdictionKey.replace(/^US-/, "");
-  const office = currentGoverningOffices(world).find(
-    (candidate) => candidate.stateUsps === stateUsps,
+  const office = governorOfficeForJurisdiction(
+    world,
+    blueprint.pack.jurisdictionKey,
   );
   const alreadyOpen = world.history.events.some(
     (event) =>

@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-29T14:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "consumer-finance",
+  "notes": [
+    "Research 1's federal table (Sept. 29) gives a European effect for a national privacy law: firms' production costs rise 0.1% to 0.6% and firms store 26% less data (Demirer, Jimenez Hernandez, Li and Peng 2024, NBER w32146). The game has no firm-cost outcome. The consumer price level (household.prices) now exists, but nothing says what share of a household's spending goes to firms that hold personal data or how much of a cost rise reaches shelves.",
+    "The state question (technology-privacy.consumer-data-privacy-law) has no U.S. sized effect on identity theft, breaches or prices in the sources read: studies of California's law measure compliance and opt-out use, not a size."
+  ],
+  "priority": "P2",
+  "question": "When a state or the nation passes a comprehensive consumer data privacy law, what share of household spending goes to firms it covers, and how much of a rise in those firms' costs reaches the prices households pay? Give the share and the pass-through, and a U.S. estimate of the effect on identity theft reports or data breaches per 100,000 residents if one exists.",
+  "questionId": "privacy-law-cost-reach-consumer-prices",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Build 15 · Real Money Numbers",
+  "sourcesChecked": [
+    {
+      "source": "Web search on CCPA effects (ACM CHI 2024 compliance studies; California Department of Finance SRIA for the 2024 CCPA updates)",
+      "whatItDidNotSettle": "They measure compliance and opt-out links, not an effect on prices or identity theft. The Department of Finance file read was the 2024 updates, not the 2018 law, and its cost table could not be read from the download."
+    }
+  ],
+  "title": "How far a data privacy law's costs reach household prices",
+  "usableAnswer": "A share of household spending on covered firms and a pass-through percentage with sources, or a statement that no U.S. estimate exists, and any U.S. study sizing identity theft or breaches after a state privacy law.",
+  "whyItMatters": "Both privacy questions are unwired. Without a share and a pass-through, the European cost rise cannot be turned into a price change without inventing a number."
+}

@@ -411,7 +411,12 @@ describe("the law in force keeps to each level's powers", () => {
       level: "local-ordinance",
       measureId: ordinance.measure.id,
     });
-    expect(lawInForce(world, kentucky, questionId(key))).toBeNull();
+    // Kentucky's own law has no civilian oversight and leaves its cities
+    // free to set it up.
+    expect(lawInForce(world, kentucky, questionId(key))).toMatchObject({
+      answer: "no",
+      origin: "in-force-at-start",
+    });
   });
 
   it("still puts a state law over an ordinance on a question both may answer", () => {

@@ -38,7 +38,6 @@ import {
   enrollMeasure,
   catalogPropositionIds,
   introduceMeasure,
-  measureActions,
   measurePosition,
   nextMeasureStableKey,
   placeMeasureOnCalendar,
@@ -85,6 +84,12 @@ import {
 import { decideChamberVote, seatedChamberForPack } from "./chamber-votes";
 import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 import {
+  adjournmentStopsPhase,
+  considerSessionAdjournment,
+  measureSessionYear,
+} from "./leaders-adjourn";
+import { sessionClosesOn } from "./session-adjournments";
+import {
   congressBlueprint,
   congressReferralCommittee,
   isCongressMeasure,
@@ -126,7 +131,9 @@ import { hasStableKey, recordByStableKey } from "../history-index";
  * that bill. Where a question has no recorded member decisions, the step is
  * blocked with that reason; no tally is invented. After a session's sourced
  * outer limit, nothing moves: whether the bill carries over is not
- * established, so it is neither advanced nor declared dead.
+ * established, so it is neither advanced nor declared dead. A veto returned
+ * after the close is the exception: it waits for the legislature's next
+ * sitting and is reconsidered then.
  */
 
 export const LEGISLATIVE_CLOCK_VERSION = "legislative-clock/v1";
@@ -228,21 +235,20 @@ function effectiveOwner(
  * ------------------------------------------------------------------ */
 
 function sessionYear(world: World, measureId: EntityId): number {
-  const first = measureActions(world, measureId)[0];
-  return Number((first?.occurredAt ?? world.currentDate).slice(0, 4));
+  return measureSessionYear(world, measureId);
 }
 
 /**
- * The active outer limit of the current session for a carried bill, or the
- * introducing session for a bill that cannot carry over.
+ * The day the session ended or will end: the day its leaders adjourned it
+ * (`leaders-adjourn.ts`), else its legal limit. That is the current session
+ * for a carried bill, or the introducing session for a bill that cannot
+ * carry over. After it, nothing moves on this measure.
  */
 export function measureSessionClosedOn(
   world: World,
   measure: LegislativeMeasureRecord,
   pack: LegislativeRulePack,
 ): IsoDate | null {
-  const limit = pack.session.regularSessionLatestAdjournment;
-  if (!limit) return null;
   const starting = legislativeProcedureForPack(world, measure.rulePackId);
   let year = starting?.measuresCarryOver
     ? Number(world.currentDate.slice(0, 4))
@@ -253,30 +259,10 @@ export function measureSessionClosedOn(
   ) {
     year -= 1;
   }
-  const boundary = year % 2 ? limit.value.oddYear : limit.value.evenYear;
-  return makeIsoDate(
-    `${year}-${String(boundary.month).padStart(2, "0")}-${String(boundary.day).padStart(2, "0")}`,
-  );
+  return sessionClosesOn(world, pack, year);
 }
 
-/**
- * Phases a bill reaches only after both chambers passed it. The session's
- * end does not stop these: the clerks still enroll and present what the
- * legislature passed, and the executive acts on it within the window the
- * rules give after adjournment. A veto override still needs the chambers,
- * so it is not among them.
- */
-const PAST_THE_CHAMBERS: ReadonlySet<string> = new Set([
-  "awaiting-enrollment",
-  "awaiting-presentation",
-  "awaiting-executive",
-  "awaiting-enactment",
-]);
-
-/** Whether the session's end stops a bill in this phase. */
-export function adjournmentStopsPhase(phase: string): boolean {
-  return !PAST_THE_CHAMBERS.has(phase);
-}
+export { adjournmentStopsPhase };
 
 export function measureSessionIsClosed(
   world: World,
@@ -292,6 +278,48 @@ export function measureSessionIsClosed(
     closed: closedOn !== null && world.currentDate > closedOn,
     closedOn,
   };
+}
+
+/**
+ * A veto returned after the session closed is reconsidered when the same
+ * legislature next sits (Alaska Const. art. II, § 16 is one such rule),
+ * unless its rules say pending bills die at adjournment. The legislature has
+ * sat again once it takes up a bill introduced after the close.
+ *
+ * GAME ASSUMPTION: the record does not say when one legislature ends and the
+ * next begins, so a veto after a legislature's last session also waits for
+ * the next sitting rather than standing.
+ */
+function vetoWaitsForNextSitting(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  phase: string,
+): boolean {
+  if (phase !== "awaiting-override") return false;
+  const dies = legislativeBlueprintForMeasure(world, measure).pack.session
+    .measuresDieAtAdjournment;
+  return !(dies.kind === "known" && dies.value);
+}
+
+/**
+ * Whether the measure's legislature has taken up a bill introduced after
+ * `closedOn`: the first sign, in the record, that it is sitting again.
+ */
+function maxIsoDate(a: IsoDate, b: IsoDate): IsoDate {
+  return a > b ? a : b;
+}
+
+function legislatureSatSince(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  closedOn: IsoDate,
+): boolean {
+  return (world.history.legislativeMeasures ?? []).some(
+    (candidate) =>
+      candidate.rulePackId === measure.rulePackId &&
+      candidate.introducedAt > closedOn &&
+      candidate.introducedAt <= world.currentDate,
+  );
 }
 
 /* ------------------------------------------------------------------ *
@@ -509,10 +537,29 @@ export function applyInstitutionStep(
   if (owner === null || owner === "sponsor-office") return { kind: "idle" };
   const position = measurePosition(world, measureId);
   const session = measureSessionIsClosed(world, measureId);
-  const closed = session.closed;
+  const phase = position.phase;
+  const reconsidersVetoLater =
+    session.closed && vetoWaitsForNextSitting(world, measure, phase);
+  if (
+    reconsidersVetoLater &&
+    !legislatureSatSince(world, measure, session.closedOn!)
+  )
+    // A closed session's legislature sits again in a later year at the
+    // soonest; from then, it checks on its ordinary cadence.
+    return {
+      kind: "wait-until",
+      date: maxIsoDate(
+        makeIsoDate(`${Number(session.closedOn!.slice(0, 4)) + 1}-01-01`),
+        addDays(
+          world.currentDate,
+          LEGISLATIVE_CADENCE_PROFILE.daysBetweenSteps,
+        ),
+      ),
+    };
+  const closed = session.closed && !reconsidersVetoLater;
+  const dies = pack.session.measuresDieAtAdjournment;
   // Where the rules say a pending bill dies when the session adjourns, one
   // still before the legislature dies; that is how most bills end.
-  const dies = pack.session.measuresDieAtAdjournment;
   if (closed && owner !== "executive" && dies.kind === "known" && dies.value)
     return {
       kind: "ended",
@@ -989,7 +1036,16 @@ export function scheduleInstitutionStep(
   if (pendingInstitutionStep(world, measureId, excludeDueItemId)) return world;
   const sessionClosed = measureSessionIsClosed(world, measureId).closed;
   const starting = legislativeProcedureForPack(world, measure.rulePackId);
-  if (sessionClosed && !starting?.measuresCarryOver) return world;
+  if (
+    sessionClosed &&
+    !starting?.measuresCarryOver &&
+    !vetoWaitsForNextSitting(
+      world,
+      measure,
+      measurePosition(world, measureId).phase,
+    )
+  )
+    return world;
   const dueAt = sessionClosed
     ? nextRegularBillWorkDay(world, measure.jurisdictionId)
     : on && on > world.currentDate
@@ -1070,18 +1126,31 @@ export function createInstitutionStepHandler(
           "The chamber waits for its next scheduled business on this bill.",
         );
       case "ended":
-        return done(result.world, "The bill died when the session adjourned.");
+        return done(
+          considerSessionAdjournment(result.world, measureId),
+          "The bill died when the session adjourned.",
+        );
       case "executive":
         // An executive who decides on the day puts the bill back in the
         // institution's hands; this step is still the one running, so it is
         // excluded or the next step would never be scheduled.
         return done(
-          scheduleInstitutionStep(result.world, measureId, undefined, due.id),
+          scheduleInstitutionStep(
+            considerSessionAdjournment(result.world, measureId),
+            measureId,
+            undefined,
+            due.id,
+          ),
           "The bill is on the executive's desk.",
         );
       case "applied":
         return done(
-          scheduleInstitutionStep(result.world, measureId, undefined, due.id),
+          scheduleInstitutionStep(
+            considerSessionAdjournment(result.world, measureId),
+            measureId,
+            undefined,
+            due.id,
+          ),
           `The institution took the step ${result.step}.`,
         );
     }
@@ -1545,13 +1614,12 @@ export function fileLegislatureMeasure(
   const rng = new SeededRng(world.seed).fork(stableKey);
   const blueprint = rng.pick(authored);
   const pack = legislativeRulePackForWorld(world, blueprint.pack.packId);
-  const limit = pack.session.regularSessionLatestAdjournment;
-  if (limit) {
-    const year = Number(world.currentDate.slice(0, 4));
-    const boundary = year % 2 ? limit.value.oddYear : limit.value.evenYear;
-    const closes = `${year}-${String(boundary.month).padStart(2, "0")}-${String(boundary.day).padStart(2, "0")}`;
-    if (world.currentDate > closes) return world;
-  }
+  const closes = sessionClosesOn(
+    world,
+    pack,
+    Number(world.currentDate.slice(0, 4)),
+  );
+  if (closes !== null && world.currentDate > closes) return world;
   const originChamber = defaultOriginChamber(pack);
   const originChamberKey = originChamber.chamberKey;
   // Where the chamber is seated with real people, one of them carries the

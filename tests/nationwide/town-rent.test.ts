@@ -28,14 +28,15 @@ import {
   affordableRentMinor,
   collectTownRent,
   drawBedrooms,
+  housingLawYes,
   hudRentRowFor,
   INCLUSIONARY_SET_ASIDE,
   inclusionarySetAsideTakes,
   publicHousingRentMinor,
   RENT_BASIS,
   RENT_DAY_TRANSITION_KEY,
+  RENT_LAW_KEYS,
   renewedMarketRent,
-  renterMoveFactor,
   townLeases,
   townRentSnapshot,
   veryLowIncomeLimit,
@@ -136,19 +137,22 @@ describe("rent arithmetic", () => {
   });
 
   it("caps a stabilized renewal at the price rise plus five points, at most ten", () => {
-    const steep = renewedMarketRent(2000_00, 1.03, 3, true);
+    // Home prices up 9% while prices in general rose 3%.
+    const steep = renewedMarketRent(2000_00, 1.09, 1.03, true);
     expect(steep.capped).toBe(true);
     expect(steep.cap).toBeCloseTo(0.08);
     expect(steep.amountMinor).toBe(2160_00);
-    expect(steep.uncappedMinor).toBeGreaterThan(steep.amountMinor);
-    // The same renewal without the law is the market's.
-    const free = renewedMarketRent(2000_00, 1.03, 3, false);
+    expect(steep.uncappedMinor).toBe(2180_00);
+    // The same renewal without the law follows home prices.
+    const free = renewedMarketRent(2000_00, 1.09, 1.03, false);
     expect(free.capped).toBe(false);
     expect(free.amountMinor).toBe(steep.uncappedMinor);
     // High inflation: never more than ten percent.
-    expect(renewedMarketRent(2000_00, 1.08, 3, true).cap).toBeCloseTo(0.1);
+    expect(renewedMarketRent(2000_00, 1.12, 1.08, true).cap).toBeCloseTo(0.1);
     // An ordinary renewal is under the cap and untouched.
-    expect(renewedMarketRent(2000_00, 1.03, 0, true).capped).toBe(false);
+    const ordinary = renewedMarketRent(2000_00, 1.04, 1.03, true);
+    expect(ordinary.capped).toBe(false);
+    expect(ordinary.amountMinor).toBe(2080_00);
   });
 
   it("fits a home's bedrooms to who first rents it", () => {
@@ -281,15 +285,25 @@ describe("rent day", { timeout: 600_000 }, () => {
             ?.classification === "service:public-housing"
         ),
     )!;
-    expect(renterMoveFactor(world, town, privateLease.householdId)).toBe(0.8);
-    // Chicago began with no rent stabilization: its renters move as before.
-    const chicago = liveMonths("1714000", "town-rent-chicago-moves", 2);
-    const chicagoLease = townLeases(chicago.world).find(
-      (lease) => lease.town === chicago.town && !lease.ended,
-    )!;
+    expect(privateLease).toBeDefined();
     expect(
-      renterMoveFactor(chicago.world, chicago.town, chicagoLease.householdId),
-    ).toBe(1);
+      housingLawYes(
+        world,
+        town,
+        RENT_LAW_KEYS.rentStabilization,
+        world.currentDate,
+      ),
+    ).not.toBeNull();
+    // Chicago began with no rent stabilization.
+    const chicago = liveMonths("1714000", "town-rent-chicago-moves", 2);
+    expect(
+      housingLawYes(
+        chicago.world,
+        chicago.town,
+        RENT_LAW_KEYS.rentStabilization,
+        chicago.world.currentDate,
+      ),
+    ).toBeNull();
   });
 
   it("the flat $900 leaves the player's month once their household holds a lease", () => {

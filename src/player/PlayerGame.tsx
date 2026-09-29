@@ -86,6 +86,7 @@ import { PublicServicePanel } from "./politics/PublicServicePanel";
 import { NewsDesk } from "./news/NewsDesk";
 import "./controls/controls.css";
 import { PinToggle } from "./controls/PinToggle";
+import { PlaceConditionsPanel } from "./PlaceConditions";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
 import { issuesPlaceForSelection } from "../presentation/politics-government";
 import {
@@ -115,6 +116,7 @@ import { PressSourceDesk } from "./PressSourceDesk";
 import { RecallCardsPanel } from "./RecallCardsPanel";
 import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
 import { JudicialOfficeWork } from "./JudicialOfficeWork";
+import { LegalRecordPanel, SelfRecordTabs } from "./LegalRecord";
 import { judicialOfficeContexts } from "../simulation/judicial-office-work";
 import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
 import { GoverningBriefing } from "./GoverningBriefing";
@@ -308,6 +310,7 @@ import {
 } from "./ShellWorkspaces";
 import { GuideWorkspace } from "./GuideWorkspace";
 import { GuideHelpProvider } from "./GuideTerm";
+import { GuideHighlighter } from "./GuideHighlighter";
 import { PlayerVersion } from "./PlayerVersion";
 import { ReturnToTitleAction } from "./ReturnToTitleAction";
 import {
@@ -335,6 +338,11 @@ const PoliticalMap = lazy(() => import("../maps/PoliticalMap"));
  * pins change) instead of a fresh object on every render.
  */
 const mapFocusByPins = new WeakMap<readonly ShellPin[], PoliticalMapFocus>();
+/* The guide marks civic terms anywhere on the page while a life is open. */
+function documentBody(): Element | null {
+  return typeof document === "undefined" ? null : document.body;
+}
+
 function mapFocusForPins(pins: readonly ShellPin[]): PoliticalMapFocus {
   const cached = mapFocusByPins.get(pins);
   if (cached) return cached;
@@ -1899,6 +1907,7 @@ function PlayingScreen({
       "politics",
       "transit",
       "tax",
+      "conditions",
       "candidacy",
     ];
     entries.push(
@@ -2409,6 +2418,19 @@ function PlayingScreen({
 
   return (
     <TimeCommandProvider runner={timeRunner}>
+      <GuideHelpProvider
+        help={{
+          learnedKeys: shell.preferences.learnedGuideTermKeys,
+          setLearned: (semanticKey, learned) =>
+            dispatch({ type: "set-guide-term-learned", semanticKey, learned }),
+          openGuide: (semanticKey) => {
+            setGuideTermKey(semanticKey);
+            dispatch({ type: "go-to-surface", surface: "guide" });
+          },
+        }}
+      >
+        <GuideHighlighter root={documentBody} />
+      </GuideHelpProvider>
       <SavedAppearanceProvider value={shell.personWardrobes}>
         <SavedRenderSnapshotsProvider value={renderSnapshots}>
           <main
@@ -2741,7 +2763,10 @@ function PlayingScreen({
                 <ObserverClock
                   runner={observerRunner}
                   onOpenRecord={() =>
-                    dispatch({ type: "go-to-surface", surface: "world-record" })
+                    dispatch({
+                      type: "go-to-surface",
+                      surface: "world-record",
+                    })
                   }
                 />
                 {continuation && !showContinuation ? (
@@ -3230,7 +3255,14 @@ function renderWorkspace({
    */
   const politicsTabs = (
     active: PoliticsTab,
-    section?: "budget" | "transit" | "tax" | "overview" | "map" | "records",
+    section?:
+      | "budget"
+      | "conditions"
+      | "transit"
+      | "tax"
+      | "overview"
+      | "map"
+      | "records",
   ) => {
     const goTo = (tab: PoliticsTab) => {
       if (tab === "office")
@@ -3263,6 +3295,7 @@ function renderWorkspace({
       active === "issues"
         ? [
             { key: "budget", label: "Budget and constitution" },
+            { key: "conditions", label: "Conditions" },
             ...(access?.transit || section === "transit"
               ? [{ key: "transit", label: "Transit" }]
               : []),
@@ -3293,15 +3326,17 @@ function renderWorkspace({
           const surface =
             key === "budget"
               ? "politics"
-              : key === "records"
-                ? "municipal"
-                : key === "overview"
-                  ? "government"
-                  : key === "map"
-                    ? "government-map"
-                    : key === "transit"
-                      ? "transit"
-                      : "tax";
+              : key === "conditions"
+                ? "conditions"
+                : key === "records"
+                  ? "municipal"
+                  : key === "overview"
+                    ? "government"
+                    : key === "map"
+                      ? "government-map"
+                      : key === "transit"
+                        ? "transit"
+                        : "tax";
           dispatch({ type: "go-to-subroute", surface });
         }}
       />
@@ -3378,6 +3413,27 @@ function renderWorkspace({
         session.personId,
         dossier.personId,
       );
+      const fullDossier = (
+        <FullDossier
+          world={session.world}
+          playerId={session.personId}
+          dossier={dossier}
+          pinned={pinnedRef({ kind: "person", id: dossier.personId })}
+          onTogglePin={() =>
+            togglePin({ kind: "person", id: dossier.personId })
+          }
+          onTalk={() => talkTo(dossier.personId)}
+          {...(readOnly
+            ? {}
+            : { onContact: () => openContact(dossier.personId) })}
+          onMeet={() => dispatch({ type: "go-to-scene" })}
+          talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
+          onOpenLink={openEntity}
+          onOpenPerson={(personId) =>
+            openEntity({ kind: "person", id: personId })
+          }
+        />
+      );
       return frame(
         dossier.name,
         "person-workspace",
@@ -3391,25 +3447,21 @@ function renderWorkspace({
               dispatch({ type: "set-person-wardrobe", preference })
             }
           />
-          <FullDossier
-            world={session.world}
-            playerId={session.personId}
-            dossier={dossier}
-            pinned={pinnedRef({ kind: "person", id: dossier.personId })}
-            onTogglePin={() =>
-              togglePin({ kind: "person", id: dossier.personId })
-            }
-            onTalk={() => talkTo(dossier.personId)}
-            {...(readOnly
-              ? {}
-              : { onContact: () => openContact(dossier.personId) })}
-            onMeet={() => dispatch({ type: "go-to-scene" })}
-            talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
-            onOpenLink={openEntity}
-            onOpenPerson={(personId) =>
-              openEntity({ kind: "person", id: personId })
-            }
-          />
+          {dossier.personId === session.personId ? (
+            <SelfRecordTabs
+              record={fullDossier}
+              legal={
+                <LegalRecordPanel
+                  world={session.world}
+                  personId={session.personId}
+                  readOnly={readOnly}
+                  onWorldChange={onWorldChange}
+                />
+              }
+            />
+          ) : (
+            fullDossier
+          )}
         </>,
         "Record",
       );
@@ -3968,6 +4020,20 @@ function renderWorkspace({
               }}
             />
           )}
+        </>,
+        "Politics",
+      );
+
+    case "conditions":
+      return frame(
+        "How the state is doing",
+        "conditions-workspace",
+        <>
+          {politicsTabs("issues", "conditions")}
+          <PlaceConditionsPanel
+            world={session.world}
+            personId={session.personId}
+          />
         </>,
         "Politics",
       );

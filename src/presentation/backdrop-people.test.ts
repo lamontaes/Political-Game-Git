@@ -44,7 +44,7 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
         expect(spot.y).toBeLessThanOrEqual(100);
       }
     }
-    expect(backdropStaging("city-hall-exterior")).toBeNull();
+    expect(backdropStaging("no-such-place")).toBeNull();
   });
 
   it("stands the city clerk at the counter on a weekday morning, dressed for work, and nobody at night", () => {
@@ -59,9 +59,14 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
     const clerk = counter.find((person) => person.title === "City clerk");
     expect(clerk).toBeDefined();
     // Behind the counter: cut off at its top, feet below it.
-    expect(clerk!.clipBelowPercent).toBe(42);
-    expect(clerk!.topPercent + clerk!.heightPercent).toBeGreaterThan(42);
-    expect(clerk!.topPercent).toBeLessThan(42);
+    const counterTop = staging.places["clerk-counter"].spots.find(
+      (spot) => "clipBelowY" in spot,
+    )!.clipBelowY!;
+    expect(clerk!.clipBelowPercent).toBe(counterTop);
+    expect(clerk!.topPercent + clerk!.heightPercent).toBeGreaterThan(
+      counterTop,
+    );
+    expect(clerk!.topPercent).toBeLessThan(counterTop);
     expect(clerk!.engine.outfit).toBeDefined();
     expect(
       placeBackdropPeople(world, player, "clerk-counter", night),

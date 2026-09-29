@@ -15,6 +15,7 @@ import type { EntityId, IsoDate, World } from "../../src/simulation";
 import { describeTownBusinesses } from "../../src/simulation/living-world/town-businesses";
 import { townResidents } from "../../src/simulation/living-world/town-employment";
 import { describeTownHomes } from "../../src/simulation/living-world/town-homes";
+import { townRentSnapshot } from "../../src/simulation/living-world/town-rent";
 import {
   townMedianHourlyPay,
   townUnemploymentRate,
@@ -111,7 +112,8 @@ function partyName(world: World, personId: EntityId | null): string | null {
   return partyId ? (organizationNameAt(world, partyId) ?? null) : null;
 }
 
-function governingParty(
+/** The parties that govern the place: its executive, legislature and mayor. */
+export function governingParty(
   world: World,
   town: EntityId,
   anchorPersonId: EntityId,
@@ -121,10 +123,15 @@ function governingParty(
   const governor = currentStateExecutiveHolders(world).find(
     (holder) => holder.stateUsps === usps,
   );
+  // The row names the office the holder actually holds: D.C.'s executive is
+  // its mayor, not a governor.
+  const executiveTitle = governor?.title.startsWith("Governor")
+    ? "Governor"
+    : (governor?.title ?? "Governor");
   const figures: VitalFigure[] = [
     {
       key: "governor-party",
-      label: "Governor's party",
+      label: `${executiveTitle}'s party`,
       scope: "state",
       value: governor
         ? `${partyName(world, governor.personId) ?? "no party"} (${governor.personName})`
@@ -165,9 +172,14 @@ function governingParty(
       : {}),
   });
   const unit = homeLocalGovernmentUnits(world, anchorPersonId).municipal[0];
-  const mayor = unit
-    ? sittingLocalOfficers(world, unit).find((office) => office.mayor)
-    : undefined;
+  // Where the jurisdiction's own executive is a mayor (D.C.), that holder is
+  // the town's mayor too.
+  const executiveMayor = governor && /\bMayor\b/.test(governor.title);
+  const mayor =
+    (unit
+      ? sittingLocalOfficers(world, unit).find((office) => office.mayor)
+      : undefined) ??
+    (executiveMayor ? { personId: governor.personId } : undefined);
   figures.push({
     key: "mayor-party",
     label: "Mayor's party",
@@ -179,9 +191,10 @@ function governingParty(
     ...(mayor
       ? {}
       : {
-          missing: unit
-            ? "no sitting mayor is recorded"
-            : "the place has no municipal government on record",
+          missing:
+            unit || executiveMayor
+              ? "no sitting mayor is recorded"
+              : "the place has no municipal government on record",
         }),
   });
   return figures;
@@ -198,6 +211,7 @@ export function vitalSnapshot(
   const roster = townRoster(town);
   const written = townResidents(world, town).length;
   const homes = describeTownHomes(world, town);
+  const rent = townRentSnapshot(world, town, world.currentDate);
   const unemployment = townUnemploymentRate(world, town);
   const pay = townMedianHourlyPay(world, town);
   const businesses = describeTownBusinesses(world, town, world.currentDate);
@@ -262,8 +276,20 @@ export function vitalSnapshot(
       key: "rent-share",
       label: "Typical rent as a share of income",
       scope: "town",
-      value: null,
-      missing: "no rent payment is recorded on this head",
+      // The median of each written-out lease's rent over its household's
+      // recorded pay (town-rent.ts).
+      value:
+        rent.medianBurden === null
+          ? null
+          : `${percent(rent.medianBurden * 100)} across ${count(rent.leases)} leases written out`,
+      ...(rent.medianBurden === null
+        ? {
+            missing:
+              rent.leases === 0
+                ? "no lease is written out yet; the first rent day comes after the opening"
+                : "no leaseholder's pay is recorded",
+          }
+        : {}),
     },
     outcome(
       world,

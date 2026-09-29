@@ -1,11 +1,4 @@
 import {
-  characterHistoryContextPersonId,
-  createCharacterHistoryContextPeople,
-  withBirthCohortGivenNamesForPeople,
-} from "../character-history";
-import type { CharacterHistoryContextPersonInput } from "../character-history";
-import { makeIsoDate } from "../dates";
-import {
   municipalGovernmentByKey,
   primaryReading,
 } from "../municipal-government";
@@ -15,12 +8,7 @@ import {
   municipalSeats,
   seatMunicipalMember,
 } from "../municipal-public-work";
-import {
-  drawCanonicalNameForGender,
-  DISTINCT_GIVEN_NAME_GENERATION_VERSION,
-} from "../people";
-import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
+import { drawTownResident } from "../living-world/local-government-seats";
 import { dcCouncilSeatLabels } from "../municipal-seat-identity";
 import type { EntityId, World } from "../types";
 import { recordWorldEvent } from "../world";
@@ -41,14 +29,22 @@ export { dcCouncilSeatLabels } from "../municipal-seat-identity";
  * records a campaign winner gets, so the Council's votes are the votes of
  * these people and a player who wins a seat joins the same body.
  *
- * PLACEHOLDER, pending `dc-council-membership-at-the-opening`: ages are drawn
- * from 25 to 80, and nobody is given a party, because the save's generated
- * political conditions carry no share for the District and the Council's
- * party composition was not read.
+ * Members are residents of the District drawn from its household roster,
+ * as every other council's are (`drawTownResident`), so their ages are the
+ * ages of real District households. A member must be a qualified elector of
+ * the District (D.C. Code § 1-204.02), and an elector is 18 or older
+ * (§ 1-1001.02(2)).
+ *
+ * PLACEHOLDER, pending `dc-council-membership-at-the-opening`: nobody is given
+ * a party, because the save's generated political conditions carry no share
+ * for the District and the Council's party composition was not read.
  */
 
 export const DC_COUNCIL_OPENING_VERSION = "dc-council-opening/v1" as const;
 export const DC_GOVERNMENT_KEY = "us-dc-washington";
+
+/** A qualified elector of the District: 18 or older. */
+const DC_COUNCIL_MINIMUM_AGE = 18;
 
 const V = DC_COUNCIL_OPENING_VERSION;
 const openingKey = `${V}:opening`;
@@ -57,12 +53,10 @@ export function dcCouncilSeated(world: World): boolean {
   return world.history.events.some((event) => event.stableKey === openingKey);
 }
 
-/** The stable key a generated member was created under. */
-export function dcCouncilMemberKey(ordinal: number): string {
-  return `${V}:seat:${ordinal}:member`;
-}
-
-export function ensureDistrictOfColumbiaCouncilOpening(world: World): World {
+export function ensureDistrictOfColumbiaCouncilOpening(
+  world: World,
+  excludePersonIds: readonly EntityId[] = [],
+): World {
   if (dcCouncilSeated(world)) return world;
   const government = municipalGovernmentByKey(DC_GOVERNMENT_KEY);
   if (!government) return world;
@@ -86,50 +80,37 @@ export function ensureDistrictOfColumbiaCouncilOpening(world: World): World {
         (seat) => seat.role === "member" || seat.role === "presiding-member",
       ).length,
   );
-  const rng = new SeededRng(next.seed).fork(openingKey);
-  const year = Number(next.currentDate.slice(0, 4));
-  const pad = (value: number) => String(value).padStart(2, "0");
-  const people: CharacterHistoryContextPersonInput[] = [];
-  const seated = labels.slice(0, open);
-  seated.forEach((_, index) => {
-    const seatRng = rng.fork(`seat:${index + 1}`);
-    const age = seatRng.integer(25, 81);
-    const identity = generatePersonIdentity(seatRng.fork("identity"));
-    const name = drawCanonicalNameForGender(
-      seatRng.fork("name"),
-      identity.gender,
-      undefined,
-      DISTINCT_GIVEN_NAME_GENERATION_VERSION,
-    );
-    people.push({
-      stableKey: dcCouncilMemberKey(index + 1),
-      ...name,
-      identity,
-      birthDate: makeIsoDate(
-        `${year - age - 1}-${pad(seatRng.integer(1, 13))}-${pad(seatRng.integer(1, 29))}`,
-      ),
-      homeJurisdictionId: jurisdictionId,
-    });
-  });
-  next = createCharacterHistoryContextPeople(
-    next,
-    withBirthCohortGivenNamesForPeople(next.seed, people),
-  );
+  // Members are grown residents of the District, from the same roster its
+  // employers and every other council draw on, so a member's age is the
+  // age a real District household gives them, not a number drawn for the
+  // seat. Anyone given to exclude (the player's household) is passed over.
+  const excluded = new Set<EntityId>([
+    ...excludePersonIds,
+    ...municipalSeats(next, DC_GOVERNMENT_KEY).map((seat) => seat.personId),
+  ]);
+  const taken = new Set<string>();
   const seatedIds: EntityId[] = [];
-  seated.forEach((seat, index) => {
-    const personId = characterHistoryContextPersonId(
+  labels.slice(0, open).forEach((seat, index) => {
+    const found = drawTownResident(
       next,
-      dcCouncilMemberKey(index + 1),
+      jurisdictionId,
+      `local-government:${DC_GOVERNMENT_KEY}`,
+      index,
+      DC_COUNCIL_MINIMUM_AGE,
+      excluded,
+      taken,
     );
-    if (!next.people[personId]) return;
+    next = found.world;
+    if (!found.personId) return;
+    excluded.add(found.personId);
     next = seatMunicipalMember(next, {
       governmentKey: DC_GOVERNMENT_KEY,
-      personId,
+      personId: found.personId,
       startedAt: next.currentDate,
       role: seat.presiding ? "presiding-member" : "member",
       seatLabel: seat.label,
     });
-    seatedIds.push(personId);
+    seatedIds.push(found.personId);
   });
   return recordWorldEvent(next, {
     stableKey: openingKey,

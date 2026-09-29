@@ -41,6 +41,7 @@ import {
   fillKey,
   inspectRegion,
   measureSponsorIds,
+  placeKindLabel,
   playerGeography,
   projectPoliticalMap,
   regionLabel,
@@ -1149,7 +1150,7 @@ export function PoliticalMap(props: PoliticalMapProps) {
               ) : null}
               <p className="pg-map-muted">
                 {selection.layer === "state"
-                  ? `${selection.stateUsps === "DC" ? "Federal district" : "State"} · Census GEOID ${selection.geoid}`
+                  ? `${placeKindLabel(selection.stateUsps)} · Census GEOID ${selection.geoid}`
                   : `${stateNameForUsps(selection.stateUsps)} · Census GEOID ${selection.geoid}`}
                 {selectionFeature?.sessionYear
                   ? ` · districts as of ${selectionFeature.sessionYear}`

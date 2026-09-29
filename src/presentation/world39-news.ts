@@ -12,10 +12,12 @@ import {
   municipalGovernmentForLifePlace,
   primaryReading,
 } from "../simulation/municipal-government";
+import { enactedLawsWithEffects } from "../simulation/enacted-law-effects";
 import { stateOfJurisdiction } from "../simulation/press/outlets";
 import { resolvePublicationSource } from "../simulation/public-information-integrity";
 import { currentPublicOfficeholders } from "./opening-officeholders";
 import { projectPublicInformationPanel } from "./public-information-adapters";
+import { lawEffectSentences } from "./law-effects-prose";
 import { proseMonthYear } from "./prose-dates";
 
 /**
@@ -42,6 +44,56 @@ export interface World39UnfilledOffice {
 }
 
 /** Orientation is a read of the save, never an implicit publication. */
+/** One enacted law that reaches a resident, and what it did in the world. */
+export interface World39LawReach {
+  readonly measureId: EntityId;
+  readonly title: string;
+  readonly designation: string;
+  readonly level: "federal" | "state" | "territory" | "local";
+  readonly enactedOn: IsoDate;
+  /** Whether any part of the law changed a record the game acts on. */
+  readonly actsInWorld: boolean;
+  readonly sentences: readonly string[];
+}
+
+/**
+ * The laws that apply where a resident lives: national law, their state's,
+ * and their own town's, newest first. Laws with no part the game acts on are
+ * listed too, and say so, so the page never claims more than the world did.
+ */
+export function lawsReachingResident(
+  world: World,
+  jurisdictionId: EntityId | null,
+  limit = 8,
+): readonly World39LawReach[] {
+  const homeState = stateOfJurisdiction(world, jurisdictionId);
+  return enactedLawsWithEffects(world)
+    .filter((law) => {
+      if (law.level === "federal") return true;
+      const measure = (world.history.legislativeMeasures ?? []).find(
+        (row) => row.id === law.measureId,
+      );
+      if (!measure || jurisdictionId === null) return false;
+      return law.level === "local"
+        ? measure.jurisdictionId === jurisdictionId
+        : homeState !== null &&
+            stateOfJurisdiction(world, measure.jurisdictionId) === homeState;
+    })
+    .slice(0, limit)
+    .map((law) => ({
+      measureId: law.measureId,
+      title: law.shortTitle,
+      designation: law.designation,
+      level: law.level,
+      enactedOn: law.enactedOn,
+      actsInWorld: law.lines.some(
+        (line) =>
+          line.kind !== "not-modeled" && line.kind !== "no-operative-text",
+      ),
+      sentences: lawEffectSentences(world, law.measureId),
+    }));
+}
+
 export function projectWorld39News(world: World, personId: EntityId) {
   const person = world.people[personId] ?? null;
   const jurisdictionId = person?.homeJurisdictionId ?? null;
@@ -172,6 +224,7 @@ export function projectWorld39News(world: World, personId: EntityId) {
     publicEvents,
     learnedEventIds,
     unfilledOffices,
+    laws: lawsReachingResident(world, jurisdictionId),
   };
 }
 

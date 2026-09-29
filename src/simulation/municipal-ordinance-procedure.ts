@@ -33,6 +33,13 @@ import { memberBallotOn } from "./governing/member-ballots";
 import type { ChamberQuestion } from "./governing/member-ballots";
 import { ORDINANCE_EFFECTIVE_AFTER_DAYS } from "./governing/ordinance-effective-date";
 import { currentStateExecutiveHolders } from "./nationwide-world/state-executives";
+import stateExecutiveGovernments from "../../data/research/local-government/state-executive-governments.json" with { type: "json" };
+
+/** Governments whose executive is the state-level executive of their place. */
+const STATE_EXECUTIVE_GOVERNMENTS =
+  stateExecutiveGovernments.governments as Readonly<
+    Record<string, { readonly citation: string; readonly url: string }>
+  >;
 import type { MunicipalPassageInterval } from "./municipal-government";
 import {
   attemptVetoOverride,
@@ -759,10 +766,12 @@ export function municipalExecutiveHolder(
 ): EntityId | null {
   const government = municipalGovernmentByKey(governmentKey);
   if (!government) return null;
-  if (government.state === "DC") {
+  // A government whose executive is its place's state-level executive office
+  // (the District's Mayor) acts through that office's holder.
+  if (STATE_EXECUTIVE_GOVERNMENTS[governmentKey]) {
     return (
       currentStateExecutiveHolders(world).find(
-        (holder) => holder.stateUsps === "DC",
+        (holder) => holder.stateUsps === government.state,
       )?.personId ?? null
     );
   }

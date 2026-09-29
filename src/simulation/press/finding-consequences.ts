@@ -425,8 +425,9 @@ function restitutionConsequence(
 }
 
 /**
- * A generated state body's civil penalty: its UNRESEARCHED per-payment scale
- * (`generated-state-oversight.ts`) times the payments found, paid to the
+ * A state oversight body's civil penalty: the per-payment amount every state
+ * uses until its own is read, estimated from the FEC's average
+ * (`generated-state-oversight.ts`), times the payments found, paid to the
  * state. Researched bodies impose none here, because nothing researched says
  * what they may impose; the FEC's conciliation penalties are unresearched too.
  */

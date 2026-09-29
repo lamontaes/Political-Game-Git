@@ -23,11 +23,15 @@ import {
   relocateHousehold,
 } from "../../src/simulation/migration/relocate";
 import { reviewTownFamilies } from "../../src/simulation/living-world/town-families";
+import { reviewTownJobs } from "../../src/simulation/living-world/town-labor-market";
+import { startTownJobPay } from "../../src/simulation/living-world/town-pay";
 import {
   TOWN_HOMES_VERSION,
   TOWN_HOME_EVENTS,
   TOWN_HOME_KINDS,
+  TOWN_HOME_REASONS,
   chooseTownHomeKind,
+  homeForNewHousehold,
   describeTownHomes,
   reviewTownHomes,
   type TownHomeKind,
@@ -144,6 +148,44 @@ describe("a new game's households have homes", { timeout: 180_000 }, () => {
   });
 });
 
+describe("a household with no home decides where to go, with no draw", () => {
+  const adults = (...ages: number[]) => ({
+    members: ages.map((age) => ({ age })),
+  });
+  it("buys when it works and its pay carries the payment, and rents otherwise", () => {
+    // A $1,200 payment needs $4,286 a month at 28%.
+    expect(homeForNewHousehold(adults(40, 38), true, 450_000, 120_000)).toEqual(
+      {
+        kind: "suburban-house",
+        tenure: "ownership:mortgaged",
+      },
+    );
+    expect(
+      homeForNewHousehold(adults(40, 38, 9, 7, 5), true, 450_000, 120_000).kind,
+    ).toBe("large-house");
+    expect(homeForNewHousehold(adults(40, 38), true, 400_000, 120_000)).toEqual(
+      {
+        kind: "small-apartment",
+        tenure: "lease:rented",
+      },
+    );
+    expect(
+      homeForNewHousehold(adults(40, 38, 6), false, 900_000, 120_000),
+    ).toEqual({
+      kind: "rowhouse",
+      tenure: "lease:rented",
+    });
+    // A recent eviction bars the loan, whatever the pay.
+    expect(
+      homeForNewHousehold(adults(40, 38), true, 900_000, 120_000, false),
+    ).toEqual({ kind: "small-apartment", tenure: "lease:rented" });
+    // Unknown pay is not zero, and it is not enough to buy.
+    expect(homeForNewHousehold(adults(30), true, null, 120_000).tenure).toBe(
+      "lease:rented",
+    );
+  });
+});
+
 describe(
   "the town's homes change over five years",
   { timeout: 300_000 },
@@ -154,10 +196,12 @@ describe(
       .household.id;
     const snapshots: World[] = [];
     let world = opened.world;
-    // Only the calendar moves; the families and homes reviews write. The
+    // Only the calendar moves; the jobs, pay, families and homes reviews
+    // write, so a household's pay and size change as they do in play. The
     // whole-world check is deferred because the world's other due items are
     // not run here.
     withWorldIntegrityDeferred(() => {
+      world = startTownJobPay(world, personId, world.currentDate);
       for (let round = 0; round < 20; round += 1) {
         const date = addDays(world.currentDate, 91);
         world = {
@@ -165,6 +209,8 @@ describe(
           currentDate: date,
           currentMoment: simulationMomentOnLocalDate(world.currentMoment, date),
         };
+        world = reviewTownJobs(world, town, personId, `test-${round}`);
+        world = startTownJobPay(world, personId, date);
         world = reviewTownFamilies(world, town, personId, `test-${round}`);
         world = reviewTownHomes(world, town, `test-${round}`);
         snapshots.push(world);
@@ -174,6 +220,16 @@ describe(
     it("households buy, sell and move, on the day of the review", () => {
       const { events } = describeTownHomes(world, town);
       expect(events[TOWN_HOME_EVENTS.bought] ?? 0).toBeGreaterThan(0);
+      // Every move by choice names the change that decided it.
+      const reasons = Object.values(TOWN_HOME_REASONS);
+      const chosen = world.history.events.filter((event) =>
+        event.stableKey.startsWith(`${TOWN_HOMES_VERSION}:${town}:test-`),
+      );
+      expect(chosen.length).toBeGreaterThan(0);
+      for (const event of chosen)
+        expect(
+          reasons.some((reason) => event.summary.endsWith(`: ${reason}.`)),
+        ).toBe(true);
       expect(
         (events[TOWN_HOME_EVENTS.moved] ?? 0) +
           (events[TOWN_HOME_EVENTS.movedIn] ?? 0),

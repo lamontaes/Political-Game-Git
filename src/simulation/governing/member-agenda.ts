@@ -41,7 +41,7 @@ import type {
   World,
 } from "../types";
 import { seatedChamberForPack } from "./chamber-votes";
-import { lawInForce } from "./law-in-force";
+import { lawInForce, statuteAnswer } from "./law-in-force";
 import { mayAnswerQuestion } from "./question-authority";
 import {
   ensureOfficeholderPrinciples,
@@ -109,8 +109,10 @@ function stateEffectQuestionKeys(): ReadonlySet<string> {
  */
 function positionBillAnswer(
   score: number,
-  lawAnswer: "yes" | "no" | null,
+  lawAnswer: "yes" | "no" | null | "closed",
 ): "yes" | "no" | null {
+  // A constitution settles the question: no statute could change it.
+  if (lawAnswer === "closed") return null;
   if (score > 0) return lawAnswer === "yes" ? null : "yes";
   return lawAnswer === "yes" ? "no" : null;
 }
@@ -223,7 +225,7 @@ export function fileMemberAgendaBills(
   // Read once per question. The law and docket are unchanged until a sponsor
   // actually files, then the next sponsor sees that recorded measure.
   const effectKeys = stateEffectQuestionKeys();
-  const lawAnswers = new Map<EntityId, "yes" | "no" | null>();
+  const lawAnswers = new Map<EntityId, "yes" | "no" | null | "closed">();
   const pending = new Map<EntityId, boolean>();
   const coolingDown = new Map<EntityId, boolean>();
   const filedPropositions = new Set<EntityId>();
@@ -234,7 +236,7 @@ export function fileMemberAgendaBills(
     if (!lawAnswers.has(propositionId)) {
       lawAnswers.set(
         propositionId,
-        lawInForce(next, input.jurisdictionId, propositionId)?.answer ?? null,
+        statuteAnswer(lawInForce(next, input.jurisdictionId, propositionId)),
       );
     }
     return lawAnswers.get(propositionId)!;
@@ -297,7 +299,8 @@ export function fileMemberAgendaBills(
       const answer = leaning.score > 0 ? "yes" : "no";
       const mapping = automaticLawMappingFor(proposition.stableKey, answer);
       if (!mapping || mapping.governmentLevel !== "state") continue;
-      if (lawAnswerFor(propositionId) === answer) continue;
+      const lawAnswer = lawAnswerFor(propositionId);
+      if (lawAnswer === answer || lawAnswer === "closed") continue;
       candidates.push({
         propositionId,
         answer,
@@ -691,9 +694,10 @@ export function fileLocalMemberAgendaBill(
       );
       if (!mapping) continue;
       const context = localContext(grant);
-      const currentAnswer =
-        lawInForce(next, grant.jurisdictionId, proposition.id)?.answer ?? null;
-      if (currentAnswer === answer) continue;
+      const currentAnswer = statuteAnswer(
+        lawInForce(next, grant.jurisdictionId, proposition.id),
+      );
+      if (currentAnswer === answer || currentAnswer === "closed") continue;
       if (pendingBillOn(next, grant.jurisdictionId, proposition.id)) continue;
       if (
         automaticLawQuestionOnCooldown(next, {
@@ -847,7 +851,7 @@ function fileLocalPositionBill(
       if (best && Math.abs(score) <= best.weight) continue;
       const answer = positionBillAnswer(
         score,
-        lawInForce(world, jurisdictionId, propositionId)?.answer ?? null,
+        statuteAnswer(lawInForce(world, jurisdictionId, propositionId)),
       );
       if (!answer || mappedLocally(proposition.stableKey, answer)) continue;
       if (pendingBillOn(world, jurisdictionId, propositionId)) continue;

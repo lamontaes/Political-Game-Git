@@ -18,12 +18,13 @@ import {
 } from "../simulation/municipal-public-work";
 import { addSimulationMinutes } from "../simulation/dates";
 import { futureDueItemStateAt } from "../simulation/future-transitions";
-import { stableHash } from "../simulation/ids";
+import { decideCouncilVote } from "../simulation/governing/council-lawmaking";
 import { requireMeasure } from "../simulation/legislation";
 import {
   actOnCouncilMeasure,
   COUNCIL_READING_DUE,
   decideOrdinaryCouncilReading,
+  municipalExecutiveHolder,
   municipalReadingQuestion,
   municipalOrdinanceStatuses,
   overrideCouncilVeto,
@@ -49,10 +50,12 @@ import type {
 export type OwnOrdinanceBallot = "yea" | "nay" | "present-not-voting";
 
 /**
- * The disclosure attached to the D.C. authored sitting's colleague ballots.
+ * The note every colleague ballot on the D.C. Council carries, in the vote
+ * record and on screen: each colleague decides through the councils' vote
+ * engine.
  */
-export const AUTHORED_COUNCIL_BALLOT_NOTE =
-  "Your ballot is yours. The other councilors' ballots are game-authored stand-ins: the game does not yet model how a councilor decides, so these are not any real council member's position.";
+export const COLLEAGUE_BALLOT_NOTE =
+  "Your ballot is yours. Each other councilor decides their own ballot from their principles, their record, the ordinance's sponsor and the voters they answer to.";
 
 export const ORDINARY_COUNCIL_BALLOT_NOTE =
   "If the council voted now, each seated councilor would decide from their recorded reasons. Those decisions may change before the scheduled reading.";
@@ -342,8 +345,8 @@ export function takeProjectedOverrideVote(
     measureId,
     dispositions: preview.dispositions,
     provenance: {
-      method: "authored-fixture",
-      note: AUTHORED_COUNCIL_BALLOT_NOTE,
+      method: "member-decisions",
+      note: COLLEAGUE_BALLOT_NOTE,
       sourceEntityIds: [measureId],
     },
   });
@@ -496,20 +499,30 @@ export function previewAuthoredCouncilBallots(
     };
   }
   const measure = requireMeasure(world, measureId);
+  const government = municipalGovernmentByKey(governmentKey);
+  const decided = decideCouncilVote(world, {
+    stableKey: `${measure.stableKey}:colleague-ballots`,
+    measureId,
+    jurisdictionId: measure.jurisdictionId,
+    members: seats.map((seat) => ({ personId: seat.personId })),
+    playerPersonId: playerId,
+    questionLabel: `Pass ${measure.designation}`,
+    executivePersonId: municipalExecutiveHolder(world, governmentKey),
+    // A council elected without party labels gives its members no party
+    // cue, as the town council meetings do (`body-partisanship.ts`).
+    nonpartisan:
+      government !== null &&
+      primaryReading(government).partisanship.includes("NONPARTISAN"),
+  });
   const colleagues = seats
     .filter((seat) => seat.personId !== playerId)
-    .map((seat) => {
-      const digest = stableHash(
-        `${world.id}:${measure.stableKey}:authored-ballot:${seat.personId}`,
-      );
-      const disposition: "yea" | "nay" =
-        Number.parseInt(digest.slice(-1), 16) % 2 === 0 ? "yea" : "nay";
-      return {
-        personId: seat.personId,
-        seatLabel: seat.seatLabel,
-        disposition,
-      };
-    });
+    .map((seat) => ({
+      personId: seat.personId,
+      seatLabel: seat.seatLabel,
+      disposition:
+        decided.find((row) => row.personId === seat.personId)?.disposition ??
+        "absent",
+    }));
   const dispositions: LegislativeVoteDisposition[] = seats.map(
     (seat, index) => ({
       memberKey: `council:${index + 1}`,
@@ -522,7 +535,7 @@ export function previewAuthoredCouncilBallots(
     }),
   );
   return {
-    method: "authored-fixture",
+    method: "member-decisions",
     dispositions,
     colleagues,
     yea: dispositions.filter((entry) => entry.disposition === "yea").length,
@@ -530,11 +543,11 @@ export function previewAuthoredCouncilBallots(
     presentNotVoting: dispositions.filter(
       (entry) => entry.disposition === "present-not-voting",
     ).length,
-    note: AUTHORED_COUNCIL_BALLOT_NOTE,
+    note: COLLEAGUE_BALLOT_NOTE,
   };
 }
 
-/** Record the council's passage vote with the player's ballot and the disclosed authored ones. */
+/** Record the council's passage vote with the player's ballot and each colleague's own. */
 export function takeProjectedOrdinanceVote(
   world: World,
   governmentKey: string,
@@ -597,8 +610,8 @@ export function takeProjectedOrdinanceVote(
     measureId,
     dispositions: preview.dispositions,
     provenance: {
-      method: "authored-fixture",
-      note: AUTHORED_COUNCIL_BALLOT_NOTE,
+      method: "member-decisions",
+      note: COLLEAGUE_BALLOT_NOTE,
       sourceEntityIds: [measureId],
     },
   });

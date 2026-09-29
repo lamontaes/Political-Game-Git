@@ -7,7 +7,11 @@ import {
   requireMeasure,
   tallyDispositions,
 } from "./legislation";
-import { fractionOf, assertThresholdRule } from "./legislature-rules";
+import {
+  fractionOf,
+  assertThresholdRule,
+  majorityOf,
+} from "./legislature-rules";
 import type { RuleSourceRef, VoteThresholdRule } from "./legislature-rules";
 import { CONSTITUTIONAL_EVIDENCE } from "./constitutional-sources.generated";
 import type {
@@ -66,6 +70,29 @@ const FEDERAL_BASE = fractionOf(
     "us-proposal-denominator",
     "National Prohibition Cases, 253 U.S. 350, 386 (1920); Article V",
   ),
+);
+/** The one body that votes on a convention's proposal. */
+export const ARTICLE_V_CONVENTION_BODY = "convention";
+/**
+ * ESTIMATED: how an Article V convention adopts a proposal. No such
+ * convention has met, and the Constitution sets no rule. One vote per state,
+ * a majority of the states present, is the rule the 1787 Convention used and
+ * the one most state delegate laws and proposed convention rules assume.
+ */
+const CONVENTION_RULE = majorityOf(
+  "members-present",
+  "A majority of the states' delegations present, one vote per state",
+  {
+    authority: "research-reference",
+    citation:
+      "U.S. Const. art. V; the 1787 Convention's rule of one vote per state",
+    sourceTitle:
+      "Article V convention voting (estimated from the 1787 Convention)",
+    sourceUrl: null,
+    retrievedAt: null,
+    verification: "partial",
+    note: "ESTIMATED: no Article V convention has met; this is the most common assumed rule.",
+  },
 );
 const CALIFORNIA_BASE = fractionOf(
   2,
@@ -459,9 +486,21 @@ export function proposeConstitutionalMeasure(
       );
   }
   // Null sponsor is an institution-authored/imported proposal, never a player authority shortcut.
+  if (
+    input.proposedBy !== undefined &&
+    (input.proposedBy !== "convention" || !federal)
+  )
+    throw Error(
+      "Only a federal amendment can come from an Article V convention.",
+    );
   const resolved = constitutionalProposalRuleForWorld(world, input);
   if (!charter && !resolved.available) throw Error(resolved.reason);
-  const proposalRule = resolved.available ? resolved.rule : null;
+  const proposalRule =
+    input.proposedBy === "convention"
+      ? structuredClone(CONVENTION_RULE)
+      : resolved.available
+        ? resolved.rule
+        : null;
   const measure: ConstitutionalMeasureRecord = {
     ...structuredClone(input),
     id: createStableId(
@@ -648,6 +687,8 @@ export function sameRuleChanged(
 function proposingBodies(
   m: ConstitutionalMeasureRecord,
 ): readonly { readonly bodyKey: string; readonly members: number | null }[] {
+  if (m.proposedBy === "convention")
+    return [{ bodyKey: ARTICLE_V_CONVENTION_BODY, members: null }];
   if (m.processKind === "federal-amendment")
     return [
       { bodyKey: "house", members: null },
