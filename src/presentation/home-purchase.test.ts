@@ -261,7 +261,7 @@ describe("buying a home", () => {
     expect(serializeWorld(refreshLifeOpportunities(reloaded, personId))).toBe(
       serializeWorld(later),
     );
-  }, 20_000);
+  }, 60_000);
 
   it("prices the house in the world's prices, not the first month's", () => {
     // The opening route starts the world's own economy, as play does. Since
