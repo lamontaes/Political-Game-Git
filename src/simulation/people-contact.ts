@@ -1,3 +1,5 @@
+import { feltDebtConsiderations } from "./favors";
+import { heardOfRefusalConsiderations } from "./favor-collection";
 import { eventById } from "./event-index";
 import { homePartyChapters } from "./living-world/party-chapters";
 import { addDays, ageOnDate } from "./dates";
@@ -786,6 +788,24 @@ export function npcContactAnswer(
         explanation: "They have been keeping time for themselves.",
       },
     ]),
+  );
+  // Help the one asking once gave is a reason to make the time; having heard
+  // they turned down somebody who had helped them is a reason not to.
+  considerations.push(
+    ...feltDebtConsiderations(
+      withTraits,
+      to,
+      from,
+      `contact:${proposalEventId}`,
+      "accept",
+    ),
+    ...heardOfRefusalConsiderations(
+      withTraits,
+      to,
+      from,
+      `contact:${proposalEventId}`,
+      "accept",
+    ),
   );
   // Registered effects first: whatever the loaded packs say bears on
   // `contact.answer`. This decision names no trait, and a pack adding one

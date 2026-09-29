@@ -230,6 +230,74 @@ describe("production-compiled office qualification rules", () => {
   });
 
   /*
+   * Ohio's offices ask for a qualified elector and Missouri's governor for
+   * fifteen years of citizenship. Nothing decided either, so every Ohio
+   * candidate was refused. Both are now read from the life's own record: born
+   * a citizen, old enough, and living in the state long enough to register.
+   */
+  it("decides an elector or citizenship requirement from a recorded birth", () => {
+    const world = createScenarioWorld(
+      "qualification-elector",
+      LEXINGTON_DEMO_CONTEXT,
+      { peopleCount: 3 },
+    );
+    const person = {
+      ...world.people[world.personOrder[0]!]!,
+      birthDate: makeIsoDate("1990-03-01"),
+    };
+    const onDate = makeIsoDate("2026-01-05");
+    const elector = (
+      input: Partial<Parameters<typeof assessOfficeQualifications>[0]>,
+    ) =>
+      assessOfficeQualifications({
+        person,
+        stateJurisdictionKey: "US-OH",
+        officeFamily: "LOWER_CHAMBER",
+        stateResidenceSince: makeIsoDate("1990-03-01"),
+        districtResidenceSince: makeIsoDate("1990-03-01"),
+        onDate,
+        ...input,
+      }).find((assessment) => assessment.field === "ELECTOR_REQUIREMENT");
+    expect(elector({})?.verdict).toBe("not-evaluated");
+    expect(elector({ citizenSince: null })?.verdict).toBe("not-evaluated");
+    expect(elector({ citizenSince: person.birthDate })).toMatchObject({
+      verdict: "meets",
+      source: { stateUsps: "OH" },
+    });
+    const newcomer = elector({
+      citizenSince: person.birthDate,
+      stateResidenceSince: makeIsoDate("2025-12-20"),
+    });
+    expect(newcomer?.verdict).toBe("fails");
+    expect(newcomer?.reason).toMatch(/lived in the state 30 days/);
+    expect(
+      elector({
+        citizenSince: person.birthDate,
+        stateResidenceSince: makeIsoDate("2025-12-06"),
+      })?.verdict,
+    ).toBe("meets");
+    expect(
+      elector({
+        person: { ...person, birthDate: makeIsoDate("2009-01-01") },
+        citizenSince: makeIsoDate("2009-01-01"),
+      })?.verdict,
+    ).toBe("fails");
+
+    const citizenship = (citizenSince: string) =>
+      assessOfficeQualifications({
+        person,
+        stateJurisdictionKey: "US-MO",
+        officeFamily: "GOVERNOR",
+        stateResidenceSince: makeIsoDate("1990-03-01"),
+        districtResidenceSince: null,
+        citizenSince: makeIsoDate(citizenSince),
+        onDate,
+      }).find((assessment) => assessment.field === "US_CITIZENSHIP");
+    expect(citizenship("1990-03-01")?.verdict).toBe("meets");
+    expect(citizenship("2020-01-01")?.verdict).toBe("fails");
+  });
+
+  /*
    * Minnesota's House asks for six months in the district, and six months is
    * not a number of years. The reader used to accept whole years only, so this
    * row could not be expressed at all and was reported as unevaluated --
