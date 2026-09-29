@@ -1806,7 +1806,8 @@ function familyForEvent(event: HistoricalEvent): StoryFamily {
     event.type.startsWith("crisis.") ||
     event.type.startsWith("health.episode-disclosed") ||
     event.type.startsWith("disaster.") ||
-    event.type.startsWith("vitality.")
+    event.type.startsWith("vitality.") ||
+    event.type.startsWith("epidemic.outbreak")
   )
     return "breaking-crisis";
   return "scheduled-beat";
@@ -1832,6 +1833,7 @@ function beatForEventType(type: string): MediaBeat {
     type.startsWith("crisis.") ||
     type.startsWith("disaster.") ||
     type.startsWith("crime.") ||
+    type.startsWith("epidemic.") ||
     type.startsWith("health.episode-disclosed")
   )
     return "public-safety";

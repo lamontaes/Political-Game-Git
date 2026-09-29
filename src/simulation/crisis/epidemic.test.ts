@@ -1,6 +1,8 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
-import { addDays } from "../dates";
+import { addDays, ageOnDate } from "../dates";
+import { householdMembershipsAt, peopleInHouseholdAt } from "../life-queries";
+import { storyLeads } from "../press/desk";
 import { advanceWorld, assertWorldIntegrity } from "../world";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import {
@@ -16,9 +18,11 @@ import {
   EPIDEMIC_PASS_KEY,
   EPIDEMIC_VERSION,
   UNRESEARCHED_EPIDEMIC,
+  caregiverFor,
   epidemicCases,
   epidemicCaughtEvents,
   epidemicCouncilMeetingDecision,
+  epidemicWorkAbsences,
   peopleOutSick,
 } from "./epidemic";
 
@@ -182,7 +186,112 @@ describe("epidemics among named people", () => {
         expect(spreadAtSchool).toEqual([]);
       }
     });
+
+    it("days out sick come off the paycheck in a job without paid sick leave", () => {
+      const cut = later.history.resourceTransferOutcomes.filter(
+        (outcome) => outcome.reasonKind === "custom:unpaid-sick-days",
+      );
+      expect(cut.length).toBeGreaterThan(0);
+      const flows = new Map(
+        later.history.resourceFlows.map((flow) => [flow.id, flow]),
+      );
+      const cases = epidemicCases(later);
+      for (const outcome of cut) {
+        expect(
+          outcome.status === "partial" || outcome.status === "missed",
+        ).toBe(true);
+        expect(outcome.transferredAmount.minorUnits).toBeLessThan(
+          outcome.attemptedAmount.minorUnits,
+        );
+        expect(outcome.note).toMatch(/, less \d+ unpaid days? out sick\.$/);
+        const personId = (
+          flows.get(outcome.resourceFlowId)!.recipient as {
+            personId: EntityId;
+          }
+        ).personId;
+        expect(
+          cases.some(
+            (found) =>
+              found.personId === personId &&
+              found.onsetAt <= outcome.periodEndsAt &&
+              addDays(found.onsetAt, 14) >= outcome.periodStartsAt,
+          ),
+        ).toBe(true);
+      }
+    });
+
+    it("a week with enough new cases becomes public news the local paper picks up", () => {
+      const reports = later.history.events.filter(
+        (event) => event.type === EPIDEMIC_EVENT_TYPES.outbreakReported,
+      );
+      expect(reports.length).toBeGreaterThan(0);
+      for (const report of reports) {
+        expect(report.visibility).toBe("public");
+        expect(report.summary).toMatch(
+          /^An illness is spreading in .+: \d+ people fell sick this week/,
+        );
+        const newCases = Number(
+          report.tags
+            .find((tag) => tag.startsWith("epidemic:new-cases:"))!
+            .split(":")[2],
+        );
+        expect(newCases).toBeGreaterThanOrEqual(
+          UNRESEARCHED_EPIDEMIC.newsNewCasesInWeek,
+        );
+      }
+      const ids = new Set(reports.map((report) => report.id));
+      expect(
+        storyLeads(later).some((lead) =>
+          lead.basisEventIds.some((id) => ids.has(id)),
+        ),
+      ).toBe(true);
+    });
   });
+
+  it(
+    "the adult with the fewest paid hours stays home with a sick child",
+    () => {
+      const life = open("epidemic-caregiver");
+      let world = life.world;
+      const child = (Object.keys(world.people) as EntityId[])
+        .sort()
+        .find((id) => {
+          const age = ageOnDate(world.people[id]!.birthDate, world.currentDate);
+          return (
+            age >= 5 &&
+            age < UNRESEARCHED_EPIDEMIC.careAgeUnder &&
+            caregiverFor(world, id) !== null
+          );
+        })!;
+      expect(child).toBeDefined();
+      const carer = caregiverFor(world, child)!;
+      const adults = householdMembershipsAt(world, child).flatMap(
+        (membership) =>
+          peopleInHouseholdAt(world, membership.household.id).filter(
+            (id) =>
+              id !== child &&
+              ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 18,
+          ),
+      );
+      expect(adults).toContain(carer);
+      const onset = world.currentDate;
+      world = beginHealthEpisode(world, {
+        stableKey: "test:child",
+        personId: child,
+        severity: "acute",
+        initialLimitation: "limited",
+        origin: { kind: "authored", note: `${EPIDEMIC_VERSION}:test` },
+        causalParentIds: [],
+      });
+      const absences = epidemicWorkAbsences(world, onset, addDays(onset, 13));
+      expect(absences.get(child)!.sickDays).toBeGreaterThan(0);
+      const home = absences.get(carer)!;
+      expect(home.caringDays).toBeGreaterThan(0);
+      expect(home.missedDays).toBe(home.caringDays);
+      expect(home.sickDays).toBe(0);
+    },
+    LONG,
+  );
 
   it(
     "a council chair cancels a meeting that sickness leaves without a quorum",

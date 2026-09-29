@@ -67,6 +67,7 @@ export const EPIDEMIC_EVENT_TYPES = {
   schoolClosed: "epidemic.school-closed",
   schoolReopened: "epidemic.school-reopened",
   schoolKeptOpen: "epidemic.school-kept-open",
+  outbreakReported: "epidemic.outbreak-reported",
   meetingCanceled: "local.council-meeting-canceled",
 } as const;
 
@@ -122,6 +123,16 @@ export const UNRESEARCHED_EPIDEMIC = {
    * recorded approach to risk.
    */
   personalBarSpread: 0.25,
+  /**
+   * ESTIMATED FROM AVERAGE: the share of jobs that carry paid sick leave,
+   * about 79% of private-industry workers (BLS National Compensation Survey,
+   * March 2024). Drawn once per job; a job without it loses the days.
+   */
+  paidSickLeaveShare: 0.79,
+  /** A sick child this young needs an adult home with them. */
+  careAgeUnder: 12,
+  /** Days a newspaper-worthy week needs: new cases in one town in one week. */
+  newsNewCasesInWeek: 5,
   researchQuestions: [
     "epidemic-transmission-by-setting",
     "epidemic-severity-by-age",
@@ -844,6 +855,71 @@ export function sampleEpidemicWeek(
   );
 }
 
+/**
+ * A week with enough new cases in one town becomes a public report of the
+ * outbreak, once per outbreak: the record the local paper's weekly sweep
+ * reads. Nobody is named in it.
+ */
+function reportOutbreaks(
+  world: World,
+  cases: readonly NewCase[],
+  passKey: string,
+): World {
+  const byTown = new Map<EntityId, NewCase[]>();
+  for (const found of cases) {
+    const town = world.people[found.personId]!.homeJurisdictionId;
+    const list = byTown.get(town) ?? [];
+    list.push(found);
+    byTown.set(town, list);
+  }
+  const reported = new Set(
+    world.history.events
+      .filter((event) => event.type === EPIDEMIC_EVENT_TYPES.outbreakReported)
+      .flatMap((event) => event.tags),
+  );
+  const closed = closedSchools(world);
+  let next = world;
+  for (const [town, found] of [...byTown].sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
+    if (found.length < U.newsNewCasesInWeek) continue;
+    const outbreakKey = found[0]!.outbreakKey;
+    const tag = `epidemic:outbreak:${outbreakKey}`;
+    if (reported.has(tag)) continue;
+    const place = placeName(town);
+    const sickNow = epidemicCases(next).filter(
+      (c) =>
+        c.outbreakKey === outbreakKey &&
+        c.onsetAt >= addDays(next.currentDate, -U.passDays),
+    ).length;
+    const schools = [...closed].filter(
+      (orgId) =>
+        organizationProfileAt(next, orgId)?.locationJurisdictionId === town,
+    ).length;
+    next = recordWorldEvent(next, {
+      stableKey: `${EPIDEMIC_VERSION}:${passKey}:outbreak:${town}`,
+      type: EPIDEMIC_EVENT_TYPES.outbreakReported,
+      occurredAt: next.currentDate,
+      recordedAt: next.currentDate,
+      jurisdictionId: town,
+      involvedEntityIds: [town],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        EPIDEMIC_TAG,
+        tag,
+        "magnitude:moderate",
+        `epidemic:new-cases:${found.length}`,
+        `policy:${EPIDEMIC_VERSION}`,
+      ],
+      summary: `An illness is spreading in ${place}: ${found.length} people fell sick this week${schools > 0 ? `, and ${schools === 1 ? "a school has" : `${schools} schools have`} closed` : ""}.`,
+      context: { ...EMPTY_CONTEXT, pressure: `${sickNow} sick this week` },
+    });
+  }
+  return next;
+}
+
 /** Schedules the first weekly pass for a current opening. Idempotent. */
 export function ensureEpidemicProduction(world: World): World {
   if (worldOpeningVersionOf(world) !== CRUNCH46_WORLD_OPENING_VERSION)
@@ -884,6 +960,7 @@ export function epidemicPassHandler(
   let next = decided.world;
   const cases = sampleEpidemicWeek(next, passKey, index, decided.closed);
   for (const found of cases) next = recordCase(next, passKey, found);
+  next = reportOutbreaks(next, cases, passKey);
   const following = addDays(dueItem.dueAt, U.passDays);
   next = scheduleFutureDueItem(next, {
     stableKey: `${EPIDEMIC_VERSION}:pass:${following}`,
@@ -900,6 +977,125 @@ export function epidemicPassHandler(
     context: null,
     outcomeEventId: null,
   };
+}
+
+/* -------------------------------------------------------------------------- */
+/* Missed work                                                                 */
+/* -------------------------------------------------------------------------- */
+
+function isWorkday(date: IsoDate): boolean {
+  const day = new Date(`${date}T00:00:00Z`).getUTCDay();
+  return day !== 0 && day !== 6;
+}
+
+/** Workdays, Monday to Friday, from `from` through `to`. */
+export function workdaysBetween(from: IsoDate, to: IsoDate): number {
+  let count = 0;
+  for (let day = from; day <= to; day = addDays(day, 1))
+    if (isWorkday(day)) count += 1;
+  return count;
+}
+
+/** The days a case keeps its person home: until the course first eases. */
+function daysOut(found: EpidemicCase): number {
+  return found.episode.course[0]?.afterDays ?? U.passDays;
+}
+
+/**
+ * Whether a job pays through sick days. Drawn once per job from the world's
+ * seed, at the average share of jobs that do.
+ */
+export function jobPaysSickLeave(world: World, workId: EntityId): boolean {
+  return stream(world, "paid-sick-leave", workId).next() < U.paidSickLeaveShare;
+}
+
+/** The expected weekly hours of the jobs a person holds today; 0 without one. */
+function weeklyHoursHeld(world: World, personId: EntityId): number {
+  return activeWorkRelationshipsAt(world, personId).reduce((sum, work) => {
+    const { minimumHours, maximumHours } = work.role.timeDemand.expectedWeekly;
+    return sum + (minimumHours + maximumHours) / 2;
+  }, 0);
+}
+
+/**
+ * Who stays home with a sick child: an adult the child lives with, the one
+ * with the fewest hours of paid work (nobody's pay is lost when an adult
+ * without a job is home). Null when the child lives with no adult.
+ */
+export function caregiverFor(world: World, childId: EntityId): EntityId | null {
+  const adults = householdMembershipsAt(world, childId)
+    .flatMap((membership) =>
+      peopleInHouseholdAt(world, membership.household.id),
+    )
+    .filter(
+      (id) =>
+        id !== childId &&
+        world.people[id] &&
+        ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 18,
+    );
+  const ranked = [...new Set(adults)]
+    .map((id) => ({ id, hours: weeklyHoursHeld(world, id) }))
+    .sort((a, b) => a.hours - b.hours || a.id.localeCompare(b.id));
+  return ranked[0]?.id ?? null;
+}
+
+export interface WorkAbsence {
+  /** Workdays in the window the person was home sick. */
+  readonly sickDays: number;
+  /** Workdays in the window the person was home with a sick child. */
+  readonly caringDays: number;
+  /** Workdays missed for either reason, each day counted once. */
+  readonly missedDays: number;
+}
+
+/**
+ * Workdays each person missed between `from` and `to` because of the
+ * illness: their own, or a child's they stayed home for. Pure.
+ */
+export function epidemicWorkAbsences(
+  world: World,
+  from: IsoDate,
+  to: IsoDate,
+): ReadonlyMap<EntityId, WorkAbsence> {
+  const sick = new Map<EntityId, Set<IsoDate>>();
+  const caring = new Map<EntityId, Set<IsoDate>>();
+  const mark = (
+    map: Map<EntityId, Set<IsoDate>>,
+    personId: EntityId,
+    start: IsoDate,
+    days: number,
+  ) => {
+    const set = map.get(personId) ?? new Set<IsoDate>();
+    for (let offset = 0; offset < days; offset += 1) {
+      const day = addDays(start, offset);
+      if (day >= from && day <= to && isWorkday(day)) set.add(day);
+    }
+    map.set(personId, set);
+  };
+  for (const found of epidemicCases(world)) {
+    const days = daysOut(found);
+    if (found.onsetAt > to || addDays(found.onsetAt, days) < from) continue;
+    const person = world.people[found.personId];
+    if (!person) continue;
+    mark(sick, found.personId, found.onsetAt, days);
+    if (ageOnDate(person.birthDate, found.onsetAt) < U.careAgeUnder) {
+      const carer = caregiverFor(world, found.personId);
+      if (carer) mark(caring, carer, found.onsetAt, days);
+    }
+  }
+  const result = new Map<EntityId, WorkAbsence>();
+  for (const personId of new Set([...sick.keys(), ...caring.keys()])) {
+    const own = sick.get(personId) ?? new Set<IsoDate>();
+    const care = caring.get(personId) ?? new Set<IsoDate>();
+    const missed = new Set([...own, ...care]).size;
+    if (missed === 0) continue;
+    result.set(personId, {
+      sickDays: own.size,
+      caringDays: care.size,
+      missedDays: missed,
+    });
+  }
+  return result;
 }
 
 /** Every "caught it" record, oldest first. */
