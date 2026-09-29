@@ -29,6 +29,7 @@ import {
 } from "./trait-packs";
 import { readTrait } from "./trait-readings";
 import { traitRegistryFor } from "./trait-registry";
+import { writeWithWorldIntegrityOnce } from "./world";
 import type {
   DecisionConsideration,
   DecisionImportance,
@@ -338,6 +339,14 @@ export function ensurePeopleTraits(
   world: World,
   personIds: readonly EntityId[],
 ): World {
+  // Each record's writer checks the whole World; seeding one person writes a
+  // record per trait, so the batch is checked once, against its input.
+  return writeWithWorldIntegrityOnce(world, () =>
+    seedPeopleTraits(world, personIds),
+  );
+}
+
+function seedPeopleTraits(world: World, personIds: readonly EntityId[]): World {
   let next = world;
   for (const personId of personIds) {
     if (!next.people[personId]) continue;

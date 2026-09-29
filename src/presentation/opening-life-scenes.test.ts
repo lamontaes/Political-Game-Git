@@ -136,11 +136,13 @@ describe("OPENING-LIFE1 canonical scenes", () => {
         firstChoice,
       );
       expect(currentOpeningLifeScene(world, game.playerPersonId)).toBeNull();
+      // The retired scene's moment is never offered again; a save that opened
+      // it is offered only its own follow-through.
       expect(
-        availableOpeningLifeScenes(world, game.playerPersonId).some(
-          (entry) => entry.definition.key === key,
-        ),
-      ).toBe(false);
+        availableOpeningLifeScenes(world, game.playerPersonId)
+          .filter((entry) => entry.definition.key === key)
+          .map((entry) => entry.beat.stageKey),
+      ).toEqual(["follow-through"]);
 
       world = deserializeWorld(
         serializeWorld(

@@ -376,11 +376,14 @@ export function dwellingOccupancyStateHistory(
   dwellingOccupancyId: EntityId,
   cutoff: HistoricalCutoff = currentResourceCutoff(world),
 ): readonly DwellingOccupancyStateRecord[] {
-  return world.history.dwellingOccupancyStates.filter(
-    (record) =>
-      record.dwellingOccupancyId === dwellingOccupancyId &&
-      available(record, cutoff),
-  );
+  // Every town household has a home now, and the housing check asks this of
+  // every occupancy for every other one: read one occupancy's states, in
+  // order, instead of scanning them all.
+  return recordsWithFieldValue(
+    world.history.dwellingOccupancyStates,
+    "dwellingOccupancyId",
+    dwellingOccupancyId,
+  ).filter((record) => available(record, cutoff));
 }
 
 export function dwellingOccupancyStateAt(
