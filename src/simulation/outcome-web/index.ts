@@ -245,7 +245,14 @@ export type OutcomeLinkStatus =
  * Outcomes some producer computes from `outcomeFactor` today. A link into any
  * other outcome is ready but has nothing to move until that producer reads it.
  */
+/**
+ * The share of a flood's exposed homes it damages
+ * (`crisis/disaster.ts`, `homeLevel`), as a multiplier on the game's rate.
+ */
+export const FLOOD_DAMAGE_OUTCOME = "disaster.flood-damage";
+
 export const OUTCOMES_PRODUCED: ReadonlySet<string> = new Set([
+  FLOOD_DAMAGE_OUTCOME,
   "crime.assault",
   "crime.robbery",
   "crime.burglary",
