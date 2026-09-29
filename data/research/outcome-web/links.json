@@ -3697,6 +3697,24 @@
       "anchor": "Across 269 counties in six Mid-Atlantic states over 50 years, a state or local program that buys farmland development rights cut the county's rate of farmland loss by 40% to 55%. The size is the middle of that range, 47%, and the spread is the paper's own. The lag is one Census of Agriculture period, the step at which the loss was measured, since a program needs years of purchases before its easements hold back development.",
       "source": "Liu and Lynch 2011, Do Agricultural Land Preservation Programs Reduce Farmland Loss? Evidence from a Propensity Score Matching Estimator, Land Economics 87(2): 183-201; its 40% to 55% as reported in USDA Economic Research Service, Additionality in U.S. Agricultural Conservation and Regulatory Offset Programs, ERR-170 (2014)",
       "range": [-0.55, -0.4]
+    },
+    {
+      "key": "groundwater-limits-to-irrigation-pumping",
+      "from": "law:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "to": "water.irrigation-groundwater",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.31,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "M",
+      "evidence": "provisional",
+      "anchor": "Kansas's first Local Enhanced Management Area (Sheridan 6, 2013 to 2017), where irrigators pumped under capped five-year allocations (55 inches of water over five years), cut pumping 31% against a modeled business-as-usual over its first five years (95% interval 21% to 40%). A state law that meters and limits large withdrawals is read as putting such a cap on irrigation pumping; where the cap binds less than it did there, the cut is smaller, so the evidence is provisional. The spread is the paper's interval. The lag is one year, the next irrigation season.",
+      "source": "Deines, Kendall, Butler and Hyndman 2019, Quantifying irrigation adaptation strategies in response to stakeholder-driven groundwater management in the US High Plains Aquifer, Environmental Research Letters 14: 044014 (https://iopscience.iop.org/article/10.1088/1748-9326/aafe39)",
+      "range": [-0.4, -0.21]
     }
   ],
   "calibratedAt": "2024-07-01"

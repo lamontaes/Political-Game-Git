@@ -18,7 +18,9 @@
  * time it is read.
  */
 
-import { addDays } from "./dates";
+import localPremium from "../../data/research/labor/local-minimum-wage-premium.json" with { type: "json" };
+import raiseTerm from "../../data/research/labor/state-minimum-wage-raise-term.json" with { type: "json" };
+import { addDays, daysBetween } from "./dates";
 import {
   laborLawOfficeKey,
   ruleValueInWorld,
@@ -26,17 +28,57 @@ import {
 } from "./enacted-rule-changes";
 import { lawInForce } from "./governing/law-in-force";
 import { measurePropositionAnswer } from "./issue-record";
+import { measureAnswersAt } from "./vote-bundle";
 import {
   FEDERAL_MINIMUM_HOURLY,
   TOWN_MINIMUM_WAGES,
 } from "./living-world/town-pay.generated";
-import { lifePlaceByJurisdictionId } from "./life-places";
+import {
+  lifePlaceByJurisdictionId,
+  stateJurisdictionForKey,
+} from "./life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import type { EntityId, IsoDate, World } from "./types";
 
 /** The policy question a federal minimum wage raise answers. */
 export const FEDERAL_MINIMUM_WAGE_QUESTION_KEY =
   "us-federal-positions:labor-commerce.raise-federal-minimum-wage";
+
+/** The policy question a state minimum wage raise answers. */
+export const STATE_MINIMUM_WAGE_QUESTION_KEY =
+  "us-policy-positions:labor-workforce.raise-minimum-wage";
+
+/**
+ * ESTIMATED FROM AVERAGE (`state-minimum-wage-raise-term.json`, Department of
+ * Labor table of state rates, 2013 to 2024): what a state law that answers
+ * "raise the minimum wage" with yes adds when its bill names no dollar figure.
+ * The total is the median raise of a stretch of increases; the yearly step is
+ * the median single-year raise. A bill that files its own wage term wins.
+ */
+export const STATE_RAISE_TERM = {
+  totalMinor: raiseTerm.totalMinor,
+  yearlyStepMinor: raiseTerm.yearlyStepMinor,
+} as const;
+
+/**
+ * The state question that decides whether a city's minimum wage counts: a
+ * state law on it turns city ordinances on or off (`question-authority.ts`).
+ */
+export const LOCAL_MINIMUM_WAGE_AUTHORITY_QUESTION_KEY =
+  "us-policy-positions:labor-workforce.local-minimum-wage-authority";
+
+/** The policy question a city's own minimum wage answers. */
+export const CITY_MINIMUM_WAGE_QUESTION_KEY =
+  "us-policy-positions:labor-workforce.city-minimum-wage";
+
+/**
+ * ESTIMATED FROM AVERAGE (`local-minimum-wage-premium.json`, UC Berkeley Labor
+ * Center inventory, 40 California localities in July 2026): how far above the
+ * higher of the federal and state rate a city ordinance that answers yes sets
+ * its wage, as a share of that rate, when it names no figure. The research
+ * question `local-minimum-wages-by-place` replaces it with the real rates.
+ */
+export const CITY_PREMIUM_RATIO = localPremium.premiumRatio;
 
 /** The federal minimum wage an hour, in cents (Fair Labor Standards Act). */
 export const FEDERAL_MINIMUM_HOURLY_MINOR = Math.round(
@@ -157,29 +199,249 @@ export function startingMinimumHourly(
   const place = jurisdictionId
     ? lifePlaceByJurisdictionId(jurisdictionId)
     : null;
-  const key = place?.stateJurisdictionKey ?? null;
-  if (!key || !(key in TOWN_MINIMUM_WAGES)) return FEDERAL_MINIMUM_HOURLY;
-  const state = TOWN_MINIMUM_WAGES[key];
+  return startingStateMinimumHourly(place?.stateJurisdictionKey ?? null);
+}
+
+/** The same, for a state named by its key (`US-NE`). */
+export function startingStateMinimumHourly(
+  stateKey: string | null,
+): number | null {
+  if (!stateKey || !(stateKey in TOWN_MINIMUM_WAGES))
+    return FEDERAL_MINIMUM_HOURLY;
+  const state = TOWN_MINIMUM_WAGES[stateKey];
   if (state === null || state === undefined) return null;
   return Math.max(FEDERAL_MINIMUM_HOURLY, state);
 }
 
-/** The minimum wage in force at a job, and the law or rate that sets it. */
-export interface MinimumWageSetting {
+/**
+ * What a state law that answered yes to "raise the minimum wage" adds to the
+ * rate before it, `daysSince` days after it took effect: the yearly step at the
+ * start and again each year, up to the total.
+ */
+export function stateRaiseAfterDays(daysSince: number): number {
+  if (daysSince < 0) return 0;
+  const steps = Math.floor(daysSince / 365) + 1;
+  return Math.min(
+    STATE_RAISE_TERM.totalMinor,
+    steps * STATE_RAISE_TERM.yearlyStepMinor,
+  );
+}
+
+const minimumWageQuestionLaws = new WeakMap<object, boolean>();
+
+/**
+ * Whether any law enacted in play answers a minimum wage question of a state
+ * or a city, yes or no: the cheap test before reading each rate law by law.
+ */
+export function anyMinimumWageQuestionEnacted(world: World): boolean {
+  const enactments = world.history.legislativeEnactments;
+  if (!enactments?.length) return false;
+  const cached = minimumWageQuestionLaws.get(enactments);
+  if (cached !== undefined) return cached;
+  const ids = new Set(
+    Object.values(world.policyCatalog?.propositions ?? {})
+      .filter(
+        (definition) =>
+          definition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY ||
+          definition.stableKey === CITY_MINIMUM_WAGE_QUESTION_KEY,
+      )
+      .map((definition) => definition.id),
+  );
+  const found =
+    ids.size > 0 &&
+    enactments.some(
+      (enactment) =>
+        enactment.outcome === "enacted" &&
+        measureAnswersAt(world, enactment.measureId, enactment.sequence).some(
+          (row) => ids.has(row.propositionId),
+        ),
+    );
+  minimumWageQuestionLaws.set(enactments, found);
+  return found;
+}
+
+/** The state's own minimum in force at a date and the law or rate behind it. */
+export interface StateMinimumSetting {
   readonly hourlyMinor: number;
-  readonly level: "federal" | "state";
+  /** What the state's rate was before any law enacted in play changed it. */
+  readonly beforeMinor: number;
   /** The enacted measure that set it; null for a rate on file at the start. */
   readonly measureId: EntityId | null;
   readonly designation: string | null;
 }
 
+const stateSettings = new WeakMap<
+  object,
+  Map<string, StateMinimumSetting | null>
+>();
+
 /**
- * The minimum wage in force where the job is on `onDate`: the higher of the
- * federal rate (raised by an enacted Act), the state's rate on file and a
- * state law the game enacted, which replaces the state's rate from the day it
- * takes effect (never below the federal rate). Null when the state's rate is
- * unknown and no enacted law sets one. Local minimums are NOT MODELED. A tie
- * goes to the state.
+ * A state's own minimum wage on `onDate`, in cents an hour. Reads, in order:
+ * a wage term an enacted bill filed (`labor.minimumWage.hourlyCents`); else
+ * the term a state law that answered yes to raising the minimum wage carries
+ * (`STATE_RAISE_TERM`, added to the rate on file, in yearly steps from the
+ * law's own effective date) for as long as that law governs, so a later law
+ * that answers no ends it; else the rate on file. Null when the state's rate
+ * on file is unknown and no law sets one. Local minimums are NOT MODELED.
+ */
+export function stateMinimumSettingAt(
+  world: World,
+  stateKey: string,
+  onDate: IsoDate,
+): StateMinimumSetting | null {
+  const enactments = world.history.legislativeEnactments;
+  let cache: Map<string, StateMinimumSetting | null> | null = null;
+  if (enactments !== undefined) {
+    cache = stateSettings.get(enactments) ?? null;
+    if (!cache) {
+      cache = new Map();
+      stateSettings.set(enactments, cache);
+    }
+  }
+  const cacheKey = `${stateKey}:${onDate}`;
+  if (cache?.has(cacheKey)) return cache.get(cacheKey)!;
+  const setting = computeStateMinimumSetting(world, stateKey, onDate);
+  cache?.set(cacheKey, setting);
+  return setting;
+}
+
+function computeStateMinimumSetting(
+  world: World,
+  stateKey: string,
+  onDate: IsoDate,
+): StateMinimumSetting | null {
+  const stateId = stateJurisdictionForKey(stateKey)?.id ?? null;
+  const starting = startingStateMinimumHourly(stateKey);
+  const beforeMinor = starting === null ? null : Math.round(starting * 100);
+  const filed = /^US-[A-Z]{2}$/.test(stateKey)
+    ? ruleValueInWorld(
+        world,
+        {
+          jurisdiction: stateKey,
+          officeKey: laborLawOfficeKey(stateKey.slice(3)),
+          field: "labor.minimumWage.hourlyCents",
+          onDate,
+        },
+        null,
+      )
+    : null;
+  if (filed?.source === "enacted" && typeof filed.value === "number")
+    return {
+      hourlyMinor: filed.value,
+      beforeMinor: beforeMinor ?? filed.value,
+      measureId: filed.measureId,
+      designation: filed.designation,
+    };
+  const proposition = Object.values(
+    world.policyCatalog?.propositions ?? {},
+  ).find(
+    (definition) => definition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
+  );
+  if (proposition && stateId && beforeMinor !== null) {
+    const law = lawInForce(
+      world,
+      stateId,
+      proposition.id,
+      onDate,
+      "enacted-only",
+    );
+    if (law?.origin === "enacted" && law.answer === "yes") {
+      const measure = world.history.legislativeMeasures?.find(
+        (entry) => entry.id === law.measureId,
+      );
+      return {
+        hourlyMinor:
+          beforeMinor +
+          stateRaiseAfterDays(daysBetween(law.operativeAt, onDate)),
+        beforeMinor,
+        measureId: law.measureId,
+        designation: measure?.designation ?? "A state law",
+      };
+    }
+  }
+  return beforeMinor === null
+    ? null
+    : {
+        hourlyMinor: beforeMinor,
+        beforeMinor,
+        measureId: null,
+        designation: null,
+      };
+}
+
+/** The minimum wage in force at a job, and the law or rate that sets it. */
+export interface MinimumWageSetting {
+  readonly hourlyMinor: number;
+  readonly level: "federal" | "state" | "local";
+  /** The enacted measure that set it; null for a rate on file at the start. */
+  readonly measureId: EntityId | null;
+  readonly designation: string | null;
+}
+
+const localSettings = new WeakMap<
+  object,
+  Map<string, MinimumWageSetting | null>
+>();
+
+/**
+ * The minimum wage a city ordinance sets where the job is, or null when no
+ * city law in force does: an ordinance enacted in play that answered yes to
+ * "should the city set its own minimum wage above the state's?", counted only
+ * where the state's law lets cities set one (`question-authority.ts`), sets
+ * the higher of the federal and state rate plus `CITY_PREMIUM_RATIO`, from its
+ * effective date. A later ordinance that answers no, or a state law that
+ * takes the authority away, ends it. Counties are NOT MODELED.
+ */
+export function localMinimumSettingAt(
+  world: World,
+  jurisdictionId: EntityId | null,
+  baseMinor: number,
+  onDate: IsoDate,
+): MinimumWageSetting | null {
+  const enactments = world.history.legislativeEnactments;
+  if (!jurisdictionId || !enactments?.length) return null;
+  let cache = localSettings.get(enactments);
+  if (!cache) {
+    cache = new Map();
+    localSettings.set(enactments, cache);
+  }
+  const cacheKey = `${jurisdictionId}:${baseMinor}:${onDate}`;
+  if (cache.has(cacheKey)) return cache.get(cacheKey)!;
+  let setting: MinimumWageSetting | null = null;
+  const proposition = Object.values(
+    world.policyCatalog?.propositions ?? {},
+  ).find(
+    (definition) => definition.stableKey === CITY_MINIMUM_WAGE_QUESTION_KEY,
+  );
+  const law = proposition
+    ? lawInForce(world, jurisdictionId, proposition.id, onDate, "enacted-only")
+    : null;
+  if (
+    law?.origin === "enacted" &&
+    law.answer === "yes" &&
+    law.level === "local-ordinance"
+  ) {
+    const measure = world.history.legislativeMeasures?.find(
+      (entry) => entry.id === law.measureId,
+    );
+    setting = {
+      hourlyMinor: Math.round(baseMinor * (1 + CITY_PREMIUM_RATIO)),
+      level: "local",
+      measureId: law.measureId,
+      designation: measure?.designation ?? "A city ordinance",
+    };
+  }
+  cache.set(cacheKey, setting);
+  return setting;
+}
+
+/**
+ * The minimum wage in force where the job is on `onDate`: the highest of the
+ * federal rate (raised by an enacted Act), the state's rate (on file, or set
+ * by a state law the game enacted from the day it takes effect) and a city
+ * ordinance the game enacted where the state lets cities set one. Null when
+ * the state's rate is unknown and no enacted law sets one. A tie goes to the
+ * state, then to the federal rate.
  */
 export function minimumWageSettingAt(
   world: World,
@@ -197,26 +459,16 @@ export function minimumWageSettingAt(
     ? lifePlaceByJurisdictionId(jurisdictionId)
     : null;
   const key = place?.stateJurisdictionKey ?? null;
-  let state: MinimumWageSetting | null = null;
-  if (key && /^US-[A-Z]{2}$/.test(key)) {
-    const law = ruleValueInWorld(
-      world,
-      {
-        jurisdiction: key,
-        officeKey: laborLawOfficeKey(key.slice(3)),
-        field: "labor.minimumWage.hourlyCents",
-        onDate,
-      },
-      null,
-    );
-    if (law.source === "enacted" && typeof law.value === "number")
-      state = {
-        hourlyMinor: law.value,
-        level: "state",
-        measureId: law.measureId,
-        designation: law.designation,
-      };
-  }
+  const stateSetting =
+    key && /^US-[A-Z]{2}$/.test(key)
+      ? stateMinimumSettingAt(world, key, onDate)
+      : null;
+  let state: MinimumWageSetting | null = stateSetting && {
+    hourlyMinor: stateSetting.hourlyMinor,
+    level: "state",
+    measureId: stateSetting.measureId,
+    designation: stateSetting.designation,
+  };
   if (!state) {
     const starting = startingMinimumHourly(jurisdictionId);
     if (starting === null) return null;
@@ -227,7 +479,14 @@ export function minimumWageSettingAt(
       designation: null,
     };
   }
-  return federal.hourlyMinor > state.hourlyMinor ? federal : state;
+  const base = federal.hourlyMinor > state.hourlyMinor ? federal : state;
+  const local = localMinimumSettingAt(
+    world,
+    jurisdictionId,
+    base.hourlyMinor,
+    onDate,
+  );
+  return local && local.hourlyMinor > base.hourlyMinor ? local : base;
 }
 
 /**

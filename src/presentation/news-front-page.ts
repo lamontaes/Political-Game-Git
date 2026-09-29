@@ -29,6 +29,11 @@ export interface NewsStory {
     readonly personId: EntityId;
     readonly label: string;
   }[];
+  /** The laws the story reports on, each opening its own page. */
+  readonly laws: readonly {
+    readonly measureId: EntityId;
+    readonly label: string;
+  }[];
 }
 
 export interface NewsMasthead {
@@ -59,6 +64,57 @@ function styleFor(outletKey: string): number {
   return hash % MASTHEAD_STYLES;
 }
 
+/**
+ * The laws each story reports on: the legislative steps and enactments among
+ * the event it was published about and the events its lead was built from. A story about a bill links to the bill,
+ * where what it did, once law, is written.
+ */
+export function storyLawReader(
+  world: World,
+): (
+  publicationId: EntityId,
+  sourceEventId?: EntityId | null,
+) => NewsStory["laws"] {
+  const measureOfEvent = new Map<EntityId, EntityId>();
+  for (const action of world.history.legislativeActions ?? [])
+    measureOfEvent.set(action.eventId, action.measureId);
+  for (const enactment of world.history.legislativeEnactments ?? [])
+    measureOfEvent.set(enactment.outcomeEventId, enactment.measureId);
+  const leads = new Map<EntityId, readonly EntityId[]>();
+  const leadOfPublication = new Map<EntityId, EntityId>();
+  for (const record of world.history.pressRecords ?? []) {
+    if (record.kind === "story-lead")
+      leads.set(record.id, record.basisEventIds);
+    else if (record.kind === "story-disposition" && record.publicationId)
+      leadOfPublication.set(record.publicationId, record.leadId);
+  }
+  const measures = new Map(
+    (world.history.legislativeMeasures ?? []).map((row) => [row.id, row]),
+  );
+  return (publicationId, sourceEventId) => {
+    const lead = leadOfPublication.get(publicationId);
+    const found = new Set<EntityId>();
+    for (const eventId of [
+      ...(sourceEventId ? [sourceEventId] : []),
+      ...(lead ? (leads.get(lead) ?? []) : []),
+    ]) {
+      const measureId = measureOfEvent.get(eventId);
+      if (measureId) found.add(measureId);
+    }
+    return [...found].flatMap((measureId) => {
+      const measure = measures.get(measureId);
+      return measure
+        ? [
+            {
+              measureId,
+              label: `${measure.shortTitle} (${measure.designation})`,
+            },
+          ]
+        : [];
+    });
+  };
+}
+
 export function projectNewsFrontPage(
   world: World,
   mode: NewsMode,
@@ -71,6 +127,7 @@ export function projectNewsFrontPage(
     storyCount: outlet.storyCount,
     style: styleFor(outlet.outletKey),
   }));
+  const lawsOf = storyLawReader(world);
   const stories: NewsStory[] = panel.items.map((item) => ({
     id: item.publicationId,
     sourceEventId: item.sourceEventId,
@@ -89,6 +146,7 @@ export function projectNewsFrontPage(
       personId: person.personId,
       label: person.label,
     })),
+    laws: lawsOf(item.publicationId, item.sourceEventId),
   }));
   const byRecency = (left: NewsStory, right: NewsStory) =>
     right.publishedAt.localeCompare(left.publishedAt);
