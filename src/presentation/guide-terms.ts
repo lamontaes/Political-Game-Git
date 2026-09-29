@@ -471,6 +471,168 @@ export const GUIDE_TERMS: readonly GuideTermEntry[] = [
       sourceUrls: [],
     },
   },
+  {
+    semanticKey: "committee-assignment",
+    term: "Committee assignment",
+    shortDefinition: "A member's seat on a particular committee for the term.",
+    explanation:
+      "Most of a legislature's detailed work happens in committees, so which committees a member sits on decides which bills they shape before the whole chamber sees them. Seats are handed out at the start of a term, usually by the chamber's leaders or party caucuses, and a seat on a busy or powerful committee is something members ask for and trade favors to get.",
+    contextNote: RULE_PACK_CONTEXT,
+    relatedKeys: ["committee-chair", "committee-referral", "caucus"],
+    authoring: {
+      sourceNotes:
+        "Written in our own words from the committee rosters the legislative packs already carry; no wording reused.",
+      sourceUrls: [],
+    },
+  },
+  {
+    semanticKey: "cloture",
+    term: "Cloture",
+    shortDefinition:
+      "A vote to end debate so a question can come to a final vote.",
+    explanation:
+      "Where a chamber lets members keep talking for as long as they hold the floor, a determined minority can delay a vote indefinitely. Cloture is the vote that stops that and sets a limit on the time left. It usually needs more than a simple majority, which is why a bill can have majority support and still not reach a vote.",
+    contextNote:
+      "The United States Senate needs three-fifths of its members for cloture on most questions. Many state chambers limit debate by other rules, so the threshold shown for a chamber comes from that chamber's own rules.",
+    relatedKeys: ["roll-call", "majority-leader", "presiding-officer"],
+    authoring: {
+      sourceNotes:
+        "Written in our own words; the Senate threshold is from Senate Rule XXII.",
+      sourceUrls: [
+        "https://www.senate.gov/about/powers-procedures/filibusters-cloture.htm",
+      ],
+    },
+  },
+  {
+    semanticKey: "veto-override",
+    term: "Veto override",
+    shortDefinition:
+      "A vote by the legislature that makes a vetoed bill law anyway.",
+    explanation:
+      "After a governor or president vetoes a bill, the legislature can try again. If each chamber passes it a second time by the larger margin its constitution requires, the bill becomes law without the executive's signature. Because that margin is usually two-thirds, most vetoes stand, and the threat of one shapes what a legislature sends in the first place.",
+    contextNote:
+      "The margin differs from place to place: two-thirds in Congress and most states, and a smaller share in a few. The game reads it from each constitution.",
+    relatedKeys: ["veto", "presentment", "roll-call"],
+    authoring: {
+      sourceNotes:
+        "Written in our own words from the override provisions in the constitutional-process source snapshots.",
+      sourceUrls: [],
+    },
+  },
+  {
+    semanticKey: "primary",
+    term: "Primary",
+    shortDefinition:
+      "An election in which a party's voters choose its candidate for the general election.",
+    explanation:
+      "Before most November elections, each party holds a primary to decide who will carry its name on the ballot. Only the winner goes on. In a place where one party usually wins in November, the primary is often the contest that really decides who holds the office.",
+    contextNote:
+      "Who may vote in a primary, and whether a runoff follows, differs by state. Some states let any voter take part, some only a party's registered members, and a few use one primary for all candidates.",
+    relatedKeys: ["filing-deadline", "caucus"],
+    authoring: {
+      sourceNotes:
+        "Written in our own words; primary types follow the NCSL summary of state primary systems.",
+      sourceUrls: [
+        "https://www.ncsl.org/elections-and-campaigns/state-primary-election-types",
+      ],
+    },
+  },
+  {
+    semanticKey: "filing-deadline",
+    term: "Filing deadline",
+    shortDefinition:
+      "The last day a candidate can hand in the papers needed to appear on the ballot.",
+    explanation:
+      "To run for an office, a candidate files a declaration with the election office, often with a fee or a petition of signatures. Anyone who misses the deadline stays off that ballot, however strong their support, so deciding to run has to happen months before the vote.",
+    contextNote:
+      "The date, the fee and the number of signatures are set by each state's election law for each office.",
+    relatedKeys: ["primary"],
+    authoring: {
+      sourceNotes:
+        "Written in our own words from the candidate-filing rules already carried in the election sources.",
+      sourceUrls: [],
+    },
+  },
+  {
+    semanticKey: "germane-amendment",
+    term: "Germane amendment",
+    shortDefinition:
+      "An amendment on the same subject as the bill it would change.",
+    explanation:
+      "Many chambers only accept amendments that stay on the bill's subject. An amendment about something else can be ruled out of order, which keeps unrelated measures from riding on a popular bill. Where the rule is loose, attaching an unrelated measure to a bill that must pass is a common tactic.",
+    contextNote:
+      "Whether amendments must be germane is set by each chamber's rules; many state constitutions also limit a bill to one subject.",
+    relatedKeys: ["amendment", "presiding-officer"],
+    authoring: {
+      sourceNotes:
+        "Written in our own words from the single-subject and germaneness rules noted in the legislative packs.",
+      sourceUrls: [],
+    },
+  },
+  {
+    semanticKey: "recorded-vote",
+    term: "Recorded vote",
+    shortDefinition:
+      "A vote whose result, and each member's answer, is written into the record after it is taken.",
+    explanation:
+      "A recorded vote enters each member's vote and the final tally in the chamber's record. A stated intention, or a vote scheduled for later, is not a recorded vote until it has actually been taken.",
+    relatedKeys: ["roll-call"],
+    authoring: {
+      sourceNotes:
+        "Moved here from the interview glossary so the Guide and inline help share one definition.",
+      sourceUrls: [
+        "https://www.house.gov/the-house-explained/the-legislative-process/house-floor",
+      ],
+    },
+  },
+  {
+    semanticKey: "on-the-record",
+    term: "On the record",
+    shortDefinition:
+      "What is said may be published and credited to the speaker by name.",
+    explanation:
+      "When a source speaks on the record, a reporter may quote them and name them. Ground rules are agreed before the answer is given, not afterward.",
+    relatedKeys: ["on-background", "off-the-record"],
+    authoring: {
+      sourceNotes:
+        "Moved here from the interview glossary so the Guide and inline help share one definition.",
+      sourceUrls: [
+        "https://www.ap.org/about/news-values-and-principles/telling-the-story/",
+      ],
+    },
+  },
+  {
+    semanticKey: "on-background",
+    term: "On background",
+    shortDefinition:
+      "What is said may be published only with the description of the source agreed beforehand.",
+    explanation:
+      "A source on background can be quoted or paraphrased, but not by name; the story describes them only in the words agreed before the answer, such as a senior aide. News organizations use slightly different terms, so the agreement itself decides.",
+    relatedKeys: ["on-the-record", "off-the-record"],
+    authoring: {
+      sourceNotes:
+        "Moved here from the interview glossary so the Guide and inline help share one definition.",
+      sourceUrls: [
+        "https://www.ap.org/about/news-values-and-principles/telling-the-story/",
+      ],
+    },
+  },
+  {
+    semanticKey: "off-the-record",
+    term: "Off the record",
+    shortDefinition:
+      "What is said may not be published from this conversation.",
+    explanation:
+      "Off the record means the reporter agrees not to publish what the source says in that exchange. It does not erase facts the reporter learns another way, and it only counts if both sides agreed before the answer.",
+    relatedKeys: ["on-the-record", "on-background"],
+    authoring: {
+      sourceNotes:
+        "Moved here from the interview glossary so the Guide and inline help share one definition.",
+      sourceUrls: [
+        "https://www.ap.org/about/news-values-and-principles/telling-the-story/",
+      ],
+    },
+  },
 ];
 
 const BY_KEY: ReadonlyMap<string, GuideTermEntry> = new Map(
@@ -605,6 +767,31 @@ const INLINE_PHRASES: Readonly<Record<string, readonly string[]>> = {
   obligation: ["obligation"],
   "fiscal-note": ["fiscal note"],
   adjournment: ["adjournment"],
+  speaker: ["speaker of the house", "speaker of the assembly"],
+  "committee-assignment": ["committee assignment"],
+  cloture: ["cloture"],
+  "veto-override": ["veto override", "override the veto", "overrode the veto"],
+  primary: [
+    "primary election",
+    "party primary",
+    "primaries",
+    "[the ]primary",
+    "[a ]primary",
+    "[this ]primary",
+    "[that ]primary",
+    "[their ]primary",
+    "[his ]primary",
+    "[her ]primary",
+    "[your ]primary",
+    "[the Democratic ]primary",
+    "[the Republican ]primary",
+  ],
+  "filing-deadline": ["filing deadline"],
+  "germane-amendment": ["germane amendment", "germane", "nongermane"],
+  "recorded-vote": ["recorded vote"],
+  "on-the-record": ["on the record", "on-the-record"],
+  "on-background": ["on background"],
+  "off-the-record": ["off the record", "off-the-record"],
 };
 
 export interface GuideTextSegment {
@@ -613,15 +800,75 @@ export interface GuideTextSegment {
   readonly semanticKey: string | null;
 }
 
+/*
+ * A word that is a term in one phrase and an ordinary word in the next.
+ * "Primary" is an election after "the" and a plain adjective before "care",
+ * so its bare phrases carry the words that must come before it (written in
+ * brackets above, and never underlined) and this list of words that may not
+ * come after it.
+ */
+const NOT_FOLLOWED_BY: Readonly<Record<string, readonly string[]>> = {
+  primary: [
+    "account",
+    "breadwinner",
+    "care",
+    "caregiver",
+    "color",
+    "colors",
+    "concern",
+    "doctor",
+    "earner",
+    "focus",
+    "goal",
+    "heating",
+    "home",
+    "income",
+    "job",
+    "key",
+    "language",
+    "physician",
+    "purpose",
+    "reason",
+    "residence",
+    "responsibility",
+    "role",
+    "school",
+    "source",
+    "target",
+    "way",
+  ],
+};
+
 const INLINE_MATCHES: readonly {
+  /** Words that must come first, matched but not underlined. */
+  readonly before: string;
   readonly phrase: string;
   readonly semanticKey: string;
 }[] = Object.entries(INLINE_PHRASES)
   .flatMap(([semanticKey, phrases]) =>
-    phrases.map((phrase) => ({ phrase: phrase.toLowerCase(), semanticKey })),
+    phrases.map((written) => {
+      const bracket = /^\[([^\]]*)\](.*)$/.exec(written);
+      return {
+        before: (bracket?.[1] ?? "").toLowerCase(),
+        phrase: (bracket?.[2] ?? written).toLowerCase(),
+        semanticKey,
+      };
+    }),
   )
   /* Longest first, so "committee referral" wins over "referral". */
-  .sort((left, right) => right.phrase.length - left.phrase.length);
+  .sort(
+    (left, right) =>
+      right.before.length +
+      right.phrase.length -
+      (left.before.length + left.phrase.length),
+  );
+
+function followedByOrdinaryWord(semanticKey: string, rest: string): boolean {
+  const excluded = NOT_FOLLOWED_BY[semanticKey];
+  if (!excluded) return false;
+  const next = /^\s+([a-z]+)/i.exec(rest)?.[1]?.toLowerCase();
+  return next !== undefined && excluded.includes(next);
+}
 
 function isWordEdge(character: string | undefined): boolean {
   return character === undefined || !/[A-Za-z0-9]/.test(character);
@@ -641,15 +888,17 @@ export function annotateGuideTerms(text: string): readonly GuideTextSegment[] {
   const lower = text.toLowerCase();
   const used = new Set<string>();
 
-  for (const { phrase, semanticKey } of INLINE_MATCHES) {
+  for (const { before, phrase, semanticKey } of INLINE_MATCHES) {
     if (used.has(semanticKey)) continue;
     let from = 0;
     for (;;) {
-      const at = lower.indexOf(phrase, from);
-      if (at < 0) break;
+      const found = lower.indexOf(before + phrase, from);
+      if (found < 0) break;
+      const at = found + before.length;
       const end = at + phrase.length;
       const whole =
-        isWordEdge(text[at - 1]) &&
+        isWordEdge(text[found - 1]) &&
+        !followedByOrdinaryWord(semanticKey, text.slice(end)) &&
         /* A plural or possessive is the same term, so allow a trailing s. */
         (isWordEdge(text[end]) ||
           (text[end]?.toLowerCase() === "s" && isWordEdge(text[end + 1])));
@@ -660,7 +909,7 @@ export function annotateGuideTerms(text: string): readonly GuideTextSegment[] {
         used.add(semanticKey);
         break;
       }
-      from = at + 1;
+      from = found + 1;
     }
   }
 
