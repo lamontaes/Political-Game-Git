@@ -2242,16 +2242,37 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "law in force",
+      "size": -0.02,
+      "per": "law in force says yes (1) rather than no (0): the share of a flood's exposed homes it damages",
       "lagMonths": 24,
       "group": "place",
       "owner": "O",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "ESTIMATED FROM AVERAGE: the law keeps new homes out of the flood zone, and new homes are about 1% of the housing stock a year (Census Bureau new residential construction over the housing unit estimates); a home kept out of the zone, like one built to the flood program's standards, escapes about 80% of the damage (FEMA). About two years of new building kept out gives about 2% fewer homes damaged; building above the 100-year flood line saves about $6 for every $1 spent (National Institute of Building Sciences 2019). Communities that protect open floodplain land have measurably lower insured flood losses (Brody and Highfield 2013)",
+      "source": "FEMA, National Flood Insurance Program floodplain management FAQ (structures built to NFIP criteria experience 80 percent less damage); Census Bureau, New Residential Construction and Housing Unit Estimates; Brody and Highfield 2013, Land Use Policy 32:89-95; National Institute of Building Sciences 2019, Natural Hazard Mitigation Saves; sized by Research 6 (07 LAW EFFECT SIZES, September 29, 2026)",
+      "evidence": "provisional",
+      "range": [-0.06, 0],
       "from": "law:us-policy-positions:environment-energy.restrict-building-in-flood-zones",
-      "to": "disaster.damage"
+      "to": "disaster.flood-damage"
+    },
+    {
+      "key": "container-deposit-to-recycling",
+      "from": "law:us-policy-positions:environment-energy.bottle-deposit",
+      "to": "env.container-recycling-pct",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 43.7,
+      "per": "law in force says yes (1) rather than no (0), in percentage points of beverage containers recycled",
+      "lagMonths": 6,
+      "group": "place",
+      "owner": "O",
+      "evidence": "researched",
+      "anchor": "States with a deposit law return 71.6% of their beverage containers and states without one 27.9% (43.7 points). Return rates run from 33% under a 5-cent deposit to 92% under a 10-cent one, so the range spans a weak program to a strong one. A new program opens its return points within about six months",
+      "source": "Container Recycling Institute, Bottle Bill Resource Guide (container-recycling.org/bottle-bills), quoting BEAR 2002, and its 2026 table of redemption rates in the 10 deposit states; sized by Research 6 (07 LAW EFFECT SIZES, September 29, 2026)",
+      "range": [20, 55],
+      "floor": -100,
+      "ceiling": 101
     },
     {
       "key": "unemployment-to-uninsured",
