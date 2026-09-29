@@ -117,6 +117,11 @@ export interface AdoptedBudget {
   readonly reserveDeposit: number;
   /** The full actuarial pension contribution this year. */
   readonly pensionRequired: number;
+  /**
+   * The government's own share of it, paid when no law requires the full
+   * amount (`PensionRecord.paidShare` at adoption).
+   */
+  readonly pensionShare: number;
   /** The nominal economy index the expected revenue was set at, or null. */
   readonly economyAtAdoption: number | null;
   readonly laws: Readonly<Record<BudgetLawName, BudgetLawReading>>;
@@ -166,6 +171,12 @@ export interface BudgetAdjustment {
 export interface PensionRecord {
   readonly liability: number;
   readonly assets: number;
+  /**
+   * The share of the required contribution this government pays when no law
+   * requires the full amount: ESTIMATED FROM AVERAGE, measured spread and
+   * drift (`pension-share.ts`).
+   */
+  readonly paidShare: number;
 }
 
 export interface PublicBudgetGovernment {

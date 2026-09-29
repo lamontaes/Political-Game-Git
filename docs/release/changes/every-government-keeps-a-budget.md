@@ -14,6 +14,10 @@ adopted automatically each fiscal year.
 
 A law requiring a balanced budget now forces mid-year cuts and reserve draws
 when collections fall short, and without one the deficit is borrowed. A
-minimum-reserve law sends surpluses to the reserve, and without a pension law
-the government pays less than the full contribution and its unfunded pension
-liability grows. Each budget law binds the government that passed it.
+minimum-reserve law sends surpluses to the reserve. A pension law makes the
+government pay its full contribution; without one it pays its own share,
+starting from the measured spread of what real pension plans are paid and
+drifting year to year, and any shortfall grows its unfunded liability. Each
+budget law binds the government that passed it. American Samoa and the
+Northern Mariana Islands, which the national budget survey leaves out, open
+from Guam's and the U.S. Virgin Islands' spending per resident.

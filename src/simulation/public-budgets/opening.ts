@@ -13,6 +13,7 @@ import { SeededRng } from "../rng";
 import { STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
 import { standardNormal } from "../world-setup/deterministic-math";
+import { openingPaidShare, pensionPayment } from "./pension-share";
 import {
   budgetLawReadings,
   fiscalYearContaining,
@@ -77,6 +78,7 @@ interface PlaceBase {
   readonly state?: PerResident;
   readonly local?: PerResident;
   readonly territoryAllFundsSpendingFY2025Millions?: number | null;
+  readonly islandAreaPopulation2020?: number;
 }
 
 const PLACES = bases.places as unknown as Readonly<Record<string, PlaceBase>>;
@@ -84,6 +86,51 @@ const COUNTY_POPULATION = bases.countyPopulation2024 as Readonly<
   Record<string, number>
 >;
 export const BUDGET_CALIBRATION = bases.calibration.factor;
+
+/**
+ * An island area NASBO does not survey (American Samoa, the Northern Mariana
+ * Islands) opens ESTIMATED FROM AVERAGE: the island areas NASBO does survey
+ * (Guam, the U.S. Virgin Islands), averaged per resident over the Census
+ * Bureau's 2020 Island Areas populations (Claude CTO, September 28, 2026,
+ * 10:32 p.m. EDT: no value is left unknown).
+ */
+const ISLAND_AREA_AVERAGE = (() => {
+  const peers = Object.values(PLACES).filter(
+    (place) =>
+      place.islandAreaPopulation2020 &&
+      place.territoryAllFundsSpendingFY2025Millions &&
+      place.generalFundFY2026Millions.revenues &&
+      place.generalFundFY2026Millions.expenditures,
+  );
+  const mean = (values: readonly number[]) => sum(values) / values.length;
+  const shareOf = (value: number | null, place: PlaceBase) =>
+    (value ?? 0) / place.generalFundFY2026Millions.expenditures!;
+  return {
+    peers: peers.map((place) => place.name),
+    spendingPerResident: mean(
+      peers.map(
+        (place) =>
+          (place.territoryAllFundsSpendingFY2025Millions! * 1_000_000) /
+          place.islandAreaPopulation2020!,
+      ),
+    ),
+    revenueToSpending: mean(
+      peers.map((place) =>
+        shareOf(place.generalFundFY2026Millions.revenues, place),
+      ),
+    ),
+    balanceShare: mean(
+      peers.map((place) =>
+        shareOf(place.generalFundFY2026Millions.endingBalance, place),
+      ),
+    ),
+    reserveShare: mean(
+      peers.map((place) =>
+        shareOf(place.generalFundFY2026Millions.rainyDayFundBalance, place),
+      ),
+    ),
+  };
+})();
 
 /** NASBO's median rainy-day balance as a share of spending, fiscal 2026. */
 const MEDIAN_RAINY_DAY_SHARE = 0.131;
@@ -188,20 +235,25 @@ function emptySpending(): number[] {
 }
 
 /** The opening pension and its actuarial contribution. PLACEHOLDER. */
-export function openingPension(spending: number): {
+export function openingPension(
+  spending: number,
+  paidShare: number,
+): {
   pension: PensionRecord;
   required: number;
 } {
   const liability = Math.round(spending * PENSION.liabilityToSpending);
   const assets = Math.round(liability * PENSION.fundedRatio);
   return {
-    pension: { liability, assets },
+    pension: { liability, assets, paidShare },
     required: actuarialContribution({ liability, assets }),
   };
 }
 
 /** Normal cost plus the unfunded part amortized. */
-export function actuarialContribution(pension: PensionRecord): number {
+export function actuarialContribution(
+  pension: Pick<PensionRecord, "liability" | "assets">,
+): number {
   return Math.round(
     pension.liability * PENSION.normalCostShare +
       Math.max(0, pension.liability - pension.assets) /
@@ -280,12 +332,21 @@ function stateOpening(
         : "Census 2022 state-government figures per resident times BEA 2024 population, times the calibration factor.",
     );
   } else {
-    // A territory: NASBO totals only.
-    const allFunds =
-      base.territoryAllFundsSpendingFY2025Millions ?? general.expenditures;
-    if (!allFunds || !general.revenues || !general.expenditures)
-      return "No NASBO totals and no Census finances for this territory.";
-    const total = allFunds * 1_000_000;
+    // A territory: NASBO totals, or the surveyed island areas' average.
+    population = base.islandAreaPopulation2020 ?? 0;
+    const surveyed =
+      (base.territoryAllFundsSpendingFY2025Millions ?? general.expenditures) &&
+      general.revenues &&
+      general.expenditures;
+    if (!surveyed && population <= 0)
+      return "No NASBO totals, no Census finances and no population for this territory.";
+    const total = surveyed
+      ? (base.territoryAllFundsSpendingFY2025Millions ??
+          general.expenditures)! * 1_000_000
+      : ISLAND_AREA_AVERAGE.spendingPerResident * population;
+    const revenueToSpending = surveyed
+      ? general.revenues! / general.expenditures!
+      : ISLAND_AREA_AVERAGE.revenueToSpending;
     spending[BUDGET_PROGRAMS.indexOf("programUnknown")] = drawn(
       world,
       candidate.key,
@@ -296,14 +357,27 @@ function stateOpening(
       world,
       candidate.key,
       "sourceUnknown",
-      (total * general.revenues) / general.expenditures,
+      total * revenueToSpending,
     );
-    // Population is not in the BEA table; a territory's budget does not use it.
-    population = 0;
     notes.push(
-      "NASBO all-funds spending, with revenue at the general fund's ratio of revenue to spending; the split by source and by program is unknown.",
+      surveyed
+        ? "NASBO all-funds spending, with revenue at the general fund's ratio of revenue to spending; the split by source and by program is not in the research."
+        : `ESTIMATED FROM AVERAGE: NASBO does not survey this territory, so spending is the per-resident average of ${ISLAND_AREA_AVERAGE.peers.join(" and ")} times its Census 2020 population, with their average ratio of revenue to spending, balance and reserve.`,
       "Debt is not in the research for territories and opens at none recorded (research: local-government-finances-by-type).",
     );
+    if (!surveyed) {
+      const totalSpending = sum(spending);
+      return {
+        population,
+        revenue,
+        spending,
+        debt,
+        interestRate,
+        balance: Math.round(totalSpending * ISLAND_AREA_AVERAGE.balanceShare),
+        reserve: Math.round(totalSpending * ISLAND_AREA_AVERAGE.reserveShare),
+        notes,
+      };
+    }
   }
   const balance = general.endingBalance;
   const rainy = general.rainyDayFundBalance;
@@ -453,11 +527,16 @@ export function openGovernmentBudget(
     candidate.level !== "state",
   );
   const spending = opening.spending;
-  const { pension, required } = openingPension(sum(spending));
-  // The opening year's contribution, paid at the share its law requires.
-  const paidShare =
-    laws.pensions.answer === "yes" ? 1 : PENSION.paidShareWithoutLaw;
-  carvePension(spending, Math.round(required * paidShare));
+  const { pension, required } = openingPension(
+    sum(spending),
+    openingPaidShare(world, candidate.key),
+  );
+  // The opening year's contribution: in full under a law requiring it, and
+  // at the government's own share otherwise.
+  carvePension(
+    spending,
+    pensionPayment(required, pension.paidShare, laws.pensions),
+  );
   const stateId = stateJurisdictionForKey(candidate.stateKey)?.id ?? null;
   const adopted: AdoptedBudget = {
     fiscalYear: year.fiscalYear,
@@ -469,6 +548,7 @@ export function openGovernmentBudget(
     appropriations: spending,
     reserveDeposit: 0,
     pensionRequired: required,
+    pensionShare: pension.paidShare,
     economyAtAdoption: stateId
       ? nominalEconomyIndex(world, stateId, today)
       : null,

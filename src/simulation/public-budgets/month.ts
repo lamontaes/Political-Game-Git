@@ -10,6 +10,7 @@ import {
   propositionIdFor,
 } from "./fiscal";
 import { actuarialContribution } from "./opening";
+import { driftedPaidShare, pensionPayment } from "./pension-share";
 import { lawInForce } from "../governing/law-in-force";
 import {
   ECONOMY_ELASTICITY,
@@ -493,11 +494,18 @@ export function settleGovernmentMonth(
           ? "The pension payments fell short of the full actuarial contribution the law requires."
           : pensionLaw.answer === "no"
             ? "No law requires the full actuarial contribution; the unpaid part grows the unfunded liability."
-            : "No law in force when the budget was adopted answered whether pensions must be funded on schedule, so the lower share was paid (PLACEHOLDER share).",
+            : "No law in force when the budget was adopted answered whether pensions must be funded on schedule, so the government paid its own share (ESTIMATED FROM AVERAGE: the measured spread of shares paid).",
     });
   const liability = government.pension.liability;
   const benefits = liability * PENSION.benefitShare * share;
   const pension = {
+    // Next year's own share: this year's, moved by one year's measured drift.
+    paidShare: driftedPaidShare(
+      world,
+      government.key,
+      year.fiscalYear + 1,
+      government.pension.paidShare,
+    ),
     liability: Math.round(
       liability * (1 + PENSION.assumedReturn * share) +
         liability * PENSION.normalCostShare * share -
@@ -581,9 +589,10 @@ function adoptNextYear(
     }
   }
   const pensionRequired = actuarialContribution(government.pension);
-  const pensionPaid = Math.round(
-    pensionRequired *
-      (laws.pensions.answer === "yes" ? 1 : PENSION.paidShareWithoutLaw),
+  const pensionPaid = pensionPayment(
+    pensionRequired,
+    government.pension.paidShare,
+    laws.pensions,
   );
   const interest = Math.round(government.debt * government.interestRate);
   const priorTotal = sum(prior.appropriations);
@@ -641,6 +650,7 @@ function adoptNextYear(
     appropriations,
     reserveDeposit,
     pensionRequired,
+    pensionShare: government.pension.paidShare,
     economyAtAdoption,
     laws,
   };

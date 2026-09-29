@@ -16,5 +16,5 @@
   ],
   "title": "Each state's public pension funding: liability, assets and the share of the required contribution paid",
   "usableAnswer": "One row per state with liability, assets, funded ratio, required contribution, share paid, assumed return and amortization years, each cited.",
-  "whyItMatters": "Every government's pension record opens from PLACEHOLDER values (liability 1.2 times a year's spending, 75% funded, 7% return, a 30-year amortization), and a government with no law requiring full funding pays a PLACEHOLDER 80% of the actuarial contribution (src/simulation/public-budgets/rules.ts, PENSION)."
+  "whyItMatters": "Every government's pension record opens from PLACEHOLDER values (liability 1.2 times a year's spending, 75% funded, 7% return, a 30-year amortization) (src/simulation/public-budgets/rules.ts, PENSION). A government with no law requiring full funding pays its own share of the actuarial contribution, ESTIMATED FROM AVERAGE: drawn from the Public Plans Database's measured spread of shares paid, fiscal 2022 to 2024, and drifting by its measured yearly changes (src/simulation/public-budgets/pension-share.ts). Each state's own measured share would replace the draw."
 }

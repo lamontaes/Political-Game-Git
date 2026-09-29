@@ -64,11 +64,6 @@ export const PENSION = {
   benefitShare: 0.08,
   assumedReturn: 0.07,
   amortizationYears: 30,
-  /**
-   * The share of the actuarial contribution paid where no law requires the
-   * full amount. PLACEHOLDER, research: public-pension-funding-by-state.
-   */
-  paidShareWithoutLaw: 0.8,
 } as const;
 
 /**

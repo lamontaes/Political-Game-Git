@@ -3,7 +3,8 @@
   "derivedFrom": [
     "data/research/money/state-local-finances-2022.json",
     "data/research/money/government-budgets-2026.json",
-    "data/research/money/population-2024.json"
+    "data/research/money/population-2024.json",
+    "https://www.census.gov/library/stories/2021/10/first-2020-census-united-states-island-areas-data-released-today.html"
   ],
   "script": "scripts/research/export-public-budget-bases.py",
   "scope": "General government only: Census utilities (including transit systems), liquor stores and insurance trusts are left out of revenue and spending. Per-resident values are fiscal 2022 dollars over 2023 residents.",
@@ -250,7 +251,8 @@
         "endingBalance": null,
         "rainyDayFundBalance": null
       },
-      "territoryAllFundsSpendingFY2025Millions": null
+      "territoryAllFundsSpendingFY2025Millions": null,
+      "islandAreaPopulation2020": 49710
     },
     "US-AZ": {
       "name": "Arizona",
@@ -870,7 +872,8 @@
         "endingBalance": 232.0,
         "rainyDayFundBalance": 88.0
       },
-      "territoryAllFundsSpendingFY2025Millions": 909.0
+      "territoryAllFundsSpendingFY2025Millions": 909.0,
+      "islandAreaPopulation2020": 153836
     },
     "US-HI": {
       "name": "Hawaii",
@@ -1946,7 +1949,8 @@
         "endingBalance": null,
         "rainyDayFundBalance": null
       },
-      "territoryAllFundsSpendingFY2025Millions": null
+      "territoryAllFundsSpendingFY2025Millions": null,
+      "islandAreaPopulation2020": 47329
     },
     "US-MS": {
       "name": "Mississippi",
@@ -3566,7 +3570,8 @@
         "endingBalance": 22.0,
         "rainyDayFundBalance": 13.0
       },
-      "territoryAllFundsSpendingFY2025Millions": 1174.0
+      "territoryAllFundsSpendingFY2025Millions": 1174.0,
+      "islandAreaPopulation2020": 87146
     },
     "US-VT": {
       "name": "Vermont",

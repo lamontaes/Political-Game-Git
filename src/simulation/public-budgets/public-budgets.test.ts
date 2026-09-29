@@ -17,7 +17,6 @@ import {
   type PublicBudgetStore,
 } from ".";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
-import { PENSION } from "./rules";
 
 /*
  * Every government keeps a budget, and the three budget laws act on it. The
@@ -48,12 +47,14 @@ function worldAt(
     readonly laws?: readonly Law[];
     readonly places?: readonly string[];
     readonly history?: Partial<World["history"]>;
+    readonly seed?: string;
   } = {},
 ): World {
   const laws = options.laws ?? [];
   const places = (options.places ?? []).map((key) => lifePlaceByKey(key)!);
   return {
     id: "world_test" as EntityId,
+    ...(options.seed ? { seed: options.seed } : {}),
     currentDate: makeIsoDate(currentDate),
     jurisdictions: Object.fromEntries(
       places.map((place) => [
@@ -165,18 +166,13 @@ function settleAlone(
 }
 
 describe("public budgets", () => {
-  it("every state, D.C. and territory the research covers keeps a budget for a full year, and the two it does not are listed as unknown", () => {
+  it("every state, D.C. and territory keeps a budget for a full year, none left unknown", () => {
     const world = runThrough(opened(worldAt("2026-01-05")), "2026-12-01");
     const store = world.publicBudgets!;
     const keys = Object.keys(STATES).map((usps) => `US-${usps}`);
     const kept = new Set(store.governments.map((row) => row.key));
-    expect([...kept].sort()).toEqual(
-      keys.filter((key) => key !== "US-AS" && key !== "US-MP").sort(),
-    );
-    expect(store.unknown.map((row) => row.key).sort()).toEqual([
-      "US-AS",
-      "US-MP",
-    ]);
+    expect([...kept].sort()).toEqual(keys.sort());
+    expect(store.unknown).toEqual([]);
     for (const government of store.governments) {
       expect(government.months, government.key).toHaveLength(12);
       for (const row of government.months) {
@@ -190,6 +186,26 @@ describe("public budgets", () => {
       expect(government.years.length, government.key).toBeGreaterThanOrEqual(2);
       expect(government.years.at(-1)!.basis).toBe("automatic");
     }
+  });
+
+  it("American Samoa and the Northern Mariana Islands, which NASBO does not survey, open from Guam's and the U.S. Virgin Islands' average per resident, marked as estimated", () => {
+    const world = opened(worldAt("2026-01-05"));
+    const find = (key: string) =>
+      world.publicBudgets!.governments.find((row) => row.key === key)!;
+    const perResident = (key: string) =>
+      sum(find(key).years[0]!.appropriations) / find(key).population;
+    const samoa = find("US-AS");
+    expect(samoa.population).toBe(49_710);
+    expect(find("US-MP").population).toBe(47_329);
+    expect(samoa.openingNotes.join(" ")).toContain("ESTIMATED FROM AVERAGE");
+    // Guam $909 million over 153,836 people; the Virgin Islands $1,174
+    // million over 87,146 (NASBO fiscal 2025, Census 2020).
+    expect(perResident("US-AS")).toBeCloseTo(
+      (909e6 / 153_836 + 1174e6 / 87_146) / 2,
+      0,
+    );
+    expect(perResident("US-MP")).toBeCloseTo(perResident("US-AS"), 0);
+    expect(samoa.reserve).toBeGreaterThan(0);
   });
 
   it("Illinois opens at its Census figures per resident times its 2024 population, and adopts fiscal 2027 on July 1", () => {
@@ -329,8 +345,11 @@ describe("public budgets", () => {
     expect(kept.government.reserve).toBe(0);
   });
 
-  it("without a pension law the government pays a lower share and its unfunded liability grows faster", () => {
+  it("without a pension law the government pays its own measured share, and its unfunded liability grows faster", () => {
+    // In this seed Illinois' own share is below the full contribution.
+    const seed = "budget-test-3";
     const withLaw = worldAt("2026-01-05", {
+      seed,
       laws: [{ question: PENSIONS, answer: "yes", jurisdictionId: illinois }],
     });
     const full = settleAlone(
@@ -338,12 +357,14 @@ describe("public budgets", () => {
       publicBudgetFor(opened(withLaw), illinois)!,
       "2027-06-01",
     );
-    const without = worldAt("2026-01-05");
+    const without = worldAt("2026-01-05", { seed });
     const partial = settleAlone(
       without,
       publicBudgetFor(opened(without), illinois)!,
       "2027-06-01",
     );
+    const opening = partial.government.years[0]!;
+    expect(opening.pensionShare).toBeLessThan(1);
     const unfunded = (government: PublicBudgetGovernment) =>
       government.pension.liability - government.pension.assets;
     expect(unfunded(partial.government)).toBeGreaterThan(
@@ -352,13 +373,11 @@ describe("public budgets", () => {
     const underpaid = partial.adjustments.filter(
       (row) => row.kind === "pension-underpaid",
     );
-    expect(underpaid.length).toBe(2);
     expect(underpaid[0]!.law?.reading.answer).toBe("unknown");
-    // The opening year ran January to June: six months of the lower share
+    // The opening year ran January to June: six months of the shortfall
     // went unpaid, not a whole year's.
-    const opening = partial.government.years[0]!;
     expect(underpaid[0]!.amount).toBeCloseTo(
-      (opening.pensionRequired * (1 - PENSION.paidShareWithoutLaw) * 6) / 12,
+      (opening.pensionRequired * (1 - opening.pensionShare) * 6) / 12,
       -3,
     );
     expect(
@@ -367,19 +386,43 @@ describe("public budgets", () => {
     const adopted = partial.government.years.at(-1)!;
     const pension = BUDGET_PROGRAMS.indexOf("pensionContribution");
     expect(adopted.appropriations[pension]).toBe(
-      Math.round(adopted.pensionRequired * PENSION.paidShareWithoutLaw),
+      Math.round(adopted.pensionRequired * adopted.pensionShare),
     );
+  });
+
+  it("each government's own pension share is spread around the measured average and drifts from year to year", () => {
+    const world = runThrough(
+      opened(worldAt("2026-01-05", { seed: "round-1" })),
+      "2027-12-01",
+    );
+    const governments = world.publicBudgets!.governments;
+    const opening = governments.map((row) => row.years[0]!.pensionShare);
+    // Most measured plans paid the full amount, and some paid less or more.
+    expect(opening.filter((share) => share === 1).length).toBeGreaterThan(
+      governments.length / 4,
+    );
+    expect(opening.some((share) => share < 1)).toBe(true);
+    expect(opening.some((share) => share > 1)).toBe(true);
+    const drifted = governments.filter(
+      (row) => row.years.at(-1)!.pensionShare !== row.years[0]!.pensionShare,
+    );
+    expect(drifted.length).toBeGreaterThan(0);
+    // A world without a seed takes the measured median and never drifts.
+    const plain = runThrough(opened(worldAt("2026-01-05")), "2027-12-01");
+    for (const row of plain.publicBudgets!.governments)
+      for (const year of row.years) expect(year.pensionShare).toBe(1);
   });
 
   it("a pension law enacted after the budget was adopted governs the next budget, and the year's shortfall is credited to the law read at adoption", () => {
     const base = worldAt("2026-01-05", {
+      seed: "budget-test-3",
       laws: [{ question: PENSIONS, answer: "yes", jurisdictionId: illinois }],
     });
     const late = {
       ...base,
       history: {
         ...base.history,
-        legislativeEnactments: base.history.legislativeEnactments.map(
+        legislativeEnactments: base.history.legislativeEnactments!.map(
           (row) => ({
             ...row,
             resolvedAt: makeIsoDate("2026-09-01"),
@@ -398,7 +441,9 @@ describe("public budgets", () => {
     expect(fiscal2028!.laws.pensions.answer).toBe("yes");
     const pension = BUDGET_PROGRAMS.indexOf("pensionContribution");
     expect(fiscal2028!.appropriations[pension]).toBe(
-      fiscal2028!.pensionRequired,
+      Math.round(
+        fiscal2028!.pensionRequired * Math.max(1, fiscal2028!.pensionShare),
+      ),
     );
     const underpaid = settled.adjustments.filter(
       (row) => row.kind === "pension-underpaid",
