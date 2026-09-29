@@ -6,6 +6,7 @@ import {
 } from "../macro-economy/readers";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import { defenseBoostPct } from "../federal-defense-spending";
+import { farmPaymentsCutPctOfLandValue } from "../federal-farm-subsidy-law";
 import { stateMinimumSettingAt } from "../minimum-wage";
 import {
   PLACE_OUTCOME_BASES,
@@ -132,6 +133,7 @@ const BASELINES = web.baselines as Readonly<
 const CHANGE_MEASURES = new Set([
   "labor.minimum-wage-change-pct",
   "federal.defense-boost-pct",
+  "federal.farm-payments-cut-pct-of-land-value",
 ]);
 
 /**
@@ -206,6 +208,18 @@ const FIXED_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
     read: (world, jurisdictionId, asOf) => {
       const key = placeOutcomeKey(jurisdictionId);
       return key === null ? null : defenseBoostPct(world, key, asOf);
+    },
+  },
+  "federal.farm-payments-cut-pct-of-land-value": {
+    key: "federal.farm-payments-cut-pct-of-land-value",
+    unit: "percent of the state's farm real estate value that the farm payments cut removes each year",
+    // A federal law that cuts farm subsidies removes a share of each state's
+    // payments (`federal-farm-subsidy-law.ts`); with no such law it is zero.
+    read: (world, jurisdictionId, asOf) => {
+      const key = placeOutcomeKey(jurisdictionId);
+      return key === null
+        ? null
+        : farmPaymentsCutPctOfLandValue(world, key, asOf);
     },
   },
   "labor.unemployment-pct": {
@@ -324,6 +338,9 @@ export const LAW_QUESTION_MEASURES: Readonly<
   ],
   "us-federal-positions:defense.grow-defense-spending": [
     "federal.defense-boost-pct",
+  ],
+  "us-federal-positions:agriculture.cut-farm-subsidies": [
+    "federal.farm-payments-cut-pct-of-land-value",
   ],
 };
 
