@@ -128,8 +128,22 @@ function pendingBillOn(
         (row) => row.propositionId === propositionId,
       ) &&
       !measurePosition(world, measure.id).terminal &&
-      !measureSessionIsClosed(world, measure.id).closed,
+      !sessionIsClosed(world, measure.id),
   );
+}
+
+/**
+ * Whether a measure's session has closed. A measure filed under a rule pack
+ * this session cannot read (a town's charter-profile pack, for one) has no
+ * readable session, so it counts as still open: a member does not file a
+ * second bill on a question a bill is already moving on.
+ */
+function sessionIsClosed(world: World, measureId: EntityId): boolean {
+  try {
+    return measureSessionIsClosed(world, measureId).closed;
+  } catch {
+    return false;
+  }
 }
 
 function agendaBatchKey(intakeKey: string): string {
