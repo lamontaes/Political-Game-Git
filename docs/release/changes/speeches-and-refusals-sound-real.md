@@ -16,7 +16,9 @@ room. Each cheers, applauds or stays quiet in their own way, and the result
 screen says how the room took it. Each remembers the speech, more strongly if
 it moved them or they were young. Over the months they tell the people they
 live with, and family and close friends in town, who weren't there, and a
-memory nobody retells fades.
+memory nobody retells fades. Ask someone what they remember, and a person
+who heard your speech, or was told about it, may bring it up once: a clear
+memory quotes what you said, and someone who was told says who told them.
 
 When someone turns down a game, a quiet talk or a date, they now say why: they
 want time to themselves, they would rather try something new, or they would

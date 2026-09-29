@@ -18,7 +18,11 @@ import {
   toldSummary,
 } from "./life-talk-topics";
 import { currentKnownMatter, matterAwareness } from "./current-matters";
-import { linePartsTag, type ComposedPart } from "./english-composition";
+import {
+  linePartsOf,
+  linePartsTag,
+  type ComposedPart,
+} from "./english-composition";
 import {
   invitationAgreeLine,
   invitationDeclineLine,
@@ -31,6 +35,7 @@ import {
   strongestOfficialView,
   type SmallTalkLine,
 } from "./small-talk-english";
+import { speechRememberedLine } from "./speech-remembered-english";
 import {
   answerRunning,
   isRunningIntent,
@@ -657,6 +662,16 @@ function replyFor(
         );
       if (matterTurn?.context.choice?.startsWith(MATTER_CHOICE_PREFIX))
         return `I remember you bringing up “${matterTurn.context.choice.slice(MATTER_CHOICE_PREFIX.length)}”`;
+      // The player's own speech, once, if this person heard it or was told.
+      const spokeOfSpeech = history.some((event) =>
+        (linePartsOf(event.tags) ?? []).some((key) =>
+          key.startsWith("small-talk.speech-remembered:"),
+        ),
+      );
+      const speech = spokeOfSpeech
+        ? null
+        : speechRememberedLine(world, personId, playerPersonId);
+      if (speech) return worded(speech);
       const remembered =
         history.find(
           (event) =>

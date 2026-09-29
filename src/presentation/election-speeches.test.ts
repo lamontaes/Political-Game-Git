@@ -23,6 +23,7 @@ import {
   SPEECH_MEMORY_FADE_DAYS,
 } from "../simulation/speech-retelling";
 import { createExplicitGeographyLife } from "./new-game-geography";
+import { speechRememberedLine } from "./speech-remembered-english";
 import {
   fileForOffice,
   giveElectionSpeech,
@@ -238,6 +239,25 @@ describe("election-night speeches", () => {
         (row) => row.personId === sisterId && row.eventId === speech.id,
       )?.source,
     ).toEqual({ kind: "told-by", sourcePersonId: holderId, claimId: null });
+    // Step 8: asked what they remember, the holder quotes the speech as it
+    // was given, and the sister says who told her.
+    const quoted = speechRememberedLine(told, holderId, personId)!;
+    expect(quoted.text).toMatch(/election night/);
+    const quote = quoted.text.match(/“(.+)”$/)![1]!;
+    expect(words!.text).toContain(quote);
+    const retold = speechRememberedLine(told, sisterId, personId)!;
+    expect(retold.text).toContain(
+      `${told.people[holderId]!.givenName} told me`,
+    );
+    // Someone with no record of the speech has nothing to say about it.
+    const stranger = told.personOrder.find(
+      (id) =>
+        id !== personId &&
+        !told.history.knowledge.some(
+          (row) => row.personId === id && row.eventId === speech.id,
+        ),
+    )!;
+    expect(speechRememberedLine(told, stranger, personId)).toBeNull();
     expect(
       told.history.knowledge.find(
         (row) => row.personId === newcomerId && row.eventId === speech.id,
