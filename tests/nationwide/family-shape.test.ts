@@ -11,7 +11,6 @@ import { addDays, ageOnDate } from "../../src/simulation/dates";
 import { advanceWorld } from "../../src/simulation/world";
 import {
   drawFamilyShape,
-  FAMILY_SHAPE_V2,
   TWO_PARENT_SHARE,
 } from "../../src/simulation/family-shape";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
@@ -35,7 +34,7 @@ function onePlaceEach(): readonly string[] {
   return [...largest.values()].map(([key]) => key).sort();
 }
 
-function adultStart(placeKey: string, seed: string, drawn: boolean) {
+function adultStart(placeKey: string, seed: string) {
   const place = lifePlaceByKey(placeKey)!;
   const target = place.context.initialMoment.date;
   const input = {
@@ -54,7 +53,6 @@ function adultStart(placeKey: string, seed: string, drawn: boolean) {
       // family is written at finalization and reads no world year.
       priorYearStartDate: addDays(target, -1),
     },
-    ...(drawn ? { familyShapeVersion: FAMILY_SHAPE_V2 } : {}),
   };
   return finalizePreStartPlayer(
     advanceWorld(buildPreStartBackgroundWorld(input), 1),
@@ -62,12 +60,9 @@ function adultStart(placeKey: string, seed: string, drawn: boolean) {
   );
 }
 
-function newGameAdult(placeKey: string, seed: string, drawn = true) {
-  const { familyShapeVersion, ...setup } = DEFAULT_NEW_GAME_SETUP;
-  void familyShapeVersion;
+function newGameAdult(placeKey: string, seed: string) {
   return createNewGameWorld({
-    ...setup,
-    ...(drawn ? { familyShapeVersion: FAMILY_SHAPE_V2 } : {}),
+    ...DEFAULT_NEW_GAME_SETUP,
     seed,
     placeKey,
     startAge: 40,
@@ -144,19 +139,10 @@ describe("a family drawn from real shares", () => {
     expect(shapes.size).toBeGreaterThan(3);
   }, 600_000);
 
-  it("New Game declares the drawn family, and an old setup has none", () => {
-    expect(DEFAULT_NEW_GAME_SETUP.familyShapeVersion).toBe(FAMILY_SHAPE_V2);
-    const old = newGameAdult("3918000", "family-shape-old-setup", false);
-    expect(
-      relatives(old.world, old.playerPersonId, "lineal:grandparent-grandchild"),
-    ).toHaveLength(0);
-  }, 120_000);
-
   it("draws the prior-year start's family the same way", () => {
     const { world, playerPersonId: player } = adultStart(
       "3918000",
       "family-shape-prior-year",
-      true,
     );
     const parents = relatives(world, player, "lineal:parent-child").filter(
       (id) => world.people[id]!.birthDate < world.people[player]!.birthDate,
@@ -164,17 +150,5 @@ describe("a family drawn from real shares", () => {
     expect(
       relatives(world, player, "lineal:grandparent-grandchild"),
     ).toHaveLength(parents.length * 2);
-  }, 120_000);
-
-  it("keeps an old replay's fixed family when the version is absent", () => {
-    const { world, playerPersonId: player } = adultStart(
-      "3918000",
-      "family-shape-old",
-      false,
-    );
-    const born = (id: EntityId) => world.people[id]!.birthDate;
-    const siblings = relatives(world, player, "collateral:sibling");
-    expect(siblings).toHaveLength(1);
-    expect(ageOnDate(born(siblings[0]!), born(player))).toBe(3);
   }, 120_000);
 });

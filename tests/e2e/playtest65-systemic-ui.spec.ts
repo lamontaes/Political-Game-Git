@@ -52,7 +52,7 @@ test("Calais normal start, combined introduction and return-to-title preserve th
   expect(layer).toEqual({ x: 0, y: 0, width: 853, height: 650 });
   await expect(page.getByTestId("world-orientation")).toHaveCSS(
     "background-color",
-    "rgb(11, 19, 32)",
+    "rgb(241, 234, 221)",
   );
   await page.screenshot({
     path: info.outputPath("calais-two-officials-853.png"),
