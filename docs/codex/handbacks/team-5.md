@@ -1,14 +1,14 @@
 # MERGED
 
-No Team 5 product changes have merged. The routing table is ready for review. The record-based news and dossier changes are candidates awaiting checks while Team 1 holds the heavy-job slot.
+No Team 5 product changes have merged. The routing table is ready for review. Two product candidates await checks in the coordinator's queued validation slots. The assignment remains incomplete.
 
 # WHAT EMERGED
 
 DECIDED: The assigned Job 07 records the September 29 ruling: “remove canned news. Old saves don't matter.” The candidate removes the ready-made local and international news producers and the crisis draw that consumed them. Existing scheduled synthetic transitions cancel without creating events or successors.
 
-HARDWIRED: The opening archive considers the preceding 90 days in `src/simulation/press/desk.ts:172`. It publishes existing eligible public occurrences through Civic Ledger, using their original occurrence dates. It creates no election, law, vote, business opening, or death to fill an empty archive. The first desk sweep reads the pre-schedule record; later sweeps keep their incremental frontier.
+HARDWIRED: The opening archive considers the preceding 90 days in `src/simulation/press/desk.ts:171`. It publishes existing eligible public occurrences through Civic Ledger, using their original occurrence dates. It creates no election, law, vote, business opening, or death to fill an empty archive. The first desk sweep reads the pre-schedule record; later sweeps keep their incremental frontier.
 
-HARDWIRED: The dossier candidate reads public events involving the person, beyond office tenures, in `src/presentation/person-dossier.ts:186`. Work and education facts require the player's own identity, a public source event, or accurate recorded event knowledge. Private biography remains withheld. This does not generate missing pre-play hiring or favor history.
+HARDWIRED: The dossier candidate reads public events involving the person, beyond office tenures, in `src/presentation/person-dossier.ts:187`. Work and education facts require the player's own identity, a public source event, or accurate recorded event knowledge. Private biography remains withheld. This does not generate missing pre-play hiring or favor history.
 
 HARDWIRED: The rejected generic choice opener and appearance developer notice are removed from their player components. The ownership check still prevents editing another person's appearance.
 
@@ -16,7 +16,14 @@ HARDWIRED: The rejected generic choice opener and appearance developer notice ar
 
 The required meeting change waits for Team 1's claimed `src/simulation/living-world/local-council-meetings.ts`. That file still introduces a meeting-room-hours ordinance. Team 1 also owns `src/simulation/campaigns.ts` and `src/presentation/opening-life.ts`; their synthetic-development calls remain temporarily callable through retired entry points. Team 5 has not edited these files.
 
-Team 4 owns `scripts/zero-dice-allowlist.json`. The candidate removes the two pressure-event dice entries; Team 4 must reconcile those exact entries after this source change is received. Team 5 has not changed that file.
+Team 4 owns `scripts/zero-dice-allowlist.json`. The source candidate removes code matched by two pressure-event entries. Team 4 must reconcile these after receiving the change; Team 5 has not changed that file.
+
+Both entries name src/simulation/pressure/events.ts, Build 19, count 1:
+
+- Kind fixed-share; code `chanceCap: 0.9,`.
+- Kind roll; code `draw(next, ["international", matter, ordinal]) >=`.
+
+The corresponding source removal is in commit `f99e10b48b17efb31a0f32fde7eb8631a01052c5`, draft PR #1134.
 
 Meeting attendees, agenda-driven speech, full pre-play leader history, and most items routed to Job 09 remain open. The candidate records each public comment listener in the comment event and gives each listener direct knowledge. It does not yet produce an attendee-specific reply. Neither a five-year story count nor a three-year speed comparison has been run. No watched-world outcome is claimed.
 
@@ -27,9 +34,12 @@ Meeting attendees, agenda-driven speech, full pre-play leader history, and most 
 - The later three-file canned-news test run was interrupted by Team 5 with exit 130 at the coordinator's request. NO RESULT.
 - Typecheck, current candidate tests, release check, zero-dice, watched worlds and timing: NOT RUN after the host restriction.
 - Browser and GitHub validation: NOT RUN locally, per the latest direction assigning these to Claude.
+- Dossier date-guard increment: ESLint, Prettier and whitespace checks passed. The added public/private/future/missing-source regression is NOT RUN.
 - Report agent review: NOT RUN. The wave permits one source-research helper only; no reviewer helper was started.
 
 ## Candidate before and after
+
+The separate small-copy candidate addresses items 3, 85, 95, 125, 130, 142 and 149, plus the setup portion of item 126. Place search hides after a selection and returns through Change. The rent benchmark is omitted from that step. Filing and News lose developer copy, shift coverage uses schedule, and Quit appears only where native Quit is available. The replay disclosure requires diagnostics. News omits the repeated current-officeholder section. Other wording listed in item 126 remains open.
 
 - Item 22 and item 25: Full record routed away from the opening; the NPC button now expands the overlay in place. Browser proof remains NOT RUN.
 - Item 23: A developer notice appeared on another person's record; the appearance component now returns no controls or notice for that person.
@@ -39,28 +49,43 @@ Meeting attendees, agenda-driven speech, full pre-play leader history, and most 
 
 ## Source and workspace
 
-The unvalidated [draft PR #1134](https://github.com/lamontaes/Political-Game-Git/pull/1134) retires canned news and exposes record-backed history. Its product checkpoint is `f99e10b48b17efb31a0f32fde7eb8631a01052c5`. It is stacked on the routing branch and must remain unmerged until its required checks and dependency review pass.
+The small-copy [draft PR #1135](https://github.com/lamontaes/Political-Game-Git/pull/1135) repairs place selection and developer wording. Its source checkpoint is `acf6d17d99f900db4de61c49bf24d8ec83f54e4a`, on `codex/team-5-playtest-copy`. This branch starts from main and is independent of the larger candidate.
+
+The unvalidated [draft PR #1134](https://github.com/lamontaes/Political-Game-Git/pull/1134) retires canned news and exposes record-backed history. Its original product checkpoint is `f99e10b48b17efb31a0f32fde7eb8631a01052c5`. The dossier source-date guard is in `1211def515e239254e1a578c98ef00664d24f268`; it withholds biography whose source event has not yet been recorded. It is stacked on the routing branch and must remain unmerged until its required checks and dependency review pass.
 
 The routing-only [PR #1132](https://github.com/lamontaes/Political-Game-Git/pull/1132) assigns every September 29 playtest item to a job. It does not mark any defect fixed.
 
-Team 5 reuses the registered `/private/tmp/wt-gate-1121`. The product candidate branch is `codex/team-5-record-backed-content`, stacked on the routing branch. Its starting main is `cdb6e4ab1d6a26aa876d99f6831570ed0c057d92`. The routing commit is `e5f240dec`. The former detached gate checkpoint is preserved by `codex/team-5-preserved-gate-1121`; its tree matched published commit `4c7bba77b`. No live process working directory was found in this tree before reuse. No other owner's process was stopped.
+Team 5 reuses the registered `/private/tmp/wt-gate-1121`. The larger product candidate is stacked on the routing branch. All three branches start from main `cdb6e4ab1d6a26aa876d99f6831570ed0c057d92`.
+
+The former detached gate checkpoint is preserved by `codex/team-5-preserved-gate-1121`. Its tree matched a published main checkpoint. No live process working directory was found in this tree before reuse. No other owner's process was stopped.
 
 The shared root remains on its original branch with all product edits preserved. Team 5 changed only its append-only claim rows and its assigned hand-back documents there. Coordinator status.md was not edited.
+
+## History-source findings
+
+One permitted Low source-research helper inspected the existing initialization paths without editing or running checks. At canonical main, `establishOpeningOfficeholders` creates identity and current tenure, with no earlier career constructor, in `src/presentation/opening-officeholders.ts:70`.
+
+Local civilian hiring already backdates canonical work through `fillTownJobs` in `src/simulation/living-world/town-employment.ts:1354`. It writes work relationships, roles and statuses, but no historical hiring event or favor. This file belongs to Team 3, so Team 5 did not change it.
+
+Appointment favors require an actual personal appointment decision trace in `src/simulation/patronage/appointments.ts:580`. Missing favors cannot be filled by arbitrary rows. A full D-9 pre-play history producer remains work to implement through these boundaries.
 
 ## Claude's required browser checks and screenshots
 
 Use the candidate's exact PR head after local checks are released. Start a new adult life in a random supported place outside Lebanon, naming the place and seed.
 
-1. Complete the opening. Open the President, governor, mayor, a council member and an ordinary neighbor. Capture each expanded dossier. Check that each history line refers to the person and a recorded occurrence, and that private facts remain withheld.
-2. From opening card 2, open Full record and close it. Capture before, expanded and returned screens. It must return to card 2; this candidate has not yet repaired navigation.
-3. Open News on day one. Capture a story whose occurrence predates January 5, 2026, with the original event date. If the world produced no qualifying archive, record that gap; do not accept a fabricated substitute.
-4. At home, verify the generic choice opener is absent. Open another person's full record and verify the appearance notice is absent and their wardrobe cannot be changed.
-5. Attend a council meeting. Capture agenda, room attendees, public comment and its recorded audience response. This remains a dependency and is not ready for acceptance.
-6. Repeat the assigned new-game, opening, home, housemate conversation, Stops, radial menu, Journal, TV, map, filing, News and meeting path. List still-broken routed items.
+1. Pick a place in setup. Capture the hidden search after the pick, click Change and capture the restored search. Verify the rent benchmark is absent.
+2. Complete the opening. Open the President, governor, mayor, a council member and an ordinary neighbor. Capture each expanded dossier. Check that each history line refers to the person and a recorded occurrence, and that private facts remain withheld.
+3. From opening card 2, open Full record and close it. Capture before, expanded and returned screens. It must return to card 2; the candidate expands the NPC overlay in place, but this return route remains unverified.
+4. Open News on day one. Capture a story whose occurrence predates January 5, 2026, with the original event date. If the world produced no qualifying archive, record that gap; do not accept a fabricated substitute.
+5. At home, verify the generic choice opener is absent. Open another person's full record and verify the appearance notice is absent and their wardrobe cannot be changed.
+6. Attend a council meeting. Capture agenda, room attendees, public comment and its recorded audience response. This remains a dependency and is not ready for acceptance.
+7. Repeat the assigned new-game, opening, home, housemate conversation, Stops, radial menu, Journal, TV, map, filing, News and meeting path. List still-broken routed items.
+
+8. Capture browser title with no Quit, and a disposable native session with a working Quit. Capture campaign filing without empty-committee wording, News without the fictional-person disclaimer or repeated In office section, setup without the replay disclosure in ordinary play, and a shift-coverage record using schedule.
 
 ## Team 5 claims
 
-Claimed paths were appended under the atomic shared lock before edits. Only Team 5 source belongs in its product PR:
+Claimed paths were appended under the atomic shared lock before edits. Only Team 5 source belongs in its product PRs. Some claimed paths remain unedited while their dependencies are unresolved:
 
 - `docs/codex/handbacks/09-routing.md`
 - `docs/codex/handbacks/team-5.md`
@@ -85,10 +110,16 @@ Claimed paths were appended under the atomic shared lock before edits. Only Team
 - `src/simulation/ordinary-meeting-presence.test.ts`
 - `src/player/PersonCard.tsx`
 - `src/presentation/ordinary-meeting-scene.test.ts`
+- `src/simulation/life-circumstances.ts`
+- `src/player/TitleScreen.tsx`
+- `src/player/World39News.tsx`
+- `src/player/CampaignWorkspace.tsx`
+- `docs/release/changes/wave1-playtest-copy.md`
+- `src/player/SetupScreen.tsx`
 
 # NEEDS LAMONTAE
 
-No new product decision is required for the candidate. Coordinator messaging was rejected by automatic approval review because trusted authorization for the destination was not established. Sending repository and ownership metadata remains blocked pending direct approval.
+No new product decision is required for the candidate. The owner granted standing approval for coordinator updates. The wave-wide hold is lifted. Team 5 requested a focused eight-file Vitest slot after Teams 1, 2 and 3; no slot has been granted. Team 4 retains its speed priority.
 
 # PLACEHOLDERS
 
