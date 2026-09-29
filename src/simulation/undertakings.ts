@@ -296,12 +296,15 @@ function answerAct(
         )
         .at(-1);
       if (!activity) return outstanding;
+      // Being there is a record that places them in the room. A plan to go
+      // names the same meeting and the same person, and is not being there.
       const presence = world.history.events.find(
         (event) =>
           event.involvedEntityIds.includes(activity.id) &&
           event.participants.some(
             (participant) =>
-              participant.personId === undertaking.holderPersonId,
+              participant.personId === undertaking.holderPersonId &&
+              participant.role === "presence:participant",
           ),
       );
       if (presence) {
