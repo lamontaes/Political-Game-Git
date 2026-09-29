@@ -238,11 +238,13 @@ describe("buying a home", () => {
   }, 20_000);
 
   it("prices the house in the world's prices, not the first month's", () => {
-    // The opening route starts the world's own economy, as play does.
+    // The opening route starts the world's own economy, as play does. Since
+    // every town household got a home at the opening (e60cd69ab), a seed can
+    // hand the player's household a house it already owns; this one rents.
     const game = generateOpeningLife(
       prepareOpeningLife({
         ...DEFAULT_NEW_GAME_SETUP,
-        seed: "home-purchase-prices",
+        seed: "home-purchase-prices-b",
         placeKey: "3502000",
         startAge: 35,
         questionnaire: "skipped" as const,
@@ -258,6 +260,9 @@ describe("buying a home", () => {
         provenance: { kind: "authored", note: "Test savings." },
       }),
     };
+    expect(projectHomePurchase(start.world, start.personId)?.kind).toBe(
+      "can-buy",
+    );
     const home = start.world.people[start.personId]!.homeJurisdictionId;
     expect(homePurchaseTerms(start.world, home).priceMinor).toBe(
       HOME_PURCHASE_PLACEHOLDER.priceMinor,
@@ -265,7 +270,7 @@ describe("buying a home", () => {
     // The world's own economy runs on the transition clock, as in play.
     const later = advanceWorld(
       start.world,
-      400,
+      60,
       createCampaignElectionTransitionRegistry(),
     );
     const now =
