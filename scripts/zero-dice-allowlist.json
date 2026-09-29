@@ -1172,34 +1172,6 @@
       "code": "return head < 60 && rng.fork(\"mortgage\").next() < 0.7"
     },
     {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "rng.fork(\"buy\").next() <"
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "rng.fork(\"outgrow\").next() < TOWN_HOME_MOVES.outgrow / pressure"
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "rng.fork(\"downsize\").next() < TOWN_HOME_MOVES.downsize"
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "rng.fork(\"renter-move\").next() <"
-    },
-    {
       "file": "src/simulation/living-world/town-labor-market.ts",
       "kind": "roll",
       "build": "Build 20",
