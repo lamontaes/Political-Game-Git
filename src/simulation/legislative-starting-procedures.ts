@@ -88,12 +88,31 @@ function sessionYearParity(
 }
 
 /**
+ * The middle of the session limits the states' own laws state (odd and even
+ * years together): the estimate for a state whose pack states none.
+ * ESTIMATED FROM AVERAGE: the median of the limits that were read.
+ */
+function medianReadCutoff(
+  packs: readonly LegislativeRulePack[],
+): NonNullable<LegislativeRegularSessionCutoff> {
+  const read = packs.flatMap((pack) => {
+    const limit = pack.session.regularSessionLatestAdjournment;
+    return limit ? [limit.value.oddYear, limit.value.evenYear] : [];
+  });
+  const sorted = [...read].sort(
+    (a, b) => a.month * 100 + a.day - (b.month * 100 + b.day),
+  );
+  return sorted[Math.floor(sorted.length / 2)] ?? { month: 6, day: 30 };
+}
+
+/**
  * Where the reference pack states no limit, the day the state's session
- * usually ends, from the same table; null where the table has none.
+ * usually ends from the researched session-end table, else the estimate.
  */
 function regularSessionCutoff(
   jurisdictionKey: string,
   baselinePack: LegislativeRulePack,
+  estimate: NonNullable<LegislativeRegularSessionCutoff>,
 ): LegislativeRegularSessionCutoff {
   if (baselinePack.session.regularSessionLatestAdjournment) return null;
   for (const year of [...TABLE_YEARS].reverse()) {
@@ -101,7 +120,7 @@ function regularSessionCutoff(
     if (end)
       return { month: Number(end.slice(5, 7)), day: Number(end.slice(8, 10)) };
   }
-  return null;
+  return estimate;
 }
 
 /** Pending bills carry over where the reference pack says they do not die. */
@@ -120,6 +139,13 @@ export function drawLegislativeStartingProcedures(
   _world: Pick<World, "seed">,
 ): LegislativeStartingProcedures {
   const entries: Record<string, LegislativeStartingProcedureEntry> = {};
+
+  const estimate = medianReadCutoff(
+    STATE_KEYS.flatMap((key) => {
+      const pack = legislatureForState(key);
+      return pack ? [rulePackById(pack.packId)] : [];
+    }),
+  );
 
   for (const jurisdictionKey of STATE_KEYS) {
     const jurisdictionId = canonicalStateJurisdictionId(jurisdictionKey);
@@ -140,7 +166,11 @@ export function drawLegislativeStartingProcedures(
       effectiveDateDays: EFFECTIVE_DATE_DAYS,
       sessionCadence: cadence,
       sessionYearParity: sessionYearParity(jurisdictionKey, cadence),
-      regularSessionCutoff: regularSessionCutoff(jurisdictionKey, pack),
+      regularSessionCutoff: regularSessionCutoff(
+        jurisdictionKey,
+        pack,
+        estimate,
+      ),
       measuresCarryOver: measuresCarryOver(pack),
       procedureProvenance: {
         kind: "game-profile",
