@@ -44,6 +44,7 @@ import {
   macroStartForHistory,
 } from "../simulation/macro-economy";
 import type { World, EntityId } from "../simulation";
+import { isFederalDistrictUsps } from "../simulation/state-reference";
 import { createNewGameWorld } from "./new-game";
 import { proseDate } from "./prose-dates";
 import type { NewGameSetup, NewGame } from "./new-game";
@@ -191,7 +192,7 @@ function ensureHomeStateLegislature(
   const stateUsps = homeStateUsps(world, playerPersonId);
   if (!stateUsps) return world;
   // The District's legislature is its Council, which is seated on its own.
-  return stateUsps === "DC"
+  return isFederalDistrictUsps(stateUsps)
     ? scheduleDcCouncilSitting(
         ensureDistrictOfColumbiaCouncilOpening(
           world,

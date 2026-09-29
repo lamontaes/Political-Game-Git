@@ -248,27 +248,6 @@
       "code": "const NORMAL_START_SHARES_A_HOME_THRESHOLD = 62;"
     },
     {
-      "file": "src/presentation/opening-federal-geography.ts",
-      "kind": "place-in-logic",
-      "build": "Build 7",
-      "count": 1,
-      "code": "washington.stateJurisdictionKey !== \"US-DC\""
-    },
-    {
-      "file": "src/presentation/opening-life.ts",
-      "kind": "place-in-logic",
-      "build": "Build 7",
-      "count": 1,
-      "code": "return stateUsps === \"DC\""
-    },
-    {
-      "file": "src/presentation/opening-world-snapshot.ts",
-      "kind": "place-in-logic",
-      "build": "Build 7",
-      "count": 1,
-      "code": "const district = orientation.homeState?.stateUsps === \"DC\";"
-    },
-    {
       "file": "src/presentation/production-world.ts",
       "kind": "fixed-share",
       "build": "Build 7",
