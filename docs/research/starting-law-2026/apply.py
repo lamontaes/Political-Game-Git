@@ -1,24 +1,46 @@
-# python3 apply.py <research.json>... : merge approved research rows into starting-law-2026.json.
-# preempts: true where the state rules the question out for its cities (a preemption statute,
-# or a question only the state can answer); false where cities may still act.
-import json,sys
-P='/home/user/Political-Game-Git/data/research/laws/starting-law-2026.json'
-STATE_ONLY={'government-operations.require-photo-id-to-vote','government-operations.automatic-voter-registration','government-operations.legislative-term-limits','government-operations.independent-redistricting'}
-d=json.load(open(P))
-for f in sys.argv[1:]:
-    r=json.load(open(f)); q=r['question']; short=q.split(':')[1]
-    old=d['questions'].get(q,{'answers':{}})
-    answers={}
-    for place,row in r['answers'].items():
-        out={'answer':row['answer']}
-        if row.get('operativeAt'): out['operativeAt']=row['operativeAt']
-        out['preempts']= True if short in STATE_ONLY else (row['answer']=='no')
-        if row.get('cite'): out['cite']=row['cite']
-        out['source']=row['source']
-        if row.get('note'): out['note']=row['note']
-        answers[place]=out
-    for place,row in old['answers'].items():
-        answers.setdefault(place,row)
-    unknown=sorted(r['unknown'])
-    d['questions'][q]={'source':r['summarySource'],'note':('Unknown, and left out: '+', '.join(unknown)+'.') if unknown else 'Every place is answered.','answers':dict(sorted(answers.items()))}
-json.dump(d,open(P,'w'),indent=2,ensure_ascii=False); open(P,'a').write('\n')
+# python3 apply.py <research.json>... : move approved research rows into starting-law-2026.json.
+# Each row keeps its own "preempts" when the research set one. Otherwise: true, except
+# where a "yes" answer means cities are allowed to act (LOCAL_POWER_QUESTIONS), and where
+# the question limits something cities may still go further on (rent stabilization).
+import json, sys
+
+P = "data/research/laws/starting-law-2026.json"
+LOCAL_POWER_QUESTIONS = {
+    "transportation-infrastructure.public-broadband",
+    "labor-workforce.local-minimum-wage-authority",
+}
+data = json.load(open(P))
+for path in sys.argv[1:]:
+    research = json.load(open(path))
+    key = research["question"]
+    short = key.split(":")[1]
+    old = data["questions"].get(key, {"answers": {}})
+    answers = {}
+    for place, row in research["answers"].items():
+        out = {"answer": row["answer"]}
+        if row.get("operativeAt"):
+            out["operativeAt"] = row["operativeAt"]
+        if "preempts" in row:
+            out["preempts"] = row["preempts"]
+        elif short in LOCAL_POWER_QUESTIONS:
+            out["preempts"] = row["answer"] == "no"
+        else:
+            out["preempts"] = True
+        if row.get("cite"):
+            out["cite"] = row["cite"]
+        out["source"] = row["source"]
+        if row.get("note"):
+            out["note"] = row["note"]
+        answers[place] = out
+    for place, row in old["answers"].items():
+        answers.setdefault(place, row)
+    unknown = sorted(p for p in research["unknown"] if p not in answers)
+    data["questions"][key] = {
+        "source": research["summarySource"],
+        "note": ("Unknown, and left out: " + ", ".join(unknown) + ".")
+        if unknown
+        else "Every place is answered.",
+        "answers": dict(sorted(answers.items())),
+    }
+json.dump(data, open(P, "w"), indent=2, ensure_ascii=False)
+open(P, "a").write("\n")
