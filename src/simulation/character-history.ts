@@ -3683,7 +3683,10 @@ export function generateQuickCharacterHistory(
           "The teenager prepared a next education, training, work, or service step.",
         ),
       },
-      ...(schoolEnd("high", 18) <= world.currentDate
+      // An old replay always recorded the completion, credited to the
+      // future-preparation event, and has to rebuild to those same bytes. A
+      // new pre-Begin biography records it only once the calendar reaches it.
+      ...(!input.preStartDates || schoolEnd("high", 18) <= world.currentDate
         ? [
             {
               kind: "education-state" as const,
@@ -3694,7 +3697,9 @@ export function generateQuickCharacterHistory(
                 status: "completed" as const,
                 contextKind: "stage:school" as const,
                 reason: "Completed the school program.",
-                provenance: generated,
+                provenance: input.preStartDates
+                  ? generated
+                  : { kind: "event" as const, eventStableKey: futureEvent },
               },
             },
           ]

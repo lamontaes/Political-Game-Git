@@ -87,7 +87,7 @@ export const LOCAL_COUNCIL_MEETING_PROFILE = {
 
 const P = LOCAL_COUNCIL_MEETING_PROFILE;
 
-export const LOCAL_COUNCIL_AUTHORED_BALLOT_NOTE = `${P.id}: each member's ballot is a game-authored stand-in, not any real council member's position; how a member decides is not modeled yet.`;
+export const LOCAL_COUNCIL_AUTHORED_BALLOT_NOTE = `${P.id}: each member's ballot is a stand-in the game draws, not any real council member's position; how a member decides is not yet part of the game.`;
 
 /** The ordinance the posted public meeting takes up, for one town. */
 export function postedMeetingOrdinanceKey(town: EntityId): string {

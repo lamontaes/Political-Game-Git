@@ -79,10 +79,22 @@ function start(placeKey: string) {
 }
 function attended(placeKey: string) {
   const { world, player, meeting } = start(placeKey);
-  const result = submitTimeCommand(world, {
+  // The first Attend walks in and opens the meeting room; the second stays
+  // through the discussion, which completes the meeting.
+  const entered = submitTimeCommand(world, {
     requestId: `attend:${placeKey}`,
     personId: player,
     sourceMoment: world.currentMoment,
+    command: { kind: "attend-activity", activityId: meeting.id },
+  });
+  expect(entered.receipt.status).toBe("accepted");
+  expect(scheduledActivityState(entered.world, meeting.id).status).toBe(
+    "scheduled",
+  );
+  const result = submitTimeCommand(entered.world, {
+    requestId: `stay:${placeKey}`,
+    personId: player,
+    sourceMoment: entered.world.currentMoment,
     command: { kind: "attend-activity", activityId: meeting.id },
   });
   expect(result.receipt.status).toBe("accepted");
@@ -227,7 +239,7 @@ describe("recorded local meeting return and activity ownership", () => {
     // somebody this life knows asks.
     const game = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,
-      seed: "saturday-2015900-d",
+      seed: "saturday-2015900-a",
       startAge: 35,
       placeKey: "2015900",
       startKind: "custom",

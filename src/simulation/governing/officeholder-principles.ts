@@ -7,6 +7,7 @@ import type {
   EntityId,
   LegislativeMeasureRecord,
   PoliticalFlexibility,
+  PoliticalSalience,
   PrincipleRecord,
   PrincipleStance,
   World,
@@ -196,10 +197,17 @@ export function principleVoteConsideration(
   world: World,
   personId: EntityId,
   measure: LegislativeMeasureRecord,
+  // The questions on the table and how they are answered: the bill as it
+  // reads, or an amendment's own sections (Build 25). Defaults to the answers
+  // the bill was filed with.
+  answers: readonly {
+    readonly propositionId: EntityId;
+    readonly answer: "yes" | "no";
+  }[] = measure.propositionAnswers ?? [],
 ): DecisionConsideration | null {
   let score = 0;
   const recordIds = new Set<EntityId>();
-  for (const row of measure.propositionAnswers ?? []) {
+  for (const row of answers) {
     const leaning = principledLeaning(world, personId, row.propositionId);
     score += row.answer === "yes" ? leaning.score : -leaning.score;
     for (const id of leaning.recordIds) recordIds.add(id);
@@ -229,4 +237,39 @@ export function principleVoteConsideration(
       principleRecordId,
     })),
   };
+}
+
+/**
+ * Which way a member's principles lean on one question, as a view with a
+ * salience, for a member who holds no formed view on it. The salience cut
+ * points are the vote-importance ones above (PLACEHOLDER, hand-set): a lean
+ * that would weigh "strong" in a vote is a question the member holds high.
+ */
+export function principleView(
+  world: World,
+  personId: EntityId,
+  propositionId: EntityId,
+): {
+  readonly answer: "yes" | "no";
+  readonly salience: PoliticalSalience;
+} | null {
+  const { score } = principledLeaning(world, personId, propositionId);
+  if (score === 0) return null;
+  const size = Math.abs(score);
+  return {
+    answer: score > 0 ? "yes" : "no",
+    salience:
+      size >= VOTE_IMPORTANCE.decisive
+        ? "central"
+        : size >= VOTE_IMPORTANCE.strong
+          ? "high"
+          : size >= VOTE_IMPORTANCE.moderate
+            ? "moderate"
+            : "low",
+  };
+}
+
+/** Whether this person holds any principle at all. */
+export function holdsPrinciples(world: World, personId: EntityId): boolean {
+  return (principlesByPerson(world).get(personId)?.length ?? 0) > 0;
 }

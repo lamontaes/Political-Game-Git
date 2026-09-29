@@ -29,6 +29,7 @@ import {
   pressOwnerReviewHandler,
 } from "./ownership";
 import { applyPendingDisasterHandlingReactions } from "../crisis/handling-reactions";
+import { advanceClemency } from "../justice/clemency";
 import { advanceProsecutions } from "../justice/prosecution";
 import { produceCaughtLyingLeads } from "./caught-lying";
 import { produceCampaignSpendingReports } from "./spending-reports";
@@ -58,7 +59,7 @@ function pressWeeklyHandler(
             produceCampaignFinanceScrutiny(
               produceCampaignSpendingReports(
                 applyPendingDisasterHandlingReactions(
-                  advanceProsecutions(world),
+                  advanceClemency(advanceProsecutions(world)),
                 ),
               ),
             ),

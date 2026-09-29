@@ -31,6 +31,7 @@ import {
 import { scheduleFutureDueItem } from "../future-transitions";
 import { dispositionsFromCounts } from "../legislation-scenarios";
 import { SeededRng } from "../rng";
+import { writeWithWorldIntegrityOnce } from "../world";
 import type {
   EntityId,
   FutureDueItem,
@@ -596,6 +597,20 @@ function reviewBackground(
 }
 
 function proposeAndVote(
+  world: World,
+  stateUsps: string,
+  year: number,
+  spec: AmendmentSpec,
+  rng: SeededRng,
+): World {
+  // The proposal, each chamber's vote and the ballot are checked once
+  // together, against the World before the proposal.
+  return writeWithWorldIntegrityOnce(world, () =>
+    proposeAndVoteUnchecked(world, stateUsps, year, spec, rng),
+  );
+}
+
+function proposeAndVoteUnchecked(
   world: World,
   stateUsps: string,
   year: number,

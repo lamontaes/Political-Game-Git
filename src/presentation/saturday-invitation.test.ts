@@ -64,7 +64,7 @@ const INVITATION_SEARCH_DAYS = 400;
  */
 const SEEDS: Record<string, string> = {
   "5114968": "saturday-5114968",
-  "2015900": "saturday-2015900-d",
+  "2015900": "saturday-2015900-a",
   "0200065": "saturday-0200065",
   "3222500": "saturday-3222500-b",
 };
@@ -249,7 +249,7 @@ describe("a Saturday invitation, said yes to", () => {
   }, 120_000);
 
   it("books the trip at Attend when a kept afternoon has none", () => {
-    const opened = start("3222500", "saturday-elko-trip");
+    const opened = start("3222500", SEEDS["3222500"]!);
     const personId = opened.personId;
     const invitation = socialInvitationsFor(opened.world, personId)[0]!;
     const accepted = acceptSocialInvitation(opened.world, {

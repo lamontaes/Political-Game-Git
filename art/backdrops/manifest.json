@@ -46,6 +46,50 @@
       "approval": "owner-placeholder-2026-09-27"
     },
     {
+      "place": "barbershop",
+      "variant": "midday",
+      "file": "barbershop__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "07b8a2c4811c0c840a890d78d171b29930faae2c7d55f4154a0b356ce2ee4b66",
+      "sourceFile": "barbershop__midday.png",
+      "sourceSha256": "a4cf573d328199ea5ab648cb8fd2c5df66ab47d4ec0f5e2528d11660a304eb16",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "barbershop",
+      "variant": "morning",
+      "file": "barbershop__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "0e157beffa2e4fe31b1da2c0db5792f92816cd0948bb780b282d473f5f1903ff",
+      "sourceFile": "barbershop__morning.png",
+      "sourceSha256": "8d249f1072c716c9a6acc524e697faa20c02ad76602229199593c51b6cb7ee15",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "barbershop",
+      "variant": "night",
+      "file": "barbershop__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "6494ce82f41fdf74cf1b9e8e89082332007215fb5d633a4a10c54b61abb57ddd",
+      "sourceFile": "barbershop__night.png",
+      "sourceSha256": "a2a9e69176a5af07b8c2bf70fc621023d884637de327e174a86fc5eb942cf056",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "barbershop",
+      "variant": "rain",
+      "file": "barbershop__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "103a6a0fd189a176224d6bf4ea58b9c85601621a0f222ddf292eb9f57d0bf4fc",
+      "sourceFile": "barbershop__rain.png",
+      "sourceSha256": "3b7a8b56313bd238dfe96bd9fec000d7e6a024e7ddc044db37812f0c00b66928",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
       "place": "campaign-storefront",
       "variant": "midday",
       "file": "campaign-storefront__midday.jpg",
@@ -563,6 +607,39 @@
       "approval": "owner-placeholder-2026-09-27"
     },
     {
+      "place": "courthouse-hallway",
+      "variant": "midday",
+      "file": "courthouse-hallway__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "0276bcf418a0551dc81a324c2a343b1f894425b57c7bb5550ac2befbff155904",
+      "sourceFile": "courthouse-hallway__midday.png",
+      "sourceSha256": "9f9b9850c0ac91e128275ec8b2a2853b3390c324c29c315063fe59bd6d27b7c4",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "courthouse-hallway",
+      "variant": "morning",
+      "file": "courthouse-hallway__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "2aaae55e10f62674cd47dbc15829ca350707cdb290dd7a97013dc8d5eb6b978a",
+      "sourceFile": "courthouse-hallway__morning.png",
+      "sourceSha256": "3d59f2ad81cd744ac1803e8cf370125fa5b14c1f7bc49031563d92fefab23dfa",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "courthouse-hallway",
+      "variant": "rain",
+      "file": "courthouse-hallway__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "308ab9012fd79ab2b026c216c146bc8037b771389bdd82d1f0b3c53b8feebf7c",
+      "sourceFile": "courthouse-hallway__rain.png",
+      "sourceSha256": "85d2d7c761a023f44269087007449f45486f735627c2f0d0ca86c4c7477c7ecf",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
       "place": "debate-stage",
       "variant": "midday",
       "file": "debate-stage__midday.jpg",
@@ -649,6 +726,50 @@
       "sourceFile": "diner__rain-v1.png",
       "sourceSha256": "7cf797b2536c1f495abd130afd443d3f7932dd6780522054dece57e738da97c3",
       "approval": "owner-placeholder-2026-09-27"
+    },
+    {
+      "place": "dmv-office",
+      "variant": "midday",
+      "file": "dmv-office__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "e98cd8219e10223c72e86144d12b7bfc5a61905ed1584ffe8cdef021a8af316f",
+      "sourceFile": "dmv-office__midday.png",
+      "sourceSha256": "2fa5e7ca8b4d5d5878bed65efe09d869fa408ae79bd405403aad1710b2066c7e",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "dmv-office",
+      "variant": "morning",
+      "file": "dmv-office__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "e10fa52ae0570011431d5b7c641c9a8bf3739707000b9a907203f64444144eff",
+      "sourceFile": "dmv-office__morning.png",
+      "sourceSha256": "6dc4e06360afaa8b211ebc6c65fdd351c7ed1073a30103c0197a76536c4ec8f2",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "dmv-office",
+      "variant": "night",
+      "file": "dmv-office__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "e230b9b5c7c66dfe82f7d89ac631bf94853961232b64ca9a541bf5dc685f107c",
+      "sourceFile": "dmv-office__night.png",
+      "sourceSha256": "e26d8d3f5ba843e3314af0a0af4ed294f0b8c9ea8bb1a18c2318986930aab349",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "dmv-office",
+      "variant": "rain",
+      "file": "dmv-office__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "8160ea4512446d492462de3b11ebc3c61a9a5c93e80a75eed1c763e79a946a88",
+      "sourceFile": "dmv-office__rain.png",
+      "sourceSha256": "c59abb662ae9f4288a7d3433cf97a1f847122350d43f4cbc86bff60cec95766c",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
     },
     {
       "place": "door-knocking-rural",
@@ -849,6 +970,50 @@
       "approval": "owner-placeholder-2026-09-27"
     },
     {
+      "place": "fire-station",
+      "variant": "midday",
+      "file": "fire-station__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "32163ce8f01850a0099710036a3d54f0ecec8b8e5543e2183434de65583155c4",
+      "sourceFile": "fire-station__midday.png",
+      "sourceSha256": "20c6b7a3ce9c77d8fe9cecded5d910083b2328f67368bb306f5bafe8b5eacf2b",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "fire-station",
+      "variant": "morning",
+      "file": "fire-station__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "edfbe18a1c8856fc2b2c3914b6f495a9be593d44efec7308aa72fde2365c0c6a",
+      "sourceFile": "fire-station__morning.png",
+      "sourceSha256": "05373a4d16d518833116ddba86dcdacda21852e6a61eb5c43553a4ff3b40037c",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "fire-station",
+      "variant": "night",
+      "file": "fire-station__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "003975159cf9bbc288afa28afdbbdeef4b1d19b4a959a4b4ea44fc3d1410021a",
+      "sourceFile": "fire-station__night.png",
+      "sourceSha256": "4e914fed56e20170c8df7238a0a0ef51bdc96f84418f75c4ca01e6a47d877f90",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "fire-station",
+      "variant": "rain",
+      "file": "fire-station__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "3a5c7415b324a82c48a749bfa2e062cfe70318e26eedc29880a0f7cbc762b312",
+      "sourceFile": "fire-station__rain.png",
+      "sourceSha256": "4eb5a9c9978a56737a6f13d79e7e464d6f143af9fae19e8e7763a2df72378ab3",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
       "place": "governor-office",
       "variant": "midday",
       "file": "governor-office__midday.jpg",
@@ -913,6 +1078,50 @@
       "sourceFile": "hospital-hallway__night-v1.png",
       "sourceSha256": "1f029018271f53c579104448c4cf8ce574e29a2f4269d1ddb2577d182a7cb6a5",
       "approval": "owner-placeholder-2026-09-27"
+    },
+    {
+      "place": "hotel-ballroom",
+      "variant": "midday",
+      "file": "hotel-ballroom__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "699d68135972a8eafef42e9be4cf3eaf226b9c990000859024a35b5cf2384773",
+      "sourceFile": "hotel-ballroom__midday.png",
+      "sourceSha256": "e74ba05920c38225b37333404c19a478c78602272504f9fa03a61ef425f3831a",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "hotel-ballroom",
+      "variant": "morning",
+      "file": "hotel-ballroom__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "b95fe600288924ff9d9f3a0e03c58918af7c5bb0975e0861576897bf675b43db",
+      "sourceFile": "hotel-ballroom__morning.png",
+      "sourceSha256": "084b7d778fd86935e09b3d8fff822b1d54f4c9e377ae1bf14e1758fc1dd18019",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "hotel-ballroom",
+      "variant": "night",
+      "file": "hotel-ballroom__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "eb97ef197fa62d49791b481e2aa7278af1db42e342c97f707190906247f5a980",
+      "sourceFile": "hotel-ballroom__night.png",
+      "sourceSha256": "6aee97c29d183683e1ddbf84a5b27551912f7581c643bae3f1e61bc66d7d3ced",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "hotel-ballroom",
+      "variant": "rain",
+      "file": "hotel-ballroom__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "21edf2e01581ca8d130a9751b2c20ba0b19afb9afcaab80e3d7f87317f28a31e",
+      "sourceFile": "hotel-ballroom__rain.png",
+      "sourceSha256": "af8b2c1fffc0dbe574a267e59c235df4c917fa641bbcdbb60f4099592bde3a1e",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
     },
     {
       "place": "large-house",
@@ -1025,6 +1234,50 @@
       "approval": "owner-placeholder-2026-09-27"
     },
     {
+      "place": "newsroom",
+      "variant": "midday",
+      "file": "newsroom__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "c57b5cdcc684eb78dc570bd5fec1bc8b89220f4b217099f622b11f352096c8a5",
+      "sourceFile": "newsroom__midday.png",
+      "sourceSha256": "eff3604ee251128a304f0602c84a56f538f642dbd2fefb1e210a407101cea64f",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "newsroom",
+      "variant": "morning",
+      "file": "newsroom__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "e614f12f28f973bd78255d44bea3363f74ffaa3b1ece8df2c1db1650f00dce9b",
+      "sourceFile": "newsroom__morning.png",
+      "sourceSha256": "6afd64de77ebc19c4d94a5289f8fcf497c723dcd59f21a4af4f7e1228f899b36",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "newsroom",
+      "variant": "night",
+      "file": "newsroom__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "9a1cdfc36d46d471a21b41953715ba91ce5e92fd5fd885148d7b69ac8edccfb3",
+      "sourceFile": "newsroom__night.png",
+      "sourceSha256": "06a4f8acaf17a96d4d0c1d3e4068d2e319cb84a93153c69fdd8413672bbeb505",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "newsroom",
+      "variant": "rain",
+      "file": "newsroom__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "1fbdd2e7e88f7526b170c651cd50c5c63a2818c94c1acf8e8d5360b136cc7a26",
+      "sourceFile": "newsroom__rain.png",
+      "sourceSha256": "099579b6f19dc5a71aa9483c6cdc72b4a51fcf886a47b2e269c0677298a47382",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
       "place": "office",
       "variant": "midday",
       "file": "office__midday.jpg",
@@ -1113,6 +1366,50 @@
       "approval": "owner-placeholder-2026-09-27"
     },
     {
+      "place": "party-headquarters",
+      "variant": "midday",
+      "file": "party-headquarters__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "773294e7b47f11f16a41d47932d6e963cf2961d5d562c107883dfeae9d65b80d",
+      "sourceFile": "party-headquarters__midday.png",
+      "sourceSha256": "851981eafcbec37949cb02e371d2bf87b6b41438b4be0d3d9260d3f43a9c9f07",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "party-headquarters",
+      "variant": "morning",
+      "file": "party-headquarters__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "3b98dc788ad96a55718bbabb2830a02e56bf66ff65259ac3101b0e0c9c22b054",
+      "sourceFile": "party-headquarters__morning.png",
+      "sourceSha256": "a3076b1a4229faa715799dfead1ae28c7ea275c8619649090f1f46f0baa0fc40",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "party-headquarters",
+      "variant": "night",
+      "file": "party-headquarters__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "e7194d58c6f1b07f0c51b1445f23df8ab74d0bb802c1d1542a580391d6d48281",
+      "sourceFile": "party-headquarters__night.png",
+      "sourceSha256": "61d227cd1dc8ea11caaae116a0dcaf317e000c554785f593081f6948f2123326",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "party-headquarters",
+      "variant": "rain",
+      "file": "party-headquarters__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "7cd00176c4145e889da3e927f431565197f6573ad5e45d298e1b68e736ba92de",
+      "sourceFile": "party-headquarters__rain.png",
+      "sourceSha256": "cc7e647e4f6854723d674b74b8988ce29f859ad1be0353f039ae32c8039d841e",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
       "place": "phone-bank-room",
       "variant": "midday",
       "file": "phone-bank-room__midday.jpg",
@@ -1155,6 +1452,138 @@
       "sourceFile": "phone-bank-room__rain-v1.png",
       "sourceSha256": "493e7305281cf11548f9451bf98bbb21e8c6a0692ee23ca7193c5f9f2ee16cfa",
       "approval": "owner-placeholder-2026-09-27"
+    },
+    {
+      "place": "police-station",
+      "variant": "midday",
+      "file": "police-station__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "be0b351ce7bc80442924a666cf080d14d37ea22944770574b823dc43e018452b",
+      "sourceFile": "police-station__midday.png",
+      "sourceSha256": "0535cf3365ccf7ca1e27c8ea82ed44f5cc540b117f8d5ac33c5d46cac4b3e6e9",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "police-station",
+      "variant": "morning",
+      "file": "police-station__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "1b65b5238f5d4cb074b139f3752d8d6c61f8e794382f9ce76109473e4dae1221",
+      "sourceFile": "police-station__morning.png",
+      "sourceSha256": "8f73537a155fcc5f2370769bb92d268b8becd39fbd4a17c9bec979beb2455203",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "police-station",
+      "variant": "night",
+      "file": "police-station__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "0e020ee5a69d8576744f34f0ce38f44956de273d97bb956beb7a267bfaa7c783",
+      "sourceFile": "police-station__night.png",
+      "sourceSha256": "a6f6890bbd5baff3edeac2c7d30bfb3bc4fe622417a5fa5116079cdbc41b9acb",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "police-station",
+      "variant": "rain",
+      "file": "police-station__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "9259f6f8a9b87cc0b357671f2290c0482bfda14fe4d8900ce02a665732f75f9d",
+      "sourceFile": "police-station__rain.png",
+      "sourceSha256": "dedfd4f7a475a87cbf8523409437c392aea0189c595e0d99570f68ad8571d698",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "polling-place",
+      "variant": "midday",
+      "file": "polling-place__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "b24ca8d406600c37e5e9c12f9a82fd4227f3f1d76b14361436f1ef00348c5195",
+      "sourceFile": "polling-place__midday.png",
+      "sourceSha256": "f67f793d2f4d71e5fe5d5202158d6569075d0b95517b5b8ac5a692963bbba1ec",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "polling-place",
+      "variant": "morning",
+      "file": "polling-place__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "5a56d79e24f375181563dabd5533393eca4ce85271ad4d9829ed41c3edfcba62",
+      "sourceFile": "polling-place__morning.png",
+      "sourceSha256": "016ee84f311b87b7202e2f32b96d9c84c465936c6e36637c1835802822db9822",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "polling-place",
+      "variant": "night",
+      "file": "polling-place__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "0bd486118647622eb99c0d2b40867717c82f0588ab5a5d8aea8a485ccd01a056",
+      "sourceFile": "polling-place__night.png",
+      "sourceSha256": "a96b9f2dd823e1060222ac23aadd33cf15927301511d5fea932b31d9ca56cef1",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "polling-place",
+      "variant": "rain",
+      "file": "polling-place__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "6836aa4a12d2d4727e1be1ea72b0bddd9622e2484cee699f03b9d16fa0ade601",
+      "sourceFile": "polling-place__rain.png",
+      "sourceSha256": "beccec23e6b4d77c1c61d2acbd9915cccdb0e481730bac0569bba84e26fcc872",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "public-library",
+      "variant": "midday",
+      "file": "public-library__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "afac024c670e6a3964daa30a4c1489d625647b9d48f4e8035d915efd65beccff",
+      "sourceFile": "public-library__midday.png",
+      "sourceSha256": "dd490102916515b34fb45c0d64d5103f78dcecdf2f5951e8cd81478b0df0662c",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "public-library",
+      "variant": "morning",
+      "file": "public-library__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "eb63b6ce4ba218e8b780f745bb53904f6d2fbedd2ffddc2bc849587fe1311535",
+      "sourceFile": "public-library__morning.png",
+      "sourceSha256": "ce9b8cb2ebb15c6fdb009978519001a28c71a64283daa7d619c4fa40c37ea121",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "public-library",
+      "variant": "night",
+      "file": "public-library__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "0479ddd7c68aef82cfc03cbc7930935f283a582a29d0c31330f743eadda88a58",
+      "sourceFile": "public-library__night.png",
+      "sourceSha256": "f95871fb746d050aa1f942ca1cbee019f62fd6fa10fd8475f6d8d2ead0ca28c6",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "public-library",
+      "variant": "rain",
+      "file": "public-library__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "45c51a611af22e43588ab67f456d58ba031f57aa22180719e964421a8a1102ae",
+      "sourceFile": "public-library__rain.png",
+      "sourceSha256": "9ee5029c85de8afdc5776b68d0be5f8303c64bee1a289fa65326d93b07cb0607",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
     },
     {
       "place": "public-meeting-room",
@@ -1386,6 +1815,50 @@
       "sourceFile": "rural-farmhouse__winter-v2.png",
       "sourceSha256": "54378d587f51e5d7a59430cb688097d466e7eac54f30e95f2cfa14bc3b32f746",
       "approval": "owner-placeholder-2026-09-27"
+    },
+    {
+      "place": "school-board-room",
+      "variant": "midday",
+      "file": "school-board-room__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "7401cadb4fcd3a639b6a1fcaaa3f3f24fb752024208ef9edfed497f89f5d6d8e",
+      "sourceFile": "school-board-room__midday.png",
+      "sourceSha256": "8b30d998634de7a74f428b89ce5aadf99e6753cb02d770ae646ca2630ff98c85",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "school-board-room",
+      "variant": "morning",
+      "file": "school-board-room__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "656497ee558e5b17d5e6f462284417f50b3435b14022f8f06edcef52c5fd7f91",
+      "sourceFile": "school-board-room__morning.png",
+      "sourceSha256": "477fa50567bd705aa4740b46b78946be5e7dcd1c114437f739741cb6bb95adeb",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "school-board-room",
+      "variant": "night",
+      "file": "school-board-room__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "ac7b493cb05b5ba4345cc07397ee0ddf5b7fc11b91370079300289a3bb731a13",
+      "sourceFile": "school-board-room__night.png",
+      "sourceSha256": "92e58855da23a0c6a3a60cbb0282c79cbf3b02195a070d3aea13e5cd603ebf0e",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "school-board-room",
+      "variant": "rain",
+      "file": "school-board-room__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "71f915fa42e75735f6ad21a7249f5ebbfc35233434d3fb40f0d8ca500314be6e",
+      "sourceFile": "school-board-room__rain.png",
+      "sourceSha256": "11bf433b184f29150b7e1bc41a74b48302884825a24d8eca336cdd57419c8b0c",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
     },
     {
       "place": "school-gym-town-hall",
