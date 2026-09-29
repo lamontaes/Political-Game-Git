@@ -3,19 +3,19 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 706,
+    "markers": 705,
     "byKind": {
-      "unresearched": 221,
-      "placeholder": 375,
+      "unresearched": 220,
+      "placeholder": 374,
       "blanket": 126
     },
     "byPath": {
-      "other": 421,
+      "other": 420,
       "money": 74,
       "law": 123,
       "government": 88
     },
-    "withoutQuestion": 415,
+    "withoutQuestion": 414,
     "questionNotFiled": 12,
     "moneyOrLawQuestions": 56
   },
@@ -1138,18 +1138,9 @@
     },
     {
       "file": "src/simulation/character-history.ts",
-      "line": 668,
+      "line": 670,
       "text": "// PLACEHOLDER(wave2): replace these fictional season weights with a sourced",
       "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/character-history.ts",
-      "line": 1034,
-      "text": "* PLACEHOLDER, NOT RESEARCHED: the 78 to 90 band, and that no cause is known.",
-      "kinds": ["placeholder", "unresearched"],
       "path": "other",
       "researchQuestionId": null,
       "researchQuestionFiled": false
@@ -1750,7 +1741,7 @@
     },
     {
       "file": "src/simulation/enacted-rule-changes.ts",
-      "line": 395,
+      "line": 410,
       "text": "* not researched and the blanket rule applied.",
       "kinds": ["unresearched"],
       "path": "other",
@@ -1975,7 +1966,7 @@
     },
     {
       "file": "src/simulation/governing/legislative-clock.ts",
-      "line": 674,
+      "line": 718,
       "text": "// PLACEHOLDER until research question how-congress-moves-bills is",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1984,7 +1975,7 @@
     },
     {
       "file": "src/simulation/governing/legislative-clock.ts",
-      "line": 1428,
+      "line": 1486,
       "text": "// PLACEHOLDER until research question",
       "kinds": ["placeholder"],
       "path": "law",
@@ -2929,7 +2920,7 @@
     },
     {
       "file": "src/simulation/legislature-game-profile.ts",
-      "line": 232,
+      "line": 307,
       "text": "* PLACEHOLDER until each territory's own legislature is compiled from the",
       "kinds": ["placeholder"],
       "path": "law",
@@ -2938,7 +2929,7 @@
     },
     {
       "file": "src/simulation/legislature-game-profile.ts",
-      "line": 365,
+      "line": 440,
       "text": "// PLACEHOLDER until state-legislature-chamber-sizes-and-quorum is answered:",
       "kinds": ["placeholder"],
       "path": "law",
@@ -2947,7 +2938,7 @@
     },
     {
       "file": "src/simulation/legislature-game-profile.ts",
-      "line": 422,
+      "line": 501,
       "text": "* PLACEHOLDER, not law. How often an unresearched legislature sits and whether",
       "kinds": ["placeholder", "unresearched"],
       "path": "law",
@@ -2956,7 +2947,7 @@
     },
     {
       "file": "src/simulation/legislature-game-profile.ts",
-      "line": 435,
+      "line": 514,
       "text": "* PLACEHOLDER, not law. Every researched chamber refers a measure to a",
       "kinds": ["placeholder"],
       "path": "law",
@@ -2965,7 +2956,7 @@
     },
     {
       "file": "src/simulation/legislature-game-profile.ts",
-      "line": 437,
+      "line": 516,
       "text": "* of its members. Which committees an unresearched chamber has, and their",
       "kinds": ["unresearched"],
       "path": "law",
@@ -4225,7 +4216,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 524,
+      "line": 531,
       "text": "export const MUNICIPAL_EXECUTIVE_PLACEHOLDER_ID =",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4234,7 +4225,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 539,
+      "line": 546,
       "text": "* PLACEHOLDER, pending `dc-congressional-review-day-count`: the days counted",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4243,7 +4234,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 569,
+      "line": 576,
       "text": "* PLACEHOLDER, pending `dc-congressional-review-day-count`: an act in play",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4252,7 +4243,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 951,
+      "line": 960,
       "text": "// PLACEHOLDER, pending `dc-mayor-action-on-council-acts`: an executive the",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4261,7 +4252,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 959,
+      "line": 968,
       "text": "rationale: `${MUNICIPAL_EXECUTIVE_PLACEHOLDER_ID}: signed on the last day to act; how this executive decides is not modeled.`,",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4315,8 +4306,8 @@
     },
     {
       "file": "src/simulation/nationwide-world/district-of-columbia-council-opening.ts",
-      "line": 40,
-      "text": "* PLACEHOLDER, pending `dc-council-membership-at-the-opening`: ages are drawn",
+      "line": 35,
+      "text": "* PLACEHOLDER, pending `dc-council-membership-at-the-opening`: nobody is given",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "dc-council-membership-at-the-opening",
@@ -4477,7 +4468,7 @@
     },
     {
       "file": "src/simulation/nationwide-world/state-executive-turnover.ts",
-      "line": 179,
+      "line": 187,
       "text": "// PLACEHOLDER(build-24-step-4): a state whose term rule is not read",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6052,7 +6043,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 506,
+      "line": 517,
       "text": "/** The opening pension and its actuarial contribution. PLACEHOLDER. */",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6061,7 +6052,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 660,
+      "line": 681,
       "text": "? \"Opening reserve: NASBO has no figure, so the national median rainy-day share of spending (PLACEHOLDER).\"",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6070,7 +6061,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 768,
+      "line": 792,
       "text": "? `Census 2022 local-government figures per resident in ${base.name}, the ${level} share of each program (PLACEHOLDER table, research: local-government-finances",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6079,7 +6070,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 769,
+      "line": 793,
       "text": ": `ESTIMATED FROM AVERAGE: Census publishes no local-government finances for ${base.name}, so the national average per resident (the 50 states and D.C., weighte",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6088,7 +6079,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 771,
+      "line": 795,
       "text": "\"Opening balance and reserve: the state's general fund balance and rainy-day shares of spending (PLACEHOLDER, research: local-government-finances-by-type).\",",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6097,7 +6088,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 864,
+      "line": 888,
       "text": "\"Pension: liability, funded ratio and contribution are PLACEHOLDER (research: public-pension-funding-by-state), carved out of salary-paying programs.\",",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6106,7 +6097,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 871,
+      "line": 895,
       "text": "\"Fiscal year: the state's start (PLACEHOLDER, research: local-government-finances-by-type).\",",
       "kinds": ["placeholder"],
       "path": "other",
