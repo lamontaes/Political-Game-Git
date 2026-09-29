@@ -97,6 +97,13 @@ export function lawInForce(
   jurisdictionId: EntityId,
   propositionId: EntityId,
   onDate: IsoDate = world.currentDate,
+  /**
+   * `enacted-only` leaves out the law the game began with. A law enacted in
+   * play always comes after the start, so it governs over a starting law on
+   * the same question even where the starting law is dated to take effect
+   * later (a program scheduled for 2028 and repealed in 2026 stays repealed).
+   */
+  scope: "all" | "enacted-only" = "all",
 ): LawInForce | null {
   const chain = governingChain(jurisdictionId);
   let best: Candidate | null = null;
@@ -153,7 +160,10 @@ export function lawInForce(
     };
     if (!best || governs(candidate, best)) best = candidate;
   }
-  const starting = startingLawCandidate(world, chain, propositionId, onDate);
+  const starting =
+    scope === "all"
+      ? startingLawCandidate(world, chain, propositionId, onDate)
+      : null;
   if (starting && (!best || governs(starting, best))) best = starting;
   if (!best) return null;
   return {
