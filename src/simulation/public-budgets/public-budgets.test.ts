@@ -517,7 +517,7 @@ describe("public budgets", () => {
       `Benefits paid: ${MEDIAN_BENEFIT_SHARE} of the liability a year, ESTIMATED FROM AVERAGE`,
     );
     expect(government("US-IL").openingNotes.join(" ")).toContain(
-      "Benefits paid: 0.0551 of the liability a year, as its own plans reported",
+      "Benefits paid: 0.0551 of the liability a year, as its own plans filed",
     );
 
     // At the year's close the liability grows by the plans' own normal cost
@@ -555,11 +555,9 @@ describe("public budgets", () => {
     // Chicago and Cook County read their own plans.
     const chicago = share("place:1714000");
     expect(chicago.years[0]!.pensionShare).toBe(0.8635);
-    expect(chicago.openingNotes.join(" ")).toContain(
-      "as its own plans reported",
-    );
+    expect(chicago.openingNotes.join(" ")).toContain("as its own plans filed");
     expect(share("county:17031").openingNotes.join(" ")).toContain(
-      "as its own plans reported",
+      "as its own plans filed",
     );
     // The share holds from year to year until budgets pass as bills.
     for (const row of world.publicBudgets!.governments)
