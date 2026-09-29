@@ -780,13 +780,6 @@
       "code": ": outcomeRoll < policy.killed + policy.injured"
     },
     {
-      "file": "src/simulation/dc-council-sittings.ts",
-      "kind": "roll",
-      "build": "Build 25",
-      "count": 1,
-      "code": "const answer: \"yes\" | \"no\" = rng.integer(0, 2) === 0 ? \"yes\" : \"no\";"
-    },
-    {
       "file": "src/simulation/family-shape.ts",
       "kind": "fixed-share",
       "build": "Build 7",
@@ -1023,13 +1016,6 @@
       "build": "Build 27",
       "count": 1,
       "code": "const approved = rng.fork(stateKey).integer(0, 1000) < chance;"
-    },
-    {
-      "file": "src/simulation/living-world/local-council-meetings.ts",
-      "kind": "roll",
-      "build": "Build 25",
-      "count": 1,
-      "code": "const answer: \"yes\" | \"no\" = rng.integer(0, 2) === 0 ? \"yes\" : \"no\";"
     },
     {
       "file": "src/simulation/living-world/local-elections.ts",

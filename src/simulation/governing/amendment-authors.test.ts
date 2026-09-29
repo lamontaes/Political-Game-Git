@@ -27,7 +27,9 @@ import {
  * Three blocs in a 49-seat chamber, the shape of the Powell amendment
  * (1956): members who back the bill and back the added part, members who
  * oppose the bill and back the part, and members who back the bill but
- * cannot accept the part. Every view is authored for the test.
+ * cannot accept the part. Every view is authored for the test, and each bloc
+ * says in public where it stands on the bill, since a member counting the
+ * chamber cannot assume a colleague whose view they do not know will vote yes.
  */
 interface Bloc {
   readonly members: readonly EntityId[];
@@ -53,19 +55,19 @@ function blocs(
       members: members.slice(0, 20),
       transit: { position: "support", salience: "moderate" },
       work: { position: "support", salience: "central" },
-      stated: ["work"],
+      stated: ["transit", "work"],
     },
     {
       members: members.slice(20, 30),
       transit: { position: "oppose", salience: "high" },
       work: { position: "support", salience: "moderate" },
-      stated: ["transit"],
+      stated: ["transit", "work"],
     },
     {
       members: members.slice(30),
       transit: { position: "support", salience: "moderate" },
       work: { position: "oppose", salience: "high" },
-      stated: cOpposesInPublic ? ["work"] : [],
+      stated: cOpposesInPublic ? ["transit", "work"] : ["transit"],
     },
   ];
 }
@@ -193,7 +195,8 @@ describe("members who amend a bill for their own reasons", () => {
     );
     const members = seats.map((member) => member.personId!);
     // Everyone backs the money bill; a few care most about the work rule,
-    // and nobody objects to it.
+    // and the rest favor it mildly. A member with no view at all no longer
+    // votes yes by default, so "nobody objects" is a mild view, not none.
     const world = hold(setup, setup.world, [
       {
         members: members.slice(0, 5),
@@ -204,8 +207,8 @@ describe("members who amend a bill for their own reasons", () => {
       {
         members: members.slice(5),
         transit: { position: "support", salience: "moderate" },
-        work: null,
-        stated: ["transit"],
+        work: { position: "support", salience: "low" },
+        stated: ["transit", "work"],
       },
     ]);
     const plan = planFloorAmendment(world, input(setup, seats));

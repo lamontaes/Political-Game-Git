@@ -1,8 +1,8 @@
 {
   "id": "pension-contribution-paid",
   "source": "Public Plans Database, PercentReqContPaid (employer contributions received over the actuarially required contribution)",
-  "url": "https://publicplansdata.org/api/?q=QVariables&variables=fy,ppd_id,PlanName,StateAbbrev,AdministeringGovt,PercentReqContPaid&filterfystart=2019&filterfyend=2024&format=csv&includeheader=1",
-  "readOn": "2026-09-28",
+  "url": "https://publicplansdata.org/api/?q=QVariables&variables=fy,ppd_id,PlanName,StateAbbrev,AdministeringGovt,PercentReqContPaid,ActLiabilities_GASB&filterfystart=2019&filterfyend=2024&format=csv&includeheader=1",
+  "readOn": "2026-09-29",
   "script": "scripts/research/export-pension-contribution-paid.py",
   "quantiles": [
     0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65,
@@ -19,12 +19,757 @@
       1.0, 1.003, 1.0212, 1.0446, 1.0821, 1.1404, 1.2633, 1.522, 2.6726
     ]
   },
-  "yearlyChange": {
-    "fiscalYears": [2019, 2024],
-    "planYears": 1146,
-    "values": [
-      -0.622, -0.1219, -0.0528, -0.0203, -0.0061, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-      0.0, 0.0, 0.0, 0.0051, 0.0173, 0.0379, 0.0665, 0.1008, 0.1865, 0.6896
-    ]
-  }
+  "byState": {
+    "AK": {
+      "share": 1.0455,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "AL": {
+      "share": 1.0,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "AR": {
+      "share": 1.0225,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "AZ": {
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "CA": {
+      "share": 1.0077,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "CO": {
+      "share": 1.1591,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "CT": {
+      "share": 1.1333,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "DE": {
+      "share": 1.0,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "FL": {
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "GA": {
+      "share": 1.0802,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "HI": {
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "IA": {
+      "share": 1.1097,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "ID": {
+      "share": 0.8524,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "IL": {
+      "share": 0.7327,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "IN": {
+      "share": 1.1949,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "KS": {
+      "share": 1.0175,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "KY": {
+      "share": 1.0454,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "LA": {
+      "share": 1.1114,
+      "plans": 7,
+      "fiscalYear": 2024
+    },
+    "MA": {
+      "share": 1.0,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "MD": {
+      "share": 1.0,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "ME": {
+      "share": 1.0,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "MI": {
+      "share": 1.1584,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "MN": {
+      "share": 1.2988,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "MO": {
+      "share": 0.9888,
+      "plans": 5,
+      "fiscalYear": 2024
+    },
+    "MS": {
+      "share": 0.925,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "MT": {
+      "share": 1.0,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "NC": {
+      "share": 1.0601,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "ND": {
+      "share": 1.1569,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "NE": {
+      "share": 1.9519,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "NH": {
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "NJ": {
+      "share": 1.0307,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "NM": {
+      "share": 0.923,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "NY": {
+      "share": 1.0,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "OH": {
+      "share": 1.3897,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "OK": {
+      "share": 1.6365,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "OR": {
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "PA": {
+      "share": 1.0,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "RI": {
+      "share": 1.0,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "SC": {
+      "share": 1.0,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "SD": {
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "TN": {
+      "share": 1.0537,
+      "plans": 1,
+      "fiscalYear": 2023
+    },
+    "TX": {
+      "share": 1.1081,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "UT": {
+      "share": 1.0,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "VA": {
+      "share": 1.0671,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "VT": {
+      "share": 1.0801,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "WA": {
+      "share": 0.8808,
+      "plans": 8,
+      "fiscalYear": 2024
+    },
+    "WI": {
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "WV": {
+      "share": 1.3474,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "WY": {
+      "share": 0.9154,
+      "plans": 4,
+      "fiscalYear": 2024
+    }
+  },
+  "byLocal": [
+    {
+      "state": "AK",
+      "kind": "city",
+      "name": "Anchorage",
+      "share": 0.0,
+      "plans": 1,
+      "fiscalYear": 2023
+    },
+    {
+      "state": "AL",
+      "kind": "city",
+      "name": "Birmingham",
+      "share": 0.9445,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "AR",
+      "kind": "city",
+      "name": "Little Rock",
+      "share": 0.4819,
+      "plans": 1,
+      "fiscalYear": 2019
+    },
+    {
+      "state": "AZ",
+      "kind": "city",
+      "name": "Phoenix",
+      "share": 1.0943,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "AZ",
+      "kind": "city",
+      "name": "Tucson",
+      "share": 1.3166,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "city",
+      "name": "Los Angeles",
+      "share": 0.9941,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "city",
+      "name": "San Diego",
+      "share": 1.1191,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "city",
+      "name": "San Francisco",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "Alameda County",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "Contra Costa County",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "Kern County",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "LA County",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "Orange County",
+      "share": 1.0188,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "Sacramento County",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "San Bernadino County",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "San Diego County",
+      "share": 1.0374,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CO",
+      "kind": "city",
+      "name": "Denver",
+      "share": 1.0855,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CO",
+      "kind": "county",
+      "name": "Arapahoe County",
+      "share": 0.8912,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CT",
+      "kind": "city",
+      "name": "Hartford",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "DC",
+      "kind": "city",
+      "name": "DC Police & Fire",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "DC",
+      "kind": "city",
+      "name": "DC Teachers",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "DE",
+      "kind": "county",
+      "name": "New Castle County",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "FL",
+      "kind": "city",
+      "name": "Jacksonville",
+      "share": 1.0015,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "FL",
+      "kind": "city",
+      "name": "Miami",
+      "share": 1.0,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "GA",
+      "kind": "city",
+      "name": "Atlanta",
+      "share": 1.0,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "IA",
+      "kind": "city",
+      "name": "Des Moines",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "IL",
+      "kind": "city",
+      "name": "Chicago",
+      "share": 0.8635,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "IL",
+      "kind": "county",
+      "name": "Cook County",
+      "share": 1.0289,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "IN",
+      "kind": "county",
+      "name": "Marion County",
+      "share": 1.1132,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "KS",
+      "kind": "city",
+      "name": "Wichita",
+      "share": 1.0,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "KY",
+      "kind": "city",
+      "name": "Lexington-Fayette County",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2023
+    },
+    {
+      "state": "LA",
+      "kind": "city",
+      "name": "Baton Rouge City-Parish",
+      "share": 1.0719,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "LA",
+      "kind": "city",
+      "name": "New Orleans",
+      "share": 1.0884,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MA",
+      "kind": "city",
+      "name": "Boston",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MD",
+      "kind": "city",
+      "name": "Baltimore",
+      "share": 1.0,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MD",
+      "kind": "county",
+      "name": "Montgomery County",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MI",
+      "kind": "city",
+      "name": "Detroit",
+      "share": 1.0,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MO",
+      "kind": "city",
+      "name": "Kansas City",
+      "share": 1.0088,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MO",
+      "kind": "city",
+      "name": "St. Louis",
+      "share": 1.0225,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "NC",
+      "kind": "city",
+      "name": "Charlotte",
+      "share": 0.5747,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "ND",
+      "kind": "city",
+      "name": "Bismarck",
+      "share": 1.2823,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "NE",
+      "kind": "city",
+      "name": "Omaha",
+      "share": 1.061,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "NH",
+      "kind": "city",
+      "name": "Manchester",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "NJ",
+      "kind": "city",
+      "name": "Jersey",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "NY",
+      "kind": "city",
+      "name": "New York City",
+      "share": 1.0,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "OH",
+      "kind": "city",
+      "name": "Cincinnati",
+      "share": 0.6244,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "OK",
+      "kind": "city",
+      "name": "Oklahoma City",
+      "share": 1.0952,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "PA",
+      "kind": "city",
+      "name": "Philadelphia",
+      "share": 1.1537,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "RI",
+      "kind": "city",
+      "name": "Providence",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "SC",
+      "kind": "city",
+      "name": "Greenville",
+      "share": 1.2959,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "SD",
+      "kind": "city",
+      "name": "Sioux Falls",
+      "share": 1.0,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "TN",
+      "kind": "city",
+      "name": "Nashville-Davidson",
+      "share": 1.1576,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "TN",
+      "kind": "county",
+      "name": "Knox County",
+      "share": 1.1341,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "TX",
+      "kind": "city",
+      "name": "Austin",
+      "share": 1.0,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "TX",
+      "kind": "city",
+      "name": "Dallas",
+      "share": 0.7265,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "TX",
+      "kind": "city",
+      "name": "Houston",
+      "share": 1.0862,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "VA",
+      "kind": "county",
+      "name": "Arlington County",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "VA",
+      "kind": "county",
+      "name": "Fairfax County",
+      "share": 1.0,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "VT",
+      "kind": "city",
+      "name": "Burlington",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "WA",
+      "kind": "city",
+      "name": "Seattle",
+      "share": 1.0017,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "WI",
+      "kind": "city",
+      "name": "Milwaukee",
+      "share": 1.0,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "WI",
+      "kind": "county",
+      "name": "Milwaukee County",
+      "share": 0.9902,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "WV",
+      "kind": "city",
+      "name": "Charleston",
+      "share": 1.1821,
+      "plans": 2,
+      "fiscalYear": 2024
+    }
+  ]
 }
