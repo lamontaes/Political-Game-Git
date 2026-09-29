@@ -9,6 +9,7 @@ import { favorRecords, favorStandingBetween } from "./favors";
 import { recordLifeCommitment } from "./life";
 import { activeWorkRelationshipsAt } from "./life-queries";
 import { personName } from "./people";
+import { confidantsOf } from "./confidants";
 import { ensureOwnTies } from "./people-own-ties";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import {
@@ -485,13 +486,6 @@ export function answerFavorAsk(
 /* Word travels                                                               */
 /* -------------------------------------------------------------------------- */
 
-/**
- * SET BY HAND: the most people somebody tells about being let down, the
- * handful they talk to most. The same six the press reads as someone's close
- * contacts (`closeContactsOf`).
- */
-export const WORD_OF_MOUTH_LISTENERS = 6;
-
 /** SET BY HAND: how much a refusal stings, by how much the favor mattered. */
 const STING: Readonly<Record<FavorWeight, DecisionImportance>> = {
   slight: "slight",
@@ -499,40 +493,6 @@ const STING: Readonly<Record<FavorWeight, DecisionImportance>> = {
   great: "strong",
   "life-changing": "strong",
 };
-
-/**
- * The people somebody talks to, most-talked-to first: kin, and anybody they
- * have a recorded dealing with. Only people the world records, never invented
- * ones.
- */
-export function peopleTheyTalkTo(
-  world: World,
-  personId: EntityId,
-): readonly EntityId[] {
-  const count = new Map<EntityId, number>();
-  const add = (id: EntityId | undefined, by: number) => {
-    if (!id || id === personId || !world.people[id] || !alive(world, id))
-      return;
-    count.set(id, (count.get(id) ?? 0) + by);
-  };
-  for (const interaction of world.history.relationshipInteractions) {
-    if (!interaction.personIds.includes(personId)) continue;
-    add(
-      interaction.personIds.find((id) => id !== personId),
-      1,
-    );
-  }
-  for (const kin of world.history.kinshipRelationships) {
-    if (!kin.personIds.includes(personId)) continue;
-    add(
-      kin.personIds.find((id) => id !== personId),
-      1,
-    );
-  }
-  return [...count.entries()]
-    .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))
-    .map(([id]) => id);
-}
 
 interface RefusalToTell {
   readonly answered: HistoricalEvent;
@@ -543,8 +503,8 @@ interface RefusalToTell {
 }
 
 /**
- * The one who was refused decides whether to tell the people they talk to,
- * and anybody who saw the favor done. Whether they tell is their own choice,
+ * The one who was refused decides whether to tell the people they confide in
+ * (`confidantsOf`), and anybody who saw the favor done. Whether they tell is their own choice,
  * from how much the favor mattered and who they are; those who hear it know
  * it secondhand, from them, and it counts against the one who refused when
  * they later ask those people for something.
@@ -560,11 +520,9 @@ function tellOfRefusal(start: World, input: RefusalToTell): World {
       ...favor.witnessPersonIds.filter(
         (id) => !!world.people[id] && alive(world, id),
       ),
-      ...peopleTheyTalkTo(world, askerId),
+      ...confidantsOf(world, askerId),
     ]),
-  ]
-    .filter((id) => id !== refuserId && id !== askerId)
-    .slice(0, WORD_OF_MOUTH_LISTENERS);
+  ].filter((id) => id !== refuserId && id !== askerId);
   if (listeners.length === 0) return start;
   const key = `favor-answer:${answered.id}:word`;
   const withTraits = ensurePeopleTraits(world, [askerId]);

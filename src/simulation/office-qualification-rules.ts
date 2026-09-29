@@ -702,10 +702,11 @@ export function assessOfficeQualifications(
     }
 
     // A qualified elector is someone who could vote here: old enough, a
-    // citizen, and living in the state long enough to register. The World
-    // keeps no voter registration record, so someone who meets the rest is
-    // taken as able to register before filing (GAME ASSUMPTION). Nothing here
-    // is read when citizenship is not recorded.
+    // citizen, and living in the state long enough to register. A person who
+    // decides to run registers first, as real candidates do, so the filing
+    // checks what registering requires under the law in force. Nothing here is
+    // read when citizenship is not recorded. Who is registered, and since
+    // when, is a record of its own (modular election law).
     if (
       row.field === "ELECTOR_REQUIREMENT" &&
       (input.citizenSince ?? null) !== null

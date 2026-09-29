@@ -7,10 +7,9 @@ import {
   favorNeed,
   heardOfRefusalConsiderations,
   openFavorAsk,
-  peopleTheyTalkTo,
   produceFavorCollection,
-  WORD_OF_MOUTH_LISTENERS,
 } from "./favor-collection";
+import { confidantsOf } from "./confidants";
 import {
   addDays,
   assessUndertaking,
@@ -265,7 +264,7 @@ describe("What the person asked still feels they owe", () => {
       const heard = refused.history.knowledge.filter(
         (record) => record.eventId === answerEvent.id,
       );
-      const circle = peopleTheyTalkTo(refused, setup.helper).filter(
+      const circle = confidantsOf(refused, setup.helper).filter(
         (id) => id !== setup.player,
       );
       if (heard.length === 0) {
@@ -281,7 +280,9 @@ describe("What the person asked still feels they owe", () => {
         eventId: answerEvent.id,
         audience: "limited",
       });
-      expect(heard.length).toBeLessThanOrEqual(WORD_OF_MOUTH_LISTENERS);
+      expect(heard.map((record) => record.personId).sort()).toEqual(
+        [...circle].sort(),
+      );
       for (const record of heard) {
         expect(record.personId).not.toBe(setup.player);
         expect(circle).toContain(record.personId);
