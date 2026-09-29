@@ -25,6 +25,7 @@
 import { addDays } from "./dates";
 import { applyEnactedLawEffects } from "./enacted-law-effects";
 import { scheduleFutureDueItem } from "./future-transitions";
+import { ORDINANCE_EFFECTIVE_AFTER_DAYS } from "./governing/ordinance-effective-date";
 import { currentStateExecutiveHolders } from "./nationwide-world/state-executives";
 import type { MunicipalPassageInterval } from "./municipal-government";
 import {
@@ -240,7 +241,7 @@ export function municipalOrdinanceStatus(
         : null,
     playerIsExecutive:
       world.control.kind === "person" &&
-      executiveHolder(world, governmentKey) === world.control.personId,
+      municipalExecutiveHolder(world, governmentKey) === world.control.personId,
     overrideBy:
       position.phase === "awaiting-override"
         ? overrideDeadline(world, governmentKey, measureId)
@@ -630,7 +631,10 @@ export function congressionalReviewEffectiveOn(
 }
 
 /** Whoever holds this government's executive office today, if anyone does. */
-function executiveHolder(world: World, governmentKey: string): EntityId | null {
+export function municipalExecutiveHolder(
+  world: World,
+  governmentKey: string,
+): EntityId | null {
   const government = municipalGovernmentByKey(governmentKey);
   if (!government) return null;
   if (government.state === "DC") {
@@ -672,7 +676,11 @@ function afterFinalPassage(
       stableKey: `${measure.stableKey}:enactment`,
       measureId: measure.id,
       actDesignation: measure.designation,
-      effectiveAt: effectiveFromPassage ? next.currentDate : null,
+      // ESTIMATED where the charter's rule is unread
+      // (`ordinance-effective-date.ts`).
+      effectiveAt: effectiveFromPassage
+        ? next.currentDate
+        : addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS),
     });
     // Every enactment passes through the one effects step, a council's too.
     return applyEnactedLawEffects(next, measure.id);
@@ -728,7 +736,7 @@ function enactCouncilMeasure(
           "from the date of its passage",
         )
       ? world.currentDate
-      : null;
+      : addDays(world.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS);
   const next = recordEnactment(world, {
     stableKey: `${measure.stableKey}:enactment`,
     measureId: measure.id,
@@ -775,7 +783,10 @@ export function actOnCouncilMeasure(
       "Nothing is waiting on the executive for this measure.",
     );
   }
-  if (executiveHolder(world, input.governmentKey) !== world.control.personId) {
+  if (
+    municipalExecutiveHolder(world, input.governmentKey) !==
+    world.control.personId
+  ) {
     return refuse(
       world,
       "Only the person who holds the executive office acts on it.",
@@ -933,7 +944,7 @@ export function councilActExecutiveDeadlineHandler(
       world,
       "No rule says what the executive's silence does here.",
     );
-  const holder = executiveHolder(world, governmentKey);
+  const holder = municipalExecutiveHolder(world, governmentKey);
   const player =
     world.control.kind === "person" ? world.control.personId : null;
   if (holder && holder !== player) {
