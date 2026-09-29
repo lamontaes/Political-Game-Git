@@ -2,7 +2,7 @@
 id: appointers-name-people-they-know
 impact: minor
 section: Changed
-title: Appointments go to people the appointer knows, and an appointment is a favor owed
+title: Appointments go to people the appointer knows, and a personal appointment is a favor owed
 ---
 
 When a President fills the vice presidency or the Chief Justice's seat, a
@@ -12,8 +12,10 @@ they trust the person, whether the person is in their own party, whether the
 person already serves in office, and what they owe or are owed. Their own
 temperament decides how much each of those counts.
 
-Every appointment that takes effect is remembered as a favor. Someone who
-helped the appointer and was passed over remembers that too.
+An appointment made on the merits is just the job. It is remembered as a favor
+owed only when it was personal: when someone better placed on party, record or
+experience lost to the appointer's trust or a debt. Someone who helped the
+appointer and was passed over remembers that too.
 
 Favors are paid back. A legislator who owes the person carrying a bill leans
 toward voting for it, and in a town election the households that owe a
