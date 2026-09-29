@@ -18,10 +18,14 @@ import { aggregateCongressAffiliation } from "./congress-aggregate-outcome";
 import {
   congressCandidateIntakeDay,
   congressCandidateSlate,
-  congressCandidates,
+  congressFieldIntakeDay,
+  congressGeneralCandidates,
+  congressNominationPlan,
   prepareCongressCandidateSlates,
+  slateKey,
   type CongressCandidateSeatPlan,
 } from "./congress-candidates";
+import { holdFiledNominations } from "../nominations/party-nominations";
 import {
   endCongressSeatWork,
   takeCongressSeatWork,
@@ -433,13 +437,17 @@ function decideSeat(
   }
   const slate = congressCandidateSlate(world, seat.seatKey, year);
   if (slate) {
-    const viable = congressCandidates(world, seat.seatKey, year).filter(
+    const viable = congressGeneralCandidates(world, seat.seatKey, year).filter(
       (candidate) => aliveOn(world, candidate.personId, electionDay),
     );
     if (viable.length === 0) return null;
     const condition = seatStartingCondition(world, seat.seatKey);
+    // A member who lost renomination is not on the ballot, so their party
+    // carries no incumbent into the general election.
     const seeking =
-      eligible && seatCandidacyIntent(world, seat.seatKey, year) === true;
+      eligible &&
+      seatCandidacyIntent(world, seat.seatKey, year) === true &&
+      viable.some((candidate) => candidate.personId === incumbent);
     const preferredParty = aggregateCongressAffiliation({
       democraticShare: condition?.generatedShare ?? null,
       baselineAffiliation: condition?.affiliation ?? null,
@@ -855,6 +863,63 @@ function seatCongressWinners(world: World, year: number): World {
   return next;
 }
 
+const SLATE_EVENT = "election.congress-candidate-slate";
+
+/**
+ * The nomination stage for every field filed this year: each state's primary
+ * on its own date, and a runoff where one was left open. Only dates the clock
+ * crosses act.
+ */
+function holdCongressNominations(
+  before: IsoDate,
+  world: World,
+  year: number,
+  electionDay: IsoDate,
+): World {
+  // Primaries and runoffs fall between the first filing and election day.
+  if (world.currentDate < `${year}-02-01` || before >= electionDay)
+    return world;
+  const seatsByKey = new Map(
+    congressSeats().map((seat) => [seat.seatKey, seat]),
+  );
+  return holdFiledNominations(before, world, {
+    fieldType: SLATE_EVENT,
+    stableKeySuffix: `:${year}`,
+    seatFor: (field) => {
+      const seat = seatsByKey.get(
+        field.tags.find((tag) => tag.startsWith("seat:"))?.slice(5) ?? "",
+      );
+      if (!seat || field.stableKey !== slateKey(seat.seatKey, year))
+        return null;
+      return {
+        seatKey: seat.seatKey,
+        title: congressSeatTitle(seat),
+        jurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id,
+        involvedEntityIds: [
+          livingWorldOrganizationId(
+            world,
+            LIVING_WORLD_KEYS.chamber(seat.chamberKey),
+          ),
+        ],
+        plan: () => congressNominationPlan(world, seat, year),
+        partyShare: (party) => {
+          const share = seatStartingCondition(
+            world,
+            seat.seatKey,
+          )?.generatedShare;
+          if (share === null || share === undefined) return null;
+          return party === "democratic"
+            ? share
+            : party === "republican"
+              ? 1 - share
+              : null;
+        },
+        aliveOn: (personId, date) => aliveOn(world, personId, date),
+      };
+    },
+  });
+}
+
 /**
  * Called whenever the canonical clock moves from `before` to the World's
  * current date. Only dates actually crossed act.
@@ -872,12 +937,16 @@ export function applyCongressTurnover(before: IsoDate, world: World): World {
     const due = congressSeats().flatMap((seat, index) => {
       if (seatTermWindow(seat, electionDay).endExclusive !== newStart)
         return [];
-      const intakeDate = congressCandidateIntakeDay(year, index);
+      // The field never files later than the game's own intake day, so a
+      // day already past needs no look at the state's primary.
+      if (congressCandidateIntakeDay(year, index) <= before) return [];
+      const intakeDate = congressFieldIntakeDay(next, seat, year, index);
       return before < intakeDate && intakeDate <= after
         ? [{ seat, intakeDate }]
         : [];
     });
     next = prepareCongressIntake(next, year, due);
+    next = holdCongressNominations(before, next, year, electionDay);
     if (before < electionDay && electionDay <= after)
       next = holdCongressElection(next, year);
     if (before < newStart && newStart <= after)
