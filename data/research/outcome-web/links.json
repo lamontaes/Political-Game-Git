@@ -3602,6 +3602,24 @@
       "anchor": "Where federal law let highway money go to transit (1992 to 2006), states spent about 3% of the whole federal-aid highway program on transit, 13% of the flexible part; California put nearly 40% of its flexible money there, and 19 states less than 2%. The same 3% of a state's own highway spending (Census Bureau, 2022: $128.0 billion) is 5.9% of what transit agencies spend to run service (FTA National Transit Database, 2024: $65.6 billion), so service rises about 6% at the average cost per mile. The spread takes 2% to 40% of the flexible part. The lag is a budget cycle and the buses it buys, the most common use GAO found.",
       "source": "GAO-07-772, Highway and Transit Investments: Flexible Funding Supports State and Local Transportation Priorities (2007); Census Bureau, 2022 Census of Governments: Finance, Table 1 (state highways); FTA National Transit Database 2024 (data.transportation.gov ekg5-frzt, total operating expenses)",
       "range": [0.01, 0.18]
+    },
+    {
+      "key": "farmland-easements-to-farmland-lost",
+      "from": "law:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "to": "farmland.developed-acres",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.47,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 60,
+      "group": "place",
+      "owner": "M",
+      "evidence": "researched",
+      "anchor": "Across 269 counties in six Mid-Atlantic states over 50 years, a state or local program that buys farmland development rights cut the county's rate of farmland loss by 40% to 55%. The size is the middle of that range, 47%, and the spread is the paper's own. The lag is one Census of Agriculture period, the step at which the loss was measured, since a program needs years of purchases before its easements hold back development.",
+      "source": "Liu and Lynch 2011, Do Agricultural Land Preservation Programs Reduce Farmland Loss? Evidence from a Propensity Score Matching Estimator, Land Economics 87(2): 183-201; its 40% to 55% as reported in USDA Economic Research Service, Additionality in U.S. Agricultural Conservation and Regulatory Offset Programs, ERR-170 (2014)",
+      "range": [-0.55, -0.4]
     }
   ],
   "calibratedAt": "2024-07-01"
