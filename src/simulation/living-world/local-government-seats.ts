@@ -389,7 +389,7 @@ export function ensureCountyGovernmentSeatsForUnit(
   if (localGovernmentSeated(world, unit.id)) return world;
   const rules = boardGoverningBodyRules(unit);
   if (!rules) return world;
-  const municipio = rules.chiefTitle !== null;
+  const hasChief = rules.chiefTitle !== null;
   let next = ensureLocalGovernmentOrganization(world, unit);
   const organizationId = organizationIdFor(next, unit);
   if (!organizationId) return world;
@@ -398,7 +398,7 @@ export function ensureCountyGovernmentSeatsForUnit(
     0,
     rules.seats - sitting.filter((seat) => !seat.mayor).length,
   );
-  const mayorOpen = municipio && !sitting.some((seat) => seat.mayor);
+  const mayorOpen = hasChief && !sitting.some((seat) => seat.mayor);
   const taken = new Set<string>();
   const excluded = new Set([
     ...excludePersonIds,
@@ -426,7 +426,7 @@ export function ensureCountyGovernmentSeatsForUnit(
       kind: "leadership:municipal-office",
       roleKind: mayor
         ? "leader:municipal-mayor"
-        : municipio || unit.unitType === "township"
+        : hasChief || unit.unitType === "township"
           ? "leader:municipal-member"
           : COUNTY_BOARD_MEMBER,
       context: label,
@@ -469,10 +469,10 @@ export function ensureCountyGovernmentSeatsForUnit(
       `unit:${unit.id}`,
       `seats:${rules.seats}`,
       `seats-basis:${rules.basis}`,
-      `mayor:${municipio ? "elected" : "not-elected"}`,
+      `mayor:${hasChief ? "elected" : "not-elected"}`,
     ],
     summary: `The ${rules.bodyName} of ${name} is seated with ${members} of ${rules.seats} members${
-      municipio && seated.some((row) => row.mayor)
+      hasChief && seated.some((row) => row.mayor)
         ? `, and ${name} has a ${rules.chiefTitle!.toLowerCase()}`
         : ""
     }.`,

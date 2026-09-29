@@ -165,7 +165,7 @@
     }
   },
   "namedBodies": {
-    "note": "The body's own name where a county's government is read but its size is not: the size stays its state's reading or the national average. The 38 police jury parishes, the 21 council-president parishes, the 4 consolidated governments and Caddo's council-manager commission, as listed in \"Police jury\" (Wikipedia, read September 29, 2026); the Police Jury Association of Louisiana counted 41 police juries in 2023 before three parishes adopted home rule charters.",
+    "note": "The body's own name where a county's government is read but its size is not: the size stays its state's reading or the national average. The 38 police jury parishes, the 21 council-president parishes (each with an elected parish president), the 4 consolidated governments and Caddo's council-manager commission, as listed in \"Police jury\" (Wikipedia, read September 29, 2026); the Police Jury Association of Louisiana counted 41 police juries in 2023 before three parishes adopted home rule charters.",
     "url": "https://en.wikipedia.org/wiki/Police_jury",
     "counties": {
       "22001": {
@@ -322,87 +322,108 @@
       },
       "22005": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22045": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22047": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22051": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22057": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22063": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22069": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22075": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22077": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22087": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22089": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22093": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22095": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22097": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22099": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22101": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22103": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22105": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22117": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22121": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22125": {
         "bodyName": "Parish Council",
-        "memberTitle": "Council member"
+        "memberTitle": "Council member",
+        "chiefTitle": "Parish President"
       },
       "22017": {
         "bodyName": "Parish Commission",
