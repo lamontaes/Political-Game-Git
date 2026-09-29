@@ -1,4 +1,5 @@
 import bases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
+import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
@@ -79,6 +80,7 @@ interface PlaceBase {
   readonly local?: PerResident;
   readonly territoryAllFundsSpendingFY2025Millions?: number | null;
   readonly islandAreaPopulation2020?: number;
+  readonly puertoRicoPopulation2025?: number;
 }
 
 const PLACES = bases.places as unknown as Readonly<Record<string, PlaceBase>>;
@@ -131,6 +133,48 @@ const ISLAND_AREA_AVERAGE = (() => {
     ),
   };
 })();
+
+/**
+ * Local-government finances for a place whose state has none in Census
+ * (Puerto Rico): ESTIMATED FROM AVERAGE, the Census 2022 local-government
+ * figures per resident of the 50 states and D.C., weighted by their BEA 2024
+ * populations (Claude CTO, September 28, 2026, 10:32 p.m. EDT).
+ */
+const NATIONAL_LOCAL_AVERAGE: PerResident = (() => {
+  const peers = Object.values(PLACES).filter(
+    (place) => place.local && (place.population2024 ?? 0) > 0,
+  );
+  const people = sum(peers.map((place) => place.population2024!));
+  const average = (read: (local: PerResident) => number) =>
+    sum(peers.map((place) => read(place.local!) * place.population2024!)) /
+    people;
+  const keys = (
+    pick: (local: PerResident) => Readonly<Record<string, number>>,
+  ) => [...new Set(peers.flatMap((place) => Object.keys(pick(place.local!))))];
+  return {
+    revenue: Object.fromEntries(
+      keys((local) => local.revenue).map((key) => [
+        key,
+        average((local) => local.revenue[key] ?? 0),
+      ]),
+    ),
+    spending: Object.fromEntries(
+      keys((local) => local.spending).map((key) => [
+        key,
+        average((local) => local.spending[key] ?? 0),
+      ]),
+    ),
+    debt: average((local) => local.debt),
+  };
+})();
+
+/**
+ * Places the Census 2025 estimates leave out (census-designated places and
+ * Puerto Rico): the ACS 2020-2024 five-year population.
+ */
+const ACS_PLACE_POPULATION = acsPlaces.places as Readonly<
+  Record<string, number>
+>;
 
 /** NASBO's median rainy-day balance as a share of spending, fiscal 2026. */
 const MEDIAN_RAINY_DAY_SHARE = 0.131;
@@ -333,7 +377,8 @@ function stateOpening(
     );
   } else {
     // A territory: NASBO totals, or the surveyed island areas' average.
-    population = base.islandAreaPopulation2020 ?? 0;
+    population =
+      base.islandAreaPopulation2020 ?? base.puertoRicoPopulation2025 ?? 0;
     const surveyed =
       (base.territoryAllFundsSpendingFY2025Millions ?? general.expenditures) &&
       general.revenues &&
@@ -411,14 +456,23 @@ function localOpening(
   candidate: BudgetCandidate,
   base: PlaceBase,
 ): OpeningAmounts | string {
-  const local = base.local;
-  if (!local) return "No Census local-government finances for this place.";
+  const local = base.local ?? NATIONAL_LOCAL_AVERAGE;
+  const acsPopulation =
+    candidate.level === "county"
+      ? null
+      : (ACS_PLACE_POPULATION[candidate.geoid!] ?? null);
   const population =
     candidate.level === "county"
       ? (COUNTY_POPULATION[candidate.geoid!] ?? null)
-      : placePopulation(candidate.geoid!);
+      : (placePopulation(candidate.geoid!) ?? acsPopulation);
   if (population === null || population <= 0)
     return "No population for this place in the research.";
+  const populationSource =
+    candidate.level === "county"
+      ? "BEA 2024"
+      : placePopulation(candidate.geoid!) !== null
+        ? "Census 2025"
+        : "ACS 2020-2024 five-year";
   const scale = population * BUDGET_CALIBRATION;
   const level = candidate.level === "county" ? "county" : "city";
   const spending = emptySpending();
@@ -478,7 +532,9 @@ function localOpening(
     balance: Math.round(total * balanceShare),
     reserve: Math.round(total * reserveShare),
     notes: [
-      `Census 2022 local-government figures per resident in ${base.name}, the ${level} share of each program (PLACEHOLDER table, research: local-government-finances-by-type), times ${candidate.level === "county" ? "BEA 2024" : "Census 2025"} population, times the calibration factor.`,
+      base.local
+        ? `Census 2022 local-government figures per resident in ${base.name}, the ${level} share of each program (PLACEHOLDER table, research: local-government-finances-by-type), times ${populationSource} population, times the calibration factor.`
+        : `ESTIMATED FROM AVERAGE: Census publishes no local-government finances for ${base.name}, so the national average per resident (the 50 states and D.C., weighted by population), the ${level} share of each program (PLACEHOLDER table), times ${populationSource} population, times the calibration factor.`,
       `Revenue: ${LOCAL_REVENUE_RULE}.`,
       "Opening balance and reserve: the state's general fund balance and rainy-day shares of spending (PLACEHOLDER, research: local-government-finances-by-type).",
     ],

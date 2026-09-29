@@ -14,8 +14,15 @@ import {
   activePartnershipsAt,
   householdMembershipsAt,
 } from "../../src/simulation/life-queries";
-import { parentsOf } from "../../src/simulation/people-family";
+import { YOUNGEST_AGE_AT_BIRTH } from "../../src/simulation/birth-rates";
+import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
 import {
+  MINIMUM_PARENT_AGE_AT_BIRTH,
+  parentsOf,
+} from "../../src/simulation/people-family";
+import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
+import {
+  TOWN_BIRTH_RATES_BY_AGE,
   TOWN_FAMILIES_VERSION,
   TOWN_FAMILY_EVENTS,
   describeTownFamilies,
@@ -25,6 +32,7 @@ import { withWorldIntegrityDeferred } from "../../src/simulation/world";
 import type { EntityId, World } from "../../src/simulation";
 
 const LEXINGTON = "2146027";
+const BOISE = "1608830";
 const QUARTERS = 20;
 
 function openAt(placeKey: string, seed: string) {
@@ -118,7 +126,7 @@ describe(
           world.people[mother]!.birthDate,
           birth.occurredAt,
         );
-        expect(age).toBeGreaterThanOrEqual(15);
+        expect(age).toBeGreaterThanOrEqual(MINIMUM_PARENT_AGE_AT_BIRTH);
         expect(age).toBeLessThanOrEqual(49);
         const home = (id: EntityId) =>
           householdMembershipsAt(world, id)[0]?.household.id;
@@ -171,6 +179,128 @@ describe(
       expect(
         reviewTownFamilies(world, town, personId, `test-${QUARTERS - 1}`),
       ).toBe(world);
+    });
+  },
+);
+
+/** The largest place of each state and D.C., Honolulu, and one per territory. */
+function onePlaceEach(): readonly string[] {
+  const largest = new Map<string, [string, number]>();
+  for (const pair of PLACE_POPULATION_ROWS.split(";")) {
+    const [geoid, people] = pair.split(":") as [string, string];
+    const state = geoid.slice(0, 2);
+    if ((largest.get(state)?.[1] ?? -1) < Number(people))
+      largest.set(state, [geoid, Number(people)]);
+  }
+  largest.set("15", ["1571550", 0]);
+  largest.set("72", ["7276770", 0]);
+  for (const [key, , usps] of TERRITORY_PLACE_ROWS)
+    if (!largest.has(usps)) largest.set(usps, [key, 0]);
+  return [...largest.values()].map(([key]) => key).sort();
+}
+
+/** Every woman in town but the player is made `age` before each review. */
+function reviewAtAge(
+  placeKey: string,
+  seed: string,
+  age: number,
+  rounds: number,
+) {
+  const opened = openAt(placeKey, seed);
+  const { personId, town } = opened;
+  const women = opened.world.personOrder.filter((id) => {
+    const person = opened.world.people[id]!;
+    return (
+      id !== personId &&
+      person.homeJurisdictionId === town &&
+      person.identity?.gender === "female"
+    );
+  });
+  let world = opened.world;
+  const parentAges: number[] = [];
+  withWorldIntegrityDeferred(() => {
+    for (let round = 0; round < rounds; round += 1) {
+      const date = addDays(world.currentDate, 91);
+      const birthDate = addDays(date, -(age * 365 + 100));
+      const people = { ...world.people };
+      for (const id of women) people[id] = { ...people[id]!, birthDate };
+      world = {
+        ...world,
+        people,
+        currentDate: date,
+        currentMoment: simulationMomentOnLocalDate(world.currentMoment, date),
+      };
+      world = reviewTownFamilies(world, town, personId, `young-${round}`);
+      // Ages are read on the day, before the next round re-ages the women.
+      for (const event of familyEvents(world, town))
+        if (
+          event.type === "life.family-member-added" &&
+          event.occurredAt === date
+        )
+          for (const row of event.participants)
+            if (row.role === "agency:parent")
+              parentAges.push(
+                ageOnDate(world.people[row.personId!]!.birthDate, date),
+              );
+    }
+  });
+  return { world, town, women, parentAges };
+}
+
+describe(
+  "the youngest parent is one rule, read from the birth table, in every place",
+  { timeout: 900_000 },
+  () => {
+    it("the family writer's youngest parent is the table's first age", () => {
+      const first = TOWN_BIRTH_RATES_BY_AGE.find(([, rate]) => rate > 0)![0];
+      expect(MINIMUM_PARENT_AGE_AT_BIRTH).toBe(first);
+      expect(YOUNGEST_AGE_AT_BIRTH).toBe(first);
+    });
+
+    it("in all 56 places, the youngest mothers the table allows are recorded and the world goes on", () => {
+      // Before the fix the table started at 15 and the writer at 16, so a
+      // 15-year-old's draw stopped watched worlds in Seattle and Philadelphia
+      // ("would be under 16 at the birth").
+      const places = onePlaceEach();
+      expect(places).toHaveLength(56);
+      let births = 0;
+      for (const placeKey of places) {
+        const { world, town, women, parentAges } = reviewAtAge(
+          placeKey,
+          `youngest-${placeKey}`,
+          MINIMUM_PARENT_AGE_AT_BIRTH,
+          4,
+        );
+        expect(
+          familyEvents(world, town).filter(
+            (event) => event.type === TOWN_FAMILY_EVENTS.birthRefused,
+          ),
+          placeKey,
+        ).toEqual([]);
+        births += parentAges.length;
+        for (const age of parentAges)
+          expect(age, placeKey).toBeGreaterThanOrEqual(
+            MINIMUM_PARENT_AGE_AT_BIRTH,
+          );
+        expect(women.length, placeKey).toBeGreaterThan(0);
+      }
+      expect(births).toBeGreaterThan(0);
+    });
+
+    it("nobody younger than the table's first age is ever drawn", () => {
+      const { world, town } = reviewAtAge(
+        BOISE,
+        "families-too-young",
+        MINIMUM_PARENT_AGE_AT_BIRTH - 1,
+        QUARTERS,
+      );
+      expect(
+        familyEvents(world, town).filter(
+          (event) =>
+            event.type === "life.family-member-added" ||
+            event.type === TOWN_FAMILY_EVENTS.birthRefused,
+        ),
+      ).toEqual([]);
     });
   },
 );
