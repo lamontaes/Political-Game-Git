@@ -14,17 +14,27 @@ import { ensurePeopleTraits } from "../people-traits";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
+  bailDueMinorUnits,
+  bailMinorUnits,
+  moneyOnHandMinorUnits,
+  PRETRIAL_VERSION,
+  pretrialLawAt,
+} from "./pretrial";
+import {
   chosenReasons,
   empanelJury,
   evaluateJurorVote,
+  evaluateDetention,
   evaluatePlea,
   evaluateSentence,
+  mandatoryJailUnderLaw,
   prepareJudge,
   prepareJurors,
   sentencingJudge,
   ACQUIT,
   CONVICT,
   PLEA,
+  PRETRIAL_HOLD,
   SENTENCE_JAIL,
   type CourtCase,
   type EvidenceStrength,
@@ -32,7 +42,11 @@ import {
 } from "./court-reasoning";
 import {
   eventsOfType,
+  PRETRIAL_HELD_EVENT,
+  PRETRIAL_RELEASED_EVENT,
+  PROSECUTION_ENDED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
+  REFERRAL_TAG,
   SENTENCE_KIND_TAG,
   SENTENCE_MONTHS_TAG,
   type SentenceKind,
@@ -40,6 +54,9 @@ import {
 
 export {
   jailTermOn,
+  PRETRIAL_HELD_EVENT,
+  PRETRIAL_RELEASED_EVENT,
+  PROSECUTION_ENDED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
   sentencesOf,
   type Sentence,
@@ -93,12 +110,10 @@ export const UNRESEARCHED_JAIL_EFFECTS = {
 export const PROSECUTION_REFERRED_EVENT = "justice.prosecution-referred";
 export const PROSECUTION_CHARGED_EVENT = "justice.charged";
 export const PROSECUTION_DECLINED_EVENT = "justice.charges-declined";
-export const PROSECUTION_ENDED_EVENT = "justice.case-ended";
 
 const OFFENSE_TAG = "justice.offense:";
 const EVIDENCE_TAG = "justice.evidence:";
 const STANDING_TAG = "justice.standing-findings:";
-const REFERRAL_TAG = "justice.referral:";
 const OUTCOME_TAG = "justice.outcome:";
 
 export type CaseOutcome = "dismissed" | "acquitted" | "plea" | "convicted";
@@ -287,7 +302,9 @@ type FollowUpType =
   | typeof PROSECUTION_DECLINED_EVENT
   | typeof PROSECUTION_MISTRIAL_EVENT
   | typeof PROSECUTION_ENDED_EVENT
-  | typeof PROSECUTION_SENTENCED_EVENT;
+  | typeof PROSECUTION_SENTENCED_EVENT
+  | typeof PRETRIAL_HELD_EVENT
+  | typeof PRETRIAL_RELEASED_EVENT;
 
 interface FollowUpDetail {
   readonly summary: string;
@@ -570,6 +587,7 @@ export function advanceProsecutions(world: World): World {
             : "A witness's account would probably be enough to convict.",
       });
       charged = next.history.events.at(-1)!;
+      next = decideBeforeTrial(next, charged, referral, courtCase, subjectId);
     }
     const mistrials = byReferral(PROSECUTION_MISTRIAL_EVENT, referral);
     const last = mistrials.at(-1) ?? charged;
@@ -656,10 +674,13 @@ export function advanceProsecutions(world: World): World {
     } else {
       // PLACEHOLDER: every seat on the state's trial court is vacant, or
       // every judge knows the defendant. The court gives the lesser
-      // sentence, as the law's parsimony rule leans.
-      kind = "probation";
-      motivation =
-        "No judge on the state's trial court could hear the case, so the court gave the lesser sentence.";
+      // sentence, as the law's parsimony rule leans, unless the law in force
+      // sets a jail term no court may go below.
+      const bound = mandatoryJailUnderLaw(next, courtCase);
+      kind = bound ? "jail" : "probation";
+      motivation = bound
+        ? `No judge on the state's trial court could hear the case. ${bound}`
+        : "No judge on the state's trial court could hear the case, so the court gave the lesser sentence.";
     }
     const months = termMonths(kind, courtCase.standingFindings);
     next = followUp(next, ended, referral, PROSECUTION_SENTENCED_EVENT, {
@@ -678,6 +699,82 @@ export function advanceProsecutions(world: World): World {
       next = removeFromOffice(next, subjectId, next.history.events.at(-1)!);
   }
   return next;
+}
+
+function dollars(minorUnits: number): string {
+  return `$${Math.round(minorUnits / 100).toLocaleString("en-US")}`;
+}
+
+/**
+ * Whether the defendant waits for trial at home or in jail, on the day they
+ * are charged. Where the law in force sets money bail, the court sets it by
+ * the offense and the defendant goes home if they have the money to pay it;
+ * where the law ends money bail, the defendant goes home unless a judge
+ * orders them held, which the law allows only for a violent offense. The hold
+ * lasts until the case ends. Where no law answers the question, nothing is
+ * decided here.
+ */
+function decideBeforeTrial(
+  world: World,
+  charged: HistoricalEvent,
+  referral: HistoricalEvent,
+  courtCase: CourtCase,
+  subjectId: EntityId,
+): World {
+  const law = pretrialLawAt(world, courtCase.venueJurisdictionId);
+  if (!law) return world;
+  const name = personName(world.people[subjectId]!);
+  if (law === "money-bail") {
+    const bail = bailMinorUnits(courtCase.offenseKey);
+    const due = bailDueMinorUnits(courtCase.offenseKey);
+    const paid = moneyOnHandMinorUnits(world, subjectId) >= due;
+    return followUp(
+      world,
+      charged,
+      referral,
+      paid ? PRETRIAL_RELEASED_EVENT : PRETRIAL_HELD_EVENT,
+      {
+        summary: paid
+          ? `${name} paid ${dollars(due)} toward ${dollars(bail)} bail and went home to wait for trial.`
+          : `${name} could not pay ${dollars(due)} toward ${dollars(bail)} bail and was held in jail to wait for trial.`,
+        extraTags: [PRETRIAL_VERSION, `justice.bail:${bail}`],
+        motivation: paid
+          ? `The court set bail at ${dollars(bail)}, and they had the ${dollars(due)} it takes to go home.`
+          : `The court set bail at ${dollars(bail)}, and they had less than the ${dollars(due)} it takes to go home.`,
+      },
+    );
+  }
+  let next = world;
+  if (!next.judiciary?.seatTenures.length) next = ensureOpeningJudiciary(next);
+  const turn =
+    eventsOfType(next, PRETRIAL_HELD_EVENT).length +
+    eventsOfType(next, PRETRIAL_RELEASED_EVENT).length;
+  const judgeId = sentencingJudge(next, courtCase, turn);
+  if (!judgeId)
+    return followUp(next, charged, referral, PRETRIAL_RELEASED_EVENT, {
+      summary: `${name} was released without bail to wait for trial.`,
+      extraTags: [PRETRIAL_VERSION],
+      motivation:
+        "The law presumes release before trial, and no judge on the state's trial court could hear a request to hold them.",
+    });
+  next = prepareJudge(next, judgeId);
+  const decision = evaluateDetention(next, judgeId, courtCase);
+  next = recordDurableDecisionTrace(next, decision);
+  const hold = decision.selectedOptionKey === PRETRIAL_HOLD;
+  return followUp(
+    next,
+    charged,
+    referral,
+    hold ? PRETRIAL_HELD_EVENT : PRETRIAL_RELEASED_EVENT,
+    {
+      summary: hold
+        ? `A judge ordered ${name} held in jail to wait for trial.`
+        : `${name} was released without bail to wait for trial.`,
+      extraTags: [PRETRIAL_VERSION],
+      motivation: chosenReasons(decision),
+      decidedBy: { personId: judgeId, role: "Judge" },
+    },
+  );
 }
 
 /* ------------------------------------------------------------------ *
