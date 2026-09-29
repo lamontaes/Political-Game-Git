@@ -39,9 +39,9 @@
  * Laws that act on these records, read with `lawInForce` for the town:
  *
  * - Rent stabilization caps a renewal's rise on a private landlord's home at
- *   the price level's rise plus five points, at most ten percent, and makes a
- *   covered tenant 20% less likely to move (`renterMoveFactor`, Diamond,
- *   McQuade and Qian 2019, the outcome web's researched link).
+ *   the price level's rise plus five points, at most ten percent, so a
+ *   covered tenant's rent outruns their pay less often and they move less
+ *   (`town-homes.ts`; measured check in RENT_STABILIZATION_MEASURED).
  * - An inclusionary housing requirement makes a share of apartments and
  *   rowhouses recorded after it took effect affordable homes.
  * - Right to counsel in eviction gives a tenant a lawyer when their landlord
@@ -49,16 +49,26 @@
  *
  * Eviction. When a lease owes two months' rent, the landlord files. On the
  * next rent day the filing is dismissed if the rent was paid; otherwise the
- * household is evicted or settles, drawn once. An evicted household loses its
- * home that day and finds another on the town's next quarterly review, like
- * any household with no home.
+ * case is decided from its facts, with no roll (`decideEvictionCase`): how
+ * far behind the tenant is, whether the landlord follows through, whether the
+ * tenant answers with a lawyer or a plan their pay can carry, and the judge
+ * of the state's trial court. An evicted household loses its home that day
+ * and finds another on the town's next quarterly review, like any household
+ * with no home.
+ *
+ * The played person is not exempt. When they hold the lease, the filing is
+ * put to them as a case to answer before the next rent day decides it
+ * (`adult.eviction-case`): pay what is owed, offer a payment plan, take the
+ * lawyer a right-to-counsel law provides, or move out first. A case they do
+ * not answer is decided as a tenant's who did not answer.
  *
  * NOT MODELED, labeled: prorated first months; security deposits; a lease's
  * rent split among the household's adults (the leaseholder pays); utilities
  * (the rent is HUD's gross rent, which includes them); income verification
  * beyond recorded pay; exemptions in rent stabilization laws; housing
- * vouchers; the played person's own eviction (a filing is recorded, and the
- * household settles); an evicted household may be rehoused in the home it
+ * vouchers; the played person's case when someone else in the household
+ * holds the lease (it is decided like anyone's); an evicted household may be
+ * rehoused in the home it
  * left, since the town's vacant homes do not remember who left them.
  */
 
@@ -70,6 +80,8 @@ import { createOrganization } from "../life";
 import { organizationProfileAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { lawInForce } from "../governing/law-in-force";
+import { seatHolderAt, seatsForCourt } from "../judiciary/courts";
+import { personTrait } from "../people-traits";
 import {
   macroConditionsAt,
   macroMonthHistory,
@@ -97,6 +109,7 @@ import type {
   FutureTransitionHandlerResult,
   IsoDate,
   LifeRecordProvenance,
+  MoneyAmount,
   ResourceEndpoint,
   ResourceFlow,
   ResourceFlowTermsRecord,
@@ -119,7 +132,27 @@ export const RENT_EVENTS = {
   dismissed: "housing.eviction-dismissed",
   settled: "housing.eviction-settled",
   evicted: "housing.evicted",
+  movedOut: "housing.moved-out-before-hearing",
 } as const;
+
+/**
+ * The request that puts an eviction case to the played person, as the life
+ * opportunity `life-opportunities.ts` names "eviction-case". Written here as a
+ * string, as `cost-of-living.ts` writes its own, so the rent day does not
+ * import the opportunity writer.
+ */
+export const EVICTION_CASE_TAG = "life.opportunity:eviction-case";
+
+/** The scene that answers it, and the choices it records. */
+export const EVICTION_CASE_ANSWER = "adult.eviction-case";
+export const EVICTION_CASE_CHOICES = {
+  pay: "pay-what-is-owed",
+  plan: "offer-a-payment-plan",
+  lawyer: "take-the-lawyer",
+  moveOut: "move-out-first",
+} as const;
+export type EvictionCaseChoice =
+  (typeof EVICTION_CASE_CHOICES)[keyof typeof EVICTION_CASE_CHOICES];
 
 export type RentRegime = "market" | "public" | "affordable";
 export type LandlordKind = "person" | "business" | "public";
@@ -212,22 +245,63 @@ export const INCLUSIONARY_SET_ASIDE = 0.15;
  */
 export const RENT_STABILIZATION_CAP = { overPrices: 0.05, most: 0.1 } as const;
 
-/** Diamond, McQuade and Qian 2019: covered renters move 20% less. */
-export const RENT_STABILIZATION_MOBILITY = 0.8;
+/**
+ * Measured, a check and never a rule: Diamond, McQuade and Qian 2019 found
+ * renters covered by San Francisco's rent control 20% less likely to move.
+ * The game's renters move when their rent outruns their pay
+ * (`town-homes.ts`), so a capped renewal keeps them in place; a watched run
+ * compares its covered renters' moves with this.
+ */
+export const RENT_STABILIZATION_MEASURED = {
+  coveredMovesRatio: 0.8,
+  source: "Diamond, McQuade and Qian 2019, American Economic Review 109(9)",
+} as const;
 
 /**
- * PLACEHOLDER(research: eviction-filing-and-outcome). When a landlord files
- * (rent owed, in months) and the chance a filing ends in eviction rather
- * than a settlement, without and with a lawyer. The represented figure is
- * set near New York City's reports that most represented tenants stayed
- * home, to confirm.
+ * How an eviction case runs. Nothing here is a chance: a case is decided from
+ * how far behind the tenant is, whether the landlord follows through, what the
+ * tenant does, and the judge. The share of filings that end in eviction is a
+ * result to check against the record (`EVICTION_MEASURED`), never a roll.
+ *
+ * PLACEHOLDER(research: eviction-filing-and-outcome), set by hand:
+ * - a landlord files at two months owed; a conciliatory person who rents out
+ *   their own home waits a third month;
+ * - a conciliatory person landlord settles a case up to three months behind;
+ * - a tenant who answers with a lawyer keeps the home up to four months
+ *   behind; further behind, only on a payment plan their pay can carry, as
+ *   anyone would (a watched Providence run on 9/29/2026 showed that "any
+ *   amount before a conciliatory judge" let one household's debt grow from
+ *   $6,647 to $12,607 across two cases with no end);
+ * - a payment plan is one the household's pay can carry: the rent plus a
+ *   sixth of what is owed, within half the household's monthly pay;
+ * - a conciliatory judge gives a tenant who answers time to pay up to two
+ *   months behind;
+ * - the quiet months after a case before a landlord files again.
  */
 export const EVICTION = {
   fileAtMonthsOwed: 2,
-  evictedWithoutCounsel: 0.5,
-  evictedWithCounsel: 0.16,
+  conciliatoryLandlordFilesAt: 3,
+  conciliatoryLandlordSettlesUpTo: 3,
+  lawyerKeepsHomeUpTo: 4,
+  planMonths: 6,
+  planLimitOfPay: 0.5,
+  conciliatoryJudgeGivesTimeUpTo: 2,
   /** Months after a filing ends before the landlord files again. */
   quietMonths: 3,
+} as const;
+
+/**
+ * What the record says, for checking a watched world's cases (measured):
+ * - without a lawyer, 42% of filings end in an eviction judgment: Eviction
+ *   Lab's national estimates for 2000 to 2016, 36.9 million filings and 15.5
+ *   million judgments, 38% to 48% by year;
+ * - with a lawyer, 16% of resolved cases end with the tenant required to
+ *   leave: New York City Office of Civil Justice, fiscal 2019, 2021 and 2023
+ *   (14% in 2020, 22% in 2022).
+ */
+export const EVICTION_MEASURED = {
+  evictedWithoutCounsel: 0.42,
+  evictedWithCounsel: 0.16,
 } as const;
 
 // ─── HUD rents ──────────────────────────────────────────────────────────
@@ -862,33 +936,47 @@ export function housingLawYes(
     : null;
 }
 
+/** What a household's home costs it and what it earns, a month, on a date. */
+export interface HouseholdHousingFacts {
+  /** Living primary members. */
+  readonly members: number;
+  /** Recorded pay a month, in cents; null when nobody's pay is on record. */
+  readonly payMinor: number | null;
+  /** Rent due a month on the lease it holds, in cents; null with no lease. */
+  readonly rentMinor: number | null;
+}
+
 /**
- * How much less likely a renting household is to move this quarter: 20% less
- * when rent stabilization is in force in its town and a private landlord
- * holds its lease. 1 otherwise.
+ * Every household's members, pay and rent on a date, read from the record:
+ * the facts a household weighs when it decides whether to move.
  */
-export function renterMoveFactor(
+export function householdHousingFacts(
   world: World,
-  town: EntityId,
-  householdId: EntityId,
-): number {
-  if (
-    !housingLawYes(
-      world,
-      town,
-      RENT_LAW_KEYS.rentStabilization,
-      world.currentDate,
-    )
-  )
-    return 1;
-  const covered = townLeases(world).some(
-    (lease) =>
-      !lease.ended &&
-      lease.householdId === householdId &&
-      lease.regime === "market" &&
-      landlordKindOf(world, lease.flow.recipient) !== "public",
+  onDate: IsoDate,
+): Map<EntityId, HouseholdHousingFacts> {
+  const members = householdMembers(world, onDate);
+  const pay = monthlyPayByPerson(world, onDate);
+  const leases = townLeases(world, onDate).filter(
+    (lease) => !lease.ended && lease.flow.startsAt <= onDate,
   );
-  return covered ? RENT_STABILIZATION_MOBILITY : 1;
+  const terms = termsByFlow(
+    world,
+    new Set(leases.map((lease) => lease.flow.id)),
+  );
+  const rentOf = new Map<EntityId, number>();
+  for (const lease of leases) {
+    const current = termsOn(terms.get(lease.flow.id) ?? [], onDate);
+    if (current?.status === "active")
+      rentOf.set(lease.householdId, current.amount.minorUnits);
+  }
+  const facts = new Map<EntityId, HouseholdHousingFacts>();
+  for (const [householdId, list] of members)
+    facts.set(householdId, {
+      members: list.length,
+      payMinor: householdMonthlyIncome(list, pay),
+      rentMinor: rentOf.get(householdId) ?? null,
+    });
+  return facts;
 }
 
 // ─── Schedule ───────────────────────────────────────────────────────────
@@ -973,8 +1061,15 @@ export function collectTownRent(world: World, dueOn: IsoDate): World {
   return next;
 }
 
-/** Ends every lease whose tenancy ended or whose leaseholder left or died. */
-export function endTownLeases(world: World, dueOn: IsoDate): World {
+/**
+ * Ends every lease whose tenancy ended or whose leaseholder left or died, or
+ * only the lease `onlyFlowId` when a tenancy ends between rent days.
+ */
+export function endTownLeases(
+  world: World,
+  dueOn: IsoDate,
+  onlyFlowId?: EntityId,
+): World {
   const h = world.history;
   const tenureState = latest(
     h.housingTenureStates,
@@ -982,7 +1077,11 @@ export function endTownLeases(world: World, dueOn: IsoDate): World {
     dueOn,
   );
   const members = householdMembers(world, dueOn);
-  const leases = townLeases(world, dueOn).filter((lease) => !lease.ended);
+  const leases = townLeases(world, dueOn).filter(
+    (lease) =>
+      !lease.ended &&
+      (onlyFlowId === undefined || lease.flow.id === onlyFlowId),
+  );
   if (leases.length === 0) return world;
   const terms = termsByFlow(
     world,
@@ -1616,62 +1715,105 @@ export function payTownRent(world: World, dueOn: IsoDate): World {
     const owed = Math.max(0, owedBefore.get(lease.flow.id) ?? 0);
     const toward = Math.min(owed, balance - paid);
     if (toward > 0) {
-      let arrears = arrearsFlowOf.get(lease.flow.id);
-      if (!arrears) {
-        next = createResourceFlow(next, {
-          stableKey: `${lease.flow.stableKey}:arrears`,
-          source: lease.flow.source,
-          recipient: lease.flow.recipient,
-          startsAt: dueOn,
-          amount: money(owed, currency),
-          cadenceKind: "schedule:monthly",
-          basisKind: RENT_ARREARS_BASIS,
-          basisReference: {
-            kind: "housing",
-            housingTenureId: lease.tenureId,
-          },
-          restrictionKind: null,
-          jurisdictionId: lease.town,
-          provenance: PROVENANCE,
-        });
-        arrears = next.history.resourceFlows.at(-1)!;
-      } else {
-        const owedTerms = resourceFlowTermsAt(next, arrears.id, {
-          asOfDate: dueOn,
-          historySequenceExclusive: next.history.nextSequence,
-        });
-        if (owedTerms && owedTerms.amount.minorUnits !== owed)
-          next = recordResourceFlowTerms(next, {
-            stableKey: `${arrears.stableKey}:owed:${dueOn}`,
-            resourceFlowId: arrears.id,
-            effectiveAt: dueOn,
-            status: "active",
-            amount: money(owed, currency),
-            cadenceKind: owedTerms.cadenceKind,
-            reason: "Rent still owed from earlier months.",
-            provenance: PROVENANCE,
-            supersedesTermsId: owedTerms.id,
-          });
-      }
-      inputs.push({
-        stableKey: `${arrears.stableKey}:${dueOn}`,
-        resourceFlowId: arrears.id,
-        periodStartsAt: dueOn,
-        periodEndsAt: dueOn,
-        occurredAt: dueOn,
-        status: toward === owed ? "completed" : "partial",
-        attemptedAmount: money(owed, currency),
-        transferredAmount: money(toward, currency),
-        reasonKind: toward === owed ? null : "capacity:insufficient-funds",
-        note: "Toward rent owed from earlier months.",
-        provenance: PROVENANCE,
-      });
+      const ready = arrearsFlowOwing(
+        next,
+        lease,
+        arrearsFlowOf.get(lease.flow.id),
+        money(owed, currency),
+        dueOn,
+      );
+      next = ready.world;
+      inputs.push(
+        arrearsPayment(
+          ready.arrears,
+          money(owed, currency),
+          toward,
+          dueOn,
+          `${ready.arrears.stableKey}:${dueOn}`,
+        ),
+      );
     }
     owedAfter.set(lease.flow.id, { owed: owed + rent - paid - toward, rent });
   }
   if (inputs.length === 0) return next;
   next = recordResourceTransferOutcomes(next, inputs);
   return actOnArrears(next, leases, owedAfter, dueOn);
+}
+
+/**
+ * The lease's arrears flow, written the first time there is something to pay
+ * toward, with its terms brought to what is owed on `onDate`: a recorded
+ * transfer must match the terms in force.
+ */
+function arrearsFlowOwing(
+  world: World,
+  lease: LeaseFacts,
+  existing: ResourceFlow | undefined,
+  owed: MoneyAmount,
+  onDate: IsoDate,
+): { readonly world: World; readonly arrears: ResourceFlow } {
+  if (!existing) {
+    const next = createResourceFlow(world, {
+      stableKey: `${lease.flow.stableKey}:arrears`,
+      source: lease.flow.source,
+      recipient: lease.flow.recipient,
+      startsAt: onDate,
+      amount: owed,
+      cadenceKind: "schedule:monthly",
+      basisKind: RENT_ARREARS_BASIS,
+      basisReference: {
+        kind: "housing",
+        housingTenureId: lease.tenureId,
+      },
+      restrictionKind: null,
+      jurisdictionId: lease.town,
+      provenance: PROVENANCE,
+    });
+    return { world: next, arrears: next.history.resourceFlows.at(-1)! };
+  }
+  const owedTerms = resourceFlowTermsAt(world, existing.id, {
+    asOfDate: onDate,
+    historySequenceExclusive: world.history.nextSequence,
+  });
+  if (!owedTerms || owedTerms.amount.minorUnits === owed.minorUnits)
+    return { world, arrears: existing };
+  return {
+    world: recordResourceFlowTerms(world, {
+      stableKey: `${existing.stableKey}:owed:${onDate}`,
+      resourceFlowId: existing.id,
+      effectiveAt: onDate,
+      status: "active",
+      amount: owed,
+      cadenceKind: owedTerms.cadenceKind,
+      reason: "Rent still owed from earlier months.",
+      provenance: PROVENANCE,
+      supersedesTermsId: owedTerms.id,
+    }),
+    arrears: existing,
+  };
+}
+
+function arrearsPayment(
+  arrears: ResourceFlow,
+  owed: MoneyAmount,
+  toward: number,
+  onDate: IsoDate,
+  stableKey: string,
+): RecordResourceTransferOutcomeInput {
+  return {
+    stableKey,
+    resourceFlowId: arrears.id,
+    periodStartsAt: onDate,
+    periodEndsAt: onDate,
+    occurredAt: onDate,
+    status: toward === owed.minorUnits ? "completed" : "partial",
+    attemptedAmount: owed,
+    transferredAmount: money(toward, owed.currency),
+    reasonKind:
+      toward === owed.minorUnits ? null : "capacity:insufficient-funds",
+    note: "Toward rent owed from earlier months.",
+    provenance: PROVENANCE,
+  };
 }
 
 function actOnArrears(
@@ -1684,6 +1826,7 @@ function actOnArrears(
   const played =
     world.control.kind === "person" ? world.control.personId : null;
   const members = householdMembers(world, dueOn);
+  let pay: Map<EntityId, number> | undefined;
   let next = world;
   for (const lease of leases) {
     const owed = owedAfter.get(lease.flow.id);
@@ -1700,35 +1843,28 @@ function actOnArrears(
         });
         continue;
       }
-      const counsel = housingLawYes(
-        next,
-        lease.town,
-        RENT_LAW_KEYS.rightToCounsel,
-        open.filedOn,
-      );
-      const chance = counsel
-        ? EVICTION.evictedWithCounsel
-        : EVICTION.evictedWithoutCounsel;
-      const draw = new SeededRng(next.seed)
-        .fork(`${lease.flow.stableKey}:eviction:${open.filedOn}`)
-        .next();
-      const theirs = played !== null && household.some((m) => m.id === played);
-      const lawyer = counsel
-        ? ` A lawyer represented them under ${measureDesignation(next, counsel.measureId)}.`
+      pay ??= monthlyPayByPerson(next, dueOn);
+      const facts = evictionCaseFacts(next, lease, adults, owed, open.filedOn, {
+        played,
+        pay,
+      });
+      const decision = decideEvictionCase(facts);
+      const lawyer = facts.lawyer
+        ? ` A lawyer represented them under ${facts.lawyer}.`
         : "";
-      if (draw < chance && !theirs) {
+      if (decision.outcome === "evicted") {
         next = rentEvent(next, lease, adults, dueOn, RENT_EVENTS.evicted, {
-          summary: `${householdName(next, lease.householdId)} was evicted from ${bedroomHome(lease)} for ${dollarsOf(owed.owed)} in unpaid rent.${lawyer}`,
+          summary: `${householdName(next, lease.householdId)} was evicted from ${bedroomHome(lease)} for ${dollarsOf(owed.owed)} in unpaid rent: ${decision.reason(facts.court)}.${lawyer}`,
         });
-        next = evict(next, lease, dueOn);
+        next = endTenancy(next, lease, dueOn, "evicted", "Evicted.");
       } else {
         next = rentEvent(next, lease, adults, dueOn, RENT_EVENTS.settled, {
-          summary: `${householdName(next, lease.householdId)} settled the eviction case with ${landlordName(next, lease.flow.recipient)} and kept the home, still owing ${dollarsOf(owed.owed)}.${lawyer}`,
+          summary: `${householdName(next, lease.householdId)} kept ${bedroomHome(lease)}, still owing ${landlordName(next, lease.flow.recipient)} ${dollarsOf(owed.owed)}: ${decision.reason(facts.court)}.${lawyer}`,
         });
       }
       continue;
     }
-    if (owed.owed < EVICTION.fileAtMonthsOwed * owed.rent) continue;
+    if (owed.owed < fileAtMonths(next, lease) * owed.rent) continue;
     const lastResolved = history.at(-1)?.resolvedOn ?? null;
     if (
       lastResolved !== null &&
@@ -1738,8 +1874,505 @@ function actOnArrears(
     next = rentEvent(next, lease, adults, dueOn, RENT_EVENTS.filed, {
       summary: `${landlordName(next, lease.flow.recipient)} filed to evict ${householdName(next, lease.householdId, true)} for ${dollarsOf(owed.owed)} in unpaid rent.`,
     });
+    if (
+      played !== null &&
+      lease.leaseholderId === played &&
+      adults.some((member) => member.id === played)
+    )
+      next = recordEvictionNotice(next, lease, played, dueOn, owed.owed);
   }
   return next;
+}
+
+/** Months owed at which this lease's landlord files. */
+function fileAtMonths(world: World, lease: LeaseFacts): number {
+  const landlord = lease.flow.recipient;
+  return landlord.kind === "person" &&
+    personTrait(world, landlord.personId, "conflict").value < 0
+    ? EVICTION.conciliatoryLandlordFilesAt
+    : EVICTION.fileAtMonthsOwed;
+}
+
+/** What an eviction case is decided from, read from the record. */
+export interface EvictionCaseFacts {
+  /** Rent owed over the month's rent. */
+  readonly monthsBehind: number;
+  /** Whether the landlord pursues the case to a hearing. */
+  readonly landlordPursues: boolean;
+  /** Whether the tenant answered the case. */
+  readonly tenantAnswers: boolean;
+  /** The right-to-counsel law that gave them a lawyer, or null. */
+  readonly lawyer: string | null;
+  /**
+   * Whether a payment plan the tenant offered is one their pay can carry,
+   * or null when none was offered.
+   */
+  readonly planCarried: boolean | null;
+  /** The judge's lean: -1 conciliatory, 0 neither, 1 strict; null unseated. */
+  readonly judgeLean: -1 | 0 | 1 | null;
+  /** How the summary names the court: "Judge Ana Ruiz" or "the court". */
+  readonly court: string;
+}
+
+/** The judge of the state's general trial court on a date, if seated. */
+function trialJudge(
+  world: World,
+  town: EntityId,
+  onDate: IsoDate,
+): EntityId | null {
+  const state = lifePlaceByJurisdictionId(town)?.stateJurisdictionKey;
+  if (!state) return null;
+  const courtId = `${state.toLowerCase()}:general_trial`;
+  if (!world.judiciary?.courts[courtId]) return null;
+  for (const seat of seatsForCourt(world, courtId, onDate)) {
+    const holder = seatHolderAt(world, seat.seatId, onDate);
+    if (holder) return holder.personId;
+  }
+  return null;
+}
+
+function evictionCaseFacts(
+  world: World,
+  lease: LeaseFacts,
+  adults: readonly Member[],
+  owed: { readonly owed: number; readonly rent: number },
+  filedOn: IsoDate,
+  read: {
+    readonly played: EntityId | null;
+    readonly pay: ReadonlyMap<EntityId, number>;
+  },
+): EvictionCaseFacts {
+  const monthsBehind = owed.rent > 0 ? owed.owed / owed.rent : 0;
+  const landlord = lease.flow.recipient;
+  const landlordPursues = !(
+    landlord.kind === "person" &&
+    personTrait(world, landlord.personId, "conflict").value < 0 &&
+    monthsBehind <= EVICTION.conciliatoryLandlordSettlesUpTo
+  );
+  const law = housingLawYes(
+    world,
+    lease.town,
+    RENT_LAW_KEYS.rightToCounsel,
+    filedOn,
+  );
+  const householdPay = adults.reduce(
+    (sum, member) => sum + (read.pay.get(member.id) ?? 0),
+    0,
+  );
+  const carried =
+    owed.rent + owed.owed / EVICTION.planMonths <=
+    householdPay * EVICTION.planLimitOfPay;
+  // The played leaseholder answers for themselves; anyone else answers as
+  // their own reliability goes, takes the lawyer the law provides, and
+  // offers a plan when their pay could carry one.
+  let tenantAnswers: boolean;
+  let lawyer: boolean;
+  let planCarried: boolean | null;
+  // A case filed before the notice existed (an older save) was never put to
+  // the player, so it is decided like anyone's.
+  if (
+    read.played !== null &&
+    lease.leaseholderId === read.played &&
+    world.history.events.some(
+      (event) => event.stableKey === evictionNoticeKey(lease, filedOn),
+    )
+  ) {
+    const answer = evictionCaseAnswer(world, read.played, filedOn);
+    tenantAnswers = answer !== null;
+    lawyer = answer === EVICTION_CASE_CHOICES.lawyer && law !== null;
+    // A lawyer offers the plan for them when their pay could carry one.
+    planCarried =
+      answer === EVICTION_CASE_CHOICES.plan
+        ? carried
+        : lawyer && carried
+          ? true
+          : null;
+  } else {
+    tenantAnswers =
+      personTrait(world, lease.leaseholderId, "reliability").value >= 0;
+    lawyer = tenantAnswers && law !== null;
+    planCarried = tenantAnswers && carried ? true : null;
+  }
+  const judge = trialJudge(world, lease.town, filedOn);
+  const conflict = judge ? personTrait(world, judge, "conflict").value : null;
+  return {
+    monthsBehind,
+    landlordPursues,
+    tenantAnswers,
+    lawyer: lawyer && law ? measureDesignation(world, law.measureId) : null,
+    planCarried,
+    judgeLean:
+      conflict === null ? null : conflict < 0 ? -1 : conflict > 0 ? 1 : 0,
+    court: judge ? `Judge ${personName(world.people[judge]!)}` : "the court",
+  };
+}
+
+/** How a case ends, and why, from its facts alone. */
+export function decideEvictionCase(facts: EvictionCaseFacts): {
+  readonly outcome: "evicted" | "settled";
+  readonly reason: (court: string) => string;
+} {
+  const lenient = facts.judgeLean === -1;
+  if (!facts.landlordPursues)
+    return {
+      outcome: "settled",
+      reason: () => "the landlord agreed to wait for the rent",
+    };
+  if (!facts.tenantAnswers)
+    return {
+      outcome: "evicted",
+      reason: (court) =>
+        `the tenant did not answer the case, and ${court} ruled for the landlord`,
+    };
+  if (facts.lawyer && facts.monthsBehind <= EVICTION.lawyerKeepsHomeUpTo)
+    return {
+      outcome: "settled",
+      reason: () => "their lawyer settled the case",
+    };
+  if (facts.lawyer && facts.planCarried !== true)
+    return {
+      outcome: "evicted",
+      reason: (court) =>
+        `${court} found them too far behind to stay, even with a lawyer`,
+    };
+  if (facts.planCarried === true)
+    return {
+      outcome: "settled",
+      reason: (court) =>
+        `${court} accepted a plan to pay it off over ${EVICTION.planMonths} months`,
+    };
+  if (lenient && facts.monthsBehind <= EVICTION.conciliatoryJudgeGivesTimeUpTo)
+    return {
+      outcome: "settled",
+      reason: (court) => `${court} gave them time to pay`,
+    };
+  return {
+    outcome: "evicted",
+    reason: (court) =>
+      facts.planCarried === false
+        ? `${court} found their pay could not carry the plan they offered`
+        : `${court} ruled for the landlord`,
+  };
+}
+
+function longDate(date: IsoDate): string {
+  return new Date(`${date}T12:00:00Z`).toLocaleString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+/**
+ * The filing, told to the played leaseholder as a case they can answer before
+ * the next rent day decides it.
+ */
+function evictionNoticeKey(lease: LeaseFacts, filedOn: IsoDate): string {
+  return `${lease.flow.stableKey}:eviction-notice:${filedOn}`;
+}
+
+function recordEvictionNotice(
+  world: World,
+  lease: LeaseFacts,
+  personId: EntityId,
+  filedOn: IsoDate,
+  owedMinor: number,
+): World {
+  const stableKey = evictionNoticeKey(lease, filedOn);
+  if (world.history.events.some((event) => event.stableKey === stableKey))
+    return world;
+  const law = housingLawYes(
+    world,
+    lease.town,
+    RENT_LAW_KEYS.rightToCounsel,
+    filedOn,
+  );
+  const summary =
+    `${landlordName(world, lease.flow.recipient)} has gone to court to evict you from ${bedroomHome(lease)} for ${dollarsOf(owedMinor)} in unpaid rent. The case will be decided on ${longDate(firstOfNextMonth(filedOn))}.` +
+    (law
+      ? ` Under ${measureDesignation(world, law.measureId)}, a lawyer will represent you if you take one.`
+      : "");
+  const next = recordWorldEvent(world, {
+    stableKey,
+    type: "life.eviction-notice",
+    occurredAt: filedOn,
+    recordedAt: filedOn,
+    jurisdictionId: lease.town,
+    involvedEntityIds: [personId, lease.householdId],
+    participants: [
+      { personId, role: "focus:subject", detail: "Taken to court over rent" },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [
+      EVICTION_CASE_TAG,
+      TOWN_RENT_VERSION,
+      `${LEASE_TAG_PREFIX}${lease.flow.id}`,
+    ],
+    summary,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return recordEventKnowledge(next, {
+    stableKey: `${stableKey}:knowledge`,
+    personId,
+    eventId: next.history.events.at(-1)!.id,
+    learnedAt: filedOn,
+    believedSummary: summary,
+    accuracy: "accurate",
+    confidence: "high",
+    source: { kind: "direct" },
+  });
+}
+
+/** What the played person chose in their case filed on `filedOn`, if anything. */
+function evictionCaseAnswer(
+  world: World,
+  personId: EntityId,
+  filedOn: IsoDate,
+): EvictionCaseChoice | null {
+  const choices = new Set<string>(Object.values(EVICTION_CASE_CHOICES));
+  let answer: EvictionCaseChoice | null = null;
+  for (const event of world.history.events) {
+    if (event.occurredAt < filedOn) continue;
+    if (!event.tags.includes(EVICTION_CASE_ANSWER)) continue;
+    if (!event.involvedEntityIds.includes(personId)) continue;
+    const choice = event.tags
+      .find((tag) => tag.startsWith("choice."))
+      ?.slice("choice.".length);
+    if (choice && choices.has(choice)) answer = choice as EvictionCaseChoice;
+  }
+  return answer;
+}
+
+/** An eviction case open against the played person's lease. */
+export interface OpenEvictionCase {
+  readonly filedOn: IsoDate;
+  /** The rent day that decides it. */
+  readonly decidedOn: IsoDate;
+  readonly owedMinor: number;
+  /** The right-to-counsel law in force when it was filed, if any. */
+  readonly counselLaw: string | null;
+  readonly answer: EvictionCaseChoice | null;
+}
+
+function leaseHeldBy(
+  world: World,
+  personId: EntityId,
+  onDate: IsoDate,
+): LeaseFacts | null {
+  return (
+    townLeases(world, onDate).find(
+      (lease) => !lease.ended && lease.leaseholderId === personId,
+    ) ?? null
+  );
+}
+
+/**
+ * Rent owed on a lease from rent days already past: every month charged less
+ * what was paid, less what has been paid since toward it. Read from the
+ * record, as the rent day reads it.
+ */
+function rentOwedMinor(world: World, lease: LeaseFacts): number {
+  const arrears = world.history.resourceFlows.find(
+    (flow) => flow.stableKey === `${lease.flow.stableKey}:arrears`,
+  );
+  let owed = 0;
+  for (const outcome of world.history.resourceTransferOutcomes) {
+    if (outcome.resourceFlowId === lease.flow.id) {
+      if (outcome.status !== "blocked")
+        owed +=
+          outcome.attemptedAmount.minorUnits -
+          outcome.transferredAmount.minorUnits;
+    } else if (arrears && outcome.resourceFlowId === arrears.id)
+      owed -= outcome.transferredAmount.minorUnits;
+  }
+  return Math.max(0, owed);
+}
+
+/**
+ * Rent owed on the lease the person holds, cents; 0 without one. A skip in
+ * time reads it so it cannot cross the rent day that would file a case and
+ * then the one that decides it.
+ */
+export function rentOwedByLeaseholder(
+  world: World,
+  personId: EntityId,
+  onDate: IsoDate = world.currentDate,
+): number {
+  const lease = leaseHeldBy(world, personId, onDate);
+  return lease ? rentOwedMinor(world, lease) : 0;
+}
+
+/** Whether the person holds a lease in force. */
+export function holdsLease(
+  world: World,
+  personId: EntityId,
+  onDate: IsoDate = world.currentDate,
+): boolean {
+  return leaseHeldBy(world, personId, onDate) !== null;
+}
+
+/** The first of the month after `date`: the next rent day. */
+export function nextRentDay(date: IsoDate): IsoDate {
+  return firstOfNextMonth(date);
+}
+
+/** The case open against the lease `personId` holds, or null. */
+export function openEvictionCase(
+  world: World,
+  personId: EntityId,
+  onDate: IsoDate = world.currentDate,
+): OpenEvictionCase | null {
+  const lease = leaseHeldBy(world, personId, onDate);
+  if (!lease) return null;
+  const open = filingsByLease(world).get(lease.flow.id)?.at(-1);
+  if (!open || open.resolvedOn !== null) return null;
+  const law = housingLawYes(
+    world,
+    lease.town,
+    RENT_LAW_KEYS.rightToCounsel,
+    open.filedOn,
+  );
+  return {
+    filedOn: open.filedOn,
+    decidedOn: firstOfNextMonth(open.filedOn),
+    owedMinor: rentOwedMinor(world, lease),
+    counselLaw: law ? measureDesignation(world, law.measureId) : null,
+    answer: evictionCaseAnswer(world, personId, open.filedOn),
+  };
+}
+
+/** Whether the person's own money covers everything owed on their lease. */
+export function canPayRentOwed(
+  world: World,
+  personId: EntityId,
+  onDate: IsoDate = world.currentDate,
+): boolean {
+  const lease = leaseHeldBy(world, personId, onDate);
+  const terms = lease ? resourceFlowTermsAt(world, lease.flow.id) : null;
+  if (!lease || !terms) return false;
+  const owed = rentOwedMinor(world, lease);
+  const position = resourcePositionAt(
+    world,
+    { kind: "person", personId },
+    terms.amount.currency,
+  );
+  return (
+    owed > 0 &&
+    position != null &&
+    position.liquidBalance.minorUnits >= owed &&
+    !arrearsPaidOn(world, lease, onDate)
+  );
+}
+
+/**
+ * Whether something was already paid toward the lease's arrears on `onDate`.
+ * The record holds one settlement per day, so a second waits for the next.
+ */
+function arrearsPaidOn(
+  world: World,
+  lease: LeaseFacts,
+  onDate: IsoDate,
+): boolean {
+  const arrears = world.history.resourceFlows.find(
+    (flow) => flow.stableKey === `${lease.flow.stableKey}:arrears`,
+  );
+  return (
+    arrears !== undefined &&
+    world.history.resourceTransferOutcomes.some(
+      (outcome) =>
+        outcome.resourceFlowId === arrears.id &&
+        outcome.periodStartsAt === onDate,
+    )
+  );
+}
+
+/**
+ * Pays what is owed on the played person's lease now, from their own money,
+ * toward the arrears. Once nothing is owed the landlord drops any open case
+ * that day, before the next month's rent falls due.
+ */
+export function payRentOwed(
+  world: World,
+  personId: EntityId,
+  onDate: IsoDate = world.currentDate,
+): World {
+  const lease = leaseHeldBy(world, personId, onDate);
+  if (!lease) return world;
+  const owed = rentOwedMinor(world, lease);
+  const terms = resourceFlowTermsAt(world, lease.flow.id);
+  if (owed === 0 || !terms || arrearsPaidOn(world, lease, onDate)) return world;
+  const position = resourcePositionAt(
+    world,
+    { kind: "person", personId },
+    terms.amount.currency,
+  );
+  if (!position) return world;
+  const toward = Math.min(owed, Math.max(0, position.liquidBalance.minorUnits));
+  if (toward === 0) return world;
+  const owedMoney = money(owed, terms.amount.currency);
+  const ready = arrearsFlowOwing(
+    world,
+    lease,
+    world.history.resourceFlows.find(
+      (flow) => flow.stableKey === `${lease.flow.stableKey}:arrears`,
+    ),
+    owedMoney,
+    onDate,
+  );
+  const paid = recordResourceTransferOutcomes(ready.world, [
+    arrearsPayment(
+      ready.arrears,
+      owedMoney,
+      toward,
+      onDate,
+      `${ready.arrears.stableKey}:paid:${onDate}`,
+    ),
+  ]);
+  const open = filingsByLease(paid).get(lease.flow.id)?.at(-1);
+  if (toward < owed || !open || open.resolvedOn !== null) return paid;
+  const adults = (
+    householdMembers(paid, onDate).get(lease.householdId) ?? []
+  ).filter((member) => member.age >= 18);
+  return rentEvent(paid, lease, adults, onDate, RENT_EVENTS.dismissed, {
+    summary: `${landlordName(paid, lease.flow.recipient)} dropped the eviction case against ${householdName(paid, lease.householdId, true)} once the rent was paid.`,
+  });
+}
+
+/**
+ * The played person's household leaves the home it rents before the hearing:
+ * the tenancy ends, the landlord drops the case, and what was owed is still
+ * on the record.
+ */
+export function moveOutBeforeHearing(
+  world: World,
+  personId: EntityId,
+  onDate: IsoDate = world.currentDate,
+): World {
+  const lease = leaseHeldBy(world, personId, onDate);
+  if (!lease) return world;
+  const adults = (
+    householdMembers(world, onDate).get(lease.householdId) ?? []
+  ).filter((member) => member.age >= 18);
+  const owed = rentOwedMinor(world, lease);
+  const next = rentEvent(world, lease, adults, onDate, RENT_EVENTS.movedOut, {
+    summary: `${householdName(world, lease.householdId)} moved out of ${bedroomHome(lease)} before the eviction hearing, and ${landlordName(world, lease.flow.recipient)} dropped the case. ${dollarsOf(owed)} in rent is still owed.`,
+  });
+  return endTenancy(
+    next,
+    lease,
+    onDate,
+    "moved-out",
+    "Moved out before the eviction hearing.",
+  );
 }
 
 function bedroomHome(lease: LeaseFacts): string {
@@ -1820,8 +2453,17 @@ function rentEvent(
   return next;
 }
 
-/** Ends the tenancy and the household's occupancy of the home. */
-function evict(world: World, lease: LeaseFacts, onDate: IsoDate): World {
+/**
+ * Ends the tenancy and the household's occupancy of the home, as an eviction
+ * or as a move before the hearing.
+ */
+function endTenancy(
+  world: World,
+  lease: LeaseFacts,
+  onDate: IsoDate,
+  context: "evicted" | "moved-out",
+  reason: string,
+): World {
   const h = world.history;
   const provenance: LifeRecordProvenance = {
     kind: "simulated-event",
@@ -1837,11 +2479,11 @@ function evict(world: World, lease: LeaseFacts, onDate: IsoDate): World {
   let next = world;
   if (tenureState && tenureState.status === "active")
     next = recordHousingTenureState(next, {
-      stableKey: `${lease.flow.stableKey}:evicted:tenure`,
+      stableKey: `${lease.flow.stableKey}:${context}:tenure`,
       housingTenureId: lease.tenureId,
       effectiveAt: onDate,
       status: "ended",
-      context: "evicted",
+      context,
       provenance,
       supersedesStateId: tenureState.id,
     });
@@ -1860,18 +2502,18 @@ function evict(world: World, lease: LeaseFacts, onDate: IsoDate): World {
     const state = occupancyStates.get(occupancy.id);
     if (!state || state.status !== "active") continue;
     next = recordDwellingOccupancyState(next, {
-      stableKey: `${lease.flow.stableKey}:evicted:occupancy:${occupancy.id}`,
+      stableKey: `${lease.flow.stableKey}:${context}:occupancy:${occupancy.id}`,
       dwellingOccupancyId: occupancy.id,
       effectiveAt: onDate,
       status: "ended",
       residenceRole: state.residenceRole,
       kind: state.kind,
-      reason: "Evicted.",
+      reason,
       provenance,
       supersedesStateId: state.id,
     });
   }
-  return endTownLeases(next, onDate);
+  return endTownLeases(next, onDate, lease.flow.id);
 }
 
 // ─── Reading it back ────────────────────────────────────────────────────

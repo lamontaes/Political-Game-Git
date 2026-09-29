@@ -11,12 +11,12 @@ import {
 } from "./fiscal";
 import { actuarialContribution } from "./opening";
 import { pensionPayment } from "./pension-share";
+import { reserveRule } from "./reserve-rule";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import {
   ECONOMY_ELASTICITY,
   FIRST_CUT_SHARE,
   PENSION,
-  RESERVE,
   TAX_QUESTION_EFFECTS,
 } from "./rules";
 import {
@@ -508,7 +508,7 @@ export function settleGovernmentMonth(
   }
   const yearSpending = sum(year.appropriations);
   if (balance > 0 && laws.reserve.answer === "yes") {
-    const floor = Math.round(RESERVE.floorShareOfSpending * yearSpending);
+    const floor = Math.round(reserveRule(government).floorShare * yearSpending);
     const moved = Math.min(balance, Math.max(0, floor - reserve));
     if (moved > 0) {
       balance -= moved;
@@ -677,13 +677,14 @@ function adoptNextYear(
     CUTTABLE[at] ? value * (1 - oneTimeShare) : value,
   );
   const priorTotal = sum(base);
-  const floor = RESERVE.floorShareOfSpending * priorTotal;
+  const reserveLaw = reserveRule(government);
+  const floor = reserveLaw.floorShare * priorTotal;
   const reserveDeposit =
     laws.reserve.answer === "yes" && government.reserve < floor
       ? Math.round(
           Math.min(
             floor - government.reserve,
-            RESERVE.yearlyDepositShareOfSpending * priorTotal,
+            reserveLaw.depositShare * priorTotal,
           ),
         )
       : 0;
