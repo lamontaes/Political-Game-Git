@@ -25,6 +25,7 @@ import type { PlaceOutcomeStore } from "./outcome-web/place-outcome-store";
 import type { PublicFundingMandate } from "./public-fiscal";
 import type { MacroEconomyStore } from "./macro-economy/types";
 import type { PressureStore } from "./pressure/contract";
+import type { PublicBudgetStore } from "./public-budgets/store";
 import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
 import type {
   TaxProposalRecord,
@@ -158,6 +159,7 @@ export type EntityKind =
   | "organization-participation-state"
   | "organization-profile"
   | "office-briefing-inspection"
+  | "favor"
   | "office-vote-instruction"
   | "office-workflow-preference"
   | "office-staff-position"
@@ -1691,6 +1693,141 @@ export interface LifeCommitmentRecord {
   readonly label: string;
   readonly timeDemand: TimeDemandProfile;
   readonly provenance: LifeRecordProvenance;
+  /**
+   * What was promised, to whom, and what would answer it.
+   *
+   * Absent on a commitment nobody was promised (a standing Tuesday choir, a
+   * generated background's volunteering). Present when somebody said, to
+   * somebody, that they would do a thing: then the record carries who it was
+   * owed to, the act, the words, and who heard them, matching the legislative
+   * commitment record, so kept or broken can be read from later events.
+   */
+  readonly undertaking?: UndertakingTerms;
+}
+
+/**
+ * How firmly something was said.
+ *
+ * Words, not a probability, and the same four words the legislative record
+ * uses, so one type serves both.
+ */
+export type UndertakingFirmness = LegislativeCommitmentFirmness;
+
+/**
+ * The act an undertaking promises, in terms the world can later check.
+ *
+ * Each kind names what canonical record would answer it. An act the world
+ * cannot check (`help` with no activity to attend) stays outstanding until
+ * its end, then lapses; it is never marked kept or broken on a guess.
+ */
+export type UndertakingAct =
+  | {
+      /** Be present at a scheduled activity: a posted meeting, a hearing. */
+      readonly kind: "attend";
+      /** The activity's stable key, which exists before or after the promise. */
+      readonly activityStableKey: string;
+      readonly description: string;
+    }
+  | {
+      /** Give time or labor that no single record answers. */
+      readonly kind: "help";
+      readonly description: string;
+    }
+  | {
+      /** Vote a stated way on one legislative question. */
+      readonly kind: "vote";
+      readonly question: LegislativeQuestionIdentity;
+      readonly direction: "yea" | "nay";
+      readonly description: string;
+    }
+  | {
+      /** Return an earlier favor. Answered by a later favor in return for it. */
+      readonly kind: "repay";
+      readonly favorId: EntityId;
+      readonly description: string;
+    };
+
+export interface UndertakingTerms {
+  /** Who it was promised to. Usually one person; a crowd for a public vow. */
+  readonly owedToPersonIds: readonly EntityId[];
+  readonly act: UndertakingAct;
+  readonly firmness: UndertakingFirmness;
+  /** A private word and a public pledge are different undertakings. */
+  readonly audience: ClaimAudience;
+  /** The people who actually heard it said. */
+  readonly heardByPersonIds: readonly EntityId[];
+  /** What was said, in plain words, for the record and any later reckoning. */
+  readonly statement: string;
+  /** The claim carrying the words, when the holder's words were recorded. */
+  readonly claimId: EntityId | null;
+  /** How much it mattered to the person it was promised to. */
+  readonly mattered: FavorWeight;
+  /** The last day it can be answered, when it names one. */
+  readonly dueBy: IsoDate | null;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Favors                                                                      */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * What kind of help a favor was. Open, namespaced like a life-commitment kind:
+ * `public:appointment`, `political:endorsement`, `personal:help`.
+ */
+export type FavorNamespace = "public" | "political" | "private" | "personal";
+export type FavorKind = `${FavorNamespace}:${string}`;
+
+/**
+ * Why the giver helped. The giver's own reason, which the receiver may never
+ * learn; it is never shown to the receiver as a fact.
+ */
+export type FavorMotive =
+  "kindness" | "shared-belief" | "trade" | "corruption" | "unknown";
+
+/** How much a favor mattered to the one who received it, in words. */
+export type FavorWeight = "slight" | "moderate" | "great" | "life-changing";
+
+/** What a favor was about, when it was about a canonical thing. */
+export type FavorSubject =
+  | {
+      readonly kind: "office";
+      readonly officeId: EntityId;
+      readonly tenureId: EntityId | null;
+    }
+  | { readonly kind: "measure"; readonly measureId: EntityId }
+  | { readonly kind: "organization"; readonly organizationId: EntityId }
+  | { readonly kind: "none" };
+
+/**
+ * One person helped another.
+ *
+ * Stores what happened, never a balance. How much the receiver still feels
+ * they owe and how much the giver now expects are read from this record, the
+ * time since, both people's temperaments and what has passed between them
+ * since (`favorStandingBetween`).
+ */
+export interface FavorRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly giverPersonId: EntityId;
+  readonly receiverPersonId: EntityId;
+  readonly kind: FavorKind;
+  /** What was done, in plain words. */
+  readonly description: string;
+  readonly givenAt: IsoDate;
+  /** The canonical event that did it. */
+  readonly eventId: EntityId;
+  readonly subject: FavorSubject;
+  readonly motive: FavorMotive;
+  readonly weight: FavorWeight;
+  readonly audience: ClaimAudience;
+  /** People who saw it done, beyond the two of them. */
+  readonly witnessPersonIds: readonly EntityId[];
+  /** The earlier favor this one returns, when it returns one. */
+  readonly inReturnForFavorId: EntityId | null;
+  /** The undertaking it was given against, when there was one. */
+  readonly undertakingId: EntityId | null;
 }
 
 export type LifeLoadContributor =
@@ -4232,6 +4369,8 @@ export interface HistoryStore {
    */
   readonly officeBriefingInspections?: readonly OfficeBriefingInspectionRecord[];
   readonly legislativeCommitments?: readonly LegislativeCommitmentRecord[];
+  /** Help between people. Optional; a world with none has no favors yet. */
+  readonly favors?: readonly FavorRecord[];
   readonly legislativeNegotiations?: readonly LegislativeNegotiationRecord[];
   readonly legislativeVotes?: readonly LegislativeVoteRecord[];
   readonly executiveDispositions?: readonly ExecutiveDispositionRecord[];
@@ -5191,6 +5330,11 @@ export interface World {
   readonly macroEconomy?: MacroEconomyStore;
   /** Place outcomes by month (outcome-web/place-outcome-store.ts). */
   readonly placeOutcomes?: PlaceOutcomeStore;
+  /**
+   * Every government's budget by month (public-budgets/store.ts). Optional
+   * and additive: a world written before it existed keeps no budgets.
+   */
+  readonly publicBudgets?: PublicBudgetStore;
   /**
    * The pressure layer (2026-09-22). Optional and additive: a world written
    * before it existed has no readings and is never retrofitted.

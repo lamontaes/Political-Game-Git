@@ -47,13 +47,17 @@ import {
   stateSeatsInDistrict,
 } from "./state-legislature-opening";
 import { electionContestResult } from "../election-contests";
+import { fieldIntakeDay } from "../nominations/field-entry";
+import { nominationPlan } from "../nominations/nomination-rules";
+import { holdFiledNominations } from "../nominations/party-nominations";
 import {
   prepareStateCandidateSlates,
   stateCandidateIntakeDay,
   stateCandidateSeatKey,
   stateCandidateSlate,
-  stateCandidates,
+  stateGeneralCandidates,
   stateSeatDemocraticShare,
+  stateSlateKey,
   STATE_LEGISLATURE_CANDIDATE_PROFILE,
   type StateCandidateSeatPlan,
 } from "./state-legislature-candidates";
@@ -458,6 +462,7 @@ function prepareStateIntake(
       incumbentParty: seat.member?.party ?? null,
       incumbentSeeking: seeking,
       intakeDate: row.intakeDate,
+      nomination: stateNominationPlan(next, pack.jurisdictionKey, year),
     });
   }
   return prepareStateCandidateSlates(next, year, plans);
@@ -523,7 +528,7 @@ function holdStateLegislativeElection(
       seat.officeKey,
       seat.ordinal,
     );
-    const candidates = stateCandidates(next, canonicalKey, year).filter(
+    const candidates = stateGeneralCandidates(next, canonicalKey, year).filter(
       (candidate) =>
         !recordsWithFieldValue(
           next.history.personDeaths,
@@ -1024,12 +1029,113 @@ export function nextStateSeatFilling(
  * seated legislature's regular election and seats its winners when the term
  * begins. Only dates actually crossed act.
  */
+/** The nomination plan for a state's legislative seats in one year. */
+function stateNominationPlan(
+  world: World,
+  jurisdictionKey: string,
+  year: number,
+) {
+  const usps = jurisdictionKey.replace(/^US-/, "");
+  const rule = stateLegislativeElectionRule(usps);
+  return nominationPlan(world, {
+    stateUsps: usps,
+    family: "state-legislature",
+    year,
+    // The law in force when the year's filing opens governs the whole cycle.
+    onDate: stateCandidateIntakeDay(year, 0),
+    generalDay: generalElectionDay(rule, year),
+  });
+}
+
+const STATE_SLATE_EVENT = "election.state-legislative-candidate-slate";
+
+/**
+ * The nomination stage for the legislative fields filed this year: each
+ * state's primary on its own date, and any runoff it leaves open.
+ */
+function holdStateLegislativeNominations(before: IsoDate, world: World): World {
+  const after = world.currentDate;
+  let next = world;
+  for (
+    let year = Number(before.slice(0, 4));
+    year <= Number(after.slice(0, 4));
+    year += 1
+  ) {
+    // Primaries and runoffs fall between the first filing and November.
+    if (after < `${year}-02-01` || before >= `${year}-11-30`) continue;
+    const titles = new Map<string, Map<string, string>>();
+    const titleOf = (packId: string, officeKey: string, ordinal: number) => {
+      let byPack = titles.get(packId);
+      if (!byPack) {
+        byPack = new Map(
+          stateLegislativeSeats(world, packId).map((seat) => [
+            `${seat.officeKey}|${seat.ordinal}`,
+            seat.title,
+          ]),
+        );
+        titles.set(packId, byPack);
+      }
+      return byPack.get(`${officeKey}|${ordinal}`) ?? null;
+    };
+    next = holdFiledNominations(before, next, {
+      fieldType: STATE_SLATE_EVENT,
+      stableKeySuffix: `:${year}`,
+      seatFor: (field) => {
+        const seatKey = tagValue(field, "seat:");
+        if (!seatKey || field.stableKey !== stateSlateKey(seatKey, year))
+          return null;
+        const [packId, officeKey, ordinalText] = seatKey.split("|");
+        const pack = packId ? candidacyPackById(packId) : null;
+        const ordinal = Number(ordinalText);
+        const title = pack ? titleOf(packId!, officeKey!, ordinal) : null;
+        const jurisdiction = pack
+          ? stateJurisdictionForKey(pack.jurisdictionKey)
+          : null;
+        if (!pack || !title || !jurisdiction) return null;
+        return {
+          seatKey,
+          title,
+          jurisdictionId: jurisdiction.id,
+          involvedEntityIds: [
+            createStableId(
+              "organization",
+              `${world.id}:${STATE_LEGISLATURE_KEYS.body(packId!)}`,
+            ),
+          ],
+          plan: () => stateNominationPlan(world, pack.jurisdictionKey, year),
+          partyShare: (party) => {
+            const share = stateSeatDemocraticShare(
+              world,
+              packId!,
+              officeKey!,
+              ordinal,
+            );
+            if (share === null) return null;
+            return party === "democratic"
+              ? share
+              : party === "republican"
+                ? 1 - share
+                : null;
+          },
+          aliveOn: (personId, date) =>
+            Boolean(world.people[personId]) &&
+            !world.history.personDeaths.some(
+              (death) => death.personId === personId && death.diedAt <= date,
+            ),
+        };
+      },
+    });
+  }
+  return next;
+}
+
 export function applyStateLegislatureTurnover(
   before: IsoDate,
-  world: World,
+  start: World,
 ): World {
-  const after = world.currentDate;
-  if (after <= before) return world;
+  const after = start.currentDate;
+  if (after <= before) return start;
+  const world = holdStateLegislativeNominations(before, start);
   // Cheap window test before any history scan: the game-profile prospect
   // window, a regular election, or a term beginning is due.
   let crossesAny = false;
@@ -1065,7 +1171,14 @@ export function applyStateLegislatureTurnover(
           !isStateLegislativeSeatDue(usps, seat.officeKey, seat.ordinal, year)
         )
           return [];
-        const intakeDate = stateCandidateIntakeDay(year, index);
+        const base = stateCandidateIntakeDay(year, index);
+        // The field never files later than the game's own intake day.
+        if (base <= before) return [];
+        const intakeDate = fieldIntakeDay(
+          base,
+          stateNominationPlan(next, pack.jurisdictionKey, year),
+          stateCandidateIntakeDay(year, 0),
+        );
         return before < intakeDate && intakeDate <= after
           ? [{ officeKey: seat.officeKey, ordinal: seat.ordinal, intakeDate }]
           : [];

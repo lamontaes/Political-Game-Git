@@ -139,7 +139,7 @@ describe("PEOPLE P5 three generations, two handoffs", () => {
         occurredAt: yearsBefore(start.world.currentDate, 50),
         parentPersonIds: [g1],
       }),
-    ).toThrow(/under 16/);
+    ).toThrow(/under 15/);
     expect(() =>
       recordFamilyAddition(start.world, {
         kind: "birth",

@@ -216,6 +216,27 @@ export function peopleTraitPack(): TraitPack {
           },
         ],
       },
+      {
+        // Asking for clemency reopens a case in front of the people who
+        // decide it. Somebody who takes chances asks; somebody who avoids
+        // them would rather let it rest.
+        decision: "clemency.petition",
+        leans: [
+          {
+            option: "petition",
+            trait: `${PEOPLE_MIND_VERSION}:risk`,
+            pole: "high",
+            explanation: "They would rather ask than wait it out.",
+          },
+          {
+            option: "wait",
+            trait: `${PEOPLE_MIND_VERSION}:risk`,
+            pole: "low",
+            explanation:
+              "They would rather not draw attention to the case again.",
+          },
+        ],
+      },
     ],
   };
 }
