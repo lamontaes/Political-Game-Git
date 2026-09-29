@@ -17,6 +17,8 @@ import {
   type PublicBudgetStore,
 } from ".";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
+import { MEDIAN_PAID_SHARE } from "./pension-share";
+import { TAX_QUESTION_EFFECTS } from "./rules";
 
 /*
  * Every government keeps a budget, and the three budget laws act on it. The
@@ -28,10 +30,12 @@ import { settleGovernmentMonth, type MonthFlows } from "./month";
 const BALANCED = "proposition_balanced" as EntityId;
 const RESERVE = "proposition_reserve" as EntityId;
 const PENSIONS = "proposition_pensions" as EntityId;
+const GRADUATED = "proposition_graduated" as EntityId;
 const QUESTIONS: Readonly<Record<string, EntityId>> = {
   "fiscal.balanced-operating-budget": BALANCED,
   "fiscal.minimum-reserve-balance": RESERVE,
   "fiscal.fund-pensions-to-schedule": PENSIONS,
+  "fiscal.graduated-income-tax": GRADUATED,
 };
 const illinois = stateJurisdictionForKey("US-IL")!.id;
 
@@ -361,7 +365,7 @@ describe("public budgets", () => {
   });
 
   it("without a pension law the government pays its own measured share, and its unfunded liability grows faster", () => {
-    // In this seed Illinois' own share is below the full contribution.
+    // Illinois' own reported share is below the full contribution.
     const seed = "budget-test-3";
     const withLaw = worldAt("2026-01-05", {
       seed,
@@ -406,27 +410,34 @@ describe("public budgets", () => {
     );
   });
 
-  it("each government's own pension share is spread around the measured average and drifts from year to year", () => {
+  it("each government's pension share starts from its own reported payment, or the median where none is reported, and holds", () => {
     const world = runThrough(
-      opened(worldAt("2026-01-05", { seed: "round-1" })),
+      opened(worldAt("2026-01-05", { places: ["1714000", "county:17031"] })),
       "2027-12-01",
     );
-    const governments = world.publicBudgets!.governments;
-    const opening = governments.map((row) => row.years[0]!.pensionShare);
-    // Most measured plans paid the full amount, and some paid less or more.
-    expect(opening.filter((share) => share === 1).length).toBeGreaterThan(
-      governments.length / 4,
+    const share = (key: string) =>
+      world.publicBudgets!.governments.find((row) => row.key === key)!;
+    // Public Plans Database: Illinois' state plans paid 73.27% of the
+    // required contribution, weighted by liability; Nevada's plans are not
+    // listed, so it pays the median of every plan.
+    expect(share("US-IL").years[0]!.pensionShare).toBe(0.7327);
+    expect(share("US-NV").years[0]!.pensionShare).toBe(MEDIAN_PAID_SHARE);
+    expect(share("US-NV").openingNotes.join(" ")).toContain(
+      "ESTIMATED FROM AVERAGE",
     );
-    expect(opening.some((share) => share < 1)).toBe(true);
-    expect(opening.some((share) => share > 1)).toBe(true);
-    const drifted = governments.filter(
-      (row) => row.years.at(-1)!.pensionShare !== row.years[0]!.pensionShare,
+    // Chicago and Cook County read their own plans.
+    const chicago = share("place:1714000");
+    expect(chicago.years[0]!.pensionShare).toBe(0.8635);
+    expect(chicago.openingNotes.join(" ")).toContain(
+      "as its own plans reported",
     );
-    expect(drifted.length).toBeGreaterThan(0);
-    // A world without a seed takes the measured median and never drifts.
-    const plain = runThrough(opened(worldAt("2026-01-05")), "2027-12-01");
-    for (const row of plain.publicBudgets!.governments)
-      for (const year of row.years) expect(year.pensionShare).toBe(1);
+    expect(share("county:17031").openingNotes.join(" ")).toContain(
+      "as its own plans reported",
+    );
+    // The share holds from year to year until budgets pass as bills.
+    for (const row of world.publicBudgets!.governments)
+      for (const year of row.years)
+        expect(year.pensionShare).toBe(row.years[0]!.pensionShare);
   });
 
   it("a pension law enacted after the budget was adopted governs the next budget, and the year's shortfall is credited to the law read at adoption", () => {
@@ -690,6 +701,60 @@ describe("public budgets", () => {
     const june = months.find((row) => row.month === "2026-06-01")!;
     const july = months.find((row) => row.month === "2026-07-01")!;
     expect(july.revenue[aid]!).toBeGreaterThan(june.revenue[aid]!);
+  });
+
+  it("a state income tax law changes the income tax from the month it takes effect, and the next budgets count it once", () => {
+    // Illinois began with a flat income tax; a graduated one takes effect on
+    // March 1, 2026.
+    const graduated = TAX_QUESTION_EFFECTS.find((row) =>
+      row.questionKey.endsWith("graduated-income-tax"),
+    )!;
+    const withLaw = worldAt("2026-01-05", {
+      laws: [{ question: GRADUATED, answer: "yes", jurisdictionId: illinois }],
+      history: {
+        legislativeEnactments: [
+          {
+            id: "enactment_0" as EntityId,
+            sequence: 1000,
+            measureId: "measure_0" as EntityId,
+            resolvedAt: makeIsoDate("2026-02-01"),
+            outcome: "enacted",
+            effectiveAt: makeIsoDate("2026-03-01"),
+          },
+        ] as unknown as World["history"]["legislativeEnactments"],
+      },
+    });
+    const without = worldAt("2026-01-05");
+    const run = (world: World) =>
+      settleAlone(
+        world,
+        publicBudgetFor(opened(world), illinois)!,
+        "2028-06-01",
+      ).government;
+    const lawful = run(withLaw);
+    const flat = run(without);
+    const at = BUDGET_SOURCES.indexOf("individualIncomeTax");
+    const month = (government: PublicBudgetGovernment, on: string) =>
+      government.months.find((row) => row.month === on)!.revenue[at]!;
+    const size = 1 + graduated.toYes!;
+    expect(size).toBeCloseTo(1 + 3.4 / 22.7, 6);
+    // Nothing before it takes effect; the full change from that month on.
+    expect(month(lawful, "2026-02-01")).toBe(month(flat, "2026-02-01"));
+    expect(month(lawful, "2026-03-01") / month(flat, "2026-03-01")).toBeCloseTo(
+      size,
+      4,
+    );
+    // Fiscal 2027 and 2028 each expect the change once, not compounded.
+    for (const fy of [1, 2]) {
+      const ratio =
+        lawful.years[fy]!.expectedRevenue[at]! /
+        flat.years[fy]!.expectedRevenue[at]!;
+      expect(ratio).toBeCloseTo(size, 3);
+    }
+    expect(month(lawful, "2028-03-01") / month(flat, "2028-03-01")).toBeCloseTo(
+      size,
+      3,
+    );
   });
 
   it("maps an appropriation's program to its budget line", () => {
