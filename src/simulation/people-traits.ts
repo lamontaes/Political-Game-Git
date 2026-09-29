@@ -34,6 +34,7 @@ import type {
   DecisionConsideration,
   DecisionImportance,
   EntityId,
+  IsoDate,
   MindSourceReference,
   PersonalityTendencyRecord,
   World,
@@ -298,6 +299,7 @@ function seedRegisteredTrait(
   world: World,
   personId: EntityId,
   trait: RegisteredTrait,
+  onDate: IsoDate = world.currentDate,
 ): World {
   const definition = traitDefinitionFromPack(trait);
   const next = ensureTraitDefinition(world, trait);
@@ -318,7 +320,7 @@ function seedRegisteredTrait(
     stableKey: `${trait.qualifiedKey}:${personId}:seed`,
     personId,
     tendencyId: definition.id,
-    recordedAt: laterOf(next.people[personId]!.birthDate, next.currentDate),
+    recordedAt: laterOf(next.people[personId]!.birthDate, onDate),
     ...encodeRegisteredTrait(trait, value),
     confidence: "medium",
     scopeTags: [`${PEOPLE_MIND_VERSION}.seed`],
@@ -338,6 +340,12 @@ function seedRegisteredTrait(
 export function ensurePeopleTraits(
   world: World,
   personIds: readonly EntityId[],
+  /**
+   * The day the seed is first on record, when that is before today: a
+   * decision dated in the past (a field filed before the game opened) reads
+   * the temperament the person already had then. Never before their birth.
+   */
+  onDate: IsoDate = world.currentDate,
 ): World {
   // Each record's writer checks the whole World; seeding one person writes a
   // record per trait, so the batch is checked once, against its input.
@@ -361,7 +369,7 @@ function seedPeopleTraits(world: World, personIds: readonly EntityId[]): World {
         stableKey: `${PEOPLE_MIND_VERSION}:${personId}:${trait}:seed`,
         personId,
         tendencyId: peopleTraitId(trait),
-        recordedAt: laterOf(next.people[personId]!.birthDate, next.currentDate),
+        recordedAt: laterOf(next.people[personId]!.birthDate, onDate),
         ...encode(trait, value),
         confidence: "medium",
         scopeTags: [`${PEOPLE_MIND_VERSION}.seed`],
@@ -372,9 +380,9 @@ function seedPeopleTraits(world: World, personIds: readonly EntityId[]): World {
       });
     }
     for (const trait of registeredSeededTraits(next)) {
-      next = seedRegisteredTrait(next, personId, trait);
+      next = seedRegisteredTrait(next, personId, trait, onDate);
     }
-    next = seedSalientQualities(next, personId);
+    next = seedSalientQualities(next, personId, onDate);
   }
   return next;
 }
@@ -395,9 +403,13 @@ function seedPeopleTraits(world: World, personIds: readonly EntityId[]): World {
  * Existing records are counted and never overwritten, so calling this again
  * writes nothing twice and never erases a quality a life has moved.
  */
-function seedSalientQualities(world: World, personId: EntityId): World {
+function seedSalientQualities(
+  world: World,
+  personId: EntityId,
+  onDate: IsoDate = world.currentDate,
+): World {
   const person = world.people[personId]!;
-  const age = ageOnDate(person.birthDate, world.currentDate);
+  const age = ageOnDate(person.birthDate, onDate);
   const catalogue = [...traitRegistryFor(world).traits.values()].filter(
     (trait) => trait.pack === PERSONALITY_PACK,
   );
@@ -437,7 +449,7 @@ function seedSalientQualities(world: World, personId: EntityId): World {
       stableKey: `${trait.qualifiedKey}:${personId}:inborn:${index}`,
       personId,
       tendencyId: traitDefinitionFromPack(trait).id,
-      recordedAt: laterOf(person.birthDate, next.currentDate),
+      recordedAt: laterOf(person.birthDate, onDate),
       ...encodeRegisteredTrait(trait, value),
       confidence: "medium",
       scopeTags: [`${PERSONALITY_PACK}.inborn`],
@@ -465,7 +477,7 @@ function seedSalientQualities(world: World, personId: EntityId): World {
       stableKey: `${trait.qualifiedKey}:${personId}:upbringing:${slot}`,
       personId,
       tendencyId: traitDefinitionFromPack(trait).id,
-      recordedAt: laterOf(person.birthDate, next.currentDate),
+      recordedAt: laterOf(person.birthDate, onDate),
       ...encodeRegisteredTrait(trait, candidate.pole === "low" ? -1 : 1),
       confidence: "medium",
       scopeTags: [
