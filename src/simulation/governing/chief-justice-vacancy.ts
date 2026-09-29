@@ -1,6 +1,13 @@
 import { addDays, makeIsoDate } from "../dates";
 import { currentPresidentOf } from "../crisis/offices";
 import {
+  appointmentCircle,
+  chooseAppointee,
+  recordAppointmentFavor,
+  recordPassedOver,
+} from "../patronage/appointments";
+import { federalColleaguesOf } from "../patronage/federal-circle";
+import {
   FEDERAL_TENURE_EVENT,
   FEDERAL_VACANCY_EVENT,
   currentFederalTenure,
@@ -169,13 +176,22 @@ export function openChiefJusticeVacancy(
   return { world: next, presidentId: president?.personId ?? null };
 }
 
-/** PLACEHOLDER kept for a World that seats no judges (see the header). */
+const CHIEF_JUSTICE_POST = {
+  officeKey: "us-chief-justice",
+  title: "Chief Justice of the United States",
+} as const;
+
+/**
+ * PLACEHOLDER kept for a World that seats no judges (see the header). The
+ * President names someone they know (appointments-v1, Build 20); the draw
+ * from every eligible adult stays only for a President who knows nobody
+ * eligible.
+ */
 function legacyNominee(
   world: World,
   due: FutureDueItem,
   presidentId: EntityId,
-): EntityId | null {
-  // PLACEHOLDER: whom the President chooses (see the profile above).
+): { readonly personId: EntityId; readonly world: World } | null {
   const controlled =
     world.control.kind === "person" ? world.control.personId : null;
   const vice = currentFederalTenure(world, "us-vice-president")?.personId;
@@ -197,7 +213,28 @@ function legacyNominee(
     .map((person) => person.id)
     .sort();
   if (!pool.length) return null;
-  return new SeededRng(world.seed).fork(due.stableKey).pick(pool);
+  const eligible = new Set(pool);
+  const choice = chooseAppointee(world, {
+    stableKey: due.stableKey,
+    appointerPersonId: presidentId,
+    post: CHIEF_JUSTICE_POST,
+    circle: appointmentCircle(world, presidentId, federalColleaguesOf(world)),
+    eligible: (personId) => eligible.has(personId),
+  });
+  if (!choice)
+    return {
+      personId: new SeededRng(world.seed).fork(due.stableKey).pick(pool),
+      world,
+    };
+  return {
+    personId: choice.personId,
+    world: recordPassedOver(choice.world, {
+      stableKey: due.stableKey,
+      appointerPersonId: presidentId,
+      passedOver: choice.passedOver,
+      post: CHIEF_JUSTICE_POST,
+    }),
+  };
 }
 
 /** The President names a nominee. */
@@ -235,14 +272,17 @@ export function chiefJusticeNominationHandler(
     office: "chief",
     exclude: rejected,
   });
-  const nomineeId =
-    chosen?.personId ??
-    (world.judiciary ? null : legacyNominee(world, due, president.personId));
+  const legacy =
+    chosen || world.judiciary
+      ? null
+      : legacyNominee(world, due, president.personId);
+  const nomineeId = chosen?.personId ?? legacy?.personId ?? null;
   if (!nomineeId)
     return resolved(world, "Nobody in the World can be nominated.");
+  const chosenWorld = legacy?.world ?? world;
   const presidentName = personName(world.people[president.personId]!);
   const nomineeName = personName(world.people[nomineeId]!);
-  let next = recordWorldEvent(world, {
+  let next = recordWorldEvent(chosenWorld, {
     stableKey: `${due.stableKey}:nominated`,
     type: CHIEF_JUSTICE_NOMINATED_EVENT,
     occurredAt: world.currentDate,
@@ -325,6 +365,7 @@ export function confirmChiefJustice(
     !nominee ||
     isDead(world, nomineeId) ||
     !president ||
+    !nominatedBy ||
     nominatedBy !== president.personId
   ) {
     return resolved(
@@ -364,7 +405,7 @@ export function confirmChiefJustice(
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: null,
-    involvedEntityIds: [nomineeId],
+    involvedEntityIds: [nomineeId, nominatedBy],
     participants: [
       {
         personId: nomineeId,
@@ -387,6 +428,15 @@ export function confirmChiefJustice(
     context: CONTEXT,
   });
   const confirmedEventId = next.history.events.at(-1)!.id;
+  // The appointment is a favor from the President who named them.
+  next = recordAppointmentFavor(next, {
+    stableKey: `${due.stableKey}:appointed`,
+    appointerPersonId: nominatedBy,
+    appointeePersonId: nomineeId,
+    post: CHIEF_JUSTICE_POST,
+    eventId: confirmedEventId,
+    subject: { kind: "none" },
+  });
   for (const seat of associateSeats)
     next = openAssociateJusticeVacancy(next, {
       seatId: seat.seatId,

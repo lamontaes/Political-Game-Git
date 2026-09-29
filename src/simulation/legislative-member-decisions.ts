@@ -1,4 +1,6 @@
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
+import { favorStandingBetween } from "./favors";
+import { favorEventRefs } from "./patronage/favor-refs";
 import { requireMeasure } from "./legislation";
 import { lawInForce } from "./governing/law-in-force";
 import { netViewOnLaw } from "./official-view-reads";
@@ -514,6 +516,37 @@ function memberConsiderations(
         { kind: "relationship-interaction", interactionId: interaction.id },
       ],
     });
+  }
+
+  // What the member owes the person carrying the bill: an appointment, a job,
+  // help when it counted (appointments-v1, through the one favor record). The
+  // debt is read as it stands today, faded or held, never as a count.
+  if (sponsorPersonId && sponsorPersonId !== input.personId) {
+    const owed = favorStandingBetween(
+      world,
+      input.personId,
+      sponsorPersonId,
+      world.currentDate,
+    ).receiverDebt;
+    const refs = favorEventRefs(world, input.personId, sponsorPersonId);
+    // A debt with no recorded moment behind it is not cited.
+    if (owed !== "none" && refs.length > 0)
+      considerations.push({
+        stableKey: "member:owes-sponsor",
+        optionKey: "vote-yea",
+        sourceType: "social:favor",
+        direction: "supports",
+        importance:
+          owed === "strong"
+            ? "strong"
+            : owed === "marked"
+              ? "moderate"
+              : "slight",
+        confidence: "medium",
+        explanation:
+          "The member owes the person carrying this bill for past help.",
+        sourceRefs: refs,
+      });
   }
 
   if (considerations.length === 0) {
