@@ -58,7 +58,8 @@
  * (the rent is HUD's gross rent, which includes them); income verification
  * beyond recorded pay; exemptions in rent stabilization laws; housing
  * vouchers; the played person's own eviction (a filing is recorded, and the
- * household settles).
+ * household settles); an evicted household may be rehoused in the home it
+ * left, since the town's vacant homes do not remember who left them.
  */
 
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
@@ -1034,17 +1035,17 @@ export function endTownLeases(world: World, dueOn: IsoDate): World {
   return next;
 }
 
-/** The adult who holds a new lease: the player if an adult member, else the best paid. */
+/**
+ * The adult who holds a new lease: the best paid, then the oldest. One rule
+ * for everyone, the player included, so a young adult living with parents
+ * does not carry the family's rent.
+ */
 function chooseLeaseholder(
-  world: World,
   household: readonly Member[],
   pay: ReadonlyMap<EntityId, number>,
 ): EntityId | null {
   const adults = household.filter((member) => member.age >= 18);
   if (adults.length === 0) return null;
-  const played =
-    world.control.kind === "person" ? world.control.personId : null;
-  if (played && adults.some((adult) => adult.id === played)) return played;
   return [...adults].sort(
     (a, b) =>
       (pay.get(b.id) ?? -1) - (pay.get(a.id) ?? -1) ||
@@ -1091,7 +1092,7 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
     // No HUD figure for the place: the rent is unknown, and none is written.
     if (!row) continue;
     const household = members.get(tenure.holder.householdId) ?? [];
-    const leaseholderId = chooseLeaseholder(next, household, pay);
+    const leaseholderId = chooseLeaseholder(household, pay);
     if (!leaseholderId) continue;
     const stableKey = `${LEASE_PREFIX}${tenure.id}:${leaseholderId}`;
     if (next.history.resourceFlows.some((flow) => flow.stableKey === stableKey))
@@ -1174,8 +1175,11 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
             (row) => row.id === landlord!.organizationId,
           )?.formedAt ?? tenure.startedAt)
         : tenure.startedAt;
-    const startsAt =
-      landlordSince > tenure.startedAt ? landlordSince : tenure.startedAt;
+    // A lease that replaces one on the same tenancy (its leaseholder left)
+    // starts in time to charge this month, which the old one no longer does.
+    const replaces = leases.some((lease) => lease.tenureId === tenure.id);
+    const from = replaces ? addDays(dueOn, -1) : tenure.startedAt;
+    const startsAt = landlordSince > from ? landlordSince : from;
     next = createResourceFlow(next, {
       stableKey,
       source: { kind: "person", personId: leaseholderId },
@@ -1196,7 +1200,7 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
     next = createResourceObligation(next, {
       stableKey: `${stableKey}:lease`,
       resourceFlowId: flow.id,
-      establishedAt: dueOn < startsAt ? startsAt : startsAt,
+      establishedAt: startsAt,
       basisKind: `housing:lease-${bedrooms}-bedroom-${regime}`,
       principal: null,
       careResponsibilityId: null,
@@ -1666,7 +1670,7 @@ function actOnArrears(
       if (open.filedOn >= dueOn) continue;
       if (owed.owed === 0) {
         next = rentEvent(next, lease, adults, dueOn, RENT_EVENTS.dismissed, {
-          summary: `${landlordName(next, lease.flow.recipient)} dropped the eviction case against ${householdName(next, lease.householdId)} once the rent was paid.`,
+          summary: `${landlordName(next, lease.flow.recipient)} dropped the eviction case against ${householdName(next, lease.householdId, true)} once the rent was paid.`,
         });
         continue;
       }
@@ -1706,7 +1710,7 @@ function actOnArrears(
     )
       continue;
     next = rentEvent(next, lease, adults, dueOn, RENT_EVENTS.filed, {
-      summary: `${landlordName(next, lease.flow.recipient)} filed to evict ${householdName(next, lease.householdId)} for ${dollarsOf(owed.owed)} in unpaid rent.`,
+      summary: `${landlordName(next, lease.flow.recipient)} filed to evict ${householdName(next, lease.householdId, true)} for ${dollarsOf(owed.owed)} in unpaid rent.`,
     });
   }
   return next;
@@ -1718,11 +1722,16 @@ function bedroomHome(lease: LeaseFacts): string {
     : `their ${lease.bedrooms}-bedroom home`;
 }
 
-function householdName(world: World, householdId: EntityId): string {
+function householdName(
+  world: World,
+  householdId: EntityId,
+  midSentence = false,
+): string {
   const record = world.history.households.find((row) => row.id === householdId);
-  return record
+  const name = record
     ? `The ${record.label.replace(/ household$/, "")} household`
     : "A household";
+  return midSentence ? `${name[0]!.toLowerCase()}${name.slice(1)}` : name;
 }
 
 function rentEvent(

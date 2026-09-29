@@ -9,6 +9,14 @@ import {
   addDays,
   simulationMomentOnLocalDate,
 } from "../../src/simulation/dates";
+import {
+  LIVING_COSTS_PLACEHOLDER,
+  livingCostsFlowFor,
+  settleLivingCosts,
+} from "../../src/simulation/cost-of-living";
+import { householdMembershipsAt } from "../../src/simulation/life-queries";
+import { ensureLifePathPersonalPosition } from "../../src/simulation/life-paths2-resources";
+import { money } from "../../src/simulation/resources";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import { organizationProfileAt } from "../../src/simulation/life-queries";
 import {
@@ -272,5 +280,44 @@ describe("rent day", { timeout: 600_000 }, () => {
     expect(
       renterMoveFactor(chicago.world, chicago.town, chicagoLease.householdId),
     ).toBe(1);
+  });
+
+  it("the flat $900 leaves the player's month once their household holds a lease", () => {
+    // Several openings, so both a renting and an owning player household are
+    // seen; each one's month follows its own home.
+    const seen = new Set<string>();
+    for (const seed of ["a", "b", "c", "d", "e", "f"]) {
+      const { world, player } = liveMonths(
+        "1714000",
+        `town-rent-month-${seed}`,
+        2,
+      );
+      // The player's money is tracked from the opening on.
+      const settled = withWorldIntegrityDeferred(() =>
+        settleLivingCosts(
+          ensureLifePathPersonalPosition(
+            world,
+            player,
+            money(0, "USD").currency,
+          ),
+          player,
+        ),
+      );
+      const flow = livingCostsFlowFor(settled, player);
+      expect(flow, seed).not.toBeNull();
+      if (!flow) continue;
+      const household = householdMembershipsAt(settled, player).find(
+        (entry) => entry.state.residenceRole === "primary",
+      )?.household.id;
+      const leased = townLeases(settled).some(
+        (lease) => !lease.ended && lease.householdId === household,
+      );
+      const monthly = resourceFlowTermsAt(settled, flow.id)!.amount.minorUnits;
+      const full = LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor;
+      const housing = LIVING_COSTS_PLACEHOLDER.housingShareMinor;
+      if (leased) expect(monthly, seed).toBe(full - housing);
+      seen.add(leased ? "leased" : "not leased");
+    }
+    expect(seen.has("leased")).toBe(true);
   });
 });
