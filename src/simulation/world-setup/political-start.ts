@@ -153,7 +153,10 @@ export function drawPoliticalLatents(
   };
 }
 
-function sharedSwing(latents: PoliticalLatents, stateUsps: string): number {
+export function sharedSwing(
+  latents: PoliticalLatents,
+  stateUsps: string,
+): number {
   return (
     latents.nationalSwingPp +
     latents.regionSwingPp[censusRegionOf(stateUsps)] +

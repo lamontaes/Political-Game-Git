@@ -24,10 +24,10 @@ import type { IsoDate } from "../types";
  * published no adjournment for the year, the end is estimated from the
  * states whose end is known that year, and says so.
  *
- * GAME ASSUMPTION: in play, a legislature sits until its limit
- * (`legislative-clock.ts` closes a session only there), so after the years
- * with a published adjournment the limit is the day the game's own session
- * ends. A rule counted from final passage reads the passage date the
+ * In play, a legislature's leaders may adjourn its session before the limit
+ * (`leaders-adjourn.ts`); the caller passes that recorded day
+ * (`sessionEnds`), and it replaces the table's end for the year. A session
+ * with no recorded adjournment ran to its limit. A rule counted from final passage reads the passage date the
  * enactment records (Illinois); one written from filing is counted from
  * enactment, and its note says so.
  *
@@ -150,6 +150,12 @@ interface AdjournedYear {
 export interface StatuteDateContext {
   /** The legislature's final passing vote on the act. */
   readonly finalPassageAt?: () => IsoDate | null;
+  /**
+   * The day the enacting legislature's leaders adjourned its regular session
+   * in `year`, where the World records one; it replaces the table's end for
+   * that year. Null where the session ran to its limit.
+   */
+  readonly sessionEnds?: (year: number) => readonly IsoDate[] | null;
 }
 
 interface RuleRow {
@@ -188,11 +194,14 @@ export function statuteEffectiveRule(
 export function statuteEffectiveDateEstimated(
   jurisdictionKey: string,
   enactedAt: IsoDate,
+  context: StatuteDateContext = {},
 ): boolean {
   if (statuteEffectiveRuleEstimate(jurisdictionKey)) return true;
+  const year = yearOf(enactedAt);
   return (
     statuteEffectiveRule(jurisdictionKey)?.kind === "days-after-session-end" &&
-    stateSessionEndEstimate(jurisdictionKey, yearOf(enactedAt)) !== null
+    !context.sessionEnds?.(year) &&
+    stateSessionEndEstimate(jurisdictionKey, year) !== null
   );
 }
 
@@ -318,7 +327,7 @@ export function stateStatuteOperativeAt(
           : operative;
       };
       const sessionEnd = nearest(
-        stateSessionEnds(jurisdictionKey, year),
+        context.sessionEnds?.(year) ?? stateSessionEnds(jurisdictionKey, year),
         enactedAt,
       );
       const operative = sessionEnd ? counted(sessionEnd) : null;

@@ -4,6 +4,7 @@ import {
   type LifePlace,
   type LifePlaceScope,
 } from "../simulation";
+import { isFederalDistrictUsps } from "../simulation/state-reference";
 import type { NewGameSetup, NewGameStartKind } from "./new-game";
 
 /**
@@ -131,7 +132,8 @@ export function creatorPlaceListOpen(
 }
 
 function soleDistrictLocality(stateJurisdictionKey: string): string | null {
-  if (stateJurisdictionKey !== "US-DC") return null;
+  if (!isFederalDistrictUsps(stateJurisdictionKey.replace(/^US-/, "")))
+    return null;
   const places = searchLifePlaces("", 2, {
     stateJurisdictionKey,
     scope: "locality",

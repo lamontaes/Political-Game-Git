@@ -35,6 +35,14 @@ import {
 import { generalElectionDay } from "./state-executive-term-rules";
 import { planOrdinaryStateExecutiveTerm } from "./state-executive-terms";
 import { decideAnotherTerm } from "../careers/another-term";
+import { createOrganizationParticipations } from "../life";
+import {
+  LIVING_WORLD_KEYS,
+  PARTY_AFFILIATION_KIND,
+  livingWorldOrganizationId,
+} from "../living-world/opening";
+import { personName } from "../people";
+import { majorPartyOf } from "../statewide-electorate";
 
 import {
   GOVERNOR_FIELD_CLOSE,
@@ -264,7 +272,16 @@ function openRegularContest(
     ? world.people[decided.incumbentPersonId]
     : undefined;
   const incumbentRuns = decided.seeking;
-  const challengers = incumbentRuns ? 1 : 2;
+  // Each major party puts up a candidate, except the party of a governor who
+  // is running again: that governor is its candidate.
+  const incumbentParty =
+    incumbentRuns && incumbent
+      ? majorPartyOf(decided.world, incumbent.id, electionDay)
+      : null;
+  const challengerParties = MAJOR_PARTIES.filter(
+    (party) => party !== incumbentParty,
+  );
+  const challengers = incumbentRuns && incumbentParty ? 1 : 2;
   const stateId = chiefExecutiveJurisdictionId(stateUsps)!;
   let next = decided.world;
   const inputs = Array.from({ length: challengers }, (_, index) => {
@@ -284,6 +301,16 @@ function openRegularContest(
     };
   });
   next = createCharacterHistoryContextPeople(next, inputs);
+  next = affiliateChallengers(
+    next,
+    key,
+    inputs.map((input, index) => ({
+      personId: characterHistoryContextPersonId(next, input.stableKey),
+      party: challengerParties[index] ?? null,
+    })),
+    stateId,
+    electionDay,
+  );
   const candidatePersonIds = [
     ...(incumbentRuns && incumbent ? [incumbent.id] : []),
     ...inputs.map((input) =>
@@ -307,6 +334,81 @@ function openRegularContest(
       note: `${GOVERNOR_TURNOVER_PROFILE.id}: the regular election for ${office.displayName}, opened when the candidate field closed.`,
     },
   });
+}
+
+const MAJOR_PARTIES = ["democratic", "republican"] as const;
+
+/**
+ * Records each challenger as their party's candidate: a public affiliation
+ * with the party, cited to the event that names them. Skipped where this
+ * World has no national party to join (a world without its living politics).
+ */
+function affiliateChallengers(
+  world: World,
+  key: string,
+  challengers: readonly {
+    readonly personId: EntityId;
+    readonly party: (typeof MAJOR_PARTIES)[number] | null;
+  }[],
+  stateId: EntityId,
+  electionDay: IsoDate,
+): World {
+  let next = world;
+  for (const { personId, party } of challengers) {
+    if (!party) continue;
+    const partyId = livingWorldOrganizationId(
+      next,
+      LIVING_WORLD_KEYS.nationalParty(party),
+    );
+    if (
+      !next.history.organizations.some(
+        (organization) => organization.id === partyId,
+      ) ||
+      majorPartyOf(next, personId, electionDay) === party
+    )
+      continue;
+    const stableKey = `${key}:candidate:${personId}:party`;
+    next = recordWorldEvent(next, {
+      stableKey,
+      type: "election.party-candidate-named",
+      occurredAt: next.currentDate,
+      recordedAt: next.currentDate,
+      jurisdictionId: stateId,
+      involvedEntityIds: [personId, partyId],
+      participants: [
+        { personId, role: "focus:subject", detail: `candidate:${party}` },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["election.governor", `party:${party}`],
+      summary: `${personName(next.people[personId]!)} runs for governor as the ${party === "democratic" ? "Democratic" : "Republican"} candidate.`,
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    next = createOrganizationParticipations(next, [
+      {
+        stableKey: `${stableKey}:affiliation`,
+        personId,
+        organizationId: partyId,
+        startedAt: next.currentDate,
+        initialStatus: "active",
+        kind: PARTY_AFFILIATION_KIND,
+        roleKind: "member:public-affiliation",
+        context: "Public party affiliation",
+        provenance: {
+          kind: "simulated-event",
+          eventId: next.history.events.at(-1)!.id,
+        },
+      },
+    ]);
+  }
+  return next;
 }
 
 function officeForDue(due: FutureDueItem) {
