@@ -10,7 +10,7 @@ Nothing merged. [Draft pull request 1133](https://github.com/lamontaes/Political
 
 DECIDED: the approved outline says, “Nothing is invented.” Availability without evidence remains unresearched. The same outline requires “Sourced sizes only”; unsized effects remain labeled “no sized evidence.”
 
-Measured research coverage: ten topic records, 31 admitted decisions, and 1,736 availability cells. Of those cells, 97 have source references and 1,639 remain unresearched. 26 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
+Measured research coverage: ten topic records, 31 admitted decisions, and 1,736 availability cells. Of those cells, 98 have source references and 1,638 remain unresearched. 26 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
 
 Follow-up source review distinguishes official management-reported rail ridership from audited financial statements, records the EV-fee study's separate enactment and implementation estimates, and corrects two fluoride operator-permission cells to statutory bars.
 

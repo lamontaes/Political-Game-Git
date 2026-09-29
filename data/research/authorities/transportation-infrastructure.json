@@ -1334,6 +1334,14 @@
       "year": 2012,
       "accessed": "2026-09-29",
       "kind": "primary"
+    },
+    {
+      "id": "fl-fmv-enactment",
+      "title": "Florida HB125 (2023), chapter 2023-291 enactment record",
+      "url": "https://www.flsenate.gov/Session/Bill/2023/125",
+      "year": 2023,
+      "accessed": "2026-09-29",
+      "kind": "primary"
     }
   ],
   "topics": [
@@ -17573,6 +17581,13 @@
               "year": 2016,
               "status": "enacted",
               "sources": ["pa-fmv-law", "pa-fmv"]
+            },
+            {
+              "place": "Florida",
+              "measure": "HB125 / chapter2023-291 creates section367.0811; effective July1,2023",
+              "year": 2023,
+              "status": "enacted",
+              "sources": ["fl-fmv-enactment", "fl-fmv"]
             }
           ],
           "availability": {
@@ -17649,10 +17664,10 @@
               "differentLargeCityCharters": []
             },
             "FL": {
-              "status": "unresearched",
+              "status": "yes",
               "scope": "state",
-              "reason": "Current jurisdiction-specific authority, exceptions and amendment route have not all been researched.",
-              "sources": [],
+              "reason": "State law permits eligible arm\u2019s-length acquiring utilities (>10,000 customers or permitted drinking-water production of at least3million gallons/day) to petition PSC for alternative valuation, including acquired governmental systems. The ceiling is the lower of negotiated price or average of three appraisals, with specified reasonable fees. Engineering assessment, three-year deficiency plan, five-year rate projections and stabilization when applicable are required. PSC may reject or modify the petition; valuation feeds a later rate case. This is not an automatic municipal sale or rate increase.",
+              "sources": ["fl-fmv", "fl-fmv-enactment"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -28483,8 +28498,8 @@
       "id": "verify-24-item1",
       "promptClaim": "- **State:** primacy agency; the utility commission regulates **investor-owned** water utilities' rates; state law on privatization. **Fair-market-value laws** in about 15 states (for example Pennsylvania's Act 12 of 2016, **verify** count) let private utilities buy public systems at appraised value, which raises customer rates.",
       "status": "partially verified",
-      "finding": "NARUC 2021 review lists 12 enacted-policy states; Florida added a 2023 law. These 13 named states across dated evidence do not establish an exhaustive 2026 count. Rate consequences need study-specific sizing.",
-      "sources": ["naruc-water", "fl-fmv"]
+      "finding": "NARUC 2021 review lists 12 enacted-policy states; Florida added a 2023 law. These 13 named states across dated evidence do not establish an exhaustive 2026 count. Rate consequences need study-specific sizing. Florida2025 codification establishes the optional eligible-acquirer process and PSC review; an enacted acquisition valuation route does not itself establish a causal bill increase.",
+      "sources": ["naruc-water", "fl-fmv", "fl-fmv-enactment"]
     },
     {
       "id": "verify-25-item1",
