@@ -10,6 +10,7 @@ import {
   type DecisionDeclaration,
   type TraitPack,
 } from "./trait-packs";
+import { CLEMENCY_PETITION_DECISION } from "./justice/clemency-decisions";
 import { peopleTraitPack, PEOPLE_TRAIT_SCALE } from "./people-trait-pack";
 import {
   PEOPLE_TRAITS,
@@ -21,6 +22,12 @@ const ORDINARY: DecisionDeclaration = {
   scope: "life:ordinary",
   options: ["accept", "decline", "counter"],
 };
+
+/** Every decision the people pack leans on, so its own rows all resolve. */
+const PEOPLE_DECISIONS: readonly DecisionDeclaration[] = [
+  ORDINARY,
+  CLEMENCY_PETITION_DECISION,
+];
 
 const BARGAINING: DecisionDeclaration = {
   id: "bargaining.commitment",
@@ -34,7 +41,7 @@ function leaning(rows: TraitPack["effects"]): TraitPack {
 
 describe("a trait pack is loaded, not imported", () => {
   it("registers the five without changing what any save already holds", () => {
-    const registry = loadTraitPacks([peopleTraitPack()], [ORDINARY]);
+    const registry = loadTraitPacks([peopleTraitPack()], PEOPLE_DECISIONS);
     expect(registry.report.rejections).toEqual([]);
 
     // The qualified key is the stable key the records already carry, so every
@@ -47,20 +54,20 @@ describe("a trait pack is loaded, not imported", () => {
   });
 
   it("says what each pack registered and what reads it, not that it parsed", () => {
-    const registry = loadTraitPacks([peopleTraitPack()], [ORDINARY]);
+    const registry = loadTraitPacks([peopleTraitPack()], PEOPLE_DECISIONS);
     const report = registry.report.packs[0]!;
     expect(report.traitsRegistered).toHaveLength(5);
-    expect(report.leansRegistered).toBe(6);
+    expect(report.leansRegistered).toBe(8);
     // The report says which decision reads each trait, not merely that the
-    // pack parsed. Two of the five are declared and read by nothing yet, and
+    // pack parsed. One of the five is declared and read by nothing yet, and
     // being able to see that is the point.
     expect(report.consumedBy["people-mind-v1:sociability"]).toEqual([
       "contact.answer",
     ]);
-    expect(report.registeredButUnused).toEqual([
-      "people-mind-v1:conflict",
-      "people-mind-v1:risk",
+    expect(report.consumedBy["people-mind-v1:risk"]).toEqual([
+      "clemency.petition",
     ]);
+    expect(report.registeredButUnused).toEqual(["people-mind-v1:conflict"]);
     expect(describeTraitLoad(registry.report)).toContain("read by nothing");
   });
 
@@ -156,7 +163,7 @@ describe("every reference resolves at load, or is rejected by name", () => {
     it(`rejects ${name}, naming the row`, () => {
       const registry = loadTraitPacks(
         [peopleTraitPack(), leaning(effects)],
-        [ORDINARY],
+        PEOPLE_DECISIONS,
       );
       const mine = registry.report.rejections.filter(
         (rejection) => rejection.pack === "test-pack",
@@ -188,7 +195,7 @@ describe("every reference resolves at load, or is rejected by name", () => {
           },
         ]),
       ],
-      [ORDINARY, BARGAINING],
+      [...PEOPLE_DECISIONS, BARGAINING],
     );
     // The refusal is the feature. Widening is an edit to the trait's own
     // declaration, not an invisible read from another room.
