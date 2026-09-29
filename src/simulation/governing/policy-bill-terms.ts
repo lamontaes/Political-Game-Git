@@ -1,3 +1,4 @@
+import publicLand from "../../../data/research/laws/public-land-access.json" with { type: "json" };
 import studentDebt from "../../../data/research/laws/student-debt-relief.json" with { type: "json" };
 import curriculum from "../../../data/research/laws/curriculum-adoption.json" with { type: "json" };
 import { lawInForce } from "./law-in-force";
@@ -22,6 +23,7 @@ export function sponsorPolicyTerms(
       ![
         CURRICULUM_QUESTION,
         "us-federal-positions:education.forgive-student-loans",
+        "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
       ].includes(questionKey) ||
       answer !== "yes"
     )
@@ -41,14 +43,27 @@ export function sponsorPolicyTerms(
               curriculum.defaults.phaseInMonths - strength * 12,
             ),
           }
-        : {
-            capPerBorrowerCents: Math.round(
-              studentDebt.proposal.capPerBorrowerCents * (1 + strength),
-            ),
-            incomeLimitAnnualCents: Math.round(
-              studentDebt.proposal.incomeLimitAnnualCents * (1 + strength / 2),
-            ),
-          };
+        : questionKey ===
+            "us-policy-positions:agriculture-natural-resources.expand-public-land-access"
+          ? {
+              accessIncreaseBasisPoints: Math.round(
+                publicLand.proposal.accessIncreaseBasisPoints *
+                  (1 + strength / 2),
+              ),
+              annualManagementCostPerAcreCents: Math.round(
+                publicLand.proposal.annualManagementCostPerAcreCents *
+                  (1 + strength / 2),
+              ),
+            }
+          : {
+              capPerBorrowerCents: Math.round(
+                studentDebt.proposal.capPerBorrowerCents * (1 + strength),
+              ),
+              incomeLimitAnnualCents: Math.round(
+                studentDebt.proposal.incomeLimitAnnualCents *
+                  (1 + strength / 2),
+              ),
+            };
     return [
       {
         questionKey,

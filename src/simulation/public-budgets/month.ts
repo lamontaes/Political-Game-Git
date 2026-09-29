@@ -1,3 +1,4 @@
+import { publicLandManagementSpending } from "../public-land-access-law";
 import { makeIsoDate } from "../dates";
 import { curriculumAdoptionSpending } from "./curriculum-standards";
 import { stateJurisdictionForKey } from "../life-places";
@@ -622,6 +623,8 @@ export function settleGovernmentMonth(
     government,
     month,
   );
+  spending[BUDGET_PROGRAMS.indexOf("naturalResources")]! +=
+    publicLandManagementSpending(world, government, month);
   let balance = government.balance + sum(revenue) - sum(spending);
   let reserve = government.reserve;
   let debt = government.debt;

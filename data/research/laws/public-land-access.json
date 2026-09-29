@@ -1,0 +1,526 @@
+{
+  "asOf": "2026-09-29",
+  "sources": {
+    "acreage": "https://services.arcgis.com/v01gqwM5QqNysAAi/arcgis/rest/services/Fee_Managers_PADUS/FeatureServer/0/query",
+    "acreageParameters": {
+      "f": "json",
+      "where": "Own_Type IN ('STAT', 'LOC')",
+      "groupByFieldsForStatistics": "State_Nm,Own_Type,Pub_Access",
+      "outStatistics": "[{\"statisticType\": \"sum\", \"onStatisticField\": \"GIS_Acres\", \"outStatisticFieldName\": \"acres\"}]",
+      "returnGeometry": "false",
+      "orderByFields": "State_Nm,Own_Type,Pub_Access",
+      "resultRecordCount": "2000"
+    },
+    "visits": "https://www.ncparks.gov/about/news/visitation-systemsize-2023",
+    "spending": "https://www.nps.gov/nature/customcf/NPS_Data_Visualization/docs/NPS_2024_Visitor_Spending_Effects.pdf",
+    "management": "https://www.govinfo.gov/content/pkg/BUDGET-2025-APP/pdf/BUDGET-2025-APP-1-13.pdf"
+  },
+  "basis": "ESTIMATED FROM AVERAGE: town-nearby acreage allocates its state-owned total by recorded population, with a stable per-world 0.5-1.5 spread; it is not measured county acreage. Four missing island-area totals use national state-owned acres per resident. Access expands service on the filed fraction of these acres. Visits per serviced acre use the 2023 NC state-park average, not a causal estimate. Management proposals use FY2023 NPS operating budget authority $2.995 billion / 85 million acres; this is a state-land proxy, not measured state costs. Visitors spend the NPS 2024 gateway average $29 billion / 331,863,358 visits.",
+  "nationalAcresPerResident": 0.5575250823835395,
+  "nearbySpread": [0.5, 1.5],
+  "visitsPerAcreAnnual": 76.69589505254241,
+  "visitorSpendingCents": 8739,
+  "proposal": {
+    "accessIncreaseBasisPoints": 1000,
+    "annualManagementCostPerAcreCents": 3524
+  },
+  "businessWeights": {
+    "inn": 0.40344827586206894,
+    "restaurant": 0.19655172413793104,
+    "retail": 0.24,
+    "recreation": 0.15999999999999998
+  },
+  "businessWeightBasis": "NPS 2024 lodging plus camping $11.7 billion and restaurants $5.7 billion. PLACEHOLDER: remaining $11.6 billion split 60:40 between retail (gas, groceries, goods) and recreation (outfitters, rentals and transport), a declared category-mapping estimate.",
+  "places": {
+    "US-AK": {
+      "acresByAccess": {
+        "OA": 7530212,
+        "RA": 6378715,
+        "UK": 80331088
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 740133
+    },
+    "US-AL": {
+      "acresByAccess": {
+        "OA": 282773,
+        "RA": 247491,
+        "UK": 991,
+        "XA": 8021
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 5157699
+    },
+    "US-AR": {
+      "acresByAccess": {
+        "OA": 73784,
+        "RA": 418514
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 3088354
+    },
+    "US-AZ": {
+      "acresByAccess": {
+        "OA": 59926,
+        "RA": 9267680,
+        "UK": 19931
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 7582384
+    },
+    "US-CA": {
+      "acresByAccess": {
+        "OA": 2684449,
+        "RA": 159456,
+        "UK": 16591,
+        "XA": 140327
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 39431263
+    },
+    "US-CO": {
+      "acresByAccess": {
+        "OA": 420859,
+        "RA": 774122,
+        "UK": 1467,
+        "XA": 2029691
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 5957493
+    },
+    "US-CT": {
+      "acresByAccess": {
+        "OA": 6937,
+        "RA": 155,
+        "UK": 226277,
+        "XA": 119
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 3675069
+    },
+    "US-DC": {
+      "acresByAccess": {
+        "OA": 1099,
+        "UK": 16
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 702250
+    },
+    "US-DE": {
+      "acresByAccess": {
+        "OA": 63173,
+        "RA": 813,
+        "UK": 75929
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 1051917
+    },
+    "US-FL": {
+      "acresByAccess": {
+        "OA": 2021315,
+        "RA": 1691488,
+        "UK": 19,
+        "XA": 132653
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 23372215
+    },
+    "US-GA": {
+      "acresByAccess": {
+        "OA": 636315,
+        "RA": 36422,
+        "UK": 37500,
+        "XA": 19584
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 11180878
+    },
+    "US-HI": {
+      "acresByAccess": {
+        "OA": 297693,
+        "RA": 963436,
+        "UK": 9593
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 1446146
+    },
+    "US-IA": {
+      "acresByAccess": {
+        "OA": 366501,
+        "RA": 140
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 3241488
+    },
+    "US-ID": {
+      "acresByAccess": {
+        "OA": 2599924,
+        "RA": 825,
+        "UK": 10021,
+        "XA": 98182
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 2001619
+    },
+    "US-IL": {
+      "acresByAccess": {
+        "OA": 341171,
+        "RA": 20,
+        "XA": 6
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 12710158
+    },
+    "US-IN": {
+      "acresByAccess": {
+        "OA": 260942,
+        "RA": 127598,
+        "XA": 164
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 6924275
+    },
+    "US-KS": {
+      "acresByAccess": {
+        "OA": 41470,
+        "RA": 147682,
+        "XA": 5
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 2970606
+    },
+    "US-KY": {
+      "acresByAccess": {
+        "OA": 175196,
+        "RA": 33253,
+        "UK": 3868,
+        "XA": 28871
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 4588372
+    },
+    "US-LA": {
+      "acresByAccess": {
+        "OA": 76381,
+        "RA": 1177409,
+        "UK": 91552
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 4597740
+    },
+    "US-MA": {
+      "acresByAccess": {
+        "OA": 429084,
+        "RA": 132295,
+        "UK": 32192,
+        "XA": 15246
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 7136171
+    },
+    "US-MD": {
+      "acresByAccess": {
+        "OA": 44331,
+        "RA": 28062,
+        "UK": 456855,
+        "XA": 11
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 6263220
+    },
+    "US-ME": {
+      "acresByAccess": {
+        "OA": 131850,
+        "RA": 125825,
+        "UK": 385784,
+        "XA": 889287
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 1405012
+    },
+    "US-MI": {
+      "acresByAccess": {
+        "OA": 2637958,
+        "RA": 18899,
+        "XA": 325
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 10140459
+    },
+    "US-MN": {
+      "acresByAccess": {
+        "OA": 3648688,
+        "RA": 1007475,
+        "UK": 563
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 5793151
+    },
+    "US-MO": {
+      "acresByAccess": {
+        "OA": 146349,
+        "RA": 796648,
+        "UK": 1468
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 6245466
+    },
+    "US-MS": {
+      "acresByAccess": {
+        "OA": 670591,
+        "RA": 148586,
+        "UK": 40322
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 2943045
+    },
+    "US-MT": {
+      "acresByAccess": {
+        "OA": 5195709,
+        "RA": 10935,
+        "UK": 34311,
+        "XA": 2007
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 1137233
+    },
+    "US-NC": {
+      "acresByAccess": {
+        "OA": 823316,
+        "RA": 491975,
+        "UK": 351247,
+        "XA": 35533
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 11046024
+    },
+    "US-ND": {
+      "acresByAccess": {
+        "OA": 759234,
+        "RA": 184057
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 796568
+    },
+    "US-NE": {
+      "acresByAccess": {
+        "OA": 152538,
+        "RA": 110830,
+        "UK": 1133
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 2005465
+    },
+    "US-NH": {
+      "acresByAccess": {
+        "OA": 7629,
+        "RA": 3802,
+        "UK": 157098,
+        "XA": 50
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 1409032
+    },
+    "US-NJ": {
+      "acresByAccess": {
+        "OA": 1137111,
+        "RA": 1331,
+        "UK": 1433,
+        "XA": 286
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 9500851
+    },
+    "US-NM": {
+      "acresByAccess": {
+        "OA": 8958222,
+        "RA": 167067,
+        "XA": 9
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 2130256
+    },
+    "US-NV": {
+      "acresByAccess": {
+        "OA": 15594,
+        "RA": 139278,
+        "UK": 4718,
+        "XA": 1456
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 3267467
+    },
+    "US-NY": {
+      "acresByAccess": {
+        "OA": 4422066,
+        "RA": 74204,
+        "UK": 7909,
+        "XA": 5670
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 19867248
+    },
+    "US-OH": {
+      "acresByAccess": {
+        "OA": 348954,
+        "RA": 141045,
+        "XA": 24044
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 11883304
+    },
+    "US-OK": {
+      "acresByAccess": {
+        "OA": 109548,
+        "RA": 3679399,
+        "XA": 1429
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 4095393
+    },
+    "US-OR": {
+      "acresByAccess": {
+        "OA": 1578346,
+        "RA": 14875,
+        "UK": 129403,
+        "XA": 1292
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 4272371
+    },
+    "US-PA": {
+      "acresByAccess": {
+        "OA": 4750873,
+        "RA": 1,
+        "UK": 11296,
+        "XA": 3933
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 13078751
+    },
+    "US-PR": {
+      "acresByAccess": {
+        "OA": 1157,
+        "RA": 23043,
+        "UK": 493,
+        "XA": 428
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 3184835
+    },
+    "US-RI": {
+      "acresByAccess": {
+        "OA": 7554,
+        "RA": 259,
+        "UK": 50177,
+        "XA": 7
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 1112308
+    },
+    "US-SC": {
+      "acresByAccess": {
+        "OA": 382275,
+        "RA": 134630,
+        "UK": 23625,
+        "XA": 1197
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 5478831
+    },
+    "US-SD": {
+      "acresByAccess": {
+        "OA": 978395,
+        "RA": 166889,
+        "UK": 320
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 924669
+    },
+    "US-TN": {
+      "acresByAccess": {
+        "OA": 258413,
+        "RA": 508685,
+        "UK": 185
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 7227750
+    },
+    "US-TX": {
+      "acresByAccess": {
+        "OA": 610268,
+        "RA": 496762,
+        "UK": 97359,
+        "XA": 2229423
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 31290831
+    },
+    "US-UT": {
+      "acresByAccess": {
+        "OA": 3523025,
+        "RA": 443729,
+        "UK": 1452363
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 3503613
+    },
+    "US-VA": {
+      "acresByAccess": {
+        "OA": 719405,
+        "RA": 89167,
+        "UK": 2943,
+        "XA": 107208
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 8811195
+    },
+    "US-VT": {
+      "acresByAccess": {
+        "OA": 287366,
+        "RA": 7532,
+        "UK": 10367,
+        "XA": 88
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 648493
+    },
+    "US-WA": {
+      "acresByAccess": {
+        "OA": 3479686,
+        "RA": 725319,
+        "XA": 207
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 7958180
+    },
+    "US-WI": {
+      "acresByAccess": {
+        "OA": 1383991,
+        "RA": 269499,
+        "XA": 7387
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 5960975
+    },
+    "US-WV": {
+      "acresByAccess": {
+        "OA": 439732,
+        "RA": 2450,
+        "UK": 522
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 1769979
+    },
+    "US-WY": {
+      "acresByAccess": {
+        "OA": 3581729,
+        "RA": 388261,
+        "UK": 13788,
+        "XA": 29
+      },
+      "basis": "USGS PAD-US 4.1 fee-land aggregate, state owner; district government uses local owner category.",
+      "population": 587618
+    }
+  }
+}

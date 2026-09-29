@@ -36,6 +36,7 @@ export function prepareLawPair(
     propositionId: EntityId;
     policyTerms?: readonly PolicyBillTerms[];
     sponsorPersonId: EntityId | null;
+    advance?: (world: World, days: number) => World;
   },
 ) {
   const pack = legislativeRulePackForWorld(world, input.rulePackId);
@@ -59,6 +60,9 @@ export function prepareLawPair(
     sourceEntityIds: [],
   };
   const registry = createCampaignElectionTransitionRegistry();
+  const advance =
+    input.advance ??
+    ((base: World, days: number) => advanceWorld(base, days, registry));
   for (const [index, chamber] of pack.chambers.entries()) {
     if (index > 0)
       next = transmitMeasure(next, {
@@ -92,7 +96,7 @@ export function prepareLawPair(
         measureId,
         hearingDate,
       });
-      next = advanceWorld(next, 7, registry);
+      next = advance(next, 7);
     }
     next = recordCommitteeDisposition(next, {
       stableKey: `${key}:committee:${index}`,
@@ -112,11 +116,7 @@ export function prepareLawPair(
     for (const stage of chamber.floorStages) {
       const until = measurePosition(next, measureId).earliestNextFloorDate;
       if (until && until > next.currentDate)
-        next = advanceWorld(
-          next,
-          daysBetween(next.currentDate, until),
-          registry,
-        );
+        next = advance(next, daysBetween(next.currentDate, until));
       next = takeFloorVote(next, {
         stableKey: `${key}:vote:${index}:${stage.stageKey}`,
         measureId,
