@@ -3,6 +3,12 @@ import { projectWorld39News } from "../presentation/world39-news";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import "./world39-readers.css";
 
+const LEVEL_LABEL = {
+  federal: "National law",
+  state: "State law",
+  local: "Local law",
+} as const;
+
 /** Mount before the existing PressWorkspace and publication search/follow reader. */
 export function World39News({
   world,
@@ -39,6 +45,30 @@ export function World39News({
             >
               <h5>{item.headline}</h5>
               <p>{item.sentence}</p>
+            </article>
+          ))}
+        </section>
+      ) : null}
+      {model.laws.length > 0 ? (
+        <section aria-label="Laws that reach you" data-testid="world39-laws">
+          <h4>Laws that reach you</h4>
+          {model.laws.map((law) => (
+            <article
+              key={law.measureId}
+              data-measure-id={law.measureId}
+              data-level={law.level}
+              data-acts-in-world={law.actsInWorld ? "true" : "false"}
+            >
+              <h5>{law.title}</h5>
+              <p className="world39-meta">
+                {law.designation} · {LEVEL_LABEL[law.level]} · Enacted{" "}
+                <time dateTime={law.enactedOn}>
+                  {world39Date(law.enactedOn)}
+                </time>
+              </p>
+              {law.sentences.map((sentence) => (
+                <p key={sentence}>{sentence}</p>
+              ))}
             </article>
           ))}
         </section>

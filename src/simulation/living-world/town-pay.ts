@@ -64,6 +64,7 @@ import {
   minimumHourlyAt,
   startingMinimumHourly,
 } from "../minimum-wage";
+import { noticeLawPayChanges } from "../law-effects-noticed";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
 import { resourceFlowTermsAt } from "../resource-queries";
 import { SeededRng } from "../rng";
@@ -479,6 +480,8 @@ export function paydayHandler(
     world.control.kind === "person" ? world.control.personId : null;
   let next = startTownJobPay(world, played, since);
   next = raiseTownPayToMinimum(next, played);
+  // A raise a law made reaches the person it raised.
+  next = noticeLawPayChanges(next, since);
   next = payTownPaydays(next, since, played);
   next = scheduleFutureDueItem(next, {
     stableKey: `${PAYDAY_KEY_PREFIX}${next.currentDate}`,
