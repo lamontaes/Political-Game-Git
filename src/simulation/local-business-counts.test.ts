@@ -56,6 +56,26 @@ describe("the businesses a town really has", () => {
     expect(tiny[0]!.kind.key).toBe("diner");
   });
 
+  it("counts a census-designated town's businesses from its survey population, not the placeholder list", () => {
+    // Kualapuu, Hawaii (2,535) and Lime Ridge, Pennsylvania (842) have no
+    // Vintage 2025 estimate; the 2020-2024 survey count sizes them.
+    for (const geoid of ["1539500", "4243320"]) {
+      const supply = localBusinessSupplyFor(townId(geoid));
+      expect(supply).not.toBeNull();
+      expect(supply!.some((row) => row.expected > 0)).toBe(true);
+      const plans = localBusinessPlansFor(townId(geoid));
+      expect(plans.length).toBeGreaterThan(0);
+      expect(
+        plans.every((plan) => plan.sourced && plan.expected !== null),
+      ).toBe(true);
+    }
+    const kualapuu = localBusinessSupplyFor(townId("1539500"))!;
+    const limeRidge = localBusinessSupplyFor(townId("4243320"))!;
+    const total = (rows: typeof kualapuu) =>
+      rows.reduce((sum, row) => sum + row.expected, 0);
+    expect(total(kualapuu)).toBeGreaterThan(total(limeRidge));
+  });
+
   it("keeps the marked placeholder list where the town's population is not held", () => {
     const plans = localBusinessPlansFor("no-such-town" as never);
     expect(plans).toHaveLength(LOCAL_BUSINESS_KINDS.length);
