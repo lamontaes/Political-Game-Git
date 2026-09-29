@@ -247,6 +247,35 @@ function receiverHalfLife(
 }
 
 /**
+ * What a great or life-changing favor leaves owed for good, in steps, until it
+ * is returned.
+ *
+ * SET BY HAND. The fading rates above were measured on gifts and small
+ * favors over weeks and months. Help that changed someone's life is felt as a
+ * standing obligation: the norm of reciprocity binds in proportion to what the
+ * help was worth (Gouldner, 1960), and gratitude for a large benefit keeps a
+ * relationship bound long after the help (Algoe, 2012). So a life-changing
+ * favor never fades below a marked debt, and a great one never below a slight
+ * one. Someone who lets things slip holds half as much. It affects how a
+ * person answers the one who helped them, years on.
+ */
+const LASTING_STEPS: Readonly<Record<FavorWeight, number>> = {
+  slight: 0,
+  moderate: 0,
+  great: 0.5,
+  "life-changing": 1.5,
+};
+
+function lastingSteps(
+  world: World,
+  receiverId: EntityId,
+  weight: FavorWeight,
+): number {
+  const reliability = personTrait(world, receiverId, "reliability").value;
+  return LASTING_STEPS[weight] * (reliability < 0 ? 0.5 : 1);
+}
+
+/**
  * How far a giver's expectation can grow.
  *
  * SET BY HAND. Flynn (2003) found givers value a favor more as time passes and
@@ -341,7 +370,8 @@ export function favorStandingBetween(
     const start = WEIGHT_STEPS[record.weight];
     const halfLife = receiverHalfLife(world, receiverPersonId, record.weight);
     const remaining = Math.pow(0.5, elapsed / halfLife);
-    debt += start * remaining;
+    const lasting = lastingSteps(world, receiverPersonId, record.weight);
+    debt += lasting + (start - lasting) * remaining;
     // What the receiver has let go of, the giver has added on.
     expectation +=
       motiveExpects(record.motive) *
