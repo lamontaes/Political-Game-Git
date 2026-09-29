@@ -941,20 +941,6 @@
       "code": "if (point < 0) return index;"
     },
     {
-      "file": "src/simulation/living-world/official-views.ts",
-      "kind": "fixed-share",
-      "build": "Build 22",
-      "count": 1,
-      "code": "const FRIEND_SHARE = 0.25;"
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "kind": "fixed-share",
-      "build": "Build 22",
-      "count": 1,
-      "code": "const FAMILY_SHARE = 0.5;"
-    },
-    {
       "file": "src/simulation/living-world/opening.ts",
       "kind": "roll",
       "build": "Build 7",
