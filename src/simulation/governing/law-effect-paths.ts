@@ -1,3 +1,9 @@
+import {
+  FAIRNESS_CITY_QUESTION,
+  FAIRNESS_STATE_QUESTION,
+} from "../fairness-pay-law";
+import { NATIONAL_DATA_PRIVACY_QUESTION } from "../federal-data-privacy-law";
+import { DEBT_LIMIT_CUTS_QUESTION } from "../federal-outlay-laws";
 import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
 import { COUNCIL_TERM_LIMIT_QUESTION } from "../living-world/local-council-term-limits";
 import { STATEHOOD_QUESTION } from "../living-world/statehood-seats";
@@ -8,7 +14,12 @@ import {
   STATE_MINIMUM_WAGE_QUESTION_KEY,
 } from "../minimum-wage";
 import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../nationwide-world/state-legislative-term-limits";
-import { OUTCOME_LINKS, outcomeLinkStatus } from "../outcome-web";
+import {
+  LAW_QUESTION_MEASURES,
+  OUTCOME_LINKS,
+  outcomeLinksFedByQuestion,
+  outcomeLinkStatus,
+} from "../outcome-web";
 import { HOUSING_SUPPLY_LAWS } from "../living-world/housing-market";
 import { RENT_LAW_KEYS } from "../living-world/town-rent";
 import { CANNABIS_SALES_QUESTION } from "../public-budgets/cannabis-sales-tax";
@@ -53,7 +64,8 @@ export type LawEffectPathKind =
   | "seat-turnover"
   | "authority-gate"
   | "local-powers"
-  | "court-and-jail";
+  | "court-and-jail"
+  | "business-costs";
 
 export interface LawEffectPath {
   readonly questionKey: string;
@@ -85,6 +97,11 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     via: "src/simulation/governing/question-authority.ts",
   },
   {
+    questionKey: NATIONAL_DATA_PRIVACY_QUESTION,
+    kind: "business-costs",
+    via: "src/simulation/federal-data-privacy-law.ts",
+  },
+  {
     questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
     kind: "paycheck",
     via: "src/simulation/federal-top-income-tax-law.ts",
@@ -104,6 +121,15 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     kind: "paycheck",
     via: "src/simulation/state-paid-leave-law.ts",
   },
+  // A fairness law, the state's or a town's, sets the pay of a man partnered
+  // with a man hired where it is in force.
+  ...[FAIRNESS_STATE_QUESTION, FAIRNESS_CITY_QUESTION].map(
+    (questionKey): LawEffectPath => ({
+      questionKey,
+      kind: "paycheck",
+      via: "src/simulation/living-world/town-pay.ts",
+    }),
+  ),
   {
     questionKey: TEACHER_SALARY_FLOOR_QUESTION,
     kind: "paycheck",
@@ -162,6 +188,11 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     via: "src/simulation/public-budgets/month.ts",
   })),
   {
+    questionKey: DEBT_LIMIT_CUTS_QUESTION,
+    kind: "state-revenue",
+    via: "src/simulation/federal-outlay-laws.ts",
+  },
+  {
     questionKey: CANNABIS_SALES_QUESTION,
     kind: "state-revenue",
     via: "src/simulation/public-budgets/cannabis-sales-tax.ts",
@@ -212,7 +243,22 @@ export function lawEffectPaths(): readonly LawEffectPath[] {
     kind: "outcome-web",
     via: link.key,
   }));
-  return [...web, ...DIRECT_PATHS, ...JUSTICE_PATHS];
+  // A question whose bill term sets a measure the web reads acts through the
+  // links from that measure (`LAW_QUESTION_MEASURES`).
+  const viaMeasure = Object.keys(LAW_QUESTION_MEASURES).flatMap((questionKey) =>
+    outcomeLinksFedByQuestion(questionKey)
+      .filter(
+        (link) =>
+          !link.from.startsWith(LAW_CAUSE_PREFIX) &&
+          outcomeLinkStatus(link) === "built",
+      )
+      .map((link): LawEffectPath => ({
+        questionKey,
+        kind: "outcome-web",
+        via: link.key,
+      })),
+  );
+  return [...web, ...viaMeasure, ...DIRECT_PATHS, ...JUSTICE_PATHS];
 }
 
 export interface UnwiredQuestion {

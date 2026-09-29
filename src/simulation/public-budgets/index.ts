@@ -9,6 +9,12 @@ import type {
 import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { firstOfNextMonth, firstOfPreviousMonth } from "./fiscal";
+import { ensureOfficeholderPrinciples } from "../governing/officeholder-principles";
+import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
+import {
+  openFederalTreasury,
+  settleFederalTreasuryMonth,
+} from "./federal-treasury";
 import { readMonthFlows, settleGovernmentMonth } from "./month";
 import { budgetCandidates, openGovernmentBudget } from "./opening";
 import {
@@ -19,6 +25,7 @@ import {
 } from "./store";
 
 export * from "./store";
+export * from "./federal-treasury";
 export { budgetProgramFor } from "./month";
 
 export const PUBLIC_BUDGETS_TRANSITION_KEY = "crisis:public-budgets" as const;
@@ -94,6 +101,7 @@ export function ensurePublicBudgets(world: World): World {
     governments: [],
     adjustments: [],
     unknown: [],
+    federal: openFederalTreasury(today),
   };
   const opened: World = {
     ...world,
@@ -111,9 +119,29 @@ export function ensurePublicBudgets(world: World): World {
 }
 
 /** Settles the month just ended for every government. */
-export function settlePublicBudgets(world: World, month: IsoDate): World {
-  const store = world.publicBudgets;
-  if (!store) return world;
+export function settlePublicBudgets(start: World, month: IsoDate): World {
+  const store = start.publicBudgets;
+  if (!store) return start;
+  // A state whose fiscal year ends this month adopts its next budget, and
+  // its governor decides what it does with money laws gained or lost it
+  // from their own principles; a governor who holds none yet takes theirs.
+  const adopting = new Set(
+    store.governments
+      .filter(
+        (government) =>
+          government.level === "state" &&
+          firstOfNextMonth(month) > government.years.at(-1)!.endsOn,
+      )
+      .map((government) => government.stateKey),
+  );
+  const governors = adopting.size
+    ? currentStateExecutiveHolders(start)
+        .filter((holder) => adopting.has(`US-${holder.stateUsps}`))
+        .map((holder) => holder.personId)
+    : [];
+  const world = governors.length
+    ? ensureOfficeholderPrinciples(start, governors)
+    : start;
   const { flows, cursor } = readMonthFlows(world, store);
   const adjustments = [...store.adjustments];
   // States settle first, so a county's or city's aid can follow what its
@@ -142,6 +170,11 @@ export function settlePublicBudgets(world: World, month: IsoDate): World {
     cursor,
     governments,
     adjustments,
+    federal: settleFederalTreasuryMonth(
+      world,
+      store.federal ?? openFederalTreasury(month),
+      month,
+    ),
   };
   return {
     ...world,

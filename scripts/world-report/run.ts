@@ -25,6 +25,7 @@
  * This is a development tool for reviewing the living world. It is never part
  * of play.
  */
+import { observerPlace } from "../../src/presentation/observer-world";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { ageOnDate, personName } from "../../src/simulation";
@@ -559,20 +560,40 @@ function electionLines(
   );
   // Congress's seats are a national round of several hundred races: one line
   // a day for the round, naming the place's own state's races in full.
+  // A state legislature's regular seats are a round too: their ballots carry
+  // the seat's own key and no campaign's district.
+  const roundOf = (
+    contest: AnyRecord | undefined,
+  ): "congress" | "legislature" | null => {
+    if (!contest) return null;
+    const office = contest.office as {
+      officeKey: string;
+      seatKey?: string;
+      districtBinding?: unknown;
+    };
+    if (/^us-(house|senate):/.test(office.officeKey)) return "congress";
+    return office.seatKey?.includes("|") && !office.districtBinding
+      ? "legislature"
+      : null;
+  };
   const national = (contest: AnyRecord | undefined) =>
-    Boolean(
-      contest &&
-      /^us-(house|senate):/.test(
-        (contest.office as { officeKey: string }).officeKey,
-      ),
-    );
+    roundOf(contest) === "congress";
   const ballotRounds = new Map<IsoDate, string[]>();
   const ballotText = (contest: AnyRecord) => {
     const office = (contest.office as { title: string }).title;
     const candidates = contest.candidatePersonIds as readonly EntityId[];
     return `The ballot for ${office} (${reader.jurisdictionName(contest.jurisdictionId as EntityId) || "no place recorded"}) closed with ${count(candidates.length, "candidate")}${candidates.length ? `: ${list(candidates.map((id) => reader.nameWithParty(id, contest.scheduledAt as IsoDate)))}` : ""}. Election day: ${proseDate(contest.electionDate as string)}.`;
   };
+  const legislatureBallots = new Map<string, AnyRecord[]>();
   for (const contest of contests.values()) {
+    if (roundOf(contest) === "legislature") {
+      const key = `${contest.scheduledAt}|${contest.jurisdictionId}`;
+      legislatureBallots.set(key, [
+        ...(legislatureBallots.get(key) ?? []),
+        contest,
+      ]);
+      continue;
+    }
     if (national(contest)) {
       const date = contest.scheduledAt as IsoDate;
       ballotRounds.set(date, [...(ballotRounds.get(date) ?? []), contest.id]);
@@ -598,6 +619,25 @@ function electionLines(
       sources: ids.slice(0, 12),
     });
   }
+  for (const round of legislatureBallots.values()) {
+    const first = round[0]!;
+    lines.push({
+      date: first.scheduledAt as IsoDate,
+      section: "elections",
+      text: `The ballots for ${count(round.length, "seat")} in ${reader.jurisdictionName(first.jurisdictionId as EntityId) || "a state"}'s legislature closed, each with its own nominees.`,
+      sources: round.slice(0, 12).map((contest) => contest.id as string),
+    });
+  }
+  const legislatureCounts = new Map<
+    string,
+    {
+      text: string;
+      winnerParty: string;
+      incumbentLost: boolean;
+      place: string;
+      id: string;
+    }[]
+  >();
   const countRounds = new Map<
     IsoDate,
     { text: string; home: boolean; winnerParty: string; id: string }[]
@@ -626,6 +666,30 @@ function electionLines(
           `${reader.nameWithParty(tally.candidatePersonId, result.resolvedAt as IsoDate)}${incumbent?.personId === tally.candidatePersonId ? ", the incumbent," : ""} ${tally.votes.toLocaleString("en-US")} votes (${(tally.voteShare * 100).toFixed(1)}%)`,
       );
     const text = `${office?.title ?? "A race"}: ${reader.name(result.winnerPersonId as EntityId)} won. ${tallies.join("; ")}.`;
+    if (roundOf(contest) === "legislature") {
+      const key = `${result.resolvedAt}|${contest!.jurisdictionId}`;
+      legislatureCounts.set(key, [
+        ...(legislatureCounts.get(key) ?? []),
+        {
+          text,
+          winnerParty: reader.nameWithParty(
+            result.winnerPersonId as EntityId,
+            result.resolvedAt as IsoDate,
+          ),
+          incumbentLost:
+            incumbent !== undefined &&
+            incumbent.personId !== result.winnerPersonId &&
+            (result.tallies as readonly { candidatePersonId: EntityId }[]).some(
+              (tally) => tally.candidatePersonId === incumbent.personId,
+            ),
+          place:
+            reader.jurisdictionName(contest!.jurisdictionId as EntityId) ||
+            "a state",
+          id: result.id as string,
+        },
+      ]);
+      continue;
+    }
     if (national(contest)) {
       const date = result.resolvedAt as IsoDate;
       countRounds.set(date, [
@@ -662,6 +726,18 @@ function electionLines(
       section: "elections",
       text: `${count(round.length, "race")} for Congress were counted from each seat's own voters: ${won("Democratic")} Democrats${others > 0 ? `, ${won("Republican")} Republicans and ${count(others, "winner")} in neither party` : ` and ${won("Republican")} Republicans`} won.${named.length > 0 ? ` In ${reader.stateName}${named.length > round.filter((row) => row.home).length ? " and outside both parties" : ""}:` : ""}`,
       details: named.map((row) => row.text),
+      sources: round.slice(0, 12).map((row) => row.id),
+    });
+  }
+  for (const [key, round] of legislatureCounts) {
+    const won = (party: string) =>
+      round.filter((row) => row.winnerParty.includes(party)).length;
+    const beaten = round.filter((row) => row.incumbentLost);
+    lines.push({
+      date: key.split("|")[0] as IsoDate,
+      section: "elections",
+      text: `${count(round.length, "race")} for ${round[0]!.place}'s legislature were counted from each seat's own voters: ${won("Democratic")} Democrats and ${won("Republican")} Republicans won, and ${count(beaten.length, "sitting member")} lost.${beaten.length > 0 ? " Where a sitting member lost:" : ""}`,
+      details: beaten.map((row) => row.text),
       sources: round.slice(0, 12).map((row) => row.id),
     });
   }
@@ -1495,11 +1571,13 @@ export function neverChecks(
   const localContests = contests.filter((row) =>
     reader.isLocal(row.jurisdictionId as EntityId),
   );
-  const legislativeRaces = contests.filter((row) =>
-    /us-house|us-senate|legislat/.test(
-      (row.office as { officeKey: string }).officeKey,
-    ),
-  );
+  const legislativeRaces = contests.filter((row) => {
+    const office = row.office as { officeKey: string; seatKey?: string };
+    return (
+      /us-house|us-senate|legislat/.test(office.officeKey) ||
+      Boolean(office.seatKey?.includes("|"))
+    );
+  });
   const aggregateResults = reader.newEvents.filter((event) =>
     /general-results$/.test(event.type),
   );
@@ -2493,10 +2571,13 @@ async function main() {
     const saved = JSON.parse(readFileSync(from, "utf8")) as SavedRun;
     run = { ...saved, world: deserializeWorld(saved.world) };
   } else {
+    const seed = opt("seed", "round-1");
+    // With no place named, the seed draws one from all 56 places, the way the
+    // title screen's "Watch the world" does.
     const options: WorldReportOptions = {
       years: Number(opt("years", "5")),
-      seed: opt("seed", "round-1"),
-      placeKey: opt("place", "3918000"),
+      seed,
+      placeKey: opt("place", observerPlace(seed).key),
     };
     if (!Number.isInteger(options.years) || options.years < 1)
       throw new Error("Use --years N (1 or more).");

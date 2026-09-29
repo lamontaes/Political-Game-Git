@@ -126,6 +126,11 @@ export function governmentUnitsForState(
   return load().byState.get(stateUsps) ?? [];
 }
 
+/** The postal codes of every state and territory the listing holds governments for. */
+export function governmentUnitStates(): readonly string[] {
+  return [...load().byState.keys()];
+}
+
 /**
  * The county government whose area has this GEOID, if the county has one.
  * Some county areas (consolidated or dissolved counties, independent cities'

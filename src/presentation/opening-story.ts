@@ -67,9 +67,25 @@ export function projectOpeningYear(
     );
   const congress = orientation.steps.find((step) => step.key === "congress");
   for (const chamber of congress?.chambers ?? []) {
-    const parties = chamber.parties
-      .filter((party) => party.members > 0)
-      .map((party) => `${party.members} ${party.label}`);
+    // Every seat is accounted for: an empty seat is named, so the parties'
+    // members and the empty seats add up to the chamber.
+    const empty = chamber.roster
+      .filter((row) => row.status !== "member")
+      .map((row) => {
+        const seat =
+          chamber.chamberKey === "us-senate"
+            ? `a ${row.seatLabel} seat`
+            : `the seat for ${row.seatLabel}`;
+        return row.status === "vacancy"
+          ? `${seat} is vacant`
+          : `${seat} has no recorded holder`;
+      });
+    const parties = [
+      ...chamber.parties
+        .filter((party) => party.members > 0)
+        .map((party) => `${party.members} ${party.label}`),
+      ...empty,
+    ];
     if (parties.length > 0)
       lines.push(`In the ${chamber.name}: ${parties.join(", ")}.`);
   }
