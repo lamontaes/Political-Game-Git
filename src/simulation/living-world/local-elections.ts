@@ -1,4 +1,5 @@
-import { addDays, ageOnDate, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../dates";
+import { decideAnotherTerm } from "../careers/another-term";
 import { townSupportFromViews } from "../official-view-reads";
 import { townSupportFromFavors } from "../patronage/following";
 import { campaigns } from "../campaign-queries";
@@ -123,12 +124,6 @@ export const LOCAL_ELECTIONS_PROFILE = {
   filingLeadDays: 28,
   primaryLeadDays: 56,
   minimumCandidateAge: 21,
-  /** A sitting member this old or older retires with `oldRetireShare`. */
-  oldAge: 75,
-  oldRetireShare: 0.6,
-  retireShare: 0.15,
-  /** The chance, each year, that a sitting member resigns. */
-  resignShare: 0.03,
   /** How many neighbors file against a sitting member (index = count). */
   challengersAgainstIncumbent: [0.2, 0.45, 0.2, 0.1, 0.05],
   /** How many file for an open seat (index = count). */
@@ -834,12 +829,34 @@ export function localElectionFilingHandler(
     const candidates: EntityId[] = [];
     let incumbentRuns = false;
     if (holder && alive(next, holder.personId)) {
-      const age = ageOnDate(
-        next.people[holder.personId]!.birthDate,
-        next.currentDate,
-      );
-      const retires =
-        rng.next() < (age >= P.oldAge ? P.oldRetireShare : P.retireShare);
+      const seatTerm =
+        seat === 0 ? (chief?.termYears.value ?? termYears) : termYears;
+      const decided = decideAnotherTerm(next, {
+        personId: holder.personId,
+        stableKey: `${race}:another-term`,
+        subjectKey: race,
+        decisionType: "election.consider-another-local-term",
+        onDate: next.currentDate,
+        termEnds: addDays(generalDate, Math.round(seatTerm * 365.25)),
+        serving: [
+          {
+            stableKey: `${race}:another-term:serving`,
+            optionKey: "seek",
+            sourceType: "context:current-office",
+            direction: "supports",
+            importance: "moderate",
+            confidence: "high",
+            explanation: `They hold ${phrase}.`,
+            sourceRefs: [],
+          },
+        ],
+      });
+      next = decided.world;
+      // The person being played decides their own candidacy by filing.
+      const played =
+        next.control.kind === "person" &&
+        next.control.personId === holder.personId;
+      const retires = !played && !decided.seeks;
       if (retires)
         next = event(next, {
           stableKey: `${race}:retired`,
@@ -1174,11 +1191,37 @@ export function localGovernmentYearHandler(
   const taken = new Set<string>();
   let vacancies = 0;
   for (const [seat, holder] of seatsOf(sittingLocalOfficers(next, unit))) {
-    const rng = new SeededRng(next.seed).fork(
-      `${due.stableKey}:${holder.personId}`,
-    );
     const died = !alive(next, holder.personId);
-    const resigns = !died && rng.next() < P.resignShare;
+    const played =
+      next.control.kind === "person" &&
+      next.control.personId === holder.personId;
+    let resigns = false;
+    if (!died && !played) {
+      const decided = decideAnotherTerm(next, {
+        personId: holder.personId,
+        stableKey: `${due.stableKey}:${holder.personId}:stay`,
+        subjectKey: due.stableKey,
+        decisionType: "office.consider-resigning",
+        onDate: next.currentDate,
+        termEnds: addDays(next.currentDate, 365),
+        seekLabel: "Stay in office",
+        stepDownLabel: "Resign",
+        serving: [
+          {
+            stableKey: `${due.stableKey}:${holder.personId}:stay:serving`,
+            optionKey: "seek",
+            sourceType: "context:current-office",
+            direction: "supports",
+            importance: "decisive",
+            confidence: "high",
+            explanation: "They were elected to serve out this term.",
+            sourceRefs: [],
+          },
+        ],
+      });
+      next = decided.world;
+      resigns = !decided.seeks;
+    }
     if (!died && !resigns) continue;
     const seatOffice = officeFor(unit, seat) ?? office;
     const label = seatLabelFor(seatOffice, seat);
