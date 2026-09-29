@@ -17,6 +17,7 @@ import {
 } from "../dates";
 import { createDemoWorld } from "../demo";
 import { projectCongress } from "../living-world/congress";
+import { senateVacancyLaw } from "../nationwide-world/senate-vacancy-law";
 import {
   CONGRESS_RESULTS_EVENT,
   congressionalElectionDay,
@@ -165,9 +166,11 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     // election (not the regular one) fills it.
     const congress = projectCongress(world)!;
     const nextRegularYear = Number(world.currentDate.slice(0, 4)) + 2;
+    // A state whose law requires an appointee of the departed senator's party.
     const seat = congress.senate.seats.find(
       (s) =>
         s.occupant.kind === "member" &&
+        senateVacancyLaw(s.stateUsps)?.appointment === "governor-same-party" &&
         (s.occupant.member.endExclusive ?? "") > `${nextRegularYear}-06-01`,
     )!;
     if (seat.occupant.kind !== "member") throw new Error("fixture");
@@ -194,7 +197,7 @@ describe("GOVERNING K3: an office after its holder dies", () => {
       )!;
     expect(view().occupant.kind).toBe("vacancy");
 
-    // PLACEHOLDER profile: the governor appoints, of the same party.
+    // The state's law: the governor appoints, of the same party.
     next = passOrdinaryDays(
       next,
       SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment,
@@ -226,6 +229,54 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     }
     const reopened = deserializeWorld(serializeWorld(next));
     expect(projectCongress(reopened)).toEqual(projectCongress(next));
+  }, 900_000);
+
+  it("a state whose law gives the governor no appointment leaves the seat empty until the special election", () => {
+    const world = openingWorld("b27-senate-no-appointment");
+    const congress = projectCongress(world)!;
+    const nextRegularYear = Number(world.currentDate.slice(0, 4)) + 2;
+    const seat = congress.senate.seats.find(
+      (s) =>
+        s.occupant.kind === "member" &&
+        senateVacancyLaw(s.stateUsps)?.appointment === "none" &&
+        (s.occupant.member.endExclusive ?? "") > `${nextRegularYear}-06-01`,
+    )!;
+    if (seat.occupant.kind !== "member") throw new Error("fixture");
+    const senator = seat.occupant.member;
+    const died = die(world, senator.personId, [
+      {
+        officeKey: seat.seatKey,
+        title: senator.title,
+        organizationId: null,
+        termEvidenceId: senator.termId,
+      },
+    ]);
+    let next = applyOfficeContinuityNotices(died.world, [died.notice]);
+    const ruling = officeContinuityRulings(next, seat.seatKey)[0]!;
+    expect(ruling.outcome).toBe("special-election");
+    expect(
+      next.history.events.find((event) => event.id === ruling.eventId)!.summary,
+    ).toContain("gives the governor no appointment");
+    expect(
+      next.history.futureDueItems.some((due) =>
+        due.stableKey.includes(`:appointment:${seat.seatKey}:`),
+      ),
+    ).toBe(false);
+    const special = next.history.futureDueItems.find(
+      (due) =>
+        due.transitionKey === HOUSE_SPECIAL_ELECTION &&
+        due.stableKey.includes(`:special:${seat.seatKey}:`),
+    )!;
+    // A prompt special election, before the next regular November election.
+    expect(special.dueAt < congressionalElectionDay(nextRegularYear)).toBe(
+      true,
+    );
+    next = passOrdinaryDays(next, 30);
+    expect(
+      projectCongress(next)!.senate.seats.find(
+        (s) => s.seatKey === seat.seatKey,
+      )!.occupant.kind,
+    ).toBe("vacancy");
   }, 900_000);
 
   it("a governor's successor serves out the term", () => {

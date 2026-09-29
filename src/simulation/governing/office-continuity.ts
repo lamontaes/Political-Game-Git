@@ -34,7 +34,13 @@ import {
   congressSeatTitle,
   livingWorldOrganizationId,
 } from "../living-world/opening";
-import { currentPresidentOf } from "../crisis/offices";
+import { currentGovernorOf, currentPresidentOf } from "../crisis/offices";
+import { publicPartyOf } from "./chamber-votes";
+import {
+  SENATE_APPOINTMENT_PLACEHOLDER_DAYS,
+  SENATE_SPECIAL_ELECTION_PLACEHOLDER_DAYS,
+  senateVacancyLaw,
+} from "../nationwide-world/senate-vacancy-law";
 import {
   FEDERAL_TENURE_EVENT,
   FEDERAL_VACANCY_EVENT,
@@ -113,12 +119,16 @@ export const HOUSE_SPECIAL_ELECTION_PROFILE = {
  * governor issue writs of election, and lets the state's legislature let the
  * governor make a temporary appointment until the people fill the seat.
  *
- * PLACEHOLDER (filed as `us-senate-vacancy-appointment-and-special-election`).
- * Blanket rule until each state's law is compiled: the governor appoints a
- * drawn person of the departed senator's party ten days after the vacancy,
- * and a special election at the next regular November congressional election
- * chooses who serves the rest of the term. When the term ends at that
- * election anyway, the regular election fills the seat and no special is held.
+ * Since Build 27 (September 28, 2026) each state's own law decides
+ * (`nationwide-world/senate-vacancy-law.ts`): whether the governor may
+ * appoint, whether the appointee must share the departed senator's party,
+ * and when the special election falls. A governor free to choose appoints
+ * someone of the governor's own party. When the term ends at the regular
+ * election anyway, that election fills the seat and no special is held.
+ *
+ * PLACEHOLDER (filed as `us-senate-vacancy-appointment-and-special-election`):
+ * the appointee is still a generated person, not someone the governor
+ * knows, and the days to an appointment where the statute sets none.
  */
 export const SENATE_APPOINTMENT = "governing:senate-appointment";
 
@@ -382,7 +392,14 @@ function nextCongressionalElectionAfter(date: IsoDate): IsoDate {
   return day;
 }
 
-/** PLACEHOLDER (SENATE_VACANCY_PROFILE): appointment, then a special election. */
+/**
+ * A vacant U.S. Senate seat, filled under the state's own law
+ * (`senate-vacancy-law.ts`): an appointment where the governor may make one,
+ * then a special election, prompt or at the next regular November election
+ * as the state's statute says. PLACEHOLDER (SENATE_VACANCY_PROFILE) only
+ * where the law is silent or unrecorded: the days to an appointment with no
+ * statutory deadline, and a prompt election's unrecorded window.
+ */
 function openSenateVacancy(
   world: World,
   seat: CongressSeat,
@@ -391,11 +408,16 @@ function openSenateVacancy(
   stateId: EntityId,
 ): { world: World; ruling: OfficeContinuityRuling } {
   const title = congressSeatTitle(seat);
+  const law = senateVacancyLaw(seat.stateUsps);
+  const appoints = law ? law.appointment !== "none" : true;
   const from =
     world.currentDate > vacancyDate ? world.currentDate : vacancyDate;
+  const deadline = law?.appointmentDeadlineDays ?? null;
   const appointmentDay = addDays(
     from,
-    SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment,
+    deadline === null
+      ? SENATE_APPOINTMENT_PLACEHOLDER_DAYS
+      : Math.min(SENATE_APPOINTMENT_PLACEHOLDER_DAYS, deadline),
   );
   const window = seatTermWindow(seat, vacancyDate);
   const regular = congressionalElectionDay(
@@ -404,6 +426,7 @@ function openSenateVacancy(
   let next = world;
   const appointmentKey = `${OFFICE_CONTINUITY_VERSION}:appointment:${seat.seatKey}:${vacancyDate}`;
   if (
+    appoints &&
     appointmentDay < window.endExclusive &&
     !next.history.futureDueItems.some((due) => due.stableKey === appointmentKey)
   )
@@ -415,10 +438,27 @@ function openSenateVacancy(
       jurisdictionId: stateId,
       provenance: {
         kind: "authored",
-        note: `${SENATE_VACANCY_PROFILE.id}: the governor makes a temporary appointment (U.S. Const. amend. XVII); the appointment, its party and its ${SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment}-day interval are a game profile.`,
+        note: law
+          ? `${seat.stateUsps} law (${law.citation ?? law.source}): the governor makes a temporary appointment (U.S. Const. amend. XVII).`
+          : `${SENATE_VACANCY_PROFILE.id}: the governor makes a temporary appointment (U.S. Const. amend. XVII); the appointment, its party and its ${SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment}-day interval are a game profile.`,
       },
     });
-  const special = nextCongressionalElectionAfter(appointmentDay);
+  const nextGeneral = nextCongressionalElectionAfter(
+    appoints ? appointmentDay : from,
+  );
+  const promptDate =
+    law?.specialElection.kind === "prompt"
+      ? addDays(
+          from,
+          law.specialElection.promptDays ??
+            SENATE_SPECIAL_ELECTION_PLACEHOLDER_DAYS,
+        )
+      : null;
+  const special =
+    promptDate !== null && promptDate < nextGeneral ? promptDate : nextGeneral;
+  const appointee = appoints
+    ? "The governor appoints a senator to serve"
+    : `${stateJurisdictionForKey(`US-${seat.stateUsps}`)!.name} law gives the governor no appointment, so the seat stays empty`;
   if (special >= regular)
     return {
       world: next,
@@ -426,7 +466,7 @@ function openSenateVacancy(
         officeKey: seat.seatKey,
         title,
         outcome: "vacant",
-        sentence: `The seat is vacant. The governor appoints a senator to serve until the regular election on ${spokenDate(regular)} fills it for the next term.`,
+        sentence: `The seat is vacant. ${appointee} until the regular election on ${spokenDate(regular)} fills it for the next term.`,
       },
     };
   const dueKey = specialElectionKey(seat, vacancyDate);
@@ -439,7 +479,10 @@ function openSenateVacancy(
       jurisdictionId: stateId,
       provenance: {
         kind: "authored",
-        note: `${SENATE_VACANCY_PROFILE.id}: the governor issues writs of election (U.S. Const. amend. XVII); holding it at the next regular November election is a game profile.`,
+        note:
+          law && special === promptDate
+            ? `${seat.stateUsps} law (${law.citation ?? law.source}): a prompt special election${law.specialElection.kind === "prompt" && law.specialElection.promptDays === null ? `; the ${SENATE_SPECIAL_ELECTION_PLACEHOLDER_DAYS}-day interval is a game placeholder` : ""}.`
+            : `${law ? `${seat.stateUsps} law (${law.citation ?? law.source})` : SENATE_VACANCY_PROFILE.id}: the governor issues writs of election (U.S. Const. amend. XVII) for the next regular November election.`,
       },
     });
   return {
@@ -448,7 +491,7 @@ function openSenateVacancy(
       officeKey: seat.seatKey,
       title,
       outcome: "special-election",
-      sentence: `The seat is vacant. The governor appoints a senator to serve until a special election on ${spokenDate(special)}.`,
+      sentence: `The seat is vacant. ${appointee} until a special election on ${spokenDate(special)}.`,
     },
   };
 }
@@ -519,11 +562,21 @@ function seatNewMember(
     )
     .at(-1);
   const priorParty = previous ? tagValue(previous, SEAT_PARTY_TAG) : null;
-  // PLACEHOLDER (SENATE_VACANCY_PROFILE): an appointee shares the departed
-  // member's party.
+  // An appointee's party: the departed senator's where the state's law
+  // requires it; otherwise the governor's own, since the governor chooses.
+  // Without a known governor or party, the departed senator's.
+  const law = senateVacancyLaw(seat.stateUsps);
+  const governor = currentGovernorOf(world, seat.stateUsps);
+  const governorParty = governor
+    ? publicPartyOf(world, governor.personId)
+    : null;
+  const appointeeParty =
+    law?.appointment === "governor" && governorParty
+      ? governorParty
+      : priorParty;
   const party =
-    mode === "appointment" && priorParty
-      ? priorParty
+    mode === "appointment" && appointeeParty
+      ? appointeeParty
       : priorParty && majors.includes(priorParty)
         ? rng.integer(0, 1000) <
           HOUSE_SPECIAL_ELECTION_PROFILE.samePartyPermille
