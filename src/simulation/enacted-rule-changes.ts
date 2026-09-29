@@ -36,6 +36,11 @@ import { requireMeasure } from "./legislation";
 import { lawLevelRank, type LawLevel } from "./law-hierarchy";
 import { rulePackById } from "./legislature-rule-packs";
 import type { MunicipalRecallDoctrine } from "./municipal-election-rules";
+import {
+  describeElectionDateRule,
+  isElectionDateRule,
+  type ElectionDateRule,
+} from "./nominations/date-rules";
 import type { EntityId, IsoDate, World } from "./types";
 
 /**
@@ -109,7 +114,39 @@ export const AMENDABLE_RULE_FIELDS = {
     max: 100_000,
     family: "labor",
   },
+  /**
+   * The day a state's parties hold their nominating primary, as an
+   * `ElectionDateRule`. The office key is the state's election law,
+   * `us-xx-election-law`. Read by the nomination stage
+   * (`nominations/nomination-rules.ts`) for every partisan office it runs.
+   */
+  "nomination.primary.dateRule": { kind: "date-rule", family: "election" },
+  /**
+   * How a state's parties choose their general-election candidates: each
+   * party's own primary, an all-party primary that sends the top two or four
+   * on, or an all-party primary a majority wins outright. Office key
+   * `us-xx-election-law`.
+   */
+  "nomination.method": {
+    kind: "choice",
+    options: [
+      "party-primary",
+      "top-two",
+      "top-four",
+      "all-party-majority",
+    ] satisfies readonly NominationMethodChoice[],
+    family: "election",
+  },
 } as const;
+
+/** The nomination methods a law can choose among. */
+export type NominationMethodChoice =
+  "party-primary" | "top-two" | "top-four" | "all-party-majority";
+
+/** The office key a state's election law is recorded under. */
+export function electionLawOfficeKey(stateUsps: string): string {
+  return `us-${stateUsps.toLowerCase()}-election-law`;
+}
 
 /** The office key a state's law on its towns is recorded under. */
 export function municipalLawOfficeKey(stateUsps: string): string {
@@ -132,7 +169,8 @@ export interface TermLimitRule {
  * A whole number for most rules; a term limit or null ("no limit") for one;
  * one of a fixed set of named choices for a choice rule.
  */
-export type RuleChangeValue = number | TermLimitRule | string | null;
+export type RuleChangeValue =
+  number | TermLimitRule | ElectionDateRule | string | null;
 
 /**
  * Whom a change reaches, as the law says. Null in either part means the law
@@ -184,6 +222,8 @@ const AMENDABLE_RULE_FIELD_LABELS: Readonly<
   "executive.term.limit": "the chief executive's term limit",
   "municipal.recall.doctrine": "how towns' voters may recall an official",
   "labor.minimumWage.hourlyCents": "state minimum wage",
+  "nomination.primary.dateRule": "the day of the party primary",
+  "nomination.method": "how parties choose their candidates",
 };
 
 const CHOICE_WORDS: Readonly<Record<string, string>> = {
@@ -195,6 +235,11 @@ const CHOICE_WORDS: Readonly<Record<string, string>> = {
   "judicial-cause-removal-trial":
     "removal by a court for cause, with no recall vote",
   prohibited: "no recall of town officials",
+  "party-primary": "a primary for each party",
+  "top-two": "one primary for all candidates, with the top two going on",
+  "top-four": "one primary for all candidates, with the top four going on",
+  "all-party-majority":
+    "one primary for all candidates, won outright by a majority",
 };
 
 /** Plain words for a changed value, for a player-facing sentence. */
@@ -207,6 +252,7 @@ export function describeRuleChangeValue(
   if (value === null) return "no limit";
   if (typeof value === "number") return String(value);
   if (typeof value === "string") return CHOICE_WORDS[value] ?? value;
+  if (isElectionDateRule(value)) return describeElectionDateRule(value);
   const parts = [
     value.maxConsecutiveTerms === null
       ? null
@@ -320,6 +366,10 @@ export function assertAmendableRuleValue(
         `${field} must be a whole number from ${spec.min} to ${spec.max}.`,
       );
     }
+  } else if (spec.kind === "date-rule") {
+    if (!isElectionDateRule(value) || value.kind === "days-after-primary") {
+      throw new Error(`${field} must be a date rule the game can read.`);
+    }
   } else if (spec.kind === "choice") {
     if (
       typeof value !== "string" ||
@@ -332,6 +382,7 @@ export function assertAmendableRuleValue(
       typeof value === "object" ? Object.keys(value).sort().join(",") : "";
     if (
       typeof value !== "object" ||
+      !("maxConsecutiveTerms" in value) ||
       keys !== "lookbackYears,maxConsecutiveTerms,maxLifetimeTerms" ||
       !wholeOrNull(value.maxConsecutiveTerms, 1) ||
       !wholeOrNull(value.maxLifetimeTerms, 1) ||

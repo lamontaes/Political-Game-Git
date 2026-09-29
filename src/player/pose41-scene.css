@@ -16,6 +16,21 @@
   max-height: var(--pg-conversation-max-height);
 }
 
+/* The lowest a conversation frame may reach: above the corner cluster, with
+   the same reservation the docked box keeps (player.css). Read, never seen. */
+.scene-backdrop-conversation-floor {
+  position: fixed;
+  left: 0;
+  bottom: calc(
+    var(--pg-content-bottom, 0px) +
+      max(1.2rem, var(--pg-nav-reserve, 0px) + 0.5rem)
+  );
+  width: 0;
+  height: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 /* A narrow screen has no side column beside the people. Keep the conversation
    readable above the corner controls instead of applying a desktop dock. */
 @media (width <= 52rem) {

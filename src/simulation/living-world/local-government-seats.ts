@@ -1,4 +1,3 @@
-import { isPersonAliveAt } from "../vitality";
 import { createOrganizationParticipation } from "../life";
 import { activeOrganizationParticipationsAt } from "../life-queries";
 import { primaryReading } from "../municipal-government";
@@ -20,6 +19,7 @@ import {
 import { DC_GOVERNMENT_KEY } from "../nationwide-world/district-of-columbia-council-opening";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import type { EntityId, World } from "../types";
+import { isPersonAliveAt } from "../vitality-integrity";
 import { recordWorldEvent } from "../world";
 import {
   materializeSettledTownHousehold,
@@ -166,7 +166,8 @@ export function drawTownResident(
     next = materializeSettledTownHousehold(next, town, found.household);
     const personId = townResidentId(next, town, found.household, found.member);
     if (!next.people[personId] || excluded.has(personId)) continue;
-    // A resident who has died is still on the roster, but cannot serve.
+    // A household keeps its roster place after a member dies, so the draw
+    // skips anyone no longer living on the day it is made.
     if (
       !isPersonAliveAt(next, personId, {
         asOfDate: next.currentDate,
