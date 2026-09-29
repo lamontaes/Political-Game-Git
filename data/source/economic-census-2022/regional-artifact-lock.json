@@ -1,0 +1,59 @@
+{
+  "artifacts": [
+    {
+      "derivation": "Extract written by scripts/source/regional-money/extract-economic-census.ts: the nation and each state's total row (all legal forms and tax statuses) for NAICS 2381, 2382, 4441, 4451, 5411, 5412, 7225, 8111 and 8121; establishments, sales ($1,000) and employees, with any withheld cell left empty. No value is changed. Kept so the repository does not hold the full files.",
+      "length": 13689,
+      "localPath": "data/source/economic-census-2022/raw/business-receipts.csv",
+      "mediaType": "text/csv",
+      "sha256": "a60d270f3191b9d954f80c664ee9666970e3553a02b217a262a75a333a7ce67b",
+      "sources": [
+        {
+          "fullFileLength": 2033093,
+          "fullFileSha256": "95e86387829011e25c7b47945604fd767b57b0e0b7cade5080a288567c1727a1",
+          "archiveLength": 486485,
+          "archiveSha256": "a6e36d8584616ac18009ecf6b6473b5df3bd3b3c6ef24fc2b6037f7e6f9e9e4e",
+          "table": "EC2223BASIC 2022 Economic Census, sector 23 Construction, basic statistics",
+          "url": "https://www2.census.gov/programs-surveys/economic-census/data/2022/sector23/EC2223BASIC.zip",
+          "vintage": "2022 Economic Census"
+        },
+        {
+          "fullFileLength": 115302611,
+          "fullFileSha256": "27a50b1820dddcbf579757cc9f068481afeaed54a19341bf7870a087edf1cddc",
+          "archiveLength": 9250564,
+          "archiveSha256": "c4d57e8905c48f8a1d6c31f2cae211e227ae8f91b98426a586326f59e99f577f",
+          "table": "EC2244BASIC 2022 Economic Census, sector 44 Retail Trade, basic statistics",
+          "url": "https://www2.census.gov/programs-surveys/economic-census/data/2022/sector44/EC2244BASIC.zip",
+          "vintage": "2022 Economic Census"
+        },
+        {
+          "fullFileLength": 151937547,
+          "fullFileSha256": "8ba1e27e6c32a4dba4877fcaaa98de614ce031fa4efe13e7776e4a0ee5830458",
+          "archiveLength": 8479486,
+          "archiveSha256": "1d2b0169d6e22be860157eea7d70373b6635cf1e551da35bc5910fa9fc595d28",
+          "table": "EC2254BASIC 2022 Economic Census, sector 54 Professional, Scientific, and Technical Services, basic statistics",
+          "url": "https://www2.census.gov/programs-surveys/economic-census/data/2022/sector54/EC2254BASIC.zip",
+          "vintage": "2022 Economic Census"
+        },
+        {
+          "fullFileLength": 35162915,
+          "fullFileSha256": "34985703a887571a295ad8dae4ad274118fc2299c8aad7ea7af2eabe4a791caf",
+          "archiveLength": 3030566,
+          "archiveSha256": "ab5a2bb0e997ff741e224ba8162404bea5b8f117df560cd1bcdb71ef3bf36fde",
+          "table": "EC2272BASIC 2022 Economic Census, sector 72 Accommodation and Food Services, basic statistics",
+          "url": "https://www2.census.gov/programs-surveys/economic-census/data/2022/sector72/EC2272BASIC.zip",
+          "vintage": "2022 Economic Census"
+        },
+        {
+          "fullFileLength": 148089345,
+          "fullFileSha256": "ed2b9bfa7baaa41ec86f87b80cb4b8d7d644787e370e87f230be643120c5e766",
+          "archiveLength": 8140708,
+          "archiveSha256": "d23259b3ed464eea6f07160bb01582e0b13b524717ce27bb14986bace94b040c",
+          "table": "EC2281BASIC 2022 Economic Census, sector 81 Other Services (except Public Administration), basic statistics",
+          "url": "https://www2.census.gov/programs-surveys/economic-census/data/2022/sector81/EC2281BASIC.zip",
+          "vintage": "2022 Economic Census"
+        }
+      ]
+    }
+  ],
+  "asOf": "2026-09-29"
+}

@@ -12,10 +12,10 @@
 }
 
 .pg-proposal-switch button {
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgb(111 85 42 / 28%);
   border-radius: 3px;
   padding: 0.2rem 0.6rem;
-  background: rgba(11, 19, 32, 0.5);
+  background: rgb(255 251 242 / 80%);
   color: inherit;
   font: inherit;
   font-size: 0.82rem;
@@ -24,7 +24,7 @@
 
 .pg-proposal-switch button[aria-pressed="true"] {
   border-color: var(--pg-brass, #c29b48);
-  background: rgba(44, 58, 76, 0.85);
+  background: rgb(235 224 206 / 92%);
   font-weight: 650;
 }
 
@@ -47,7 +47,7 @@
 }
 
 .pg-proposal-reading .pg-proposal-changed {
-  border-inline-start-color: rgba(255, 235, 160, 0.6);
+  border-inline-start-color: rgb(111 85 42 / 60%);
 }
 
 .pg-proposal-reading h5 {

@@ -1,6 +1,6 @@
 import { candidacyPackById } from "../candidacy-packs";
 import { addDays, makeIsoDate } from "../dates";
-import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
+import { decideAnotherTerm } from "../careers/another-term";
 import { legislativeTermDates } from "../legislative-office-terms";
 import {
   createOrganizationParticipations,
@@ -105,10 +105,7 @@ export const STATE_LEGISLATURE_TURNOVER_VERSION =
 const V = STATE_LEGISLATURE_TURNOVER_VERSION;
 
 export const STATE_LEGISLATURE_TURNOVER_PROFILE = {
-  id: "ocd-state-legislature-turnover-game-profile/v2",
-  /** Members this old or older retire. */
-  retirementAge: 82,
-  retirementPreferenceAge: 77,
+  id: "ocd-state-legislature-turnover-game-profile/v3",
   // PLACEHOLDER(overnight): deterministic election-to-election variation and
   // a small incumbency effect around the save's recorded generated seat view.
   electionSwingLogit: 0.5,
@@ -122,11 +119,6 @@ const OPENING_EVENT = "world.state-legislature-opening";
 
 const resultsKey = (packId: string, electionDay: IsoDate) =>
   `${V}:${packId}:results:${electionDay}`;
-
-function ageOn(birthDate: IsoDate, date: IsoDate): number {
-  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
-  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
-}
 
 function tagValue(event: HistoricalEvent, prefix: string): string | null {
   const tag = event.tags.find((candidate) => candidate.startsWith(prefix));
@@ -292,95 +284,40 @@ function prepareStateIntake(
         "personId",
         incumbentId,
       ).some((death) => death.diedAt <= row.intakeDate);
-    const tooOld =
-      incumbent !== undefined &&
-      ageOn(incumbent.birthDate, electionDay) >=
-        STATE_LEGISLATURE_TURNOVER_PROFILE.retirementAge;
     const controlled =
       incumbentId !== null &&
       next.control.kind === "person" &&
       next.control.personId === incumbentId;
     let seeking = false;
     let decisionTraceId: EntityId | null = null;
-    if (incumbent && alive && !tooOld && !controlled) {
+    if (incumbent && alive && !controlled) {
       const key = `${stateIntentKey(seatKey, year)}:decision`;
-      const serviceStart = next.history.workRelationships.find(
-        (work) => work.id === seat.member?.workRelationshipId,
-      )?.startedAt;
-      const serviceYears = serviceStart
-        ? Math.max(0, year - Number(serviceStart.slice(0, 4)))
-        : 0;
-      const evaluation = evaluateDecision(next, {
+      const nextTerm = legislativeTermDates(row.officeKey, electionDay);
+      const decided = decideAnotherTerm(next, {
+        personId: incumbent.id,
         stableKey: key,
+        subjectKey: seatKey,
         decisionType: "election.consider-another-state-legislative-term",
-        actorPersonId: incumbent.id,
-        cutoff: {
-          asOfDate: row.intakeDate,
-          historySequenceExclusive: next.history.nextSequence,
-        },
-        subject: { kind: "context:life", key: seatKey, entityId: null },
-        options: [
-          {
-            key: "seek",
-            label: "Seek another term",
-            description: "Run again.",
-          },
-          {
-            key: "step-down",
-            label: "Step down",
-            description: "Leave the seat.",
-          },
-        ],
-        constraints: [],
-        considerations: [
+        onDate: row.intakeDate,
+        termEnds:
+          nextTerm?.endsAt ??
+          makeIsoDate(`${Number(electionDay.slice(0, 4)) + 3}-01-01`),
+        serving: [
           {
             stableKey: `${key}:serving`,
             optionKey: "seek",
             sourceType: "context:current-office",
             direction: "supports",
-            importance: "strong",
+            importance: "moderate",
             confidence: "high",
             explanation: "They are serving in this seat.",
             sourceRefs: [],
           },
-          ...(ageOn(incumbent.birthDate, electionDay) >=
-          STATE_LEGISLATURE_TURNOVER_PROFILE.retirementPreferenceAge
-            ? [
-                {
-                  stableKey: `${key}:retirement`,
-                  optionKey: "step-down" as const,
-                  sourceType: "context:age" as const,
-                  direction: "supports" as const,
-                  importance: "decisive" as const,
-                  confidence: "medium" as const,
-                  explanation: "They are considering retirement.",
-                  sourceRefs: [],
-                },
-              ]
-            : []),
-          ...(serviceYears >= 10
-            ? [
-                {
-                  stableKey: `${key}:long-service`,
-                  optionKey: "step-down" as const,
-                  sourceType: "context:service-tenure" as const,
-                  direction: "supports" as const,
-                  importance: "decisive" as const,
-                  confidence: "medium" as const,
-                  explanation:
-                    "They have served for a long period and are considering leaving.",
-                  sourceRefs: [],
-                },
-              ]
-            : []),
         ],
-        perceptionIds: [],
-        randomness: "none",
-        retention: "durable",
       });
-      next = recordDurableDecisionTrace(next, evaluation);
-      decisionTraceId = next.history.decisionTraces.at(-1)!.id;
-      seeking = evaluation.selectedOptionKey === "seek";
+      next = decided.world;
+      decisionTraceId = decided.decisionTraceId;
+      seeking = decided.seeks;
     }
     const intentKey = stateIntentKey(seatKey, year);
     if (!hasStableKey(next.history.events, intentKey)) {

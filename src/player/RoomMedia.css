@@ -18,7 +18,7 @@
   font-family: "Helvetica Neue", Arial, sans-serif;
   color: #fff;
   background: var(--room-tv-bg);
-  --room-tv-bg: linear-gradient(160deg, #1b2a44, #0b1220);
+  --room-tv-bg: linear-gradient(160deg, #2c2620, #12100d);
   --room-tv-accent: #d4a53a;
   --room-tv-band: rgba(10, 16, 28, 0.88);
   --room-tv-ticker: #b3261e;
