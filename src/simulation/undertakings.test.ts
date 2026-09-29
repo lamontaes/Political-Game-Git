@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createDemoWorld } from "./demo";
 import {
+  addDays,
   addSimulationMinutes,
   advanceWorldMinutes,
   allUndertakings,
@@ -327,8 +328,33 @@ describe("Build 22 · the favor record", () => {
       giver,
       makeIsoDate("2040-01-01"),
     );
-    expect(["none", "slight", "marked"]).toContain(years.receiverDebt);
+    expect(years.receiverDebt).toBe("none");
     expect(years.giverExpectation).toBe("strong");
+  });
+
+  it("lets a slight favor fade within weeks while the giver comes to expect more", () => {
+    const { world, giver, receiver } = helped("build22-slight", "slight");
+    const now = favorStandingBetween(world, receiver, giver);
+    expect(now.receiverDebt).toBe("slight");
+    expect(now.giverExpectation).toBe("slight");
+    // Whatever the receiver's temperament, a slight favor's debt halves
+    // within 10 to 20 days, so two months on it is gone.
+    const later = favorStandingBetween(
+      world,
+      receiver,
+      giver,
+      addDays(world.currentDate, 60),
+    );
+    expect(later.receiverDebt).toBe("none");
+    expect(later.giverExpectation).toBe("marked");
+    // And the expectation stops at twice where it started.
+    const decades = favorStandingBetween(
+      world,
+      receiver,
+      giver,
+      addDays(world.currentDate, 36500),
+    );
+    expect(decades.giverExpectation).toBe("marked");
   });
 
   it("is settled by a favor returned for it", () => {

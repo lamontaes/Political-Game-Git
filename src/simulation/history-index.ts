@@ -192,10 +192,62 @@ export function growingIndex<I>(
   return index;
 }
 
+/**
+ * A new list: `records` followed by `added`. The list is remembered as a
+ * growth of `records`, so an index that followed `records` moves to it without
+ * rereading every record to prove it (see `beginsWith`).
+ */
+export function appendedList<T>(
+  records: readonly T[],
+  added: readonly T[],
+): T[] {
+  // `concat` copies a long list faster than spreading it; records are
+  // objects, never arrays, so nothing is flattened.
+  const next = records.concat(added);
+  const from = LINES.get(records);
+  if (from && !from.grown) {
+    from.grown = true;
+    LINES.set(next, { line: from.line, grown: false });
+  } else {
+    // The first growth of a list starts a line. So does a second growth of
+    // the same list: the two new lists share a start but not each other.
+    const line = {};
+    if (!from) LINES.set(records, { line, grown: true });
+    LINES.set(next, { line, grown: false });
+  }
+  return next;
+}
+
+/**
+ * Lists built by `appendedList`, grouped in lines: each list in a line is the
+ * one before it with records added, so a shorter list in a line begins every
+ * longer one. Only a line's newest list can grow it. The lists hold no
+ * reference to each other, so an old list is freed as usual.
+ */
+const LINES = new WeakMap<
+  readonly unknown[],
+  { readonly line: object; grown: boolean }
+>();
+
+/**
+ * Whether `records` begins with every record of `prefix`, by identity.
+ *
+ * Two lists on one line (`appendedList`) are proven by their lengths. Any
+ * other pair is compared record by record: proving a long list had only
+ * grown cost as much as the list, so a world's tenth year spent seconds on it
+ * (Build 18 profile, September 28, 2026).
+ */
 function beginsWith(
   records: readonly unknown[],
   prefix: readonly unknown[],
 ): boolean {
+  const line = LINES.get(records)?.line;
+  if (
+    line !== undefined &&
+    LINES.get(prefix)?.line === line &&
+    prefix.length <= records.length
+  )
+    return true;
   for (let at = prefix.length - 1; at >= 0; at -= 1)
     if (records[at] !== prefix[at]) return false;
   return true;
@@ -214,6 +266,26 @@ export function hasStableKey(
   stableKey: string,
 ): boolean {
   return growingIndex(STABLE_KEYS, records).has(stableKey);
+}
+
+const FIRST_RECORD_BY_STABLE_KEY: GrowingIndexKind<Map<unknown, unknown>> = {
+  create: () => new Map(),
+  add: (index, record) => {
+    const key = (record as { readonly stableKey?: unknown }).stableKey;
+    if (!index.has(key)) index.set(key, record);
+  },
+};
+
+/**
+ * The first record in the list with this stable key, as
+ * `records.find((record) => record.stableKey === stableKey)` returns it.
+ */
+export function recordByStableKey<T extends { readonly stableKey: string }>(
+  records: readonly T[],
+  stableKey: string,
+): T | undefined {
+  return growingIndex(FIRST_RECORD_BY_STABLE_KEY, records).get(stableKey) as
+    T | undefined;
 }
 
 const FIRST_RECORD_BY_ID: GrowingIndexKind<Map<unknown, unknown>> = {

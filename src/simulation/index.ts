@@ -248,6 +248,8 @@ export * from "./life-choice-evidence";
 export * from "./commitment-seam";
 export * from "./favors";
 export * from "./undertakings";
+export * from "./favor-collection";
+export * from "./campaign-stands";
 export * from "./relationship-leverage";
 export * from "./taxonomy";
 export * from "./time-work";

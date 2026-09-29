@@ -29,6 +29,7 @@ import {
 } from "../../src/source/domains/cd-place-relations/index";
 import type { CongressionalPlaceRelationRecord } from "../../src/source/domains/cd-place-relations/index";
 import { DISTRICT_IDENTITY_VINTAGE } from "../../src/districts/types";
+import { loadLines2026, placeMembership } from "../maps/lines-2026-overlay";
 
 const ROOT = resolve(import.meta.dirname, "../..");
 const CORPUS = resolve(ROOT, "data/source/sld-place-relations/corpus.json");
@@ -80,6 +81,21 @@ for (const record of congressionalRecords) {
     );
 }
 
+// U.S. House lines for the 2026 elections: a dated set on top of the baseline
+// above. It holds only the states the Census republished for the 120th
+// Congress, and a reader takes it once the game date reaches `effectiveFrom`.
+const lines2026 = loadLines2026(ROOT);
+const datedWholePlace: Record<string, string> = {};
+const datedSplitCandidates: Record<string, string[]> = {};
+for (const [stateFips, state] of Object.entries(lines2026.states)) {
+  for (const [placeCode, lines] of Object.entries(state.places)) {
+    const geoid = `${stateFips}${placeCode}`;
+    const membership = placeMembership(stateFips, lines);
+    if (membership.whole) datedWholePlace[geoid] = membership.whole;
+    else datedSplitCandidates[geoid] = [...membership.candidates];
+  }
+}
+
 const payload = {
   relationVintage: SLD_PLACE_RELATION_VINTAGE,
   identityVintage: DISTRICT_IDENTITY_VINTAGE,
@@ -98,6 +114,16 @@ const payload = {
     splitPlaceCount: Object.keys(congressionalSplitCandidates).length,
     wholePlace: congressionalWholePlace,
     splitPlaceCandidates: congressionalSplitCandidates,
+    dated: [
+      {
+        vintage: lines2026.vintage,
+        effectiveFrom: lines2026.effectiveFrom,
+        asOf: lines2026.asOf,
+        stateFips: Object.keys(lines2026.states).sort(),
+        wholePlace: datedWholePlace,
+        splitPlaceCandidates: datedSplitCandidates,
+      },
+    ],
   },
 };
 

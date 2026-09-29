@@ -1,5 +1,7 @@
 import { compareSimulationMoments } from "./dates";
 import { favorRecords } from "./favors";
+import { measurePropositionAnswer } from "./issue-record";
+import { measureById } from "./legislation";
 import {
   assessCommitment,
   laterRecordedVoteOn,
@@ -205,25 +207,72 @@ export function assessUndertaking(
     };
   }
   if (source.store === "campaignCommitments") {
-    const replaced = world.history.campaignCommitments.some(
-      (record) => record.supersedesCommitmentId === source.recordId,
-    );
-    return replaced
-      ? {
-          standing: "superseded",
-          account: "The candidate has since said something different about it.",
-          evidenceId: null,
-        }
-      : {
-          standing: "outstanding",
-          account: "Nothing on record has tested it yet.",
-          evidenceId: null,
-        };
+    return assessCampaignPledge(world, source.recordId);
   }
   const record = world.history.lifeCommitments.find(
     (entry) => entry.id === source.recordId,
   )!;
   return assessLifeUndertaking(world, record, undertaking);
+}
+
+/**
+ * A campaign pledge is answered by the first recorded vote the candidate casts
+ * on a bill that answers the same question, once they can cast one. Until
+ * then it is open. Only votes after the pledge count, even on the same day.
+ */
+function assessCampaignPledge(
+  world: World,
+  recordId: EntityId,
+): UndertakingAssessment {
+  const record = world.history.campaignCommitments.find(
+    (entry) => entry.id === recordId,
+  )!;
+  const replaced = world.history.campaignCommitments.some(
+    (entry) => entry.supersedesCommitmentId === recordId,
+  );
+  if (replaced) {
+    return {
+      standing: "superseded",
+      account: "The candidate has since said something different about it.",
+      evidenceId: null,
+    };
+  }
+  const open: UndertakingAssessment = {
+    standing: "outstanding",
+    account: "Nothing on record has tested it yet.",
+    evidenceId: null,
+  };
+  if (record.stance !== "support" && record.stance !== "oppose") return open;
+  for (const vote of (world.history.legislativeVotes ?? [])
+    .filter((entry) => entry.sequence > record.sequence)
+    .slice()
+    .sort((a, b) => a.sequence - b.sequence)) {
+    if (vote.purpose === "amendment") continue;
+    const cast = vote.dispositions.find(
+      (row) => row.personId === record.personId,
+    )?.disposition;
+    if (cast !== "yea" && cast !== "nay") continue;
+    const measure = measureById(world, vote.measureId);
+    const answer = measure
+      ? measurePropositionAnswer(measure, record.propositionId)
+      : null;
+    if (!measure || !answer) continue;
+    const forTheQuestion = (answer === "yes") === (cast === "yea");
+    const kept = forTheQuestion === (record.stance === "support");
+    const did = cast === "yea" ? "voted for" : "voted against";
+    return kept
+      ? {
+          standing: "kept",
+          account: `They ${did} ${measure.designation}, as they said they would.`,
+          evidenceId: vote.id,
+        }
+      : {
+          standing: "broken",
+          account: `They ${did} ${measure.designation} after saying they would do the opposite.`,
+          evidenceId: vote.id,
+        };
+  }
+  return open;
 }
 
 function holderDied(world: World, personId: EntityId): IsoDate | null {
@@ -288,6 +337,11 @@ function answerAct(
       return outstanding;
 
     case "attend": {
+      const calledOff: UndertakingAssessment = {
+        standing: "moot",
+        account: "It was called off, so there was nothing to go to.",
+        evidenceId: null,
+      };
       const activity = world.history.scheduledActivities
         .filter(
           (entry) =>
@@ -295,7 +349,24 @@ function answerAct(
             entry.participantPersonIds.includes(undertaking.holderPersonId),
         )
         .at(-1);
-      if (!activity) return outstanding;
+      if (!activity) {
+        // The occasion is on somebody else's calendar, not theirs, so no
+        // record could place them there or show them missing. Once it has
+        // come and gone, that is all anybody can say.
+        const occasion = world.history.scheduledActivities.find(
+          (entry) => entry.stableKey === act.activityStableKey,
+        );
+        if (!occasion) return outstanding;
+        const held = scheduledActivityState(world, occasion.id);
+        if (held.status === "cancelled") return calledOff;
+        return compareSimulationMoments(world.currentMoment, held.end) >= 0
+          ? {
+              standing: "lapsed",
+              account: `It came and went (${act.description}), and nothing on record says whether they were there.`,
+              evidenceId: occasion.id,
+            }
+          : outstanding;
+      }
       // Being there is a record that places them in the room. A plan to go
       // names the same meeting and the same person, and is not being there.
       const presence = world.history.events.find(
@@ -315,13 +386,7 @@ function answerAct(
         };
       }
       const state = scheduledActivityState(world, activity.id);
-      if (state.status === "cancelled") {
-        return {
-          standing: "moot",
-          account: "It was called off, so there was nothing to go to.",
-          evidenceId: null,
-        };
-      }
+      if (state.status === "cancelled") return calledOff;
       if (compareSimulationMoments(world.currentMoment, state.end) >= 0) {
         return {
           standing: "broken",

@@ -4,6 +4,8 @@ import { createStableId } from "./ids";
 import {
   growingIndex,
   indexOverArrays,
+  recordById,
+  recordByStableKey,
   type GrowingIndexKind,
 } from "./history-index";
 import {
@@ -41,7 +43,9 @@ import type {
   IsoDate,
   LegislativeActionKind,
   LegislativeActionRecord,
+  LegislativeAmendmentMotive,
   LegislativeAmendmentRecord,
+  LegislativeProposedSection,
   LegislativeEnactmentRecord,
   LegislativeMeasureNumberingSession,
   LegislativeMeasureOrigin,
@@ -1196,9 +1200,7 @@ function appendAction(world: World, input: AppendActionInput): World {
     },
   });
 
-  const event = next.history.events.find(
-    (candidate) => candidate.stableKey === eventStableKey,
-  );
+  const event = recordByStableKey(next.history.events, eventStableKey);
   if (!event) {
     throw new Error("Failed to record the legislative event.");
   }
@@ -1445,9 +1447,8 @@ export function introduceMeasure(
     );
   }
   for (const alternativeId of input.policyAlternativeIds ?? []) {
-    const exists = world.history.policyAlternatives.some(
-      (record) => record.id === alternativeId,
-    );
+    const exists =
+      recordById(world.history.policyAlternatives, alternativeId) !== undefined;
     if (!exists) {
       throw new Error(
         `Measure references a missing policy alternative: ${alternativeId}`,
@@ -1757,8 +1758,9 @@ export function committeeHearingTransitionHandler(
     occurredAt: dueItem.dueAt,
   });
 
-  const event = next.history.events.find(
-    (candidate) => candidate.stableKey === `event:${dueItem.stableKey}:hearing`,
+  const event = recordByStableKey(
+    next.history.events,
+    `event:${dueItem.stableKey}:hearing`,
   );
 
   return {
@@ -1973,6 +1975,14 @@ export interface OfferAmendmentInput {
   /** Members currently elected, when the chamber is not at full strength. */
   readonly electedMembers?: number;
   readonly provenance: LegislativeVoteProvenance;
+  /**
+   * The sections the amendment would add or rewrite, as offered. Recorded on
+   * the amendment so its vote keeps what was on the table even if the text
+   * never enters the bill.
+   */
+  readonly proposedSections?: readonly LegislativeProposedSection[];
+  /** Why a computer-run member offered it. */
+  readonly authorMotive?: LegislativeAmendmentMotive;
 }
 
 /** Offers a floor amendment and decides it by recorded vote. */
@@ -2048,6 +2058,15 @@ export function offerFloorAmendment(
     description: input.description,
     status: adopted ? "adopted" : "rejected",
     voteId: vote.id,
+    ...(input.proposedSections && input.proposedSections.length > 0
+      ? {
+          proposedSections: input.proposedSections.map((section) => ({
+            ...section,
+            ...(section.answers ? { answers: { ...section.answers } } : {}),
+          })),
+        }
+      : {}),
+    ...(input.authorMotive ? { authorMotive: input.authorMotive } : {}),
   };
 
   return appendAction(world, {
@@ -2779,8 +2798,9 @@ export function recordEnactment(
     tags: ["legislation.enacted"],
   });
 
-  const event = next.history.events.find(
-    (candidate) => candidate.stableKey === `event:${input.stableKey}:enacted`,
+  const event = recordByStableKey(
+    next.history.events,
+    `event:${input.stableKey}:enacted`,
   );
   if (!event) {
     throw new Error("Failed to record the enactment event.");

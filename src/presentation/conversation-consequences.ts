@@ -17,6 +17,7 @@ import type {
   RelationshipInteractionKind,
   RelationshipSignificance,
   UndertakingAct,
+  UndertakingFirmness,
   World,
 } from "../simulation";
 
@@ -129,6 +130,8 @@ export interface ConversationCommitmentSpec {
     readonly act: UndertakingAct;
     readonly promised: string;
     readonly mattered: FavorWeight;
+    /** How firmly it was said. Plain "I will" unless the words hedged. */
+    readonly firmness?: UndertakingFirmness;
   };
 }
 
@@ -188,7 +191,7 @@ export function writeConversationCommitment(
           undertaking: {
             owedToPersonIds: input.hearing.owedToPersonIds,
             act: input.spec.undertaking.act,
-            firmness: "explicit" as const,
+            firmness: input.spec.undertaking.firmness ?? "explicit",
             audience: input.hearing.audience,
             heardByPersonIds: input.hearing.heardByPersonIds.filter(
               (personId) => personId !== input.personId,
