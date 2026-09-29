@@ -34,7 +34,17 @@ import {
   congressSeatTitle,
   livingWorldOrganizationId,
 } from "../living-world/opening";
-import { currentPresidentOf } from "../crisis/offices";
+import { currentGovernorOf, currentPresidentOf } from "../crisis/offices";
+import { publicPartyOf } from "./chamber-votes";
+import { stateOfJurisdiction } from "../press/outlets";
+import {
+  appointmentCircle,
+  chooseAppointee,
+  federalColleaguesOf,
+  nominatorOf,
+  recordAppointmentFavor,
+  recordPassedOver,
+} from "../patronage/appointments";
 import {
   FEDERAL_TENURE_EVENT,
   FEDERAL_VACANCY_EVENT,
@@ -523,23 +533,43 @@ function seatNewMember(
           : majors.find((key) => key !== priorParty)!
         : rng.pick(majors);
   const memberKey = `${due.stableKey}:member`;
+  const title = congressSeatTitle(seat);
+  // The governor names someone they know (appointments-v1): the state's
+  // members of the House, anyone the governor has a recorded tie or favor
+  // with who lives in the state. Only a governor who knows nobody eligible
+  // falls back to the drawn stranger below.
+  const appointed =
+    mode === "appointment"
+      ? governorsSenateChoice(world, seat, title, due.stableKey)
+      : null;
+  const appointedParty = appointed
+    ? publicPartyOf(appointed.world, appointed.personId)
+    : null;
   const age = rng.integer(MINIMUM_AGE[seat.chamberKey] + 3, 70);
   const year = Number(world.currentDate.slice(0, 4));
-  let next = createCharacterHistoryContextPeople(world, [
-    {
-      stableKey: memberKey,
-      ...drawCanonicalNamedIdentity(
-        rng.fork("name"),
-        generatePersonIdentity(rng.fork("identity")),
-      ),
-      birthDate: makeIsoDate(
-        `${year - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
-      ),
-      homeJurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id,
-    },
-  ]);
-  const winner = characterHistoryContextPersonId(next, memberKey);
-  const title = congressSeatTitle(seat);
+  let next = appointed
+    ? appointed.world
+    : createCharacterHistoryContextPeople(world, [
+        {
+          stableKey: memberKey,
+          ...drawCanonicalNamedIdentity(
+            rng.fork("name"),
+            generatePersonIdentity(rng.fork("identity")),
+          ),
+          birthDate: makeIsoDate(
+            `${year - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
+          ),
+          homeJurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!
+            .id,
+        },
+      ]);
+  const winner = appointed
+    ? appointed.personId
+    : characterHistoryContextPersonId(next, memberKey);
+  const seatParty = appointedParty ?? party;
+  const leftHouseSeat = appointed
+    ? congressSeatHeldBy(appointed.world, appointed.personId)
+    : undefined;
   const chamberId = livingWorldOrganizationId(
     next,
     LIVING_WORLD_KEYS.chamber(seat.chamberKey),
@@ -550,15 +580,17 @@ function seatNewMember(
     occurredAt: next.currentDate,
     recordedAt: next.currentDate,
     jurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id,
-    involvedEntityIds: [winner, chamberId],
+    involvedEntityIds: appointed
+      ? [winner, chamberId, appointed.governorId]
+      : [winner, chamberId],
     participants: [{ personId: winner, role: "focus:subject", detail: title }],
     personFactConstraints: [],
     visibility: "public",
     tags: [
       ...seatTags(seat, next.currentDate),
       `service-since:${next.currentDate}`,
-      `${SEAT_PARTY_TAG}${party}`,
-      `${SEAT_CAUCUS_TAG}${party}`,
+      `${SEAT_PARTY_TAG}${seatParty}`,
+      `${SEAT_CAUCUS_TAG}${seatParty}`,
       ...(mode === "appointment"
         ? [
             `${APPOINTED_FOR_TAG}${vacancyDate}`,
@@ -573,13 +605,89 @@ function seatNewMember(
         : `${personName(next.people[winner]!)} won the special election and serves the rest of the term as ${title}.`,
     context: CONTEXT,
   });
+  const seatedEventId = next.history.events.at(-1)!.id;
+  if (appointed) {
+    next = recordAppointmentFavor(next, {
+      stableKey: `${due.stableKey}:appointed`,
+      appointerPersonId: appointed.governorId,
+      appointeePersonId: winner,
+      post: { officeKey: seat.seatKey, title },
+      eventId: seatedEventId,
+      subject: { kind: "none" },
+    });
+    // A member of the House named to the Senate gives up the House seat.
+    if (leftHouseSeat)
+      next = vacateSeat(next, leftHouseSeat, {
+        effectiveDate: next.currentDate,
+        key: "member-appointed-to-senate",
+        clause: "after the member was appointed to the Senate",
+      }).world;
+  }
   return done(
     next,
     mode === "appointment"
       ? "The governor's appointee took the seat."
       : "The special election filled the seat.",
-    next.history.events.at(-1)!.id,
+    seatedEventId,
   );
+}
+
+/**
+ * Whom a governor names to a vacant Senate seat, from the people they know.
+ * Null when the governor is the player or knows nobody eligible.
+ */
+function governorsSenateChoice(
+  world: World,
+  seat: CongressSeat,
+  title: string,
+  stableKey: string,
+): { world: World; personId: EntityId; governorId: EntityId } | null {
+  const governor = currentGovernorOf(world, seat.stateUsps);
+  if (!governor) return null;
+  const stateId = stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id;
+  const congress = projectCongress(world);
+  const delegation = (congress?.house.seats ?? []).flatMap((candidate) =>
+    candidate.stateUsps === seat.stateUsps &&
+    candidate.occupant.kind === "member"
+      ? [candidate.occupant.member.personId]
+      : [],
+  );
+  const delegationSet = new Set(delegation);
+  const controlled =
+    world.control.kind === "person" ? world.control.personId : null;
+  const dead = new Set(world.history.personDeaths.map((row) => row.personId));
+  const choice = chooseAppointee(world, {
+    stableKey,
+    appointerPersonId: governor.personId,
+    post: { officeKey: seat.seatKey, title },
+    circle: appointmentCircle(world, governor.personId, delegation),
+    eligible: (personId) => {
+      const person = world.people[personId];
+      if (!person || personId === controlled || dead.has(personId))
+        return false;
+      if (
+        ageOn(person.birthDate, world.currentDate) <
+        MINIMUM_AGE[seat.chamberKey]
+      )
+        return false;
+      // U.S. Const. art. I, § 3, cl. 3: an inhabitant of the state.
+      return (
+        delegationSet.has(personId) ||
+        stateOfJurisdiction(world, person.homeJurisdictionId) === stateId
+      );
+    },
+  });
+  if (!choice) return null;
+  return {
+    world: recordPassedOver(choice.world, {
+      stableKey,
+      appointerPersonId: governor.personId,
+      passedOver: choice.passedOver,
+      post: { officeKey: seat.seatKey, title },
+    }),
+    personId: choice.personId,
+    governorId: governor.personId,
+  };
 }
 
 function presidentialRuling(
@@ -1055,11 +1163,38 @@ export function vicePresidentNominationHandler(
     .sort();
   if (!pool.length)
     return resolved(world, "Nobody in the World is eligible to be nominated.");
-  const nomineeId = new SeededRng(world.seed).fork(due.stableKey).pick(pool);
+  // The President names someone they know: the people the game records them
+  // knowing, anyone they owe or who owes them, and the members of Congress
+  // and the governors they work with (appointments-v1). Only when nobody
+  // there is eligible does the old draw from every eligible adult remain,
+  // and that draw is still the PLACEHOLDER above.
+  const eligible = new Set(pool);
+  const choice = chooseAppointee(world, {
+    stableKey: due.stableKey,
+    appointerPersonId: president.personId,
+    post: VICE_PRESIDENT_POST,
+    circle: appointmentCircle(
+      world,
+      president.personId,
+      federalColleaguesOf(world),
+    ),
+    eligible: (personId) => eligible.has(personId),
+  });
+  const nomineeId =
+    choice?.personId ??
+    new SeededRng(world.seed).fork(due.stableKey).pick(pool);
+  let chosenWorld = choice?.world ?? world;
+  if (choice)
+    chosenWorld = recordPassedOver(chosenWorld, {
+      stableKey: due.stableKey,
+      appointerPersonId: president.personId,
+      passedOver: choice.passedOver,
+      post: VICE_PRESIDENT_POST,
+    });
   const nominee = { personId: nomineeId };
   const presidentName = personName(world.people[president.personId]!);
   const nomineeName = personName(world.people[nominee.personId]!);
-  let next = recordWorldEvent(world, {
+  let next = recordWorldEvent(chosenWorld, {
     stableKey: `${due.stableKey}:nominated`,
     type: VICE_PRESIDENT_NOMINATED_EVENT,
     occurredAt: world.currentDate,
@@ -1106,6 +1241,11 @@ export function vicePresidentNominationHandler(
   });
   return resolved(next, `${nomineeName} was nominated.`, nominatedEventId);
 }
+
+const VICE_PRESIDENT_POST = {
+  officeKey: "us-vice-president",
+  title: "Vice President of the United States",
+} as const;
 
 /** The seat in Congress a person holds today, if any. */
 function congressSeatHeldBy(
@@ -1176,13 +1316,21 @@ export function vicePresidentConfirmationHandler(
   // The seat in Congress the nominee leaves, if any, read before they take
   // the new office.
   const heldSeat = congressSeatHeldBy(world, nomineeId);
+  const nominatingPresident = nominatorOf(
+    world,
+    VICE_PRESIDENT_NOMINATED_EVENT,
+    `vacancy:${vacancyDate}`,
+    nomineeId,
+  );
   let next = recordWorldEvent(world, {
     stableKey: `${due.stableKey}:confirmed`,
     type: FEDERAL_TENURE_EVENT,
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: null,
-    involvedEntityIds: [nomineeId],
+    involvedEntityIds: nominatingPresident
+      ? [nomineeId, nominatingPresident]
+      : [nomineeId],
     participants: [
       {
         personId: nomineeId,
@@ -1204,6 +1352,17 @@ export function vicePresidentConfirmationHandler(
     context: CONTEXT,
   });
   const confirmedEventId = next.history.events.at(-1)!.id;
+  // The appointment is a favor from the President who named them, written
+  // when it takes effect: a nomination that fails gave nothing.
+  if (nominatingPresident)
+    next = recordAppointmentFavor(next, {
+      stableKey: `${due.stableKey}:appointed`,
+      appointerPersonId: nominatingPresident,
+      appointeePersonId: nomineeId,
+      post: VICE_PRESIDENT_POST,
+      eventId: confirmedEventId,
+      subject: { kind: "none" },
+    });
   if (heldSeat)
     next = vacateSeat(next, heldSeat, {
       effectiveDate: next.currentDate,
