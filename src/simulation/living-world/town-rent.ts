@@ -42,9 +42,12 @@
  * - Rent stabilization caps a renewal's rise on a private landlord's home at
  *   the price level's rise plus five points, at most ten percent, so a
  *   covered tenant's rent outruns their pay less often and they move less
- *   (`town-homes.ts`; measured check in RENT_STABILIZATION_MEASURED).
+ *   (`town-homes.ts`; measured check in RENT_STABILIZATION_MEASURED). A
+ *   year after it comes in, landlords' answer to it raises every market
+ *   rent in town (RENT_STABILIZATION_CITYWIDE).
  * - An inclusionary housing requirement makes a share of apartments and
- *   rowhouses recorded after it took effect affordable homes.
+ *   rowhouses recorded after it took effect affordable homes, let to
+ *   households under the income limit.
  * - Right to counsel in eviction gives a tenant a lawyer when their landlord
  *   files, and a represented tenant is evicted less often.
  *
@@ -80,7 +83,7 @@ import { createStableId } from "../ids";
 import { createOrganization } from "../life";
 import { organizationProfileAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
-import { lawInForce } from "../governing/law-in-force";
+import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import { seatHolderAt, seatsForCourt } from "../judiciary/courts";
 import { personTrait } from "../people-traits";
 import {
@@ -256,6 +259,57 @@ export const RENT_STABILIZATION_MEASURED = {
   coveredMovesRatio: 0.8,
   source: "Diamond, McQuade and Qian 2019, American Economic Review 109(9)",
 } as const;
+
+/**
+ * What rent stabilization does to the rents of the whole town once landlords
+ * have had time to answer it: San Francisco's landlords took 15% of covered
+ * homes off the rental market, and rents across the city rose 5.1% (Diamond,
+ * McQuade and Qian 2019, American Economic Review 109(9); Research 1's table
+ * of September 29, 2026). A market lease, new or renewed, is written that
+ * much higher from `actsAfterDays` after the law takes effect, the outcome
+ * web's twelve-month lag for the supply loss (rent-control-to-rental-supply).
+ * A covered renewal is still held to the cap. Only a change from the law the
+ * place began with counts: its base rents already carry that law.
+ */
+export const RENT_STABILIZATION_CITYWIDE = {
+  rentRise: 0.051,
+  actsAfterDays: 365,
+} as const;
+
+/**
+ * How the town's market rents stand against its home prices on `date` from
+ * the law enacted in play: above one after rent stabilization comes in,
+ * below one after a starting stabilization law is repealed, one otherwise.
+ */
+export function rentLawLevel(
+  world: World,
+  town: EntityId,
+  date: IsoDate,
+): number {
+  const id = propositionId(world, RENT_LAW_KEYS.rentStabilization);
+  if (!id) return 1;
+  const law = lawInForce(world, town, id, date);
+  if (
+    law?.origin !== "enacted" ||
+    law.operativeAt > addDays(date, -RENT_STABILIZATION_CITYWIDE.actsAfterDays)
+  )
+    return 1;
+  const now = law.answer === "yes";
+  const before = lawInForceAtStart(world, town, id, date) === "yes";
+  if (now === before) return 1;
+  return now
+    ? 1 + RENT_STABILIZATION_CITYWIDE.rentRise
+    : 1 / (1 + RENT_STABILIZATION_CITYWIDE.rentRise);
+}
+
+/** The town's market rent level: its home prices and its rent laws. */
+export function marketRentLevel(
+  world: World,
+  town: EntityId,
+  date: IsoDate,
+): number {
+  return homePriceLevel(world, town, date) * rentLawLevel(world, town, date);
+}
 
 /**
  * How an eviction case runs. Nothing here is a chance: a case is decided from
@@ -544,7 +598,7 @@ export function marketRentMinor(
     fmr *
     Math.exp(RENT_SPREAD.home * homeDraw) *
     worldCountyFactor(world, row.area) *
-    homePriceLevel(world, town, date);
+    marketRentLevel(world, town, date);
   return Math.round(dollars) * 100;
 }
 
@@ -1192,6 +1246,11 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
       const key = endpointKey(lease.flow.recipient);
       held.set(key, (held.get(key) ?? 0) + 1);
     }
+  // Affordable homes each town already lets, for the set-aside's count.
+  const affordableLet = new Map<EntityId, number>();
+  for (const lease of leases)
+    if (!lease.ended && lease.regime === "affordable")
+      affordableLet.set(lease.town, (affordableLet.get(lease.town) ?? 0) + 1);
   let next = world;
   for (const tenure of candidates) {
     if (tenure.holder.kind !== "household") continue;
@@ -1249,7 +1308,13 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
     let rentMinor: number;
     let basis: string;
     const fmrMinor = row.rents[bedrooms]! * 100;
-    const inclusionary = inclusionaryHome(next, dwelling, kind, town);
+    const inclusionary = inclusionaryHome(
+      next,
+      dwelling,
+      kind,
+      town,
+      affordableLet.get(town) ?? 0,
+    );
     const affordable = inclusionary ? affordableRentMinor(row, bedrooms) : null;
     const limit = veryLowIncomeLimit(row, household.length);
     if (isPublic) {
@@ -1267,6 +1332,7 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
     ) {
       regime = "affordable";
       rentMinor = affordable;
+      affordableLet.set(town, (affordableLet.get(town) ?? 0) + 1);
       basis = `an affordable home under ${inclusionary!.designation}, 30% of 60% of area median income`;
     } else {
       rentMinor = marketRentMinor(
@@ -1356,17 +1422,20 @@ export function publicHousingRentMinor(
 }
 
 /**
- * Whether an inclusionary law made this home affordable: an apartment or
- * rowhouse recorded in its town after the law took effect, counted in the
- * order the homes were recorded. The law's set-aside is met exactly, rounding
- * up, the way ordinances round a building's affordable units: with a 15%
- * set-aside the 1st, 7th, 14th and 21st such homes are affordable.
+ * Whether an inclusionary law lets this home be rented as an affordable one:
+ * an apartment or rowhouse recorded in its town after the law took effect,
+ * while the town's affordable homes let (`affordableLet`) fall short of the
+ * set-aside of the covered homes recorded up to this one. An ordinance
+ * reserves its affordable units for households under the income limit, so the
+ * set-aside is filled by the covered homes eligible households rent, not by
+ * whichever homes come first; the caller checks the household's income.
  */
 function inclusionaryHome(
   world: World,
   dwelling: { readonly id: EntityId; readonly establishedAt: IsoDate },
   kind: TownHomeKind,
   town: EntityId,
+  affordableLet: number,
 ): { readonly designation: string } | null {
   if (!coveredKind(kind)) return null;
   const law = housingLawYes(
@@ -1378,7 +1447,7 @@ function inclusionaryHome(
   if (!law) return null;
   // A law in force at the opening applies only to homes built after it.
   if (dwelling.establishedAt <= law.operativeAt) return null;
-  const position = world.history.dwellings.filter(
+  const covered = world.history.dwellings.filter(
     (row) =>
       row.jurisdictionId === town &&
       coveredKind(homeKindOf(row.classification)) &&
@@ -1387,19 +1456,23 @@ function inclusionaryHome(
         (row.establishedAt === dwelling.establishedAt &&
           row.id.localeCompare(dwelling.id) <= 0)),
   ).length;
-  if (!inclusionarySetAsideTakes(position)) return null;
+  if (!inclusionarySetAsideOpen(affordableLet, covered)) return null;
   return { designation: measureDesignation(world, law.measureId) };
 }
 
 /**
- * Whether the home at this position (1 for the first covered home recorded
- * after the law) is one the set-aside takes: the count taken so far never
- * falls below the set-aside, rounded up.
+ * Whether the set-aside still owes an affordable home: fewer are let than the
+ * set-aside of the covered homes so far, rounded up the way ordinances round a
+ * building's affordable units (with 15%, one for the first six homes, two by
+ * the seventh).
  */
-export function inclusionarySetAsideTakes(position: number): boolean {
-  const due = (count: number) =>
-    Math.ceil(count * INCLUSIONARY_SET_ASIDE - 1e-9);
-  return due(position) > due(position - 1);
+export function inclusionarySetAsideOpen(
+  affordableLet: number,
+  coveredHomes: number,
+): boolean {
+  return (
+    affordableLet < Math.ceil(coveredHomes * INCLUSIONARY_SET_ASIDE - 1e-9)
+  );
 }
 
 function coveredKind(kind: TownHomeKind): boolean {
@@ -1489,8 +1562,8 @@ function chooseLandlord(
 }
 
 /**
- * A private landlord's renewal: last year's rent moved by the town's home
- * prices over the year (`homePrices`, the level now over a year ago), held
+ * A private landlord's renewal: last year's rent moved by the town's market
+ * rent level over the year (`homePrices`, the level now over a year ago), held
  * to rent stabilization's cap when it covers the home. The cap reads the
  * general price level's rise (`prices`). Whole dollars, in cents.
  */
@@ -1567,8 +1640,8 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
     } else {
       const lastYear = addDays(dueOn, -365);
       const homePrices =
-        homePriceLevel(next, lease.town, dueOn) /
-        homePriceLevel(next, lease.town, lastYear);
+        marketRentLevel(next, lease.town, dueOn) /
+        marketRentLevel(next, lease.town, lastYear);
       const prices =
         rentPriceLevel(next, lease.town, dueOn) /
         rentPriceLevel(next, lease.town, lastYear);

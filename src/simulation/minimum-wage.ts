@@ -268,6 +268,8 @@ export interface StateMinimumSetting {
   /** The enacted measure that set it; null for a rate on file at the start. */
   readonly measureId: EntityId | null;
   readonly designation: string | null;
+  /** The day that law took effect; null for a rate on file at the start. */
+  readonly effectiveAt: IsoDate | null;
 }
 
 const stateSettings = new WeakMap<
@@ -331,6 +333,7 @@ function computeStateMinimumSetting(
       beforeMinor: beforeMinor ?? filed.value,
       measureId: filed.measureId,
       designation: filed.designation,
+      effectiveAt: filed.effectiveAt,
     };
   const proposition = Object.values(
     world.policyCatalog?.propositions ?? {},
@@ -356,6 +359,7 @@ function computeStateMinimumSetting(
         beforeMinor,
         measureId: law.measureId,
         designation: measure?.designation ?? "A state law",
+        effectiveAt: law.operativeAt,
       };
     }
   }
@@ -366,6 +370,7 @@ function computeStateMinimumSetting(
         beforeMinor,
         measureId: null,
         designation: null,
+        effectiveAt: null,
       };
 }
 
@@ -376,6 +381,8 @@ export interface MinimumWageSetting {
   /** The enacted measure that set it; null for a rate on file at the start. */
   readonly measureId: EntityId | null;
   readonly designation: string | null;
+  /** The day that law took effect; null for a rate on file at the start. */
+  readonly effectiveAt: IsoDate | null;
 }
 
 const localSettings = new WeakMap<
@@ -429,6 +436,7 @@ export function localMinimumSettingAt(
       level: "local",
       measureId: law.measureId,
       designation: measure?.designation ?? "A city ordinance",
+      effectiveAt: law.operativeAt,
     };
   }
   cache.set(cacheKey, setting);
@@ -454,6 +462,7 @@ export function minimumWageSettingAt(
     level: "federal",
     measureId: step?.measureId ?? null,
     designation: step?.designation ?? null,
+    effectiveAt: step?.from ?? null,
   };
   const place = jurisdictionId
     ? lifePlaceByJurisdictionId(jurisdictionId)
@@ -468,6 +477,7 @@ export function minimumWageSettingAt(
     level: "state",
     measureId: stateSetting.measureId,
     designation: stateSetting.designation,
+    effectiveAt: stateSetting.effectiveAt,
   };
   if (!state) {
     const starting = startingMinimumHourly(jurisdictionId);
@@ -477,6 +487,7 @@ export function minimumWageSettingAt(
       level: "state",
       measureId: null,
       designation: null,
+      effectiveAt: null,
     };
   }
   const base = federal.hourlyMinor > state.hourlyMinor ? federal : state;

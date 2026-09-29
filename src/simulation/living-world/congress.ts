@@ -17,11 +17,8 @@ import {
   type SeatOccupant,
   type SeatView,
 } from "./contract";
-import {
-  CONGRESS_SEAT_SOURCES,
-  congressSeats,
-  type CongressSeat,
-} from "./congress-seats";
+import { CONGRESS_SEAT_SOURCES, type CongressSeat } from "./congress-seats";
+import { congressSeatsIn } from "./statehood-seats";
 import { activePartyUnitsAt } from "./party-registry";
 import {
   CAUCUS_MEMBERSHIP_KIND,
@@ -284,7 +281,7 @@ export function projectCongress(
       bySeat.set(seatKey, event);
   }
   const chamber = (chamberKey: ChamberKey): ChamberView => {
-    const seats = congressSeats()
+    const seats = congressSeatsIn(world, asOf)
       .filter((seat) => seat.chamberKey === chamberKey)
       .map((seat) => seatView(world, seat, bySeat.get(seat.seatKey), asOf));
     return {

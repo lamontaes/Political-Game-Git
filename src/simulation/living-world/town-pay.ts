@@ -805,6 +805,33 @@ function minimumWageLaws(
 }
 
 /**
+ * The day each job ended, when its latest status ended it: every payday's pay
+ * floors read this, and reading every status ever recorded to find it grew
+ * with the world's years.
+ */
+const JOB_ENDINGS: GrowingIndexKind<Map<EntityId, IsoDate>> = {
+  create: () => new Map(),
+  add: (index, record) => {
+    const status = record as World["history"]["workStatuses"][number];
+    if (status.status === "ended")
+      index.set(status.workRelationshipId, status.effectiveAt);
+    else index.delete(status.workRelationshipId);
+  },
+};
+
+/** The end of the latest pay period each resource flow has paid. */
+const LAST_PERIOD_PAID: GrowingIndexKind<Map<EntityId, IsoDate>> = {
+  create: () => new Map(),
+  add: (index, record) => {
+    const outcome =
+      record as World["history"]["resourceTransferOutcomes"][number];
+    const previous = index.get(outcome.resourceFlowId);
+    if (!previous || previous < outcome.periodEndsAt)
+      index.set(outcome.resourceFlowId, outcome.periodEndsAt);
+  },
+};
+
+/**
  * Raises every town job paid below the minimum wage in force (the higher of
  * the federal and the state floor), from the first pay period that begins on
  * or after the day a law raised it and after the last period already paid. Each rise between the last paycheck and today is
@@ -839,19 +866,11 @@ export function raiseTownPayToMinimum(
   const roles = latestRoles(world);
   const termsByFlow = termsByPayFlow(world);
   // The day each job ended, if it did: a job that has ended has no pay to raise.
-  const endedOn = new Map<EntityId, IsoDate>();
-  for (const status of world.history.workStatuses) {
-    if (status.status === "ended")
-      endedOn.set(status.workRelationshipId, status.effectiveAt);
-    else endedOn.delete(status.workRelationshipId);
-  }
-  const lastPaid = new Map<EntityId, IsoDate>();
-  for (const outcome of world.history.resourceTransferOutcomes) {
-    if (!termsByFlow.has(outcome.resourceFlowId)) continue;
-    const previous = lastPaid.get(outcome.resourceFlowId);
-    if (!previous || previous < outcome.periodEndsAt)
-      lastPaid.set(outcome.resourceFlowId, outcome.periodEndsAt);
-  }
+  const endedOn = growingIndex(JOB_ENDINGS, world.history.workStatuses);
+  const lastPaid = growingIndex(
+    LAST_PERIOD_PAID,
+    world.history.resourceTransferOutcomes,
+  );
   let next = world;
   for (const flow of world.history.resourceFlows) {
     if (
@@ -987,19 +1006,11 @@ export function raiseTeacherPayToFloor(
     eventOf.set(enactment.measureId, enactment.outcomeEventId);
   const roles = latestRoles(world);
   const termsByFlow = termsByPayFlow(world);
-  const endedOn = new Map<EntityId, IsoDate>();
-  for (const status of world.history.workStatuses) {
-    if (status.status === "ended")
-      endedOn.set(status.workRelationshipId, status.effectiveAt);
-    else endedOn.delete(status.workRelationshipId);
-  }
-  const lastPaid = new Map<EntityId, IsoDate>();
-  for (const outcome of world.history.resourceTransferOutcomes) {
-    if (!termsByFlow.has(outcome.resourceFlowId)) continue;
-    const previous = lastPaid.get(outcome.resourceFlowId);
-    if (!previous || previous < outcome.periodEndsAt)
-      lastPaid.set(outcome.resourceFlowId, outcome.periodEndsAt);
-  }
+  const endedOn = growingIndex(JOB_ENDINGS, world.history.workStatuses);
+  const lastPaid = growingIndex(
+    LAST_PERIOD_PAID,
+    world.history.resourceTransferOutcomes,
+  );
   let next = world;
   for (const flow of townPayFlows(world)) {
     if (

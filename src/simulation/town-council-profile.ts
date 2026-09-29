@@ -11,10 +11,8 @@ import {
 } from "./legislature-rules";
 import { localGoverningBodyIdentity } from "./nationwide-world/local-governing-body-candidacy-packs";
 import { localGoverningBodyRules } from "./nationwide-world/local-governing-body-rules";
-import {
-  countyGoverningBodyRules,
-  municipioUnit,
-} from "./nationwide-world/county-governing-body-rules";
+import { municipioUnit } from "./nationwide-world/county-governing-body-rules";
+import { boardGoverningBodyRules } from "./nationwide-world/township-governing-body-rules";
 import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
 
 /**
@@ -79,8 +77,9 @@ export function townCouncilProfilePackId(unit: GovernmentUnitIdentity): string {
 
 /**
  * The body a profile council sits as: a town's council, or, for a place with
- * no town government, its county's board (or a Puerto Rico municipio's
- * municipal legislature), at the size the law or the estimate sets.
+ * no town government, the board of the town or township it lies in, or else
+ * its county's board (or a Puerto Rico municipio's municipal legislature), at
+ * the size the law or the estimate sets.
  */
 function profileBody(unit: GovernmentUnitIdentity): {
   readonly governmentName: string;
@@ -102,17 +101,19 @@ function profileBody(unit: GovernmentUnitIdentity): {
           ? `The body seats ${seats.value} members, as the game's reading of this town records.`
           : `The body seats ${seats.value} members, the typical size for a town of this kind in the ICMA survey.`,
     };
-  const county = countyGoverningBodyRules(unit);
-  if (!county) return null;
+  const board = boardGoverningBodyRules(unit);
+  if (!board) return null;
   return {
     governmentName: governmentUnitDisplayName(unit),
-    bodyName: county.bodyName,
-    executiveTitle: county.chiefTitle ?? "County executive",
-    seats: county.seats,
+    bodyName: board.bodyName,
+    executiveTitle:
+      board.chiefTitle ??
+      (unit.unitType === "county" ? "County executive" : "Board chair"),
+    seats: board.seats,
     seatNote:
-      county.basis === "estimated"
-        ? `The body seats ${county.seats} members, ESTIMATED FROM AVERAGE: the national average county board (${county.citation}).`
-        : `The body seats ${county.seats} members, as ${county.citation} sets.`,
+      board.basis === "estimated"
+        ? `The body seats ${board.seats} members, ESTIMATED FROM AVERAGE (${board.citation}).`
+        : `The body seats ${board.seats} members, as ${board.citation} sets.`,
   };
 }
 

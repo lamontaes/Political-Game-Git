@@ -4,20 +4,13 @@
     "us-policy-positions:government-operations.require-photo-id-to-vote",
     "us-policy-positions:government-operations.ban-lobbying-after-office",
     "us-policy-positions:education.state-curriculum-standards",
-    "us-policy-positions:justice-public-safety.end-cash-bail",
-    "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
-    "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
     "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
     "us-policy-positions:transportation-infrastructure.fix-it-first",
-    "us-policy-positions:business-commerce.cap-development-incentives",
-    "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
-    "us-policy-positions:environment-energy.bottle-deposit",
     "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
     "us-policy-positions:civil-family-community.local-control-of-library-materials",
     "us-policy-positions:civil-family-community.dedicated-parks-funding",
     "us-policy-positions:government-operations.independent-ward-commission",
     "us-federal-positions:budget.pay-for-a-higher-debt-limit",
-    "us-federal-positions:defense.grow-defense-spending",
     "us-federal-positions:foreign-affairs.increase-foreign-aid",
     "us-federal-positions:immigration.admit-more-immigrants",
     "us-federal-positions:education.forgive-student-loans",
@@ -25,8 +18,6 @@
     "us-federal-positions:agriculture.cut-farm-subsidies",
     "us-federal-positions:emergencies.states-share-disaster-costs",
     "us-federal-positions:justice-rights.reduce-mandatory-minimums",
-    "us-federal-positions:government.ban-congressional-stock-trading",
-    "us-federal-positions:science-communications.national-data-privacy",
-    "us-federal-positions:territories-culture.statehood-for-dc"
+    "us-federal-positions:government.ban-congressional-stock-trading"
   ]
 }

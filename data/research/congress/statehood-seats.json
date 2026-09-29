@@ -1,0 +1,8 @@
+{
+  "about": "What Congress's law on statehood for a nonvoting place adds to the chambers when it takes effect: one voting seat in the House, elected at large as the place's own Delegate seat is, and two Senate seats, each in a different class. The place's district code is the Census Bureau's congressional district code in the game's district catalog. The two Senate seats go to the two classes with the fewest seats at admission, so the classes stay even. That is the game's own rule, HARDWIRED, not a measured one, because each real bill names its own classes. The seats are filled when the law takes effect: the Delegate in office becomes the Representative for the rest of the term, and each Senate seat goes to the party the place's own 2024 result favors, a HARDWIRED simplification of the special election the real bills call for. Statehood does not reverse.",
+  "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+  "place": "DC",
+  "houseDistrictCode": "98",
+  "houseSeats": 1,
+  "senateSeats": 2
+}

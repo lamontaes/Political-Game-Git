@@ -79,6 +79,19 @@ describe("a county board or municipal legislature at its lawful size", () => {
     expect(seats("72127")).toBe(17); // San Juan, by name in the article
     expect(seats("72049")).toBe(5); // Culebra, by name in the article
     expect(municipioUnit("06001")).toBeNull();
+    // A body whose own name is read keeps it while its size is estimated:
+    // Assumption Parish has a police jury, Jefferson Parish a council.
+    const assumption = countyGoverningBodyRules(
+      countyGovernmentUnit("22007")!,
+    )!;
+    expect(assumption).toMatchObject({
+      bodyName: "Police Jury",
+      memberTitle: "Police juror",
+      basis: "estimated",
+    });
+    expect(
+      countyGoverningBodyRules(countyGovernmentUnit("22051")!)!.bodyName,
+    ).toBe("Parish Council");
   });
 
   it(

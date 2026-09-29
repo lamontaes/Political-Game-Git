@@ -9,6 +9,18 @@ import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
  */
 
 export const PROSECUTION_SENTENCED_EVENT = "justice.sentenced";
+/** The end of a case: a plea, a verdict or a dismissal. */
+export const PROSECUTION_ENDED_EVENT = "justice.case-ended";
+/**
+ * Before trial, the defendant is held in jail: bail they could not pay, or a
+ * judge's order to hold them where the law allows no money bail. Written by
+ * `prosecution.ts`; the hold lasts until the case ends.
+ */
+export const PRETRIAL_HELD_EVENT = "justice.held-before-trial";
+/** Before trial, the defendant goes home: bail paid, or released without it. */
+export const PRETRIAL_RELEASED_EVENT = "justice.released-before-trial";
+/** Tags every event of one case with the referral that opened it. */
+export const REFERRAL_TAG = "justice.referral:";
 export const SENTENCE_KIND_TAG = "justice.sentence:";
 export const SENTENCE_MONTHS_TAG = "justice.sentence-months:";
 
@@ -141,5 +153,48 @@ export function jailTermOn(
         sentence.from <= date &&
         date < sentence.until,
     ) ?? null
+  );
+}
+
+/** A time a person was held in jail before trial. */
+export interface PretrialHold {
+  readonly heldEventId: EntityId;
+  readonly referralId: EntityId;
+  readonly from: IsoDate;
+  /** The day the case ended, or null while it is still open. */
+  readonly until: IsoDate | null;
+}
+
+/** Every time a person was held before trial, oldest first. Read-only. */
+export function pretrialHoldsOf(
+  world: World,
+  personId: EntityId,
+): readonly PretrialHold[] {
+  return eventsOfType(world, PRETRIAL_HELD_EVENT).flatMap((held) => {
+    if (sentencedPersonOf(held) !== personId) return [];
+    const referralTag = held.tags.find((tag) => tag.startsWith(REFERRAL_TAG));
+    if (!referralTag) return [];
+    const ended = eventsOfType(world, PROSECUTION_ENDED_EVENT).find((event) =>
+      event.tags.includes(referralTag),
+    );
+    return [
+      {
+        heldEventId: held.id,
+        referralId: referralTag.slice(REFERRAL_TAG.length) as EntityId,
+        from: held.occurredAt,
+        until: ended?.occurredAt ?? null,
+      },
+    ];
+  });
+}
+
+/** Whether a person is held in jail before trial on `date`. Read-only. */
+export function heldBeforeTrialOn(
+  world: World,
+  personId: EntityId,
+  date: IsoDate = world.currentDate,
+): boolean {
+  return pretrialHoldsOf(world, personId).some(
+    (hold) => hold.from <= date && (hold.until === null || date < hold.until),
   );
 }

@@ -5,7 +5,11 @@ import {
   withParts,
 } from "../legislative-member-decisions";
 import { measureAnswersAt } from "../vote-bundle";
-import { principleVoteConsideration } from "./officeholder-principles";
+import {
+  principleVoteConsideration,
+  spendingPrincipleConsideration,
+} from "./officeholder-principles";
+import { budgetDeadlineConsideration } from "./budget-stakes";
 import { constituentsConsideration } from "./constituent-views";
 import type { MemberVoteQuestion } from "../legislative-member-decisions";
 import type { SeatedBody, SeatedMember } from "../legislation-scenarios";
@@ -251,9 +255,20 @@ export function decideChamberVote(
     author !== measure.sponsorPersonId &&
     measure.sponsorPersonId !== null &&
     partyOf(author) !== partyOf(measure.sponsorPersonId);
+  // A budget (an appropriation, not an amendment to one) is the majority's
+  // bill and a contest between the parties: the party that carries it backs
+  // it and the other does not. Every member also weighs what it spends
+  // against their own principles, and the day the government's offices
+  // close without one (`budget-stakes.ts`; CTO ruling, September 29,
+  // 9:45 a.m.: "a budget can't pass").
+  const budget =
+    measure.subjectClass === "appropriation" &&
+    input.question.question.purpose !== "amendment";
   const contested =
     input.contested ??
-    (input.question.question.purpose === "veto-override" || acrossTheAisle);
+    (input.question.question.purpose === "veto-override" ||
+      acrossTheAisle ||
+      budget);
   const cutoff = currentHistoricalCutoff(world);
   // What the question puts on the table: an amendment's own sections, or the
   // bill as it reads (and would read, for a prediction), sections an adopted
@@ -270,6 +285,9 @@ export function decideChamberVote(
   // the same place.
   const constituents = input.constituencyId
     ? constituentsConsideration(world, input.constituencyId, answersOnTable)
+    : null;
+  const deadline = budget
+    ? budgetDeadlineConsideration(world, measure.jurisdictionId)
     : null;
   const executive =
     input.executivePersonId &&
@@ -341,6 +359,7 @@ export function decideChamberVote(
         // a member's private views on a question are not known and are not.
         ...[
           principleVoteConsideration(world, personId, measure, answersOnTable),
+          budget ? spendingPrincipleConsideration(world, personId) : null,
         ].filter((consideration) => consideration !== null),
         ...party.filter((consideration) =>
           OWN_BILL_KEYS.has(consideration.stableKey),
@@ -352,6 +371,7 @@ export function decideChamberVote(
       ),
       ...(constituents ? [constituents] : []),
       ...(executive ? [executive] : []),
+      ...(deadline ? [deadline] : []),
     ];
     return {
       member,
@@ -492,6 +512,7 @@ const OWN_BILL_KEYS: ReadonlySet<string> = new Set([
 const KEPT_REASON_PREFIXES = [
   "member:party-cue:",
   "member:principle:",
+  "member:spending:",
   "member:constituents:",
   "member:executive:",
   "member:trusted-colleague:",

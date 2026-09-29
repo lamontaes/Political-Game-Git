@@ -281,10 +281,11 @@ function monthsInto(year: AdoptedBudget, month: IsoDate): number {
 }
 
 /**
- * How a state's tax law in force on a date moves a revenue source against
- * the law the state began with (`TAX_QUESTION_EFFECTS`): 1 where nothing
- * changed, where the size is not researched, or for a county or city, whose
- * own taxes these state questions do not set. Income tax is read on January 1
+ * How the tax law in force on a date moves a government's revenue source
+ * against the law it began with (`TAX_QUESTION_EFFECTS`): 1 where nothing
+ * changed, where the size is not researched, or for a level the question's
+ * row does not name (a county's or city's own taxes are not set by a state
+ * income tax question). Income tax is read on January 1
  * of the date's year, the law paychecks withhold under for that tax year
  * (`stateIncomeTaxUnderLaw`), so the budget collects what paychecks withhold.
  * A tuition freeze moves charges and fees (`tuition-freeze.ts`).
@@ -295,7 +296,6 @@ export function taxLawFactor(
   source: BudgetSource,
   date: IsoDate,
 ): number {
-  if (government.level !== "state") return 1;
   const onDate =
     source === "individualIncomeTax"
       ? (`${date.slice(0, 4)}-01-01` as IsoDate)
@@ -310,6 +310,7 @@ export function taxLawFactor(
           : 1;
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.source !== source) continue;
+    if (!(effect.levels ?? ["state"]).includes(government.level)) continue;
     if (effect.toYes === null && effect.toNo === null) continue;
     const propositionId = propositionIdFor(world, effect.questionKey);
     if (!propositionId) continue;
@@ -319,12 +320,15 @@ export function taxLawFactor(
       propositionId,
       onDate,
     )?.answer;
-    const began = lawInForceAtStart(
-      world,
-      government.lawJurisdictionId,
-      propositionId,
-      onDate,
-    );
+    // No law when the game began counts as "not yes", as in the outcome
+    // web: the base revenue was measured without one.
+    const began =
+      lawInForceAtStart(
+        world,
+        government.lawJurisdictionId,
+        propositionId,
+        onDate,
+      ) ?? "no";
     if (began === "no" && now === "yes") factor *= 1 + (effect.toYes ?? 0);
     if (began === "yes" && now === "no") factor *= 1 + (effect.toNo ?? 0);
   }
