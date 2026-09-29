@@ -157,5 +157,5 @@ describe("a favor years ago, in Billings, Montana", () => {
     }
     expect(afterGreat).toBeGreaterThan(before);
     expect(afterSlight).toBe(before);
-  });
+  }, 30_000); // Measured at 4.3 to 5.6 s with main merged (9/29), past the 5 s default under load.
 });
