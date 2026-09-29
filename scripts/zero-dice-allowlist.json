@@ -1452,13 +1452,6 @@
       "code": "draw(next, [\"international\", matter, ordinal]) >="
     },
     {
-      "file": "src/simulation/public-budgets/rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 12",
-      "count": 1,
-      "code": "export const FIRST_CUT_SHARE = 0.03;"
-    },
-    {
       "file": "src/simulation/recall.ts",
       "kind": "fixed-share",
       "build": "Build 24",
