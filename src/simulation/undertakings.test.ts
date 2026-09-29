@@ -170,7 +170,7 @@ describe("Build 22 · one reading of every undertaking", () => {
     expect(after.account).not.toMatch(/\d+%|percent|chance/);
   });
 
-  it("is kept when the record shows them there", () => {
+  it("is kept when the record shows them there, and a plan to go is not that", () => {
     const base = createDemoWorld("build22-kept");
     const [holder, other] = base.personOrder;
     let world = promise(
@@ -183,29 +183,45 @@ describe("Build 22 · one reading of every undertaking", () => {
     const activityId = world.history.scheduledActivities.find(
       (entry) => entry.stableKey === MEETING_KEY,
     )!.id;
-    world = recordWorldEvent(world, {
-      stableKey: "kept:presence",
-      type: "life.scene.arrived",
-      occurredAt: world.currentDate,
-      recordedAt: world.currentDate,
-      jurisdictionId: null,
-      involvedEntityIds: [activityId, holder!],
-      participants: [
-        { personId: holder!, role: "presence:participant", detail: "Went" },
-      ],
-      personFactConstraints: [],
-      visibility: "private",
-      tags: ["undertaking-test"],
-      summary: "They arrived at the meeting.",
-      context: {
-        location: null,
-        socialContext: null,
-        pressure: null,
-        choice: null,
-        motivation: null,
-        immediateReaction: null,
-      },
-    });
+    const record = (
+      stableKey: string,
+      type: `${string}.${string}`,
+      role: "agency:actor" | "presence:participant",
+    ) =>
+      recordWorldEvent(world, {
+        stableKey,
+        type,
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: null,
+        involvedEntityIds: [activityId, holder!],
+        participants: [{ personId: holder!, role, detail: "Went" }],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: ["undertaking-test"],
+        summary: "They said they would be at the meeting.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+    world = record(
+      "kept:plan",
+      "civic.meeting-attendance-planned",
+      "agency:actor",
+    );
+    expect(assessUndertaking(world, lifeUndertaking(world)).standing).toBe(
+      "outstanding",
+    );
+    world = record(
+      "kept:presence",
+      "life.scene.arrived",
+      "presence:participant",
+    );
     const assessed = assessUndertaking(world, lifeUndertaking(world));
     expect(assessed.standing).toBe("kept");
     expect(assessed.evidenceId).toBe(world.history.events.at(-1)!.id);
