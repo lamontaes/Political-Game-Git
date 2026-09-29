@@ -3,19 +3,19 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 748,
+    "markers": 746,
     "byKind": {
-      "unresearched": 222,
+      "unresearched": 220,
       "placeholder": 415,
       "blanket": 126
     },
     "byPath": {
-      "other": 465,
+      "other": 463,
       "money": 73,
       "law": 132,
       "government": 78
     },
-    "withoutQuestion": 451,
+    "withoutQuestion": 449,
     "questionNotFiled": 29,
     "moneyOrLawQuestions": 61
   },
@@ -6403,7 +6403,7 @@
     },
     {
       "file": "src/simulation/public-budgets/month.ts",
-      "line": 275,
+      "line": 284,
       "text": "* changed, where the size is not researched, or for a county or city, whose",
       "kinds": ["unresearched"],
       "path": "other",
@@ -6412,7 +6412,7 @@
     },
     {
       "file": "src/simulation/public-budgets/month.ts",
-      "line": 684,
+      "line": 787,
       "text": "* and plans programs to spend the rest (PLACEHOLDER rule). Under a",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6493,7 +6493,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 5,
+      "line": 6,
       "text": "* PLACEHOLDER naming the research question filed for it",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6502,7 +6502,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 14,
+      "line": 15,
       "text": "* (school districts, special districts, townships). PLACEHOLDER until Census",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6511,7 +6511,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 41,
+      "line": 42,
       "text": "* scaled to the government's own spending. PLACEHOLDER, research:",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6520,7 +6520,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 45,
+      "line": 46,
       "text": "\"local revenue by source follows the state's local mix, scaled to this government's spending (PLACEHOLDER, research: local-government-finances-by-type)\";",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6529,7 +6529,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 49,
+      "line": 50,
       "text": "* log-normal draw per line with this standard deviation. PLACEHOLDER, a game",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6538,7 +6538,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 57,
+      "line": 58,
       "text": "* part. PLACEHOLDER, research: public-pension-funding-by-state. Each",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6547,7 +6547,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 70,
+      "line": 71,
       "text": "* is drawn next, then cuts close the rest. PLACEHOLDER order and size,",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6556,7 +6556,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 77,
+      "line": 78,
       "text": "* (real output times prices). PLACEHOLDER, research:",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6565,7 +6565,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 97,
+      "line": 98,
       "text": "* \"yes\" becomes \"no\", each as a share of the source. Null: not researched",
       "kinds": ["unresearched"],
       "path": "other",
@@ -6574,25 +6574,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 118,
-      "text": "\"A repeal ends the tax, so the state collects none; adopting one needs a level, not a share, and is not researched.\",",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/public-budgets/rules.ts",
-      "line": 139,
-      "text": "basis: \"Not researched.\",",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/public-budgets/rules.ts",
-      "line": 146,
+      "line": 164,
       "text": "basis: \"Not researched: a cap slows growth rather than moving a level.\",",
       "kinds": ["unresearched"],
       "path": "other",
