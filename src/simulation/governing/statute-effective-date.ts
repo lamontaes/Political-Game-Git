@@ -1,5 +1,5 @@
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
-import { addDays, isoDateFromParts, yearOf } from "../dates";
+import { addDays, daysBetween, isoDateFromParts, yearOf } from "../dates";
 import type { IsoDate } from "../types";
 
 /**
@@ -46,13 +46,18 @@ export type StatuteEffectiveRule =
       readonly lateDays: number;
     }
   | {
-      /** `days` after the last day of the act's regular session, as the
-       * session-end table gives it. The count is each state's own: Missouri's
-       * "ninety days after" lands on day 90 (August 28), Kentucky's on day
-       * 91, because its Attorney General leaves out the day of adjournment
-       * and waits for ninety full days (OAG 26-03). */
+      /** `months` and then `days` after the last day of the act's regular
+       * session, as the session-end table gives it, and not before
+       * `notBefore` in the session's year. The count is each state's own:
+       * Missouri's "ninety days after" lands on day 90 (August 28),
+       * Kentucky's on day 91, because its Attorney General leaves out the
+       * day of adjournment and waits for ninety full days (OAG 26-03);
+       * Nebraska's "three calendar months after" takes effect the day after
+       * them; Idaho's is July 1 or sixty days after, whichever is later. */
       readonly kind: "days-after-session-end";
       readonly days: number;
+      readonly months?: number;
+      readonly notBefore?: { readonly month: number; readonly day: number };
     }
   | {
       /** A date in the year after final passage, earlier for acts passed
@@ -77,13 +82,15 @@ export type StatuteEffectiveRule =
     };
 
 /** A day of the year: a fixed date, or the `nth` `weekday` (0 is Sunday)
- * of a month, where `nth` -1 is the last one. */
+ * of a month, where `nth` -1 is the last one, moved on by `plusDays` ("the
+ * first Tuesday after the first Monday" is the first Monday plus one). */
 export type YearlyDay =
   | { readonly month: number; readonly day: number }
   | {
       readonly month: number;
       readonly weekday: number;
       readonly nth: number;
+      readonly plusDays?: number;
     };
 
 /** When a regular session must end in a year. */
@@ -99,10 +106,15 @@ export type SessionEndRule =
       readonly lastDayAfterStart: number;
     };
 
+/**
+ * A place's regular sessions in odd and even years: none, one, or more than
+ * one (American Samoa meets twice a year). A row marked `estimated` sets no
+ * limit of its own: its session ends on the median last day of the rows that
+ * were read, for the same year (ESTIMATED FROM AVERAGE).
+ */
 interface SessionEndRow {
-  /** Null: no regular session in years of that parity. */
-  readonly oddYear: SessionEndRule | null;
-  readonly evenYear: SessionEndRule | null;
+  readonly oddYear?: readonly SessionEndRule[];
+  readonly evenYear?: readonly SessionEndRule[];
   readonly estimated?: string;
 }
 
@@ -157,30 +169,49 @@ export function statuteEffectiveRuleEstimate(
 }
 
 /**
- * The last day a state's regular session may run in `year`, from the one
- * session-end table every state reads, or null where the table has no row
- * or the state holds no regular session that year.
+ * The last day of each regular session a place's law allows in `year`, from
+ * the one session-end table every state reads, earliest first. Empty where
+ * the table has no row or the place holds no regular session that year. An
+ * estimated row gives the median of the read rows' last days that year.
  */
-export function stateRegularSessionEnd(
+export function stateSessionEnds(
   jurisdictionKey: string,
   year: number,
-): IsoDate | null {
-  if (!Object.hasOwn(SESSION_ENDS, jurisdictionKey)) return null;
+): readonly IsoDate[] {
+  if (!Object.hasOwn(SESSION_ENDS, jurisdictionKey)) return [];
   const row = SESSION_ENDS[jurisdictionKey]!;
-  const rule = year % 2 ? row.oddYear : row.evenYear;
-  if (!rule) return null;
-  return rule.kind === "on"
-    ? dayInYear(year, rule.day)
-    : addDays(dayInYear(year, rule.start), rule.lastDayAfterStart);
+  if (row.estimated) return medianSessionEnd(year);
+  return readSessionEnds(row, year);
 }
 
-/** Whether the session-end row for a state is estimated, and from what. */
-export function stateRegularSessionEndEstimate(
+/** Where a place's session end is estimated, what it was estimated from. */
+export function stateSessionEndEstimate(
   jurisdictionKey: string,
 ): string | null {
   return Object.hasOwn(SESSION_ENDS, jurisdictionKey)
     ? (SESSION_ENDS[jurisdictionKey]!.estimated ?? null)
     : null;
+}
+
+function readSessionEnds(row: SessionEndRow, year: number): IsoDate[] {
+  return ((year % 2 ? row.oddYear : row.evenYear) ?? [])
+    .map((rule) =>
+      rule.kind === "on"
+        ? dayInYear(year, rule.day)
+        : addDays(dayInYear(year, rule.start), rule.lastDayAfterStart),
+    )
+    .sort();
+}
+
+function medianSessionEnd(year: number): readonly IsoDate[] {
+  const lastDays = Object.values(SESSION_ENDS)
+    .filter((row) => !row.estimated)
+    .map((row) => readSessionEnds(row, year).at(-1))
+    .filter((date): date is IsoDate => date !== undefined)
+    .sort();
+  // The lower middle when the count is even, so the result is a real row's.
+  const median = lastDays[Math.floor((lastDays.length - 1) / 2)];
+  return median ? [median] : [];
 }
 
 /**
@@ -219,12 +250,25 @@ export function stateStatuteOperativeAt(
         : addDays(enactedAt, rule.lateDays);
     }
     case "days-after-session-end": {
-      // The regular session of the act's year. An act enacted on or after
-      // the date this gives came from a special session, whose own
-      // adjournment the game does not record, so the rule does not date it.
-      const sessionEnd = stateRegularSessionEnd(jurisdictionKey, year);
+      // The regular session of the act's year whose end is nearest the act:
+      // it passed during that session or was signed in the days after it.
+      // An act enacted on or after the date this gives came from a special
+      // session, whose own adjournment the game does not record, so the
+      // rule does not date it.
+      const sessionEnd = nearest(
+        stateSessionEnds(jurisdictionKey, year),
+        enactedAt,
+      );
       if (!sessionEnd) return null;
-      const operative = addDays(sessionEnd, rule.days);
+      let operative = addDays(
+        addMonths(sessionEnd, rule.months ?? 0),
+        rule.days,
+      );
+      if (rule.notBefore)
+        operative = latest(
+          operative,
+          isoDateFromParts(year, rule.notBefore.month, rule.notBefore.day),
+        );
       return operative > enactedAt ? operative : null;
     }
     case "next-year-date-by-passage": {
@@ -251,18 +295,42 @@ export function stateStatuteOperativeAt(
 /** A fixed date, or the nth (or last, -1) weekday of the month. */
 function dayInYear(year: number, day: YearlyDay): IsoDate {
   if ("day" in day) return isoDateFromParts(year, day.month, day.day);
+  let date: number;
   if (day.nth > 0) {
     const first = new Date(Date.UTC(year, day.month - 1, 1)).getUTCDay();
-    const date = 1 + ((day.weekday - first + 7) % 7) + (day.nth - 1) * 7;
-    return isoDateFromParts(year, day.month, date);
+    date = 1 + ((day.weekday - first + 7) % 7) + (day.nth - 1) * 7;
+  } else {
+    const lastDate = new Date(Date.UTC(year, day.month, 0)).getUTCDate();
+    const last = new Date(Date.UTC(year, day.month - 1, lastDate)).getUTCDay();
+    date = lastDate - ((last - day.weekday + 7) % 7);
   }
-  const lastDate = new Date(Date.UTC(year, day.month, 0)).getUTCDate();
-  const last = new Date(Date.UTC(year, day.month - 1, lastDate)).getUTCDay();
-  return isoDateFromParts(
-    year,
-    day.month,
-    lastDate - ((last - day.weekday + 7) % 7),
-  );
+  return addDays(isoDateFromParts(year, day.month, date), day.plusDays ?? 0);
+}
+
+function nearest(dates: readonly IsoDate[], to: IsoDate): IsoDate | null {
+  let best: IsoDate | null = null;
+  for (const date of dates)
+    if (
+      best === null ||
+      Math.abs(daysBetween(date, to)) < Math.abs(daysBetween(best, to))
+    )
+      best = date;
+  return best;
+}
+
+/** The same day of the month `months` later, or the month's last day. */
+function addMonths(date: IsoDate, months: number): IsoDate {
+  if (months === 0) return date;
+  const [year, month, day] = date.split("-").map(Number) as [
+    number,
+    number,
+    number,
+  ];
+  const index = month - 1 + months;
+  const targetYear = year + Math.floor(index / 12);
+  const targetMonth = (index % 12) + 1;
+  const lastDay = new Date(Date.UTC(targetYear, targetMonth, 0)).getUTCDate();
+  return isoDateFromParts(targetYear, targetMonth, Math.min(day, lastDay));
 }
 
 function latest(a: IsoDate, b: IsoDate): IsoDate {

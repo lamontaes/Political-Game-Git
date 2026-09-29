@@ -111,7 +111,8 @@ describe("the law in force on a question", () => {
     expect(
       lawInForce(worldWith("2026-05-30", [undated]), ohio, QUESTION),
     ).toMatchObject({ answer: "no", operativeBasis: "state-rule" });
-    // Texas's rule is not researched: the blanket ninety days, said so.
+    // Texas holds no regular session in even years, so its rule does not
+    // date a 2026 act: the blanket ninety days, said so.
     const texan = law(texas, "no", "2026-03-01");
     expect(
       lawInForce(worldWith("2026-05-29", [texan]), texas, QUESTION),

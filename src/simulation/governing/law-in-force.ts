@@ -3,6 +3,7 @@ import { addDays, makeIsoDate } from "../dates";
 import {
   enactmentStatuteDateContext,
   STATUTE_EFFECTIVE_DEFAULT_DAYS,
+  stateRuleBasis,
 } from "../enacted-rule-changes";
 import {
   measurePropositionAnswer,
@@ -25,8 +26,9 @@ import { stateStatuteOperativeAt } from "./statute-effective-date";
  * Derived, never stored: read from the enacted measures that answered the
  * question (`propositionAnswers`), each operative from its enactment's own
  * effective date, else its state's own effective-date rule
- * (`statute-effective-date.ts`), else, where that rule is not researched, the
- * blanket statute default the rule-change reader also uses.
+ * (`statute-effective-date.ts`, read or estimated), else, where that rule
+ * does not date the act, the blanket statute default the rule-change reader
+ * also uses.
  *
  * Which law governs follows `law-hierarchy.ts`: the place's own ordinances,
  * then its state's statutes, then Acts of Congress, and a higher level in
@@ -76,7 +78,8 @@ export interface LawInForce {
    * `state-rule` when the state's own effective-date rule dated it,
    * `game-default` when the blanket effective date was applied.
    */
-  readonly operativeBasis: "enacted-date" | "state-rule" | "game-default";
+  readonly operativeBasis:
+    "enacted-date" | "state-rule" | "estimated-state-rule" | "game-default";
 }
 
 export function lawInForce(
@@ -122,7 +125,7 @@ export function lawInForce(
       operativeBasis: enactment.effectiveAt
         ? ("enacted-date" as const)
         : stateRuleAt
-          ? ("state-rule" as const)
+          ? stateRuleBasis(placeKey!)
           : ("game-default" as const),
       origin: "enacted" as const,
       sequence: enactment.sequence,

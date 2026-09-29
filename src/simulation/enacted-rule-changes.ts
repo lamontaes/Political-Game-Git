@@ -14,8 +14,8 @@
  *
  * - an ordinary statute, through a rule-change provision filed on the measure
  *   before it is enacted (`fileRuleChangeProvision`), operative from the
- *   enactment's effective date, or the blanket default where the state's
- *   effective-date rule is not modeled;
+ *   enactment's effective date, else its state's effective-date rule, or the
+ *   blanket default where that rule does not date the act;
  * - a constitutional amendment carrying a `rule-field` delta
  *   (`ConstitutionalRuleDelta`), operative from its ratified operative date.
  *
@@ -34,6 +34,7 @@ import { addDays } from "./dates";
 import { createStableId } from "./ids";
 import {
   stateStatuteOperativeAt,
+  statuteEffectiveRuleEstimate,
   type StatuteDateContext,
 } from "./governing/statute-effective-date";
 import { requireMeasure } from "./legislation";
@@ -235,9 +236,19 @@ export function amendableRuleFieldLabel(field: AmendableRuleField): string {
   return AMENDABLE_RULE_FIELD_LABELS[field];
 }
 
+/** Whether the state's effective-date rule was read or estimated. */
+export function stateRuleBasis(
+  jurisdictionKey: string,
+): "state-rule" | "estimated-state-rule" {
+  return statuteEffectiveRuleEstimate(jurisdictionKey)
+    ? "estimated-state-rule"
+    : "state-rule";
+}
+
 /**
- * The blanket effective date for a statute whose state's effective-date rule is
- * not researched (`governing/statute-effective-date.ts`): ninety days after the act is recorded. Ninety days is the most
+ * The blanket effective date for a statute whose state's effective-date rule
+ * does not date it, such as an act of a special session
+ * (`governing/statute-effective-date.ts`): ninety days after the act is recorded. Ninety days is the most
  * common default among the states the game has read (Alaska, Missouri, Ohio);
  * it is a game profile, not a claim about any other state's law.
  */
@@ -291,7 +302,8 @@ export interface EnactedRuleChange {
    * state's own effective-date rule dates it; `game-default` when that rule is
    * not researched and the blanket rule applied.
    */
-  readonly operativeBasis: "enacted-date" | "state-rule" | "game-default";
+  readonly operativeBasis:
+    "enacted-date" | "state-rule" | "estimated-state-rule" | "game-default";
   readonly instrument: "statute" | "constitutional-amendment";
   /** Where the law ranks; see `law-hierarchy.ts`. */
   readonly level: LawLevel;
@@ -564,7 +576,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       operativeBasis: explicit
         ? "enacted-date"
         : stateRuleAt
-          ? "state-rule"
+          ? stateRuleBasis(`US-${provision.stateUsps}`)
           : "game-default",
       instrument: "statute",
       level: "state-statute",

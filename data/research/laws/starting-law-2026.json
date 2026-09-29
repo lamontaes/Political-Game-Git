@@ -4,7 +4,7 @@
   "asOf": "2026-09-28",
   "defaultOperativeAt": "2000-01-01",
   "effectiveDates": {
-    "about": "When a state law takes effect if the act names no date of its own, as in force on 1/1/2026. Each rule is read from the state's constitution or code (the same sources as the state's legislative rule pack). A place without a rule uses the game's blanket default of 90 days after enactment and says so. A rule that counts from a session's end or from final passage uses the date the game records for the act (Kentucky, Illinois). notModeled lists places whose rule was read but cannot be dated yet, most because it counts from an adjournment the game does not record. Acts that name their own date, emergency clauses and appropriation acts are not modeled here.",
+    "about": "When a state law takes effect if the act names no date of its own, as in force on 1/1/2026. Each rule is read from the place's constitution or code, or, where marked estimated, taken from the most common rule among places like it (ESTIMATED FROM AVERAGE). A rule that counts from a session's end reads it from sessionEnds, one table for every place: the latest day its law lets the regular session run, estimated where the law sets no calendar limit. A rule that counts from final passage uses the date the game records for the act (Illinois). Acts that name their own date, emergency clauses, appropriation acts and special sessions are not modeled here.",
     "rules": {
       "US-AK": {
         "rule": {
@@ -14,6 +14,43 @@
         "cite": "Alaska Const. art. II, § 18",
         "source": "https://www.akleg.gov/basis/constitution.asp",
         "note": "Laws take effect ninety days after enactment unless two-thirds of each house set another date."
+      },
+      "US-AL": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 91
+        },
+        "estimated": "ESTIMATED FROM AVERAGE: the most common rule among the places whose rule was read, the day after ninety full days from the session's end (Arizona, Arkansas, Kentucky, Maine, Michigan, Texas and Washington), counted from the estimated session end.",
+        "cite": "Ala. Code § 1-1-8",
+        "source": "https://law.justia.com/codes/alabama/title-1/chapter-1/section-1-1-8/",
+        "note": "Read but not dated: No default found for ordinary acts; Alabama acts name their own date. Penal acts take effect 60 days after approval."
+      },
+      "US-AR": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 91
+        },
+        "cite": "Ark. Const. art. 5, § 1 (Amend. 7); Ark. Att'y Gen. Op. No. 2021-029",
+        "source": "https://ag-opinions.s3.amazonaws.com/uploads/2021-029.html",
+        "note": "An act without an emergency clause takes effect on the 91st day after the session's final adjournment, the day after the 90-day referendum window closes (2019: adjourned April 24, effective July 24)."
+      },
+      "US-AS": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 60
+        },
+        "cite": "Rev. Const. of American Samoa art. II, § 19",
+        "source": "https://asbar.org/revised-constitution-of-american-samoa/",
+        "note": "An act approved by the Governor takes effect \"no sooner than 60 days from the end of the session\"; the game uses the sixtieth day. No year's actual count was read."
+      },
+      "US-AZ": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 91
+        },
+        "cite": "Ariz. Const. art. 4, pt. 1, § 1(3)",
+        "source": "https://www.azleg.gov/const/4/1.p1.htm",
+        "note": "No act is operative for ninety days after the session closes; acts take effect on the 91st day (2025: adjourned June 27, effective September 26)."
       },
       "US-CA": {
         "rule": {
@@ -44,6 +81,16 @@
         "source": "https://www.cga.ct.gov/current/pub/chap_016.htm",
         "note": "Public acts take effect on the October 1 after the session that passed them; special acts take effect on approval."
       },
+      "US-DC": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 91
+        },
+        "estimated": "ESTIMATED FROM AVERAGE: the most common rule among the places whose rule was read, the day after ninety full days from the session's end (Arizona, Arkansas, Kentucky, Maine, Michigan, Texas and Washington), counted from the estimated session end.",
+        "cite": "D.C. Code § 1-206.02(c)",
+        "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-206.02",
+        "note": "Read but not dated: An act takes effect after 30 days of Congress's review (60 for criminal titles), counted in days Congress sits."
+      },
       "US-DE": {
         "rule": {
           "kind": "days-after-enactment",
@@ -52,6 +99,15 @@
         "cite": "Delaware Legislative Drafting Manual (Division of Legislative Services)",
         "source": "https://www.legis.delaware.gov/docs/default-source/publications/legislative-drafting-manual.pdf?sfvrsn=74bcb138_7",
         "note": "The legislature's own drafting manual says all bills enacted into law take effect immediately unless they say otherwise. No code section states it; 1 Del. C. § 102 dates only the Code itself."
+      },
+      "US-FL": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 60
+        },
+        "cite": "Fla. Const. art. III, § 9",
+        "source": "https://www.flsenate.gov/Laws/Constitution",
+        "note": "\"Each law shall take effect on the sixtieth day after adjournment sine die ... or as otherwise provided therein.\" Most acts name their own date, usually July 1 or October 1."
       },
       "US-GA": {
         "rule": {
@@ -80,6 +136,16 @@
         "source": "https://col.guamcourts.gov/sites/default/files/1gc001.pdf",
         "note": "A law takes effect at midnight of the day the governor approves it. A bill that becomes law unsigned takes effect at midnight on the tenth day (Sundays excepted), and an override on the day it is repassed."
       },
+      "US-HI": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 91
+        },
+        "estimated": "ESTIMATED FROM AVERAGE: the most common rule among the places whose rule was read, the day after ninety full days from the session's end (Arizona, Arkansas, Kentucky, Maine, Michigan, Texas and Washington), counted from the estimated session end.",
+        "cite": "Haw. Rev. Stat. § 1-2",
+        "source": "https://www.capitol.hawaii.gov/hrscurrent/Vol01_Ch0001-0042F/HRS0001/HRS_0001-0002.htm",
+        "note": "Read but not dated: Laws bind once printed and published; no number of days is set."
+      },
       "US-IA": {
         "rule": {
           "kind": "date-in-year-else-days",
@@ -90,6 +156,19 @@
         "cite": "Iowa Code § 3.7",
         "source": "https://www.legis.iowa.gov/docs/code/3.7.pdf",
         "note": "Regular-session acts take effect on the July 1 after passage; an act passed before July 1 but approved on or after it takes effect 45 days after approval. The game counts both from enactment."
+      },
+      "US-ID": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 60,
+          "notBefore": {
+            "month": 7,
+            "day": 1
+          }
+        },
+        "cite": "Idaho Code § 67-510",
+        "source": "https://legislature.idaho.gov/statutesrules/idstat/Title67/T67CH5/SECT67-510/",
+        "note": "July 1 of the session's year or 60 days after the session ends, whichever is later (2025: adjourned April 4, effective July 1)."
       },
       "US-IL": {
         "rule": {
@@ -120,6 +199,16 @@
         "cite": "Ind. Code § 1-1-3-3(b)",
         "source": "https://law.justia.com/codes/indiana/title-1/article-1/chapter-3/section-1-1-3-3/",
         "note": "Each section of a regular-session act takes effect on the July 1 after its enactment unless it names another time."
+      },
+      "US-KS": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 91
+        },
+        "estimated": "ESTIMATED FROM AVERAGE: the most common rule among the places whose rule was read, the day after ninety full days from the session's end (Arizona, Arkansas, Kentucky, Maine, Michigan, Texas and Washington), counted from the estimated session end.",
+        "cite": "K.S.A. 45-310(a)",
+        "source": "https://www.kslegislature.gov/li/b2025_26/statute/045_000_0000_chapter/045_003_0000_article/045_003_0010_section/045_003_0010_k/",
+        "note": "Read but not dated: Acts take effect on publication in the session laws; the publication date was not read from the code."
       },
       "US-KY": {
         "rule": {
@@ -159,6 +248,24 @@
         "source": "https://msa.maryland.gov/msa/mdmanual/43const/html/03art3.html",
         "note": "A law takes effect the first day of June after the session that passed it, unless it says otherwise."
       },
+      "US-ME": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 91
+        },
+        "cite": "Me. Const. art. IV, pt. 3, § 16",
+        "source": "https://legislature.maine.gov/doc/10674",
+        "note": "No act takes effect until 90 days after the session's recess; acts take effect on the 91st day (2025: adjourned March 21, effective June 20)."
+      },
+      "US-MI": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 91
+        },
+        "cite": "Mich. Const. art. IV, § 27",
+        "source": "https://law.justia.com/constitution/michigan/article-iv/section-27/",
+        "note": "No act takes effect until 90 days from the end of the session have expired; enrolled 2024 acts read \"91st day after final adjournment\"."
+      },
       "US-MN": {
         "rule": {
           "kind": "next-date",
@@ -177,6 +284,16 @@
         "cite": "Mo. Const. art. III, §§ 20(a), 29",
         "source": "https://revisor.mo.gov/main/OneSection.aspx?section=Article%20III%20Section%2029",
         "note": "A law other than an appropriation act takes effect ninety days after the session adjourns, and the regular session adjourns on May 30, so ordinary laws take effect August 28. Special sessions are not modeled."
+      },
+      "US-MP": {
+        "rule": {
+          "kind": "days-after-enactment",
+          "days": 0
+        },
+        "estimated": "ESTIMATED FROM AVERAGE: the rule the other territories whose rule was read share, Guam and the U.S. Virgin Islands: an act takes effect when it becomes law.",
+        "cite": "N.M.I. Const. art. II, § 7",
+        "source": "https://cnmilaw.gov/constitution",
+        "note": "Read but not dated: Says only when a bill becomes law; no effective-date rule was found in the constitution or the Commonwealth Code."
       },
       "US-MS": {
         "rule": {
@@ -197,6 +314,15 @@
         "source": "https://leg.mt.gov/bills/mca/title_0010/chapter_0020/part_0020/section_0010/0010-0020-0020-0010.html",
         "note": "A statute takes effect on the October 1 after its passage and approval. Appropriations take effect July 1, motor vehicle taxes and fees January 1, and special-session statutes on approval, which the game does not yet tell apart."
       },
+      "US-NC": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 60
+        },
+        "cite": "N.C. Gen. Stat. § 120-20",
+        "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_120/GS_120-20.html",
+        "note": "Acts are in force \"from and after 60 days after the adjournment of the session\"; the game uses the sixtieth day, inferred from the text, not a counted year. Most acts name their own date."
+      },
       "US-ND": {
         "rule": {
           "kind": "date-in-year-else-days",
@@ -207,6 +333,16 @@
         "cite": "N.D. Const. art. IV, § 13",
         "source": "https://ndlegis.gov/constit/a04.pdf",
         "note": "A law takes effect on the August 1 after it is filed with the secretary of state, or 90 days after filing if filed from August 1 through December 31; the game counts from enactment. Appropriation and tax-rate measures take effect July 1 and emergency measures on filing."
+      },
+      "US-NE": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 1,
+          "months": 3
+        },
+        "cite": "Neb. Const. art. III, § 27",
+        "source": "https://nebraskalegislature.gov/laws/articles.php?article=III-27",
+        "note": "No act takes effect until three calendar months after the session adjourns; acts take effect the next day (2025: adjourned June 2, effective September 3)."
       },
       "US-NH": {
         "rule": {
@@ -226,6 +362,15 @@
         "cite": "N.J. Stat. Ann. § 1:2-3",
         "source": "https://pub.njleg.gov/statutes/STATUTES-TEXT.zip",
         "note": "A public act takes effect on the July 4 after its passage unless it says otherwise; the game counts from enactment."
+      },
+      "US-NM": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 90
+        },
+        "cite": "N.M. Const. art. IV, § 23",
+        "source": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-iv-sect-23/",
+        "note": "Laws go into effect ninety days after the session adjourns (2025: adjourned March 22, effective June 20)."
       },
       "US-NV": {
         "rule": {
@@ -255,6 +400,15 @@
         "source": "https://codes.ohio.gov/ohio-constitution/section-2.1c",
         "note": "A law takes effect ninety days after the governor files it with the secretary of state, the window for a referendum petition; the game counts from enactment. Tax levies, current-expense appropriations and emergency laws take effect at once, which the game does not yet tell apart."
       },
+      "US-OK": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 90
+        },
+        "cite": "Okla. Const. art. V, § 58",
+        "source": "https://law.justia.com/constitution/oklahoma/V-58.html",
+        "note": "No act takes effect until ninety days after the session adjourns; the game uses the ninetieth day, inferred from the text, not a counted year. Most acts name November 1 or carry an emergency clause."
+      },
       "US-OR": {
         "rule": {
           "kind": "next-date",
@@ -273,6 +427,16 @@
         "cite": "1 Pa. Cons. Stat. § 1701(a)(5)",
         "source": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/01/00.017..HTM",
         "note": "A statute with no date takes effect 60 days after final enactment. Appropriation acts (§ 1702) and acts affecting local budgets (§ 1703) are dated differently, which the game does not yet tell apart."
+      },
+      "US-PR": {
+        "rule": {
+          "kind": "days-after-enactment",
+          "days": 0
+        },
+        "estimated": "ESTIMATED FROM AVERAGE: the rule the other territories whose rule was read share, Guam and the U.S. Virgin Islands: an act takes effect when it becomes law.",
+        "cite": "Código Civil de Puerto Rico de 2020, art. 8 (31 L.P.R.A. § 5322)",
+        "source": "https://docs.pr.gov/files/OIG/Biblioteca%20Virtual/Leyes/14-%20Ley%20N%C3%BAm.%2055-2020%20C%C3%B3digo%20Civil%20de%20Puerto%20Rico%20de%202020.pdf",
+        "note": "Read but not dated: Thirty days after publication, a date the game does not record."
       },
       "US-RI": {
         "rule": {
@@ -313,6 +477,24 @@
         "source": "https://ballotpedia.org/Article_II,_Tennessee_Constitution",
         "note": "A general law takes effect 40 days after passage unless it or its caption says the public welfare requires sooner, as most Tennessee acts do; the game counts from enactment."
       },
+      "US-TX": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 91
+        },
+        "cite": "Tex. Const. art. III, § 39",
+        "source": "https://statutes.capitol.texas.gov/Docs/CN/htm/CN.3.htm",
+        "note": "No law takes effect until ninety days after the session adjourns; acts without a date take effect on the 91st day (2025: adjourned June 2, effective September 1), a count inferred from common practice, not read in a statute."
+      },
+      "US-UT": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 61
+        },
+        "cite": "Utah Const. art. VI, § 25",
+        "source": "https://le.utah.gov/xcode/ArticleVI/Article_VI,_Section_25.html",
+        "note": "No act takes effect until sixty days after the session adjourns; acts take effect on the 61st day (2025: adjourned March 7, effective May 7)."
+      },
       "US-VA": {
         "rule": {
           "kind": "next-date",
@@ -342,6 +524,15 @@
         "source": "https://legislature.vermont.gov/statutes/fullchapter/01/003",
         "note": "Laws take effect on the July 1 after their passage unless they say otherwise; many Vermont acts take effect on passage by their own terms."
       },
+      "US-WA": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 91
+        },
+        "cite": "Wash. Const. art. II, § 41",
+        "source": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+        "note": "No act subject to referendum takes effect until ninety days after the session adjourns; acts take effect on the 91st day (2026: adjourned March 12, effective June 11)."
+      },
       "US-WI": {
         "rule": {
           "kind": "days-after-enactment",
@@ -359,153 +550,366 @@
         "cite": "W. Va. Const. art. VI, § 30",
         "source": "https://www.wvlegislature.gov/WVCODE/WV_CON.cfm",
         "note": "An act takes effect 90 days after its passage unless two-thirds of each house direct otherwise; the game counts from enactment."
+      },
+      "US-WY": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 90
+        },
+        "cite": "Wyo. Stat. § 8-1-108",
+        "source": "https://law.justia.com/codes/wyoming/title-8/chapter-1/section-8-1-108/",
+        "note": "Every law takes effect ninety days after the session adjourns unless it names another date; the game uses the ninetieth day, inferred from the text. Most acts name July 1."
       }
     },
     "sessionEnds": {
+      "US-AL": {
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "note": "Its rule was not read in days after a session, so its session end was not read either."
+      },
+      "US-AR": {
+        "oddYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 1,
+              "nth": 2
+            },
+            "lastDayAfterStart": 59
+          }
+        ],
+        "evenYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 4,
+              "weekday": 3,
+              "nth": 2
+            },
+            "lastDayAfterStart": 29
+          }
+        ],
+        "cite": "Ark. Const. art. 5, §§ 5, 17",
+        "source": "https://codes.findlaw.com/ar/arkansas-constitution-of-1874/ar-const-art-5-sect-17/",
+        "note": "A regular session in odd years opens on the second Monday in January and may not exceed 60 calendar days unless two-thirds extend it; real sessions usually run longer (2023 ended May 1). The even-year fiscal session is limited to 30 days; the constitution opens it in February, but the legislature has moved it to April by law (2024 opened April 10, 2026 April 8), which is the date used."
+      },
+      "US-AS": {
+        "oddYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 1,
+              "nth": 2
+            },
+            "lastDayAfterStart": 44
+          },
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 7,
+              "weekday": 1,
+              "nth": 2
+            },
+            "lastDayAfterStart": 44
+          }
+        ],
+        "evenYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 1,
+              "nth": 2
+            },
+            "lastDayAfterStart": 44
+          },
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 7,
+              "weekday": 1,
+              "nth": 2
+            },
+            "lastDayAfterStart": 44
+          }
+        ],
+        "cite": "Rev. Const. of American Samoa art. II, § 8",
+        "source": "https://asbar.org/revised-constitution-of-american-samoa/",
+        "note": "Two regular sessions a year, opening on the second Monday in January and in July, each to last 45 days. Whether those are calendar days was not read; the game counts calendar days."
+      },
+      "US-AZ": {
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "cite": "Ariz. Const. art. 4, pt. 2, § 3",
+        "source": "https://www.azleg.gov/const/4/3.p2.htm",
+        "note": "Sets only the opening day; no limit on length (2025 ran 169 days)."
+      },
+      "US-DC": {
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "note": "The Council meets year-round; this date only anchors the estimated rule."
+      },
+      "US-FL": {
+        "oddYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 3,
+              "weekday": 1,
+              "nth": 1,
+              "plusDays": 1
+            },
+            "lastDayAfterStart": 59
+          }
+        ],
+        "evenYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 1,
+              "nth": 1,
+              "plusDays": 8
+            },
+            "lastDayAfterStart": 59
+          }
+        ],
+        "cite": "Fla. Const. art. III, § 3(b), (d)",
+        "source": "https://www.flsenate.gov/Laws/Constitution",
+        "note": "The session opens on the first Tuesday after the first Monday in March in odd years and the second Tuesday after the first Monday in January in even years, and may not exceed 60 consecutive days unless three-fifths extend it."
+      },
+      "US-HI": {
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "note": "Its rule was not read in days after a session, so its session end was not read either."
+      },
+      "US-ID": {
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "cite": "Idaho Const. art. III, § 8(1)",
+        "source": "https://legislature.idaho.gov/statutesrules/idconst/ArtIII/Sect8/",
+        "note": "Sets only the opening day; no limit on length was found."
+      },
+      "US-KS": {
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "note": "Its rule was not read in days after a session, so its session end was not read either."
+      },
       "US-KY": {
-        "oddYear": {
-          "kind": "on",
-          "day": {
-            "month": 3,
-            "day": 30
+        "oddYear": [
+          {
+            "kind": "on",
+            "day": {
+              "month": 3,
+              "day": 30
+            }
           }
-        },
-        "evenYear": {
-          "kind": "on",
-          "day": {
-            "month": 4,
-            "day": 15
+        ],
+        "evenYear": [
+          {
+            "kind": "on",
+            "day": {
+              "month": 4,
+              "day": 15
+            }
           }
-        },
+        ],
         "cite": "Ky. Const. § 42",
         "source": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=46",
         "note": "Even-year sessions adjourn by April 15 and odd-year sessions by March 30, the same limit Kentucky's legislative rule pack holds."
       },
+      "US-ME": {
+        "oddYear": [
+          {
+            "kind": "on",
+            "day": {
+              "month": 6,
+              "weekday": 3,
+              "nth": 3
+            }
+          }
+        ],
+        "evenYear": [
+          {
+            "kind": "on",
+            "day": {
+              "month": 4,
+              "weekday": 3,
+              "nth": 3
+            }
+          }
+        ],
+        "cite": "3 M.R.S. § 2 (required by Me. Const. art. IV, pt. 3, § 1)",
+        "source": "https://legislature.maine.gov/statutes/3/title3sec2.html",
+        "note": "The first regular session adjourns no later than the third Wednesday in June and the second no later than the third Wednesday in April; two-thirds may extend either."
+      },
+      "US-MI": {
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "cite": "Mich. Const. art. IV, § 13",
+        "source": "https://legislature.mi.gov/doc.aspx?mcl-Article-IV-13",
+        "note": "The session adjourns on a day set by concurrent resolution; its sessions customarily run into December, later than this estimate."
+      },
       "US-MO": {
-        "oddYear": {
-          "kind": "on",
-          "day": {
-            "month": 5,
-            "day": 30
+        "oddYear": [
+          {
+            "kind": "on",
+            "day": {
+              "month": 5,
+              "day": 30
+            }
           }
-        },
-        "evenYear": {
-          "kind": "on",
-          "day": {
-            "month": 5,
-            "day": 30
+        ],
+        "evenYear": [
+          {
+            "kind": "on",
+            "day": {
+              "month": 5,
+              "day": 30
+            }
           }
-        },
+        ],
         "cite": "Mo. Const. art. III, § 20(a)",
         "source": "https://revisor.mo.gov/main/OneSection.aspx?section=Article%20III%20Section%2020(a)",
         "note": "The regular session adjourns on May 30 each year."
-      }
-    },
-    "notModeled": {
-      "US-AL": {
-        "cite": "Ala. Code § 1-1-8",
-        "source": "https://law.justia.com/codes/alabama/title-1/chapter-1/section-1-1-8/",
-        "note": "No default found for ordinary acts; Alabama acts name their own date. Penal acts take effect 60 days after approval."
-      },
-      "US-AR": {
-        "cite": "Ark. Const. art. 5, § 1; Ark. Att'y Gen. Op. No. 2025-032",
-        "source": "https://ag-opinions.s3.amazonaws.com/uploads/2025-032.pdf",
-        "note": "The day after the 90-day referendum deadline, which counts from the session's final adjournment, a date the law does not fix."
-      },
-      "US-AS": {
-        "cite": "Constitution of American Samoa (1960 text), art. II, § 19",
-        "source": "https://en.wikisource.org/wiki/Constitution%20of%20American%20Samoa%20(1960)",
-        "note": "No sooner than 60 days from the end of the session, read from the 1960 text; the 1967 revised text in force was not readable (asbar.org refused)."
-      },
-      "US-AZ": {
-        "cite": "Ariz. Const. art. IV, pt. 1, § 1(3)",
-        "source": "https://en.wikisource.org/wiki/Constitution_of_Arizona",
-        "note": "Ninety days after the session closes, a date the law does not fix."
-      },
-      "US-DC": {
-        "cite": "D.C. Code § 1-206.02(c)",
-        "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-206.02",
-        "note": "An act takes effect after 30 days of Congress's review (60 for criminal titles), counted in days Congress sits."
-      },
-      "US-FL": {
-        "cite": "Fla. Const. art. III, § 9",
-        "source": "https://ballotpedia.org/Article_III,_Florida_Constitution",
-        "note": "The sixtieth day after the session adjourns, a date the law does not fix."
-      },
-      "US-HI": {
-        "cite": "Haw. Rev. Stat. § 1-2",
-        "source": "https://www.capitol.hawaii.gov/hrscurrent/Vol01_Ch0001-0042F/HRS0001/HRS_0001-0002.htm",
-        "note": "Laws bind once printed and published; no number of days is set."
-      },
-      "US-ID": {
-        "cite": "Idaho Code § 67-510",
-        "source": "https://legislature.idaho.gov/statutesrules/idstat/Title67/T67CH5/SECT67-510/",
-        "note": "The later of July 1 or 60 days after the session ends, a date the law does not fix."
-      },
-      "US-KS": {
-        "cite": "K.S.A. 45-310(a)",
-        "source": "https://www.kslegislature.gov/li/b2025_26/statute/045_000_0000_chapter/045_003_0000_article/045_003_0010_section/045_003_0010_k/",
-        "note": "Acts take effect on publication in the session laws; the publication date was not read from the code."
-      },
-      "US-ME": {
-        "cite": "Me. Const. art. IV, pt. 3, § 16",
-        "source": "https://ballotpedia.org/Article_IV--Part_Third,_Maine_Constitution",
-        "note": "Ninety days after the session's recess, a date the law does not fix."
-      },
-      "US-MI": {
-        "cite": "Mich. Const. art. IV, § 27",
-        "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-Article-IV-27",
-        "note": "Ninety days after the session ends, a date the law does not fix."
-      },
-      "US-MP": {
-        "cite": "N.M.I. Const. art. II, § 7",
-        "source": "https://cnmilaw.gov/constitution",
-        "note": "Says only when a bill becomes law; no effective-date rule was found in the constitution or the Commonwealth Code."
       },
       "US-NC": {
-        "cite": "N.C. Gen. Stat. § 120-20",
-        "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_120/GS_120-20.html",
-        "note": "Sixty days after the session adjourns, a date the law does not fix."
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "cite": "N.C. Const. art. II, § 11(1)",
+        "source": "https://www.ncleg.gov/Laws/Constitution/Article2",
+        "note": "The session adjourns by resolution; no end date or limit on length."
       },
       "US-NE": {
-        "cite": "Neb. Const. art. III, § 27",
-        "source": "https://nebraskalegislature.gov/laws/articles.php?article=III-27",
-        "note": "Three calendar months after the session adjourns, a date the law does not fix."
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "cite": "Neb. Const. art. III, § 10",
+        "source": "https://nebraskalegislature.gov/laws/articles.php?article=III-10",
+        "note": "The limit is 90 legislative days in odd years and 60 in even years, which are not calendar days (2025 adjourned June 2)."
       },
       "US-NM": {
-        "cite": "N.M. Const. art. IV, § 23",
-        "source": "https://ballotpedia.org/Article_IV,_New_Mexico_Constitution",
-        "note": "Ninety days after the session adjourns, a date the law does not fix."
+        "oddYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 2,
+              "nth": 3
+            },
+            "lastDayAfterStart": 60
+          }
+        ],
+        "evenYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 2,
+              "nth": 3
+            },
+            "lastDayAfterStart": 30
+          }
+        ],
+        "cite": "N.M. Const. art. IV, § 5(A)",
+        "source": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-iv-sect-5/",
+        "note": "The session opens on the third Tuesday in January and may not exceed 60 days in odd years and 30 in even years; it ends at noon on that day (2025: January 21 to March 22)."
       },
       "US-OK": {
-        "cite": "Okla. Const. art. V, § 58",
-        "source": "https://ballotpedia.org/Article_V,_Oklahoma_Constitution",
-        "note": "Ninety days after the session adjourns; art. V, § 26 sets only a latest adjournment (the last Friday in May), so the date moves."
-      },
-      "US-PR": {
-        "cite": "Código Civil de Puerto Rico de 2020, art. 8 (31 L.P.R.A. § 5322)",
-        "source": "https://docs.pr.gov/files/OIG/Biblioteca%20Virtual/Leyes/14-%20Ley%20N%C3%BAm.%2055-2020%20C%C3%B3digo%20Civil%20de%20Puerto%20Rico%20de%202020.pdf",
-        "note": "Thirty days after publication, a date the game does not record."
+        "oddYear": [
+          {
+            "kind": "on",
+            "day": {
+              "month": 5,
+              "weekday": 5,
+              "nth": -1
+            }
+          }
+        ],
+        "evenYear": [
+          {
+            "kind": "on",
+            "day": {
+              "month": 5,
+              "weekday": 5,
+              "nth": -1
+            }
+          }
+        ],
+        "cite": "Okla. Const. art. V, § 26",
+        "source": "https://law.justia.com/constitution/oklahoma/V-26.html",
+        "note": "The session adjourns sine die no later than 5 p.m. on the last Friday in May."
       },
       "US-TX": {
-        "cite": "Tex. Const. art. III, § 39",
-        "source": "https://ballotpedia.org/Article_3,_Texas_Constitution",
-        "note": "The ninety-first day after the session adjourns; the session is capped at 140 days but its end is not a fixed date."
+        "oddYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 2,
+              "nth": 2
+            },
+            "lastDayAfterStart": 139
+          }
+        ],
+        "evenYear": [],
+        "cite": "Tex. Const. art. III, § 24(b); Tex. Gov't Code § 301.001",
+        "source": "https://statutes.capitol.texas.gov/Docs/CN/htm/CN.3.htm",
+        "note": "The regular session opens on the second Tuesday in January of odd years and may not exceed 140 days (2025: January 14 to June 2). Even years hold no regular session."
       },
       "US-UT": {
-        "cite": "Utah Const. art. VI, § 25",
-        "source": "https://ballotpedia.org/Article_VI,_Utah_Constitution",
-        "note": "Sixty days after the session adjourns, a date the law does not fix."
+        "oddYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 1,
+              "nth": 3,
+              "plusDays": 1
+            },
+            "lastDayAfterStart": 45
+          }
+        ],
+        "evenYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 1,
+              "nth": 3,
+              "plusDays": 1
+            },
+            "lastDayAfterStart": 45
+          }
+        ],
+        "cite": "Utah Const. art. VI, § 16(1); Utah Code § 36-3-201",
+        "source": "https://le.utah.gov/xcode/ArticleVI/UC_AVI_1800010118000101.pdf",
+        "note": "The session opens on the first Tuesday after the third Monday in January and may not exceed 45 calendar days, not counting holidays; Presidents' Day always falls inside it, so the last day is 45 days after the first (2025: January 21 to March 7)."
       },
       "US-WA": {
-        "cite": "Wash. Const. art. II, § 41",
-        "source": "https://leg.wa.gov/state-laws-and-rules/washington-state-constitution/?section=13c8f0de-58d7-4cee-b367-4478b3be34fb",
-        "note": "Ninety days after the session adjourns, a date the law does not fix."
+        "oddYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 1,
+              "nth": 2
+            },
+            "lastDayAfterStart": 104
+          }
+        ],
+        "evenYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 1,
+              "nth": 2
+            },
+            "lastDayAfterStart": 59
+          }
+        ],
+        "cite": "Wash. Const. art. II, § 12(1); RCW 44.04.010",
+        "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=44.04.010",
+        "note": "The session opens on the second Monday in January and may not exceed 105 consecutive days in odd years and 60 in even years (2026: January 12 to March 12)."
       },
       "US-WY": {
-        "cite": "Wyo. Stat. § 8-1-108",
-        "source": "https://wyoleg.gov/statutes/compress/title08.pdf",
-        "note": "Ninety days after the session adjourns, a date the law does not fix."
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "cite": "Wyo. Const. art. 3, § 6",
+        "source": "https://sos.wyo.gov/Forms/Publications/WYConstitution.pdf",
+        "note": "The limit is 40 legislative working days a year, which are not calendar days."
       }
     }
   },
