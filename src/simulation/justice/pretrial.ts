@@ -49,7 +49,11 @@ export function bailDueMinorUnits(offenseKey: string): number {
   );
 }
 
-function propositionIdByKey(world: World, suffix: string): EntityId | null {
+/** The catalog's proposition whose stable key ends with `suffix`. */
+export function propositionIdByKey(
+  world: World,
+  suffix: string,
+): EntityId | null {
   for (const [id, proposition] of Object.entries(
     world.policyCatalog.propositions,
   ))

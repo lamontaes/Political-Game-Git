@@ -11,6 +11,7 @@ import type {
   World,
 } from "../types";
 import { mandatoryJailUnderLaw, type CourtCase } from "./court-reasoning";
+import { adultCourtAgeAt } from "./juvenile-court";
 import { bailDueMinorUnits, bailMinorUnits, pretrialLawAt } from "./pretrial";
 
 /**
@@ -26,15 +27,23 @@ const MINIMUMS =
   "us-policy-positions:justice-public-safety.mandatory-minimum-sentences";
 const BAIL_ID = "proposition_end_cash_bail" as EntityId;
 const MINIMUMS_ID = "proposition_mandatory_minimums" as EntityId;
+const JUVENILE =
+  "us-policy-positions:justice-public-safety.raise-juvenile-court-age";
+const JUVENILE_ID = "proposition_juvenile_court_age" as EntityId;
 
-const answers = (
+const questions = (
   startingLaw as unknown as {
     questions: Record<string, { answers: Record<string, { answer: string }> }>;
   }
-).questions[CASH_BAIL]!.answers;
+).questions;
 
 /** A state or territory whose starting law answers `answer`, by the seed. */
-function drawPlace(seed: string, answer: "yes" | "no"): string {
+function drawPlace(
+  seed: string,
+  answer: "yes" | "no",
+  question = CASH_BAIL,
+): string {
+  const answers = questions[question]!.answers;
   const keys = Object.keys(answers)
     .filter((key) => answers[key]!.answer === answer)
     .sort();
@@ -93,6 +102,7 @@ function worldWith(
       propositions: {
         [BAIL_ID]: { stableKey: CASH_BAIL },
         [MINIMUMS_ID]: { stableKey: MINIMUMS },
+        [JUVENILE_ID]: { stableKey: JUVENILE },
       },
     },
     history: {
@@ -185,5 +195,28 @@ describe("mandatory minimum sentences, as the law in force answers them", () => 
     expect(
       mandatoryJailUnderLaw(worldWith("2026-08-01", [sets]), vandalism),
     ).toBeNull();
+  });
+});
+
+describe("the juvenile court age, as the law in force answers it", () => {
+  const notRaised = drawPlace("pretrial-law-3", "no", JUVENILE);
+  const raised = drawPlace("pretrial-law-3", "yes", JUVENILE);
+  const state = stateJurisdictionForKey(notRaised)!.id;
+  const other = stateJurisdictionForKey(raised)!.id;
+
+  it(`tries a 17-year-old as an adult only where the law has not raised the age (${notRaised}, ${raised})`, () => {
+    const world = worldWith("2026-06-01", []);
+    expect(adultCourtAgeAt(world, state)).toBe(17);
+    expect(adultCourtAgeAt(world, other)).toBe(18);
+  });
+
+  it(`raises the age from the law's effective date, and a repeal lowers it again (${notRaised})`, () => {
+    const raises = law(state, JUVENILE_ID, "yes", "2026-07-01");
+    expect(adultCourtAgeAt(worldWith("2026-06-30", [raises]), state)).toBe(17);
+    expect(adultCourtAgeAt(worldWith("2026-07-01", [raises]), state)).toBe(18);
+    const repeal = law(state, JUVENILE_ID, "no", "2027-01-01");
+    expect(
+      adultCourtAgeAt(worldWith("2027-01-01", [raises, repeal]), state),
+    ).toBe(17);
   });
 });

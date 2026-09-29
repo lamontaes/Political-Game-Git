@@ -82,7 +82,7 @@ export const CRIME_CAUSE_SEAMS: readonly CrimeCauseSeam[] = [
     key: "effect-news",
     connects: "Crime reaching the local paper.",
     status: "built",
-    rule: "A reported offense and an arrest are public records on the public-safety beat.",
+    rule: "An offense on the police log and an arrest are public records on the public-safety beat.",
     where: "src/simulation/press/desk.ts",
   },
   {
