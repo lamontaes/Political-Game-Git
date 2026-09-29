@@ -15,6 +15,7 @@ import type { EntityId, IsoDate, World } from "../../src/simulation";
 import { describeTownBusinesses } from "../../src/simulation/living-world/town-businesses";
 import { townResidents } from "../../src/simulation/living-world/town-employment";
 import { describeTownHomes } from "../../src/simulation/living-world/town-homes";
+import { townRentSnapshot } from "../../src/simulation/living-world/town-rent";
 import {
   townMedianHourlyPay,
   townUnemploymentRate,
@@ -198,6 +199,7 @@ export function vitalSnapshot(
   const roster = townRoster(town);
   const written = townResidents(world, town).length;
   const homes = describeTownHomes(world, town);
+  const rent = townRentSnapshot(world, town, world.currentDate);
   const unemployment = townUnemploymentRate(world, town);
   const pay = townMedianHourlyPay(world, town);
   const businesses = describeTownBusinesses(world, town, world.currentDate);
@@ -262,8 +264,20 @@ export function vitalSnapshot(
       key: "rent-share",
       label: "Typical rent as a share of income",
       scope: "town",
-      value: null,
-      missing: "no rent payment is recorded on this head",
+      // The median of each written-out lease's rent over its household's
+      // recorded pay (town-rent.ts).
+      value:
+        rent.medianBurden === null
+          ? null
+          : `${percent(rent.medianBurden * 100)} across ${count(rent.leases)} leases written out`,
+      ...(rent.medianBurden === null
+        ? {
+            missing:
+              rent.leases === 0
+                ? "no lease is written out yet; the first rent day comes after the opening"
+                : "no leaseholder's pay is recorded",
+          }
+        : {}),
     },
     outcome(
       world,

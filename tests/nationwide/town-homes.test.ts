@@ -23,10 +23,13 @@ import {
   relocateHousehold,
 } from "../../src/simulation/migration/relocate";
 import { reviewTownFamilies } from "../../src/simulation/living-world/town-families";
+import { reviewTownJobs } from "../../src/simulation/living-world/town-labor-market";
+import { startTownJobPay } from "../../src/simulation/living-world/town-pay";
 import {
   TOWN_HOMES_VERSION,
   TOWN_HOME_EVENTS,
   TOWN_HOME_KINDS,
+  TOWN_HOME_REASONS,
   chooseTownHomeKind,
   describeTownHomes,
   reviewTownHomes,
@@ -154,10 +157,12 @@ describe(
       .household.id;
     const snapshots: World[] = [];
     let world = opened.world;
-    // Only the calendar moves; the families and homes reviews write. The
+    // Only the calendar moves; the jobs, pay, families and homes reviews
+    // write, so a household's pay and size change as they do in play. The
     // whole-world check is deferred because the world's other due items are
     // not run here.
     withWorldIntegrityDeferred(() => {
+      world = startTownJobPay(world, personId, world.currentDate);
       for (let round = 0; round < 20; round += 1) {
         const date = addDays(world.currentDate, 91);
         world = {
@@ -165,6 +170,8 @@ describe(
           currentDate: date,
           currentMoment: simulationMomentOnLocalDate(world.currentMoment, date),
         };
+        world = reviewTownJobs(world, town, personId, `test-${round}`);
+        world = startTownJobPay(world, personId, date);
         world = reviewTownFamilies(world, town, personId, `test-${round}`);
         world = reviewTownHomes(world, town, `test-${round}`);
         snapshots.push(world);
@@ -174,6 +181,16 @@ describe(
     it("households buy, sell and move, on the day of the review", () => {
       const { events } = describeTownHomes(world, town);
       expect(events[TOWN_HOME_EVENTS.bought] ?? 0).toBeGreaterThan(0);
+      // Every move by choice names the change that decided it.
+      const reasons = Object.values(TOWN_HOME_REASONS);
+      const chosen = world.history.events.filter((event) =>
+        event.stableKey.startsWith(`${TOWN_HOMES_VERSION}:${town}:test-`),
+      );
+      expect(chosen.length).toBeGreaterThan(0);
+      for (const event of chosen)
+        expect(
+          reasons.some((reason) => event.summary.endsWith(`: ${reason}.`)),
+        ).toBe(true);
       expect(
         (events[TOWN_HOME_EVENTS.moved] ?? 0) +
           (events[TOWN_HOME_EVENTS.movedIn] ?? 0),

@@ -116,6 +116,16 @@ export interface StatutoryTaxLiabilityRecord extends TaxHistoryRoot {
   readonly dueAt: IsoDate | null;
   readonly sourceUrl: string | null;
   readonly researchQuestionId: string | null;
+  /**
+   * The laws enacted in play that repealed, adopted or reshaped this tax for
+   * this paycheck. Absent: the law the place began with governs.
+   */
+  readonly lawMeasureIds?: readonly EntityId[];
+  /**
+   * Set when the rates were not read for this place but estimated from the
+   * average of places with that kind of tax: says which average and source.
+   */
+  readonly estimatedFromAverage?: string;
 }
 
 /** Money that actually moved against one liability. */
