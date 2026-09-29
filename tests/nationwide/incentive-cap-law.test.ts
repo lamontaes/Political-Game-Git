@@ -45,10 +45,7 @@ const localSize = TAX_QUESTION_EFFECTS.find(
 )!.toYes!;
 
 /** A partial world where one law on the cap question takes effect in 2027. */
-function withLaw(
-  jurisdictionId: EntityId | null,
-  answer: "yes" | "no",
-): World {
+function withLaw(jurisdictionId: EntityId | null, answer: "yes" | "no"): World {
   const laws = jurisdictionId ? [{ jurisdictionId, answer }] : [];
   return {
     id: "world_test" as EntityId,

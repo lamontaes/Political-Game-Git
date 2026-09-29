@@ -231,20 +231,24 @@ function homeLevel(
   key: string,
   jurisdictionId: EntityId,
 ): DisasterDamageLevel | null {
-  const policy = PROVISIONAL_DISASTER_POLICY.homeDamage[episode.magnitude];
+  const sourced = PROVISIONAL_DISASTER_POLICY.homeDamage[episode.magnitude];
   // A flood reaches fewer homes where the law has kept new building out of
   // the flood zone (the outcome web's flood damage links).
-  const damaged =
+  const policy =
     episode.family === "flood"
-      ? policy.damaged *
-        outcomeFactor(
-          world,
-          jurisdictionId,
-          FLOOD_DAMAGE_OUTCOME,
-          world.currentDate,
-        ).multiplier
-      : policy.damaged;
-  if (draw(world, episode, `${key}:damaged`) >= damaged) return null;
+      ? {
+          ...sourced,
+          damaged:
+            sourced.damaged *
+            outcomeFactor(
+              world,
+              jurisdictionId,
+              FLOOD_DAMAGE_OUTCOME,
+              world.currentDate,
+            ).multiplier,
+        }
+      : sourced;
+  if (draw(world, episode, `${key}:damaged`) >= policy.damaged) return null;
   return draw(world, episode, `${key}:destroyed`) < policy.destroyedGivenDamaged
     ? "destroyed"
     : "damaged";
