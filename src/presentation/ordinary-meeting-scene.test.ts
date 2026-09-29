@@ -169,9 +169,11 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
       expect(
         recorded.people[scene.actors[0]!.personId]!.homeJurisdictionId,
       ).toBe(activity.location.jurisdictionId);
-      expect(recorded.personOrder.length).toBe(
-        completed.personOrder.length + (councilChair ? 2 : 3),
-      );
+      // Everyone at the meeting is a neighbor already in the world: nobody
+      // is made up for the evening.
+      expect(recorded.personOrder).toEqual(completed.personOrder);
+      for (const actor of scene.actors)
+        expect(completed.people[actor.personId]!.homeJurisdictionId).toBe(town);
       expect(
         simulationMinutesBetween(
           completed.currentMoment,
