@@ -1,6 +1,6 @@
 {
   "format": "ocd-state-legislature-members-per-district/v1",
-  "note": "How many members one state legislative district elects, for the chambers whose districts elect more than one. A chamber or district not listed elects one member. Codes are the Census 2025 Gazetteer district codes in identities.generated.json. Each chamber's total equals its size in law: AZ House 60, ID House 70, NJ Assembly 80, WA House 98, ND House 94, SD House 70, MD House 141, VT House 150, VT Senate 30.",
+  "note": "How many members one state legislative district elects, for the chambers whose districts elect more than one. A chamber or district not listed elects one member. Codes are the Census 2025 Gazetteer district codes in identities.generated.json. Each chamber's district total equals its size in law: AZ House 60, ID House 70, NJ Assembly 80, WA House 98, ND House 94, SD House 70, MD House 141, VT House 150, VT Senate 30, WV Senate 34, PR Senate 16 of 27 (eleven sit at large).",
   "states": {
     "AZ": {
       "state-lower": {
@@ -23,64 +23,6 @@
           "retrievedOn": "2026-09-29",
           "verification": "secondary source read; the state's own statute was not retrieved",
           "note": "The state is divided into 35 districts, each of which elects two representatives."
-        }
-      }
-    },
-    "NJ": {
-      "state-lower": {
-        "membersPerDistrict": 2,
-        "source": {
-          "title": "New Jersey General Assembly (Wikipedia)",
-          "url": "https://en.wikipedia.org/wiki/New_Jersey_General_Assembly",
-          "retrievedOn": "2026-09-29",
-          "verification": "secondary source read; the state's own statute was not retrieved",
-          "note": "Two members are elected from each of the 40 legislative districts."
-        }
-      }
-    },
-    "WA": {
-      "state-lower": {
-        "membersPerDistrict": 2,
-        "source": {
-          "title": "Washington House of Representatives (Wikipedia)",
-          "url": "https://en.wikipedia.org/wiki/Washington_House_of_Representatives",
-          "retrievedOn": "2026-09-29",
-          "verification": "secondary source read; the state's own statute was not retrieved",
-          "note": "Each legislative district elects one senator and two members of the House."
-        }
-      }
-    },
-    "ND": {
-      "state-lower": {
-        "membersPerDistrict": 2,
-        "districts": {
-          "04A": 1,
-          "04B": 1
-        },
-        "source": {
-          "title": "North Dakota House of Representatives (Wikipedia)",
-          "url": "https://en.wikipedia.org/wiki/North_Dakota_House_of_Representatives",
-          "retrievedOn": "2026-09-29",
-          "verification": "secondary source read; the state's own statute was not retrieved",
-          "note": "Each district elects two representatives, 94 in all; the Census splits District 4 into two subdistricts that elect one each."
-        }
-      }
-    },
-    "SD": {
-      "state-lower": {
-        "membersPerDistrict": 2,
-        "districts": {
-          "26A": 1,
-          "26B": 1,
-          "28A": 1,
-          "28B": 1
-        },
-        "source": {
-          "title": "South Dakota House of Representatives (Wikipedia)",
-          "url": "https://en.wikipedia.org/wiki/South_Dakota_House_of_Representatives",
-          "retrievedOn": "2026-09-29",
-          "verification": "secondary source read; the state's own statute was not retrieved",
-          "note": "70 members, two from each legislative district; Districts 26 and 28 are split into subdistricts that elect one each."
         }
       }
     },
@@ -137,6 +79,64 @@
           "retrievedOn": "2026-09-29",
           "verification": "secondary source read; the state's own statute was not retrieved",
           "note": "Each of the 47 districts elects three delegates; a subdivided district elects one from each of three subdistricts, or two from one subdistrict and one from the other. Subdistrict counts read from the member table."
+        }
+      }
+    },
+    "ND": {
+      "state-lower": {
+        "membersPerDistrict": 2,
+        "districts": {
+          "04A": 1,
+          "04B": 1
+        },
+        "source": {
+          "title": "North Dakota House of Representatives (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/North_Dakota_House_of_Representatives",
+          "retrievedOn": "2026-09-29",
+          "verification": "secondary source read; the state's own statute was not retrieved",
+          "note": "Each district elects two representatives, 94 in all; the Census splits District 4 into two subdistricts that elect one each."
+        }
+      }
+    },
+    "NJ": {
+      "state-lower": {
+        "membersPerDistrict": 2,
+        "source": {
+          "title": "New Jersey General Assembly (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/New_Jersey_General_Assembly",
+          "retrievedOn": "2026-09-29",
+          "verification": "secondary source read; the state's own statute was not retrieved",
+          "note": "Two members are elected from each of the 40 legislative districts."
+        }
+      }
+    },
+    "PR": {
+      "state-upper": {
+        "membersPerDistrict": 2,
+        "source": {
+          "title": "Senate of Puerto Rico (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/Senate_of_Puerto_Rico",
+          "retrievedOn": "2026-09-29",
+          "verification": "secondary source read; the state's own statute was not retrieved",
+          "note": "Eight senatorial districts elect two senators each; eleven more are elected at large, which the seating counts apart."
+        }
+      }
+    },
+    "SD": {
+      "state-lower": {
+        "membersPerDistrict": 2,
+        "districts": {
+          "26A": 1,
+          "26B": 1,
+          "28A": 1,
+          "28B": 1
+        },
+        "source": {
+          "title": "South Dakota House of Representatives (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/South_Dakota_House_of_Representatives",
+          "retrievedOn": "2026-09-29",
+          "verification": "secondary source read; the state's own statute was not retrieved",
+          "note": "70 members, two from each legislative district; Districts 26 and 28 are split into subdistricts that elect one each."
         }
       }
     },
@@ -213,6 +213,30 @@
           "retrievedOn": "2026-09-29",
           "verification": "secondary source read; the state's own statute was not retrieved",
           "note": "150 representatives from 109 districts, each electing one or two; counts read from the district table."
+        }
+      }
+    },
+    "WA": {
+      "state-lower": {
+        "membersPerDistrict": 2,
+        "source": {
+          "title": "Washington House of Representatives (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/Washington_House_of_Representatives",
+          "retrievedOn": "2026-09-29",
+          "verification": "secondary source read; the state's own statute was not retrieved",
+          "note": "Each legislative district elects one senator and two members of the House."
+        }
+      }
+    },
+    "WV": {
+      "state-upper": {
+        "membersPerDistrict": 2,
+        "source": {
+          "title": "West Virginia Senate (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/West_Virginia_Senate",
+          "retrievedOn": "2026-09-29",
+          "verification": "secondary source read; the state's own statute was not retrieved",
+          "note": "Seventeen senatorial districts, each with two senators (34 in all)."
         }
       }
     }

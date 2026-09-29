@@ -20,7 +20,7 @@ const seatsOf = (stateUsps: string, chamber: DistrictChamber) =>
 
 describe("members per district", () => {
   it("adds up to each multi-member chamber's size in law", () => {
-    // Chamber sizes as the state's law sets them, the check on each count.
+    // Seats as the state's law sets them for the districts, the check on each count (Puerto Rico's Senate also seats eleven at large).
     const lawSize: Record<string, number> = {
       "AZ:state-lower": 60,
       "ID:state-lower": 70,
@@ -31,6 +31,8 @@ describe("members per district", () => {
       "MD:state-lower": 141,
       "VT:state-lower": 150,
       "VT:state-upper": 30,
+      "WV:state-upper": 34,
+      "PR:state-upper": 16,
     };
     const listed = Object.entries(counts.states).flatMap(([usps, chambers]) =>
       Object.keys(chambers).map((chamber) => `${usps}:${chamber}`),
@@ -79,9 +81,6 @@ describe("a seated chamber gives every district the members it elects", () => {
     for (const state of usps) {
       const pack = stateCandidacyPack(`US-${state}`)!;
       for (const chamber of planStateChambers(pack).chambers) {
-        // Puerto Rico's law splits its seats between districts and the island
-        // at large; its own rule, not a members-per-district count.
-        if (chamber.atLargeSeats > 0) continue;
         const bound = chamber.districts.filter((entry) => entry !== null);
         const perDistrict = new Map<string, number>();
         for (const district of bound)
