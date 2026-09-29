@@ -292,28 +292,16 @@ describe("a law reaches a person", () => {
     assertWorldIntegrity(later);
   });
 
-  it("close news followers are likelier to know a legislator's vote", () => {
+  it("a close news follower knows a legislator's vote; someone who neither follows nor knows them does not", () => {
     const { world } = collected();
     const exposure = lawExposuresOf(world, world.personOrder[0]!)[0]!;
-    let close = 0;
-    let knewClose = 0;
-    let knewOthers = 0;
-    const trials = 4000;
-    for (let index = 0; index < trials; index += 1) {
-      const probe = {
-        ...exposure,
-        personId: world.personOrder[index % world.personOrder.length]!,
-        measureId:
-          `${exposure.measureId}-${index}` as typeof exposure.measureId,
-      };
-      const follows = followsNewsClosely(world, probe.personId);
-      const knows = knowsVote(world, probe, exposure.personId);
-      if (follows) {
-        close += 1;
-        if (knows) knewClose += 1;
-      } else if (knows) knewOthers += 1;
+    const official = world.personOrder[0]!;
+    for (const personId of world.personOrder) {
+      if (personId === official) continue;
+      const probe = { ...exposure, personId };
+      const follows = followsNewsClosely(world, personId);
+      const acquainted = peopleKnownTo(world, personId).includes(official);
+      expect(knowsVote(world, probe, official)).toBe(follows || acquainted);
     }
-    expect(close).toBeGreaterThan(0);
-    expect(knewClose / close).toBeGreaterThan(knewOthers / (trials - close));
   });
 });

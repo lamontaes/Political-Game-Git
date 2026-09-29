@@ -49,6 +49,7 @@ import {
 } from "./local-government-seats";
 import { PUBLIC_MEETING_KEY } from "../life-opportunities";
 import { playerTown } from "./town-residents";
+import { epidemicCouncilMeetingDecision } from "../crisis/epidemic";
 
 /**
  * The player's town council meets and votes.
@@ -566,11 +567,36 @@ export function localCouncilMeetingHandler(
     return done(world, "No town council matches this meeting.");
   const rules = councilRules(unit);
   if (!rules) return done(world, "This town has no council to meet.");
+  const identity = localGoverningBodyIdentity(unit)!;
+  // The chair may cancel a regular meeting while an illness is going around.
+  // The posted public meeting is one the player may attend, and its
+  // attendance scene does not read a cancellation yet, so it always meets.
+  const decision =
+    match![2] !== "meeting"
+      ? { world, canceled: false }
+      : epidemicCouncilMeetingDecision(world, {
+          stableKey: due.stableKey,
+          town,
+          bodyName: identity.bodyName,
+          chairPersonId: player ? localCouncilChair(world, town, player) : null,
+          memberPersonIds: members(world, unit).map((seat) => seat.personId),
+        });
+  if (decision.canceled) {
+    let next = decision.world;
+    if (player)
+      next = scheduleMeeting(
+        next,
+        unit,
+        town,
+        player,
+        addDays(due.dueAt, P.daysBetweenMeetings),
+      );
+    return done(next, `The ${identity.bodyName} did not meet.`);
+  }
   const votesBefore = (world.history.legislativeVotes ?? []).length;
   let next = moveOrdinances(world, unit, town, rules, player);
   next = fileOrdinances(next, unit, town, rules, player);
   const votes = (next.history.legislativeVotes ?? []).slice(votesBefore);
-  const identity = localGoverningBodyIdentity(unit)!;
   const measuresById = new Map(
     (next.history.legislativeMeasures ?? []).map((row) => [row.id, row]),
   );
