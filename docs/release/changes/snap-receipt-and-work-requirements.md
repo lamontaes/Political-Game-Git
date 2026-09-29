@@ -2,7 +2,7 @@
 id: snap-receipt-and-work-requirements
 impact: minor
 section: Changed
-title: Each state now keeps how many of its residents receive SNAP; a work requirement lowers it, and a law that takes people off SNAP raises food insecurity.
+title: Each state keeps how many residents receive SNAP; a work requirement lowers it, which raises food insecurity.
 ---
 
 Every state, D.C., Guam and the U.S. Virgin Islands now keep the share of
