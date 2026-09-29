@@ -6,6 +6,7 @@ import {
   transferOutcomesOfPerson,
 } from "./person-money-index";
 import type {
+  EntityId,
   ResourceFlow,
   ResourcePosition,
   ResourceTransferOutcome,
@@ -57,12 +58,14 @@ describe("person money index", () => {
   ];
 
   it("returns the same transfers, in list order, as scanning all of history", () => {
-    for (const personId of ["ana", "ben", "cy"])
+    for (const personId of ["ana", "ben", "cy"] as EntityId[])
       expect(transferOutcomesOfPerson(flows, outcomes, personId)).toEqual(
         scanned(flows, outcomes, personId),
       );
     expect(
-      transferOutcomesOfPerson(flows, outcomes, "ana").map((each) => each.id),
+      transferOutcomesOfPerson(flows, outcomes, "ana" as EntityId).map(
+        (each) => each.id,
+      ),
     ).toEqual(["o1", "o3", "o4", "o6"]);
   });
 
@@ -76,7 +79,7 @@ describe("person money index", () => {
       if (step < flows.length)
         grownFlows = appendedList(grownFlows, [flows[step]!]);
       grownOutcomes = appendedList(grownOutcomes, [outcomes[step - 1]!]);
-      for (const personId of ["ana", "ben"])
+      for (const personId of ["ana", "ben"] as EntityId[])
         expect(
           transferOutcomesOfPerson(grownFlows, grownOutcomes, personId),
         ).toEqual(scanned(grownFlows, grownOutcomes, personId));
@@ -84,11 +87,9 @@ describe("person money index", () => {
   });
 
   it("lists a person's flows once each, in list order", () => {
-    expect(flowsOfPerson(flows, "ana").map((each) => each.id)).toEqual([
-      "pay",
-      "gift",
-      "self",
-    ]);
+    expect(
+      flowsOfPerson(flows, "ana" as EntityId).map((each) => each.id),
+    ).toEqual(["pay", "gift", "self"]);
   });
 
   it("finds a dollar position only for its person owner", () => {
@@ -97,8 +98,8 @@ describe("person money index", () => {
       { owner: person("ben"), openingBalance: { currency: "EUR" } },
       { owner: organization, openingBalance: { currency: "USD" } },
     ] as unknown as ResourcePosition[];
-    expect(holdsUsdPosition(positions, "ana")).toBe(true);
-    expect(holdsUsdPosition(positions, "ben")).toBe(false);
-    expect(holdsUsdPosition(positions, "org")).toBe(false);
+    expect(holdsUsdPosition(positions, "ana" as EntityId)).toBe(true);
+    expect(holdsUsdPosition(positions, "ben" as EntityId)).toBe(false);
+    expect(holdsUsdPosition(positions, "org" as EntityId)).toBe(false);
   });
 });
