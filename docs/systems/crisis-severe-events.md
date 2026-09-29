@@ -113,15 +113,26 @@ declares an episode by chance.
    leaves the request undecided, said so.
 5. **Repairs.** Weekly cycles apply finite repair capacity to the oldest
    damage first: 2 units locally, 8 once a declaration exists. Damaged homes
-   need 2 units, destroyed 8. Interrupted organizations carry lost-service
-   days, not repair work.
+   need 2 units, destroyed 8. Declared repairs ask GOVERNING for the
+   number of units the state can match from its recorded budget balance
+   and reserve. GOVERNING records the federal and state expense; the
+   monthly public-budget books settle it. Interrupted organizations carry
+   lost-service days, not repair work.
 6. **Follow-up.** Once recorded repairs are done and the request chain has
    settled, a public recovery review closes the episode.
 
 A declaration never changes the assessment, approval never repairs on the
 spot, and a denial or missing request leaves the disaster and its damage in
 history. CRISIS records programs (`public-assistance`, …) but never an amount:
-money moves only through GOVERNING's public-account writers.
+GOVERNING prices and records declared repair expenses in
+`publicBudgets.disasterRepairs`, using the filed federal share or the starting
+75 percent share. These aggregate expenses settle through state and federal
+monthly budgets. They are distinct from an adopted program appropriation and
+from transfers in the public-account cash ledger; an appropriation notice
+alone does not establish a repair payment. A legacy world without a budget
+retains its physical repair path, but a newly filed cost-share law cannot
+claim those units were funded. Repair prices are explicitly estimated
+project-equivalent costs, not a claim of FEMA eligibility for private homes.
 
 All numbers above are `crunch46-provisional-v1` authored balancing
 (`PROVISIONAL_DISASTER_POLICY`), not empirical damage curves or FEMA

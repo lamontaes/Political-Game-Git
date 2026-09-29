@@ -1,0 +1,19 @@
+{
+  "asOf": "2026-09-29",
+  "sources": [
+    {
+      "url": "https://www.fema.gov/sites/default/files/documents/fema_public-assistance-fact-sheet.pdf",
+      "finding": "Stafford Act public assistance has a minimum federal cost share of 75 percent; actual declarations may authorize a larger share."
+    },
+    {
+      "url": "https://www.federalregister.gov/documents/2024/07/02/2024-13898/update-of-femas-public-assistance-regulations",
+      "finding": "FEMA reports an average $5.6 billion in 2019-dollar Public Assistance obligations across 28,721 projects annually in 2010-2019."
+    }
+  ],
+  "startingFederalShareBasisPoints": 7500,
+  "proposalFederalShareBasisPoints": 5000,
+  "averageFederalProjectDollars": 194979,
+  "repairUnitCostCents": 12998600,
+  "costSpread": [0.5, 1.5],
+  "basis": "ESTIMATED FROM AVERAGE: average federal obligation divided by the ordinary 75 percent share estimates total project cost, and a damaged asset's existing two physical units represent one project-equivalent. This is a named repair-pricing PLACEHOLDER, not a measured cost of a particular house or a claim that its household qualifies for Public Assistance. The game's declared recovery program pays its recorded modeled repair queue. Prices retain 2019-dollar purchasing power until a construction-price producer exists."
+}

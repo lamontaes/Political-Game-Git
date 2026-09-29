@@ -10,14 +10,16 @@ import type { PublicProgramAppropriationRecord } from "../types";
  *
  * CRISIS records the damage, the aid decision and the repair work still to do;
  * it never carries a money figure. GOVERNING answers the only question that is
- * about money: is there spending authority this government has actually
+ * about a separate program commitment: is there spending authority this government has actually
  * adopted that could pay for any of it? When there is, the office is asked to
  * commit it through the ordinary program decision. When there is not — and
  * that includes a refused federal request — the refusal is recorded against
  * the request, naming what is missing, and no money moves.
  *
  * Repair units are physical work and stay CRISIS's. Nothing here converts them
- * into dollars or invents a cost.
+ * into dollars or invents a cost. Declared statutory matching expenses are
+ * recorded separately by disaster-cost-sharing.ts and settled in the aggregate
+ * public-budget books; this appropriation notice makes no claim about them.
  *
  * This module reads the program records directly rather than through the
  * governing writers: the clock calls it on every date boundary, and a module
@@ -96,7 +98,7 @@ export function applyRepairFundingRequests(
     const covered = appropriations.length > 0;
     const summary = covered
       ? `${request.stateUsps}: ${request.remainingRepairUnits} of ${request.totalRepairUnits} units of repair work remain after the ${request.decisionStage.replace(/-/g, " ")}. This government has ${appropriations.length} adopted appropriation${appropriations.length === 1 ? "" : "s"} it could still commit; what it pays for is the office's decision.`
-      : `${request.stateUsps}: ${request.remainingRepairUnits} of ${request.totalRepairUnits} units of repair work remain after the ${request.decisionStage.replace(/-/g, " ")}${request.federallyAssisted ? "" : ", which brought no federal assistance"}. No adopted appropriation covers it, so no public money moves. An appropriation has to be enacted before this office can commit anything.`;
+      : `${request.stateUsps}: ${request.remainingRepairUnits} of ${request.totalRepairUnits} units of repair work remain after the ${request.decisionStage.replace(/-/g, " ")}${request.federallyAssisted ? "" : ", which brought no federal assistance"}. No adopted appropriation covers it. Through this program-appropriation route, no public money moves. An appropriation has to be enacted before this office can make a program commitment.`;
     next = recordWorldEvent(next, {
       stableKey,
       type: REPAIR_FUNDING_EVENT,
