@@ -354,6 +354,13 @@ describe("public budgets", () => {
     );
     expect(underpaid.length).toBe(2);
     expect(underpaid[0]!.law?.reading.answer).toBe("unknown");
+    // The opening year ran January to June: six months of the lower share
+    // went unpaid, not a whole year's.
+    const opening = partial.government.years[0]!;
+    expect(underpaid[0]!.amount).toBeCloseTo(
+      (opening.pensionRequired * (1 - PENSION.paidShareWithoutLaw) * 6) / 12,
+      -3,
+    );
     expect(
       full.adjustments.some((row) => row.kind === "pension-underpaid"),
     ).toBe(false);
@@ -362,6 +369,47 @@ describe("public budgets", () => {
     expect(adopted.appropriations[pension]).toBe(
       Math.round(adopted.pensionRequired * PENSION.paidShareWithoutLaw),
     );
+  });
+
+  it("a pension law enacted after the budget was adopted governs the next budget, and the year's shortfall is credited to the law read at adoption", () => {
+    const base = worldAt("2026-01-05", {
+      laws: [{ question: PENSIONS, answer: "yes", jurisdictionId: illinois }],
+    });
+    const late = {
+      ...base,
+      history: {
+        ...base.history,
+        legislativeEnactments: base.history.legislativeEnactments.map(
+          (row) => ({
+            ...row,
+            resolvedAt: makeIsoDate("2026-09-01"),
+            effectiveAt: makeIsoDate("2026-09-01"),
+          }),
+        ),
+      },
+    } as World;
+    const settled = settleAlone(
+      late,
+      publicBudgetFor(opened(late), illinois)!,
+      "2027-06-01",
+    );
+    const [fiscal2026, fiscal2027, fiscal2028] = settled.government.years;
+    expect(fiscal2027!.laws.pensions.answer).toBe("unknown");
+    expect(fiscal2028!.laws.pensions.answer).toBe("yes");
+    const pension = BUDGET_PROGRAMS.indexOf("pensionContribution");
+    expect(fiscal2028!.appropriations[pension]).toBe(
+      fiscal2028!.pensionRequired,
+    );
+    const underpaid = settled.adjustments.filter(
+      (row) => row.kind === "pension-underpaid",
+    );
+    expect(underpaid.map((row) => row.fiscalYear)).toEqual([
+      fiscal2026!.fiscalYear,
+      fiscal2027!.fiscalYear,
+    ]);
+    expect(
+      underpaid.every((row) => row.law?.reading.answer === "unknown"),
+    ).toBe(true);
   });
 
   it("income tax withheld from represented people is counted dollar for dollar, and the modeled part covers only everyone else", () => {

@@ -466,38 +466,46 @@ export function settleGovernmentMonth(
     }
   }
 
-  // Pensions for the year: paid against required, and the plan rolls on.
+  // Pensions for the year: paid against required, and the plan rolls on. An
+  // opening year runs only the months since the world began, so what was
+  // required, earned and paid out covers those months, not a whole year.
   const yearRows = next.months.filter(
     (entry) => entry.month >= year.startsOn && entry.month <= year.endsOn,
   );
+  const share = yearRows.length / 12;
   const paid = sum(yearRows.map((entry) => entry.spending[PENSION_PROGRAM]!));
-  const paidAnnual = yearRows.length > 0 ? (paid * 12) / yearRows.length : 0;
-  const unpaid = Math.round(year.pensionRequired - paidAnnual);
+  const required = year.pensionRequired * share;
+  const unpaid = Math.round(required - paid);
+  // The adopted budget set the pension share, so the law read at adoption is
+  // the one that decided it; a law enacted later governs the next budget.
+  const pensionLaw = year.laws.pensions;
   // Monthly rounding leaves a few dollars either way; that is not underpaying.
-  if (unpaid > year.pensionRequired * 0.001)
+  if (unpaid > required * 0.001)
     adjustments.push({
       governmentKey: government.key,
       on: asOf,
       fiscalYear: year.fiscalYear,
       kind: "pension-underpaid",
       amount: unpaid,
-      law: lawNote("pensions", laws.pensions),
+      law: lawNote("pensions", pensionLaw),
       note:
-        laws.pensions.answer === "no"
-          ? "No law requires the full actuarial contribution; the unpaid part grows the unfunded liability."
-          : "No law in force answers whether pensions must be funded on schedule, so the lower share was paid (PLACEHOLDER share).",
+        pensionLaw.answer === "yes"
+          ? "The pension payments fell short of the full actuarial contribution the law requires."
+          : pensionLaw.answer === "no"
+            ? "No law requires the full actuarial contribution; the unpaid part grows the unfunded liability."
+            : "No law in force when the budget was adopted answered whether pensions must be funded on schedule, so the lower share was paid (PLACEHOLDER share).",
     });
   const liability = government.pension.liability;
-  const benefits = liability * PENSION.benefitShare;
+  const benefits = liability * PENSION.benefitShare * share;
   const pension = {
     liability: Math.round(
-      liability * (1 + PENSION.assumedReturn) +
-        liability * PENSION.normalCostShare -
+      liability * (1 + PENSION.assumedReturn * share) +
+        liability * PENSION.normalCostShare * share -
         benefits,
     ),
     assets: Math.round(
-      government.pension.assets * (1 + PENSION.assumedReturn) +
-        paidAnnual -
+      government.pension.assets * (1 + PENSION.assumedReturn * share) +
+        paid -
         benefits,
     ),
   };
@@ -513,7 +521,7 @@ export function settleGovernmentMonth(
 /**
  * The government's own modeled adoption for the next year (automatic; a
  * budget passed as a bill comes later). It expects to collect what it
- * collected last year, pays interest and the pension share its law requires,
+ * collected last year at today's economy, pays interest and the pension share its law requires,
  * sets aside the reserve deposit its law requires, and plans programs to
  * spend the rest (PLACEHOLDER rule). Under a balanced-budget law programs
  * shrink when that is less than last year; without one they are not cut at
@@ -535,13 +543,30 @@ function adoptNextYear(
     government.level !== "state",
   );
   const stateId = stateJurisdictionForKey(government.stateKey)?.id ?? null;
-  const expectedRevenue = BUDGET_SOURCES.map((_, at) =>
-    rows.length > 0
-      ? Math.round(
-          (sum(rows.map((row) => row.revenue[at]!)) * 12) / rows.length,
-        )
-      : prior.expectedRevenue[at]!,
-  );
+  const economyAtAdoption = stateId
+    ? nominalEconomyIndex(world, stateId, startsOn)
+    : null;
+  // Last year's collections, each month restated at the economy the new
+  // budget is adopted in: a growing economy has already raised the base, so
+  // last year's average would understate it.
+  const economyNow =
+    economyAtAdoption !== null && prior.economyAtAdoption
+      ? economyAtAdoption / prior.economyAtAdoption
+      : null;
+  const expectedRevenue = BUDGET_SOURCES.map((source, at) => {
+    if (rows.length === 0) return prior.expectedRevenue[at]!;
+    const elasticity = ECONOMY_ELASTICITY[source];
+    const scaleAt = (economy: number) =>
+      Math.max(0, 1 + elasticity * (economy - 1));
+    const restated = rows.map((row) => {
+      if (economyNow === null) return row.revenue[at]!;
+      const then = scaleAt(row.economy);
+      return then > 0
+        ? (row.revenue[at]! * scaleAt(economyNow)) / then
+        : row.revenue[at]!;
+    });
+    return Math.round((sum(restated) * 12) / rows.length);
+  });
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.shareChange === null) continue;
     const propositionId = propositionIdFor(world, effect.questionKey);
@@ -616,9 +641,7 @@ function adoptNextYear(
     appropriations,
     reserveDeposit,
     pensionRequired,
-    economyAtAdoption: stateId
-      ? nominalEconomyIndex(world, stateId, startsOn)
-      : null,
+    economyAtAdoption,
     laws,
   };
 }
