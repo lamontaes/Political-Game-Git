@@ -1,3 +1,5 @@
+import { appendFileSync } from "node:fs";
+
 import { describe, expect, it } from "vitest";
 
 import { addDays } from "../simulation/dates";
@@ -65,35 +67,41 @@ describe("a town council makes law for its own reasons", () => {
             const key = `${row.disposition} ${row.reason ?? "none"}`;
             reasons.set(key, (reasons.get(key) ?? 0) + 1);
           }
-        console.log(
-          JSON.stringify(
-            {
-              seed,
-              place: `${place.displayName} (${place.key})`,
-              meetings,
-              ordinances: measures.map((measure) => ({
-                designation: measure.designation,
-                title: measure.shortTitle,
-                sponsorLeaning: measure.sponsorPersonId
-                  ? principledLeaning(
-                      world,
-                      measure.sponsorPersonId,
-                      measure.propositionIds![0]!,
-                    ).score
-                  : null,
-                votes: votes
-                  .filter((vote) => vote.measureId === measure.id)
-                  .map(
-                    (vote) =>
-                      `${vote.outcome} ${vote.tally.yea}-${vote.tally.nay}`,
-                  ),
-              })),
-              reasons: Object.fromEntries(reasons),
-            },
-            null,
-            1,
-          ),
-        );
+        // What the watched world did, for the report: written where
+        // WATCHED_RUN_OUT names a file, since passing tests print nothing.
+        const watched = process.env.WATCHED_RUN_OUT;
+        if (watched)
+          appendFileSync(
+            watched,
+            JSON.stringify(
+              {
+                seed,
+                place: `${place.displayName} (${place.key})`,
+                meetings,
+                ordinances: measures.map((measure) => ({
+                  designation: measure.designation,
+                  title: measure.shortTitle,
+                  answer: measure.propositionAnswers?.[0]?.answer ?? null,
+                  sponsorLeaning: measure.sponsorPersonId
+                    ? principledLeaning(
+                        world,
+                        measure.sponsorPersonId,
+                        measure.propositionIds![0]!,
+                      ).score
+                    : null,
+                  votes: votes
+                    .filter((vote) => vote.measureId === measure.id)
+                    .map(
+                      (vote) =>
+                        `${vote.outcome} ${vote.tally.yea}-${vote.tally.nay}`,
+                    ),
+                })),
+                reasons: Object.fromEntries(reasons),
+              },
+              null,
+              1,
+            ) + "\n",
+          );
 
         expect(meetings).toBeGreaterThanOrEqual(6);
         for (const measure of measures) {

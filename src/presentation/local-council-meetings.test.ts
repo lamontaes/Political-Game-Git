@@ -109,7 +109,13 @@ describe("the posted public meeting ends with the council's vote", () => {
       (seat) => !seat.mayor,
     );
     expect(found.vote.dispositions).toHaveLength(members.length);
-    expect(found.vote.tally.yea + found.vote.tally.nay).toBe(members.length);
+    // Every member answers: yes, no, or present when they have no reason
+    // either way (the vote engine leans no member yes by default).
+    expect(
+      found.vote.tally.yea +
+        found.vote.tally.nay +
+        found.vote.tally.presentNotVoting,
+    ).toBe(members.length);
     const scene = projectOrdinaryMeetingScene(world, personId)!;
     expect(scene.phase).toBe("immediate-aftermath");
     expect(scene.caption).toContain(
@@ -141,7 +147,8 @@ describe("the council keeps meeting", () => {
       const votes = (world.history.legislativeVotes ?? []).filter((vote) =>
         ids.has(vote.measureId),
       );
-      // Six meetings in ninety days, one ordinance introduced at each.
+      // Six meetings in ninety days; members file what their own principles
+      // press them to, at most one ordinance each per meeting.
       expect(measures.length).toBeGreaterThanOrEqual(5);
       expect(votes.length).toBeGreaterThanOrEqual(4);
       expect(

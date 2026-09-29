@@ -509,7 +509,12 @@ export function postedMeetingVoteSentence(
   if (!found) return null;
   const { vote, measure, bodyName } = found;
   const adopted = vote.outcome === "passed";
-  return `The ${bodyName} voted ${vote.tally.yea}-${vote.tally.nay} ${adopted ? "to adopt" : "against"} ${measure.designation}, which would open the room one extra evening each week.`;
+  const present = vote.tally.presentNotVoting;
+  const abstained =
+    present === 0
+      ? ""
+      : `, with ${present} ${present === 1 ? "member" : "members"} answering present`;
+  return `The ${bodyName} voted ${vote.tally.yea}-${vote.tally.nay} ${adopted ? "to adopt" : "against"} ${measure.designation}${abstained}, which would open the room one extra evening each week.`;
 }
 
 /** Who chairs a meeting of the town's council: its mayor, or a member. */
