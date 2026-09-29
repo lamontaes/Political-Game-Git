@@ -138,6 +138,13 @@ export interface AdoptedBudget {
    * that keeps no budget, and aid stays as adopted.
    */
   readonly stateLocalAidAtAdoption?: number | null;
+  /**
+   * A city's: the index of its town businesses' taxable sales, in the
+   * dollars of the day, that its general sales tax was set at
+   * (`living-world/town-finances.ts`, `townTaxableSales`). Absent or null:
+   * the town keeps no books, and the economy moves the tax.
+   */
+  readonly townSalesAtAdoption?: number | null;
 }
 
 /** One settled month. Arrays align to BUDGET_SOURCES and BUDGET_PROGRAMS. */
@@ -152,6 +159,12 @@ export interface BudgetMonthRow {
   readonly debt: number;
   /** How the economy scaled modeled revenue this month (1: as adopted). */
   readonly economy: number;
+  /**
+   * A city whose town keeps business books: how its taxable sales scaled
+   * its general sales tax this month (1: as adopted). Absent: the economy
+   * scaled it.
+   */
+  readonly townSales?: number;
   /** People whose own withholding was recorded this month. */
   readonly represented: number;
 }

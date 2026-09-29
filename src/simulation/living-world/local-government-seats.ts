@@ -299,6 +299,9 @@ export function ensureLocalGovernmentSeatsForUnit(
   }
 
   const members = seated.filter((seat) => !seat.mayor).length;
+  // Nobody could be seated, so there is nobody for the record to name; the
+  // seats stay open and a later pass fills them.
+  if (seated.length === 0) return next;
   return recordWorldEvent(next, {
     stableKey: localGovernmentSeatsKey(unit.id),
     type: "local.government-seated",
@@ -416,6 +419,9 @@ export function ensureCountyGovernmentSeatsForUnit(
   const members =
     seated.filter((row) => !row.mayor).length +
     sitting.filter((row) => !row.mayor).length;
+  // Nobody could be seated, so there is nobody for the record to name; the
+  // seats stay open and a later pass fills them.
+  if (seated.length === 0) return next;
   const name = localGovernmentDisplayName(unit);
   return recordWorldEvent(next, {
     stableKey: localGovernmentSeatsKey(unit.id),

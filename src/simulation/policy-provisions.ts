@@ -27,11 +27,15 @@ import type {
  *
  * NOT MODELED, pending research `constitutional-policy-amendments`, with the
  * blanket rule applied meanwhile:
- * - What a provision does. It is recorded and read, and changes nothing else:
- *   no statute is voided, no local law is bound, no behavior changes.
- * - Federal policy amendments. The catalog records no federal level for any
- *   issue, so a federal amendment cannot carry a provision yet.
- * - Town charters. A charter amendment cannot carry one either.
+ * - Since Build 27 (September 28, 2026) an adopted provision answers its
+ *   question "yes" in the law in force (`governing/law-in-force.ts`), at the
+ *   constitution's rank, so it outranks every statute below it and whatever
+ *   reads the law in force follows it. A repeal takes the constitution's
+ *   answer away and leaves the question to statute again.
+ * - A federal amendment may carry a provision on a question the catalog says
+ *   the national government decides (`levels` includes "federal").
+ * - NOT MODELED: a provision that writes a "no" into a constitution (a
+ *   prohibition on the state acting). Town charters cannot carry one either.
  */
 
 /** The policy a state's constitution holds on one question, and since when. */
@@ -63,9 +67,10 @@ export function assertPolicyProvisionDelta(
   jurisdictionKey: string,
   delta: { readonly propositionId: EntityId; readonly stance: string },
 ): void {
-  if (!constitutionalStateUsps(jurisdictionKey))
+  const federal = jurisdictionKey === "US";
+  if (!federal && !constitutionalStateUsps(jurisdictionKey))
     throw new Error(
-      "Only a state constitution's amendment can carry a policy yet; federal and charter policy amendments are not modeled.",
+      "Only a state or federal constitutional amendment can carry a policy; charter policy amendments are not modeled.",
     );
   if (delta.stance !== "adopt" && delta.stance !== "repeal")
     throw new Error("A policy amendment adopts a policy or repeals it.");
@@ -75,13 +80,23 @@ export function assertPolicyProvisionDelta(
       "The amendment names a policy this World's catalog does not hold.",
     );
   const levels = world.policyCatalog.issues[proposition.issueId]?.levels;
+  if (federal) {
+    if (!levels?.includes("federal"))
+      throw new Error(
+        `Nothing on record says the national government decides "${proposition.name}", so the U.S. Constitution cannot take it up.`,
+      );
+    return;
+  }
   if (!levels?.includes("state"))
     throw new Error(
       `Nothing on record says a state decides "${proposition.name}", so a state constitution cannot take it up.`,
     );
 }
 
-/** Every policy a state's constitution holds on the date, one per question. */
+/**
+ * Every policy a state's constitution holds on the date, one per question.
+ * `US` reads the U.S. Constitution's.
+ */
 export function constitutionalPolicyProvisions(
   world: World,
   stateUsps: string,
@@ -94,8 +109,11 @@ export function constitutionalPolicyProvisions(
   for (const measure of world.history.constitutionalMeasures ?? []) {
     const delta = measure.ruleDelta;
     if (delta.kind !== "policy-provision") continue;
-    if (constitutionalStateUsps(measure.jurisdictionKey) !== stateUsps)
-      continue;
+    const key =
+      measure.jurisdictionKey === "US"
+        ? "US"
+        : constitutionalStateUsps(measure.jurisdictionKey);
+    if (key !== stateUsps) continue;
     const { operativeAt } = constitutionalPosition(world, measure.id);
     if (!operativeAt || operativeAt > onDate) continue;
     const held = latest.get(delta.propositionId);

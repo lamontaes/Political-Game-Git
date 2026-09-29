@@ -27,6 +27,18 @@ const CASES = [
     "Delegate to the U.S. House",
     "the U.S. Virgin Islands",
   ],
+  [
+    "AS",
+    firstLocality("AS").key,
+    "Delegate to the U.S. House",
+    "American Samoa",
+  ],
+  [
+    "MP",
+    firstLocality("MP").key,
+    "Delegate to the U.S. House",
+    "the Northern Mariana Islands",
+  ],
 ] as const;
 
 describe("a territory life's government screen", () => {
@@ -41,8 +53,13 @@ describe("a territory life's government screen", () => {
       expect(rows.map((row) => row.key)).not.toContain("us-senate");
       const house = rows.find((row) => row.key === "us-house")!;
       expect(house.office).toBe(houseTitle);
-      expect(house.holders).toEqual([]);
+      // A fictional holder is seated with the life, never left as unknown.
+      expect(house.holders).toHaveLength(1);
+      expect(house.holders[0]).toMatchObject({ status: "member" });
+      expect(house.holders[0]!.name).toBeTruthy();
+      expect(house.holders[0]!.personId).toBeTruthy();
       expect(house.note).toMatch(/does not cast final votes/);
+      expect(house.note).not.toMatch(/No current record/);
     },
   );
 
@@ -69,4 +86,22 @@ describe("a territory life's government screen", () => {
       expect(text).not.toMatch(/Islands's/);
     },
   );
+
+  it("DC: is represented by its Delegate, seated with the life, with no Senate row", () => {
+    const life = adultLifeAt(
+      firstLocality("DC").key,
+      "territory-government-DC",
+    );
+    const rows = projectGovernmentBrowser(
+      life.world,
+      life.personId,
+    ).representedBy!;
+    expect(rows.map((row) => row.key)).not.toContain("us-senate");
+    const house = rows.find((row) => row.key === "us-house")!;
+    expect(house.office).toBe("Delegate to the U.S. House");
+    expect(house.holders).toHaveLength(1);
+    expect(house.holders[0]).toMatchObject({ status: "member" });
+    expect(house.holders[0]!.name).toBeTruthy();
+    expect(house.note).toMatch(/does not cast final votes/);
+  });
 });

@@ -31,6 +31,7 @@ import {
   type JuryRoom,
 } from "./court-reasoning";
 import {
+  eventsOfType,
   PROSECUTION_SENTENCED_EVENT,
   SENTENCE_KIND_TAG,
   SENTENCE_MONTHS_TAG,
@@ -529,13 +530,10 @@ export function advanceProsecutions(world: World): World {
   const rule = UNRESEARCHED_PROSECUTION;
   let next = world;
   const byReferral = (type: FollowUpType, referral: HistoricalEvent) =>
-    next.history.events.filter(
-      (event) =>
-        event.type === type &&
-        event.tags.includes(`${REFERRAL_TAG}${referral.id}`),
+    eventsOfType(next, type).filter((event) =>
+      event.tags.includes(`${REFERRAL_TAG}${referral.id}`),
     );
-  for (const referral of world.history.events) {
-    if (referral.type !== PROSECUTION_REFERRED_EVENT) continue;
+  for (const referral of eventsOfType(world, PROSECUTION_REFERRED_EVENT)) {
     const subjectId = referral.participants.find(
       (entry) => entry.role === "focus:subject",
     )?.personId;
@@ -644,9 +642,7 @@ export function advanceProsecutions(world: World): World {
     // seated seats them now, once, the same way an opening does.
     if (!next.judiciary?.seatTenures.length)
       next = ensureOpeningJudiciary(next);
-    const turn = next.history.events.filter(
-      (event) => event.type === PROSECUTION_SENTENCED_EVENT,
-    ).length;
+    const turn = eventsOfType(next, PROSECUTION_SENTENCED_EVENT).length;
     const judgeId = sentencingJudge(next, courtCase, turn);
     let kind: SentenceKind;
     let motivation: string | null = null;
@@ -692,13 +688,11 @@ export type EnteredPlea = "guilty" | "not-guilty";
 
 function eventsFor(
   world: World,
-  type: string,
+  type: HistoricalEvent["type"],
   referral: HistoricalEvent,
 ): readonly HistoricalEvent[] {
-  return world.history.events.filter(
-    (event) =>
-      event.type === type &&
-      event.tags.includes(`${REFERRAL_TAG}${referral.id}`),
+  return eventsOfType(world, type).filter((event) =>
+    event.tags.includes(`${REFERRAL_TAG}${referral.id}`),
   );
 }
 
@@ -734,8 +728,7 @@ export function courtCasesOf(
   world: World,
   personId: EntityId,
 ): readonly CourtCaseRecord[] {
-  return world.history.events.flatMap((referral) => {
-    if (referral.type !== PROSECUTION_REFERRED_EVENT) return [];
+  return eventsOfType(world, PROSECUTION_REFERRED_EVENT).flatMap((referral) => {
     const subject = referral.participants.find(
       (entry) => entry.role === "focus:subject",
     )?.personId;
@@ -794,10 +787,8 @@ export function enterPlea(
     reason,
   });
   const person = world.people[input.personId];
-  const referral = world.history.events.find(
-    (event) =>
-      event.id === input.referralId &&
-      event.type === PROSECUTION_REFERRED_EVENT,
+  const referral = eventsOfType(world, PROSECUTION_REFERRED_EVENT).find(
+    (event) => event.id === input.referralId,
   );
   const subject = referral?.participants.find(
     (entry) => entry.role === "focus:subject",

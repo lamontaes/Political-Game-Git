@@ -1,3 +1,5 @@
+import { applySpeechRetelling } from "./speech-retelling";
+import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { assertWorldContentPacks } from "./runtime-content-packs";
@@ -8,12 +10,12 @@ import {
 } from "./world-integrity-changed";
 import type { ChangedHistoryFamily } from "./world-integrity-changed";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
-import { applySpeechRetelling } from "./speech-retelling";
 import { applyStateLegislatureTurnover } from "./nationwide-world/state-legislature-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyConstitutionalReform } from "./living-world/constitutional-reform";
 import { applyFederalReform } from "./living-world/federal-reform";
+import { applyArticleV } from "./governing/article-v";
 import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { assertAppearanceMaterial } from "./appearance-material";
 import { applyNationalTermTransitions } from "./national-election-consumer";
@@ -71,6 +73,7 @@ import {
 } from "./dates";
 import { assertSetupPriorIntegrity, clonePriors } from "./setup-priors";
 import { assertMacroEconomyIntegrity } from "./macro-economy/store";
+import { assertTownFinanceIntegrity } from "./living-world/town-finances";
 import { assertPressureIntegrity } from "./pressure/integrity";
 import {
   assertCausalEffectIntegrity,
@@ -870,6 +873,7 @@ function validateWorldIntegrity(
   }
   if (!checkedChanges) validateHistoryIntegrity(world, delta, previous);
   if (world.macroEconomy !== undefined) assertMacroEconomyIntegrity(world);
+  assertTownFinanceIntegrity(world);
   if (world.pressure !== undefined) assertPressureIntegrity(world);
 }
 
@@ -1420,22 +1424,27 @@ function advanceWorldUnchecked(
   const continued = applySpeechRetelling(
     world.currentDate,
     applyCrisisRepairFunding(
-      applyCrisisOfficeContinuity(
-        applyCongressLawmaking(
-          world.currentDate,
-          applyFederalReform(
+      applyEnactedCourtSizes(
+        applyCrisisOfficeContinuity(
+          applyCongressLawmaking(
             world.currentDate,
-            applyConstitutionalReform(
+            applyFederalReform(
               world.currentDate,
-              applyPresidentialTurnover(
+              applyArticleV(
                 world.currentDate,
-                applyGovernorTurnover(
+                applyConstitutionalReform(
                   world.currentDate,
-                  applyCongressTurnover(
+                  applyPresidentialTurnover(
                     world.currentDate,
-                    applyStateLegislatureTurnover(
+                    applyGovernorTurnover(
                       world.currentDate,
-                      applyNationalTermTransitions(advanced),
+                      applyCongressTurnover(
+                        world.currentDate,
+                        applyStateLegislatureTurnover(
+                          world.currentDate,
+                          applyNationalTermTransitions(advanced),
+                        ),
+                      ),
                     ),
                   ),
                 ),
