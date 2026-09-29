@@ -39,16 +39,24 @@ builds, not from a script" (source copy
 - **Anger and fear** (`src/simulation/pressure/anger.ts`). A disaster decision
   the game judges a failure, a rise in the published national unemployment
   rate, and an attack on a person feed anger, and an attack feeds fear.
-- **What pressure sets off** (`src/simulation/pressure/events.ts`), right after
-  each quarterly step. Anger over its line in a state gives a chance of public
-  unrest there. Unrest in this quarter and an earlier recent one gives a
-  chance of a threat against a prominent political person in the state, in
-  office or not. A threat from an earlier quarter, while anger holds, gives a
-  chance of an attempt through `recordViolenceAttempt`, which cites the threat
-  and the unrest as its evidence. An open international development whose
-  friction runs high gives a chance of one crisis through
-  `declareInternationalCrisis`. Each chance grows with how far the pressure is
-  over its line; with nothing over a line, nothing happens.
+- **What pressure sets off** (`src/simulation/pressure/ladder.ts` and
+  `events.ts`), right after each quarterly step. Political violence runs on
+  the incident engine as conditions that last, and no chance of an outcome is
+  set anywhere. Unrest is a condition in a state while its anger is over the
+  line; it becomes lasting after it holds through a re-check, and it calms
+  when anger falls back. A threat against a prominent political person in the
+  state, in office or not, starts once the unrest is lasting and anger still
+  holds. The one threatened is the state's most prominent political person,
+  the governor first, then its senators, representatives and party
+  organizers; nothing is drawn. A threat's strain is anger over the line
+  added up since it was made, and an attempt comes through
+  `recordViolenceAttempt` when that strain crosses the line set in
+  `BLANKET_POLITICAL_VIOLENCE.attemptLine`. The attempt cites the threat and the unrest as its evidence. A threat
+  lapses when the unrest calms, its target dies, or four quarters pass. Anger
+  is recorded as the world metric `pressure.state-anger` where the ladder
+  reads it, and the engine's rules cite that record. An open international
+  development whose friction runs high still gives a chance of one crisis
+  through `declareInternationalCrisis`; moving it onto the engine is next.
 
 ## What is not
 

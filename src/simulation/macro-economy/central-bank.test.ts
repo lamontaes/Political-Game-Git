@@ -224,9 +224,17 @@ describe("Build 19: the central bank is people", { timeout: 900_000 }, () => {
       },
     };
     const next = stepCentralBankSeats(vacant);
-    const nominated = next.history.events.at(-1)!;
-    expect(nominated.type).toBe(CENTRAL_BANK_NOMINATED_EVENT);
-    expect(members).not.toContain(nominated.participants[1]!.personId);
+    const nominations = next.history.events
+      .slice(vacant.history.events.length)
+      .filter((event) => event.type === CENTRAL_BANK_NOMINATED_EVENT);
+    for (const nominated of nominations)
+      expect(members).not.toContain(nominated.participants[1]!.personId);
+    // A President who knows nobody else who may serve leaves the seat open,
+    // as real boards have sat with seats empty for years; no draw fills it.
+    if (nominations.length === 0)
+      expect(next.macroEconomy!.centralBank!.openings).toContainEqual(
+        vacant.macroEconomy!.centralBank!.openings[0],
+      );
   });
 
   it("never decides for a player who chairs the board", () => {

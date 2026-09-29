@@ -39,7 +39,6 @@ import { recordOrganizationProfile, recordWorkStatus } from "../life";
 import { organizationClosingAt, organizationProfileAt } from "../life-queries";
 import { MACRO_CREDIT_POLICY } from "../macro-economy/credit";
 import { MACRO_ERA_POLICY } from "../macro-economy/policy";
-import { standardNormal } from "../macro-economy/kernel";
 import { countyGeoidsForPlace } from "../government-units";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { areaResidents } from "../outcome-web/place-outcome-store";
@@ -90,12 +89,32 @@ export const TOWN_BANK_JOB_END_REASON = "labor:bank-failed";
 export const TOWN_FINANCE_POLICY = {
   business: {
     /**
-     * MEASURED: the median small business holds 27 days of cash buffer
-     * (JPMorgan Chase Institute, "Cash Is King", September 2016).
+     * MEASURED: the median small business in each industry holds this many
+     * days of its outflows in cash (JPMorgan Chase Institute, "Cash Is
+     * King", September 2016, Figures 6 and 7; 597,000 small businesses,
+     * 2015). A kind the study does not name takes the median for all small
+     * businesses, 27 days (ESTIMATED FROM AVERAGE). A business opens with
+     * its kind's median; what sets two apart afterward is their sales,
+     * their rivals and their town, not a draw.
      */
-    medianCashBufferDays: 27,
-    /** PLACEHOLDER: the spread of buffers around it (log scale). */
-    cashBufferLogSd: 0.8,
+    cashBufferDays: {
+      restaurant: 16,
+      repair: 18,
+      retail: 19,
+      construction: 20,
+      "personal-care": 21,
+      wholesale: 23,
+      manufacturing: 28,
+      clinic: 30,
+      "care-home": 30,
+      professional: 33,
+      insurance: 33,
+      "building-services": 33,
+      "private-school": 33,
+      information: 33,
+      realty: 47,
+      "*": 27,
+    } as Readonly<Record<string, number>>,
     /** PLACEHOLDER: a line of credit up to this many days of revenue. */
     creditLineDaysOfRevenue: 36.5,
     /**
@@ -588,9 +607,6 @@ function openBusinessBooks(
   round: string,
 ): TownBusinessBooks {
   const P = TOWN_FINANCE_POLICY.business;
-  const rng = new SeededRng(world.seed).fork(
-    `${TOWN_FINANCES_VERSION}:business:${organizationId}`,
-  );
   const yearlyPay = quarterPay * 4;
   const { margin, payShare } = townBusinessKindBooks(kind);
   const annualRevenue = yearlyPay / payShare;
@@ -598,9 +614,7 @@ function openBusinessBooks(
     0,
     annualRevenue * (1 - margin) - yearlyPay,
   );
-  const bufferDays =
-    P.medianCashBufferDays *
-    Math.exp(P.cashBufferLogSd * standardNormal(rng.fork("buffer")));
+  const bufferDays = P.cashBufferDays[kind] ?? P.cashBufferDays["*"]!;
   return {
     organizationId,
     openedAt: world.currentDate,
