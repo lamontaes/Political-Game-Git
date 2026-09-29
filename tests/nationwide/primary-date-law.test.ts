@@ -49,8 +49,9 @@ const PLACE = drawRandomPlace(SEED);
 
 /**
  * A life in which Nebraska's Legislature moves the state's primary to the
- * first Tuesday in April and the Governor signs it, 45 days after the game
- * opens. The Legislature's seats are the Nebraska scenario's, voting by seat
+ * first Tuesday in April, replaces each party's primary with one primary for
+ * all candidates whose top two go on to November, and the Governor signs it,
+ * 45 days after the game opens. The Legislature's seats are the Nebraska scenario's, voting by seat
  * without a person in this world behind each one.
  */
 function lifeWithNebraskaMovingItsPrimary(): World {
@@ -83,7 +84,8 @@ function lifeWithNebraskaMovingItsPrimary(): World {
     rulePackId: template.rulePackId,
     designation: "LB 910",
     shortTitle: "Primary election date",
-    summary: "Moves the statewide primary to the first Tuesday in April.",
+    summary:
+      "Moves the statewide primary to the first Tuesday in April and sends the top two finishers of one primary for all candidates on to November.",
     origin: "member-introduction",
     subjectClass: template.subjectClass,
     sponsorPersonId: game.playerPersonId,
@@ -97,6 +99,13 @@ function lifeWithNebraskaMovingItsPrimary(): World {
     officeKey: electionLawOfficeKey("NE"),
     field: "nomination.primary.dateRule",
     value: { kind: "nth-weekday", month: 4, weekday: 2, nth: 1 },
+  });
+  world = fileRuleChangeProvision(world, {
+    stableKey: `${key}:method`,
+    measureId,
+    officeKey: electionLawOfficeKey("NE"),
+    field: "nomination.method",
+    value: "top-two",
   });
   world = referMeasure(world, {
     stableKey: `${key}:referral`,
@@ -164,7 +173,7 @@ const seatOf = (event: HistoricalEvent) =>
   event.tags.find((tag) => tag.startsWith("seat:"))!.slice("seat:".length);
 
 describe(
-  `a state law that moves its primary moves the next nominations (home: ${PLACE.displayName}, seed ${SEED})`,
+  `a state law that moves its primary and changes its method governs the next nominations (home: ${PLACE.displayName}, seed ${SEED})`,
   { timeout: 1_500_000 },
   () => {
     it("holds Nebraska's congressional primaries on the new date from the next cycle on", () => {
@@ -198,7 +207,23 @@ describe(
         nebraska("2028").every(
           (event) =>
             event.occurredAt === "2028-04-04" &&
-            event.tags.includes("date-basis:enacted-law"),
+            event.tags.includes("date-basis:enacted-law") &&
+            event.tags.includes("method:top-two"),
+        ),
+      ).toBe(true);
+      // The new method decides who goes on: no more than two in each seat,
+      // whatever their party, where 2026 sent on one per party.
+      expect(
+        nebraska("2028").every(
+          (event) =>
+            event.participants.filter((row) =>
+              /\|(advanced|unopposed)$/.test(row.detail ?? ""),
+            ).length <= 2,
+        ),
+      ).toBe(true);
+      expect(
+        nebraska("2026").every((event) =>
+          event.tags.includes("method:party-primary"),
         ),
       ).toBe(true);
       // Texas's law did not change: its 2028 primary is on its own rule's

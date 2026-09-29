@@ -162,6 +162,14 @@ function reachesThreshold(
     : permille > threshold;
 }
 
+/**
+ * PLACEHOLDER(build-24-step-1): a runner-up this close to the leader, in
+ * per mille of the party's primary vote (10 percentage points), counts as
+ * "within reach" when deciding whether to ask for a runoff held only on
+ * request (North Carolina). Set by hand; no research on when runners-up ask.
+ */
+const WITHIN_REACH_PERMILLE = 100;
+
 /** Whether the runner-up asks for the runoff a state holds only on request. */
 function runnerUpAsks(
   world: World,
@@ -178,13 +186,13 @@ function runnerUpAsks(
   const considerations: DecisionConsideration[] = [
     {
       stableKey: `${key}:margin`,
-      optionKey: gap <= 100 ? "request" : "concede",
+      optionKey: gap <= WITHIN_REACH_PERMILLE ? "request" : "concede",
       sourceType: "context:election-result",
       direction: "supports",
       importance: "strong",
       confidence: "high",
       explanation:
-        gap <= 100
+        gap <= WITHIN_REACH_PERMILLE
           ? "They finished within reach of the leader."
           : "They finished far behind the leader.",
       sourceRefs: [],

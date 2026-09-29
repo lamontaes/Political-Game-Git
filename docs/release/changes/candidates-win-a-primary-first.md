@@ -13,6 +13,5 @@ when the runner-up asks. Only the winners reach the November ballot, so a
 sitting member can lose their own party's nomination, and a seat a party is
 favored to win can draw candidates nobody recruited.
 
-A state law passed in play can move its primary, change its method or change
-its runoff share. The new rule governs the next election whose candidates file
-after it takes effect.
+A state law passed in play can move its primary or change its method. The new
+rule governs the next election whose filing opens after it takes effect.

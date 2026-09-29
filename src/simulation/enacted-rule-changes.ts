@@ -137,25 +137,11 @@ export const AMENDABLE_RULE_FIELDS = {
     ] satisfies readonly NominationMethodChoice[],
     family: "election",
   },
-  /**
-   * The share of the primary vote, in percent, that wins a nomination
-   * outright; below it the top two meet in a runoff. Null is "no runoff": the
-   * most votes win. Office key `us-xx-election-law`.
-   */
-  "nomination.runoff.thresholdPercent": {
-    kind: "optional-integer",
-    min: 1,
-    max: 100,
-    family: "election",
-  },
 } as const;
 
 /** The nomination methods a law can choose among. */
 export type NominationMethodChoice =
-  | "party-primary"
-  | "top-two"
-  | "top-four"
-  | "all-party-majority";
+  "party-primary" | "top-two" | "top-four" | "all-party-majority";
 
 /** The office key a state's election law is recorded under. */
 export function electionLawOfficeKey(stateUsps: string): string {
@@ -184,11 +170,7 @@ export interface TermLimitRule {
  * one of a fixed set of named choices for a choice rule.
  */
 export type RuleChangeValue =
-  | number
-  | TermLimitRule
-  | ElectionDateRule
-  | string
-  | null;
+  number | TermLimitRule | ElectionDateRule | string | null;
 
 /**
  * Whom a change reaches, as the law says. Null in either part means the law
@@ -242,8 +224,6 @@ const AMENDABLE_RULE_FIELD_LABELS: Readonly<
   "labor.minimumWage.hourlyCents": "state minimum wage",
   "nomination.primary.dateRule": "the day of the party primary",
   "nomination.method": "how parties choose their candidates",
-  "nomination.runoff.thresholdPercent":
-    "the share of the primary vote that wins without a runoff",
 };
 
 const CHOICE_WORDS: Readonly<Record<string, string>> = {
@@ -269,8 +249,6 @@ export function describeRuleChangeValue(
 ): string {
   if (field === "labor.minimumWage.hourlyCents" && typeof value === "number")
     return `$${(value / 100).toFixed(2)} an hour`;
-  if (field === "nomination.runoff.thresholdPercent")
-    return typeof value === "number" ? `${value} percent` : "no runoff";
   if (value === null) return "no limit";
   if (typeof value === "number") return String(value);
   if (typeof value === "string") return CHOICE_WORDS[value] ?? value;
@@ -386,18 +364,6 @@ export function assertAmendableRuleValue(
     ) {
       throw new Error(
         `${field} must be a whole number from ${spec.min} to ${spec.max}.`,
-      );
-    }
-  } else if (spec.kind === "optional-integer") {
-    if (
-      value !== null &&
-      (typeof value !== "number" ||
-        !Number.isInteger(value) ||
-        value < spec.min ||
-        value > spec.max)
-    ) {
-      throw new Error(
-        `${field} must be null or a whole number from ${spec.min} to ${spec.max}.`,
       );
     }
   } else if (spec.kind === "date-rule") {

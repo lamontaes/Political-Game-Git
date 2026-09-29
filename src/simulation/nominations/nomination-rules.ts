@@ -21,7 +21,7 @@ import {
  * all-party primary that sends the top two or four on), its standing date
  * rule, the date actually set for 2026 (a one-year law such as Virginia's or
  * Massachusetts' wins in 2026), and its runoff rule. A law enacted in play
- * replaces the date rule, the method or the runoff threshold through the
+ * replaces the date rule or the method through the
  * rule-change reader (office key `us-xx-election-law`), so a legislature can
  * move its primary and the nomination stage follows.
  *
@@ -326,10 +326,7 @@ export function nominationPlan(
   const generalDay = query.generalDay ?? generalElectionDay(year);
   const officeKey = electionLawOfficeKey(stateUsps);
   const law = <T>(
-    field:
-      | "nomination.primary.dateRule"
-      | "nomination.method"
-      | "nomination.runoff.thresholdPercent",
+    field: "nomination.primary.dateRule" | "nomination.method",
     compiled: T,
   ) =>
     ruleValueInWorld(
@@ -374,7 +371,7 @@ export function nominationPlan(
       reason: `${row.name}'s ${year} primary for this office falls on or after the general election, which the game does not model yet.`,
     };
 
-  let runoff = runoffPlan(row, family, year, primaryDate, generalDay, law);
+  let runoff = runoffPlan(row, family, year, primaryDate, generalDay);
   if (runoff === "unknown") {
     runoff = null;
     estimated.push("runoff");
@@ -406,10 +403,6 @@ function runoffPlan(
   year: number,
   primaryDate: IsoDate,
   generalDay: IsoDate,
-  law: <T>(
-    field: "nomination.runoff.thresholdPercent",
-    compiled: T,
-  ) => { source: "compiled" | "enacted"; value: unknown },
 ): (RunoffRule & { readonly estimatedDate: boolean }) | null | "unknown" {
   const compiled = row.runoff;
   const shape =
@@ -418,19 +411,15 @@ function runoffPlan(
     (!compiled.offices || compiled.offices.includes(family))
       ? compiled
       : null;
-  const thresholdLaw = law(
-    "nomination.runoff.thresholdPercent",
-    shape ? shape.thresholdPercent : compiled === "unknown" ? undefined : null,
-  );
-  if (thresholdLaw.value === undefined) return "unknown";
-  if (thresholdLaw.value === null) return null;
-  const threshold = thresholdLaw.value as number;
+  if (compiled === "unknown") return "unknown";
+  if (!shape) return null;
+  const threshold = shape.thresholdPercent;
   let date: IsoDate | null = null;
-  if (year === 2026 && shape) {
+  if (year === 2026) {
     const set = dateFor(shape.dates2026, family);
     if (set) date = set as IsoDate;
   }
-  if (!date && shape?.date)
+  if (!date && shape.date)
     date = dateFromElectionRule(shape.date, year, {
       generalDay,
       primaryDay: primaryDate,
@@ -439,7 +428,7 @@ function runoffPlan(
   // ESTIMATED FROM AVERAGE: a runoff whose rule is unread but whose 2026
   // dates are known keeps the 2026 gap after the primary (Louisiana: six
   // weeks, May 16 to June 27).
-  if (!date && shape && !shape.date) {
+  if (!date && !shape.date) {
     const primary2026 = dateFor(row.primary.dates2026, family);
     const runoff2026 = dateFor(shape.dates2026, family);
     if (primary2026 && runoff2026) {
@@ -456,25 +445,12 @@ function runoffPlan(
       }
     }
   }
-  // NOT READ: when a runoff a law adds is held. Blanket rule meanwhile: four
-  // weeks after the primary, the most common gap in the table (Alabama,
-  // Arkansas, Georgia, Mississippi).
-  if (!date && thresholdLaw.source === "enacted") {
-    date = dateFromElectionRule(
-      { kind: "days-after-primary", days: 28 },
-      year,
-      {
-        primaryDay: primaryDate,
-      },
-    );
-    estimatedDate = true;
-  }
   if (date && date >= generalDay) date = null;
   return {
     thresholdPercent: threshold,
-    outright: shape?.outright ?? "more-than",
-    onRequest: shape?.onRequest ?? false,
-    minimumCandidates: shape?.minimumCandidates ?? null,
+    outright: shape.outright,
+    onRequest: shape.onRequest,
+    minimumCandidates: shape.minimumCandidates,
     date,
     estimatedDate,
   };

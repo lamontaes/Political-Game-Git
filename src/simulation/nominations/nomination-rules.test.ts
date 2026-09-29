@@ -208,7 +208,7 @@ describe("party nomination rules, 2026", () => {
     expect(plan("TX", "us-house", 2026)).toMatchObject({ estimated: [] });
   });
 
-  it("accepts a date rule, a method and a runoff threshold as law", () => {
+  it("accepts a date rule and a method as law", () => {
     const rule = {
       kind: "nth-weekday",
       month: 5,
@@ -232,16 +232,6 @@ describe("party nomination rules, 2026", () => {
         "us-ga-election-law",
       ),
     ).toThrow();
-    expect(() =>
-      assertAmendableRuleValue(
-        "nomination.runoff.thresholdPercent",
-        null,
-        "us-ga-election-law",
-      ),
-    ).not.toThrow();
-    expect(
-      describeRuleChangeValue(null, "nomination.runoff.thresholdPercent"),
-    ).toBe("no runoff");
     expect(() =>
       assertAmendableRuleValue(
         "nomination.method",
