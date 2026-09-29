@@ -40,11 +40,10 @@ import { stateOfJurisdiction } from "../press/outlets";
 import {
   appointmentCircle,
   chooseAppointee,
-  federalColleaguesOf,
-  nominatorOf,
   recordAppointmentFavor,
   recordPassedOver,
 } from "../patronage/appointments";
+import { federalColleaguesOf, nominatorOf } from "../patronage/federal-circle";
 import {
   FEDERAL_TENURE_EVENT,
   FEDERAL_VACANCY_EVENT,

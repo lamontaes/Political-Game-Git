@@ -3,9 +3,7 @@ import { publicOfficesHeldBy } from "../crisis/offices";
 import { favorStandingBetween, recordFavor } from "../favors";
 import { publicPartyOf } from "../governing/chamber-votes";
 import { favorEventRefs, favorsGivenBy, favorsReceivedBy } from "./favor-refs";
-import { projectCongress } from "../living-world/congress";
 import { peopleKnownTo } from "../living-world/official-views";
-import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 import { personName } from "../people";
 import { ensurePeopleTraits, personTrait } from "../people-traits";
 import { currentHistoricalCutoff } from "../queries";
@@ -590,45 +588,4 @@ export function recordPassedOver(
     });
   }
   return next;
-}
-
-/**
- * The officeholders a President works with: every sitting member of Congress
- * and every state's chief executive. Working together is how officeholders
- * know each other; that reading is inferred, not measured.
- */
-export function federalColleaguesOf(world: World): readonly EntityId[] {
-  const congress = projectCongress(world);
-  const ids = new Set<EntityId>();
-  for (const seat of [
-    ...(congress?.house.seats ?? []),
-    ...(congress?.senate.seats ?? []),
-  ])
-    if (seat.occupant.kind === "member") ids.add(seat.occupant.member.personId);
-  for (const holder of currentStateExecutiveHolders(world))
-    ids.add(holder.personId);
-  return [...ids].sort();
-}
-
-/** Who nominated this person, from the nomination event for the vacancy. */
-export function nominatorOf(
-  world: World,
-  eventType: string,
-  vacancyTag: string,
-  nomineeId: EntityId,
-): EntityId | null {
-  for (let index = world.history.events.length - 1; index >= 0; index -= 1) {
-    const event = world.history.events[index]!;
-    if (event.type !== eventType || !event.tags.includes(vacancyTag)) continue;
-    const subject = event.participants.find(
-      (participant) => participant.role === "focus:subject",
-    )?.personId;
-    if (subject !== nomineeId) continue;
-    return (
-      event.participants.find(
-        (participant) => participant.role === "focus:actor",
-      )?.personId ?? null
-    );
-  }
-  return null;
 }

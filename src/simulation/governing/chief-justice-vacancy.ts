@@ -3,10 +3,10 @@ import { currentPresidentOf } from "../crisis/offices";
 import {
   appointmentCircle,
   chooseAppointee,
-  federalColleaguesOf,
   recordAppointmentFavor,
   recordPassedOver,
 } from "../patronage/appointments";
+import { federalColleaguesOf } from "../patronage/federal-circle";
 import {
   FEDERAL_TENURE_EVENT,
   FEDERAL_VACANCY_EVENT,
