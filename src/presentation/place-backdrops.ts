@@ -2,6 +2,7 @@ import manifest from "../../art/backdrops/manifest.json";
 import { activeWorkRelationshipsAt } from "../simulation/life-queries";
 import { activeDwellingOccupanciesAt } from "../simulation/resource-queries";
 import { householdMembershipsAt } from "../simulation";
+import { ELECTION_NIGHT_LOCATION_KEY } from "../simulation/campaign-speeches";
 import { backdropUrl } from "./backdrop-urls";
 import type {
   DwellingClassification,
@@ -266,6 +267,31 @@ const WORK_NAME_PLACE: readonly (readonly [RegExp, string])[] = [
   [/hair|barber|salon/, "main-street"],
 ];
 
+/**
+ * Where the player is on election night: the venue, on the day they gave
+ * their victory speech or conceded. The speech event carries the location key.
+ * Null on every other day.
+ */
+export function electionNightLocationKey(
+  world: World,
+  personId: EntityId,
+): string | null {
+  const key = `place:${ELECTION_NIGHT_LOCATION_KEY}`;
+  const today = world.currentDate;
+  return world.history.events.some(
+    (event) =>
+      event.occurredAt === today &&
+      event.tags.includes(key) &&
+      event.participants.some(
+        (participant) =>
+          participant.personId === personId &&
+          participant.role === "focus:subject",
+      ),
+  )
+    ? ELECTION_NIGHT_LOCATION_KEY
+    : null;
+}
+
 /** The person's current workplace picture, or null when they have no job. */
 export function workplacePlaceForPerson(
   world: World,
@@ -322,6 +348,9 @@ const LOCATION_PLACE: Readonly<Record<string, string>> = {
   "campaign-call-desk": "phone-bank-room",
   "campaign-office": "campaign-storefront",
   "life-favor:proofreading": "diner",
+  // Election night, and a town hall a school or civic group hosts.
+  "campaign-election-night": "election-night-venue",
+  "campaign-life:town-hall-school-gym": "school-gym-town-hall",
 };
 
 const LOCATION_PREFIX_PLACE: Readonly<Record<string, string>> = {
