@@ -137,7 +137,14 @@ export function addSuppliedLegislativeSeat(
     },
   });
   const filingEventId = world.history.events.at(-1)!.id;
-  const rivalId = world.personOrder.find((id) => id !== personId)!;
+  const dead = new Set(
+    (world.history.personDeaths ?? [])
+      .filter((death) => death.diedAt <= world.currentDate)
+      .map((death) => death.personId),
+  );
+  const rivalId = world.personOrder.find(
+    (id) => id !== personId && !dead.has(id),
+  )!;
   world = scheduleElectionContest(world, {
     stableKey: `${namespace}:supplied-contest`,
     jurisdictionId: place.context.jurisdiction.id,

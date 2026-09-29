@@ -4,6 +4,7 @@ import {
 } from "./legislative-institutions";
 import { governmentUnit } from "./government-units";
 import { stateJurisdictionForKey } from "./life-places";
+import { isFederalDistrictUsps } from "./state-reference";
 import {
   localFiscalAuthorityScopeForRulePackId,
   municipalAuthorityNarrowing,
@@ -535,12 +536,11 @@ export function enactingGovernmentForPack(pack: LegislativeRulePack): {
     ? governmentUnit(local.key)
     : null;
   return {
-    government:
-      pack.jurisdictionKey === "US-DC"
-        ? "district-of-columbia"
-        : unit?.unitType === "county"
-          ? "county"
-          : "municipality",
+    government: isFederalDistrictUsps(pack.jurisdictionKey.replace(/^US-/, ""))
+      ? "district-of-columbia"
+      : unit?.unitType === "county"
+        ? "county"
+        : "municipality",
     narrowing: municipalAuthorityNarrowing(local),
   };
 }

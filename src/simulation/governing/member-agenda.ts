@@ -849,10 +849,11 @@ function fileLocalPositionBill(
       const score = principledLeaning(world, sponsorId, propositionId).score;
       if (Math.abs(score) < FILING_THRESHOLD) continue;
       if (best && Math.abs(score) <= best.weight) continue;
-      const answer = positionBillAnswer(
-        score,
-        statuteAnswer(lawInForce(world, jurisdictionId, propositionId)),
-      );
+      const law = lawInForce(world, jurisdictionId, propositionId);
+      // A state's floor law that preempts local action leaves the council
+      // nothing to enact: an ordinance on it would change no answer.
+      if (law?.preempts && law.level !== "local-ordinance") continue;
+      const answer = positionBillAnswer(score, statuteAnswer(law));
       if (!answer || mappedLocally(proposition.stableKey, answer)) continue;
       if (pendingBillOn(world, jurisdictionId, propositionId)) continue;
       if (

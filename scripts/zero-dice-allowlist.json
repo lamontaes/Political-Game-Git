@@ -227,13 +227,6 @@
       "code": ".next() < (slot.presence_rate ?? 0);"
     },
     {
-      "file": "src/presentation/funded-service-capability.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "legislativeBlueprint(\"alaska\").pack.jurisdictionKey === jurisdictionKey;"
-    },
-    {
       "file": "src/presentation/living-scene-facts.ts",
       "kind": "place-in-logic",
       "build": "Build 16",
@@ -435,13 +428,6 @@
       "build": "Build 27",
       "count": 1,
       "code": "if ([\"california\", \"us-ca\"].includes(j.slug)) return \"US-CA\";"
-    },
-    {
-      "file": "src/simulation/constitutional-process.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "if (rulePackById(bill.rulePackId).jurisdictionKey !== \"nevada\")"
     },
     {
       "file": "src/simulation/cost-of-living.ts",
@@ -1130,20 +1116,6 @@
       "code": "(record.unitKey.startsWith(\"ME\") ? null : source.winnerPersonId) ||"
     },
     {
-      "file": "src/simulation/nationwide-world/local-governing-body-rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 25",
-      "count": 1,
-      "code": "const COUNCIL_SIZE_SHARES: readonly Share[] = ["
-    },
-    {
-      "file": "src/simulation/nationwide-world/local-governing-body-rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 25",
-      "count": 1,
-      "code": "const COUNCIL_TERM_SHARES: readonly Share[] = ["
-    },
-    {
       "file": "src/simulation/nationwide-world/presidential-turnover.ts",
       "kind": "roll",
       "build": "Build 27",
@@ -1170,6 +1142,20 @@
       "build": "Build 24",
       "count": 1,
       "code": "lowOpportunityShare: 0.18,"
+    },
+    {
+      "file": "src/simulation/nationwide-world/typical-council-size.ts",
+      "kind": "fixed-share",
+      "build": "Build 25",
+      "count": 1,
+      "code": "const COUNCIL_SIZE_SHARES: readonly Share[] = ["
+    },
+    {
+      "file": "src/simulation/nationwide-world/typical-council-size.ts",
+      "kind": "fixed-share",
+      "build": "Build 25",
+      "count": 1,
+      "code": "const COUNCIL_TERM_SHARES: readonly Share[] = ["
     },
     {
       "file": "src/simulation/nominations/field-entry.ts",

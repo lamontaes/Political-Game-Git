@@ -22,6 +22,7 @@
  * proposition, lineage and current operative clause. Borrowing has no such
  * profile. Sourced fiscal conditions still require their own adapter.
  */
+import { councilSitsOnAuthoredCalendar } from "./municipal-seat-identity";
 
 import { addDays } from "./dates";
 import { applyEnactedLawEffects } from "./enacted-law-effects";
@@ -320,7 +321,7 @@ export function decideOrdinaryCouncilReading(
   ownBallot?: "yea" | "nay" | "present-not-voting" | null,
 ): readonly LegislativeVoteDisposition[] | null {
   const question = municipalReadingQuestion(world, governmentKey, measureId);
-  if (!question || governmentKey === "us-dc-washington") return null;
+  if (!question || councilSitsOnAuthoredCalendar(governmentKey)) return null;
   const measure = requireMeasure(world, measureId);
   const seats = councilSeats(world, governmentKey);
   if (seats.length === 0) return null;
@@ -354,7 +355,7 @@ export function scheduleOrdinaryCouncilReading(
   governmentKey: string,
   measureId: EntityId,
 ): World {
-  if (governmentKey === "us-dc-washington") return world;
+  if (councilSitsOnAuthoredCalendar(governmentKey)) return world;
   const question = municipalReadingQuestion(world, governmentKey, measureId);
   if (!question) return world;
   const measure = requireMeasure(world, measureId);
@@ -1075,7 +1076,7 @@ export function councilReadingDueHandler(
   );
   if (!measure) return resolved(world, "No ordinance matches.");
   const governmentKey = councilOfMeasure(measure);
-  if (!governmentKey || governmentKey === "us-dc-washington")
+  if (!governmentKey || councilSitsOnAuthoredCalendar(governmentKey))
     return resolved(world, "No ordinary council reading matches.");
   const question = municipalReadingQuestion(world, governmentKey, measure.id);
   if (!question) return resolved(world, "The reading was already decided.");

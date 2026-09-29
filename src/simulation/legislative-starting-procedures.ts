@@ -2,11 +2,16 @@ import { legislatureForState } from "./legislature-game-profile";
 import type { LegislativeRulePack } from "./legislature-rules";
 import { rulePackById } from "./legislature-rule-packs";
 import { canonicalStateJurisdictionId } from "./state-jurisdiction-id";
-import { SeededRng } from "./rng";
-import { STATES, TERRITORY_USPS } from "./state-reference";
+import {
+  isFederalDistrictUsps,
+  isTerritoryUsps,
+  STATES,
+} from "./state-reference";
+import regularSessionYearsData from "../../data/research/laws/regular-session-years.json" with { type: "json" };
+import { stateSessionEnds } from "./governing/statute-effective-date";
 import type { World } from "./types";
 
-/** Changing a draw or its baseline requires a new version for new worlds. */
+/** Changing a rule or its baseline requires a new version for new worlds. */
 export const LEGISLATIVE_STARTING_PROCEDURES_VERSION =
   "ocd-legislative-starting-procedures/v1" as const;
 
@@ -43,95 +48,76 @@ export type LegislativeStartingProcedures = Readonly<
 >;
 
 const STATE_KEYS = Object.keys(STATES)
-  .filter((usps) => usps !== "DC" && !TERRITORY_USPS.has(usps))
+  .filter((usps) => !isFederalDistrictUsps(usps) && !isTerritoryUsps(usps))
   .map((usps) => `US-${usps}`)
   .sort();
 
-/** Each field has its own stream, so adding another draw cannot retune it. */
-function fieldRng(
-  worldSeed: string,
-  jurisdictionKey: string,
-  field: string,
-): SeededRng {
-  return new SeededRng(worldSeed).fork(
-    `${LEGISLATIVE_STARTING_PROCEDURES_VERSION}:${jurisdictionKey}:${field}`,
-  );
-}
+/**
+ * The game's default interval for an act that names no date; the states'
+ * own researched rules date acts in play (`governing/statute-effective-date.ts`).
+ */
+const EFFECTIVE_DATE_DAYS: LegislativeEffectiveDateDays = 90;
 
-function effectiveDateDays(
-  worldSeed: string,
-  jurisdictionKey: string,
-): LegislativeEffectiveDateDays {
-  // The opening profile stays near 90 days, with a bounded two-week drift.
-  const draw = fieldRng(worldSeed, jurisdictionKey, "effective-days").integer(
-    0,
-    6,
-  );
-  return draw === 0 ? 75 : draw === 1 ? 105 : 90;
-}
+const REGULAR_SESSION_YEARS = (
+  regularSessionYearsData as {
+    readonly rows: Readonly<Record<string, { readonly years: "odd" | "even" }>>;
+  }
+).rows;
 
-function sessionCadence(
-  worldSeed: string,
-  jurisdictionKey: string,
-): LegislativeSessionCadence {
-  // Nevada's compiled pack explicitly establishes biennial sessions. Annual
-  // is a game-profile center elsewhere, not a claim all other states are annual.
-  const baseline: LegislativeSessionCadence =
-    jurisdictionKey === "US-NV" ? "biennial" : "annual";
-  const varies =
-    fieldRng(worldSeed, jurisdictionKey, "session-cadence").integer(0, 8) === 0;
-  return varies ? (baseline === "annual" ? "biennial" : "annual") : baseline;
+/** The years the session-end table is read for: the opening year and the one before. */
+const TABLE_YEARS = [2025, 2026] as const;
+
+/**
+ * A state's constitution names the years it meets when it does not meet
+ * every year (`data/research/laws/regular-session-years.json`); every other
+ * state meets annually.
+ */
+function sessionCadence(jurisdictionKey: string): LegislativeSessionCadence {
+  return Object.hasOwn(REGULAR_SESSION_YEARS, jurisdictionKey)
+    ? "biennial"
+    : "annual";
 }
 
 function sessionYearParity(
-  worldSeed: string,
   jurisdictionKey: string,
   cadence: LegislativeSessionCadence,
 ): LegislativeSessionYearParity {
-  if (cadence === "annual") return null;
-  // Nevada's biennial legislature convenes after its even-year election.
-  if (jurisdictionKey === "US-NV") return "odd";
-  return fieldRng(worldSeed, jurisdictionKey, "session-year-parity").pick([
-    "odd",
-    "even",
-  ] as const);
+  return cadence === "annual"
+    ? null
+    : REGULAR_SESSION_YEARS[jurisdictionKey]!.years;
 }
 
+/**
+ * Where the reference pack states no limit, the day the state's session
+ * usually ends, from the same table; null where the table has none.
+ */
 function regularSessionCutoff(
-  worldSeed: string,
   jurisdictionKey: string,
   baselinePack: LegislativeRulePack,
 ): LegislativeRegularSessionCutoff {
   if (baselinePack.session.regularSessionLatestAdjournment) return null;
-  // A saved game cutoff gives unresolved sessions an executable window. June
-  // is the center; May and July are small alternate-present departures.
-  const draw = fieldRng(
-    worldSeed,
-    jurisdictionKey,
-    "regular-session-cutoff",
-  ).integer(0, 5);
-  if (draw === 0) return { month: 5, day: 31 };
-  if (draw === 4) return { month: 7, day: 31 };
-  return { month: 6, day: 30 };
+  for (const year of [...TABLE_YEARS].reverse()) {
+    const end = stateSessionEnds(jurisdictionKey, year).at(-1);
+    if (end)
+      return { month: Number(end.slice(5, 7)), day: Number(end.slice(8, 10)) };
+  }
+  return null;
 }
 
-function measuresCarryOver(
-  worldSeed: string,
-  jurisdictionKey: string,
-  baselinePack: LegislativeRulePack,
-): boolean {
+/** Pending bills carry over where the reference pack says they do not die. */
+function measuresCarryOver(baselinePack: LegislativeRulePack): boolean {
   const expiry = baselinePack.session.measuresDieAtAdjournment;
-  // An unresolved source value stays unresolved in baselinePack. The active
-  // game profile uses no carryover as its center, with a small seeded drift.
-  const baseline = expiry.kind === "known" ? !expiry.value : false;
-  const varies =
-    fieldRng(worldSeed, jurisdictionKey, "bill-carryover").integer(0, 8) === 0;
-  return varies ? !baseline : baseline;
+  // An unresolved source value stays unresolved in baselinePack; the
+  // game profile then uses no carryover.
+  return expiry.kind === "known" ? !expiry.value : false;
 }
 
-/** Build once at Begin and save the result; readers must never reroll it. */
+/** Build once at Begin and save the result; readers never rebuild it. */
 export function drawLegislativeStartingProcedures(
-  world: Pick<World, "seed">,
+  // The procedures no longer vary by world; callers still name the world
+  // they are saved for.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _world: Pick<World, "seed">,
 ): LegislativeStartingProcedures {
   const entries: Record<string, LegislativeStartingProcedureEntry> = {};
 
@@ -144,26 +130,18 @@ export function drawLegislativeStartingProcedures(
       );
     }
 
-    const cadence = sessionCadence(world.seed, jurisdictionKey);
+    const cadence = sessionCadence(jurisdictionKey);
     entries[jurisdictionKey] = {
       jurisdictionKey,
       jurisdictionId,
       // The playable registry adds standing committee stand-ins where the
       // researched pack has none. Save that executable baseline for replay.
       baselinePack: structuredClone(rulePackById(pack.packId)),
-      effectiveDateDays: effectiveDateDays(world.seed, jurisdictionKey),
+      effectiveDateDays: EFFECTIVE_DATE_DAYS,
       sessionCadence: cadence,
-      sessionYearParity: sessionYearParity(
-        world.seed,
-        jurisdictionKey,
-        cadence,
-      ),
-      regularSessionCutoff: regularSessionCutoff(
-        world.seed,
-        jurisdictionKey,
-        pack,
-      ),
-      measuresCarryOver: measuresCarryOver(world.seed, jurisdictionKey, pack),
+      sessionYearParity: sessionYearParity(jurisdictionKey, cadence),
+      regularSessionCutoff: regularSessionCutoff(jurisdictionKey, pack),
+      measuresCarryOver: measuresCarryOver(pack),
       procedureProvenance: {
         kind: "game-profile",
         version: LEGISLATIVE_STARTING_PROCEDURES_VERSION,

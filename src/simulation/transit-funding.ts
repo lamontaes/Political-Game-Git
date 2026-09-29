@@ -14,6 +14,7 @@ import {
   TRANSIT_PROGRAM_KEY,
   STATE_TRANSIT_VARIANT_KEY,
   TRANSIT_VARIANT_KEY,
+  LEGACY_TRANSIT_COMPILED_STATE,
 } from "./legislation-transit-families";
 import { legislativeWorkKey } from "./legislative-work-key";
 import { stateJurisdictionForKey } from "./life-places";
@@ -71,7 +72,8 @@ export function resolveTransitFunding(
     );
   if (
     lineage.variantKey === TRANSIT_VARIANT_KEY &&
-    measure.jurisdictionId !== stateJurisdictionForKey("US-AK")?.id
+    measure.jurisdictionId !==
+      stateJurisdictionForKey(LEGACY_TRANSIT_COMPILED_STATE)?.id
   )
     return no(
       "The explicit ninety-day transit clause is compiled only for Alaska.",

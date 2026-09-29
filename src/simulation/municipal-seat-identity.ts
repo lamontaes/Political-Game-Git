@@ -10,6 +10,24 @@ export interface MunicipalSeatChoice {
   readonly reason: string | null;
 }
 
+/**
+ * Councils whose sittings are scheduled from an authored calendar rather
+ * than by their own quarterly readings: the District's Council keeps the
+ * sitting schedule of `dc-council-sittings.ts`.
+ */
+const AUTHORED_SITTING_GOVERNMENTS: ReadonlySet<string> = new Set([
+  "us-dc-washington",
+]);
+
+/** Whether this council sits on an authored calendar of sittings. */
+export function councilSitsOnAuthoredCalendar(
+  governmentKey: string | null | undefined,
+): boolean {
+  return (
+    governmentKey != null && AUTHORED_SITTING_GOVERNMENTS.has(governmentKey)
+  );
+}
+
 const DC_COUNCIL_OFFICE = "local-government-124214-governing-body";
 
 /** D.C. Code § 1-204.01(b)(1): chair, four at-large members, eight wards. */

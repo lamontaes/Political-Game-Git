@@ -304,10 +304,12 @@ export function governmentMayEnactVariant(
       ok: false,
       reason: `The ${variant.label} configuration is written for ${[...levels].join(" or ")} government.`,
     };
-  const local =
-    government === "county" ||
-    government === "municipality" ||
-    government === "district-of-columbia";
+  // Every kind of government below the states, and the District's Council.
+  const local = !(
+    government === "federal" ||
+    government === "state" ||
+    government === "territory"
+  );
   if (local) {
     const limit = narrowing.find((entry) =>
       entry.withheld.includes(variant.instrument),

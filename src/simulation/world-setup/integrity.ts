@@ -1,7 +1,11 @@
 import { createStableId } from "../ids";
 import { LEGISLATIVE_STARTING_PROCEDURES_VERSION } from "../legislative-starting-procedures";
 import { canonicalStateJurisdictionId } from "../state-jurisdiction-id";
-import { STATES, TERRITORY_USPS } from "../state-reference";
+import {
+  isFederalDistrictUsps,
+  isTerritoryUsps,
+  STATES,
+} from "../state-reference";
 import type { EntityId, EntityKind, World } from "../types";
 import type { PartyRecord, WorldConditionRecord } from "./types";
 import { PUBLIC_CASH_OPENING_PROFILE_VERSION } from "./types";
@@ -75,7 +79,7 @@ function finite(value: number | null, label: string): void {
 }
 
 const STATE_KEYS = Object.keys(STATES)
-  .filter((usps) => usps !== "DC" && !TERRITORY_USPS.has(usps))
+  .filter((usps) => !isFederalDistrictUsps(usps) && !isTerritoryUsps(usps))
   .map((usps) => `US-${usps}`);
 
 function checkLegislativeStartingProcedures(
@@ -142,8 +146,13 @@ function checkLegislativeStartingProcedures(
     if (
       sourceCutoff
         ? cutoff !== null
-        : cutoff === null ||
-          !["5-31", "6-30", "7-31"].includes(`${cutoff.month}-${cutoff.day}`)
+        : cutoff !== null &&
+          (!Number.isInteger(cutoff.month) ||
+            !Number.isInteger(cutoff.day) ||
+            cutoff.month < 1 ||
+            cutoff.month > 12 ||
+            cutoff.day < 1 ||
+            cutoff.day > 31)
     ) {
       throw new Error(
         `Legislative session cutoff is invalid for ${jurisdictionKey}.`,

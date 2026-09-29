@@ -15,6 +15,7 @@ import {
   TRANSIT_FAMILY_VERSION,
   TRANSIT_PROGRAM_KEY,
   TRANSIT_VARIANT_KEY,
+  LEGACY_TRANSIT_COMPILED_STATE,
 } from "../legislation-transit-families";
 import { stateTransitServiceProfileForMeasure } from "../state-transit-service-profile";
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
@@ -47,6 +48,7 @@ import {
 import type {
   EntityId,
   IsoDate,
+  LegislativeEnactmentRecord,
   PublicGovernmentIdentity,
   PublicProgramBasis,
   PublicProgramAppropriationRecord,
@@ -361,7 +363,9 @@ export function appropriationFromEnactedMeasure(
         publicGovernmentIdentity: governmentScope.identity,
         programKey,
         amountMinorUnits: amount,
-        adoptedOn: transitProfile ? enactment.effectiveAt! : adoptedOn,
+        adoptedOn: transitProfile
+          ? operativeDateInWorld(world, enactment)!.date
+          : adoptedOn,
         ...(availableThrough !== undefined
           ? { availableThrough }
           : transitProfile
@@ -405,7 +409,8 @@ export function appropriationFromEnactedMeasure(
     lineage.authorityMeasureId === undefined;
   if (
     pinnedLegacyTransit &&
-    measure.jurisdictionId !== stateJurisdictionForKey("US-AK")?.id
+    measure.jurisdictionId !==
+      stateJurisdictionForKey(LEGACY_TRANSIT_COMPILED_STATE)?.id
   )
     return world;
   const pinnedOperativeDate = pinnedLegacyTransit
@@ -466,7 +471,7 @@ export function appropriationFromEnactedMeasure(
     programKey,
     amountMinorUnits: amount,
     adoptedOn: transitProfile
-      ? enactment.effectiveAt!
+      ? operativeDateInWorld(world, enactment)!.date
       : (pinnedOperativeDate ?? adoptedOn),
     ...(availableThrough !== undefined
       ? { availableThrough }
@@ -532,7 +537,7 @@ function lineageAuthorizesAppropriation(
 function stateTransitProfileForLineage(
   world: World,
   measure: { readonly jurisdictionId: EntityId; readonly rulePackId: string },
-  enactment: { readonly effectiveAt: IsoDate | null },
+  enactment: LegislativeEnactmentRecord,
   lineage: NonNullable<ReturnType<typeof draftLineageForMeasure>>,
 ) {
   if (
@@ -541,7 +546,7 @@ function stateTransitProfileForLineage(
     lineage.variantKey !== STATE_TRANSIT_VARIANT_KEY ||
     lineage.authorityKey !== TRANSIT_PROGRAM_KEY ||
     lineage.authorityMeasureId !== undefined ||
-    !enactment.effectiveAt
+    !operativeDateInWorld(world, enactment)
   )
     return null;
   return stateTransitServiceProfileForMeasure(world, measure);

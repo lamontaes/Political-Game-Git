@@ -7,6 +7,12 @@ import {
 export const TRANSIT_FAMILY_KEY = "appropriations";
 export const TRANSIT_FAMILY_VERSION = "v3";
 export const TRANSIT_VARIANT_KEY = "transit-staged-service-v1";
+/**
+ * The one state the explicit ninety-day transit clause (variant v1) was
+ * authored and compiled for; every other state's transit bill is the
+ * state-profile variant (v2).
+ */
+export const LEGACY_TRANSIT_COMPILED_STATE = "US-AK";
 export const STATE_TRANSIT_VARIANT_KEY = "transit-staged-service-v2";
 export const TRANSIT_PROGRAM_KEY = "standing:rural-transit-assistance";
 /** Prices and scope are authored contract terms, never empirical effectiveness. */

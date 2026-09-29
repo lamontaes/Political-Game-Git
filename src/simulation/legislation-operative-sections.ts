@@ -8,6 +8,7 @@ import {
   TRANSIT_FAMILY_VERSION,
   STATE_TRANSIT_VARIANT_KEY,
   TRANSIT_VARIANT_KEY,
+  LEGACY_TRANSIT_COMPILED_STATE,
 } from "./legislation-transit-families";
 import type { EntityId } from "./types";
 
@@ -72,7 +73,10 @@ export function operativeSectionSupport(
     else if (jurisdictionState === null)
       reason =
         "No state appropriation consumer is compiled for this jurisdiction.";
-    else if (legacyTransit && jurisdictionState !== "US-AK")
+    else if (
+      legacyTransit &&
+      jurisdictionState !== LEGACY_TRANSIT_COMPILED_STATE
+    )
       reason =
         "The explicit ninety-day transit clause is compiled only for Alaska.";
     else if (

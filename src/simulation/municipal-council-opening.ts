@@ -1,3 +1,4 @@
+import { councilSitsOnAuthoredCalendar } from "./municipal-seat-identity";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -89,7 +90,7 @@ export function ensureMunicipalCouncilOpening(
   )
     return world;
   // The District's council has its own sourced ward and at-large opening.
-  if (governmentKey === "us-dc-washington") return world;
+  if (councilSitsOnAuthoredCalendar(governmentKey)) return world;
   const government = municipalGovernmentByKey(governmentKey);
   if (!government) return world;
   const unit = governmentUnit(governmentKey);

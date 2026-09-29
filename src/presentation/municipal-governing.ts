@@ -1,3 +1,4 @@
+import { councilSitsOnAuthoredCalendar } from "../simulation/municipal-seat-identity";
 import {
   municipalGovernmentByKey,
   municipalGovernmentForLifePlace,
@@ -379,7 +380,7 @@ export function placeProjectedOrdinanceOnAgenda(
     governmentKey,
     measureId,
   });
-  return placed.ok && governmentKey !== "us-dc-washington"
+  return placed.ok && !councilSitsOnAuthoredCalendar(governmentKey)
     ? {
         ok: true as const,
         world: scheduleOrdinaryCouncilReading(
@@ -398,7 +399,10 @@ export function saveProjectedOrdinanceBallot(
   measureId: EntityId,
   ballot: OwnOrdinanceBallot,
 ) {
-  if (world.control.kind !== "person" || governmentKey === "us-dc-washington")
+  if (
+    world.control.kind !== "person" ||
+    councilSitsOnAuthoredCalendar(governmentKey)
+  )
     return {
       ok: false as const,
       world,
@@ -468,7 +472,7 @@ export function previewAuthoredCouncilBallots(
     (seat) => seat.role === "member" || seat.role === "presiding-member",
   );
   if (!seats.some((seat) => seat.personId === playerId)) return null;
-  if (governmentKey !== "us-dc-washington") {
+  if (!councilSitsOnAuthoredCalendar(governmentKey)) {
     const dispositions = decideOrdinaryCouncilReading(
       world,
       governmentKey,
@@ -554,7 +558,7 @@ export function takeProjectedOrdinanceVote(
   measureId: EntityId,
   own: OwnOrdinanceBallot,
 ) {
-  if (governmentKey !== "us-dc-washington") {
+  if (!councilSitsOnAuthoredCalendar(governmentKey)) {
     const readingOn = scheduledOrdinaryCouncilReadingOn(world, measureId);
     if (readingOn && world.currentDate < readingOn)
       return {

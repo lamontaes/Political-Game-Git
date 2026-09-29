@@ -92,7 +92,9 @@ function withTransitProgram(world: World, jurisdictionId: EntityId) {
 describe("the officeholder's desk", () => {
   it("reads nothing into an office whose government has no program, staff, measure or workflow record", () => {
     const { world } = lifeIn("CO", "office-desk-empty");
-    const office = currentGoverningOffices(world)[0]!;
+    const office = currentGoverningOffices(world).find(
+      (candidate) => candidate.stateUsps === "CO",
+    )!;
     const desk = projectGoverningOfficeDesk(world, office.holderPersonId)!;
 
     expect(desk.officeTitle).toBe("Governor of Colorado");
@@ -116,7 +118,9 @@ describe("the officeholder's desk", () => {
 
   it("reads the objective, then what was put to the office, then that nothing is committed", () => {
     const { world } = lifeIn("CO", "office-desk-program");
-    const office = currentGoverningOffices(world)[0]!;
+    const office = currentGoverningOffices(world).find(
+      (candidate) => candidate.stateUsps === "CO",
+    )!;
     const seeded = withTransitProgram(world, office.jurisdictionId);
     const desk = projectGoverningOfficeDesk(seeded, office.holderPersonId)!;
 
@@ -151,7 +155,9 @@ describe("the officeholder's desk", () => {
 
   it("leaves another government's program off this office's desk", () => {
     const { world } = lifeIn("CO", "office-desk-other-jurisdiction");
-    const office = currentGoverningOffices(world)[0]!;
+    const office = currentGoverningOffices(world).find(
+      (candidate) => candidate.stateUsps === "CO",
+    )!;
     const nevada = stateJurisdictionForKey("US-NV")!.id;
     expect(nevada).not.toBe(office.jurisdictionId);
     const seeded = withTransitProgram(
@@ -247,7 +253,9 @@ function fundedTransitProgram(world: World, jurisdictionId: EntityId) {
 describe("the desk once the office has decided and the work is done", () => {
   it("counts what is in service now, so the objective cannot contradict the outturn", () => {
     const { world } = lifeIn("CO", "office-desk-outturn");
-    const office = currentGoverningOffices(world)[0]!;
+    const office = currentGoverningOffices(world).find(
+      (candidate) => candidate.stateUsps === "CO",
+    )!;
     const funded = fundedTransitProgram(world, office.jurisdictionId);
     const committed = commitPublicProgram(funded.world, {
       appropriationId: funded.appropriationId,

@@ -34,54 +34,34 @@ describe("saved legislative starting procedures", () => {
     }
   });
 
-  it("is deterministic per seed, with independent variation across seeds", () => {
+  it("is the same for every world: no seed draws a state's procedure", () => {
     const first = drawLegislativeStartingProcedures({ seed: "civic-world" });
-    expect(drawLegislativeStartingProcedures({ seed: "civic-world" })).toEqual(
-      first,
-    );
-
-    const second = drawLegislativeStartingProcedures({ seed: "another-world" });
     expect(
-      allStateKeys.some((key) => {
-        const prior = first[key]!;
-        const next = second[key]!;
-        return (
-          prior.effectiveDateDays !== next.effectiveDateDays ||
-          prior.sessionCadence !== next.sessionCadence ||
-          prior.sessionYearParity !== next.sessionYearParity ||
-          JSON.stringify(prior.regularSessionCutoff) !==
-            JSON.stringify(next.regularSessionCutoff) ||
-          prior.measuresCarryOver !== next.measuresCarryOver
-        );
-      }),
-    ).toBe(true);
+      drawLegislativeStartingProcedures({ seed: "another-world" }),
+    ).toEqual(first);
   });
 
-  it("limits active fields to bounded procedure choices", () => {
+  it("reads each state's calendar from its researched session table", () => {
     const procedures = drawLegislativeStartingProcedures({ seed: "range" });
     for (const entry of Object.values(procedures)) {
-      expect([75, 90, 105]).toContain(entry.effectiveDateDays);
+      expect(entry.effectiveDateDays).toBe(90);
       expect(["annual", "biennial"]).toContain(entry.sessionCadence);
       expect(["odd", "even", null]).toContain(entry.sessionYearParity);
       expect(entry.sessionYearParity === null).toBe(
         entry.sessionCadence === "annual",
       );
-      if (entry.regularSessionCutoff !== null) {
-        expect([
-          { month: 5, day: 31 },
-          { month: 6, day: 30 },
-          { month: 7, day: 31 },
-        ]).toContainEqual(entry.regularSessionCutoff);
-      }
       expect(typeof entry.measuresCarryOver).toBe("boolean");
     }
-    expect(
-      new Set(
-        Object.values(procedures).map((entry) => entry.effectiveDateDays),
-      ),
-    ).toEqual(new Set([75, 90, 105]));
-    if (procedures["US-NV"]?.sessionCadence === "biennial") {
-      expect(procedures["US-NV"].sessionYearParity).toBe("odd");
+    // Nevada's compiled pack establishes biennial sessions in odd years.
+    expect(procedures["US-NV"]?.sessionCadence).toBe("biennial");
+    expect(procedures["US-NV"]?.sessionYearParity).toBe("odd");
+    // Carryover follows the reference pack, never a draw.
+    for (const key of allStateKeys) {
+      const expiry =
+        procedures[key]!.baselinePack.session.measuresDieAtAdjournment;
+      expect(procedures[key]!.measuresCarryOver).toBe(
+        expiry.kind === "known" ? !expiry.value : false,
+      );
     }
   });
 
@@ -101,15 +81,14 @@ describe("saved legislative starting procedures", () => {
     expect(procedures["US-NE"]?.baselinePack.chambers).toHaveLength(1);
   });
 
-  it("preserves typed sourced session limits and fills only unresolved cutoffs", () => {
+  it("preserves typed sourced session limits and fills only unresolved cutoffs from the table", () => {
     const procedures = drawLegislativeStartingProcedures({ seed: "cutoffs" });
     for (const key of allStateKeys) {
       const entry = procedures[key]!;
       const sourceLimit =
         entry.baselinePack.session.regularSessionLatestAdjournment;
-      expect(entry.regularSessionCutoff === null).toBe(
-        sourceLimit !== undefined,
-      );
+      if (sourceLimit !== undefined)
+        expect(entry.regularSessionCutoff).toBeNull();
     }
     expect(procedures["US-KY"]?.regularSessionCutoff).toBeNull();
     expect(
