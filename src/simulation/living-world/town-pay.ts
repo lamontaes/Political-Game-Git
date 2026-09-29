@@ -64,6 +64,11 @@ import {
   anyMinimumWageQuestionEnacted,
   startingMinimumHourly,
 } from "../minimum-wage";
+import {
+  fairnessLawCovers,
+  menPartneredWithMen,
+  UNCOVERED_PAY_SHARE,
+} from "../fairness-pay-law";
 import { noticeLawPayChanges } from "../law-effects-noticed";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
 import { resourceFlowTermsAt } from "../resource-queries";
@@ -675,6 +680,7 @@ export function startTownJobPay(
   }
   const inputs: CreateResourceFlowInput[] = [];
   const floorLaws = anyTeacherFloorLawEnacted(world);
+  let coveredMen: ReadonlySet<EntityId> | null = null;
   // An employer keeps the payday its workers already have.
   const periods = new Map<EntityId, TownPayPeriod>();
   for (const flow of world.history.resourceFlows) {
@@ -704,14 +710,34 @@ export function startTownJobPay(
     const draw = new SeededRng(world.seed)
       .fork(`${TOWN_PAY_VERSION}:place:${work.personId}`)
       .next();
-    const rate = townJobRate(
+    // The floor on the first day paid; a later rise is recorded as a raise.
+    const minimum = townMinimumHourlyAt(
+      world,
+      role.locationJurisdictionId,
+      startsAt,
+    );
+    const offered = townJobRate(
       role.occupationClassification,
       role.locationJurisdictionId,
       townPayPercentile(tenure, draw),
-      // The floor on the first day paid; a later rise is recorded as a raise.
-      townMinimumHourlyAt(world, role.locationJurisdictionId, startsAt),
+      minimum,
     );
-    if (!rate) continue;
+    if (!offered) continue;
+    // A man partnered with a man is hired below the job's rate where no
+    // fairness law covers him (`fairness-pay-law.ts`), never below the floor.
+    coveredMen ??= menPartneredWithMen(world, world.currentDate);
+    const gap =
+      coveredMen.has(work.personId) &&
+      !fairnessLawCovers(world, role.locationJurisdictionId, startsAt);
+    const rate = gap
+      ? {
+          ...offered,
+          hourlyMinor: Math.max(
+            Math.round(offered.hourlyMinor * UNCOVERED_PAY_SHARE),
+            Math.round((minimum ?? 0) * 100),
+          ),
+        }
+      : offered;
     const organizationId = work.organizationId!;
     // A public school teacher is paid at least the state's minimum teacher
     // salary a law enacted in play set.
@@ -757,7 +783,7 @@ export function startTownJobPay(
       jurisdictionId: null,
       provenance: {
         kind: "authored",
-        note: `${TOWN_PAY_VERSION}: $${(hourlyMinor / 100).toFixed(2)} an hour${hourlyMinor > rate.hourlyMinor ? " (the state's minimum teacher salary)" : rate.floored ? " (the minimum wage)" : ""} for ${weeklyHours} hours a week, paid ${period}; the ${Math.round(rate.percentile)}th percentile for SOC ${rate.soc} in OEWS area ${rate.area} (${TOWN_PAY_META.wages}).`,
+        note: `${TOWN_PAY_VERSION}: $${(hourlyMinor / 100).toFixed(2)} an hour${hourlyMinor > rate.hourlyMinor ? " (the state's minimum teacher salary)" : rate.floored ? " (the minimum wage)" : ""}${gap && hourlyMinor === rate.hourlyMinor ? `, ${((1 - UNCOVERED_PAY_SHARE) * 100).toFixed(1)}% below the job's rate: no fairness law covers him where he works` : ""} for ${weeklyHours} hours a week, paid ${period}; the ${Math.round(rate.percentile)}th percentile for SOC ${rate.soc} in OEWS area ${rate.area} (${TOWN_PAY_META.wages}).`,
       },
     });
   }
