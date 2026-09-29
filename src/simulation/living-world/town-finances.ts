@@ -34,6 +34,7 @@
  * closures and unemployment feed upward.
  */
 
+import { dataPrivacyCostOn } from "../federal-data-privacy-law";
 import { addDays } from "../dates";
 import { recordOrganizationProfile, recordWorkStatus } from "../life";
 import { organizationClosingAt, organizationProfileAt } from "../life-queries";
@@ -705,6 +706,7 @@ export function stepTownFinances(
 ): TownFinanceQuarter {
   const economy = economyOf(world);
   if (!economy) return { world, closing: [] };
+  const privacyLaw = dataPrivacyCostOn(world, world.currentDate);
   const store: TownFinanceStore = world.townFinances ?? {
     version: TOWN_FINANCES_VERSION,
     businesses: {},
@@ -984,8 +986,16 @@ export function stepTownFinances(
     // rest (rent, insurance, upkeep) does not (`TOWN_BUSINESS_KIND_BOOKS`).
     const annualOtherCosts = otherCostsAtSales({ ...existing, annualRevenue });
     const interest = (existing.debt * realDebtRatePct) / 400;
+    // A national data privacy law in force adds its share of the business's
+    // yearly costs (`federal-data-privacy-law.ts`).
+    const privacyCost =
+      ((quarterPay * 4 + annualOtherCosts) * privacyLaw.share) / 4;
     const net =
-      annualRevenue / 4 - annualOtherCosts / 4 - quarterPay - interest;
+      annualRevenue / 4 -
+      annualOtherCosts / 4 -
+      quarterPay -
+      interest -
+      privacyCost;
     let cash = existing.cash + net;
     let debt = existing.debt;
     // A business whose bank failed, or that opened before the town's bank

@@ -3624,6 +3624,21 @@
       "range": [-0.2, 0.1]
     },
     {
+      "key": "congress-stock-ban-to-member-returns",
+      "from": "law:us-federal-positions:government.ban-congressional-stock-trading",
+      "to": "government.member-market-returns",
+      "strength": "about-zero",
+      "shape": { "kind": "linear" },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "B-cloud",
+      "evidence": "about-zero",
+      "anchor": "Members of Congress' stock trades matched or trailed the market after the 2012 STOCK Act, so barring the trades changes no market return the game measures; the game keeps no member holdings to change",
+      "source": "Chen and Sacerdote 2026, NBER Working Paper 35041 (Research 1's federal table, September 29, 2026)"
+    },
+    {
       "key": "privacy-law-to-earnings",
       "from": "law:us-policy-positions:technology-privacy.consumer-data-privacy-law",
       "to": "labor.median-earnings",
