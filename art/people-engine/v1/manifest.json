@@ -1571,7 +1571,7 @@
               "file": "body-feminine-fuller-explaining.png",
               "anchors": {
                 "top": 70,
-                "feet": 792,
+                "feet": 794,
                 "neck": {
                   "row": 155,
                   "centerX": 255,
@@ -1586,9 +1586,9 @@
                 "shoulderRow": 226
               },
               "skin": {
-                "shadow": 125.2,
-                "base": 154.3,
-                "highlight": 166.3
+                "shadow": 104.4,
+                "base": 151.9,
+                "highlight": 171
               }
             }
           }
