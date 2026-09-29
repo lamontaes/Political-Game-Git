@@ -506,14 +506,7 @@ export function appointmentMotive(
   appointeePersonId: EntityId,
 ): FavorMotive {
   const optionKey = `person:${appointeePersonId}`;
-  const trace = [...world.history.decisionTraces]
-    .reverse()
-    .find(
-      (row) =>
-        row.context.decisionType === "appointment.choose-appointee" &&
-        row.context.actorPersonId === appointerPersonId &&
-        row.selectedOptionKey === optionKey,
-    );
+  const trace = appointmentTrace(world, appointerPersonId, appointeePersonId);
   if (!trace) return "shared-belief";
   const strongest = trace.context.considerations
     .filter(
@@ -527,16 +520,82 @@ export function appointmentMotive(
     : "trade";
 }
 
+/** Reasons that come from the appointer's own ties to a person, not merit. */
+const PERSONAL_SOURCES: readonly string[] = [
+  "social:relationship",
+  "social:favor",
+];
+
 /**
- * Writes the appointment as a favor from the appointer to the appointee.
+ * Whether a recorded appointment was personal: someone better placed on the
+ * merits (party, record, following) lost to the appointee because of the
+ * appointer's ties to them. Claude CTO's rulings of September 28 and 29, 2026
+ * (from Lamontae): an appointment on the merits writes no debt. The other
+ * test, a post given on a personal request, has no request record to read
+ * yet, so it never applies here.
+ */
+export function wasPersonalAppointment(
+  considerations: readonly DecisionConsideration[],
+  chosenOptionKey: string,
+): boolean {
+  const merit = new Map<string, number>();
+  for (const row of considerations) {
+    if (!row.optionKey.startsWith("person:")) continue;
+    const add = PERSONAL_SOURCES.includes(row.sourceType) ? 0 : scoreOf([row]);
+    merit.set(row.optionKey, (merit.get(row.optionKey) ?? 0) + add);
+  }
+  const chosen = merit.get(chosenOptionKey) ?? 0;
+  return [...merit].some(
+    ([key, score]) => key !== chosenOptionKey && score > chosen,
+  );
+}
+
+/** The appointer's recorded choice of this appointee, if one was made. */
+function appointmentTrace(
+  world: World,
+  appointerPersonId: EntityId,
+  appointeePersonId: EntityId,
+) {
+  const optionKey = `person:${appointeePersonId}`;
+  return [...world.history.decisionTraces]
+    .reverse()
+    .find(
+      (row) =>
+        row.context.decisionType === "appointment.choose-appointee" &&
+        row.context.actorPersonId === appointerPersonId &&
+        row.selectedOptionKey === optionKey,
+    );
+}
+
+/**
+ * Writes a personal appointment as a favor from the appointer to the
+ * appointee, and nothing for one made on the merits or by the book.
  *
  * Called when the appointment actually takes effect (confirmation, seating),
- * never at nomination: a nomination the Senate rejects gave nothing.
+ * never at nomination: a nomination the Senate rejects gave nothing. The
+ * debt's size follows what the post meant to the appointee: SET BY HAND, a
+ * post for someone who held no public office is life-changing, and for a
+ * sitting officeholder it is great.
  */
 export function recordAppointmentFavor(
   world: World,
   input: RecordAppointmentInput,
 ): World {
+  const optionKey = `person:${input.appointeePersonId}`;
+  const trace = appointmentTrace(
+    world,
+    input.appointerPersonId,
+    input.appointeePersonId,
+  );
+  if (
+    !trace ||
+    !wasPersonalAppointment(trace.context.considerations, optionKey)
+  )
+    return world;
+  const heldOffice = trace.context.considerations.some(
+    (row) =>
+      row.optionKey === optionKey && row.sourceType === "context:public-record",
+  );
   return recordFavor(world, {
     stableKey: `${APPOINTMENTS_VERSION}:${input.stableKey}:favor`,
     givenAt: world.currentDate,
@@ -551,7 +610,7 @@ export function recordAppointmentFavor(
       input.appointerPersonId,
       input.appointeePersonId,
     ),
-    weight: "life-changing",
+    weight: heldOffice ? "great" : "life-changing",
     audience: "public",
     witnessPersonIds: [],
     inReturnForFavorId: null,
