@@ -20,6 +20,7 @@ import {
 } from ".";
 import {
   decideLawMoneyReaction,
+  decideShortfallOrder,
   lawSpendingForMonth,
   settleGovernmentMonth,
   type MonthFlows,
@@ -1237,6 +1238,11 @@ describe("public budgets", () => {
           stance === "endorses" ? "cut" : "draw",
         );
         expect(loss(true, 0)).toBe("cut");
+        // Mid-year, under a balanced-budget law: the governor who favors a
+        // reserve cuts before drawing it; the other draws it first.
+        expect(decideShortfallOrder(world, government).cutFirst).toBe(
+          stance === "endorses",
+        );
         if (stance === "endorses") {
           // Fiscal restraint favors a reserve: the saving is set aside.
           expect(reaction.kind).toBe("law-gain-saved");

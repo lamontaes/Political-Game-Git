@@ -122,23 +122,17 @@ export function ensurePublicBudgets(world: World): World {
 export function settlePublicBudgets(start: World, month: IsoDate): World {
   const store = start.publicBudgets;
   if (!store) return start;
-  // A state whose fiscal year ends this month adopts its next budget, and
-  // its governor decides what it does with money laws gained or lost it
-  // from their own principles; a governor who holds none yet takes theirs.
-  const adopting = new Set(
+  // A state's governor decides what its budget does with money laws gained
+  // or lost it, and in what order a shortfall is met, from their own
+  // principles; a governor who holds none yet takes theirs.
+  const states = new Set(
     store.governments
-      .filter(
-        (government) =>
-          government.level === "state" &&
-          firstOfNextMonth(month) > government.years.at(-1)!.endsOn,
-      )
+      .filter((government) => government.level === "state")
       .map((government) => government.stateKey),
   );
-  const governors = adopting.size
-    ? currentStateExecutiveHolders(start)
-        .filter((holder) => adopting.has(`US-${holder.stateUsps}`))
-        .map((holder) => holder.personId)
-    : [];
+  const governors = currentStateExecutiveHolders(start)
+    .filter((holder) => states.has(`US-${holder.stateUsps}`))
+    .map((holder) => holder.personId);
   const world = governors.length
     ? ensureOfficeholderPrinciples(start, governors)
     : start;

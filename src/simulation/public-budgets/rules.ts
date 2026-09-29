@@ -70,14 +70,6 @@ export const PENSION = {
 } as const;
 
 /**
- * Balanced-budget law, mid-year: the first round of across-the-board cuts is
- * at most this share of the year's remaining cuttable spending; the reserve
- * is drawn next, then cuts close the rest. PLACEHOLDER order and size,
- * research: state-balanced-budget-and-reserve-rules.
- */
-export const FIRST_CUT_SHARE = 0.03;
-
-/**
  * How each source moves with the economy: one to one with nominal output
  * (real output times prices). PLACEHOLDER, research:
  * tax-revenue-response-to-economy.
