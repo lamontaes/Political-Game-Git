@@ -69,11 +69,12 @@ describe("privilege separation", () => {
     const pkg = JSON.parse(readFileSync("package.json", "utf8")) as {
       scripts: Record<string, string>;
     };
-    expect(pkg.scripts.validate).toBe(
-      pkg.scripts["validate:ci-sharded"].replace(
-        " && npm run release:check && ",
-        " && npm run release:check && npm run test && ",
-      ),
+    // Step for step, wherever the unit suite sits, so a step added to both
+    // scripts keeps them equal and a step added to only one fails here.
+    const steps = pkg.scripts.validate.split(" && ");
+    expect(steps.filter((step) => step === "npm run test")).toHaveLength(1);
+    expect(steps.filter((step) => step !== "npm run test")).toEqual(
+      pkg.scripts["validate:ci-sharded"].split(" && "),
     );
     expect(pkg.scripts.test).toBe("vitest run");
     const repository = job(
