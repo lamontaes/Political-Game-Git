@@ -17,6 +17,8 @@ data/research/money/public-budget-bases.json, which the game imports
 4. The four island areas' 2020 populations, which BEA does not publish, from
    the Census Bureau's 2020 Island Areas Censuses (ISLAND_AREA_POPULATION
    below, read from the source on September 28, 2026).
+5. Puerto Rico's population on July 1, 2025, the sum of the Census Bureau's
+   Vintage 2025 municipio estimates already in the repository (PR_MUNICIPIOS).
 
 The calibration factor carrying 2022 dollars to 2026 is measured here:
 NASBO's fiscal 2025 all-funds state spending over Census 2022 state
@@ -29,6 +31,7 @@ and they are left out of both revenue and spending.
 Run: python3 scripts/research/export-public-budget-bases.py
 """
 
+import csv
 import json
 import pathlib
 
@@ -37,6 +40,11 @@ FINANCES = ROOT / "data/research/money/state-local-finances-2022.json"
 BUDGETS = ROOT / "data/research/money/government-budgets-2026.json"
 POPULATION = ROOT / "data/research/money/population-2024.json"
 OUT = ROOT / "data/research/money/public-budget-bases.json"
+PR_MUNICIPIOS = (
+    ROOT
+    / "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230"
+    / "DATA-Census-Vintage-2025-Puerto-Rico-municipios.csv"
+)
 
 # The Census Bureau's 2020 Island Areas Censuses, "First 2020 Census United
 # States Island Areas Data Released Today" (October 28, 2021):
@@ -184,6 +192,12 @@ def main() -> None:
             )
             if key in ISLAND_AREA_POPULATION:
                 place["islandAreaPopulation2020"] = ISLAND_AREA_POPULATION[key]
+            if key == "US-PR":
+                with PR_MUNICIPIOS.open(newline="") as handle:
+                    place["puertoRicoPopulation2025"] = sum(
+                        int(row["population_2025_07_01"])
+                        for row in csv.DictReader(handle)
+                    )
         places[key] = place
 
     counties = {
@@ -198,6 +212,7 @@ def main() -> None:
             "data/research/money/government-budgets-2026.json",
             "data/research/money/population-2024.json",
             "https://www.census.gov/library/stories/2021/10/first-2020-census-united-states-island-areas-data-released-today.html",
+            "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/DATA-Census-Vintage-2025-Puerto-Rico-municipios.csv",
         ],
         "script": "scripts/research/export-public-budget-bases.py",
         "scope": "General government only: Census utilities (including transit systems), liquor stores and insurance trusts are left out of revenue and spending. Per-resident values are fiscal 2022 dollars over 2023 residents.",

@@ -532,6 +532,26 @@ describe("public budgets", () => {
     expect(county.reserve.answer).toBe("unknown");
   });
 
+  it("a town the Census 2025 estimates leave out opens from its ACS population, and a Puerto Rico town from the national local average, marked as estimated", () => {
+    const world = opened(
+      worldAt("2026-01-05", { places: ["7258365", "1004130"] }),
+    );
+    const store = world.publicBudgets!;
+    expect(store.unknown).toEqual([]);
+    const palmas = store.governments.find(
+      (row) => row.key === "place:7258365",
+    )!;
+    const bear = store.governments.find((row) => row.key === "place:1004130")!;
+    expect(palmas.population).toBe(1_119);
+    expect(bear.population).toBe(22_370);
+    expect(palmas.openingNotes[0]).toMatch(/^ESTIMATED FROM AVERAGE/);
+    expect(bear.openingNotes[0]).toMatch(/ACS 2020-2024 five-year population/);
+    expect(sum(palmas.years[0]!.appropriations)).toBeGreaterThan(0);
+    expect(
+      store.governments.find((row) => row.key === "US-PR")!.population,
+    ).toBe(3_184_835);
+  });
+
   it("the balance above the reserve target is carried into the next budget and spent across the year, once", () => {
     const world = worldAt("2026-01-05");
     const state = publicBudgetFor(opened(world), illinois)!;
