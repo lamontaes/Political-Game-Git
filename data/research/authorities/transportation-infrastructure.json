@@ -942,6 +942,86 @@
       "year": 2026,
       "accessed": "2026-09-29",
       "kind": "primary"
+    },
+    {
+      "id": "ca-metro-grant",
+      "title": "California SB767 chapter580 enacted grant to LA Metro",
+      "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=201520160SB767",
+      "year": 2015,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "tx-harris-original",
+      "title": "Texas HB1131 Acts1937 chapter360 original district enabling act; subsequent amendments not consolidated",
+      "url": "https://lrl.texas.gov/scanned/sessionLaws/45-0/HB_1131_CH_360.pdf",
+      "year": 1937,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wi-constitution-history",
+      "title": "Wisconsin2013\u201314 Blue Book constitution and amendment history pp205,223",
+      "url": "https://www.wistatedocuments.org/digital/api/collection/p267601coll4/id/25934/download",
+      "year": 2013,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ca-storm231",
+      "title": "California SB231 chapter536 enacted sewer definition",
+      "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=201720180SB231",
+      "year": 2017,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ca-storm2022",
+      "title": "California Department of Finance v Commission on State Mandates published opinion; nonretroactivity",
+      "url": "https://law.justia.com/cases/california/court-of-appeal/2022/c092139.html",
+      "year": 2022,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ca-storm2025",
+      "title": "California Gluck v San Francisco published opinion; combined system and proportionality",
+      "url": "https://law.justia.com/cases/california/court-of-appeal/2025/a170087.html",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "federal-flood-share",
+      "title": "33USC2213 project-purpose cost sharing current throughAugust5,2026",
+      "url": "https://uscode.house.gov/view.xhtml?edition=prelim&num=0&req=granuleid%3AUSC-prelim-title33-section2213",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "federal-navigation-share",
+      "title": "33USC2211 harbor general-navigation cost sharing current2026",
+      "url": "https://uscode.house.gov/view.xhtml?edition=prelim&num=0&req=granuleid%3AUSC-prelim-title33-section2211",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "federal-inland-share",
+      "title": "33USC2212 and amendment notes current2026",
+      "url": "https://uscode.house.gov/view.xhtml?edition=prelim&path=%2Fprelim%40title33%2Fchapter36",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "federal-supply-repayment",
+      "title": "43USC390b reservoir water-supply cost repayment",
+      "url": "https://uscode.house.gov/view.xhtml?req=%28title%3A43+section%3A390b+edition%3Aprelim%29",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
     }
   ],
   "topics": [
@@ -6152,9 +6232,14 @@
               "status": "only some localities",
               "scope": "county, special-district",
               "reason": "This example establishes LA County Metro authority; other agencies need their own enabling-law review.",
-              "sources": ["metro", "metro-ordinance"],
+              "sources": ["metro", "metro-ordinance", "ca-metro-grant"],
               "bars": [],
-              "localGrant": null,
+              "localGrant": {
+                "description": "PUC130350.7, added by SB767/2015: LA Metro board ordinance and expenditure plan, two-thirds voter approval; MeasureR plus this tax capped at1%. This is an LA-specific delegation.",
+                "lawKind": "state statute",
+                "changedBy": "California legislature amends the statutory delegation; Metro board and voters act within it. Changing the constitutional special-tax threshold requires a separate constitutional route, not a board ordinance.",
+                "sources": ["ca-metro-grant"]
+              },
               "differentLargeCityCharters": []
             },
             "CO": {
@@ -13479,9 +13564,14 @@
               "status": "only some localities",
               "scope": "county, special-district",
               "reason": "Example establishes Harris County Flood Control District bond route; other districts require enabling-law review.",
-              "sources": ["harris"],
+              "sources": ["harris", "tx-harris-original"],
               "bars": [],
-              "localGrant": null,
+              "localGrant": {
+                "description": "Acts1937 chapter360 creates HCFCD and authorizes voted flood-control bonds under Commissioners Court management; 2018 official bond-program FAQ confirms the exercised route. Original voter qualifications and caps are historical, not adopted as current law; amended consolidation remains unresearched.",
+                "lawKind": "state statute",
+                "changedBy": "Texas legislature amends the district special act; Commissioners Court implements approved bond purposes. Applicable constitutional and current election requirements need separate review.",
+                "sources": ["tx-harris-original", "harris"]
+              },
               "differentLargeCityCharters": []
             },
             "UT": {
@@ -13903,9 +13993,9 @@
         {
           "topicKey": "us-federal:transport-water.water-projects",
           "program": "Army Corps partnership / SRF where eligible",
-          "match": "Project-specific; flood and navigation rules must not be collapsed.",
+          "match": "33USC2213: structural flood-control sponsor pays5% cash plus specified contributions, normally reaching35%, paragraph(1) capped50%; qualifying nonstructural/natural measures35%. Exceptions and ability-to-pay rules apply. Harbor and supply projects have separate shares.",
           "conditions": ["Eligible project and sponsor obligations"],
-          "sources": ["harris", "srf-iija"]
+          "sources": ["federal-flood-share", "srf-iija"]
         }
       ],
       "systemRedesigns": [],
@@ -19621,8 +19711,8 @@
       "id": "verify-16-item1",
       "promptClaim": "- Availability: every state may fund it. Old \"internal improvements\" clauses once barred state railroad investment (Michigan 1850, Wisconsin 1848). Wisconsin later amended its constitution to allow transportation appropriations (**verify** the year and article), and Michigan funds its routes through its transportation fund. **Research: each state's current constitutional credit, gift and internal-improvement clauses as they apply to rail.**",
       "status": "partially verified",
-      "finding": "WisconsinDOT explains 1992 railroad internal-improvements exception. Current article text and all other states credit/gift/internal-improvement clauses still need direct research. Every-state permission not adopted.",
-      "sources": ["wi-rail"]
+      "finding": "Wisconsin ArticleVIII\u00a710(2)(e) rail appropriation exception and\u00a77(2)(a)1 debt authority were addedApril1992; highway exception1908 and ports1960 are separate. Proposed general transportation amendment was rejected1975 and1976. Historical primary text resolves year/article; live official consolidation and nationwide clause matrix remain gaps.",
+      "sources": ["wi-constitution-history", "wi-rail"]
     },
     {
       "id": "verify-17-item1",
@@ -19635,7 +19725,7 @@
       "id": "verify-18-item1",
       "promptClaim": "3. **Short-line freight rail tax credit or grants.** State: Georgia, Oregon, Alabama and others (**verify** list). Federal: the 45G credit, made permanent in 2020. Effect: track upgraded to 286,000-pound cars keeps freight off roads and lowers road damage (**verify** size).",
       "status": "partially verified",
-      "finding": "Oregon HB2164/2019 and Alabama HB457/2019 credit examples verified. Georgia HB588/2021 concerns freight grants/P3 authority, not proof of a short-line tax credit. Exhaustive state list, federal45G permanence and road-damage size remain unresearched.",
+      "finding": "Oregon HB2164/2019 and Alabama HB457/2019 credit examples verified. Georgia HB588/2021 concerns freight grants/P3 authority, not proof of a short-line tax credit. Exhaustive state list, road-damage size remain unresearched; federal45G permanence is resolved in item2.",
       "sources": ["or-credit", "or-credit-law", "al-credit2019", "al-credit"]
     },
     {
@@ -19747,8 +19837,8 @@
       "id": "verify-30-item1",
       "promptClaim": "1. **Create a stormwater utility fee**, based on paved area. Local, where state law allows. Some courts treated fees as taxes needing voter approval (Proposition 218 in California; Missouri's Hancock Amendment cases, **verify**).",
       "status": "partially verified",
-      "finding": "Zweig2013 affirmed that MSD impervious-area stormwater charge required voter approval under Missouri articleX\u00a722(a). Holding concerns this assessment, not every stormwater fee. California classification and current amendment routes remain unresolved.",
-      "sources": ["mo-zweig2013"]
+      "finding": "Missouri Zweig2013 required approval for the particular impervious-area assessment. California SB231/2017 adds stormwater to statutory sewer definition;2022 Department of Finance ruling addresses pre2018 law and nonretroactivity, not invalidation. Gluck2025 recognizes combined-system sewer exception while preserving proportionality review and declining separate-system question. Prospective separate-system constitutional validity remains unresolved.",
+      "sources": ["mo-zweig2013", "ca-storm231", "ca-storm2022", "ca-storm2025"]
     },
     {
       "id": "verify-31-item1",
@@ -19809,9 +19899,14 @@
     {
       "id": "verify-36-item1",
       "promptClaim": "- **Federal water projects:** Water Resources Development Acts authorize Army Corps projects with local cost shares (typically 35 to 50% non-federal, **verify**); SRF appropriations.",
-      "status": "partially verified",
-      "finding": "USACE Miami navigation source reports 75/25 for projects 50 feet or less and 50/50 deeper; generic 35\u201350% does not describe all federal water projects. Need flood-control, water-supply and navigation-specific statute matrix.",
-      "sources": ["usace", "srf-iija"]
+      "status": "corrected",
+      "finding": "No generic35\u201350% local share. Structural flood control:5% cash plus specified contributions to35%, paragraph(1) capped50%, subject to exceptions. Nonstructural/natural flood measures35%. Harbor construction portions:10% up to20feet,25% over20 through55feet,50% over55feet, plus additional10% repayment with credits. Municipal/industrial water supply100% nonfederal; agricultural35%. Inland-waterways75% Treasury/25% Trust Fund is federal funding, not a local match. These are financing shares, not measured policy effects.",
+      "sources": [
+        "federal-flood-share",
+        "federal-navigation-share",
+        "federal-inland-share",
+        "federal-supply-repayment"
+      ]
     }
   ],
   "remainingWork": [

@@ -10,9 +10,11 @@ Nothing merged. [Draft pull request 1133](https://github.com/lamontaes/Political
 
 DECIDED: the approved outline says, “Nothing is invented.” Availability without evidence remains unresearched. The same outline requires “Sourced sizes only”; unsized effects remain labeled “no sized evidence.”
 
-Measured research coverage: ten topic records, twenty-one admitted decisions, and 1,176 availability cells. Of those cells, 84 have source references and 1,092 remain unresearched. Twenty-one of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
+Measured research coverage: ten topic records, twenty-one admitted decisions, and 1,176 availability cells. Of those cells, 84 have source references and 1,092 remain unresearched. Twenty-two of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
 
 Follow-up source review distinguishes official management-reported rail ridership from audited financial statements, records the EV-fee study's separate enactment and implementation estimates, and corrects two fluoride operator-permission cells to statutory bars.
+
+The next source pass records LA Metro’s statutory grant, HCFCD’s original special act with its current-law gap, Wisconsin’s 1992 rail exception, and purpose-specific federal project shares. California separate stormwater systems retain an unresolved prospective constitutional question.
 
 No watched world was run. This assignment authorizes research only; no simulation outcome or player effect is claimed.
 
