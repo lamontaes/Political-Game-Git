@@ -164,6 +164,7 @@ function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
         ),
         game.playerPersonId,
         session.setup.openingDataVersion,
+        session.setup.livingWorldMemberNameVersion,
       ),
     },
   };
@@ -198,6 +199,7 @@ function openedWorld(
   world: World,
   playerPersonId: EntityId,
   openingDataVersion: NewGameSetup["openingDataVersion"],
+  memberNameVersion?: NewGameSetup["livingWorldMemberNameVersion"],
 ): World {
   // Migration is scheduled only for a current opening too, so a legacy replay
   // keeps the world it always built (MIGRATION_SEAMS "old-saves").
@@ -224,7 +226,7 @@ function openedWorld(
     ),
   );
   return openingDataVersion === "playtest65-v3"
-    ? ensureOpeningJudiciary(opened)
+    ? ensureOpeningJudiciary(opened, memberNameVersion)
     : opened;
 }
 
