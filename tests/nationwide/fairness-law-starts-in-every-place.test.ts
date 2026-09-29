@@ -126,9 +126,18 @@ describe("each place's fairness law at the start", () => {
       const state = stateJurisdictionForKey(place.jurisdictionKey)!.id;
       const law = lawInForce(world, state, STATE_FAIRNESS, START)!;
       const verdict = questionAuthority(world, city, CITY_FAIRNESS, START).may;
+      // What the town could do if its state's law covered the grounds: the
+      // fairness gate then bars nothing, and only the town's other powers
+      // (home rule, the catalog) speak.
+      const covered = questionAuthority(
+        worldWith([stateLaw(state, "yes", "2025-01-01")]),
+        city,
+        CITY_FAIRNESS,
+        START,
+      ).may;
       const barred = law.answer === "no" && law.preempts === true;
       if (barred) expect(verdict, place.name).toBe("no");
-      else expect(verdict, place.name).not.toBe("no");
+      else expect(verdict, place.name).toBe(covered);
       checked[barred ? "barred" : "free"] += 1;
     }
     // Both kinds of state are in the data, so neither branch is empty.
@@ -138,7 +147,7 @@ describe("each place's fairness law at the start", () => {
 
   const place =
     PLACES[Number.parseInt(stableHash(SEED).slice(0, 8), 16) % PLACES.length]!;
-  it(`${place.name} (seed ${SEED}): a state law that covers the grounds leaves its cities free to go further`, () => {
+  it(`${place.name} (seed ${SEED}): a state law that covers the grounds does not bar its towns from going further`, () => {
     const state = stateJurisdictionForKey(place.jurisdictionKey)!.id;
     const city = cityIn(place.jurisdictionKey);
     const start = lawInForce(worldWith(), state, STATE_FAIRNESS, START)!;
@@ -148,6 +157,8 @@ describe("each place's fairness law at the start", () => {
       lawInForce(passed, state, STATE_FAIRNESS, makeIsoDate("2026-07-01"))
         ?.answer,
     ).toBe("yes");
+    // The state's own law no longer bars its towns; whether a town may act
+    // is left to its other powers.
     if (city)
       expect(
         questionAuthority(
@@ -155,7 +166,7 @@ describe("each place's fairness law at the start", () => {
           city,
           CITY_FAIRNESS,
           makeIsoDate("2026-07-01"),
-        ).may,
-      ).not.toBe("no");
+        ).reason,
+      ).not.toMatch(/bars its localities from acting on this/);
   });
 });
