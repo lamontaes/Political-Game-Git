@@ -1947,16 +1947,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.052,
       "per": "law in force",
       "lagMonths": 3,
       "group": "able adults without dependents",
       "owner": "F",
-      "anchor": "SNAP time limits cut participation about half with no employment gain (to confirm)",
-      "source": "Gray, Leive, Prager, Pukelis and Zaki 2023 (to confirm)",
-      "evidence": "to-confirm",
+      "anchor": "Work requirements cut participation 53% among adults subject to them, with no gain in employment; adults 18 to 49 without a disability in childless households, those the requirement reaches, are 9.8% of SNAP participants, so about 5.2% fewer residents receive SNAP. The range runs from the 64% exit rate among incumbents to half the effect, for states where many of those adults are already exempt or covered by a waiver.",
+      "source": "Gray, Leive, Prager, Pukelis and Zaki 2023, American Economic Journal: Economic Policy 15(1); USDA FNS, Characteristics of SNAP Households: Fiscal Year 2023, Table 3.6",
+      "evidence": "researched",
       "from": "law:us-policy-positions:health-human-services.work-requirement-for-assistance",
-      "to": "program.snap-receipt"
+      "to": "program.snap-receipt",
+      "range": [-0.063, -0.025]
     },
     {
       "key": "universal-prek-to-graduation",
