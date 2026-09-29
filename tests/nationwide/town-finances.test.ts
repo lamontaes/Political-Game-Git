@@ -65,6 +65,38 @@ describe(
     const closings = world.history.events.filter(
       (event) => event.type === BUSINESS_CLOSED_EVENT,
     );
+    const businessesOf = (from: World) =>
+      townBusinesses(from, town).map((business) => ({
+        organizationId: business.organizationId,
+        kind: business.workplace.key,
+        newcomer: business.outlet >= business.workplace.outlets,
+      }));
+    // The town's own bank, or, when the town has none yet, one written for
+    // these tests with its books opened on the day's review.
+    const banked: World =
+      Object.keys(world.townFinances!.banks).length > 0
+        ? world
+        : stepTownFinances(
+            writeTownEmployer(
+              world,
+              town,
+              TOWN_WORKPLACES.find((row) => row.key === "bank")!,
+              9,
+              world.currentDate,
+            ),
+            town,
+            businessesOf(
+              writeTownEmployer(
+                world,
+                town,
+                TOWN_WORKPLACES.find((row) => row.key === "bank")!,
+                9,
+                world.currentDate,
+              ),
+            ),
+            new Set(),
+            "test-bank",
+          ).world;
 
     it("keeps books for every business that has paid a quarter, in one market per kind", () => {
       expect(observerPlace(seed).displayName).toBe("Marcus, Iowa");
@@ -212,17 +244,11 @@ describe(
     });
 
     it("a bank loses on a household borrower out of work past benefits and the charge-off day, once", () => {
-      const store = world.townFinances!;
-      const bankId = Object.keys(store.banks).find(
-        (id) => !store.banks[id]!.failed,
-      )!;
-      // Marcus has one bank, so every borrower banks there.
-      expect(Object.keys(store.banks)).toHaveLength(1);
-      const job = activeTownJobs(world, town)[0]!;
-      const laidOff = recordWorkStatus(world, {
+      const job = activeTownJobs(banked, town)[0]!;
+      const laidOff = recordWorkStatus(banked, {
         stableKey: "b19-test:laid-off",
         workRelationshipId: job.relationshipId,
-        effectiveAt: world.currentDate,
+        effectiveAt: banked.currentDate,
         status: "ended",
         reason: TOWN_JOB_END_REASONS.laidOff,
         supersedesStatusId: job.status.id,
@@ -246,9 +272,11 @@ describe(
         new Set(),
         "household-early",
       ).world;
-      expect(early.townFinances!.banks[bankId]!.chargedOff ?? []).not.toContain(
-        job.personId,
-      );
+      const chargedOff = (from: World) =>
+        Object.values(from.townFinances!.banks).flatMap(
+          (bank) => bank.chargedOff ?? [],
+        );
+      expect(chargedOff(early)).not.toContain(job.personId);
       const due = stepTownFinances(
         later(early, 91),
         town,
@@ -256,8 +284,10 @@ describe(
         new Set(),
         "household-due",
       ).world;
-      const bank = due.townFinances!.banks[bankId]!;
-      expect(bank.chargedOff).toContain(job.personId);
+      const bank = Object.values(due.townFinances!.banks).find((row) =>
+        row.chargedOff?.includes(job.personId),
+      )!;
+      expect(bank).toBeDefined();
       expect(bank.lastQuarterDefaults!.households).toBeGreaterThanOrEqual(1);
       expect(bank.lastQuarterLosses).toBeGreaterThan(0);
       // Charged off once: the next quarter does not count the same borrower.
@@ -269,9 +299,7 @@ describe(
         "household-after",
       ).world;
       expect(
-        after.townFinances!.banks[bankId]!.chargedOff!.filter(
-          (id) => id === job.personId,
-        ),
+        chargedOff(after).filter((id) => id === job.personId),
       ).toHaveLength(1);
     });
 
@@ -288,7 +316,7 @@ describe(
     });
 
     it("when lending tightens nationwide, a business still draws its line, and a new line waits", () => {
-      const store = world.townFinances!;
+      const store = banked.townFinances!;
       const [withLine, withoutLine] = Object.keys(store.businesses);
       const books = store.businesses[withLine!]!;
       expect(books.lineLimit).toBeGreaterThan(0);
@@ -299,7 +327,7 @@ describe(
         ...world,
         macroEconomy: {
           ...world.macroEconomy!,
-          months: world.macroEconomy!.months.map((month) =>
+          months: banked.macroEconomy!.months.map((month) =>
             month.scope === "national"
               ? { ...month, creditTightness: 1 }
               : month,
@@ -343,7 +371,7 @@ describe(
     });
 
     it("a town bank's uninsured deposits are the real bank's it copies", () => {
-      const bank = Object.values(world.townFinances!.banks)[0]!;
+      const bank = Object.values(banked.townFinances!.banks)[0]!;
       const rows = FDIC_SMALL_BANK_SHAPES[bank.shape.state!]!.split(";");
       const [, , uninsured] = rows[bank.shape.index]!.split(",").map(Number);
       expect(uninsuredDepositShare(bank.shape)).toBe(uninsured);
@@ -354,7 +382,7 @@ describe(
     it("a business without a bank borrows from the town's bank at its next review", () => {
       // McBride's Cafe in this town closed in 2029 saying it had no bank,
       // because its books opened before the town bank's did.
-      const store = world.townFinances!;
+      const store = banked.townFinances!;
       const [bankId] = Object.keys(store.banks);
       const [organizationId] = Object.keys(store.businesses);
       const unbanked: World = {

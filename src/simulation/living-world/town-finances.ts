@@ -1374,8 +1374,9 @@ function townHouseholdDefaults(
   if (everyone === 0) return result;
   for (const [personId, lost] of defaulting) {
     const lender =
-      (lost.organizationId && books[lost.organizationId]?.bankId) || open[0]!;
-    const bankId = open.includes(lender) ? lender : open[0]!;
+      (lost.organizationId && books[lost.organizationId]?.bankId) ||
+      lenderOf(banks, open)!;
+    const bankId = open.includes(lender) ? lender : lenderOf(banks, open)!;
     const bank = banks[bankId]!;
     const householdLoans = Math.max(0, bank.loans - bank.businessLoans);
     const entry = result.get(bankId) ?? { personIds: [], owed: 0 };
