@@ -59,6 +59,16 @@ function recipe(
  * The feminine pack with the arms-folded pose painted for the average body
  * and the first outfit, as the pack builder writes it.
  */
+/**
+ * An outfit with no posed or turned art, so a test can show the fallback for
+ * an outfit that has not been painted, whatever the shipped pack now holds.
+ */
+function unpainted(
+  outfit: PackPresentation["outfits"][number],
+): PackPresentation["outfits"][number] {
+  return { ...outfit, poses: undefined, views: undefined };
+}
+
 function withArmsFolded(pack: PackPresentation): PackPresentation {
   const body = pack.bodies.average;
   const worn = pack.outfits[0]!.builds.average!;
@@ -84,7 +94,7 @@ function withArmsFolded(pack: PackPresentation): PackPresentation {
           },
         },
       },
-      ...pack.outfits.slice(1),
+      ...pack.outfits.slice(1).map(unpainted),
     ],
   };
 }
@@ -379,7 +389,7 @@ function withThreeQuarter(pack: PackPresentation): PackPresentation {
           },
         },
       },
-      ...pack.outfits.slice(1),
+      ...pack.outfits.slice(1).map(unpainted),
     ],
   };
 }
