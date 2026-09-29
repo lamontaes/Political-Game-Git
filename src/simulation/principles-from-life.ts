@@ -224,8 +224,10 @@ function latestPrinciples(
  * The stable-key prefix of the officeholder draw (governing/
  * officeholder-principles.ts). A seated officeholder's principles still come
  * from it: seated members have no recorded life yet (no home, family, work or
- * faith), so forming theirs from life would leave only the party. This file
- * leaves anyone the draw reached as the draw left them.
+ * faith), so forming theirs from life would leave only the party (measured:
+ * a Congress formed that way voted on party lines and enacted nothing in 200
+ * days). This file leaves seated officeholders, and anyone the draw reached,
+ * as they are.
  */
 const OFFICEHOLDER_DRAW = "officeholder-principles/v1:";
 
@@ -281,17 +283,19 @@ function partyKey(
  * more consistently than the public does (Converse, 1964; Zaller, 1992).
  */
 function carriesPartyName(world: World, personId: EntityId): boolean {
-  if (affiliationAt(world, personId).source === "seat-roll") return true;
-  if (
-    activeWorkRelationshipsAt(world, personId).some((job) =>
-      PUBLIC_LIFE_OCCUPATIONS.includes(job.role.occupationClassification ?? ""),
-    )
-  )
-    return true;
+  if (seatedOfficeholder(world, personId)) return true;
   return activeOrganizationParticipationsAt(world, personId).some(
     (entry) =>
       entry.participation.kind.startsWith("leadership:party") ||
       entry.participation.kind === "membership:party-committee",
+  );
+}
+
+/** Whether this person holds an elected seat today. */
+function seatedOfficeholder(world: World, personId: EntityId): boolean {
+  if (affiliationAt(world, personId).source === "seat-roll") return true;
+  return activeWorkRelationshipsAt(world, personId).some((job) =>
+    PUBLIC_LIFE_OCCUPATIONS.includes(job.role.occupationClassification ?? ""),
   );
 }
 
@@ -651,6 +655,7 @@ export function formPrinciplesFromLife(
     if (personId === controlled) return;
     const before = latestRows(world, personId);
     if (
+      seatedOfficeholder(world, personId) ||
       [...before.values()].some((row) =>
         row.stableKey.startsWith(OFFICEHOLDER_DRAW),
       )
