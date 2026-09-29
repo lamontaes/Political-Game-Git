@@ -50,12 +50,6 @@ export const MACRO_CREDIT_POLICY = {
      * September 28, 2026 carry cash, securities and deposits, not equity.
      */
     bankCapitalRatio: 0.1,
-    /**
-     * MEASURED: cash, unpledged securities and overnight loans to other
-     * banks as a share of deposits, median for banks under $1 billion,
-     * FDIC call reports for June 30, 2026 (Research 1, source 76).
-     */
-    bankLiquidShare: 0.228,
     /** PLACEHOLDER: yearly share of debt charged off in calm years, percent. */
     chargeOffPct: 0.5,
   },
