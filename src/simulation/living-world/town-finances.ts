@@ -61,6 +61,10 @@ import {
   type TownFinanceStore,
   type TownMarketBooks,
 } from "./town-finance-types";
+import {
+  otherCostsAtSales,
+  townBusinessKindBooks,
+} from "./town-business-books";
 import { TOWN_EMPLOYMENT_VERSION } from "./town-employment";
 import { activeTownJobs, TOWN_JOB_END_REASONS } from "./town-labor-market";
 
@@ -90,38 +94,23 @@ export const TOWN_FINANCE_POLICY = {
     cashBufferLogSd: 0.8,
     /** PLACEHOLDER: pay as a share of a small business's revenue. */
     payShareOfRevenue: 0.3,
-    /** PLACEHOLDER: margins when books open, a share of revenue. */
-    marginMean: 0.06,
-    marginSd: 0.06,
     /** PLACEHOLDER: a line of credit up to this share of a year's revenue. */
     creditLineShareOfRevenue: 0.1,
     /**
-     * PLACEHOLDER: how much of a business's revenue follows the number of
-     * jobs held in town (the rest comes from outside or does not follow).
+     * PLACEHOLDER: how much of a business's revenue follows what the town's
+     * employers pay (the rest comes from outside or does not follow).
      */
     localDemandShare: 0.5,
     /**
      * GAME ASSUMPTION: the share of a new business's sales that is new
      * spending in town. Zero: a newcomer takes its sales from the businesses
      * of its kind already there, and the pay of the jobs it adds reaches
-     * every business through the jobs held in town (`localDemandShare`).
+     * every business through the town's pay (`localDemandShare`).
      * The same share of a closed business's sales leaves town with it; the
      * rest goes to the ones that stay. A kind the town had none of draws its
      * first business's sales from what residents spent elsewhere.
      */
     newDemandShare: 0,
-    /**
-     * PLACEHOLDER: each business's own customers drift from quarter to
-     * quarter: the log of its own demand keeps this share of last quarter's
-     * value and moves by a normal step with this spread. Set by hand. In a
-     * scratch model of 30 towns over 20 years, closings ran about 10% a
-     * year against 11.6% openings with or without it; it decides which
-     * business closes more than how many. The published exit rate
-     * (`TOWN_BUSINESS_TURNOVER.exitPerYearForComparison`) is a check on a
-     * run, never a chance of closing.
-     */
-    ownDemandPersistence: 0.9,
-    ownDemandQuarterSd: 0.05,
   },
   bank: {
     /** PLACEHOLDER: capital as a share of assets when books open. */
@@ -202,21 +191,49 @@ function formatDollars(value: number): string {
 
 // ─── What the quarter looked like ───────────────────────────────────────
 
-/** Pay each organization sent between `since` (exclusive) and today. */
+/** Paychecks a year, by the pay schedule each paycheck flow names. */
+const PAYDAYS_A_YEAR: Readonly<Record<string, number>> = {
+  weekly: 52,
+  biweekly: 26,
+  semimonthly: 24,
+  monthly: 12,
+};
+
+/**
+ * A quarter's pay for each organization, from the paychecks it sent
+ * between `since` (exclusive) and today. A quarter of 91 days holds six or
+ * seven paydays of an employer that pays every two weeks, and two to four
+ * of one that pays monthly, so each organization's paychecks are averaged
+ * per payday and scaled to a quarter's paydays on its own schedule: a
+ * quarter with an extra payday is not a quarter of higher costs.
+ */
 function payBetween(
   world: World,
   organizations: ReadonlySet<EntityId>,
   since: IsoDate,
 ): Map<EntityId, number> {
-  const flowOrg = new Map<EntityId, EntityId>();
+  const flowOrg = new Map<
+    EntityId,
+    { org: EntityId; perYear: number | null }
+  >();
   for (const flow of world.history.resourceFlows)
     if (
       flow.basisKind === "compensation:work" &&
       flow.source.kind === "organization" &&
       organizations.has(flow.source.organizationId)
     )
-      flowOrg.set(flow.id, flow.source.organizationId);
-  const pay = new Map<EntityId, number>();
+      flowOrg.set(flow.id, { org: flow.source.organizationId, perYear: null });
+  for (const terms of world.history.resourceFlowTerms) {
+    const flow = flowOrg.get(terms.resourceFlowId);
+    const schedule = flow
+      ? /^schedule:town-([a-z]+)/.exec(terms.cadenceKind)?.[1]
+      : undefined;
+    if (flow && schedule && PAYDAYS_A_YEAR[schedule])
+      flow.perYear = PAYDAYS_A_YEAR[schedule]!;
+  }
+  const total = new Map<EntityId, number>();
+  const paydays = new Map<EntityId, Set<IsoDate>>();
+  const perYear = new Map<EntityId, number>();
   const outcomes = world.history.resourceTransferOutcomes;
   // Outcomes are written in time order; a paycheck is never recorded more
   // than a pay period late, so reading back past a month before `since`
@@ -228,12 +245,22 @@ function payBetween(
       continue;
     }
     if (outcome.occurredAt > world.currentDate) continue;
-    const organizationId = flowOrg.get(outcome.resourceFlowId);
-    if (!organizationId) continue;
-    pay.set(
-      organizationId,
-      (pay.get(organizationId) ?? 0) + dollars(outcome.transferredAmount),
+    const flow = flowOrg.get(outcome.resourceFlowId);
+    if (!flow) continue;
+    total.set(
+      flow.org,
+      (total.get(flow.org) ?? 0) + dollars(outcome.transferredAmount),
     );
+    const days = paydays.get(flow.org) ?? new Set<IsoDate>();
+    days.add(outcome.occurredAt);
+    paydays.set(flow.org, days);
+    if (flow.perYear) perYear.set(flow.org, flow.perYear);
+  }
+  const pay = new Map<EntityId, number>();
+  for (const [org, amount] of total) {
+    const seen = paydays.get(org)!.size;
+    const yearly = perYear.get(org);
+    pay.set(org, yearly && seen > 0 ? (amount / seen) * (yearly / 4) : amount);
   }
   return pay;
 }
@@ -243,8 +270,8 @@ interface Economy {
    * The nation's growth over its trend, percent a year. The books run in
    * constant dollars at today's productivity, because game pay follows
    * neither prices nor the trend; what moves sales is the swing around the
-   * trend. The town's own downturns reach its businesses through the jobs
-   * held in town (`localDemandShare`), not a second time here.
+   * trend. The town's own downturns reach its businesses through what its
+   * employers pay (`localDemandShare`), not a second time here.
    */
   readonly growthGapPct: number;
   readonly trendPct: number;
@@ -355,7 +382,7 @@ function openBusinessBooks(
   );
   const yearlyPay = quarterPay * 4;
   const annualRevenue = yearlyPay / P.payShareOfRevenue;
-  const margin = P.marginMean + P.marginSd * standardNormal(rng.fork("margin"));
+  const margin = townBusinessKindBooks(kind).margin;
   const annualOtherCosts = Math.max(
     0,
     annualRevenue * (1 - margin) - yearlyPay,
@@ -379,6 +406,7 @@ function openBusinessBooks(
     bankId,
     lineLimit: round2(annualRevenue * P.creditLineShareOfRevenue),
     lastQuarterNet: 0,
+    lastQuarterPay: round2(quarterPay),
     lastRound: round,
   };
 }
@@ -457,17 +485,29 @@ export function stepTownFinances(
     markets: {},
   };
   const bankIds = townBanks(world, town);
+  // Every employer in town: what they pay is what the town's residents
+  // earn, and what they earn is what they spend.
+  const employerStem = `${TOWN_EMPLOYMENT_VERSION}:${town}:employer:`;
   const all = new Set<EntityId>([
     ...businesses.map((row) => row.organizationId),
     ...bankIds,
+    ...world.history.organizations
+      .filter((row) => row.stableKey.startsWith(employerStem))
+      .map((row) => row.id),
   ]);
   // The quarterly review runs every 91 days.
   const since = addDays(world.currentDate, -91);
   const pay = payBetween(world, all, since);
   const townJobs = activeTownJobs(world, town).length;
+  const townPay = round2(
+    [...pay.values()].reduce((sum, value) => sum + value, 0) * 4,
+  );
   const banks: Record<EntityId, TownBankBooks> = { ...store.banks };
   const yearlyTownPay =
-    [...pay.values()].reduce((sum, value) => sum + value, 0) * 4;
+    [...businesses.map((row) => row.organizationId), ...bankIds].reduce(
+      (sum, id) => sum + (pay.get(id) ?? 0),
+      0,
+    ) * 4;
   for (const bankId of bankIds)
     if (!banks[bankId] && yearlyTownPay > 0)
       banks[bankId] = openBankBooks(
@@ -546,6 +586,7 @@ export function stepTownFinances(
         ),
         members: now,
         townJobs,
+        townPay,
         lastRound: round,
       };
       continue;
@@ -553,11 +594,16 @@ export function stepTownFinances(
     if (market.lastRound === round) continue;
     const before = new Set(market.members);
     const current = new Set(now);
-    const jobsFactor =
-      market.townJobs > 0 && townJobs > 0
-        ? (townJobs / market.townJobs) ** P.localDemandShare
-        : 1;
-    let sales = market.annualSales * demandGrowth * jobsFactor;
+    // Residents spend from what they earn: the town's local share of
+    // spending follows its pay (books opened before pay was read follow
+    // its jobs until then).
+    const incomeFactor =
+      market.townPay !== undefined && market.townPay > 0 && townPay > 0
+        ? (townPay / market.townPay) ** P.localDemandShare
+        : market.townJobs > 0 && townJobs > 0
+          ? (townJobs / market.townJobs) ** P.localDemandShare
+          : 1;
+    let sales = market.annualSales * demandGrowth * incomeFactor;
     for (const id of now)
       if (!before.has(id))
         sales +=
@@ -570,6 +616,7 @@ export function stepTownFinances(
       annualSales: round2(Math.max(0, sales)),
       members: now,
       townJobs,
+      townPay,
       lastRound: round,
     };
   }
@@ -601,20 +648,16 @@ export function stepTownFinances(
       (sum, id) => sum + books[id]!.capacity,
       0,
     );
-    const ownDemandLog =
-      P.ownDemandPersistence * existing.ownDemandLog +
-      P.ownDemandQuarterSd *
-        standardNormal(
-          new SeededRng(world.seed).fork(
-            `${TOWN_FINANCES_VERSION}:own-demand:${organizationId}:${round}`,
-          ),
-        );
+    // Its sales are its share of what the town spends on its kind. Nothing
+    // is drawn: its sales move with the town's pay, the nation's economy
+    // and its rivals.
     const annualRevenue =
       capacityOfKind > 0
-        ? ((market.annualSales * existing.capacity) / capacityOfKind) *
-          Math.exp(ownDemandLog)
+        ? (market.annualSales * existing.capacity) / capacityOfKind
         : 0;
-    const annualOtherCosts = existing.annualOtherCosts;
+    // Goods it sells and supplies it uses rise and fall with its sales; the
+    // rest (rent, insurance, upkeep) does not (`TOWN_BUSINESS_KIND_BOOKS`).
+    const annualOtherCosts = otherCostsAtSales({ ...existing, annualRevenue });
     const interest = (existing.debt * realDebtRatePct) / 400;
     const net =
       annualRevenue / 4 - annualOtherCosts / 4 - quarterPay - interest;
@@ -641,7 +684,8 @@ export function stepTownFinances(
       cash: round2(cash),
       debt: round2(debt),
       annualRevenue: round2(annualRevenue),
-      ownDemandLog: round6(ownDemandLog),
+      ownDemandLog: 0,
+      lastQuarterPay: round2(quarterPay),
       bankId,
       lastQuarterNet: round2(net),
       lastRound: round,
@@ -966,7 +1010,14 @@ export function closeBusinessesOutOfCash(
             : `It had used up its ${formatDollars(books.lineLimit)} line of credit at ${bankName}.`;
     // What moved its sales since it opened, largest first.
     const spending = marketSales / Math.max(1, books.openingMarketSales) - 1;
-    const ownDemand = Math.exp(books.ownDemandLog) - 1;
+    // Pay when its books opened: capacity less its margin less its other
+    // costs.
+    const openingQuarterPay =
+      (books.capacity * (1 - books.margin) - books.annualOtherCosts) / 4;
+    const payRose =
+      books.lastQuarterPay !== undefined && openingQuarterPay > 0
+        ? books.lastQuarterPay / openingQuarterPay - 1
+        : 0;
     const causes = [
       {
         tag: "competition",
@@ -979,9 +1030,9 @@ export function closeBusinessesOutOfCash(
         text: `The town spent ${percent(-spending)} less on ${kindPlural(books.kind)} than when it opened.`,
       },
       {
-        tag: "own-customers",
-        size: ownDemand,
-        text: `Its own customers came ${percent(-ownDemand)} less often than when it opened.`,
+        tag: "pay-rose",
+        size: -payRose,
+        text: `Its pay bill had risen ${percent(payRose)} since it opened.`,
       },
     ]
       .filter((cause) => cause.size < -0.03)

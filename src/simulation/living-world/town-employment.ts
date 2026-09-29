@@ -43,6 +43,7 @@ import {
 import { drawCanonicalNameForGender } from "../people";
 import { nameCorpusVersionForWorld } from "../place-name-corpus";
 import { SeededRng } from "../rng";
+import { townBusinessHasRoomToHire } from "./town-business-books";
 import type {
   EntityId,
   IsoDate,
@@ -215,9 +216,166 @@ export interface Role {
 interface NameContext {
   readonly town: string;
   readonly state: string;
+  /** Its founder's family name, or a family of the town's. */
   readonly family: string;
   /** The county government's name, such as "Humphreys County". */
   readonly county: string;
+  /** The street it stands on. */
+  readonly street: string;
+}
+
+/**
+ * GAME ASSUMPTION: streets a business may be named for, among the most
+ * common street names in American towns. The game has no street map yet.
+ */
+const TOWN_STREETS = [
+  "Main Street",
+  "Oak Street",
+  "Maple Avenue",
+  "Pine Street",
+  "Cedar Street",
+  "Elm Street",
+  "Park Avenue",
+  "Washington Street",
+  "Lake Street",
+  "Hill Street",
+  "Church Street",
+  "Mill Street",
+  "Depot Street",
+  "Front Street",
+  "Second Street",
+  "Railroad Avenue",
+] as const;
+
+/**
+ * Other names each kind of employer goes by, beside its own `name`: for
+ * its founder or a family of the town, for its street or county, or a
+ * plain trade name. One is chosen when the employer is written, so a town's
+ * inn, bank and clinic do not all carry the town's name.
+ */
+const MORE_NAMES: Readonly<
+  Record<string, readonly ((context: NameContext) => string)[]>
+> = {
+  farm: [
+    ({ family }) => `${family} Farms`,
+    ({ family }) => `${family} Brothers Farm`,
+  ],
+  quarry: [
+    ({ county }) => `${county} Aggregates`,
+    ({ family }) => `${family} Sand and Gravel`,
+  ],
+  utility: [
+    ({ county }) => `${county} Rural Electric Cooperative`,
+    ({ town }) => `${town} Municipal Utilities`,
+  ],
+  construction: [
+    ({ family }) => `${family} Builders`,
+    ({ county }) => `${county} Contracting`,
+    ({ family }) => `${family} Roofing and Remodeling`,
+  ],
+  manufacturing: [
+    ({ county }) => `${county} Machine Works`,
+    ({ family }) => `${family} Tool and Die`,
+    ({ family }) => `${family} Fabrication`,
+  ],
+  wholesale: [
+    ({ county }) => `${county} Farm Supply`,
+    ({ town }) => `${town} Feed and Grain`,
+    ({ family }) => `${family} Distributing`,
+  ],
+  retail: [
+    ({ family }) => `${family} Hardware`,
+    ({ street }) => `${street} Market`,
+    () => "Country Mercantile",
+    ({ family }) => `${family}'s Grocery`,
+  ],
+  trucking: [
+    ({ county }) => `${county} Freight`,
+    ({ family }) => `${family} Transport`,
+  ],
+  information: [
+    ({ county }) => `${county} Telephone Cooperative`,
+    ({ county }) => `${county} Communications`,
+  ],
+  bank: [
+    () => "Farmers and Merchants Bank",
+    ({ town }) => `First State Bank of ${town}`,
+    ({ county }) => `${county} Savings Bank`,
+    () => "Citizens Bank",
+    () => "Peoples Bank",
+  ],
+  insurance: [
+    ({ street }) => `${street} Insurance`,
+    ({ county }) => `${county} Insurance Services`,
+  ],
+  realty: [
+    ({ family }) => `${family} Real Estate`,
+    ({ county }) => `${county} Land and Homes`,
+  ],
+  professional: [
+    ({ family }) => `${family} Law Office`,
+    ({ family }) => `${family} Accounting`,
+    ({ street }) => `${street} Tax Service`,
+  ],
+  "building-services": [
+    ({ family }) => `${family} Cleaning`,
+    () => "Hometown Janitorial",
+  ],
+  "private-school": [
+    ({ county }) => `${county} Christian School`,
+    ({ family }) => `${family} Academy`,
+  ],
+  hospital: [
+    ({ county }) => `${county} Memorial Hospital`,
+    ({ family }) => `${family} Memorial Hospital`,
+  ],
+  clinic: [
+    ({ family }) => `${family} Family Medicine`,
+    ({ street }) => `${street} Medical Clinic`,
+    ({ county }) => `${county} Health Center`,
+    () => "Family Care Clinic",
+  ],
+  "care-home": [
+    ({ family }) => `${family} Manor`,
+    ({ street }) => `${street} Care Center`,
+    () => "Heritage Care Center",
+  ],
+  recreation: [
+    ({ family }) => `${family}'s Bowling Lanes`,
+    ({ street }) => `${street} Fitness`,
+    () => "Hometown Fitness",
+  ],
+  restaurant: [
+    ({ street }) => `${street} Diner`,
+    ({ family }) => `${family}'s Cafe`,
+    () => "Country Kitchen",
+    ({ town }) => `${town} Family Restaurant`,
+  ],
+  inn: [
+    ({ family }) => `The ${family} House`,
+    ({ street }) => `${street} Inn`,
+    ({ county }) => `${county} Motor Inn`,
+    () => "Travelers Rest Motel",
+  ],
+  repair: [
+    ({ street }) => `${street} Garage`,
+    ({ town }) => `${town} Tire and Auto`,
+  ],
+  "personal-care": [
+    ({ street }) => `${street} Barber Shop`,
+    ({ family }) => `${family}'s Beauty Salon`,
+  ],
+};
+
+/** The family name of each of the town's residents, in the world's order. */
+function townFamilyNames(world: World, town: EntityId): readonly string[] {
+  const names: string[] = [];
+  for (const personId of world.personOrder) {
+    const person = world.people[personId];
+    if (person?.homeJurisdictionId === town && person.familyName)
+      names.push(person.familyName);
+  }
+  return names;
 }
 
 export interface Workplace {
@@ -1106,6 +1264,8 @@ export function writeTownEmployer(
   workplace: Workplace,
   outlet: number,
   formedAt: IsoDate,
+  /** The resident who opens it, whose family it may be named for. */
+  founderPersonId: EntityId | null = null,
 ): World {
   const stableKey = `${TOWN_EMPLOYMENT_VERSION}:${town}:employer:${workplace.key}:${outlet}`;
   const id = createStableId("organization", `${world.id}:${stableKey}`);
@@ -1119,22 +1279,53 @@ export function writeTownEmployer(
     : undefined;
   const countyName = countyUnit ? countyDisplayName(countyUnit.name) : null;
   const rng = new SeededRng(world.seed).fork(stableKey);
+  // Named for its founder's family, or for the family of one of the town's
+  // residents, so a family with more members in town is on more doors. A
+  // town with no residents yet draws a family name for its place. No two of
+  // the town's employers share a name.
+  const founder = founderPersonId ? world.people[founderPersonId] : undefined;
+  const residents = townFamilyNames(world, town);
+  const taken = new Set(
+    world.history.organizations
+      .filter((row) =>
+        row.stableKey.startsWith(
+          `${TOWN_EMPLOYMENT_VERSION}:${town}:employer:`,
+        ),
+      )
+      .map((row) => organizationProfileAt(world, row.id)?.name),
+  );
+  const styles = [workplace.name, ...(MORE_NAMES[workplace.key] ?? [])];
+  const firstStyle = rng.fork("name-style").integer(0, styles.length);
+  let name = "";
+  for (let attempt = 0; attempt < styles.length * 4; attempt += 1) {
+    const draw = rng.fork(`name:${attempt}`);
+    const family =
+      (attempt === 0 && founder?.familyName) ||
+      (residents.length > 0
+        ? residents[draw.fork("family").integer(0, residents.length)]!
+        : drawCanonicalNameForGender(
+            draw.fork("family"),
+            "unstated",
+            nameCorpusVersionForWorld(world, town),
+          ).familyName);
+    const context: NameContext = {
+      town: townName,
+      state: stateName,
+      county: countyName ?? townName,
+      family,
+      street:
+        TOWN_STREETS[draw.fork("street").integer(0, TOWN_STREETS.length)]!,
+    };
+    name = styles[(firstStyle + attempt) % styles.length]!(context);
+    if (!taken.has(name)) break;
+  }
   return createOrganization(world, {
     stableKey,
     formedAt,
     detailLevel: "lightweight",
     provenance: PROVENANCE,
     initialProfile: {
-      name: workplace.name({
-        town: townName,
-        state: stateName,
-        county: countyName ?? townName,
-        family: drawCanonicalNameForGender(
-          rng.fork("family"),
-          "unstated",
-          nameCorpusVersionForWorld(world, town),
-        ).familyName,
-      }),
+      name,
       classification: workplace.classification,
       locationJurisdictionId: town,
     },
@@ -1187,6 +1378,28 @@ export function fillTownJobs(
   let next = world;
   const organizations = new Map<string, EntityId>();
   const outletsOf = new Map<string, readonly number[]>();
+  // Staff at each of the town's employers today, counting the hires made
+  // here, so a business hires only while its books have room.
+  let staffOf: Map<EntityId, number> | null = null;
+  const staffAt = (organizationId: EntityId): number => {
+    if (!staffOf) {
+      staffOf = new Map();
+      const orgOf = new Map<EntityId, EntityId>();
+      for (const row of next.history.workRelationships)
+        if (row.stableKey.startsWith(`${prefix}:job:`) && row.organizationId)
+          orgOf.set(row.id, row.organizationId);
+      const latest = new Map<EntityId, string>();
+      for (const row of next.history.workStatuses)
+        if (orgOf.has(row.workRelationshipId) && row.effectiveAt <= today)
+          latest.set(row.workRelationshipId, row.status);
+      for (const [id, status] of latest)
+        if (status === "active") {
+          const org = orgOf.get(id)!;
+          staffOf.set(org, (staffOf.get(org) ?? 0) + 1);
+        }
+    }
+    return staffOf.get(organizationId) ?? 0;
+  };
   const existing = new Map<string, readonly EntityId[]>();
   const existingOf = (workplace: Workplace) => {
     if (!workplace.existing) return [];
@@ -1216,7 +1429,20 @@ export function fillTownJobs(
       outletsOf.set(workplace.key, outlets);
     }
     if (outlets.length === 0) return null;
-    const outlet = outlets[slot % outlets.length]!;
+    // The first outlet from the drawn slot whose books have room for one
+    // more; none has room, nobody is hired there (`town-business-books.ts`).
+    const books = next.townFinances?.businesses;
+    let outlet: number | null = null;
+    for (let step = 0; step < outlets.length && outlet === null; step += 1) {
+      const candidate = outlets[(slot + step) % outlets.length]!;
+      const key = `${prefix}:employer:${workplace.key}:${candidate}`;
+      const id =
+        organizations.get(key) ??
+        createStableId("organization", `${next.id}:${key}`);
+      if (townBusinessHasRoomToHire(books?.[id], staffAt(id)))
+        outlet = candidate;
+    }
+    if (outlet === null) return null;
     const stableKey = `${prefix}:employer:${workplace.key}:${outlet}`;
     const cached = organizations.get(stableKey);
     if (cached) return cached;
@@ -1240,6 +1466,8 @@ export function fillTownJobs(
     const organizationId =
       at ?? employer(workplace, rng.fork("outlet").integer(0, 1_000));
     if (!organizationId) return false;
+    staffAt(organizationId);
+    staffOf!.set(organizationId, (staffOf!.get(organizationId) ?? 0) + 1);
     const person = next.people[resident.personId]!;
     const adultSince = yearsBefore(person.birthDate, -WORKING_AGE_MIN);
     const tenure =
@@ -1342,8 +1570,9 @@ export function fillTownJobs(
       const resident = take(chosen.minAge ?? WORKING_AGE_MIN);
       if (!resident) break;
       if (hire(resident, workplace, chosen, at ?? undefined, true)) continue;
-      // Every employer of that kind in town has closed: the resident goes
-      // back to the pool and draws from the town's mix instead.
+      // Every employer of that kind in town has closed, or none has room:
+      // the resident goes back to the pool and draws from the town's mix
+      // instead.
       pool.push(resident);
       pool.sort(
         (a, b) => b.age - a.age || a.personId.localeCompare(b.personId),
@@ -1353,8 +1582,8 @@ export function fillTownJobs(
   }
 
   // Everyone else by the town's own mix.
-  // A workplace whose every employer in town has closed hires nobody, and
-  // the resident draws again.
+  // A workplace whose every employer in town has closed, or whose businesses'
+  // books have no room, hires nobody, and the resident draws again.
   for (const resident of pool) {
     const rng = new SeededRng(next.seed).fork(
       drawKey("workplace", resident.personId),

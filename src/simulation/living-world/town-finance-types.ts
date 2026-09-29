@@ -23,14 +23,17 @@ export interface TownBusinessBooks {
    * every open business of its kind in town.
    */
   readonly capacity: number;
-  /** Rent, supplies and everything but pay, a year. */
+  /**
+   * Rent, supplies and everything but pay, a year, at its capacity. The
+   * share of it that follows sales for its kind shrinks and grows with its
+   * sales each quarter.
+   */
   readonly annualOtherCosts: number;
   /** Its own margin when its books were opened, a share of revenue. */
   readonly margin: number;
   /**
-   * How its own customers have drifted since it opened, as a log: zero at
-   * opening, then its own ups and downs that the town's spending does not
-   * explain (a good cook leaves, a road closes out front).
+   * Retired: its customers once drifted by a draw each quarter. Kept so
+   * older saves load; always zero once a quarter runs.
    */
   readonly ownDemandLog: number;
   /** Its share of its market's capacity, and the market's sales, when it opened. */
@@ -40,6 +43,8 @@ export interface TownBusinessBooks {
   readonly lineLimit: number;
   /** Cash in less cash out over its last quarter. */
   readonly lastQuarterNet: number;
+  /** Its pay over its last quarter; absent in books from older saves. */
+  readonly lastQuarterPay?: number;
   readonly lastRound: string;
 }
 
@@ -84,8 +89,13 @@ export interface TownMarketBooks {
   readonly annualSales: number;
   /** The businesses whose books shared it last quarter. */
   readonly members: readonly EntityId[];
-  /** Town jobs held when it was last read, for local demand. */
+  /** Town jobs held when it was last read. */
   readonly townJobs: number;
+  /**
+   * What every employer in town paid, a year, when it was last read: local
+   * spending follows it. Absent in books from older saves.
+   */
+  readonly townPay?: number;
   readonly lastRound: string;
 }
 

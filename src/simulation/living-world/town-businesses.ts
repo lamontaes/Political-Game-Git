@@ -337,7 +337,14 @@ export function reviewTownBusinesses(
     let outlet = workplace.outlets;
     const stem = `${TOWN_EMPLOYMENT_VERSION}:${town}:employer:${workplace.key}:`;
     while (written.has(`${stem}${outlet}`)) outlet += 1;
-    next = writeTownEmployer(next, town, workplace, outlet, today);
+    next = writeTownEmployer(
+      next,
+      town,
+      workplace,
+      outlet,
+      today,
+      chosen.personId,
+    );
     const organizationId = townBusinesses(next, town).find(
       (business) =>
         business.workplace.key === workplace.key && business.outlet === outlet,

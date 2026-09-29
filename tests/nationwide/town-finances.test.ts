@@ -6,7 +6,14 @@ import {
   observerSetup,
   openObserverWorld,
 } from "../../src/presentation/observer-world";
-import { organizationClosingAt } from "../../src/simulation/life-queries";
+import {
+  organizationClosingAt,
+  organizationProfileAt,
+} from "../../src/simulation/life-queries";
+import {
+  townBusinessHasRoomToHire,
+  townBusinessKindBooks,
+} from "../../src/simulation/living-world/town-business-books";
 import {
   TOWN_BUSINESS_CLOSING_REASONS,
   townBusinesses,
@@ -61,6 +68,18 @@ describe(
       for (const business of open)
         if (store.businesses[business.organizationId])
           expect(inAMarket.has(business.organizationId)).toBe(true);
+    });
+
+    it("draws nothing for a business's sales, and names every employer apart", () => {
+      const store = world.townFinances!;
+      for (const books of Object.values(store.businesses)) {
+        expect(books.ownDemandLog).toBe(0);
+        expect(books.margin).toBe(townBusinessKindBooks(books.kind).margin);
+      }
+      const names = world.history.organizations
+        .filter((row) => row.stableKey.includes(`:${town}:employer:`))
+        .map((row) => organizationProfileAt(world, row.id)!.name);
+      expect(new Set(names).size).toBe(names.length);
     });
 
     it("records each closing with its cause, and nothing closes that had cash", () => {
@@ -170,3 +189,39 @@ describe(
     });
   },
 );
+
+describe("Build 19: a business hires when its sales need hands", () => {
+  const books = {
+    organizationId: "organization_a",
+    openedAt: "2026-04-06",
+    cash: 5_000,
+    debt: 0,
+    kind: "retail",
+    capacity: 100_000,
+    annualRevenue: 100_000,
+    annualOtherCosts: 60_000,
+    margin: townBusinessKindBooks("retail").margin,
+    ownDemandLog: 0,
+    openingShare: 1,
+    openingMarketSales: 100_000,
+    bankId: null,
+    lineLimit: 10_000,
+    lastQuarterNet: 0,
+    lastQuarterPay: 8_000,
+    lastRound: "r",
+  } as unknown as Parameters<typeof townBusinessHasRoomToHire>[0];
+
+  it("hires nobody more while its sales only cover the staff it has", () => {
+    expect(townBusinessHasRoomToHire(books, 4)).toBe(false);
+  });
+
+  it("hires once its sales grow past what its staff can serve", () => {
+    expect(
+      townBusinessHasRoomToHire({ ...books!, annualRevenue: 140_000 }, 4),
+    ).toBe(true);
+  });
+
+  it("hires as before when its books have not opened", () => {
+    expect(townBusinessHasRoomToHire(undefined, 0)).toBe(true);
+  });
+});
