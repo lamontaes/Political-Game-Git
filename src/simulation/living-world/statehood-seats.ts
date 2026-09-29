@@ -4,10 +4,13 @@ import {
 } from "../character-history";
 import type { CharacterHistoryContextPersonInput } from "../character-history";
 import { makeIsoDate } from "../dates";
-import { lawInForce } from "../governing/law-in-force";
+import {
+  STATEHOOD_QUESTION,
+  statehoodAdmittedOn,
+  statehoodPlace,
+} from "../governing/statehood-admission";
 import { recordByStableKey, recordsWithFieldValue } from "../history-index";
 import { stateJurisdictionForKey } from "../life-places";
-import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
@@ -41,15 +44,16 @@ import { LIVING_WORLD_WRITER_VERSION } from "./opening-keys";
 /**
  * STATEHOOD FOR A NONVOTING PLACE.
  *
- * When an Act of Congress answering the statehood question "yes" takes effect,
- * the place gains a voting seat in the House and two seats in the Senate, and
- * the chambers grow with them: nothing counts the House at 435 or the Senate
+ * When an Act of Congress answering the statehood question "yes" has taken
+ * effect and the place is admitted (`statehood-admission.ts`), the place gains
+ * a voting seat in the House and two seats in the Senate, and the chambers
+ * grow with them: nothing counts the House at 435 or the Senate
  * at 100, because each chamber is the seats the world has. Which place, and
  * how many seats of each kind, are read from
  * `data/research/congress/statehood-seats.json`, not written here.
  *
- * Seating is a HARDWIRED simplification of the special election the real
- * bills call for: on the day the law takes effect the Delegate in office
+ * Seating is a HARDWIRED simplification of the first elections the real
+ * bills call for: on the admission date the Delegate in office
  * becomes the Representative for the rest of the term, and the two Senate
  * seats are filled by new fictional people. Every seat goes to the caucus the
  * place's own 2024 result favors (`house-delegates.ts`), the same rule that
@@ -60,15 +64,9 @@ import { LIVING_WORLD_WRITER_VERSION } from "./opening-keys";
 const V = LIVING_WORLD_WRITER_VERSION;
 export const STATEHOOD_PROVENANCE = "provenance:statehood-seat" as const;
 
-/** The policy question whose enacted law adds the seats. */
-export const STATEHOOD_QUESTION: string = statehood.questionKey;
-const QUESTION_KEY = STATEHOOD_QUESTION;
-const PLACE: string = statehood.place;
+export { STATEHOOD_QUESTION, statehoodAdmittedOn, statehoodPlace };
 
-/** The place the law would make a state, from the data file. */
-export function statehoodPlace(): string {
-  return PLACE;
-}
+const PLACE = statehoodPlace();
 
 let cachedSeats: readonly CongressSeat[] | null = null;
 
@@ -112,43 +110,6 @@ export function statehoodSeats(): readonly CongressSeat[] {
   return seats;
 }
 
-const questionIds = new WeakMap<object, EntityId | null>();
-
-function statehoodQuestionId(world: World): EntityId | null {
-  const catalog = world.policyCatalog as object | undefined;
-  if (!catalog) return null;
-  if (questionIds.has(catalog)) return questionIds.get(catalog)!;
-  const found =
-    Object.values(world.policyCatalog.propositions ?? {}).find(
-      (definition) => definition.stableKey === QUESTION_KEY,
-    )?.id ?? null;
-  questionIds.set(catalog, found);
-  return found;
-}
-
-/**
- * The day the enacted law on statehood took effect, or null while none has.
- * The starting law is left out: no place began as a state it was not.
- */
-export function statehoodTookEffect(
-  world: World,
-  asOf: IsoDate = world.currentDate,
-): IsoDate | null {
-  if (!world.history.legislativeEnactments?.length) return null;
-  const propositionId = statehoodQuestionId(world);
-  if (!propositionId) return null;
-  const law = lawInForce(
-    world,
-    NATIONAL_ELECTION_JURISDICTION.id,
-    propositionId,
-    asOf,
-    "enacted-only",
-  );
-  return law && law.answer === "yes" && law.origin === "enacted"
-    ? law.operativeAt
-    : null;
-}
-
 const seatStableKey = (seat: CongressSeat) =>
   LIVING_WORLD_KEYS.seat(seat.seatKey);
 const termKey = (seat: CongressSeat, startsAt: IsoDate) =>
@@ -167,7 +128,7 @@ export function congressSeatsIn(
 ): readonly CongressSeat[] {
   const base = congressSeats();
   if (!world.history.legislativeEnactments?.length) return base;
-  const admitted = statehoodTookEffect(world, asOf);
+  const admitted = statehoodAdmittedOn(world, asOf);
   if (!admitted || admitted > asOf) return base;
   const added = statehoodSeats().filter(
     (seat) =>
@@ -312,7 +273,7 @@ function projected(
 }
 
 /**
- * Fills the seats the day the law takes effect, and carries each across the
+ * Fills the seats on the admission date, and carries each across the
  * term starts the clock crossed in (`before`, `world.currentDate`]. A world
  * that never opened its Congress is left as it is.
  */
@@ -322,13 +283,13 @@ export function applyStatehoodTurnover(before: IsoDate, world: World): World {
   if (!world.history.legislativeEnactments?.length) return world;
   if (!recordByStableKey(world.history.events, LIVING_WORLD_OPENING_KEY))
     return world;
-  const admitted = statehoodTookEffect(world, after);
+  const admitted = statehoodAdmittedOn(world, after);
   if (!admitted) return world;
   let next = world;
   for (const seat of statehoodSeats()) {
     if (!recordByStableKey(next.history.events, termKey(seat, admitted))) {
       const window = seatTermWindow(seat, admitted);
-      // The Delegate in office when the law takes effect becomes the
+      // The Delegate in office at admission becomes the
       // Representative for the rest of the term.
       const delegate =
         seat.chamberKey === "us-house"
