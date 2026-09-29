@@ -97,6 +97,7 @@ import type {
   World,
 } from "./types";
 import { feltDebtConsiderations, recordFavor } from "./favors";
+import { heardOfRefusalConsiderations } from "./favor-collection";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
 
 /**
@@ -1353,9 +1354,17 @@ function supportRequestDecision(
       sourceRefs: [],
     });
   }
-  // Help the candidate once gave the host is a reason to say yes now.
+  // Help the candidate once gave the host is a reason to say yes now; having
+  // heard they turned down somebody who had helped them is a reason not to.
   considerations.push(
     ...feltDebtConsiderations(
+      world,
+      record.hostPersonId,
+      record.subjectPersonId,
+      decisionKey,
+      "grant",
+    ),
+    ...heardOfRefusalConsiderations(
       world,
       record.hostPersonId,
       record.subjectPersonId,
