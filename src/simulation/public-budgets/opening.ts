@@ -314,7 +314,7 @@ export function budgetCandidates(world: World): {
  * that county area has no county government (New England towns, Alaska's
  * unorganized borough, consolidated city-counties), the reason.
  */
-function servingCounty(
+export function servingCounty(
   placeGeoid: string,
   stateKey: string,
 ):

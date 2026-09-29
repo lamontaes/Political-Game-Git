@@ -586,33 +586,35 @@ function replyFor(
         : previous?.tags.includes("life.answer:company")
           ? "I want to spend time with you."
           : "I'd like to do something I already enjoy.";
-    case "matter": {
-      const matter = currentKnownMatter(world, playerPersonId);
-      if (!matter) return "What did you want to talk about?";
-      const awareness = matterAwareness(world, personId, matter.eventId);
-      if (awareness === "uninformed") {
-        const unheard = matterUninformedLine(
-          world,
-          personId,
-          playerPersonId,
-          history,
-          matter.eventId,
-        );
-        return unheard ? worded(unheard) : "I hadn't heard about that.";
-      }
-      if (activeOrdinaryGoal(world, personId, "privacy"))
-        return "I'd rather not get into that right now.";
-      return awareness === "involved"
-        ? "I was involved in that."
-        : "I heard about that.";
-    }
+    case "matter":
     case "officials": {
-      if (activeOrdinaryGoal(world, personId, "privacy"))
-        return "I'd rather not get into that right now.";
-      const line = officialViewLine(world, personId, playerPersonId, history);
-      return line
-        ? worded(line)
-        : "I don't have much to say about the people in office right now.";
+      if (intent === "matter") {
+        const matter = currentKnownMatter(world, playerPersonId);
+        if (!matter) return "What did you want to talk about?";
+        const awareness = matterAwareness(world, personId, matter.eventId);
+        if (awareness === "uninformed") {
+          const unheard = matterUninformedLine(
+            world,
+            personId,
+            playerPersonId,
+            history,
+            matter.eventId,
+          );
+          return unheard ? worded(unheard) : "I hadn't heard about that.";
+        }
+        if (!activeOrdinaryGoal(world, personId, "privacy"))
+          return awareness === "involved"
+            ? "I was involved in that."
+            : "I heard about that.";
+      } else if (!activeOrdinaryGoal(world, personId, "privacy")) {
+        const line = officialViewLine(world, personId, playerPersonId, history);
+        return line
+          ? worded(line)
+          : "I don't have much to say about the people in office right now.";
+      }
+      // Someone keeping to themselves declines either question the same way.
+      // The sentence is written once, so its one prose anchor stays settled.
+      return "I'd rather not get into that right now.";
     }
     case "remember": {
       // A matter the two of you discussed is more memorable than small talk.

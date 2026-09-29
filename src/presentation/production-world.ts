@@ -4,6 +4,7 @@ import {
 } from "../simulation/contextual-character-history";
 import {
   CHILDHOOD_GENERATION_V2,
+  establishDrawnAdultFamily,
   establishPreStartAdultHistory,
   establishPreStartChildHistory,
   type ChildhoodGenerationVersion,
@@ -369,6 +370,16 @@ export function buildProductionWorld(
     nameCorpusVersion,
     input.preStartYear !== undefined,
   );
+  // An adult New Game start draws the rest of the family around the parent
+  // the earlier life recorded. The prior-year start draws its own below.
+  if (
+    !input.preStartYear &&
+    ageOnDate(player.birthDate, world.currentDate) >= DEPENDENT_AGE_CEILING
+  )
+    world = establishDrawnAdultFamily(world, {
+      personId: player.id,
+      jurisdictionId: jurisdiction.id,
+    });
   if (
     input.preStartYear &&
     ageOnDate(player.birthDate, world.currentDate) < 18
