@@ -32,7 +32,6 @@ import {
   enrollMeasure,
   catalogPropositionIds,
   introduceMeasure,
-  measureActions,
   measurePosition,
   nextMeasureStableKey,
   placeMeasureOnCalendar,
@@ -78,6 +77,12 @@ import {
 } from "./chamber-procedure";
 import { decideChamberVote, seatedChamberForPack } from "./chamber-votes";
 import { ensureOfficeholderPrinciples } from "./officeholder-principles";
+import {
+  adjournmentStopsPhase,
+  considerSessionAdjournment,
+  measureSessionYear,
+} from "./leaders-adjourn";
+import { sessionClosesOn } from "./session-adjournments";
 import {
   congressBlueprint,
   congressReferralCommittee,
@@ -212,46 +217,23 @@ function effectiveOwner(
  * ------------------------------------------------------------------ */
 
 function sessionYear(world: World, measureId: EntityId): number {
-  const first = measureActions(world, measureId)[0];
-  return Number((first?.occurredAt ?? world.currentDate).slice(0, 4));
+  return measureSessionYear(world, measureId);
 }
 
 /**
- * The sourced outer limit of the session the measure was introduced in, if
- * the pack states one. After it, nothing moves on this measure.
+ * The day the session the measure was introduced in ended or will end: the
+ * day its leaders adjourned it (`leaders-adjourn.ts`), else its legal limit.
+ * After it, nothing moves on this measure.
  */
 export function measureSessionClosedOn(
   world: World,
   measure: LegislativeMeasureRecord,
   pack: LegislativeRulePack,
 ): IsoDate | null {
-  const limit = pack.session.regularSessionLatestAdjournment;
-  if (!limit) return null;
-  const year = sessionYear(world, measure.id);
-  const boundary = year % 2 ? limit.value.oddYear : limit.value.evenYear;
-  return makeIsoDate(
-    `${year}-${String(boundary.month).padStart(2, "0")}-${String(boundary.day).padStart(2, "0")}`,
-  );
+  return sessionClosesOn(world, pack, sessionYear(world, measure.id));
 }
 
-/**
- * Phases a bill reaches only after both chambers passed it. The session's
- * end does not stop these: the clerks still enroll and present what the
- * legislature passed, and the executive acts on it within the window the
- * rules give after adjournment. A veto override still needs the chambers,
- * so it is not among them.
- */
-const PAST_THE_CHAMBERS: ReadonlySet<string> = new Set([
-  "awaiting-enrollment",
-  "awaiting-presentation",
-  "awaiting-executive",
-  "awaiting-enactment",
-]);
-
-/** Whether the session's end stops a bill in this phase. */
-export function adjournmentStopsPhase(phase: string): boolean {
-  return !PAST_THE_CHAMBERS.has(phase);
-}
+export { adjournmentStopsPhase };
 
 export function measureSessionIsClosed(
   world: World,
@@ -1001,18 +983,31 @@ export function createInstitutionStepHandler(
           "The chamber waits for its next scheduled business on this bill.",
         );
       case "ended":
-        return done(result.world, "The bill died when the session adjourned.");
+        return done(
+          considerSessionAdjournment(result.world, measureId),
+          "The bill died when the session adjourned.",
+        );
       case "executive":
         // An executive who decides on the day puts the bill back in the
         // institution's hands; this step is still the one running, so it is
         // excluded or the next step would never be scheduled.
         return done(
-          scheduleInstitutionStep(result.world, measureId, undefined, due.id),
+          scheduleInstitutionStep(
+            considerSessionAdjournment(result.world, measureId),
+            measureId,
+            undefined,
+            due.id,
+          ),
           "The bill is on the executive's desk.",
         );
       case "applied":
         return done(
-          scheduleInstitutionStep(result.world, measureId, undefined, due.id),
+          scheduleInstitutionStep(
+            considerSessionAdjournment(result.world, measureId),
+            measureId,
+            undefined,
+            due.id,
+          ),
           `The institution took the step ${result.step}.`,
         );
     }
@@ -1405,13 +1400,12 @@ export function fileLegislatureMeasure(
   const rng = new SeededRng(world.seed).fork(stableKey);
   const blueprint = rng.pick(authored);
   const pack = blueprint.pack;
-  const limit = pack.session.regularSessionLatestAdjournment;
-  if (limit) {
-    const year = Number(world.currentDate.slice(0, 4));
-    const boundary = year % 2 ? limit.value.oddYear : limit.value.evenYear;
-    const closes = `${year}-${String(boundary.month).padStart(2, "0")}-${String(boundary.day).padStart(2, "0")}`;
-    if (world.currentDate > closes) return world;
-  }
+  const closes = sessionClosesOn(
+    world,
+    pack,
+    Number(world.currentDate.slice(0, 4)),
+  );
+  if (closes !== null && world.currentDate > closes) return world;
   const originChamber = defaultOriginChamber(pack);
   const originChamberKey = originChamber.chamberKey;
   // Where the chamber is seated with real people, one of them carries the

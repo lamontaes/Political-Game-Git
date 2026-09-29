@@ -37,6 +37,7 @@ import {
   statuteEffectiveDateEstimated,
   type StatuteDateContext,
 } from "./governing/statute-effective-date";
+import { recordedSessionAdjournment } from "./governing/session-adjournments";
 import { requireMeasure } from "./legislation";
 import { lawLevelRank, type LawLevel } from "./law-hierarchy";
 import { rulePackById } from "./legislature-rule-packs";
@@ -288,8 +289,9 @@ export function amendableRuleFieldLabel(field: AmendableRuleField): string {
 export function stateRuleBasis(
   jurisdictionKey: string,
   enactedAt: IsoDate,
+  context: StatuteDateContext = {},
 ): "state-rule" | "estimated-state-rule" {
-  return statuteEffectiveDateEstimated(jurisdictionKey, enactedAt)
+  return statuteEffectiveDateEstimated(jurisdictionKey, enactedAt, context)
     ? "estimated-state-rule"
     : "state-rule";
 }
@@ -304,13 +306,26 @@ export function stateRuleBasis(
 export const STATUTE_EFFECTIVE_DEFAULT_DAYS = 90;
 
 /**
- * The dates an act's own record carries that a state's effective-date rule
- * may count from: the final passage its enactment recorded.
+ * The dates an act's record carries that a state's effective-date rule may
+ * count from: the final passage its enactment recorded, and the day its
+ * legislature's leaders adjourned the session, where they did.
  */
 export function enactmentStatuteDateContext(
+  world: World,
   enactment: LegislativeEnactmentRecord,
 ): StatuteDateContext {
-  return { finalPassageAt: () => enactment.finalPassageAt ?? null };
+  return {
+    finalPassageAt: () => enactment.finalPassageAt ?? null,
+    sessionEnds: (year) => {
+      const measure = (world.history.legislativeMeasures ?? []).find(
+        (row) => row.id === enactment.measureId,
+      );
+      const adjourned = measure
+        ? recordedSessionAdjournment(world, measure.rulePackId, year)
+        : null;
+      return adjourned ? [adjourned.adjournedOn] : null;
+    },
+  };
 }
 
 export function isAmendableRuleField(
@@ -614,7 +629,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       : stateStatuteOperativeAt(
           `US-${provision.stateUsps}`,
           enactment.resolvedAt,
-          enactmentStatuteDateContext(enactment),
+          enactmentStatuteDateContext(world, enactment),
         );
     changes.push({
       stateUsps: provision.stateUsps,
@@ -630,7 +645,11 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       operativeBasis: explicit
         ? "enacted-date"
         : stateRuleAt
-          ? stateRuleBasis(`US-${provision.stateUsps}`, enactment.resolvedAt)
+          ? stateRuleBasis(
+              `US-${provision.stateUsps}`,
+              enactment.resolvedAt,
+              enactmentStatuteDateContext(world, enactment),
+            )
           : "game-default",
       instrument: "statute",
       level: "state-statute",
