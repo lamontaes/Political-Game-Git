@@ -2,6 +2,7 @@ import { ageOnDate } from "../dates";
 import { createStableId } from "../ids";
 import {
   OFFICIAL_VIEW_TRANSITION_KEY,
+  monthlyPay,
   officialViewReflectionKey,
   recordHeardExposure,
 } from "../law-exposure";
@@ -14,6 +15,10 @@ import {
 } from "../life-queries";
 import { SYNTHETIC_MIND_IDS } from "../mind-catalog";
 import { latestPersonalityTendency } from "../queries";
+import {
+  readRelationshipStanding,
+  type StandingBand,
+} from "../relationship-standing";
 import { sharedPlaceAcquaintances } from "../shared-places";
 import type {
   EntityId,
@@ -66,11 +71,16 @@ const DISCUSSION_PARTNERS = 3;
 // news very closely, against 9 percent at 18 to 29. From this age someone with
 // no job to go to has the time and the habit of the older news audience.
 const RETIREMENT_AGE = 65;
-// PLACEHOLDER: what a friend went through moves a view less than one's own
-// or a family member's.
-const FRIEND_SHARE = 0.25;
-// PLACEHOLDER: a family member's paycheck is felt at home, less than one's own.
-const FAMILY_SHARE = 0.5;
+// SET BY HAND: what someone else went through moves a view as much as the
+// hearer cares about the teller. People feel more for those they are closer to
+// (Cialdini and others, 1997), so a strong tie passes on half of it, a marked
+// one a quarter, and a slight one or none an eighth.
+const HEARD_BY_WARMTH: Readonly<Record<StandingBand, number>> = {
+  strong: 1 / 2,
+  marked: 1 / 4,
+  slight: 1 / 8,
+  none: 1 / 8,
+};
 // PLACEHOLDER, approved provisional: partisans are anchored. Blame for their
 // own party's official, and credit for the other party's, count half.
 const PARTY_ANCHOR = 0.5;
@@ -300,15 +310,10 @@ function reasonsFor(
   const made = act.act !== "voted-against";
   const sign = exposure.direction === "cost" ? (made ? -1 : 1) : made ? 1 : -1;
   const felt =
-    felt01(exposure) *
+    felt01(world, exposure) *
     (act.executive ? EXECUTIVE_VISIBILITY : LEGISLATOR_VISIBILITY) *
     lens(world, exposure.personId);
-  const share =
-    exposure.relation === "family"
-      ? FAMILY_SHARE
-      : exposure.relation === "friend"
-        ? FRIEND_SHARE
-        : 1;
+  const share = heardShare(world, exposure);
   const own = Math.round(sign * BASE_POINTS * felt * share);
   if (own === 0) return [];
   const reasons: OfficialViewReason[] = [
@@ -330,10 +335,34 @@ function reasonsFor(
   return reasons;
 }
 
-/** How hard the law landed, 0 to 1: its money next to the person's pay. */
-function felt01(exposure: LawExposureRecord): number {
+/**
+ * How much of what happened to someone else reaches the hearer's own view:
+ * all of their own and their household's, and of a friend's story as much as
+ * they care about the one who told it.
+ */
+export function heardShare(world: World, exposure: LawExposureRecord): number {
+  if (exposure.relation !== "friend" || exposure.viaPersonId === null) return 1;
+  const warmth = readRelationshipStanding(
+    world,
+    exposure.personId,
+    exposure.viaPersonId,
+  ).readings.warmth.band;
+  return HEARD_BY_WARMTH[warmth];
+}
+
+/**
+ * How hard the law landed, 0 to 1: its money next to the pay it comes out of.
+ * A partner's paycheck lands in a shared household, so a partner weighs it
+ * against both their pays together (couples pool their income; Pahl, 1989).
+ */
+function felt01(world: World, exposure: LawExposureRecord): number {
   if (exposure.amount === null) return 0;
-  const pay = exposure.monthlyPay?.minorUnits ?? 0;
+  const household =
+    exposure.relation === "family" && exposure.viaPersonId
+      ? (monthlyPay(world, exposure.viaPersonId, exposure.recordedAt)
+          ?.minorUnits ?? 0)
+      : 0;
+  const pay = (exposure.monthlyPay?.minorUnits ?? 0) + household;
   if (pay <= 0) return UNMEASURED_WEIGHT;
   // PLACEHOLDER: a law costing a tenth of a month's pay is felt fully; the
   // square root keeps small amounts noticeable.

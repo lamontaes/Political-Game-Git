@@ -159,7 +159,7 @@ function disclosedJourneyFor(
  * decision they have not taken yet. Same mistake as a lapsed hold wearing a
  * refusal's clothes.
  */
-function recordJourneyArrival(
+export function recordJourneyArrival(
   world: World,
   travel: ScheduledActivityRecord,
   destination: ScheduledActivityRecord,

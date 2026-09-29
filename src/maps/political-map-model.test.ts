@@ -27,12 +27,19 @@ import {
 import {
   districtsHeldBy,
   earliestMapDate,
+  executiveTitleForUsps,
   inspectRegion,
+  placeKindLabel,
   playerGeography,
   projectPoliticalMap,
   resolveMapDate,
   stateFipsForUsps,
+  stateNameForUsps,
 } from "./political-map-model";
+import {
+  nonvotingHouseMemberTitle,
+  STATES,
+} from "../simulation/state-reference";
 
 function openLife(placeKey: string, seed: string) {
   const game = generateOpeningLife(
@@ -389,7 +396,48 @@ describe("political map: player places and ambiguous membership", () => {
       geoid: "11",
       stateUsps: "DC",
     });
-    expect(dc.offices[0]?.status.kind).toBe("no-voting-seat");
+    expect(dc.offices.find((line) => line.key === "governor:DC")?.title).toBe(
+      "Mayor of the District of Columbia",
+    );
+    expect(dc.offices[0]?.status).toEqual({
+      kind: "no-voting-seat",
+      reason: "District of Columbia has no seats in the U.S. Senate.",
+    });
+  });
+
+  it("reads every place's name and Senate seats from the place table, all 56", () => {
+    const places = Object.keys(STATES);
+    expect(places).toHaveLength(56);
+    for (const usps of places) {
+      expect(stateNameForUsps(usps)).toBe(STATES[usps]!.name);
+      const inspection = inspectRegion(columbus.world, columbus.personId, {
+        layer: "state",
+        geoid: stateFipsForUsps(usps) ?? usps,
+        stateUsps: usps,
+      });
+      const senate = inspection.offices.find(
+        (line) => line.status.kind === "no-voting-seat",
+      );
+      // A seat this save has not recorded is named by the place table.
+      const executive = inspection.offices.find(
+        (line) => line.key === `governor:${usps}`,
+      );
+      if (executive) expect(executive.title).toBe(executiveTitleForUsps(usps));
+      expect(placeKindLabel(usps)).toBe(
+        usps === "DC"
+          ? "Federal district"
+          : ["PR", "GU", "VI", "AS", "MP"].includes(usps)
+            ? "Territory"
+            : "State",
+      );
+      if (nonvotingHouseMemberTitle(usps) === null)
+        expect(senate).toBeUndefined();
+      else
+        expect(senate?.status).toEqual({
+          kind: "no-voting-seat",
+          reason: `${STATES[usps]!.name} has no seats in the U.S. Senate.`,
+        });
+    }
   });
 
   it("inspection is read-only", () => {

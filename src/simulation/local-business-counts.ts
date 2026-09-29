@@ -7,7 +7,7 @@ import {
 } from "./local-business-counts.generated";
 import { countyLandSharesForPlace } from "./government-units";
 import { lifePlaceByJurisdictionId } from "./life-places";
-import { placePopulation } from "./nationwide-world/place-population";
+import { placeReferencePopulation } from "./nationwide-world/place-population";
 import type { EntityId } from "./types";
 
 export { LOCAL_BUSINESS_COUNTS_META, LOCAL_BUSINESS_COUNT_KINDS };
@@ -19,7 +19,8 @@ export { LOCAL_BUSINESS_COUNTS_META, LOCAL_BUSINESS_COUNT_KINDS };
  * establishments of that kind, by population: the county's establishments per
  * resident (County Business Patterns 2023, with the Bureau of Economic
  * Analysis's 2024 county population) times the town's own population (the
- * Census Bureau's Vintage 2025 estimate). A town in several counties takes
+ * Census Bureau's Vintage 2025 estimate, or the 2020-2024 American Community
+ * Survey count for a census-designated town that has no estimate). A town in several counties takes
  * each county's rate for the share of its land in that county. A county with
  * no County Business Patterns rows, or whose population the Bureau does not
  * give, takes its state's rate; a place in no state we hold takes the nation's.
@@ -145,7 +146,9 @@ export function localBusinessSupplyFor(
     ? lifePlaceByJurisdictionId(jurisdictionId)
     : null;
   const geoid = place?.sourceGeoid ?? null;
-  const population = geoid ? placePopulation(geoid) : null;
+  const population = geoid
+    ? (placeReferencePopulation(geoid)?.value ?? null)
+    : null;
   if (!geoid || population === null || population <= 0) return null;
   const parts = countyLandSharesForPlace(geoid);
   const stateFips = geoid.slice(0, 2);
