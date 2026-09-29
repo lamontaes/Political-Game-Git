@@ -564,6 +564,23 @@ describe("public budgets", () => {
     ).toBe(3_184_835);
   });
 
+  it("a place with no government whose county area has none either keeps no budget, and says why", () => {
+    // Bethel, Connecticut is a census-designated place in a state with no
+    // county governments; its town government is not linked yet.
+    const store = opened(
+      worldAt("2026-01-05", { places: ["0904790"] }),
+    ).publicBudgets!;
+    expect(store.governments.filter((row) => row.level !== "state")).toEqual(
+      [],
+    );
+    expect(store.unknown).toEqual([
+      expect.objectContaining({
+        key: "place:0904790",
+        reason: expect.stringMatching(/no county government/),
+      }),
+    ]);
+  });
+
   it("the balance above the reserve target is carried into the next budget and spent across the year, once", () => {
     const world = worldAt("2026-01-05");
     const state = publicBudgetFor(opened(world), illinois)!;
