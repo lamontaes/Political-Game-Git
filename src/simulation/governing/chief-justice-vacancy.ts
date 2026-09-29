@@ -201,6 +201,12 @@ function legacyNominee(
   const governors = new Set(
     currentStateExecutiveHolders(world).map((holder) => holder.personId),
   );
+  // Nor is a sitting member of Congress: no member may hold another federal
+  // office while serving (U.S. Const. art. I, sec. 6, cl. 2), and the game
+  // has no route for them to give up the seat. They can still be known to
+  // the President; they are only not eligible.
+  const colleagues = federalColleaguesOf(world);
+  const barred = new Set(colleagues);
   const pool = Object.values(world.people)
     .filter(
       (person) =>
@@ -208,6 +214,7 @@ function legacyNominee(
         person.id !== controlled &&
         person.id !== vice &&
         !governors.has(person.id) &&
+        !barred.has(person.id) &&
         !isDead(world, person.id) &&
         ageOn(person.birthDate, world.currentDate) >= ADULT_AGE,
     )
@@ -219,7 +226,7 @@ function legacyNominee(
     stableKey: due.stableKey,
     appointerPersonId: presidentId,
     post: CHIEF_JUSTICE_POST,
-    circle: appointmentCircle(world, presidentId, federalColleaguesOf(world)),
+    circle: appointmentCircle(world, presidentId, colleagues),
     eligible: (personId) => eligible.has(personId),
   });
   if (!choice)
