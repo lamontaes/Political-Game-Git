@@ -1,0 +1,20 @@
+{
+  "filedAt": "2026-09-29T01:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "public budgets",
+  "priority": "P2",
+  "question": "For each state, D.C. and the territories where reported, fiscal 2023 and 2024: (1) the total actuarial accrued liability and actuarial assets of the state-administered plans and the funded ratio; (2) the actuarially determined employer contribution and the share actually paid; (3) the assumed rate of return, and the amortization period used. Where available, the same for the largest county and city plans. Sources could include Pew's state pension funding reports, Equable Institute, NASRA's Public Fund Survey and each plan's annual comprehensive financial report.",
+  "questionId": "public-pension-funding-by-state",
+  "relatedQuestionIds": [],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "filed by Build 12 \u00b7 Public Budgets",
+  "sourcesChecked": [
+    {
+      "source": "data/research/money/government-budgets-2026.json",
+      "whatItDidNotSettle": "NASBO's tables carry general fund and rainy-day balances, not pensions."
+    }
+  ],
+  "title": "Each state's public pension funding: liability, assets and the share of the required contribution paid",
+  "usableAnswer": "One row per state with liability, assets, funded ratio, required contribution, share paid, assumed return and amortization years, each cited.",
+  "whyItMatters": "Every government's pension record opens from PLACEHOLDER values (liability 1.2 times a year's spending, 75% funded, 7% return, a 30-year amortization) (src/simulation/public-budgets/rules.ts, PENSION). A government with no law requiring full funding pays its own share of the actuarial contribution, ESTIMATED FROM AVERAGE: drawn from the Public Plans Database's measured spread of shares paid, fiscal 2022 to 2024, and drifting by its measured yearly changes (src/simulation/public-budgets/pension-share.ts). Each state's own measured share would replace the draw."
+}

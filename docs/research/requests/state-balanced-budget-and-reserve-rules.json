@@ -1,0 +1,20 @@
+{
+  "filedAt": "2026-09-29T01:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "public budgets",
+  "priority": "P1",
+  "question": "For each state: (1) the balanced-budget requirement by stage (governor must propose, legislature must pass, governor must sign, no deficit may carry over), checked between the 92N packet (data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json, balanced_budget_requirements) and NASBO's Budget Processes in the States, Table 9; (2) the rainy-day fund's legal floor or cap as a share of spending, the deposit rule and the withdrawal rule (NASBO Budget Processes, NCSL, Pew's rainy-day research); (3) what a state must do mid-year when revenue falls short (across-the-board cut authority, the order of cuts). Where the two sources disagree, say which is right and why.",
+  "questionId": "state-balanced-budget-and-reserve-rules",
+  "relatedQuestionIds": [],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "filed by Build 12 \u00b7 Public Budgets",
+  "sourcesChecked": [
+    {
+      "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json",
+      "whatItDidNotSettle": "Secondary research; not yet checked against NASBO, and it carries no reserve floor as a share."
+    }
+  ],
+  "title": "Each state's balanced-budget and reserve rules, checked against NASBO",
+  "usableAnswer": "One row per state with each balanced-budget stage as yes or no, the reserve floor and cap, the deposit and withdrawal rules, and the mid-year authority, each cited.",
+  "whyItMatters": "The game's minimum-reserve law uses a PLACEHOLDER floor of 5% of spending with a 1% yearly deposit, and its balanced-budget law cuts across the board, at most 3% first, before drawing the reserve (src/simulation/public-budgets/rules.ts, RESERVE and FIRST_CUT_SHARE). The states' starting answers go to the starting-law file only after this check."
+}

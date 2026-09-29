@@ -10,6 +10,10 @@ import {
   packOutfit,
 } from "../presentation/appearance-engine/pack";
 import { fabricRamp } from "../presentation/appearance-engine/fabric";
+import {
+  CHOSEN_ACCESSORY_KINDS,
+  accessoryKindOf,
+} from "../presentation/appearance-engine/face-extras";
 import { PEOPLE_PACK } from "../presentation/appearance-engine/runtime";
 import { SKIN_RAMPS } from "../presentation/appearance-engine/skin";
 import "./creator-appearance.css";
@@ -37,6 +41,27 @@ const PART_LABEL: Record<string, string> = {
   scarf: "Scarf color",
   scrubs: "Scrubs color",
 };
+const FACIAL_HAIR_LABEL: Record<string, string> = {
+  none: "None",
+  stubble: "Stubble",
+  mustache: "Mustache",
+  goatee: "Goatee",
+  "short-beard": "Short beard",
+  "full-beard": "Full beard",
+};
+const ACCESSORY_LABEL: Record<string, string> = {
+  earrings: "Earrings",
+  necklace: "Necklace",
+  watch: "Watch",
+  ring: "Ring",
+};
+/** "earrings-pearl" is "Pearl"; a kind painted in one variant is just "On". */
+const accessoryVariantLabel = (id: string, kind: string) =>
+  colorLabel(id.slice(kind.length + 1) || "on");
+const glassesLabel = (recipe: EngineRecipe) =>
+  recipe.glasses
+    ? `${colorLabel(recipe.glasses)}${recipe.glassesWear === "reading" ? ", for reading" : ""}`
+    : "None";
 const colorLabel = (id: string) =>
   id.replace("-", " ").replace(/^./, (first) => first.toUpperCase());
 
@@ -44,6 +69,18 @@ const colorLabel = (id: string) =>
 const wearable = <T extends { readonly tags: readonly string[] }>(
   outfits: readonly T[],
 ): readonly T[] => outfits.filter((outfit) => !outfit.tags.includes("uniform"));
+
+/** The recipe without these fields: a choice of none leaves them unset. */
+function without(
+  recipe: EngineRecipe,
+  keys: readonly (keyof EngineRecipe)[],
+): EngineRecipe {
+  return Object.fromEntries(
+    Object.entries(recipe).filter(
+      ([key]) => !keys.includes(key as keyof EngineRecipe),
+    ),
+  ) as unknown as EngineRecipe;
+}
 
 function step<T>(items: readonly T[], current: T, by: number): T {
   const index = Math.max(0, items.indexOf(current));
@@ -86,7 +123,7 @@ export function EngineAppearanceControls({
         const presentation = step(PRESENTATIONS, recipe.presentation, by);
         const next = PEOPLE_PACK.presentations[presentation];
         return {
-          ...recipe,
+          ...without(recipe, ["accessories"]),
           presentation,
           face: next.faces[0]!.id,
           hair: next.hair[0]!.id,
@@ -156,6 +193,82 @@ export function EngineAppearanceControls({
         ),
       }),
     },
+    ...(recipe.presentation === "masculine" &&
+    (pack.facialHair?.length ?? 0) > 0
+      ? [
+          {
+            id: "facial-hair",
+            label: "Facial hair",
+            value: FACIAL_HAIR_LABEL[recipe.facialHair ?? "none"] ?? "None",
+            move: (by: number) => {
+              const next = step(
+                ["none", ...pack.facialHair!.map((style) => style.id)],
+                recipe.facialHair ?? "none",
+                by,
+              );
+              const rest = without(recipe, ["facialHair"]);
+              return next === "none" ? rest : { ...rest, facialHair: next };
+            },
+          },
+        ]
+      : []),
+    ...((pack.glasses?.length ?? 0) > 0
+      ? [
+          {
+            id: "glasses",
+            label: "Glasses",
+            value: glassesLabel(recipe),
+            move: (by: number) => {
+              // None, then each frame worn all day, then each only to read.
+              const options = [
+                "none",
+                ...pack.glasses!.map((frame) => `${frame.id}|always`),
+                ...pack.glasses!.map((frame) => `${frame.id}|reading`),
+              ];
+              const current = recipe.glasses
+                ? `${recipe.glasses}|${recipe.glassesWear ?? "always"}`
+                : "none";
+              const next = step(options, current, by);
+              const rest = without(recipe, ["glasses", "glassesWear"]);
+              if (next === "none") return rest;
+              const [frame, wear] = next.split("|");
+              return {
+                ...rest,
+                glasses: frame!,
+                ...(wear === "reading"
+                  ? { glassesWear: "reading" as const }
+                  : {}),
+              };
+            },
+          },
+        ]
+      : []),
+    ...CHOSEN_ACCESSORY_KINDS.flatMap((kind) => {
+      const variants = (pack.accessories ?? [])
+        .filter((entry) => entry.kind === kind)
+        .map((entry) => entry.id);
+      if (variants.length === 0) return [];
+      const worn = (recipe.accessories ?? []).find(
+        (id) => accessoryKindOf(id) === kind,
+      );
+      return [
+        {
+          id: `accessory-${kind}`,
+          label: ACCESSORY_LABEL[kind] ?? colorLabel(kind),
+          value: worn ? accessoryVariantLabel(worn, kind) : "None",
+          move: (by: number) => {
+            const next = step(["none", ...variants], worn ?? "none", by);
+            const rest = (recipe.accessories ?? []).filter(
+              (id) => accessoryKindOf(id) !== kind,
+            );
+            const accessories = next === "none" ? rest : [...rest, next];
+            return accessories.length > 0
+              ? { ...recipe, accessories }
+              : without(recipe, ["accessories"]);
+          },
+        },
+      ];
+    }),
     {
       id: "outfit",
       label: "Outfit",
