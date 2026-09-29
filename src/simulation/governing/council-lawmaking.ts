@@ -1,0 +1,276 @@
+import { addDays } from "../dates";
+import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
+import { measurePosition } from "../legislation";
+import { personName } from "../people";
+import { SeededRng } from "../rng";
+import type {
+  EntityId,
+  IsoDate,
+  LegislativeMeasureRecord,
+  LegislativeVoteDisposition,
+  PolicyPropositionDefinition,
+  World,
+} from "../types";
+import { decideChamberVote, publicPartyOf } from "./chamber-votes";
+import { outranks } from "../law-hierarchy";
+import { lawInForce, ownLawLevel } from "./law-in-force";
+import {
+  ensureOfficeholderPrinciples,
+  principledLeaning,
+} from "./officeholder-principles";
+
+/**
+ * COUNCIL LAWMAKING (Build 25, CTO ruling of September 29, 12:24 a.m.).
+ *
+ * A town council and the Council of the District of Columbia make local law
+ * the way a legislature makes state law. Before this, a randomly drawn member
+ * filed an ordinance on a random question, a coin flip picked its answer, and
+ * each member's ballot was a hash (two in three yes in a town, one in two in
+ * the District). Now:
+ *
+ * 1. Who files, and what. A member files an ordinance on the question their
+ *    own principles press hardest (`officeholder-principles.ts`), where the
+ *    town's law in force does not already say what they want and no
+ *    ordinance on it is moving: to enact what they support, or to repeal a
+ *    law in force they oppose. This is the state member agenda's rule
+ *    (`member-agenda.ts`), read against the town's own law.
+ * 2. How members vote. Every member answers through the legislatures' vote
+ *    engine (`decideChamberVote`): their principles, what they said on the
+ *    record, a cue from whoever carries the ordinance, and, for a council,
+ *    the voters of the town (`constituentsConsideration`).
+ *
+ * The player is never decided for: a player who sits on the council files
+ * nothing through this and is recorded absent on a vote they did not cast.
+ */
+
+export const COUNCIL_LAWMAKING_VERSION = "council-lawmaking/v1";
+
+/**
+ * GAME ASSUMPTION, shared with the state member agenda (`member-agenda.ts`):
+ * the least summed principle weight that moves a member to file.
+ */
+const FILING_THRESHOLD = 3;
+
+/**
+ * GAME ASSUMPTION (Build 25), hand-set until the research on how often a
+ * council takes a question back up is read: a member does not refile a
+ * question the same body voted down in the past year.
+ */
+const REFILE_AFTER_DAYS = 365;
+
+export const COUNCIL_VOTE_NOTE = `${COUNCIL_LAWMAKING_VERSION}: each member decided their own ballot from their principles, their record, the ordinance's sponsor and the town's voters.`;
+
+export interface CouncilMember {
+  readonly personId: EntityId;
+}
+
+export interface CouncilFiling {
+  readonly sponsorPersonId: EntityId;
+  readonly proposition: PolicyPropositionDefinition;
+  readonly answer: "yes" | "no";
+  /** The member's summed principle weight on the question: why they filed. */
+  readonly leaning: number;
+}
+
+/** Whether an ordinance on this question is still moving before the body. */
+function moving(
+  world: World,
+  measures: readonly LegislativeMeasureRecord[],
+  propositionId: EntityId,
+): boolean {
+  return measures.some(
+    (measure) =>
+      (measure.propositionIds ?? []).includes(propositionId) &&
+      !measurePosition(world, measure.id).terminal,
+  );
+}
+
+/**
+ * Whether the body enacted an ordinance on this question that has not taken
+ * effect yet: a member does not refile what is only waiting for its day.
+ */
+function awaitingEffect(
+  world: World,
+  measures: readonly LegislativeMeasureRecord[],
+  propositionId: EntityId,
+): boolean {
+  const ids = new Set(
+    measures
+      .filter((measure) =>
+        (measure.propositionIds ?? []).includes(propositionId),
+      )
+      .map((measure) => measure.id),
+  );
+  return (world.history.legislativeEnactments ?? []).some(
+    (enactment) =>
+      ids.has(enactment.measureId) &&
+      // The same operative date the law in force reads (`law-in-force.ts`).
+      (enactment.effectiveAt ??
+        addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS)) >
+        world.currentDate,
+  );
+}
+
+/** Whether the body voted an ordinance on this question down since `since`. */
+function recentlyDefeated(
+  world: World,
+  measures: readonly LegislativeMeasureRecord[],
+  propositionId: EntityId,
+  since: IsoDate,
+): boolean {
+  return measures.some(
+    (measure) =>
+      (measure.propositionIds ?? []).includes(propositionId) &&
+      measurePosition(world, measure.id).phase === "failed" &&
+      (world.history.legislativeVotes ?? []).some(
+        (vote) =>
+          vote.measureId === measure.id &&
+          vote.outcome !== "passed" &&
+          vote.takenAt >= since,
+      ),
+  );
+}
+
+/**
+ * The ordinances members file at one meeting: at most one each, on the
+ * question their principles press hardest, where the town's law does not
+ * already say what they want. Members are taken in a seeded order only so
+ * that two members pressing the same question do not both file it; the order
+ * decides who carries it, not whether it is filed. Empty when no member leans
+ * hard enough on anything open.
+ *
+ * Call `ensureOfficeholderPrinciples` for the members first.
+ */
+export function councilFilings(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly jurisdictionId: EntityId;
+    readonly members: readonly CouncilMember[];
+    readonly questions: readonly PolicyPropositionDefinition[];
+    /** Every ordinance this body has had before it. */
+    readonly measures: readonly LegislativeMeasureRecord[];
+    readonly playerPersonId: EntityId | null;
+  },
+): readonly CouncilFiling[] {
+  const rng = new SeededRng(world.seed).fork(input.stableKey);
+  const order = input.members.filter(
+    (member) => member.personId !== input.playerPersonId,
+  );
+  for (let i = order.length - 1; i > 0; i -= 1) {
+    const j = rng.fork(`order:${i}`).integer(0, i + 1);
+    [order[i], order[j]] = [order[j]!, order[i]!];
+  }
+  const since = addDays(world.currentDate, -REFILE_AFTER_DAYS);
+  const own = ownLawLevel(input.jurisdictionId);
+  const laws = new Map<EntityId, ReturnType<typeof lawInForce>>();
+  const closed = new Set<EntityId>();
+  for (const proposition of input.questions)
+    if (
+      moving(world, input.measures, proposition.id) ||
+      recentlyDefeated(world, input.measures, proposition.id, since) ||
+      awaitingEffect(world, input.measures, proposition.id)
+    )
+      closed.add(proposition.id);
+  const filings: CouncilFiling[] = [];
+  for (const member of order) {
+    let best: CouncilFiling | null = null;
+    for (const proposition of input.questions) {
+      if (closed.has(proposition.id)) continue;
+      const leaning = principledLeaning(
+        world,
+        member.personId,
+        proposition.id,
+      ).score;
+      if (Math.abs(leaning) < FILING_THRESHOLD) continue;
+      if (!laws.has(proposition.id))
+        laws.set(
+          proposition.id,
+          lawInForce(world, input.jurisdictionId, proposition.id),
+        );
+      const law = laws.get(proposition.id) ?? null;
+      // Support files to enact unless the law already says yes; opposition
+      // files only a repeal of a law that says yes.
+      const answer: "yes" | "no" | null =
+        leaning > 0
+          ? law?.answer === "yes"
+            ? null
+            : "yes"
+          : law?.answer === "yes"
+            ? "no"
+            : null;
+      // A higher law this body cannot override is no reason to file: the
+      // ordinance would be on the record and govern nothing. A state "no"
+      // that leaves its localities free is not such a law.
+      if (answer && law && outranks(law.level, own) && law.preempts !== false)
+        continue;
+      if (!answer) continue;
+      if (!best || Math.abs(leaning) > Math.abs(best.leaning))
+        best = {
+          sponsorPersonId: member.personId,
+          proposition,
+          answer,
+          leaning,
+        };
+    }
+    if (!best) continue;
+    closed.add(best.proposition.id);
+    filings.push(best);
+  }
+  return filings;
+}
+
+/** Ensures every member holds principles before anything is filed or voted. */
+export function ensureCouncilPrinciples(
+  world: World,
+  members: readonly CouncilMember[],
+): World {
+  return ensureOfficeholderPrinciples(
+    world,
+    members.map((member) => member.personId),
+  );
+}
+
+/**
+ * Every seated member's ballot on one council question, through the
+ * legislatures' vote engine with the town's voters as the members'
+ * constituents.
+ */
+export function decideCouncilVote(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly measureId: EntityId;
+    readonly jurisdictionId: EntityId;
+    readonly members: readonly CouncilMember[];
+    readonly playerPersonId: EntityId | null;
+    readonly questionLabel: string;
+    /** The mayor, whose known position every member hears. */
+    readonly executivePersonId: EntityId | null;
+  },
+): readonly LegislativeVoteDisposition[] {
+  return decideChamberVote(world, {
+    stableKey: input.stableKey,
+    question: {
+      question: {
+        measureId: input.measureId,
+        purpose: "floor-stage",
+        forumKey: "council",
+        floorStageKey: null,
+        amendmentStableKey: null,
+        provisionKey: null,
+      },
+      questionLabel: input.questionLabel,
+    },
+    members: input.members.map((member, index) => ({
+      memberKey: `council:${index + 1}`,
+      name: personName(world.people[member.personId]!),
+      personId: member.personId,
+      caucusLabel: publicPartyOf(world, member.personId) ?? "No party",
+    })),
+    playerPersonId: input.playerPersonId,
+    playerBallot: null,
+    constituencyId: input.jurisdictionId,
+    executivePersonId: input.executivePersonId,
+  });
+}
