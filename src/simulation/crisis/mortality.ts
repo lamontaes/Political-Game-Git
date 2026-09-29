@@ -35,10 +35,17 @@ import {
   fatalIllnessOnsetStableKey,
   hazardDeathCause,
 } from "./death-causes";
+import {
+  coverageHazardIntervals,
+  ensureHealthCoveragePass,
+  HEALTH_COVERAGE_KEY,
+  type HazardInterval,
+} from "./health-coverage";
 import { closeHealthEpisodesForDeath } from "./health-queries";
 import { appendCrisisRecord, crisisRecordId, crisisRecords } from "./records";
 import {
   CRISIS_MORTALITY_MODEL,
+  type HealthCoverageRecord,
   type HealthEpisodeRecord,
   type MortalityWindowRecord,
 } from "./types";
@@ -116,6 +123,7 @@ function mortalityContext(world: World): MortalityContext {
   const starts = new Map<EntityId, IsoDate>();
   const calibrations = new Map<EntityId, MortalityCalibrationCategory>();
   const episodesByPerson = new Map<EntityId, HealthEpisodeRecord[]>();
+  const coverageByPerson = new Map<EntityId, HealthCoverageRecord[]>();
   const endByEpisode = new Map<EntityId, IsoDate>();
   for (const record of records) {
     switch (record.kind) {
@@ -133,6 +141,12 @@ function mortalityContext(world: World): MortalityContext {
           episodesByPerson.set(record.personId, list);
         }
         break;
+      case "health-coverage": {
+        const list = coverageByPerson.get(record.personId) ?? [];
+        list.push(record);
+        coverageByPerson.set(record.personId, list);
+        break;
+      }
       case "health-state":
         if (
           (record.state === "recovered" || record.state === "deceased") &&
@@ -144,27 +158,41 @@ function mortalityContext(world: World): MortalityContext {
         break;
     }
   }
-  const multipliers = new Map<EntityId, readonly HazardMultiplierChange[]>();
+  const intervalsByPerson = new Map<EntityId, HazardInterval[]>();
   for (const [personId, episodes] of episodesByPerson)
-    multipliers.set(personId, multiplierTimeline(episodes, endByEpisode));
+    intervalsByPerson.set(
+      personId,
+      episodes.map((episode) => ({
+        start: episode.effectiveAt,
+        end: endByEpisode.get(episode.id) ?? null,
+        micros: episode.hazardMultiplierMicros,
+      })),
+    );
+  for (const [personId, coverage] of coverageByPerson) {
+    const person = world.people[personId];
+    if (!person) continue;
+    const spans = coverageHazardIntervals(person.birthDate, coverage);
+    if (spans.length === 0) continue;
+    intervalsByPerson.set(personId, [
+      ...(intervalsByPerson.get(personId) ?? []),
+      ...spans,
+    ]);
+  }
+  const multipliers = new Map<EntityId, readonly HazardMultiplierChange[]>();
+  for (const [personId, intervals] of intervalsByPerson)
+    multipliers.set(personId, multiplierTimeline(intervals));
   const context = { starts, calibrations, multipliers };
   CONTEXTS.set(records, context);
   return context;
 }
 
 /**
- * Several active episodes multiply; an ended episode stops contributing on
- * the day it ends.
+ * Several active episodes (and coverage) multiply; an ended one stops
+ * contributing on the day it ends.
  */
 function multiplierTimeline(
-  episodes: readonly HealthEpisodeRecord[],
-  endByEpisode: ReadonlyMap<EntityId, IsoDate>,
+  intervals: readonly HazardInterval[],
 ): readonly HazardMultiplierChange[] {
-  const intervals = episodes.map((episode) => ({
-    start: episode.effectiveAt,
-    end: endByEpisode.get(episode.id) ?? null,
-    micros: BigInt(episode.hazardMultiplierMicros),
-  }));
   const dates = [
     ...new Set(
       intervals.flatMap((interval) =>
@@ -179,7 +207,7 @@ function multiplierTimeline(
         interval.start <= date &&
         (interval.end === null || date < interval.end)
       )
-        micros = (micros * interval.micros) / BigInt(MULTIPLIER_ONE);
+        micros = (micros * BigInt(interval.micros)) / BigInt(MULTIPLIER_ONE);
     return { effectiveAt: date, micros: Number(micros) };
   });
 }
@@ -389,6 +417,8 @@ export const mortalityWindowHandler: FutureTransitionHandler = (
     dueItemId: item.id,
   });
   const windowId = crisisRecordId(next, windowStableKey(start));
+  // Monthly coverage passes re-plan a death when coverage changes the hazard.
+  next = ensureHealthCoveragePass(next, windowId);
   // One look past the window, far enough to see a death whose illness should
   // begin inside it. The first crossing in the longer span is the same day as
   // the first crossing in the window whenever it falls inside the window.
@@ -510,8 +540,10 @@ export function nextMortalityFrontier(
     from,
     throughInclusive,
   )) {
+    // A coverage pass can move a death day, like a window.
     const relevant =
       item.transitionKey === MORTALITY_WINDOW_KEY ||
+      item.transitionKey === HEALTH_COVERAGE_KEY ||
       (item.transitionKey === MORTALITY_DEATH_KEY &&
         item.entityIds.includes(personId));
     if (relevant && (next === null || item.dueAt < next)) next = item.dueAt;

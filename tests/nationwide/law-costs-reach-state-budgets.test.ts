@@ -189,27 +189,29 @@ describe("a law the state has to enforce costs its budget", () => {
       const government = publicBudgetFor(world, STATE)!;
       const perResident = flipped === "yes" ? effect.toYes! : effect.toNo!;
       const monthly = (perResident * government.population) / 12;
-      // The line the law's cost lands on: enforcement staff on
-      // administration, a juvenile court age on corrections.
-      const line = BUDGET_PROGRAMS.indexOf(effect.program);
+      // The law's cost lands on the program its effect names.
+      const PROGRAM = BUDGET_PROGRAMS.indexOf(effect.program);
       const cost = (date: IsoDate) =>
-        lawSpendingForMonth(world, government, date)[line]!;
+        lawSpendingForMonth(world, government, date)[PROGRAM]!;
 
       // Nothing the day before it takes effect; the whole cost from the
-      // first month it is in force, on the law's own budget line.
+      // first month it is in force, on the budget's line for the program it names.
       expect(cost(addDays(passed.operativeAt, -1))).toBe(0);
       const firstMonth = firstOfNextMonth(passed.operativeAt);
       expect(cost(firstMonth)).toBeCloseTo(monthly, 6);
       const row = (government: PublicBudgetGovernment, on: IsoDate) =>
         government.months.find((entry) => entry.month === on)!;
-      // A law that ends a cost takes it off the line, never below zero.
-      const before = row(without, firstMonth).spending[line]!;
-      const moved = Math.max(0, before + Math.round(monthly)) - before;
-      expect(row(withLaw, firstMonth).spending[line]! - before).toBe(moved);
+      // A cost that ends a cost the state began with takes it off, never
+      // below zero, so a program the budget holds no money for cannot fall.
+      const held = row(without, firstMonth).spending[PROGRAM]!;
+      expect(row(withLaw, firstMonth).spending[PROGRAM]!).toBe(
+        Math.max(0, held + Math.round(monthly)),
+      );
       // The money leaves the state's balance, or stays in it after a repeal.
       const balanceMoved =
         row(withLaw, firstMonth).balance - row(without, firstMonth).balance;
-      expect(Math.sign(balanceMoved) + Math.sign(moved)).toBe(0);
+      const spent = row(withLaw, firstMonth).spending[PROGRAM]! - held;
+      expect(Math.sign(balanceMoved) + 0).toBe(-Math.sign(spent) + 0);
 
       // Once the repeal takes effect the cost is gone.
       expect(cost(firstOfNextMonth(repealed.operativeAt))).toBe(0);
