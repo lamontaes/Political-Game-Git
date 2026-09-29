@@ -23,6 +23,7 @@ import {
   activeTownJobs,
 } from "../living-world/town-labor-market";
 import type { TownJob } from "../living-world/town-labor-market";
+import { CRUNCH46_PROVISIONAL_POLICY } from "../macro-economy/policy";
 import { nominalEconomyIndex } from "./fiscal";
 import { servingCounty } from "./opening";
 import { BUDGET_PROGRAMS, PUBLIC_BUDGETS_VERSION } from "./store";
@@ -111,21 +112,45 @@ export function fundingGovernment(
 
 /**
  * A program's funding in the government's current year, after any mid-year
- * cut, divided by the economy index of the day the year was adopted.
+ * cut, divided by the economy index the year was adopted in. The year the
+ * world opened in was adopted before the game began, so its index is the one
+ * on the day the town was first staffed from it (kept in `baseline`), or
+ * today's.
  */
 export function realProgramFunding(
   world: World,
   government: PublicBudgetGovernment,
   program: BudgetProgram,
-): number | null {
+  baseline: StaffingBaseline | null = null,
+): { readonly funding: number; readonly economyIndex: number } | null {
   const year = government.years.at(-1);
   if (!year) return null;
   const planned = year.appropriations[BUDGET_PROGRAMS.indexOf(program)] ?? 0;
   const state = stateJurisdictionForKey(government.stateKey);
-  const index = state
-    ? (nominalEconomyIndex(world, state.id, year.startsOn) ?? 1)
-    : 1;
-  return (planned * (1 - government.cut)) / index;
+  const economyIndex =
+    year.economyAtAdoption ??
+    (baseline?.yearStartsOn === year.startsOn
+      ? baseline.economyIndex
+      : state
+        ? (nominalEconomyIndex(world, state.id, world.currentDate) ??
+          openingEconomyIndex(world))
+        : null);
+  if (!economyIndex) return null;
+  return {
+    funding: (planned * (1 - government.cut)) / economyIndex,
+    economyIndex,
+  };
+}
+
+/**
+ * Before the economy's first monthly record it stands at its month-zero
+ * state (`macro-economy/producer.ts`, `startState`): the baseline output
+ * index at a price index of 100.
+ */
+function openingEconomyIndex(world: World): number | null {
+  return world.macroEconomy
+    ? CRUNCH46_PROVISIONAL_POLICY.baseline.realOutputIndex * 100
+    : null;
 }
 
 function latestRoleTitles(world: World): ReadonlyMap<EntityId, string> {
@@ -185,22 +210,28 @@ function staffProgram(
   const store = world.publicBudgets;
   const government = fundingGovernment(world, town, staffed.funder);
   if (!store || !government) return world;
-  const funding = realProgramFunding(world, government, staffed.program);
-  if (funding === null || funding <= 0) return world;
+  const baseline =
+    (store.staffing ?? []).find(
+      (row) =>
+        row.town === town &&
+        row.program === staffed.program &&
+        row.governmentKey === government.key,
+    ) ?? null;
+  const real = realProgramFunding(world, government, staffed.program, baseline);
+  if (!real || real.funding <= 0) return world;
+  const funding = real.funding;
   const staff = fundedStaff(world, town, staffed);
-  const baseline = (store.staffing ?? []).find(
-    (row) =>
-      row.town === town &&
-      row.program === staffed.program &&
-      row.governmentKey === government.key,
-  );
   if (!baseline) {
     const row: StaffingBaseline = {
       town,
       program: staffed.program,
       governmentKey: government.key,
+      workplace: staffed.workplace,
+      role: staffed.role,
       headcount: staff.length,
       realFunding: funding,
+      yearStartsOn: government.years.at(-1)!.startsOn,
+      economyIndex: real.economyIndex,
       since: world.currentDate,
     };
     return {

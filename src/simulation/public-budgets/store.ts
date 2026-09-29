@@ -228,10 +228,19 @@ export interface StaffingBaseline {
   readonly program: BudgetProgram;
   /** The budget that funds it. */
   readonly governmentKey: string;
+  /**
+   * The town workplace and role the budget staffs. From this day on the
+   * budget alone fills that role; the town's job market no longer draws it.
+   */
+  readonly workplace: string;
+  readonly role: string;
   /** The staff holding the funded role on the first day. */
   readonly headcount: number;
   /** That program's funding then, after cuts, in the economy of its year. */
   readonly realFunding: number;
+  /** The budget year it was read from, and the economy index it used. */
+  readonly yearStartsOn: IsoDate;
+  readonly economyIndex: number;
   readonly since: IsoDate;
 }
 

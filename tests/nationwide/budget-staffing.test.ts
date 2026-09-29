@@ -16,6 +16,7 @@ import { TOWN_JOB_END_REASONS } from "../../src/simulation/living-world/town-lab
 import { hasLifePathCredential } from "../../src/simulation/life-paths2";
 import { createEducationEnrollment } from "../../src/simulation/life";
 import {
+  fillTownJobs,
   laborStatus,
   townResidents,
 } from "../../src/simulation/living-world/town-employment";
@@ -69,6 +70,33 @@ describe("budgets fund the town's police officers", () => {
     const officers = fundedStaff(first, town, police);
     expect(baseline.headcount).toBe(officers.length);
     expect(officers.length).toBeGreaterThanOrEqual(2);
+
+    // A new budget year that only keeps up with prices funds the same staff.
+    const government = fundingGovernment(first, town, "serving-local")!;
+    const year = government.years.at(-1)!;
+    const nextYear = {
+      ...year,
+      startsOn: "2026-07-01" as typeof year.startsOn,
+      appropriations: year.appropriations.map((value) => value * 1.05),
+      economyAtAdoption: baseline.economyIndex * 1.05,
+    };
+    const kept05 = staffPublicJobs(
+      {
+        ...first,
+        publicBudgets: {
+          ...first.publicBudgets!,
+          governments: first.publicBudgets!.governments.map((row) =>
+            row.key === government.key
+              ? { ...row, years: [...row.years, nextYear] }
+              : row,
+          ),
+        },
+      },
+      town,
+      personId,
+      "t1b",
+    );
+    expect(fundedStaff(kept05, town, police).length).toBe(officers.length);
 
     // Half the police line is cut: half the officers go, newest first.
     const cut = staffPublicJobs(
@@ -196,6 +224,30 @@ describe("the state's school line funds the town's teachers", () => {
     expect(closed.hired.length).toBeGreaterThan(0);
     expect(closed.hired.some((job) => job.personId === seeker.personId)).toBe(
       false,
+    );
+  });
+});
+
+describe("a role the budget staffs leaves the town's job mix", () => {
+  it("hires no police officer or teacher from the town's own mix once the budget staffs them", () => {
+    const { world, personId, town } = openAt(COLUMBUS, "budget-staffing-3");
+    const staffed = staffPublicJobs(world, town, personId, "t1");
+    const seekers = townResidents(staffed, town).filter(
+      (resident) =>
+        resident.personId !== personId &&
+        laborStatus(staffed, resident) === "looking-for-work",
+    );
+    expect(seekers.length).toBeGreaterThan(0);
+    const before = STAFFED_PROGRAMS.map(
+      (row) => fundedStaff(staffed, town, row).length,
+    );
+    // Every job seeker is hired by the town's mix at once.
+    const filled = fillTownJobs(staffed, town, seekers, { round: "mix-1" });
+    expect(
+      STAFFED_PROGRAMS.map((row) => fundedStaff(filled, town, row).length),
+    ).toEqual(before);
+    expect(filled.history.workRelationships.length).toBeGreaterThan(
+      staffed.history.workRelationships.length,
     );
   });
 });

@@ -1337,9 +1337,17 @@ export function fillTownJobs(
     pool.splice(pool.indexOf(pick), 1);
     return pick;
   };
+  // A role a budget staffs (police officers, teachers) is filled by the
+  // budget alone (`public-budgets/staffing.ts`), never by the town's mix.
+  const budgetStaffed = new Set(
+    (world.publicBudgets?.staffing ?? [])
+      .filter((row) => row.town === town)
+      .map((row) => `${row.workplace}|${row.role}`),
+  );
   const held = heldTownRoles(next, prefix);
   for (const [key, title] of CIVIC_MINIMUM) {
     if (key === "county-clerk" && !countyName) continue;
+    if (budgetStaffed.has(`${key}|${title}`)) continue;
     const workplace = WORKPLACE.get(key)!;
     const chosen = workplace.roles.find((entry) => entry.title === title)!;
     const organizationIds = existingOf(workplace);
@@ -1376,11 +1384,17 @@ export function fillTownJobs(
       const key = pickWeighted(draw.fork("workplace"), weights);
       const workplace = key ? WORKPLACE.get(key) : undefined;
       if (!workplace) break;
+      const fits = workplace.roles.filter(
+        (entry) => resident.age >= (entry.minAge ?? WORKING_AGE_MIN),
+      );
+      const offered = fits.filter(
+        (entry) => !budgetStaffed.has(`${workplace.key}|${entry.title}`),
+      );
+      // Every role the resident fits here is budget-staffed: draw again.
+      if (fits.length > 0 && offered.length === 0) continue;
       const chosen = pickWeighted(
         draw.fork("role"),
-        workplace.roles
-          .filter((entry) => resident.age >= (entry.minAge ?? WORKING_AGE_MIN))
-          .map((entry) => [entry, entry.weight] as const),
+        offered.map((entry) => [entry, entry.weight] as const),
       );
       if (!chosen || hire(resident, workplace, chosen)) break;
     }
