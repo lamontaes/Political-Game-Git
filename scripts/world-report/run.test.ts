@@ -165,6 +165,25 @@ describe("the world report", () => {
       for (const line of markdown.split("\n"))
         if (/^- [A-Z][a-z]+ \d{1,2}: /.test(line))
           expect(line).toMatch(/<!-- \S+/);
+      // The report ends with the place's vital statistics, start and end,
+      // each read from the world; nothing unrecorded reads as zero.
+      const vitals = markdown.slice(markdown.indexOf("## Vital statistics"));
+      expect(markdown.indexOf("## Vital statistics")).toBeGreaterThan(
+        markdown.indexOf("## How this was made"),
+      );
+      expect(run.vitalsAtStart?.date).toBe("2026-01-05");
+      const people = vitals.match(
+        /^\| People living in the place \| the place \| ([\d,]+) \(([\d,]+) written out\) \| ([\d,]+) \(([\d,]+) written out\) \|$/m,
+      );
+      expect(people).not.toBeNull();
+      // Columbus's Census count, not only the people written out so far.
+      expect(Number(people![1]!.replace(/,/g, ""))).toBeGreaterThan(100_000);
+      expect(Number(people![2]!.replace(/,/g, ""))).toBeGreaterThan(0);
+      expect(vitals).toMatch(
+        /^\| Median household income \| the place \| not recorded: /m,
+      );
+      expect(vitals).toMatch(/^\| Governor's party \| the state \| .+\(/m);
+      expect(vitals).toMatch(/^\| Births, first year and last year \|/m);
       // The same seed tells the same story.
       expect(worldReportMarkdown(runWorldReport(options))).toBe(markdown);
     },

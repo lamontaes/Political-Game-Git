@@ -213,7 +213,10 @@ describe("public budgets", () => {
   });
 
   it("Illinois opens at its Census figures per resident times its 2024 population, and adopts fiscal 2027 on July 1", () => {
-    const world = runThrough(opened(worldAt("2026-01-05")), "2026-06-01");
+    const start = opened(worldAt("2026-01-05"));
+    // The opening reserve, before Illinois' own reserve law moves a surplus.
+    expect(publicBudgetFor(start, illinois)!.reserve).toBe(2_518_000_000);
+    const world = runThrough(start, "2026-06-01");
     const state = publicBudgetFor(world, illinois)!;
     expect(state.population).toBe(12_710_158);
     expect(state.fiscalYearStart).toBe("07-01");
@@ -223,7 +226,6 @@ describe("public budgets", () => {
     const incomeTax =
       opening.expectedRevenue[BUDGET_SOURCES.indexOf("individualIncomeTax")]!;
     expect(incomeTax / 12_710_158).toBeCloseTo(1795.36 * 1.1506, 0);
-    expect(state.reserve).toBe(2_518_000_000);
     const next = state.years[1]!;
     expect(next.fiscalYear).toBe(2027);
     expect(next.startsOn).toBe("2026-07-01");
@@ -297,7 +299,11 @@ describe("public budgets", () => {
       Math.round(lawful.years[0]!.appropriations[pension]! / 12),
     );
 
-    const without = worldAt("2026-01-05");
+    // Illinois begins with a balanced-budget law, so "without" is a law
+    // enacted in play that says no.
+    const without = worldAt("2026-01-05", {
+      laws: [{ question: BALANCED, answer: "no", jurisdictionId: illinois }],
+    });
     const loose = shortfall(publicBudgetFor(opened(without), illinois)!);
     const debtRun = settleAlone(without, loose, "2026-06-01");
     expect(debtRun.adjustments.some((row) => row.kind === "mid-year-cut")).toBe(
@@ -306,14 +312,19 @@ describe("public budgets", () => {
     const borrowed = debtRun.adjustments.find(
       (row) => row.kind === "deficit-borrowed",
     )!;
-    expect(borrowed.law?.reading.answer).toBe("unknown");
+    expect(borrowed.law?.reading.answer).toBe("no");
     expect(debtRun.government.debt).toBe(loose.debt + borrowed.amount);
     expect(debtRun.government.balance).toBe(0);
   });
 
   it("a minimum-reserve law sends the year's surplus to the reserve and sets a deposit; without it the surplus stays in the balance", () => {
+    // The reserve law alone: Illinois' own balanced-budget law, which the
+    // game begins with, would cut a shortfall to a small surplus instead.
     const withLaw = worldAt("2026-01-05", {
-      laws: [{ question: RESERVE, answer: "yes", jurisdictionId: illinois }],
+      laws: [
+        { question: RESERVE, answer: "yes", jurisdictionId: illinois },
+        { question: BALANCED, answer: "no", jurisdictionId: illinois },
+      ],
     });
     const state = publicBudgetFor(opened(withLaw), illinois)!;
     const low = { ...state, reserve: 0 };
@@ -337,7 +348,11 @@ describe("public budgets", () => {
     expect(deposit?.law?.reading.answer).toBe("yes");
     expect(short.government.years.at(-1)!.reserveDeposit).toBe(deposit!.amount);
 
-    const without = worldAt("2026-01-05");
+    // Illinois begins with a reserve law, so "without" is a law enacted in
+    // play that says no.
+    const without = worldAt("2026-01-05", {
+      laws: [{ question: RESERVE, answer: "no", jurisdictionId: illinois }],
+    });
     const loose = {
       ...publicBudgetFor(opened(without), illinois)!,
       reserve: 0,
@@ -377,7 +392,8 @@ describe("public budgets", () => {
     const underpaid = partial.adjustments.filter(
       (row) => row.kind === "pension-underpaid",
     );
-    expect(underpaid[0]!.law?.reading.answer).toBe("unknown");
+    // Illinois' own law funds pensions below the schedule (starting law).
+    expect(underpaid[0]!.law?.reading.answer).toBe("no");
     // The opening year ran January to June: six months of the shortfall
     // went unpaid, not a whole year's.
     expect(underpaid[0]!.amount).toBeCloseTo(
@@ -448,7 +464,7 @@ describe("public budgets", () => {
       "2027-06-01",
     );
     const [fiscal2026, fiscal2027, fiscal2028] = settled.government.years;
-    expect(fiscal2027!.laws.pensions.answer).toBe("unknown");
+    expect(fiscal2027!.laws.pensions.answer).toBe("no");
     expect(fiscal2028!.laws.pensions.answer).toBe("yes");
     const pension = BUDGET_PROGRAMS.indexOf("pensionContribution");
     expect(fiscal2028!.appropriations[pension]).toBe(
@@ -463,9 +479,9 @@ describe("public budgets", () => {
       fiscal2026!.fiscalYear,
       fiscal2027!.fiscalYear,
     ]);
-    expect(
-      underpaid.every((row) => row.law?.reading.answer === "unknown"),
-    ).toBe(true);
+    expect(underpaid.every((row) => row.law?.reading.answer === "no")).toBe(
+      true,
+    );
   });
 
   it("income tax withheld from represented people is counted dollar for dollar, and the modeled part covers only everyone else", () => {
@@ -528,7 +544,13 @@ describe("public budgets", () => {
     );
     const state = publicBudgetFor(world, illinois)!.years[0]!.laws;
     expect(state.balanced.answer).toBe("yes");
-    expect(state.reserve.answer).toBe("unknown");
+    // Illinois' own reserve statute, which the game begins with.
+    expect(state.reserve).toEqual({
+      answer: "yes",
+      measureId:
+        "starting-law:US-IL:us-policy-positions:fiscal.minimum-reserve-balance",
+      level: "state-statute",
+    });
     const city = publicBudgetFor(world, chicagoId)!.years[0]!.laws;
     expect(city.balanced.answer).toBe("unknown");
     expect(city.reserve).toEqual({
@@ -593,7 +615,11 @@ describe("public budgets", () => {
   });
 
   it("the balance above the reserve target is carried into the next budget and spent across the year, once", () => {
-    const world = worldAt("2026-01-05");
+    // Without a reserve law, which Illinois begins with, a surplus stays in
+    // the balance.
+    const world = worldAt("2026-01-05", {
+      laws: [{ question: RESERVE, answer: "no", jurisdictionId: illinois }],
+    });
     const state = publicBudgetFor(opened(world), illinois)!;
     const run = settleAlone(world, state, "2027-06-01");
     const carried = run.adjustments.filter(
