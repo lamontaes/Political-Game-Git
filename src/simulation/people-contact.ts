@@ -1,4 +1,5 @@
 import { feltDebtConsiderations } from "./favors";
+import { heardOfRefusalConsiderations } from "./favor-collection";
 import { eventById } from "./event-index";
 import { homePartyChapters } from "./living-world/party-chapters";
 import { addDays, ageOnDate } from "./dates";
@@ -792,9 +793,17 @@ export function npcContactAnswer(
       },
     ]),
   );
-  // Help the one asking once gave is a reason to make the time.
+  // Help the one asking once gave is a reason to make the time; having heard
+  // they turned down somebody who had helped them is a reason not to.
   considerations.push(
     ...feltDebtConsiderations(
+      withTraits,
+      to,
+      from,
+      `contact:${proposalEventId}`,
+      "accept",
+    ),
+    ...heardOfRefusalConsiderations(
       withTraits,
       to,
       from,

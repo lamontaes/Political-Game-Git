@@ -1,7 +1,12 @@
 import { ageOnDate } from "./dates";
-import { currentLifeCutoff, householdMembershipsAt } from "./life-queries";
+import {
+  activeWorkRelationshipsAt,
+  currentLifeCutoff,
+  householdMembershipsAt,
+} from "./life-queries";
+import { personTrait } from "./people-traits";
 import { recordRelationshipInteraction } from "./records";
-import { SeededRng } from "./rng";
+import { sharedPlaceAcquaintances } from "./shared-places";
 import type { EntityId, RelationshipInteraction, World } from "./types";
 
 /**
@@ -11,23 +16,35 @@ import type { EntityId, RelationshipInteraction, World } from "./types";
  * come with one tie: the player. Everybody else they might know was never
  * recorded, so a goal to keep up with people had nobody to call, and every
  * step they took landed on the player, in every life alike. This gives each of
- * them, once, a couple of neighbors and a friend or two from people who
- * already live in their town. Nobody is created for the purpose, and where the
- * town has nobody to draw from, nothing is written.
+ * them, once, a friend or two and a couple of neighbors. Nothing is drawn:
  *
- * Coworkers are not written here: somebody with a recorded job already knows
- * the people recorded at the same employer (`coworkersOf` in
- * people-goal-review.ts reads them).
+ * - a friend is somebody they already share a room with (a congregation, a
+ *   club, a council, a child's class: `shared-places.ts`) or a job with, the
+ *   nearest in age first; a sociable person keeps two, anyone else one; when
+ *   the record puts them in no room, the adults in town nearest their age;
+ * - a neighbor is somebody their household already has a recorded neighbor
+ *   contact with, the nearest in age first. A home has no place on a street
+ *   on record, so nobody else can be called a neighbor.
+ *
+ * Nobody is created for the purpose, and where the record gives nobody,
+ * nothing is written.
+ *
+ * Coworkers are not written as ties here: somebody with a recorded job
+ * already knows the people recorded at the same employer (`coworkersOf` in
+ * people-goal-review.ts reads them). They can still become a friend.
  */
 
 export const OWN_TIES_VERSION = "own-ties-v1";
 export const OWN_TIES_TAG = "people.own-ties";
 
-/** How many of each kind of tie a person is given. Pacing, not measurement. */
+/**
+ * PLACEHOLDER, set by hand: how many of each kind of tie a person is given.
+ * Pacing, not measurement.
+ */
 const OWN_TIES = {
   neighbors: 2,
-  /** One or two friends, drawn per person. */
-  friends: { minimum: 1, maximum: 2 },
+  /** One friend, or two for somebody who leans sociable. */
+  friends: { minimum: 1, sociable: 2 },
   /** A friend is somebody within this many years of their age. */
   friendAgeGapYears: 10,
 } as const;
@@ -72,8 +89,8 @@ function knowsSomebodyElse(
 
 /**
  * Gives `personId` their own few ties, once. `anchorId` is the played person,
- * who is never drawn. Returns the world unchanged when the person already has
- * ties of their own, is not an adult, or their town has nobody to draw from.
+ * who is never chosen. Returns the world unchanged when the person already has
+ * ties of their own, is not an adult, or the record gives them nobody.
  */
 export function ensureOwnTies(
   world: World,
@@ -106,41 +123,83 @@ export function ensureOwnTies(
       .filter((death) => death.diedAt <= today)
       .map((death) => death.personId),
   );
-  const pool = (Object.keys(world.people) as EntityId[])
+  const eligible = (id: EntityId) =>
+    id !== personId &&
+    id !== anchorId &&
+    !housemates.has(id) &&
+    !dead.has(id) &&
+    !!world.people[id] &&
+    world.people[id]!.homeJurisdictionId === person.homeJurisdictionId &&
+    adultOn(id);
+  const age = ageOnDate(person.birthDate, today);
+  const nearestInAge = (ids: Iterable<EntityId>) =>
+    [...new Set(ids)].filter(eligible).sort((a, b) => {
+      const gap = (id: EntityId) =>
+        Math.abs(ageOnDate(world.people[id]!.birthDate, today) - age);
+      return gap(a) - gap(b) || a.localeCompare(b);
+    });
+
+  // Neighbors the household already has on record.
+  const recordedNeighbors: EntityId[] = [];
+  for (const interaction of world.history.relationshipInteractions)
+    if (
+      interaction.kind === "contact:neighbors" &&
+      interaction.personIds.some((id) => housemates.has(id))
+    )
+      for (const id of interaction.personIds)
+        if (!housemates.has(id)) recordedNeighbors.push(id);
+  const neighbors = nearestInAge(recordedNeighbors).slice(
+    0,
+    OWN_TIES.neighbors,
+  );
+
+  // Friends from the rooms and the jobs they already share.
+  const workplaces = new Set(
+    activeWorkRelationshipsAt(world, personId, cutoff).flatMap((row) =>
+      row.relationship.organizationId ? [row.relationship.organizationId] : [],
+    ),
+  );
+  const coworkers = world.history.workRelationships
+    .filter(
+      (row) =>
+        !!row.organizationId &&
+        workplaces.has(row.organizationId) &&
+        activeWorkRelationshipsAt(world, row.personId, cutoff).some(
+          (active) => active.relationship.organizationId === row.organizationId,
+        ),
+    )
+    .map((row) => row.personId);
+  const friendCount =
+    personTrait(world, personId, "sociability").value >= 1
+      ? OWN_TIES.friends.sociable
+      : OWN_TIES.friends.minimum;
+  const friends = nearestInAge([
+    ...sharedPlaceAcquaintances(world, personId),
+    ...coworkers,
+  ])
     .filter(
       (id) =>
-        id !== personId &&
-        id !== anchorId &&
-        !housemates.has(id) &&
-        !dead.has(id) &&
-        world.people[id]!.homeJurisdictionId === person.homeJurisdictionId &&
-        adultOn(id),
+        !neighbors.includes(id) &&
+        Math.abs(ageOnDate(world.people[id]!.birthDate, today) - age) <=
+          OWN_TIES.friendAgeGapYears,
     )
-    .sort();
-  if (pool.length === 0) return world;
-
-  const rng = new SeededRng(world.seed).fork(`${OWN_TIES_VERSION}:${personId}`);
-  const draw = (from: readonly EntityId[], count: number) => {
-    const left = [...from];
-    const drawn: EntityId[] = [];
-    while (drawn.length < count && left.length > 0) {
-      drawn.push(left.splice(rng.integer(0, left.length), 1)[0]!);
+    .slice(0, friendCount);
+  // Somebody the record places in no room and no job still has a friend in
+  // town: the adults nearest their age, since friends are most often of an
+  // age (McPherson, Smith-Lovin and Cook, "Birds of a Feather", Annual Review
+  // of Sociology, 2001).
+  if (friends.length < friendCount)
+    for (const id of nearestInAge(Object.keys(world.people) as EntityId[])) {
+      if (friends.length >= friendCount) break;
+      if (neighbors.includes(id) || friends.includes(id)) continue;
+      if (
+        Math.abs(ageOnDate(world.people[id]!.birthDate, today) - age) >
+        OWN_TIES.friendAgeGapYears
+      )
+        break;
+      friends.push(id);
     }
-    return drawn;
-  };
-
-  const neighbors = draw(pool, OWN_TIES.neighbors);
-  const age = ageOnDate(person.birthDate, today);
-  const friendPool = pool.filter(
-    (id) =>
-      !neighbors.includes(id) &&
-      Math.abs(ageOnDate(world.people[id]!.birthDate, today) - age) <=
-        OWN_TIES.friendAgeGapYears,
-  );
-  const friends = draw(
-    friendPool,
-    rng.integer(OWN_TIES.friends.minimum, OWN_TIES.friends.maximum + 1),
-  );
+  if (neighbors.length === 0 && friends.length === 0) return world;
 
   let next = world;
   const tie = (

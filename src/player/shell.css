@@ -30,19 +30,34 @@
   --pg-space-4: 1rem;
   --pg-space-5: 1.5rem;
   /* Surfaces: restrained translucency with an edge and a real shadow. */
-  --pg-glass: rgba(11, 19, 32, 0.8);
-  --pg-glass-strong: rgba(9, 15, 26, 0.92);
-  --pg-edge: 0 1px 0 rgba(244, 236, 224, 0.12) inset;
+  --pg-glass: rgba(244, 236, 220, 0.94);
+  --pg-glass-strong: rgba(246, 239, 225, 0.98);
+  --pg-edge: 0 1px 0 rgba(255, 252, 244, 0.85) inset;
   --pg-blur: blur(10px);
   --pg-ivory: var(--run-a-ink);
   --pg-ivory-dim: var(--run-a-muted);
-  --pg-ivory-faint: rgba(200, 185, 151, 0.72);
-  --pg-navy: rgba(11, 19, 32, 0.92);
-  --pg-slate: rgba(28, 40, 58, 0.96);
+  --pg-ivory-faint: rgba(95, 78, 59, 0.82);
+  --pg-paper: rgba(244, 236, 220, 0.96);
+  --pg-paper-deep: rgba(232, 219, 193, 0.98);
   --pg-brass: var(--run-a-gold);
-  --pg-brass-dim: rgba(194, 155, 72, 0.45);
-  --pg-hairline: rgba(244, 236, 224, 0.16);
-  --pg-shadow: 0 18px 44px rgba(0, 0, 0, 0.42);
+  --pg-brass-dim: rgba(176, 138, 62, 0.55);
+  --pg-hairline: rgba(122, 90, 40, 0.28);
+  --pg-shadow: 0 18px 44px rgba(46, 30, 12, 0.32);
+  /* A paper panel's frame: a brass rule inside a darker edge. */
+  --pg-frame:
+    0 0 0 1px rgba(90, 62, 24, 0.55), inset 0 0 0 1px rgba(217, 184, 112, 0.75),
+    inset 0 0 0 3px rgba(255, 250, 238, 0.6);
+  --pg-paper-texture:
+    radial-gradient(
+      120% 90% at 50% 0%,
+      rgba(255, 252, 244, 0.6),
+      transparent 60%
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(120, 90, 40, 0.025) 0 1px,
+      transparent 1px 3px
+    );
   --pg-radius: 3px;
   --pg-content-bottom: calc(
     1.15rem + env(safe-area-inset-bottom, 0px) + var(--pg-vv-inset-bottom, 0px)
@@ -90,13 +105,13 @@
   padding: 0.4rem 0.75rem;
   border-radius: var(--pg-radius);
   border: 1px solid var(--pg-hairline);
-  background: rgba(11, 19, 32, 0.72);
+  background: rgb(241 234 221 / 92%);
   color: var(--pg-ivory);
   cursor: pointer;
   text-align: left;
   box-shadow:
-    0 1px 0 rgba(244, 236, 224, 0.12) inset,
-    0 8px 22px rgba(0, 0, 0, 0.28);
+    0 1px 0 #fffcf4 inset,
+    0 8px 22px rgb(46 30 12 / 20%);
   backdrop-filter: blur(8px);
   transition:
     background 200ms ease,
@@ -121,7 +136,7 @@
 
 .pg-nav[data-state="near"] .pg-nav-cluster,
 .pg-nav[data-state="open"] .pg-nav-cluster {
-  background: var(--pg-navy);
+  background: var(--pg-paper);
   border-color: var(--pg-hairline);
   box-shadow: var(--pg-shadow);
 }
@@ -196,7 +211,7 @@
   padding: 0.4rem;
   border-radius: var(--pg-radius);
   border: 1px solid var(--pg-hairline);
-  background: var(--pg-navy);
+  background: var(--pg-paper);
   box-shadow: var(--pg-shadow);
   color: var(--pg-ivory);
 }
@@ -212,12 +227,12 @@
   z-index: 1;
   margin-top: 0.35rem;
   padding-top: 0.35rem;
-  background: var(--pg-navy);
+  background: var(--pg-paper);
   border-top: 1px solid var(--pg-hairline);
 }
 
 .pg-nav-flyout[data-level="submenu"] {
-  background: var(--pg-slate);
+  background: var(--pg-paper-deep);
   border-left: 2px solid var(--pg-brass);
   margin-left: 0.7rem;
 }
@@ -320,7 +335,7 @@
   padding: 0.4rem 0.6rem;
   border-radius: var(--pg-radius);
   border: 1px solid var(--pg-hairline);
-  background: var(--pg-navy);
+  background: var(--pg-paper);
   box-shadow: var(--pg-shadow);
   color: var(--pg-ivory);
   font: inherit;
@@ -384,7 +399,7 @@
   margin-top: 0.35rem;
   border-radius: 2px;
   border: 1px solid var(--pg-hairline);
-  background: var(--pg-navy);
+  background: var(--pg-paper);
   color: var(--pg-ivory-dim);
   cursor: pointer;
   line-height: 1;
@@ -399,7 +414,7 @@
   padding: 0.3rem;
   border-radius: var(--pg-radius);
   border: 1px solid var(--pg-hairline);
-  background: var(--pg-slate);
+  background: var(--pg-paper-deep);
   box-shadow: var(--pg-shadow);
 }
 
@@ -433,7 +448,7 @@
 }
 
 .pg-pin-menu-unpin {
-  color: #e0876b;
+  color: #933f25;
 }
 
 /* ----------------------------------------------------------- dossiers */
@@ -689,7 +704,7 @@
   padding: 0.4rem 0.55rem;
   border: 1px solid var(--pg-hairline);
   border-radius: 2px;
-  background: rgba(11, 19, 32, 0.55);
+  background: #fffbf2;
   color: var(--run-a-ink);
   font: inherit;
   font-size: 0.9rem;
@@ -723,7 +738,7 @@
   padding: 0.45rem 0.6rem;
   border: 1px solid var(--pg-hairline);
   border-radius: 2px;
-  background: rgba(11, 19, 32, 0.4);
+  background: rgb(255 251 242 / 72%);
   color: var(--run-a-ink);
   font: inherit;
   text-align: left;
@@ -830,7 +845,7 @@
   padding: 0.45rem 0.6rem;
   border: 1px solid var(--pg-hairline);
   border-radius: 2px;
-  background: rgba(11, 19, 32, 0.4);
+  background: rgb(255 251 242 / 72%);
   color: var(--run-a-ink);
   font: inherit;
   text-align: left;
@@ -874,7 +889,7 @@
   padding: 0.5rem 0.65rem;
   border: 1px solid var(--pg-hairline);
   border-radius: 2px;
-  background: rgba(11, 19, 32, 0.4);
+  background: rgb(255 251 242 / 72%);
 }
 
 .pg-purses small {
@@ -892,7 +907,7 @@
   margin: 0;
   font-size: 0.66rem;
   letter-spacing: 0.08em;
-  color: rgba(200, 185, 151, 0.5);
+  color: rgb(120 103 64 / 50%);
   pointer-events: none;
 }
 
@@ -962,7 +977,7 @@
   padding: 0.35rem 0.6rem;
   border: 1px solid var(--pg-hairline);
   border-radius: 2px;
-  background: var(--pg-navy);
+  background: var(--pg-paper);
   color: var(--pg-ivory-dim);
   font-size: 0.78rem;
   /*
@@ -1013,8 +1028,8 @@
 }
 
 .life-shell .life-hud-note--problem {
-  border-color: rgba(224, 135, 107, 0.6);
-  color: #f0b7a5;
+  border-color: rgb(111 85 42 / 60%);
+  color: #75321d;
 }
 
 /* One shared reservation keeps mixed pins clear of workspace controls (#133). */
@@ -1072,7 +1087,7 @@
   backdrop-filter: none;
   box-shadow: none;
   color: var(--pg-ivory);
-  text-shadow: 0 2px 8px #080d15;
+  text-shadow: 0 2px 8px rgb(255 250 240 / 35%);
 }
 .title-tableau--art .game-title h1 {
   color: var(--pg-ivory);
@@ -1093,7 +1108,7 @@
   padding: 0.55rem 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  text-shadow: 0 2px 6px #080d15;
+  text-shadow: 0 2px 6px rgb(255 250 240 / 35%);
 }
 .title-tableau--art .game-title-actions button small {
   text-transform: none;
@@ -1105,7 +1120,7 @@
   button:is(:hover, :focus-visible):not(:disabled) {
   color: var(--pg-brass);
   box-shadow: inset 2px 0 currentColor;
-  background: linear-gradient(90deg, #10162177, transparent);
+  background: linear-gradient(90deg, rgb(176 138 62 / 26%), transparent);
 }
 .title-tableau--art .game-title-actions button:disabled {
   opacity: 0.65;
@@ -1123,7 +1138,7 @@
   z-index: 100;
   display: grid;
   place-items: center;
-  background: #05080d;
+  background: var(--pg-paper-texture), #efe5d0;
   color: var(--pg-ivory);
   animation: pg-life-start var(--pg-start-fade) ease-out both;
 }
@@ -1176,7 +1191,7 @@
   padding: 0.55rem 0.7rem;
   border: 1px solid var(--run-a-line);
   border-radius: 0.3rem;
-  background: #111d2d;
+  background: #f0e7d9;
   color: var(--run-a-ink);
   font: inherit;
 }
@@ -1196,7 +1211,7 @@
   justify-self: start;
 }
 .pg-workspace .game-band {
-  color: var(--run-a-ink-muted, #d4c6a8);
+  color: var(--run-a-ink-muted, #726038);
 }
 .pg-opening-flow {
   display: block;
@@ -1247,9 +1262,9 @@
 }
 
 /*
- * The pending list's base colour is written for the light story page; on the
- * dark workspace it was dark slate on navy, which is why "Waiting on you" read
- * as a greyed-out afterthought in the playtest frames.
+ * The pending list's base colour is written for the light story page; in a
+ * workspace it takes the workspace's own ink, so "Waiting on you" reads as
+ * body text rather than a greyed-out afterthought.
  */
 .pg-workspace .game-pending {
   margin-bottom: 0;
@@ -1317,7 +1332,7 @@
   padding: 0.45rem 0.8rem;
   border: 1px solid var(--pg-hairline);
   border-radius: var(--pg-radius);
-  background: rgba(11, 19, 32, 0.88);
+  background: rgb(241 234 221 / 92%);
   color: var(--pg-ivory);
   cursor: pointer;
   text-align: left;
@@ -1347,7 +1362,7 @@
   font-family: var(--pg-font-ui);
   box-shadow:
     var(--pg-edge),
-    0 8px 22px rgba(0, 0, 0, 0.28);
+    0 8px 22px rgb(46 30 12 / 20%);
 }
 
 .pg-nav-identity {
@@ -1421,7 +1436,7 @@
   min-height: 1.6rem;
   border: 1px solid var(--pg-hairline);
   border-radius: var(--pg-radius);
-  background: rgba(11, 19, 32, 0.62);
+  background: rgb(241 234 221 / 92%);
   color: var(--pg-ivory-dim);
   font-family: var(--pg-font-ui);
   font-size: 0.72rem;
@@ -1440,7 +1455,7 @@
 .pg-nav-day:focus-visible {
   color: var(--pg-ivory);
   border-color: var(--pg-brass-dim);
-  background: var(--pg-navy);
+  background: var(--pg-paper);
 }
 
 .pg-nav-day:disabled {
@@ -1485,7 +1500,7 @@
 }
 
 .pg-nav-flyout > button[role="menuitem"] + button[role="menuitem"] {
-  border-top: 1px solid rgba(244, 236, 224, 0.06);
+  border-top: 1px solid rgb(111 85 42 / 28%);
   border-radius: 0;
 }
 
@@ -1513,12 +1528,12 @@
   justify-content: center;
   border: 1px solid var(--pg-hairline);
   border-radius: var(--pg-radius);
-  background: rgba(24, 37, 58, 0.9);
+  background: rgb(238 229 213 / 92%);
   font-size: 0.88rem;
 }
 
 .pg-nav-confirm .ui-action--primary {
-  color: #14203a;
+  color: #32291b;
   background: linear-gradient(180deg, #e7c778, var(--run-a-gold));
   border-color: #a8842f;
 }
@@ -1623,7 +1638,7 @@
   height: 4.4rem;
   border-radius: var(--pg-radius);
   border-color: var(--pg-brass-dim);
-  background: #1c2a40;
+  background: #ede4d3;
   color: var(--pg-ivory);
   font-size: 1.2rem;
 }
@@ -1742,7 +1757,7 @@
   height: 2rem;
   font-size: 0.7rem;
   border-color: var(--pg-brass-dim);
-  background: #1c2a40;
+  background: #ede4d3;
   color: var(--pg-ivory);
 }
 
@@ -1767,7 +1782,7 @@
   gap: var(--pg-space-1);
   padding: var(--pg-space-2) var(--pg-space-3);
   border-top: 1px solid var(--pg-hairline);
-  background: rgba(9, 15, 26, 0.6);
+  background: rgb(233 220 194 / 85%);
 }
 
 .pg-person-card-actions .ui-action {
@@ -1890,7 +1905,7 @@
   padding: var(--pg-space-2) var(--pg-space-3);
   border: 1px solid var(--pg-hairline);
   border-radius: var(--pg-radius);
-  background: rgba(11, 19, 32, 0.35);
+  background: rgb(255 251 242 / 72%);
   cursor: pointer;
 }
 
@@ -2120,12 +2135,8 @@
 .life-shell:has(> .scene-backdrop[data-has-plate="false"]) {
   min-height: 100dvh;
   background:
-    radial-gradient(
-      ellipse at 50% 30%,
-      rgba(44, 58, 76, 0.55),
-      transparent 70%
-    ),
-    rgb(11, 19, 32);
+    radial-gradient(ellipse at 50% 30%, rgb(38 26 14 / 55%), transparent 70%),
+    #f1eadd;
 }
 
 /* ====================================================================== */
@@ -2168,8 +2179,8 @@
   overflow: hidden;
   pointer-events: none;
   border: 1px solid var(--pg-brass-dim);
-  background: rgba(24, 37, 58, 0.95);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  background: rgb(238 229 213 / 95%);
+  box-shadow: 0 4px 14px rgb(46 30 12 / 24%);
   transform: scale(0.8);
   transform-origin: center;
   opacity: 0.88;
@@ -2218,7 +2229,7 @@
   width: 100%;
   height: 100%;
   background: #eceade;
-  color: #16233a;
+  color: #32291b;
   font-family: var(--pg-font-display);
   font-size: 1.15rem;
   font-weight: 700;
@@ -2275,9 +2286,10 @@
   min-width: 0;
   min-height: 2.75rem;
   padding: 0.35rem 0.45rem;
-  border: 1px solid transparent;
+  border: 1px solid rgb(122 90 40 / 30%);
   border-radius: var(--pg-radius);
-  background: rgba(28, 40, 58, 0.52);
+  background: linear-gradient(180deg, #fbf6ea, #eee2c8);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 70%);
   color: var(--pg-ivory);
   font-family: var(--pg-font-ui);
   font-size: 0.76rem;
@@ -2290,14 +2302,21 @@
 .pg-nav--bar .pg-nav-section:hover,
 .pg-nav--bar .pg-nav-section:focus-visible,
 .pg-nav--bar .pg-nav-section[aria-expanded="true"] {
-  border-color: var(--pg-brass-dim);
-  background: var(--pg-slate);
+  border-color: var(--run-a-brass, #b08a3e);
+  background: linear-gradient(180deg, #fffaf0, #f1e4c6);
+  color: var(--run-a-oxblood, #7a2e2a);
   outline: none;
 }
 
+.pg-nav--bar .pg-nav-section:focus-visible {
+  box-shadow: 0 0 0 2px var(--run-a-focus, #7a2e2a);
+}
+
 .pg-nav--bar .pg-nav-section[aria-pressed="true"] {
-  color: var(--pg-brass);
-  border-bottom-color: var(--pg-brass);
+  color: #fbf3e2;
+  border-color: #5a1f1c;
+  background: linear-gradient(180deg, #8c3a34, var(--run-a-oxblood, #7a2e2a));
+  box-shadow: inset 0 0 0 1px rgb(217 184 112 / 60%);
 }
 
 .pg-nav--bar .pg-nav-days {
@@ -2459,7 +2478,7 @@
   place-items: center;
   padding: max(var(--pg-space-4), var(--pg-content-top)) var(--pg-space-4)
     calc(var(--pg-content-bottom) + 4.5rem);
-  background: rgba(6, 10, 18, 0.72);
+  background: rgb(243 236 225 / 92%);
   overflow-y: auto;
 }
 
@@ -2528,7 +2547,7 @@
   margin: 0;
   padding: var(--pg-space-2) var(--pg-space-3);
   border-left: 3px solid var(--pg-brass);
-  background: var(--pg-slate);
+  background: var(--pg-paper-deep);
 }
 
 .pg-observing {
@@ -2546,7 +2565,7 @@
   padding: var(--pg-space-2) var(--pg-space-4);
   border: 1px solid var(--pg-brass-dim);
   border-radius: var(--pg-radius);
-  background: var(--pg-navy);
+  background: var(--pg-paper);
   box-shadow: var(--pg-shadow);
   color: var(--pg-ivory);
   font-family: var(--pg-font-ui);
@@ -2674,7 +2693,7 @@
   overflow: auto;
 }
 .pg-personal-chronology time {
-  color: var(--pg-muted, #b9b2a3);
+  color: var(--pg-muted, #776340);
   font-size: 0.85em;
 }
 .pg-opportunity-choices {
@@ -2757,4 +2776,36 @@
   display: inline-grid;
   place-items: center;
   transform: none;
+}
+
+/*
+ * Framed paper (UI overhaul, September 29, 2026).
+ *
+ * Every panel a player reads over the room is the same object: warm paper
+ * with a faint grain, a dark edge and a brass rule just inside it, in the
+ * spirit of a bound ledger rather than a glass pane. One rule here so every
+ * screen changes at once; screens only set their own layout.
+ */
+.pg-workspace,
+.pg-nav--bar .pg-nav-row,
+.pg-nav-flyout,
+.pg-nav--bar .pg-nav-flyout:not(.pg-nav-confirm),
+.pg-person-card--overlay,
+.pg-recap,
+.pg-continuation,
+.pg-observing,
+.pg-nav-stops,
+.pg-talk {
+  background-image: var(--pg-paper-texture);
+  border-color: rgb(90 62 24 / 55%);
+  box-shadow: var(--pg-frame), var(--pg-shadow);
+  color: var(--pg-ivory);
+  text-shadow: none;
+}
+
+/* Headings on paper: the display serif in deep ink, with a brass rule. */
+.pg-workspace :is(h1, h2),
+.pg-recap :is(h1, h2) {
+  font-family: var(--pg-font-display);
+  color: var(--run-a-ink);
 }

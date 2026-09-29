@@ -28,6 +28,10 @@ Before merging, grep the diff for `Math.random`, `seedrandom`, `rng(`, or any
 person/business/official/body decision. If one turns up, trace its inputs — if
 the only inputs are a seed and a flat number, it is a roll and it fails this
 rule, even when the number came from real research. Rewrite the branch as a
-function of the actor's own traits, law, place and relationships instead. A
-guard test should fail the build on a new roll of this shape; add one if the
-change introduces a decision path that doesn't have one yet.
+function of the actor's own traits, law, place and relationships instead.
+
+`npm run zero-dice` (scripts/zero-dice-guard.mjs) fails the build on a new
+roll, a named chance or share set to a literal, or a state or place literal in
+a branch. Its allowlist is the inventory from the night the guard started, and
+it only shrinks: when you remove a line, run `npm run zero-dice -- --update`
+in the same change.

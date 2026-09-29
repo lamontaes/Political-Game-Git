@@ -1,3 +1,4 @@
+import { lifeWeighsAgainstOffice } from "./careers/another-term";
 import type { CharacterHistoryContextPersonInput } from "./character-history";
 import { makeIsoDate } from "./dates";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
@@ -42,6 +43,11 @@ export function recordProspectRunChoice(args: {
   readonly lowOpportunityShare: number;
   readonly recruitmentSourceType?: `institution:${string}`;
   readonly recruitmentExplanation?: string;
+  /**
+   * The day the term they are asked to run for would end. With it, the
+   * person's own health, age and care duties weigh against running.
+   */
+  readonly termEnds?: IsoDate;
 }): { world: World; runs: boolean } {
   const { world, stableKey, seatKey, personId, intakeDate } = args;
   const evaluation = evaluateDecision(world, {
@@ -89,6 +95,15 @@ export function recordProspectRunChoice(args: {
               sourceRefs: [],
             },
           ]
+        : []),
+      ...(args.termEnds
+        ? lifeWeighsAgainstOffice(world, {
+            personId,
+            keyPrefix: stableKey,
+            onDate: intakeDate,
+            termEnds: args.termEnds,
+            optionKey: "decline",
+          })
         : []),
     ],
     perceptionIds: [],

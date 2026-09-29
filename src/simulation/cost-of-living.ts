@@ -14,6 +14,7 @@ import {
   sameEndpoint,
 } from "./resource-queries";
 import { homeOwnedSince, personOwnsHome } from "./home-purchase";
+import { townLeases } from "./living-world/town-rent";
 import { recordWorldEvent } from "./world";
 import type { EntityId, IsoDate, ResourceFlow, World } from "./types";
 
@@ -86,13 +87,38 @@ function primaryHouseholdId(world: World, personId: EntityId): EntityId | null {
   return homes.length === 1 ? homes[0]!.household.id : null;
 }
 
-/** What a month costs this person on a date: less the rent once they own. */
+/**
+ * The day the person's household began renting under a lease on record
+ * (`living-world/town-rent.ts`), whose rent the leaseholder pays to the
+ * landlord on rent day; null when it has none.
+ */
+function householdLeaseSince(
+  world: World,
+  personId: EntityId,
+  asOfDate: IsoDate,
+): IsoDate | null {
+  const householdId = primaryHouseholdId(world, personId);
+  if (!householdId) return null;
+  const lease = townLeases(world, asOfDate).find(
+    (row) =>
+      !row.ended &&
+      row.householdId === householdId &&
+      row.flow.startsAt <= asOfDate,
+  );
+  return lease?.flow.startsAt ?? null;
+}
+
+/**
+ * What a month costs this person on a date: less the placeholder rent once
+ * they own, or once the household's lease charges its real rent.
+ */
 function monthlyCostMinor(
   world: World,
   personId: EntityId,
   asOfDate: IsoDate,
 ): number {
-  return personOwnsHome(world, personId, asOfDate)
+  return personOwnsHome(world, personId, asOfDate) ||
+    householdLeaseSince(world, personId, asOfDate) !== null
     ? LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -
         LIVING_COSTS_PLACEHOLDER.housingShareMinor
     : LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor;
@@ -172,9 +198,14 @@ export function settleLivingCosts(world: World, personId: EntityId): World {
     terms.status === "active" &&
     terms.amount.minorUnits !== monthly.minorUnits
   ) {
-    // Dated from the purchase, so months after it are charged without rent
-    // even when this is the first settlement since.
-    const since = homeOwnedSince(next, personId);
+    // Dated from the purchase or the lease, so months after it are charged
+    // without the placeholder rent even when this is the first settlement
+    // since.
+    const owned = homeOwnedSince(next, personId);
+    const leased = owned
+      ? null
+      : householdLeaseSince(next, personId, next.currentDate);
+    const since = owned ?? leased;
     const effectiveAt =
       since !== null && since >= terms.effectiveAt ? since : next.currentDate;
     next = recordResourceFlowTerms(next, {
@@ -186,8 +217,10 @@ export function settleLivingCosts(world: World, personId: EntityId): World {
       cadenceKind: terms.cadenceKind,
       reason:
         monthly.minorUnits < terms.amount.minorUnits
-          ? "The household owns its home now, so rent is no longer part of the month."
-          : "The household no longer owns its home, so rent is part of the month again.",
+          ? leased !== null
+            ? "The household pays its landlord under its lease now, so rent is no longer part of this month."
+            : "The household owns its home now, so rent is no longer part of the month."
+          : "The household no longer owns or leases its home on record, so rent is part of the month again.",
       provenance: flow.provenance,
       supersedesTermsId: terms.id,
     });

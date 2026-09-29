@@ -38,7 +38,7 @@
  * nothing.
  */
 
-import { ageOnDate, completedMonthsBetween } from "./dates";
+import { addDays, ageOnDate, completedMonthsBetween } from "./dates";
 import { US_STATE_NAMES } from "./nationwide-world/state-executive-candidacy-packs";
 import {
   OFFICE_QUALIFICATIONS_META,
@@ -491,6 +491,14 @@ function requirementPhrase(row: SourcedQualification): string {
   }
 }
 
+/**
+ * How long someone must have lived in a state to vote there, for an elector
+ * requirement. Ohio is the only state whose rows carry one, and its law sets
+ * 30 days (Ohio Revised Code 3503.01). A state read later with a different
+ * period needs its own figure here.
+ */
+const ELECTOR_RESIDENCE_DAYS = 30;
+
 /** What is missing when a district-residence duration cannot be measured. */
 export type DistrictResidenceGap = "unrecorded" | "district-unknown";
 
@@ -509,6 +517,14 @@ export interface QualificationAssessmentInput {
   readonly officeFamily: QualificationOfficeFamily;
   /** Earliest active residence in this exact state, or null when unproved. */
   readonly stateResidenceSince: IsoDate | null;
+  /**
+   * Since when the World's records show this person a United States citizen:
+   * their birth date, when they were born in a state, the District of
+   * Columbia or a territory whose births confer citizenship. Absent or null
+   * when nothing recorded shows it; a citizenship or elector requirement then
+   * stays unevaluated.
+   */
+  readonly citizenSince?: IsoDate | null;
   /** Earliest active residence in this exact district, or null when unproved. */
   readonly districtResidenceSince: IsoDate | null;
   /**
@@ -665,6 +681,55 @@ export function assessOfficeQualifications(
       continue;
     }
 
+    // Citizenship the World records: a birth in a place whose births confer
+    // it. A citizenship term counts from that date.
+    if (
+      row.field === "US_CITIZENSHIP" &&
+      (input.citizenSince ?? null) !== null
+    ) {
+      const term = durationMonths(row);
+      const held = completedMonthsBetween(input.citizenSince!, input.onDate);
+      const meets = term === null || held >= term.months;
+      assessments.push({
+        field: row.field,
+        verdict: meets ? "meets" : "fails",
+        reason: meets
+          ? `A United States citizen by birth.`
+          : `This office requires ${requirementPhrase(row)}, and this character has been a citizen ${residedLabel(held)}.`,
+        source: row,
+      });
+      continue;
+    }
+
+    // A qualified elector is someone who could vote here: old enough, a
+    // citizen, and living in the state long enough to register. A person who
+    // decides to run registers first, as real candidates do, so the filing
+    // checks what registering requires under the law in force. Nothing here is
+    // read when citizenship is not recorded. Who is registered, and since
+    // when, is a record of its own (modular election law).
+    if (
+      row.field === "ELECTOR_REQUIREMENT" &&
+      (input.citizenSince ?? null) !== null
+    ) {
+      const age = ageOnDate(input.person.birthDate, input.onDate);
+      const residentEnough =
+        input.stateResidenceSince !== null &&
+        addDays(input.stateResidenceSince, ELECTOR_RESIDENCE_DAYS) <=
+          input.onDate;
+      assessments.push({
+        field: row.field,
+        verdict: age >= 18 && residentEnough ? "meets" : "fails",
+        reason:
+          age < 18
+            ? `This office requires a candidate who is a qualified elector, and you must be at least 18 to vote.`
+            : !residentEnough
+              ? `This office requires a candidate who is a qualified elector, and a voter must have lived in the state ${ELECTOR_RESIDENCE_DAYS} days.`
+              : `A qualified elector: old enough to vote, a citizen, and living in the state long enough to register.`,
+        source: row,
+      });
+      continue;
+    }
+
     // A term limit bars only someone who has already served. The caller says
     // how many terms the World records for this exact office; zero means the
     // limit cannot apply. Anything else stays unevaluated below.
@@ -681,10 +746,10 @@ export function assessOfficeQualifications(
     /*
      * Everything else is read and reported, and deliberately not decided.
      *
-     * The world models no bar admission, no naturalization date and no voter
-     * registration, so a citizenship, elector or professional requirement has
-     * nothing to test against. Saying "meets" would hand out an eligibility the
-     * game never checked.
+     * The world models no bar admission and no naturalization date, so a
+     * professional requirement, or a citizenship or elector requirement for
+     * somebody not born a citizen, has nothing to test against. Saying "meets"
+     * would hand out an eligibility the game never checked.
      */
     // Worded for the player: the requirement, and that nothing shows this
     // character meets it. Why nothing can (no such record is kept) stays in

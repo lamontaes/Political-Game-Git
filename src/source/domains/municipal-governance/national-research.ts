@@ -206,6 +206,14 @@ export interface ResearchGovernment {
     readonly presidingOffice: string | null;
     readonly executiveSelection: string | null;
     readonly sourceKey: string;
+    /**
+     * Where the seat count was read on its own, after the pass: the source
+     * and the date it was read (`council-size-readings.ts`).
+     */
+    readonly sizeReading?: {
+      readonly sourceKey: string;
+      readonly attestedAsOf: string;
+    };
   };
   readonly separation: SeparationKind | null;
   readonly mayor: ResearchMayor | null;

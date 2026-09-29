@@ -59,7 +59,7 @@
 .pg-guide-result:hover,
 .pg-guide-result[aria-pressed="true"] {
   border-color: var(--pg-hairline);
-  background: var(--pg-slate);
+  background: var(--pg-paper-deep);
 }
 
 .pg-guide-result[aria-pressed="true"] .pg-guide-result-term {
@@ -94,7 +94,7 @@
   padding: var(--pg-space-4);
   border: 1px solid var(--pg-hairline);
   border-radius: var(--pg-radius);
-  background: var(--pg-navy);
+  background: var(--pg-paper);
 }
 
 .pg-guide-entry h3 {

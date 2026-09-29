@@ -302,8 +302,13 @@ describe("jurisdiction portability and accepted primary fixture", () => {
     [
       "default replay with history and materialization",
       () => runDemoScenario().world,
-      "c6166d95c2ad758c10bbf7d60631381e168568ce32fe780902c345d514a15137",
-      "0c804fa00657b77a7da267528a525e065d643c66f0a44b8e165a0ad589779f32",
+      // The one change from the bytes accepted on main: the replay's public
+      // listening session is now labeled with the jurisdiction's own name
+      // ("Lexington-Fayette community venue" was a Lexington-only label), so no
+      // place is named in the rule. Measured: restoring that label alone
+      // returns the earlier hash.
+      "6654e66714744278ad23762221d7729cd6858d351ca306e992c8854156d8599f",
+      "990bd8ba5710cb67baaeeb44a1442ae3f149b7fe43538a2f07893d8a4ee1a5a2",
     ],
     [
       "explicit legacy seed",

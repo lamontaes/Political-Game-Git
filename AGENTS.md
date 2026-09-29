@@ -34,9 +34,9 @@ self-checks are in the matching `.claude/skills/<name>/SKILL.md`.
   `VITAL STATISTICS`. Report only what the simulation actually traced. See
   `emergence-report` — the owner tracks the game by what it produced, not intent.
 - **Local gate, not the full suite.** Validate typecheck/eslint/prettier on
-  changed files, `release:check --mode pr`, and the tests for changed files
-  (browser specs only if screens changed); a failure that's also red on a clean
-  `main` doesn't block. Never force-push, never a permanent delete. See
+  changed files, `release:check --mode pr`, `npm run zero-dice`, and the tests
+  for changed files (browser specs only if screens changed); a failure that's
+  also red on a clean `main` doesn't block. Never force-push, never a permanent delete. See
   `local-gate` — a light gate that runs beats a heavy one everyone skips.
 - **Research before building.** Look up real examples of whatever the feature
   touches across the country; real data checks the simulation and never decides

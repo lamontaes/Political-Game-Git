@@ -53,18 +53,50 @@ describe("selecting a dated set", () => {
   });
 });
 
+/** The dated sets merged into one, for checks that ignore start dates. */
+function mergedDatedSet() {
+  const sets = placeDistrictMembershipCatalog().congressional.dated;
+  return {
+    stateFips: sets.flatMap((entry) => [...entry.stateFips]),
+    wholePlace: Object.assign(
+      {},
+      ...sets.map((entry) => entry.wholePlace),
+    ) as Record<string, string>,
+    splitPlaceCandidates: Object.assign(
+      {},
+      ...sets.map((entry) => entry.splitPlaceCandidates),
+    ) as Record<string, readonly string[]>,
+  };
+}
+
 describe("the compiled 2026 U.S. House lines", () => {
   const membership = placeDistrictMembershipCatalog().congressional;
-  const [set] = membership.dated;
+  const set = mergedDatedSet();
 
   it("covers exactly the states the Census republished, and not Missouri", () => {
-    expect(set).toBeDefined();
-    expect([...(set?.stateFips ?? [])].sort()).toEqual(REDRAWN);
-    expect(set?.effectiveFrom).toBe("2026-01-01");
+    expect([...set.stateFips].sort()).toEqual(REDRAWN);
+  });
+
+  it("starts each state on the day its own plan took effect", () => {
+    const start = Object.fromEntries(
+      membership.dated.flatMap((entry) =>
+        entry.stateFips.map((fips) => [fips, entry.effectiveFrom]),
+      ),
+    );
+    expect(start).toEqual({
+      "48": "2025-08-29",
+      "37": "2025-10-22",
+      "39": "2025-10-31",
+      "06": "2025-11-04",
+      "49": "2025-11-10",
+      "12": "2026-05-04",
+      "47": "2026-05-07",
+      "22": "2026-05-29",
+      "01": "2026-06-02",
+    });
   });
 
   it("answers for the same places the baseline answers for, in those states", () => {
-    if (!set) throw new Error("no dated set");
     const baseline = new Set(
       [
         ...Object.keys(membership.wholePlace),
@@ -81,7 +113,6 @@ describe("the compiled 2026 U.S. House lines", () => {
   });
 
   it("names only districts the identity catalog holds, inside the place's state", () => {
-    if (!set) throw new Error("no dated set");
     const known = new Set(
       districtIdentityCatalog()
         .filter(
@@ -118,35 +149,76 @@ describe("the compiled 2026 U.S. House lines", () => {
 });
 
 describe("the place join by game date", () => {
-  const dated = placeDistrictMembershipCatalog().congressional.dated[0];
-
-  it("changes a redrawn state's answer only once the lines are in force", () => {
-    if (!dated) throw new Error("no dated set");
-    const moved = Object.keys(dated.wholePlace).find((geoid) => {
-      const before = placeDistrictJoin(geoid, "congressional", "2025-06-01");
+  const sets = placeDistrictMembershipCatalog().congressional.dated;
+  const setFor = (fips: string) => {
+    const found = sets.find((entry) => entry.stateFips.includes(fips));
+    if (!found) throw new Error(`no dated set for ${fips}`);
+    return found;
+  };
+  const dayBefore = (day: string) => {
+    const date = new Date(`${day}T00:00:00Z`);
+    date.setUTCDate(date.getUTCDate() - 1);
+    return date.toISOString().slice(0, 10);
+  };
+  /** A whole place in the state whose district differs between the two lines. */
+  const movedPlace = (fips: string) => {
+    const dated = setFor(fips);
+    const geoid = Object.keys(dated.wholePlace).find((place) => {
+      const before = placeDistrictJoin(
+        place,
+        "congressional",
+        dayBefore(dated.effectiveFrom),
+      );
       return (
         before.kind === "whole-place" &&
-        before.districtGeoid !== dated.wholePlace[geoid]
+        before.districtGeoid !== dated.wholePlace[place]
       );
     });
-    expect(moved).toBeDefined();
-    const geoid = moved as string;
-    expect(placeDistrictJoin(geoid, "congressional")).toEqual(
-      placeDistrictJoin(geoid, "congressional", "2025-12-31"),
-    );
-    expect(placeDistrictJoin(geoid, "congressional", "2026-01-01")).toEqual({
-      kind: "whole-place",
-      districtGeoid: dated.wholePlace[geoid],
-    });
-    expect(placeRelationVintageFor("congressional", geoid, "2026-06-01")).toBe(
-      dated.vintage,
-    );
-    expect(placeRelationVintageFor("congressional", geoid, "2025-06-01")).toBe(
-      CD_PLACE_RELATION_VINTAGE,
-    );
+    if (!geoid) throw new Error(`no moved place in ${fips}`);
+    return { geoid, dated };
+  };
+
+  it("changes each redrawn state's answer on the day its lines take effect", () => {
+    for (const fips of REDRAWN) {
+      const { geoid, dated } = movedPlace(fips);
+      expect(placeDistrictJoin(geoid, "congressional")).toEqual(
+        placeDistrictJoin(
+          geoid,
+          "congressional",
+          dayBefore(dated.effectiveFrom),
+        ),
+      );
+      expect(
+        placeDistrictJoin(geoid, "congressional", dated.effectiveFrom),
+      ).toEqual({
+        kind: "whole-place",
+        districtGeoid: dated.wholePlace[geoid],
+      });
+      expect(
+        placeRelationVintageFor("congressional", geoid, dated.effectiveFrom),
+      ).toBe(dated.vintage);
+      expect(
+        placeRelationVintageFor(
+          "congressional",
+          geoid,
+          dayBefore(dated.effectiveFrom),
+        ),
+      ).toBe(CD_PLACE_RELATION_VINTAGE);
+    }
     expect(congressionalRelationVintageFor("21", "2026-06-01")).toBe(
       CD_PLACE_RELATION_VINTAGE,
     );
+  });
+
+  it("keeps Florida, Tennessee, Louisiana and Alabama on the old lines through the spring of 2026", () => {
+    const spring = "2026-04-30";
+    for (const fips of ["12", "47", "22", "01"])
+      expect(congressionalLinesSetFor(fips, spring)).toBeNull();
+    for (const fips of ["48", "37", "39", "06", "49"])
+      expect(congressionalLinesSetFor(fips, spring)).not.toBeNull();
+    // Alabama is the last to start, on June 2, 2026.
+    expect(congressionalLinesSetFor("01", "2026-06-01")).toBeNull();
+    expect(congressionalLinesSetFor("01", "2026-06-02")).not.toBeNull();
   });
 
   it("leaves states that did not redraw on the baseline at every date", () => {
