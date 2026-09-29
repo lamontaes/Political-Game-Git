@@ -105,6 +105,7 @@
     "export:county-home-value": "node --import tsx scripts/source/regional-money/export-county-home-value.ts",
     "export:household-mix": "node --import tsx scripts/source/regional-money/export-household-mix.ts",
     "export:office-pay": "node --import tsx scripts/source/regional-money/export-office-pay.ts",
+    "export:local-business-counts": "node --import tsx scripts/source/regional-money/export-local-business-counts.ts",
     "storage": "node scripts/storage/cli.mjs",
     "agent:test-cadence": "node scripts/agent-test-cadence.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",
