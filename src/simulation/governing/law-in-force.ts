@@ -246,8 +246,11 @@ function struckDownBy(
   propositionId: EntityId,
   onDate: IsoDate,
 ): boolean {
+  // A partial world read by a rule's own tests may carry no events.
+  const events = world.history.events;
+  if (!events?.length) return false;
   const ruling = recordByStableKey(
-    world.history.events,
+    events,
     judicialRulingKey(enactmentId, propositionId),
   );
   return (
