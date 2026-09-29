@@ -56,6 +56,7 @@ import {
   outcomeFactor,
   outcomeLinkStatus,
 } from "../../src/simulation/outcome-web";
+import { lawLeversFor } from "../../src/simulation/outcome-web/law-levers";
 import {
   PLACE_OUTCOME_BASES,
   PLACE_OUTCOME_MEASURES,
@@ -1958,10 +1959,12 @@ function powersLines(world: World): string[] {
           "";
         federal.push({
           key,
-          built: OUTCOME_LINKS.filter(
-            (link) =>
-              link.from === `law:${key}` && outcomeLinkStatus(link) === "built",
-          ).length,
+          built:
+            OUTCOME_LINKS.filter(
+              (link) =>
+                link.from === `law:${key}` &&
+                outcomeLinkStatus(link) === "built",
+            ).length + lawLeversFor(key).length,
         });
       }
     }
@@ -2080,17 +2083,30 @@ function lawOutcomeLines(run: WorldReportRun): string[] {
     "",
   );
   out.push(...startingLawAcrossPlaces(world), "");
+  let actingQuestions = 0;
+  const lawRows: string[] = [];
   for (const row of [...inPlay, ...atStart]) {
     const links = OUTCOME_LINKS.filter(
       (link) => link.from === `law:${row.stableKey}`,
     );
     const acting = links.filter((link) => outcomeLinkStatus(link) === "built");
-    out.push(
-      `- **${row.name}**: ${row.answer}${row.origin === "enacted" ? `, ${row.designation}, in force from ${proseDate(row.since)}` : ", as the game began"}. ${links.length ? `Feeds ${count(links.length, "outcome")}; ${acting.length} ${acting.length === 1 ? "acts" : "act"} in the world today.` : "Feeds no outcome yet."}`,
+    const levers = lawLeversFor(row.stableKey);
+    if (acting.length + levers.length > 0) actingQuestions += 1;
+    lawRows.push(
+      `- **${row.name}**: ${row.answer}${row.origin === "enacted" ? `, ${row.designation}, in force from ${proseDate(row.since)}` : ", as the game began"}. ${links.length ? `Feeds ${count(links.length, "outcome")}; ${acting.length} ${acting.length === 1 ? "acts" : "act"} in the world today.` : levers.length ? "Feeds no outcome in the web." : "Feeds no outcome yet."}`,
     );
     for (const link of links)
-      out.push(`  - ${link.to} (${link.strength}): ${outcomeLinkStatus(link)}`);
+      lawRows.push(
+        `  - ${link.to} (${link.strength}): ${outcomeLinkStatus(link)}`,
+      );
+    for (const lever of levers)
+      lawRows.push(`  - acts through ${lever.module}: ${lever.moves}`);
   }
+  out.push(
+    `Wired: the law in force here acts in the world on ${actingQuestions} of the ${count(answered.length, "question")} it answers, through a built outcome link or its own area's records.`,
+    "",
+    ...lawRows,
+  );
   out.push(
     "",
     "What moved each outcome the world computes, at the end of the run:",
