@@ -2087,14 +2087,56 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "law in force",
+      "size": 0,
+      "sizeByPlace": {
+        "US-TN": {
+          "size": -0.0413,
+          "range": [-0.0432, -0.0338]
+        },
+        "US-FL": {
+          "size": -0.0352,
+          "range": [-0.0365, -0.0299]
+        },
+        "US-AL": {
+          "size": -0.0344,
+          "range": [-0.0359, -0.0282]
+        },
+        "US-AZ": {
+          "size": -0.0167,
+          "range": [-0.0174, -0.0141]
+        },
+        "US-MS": {
+          "size": -0.0159,
+          "range": [-0.0167, -0.013]
+        },
+        "US-KY": {
+          "size": -0.0161,
+          "range": [-0.0167, -0.0134]
+        },
+        "US-VA": {
+          "size": -0.021,
+          "range": [-0.0217, -0.0181]
+        },
+        "US-DE": {
+          "size": -0.0065,
+          "range": [-0.0068, -0.0055]
+        },
+        "US-WY": {
+          "size": -0.0051,
+          "range": [-0.0054, -0.0043]
+        },
+        "US-IA": {
+          "size": -0.0002,
+          "range": [-0.0002, -0.0002]
+        }
+      },
+      "per": "law in force says yes (1) rather than no (0); zero where the place already restores the vote by the end of a sentence",
       "lagMonths": 0,
-      "group": "people with past convictions",
+      "group": "people barred from voting after their sentence",
       "owner": "C",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "Restoring the vote at the end of a sentence adds people to the voting-eligible population who vote less than others, so the eligible turnout rate falls while ballots rise. Each place's size is (1 + s x t / T) / (1 + s) - 1: s is its share of the voting-eligible population barred after their sentence, t = 0.14 the turnout of restored people (0.12 to 0.22 for the range) and T its 2024 turnout. In Tennessee the rate falls about 4% while ballots rise about 0.8 points of the old eligible population. The places that already restore by the end of a sentence (the rest of the states, D.C., the territories, and Arkansas, where Locked Out 2024 counts no one barred after the sentence, as Research 3 read it) have no one for the law to restore.",
+      "source": "The Sentencing Project, Locked Out 2024 (post-sentence shares by state); Meredith and Morse, Florida restorations 2007 to 2011 (12 to 16% voted); Burch 2011 (about 22%); University of Florida Election Lab 2024 VEP turnout. Sized by Research 3, 9/29/2026, /mnt/project-files/research/law-effect-sizes/justice.json.",
+      "evidence": "researched",
       "from": "law:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
       "to": "voting.turnout-pct"
     },
@@ -2121,14 +2163,14 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.62,
       "per": "law in force",
       "lagMonths": 6,
       "group": "tenants",
       "owner": "M",
-      "anchor": "Represented tenants are evicted less (to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "A represented tenant's chance of eviction -45% to -78%, middle -62%. town-rent.ts already decides each case with the lawyer in it; a producer of housing.eviction counts those recorded cases and never applies this link again",
+      "source": "Cassidy and Currie 2022, NBER w29836; NYC Office of Civil Justice FY2019",
+      "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
       "to": "housing.eviction"
     },
