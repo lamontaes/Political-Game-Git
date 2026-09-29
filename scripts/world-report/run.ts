@@ -57,16 +57,17 @@ import {
   outcomeLinkStatus,
 } from "../../src/simulation/outcome-web";
 import {
-  lawEffectPaths,
-  unwiredQuestions,
-} from "../../src/simulation/governing/law-effect-paths";
-import {
   PLACE_OUTCOME_BASES,
   PLACE_OUTCOME_MEASURES,
   placeOutcomeKey,
   placeOutcomeRecords,
   placeOutcomeValueText,
 } from "../../src/simulation/outcome-web/place-outcomes";
+import {
+  lawEffectPaths,
+  type LawEffectPath,
+  unwiredQuestions,
+} from "../../src/simulation/governing/law-effect-paths";
 import {
   anniversary,
   createObserverDayButton,
@@ -2047,6 +2048,25 @@ function startingLawAcrossPlaces(world: World): string[] {
   ];
 }
 
+const DIRECT_PATH_WORDS: Readonly<Record<string, string>> = {
+  paycheck: "paychecks",
+  "state-revenue": "the state's revenue",
+  "rent-and-eviction": "rents and evictions",
+  "seat-turnover": "who holds seats",
+};
+
+/** " Moves paychecks and the state's revenue." for a law's module paths. */
+function directMoves(paths: readonly LawEffectPath[]): string {
+  const words = [
+    ...new Set(
+      paths
+        .filter((path) => path.kind !== "outcome-web")
+        .map((path) => DIRECT_PATH_WORDS[path.kind] ?? path.kind),
+    ),
+  ];
+  return words.length ? ` Moves ${words.join(" and ")}.` : "";
+}
+
 /**
  * What the law in force says in the watched town on each policy question,
  * where it came from, what each law feeds in the outcome web, and which causes
@@ -2090,21 +2110,25 @@ function lawOutcomeLines(run: WorldReportRun): string[] {
     "",
   );
   out.push(...startingLawAcrossPlaces(world), "");
+  // Every sized, built path by which a law acts, outcome web or module
+  // (`law-effect-paths.ts`), by the question it answers.
+  const paths = new Map<string, LawEffectPath[]>();
+  for (const path of lawEffectPaths())
+    paths.set(path.questionKey, [...(paths.get(path.questionKey) ?? []), path]);
+  const wiredBy = (kind: (path: LawEffectPath) => boolean) =>
+    answered.filter((row) => (paths.get(row.stableKey) ?? []).some(kind))
+      .length;
+  out.push(
+    `Of the ${count(answered.length, "law")} in force here, ${wiredBy(() => true)} act in the world today: ${wiredBy((path) => path.kind === "outcome-web")} through an outcome the world computes, ${wiredBy((path) => path.kind !== "outcome-web")} through a paycheck, a budget, a rent or a seat.`,
+    "",
+  );
   for (const row of [...inPlay, ...atStart]) {
     const links = OUTCOME_LINKS.filter(
       (link) => link.from === `law:${row.stableKey}`,
     );
     const acting = links.filter((link) => outcomeLinkStatus(link) === "built");
-    // A law that acts through a module rather than the outcome web.
-    const direct = lawEffectPaths().filter(
-      (path) =>
-        path.questionKey === row.stableKey && path.kind !== "outcome-web",
-    );
-    const directText = direct.length
-      ? ` Acts directly: ${[...new Set(direct.map((path) => `${path.kind} (${path.via})`))].join(", ")}.`
-      : "";
     out.push(
-      `- **${row.name}**: ${row.answer}${row.origin === "enacted" ? `, ${row.designation}, in force from ${proseDate(row.since)}` : ", as the game began"}. ${links.length ? `Feeds ${count(links.length, "outcome")}; ${acting.length} ${acting.length === 1 ? "acts" : "act"} in the world today.` : "Feeds no outcome yet."}${directText}`,
+      `- **${row.name}**: ${row.answer}${row.origin === "enacted" ? `, ${row.designation}, in force from ${proseDate(row.since)}` : ", as the game began"}. ${links.length ? `Feeds ${count(links.length, "outcome")}; ${acting.length} ${acting.length === 1 ? "acts" : "act"} in the world today.` : "Feeds no outcome yet."}${directMoves(paths.get(row.stableKey) ?? [])}`,
     );
     for (const link of links)
       out.push(`  - ${link.to} (${link.strength}): ${outcomeLinkStatus(link)}`);

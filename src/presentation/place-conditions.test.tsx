@@ -25,6 +25,7 @@ import type {
 import {
   lawConditionSentences,
   projectPlaceConditions,
+  sponsoredLaws,
 } from "./place-conditions";
 
 /**
@@ -40,6 +41,7 @@ import {
 
 const MEASURE_ID = "legislative-measure_conditions" as EntityId;
 const PERSON_ID = "person_reader" as EntityId;
+const SPONSOR_ID = "person_sponsor" as EntityId;
 
 function hash(text: string): number {
   let value = 2166136261;
@@ -100,7 +102,7 @@ function worldWithLaw(seed: string) {
       origin: "member-introduction",
       subjectClass: "general-policy",
       originChamberKey: "house",
-      sponsorPersonId: null,
+      sponsorPersonId: SPONSOR_ID,
       introducedAt: makeIsoDate("2026-02-01"),
       sourceDocumentKey: null,
       policyAlternativeIds: [],
@@ -211,6 +213,21 @@ describe("what a law does to the state, on screen", () => {
       expect(html).toContain("by The Conditions Act (H.B. 7)");
     });
   }
+
+  it("a lawmaker's record lists the law they wrote and what it is doing", () => {
+    const drawn = worldWithLaw("place-conditions-1");
+    const laws = sponsoredLaws(drawn.world, SPONSOR_ID, null);
+    expect(laws).toHaveLength(1);
+    expect(laws[0]).toMatchObject({
+      measureId: MEASURE_ID,
+      title: "The Conditions Act",
+      designation: "H.B. 7",
+      enactedLabel: "June 1, 2026",
+    });
+    expect(laws[0]!.effects.join(" ")).toMatch(/This law (raises|lowers) it by about/);
+    // Someone who wrote no law has none listed.
+    expect(sponsoredLaws(drawn.world, PERSON_ID, null)).toEqual([]);
+  });
 
   it("a bill that is not law says nothing about conditions", () => {
     const { world } = worldWithLaw("place-conditions-1");
