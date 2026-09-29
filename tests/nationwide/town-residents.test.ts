@@ -207,7 +207,9 @@ describe("the town's size", { timeout: 180_000 }, () => {
     const town = world.people[personId]!.homeJurisdictionId;
     const roster = townRoster(town);
     expect(roster.referencePopulation).toBe(283_621);
-    expect(roster.households).toBe(Math.ceil(283_621 / peoplePerHousehold(town)));
+    expect(roster.households).toBe(
+      Math.ceil(283_621 / peoplePerHousehold(town)),
+    );
     const described = describeTownResidents(world, town);
     // The sampled estimate lands near the reference it was generated from.
     expect(described.estimated.people / 283_621).toBeGreaterThan(0.95);
