@@ -22,6 +22,7 @@ import { actuarialContribution } from "./opening";
 import { pensionFlows, pensionPayment } from "./pension-share";
 import { reserveRule } from "./reserve-rule";
 import { tuitionFreezeFactor } from "./tuition-freeze";
+import { federalAidFactor } from "../federal-outlay-laws";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import {
   ECONOMY_ELASTICITY,
@@ -307,7 +308,9 @@ export function taxLawFactor(
         ? cannabisSalesFactor(world, government, onDate)
         : source === "chargesAndFees"
           ? tuitionFreezeFactor(world, government, onDate)
-          : 1;
+          : source === "federalAid"
+            ? federalAidFactor(world, onDate)
+            : 1;
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.source !== source) continue;
     if (!(effect.levels ?? ["state"]).includes(government.level)) continue;

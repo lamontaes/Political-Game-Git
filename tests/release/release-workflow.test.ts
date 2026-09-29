@@ -45,11 +45,83 @@ describe("privilege separation", () => {
   const builder = job("build_candidate", "publish_candidate");
   const publisher = job("publish_candidate");
 
-  it("keeps dependency and repository-code execution in a read-only job", () => {
+  it("keeps dependency and repository-code execution in read-only jobs", () => {
     expect(builder).toContain("permissions:\n      contents: read");
     expect(builder).toContain("run: npm ci");
-    expect(builder).toContain("run: npm run validate");
     expect(builder).not.toContain("contents: write");
+    for (const name of [
+      "validate_candidate_repository",
+      "validate_candidate_unit",
+      "validate_candidate",
+    ]) {
+      const validator = job(name, "publish_candidate");
+      expect(validator).toContain("permissions:\n      contents: read");
+      expect(validator).toContain("persist-credentials: false");
+      expect(validator).toContain("run: npm ci");
+    }
+  });
+
+  it("validates the candidate against the whole of npm run validate", () => {
+    // `validate` is `validate:ci-sharded` plus the unit suite. The release
+    // runs the first in one job and the second in six shards, and the
+    // aggregate refuses shards that do not cover the whole suite, exactly as
+    // validate.yml does. The full gate is not narrowed; it is parallel.
+    const pkg = JSON.parse(readFileSync("package.json", "utf8")) as {
+      scripts: Record<string, string>;
+    };
+    // Step for step, wherever the unit suite sits, so a step added to both
+    // scripts keeps them equal and a step added to only one fails here.
+    const steps = pkg.scripts.validate.split(" && ");
+    expect(steps.filter((step) => step === "npm run test")).toHaveLength(1);
+    expect(steps.filter((step) => step !== "npm run test")).toEqual(
+      pkg.scripts["validate:ci-sharded"].split(" && "),
+    );
+    expect(pkg.scripts.test).toBe("vitest run");
+    const repository = job(
+      "validate_candidate_repository",
+      "validate_candidate_unit",
+    );
+    const unit = job("validate_candidate_unit", "validate_candidate");
+    const aggregate = job("validate_candidate", "publish_candidate");
+    expect(repository).toContain("run: npm run validate:ci-sharded");
+    expect(repository).toContain("npx vitest list --filesOnly");
+    expect(unit).toContain(
+      "npx vitest run --shard=${{ matrix.shard }}/${{ matrix.total }}",
+    );
+    expect(unit.match(/- shard: \d/g)).toHaveLength(6);
+    expect(unit).toContain("fail-fast: false");
+    expect(aggregate).toContain("scripts/dev-lab/assert-unit-shard-union.ts");
+    expect(aggregate).toContain(
+      'if [[ "$repository" != "success" || "$unit" != "success" ]]; then',
+    );
+    expect(publisher).toContain("needs.validate_candidate.result == 'success'");
+  });
+
+  it("validates exactly the bundled candidate commit in every job", () => {
+    for (const name of [
+      "validate_candidate_repository",
+      "validate_candidate_unit",
+      "validate_candidate",
+    ]) {
+      const validator = job(name, "publish_candidate");
+      expect(validator).toContain('== "$BUNDLE_SHA256" ]]');
+      expect(validator).toContain('git bundle verify "$bundle"');
+      expect(validator).toContain(
+        '[[ "$(git rev-parse refs/candidates/release)" == "$CANDIDATE_SHA" ]]',
+      );
+      expect(validator).toContain('git checkout -q --detach "$CANDIDATE_SHA"');
+    }
+  });
+
+  it("proves the built game carries the new version", () => {
+    const repository = job(
+      "validate_candidate_repository",
+      "validate_candidate_unit",
+    );
+    expect(repository).toContain("Prove the built game shows the new version");
+    expect(repository).toContain(
+      'grep -rqF "v${NEXT_VERSION}" dist/client/assets',
+    );
   });
 
   it("gives write authority only to the minimal publisher", () => {
@@ -77,15 +149,22 @@ describe("privilege separation", () => {
 
   it("publishes only behind explicit repository activation", () => {
     expect(publisher).toContain("vars.RELEASE_AUTOMATION == 'enabled'");
-    expect(builder).toContain("vars.RELEASE_AUTOMATION != 'enabled'");
+    expect(job("validate_candidate", "publish_candidate")).toContain(
+      "vars.RELEASE_AUTOMATION != 'enabled'",
+    );
   });
 });
 
 describe("exact validated candidate identity", () => {
-  it("creates the commit before validation and bundles it only afterwards", () => {
+  it("creates the commit, bundles it, and validates the bundled commit", () => {
     expect(
       stepIndex("Apply and create the candidate commit locally"),
     ).toBeLessThan(
+      stepIndex("Package the candidate commit as inert Git object data"),
+    );
+    expect(
+      stepIndex("Check out the exact candidate commit from its bundle"),
+    ).toBeLessThan(
       stepIndex("Validate and build the exact clean candidate commit"),
     );
     expect(
@@ -93,11 +172,8 @@ describe("exact validated candidate identity", () => {
     ).toBeLessThan(
       stepIndex("Prove validation did not change candidate identity"),
     );
-    expect(
-      stepIndex("Prove validation did not change candidate identity"),
-    ).toBeLessThan(
-      stepIndex("Package the validated commit as inert Git object data"),
-    );
+    // Nothing publishes until the whole validation has passed.
+    expect(job("publish_candidate")).toContain("- validate_candidate\n");
   });
 
   it("binds commit, tree, parent and bundle digest across jobs", () => {

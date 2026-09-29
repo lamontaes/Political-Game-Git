@@ -61,6 +61,15 @@ const AVERAGE = readings.nationalAverage as StateReading & {
   readonly seats: number;
 };
 
+/**
+ * Counties whose governing body's own name is read (Louisiana's police
+ * juries, parish councils and Caddo's commission), by GEOID. The name only:
+ * the size still comes from the state's law or the national average.
+ */
+const NAMED_BODIES = readings.namedBodies.counties as Readonly<
+  Record<string, { readonly bodyName: string; readonly memberTitle: string }>
+>;
+
 /** Each county's residents: the Bureau of Economic Analysis 2024 count. */
 const COUNTY_POPULATION = budgetBases.countyPopulation2024 as Readonly<
   Record<string, number>
@@ -132,11 +141,14 @@ export function countyGoverningBodyRules(
   const state = STATES[unit.stateUsps];
   const read = state ? stateSeats(state, unit.countyGeoid) : null;
   const reading = read === null ? AVERAGE : state!;
+  // A body whose own name is read (a Louisiana police jury) keeps it, though
+  // its size may still be the estimate.
+  const named = unit.countyGeoid ? NAMED_BODIES[unit.countyGeoid] : undefined;
   return {
     seats: read ?? AVERAGE.seats,
     basis: read === null ? "estimated" : "state-law",
-    bodyName: reading.bodyName,
-    memberTitle: reading.memberTitle,
+    bodyName: named?.bodyName ?? reading.bodyName,
+    memberTitle: named?.memberTitle ?? reading.memberTitle,
     chiefTitle: null,
     citation: reading.citation,
     url: reading.url,

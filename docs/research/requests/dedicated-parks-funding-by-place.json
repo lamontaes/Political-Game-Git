@@ -1,0 +1,35 @@
+{
+  "filedAt": "2026-09-29T15:30:00.000Z",
+  "impact": "blocks-work",
+  "lane": "local laws (Build 14)",
+  "notes": [
+    "Only the first table blocks the law itself; without it the game starts every place at 'no' marked ESTIMATED FROM AVERAGE, and a state that really has a dedication would double count when it enacts one."
+  ],
+  "priority": "P1",
+  "question": "Three parts. (1) For each of the 50 states, D.C. and the five territories: does the constitution or a statute dedicate a fixed tax, or a fixed share of a tax or of the lottery, to state parks and recreation, and if so which one and under what citation. (2) For the places that do, the yearly yield in dollars for the latest full fiscal year, and the share of the government's general revenue it is; and, for counties and cities, five or more real dedications (Seattle Park District, Kansas City, Denver, Minneapolis Park Board and similar) with the same figures. (3) How much park access changes when parks spending changes: a measure available for every state (share of residents within a ten-minute walk of a park, or the County Health Rankings 'access to exercise opportunities' share) with its value by state, and a study or a fitted slope linking dedicated or added parks spending to that measure, with the range.",
+  "questionId": "dedicated-parks-funding-by-place",
+  "relatedQuestionIds": [],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Build 14 · 2026 District Lines (federal laws split)",
+  "sourcesChecked": [
+    {
+      "source": "data/research/money/state-local-finances-2022.json (Census Bureau, 2022 Census of Governments: Finance)",
+      "whatItDidNotSettle": "Gives parks and recreation spending per resident for every state and D.C., for state, local and both together. It does not say which places dedicate revenue to parks, and it is spending, not access."
+    },
+    {
+      "source": "src/simulation/public-budgets/ on main",
+      "whatItDidNotSettle": "A parks program line exists for every government, and a state law can already add spending to a program from a fiscal-note size (SPENDING_QUESTION_EFFECTS). No entry exists for parks because no size does."
+    },
+    {
+      "source": "data/research/outcome-web/ and the place outcomes (30 measures)",
+      "whatItDidNotSettle": "No measure of parks or recreation access exists, so no link can end there. Transit service and ridership are the nearest measures."
+    },
+    {
+      "source": "Attempts from the build container on September 29, 2026 to read the National Association of State Park Directors (page is scripted), the Trust for Public Land and the National Conference of State Legislatures (both refused with HTTP 403), and Missouri's and Minnesota's constitutions (section address not found)",
+      "whatItDidNotSettle": "None of the three tables above."
+    }
+  ],
+  "title": "Which places dedicate a fixed share of revenue to parks, how much it yields, and what parks spending does to park access",
+  "usableAnswer": "Three tables. (1) One row per place: yes or no, the tax or share dedicated, the citation, the source. (2) One row per dedication: the government, the dedicated tax or share, yield in dollars, its share of general revenue, the year, the source. (3) One row per state for the access measure, plus the study or slope with its low and high range and its source. Where a place's law cannot be read, say so, and the game will use the most common answer marked ESTIMATED FROM AVERAGE.",
+  "whyItMatters": "The Claude CTO's 10:49 a.m. federal split gave Build 14 'dedicated parks funding (local): park budget line to the parks outcome.' A law cannot be wired without three sized things: the answer each place starts with (only a change from it moves anything), the dollars a 'yes' adds to the parks line, and the outcome that line moves. The game has the parks spending line for every state, but no starting answer, no size for the dedication and no parks outcome. Guessing all three would invent numbers."
+}

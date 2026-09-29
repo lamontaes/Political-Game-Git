@@ -8,7 +8,7 @@ import {
   seatMunicipalMember,
 } from "../municipal-public-work";
 import type { GovernmentUnitIdentity } from "../government-units";
-import { countyGoverningBodyRules } from "../nationwide-world/county-governing-body-rules";
+import { boardGoverningBodyRules } from "../nationwide-world/township-governing-body-rules";
 import { localChiefExecutiveRules } from "../nationwide-world/local-chief-executive-rules";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
 import { localGoverningBodyRules } from "../nationwide-world/local-governing-body-rules";
@@ -343,8 +343,9 @@ export function ensureLocalGovernmentSeatsForUnit(
 }
 
 /**
- * Seat one county government, or one municipio: its board or municipal
- * legislature at the size its law sets (`countyGoverningBodyRules`), and its
+ * Seat one county, town or township government, or one municipio: its board
+ * or municipal legislature at the size its law sets
+ * (`boardGoverningBodyRules`), and its
  * mayor where the law elects one. Members are drawn from the residents of the
  * player's own town, which lies in the county: the game holds no other
  * roster there yet. Seats someone already holds are not filled again.
@@ -356,7 +357,7 @@ export function ensureCountyGovernmentSeatsForUnit(
   excludePersonIds: readonly EntityId[] = [],
 ): World {
   if (localGovernmentSeated(world, unit.id)) return world;
-  const rules = countyGoverningBodyRules(unit);
+  const rules = boardGoverningBodyRules(unit);
   if (!rules) return world;
   const municipio = rules.chiefTitle !== null;
   let next = ensureLocalGovernmentOrganization(world, unit);
@@ -395,7 +396,7 @@ export function ensureCountyGovernmentSeatsForUnit(
       kind: "leadership:municipal-office",
       roleKind: mayor
         ? "leader:municipal-mayor"
-        : municipio
+        : municipio || unit.unitType === "township"
           ? "leader:municipal-member"
           : COUNTY_BOARD_MEMBER,
       context: label,
@@ -497,8 +498,10 @@ export function ensureLocalGovernmentSeats(
   let next = world;
   for (const unit of units.municipal)
     next = ensureLocalGovernmentSeatsForUnit(next, unit, town, housemates);
-  // The county board, or the municipio's legislature and mayor, is seated
-  // from the same town's residents.
+  // The town or township board, the county board, or the municipio's
+  // legislature and mayor, is seated from the same town's residents.
+  for (const unit of units.townships)
+    next = ensureCountyGovernmentSeatsForUnit(next, unit, town, housemates);
   for (const unit of units.counties)
     next = ensureCountyGovernmentSeatsForUnit(next, unit, town, housemates);
   return next;

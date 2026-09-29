@@ -5,6 +5,9 @@ import {
   macroScopeForJurisdiction,
 } from "../macro-economy/readers";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
+import { defenseBoostPct } from "../federal-defense-spending";
+import { federalDeficitChangePctOfGdp } from "../federal-outlay-laws";
+import { farmPaymentsCutPctOfLandValue } from "../federal-farm-subsidy-law";
 import { stateMinimumSettingAt } from "../minimum-wage";
 import {
   PLACE_OUTCOME_BASES,
@@ -128,7 +131,12 @@ const BASELINES = web.baselines as Readonly<
 >;
 
 /** Measures whose baseline is zero: a change from where the place began. */
-const CHANGE_MEASURES = new Set(["labor.minimum-wage-change-pct"]);
+const CHANGE_MEASURES = new Set([
+  "labor.minimum-wage-change-pct",
+  "federal.defense-boost-pct",
+  "federal.farm-payments-cut-pct-of-land-value",
+  "federal.deficit-change-pct-of-gdp",
+]);
 
 /**
  * A measure the world records, read for one place on one date. `read` returns
@@ -193,6 +201,39 @@ const FIXED_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
     },
   },
 
+  "federal.defense-boost-pct": {
+    key: "federal.defense-boost-pct",
+    unit: "percent of what the state produces that extra defense contracts add",
+    // A federal law that grows defense spending faster than inflation sends
+    // each state more contracts, in proportion to what it draws today
+    // (`federal-defense-spending.ts`); with no such law the boost is zero.
+    read: (world, jurisdictionId, asOf) => {
+      const key = placeOutcomeKey(jurisdictionId);
+      return key === null ? null : defenseBoostPct(world, key, asOf);
+    },
+  },
+  "federal.farm-payments-cut-pct-of-land-value": {
+    key: "federal.farm-payments-cut-pct-of-land-value",
+    unit: "percent of the state's farm real estate value that the farm payments cut removes each year",
+    // A federal law that cuts farm subsidies removes a share of each state's
+    // payments (`federal-farm-subsidy-law.ts`); with no such law it is zero.
+    read: (world, jurisdictionId, asOf) => {
+      const key = placeOutcomeKey(jurisdictionId);
+      return key === null
+        ? null
+        : farmPaymentsCutPctOfLandValue(world, key, asOf);
+    },
+  },
+  "federal.deficit-change-pct-of-gdp": {
+    key: "federal.deficit-change-pct-of-gdp",
+    unit: "percentage points of GDP the federal deficit is above where the laws the game began with put it",
+    // Federal laws that cut spending before the debt limit rises, or spend
+    // more on foreign aid, change the federal deficit
+    // (`federal-outlay-laws.ts`); with neither the change is zero. The same
+    // nation-wide figure for every place.
+    read: (world, _jurisdictionId, asOf) =>
+      federalDeficitChangePctOfGdp(world, asOf),
+  },
   "labor.unemployment-pct": {
     key: "labor.unemployment-pct",
     unit: "percent of the labor force",
@@ -307,6 +348,18 @@ export const LAW_QUESTION_MEASURES: Readonly<
   "us-policy-positions:labor-workforce.raise-minimum-wage": [
     "labor.minimum-wage-change-pct",
   ],
+  "us-federal-positions:defense.grow-defense-spending": [
+    "federal.defense-boost-pct",
+  ],
+  "us-federal-positions:agriculture.cut-farm-subsidies": [
+    "federal.farm-payments-cut-pct-of-land-value",
+  ],
+  "us-federal-positions:budget.pay-for-a-higher-debt-limit": [
+    "federal.deficit-change-pct-of-gdp",
+  ],
+  "us-federal-positions:foreign-affairs.increase-foreign-aid": [
+    "federal.deficit-change-pct-of-gdp",
+  ],
 };
 
 /** Every link a law on this question feeds, by its answer or by its bill term. */
@@ -319,6 +372,23 @@ export function outcomeLinksFedByQuestion(
       link.from === `${LAW_CAUSE_PREFIX}${questionKey}` ||
       measures.includes(link.from),
   );
+}
+
+/**
+ * The same part as a percent of the outcome's level before its causes acted:
+ * 0 until a law or another outcome moves it, 6 when they raised it 6%
+ * (`transit.service-access:pct-moved-by-causes`). A link sized as an
+ * elasticity reads this, so it acts the same in a place with little of the
+ * outcome as in one with a lot.
+ */
+const PCT_MOVED_BY_CAUSES_SUFFIX = ":pct-moved-by-causes";
+
+function placeOutcomePctMovedByCauses(key: string): string | null {
+  if (!key.endsWith(PCT_MOVED_BY_CAUSES_SUFFIX)) return null;
+  const measure = key.slice(0, -PCT_MOVED_BY_CAUSES_SUFFIX.length);
+  const definition = PLACE_OUTCOME_BASES[measure];
+  // A level adds its causes rather than multiplying, so it has no percent.
+  return definition && definition.scale !== "level" ? measure : null;
 }
 
 /** The reader for a cause: a registered measure, or the law on a question. */
@@ -345,6 +415,22 @@ export function outcomeMeasure(key: string): OutcomeMeasure | null {
         return definition.scale === "level"
           ? record.value - structural
           : structural * (record.multiplier - 1);
+      },
+    };
+  }
+  const pctMovedMeasure = placeOutcomePctMovedByCauses(key);
+  if (pctMovedMeasure) {
+    return {
+      key,
+      unit: `percent the causes moved the place's ${PLACE_OUTCOME_BASES[pctMovedMeasure]!.name.toLowerCase()}`,
+      read: (world, jurisdictionId, asOf) => {
+        const record = placeOutcomeAt(
+          world,
+          pctMovedMeasure,
+          jurisdictionId,
+          asOf,
+        );
+        return record ? (record.multiplier - 1) * 100 : null;
       },
     };
   }
@@ -394,6 +480,7 @@ function baselineOf(
   if (CHANGE_MEASURES.has(cause)) return 0;
   if (placeOutcomeOfPctOfStart(cause)) return 100;
   if (placeOutcomeMovedByCauses(cause)) return 0;
+  if (placeOutcomePctMovedByCauses(cause)) return 0;
   // A place outcome is measured from where the place began.
   const placeBase = PLACE_OUTCOME_BASES[cause];
   if (placeBase) {

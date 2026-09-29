@@ -58,8 +58,27 @@ export interface OccurIncidentInput {
   readonly stableKey: string;
   readonly evaluation: IncidentEvaluation;
   readonly actorPersonId?: EntityId | null;
+  /**
+   * People the onset event names in a role other than the actor's, such as
+   * the target of a threat. They take no action through the incident.
+   */
+  readonly subjects?: readonly {
+    readonly personId: EntityId;
+    readonly role: `impact:${string}`;
+    readonly detail: string | null;
+  }[];
   readonly summary: string;
   readonly visibility: "private" | "limited" | "public";
+}
+
+export interface RecordIncidentStageInput {
+  readonly stableKey: string;
+  readonly incidentId: IncidentRecord["id"];
+  readonly status: IncidentStateRecord["status"];
+  readonly phaseKey: IncidentStateRecord["phaseKey"];
+  readonly reasonKey: IncidentStateRecord["reasonKey"];
+  readonly context: string;
+  readonly summary: string;
 }
 
 export interface RecordIncidentTransitionPlanInput {
@@ -215,11 +234,17 @@ export function occurIncident(world: World, input: OccurIncidentInput): World {
     throw new Error("Actor-initiated incident occurrence requires an actor.");
   }
   if (
-    definition.occurrenceMode === "probabilistic" &&
+    definition.occurrenceMode !== "actor-initiated" &&
     input.actorPersonId !== undefined &&
     input.actorPersonId !== null
   ) {
-    throw new Error("Probabilistic incident occurrence cannot name an actor.");
+    throw new Error(
+      "Only an actor-initiated incident occurrence can name an actor.",
+    );
+  }
+  for (const subject of input.subjects ?? []) {
+    if (!world.people[subject.personId])
+      throw new Error(`Incident subject is not available: ${subject.personId}`);
   }
   if (input.actorPersonId) {
     const availability = personActionAvailabilityAt(
@@ -243,19 +268,25 @@ export function occurIncident(world: World, input: OccurIncidentInput): World {
     recordedAt: world.currentDate,
     jurisdictionId: input.evaluation.scope.jurisdictionId,
     involvedEntityIds: [
-      world.id,
-      input.evaluation.scope.jurisdictionId,
-      ...(input.actorPersonId ? [input.actorPersonId] : []),
+      ...new Set([
+        world.id,
+        input.evaluation.scope.jurisdictionId,
+        ...(input.actorPersonId ? [input.actorPersonId] : []),
+        ...(input.subjects ?? []).map((subject) => subject.personId),
+      ]),
     ].sort(),
-    participants: input.actorPersonId
-      ? [
-          {
-            personId: input.actorPersonId,
-            role: "agency:actor",
-            detail: "Initiated this incident occurrence.",
-          },
-        ]
-      : [],
+    participants: [
+      ...(input.actorPersonId
+        ? [
+            {
+              personId: input.actorPersonId,
+              role: "agency:actor" as const,
+              detail: "Initiated this incident occurrence.",
+            },
+          ]
+        : []),
+      ...(input.subjects ?? []).map((subject) => ({ ...subject })),
+    ],
     personFactConstraints: [],
     visibility: input.visibility,
     tags: [...definition.tags, "incident.occurred"],
@@ -322,6 +353,45 @@ export function occurIncident(world: World, input: OccurIncidentInput): World {
     supersedesStateId: null,
     provenance: { kind: "simulated", sourceEntityIds: [incident.id] },
   });
+}
+
+/**
+ * Records the next stage of an active incident on the current date, after the
+ * caller has re-checked the world: an ordinary phase event and a state that
+ * supersedes the latest one. A stage re-checked on schedule goes through
+ * `recordIncidentTransitionPlan` instead; this is for a condition whose next
+ * stage depends on what the world reads when it is checked.
+ */
+export function recordIncidentStage(
+  world: World,
+  input: RecordIncidentStageInput,
+): World {
+  const incident = requireIncident(world, input.incidentId);
+  const latest = latestIncidentState(world, incident.id);
+  if (!latest || latest.status !== "active") {
+    throw new Error("Only an active incident can enter another stage.");
+  }
+  let working = recordIncidentPhaseEvent(world, {
+    stableKey: `${input.stableKey}:event`,
+    incident,
+    phaseKey: input.phaseKey,
+    summary: input.summary,
+  });
+  const event = working.history.events.at(-1);
+  if (!event) throw new Error("Incident stage event was not committed.");
+  working = appendIncidentState(working, {
+    stableKey: `${input.stableKey}:state`,
+    incidentId: incident.id,
+    effectiveAt: world.currentDate,
+    status: input.status,
+    phaseKey: input.phaseKey,
+    eventId: event.id,
+    reasonKey: input.reasonKey,
+    context: input.context,
+    supersedesStateId: latest.id,
+    provenance: { kind: "simulated", sourceEntityIds: [incident.id] },
+  });
+  return working;
 }
 
 export function recordActorInitiatedIncident(
