@@ -23,7 +23,7 @@ import { TOWN_JOB_END_REASONS } from "../living-world/town-labor-market";
 import type { TownJob } from "../living-world/town-labor-market";
 import { CRUNCH46_PROVISIONAL_POLICY } from "../macro-economy/policy";
 import { nominalEconomyIndex } from "./fiscal";
-import { servingCounty } from "./opening";
+import { servingGovernment } from "./opening";
 import { BUDGET_PROGRAMS, PUBLIC_BUDGETS_VERSION } from "./store";
 import type {
   BudgetProgram,
@@ -43,7 +43,8 @@ import type {
  * funded count rises, the town hires; when it falls, it lays off.
  *
  * - Police follow the police line of the government that serves the town: its
- *   own city, or its county or Puerto Rico municipio (`servingCounty`).
+ *   own city, or else its county, Puerto Rico municipio, consolidated
+ *   government, New England town or state (`servingGovernment`).
  * - Teachers follow the state's school line. The school districts that employ
  *   teachers are not governments the world holds yet, and the state is their
  *   largest single funder in the game's books.
@@ -104,8 +105,8 @@ export function fundingGovernment(
   if (funder === "state") return find(stateKey);
   const own = find(`place:${place.sourceGeoid}`);
   if (own) return own;
-  const county = servingCounty(place.sourceGeoid, stateKey);
-  return typeof county === "string" ? null : find(`county:${county.geoid}`);
+  const serving = servingGovernment(place.sourceGeoid, stateKey, town);
+  return typeof serving === "string" ? null : find(serving.key);
 }
 
 /**

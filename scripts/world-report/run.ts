@@ -791,7 +791,96 @@ function lawConsequences(
       }
     }
   }
+  // A law also acts through the outcome web, which names no measure: its
+  // monthly records name the link that moved them.
+  for (const [measureId, moves] of lawOutcomeMoves(
+    reader.world,
+    reader.startedOn,
+  )) {
+    const seen = found.get(measureId) ?? [];
+    for (const move of moves)
+      seen.push({ array: "placeOutcomes", id: move.label });
+    found.set(measureId, seen);
+  }
   return found;
+}
+
+/**
+ * Each outcome a law enacted in play moved, read from the outcome web's
+ * monthly records since `since`: a record's cause names a link from a law's
+ * question, and the law in force in that place that month is the measure.
+ * A lagged link is credited to the law in force in the month it moved, which
+ * is the law it reads unless a newer law on the same question took effect
+ * inside the lag.
+ */
+export function lawOutcomeMoves(
+  world: World,
+  since: IsoDate,
+): Map<string, { measure: string; placeKey: string; label: string }[]> {
+  const propositionOf = new Map(
+    Object.values(world.policyCatalog?.propositions ?? {}).map(
+      (definition) => [definition.stableKey, definition.id] as const,
+    ),
+  );
+  const questionOfLink = new Map<string, EntityId>();
+  for (const link of OUTCOME_LINKS) {
+    if (!link.from.startsWith("law:")) continue;
+    const propositionId = propositionOf.get(link.from.slice(4));
+    if (propositionId) questionOfLink.set(link.key, propositionId);
+  }
+  const lawAt = new Map<string, string | null>();
+  const found = new Map<
+    string,
+    { measure: string; placeKey: string; label: string }[]
+  >();
+  for (const record of placeOutcomeRecords(world)) {
+    if (record.month < since) continue;
+    for (const cause of record.causes) {
+      const propositionId = questionOfLink.get(cause.key);
+      if (!propositionId || Math.abs(cause.factor - 1) < 1e-9) continue;
+      const key = `${record.jurisdictionId}|${propositionId}|${record.month}`;
+      let measureId = lawAt.get(key);
+      if (measureId === undefined) {
+        const law = lawInForce(
+          world,
+          record.jurisdictionId,
+          propositionId,
+          record.month,
+        );
+        measureId = law?.origin === "enacted" ? law.measureId : null;
+        lawAt.set(key, measureId);
+      }
+      if (!measureId) continue;
+      const rows = found.get(measureId) ?? [];
+      if (
+        !rows.some(
+          (row) =>
+            row.measure === record.measure && row.placeKey === record.placeKey,
+        )
+      )
+        rows.push({
+          measure: record.measure,
+          placeKey: record.placeKey,
+          label: `${(PLACE_OUTCOME_BASES[record.measure]?.name ?? record.measure).toLowerCase()} in ${record.placeKey}`,
+        });
+      found.set(measureId, rows);
+    }
+  }
+  return found;
+}
+
+/** "people homeless … in US-VA" labels, one phrase per outcome. */
+function outcomePlaces(labels: readonly string[]): string[] {
+  const places = new Map<string, number>();
+  for (const label of labels) {
+    const outcome = label.slice(0, label.lastIndexOf(" in "));
+    places.set(outcome, (places.get(outcome) ?? 0) + 1);
+  }
+  return [...places].map(([outcome, n]) =>
+    n === 1
+      ? labels.find((label) => label.startsWith(`${outcome} in `))!
+      : `${outcome} in ${n} places`,
+  );
 }
 
 function lawLines(
@@ -834,14 +923,26 @@ function lawLines(
       });
       continue;
     }
-    const changed = consequences.get(enactment.measureId as string) ?? [];
+    const all = consequences.get(enactment.measureId as string) ?? [];
+    const changed = all.filter((row) => row.array !== "placeOutcomes");
+    const moved = all.filter((row) => row.array === "placeOutcomes");
     const byArray = new Map<string, number>();
     for (const row of changed)
       byArray.set(row.array, (byArray.get(row.array) ?? 0) + 1);
+    const parts = [
+      ...[...byArray].map(
+        ([array, value]) => `${value} ${array} record${value === 1 ? "" : "s"}`,
+      ),
+      ...(moved.length
+        ? [
+            `through the outcome web, ${list(outcomePlaces(moved.map((row) => row.id)))}`,
+          ]
+        : []),
+    ];
     lines.push({
       date: enactment.resolvedAt as IsoDate,
       section: "laws",
-      text: `${label} became law${enactment.effectiveAt ? `, effective ${proseDate(enactment.effectiveAt as string)}` : ""}. What it changed in the world's records: ${changed.length === 0 ? "nothing outside its own passage" : list([...byArray].map(([array, value]) => `${value} ${array} record${value === 1 ? "" : "s"}`))}.`,
+      text: `${label} became law${enactment.effectiveAt ? `, effective ${proseDate(enactment.effectiveAt as string)}` : ""}. What it changed in the world's records: ${parts.length === 0 ? "nothing outside its own passage" : list(parts)}.`,
       sources: [enactment.id, ...changed.slice(0, 6).map((row) => row.id)],
     });
   }
@@ -1555,7 +1656,7 @@ export function neverChecks(
       "No law changed anything in the world beyond its own passage.",
       "At least one law changed a record beyond its own passage.",
       lawsWithConsequences.length > 0,
-      `${count(enacted.length, "bill")} became law; ${lawsWithConsequences.length} of them are named by any record outside the legislative process, the news, people's memories and the scheduler.`,
+      `${count(enacted.length, "bill")} became law; ${lawsWithConsequences.length} of them are named by any record outside the legislative process, the news, people's memories and the scheduler, or moved an outcome the outcome web records.`,
     ),
     check(
       "big-field",
