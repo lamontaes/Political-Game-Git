@@ -1,5 +1,5 @@
 .art-desk {
-  color: #243b3e;
+  color: #32291b;
   background: #f0ece3;
   min-height: 100vh;
   padding: 16px clamp(12px, 3vw, 40px) 32px;
@@ -31,8 +31,8 @@
   font: inherit;
 }
 .art-desk button {
-  background: #31424b;
-  color: #fff;
+  background: #ebe0cd;
+  color: #2e2619;
   border: 1px solid #89999c;
   border-radius: 5px;
   padding: 8px 12px;
@@ -41,7 +41,7 @@
 .art-desk button[aria-pressed="true"],
 .art-desk button[aria-pressed="true"]:hover:not(:disabled) {
   background: #eadcb7;
-  color: #14242d;
+  color: #32291b;
 }
 .art-desk :focus-visible {
   outline: 3px solid #ad6931;
@@ -92,7 +92,7 @@
   width: 72px;
   height: 48px;
   object-fit: cover;
-  background: #19252b;
+  background: #efe7d8;
   border-radius: 4px;
   flex: 0 0 auto;
 }
@@ -102,15 +102,15 @@
   justify-content: center;
   font-size: 0.7rem;
   letter-spacing: 0.02em;
-  color: #c9d3d6;
-  border: 1px dashed #5d6d73;
-  background: #22323a;
+  color: #584930;
+  border: 1px dashed #7c643c;
+  background: #ede4d3;
   text-align: center;
   line-height: 1.1;
   padding: 2px;
 }
 .art-desk-row[aria-pressed="true"] .art-desk-thumb--none {
-  color: #14242d;
+  color: #32291b;
   background: #d9cb9f;
   border-color: #8f7e4c;
 }
@@ -165,7 +165,7 @@
   width: 100%;
   max-height: 360px;
   object-fit: contain;
-  background: #19252b;
+  background: #efe7d8;
 }
 .art-desk-scene {
   position: relative;
@@ -265,15 +265,15 @@
 }
 .art-desk-preview figure {
   margin: 0;
-  background: #19252b;
+  background: #efe7d8;
 }
 .art-desk-preview figcaption {
-  color: #d5dde0;
+  color: #4a3d28;
   padding: 2px 6px;
 }
 .art-desk-preview figure > .art-desk-meta {
   display: block;
-  color: #d5dde0;
+  color: #4a3d28;
   padding: 3px 6px;
 }
 /* Real alpha shows over a checkerboard, never flattened onto a colour. */
@@ -320,8 +320,8 @@
 }
 .art-desk-linkbutton {
   display: inline-block;
-  background: #31424b;
-  color: #fff;
+  background: #ebe0cd;
+  color: #2e2619;
   border: 1px solid #89999c;
   border-radius: 5px;
   padding: 8px 12px;
@@ -416,12 +416,12 @@
 .art-desk-connection {
   margin: 0;
   font-size: 0.9rem;
-  color: #4a5c60;
+  color: #32291b;
 }
 .art-desk .art-desk-quiet {
   padding: 3px 9px;
   background: transparent;
-  color: #31424b;
+  color: #32291b;
   border-color: #b7c0c1;
 }
 .art-desk-tabs {
@@ -433,7 +433,7 @@
 }
 .art-desk .art-desk-tabs button {
   background: transparent;
-  color: #31424b;
+  color: #32291b;
   border: 0;
   border-bottom: 3px solid transparent;
   border-radius: 0;
@@ -442,7 +442,7 @@
 }
 .art-desk .art-desk-tabs button[aria-current="page"] {
   border-bottom-color: #ad6931;
-  color: #14242d;
+  color: #32291b;
 }
 .art-desk-count {
   display: inline-block;
@@ -489,7 +489,7 @@
   padding: 1px 7px;
   border-radius: 99px;
   background: #dfe4e4;
-  color: #243b3e;
+  color: #32291b;
   font-weight: 600;
 }
 .art-desk-badge--awaiting-review {
@@ -508,7 +508,7 @@
 }
 .art-desk-empty {
   padding: 16px;
-  color: #4a5c60;
+  color: #32291b;
 }
 .art-desk-detail-column {
   display: grid;
@@ -531,7 +531,7 @@
 }
 .art-desk-asset-lineage li + li::before {
   content: "→ ";
-  color: #89999c;
+  color: #776340;
 }
 .art-desk-advanced {
   margin-top: 18px;
@@ -540,7 +540,7 @@
 }
 .art-desk-advanced > summary {
   cursor: pointer;
-  color: #4a5c60;
+  color: #32291b;
 }
 
 .art-desk-reference-details,
