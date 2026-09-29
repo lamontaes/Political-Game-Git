@@ -1,5 +1,5 @@
 import { addDays, ageOnDate } from "./dates";
-import { DEMO_START_DATE, LEXINGTON_PLACEHOLDER_ID } from "./demo";
+import { DEMO_START_DATE } from "./demo";
 import { createWorldId } from "./world";
 import { DEFAULT_CORPUS_VERSION } from "./names-data";
 import {
@@ -17,7 +17,8 @@ export interface PersonStressHarnessOptions {
   readonly generatorVersion?: string;
   readonly corpusVersion?: string;
   readonly currentDate?: IsoDate;
-  readonly jurisdictionId?: EntityId;
+  /** The place the sampled people live in. Named by the caller, never defaulted. */
+  readonly jurisdictionId: EntityId;
 }
 
 export interface GeneratedPersonSummary {
@@ -84,7 +85,7 @@ function resolveSeeds(options: PersonStressHarnessOptions): readonly string[] {
 }
 
 export function runPersonStressHarness(
-  options: PersonStressHarnessOptions = {},
+  options: PersonStressHarnessOptions,
 ): PersonStressHarnessResult {
   const seeds = resolveSeeds(options);
   const peoplePerSeed = options.peoplePerSeed ?? 6;
@@ -93,7 +94,7 @@ export function runPersonStressHarness(
     options.generatorVersion ?? DEFAULT_PERSON_GENERATOR_VERSION;
   const corpusVersion = options.corpusVersion ?? DEFAULT_CORPUS_VERSION;
   const currentDate = options.currentDate ?? DEMO_START_DATE;
-  const jurisdictionId = options.jurisdictionId ?? LEXINGTON_PLACEHOLDER_ID;
+  const jurisdictionId = options.jurisdictionId;
 
   const populations: PopulationSample[] = [];
   const allFullNames = new Set<string>();

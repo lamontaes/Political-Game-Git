@@ -1,0 +1,22 @@
+{
+  "filedAt": "2026-09-29T00:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "local government",
+  "notes": [
+    "Filed by the placeholder-ledger work because the markers named this id and no request file existed."
+  ],
+  "priority": "P2",
+  "question": "How often does a typical US city, town and county council meet in a year, by government type and population size, and how many ordinances or resolutions does it introduce, pass and reject in a year? How many measures does an ordinary member introduce, and how often is a measure voted down or tabled rather than passed?",
+  "questionId": "local-council-legislative-volume",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Build 15 · Real Money Numbers",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/living-world/local-council-meetings.ts and src/simulation/measure-numbering.ts",
+      "whatItDidNotSettle": "Both mark the meeting interval, one ordinance per meeting and the ballot as PLACEHOLDER; no town's volume has been read."
+    }
+  ],
+  "title": "How often local councils meet and how many measures they take up",
+  "usableAnswer": "A table by government type (council-manager, mayor-council, commission, town meeting, county board) and population band giving meetings per year, measures introduced per year, share adopted, rejected and tabled, each with a named public source (state municipal league surveys, ICMA, municipal clerk annual reports, or a sampled set of published council minutes) and its year.",
+  "whyItMatters": "The game's local councils meet on one fixed interval and introduce one ordinance per meeting in every town, so a town of 800 and a city of 800,000 legislate at the same pace and measure numbers run at an invented rate."
+}

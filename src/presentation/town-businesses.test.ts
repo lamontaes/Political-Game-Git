@@ -11,8 +11,11 @@ import {
   BUSINESS_REVENUE_BASIS,
   BUSINESS_WAGES_BASIS,
   BUSINESS_WORKER_WORK_KIND,
-  LOCAL_BUSINESS_KINDS,
+  LOCAL_BUSINESS_MAX_PER_KIND,
+  LOCAL_BUSINESS_MAX_STAFF,
   OWNER_DRAW_BASIS,
+  localBusinessPlansFor,
+  localBusinessWageMinor,
   localBusinessesIn,
   refreshLocalEconomy,
 } from "../simulation/local-economy";
@@ -80,16 +83,33 @@ describe("the businesses of a town", () => {
       )
         expect(earlier.has(work.personId)).toBe(false);
     const seated = localBusinessesIn(world, townId);
-    expect(seated).toHaveLength(LOCAL_BUSINESS_KINDS.length);
+    const plans = localBusinessPlansFor(townId);
+    expect(seated).toHaveLength(plans.length);
+    // Boise is a city of about 240,000 in a county of about 500,000: it has
+    // every kind, and the game seats no more than its cap of each.
+    expect(plans.every((plan) => plan.sourced)).toBe(true);
+    for (const { kind } of seated)
+      expect(
+        seated.filter((entry) => entry.kind === kind).length,
+      ).toBeLessThanOrEqual(LOCAL_BUSINESS_MAX_PER_KIND);
     const lines = projectTownBusinesses(world, townId);
     const names = lines.map((line) => line.name);
     expect(new Set(names).size).toBe(names.length);
     const market = lines.find((line) => line.name.endsWith("'s Market"))!;
     expect(market.ownerLine).toMatch(/^\S+ \S+, owner$/);
-    expect(market.staffLine).toBe("3 other people work there.");
+    const groceryPlan = plans.find((plan) => plan.kind.key === "grocery")!;
+    expect(groceryPlan.workers).toBeLessThanOrEqual(LOCAL_BUSINESS_MAX_STAFF);
+    expect(market.staffLine).toBe(
+      `${groceryPlan.workers} other people work there.`,
+    );
     const law = lines.find((line) => line.name.endsWith(" Law Office"))!;
     expect(law.ownerLine).toMatch(/, attorney$/);
-    expect(law.staffLine).toBe("One other person works there.");
+    const lawPlan = plans.find((plan) => plan.kind.key === "law-office")!;
+    expect(law.staffLine).toBe(
+      lawPlan.workers === 1
+        ? "One other person works there."
+        : `${lawPlan.workers} other people work there.`,
+    );
     // Owners carry their own risk; nothing here is played work.
     for (const { organization } of seated) {
       const owner = world.history.workRelationships.find(
@@ -122,15 +142,22 @@ describe("the businesses of a town", () => {
   it("records each business's monthly revenue and pay without writing a ledger nobody can read", () => {
     const { world, townId } = openedLife();
     const [grocery] = localBusinessesIn(world, townId);
-    const flows = world.history.resourceFlows.filter((flow) =>
-      flow.stableKey.startsWith(`${grocery!.organization.stableKey}:`),
+    const prefix = `${grocery!.organization.stableKey}:`;
+    const flows = world.history.resourceFlows.filter(
+      (flow) =>
+        flow.stableKey.startsWith(prefix) &&
+        /^(revenue|owner:draw|worker:\d+:wages)$/.test(
+          flow.stableKey.slice(prefix.length),
+        ),
     );
-    // Revenue, the owner's draw and three paychecks, each a monthly flow.
+    // Revenue, the owner's draw and a paycheck for each of the staff, each a
+    // monthly flow.
+    const workers = localBusinessPlansFor(townId).find(
+      (plan) => plan.kind.key === "grocery",
+    )!.workers;
     expect(flows.map((flow) => flow.basisKind).sort()).toEqual(
       [
-        BUSINESS_WAGES_BASIS,
-        BUSINESS_WAGES_BASIS,
-        BUSINESS_WAGES_BASIS,
+        ...Array.from({ length: workers }, () => BUSINESS_WAGES_BASIS),
         OWNER_DRAW_BASIS,
         BUSINESS_REVENUE_BASIS,
       ].sort(),
@@ -183,9 +210,16 @@ describe("the businesses of a town", () => {
     `);
     expect(outcomesFor(next, BUSINESS_REVENUE_BASIS)).toHaveLength(months.size);
     expect(outcomesFor(next, OWNER_DRAW_BASIS)).toHaveLength(months.size);
-    expect(outcomesFor(next, BUSINESS_WAGES_BASIS)).toHaveLength(
-      months.size * 3,
-    );
+    const groceryPlan = localBusinessPlansFor(townId).find(
+      (plan) => plan.kind.key === "grocery",
+    )!;
+    expect(
+      outcomesFor(next, BUSINESS_WAGES_BASIS).filter((outcome) =>
+        world.history.resourceFlows
+          .find((flow) => flow.id === outcome.resourceFlowId)!
+          .stableKey.startsWith(`${grocery!.organization.stableKey}:worker:`),
+      ),
+    ).toHaveLength(months.size * groceryPlan.workers);
     for (const basis of [
       BUSINESS_REVENUE_BASIS,
       OWNER_DRAW_BASIS,
@@ -194,10 +228,18 @@ describe("the businesses of a town", () => {
       for (const outcome of outcomesFor(next, basis))
         expect(outcome.status).toBe("completed");
     const usd = money(0, "USD").currency;
-    // $60,000 in, $5,000 to the owner and $2,800 to each of three staff.
+    // The month's sales in, $5,000 to the owner and the town's published
+    // cashier wage to each of the store's staff.
+    const wage = localBusinessWageMinor(grocery!.kind, townId);
+    expect(wage.sourced).toBe(true);
     expect(
       resourcePositionAt(next, business, usd)!.liquidBalance.minorUnits,
-    ).toBe(months.size * (6_000_000 - 500_000 - 3 * 280_000));
+    ).toBe(
+      months.size *
+        (groceryPlan.monthlyRevenueMinor -
+          500_000 -
+          groceryPlan.workers * wage.monthlyMinor),
+    );
     expect(
       resourcePositionAt(next, { kind: "person", personId: ownerId }, usd)!
         .liquidBalance.minorUnits,
