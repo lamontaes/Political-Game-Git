@@ -104,9 +104,10 @@ describe("the outcome web table", () => {
       expect(outcomeMeasure(row.from), row.key).not.toBeNull();
       expect(OUTCOMES_PRODUCED.has(row.to), row.key).toBe(true);
     }
-    // A ready link into an outcome nothing computes yet says so.
+    // A ready link into an outcome nothing computes yet says so: evictions
+    // are decided case by case in the rent code, never computed in the web.
     const ready = OUTCOME_LINKS.find(
-      (link) => link.key === "rent-control-to-rental-supply",
+      (link) => link.key === "right-to-counsel-to-evictions",
     )!;
     expect(outcomeLinkStatus(ready)).toBe("outcome-not-produced");
   });

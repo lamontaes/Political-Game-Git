@@ -1,8 +1,29 @@
 {
-  "about": "What Congress's law on statehood for a nonvoting place adds to the chambers when it takes effect: one voting seat in the House, elected at large as the place's own Delegate seat is, and two Senate seats, each in a different class. The place's district code is the Census Bureau's congressional district code in the game's district catalog. The two Senate seats go to the two classes with the fewest seats at admission, so the classes stay even. That is the game's own rule, HARDWIRED, not a measured one, because each real bill names its own classes. The seats are filled when the law takes effect: the Delegate in office becomes the Representative for the rest of the term, and each Senate seat goes to the party the place's own 2024 result favors, a HARDWIRED simplification of the special election the real bills call for. Statehood does not reverse.",
+  "about": "What Congress's law on statehood for a nonvoting place adds to the chambers when the place is admitted: one voting seat in the House, elected at large as the place's own Delegate seat is, and two Senate seats, each in a different class. The place's district code is the Census Bureau's congressional district code in the game's district catalog. The two Senate seats go to the two classes with the fewest seats at admission, so the classes stay even. That is the game's own rule, HARDWIRED, not a measured one, because each real bill names its own classes. Admission comes after the law takes effect, on the schedule in `admission`. The seats are filled on the admission date: the Delegate in office becomes the Representative for the rest of the term, and each Senate seat goes to the party the place's own 2024 result favors, a HARDWIRED simplification of the first elections the real bills call for. Statehood does not reverse.",
   "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
   "place": "DC",
   "houseDistrictCode": "98",
   "houseSeats": 1,
-  "senateSeats": 2
+  "senateSeats": 2,
+  "admission": {
+    "about": "The days between the law taking effect and admission, read from H.R. 51 of the 119th Congress (the House passed the same text in the 117th). Each stage takes its full statutory allowance, HARDWIRED: the bill sets a limit, not a date. The elections the bill orders are held 'in the manner required by the laws of the District of Columbia' with no date, so the time they take is not counted, and the seats are filled without an election.",
+    "stages": [
+      {
+        "stage": "The President certifies the enactment to the Mayor",
+        "days": 60,
+        "source": "H.R. 51 (119th Congress), section 403, not more than 60 days after enactment"
+      },
+      {
+        "stage": "The Mayor proclaims the first elections",
+        "days": 30,
+        "source": "H.R. 51 (119th Congress), section 102(a)(1), not more than 30 days after the certification"
+      },
+      {
+        "stage": "The President proclaims admission after the elections are certified",
+        "days": 90,
+        "source": "H.R. 51 (119th Congress), section 103(a), not later than 90 days after receiving the certification"
+      }
+    ],
+    "sourceRetrieved": "2026-09-29, bill text from congress.gov, read in full for sections 101 to 103, 323 and 403; Research 1's table (research/r1-updates/2026-09-29-law-effect-sizes-dc-statehood.md) supplied the schedule."
+  }
 }
