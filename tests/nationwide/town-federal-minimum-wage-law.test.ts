@@ -30,6 +30,8 @@ import {
   minimumHourlyAt,
 } from "../../src/simulation/minimum-wage";
 import { NATIONAL_ELECTION_JURISDICTION } from "../../src/simulation/national-election-geography";
+import { recordWorkStatus } from "../../src/simulation/life";
+import { workStatusAt } from "../../src/simulation/life-queries";
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
 import {
   recordWorldEvent,
@@ -357,6 +359,46 @@ describe(
       const player =
         world.control.kind === "person" ? world.control.personId : null;
       expect(raiseTownPayToMinimum(world, player)).toBe(world);
+    });
+
+    it("does not raise the pay of a job that has ended", () => {
+      const { world: enacted, opened } = nashvilleWithFederalRaise(45);
+      const raised = runPaydays(enacted, opened, 100);
+      const flowOf = (world: World, termsId: EntityId) =>
+        world.history.resourceFlows.find((flow) => flow.id === termsId)!;
+      const raises = raised.history.resourceFlowTerms.filter((terms) =>
+        terms.stableKey.includes(":minimum-wage:"),
+      );
+      expect(raises.length).toBeGreaterThan(1);
+      const endedFlow = flowOf(raised, raises[0]!.resourceFlowId);
+      expect(endedFlow.basisReference.kind).toBe("work");
+      const workId =
+        endedFlow.basisReference.kind === "work"
+          ? endedFlow.basisReference.workRelationshipId
+          : null!;
+      // The same game, but that job ends ten days in, after pay has begun.
+      const early = runPaydays(enacted, opened, 10);
+      const status = workStatusAt(early, workId)!;
+      let withEnded = early;
+      withWorldIntegrityDeferred(() => {
+        withEnded = recordWorkStatus(early, {
+          stableKey: "test:federal-wage:job-ended",
+          workRelationshipId: workId,
+          effectiveAt: early.currentDate,
+          status: "ended",
+          reason: "The job ended.",
+          supersedesStatusId: status.id,
+          provenance: { kind: "authored", note: "A test job ended." },
+        });
+      });
+      const world = runPaydays(withEnded, early.currentDate, 90);
+      const afterRaises = world.history.resourceFlowTerms.filter((terms) =>
+        terms.stableKey.includes(":minimum-wage:"),
+      );
+      expect(
+        afterRaises.some((terms) => terms.resourceFlowId === endedFlow.id),
+      ).toBe(false);
+      expect(afterRaises.length).toBeGreaterThan(0);
     });
 
     it("pays nothing more before the law takes effect", () => {

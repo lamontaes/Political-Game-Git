@@ -727,6 +727,13 @@ export function raiseTownPayToMinimum(
   }
   const roles = latestRoles(world);
   const termsByFlow = termsByPayFlow(world);
+  // The day each job ended, if it did: a job that has ended has no pay to raise.
+  const endedOn = new Map<EntityId, IsoDate>();
+  for (const status of world.history.workStatuses) {
+    if (status.status === "ended")
+      endedOn.set(status.workRelationshipId, status.effectiveAt);
+    else endedOn.delete(status.workRelationshipId);
+  }
   const lastPaid = new Map<EntityId, IsoDate>();
   for (const outcome of world.history.resourceTransferOutcomes) {
     if (!termsByFlow.has(outcome.resourceFlowId)) continue;
@@ -768,6 +775,8 @@ export function raiseTownPayToMinimum(
     ) {
       if (!payPeriodEndingOn(note.period, addDays(day, -1), note.phase))
         continue;
+      const ended = endedOn.get(flow.basisReference.workRelationshipId);
+      if (ended !== undefined && ended <= day) break;
       const law = ruleChangeInForce(
         stateLaws.filter(
           (change) =>
