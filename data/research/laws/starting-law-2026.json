@@ -17701,6 +17701,310 @@
           "note": "Transit riders here paid fares: agencies based here earned $1.2 million in fares in 2024, 5.5% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
         }
       }
+    },
+    "us-policy-positions:civil-family-community.dedicated-parks-funding": {
+      "source": "Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (9/29/2026), reading state constitutions and statutes for six places (Missouri, Minnesota, Oregon, Texas, Florida, Michigan), and the Trust for Public Land's LandVote database for passed state measures that dedicate a tax or other revenue and were still in force in 2026.",
+      "note": "Yes: a fixed tax or share of a tax, the lottery or royalties is dedicated to parks and recreation. No: none is. City and county dedications are not read here; a town starts at its state's answer.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-AL": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
+          "note": "Forever Wild: a 10 percent levy on offshore gas operations funds recreational land purchases, renewed by voters in 2012 through 2032 (Ala. Const. amend. 543)."
+        },
+        "US-AR": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
+          "note": "A one-eighth of one percent sales tax funds parks and tourism, dedicated by voters in 1996 (Ark. Const. amend. 75)."
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-AZ": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
+          "note": "Lottery revenues go to parks and open space, dedicated by voters in 1990."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
+          "note": "Proposition 117 (1990) dedicates $30 million a year to habitat and related purposes."
+        },
+        "US-CO": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
+          "note": "Lottery proceeds fund Great Outdoors Colorado and state parks, dedicated by voters in 1992 (Colo. Const. art. XXVII)."
+        },
+        "US-CT": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-DC": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-DE": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-FL": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "Research 1, read from the constitution 9/29/2026; also in Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
+          "note": "At least a third of the documentary stamp tax goes to conservation land and parks for 20 years from July 1, 2015 (Fla. Const. art. X, section 28)."
+        },
+        "US-GA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
+          "note": "Up to 80 percent of the sales tax on outdoor recreation equipment goes to the Outdoor Stewardship Trust Fund for 10 years from 2018 (Ga. Const. art. III, section IX, para. VI)."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026.",
+          "note": "Voters authorized a Natural Resources and Outdoor Recreation Trust Fund in 2010, but the legislature has never funded it with a tax, so no revenue is dedicated (Research 1, from the LandVote record)."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-MD": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-ME": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-MI": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "Research 1, read from the constitution 9/29/2026; also in Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
+          "note": "Oil and gas royalties from state land go to the State Parks Endowment Fund until it holds $800 million (Mich. Const. art. IX, sections 35 and 35a)."
+        },
+        "US-MN": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "Research 1, read from the constitution 9/29/2026; also in Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
+          "note": "14.25 percent of the 0.375 percent Legacy sales tax goes to the parks and trails fund through June 30, 2034 (Minn. Const. art. XI, section 15)."
+        },
+        "US-MO": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "Research 1, read from the constitution 9/29/2026",
+          "note": "A 0.1 percent sales and use tax, half to state parks and half to soil and water, last reauthorized by voters August 4, 2026 (Mo. Const. art. IV, sections 47(a) and 47(b))."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-MT": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
+          "note": "A share of the 20 percent tax on non-medical marijuana goes to conservation and parks, dedicated by voters in 2020."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-NE": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
+          "note": "49.5 percent of the state lottery goes to the environment trust, which funds parks, dedicated by voters in 1992."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
+          "note": "A share of corporation business tax revenue goes to open space, farmland and historic sites, dedicated by voters in 2014 (N.J. Const. art. VIII, section II, para. 7)."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-NY": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "Research 1, read from the constitution 9/29/2026; also in Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
+          "note": "15 percent of net lottery proceeds go to the parks and natural resources fund, half to a parks subaccount (Or. Const. art. XV, sections 4(8) and 4a)."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026.",
+          "note": "Research 1 knows of a share of the realty transfer tax going to the Keystone Recreation, Park and Conservation Fund (Keystone Act of 1993) from general knowledge but did not read it, and the LandVote state records do not list it, so this place starts at no until it is read."
+        },
+        "US-PR": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026.",
+          "note": "Research 1 knows of a share of the real estate transfer tax going to state land acquisition funds (Tenn. Code title 67) from general knowledge but did not read it, and the LandVote state records do not list it, so this place starts at no until it is read."
+        },
+        "US-TX": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "Research 1, read from the statute 9/29/2026",
+          "note": "93 percent of the sales tax on sporting goods goes to the Parks and Wildlife Department (Tex. Tax Code section 151.801(c))."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-VI": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-VT": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        }
+      }
     }
   }
 }
