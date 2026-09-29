@@ -1,5 +1,6 @@
 import type { LawLevel } from "../law-hierarchy";
 import type { EntityId, IsoDate, World } from "../types";
+import type { StatehoodCertification } from "./statehood-funds";
 
 /**
  * PUBLIC BUDGETS: every state, D.C., territory, county and city government in
@@ -113,7 +114,7 @@ export interface AdoptedBudget {
   readonly expectedRevenue: readonly number[];
   /** Annual, aligned to BUDGET_PROGRAMS. */
   readonly appropriations: readonly number[];
-  /** Planned yearly deposit into the reserve. */
+  /** Planned yearly deposit into the reserve; negative, a planned draw. */
   readonly reserveDeposit: number;
   /** The full actuarial pension contribution this year. */
   readonly pensionRequired: number;
@@ -145,6 +146,12 @@ export interface AdoptedBudget {
    * the town keeps no books, and the economy moves the tax.
    */
   readonly townSalesAtAdoption?: number | null;
+  /**
+   * A place admitted as a state: what its government decided about
+   * certifying to the President when it adopted this budget, and why
+   * (`statehood-funds.ts`). Absent: nothing to decide.
+   */
+  readonly statehoodCertification?: StatehoodCertification;
 }
 
 /** One settled month. Arrays align to BUDGET_SOURCES and BUDGET_PROGRAMS. */
@@ -177,7 +184,12 @@ export type BudgetAdjustmentKind =
   | "reserve-deposit"
   | "pension-underpaid"
   | "balanced-at-adoption"
-  | "balance-carried";
+  | "balance-carried"
+  | "law-gain-saved"
+  | "law-gain-spent"
+  | "law-loss-cut"
+  | "law-loss-drawn"
+  | "law-loss-kept";
 
 /** Each change a law, the economy or a year-end forced, and its size. */
 export interface BudgetAdjustment {
@@ -193,6 +205,14 @@ export interface BudgetAdjustment {
     readonly reading: BudgetLawReading;
   } | null;
   readonly note: string;
+  /**
+   * The official who decided it and the principle records the decision read;
+   * absent where a rule, not a person, decided.
+   */
+  readonly decidedBy?: {
+    readonly personId: EntityId;
+    readonly principleRecordIds: readonly EntityId[];
+  };
 }
 
 export interface PensionRecord {
