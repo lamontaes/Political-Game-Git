@@ -48,7 +48,7 @@ import { MINIMUM_AGE, congressSeats, seatTermWindow } from "./congress-seats";
 import {
   applyStatehoodTurnover,
   statehoodPlace,
-  statehoodTookEffect,
+  statehoodAdmittedOn,
 } from "./statehood-seats";
 import { applyHouseDelegateTurnover } from "./house-delegates";
 import { decideAnotherTerm } from "../careers/another-term";
@@ -1224,7 +1224,7 @@ export function applyCongressTurnover(before: IsoDate, world: World): World {
     if (before < newStart && newStart <= after)
       next = seatCongressWinners(next, year);
   }
-  const statesNow = statehoodTookEffect(next, after)
+  const statesNow = statehoodAdmittedOn(next, after)
     ? new Set([statehoodPlace()])
     : new Set<string>();
   return applyStatehoodTurnover(

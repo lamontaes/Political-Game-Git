@@ -40,11 +40,12 @@ import type {
 import { projectCongress } from "./congress";
 import { houseDelegateOccupant } from "./house-delegates";
 import { ensureLivingWorldOpening } from "./opening";
+import { STATEHOOD_ADMISSION_DAYS } from "../governing/statehood-admission";
 import {
   congressSeatsIn,
   statehoodPlace,
   statehoodSeats,
-  statehoodTookEffect,
+  statehoodAdmittedOn,
 } from "./statehood-seats";
 
 /**
@@ -143,7 +144,7 @@ describe("the seats the law adds are data, not code", () => {
 
 describe("with no statehood law, nothing changes", () => {
   it("keeps 435 and 100, and the Delegate's seat", () => {
-    expect(statehoodTookEffect(opened)).toBeNull();
+    expect(statehoodAdmittedOn(opened)).toBeNull();
     expect(congressSeatsIn(opened)).toHaveLength(535);
     const congress = projectCongress(opened)!;
     expect(congress.house.seats).toHaveLength(435);
@@ -162,11 +163,33 @@ describe("with no statehood law, nothing changes", () => {
   });
 });
 
-describe("when the law takes effect", () => {
-  const effective = () => addDays(opened.currentDate, 1);
+// The law took effect STATEHOOD_ADMISSION_DAYS less ten days ago, so the place
+// is admitted ten days from the opening date, not on the day the law took
+// effect.
+const effectiveFor = (world: World) =>
+  addDays(world.currentDate, 10 - STATEHOOD_ADMISSION_DAYS);
+
+describe("between the law taking effect and admission", () => {
+  it("keeps 435 and 100 and the Delegate until the bill's days have passed", () => {
+    const passed = enact(opened, "yes", effectiveFor(opened));
+    const waiting = advanceWorld(
+      passed,
+      5,
+      createCampaignElectionTransitionRegistry(),
+    );
+    expect(statehoodAdmittedOn(waiting)).toBeNull();
+    expect(projectCongress(waiting)!.house.seats).toHaveLength(435);
+    expect(projectCongress(waiting)!.senate.seats).toHaveLength(100);
+    expect(houseDelegateOccupant(waiting, statehoodPlace()).kind).toBe(
+      "member",
+    );
+  }, 300_000);
+});
+
+describe("when the place is admitted", () => {
   let admitted: World;
   beforeAll(() => {
-    const passed = enact(opened, "yes", effective());
+    const passed = enact(opened, "yes", effectiveFor(opened));
     admitted = advanceWorld(
       passed,
       30,
@@ -260,7 +283,7 @@ describe("when the law takes effect", () => {
 });
 
 describe("the person who lives there", () => {
-  it("is represented by two Senators and a Representative once the law takes effect, and by a Delegate before", () => {
+  it("is represented by two Senators and a Representative once the place is admitted, and by a Delegate before", () => {
     const life = adultLifeAt(firstLocality("DC").key, "statehood-seats-life");
     const rowsOf = (world: World) =>
       projectGovernmentBrowser(world, life.personId).representedBy!;
@@ -270,7 +293,7 @@ describe("the person who lives there", () => {
       "Delegate to the U.S. House",
     );
     const after = advanceWorld(
-      enact(life.world, "yes", addDays(life.world.currentDate, 1)),
+      enact(life.world, "yes", effectiveFor(life.world)),
       30,
       createCampaignElectionTransitionRegistry(),
     );

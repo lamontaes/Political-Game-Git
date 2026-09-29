@@ -1,5 +1,6 @@
 import type { LawLevel } from "../law-hierarchy";
 import type { EntityId, IsoDate, World } from "../types";
+import type { StatehoodCertification } from "./statehood-funds";
 
 /**
  * PUBLIC BUDGETS: every state, D.C., territory, county and city government in
@@ -145,6 +146,12 @@ export interface AdoptedBudget {
    * the town keeps no books, and the economy moves the tax.
    */
   readonly townSalesAtAdoption?: number | null;
+  /**
+   * A place admitted as a state: what its government decided about
+   * certifying to the President when it adopted this budget, and why
+   * (`statehood-funds.ts`). Absent: nothing to decide.
+   */
+  readonly statehoodCertification?: StatehoodCertification;
 }
 
 /** One settled month. Arrays align to BUDGET_SOURCES and BUDGET_PROGRAMS. */
