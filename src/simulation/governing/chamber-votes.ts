@@ -302,30 +302,31 @@ export function decideChamberVote(
       contested,
       input.nonpartisan ?? false,
     );
-    const views = [
-      ...memberVoteConsiderations(world, {
-        stableKey: `${input.stableKey}:${member.memberKey}`,
-        personId: member.personId,
-        question: input.question,
-      }).filter(
-        (consideration) =>
-          consideration.stableKey !== "member:nothing-decisive",
-      ),
-      // GAME ASSUMPTION (Build 25): a member's principles are what they are
-      // known to stand for, so a colleague predicting the vote reads them;
-      // a member's private views on a question are not known and are not.
-      ...[
-        principleVoteConsideration(
-          world,
-          member.personId,
-          measure,
-          answersOnTable,
+    // A member's own view is worked out only when it is needed: when the
+    // member decides, or when an undecided member who trusts them asks how
+    // they voted. A named few (`only`) no longer costs every member's view.
+    const personId = member.personId;
+    let views: readonly DecisionConsideration[] | undefined;
+    const viewsOf = (): readonly DecisionConsideration[] =>
+      (views ??= [
+        ...memberVoteConsiderations(world, {
+          stableKey: `${input.stableKey}:${member.memberKey}`,
+          personId,
+          question: input.question,
+        }).filter(
+          (consideration) =>
+            consideration.stableKey !== "member:nothing-decisive",
         ),
-      ].filter((consideration) => consideration !== null),
-      ...party.filter((consideration) =>
-        OWN_BILL_KEYS.has(consideration.stableKey),
-      ),
-    ];
+        // GAME ASSUMPTION (Build 25): a member's principles are what they are
+        // known to stand for, so a colleague predicting the vote reads them;
+        // a member's private views on a question are not known and are not.
+        ...[
+          principleVoteConsideration(world, personId, measure, answersOnTable),
+        ].filter((consideration) => consideration !== null),
+        ...party.filter((consideration) =>
+          OWN_BILL_KEYS.has(consideration.stableKey),
+        ),
+      ]);
     const cues = [
       ...party.filter(
         (consideration) => !OWN_BILL_KEYS.has(consideration.stableKey),
@@ -333,7 +334,14 @@ export function decideChamberVote(
       ...(constituents ? [constituents] : []),
       ...(executive ? [executive] : []),
     ];
-    return { member, views, cues, settled: null };
+    return {
+      member,
+      get views() {
+        return viewsOf();
+      },
+      cues,
+      settled: null,
+    };
   });
 
   // A member with a view of their own decides from it and the cues, decided
@@ -359,9 +367,15 @@ export function decideChamberVote(
   // trust voted from views of their own. Nobody leans yes by default; a
   // member with no reason at all answers present.
   const committee = committeeRecommendation(world, measure.id, asked.purpose);
-  const withViews = first.filter(
-    (row) => !row.settled && row.views && row.views.length > 0,
-  );
+  const hasViews = (row: (typeof first)[number]): boolean =>
+    !row.settled && row.views !== undefined && row.views.length > 0;
+  const rowsOf = new Map<EntityId, (typeof first)[number][]>();
+  for (const row of first)
+    if (row.member.personId !== null)
+      rowsOf.set(row.member.personId, [
+        ...(rowsOf.get(row.member.personId) ?? []),
+        row,
+      ]);
   const trusted = trustAmong(
     world,
     deciding.flatMap((row) =>
@@ -369,17 +383,19 @@ export function decideChamberVote(
         ? [row.member.personId]
         : [],
     ),
-    withViews.map((row) => row.member.personId!),
+    (personId) => (rowsOf.get(personId) ?? []).some(hasViews),
   );
   const colleagues = new Set(
     [...trusted.values()].flatMap((row) => [...row.keys()]),
   );
   const decidedByView = new Map<EntityId, LegislativeMemberDisposition>();
-  for (const row of withViews) {
-    if (!colleagues.has(row.member.personId!)) continue;
+  for (const row of first) {
+    if (row.member.personId === null || !colleagues.has(row.member.personId))
+      continue;
+    if (!hasViews(row)) continue;
     const disposition = decideByView(row)?.disposition;
     if (disposition === "yea" || disposition === "nay")
-      decidedByView.set(row.member.personId!, disposition);
+      decidedByView.set(row.member.personId, disposition);
   }
   return deciding.map((row) => {
     const settled = decideByView(row);
@@ -537,18 +553,28 @@ function committeeRecommendation(
 function trustAmong(
   world: World,
   undecided: readonly EntityId[],
-  decided: readonly EntityId[],
+  decided: (personId: EntityId) => boolean,
 ): ReadonlyMap<EntityId, ReadonlyMap<EntityId, StandingBand>> {
   const out = new Map<EntityId, Map<EntityId, StandingBand>>();
-  if (undecided.length === 0 || decided.length === 0) return out;
+  if (undecided.length === 0) return out;
   const undecidedSet = new Set(undecided);
-  const decidedSet = new Set(decided);
+  // Asked only of people an undecided member has met, and remembered: a
+  // colleague's own view is worked out only when it could be a cue.
+  const decidedMemo = new Map<EntityId, boolean>();
+  const isDecided = (personId: EntityId): boolean => {
+    let known = decidedMemo.get(personId);
+    if (known === undefined) {
+      known = decided(personId);
+      decidedMemo.set(personId, known);
+    }
+    return known;
+  };
   const pairs = new Set<string>();
   for (const interaction of world.history.relationshipInteractions)
     for (const viewer of interaction.personIds)
       if (undecidedSet.has(viewer))
         for (const subject of interaction.personIds)
-          if (subject !== viewer && decidedSet.has(subject))
+          if (subject !== viewer && isDecided(subject))
             pairs.add(`${viewer}\u0000${subject}`);
   for (const pair of pairs) {
     const [viewer, subject] = pair.split("\u0000") as [EntityId, EntityId];

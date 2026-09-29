@@ -4,6 +4,7 @@ import type {
   CampaignLifeOutcomeRecord,
   CampaignOpponentRecord,
   CampaignOpponentStepRecord,
+  CampaignRoutineRecord,
   CampaignWeeklyPlanRecord,
 } from "./campaign-life-types";
 import type { WorldContentPacks } from "./runtime-content-packs";
@@ -116,6 +117,7 @@ export type EntityKind =
   | "campaign-life-activity"
   | "campaign-life-outcome"
   | "campaign-weekly-plan"
+  | "campaign-routine"
   | "campaign-opponent"
   | "campaign-opponent-step"
   | "national-election"
@@ -2990,7 +2992,7 @@ export type FutureTransitionHandler = (
  */
 export interface RoutineWindow {
   readonly relationshipId: EntityId;
-  readonly kind: "work" | "study";
+  readonly kind: "work" | "study" | "campaign";
   readonly start: SimulationMoment;
   readonly end: SimulationMoment;
   readonly autoResolvable: boolean;
@@ -4339,6 +4341,8 @@ export interface HistoryStore {
   readonly campaignLifeActivities?: readonly CampaignLifeActivityRecord[];
   readonly campaignLifeOutcomes?: readonly CampaignLifeOutcomeRecord[];
   readonly campaignWeeklyPlans?: readonly CampaignWeeklyPlanRecord[];
+  /** D-11; optional so earlier saves read as having no campaign routine. */
+  readonly campaignRoutines?: readonly CampaignRoutineRecord[];
   readonly campaignOpponents?: readonly CampaignOpponentRecord[];
   readonly campaignOpponentSteps?: readonly CampaignOpponentStepRecord[];
   /** Optional so pre-NEWS-HELP2 snapshots remain structurally readable. */
