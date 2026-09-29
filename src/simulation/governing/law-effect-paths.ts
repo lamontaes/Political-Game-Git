@@ -1,15 +1,21 @@
+import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
 import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
 import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../nationwide-world/state-legislative-term-limits";
 import { OUTCOME_LINKS, outcomeLinkStatus } from "../outcome-web";
 import { HOUSING_SUPPLY_LAWS } from "../living-world/housing-market";
 import { RENT_LAW_KEYS } from "../living-world/town-rent";
 import { CANNABIS_SALES_QUESTION } from "../public-budgets/cannabis-sales-tax";
-import { TAX_QUESTION_EFFECTS } from "../public-budgets/rules";
+import {
+  SPENDING_QUESTION_EFFECTS,
+  TAX_QUESTION_EFFECTS,
+} from "../public-budgets/rules";
+import { TUITION_FREEZE_QUESTION } from "../public-budgets/tuition-freeze";
 import {
   ADOPT_STATE_INCOME_TAX_QUESTION,
   GRADUATED_STATE_INCOME_TAX_QUESTION,
 } from "../state-income-tax-law";
 import { PAID_LEAVE_QUESTION } from "../state-paid-leave-law";
+import { TEACHER_SALARY_FLOOR_QUESTION } from "../teacher-salary-floor";
 import type { PolicyCatalog } from "../types";
 
 /**
@@ -33,6 +39,7 @@ export type LawEffectPathKind =
   | "outcome-web"
   | "paycheck"
   | "state-revenue"
+  | "state-spending"
   | "rent-and-eviction"
   | "home-prices"
   | "seat-turnover";
@@ -52,6 +59,11 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     via: "src/simulation/minimum-wage.ts",
   },
   {
+    questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
+    kind: "paycheck",
+    via: "src/simulation/federal-top-income-tax-law.ts",
+  },
+  {
     questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
     kind: "paycheck",
     via: "src/simulation/state-income-tax-law.ts",
@@ -65,6 +77,11 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: PAID_LEAVE_QUESTION,
     kind: "paycheck",
     via: "src/simulation/state-paid-leave-law.ts",
+  },
+  {
+    questionKey: TEACHER_SALARY_FLOOR_QUESTION,
+    kind: "paycheck",
+    via: "src/simulation/living-world/town-pay.ts",
   },
   {
     questionKey: LEGISLATIVE_TERM_LIMIT_QUESTION,
@@ -90,10 +107,24 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     kind: "state-revenue",
     via: "src/simulation/public-budgets/rules.ts",
   })),
+  // What carrying out a law costs a state's budget, where a fiscal note set
+  // a size.
+  ...SPENDING_QUESTION_EFFECTS.filter(
+    (effect) => effect.toYes !== null || effect.toNo !== null,
+  ).map((effect): LawEffectPath => ({
+    questionKey: effect.questionKey,
+    kind: "state-spending",
+    via: "src/simulation/public-budgets/month.ts",
+  })),
   {
     questionKey: CANNABIS_SALES_QUESTION,
     kind: "state-revenue",
     via: "src/simulation/public-budgets/cannabis-sales-tax.ts",
+  },
+  {
+    questionKey: TUITION_FREEZE_QUESTION,
+    kind: "state-revenue",
+    via: "src/simulation/public-budgets/tuition-freeze.ts",
   },
 ];
 

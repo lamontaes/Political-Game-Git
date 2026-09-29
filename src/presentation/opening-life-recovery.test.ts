@@ -27,8 +27,13 @@ function withColleague() {
     seed: "recovered-request",
     depth: "summarize-earlier-life",
   });
+  // A colleague is somebody alive at the start: a relative who died before
+  // it is in the record too, and cannot be anybody's coworker.
+  const dead = new Set(
+    game.world.history.personDeaths.map((death) => death.personId),
+  );
   const colleagueId = game.world.personOrder.find(
-    (id) => id !== game.playerPersonId,
+    (id) => id !== game.playerPersonId && !dead.has(id),
   )!;
   const jurisdictionId =
     game.world.people[game.playerPersonId]!.homeJurisdictionId;
@@ -88,7 +93,7 @@ function withColleague() {
       })),
     ],
   }).world;
-  return { ...game, world, colleagueId };
+  return { ...game, world, colleagueId, opened: game.world };
 }
 
 describe("recovered circumstance boundaries", () => {
@@ -99,7 +104,18 @@ describe("recovered circumstance boundaries", () => {
       (item) => item.kind === "colleague-coverage-request",
     );
     expect(request).toBeDefined();
-    expect(request!.counterpartPersonId).toBe(game.colleagueId);
+    // The counterpart is a coworker: the colleague written here, or one from
+    // a job the opening already gave this life.
+    const employers = (personId: string) =>
+      new Set(
+        world.history.workRelationships
+          .filter((row) => row.personId === personId && row.organizationId)
+          .map((row) => row.organizationId),
+      );
+    const shared = [...employers(request!.counterpartPersonId)].some((id) =>
+      employers(game.playerPersonId).has(id),
+    );
+    expect(shared).toBe(true);
     expect(
       world.history.knowledge.some(
         (item) =>
@@ -149,12 +165,19 @@ describe("recovered circumstance boundaries", () => {
 describe("historical episode eligibility recovery", () => {
   it("does not lend a later job to an earlier capability or fact read", () => {
     const game = withColleague();
-    const earlier = addDays(game.world.currentDate, -1);
+    // The day before this life's first job, which the opening may already
+    // have given it before the job written here.
+    const firstStart = game.opened.history.workRelationships
+      .filter((row) => row.personId === game.playerPersonId)
+      .map((row) => row.startedAt)
+      .reduce((a, b) => (a < b ? a : b), game.world.currentDate);
+    const earlier = addDays(firstStart, -1);
     const before = serializeWorld(game.world);
     expect(
       episodeCapabilities(game.world, game.playerPersonId).get("paid-work")
         ?.holds,
     ).toBe(true);
+    // A read of that day says what it said before the job was written.
     expect(
       episodeCapabilities(game.world, game.playerPersonId, earlier).get(
         "paid-work",

@@ -5,7 +5,7 @@
   "notes": [
     "Filed at the CTO's 10:24 p.m. ruling on Build 15. The game reads a law's own statement of whom it reaches (terms beginning after its date, or immediately); a law silent on it is read as reaching the sitting holder at once, a labeled game assumption."
   ],
-  "priority": "P3",
+  "priority": "P2",
   "question": "For each of the 50 states, D.C. and the five territories, does the constitution or a statute bar raising or lowering the pay of the governor, legislators and judges during the term for which they were elected (as the Twenty-seventh Amendment does for Congress until after the next House election)? Give the rule, the citation, and whether it bars raises, cuts or both.",
   "questionId": "state-pay-change-during-term",
   "requestVersion": "research-request/v1",
