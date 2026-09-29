@@ -350,11 +350,15 @@ export function ensurePeopleTraits(
   // Each record's writer checks the whole World; seeding one person writes a
   // record per trait, so the batch is checked once, against its input.
   return writeWithWorldIntegrityOnce(world, () =>
-    seedPeopleTraits(world, personIds),
+    seedPeopleTraits(world, personIds, onDate),
   );
 }
 
-function seedPeopleTraits(world: World, personIds: readonly EntityId[]): World {
+function seedPeopleTraits(
+  world: World,
+  personIds: readonly EntityId[],
+  onDate: IsoDate,
+): World {
   let next = world;
   for (const personId of personIds) {
     if (!next.people[personId]) continue;
