@@ -117,11 +117,6 @@ export const JOB_MARKET_PLACEHOLDER = {
   /** Days after a start date before the employer treats it as missed. */
   missedStartGraceDays: 2,
   /**
-   * Read by the career paths only (`career-path7.ts`). The job market's own
-   * employer follows up a missed start when it has nobody else to call.
-   */
-  followUpChance: 0.5,
-  /**
    * Days from a follow-up to the new start date: the long end when the
    * applicant has a job to leave first.
    */
@@ -625,6 +620,27 @@ function acquaintancesOf(world: World, personId: EntityId): Set<EntityId> {
 }
 
 /**
+ * Whether someone this person knows works for the organization now, and so
+ * could vouch for them there.
+ */
+export function someoneKnownWorksAt(
+  world: World,
+  personId: EntityId,
+  organizationId: EntityId,
+): boolean {
+  for (const candidate of acquaintancesOf(world, personId)) {
+    if (!world.people[candidate]) continue;
+    if (
+      activeWorkRelationshipsAt(world, candidate).some(
+        (entry) => entry.relationship.organizationId === organizationId,
+      )
+    )
+      return true;
+  }
+  return false;
+}
+
+/**
  * Who could put this person forward for an opening: someone they know who
  * works for that employer now, or owns it.
  */
@@ -1096,7 +1112,7 @@ function holdsFullTimeWork(world: World, personId: EntityId): boolean {
 }
 
 /** Whether the person holds paid work now that they would have to leave. */
-function holdsWork(world: World, personId: EntityId): boolean {
+export function holdsWork(world: World, personId: EntityId): boolean {
   return activeWorkRelationshipsAt(world, personId).some(
     (entry) =>
       entry.relationship.kind.startsWith("employment:") &&
