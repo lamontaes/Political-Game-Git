@@ -2,7 +2,7 @@
 id: snap-receipt-and-work-requirements
 impact: minor
 section: Changed
-title: Each state now keeps how many of its residents receive SNAP, and a work requirement lowers it.
+title: Each state now keeps how many of its residents receive SNAP; a work requirement lowers it, and fewer receiving SNAP means more food insecurity.
 ---
 
 Every state, D.C., Guam and the U.S. Virgin Islands now keep the share of
@@ -14,3 +14,8 @@ work. The 2025 federal law puts that requirement in force everywhere, so
 every place's share steps down from early 2026. Puerto Rico, American Samoa
 and the Northern Mariana Islands run a different food program and record no
 SNAP share.
+
+Fewer residents receiving SNAP now raises the share of households that are
+food insecure. About half of households receiving SNAP are food insecure,
+and SNAP lowers that chance by about 30%, so each point of residents who
+stop receiving it raises food insecurity about 2%.

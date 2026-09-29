@@ -81,4 +81,52 @@ describe("SNAP receipt", () => {
       ]);
     }
   });
+
+  it("raises food insecurity about 2.1% for each point of residents who stop receiving SNAP", () => {
+    // 51.1% of SNAP households are food insecure (ERR-358); SNAP cuts that
+    // chance about 30% (Ratcliffe, McKernan and Zhang 2011), so a household
+    // that loses it goes to about 73%. A point of residents is 1.3% of
+    // households (1.9 people per SNAP household, 2.5 per household), which
+    // is 0.29 points of food insecurity, 2.1% of the 13.7% national rate.
+    const link = OUTCOME_LINKS.find(
+      (row) => row.key === "snap-to-food-insecurity",
+    )!;
+    expect(outcomeLinkStatus(link)).toBe("built");
+    const texas = stateJurisdictionForKey("US-TX")!.id;
+    const base = PLACE_OUTCOME_BASES[MEASURE]!.places["US-TX"]!;
+    const withShare = (value: number): World =>
+      ({
+        ...world("2026-03-01"),
+        placeOutcomes: {
+          months: [
+            {
+              month: makeIsoDate("2026-02-01"),
+              records: [
+                {
+                  measure: MEASURE,
+                  placeKey: "US-TX",
+                  jurisdictionId: texas,
+                  month: makeIsoDate("2026-02-01"),
+                  base,
+                  structural: base,
+                  multiplier: value / base,
+                  value,
+                  causes: [],
+                },
+              ],
+            },
+          ],
+        },
+      }) as unknown as World;
+    const cause = (value: number) =>
+      outcomeFactor(
+        withShare(value),
+        texas,
+        "household.food-insecurity",
+        makeIsoDate("2026-03-01"),
+      ).causes.find((row) => row.key === "snap-to-food-insecurity");
+    expect(cause(base)?.factor).toBe(1);
+    expect(cause(base - 1)?.factor).toBeCloseTo(1.021, 10);
+    expect(cause(base + 1)?.factor).toBeCloseTo(0.979, 10);
+  });
 });
