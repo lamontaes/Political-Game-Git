@@ -896,49 +896,7 @@
       "kind": "fixed-share",
       "build": "Build 20",
       "count": 1,
-      "code": "weeklyOpeningChance: 0.35,"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "fixed-share",
-      "build": "Build 20",
-      "count": 1,
-      "code": "partTimeShare: 0.3,"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "fixed-share",
-      "build": "Build 20",
-      "count": 1,
       "code": "followUpChance: 0.5,"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "!role.salaried && rng.next() < JOB_MARKET_PLACEHOLDER.partTimeShare;"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "if (rng.next() >= JOB_MARKET_PLACEHOLDER.weeklyOpeningChance) continue;"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "if (rng.next() >= JOB_MARKET_PLACEHOLDER.hireChance[application.route])"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "rng.next() < JOB_MARKET_PLACEHOLDER.followUpChance);"
     },
     {
       "file": "src/simulation/justice/clemency.ts",
