@@ -3,21 +3,21 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 680,
+    "markers": 703,
     "byKind": {
-      "unresearched": 213,
-      "placeholder": 357,
+      "unresearched": 217,
+      "placeholder": 376,
       "blanket": 126
     },
     "byPath": {
-      "other": 398,
+      "other": 417,
       "money": 75,
-      "law": 118,
-      "government": 89
+      "law": 123,
+      "government": 88
     },
-    "withoutQuestion": 395,
-    "questionNotFiled": 6,
-    "moneyOrLawQuestions": 56
+    "withoutQuestion": 411,
+    "questionNotFiled": 12,
+    "moneyOrLawQuestions": 57
   },
   "markers": [
     {
@@ -805,7 +805,7 @@
     },
     {
       "file": "src/simulation/campaign-integrity.ts",
-      "line": 673,
+      "line": 675,
       "text": "// UNRESEARCHED_CAMPAIGN_FILING_RULE.version in campaign-compliance.ts; a",
       "kinds": ["unresearched"],
       "path": "government",
@@ -814,7 +814,7 @@
     },
     {
       "file": "src/simulation/campaign-integrity.ts",
-      "line": 675,
+      "line": 677,
       "text": "const UNRESEARCHED_FILING_PACK_ID = \"campaign-filing-unresearched-v1\";",
       "kinds": ["unresearched"],
       "path": "government",
@@ -823,7 +823,7 @@
     },
     {
       "file": "src/simulation/campaign-integrity.ts",
-      "line": 687,
+      "line": 689,
       "text": "filingRecord.rulePackId === UNRESEARCHED_FILING_PACK_ID",
       "kinds": ["unresearched"],
       "path": "government",
@@ -832,7 +832,7 @@
     },
     {
       "file": "src/simulation/campaign-integrity.ts",
-      "line": 702,
+      "line": 704,
       "text": "(filingRecord.rulePackId === UNRESEARCHED_FILING_PACK_ID",
       "kinds": ["unresearched"],
       "path": "government",
@@ -1066,7 +1066,7 @@
     },
     {
       "file": "src/simulation/campaigns.ts",
-      "line": 1783,
+      "line": 1814,
       "text": "* (PLACEHOLDER, see local-chief-executive-rules.ts).",
       "kinds": ["placeholder"],
       "path": "government",
@@ -1183,7 +1183,7 @@
     },
     {
       "file": "src/simulation/cost-of-living.ts",
-      "line": 45,
+      "line": 46,
       "text": "* PLACEHOLDER(research: what-a-person-spends-to-live). Nobody has researched",
       "kinds": ["placeholder"],
       "path": "money",
@@ -1192,7 +1192,7 @@
     },
     {
       "file": "src/simulation/cost-of-living.ts",
-      "line": 51,
+      "line": 52,
       "text": "export const LIVING_COSTS_PLACEHOLDER = {",
       "kinds": ["placeholder"],
       "path": "money",
@@ -1201,7 +1201,7 @@
     },
     {
       "file": "src/simulation/cost-of-living.ts",
-      "line": 96,
+      "line": 122,
       "text": "? LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -",
       "kinds": ["placeholder"],
       "path": "money",
@@ -1210,7 +1210,7 @@
     },
     {
       "file": "src/simulation/cost-of-living.ts",
-      "line": 97,
+      "line": 123,
       "text": "LIVING_COSTS_PLACEHOLDER.housingShareMinor",
       "kinds": ["placeholder"],
       "path": "money",
@@ -1219,7 +1219,7 @@
     },
     {
       "file": "src/simulation/cost-of-living.ts",
-      "line": 98,
+      "line": 124,
       "text": ": LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor;",
       "kinds": ["placeholder"],
       "path": "money",
@@ -1228,7 +1228,7 @@
     },
     {
       "file": "src/simulation/cost-of-living.ts",
-      "line": 127,
+      "line": 153,
       "text": "const currency = money(0, LIVING_COSTS_PLACEHOLDER.currency).currency;",
       "kinds": ["placeholder"],
       "path": "money",
@@ -1237,7 +1237,7 @@
     },
     {
       "file": "src/simulation/cost-of-living.ts",
-      "line": 162,
+      "line": 188,
       "text": "note: `Placeholder living costs pending research question ${LIVING_COSTS_PLACEHOLDER.researchQuestionId}.`,",
       "kinds": ["placeholder"],
       "path": "money",
@@ -1246,7 +1246,7 @@
     },
     {
       "file": "src/simulation/cost-of-living.ts",
-      "line": 246,
+      "line": 279,
       "text": "monthly.minorUnits >= LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor;",
       "kinds": ["placeholder"],
       "path": "money",
@@ -1615,8 +1615,8 @@
     },
     {
       "file": "src/simulation/dc-council-sittings.ts",
-      "line": 41,
-      "text": "* PLACEHOLDERS, pending `dc-council-legislative-volume` and",
+      "line": 54,
+      "text": "* PLACEHOLDER, pending `dc-council-legislative-volume` and",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "dc-council-legislative-volume",
@@ -1678,10 +1678,19 @@
     },
     {
       "file": "src/simulation/enacted-law-effects.ts",
-      "line": 177,
+      "line": 178,
       "text": "* world simply does not know what this part does. PLACEHOLDER until the",
       "kinds": ["placeholder"],
       "path": "law",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/enacted-rule-changes.ts",
+      "line": 395,
+      "text": "* not researched and the blanket rule applied.",
+      "kinds": ["unresearched"],
+      "path": "other",
       "researchQuestionId": null,
       "researchQuestionFiled": false
     },
@@ -1795,7 +1804,7 @@
     },
     {
       "file": "src/simulation/governing/amendment-authors.ts",
-      "line": 107,
+      "line": 109,
       "text": "* PLACEHOLDER(build-25): a speed limit, set by hand, not a behavior. The",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1804,7 +1813,7 @@
     },
     {
       "file": "src/simulation/governing/amendment-authors.ts",
-      "line": 594,
+      "line": 603,
       "text": "// PLACEHOLDER(build-25): the operative words name the catalog question",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1813,7 +1822,7 @@
     },
     {
       "file": "src/simulation/governing/chamber-votes.ts",
-      "line": 52,
+      "line": 55,
       "text": "* PLACEHOLDER until research question",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1822,7 +1831,7 @@
     },
     {
       "file": "src/simulation/governing/chief-justice-vacancy.ts",
-      "line": 29,
+      "line": 36,
       "text": "* PLACEHOLDER (filed as `chief-justice-vacancy-nomination-and-confirmation`):",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1831,8 +1840,17 @@
     },
     {
       "file": "src/simulation/governing/chief-justice-vacancy.ts",
-      "line": 177,
+      "line": 189,
       "text": "// PLACEHOLDER: whom the President chooses (see the profile above).",
+      "kinds": ["placeholder"],
+      "path": "law",
+      "researchQuestionId": "chief-justice-vacancy-nomination-and-confirmation",
+      "researchQuestionFiled": true
+    },
+    {
+      "file": "src/simulation/governing/chief-justice-vacancy.ts",
+      "line": 214,
+      "text": "// eligible, and it is still the PLACEHOLDER above.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "chief-justice-vacancy-nomination-and-confirmation",
@@ -1866,8 +1884,35 @@
       "researchQuestionFiled": true
     },
     {
+      "file": "src/simulation/governing/constituent-views.ts",
+      "line": 1,
+      "text": "import { UNRESEARCHED_ISSUE_RECORD } from \"../issue-record\";",
+      "kinds": ["unresearched"],
+      "path": "law",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/governing/constituent-views.ts",
+      "line": 15,
+      "text": "* (`UNRESEARCHED_ISSUE_RECORD`), so a member counts a voter as that voter's",
+      "kinds": ["unresearched"],
+      "path": "law",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/governing/constituent-views.ts",
+      "line": 44,
+      "text": "const weight = UNRESEARCHED_ISSUE_RECORD.salienceWeight;",
+      "kinds": ["unresearched"],
+      "path": "law",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
       "file": "src/simulation/governing/legislative-clock.ts",
-      "line": 672,
+      "line": 674,
       "text": "// PLACEHOLDER until research question how-congress-moves-bills is",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1876,7 +1921,7 @@
     },
     {
       "file": "src/simulation/governing/legislative-clock.ts",
-      "line": 1426,
+      "line": 1428,
       "text": "// PLACEHOLDER until research question",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1903,7 +1948,7 @@
     },
     {
       "file": "src/simulation/governing/office-continuity.ts",
-      "line": 108,
+      "line": 117,
       "text": "* PLACEHOLDER (filed as `us-senate-vacancy-appointment-and-special-election`).",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1912,7 +1957,7 @@
     },
     {
       "file": "src/simulation/governing/office-continuity.ts",
-      "line": 377,
+      "line": 386,
       "text": "/** PLACEHOLDER (SENATE_VACANCY_PROFILE): appointment, then a special election. */",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1921,7 +1966,7 @@
     },
     {
       "file": "src/simulation/governing/office-continuity.ts",
-      "line": 514,
+      "line": 523,
       "text": "// PLACEHOLDER (SENATE_VACANCY_PROFILE): an appointee shares the departed",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1930,7 +1975,7 @@
     },
     {
       "file": "src/simulation/governing/office-continuity.ts",
-      "line": 621,
+      "line": 728,
       "text": "// PLACEHOLDER: the Speaker is next under 3 U.S.C. § 19, but that line of",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1939,7 +1984,7 @@
     },
     {
       "file": "src/simulation/governing/office-continuity.ts",
-      "line": 830,
+      "line": 937,
       "text": "// PLACEHOLDER (governor-succession.ts): the next officer in line serves",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1948,7 +1993,7 @@
     },
     {
       "file": "src/simulation/governing/office-continuity.ts",
-      "line": 863,
+      "line": 970,
       "text": "// PLACEHOLDER: how this office is filled is not compiled. The sentence",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1957,7 +2002,7 @@
     },
     {
       "file": "src/simulation/governing/office-continuity.ts",
-      "line": 878,
+      "line": 985,
       "text": "* PLACEHOLDER (filed as `vice-presidential-vacancy-nomination-and-confirmation`):",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1966,8 +2011,17 @@
     },
     {
       "file": "src/simulation/governing/office-continuity.ts",
-      "line": 1035,
+      "line": 1142,
       "text": "// PLACEHOLDER: whom the President chooses (see the profile above).",
+      "kinds": ["placeholder"],
+      "path": "law",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/governing/office-continuity.ts",
+      "line": 1169,
+      "text": "// and that draw is still the PLACEHOLDER above.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": null,
@@ -2479,7 +2533,7 @@
     },
     {
       "file": "src/simulation/justice/clemency-reasoning.ts",
-      "line": 41,
+      "line": 43,
       "text": "* PLACEHOLDER (hand-set): how near the end of a term counts as \"leaving",
       "kinds": ["placeholder"],
       "path": "other",
@@ -2488,7 +2542,7 @@
     },
     {
       "file": "src/simulation/justice/clemency-reasoning.ts",
-      "line": 46,
+      "line": 48,
       "text": "export const CLEMENCY_CALENDAR_PLACEHOLDER = {",
       "kinds": ["placeholder"],
       "path": "other",
@@ -2497,7 +2551,7 @@
     },
     {
       "file": "src/simulation/justice/clemency-reasoning.ts",
-      "line": 209,
+      "line": 211,
       "text": "const windows = CLEMENCY_CALENDAR_PLACEHOLDER;",
       "kinds": ["placeholder"],
       "path": "other",
@@ -2506,7 +2560,7 @@
     },
     {
       "file": "src/simulation/justice/clemency.ts",
-      "line": 84,
+      "line": 85,
       "text": "* PLACEHOLDER: boards, councils, cabinet members and courts are not seated",
       "kinds": ["placeholder"],
       "path": "other",
@@ -2515,7 +2569,7 @@
     },
     {
       "file": "src/simulation/justice/clemency.ts",
-      "line": 90,
+      "line": 91,
       "text": "* PLACEHOLDER (hand-set, not measured). How a body whose members the game has",
       "kinds": ["placeholder"],
       "path": "other",
@@ -2524,7 +2578,7 @@
     },
     {
       "file": "src/simulation/justice/clemency.ts",
-      "line": 108,
+      "line": 109,
       "text": "* PLACEHOLDER (hand-set): a sentence this close to its end is not worth a",
       "kinds": ["placeholder"],
       "path": "other",
@@ -2533,7 +2587,7 @@
     },
     {
       "file": "src/simulation/justice/clemency.ts",
-      "line": 598,
+      "line": 601,
       "text": "* The case-record answer of a body the game has not seated (PLACEHOLDER; see",
       "kinds": ["placeholder"],
       "path": "other",
@@ -2542,7 +2596,7 @@
     },
     {
       "file": "src/simulation/justice/clemency.ts",
-      "line": 854,
+      "line": 860,
       "text": ": // PLACEHOLDER: an appointed board's size is not in the table yet;",
       "kinds": ["placeholder"],
       "path": "other",
@@ -2551,16 +2605,16 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 33,
-      "text": "* UNRESEARCHED. Everything about a criminal case: whether a regulator refers",
-      "kinds": ["unresearched"],
+      "line": 56,
+      "text": "* PLACEHOLDER. Every number here is set by hand and filed with the research",
+      "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
       "researchQuestionFiled": false
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 42,
+      "line": 62,
       "text": "export const UNRESEARCHED_PROSECUTION = {",
       "kinds": ["unresearched"],
       "path": "other",
@@ -2569,16 +2623,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 43,
-      "text": "version: \"prosecution-unresearched-v2\",",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/justice/prosecution.ts",
-      "line": 44,
+      "line": 64,
       "text": "provenance: \"unresearched-blanket-rule\",",
       "kinds": ["unresearched"],
       "path": "other",
@@ -2587,7 +2632,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 75,
+      "line": 78,
       "text": "* UNRESEARCHED. What a jail sentence does, filed with the research queue as",
       "kinds": ["unresearched"],
       "path": "other",
@@ -2596,7 +2641,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 80,
+      "line": 83,
       "text": "export const UNRESEARCHED_JAIL_EFFECTS = {",
       "kinds": ["unresearched"],
       "path": "other",
@@ -2605,7 +2650,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 81,
+      "line": 84,
       "text": "version: \"jail-effects-unresearched-v1\",",
       "kinds": ["unresearched"],
       "path": "other",
@@ -2614,7 +2659,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 82,
+      "line": 85,
       "text": "provenance: \"unresearched-blanket-rule\",",
       "kinds": ["unresearched"],
       "path": "other",
@@ -2623,25 +2668,34 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 143,
-      "text": "`${world.seed}:${UNRESEARCHED_PROSECUTION.version}:${key}`,",
-      "kinds": ["unresearched"],
+      "line": 161,
+      "text": "* PLACEHOLDER (a stand-in for an unseated body, like the boards in",
+      "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
       "researchQuestionFiled": false
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 156,
-      "text": "const chances = UNRESEARCHED_PROSECUTION.referralChanceByStandingFindings;",
-      "kinds": ["unresearched"],
+      "line": 176,
+      "text": "* PLACEHOLDER (a stand-in for unseated prosecutors): district attorneys and",
+      "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
       "researchQuestionFiled": false
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 182,
+      "line": 188,
+      "text": "/** A term's length once the judge has chosen its kind. See the PLACEHOLDER above. */",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/justice/prosecution.ts",
+      "line": 193,
       "text": "const rule = UNRESEARCHED_PROSECUTION;",
       "kinds": ["unresearched"],
       "path": "other",
@@ -2650,7 +2704,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 219,
+      "line": 206,
       "text": "return `${UNRESEARCHED_PROSECUTION.version}:referral:${stableKey}`;",
       "kinds": ["unresearched"],
       "path": "other",
@@ -2659,7 +2713,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 266,
+      "line": 253,
       "text": "UNRESEARCHED_PROSECUTION.version,",
       "kinds": ["unresearched"],
       "path": "other",
@@ -2668,7 +2722,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 318,
+      "line": 344,
       "text": "UNRESEARCHED_PROSECUTION.version,",
       "kinds": ["unresearched"],
       "path": "other",
@@ -2677,7 +2731,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 359,
+      "line": 388,
       "text": "if (!UNRESEARCHED_JAIL_EFFECTS.removedFromOffice) return world;",
       "kinds": ["unresearched"],
       "path": "other",
@@ -2686,8 +2740,26 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 382,
+      "line": 529,
       "text": "const rule = UNRESEARCHED_PROSECUTION;",
+      "kinds": ["unresearched"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/justice/prosecution.ts",
+      "line": 661,
+      "text": "// PLACEHOLDER: every seat on the state's trial court is vacant, or",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/justice/prosecution.ts",
+      "line": 758,
+      "text": "UNRESEARCHED_PROSECUTION.resolveAfterDays,",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -2713,7 +2785,7 @@
     },
     {
       "file": "src/simulation/legislative-member-decisions.ts",
-      "line": 355,
+      "line": 357,
       "text": "// PLACEHOLDER(overnight): map recorded conviction and salience to the",
       "kinds": ["placeholder"],
       "path": "law",
@@ -2722,7 +2794,7 @@
     },
     {
       "file": "src/simulation/legislative-member-decisions.ts",
-      "line": 403,
+      "line": 405,
       "text": "// PLACEHOLDER: net view points to the engine's ordinal weight.",
       "kinds": ["placeholder"],
       "path": "law",
@@ -2731,7 +2803,7 @@
     },
     {
       "file": "src/simulation/legislative-member-decisions.ts",
-      "line": 556,
+      "line": 589,
       "text": "* to them. PLACEHOLDER(build-25): the ordinal weight is the game's own until",
       "kinds": ["placeholder"],
       "path": "law",
@@ -3010,8 +3082,8 @@
     },
     {
       "file": "src/simulation/living-world/local-council-meetings.ts",
-      "line": 64,
-      "text": "* PLACEHOLDERS, pending `local-council-legislative-volume`:",
+      "line": 77,
+      "text": "* PLACEHOLDER, pending `local-council-legislative-volume`: the council meets",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "local-council-legislative-volume",
@@ -3019,7 +3091,7 @@
     },
     {
       "file": "src/simulation/living-world/local-elections.ts",
-      "line": 92,
+      "line": 99,
       "text": "* PLACEHOLDERS, pending `local-election-behavior`:",
       "kinds": ["placeholder"],
       "path": "government",
@@ -3037,7 +3109,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 56,
+      "line": 57,
       "text": "// PLACEHOLDER, approved provisional: executives carry the blame for a visible",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3046,7 +3118,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 60,
+      "line": 61,
       "text": "// PLACEHOLDER, approved provisional: about 11 percent of people can recall",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3055,7 +3127,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 67,
+      "line": 68,
       "text": "// PLACEHOLDER, approved provisional (Pew 2024): the share who follow local",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3064,7 +3136,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 73,
+      "line": 74,
       "text": "// PLACEHOLDER, approved provisional: people have about 2 to 4 political",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3073,7 +3145,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 79,
+      "line": 80,
       "text": "// PLACEHOLDER: what a friend went through moves a view less than one's own",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3082,7 +3154,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 82,
+      "line": 83,
       "text": "// PLACEHOLDER: a family member's paycheck is felt at home, less than one's own.",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3091,7 +3163,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 84,
+      "line": 85,
       "text": "// PLACEHOLDER, approved provisional: partisans are anchored. Blame for their",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3100,7 +3172,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 87,
+      "line": 88,
       "text": "// PLACEHOLDER: a money effect whose size next to pay is unknown is felt at a",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3109,7 +3181,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 334,
+      "line": 339,
       "text": "// PLACEHOLDER: a law costing a tenth of a month's pay is felt fully; the",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3118,7 +3190,7 @@
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
-      "line": 350,
+      "line": 355,
       "text": "// PLACEHOLDER multipliers.",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3131,6 +3203,69 @@
       "text": "// PLACEHOLDER: one newly encountered question starts or revisits a modest,",
       "kinds": ["placeholder"],
       "path": "government",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/town-rent.ts",
+      "line": 138,
+      "text": "* PLACEHOLDER(research: who-owns-rental-homes). Who owns a rented home of",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "who-owns-rental-homes",
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/town-rent.ts",
+      "line": 156,
+      "text": "* PLACEHOLDER(research: bedrooms-by-kind-of-home). The share of each kind of",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "bedrooms-by-kind-of-home",
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/town-rent.ts",
+      "line": 172,
+      "text": "* PLACEHOLDER(research: rent-spread-around-fair-market-rent). How far one",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "rent-spread-around-fair-market-rent",
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/town-rent.ts",
+      "line": 199,
+      "text": "* PLACEHOLDER(research: inclusionary-set-aside). The law's set-aside: the part",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "inclusionary-set-aside",
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/town-rent.ts",
+      "line": 210,
+      "text": "* Code 1947.12); one rule stands in for every place's own. PLACEHOLDER",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "rent-stabilization-cap-by-place",
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/town-rent.ts",
+      "line": 219,
+      "text": "* PLACEHOLDER(research: eviction-filing-and-outcome). When a landlord files",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "eviction-filing-and-outcome",
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/town-rent.ts",
+      "line": 467,
+      "text": "// the two are taken to offset. PLACEHOLDER(research:",
+      "kinds": ["placeholder"],
+      "path": "other",
       "researchQuestionId": null,
       "researchQuestionFiled": false
     },
@@ -4045,7 +4180,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 523,
+      "line": 524,
       "text": "export const MUNICIPAL_EXECUTIVE_PLACEHOLDER_ID =",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4054,7 +4189,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 538,
+      "line": 539,
       "text": "* PLACEHOLDER, pending `dc-congressional-review-day-count`: the days counted",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4063,7 +4198,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 568,
+      "line": 569,
       "text": "* PLACEHOLDER, pending `dc-congressional-review-day-count`: an act in play",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4072,7 +4207,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 940,
+      "line": 951,
       "text": "// PLACEHOLDER, pending `dc-mayor-action-on-council-acts`: an executive the",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4081,7 +4216,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 948,
+      "line": 959,
       "text": "rationale: `${MUNICIPAL_EXECUTIVE_PLACEHOLDER_ID}: signed on the last day to act; how this executive decides is not modeled.`,",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4629,6 +4764,42 @@
       "researchQuestionFiled": false
     },
     {
+      "file": "src/simulation/patronage/appointments.ts",
+      "line": 90,
+      "text": "* PLACEHOLDER (set by hand, not measured): 8. It affects only how many",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/patronage/appointments.ts",
+      "line": 340,
+      "text": "// PLACEHOLDER (set by hand, not measured): the following sizes at which it",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/patronage/following.ts",
+      "line": 18,
+      "text": "* PLACEHOLDER (set by hand, not measured): how much a still-owed debt counts",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/patronage/following.ts",
+      "line": 24,
+      "text": "/** PLACEHOLDER (set by hand): the most debts can raise one candidate's support. */",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
       "file": "src/simulation/people-contact.ts",
       "line": 1005,
       "text": "* PLACEHOLDER, NOT RESEARCH: the ranges are calibration until",
@@ -4672,6 +4843,15 @@
       "path": "other",
       "researchQuestionId": "npc-private-goal-pursuit",
       "researchQuestionFiled": true
+    },
+    {
+      "file": "src/simulation/people-own-ties.ts",
+      "line": 41,
+      "text": "* PLACEHOLDER, set by hand: how many of each kind of tie a person is given.",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
     },
     {
       "file": "src/simulation/person-context.ts",
@@ -4774,16 +4954,7 @@
     },
     {
       "file": "src/simulation/press/finding-consequences.ts",
-      "line": 98,
-      "text": "* and everything after, is an UNRESEARCHED placeholder.",
-      "kinds": ["unresearched"],
-      "path": "government",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/press/finding-consequences.ts",
-      "line": 191,
+      "line": 197,
       "text": "UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints[outcome] *",
       "kinds": ["unresearched"],
       "path": "government",
@@ -4792,7 +4963,7 @@
     },
     {
       "file": "src/simulation/press/finding-consequences.ts",
-      "line": 422,
+      "line": 428,
       "text": "* A generated state body's civil penalty: its UNRESEARCHED per-payment scale",
       "kinds": ["unresearched"],
       "path": "government",
@@ -4801,7 +4972,7 @@
     },
     {
       "file": "src/simulation/press/finding-consequences.ts",
-      "line": 425,
+      "line": 431,
       "text": "* what they may impose; the FEC's conciliation penalties are unresearched too.",
       "kinds": ["unresearched"],
       "path": "government",
@@ -5782,7 +5953,16 @@
     },
     {
       "file": "src/simulation/public-budgets/month.ts",
-      "line": 560,
+      "line": 260,
+      "text": "* changed, where the size is not researched, or for a county or city, whose",
+      "kinds": ["unresearched"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/public-budgets/month.ts",
+      "line": 595,
       "text": "* and plans programs to spend the rest (PLACEHOLDER rule). Under a",
       "kinds": ["placeholder"],
       "path": "other",
@@ -5791,7 +5971,7 @@
     },
     {
       "file": "src/simulation/public-budgets/month.ts",
-      "line": 705,
+      "line": 731,
       "text": "note: \"The balance above the reserve target (5% of a year's spending, PLACEHOLDER) was carried into the new year and is spent across it, once.\",",
       "kinds": ["placeholder"],
       "path": "other",
@@ -5800,7 +5980,7 @@
     },
     {
       "file": "src/simulation/public-budgets/month.ts",
-      "line": 715,
+      "line": 741,
       "text": "note: \"The reserve is below its required floor, so the adopted budget sets a deposit aside (PLACEHOLDER floor and pace).\",",
       "kinds": ["placeholder"],
       "path": "other",
@@ -5809,7 +5989,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 58,
+      "line": 62,
       "text": "* 3. A county or city takes its PLACEHOLDER share of its state's local",
       "kinds": ["placeholder"],
       "path": "other",
@@ -5818,7 +5998,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 61,
+      "line": 65,
       "text": "*    a local government's are its state's shares of spending (PLACEHOLDER).",
       "kinds": ["placeholder"],
       "path": "other",
@@ -5827,7 +6007,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 365,
+      "line": 505,
       "text": "/** The opening pension and its actuarial contribution. PLACEHOLDER. */",
       "kinds": ["placeholder"],
       "path": "other",
@@ -5836,7 +6016,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 519,
+      "line": 659,
       "text": "? \"Opening reserve: NASBO has no figure, so the national median rainy-day share of spending (PLACEHOLDER).\"",
       "kinds": ["placeholder"],
       "path": "other",
@@ -5845,7 +6025,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 624,
+      "line": 767,
       "text": "? `Census 2022 local-government figures per resident in ${base.name}, the ${level} share of each program (PLACEHOLDER table, research: local-government-finances",
       "kinds": ["placeholder"],
       "path": "other",
@@ -5854,7 +6034,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 625,
+      "line": 768,
       "text": ": `ESTIMATED FROM AVERAGE: Census publishes no local-government finances for ${base.name}, so the national average per resident (the 50 states and D.C., weighte",
       "kinds": ["placeholder"],
       "path": "other",
@@ -5863,7 +6043,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 627,
+      "line": 770,
       "text": "\"Opening balance and reserve: the state's general fund balance and rainy-day shares of spending (PLACEHOLDER, research: local-government-finances-by-type).\",",
       "kinds": ["placeholder"],
       "path": "other",
@@ -5872,7 +6052,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 718,
+      "line": 863,
       "text": "\"Pension: liability, funded ratio and contribution are PLACEHOLDER (research: public-pension-funding-by-state), carved out of salary-paying programs.\",",
       "kinds": ["placeholder"],
       "path": "other",
@@ -5881,7 +6061,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 721,
+      "line": 869,
       "text": "\"Fiscal year: the state's start (PLACEHOLDER, research: local-government-finances-by-type).\",",
       "kinds": ["placeholder"],
       "path": "other",
@@ -5971,12 +6151,39 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 108,
-      "text": "* source. Null: not researched yet, so an answer moves no money and the",
+      "line": 109,
+      "text": "* \"yes\" becomes \"no\", each as a share of the source. Null: not researched",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "tax-question-revenue-effects",
       "researchQuestionFiled": true
+    },
+    {
+      "file": "src/simulation/public-budgets/rules.ts",
+      "line": 129,
+      "text": "\"Not researched: a state with no income tax collects none, so adopting one needs a level, not a share.\",",
+      "kinds": ["unresearched"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/public-budgets/rules.ts",
+      "line": 150,
+      "text": "basis: \"Not researched.\",",
+      "kinds": ["unresearched"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/public-budgets/rules.ts",
+      "line": 157,
+      "text": "basis: \"Not researched: a cap slows growth rather than moving a level.\",",
+      "kinds": ["unresearched"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
     },
     {
       "file": "src/simulation/recall.ts",
