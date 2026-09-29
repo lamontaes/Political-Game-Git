@@ -272,7 +272,7 @@ export const EVICTION = {
   conciliatoryLandlordSettlesUpTo: 3,
   lawyerKeepsHomeUpTo: 4,
   planMonths: 6,
-  planShareOfPay: 0.5,
+  planLimitOfPay: 0.5,
   conciliatoryJudgeGivesTimeUpTo: 2,
   /** Months after a filing ends before the landlord files again. */
   quietMonths: 3,
@@ -1935,7 +1935,7 @@ function evictionCaseFacts(
   );
   const carried =
     owed.rent + owed.owed / EVICTION.planMonths <=
-    householdPay * EVICTION.planShareOfPay;
+    householdPay * EVICTION.planLimitOfPay;
   // The played leaseholder answers for themselves; anyone else answers as
   // their own reliability goes, takes the lawyer the law provides, and
   // offers a plan when their pay could carry one.
