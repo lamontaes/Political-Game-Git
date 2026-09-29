@@ -3,6 +3,7 @@ import {
   householdLoanMonthHandler,
 } from "./household-loans";
 import { PAYDAY_HANDLERS } from "./living-world/town-pay";
+import { RENT_DAY_HANDLERS } from "./living-world/town-rent";
 import { jailTermOn } from "./justice/jail-terms";
 import {
   OFFICIAL_VIEW_TRANSITION_KEY,
@@ -2189,6 +2190,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
         // PAYDAY: everyone with a recorded job is paid, every four weeks.
         ...PAYDAY_HANDLERS,
+        // RENT DAY: every renting household pays its landlord on the first.
+        ...RENT_DAY_HANDLERS,
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...CAMPAIGN_LIFE_HANDLERS,
       ]),

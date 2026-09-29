@@ -237,6 +237,58 @@ export function peopleTraitPack(): TraitPack {
           },
         ],
       },
+      {
+        // A charged person chooses between the plea on offer and a trial.
+        // Somebody who takes chances, or who meets a fight head on, goes to
+        // trial; somebody cautious or conciliatory takes the known sentence.
+        decision: "court.plea",
+        leans: [
+          {
+            option: "trial",
+            trait: `${PEOPLE_MIND_VERSION}:risk`,
+            pole: "high",
+            explanation: "They would rather take their chances with a jury.",
+          },
+          {
+            option: "plead",
+            trait: `${PEOPLE_MIND_VERSION}:risk`,
+            pole: "low",
+            explanation: "They would rather know what the sentence will be.",
+          },
+          {
+            option: "trial",
+            trait: `${PEOPLE_MIND_VERSION}:conflict`,
+            pole: "high",
+            explanation: "They want to fight the charge.",
+          },
+          {
+            option: "plead",
+            trait: `${PEOPLE_MIND_VERSION}:conflict`,
+            pole: "low",
+            explanation: "They would rather settle it than fight it.",
+          },
+        ],
+      },
+      {
+        // A juror weighs the evidence against the doubt the law requires.
+        // Somebody who thinks things through holds on to a doubt longer;
+        // somebody who acts on impulse goes with their first impression.
+        decision: "court.jury-vote",
+        leans: [
+          {
+            option: "acquit",
+            trait: `${PEOPLE_MIND_VERSION}:deliberation`,
+            pole: "low",
+            explanation: "They weigh every doubt before they decide.",
+          },
+          {
+            option: "convict",
+            trait: `${PEOPLE_MIND_VERSION}:deliberation`,
+            pole: "high",
+            explanation: "They go with their first impression of the case.",
+          },
+        ],
+      },
     ],
   };
 }

@@ -7,6 +7,7 @@ import {
 import { installedTraitPacks } from "./installed-trait-packs";
 import { CLEMENCY_PETITION_DECISION } from "./justice/clemency-decisions";
 import { ANOTHER_TERM_DECISION } from "./careers/another-term-decision";
+import { JURY_VOTE_DECISION, PLEA_DECISION } from "./justice/court-decisions";
 import type { WorldContentPacks } from "./runtime-content-packs";
 import { loadTraitPacks, type TraitRegistry } from "./trait-packs";
 import type { World } from "./types";
@@ -27,6 +28,8 @@ const DECISIONS = [
   BARGAINING_ANSWER_REQUEST_DECISION,
   BARGAINING_ANSWER_OFFER_DECISION,
   CLEMENCY_PETITION_DECISION,
+  PLEA_DECISION,
+  JURY_VOTE_DECISION,
   ANOTHER_TERM_DECISION,
 ];
 
