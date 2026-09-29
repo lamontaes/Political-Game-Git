@@ -1,5 +1,6 @@
 import { createResourcePosition, money } from "./resources";
 import { recordById } from "./history-index";
+import { transferOutcomesOfPerson } from "./person-money-index";
 import { resourcePositionsOf, sameEndpoint } from "./resource-queries";
 import type { CurrencyCode, EntityId, World } from "./types";
 
@@ -20,7 +21,11 @@ export function ensureLifePathPersonalPosition(
     return world;
   let balance = 0;
   const carried: EntityId[] = [];
-  for (const outcome of world.history.resourceTransferOutcomes) {
+  for (const outcome of transferOutcomesOfPerson(
+    world.history.resourceFlows,
+    world.history.resourceTransferOutcomes,
+    personId,
+  )) {
     if (
       outcome.occurredAt > world.currentDate ||
       outcome.transferredAmount.currency !== currency ||

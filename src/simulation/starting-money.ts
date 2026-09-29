@@ -1,7 +1,13 @@
 import scf from "../../data/research/money/scf-transaction-accounts-2022.json" with { type: "json" };
 import { ageOnDate, dateAtAge, daysBetween } from "./dates";
+import { recordsWithFieldValue } from "./history-index";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { activeWorkRelationshipsAt } from "./life-queries";
+import {
+  flowsOfPerson,
+  holdsUsdPosition,
+  transferOutcomesOfPerson,
+} from "./person-money-index";
 import { resourceFlowTermsAt } from "./resource-queries";
 import { createResourcePosition, money } from "./resources";
 import type { EntityId, ResourceFlowTermsRecord, World } from "./types";
@@ -81,14 +87,7 @@ export function ensureStartingPersonalMoney(
   const person = world.people[personId];
   if (!person) throw new Error(`No person ${personId} exists.`);
   const owner = { kind: "person" as const, personId };
-  if (
-    world.history.resourcePositions.some(
-      (position) =>
-        position.owner.kind === "person" &&
-        position.owner.personId === personId &&
-        position.openingBalance.currency === "USD",
-    )
-  ) {
+  if (holdsUsdPosition(world.history.resourcePositions, personId)) {
     return {
       world,
       status: "existing",
@@ -106,22 +105,16 @@ export function ensureStartingPersonalMoney(
   }
   const currency = money(0, "USD").currency;
   if (
-    world.history.resourceTransferOutcomes.some((outcome) => {
-      if (
-        outcome.occurredAt > world.currentDate ||
-        outcome.transferredAmount.currency !== currency ||
-        outcome.transferredAmount.minorUnits === 0
-      )
-        return false;
-      const flow = world.history.resourceFlows.find(
-        (candidate) => candidate.id === outcome.resourceFlowId,
-      );
-      return (
-        (flow?.source.kind === "person" && flow.source.personId === personId) ||
-        (flow?.recipient.kind === "person" &&
-          flow.recipient.personId === personId)
-      );
-    })
+    transferOutcomesOfPerson(
+      world.history.resourceFlows,
+      world.history.resourceTransferOutcomes,
+      personId,
+    ).some(
+      (outcome) =>
+        outcome.occurredAt <= world.currentDate &&
+        outcome.transferredAmount.currency === currency &&
+        outcome.transferredAmount.minorUnits !== 0,
+    )
   ) {
     return {
       world: ensureLifePathPersonalPosition(world, personId, currency),
@@ -136,7 +129,7 @@ export function ensureStartingPersonalMoney(
       ({ relationship }) => relationship.id,
     ),
   );
-  const paid = world.history.resourceFlows
+  const paid = flowsOfPerson(world.history.resourceFlows, personId)
     .filter(
       (flow) =>
         flow.basisReference.kind === "work" &&
@@ -166,10 +159,13 @@ export function ensureStartingPersonalMoney(
   }
 
   const adultDate = dateAtAge(person.birthDate, 18);
-  const firstAdultPaidWork = world.history.workRelationships
+  const firstAdultPaidWork = recordsWithFieldValue(
+    world.history.workRelationships,
+    "personId",
+    personId,
+  )
     .filter(
       (work) =>
-        work.personId === personId &&
         (work.compensation === "paid" || work.compensation === "mixed") &&
         work.startedAt >= adultDate &&
         work.startedAt < world.currentDate,
