@@ -197,11 +197,12 @@ describe("a state's income tax law, as enacted in play", () => {
   });
 
   it("reshapes a flat state's tax and keeps its own deduction", () => {
-    // Colorado: flat 4.4% with a $16,100 standard deduction.
-    const graduated = enacted(stateId("US-CO"), GRADUATED, "yes", "2027-01-01");
+    // Idaho: flat, with a $16,100 standard deduction, and nothing in its
+    // constitution on the shape of the tax.
+    const graduated = enacted(stateId("US-ID"), GRADUATED, "yes", "2027-01-01");
     const read = stateIncomeTaxUnderLaw(
       lawWorld("s", [graduated]),
-      "US-CO",
+      "US-ID",
       "single",
       paid,
     );
@@ -211,6 +212,13 @@ describe("a state's income tax law, as enacted in play", () => {
     expect(read.estimatedFromAverage).toContain(
       "the state's own standard deduction of $16,100",
     );
+    // Colorado's constitution taxes all income at one rate (art. X,
+    // sec. 20(8)(a)): a statute cannot graduate it, so paychecks are as
+    // they began.
+    const barred = enacted(stateId("US-CO"), GRADUATED, "yes", "2027-01-01");
+    expect(
+      stateIncomeTaxUnderLaw(lawWorld("s", [barred]), "US-CO", "single", paid),
+    ).toEqual({ kind: "as-begun" });
     // A "yes" on the shape of a state that is already graduated changes
     // nothing.
     const oregon = enacted(stateId("US-OR"), GRADUATED, "yes", "2027-01-01");

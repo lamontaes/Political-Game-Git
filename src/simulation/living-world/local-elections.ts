@@ -1300,11 +1300,39 @@ export function redistrictAfterCensus(
   return redrawTownWards(world, {
     unit,
     town,
-    drawnBy: wardDrawerInForce(world, unit),
-    members: [...seatsOf(sittingLocalOfficers(world, unit))]
-      .filter(([seat]) => seat > 0)
-      .map(([seat, row]) => ({ seat, personId: row.personId })),
+    drawnBy: wardDrawerInForce(world, unit, town),
+    members: wardMembers(world, unit),
     reason: `after the ${year - 1} census`,
+  });
+}
+
+function wardMembers(world: World, unit: GovernmentUnitIdentity) {
+  return [...seatsOf(sittingLocalOfficers(world, unit))]
+    .filter(([seat]) => seat > 0)
+    .map(([seat, row]) => ({ seat, personId: row.personId }));
+}
+
+/**
+ * When a law hands the pen to an independent commission, the commission
+ * redraws the council's map at the town's next yearly review rather than
+ * waiting for the next census; the map it draws ignores where members live,
+ * so two of them can land in one ward. A repeal hands the next redraw back
+ * to the council without redrawing early.
+ */
+export function redistrictForWardCommission(
+  world: World,
+  unit: GovernmentUnitIdentity,
+  town: EntityId,
+): World {
+  const map = townWardMap(world, unit);
+  if (!map || map.drawnBy === "commission") return world;
+  if (wardDrawerInForce(world, unit, town) !== "commission") return world;
+  return redrawTownWards(world, {
+    unit,
+    town,
+    drawnBy: "commission",
+    members: wardMembers(world, unit),
+    reason: "the independent ward commission law took effect",
   });
 }
 
@@ -1319,7 +1347,11 @@ export function localGovernmentYearHandler(
   const { unit } = found;
   const office = localGoverningBodyIdentity(unit);
   if (!office) return done(world, "The town has no governing body.");
-  let next = redistrictAfterCensus(world, unit, town);
+  let next = redistrictForWardCommission(
+    redistrictAfterCensus(world, unit, town),
+    unit,
+    town,
+  );
   const player = due.entityIds[1];
   const excluded = excludedFrom(next, unit, playerHousehold(next, player));
   const taken = new Set<string>();

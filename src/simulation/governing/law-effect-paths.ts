@@ -7,6 +7,7 @@ import { DEBT_LIMIT_CUTS_QUESTION } from "../federal-outlay-laws";
 import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
 import { COUNCIL_TERM_LIMIT_QUESTION } from "../living-world/local-council-term-limits";
 import { STATEHOOD_QUESTION } from "../living-world/statehood-seats";
+import { WARD_COMMISSION_QUESTION } from "../living-world/town-wards";
 import {
   CITY_MINIMUM_WAGE_QUESTION_KEY,
   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
@@ -23,6 +24,7 @@ import {
 import { HOUSING_SUPPLY_LAWS } from "../living-world/housing-market";
 import { RENT_LAW_KEYS } from "../living-world/town-rent";
 import { CANNABIS_SALES_QUESTION } from "../public-budgets/cannabis-sales-tax";
+import { MILEAGE_FEE_QUESTION } from "../public-budgets/road-usage-charge";
 import {
   SPENDING_QUESTION_EFFECTS,
   TAX_QUESTION_EFFECTS,
@@ -146,6 +148,13 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     kind: "seat-turnover",
     via: "src/simulation/living-world/local-council-term-limits.ts",
   },
+  // An independent ward commission redraws the council's wards without
+  // regard to members' homes, pairing incumbents in one ward.
+  {
+    questionKey: WARD_COMMISSION_QUESTION,
+    kind: "seat-turnover",
+    via: "src/simulation/living-world/local-elections.ts",
+  },
   // Statehood for a nonvoting place adds its seats to both chambers on the day
   // the law takes effect.
   {
@@ -209,6 +218,11 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: CANNABIS_SALES_QUESTION,
     kind: "state-revenue",
     via: "src/simulation/public-budgets/cannabis-sales-tax.ts",
+  },
+  {
+    questionKey: MILEAGE_FEE_QUESTION,
+    kind: "state-revenue",
+    via: "src/simulation/public-budgets/road-usage-charge.ts",
   },
   {
     questionKey: TUITION_FREEZE_QUESTION,

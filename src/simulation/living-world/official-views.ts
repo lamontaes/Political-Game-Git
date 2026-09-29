@@ -7,6 +7,7 @@ import {
   recordHeardExposure,
 } from "../law-exposure";
 import { OFFICIAL_VIEW_BASE_POINTS as BASE_POINTS } from "../official-view-reads";
+import { joinLawInterestGroup } from "./law-interest-groups";
 import { confidantsOf } from "../confidants";
 import {
   activePartnershipsAt,
@@ -137,6 +138,7 @@ export function officialViewReflectionHandler(
       reasons,
     });
   }
+  next = joinLawInterestGroup(next, exposure);
   if (exposure.relation === "own")
     for (const hearerId of hearersOf(world, exposure))
       next = recordHeardExposure(next, exposure, hearerId);
@@ -312,7 +314,7 @@ function reasonsFor(
   const felt =
     felt01(world, exposure) *
     (act.executive ? EXECUTIVE_VISIBILITY : LEGISLATOR_VISIBILITY) *
-    lens(world, exposure.personId);
+    reactionLens(world, exposure.personId);
   const share = heardShare(world, exposure);
   const own = Math.round(sign * BASE_POINTS * felt * share);
   if (own === 0) return [];
@@ -373,7 +375,7 @@ function felt01(world: World, exposure: LawExposureRecord): number {
  * Personality is the lens, not the side: a reactive or combative person moves
  * further on the same law, a patient or conflict-averse one less.
  */
-function lens(world: World, personId: EntityId): number {
+export function reactionLens(world: World, personId: EntityId): number {
   let factor = 1;
   const tempo = latestPersonalityTendency(
     world,

@@ -22,6 +22,19 @@ describe("the Journal in the character's own hand", () => {
     expect(
       journalInFirstPerson("You and Dana Reyes went to the meeting."),
     ).toBe("Dana Reyes and I went to the meeting.");
+    // The illness line when the player passed it on.
+    expect(
+      journalInFirstPerson(
+        "Emil Mercado came down sick with the illness going around Omaha, after you had it at home.",
+      ),
+    ).toBe(
+      "Emil Mercado came down sick with the illness going around Omaha, after I had it at home.",
+    );
+    expect(
+      journalInFirstPerson(
+        "Emil Mercado came down sick, after you had it on a family visit.",
+      ),
+    ).toBe("Emil Mercado came down sick, after I had it on a family visit.");
   });
 
   it("keeps quoted words, names and facts as recorded", () => {

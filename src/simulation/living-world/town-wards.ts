@@ -6,8 +6,9 @@ import { primaryReading } from "../municipal-government";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
 import { localGoverningBodyRules } from "../nationwide-world/local-governing-body-rules";
 import { placeReferencePopulation } from "../nationwide-world/place-population";
+import { lawInForce } from "../governing/law-in-force";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
-import type { EntityId, HistoricalEvent, World } from "../types";
+import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
   TOWN_RESIDENTS_VERSION,
@@ -251,15 +252,46 @@ export function seatWard(map: TownWardMap, seat: number): number {
 }
 
 /**
- * Who draws the town's next map: whoever drew the one in force, the council
- * where none is drawn. A law that hands the pen to an independent commission
- * redraws the map with `redrawTownWards(..., "commission")` when it takes
- * effect, and the commission keeps it from then on.
+ * The policy question "Should an independent commission draw city council
+ * districts?". A county or city ordinance, or a state law over its towns,
+ * answers it through `lawInForce`.
+ */
+export const WARD_COMMISSION_QUESTION =
+  "us-policy-positions:government-operations.independent-ward-commission";
+
+/**
+ * The town's law on an independent ward commission on `onDate`: "yes", "no",
+ * or null where no law answers it. With no law, the council draws its own
+ * map, the most common real rule (HARDWIRED: no town starts with a commission,
+ * because the starting law does not answer this question).
+ */
+export function wardCommissionLaw(
+  world: World,
+  town: EntityId,
+  onDate: IsoDate,
+): "yes" | "no" | null {
+  const proposition = Object.values(
+    world.policyCatalog?.propositions ?? {},
+  ).find((definition) => definition.stableKey === WARD_COMMISSION_QUESTION);
+  if (!proposition) return null;
+  const answer = lawInForce(world, town, proposition.id, onDate)?.answer;
+  return answer === "yes" || answer === "no" ? answer : null;
+}
+
+/**
+ * Who draws the town's next map. A law in force decides: an independent
+ * commission while the town's (or its state's) law says yes, the council once
+ * a law says no. Where no law answers, whoever drew the map in force keeps the
+ * pen, and the council where none is drawn.
  */
 export function wardDrawerInForce(
   world: World,
   unit: GovernmentUnitIdentity,
+  town?: EntityId,
 ): WardDrawer {
+  const law = town ? wardCommissionLaw(world, town, world.currentDate) : null;
+  if (law === "yes") return "commission";
+  if (law === "no") return "council";
   return townWardMap(world, unit)?.drawnBy ?? "council";
 }
 

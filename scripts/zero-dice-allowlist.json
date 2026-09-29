@@ -780,34 +780,6 @@
       "code": "lowOpportunityShare: 0.18,"
     },
     {
-      "file": "src/simulation/living-world/constitutional-reform.ts",
-      "kind": "fixed-share",
-      "build": "Build 27",
-      "count": 1,
-      "code": "proposalPermille: 30,"
-    },
-    {
-      "file": "src/simulation/living-world/constitutional-reform.ts",
-      "kind": "fixed-share",
-      "build": "Build 27",
-      "count": 1,
-      "code": "backgroundProposalPermille: 15,"
-    },
-    {
-      "file": "src/simulation/living-world/constitutional-reform.ts",
-      "kind": "fixed-share",
-      "build": "Build 27",
-      "count": 1,
-      "code": "chamberYesPermille: [450, 800],"
-    },
-    {
-      "file": "src/simulation/living-world/constitutional-reform.ts",
-      "kind": "roll",
-      "build": "Build 27",
-      "count": 2,
-      "code": "rng.fork(\"propose\").integer(0, 1000) >="
-    },
-    {
       "file": "src/simulation/living-world/local-elections.ts",
       "kind": "fixed-share",
       "build": "Build 24",
@@ -1464,13 +1436,6 @@
       "build": "Build 19",
       "count": 1,
       "code": "draw(next, [\"international\", matter, ordinal]) >="
-    },
-    {
-      "file": "src/simulation/public-budgets/rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 12",
-      "count": 1,
-      "code": "export const FIRST_CUT_SHARE = 0.03;"
     },
     {
       "file": "src/simulation/recall.ts",
