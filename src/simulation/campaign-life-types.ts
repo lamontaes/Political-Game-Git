@@ -182,6 +182,37 @@ export type CampaignWeeklyRefusal =
   | "channel-capacity"
   | "empty-plan";
 
+/**
+ * D-11: campaign hours are a standing routine, not a weekly budget. The
+ * candidate says which days and hours go to which work, and the routine runs
+ * on the ordinary clock until they change it. A scene or another commitment
+ * that takes the time takes it: the hours are lost, not saved for later.
+ */
+export type CampaignRoutineWork = "outreach" | "fundraising";
+
+export interface CampaignRoutineBlock {
+  readonly work: CampaignRoutineWork;
+  /** Days of the week, 0 for Sunday through 6 for Saturday. */
+  readonly weekdays: readonly number[];
+  /** Local start time, in minutes after midnight. */
+  readonly startMinute: number;
+  readonly minutes: number;
+}
+
+/** The routine as set on one day. The latest one for a campaign governs. */
+export interface CampaignRoutineRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly campaignId: EntityId;
+  /** The candidate's choice, which the sessions the routine books cite. */
+  readonly eventId: EntityId;
+  /** Empty when the candidate stopped the routine. */
+  readonly blocks: readonly CampaignRoutineBlock[];
+  readonly createdAt: IsoDate;
+  readonly supersedesRoutineId: EntityId | null;
+}
+
 export interface CampaignWeeklyPlanRecord {
   readonly id: EntityId;
   readonly stableKey: string;

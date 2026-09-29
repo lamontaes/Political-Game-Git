@@ -1,6 +1,7 @@
 import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { principledLeaning } from "../governing/officeholder-principles";
+import { formPrinciplesFromLife } from "../principles-from-life";
 import type { EntityId, PropositionExposureRecord, World } from "../types";
 
 export const POLITICAL_REFLECTION_TRANSITION_KEY =
@@ -14,31 +15,41 @@ export function exposureReflectionKey(
 
 /** A witnessed question with a saved bearing gets one dated NPC reconsideration. */
 export function schedulePoliticalReflectionForExposure(
-  world: World,
+  before: World,
   exposureId: EntityId,
 ): World {
-  const exposure = world.history.propositionExposures.find(
+  const exposure = before.history.propositionExposures.find(
     (row) => row.id === exposureId,
   );
   if (!exposure) throw new Error(`Missing proposition exposure: ${exposureId}`);
   if (
-    !world.people[exposure.personId] ||
-    (world.control.kind === "person" &&
-      world.control.personId === exposure.personId) ||
+    !before.people[exposure.personId] ||
+    (before.control.kind === "person" &&
+      before.control.personId === exposure.personId) ||
     exposure.provenance.kind !== "direct-experience" ||
-    world.history.privateBeliefs.some(
+    before.history.privateBeliefs.some(
       (belief) =>
         belief.personId === exposure.personId &&
         belief.propositionId === exposure.propositionId &&
         belief.sequence >= exposure.sequence,
-    ) ||
+    )
+  )
+    return before;
+  const stableKey = exposureReflectionKey(exposure);
+  if (
+    before.history.futureDueItems.some((item) => item.stableKey === stableKey)
+  )
+    return before;
+  // Meeting a question is when what a person's life has made of them first
+  // matters, so their principles are formed from it now. When none of them
+  // bears on this question there is nothing to reflect on, and nothing is
+  // written: they are formed again, the same way, when one does.
+  const world = formPrinciplesFromLife(before, [exposure.personId]);
+  if (
     principledLeaning(world, exposure.personId, exposure.propositionId)
       .score === 0
   )
-    return world;
-  const stableKey = exposureReflectionKey(exposure);
-  if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
-    return world;
+    return before;
   return scheduleFutureDueItem(world, {
     stableKey,
     dueAt: addDays(world.currentDate, 1),

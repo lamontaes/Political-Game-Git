@@ -59,6 +59,7 @@ import {
   CLEMENCY_SENTENCE_TAG,
   PROSECUTION_SENTENCED_EVENT,
   SENTENCE_KIND_TAG,
+  sentencedPersonOf,
   sentencesOf,
   type ClemencyKind,
   type Sentence,
@@ -381,7 +382,7 @@ export function fileClemencyPetition(
   if (
     !sentenced ||
     sentenced.type !== PROSECUTION_SENTENCED_EVENT ||
-    !sentenced.participants.some((entry) => entry.personId === input.personId)
+    sentencedPersonOf(sentenced) !== input.personId
   )
     return refuse("There is no recorded conviction to ask about.");
   const sentence = runningSentence(world, input.personId, sentenced.id);
@@ -429,7 +430,9 @@ function petitionDecisionKey(sentencedId: EntityId, answerer: string): string {
  * Whether one person under sentence asks, through the shared decision
  * engine. What argues for asking is their situation; what argues against is
  * the attention a request draws; their own temperament leans either way
- * through the trait packs. Nothing here is a share of people who ask.
+ * through the trait packs. Nothing here is a share of people who ask, and
+ * no seeded draw settles a close call: an exact tie falls to the first option
+ * key, "petition", since asking costs the person nothing the record shows.
  */
 function decideWhetherToAsk(
   world: World,
@@ -540,7 +543,7 @@ function decideWhetherToAsk(
     constraints: [],
     considerations,
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   });
   const traced = recordDurableDecisionTrace(withTraits, evaluation);
@@ -559,7 +562,7 @@ function runningSentences(world: World) {
   for (const event of world.history.events) {
     if (event.type !== PROSECUTION_SENTENCED_EVENT) continue;
     if (!event.tags.some((tag) => tag.startsWith(SENTENCE_KIND_TAG))) continue;
-    const personId = event.participants[0]?.personId;
+    const personId = sentencedPersonOf(event);
     if (!personId || !world.people[personId]) continue;
     const sentence = runningSentence(world, personId, event.id);
     if (!sentence || sentence.clemency) continue;
@@ -620,7 +623,10 @@ export function unseatedBodyReading(
     (event) =>
       event.type === "justice.prosecution-referred" &&
       event.occurredAt > sentenced.occurredAt &&
-      event.participants.some((entry) => entry.personId === personId),
+      event.participants.some(
+        (entry) =>
+          entry.role === "focus:subject" && entry.personId === personId,
+      ),
   );
   if (later)
     return {
