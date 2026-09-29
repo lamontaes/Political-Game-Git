@@ -393,8 +393,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 6,
+            "sourceKey": "council-size-us-ak-fairbanks",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -581,6 +584,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ak-fairbanks",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Fairbanks, City Council",
+            "issuingAuthority": "Fairbanks city",
+            "url": "https://www.fairbanks.gov/city-council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The City Council is composed of seven members (Mayor and six Council Members), Seats A through F."
           }
         ]
       },
@@ -620,8 +634,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 9,
+            "sourceKey": "council-size-us-ak-fairbanks-north-star-borough",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -808,6 +825,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ak-fairbanks-north-star-borough",
+            "authorityType": "Municipal Official Website",
+            "title": "Fairbanks North Star Borough, Borough Assembly",
+            "issuingAuthority": "Fairbanks North Star Borough",
+            "url": "https://fnsb.gov/171/Borough-Assembly",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The Assembly is composed of nine members elected borough-wide to Seats A through I for three-year terms."
           }
         ]
       },
@@ -1215,8 +1243,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 6,
+            "sourceKey": "council-size-us-ak-north-pole",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -1403,6 +1434,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ak-north-pole",
+            "authorityType": "Municipal Charter",
+            "title": "City of North Pole Home Rule Charter; City of North Pole, City Council",
+            "issuingAuthority": "North Pole city",
+            "url": "https://www.northpolealaska.com/government/city_council.php",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The Mayor and six Council Members, each elected from the City at large for three-year terms."
           }
         ]
       },
@@ -3093,8 +3135,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 10,
+            "sourceKey": "council-size-us-ar-little-rock",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -3299,6 +3344,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ar-little-rock",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Little Rock, Find Your Ward Director",
+            "issuingAuthority": "Little Rock",
+            "url": "https://littlerock.gov/government/board-of-directors/find-your-ward-director/",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Ten city directors, seven from wards and three at large, with the mayor elected citywide as chair."
           }
         ]
       },
@@ -3976,8 +4032,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 6,
+            "sourceKey": "council-size-us-az-tucson",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -4182,6 +4241,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-az-tucson",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Tucson, City Council Wards",
+            "issuingAuthority": "Tucson",
+            "url": "https://www.tucsonaz.gov/Government/Mayor-Council-and-City-Manager/City-Council-Wards",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Six wards, each represented by one council member; the mayor is elected at large."
           }
         ]
       },
@@ -4221,8 +4291,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 15,
+            "sourceKey": "council-size-us-ca-los-angeles",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -4416,6 +4489,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ca-los-angeles",
+            "authorityType": "Municipal Charter",
+            "title": "City of Los Angeles, City Charter, Rules, and Codes",
+            "issuingAuthority": "Los Angeles",
+            "url": "https://lacity.gov/government/city-charter-rules-and-codes",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Fifteen City Council members representing fifteen districts are elected for four-year terms."
           }
         ]
       },
@@ -4455,8 +4539,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 8,
+            "sourceKey": "council-size-us-ca-oakland",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -4674,6 +4761,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ca-oakland",
+            "authorityType": "Municipal Charter",
+            "title": "The Charter of the City of Oakland § 200, Composition of the Council",
+            "issuingAuthority": "Oakland",
+            "url": "https://cao-94612.s3.amazonaws.com/documents/A-Oakland-City-Charter_2022-04-15-204856_hoik.pdf",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The Council consists of eight Councilmembers: seven nominated from districts and one at large. The Mayor is not a member."
           }
         ]
       },
@@ -4955,8 +5053,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 9,
+            "sourceKey": "council-size-us-ca-san-diego",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -5143,6 +5244,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ca-san-diego",
+            "authorityType": "Municipal Charter",
+            "title": "Charter of the City of San Diego § 270",
+            "issuingAuthority": "San Diego",
+            "url": "https://docs.sandiego.gov/citycharter/charter_amendments/articleXV/sec270.pdf",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The Council shall be composed of nine councilmembers elected by district."
           }
         ]
       },
@@ -5182,8 +5294,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 11,
+            "sourceKey": "council-size-us-ca-san-francisco",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -5377,6 +5492,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ca-san-francisco",
+            "authorityType": "Municipal Official Website",
+            "title": "San Francisco Board of Supervisors, SF.gov",
+            "issuingAuthority": "San Francisco",
+            "url": "https://www.sf.gov/departments--board-supervisors",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The city and county is divided into 11 supervisorial districts, each represented by one member of the Board of Supervisors (Charter § 13.110)."
           }
         ]
       },
@@ -6036,8 +6162,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 7,
+            "sourceKey": "council-size-us-co-pueblo",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -6224,6 +6353,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-co-pueblo",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Pueblo, City Council",
+            "issuingAuthority": "Pueblo",
+            "url": "https://www.pueblo.us/86/City-Council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Seven council seats: four elected by district and three at large."
           }
         ]
       },
@@ -6263,8 +6403,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 20,
+            "sourceKey": "council-size-us-ct-bridgeport",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -6469,6 +6612,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ct-bridgeport",
+            "authorityType": "Municipal Charter",
+            "title": "City of Bridgeport, About the City Council; Charter, Chapter 5, § 2",
+            "issuingAuthority": "Bridgeport",
+            "url": "https://www.bridgeportct.gov/government/departments/city-council/about-city-council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Twenty members, two from each of ten council districts."
           }
         ]
       },
@@ -8317,8 +8471,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 5,
+            "sourceKey": "council-size-us-fl-miami",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -8523,6 +8680,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-fl-miami",
+            "authorityType": "Municipal Charter",
+            "title": "City of Miami Charter, as amended (mayor-city commissioner plan)",
+            "issuingAuthority": "Miami",
+            "url": "https://www.miami.gov/files/assets/public/v/1/document-resources/pdf-docs/city-attorney/legal-opinions/2003/015-relative-powers-and-duties-of-city-commission-and-city-manager-under-citys-mayor-city-commissioner-form-of-government.pdf",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The city commission consists of five commissioners elected from districts; the mayor does not serve as a member of the commission."
           }
         ]
       },
@@ -8562,8 +8730,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 6,
+            "sourceKey": "council-size-us-fl-orlando",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -8750,6 +8921,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-fl-orlando",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Orlando, Mayor and City Council",
+            "issuingAuthority": "Orlando",
+            "url": "https://www.orlando.gov/Our-Government/Mayor-City-Council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "A seven-member City Council: the Mayor, elected at large, and six District Commissioners."
           }
         ]
       },
@@ -8789,8 +8971,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 7,
+            "sourceKey": "council-size-us-fl-pensacola",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -8977,6 +9162,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-fl-pensacola",
+            "authorityType": "Municipal Charter",
+            "title": "Charter for the City of Pensacola",
+            "issuingAuthority": "Pensacola",
+            "url": "https://www.cityofpensacola.com/charter",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Seven Council Members, one from each of seven election districts; the Mayor, elected at large, is not a member."
           }
         ]
       },
@@ -9285,8 +9481,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 15,
+            "sourceKey": "council-size-us-ga-atlanta",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "KNOWN",
@@ -9500,6 +9699,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ga-atlanta",
+            "authorityType": "Municipal Official Website",
+            "title": "Atlanta City Council, How Your Council Works",
+            "issuingAuthority": "Atlanta",
+            "url": "https://citycouncil.atlantaga.gov/how-your-council-works",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Fifteen members: twelve from single-member districts and three at-large posts."
           }
         ]
       },
@@ -9548,8 +9758,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 10,
+            "sourceKey": "council-size-us-ga-augusta-richmond-county",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "KNOWN",
@@ -9763,6 +9976,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ga-augusta-richmond-county",
+            "authorityType": "Municipal Charter",
+            "title": "Augusta-Richmond County Code, Article 5, Charter",
+            "issuingAuthority": "Augusta-Richmond County",
+            "url": "https://library.municode.com/ga/augusta-richmond_county/codes/code_of_ordinances?nodeId=CH_CH1AD_ART5CH",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "A mayor and ten commissioners: eight from districts and two from super districts."
           }
         ]
       },
@@ -10182,8 +10406,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 9,
+            "sourceKey": "council-size-us-hi-hawaii-county",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -10370,6 +10597,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-hi-hawaii-county",
+            "authorityType": "Municipal Official Website",
+            "title": "Hawaiʻi County, Council Members and Districts",
+            "issuingAuthority": "Hawaiʻi County",
+            "url": "https://www.hawaiicounty.gov/our-county/legislative/county-council/council-members-and-districts",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Nine members, one elected from each of nine districts for two-year terms."
           }
         ]
       },
@@ -10745,8 +10983,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 7,
+            "sourceKey": "council-size-us-hi-kauai-county",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -10933,6 +11174,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-hi-kauai-county",
+            "authorityType": "Municipal Charter",
+            "title": "The Charter of the County of Kauaʻi (2022 codified version)",
+            "issuingAuthority": "Kauaʻi County",
+            "url": "https://www.kauai.gov/files/assets/public/v/1/county-council/documents/council-meetings/the-charter-of-the-county-of-kauai-2022.pdf",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "A council of seven members elected at large for two-year terms."
           }
         ]
       },
@@ -10972,8 +11224,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 9,
+            "sourceKey": "council-size-us-hi-maui-county",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -11160,6 +11415,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-hi-maui-county",
+            "authorityType": "Municipal Charter",
+            "title": "Charter, County of Maui (2025), § 3-1",
+            "issuingAuthority": "Maui County",
+            "url": "https://www.mauicounty.gov/DocumentCenter/View/153586/2025-Charter",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Nine members elected at large, each resident of one of nine residency areas."
           }
         ]
       },
@@ -11199,8 +11465,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 8,
+            "sourceKey": "council-size-us-ia-cedar-rapids",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -11394,6 +11663,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ia-cedar-rapids",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Cedar Rapids, City Council",
+            "issuingAuthority": "Cedar Rapids",
+            "url": "https://www.cedar-rapids.org/local_government/city_council/index.php",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The Mayor and eight members: three at large and five from districts, on staggered four-year terms."
           }
         ]
       },
@@ -11442,8 +11722,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 10,
+            "sourceKey": "council-size-us-ia-davenport",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "KNOWN",
@@ -11639,6 +11922,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ia-davenport",
+            "authorityType": "Municipal Charter",
+            "title": "Davenport Municipal Code, Chapter 1.08, City Charter",
+            "issuingAuthority": "Davenport",
+            "url": "https://ecode360.com/35564410",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Ten aldermen: two elected at large and one from each of eight wards, for terms of two years."
           }
         ]
       },
@@ -11678,8 +11972,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 6,
+            "sourceKey": "council-size-us-ia-des-moines",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -11884,6 +12181,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ia-des-moines",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Des Moines, City Council",
+            "issuingAuthority": "Des Moines",
+            "url": "https://www.dsm.city/government/city_council/index.php",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The Mayor, two members at large and one member from each of four wards."
           }
         ]
       },
@@ -11923,8 +12231,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 6,
+            "sourceKey": "council-size-us-ia-dubuque",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -12111,6 +12422,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ia-dubuque",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Dubuque, Mayor and City Council",
+            "issuingAuthority": "Dubuque",
+            "url": "https://www.cityofdubuque.org/990/Mayor-City-Council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The Mayor, two council members at large and four from wards."
           }
         ]
       },
@@ -13163,8 +13485,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 50,
+            "sourceKey": "council-size-us-il-chicago",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -13351,6 +13676,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-il-chicago",
+            "authorityType": "Municipal Code",
+            "title": "Chicago Municipal Code, Chapter 2-8, City Council and Wards of the City; City of Chicago, City Council, Your Ward & Alderperson",
+            "issuingAuthority": "Chicago",
+            "url": "https://www.chicago.gov/city/en/about/council.html",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "50 alderpersons, one elected from each of 50 wards."
           }
         ]
       },
@@ -13390,8 +13726,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 10,
+            "sourceKey": "council-size-us-il-peoria",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -13585,6 +13924,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-il-peoria",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Peoria, Mayor and City Council",
+            "issuingAuthority": "Peoria",
+            "url": "https://www.peoriagov.org/157/Mayor-and-City-Council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The Mayor and ten Council members: one from each of five districts and five at large."
           }
         ]
       },
@@ -13624,8 +13974,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 10,
+            "sourceKey": "council-size-us-il-springfield",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -13819,6 +14172,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-il-springfield",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Springfield, City Council",
+            "issuingAuthority": "Springfield",
+            "url": "https://www.springfield.il.us/Departments/CityCouncil/CityCouncilHome.aspx",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Ten wards, each represented by one elected alderperson, with the Mayor."
           }
         ]
       },
@@ -16601,8 +16965,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 13,
+            "sourceKey": "council-size-us-ma-boston",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -16814,6 +17181,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ma-boston",
+            "authorityType": "Municipal Charter",
+            "title": "Boston City Charter (Acts of 1982, c. 605, s. 1), updated January 2025",
+            "issuingAuthority": "Boston",
+            "url": "https://www.boston.gov/sites/default/files/file/2025/07/City%20Charter%20PDF%20Update.pdf",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Thirteen councillors: nine from districts and four at large."
           }
         ]
       },
@@ -20591,8 +20969,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 9,
+            "sourceKey": "council-size-us-mi-detroit",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -20779,6 +21160,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-mi-detroit",
+            "authorityType": "Municipal Charter",
+            "title": "The Detroit Charter and City Government",
+            "issuingAuthority": "Detroit",
+            "url": "https://www.detcharter.com/charter/charter-03-00.php",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Nine members: one from each of seven districts and two elected at large (Charter of the City of Detroit, 2012)."
           }
         ]
       },
@@ -20818,8 +21210,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 6,
+            "sourceKey": "council-size-us-mi-grand-rapids",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -21006,6 +21401,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-mi-grand-rapids",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Grand Rapids, City Commission",
+            "issuingAuthority": "Grand Rapids",
+            "url": "https://www.grandrapidsmi.gov/Government/City-Commission",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The Mayor and six Commissioners, two elected from each of three wards."
           }
         ]
       },
@@ -21045,8 +21451,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 8,
+            "sourceKey": "council-size-us-mi-lansing",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -21233,6 +21642,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-mi-lansing",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Lansing, Council Members",
+            "issuingAuthority": "Lansing",
+            "url": "https://www.lansingmi.gov/council-members",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Eight members: four at large and one from each of four wards, for four-year terms."
           }
         ]
       },
@@ -21589,8 +22009,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 13,
+            "sourceKey": "council-size-us-mn-minneapolis",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -21795,6 +22218,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-mn-minneapolis",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Minneapolis, Council Members",
+            "issuingAuthority": "Minneapolis",
+            "url": "https://www.minneapolismn.gov/government/city-council/members/",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Thirteen members, one from each of the city's 13 wards, for four-year terms."
           }
         ]
       },
@@ -21834,8 +22268,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 7,
+            "sourceKey": "council-size-us-mn-saint-paul",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -22040,6 +22477,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-mn-saint-paul",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Saint Paul, Council Ward",
+            "issuingAuthority": "Saint Paul",
+            "url": "https://information.stpaul.gov/datasets/8baf64c6c1aa4aabb1677663b0606b65",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Seven council members, one elected from each of seven wards for four-year terms."
           }
         ]
       },
@@ -23066,8 +23514,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 7,
+            "sourceKey": "council-size-us-ms-gulfport",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -23254,6 +23705,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ms-gulfport",
+            "authorityType": "Municipal Code",
+            "title": "Gulfport Code of Ordinances § 1-36, Ward districts created",
+            "issuingAuthority": "Gulfport",
+            "url": "http://gulfport-ms.elaws.us/code/coor_ch1_artii_sec1-36",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The city is divided into seven wards, each electing one council member."
           }
         ]
       },
@@ -24523,8 +24985,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 11,
+            "sourceKey": "council-size-us-nc-charlotte",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -24711,6 +25176,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-nc-charlotte",
+            "authorityType": "Municipal Charter",
+            "title": "City of Charlotte, Charlotte City Council; Charter § 2.03",
+            "issuingAuthority": "Charlotte",
+            "url": "https://www.charlottenc.gov/City-Government/Leadership/City-Council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Eleven members and the Mayor: four at large and seven from single-member districts."
           }
         ]
       },
@@ -24750,8 +25226,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 7,
+            "sourceKey": "council-size-us-nc-raleigh",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -24938,6 +25417,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-nc-raleigh",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Raleigh, City Council",
+            "issuingAuthority": "Raleigh",
+            "url": "https://raleighnc.gov/city-council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Eight members including the mayor: five from districts A to E and two at large, with the mayor elected separately."
           }
         ]
       },
@@ -24977,8 +25467,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 4,
+            "sourceKey": "council-size-us-nd-bismarck",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -25165,6 +25658,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-nd-bismarck",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Bismarck, City Commission",
+            "issuingAuthority": "Bismarck",
+            "url": "https://www.bismarcknd.gov/2375/City-Commission",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "A five-person commission: four City Commissioners and the Mayor as President of the Commission."
           }
         ]
       },
@@ -25213,8 +25717,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 4,
+            "sourceKey": "council-size-us-nd-fargo",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -25491,6 +25998,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-nd-fargo",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Fargo, City Commission, About",
+            "issuingAuthority": "City of Fargo",
+            "url": "https://www.fargond.gov/city-government/departments/city-commission/about",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The Mayor and four Commissioners, all elected at large, are the Board of City Commissioners."
           }
         ]
       },
@@ -25530,8 +26048,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 7,
+            "sourceKey": "council-size-us-nd-grand-forks",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -25718,6 +26239,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-nd-grand-forks",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Grand Forks, City Council",
+            "issuingAuthority": "Grand Forks",
+            "url": "https://www.grandforksgov.com/government/city-leadership/city-council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Seven council members, each elected from one of seven wards for four-year terms, with the Mayor."
           }
         ]
       },
@@ -25999,8 +26531,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 7,
+            "sourceKey": "council-size-us-ne-lincoln",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -26205,6 +26740,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ne-lincoln",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Lincoln, City Council",
+            "issuingAuthority": "Lincoln",
+            "url": "https://www.lincoln.ne.gov/City/City-Council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Seven members: four elected by district and three at large, for four-year terms."
           }
         ]
       },
@@ -29718,8 +30264,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 9,
+            "sourceKey": "council-size-us-nm-albuquerque",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -29906,6 +30455,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-nm-albuquerque",
+            "authorityType": "Municipal Charter",
+            "title": "Charter of the City of Albuquerque, Article IV, Council",
+            "issuingAuthority": "Albuquerque",
+            "url": "https://codelibrary.amlegal.com/codes/albuquerque/latest/albuqcharter/0-0-0-207",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The Council consists of nine members from separate Council Districts, each known as a Councillor."
           }
         ]
       },
@@ -29948,8 +30508,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 8,
+            "sourceKey": "council-size-us-nm-santa-fe",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -30136,6 +30699,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-nm-santa-fe",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Santa Fe, Elected Officials",
+            "issuingAuthority": "Santa Fe",
+            "url": "https://santafenm.gov/elected-officials",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Eight councilors, two from each of four districts, with the mayor elected at large."
           }
         ]
       },
@@ -30622,8 +31196,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 6,
+            "sourceKey": "council-size-us-nv-las-vegas",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -30810,6 +31387,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-nv-las-vegas",
+            "authorityType": "Municipal Charter",
+            "title": "Las Vegas City Charter",
+            "issuingAuthority": "Las Vegas",
+            "url": "https://www.leg.state.nv.us/CITYCHARTERS/CtyLasVegasCC.html",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Six council members, one from each of six wards, with the mayor elected at large."
           }
         ]
       },
@@ -31176,8 +31764,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 9,
+            "sourceKey": "council-size-us-ny-buffalo",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -31364,6 +31955,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ny-buffalo",
+            "authorityType": "Municipal Charter",
+            "title": "Buffalo Charter, Article 3, Common Council",
+            "issuingAuthority": "Buffalo",
+            "url": "https://ecode360.com/13551020",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The Common Council consists of nine district council members."
           }
         ]
       },
@@ -31403,8 +32005,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 51,
+            "sourceKey": "council-size-us-ny-new-york-city",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -31598,6 +32203,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ny-new-york-city",
+            "authorityType": "Municipal Charter",
+            "title": "New York City Charter § 22, Composition of council",
+            "issuingAuthority": "New York City",
+            "url": "https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCcharter/0-0-0-296",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The council consists of the public advocate and fifty-one other members, one elected from each council district."
           }
         ]
       },
@@ -31637,8 +32253,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 9,
+            "sourceKey": "council-size-us-oh-cincinnati",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -31825,6 +32444,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-oh-cincinnati",
+            "authorityType": "Municipal Charter",
+            "title": "Cincinnati Charter, Article II, Legislative Power",
+            "issuingAuthority": "Cincinnati",
+            "url": "https://library.municode.com/oh/cincinnati/codes/code_of_ordinances?nodeId=CHCI_ARTIILEPO_S4B",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "A council of nine members elected at large for a term of two years."
           }
         ]
       },
@@ -31864,8 +32494,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 15,
+            "sourceKey": "council-size-us-oh-cleveland",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -32052,6 +32685,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-oh-cleveland",
+            "authorityType": "Municipal Charter",
+            "title": "City of Cleveland Wards (2026), Cleveland Open Data; Cleveland Charter § 25",
+            "issuingAuthority": "Cleveland",
+            "url": "https://data.clevelandohio.gov/datasets/city-of-cleveland-wards-2026/about",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Fifteen wards under Ordinance No. 1-2025, each electing one council member; the 119th Council was sworn in on January 5, 2026."
           }
         ]
       },
@@ -32382,8 +33026,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 8,
+            "sourceKey": "council-size-us-ok-oklahoma-city",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -32570,6 +33217,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ok-oklahoma-city",
+            "authorityType": "Municipal Official Website",
+            "title": "City of OKC, City Council",
+            "issuingAuthority": "Oklahoma City",
+            "url": "https://www.okc.gov/Government/Elected-Officials/City-Council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Eight council members, one from each of eight wards, with the mayor elected by all city voters."
           }
         ]
       },
@@ -32609,8 +33267,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 9,
+            "sourceKey": "council-size-us-ok-tulsa",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -32797,6 +33458,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ok-tulsa",
+            "authorityType": "Municipal Official Website",
+            "title": "Tulsa City Council, About Us",
+            "issuingAuthority": "Tulsa",
+            "url": "https://www.tulsacouncil.org/about",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Nine councilors, one from each council district; the mayor is elected citywide."
           }
         ]
       },
@@ -33078,8 +33750,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 17,
+            "sourceKey": "council-size-us-pa-philadelphia",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -33273,6 +33948,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-pa-philadelphia",
+            "authorityType": "Municipal Official Website",
+            "title": "Philadelphia City Council, About",
+            "issuingAuthority": "Philadelphia",
+            "url": "https://phlcouncil.com/about-phl-council/",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Seventeen members under the 1951 Home Rule Charter: ten elected by district and seven at large."
           }
         ]
       },
@@ -33312,8 +33998,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 9,
+            "sourceKey": "council-size-us-pa-pittsburgh",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -33500,6 +34189,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-pa-pittsburgh",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Pittsburgh, The City Council",
+            "issuingAuthority": "Pittsburgh",
+            "url": "https://www.pittsburghpa.gov/City-Government/The-City-Council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Nine members, one elected from each of nine districts for four-year terms."
           }
         ]
       },
@@ -33539,8 +34239,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 15,
+            "sourceKey": "council-size-us-ri-providence",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -33745,6 +34448,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-ri-providence",
+            "authorityType": "Municipal Official Website",
+            "title": "Providence City Council, Ward Boundaries",
+            "issuingAuthority": "Providence",
+            "url": "https://council.providenceri.gov/ward-boundaries/",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Fifteen members, one elected from each of the city's fifteen wards under the Home Rule Charter."
           }
         ]
       },
@@ -33784,8 +34498,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 12,
+            "sourceKey": "council-size-us-sc-charleston",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -33972,6 +34689,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-sc-charleston",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Charleston, Members and Districts",
+            "issuingAuthority": "Charleston",
+            "url": "https://www.charleston-sc.gov/180/Members-Districts",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Twelve council members, one for each of Districts One through Twelve, with the mayor."
           }
         ]
       },
@@ -34244,8 +34972,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 8,
+            "sourceKey": "council-size-us-sd-aberdeen",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -34432,6 +35163,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-sd-aberdeen",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Aberdeen, City Council",
+            "issuingAuthority": "Aberdeen",
+            "url": "https://www.aberdeen.sd.us/74/City-Council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The City Council consists of 8 members from four council districts, with the mayor."
           }
         ]
       },
@@ -34480,8 +35222,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 8,
+            "sourceKey": "council-size-us-sd-sioux-falls",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -34719,6 +35464,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-sd-sioux-falls",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Sioux Falls, About the Council",
+            "issuingAuthority": "City of Sioux Falls",
+            "url": "https://www.siouxfalls.gov/government/council/about-the-council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Three at-large members and five district members, with the Mayor."
           }
         ]
       },
@@ -34758,8 +35514,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 40,
+            "sourceKey": "council-size-us-tn-nashville-davidson-county",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -34946,6 +35705,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-tn-nashville-davidson-county",
+            "authorityType": "Municipal Official Website",
+            "title": "Metropolitan Council, Nashville.gov",
+            "issuingAuthority": "Nashville-Davidson County",
+            "url": "https://www.nashville.gov/departments/council/boards/metro-council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Forty members: five at large and thirty-five from districts."
           }
         ]
       },
@@ -34985,8 +35755,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 10,
+            "sourceKey": "council-size-us-tx-austin",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -35173,6 +35946,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-tx-austin",
+            "authorityType": "Municipal Official Website",
+            "title": "Austin City Clerk, History of Council",
+            "issuingAuthority": "Austin",
+            "url": "https://www.austintexas.gov/clerk/programs/history-council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Charter amendment of November 6, 2012: council members from 10 single-member districts, with the mayor elected at large."
           }
         ]
       },
@@ -35687,8 +36471,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 12,
+            "sourceKey": "council-size-us-vt-burlington",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -35875,6 +36662,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-vt-burlington",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Burlington, Maps: Wards, State Districts and Polling Places",
+            "issuingAuthority": "Burlington",
+            "url": "https://burlingtonvt.gov/CT/Maps-Wards-State-Districts-and-Polling-Places",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Twelve councilors: one from each of eight wards and one from each of four districts, each district two wards."
           }
         ]
       },
@@ -36476,8 +37274,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 7,
+            "sourceKey": "council-size-us-wa-spokane",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "KNOWN",
@@ -36673,6 +37474,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-wa-spokane",
+            "authorityType": "Municipal Charter",
+            "title": "City of Spokane Charter, Article III, Council and Legislation",
+            "issuingAuthority": "Spokane",
+            "url": "https://my.spokanecity.org/opendata/charter/article-03/",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The city council consists of the council president and six council members, two from each of three districts."
           }
         ]
       },
@@ -36712,8 +37524,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 20,
+            "sourceKey": "council-size-us-wi-madison",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -36900,6 +37715,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-wi-madison",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Madison, Common Council, Council Members",
+            "issuingAuthority": "Madison",
+            "url": "https://www.cityofmadison.com/council/council-members",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Twenty alders, one elected from each of 20 districts."
           }
         ]
       },
@@ -36939,8 +37765,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 15,
+            "sourceKey": "council-size-us-wi-milwaukee",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -37127,6 +37956,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-wi-milwaukee",
+            "authorityType": "Municipal Official Website",
+            "title": "Milwaukee Common Council, Council Members",
+            "issuingAuthority": "Milwaukee",
+            "url": "https://city.milwaukee.gov/CommonCouncil/Council-Members",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Fifteen members, one from each aldermanic district, each for a four-year term."
           }
         ]
       },
@@ -37166,8 +38006,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 26,
+            "sourceKey": "council-size-us-wv-charleston",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -37354,6 +38197,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-wv-charleston",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Charleston, City Council",
+            "issuingAuthority": "Charleston",
+            "url": "https://www.charlestonwv.gov/government/city-council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Twenty-six members: twenty from the city's twenty wards and six at large."
           }
         ]
       },
@@ -37393,8 +38247,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 11,
+            "sourceKey": "council-size-us-wv-huntington",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -37581,6 +38438,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-wv-huntington",
+            "authorityType": "Municipal Charter",
+            "title": "Huntington Charter, Article Three, Council",
+            "issuingAuthority": "Huntington",
+            "url": "https://library.municode.com/wv/huntington/codes/code_of_ordinances?nodeId=CH_ARTTHREECO_S3.5CORE",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Eleven members: one from each of nine districts and two at large."
           }
         ]
       },
@@ -37629,8 +38497,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 7,
+            "sourceKey": "council-size-us-wv-morgantown",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -37919,6 +38790,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-wv-morgantown",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Morgantown, City Council",
+            "issuingAuthority": "City of Morgantown",
+            "url": "https://www.morgantownwv.gov/154/City-Council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Seven members, one from each of the First through Seventh Wards."
           }
         ]
       },
@@ -37958,8 +38840,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 9,
+            "sourceKey": "council-size-us-wy-casper",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -38146,6 +39031,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-wy-casper",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Casper, Mayor and City Council",
+            "issuingAuthority": "Casper",
+            "url": "https://www.casperwy.gov/government/city_council/index.php",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Nine members, three from each of three wards; the council elects the Mayor and Vice Mayor from among them."
           }
         ]
       },
@@ -38185,8 +39081,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 9,
+            "sourceKey": "council-size-us-wy-cheyenne",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -38373,6 +39272,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-wy-cheyenne",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Cheyenne, City Council",
+            "issuingAuthority": "Cheyenne",
+            "url": "https://www.cheyennecity.org/Your-Government/City-Council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "The Mayor and nine Council members, three from each of three wards."
           }
         ]
       },
@@ -38421,8 +39331,11 @@
             "reason": "how the executive reaches office was not stated by the pass."
           },
           "bodySize": {
-            "status": "UNKNOWN",
-            "reason": "the pass did not state a seat count for this body."
+            "status": "KNOWN",
+            "value": 9,
+            "sourceKey": "council-size-us-wy-laramie",
+            "effectiveDate": "2026-09-29",
+            "legalLocator": "body size"
           },
           "composition": {
             "status": "UNKNOWN",
@@ -38766,6 +39679,17 @@
             "retrievedDate": "2026-08-25",
             "retrievable": false,
             "claimSupported": "The attributed report text exists in this packet; no independent verification of current law is implied."
+          },
+          {
+            "sourceKey": "council-size-us-wy-laramie",
+            "authorityType": "Municipal Official Website",
+            "title": "City of Laramie, City Council",
+            "issuingAuthority": "City of Laramie",
+            "url": "https://www.cityoflaramie.org/68/City-Council",
+            "effectiveDate": null,
+            "retrievedDate": "2026-08-25",
+            "retrievable": false,
+            "claimSupported": "Nine members on overlapping four-year terms, three from each of three wards."
           }
         ]
       }

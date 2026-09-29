@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import type { EntityId, World } from "../../src/simulation";
+import { stateJurisdictionForKey } from "../../src/simulation/life-places";
 import {
   chronicle,
+  lawOutcomeMoves,
   neverChecks,
   runWorldReport,
   unwrittenArrays,
@@ -107,7 +109,91 @@ function recordedWorld(): World {
   } as unknown as World;
 }
 
+/**
+ * A state law answering a question the outcome web reads, and two months of
+ * outcome records: one the law's link moved, one it did not.
+ */
+function lawMovedWorld(): World {
+  const state = stateJurisdictionForKey("US-VA")!.id;
+  const record = (month: string, factor: number) => ({
+    month,
+    records: [
+      {
+        measure: "housing.homelessness",
+        placeKey: "US-VA",
+        jurisdictionId: state,
+        month,
+        base: 8,
+        multiplier: factor,
+        value: 8 * factor,
+        causes: [{ key: "housing-first-to-homelessness", factor }],
+      },
+    ],
+  });
+  return {
+    currentDate: "2027-03-01",
+    policyCatalog: {
+      propositions: {
+        proposition_work: {
+          id: "proposition_work",
+          stableKey:
+            "us-policy-positions:health-human-services.housing-first-homelessness",
+        },
+      },
+      propositionOrder: ["proposition_work"],
+    },
+    placeOutcomes: {
+      months: [record("2026-12-01", 1), record("2027-02-01", 0.9)],
+    },
+    history: {
+      nextSequence: 10,
+      legislativeMeasures: [
+        {
+          id: "legislative-measure_1",
+          sequence: 1,
+          jurisdictionId: state,
+          designation: "HB 1",
+          propositionIds: ["proposition_work"],
+          propositionAnswers: [
+            { propositionId: "proposition_work", answer: "yes" },
+          ],
+        },
+      ],
+      legislativeEnactments: [
+        {
+          id: "legislative-enactment_2",
+          sequence: 2,
+          measureId: "legislative-measure_1",
+          outcome: "enacted",
+          resolvedAt: "2026-06-01",
+          effectiveAt: "2026-07-01",
+        },
+      ],
+      legislativeAmendments: [],
+    },
+  } as unknown as World;
+}
+
 describe("the world report", () => {
+  it("credits a law with the outcomes the outcome web moved through it", () => {
+    const moves = lawOutcomeMoves(lawMovedWorld(), "2026-01-05");
+    // Only the month the link moved counts, once per outcome and place.
+    expect([...moves]).toEqual([
+      [
+        "legislative-measure_1",
+        [
+          {
+            measure: "housing.homelessness",
+            placeKey: "US-VA",
+            label: "people homeless per 10,000 people in US-VA",
+          },
+        ],
+      ],
+    ]);
+    // Nothing before the watching began is credited.
+    expect(lawOutcomeMoves(lawMovedWorld(), "2027-03-01").size).toBe(0);
+  });
+
   it("reads only what the watched world recorded, and says what each law changed", () => {
     const reader = new WorldRecordReader(recordedWorld(), "anchor" as EntityId);
     const lines = chronicle(reader, []);
@@ -165,6 +251,25 @@ describe("the world report", () => {
       for (const line of markdown.split("\n"))
         if (/^- [A-Z][a-z]+ \d{1,2}: /.test(line))
           expect(line).toMatch(/<!-- \S+/);
+      // The report ends with the place's vital statistics, start and end,
+      // each read from the world; nothing unrecorded reads as zero.
+      const vitals = markdown.slice(markdown.indexOf("## Vital statistics"));
+      expect(markdown.indexOf("## Vital statistics")).toBeGreaterThan(
+        markdown.indexOf("## How this was made"),
+      );
+      expect(run.vitalsAtStart?.date).toBe("2026-01-05");
+      const people = vitals.match(
+        /^\| People living in the place \| the place \| ([\d,]+) \(([\d,]+) written out\) \| ([\d,]+) \(([\d,]+) written out\) \|$/m,
+      );
+      expect(people).not.toBeNull();
+      // Columbus's Census count, not only the people written out so far.
+      expect(Number(people![1]!.replace(/,/g, ""))).toBeGreaterThan(100_000);
+      expect(Number(people![2]!.replace(/,/g, ""))).toBeGreaterThan(0);
+      expect(vitals).toMatch(
+        /^\| Median household income \| the place \| not recorded: /m,
+      );
+      expect(vitals).toMatch(/^\| Governor's party \| the state \| .+\(/m);
+      expect(vitals).toMatch(/^\| Births, first year and last year \|/m);
       // The same seed tells the same story.
       expect(worldReportMarkdown(runWorldReport(options))).toBe(markdown);
     },

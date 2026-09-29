@@ -57,6 +57,7 @@ describe("Person Multi-Seed Stress Harness", () => {
       peoplePerSeed: 6,
       profile: "production",
       currentDate: makeIsoDate("2026-01-05"),
+      jurisdictionId: PORTABILITY_CONTEXT.jurisdiction.id,
     });
 
     const run2 = runPersonStressHarness({
@@ -64,6 +65,7 @@ describe("Person Multi-Seed Stress Harness", () => {
       peoplePerSeed: 6,
       profile: "production",
       currentDate: makeIsoDate("2026-01-05"),
+      jurisdictionId: PORTABILITY_CONTEXT.jurisdiction.id,
     });
 
     expect(run1).toStrictEqual(run2);
@@ -89,6 +91,7 @@ describe("Person Multi-Seed Stress Harness", () => {
       peoplePerSeed: 6,
       profile: "stress",
       currentDate: makeIsoDate("2026-01-05"),
+      jurisdictionId: PORTABILITY_CONTEXT.jurisdiction.id,
     });
 
     expect(result.profile).toBe("stress");
@@ -106,6 +109,7 @@ describe("Person Multi-Seed Stress Harness", () => {
       seedCount: 20,
       peoplePerSeed: 10,
       profile: "production",
+      jurisdictionId: PORTABILITY_CONTEXT.jurisdiction.id,
     });
 
     expect(result.totalSeeds).toBe(20);
