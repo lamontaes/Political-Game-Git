@@ -35,6 +35,7 @@ import {
   seatTermWindow,
 } from "./congress-seats";
 import type { CongressSeat, SeatTermWindow } from "./congress-seats";
+import { seatHouseDelegates } from "./house-delegates";
 import { LIVING_WORLD_WRITER_VERSION } from "./opening-keys";
 import { SETTING_PARTY_NAMES } from "./party-registry";
 import { politicalStartingConditions } from "../world-setup/conditions";
@@ -523,6 +524,11 @@ export function ensureLivingWorldOpening(
       summary: `${personName(next.people[personId]!)} serves as ${title} in this fictional world.`,
       context,
     });
+  }
+
+  if (political) {
+    // The six nonvoting House members sit outside the 435 voting seats.
+    next = seatHouseDelegates(next);
   }
 
   if (political) {

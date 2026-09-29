@@ -2,6 +2,7 @@ import { recordWorkStatus } from "../life";
 import { workStatusAt } from "../life-queries";
 import type { EntityId, IsoDate, World } from "../types";
 import {
+  eventsOfType,
   PROSECUTION_SENTENCED_EVENT,
   sentencedPersonOf,
   sentencesOf,
@@ -29,11 +30,10 @@ function later(a: IsoDate, b: IsoDate): IsoDate {
 /** Puts jobs on leave for jail terms that have begun, and back when they end. */
 export function settleJailAbsences(world: World): World {
   const sentenced = new Set<EntityId>();
-  for (const event of world.history.events)
-    if (event.type === PROSECUTION_SENTENCED_EVENT) {
-      const personId = sentencedPersonOf(event);
-      if (personId) sentenced.add(personId);
-    }
+  for (const event of eventsOfType(world, PROSECUTION_SENTENCED_EVENT)) {
+    const personId = sentencedPersonOf(event);
+    if (personId) sentenced.add(personId);
+  }
   let next = world;
   for (const personId of [...sentenced].sort()) {
     const terms = sentencesOf(next, personId).filter(
