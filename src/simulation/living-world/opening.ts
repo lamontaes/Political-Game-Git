@@ -200,12 +200,17 @@ export function ensureLivingWorldOpening(
     );
     const [vacancyMin, vacancyMax] = PROFILE.vacancies[chamberKey];
     const [independentMin, independentMax] = PROFILE.independents[chamberKey];
+    // A current opening seats a member in every seat: a seat is vacant only
+    // when a record says so (a death, a resignation), never by a draw. A
+    // legacy save or replay keeps the authored vacancy draw it always had.
     const vacant = new Set(
-      pickDistinct(
-        chamberRng.fork("vacancies"),
-        seats,
-        chamberRng.integer(vacancyMin, vacancyMax + 1),
-      ).map((seat) => seat.seatKey),
+      political
+        ? []
+        : pickDistinct(
+            chamberRng.fork("vacancies"),
+            seats,
+            chamberRng.integer(vacancyMin, vacancyMax + 1),
+          ).map((seat) => seat.seatKey),
     );
     const filled = seats.filter((seat) => !vacant.has(seat.seatKey));
     if (political) {

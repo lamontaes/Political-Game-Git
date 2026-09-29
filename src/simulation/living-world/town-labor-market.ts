@@ -39,11 +39,12 @@ import type { EntityId, WorkStatusRecord, World } from "../types";
 import {
   TOWN_EMPLOYMENT_VERSION,
   WORKING_AGE_MAX,
+  WORKING_AGE_MIN,
   fillTownJobs,
   laborStatus,
   townResidents,
 } from "./town-employment";
-import { ageOnDate } from "../dates";
+import { ageOnDate, dateAtAge } from "../dates";
 
 /**
  * How much of the town's work turns over in a quarter, before unemployment
@@ -382,20 +383,14 @@ export function reviewTownJobs(
   });
   // HARDWIRED: employers call back the seekers out of work the shortest time
   // first (Kroft, Lange and Notowidigdo, "Duration Dependence and Labor
-  // Market Conditions", Quarterly Journal of Economics, 2013); somebody who
-  // never held a job comes last.
-  const workerOf = new Map<EntityId, EntityId>();
-  for (const relationship of next.history.workRelationships)
-    workerOf.set(relationship.id, relationship.personId);
-  const lastWorked = new Map<EntityId, string>();
-  for (const row of next.history.workStatuses) {
-    if (row.status !== "ended" || row.effectiveAt > today) continue;
-    const worker = workerOf.get(row.workRelationshipId);
-    if (worker === undefined) continue;
-    const previous = lastWorked.get(worker);
-    if (previous === undefined || row.effectiveAt > previous)
-      lastWorked.set(worker, row.effectiveAt);
-  }
+  // Market Conditions", Quarterly Journal of Economics, 2013). Somebody with
+  // no job on the record has been out of work here since the later of moving
+  // into their home and turning 18: a newcomer's last job elsewhere is not
+  // known, so it is not read as never having worked.
+  const lastWorked = outOfWorkSince(
+    next,
+    seekers.map((resident) => resident.personId),
+  );
   const hiredSeekers = [...seekers]
     .sort(
       (a, b) =>
@@ -416,4 +411,44 @@ export function reviewTownJobs(
     ...hiredSeekers,
   ];
   return fillTownJobs(next, town, open, { round });
+}
+
+/**
+ * The date each seeker has been out of work since: their last town job's
+ * end, or, with no job on the record, the later of moving into their home
+ * and turning 18.
+ */
+export function outOfWorkSince(
+  world: World,
+  seekers: readonly EntityId[],
+): ReadonlyMap<EntityId, string> {
+  const today = world.currentDate;
+  const workerOf = new Map<EntityId, EntityId>();
+  for (const relationship of world.history.workRelationships)
+    workerOf.set(relationship.id, relationship.personId);
+  const since = new Map<EntityId, string>();
+  for (const row of world.history.workStatuses) {
+    if (row.status !== "ended" || row.effectiveAt > today) continue;
+    const worker = workerOf.get(row.workRelationshipId);
+    if (worker === undefined) continue;
+    const previous = since.get(worker);
+    if (previous === undefined || row.effectiveAt > previous)
+      since.set(worker, row.effectiveAt);
+  }
+  const seeking = new Set(seekers);
+  const movedIn = new Map<EntityId, string>();
+  for (const membership of world.history.householdMemberships) {
+    if (!seeking.has(membership.personId) || membership.startedAt > today)
+      continue;
+    const previous = movedIn.get(membership.personId);
+    if (previous === undefined || membership.startedAt > previous)
+      movedIn.set(membership.personId, membership.startedAt);
+  }
+  for (const personId of seeking) {
+    if (since.has(personId)) continue;
+    const adult = dateAtAge(world.people[personId]!.birthDate, WORKING_AGE_MIN);
+    const arrived = movedIn.get(personId) ?? "";
+    since.set(personId, arrived > adult ? arrived : adult);
+  }
+  return since;
 }

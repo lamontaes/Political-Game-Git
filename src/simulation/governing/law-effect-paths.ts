@@ -1,3 +1,7 @@
+import {
+  FAIRNESS_CITY_QUESTION,
+  FAIRNESS_STATE_QUESTION,
+} from "../fairness-pay-law";
 import { NATIONAL_DATA_PRIVACY_QUESTION } from "../federal-data-privacy-law";
 import { DEBT_LIMIT_CUTS_QUESTION } from "../federal-outlay-laws";
 import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
@@ -118,6 +122,15 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     kind: "paycheck",
     via: "src/simulation/state-paid-leave-law.ts",
   },
+  // A fairness law, the state's or a town's, sets the pay of a man partnered
+  // with a man hired where it is in force.
+  ...[FAIRNESS_STATE_QUESTION, FAIRNESS_CITY_QUESTION].map(
+    (questionKey): LawEffectPath => ({
+      questionKey,
+      kind: "paycheck",
+      via: "src/simulation/living-world/town-pay.ts",
+    }),
+  ),
   {
     questionKey: TEACHER_SALARY_FLOOR_QUESTION,
     kind: "paycheck",
