@@ -49,6 +49,18 @@ const SPEECH_REMEMBERED: ComposedLineBank = {
           requiresFacts: ["heard-it", "faint"],
         },
         {
+          key: "heard-faint-not-much",
+          kind: "template",
+          text: "I was at your speech on election night, but I don't remember much of it.",
+          requiresFacts: ["heard-it", "faint"],
+        },
+        {
+          key: "heard-faint-crowd",
+          kind: "template",
+          text: "I heard you speak on election night. I remember being there more than what you said.",
+          requiresFacts: ["heard-it", "faint"],
+        },
+        {
           key: "told-quote",
           kind: "template",
           text: "{{teller-name}} told me about your speech on election night. You said, “{{quote}}”",
