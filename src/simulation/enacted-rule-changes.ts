@@ -32,6 +32,7 @@
 import { constitutionalPosition } from "./constitutional-process";
 import { addDays } from "./dates";
 import { createStableId } from "./ids";
+import { stateStatuteOperativeAt } from "./governing/statute-effective-date";
 import { requireMeasure } from "./legislation";
 import { lawLevelRank, type LawLevel } from "./law-hierarchy";
 import { rulePackById } from "./legislature-rule-packs";
@@ -274,7 +275,7 @@ export function amendableRuleFieldLabel(field: AmendableRuleField): string {
 
 /**
  * The blanket effective date for a statute whose state's effective-date rule is
- * not modeled: ninety days after the act is recorded. Ninety days is the most
+ * not researched (`governing/statute-effective-date.ts`): ninety days after the act is recorded. Ninety days is the most
  * common default among the states the game has read (Alaska, Missouri, Ohio);
  * it is a game profile, not a claim about any other state's law.
  */
@@ -314,10 +315,11 @@ export interface EnactedRuleChange {
   readonly applicability: RuleChangeApplicability;
   readonly operativeAt: IsoDate;
   /**
-   * `enacted-date` when the law's own record dates it; `game-default` when the
-   * state's effective-date rule is not modeled and the blanket rule applied.
+   * `enacted-date` when the law's own record dates it; `state-rule` when the
+   * state's own effective-date rule dates it; `game-default` when that rule is
+   * not researched and the blanket rule applied.
    */
-  readonly operativeBasis: "enacted-date" | "game-default";
+  readonly operativeBasis: "enacted-date" | "state-rule" | "game-default";
   readonly instrument: "statute" | "constitutional-amendment";
   /** Where the law ranks; see `law-hierarchy.ts`. */
   readonly level: LawLevel;
@@ -567,12 +569,19 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       (row) => row.measureId === provision.measureId,
     );
     if (!enactment || enactment.outcome !== "enacted") continue;
-    // NOT MODELED: a state's own default effective-date rule. The rule packs
-    // hold it as prose, nothing computes a date from it, and no caller in play
-    // passes one, so every enactment carries a null effective date. A null
-    // date is not "effective now". Blanket rule meanwhile: the change operates
-    // STATUTE_EFFECTIVE_DEFAULT_DAYS after the act was recorded, and says so.
+    // No caller in play passes an effective date, so an enactment's own date
+    // is usually null, and a null date is not "effective now". The state's
+    // own effective-date rule dates it where that rule is researched
+    // (`statute-effective-date.ts`). Blanket rule elsewhere: the change
+    // operates STATUTE_EFFECTIVE_DEFAULT_DAYS after the act was recorded, and
+    // says so.
     const explicit = enactment.effectiveAt;
+    const stateRuleAt = explicit
+      ? null
+      : stateStatuteOperativeAt(
+          `US-${provision.stateUsps}`,
+          enactment.resolvedAt,
+        );
     changes.push({
       stateUsps: provision.stateUsps,
       jurisdictionKey: `US-${provision.stateUsps}`,
@@ -582,8 +591,13 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       applicability: { ...(provision.applicability ?? SILENT) },
       operativeAt:
         explicit ??
+        stateRuleAt ??
         addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS),
-      operativeBasis: explicit ? "enacted-date" : "game-default",
+      operativeBasis: explicit
+        ? "enacted-date"
+        : stateRuleAt
+          ? "state-rule"
+          : "game-default",
       instrument: "statute",
       level: "state-statute",
       measureId: provision.measureId,

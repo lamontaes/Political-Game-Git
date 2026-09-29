@@ -1,0 +1,414 @@
+{
+  "question": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+  "definition": "yes (preempts false) = a state law in force on 1/1/2026 restricts government or police use of facial recognition (warrant or court-order requirement, body-camera or drone ban, approval/reporting regime, limits on use as sole basis for arrest, moratorium); no (preempts false) = no such state restriction found; cities may adopt their own bans. No state was found that bars cities from restricting it.",
+  "summarySource": "State code sites fetched 9/28/2026 (WA RCW 43.386, Va. Code 15.2-1723.2, Me. 25 MRSA 6001, Mass. GL c.6 s.220, Md. CP 2-501/2-503, Mont. 44-15, Utah SB 34 enrolled, Colo. SB 22-113 signed, Vt. Act 166 (2020) and 20 VSA 4622, Minn. 626.19, N.H. 105-D:2, Or. 133.741, Tex. HB 149); Fight for the Future Ban Facial Recognition map (live page, entries dated 2019-2023) for AL, IL, NY and weak no answers.",
+  "answers": {
+    "US-AK": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-AL": {
+      "answer": "yes",
+      "preempts": false,
+      "operativeAt": "2022-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Alabama's 2022 law bars police from using a facial recognition match as the sole basis for probable cause or an arrest; secondary tracker only, because the Alabama code site could not be reached."
+    },
+    "US-AR": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-AZ": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-CA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: California's body-camera facial recognition ban (Penal Code \u00a7 832.19, AB 1215) expired 1/1/2023 and no statewide replacement was found; cities such as San Francisco and Oakland have their own bans."
+    },
+    "US-CO": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Colo. Rev. Stat. \u00a7\u00a7 24-18-301 to -309",
+      "operativeAt": "2022-08-10",
+      "dateBasis": "enacted-effective",
+      "source": "https://leg.colorado.gov/sites/default/files/2022a_113_signed.pdf",
+      "note": "SB 22-113 requires state and local agencies to file notice and accountability reports and use human review, and bars police from ongoing surveillance or real-time identification without a warrant; the date is the 90-day effective date inferred from the referendum clause."
+    },
+    "US-CT": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-DC": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-DE": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-FL": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-GA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-HI": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-IA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-ID": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-IL": {
+      "answer": "yes",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "A 2021 law (SB 225) bars the Secretary of State from giving facial recognition searches of license photos to any agency for federal immigration enforcement; this is a narrow restriction, confirmed only on a secondary tracker because ilga.gov could not be reached."
+    },
+    "US-IN": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-KS": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-KY": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: a 2022 law (SB 176) created a working group to study police facial recognition policy but set no restriction; no later statute was found."
+    },
+    "US-LA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: Louisiana's 2021 measure only requested a study of police facial recognition; no restricting statute was found."
+    },
+    "US-MA": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Mass. Gen. Laws ch. 6, \u00a7 220",
+      "operativeAt": "2020-12-31",
+      "dateBasis": "enacted-effective",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter6/Section220",
+      "note": "Police may run a facial recognition search only through a written request to the motor vehicle registry, state police or FBI, for a court order or an emergency, and every search must be documented and reported."
+    },
+    "US-MD": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Md. Code, Crim. Proc. \u00a7\u00a7 2-501 to 2-510",
+      "operativeAt": "2024-10-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=2-503&enactments=false",
+      "note": "Maryland limits police facial recognition to listed serious crimes, forbids live or real-time identification and use on sketches, requires independent human verification, and bars identification based solely on a match."
+    },
+    "US-ME": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "25 M.R.S. \u00a7 6001",
+      "operativeAt": "2021-10-18",
+      "dateBasis": "enacted-effective",
+      "source": "https://legislature.maine.gov/statutes/25/title25sec6001.html",
+      "note": "Maine bars state and local officials from using facial surveillance except for a written request to the state police or motor vehicle bureau when there is probable cause of a serious crime, and a match cannot alone justify an arrest; the date is the general 90-day effective date of PL 2021, c. 394."
+    },
+    "US-MI": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-MN": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Minn. Stat. \u00a7 626.19, subd. 3(b)",
+      "operativeAt": "2020-08-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.revisor.mn.gov/statutes/cite/626.19",
+      "note": "Narrow: police may not deploy a drone with facial recognition or other biometric matching unless a warrant expressly authorizes it; the date assumes the general August 1 effective date of 2020 c. 82."
+    },
+    "US-MO": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-MS": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-MT": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Mont. Code Ann. \u00a7\u00a7 44-15-101 to -112",
+      "operativeAt": "2023-10-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://archive.legmt.gov/bills/mca/title_0440/chapter_0150/part_0010/section_0060/0440-0150-0010-0060.html",
+      "note": "Montana bans continuous facial surveillance by government, requires a warrant for most police facial recognition searches, and bars using a match as the sole basis for probable cause; the date assumes Montana's default October 1 effective date for Ch. 781, L. 2023."
+    },
+    "US-NC": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-ND": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-NE": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-NH": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "N.H. Rev. Stat. \u00a7 105-D:2, XII",
+      "operativeAt": "2017-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.gencourt.state.nh.us/rsa/html/VII/105-D/105-D-2.htm",
+      "note": "Narrow: body-camera recordings may not be run through facial recognition or other automated analysis, except that a still image may be shared to help identify people."
+    },
+    "US-NJ": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current. New Jersey was flagged as possible, but no statute was found."
+    },
+    "US-NM": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-NV": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-NY": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "N.Y. Educ. Law \u00a7 106-b",
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: a 2020 state law paused the use of facial recognition and other biometric identification in schools, and the state education commissioner later barred facial recognition in schools; confirmed only on a secondary tracker because nysenate.gov and nysed.gov could not be reached."
+    },
+    "US-OH": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-OK": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-OR": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Or. Rev. Stat. \u00a7 133.741(1)(b)(D)",
+      "dateBasis": "not-found",
+      "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors133.html",
+      "note": "Narrow: police body-camera policies must prohibit using facial recognition or other biometric matching on body-camera recordings; enacted in 2015 (exact effective date not confirmed)."
+    },
+    "US-PA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-RI": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-SC": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-SD": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-TN": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-TX": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://capitol.texas.gov/tlodocs/89R/billtext/html/HB00149F.htm",
+      "note": "Weak: the Texas Responsible AI Governance Act (HB 149, Bus. & Com. Code \u00a7 552.054, effective 1/1/2026) bars government AI from identifying people by biometric data or scraped images without consent only where that would violate their rights, and its definition of biometric data excludes photographs and video, so it is not counted as a facial recognition restriction."
+    },
+    "US-UT": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Utah Code \u00a7\u00a7 77-23e-101 to -106",
+      "operativeAt": "2021-05-05",
+      "dateBasis": "enacted-effective",
+      "source": "https://le.utah.gov/~2021/bills/static/SB0034.html",
+      "note": "A government entity may not run facial recognition on an image database except through a written police request with a case number and, for a crime, facts showing a fair probability the person committed a listed felony, handled by a trained employee."
+    },
+    "US-VA": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Va. Code \u00a7 15.2-1723.2",
+      "operativeAt": "2022-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://law.lis.virginia.gov/vacode/title15.2/chapter17/section15.2-1723.2/",
+      "note": "Local police may use facial recognition only for listed purposes, not for real-time tracking or as probable cause in a warrant affidavit, and must post a policy and keep records; this replaced a 2021 ban (date from secondary tracker), and a revised version takes effect 7/1/2026."
+    },
+    "US-VT": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "2020 Vt. Acts & Resolves No. 166, \u00a7 14 (uncodified); 20 V.S.A. \u00a7 4622(d)(2)",
+      "dateBasis": "not-found",
+      "source": "https://legislature.vermont.gov/Documents/2020/Docs/ACTS/ACT166/ACT166%20As%20Enacted.pdf",
+      "note": "Vermont bars police from using facial recognition until the General Assembly authorizes it, except where the drone law allows it; the drone law separately forbids facial recognition on drone data about anyone other than the target, and a 2022 amendment reportedly allows use in child sexual exploitation cases."
+    },
+    "US-WA": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Wash. Rev. Code ch. 43.386",
+      "operativeAt": "2021-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=43.386&full=true",
+      "note": "State and local agencies must file notice and an accountability report, test and train for facial recognition, and need a warrant or court order for ongoing surveillance, real-time identification or persistent tracking."
+    },
+    "US-WI": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-WV": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    },
+    "US-WY": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.banfacialrecognition.com/map/",
+      "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+    }
+  },
+  "unknown": {
+    "US-PR": "Territory: no statute confirmed and no complete tracker covers it.",
+    "US-GU": "Territory: no statute confirmed and no complete tracker covers it.",
+    "US-VI": "Territory: no statute confirmed and no complete tracker covers it.",
+    "US-AS": "Territory: no statute confirmed and no complete tracker covers it.",
+    "US-MP": "Territory: no statute confirmed and no complete tracker covers it."
+  },
+  "conflicts": [],
+  "refusedHosts": [
+    "epic.org (403)",
+    "www.pogo.org (403)",
+    "www.securityindustry.org (403)",
+    "www.nysenate.gov (403)",
+    "codes.findlaw.com (403)",
+    "legiscan.com (403)",
+    "casetext.com (410)",
+    "www.ilga.gov (TLS certificate failure)",
+    "alison.legislature.state.al.us (TLS certificate failure)",
+    "alisondb.legislature.state.al.us (proxy 502)",
+    "www.nysed.gov (connection failed)"
+  ],
+  "counts": {
+    "yes": 15,
+    "no": 36,
+    "unknown": 5
+  }
+}
