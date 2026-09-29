@@ -40,14 +40,14 @@ const PLACES_WITH_A_CAPITOL = [
 ];
 
 describe("place backdrops", () => {
-  it("has all 180 shared pictures for 50 places, each with a midday picture", () => {
+  it("has all 223 shared pictures for 61 places, each with a midday picture", () => {
     const ownCapitol = /^state-capitol-[a-z]{2}$/;
     expect(
       manifest.backdrops.filter((record) => !ownCapitol.test(record.place)),
-    ).toHaveLength(180);
+    ).toHaveLength(223);
     expect(
       backdropPlaces().filter((place) => !ownCapitol.test(place)),
-    ).toHaveLength(50);
+    ).toHaveLength(61);
     for (const place of backdropPlaces()) expect(hasBackdrop(place)).toBe(true);
   });
 

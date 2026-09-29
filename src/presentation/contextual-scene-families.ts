@@ -15,6 +15,15 @@ import {
   openProposal,
 } from "../simulation/people-contact";
 import {
+  stateCampaignStand,
+  type LiveQuestion,
+} from "../simulation/campaign-stands";
+import {
+  answerFavorAsk,
+  openFavorAsk,
+  type FavorAskAnswer,
+} from "../simulation/favor-collection";
+import {
   decideStudyPeerOutcome,
   recordStudyAnswer,
   studyAnswered,
@@ -436,9 +445,89 @@ const homeEvening: SceneFamilyDefinition = {
     homeRoom(world, bound) ?? withoutSpeakerOthers(world, bound),
 };
 
+/**
+ * Somebody who once helped asks for help back (Build 22, step 5).
+ *
+ * Four real answers: help, something smaller, not now, or no. Each is written
+ * through the ask's own answer, so a yes is a promise the player can later be
+ * held to, and a no costs what it costs between them.
+ */
+function spokenNeed(context: SceneContext): string {
+  return context.fact("need") === "campaign"
+    ? "my campaign"
+    : context.fact("needWords");
+}
+
+function collectAnswers(context: SceneContext): SceneAnswer[] {
+  const askEventId = context.binding.sourceEntityIds[0]!;
+  const need = context.fact("needWords");
+  const answer = (choice: FavorAskAnswer) => (world: World) =>
+    answerFavorAsk(world, askEventId, choice);
+  return [
+    {
+      key: "say-yes",
+      label: "Say you’ll help",
+      description: `Promise to help with ${need}.`,
+      statement: "Of course. Tell me what you need.",
+      replies: says(context, [
+        "“I knew I could count on you,” {name} says.",
+        "“Thank you. I mean it,” {name} says.",
+      ]),
+      record: `The player told ${context.name} “Of course. Tell me what you need.”`,
+      apply: answer("help"),
+      relationship: {
+        kind: "commitment:agreed-to-help-back",
+        change: "strengthened",
+        significance: "minor",
+        summary: ({ playerName, otherName }) =>
+          `${playerName} said they would help ${otherName}.`,
+      },
+    },
+    {
+      key: "offer-less",
+      label: "Offer something smaller",
+      description: "Say you can’t do all of it, but can help a little.",
+      statement: "I can’t take all of that on, but I can help a little.",
+      replies: says(context, [
+        "“I suppose that’s something,” {name} says.",
+        "“All right. Whatever you can do,” {name} says.",
+      ]),
+      record: `The player offered ${context.name} a little help.`,
+      apply: answer("offer-less"),
+    },
+    {
+      key: "not-now",
+      label: "Say not right now",
+      description: "Put it off without saying yes or no.",
+      statement: "Not right now. Can I get back to you?",
+      replies: says(context, [
+        "“Sure,” {name} says, and leaves it there.",
+        "“Okay. When you can,” {name} says.",
+      ]),
+      record: `The player asked ${context.name} to wait for an answer.`,
+      apply: answer("not-now"),
+    },
+    {
+      key: "say-no",
+      label: "Say no",
+      description: "Tell them you won’t help.",
+      statement: "I’m sorry. I can’t help with that.",
+      replies: says(context, [
+        "“Right. I see,” {name} says.",
+        "“I thought you might,” {name} says, and goes quiet.",
+      ]),
+      record: `The player told ${context.name} they could not help.`,
+      apply: answer("refuse"),
+    },
+  ];
+}
+
 /* -------------------------------------------------------------------------- */
-/* 2. A contact asks to meet                                                    */
+/* 2. A contact asks to meet, or asks for help back                            */
 /* -------------------------------------------------------------------------- */
+
+const collecting = (binding: { readonly variant: string }) =>
+  binding.variant === "collect";
 
 const favor: SceneFamilyDefinition = {
   family: "favor",
@@ -448,8 +537,13 @@ const favor: SceneFamilyDefinition = {
   motivation: "Answer an invitation to meet.",
   interactionTags: ["conversation.contact"],
   topic: (binding) =>
-    `${binding.facts.speakerGiven ?? "Somebody"} wants to meet`,
+    collecting(binding)
+      ? `${binding.facts.speakerGiven ?? "Somebody"} asks for help`
+      : `${binding.facts.speakerGiven ?? "Somebody"} wants to meet`,
   briefing(context) {
+    if (collecting(context.binding)) {
+      return `${context.fullName} ${context.fact("helped")} on ${proseDate(context.fact("helpedOn") as never)}, and is asking for help with ${context.fact("needWords")}.`;
+    }
     const who = context.relationship
       ? `${context.fullName}, ${context.relationship},`
       : context.fullName;
@@ -459,14 +553,35 @@ const favor: SceneFamilyDefinition = {
     return `${who} is asking whether you want to meet on ${proseDate(context.binding.date!)}.${last}`;
   },
   opening(context) {
+    if (collecting(context.binding)) {
+      const need = spokenNeed(context);
+      return says(context, [
+        `“I hate to ask, but I could use some help with ${need},” {name} says.`,
+        `“You know I don’t ask much. Could you help me with ${need}?” {name} asks.`,
+      ]);
+    }
     const spoken = spokenDay(context.binding.date!, context.world.currentDate);
     return says(context, [
       `“It’s been a long time. Are you free ${spoken}?” {name} asks.`,
       `“I was thinking about you. Could you do ${spoken}?” {name} asks.`,
     ]);
   },
-  answers: meetUpAnswers,
+  answers: (context) =>
+    collecting(context.binding)
+      ? collectAnswers(context)
+      : meetUpAnswers(context),
   settled(context, answer) {
+    if (collecting(context.binding)) {
+      const collected: Record<string, string> = {
+        "say-yes": "“I’ll be in touch,” {name} says.",
+        "offer-less": "“I’ll take it,” {name} says.",
+        "not-now": "“Let me know,” {name} says.",
+        "say-no": "“Well. Take care,” {name} says.",
+      };
+      return fill(collected[answer ?? ""] ?? "“Okay,” {name} says.", {
+        name: context.name,
+      });
+    }
     const done: Record<string, string> = {
       "say-yes": "“See you then,” {name} says.",
       "offer-another-day": "“I’ll let you know,” {name} says.",
@@ -478,12 +593,15 @@ const favor: SceneFamilyDefinition = {
     });
   },
   relevant: (world, bound) =>
-    bound.binding.variant === "meet-up" &&
-    !!openProposal(
-      world,
-      bound.binding.playerPersonId,
-      bound.binding.speakerPersonId,
-    ),
+    collecting(bound.binding)
+      ? openFavorAsk(world, bound.binding.playerPersonId)?.eventId ===
+        bound.binding.sourceEntityIds[0]
+      : bound.binding.variant === "meet-up" &&
+        !!openProposal(
+          world,
+          bound.binding.playerPersonId,
+          bound.binding.speakerPersonId,
+        ),
   room: withoutSpeakerOthers,
 };
 
@@ -1759,6 +1877,123 @@ const studyPlan: SceneFamilyDefinition = {
   room: withoutSpeakerOthers,
 };
 
+/* -------------------------------------------------------------------------- */
+/* A question at a campaign town hall (Build 22, step 3)                       */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The question as the town hall heard it, rebuilt from the binding's facts so
+ * the answer pledges on exactly what was asked, even if the bill has moved on.
+ */
+function askedQuestion(context: SceneContext): LiveQuestion {
+  return {
+    measureId: context.fact("measureId") as EntityId,
+    designation: context.fact("designation"),
+    shortTitle: context.fact("shortTitle"),
+    propositionId: context.fact("propositionId") as EntityId,
+    question: context.fact("question"),
+    answer: context.fact("answer") as LiveQuestion["answer"],
+  };
+}
+
+function townHallAnswers(context: SceneContext): SceneAnswer[] {
+  const bill = context.fact("designation");
+  const stand =
+    (backsTheBill: boolean, statement: string) =>
+    (world: World, turn: { readonly eventId: EntityId }) =>
+      stateCampaignStand(world, {
+        stableKey: `town-hall-stand:${context.bindingEventId}`,
+        personId: context.player.id,
+        question: askedQuestion(context),
+        backsTheBill,
+        statement,
+        sourceEventId: turn.eventId,
+      });
+  const forIt = `I’d vote for ${bill}.`;
+  const againstIt = `I’d vote against ${bill}.`;
+  return [
+    {
+      key: "vote-for",
+      label: `Say you’d vote for ${bill}`,
+      description: "Make it a public pledge.",
+      statement: forIt,
+      replies: says(context, [
+        "“Good. People here will remember that,” {name} says.",
+        "“All right. I’ll hold you to it,” {name} says.",
+      ]),
+      record: `The player told the town hall, “${forIt}”`,
+      apply: stand(true, forIt),
+    },
+    {
+      key: "vote-against",
+      label: `Say you’d vote against ${bill}`,
+      description: "Make it a public pledge.",
+      statement: againstIt,
+      replies: says(context, [
+        "“Fair enough. At least you said it,” {name} says.",
+        "“I’ll hold you to that,” {name} says.",
+      ]),
+      record: `The player told the town hall, “${againstIt}”`,
+      apply: stand(false, againstIt),
+    },
+    {
+      key: "not-decided",
+      label: "Say you haven’t decided",
+      description: "Promise nothing either way.",
+      statement: "I haven’t made up my mind on it yet.",
+      replies: says(context, [
+        "“That’s not much of an answer,” {name} says.",
+        "“Let us know when you do,” {name} says.",
+      ]),
+      record: `The player told the town hall they had not decided on ${bill}.`,
+    },
+    {
+      key: "ask-what-it-does",
+      label: "Ask what it does",
+      description: "Hear the question before you answer.",
+      followUp: true,
+      statement: `What does ${bill} do?`,
+      replies: says(context, [
+        `“It’s ${context.fact("shortTitle")}. It comes down to this: ${context.fact("question")}” {name} says.`,
+      ]),
+      record: `The player asked ${context.name} what ${bill} does.`,
+    },
+  ];
+}
+
+const townHall: SceneFamilyDefinition = {
+  family: "town-hall",
+  eventType: "conversation.town-hall-turn",
+  setting: "A campaign town hall",
+  socialContext: "A voter asks a candidate where they stand, in public.",
+  motivation: "Answer a voter’s question about a bill.",
+  interactionTags: ["conversation.campaign"],
+  topic: (binding) =>
+    `A question about ${binding.facts.designation ?? "a bill"}`,
+  briefing(context) {
+    return `At the town hall on ${proseDate(context.fact("heldOn") as never)}, ${context.fullName} asked where you stand on ${context.fact("designation")}, ${context.fact("shortTitle")}. It has not been decided yet, and whatever you say here is said in public.`;
+  },
+  opening(context) {
+    const bill = context.fact("designation");
+    return says(context, [
+      `“Where do you stand on ${bill}? Would you vote for it?” {name} asks.`,
+      `“Before I decide on you: ${bill}. Yes or no?” {name} asks.`,
+    ]);
+  },
+  answers: townHallAnswers,
+  settled(context, answer) {
+    const lines: Record<string, string> = {
+      "vote-for": "“Thanks for a straight answer,” {name} says.",
+      "vote-against": "“Thanks for a straight answer,” {name} says.",
+      "not-decided": "“We’ll see, then,” {name} says.",
+    };
+    return fill(lines[answer ?? ""] ?? "“Okay,” {name} says.", {
+      name: context.name,
+    });
+  },
+  room: withoutSpeakerOthers,
+};
+
 export const SCENE_FAMILY_DEFINITIONS: Readonly<
   Record<SceneFamily, SceneFamilyDefinition>
 > = {
@@ -1770,6 +2005,7 @@ export const SCENE_FAMILY_DEFINITIONS: Readonly<
   "reporter-question": reporterQuestion,
   "study-peer": studyPeer,
   "study-plan": studyPlan,
+  "town-hall": townHall,
 };
 
 /** When a situation stops being offered, counted from a date. */

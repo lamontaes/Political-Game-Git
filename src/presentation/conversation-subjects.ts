@@ -1,4 +1,5 @@
 import { personName, SeededRng } from "../simulation";
+import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import type {
   EntityId,
   EventType,
@@ -865,6 +866,16 @@ export function selectAuthoredVariant<T>(
 /* What a turn writes into the record.                                         */
 /* -------------------------------------------------------------------------- */
 
+/** Who answered, by the part they have in the room, for a commitment hook. */
+export interface ConversationCommitmentContext {
+  /**
+   * The answering person's role in the room ("briefing-lead"), or null when
+   * they have none. Two people in one room can say the same word to the same
+   * question and undertake different things.
+   */
+  readonly speakerRole: string | null;
+}
+
 /**
  * The canonical vocabulary a subject commits in.
  *
@@ -951,6 +962,7 @@ export interface ConversationCommitContract {
   commitment?(
     intent: ConversationIntent,
     outcome: ConversationOutcome,
+    context: ConversationCommitmentContext,
   ): ConversationCommitmentSpec | null;
   /**
    * What may come back later, if anything.
@@ -1078,6 +1090,72 @@ const COMMIT_CONTRACTS: Readonly<
                 `${playerName} pressed for an immediate answer, straining the exchange with ${otherName}.`,
             }
           : null,
+    // What each of them said they would do, in the words each of them used.
+    // The lead's "I'll back it" and the verifier's "I'll check it" are
+    // different promises to the same question; a deferral promises nothing.
+    commitment: (intent, outcome, { speakerRole }) => {
+      const verifies =
+        speakerRole === "referral-verifier" &&
+        ((intent === "request-commitment" && outcome === "committed") ||
+          (intent === "listen" && outcome === "bystander-interjected"));
+      if (verifies) {
+        return {
+          holder: "counterpart",
+          kind: "civic:referral-verification",
+          label: "checking the third county referral before the briefing",
+          weeklyHours: [0, 1],
+          undertaking: {
+            act: {
+              kind: "help",
+              description:
+                "check whether the third county referral lacked the proof-of-income form",
+            },
+            promised:
+              "Said they would check the third county referral and report back before the briefing.",
+            mattered: "slight",
+          },
+        };
+      }
+      if (speakerRole !== "briefing-lead" || outcome !== "committed") {
+        return null;
+      }
+      return intent === "request-commitment"
+        ? {
+            holder: "counterpart",
+            kind: "civic:referral-checklist",
+            label: "backing the staff document checklist at the briefing",
+            weeklyHours: [0, 1],
+            undertaking: {
+              act: {
+                kind: "help",
+                description:
+                  "back the staff document checklist at the briefing",
+              },
+              promised:
+                "Said they would back the staff document checklist at the briefing.",
+              mattered: "moderate",
+            },
+          }
+        : intent === "press"
+          ? {
+              holder: "counterpart",
+              kind: "civic:referral-checklist",
+              label: "an answer on the staff document checklist",
+              weeklyHours: [0, 1],
+              undertaking: {
+                act: {
+                  kind: "help",
+                  description:
+                    "answer on the staff document checklist once the third referral is checked",
+                },
+                promised:
+                  "Said they would answer on the staff document checklist once the third referral was checked.",
+                mattered: "slight",
+                firmness: "qualified",
+              },
+            }
+          : null;
+    },
   },
   "transit-access-pilot-provision": {
     subject: "transit-access-pilot-provision",
@@ -1233,6 +1311,14 @@ const COMMIT_CONTRACTS: Readonly<
             kind: "personal:school-project",
             label: "the part of the project nobody else started",
             weeklyHours: [1, 4],
+            undertaking: {
+              act: {
+                kind: "help",
+                description: "do the part of the project nobody had started",
+              },
+              promised: "Said they would do the part nobody had started.",
+              mattered: "slight",
+            },
           }
         : null,
     landed: (intent, outcome, { speakerName }) => {
@@ -1335,15 +1421,40 @@ const COMMIT_CONTRACTS: Readonly<
           return null;
       }
     },
-    commitment: (intent) =>
-      intent === "say-you-will-go"
+    commitment: (intent, outcome) =>
+      intent === "ask-them-to-go" && outcome === "continued"
         ? {
-            holder: "player",
+            holder: "counterpart",
             kind: "civic:neighborhood-meeting",
-            label: "the neighborhood meeting you said you would go to",
+            label: "the neighborhood meeting they agreed to go to",
             weeklyHours: [1, 2],
+            undertaking: {
+              act: {
+                kind: "attend",
+                activityStableKey: `${PUBLIC_MEETING_KEY}:activity`,
+                description: "the posted public meeting",
+              },
+              promised: "Said they would go to the posted public meeting.",
+              mattered: "slight",
+            },
           }
-        : null,
+        : intent === "say-you-will-go"
+          ? {
+              holder: "player",
+              kind: "civic:neighborhood-meeting",
+              label: "the neighborhood meeting you said you would go to",
+              weeklyHours: [1, 2],
+              undertaking: {
+                act: {
+                  kind: "attend",
+                  activityStableKey: `${PUBLIC_MEETING_KEY}:activity`,
+                  description: "the posted public meeting",
+                },
+                promised: "Said they would go to the posted public meeting.",
+                mattered: "slight",
+              },
+            }
+          : null,
     // An evening you said out loud you would give is exactly the kind of thing
     // a neighbor remembers whether or not you turned up.
     aftermath: (intent) => (intent === "say-you-will-go" ? "obligation" : null),

@@ -27,6 +27,7 @@ import {
 import { resourceFlowTermsAt, sameEndpoint } from "./resource-queries";
 import { nameCorpusVersionForWorld } from "./place-name-corpus";
 import { SeededRng } from "./rng";
+import { writeWithWorldIntegrityOnce } from "./world";
 import type {
   EntityId,
   IsoDate,
@@ -432,6 +433,17 @@ function aggregateCustomers(
  * time before the records existed.
  */
 export function seatLocalBusinesses(
+  world: World,
+  jurisdictionId: EntityId,
+): World {
+  // Every owner, worker, business and job is its own checked write; the
+  // town's seating is checked once, against the World it started from.
+  return writeWithWorldIntegrityOnce(world, () =>
+    seatMissingLocalBusinesses(world, jurisdictionId),
+  );
+}
+
+function seatMissingLocalBusinesses(
   world: World,
   jurisdictionId: EntityId,
 ): World {

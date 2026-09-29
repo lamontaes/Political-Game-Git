@@ -138,6 +138,70 @@ describe("paydays", () => {
 });
 
 describe("the town is paid", { timeout: 600_000 }, () => {
+  it("a payday's taxes written together match the same paychecks taxed one by one", () => {
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "town-pay-batch",
+        placeKey: "3918000",
+        startAge: 24,
+        questionnaire: "skipped",
+      }),
+    ).game!;
+    const since = game.world.currentDate;
+    const started = startTownJobPay(game.world, game.playerPersonId, since);
+    const date = addDays(since, 31);
+    const payday = (oneByOne: boolean): World => {
+      const flag = globalThis as { __civicPaycheckTaxesOneByOne?: boolean };
+      flag.__civicPaycheckTaxesOneByOne = oneByOne;
+      try {
+        return withWorldIntegrityDeferred(() =>
+          payTownPaydays(
+            {
+              ...started,
+              currentDate: date,
+              currentMoment: simulationMomentOnLocalDate(
+                started.currentMoment,
+                date,
+              ),
+            },
+            since,
+            game.playerPersonId,
+          ),
+        );
+      } finally {
+        delete flag.__civicPaycheckTaxesOneByOne;
+      }
+    };
+    const together = payday(false);
+    const oneByOne = payday(true);
+    expect(
+      together.history.statutoryTaxLiabilities!.length -
+        (started.history.statutoryTaxLiabilities ?? []).length,
+    ).toBeGreaterThan(40);
+    expect(together.history).toEqual(oneByOne.history);
+    // Taxing the next payday on top of the batch finds every earlier row.
+    const next = addDays(date, 31);
+    const later = withWorldIntegrityDeferred(() =>
+      payTownPaydays(
+        {
+          ...together,
+          currentDate: next,
+          currentMoment: simulationMomentOnLocalDate(
+            together.currentMoment,
+            next,
+          ),
+        },
+        date,
+        game.playerPersonId,
+      ),
+    );
+    const keys = later.history.statutoryTaxLiabilities!.map(
+      (row) => row.stableKey,
+    );
+    expect(new Set(keys).size).toBe(keys.length);
+  });
+
   it("Columbus: everyone with a town job is paid by the employer, and payroll taxes are assessed", () => {
     const game = generateOpeningLife(
       prepareOpeningLife({

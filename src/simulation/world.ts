@@ -600,6 +600,20 @@ export function advanceWithWorldIntegrityAtEnd(
   return result;
 }
 
+/**
+ * Runs a batch of writes to one World with each writer's check deferred, then
+ * checks the result once against its input. A batch that writes nothing is
+ * returned as it came, unchecked, as a writer that writes nothing would be.
+ */
+export function writeWithWorldIntegrityOnce(
+  previous: World,
+  run: () => World,
+): World {
+  const result = withWorldIntegrityDeferred(run);
+  if (result === previous) return previous;
+  return advanceWithWorldIntegrityAtEnd(() => result, previous);
+}
+
 /*
  * The newest World that passed a check. During play the next World to be
  * checked is almost always its descendant (a Day, a scene answer, a writer's
@@ -2105,6 +2119,9 @@ function validateHistoryIntegrity(
         ...(history.officeStaffIncumbencies ?? []),
         ...(history.officeVoteInstructions ?? []),
         ...(history.officeBriefingInspections ?? []),
+        ...(history.chamberRuleChanges ?? []),
+        ...(history.itemVetoes ?? []),
+        ...(history.favors ?? []),
         ...history.events,
         ...history.memories,
         ...history.knowledge,
@@ -2188,6 +2205,11 @@ function validateHistoryIntegrity(
     "legislative provision",
   );
   assertSequenceOrdered(
+    history.chamberRuleChanges ?? [],
+    "chamber rule change",
+  );
+  assertSequenceOrdered(history.itemVetoes ?? [], "item veto");
+  assertSequenceOrdered(
     history.legislativeDraftLineages ?? [],
     "legislative draft lineage",
   );
@@ -2207,6 +2229,7 @@ function validateHistoryIntegrity(
     history.legislativeCommitments ?? [],
     "legislative commitment",
   );
+  assertSequenceOrdered(history.favors ?? [], "favor");
   assertSequenceOrdered(
     history.legislativeNegotiations ?? [],
     "legislative negotiation",
@@ -2349,6 +2372,20 @@ function validateHistoryIntegrity(
       );
     }
   }
+  for (const record of history.favors ?? []) {
+    assertUniqueId(ids, record.id);
+    if (
+      !world.people[record.giverPersonId] ||
+      !world.people[record.receiverPersonId]
+    ) {
+      throw new Error(`Favor names a missing person: ${record.id}`);
+    }
+    if (
+      record.id !== createStableId("favor", `${world.id}:${record.stableKey}`)
+    ) {
+      throw new Error(`Favor ID does not match its stable key: ${record.id}`);
+    }
+  }
   for (const record of history.officeBriefingInspections ?? []) {
     assertUniqueId(ids, record.id);
     if (!world.people[record.personId]) {
@@ -2409,6 +2446,11 @@ function validateHistoryIntegrity(
     "legislative provision",
   );
   assertUniqueStableKeys(
+    history.chamberRuleChanges ?? [],
+    "chamber rule change",
+  );
+  assertUniqueStableKeys(history.itemVetoes ?? [], "item veto");
+  assertUniqueStableKeys(
     history.legislativeDraftLineages ?? [],
     "legislative draft lineage",
   );
@@ -2428,6 +2470,7 @@ function validateHistoryIntegrity(
     history.legislativeCommitments ?? [],
     "legislative commitment",
   );
+  assertUniqueStableKeys(history.favors ?? [], "favor");
   assertUniqueStableKeys(
     history.legislativeNegotiations ?? [],
     "legislative negotiation",
