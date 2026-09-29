@@ -2,6 +2,7 @@ import { eventById } from "../event-index";
 import { personName } from "../people";
 import type { HistoricalEvent, IsoDate, World } from "../types";
 import type { MediaOutletRecord } from "./records";
+import { LAW_EFFECT_EVENT_TYPE } from "./shared";
 
 /**
  * What a reporter adds to a recorded fact: when and where it happened, what
@@ -572,6 +573,8 @@ export function editorialParagraphs(
       ? economyContext(world, event)
       : event.type === "crisis.hazard-occurred"
         ? hazardContext(world, event)
-        : developmentContext(world, event);
+        : event.type === LAW_EFFECT_EVENT_TYPE
+          ? event.context.socialContext
+          : developmentContext(world, event);
   return context ? [lede, context] : [lede];
 }

@@ -1,4 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import type * as StateExecutives from "../nationwide-world/state-executives";
+import type { StateExecutiveHolderRecord } from "../nationwide-world/state-executives";
 import { makeIsoDate } from "../dates";
 import { lifePlaceByKey, stateJurisdictionForKey } from "../life-places";
 import { STATES } from "../state-reference";
@@ -16,7 +18,12 @@ import {
   type PublicBudgetGovernment,
   type PublicBudgetStore,
 } from ".";
-import { settleGovernmentMonth, type MonthFlows } from "./month";
+import {
+  decideLawMoneyReaction,
+  lawSpendingForMonth,
+  settleGovernmentMonth,
+  type MonthFlows,
+} from "./month";
 import {
   MEDIAN_BENEFIT_SHARE,
   MEDIAN_FUNDED_RATIO,
@@ -29,7 +36,21 @@ import {
   reserveRule,
 } from "./reserve-rule";
 import { fundingGovernment } from "./staffing";
-import { TAX_QUESTION_EFFECTS } from "./rules";
+import { SPENDING_QUESTION_EFFECTS, TAX_QUESTION_EFFECTS } from "./rules";
+
+// A seated governor, for the tests that need one; the partial world here
+// records no executive office.
+const seated: { holders: StateExecutiveHolderRecord[] } = { holders: [] };
+vi.mock("../nationwide-world/state-executives", async (original) => {
+  const actual = await original<typeof StateExecutives>();
+  return {
+    ...actual,
+    currentStateExecutiveHolders: (world: World) =>
+      seated.holders.length
+        ? seated.holders
+        : actual.currentStateExecutiveHolders(world),
+  };
+});
 
 /*
  * Every government keeps a budget, and the three budget laws act on it. The
@@ -43,12 +64,14 @@ const RESERVE = "proposition_reserve" as EntityId;
 const PENSIONS = "proposition_pensions" as EntityId;
 const GRADUATED = "proposition_graduated" as EntityId;
 const INCOME_TAX = "proposition_income_tax" as EntityId;
+const JUVENILE_AGE = "proposition_juvenile_age" as EntityId;
 const QUESTIONS: Readonly<Record<string, EntityId>> = {
   "fiscal.adopt-income-tax": INCOME_TAX,
   "fiscal.balanced-operating-budget": BALANCED,
   "fiscal.minimum-reserve-balance": RESERVE,
   "fiscal.fund-pensions-to-schedule": PENSIONS,
   "fiscal.graduated-income-tax": GRADUATED,
+  "justice-public-safety.raise-juvenile-court-age": JUVENILE_AGE,
 };
 const illinois = stateJurisdictionForKey("US-IL")!.id;
 
@@ -1038,6 +1061,191 @@ describe("public budgets", () => {
         sales
       ]!,
     ).toBeGreaterThan(0);
+  });
+
+  it("a law raising or lowering the juvenile court age moves the state's corrections spending from the month it takes effect", () => {
+    // Texas began trying 17-year-olds as adults and raises the juvenile court
+    // age; Illinois began with the higher age and lowers it. Each takes
+    // effect May 12, 2026.
+    const texas = stateJurisdictionForKey("US-TX")!.id;
+    const enacted = (at: number) => ({
+      id: `enactment_${at}` as EntityId,
+      sequence: 1000 + at,
+      measureId: `measure_${at}` as EntityId,
+      resolvedAt: makeIsoDate("2026-05-12"),
+      outcome: "enacted",
+      effectiveAt: makeIsoDate("2026-05-12"),
+    });
+    const world = worldAt("2026-01-05", {
+      laws: [
+        { question: JUVENILE_AGE, answer: "yes", jurisdictionId: texas },
+        { question: JUVENILE_AGE, answer: "no", jurisdictionId: illinois },
+      ],
+      history: {
+        legislativeEnactments: [
+          enacted(0),
+          enacted(1),
+        ] as unknown as World["history"]["legislativeEnactments"],
+      },
+    });
+    const juvenile = SPENDING_QUESTION_EFFECTS.find((effect) =>
+      effect.questionKey.endsWith("raise-juvenile-court-age"),
+    )!;
+    const corrections = BUDGET_PROGRAMS.indexOf("corrections");
+    const run = (jurisdictionId: EntityId) => {
+      const opening = publicBudgetFor(opened(world), jurisdictionId)!;
+      const government = settleAlone(world, opening, "2027-08-01").government;
+      const month = (on: string) =>
+        government.months.find((row) => row.month === on)!.spending[
+          corrections
+        ]!;
+      return { opening, government, month };
+    };
+    // New York's $250 million a year over its 19,867,248 residents, $12.58 a
+    // resident, times Texas's residents, a twelfth a month.
+    expect(juvenile.toYes).toBeCloseTo(12.58, 2);
+    const tx = run(texas);
+    const txMonthly = (juvenile.toYes! * tx.opening.population) / 12;
+    expect(tx.month("2026-06-01") - tx.month("2026-04-01")).toBeCloseTo(
+      txMonthly,
+      -1,
+    );
+    // The cost stays in every later month, across Texas's next budget.
+    expect(
+      lawSpendingForMonth(world, tx.government, makeIsoDate("2027-07-01"))[
+        corrections
+      ],
+    ).toBeCloseTo(txMonthly, 2);
+    const il = run(illinois);
+    expect(il.month("2026-06-01") - il.month("2026-04-01")).toBeCloseTo(
+      (juvenile.toNo! * il.opening.population) / 12,
+      -1,
+    );
+  });
+
+  it("a governor decides from their principles whether money a law saved the state goes to the reserve or to programs", () => {
+    // Illinois lowers the juvenile court age from May 12, 2026, which takes
+    // $12.58 a resident a year off its corrections spending. Its next budget
+    // is adopted July 1, 2026, and its governor decides what to do with it.
+    const governorId = "person_governor" as EntityId;
+    const restraint = "principle_fiscal_restraint" as EntityId;
+    seated.holders = [
+      {
+        officeKey: "il-governor",
+        title: "Governor",
+        stateUsps: "IL",
+        personId: governorId,
+        personName: "Dana Reyes",
+      } as unknown as StateExecutiveHolderRecord,
+    ];
+    const lowered = worldAt("2026-01-05", {
+      laws: [
+        { question: JUVENILE_AGE, answer: "no", jurisdictionId: illinois },
+      ],
+      history: {
+        legislativeEnactments: [
+          {
+            id: "enactment_0" as EntityId,
+            sequence: 1000,
+            measureId: "measure_0" as EntityId,
+            resolvedAt: makeIsoDate("2026-05-12"),
+            outcome: "enacted",
+            effectiveAt: makeIsoDate("2026-05-12"),
+          },
+        ] as unknown as World["history"]["legislativeEnactments"],
+      },
+    });
+    const holding = (stance: "endorses" | "rejects"): World => ({
+      ...lowered,
+      policyCatalog: {
+        propositions: {
+          ...lowered.policyCatalog.propositions,
+          [RESERVE]: {
+            ...lowered.policyCatalog.propositions[RESERVE]!,
+            principles: [
+              { principleId: restraint, bearing: "consistent-with" },
+            ],
+          },
+          [BALANCED]: {
+            ...lowered.policyCatalog.propositions[BALANCED]!,
+            principles: [
+              { principleId: restraint, bearing: "consistent-with" },
+            ],
+          },
+        },
+      } as unknown as World["policyCatalog"],
+      history: {
+        ...lowered.history,
+        principles: [
+          {
+            id: "principle_record_1" as EntityId,
+            sequence: 1,
+            personId: governorId,
+            principleId: restraint,
+            formedAt: makeIsoDate("2000-01-01"),
+            stance,
+            conviction: "strong",
+          },
+        ] as unknown as World["history"]["principles"],
+      },
+    });
+    const juvenile = SPENDING_QUESTION_EFFECTS.find((effect) =>
+      effect.questionKey.endsWith("raise-juvenile-court-age"),
+    )!;
+    try {
+      for (const stance of ["endorses", "rejects"] as const) {
+        const world = holding(stance);
+        const opening = publicBudgetFor(opened(world), illinois)!;
+        const { government, adjustments } = settleAlone(
+          world,
+          opening,
+          "2026-06-01",
+        );
+        const reaction = adjustments.find((row) =>
+          row.kind.startsWith("law-gain"),
+        )!;
+        // The saving is a year of the cost at Illinois's residents.
+        expect(reaction.amount).toBeCloseTo(
+          -juvenile.toNo! * opening.population,
+          -3,
+        );
+        expect(reaction.decidedBy).toEqual({
+          personId: governorId,
+          principleRecordIds: ["principle_record_1"],
+        });
+        expect(reaction.note).toContain("Governor Dana Reyes");
+        const adopted = government.years.at(-1)!;
+        expect(adopted.fiscalYear).toBe(2027);
+        // A loss the laws caused, where no law requires a balanced budget:
+        // the governor who favors restraint cuts, the other keeps programs.
+        // Where a law requires balance, the one who favors a reserve cuts
+        // and the other draws the reserve, when it holds something to draw.
+        const loss = (balanced: boolean, drawable: number) =>
+          decideLawMoneyReaction(
+            world,
+            government,
+            -5_000_000,
+            balanced,
+            drawable,
+          )?.choice;
+        expect(loss(false, 0)).toBe(stance === "endorses" ? "cut" : "keep");
+        expect(loss(true, 1_000_000)).toBe(
+          stance === "endorses" ? "cut" : "draw",
+        );
+        expect(loss(true, 0)).toBe("cut");
+        if (stance === "endorses") {
+          // Fiscal restraint favors a reserve: the saving is set aside.
+          expect(reaction.kind).toBe("law-gain-saved");
+          expect(adopted.reserveDeposit).toBeGreaterThanOrEqual(
+            reaction.amount,
+          );
+        } else {
+          expect(reaction.kind).toBe("law-gain-spent");
+        }
+      }
+    } finally {
+      seated.holders = [];
+    }
   });
 
   it("maps an appropriation's program to its budget line", () => {

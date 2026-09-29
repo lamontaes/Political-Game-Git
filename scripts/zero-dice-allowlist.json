@@ -1469,29 +1469,8 @@
       "file": "src/simulation/pressure/events.ts",
       "kind": "fixed-share",
       "build": "Build 19",
-      "count": 2,
+      "count": 1,
       "code": "chanceCap: 0.9,"
-    },
-    {
-      "file": "src/simulation/pressure/events.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "draw(next, [\"unrest\", stateKey, ordinal]) <"
-    },
-    {
-      "file": "src/simulation/pressure/events.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "draw(next, [\"attempt\", threat.id, ordinal]) >="
-    },
-    {
-      "file": "src/simulation/pressure/events.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "draw(next, [\"threat\", stateKey, ordinal]) >="
     },
     {
       "file": "src/simulation/pressure/events.ts",
