@@ -68,6 +68,28 @@
       "approval": "live-owner-reviews-in-play-2026-09-28"
     },
     {
+      "place": "barbershop",
+      "variant": "night",
+      "file": "barbershop__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "6494ce82f41fdf74cf1b9e8e89082332007215fb5d633a4a10c54b61abb57ddd",
+      "sourceFile": "barbershop__night.png",
+      "sourceSha256": "a2a9e69176a5af07b8c2bf70fc621023d884637de327e174a86fc5eb942cf056",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "barbershop",
+      "variant": "rain",
+      "file": "barbershop__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "103a6a0fd189a176224d6bf4ea58b9c85601621a0f222ddf292eb9f57d0bf4fc",
+      "sourceFile": "barbershop__rain.png",
+      "sourceSha256": "3b7a8b56313bd238dfe96bd9fec000d7e6a024e7ddc044db37812f0c00b66928",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
       "place": "campaign-storefront",
       "variant": "midday",
       "file": "campaign-storefront__midday.jpg",
@@ -1223,6 +1245,39 @@
       "approval": "live-owner-reviews-in-play-2026-09-28"
     },
     {
+      "place": "newsroom",
+      "variant": "morning",
+      "file": "newsroom__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "e614f12f28f973bd78255d44bea3363f74ffaa3b1ece8df2c1db1650f00dce9b",
+      "sourceFile": "newsroom__morning.png",
+      "sourceSha256": "6afd64de77ebc19c4d94a5289f8fcf497c723dcd59f21a4af4f7e1228f899b36",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "newsroom",
+      "variant": "night",
+      "file": "newsroom__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "9a1cdfc36d46d471a21b41953715ba91ce5e92fd5fd885148d7b69ac8edccfb3",
+      "sourceFile": "newsroom__night.png",
+      "sourceSha256": "06a4f8acaf17a96d4d0c1d3e4068d2e319cb84a93153c69fdd8413672bbeb505",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "newsroom",
+      "variant": "rain",
+      "file": "newsroom__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "1fbdd2e7e88f7526b170c651cd50c5c63a2818c94c1acf8e8d5360b136cc7a26",
+      "sourceFile": "newsroom__rain.png",
+      "sourceSha256": "099579b6f19dc5a71aa9483c6cdc72b4a51fcf886a47b2e269c0677298a47382",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
       "place": "office",
       "variant": "midday",
       "file": "office__midday.jpg",
@@ -1319,6 +1374,39 @@
       "sha256": "773294e7b47f11f16a41d47932d6e963cf2961d5d562c107883dfeae9d65b80d",
       "sourceFile": "party-headquarters__midday.png",
       "sourceSha256": "851981eafcbec37949cb02e371d2bf87b6b41438b4be0d3d9260d3f43a9c9f07",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "party-headquarters",
+      "variant": "morning",
+      "file": "party-headquarters__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "3b98dc788ad96a55718bbabb2830a02e56bf66ff65259ac3101b0e0c9c22b054",
+      "sourceFile": "party-headquarters__morning.png",
+      "sourceSha256": "a3076b1a4229faa715799dfead1ae28c7ea275c8619649090f1f46f0baa0fc40",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "party-headquarters",
+      "variant": "night",
+      "file": "party-headquarters__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "e7194d58c6f1b07f0c51b1445f23df8ab74d0bb802c1d1542a580391d6d48281",
+      "sourceFile": "party-headquarters__night.png",
+      "sourceSha256": "61d227cd1dc8ea11caaae116a0dcaf317e000c554785f593081f6948f2123326",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "party-headquarters",
+      "variant": "rain",
+      "file": "party-headquarters__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "7cd00176c4145e889da3e927f431565197f6573ad5e45d298e1b68e736ba92de",
+      "sourceFile": "party-headquarters__rain.png",
+      "sourceSha256": "cc7e647e4f6854723d674b74b8988ce29f859ad1be0353f039ae32c8039d841e",
       "approval": "live-owner-reviews-in-play-2026-09-28"
     },
     {
@@ -1473,6 +1561,28 @@
       "sha256": "eb63b6ce4ba218e8b780f745bb53904f6d2fbedd2ffddc2bc849587fe1311535",
       "sourceFile": "public-library__morning.png",
       "sourceSha256": "ce9b8cb2ebb15c6fdb009978519001a28c71a64283daa7d619c4fa40c37ea121",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "public-library",
+      "variant": "night",
+      "file": "public-library__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "0479ddd7c68aef82cfc03cbc7930935f283a582a29d0c31330f743eadda88a58",
+      "sourceFile": "public-library__night.png",
+      "sourceSha256": "f95871fb746d050aa1f942ca1cbee019f62fd6fa10fd8475f6d8d2ead0ca28c6",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "public-library",
+      "variant": "rain",
+      "file": "public-library__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "45c51a611af22e43588ab67f456d58ba031f57aa22180719e964421a8a1102ae",
+      "sourceFile": "public-library__rain.png",
+      "sourceSha256": "9ee5029c85de8afdc5776b68d0be5f8303c64bee1a289fa65326d93b07cb0607",
       "approval": "live-owner-reviews-in-play-2026-09-28"
     },
     {

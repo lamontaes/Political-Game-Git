@@ -17,7 +17,12 @@
       ]
     },
     "barbershop": {
-      "checked": ["barbershop__midday.jpg", "barbershop__morning.jpg"],
+      "checked": [
+        "barbershop__midday.jpg",
+        "barbershop__morning.jpg",
+        "barbershop__night.jpg",
+        "barbershop__rain.jpg"
+      ],
       "surfaces": [],
       "skipped": [
         "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
@@ -754,7 +759,12 @@
       ]
     },
     "newsroom": {
-      "checked": ["newsroom__midday.jpg"],
+      "checked": [
+        "newsroom__midday.jpg",
+        "newsroom__morning.jpg",
+        "newsroom__night.jpg",
+        "newsroom__rain.jpg"
+      ],
       "surfaces": [],
       "skipped": [
         "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
@@ -905,7 +915,12 @@
       "skipped": ["no screens, posters or papers"]
     },
     "party-headquarters": {
-      "checked": ["party-headquarters__midday.jpg"],
+      "checked": [
+        "party-headquarters__midday.jpg",
+        "party-headquarters__morning.jpg",
+        "party-headquarters__night.jpg",
+        "party-headquarters__rain.jpg"
+      ],
       "surfaces": [],
       "skipped": [
         "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
@@ -1021,7 +1036,12 @@
       ]
     },
     "public-library": {
-      "checked": ["public-library__midday.jpg", "public-library__morning.jpg"],
+      "checked": [
+        "public-library__midday.jpg",
+        "public-library__morning.jpg",
+        "public-library__night.jpg",
+        "public-library__rain.jpg"
+      ],
       "surfaces": [],
       "skipped": [
         "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
