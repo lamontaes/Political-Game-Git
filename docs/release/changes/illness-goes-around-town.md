@@ -17,5 +17,11 @@ A school's principal decides each week whether to close for a week, from how
 many students and staff are out sick and how cautious they are, and reopens
 it when fewer are sick. A closed school passes nothing on. The town council's
 chair cancels a meeting when too few members are well enough for a quorum, or
-when enough of the town is sick. Every rate is a placeholder until it is
+when enough of the town is sick.
+
+A worker out sick, or home with a sick child, misses those workdays, and in a
+job without paid sick leave the missed days come off the next paycheck. The
+adult who stays home is the one in the household with the fewest paid hours.
+When enough new people fall sick in a week, the illness becomes public news
+that the local paper can pick up. Every rate is a placeholder until it is
 researched.

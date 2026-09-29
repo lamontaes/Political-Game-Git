@@ -23,8 +23,9 @@ import {
 } from "./congress-candidacy";
 
 /*
- * The U.S. House district of a home, from the Census 119th Congress–2020 place
- * relationship file. A place the file lists with exactly one district is in
+ * The U.S. House district of a home, from the Census district–2020 place
+ * relationship (the 119th Congress lines, and a dated set for the states whose
+ * lines changed for the 2026 elections). A place the file lists with exactly one district is in
  * it; a place it lists with several stays unresolved, its candidates only the
  * districts it touches. Never Kentucky: these are the playtest's places and
  * the two single-district towns the technical director named.
@@ -34,7 +35,10 @@ const ELKO = "3222500";
 const LEWISTON = "2338740";
 const PEORIA = "1759000";
 const SAN_ANTONIO = "4865000";
+/** The 119th Congress lines. */
 const SAN_ANTONIO_DISTRICTS = ["4820", "4821", "4823", "4828", "4835"];
+/** The lines Texas uses for the 2026 elections: the 28th no longer reaches the city. */
+const SAN_ANTONIO_DISTRICTS_2026 = ["4820", "4821", "4823", "4835"];
 
 /** The New Game route a player takes, so Congress and the opening exist. */
 function lifeAt(
@@ -69,10 +73,11 @@ function homeJoin(world: World, personId: EntityId, placeGeoid: string) {
     catalog: districtIdentityCatalog(),
     placeGeoid,
     chamber: "congressional",
+    asOf: world.currentDate,
   });
 }
 
-describe("congressional home join from the 119th CD–place file", () => {
+describe("congressional home join from the Census district–place files", () => {
   it("joins a single-district place and lists only the intersecting districts of a split one", () => {
     expect(placeDistrictJoin(ELKO, "congressional")).toEqual({
       kind: "whole-place",
@@ -91,6 +96,20 @@ describe("congressional home join from the 119th CD–place file", () => {
       kind: "split",
       candidateDistrictGeoids: SAN_ANTONIO_DISTRICTS,
     });
+    // The lines Texas uses for 2026 answer once the game date reaches them.
+    expect(
+      placeDistrictJoin(SAN_ANTONIO, "congressional", "2026-06-01"),
+    ).toEqual({
+      kind: "split",
+      candidateDistrictGeoids: SAN_ANTONIO_DISTRICTS_2026,
+    });
+    expect(
+      placeDistrictJoin(SAN_ANTONIO, "congressional", "2025-06-01"),
+    ).toEqual(sanAntonio);
+    // A state that did not redraw answers the same on every date.
+    expect(placeDistrictJoin(PEORIA, "congressional", "2026-06-01")).toEqual(
+      placeDistrictJoin(PEORIA, "congressional"),
+    );
   });
 
   it.each([
@@ -200,12 +219,13 @@ describe("congressional home join from the 119th CD–place file", () => {
     const { world, personId } = lifeAt(SAN_ANTONIO, "cd-join-san-antonio");
     expect(congressionalIntervals(world, personId)).toEqual([]);
     const join = homeJoin(world, personId, SAN_ANTONIO);
+    expect(world.currentDate >= "2026-01-01").toBe(true);
     expect(join.kind === "conflicting" && join.candidateGeoids).toEqual(
-      SAN_ANTONIO_DISTRICTS,
+      SAN_ANTONIO_DISTRICTS_2026,
     );
     expect(
       playerGeography(world, personId).homeDistricts.congressional,
-    ).toMatchObject({ kind: "candidates", geoids: SAN_ANTONIO_DISTRICTS });
+    ).toMatchObject({ kind: "candidates", geoids: SAN_ANTONIO_DISTRICTS_2026 });
     const congress = projectLivingSceneOpening(world, personId).chapters.find(
       (chapter) => chapter.key === "congress",
     );

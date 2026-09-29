@@ -32,6 +32,7 @@ import { ensurePaydaySchedule } from "../simulation/living-world/town-pay";
 import { ensureCrimeProduction } from "../simulation/crime";
 import { ensureEpidemicProduction } from "../simulation/crisis/epidemic";
 import { ensurePlaceOutcomes } from "../simulation/outcome-web/place-outcomes";
+import { ensurePublicBudgets } from "../simulation/public-budgets";
 import { ensureOpeningJudiciary } from "../simulation/judiciary/opening";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
 import {
@@ -133,28 +134,30 @@ function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
       // start it on their first ordinary-day pass, as before.
       world: openedWorld(
         ensureOpeningMortality(
-          ensurePlaceOutcomes(
-            ensureEpidemicProduction(
-              ensureCrimeProduction(
-                ensureHazardProduction(
-                  ensureLivingWorldDevelopments(
-                    // Standing chapter committees exist only in current openings.
-                    ensurePartyGoverningBodies(
-                      ensureHomePartyChapters(
-                        ensureHomeStateLegislature(
-                          ensureLivingWorldOpening(
-                            withPriorRecords,
+          ensurePublicBudgets(
+            ensurePlaceOutcomes(
+              ensureEpidemicProduction(
+                ensureCrimeProduction(
+                  ensureHazardProduction(
+                    ensureLivingWorldDevelopments(
+                      // Standing chapter committees exist only in current openings.
+                      ensurePartyGoverningBodies(
+                        ensureHomePartyChapters(
+                          ensureHomeStateLegislature(
+                            ensureLivingWorldOpening(
+                              withPriorRecords,
+                              game.playerPersonId,
+                              session.setup.livingWorldMemberNameVersion,
+                            ),
                             game.playerPersonId,
-                            session.setup.livingWorldMemberNameVersion,
                           ),
                           game.playerPersonId,
+                          session.setup.partyChapterNameVersion,
                         ),
                         game.playerPersonId,
-                        session.setup.partyChapterNameVersion,
                       ),
                       game.playerPersonId,
                     ),
-                    game.playerPersonId,
                   ),
                 ),
               ),

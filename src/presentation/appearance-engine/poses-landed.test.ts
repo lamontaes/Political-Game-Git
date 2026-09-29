@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 import manifestJson from "../../../art/people-engine/v1/manifest.json" with { type: "json" };
 import {
   BODY_BUILDS,
+  POSES_BY_PRESENTATION,
   composeEnginePerson,
   type NamedBodyPose,
   type OutfitPostures,
@@ -22,8 +23,18 @@ import type * as Runtime from "./runtime";
  */
 
 const today = manifestJson as unknown as PeoplePackManifest;
-const STANDING_POSES = ["arms-folded", "explaining", "hand-on-hip", "podium"];
-const SEATED_POSES = ["seated-leaning", "seated-legs-crossed"];
+const STANDING_POSES = [
+  "arms-folded",
+  "explaining",
+  "hand-on-hip",
+  "hands-in-pockets",
+  "podium",
+];
+const SEATED_POSES = [
+  "seated-leaning",
+  "seated-legs-crossed",
+  "seated-ankle-on-knee",
+];
 
 function everyPose(pack: PackPresentation): PackPostures {
   const posed = (pose: string) =>
@@ -159,10 +170,13 @@ describe("a conversation once the posed art lands", async () => {
       expect(speaker.engine!.mirrored).toBeUndefined();
       for (const listener of placed.filter((person) => person !== speaker)) {
         expect(listener.engine!.view).toBe("three-quarter");
+        // Each in their own presentation's poses.
+        const own = POSES_BY_PRESENTATION[listener.engine!.presentation];
+        expect(own).toContain(listener.engine!.pose);
         expect(
           listener.seated
-            ? ["seated-leaning", "seated-legs-crossed"]
-            : ["arms-folded", "hand-on-hip"],
+            ? ["seated-leaning", "seated-legs-crossed", "seated-ankle-on-knee"]
+            : ["arms-folded", "hand-on-hip", "hands-in-pockets"],
         ).toContain(listener.engine!.pose);
         if (listener.engine!.pose === "arms-folded") folded += 1;
         // Turned right as painted, so mirrored exactly when the speaker is
