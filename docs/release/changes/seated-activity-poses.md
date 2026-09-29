@@ -1,6 +1,8 @@
 ---
 id: seated-activity-poses
 impact: minor
+section: Added
+title: Seated people show what they are doing
 ---
 
 Seated people now show what they are doing: reading or writing at a desk, on
