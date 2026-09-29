@@ -1,5 +1,11 @@
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
-import { addDays, daysBetween, isoDateFromParts, yearOf } from "../dates";
+import {
+  addDays,
+  daysBetween,
+  isoDateFromParts,
+  makeIsoDate,
+  yearOf,
+} from "../dates";
 import type { IsoDate } from "../types";
 
 /**
@@ -11,16 +17,23 @@ import type { IsoDate } from "../types";
  * caller's blanket default, which says so.
  *
  * A rule that counts from a session's end reads that end from one table for
- * every state (`sessionEnds`): the latest day the state's constitution or
- * statute lets its regular session run. Where a state sets no calendar
- * limit, the table's row is estimated from the states whose limit is read,
- * and says so. A rule counted from final passage reads the passage date the
+ * every state (`sessionEnds`). For a year whose session has adjourned, that
+ * is the day the legislature published as its adjournment (`adjourned`);
+ * otherwise it is the latest day the state's constitution or statute lets
+ * its regular session run. Where a state sets no calendar limit and has
+ * published no adjournment for the year, the end is estimated from the
+ * states whose end is known that year, and says so.
+ *
+ * GAME ASSUMPTION: in play, a legislature sits until its limit
+ * (`legislative-clock.ts` closes a session only there), so after the years
+ * with a published adjournment the limit is the day the game's own session
+ * ends. A rule counted from final passage reads the passage date the
  * enactment records (Illinois); one written from filing is counted from
  * enactment, and its note says so.
  *
  * NOT MODELED: acts that set their own date, emergency clauses, appropriation
- * acts where a state dates them differently (Minnesota, Missouri, Ohio), a
- * session that adjourns before its limit, and special sessions' own
+ * acts where a state dates them differently (Minnesota, Missouri, Ohio), and
+ * special sessions' own
  * adjournments: an act enacted after its regular session's rule would date
  * it is counted from the day it became law.
  */
@@ -109,13 +122,24 @@ export type SessionEndRule =
 /**
  * A place's regular sessions in odd and even years: none, one, or more than
  * one (American Samoa meets twice a year). A row marked `estimated` sets no
- * limit of its own: its session ends on the median last day of the rows that
- * were read, for the same year (ESTIMATED FROM AVERAGE).
+ * limit of its own: its session ends on the median last day of the rows
+ * whose end is known, for the same year (ESTIMATED FROM AVERAGE).
+ * `adjourned` holds, by year, the days the legislature published as its
+ * regular sessions' adjournments; for that year they replace the limit and
+ * any estimate.
  */
 interface SessionEndRow {
   readonly oddYear?: readonly SessionEndRule[];
   readonly evenYear?: readonly SessionEndRule[];
   readonly estimated?: string;
+  readonly adjourned?: Readonly<Record<string, AdjournedYear>>;
+}
+
+interface AdjournedYear {
+  readonly dates: readonly string[];
+  readonly sourceUrl: string;
+  readonly quote: string;
+  readonly readAt: string;
 }
 
 /**
@@ -157,16 +181,18 @@ export function statuteEffectiveRule(
 }
 
 /**
- * Whether the date a state's rule gives rests on an estimate: the rule
- * itself, or, for a rule counted from a session's end, that end.
+ * Whether the date a state's rule gives an act enacted on `enactedAt` rests
+ * on an estimate: the rule itself, or, for a rule counted from a session's
+ * end, that year's end.
  */
 export function statuteEffectiveDateEstimated(
   jurisdictionKey: string,
+  enactedAt: IsoDate,
 ): boolean {
   if (statuteEffectiveRuleEstimate(jurisdictionKey)) return true;
   return (
     statuteEffectiveRule(jurisdictionKey)?.kind === "days-after-session-end" &&
-    stateSessionEndEstimate(jurisdictionKey) !== null
+    stateSessionEndEstimate(jurisdictionKey, yearOf(enactedAt)) !== null
   );
 }
 
@@ -183,10 +209,12 @@ export function statuteEffectiveRuleEstimate(
 }
 
 /**
- * The last day of each regular session a place's law allows in `year`, from
- * the one session-end table every state reads, earliest first. Empty where
- * the table has no row or the place holds no regular session that year. An
- * estimated row gives the median of the read rows' last days that year.
+ * The last day of each regular session a place held or may hold in `year`,
+ * from the one session-end table every state reads, earliest first: the
+ * published adjournments where the year has them, else the limits its law
+ * sets. Empty where the table has no row or the place holds no regular
+ * session that year. An estimated row with no published adjournment gives
+ * the median of the known rows' last days that year.
  */
 export function stateSessionEnds(
   jurisdictionKey: string,
@@ -194,20 +222,30 @@ export function stateSessionEnds(
 ): readonly IsoDate[] {
   if (!Object.hasOwn(SESSION_ENDS, jurisdictionKey)) return [];
   const row = SESSION_ENDS[jurisdictionKey]!;
-  if (row.estimated) return medianSessionEnd(year);
-  return readSessionEnds(row, year);
+  return knownSessionEnds(row, year) ?? medianSessionEnd(year);
 }
 
-/** Where a place's session end is estimated, what it was estimated from. */
+/**
+ * Where a place's session end in `year` is estimated, what it was estimated
+ * from; null where the year's end is published or set by its law.
+ */
 export function stateSessionEndEstimate(
   jurisdictionKey: string,
+  year: number,
 ): string | null {
-  return Object.hasOwn(SESSION_ENDS, jurisdictionKey)
-    ? (SESSION_ENDS[jurisdictionKey]!.estimated ?? null)
-    : null;
+  if (!Object.hasOwn(SESSION_ENDS, jurisdictionKey)) return null;
+  const row = SESSION_ENDS[jurisdictionKey]!;
+  return knownSessionEnds(row, year) ? null : (row.estimated ?? null);
 }
 
-function readSessionEnds(row: SessionEndRow, year: number): IsoDate[] {
+/**
+ * A row's session ends in `year` from its own data: the published
+ * adjournments, else its limits. Null for an estimated row with neither.
+ */
+function knownSessionEnds(row: SessionEndRow, year: number): IsoDate[] | null {
+  const adjourned = row.adjourned?.[String(year)];
+  if (adjourned) return adjourned.dates.map((date) => makeIsoDate(date)).sort();
+  if (row.estimated) return null;
   return ((year % 2 ? row.oddYear : row.evenYear) ?? [])
     .map((rule) =>
       rule.kind === "on"
@@ -219,8 +257,7 @@ function readSessionEnds(row: SessionEndRow, year: number): IsoDate[] {
 
 function medianSessionEnd(year: number): readonly IsoDate[] {
   const lastDays = Object.values(SESSION_ENDS)
-    .filter((row) => !row.estimated)
-    .map((row) => readSessionEnds(row, year).at(-1))
+    .map((row) => knownSessionEnds(row, year)?.at(-1))
     .filter((date): date is IsoDate => date !== undefined)
     .sort();
   // The lower middle when the count is even, so the result is a real row's.

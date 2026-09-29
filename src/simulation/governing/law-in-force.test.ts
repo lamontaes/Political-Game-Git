@@ -126,14 +126,14 @@ describe("the law in force on a question", () => {
 
   it("says when the state's rule is an estimate, not its own", () => {
     // Kansas dates acts from publication, which is not dated; it takes the
-    // most common rule read, 91 days after the estimated session end
-    // (April 15 in 2026).
+    // most common rule read, 91 days after the session's end (the 2026
+    // session adjourned April 10).
     const kansan = law(kansas, "yes", "2026-03-01");
     expect(
-      lawInForce(worldWith("2026-07-14", [kansan]), kansas, QUESTION),
+      lawInForce(worldWith("2026-07-09", [kansan]), kansas, QUESTION),
     ).toBeNull();
     expect(
-      lawInForce(worldWith("2026-07-15", [kansan]), kansas, QUESTION),
+      lawInForce(worldWith("2026-07-10", [kansan]), kansas, QUESTION),
     ).toMatchObject({ answer: "yes", operativeBasis: "estimated-state-rule" });
   });
 

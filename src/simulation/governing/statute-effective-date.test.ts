@@ -132,7 +132,8 @@ describe("when a state law takes effect by its state's own rule", () => {
       if (row.estimated) {
         estimatedEnds += 1;
         expect(row.estimated, key).toMatch(/^ESTIMATED FROM AVERAGE: /);
-        expect(stateSessionEndEstimate(key), key).toBe(row.estimated);
+        // 2027: no legislature has adjourned yet.
+        expect(stateSessionEndEstimate(key, 2027), key).toBe(row.estimated);
       } else {
         expect(row.cite?.length, key).toBeGreaterThan(0);
         expect(row.source, key).toMatch(/^https?:\/\//);
@@ -141,16 +142,66 @@ describe("when a state law takes effect by its state's own rule", () => {
     expect(estimatedEnds).toBe(10);
   });
 
-  it("estimates an unread session end as the median last day of the read ones", () => {
-    // 2026's read last days, earliest first: New Mexico February 19, Utah
-    // March 6, Washington March 12, Florida March 13, Kentucky and Maine
-    // April 15, Arkansas May 7, Oklahoma May 29, Missouri May 30, American
-    // Samoa August 26. The lower middle of ten is the fifth.
-    expect(stateSessionEnds("US-AZ", 2026)).toEqual(["2026-04-15"]);
-    // Kansas: the most common rule, 91 days after that estimated end.
-    expect(at("US-KS", "2026-03-01")).toBe("2026-07-15");
+  it("estimates an unread session end as the median last day of the known ones", () => {
+    // 2027, before any session has adjourned: the eleven read limits,
+    // earliest first, run from Utah's March 5 to American Samoa's August 25.
+    // The lower middle of eleven is the sixth, Florida's April 30.
+    expect(stateSessionEnds("US-MI", 2027)).toEqual(["2027-04-30"]);
+    // 2026: seventeen rows have a published adjournment or a limit, and the
+    // lower middle of seventeen is Kentucky's April 15.
+    // Michigan sits all year and had not adjourned when it was read.
+    expect(stateSessionEnds("US-MI", 2026)).toEqual(["2026-04-15"]);
     // Puerto Rico: the territories' rule, at once.
     expect(at("US-PR", "2026-03-01")).toBe("2026-03-01");
+  });
+
+  it("dates a session that adjourned from the day it published", () => {
+    // Maine's 2026 session ran past its April 15 statutory date to April 29,
+    // and its laws take effect 91 days later.
+    expect(stateSessionEnds("US-ME", 2026)).toEqual(["2026-04-29"]);
+    expect(at("US-ME", "2026-03-01")).toBe("2026-07-29");
+    // Oklahoma adjourned May 14, 2026, two weeks before its limit.
+    expect(stateSessionEnds("US-OK", 2026)).toEqual(["2026-05-14"]);
+    expect(at("US-OK", "2026-03-01")).toBe("2026-08-12");
+    // Arizona sets no calendar limit; its 2026 session adjourned June 13,
+    // so the 91st day is September 12, and that date is not an estimate.
+    expect(at("US-AZ", "2026-03-01")).toBe("2026-09-12");
+    expect(
+      statuteEffectiveDateEstimated("US-AZ", makeIsoDate("2026-03-01")),
+    ).toBe(false);
+    expect(
+      statuteEffectiveDateEstimated("US-AZ", makeIsoDate("2027-03-01")),
+    ).toBe(true);
+    // Kansas's rule is estimated, counted from its real April 10 end.
+    expect(at("US-KS", "2026-03-01")).toBe("2026-07-10");
+    expect(
+      statuteEffectiveDateEstimated("US-KS", makeIsoDate("2026-03-01")),
+    ).toBe(true);
+    // Missouri's constitution sets the session's end on May 30, and its laws
+    // take effect August 28, whatever day the chambers last sat.
+    expect(stateSessionEnds("US-MO", 2026)).toEqual(["2026-05-30"]);
+    // Every published adjournment names its source.
+    const { sessionEnds } = (
+      startingLaw as unknown as {
+        effectiveDates: {
+          sessionEnds: Record<
+            string,
+            {
+              adjourned?: Record<
+                string,
+                { dates: string[]; sourceUrl: string; quote: string }
+              >;
+            }
+          >;
+        };
+      }
+    ).effectiveDates;
+    for (const [key, row] of Object.entries(sessionEnds))
+      for (const [year, entry] of Object.entries(row.adjourned ?? {})) {
+        expect(entry.sourceUrl, `${key} ${year}`).toMatch(/^https:\/\//);
+        expect(entry.quote.length, `${key} ${year}`).toBeGreaterThan(0);
+        expect(entry.dates.length, `${key} ${year}`).toBeGreaterThan(0);
+      }
   });
 
   it("dates session-end states from the day each one's law sets", () => {
@@ -170,30 +221,39 @@ describe("when a state law takes effect by its state's own rule", () => {
     expect(at("US-NM", "2025-03-01")).toBe("2025-06-20");
     // Utah 2025: January 21 to March 7, effective May 7.
     expect(at("US-UT", "2025-03-01")).toBe("2025-05-07");
-    // Oklahoma: the last Friday in May, May 29 in 2026.
-    expect(stateSessionEnds("US-OK", 2026)).toEqual(["2026-05-29"]);
+    // Oklahoma: the last Friday in May, May 28 in 2027.
+    expect(stateSessionEnds("US-OK", 2027)).toEqual(["2027-05-28"]);
     // Maine: the third Wednesday in June (odd) and April (even).
     expect(stateSessionEnds("US-ME", 2025)).toEqual(["2025-06-18"]);
-    expect(stateSessionEnds("US-ME", 2026)).toEqual(["2026-04-15"]);
+    expect(stateSessionEnds("US-ME", 2028)).toEqual(["2028-04-19"]);
     // Florida 2026: January 13 for 60 days, then the sixtieth day after.
     expect(stateSessionEnds("US-FL", 2026)).toEqual(["2026-03-13"]);
     expect(at("US-FL", "2026-03-01")).toBe("2026-05-12");
-    // Idaho: July 1 or sixty days after, whichever is later.
+    // Idaho: July 1 or sixty days after, whichever is later (2026 adjourned
+    // April 2, so July 1).
     expect(at("US-ID", "2026-03-01")).toBe("2026-07-01");
-    // Nebraska: the day after three calendar months (estimated end
-    // April 15, 2026, so July 16).
-    expect(at("US-NE", "2026-03-01")).toBe("2026-07-16");
+    // Nebraska: the day after three calendar months (2026 adjourned April
+    // 17, so July 18).
+    expect(at("US-NE", "2026-03-01")).toBe("2026-07-18");
   });
 
   it("marks a date as estimated when the rule or its session end is", () => {
     // Michigan's rule is read; its session end, set by resolution, is not.
     expect(statuteEffectiveRuleEstimate("US-MI")).toBeNull();
-    expect(statuteEffectiveDateEstimated("US-MI")).toBe(true);
+    expect(
+      statuteEffectiveDateEstimated("US-MI", makeIsoDate("2026-10-01")),
+    ).toBe(true);
     // A legislature that sits all year: a fall act counts from itself.
     expect(at("US-MI", "2026-10-01")).toBe("2026-12-31");
-    expect(statuteEffectiveDateEstimated("US-KS")).toBe(true);
-    expect(statuteEffectiveDateEstimated("US-KY")).toBe(false);
-    expect(statuteEffectiveDateEstimated("US-GA")).toBe(false);
+    expect(
+      statuteEffectiveDateEstimated("US-KS", makeIsoDate("2026-03-01")),
+    ).toBe(true);
+    expect(
+      statuteEffectiveDateEstimated("US-KY", makeIsoDate("2026-03-01")),
+    ).toBe(false);
+    expect(
+      statuteEffectiveDateEstimated("US-GA", makeIsoDate("2026-03-01")),
+    ).toBe(false);
   });
 
   it("dates American Samoa from whichever of its two sessions the act came from", () => {

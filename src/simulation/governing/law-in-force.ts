@@ -125,7 +125,7 @@ export function lawInForce(
       operativeBasis: enactment.effectiveAt
         ? ("enacted-date" as const)
         : stateRuleAt
-          ? stateRuleBasis(placeKey!)
+          ? stateRuleBasis(placeKey!, enactment.resolvedAt)
           : ("game-default" as const),
       origin: "enacted" as const,
       sequence: enactment.sequence,

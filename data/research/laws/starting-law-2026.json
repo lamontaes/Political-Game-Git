@@ -4,7 +4,7 @@
   "asOf": "2026-09-28",
   "defaultOperativeAt": "2000-01-01",
   "effectiveDates": {
-    "about": "When a state law takes effect if the act names no date of its own, as in force on 1/1/2026. Each rule is read from the place's constitution or code, or, where marked estimated, taken from the most common rule among places like it (ESTIMATED FROM AVERAGE). A rule that counts from a session's end reads it from sessionEnds, one table for every place: the latest day its law lets the regular session run, estimated where the law sets no calendar limit. A rule that counts from final passage uses the date the game records for the act (Illinois). Acts that name their own date, emergency clauses, appropriation acts and special sessions are not modeled here.",
+    "about": "When a state law takes effect if the act names no date of its own, as in force on 1/1/2026. Each rule is read from the place's constitution or code, or, where marked estimated, taken from the most common rule among places like it (ESTIMATED FROM AVERAGE). A rule that counts from a session's end reads it from sessionEnds, one table for every place: the day the legislature published as its adjournment for a year whose session has ended (adjourned, read 9/29/2026 for 2026), else the latest day its law lets the regular session run, estimated where the law sets no calendar limit. A rule that counts from final passage uses the date the game records for the act (Illinois). Acts that name their own date, emergency clauses, appropriation acts and special sessions are not modeled here.",
     "rules": {
       "US-AK": {
         "rule": {
@@ -564,7 +564,15 @@
     "sessionEnds": {
       "US-AL": {
         "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "note": "Its rule was not read in days after a session, so its session end was not read either."
+        "note": "Its rule was not read in days after a session, so its session end was not read either.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-04-09"],
+            "sourceUrl": "https://www.legislature.state.al.us/",
+            "quote": "2026 Regular Session adjourned on April 9th, 2026",
+            "readAt": "2026-09-29"
+          }
+        }
       },
       "US-AR": {
         "oddYear": [
@@ -591,7 +599,15 @@
         ],
         "cite": "Ark. Const. art. 5, §§ 5, 17",
         "source": "https://codes.findlaw.com/ar/arkansas-constitution-of-1874/ar-const-art-5-sect-17/",
-        "note": "A regular session in odd years opens on the second Monday in January and may not exceed 60 calendar days unless two-thirds extend it; real sessions usually run longer (2023 ended May 1). The even-year fiscal session is limited to 30 days; the constitution opens it in February, but the legislature has moved it to April by law (2024 opened April 10, 2026 April 8), which is the date used."
+        "note": "A regular session in odd years opens on the second Monday in January and may not exceed 60 calendar days unless two-thirds extend it; real sessions usually run longer (2023 ended May 1). The even-year fiscal session is limited to 30 days; the constitution opens it in February, but the legislature has moved it to April by law (2024 opened April 10, 2026 April 8), which is the date used.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-04-29"],
+            "sourceUrl": "https://www.arkleg.state.ar.us/",
+            "quote": "The Fiscal Session of the 95th General Assembly convened on Wednesday, April 8, 2026 and adjourned sine die on Wednesday, April 29, 2026.",
+            "readAt": "2026-09-29"
+          }
+        }
       },
       "US-AS": {
         "oddYear": [
@@ -642,7 +658,15 @@
         "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
         "cite": "Ariz. Const. art. 4, pt. 2, § 3",
         "source": "https://www.azleg.gov/const/4/3.p2.htm",
-        "note": "Sets only the opening day; no limit on length (2025 ran 169 days)."
+        "note": "Sets only the opening day; no limit on length (2025 ran 169 days).",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-06-13"],
+            "sourceUrl": "https://www.azleg.gov/alispdfs/57leg/2R/House/SummaryComplete.pdf",
+            "quote": "Adjourned Sine Die: June 13, 2026",
+            "readAt": "2026-09-29"
+          }
+        }
       },
       "US-DC": {
         "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
@@ -675,21 +699,53 @@
         ],
         "cite": "Fla. Const. art. III, § 3(b), (d)",
         "source": "https://www.flsenate.gov/Laws/Constitution",
-        "note": "The session opens on the first Tuesday after the first Monday in March in odd years and the second Tuesday after the first Monday in January in even years, and may not exceed 60 consecutive days unless three-fifths extend it."
+        "note": "The session opens on the first Tuesday after the first Monday in March in odd years and the second Tuesday after the first Monday in January in even years, and may not exceed 60 consecutive days unless three-fifths extend it.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-03-13"],
+            "sourceUrl": "https://www.flsenate.gov/usercontent/session/archive/journals/2026/2026-sj-bound-vII.pdf",
+            "quote": "On motion by Senator Passidomo, the Senate adjourned sine die at 3:14 p.m.",
+            "readAt": "2026-09-29"
+          }
+        }
       },
       "US-HI": {
         "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "note": "Its rule was not read in days after a session, so its session end was not read either."
+        "note": "Its rule was not read in days after a session, so its session end was not read either.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-05-08"],
+            "sourceUrl": "https://www.capitol.hawaii.gov/sessions/session2026/OrderOfTheDay/SOD_05-08-26_.HTM",
+            "quote": "INFORMING THE HOUSE AND GOVERNOR THAT THE SENATE IS READY TO ADJOURN SINE DIE.",
+            "readAt": "2026-09-29"
+          }
+        }
       },
       "US-ID": {
         "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
         "cite": "Idaho Const. art. III, § 8(1)",
         "source": "https://legislature.idaho.gov/statutesrules/idconst/ArtIII/Sect8/",
-        "note": "Sets only the opening day; no limit on length was found."
+        "note": "Sets only the opening day; no limit on length was found.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-04-02"],
+            "sourceUrl": "https://legislature.idaho.gov/wp-content/uploads/sessioninfo/2026/sinedie.pdf",
+            "quote": "adjourned Sine Die on April 02, 2026",
+            "readAt": "2026-09-29"
+          }
+        }
       },
       "US-KS": {
         "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "note": "Its rule was not read in days after a session, so its session end was not read either."
+        "note": "Its rule was not read in days after a session, so its session end was not read either.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-04-10"],
+            "sourceUrl": "https://www.kslegislature.gov/b2025_26/bills/download/?apn=b2025_26/year2/ready_for_publication/journal/daily_journal_house_20260410135117.pdf",
+            "quote": "The Legislature having adjourned sine die on April 10, 2026",
+            "readAt": "2026-09-29"
+          }
+        }
       },
       "US-KY": {
         "oddYear": [
@@ -712,7 +768,15 @@
         ],
         "cite": "Ky. Const. § 42",
         "source": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=46",
-        "note": "Even-year sessions adjourn by April 15 and odd-year sessions by March 30, the same limit Kentucky's legislative rule pack holds."
+        "note": "Even-year sessions adjourn by April 15 and odd-year sessions by March 30, the same limit Kentucky's legislative rule pack holds.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-04-15"],
+            "sourceUrl": "https://apps.legislature.ky.gov/record/26rs/record.html",
+            "quote": "Adjourned Wednesday, April 15, 2026, Sine Die.",
+            "readAt": "2026-09-29"
+          }
+        }
       },
       "US-ME": {
         "oddYear": [
@@ -737,7 +801,15 @@
         ],
         "cite": "3 M.R.S. § 2 (required by Me. Const. art. IV, pt. 3, § 1)",
         "source": "https://legislature.maine.gov/statutes/3/title3sec2.html",
-        "note": "The first regular session adjourns no later than the third Wednesday in June and the second no later than the third Wednesday in April; two-thirds may extend either."
+        "note": "The first regular session adjourns no later than the third Wednesday in June and the second no later than the third Wednesday in April; two-thirds may extend either.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-04-29"],
+            "sourceUrl": "https://legislature.maine.gov/house/",
+            "quote": "The Second Regular Session of the 132nd Legislature adjourned SINE DIE on Wednesday, April 29, 2026 at 8:32 PM.",
+            "readAt": "2026-09-29"
+          }
+        }
       },
       "US-MI": {
         "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
@@ -778,7 +850,15 @@
         "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
         "cite": "Neb. Const. art. III, § 10",
         "source": "https://nebraskalegislature.gov/laws/articles.php?article=III-10",
-        "note": "The limit is 90 legislative days in odd years and 60 in even years, which are not calendar days (2025 adjourned June 2)."
+        "note": "The limit is 90 legislative days in odd years and 60 in even years, which are not calendar days (2025 adjourned June 2).",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-04-17"],
+            "sourceUrl": "https://nebraskalegislature.gov/FloorDocs/109/PDF/Journal/r2day60.pdf",
+            "quote": "Senator Hansen moved that the One Hundred Ninth Legislature, Second Session, 2026 Session of the Nebraska Legislature, having finished all business before it, now at 2:57 p.m., adjourn sine die.",
+            "readAt": "2026-09-29"
+          }
+        }
       },
       "US-NM": {
         "oddYear": [
@@ -805,7 +885,15 @@
         ],
         "cite": "N.M. Const. art. IV, § 5(A)",
         "source": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-iv-sect-5/",
-        "note": "The session opens on the third Tuesday in January and may not exceed 60 days in odd years and 30 in even years; it ends at noon on that day (2025: January 21 to March 22)."
+        "note": "The session opens on the third Tuesday in January and may not exceed 60 days in odd years and 30 in even years; it ends at noon on that day (2025: January 21 to March 22).",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-02-19"],
+            "sourceUrl": "https://www.nmlegis.gov/Publications/Session_Dates.pdf",
+            "quote": "2026 ... February 19 Session ends (noon)",
+            "readAt": "2026-09-29"
+          }
+        }
       },
       "US-OK": {
         "oddYear": [
@@ -830,7 +918,15 @@
         ],
         "cite": "Okla. Const. art. V, § 26",
         "source": "https://law.justia.com/constitution/oklahoma/V-26.html",
-        "note": "The session adjourns sine die no later than 5 p.m. on the last Friday in May."
+        "note": "The session adjourns sine die no later than 5 p.m. on the last Friday in May.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-05-14"],
+            "sourceUrl": "https://oksenate.gov/sites/default/files/2026-08/sj20260514.pdf",
+            "quote": "Pursuant to the Howard declaration, the Senate adjourned sine die at 4:15 p.m.",
+            "readAt": "2026-09-29"
+          }
+        }
       },
       "US-TX": {
         "oddYear": [
@@ -876,7 +972,15 @@
         ],
         "cite": "Utah Const. art. VI, § 16(1); Utah Code § 36-3-201",
         "source": "https://le.utah.gov/xcode/ArticleVI/UC_AVI_1800010118000101.pdf",
-        "note": "The session opens on the first Tuesday after the third Monday in January and may not exceed 45 calendar days, not counting holidays; Presidents' Day always falls inside it, so the last day is 45 days after the first (2025: January 21 to March 7)."
+        "note": "The session opens on the first Tuesday after the third Monday in January and may not exceed 45 calendar days, not counting holidays; Presidents' Day always falls inside it, so the last day is 45 days after the first (2025: January 21 to March 7).",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-03-06"],
+            "sourceUrl": "https://le.utah.gov/",
+            "quote": "2026 General Session January 20, 2026 to March 6, 2026",
+            "readAt": "2026-09-29"
+          }
+        }
       },
       "US-WA": {
         "oddYear": [
@@ -903,13 +1007,29 @@
         ],
         "cite": "Wash. Const. art. II, § 12(1); RCW 44.04.010",
         "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=44.04.010",
-        "note": "The session opens on the second Monday in January and may not exceed 105 consecutive days in odd years and 60 in even years (2026: January 12 to March 12)."
+        "note": "The session opens on the second Monday in January and may not exceed 105 consecutive days in odd years and 60 in even years (2026: January 12 to March 12).",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-03-12"],
+            "sourceUrl": "https://leg.wa.gov/",
+            "quote": "The 2026 Regular Session adjourned sine die on March 12",
+            "readAt": "2026-09-29"
+          }
+        }
       },
       "US-WY": {
         "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
         "cite": "Wyo. Const. art. 3, § 6",
         "source": "https://sos.wyo.gov/Forms/Publications/WYConstitution.pdf",
-        "note": "The limit is 40 legislative working days a year, which are not calendar days."
+        "note": "The limit is 40 legislative working days a year, which are not calendar days.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-03-11"],
+            "sourceUrl": "https://wyoleg.gov/MediaRoomDocs/2026%20End%20of%20Session%20Release_03.11.26.pdf",
+            "quote": "The Wyoming Legislature concluded the 2026 Budget Session and adjourned sine die on Wednesday at the State Capitol in Cheyenne",
+            "readAt": "2026-09-29"
+          }
+        }
       }
     }
   },

@@ -236,12 +236,14 @@ export function amendableRuleFieldLabel(field: AmendableRuleField): string {
   return AMENDABLE_RULE_FIELD_LABELS[field];
 }
 
-/** Whether the date the state's effective-date rule gives was read or rests
- * on an estimate (the rule, or the session end it counts from). */
+/** Whether the date the state's effective-date rule gives an act enacted on
+ * `enactedAt` was read or rests on an estimate (the rule, or the session end
+ * it counts from). */
 export function stateRuleBasis(
   jurisdictionKey: string,
+  enactedAt: IsoDate,
 ): "state-rule" | "estimated-state-rule" {
-  return statuteEffectiveDateEstimated(jurisdictionKey)
+  return statuteEffectiveDateEstimated(jurisdictionKey, enactedAt)
     ? "estimated-state-rule"
     : "state-rule";
 }
@@ -577,7 +579,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       operativeBasis: explicit
         ? "enacted-date"
         : stateRuleAt
-          ? stateRuleBasis(`US-${provision.stateUsps}`)
+          ? stateRuleBasis(`US-${provision.stateUsps}`, enactment.resolvedAt)
           : "game-default",
       instrument: "statute",
       level: "state-statute",

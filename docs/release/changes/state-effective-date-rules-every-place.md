@@ -13,10 +13,12 @@ become law, and Colorado's, Delaware's, Guam's and the Virgin Islands' at once.
 North Dakota, Iowa and Rhode Island use a date in the same year, or a set
 number of days once that date has passed.
 
-Seventeen places count from the day their legislature's session ends, which
-each state's constitution or statute limits. A 2026 Kentucky law takes effect
-July 15, 2026, and a 2026 Washington law June 11, 2026. Where a state sets no calendar limit on its session, the game
-uses the typical last day of the others.
+Seventeen places count from the day their legislature's session ends. For
+2026 that is the day each legislature adjourned, and after that the last day
+its constitution or statute allows. A 2026 Kentucky law takes effect July 15,
+2026, a Washington law June 11, and a Maine law July 29. Where a state sets no
+calendar limit and has not adjourned, the game uses the typical last day of
+the others.
 
 Illinois counts from the legislature's final vote, which each new law now
 records: January 1 for a bill passed before June 1, and June 1 of the next
