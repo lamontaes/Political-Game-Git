@@ -175,8 +175,13 @@ function enactedLaw(
     world.policyCatalog?.propositions ?? {},
   ).find((definition) => definition.stableKey === questionKey);
   if (!proposition) return null;
-  const law = lawInForce(world, stateJurisdictionId, proposition.id, onDate);
-  return law?.origin === "enacted" ? law : null;
+  return lawInForce(
+    world,
+    stateJurisdictionId,
+    proposition.id,
+    onDate,
+    "enacted-only",
+  );
 }
 
 interface Spread {

@@ -196,6 +196,37 @@ describe("a state paid leave premium", () => {
     ).toBe("none");
   });
 
+  it("keeps a repeal enacted in play over a program dated to start later", () => {
+    // Virginia's program begins collecting on April 1, 2028; a repeal in
+    // effect from December 1, 2026 comes after the start and governs.
+    const repeal = enacted("US-VA", "no", "2026-12-01");
+    const world = lawWorld([repeal]);
+    expect(paidLeavePremium(world, "US-VA", on("2027-06-01")).kind).toBe(
+      "none",
+    );
+    expect(paidLeavePremium(world, "US-VA", on("2028-05-01"))).toEqual({
+      kind: "ended",
+      lawMeasureIds: [repeal.measure.id],
+    });
+  });
+
+  it("collects a re-adopted program from its own start date", () => {
+    // Maryland re-adopted from July 1, 2026 still collects from January 1,
+    // 2027, at its own 0.45% up to the Social Security wage cap.
+    const readopt = enacted("US-MD", "yes", "2026-07-01");
+    const world = lawWorld([readopt]);
+    expect(paidLeavePremium(world, "US-MD", on("2026-08-01")).kind).toBe(
+      "none",
+    );
+    const maryland = premium(
+      paidLeavePremium(world, "US-MD", on("2027-02-01")),
+    );
+    expect(maryland.employeeRatePerMillion).toBe(4_500);
+    expect(maryland.annualWageCapMinor).toBe(18_450_000);
+    expect(maryland.lawMeasureIds).toEqual([readopt.measure.id]);
+    expect(maryland.estimatedFromAverage).toBeUndefined();
+  });
+
   it("stops at the wage cap and rounds to the cent", () => {
     const minnesota = premium(
       paidLeavePremium(lawWorld(), "US-MN", on("2026-03-15")),

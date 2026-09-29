@@ -11,8 +11,11 @@
  * 2. a "yes" where there was none starts one.
  *
  * Game rules, labeled:
- * - A program the place began with collects from the date its own pages give;
- *   one adopted in play collects from the law's effective date.
+ * - A program the place began with collects from the date its own pages give,
+ *   even where a law enacted in play re-adopts it earlier; one adopted in
+ *   play collects from the law's effective date.
+ * - A law enacted in play always comes after the start, so it governs over
+ *   the program a place began with, including one dated to start later.
  * - A premium that was not read (Rhode Island's pages refuse the container;
  *   Virginia sets its rate in 2027), or a program adopted in play, is
  *   ESTIMATED FROM AVERAGE: the average employee share of the programs read,
@@ -77,28 +80,38 @@ export function paidLeavePremium(
   ).find((definition) => definition.stableKey === PAID_LEAVE_QUESTION);
   if (!state || !proposition) return { kind: "none" };
   const place = PLACES[stateKey];
-  const law = lawInForce(world, state.id, proposition.id, paidAt);
+  // A law enacted in play governs over the program the place began with,
+  // even one dated to start later.
+  const law = lawInForce(
+    world,
+    state.id,
+    proposition.id,
+    paidAt,
+    "enacted-only",
+  );
   const began =
     lawInForceAtStart(world, state.id, proposition.id, ANY_START) === "yes";
-  if (law?.origin === "enacted") {
-    if (law.answer === "no") {
-      const wasCollecting =
-        began && collectsFrom(world, state.id, proposition.id, place, paidAt);
-      return wasCollecting
+  // The program a place began with collects from its own date, whether it
+  // runs under its starting law or a law enacted in play re-adopts it.
+  const collecting =
+    began && collectsFrom(world, state.id, proposition.id, place, paidAt);
+  if (law) {
+    if (law.answer === "no")
+      return collecting
         ? { kind: "ended", lawMeasureIds: [law.measureId] }
         : { kind: "none" };
-    }
-    // Readopted where the place began with a program: its read premium.
-    const read = began ? readPremium(place) : null;
-    return read
-      ? { ...read, lawMeasureIds: [law.measureId] }
-      : {
-          ...estimatedPremium(world, stateKey),
-          lawMeasureIds: [law.measureId],
-        };
+    if (!began)
+      return {
+        ...estimatedPremium(world, stateKey),
+        lawMeasureIds: [law.measureId],
+      };
+    if (!collecting) return { kind: "none" };
+    return {
+      ...(readPremium(place) ?? estimatedPremium(world, stateKey)),
+      lawMeasureIds: [law.measureId],
+    };
   }
-  if (!began || !collectsFrom(world, state.id, proposition.id, place, paidAt))
-    return { kind: "none" };
+  if (!collecting) return { kind: "none" };
   return readPremium(place) ?? estimatedPremium(world, stateKey);
 }
 

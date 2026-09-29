@@ -123,7 +123,7 @@
       "ratePercent": 0.9,
       "employeePercent": 0.45,
       "employerPercent": 0.45,
-      "wageCapDollars": null,
+      "wageCapDollars": 184500,
       "smallEmployerExemption": "Employers with fewer than 15 total employees remit only 50% of the contribution rate (the employee half); no employer share.",
       "contributionsBeginAt": "2027-01-01",
       "sourceUrl": "https://paidleave.maryland.gov/employers/make-contributions/",
@@ -133,7 +133,7 @@
         "maxWeeklyDollars": 1000,
         "sourceUrl": "https://paidleave.maryland.gov/employees/"
       },
-      "notes": "NOTHING is collected in 2026. The 0.9% rate applies to wages paid January 1, 2027 through December 31, 2027; first payment due April 30, 2027. Rate figures are recorded for the 2027 start, not 2026. Wage cap is the Social Security wage cap for the year in question; the 2027 dollar figure is not published on the pages read, so wageCapDollars is null. Total rate cannot exceed 1.2%. MD Labor announces the following year's rate each November starting November 2027. Employer size counted per quarter in 2027, averaged from 2028.",
+      "notes": "NOTHING is collected in 2026. The 0.9% rate applies to wages paid January 1, 2027 through December 31, 2027; first payment due April 30, 2027. Rate figures are recorded for the 2027 start, not 2026. Wage cap is the Social Security wage cap for the year in question; the 2027 dollar figure is not published on the pages read, so wageCapDollars is null. Total rate cannot exceed 1.2%. MD Labor announces the following year's rate each November starting November 2027. Employer size counted per quarter in 2027, averaged from 2028. wageCapDollars is the 2026 Social Security wage base, from the quoted \"up to the Social Security wage cap\"; the base for 2027, when collection begins, has not been read.",
       "dateRead": "2026-09-29"
     },
     "US-ME": {
