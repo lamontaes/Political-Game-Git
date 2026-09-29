@@ -33,7 +33,7 @@ import {
   spendCampaignFundsPersonally,
   UNRESEARCHED_FINDING_EFFECTS,
   UNRESEARCHED_REPEAT_OFFENSE,
-  UNRESEARCHED_STATE_OVERSIGHT,
+  STATE_OVERSIGHT_RULE,
 } from "../simulation/press";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
 import {
@@ -731,7 +731,7 @@ describe("a Washington candidate the player stops playing after taking money", (
 });
 
 describe("a generated oversight body", () => {
-  it("is the same body for a state every time and differs between states", () => {
+  it("names each state's own regulator and gives every state the same rule", () => {
     const { world } = adultLifeIn("OR", "generated-body-or");
     const withStates = ["NM", "GA", "ME"].reduce(
       (w, usps) => ensureStateJurisdiction(w, usps),
@@ -754,23 +754,17 @@ describe("a generated oversight body", () => {
       stateJurisdictionForKey("US-GA")!.id,
     );
     expect(again).toEqual(bodies[1]);
-    const rule = UNRESEARCHED_STATE_OVERSIGHT;
+    // No state is drawn a calendar or a penalty of its own (Rule 0): each
+    // follows the one rule until its own is researched.
     for (const body of bodies) {
-      expect(body.reportReviewDays).toBeGreaterThanOrEqual(
-        rule.reportReviewDays[0],
-      );
-      expect(body.reportReviewDays).toBeLessThanOrEqual(
-        rule.reportReviewDays[1],
-      );
-      expect(body.civilPenaltyPerPaymentMinorUnits).toBeGreaterThanOrEqual(
-        rule.civilPenaltyPerPaymentMinorUnits[0],
-      );
-      expect(body.civilPenaltyPerPaymentMinorUnits).toBeLessThanOrEqual(
-        rule.civilPenaltyPerPaymentMinorUnits[1],
+      expect(body.intervalDays).toEqual(STATE_OVERSIGHT_RULE.intervalDays);
+      expect(body.reportReviewDays).toBe(STATE_OVERSIGHT_RULE.reportReviewDays);
+      expect(body.civilPenaltyPerPaymentMinorUnits).toBe(
+        STATE_OVERSIGHT_RULE.civilPenaltyPerPaymentMinorUnits,
       );
     }
-    expect(
-      new Set(bodies.map((body) => JSON.stringify(body.intervalDays))).size,
-    ).toBeGreaterThan(1);
+    // The federal notice and answer periods, 52 U.S.C. 30109(a)(1).
+    expect(STATE_OVERSIGHT_RULE.intervalDays.intake).toBe(5);
+    expect(STATE_OVERSIGHT_RULE.intervalDays.notice).toBe(15);
   });
 });
