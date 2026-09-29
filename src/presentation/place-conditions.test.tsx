@@ -224,9 +224,50 @@ describe("what a law does to the state, on screen", () => {
       designation: "H.B. 7",
       enactedLabel: "June 1, 2026",
     });
-    expect(laws[0]!.effects.join(" ")).toMatch(/This law (raises|lowers) it by about/);
+    expect(laws[0]!.effects.join(" ")).toMatch(
+      /This law (raises|lowers) it by about/,
+    );
     // Someone who wrote no law has none listed.
     expect(sponsoredLaws(drawn.world, PERSON_ID, null)).toEqual([]);
+  });
+
+  it("a law a later one replaced names the law that now decides", () => {
+    const drawn = worldWithLaw("place-conditions-2");
+    const history = drawn.world.history;
+    const first = history.legislativeMeasures![0]!;
+    const later = {
+      ...first,
+      id: "legislative-measure_later" as EntityId,
+      stableKey: "test:later",
+      sequence: 3,
+      designation: "H.B. 9",
+      shortTitle: "The Later Act",
+    };
+    const world = {
+      ...drawn.world,
+      history: {
+        ...history,
+        legislativeMeasures: [first, later],
+        legislativeEnactments: [
+          ...history.legislativeEnactments!,
+          {
+            ...history.legislativeEnactments![0]!,
+            id: "legislative-enactment_later" as EntityId,
+            stableKey: "test:later:enactment",
+            sequence: 4,
+            measureId: later.id,
+            resolvedAt: makeIsoDate("2027-03-01"),
+            effectiveAt: makeIsoDate("2027-06-01"),
+            outcomeEventId: "event_later" as EntityId,
+          },
+        ],
+      },
+    } as unknown as World;
+    expect(lawConditionSentences(world, MEASURE_ID, null)).toContainEqual(
+      expect.stringMatching(
+        /^The Later Act \(H\.B\. 9\) now decides ".*" here, so this one no longer moves anything\.$/,
+      ),
+    );
   });
 
   it("a bill that is not law says nothing about conditions", () => {
