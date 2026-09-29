@@ -961,36 +961,39 @@ describe("public budgets", () => {
   });
 
   it("a state income tax law changes the income tax from the tax year it takes effect in, as paychecks do, and the next budgets count it once", () => {
-    // Illinois began with a flat income tax; a graduated one takes effect on
-    // March 1, 2026. Paychecks withhold under the law in force on January 1
-    // of the tax year, so the budget collects the change from January 2027.
+    // North Carolina began with a flat income tax by statute; a graduated
+    // one takes effect on March 1, 2026. Paychecks withhold under the law in
+    // force on January 1 of the tax year, so the budget collects the change
+    // from January 2027.
     const graduated = TAX_QUESTION_EFFECTS.find((row) =>
       row.questionKey.endsWith("graduated-income-tax"),
     )!;
-    const withLaw = worldAt("2026-01-05", {
-      laws: [{ question: GRADUATED, answer: "yes", jurisdictionId: illinois }],
-      history: {
-        legislativeEnactments: [
-          {
-            id: "enactment_0" as EntityId,
-            sequence: 1000,
-            measureId: "measure_0" as EntityId,
-            resolvedAt: makeIsoDate("2026-02-01"),
-            outcome: "enacted",
-            effectiveAt: makeIsoDate("2026-03-01"),
-          },
-        ] as unknown as World["history"]["legislativeEnactments"],
-      },
-    });
+    const northCarolina = stateJurisdictionForKey("US-NC")!.id;
+    const enacted = (jurisdictionId: EntityId) =>
+      worldAt("2026-01-05", {
+        laws: [{ question: GRADUATED, answer: "yes", jurisdictionId }],
+        history: {
+          legislativeEnactments: [
+            {
+              id: "enactment_0" as EntityId,
+              sequence: 1000,
+              measureId: "measure_0" as EntityId,
+              resolvedAt: makeIsoDate("2026-02-01"),
+              outcome: "enacted",
+              effectiveAt: makeIsoDate("2026-03-01"),
+            },
+          ] as unknown as World["history"]["legislativeEnactments"],
+        },
+      });
     const without = worldAt("2026-01-05");
-    const run = (world: World) =>
+    const run = (world: World, jurisdictionId: EntityId) =>
       settleAlone(
         world,
-        publicBudgetFor(opened(world), illinois)!,
+        publicBudgetFor(opened(world), jurisdictionId)!,
         "2028-06-01",
       ).government;
-    const lawful = run(withLaw);
-    const flat = run(without);
+    const lawful = run(enacted(northCarolina), northCarolina);
+    const flat = run(without, northCarolina);
     const at = BUDGET_SOURCES.indexOf("individualIncomeTax");
     const month = (government: PublicBudgetGovernment, on: string) =>
       government.months.find((row) => row.month === on)!.revenue[at]!;
@@ -1015,6 +1018,11 @@ describe("public budgets", () => {
       size,
       3,
     );
+    // Illinois's constitution requires one rate, so the same statute there
+    // changes nothing its budget collects.
+    const held = run(enacted(illinois), illinois);
+    const illinoisFlat = run(without, illinois);
+    expect(month(held, "2027-01-01")).toBe(month(illinoisFlat, "2027-01-01"));
   });
 
   it("a state that repeals its income tax collects none from the next tax year, its next budget expects none, and a law restoring it collects again", () => {
