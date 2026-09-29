@@ -71,10 +71,16 @@ A push to `main` runs `.github/workflows/release.yml`, which:
    section at the top of the accepted history in `PATCH_NOTES.md`, records the
    consumed change ids in `docs/release/consumed-changes.json`, and deletes the
    consumed declaration files;
-4. creates the local candidate commit, then **runs the full `npm run validate`
-   against that exact clean commit**, so its build identity is the same commit
-   that may be published;
-5. packages the validated commit as a Git bundle plus a digest-bound manifest;
+4. creates the local candidate commit and packages it as a Git bundle plus a
+   digest-bound manifest;
+5. **runs the full `npm run validate` against that exact bundled commit**, so
+   its build identity is the same commit that may be published. It runs split
+   the way `validate.yml` splits it: `validate:ci-sharded` (everything but the
+   unit suite, the build included) in one job, the unit suite in six shards, and
+   an aggregate that refuses shards that do not cover the whole suite. That job
+   also proves the built client carries the new version. In one job the suite
+   outgrew the 40-minute limit, and every release was cut off before it could
+   publish;
 6. when enabled, gives a separate minimal publisher job write authority. That
    job checks out no repository tree, installs no dependencies, and runs no
    repository code. It verifies the bundle, exact parent/commit/tree identity,
