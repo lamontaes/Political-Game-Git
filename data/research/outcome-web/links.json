@@ -3820,32 +3820,14 @@
         "kind": "linear"
       },
       "size": -0.18,
-      "per": "law in force says yes (1) rather than no (0), as a share of the roads in poor condition, in the first five years",
+      "per": "law in force says yes (1) rather than no (0), as a share of the roads in poor condition, from the end of the first five-year repaving cycle",
       "lagMonths": 60,
       "group": "place",
       "owner": "O",
       "evidence": "provisional",
-      "anchor": "Fix-it-first moves highway capital from new lanes to repair: from the national 45% repair toward the 70% of states with good roads, 55% more repair at the same total. That much more rehabilitation cuts the share of roads in poor condition by about 38% over twenty years, and 47% of that gain comes in the first five: 18% fewer poor roads once the first repaving cycle is done",
+      "anchor": "Fix-it-first moves highway capital from new lanes to repair: from the national 45% repair toward the 70% of states with good roads, 55% more repair at the same total. That much more rehabilitation cuts the share of roads in poor condition by about 38% over twenty years, and 47% of that gain comes in the first five: 18% fewer poor roads once the first repaving cycle is done. Only the five-year step is carried, since a link acts in one step; the further gain over the next fifteen years is left out rather than counted early",
       "source": "Transportation for America, Repair Priorities (2014): states spent $16.5 billion a year repairing roads and $20.4 billion adding lanes in 2009 to 2011 (45% repair); Repair Priorities 2026: states with good roads spend more than $2.35 on repair per $1 on expansion (70% repair). FHWA, 25th Conditions and Performance Report (2024), Exhibits 7-5 and 7-6: raising highway rehabilitation from $31.4 billion to $49.4 billion a year (+57%) cuts the 2038 share of travel on poor pavement from 15.7% to 9.6%, and from $49.4 billion to $64.6 billion (+31%) from 9.6% to 6.2%; Exhibit 8-13: at flat spending 15.8% falls to 11.8% in five years and 7.3% in twenty",
       "range": [-0.3, -0.08]
-    },
-    {
-      "key": "fix-it-first-to-poor-roads-later",
-      "from": "law:us-policy-positions:transportation-infrastructure.fix-it-first",
-      "to": "roads.poor-condition-pct",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.24,
-      "per": "law in force says yes (1) rather than no (0), as a share of the roads still in poor condition after the first five years",
-      "lagMonths": 150,
-      "group": "place",
-      "owner": "O",
-      "evidence": "provisional",
-      "anchor": "The rest of the twenty-year gain: after the first link's 18%, a further 24% of the poor roads left (0.82 x 0.76 = 0.62, 38% fewer in all), counted from the middle of years five to twenty",
-      "source": "Transportation for America, Repair Priorities (2014): states spent $16.5 billion a year repairing roads and $20.4 billion adding lanes in 2009 to 2011 (45% repair); Repair Priorities 2026: states with good roads spend more than $2.35 on repair per $1 on expansion (70% repair). FHWA, 25th Conditions and Performance Report (2024), Exhibits 7-5 and 7-6: raising highway rehabilitation from $31.4 billion to $49.4 billion a year (+57%) cuts the 2038 share of travel on poor pavement from 15.7% to 9.6%, and from $49.4 billion to $64.6 billion (+31%) from 9.6% to 6.2%; Exhibit 8-13: at flat spending 15.8% falls to 11.8% in five years and 7.3% in twenty",
-      "range": [-0.35, -0.1]
     },
     {
       "key": "poor-roads-to-prices",

@@ -13,8 +13,8 @@ import { PLACE_OUTCOME_BASES, placeOutcomesForMonth } from "./place-outcomes";
 
 /*
  * A fix-it-first law moves highway money from new lanes to repair, so fewer
- * roads are rough: 18% fewer after the first five years, 38% fewer by the
- * middle of the second decade. Rough roads cost drivers in repairs, so the
+ * roads are rough: 18% fewer once the first five-year repaving cycle is
+ * done. Rough roads cost drivers in repairs, so the
  * roads a law smoothed lower prices a little. The world is partial and
  * unseeded, so nothing drifts and each link acts at its central size.
  */
@@ -94,11 +94,9 @@ describe("a fix-it-first law and the roads", () => {
     expect(bases["US-GU"]).toBe(18.4);
   });
 
-  it("enacting one smooths the roads after five years and more by year twelve, and repealing one undoes it, everywhere", () => {
+  it("enacting one smooths the roads once the first repaving cycle is done, and repealing one undoes it, everywhere", () => {
     const early = 1 + size("fix-it-first-to-poor-roads");
-    const later = 1 + size("fix-it-first-to-poor-roads-later");
     expect(early).toBeCloseTo(0.82, 9);
-    expect(early * later).toBeCloseTo(0.6232, 4);
     for (const placeKey of places) {
       const id = stateJurisdictionForKey(placeKey)!.id;
       const base = PLACE_OUTCOME_BASES[ROADS]!.places[placeKey]!;
@@ -114,16 +112,11 @@ describe("a fix-it-first law and the roads", () => {
       const at = (month: string) => valueIn(changed, ROADS, placeKey, month);
       // Nothing moves before the first repaving cycle is done.
       expect(at("2031-11-01"), placeKey).toBe(base);
-      const expectedEarly = began ? base / early : base * early;
-      const expectedLater = began
-        ? base / (early * later)
-        : base * early * later;
-      expect(at("2032-02-01"), placeKey).toBeCloseTo(expectedEarly, 1);
-      expect(at("2039-08-01"), placeKey).toBeCloseTo(
-        Math.min(99, expectedLater),
+      expect(at("2032-02-01"), placeKey).toBeCloseTo(
+        Math.min(99, began ? base / early : base * early),
         1,
       );
-      expect(valueIn(kept, ROADS, placeKey, "2039-08-01"), placeKey).toBe(base);
+      expect(valueIn(kept, ROADS, placeKey, "2032-02-01"), placeKey).toBe(base);
     }
   });
 
