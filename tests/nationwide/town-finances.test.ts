@@ -31,7 +31,9 @@ import {
   stepTownFinances,
   townDepositsPerResident,
   townTaxableSales,
+  uninsuredDepositShare,
 } from "../../src/simulation/living-world/town-finances";
+import { FDIC_SMALL_BANK_SHAPES } from "../../src/simulation/living-world/town-bank-shapes.generated";
 import { FDIC_COUNTY_DEPOSITS } from "../../src/simulation/living-world/town-deposits.generated";
 import { areaResidents } from "../../src/simulation/outcome-web/place-outcome-store";
 import { BUDGET_SOURCES } from "../../src/simulation/public-budgets/store";
@@ -338,6 +340,15 @@ describe(
       expect(
         quarter.closing.find((row) => row.organizationId === withoutLine)?.why,
       ).toBe("bank-refused");
+    });
+
+    it("a town bank's uninsured deposits are the real bank's it copies", () => {
+      const bank = Object.values(world.townFinances!.banks)[0]!;
+      const rows = FDIC_SMALL_BANK_SHAPES[bank.shape.state!]!.split(";");
+      const [, , uninsured] = rows[bank.shape.index]!.split(",").map(Number);
+      expect(uninsuredDepositShare(bank.shape)).toBe(uninsured);
+      expect(uninsured).toBeGreaterThan(0);
+      expect(uninsured).toBeLessThan(1);
     });
 
     it("a business without a bank borrows from the town's bank at its next review", () => {

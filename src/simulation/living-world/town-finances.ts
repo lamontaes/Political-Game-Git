@@ -141,8 +141,6 @@ export const TOWN_FINANCE_POLICY = {
     lendingCapitalRatio: 0.07,
     /** PLACEHOLDER: below this capital ratio depositors take fright. */
     frightCapitalRatio: 0.05,
-    /** PLACEHOLDER: the share of deposits that leaves when they do. */
-    uninsuredShare: 0.3,
     /** PLACEHOLDER: how much of a lost cushion it rebuilds a quarter. */
     cushionRebuildPerQuarter: 0.25,
     /**
@@ -180,17 +178,39 @@ export interface BankShape {
   readonly otherAssets: number;
 }
 
-function parseShapes(text: string): { cushion: number; otherAssets: number }[] {
-  return text.split(";").map((pair) => {
-    const [cushion, otherAssets] = pair.split(",").map(Number) as [
+interface ShapeRow {
+  readonly cushion: number;
+  readonly otherAssets: number;
+  readonly uninsured: number;
+}
+
+function parseShapes(text: string): ShapeRow[] {
+  return text.split(";").map((cell) => {
+    const [cushion, otherAssets, uninsured] = cell.split(",").map(Number) as [
+      number,
       number,
       number,
     ];
-    return { cushion, otherAssets };
+    return { cushion, otherAssets, uninsured };
   });
 }
 
-let nationalShapes: { cushion: number; otherAssets: number }[] | null = null;
+let nationalShapes: ShapeRow[] | null = null;
+
+/**
+ * MEASURED: the share of a town bank's deposits beyond the insurance limit,
+ * the real bank's own estimate on its June 30, 2026 call report (FDIC
+ * BankFind, DEPUNINS over DEP). The middle small bank's is about 25%.
+ * Those are the depositors who pull out when they take fright.
+ */
+export function uninsuredDepositShare(shape: BankShape): number {
+  const own = shape.state ? FDIC_SMALL_BANK_SHAPES[shape.state] : undefined;
+  if (own) return parseShapes(own)[shape.index]!.uninsured;
+  nationalShapes ??= Object.keys(FDIC_SMALL_BANK_SHAPES)
+    .sort()
+    .flatMap((key) => parseShapes(FDIC_SMALL_BANK_SHAPES[key]!));
+  return nationalShapes[shape.index]!.uninsured;
+}
 
 /**
  * The real bank a town bank takes the shape of: one of its state's small
@@ -202,7 +222,8 @@ export function drawBankShape(state: string | null, draw: number): BankShape {
   const pool = own ? parseShapes(own) : [];
   if (pool.length >= 5) {
     const index = Math.min(pool.length - 1, Math.floor(draw * pool.length));
-    return { state, index, ...pool[index]! };
+    const { cushion, otherAssets } = pool[index]!;
+    return { state, index, cushion, otherAssets };
   }
   nationalShapes ??= Object.keys(FDIC_SMALL_BANK_SHAPES)
     .sort()
@@ -211,7 +232,8 @@ export function drawBankShape(state: string | null, draw: number): BankShape {
     nationalShapes.length - 1,
     Math.floor(draw * nationalShapes.length),
   );
-  return { state: null, index, ...nationalShapes[index]! };
+  const { cushion, otherAssets } = nationalShapes[index]!;
+  return { state: null, index, cushion, otherAssets };
 }
 
 const round2 = (value: number) => Math.round(value * 100) / 100;
@@ -1073,7 +1095,7 @@ export function stepTownFinances(
     const ratio = assets > 0 ? capital / assets : 0;
     if (ratio < B.frightCapitalRatio && runAt === null) {
       // Its losses show in its public report; the uninsured leave at once.
-      const withdrawals = deposits * B.uninsuredShare;
+      const withdrawals = deposits * uninsuredDepositShare(bank.shape);
       runAt = world.currentDate;
       if (withdrawals > liquid) cause = "depositors-withdrew";
       deposits -= withdrawals;
@@ -1398,7 +1420,7 @@ function failTownBank(
   const ratio = capitalRatio(bank);
   const why =
     cause === "depositors-withdrew"
-      ? `Its losses left capital of ${(ratio * 100).toFixed(1)} percent of its assets, depositors without insurance asked for more than the ${formatDollars(Math.max(0, bank.liquid + bank.deposits * TOWN_FINANCE_POLICY.bank.uninsuredShare))} it could pay out, and it could not pay them.`
+      ? `Its losses left capital of ${(ratio * 100).toFixed(1)} percent of its assets, depositors without insurance asked for more than the ${formatDollars(Math.max(0, bank.liquid + bank.deposits * uninsuredDepositShare(bank.shape)))} it could pay out, and it could not pay them.`
       : `Its losses left capital of ${(ratio * 100).toFixed(1)} percent of its assets, and regulators closed it as the law requires below 2 percent.`;
   const summary = [
     `${name} failed.`,
