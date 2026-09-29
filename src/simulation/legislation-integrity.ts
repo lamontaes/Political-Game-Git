@@ -6,9 +6,12 @@ import {
   chamberByKey,
   committeeByKey,
   floorStageByKey,
+  fractionOf,
   requireKnown,
   resolveRequiredVotes,
+  type LegislativeRulePack,
   type VoteDenominator,
+  type VoteThresholdRule,
 } from "./legislature-rules";
 import { rulePackById } from "./legislature-rule-packs";
 import {
@@ -57,6 +60,38 @@ function assertIdentity(
       `Record sequence must be a non-negative safe integer: ${record.id}`,
     );
   }
+}
+
+/**
+ * The override bar a generated legislature imposed when this vote was taken,
+ * where it differs from the bar it imposes today; null otherwise.
+ *
+ * A generated legislature is the game's own, and its rules can be corrected
+ * under the same pack: on September 29, 2026 the override bar the first
+ * profile drew was replaced by each state's constitution. That profile's
+ * bar was always "N of D of the members elected to each chamber", and a save
+ * made under it records that label. So such a vote is checked against the
+ * rule written in its own record, with every count still recomputed from it;
+ * a researched pack's votes are checked only against the pack.
+ */
+function profileOverrideTakenUnder(
+  pack: LegislativeRulePack,
+  vote: LegislativeVoteRecord,
+  today: VoteThresholdRule,
+): VoteThresholdRule | null {
+  if (pack.basis !== "game-profile" || vote.thresholdLabel === today.label)
+    return null;
+  const drawn = /^(\d+) of (\d+) of the members elected to each chamber$/.exec(
+    vote.thresholdLabel,
+  );
+  if (!drawn || vote.denominatorKind !== "members-elected") return null;
+  return fractionOf(
+    Number(drawn[1]),
+    Number(drawn[2]),
+    "members-elected",
+    vote.thresholdLabel,
+    today.source,
+  );
 }
 
 function denominatorValueFor(
@@ -278,7 +313,9 @@ export function assertLegislationIntegrity(
             `Vote ${vote.id} overrides per chamber, but ${pack.displayName} sits jointly.`,
           );
         }
-        threshold = override.threshold;
+        threshold =
+          profileOverrideTakenUnder(pack, vote, override.threshold) ??
+          override.threshold;
       } else if (vote.purpose === "concurrence") {
         if (pack.interChamber.kind !== "second-chamber") {
           throw new Error(
