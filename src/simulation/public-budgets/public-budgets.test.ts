@@ -17,7 +17,12 @@ import {
   type PublicBudgetStore,
 } from ".";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
-import { MEDIAN_FUNDED_RATIO, MEDIAN_PAID_SHARE } from "./pension-share";
+import {
+  MEDIAN_BENEFIT_SHARE,
+  MEDIAN_FUNDED_RATIO,
+  MEDIAN_NORMAL_COST_SHARE,
+  MEDIAN_PAID_SHARE,
+} from "./pension-share";
 import {
   MEDIAN_RESERVE_DEPOSIT,
   MEDIAN_RESERVE_TARGET,
@@ -435,6 +440,29 @@ describe("public budgets", () => {
     );
   });
 
+  it("a small government that pays its whole contribution records no underpayment from monthly rounding", () => {
+    const world = worldAt("2026-01-05", {
+      laws: [{ question: PENSIONS, answer: "no", jurisdictionId: illinois }],
+    });
+    // A pension the size of a 16-person town's, paid in full: the monthly
+    // payments round to whole dollars and can fall a dollar or two short.
+    const small = {
+      ...publicBudgetFor(opened(world), illinois)!,
+      pension: {
+        ...publicBudgetFor(opened(world), illinois)!.pension,
+        paidShare: 1,
+        liability: 27_076,
+        assets: 19_470,
+      },
+    };
+    const run = settleAlone(world, small, "2027-06-01");
+    expect(
+      run.adjustments.filter(
+        (row) => row.kind === "pension-underpaid" && row.fiscalYear === 2027,
+      ),
+    ).toEqual([]);
+  });
+
   it("each government's pension opens at its own plans' funded ratio, or the median where none is reported", () => {
     const world = opened(
       worldAt("2026-01-05", { places: ["1714000", "county:17031"] }),
@@ -457,6 +485,56 @@ describe("public budgets", () => {
         .publicBudgets!.governments.find((row) => row.key === "US-DC")!
         .openingNotes.join(" "),
     ).toContain("Pension funded ratio: ESTIMATED FROM AVERAGE");
+  });
+
+  it("each government's pension costs and pays out what its own plans report, or the median where they do not", () => {
+    const world = opened(worldAt("2026-01-05", { places: ["1714000"] }));
+    const government = (key: string) =>
+      world.publicBudgets!.governments.find((row) => row.key === key)!;
+    // Public Plans Database, each plan's latest year: Illinois' state plans
+    // owe an employer normal cost of 0.92% of their liability a year and pay
+    // out 5.51%; Chicago's plans 0.51% and 5.60%.
+    const required = (key: string, normalCost: number) => {
+      const { liability, assets } = government(key).pension;
+      return Math.round(liability * normalCost + (liability - assets) / 30);
+    };
+    expect(government("US-IL").years[0]!.pensionRequired).toBe(
+      required("US-IL", 0.0092),
+    );
+    expect(government("place:1714000").years[0]!.pensionRequired).toBe(
+      required("place:1714000", 0.0051),
+    );
+    // Missouri's reporting plans hold less than half its liability, so it
+    // owes the median normal cost; D.C.'s plans are not listed at all.
+    expect(government("US-MO").years[0]!.pensionRequired).toBe(
+      required("US-MO", MEDIAN_NORMAL_COST_SHARE),
+    );
+    const dc = government("US-DC").openingNotes.join(" ");
+    expect(dc).toContain(
+      `Pension normal cost: ${MEDIAN_NORMAL_COST_SHARE} of the liability a year, ESTIMATED FROM AVERAGE`,
+    );
+    expect(dc).toContain(
+      `Benefits paid: ${MEDIAN_BENEFIT_SHARE} of the liability a year, ESTIMATED FROM AVERAGE`,
+    );
+    expect(government("US-IL").openingNotes.join(" ")).toContain(
+      "Benefits paid: 0.0551 of the liability a year, as its own plans reported",
+    );
+
+    // At the year's close the liability grows by the plans' own normal cost
+    // and both it and the assets shrink by their own benefits: the opening
+    // year ran six months, January to June.
+    const state = government("US-IL");
+    const closed = settleAlone(worldAt("2026-01-05"), state, "2026-07-01")
+      .government.pension;
+    const { liability } = state.pension;
+    const half = 6 / 12;
+    expect(closed.liability).toBe(
+      Math.round(
+        liability * (1 + 0.07 * half) +
+          liability * 0.0092 * half -
+          liability * 0.0551 * half,
+      ),
+    );
   });
 
   it("each government's pension share starts from its own reported payment, or the median where none is reported, and holds", () => {

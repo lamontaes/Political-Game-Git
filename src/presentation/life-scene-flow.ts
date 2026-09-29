@@ -892,32 +892,6 @@ export function walkOpeningNeighborhood(
     : next;
 }
 
-/**
- * An arrival that was made for a scheduled activity stops naming where the
- * player is once every activity it was made for has ended before now. A
- * meeting finished last January does not keep the player in its room a year
- * later. An activity ending at this very instant still counts: the player has
- * just left it and its return route reads this place. An arrival that belongs
- * to no scheduled activity (a walk, an opening scene) is never stale.
- */
-function arrivalStillHolds(
-  world: World,
-  arrival: World["history"]["events"][number],
-): boolean {
-  if (arrival.type !== "life.scene.arrived") return true;
-  const activities = world.history.scheduledActivities.filter((activity) =>
-    arrival.involvedEntityIds.includes(activity.id),
-  );
-  if (!activities.length) return true;
-  return activities.some((activity) => {
-    const state = scheduledActivityState(world, activity.id);
-    return (
-      (state.status !== "completed" && state.status !== "cancelled") ||
-      compareSimulationMoments(state.end, world.currentMoment) >= 0
-    );
-  });
-}
-
 /** Scene-family selection hint for the root owner, read from actual scene/arrival records. */
 export function openingLifeLocation(world: World, personId: EntityId) {
   return (
@@ -925,8 +899,7 @@ export function openingLifeLocation(world: World, personId: EntityId) {
       .filter(
         (event) =>
           (event.type === OPEN || event.type === "life.scene.arrived") &&
-          event.involvedEntityIds.includes(personId) &&
-          arrivalStillHolds(world, event),
+          event.involvedEntityIds.includes(personId),
       )
       .at(-1)?.context.location ?? null
   );

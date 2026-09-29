@@ -1,0 +1,513 @@
+{
+  "source": "The Book of the States 2023, Table 3.3: The Legislators: Numbers, Terms and Party Affiliations: 2023",
+  "publisher": "The Council of State Governments",
+  "url": "https://bookofthestates.org/tables/2023-3-3/",
+  "retrievedAt": "2026-09-29",
+  "note": "Seat totals as the table gives them. A chamber the table marks U does not exist (a one-house legislature); its one chamber is listed as unicameralSeats. Row keys are postal codes.",
+  "rows": [
+    {
+      "usps": "AK",
+      "name": "Alaska",
+      "senateTotalCell": "20",
+      "houseTotalCell": "40",
+      "upperSeats": 20,
+      "lowerSeats": 40,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "AL",
+      "name": "Alabama",
+      "senateTotalCell": "35",
+      "houseTotalCell": "105",
+      "upperSeats": 35,
+      "lowerSeats": 105,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "AR",
+      "name": "Arkansas",
+      "senateTotalCell": "35",
+      "houseTotalCell": "100",
+      "upperSeats": 35,
+      "lowerSeats": 100,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "AS",
+      "name": "American Samoa",
+      "senateTotalCell": "18 (j)",
+      "houseTotalCell": "21 (j)",
+      "upperSeats": 18,
+      "lowerSeats": 21,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "AZ",
+      "name": "Arizona",
+      "senateTotalCell": "30",
+      "houseTotalCell": "60",
+      "upperSeats": 30,
+      "lowerSeats": 60,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "CA",
+      "name": "California",
+      "senateTotalCell": "40",
+      "houseTotalCell": "80",
+      "upperSeats": 40,
+      "lowerSeats": 80,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "CO",
+      "name": "Colorado",
+      "senateTotalCell": "35",
+      "houseTotalCell": "65",
+      "upperSeats": 35,
+      "lowerSeats": 65,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "CT",
+      "name": "Connecticut",
+      "senateTotalCell": "36",
+      "houseTotalCell": "151",
+      "upperSeats": 36,
+      "lowerSeats": 151,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "DC",
+      "name": "Dist. of Columbia (i)",
+      "senateTotalCell": "13",
+      "houseTotalCell": "U",
+      "upperSeats": null,
+      "lowerSeats": null,
+      "unicameralSeats": 13
+    },
+    {
+      "usps": "DE",
+      "name": "Delaware",
+      "senateTotalCell": "21",
+      "houseTotalCell": "41",
+      "upperSeats": 21,
+      "lowerSeats": 41,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "FL",
+      "name": "Florida",
+      "senateTotalCell": "40",
+      "houseTotalCell": "120",
+      "upperSeats": 40,
+      "lowerSeats": 120,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "GA",
+      "name": "Georgia",
+      "senateTotalCell": "56",
+      "houseTotalCell": "180",
+      "upperSeats": 56,
+      "lowerSeats": 180,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "GU",
+      "name": "Guam",
+      "senateTotalCell": "15",
+      "houseTotalCell": "U",
+      "upperSeats": null,
+      "lowerSeats": null,
+      "unicameralSeats": 15
+    },
+    {
+      "usps": "HI",
+      "name": "Hawaii",
+      "senateTotalCell": "25",
+      "houseTotalCell": "51",
+      "upperSeats": 25,
+      "lowerSeats": 51,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "IA",
+      "name": "Iowa",
+      "senateTotalCell": "50",
+      "houseTotalCell": "100",
+      "upperSeats": 50,
+      "lowerSeats": 100,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "ID",
+      "name": "Idaho",
+      "senateTotalCell": "35",
+      "houseTotalCell": "70",
+      "upperSeats": 35,
+      "lowerSeats": 70,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "IL",
+      "name": "Illinois",
+      "senateTotalCell": "59",
+      "houseTotalCell": "118",
+      "upperSeats": 59,
+      "lowerSeats": 118,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "IN",
+      "name": "Indiana",
+      "senateTotalCell": "50",
+      "houseTotalCell": "100",
+      "upperSeats": 50,
+      "lowerSeats": 100,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "KS",
+      "name": "Kansas",
+      "senateTotalCell": "40",
+      "houseTotalCell": "125",
+      "upperSeats": 40,
+      "lowerSeats": 125,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "KY",
+      "name": "Kentucky",
+      "senateTotalCell": "38",
+      "houseTotalCell": "100",
+      "upperSeats": 38,
+      "lowerSeats": 100,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "LA",
+      "name": "Louisiana",
+      "senateTotalCell": "39",
+      "houseTotalCell": "105",
+      "upperSeats": 39,
+      "lowerSeats": 105,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "MA",
+      "name": "Massachusetts",
+      "senateTotalCell": "40",
+      "houseTotalCell": "160",
+      "upperSeats": 40,
+      "lowerSeats": 160,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "MD",
+      "name": "Maryland",
+      "senateTotalCell": "47",
+      "houseTotalCell": "141",
+      "upperSeats": 47,
+      "lowerSeats": 141,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "ME",
+      "name": "Maine",
+      "senateTotalCell": "35",
+      "houseTotalCell": "151",
+      "upperSeats": 35,
+      "lowerSeats": 151,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "MI",
+      "name": "Michigan",
+      "senateTotalCell": "38",
+      "houseTotalCell": "110",
+      "upperSeats": 38,
+      "lowerSeats": 110,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "MN",
+      "name": "Minnesota",
+      "senateTotalCell": "67",
+      "houseTotalCell": "134",
+      "upperSeats": 67,
+      "lowerSeats": 134,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "MO",
+      "name": "Missouri",
+      "senateTotalCell": "34",
+      "houseTotalCell": "163",
+      "upperSeats": 34,
+      "lowerSeats": 163,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "MP",
+      "name": "CNMI**",
+      "senateTotalCell": "9",
+      "houseTotalCell": "20",
+      "upperSeats": 9,
+      "lowerSeats": 20,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "MS",
+      "name": "Mississippi",
+      "senateTotalCell": "52",
+      "houseTotalCell": "122",
+      "upperSeats": 52,
+      "lowerSeats": 122,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "MT",
+      "name": "Montana",
+      "senateTotalCell": "50",
+      "houseTotalCell": "100",
+      "upperSeats": 50,
+      "lowerSeats": 100,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "NC",
+      "name": "North Carolina",
+      "senateTotalCell": "50",
+      "houseTotalCell": "120",
+      "upperSeats": 50,
+      "lowerSeats": 120,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "ND",
+      "name": "North Dakota",
+      "senateTotalCell": "47",
+      "houseTotalCell": "94",
+      "upperSeats": 47,
+      "lowerSeats": 94,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "NE",
+      "name": "Nebraska",
+      "senateTotalCell": "49",
+      "houseTotalCell": "U",
+      "upperSeats": null,
+      "lowerSeats": null,
+      "unicameralSeats": 49
+    },
+    {
+      "usps": "NH",
+      "name": "New Hampshire",
+      "senateTotalCell": "24",
+      "houseTotalCell": "400",
+      "upperSeats": 24,
+      "lowerSeats": 400,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "NJ",
+      "name": "New Jersey",
+      "senateTotalCell": "40",
+      "houseTotalCell": "80",
+      "upperSeats": 40,
+      "lowerSeats": 80,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "NM",
+      "name": "New Mexico",
+      "senateTotalCell": "42",
+      "houseTotalCell": "70",
+      "upperSeats": 42,
+      "lowerSeats": 70,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "NV",
+      "name": "Nevada",
+      "senateTotalCell": "21",
+      "houseTotalCell": "42",
+      "upperSeats": 21,
+      "lowerSeats": 42,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "NY",
+      "name": "New York",
+      "senateTotalCell": "63",
+      "houseTotalCell": "150",
+      "upperSeats": 63,
+      "lowerSeats": 150,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "OH",
+      "name": "Ohio",
+      "senateTotalCell": "33",
+      "houseTotalCell": "99",
+      "upperSeats": 33,
+      "lowerSeats": 99,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "OK",
+      "name": "Oklahoma",
+      "senateTotalCell": "48",
+      "houseTotalCell": "101",
+      "upperSeats": 48,
+      "lowerSeats": 101,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "OR",
+      "name": "Oregon",
+      "senateTotalCell": "30",
+      "houseTotalCell": "60",
+      "upperSeats": 30,
+      "lowerSeats": 60,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "PA",
+      "name": "Pennsylvania",
+      "senateTotalCell": "50",
+      "houseTotalCell": "203",
+      "upperSeats": 50,
+      "lowerSeats": 203,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "PR",
+      "name": "Puerto Rico",
+      "senateTotalCell": "27 (n)",
+      "houseTotalCell": "51 (n)",
+      "upperSeats": 27,
+      "lowerSeats": 51,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "RI",
+      "name": "Rhode Island",
+      "senateTotalCell": "38",
+      "houseTotalCell": "75",
+      "upperSeats": 38,
+      "lowerSeats": 75,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "SC",
+      "name": "South Carolina",
+      "senateTotalCell": "46",
+      "houseTotalCell": "124",
+      "upperSeats": 46,
+      "lowerSeats": 124,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "SD",
+      "name": "South Dakota",
+      "senateTotalCell": "35",
+      "houseTotalCell": "70",
+      "upperSeats": 35,
+      "lowerSeats": 70,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "TN",
+      "name": "Tennessee",
+      "senateTotalCell": "33",
+      "houseTotalCell": "99",
+      "upperSeats": 33,
+      "lowerSeats": 99,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "TX",
+      "name": "Texas",
+      "senateTotalCell": "31",
+      "houseTotalCell": "150",
+      "upperSeats": 31,
+      "lowerSeats": 150,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "UT",
+      "name": "Utah",
+      "senateTotalCell": "29",
+      "houseTotalCell": "75",
+      "upperSeats": 29,
+      "lowerSeats": 75,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "VA",
+      "name": "Virginia",
+      "senateTotalCell": "40",
+      "houseTotalCell": "100",
+      "upperSeats": 40,
+      "lowerSeats": 100,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "VI",
+      "name": "U.S. Virgin Islands",
+      "senateTotalCell": "15",
+      "houseTotalCell": "U",
+      "upperSeats": null,
+      "lowerSeats": null,
+      "unicameralSeats": 15
+    },
+    {
+      "usps": "VT",
+      "name": "Vermont",
+      "senateTotalCell": "30",
+      "houseTotalCell": "150",
+      "upperSeats": 30,
+      "lowerSeats": 150,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "WA",
+      "name": "Washington",
+      "senateTotalCell": "49",
+      "houseTotalCell": "98",
+      "upperSeats": 49,
+      "lowerSeats": 98,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "WI",
+      "name": "Wisconsin",
+      "senateTotalCell": "33",
+      "houseTotalCell": "99 (h)",
+      "upperSeats": 33,
+      "lowerSeats": 99,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "WV",
+      "name": "West Virginia",
+      "senateTotalCell": "34",
+      "houseTotalCell": "100",
+      "upperSeats": 34,
+      "lowerSeats": 100,
+      "unicameralSeats": null
+    },
+    {
+      "usps": "WY",
+      "name": "Wyoming",
+      "senateTotalCell": "31",
+      "houseTotalCell": "62",
+      "upperSeats": 31,
+      "lowerSeats": 62,
+      "unicameralSeats": null
+    }
+  ]
+}

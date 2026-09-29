@@ -3,20 +3,20 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 705,
+    "markers": 704,
     "byKind": {
       "unresearched": 220,
-      "placeholder": 374,
+      "placeholder": 373,
       "blanket": 126
     },
     "byPath": {
-      "other": 420,
+      "other": 419,
       "money": 74,
       "law": 123,
       "government": 88
     },
-    "withoutQuestion": 414,
-    "questionNotFiled": 12,
+    "withoutQuestion": 412,
+    "questionNotFiled": 13,
     "moneyOrLawQuestions": 56
   },
   "markers": [
@@ -375,15 +375,6 @@
       "file": "src/player/OrdinaryMeetingPanel.tsx",
       "line": 267,
       "text": "{/* PLACEHOLDER(overnight): The canonical writer currently uses a 15-minute visit. */}",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/player/ShellNav.tsx",
-      "line": 130,
-      "text": "// PLACEHOLDER(overnight): Verify these shortcut keys against desktop and",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -2614,7 +2605,7 @@
     },
     {
       "file": "src/simulation/justice/clemency.ts",
-      "line": 85,
+      "line": 86,
       "text": "* PLACEHOLDER: boards, councils, cabinet members and courts are not seated",
       "kinds": ["placeholder"],
       "path": "other",
@@ -2623,7 +2614,7 @@
     },
     {
       "file": "src/simulation/justice/clemency.ts",
-      "line": 91,
+      "line": 92,
       "text": "* PLACEHOLDER (hand-set, not measured). How a body whose members the game has",
       "kinds": ["placeholder"],
       "path": "other",
@@ -2632,7 +2623,7 @@
     },
     {
       "file": "src/simulation/justice/clemency.ts",
-      "line": 109,
+      "line": 110,
       "text": "* PLACEHOLDER (hand-set): a sentence this close to its end is not worth a",
       "kinds": ["placeholder"],
       "path": "other",
@@ -2641,7 +2632,7 @@
     },
     {
       "file": "src/simulation/justice/clemency.ts",
-      "line": 601,
+      "line": 602,
       "text": "* The case-record answer of a body the game has not seated (PLACEHOLDER; see",
       "kinds": ["placeholder"],
       "path": "other",
@@ -2650,8 +2641,17 @@
     },
     {
       "file": "src/simulation/justice/clemency.ts",
-      "line": 860,
+      "line": 861,
       "text": ": // PLACEHOLDER: an appointed board's size is not in the table yet;",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/justice/jail-absence.ts",
+      "line": 16,
+      "text": "* PLACEHOLDER (hand-set): the employer holds the job through the term. No",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3145,7 +3145,7 @@
     },
     {
       "file": "src/simulation/living-world/local-elections.ts",
-      "line": 99,
+      "line": 100,
       "text": "* PLACEHOLDERS, pending `local-election-behavior`:",
       "kinds": ["placeholder"],
       "path": "government",
@@ -3303,6 +3303,15 @@
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/town-rent.ts",
+      "line": 1432,
+      "text": "* record. HARDWIRED, a PLACEHOLDER(research: who-lets-homes).",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "who-lets-homes",
       "researchQuestionFiled": false
     },
     {
@@ -4216,7 +4225,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 524,
+      "line": 531,
       "text": "export const MUNICIPAL_EXECUTIVE_PLACEHOLDER_ID =",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4225,7 +4234,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 539,
+      "line": 546,
       "text": "* PLACEHOLDER, pending `dc-congressional-review-day-count`: the days counted",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4234,7 +4243,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 569,
+      "line": 576,
       "text": "* PLACEHOLDER, pending `dc-congressional-review-day-count`: an act in play",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4243,7 +4252,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 951,
+      "line": 960,
       "text": "// PLACEHOLDER, pending `dc-mayor-action-on-council-acts`: an executive the",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4252,7 +4261,7 @@
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "line": 959,
+      "line": 968,
       "text": "rationale: `${MUNICIPAL_EXECUTIVE_PLACEHOLDER_ID}: signed on the last day to act; how this executive decides is not modeled.`,",
       "kinds": ["placeholder"],
       "path": "law",
@@ -4306,8 +4315,8 @@
     },
     {
       "file": "src/simulation/nationwide-world/district-of-columbia-council-opening.ts",
-      "line": 40,
-      "text": "* PLACEHOLDER, pending `dc-council-membership-at-the-opening`: ages are drawn",
+      "line": 35,
+      "text": "* PLACEHOLDER, pending `dc-council-membership-at-the-opening`: nobody is given",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "dc-council-membership-at-the-opening",
@@ -6006,26 +6015,8 @@
       "researchQuestionFiled": false
     },
     {
-      "file": "src/simulation/public-budgets/month.ts",
-      "line": 732,
-      "text": "note: \"The balance above the reserve target (5% of a year's spending, PLACEHOLDER) was carried into the new year and is spent across it, once.\",",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/public-budgets/month.ts",
-      "line": 742,
-      "text": "note: \"The reserve is below its required floor, so the adopted budget sets a deposit aside (PLACEHOLDER floor and pace).\",",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 63,
+      "line": 67,
       "text": "* 3. A county or city takes its PLACEHOLDER share of its state's local",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6034,7 +6025,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 66,
+      "line": 70,
       "text": "*    a local government's are its state's shares of spending (PLACEHOLDER).",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6043,8 +6034,8 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 517,
-      "text": "/** The opening pension and its actuarial contribution. PLACEHOLDER. */",
+      "line": 525,
+      "text": "* PLACEHOLDER.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -6052,7 +6043,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 681,
+      "line": 691,
       "text": "? \"Opening reserve: NASBO has no figure, so the national median rainy-day share of spending (PLACEHOLDER).\"",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6061,7 +6052,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 792,
+      "line": 802,
       "text": "? `Census 2022 local-government figures per resident in ${base.name}, the ${level} share of each program (PLACEHOLDER table, research: local-government-finances",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6070,7 +6061,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 793,
+      "line": 803,
       "text": ": `ESTIMATED FROM AVERAGE: Census publishes no local-government finances for ${base.name}, so the national average per resident (the 50 states and D.C., weighte",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6079,7 +6070,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 795,
+      "line": 805,
       "text": "\"Opening balance and reserve: the state's general fund balance and rainy-day shares of spending (PLACEHOLDER, research: local-government-finances-by-type).\",",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6088,8 +6079,8 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 888,
-      "text": "\"Pension: liability, funded ratio and contribution are PLACEHOLDER (research: public-pension-funding-by-state), carved out of salary-paying programs.\",",
+      "line": 907,
+      "text": "\"Pension: the liability's size against spending is PLACEHOLDER (research: public-pension-funding-by-state); the contribution is carved out of salary-paying prog",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "public-pension-funding-by-state",
@@ -6097,7 +6088,7 @@
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
-      "line": 895,
+      "line": 917,
       "text": "\"Fiscal year: the state's start (PLACEHOLDER, research: local-government-finances-by-type).\",",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6160,7 +6151,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 72,
+      "line": 71,
       "text": "* is drawn next, then cuts close the rest. PLACEHOLDER order and size,",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6169,7 +6160,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 79,
+      "line": 78,
       "text": "* (real output times prices). PLACEHOLDER, research:",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6178,7 +6169,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 99,
+      "line": 98,
       "text": "* \"yes\" becomes \"no\", each as a share of the source. Null: not researched",
       "kinds": ["unresearched"],
       "path": "other",
@@ -6187,7 +6178,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 119,
+      "line": 118,
       "text": "\"Not researched: a state with no income tax collects none, so adopting one needs a level, not a share.\",",
       "kinds": ["unresearched"],
       "path": "other",
@@ -6196,7 +6187,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 140,
+      "line": 139,
       "text": "basis: \"Not researched.\",",
       "kinds": ["unresearched"],
       "path": "other",
@@ -6205,7 +6196,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 147,
+      "line": 146,
       "text": "basis: \"Not researched: a cap slows growth rather than moving a level.\",",
       "kinds": ["unresearched"],
       "path": "other",

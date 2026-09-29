@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import { storyLeads } from "../press/desk";
+import { jailTermOn } from "../justice/jail-terms";
 import { advanceWorld, assertWorldIntegrity } from "../world";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import {
@@ -23,6 +24,7 @@ import {
   UNRESEARCHED_LOCAL_CRIME,
 } from "./index";
 import { arrestReferral } from "./producer";
+import { UNRESEARCHED_OFFENDERS } from "./offenders";
 import { referForProsecution } from "../justice/prosecution";
 
 const LONG = 900_000;
@@ -310,6 +312,56 @@ describe("ordinary local crime", () => {
       expect(JSON.stringify(sampleMonthlyCrime(life.world, month))).toBe(
         JSON.stringify(sampleMonthlyCrime(life.world, month)),
       );
+    },
+    LONG,
+  );
+  it(
+    "police arrest a named resident the offense points to, and prosecutors take the case",
+    () => {
+      const life = open("probe");
+      const world = advanceWorld(
+        life.world,
+        400,
+        createCampaignElectionTransitionRegistry(),
+      );
+      const arrests = world.history.events.filter(
+        (event) => event.type === CRIME_EVENT_TYPES.arrest,
+      );
+      expect(arrests.length).toBeGreaterThan(0);
+      const referrals = world.history.events.filter(
+        (event) => event.type === "justice.prosecution-referred",
+      );
+      for (const arrest of arrests) {
+        const offender = arrest.participants.find(
+          (row) => row.role === "focus:subject",
+        )!;
+        expect(offender).toBeDefined();
+        expect(offender.personId).not.toBe(life.playerPersonId);
+        const person = world.people[offender.personId]!;
+        expect(person.homeJurisdictionId).toBe(arrest.jurisdictionId);
+        expect(
+          ageOnDate(person.birthDate, arrest.occurredAt),
+        ).toBeGreaterThanOrEqual(UNRESEARCHED_OFFENDERS.youngestCharged);
+        expect(arrest.summary).toContain(personName(person));
+        // The circumstances that pointed to them ride on the record.
+        expect(offender.detail).toMatch(/^Arrested; /);
+        // Nobody is arrested for an offense while serving a jail term.
+        expect(
+          jailTermOn(world, offender.personId, arrest.occurredAt),
+        ).toBeNull();
+        expect(
+          referrals.some(
+            (referral) =>
+              referral.participants.some(
+                (row) => row.personId === offender.personId,
+              ) && referral.tags.includes(`justice.basis-event:${arrest.id}`),
+          ),
+        ).toBe(true);
+      }
+      // A referral goes on to a charge.
+      expect(
+        world.history.events.some((event) => event.type === "justice.charged"),
+      ).toBe(true);
     },
     LONG,
   );
