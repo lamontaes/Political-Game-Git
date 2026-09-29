@@ -1,9 +1,14 @@
 import {
+  FAMILY_SHAPE_V2,
+  type FamilyShapeVersion,
+} from "../simulation/family-shape";
+import {
   generateContextualCharacterHistory,
   type EarlierLifeGenerationVersion,
 } from "../simulation/contextual-character-history";
 import {
   CHILDHOOD_GENERATION_V2,
+  establishDrawnAdultFamily,
   establishPreStartAdultHistory,
   establishPreStartChildHistory,
   type ChildhoodGenerationVersion,
@@ -192,6 +197,8 @@ export interface ProductionWorldInput {
   readonly familyBirthdayVersion?: FamilyBirthdayVersion;
   /** Absent keeps an old replay's parents unlinked to each other. */
   readonly parentPartnerVersion?: ParentPartnerVersion;
+  /** Absent keeps an old replay's fixed prior-year family. */
+  readonly familyShapeVersion?: FamilyShapeVersion;
 }
 
 /**
@@ -369,6 +376,17 @@ export function buildProductionWorld(
     nameCorpusVersion,
     input.preStartYear !== undefined,
   );
+  // An adult New Game start draws the rest of the family around the parent
+  // the earlier life recorded. The prior-year start draws its own below.
+  if (
+    input.familyShapeVersion === FAMILY_SHAPE_V2 &&
+    !input.preStartYear &&
+    ageOnDate(player.birthDate, world.currentDate) >= DEPENDENT_AGE_CEILING
+  )
+    world = establishDrawnAdultFamily(world, {
+      personId: player.id,
+      jurisdictionId: jurisdiction.id,
+    });
   if (
     input.preStartYear &&
     ageOnDate(player.birthDate, world.currentDate) < 18
@@ -400,6 +418,9 @@ export function buildProductionWorld(
       employerName,
       employerFormedAt: employer.organization.formedAt,
       monthlyWageMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,
+      ...(input.familyShapeVersion === undefined
+        ? {}
+        : { familyShapeVersion: input.familyShapeVersion }),
     });
     world = ensureStartingPersonalMoney(world, player.id).world;
   }
@@ -568,6 +589,9 @@ export function finalizePreStartPlayer(
       employerName,
       employerFormedAt: employer.organization.formedAt,
       monthlyWageMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,
+      ...(input.familyShapeVersion === undefined
+        ? {}
+        : { familyShapeVersion: input.familyShapeVersion }),
     });
     world = ensureStartingPersonalMoney(world, player.id).world;
   }

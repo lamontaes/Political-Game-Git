@@ -1,6 +1,10 @@
 import { evaluateDecision } from "../decisions";
 import { requireMeasure } from "../legislation";
-import { memberVoteConsiderations } from "../legislative-member-decisions";
+import {
+  memberVoteConsiderations,
+  withParts,
+} from "../legislative-member-decisions";
+import { measureAnswersAt } from "../vote-bundle";
 import { principleVoteConsideration } from "./officeholder-principles";
 import type { MemberVoteQuestion } from "../legislative-member-decisions";
 import type { SeatedBody, SeatedMember } from "../legislation-scenarios";
@@ -182,9 +186,43 @@ export function decideChamberVote(
       return party ? [party] : [];
     }),
   );
+  // On an amendment a member offered, the cue comes from the amendment's
+  // author: the author votes for their own amendment, the author's party
+  // with them. GAME ASSUMPTION (Build 25, hand-set until the research on
+  // how floor amendments are decided is read): an amendment one party's
+  // member offers to the other party's bill is a contest between the
+  // parties, as the bill's floor manager opposes it.
+  const author =
+    input.question.question.purpose === "amendment"
+      ? (input.question.offeredBy ?? null)
+      : null;
+  const cueSponsor = author ?? measure.sponsorPersonId;
+  const cueCosponsors = author ? [] : cosponsors;
+  const cueParties = author
+    ? new Set(
+        [partyOf(author)].filter((party): party is string => party !== null),
+      )
+    : sponsorParties;
+  const acrossTheAisle =
+    author !== null &&
+    author !== measure.sponsorPersonId &&
+    measure.sponsorPersonId !== null &&
+    partyOf(author) !== partyOf(measure.sponsorPersonId);
   const contested =
-    input.contested ?? input.question.question.purpose === "veto-override";
+    input.contested ??
+    (input.question.question.purpose === "veto-override" || acrossTheAisle);
   const cutoff = currentHistoricalCutoff(world);
+  // What the question puts on the table: an amendment's own sections, or the
+  // bill as it reads (and would read, for a prediction), sections an adopted
+  // amendment carried in included (Build 25 step 1).
+  const asked = input.question.question;
+  const answersOnTable =
+    asked.purpose === "amendment" || input.question.pendingChange
+      ? (input.question.pendingChange?.answers ?? [])
+      : withParts(
+          measureAnswersAt(world, measure.id, undefined, "all"),
+          input.question.billAsItWouldRead ?? [],
+        );
   return input.members.map((member): LegislativeVoteDisposition => {
     if (member.personId === null) {
       return {
@@ -217,15 +255,23 @@ export function decideChamberVote(
         (consideration) =>
           consideration.stableKey !== "member:nothing-decisive",
       ),
-      ...[principleVoteConsideration(world, member.personId, measure)].filter(
-        (consideration) => consideration !== null,
-      ),
+      // GAME ASSUMPTION (Build 25): a member's principles are what they are
+      // known to stand for, so a colleague predicting the vote reads them;
+      // a member's private views on a question are not known and are not.
+      ...[
+        principleVoteConsideration(
+          world,
+          member.personId,
+          measure,
+          answersOnTable,
+        ),
+      ].filter((consideration) => consideration !== null),
       ...partyCue(
         member.personId,
         partyOf(member.personId),
-        measure.sponsorPersonId,
-        cosponsors,
-        sponsorParties,
+        cueSponsor,
+        cueCosponsors,
+        cueParties,
         contested,
       ),
     ];

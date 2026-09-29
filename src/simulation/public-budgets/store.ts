@@ -125,6 +125,19 @@ export interface AdoptedBudget {
   /** The nominal economy index the expected revenue was set at, or null. */
   readonly economyAtAdoption: number | null;
   readonly laws: Readonly<Record<BudgetLawName, BudgetLawReading>>;
+  /**
+   * The balance above the reserve target, carried into this year and spent
+   * across it (Claude CTO, 11:54 p.m. ruling of September 28, 2026). It is
+   * one-time: the next budget does not build it into its base. Absent: none.
+   */
+  readonly carriedBalance?: number;
+  /**
+   * A county's or city's: its state's yearly spending on aid to local
+   * governments when this budget was adopted. Aid from the state follows the
+   * state's actual spending against it. Absent or null: a state, or a state
+   * that keeps no budget, and aid stays as adopted.
+   */
+  readonly stateLocalAidAtAdoption?: number | null;
 }
 
 /** One settled month. Arrays align to BUDGET_SOURCES and BUDGET_PROGRAMS. */
@@ -150,7 +163,8 @@ export type BudgetAdjustmentKind =
   | "surplus-to-reserve"
   | "reserve-deposit"
   | "pension-underpaid"
-  | "balanced-at-adoption";
+  | "balanced-at-adoption"
+  | "balance-carried";
 
 /** Each change a law, the economy or a year-end forced, and its size. */
 export interface BudgetAdjustment {
@@ -249,6 +263,17 @@ export function sourceAmount(row: BudgetMonthRow, source: BudgetSource) {
 
 export function programAmount(row: BudgetMonthRow, program: BudgetProgram) {
   return row.spending[BUDGET_PROGRAMS.indexOf(program)] ?? 0;
+}
+
+/**
+ * A state's yearly spending on aid to local governments at its current
+ * adopted budget, less any mid-year cut.
+ */
+export function stateLocalAidRate(state: PublicBudgetGovernment): number {
+  const year = state.years.at(-1);
+  if (!year) return 0;
+  const planned = year.appropriations[BUDGET_PROGRAMS.indexOf("localAid")] ?? 0;
+  return Math.round(planned * (1 - state.cut));
 }
 
 export function sum(values: readonly number[]): number {
