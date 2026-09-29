@@ -178,9 +178,13 @@ function runnerUpAsks(
   runnerUp: Tally,
   date: IsoDate,
 ): { world: World; asks: boolean } {
-  let next = ensurePeopleTraits(ensurePeopleTraitCatalog(world), [
-    runnerUp.entrant.personId,
-  ]);
+  // A result read on a later advance still decides on its own day, so the
+  // runner-up's temperament is recorded on that day, not after it.
+  let next = ensurePeopleTraits(
+    ensurePeopleTraitCatalog(world),
+    [runnerUp.entrant.personId],
+    date < world.currentDate ? date : world.currentDate,
+  );
   const key = `${stageKey}:runoff-request:${runnerUp.entrant.personId}`;
   const gap = leader.permille - runnerUp.permille;
   const considerations: DecisionConsideration[] = [
