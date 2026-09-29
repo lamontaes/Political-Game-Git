@@ -15,6 +15,10 @@ import {
   openProposal,
 } from "../simulation/people-contact";
 import {
+  stateCampaignStand,
+  type LiveQuestion,
+} from "../simulation/campaign-stands";
+import {
   answerFavorAsk,
   openFavorAsk,
   type FavorAskAnswer,
@@ -1873,6 +1877,123 @@ const studyPlan: SceneFamilyDefinition = {
   room: withoutSpeakerOthers,
 };
 
+/* -------------------------------------------------------------------------- */
+/* A question at a campaign town hall (Build 22, step 3)                       */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The question as the town hall heard it, rebuilt from the binding's facts so
+ * the answer pledges on exactly what was asked, even if the bill has moved on.
+ */
+function askedQuestion(context: SceneContext): LiveQuestion {
+  return {
+    measureId: context.fact("measureId") as EntityId,
+    designation: context.fact("designation"),
+    shortTitle: context.fact("shortTitle"),
+    propositionId: context.fact("propositionId") as EntityId,
+    question: context.fact("question"),
+    answer: context.fact("answer") as LiveQuestion["answer"],
+  };
+}
+
+function townHallAnswers(context: SceneContext): SceneAnswer[] {
+  const bill = context.fact("designation");
+  const stand =
+    (backsTheBill: boolean, statement: string) =>
+    (world: World, turn: { readonly eventId: EntityId }) =>
+      stateCampaignStand(world, {
+        stableKey: `town-hall-stand:${context.bindingEventId}`,
+        personId: context.player.id,
+        question: askedQuestion(context),
+        backsTheBill,
+        statement,
+        sourceEventId: turn.eventId,
+      });
+  const forIt = `I’d vote for ${bill}.`;
+  const againstIt = `I’d vote against ${bill}.`;
+  return [
+    {
+      key: "vote-for",
+      label: `Say you’d vote for ${bill}`,
+      description: "Make it a public pledge.",
+      statement: forIt,
+      replies: says(context, [
+        "“Good. People here will remember that,” {name} says.",
+        "“All right. I’ll hold you to it,” {name} says.",
+      ]),
+      record: `The player told the town hall, “${forIt}”`,
+      apply: stand(true, forIt),
+    },
+    {
+      key: "vote-against",
+      label: `Say you’d vote against ${bill}`,
+      description: "Make it a public pledge.",
+      statement: againstIt,
+      replies: says(context, [
+        "“Fair enough. At least you said it,” {name} says.",
+        "“I’ll hold you to that,” {name} says.",
+      ]),
+      record: `The player told the town hall, “${againstIt}”`,
+      apply: stand(false, againstIt),
+    },
+    {
+      key: "not-decided",
+      label: "Say you haven’t decided",
+      description: "Promise nothing either way.",
+      statement: "I haven’t made up my mind on it yet.",
+      replies: says(context, [
+        "“That’s not much of an answer,” {name} says.",
+        "“Let us know when you do,” {name} says.",
+      ]),
+      record: `The player told the town hall they had not decided on ${bill}.`,
+    },
+    {
+      key: "ask-what-it-does",
+      label: "Ask what it does",
+      description: "Hear the question before you answer.",
+      followUp: true,
+      statement: `What does ${bill} do?`,
+      replies: says(context, [
+        `“It’s ${context.fact("shortTitle")}. It comes down to this: ${context.fact("question")}” {name} says.`,
+      ]),
+      record: `The player asked ${context.name} what ${bill} does.`,
+    },
+  ];
+}
+
+const townHall: SceneFamilyDefinition = {
+  family: "town-hall",
+  eventType: "conversation.town-hall-turn",
+  setting: "A campaign town hall",
+  socialContext: "A voter asks a candidate where they stand, in public.",
+  motivation: "Answer a voter’s question about a bill.",
+  interactionTags: ["conversation.campaign"],
+  topic: (binding) =>
+    `A question about ${binding.facts.designation ?? "a bill"}`,
+  briefing(context) {
+    return `At the town hall on ${proseDate(context.fact("heldOn") as never)}, ${context.fullName} asked where you stand on ${context.fact("designation")}, ${context.fact("shortTitle")}. It has not been decided yet, and whatever you say here is said in public.`;
+  },
+  opening(context) {
+    const bill = context.fact("designation");
+    return says(context, [
+      `“Where do you stand on ${bill}? Would you vote for it?” {name} asks.`,
+      `“Before I decide on you: ${bill}. Yes or no?” {name} asks.`,
+    ]);
+  },
+  answers: townHallAnswers,
+  settled(context, answer) {
+    const lines: Record<string, string> = {
+      "vote-for": "“Thanks for a straight answer,” {name} says.",
+      "vote-against": "“Thanks for a straight answer,” {name} says.",
+      "not-decided": "“We’ll see, then,” {name} says.",
+    };
+    return fill(lines[answer ?? ""] ?? "“Okay,” {name} says.", {
+      name: context.name,
+    });
+  },
+  room: withoutSpeakerOthers,
+};
+
 export const SCENE_FAMILY_DEFINITIONS: Readonly<
   Record<SceneFamily, SceneFamilyDefinition>
 > = {
@@ -1884,6 +2005,7 @@ export const SCENE_FAMILY_DEFINITIONS: Readonly<
   "reporter-question": reporterQuestion,
   "study-peer": studyPeer,
   "study-plan": studyPlan,
+  "town-hall": townHall,
 };
 
 /** When a situation stops being offered, counted from a date. */
