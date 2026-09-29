@@ -15,7 +15,7 @@
   height: min(26rem, 48vh);
   border: 1px solid var(--pg-hairline);
   border-radius: 2px;
-  background: rgba(11, 19, 32, 0.35);
+  background: rgb(233 220 194 / 70%);
 }
 
 .pg-relationship-web-edge {
@@ -46,7 +46,7 @@
 }
 
 .pg-relationship-web-node circle {
-  fill: rgba(11, 19, 32, 0.92);
+  fill: rgb(50 41 27 / 92%);
   stroke: var(--pg-brass-dim);
   stroke-width: 1.5;
 }
@@ -149,7 +149,7 @@
   pointer-events: none;
   font-size: 0.78rem;
   paint-order: stroke;
-  stroke: rgba(11, 19, 32, 0.9);
+  stroke: rgb(241 234 221 / 92%);
   stroke-width: 3px;
 }
 .pg-relationship-web-node[data-category="false"],
@@ -199,7 +199,7 @@
   padding: 0;
   list-style: none;
   font-size: 0.78rem;
-  color: rgba(225, 232, 238, 0.8);
+  color: rgb(50 41 27 / 80%);
 }
 .pg-relationship-web-legend li {
   display: inline-flex;
@@ -210,7 +210,7 @@
   display: inline-block;
   width: 1.4rem;
   height: 0;
-  border-top: 2px solid rgba(200, 185, 151, 0.6);
+  border-top: 2px solid rgb(111 85 42 / 60%);
 }
 .pg-relationship-web-legend [data-kind="family"] .pg-relationship-web-swatch {
   border-top-color: rgba(194, 155, 72, 0.95);
@@ -221,7 +221,7 @@
   border-top-style: dashed;
 }
 .pg-relationship-web-legend [data-kind="work"] .pg-relationship-web-swatch {
-  border-top-color: rgba(140, 170, 190, 0.9);
+  border-top-color: rgb(111 85 42 / 90%);
 }
 .pg-relationship-web-legend [data-kind="politics"] .pg-relationship-web-swatch {
   border-top-color: rgba(176, 120, 96, 0.95);

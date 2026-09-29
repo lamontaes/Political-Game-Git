@@ -1,5 +1,10 @@
 import type { AdultAftermathKind } from "./adult-situations";
 import { activeLifeCommitmentsAt, currentLifeCutoff } from "./life-queries";
+import {
+  assessUndertaking,
+  undertakingForLifeCommitment,
+  type UndertakingStanding,
+} from "./undertakings";
 import type {
   EntityId,
   FutureDueItemStatus,
@@ -81,6 +86,8 @@ export type CommitmentStanding =
   | "met"
   /** It came round and was not. */
   | "broken"
+  /** Its time passed and nothing on record answers it either way. */
+  | "lapsed"
   /** Something later replaced what was undertaken. */
   | "superseded"
   /** The person who was owed it is no longer anywhere it could be paid. */
@@ -110,13 +117,19 @@ export const AFTERMATH_FIRMNESS: Readonly<
  *
  * One mapping, in one place, so "canceled because attention moved" and
  * "withdrawn" cannot drift into meaning different things in different files.
+ *
+ * A callback that resolved means the other person raised the matter again.
+ * It says nothing about whether the promise was met, so it reads as still
+ * outstanding; only a record of the act itself (`assessUndertaking`) can say
+ * met or broken. It used to read as "met", which credited every promise the
+ * other person brought up as kept.
  */
 export function standingFromDueItemState(
   status: FutureDueItemStatus,
   reasonKey: string | null,
 ): CommitmentStanding {
   if (status === "scheduled") return "outstanding";
-  if (status === "resolved") return "met";
+  if (status === "resolved") return "outstanding";
   if (status === "blocked") return "withdrawn";
   switch (reasonKey) {
     case "life:issue-overtaken":
@@ -136,7 +149,23 @@ export interface StandingCommitment {
   readonly firmness: CommitmentFirmness;
   readonly conditions: readonly LifeCommitmentCondition[];
   readonly standing: CommitmentStanding;
+  /** The other person brought it up again, whatever became of it. */
+  readonly raisedAgain: boolean;
+  /** Why the standing is what it is, when a record of the act answers it. */
+  readonly account: string | null;
 }
+
+const FROM_UNDERTAKING: Readonly<
+  Record<UndertakingStanding, CommitmentStanding>
+> = {
+  outstanding: "outstanding",
+  kept: "met",
+  broken: "broken",
+  lapsed: "lapsed",
+  superseded: "superseded",
+  withdrawn: "withdrawn",
+  moot: "moot",
+};
 
 /**
  * What this person is currently on the hook for.
@@ -159,18 +188,30 @@ export function standingCommitmentsFor(
           .filter((candidate) => candidate.dueItemId === due.id)
           .at(-1)
       : undefined;
+    const undertaking = undertakingForLifeCommitment(world, record.id);
+    const assessed = undertaking ? assessUndertaking(world, undertaking) : null;
+    // The callback's own terminal state still speaks for what it can: a
+    // person gone, an issue overtaken. It never speaks for "met".
+    const fromCallback = state
+      ? standingFromDueItemState(state.status, state.reasonKey)
+      : "outstanding";
     return {
       record,
       // An undertaking made in play was stated plainly; one written into a
       // generated background was never said out loud by anybody, and the
       // difference is exactly what firmness is for.
-      firmness: record.stableKey.startsWith("adult-life:")
-        ? "explicit"
-        : "provisional",
+      firmness:
+        undertaking?.firmness ??
+        (record.stableKey.startsWith("adult-life:")
+          ? "explicit"
+          : "provisional"),
       conditions: conditionsFor(record),
-      standing: state
-        ? standingFromDueItemState(state.status, state.reasonKey)
-        : "outstanding",
+      standing:
+        assessed && assessed.standing !== "outstanding"
+          ? FROM_UNDERTAKING[assessed.standing]
+          : fromCallback,
+      raisedAgain: state?.status === "resolved",
+      account: assessed?.account ?? null,
     };
   });
 }

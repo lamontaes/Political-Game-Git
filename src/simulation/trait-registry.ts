@@ -5,6 +5,8 @@ import {
   BARGAINING_ANSWER_REQUEST_DECISION,
 } from "./legislative-bargaining-decisions";
 import { installedTraitPacks } from "./installed-trait-packs";
+import { CLEMENCY_PETITION_DECISION } from "./justice/clemency-decisions";
+import { ANOTHER_TERM_DECISION } from "./careers/another-term-decision";
 import type { WorldContentPacks } from "./runtime-content-packs";
 import { loadTraitPacks, type TraitRegistry } from "./trait-packs";
 import type { World } from "./types";
@@ -24,6 +26,8 @@ const DECISIONS = [
   CONTACT_ANSWER_DECISION,
   BARGAINING_ANSWER_REQUEST_DECISION,
   BARGAINING_ANSWER_OFFER_DECISION,
+  CLEMENCY_PETITION_DECISION,
+  ANOTHER_TERM_DECISION,
 ];
 
 let cached: TraitRegistry | null = null;

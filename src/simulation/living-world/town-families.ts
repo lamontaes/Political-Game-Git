@@ -14,8 +14,9 @@
  *   child at home and after many years together;
  * - a dating couple may move in together, and a couple living together may
  *   marry, more readily when both of them work;
- * - a woman aged 15 to 49 may have a child. On average she has her age's
- *   real yearly birth rate; being married or living with a partner, the
+ * - a woman aged 15 to 49 may have a child (the birth table's ages, which
+ *   the family writer also reads for the youngest parent). On average she
+ *   has her age band's real yearly birth rate; being married or living with a partner, the
  *   children she already has, a first year together and whether anybody at
  *   home works move her chance around it, and the town's total is rescaled
  *   to the age rates. The outcome web's links into the birth rate move it
@@ -39,6 +40,7 @@
  * parent.
  */
 
+import { BIRTH_RATES_BY_MOTHER_AGE } from "../birth-rates";
 import { outcomeFactor } from "../outcome-web";
 import { ageOnDate, addDays } from "../dates";
 import { createStableId } from "../ids";
@@ -84,6 +86,8 @@ export const TOWN_FAMILY_EVENTS = {
   married: "life.married",
   brokeUp: "life.broke-up",
   divorced: "life.divorced",
+  /** A drawn birth the family writer would not record; the world goes on. */
+  birthRefused: "life.birth-refused",
 } as const;
 
 type Stage = keyof typeof TOWN_PARTNERSHIP_KINDS;
@@ -107,23 +111,8 @@ export const TOWN_FAMILY_CHANCES = {
   sameGender: 0.06,
 } as const;
 
-/**
- * CALIBRATION, approved by Claude CTO on 9/28/2026: births per 1,000 women a
- * year, by age, from NCHS "Births: Final Data for 2024" (National Vital
- * Statistics Reports vol. 75 no. 2), as quoted in search excerpts; the
- * report's table itself was not read. The same rates serve every state and territory until
- * state tables are read. The 45-49 rate includes mothers 50 and over.
- */
-export const TOWN_BIRTH_RATES_BY_AGE: readonly (readonly [number, number])[] = [
-  [15, 12.6],
-  [20, 55.8],
-  [25, 89.5],
-  [30, 93.7],
-  [35, 54.3],
-  [40, 12.7],
-  [45, 1.1],
-  [50, 0],
-];
+/** Births per 1,000 women a year by age (see `../birth-rates`). */
+export const TOWN_BIRTH_RATES_BY_AGE = BIRTH_RATES_BY_MOTHER_AGE;
 
 /**
  * GAME ASSUMPTIONS: how a woman's own conditions weigh her chance against
@@ -727,13 +716,41 @@ export function reviewTownFamilies(
     if (rng.fork("child").next() >= chance) continue;
     const partner =
       mother.partner && view.people.has(mother.partner) ? mother.partner : null;
-    next = recordFamilyAddition(next, {
-      kind: "birth",
-      stableKey: `${prefix}mother:${id}:birth`,
-      occurredAt: today,
-      parentPersonIds: partner ? [id, partner] : [id],
-      tags: [TOWN_FAMILIES_VERSION],
-    }).world;
+    try {
+      next = recordFamilyAddition(next, {
+        kind: "birth",
+        stableKey: `${prefix}mother:${id}:birth`,
+        occurredAt: today,
+        parentPersonIds: partner ? [id, partner] : [id],
+        tags: [TOWN_FAMILIES_VERSION],
+      }).world;
+    } catch (error) {
+      // A birth the record refuses never stops the world: the refusal is
+      // kept, privately, with the writer's reason, and the review goes on.
+      next = recordWorldEvent(next, {
+        stableKey: `${prefix}mother:${id}:birth-refused`,
+        type: TOWN_FAMILY_EVENTS.birthRefused,
+        occurredAt: today,
+        recordedAt: today,
+        jurisdictionId: town,
+        involvedEntityIds: partner ? [id, partner] : [id],
+        participants: [],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: [TOWN_FAMILIES_VERSION, "refused"],
+        summary: `A birth to ${personName(mother.person.person)} was not recorded: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+    }
     touched.add(id);
     if (partner) touched.add(partner);
   }
