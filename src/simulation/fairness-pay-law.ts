@@ -1,3 +1,4 @@
+import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { lawInForce } from "./governing/law-in-force";
 import {
   lifePlaceByJurisdictionId,
@@ -21,6 +22,11 @@ import type { EntityId, IsoDate, World } from "./types";
  * does, the full rate. The rate is set when he is hired, so a new law or a
  * repeal changes the pay of later hires, not of people already in the job.
  * Women, and anyone the record gives no gender, are paid the job's rate.
+ *
+ * The state question's "yes" means the law names both sexual orientation and
+ * gender identity. A place whose starting law names sexual orientation only
+ * (its row lists `grounds`) already covers these men, until a law enacted in
+ * play answers the question.
  */
 
 export const FAIRNESS_STATE_QUESTION =
@@ -33,6 +39,21 @@ export const FAIRNESS_LAW_PAY_GAIN = 0.027;
 
 /** The pay of a covered man hired where no law covers him, as a share of the job's rate. */
 export const UNCOVERED_PAY_SHARE = 1 / (1 + FAIRNESS_LAW_PAY_GAIN);
+
+const SEXUAL_ORIENTATION = "sexual-orientation";
+
+const STARTING_ROWS = (
+  startingLaw.questions as unknown as Readonly<
+    Record<
+      string,
+      {
+        readonly answers: Readonly<
+          Record<string, { readonly grounds?: readonly string[] }>
+        >;
+      }
+    >
+  >
+)[FAIRNESS_STATE_QUESTION]?.answers;
 
 function propositionId(world: World, stableKey: string): EntityId | null {
   const row = Object.values(world.policyCatalog?.propositions ?? {}).find(
@@ -95,10 +116,17 @@ export function fairnessLawCovers(
     ? stateJurisdictionForKey(place.stateJurisdictionKey)
     : null;
   const stateQuestion = propositionId(world, FAIRNESS_STATE_QUESTION);
+  const law =
+    state && stateQuestion
+      ? lawInForce(world, state.id, stateQuestion, date)
+      : null;
+  if (law?.answer === "yes") return true;
   if (
-    state &&
-    stateQuestion &&
-    lawInForce(world, state.id, stateQuestion, date)?.answer === "yes"
+    law?.origin === "in-force-at-start" &&
+    place?.stateJurisdictionKey &&
+    STARTING_ROWS?.[place.stateJurisdictionKey]?.grounds?.includes(
+      SEXUAL_ORIENTATION,
+    )
   )
     return true;
   const cityQuestion = propositionId(world, FAIRNESS_CITY_QUESTION);

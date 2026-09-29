@@ -5,6 +5,7 @@ import {
   prepareOpeningLife,
 } from "../../src/presentation/opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
+import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { makeIsoDate } from "../../src/simulation/dates";
 import {
   FAIRNESS_STATE_QUESTION,
@@ -19,6 +20,7 @@ import {
   stateJurisdictionForKey,
 } from "../../src/simulation/life-places";
 import { startTownJobPay } from "../../src/simulation/living-world/town-pay";
+import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
 import { resourceFlowTermsAt } from "../../src/simulation/resource-queries";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
@@ -41,6 +43,7 @@ import type {
  */
 
 const SEED = "fairness-law-moves-pay";
+const START = makeIsoDate("2026-01-05");
 
 function onePlaceEach(): readonly string[] {
   const largest = new Map<string, [string, number]>();
@@ -154,11 +157,13 @@ function watch(key: string): Watched {
   )!.id;
   const start = lawInForce(game.world, state, question, since)!.answer as
     "yes" | "no";
-  const other = start === "yes" ? "no" : "yes";
+  const coveredAtStart = fairnessLawCovers(game.world, town, since);
+  // The state's law is turned whichever way takes the men's cover away or
+  // gives it to them.
+  const other = coveredAtStart ? "no" : "yes";
   const turnedWorld = flipped(game.world, state, other);
-  expect(fairnessLawCovers(game.world, town, since), key).toBe(start === "yes");
   expect(fairnessLawCovers(turnedWorld, town, since), key).toBe(
-    other === "yes",
+    !coveredAtStart,
   );
   const real = startTownJobPay(game.world, game.playerPersonId, since);
   // The act is written straight into the record, not through a legislature,
@@ -167,8 +172,8 @@ function watch(key: string): Watched {
     startTownJobPay(turnedWorld, game.playerPersonId, since),
   );
   const men = menPartneredWithMen(game.world, since);
-  const withLaw = payByPerson(start === "yes" ? real : turned);
-  const without = payByPerson(start === "yes" ? turned : real);
+  const withLaw = payByPerson(coveredAtStart ? real : turned);
+  const without = payByPerson(coveredAtStart ? turned : real);
   const covered: Watched["covered"][number][] = [];
   let others = 0;
   for (const [person, full] of withLaw) {
@@ -184,6 +189,42 @@ function watch(key: string): Watched {
 }
 
 describe("a fairness law sets the pay of men partnered with men", () => {
+  it("in every one of the 56 places, the start covers them exactly where the law names sexual orientation", () => {
+    const rows = (
+      startingLaw.questions as unknown as Record<
+        string,
+        {
+          answers: Record<
+            string,
+            { answer: string; grounds?: readonly string[] }
+          >;
+        }
+      >
+    )[FAIRNESS_STATE_QUESTION]!.answers;
+    const world = {
+      currentDate: START,
+      policyCatalog: createProductionPolicyCatalog(),
+      history: { legislativeMeasures: [], legislativeEnactments: [] },
+    } as unknown as World;
+    const places = onePlaceEach();
+    let covered = 0;
+    for (const key of places) {
+      const place = lifePlaceByKey(key)!;
+      const row = rows[place.stateJurisdictionKey!]!;
+      const names =
+        row.answer === "yes" ||
+        (row.grounds ?? []).includes("sexual-orientation");
+      expect(
+        fairnessLawCovers(world, place.context.jurisdiction.id, START),
+        key,
+      ).toBe(names);
+      if (names) covered += 1;
+    }
+    // 26 places name both grounds, and Iowa and Wisconsin name sexual
+    // orientation alone.
+    expect(covered).toBe(28);
+  });
+
   it(`in the first town, in an order drawn from seed ${SEED}, with such a man in a paid job: the law's 2.7% gain is missing where no law covers him`, () => {
     const places = onePlaceEach();
     expect(places).toHaveLength(56);
