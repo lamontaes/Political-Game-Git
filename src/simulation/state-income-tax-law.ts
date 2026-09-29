@@ -34,9 +34,13 @@ import stateIncomeTax2026 from "../../data/research/money/state-income-tax-2026.
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
 import {
   annualTax,
+  spreadOf,
+  STATE_FILING_STATUS_NOTE,
+  stateScheduleForFilingStatus,
   type FilingStatus,
   type IncomeTaxBracket,
   type IncomeTaxSchedule,
+  type Spread,
 } from "./income-tax-withholding";
 import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import { SeededRng } from "./rng";
@@ -133,34 +137,11 @@ export function stateIncomeTaxUnderLaw(
     kind: "estimated",
     shape,
     lawMeasureIds,
-    schedule: forFilingStatus(estimate.schedule, status),
+    schedule: stateScheduleForFilingStatus(estimate.schedule, status),
     estimatedFromAverage:
       status === "single"
         ? estimate.note
-        : `${estimate.note} ${FILING_STATUS_NOTE[status]}`,
-  };
-}
-
-const FILING_STATUS_NOTE: Readonly<Record<FilingStatus, string>> = {
-  single: "",
-  "married-filing-jointly":
-    "A joint return doubles the single brackets and deduction, the most common state rule (not yet counted state by state).",
-  "head-of-household":
-    "A head of household files on the single schedule, the most common state rule (not yet counted state by state).",
-};
-
-function forFilingStatus(
-  single: IncomeTaxSchedule,
-  status: FilingStatus,
-): IncomeTaxSchedule {
-  if (status !== "married-filing-jointly") return single;
-  return {
-    ...single,
-    standardDeductionMinor: single.standardDeductionMinor * 2,
-    brackets: single.brackets.map((bracket) => ({
-      ...bracket,
-      overMinor: bracket.overMinor * 2,
-    })),
+        : `${estimate.note} ${STATE_FILING_STATUS_NOTE[status]}`,
   };
 }
 
@@ -182,19 +163,6 @@ function enactedLaw(
     onDate,
     "enacted-only",
   );
-}
-
-interface Spread {
-  readonly mean: number;
-  readonly standardDeviation: number;
-  readonly count: number;
-}
-
-function spreadOf(values: readonly number[]): Spread {
-  const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
-  const variance =
-    values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / values.length;
-  return { mean, standardDeviation: Math.sqrt(variance), count: values.length };
 }
 
 const placesShaped = (shape: TaxShape): readonly StatePlace[] =>

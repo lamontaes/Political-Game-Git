@@ -18,3 +18,9 @@ now pay its premium from each paycheck, at the 2026 rate the program
 publishes, from the date it began collecting. A state that creates a program
 starts collecting a premium near the average of the others, and a state that
 repeals its program stops.
+
+Married workers, heads of household, and workers in the ten states whose
+standard deduction had not been read no longer have their state income tax
+left blank. Their schedules start from the most common state rule or the
+average of similar states, and the paycheck record says so. A head of
+household's federal income tax is now withheld at the 2026 IRS rates.

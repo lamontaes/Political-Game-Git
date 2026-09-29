@@ -339,11 +339,18 @@ function paycheckLiabilities(
   else {
     const read =
       place.status === "imposed" && taxYear >= FIRST_VERIFIED_TAX_YEAR
-        ? stateIncomeTaxSchedule(stateKey, status)
+        ? stateIncomeTaxSchedule(stateKey, status, world.seed)
         : null;
     rows.push(
       read?.kind === "schedule"
-        ? incomeTax(placeTaxKey, stateKey, read.schedule)
+        ? incomeTax(
+            placeTaxKey,
+            stateKey,
+            read.schedule,
+            read.estimatedFromAverage
+              ? { estimatedFromAverage: read.estimatedFromAverage }
+              : {},
+          )
         : unknown(
             placeTaxKey,
             stateKey,
