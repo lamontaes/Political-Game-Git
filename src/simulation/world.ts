@@ -718,6 +718,7 @@ function validateWorldIntegrity(
   delta: AppendOnlyHistoryDelta | null = null,
   previous?: World,
 ): void {
+  if (delta) assertAppendedJsonSafe(delta.changed);
   assertJsonSafe(world, "world");
   if (
     world.contentPacks !== undefined &&
@@ -4320,17 +4321,49 @@ function assertJsonSafe(
   }
 
   ancestors.add(value);
+  // An entry already known to be safe is passed over before its path is
+  // spelled out: a history list keeps its old records when it grows, and
+  // naming each of them again on every Day cost more the longer a world ran.
   if (Array.isArray(value)) {
-    value.forEach((entry, index) =>
-      assertJsonSafe(entry, `${path}[${index}]`, ancestors),
-    );
+    value.forEach((entry, index) => {
+      if (!knownJsonSafe(entry, ancestors))
+        assertJsonSafe(entry, `${path}[${index}]`, ancestors);
+    });
   } else {
     for (const [key, entry] of Object.entries(value)) {
-      assertJsonSafe(entry, `${path}.${key}`, ancestors);
+      if (!knownJsonSafe(entry, ancestors))
+        assertJsonSafe(entry, `${path}.${key}`, ancestors);
     }
   }
   ancestors.delete(value);
   JSON_SAFE.add(value);
+}
+
+/**
+ * A history list that only grew from a list already found JSON-safe needs
+ * only its new records checked; its old ones are the same objects. Without
+ * this, every list a Day added to was walked again record by record, a cost
+ * that grew with every year the world ran.
+ */
+function assertAppendedJsonSafe(
+  changed: readonly ChangedHistoryFamily[],
+): void {
+  for (const { key, before, after } of changed) {
+    if (!JSON_SAFE.has(before) || !Array.isArray(after)) continue;
+    for (let index = before.length; index < after.length; index += 1)
+      assertJsonSafe(after[index], `world.history.${key}[${index}]`);
+    JSON_SAFE.add(after);
+  }
+}
+
+/** True when `assertJsonSafe` would accept the value without looking inside. */
+function knownJsonSafe(value: unknown, ancestors: Set<object>): boolean {
+  if (value === null || typeof value === "string" || typeof value === "boolean")
+    return true;
+  if (typeof value === "number") return Number.isFinite(value);
+  return (
+    typeof value === "object" && JSON_SAFE.has(value) && !ancestors.has(value)
+  );
 }
 
 function cloneFact(fact: PersonFact): PersonFact {
