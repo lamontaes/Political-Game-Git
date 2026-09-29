@@ -23,7 +23,6 @@
  * about 1% of jobs a month), not read from a source.
  */
 
-import { recordHiringFavors } from "../patronage/hiring";
 import { recordWorkStatus } from "../life";
 import {
   macroConditionsAt,
@@ -237,12 +236,5 @@ export function reviewTownJobs(
       );
     return false;
   });
-  next = fillTownJobs(next, town, open, { round });
-  // Each job given in play is a favor from the person who runs the employer.
-  return recordHiringFavors(
-    next,
-    town,
-    `${TOWN_EMPLOYMENT_VERSION}:${town}:job:`,
-    `:${round}`,
-  );
+  return fillTownJobs(next, town, open, { round });
 }

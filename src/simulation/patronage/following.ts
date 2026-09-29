@@ -7,9 +7,9 @@ import type { EntityId, IsoDate, World } from "../types";
  * What the people who owe someone do at the ballot box, and what an observer
  * can count about it (Research 1, build step 6 and spec 4).
  *
- * A household where someone owes a candidate their job or their seat tends to
- * vote for that candidate (Erie, on the Irish machines: jobs bought loyalty
- * from the workers and their families). How much each one still owes is read
+ * A household where someone owes a candidate a seat or another favor tends to
+ * vote for that candidate (Erie, on the Irish machines: posts and favors
+ * bought loyalty from the people helped and their families). How much each one still owes is read
  * from the favor record on the day, so a debt that has faded moves nothing.
  * Nothing here marks anyone as a boss: the counts are an observer's reading.
  */
