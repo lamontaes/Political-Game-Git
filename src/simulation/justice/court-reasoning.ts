@@ -1,5 +1,6 @@
 import { ageOnDate } from "../dates";
 import { evaluateDecision } from "../decisions";
+import { lawInForce } from "../governing/law-in-force";
 import { officesHeldBy } from "../governing/office-consequence";
 import {
   ensureOfficeholderPrinciples,
@@ -55,6 +56,8 @@ export const CONVICT = "convict" as const;
 /** Probation. Sorts before jail, so a tied judge gives the lesser sentence. */
 export const SENTENCE_SUPERVISION = "court:community-supervision" as const;
 export const SENTENCE_JAIL = "court:jail" as const;
+export const PRETRIAL_RELEASE = "court:release-before-trial" as const;
+export const PRETRIAL_HOLD = "court:hold-before-trial" as const;
 
 /** Offenses with violence against a person. */
 const VIOLENT_OFFENSES = new Set(["crime:assault", "crime:robbery"]);
@@ -456,6 +459,37 @@ function propositionIdByKey(world: World, suffix: string): EntityId | null {
   return null;
 }
 
+const MANDATORY_MINIMUM_QUESTION =
+  "justice-public-safety.mandatory-minimum-sentences";
+
+/**
+ * Why the law in force where the case is tried takes probation off the table,
+ * or null when it leaves the sentence to the judge. The question asks whether
+ * the law sets "minimum sentences that a judge may not go below", and the
+ * real laws that do so reach violent offenses and people sentenced before:
+ * Florida's 10-20-Life (Fla. Stat. § 775.087), Georgia's "seven deadly sins"
+ * (O.C.G.A. § 17-10-6.1), California's three strikes (Penal Code § 667) and
+ * Washington's persistent offender law (RCW 9.94A.570). So a law answering
+ * yes binds those cases and leaves every other case to the judge. The term's
+ * length stays the court's usual one until each state's minimums are read.
+ */
+export function mandatoryJailUnderLaw(
+  world: World,
+  courtCase: CourtCase,
+): string | null {
+  if (!courtCase.venueJurisdictionId) return null;
+  const violent = VIOLENT_OFFENSES.has(courtCase.offenseKey);
+  const repeat = sentencesOf(world, courtCase.defendantId).length > 0;
+  if (!violent && !repeat) return null;
+  const propositionId = propositionIdByKey(world, MANDATORY_MINIMUM_QUESTION);
+  if (!propositionId) return null;
+  const law = lawInForce(world, courtCase.venueJurisdictionId, propositionId);
+  if (law?.answer !== "yes") return null;
+  return violent
+    ? "The law here sets a jail term for a violent offense that a judge may not go below."
+    : "The law here sets a jail term for someone sentenced before that a judge may not go below.";
+}
+
 /** The judge's own view of fixed minimum sentences, when they hold one. */
 function judgePrincipleConsideration(
   world: World,
@@ -583,6 +617,113 @@ export function sentencingConsiderations(
   return out;
 }
 
+// ---------------------------------------------------------------------------
+// The judge, before trial, where the law allows no money bail.
+
+/**
+ * Where release before trial is decided without money bail, a judge may
+ * still hold a defendant, but only one charged with a violent offense, and
+ * the law presumes release. Illinois' Pretrial Fairness Act is the enacted
+ * example: "All persons charged with an offense shall be eligible for pretrial
+ * release before conviction" (725 ILCS 5/110-2(a)), and detention is open only
+ * for listed offenses, forcible felonies among them (725 ILCS 5/110-6.1(a)).
+ * New Jersey's Criminal Justice Reform Act works the same way (N.J.S.A.
+ * 2A:162-15 to -26). Pure; the judge's principles must already be drawn.
+ */
+export function evaluateDetention(
+  world: World,
+  judgeId: EntityId,
+  courtCase: CourtCase,
+): DecisionEvaluation {
+  const key = `${courtCase.caseKey}:before-trial`;
+  const violent = VIOLENT_OFFENSES.has(courtCase.offenseKey);
+  const earlier = sentencesOf(world, courtCase.defendantId).length;
+  const considerations: DecisionConsideration[] = [
+    {
+      stableKey: `${key}:presumption`,
+      optionKey: PRETRIAL_RELEASE,
+      sourceType: "context:pretrial-law",
+      direction: "supports",
+      importance: "strong",
+      confidence: "high",
+      explanation: "The law presumes release before trial.",
+      sourceRefs: [],
+    },
+  ];
+  if (violent)
+    considerations.push({
+      stableKey: `${key}:violent`,
+      optionKey: PRETRIAL_HOLD,
+      sourceType: "context:offense",
+      direction: "supports",
+      importance: "moderate",
+      confidence: "high",
+      explanation: "The charge is a violent offense.",
+      sourceRefs: [],
+    });
+  if (earlier > 0)
+    considerations.push({
+      stableKey: `${key}:earlier-sentence`,
+      optionKey: PRETRIAL_HOLD,
+      sourceType: "context:criminal-record",
+      direction: "supports",
+      importance: "strong",
+      confidence: "high",
+      explanation: "They had been sentenced before.",
+      sourceRefs: [],
+    });
+  if (courtCase.standingFindings >= 2)
+    considerations.push({
+      stableKey: `${key}:findings`,
+      optionKey: PRETRIAL_HOLD,
+      sourceType: "context:criminal-record",
+      direction: "supports",
+      importance: "moderate",
+      confidence: "high",
+      explanation: "They had been found at fault for the same thing before.",
+      sourceRefs: [],
+    });
+  return evaluateDecision(world, {
+    stableKey: key,
+    decisionType: "justice.pretrial-detention",
+    actorPersonId: judgeId,
+    cutoff: currentLifeCutoff(world),
+    subject: {
+      kind: "context:criminal-case",
+      key: courtCase.caseKey,
+      entityId: null,
+    },
+    options: [
+      {
+        key: PRETRIAL_RELEASE,
+        label: "Release",
+        description: "Let them go home until the case is heard.",
+      },
+      {
+        key: PRETRIAL_HOLD,
+        label: "Hold",
+        description: "Hold them in jail until the case is heard.",
+      },
+    ],
+    constraints: violent
+      ? []
+      : [
+          {
+            stableKey: `${key}:not-detainable`,
+            optionKey: PRETRIAL_HOLD,
+            kind: "law:pretrial-detention",
+            explanation:
+              "The law allows holding someone before trial only for a violent offense.",
+            sourceRefs: [],
+          },
+        ],
+    considerations,
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+}
+
 /** Draws the judge's principles if they hold none yet. */
 export function prepareJudge(world: World, judgeId: EntityId): World {
   return ensureOfficeholderPrinciples(world, [judgeId]);
@@ -595,8 +736,10 @@ export function evaluateSentence(
   courtCase: CourtCase,
   pleaded: boolean,
 ): DecisionEvaluation {
+  const key = `${courtCase.caseKey}:sentence`;
+  const bound = mandatoryJailUnderLaw(world, courtCase);
   return evaluateDecision(world, {
-    stableKey: `${courtCase.caseKey}:sentence`,
+    stableKey: key,
     decisionType: "justice.sentence",
     actorPersonId: judgeId,
     cutoff: currentLifeCutoff(world),
@@ -617,13 +760,34 @@ export function evaluateSentence(
         description: "Sentence them to a term in jail.",
       },
     ],
-    constraints: [],
-    considerations: sentencingConsiderations(
-      world,
-      judgeId,
-      courtCase,
-      pleaded,
-    ),
+    constraints: bound
+      ? [
+          {
+            stableKey: `${key}:mandatory-minimum`,
+            optionKey: SENTENCE_SUPERVISION,
+            kind: "law:mandatory-minimum",
+            explanation: bound,
+            sourceRefs: [],
+          },
+        ]
+      : [],
+    considerations: [
+      ...sentencingConsiderations(world, judgeId, courtCase, pleaded),
+      ...(bound
+        ? [
+            {
+              stableKey: `${key}:mandatory-minimum-law`,
+              optionKey: SENTENCE_JAIL,
+              sourceType: "context:sentencing-law" as const,
+              direction: "supports" as const,
+              importance: "decisive" as const,
+              confidence: "high" as const,
+              explanation: bound,
+              sourceRefs: [],
+            },
+          ]
+        : []),
+    ],
     perceptionIds: [],
     randomness: "none",
     retention: "durable",

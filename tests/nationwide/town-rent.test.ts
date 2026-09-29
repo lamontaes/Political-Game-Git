@@ -31,7 +31,7 @@ import {
   housingLawYes,
   hudRentRowFor,
   INCLUSIONARY_SET_ASIDE,
-  inclusionarySetAsideTakes,
+  inclusionarySetAsideOpen,
   publicHousingRentMinor,
   RENT_BASIS,
   RENT_DAY_TRANSITION_KEY,
@@ -128,12 +128,22 @@ describe("rent arithmetic", () => {
     expect(publicHousingRentMinor(null, fmr)).toBe(1409_00);
   });
 
-  it("meets an inclusionary set-aside by count, in the order homes are recorded", () => {
-    const taken = Array.from({ length: 100 }, (_, index) => index + 1).filter(
-      inclusionarySetAsideTakes,
-    );
+  it("fills an inclusionary set-aside with the homes eligible households rent, by count", () => {
+    // Let the first eligible household in each covered home while the
+    // set-aside owes one: the 1st, 7th, 14th and 21st homes.
+    let affordable = 0;
+    const taken: number[] = [];
+    for (let home = 1; home <= 100; home += 1)
+      if (inclusionarySetAsideOpen(affordable, home)) {
+        affordable += 1;
+        taken.push(home);
+      }
     expect(taken.slice(0, 4)).toEqual([1, 7, 14, 21]);
     expect(taken).toHaveLength(Math.round(100 * INCLUSIONARY_SET_ASIDE));
+    // A home the set-aside owed but an ineligible household took leaves the
+    // debt open for the next home.
+    expect(inclusionarySetAsideOpen(0, 2)).toBe(true);
+    expect(inclusionarySetAsideOpen(1, 6)).toBe(false);
   });
 
   it("caps a stabilized renewal at the price rise plus five points, at most ten", () => {

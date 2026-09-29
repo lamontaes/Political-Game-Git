@@ -4,9 +4,6 @@
     "us-policy-positions:government-operations.require-photo-id-to-vote",
     "us-policy-positions:government-operations.ban-lobbying-after-office",
     "us-policy-positions:education.state-curriculum-standards",
-    "us-policy-positions:justice-public-safety.end-cash-bail",
-    "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
-    "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
     "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
     "us-policy-positions:transportation-infrastructure.fix-it-first",
     "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
@@ -24,7 +21,6 @@
     "us-federal-positions:emergencies.states-share-disaster-costs",
     "us-federal-positions:justice-rights.reduce-mandatory-minimums",
     "us-federal-positions:government.ban-congressional-stock-trading",
-    "us-federal-positions:science-communications.national-data-privacy",
-    "us-federal-positions:territories-culture.statehood-for-dc"
+    "us-federal-positions:science-communications.national-data-privacy"
   ]
 }

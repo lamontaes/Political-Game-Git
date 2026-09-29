@@ -104,6 +104,17 @@ export interface OutcomeLink {
    * its own size for each place within it; `size` is the central estimate.
    */
   readonly range?: readonly [number, number];
+  /**
+   * Where research sizes the link place by place (a law whose effect depends
+   * on how many people it reaches in each state): each place's own central
+   * size and range, by its `US-XX` key. A place not listed uses `size`.
+   */
+  readonly sizeByPlace?: Readonly<
+    Record<
+      string,
+      { readonly size: number; readonly range?: readonly [number, number] }
+    >
+  >;
   readonly floor?: number;
   readonly ceiling?: number;
 }
@@ -533,13 +544,20 @@ const DEFAULT_SPREAD: Readonly<Record<OutcomeEvidence, number>> = {
  */
 export function drawnLinkSize(
   world: World,
-  link: Pick<OutcomeLink, "key" | "size" | "range" | "evidence">,
+  link: Pick<OutcomeLink, "key" | "size" | "range" | "evidence"> &
+    Partial<Pick<OutcomeLink, "sizeByPlace">>,
   jurisdictionId: EntityId,
 ): number {
-  const size = link.size ?? 0;
+  const own = link.sizeByPlace
+    ? link.sizeByPlace[placeOutcomeKey(jurisdictionId) ?? ""]
+    : undefined;
+  const size = own ? own.size : (link.size ?? 0);
   if (size === 0 || !world.seed) return size;
   const spread = DEFAULT_SPREAD[link.evidence];
-  const [low, high] = link.range ?? [size * (1 - spread), size * (1 + spread)];
+  const [low, high] = (own ? own.range : link.range) ?? [
+    size * (1 - spread),
+    size * (1 + spread),
+  ];
   // Two draws averaged: the middle of the range is likelier than its ends.
   const rng = new SeededRng(world.seed).fork(
     `outcome-web:${link.key}:${jurisdictionId}`,
