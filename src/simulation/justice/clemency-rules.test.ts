@@ -13,7 +13,9 @@ import {
   clemencyTable,
   clemencyTableProblems,
   EXECUTIVE_BODY,
+  type ClemencyCaseFacts,
 } from "./clemency-rules";
+import type { IsoDate } from "../types";
 
 const STATES = [
   "AL",
@@ -68,7 +70,10 @@ const STATES = [
   "WY",
 ];
 
-const noCrime = { committedAt: "2027-03-01", priorFelonyConvictions: 0 };
+const noCrime: ClemencyCaseFacts = {
+  committedAt: "2027-03-01" as IsoDate,
+  priorFelonyConvictions: 0,
+};
 
 describe("who must agree before clemency is granted", () => {
   it("has one row for every state, D.C., the five territories and the United States", () => {
@@ -124,7 +129,7 @@ describe("who must agree before clemency is granted", () => {
     const arizona = clemencyAuthorityFor("US-AZ")!;
     expect(
       clemencyGateFor(arizona, {
-        committedAt: "1993-06-01",
+        committedAt: "1993-06-01" as IsoDate,
         priorFelonyConvictions: 0,
       })!.mustAgree,
     ).toEqual(["board", EXECUTIVE_BODY]);
