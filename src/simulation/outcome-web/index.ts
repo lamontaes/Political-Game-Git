@@ -6,6 +6,7 @@ import {
 } from "../macro-economy/readers";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import { defenseBoostPct } from "../federal-defense-spending";
+import { railExpansionPct } from "../federal-passenger-rail";
 import { federalDeficitChangePctOfGdp } from "../federal-outlay-laws";
 import { parksLawAddedPct } from "../public-budgets/parks-dedication";
 import { farmPaymentsCutPctOfLandValue } from "../federal-farm-subsidy-law";
@@ -136,6 +137,7 @@ const CHANGE_MEASURES = new Set([
   "budget.parks-added-pct",
   "labor.minimum-wage-change-pct",
   "federal.defense-boost-pct",
+  "federal.rail-expansion-pct",
   "federal.farm-payments-cut-pct-of-land-value",
   "federal.deficit-change-pct-of-gdp",
 ]);
@@ -226,6 +228,14 @@ const FIXED_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
       const key = placeOutcomeKey(jurisdictionId);
       return key === null ? null : defenseBoostPct(world, key, asOf);
     },
+  },
+  "federal.rail-expansion-pct": {
+    key: "federal.rail-expansion-pct",
+    unit: "percent more intercity rail riders a federal expansion plan projects",
+    // A federal law that pays to expand passenger rail grows riders by the
+    // same share in every place Amtrak serves (`federal-passenger-rail.ts`);
+    // with no such law it is zero.
+    read: (world, _jurisdictionId, asOf) => railExpansionPct(world, asOf),
   },
   "federal.farm-payments-cut-pct-of-land-value": {
     key: "federal.farm-payments-cut-pct-of-land-value",
@@ -365,6 +375,9 @@ export const LAW_QUESTION_MEASURES: Readonly<
   ],
   "us-federal-positions:defense.grow-defense-spending": [
     "federal.defense-boost-pct",
+  ],
+  "us-federal-positions:transport-water.expand-passenger-rail": [
+    "federal.rail-expansion-pct",
   ],
   "us-federal-positions:agriculture.cut-farm-subsidies": [
     "federal.farm-payments-cut-pct-of-land-value",

@@ -529,8 +529,9 @@ export function materializeTownHousehold(
 
 /**
  * Place `slot` of an organization's roster: a household and member of the
- * town whose age fits, drawn from the whole town by a pure function. Null for
- * a town with nobody who fits after a bounded search.
+ * town whose age fits, drawn from the whole town by a pure function, or from
+ * households [from, to) when a range is given (one ward's). Null for a town
+ * with nobody who fits after a bounded search.
  */
 export function townRosterPlace(
   world: World,
@@ -539,14 +540,17 @@ export function townRosterPlace(
   slot: number,
   fits: (member: SkeletonMember) => boolean,
   taken: ReadonlySet<string> = new Set(),
+  range: readonly [number, number] | null = null,
 ): { readonly household: number; readonly member: number } | null {
   const { households } = townRoster(town);
-  if (households === 0) return null;
+  const from = range ? Math.max(0, range[0]) : 0;
+  const to = range ? Math.min(households, range[1]) : households;
+  if (to <= from) return null;
   const rng = new SeededRng(world.seed).fork(
     `${TOWN_RESIDENTS_VERSION}:${town}:roster:${organizationKey}:${slot}`,
   );
   for (let attempt = 0; attempt < 64; attempt += 1) {
-    const household = rng.integer(0, households);
+    const household = rng.integer(from, to);
     const members = townHouseholdSkeleton(world, town, household).members;
     const member = members.findIndex(
       (candidate, m) => fits(candidate) && !taken.has(`${household}:${m}`),

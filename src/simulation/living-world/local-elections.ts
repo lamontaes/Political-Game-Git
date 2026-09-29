@@ -74,6 +74,18 @@ import {
 import type { SeatedLocalOffice } from "./local-government-seats";
 import { peopleKnownTo } from "./official-views";
 import { playerTown, townRoster } from "./town-residents";
+import {
+  councilWardPlan,
+  homePosition,
+  isWardSeat,
+  redrawTownWards,
+  seatWard,
+  townWardMap,
+  wardAt,
+  wardDrawerInForce,
+  wardOfPerson,
+  wardRange,
+} from "./town-wards";
 
 /**
  * The player's town government changes hands on its own.
@@ -262,15 +274,23 @@ export function seatIsUp(
 
 /**
  * The seat a campaign for this town's council or mayor runs for in its
- * election year: the mayor's office, or the lowest-numbered member seat on
- * that year's ballot. The town's own elections leave it off their ballot, and
- * the campaign's winner takes it, so the two never seat two people for one
- * seat. A year with no member seat up has none.
+ * election year: the mayor's office, or a member seat on that year's ballot.
+ * On a council elected by ward, a candidate runs for their own ward's seat,
+ * or else an at-large seat (`town-wards.ts`); otherwise, and when the
+ * candidate is not given, the lowest-numbered seat up. The town's own
+ * elections leave it off their ballot, and the campaign's winner takes it, so
+ * the two never seat two people for one seat. A year with no member seat up
+ * has none.
  */
 export function localCampaignSeat(
   unit: GovernmentUnitIdentity,
   mayor: boolean,
   electionDate: IsoDate,
+  candidate: {
+    readonly world: World;
+    readonly town: EntityId;
+    readonly personId: EntityId;
+  } | null = null,
 ): number | null {
   if (mayor) return 0;
   const rules = localGoverningBodyRules(unit);
@@ -278,9 +298,25 @@ export function localCampaignSeat(
   const termYears = rules?.termYears?.value ?? 4;
   const year = Number(electionDate.slice(0, 4));
   const { cadenceYears } = nextTownElectionDay(unit, addDays(electionDate, -1));
+  const up: number[] = [];
   for (let n = 1; n <= seatCount; n += 1)
-    if (seatIsUp(n, year, cadenceYears, termYears)) return n;
-  return null;
+    if (seatIsUp(n, year, cadenceYears, termYears)) up.push(n);
+  const plan = councilWardPlan(unit);
+  const map = candidate ? townWardMap(candidate.world, unit) : null;
+  const home =
+    candidate && map
+      ? homePosition(candidate.world, candidate.town, candidate.personId)
+      : null;
+  if (plan && map && home !== null) {
+    const ward = wardAt(map, home);
+    const own = up.find(
+      (n) => isWardSeat(plan, n) && seatWard(map, n) === ward,
+    );
+    if (own !== undefined) return own;
+    const atLarge = up.find((n) => !isWardSeat(plan, n));
+    if (atLarge !== undefined) return atLarge;
+  }
+  return up[0] ?? null;
 }
 
 /** The seats campaigns (a player's, won, lost or running) hold in this town's `year`. */
@@ -301,6 +337,11 @@ function campaignSeats(
       unit,
       office.seat === "chief-executive",
       contest.electionDate,
+      {
+        world,
+        town: campaign.jurisdictionId,
+        personId: campaign.candidatePersonId,
+      },
     );
     if (seat !== null) seats.add(seat);
   }
@@ -324,10 +365,18 @@ export function withdrawTownRaceForCampaign(
   );
   if (!office) return world;
   const { unit } = office;
+  const campaign = campaigns(world).find((row) => row.contestId === contestId);
   const seat = localCampaignSeat(
     unit,
     office.seat === "chief-executive",
     contest.electionDate,
+    campaign
+      ? {
+          world,
+          town: campaign.jurisdictionId,
+          personId: campaign.candidatePersonId,
+        }
+      : null,
   );
   if (seat === null) return world;
   const year = contest.electionDate.slice(0, 4);
@@ -815,6 +864,8 @@ export function localElectionFilingHandler(
   let races = 0;
   let primaries = 0;
   const campaigned = campaignSeats(next, unit, year);
+  const plan = councilWardPlan(unit);
+  const wardMap = townWardMap(next, unit);
   for (const seat of seatsUp) {
     const office = officeFor(unit, seat);
     if (!office || campaigned.has(seat)) continue;
@@ -830,7 +881,28 @@ export function localElectionFilingHandler(
     const phrase = seatPhrase(office, seat);
     const candidates: EntityId[] = [];
     let incumbentRuns = false;
-    if (holder && alive(next, holder.personId)) {
+    // A ward seat is filled from its own ward: its holder may run again only
+    // while they live there, and its field is drawn from its residents.
+    const ward =
+      wardMap && isWardSeat(plan, seat) ? seatWard(wardMap, seat) : null;
+    const holderWard =
+      ward !== null && holder
+        ? wardOfPerson(next, unit, town, holder.personId)
+        : null;
+    const drawnOut =
+      ward !== null && holderWard !== null && holderWard !== ward;
+    if (drawnOut && holder && alive(next, holder.personId)) {
+      next = event(next, {
+        stableKey: `${race}:drawn-out`,
+        type: "local.officeholder-retired",
+        town,
+        label: office.governmentName,
+        involved: [holder.personId],
+        tags: [`unit:${unit.id}`, `seat:${seat}`, "barred:ward"],
+        summary: `${nameOf(next, holder.personId)} may not run again for ${phrase}: their home is in Ward ${holderWard} under the map ${wardMap!.drawnBy === "commission" ? "an independent commission" : "the council"} drew, and the seat represents Ward ${ward}.`,
+      });
+    }
+    if (holder && alive(next, holder.personId) && !drawnOut) {
       const seatTerm =
         seat === 0 ? (chief?.termYears.value ?? termYears) : termYears;
       // A council seat under a term-limit ordinance: the law decides before
@@ -912,6 +984,7 @@ export function localElectionFilingHandler(
         P.minimumCandidateAge,
         excluded,
         taken,
+        ward !== null ? wardRange(wardMap!, ward) : null,
       );
       next = drawn.world;
       if (!drawn.personId) break;
@@ -951,20 +1024,27 @@ function countVotes(
   world: World,
   unit: GovernmentUnitIdentity,
   town: EntityId,
+  seat: number,
   contestKey: string,
   candidates: readonly EntityId[],
   incumbent: EntityId | null,
   electionDate: IsoDate,
 ): CandidateTally[] {
   const rng = new SeededRng(world.seed).fork(`${contestKey}:count`);
-  const seats = localGoverningBodyRules(unit)?.seats?.value ?? 1;
-  // A body of seven or more is usually elected at least partly by district.
-  const wards = seats >= 7 ? Math.ceil(seats / 2) : 1;
-  const adults = townRoster(town).population * P.adultShare;
+  // A ward seat's voters are its ward's residents (`town-wards.ts`).
+  const plan = councilWardPlan(unit);
+  const map = townWardMap(world, unit);
+  const roster = townRoster(town);
+  const [from, to] =
+    map && isWardSeat(plan, seat)
+      ? wardRange(map, seatWard(map, seat))
+      : [0, roster.households];
+  const share = roster.households > 0 ? (to - from) / roster.households : 1;
+  const adults = roster.population * P.adultShare;
   const turnout = P.turnout.low + rng.next() * (P.turnout.high - P.turnout.low);
   const ballots = Math.max(
     candidates.length * 20,
-    Math.round((adults * turnout) / wards),
+    Math.round(adults * turnout * share),
   );
   const support = candidates.map((id) => {
     const base = 0.6 + rng.next() * 0.8;
@@ -1022,6 +1102,7 @@ export function localElectionCountHandler(
     world,
     unit,
     town,
+    seat,
     contestKey,
     field,
     incumbent,
@@ -1202,6 +1283,31 @@ function seatTheWinner(
 /* A year in office: resignations and vacancies                                */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * In the year after a decennial census, a council elected by ward redraws its
+ * map, drawn by whoever holds the pen (`wardDrawerInForce`). Run by the
+ * town's yearly handler; a law that changes who draws the map reads it
+ * through `wardDrawerInForce` rather than keeping a schedule of its own.
+ */
+export function redistrictAfterCensus(
+  world: World,
+  unit: GovernmentUnitIdentity,
+  town: EntityId,
+): World {
+  const map = townWardMap(world, unit);
+  const year = Number(world.currentDate.slice(0, 4));
+  if (!map || year % 10 !== 1 || map.drawnAt >= `${year}-01-01`) return world;
+  return redrawTownWards(world, {
+    unit,
+    town,
+    drawnBy: wardDrawerInForce(world, unit),
+    members: [...seatsOf(sittingLocalOfficers(world, unit))]
+      .filter(([seat]) => seat > 0)
+      .map(([seat, row]) => ({ seat, personId: row.personId })),
+    reason: `after the ${year - 1} census`,
+  });
+}
+
 export function localGovernmentYearHandler(
   world: World,
   due: FutureDueItem,
@@ -1213,7 +1319,7 @@ export function localGovernmentYearHandler(
   const { unit } = found;
   const office = localGoverningBodyIdentity(unit);
   if (!office) return done(world, "The town has no governing body.");
-  let next = world;
+  let next = redistrictAfterCensus(world, unit, town);
   const player = due.entityIds[1];
   const excluded = excludedFrom(next, unit, playerHousehold(next, player));
   const taken = new Set<string>();
@@ -1289,6 +1395,12 @@ export function localGovernmentYearHandler(
         ].sort()
       : [];
     const post = { officeKey: `${unit.id}:${seat}`, title: label };
+    // A ward seat's appointee lives in its ward.
+    const vacancyMap = townWardMap(next, unit);
+    const vacantWard =
+      vacancyMap && isWardSeat(councilWardPlan(unit), seat)
+        ? seatWard(vacancyMap, seat)
+        : null;
     const choice = mayor
       ? chooseAppointee(next, {
           stableKey: key,
@@ -1302,6 +1414,8 @@ export function localGovernmentYearHandler(
               !excluded.has(personId) &&
               alive(next, personId) &&
               person.homeJurisdictionId === town &&
+              (vacantWard === null ||
+                wardOfPerson(next, unit, town, personId) === vacantWard) &&
               ageOnDate(person.birthDate, next.currentDate) >=
                 P.minimumCandidateAge
             );
@@ -1318,6 +1432,7 @@ export function localGovernmentYearHandler(
           P.minimumCandidateAge,
           excluded,
           taken,
+          vacantWard !== null ? wardRange(vacancyMap!, vacantWard) : null,
         );
     next = drawn.world;
     if (!drawn.personId) continue;
