@@ -1,5 +1,6 @@
 import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
 import { COUNCIL_TERM_LIMIT_QUESTION } from "../living-world/local-council-term-limits";
+import { STATEHOOD_QUESTION } from "../living-world/statehood-seats";
 import {
   CITY_MINIMUM_WAGE_QUESTION_KEY,
   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
@@ -117,6 +118,13 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: COUNCIL_TERM_LIMIT_QUESTION,
     kind: "seat-turnover",
     via: "src/simulation/living-world/local-council-term-limits.ts",
+  },
+  // Statehood for a nonvoting place adds its seats to both chambers on the day
+  // the law takes effect.
+  {
+    questionKey: STATEHOOD_QUESTION,
+    kind: "seat-turnover",
+    via: "src/simulation/living-world/statehood-seats.ts",
   },
   // Home rule or Dillon's rule decides which local questions a town's
   // council may answer, so it opens or closes every ordinance on them.
