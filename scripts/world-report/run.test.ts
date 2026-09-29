@@ -173,10 +173,12 @@ describe("the world report", () => {
       );
       expect(run.vitalsAtStart?.date).toBe("2026-01-05");
       const people = vitals.match(
-        /^\| People living in the place \| the place \| ([\d,]+) \| ([\d,]+) \|$/m,
+        /^\| People living in the place \| the place \| ([\d,]+) \(([\d,]+) written out\) \| ([\d,]+) \(([\d,]+) written out\) \|$/m,
       );
       expect(people).not.toBeNull();
-      expect(Number(people![1]!.replace(/,/g, ""))).toBeGreaterThan(0);
+      // Columbus's Census count, not only the people written out so far.
+      expect(Number(people![1]!.replace(/,/g, ""))).toBeGreaterThan(100_000);
+      expect(Number(people![2]!.replace(/,/g, ""))).toBeGreaterThan(0);
       expect(vitals).toMatch(
         /^\| Median household income \| the place \| not recorded: /m,
       );

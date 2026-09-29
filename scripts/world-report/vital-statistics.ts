@@ -27,7 +27,9 @@ import { homeLocalGovernmentUnits } from "../../src/simulation/nationwide-world/
 import { currentStateExecutiveHolders } from "../../src/simulation/nationwide-world/state-executives";
 import { stateLegislators } from "../../src/simulation/nationwide-world/state-legislature-opening";
 import { stateCandidacyPack } from "../../src/simulation/candidacy-packs";
+import { townRoster } from "../../src/simulation/living-world/town-residents";
 import {
+  PLACE_OUTCOME_BASES,
   PLACE_OUTCOME_MEASURES,
   placeOutcomeAt,
   placeOutcomeKey,
@@ -71,22 +73,37 @@ function outcome(
       missing: "the outcome web does not compute this measure on this head",
     };
   const record = placeOutcomeAt(world, measure, town, world.currentDate);
-  return record
-    ? {
-        key,
-        label,
-        // A city or county whose own laws act keeps its own value.
-        scope: /^US-[A-Z]{2}$/.test(record.placeKey) ? "state" : "town",
-        value: format(record.value),
-      }
-    : {
-        key,
-        label,
-        scope: "state",
-        value: null,
-        missing: `no monthly value recorded yet for ${placeOutcomeKey(town) ?? "this place"}`,
-      };
+  if (record)
+    return {
+      key,
+      label,
+      // A city or county whose own laws act keeps its own value.
+      scope: /^US-[A-Z]{2}$/.test(record.placeKey) ? "state" : "town",
+      value: format(record.value),
+    };
+  const stateKey = placeOutcomeKey(town);
+  return {
+    key,
+    label,
+    scope: "state",
+    value: null,
+    missing:
+      stateKey && PLACE_OUTCOME_BASES[measure]?.places[stateKey] === undefined
+        ? `the outcome web has no starting value for ${stateKey}`
+        : `no monthly value recorded yet for ${stateKey ?? "this place"}`,
+  };
 }
+
+/** The first of several measures the outcome web computes on this head. */
+function firstMeasure(...measures: string[]): string {
+  return (
+    measures.find((measure) => PLACE_OUTCOME_MEASURES.includes(measure)) ??
+    measures[0]!
+  );
+}
+
+const capitalize = (text: string) =>
+  text.charAt(0).toUpperCase() + text.slice(1);
 
 function partyName(world: World, personId: EntityId | null): string | null {
   if (!personId) return null;
@@ -119,10 +136,12 @@ function governingParty(
   const members = pack ? stateLegislators(world, pack.packId) : [];
   const chambers = new Map<string, Map<string, number>>();
   for (const member of members) {
-    const seats = chambers.get(member.officeKey) ?? new Map<string, number>();
-    const party = member.party ?? "no party";
+    // Office keys read "<pack>:house"; the chamber is the last part.
+    const chamber = capitalize(member.officeKey.split(":").at(-1) ?? "");
+    const seats = chambers.get(chamber) ?? new Map<string, number>();
+    const party = member.party ? capitalize(member.party) : "no party";
     seats.set(party, (seats.get(party) ?? 0) + 1);
-    chambers.set(member.officeKey, seats);
+    chambers.set(chamber, seats);
   }
   figures.push({
     key: "legislature-seats",
@@ -174,23 +193,36 @@ export function vitalSnapshot(
   town: EntityId,
   anchorPersonId: EntityId,
 ): VitalSnapshot {
-  const people = townResidents(world, town).length;
+  // The town's size is its Census count; the world writes its people out as
+  // it needs them, so the written count is shown beside it.
+  const roster = townRoster(town);
+  const written = townResidents(world, town).length;
   const homes = describeTownHomes(world, town);
   const unemployment = townUnemploymentRate(world, town);
   const pay = townMedianHourlyPay(world, town);
   const businesses = describeTownBusinesses(world, town, world.currentDate);
+  const count = (value: number) => value.toLocaleString("en-US");
+  const crime = firstMeasure("crime.violent", "crime.rate-index");
   const figures: VitalFigure[] = [
     {
       key: "people",
       label: "People living in the place",
       scope: "town",
-      value: people.toLocaleString("en-US"),
+      // A place with no Census count is sized by a set stand-in (1,000), so
+      // the row says the count is not measured.
+      value:
+        roster.referencePopulation === null
+          ? `${count(roster.population)}, set by hand: no Census count (${count(written)} written out)`
+          : `${count(roster.population)} (${count(written)} written out)`,
     },
     {
       key: "households",
       label: "Households",
       scope: "town",
-      value: homes.households.toLocaleString("en-US"),
+      value:
+        roster.referencePopulation === null
+          ? `${count(roster.households)}, set by hand: no Census count (${count(homes.households)} written out)`
+          : `${count(roster.households)} (${count(homes.households)} written out)`,
     },
     {
       key: "median-pay",
@@ -211,7 +243,10 @@ export function vitalSnapshot(
       key: "unemployment",
       label: "Unemployment",
       scope: "town",
-      value: percent(unemployment.value),
+      value:
+        unemployment.value === null
+          ? null
+          : `${percent(unemployment.value)} of ${count(unemployment.basis)} written out in the labor force`,
       ...(unemployment.value === null
         ? { missing: "nobody in the labor force is recorded" }
         : {}),
@@ -251,13 +286,13 @@ export function vitalSnapshot(
       "College completion (bachelor's or more)",
       (v) => `${v.toFixed(1)}%`,
     ),
-    outcome(
-      world,
-      town,
-      "crime.rate-index",
-      "Crime index (100 at the start)",
-      (v) => v.toFixed(0),
-    ),
+    crime === "crime.violent"
+      ? outcome(world, town, crime, "Violent crime per 100,000 people", (v) =>
+          v.toFixed(1),
+        )
+      : outcome(world, town, crime, "Crime index (100 at the start)", (v) =>
+          v.toFixed(0),
+        ),
     outcome(
       world,
       town,
@@ -267,9 +302,11 @@ export function vitalSnapshot(
     ),
     {
       key: "businesses-open",
-      label: "Businesses open",
+      // The world writes a town's existing businesses out as their jobs are
+      // filled, so this count can rise without a new business opening.
+      label: "Businesses written out and open",
       scope: "town",
-      value: businesses.open.toLocaleString("en-US"),
+      value: count(businesses.open),
     },
     ...governingParty(world, town, anchorPersonId),
   ];

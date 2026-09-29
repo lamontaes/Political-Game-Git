@@ -2223,11 +2223,11 @@ export function vitalStatisticsLines(
     lastYearStart > reader.startedOn ? lastYearStart : reader.startedOn,
     reader.endedOn,
   );
-  const whole = vitalCounts(run.world, town, reader.startedOn, reader.endedOn);
   out.push(
     `| Births, first year and last year | the place | ${first.births} | ${last.births} |`,
     `| Deaths, first year and last year | the place | ${first.deaths} | ${last.deaths} |`,
-    `| Businesses opened and closed over the whole run | the place | ${whole.businessesOpened} opened | ${whole.businessesClosed} closed |`,
+    `| Businesses opened, first year and last year | the place | ${first.businessesOpened} | ${last.businessesOpened} |`,
+    `| Businesses closed, first year and last year | the place | ${first.businessesClosed} | ${last.businessesClosed} |`,
     "",
   );
   return out;
