@@ -5,7 +5,7 @@
   "notes": [
     "Filed after Build 10's housing market began using the policy-rate midpoint change as a labeled stand-in for the 30-year mortgage rate. The home price model's rate coefficient (-0.0046 per percentage point) was measured on the 30-year mortgage rate, not on the policy rate."
   ],
-  "priority": "P3",
+  "priority": "P2",
   "question": "When the Federal Reserve's policy-rate target changes by one percentage point, how much does the 30-year fixed mortgage rate change over the following twelve months, and how does that pass-through differ by period (for example 1990 to 2007, 2008 to 2015, 2016 to 2024)? The published series are the Federal Reserve's federal funds target and Freddie Mac's Primary Mortgage Market Survey.",
   "questionId": "mortgage-rate-passthrough-from-policy-rate",
   "requestVersion": "research-request/v1",
