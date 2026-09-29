@@ -1439,7 +1439,12 @@ export function fillTownJobs(
       const id =
         organizations.get(key) ??
         createStableId("organization", `${next.id}:${key}`);
-      if (townBusinessHasRoomToHire(books?.[id], staffAt(id)))
+      const market = next.townFinances?.markets[`${town}:${workplace.key}`];
+      const townAveragePay =
+        market?.townPay !== undefined && market.townJobs > 0
+          ? market.townPay / market.townJobs
+          : 0;
+      if (townBusinessHasRoomToHire(books?.[id], staffAt(id), townAveragePay))
         outlet = candidate;
     }
     if (outlet === null) return null;

@@ -29,6 +29,10 @@ import {
   macroScopeForJurisdiction,
 } from "../macro-economy/readers";
 import { SeededRng } from "../rng";
+import {
+  TOWN_BUSINESS_WORKPLACES,
+  townBusinessLaysOff,
+} from "./town-business-books";
 import type { EntityId, WorkStatusRecord, World } from "../types";
 import {
   TOWN_EMPLOYMENT_VERSION,
@@ -159,6 +163,51 @@ export function reviewTownJobs(
   )
     return world;
 
+  // A business that keeps books lays people off by its books, below; every
+  // other employer by the town's conditions.
+  const employerOf = new Map<EntityId, EntityId>();
+  for (const row of world.history.workRelationships)
+    if (row.organizationId) employerOf.set(row.id, row.organizationId);
+  const employerStem = `${TOWN_EMPLOYMENT_VERSION}:${town}:employer:`;
+  const isBusiness = new Set(
+    world.history.organizations
+      .filter(
+        (row) =>
+          row.stableKey.startsWith(employerStem) &&
+          TOWN_BUSINESS_WORKPLACES.has(
+            row.stableKey.slice(employerStem.length).split(":")[0]!,
+          ),
+      )
+      .map((row) => row.id),
+  );
+  const booksOf = (job: TownJob) => {
+    const organizationId = employerOf.get(job.relationshipId);
+    return organizationId
+      ? world.townFinances?.businesses[organizationId]
+      : undefined;
+  };
+  // Whoever runs a business is its owner: whoever directs it, or its one
+  // remaining worker. They do not quit it or lay themselves off; they leave
+  // when they retire, die or move. The count falls as people leave, so two
+  // workers never both walk out of a business in one quarter.
+  const authorityOf = new Map<EntityId, string>();
+  for (const row of world.history.workRelationships)
+    authorityOf.set(row.id, row.authority);
+  const staffAt = new Map<EntityId, number>();
+  for (const job of activeTownJobs(world, town)) {
+    const organizationId = employerOf.get(job.relationshipId);
+    if (organizationId)
+      staffAt.set(organizationId, (staffAt.get(organizationId) ?? 0) + 1);
+  }
+  const runsIt = (job: TownJob) => {
+    const organizationId = employerOf.get(job.relationshipId);
+    return (
+      organizationId !== undefined &&
+      isBusiness.has(organizationId) &&
+      (authorityOf.get(job.relationshipId) === "directs-others" ||
+        (staffAt.get(organizationId) ?? 0) <= 1)
+    );
+  };
   let next = world;
   const rehire = new Set<EntityId>();
   const end = (job: TownJob, reason: string) => {
@@ -174,6 +223,9 @@ export function reviewTownJobs(
         generatorKey: TOWN_EMPLOYMENT_VERSION,
       },
     });
+    const organizationId = employerOf.get(job.relationshipId);
+    if (organizationId)
+      staffAt.set(organizationId, (staffAt.get(organizationId) ?? 1) - 1);
   };
   for (const job of activeTownJobs(world, town)) {
     const person = world.people[job.personId];
@@ -192,17 +244,56 @@ export function reviewTownJobs(
       `${TOWN_EMPLOYMENT_VERSION}:turnover:${job.relationshipId}:${round}`,
     );
     if (
-      rng.fork("layoff").next() <
-      TOWN_JOB_TURNOVER.layoffPerQuarter * pressure
+      booksOf(job)?.lastQuarterPay === undefined &&
+      !runsIt(job) &&
+      rng.fork("layoff").next() < TOWN_JOB_TURNOVER.layoffPerQuarter * pressure
     ) {
       end(job, TOWN_JOB_END_REASONS.laidOff);
       continue;
     }
-    if (rng.fork("quit").next() < TOWN_JOB_TURNOVER.quitPerQuarter / pressure) {
+    if (
+      !runsIt(job) &&
+      rng.fork("quit").next() < TOWN_JOB_TURNOVER.quitPerQuarter / pressure
+    ) {
       end(job, TOWN_JOB_END_REASONS.quit);
       if (rng.fork("next-job").next() < TOWN_JOB_TURNOVER.quitToNewJob)
         rehire.add(job.personId);
     }
+  }
+
+  // A business whose sales no longer cover its pay lets its most recent
+  // hire go, never whoever runs it.
+  const staffOf = new Map<EntityId, TownJob[]>();
+  for (const job of activeTownJobs(next, town)) {
+    const organizationId = employerOf.get(job.relationshipId);
+    if (!organizationId || !booksOf(job)) continue;
+    staffOf.set(organizationId, [...(staffOf.get(organizationId) ?? []), job]);
+  }
+  const relationships = new Map(
+    next.history.workRelationships.map((row) => [row.id, row]),
+  );
+  for (const [organizationId, staff] of [...staffOf].sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
+    if (
+      !townBusinessLaysOff(
+        next.townFinances?.businesses[organizationId],
+        staff.length,
+      )
+    )
+      continue;
+    const [last] = staff
+      .filter(
+        (job) =>
+          relationships.get(job.relationshipId)?.authority !== "directs-others",
+      )
+      .sort(
+        (a, b) =>
+          (relationships.get(b.relationshipId)?.startedAt ?? "").localeCompare(
+            relationships.get(a.relationshipId)?.startedAt ?? "",
+          ) || a.relationshipId.localeCompare(b.relationshipId),
+      );
+    if (last) end(last, TOWN_JOB_END_REASONS.laidOff);
   }
 
   // Everyone of working age who should be working and holds no job today:

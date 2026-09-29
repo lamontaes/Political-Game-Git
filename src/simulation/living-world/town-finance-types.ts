@@ -45,6 +45,12 @@ export interface TownBusinessBooks {
   readonly lastQuarterNet: number;
   /** Its pay over its last quarter; absent in books from older saves. */
   readonly lastQuarterPay?: number;
+  /**
+   * Its prices, in current dollars, as an index: the nation's price level
+   * since the books began when it opened, then moved each quarter by its
+   * costs and its customers. Absent in books from older saves.
+   */
+  readonly price?: number;
   readonly lastRound: string;
 }
 
@@ -96,6 +102,10 @@ export interface TownMarketBooks {
    * spending follows it. Absent in books from older saves.
    */
   readonly townPay?: number;
+  /** What a job in town paid a year on average, in current dollars. */
+  readonly averagePay?: number;
+  /** The nation's price index when it was last read. */
+  readonly priceIndexSeen?: number;
   readonly lastRound: string;
 }
 
@@ -105,4 +115,9 @@ export interface TownFinanceStore {
   readonly banks: Readonly<Record<EntityId, TownBankBooks>>;
   /** Keyed `<town id>:<kind>`. */
   readonly markets: Readonly<Record<string, TownMarketBooks>>;
+  /**
+   * The nation's price index when the books began: the books run in its
+   * dollars. Absent in older saves until their next quarter.
+   */
+  readonly basePriceIndex?: number;
 }

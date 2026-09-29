@@ -13,6 +13,7 @@ import {
 import {
   townBusinessHasRoomToHire,
   townBusinessKindBooks,
+  townBusinessLaysOff,
 } from "../../src/simulation/living-world/town-business-books";
 import {
   TOWN_BUSINESS_CLOSING_REASONS,
@@ -26,6 +27,7 @@ import {
   BANK_FAILED_EVENT,
   BUSINESS_CLOSED_EVENT,
   TOWN_FINANCE_CLOSING_REASONS,
+  closeBusinessesOutOfCash,
   stepTownFinances,
 } from "../../src/simulation/living-world/town-finances";
 import { TOWN_FINANCE_ORIGIN_READER } from "../../src/simulation/macro-economy/sources";
@@ -82,42 +84,98 @@ describe(
       expect(new Set(names).size).toBe(names.length);
     });
 
-    it("records each closing with its cause, and nothing closes that had cash", () => {
-      expect(closings.length).toBeGreaterThan(0);
-      for (const event of closings) {
-        expect(event.tags).toContain("cause:ran-out-of-cash");
-        expect(tagValue(event.tags, "credit:")).toBeDefined();
-        const organizationId = tagValue(event.tags, "organization:")!;
-        expect(
-          world.townFinances!.businesses[organizationId]!.cash,
-        ).toBeLessThan(0);
-        expect(
-          organizationClosingAt(world, organizationId)?.closed?.reason,
-        ).toBe(TOWN_BUSINESS_CLOSING_REASONS.ranOutOfCash);
-        expect(event.summary).toMatch(/closed after its cash ran out/);
-        // It names what moved its sales, or that its costs outran them.
-        expect(
-          event.tags.some((tag) => tag.startsWith("sales-fell:")) ||
-            /never took in enough|costs had come to outrun/.test(event.summary),
-        ).toBe(true);
+    it("sets every business's prices, in the dollars of the day the books began", () => {
+      const store = world.townFinances!;
+      expect(store.basePriceIndex).toBeGreaterThan(0);
+      const months = world.macroEconomy!.months.filter(
+        (month) => month.scope === "national",
+      );
+      const level = months.at(-1)!.priceIndex / store.basePriceIndex!;
+      for (const books of Object.values(store.businesses)) {
+        expect(books.price).toBeGreaterThan(0);
+        // A year of costs and crowding moves a price, never wildly.
+        expect(books.price! / level).toBeGreaterThan(0.8);
+        expect(books.price! / level).toBeLessThan(1.25);
       }
     });
 
-    it("feeds a closing that cost jobs into the town's own economy", () => {
-      const withJobs = closings.filter(
-        (event) => Number(tagValue(event.tags, "jobs:")) > 0,
-      );
-      expect(withJobs.length).toBeGreaterThan(0);
-      const shocks = world.macroEconomy!.shocks;
-      for (const event of withJobs)
+    it("in a year at real margins, nothing closes that had cash", () => {
+      // Marcus's first year closed four businesses at the earlier head, each
+      // from a defect (a drawn opening margin, a drawn customer drift, costs
+      // that did not follow sales, pay read over an uneven count of
+      // paydays). At each kind's real margin none runs out of cash.
+      for (const event of closings) {
+        const organizationId = tagValue(event.tags, "organization:")!;
+        if (!event.tags.includes("cause:ran-out-of-cash")) continue;
         expect(
-          shocks.some(
-            (shock) =>
-              shock.originEventId === event.id &&
-              shock.kind === "regional-industry-downturn" &&
-              shock.scope === `jurisdiction:${town}`,
-          ),
-        ).toBe(true);
+          world.townFinances!.businesses[organizationId]!.cash,
+        ).toBeLessThan(0);
+      }
+    });
+
+    it("a business whose cash and credit are gone closes, names why, and costs the town its jobs", () => {
+      const store = world.townFinances!;
+      const running = townBusinesses(world, town).filter(
+        (business) =>
+          business.jobs.length > 0 && store.businesses[business.organizationId],
+      );
+      const target = running[0]!;
+      const books = store.businesses[target.organizationId]!;
+      // Its cash is a year of its sales in the red, and its line is used up.
+      const broke: World = {
+        ...world,
+        townFinances: {
+          ...store,
+          businesses: {
+            ...store.businesses,
+            [target.organizationId]: {
+              ...books,
+              cash: -books.annualRevenue,
+              debt: books.lineLimit,
+            },
+          },
+        },
+      };
+      const quarter = stepTownFinances(
+        broke,
+        town,
+        running.map((business) => ({
+          organizationId: business.organizationId,
+          kind: business.workplace.key,
+          newcomer: business.outlet >= business.workplace.outlets,
+        })),
+        new Set(),
+        "business-broke",
+        null,
+      );
+      expect(quarter.closing.map((row) => row.organizationId)).toEqual([
+        target.organizationId,
+      ]);
+      const closed = closeBusinessesOutOfCash(
+        quarter.world,
+        town,
+        quarter.closing,
+        "b19-test:",
+      );
+      const event = closed.history.events.at(-1)!;
+      expect(event.type).toBe(BUSINESS_CLOSED_EVENT);
+      expect(event.tags).toContain("cause:ran-out-of-cash");
+      expect(tagValue(event.tags, "credit:")).toBeDefined();
+      expect(tagValue(event.tags, "organization:")).toBe(target.organizationId);
+      expect(Number(tagValue(event.tags, "jobs:"))).toBe(target.jobs.length);
+      expect(
+        organizationClosingAt(closed, target.organizationId)?.closed?.reason,
+      ).toBe(TOWN_BUSINESS_CLOSING_REASONS.ranOutOfCash);
+      expect(event.summary).toMatch(/closed after its cash ran out/);
+      const origins = TOWN_FINANCE_ORIGIN_READER.origins(
+        closed,
+        closed.currentDate,
+      ).filter((origin) => origin.originEventId === event.id);
+      expect(origins.map((origin) => origin.kind)).toContain(
+        "regional-industry-downturn",
+      );
+      for (const origin of origins)
+        expect(origin.scope).toBe(`jurisdiction:${town}`);
     });
 
     it("a bank whose capital is gone fails, is recorded, and tightens credit in its town", () => {
@@ -219,6 +277,17 @@ describe("Build 19: a business hires when its sales need hands", () => {
     expect(
       townBusinessHasRoomToHire({ ...books!, annualRevenue: 140_000 }, 4),
     ).toBe(true);
+  });
+
+  it("lets somebody go when its sales no longer cover its pay", () => {
+    expect(townBusinessLaysOff({ ...books!, annualRevenue: 80_000 }, 3)).toBe(
+      true,
+    );
+    expect(townBusinessLaysOff(books, 3)).toBe(false);
+    // A business of one runs on its cash until its books close it.
+    expect(townBusinessLaysOff({ ...books!, annualRevenue: 80_000 }, 1)).toBe(
+      false,
+    );
   });
 
   it("hires as before when its books have not opened", () => {

@@ -165,10 +165,62 @@ export function otherCostsAtSales(books: TownBusinessBooks): number {
 export function townBusinessHasRoomToHire(
   books: TownBusinessBooks | undefined,
   staff: number,
+  /** What a job in town pays a year on average, when known. */
+  townAveragePay = 0,
 ): boolean {
   if (!books || books.lastQuarterPay === undefined || staff <= 0) return true;
-  const affordable =
-    books.annualRevenue * (1 - books.margin) - otherCostsAtSales(books);
-  const payWithOneMore = (books.lastQuarterPay * 4 * (staff + 1)) / staff;
-  return payWithOneMore <= affordable;
+  const yearlyPay = books.lastQuarterPay * 4;
+  // The next hire may be paid more than its average worker: at least the
+  // town's average job.
+  const payWithOneMore =
+    yearlyPay + Math.max(yearlyPay / staff, townAveragePay);
+  return payWithOneMore <= payTheBooksCover(books);
 }
+
+/** The yearly pay its sales cover after its other costs and its margin. */
+function payTheBooksCover(books: TownBusinessBooks): number {
+  return books.annualRevenue * (1 - books.margin) - otherCostsAtSales(books);
+}
+
+/**
+ * Whether a business lays somebody off this quarter: its sales last quarter
+ * no longer covered its pay after its other costs, and it has somebody
+ * besides whoever runs it. One person a quarter; a business of one keeps
+ * going on its cash until its books close it.
+ */
+export function townBusinessLaysOff(
+  books: TownBusinessBooks | undefined,
+  staff: number,
+): boolean {
+  if (!books || books.lastQuarterPay === undefined || staff < 2) return false;
+  return books.lastQuarterPay * 4 > payTheBooksCover(books) + 1;
+}
+
+/**
+ * GAME ASSUMPTION: the town workplaces that are businesses which open and
+ * close. Utilities, banks, the regional office and the hospital are
+ * branches or institutions that rarely close in a town's lifetime; public
+ * offices, congregations, unions and parties are not businesses.
+ */
+export const TOWN_BUSINESS_WORKPLACES: ReadonlySet<string> = new Set([
+  "farm",
+  "quarry",
+  "construction",
+  "manufacturing",
+  "wholesale",
+  "retail",
+  "trucking",
+  "information",
+  "insurance",
+  "realty",
+  "professional",
+  "building-services",
+  "private-school",
+  "clinic",
+  "care-home",
+  "recreation",
+  "restaurant",
+  "inn",
+  "repair",
+  "personal-care",
+]);

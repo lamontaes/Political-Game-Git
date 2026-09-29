@@ -111,6 +111,20 @@ export const TOWN_FINANCE_POLICY = {
      * first business's sales from what residents spent elsewhere.
      */
     newDemandShare: 0,
+    /**
+     * PLACEHOLDER: how far a quarter's crowding moves a business's prices.
+     * A business whose customers want more than its staff can serve raises
+     * its prices by this share of the gap, and one with too few customers
+     * cuts them the same way, at most `priceStepMax` a quarter.
+     */
+    crowdingPriceShare: 0.1,
+    priceStepMax: 0.05,
+    /**
+     * PLACEHOLDER: how strongly customers choose among a town's businesses
+     * of one kind by price: a business's share of their spending goes with
+     * its capacity times its price over the others' to this power, negated.
+     */
+    rivalPriceElasticity: 3,
   },
   bank: {
     /** PLACEHOLDER: capital as a share of assets when books open. */
@@ -135,6 +149,18 @@ export const TOWN_FINANCE_POLICY = {
     localLossFactorMax: 3,
   },
 } as const;
+
+/**
+ * How much less of a kind customers buy when its prices rise against
+ * everything else (own-price elasticity of demand). Restaurants: MEASURED,
+ * 0.81 for food away from home (Andreyeva, Long and Brownell, "The Impact
+ * of Food Prices on Consumption," American Journal of Public Health, 2010).
+ * Every other kind: PLACEHOLDER, 0.5.
+ */
+export const TOWN_KIND_PRICE_ELASTICITY: Readonly<Record<string, number>> = {
+  restaurant: 0.81,
+};
+const DEFAULT_PRICE_ELASTICITY = 0.5;
 
 export interface BankShape {
   readonly state: string | null;
@@ -280,6 +306,8 @@ interface Economy {
   readonly debtRatePct: number;
   readonly lendingGrowthPct: number;
   readonly tightness: number;
+  /** The nation's price index, its latest month. */
+  readonly priceIndex: number;
   readonly nationalUnemploymentPct: number | null;
 }
 
@@ -320,6 +348,7 @@ function economyOf(world: World): Economy | null {
       : growth + inflation,
     tightness: mean(national.map((m) => m.creditTightness)),
     nationalUnemploymentPct: national.at(-1)!.unemploymentPct,
+    priceIndex: national.at(-1)!.priceIndex,
   };
 }
 
@@ -328,6 +357,36 @@ export type TownUnemploymentReader = (
   world: World,
   town: EntityId,
 ) => number | null;
+
+/**
+ * How many workers' worth of each kind's spending in town its open
+ * businesses cannot serve, by kind: the kind's sales less what its members
+ * can sell, over what one worker's pay brings in sales at the town's
+ * average pay. A kind whose every business has closed leaves all of its
+ * spending unserved. Kinds with no market yet are absent.
+ */
+export function townUnservedJobs(
+  world: World,
+  town: EntityId,
+): Map<string, number> {
+  const store = world.townFinances;
+  const unserved = new Map<string, number>();
+  if (!store) return unserved;
+  const P = TOWN_FINANCE_POLICY.business;
+  for (const market of Object.values(store.markets)) {
+    if (market.town !== town) continue;
+    const perJob =
+      market.townPay !== undefined && market.townJobs > 0
+        ? market.townPay / market.townJobs / P.payShareOfRevenue
+        : 0;
+    if (perJob <= 0) continue;
+    const capacity = market.members
+      .filter((id) => !organizationClosingAt(world, id))
+      .reduce((sum, id) => sum + (store.businesses[id]?.capacity ?? 0), 0);
+    unserved.set(market.kind, (market.annualSales - capacity) / perJob);
+  }
+  return unserved;
+}
 
 // ─── Opening books ──────────────────────────────────────────────────────
 
@@ -498,7 +557,17 @@ export function stepTownFinances(
   // The quarterly review runs every 91 days.
   const since = addDays(world.currentDate, -91);
   const pay = payBetween(world, all, since);
+  // The books run in the dollars of the day they began: pay, set in current
+  // dollars, is deflated by the nation's prices since.
+  const basePriceIndex = store.basePriceIndex ?? economy.priceIndex;
+  const priceLevel = economy.priceIndex / basePriceIndex;
   const townJobs = activeTownJobs(world, town).length;
+  const averagePay =
+    townJobs > 0
+      ? ([...pay.values()].reduce((sum, value) => sum + value, 0) * 4) /
+        townJobs
+      : 0;
+  for (const [id, value] of pay) pay.set(id, value / priceLevel);
   const townPay = round2(
     [...pay.values()].reduce((sum, value) => sum + value, 0) * 4,
   );
@@ -549,15 +618,68 @@ export function stepTownFinances(
             .integer(0, openBanks.length)
         ]!
       : null;
-    books[organizationId] = openBusinessBooks(
-      world,
-      organizationId,
-      kind,
-      quarterPay,
-      bankId,
-      round,
-    );
+    books[organizationId] = {
+      ...openBusinessBooks(
+        world,
+        organizationId,
+        kind,
+        quarterPay,
+        bankId,
+        round,
+      ),
+      price: round6(priceLevel),
+    };
   }
+
+  // Each business sets its prices from its costs and its customers: its
+  // costs follow what a job in town pays and the nation's prices, weighted
+  // by its own pay and other costs; a crowded business raises its prices,
+  // an idle one cuts them.
+  const prices = new Map<EntityId, number>();
+  for (const { organizationId, kind } of businesses) {
+    const existing = books[organizationId];
+    if (!existing) continue;
+    const price = existing.price ?? priceLevel;
+    if (
+      existing.lastRound === round ||
+      existing.openedAt === world.currentDate
+    ) {
+      prices.set(organizationId, price);
+      continue;
+    }
+    const market = markets[`${town}:${kind}`];
+    const wageGrowth =
+      market?.averagePay && averagePay > 0 ? averagePay / market.averagePay : 1;
+    const inflation = market?.priceIndexSeen
+      ? economy.priceIndex / market.priceIndexSeen
+      : 1;
+    const yearlyPay = (existing.lastQuarterPay ?? 0) * 4;
+    const otherCosts = otherCostsAtSales(existing);
+    const payShare =
+      yearlyPay + otherCosts > 0 ? yearlyPay / (yearlyPay + otherCosts) : 0;
+    const costGrowth = payShare * wageGrowth + (1 - payShare) * inflation;
+    const crowding =
+      existing.capacity > 0
+        ? existing.annualRevenue / existing.capacity - 1
+        : 0;
+    const step = Math.max(
+      -P.priceStepMax,
+      Math.min(P.priceStepMax, P.crowdingPriceShare * crowding),
+    );
+    prices.set(organizationId, round6(price * costGrowth * Math.exp(step)));
+  }
+  // What a kind's prices are against everything else, weighted by capacity.
+  const realPriceOf = (
+    ids: readonly EntityId[],
+    price: (id: EntityId) => number,
+  ) => {
+    const capacity = ids.reduce((sum, id) => sum + books[id]!.capacity, 0);
+    return capacity > 0
+      ? ids.reduce((sum, id) => sum + books[id]!.capacity * price(id), 0) /
+          capacity /
+          priceLevel
+      : 1;
+  };
 
   // Each kind of business shares one market. A newcomer brings some new
   // spending and takes the rest from the others; a closing takes some
@@ -587,6 +709,8 @@ export function stepTownFinances(
         members: now,
         townJobs,
         townPay,
+        averagePay: round2(averagePay),
+        priceIndexSeen: economy.priceIndex,
         lastRound: round,
       };
       continue;
@@ -603,7 +727,29 @@ export function stepTownFinances(
         : market.townJobs > 0 && townJobs > 0
           ? (townJobs / market.townJobs) ** P.localDemandShare
           : 1;
-    let sales = market.annualSales * demandGrowth * incomeFactor;
+    // Customers buy less of a kind whose prices rose against everything
+    // else, and spend more or less on it by the elasticity.
+    const stayed = now.filter((id) => before.has(id));
+    // Last quarter's prices, carried to today's price level.
+    const sinceSeen = market.priceIndexSeen
+      ? economy.priceIndex / market.priceIndexSeen
+      : 1;
+    const lastRealPrice = realPriceOf(stayed, (id) =>
+      books[id]!.price !== undefined
+        ? books[id]!.price! * sinceSeen
+        : priceLevel,
+    );
+    const elasticity =
+      TOWN_KIND_PRICE_ELASTICITY[kind] ?? DEFAULT_PRICE_ELASTICITY;
+    const nowRealPrice = realPriceOf(
+      stayed,
+      (id) => prices.get(id) ?? priceLevel,
+    );
+    const priceFactor =
+      stayed.length > 0 && lastRealPrice > 0
+        ? (nowRealPrice / lastRealPrice) ** (1 - elasticity)
+        : 1;
+    let sales = market.annualSales * demandGrowth * incomeFactor * priceFactor;
     for (const id of now)
       if (!before.has(id))
         sales +=
@@ -617,6 +763,8 @@ export function stepTownFinances(
       members: now,
       townJobs,
       townPay,
+      averagePay: round2(averagePay),
+      priceIndexSeen: economy.priceIndex,
       lastRound: round,
     };
   }
@@ -644,17 +792,20 @@ export function stepTownFinances(
     if (!existing || existing.lastRound === round) continue;
     const quarterPay = pay.get(organizationId) ?? 0;
     const market = markets[`${town}:${kind}`]!;
-    const capacityOfKind = market.members.reduce(
-      (sum, id) => sum + books[id]!.capacity,
+    // Its sales are its share of what the town spends on its kind: its
+    // capacity, weighed by its prices against its rivals'. Nothing is
+    // drawn: its sales move with the town's pay, the nation's economy, its
+    // prices and its rivals.
+    const weightOf = (id: EntityId) =>
+      books[id]!.capacity *
+      ((prices.get(id) ?? priceLevel) / priceLevel) ** -P.rivalPriceElasticity;
+    const weightOfKind = market.members.reduce(
+      (sum, id) => sum + weightOf(id),
       0,
     );
-    // Its sales are its share of what the town spends on its kind. Nothing
-    // is drawn: its sales move with the town's pay, the nation's economy
-    // and its rivals.
-    const annualRevenue =
-      capacityOfKind > 0
-        ? (market.annualSales * existing.capacity) / capacityOfKind
-        : 0;
+    const share =
+      weightOfKind > 0 ? weightOf(organizationId) / weightOfKind : 0;
+    const annualRevenue = market.annualSales * share;
     // Goods it sells and supplies it uses rise and fall with its sales; the
     // rest (rent, insurance, upkeep) does not (`TOWN_BUSINESS_KIND_BOOKS`).
     const annualOtherCosts = otherCostsAtSales({ ...existing, annualRevenue });
@@ -686,6 +837,7 @@ export function stepTownFinances(
       annualRevenue: round2(annualRevenue),
       ownDemandLog: 0,
       lastQuarterPay: round2(quarterPay),
+      price: prices.get(organizationId) ?? round6(priceLevel),
       bankId,
       lastQuarterNet: round2(net),
       lastRound: round,
@@ -703,7 +855,7 @@ export function stepTownFinances(
         organizationId,
         books: next,
         why,
-        share: capacityOfKind > 0 ? existing.capacity / capacityOfKind : 0,
+        share,
         marketSales: market.annualSales,
       });
       if (bankId && debt > 0)
@@ -787,6 +939,7 @@ export function stepTownFinances(
       businesses: books,
       banks,
       markets,
+      basePriceIndex,
     },
   };
   for (const { bankId, cause } of failing)
@@ -866,6 +1019,78 @@ function closeOrganization(
       provenance,
     });
   return { world: next, jobsLost: jobs.length };
+}
+
+/**
+ * Closes a business nobody works at any more: whoever ran it retired, died
+ * or left, and nobody took their place. Its closing names who left last and
+ * why, and records `ownerRetired` when they retired or died.
+ */
+export function closeBusinessWithNobodyLeft(
+  world: World,
+  town: EntityId,
+  organizationId: EntityId,
+  prefix: string,
+  closingReasons: {
+    readonly ownerRetired: string;
+    readonly nobodyLeft: string;
+  },
+): World {
+  const latest = new Map<EntityId, WorkStatusRecord>();
+  for (const status of world.history.workStatuses)
+    if (status.effectiveAt <= world.currentDate)
+      latest.set(status.workRelationshipId, status);
+  const [last] = world.history.workRelationships
+    .filter((row) => row.organizationId === organizationId)
+    .map((row) => ({ row, status: latest.get(row.id) }))
+    .filter(({ status }) => status?.status === "ended")
+    .sort(
+      (a, b) =>
+        b.status!.effectiveAt.localeCompare(a.status!.effectiveAt) ||
+        a.row.id.localeCompare(b.row.id),
+    );
+  const why = last?.status?.reason ?? null;
+  const retired =
+    why === TOWN_JOB_END_REASONS.retired || why === TOWN_JOB_END_REASONS.died;
+  const stableKey = `${prefix}close:${organizationId}`;
+  const name =
+    organizationProfileAt(world, organizationId)?.name ?? "A business";
+  const closed = closeOrganization(
+    world,
+    organizationId,
+    stableKey,
+    retired ? closingReasons.ownerRetired : closingReasons.nobodyLeft,
+    TOWN_JOB_END_REASONS.businessClosed,
+  );
+  const person = last ? world.people[last.row.personId] : undefined;
+  const who = person ? `${person.givenName} ${person.familyName}` : null;
+  const left =
+    why === TOWN_JOB_END_REASONS.retired
+      ? "retired"
+      : why === TOWN_JOB_END_REASONS.died
+        ? "died"
+        : "left";
+  return recordWorldEvent(closed.world, {
+    stableKey: `${stableKey}:event`,
+    type: BUSINESS_CLOSED_EVENT,
+    occurredAt: closed.world.currentDate,
+    recordedAt: closed.world.currentDate,
+    jurisdictionId: town,
+    involvedEntityIds: [organizationId],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      TOWN_FINANCES_VERSION,
+      `cause:${retired ? "owner-retired" : "nobody-left"}`,
+      `organization:${organizationId}`,
+      ...(why ? [`last-left:${why}`] : []),
+    ],
+    summary: who
+      ? `${name} closed: nobody was left to run it after ${who} ${left}.`
+      : `${name} closed: nobody was left to run it.`,
+    context: CONTEXT,
+  });
 }
 
 function failTownBank(

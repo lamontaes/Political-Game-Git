@@ -28,6 +28,7 @@ import {
 import { TOWN_JOB_END_REASONS } from "../../src/simulation/living-world/town-labor-market";
 import { reviewTownJobs } from "../../src/simulation/living-world/town-labor-market";
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
+import { BUSINESS_CLOSED_EVENT } from "../../src/simulation/living-world/town-finances";
 import { openingTakesApplications } from "../../src/simulation/job-market";
 import type { JobOpeningRecord } from "../../src/simulation/types";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
@@ -121,9 +122,24 @@ describe("the town's businesses open and close", { timeout: 600_000 }, () => {
       const summary = describeTownBusinesses(world, town, start);
       expect(before).toBeGreaterThan(5);
       // On the calendar alone nobody is paid, so no business's books open
-      // and nothing closes: a closing comes only from books that ran out of
-      // cash (tests/nationwide/town-finances.test.ts runs the real clock).
-      expect(summary.closed, JSON.stringify(summary)).toBe(0);
+      // and none runs out of cash (tests/nationwide/town-finances.test.ts
+      // runs the real clock). A business closes only when whoever ran it
+      // retired, died or moved away and nobody was left: never because its
+      // owner quit it or was laid off by a roll.
+      for (const event of world.history.events.filter(
+        (row) => row.type === BUSINESS_CLOSED_EVENT,
+      )) {
+        expect(event.tags.join(","), event.summary).toMatch(
+          /cause:(owner-retired|nobody-left)/,
+        );
+        expect(event.tags, event.summary).not.toContain("last-left:labor:quit");
+        expect(event.tags, event.summary).not.toContain(
+          "last-left:labor:laid-off",
+        );
+      }
+      expect(summary.closed, JSON.stringify(summary)).toBeLessThan(
+        summary.opened,
+      );
       expect(summary.opened).toBeGreaterThan(0);
       // 11.6% a year over five years, compounding as the town grows; well
       // inside two and a half times that either way.

@@ -34,10 +34,13 @@ import {
   type Workplace,
 } from "./town-employment";
 import { TOWN_JOB_END_REASONS } from "./town-labor-market";
+import { TOWN_BUSINESS_WORKPLACES } from "./town-business-books";
 import { townUnemploymentRate } from "./town-economy-measures";
 import {
   closeBusinessesOutOfCash,
+  closeBusinessWithNobodyLeft,
   stepTownFinances,
+  townUnservedJobs,
   TOWN_FINANCE_CLOSING_REASONS,
 } from "./town-finances";
 
@@ -70,34 +73,7 @@ export const TOWN_BUSINESS_TURNOVER = {
   exitPerYearForComparison: 0.116,
 } as const;
 
-/**
- * GAME ASSUMPTION: the town workplaces that are businesses which open and
- * close. Utilities, banks, the regional office and the hospital are
- * branches or institutions that rarely close in a town's lifetime; public
- * offices, congregations, unions and parties are not businesses.
- */
-export const TOWN_BUSINESS_WORKPLACES: ReadonlySet<string> = new Set([
-  "farm",
-  "quarry",
-  "construction",
-  "manufacturing",
-  "wholesale",
-  "retail",
-  "trucking",
-  "information",
-  "insurance",
-  "realty",
-  "professional",
-  "building-services",
-  "private-school",
-  "clinic",
-  "care-home",
-  "recreation",
-  "restaurant",
-  "inn",
-  "repair",
-  "personal-care",
-]);
+export { TOWN_BUSINESS_WORKPLACES };
 
 /**
  * GAME ASSUMPTION: a business whose manager is this old when it closes
@@ -114,6 +90,8 @@ export const TOWN_OWNER_RETIREMENT_AGE = 65;
  */
 export const TOWN_BUSINESS_CLOSING_REASONS = {
   ownerRetired: "business:owner-retired",
+  /** Nobody worked there any more, and whoever last did had not retired. */
+  nobodyLeft: "business:nobody-left",
   lackOfBusiness: "business:lack-of-business",
   ranOutOfCash: TOWN_FINANCE_CLOSING_REASONS.ranOutOfCash,
 } as const;
@@ -218,7 +196,6 @@ export function reviewTownBusinesses(
     return world;
   const businesses = townBusinesses(world, town);
   if (businesses.length === 0) return world;
-  const rng = new SeededRng(world.seed).fork(prefix);
   const provenance = {
     kind: "generated" as const,
     generatorKey: TOWN_BUSINESSES_VERSION,
@@ -236,11 +213,24 @@ export function reviewTownBusinesses(
       )
       .map((business) => business.organizationId),
   );
+  // A business nobody works at any more closes: its owner retired, died or
+  // left and nobody took over.
+  for (const business of businesses)
+    if (business.jobs.length === 0)
+      next = closeBusinessWithNobodyLeft(
+        next,
+        town,
+        business.organizationId,
+        prefix,
+        TOWN_BUSINESS_CLOSING_REASONS,
+      );
+  const running = businesses.filter((business) => business.jobs.length > 0);
+  if (running.length === 0) return next;
   const unemployment = townUnemploymentRate(next, town).value;
   const quarter = stepTownFinances(
     next,
     town,
-    businesses.map((business) => ({
+    running.map((business) => ({
       organizationId: business.organizationId,
       kind: business.workplace.key,
       newcomer: business.outlet >= business.workplace.outlets,
@@ -251,14 +241,11 @@ export function reviewTownBusinesses(
   );
   next = closeBusinessesOutOfCash(quarter.world, town, quarter.closing, prefix);
 
-  // Openings: about as many as the approved entry rate gives, each of the
-  // kind the town is shortest of against its own mix of jobs.
-  const expected =
-    (businesses.length * TOWN_BUSINESS_TURNOVER.entryPerYear) / 4;
-  const openings =
-    Math.floor(expected) +
-    (rng.fork("openings").next() < expected - Math.floor(expected) ? 1 : 0);
-  if (openings === 0) return next;
+  // Openings, decided by the town's customers: a resident opens a business
+  // of a kind whose customers go unserved, the kind whose spending in town
+  // runs furthest past what its open businesses can serve, by at least one
+  // worker's worth of sales. A kind the town has no market for yet is
+  // judged by the town's own mix of jobs. Nothing is drawn.
   const weights = [...townWorkplaceWeights(town)].filter(
     ([key, weight]) => weight > 0 && TOWN_BUSINESS_WORKPLACES.has(key),
   );
@@ -272,7 +259,9 @@ export function reviewTownBusinesses(
   for (const relationship of next.history.workRelationships)
     if (latest.get(relationship.id) === "active")
       working.add(relationship.personId);
-  for (let n = 0; n < openings; n += 1) {
+  const opened = new Set<string>();
+  const founders = new Set<EntityId>();
+  for (;;) {
     const open = townBusinesses(next, town);
     const jobsOf = new Map<string, number>();
     let totalJobs = 0;
@@ -283,17 +272,22 @@ export function reviewTownBusinesses(
       );
       totalJobs += business.jobs.length;
     }
+    const unserved = townUnservedJobs(next, town);
     const [shortest] = weights
+      .filter(([key]) => !opened.has(key))
       .map(
         ([key, weight]) =>
           [
             key,
-            (weight / totalWeight) * totalJobs - (jobsOf.get(key) ?? 0),
+            unserved.get(key) ??
+              (weight / totalWeight) * totalJobs - (jobsOf.get(key) ?? 0),
           ] as const,
       )
+      .filter(([, short]) => short >= 1)
       .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
     const workplace = shortest ? WORKPLACE_BY_KEY.get(shortest[0]) : undefined;
     if (!workplace) break;
+    opened.add(workplace.key);
     const lead =
       workplace.roles.find((entry) => entry.authority === "directs-others")
         ?.minAge ?? WORKING_AGE_MIN;
@@ -308,17 +302,50 @@ export function reviewTownBusinesses(
           laborStatus(next, resident) !== "student",
       )
       .sort((a, b) => a.personId.localeCompare(b.personId));
-    const idle = able.filter((resident) => !working.has(resident.personId));
+    // Nobody leaves a business they run to open another: not whoever
+    // directs one, nor a business's one remaining worker.
+    const runsOne = new Set<EntityId>();
+    for (const business of open)
+      for (const job of business.jobs)
+        if (business.jobs.length === 1) runsOne.add(job.personId);
+    const idle = able.filter(
+      (resident) =>
+        !working.has(resident.personId) && !founders.has(resident.personId),
+    );
     const owner =
       idle.length > 0
         ? idle
-        : able.filter((resident) =>
-            activeWorkRelationshipsAt(next, resident.personId).every(
-              (job) => job.relationship.authority !== "directs-others",
-            ),
+        : able.filter(
+            (resident) =>
+              !founders.has(resident.personId) &&
+              !runsOne.has(resident.personId) &&
+              activeWorkRelationshipsAt(next, resident.personId).every(
+                (job) => job.relationship.authority !== "directs-others",
+              ),
           );
     if (owner.length === 0) break;
-    const chosen = owner[rng.fork(`owner:${n}`).integer(0, owner.length)]!;
+    // The one who knows the trade opens it: someone who has worked in this
+    // kind of business before, then the oldest, then by id.
+    const stem = `${TOWN_EMPLOYMENT_VERSION}:${town}:employer:${workplace.key}:`;
+    const tradeOrgs = new Set(
+      next.history.organizations
+        .filter((row) => row.stableKey.startsWith(stem))
+        .map((row) => row.id),
+    );
+    const knowsTrade = new Set(
+      next.history.workRelationships
+        .filter(
+          (row) => row.organizationId && tradeOrgs.has(row.organizationId),
+        )
+        .map((row) => row.personId),
+    );
+    const chosen = [...owner].sort(
+      (a, b) =>
+        Number(knowsTrade.has(b.personId)) -
+          Number(knowsTrade.has(a.personId)) ||
+        b.age - a.age ||
+        a.personId.localeCompare(b.personId),
+    )[0]!;
     if (idle.length === 0)
       for (const job of activeWorkRelationshipsAt(next, chosen.personId))
         next = recordWorkStatus(next, {
@@ -335,7 +362,6 @@ export function reviewTownBusinesses(
       next.history.organizations.map((organization) => organization.stableKey),
     );
     let outlet = workplace.outlets;
-    const stem = `${TOWN_EMPLOYMENT_VERSION}:${town}:employer:${workplace.key}:`;
     while (written.has(`${stem}${outlet}`)) outlet += 1;
     next = writeTownEmployer(
       next,
@@ -354,6 +380,7 @@ export function reviewTownBusinesses(
       into: { workplace: workplace.key, organizationId },
     });
     working.add(chosen.personId);
+    founders.add(chosen.personId);
   }
   return next;
 }
