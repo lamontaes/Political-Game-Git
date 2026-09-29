@@ -13,3 +13,8 @@ Congress proposes only when two-thirds of each house would vote yes, and each
 state legislature ratifies when most of its members would. Before, a draw
 decided whether Congress proposed it, how each house divided, and whether each
 state ratified.
+
+A sitting President now decides for themselves whether to run again, from
+their age, health, temperament and family, as other officeholders do. Before,
+a President 78 or older always stepped down and a younger one ran four times
+in five by a draw.
