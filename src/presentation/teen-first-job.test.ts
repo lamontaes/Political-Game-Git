@@ -84,9 +84,9 @@ describe("a teenager's first job", () => {
     const later = passOrdinaryDays(reloaded, 21);
     const { paid } = paymentsFor(later, work.id);
     expect(paid.length).toBe(3);
-    // 11 hours, the middle of its 8 to 14, at the federal minimum: the
-    // marked placeholder.
-    expect(paid[0]!.transferredAmount.minorUnits).toBe(725 * 11);
+    // 11 hours, the middle of its 8 to 14, at Nevada's minimum wage of
+    // $12.00 an hour, the state's rate on file for the day it was taken.
+    expect(paid[0]!.transferredAmount.minorUnits).toBe(1_200 * 11);
     assertWorldIntegrity(later);
   });
 

@@ -508,9 +508,53 @@
         "diner__night.jpg",
         "diner__rain.jpg"
       ],
-      "surfaces": [],
+      "surfaces": [
+        {
+          "id": "diner-left-wall-board",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blank framed board on the back wall above the booths, left of the kitchen pass-through",
+          "quad": [
+            [609, 214],
+            [719, 214],
+            [719, 305],
+            [609, 305]
+          ],
+          "perspective": false,
+          "shows": []
+        },
+        {
+          "id": "diner-right-wall-board",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blank framed board on the back wall right of the kitchen pass-through, above the counter",
+          "quad": [
+            [1240, 184],
+            [1392, 184],
+            [1392, 307],
+            [1240, 307]
+          ],
+          "perspective": false,
+          "shows": ["candidates"]
+        },
+        {
+          "id": "diner-side-wall-menu-board",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blank framed board on the right side wall above the coffee shelf; runs off the right image edge and its lower right is hidden by the stacked plates, so the quad covers only the visible clear part",
+          "quad": [
+            [1597, 161],
+            [1671, 141],
+            [1671, 224],
+            [1597, 256]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
       "skipped": [
-        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+        "kitchen door window (x 818-850, y 283-318): a window and under 36 px",
+        "no screens, posters or papers"
       ]
     },
     "dmv-office": {

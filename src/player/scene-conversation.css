@@ -282,6 +282,29 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
   gap: 0.2rem 0.35rem;
 }
 
+/*
+ * In a wide box, more than four replies sit in columns so the box grows
+ * sideways before it grows down, and a long reply takes its own row. In the
+ * usual 36rem box the wrapped row packs short replies tighter than columns
+ * would. The frame is sized from whichever layout the width gives
+ * (scene-conversation-frame.ts), so nothing scrolls.
+ */
+.pg-talk {
+  container-type: inline-size;
+}
+
+@container (min-width: 38rem) {
+  .pg-talk-choices[data-columns="true"] {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    align-items: end;
+  }
+
+  .pg-talk-choices[data-columns="true"] > .pg-talk-choice--wide {
+    grid-column: 1 / -1;
+  }
+}
+
 .pg-talk .pg-talk-choice,
 .pg-talk .pg-talk-chip {
   min-height: 1.85rem;

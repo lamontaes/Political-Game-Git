@@ -1,3 +1,4 @@
+import { recordById } from "../history-index";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../dates";
 import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
@@ -12,7 +13,13 @@ import {
 } from "../life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { STATES } from "../state-reference";
-import type { EntityId, IsoDate, World } from "../types";
+import type {
+  EntityId,
+  IsoDate,
+  LegislativeEnactmentRecord,
+  LegislativeMeasureRecord,
+  World,
+} from "../types";
 import { mayAnswerQuestion } from "./question-authority";
 
 /**
@@ -69,6 +76,11 @@ export interface LawInForce {
   readonly operativeAt: IsoDate;
   /** `game-default` when the blanket effective date was applied. */
   readonly operativeBasis: "enacted-date" | "game-default";
+  /**
+   * For a law the game began with: whether it also bars the place's
+   * localities from answering otherwise, where the starting-law row says.
+   */
+  readonly preempts?: boolean;
 }
 
 export function lawInForce(
@@ -79,19 +91,26 @@ export function lawInForce(
 ): LawInForce | null {
   const chain = governingChain(jurisdictionId);
   let best: Candidate | null = null;
-  for (const enactment of world.history.legislativeEnactments ?? []) {
-    if (enactment.outcome !== "enacted") continue;
-    const measure = world.history.legislativeMeasures?.find(
-      (entry) => entry.id === enactment.measureId,
-    );
-    if (!measure) continue;
+  const authority = new Map<EntityId, boolean>();
+  for (const { enactment, measure } of enactedByQuestion(world).get(
+    propositionId,
+  ) ?? []) {
     const level = chain.get(measure.jurisdictionId);
     if (!level) continue;
     const answer = measurePropositionAnswer(measure, propositionId);
     if (!answer) continue;
     // Beyond its level's powers: on the record, and governing nothing.
-    if (!mayAnswerQuestion(world, measure.jurisdictionId, propositionId))
-      continue;
+    let may = authority.get(measure.jurisdictionId);
+    if (may === undefined) {
+      may = mayAnswerQuestion(
+        world,
+        measure.jurisdictionId,
+        propositionId,
+        onDate,
+      );
+      authority.set(measure.jurisdictionId, may);
+    }
+    if (!may) continue;
     const operativeAt =
       enactment.effectiveAt ??
       addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS);
@@ -119,7 +138,49 @@ export function lawInForce(
     level: best.level,
     operativeAt: best.operativeAt,
     operativeBasis: best.operativeBasis,
+    ...(best.preempts === undefined ? {} : { preempts: best.preempts }),
   };
+}
+
+interface EnactedMeasure {
+  readonly enactment: LegislativeEnactmentRecord;
+  readonly measure: LegislativeMeasureRecord;
+}
+
+const ENACTED_BY_QUESTION = new WeakMap<
+  readonly LegislativeEnactmentRecord[],
+  {
+    readonly measures: readonly LegislativeMeasureRecord[];
+    readonly byQuestion: ReadonlyMap<EntityId, readonly EnactedMeasure[]>;
+  }
+>();
+
+/**
+ * The enacted measures that answer each question, in enactment order. Every
+ * member's every vote asks what law is in force, and reading every enactment
+ * the world has ever had for each one grew with the save. Both lists only
+ * grow, so this is rebuilt when either one changes.
+ */
+function enactedByQuestion(
+  world: World,
+): ReadonlyMap<EntityId, readonly EnactedMeasure[]> {
+  const enactments = world.history.legislativeEnactments ?? [];
+  const measures = world.history.legislativeMeasures ?? [];
+  const cached = ENACTED_BY_QUESTION.get(enactments);
+  if (cached && cached.measures === measures) return cached.byQuestion;
+  const byQuestion = new Map<EntityId, EnactedMeasure[]>();
+  for (const enactment of enactments) {
+    if (enactment.outcome !== "enacted") continue;
+    const measure = recordById(measures, enactment.measureId);
+    if (!measure) continue;
+    for (const propositionId of new Set(measure.propositionIds ?? [])) {
+      const list = byQuestion.get(propositionId) ?? [];
+      list.push({ enactment, measure });
+      byQuestion.set(propositionId, list);
+    }
+  }
+  ENACTED_BY_QUESTION.set(enactments, { measures, byQuestion });
+  return byQuestion;
 }
 
 interface StartingLawRow {
@@ -197,6 +258,7 @@ function startingLawCandidate(
         origin: "in-force-at-start" as const,
         // Before any enactment: a law enacted in play on the same day governs.
         sequence: -1,
+        ...(row.preempts === undefined ? {} : { preempts: row.preempts }),
         ...(level === "state-statute" &&
         row.answer === "no" &&
         row.preempts === false

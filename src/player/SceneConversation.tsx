@@ -44,6 +44,9 @@ import {
   repliesForLieMode,
 } from "../presentation/lie-marker";
 
+/* A reply longer than this takes a whole row when the replies are in columns. */
+const WIDE_CHOICE_LENGTH = 40;
+
 /**
  * The conversation, as one box in the room.
  *
@@ -608,6 +611,7 @@ export function SceneConversation({
                 role="group"
                 aria-label="What you say"
                 data-testid="conversation-intents"
+                data-columns={speech.length > 4 ? "true" : undefined}
               >
                 {speech.map((option) => {
                   const lie = lieMarkerFor(option);
@@ -615,7 +619,12 @@ export function SceneConversation({
                     <button
                       key={option.key}
                       type="button"
-                      className="pg-talk-choice"
+                      className={
+                        (option.spokenWords ?? option.label).length >
+                        WIDE_CHOICE_LENGTH
+                          ? "pg-talk-choice pg-talk-choice--wide"
+                          : "pg-talk-choice"
+                      }
                       data-testid={`intent-${option.key}`}
                       title={
                         lie

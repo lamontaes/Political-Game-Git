@@ -2,7 +2,7 @@ import { describePersonContext, personName } from "../simulation";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../simulation";
 import { claimStanceOf } from "../simulation/claim-stances";
 import { recordedConversationTurns } from "./conversation-continuity";
-import { currentOpeningLifeScene } from "./life-scene-flow";
+import { currentLifeTalkScene } from "./life-talk-presence";
 import type { ConversationSubjectKey } from "./run-b-conversation-progress";
 
 /**
@@ -55,8 +55,22 @@ export function conversationExchangeTurns(
   addresseePersonId: EntityId | null,
 ): readonly ConversationExchangeTurn[] {
   if (subject === "life-talk") {
+    /*
+     * The scene the talk is recorded in: an opening scene, or the quiet room
+     * a player walks into (life-talk-presence.ts), the one the recorder tags.
+     * Reading only the opening scene left every turn in the quiet room not
+     * "current", so the box never said what the player had just said.
+     */
     const sceneId =
-      currentOpeningLifeScene(world, playerPersonId)?.eventId ?? null;
+      currentLifeTalkScene(world, playerPersonId)?.eventId ?? null;
+    // A quiet room is named by its moment; a half hour spent together moves
+    // the moment on, and it is still the same room that day.
+    const quietRoom = `quiet-home:${playerPersonId}:`;
+    const inThisScene = (event: HistoricalEvent) =>
+      sceneId !== null &&
+      (event.tags.includes(`scene:${sceneId}`) ||
+        (sceneId.startsWith(quietRoom) &&
+          event.tags.some((tag) => tag.startsWith(`scene:${quietRoom}`))));
     return world.history.events
       .filter(
         (event) =>
@@ -64,9 +78,7 @@ export function conversationExchangeTurns(
           event.occurredAt <= world.currentDate &&
           hasRole(event, playerPersonId, "focus:subject") &&
           (counterpart(event) === addresseePersonId ||
-            (sceneId !== null &&
-              event.occurredAt === world.currentDate &&
-              event.tags.includes(`scene:${sceneId}`))),
+            (event.occurredAt === world.currentDate && inThisScene(event))),
       )
       .sort((left, right) => left.sequence - right.sequence)
       .map((event) => {
@@ -75,10 +87,7 @@ export function conversationExchangeTurns(
           eventId: event.id,
           sequence: event.sequence,
           date: event.occurredAt,
-          current:
-            sceneId !== null &&
-            event.occurredAt === world.currentDate &&
-            event.tags.includes(`scene:${sceneId}`),
+          current: event.occurredAt === world.currentDate && inThisScene(event),
           playerLine: event.context.choice
             ? `You ${lowerFirst(endSentence(event.context.choice))}`
             : null,

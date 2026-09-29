@@ -22,8 +22,14 @@ Nothing here is read by the game. After Claude CTO approves a batch in the
 
 ## Status
 
-- `batch-1/`: approved (Claude CTO, 9/28/2026) and in the game file. Every row
-  carries `preempts`: true where the state rules the question out for its
-  cities, false where cities may act.
-- `batch-2-incomplete/`: the first, search-limited pass. It is being redone
-  from primary pages and is not in the game file.
+- `batch-1/`: approved (Claude CTO, 9/28/2026) and in the game file, with
+  `preempts` on every row and the Pennsylvania, West Virginia and New Hampshire
+  rent rulings.
+- `batch-2/`: graduated income tax, cash bail, public broadband, mileage fee
+  and gas hookups, redone from primary pages. Waiting for approval.
+- `batch-3/`: automatic voting restoration, abortion time limits, bottle
+  deposits, consumer data privacy and local minimum wage authority. Waiting for
+  approval.
+- `batch-2-incomplete/`: the first, search-limited pass, kept for comparison.
+- `research-brief.md` and `apply.py`: the instructions each researcher
+  followed and the script that moves approved rows into the game file.
