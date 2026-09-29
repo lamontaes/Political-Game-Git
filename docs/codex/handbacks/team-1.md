@@ -1,6 +1,18 @@
-# The final ten laws have direct operations; the year proof stopped incomplete
+# The final ten laws have direct operations; the full year proof restarted
 
-MERGED: Nothing. The laws are in a draft pull request for Claude CTO to review. The full matched-year proof stopped at the coordinator’s operational bound with no complete paired year. This hand-back establishes a stopped checkpoint, not completion or readiness.
+MERGED: Nothing. The laws remain in a draft pull request for Claude CTO to review. The owner-authorized full proof restarted on September 29 at 7:06 p.m. Eastern. It is running, with no completed paired-year rows yet. The earlier incomplete run and its diagnostics are preserved.
+
+## Current restart
+
+- Head: `32fd449dbbd51eece4c79c076b8ef5de5ebf465f`; branch `codex/wire-last-ten-laws`, registered workspace `/private/tmp/wt-main`.
+- Command: `npm run storage -- run test -- npm run laws:proof -- --jobs 1 --seed wave1-team1-restart-20260929-190627`.
+- Runner PID at launch: `37950`; first worker PID: `37986`. Source fingerprint remains `1c0dc135a1349e808af3512da93bddc942aed28d3169b9924bd5bddb47fe8889`.
+- Current result: RUNNING, 0 of 92 completed paired years. The first comparison is income tax in Ridgeville, South Carolina; its control reached 60 days. Team 1 holds non-Team4 heavy slot A, with one heavy chain and no competing typecheck or focused tests.
+- New log: `/private/tmp/team1-proof-restart-20260929-190627.log`; result directory: `test-results/laws-proof/1c0dc135a134/07115f3da5b4/`.
+- Previous report: `/private/tmp/team1-proof-incomplete-before-restart-20260929-190627.md`, SHA-256 `f6808059c51322b98d89b9f4eb1981cfa707b11c3c1782a45f81238009c2786b`. Earlier logs and profiles remain intact.
+- Scoped speed ownership release: Team 4 owns only batching around `decideAnotherTerm` at published lines 935 and 1379 of `src/simulation/living-world/local-elections.ts`. Baseline blob is `03830617c5e8e5a98b439348690ba7fdb800dcab`; Team 1 had no unpublished changes. Other law hunks remain Team 1. The release was appended under the canonical claims lock.
+
+The following sections describe the earlier bounded run until replacement completed-year receipts exist. They are not completion evidence for this restart.
 
 ## WHAT EMERGED
 
