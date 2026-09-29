@@ -3249,6 +3249,63 @@
       "evidence": "about-zero",
       "anchor": "Taxes move few people: even millionaires rarely leave high-tax states",
       "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review"
+    },
+    {
+      "key": "balanced-budget-to-borrowing-cost",
+      "from": "law:us-policy-positions:fiscal.balanced-operating-budget",
+      "to": "gov.borrowing-cost",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -8,
+      "per": "law in force says yes (1) rather than no (0), in basis points",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "researched",
+      "anchor": "States with strict anti-deficit rules paid 15 to 20 basis points less than states with lax rules on general-obligation bonds, 1973 to 1996; a statute moves a state partway, so 8",
+      "source": "Poterba and Rueben 1999, State Fiscal Institutions and the U.S. Municipal Bond Market (NBER w6237)",
+      "range": [-20, 0],
+      "floor": -19
+    },
+    {
+      "key": "pension-funding-to-borrowing-cost",
+      "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
+      "to": "gov.borrowing-cost",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -3,
+      "per": "law in force says yes (1) rather than no (0), in basis points",
+      "lagMonths": 36,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "PLACEHOLDER (research: pension-funding-borrowing-cost-size): spreads rose 7 to 15 basis points for each 10% of revenue lost in pension funds, in states in the lower half of credit quality; paying the full contribution heads off part of that. The size is a provisional range, drawn per world (Claude CTO, September 28, 2026)",
+      "source": "Novy-Marx and Rauh 2012, AEJ: Economic Policy 4(2)",
+      "range": [-8, 0],
+      "floor": -7
+    },
+    {
+      "key": "reserve-balance-to-borrowing-cost",
+      "from": "law:us-policy-positions:fiscal.minimum-reserve-balance",
+      "to": "gov.borrowing-cost",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -3,
+      "per": "law in force says yes (1) rather than no (0), in basis points",
+      "lagMonths": 24,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "provisional",
+      "anchor": "PLACEHOLDER (research: reserve-balance-borrowing-cost-size): rainy-day funds raise ratings and lower yields, but no study gives basis points per law; the size is a provisional range, drawn per world (Claude CTO, September 28, 2026)",
+      "source": "Pew Charitable Trusts 2017; Wagner 2004",
+      "range": [-6, 0],
+      "floor": -5
     }
   ],
   "calibratedAt": "2024-07-01"
