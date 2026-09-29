@@ -253,17 +253,25 @@ describe("the player's own eviction case", { timeout: 900_000 }, () => {
     ).toHaveLength(0);
   });
 
-  it("pays everything owed when the money is there, and the landlord drops the case", () => {
+  it("pays everything owed when the money is there, and the landlord drops the case that day", () => {
     const { world, player } = filed();
     const open = openEvictionCase(world, player)!;
-    // Enough for what is owed and the coming month's rent.
-    const funded = giveMoney(world, player, open.owedMinor * 2);
+    // Exactly what is owed: nothing is left for the coming month's rent.
+    const funded = giveMoney(world, player, open.owedMinor);
     expect(optionKeys(funded, player)).toContain("pay-what-is-owed");
     const paid = choose(funded, player, "pay-what-is-owed");
     expect(rentOwedByLeaseholder(paid, player)).toBe(0);
+    expect(openEvictionCase(paid, player)).toBeNull();
+    expect(
+      decided(paid, addDays(open.filedOn, -1)).map((event) => event.type),
+    ).toEqual([RENT_EVENTS.dismissed]);
+    // Missing the next month's rent does not revive the case.
     const after = stepTo(paid, open.decidedOn);
-    const outcome = decided(after, open.filedOn);
-    expect(outcome.map((event) => event.type)).toEqual([RENT_EVENTS.dismissed]);
+    expect(
+      decided(after, open.filedOn).filter(
+        (event) => event.type !== RENT_EVENTS.dismissed,
+      ),
+    ).toHaveLength(0);
   });
 });
 

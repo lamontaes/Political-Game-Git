@@ -11,9 +11,9 @@ import {
 } from "../simulation/job-market";
 import { addDays, daysBetween } from "../simulation/dates";
 import {
+  holdsLease,
   nextRentDay,
   openEvictionCase,
-  rentOwedByLeaseholder,
 } from "../simulation/living-world/town-rent";
 import {
   workRelationshipHistoryForPerson,
@@ -153,9 +153,9 @@ export function advanceStoppingForOfferDeadlines(
     )?.startOn;
     let stepTo = due && due < target ? due : target;
     if (start && start < stepTo) stepTo = start;
-    // Behind on rent, a skip goes one rent day at a time, so a case filed on
+    // Holding a lease, a skip goes one rent day at a time, so a case filed on
     // one is put to the player before the next decides it.
-    if (rentOwedByLeaseholder(current, personId) > 0) {
+    if (holdsLease(current, personId)) {
       const rentDay = nextRentDay(current.currentDate);
       if (rentDay < stepTo) stepTo = rentDay;
     }

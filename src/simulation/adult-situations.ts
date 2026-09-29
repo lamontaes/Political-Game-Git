@@ -2449,11 +2449,14 @@ function bindRequestTerms(
   situation: AdultSituation,
 ): AdultSituation {
   if (!situation.opportunity) return situation;
-  const request = lifeOpportunitiesFor(
+  const requests = lifeOpportunitiesFor(
     context.world,
     context.personId,
     context.asOfDate,
-  ).find((entry) => entry.kind === situation.opportunity);
+  ).filter((entry) => entry.kind === situation.opportunity);
+  // A case left unanswered stays on the record; a later case binds its own.
+  const request =
+    situation.opportunity === "eviction-case" ? requests.at(-1) : requests[0];
   const event = eventById(context.world, request?.eventId);
   if (!event) return situation;
   if (!request?.counterpartPersonId)
