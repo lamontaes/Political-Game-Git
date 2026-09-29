@@ -6,6 +6,7 @@ import {
   VETO_OVERRIDE_SOURCE_READINGS,
   vetoOverrideReadingFor,
 } from "./veto-override-source-readings";
+import { STATES } from "./state-reference";
 
 /**
  * A rule pack and the instrument it was read from must not drift apart.
@@ -61,7 +62,10 @@ function statedOverrideFractions(stateUsps: string) {
 
 describe("veto override readings against the packs that are played", () => {
   it("keeps every reading's fraction and citation legible", () => {
-    expect(VETO_OVERRIDE_SOURCE_READINGS.length).toBe(9);
+    // Nine read on 9/21/2026, and every other state and Puerto Rico on
+    // 9/29/2026. The five compiled from their own constitutions (Kentucky,
+    // Minnesota, Missouri, Nevada and Ohio) carry their bar in their pack.
+    expect(VETO_OVERRIDE_SOURCE_READINGS.length).toBe(47);
     for (const reading of VETO_OVERRIDE_SOURCE_READINGS) {
       expect(/^[A-Z]{2}$/.test(reading.stateUsps)).toBe(true);
       expect(reading.url.startsWith("https://")).toBe(true);
@@ -137,7 +141,7 @@ describe("veto override readings against the packs that are played", () => {
     }
   });
 
-  it("reads nine jurisdictions and plays only the ones that have a pack", () => {
+  it("reads every jurisdiction whose pack does not state its own bar", () => {
     // Reading a veto clause does not make a legislature: a pack also needs
     // chambers, seats, sessions and enactment. So a read state is playable
     // only once something supplies those. This deliberately does not name
@@ -150,16 +154,16 @@ describe("veto override readings against the packs that are played", () => {
     const played = VETO_OVERRIDE_SOURCE_READINGS.filter(
       (reading) => packFor(reading.stateUsps) !== null,
     ).map((reading) => reading.stateUsps);
-    expect([...readOnly, ...played].sort()).toEqual([
-      "AK",
-      "DC",
-      "IL",
-      "MD",
-      "NC",
-      "NE",
-      "TN",
-      "VA",
-      "WV",
-    ]);
+    const compiled = ["KY", "MN", "MO", "NV", "OH"];
+    expect(new Set([...readOnly, ...played, ...compiled])).toEqual(
+      new Set([
+        ...Object.keys(STATES).filter(
+          (usps) => !["GU", "VI", "AS", "MP"].includes(usps),
+        ),
+      ]),
+    );
+    // Every reading made from a constitution on 9/29 quotes it.
+    for (const reading of VETO_OVERRIDE_SOURCE_READINGS.slice(9))
+      expect(reading.quote!.length, reading.stateUsps).toBeGreaterThan(40);
   });
 });

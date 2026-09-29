@@ -179,9 +179,9 @@ describe("laws as causes", () => {
     "us-policy-positions:civil-family-community.restrict-abortion";
   const QUESTION = "proposition_restrict_abortion" as EntityId;
   const ohio = stateJurisdictionForKey("US-OH")!.id;
-  // A place whose starting law does not answer the question, so any law
-  // enacted in play is measured against no law at all.
-  const unanswered = Object.keys(STATES)
+  // A place whose starting law sets no limit, so a limit enacted in play is
+  // measured against none.
+  const noLimit = Object.keys(STATES)
     .map((usps) => stateJurisdictionForKey(`US-${usps}`)!.id)
     .find(
       (place) =>
@@ -190,7 +190,7 @@ describe("laws as causes", () => {
           place,
           QUESTION,
           makeIsoDate("2027-03-01"),
-        ) === null,
+        ) === "no",
     )!;
 
   function worldWith(
@@ -242,16 +242,16 @@ describe("laws as causes", () => {
 
   it("a restrict-abortion law raises births about 2.3%, seven months after it takes effect", () => {
     const early = outcomeFactor(
-      worldWith("2026-12-01", "yes", unanswered),
-      unanswered,
+      worldWith("2026-12-01", "yes", noLimit),
+      noLimit,
       "births.rate",
       makeIsoDate("2026-12-01"),
     );
     // Seven months before December 1 the law was not yet in force.
     expect(early.multiplier).toBe(1);
     const later = outcomeFactor(
-      worldWith("2027-03-01", "yes", unanswered),
-      unanswered,
+      worldWith("2027-03-01", "yes", noLimit),
+      noLimit,
       "births.rate",
       makeIsoDate("2027-03-01"),
     );
@@ -264,8 +264,8 @@ describe("laws as causes", () => {
   it("a law that says no, or no law at all, leaves births at the base rate", () => {
     for (const answer of ["no", null] as const) {
       const reading = outcomeFactor(
-        worldWith("2027-03-01", answer, unanswered),
-        unanswered,
+        worldWith("2027-03-01", answer, noLimit),
+        noLimit,
         "births.rate",
         makeIsoDate("2027-03-01"),
       );

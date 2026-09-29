@@ -135,6 +135,7 @@ export type EntityKind =
   | "legislative-negotiation"
   | "legislative-provision"
   | "chamber-rule-change"
+  | "session-adjournment"
   | "item-veto"
   | "legislative-referral"
   | "legislative-vote"
@@ -4364,6 +4365,12 @@ export interface HistoryStore {
    * written before chambers could change their rules.
    */
   readonly chamberRuleChanges?: readonly ChamberRuleChangeRecord[];
+  /**
+   * A legislature's regular session ending on the day its leaders chose,
+   * before its legal limit. A session with no record ran to its limit.
+   * Optional; absent in saves written before leaders could adjourn.
+   */
+  readonly sessionAdjournments?: readonly SessionAdjournmentRecord[];
   readonly itemVetoes?: readonly ItemVetoRecord[];
   readonly legislativeDraftLineages?: readonly LegislativeDraftLineageRecord[];
   /**
@@ -5023,6 +5030,29 @@ export interface ChamberRuleChangeRecord {
 }
 
 /**
+ * A legislature adjourning its regular session sine die on the day its
+ * leaders decided to, within the session's legal limit. The session's end,
+ * and every date counted from it, is this day.
+ */
+export interface SessionAdjournmentRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly rulePackId: string;
+  readonly jurisdictionId: EntityId;
+  /** The calendar year of the regular session. */
+  readonly sessionYear: number;
+  readonly adjournedOn: IsoDate;
+  /** The appropriation the session passed before the leaders adjourned. */
+  readonly budgetMeasureId: EntityId;
+  /** Bills still before the chambers that the leaders did not wait for. */
+  readonly leftPendingMeasureIds: readonly EntityId[];
+  /** Why, in plain words, as the legislature's record would give it. */
+  readonly rationale: string;
+  readonly eventId: EntityId;
+}
+
+/**
  * An executive's veto of one section of a bill it otherwise signed, where the
  * constitution gives an item veto (Build 25 step 5). The section stays on the
  * record of every vote taken before the signing and is not part of the law.
@@ -5288,6 +5318,7 @@ export type FormativeLifeSituationKey =
 export type AdultLifeSituationKey =
   | "adult.household-repair"
   | "adult.household-money-shortfall"
+  | "adult.eviction-case"
   | "adult.family-request"
   | "adult.care-request"
   | "adult.partner-plan"

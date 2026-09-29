@@ -62,9 +62,9 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import { TOWN_RESIDENTS_VERSION, townRoster } from "./town-residents";
-import { townUnemploymentPressure } from "./town-labor-market";
 import { townWorkplaceWeights } from "./town-employment";
-import { renterMoveFactor } from "./town-rent";
+import { homePurchaseTerms } from "../home-purchase";
+import { householdHousingFacts, type HouseholdHousingFacts } from "./town-rent";
 
 export const TOWN_HOMES_VERSION = "town-homes-v1";
 
@@ -166,16 +166,39 @@ export const TOWN_OWNERSHIP_BY_KIND: Readonly<Record<TownHomeKind, number>> = {
 };
 
 /** GAME ASSUMPTION: chances per quarter of a move within town. */
-export const TOWN_HOME_MOVES = {
-  /** A renting household aged 27 to 55 with somebody working buys a house. */
-  buy: 0.02,
-  /** A household with children in an apartment moves to a house. */
-  outgrow: 0.05,
-  /** An owner 65 or older, one or two people in a house, sells. */
-  downsize: 0.012,
-  /** Any renter moves to another rental. */
-  renterMove: 0.03,
+/**
+ * What makes a household decide to move. A household reconsiders its home
+ * when something changed since the last review: its pay, its size or its
+ * rent. Nothing here is a chance.
+ *
+ * - `buyAtPayOfPayment`: a renting household buys a house once a month of
+ *   its pay, times this, covers the monthly payment on a home in town. The
+ *   lenders' front-end limit, housing at most 28% of gross pay (Fannie Mae's
+ *   long-standing guideline), is 1 / 0.28 of the payment.
+ * - `severeRentBurden`: a renter whose rent reaches half its pay is severely
+ *   cost-burdened, HUD's definition; one who crosses it moves to a smaller,
+ *   cheaper home.
+ * - `downsizeFromAge`: an owner this age or older, left alone in a house,
+ *   sells and rents an apartment. HARDWIRED, a PLACEHOLDER(research:
+ *   when-older-owners-sell).
+ */
+export const TOWN_HOME_DECISIONS = {
+  buyAtPayOfPayment: 1 / 0.28,
+  severeRentBurden: 0.5,
+  downsizeFromAge: 65,
 } as const;
+
+/** Why a household moved, in the words its event records. */
+export const TOWN_HOME_REASONS = {
+  canBuy: "their pay now carries the payments on a home",
+  outgrew: "the family outgrew the apartment",
+  rentOutranPay: "the rent reached half of what they earn",
+  leftAlone: "one of them was left alone in the house",
+  noHome: "they had no home in town yet",
+} as const;
+
+/** The quarterly review's interval (`migration/review.ts`), in days. */
+const REVIEW_INTERVAL_DAYS = 91;
 
 /** How long a household stays before it moves again by choice. */
 const SETTLED_DAYS = 365;
@@ -580,7 +603,14 @@ export function reviewTownHomes(
   const view = readHomes(world, town);
   if (view.households.length === 0) return world;
   const today = world.currentDate;
-  const pressure = Math.sqrt(townUnemploymentPressure(world, town));
+  // What each household earns, pays in rent and numbers, now and at the
+  // last review: a household reconsiders its home when one of them changed.
+  const factsNow = householdHousingFacts(world, today);
+  const factsBefore = householdHousingFacts(
+    world,
+    addDays(today, -REVIEW_INTERVAL_DAYS),
+  );
+  const paymentMinor = homePurchaseTerms(world, town).monthlyPaymentMinor;
   const player = playerHouseholdId(world, view);
   const writer: Writer = {
     world,
@@ -685,7 +715,7 @@ export function reviewTownHomes(
               ? TOWN_HOME_EVENTS.movedIn
               : TOWN_HOME_EVENTS.bought,
             household,
-            `${nameOf(household)} ${tenure === TOWN_TENURE_KINDS.rented ? "moved into" : "bought"} ${KIND_LABEL[kind]}.`,
+            `${nameOf(household)} ${tenure === TOWN_TENURE_KINDS.rented ? "moved into" : "bought"} ${KIND_LABEL[kind]}: ${TOWN_HOME_REASONS.noHome}.`,
           );
       enterHome(writer, key, household.id, kind, tenure, provenance);
       continue;
@@ -696,83 +726,73 @@ export function reviewTownHomes(
     const renting = home.tenureKind === TOWN_TENURE_KINDS.rented;
     const owning = home.tenureKind?.startsWith("ownership:") ?? false;
     const anyWork = adults.some((adult) => view.working.has(adult.id));
-    const allWork = adults.every((adult) => view.working.has(adult.id));
+    const facts = factsNow.get(household.id);
+    const was = factsBefore.get(household.id);
+    if (!facts || !was) continue;
+    const canBuy = (row: HouseholdHousingFacts) =>
+      anyWork &&
+      row.payMinor !== null &&
+      row.payMinor >= paymentMinor * TOWN_HOME_DECISIONS.buyAtPayOfPayment;
+    // Unknown pay is not zero: a household whose pay is not on record is
+    // never read as burdened.
+    const burdened = (row: HouseholdHousingFacts) =>
+      row.rentMinor !== null &&
+      row.payMinor !== null &&
+      row.rentMinor >= row.payMinor * TOWN_HOME_DECISIONS.severeRentBurden;
+    const house: TownHomeKind =
+      facts.members >= 5 ? "large-house" : "suburban-house";
+    const bought =
+      head < 60 ? TOWN_TENURE_KINDS.mortgaged : TOWN_TENURE_KINDS.owned;
 
     let move: {
       readonly type: `${string}.${string}`;
       readonly kind: TownHomeKind;
       readonly tenure: HousingTenureKind;
+      readonly reason: string;
     } | null = null;
-    if (
-      renting &&
-      head >= 27 &&
-      head <= 55 &&
-      anyWork &&
-      rng.fork("buy").next() <
-        (TOWN_HOME_MOVES.buy * (allWork ? 1.5 : 1) * (children > 0 ? 1.3 : 1)) /
-          pressure
-    ) {
-      const kind = chooseTownHomeKind(town, household, rng.fork("buy-kind"), {
-        houseOnly: true,
-      });
+    if (renting && canBuy(facts) && !canBuy(was)) {
       move = {
         type: TOWN_HOME_EVENTS.bought,
-        kind,
-        tenure:
-          head < 60 ? TOWN_TENURE_KINDS.mortgaged : TOWN_TENURE_KINDS.owned,
+        kind: house,
+        tenure: bought,
+        reason: TOWN_HOME_REASONS.canBuy,
       };
     } else if (
       home.kind === "small-apartment" &&
       children > 0 &&
-      rng.fork("outgrow").next() < TOWN_HOME_MOVES.outgrow / pressure
+      facts.members > was.members
     ) {
-      const kind = chooseTownHomeKind(
-        town,
-        household,
-        rng.fork("outgrow-kind"),
-        { houseOnly: true },
-      );
-      const tenure = chooseTenure(kind, head, rng.fork("outgrow-tenure"));
+      const buys = canBuy(facts);
       move = {
-        type:
-          tenure === TOWN_TENURE_KINDS.rented
-            ? TOWN_HOME_EVENTS.moved
-            : TOWN_HOME_EVENTS.bought,
-        kind,
-        tenure,
-      };
-    } else if (
-      owning &&
-      head >= 65 &&
-      household.members.length <= 2 &&
-      home.kind !== "small-apartment" &&
-      rng.fork("downsize").next() < TOWN_HOME_MOVES.downsize
-    ) {
-      const kind = chooseTownHomeKind(
-        town,
-        household,
-        rng.fork("downsize-kind"),
-        { smaller: true },
-      );
-      move = {
-        type: TOWN_HOME_EVENTS.sold,
-        kind,
-        tenure:
-          kind === "small-apartment"
-            ? TOWN_TENURE_KINDS.rented
-            : TOWN_TENURE_KINDS.owned,
+        type: buys ? TOWN_HOME_EVENTS.bought : TOWN_HOME_EVENTS.moved,
+        kind: buys ? house : "rowhouse",
+        tenure: buys ? bought : TOWN_TENURE_KINDS.rented,
+        reason: TOWN_HOME_REASONS.outgrew,
       };
     } else if (
       renting &&
-      rng.fork("renter-move").next() <
-        TOWN_HOME_MOVES.renterMove *
-          renterMoveFactor(writer.world, town, household.id)
+      home.kind !== "small-apartment" &&
+      burdened(facts) &&
+      !burdened(was)
     ) {
-      const kind = chooseTownHomeKind(town, household, rng.fork("rent-kind"));
       move = {
         type: TOWN_HOME_EVENTS.moved,
-        kind,
+        kind: "small-apartment",
         tenure: TOWN_TENURE_KINDS.rented,
+        reason: TOWN_HOME_REASONS.rentOutranPay,
+      };
+    } else if (
+      owning &&
+      head >= TOWN_HOME_DECISIONS.downsizeFromAge &&
+      facts.members === 1 &&
+      was.members >= 2 &&
+      home.kind !== "small-apartment"
+    ) {
+      move = {
+        type: TOWN_HOME_EVENTS.sold,
+        kind: "small-apartment",
+        tenure: TOWN_TENURE_KINDS.rented,
+        reason: TOWN_HOME_REASONS.leftAlone,
       };
     }
     if (!move) continue;
@@ -787,7 +807,7 @@ export function reviewTownHomes(
       key,
       move.type,
       household,
-      `${nameOf(household)} ${verb}.`,
+      `${nameOf(household)} ${verb}: ${move.reason}.`,
     );
     leaveHome(writer, key, home, "Moved within town.", provenance);
     enterHome(writer, key, household.id, move.kind, move.tenure, provenance);

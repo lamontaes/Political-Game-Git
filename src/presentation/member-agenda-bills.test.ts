@@ -4,6 +4,7 @@ import { searchLifePlaces } from "../simulation";
 import { stateJurisdictionForKey } from "../simulation/life-places";
 import { measurePropositionAnswer } from "../simulation/issue-record";
 import { fileMemberAgendaBill } from "../simulation/governing/member-agenda";
+import { lawInForce } from "../simulation/governing/law-in-force";
 import { principledLeaning } from "../simulation/governing/officeholder-principles";
 import { stateLegislators } from "../simulation/nationwide-world/state-legislature-opening";
 import { legislativePackForJurisdiction } from "../simulation/legislative-institutions";
@@ -70,12 +71,15 @@ describe("a member files a bill of their own", () => {
       propositionId,
     );
     expect(Math.abs(score)).toBeGreaterThanOrEqual(3);
-    // Nothing is law on the question yet, so only support files a bill.
-    expect(answer).toBe("yes");
-    expect(score).toBeGreaterThan(0);
-    expect(bill.shortTitle).toBe(
-      world.policyCatalog.propositions[propositionId]!.name,
-    );
+    // Support files a bill to enact; opposition files only the repeal of a
+    // law already in force that answers yes (a starting law counts).
+    if (score > 0) expect(answer).toBe("yes");
+    else {
+      expect(answer).toBe("no");
+      expect(lawInForce(world, colorado, propositionId)?.answer).toBe("yes");
+    }
+    const name = world.policyCatalog.propositions[propositionId]!.name;
+    expect(bill.shortTitle).toBe(score > 0 ? name : `Repeal: ${name}`);
   });
 
   it("files once per bill day", () => {

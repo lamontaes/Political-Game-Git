@@ -57,6 +57,8 @@ import {
   placeWageIncomeTax,
   type FederalEmploymentRule,
 } from "./statutory-tax-rules";
+import { stateIncomeTaxUnderLaw } from "./state-income-tax-law";
+import { paidLeavePremium, premiumOn } from "./state-paid-leave-law";
 import { ensureTaxPublicAccount, publicOrganizationKey } from "./tax-policy";
 import { assertWorldIntegrity, withWorldIntegrityDeferred } from "./world";
 import type {
@@ -289,6 +291,7 @@ function paycheckLiabilities(
     taxKey: string,
     authorityKey: string,
     schedule: IncomeTaxSchedule,
+    law: Pick<LiabilityDraft, "lawMeasureIds" | "estimatedFromAverage"> = {},
   ): LiabilityDraft => {
     const { taxableMinor, withheldMinor } = withholdingForPaycheck(
       wages.minorUnits,
@@ -309,6 +312,7 @@ function paycheckLiabilities(
       dueAt: outcome.occurredAt,
       sourceUrl: schedule.sourceUrl,
       researchQuestionId: null,
+      ...law,
     };
   };
   // Federal income tax: a 2026 paycheck of a stateside resident, withheld
@@ -368,7 +372,36 @@ function paycheckLiabilities(
   // earned there would need that work place, and none is applied.
   const place = placeWageIncomeTax(stateKey);
   const placeTaxKey = `${stateKey.toLowerCase()}:wage-income-tax`;
-  if (place.status === "not-imposed")
+  // A law enacted in play that repealed, adopted or reshaped the state's tax
+  // (`state-income-tax-law.ts`) governs over the tables the state began with.
+  const underLaw =
+    taxYear >= FIRST_VERIFIED_TAX_YEAR
+      ? stateIncomeTaxUnderLaw(world, stateKey, status, outcome.occurredAt)
+      : ({ kind: "as-begun" } as const);
+  if (underLaw.kind === "repealed")
+    rows.push({
+      ...base,
+      stableKey: key(placeTaxKey),
+      taxKey: placeTaxKey,
+      authorityKey: stateKey,
+      payer: employee,
+      taxableAmount: money(0, wages.currency),
+      liability: money(0, wages.currency),
+      status: "not-imposed",
+      collection: "none",
+      dueAt: null,
+      sourceUrl: null,
+      researchQuestionId: null,
+      lawMeasureIds: underLaw.lawMeasureIds,
+    });
+  else if (underLaw.kind === "estimated")
+    rows.push(
+      incomeTax(placeTaxKey, stateKey, underLaw.schedule, {
+        lawMeasureIds: underLaw.lawMeasureIds,
+        estimatedFromAverage: underLaw.estimatedFromAverage,
+      }),
+    );
+  else if (place.status === "not-imposed")
     rows.push({
       ...base,
       stableKey: key(placeTaxKey),
@@ -386,11 +419,18 @@ function paycheckLiabilities(
   else {
     const read =
       place.status === "imposed" && taxYear >= FIRST_VERIFIED_TAX_YEAR
-        ? stateIncomeTaxSchedule(stateKey, status)
+        ? stateIncomeTaxSchedule(stateKey, status, world.seed)
         : null;
     rows.push(
       read?.kind === "schedule"
-        ? incomeTax(placeTaxKey, stateKey, read.schedule)
+        ? incomeTax(
+            placeTaxKey,
+            stateKey,
+            read.schedule,
+            read.estimatedFromAverage
+              ? { estimatedFromAverage: read.estimatedFromAverage }
+              : {},
+          )
         : unknown(
             placeTaxKey,
             stateKey,
@@ -402,6 +442,59 @@ function paycheckLiabilities(
             place.sourceUrl,
           ),
     );
+  }
+  // A state paid family and medical leave program's employee premium
+  // (`state-paid-leave-law.ts`), while its law is in force.
+  const leave =
+    taxYear >= FIRST_VERIFIED_TAX_YEAR
+      ? paidLeavePremium(world, stateKey, outcome.occurredAt)
+      : ({ kind: "none" } as const);
+  const leaveTaxKey = `${stateKey.toLowerCase()}:paid-leave-premium`;
+  if (leave.kind === "ended")
+    rows.push({
+      ...base,
+      stableKey: key(leaveTaxKey),
+      taxKey: leaveTaxKey,
+      authorityKey: stateKey,
+      payer: employee,
+      taxableAmount: money(0, wages.currency),
+      liability: money(0, wages.currency),
+      status: "not-imposed",
+      collection: "none",
+      dueAt: null,
+      sourceUrl: null,
+      researchQuestionId: null,
+      lawMeasureIds: leave.lawMeasureIds,
+    });
+  else if (leave.kind === "premium") {
+    const { taxableMinor, premiumMinor } = premiumOn(
+      wages.minorUnits,
+      leave.annualWageCapMinor === null
+        ? 0
+        : wagesPaidEarlierThisYear(world, flow, outcome, taxYear),
+      leave,
+    );
+    // A program whose premium falls on the employer alone owes the
+    // employee a lawful $0.
+    const employeePays = leave.employeeRatePerMillion > 0;
+    rows.push({
+      ...base,
+      stableKey: key(leaveTaxKey),
+      taxKey: leaveTaxKey,
+      authorityKey: stateKey,
+      payer: employee,
+      taxableAmount: money(employeePays ? taxableMinor : 0, wages.currency),
+      liability: money(premiumMinor, wages.currency),
+      status: employeePays ? "assessed" : "not-imposed",
+      collection: employeePays ? "withheld-from-pay" : "none",
+      dueAt: employeePays ? outcome.occurredAt : null,
+      sourceUrl: leave.sourceUrl,
+      researchQuestionId: null,
+      ...(leave.lawMeasureIds ? { lawMeasureIds: leave.lawMeasureIds } : {}),
+      ...(leave.estimatedFromAverage
+        ? { estimatedFromAverage: leave.estimatedFromAverage }
+        : {}),
+    });
   }
   // The research does not address city or county taxes on wages anywhere.
   rows.push(
@@ -640,7 +733,7 @@ function withholdTo(
     status: moved === total ? "completed" : moved === 0 ? "blocked" : "partial",
     reasonKind: moved === total ? null : "capacity:insufficient-funds",
     note: stateJurisdictionId
-      ? "Withheld from pay for state income tax."
+      ? stateWithholdingNote(withheld)
       : "Withheld from pay for federal taxes.",
     provenance: {
       kind: "generated",
@@ -668,6 +761,22 @@ function withholdTo(
     "statutory-tax-payment",
     payments,
   );
+}
+
+/** What a state's share of one paycheck's withholding paid for. */
+function stateWithholdingNote(
+  withheld: readonly StatutoryTaxLiabilityRecord[],
+): string {
+  const leave = withheld.some((row) =>
+    row.taxKey.endsWith(":paid-leave-premium"),
+  );
+  const income = withheld.some((row) =>
+    row.taxKey.endsWith(":wage-income-tax"),
+  );
+  if (leave && income)
+    return "Withheld from pay for state income tax and the state paid leave premium.";
+  if (leave) return "Withheld from pay for the state paid leave premium.";
+  return "Withheld from pay for state income tax.";
 }
 
 export interface StatutoryTaxBalance {
@@ -789,6 +898,19 @@ export function assertStatutoryTaxIntegrity(
         row.collection !== "withheld-from-pay"
       )
         throw new Error("An income tax withholding is out of bounds.");
+    } else if (
+      row.status === "assessed" &&
+      row.taxKey.endsWith(":paid-leave-premium")
+    ) {
+      // A paid leave premium's rate comes from the program or its estimate,
+      // so the record is checked for bounds: taxed pay never exceeds the pay,
+      // and no program's employee share reaches 5% of it.
+      if (
+        row.taxableAmount!.minorUnits > row.wages.minorUnits ||
+        row.liability!.minorUnits * 20 > row.taxableAmount!.minorUnits + 20 ||
+        row.collection !== "withheld-from-pay"
+      )
+        throw new Error("A paid leave premium is out of bounds.");
     } else if (row.status === "assessed") {
       if (
         !rule ||

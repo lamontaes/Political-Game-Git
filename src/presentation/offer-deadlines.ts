@@ -11,6 +11,11 @@ import {
 } from "../simulation/job-market";
 import { addDays, daysBetween } from "../simulation/dates";
 import {
+  holdsLease,
+  nextRentDay,
+  openEvictionCase,
+} from "../simulation/living-world/town-rent";
+import {
   workRelationshipHistoryForPerson,
   workRoleAt,
   workStatusAt,
@@ -62,6 +67,18 @@ export function offerDeadlines(
       replyBy,
       sentence: `${title}: answer the offer by ${proseDate(replyBy)}, or it lapses.`,
     });
+  }
+  // An eviction case is decided on the next rent day whether or not it was
+  // answered, so a skip stops the day before.
+  const evictionCase = openEvictionCase(world, personId);
+  if (evictionCase && evictionCase.answer === null) {
+    const replyBy = addDays(evictionCase.decidedOn, -1);
+    if (world.currentDate <= replyBy)
+      deadlines.push({
+        key: `eviction-case:${evictionCase.filedOn}`,
+        replyBy,
+        sentence: `Your eviction case is decided on ${proseDate(evictionCase.decidedOn)}. Decide what to do before then.`,
+      });
   }
   return deadlines.sort((a, b) => a.replyBy.localeCompare(b.replyBy));
 }
@@ -136,6 +153,12 @@ export function advanceStoppingForOfferDeadlines(
     )?.startOn;
     let stepTo = due && due < target ? due : target;
     if (start && start < stepTo) stepTo = start;
+    // Holding a lease, a skip goes one rent day at a time, so a case filed on
+    // one is put to the player before the next decides it.
+    if (holdsLease(current, personId)) {
+      const rentDay = nextRentDay(current.currentDate);
+      if (rentDay < stepTo) stepTo = rentDay;
+    }
     if (
       decisionPending(current, personId) ||
       starts.some((entry) => entry.startOn <= current.currentDate)
