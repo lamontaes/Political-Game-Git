@@ -2250,16 +2250,53 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.03,
       "per": "law in force",
       "lagMonths": 12,
       "group": "place",
       "owner": "O",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "Sweden's carbon tax cut transport emissions almost 11% over 1990 to 2005; British Columbia's cut transport emissions but brought no large, significant fall in total emissions. Transport is about a third of a place's emissions, so the total falls about 3%",
+      "source": "Andersson 2019, American Economic Journal: Economic Policy 11(4); Pretis 2022, Environmental and Resource Economics 83",
+      "evidence": "contested",
       "from": "law:us-policy-positions:environment-energy.price-carbon",
-      "to": "env.emissions"
+      "to": "env.emissions",
+      "range": [-0.08, 0]
+    },
+    {
+      "key": "container-deposit-to-litter",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.45,
+      "range": [-0.64, -0.3],
+      "per": "law in force",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "B",
+      "anchor": "Before-and-after studies in seven states in the 1970s and 1980s found total litter fell 30 to 64% after a container deposit took effect",
+      "source": "Container Recycling Institute, Bottle Bill Resource Guide, summary of state litter studies (bottlebill.org); the individual studies were not read",
+      "evidence": "provisional",
+      "from": "law:us-policy-positions:environment-energy.bottle-deposit",
+      "to": "env.litter"
+    },
+    {
+      "key": "container-deposit-to-prices",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.0005,
+      "range": [0.0002, 0.0011],
+      "per": "law in force",
+      "lagMonths": 3,
+      "group": "households",
+      "owner": "B",
+      "anchor": "Stores raised prices on covered drinks 4% when New York's deposit took in bottled water, and left other prices alone. Drinks bought for home are 1.9% of household spending (2024: $142 billion nonalcoholic and $229 billion alcoholic of $19.9 trillion), about two thirds of it in covered containers, so the whole price level rises about 0.05%",
+      "source": "Consequences of Bottle Bills, Journal of Marketing 2025 (doi 10.1177/00222429251347284), abstract read; Bureau of Economic Analysis, NIPA personal consumption expenditures 2024 (DNBVRC, DAOPRC, DPCERC)",
+      "evidence": "provisional",
+      "from": "law:us-policy-positions:environment-energy.bottle-deposit",
+      "to": "household.prices"
     },
     {
       "key": "clean-electricity-to-price",
@@ -2267,16 +2304,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0.11,
       "per": "law in force",
-      "lagMonths": 24,
+      "lagMonths": 84,
       "group": "ratepayers",
       "owner": "O",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "Seven years after passage, renewable portfolio standards left retail electricity prices 11% higher, while cutting the power sector's carbon emissions 11 to 24%",
+      "source": "Greenstone and Nath 2019, Becker Friedman Institute Working Paper 2019-62 (Do Renewable Portfolio Standards Deliver?)",
+      "evidence": "researched",
       "from": "law:us-policy-positions:environment-energy.clean-electricity-standard",
-      "to": "energy.electricity-price"
+      "to": "energy.electricity-price",
+      "range": [0.03, 0.17]
     },
     {
       "key": "flood-zone-limits-to-damage",
@@ -3810,6 +3848,60 @@
       "evidence": "researched",
       "anchor": "A state that gets a dollar more of military procurement than others gets about $1.50 more output. Earnings are read to move one for one with output, so each percent of the state's output that extra contracts add lifts earnings 1.5%. The extra contracts follow a build-up at the pace defense contracts rose in the years they beat inflation, in each state in proportion to the contracts it drew in 2024 (data/research/federal/defense-contracts-by-state-fy2024.json). The paper's summary gives no band, so the spread is the default for researched links, 25% either way. The effect is read the same year the money is spent, since the study measures it within the year and the build-up already phases in over the years of the law.",
       "source": "Nakamura and Steinsson 2014, Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions, American Economic Review 104(3), NBER w17391; contracts from USAspending.gov and output from the Bureau of Economic Analysis, read September 29, 2026"
+    },
+    {
+      "key": "farm-payments-cut-to-land-values",
+      "from": "federal.farm-payments-cut-pct-of-land-value",
+      "to": "farmland.value-per-acre",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.215,
+      "per": "percent of the state's farm real estate value that the payments cut removes each year",
+      "lagMonths": 12,
+      "group": "farmland owners",
+      "owner": "F",
+      "evidence": "researched",
+      "anchor": "Each $1 of government payments per acre is worth $13 to $30 per acre of farmland value; the middle is $21.50. A payments cut equal to 1% of a state's farm real estate value each year lowers its land values by 21.5%, and the spread is the paper's own. Land values move as land trades, so the lag is one year, the interval of the land value survey. Owners, not operators, hold most of the loss.",
+      "source": "Goodwin, Mishra and Ortalo-Magne 2011, Landowners' Riches: The Distribution of Agricultural Subsidies, NBER w16693; payments from USDA ERS Farm Income and Wealth Statistics (September 3, 2026 release) and land values from USDA NASS Land Values 2024 Summary, read September 29, 2026",
+      "range": [-0.3, -0.13]
+    },
+    {
+      "key": "transit-service-to-ridership",
+      "from": "transit.service-access:pct-moved-by-causes",
+      "to": "transit.ridership",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.005,
+      "per": "percent a law or other cause moved the place's transit service (vehicle revenue miles per resident)",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "M",
+      "evidence": "researched",
+      "anchor": "Each 1% more transit service raises ridership about 0.5%: the elasticity with respect to service frequency averages 0.5, typical urban systems with 30-minute or better headways run about 0.30, and expanding routes into new areas typically gives 0.6 to 1.0. New service takes 1 to 3 years to reach its full ridership, so this acts from the first year. Only the part of service that laws and other causes moved is read, so service's own drift, which ridership's drift already stands for, is not counted twice.",
+      "source": "Litman, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, June 17, 2025, page 12 (Service Elasticities), https://www.vtpi.org/tranelas.pdf",
+      "range": [0.003, 0.01]
+    },
+    {
+      "key": "federal-deficit-to-borrowing-cost",
+      "from": "federal.deficit-change-pct-of-gdp",
+      "to": "gov.borrowing-cost",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 25,
+      "per": "percentage point of GDP the federal deficit changes, in basis points",
+      "lagMonths": 0,
+      "group": "state governments",
+      "owner": "F",
+      "evidence": "researched",
+      "anchor": "A one point rise in the projected federal deficit over GDP raises long-term interest rates about 25 basis points, and the rates states pay to borrow move with them. A law that cuts spending lowers what every state pays; a law that spends more raises it. Markets price the projected deficit when the law is made, so there is no lag. The paper's summary gives no band, so the spread is the default for researched links, 25% either way.",
+      "floor": -19,
+      "source": "Laubach 2009, New Evidence on the Interest Rate Effects of Budget Deficits and Debt, Journal of the European Economic Association 7(4): 858-885; the deficit change from data/research/federal/federal-outlay-terms-fy2025.json (Treasury Monthly Treasury Statement, BEA, CBO)"
     },
     {
       "key": "fix-it-first-to-poor-roads",
