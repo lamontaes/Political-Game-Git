@@ -8,7 +8,6 @@ import type {
   ResourceEndpoint,
   ResourceFlow,
   ResourcePosition,
-  ResourcePositionOwner,
   ResourceTransferOutcome,
   World,
 } from "./types";
@@ -25,10 +24,8 @@ const person = (n: number): ResourceEndpoint => ({
   kind: "person",
   personId: id(`person_${n}`),
 });
-const owner = (n: number): ResourcePositionOwner => ({
-  kind: "person",
-  personId: id(`person_${n}`),
-});
+const owner = (n: number) =>
+  ({ kind: "person", personId: id(`person_${n}`) }) as const;
 const sameKey = (left: ResourceEndpoint, right: ResourceEndpoint) =>
   JSON.stringify(left) === JSON.stringify(right);
 
@@ -54,7 +51,7 @@ const worldOf = (lists: Lists): World =>
 /** What adding up every payment gives, read the slow way. */
 function expected(
   lists: Lists,
-  who: ResourcePositionOwner,
+  who: ReturnType<typeof owner>,
   currency: string,
   cutoff: HistoricalCutoff,
 ) {
@@ -162,7 +159,7 @@ describe("running balances", () => {
       const world = worldOf(lists);
       for (let n = 1; n <= 4; n += 1)
         for (const currency of ["USD", "CAD"])
-          for (const cutoff of [
+          for (const cutoff of <HistoricalCutoff[]>[
             { asOfDate: day(step), historySequenceExclusive: lists.sequence },
             {
               asOfDate: day(Math.max(0, step - 3)),
