@@ -217,9 +217,7 @@ function runnerUpAsks(
     decisionType: "election.consider-nomination-runoff",
     actorPersonId: runnerUp.entrant.personId,
     cutoff: {
-      // A trait first recorded today (ensurePeopleTraits dates it today) must
-      // sit inside the cutoff even when the decision is dated earlier.
-      asOfDate: date > next.currentDate ? date : next.currentDate,
+      asOfDate: date,
       historySequenceExclusive: next.history.nextSequence,
     },
     subject: { kind: "context:life", key: stageKey, entityId: null },
