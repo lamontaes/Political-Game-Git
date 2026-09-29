@@ -1069,7 +1069,9 @@ export function closeBusinessWithNobodyLeft(
       ? "retired"
       : why === TOWN_JOB_END_REASONS.died
         ? "died"
-        : "left";
+        : why === "labor:moved-away"
+          ? "moved away"
+          : "left";
   return recordWorldEvent(closed.world, {
     stableKey: `${stableKey}:event`,
     type: BUSINESS_CLOSED_EVENT,
