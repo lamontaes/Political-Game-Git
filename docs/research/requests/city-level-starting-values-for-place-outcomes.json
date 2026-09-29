@@ -5,7 +5,7 @@
   "notes": [
     "Claude CTO, 2026-09-28 9:00 p.m. ET: file the research question for city-level starting values (CDC PLACES, FBI city rates). The placeholder that a city starts at its state's level is approved until this returns.",
     "Since this change, every city or county whose own council has enacted a law keeps its own record of each place outcome, and its state's figure is the residents-weighted average of its places. The city's record starts at its state's structural level (PLACEHOLDER in src/simulation/outcome-web/place-outcomes.ts), so Chicago starts at Illinois's level.",
-    "Real data only calibrates the starting point, and UNKNOWN is never zero: a measure with no city source keeps the state's level and says so; it is not set to 0 or to the national figure.",
+    "Real data only calibrates the starting point, and no value shows as unknown (owner, 2026-09-28 10:02 p.m. ET, via Claude CTO's 10:32 p.m. addendum): where a city has no source for a measure, it starts from the real average for cities like it (region, size, kind) with a realistic spread drawn per world, marked ESTIMATED FROM AVERAGE with the average's source. Never zero.",
     "The rule must hold for all 56 places. Where a territory or D.C. has no city-level series, say so."
   ],
   "priority": "P2",
@@ -25,6 +25,6 @@
     }
   ],
   "title": "Where a city's outcomes start, measure by measure",
-  "usableAnswer": "One row per measure: the named source and table, its geography (city, county or both), year, and how to read a city's value; then, for the 25 largest cities and at least one city in every state that has any, the city value beside its state value with the ratio. Where no city source exists for a measure, say UNKNOWN so the game keeps the state level as a marked calibration.",
+  "usableAnswer": "One row per measure: the named source and table, its geography (city, county or both), year, and how to read a city's value; then, for the 25 largest cities and at least one city in every state that has any, the city value beside its state value with the ratio. Where no city source exists for a measure, give the average city-to-state ratio for cities of that size and region and its spread, so the game can start a city from it.",
   "whyItMatters": "A city's own laws now move its own outcomes, but every city starts at its state's level, so Chicago's crime and uninsured share begin at Illinois's average. Real starting values make a city's numbers, and what its ordinances change, believable."
 }
