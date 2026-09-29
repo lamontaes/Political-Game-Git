@@ -15,8 +15,8 @@
       "law": 132,
       "government": 78
     },
-    "withoutQuestion": 451,
-    "questionNotFiled": 29,
+    "withoutQuestion": 450,
+    "questionNotFiled": 30,
     "moneyOrLawQuestions": 61
   },
   "markers": [
@@ -3136,7 +3136,7 @@
     },
     {
       "file": "src/simulation/legislature-game-profile.ts",
-      "line": 330,
+      "line": 331,
       "text": "* PLACEHOLDER until each territory's own legislature is compiled from the",
       "kinds": ["placeholder"],
       "path": "law",
@@ -3145,7 +3145,7 @@
     },
     {
       "file": "src/simulation/legislature-game-profile.ts",
-      "line": 533,
+      "line": 537,
       "text": "* PLACEHOLDER, not law. How often an unresearched legislature sits and whether",
       "kinds": ["placeholder", "unresearched"],
       "path": "law",
@@ -3154,7 +3154,7 @@
     },
     {
       "file": "src/simulation/legislature-game-profile.ts",
-      "line": 546,
+      "line": 550,
       "text": "* PLACEHOLDER, not law. Every researched chamber refers a measure to a",
       "kinds": ["placeholder"],
       "path": "law",
@@ -3163,7 +3163,7 @@
     },
     {
       "file": "src/simulation/legislature-game-profile.ts",
-      "line": 548,
+      "line": 552,
       "text": "* of its members. Which committees an unresearched chamber has, and their",
       "kinds": ["unresearched"],
       "path": "law",
@@ -4999,7 +4999,7 @@
     },
     {
       "file": "src/simulation/nationwide-world/state-legislature-opening.ts",
-      "line": 195,
+      "line": 197,
       "text": "// PLACEHOLDER until research question",
       "kinds": ["placeholder"],
       "path": "government",
@@ -5008,7 +5008,7 @@
     },
     {
       "file": "src/simulation/nationwide-world/state-legislature-opening.ts",
-      "line": 200,
+      "line": 203,
       "text": "// A size read from law wins. A size the game drew for an unresearched",
       "kinds": ["unresearched"],
       "path": "government",
@@ -5017,7 +5017,7 @@
     },
     {
       "file": "src/simulation/nationwide-world/state-legislature-opening.ts",
-      "line": 334,
+      "line": 348,
       "text": "// PLACEHOLDER until research question",
       "kinds": ["placeholder"],
       "path": "government",
@@ -6403,7 +6403,7 @@
     },
     {
       "file": "src/simulation/public-budgets/month.ts",
-      "line": 275,
+      "line": 285,
       "text": "* changed, where the size is not researched, or for a county or city, whose",
       "kinds": ["unresearched"],
       "path": "other",
@@ -6412,7 +6412,16 @@
     },
     {
       "file": "src/simulation/public-budgets/month.ts",
-      "line": 684,
+      "line": 333,
+      "text": "* changed, where the cost is not researched, or for a county or city, which",
+      "kinds": ["unresearched"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/public-budgets/month.ts",
+      "line": 836,
       "text": "* and plans programs to spend the rest (PLACEHOLDER rule). Under a",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6493,7 +6502,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 5,
+      "line": 6,
       "text": "* PLACEHOLDER naming the research question filed for it",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6502,7 +6511,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 14,
+      "line": 15,
       "text": "* (school districts, special districts, townships). PLACEHOLDER until Census",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6511,7 +6520,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 41,
+      "line": 42,
       "text": "* scaled to the government's own spending. PLACEHOLDER, research:",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6520,7 +6529,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 45,
+      "line": 46,
       "text": "\"local revenue by source follows the state's local mix, scaled to this government's spending (PLACEHOLDER, research: local-government-finances-by-type)\";",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6529,7 +6538,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 49,
+      "line": 50,
       "text": "* log-normal draw per line with this standard deviation. PLACEHOLDER, a game",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6538,7 +6547,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 57,
+      "line": 58,
       "text": "* part. PLACEHOLDER, research: public-pension-funding-by-state. Each",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6547,7 +6556,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 70,
+      "line": 71,
       "text": "* is drawn next, then cuts close the rest. PLACEHOLDER order and size,",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6556,7 +6565,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 77,
+      "line": 78,
       "text": "* (real output times prices). PLACEHOLDER, research:",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6565,7 +6574,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 97,
+      "line": 98,
       "text": "* \"yes\" becomes \"no\", each as a share of the source. Null: not researched",
       "kinds": ["unresearched"],
       "path": "other",
@@ -6574,29 +6583,20 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 118,
-      "text": "\"A repeal ends the tax, so the state collects none; adopting one needs a level, not a share, and is not researched.\",",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/public-budgets/rules.ts",
-      "line": 139,
-      "text": "basis: \"Not researched.\",",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/public-budgets/rules.ts",
-      "line": 146,
+      "line": 164,
       "text": "basis: \"Not researched: a cap slows growth rather than moving a level.\",",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/public-budgets/rules.ts",
+      "line": 172,
+      "text": "* each month the law is in force. Null: not researched, so that change spends",
+      "kinds": ["unresearched"],
+      "path": "other",
+      "researchQuestionId": "law-enforcement-costs",
       "researchQuestionFiled": false
     },
     {
