@@ -1,5 +1,11 @@
-import { canonicalJson } from "./canonical-json";
-import { createStableId } from "./ids";
+import { writeCanonicalJson, writeJson } from "./canonical-json";
+import { createStableIdFromParts } from "./ids";
+import {
+  collectJsonChunks,
+  JSON_CHUNK_LENGTH,
+  parseJsonChunks,
+  sameJsonChunks,
+} from "./json-chunks";
 import { packRollCalls, unpackRollCalls } from "./roll-call-packing";
 import { packPrinciples, unpackPrinciples } from "./principle-packing";
 import type { EntityId, IsoDate, World } from "./types";
@@ -60,13 +66,19 @@ export interface WorldSnapshot {
  * new one), so the id of a given World object never changes. Computing it
  * means writing the whole world out canonically, which on a long save is a
  * string of 80 MB; opening and checking a save asked for it three times.
+ *
+ * The canonical text is hashed as it is written and never held whole: a
+ * twenty-year world writes out longer than the longest string JavaScript can
+ * hold, and building it was where saving such a world failed.
  */
 const SNAPSHOT_IDS = new WeakMap<World, EntityId>();
 
 function snapshotIdOf(world: World): EntityId {
   let id = SNAPSHOT_IDS.get(world);
   if (id === undefined) {
-    id = createStableId("snapshot", canonicalJson(world));
+    id = createStableIdFromParts("snapshot", (emit) =>
+      writeCanonicalJson(world, emit),
+    );
     SNAPSHOT_IDS.set(world, id);
   }
   return id;
@@ -101,11 +113,49 @@ export function serializeWorld(world: World): string {
 
 /** A snapshot as written to disk, in the format `storedFormatVersion` names. */
 export function serializeWorldSnapshot(snapshot: WorldSnapshot): string {
+  return JSON.stringify(storedForm(snapshot));
+}
+
+/**
+ * A saved world as stored: one string, exactly `serializeWorldSnapshot`,
+ * whenever it fits in one, and otherwise the same text cut into pieces.
+ *
+ * A world played for about twenty years writes out longer than the longest
+ * string JavaScript can hold, a little over 536 million characters, and
+ * saving it failed there. Such a world is written in pieces of
+ * `JSON_CHUNK_LENGTH` characters that, joined, would be the very text a
+ * shorter world is stored as. Every save that fits is stored as before.
+ */
+export type WorldPayload = string | readonly string[];
+
+/** The stored payload of a snapshot, in pieces only when it must be. */
+export function serializeWorldSnapshotPayload(
+  snapshot: WorldSnapshot,
+  chunkLength: number = JSON_CHUNK_LENGTH,
+): WorldPayload {
+  return payloadOf(storedForm(snapshot), chunkLength);
+}
+
+/** `serializeWorld`, in pieces only when it must be. */
+export function serializeWorldPayload(world: World): WorldPayload {
+  return serializeWorldSnapshotPayload(createWorldSnapshot(world));
+}
+
+function payloadOf(form: object, chunkLength: number): WorldPayload {
+  try {
+    return JSON.stringify(form);
+  } catch (error) {
+    if (!(error instanceof RangeError)) throw error;
+  }
+  return collectJsonChunks((emit) => writeJson(form, emit), chunkLength);
+}
+
+/** The object a snapshot is stored as: packed when there are roll calls. */
+function storedForm(snapshot: WorldSnapshot): object {
   const rollCalls = packRollCalls(snapshot.world);
   const principles = packPrinciples(rollCalls?.world ?? snapshot.world);
-  if (rollCalls === null && principles === null)
-    return JSON.stringify(snapshot);
-  return JSON.stringify({
+  if (rollCalls === null && principles === null) return snapshot;
+  return {
     ...snapshot,
     formatVersion: formatFor(
       snapshot.world,
@@ -115,7 +165,7 @@ export function serializeWorldSnapshot(snapshot: WorldSnapshot): string {
     world: principles?.world ?? rollCalls!.world,
     ...(rollCalls ? { rollCalls: rollCalls.packing } : {}),
     ...(principles ? { principlesPacking: principles.packing } : {}),
-  });
+  };
 }
 
 /** The format a snapshot is stored under. */
@@ -166,6 +216,73 @@ export function serializeWorldAs(
       ? { principlesPacking: packedPrinciples.packing }
       : {}),
   });
+}
+
+/**
+ * Whether `payload` is exactly what `world` writes in `formatVersion`,
+ * however the payload was cut. A payload in pieces is compared as the world
+ * is written out again, so the second copy of a save too long for one string
+ * is never built either.
+ */
+export function worldPayloadMatches(
+  payload: WorldPayload,
+  world: World,
+  formatVersion: WorldSnapshotFormatVersion,
+): boolean {
+  if (typeof payload === "string")
+    return payload === serializeWorldAs(world, formatVersion);
+  const snapshot = createWorldSnapshot(world);
+  const form =
+    formatVersion === snapshot.formatVersion ? snapshot : storedForm(snapshot);
+  let chunk = 0;
+  let offset = 0;
+  let same = true;
+  writeJson(form, (part) => {
+    if (!same) return;
+    let at = 0;
+    while (at < part.length) {
+      const current = payload[chunk];
+      if (current === undefined) {
+        same = false;
+        return;
+      }
+      const span = Math.min(part.length - at, current.length - offset);
+      if (
+        span > 0 &&
+        !current.startsWith(
+          at === 0 && span === part.length ? part : part.slice(at, at + span),
+          offset,
+        )
+      ) {
+        same = false;
+        return;
+      }
+      at += span;
+      offset += span;
+      if (offset >= current.length) {
+        chunk += 1;
+        offset = 0;
+      }
+    }
+  });
+  while (same && chunk < payload.length && payload[chunk]!.length === offset) {
+    chunk += 1;
+    offset = 0;
+  }
+  return same && chunk === payload.length;
+}
+
+/** Whether two stored payloads hold the same text, however each was cut. */
+export function sameWorldPayload(
+  left: WorldPayload,
+  right: WorldPayload,
+): boolean {
+  if (typeof left === "string" && typeof right === "string")
+    return left === right;
+  return sameJsonChunks(
+    typeof left === "string" ? [left] : left,
+    typeof right === "string" ? [right] : right,
+  );
 }
 
 function packRollCallsApplies(world: World): boolean {
@@ -255,7 +372,7 @@ export function worldContentId(world: World): EntityId {
  * A copy of a saved world that the caller may do with as it likes, including
  * edit it in place to test that a check catches the change.
  */
-export function deserializeWorld(payload: string): World {
+export function deserializeWorld(payload: WorldPayload): World {
   return structuredClone(readWorldSnapshot(payload).world);
 }
 
@@ -266,13 +383,16 @@ export function deserializeWorld(payload: string): World {
  * the memory a big save took to open and threw away the lookups the check had
  * just built.
  */
-export function readWorldSnapshot(payload: string): {
+export function readWorldSnapshot(payload: WorldPayload): {
   readonly world: World;
   readonly formatVersion: WorldSnapshotFormatVersion;
 } {
   let parsed: unknown;
   try {
-    parsed = JSON.parse(payload);
+    parsed =
+      typeof payload === "string"
+        ? JSON.parse(payload)
+        : parseJsonChunks(payload);
   } catch (error) {
     throw new Error("World snapshot is not valid JSON.", { cause: error });
   }

@@ -56,7 +56,9 @@ interface GeneratedMembership {
   };
 }
 
-const catalog = generated as GeneratedMembership;
+// The generated file's dated sets each cover different states, so JSON typing
+// alone does not overlap the interface; the checks below guard the shape.
+const catalog = generated as unknown as GeneratedMembership;
 
 if (catalog.relationVintage !== SLD_PLACE_RELATION_VINTAGE) {
   throw new Error(

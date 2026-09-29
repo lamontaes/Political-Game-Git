@@ -1,14 +1,5 @@
-import { ageOnDate } from "../dates";
 import type { EntityId, IsoDate, World } from "../types";
 import { isPersonAliveAt } from "../vitality-integrity";
-
-/**
- * PLACEHOLDER(build-24-step-4): a past candidate is asked again only below
- * the age sitting members of Congress retire at in the game
- * (CONGRESS_TURNOVER_PROFILE.retirementAge, 82). Set by hand; life after
- * office replaces both with each person's own health, needs and offers.
- */
-export const RETURNING_CANDIDATE_AGE_LIMIT = 82;
 
 /**
  * People an office's earlier cycles already brought into a district: each
@@ -88,9 +79,9 @@ export function returningCandidate(
 }
 
 /**
- * Whether a past candidate can be asked again on the intake day: living,
- * under the returning age, and not the person being played, whose own
- * choices decide their candidacies.
+ * Whether a past candidate can be asked again on the intake day: living, and
+ * not the person being played, whose own choices decide their candidacies.
+ * Their age and health are theirs to weigh when asked, not a bar here.
  */
 export function canStandAgain(
   world: World,
@@ -101,7 +92,6 @@ export function canStandAgain(
   return (
     person !== undefined &&
     !(world.control.kind === "person" && world.control.personId === personId) &&
-    ageOnDate(person.birthDate, intakeDate) < RETURNING_CANDIDATE_AGE_LIMIT &&
     isPersonAliveAt(world, personId, {
       asOfDate: intakeDate,
       historySequenceExclusive: world.history.nextSequence,

@@ -13,9 +13,10 @@ import { factsForPerson, personName } from "../simulation/people";
 import {
   createWorldSnapshot,
   readWorldSnapshot,
-  serializeWorldAs,
-  serializeWorldSnapshot,
+  serializeWorldSnapshotPayload,
   storedFormatVersion,
+  worldPayloadMatches,
+  type WorldPayload,
   type WorldSnapshot,
   type WorldSnapshotFormatVersion,
 } from "../simulation/serialization";
@@ -33,6 +34,7 @@ import {
   READABLE_RECORD_VERSIONS,
   SLOT_MESSAGES,
   decideWrite,
+  isWorldPayload,
   readSlotState,
   UNGENERATIONED,
 } from "./browser-world-repository-protocol";
@@ -132,6 +134,8 @@ const STORE_NAME = "worlds";
 const CHUNK_KEY_PREFIX = "\u0000ocd-world-chunk:v1:";
 const CHUNKED_PAYLOAD_MARKER = "\u0000ocd-chunked-payload:v1";
 const PAYLOAD_CHUNK_SIZE = 8 * 1024 * 1024;
+/** Joined into one string only below what a string can safely hold. */
+const JOINED_PAYLOAD_LIMIT = 2 ** 28;
 /** One small summary per world record, keyed by the same save id. */
 export const WORLD_SUMMARY_STORE_NAME = "world-summaries";
 const WORLD_SUMMARY_KIND = "political-life-browser-world-summary";
@@ -197,7 +201,8 @@ export interface StoredBrowserWorldRecord {
    */
   readonly generation: number;
   readonly metadata: BrowserWorldSummary;
-  readonly payload: string;
+  /** One string, or for a world too long for one, the same text in pieces. */
+  readonly payload: WorldPayload;
   /** Present only in the on-disk form of a large snapshot. */
   readonly payloadChunks?: {
     readonly kind: "world-payload-chunks-v1";
@@ -1212,7 +1217,7 @@ export class BrowserSaveStore {
  * comparison and, at most, a put.
  */
 export interface PreparedRecord {
-  readonly payload: string;
+  readonly payload: WorldPayload;
   readonly contentId: EntityId;
   readonly fields: Omit<
     BrowserWorldSummary,
@@ -1222,10 +1227,12 @@ export interface PreparedRecord {
 
 export function prepareWorldRecord(world: World): PreparedRecord {
   // One snapshot, used for the summary, the payload and the content identity.
-  // `serializeWorld` is exactly `serializeWorldSnapshot(createWorldSnapshot())`.
+  // `serializeWorld` is exactly `serializeWorldSnapshot(createWorldSnapshot())`,
+  // and the payload is that text, in pieces only when it is too long for one
+  // string.
   const snapshot = createWorldSnapshot(world);
   return {
-    payload: serializeWorldSnapshot(snapshot),
+    payload: serializeWorldSnapshotPayload(snapshot),
     contentId: snapshot.snapshotId,
     fields: worldRecordFields(world, snapshot),
   };
@@ -1399,7 +1406,7 @@ export function readStoredRecord(value: unknown): ReadRecord {
       savedAt,
     );
   }
-  if (typeof value.payload !== "string") {
+  if (!isWorldPayload(value.payload)) {
     return damaged(
       saveId,
       "unreadable-record",
@@ -1425,7 +1432,7 @@ export function readStoredRecord(value: unknown): ReadRecord {
   // Compared in the format the record was written in: a save from before roll
   // calls were packed is the same save, and is rewritten packed on its next
   // write.
-  if (value.payload !== serializeWorldAs(world, formatVersion)) {
+  if (!worldPayloadMatches(value.payload, world, formatVersion)) {
     return damaged(
       saveId,
       "altered-after-write",
@@ -1511,7 +1518,7 @@ function migrateRecord(
     saveId,
     generation,
     metadata: cloneSummary({ ...actual, lastPlayedAt: actual.lastPlayedAt }),
-    payload: value.payload as string,
+    payload: value.payload as WorldPayload,
   };
 }
 
@@ -1884,22 +1891,42 @@ function chunkedWrite(value: unknown): {
   if (
     !isRecord(value) ||
     value.kind !== BROWSER_WORLD_RECORD_KIND ||
-    typeof value.payload !== "string" ||
-    value.payload.length <= PAYLOAD_CHUNK_SIZE ||
+    !isWorldPayload(value.payload) ||
     chunkManifest(value) !== null
   ) {
     return { record: value, chunks: [] };
   }
-  const payload = value.payload;
+  // A world too long for one string arrives in pieces; each is cut again to
+  // the stored chunk size without ever being joined.
+  const pieces: readonly string[] =
+    typeof value.payload === "string" ? [value.payload] : value.payload;
+  const length = pieces.reduce((sum, piece) => sum + piece.length, 0);
+  if (typeof value.payload === "string" && length <= PAYLOAD_CHUNK_SIZE) {
+    return { record: value, chunks: [] };
+  }
   const generation = value.generation as number;
   const saveId = value.saveId as string;
-  const count = Math.ceil(payload.length / PAYLOAD_CHUNK_SIZE);
-  const chunks = Array.from({ length: count }, (_, index) => ({
+  const cut: string[] = [];
+  let pending = "";
+  for (const piece of pieces) {
+    let at = 0;
+    while (at < piece.length) {
+      const take = Math.min(
+        PAYLOAD_CHUNK_SIZE - pending.length,
+        piece.length - at,
+      );
+      pending += piece.slice(at, at + take);
+      at += take;
+      if (pending.length === PAYLOAD_CHUNK_SIZE) {
+        cut.push(pending);
+        pending = "";
+      }
+    }
+  }
+  if (pending.length > 0) cut.push(pending);
+  const chunks = cut.map((data, index) => ({
     saveId: chunkKey(saveId, generation, index),
-    data: payload.slice(
-      index * PAYLOAD_CHUNK_SIZE,
-      (index + 1) * PAYLOAD_CHUNK_SIZE,
-    ),
+    data,
   }));
   return {
     record: {
@@ -1907,8 +1934,8 @@ function chunkedWrite(value: unknown): {
       payload: CHUNKED_PAYLOAD_MARKER,
       payloadChunks: {
         kind: "world-payload-chunks-v1",
-        count,
-        length: payload.length,
+        count: cut.length,
+        length,
       },
     },
     chunks,
@@ -1963,10 +1990,13 @@ function readChunkedValue(
     transaction.oncomplete = () => {
       if (failed) return reject(failed);
       if (!manifest || !parts) return resolve(value);
-      const payload = parts.join("");
-      if (payload.length !== manifest.length) {
+      const total = parts.reduce((sum, part) => sum + part.length, 0);
+      if (total !== manifest.length) {
         return reject(new Error("A saved world chunk has the wrong length."));
       }
+      // One string whenever it fits in one; otherwise the pieces themselves.
+      const payload: WorldPayload =
+        total <= JOINED_PAYLOAD_LIMIT ? parts.join("") : parts;
       resolve({ ...(value as Record<string, unknown>), payload });
     };
     transaction.onerror = () => reject(transaction.error);
