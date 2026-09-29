@@ -20,6 +20,7 @@ import {
 } from "./legislature-game-profile";
 import { LEGISLATIVE_RULE_PACKS, rulePackById } from "./legislature-rule-packs";
 import { stateCandidacyPack } from "./candidacy-packs";
+import { STATES } from "./state-reference";
 import { vetoOverrideReadingFor } from "./veto-override-source-readings";
 import {
   assertRulePackIntegrity,
@@ -219,9 +220,17 @@ describe("what it draws, and from where", () => {
 });
 
 describe("nothing generated claims to be law", () => {
-  it("marks every source in a generated pack as the game's own", () => {
+  it("marks every source in a generated pack as the game's own, but the override its constitution sets", () => {
     const pack = legislatureForState("US-TX")!;
+    const read = pack.sources.filter(
+      (source) => source.verification !== "game-profile",
+    );
+    // Texas' override bar is read from its constitution; nothing else is.
+    expect(read.map((source) => source.citation)).toEqual([
+      "Article 4, section 14",
+    ]);
     for (const source of pack.sources) {
+      if (read.includes(source)) continue;
       expect(source.verification).toBe("game-profile");
       expect(source.authority).toBe("game-profile");
       expect(source.sourceUrl).toBeNull();
@@ -510,8 +519,15 @@ describe("real law overrides the draw", () => {
     const expected: Record<string, readonly [number, number]> = {
       "US-TN": [1, 2],
       "US-NC": [3, 5],
-      "US-VA": [1, 2],
+      "US-VA": [2, 3],
       "US-WV": [1, 2],
+      // Read on 9/29/2026: the draw gave California and Indiana the reverse
+      // of their constitutions, and Hawaii three fifths.
+      "US-CA": [2, 3],
+      "US-IN": [1, 2],
+      "US-HI": [2, 3],
+      "US-DE": [3, 5],
+      "US-RI": [3, 5],
     };
     for (const [key, [numerator, denominator]] of Object.entries(expected)) {
       const pack = legislatureForState(key)!;
@@ -536,13 +552,20 @@ describe("real law overrides the draw", () => {
     }
   });
 
-  it("still draws where no constitution has been read", () => {
-    const texas = legislatureForState("US-TX")!;
-    const forum = texas.executive.override as {
-      threshold: { source: { verification: string } };
-    };
-    expect(forum.threshold.source.verification).toBe("game-profile");
-    expect(vetoOverrideReadingFor("TX")).toBeNull();
+  it("reads every generated legislature's override bar from its constitution, with the quote", () => {
+    const keys = Object.keys(STATES).map((usps) => `US-${usps}`);
+    for (const key of keys) {
+      const pack = legislatureForState(key);
+      if (!pack || pack.basis !== "game-profile") continue;
+      const forum = pack.executive.override as {
+        threshold: { source: { verification: string } };
+      };
+      expect(forum.threshold.source.verification, key).not.toBe("game-profile");
+      expect(vetoOverrideReadingFor(key.slice(3)), key).not.toBeNull();
+    }
+    expect(vetoOverrideReadingFor("TX")!.quote).toContain(
+      "two-thirds of the members present",
+    );
   });
 
   it("records what the schema cannot carry instead of flattening it", () => {
@@ -554,7 +577,7 @@ describe("real law overrides the draw", () => {
     // vote.
     const virginia = legislatureForState("US-VA")!;
     expect(virginia.unresolvedGaps.join(" ")).toMatch(
-      /Virginia also requires 2 of 3 of "members-present"/,
+      /Virginia also requires 1 of 2 of "members-elected"/,
     );
     // West Virginia's higher bar is per measure class, which the schema has no
     // field for on an each-chamber forum.
@@ -577,8 +600,8 @@ describe("real law overrides the draw", () => {
     // recommendation, which is not an override at all. West Virginia names its
     // ordinary rule "override-ordinary-nonappropriation-bill", which a match on
     // "appropriation" excludes outright.
-    expect(overrideThresholdFor("US-VA", [2, 3]).readBasis).toBe(
-      "members-elected",
+    expect(overrideThresholdFor("US-VA", [1, 2]).readBasis).toBe(
+      "members-present",
     );
     expect(overrideThresholdFor("US-WV", [2, 3]).numerator).toBe(1);
     expect(overrideThresholdFor("US-WV", [2, 3]).denominatorParts).toBe(2);

@@ -60,7 +60,10 @@ import { districtIdentityCatalog } from "../districts/catalog";
 import { listDistrictIdentities } from "../districts/query";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import { STATES } from "./state-reference";
-import { vetoOverrideReadingFor } from "./veto-override-source-readings";
+import {
+  VETO_OVERRIDE_SOURCE_READINGS,
+  vetoOverrideReadingFor,
+} from "./veto-override-source-readings";
 
 /**
  * The version of the generated ruleset.
@@ -117,6 +120,32 @@ function drawFrom<T>(
   options: readonly T[],
 ): T {
   return options[draw(stateJurisdictionKey, field) % options.length]!;
+}
+
+/**
+ * The ordinary override bar the most constitutions read set, as a fraction.
+ * Ties go to the higher bar. Computed from the readings, so it moves when
+ * they do.
+ */
+function mostCommonReadOverride(): readonly [number, number] {
+  const counts = new Map<string, number>();
+  for (const reading of VETO_OVERRIDE_SOURCE_READINGS) {
+    const threshold = reading.actions[0]?.thresholds[0];
+    if (!threshold) continue;
+    const key = `${threshold.numerator}/${threshold.denominatorParts}`;
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+  const [best] = [...counts.entries()].sort(
+    ([a, countA], [b, countB]) =>
+      countB - countA || fractionValue(b) - fractionValue(a),
+  );
+  const [numerator, denominatorParts] = best![0].split("/").map(Number);
+  return [numerator!, denominatorParts!];
+}
+
+function fractionValue(fraction: string): number {
+  const [numerator, denominatorParts] = fraction.split("/").map(Number);
+  return numerator! / denominatorParts!;
 }
 
 // ---------------------------------------------------------------------------
@@ -398,11 +427,10 @@ export function legislatureProfileFor(
       "veto-after-adjournment",
       executive.afterAdjournmentDays,
     ),
-    overrideFraction: drawFrom(
-      stateJurisdictionKey,
-      "override",
-      executive.overrideFractions,
-    ),
+    // Every state and Puerto Rico now has its override read from its own
+    // constitution, which `overrideThresholdFor` prefers. This is only the
+    // fallback for a place with no reading: the bar most constitutions set.
+    overrideFraction: mostCommonReadOverride(),
   };
 }
 
