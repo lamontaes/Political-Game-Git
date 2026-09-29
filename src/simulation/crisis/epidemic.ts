@@ -96,7 +96,7 @@ export const UNRESEARCHED_EPIDEMIC = {
     household: 0.3,
     family: 0.08,
     work: 0.08,
-    school: 0.15,
+    school: 0.25,
     acquaintance: 0.05,
   } satisfies Record<ContactSetting, number>,
   /**
