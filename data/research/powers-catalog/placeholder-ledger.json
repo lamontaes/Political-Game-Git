@@ -3,21 +3,21 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 706,
+    "markers": 705,
     "byKind": {
       "unresearched": 221,
-      "placeholder": 375,
+      "placeholder": 374,
       "blanket": 126
     },
     "byPath": {
       "other": 420,
-      "money": 75,
+      "money": 74,
       "law": 123,
       "government": 88
     },
-    "withoutQuestion": 415,
+    "withoutQuestion": 414,
     "questionNotFiled": 12,
-    "moneyOrLawQuestions": 57
+    "moneyOrLawQuestions": 56
   },
   "markers": [
     {
@@ -4837,7 +4837,7 @@
     },
     {
       "file": "src/simulation/people-contact.ts",
-      "line": 1018,
+      "line": 1022,
       "text": "* PLACEHOLDER, NOT RESEARCH: the day counts and the steps are calibration",
       "kinds": ["placeholder"],
       "path": "other",
@@ -4846,7 +4846,7 @@
     },
     {
       "file": "src/simulation/people-contact.ts",
-      "line": 1410,
+      "line": 1414,
       "text": "* PLACEHOLDER, NOT RESEARCH: how much one evening together counts for is",
       "kinds": ["placeholder"],
       "path": "other",
@@ -4855,7 +4855,7 @@
     },
     {
       "file": "src/simulation/people-contact.ts",
-      "line": 1484,
+      "line": 1488,
       "text": "* moves nothing by itself. PLACEHOLDER, NOT RESEARCH: how much a canceled",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6346,15 +6346,6 @@
       "path": "law",
       "researchQuestionId": "legislative-committees-and-assignment-by-chamber",
       "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/starting-money.ts",
-      "line": 157,
-      "text": "// PLACEHOLDER(overnight): #713's SCF observations are not merged into main,",
-      "kinds": ["placeholder"],
-      "path": "money",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
     },
     {
       "file": "src/simulation/territory-places.ts",
