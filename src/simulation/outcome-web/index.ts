@@ -263,10 +263,43 @@ const LAW_QUESTION_KEYS: ReadonlySet<string> = new Set(
   ),
 );
 
+/**
+ * A place outcome read as a percent of where the place began: 100 at the
+ * start (`crime.violent:pct-of-start`). Town crime reads the state's violent
+ * crime this way, as a ratio, whatever the state's own level.
+ */
+const PCT_OF_START_SUFFIX = ":pct-of-start";
+
+function placeOutcomeOfPctOfStart(key: string): string | null {
+  if (!key.endsWith(PCT_OF_START_SUFFIX)) return null;
+  const measure = key.slice(0, -PCT_OF_START_SUFFIX.length);
+  return PLACE_OUTCOME_BASES[measure] ? measure : null;
+}
+
 /** The reader for a cause: a registered measure, or the law on a question. */
 export function outcomeMeasure(key: string): OutcomeMeasure | null {
   const registered = OUTCOME_MEASURES[key];
   if (registered) return registered;
+  const placeMeasure = placeOutcomeOfPctOfStart(key);
+  if (placeMeasure) {
+    return {
+      key,
+      unit: `percent of the place's starting ${PLACE_OUTCOME_BASES[placeMeasure]!.name.toLowerCase()}`,
+      read: (world, jurisdictionId, asOf) => {
+        // A save from before the measure replaced an index reads the index
+        // until the next monthly pass records the measure itself.
+        const replaces = PLACE_OUTCOME_BASES[placeMeasure]!.replaces;
+        const record =
+          placeOutcomeAt(world, placeMeasure, jurisdictionId, asOf) ??
+          (replaces
+            ? placeOutcomeAt(world, replaces, jurisdictionId, asOf)
+            : null);
+        return record && record.base > 0
+          ? (record.value / record.base) * 100
+          : null;
+      },
+    };
+  }
   if (!key.startsWith(LAW_CAUSE_PREFIX)) return null;
   const questionKey = key.slice(LAW_CAUSE_PREFIX.length);
   if (!LAW_QUESTION_KEYS.has(questionKey)) return null;
@@ -291,6 +324,7 @@ function baselineOf(
   cause: string,
 ): number | undefined {
   if (CHANGE_MEASURES.has(cause)) return 0;
+  if (placeOutcomeOfPctOfStart(cause)) return 100;
   // A place outcome is measured from where the place began.
   const placeBase = PLACE_OUTCOME_BASES[cause];
   if (placeBase) {
@@ -463,6 +497,17 @@ export function outcomeFactor(
     if (value === null) continue;
     const baseline = baselineOf(world, jurisdictionId, link.from);
     if (baseline === undefined) continue;
+    // A lagged effect phases in after its law, but it does not outlast the
+    // law: once the law in force is back to where the place began (a repeal
+    // or amendment took effect), the effect ends that day, not a lag later.
+    if (
+      link.lagMonths > 0 &&
+      link.from.startsWith(LAW_CAUSE_PREFIX) &&
+      value !== baseline &&
+      measure.read(world, jurisdictionId, asOf) === baseline
+    ) {
+      continue;
+    }
     let factor = shapedLinkFactor(
       { shape: link.shape, size: drawnLinkSize(world, link, jurisdictionId) },
       value,

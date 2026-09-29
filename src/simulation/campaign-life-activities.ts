@@ -6,6 +6,7 @@ import {
   CAMPAIGN_LIFE_CATALOG,
   CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE,
   campaignLifeCatalogEntry,
+  campaignLifeEntryForHost,
 } from "./campaign-life-catalog";
 import {
   CAMPAIGN_LIFE_CATALOG_VERSION,
@@ -220,6 +221,17 @@ function momentAt(
 function organizationRecord(world: World, organizationId: EntityId) {
   return world.history.organizations.find(
     (organization) => organization.id === organizationId,
+  );
+}
+
+function hostClassification(
+  world: World,
+  organizationId: EntityId,
+): string | null {
+  return (
+    world.history.organizationProfiles
+      .filter((profile) => profile.organizationId === organizationId)
+      .at(-1)?.classification ?? null
   );
 }
 
@@ -565,7 +577,10 @@ function validateParties(
     );
   }
   return {
-    entry,
+    entry: campaignLifeEntryForHost(
+      entry,
+      hostClassification(world, input.hostOrganizationId),
+    ),
     campaign,
     hostName: personName(host),
     jurisdictionId: organizationJurisdiction(
