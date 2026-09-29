@@ -600,6 +600,20 @@ export function advanceWithWorldIntegrityAtEnd(
   return result;
 }
 
+/**
+ * Runs a batch of writes to one World with each writer's check deferred, then
+ * checks the result once against its input. A batch that writes nothing is
+ * returned as it came, unchecked, as a writer that writes nothing would be.
+ */
+export function writeWithWorldIntegrityOnce(
+  previous: World,
+  run: () => World,
+): World {
+  const result = withWorldIntegrityDeferred(run);
+  if (result === previous) return previous;
+  return advanceWithWorldIntegrityAtEnd(() => result, previous);
+}
+
 /*
  * The newest World that passed a check. During play the next World to be
  * checked is almost always its descendant (a Day, a scene answer, a writer's
@@ -718,6 +732,7 @@ function validateWorldIntegrity(
   delta: AppendOnlyHistoryDelta | null = null,
   previous?: World,
 ): void {
+  if (delta) assertAppendedJsonSafe(delta.changed);
   assertJsonSafe(world, "world");
   if (
     world.contentPacks !== undefined &&
@@ -2104,6 +2119,9 @@ function validateHistoryIntegrity(
         ...(history.officeStaffIncumbencies ?? []),
         ...(history.officeVoteInstructions ?? []),
         ...(history.officeBriefingInspections ?? []),
+        ...(history.chamberRuleChanges ?? []),
+        ...(history.itemVetoes ?? []),
+        ...(history.favors ?? []),
         ...history.events,
         ...history.memories,
         ...history.knowledge,
@@ -2187,6 +2205,11 @@ function validateHistoryIntegrity(
     "legislative provision",
   );
   assertSequenceOrdered(
+    history.chamberRuleChanges ?? [],
+    "chamber rule change",
+  );
+  assertSequenceOrdered(history.itemVetoes ?? [], "item veto");
+  assertSequenceOrdered(
     history.legislativeDraftLineages ?? [],
     "legislative draft lineage",
   );
@@ -2206,6 +2229,7 @@ function validateHistoryIntegrity(
     history.legislativeCommitments ?? [],
     "legislative commitment",
   );
+  assertSequenceOrdered(history.favors ?? [], "favor");
   assertSequenceOrdered(
     history.legislativeNegotiations ?? [],
     "legislative negotiation",
@@ -2348,6 +2372,20 @@ function validateHistoryIntegrity(
       );
     }
   }
+  for (const record of history.favors ?? []) {
+    assertUniqueId(ids, record.id);
+    if (
+      !world.people[record.giverPersonId] ||
+      !world.people[record.receiverPersonId]
+    ) {
+      throw new Error(`Favor names a missing person: ${record.id}`);
+    }
+    if (
+      record.id !== createStableId("favor", `${world.id}:${record.stableKey}`)
+    ) {
+      throw new Error(`Favor ID does not match its stable key: ${record.id}`);
+    }
+  }
   for (const record of history.officeBriefingInspections ?? []) {
     assertUniqueId(ids, record.id);
     if (!world.people[record.personId]) {
@@ -2408,6 +2446,11 @@ function validateHistoryIntegrity(
     "legislative provision",
   );
   assertUniqueStableKeys(
+    history.chamberRuleChanges ?? [],
+    "chamber rule change",
+  );
+  assertUniqueStableKeys(history.itemVetoes ?? [], "item veto");
+  assertUniqueStableKeys(
     history.legislativeDraftLineages ?? [],
     "legislative draft lineage",
   );
@@ -2427,6 +2470,7 @@ function validateHistoryIntegrity(
     history.legislativeCommitments ?? [],
     "legislative commitment",
   );
+  assertUniqueStableKeys(history.favors ?? [], "favor");
   assertUniqueStableKeys(
     history.legislativeNegotiations ?? [],
     "legislative negotiation",
@@ -4272,29 +4316,10 @@ export const EVENT_PROOF_MONOTONE_CHECKS_COMPOSED: readonly string[] = [
 
 const JSON_SAFE = new WeakSet<object>();
 
-function needsJsonSafetyWalk(entry: unknown): boolean {
-  if (entry === null) return false;
-  switch (typeof entry) {
-    case "string":
-    case "boolean":
-      return false;
-    case "number":
-      return !Number.isFinite(entry);
-    case "object":
-      return !JSON_SAFE.has(entry);
-    default:
-      return true;
-  }
-}
-
 function assertJsonSafe(
   value: unknown,
   path: string,
   ancestors: Set<object> = new Set(),
-  /** How deep below the checked root this value sits. */
-  depth = 0,
-  /** Whether this value is an element of an array. */
-  element = false,
 ): void {
   if (
     value === null ||
@@ -4327,31 +4352,49 @@ function assertJsonSafe(
   }
 
   ancestors.add(value);
-  // A child already proven safe, or a plain string, needs no path: building
-  // one for each of a big family's records cost more than the check itself.
+  // An entry already known to be safe is passed over before its path is
+  // spelled out: a history list keeps its old records when it grows, and
+  // naming each of them again on every Day cost more the longer a world ran.
   if (Array.isArray(value)) {
-    for (let index = 0; index < value.length; index += 1) {
-      // A hole is skipped, as forEach skipped it.
-      if (!(index in value)) continue;
-      const entry: unknown = value[index];
-      if (!needsJsonSafetyWalk(entry)) continue;
-      assertJsonSafe(entry, `${path}[${index}]`, ancestors, depth + 1, true);
-    }
+    value.forEach((entry, index) => {
+      if (!knownJsonSafe(entry, ancestors))
+        assertJsonSafe(entry, `${path}[${index}]`, ancestors);
+    });
   } else {
-    for (const key in value) {
-      if (!Object.prototype.hasOwnProperty.call(value, key)) continue;
-      const entry: unknown = (value as Record<string, unknown>)[key];
-      if (!needsJsonSafetyWalk(entry)) continue;
-      assertJsonSafe(entry, `${path}.${key}`, ancestors, depth + 1, false);
+    for (const [key, entry] of Object.entries(value)) {
+      if (!knownJsonSafe(entry, ancestors))
+        assertJsonSafe(entry, `${path}.${key}`, ancestors);
     }
   }
   ancestors.delete(value);
-  // Remember the containers and records a later walk reaches again: the top
-  // levels of the World, and every element of an array (a history record).
-  // A record's own fields are only reached through the record, so they are
-  // not remembered: remembering every nested object filled this set with
-  // millions of entries, and growing it paused a Day for about a second.
-  if (element || depth <= 3) JSON_SAFE.add(value);
+  JSON_SAFE.add(value);
+}
+
+/**
+ * A history list that only grew from a list already found JSON-safe needs
+ * only its new records checked; its old ones are the same objects. Without
+ * this, every list a Day added to was walked again record by record, a cost
+ * that grew with every year the world ran.
+ */
+function assertAppendedJsonSafe(
+  changed: readonly ChangedHistoryFamily[],
+): void {
+  for (const { key, before, after } of changed) {
+    if (!JSON_SAFE.has(before) || !Array.isArray(after)) continue;
+    for (let index = before.length; index < after.length; index += 1)
+      assertJsonSafe(after[index], `world.history.${key}[${index}]`);
+    JSON_SAFE.add(after);
+  }
+}
+
+/** True when `assertJsonSafe` would accept the value without looking inside. */
+function knownJsonSafe(value: unknown, ancestors: Set<object>): boolean {
+  if (value === null || typeof value === "string" || typeof value === "boolean")
+    return true;
+  if (typeof value === "number") return Number.isFinite(value);
+  return (
+    typeof value === "object" && JSON_SAFE.has(value) && !ancestors.has(value)
+  );
 }
 
 function cloneFact(fact: PersonFact): PersonFact {

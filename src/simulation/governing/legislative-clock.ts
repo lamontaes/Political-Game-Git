@@ -77,6 +77,11 @@ import {
   type ChamberQuestion,
   type MemberBallot,
 } from "./member-ballots";
+import { offerPlannedAmendment } from "./amendment-authors";
+import {
+  amendmentAdmissible,
+  floorStageTakesAmendments,
+} from "./chamber-procedure";
 import { decideChamberVote, seatedChamberForPack } from "./chamber-votes";
 import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 import {
@@ -109,6 +114,7 @@ import type {
   LegislativeVoteDisposition,
   World,
 } from "../types";
+import { hasStableKey, recordByStableKey } from "../history-index";
 
 /**
  * LEGISLATIVE CLOCK — the institution acts while the player is elsewhere.
@@ -226,22 +232,6 @@ function sessionYear(world: World, measureId: EntityId): number {
   return Number((first?.occurredAt ?? world.currentDate).slice(0, 4));
 }
 
-function chamberSessionPhase(
-  phase: ReturnType<typeof measurePosition>["phase"],
-): boolean {
-  switch (phase) {
-    case "awaiting-referral":
-    case "in-committee":
-    case "awaiting-floor":
-    case "on-floor":
-    case "awaiting-transmittal":
-    case "awaiting-concurrence":
-      return true;
-    default:
-      return false;
-  }
-}
-
 /**
  * The active outer limit of the current session for a carried bill, or the
  * introducing session for a bill that cannot carry over.
@@ -269,11 +259,30 @@ export function measureSessionClosedOn(
   );
 }
 
+/**
+ * Phases a bill reaches only after both chambers passed it. The session's
+ * end does not stop these: the clerks still enroll and present what the
+ * legislature passed, and the executive acts on it within the window the
+ * rules give after adjournment. A veto override still needs the chambers,
+ * so it is not among them.
+ */
+const PAST_THE_CHAMBERS: ReadonlySet<string> = new Set([
+  "awaiting-enrollment",
+  "awaiting-presentation",
+  "awaiting-executive",
+  "awaiting-enactment",
+]);
+
+/** Whether the session's end stops a bill in this phase. */
+export function adjournmentStopsPhase(phase: string): boolean {
+  return !PAST_THE_CHAMBERS.has(phase);
+}
+
 export function measureSessionIsClosed(
   world: World,
   measureId: EntityId,
 ): { readonly closed: boolean; readonly closedOn: IsoDate | null } {
-  if (!chamberSessionPhase(measurePosition(world, measureId).phase)) {
+  if (!adjournmentStopsPhase(measurePosition(world, measureId).phase)) {
     return { closed: false, closedOn: null };
   }
   const measure = requireMeasure(world, measureId);
@@ -498,18 +507,12 @@ export function applyInstitutionStep(
   const owner = effectiveOwner(world, measure);
   if (owner === null || owner === "sponsor-office") return { kind: "idle" };
   const position = measurePosition(world, measureId);
-  const session = chamberSessionPhase(position.phase)
-    ? measureSessionIsClosed(world, measureId)
-    : { closed: false, closedOn: null };
+  const session = measureSessionIsClosed(world, measureId);
+  const closed = session.closed;
   // Where the rules say a pending bill dies when the session adjourns, one
   // still before the legislature dies; that is how most bills end.
   const dies = pack.session.measuresDieAtAdjournment;
-  if (
-    session.closed &&
-    owner !== "executive" &&
-    dies.kind === "known" &&
-    dies.value
-  )
+  if (closed && owner !== "executive" && dies.kind === "known" && dies.value)
     return {
       kind: "ended",
       world: recordAdjournmentDeath(world, {
@@ -521,7 +524,7 @@ export function applyInstitutionStep(
         measureId,
       }),
     };
-  if (session.closed)
+  if (closed)
     return {
       kind: "blocked",
       reason: legislativeProcedureForPack(world, measure.rulePackId)
@@ -669,9 +672,30 @@ export function applyInstitutionStep(
   if (steps.includes("move-floor-vote")) {
     const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
     const stableKey = key(`floor:${chamberKey}:${stage.stageKey}`);
+    // Before the question is put, a member may offer an amendment for their
+    // own reasons, where this stage takes amendments and the chamber is
+    // seated with people who have reasons (Build 25 step 3).
+    const onFloor =
+      body &&
+      body.members.length > 0 &&
+      body.members.every((member) => member.personId) &&
+      isSeatedChamber(world, blueprint) &&
+      floorStageTakesAmendments(chamber, stage)
+        ? offerPlannedAmendment(world, {
+            measureId,
+            chamber,
+            stage,
+            members: body.members,
+            stableKey,
+            // Only what the chamber's rules put in order, as they stand now.
+            admissible: (bill, part) =>
+              amendmentAdmissible(world, blueprint.pack, chamberKey, bill, part)
+                .admissible,
+          })
+        : world;
     const decided = body
       ? decide(
-          world,
+          onFloor,
           blueprint,
           body.members,
           votePlanKeyForFloor(chamberKey, stage.stageKey),
@@ -697,7 +721,7 @@ export function applyInstitutionStep(
         reason: `The ${chamber.name} has no recorded member decisions on this question.`,
       };
     return applied(
-      takeFloorVote(world, {
+      takeFloorVote(onFloor, {
         stableKey,
         measureId,
         dispositions: decided.dispositions,
@@ -961,9 +985,7 @@ export function scheduleInstitutionStep(
       ? world
       : scheduleCongressSitting(world);
   if (pendingInstitutionStep(world, measureId, excludeDueItemId)) return world;
-  const sessionClosed =
-    chamberSessionPhase(measurePosition(world, measureId).phase) &&
-    measureSessionIsClosed(world, measureId).closed;
+  const sessionClosed = measureSessionIsClosed(world, measureId).closed;
   const starting = legislativeProcedureForPack(world, measure.rulePackId);
   if (sessionClosed && !starting?.measuresCarryOver) return world;
   const dueAt = sessionClosed
@@ -1021,7 +1043,6 @@ export function createInstitutionStepHandler(
             world,
             requireMeasure(world, measureId).rulePackId,
           )?.measuresCarryOver &&
-          chamberSessionPhase(measurePosition(world, measureId).phase) &&
           measureSessionIsClosed(world, measureId).closed
         ) {
           return done(
@@ -1297,10 +1318,9 @@ export function castMemberBallot(
     summary: `Decided to vote ${label} ${facing.measure.designation}, ${facing.measure.shortTitle}, in ${facing.forumName}.`,
   });
   // Decided: the reminder to decide no longer needs to stop the day.
-  const notice = next.history.scheduledActivities.find(
-    (activity) =>
-      activity.stableKey ===
-      memberVoteNoticeKey(input.question, input.personId),
+  const notice = recordByStableKey(
+    next.history.scheduledActivities,
+    memberVoteNoticeKey(input.question, input.personId),
   );
   return notice &&
     scheduledActivityState(next, notice.id).status === "scheduled"
@@ -1400,9 +1420,7 @@ function noticeMemberVote(
     const stableKey = memberVoteNoticeKey(forum.question, personId);
     if (
       memberBallotOn(next, personId, forum.question) !== null ||
-      next.history.scheduledActivities.some(
-        (activity) => activity.stableKey === stableKey,
-      )
+      hasStableKey(next.history.scheduledActivities, stableKey)
     )
       continue;
     const dayBefore = simulationMomentAtLocalTime({

@@ -13,11 +13,17 @@ import type {
   ResourceFlowTermsRecord,
   ResourceObligation,
   ResourceObligationStateRecord,
+  ResourcePosition,
   ResourcePositionOwner,
   ResourceTransferOutcome,
   World,
 } from "./types";
 import { isOpenTaxonomyKey, RESOURCE_CADENCE_NAMESPACES } from "./taxonomy";
+import {
+  growingIndex,
+  recordsWithFieldValue,
+  type GrowingIndexKind,
+} from "./history-index";
 
 export function currentResourceCutoff(world: World): HistoricalCutoff {
   return {
@@ -31,10 +37,11 @@ export function resourceFlowTermsHistory(
   resourceFlowId: EntityId,
   cutoff: HistoricalCutoff = currentResourceCutoff(world),
 ): readonly ResourceFlowTermsRecord[] {
-  return world.history.resourceFlowTerms.filter(
-    (record) =>
-      record.resourceFlowId === resourceFlowId && available(record, cutoff),
-  );
+  return recordsWithFieldValue(
+    world.history.resourceFlowTerms,
+    "resourceFlowId",
+    resourceFlowId,
+  ).filter((record) => available(record, cutoff));
 }
 
 export function resourceFlowTermsAt(
@@ -91,9 +98,8 @@ export function resourcePositionAt(
   currency: CurrencyCode,
   cutoff: HistoricalCutoff = currentResourceCutoff(world),
 ): ResourcePositionSnapshot | undefined {
-  const position = world.history.resourcePositions.find(
+  const position = resourcePositionsOf(world, owner).find(
     (record) =>
-      samePositionOwner(record.owner, owner) &&
       record.openingBalance.currency === currency &&
       availableOn(record, record.openedAt, cutoff),
   );
@@ -102,19 +108,16 @@ export function resourcePositionAt(
   let inflows = 0;
   let outflows = 0;
   const outcomeIds: EntityId[] = [];
-  // Only flows that touch this owner matter; looking each outcome's flow up
-  // in a map keeps a town's paydays linear rather than outcomes times flows.
+  // Only flows that touch this owner matter, and only their outcomes: both
+  // are looked up by index, in history order, rather than read off every
+  // flow and outcome the world has recorded, which grew with every payday.
   const flows = new Map<
     EntityId,
     (typeof world.history.resourceFlows)[number]
   >();
-  for (const flow of world.history.resourceFlows)
-    if (
-      sameEndpoint(flow.recipient, endpoint) ||
-      sameEndpoint(flow.source, endpoint)
-    )
-      flows.set(flow.id, flow);
-  for (const outcome of world.history.resourceTransferOutcomes) {
+  for (const flow of resourceFlowsTouching(world, endpoint))
+    flows.set(flow.id, flow);
+  for (const outcome of resourceTransferOutcomesOfFlows(world, flows.keys())) {
     if (
       outcome.sequence <= position.sequence ||
       outcome.sequence >= cutoff.historySequenceExclusive ||
@@ -373,11 +376,14 @@ export function dwellingOccupancyStateHistory(
   dwellingOccupancyId: EntityId,
   cutoff: HistoricalCutoff = currentResourceCutoff(world),
 ): readonly DwellingOccupancyStateRecord[] {
-  return world.history.dwellingOccupancyStates.filter(
-    (record) =>
-      record.dwellingOccupancyId === dwellingOccupancyId &&
-      available(record, cutoff),
-  );
+  // Every town household has a home now, and the housing check asks this of
+  // every occupancy for every other one: read one occupancy's states, in
+  // order, instead of scanning them all.
+  return recordsWithFieldValue(
+    world.history.dwellingOccupancyStates,
+    "dwellingOccupancyId",
+    dwellingOccupancyId,
+  ).filter((record) => available(record, cutoff));
 }
 
 export function dwellingOccupancyStateAt(
@@ -505,4 +511,109 @@ function addExact(left: number, right: number): number {
 
 function money(minorUnits: number, currency: CurrencyCode): MoneyAmount {
   return { minorUnits, currency };
+}
+
+function endpointKey(endpoint: ResourceEndpoint): string | null {
+  switch (endpoint.kind) {
+    case "person":
+      return `person:${endpoint.personId}`;
+    case "household":
+      return `household:${endpoint.householdId}`;
+    case "organization":
+      return `organization:${endpoint.organizationId}`;
+  }
+  return null;
+}
+
+function pushPosition(
+  index: Map<string, number[]>,
+  key: string,
+  position: number,
+): void {
+  const positions = index.get(key);
+  if (positions) positions.push(position);
+  else index.set(key, [position]);
+}
+
+/** Where each endpoint's flows sit in the flow list, in order. */
+const FLOW_POSITIONS_BY_ENDPOINT: GrowingIndexKind<Map<string, number[]>> = {
+  create: () => new Map(),
+  add: (index, record, position) => {
+    const flow = record as ResourceFlow;
+    const recipient = endpointKey(flow.recipient);
+    const source = endpointKey(flow.source);
+    if (recipient !== null) pushPosition(index, recipient, position);
+    if (source !== null && source !== recipient)
+      pushPosition(index, source, position);
+  },
+};
+
+/** Where each flow's transfer outcomes sit in the outcome list, in order. */
+const OUTCOME_POSITIONS_BY_FLOW: GrowingIndexKind<Map<string, number[]>> = {
+  create: () => new Map(),
+  add: (index, record, position) =>
+    pushPosition(
+      index,
+      (record as ResourceTransferOutcome).resourceFlowId,
+      position,
+    ),
+};
+
+/**
+ * The flows paying to or from this endpoint, in history order: exactly the
+ * flows for which `sameEndpoint` holds on the recipient or the source.
+ */
+export function resourceFlowsTouching(
+  world: World,
+  endpoint: ResourceEndpoint,
+): ResourceFlow[] {
+  const key = endpointKey(endpoint);
+  if (key === null) return [];
+  const flows = world.history.resourceFlows;
+  const positions =
+    growingIndex(FLOW_POSITIONS_BY_ENDPOINT, flows).get(key) ?? [];
+  return positions.map((position) => flows[position]!);
+}
+
+/** The transfer outcomes of these flows, in history order. */
+export function resourceTransferOutcomesOfFlows(
+  world: World,
+  flowIds: Iterable<EntityId>,
+): ResourceTransferOutcome[] {
+  const outcomes = world.history.resourceTransferOutcomes;
+  const index = growingIndex(OUTCOME_POSITIONS_BY_FLOW, outcomes);
+  const positions: number[] = [];
+  for (const flowId of flowIds) {
+    const found = index.get(flowId);
+    if (found) positions.push(...found);
+  }
+  positions.sort((left, right) => left - right);
+  return positions.map((position) => outcomes[position]!);
+}
+
+/** Where each owner's tracked positions sit in the position list, in order. */
+const POSITION_POSITIONS_BY_OWNER: GrowingIndexKind<Map<string, number[]>> = {
+  create: () => new Map(),
+  add: (index, record, position) => {
+    const key = endpointKey(
+      positionOwnerEndpoint((record as ResourcePosition).owner),
+    );
+    if (key !== null) pushPosition(index, key, position);
+  },
+};
+
+/**
+ * This owner's tracked positions, in history order: exactly the positions for
+ * which `samePositionOwner` holds.
+ */
+export function resourcePositionsOf(
+  world: World,
+  owner: ResourcePositionOwner,
+): ResourcePosition[] {
+  const key = endpointKey(positionOwnerEndpoint(owner));
+  if (key === null) return [];
+  const positions = world.history.resourcePositions;
+  return (
+    growingIndex(POSITION_POSITIONS_BY_OWNER, positions).get(key) ?? []
+  ).map((at) => positions[at]!);
 }

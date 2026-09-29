@@ -1,0 +1,446 @@
+{
+  "question": "us-policy-positions:fiscal.cap-property-tax-growth",
+  "definition": "yes = state (or D.C.) law limits how much an individual property's taxable assessed value or tax bill (homesteads at least) can grow each year, including a cap delivered as an exemption or credit and a per-parcel cap limited to named large jurisdictions; no = no such per-property limit, including where only local levy limits, aggregate class limits, rate caps, phase-ins or income-limited senior or long-time-owner freezes exist.",
+  "summarySource": "Lincoln Institute of Land Policy, Significant Features of the Property Tax, assessment-limit and levy-limit summary tables (2022 data, published 12/2024 and 1/2025); state constitutions and codes fetched 9/28/2026 (CA, AZ, DC, FL, MD, MI, NV, OR, SC, TX, WY, IA, MO, SD); Georgia DOR bulletin 2025-01; Cook County Assessor.",
+  "answers": {
+    "US-AK": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2025/01/levy_limits_2022.xlsx",
+      "note": "No per-property cap; municipalities face levy caps only.",
+      "preempts": true
+    },
+    "US-AL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "No per-property assessment or bill growth cap found in the Lincoln Institute 2022 table; post-2022 enactments not separately verified.",
+      "preempts": true
+    },
+    "US-AR": {
+      "answer": "yes",
+      "cite": "Ark. Const. amend. 79",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "Assessment cap: after a countywide reappraisal, a homestead's assessed value may rise no more than 5% a year and other real property no more than 10% a year (Lincoln Institute 2022 table; primary text not fetched).",
+      "preempts": true
+    },
+    "US-AZ": {
+      "answer": "yes",
+      "cite": "Ariz. Const. art. 9, \u00a7 18",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.azleg.gov/const/9/18.htm",
+      "note": "Assessment cap: the taxable (limited) value of all real property may rise no more than 5% a year over the prior year's limited value, for all property taxes since tax year 2015.",
+      "preempts": true,
+      "operativeAt": "2015-01-01"
+    },
+    "US-CA": {
+      "answer": "yes",
+      "cite": "Cal. Const. art. XIII A, \u00a7 2",
+      "dateBasis": "pre-2000",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CONS&sectionNum=SEC.%202.&article=XIII%20A",
+      "note": "Assessment cap (Proposition 13): the assessed value of all real property may rise no more than 2% a year, or inflation if lower, until the property sells or is newly built.",
+      "preempts": true
+    },
+    "US-CO": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "No per-property cap; Gallagher was repealed in 2020 and the 2024 laws limit local property tax revenue growth (a levy limit) and cut assessment rates.",
+      "preempts": true
+    },
+    "US-CT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "No per-property cap; towns may only choose to phase in a revaluation increase over up to five years.",
+      "preempts": true
+    },
+    "US-DC": {
+      "answer": "yes",
+      "cite": "D.C. Code \u00a7 47-864",
+      "dateBasis": "not-found",
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/47-864",
+      "note": "Assessment cap by credit: an owner-occupied homestead is taxed on no more than 110% of last year's taxable assessment (102% for seniors and disabled owners); the excess is credited on the bill.",
+      "preempts": true
+    },
+    "US-DE": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2025/01/levy_limits_2022.xlsx",
+      "note": "No per-property cap; county levies are rolled back after reassessment.",
+      "preempts": true
+    },
+    "US-FL": {
+      "answer": "yes",
+      "cite": "Fla. Const. art. VII, \u00a7 4(d), (g)",
+      "dateBasis": "pre-2000",
+      "source": "https://www.flsenate.gov/Laws/Constitution",
+      "note": "Assessment cap (Save Our Homes): a homestead's assessed value may rise no more than 3% a year or inflation if lower; other property is capped at 10% a year for non-school taxes.",
+      "preempts": true
+    },
+    "US-GA": {
+      "answer": "yes",
+      "cite": "O.C.G.A. \u00a7 48-5-44.1 (HB 581, 2024)",
+      "dateBasis": "enacted-effective",
+      "source": "https://dor.georgia.gov/document/document/overview-floating-homestead-exemption-and-annual-inflationary-index-rate/download",
+      "note": "Assessment cap: a statewide floating homestead exemption holds a homestead's taxable assessed value to its base-year value adjusted for inflation (frozen for 2025, CPI from 2026), but each county, city or school district could opt out, and many school systems did.",
+      "preempts": true,
+      "operativeAt": "2025-01-01"
+    },
+    "US-HI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "No state-law cap; counties hold property tax power under the state constitution, and any caps are county ordinances (not verified).",
+      "preempts": true
+    },
+    "US-IA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.legis.iowa.gov/docs/code/441.21.pdf",
+      "note": "No per-property cap; Iowa's 3% limit applies to aggregate statewide residential and agricultural value through a rollback, so an individual home can rise more.",
+      "preempts": true,
+      "cite": "Iowa Code \u00a7 441.21"
+    },
+    "US-ID": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2025/01/levy_limits_2022.xlsx",
+      "note": "No per-property cap; local levy growth is capped at 3% a year.",
+      "preempts": true
+    },
+    "US-IL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.cookcountyassessor.com/longtime-homeowner-exemption",
+      "note": "No general per-property cap; the old Cook County 7% homestead cap has ended, and what remains in Cook County (7% or 10% a year) is limited to long-time owners with household income of $100,000 or less, plus an income-limited senior freeze; PTELL is a levy limit.",
+      "preempts": true,
+      "cite": "35 ILCS 200/15-177"
+    },
+    "US-IN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2025/01/levy_limits_2022.xlsx",
+      "note": "No growth cap; the circuit-breaker caps a bill at 1% of gross assessed value for homesteads (a rate cap, not a growth cap), plus levy limits.",
+      "preempts": true
+    },
+    "US-KS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "No per-property assessment or bill growth cap found; post-2022 enactments not separately verified.",
+      "preempts": true
+    },
+    "US-KY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "No per-property cap; local levies are limited by revenue-growth rules.",
+      "preempts": true
+    },
+    "US-LA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "No percentage cap; a homestead reappraisal increase of more than 50% is phased in over four years, and millages roll back after reassessment.",
+      "preempts": true
+    },
+    "US-MA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2025/01/levy_limits_2022.xlsx",
+      "note": "No per-property cap; Proposition 2 1/2 limits each community's levy growth to 2.5% a year.",
+      "preempts": true
+    },
+    "US-MD": {
+      "answer": "yes",
+      "cite": "Md. Code, Tax-Prop. \u00a7 9-105",
+      "dateBasis": "pre-2000",
+      "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtp&section=9-105&enactments=false",
+      "note": "Assessment cap by credit: a homestead's taxable assessment for state tax may rise no more than 10% a year, and each county or city sets its own cap between 0% and 10%.",
+      "preempts": true
+    },
+    "US-ME": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2025/01/levy_limits_2022.xlsx",
+      "note": "No per-property cap; municipalities face a levy limit (LD 1).",
+      "preempts": true
+    },
+    "US-MI": {
+      "answer": "yes",
+      "cite": "Mich. Const. art. IX, \u00a7 3",
+      "dateBasis": "pre-2000",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-Article-IX-3",
+      "note": "Assessment cap (Proposal A): each parcel's taxable value may rise no more than 5% a year or inflation if lower, until ownership transfers.",
+      "preempts": true
+    },
+    "US-MN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2025/01/levy_limits_2022.xlsx",
+      "note": "No per-property cap; the old limited-market-value phase-in ended, and levy limits apply.",
+      "preempts": true
+    },
+    "US-MO": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=137.115",
+      "note": "No per-property cap; an assessor must physically inspect before raising a home's value more than 15%, and counties may adopt an optional senior freeze.",
+      "preempts": true,
+      "cite": "Mo. Rev. Stat. \u00a7 137.115.10"
+    },
+    "US-MS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2025/01/levy_limits_2022.xlsx",
+      "note": "No per-property cap; local levies are capped.",
+      "preempts": true
+    },
+    "US-MT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "No per-property assessment or bill growth cap found in the Lincoln Institute 2022 table.",
+      "preempts": true
+    },
+    "US-NC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "No per-property assessment or bill growth cap found in the Lincoln Institute 2022 table.",
+      "preempts": true
+    },
+    "US-ND": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "No per-property assessment or bill growth cap found in the Lincoln Institute 2022 table; later levy limits do not cap individual bills.",
+      "preempts": true
+    },
+    "US-NE": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2025/01/levy_limits_2022.xlsx",
+      "note": "No per-property cap; local levies are capped.",
+      "preempts": true
+    },
+    "US-NH": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "No per-property assessment or bill growth cap found in the Lincoln Institute 2022 table.",
+      "preempts": true
+    },
+    "US-NJ": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2025/01/levy_limits_2022.xlsx",
+      "note": "No per-property cap; the 2% cap limits local levies.",
+      "preempts": true
+    },
+    "US-NM": {
+      "answer": "yes",
+      "cite": "N.M. Stat. \u00a7 7-36-21.2",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "Assessment cap: residential property's taxable value may rise no more than 3% a year (or 6.1% over two years), reset on sale (Lincoln Institute 2022 table; primary text not fetched).",
+      "preempts": true
+    },
+    "US-NV": {
+      "answer": "yes",
+      "cite": "NRS 361.4723 (and 361.4722)",
+      "dateBasis": "not-found",
+      "source": "https://www.leg.state.nv.us/NRS/NRS-361.html",
+      "note": "Tax-bill cap: an owner-occupied single-family home's property tax bill may rise no more than 3% a year through a partial abatement; other property has a separate, higher abatement cap.",
+      "preempts": true
+    },
+    "US-NY": {
+      "answer": "yes",
+      "cite": "N.Y. Real Prop. Tax Law \u00a7 1805",
+      "dateBasis": "pre-2000",
+      "source": "https://newyork.public.law/laws/n.y._real_property_tax_law_section_1805",
+      "note": "Assessment cap only in New York City and Nassau County: one-to-three-family homes may rise no more than 6% a year and 20% over five years; the statewide 2% cap limits local levies, not individual bills.",
+      "preempts": true
+    },
+    "US-OH": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2025/01/levy_limits_2022.xlsx",
+      "note": "No per-property cap; tax reduction factors roll back voted levies after reappraisal.",
+      "preempts": true
+    },
+    "US-OK": {
+      "answer": "yes",
+      "cite": "Okla. Const. art. X, \u00a7 8B",
+      "dateBasis": "pre-2000",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "Assessment cap: taxable value may rise no more than 3% a year for homesteads and farm land and 5% for other property (Lincoln Institute 2022 table; the state court site that hosts the constitution blocked automated fetches).",
+      "preempts": true
+    },
+    "US-OR": {
+      "answer": "yes",
+      "cite": "Or. Const. art. XI, \u00a7 11; ORS 308.146",
+      "dateBasis": "pre-2000",
+      "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors308.html",
+      "note": "Assessment cap (Measure 50): each property's maximum assessed value may rise no more than 3% a year, and a sale does not reset it.",
+      "preempts": true
+    },
+    "US-PA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2025/01/levy_limits_2022.xlsx",
+      "note": "No per-property cap; levies are rolled back after countywide reassessment.",
+      "preempts": true
+    },
+    "US-RI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2025/01/levy_limits_2022.xlsx",
+      "note": "No per-property cap; municipal levies are capped at 4% growth a year.",
+      "preempts": true
+    },
+    "US-SC": {
+      "answer": "yes",
+      "cite": "S.C. Code \u00a7 12-37-3140",
+      "dateBasis": "not-found",
+      "source": "https://www.scstatehouse.gov/code/t12c037.php",
+      "note": "Assessment cap: at each five-year countywide reappraisal a property's value may rise no more than 15% (about 2.8% a year), reset on sale or new improvements.",
+      "preempts": true
+    },
+    "US-SD": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://sdlegislature.gov/api/Statutes/10-6.html?all=true",
+      "note": "No per-property cap; a new 3% limit (SDCL 10-6-158, 2025) applies to each county's total owner-occupied assessed value, not individual homes, and starts with taxes payable in 2027.",
+      "preempts": true,
+      "cite": "S.D. Codified Laws \u00a7 10-6-158"
+    },
+    "US-TN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "No per-property assessment or bill growth cap found in the Lincoln Institute 2022 table.",
+      "preempts": true
+    },
+    "US-TX": {
+      "answer": "yes",
+      "cite": "Tex. Tax Code \u00a7 23.23",
+      "dateBasis": "pre-2000",
+      "source": "https://texas.public.law/statutes/tex._tax_code_section_23.23",
+      "note": "Assessment cap: a homestead's appraised value may rise no more than 10% a year; a temporary 20% cap on non-homestead property valued up to about $5 million runs through 2026.",
+      "preempts": true
+    },
+    "US-UT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "No per-property cap; truth-in-taxation rules roll back the certified rate as values rise.",
+      "preempts": true
+    },
+    "US-VA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "No per-property assessment or bill growth cap found in the Lincoln Institute 2022 table.",
+      "preempts": true
+    },
+    "US-VT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "No per-property assessment or bill growth cap found in the Lincoln Institute 2022 table.",
+      "preempts": true
+    },
+    "US-WA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+      "note": "No per-property cap; each taxing district's levy may grow only 1% a year.",
+      "preempts": true
+    },
+    "US-WI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2025/01/levy_limits_2022.xlsx",
+      "note": "No per-property cap; local levies are limited.",
+      "preempts": true
+    },
+    "US-WV": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.lincolninst.edu/app/uploads/2025/01/levy_limits_2022.xlsx",
+      "note": "No per-property cap; levies are rolled back after reappraisal.",
+      "preempts": true
+    },
+    "US-WY": {
+      "answer": "yes",
+      "cite": "Wyo. Stat. \u00a7 39-11-105(a)(xliii)-(xliv)",
+      "dateBasis": "not-found",
+      "source": "https://wyoleg.gov/statutes/compress/title39.pdf",
+      "note": "Assessment cap by exemption: any rise in a single-family home's (and its lot's) assessed value above 4% a year is exempt, reset on sale or structural additions.",
+      "preempts": true
+    }
+  },
+  "unknown": {
+    "US-PR": "No territory property tax statute on assessment or bill growth fetched and confirmed; not in the Lincoln Institute state tables.",
+    "US-GU": "No territory property tax statute on assessment or bill growth fetched and confirmed; not in the Lincoln Institute state tables.",
+    "US-VI": "No territory property tax statute on assessment or bill growth fetched and confirmed; not in the Lincoln Institute state tables.",
+    "US-AS": "No territory property tax statute on assessment or bill growth fetched and confirmed; not in the Lincoln Institute state tables.",
+    "US-MP": "No territory property tax statute on assessment or bill growth fetched and confirmed; not in the Lincoln Institute state tables."
+  },
+  "conflicts": [
+    {
+      "place": "US-IA",
+      "readings": "The Lincoln Institute lists Iowa among assessment limits (3% residential and agricultural), but the limit applies to aggregate class value through a statewide rollback, not to any single property; answered no under the per-property definition.",
+      "sources": [
+        "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
+        "https://www.legis.iowa.gov/docs/code/441.21.pdf"
+      ]
+    },
+    {
+      "place": "US-NY",
+      "readings": "The statewide 2% cap limits local levies (would be no), while RPTL 1805 caps individual home assessments at 6% a year in New York City and Nassau County (yes); answered yes with a note.",
+      "sources": [
+        "https://newyork.public.law/laws/n.y._real_property_tax_law_section_1805",
+        "https://www.lincolninst.edu/app/uploads/2025/01/levy_limits_2022.xlsx"
+      ]
+    },
+    {
+      "place": "US-IL",
+      "readings": "Cook County's long-time occupant exemption caps a qualifying home's assessment growth at 7% or 10% a year (would be yes for Cook), but it is limited to 10-year owners with income of $100,000 or less; answered no.",
+      "sources": [
+        "https://www.cookcountyassessor.com/longtime-homeowner-exemption"
+      ]
+    },
+    {
+      "place": "US-GA",
+      "readings": "State law grants the capped floating homestead exemption statewide from 1/1/2025 (yes), but each local government could opt out, so many homeowners' school taxes carry no cap.",
+      "sources": [
+        "https://dor.georgia.gov/document/document/overview-floating-homestead-exemption-and-annual-inflationary-index-rate/download"
+      ]
+    }
+  ],
+  "refusedHosts": [
+    "ncsl.org",
+    "ballotpedia.org",
+    "law.justia.com",
+    "ilsr.org",
+    "courtlistener.com",
+    "nmhc.org",
+    "www.ilga.gov (TLS verification failure through the proxy)",
+    "www.oscn.net (bot challenge)",
+    "www.nysenate.gov (403)",
+    "codes.findlaw.com (403)",
+    "georgia.public.law and oklahoma.public.law (connection failed)",
+    "dor.sd.gov (502, then connection failed)",
+    "statutes.capitol.texas.gov (JavaScript-only, no text)",
+    "go.lincolninst.edu working-paper PDF (returned HTML, not the PDF)"
+  ],
+  "counts": {
+    "yes": 16,
+    "no": 35,
+    "unknown": 5
+  }
+}

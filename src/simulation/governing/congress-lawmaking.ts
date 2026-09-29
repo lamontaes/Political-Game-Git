@@ -55,6 +55,7 @@ import {
   automaticLawMappingFor,
   introduceAutomaticLawMeasure,
 } from "./automatic-legislation";
+import { hasStableKey } from "../history-index";
 
 /**
  * CONGRESS MAKES LAW — members of Congress file bills on the questions their
@@ -626,8 +627,7 @@ function nextIntakeDate(after: IsoDate): IsoDate {
 function scheduleNextIntake(world: World): World {
   const dueAt = nextIntakeDate(world.currentDate);
   const stableKey = `${CONGRESS_LAWMAKING_VERSION}:intake:${dueAt}`;
-  if (world.history.futureDueItems.some((due) => due.stableKey === stableKey))
-    return world;
+  if (hasStableKey(world.history.futureDueItems, stableKey)) return world;
   const next = ensureNationalElectionJurisdiction(world);
   return scheduleFutureDueItem(next, {
     stableKey,

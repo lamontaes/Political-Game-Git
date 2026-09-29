@@ -67,6 +67,11 @@ import {
   listDistrictIdentities,
 } from "../../districts/query";
 import type { DistrictIdentity } from "../../districts/types";
+import {
+  hasStableKey,
+  recordById,
+  recordsWithFieldValue,
+} from "../history-index";
 
 /**
  * A state legislature with a real person in every seat.
@@ -389,31 +394,14 @@ function bindDistricts(
   );
 }
 
-/*
- * Where each legislature's opening event was last found. History only grows,
- * so the same event at the same position answers "established" at once; any
- * other World looks again.
- */
-const OPENING_EVENT_AT = new Map<
-  string,
-  { readonly index: number; readonly event: unknown }
->();
-
 export function stateLegislatureEstablished(
   world: World,
   packId: string,
 ): boolean {
-  const events = world.history.events;
-  const stableKey = STATE_LEGISLATURE_KEYS.opening(packId);
-  const known = OPENING_EVENT_AT.get(`${world.id}|${stableKey}`);
-  if (known && events[known.index] === known.event) return true;
-  const index = events.findIndex((event) => event.stableKey === stableKey);
-  if (index < 0) return false;
-  OPENING_EVENT_AT.set(`${world.id}|${stableKey}`, {
-    index,
-    event: events[index],
-  });
-  return true;
+  return hasStableKey(
+    world.history.events,
+    STATE_LEGISLATURE_KEYS.opening(packId),
+  );
 }
 
 /** A seat's public title: its chamber and, where known, its district. */
@@ -519,12 +507,12 @@ export function ensureStateLegislatureOpening(
     freedom += values.length - 1;
   }
   const spread = freedom > 0 ? Math.sqrt(squares / freedom) : 0;
-  const parties = ["democratic", "republican"].filter((party) =>
-    next.history.organizations.some(
-      (organization) =>
-        organization.id ===
+  const parties = ["democratic", "republican"].filter(
+    (party) =>
+      recordById(
+        next.history.organizations,
         livingWorldOrganizationId(next, LIVING_WORLD_KEYS.nationalParty(party)),
-    ),
+      ) !== undefined,
   );
 
   const generated: LifeRecordProvenance = {
@@ -540,8 +528,7 @@ export function ensureStateLegislatureOpening(
     name: string,
     classification: `${string}:${string}`,
   ) => {
-    if (next.history.organizations.some((o) => o.stableKey === stableKey))
-      return;
+    if (hasStableKey(next.history.organizations, stableKey)) return;
     if (
       transitions.some(
         (t) => t.kind === "organization" && t.input.stableKey === stableKey,
@@ -1009,8 +996,11 @@ export function stateLegislativeSeats(
     string,
     { work: (typeof world.history.workRelationships)[number]; seat: string[] }
   >();
-  for (const work of world.history.workRelationships) {
-    if (work.organizationId !== bodyId) continue;
+  for (const work of recordsWithFieldValue(
+    world.history.workRelationships,
+    "organizationId",
+    bodyId,
+  )) {
     if (work.kind !== "employment:legislative-member") continue;
     const match = seatTenureMatch(work.stableKey);
     if (!match) continue;
@@ -1045,9 +1035,11 @@ export function stateLegislativeSeats(
         member,
         holderDiedOn: member
           ? null
-          : (world.history.personDeaths.find(
-              (death) => death.personId === work.personId,
-            )?.diedAt ?? null),
+          : (recordsWithFieldValue(
+              world.history.personDeaths,
+              "personId",
+              work.personId,
+            )[0]?.diedAt ?? null),
       };
     })
     .sort(
@@ -1154,8 +1146,12 @@ export function campaignSeatHolders(
           entry.term.seatKey,
         ).length > 0 &&
         // A member who has died holds no seat, whatever their record says.
-        !world.history.personDeaths.some(
-          (death) => death.personId === entry.work.personId,
+        !(
+          recordsWithFieldValue(
+            world.history.personDeaths,
+            "personId",
+            entry.work.personId,
+          ).length > 0
         ),
     )
     .sort(

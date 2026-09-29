@@ -112,6 +112,11 @@ export function projectWorld39News(world: World, personId: EntityId) {
     (homeState !== null &&
       stateOfJurisdiction(world, event.jurisdictionId) === homeState) ||
     event.involvedEntityIds.includes(personId);
+  const nearness = (event: (typeof world.history.events)[number]) =>
+    event.jurisdictionId === jurisdictionId ||
+    event.involvedEntityIds.includes(personId)
+      ? 0
+      : 1;
   const publicEvents = world.history.events
     .filter(
       (event) =>
@@ -126,9 +131,14 @@ export function projectWorld39News(world: World, personId: EntityId) {
         closeToHome(event) &&
         resolvePublicationSource(world, event) !== null,
     )
+    // Newest first; on the same day, the player's own town and what names
+    // them come before the rest of the state, so a filing day across Texas
+    // does not push the town's own election result off the list.
     .sort(
       (a, b) =>
-        b.occurredAt.localeCompare(a.occurredAt) || b.sequence - a.sequence,
+        b.occurredAt.localeCompare(a.occurredAt) ||
+        nearness(a) - nearness(b) ||
+        b.sequence - a.sequence,
     )
     .slice(0, 8)
     .map((event) => ({

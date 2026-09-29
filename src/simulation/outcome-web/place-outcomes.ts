@@ -2,6 +2,7 @@ import { addDays, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateJurisdictionForKey } from "../life-places";
 import type {
+  EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
   IsoDate,
@@ -14,10 +15,16 @@ import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { outcomeFactor } from ".";
 import {
   DEFAULT_PLACE_OUTCOME_DRIFT,
+  driftsInLogs,
+  localOutcomeKey,
+  localWeights,
   PLACE_OUTCOME_BASES,
   PLACE_OUTCOME_MEASURES,
+  placeOutcomeKey,
+  placeOutcomeValue,
   type PlaceOutcomeDrift,
   type PlaceOutcomeRecord,
+  type PlaceOutcomeShare,
 } from "./place-outcome-store";
 
 export * from "./place-outcome-store";
@@ -79,16 +86,75 @@ function driftSteps(
       Math.sqrt(1 - drift.nationalShare);
 }
 
+interface LocalPlace {
+  readonly localKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly weight: number | null;
+}
+
+/**
+ * The cities and counties keeping their own outcomes in `month`, by state:
+ * every one whose own government enacted a law before the month began. One
+ * rule for every place; a place the game cannot put in a state is left out.
+ */
+export function localOutcomePlaces(
+  world: World,
+  month: IsoDate,
+): ReadonlyMap<string, readonly LocalPlace[]> {
+  const jurisdictionOf = new Map<EntityId, EntityId>(
+    (world.history?.legislativeMeasures ?? []).map((measure) => [
+      measure.id,
+      measure.jurisdictionId,
+    ]),
+  );
+  const found = new Map<string, Map<string, EntityId>>();
+  for (const enactment of world.history?.legislativeEnactments ?? []) {
+    if (enactment.outcome !== "enacted" || enactment.resolvedAt > month)
+      continue;
+    const jurisdictionId = jurisdictionOf.get(enactment.measureId);
+    if (!jurisdictionId) continue;
+    const localKey = localOutcomeKey(jurisdictionId);
+    const stateKey = localKey ? placeOutcomeKey(jurisdictionId) : null;
+    if (!localKey || !stateKey) continue;
+    const inState = found.get(stateKey) ?? new Map<string, EntityId>();
+    inState.set(localKey, jurisdictionId);
+    found.set(stateKey, inState);
+  }
+  const places = new Map<string, readonly LocalPlace[]>();
+  for (const [stateKey, inState] of found) {
+    const keys = [...inState.keys()].sort();
+    const weights = localWeights(stateKey, keys);
+    places.set(
+      stateKey,
+      keys.map((localKey) => ({
+        localKey,
+        jurisdictionId: inState.get(localKey)!,
+        weight: weights.get(localKey) ?? null,
+      })),
+    );
+  }
+  return places;
+}
+
 /**
  * Each place outcome for every place with a base, for the month starting
  * `month`. The place's underlying level carries on from its last record
  * (the 2024 base in its first month) and drifts; nothing pulls it back to
  * the base. Laws and conditions then act on it through the outcome web's
- * multiplier, and the links that moved it are kept.
+ * multiplier, and the links that moved it are kept. `measures` narrows the
+ * pass to some outcomes (a test of one measure over a century); play records
+ * them all.
+ *
+ * A city or county keeping its own outcomes (`localOutcomePlaces`) gets its
+ * own record: its state's level, moved by the web as read in that place, so
+ * its own ordinances act there. PLACEHOLDER: a city starts at its state's
+ * level and shares its drift, until city-level bases are read. The state's
+ * record then weighs those places in by residents.
  */
 export function placeOutcomesForMonth(
   world: World,
   month: IsoDate,
+  measures: readonly string[] = PLACE_OUTCOME_MEASURES,
 ): readonly PlaceOutcomeRecord[] {
   const records: PlaceOutcomeRecord[] = [];
   const previous = new Map<string, PlaceOutcomeRecord>();
@@ -101,7 +167,8 @@ export function placeOutcomesForMonth(
       previous.set(`${record.measure}|${record.placeKey}`, record);
     break;
   }
-  for (const measure of PLACE_OUTCOME_MEASURES) {
+  const locals = localOutcomePlaces(world, month);
+  for (const measure of measures) {
     const definition = PLACE_OUTCOME_BASES[measure]!;
     const drift = definition.drift ?? DEFAULT_PLACE_OUTCOME_DRIFT;
     const step = driftSteps(world, measure, month, drift);
@@ -109,15 +176,74 @@ export function placeOutcomesForMonth(
       const jurisdictionId = stateJurisdictionForKey(placeKey)?.id;
       if (!jurisdictionId) continue;
       const last = previous.get(`${measure}|${placeKey}`);
-      const before = last ? (last.structural ?? last.base) : base;
+      // A save from before this measure replaced an index carries on from
+      // that index's level, as a ratio to where the place began.
+      const replaced =
+        last || !definition.replaces
+          ? undefined
+          : previous.get(`${definition.replaces}|${placeKey}`);
+      const before = last
+        ? (last.structural ?? last.base)
+        : replaced
+          ? (base * (replaced.structural ?? replaced.base)) / replaced.base
+          : base;
       const moved =
-        definition.scale === "index"
-          ? before * Math.exp(step(placeKey))
-          : fromLogit(logit(before) + step(placeKey));
-      const structural = last
-        ? Math.min(drift.maxPct, Math.max(drift.minPct, moved))
-        : base;
+        definition.scale === "level"
+          ? before + step(placeKey)
+          : driftsInLogs(definition)
+            ? before * Math.exp(step(placeKey))
+            : fromLogit(logit(before) + step(placeKey));
+      const structural =
+        last || replaced
+          ? Math.min(drift.maxPct, Math.max(drift.minPct, moved))
+          : base;
       const reading = outcomeFactor(world, jurisdictionId, measure, month);
+      // A level measure adds each cause's excess over 1; the others multiply.
+      const valueOf = (read: ReturnType<typeof outcomeFactor>) =>
+        placeOutcomeValue(
+          definition,
+          structural,
+          read.multiplier,
+          read.causes.map((cause) => cause.factor),
+        );
+      const shares: PlaceOutcomeShare[] = [];
+      const localValues: number[] = [];
+      const localRecords: PlaceOutcomeRecord[] = [];
+      for (const local of locals.get(placeKey) ?? []) {
+        const own = outcomeFactor(world, local.jurisdictionId, measure, month);
+        localRecords.push({
+          measure,
+          placeKey: local.localKey,
+          jurisdictionId: local.jurisdictionId,
+          stateKey: placeKey,
+          weight: local.weight,
+          month,
+          base,
+          structural: Math.round(structural * 10000) / 10000,
+          multiplier: own.multiplier,
+          value: Math.round(valueOf(own) * 100) / 100,
+          causes: movedBy(own.causes),
+        });
+        if (local.weight !== null) {
+          shares.push({
+            placeKey: local.localKey,
+            weight: local.weight,
+            multiplier: own.multiplier,
+          });
+          localValues.push(local.weight * valueOf(own));
+        }
+      }
+      // The state is the average of its places: those keeping their own at
+      // their share of residents, the rest of the state at its own.
+      const rest = 1 - shares.reduce((sum, share) => sum + share.weight, 0);
+      const multiplier = shares.reduce(
+        (sum, share) => sum + share.weight * share.multiplier,
+        rest * reading.multiplier,
+      );
+      const value = localValues.reduce(
+        (sum, part) => sum + part,
+        rest * valueOf(reading),
+      );
       records.push({
         measure,
         placeKey,
@@ -125,15 +251,29 @@ export function placeOutcomesForMonth(
         month,
         base,
         structural: Math.round(structural * 10000) / 10000,
-        multiplier: reading.multiplier,
-        value: Math.round(structural * reading.multiplier * 100) / 100,
-        causes: reading.causes
-          .filter((cause) => cause.factor !== 1)
-          .map((cause) => ({ key: cause.key, factor: cause.factor })),
+        multiplier,
+        value: Math.round(value * 100) / 100,
+        causes: movedBy(reading.causes),
+        ...(shares.length
+          ? {
+              places: shares,
+              restMultiplier: reading.multiplier,
+              restValue: Math.round(valueOf(reading) * 100) / 100,
+            }
+          : {}),
       });
+      records.push(...localRecords);
     }
   }
   return records;
+}
+
+function movedBy(
+  causes: ReturnType<typeof outcomeFactor>["causes"],
+): PlaceOutcomeRecord["causes"] {
+  return causes
+    .filter((cause) => cause.factor !== 1)
+    .map((cause) => ({ key: cause.key, factor: cause.factor }));
 }
 
 /** Schedules the first monthly pass for a current opening. Idempotent. */

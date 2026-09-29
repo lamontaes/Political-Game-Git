@@ -42,6 +42,7 @@ import {
 } from "./campaign-queries";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { canonicalJson } from "./canonical-json";
+import { favorRecords } from "./favors";
 import { campaignCompliancePackFor } from "./campaign-compliance";
 import { GAME_ADULT_CANDIDACY_AGE, candidacyPackById } from "./candidacy-packs";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
@@ -734,6 +735,12 @@ describe(
       expect(outcome.contactPersonIds).toHaveLength(1);
       expect(outcome.raisedAmount).toBeNull();
       expect(outcome.resourceFlowId).toBeNull();
+      // No money moved, so nobody gave anything.
+      expect(
+        favorRecords(first).some(
+          (favor) => favor.kind === "political:campaign-donation",
+        ),
+      ).toBe(false);
       expect(first.history.resourceFlows).toHaveLength(flowCount);
       expect(first.history.resourceTransferOutcomes).toHaveLength(
         transferCount,
@@ -951,6 +958,23 @@ describe(
           );
         }, 0);
       expect(total).toBe(10_000);
+      // Everyone who worked the doors for this candidate did them a favor;
+      // the candidate working for themselves did nobody one.
+      const favors = favorRecords(done).filter(
+        (favor) => favor.eventId === outcome.outcomeEventId,
+      );
+      expect(favors.length).toBeGreaterThan(0);
+      expect(favors.map((favor) => favor.giverPersonId).sort()).toEqual(
+        [...outcome.contactPersonIds].sort(),
+      );
+      for (const favor of favors) {
+        expect(favor).toMatchObject({
+          receiverPersonId: running.personId,
+          kind: "political:campaign-volunteering",
+          motive: "shared-belief",
+          weight: "slight",
+        });
+      }
     });
 
     it("a declined support request leaves the contest, ballot and campaign untouched", () => {
@@ -983,6 +1007,12 @@ describe(
         ),
       ).toBe(true);
       expect(outcome.supportStateIds).toEqual([]);
+      // A chapter that did not back the campaign did it no favor.
+      expect(
+        favorRecords(done).some(
+          (favor) => favor.kind === "political:chapter-backing",
+        ),
+      ).toBe(false);
       const untouched = (world: World) =>
         canonicalJson({
           campaigns: world.history.campaigns,

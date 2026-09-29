@@ -26,6 +26,7 @@ import {
   lifePlaceByJurisdictionId,
   searchLifePlaces,
   stateJurisdictionForKey,
+  type LifePlace,
 } from "./life-places";
 import { STATES } from "./state-reference";
 import type { EntityId } from "./types";
@@ -83,6 +84,25 @@ export function legislativePackForWorkKey(
   return statePack;
 }
 
+/*
+ * The place list is fixed for a run, and this first locality was searched for
+ * again on every step of every bill; a Pennsylvania world spent about 9 seconds
+ * of its first year here.
+ */
+const STATE_LOCALITY = new Map<string, LifePlace | null>();
+
+function stateLocalityPlace(stateKey: string): LifePlace | null {
+  if (!STATE_LOCALITY.has(stateKey))
+    STATE_LOCALITY.set(
+      stateKey,
+      searchLifePlaces("", 1, {
+        stateJurisdictionKey: stateKey,
+        scope: "locality",
+      })[0] ?? null,
+    );
+  return STATE_LOCALITY.get(stateKey)!;
+}
+
 export function legislativeInstitutionContext(
   pack: LegislativeRulePack,
 ): DemoJurisdictionContext {
@@ -110,11 +130,7 @@ export function legislativeInstitutionContext(
   // is read from a place inside it rather than refusing the member's workspace.
   const place =
     lifePlaceByJurisdictionId(jurisdiction.id) ??
-    searchLifePlaces("", 1, {
-      stateJurisdictionKey: pack.jurisdictionKey,
-      scope: "locality",
-    })[0] ??
-    null;
+    stateLocalityPlace(pack.jurisdictionKey);
   if (!place) throw new Error(`No clock/place context for '${pack.packId}'.`);
   const context = {
     jurisdiction,

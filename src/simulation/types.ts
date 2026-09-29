@@ -25,6 +25,7 @@ import type { PlaceOutcomeStore } from "./outcome-web/place-outcome-store";
 import type { PublicFundingMandate } from "./public-fiscal";
 import type { MacroEconomyStore } from "./macro-economy/types";
 import type { PressureStore } from "./pressure/contract";
+import type { PublicBudgetStore } from "./public-budgets/store";
 import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
 import type {
   TaxProposalRecord,
@@ -145,6 +146,8 @@ export type EntityKind =
   | "legislative-measure"
   | "legislative-negotiation"
   | "legislative-provision"
+  | "chamber-rule-change"
+  | "item-veto"
   | "legislative-referral"
   | "legislative-vote"
   | "fact"
@@ -172,6 +175,7 @@ export type EntityKind =
   | "organization-participation-state"
   | "organization-profile"
   | "office-briefing-inspection"
+  | "favor"
   | "office-vote-instruction"
   | "office-workflow-preference"
   | "office-staff-position"
@@ -587,6 +591,19 @@ export interface EngineAppearanceChoice {
   readonly outfit?: string;
   /** Fabric color per garment part (top, bottom, suit, shirt, tie, coat...). */
   readonly colors?: Readonly<Record<string, string>>;
+  /** A facial hair style (appearance-engine/pack.ts), or "none". */
+  readonly facialHair?: string;
+  /** A glasses frame id, or "none". */
+  readonly glasses?: string;
+  /** Whether the glasses are worn all day or only to read. */
+  readonly glassesWear?: "always" | "reading";
+  /**
+   * The jewelry and watch worn, as accessory ids (appearance-engine/pack.ts
+   * ACCESSORY_KINDS): "earrings-pearl", "watch-steel". A list that is present
+   * is a choice, so an empty one means wearing none; absent, the person's seed
+   * decides.
+   */
+  readonly accessories?: readonly string[];
 }
 
 export type PersonGenerationProfile = "production" | "stress";
@@ -1693,6 +1710,141 @@ export interface LifeCommitmentRecord {
   readonly label: string;
   readonly timeDemand: TimeDemandProfile;
   readonly provenance: LifeRecordProvenance;
+  /**
+   * What was promised, to whom, and what would answer it.
+   *
+   * Absent on a commitment nobody was promised (a standing Tuesday choir, a
+   * generated background's volunteering). Present when somebody said, to
+   * somebody, that they would do a thing: then the record carries who it was
+   * owed to, the act, the words, and who heard them, matching the legislative
+   * commitment record, so kept or broken can be read from later events.
+   */
+  readonly undertaking?: UndertakingTerms;
+}
+
+/**
+ * How firmly something was said.
+ *
+ * Words, not a probability, and the same four words the legislative record
+ * uses, so one type serves both.
+ */
+export type UndertakingFirmness = LegislativeCommitmentFirmness;
+
+/**
+ * The act an undertaking promises, in terms the world can later check.
+ *
+ * Each kind names what canonical record would answer it. An act the world
+ * cannot check (`help` with no activity to attend) stays outstanding until
+ * its end, then lapses; it is never marked kept or broken on a guess.
+ */
+export type UndertakingAct =
+  | {
+      /** Be present at a scheduled activity: a posted meeting, a hearing. */
+      readonly kind: "attend";
+      /** The activity's stable key, which exists before or after the promise. */
+      readonly activityStableKey: string;
+      readonly description: string;
+    }
+  | {
+      /** Give time or labor that no single record answers. */
+      readonly kind: "help";
+      readonly description: string;
+    }
+  | {
+      /** Vote a stated way on one legislative question. */
+      readonly kind: "vote";
+      readonly question: LegislativeQuestionIdentity;
+      readonly direction: "yea" | "nay";
+      readonly description: string;
+    }
+  | {
+      /** Return an earlier favor. Answered by a later favor in return for it. */
+      readonly kind: "repay";
+      readonly favorId: EntityId;
+      readonly description: string;
+    };
+
+export interface UndertakingTerms {
+  /** Who it was promised to. Usually one person; a crowd for a public vow. */
+  readonly owedToPersonIds: readonly EntityId[];
+  readonly act: UndertakingAct;
+  readonly firmness: UndertakingFirmness;
+  /** A private word and a public pledge are different undertakings. */
+  readonly audience: ClaimAudience;
+  /** The people who actually heard it said. */
+  readonly heardByPersonIds: readonly EntityId[];
+  /** What was said, in plain words, for the record and any later reckoning. */
+  readonly statement: string;
+  /** The claim carrying the words, when the holder's words were recorded. */
+  readonly claimId: EntityId | null;
+  /** How much it mattered to the person it was promised to. */
+  readonly mattered: FavorWeight;
+  /** The last day it can be answered, when it names one. */
+  readonly dueBy: IsoDate | null;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Favors                                                                      */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * What kind of help a favor was. Open, namespaced like a life-commitment kind:
+ * `public:appointment`, `political:endorsement`, `personal:help`.
+ */
+export type FavorNamespace = "public" | "political" | "private" | "personal";
+export type FavorKind = `${FavorNamespace}:${string}`;
+
+/**
+ * Why the giver helped. The giver's own reason, which the receiver may never
+ * learn; it is never shown to the receiver as a fact.
+ */
+export type FavorMotive =
+  "kindness" | "shared-belief" | "trade" | "corruption" | "unknown";
+
+/** How much a favor mattered to the one who received it, in words. */
+export type FavorWeight = "slight" | "moderate" | "great" | "life-changing";
+
+/** What a favor was about, when it was about a canonical thing. */
+export type FavorSubject =
+  | {
+      readonly kind: "office";
+      readonly officeId: EntityId;
+      readonly tenureId: EntityId | null;
+    }
+  | { readonly kind: "measure"; readonly measureId: EntityId }
+  | { readonly kind: "organization"; readonly organizationId: EntityId }
+  | { readonly kind: "none" };
+
+/**
+ * One person helped another.
+ *
+ * Stores what happened, never a balance. How much the receiver still feels
+ * they owe and how much the giver now expects are read from this record, the
+ * time since, both people's temperaments and what has passed between them
+ * since (`favorStandingBetween`).
+ */
+export interface FavorRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly giverPersonId: EntityId;
+  readonly receiverPersonId: EntityId;
+  readonly kind: FavorKind;
+  /** What was done, in plain words. */
+  readonly description: string;
+  readonly givenAt: IsoDate;
+  /** The canonical event that did it. */
+  readonly eventId: EntityId;
+  readonly subject: FavorSubject;
+  readonly motive: FavorMotive;
+  readonly weight: FavorWeight;
+  readonly audience: ClaimAudience;
+  /** People who saw it done, beyond the two of them. */
+  readonly witnessPersonIds: readonly EntityId[];
+  /** The earlier favor this one returns, when it returns one. */
+  readonly inReturnForFavorId: EntityId | null;
+  /** The undertaking it was given against, when there was one. */
+  readonly undertakingId: EntityId | null;
 }
 
 export type LifeLoadContributor =
@@ -4222,6 +4374,15 @@ export interface HistoryStore {
   readonly committeeActions?: readonly CommitteeActionRecord[];
   readonly legislativeAmendments?: readonly LegislativeAmendmentRecord[];
   readonly legislativeProvisions?: readonly LegislativeProvisionRecord[];
+  /**
+   * Changes a chamber made to its own procedure in play: a rules package, a
+   * vote to drop the germaneness rule, a new habit of closed rules. Each is
+   * a record, so the rule a chamber works under always traces to the real
+   * 2026 rule or to the change that replaced it. Optional; absent in saves
+   * written before chambers could change their rules.
+   */
+  readonly chamberRuleChanges?: readonly ChamberRuleChangeRecord[];
+  readonly itemVetoes?: readonly ItemVetoRecord[];
   readonly legislativeDraftLineages?: readonly LegislativeDraftLineageRecord[];
   /**
    * Player office workflow preferences. Optional on old saves. Bound to a
@@ -4241,6 +4402,8 @@ export interface HistoryStore {
    */
   readonly officeBriefingInspections?: readonly OfficeBriefingInspectionRecord[];
   readonly legislativeCommitments?: readonly LegislativeCommitmentRecord[];
+  /** Help between people. Optional; a world with none has no favors yet. */
+  readonly favors?: readonly FavorRecord[];
   readonly legislativeNegotiations?: readonly LegislativeNegotiationRecord[];
   readonly legislativeVotes?: readonly LegislativeVoteRecord[];
   readonly executiveDispositions?: readonly ExecutiveDispositionRecord[];
@@ -4488,6 +4651,41 @@ export interface LegislativeAmendmentRecord {
   readonly description: string;
   readonly status: LegislativeAmendmentStatus;
   readonly voteId: EntityId;
+  /**
+   * The sections the amendment would put into the bill, as offered, so the
+   * record of its vote says what was on the table even when the chamber
+   * rejected it and the text never entered the bill. Omitted for an amendment
+   * offered by description only, which is how every amendment before this
+   * field was recorded.
+   */
+  readonly proposedSections?: readonly LegislativeProposedSection[];
+  /**
+   * Why a computer-run member offered it, where one did: to pass the bill,
+   * to sink it, to put the other side on the record, or to ride a bill that
+   * has to pass. Omitted for the player's amendments and older records.
+   */
+  readonly authorMotive?: LegislativeAmendmentMotive;
+}
+
+export type LegislativeAmendmentMotive = "pass" | "sink" | "record" | "ride";
+
+/**
+ * Which way one part of a bill answers a policy question: enacting the part
+ * does what the question proposes ("yes"), or the reverse ("no").
+ */
+export interface PropositionAnswerRef {
+  readonly propositionId: EntityId;
+  readonly answer: "yes" | "no";
+}
+
+/** One section an amendment would add to a bill, or rewrite in it. */
+export interface LegislativeProposedSection {
+  readonly provisionKey: string;
+  readonly heading: string;
+  /** The current section it would replace; null when it adds a new one. */
+  readonly supersedesProvisionId: EntityId | null;
+  /** The policy question the section answers, when it answers one. */
+  readonly answers?: PropositionAnswerRef;
 }
 
 export type LegislativeVoteForum =
@@ -4819,6 +5017,58 @@ export interface LegislativeProvisionRecord {
    * except through the ordinary amendment path.
    */
   readonly originAmendmentId: EntityId | null;
+  readonly eventId: EntityId;
+  /**
+   * The policy question this section answers, and which way. This is what
+   * lets a section added by amendment enter the voting record: a vote for a
+   * bill carrying a work requirement is a vote for the work requirement,
+   * whatever the bill was filed to do. Omitted when the section answers no
+   * catalog question, which is true of every section recorded before it.
+   */
+  readonly answers?: PropositionAnswerRef;
+}
+
+/** A procedural rule a chamber can change for itself in play. */
+export type ChamberProcedureRuleKey = "germaneness" | "amendment-access";
+
+/**
+ * One change a chamber made to its own procedure. `value` is the rule's new
+ * setting: for germaneness "required", "not-required" or
+ * "appropriations-only"; for amendment access "open", "structured" or
+ * "closed".
+ */
+export interface ChamberRuleChangeRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly rulePackId: string;
+  readonly chamberKey: string;
+  readonly rule: ChamberProcedureRuleKey;
+  readonly value: string;
+  readonly adoptedAt: IsoDate;
+  /** The recorded vote that adopted it, where one did. */
+  readonly adoptedByVoteId: EntityId | null;
+  /** Why, in plain words, as the chamber's record would give it. */
+  readonly rationale: string;
+  readonly eventId: EntityId;
+}
+
+/**
+ * An executive's veto of one section of a bill it otherwise signed, where the
+ * constitution gives an item veto (Build 25 step 5). The section stays on the
+ * record of every vote taken before the signing and is not part of the law.
+ */
+export interface ItemVetoRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly measureId: EntityId;
+  readonly provisionId: EntityId;
+  readonly executiveDispositionId: EntityId;
+  /** The signing's own sequence: the section is out of the law from it on. */
+  readonly dispositionSequence: number;
+  readonly actorPersonId: EntityId | null;
+  readonly rationale: string;
   readonly eventId: EntityId;
 }
 
@@ -5219,6 +5469,11 @@ export interface World {
   readonly macroEconomy?: MacroEconomyStore;
   /** Place outcomes by month (outcome-web/place-outcome-store.ts). */
   readonly placeOutcomes?: PlaceOutcomeStore;
+  /**
+   * Every government's budget by month (public-budgets/store.ts). Optional
+   * and additive: a world written before it existed keeps no budgets.
+   */
+  readonly publicBudgets?: PublicBudgetStore;
   /**
    * The pressure layer (2026-09-22). Optional and additive: a world written
    * before it existed has no readings and is never retrofitted.

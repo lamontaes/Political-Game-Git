@@ -502,7 +502,7 @@ function resolveStateField(
         ? {
             field,
             state: "ADMITTED",
-            value: { kind: rule.commencement },
+            value: rule.commencement,
             ruleScope: "state-constitution",
             ruleVersion: rule.ruleVersion,
             validFrom: null,

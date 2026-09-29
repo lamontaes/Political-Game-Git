@@ -14,7 +14,9 @@ import { enactedRuleChangeAt } from "./enacted-rule-changes";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
+  stateKeyForJurisdiction,
 } from "./life-places";
+import { factsForPerson } from "./people";
 import { isTerritoryUsps } from "./state-reference";
 import { chiefExecutiveJurisdictionId } from "./nationwide-world/government-jurisdiction";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
@@ -650,6 +652,7 @@ export function candidacyEligibility(
           stateJurisdictionKey,
           officeFamily,
           stateResidenceSince: stateResidenceStart,
+          citizenSince: citizenByBirthSince(world, input.personId),
           districtResidenceSince: districtSince,
           ...(districtGap ? { districtResidenceGap: districtGap } : {}),
           onDate: world.currentDate,
@@ -873,4 +876,30 @@ function distinctBlocks(
     seen.add(block.reason);
     return true;
   });
+}
+
+/**
+ * Since when the World's records show a person a United States citizen: their
+ * birth date, when their recorded birthplace is in a state, the District of
+ * Columbia or a territory whose births confer citizenship. A birth in
+ * American Samoa confers nationality, not citizenship, and a birthplace the
+ * World cannot place answers null; neither is guessed.
+ */
+export function citizenByBirthSince(
+  world: World,
+  personId: EntityId,
+): IsoDate | null {
+  const person = world.people[personId];
+  if (!person) return null;
+  const birthplace = factsForPerson(person).find(
+    (fact) => fact.kind === "birthplace",
+  );
+  if (!birthplace || birthplace.kind !== "birthplace") return null;
+  const jurisdiction = world.jurisdictions[birthplace.jurisdictionId];
+  const stateKey =
+    lifePlaceByJurisdictionId(birthplace.jurisdictionId)
+      ?.stateJurisdictionKey ??
+    (jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null);
+  if (stateKey === null || stateKey === "US-AS") return null;
+  return person.birthDate;
 }

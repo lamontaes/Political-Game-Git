@@ -6,7 +6,13 @@ import {
   STATUTE_EFFECTIVE_DEFAULT_DAYS,
   STATUTE_EFFECTIVE_GAME_DEFAULT_VERSION,
 } from "./legislative-effective-date";
-import { recordById } from "./history-index";
+import {
+  growingIndex,
+  indexOverArrays,
+  recordById,
+  recordByStableKey,
+  type GrowingIndexKind,
+} from "./history-index";
 import {
   assertOriginationPermitted,
   chamberByKey,
@@ -46,7 +52,9 @@ import type {
   IsoDate,
   LegislativeActionKind,
   LegislativeActionRecord,
+  LegislativeAmendmentMotive,
   LegislativeAmendmentRecord,
+  LegislativeProposedSection,
   LegislativeEnactmentRecord,
   LegislativeMeasureNumberingSession,
   LegislativeMeasureOrigin,
@@ -1248,9 +1256,7 @@ function appendAction(world: World, input: AppendActionInput): World {
     },
   });
 
-  const event = next.history.events.find(
-    (candidate) => candidate.stableKey === eventStableKey,
-  );
+  const event = recordByStableKey(next.history.events, eventStableKey);
   if (!event) {
     throw new Error("Failed to record the legislative event.");
   }
@@ -1319,10 +1325,6 @@ function appendAction(world: World, input: AppendActionInput): World {
       legislativeActions: [...(next.history.legislativeActions ?? []), action],
     },
   };
-  const priorFamilies = stableKeyFamilies(world);
-  stableKeyFamilies(written).forEach((records, index) =>
-    transferLegislativeStableKeyIndex(priorFamilies[index]!, records),
-  );
   return written;
 }
 
@@ -1395,88 +1397,52 @@ export function nextMeasureStableKey(
   if (prefix.trim().length === 0) {
     throw new Error("A stable key prefix must not be empty.");
   }
-  const families = stableKeyFamilies(world);
-  // Each stored key can block at most one numbered candidate for this prefix.
-  const limit =
-    families.reduce((count, family) => count + family.length, 0) + 1;
-  for (let n = 1; n <= limit; n += 1) {
+  const blocked = blockedStableKeys(world);
+  const size = blocked.reduce((sum, keys) => sum + keys.size, 0);
+  for (let n = 1; n <= size + 1; n += 1) {
     const candidate = `${prefix}:${n}`;
-    if (!families.some((family) => stableKeyIsBlocked(family, candidate)))
-      return candidate;
+    if (!blocked.some((keys) => keys.has(candidate))) return candidate;
   }
   throw new Error(`Could not derive a free stable key for '${prefix}'.`);
 }
 
-type StableKeyRecord = { readonly stableKey: string };
-const SORTED_STABLE_KEYS = new WeakMap<readonly StableKeyRecord[], string[]>();
-
-/** Only append writers may call this with their own copied prefix. Moving the
- * disposable cache keeps old Worlds independent: a later read rebuilds theirs. */
-export function transferLegislativeStableKeyIndex(
-  previous: readonly StableKeyRecord[],
-  next: readonly StableKeyRecord[],
-): void {
-  if (previous === next || SORTED_STABLE_KEYS.has(next)) return;
-  const keys = SORTED_STABLE_KEYS.get(previous);
-  if (!keys) return;
-  SORTED_STABLE_KEYS.delete(previous);
-  for (let index = previous.length; index < next.length; index += 1) {
-    const key = next[index]!.stableKey;
-    let low = 0;
-    let high = keys.length;
-    while (low < high) {
-      const middle = (low + high) >>> 1;
-      if (keys[middle]! < key) low = middle + 1;
-      else high = middle;
-    }
-    keys.splice(low, 0, key);
-  }
-  SORTED_STABLE_KEYS.set(next, keys);
-}
-
-function stableKeyFamilies(
-  world: World,
-): readonly (readonly StableKeyRecord[])[] {
+/**
+ * Every stable key a new legislative record may not take, one set per history
+ * family: each key already written, and each key that another starts with
+ * followed by a colon. A key collides when it is taken or when a taken key
+ * extends it. The legislative clock asks for a new key at every step, and on
+ * a long save each answer used to compare every candidate against every key
+ * in eight history families; then it rebuilt one set of all eight whenever
+ * any of them changed, which the scheduler's list did at nearly every step.
+ * Each family's set now follows its own list as it grows.
+ */
+function blockedStableKeys(world: World): readonly ReadonlySet<string>[] {
   const history = world.history;
   return [
-    history.legislativeActions ?? [],
-    history.committeeReferrals ?? [],
-    history.committeeActions ?? [],
-    history.legislativeAmendments ?? [],
-    history.legislativeVotes ?? [],
-    history.executiveDispositions ?? [],
-    history.legislativeEnactments ?? [],
-    history.futureDueItems ?? [],
-  ];
+    history.legislativeActions,
+    history.committeeReferrals,
+    history.committeeActions,
+    history.legislativeAmendments,
+    history.legislativeVotes,
+    history.executiveDispositions,
+    history.legislativeEnactments,
+    history.futureDueItems,
+  ].map((family) => growingIndex(BLOCKED_STABLE_KEYS, family ?? NO_RECORDS));
 }
 
-/** Index only changed families, keeping full keys rather than allocating every
- * colon prefix again after each clock write. Binary search preserves exact and
- * descendant collisions, including keys belonging to another measure. */
-function stableKeyIsBlocked(
-  records: readonly StableKeyRecord[],
-  candidate: string,
-): boolean {
-  let keys = SORTED_STABLE_KEYS.get(records);
-  if (!keys) {
-    keys = records.map((record) => record.stableKey).sort();
-    SORTED_STABLE_KEYS.set(records, keys);
-  }
-  const atOrAfter = (target: string) => {
-    let low = 0;
-    let high = keys.length;
-    while (low < high) {
-      const mid = (low + high) >>> 1;
-      if (keys[mid]! < target) low = mid + 1;
-      else high = mid;
-    }
-    return keys[low];
-  };
-  return (
-    atOrAfter(candidate) === candidate ||
-    (atOrAfter(`${candidate}:`)?.startsWith(`${candidate}:`) ?? false)
-  );
-}
+const NO_RECORDS: readonly never[] = [];
+
+// Writers require globally unique keys within a history family. Another
+// measure's use of the same operation prefix is still a collision.
+const BLOCKED_STABLE_KEYS: GrowingIndexKind<Set<string>> = {
+  create: () => new Set(),
+  add: (blocked, record) => {
+    const key = (record as { readonly stableKey: string }).stableKey;
+    blocked.add(key);
+    for (let at = key.indexOf(":"); at !== -1; at = key.indexOf(":", at + 1))
+      blocked.add(key.slice(0, at));
+  },
+};
 
 // ---------------------------------------------------------------------------
 // Writers
@@ -1542,9 +1508,8 @@ export function introduceMeasure(
     );
   }
   for (const alternativeId of input.policyAlternativeIds ?? []) {
-    const exists = world.history.policyAlternatives.some(
-      (record) => record.id === alternativeId,
-    );
+    const exists =
+      recordById(world.history.policyAlternatives, alternativeId) !== undefined;
     if (!exists) {
       throw new Error(
         `Measure references a missing policy alternative: ${alternativeId}`,
@@ -1871,8 +1836,9 @@ export function committeeHearingTransitionHandler(
     occurredAt: dueItem.dueAt,
   });
 
-  const event = next.history.events.find(
-    (candidate) => candidate.stableKey === `event:${dueItem.stableKey}:hearing`,
+  const event = recordByStableKey(
+    next.history.events,
+    `event:${dueItem.stableKey}:hearing`,
   );
 
   return {
@@ -2087,6 +2053,14 @@ export interface OfferAmendmentInput {
   /** Members currently elected, when the chamber is not at full strength. */
   readonly electedMembers?: number;
   readonly provenance: LegislativeVoteProvenance;
+  /**
+   * The sections the amendment would add or rewrite, as offered. Recorded on
+   * the amendment so its vote keeps what was on the table even if the text
+   * never enters the bill.
+   */
+  readonly proposedSections?: readonly LegislativeProposedSection[];
+  /** Why a computer-run member offered it. */
+  readonly authorMotive?: LegislativeAmendmentMotive;
 }
 
 /** Offers a floor amendment and decides it by recorded vote. */
@@ -2162,6 +2136,15 @@ export function offerFloorAmendment(
     description: input.description,
     status: adopted ? "adopted" : "rejected",
     voteId: vote.id,
+    ...(input.proposedSections && input.proposedSections.length > 0
+      ? {
+          proposedSections: input.proposedSections.map((section) => ({
+            ...section,
+            ...(section.answers ? { answers: { ...section.answers } } : {}),
+          })),
+        }
+      : {}),
+    ...(input.authorMotive ? { authorMotive: input.authorMotive } : {}),
   };
 
   return appendAction(world, {
@@ -2920,8 +2903,9 @@ export function recordEnactment(
     tags: ["legislation.enacted"],
   });
 
-  const event = next.history.events.find(
-    (candidate) => candidate.stableKey === `event:${input.stableKey}:enacted`,
+  const event = recordByStableKey(
+    next.history.events,
+    `event:${input.stableKey}:enacted`,
   );
   if (!event) {
     throw new Error("Failed to record the enactment event.");

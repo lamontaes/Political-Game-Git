@@ -24,6 +24,7 @@ import type {
   LegislativeMeasureRecord,
   World,
 } from "../types";
+import { hasStableKey } from "../history-index";
 
 /**
  * Congress as a seated legislature: the real members the save already holds
@@ -263,8 +264,7 @@ export function nextCongressSitting(after: IsoDate): IsoDate {
 export function scheduleCongressSitting(world: World): World {
   const dueAt = nextCongressSitting(world.currentDate);
   const stableKey = `${CONGRESS_SITTING_VERSION}:${dueAt}`;
-  if (world.history.futureDueItems.some((due) => due.stableKey === stableKey))
-    return world;
+  if (hasStableKey(world.history.futureDueItems, stableKey)) return world;
   return scheduleFutureDueItem(ensureNationalElectionJurisdiction(world), {
     stableKey,
     dueAt,

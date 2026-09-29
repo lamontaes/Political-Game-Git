@@ -1,3 +1,5 @@
+import { measureAnswersAt } from "../vote-bundle";
+import { applyItemVetoes } from "./item-veto";
 import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
 import { addDays, makeIsoDate } from "../dates";
@@ -41,6 +43,14 @@ import type {
   WorkItemStateRecord,
 } from "../types";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
+import { recordDurableDecisionTrace } from "../decisions";
+import { CLEMENCY_KIND_TAG } from "../justice/jail-terms";
+import {
+  CLEMENCY_DENY,
+  CLEMENCY_GRANT,
+  clemencyQuestionFor,
+  evaluateClemency,
+} from "../justice/clemency-reasoning";
 import { isCongressMeasure } from "./congress-chambers";
 import {
   CONGRESS_LAWMAKING_HANDLERS,
@@ -136,7 +146,8 @@ export type GoverningMatterFamily =
   | "implementation"
   | "budget"
   | "bill"
-  | "program";
+  | "program"
+  | "clemency";
 
 export interface GoverningOffice {
   readonly officeKey: string;
@@ -482,6 +493,15 @@ function measureTitle(world: World, measureId: EntityId | null): string | null {
   return measure ? `${measure.designation}, ${measure.shortTitle}` : null;
 }
 
+/** The person a clemency matter is about, by name. */
+function petitionerLabel(world: World, event: HistoricalEvent): string {
+  const personId = event.participants.find(
+    (participant) => participant.role === "focus:candidate",
+  )?.personId;
+  const person = personId ? world.people[personId] : undefined;
+  return person ? personName(person) : "someone under sentence";
+}
+
 function subjectLabel(subjectKey: string | null): string {
   return (
     (subjectKey ? programFamilyTitle(subjectKey) : null) ?? "the priority"
@@ -638,6 +658,31 @@ function optionsFor(
           assessment: null,
         },
       ];
+    case "clemency": {
+      const commutation = event.tags.includes(
+        `${CLEMENCY_KIND_TAG}commutation`,
+      );
+      return [
+        {
+          key: CLEMENCY_GRANT,
+          label: commutation ? "Shorten the sentence" : "Grant the pardon",
+          effect: commutation
+            ? "The jail term ends now."
+            : "The sentence ends now and is forgiven.",
+          tradeoff: "Mercy is noticed, and so is who received it.",
+          personId: null,
+          assessment: null,
+        },
+        {
+          key: CLEMENCY_DENY,
+          label: "Turn it down",
+          effect: "The sentence stands as it was handed down.",
+          tradeoff: "Nothing changes, and the person asking knows you said no.",
+          personId: null,
+          assessment: null,
+        },
+      ];
+    }
     case "implementation":
       return [
         {
@@ -707,6 +752,12 @@ const FAMILY_TEXT: Record<
     ifIgnored:
       "Nothing is committed, and the money stays unspent until the appropriation lapses.",
   },
+  clemency: {
+    title: (subject) => `A request for clemency from ${subject}`,
+    ask: "They are asking you to use the clemency power on their sentence.",
+    ifIgnored:
+      "The request goes unanswered, and the sentence stands as it was handed down.",
+  },
   implementation: {
     title: (subject) => `Direct the agencies on ${subject}`,
     ask: "The agencies are ready to act on your priority and need to know how fast to move.",
@@ -721,6 +772,9 @@ const DEADLINE_DAYS: Record<GoverningMatterFamily, number> = {
   budget: 30,
   bill: 10,
   program: 45,
+  // PLACEHOLDER: no state gives a governor a deadline on a clemency request
+  // that the game has read; this is how long it waits on the desk.
+  clemency: 60,
 };
 
 function isFamily(value: string | null): value is GoverningMatterFamily {
@@ -771,7 +825,9 @@ function matterFromEvent(
     openedAt: event.occurredAt,
     deadline: makeIsoDate(deadline),
     title: text.title(
-      measureTitle(world, measureId) ?? subjectLabel(subjectKey),
+      family === "clemency"
+        ? petitionerLabel(world, event)
+        : (measureTitle(world, measureId) ?? subjectLabel(subjectKey)),
     ),
     ask: text.ask,
     ifIgnored:
@@ -857,7 +913,9 @@ export function staffRecommendation(
   const assessment = staffAssessment(world, chief);
   const rng = new SeededRng(`${matter.stableKey}:recommendation:${chief}`);
   switch (matter.family) {
+    // Clemency is the officeholder's own power; nobody decides it for them.
     case "chief-of-staff":
+    case "clemency":
       return null;
     case "agenda": {
       const real = matter.options.filter((o) => o.key !== "priority:none");
@@ -1039,6 +1097,9 @@ interface OpenMatterInput {
   readonly sourceEventId?: EntityId | null;
   readonly measureId?: EntityId | null;
   readonly appropriationId?: EntityId | null;
+  /** What the title is about, where it is not a measure or a program. */
+  readonly titleSubject?: string;
+  readonly extraTags?: readonly string[];
 }
 
 function matterStableKey(
@@ -1060,7 +1121,8 @@ function openMatter(
   const deadline = addDays(world.currentDate, DEADLINE_DAYS[input.family]);
   const text = FAMILY_TEXT[input.family];
   const title = text.title(
-    measureTitle(world, input.measureId ?? null) ??
+    input.titleSubject ??
+      measureTitle(world, input.measureId ?? null) ??
       subjectLabel(input.subjectKey ?? null),
   );
   let next = recordWorldEvent(world, {
@@ -1100,6 +1162,7 @@ function openMatter(
         ? [`appropriation:${input.appropriationId}`]
         : []),
       ...(input.programKeys ?? []).map((key) => `program:${key}`),
+      ...(input.extraTags ?? []),
     ],
     summary: `${office.title}: ${title}.`,
     context: emptyContext(),
@@ -1148,6 +1211,35 @@ function openMatter(
     entityIds: [opened.id],
     jurisdictionId: office.jurisdictionId,
     provenance: { kind: "simulated", sourceEntityIds: [opened.id] },
+  });
+}
+
+/**
+ * A request for clemency on the officeholder's desk, opened by the clemency
+ * route (`justice/clemency.ts`) when the law needs this office's answer. The
+ * player decides it; a governor the game plays decides it on their own
+ * principles, relationships and calendar. Idempotent on the instance.
+ */
+export function openClemencyMatter(
+  world: World,
+  officeKey: string,
+  input: {
+    readonly instance: string;
+    readonly petitionEventId: EntityId;
+    readonly petitionerId: EntityId;
+    readonly kind: "pardon" | "commutation";
+  },
+): World {
+  const office = governingOfficeByKey(world, officeKey);
+  const petitioner = world.people[input.petitionerId];
+  if (!office || !petitioner) return world;
+  return openMatter(world, office, {
+    family: "clemency",
+    instance: input.instance,
+    candidatePersonIds: [input.petitionerId],
+    sourceEventId: input.petitionEventId,
+    titleSubject: personName(petitioner),
+    extraTags: [`${CLEMENCY_KIND_TAG}${input.kind}`],
   });
 }
 
@@ -1467,6 +1559,18 @@ function decisionSummary(
             summary: `${who}, ${office.title}, committed money adopted for ${subjectLabel(matter.subjectKey)}: ${option.label.toLowerCase()}.`,
             visibility: "public",
           };
+    case "clemency": {
+      const petitioner = petitionerLabel(world, matter.openedEvent);
+      return option.key === CLEMENCY_GRANT
+        ? {
+            summary: `${who}, ${office.title}, agreed to a request for clemency from ${petitioner}.`,
+            visibility: "limited",
+          }
+        : {
+            summary: `${who}, ${office.title}, turned down a request for clemency from ${petitioner}.`,
+            visibility: "limited",
+          };
+    }
     case "implementation":
       return option.key === "pace:hold"
         ? {
@@ -1499,6 +1603,10 @@ function applyConsequence(
       : world;
   }
   switch (matter.family) {
+    // The grant itself is written by the clemency route, which reads this
+    // decision on its own clock with every other body's answer.
+    case "clemency":
+      return world;
     case "chief-of-staff": {
       if (!option.personId || !world.people[option.personId]) return world;
       if (isSittingChief(world, office.organizationId, option.personId))
@@ -1585,6 +1693,10 @@ function applyConsequence(
             ? "The governor signed the bill."
             : "The governor vetoed the bill and returned it.",
         );
+        // A signing governor with an item veto strikes the floor-added
+        // sections they cannot accept (Build 25 step 5).
+        if (signed)
+          next = applyItemVetoes(next, matter.measureId, office.holderPersonId);
         next = scheduleInstitutionStep(next, matter.measureId);
         return signed
           ? openMatter(next, office, {
@@ -1816,7 +1928,9 @@ export function delegateGoverningMatter(
       reason:
         matter.family === "chief-of-staff"
           ? "Choosing the chief of staff is yours to do."
-          : "There is no chief of staff to hand this to.",
+          : matter.family === "clemency"
+            ? "The clemency power is yours alone to use."
+            : "There is no chief of staff to hand this to.",
     };
   const option = matter.options.find(
     (o) => o.key === recommendation.optionKey,
@@ -1939,6 +2053,45 @@ export function governingNpcDecisionHandler(
       recordDecision(world, matter, null, "lapsed", matter.holderPersonId),
       "No available choice.",
     );
+  if (matter.family === "clemency") {
+    const petitionId = tagValue(matter.openedEvent, "source-event:");
+    const petition = petitionId
+      ? eventById(world, petitionId as EntityId)
+      : null;
+    const question = petition ? clemencyQuestionFor(world, petition) : null;
+    if (!question)
+      return resolved(
+        recordDecision(world, matter, null, "lapsed", matter.holderPersonId),
+        "The request is no longer on record.",
+      );
+    // The governor weighs their own principles, drawn once like a bill's.
+    const principled = ensureOfficeholderPrinciples(world, [
+      matter.holderPersonId,
+    ]);
+    const evaluation = evaluateClemency(
+      principled,
+      matter.holderPersonId,
+      question,
+      {
+        stateUsps: office.stateUsps,
+        termEndsAt: office.termEndsAt,
+      },
+    );
+    const traced = recordDurableDecisionTrace(principled, evaluation);
+    const option = matter.options.find(
+      (o) => o.key === (evaluation.selectedOptionKey ?? CLEMENCY_DENY),
+    );
+    return resolved(
+      recordDecision(
+        traced,
+        matter,
+        option ?? null,
+        option ? "officeholder" : "lapsed",
+        matter.holderPersonId,
+      ),
+      "The officeholder decided.",
+    );
+  }
   let next = world;
   let principled: GoverningMatter["options"][number] | undefined;
   const measure =
@@ -1951,10 +2104,12 @@ export function governingNpcDecisionHandler(
     // A governor whose own principles bear on the bill more than slightly
     // signs or returns it on them, whatever the staff advise.
     next = ensureOfficeholderPrinciples(next, [matter.holderPersonId]);
+    // The bill as it was passed, sections amendments added included.
     const bearing = principleVoteConsideration(
       next,
       matter.holderPersonId,
       measure,
+      measureAnswersAt(next, measure.id, undefined, "all"),
     );
     if (bearing && bearing.importance !== "slight")
       principled = matter.options.find(
