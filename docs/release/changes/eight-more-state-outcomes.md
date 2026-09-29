@@ -13,5 +13,7 @@ or out, and what it pays to borrow. Each drifts over the years, sometimes with
 the whole country, and is never pulled back to where it started. Laws now
 reach them too: taking the sales tax off groceries eases hunger, naloxone
 programs may cut overdose deaths, and letting towns build broadband brings more
-homes online. Places with no published figure record nothing rather than a
+homes online. A state that requires a balanced budget, funds its pensions on
+schedule or keeps a minimum reserve pays less to borrow after a year or more.
+Places with no published figure record nothing rather than a
 guess.
