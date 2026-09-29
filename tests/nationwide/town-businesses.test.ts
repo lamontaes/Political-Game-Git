@@ -207,8 +207,9 @@ describe("the town's businesses open and close", { timeout: 600_000 }, () => {
     expect(reviewTownBusinesses(world, town, personId, "test-19")).toBe(world);
   });
 
-  it("nobody serving a jail term opens a business", () => {
-    // Who opened each business in five years, when nobody is in jail.
+  it("nobody serving a jail term opens a business or is hired", () => {
+    // Who opened each business in five years, when nobody is in jail: by the
+    // openings rule, or by a hire that brought a new employer to town.
     const founded = (world: World, town: string, start: string) => {
       const stem = `${TOWN_EMPLOYMENT_VERSION}:${town}:employer:`;
       return world.history.organizations.flatMap((organization) => {
@@ -220,12 +221,14 @@ describe("the town's businesses open and close", { timeout: 600_000 }, () => {
         return founder && founder.startedAt > start ? [founder.personId] : [];
       });
     };
-    const free = fiveYears("2146027");
+    // Los Angeles, California: on the calendar alone, few towns open any.
+    const placeKey = "0644000";
+    const free = fiveYears(placeKey);
     const first = founded(free.world, free.town, free.start)[0];
     expect(first).toBeDefined();
     // The same five years with that person sentenced to ten years in jail
     // the day they begin.
-    const jailed = fiveYears("2146027", (world) => ({
+    const jailed = fiveYears(placeKey, (world) => ({
       ...world,
       history: {
         ...world.history,
@@ -247,6 +250,12 @@ describe("the town's businesses open and close", { timeout: 600_000 }, () => {
     expect(founded(jailed.world, jailed.town, jailed.start)).not.toContain(
       first,
     );
+    // Nor are they hired anywhere while serving it.
+    expect(
+      jailed.world.history.workRelationships.filter(
+        (row) => row.personId === first && row.startedAt > jailed.start,
+      ),
+    ).toEqual([]);
   });
 });
 

@@ -30,6 +30,7 @@
  * is given its jobs when it is written out, never before.
  */
 
+import { jailTermOn } from "../justice/jail-terms";
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
 import { createOrganization, createWorkRelationships } from "../life";
@@ -1369,6 +1370,9 @@ export function fillTownJobs(
   },
 ): World {
   const place = lifePlaceByJurisdictionId(town);
+  // Nobody serving a jail term is hired: a job they held is on leave, so they
+  // would otherwise count as out of work.
+  open = open.filter((resident) => !jailTermOn(world, resident.personId));
   if (!place || open.length === 0) return world;
   const today = world.currentDate;
   const prefix = `${TOWN_EMPLOYMENT_VERSION}:${town}`;
