@@ -17,6 +17,7 @@ import {
   type PublicBudgetStore,
 } from ".";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
+import { TAX_QUESTION_EFFECTS } from "./rules";
 
 /*
  * Every government keeps a budget, and the three budget laws act on it. The
@@ -28,10 +29,12 @@ import { settleGovernmentMonth, type MonthFlows } from "./month";
 const BALANCED = "proposition_balanced" as EntityId;
 const RESERVE = "proposition_reserve" as EntityId;
 const PENSIONS = "proposition_pensions" as EntityId;
+const GRADUATED = "proposition_graduated" as EntityId;
 const QUESTIONS: Readonly<Record<string, EntityId>> = {
   "fiscal.balanced-operating-budget": BALANCED,
   "fiscal.minimum-reserve-balance": RESERVE,
   "fiscal.fund-pensions-to-schedule": PENSIONS,
+  "fiscal.graduated-income-tax": GRADUATED,
 };
 const illinois = stateJurisdictionForKey("US-IL")!.id;
 
@@ -664,6 +667,60 @@ describe("public budgets", () => {
     const june = months.find((row) => row.month === "2026-06-01")!;
     const july = months.find((row) => row.month === "2026-07-01")!;
     expect(july.revenue[aid]!).toBeGreaterThan(june.revenue[aid]!);
+  });
+
+  it("a state income tax law changes the income tax from the month it takes effect, and the next budgets count it once", () => {
+    // Illinois began with a flat income tax; a graduated one takes effect on
+    // March 1, 2026.
+    const graduated = TAX_QUESTION_EFFECTS.find((row) =>
+      row.questionKey.endsWith("graduated-income-tax"),
+    )!;
+    const withLaw = worldAt("2026-01-05", {
+      laws: [{ question: GRADUATED, answer: "yes", jurisdictionId: illinois }],
+      history: {
+        legislativeEnactments: [
+          {
+            id: "enactment_0" as EntityId,
+            sequence: 1000,
+            measureId: "measure_0" as EntityId,
+            resolvedAt: makeIsoDate("2026-02-01"),
+            outcome: "enacted",
+            effectiveAt: makeIsoDate("2026-03-01"),
+          },
+        ] as unknown as World["history"]["legislativeEnactments"],
+      },
+    });
+    const without = worldAt("2026-01-05");
+    const run = (world: World) =>
+      settleAlone(
+        world,
+        publicBudgetFor(opened(world), illinois)!,
+        "2028-06-01",
+      ).government;
+    const lawful = run(withLaw);
+    const flat = run(without);
+    const at = BUDGET_SOURCES.indexOf("individualIncomeTax");
+    const month = (government: PublicBudgetGovernment, on: string) =>
+      government.months.find((row) => row.month === on)!.revenue[at]!;
+    const size = 1 + graduated.toYes!;
+    expect(size).toBeCloseTo(1 + 3.4 / 22.7, 6);
+    // Nothing before it takes effect; the full change from that month on.
+    expect(month(lawful, "2026-02-01")).toBe(month(flat, "2026-02-01"));
+    expect(month(lawful, "2026-03-01") / month(flat, "2026-03-01")).toBeCloseTo(
+      size,
+      4,
+    );
+    // Fiscal 2027 and 2028 each expect the change once, not compounded.
+    for (const fy of [1, 2]) {
+      const ratio =
+        lawful.years[fy]!.expectedRevenue[at]! /
+        flat.years[fy]!.expectedRevenue[at]!;
+      expect(ratio).toBeCloseTo(size, 3);
+    }
+    expect(month(lawful, "2028-03-01") / month(flat, "2028-03-01")).toBeCloseTo(
+      size,
+      3,
+    );
   });
 
   it("maps an appropriation's program to its budget line", () => {
