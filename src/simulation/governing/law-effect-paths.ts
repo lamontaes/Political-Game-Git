@@ -80,6 +80,11 @@ export interface LawEffectPath {
 /** Modules that read the law in force and change the world from it. */
 const DIRECT_PATHS: readonly LawEffectPath[] = [
   {
+    questionKey: "us-federal-positions:education.forgive-student-loans",
+    kind: "paycheck",
+    via: "src/simulation/student-debt-relief-law.ts",
+  },
+  {
     questionKey: "us-policy-positions:education.state-curriculum-standards",
     kind: "state-spending",
     via: "src/simulation/public-budgets/curriculum-standards.ts",

@@ -2569,14 +2569,14 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.12,
       "per": "law in force",
       "lagMonths": 0,
       "group": "borrowers",
       "owner": "B",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "Debt discharge in Di Maggio, Kalda and Yao (2019, NBER w25810 revised draft) reduced default on other accounts by 12%. Provisional proxy for past-due debt, not a measured federal-program effect. The producer reports the actual canonical loan balances and standings; this rate never assigns an individual default or relief.",
+      "source": "https://www.nber.org/system/files/working_papers/w25810/revisions/w25810.rev0.pdf",
+      "evidence": "provisional",
       "from": "law:us-federal-positions:education.forgive-student-loans",
       "to": "finance.past-due-debt"
     },

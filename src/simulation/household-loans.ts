@@ -1,3 +1,4 @@
+import { applyStudentDebtRelief } from "./student-debt-relief-law";
 import { createStableId } from "./ids";
 import { makeIsoDate } from "./dates";
 import { createOrganization } from "./life";
@@ -24,6 +25,7 @@ import {
 } from "./public-benefit-formulas";
 import type {
   DebtChargeRecord,
+  DebtReliefRecord,
   DebtStanding,
   DebtStandingRecord,
   EntityId,
@@ -420,7 +422,7 @@ export function householdLoanMonthHandler(
   )
     throw new Error("The loan servicing handler received another transition.");
   const dueOn = world.currentDate;
-  let next = world;
+  let next = applyStudentDebtRelief(world);
   let serviced = 0;
   let open = 0;
   for (const obligationId of new Set(
@@ -614,7 +616,15 @@ function scheduledInstallment(
     asOfDate: dueOn,
     historySequenceExclusive: world.history.nextSequence,
   })!;
-  if (terms.id === firstTerms.id && current.amount.minorUnits > 0)
+  if (
+    terms.id === firstTerms.id &&
+    current.amount.minorUnits > 0 &&
+    !(world.history.debtReliefs ?? []).some(
+      (row) =>
+        row.resourceObligationId === terms.resourceObligationId &&
+        row.relievedAt <= dueOn,
+    )
+  )
     return current.amount.minorUnits;
   return amortizedMonthlyPaymentMinor(
     balanceMinor,
@@ -678,6 +688,23 @@ function appendLoanTerms(world: World, draft: Draft<LoanTermsRecord>): World {
   return append(world, "loanTerms", "loan-terms", draft);
 }
 
+/** Cancels principal without transferring the borrower's cash. */
+export function recordDebtRelief(
+  world: World,
+  draft: Draft<DebtReliefRecord>,
+): World {
+  const balance = outstandingDebtAt(world, draft.resourceObligationId);
+  if (
+    !balance ||
+    !Number.isSafeInteger(draft.amount.minorUnits) ||
+    draft.amount.minorUnits <= 0 ||
+    draft.amount.minorUnits > balance.minorUnits ||
+    draft.amount.currency !== balance.currency
+  )
+    throw new Error("Relief cannot exceed the current debt balance.");
+  return append(world, "debtReliefs", "debt-relief", draft);
+}
+
 function appendDebtCharge(world: World, draft: Draft<DebtChargeRecord>): World {
   return append(world, "debtCharges", "debt-charge", draft);
 }
@@ -689,12 +716,12 @@ function appendDebtStanding(
   return append(world, "debtStandings", "debt-standing", draft);
 }
 
-type LoanField = "loanTerms" | "debtCharges" | "debtStandings";
+type LoanField = "loanTerms" | "debtCharges" | "debtStandings" | "debtReliefs";
 
 function append<K extends LoanField>(
   world: World,
   field: K,
-  kind: "loan-terms" | "debt-charge" | "debt-standing",
+  kind: "loan-terms" | "debt-charge" | "debt-standing" | "debt-relief",
   draft: Draft<NonNullable<World["history"][K]>[number]>,
 ): World {
   const record = {
@@ -732,6 +759,7 @@ export function assertHouseholdLoanIntegrity(
   const groups = [
     ["loan-terms", world.history.loanTerms ?? []],
     ["debt-charge", world.history.debtCharges ?? []],
+    ["debt-relief", world.history.debtReliefs ?? []],
     ["debt-standing", world.history.debtStandings ?? []],
   ] as const;
   for (const [kind, records] of groups) {
@@ -778,6 +806,27 @@ export function assertHouseholdLoanIntegrity(
       row.amount.minorUnits <= 0
     )
       throw new Error("A debt charge must follow terms in force.");
+  }
+  for (const row of world.history.debtReliefs ?? []) {
+    const balance = outstandingDebtAt(world, row.resourceObligationId, {
+      asOfDate: row.relievedAt,
+      historySequenceExclusive: row.sequence,
+    });
+    if (
+      !balance ||
+      !Number.isSafeInteger(row.amount.minorUnits) ||
+      row.amount.minorUnits <= 0 ||
+      row.amount.currency !== balance.currency ||
+      row.amount.minorUnits > balance.minorUnits ||
+      row.relievedAt > row.recordedAt ||
+      !row.reason.trim() ||
+      !world.history.legislativeMeasures?.some(
+        (measure) => measure.id === row.measureId,
+      )
+    )
+      throw new Error(
+        "Debt relief must cancel an existing balance under a recorded measure.",
+      );
   }
   for (const row of world.history.debtStandings ?? []) {
     if (!debts.has(row.resourceObligationId))

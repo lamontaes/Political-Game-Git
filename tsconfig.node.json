@@ -24,6 +24,7 @@
     "scripts/release/**/*.ts",
     "scripts/source/**/*.ts",
     "scripts/unwired-laws/**/*.ts",
+    "scripts/laws-proof/**/*.ts",
     "src/authoring/**/*.ts",
     "src/cli/**/*.ts",
     "src/education/**/*.ts",

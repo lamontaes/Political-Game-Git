@@ -1,3 +1,7 @@
+import {
+  studentDebtReliefOutlay,
+  STUDENT_DEBT_RELIEF_QUESTION,
+} from "../student-debt-relief-law";
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import defenseData from "../../../data/research/federal/defense-contracts-by-state-fy2024.json" with { type: "json" };
 import farmData from "../../../data/research/federal/farm-payments-and-land-values-2025.json" with { type: "json" };
@@ -314,6 +318,15 @@ export function settleFederalTreasuryMonth(
         : OUTLAYS[key] / 12,
     ),
   );
+  for (const relief of studentDebtReliefOutlay(world, month)) {
+    outlays[FEDERAL_OUTLAYS.indexOf("education")]! += relief.dollars;
+    laws.push({
+      questionKey: STUDENT_DEBT_RELIEF_QUESTION,
+      measureId: relief.measureId,
+      line: "education",
+      amount: relief.dollars,
+    });
+  }
   const deficit =
     outlays.reduce((sum, amount) => sum + amount, 0) -
     receipts.reduce((sum, amount) => sum + amount, 0);

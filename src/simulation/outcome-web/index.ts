@@ -1,3 +1,4 @@
+import { pastDueDebtDollars } from "../student-debt-relief-law";
 import web from "../../../data/research/outcome-web/links.json" with { type: "json" };
 import { addDays, daysBetween } from "../dates";
 import {
@@ -314,6 +315,7 @@ export type OutcomeLinkStatus =
 export const FLOOD_DAMAGE_OUTCOME = "disaster.flood-damage";
 
 export const OUTCOMES_PRODUCED: ReadonlySet<string> = new Set([
+  "finance.past-due-debt",
   FLOOD_DAMAGE_OUTCOME,
   "crime.assault",
   "crime.robbery",
@@ -421,6 +423,12 @@ function placeOutcomePctMovedByCauses(key: string): string | null {
 
 /** The reader for a cause: a registered measure, or the law on a question. */
 export function outcomeMeasure(key: string): OutcomeMeasure | null {
+  if (key === "finance.past-due-debt")
+    return {
+      key,
+      unit: "USD of recorded debt in late, default or collections standing",
+      read: pastDueDebtDollars,
+    };
   const registered = OUTCOME_MEASURES[key];
   if (registered) return registered;
   const movedMeasure = placeOutcomeMovedByCauses(key);

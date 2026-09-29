@@ -1,3 +1,4 @@
+import { applyStudentDebtRelief } from "./student-debt-relief-law";
 import { addDays, makeIsoDate, spokenDate } from "./dates";
 import { sponsorPolicyTerms } from "./governing/policy-bill-terms";
 import { scheduleFutureDueItem } from "./future-transitions";
@@ -2970,7 +2971,7 @@ export function recordEnactment(
     outcomeEventId: event.id,
   };
 
-  return {
+  return applyStudentDebtRelief({
     ...next,
     history: {
       ...next.history,
@@ -2980,7 +2981,7 @@ export function recordEnactment(
         enactment,
       ],
     },
-  };
+  });
 }
 
 export interface RecordAdjournmentDeathInput {

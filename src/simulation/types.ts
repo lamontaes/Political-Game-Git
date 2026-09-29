@@ -95,6 +95,7 @@ export type EntityKind =
   | "statutory-tax-payment"
   | "loan-terms"
   | "debt-charge"
+  | "debt-relief"
   | "debt-standing"
   | "law-exposure"
   | "official-view"
@@ -3265,6 +3266,19 @@ export interface DebtChargeRecord {
   readonly loanTermsId: EntityId;
 }
 
+/** A creditor's lawful cancellation of debt, distinct from a borrower payment. */
+export interface DebtReliefRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly resourceObligationId: EntityId;
+  readonly relievedAt: IsoDate;
+  readonly amount: MoneyAmount;
+  readonly measureId: EntityId;
+  readonly reason: string;
+}
+
 export type DebtStanding =
   "current" | "late" | "default" | "collections" | "paid-off";
 
@@ -4284,6 +4298,7 @@ export interface HistoryStore {
   readonly statutoryTaxPayments?: readonly StatutoryTaxPaymentRecord[];
   readonly loanTerms?: readonly LoanTermsRecord[];
   readonly debtCharges?: readonly DebtChargeRecord[];
+  readonly debtReliefs?: readonly DebtReliefRecord[];
   readonly debtStandings?: readonly DebtStandingRecord[];
   /** Optional: when an enacted law reached a person; see `law-exposure.ts`. */
   readonly lawExposures?: readonly LawExposureRecord[];

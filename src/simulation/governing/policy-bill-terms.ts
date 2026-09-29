@@ -1,3 +1,4 @@
+import studentDebt from "../../../data/research/laws/student-debt-relief.json" with { type: "json" };
 import curriculum from "../../../data/research/laws/curriculum-adoption.json" with { type: "json" };
 import { lawInForce } from "./law-in-force";
 import { principledLeaning } from "./officeholder-principles";
@@ -13,27 +14,46 @@ export function sponsorPolicyTerms(
   sponsorPersonId: EntityId | null,
   answers: readonly { propositionId: EntityId; answer: "yes" | "no" }[],
 ): readonly PolicyBillTerms[] {
-  return answers.flatMap(({ propositionId, answer }) => {
+  return answers.flatMap<PolicyBillTerms>(({ propositionId, answer }) => {
     const questionKey =
       world.policyCatalog.propositions[propositionId]?.stableKey;
-    if (questionKey !== CURRICULUM_QUESTION || answer !== "yes") return [];
+    if (
+      !questionKey ||
+      ![
+        CURRICULUM_QUESTION,
+        "us-federal-positions:education.forgive-student-loans",
+      ].includes(questionKey) ||
+      answer !== "yes"
+    )
+      return [];
     const views = sponsorPersonId
       ? principledLeaning(world, sponsorPersonId, propositionId)
       : { score: 0, recordIds: [] };
     const current = lawInForce(world, jurisdictionId, propositionId);
     const strength = Math.max(-1, Math.min(1, views.score / 6));
+    const values: Readonly<Record<string, number>> =
+      questionKey === CURRICULUM_QUESTION
+        ? {
+            materialsPerPupilCents: Math.round(
+              curriculum.defaults.materialsPerPupilCents * (1 + strength / 2),
+            ),
+            phaseInMonths: Math.round(
+              curriculum.defaults.phaseInMonths - strength * 12,
+            ),
+          }
+        : {
+            capPerBorrowerCents: Math.round(
+              studentDebt.proposal.capPerBorrowerCents * (1 + strength),
+            ),
+            incomeLimitAnnualCents: Math.round(
+              studentDebt.proposal.incomeLimitAnnualCents * (1 + strength / 2),
+            ),
+          };
     return [
       {
         questionKey,
-        values: {
-          materialsPerPupilCents: Math.round(
-            curriculum.defaults.materialsPerPupilCents * (1 + strength / 2),
-          ),
-          phaseInMonths: Math.round(
-            curriculum.defaults.phaseInMonths - strength * 12,
-          ),
-        },
-        reason: `Sponsor principle score ${views.score}; current law ${current?.answer ?? "unrecorded"}; materials and phase-in priced from the recorded adoption appropriation.`,
+        values,
+        reason: `Sponsor principle score ${views.score}; current law ${current?.answer ?? "unrecorded"}; numeric terms priced from the question's recorded research benchmark.`,
         principleRecordIds: views.recordIds,
       },
     ];
