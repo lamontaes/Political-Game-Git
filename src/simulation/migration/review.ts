@@ -16,6 +16,7 @@
  * writer for the quarter's arrivals.
  */
 
+import { reviewTownCivicActions } from "../living-world/civic-actions";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -211,6 +212,8 @@ export function migrationReviewHandler(
     next = reviewTownFamilies(next, town, player, String(index));
     // And its homes: newcomers and new households move in, others move.
     next = reviewTownHomes(next, town, String(index));
+    // And its civic life: residents contact officials and attend meetings.
+    next = reviewTownCivicActions(next, town, player, String(index));
   }
   next = scheduleFutureDueItem(next, {
     stableKey: `${REVIEW_KEY_PREFIX}${index + 1}`,

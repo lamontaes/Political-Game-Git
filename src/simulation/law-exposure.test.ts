@@ -22,6 +22,13 @@ import {
   townSupportFromViews,
   viewOfOfficial,
 } from "./living-world/official-views";
+import {
+  groupsAgainst,
+  lawInterestGroup,
+  lawInterestMembers,
+  membersAgainstLaw,
+} from "./official-view-reads";
+import { joinLawInterestGroup } from "./living-world/law-interest-groups";
 import { recordRelationshipInteraction } from "./records";
 import { money } from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
@@ -340,5 +347,105 @@ describe("a law reaches a person", () => {
       const acquainted = peopleKnownTo(world, personId).includes(official);
       expect(knowsVote(world, probe, official)).toBe(follows || acquainted);
     }
+  });
+
+  it("people a law cost a tenth of a month's pay form a group once six in town are hit", () => {
+    const { world, personId } = collected();
+    const row = lawExposuresOf(world, personId)[0]!;
+    let next = world;
+    for (const id of world.personOrder.filter((id) => id !== personId))
+      next = recordLawExposure(next, {
+        stableKey: `law-exposure-test:group:${id}`,
+        personId: id,
+        measureId: row.measureId,
+        channel: "tax-payment",
+        direction: "cost",
+        amount: row.amount,
+        cadence: "one-time",
+        sourceRecordId: row.sourceRecordId,
+        includeFamily: false,
+      });
+    // The fixture pays nobody from work; give each a recorded month's pay of
+    // $5 so the $1 tax is a fifth of it.
+    const paid = (w: typeof next) => ({
+      ...w,
+      history: {
+        ...w.history,
+        lawExposures: w.history.lawExposures!.map((exposure) => ({
+          ...exposure,
+          monthlyPay: money(500, "USD"),
+        })),
+      },
+    });
+    next = paid(next);
+    const town = next.people[personId]!.homeJurisdictionId!;
+    const everyoneHere = next.personOrder.every(
+      (id) => next.people[id]!.homeJurisdictionId === town,
+    );
+    expect(everyoneHere).toBe(true);
+    // Five qualifying residents are not enough.
+    const five = {
+      ...next,
+      history: {
+        ...next.history,
+        lawExposures: next.history.lawExposures!.filter(
+          (exposure) => exposure.personId !== personId,
+        ),
+      },
+    };
+    const first = lawExposuresOf(
+      five,
+      five.personOrder.find((id) => id !== personId)!,
+    )[0]!;
+    expect(joinLawInterestGroup(five, first)).toBe(five);
+    // With the sixth, the group forms and members join by their odds.
+    let grouped = next;
+    for (const id of next.personOrder.filter((id) => id !== personId))
+      grouped = joinLawInterestGroup(grouped, lawExposuresOf(grouped, id)[0]!);
+    const groupId = lawInterestGroup(grouped, town, row.measureId)!;
+    expect(groupId).toBeTruthy();
+    const members = lawInterestMembers(grouped, groupId);
+    expect(members).not.toContain(personId);
+    expect(members.length).toBeGreaterThan(0);
+    expect(members.length).toBeLessThanOrEqual(5);
+    expect(membersAgainstLaw(grouped, row.measureId)).toBe(members.length);
+    // Joining twice writes nothing.
+    const again = joinLawInterestGroup(
+      grouped,
+      lawExposuresOf(grouped, members[0] ?? personId)[0]!,
+    );
+    expect(lawInterestMembers(again, groupId)).toEqual(members);
+    assertWorldIntegrity(grouped);
+    // A group whose members blame a candidate works against them in a town
+    // count: support falls by a twentieth beyond what the views alone do.
+    const officialId = personId;
+    const blamed = {
+      ...grouped,
+      history: {
+        ...grouped.history,
+        officialViews: [
+          {
+            id: "official-view_test" as typeof officialId,
+            stableKey: "law-exposure-test:blame",
+            sequence: grouped.history.nextSequence,
+            recordedAt: grouped.currentDate,
+            personId: members[0]!,
+            officialId,
+            measureId: row.measureId,
+            act: "voted-for" as const,
+            exposureId: lawExposuresOf(grouped, members[0]!)[0]!.id,
+            points: -1,
+            reasons: [{ kind: "personal" as const, points: -1 }],
+          },
+        ],
+      },
+    };
+    expect(groupsAgainst(blamed, town, officialId)).toHaveLength(1);
+    // A view formed this half year counts 1.5 times.
+    const viewsOnly = 1 + (-1 * 1.5) / (grouped.personOrder.length * 20);
+    expect(
+      townSupportFromViews(blamed, town, officialId, blamed.currentDate),
+    ).toBeCloseTo(viewsOnly - 0.05, 10);
+    expect(groupsAgainst(grouped, town, officialId)).toHaveLength(0);
   });
 });
