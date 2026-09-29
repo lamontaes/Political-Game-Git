@@ -43,6 +43,7 @@ import {
 import {
   LAW_EFFECT_EVENT_TYPE,
   LAW_EFFECT_MEASURE_TAG,
+  lawNewsReaders,
   reportLawEffects,
 } from "../../src/simulation/press/law-effect-news";
 import { recordLawExposure } from "../../src/simulation/law-exposure";
@@ -60,6 +61,7 @@ import {
 import type {
   EntityId,
   FutureDueItem,
+  HistoricalEvent,
   IsoDate,
   World,
 } from "../../src/simulation";
@@ -259,6 +261,12 @@ function lawEffects(world: World) {
   );
 }
 
+function measureOf(event: HistoricalEvent): EntityId {
+  return event.tags
+    .find((tag) => tag.startsWith(LAW_EFFECT_MEASURE_TAG))!
+    .slice(LAW_EFFECT_MEASURE_TAG.length) as EntityId;
+}
+
 describe(
   "a law that changes something for a town's people is news there",
   { timeout: 600_000 },
@@ -343,6 +351,39 @@ describe(
           (event) => event.stableKey,
         ),
       ).toEqual(records.map((event) => event.stableKey));
+
+      // Who reads each story: the workers it raised in that town, and the
+      // lawmakers answerable for it, each for a recorded reason.
+      const votersAtHome = (town: EntityId) =>
+        new Set(
+          (reported.history.legislativeVotes ?? [])
+            .filter(
+              (vote) =>
+                vote.measureId === measureOf(records[0]!) &&
+                vote.forum.kind === "chamber",
+            )
+            .flatMap((vote) => vote.dispositions)
+            .map((row) => row.personId)
+            .filter(
+              (id): id is EntityId =>
+                id !== null && reported.people[id]?.homeJurisdictionId === town,
+            ),
+        );
+      const sponsor = reported.history.legislativeMeasures!.find(
+        (measure) => measure.id === measureOf(records[0]!),
+      )!.sponsorPersonId!;
+      for (const event of records) {
+        const readers = lawNewsReaders(reported, event);
+        const raised = workersByTown.get(event.jurisdictionId!)!;
+        for (const worker of raised) expect(readers).toContain(worker);
+        // The played sponsor follows news of their own law.
+        expect(readers).toContain(sponsor);
+        const voters = votersAtHome(event.jurisdictionId!);
+        for (const reader of readers)
+          expect(
+            raised.has(reader) || voters.has(reader) || reader === sponsor,
+          ).toBe(true);
+      }
 
       // The desk's weekly sweep writes the same records and takes them up.
       const due = {

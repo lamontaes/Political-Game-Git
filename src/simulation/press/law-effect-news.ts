@@ -3,6 +3,10 @@ import { lawInForce } from "../governing/law-in-force";
 import { recordsByStringField } from "../history-index";
 import { householdMembershipsAt } from "../life-queries";
 import {
+  lifePlaceByJurisdictionId,
+  stateJurisdictionForKey,
+} from "../life-places";
+import {
   OUTCOME_LINKS,
   outcomeFactor,
   outcomeLinkStatus,
@@ -295,7 +299,8 @@ function recordLawEffect(
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: first.town,
-    involvedEntityIds: [first.town],
+    // The people it reached are kept, not named: they are the story's readers.
+    involvedEntityIds: [first.town, ...[...people].sort()],
     participants: [],
     personFactConstraints: [],
     visibility: "public",
@@ -601,4 +606,52 @@ function valueText(definition: PlaceOutcomeMeasureBase, value: number): string {
   const number = value.toLocaleString("en-US", { maximumFractionDigits: 1 });
   if (!definition.scale || definition.scale === "share") return `${number}%`;
   return number;
+}
+
+/**
+ * Who reads a story about a law's effect, each for a reason the world
+ * records:
+ * 1. the people the law reached in the town, because it was their own pay,
+ *    rent or tax;
+ * 2. the law's sponsor, because it is their law;
+ * 3. the members whose floor vote on it is recorded and who live in the
+ *    story's place (its town, or the state a state paper covers), because it
+ *    is news of their own vote from home.
+ * Nobody else learns of it from this: who else reads a paper is not yet
+ * modeled.
+ */
+export function lawNewsReaders(
+  world: World,
+  event: HistoricalEvent,
+): EntityId[] {
+  if (event.type !== LAW_EFFECT_EVENT_TYPE) return [];
+  const readers = new Set<EntityId>();
+  for (const id of event.involvedEntityIds)
+    if (world.people[id]) readers.add(id);
+  const measureId = event.tags
+    .find((tag) => tag.startsWith(LAW_EFFECT_MEASURE_TAG))
+    ?.slice(LAW_EFFECT_MEASURE_TAG.length);
+  const measure = measureId
+    ? world.history.legislativeMeasures?.find((row) => row.id === measureId)
+    : undefined;
+  if (!measure) return [...readers].sort();
+  if (measure.sponsorPersonId && world.people[measure.sponsorPersonId])
+    readers.add(measure.sponsorPersonId);
+  const place = event.jurisdictionId;
+  for (const vote of world.history.legislativeVotes ?? []) {
+    if (vote.measureId !== measure.id || vote.forum.kind !== "chamber")
+      continue;
+    for (const row of vote.dispositions) {
+      const person = row.personId ? world.people[row.personId] : undefined;
+      if (!person || !place) continue;
+      const home = person.homeJurisdictionId;
+      if (home === place || stateOf(home) === place) readers.add(person.id);
+    }
+  }
+  return [...readers].sort();
+}
+
+function stateOf(jurisdictionId: EntityId): EntityId | null {
+  const key = lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey;
+  return key ? (stateJurisdictionForKey(key)?.id ?? null) : null;
 }

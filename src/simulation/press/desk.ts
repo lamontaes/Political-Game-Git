@@ -55,7 +55,11 @@ import {
   type StoryLeadRecord,
 } from "./records";
 import { editorialHeadline, editorialParagraphs } from "./editorial";
-import { reportLawEffects, reportLawOutcomes } from "./law-effect-news";
+import {
+  lawNewsReaders,
+  reportLawEffects,
+  reportLawOutcomes,
+} from "./law-effect-news";
 import {
   appendPressRecord,
   pressDispositionsForLead,
@@ -1199,6 +1203,12 @@ function recordProfessionalReaders(
     for (const organizer of partyContactsForSubject(world, subjectId)) {
       readers.add(organizer);
     }
+  }
+  // A story about a law's effect is read by the people it reached and the
+  // lawmakers answerable for it (law-effect-news.ts).
+  for (const basisId of lead.basisEventIds) {
+    const basis = eventById(world, basisId);
+    if (basis) for (const id of lawNewsReaders(world, basis)) readers.add(id);
   }
   let next = world;
   for (const personId of [...readers].sort()) {
