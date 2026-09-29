@@ -262,13 +262,6 @@
       "code": "const NORMAL_START_SHARES_A_HOME_THRESHOLD = 62;"
     },
     {
-      "file": "src/presentation/opening-federal-geography.ts",
-      "kind": "place-in-logic",
-      "build": "Build 7",
-      "count": 1,
-      "code": "washington.stateJurisdictionKey !== \"US-DC\""
-    },
-    {
       "file": "src/presentation/opening-life.ts",
       "kind": "place-in-logic",
       "build": "Build 7",
@@ -1057,20 +1050,6 @@
       "kind": "roll",
       "build": "Build 19",
       "count": 1,
-      "code": "rng.fork(`close:${business.organizationId}`).next() >="
-    },
-    {
-      "file": "src/simulation/living-world/town-businesses.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "(rng.fork(\"openings\").next() < expected - Math.floor(expected) ? 1 : 0);"
-    },
-    {
-      "file": "src/simulation/living-world/town-businesses.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
       "code": "if (rng.fork(`close:${group.organizationId}`).next() >= chance) continue;"
     },
     {
@@ -1114,20 +1093,6 @@
       "build": "Build 19",
       "count": 1,
       "code": "return rng.fork(\"looking\").next() < NOT_WORKING.lookingForWork"
-    },
-    {
-      "file": "src/simulation/living-world/town-employment.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "if (point < 0) return value;"
-    },
-    {
-      "file": "src/simulation/living-world/town-employment.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "rng.fork(\"part-time\").next() <"
     },
     {
       "file": "src/simulation/living-world/town-families.ts",
@@ -1246,14 +1211,14 @@
       "kind": "roll",
       "build": "Build 20",
       "count": 1,
-      "code": "rng.fork(\"layoff\").next() <"
+      "code": "rng.fork(\"layoff\").next() < TOWN_JOB_TURNOVER.layoffPerQuarter * pressure"
     },
     {
       "file": "src/simulation/living-world/town-labor-market.ts",
       "kind": "roll",
       "build": "Build 20",
       "count": 1,
-      "code": "if (rng.fork(\"quit\").next() < TOWN_JOB_TURNOVER.quitPerQuarter / pressure) {"
+      "code": "rng.fork(\"quit\").next() < TOWN_JOB_TURNOVER.quitPerQuarter / pressure"
     },
     {
       "file": "src/simulation/living-world/town-labor-market.ts",
@@ -1323,27 +1288,6 @@
       "kind": "roll",
       "build": "Build 19",
       "count": 1,
-      "code": "turn < ERA.cycle.recessionStartMonthlyChance"
-    },
-    {
-      "file": "src/simulation/macro-economy/kernel.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "ERA.cycle.depths.find((row) => (cumulative += row.weight) > pick) ??"
-    },
-    {
-      "file": "src/simulation/macro-economy/kernel.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "} else if (phase === \"recession\" && turn < 1 / Math.max(1, meanMonths)) {"
-    },
-    {
-      "file": "src/simulation/macro-economy/kernel.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
       "code": "if (rng.fork(\"price-shock\").next() < i.shockMonthlyChance)"
     },
     {
@@ -1352,13 +1296,6 @@
       "build": "Build 19",
       "count": 1,
       "code": "eraJumpMonthlyChance: 0.00125,"
-    },
-    {
-      "file": "src/simulation/macro-economy/policy.ts",
-      "kind": "fixed-share",
-      "build": "Build 19",
-      "count": 1,
-      "code": "recessionStartMonthlyChance: 1 / 64,"
     },
     {
       "file": "src/simulation/macro-economy/policy.ts",
