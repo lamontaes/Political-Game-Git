@@ -109,9 +109,9 @@ describe("campaign hours panel (D-11)", () => {
     "is absent for someone who is not running",
     () => {
       const { world, personId } = governorRace("MN", "d11-hours-panel-mn");
-      const bystander = Object.keys(world.people).find(
-        (id) => id !== personId,
-      )!;
+      const bystander = Object.values(world.people).find(
+        (person) => person.id !== personId,
+      )!.id;
       expect(
         renderToStaticMarkup(
           <CampaignHoursPanel

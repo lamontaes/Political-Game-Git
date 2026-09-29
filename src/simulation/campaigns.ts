@@ -2137,7 +2137,7 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
       createTaxTransitionHandlerRegistry(),
       LIFE_PATHS2_HANDLERS,
       // D-11: the candidate's standing campaign hours, after the day job's.
-      createFutureTransitionHandlerRegistry([], createCampaignRoutineHook()),
+      createFutureTransitionHandlerRegistry([], campaignRoutineHook()),
       // CRUNCH46 CRISIS: mortality windows, deaths and health reviews.
       createCrisisTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
@@ -2254,6 +2254,14 @@ function scheduledRoutineActivity(
  * its hours are done. A session something else already holds the time for is
  * not offered, and a session whose start has gone by is lost.
  */
+let sharedCampaignRoutineHook: RoutineTimeHook | null = null;
+
+/** One hook object, so registries composed together keep the hours once. */
+function campaignRoutineHook(): RoutineTimeHook {
+  sharedCampaignRoutineHook ??= createCampaignRoutineHook();
+  return sharedCampaignRoutineHook;
+}
+
 export function createCampaignRoutineHook(): RoutineTimeHook {
   return {
     isAutoResolvableActivity(world, activityId) {

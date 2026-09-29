@@ -23,6 +23,11 @@ import {
   scheduledActivityState,
 } from "./time-work";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
+import {
+  composeFutureTransitionHandlerRegistries,
+  createFutureTransitionHandlerRegistry,
+} from "./future-transitions";
+import type { RoutineTimeHook } from "./types";
 import { simulationMomentAtLocalTime } from "./dates";
 import { assertWorldIntegrity } from "./world";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
@@ -241,6 +246,30 @@ describe("standing campaign hours (D-11)", () => {
     },
     SLOW,
   );
+
+  it("keeps each routine once when registries are composed again", () => {
+    const calls: string[] = [];
+    const hook = (name: string): RoutineTimeHook => ({
+      isAutoResolvableActivity: () => false,
+      projectWindows: () => [],
+      ensureScheduled: (world) => world,
+      afterActivityCompleted: (world) => {
+        calls.push(name);
+        return world;
+      },
+    });
+    const job = createFutureTransitionHandlerRegistry([], hook("job"));
+    const hours = createFutureTransitionHandlerRegistry([], hook("hours"));
+    const both = composeFutureTransitionHandlerRegistries(job, hours);
+    const again = composeFutureTransitionHandlerRegistries(
+      composeFutureTransitionHandlerRegistries(hours, both),
+      job,
+    );
+    const world = {} as World;
+    again.routine!.afterActivityCompleted(world, "activity" as EntityId);
+    // Each routine once, the one met first still first.
+    expect(calls).toEqual(["hours", "job"]);
+  });
 
   it(
     "refuses hours that overlap or run past midnight",

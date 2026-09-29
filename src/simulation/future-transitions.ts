@@ -151,11 +151,23 @@ export const EMPTY_FUTURE_TRANSITION_HANDLERS =
  * earlier routine is dropped, so the earlier one (the job) keeps its hours
  * and the later one loses that session.
  */
+const COMBINED_ROUTINE_MEMBERS = new WeakMap<
+  RoutineTimeHook,
+  readonly RoutineTimeHook[]
+>();
+
 function combineRoutineHooks(
-  hooks: readonly RoutineTimeHook[],
+  supplied: readonly RoutineTimeHook[],
 ): RoutineTimeHook | undefined {
+  // A registry composed twice, or composed again with one it already holds,
+  // carries the same routine once: a job's hours are not kept twice.
+  const hooks = [
+    ...new Set(
+      supplied.flatMap((hook) => COMBINED_ROUTINE_MEMBERS.get(hook) ?? [hook]),
+    ),
+  ];
   if (hooks.length <= 1) return hooks[0];
-  return {
+  const combined: RoutineTimeHook = {
     isAutoResolvableActivity: (world, activityId) =>
       hooks.some((hook) => hook.isAutoResolvableActivity(world, activityId)),
     projectWindows(world, target) {
@@ -192,6 +204,8 @@ function combineRoutineHooks(
       );
     },
   };
+  COMBINED_ROUTINE_MEMBERS.set(combined, hooks);
+  return combined;
 }
 
 export function composeFutureTransitionHandlerRegistries(

@@ -231,9 +231,6 @@ export function CampaignWorkspace({
   const advertising = strategy?.priorityChoices.find(
     (choice) => choice.key === "advertising",
   );
-  const advertisingOffer = view.offers.find(
-    (offer) => offer.kind === "advertising",
-  );
   const advertisingSpendingKey = advertising?.spendingChoices.some(
     (choice) => choice.key === selectedSpending,
   )
@@ -316,21 +313,18 @@ export function CampaignWorkspace({
   /*
    * One planning region, and one primary control in it.
    *
-   * The dated choices own the active route. Existing committed week sessions
-   * can still finish here; the old editing controls remain only for a World
-   * that cannot project the new choices.
+   * The standing hours and the dated choices come first and carry primary
+   * weight. The priority and geography controls and the "Do this now" row
+   * follow them: they are the only place a candidate says where the work goes
+   * and does one piece of it outside the standing hours, so they stay on the
+   * screen beside the hours rather than disappearing when the hours appear.
    */
   const planning = campaignPlanningLayout({
     weekPlanAvailable:
       view.phase === "active" &&
       (actionChoices !== null || Boolean(weekPanel?.committed)),
-    detailedEditingAvailable:
-      actionChoices === null &&
-      !weekPanel?.committed &&
-      Boolean(strategy) &&
-      view.offers.length > 0,
-    immediateActionsAvailable:
-      actionChoices === null && !weekPanel?.committed && view.offers.length > 0,
+    detailedEditingAvailable: Boolean(strategy) && view.offers.length > 0,
+    immediateActionsAvailable: view.offers.length > 0,
   });
 
   return (
@@ -745,77 +739,6 @@ export function CampaignWorkspace({
               </section>
             ) : null}
           </div>
-
-          {actionChoices && advertising && advertisingOffer ? (
-            <section
-              className="game-campaign-strategy"
-              data-testid="campaign-paid-advertising"
-              aria-labelledby="campaign-paid-advertising-title"
-            >
-              <h3 id="campaign-paid-advertising-title">Paid advertising</h3>
-              <p>
-                Choose where the buy runs and the committee's spending ceiling.
-                This uses the recorded campaign account when you confirm it.
-              </p>
-              <fieldset>
-                <legend>Where it runs</legend>
-                {strategy!.geographyChoices.map((choice) => (
-                  <label key={choice.key}>
-                    <input
-                      type="radio"
-                      name="campaign-paid-advertising-geography"
-                      value={choice.key}
-                      checked={geographyKey === choice.key}
-                      onChange={() => setSelectedGeography(choice.key)}
-                    />
-                    <span>
-                      {choice.label}
-                      <small>{choice.explanation}</small>
-                    </span>
-                  </label>
-                ))}
-              </fieldset>
-              {advertising.spendingChoices.length > 0 ? (
-                <fieldset>
-                  <legend>Spending ceiling</legend>
-                  {advertising.spendingChoices.map((choice) => (
-                    <label key={choice.key}>
-                      <input
-                        type="radio"
-                        name="campaign-paid-advertising-ceiling"
-                        value={choice.key}
-                        checked={advertisingSpendingKey === choice.key}
-                        onChange={() => setSelectedSpending(choice.key)}
-                      />
-                      <span>
-                        {choice.label}
-                        <small>{choice.explanation}</small>
-                      </span>
-                    </label>
-                  ))}
-                </fieldset>
-              ) : null}
-              <button
-                type="button"
-                className="game-campaign-action"
-                data-testid="campaign-advertising-buy"
-                disabled={
-                  advertisingOffer.unavailable !== null ||
-                  !advertisingSpendingKey ||
-                  !geographyKey
-                }
-                title={advertisingOffer.unavailable ?? undefined}
-                onClick={() => doNow("advertising")}
-              >
-                <span className="game-campaign-action-label">
-                  {advertisingOffer.label}
-                </span>
-                <span className="game-campaign-action-note">
-                  {advertisingOffer.unavailable ?? advertisingOffer.cost}
-                </span>
-              </button>
-            </section>
-          ) : null}
 
           {/*
             The result leads. It used to sit below the whole session log, and
