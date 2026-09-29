@@ -194,7 +194,7 @@ export const GUIDE_TERMS: readonly GuideTermEntry[] = [
     shortDefinition:
       "The member who leads the largest party that is not in the majority.",
     explanation:
-      "The minority leader speaks for the side that cannot ordinarily decide what the chamber does. The work is consequently different from the majority leader's: extracting concessions in exchange for cooperation, keeping the party's members voting together, and putting an alternative on the record where it cannot be enacted.",
+      "The minority leader speaks for the side that cannot ordinarily decide what the chamber does. The work is consequently different from the majority leader's: extracting concessions in exchange for cooperation, keeping the party's members voting together, and offering an alternative in public where it cannot be enacted.",
     contextNote: RULE_PACK_CONTEXT,
     relatedKeys: ["majority-leader", "ranking-member", "caucus"],
     authoring: {
@@ -254,7 +254,7 @@ export const GUIDE_TERMS: readonly GuideTermEntry[] = [
     shortDefinition:
       "A member who publicly adds their name to someone else's measure.",
     explanation:
-      "Cosponsoring is support on the record before any vote is taken. It costs a member little and commits them to nothing procedurally, which is exactly why a long cosponsor list is used as evidence that a measure can pass. Adding a name does not transfer control of the measure; the sponsor of record still decides what happens to it.",
+      "Cosponsoring is public support given before any vote is taken. It costs a member little and commits them to nothing procedurally, which is exactly why a long cosponsor list is used as evidence that a measure can pass. Adding a name does not transfer control of the measure; the sponsor of record still decides what happens to it.",
     relatedKeys: ["sponsor", "caucus", "roll-call"],
     authoring: {
       sourceNotes:
