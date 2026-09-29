@@ -57,6 +57,7 @@ import {
 import vetoWindowTable from "../../data/research/laws/veto-windows-2023.json" with { type: "json" };
 import { districtIdentityCatalog } from "../districts/catalog";
 import { listDistrictIdentities } from "../districts/query";
+import { seatsByDistrict } from "../districts/members-per-district";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import { STATES } from "./state-reference";
 import {
@@ -363,17 +364,20 @@ const SETTLED_CHAMBER_SEATS: Readonly<
 export type SeatBasis = "settled" | "census-districts" | "drawn";
 
 /**
- * How many districts the Census draws for one of a state's chambers; zero
- * where it draws none.
+ * How many members the Census districts of one of a state's chambers elect,
+ * by the counts in `members-per-district.json`; zero where the Census draws
+ * no districts.
  */
-function censusDistrictCount(
+function censusDistrictSeats(
   stateJurisdictionKey: string,
   chamber: "state-lower" | "state-upper",
 ): number {
-  return listDistrictIdentities(districtIdentityCatalog(), {
-    stateUsps: stateJurisdictionKey.replace(/^US-/, ""),
-    chamber,
-  }).length;
+  return seatsByDistrict(
+    listDistrictIdentities(districtIdentityCatalog(), {
+      stateUsps: stateJurisdictionKey.replace(/^US-/, ""),
+      chamber,
+    }),
+  ).length;
 }
 
 /** The drawn shape of one state's legislature, before it becomes a rule pack. */
@@ -384,7 +388,7 @@ export interface LegislatureProfile {
   readonly upperSeats: number;
   /**
    * Where each seat count comes from: settled law, the state's own Census
-   * legislative districts at one member to a district, or a draw from the
+   * legislative districts and the members each elects, or a draw from the
    * researched range where neither exists.
    */
   readonly lowerSeatsBasis: SeatBasis;
@@ -439,15 +443,15 @@ export function legislatureProfileFor(
   );
   // PLACEHOLDER until state-legislature-chamber-sizes-and-quorum is answered:
   // settled law wins. Then a state's own Census districts, which are a record
-  // of that state rather than a range across others, though a multi-member
-  // district seats more than one. The draw comes last. The seated chambers
-  // are sized the same way.
+  // of that state rather than a range across others, each district seating
+  // the members it elects. The draw comes last. The seated chambers are sized
+  // the same way.
   const settled = SETTLED_CHAMBER_SEATS[stateJurisdictionKey] ?? null;
-  const lowerDistricts = censusDistrictCount(
+  const lowerDistricts = censusDistrictSeats(
     stateJurisdictionKey,
     "state-lower",
   );
-  const upperDistricts = censusDistrictCount(
+  const upperDistricts = censusDistrictSeats(
     stateJurisdictionKey,
     "state-upper",
   );
@@ -540,7 +544,7 @@ function profileChamber(
     profileSource(
       "Seats",
       seatBasis === "census-districts"
-        ? `The chamber seats ${seats} members, one for each of the state's Census legislative districts; how many members a district elects has not been read.`
+        ? `The chamber seats ${seats} members: the members each of the state's Census legislative districts elects, one where no count is on file.`
         : `The chamber seats ${seats} members, drawn from the range the compiled states span and fixed for this state.`,
     );
   const quorum: VoteThresholdRule = majorityOf(
