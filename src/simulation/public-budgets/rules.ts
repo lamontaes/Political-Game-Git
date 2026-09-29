@@ -191,7 +191,7 @@ export const TAX_QUESTION_EFFECTS: readonly {
     // Lifting a cap gives the same credits back.
     toNo: -1.75 / 46.01,
     basis:
-      "California 2026-27 May Revision business credit limitation, $1.7-1.8 billion a year (LAO, The 2026-27 Budget: Permanent Business Credit Limitation), over California's 2022 corporate income tax (Census Bureau); ESTIMATED FROM AVERAGE, one state's note.",
+      "California business credit limitation in the May Revision of the 2026-27 budget, $1.7-1.8 billion a year (LAO, The 2026-27 Budget: Permanent Business Credit Limitation), over California's 2022 corporate income tax (Census Bureau); ESTIMATED FROM AVERAGE, one state's note.",
   },
   {
     questionKey: INCENTIVE_CAP_QUESTION,
