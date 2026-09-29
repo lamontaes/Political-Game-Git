@@ -234,6 +234,25 @@ export function measureSessionClosedOn(
   );
 }
 
+/**
+ * Phases a bill reaches only after both chambers passed it. The session's
+ * end does not stop these: the clerks still enroll and present what the
+ * legislature passed, and the executive acts on it within the window the
+ * rules give after adjournment. A veto override still needs the chambers,
+ * so it is not among them.
+ */
+const PAST_THE_CHAMBERS: ReadonlySet<string> = new Set([
+  "awaiting-enrollment",
+  "awaiting-presentation",
+  "awaiting-executive",
+  "awaiting-enactment",
+]);
+
+/** Whether the session's end stops a bill in this phase. */
+export function adjournmentStopsPhase(phase: string): boolean {
+  return !PAST_THE_CHAMBERS.has(phase);
+}
+
 export function measureSessionIsClosed(
   world: World,
   measureId: EntityId,
@@ -456,16 +475,14 @@ export function applyInstitutionStep(
   const pack = blueprint.pack;
   const owner = effectiveOwner(world, measure);
   if (owner === null || owner === "sponsor-office") return { kind: "idle" };
+  const closed =
+    measureSessionIsClosed(world, measureId).closed &&
+    adjournmentStopsPhase(measurePosition(world, measureId).phase);
   const session = measureSessionIsClosed(world, measureId);
   // Where the rules say a pending bill dies when the session adjourns, one
   // still before the legislature dies; that is how most bills end.
   const dies = pack.session.measuresDieAtAdjournment;
-  if (
-    session.closed &&
-    owner !== "executive" &&
-    dies.kind === "known" &&
-    dies.value
-  )
+  if (closed && owner !== "executive" && dies.kind === "known" && dies.value)
     return {
       kind: "ended",
       world: recordAdjournmentDeath(world, {
@@ -477,7 +494,7 @@ export function applyInstitutionStep(
         measureId,
       }),
     };
-  if (session.closed)
+  if (closed)
     return {
       kind: "blocked",
       reason: `The session ended on ${session.closedOn}; whether this bill carries over is not established, so nothing more happens to it.`,
@@ -912,7 +929,11 @@ export function scheduleInstitutionStep(
       ? world
       : scheduleCongressSitting(world);
   if (pendingInstitutionStep(world, measureId, excludeDueItemId)) return world;
-  if (measureSessionIsClosed(world, measureId).closed) return world;
+  if (
+    measureSessionIsClosed(world, measureId).closed &&
+    adjournmentStopsPhase(measurePosition(world, measureId).phase)
+  )
+    return world;
   const dueAt =
     on && on > world.currentDate
       ? on
