@@ -1184,6 +1184,14 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
   // The last lease on each home: its landlord and bedrooms carry over.
   const lastOnHome = new Map<EntityId, LeaseFacts>();
   for (const lease of leases) lastOnHome.set(lease.dwellingId, lease);
+  // How many homes each landlord already lets, so a new home goes to the
+  // landlord with the fewest.
+  const held = new Map<string, number>();
+  for (const lease of leases)
+    if (!lease.ended) {
+      const key = endpointKey(lease.flow.recipient);
+      held.set(key, (held.get(key) ?? 0) + 1);
+    }
   let next = world;
   for (const tenure of candidates) {
     if (tenure.holder.kind !== "household") continue;
@@ -1224,12 +1232,14 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
         town,
         landlordKind,
         household,
-        rng.fork(`who${sold}`),
+        { held, pay },
         // A body written now was there when the tenancy began.
         tenure.startedAt,
       );
       next = chosen.world;
       landlord = chosen.landlord;
+      const key = endpointKey(landlord);
+      held.set(key, (held.get(key) ?? 0) + 1);
     }
     const isPublic = landlordKindOf(next, landlord) === "public";
     const income = householdMonthlyIncome(household, pay);
@@ -1406,13 +1416,31 @@ function measureDesignation(world: World, measureId: EntityId): string {
     : "the law in force";
 }
 
+function endpointKey(endpoint: ResourceEndpoint): string {
+  return endpoint.kind === "person"
+    ? `person:${endpoint.personId}`
+    : endpoint.kind === "organization"
+      ? `organization:${endpoint.organizationId}`
+      : endpoint.kind;
+}
+
+/**
+ * Who lets a home, with no draw. A person landlord is an owner in town who
+ * is not one of the tenants: the one letting the fewest homes, then the one
+ * with the highest recorded pay (people with more means let more homes),
+ * then by record. A firm is the one letting the fewest homes, then by
+ * record. HARDWIRED, a PLACEHOLDER(research: who-lets-homes).
+ */
 function chooseLandlord(
   world: World,
   index: TownIndex,
   town: EntityId,
   kind: LandlordKind,
   tenants: readonly Member[],
-  rng: SeededRng,
+  read: {
+    readonly held: ReadonlyMap<string, number>;
+    readonly pay: ReadonlyMap<EntityId, number>;
+  },
   onDate: IsoDate,
 ): { world: World; landlord: ResourceEndpoint } {
   if (kind === "public") {
@@ -1425,31 +1453,34 @@ function chooseLandlord(
       },
     };
   }
+  const letting = (key: string) => read.held.get(key) ?? 0;
   if (kind === "person") {
     const tenantIds = new Set(tenants.map((member) => member.id));
     const owners = (index.owners.get(town) ?? []).filter(
       (id) => !tenantIds.has(id),
     );
-    if (owners.length > 0)
-      return {
-        world,
-        landlord: {
-          kind: "person",
-          personId:
-            owners[Math.floor(rng.fork("owner").next() * owners.length)]!,
-        },
-      };
+    if (owners.length > 0) {
+      const [personId] = [...owners].sort(
+        (a, b) =>
+          letting(`person:${a}`) - letting(`person:${b}`) ||
+          (read.pay.get(b) ?? -1) - (read.pay.get(a) ?? -1) ||
+          a.localeCompare(b),
+      );
+      return { world, landlord: { kind: "person", personId: personId! } };
+    }
   }
   const firms = index.firms.get(town) ?? [];
-  if (firms.length > 0)
+  if (firms.length > 0) {
+    const [organizationId] = [...firms].sort(
+      (a, b) =>
+        letting(`organization:${a}`) - letting(`organization:${b}`) ||
+        a.localeCompare(b),
+    );
     return {
       world,
-      landlord: {
-        kind: "organization",
-        organizationId:
-          firms[Math.floor(rng.fork("firm").next() * firms.length)]!,
-      },
+      landlord: { kind: "organization", organizationId: organizationId! },
     };
+  }
   const manager = propertyManager(world, town, onDate, 0);
   return {
     world: manager.world,
