@@ -21,6 +21,7 @@ import { adoptedIncomeTaxPerYear } from "./income-tax-adoption";
 import { actuarialContribution } from "./opening";
 import { pensionFlows, pensionPayment } from "./pension-share";
 import { reserveRule } from "./reserve-rule";
+import { roadChargeFactor } from "./road-usage-charge";
 import { tuitionFreezeFactor } from "./tuition-freeze";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import {
@@ -288,7 +289,8 @@ function monthsInto(year: AdoptedBudget, month: IsoDate): number {
  * income tax question). Income tax is read on January 1
  * of the date's year, the law paychecks withhold under for that tax year
  * (`stateIncomeTaxUnderLaw`), so the budget collects what paychecks withhold.
- * A tuition freeze moves charges and fees (`tuition-freeze.ts`).
+ * A tuition freeze moves charges and fees (`tuition-freeze.ts`). The fuel
+ * tax erodes, and a road charge holds it (`road-usage-charge.ts`).
  */
 export function taxLawFactor(
   world: World,
@@ -304,7 +306,11 @@ export function taxLawFactor(
     source === "individualIncomeTax"
       ? adoptedIncomeTaxFactor(world, government, onDate)
       : source === "selectiveSalesTaxes"
-        ? cannabisSalesFactor(world, government, onDate)
+        ? // Cannabis adds its own level; the fuel tax's erosion comes off
+          // its own share. Each is measured against the opening level.
+          cannabisSalesFactor(world, government, onDate) +
+          roadChargeFactor(world, government, onDate) -
+          1
         : source === "chargesAndFees"
           ? tuitionFreezeFactor(world, government, onDate)
           : 1;

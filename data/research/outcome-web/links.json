@@ -3810,6 +3810,60 @@
       "evidence": "researched",
       "anchor": "A state that gets a dollar more of military procurement than others gets about $1.50 more output. Earnings are read to move one for one with output, so each percent of the state's output that extra contracts add lifts earnings 1.5%. The extra contracts follow a build-up at the pace defense contracts rose in the years they beat inflation, in each state in proportion to the contracts it drew in 2024 (data/research/federal/defense-contracts-by-state-fy2024.json). The paper's summary gives no band, so the spread is the default for researched links, 25% either way. The effect is read the same year the money is spent, since the study measures it within the year and the build-up already phases in over the years of the law.",
       "source": "Nakamura and Steinsson 2014, Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions, American Economic Review 104(3), NBER w17391; contracts from USAspending.gov and output from the Bureau of Economic Analysis, read September 29, 2026"
+    },
+    {
+      "key": "fix-it-first-to-poor-roads",
+      "from": "law:us-policy-positions:transportation-infrastructure.fix-it-first",
+      "to": "roads.poor-condition-pct",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.18,
+      "per": "law in force says yes (1) rather than no (0), as a share of the roads in poor condition, in the first five years",
+      "lagMonths": 60,
+      "group": "place",
+      "owner": "O",
+      "evidence": "provisional",
+      "anchor": "Fix-it-first moves highway capital from new lanes to repair: from the national 45% repair toward the 70% of states with good roads, 55% more repair at the same total. That much more rehabilitation cuts the share of roads in poor condition by about 38% over twenty years, and 47% of that gain comes in the first five: 18% fewer poor roads once the first repaving cycle is done",
+      "source": "Transportation for America, Repair Priorities (2014): states spent $16.5 billion a year repairing roads and $20.4 billion adding lanes in 2009 to 2011 (45% repair); Repair Priorities 2026: states with good roads spend more than $2.35 on repair per $1 on expansion (70% repair). FHWA, 25th Conditions and Performance Report (2024), Exhibits 7-5 and 7-6: raising highway rehabilitation from $31.4 billion to $49.4 billion a year (+57%) cuts the 2038 share of travel on poor pavement from 15.7% to 9.6%, and from $49.4 billion to $64.6 billion (+31%) from 9.6% to 6.2%; Exhibit 8-13: at flat spending 15.8% falls to 11.8% in five years and 7.3% in twenty",
+      "range": [-0.3, -0.08]
+    },
+    {
+      "key": "fix-it-first-to-poor-roads-later",
+      "from": "law:us-policy-positions:transportation-infrastructure.fix-it-first",
+      "to": "roads.poor-condition-pct",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.24,
+      "per": "law in force says yes (1) rather than no (0), as a share of the roads still in poor condition after the first five years",
+      "lagMonths": 150,
+      "group": "place",
+      "owner": "O",
+      "evidence": "provisional",
+      "anchor": "The rest of the twenty-year gain: after the first link's 18%, a further 24% of the poor roads left (0.82 x 0.76 = 0.62, 38% fewer in all), counted from the middle of years five to twenty",
+      "source": "Transportation for America, Repair Priorities (2014): states spent $16.5 billion a year repairing roads and $20.4 billion adding lanes in 2009 to 2011 (45% repair); Repair Priorities 2026: states with good roads spend more than $2.35 on repair per $1 on expansion (70% repair). FHWA, 25th Conditions and Performance Report (2024), Exhibits 7-5 and 7-6: raising highway rehabilitation from $31.4 billion to $49.4 billion a year (+57%) cuts the 2038 share of travel on poor pavement from 15.7% to 9.6%, and from $49.4 billion to $64.6 billion (+31%) from 9.6% to 6.2%; Exhibit 8-13: at flat spending 15.8% falls to 11.8% in five years and 7.3% in twenty",
+      "range": [-0.35, -0.1]
+    },
+    {
+      "key": "poor-roads-to-prices",
+      "from": "roads.poor-condition-pct:moved-by-causes",
+      "to": "household.prices",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.00031,
+      "per": "percentage point of major roads in poor condition that a law moved",
+      "lagMonths": 0,
+      "group": "households",
+      "owner": "O",
+      "evidence": "provisional",
+      "anchor": "Rough roads cost drivers in repairs, tires, fuel and a car that wears out sooner: $130 billion a year when 33% of major urban roads were substandard (2016), 1.02% of the $12.75 trillion Americans spent that year, or 0.031% of prices per point of rough road. Only the part of the road share that laws moved counts, so the roads' own drift does not move prices",
+      "source": "TRIP, Bumpy Roads Ahead (2018), $130 billion a year in extra vehicle operating costs on major urban roads in poor or mediocre condition in 2016, 33% of them; Bureau of Economic Analysis, personal consumption expenditures 2016, $12.75 trillion. ESTIMATED FROM AVERAGE: TRIP counts mediocre roads as well as poor ones, so each point of poor road is taken to cost what a point of substandard road does",
+      "range": [0.00015, 0.0005]
     }
   ],
   "calibratedAt": "2024-07-01"

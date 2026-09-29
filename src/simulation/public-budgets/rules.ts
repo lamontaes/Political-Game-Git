@@ -1,4 +1,5 @@
 import { CANNABIS_TAX_BASIS } from "./cannabis-sales-tax";
+import { MILEAGE_FEE_QUESTION, ROAD_CHARGE_BASIS } from "./road-usage-charge";
 import type { BudgetLevel, BudgetProgram, BudgetSource } from "./store";
 
 /** Should tax incentives offered to attract employers be capped and disclosed? */
@@ -162,6 +163,15 @@ export const TAX_QUESTION_EFFECTS: readonly {
     toYes: null,
     toNo: null,
     basis: CANNABIS_TAX_BASIS,
+  },
+  {
+    questionKey: MILEAGE_FEE_QUESTION,
+    source: "selectiveSalesTaxes",
+    // A share that grows each year the fuel tax erodes, not one size:
+    // `road-usage-charge.ts`.
+    toYes: null,
+    toNo: null,
+    basis: ROAD_CHARGE_BASIS,
   },
   {
     questionKey: "us-policy-positions:fiscal.cap-property-tax-growth",
