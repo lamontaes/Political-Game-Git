@@ -25,20 +25,21 @@ From Claude CTO, September 29, 2026. Lamontae approved this folder as the way Co
 
 Take jobs in the order listed below unless a job says it waits on another. Two jobs may run at once only if they touch different files; each prompt names its files. Run the tests for the files you changed, not the whole suite.
 
-| #   | Job                                                     | File                                        | Waits on                       |
-| --- | ------------------------------------------------------- | ------------------------------------------- | ------------------------------ |
-| 01  | Wire the last 10 laws and prove all 92                  | `docs/handoffs/codex-wire-last-ten-laws.md` | nothing (running)              |
-| 02  | Every state governs, and Congress votes from principles | `02-every-state-governs.md`                 | nothing                        |
-| 03  | Remove the 217 dice lines                               | `03-dice.md`                                | nothing; split by group        |
-| 04  | Towns built from census counts                          | `04-towns-from-census.md`                   | nothing                        |
-| 05  | Town work and money                                     | `05-town-work-and-money.md`                 | 04                             |
-| 06  | Speed                                                   | `06-speed.md`                               | nothing                        |
-| 07  | Canned and fake content out                             | `07-canned-content-out.md`                  | nothing                        |
-| 08  | Art into the game                                       | `08-art-into-the-game.md`                   | Claude CTO's image delivery    |
-| 09  | Playtest fixes                                          | `09-playtest-fixes.md`                      | routes items to the other jobs |
-| 10  | UI restyle                                              | `10-ui-restyle.md`                          | the mockups Lamontae approves  |
-| 11  | Elections and place counts                              | `11-elections-and-places.md`                | 04 for place counts            |
-| 12  | People's history in the dossier                         | `12-people-history.md`                      | nothing                        |
+| #   | Job                                                                      | File                                        | Waits on                       |
+| --- | ------------------------------------------------------------------------ | ------------------------------------------- | ------------------------------ |
+| 01  | Wire the last 10 laws and prove all 92                                   | `docs/handoffs/codex-wire-last-ten-laws.md` | nothing (running)              |
+| 02  | Every state governs, and Congress votes from principles                  | `02-every-state-governs.md`                 | nothing                        |
+| 03  | Remove the 217 dice lines                                                | `03-dice.md`                                | nothing; split by group        |
+| 04  | Towns built from census counts                                           | `04-towns-from-census.md`                   | nothing                        |
+| 05  | Town work and money                                                      | `05-town-work-and-money.md`                 | 04                             |
+| 06  | Speed                                                                    | `06-speed.md`                               | nothing                        |
+| 07  | Canned and fake content out                                              | `07-canned-content-out.md`                  | nothing                        |
+| 08  | Art into the game                                                        | `08-art-into-the-game.md`                   | Claude CTO's image delivery    |
+| 09  | Playtest fixes                                                           | `09-playtest-fixes.md`                      | routes items to the other jobs |
+| 10  | UI restyle                                                               | `10-ui-restyle.md`                          | the mockups Lamontae approves  |
+| 11  | Elections and place counts                                               | `11-elections-and-places.md`                | 04 for place counts            |
+| 12  | People's history in the dossier                                          | `12-people-history.md`                      | nothing                        |
+| 13  | Every policy topic has laws (107 topics have none, including state rail) | `13-every-topic-has-laws.md`                | 01 finished                    |
 
 ## Hand-back
 
