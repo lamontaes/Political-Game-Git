@@ -589,7 +589,10 @@ export function openingPension(
 
 /**
  * The employer's normal cost, as its own plans' share of the liability
- * (`pensionFlows`), plus the unfunded part amortized.
+ * (`pensionFlows`), plus the unfunded part amortized as a level-dollar
+ * payment at the assumed return. The unfunded part accrues interest at that
+ * return, so a payment of only its thirtieth would let it grow even when the
+ * whole contribution is paid.
  */
 export function actuarialContribution(
   pension: Pick<PensionRecord, "liability" | "assets">,
@@ -597,10 +600,14 @@ export function actuarialContribution(
 ): number {
   return Math.round(
     pension.liability * normalCostShare +
-      Math.max(0, pension.liability - pension.assets) /
-        PENSION.amortizationYears,
+      Math.max(0, pension.liability - pension.assets) * AMORTIZATION_FACTOR,
   );
 }
+
+/** The level-dollar payment per dollar of unfunded liability. */
+export const AMORTIZATION_FACTOR =
+  PENSION.assumedReturn /
+  (1 - (1 + PENSION.assumedReturn) ** -PENSION.amortizationYears);
 
 /**
  * Carves the pension contribution out of the programs that pay salaries, so
