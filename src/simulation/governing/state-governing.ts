@@ -76,6 +76,7 @@ import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { fileMemberAgendaBill } from "./member-agenda";
 import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 import { publicPartyOf } from "./chamber-votes";
+import { stateLegislatureMajority } from "./senate-selection";
 
 /**
  * STATE GOVERNING — the shared practical loop every governorship runs.
@@ -1062,12 +1063,13 @@ function openMatter(
       provenance: { kind: "simulated", sourceEntityIds: [opened.id] },
     });
   }
-  const rng = new SeededRng(`${stableKey}:npc-timing`);
+  // An officeholder the game plays takes the matter up the day before its
+  // deadline (hand-set: the whole window to weigh it, no draw of the day).
   return scheduleFutureDueItem(next, {
     stableKey: `${stableKey}:npc`,
     dueAt: addDays(
       world.currentDate,
-      rng.integer(3, DEADLINE_DAYS[input.family]),
+      Math.max(3, DEADLINE_DAYS[input.family] - 1),
     ),
     transitionKey: GOVERNING_NPC_DECISION,
     entityIds: [opened.id],
@@ -1871,7 +1873,6 @@ function implementationOutcome(
   matter: GoverningMatter,
   decision: HistoricalEvent,
   office: GoverningOffice | null,
-  rng: SeededRng,
 ): FollowUpOutcome {
   const pace = tagValue(decision, "choice:");
   const chief = office ? chiefOfStaffFor(world, office) : null;
@@ -1886,16 +1887,15 @@ function implementationOutcome(
         )
       : false;
   // A careful plan, a steady chief of staff and money the legislature
-  // actually approved all lower the chance of an early problem; an office
-  // that changed hands lets the work stall.
-  const roll =
-    rng.integer(0, 10) +
-    (pace === "pace:careful" ? 3 : 0) +
-    steadiness +
-    (funded ? 2 : 0);
+  // actually approved each make early progress; an office that changed hands
+  // lets the work stall. HAND-SET: two points of the three are needed (a
+  // careful plan counts three, approved money two, the chief's steadiness
+  // its own score), where a draw of 0 to 9 used to fill the gap.
+  const score =
+    (pace === "pace:careful" ? 3 : 0) + steadiness + (funded ? 2 : 0);
   const result: ImplementationResult = !office
     ? "stalled"
-    : roll >= 6
+    : score >= 2
       ? "progress"
       : "problem";
   const subject = subjectLabel(matter.subjectKey);
@@ -1914,7 +1914,6 @@ function budgetOutcome(
   world: World,
   decision: HistoricalEvent,
   office: GoverningOffice | null,
-  rng: SeededRng,
 ): FollowUpOutcome & { readonly funded: string | null } {
   const choice = tagValue(decision, "choice:budget:");
   const chief = office ? chiefOfStaffFor(world, office) : null;
@@ -1926,7 +1925,16 @@ function budgetOutcome(
       funded: null,
     };
   const subject = subjectLabel(choice);
-  const passed = rng.integer(0, 10) + (skilled ? 3 : 0) >= 5;
+  // The legislature funds the request when the governor's party holds its
+  // majority, or a chief of staff who knows the legislature works it.
+  const majority = office
+    ? stateLegislatureMajority(world, office.stateUsps)?.party
+    : null;
+  const passed =
+    skilled ||
+    (!!office &&
+      !!majority &&
+      majority === publicPartyOf(world, office.holderPersonId));
   return passed
     ? {
         tag: "budget:passed-with-request",
@@ -1974,12 +1982,11 @@ export function governingFollowUpHandler(
   const office = governingOfficeByKey(world, matter.officeKey);
   const currentOffice =
     office && office.holderPersonId === matter.holderPersonId ? office : null;
-  const rng = new SeededRng(`${due.stableKey}:outcome`);
   let outcome: FollowUpOutcome;
   let extraTags: string[] = [];
   let reopen: "implementation" | null = null;
   if (matter.family === "budget") {
-    const budget = budgetOutcome(world, decision, currentOffice, rng);
+    const budget = budgetOutcome(world, decision, currentOffice);
     outcome = budget;
     if (budget.funded) extraTags = [`funded:${budget.funded}`];
   } else if (matter.family === "bill") {
@@ -1987,13 +1994,7 @@ export function governingFollowUpHandler(
     outcome = returned;
     if (returned.overridden) reopen = "implementation";
   } else {
-    outcome = implementationOutcome(
-      world,
-      matter,
-      decision,
-      currentOffice,
-      rng,
-    );
+    outcome = implementationOutcome(world, matter, decision, currentOffice);
   }
   let next = recordWorldEvent(world, {
     stableKey: `${due.stableKey}:outcome`,
