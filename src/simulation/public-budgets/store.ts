@@ -1,5 +1,6 @@
 import type { LawLevel } from "../law-hierarchy";
 import type { EntityId, IsoDate, World } from "../types";
+import type { FederalTreasury } from "./federal-treasury";
 import type { StatehoodCertification } from "./statehood-funds";
 
 /**
@@ -96,6 +97,11 @@ export interface BudgetLawReading {
   /** The enacted measure, or a `starting-law:` key; null when unknown. */
   readonly measureId: EntityId | null;
   readonly level: LawLevel | null;
+  /**
+   * Where no law answers and the most common real rule stands in: that
+   * rule's basis, marked ESTIMATED FROM AVERAGE. Absent where a law answers.
+   */
+  readonly estimated?: string;
 }
 
 export interface AdoptedBudget {
@@ -289,6 +295,11 @@ export interface PublicBudgetStore {
    * (`staffing.ts`). Absent in a world whose town was never staffed.
    */
   readonly staffing?: readonly StaffingBaseline[];
+  /**
+   * The federal government's books (`federal-treasury.ts`). Absent in a world
+   * opened before it existed; the next monthly pass opens it.
+   */
+  readonly federal?: FederalTreasury;
   /** Governments in the world that keep no budget, and why. */
   readonly unknown: readonly {
     readonly key: string;
