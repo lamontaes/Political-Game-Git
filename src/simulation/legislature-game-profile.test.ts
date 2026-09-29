@@ -123,15 +123,18 @@ describe("what it draws, and from where", () => {
     }
   });
 
-  it("seats a chamber by the state's own Census districts where there are any", () => {
-    let sized = 0;
+  it("seats a chamber by the 2023 table, then by the state's own Census districts", () => {
+    let listed = 0;
     for (const identity of UNCOMPILED) {
       const profile = legislatureProfileFor(identity.jurisdictionKey);
       if (profile === null) continue;
-      // Settled law wins over the Census districts.
+      // Settled law wins over the table, and the table over the districts.
       if (profile.seatSource !== null) {
-        expect(profile.lowerSeatsBasis).toBe("settled");
-        expect(profile.upperSeatsBasis).toBe("settled");
+        expect(["settled", "compiled-table"]).toContain(
+          profile.lowerSeatsBasis,
+        );
+        expect(profile.upperSeatsBasis).toBe(profile.lowerSeatsBasis);
+        if (profile.lowerSeatsBasis === "compiled-table") listed += 1;
         continue;
       }
       const usps = identity.jurisdictionKey.replace(/^US-/, "");
@@ -141,16 +144,15 @@ describe("what it draws, and from where", () => {
           chamber,
         }).length;
       if (count("state-lower") > 0) {
-        sized += 1;
         expect(profile.lowerSeatsBasis).toBe("census-districts");
         expect(profile.lowerSeats).toBe(count("state-lower"));
-      } else expect(profile.lowerSeatsBasis).toBe("drawn");
+      } else expect(profile.lowerSeatsBasis).toBe("estimated");
       if (count("state-upper") > 0) {
         expect(profile.upperSeatsBasis).toBe("census-districts");
         expect(profile.upperSeats).toBe(count("state-upper"));
-      } else expect(profile.upperSeatsBasis).toBe("drawn");
+      } else expect(profile.upperSeatsBasis).toBe("estimated");
     }
-    expect(sized).toBeGreaterThan(0);
+    expect(listed).toBeGreaterThan(0);
   });
 
   it("never seats a senate as large as its own house", () => {
@@ -430,35 +432,72 @@ describe("every chamber in the country can be seated", () => {
     });
   });
 
-  it("fills the two compiled legislatures whose count was never read", () => {
+  it("fills the two compiled legislatures whose count was never read from the 2023 table", () => {
     // Kentucky and Nevada delegate the number away, and neither delegated
-    // instrument was read. The pack still says so.
-    for (const packId of [
-      "us-ky-general-assembly-v1",
-      "us-nv-legislature-v1",
-    ]) {
+    // instrument was read. The pack still says so; the count a chamber seats
+    // comes from The Book of the States 2023, Table 3.3.
+    const expected: Record<string, Record<string, number>> = {
+      "us-ky-general-assembly-v1": { house: 100, senate: 38 },
+      "us-nv-legislature-v1": { assembly: 42, senate: 21 },
+    };
+    for (const [packId, seats] of Object.entries(expected)) {
       const pack = LEGISLATIVE_RULE_PACKS.find(
         (candidate) => candidate.packId === packId,
       )!;
       for (const chamber of pack.chambers) {
         expect(chamber.seats.kind).toBe("unknown");
-        const count = seatsForChamber(pack, chamber.chamberKey)!;
-        expect(count.basis).toBe("game-profile");
-        expect(count.seats).toBeGreaterThan(0);
+        expect(seatsForChamber(pack, chamber.chamberKey)).toEqual({
+          seats: seats[chamber.chamberKey],
+          basis: "researched",
+        });
       }
     }
   });
 
-  it("never reports a generated legislature's seats as researched", () => {
+  it("seats a generated legislature by the 2023 table and cites it", () => {
     const texas = legislatureForState("US-TX")!;
-    for (const chamber of texas.chambers) {
-      expect(seatsForChamber(texas, chamber.chamberKey)!.basis).toBe(
-        "game-profile",
-      );
-    }
+    expect(
+      texas.chambers.map((chamber) => [
+        seatsForChamber(texas, chamber.chamberKey),
+        chamber.seats.kind === "known" ? chamber.seats.source.citation : null,
+      ]),
+    ).toEqual([
+      [
+        { seats: 150, basis: "researched" },
+        "The Book of the States 2023, Table 3.3",
+      ],
+      [
+        { seats: 31, basis: "researched" },
+        "The Book of the States 2023, Table 3.3",
+      ],
+    ]);
+    // Arizona elects two members from each of its thirty House districts, so
+    // its Census district count is half the House.
+    expect(legislatureProfileFor("US-AZ")).toMatchObject({
+      lowerSeats: 60,
+      upperSeats: 30,
+      lowerSeatsBasis: "compiled-table",
+    });
   });
 
-  it("keeps a senate smaller than its own house even when both are drawn", () => {
+  it("estimates a chamber no table lists from the middle of the compiled spread", () => {
+    const nevada = LEGISLATIVE_RULE_PACKS.find((pack) =>
+      pack.packId.startsWith("us-nv-"),
+    )!;
+    const unlisted = { ...nevada, jurisdictionKey: "US-ZZ" };
+    const { lowerSeats } = researchedChamberSpread();
+    const house = seatsForChamber(unlisted, "assembly")!;
+    expect(house).toEqual({
+      seats: lowerSeats[Math.floor((lowerSeats.length - 1) / 2)],
+      basis: "game-profile",
+    });
+    const senate = seatsForChamber(unlisted, "senate")!;
+    expect(senate.basis).toBe("game-profile");
+    expect(senate.seats).toBeLessThan(house.seats);
+    expect(senate.seats).toBeGreaterThanOrEqual(2);
+  });
+
+  it("keeps a senate smaller than its own house", () => {
     const kentucky = LEGISLATIVE_RULE_PACKS.find((pack) =>
       pack.packId.startsWith("us-ky-"),
     )!;
