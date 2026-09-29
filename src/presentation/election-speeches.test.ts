@@ -287,9 +287,15 @@ describe("election-night speeches", () => {
           row.source.kind === "told-by",
       ),
     ).toBe(false);
-    // Retelling the same month again tells nobody twice.
-    expect(retellSpeeches(told).history.knowledge).toHaveLength(
-      told.history.knowledge.length,
+    // Retelling again tells nobody twice. It may reach someone new: a person
+    // told this pass can pass it on in the next, as a skip across several
+    // months does (applySpeechRetelling).
+    const again = retellSpeeches(told).history.knowledge.filter(
+      (row) => row.eventId === speech.id,
+    );
+    expect(new Set(again.map((row) => row.personId)).size).toBe(again.length);
+    expect(again.length).toBeGreaterThanOrEqual(
+      told.history.knowledge.filter((row) => row.eventId === speech.id).length,
     );
     // A memory nobody retells for the fade period weakens one step.
     const later = retellSpeeches({

@@ -356,7 +356,13 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
     // An empty loop below would pass on nothing, so somebody must distance.
     expect(distanced.length).toBeGreaterThan(0);
     const people = projectPeopleDirectory(run.after, run.personId).people;
-    for (const response of distanced) {
+    // Somebody who distances again after a later update has still kept away
+    // since the first time, so the line keeps the first date.
+    const firstDistance = new Map<string, (typeof distanced)[number]>();
+    for (const response of distanced)
+      if (!firstDistance.has(response.actorPersonId))
+        firstDistance.set(response.actorPersonId, response);
+    for (const response of firstDistance.values()) {
       const given = run.after.people[response.actorPersonId]!.givenName;
       const line = `${given} has kept away from you since ${proseDate(response.respondedAt)}, after the case against you became public.`;
       expect(
