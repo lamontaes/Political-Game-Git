@@ -4,6 +4,7 @@ import { principledLeaning } from "../governing/officeholder-principles";
 import { currentLifeCutoff } from "../life-queries";
 import { checkExecutiveTermLimit } from "../nationwide-world/executive-term-limits";
 import { eventById } from "../event-index";
+import { feltDebtConsiderations } from "../favors";
 import { readRelationshipStanding } from "../relationship-standing";
 import { answersTo, petitionerOf, tagValue } from "./clemency-records";
 import {
@@ -262,6 +263,18 @@ export function clemencyConsiderations(
   out.push(
     ...relationshipConsiderations(world, deciderId, question.petitionerId),
   );
+  // Help the person asking once gave the decider, still felt as owed, is a
+  // reason to grant it, weighed like everything else.
+  if (deciderId !== question.petitionerId)
+    out.push(
+      ...feltDebtConsiderations(
+        world,
+        deciderId,
+        question.petitionerId,
+        "clemency",
+        CLEMENCY_GRANT,
+      ),
+    );
   if (question.sentenced.visibility === "public")
     out.push({
       stableKey: "clemency:public-case",

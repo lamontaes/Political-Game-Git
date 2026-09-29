@@ -788,15 +788,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "receiving",
+      "size": -0.021,
+      "per": "percentage point of residents receiving SNAP that a law or other cause moved",
       "lagMonths": 0,
-      "group": "eligible households",
+      "group": "place",
       "owner": "F",
-      "anchor": "-30% food insecurity, -20% very low food security",
-      "source": "Ratcliffe, McKernan and Zhang 2011",
-      "from": "program.snap-receipt",
-      "evidence": "researched"
+      "anchor": "SNAP cuts a household's chance of food insecurity about 30%. 51.1% of households that received SNAP in 2024 were food insecure, so without it about 73% would be: 21.9 points more for each household that loses SNAP. SNAP households average 1.9 people and all households 2.5, so a point of residents is 1.3% of households, and food insecurity rises 0.29 points, 2.1% of the 13.7% national rate. The low end reads the 30% against the rate with SNAP (15.3 points); the high end is a quarter above the center. Only the part of SNAP receipt that a law or other cause moved counts: the share's own drift stands for changes in need, which move food insecurity the other way.",
+      "source": "Ratcliffe, McKernan and Zhang 2011, American Journal of Agricultural Economics 93(4); USDA ERS, Household Food Security in the United States in 2024 (ERR-358), table 8; USDA FNS, Characteristics of SNAP Households: Fiscal Year 2023; Census Bureau, America's Families and Living Arrangements: 2024",
+      "from": "program.snap-receipt:moved-by-causes",
+      "evidence": "researched",
+      "range": [-0.026, -0.015]
     },
     {
       "key": "minimum-wage-to-poverty",
@@ -1947,16 +1948,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.052,
       "per": "law in force",
       "lagMonths": 3,
       "group": "able adults without dependents",
       "owner": "F",
-      "anchor": "SNAP time limits cut participation about half with no employment gain (to confirm)",
-      "source": "Gray, Leive, Prager, Pukelis and Zaki 2023 (to confirm)",
-      "evidence": "to-confirm",
+      "anchor": "Work requirements cut participation 53% among adults subject to them, with no gain in employment; adults 18 to 49 without a disability in childless households, those the requirement reaches, are 9.8% of SNAP participants, so about 5.2% fewer residents receive SNAP. The range runs from the 64% exit rate among incumbents to half the effect, for states where many of those adults are already exempt or covered by a waiver.",
+      "source": "Gray, Leive, Prager, Pukelis and Zaki 2023, American Economic Journal: Economic Policy 15(1); USDA FNS, Characteristics of SNAP Households: Fiscal Year 2023, Table 3.6",
+      "evidence": "researched",
       "from": "law:us-policy-positions:health-human-services.work-requirement-for-assistance",
-      "to": "program.snap-receipt"
+      "to": "program.snap-receipt",
+      "range": [-0.063, -0.025]
     },
     {
       "key": "universal-prek-to-graduation",

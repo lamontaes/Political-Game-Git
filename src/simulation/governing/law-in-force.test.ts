@@ -24,6 +24,8 @@ const QUESTION = "proposition_question" as EntityId;
 const OTHER = "proposition_other" as EntityId;
 const ohio = stateJurisdictionForKey("US-OH")!.id;
 const texas = stateJurisdictionForKey("US-TX")!.id;
+const kansas = stateJurisdictionForKey("US-KS")!.id;
+const illinois = stateJurisdictionForKey("US-IL")!.id;
 const federal = NATIONAL_ELECTION_JURISDICTION.id;
 
 let sequence = 0;
@@ -111,14 +113,28 @@ describe("the law in force on a question", () => {
     expect(
       lawInForce(worldWith("2026-05-30", [undated]), ohio, QUESTION),
     ).toMatchObject({ answer: "no", operativeBasis: "state-rule" });
-    // Texas's rule is not researched: the blanket ninety days, said so.
-    const texan = law(texas, "no", "2026-03-01");
+    // Illinois counts from final passage, which this record does not carry:
+    // the blanket ninety days, said so.
+    const illinoisan = law(illinois, "no", "2026-03-01");
     expect(
-      lawInForce(worldWith("2026-05-29", [texan]), texas, QUESTION),
+      lawInForce(worldWith("2026-05-29", [illinoisan]), illinois, QUESTION),
     ).toBeNull();
     expect(
-      lawInForce(worldWith("2026-05-30", [texan]), texas, QUESTION),
+      lawInForce(worldWith("2026-05-30", [illinoisan]), illinois, QUESTION),
     ).toMatchObject({ answer: "no", operativeBasis: "game-default" });
+  });
+
+  it("says when the state's rule is an estimate, not its own", () => {
+    // Kansas dates acts from publication, which is not dated; it takes the
+    // most common rule read, 91 days after the session's end (the 2026
+    // session adjourned April 10).
+    const kansan = law(kansas, "yes", "2026-03-01");
+    expect(
+      lawInForce(worldWith("2026-07-09", [kansan]), kansas, QUESTION),
+    ).toBeNull();
+    expect(
+      lawInForce(worldWith("2026-07-10", [kansan]), kansas, QUESTION),
+    ).toMatchObject({ answer: "yes", operativeBasis: "estimated-state-rule" });
   });
 
   it("lets the later law govern within a level", () => {
@@ -153,7 +169,9 @@ describe("the law a place already had when the game began", () => {
   const MEDICAID = "proposition_medicaid" as EntityId;
   const WORK = "proposition_work" as EntityId;
   const UNCOVERED = "proposition_uncovered" as EntityId;
+  const LEAVE = "proposition_leave" as EntityId;
   const dc = stateJurisdictionForKey("US-DC")!.id;
+  const maryland = stateJurisdictionForKey("US-MD")!.id;
 
   function worldAt(
     currentDate: string,
@@ -172,6 +190,10 @@ describe("the law a place already had when the game began", () => {
             id: WORK,
             stableKey:
               "us-policy-positions:health-human-services.work-requirement-for-assistance",
+          },
+          [LEAVE]: {
+            id: LEAVE,
+            stableKey: "us-policy-positions:labor-workforce.paid-family-leave",
           },
           [UNCOVERED]: { id: UNCOVERED, stableKey: "us-policy-positions:none" },
         },
@@ -212,6 +234,19 @@ describe("the law a place already had when the game began", () => {
     expect(
       lawInForce(worldAt("2025-11-01", [stateNo]), ohio, WORK),
     ).toMatchObject({ answer: "yes", level: "federal-statute" });
+  });
+
+  it("a repeal enacted in play governs a starting law that takes effect later", () => {
+    // Maryland's paid family leave, already law when the game begins, takes
+    // effect January 1, 2028. A repeal in force from June 1, 2026 leaves
+    // nothing of it to take effect.
+    expect(lawInForce(worldAt("2028-02-01", []), maryland, LEAVE)?.answer).toBe(
+      "yes",
+    );
+    const repeal = law(maryland, "no", "2026-03-01", "2026-06-01", LEAVE);
+    expect(
+      lawInForce(worldAt("2028-02-01", [repeal]), maryland, LEAVE),
+    ).toMatchObject({ answer: "no", origin: "enacted" });
   });
 
   it("a question the file does not cover stays unknown", () => {
