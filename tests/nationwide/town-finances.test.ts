@@ -29,8 +29,11 @@ import {
   TOWN_FINANCE_CLOSING_REASONS,
   closeBusinessesOutOfCash,
   stepTownFinances,
+  townDepositsPerResident,
   townTaxableSales,
 } from "../../src/simulation/living-world/town-finances";
+import { FDIC_COUNTY_DEPOSITS } from "../../src/simulation/living-world/town-deposits.generated";
+import { areaResidents } from "../../src/simulation/outcome-web/place-outcome-store";
 import { BUDGET_SOURCES } from "../../src/simulation/public-budgets/store";
 import { TOWN_FINANCE_ORIGIN_READER } from "../../src/simulation/macro-economy/sources";
 import type { World } from "../../src/simulation";
@@ -268,6 +271,18 @@ describe(
           (id) => id === job.personId,
         ),
       ).toHaveLength(1);
+    });
+
+    it("a town bank holds its county's deposits for each resident", () => {
+      // Marcus lies in Cherokee County, Iowa.
+      const row = FDIC_COUNTY_DEPOSITS.split(";").find((pair) =>
+        pair.startsWith("19035:"),
+      )!;
+      const perResident =
+        (Number(row.split(":")[1]) * 1000) / areaResidents("19035")!;
+      expect(townDepositsPerResident(world, town)).toBeCloseTo(perResident, 6);
+      expect(perResident).toBeGreaterThan(10_000);
+      expect(perResident).toBeLessThan(100_000);
     });
 
     it("a business without a bank borrows from the town's bank at its next review", () => {

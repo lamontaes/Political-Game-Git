@@ -25,3 +25,9 @@ Each business sets its prices from its costs, how busy it is and what its
 rivals charge, and customers choose among rivals by price. A city's sales
 tax now follows what its town's shops, restaurants, inns and other
 businesses sell, so a closing or a recession reaches the city's budget.
+
+A town bank now holds the deposits real banks hold in its county for each
+resident, from the FDIC's Summary of Deposits. Its losses come from its own
+borrowers: businesses that close owing it, and households whose breadwinner
+lost a job and stayed out of work past unemployment benefits and the day
+banks write a loan off. Every business borrows from the town's largest bank.

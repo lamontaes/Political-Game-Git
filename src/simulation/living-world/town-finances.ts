@@ -40,7 +40,11 @@ import { organizationClosingAt, organizationProfileAt } from "../life-queries";
 import { MACRO_CREDIT_POLICY } from "../macro-economy/credit";
 import { MACRO_ERA_POLICY } from "../macro-economy/policy";
 import { standardNormal } from "../macro-economy/kernel";
+import { countyGeoidsForPlace } from "../government-units";
+import { lifePlaceByJurisdictionId } from "../life-places";
+import { areaResidents } from "../outcome-web/place-outcome-store";
 import { SeededRng } from "../rng";
+import { FDIC_COUNTY_DEPOSITS } from "./town-deposits.generated";
 import type {
   EntityId,
   IsoDate,
@@ -143,8 +147,6 @@ export const TOWN_FINANCE_POLICY = {
     uninsuredShare: 0.3,
     /** PLACEHOLDER: how much of a lost cushion it rebuilds a quarter. */
     cushionRebuildPerQuarter: 0.25,
-    /** PLACEHOLDER: deposits a dollar of the town's yearly pay brings. */
-    depositsPerDollarOfPay: 1.5,
     /**
      * REGULATION: a closed-end consumer loan is charged off once it is 120
      * days past due (FFIEC Uniform Retail Credit Classification and Account
@@ -435,11 +437,73 @@ export function townTaxableSales(world: World, town: EntityId): number | null {
 
 // ─── Opening books ──────────────────────────────────────────────────────
 
+let depositsByCounty: ReadonlyMap<string, number> | null = null;
+let perResidentByState: ReadonlyMap<string, number> | null = null;
+let perResidentNation = 0;
+
+function median(values: readonly number[]): number {
+  const sorted = [...values].sort((a, b) => a - b);
+  const middle = Math.floor(sorted.length / 2);
+  return sorted.length % 2
+    ? sorted[middle]!
+    : (sorted[middle - 1]! + sorted[middle]!) / 2;
+}
+
+/**
+ * MEASURED: the deposits in the town's county's bank branches per county
+ * resident (FDIC Summary of Deposits, June 30, 2026; BEA county residents,
+ * 2024). The main offices of banks over $10 billion are left out, since
+ * they book deposits gathered across the country. In 2026 the middle
+ * county holds about $25,000 a resident, one in ten under $12,700 and one
+ * in ten over $50,000. A town whose county has no branch, or none on
+ * record, takes the middle county of its state, and a territory the middle
+ * county of the nation: ESTIMATED FROM AVERAGE.
+ */
+export function townDepositsPerResident(world: World, town: EntityId): number {
+  if (!depositsByCounty) {
+    const byCounty = new Map<string, number>();
+    const byState = new Map<string, number[]>();
+    for (const pair of FDIC_COUNTY_DEPOSITS.split(";")) {
+      const [county, thousands] = pair.split(":") as [string, string];
+      const residents = areaResidents(county);
+      if (!residents) continue;
+      const perResident = (Number(thousands) * 1000) / residents;
+      byCounty.set(county, perResident);
+      const list = byState.get(county.slice(0, 2)) ?? [];
+      list.push(perResident);
+      byState.set(county.slice(0, 2), list);
+    }
+    depositsByCounty = byCounty;
+    perResidentByState = new Map(
+      [...byState].map(([state, values]) => [state, median(values)]),
+    );
+    perResidentNation = median([...byCounty.values()]);
+  }
+  const geoid = lifePlaceByJurisdictionId(town)?.sourceGeoid ?? null;
+  const county =
+    geoid && /^\d{7}$/.test(geoid) ? countyGeoidsForPlace(geoid)[0] : undefined;
+  return (
+    (county ? depositsByCounty.get(county) : undefined) ??
+    (geoid ? perResidentByState!.get(geoid.slice(0, 2)) : undefined) ??
+    perResidentNation
+  );
+}
+
+/** Everyone living in the town today, of every age. */
+function townPeople(world: World, town: EntityId): number {
+  const dead = new Set(world.history.personDeaths.map((row) => row.personId));
+  let count = 0;
+  for (const personId of world.personOrder) {
+    const person = world.people[personId];
+    if (person?.homeJurisdictionId === town && !dead.has(personId)) count += 1;
+  }
+  return count;
+}
+
 function openBankBooks(
   world: World,
   town: EntityId,
   organizationId: EntityId,
-  townYearlyPay: number,
   banksInTown: number,
   round: string,
 ): TownBankBooks {
@@ -452,7 +516,8 @@ function openBankBooks(
       .next(),
   );
   const deposits = round2(
-    (townYearlyPay * P.depositsPerDollarOfPay) / Math.max(1, banksInTown),
+    (townDepositsPerResident(world, town) * townPeople(world, town)) /
+      Math.max(1, banksInTown),
   );
   const liquid = round2(deposits * shape.cushion);
   const loans = round2(deposits * shape.otherAssets);
@@ -643,14 +708,7 @@ export function stepTownFinances(
     ) * 4;
   for (const bankId of bankIds)
     if (!banks[bankId] && yearlyTownPay > 0)
-      banks[bankId] = openBankBooks(
-        world,
-        town,
-        bankId,
-        yearlyTownPay,
-        bankIds.length,
-        round,
-      );
+      banks[bankId] = openBankBooks(world, town, bankId, bankIds.length, round);
 
   const P = TOWN_FINANCE_POLICY.business;
   const demandGrowth = Math.exp(economy.growthGapPct / 400);
