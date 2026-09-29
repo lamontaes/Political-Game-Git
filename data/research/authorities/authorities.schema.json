@@ -121,9 +121,17 @@
             "pattern": "^https://"
           },
           "year": {
-            "type": "integer",
-            "minimum": 1800,
-            "maximum": 2026
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1800,
+                "maximum": 2026
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Publication or codification year when established; null for an undated source. Accessed is recorded separately."
           },
           "accessed": {
             "type": "string",

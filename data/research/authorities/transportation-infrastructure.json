@@ -1342,6 +1342,446 @@
       "year": 2023,
       "accessed": "2026-09-29",
       "kind": "primary"
+    },
+    {
+      "id": "commission-selection-ak",
+      "title": "AK principal utility commission selection evidence",
+      "url": "https://doa.alaska.gov/pdfs/PHPGReport.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-ar",
+      "title": "AR principal utility commission selection evidence",
+      "url": "https://apsc.arkansas.gov/commission-info/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-ca",
+      "title": "CA principal utility commission selection evidence",
+      "url": "https://www.cpuc.ca.gov/Commissioners/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-co",
+      "title": "CO principal utility commission selection evidence",
+      "url": "https://puc.colorado.gov/commissioners",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-ct",
+      "title": "CT principal utility commission selection evidence",
+      "url": "https://portal.ct.gov/governor/news/press-releases/2025/10-2025/governor-lamont-nominates-four-commissioners-to-pura",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-de",
+      "title": "DE principal utility commission selection evidence",
+      "url": "https://news.delaware.gov/2026/05/19/governor-meyer-congratulates-public-service-commissioners-following-confirmation/",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-fl",
+      "title": "FL principal utility commission selection evidence",
+      "url": "https://www.psc.state.fl.us/about",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-hi",
+      "title": "HI principal utility commission selection evidence",
+      "url": "https://puc.hawaii.gov/faq/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-id",
+      "title": "ID principal utility commission selection evidence",
+      "url": "https://puc.idaho.gov/Page/Info/35",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-il",
+      "title": "IL principal utility commission selection evidence",
+      "url": "https://icc.illinois.gov/about/commissioners",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-in",
+      "title": "IN principal utility commission selection evidence",
+      "url": "https://faqs.in.gov/hc/en-us/articles/360042658272-Who-are-the-Chair-and-Commissioners-of-the-Indiana-Utility-Regulatory-Commission",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-ia",
+      "title": "IA principal utility commission selection evidence",
+      "url": "https://iuc.iowa.gov/about/commissioners",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-ks",
+      "title": "KS principal utility commission selection evidence",
+      "url": "https://kcc.kansas.gov/about-us/the-commissions-s-role",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-ky",
+      "title": "KY principal utility commission selection evidence",
+      "url": "https://psc.ky.gov/Home/Commissioners",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-me",
+      "title": "ME principal utility commission selection evidence",
+      "url": "https://www.maine.gov/mpuc/about/commissioners/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-md",
+      "title": "MD principal utility commission selection evidence",
+      "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gpu&enactments=false&section=2-102",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-ma",
+      "title": "MA principal utility commission selection evidence",
+      "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter25/Section2",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-mi",
+      "title": "MI principal utility commission selection evidence",
+      "url": "https://www.michigan.gov/mpsc/about/commissioners/shaquila-myers",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-mn",
+      "title": "MN principal utility commission selection evidence",
+      "url": "https://mn.gov/puc/about-us/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-mo",
+      "title": "MO principal utility commission selection evidence",
+      "url": "https://revisor.mo.gov/main/OneSection.aspx?section=386.050",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-nv",
+      "title": "NV principal utility commission selection evidence",
+      "url": "https://www.leg.state.nv.us/NRS/NRS-703.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-nh",
+      "title": "NH principal utility commission selection evidence",
+      "url": "https://gc.nh.gov/rsa/html/XXXIV/363/363-mrg.htm",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-nj",
+      "title": "NJ principal utility commission selection evidence",
+      "url": "https://nj.gov/bpu/about/commissioners/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-nm",
+      "title": "NM principal utility commission selection evidence",
+      "url": "https://nmdoj.gov/wp-content/uploads/2021-NM-Constitution-2021-SOS.pdf",
+      "year": 2021,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-ny",
+      "title": "NY principal utility commission selection evidence",
+      "url": "https://dps.ny.gov/node/2826",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-nc",
+      "title": "NC principal utility commission selection evidence",
+      "url": "https://www3.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_62/GS_62-10.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-oh",
+      "title": "OH principal utility commission selection evidence",
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-4901.02",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-or",
+      "title": "OR principal utility commission selection evidence",
+      "url": "https://www.oregon.gov/puc/about-us/pages/default.aspx",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-pa",
+      "title": "PA principal utility commission selection evidence",
+      "url": "https://www.puc.pa.gov/about-the-puc/commissioners/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-ri",
+      "title": "RI principal utility commission selection evidence",
+      "url": "https://webserver.rilegislature.gov/Statutes/TITLE39/39-1/39-1-4.htm",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-sc",
+      "title": "SC principal utility commission selection evidence",
+      "url": "https://www.psc.sc.gov/index.php/news/2026-03/new-commissioners-elected-psc",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-tn",
+      "title": "TN principal utility commission selection evidence",
+      "url": "https://www.tn.gov/tpuc/main-tennessee-regulatory-authority-reports-and-publications/tpuc-current-annual-report--redirect-.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-tx",
+      "title": "TX principal utility commission selection evidence",
+      "url": "https://gov.texas.gov/news/post/governor-abbott-appoints-and-names-gleeson-chair-of-public-utility-commission-of-texas",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-ut",
+      "title": "UT principal utility commission selection evidence",
+      "url": "https://psc.utah.gov/commissioners/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-vt",
+      "title": "VT principal utility commission selection evidence",
+      "url": "https://legislature.vermont.gov/statutes/section/30/001/00003",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-va",
+      "title": "VA principal utility commission selection evidence",
+      "url": "https://www.scc.virginia.gov/about-the-scc/about-the-commissioners/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-wa",
+      "title": "WA principal utility commission selection evidence",
+      "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=80.01.010",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-wv",
+      "title": "WV principal utility commission selection evidence",
+      "url": "https://code.wvlegislature.gov/24-1-3/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-wi",
+      "title": "WI principal utility commission selection evidence",
+      "url": "https://psc.wi.gov/Pages/AboutPSC/Commissioners.aspx",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-wy",
+      "title": "WY principal utility commission selection evidence",
+      "url": "https://psc.wyo.gov/about-us/commissioners",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-al",
+      "title": "AL principal utility commission selection evidence",
+      "url": "https://alison.legislature.state.al.us/code-of-alabama?section=37-1-3",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-az",
+      "title": "AZ principal utility commission selection evidence",
+      "url": "https://www.azleg.gov/const/15/1.htm",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-ga",
+      "title": "GA principal utility commission selection evidence",
+      "url": "https://www.psc.state.ga.us/pscinfo/pscintro.asp",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-la",
+      "title": "LA principal utility commission selection evidence",
+      "url": "https://legis.la.gov/legis/Law.aspx?d=99804",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-ms",
+      "title": "MS principal utility commission selection evidence",
+      "url": "https://www.psc.ms.gov/sites/default/files/Documents/FY-2025-Annual-Report.pdf",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-mt",
+      "title": "MT principal utility commission selection evidence",
+      "url": "https://www.legmt.gov/lfd/committees/section-d/agency-profile-public-service-commission/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-ne",
+      "title": "NE principal utility commission selection evidence",
+      "url": "https://www.nebraskalegislature.gov/laws/statutes.php?statute=75-101",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-nd",
+      "title": "ND principal utility commission selection evidence",
+      "url": "https://www.psc.nd.gov/sites/default/files/documents/commission/GO-1-About-the-Commission.pdf",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-ok",
+      "title": "OK principal utility commission selection evidence",
+      "url": "https://oklahoma.gov/occ/about.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "commission-selection-sd",
+      "title": "SD principal utility commission selection evidence",
+      "url": "https://sdlegislature.gov/Statutes/49-1-2",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "az-amendment-route",
+      "title": "Arizona Constitution ArticleXXI section1",
+      "url": "https://www.azleg.gov/const/21/1.htm",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nm-commission-ballot",
+      "title": "New Mexico 2020 Amendment1 official ballot question",
+      "url": "https://electionstats.sos.nm.gov/contest/13546",
+      "year": 2020,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nc-selection-2024",
+      "title": "North Carolina SL2024-57 legislative summary; treasurer appointment transition July2025",
+      "url": "https://house.ncleg.gov/Legislation/SummariesPublication/Summary/2024/24/S382-SMRI-98%28sl%29-v-4/",
+      "year": 2024,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nc-selection-2026",
+      "title": "North Carolina SL2026-41 section11.12 compensation amendment",
+      "url": "https://library.ncleg.gov/EnactedLegislation/SessionLaws/HTML/2025-2026/SL2026-41.html",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "naruc-commission-scope",
+      "title": "NARUC full state and associate member inventory",
+      "url": "https://www.naruc.org/about-naruc/our-mission/state-associate-and-federal-members/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
     }
   ],
   "topics": [
@@ -23184,6 +23624,406 @@
           "legalSource": "IIJA energy and infrastructure provisions",
           "sources": ["iija"],
           "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "AK principal utility commission: membership selection",
+          "does": "Governor; joint legislative confirmation. Historical governance report, current statute fetch failed.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-ak"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "AR principal utility commission: membership selection",
+          "does": "Governor appointment; current commissioner biographies, statutory detail incomplete.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-ar"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "CA principal utility commission: membership selection",
+          "does": "Governor appointment; Senate confirmation.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-ca"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "CO principal utility commission: membership selection",
+          "does": "Governor appointment; Senate confirmation in commissioner biographies.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-co"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "CT principal utility commission: membership selection",
+          "does": "Governor nomination; General Assembly consideration, interim service described October2025.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-ct"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "DE principal utility commission: membership selection",
+          "does": "Governor appointment; Senate confirmation, May2026 announcement.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-de"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "FL principal utility commission: membership selection",
+          "does": "Governor selects from Nominating Council nominees.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-fl"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "HI principal utility commission: membership selection",
+          "does": "Governor appointment; Senate confirmation.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-hi"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "ID principal utility commission: membership selection",
+          "does": "Governor appointment; Senate confirmation.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-id"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "IL principal utility commission: membership selection",
+          "does": "Governor appointment; Senate confirmation.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-il"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "IN principal utility commission: membership selection",
+          "does": "Governor appointment.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-in"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "IA principal utility commission: membership selection",
+          "does": "Governor appointment; Senate confirmation.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-ia"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "KS principal utility commission: membership selection",
+          "does": "Governor appointment.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-ks"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "KY principal utility commission: membership selection",
+          "does": "Governor appointments evidenced in current biographies; statutory detail incomplete.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-ky"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "ME principal utility commission: membership selection",
+          "does": "Governor appointments evidenced in current biographies; statutory detail incomplete.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-me"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "MD principal utility commission: membership selection",
+          "does": "Governor appointment; Senate consent under Public Utilities2-102.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-md"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "MA principal utility commission: membership selection",
+          "does": "Energy/environment secretary appointment with governor approval, ch25 section2.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-ma"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "MI principal utility commission: membership selection",
+          "does": "Governor appointment evidenced in July2025 biography; statutory fetch failed.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-mi"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "MN principal utility commission: membership selection",
+          "does": "Governor appointment.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-mn"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "MO principal utility commission: membership selection",
+          "does": "Governor appointment; Senate consent under386.050.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-mo"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "NV principal utility commission: membership selection",
+          "does": "Governor appointment under703.030.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-nv"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "NH principal utility commission: membership selection",
+          "does": "Governor appointment; Executive Council consent following public hearing under363:3.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-nh"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "NJ principal utility commission: membership selection",
+          "does": "Governor appointment; Senate confirmation.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-nj"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "NM principal utility commission: membership selection",
+          "does": "Governor selects from nominating committee list; Senate consent beginning January1,2023 under ArticleXI section1. Official constitution PDF printed144-146.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-nm"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "NY principal utility commission: membership selection",
+          "does": "Governor appointment; Senate confirmation.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-ny"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "NC principal utility commission: membership selection",
+          "does": "Two governor, one treasurer and two General Assembly appointments; governor/treasurer nominees require legislative confirmation.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-nc"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "OH principal utility commission: membership selection",
+          "does": "Governor selects from Nominating Council lists; Senate consent under4901.02.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-oh"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "OR principal utility commission: membership selection",
+          "does": "Governor appointment.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-or"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "PA principal utility commission: membership selection",
+          "does": "Governor appointment.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-pa"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "RI principal utility commission: membership selection",
+          "does": "Governor appointment; Senate consent under39-1-4.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-ri"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "SC principal utility commission: membership selection",
+          "does": "General Assembly election, March2026 official announcement.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-sc"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "TN principal utility commission: membership selection",
+          "does": "Governor, lieutenant governor and House speaker appoint two each; seventh jointly appointed, annual report route.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-tn"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "TX principal utility commission: membership selection",
+          "does": "Governor appointment to PUC; Texas Railroad Commission is a distinct regulator.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-tx"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "UT principal utility commission: membership selection",
+          "does": "Governor appointment; Senate confirmation.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-ut"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "VT principal utility commission: membership selection",
+          "does": "Chair through Superior-judge appointment route; other members selected by governor after Judicial Nominating Board review, Senate consent under30VSA3.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-vt"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "VA principal utility commission: membership selection",
+          "does": "General Assembly election.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-va"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "WA principal utility commission: membership selection",
+          "does": "Governor appointment; Senate consent under80.01.010.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-wa"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "WV principal utility commission: membership selection",
+          "does": "Governor appointment; Senate consent under24-1-3.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-wv"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "WI principal utility commission: membership selection",
+          "does": "Governor appointment; Senate confirmation.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-wi"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "WY principal utility commission: membership selection",
+          "does": "Governor appointments evidenced in biographies; statutory detail incomplete.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-wy"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "AL principal utility commission: membership selection",
+          "does": "Public election; four initial additional appointed seats begin January18,2027, followed by district elections. Not a permanent appointment replacement.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-al"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "AZ principal utility commission: membership selection",
+          "does": "Five general-election commissioners, four-year terms; governor temporarily fills vacancies until election under ArticleXV section1.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-az"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "GA principal utility commission: membership selection",
+          "does": "Five statewide elected commissioners; staggered six-year terms.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-ga"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "LA principal utility commission: membership selection",
+          "does": "Five commissioners elected from single-member districts; overlapping six-year terms.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-la"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "MS principal utility commission: membership selection",
+          "does": "Three commissioners elected from Supreme Court districts; four-year terms, FY2025 report printed7.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-ms"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "MT principal utility commission: membership selection",
+          "does": "Five elected commissioners; legislative agency profile.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-mt"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "NE principal utility commission: membership selection",
+          "does": "Commissioners elected under32-509; district residency under75-101.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-ne"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "ND principal utility commission: membership selection",
+          "does": "Three statewide elected commissioners; staggered six-year terms, April2026 agency factsheet.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-nd"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "OK principal utility commission: membership selection",
+          "does": "Three statewide elected commissioners; six-year terms.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-ok"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "state",
+          "body": "SD principal utility commission: membership selection",
+          "does": "Three statewide elected commissioners; six-year terms, one seat each general election.",
+          "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
+          "sources": ["commission-selection-sd"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
         }
       ],
       "interactions": [
@@ -24838,6 +25678,835 @@
             "MP": {
               "status": "unresearched",
               "detail": "January1,2026 starting-law consolidation not established.",
+              "sources": []
+            }
+          }
+        },
+        {
+          "id": "commissioner-selection",
+          "question": "Should the principal utility commission use public elections or appointments, and how should its nomination and confirmation route work?",
+          "levels": ["state"],
+          "terms": [
+            "public election or appointment",
+            "nominating committee",
+            "confirmation body",
+            "membership size",
+            "terms and transition"
+          ],
+          "examples": [
+            {
+              "place": "New Mexico",
+              "measure": "Constitutional Amendment1 submitted November3,2020; ArticleXI section1 transitions to three appointed members January1,2023",
+              "year": 2020,
+              "status": "went to voters",
+              "sources": ["nm-commission-ballot", "commission-selection-nm"]
+            }
+          ],
+          "availability": {
+            "AL": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AK": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AZ": {
+              "status": "no",
+              "scope": "ordinary-statute replacement of constitutionally required public election",
+              "reason": "ArticleXV section1 requires elected commissioners. Replacing that selection rule requires constitutional amendment under ArticleXXI section1, rather than ordinary legislation.",
+              "sources": ["commission-selection-az", "az-amendment-route"],
+              "bars": [
+                {
+                  "description": "Constitutional public-election requirement for principal commission membership.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Majority of each legislative house or qualifying15-percent initiative petition submits amendment; voter majority ratifies an ordinary amendment. Tax-approval amendments have a separate60-percent rule.",
+                  "sources": ["commission-selection-az", "az-amendment-route"]
+                }
+              ],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AR": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "CA": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "CO": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "CT": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "DE": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "FL": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "GA": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "HI": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "ID": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "IL": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "IN": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "IA": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "KS": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "KY": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "LA": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "ME": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MD": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MA": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MI": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MN": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MS": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MO": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MT": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NE": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NV": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NH": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NJ": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NM": {
+              "status": "yes",
+              "scope": "state-level change to principal commission selection",
+              "reason": "The2020 constitutional ballot and official ArticleXI section1 document a voter-approved change from elections to three appointments beginning2023. A further ordinary-statute switch cannot be inferred from this historical amendment.",
+              "sources": ["nm-commission-ballot", "commission-selection-nm"],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NY": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NC": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "ND": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "OH": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "OK": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "OR": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "PA": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "RI": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "SC": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "SD": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "TN": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "TX": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "UT": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "VT": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "VA": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WA": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WV": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WI": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WY": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "DC": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "PR": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "GU": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "VI": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AS": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MP": {
+              "status": "unresearched",
+              "scope": "state-level change to principal commission selection",
+              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            }
+          },
+          "effects": [
+            {
+              "measure": "Downstream rate, investment and political response to selection reform",
+              "size": "no sized evidence",
+              "range": null,
+              "lag": "No sourced lag established",
+              "affectedGroup": "Customers and regulated utilities; commission candidates and appointing bodies",
+              "study": null,
+              "sources": [],
+              "transferLimit": "Selection inventory is institutional evidence, not a causal outcome study."
+            }
+          ],
+          "directMechanism": "Changing selection alters which voters or appointing and confirming bodies choose the commission. Existing selection routes do not themselves establish permission to rewrite those routes by ordinary statute. No assumed change in rates, investment or partisan outcomes.",
+          "startingLaw": {
+            "AL": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "AK": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "AZ": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "AR": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "CA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "CO": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "CT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "DE": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "FL": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "GA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "HI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "ID": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "IL": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "IN": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "IA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "KS": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "KY": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "LA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "ME": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "MD": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "MA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "MI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "MN": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "MS": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "MO": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "MT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "NE": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "NV": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "NH": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "NJ": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "NM": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "NY": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "NC": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "ND": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "OH": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "OK": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "OR": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "PA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "RI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "SC": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "SD": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "TN": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "TX": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "UT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "VT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "VA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "WA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "WV": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "WI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "WY": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "DC": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "PR": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "GU": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "VI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "AS": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
+              "sources": []
+            },
+            "MP": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting-law consolidation not established; current agency appointments are not a baseline amendment audit.",
               "sources": []
             }
           }
@@ -28584,9 +30253,65 @@
     {
       "id": "verify-33-item1",
       "promptClaim": "- **State:** the public utility commission regulates investor-owned utilities' retail rates. It is elected in about 11 states (Georgia, Arizona and others, **verify**) and appointed elsewhere. States also decide whether to restructure the retail market (Texas, Pennsylvania and others allow retail choice).",
-      "status": "partially verified",
-      "finding": "NARUC 11-state elected count needs correction for NewMexico appointed transitionJanuary 2023. Alabama 2026 law phases four appointees into elections from 2027. Full current selection-law matrix still needed.",
-      "sources": ["nm-puc", "al-puc"]
+      "status": "corrected",
+      "finding": "Principal-PUC/PSC evidence across50states supports ten public-election states: AL,AZ,GA,LA,MS,MT,NE,ND,OK,SD. SC andVA use legislative election; the remaining38 use appointment, including NM from January2023. TXRailroadCommission is a distinct regulator, excluded from this principal-commission count. AL2026 law adds four initial appointees from January2027 then phases to district elections; it does not abolish public elections. Some appointment rows use agency biographies or historical reports; complete statutory and amendment review remains uneven. NC2024 transfers one governor seat to treasurer from July2025;2026 compensation amendment does not change selection.",
+      "sources": [
+        "commission-selection-ak",
+        "commission-selection-ar",
+        "commission-selection-ca",
+        "commission-selection-co",
+        "commission-selection-ct",
+        "commission-selection-de",
+        "commission-selection-fl",
+        "commission-selection-hi",
+        "commission-selection-id",
+        "commission-selection-il",
+        "commission-selection-in",
+        "commission-selection-ia",
+        "commission-selection-ks",
+        "commission-selection-ky",
+        "commission-selection-me",
+        "commission-selection-md",
+        "commission-selection-ma",
+        "commission-selection-mi",
+        "commission-selection-mn",
+        "commission-selection-mo",
+        "commission-selection-nv",
+        "commission-selection-nh",
+        "commission-selection-nj",
+        "commission-selection-nm",
+        "commission-selection-ny",
+        "commission-selection-nc",
+        "commission-selection-oh",
+        "commission-selection-or",
+        "commission-selection-pa",
+        "commission-selection-ri",
+        "commission-selection-sc",
+        "commission-selection-tn",
+        "commission-selection-tx",
+        "commission-selection-ut",
+        "commission-selection-vt",
+        "commission-selection-va",
+        "commission-selection-wa",
+        "commission-selection-wv",
+        "commission-selection-wi",
+        "commission-selection-wy",
+        "commission-selection-al",
+        "commission-selection-az",
+        "commission-selection-ga",
+        "commission-selection-la",
+        "commission-selection-ms",
+        "commission-selection-mt",
+        "commission-selection-ne",
+        "commission-selection-nd",
+        "commission-selection-ok",
+        "commission-selection-sd",
+        "al-puc",
+        "nm-commission-ballot",
+        "nc-selection-2024",
+        "nc-selection-2026",
+        "naruc-commission-scope"
+      ]
     },
     {
       "id": "verify-34-item1",

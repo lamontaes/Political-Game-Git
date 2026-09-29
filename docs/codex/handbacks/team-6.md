@@ -1,6 +1,6 @@
 # Transportation research is a draft, with gaps counted
 
-The first transportation tranche has 31 sourced legislative decisions and explicit cells for every place. It corrects the worked example without guessing legal powers or effect sizes. The area remains incomplete, and later areas have not been delivered. Claude CTO can review the draft and its remaining work; there is no change to the game.
+The first transportation tranche has 32 sourced legislative decisions and explicit cells for every place. It corrects the worked example without guessing legal powers or effect sizes. The area remains incomplete, and later areas have not been delivered. Claude CTO can review the draft and its remaining work; there is no change to the game.
 
 ## MERGED
 
@@ -10,11 +10,15 @@ Nothing merged. [Draft pull request 1133](https://github.com/lamontaes/Political
 
 DECIDED: the approved outline says, “Nothing is invented.” Availability without evidence remains unresearched. The same outline requires “Sourced sizes only”; unsized effects remain labeled “no sized evidence.”
 
-Measured research coverage: ten topic records, 31 admitted decisions, and 1,736 availability cells. Of those cells, 98 have source references and 1,638 remain unresearched. 26 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
+Measured research coverage: ten topic records, 32 admitted decisions, and 1,792 availability cells. Of those cells, 100 have source references and 1,692 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
 
 Follow-up source review distinguishes official management-reported rail ridership from audited financial statements, records the EV-fee study's separate enactment and implementation estimates, and corrects two fluoride operator-permission cells to statutory bars.
 
 The next source pass records LA Metro’s statutory grant, HCFCD’s original special act with its current-law gap, Wisconsin’s 1992 rail exception, and purpose-specific federal project shares. California separate stormwater systems retain an unresolved prospective constitutional question.
+
+The principal utility commission selection inventory covers all fifty states. Ten use public elections; South Carolina and Virginia use legislative elections. The remaining thirty-eight use appointments, including New Mexico after its 2020 constitutional ballot. Agency biographies establish some current routes, while complete statutory and amendment review remains uneven. Texas Railroad Commission is outside this principal-commission count. Alabama’s four new initial appointed seats begin in 2027 and later face district elections. Source publication years remain unknown where not established; access dates are separate.
+
+Florida’s 2023 acquisition valuation law is now an enacted example and sourced availability cell. Eligibility, appraisals and commission review are recorded without assuming a bill increase.
 
 No watched world was run. This assignment authorizes research only; no simulation outcome or player effect is claimed.
 
