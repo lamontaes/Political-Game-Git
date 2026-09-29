@@ -29,6 +29,8 @@ import {
 } from "../simulation/living-world";
 import { US_STATE_NAMES } from "../simulation/nationwide-world/state-executive-candidacy-packs";
 import {
+  isFederalDistrictUsps,
+  isTerritoryUsps,
   nonvotingHouseMemberTitle,
   STATES,
 } from "../simulation/state-reference";
@@ -377,6 +379,23 @@ function hasSenateSeats(usps: string): boolean {
 
 function noSenateSeatsReason(usps: string): string {
   return `${stateNameForUsps(usps)} has no seats in the U.S. Senate.`;
+}
+
+/**
+ * The top executive's title, from the place table: the District's Mayor is
+ * its state-level executive; every state and territory elects a Governor.
+ */
+export function executiveTitleForUsps(usps: string): string {
+  return isFederalDistrictUsps(usps)
+    ? `Mayor of the ${stateNameForUsps(usps)}`
+    : "Governor";
+}
+
+/** What kind of place this is, from the place table. */
+export function placeKindLabel(usps: string): string {
+  if (isFederalDistrictUsps(usps)) return "Federal district";
+  if (isTerritoryUsps(usps)) return "Territory";
+  return "State";
 }
 
 /* ------------------------------------------------------------------ */
@@ -854,10 +873,7 @@ export function inspectRegion(
       } else {
         offices.push({
           key: `governor:${input.stateUsps}`,
-          title:
-            input.stateUsps === "DC"
-              ? "Mayor of the District of Columbia"
-              : "Governor",
+          title: executiveTitleForUsps(input.stateUsps),
           status: {
             kind: "not-recorded",
             reason: date.isHistorical
