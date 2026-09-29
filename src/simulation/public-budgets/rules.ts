@@ -1,3 +1,4 @@
+import { CANNABIS_TAX_BASIS } from "./cannabis-sales-tax";
 import type { BudgetProgram, BudgetSource } from "./store";
 
 /**
@@ -145,6 +146,15 @@ export const TAX_QUESTION_EFFECTS: readonly {
     toNo: 0.3703 / (3.5735 - 0.3703),
     basis:
       "Oklahoma HB 1955 (2024) fiscal impact statement, Oklahoma Tax Commission: $370.3 million a year, over Oklahoma's 2022 general sales tax (Census Bureau) at 2024 population. A state that taxed groceries at a reduced rate loses less; the full-rate example is used for every state until each state's grocery base is read.",
+  },
+  {
+    questionKey:
+      "us-policy-positions:business-commerce.legalize-cannabis-sales",
+    source: "selectiveSalesTaxes",
+    // A level per resident, not a share: `cannabis-sales-tax.ts`.
+    toYes: null,
+    toNo: null,
+    basis: CANNABIS_TAX_BASIS,
   },
   {
     questionKey: "us-policy-positions:fiscal.cap-property-tax-growth",
