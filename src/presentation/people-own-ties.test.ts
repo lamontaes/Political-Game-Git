@@ -105,9 +105,14 @@ describe("The people around a life have ties of their own", () => {
       const afterMore = passWeeks(later, opened.playerId, 2);
       const perPerson = new Map<EntityId, number>();
       for (const tie of ownTies(afterMore)) {
-        for (const id of tie.personIds) {
-          if (around.has(id)) perPerson.set(id, (perPerson.get(id) ?? 0) + 1);
-        }
+        // The stable key names the person who drew it. Count each person's
+        // own draw, not the ties other people happen to draw toward them.
+        const drawer = tie.stableKey.split(":")[1]!;
+        if (around.has(drawer as EntityId))
+          perPerson.set(
+            drawer as EntityId,
+            (perPerson.get(drawer as EntityId) ?? 0) + 1,
+          );
       }
       for (const count of perPerson.values()) {
         expect(count).toBeLessThanOrEqual(4);

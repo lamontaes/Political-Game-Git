@@ -11,7 +11,7 @@ Rule admission only. An admitted field is a compiled, dated rule the resolver wi
 - States where a legislative term rule is admitted: 1.
 - General-purpose governments in the catalog: 38704.
 - Governments with at least one admitted local action: 4.
-- Loaded municipal records: 144; mapped to a catalog unit: 65.
+- Loaded municipal records: 144; mapped to a catalog unit: 71.
 
 Missing mandatory fields for passing an ordinance (first missing field per government):
 
@@ -99,7 +99,6 @@ Ordinary initialization, office/contest producers and save continuity are not me
 - `us-ak-fairbanks` (AK; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-ak-fairbanks-north-star-borough` (AK; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-ak-juneau` (AK; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
-- `us-ak-north-pole` (AK; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-al-birmingham` (AL; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-ar-fayetteville` (AR; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-ar-little-rock` (AR; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
@@ -119,15 +118,11 @@ Ordinary initialization, office/contest producers and save continuity are not me
 - `us-fl-orlando` (FL; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-fl-pensacola` (FL; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-ga-atlanta` (GA; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
-- `us-hi-kauai-county` (HI; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
-- `us-hi-maui-county` (HI; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-ia-cedar-rapids` (IA; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-ia-davenport` (IA; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-ia-des-moines` (IA; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
-- `us-ia-dubuque` (IA; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-il-chicago` (IL; research-transcription, reference-observation): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-il-peoria` (IL; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
-- `us-il-springfield` (IL; research-transcription, reference-observation): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-in-indianapolis-marion` (IN; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-ks-overland-park` (KS; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-ks-topeka` (KS; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
@@ -141,7 +136,6 @@ Ordinary initialization, office/contest producers and save continuity are not me
 - `us-me-blue-hill` (ME; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-mi-detroit` (MI; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-mi-grand-rapids` (MI; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
-- `us-mi-lansing` (MI; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-mn-minneapolis` (MN; research-transcription, reference-observation): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-mo-kansas-city` (MO; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-mo-st-louis` (MO; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched

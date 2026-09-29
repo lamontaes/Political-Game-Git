@@ -53,6 +53,28 @@ function reachFloor(world: World, measureId: EntityId): World {
   return next;
 }
 
+/**
+ * The world on the day the committee reports the bill, when members count the
+ * floor with the committee's recommendation in hand; null if the bill never
+ * reports, or goes to the floor the same day.
+ */
+function reachCommitteeReport(world: World, measureId: EntityId): World | null {
+  const registry = createCampaignElectionTransitionRegistry();
+  let next = world;
+  for (let day = 0; day < 90; day += 1) {
+    if (floorVoteOf(next, measureId)) return null;
+    if (
+      (next.history.legislativeVotes ?? []).some(
+        (vote) =>
+          vote.measureId === measureId && vote.purpose === "committee-report",
+      )
+    )
+      return next;
+    next = advanceWorld(next, 1, registry);
+  }
+  return null;
+}
+
 describe("members amend a bill for their own reasons in a watched world", () => {
   it("offers, decides and records an NPC amendment on the clock, with Save and Continue replay", () => {
     // The kind of place this needs: a seated chamber with a floor stage that
@@ -129,7 +151,14 @@ describe("members amend a bill for their own reasons in a watched world", () => 
         propositionAnswers: [{ propositionId, answer: "yes" }],
       });
       const candidate = filed.history.legislativeMeasures!.at(-1)!.id;
-      const plan = planFloorAmendment(filed, {
+      // Members plan an amendment when the bill reaches the floor, with the
+      // committee's report in hand, so the count is read then.
+      const reported = reachCommitteeReport(
+        scheduleInstitutionStep(filed, candidate),
+        candidate,
+      );
+      if (!reported) continue;
+      const plan = planFloorAmendment(reported, {
         measureId: candidate,
         chamber,
         stage: chamber.floorStages.find((stage) =>
@@ -138,11 +167,11 @@ describe("members amend a bill for their own reasons in a watched world", () => 
         members: seats,
         stableKey: "watched-amendments:would-anyone",
         admissible: (bill, part) =>
-          amendmentAdmissible(filed, pack, chamber.chamberKey, bill, part)
+          amendmentAdmissible(reported, pack, chamber.chamberKey, bill, part)
             .admissible,
       });
       if (!plan) continue;
-      world = filed;
+      world = reported;
       measureId = candidate;
       break;
     }
@@ -151,7 +180,6 @@ describe("members amend a bill for their own reasons in a watched world", () => 
       `no bill drew an amendment in ${placeKey}`,
     ).not.toBeNull();
 
-    world = scheduleInstitutionStep(world, measureId!);
     const restored = deserializeWorld(serializeWorld(world));
     const done = reachFloor(world, measureId!);
     const replayed = reachFloor(restored, measureId!);

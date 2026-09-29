@@ -10,8 +10,8 @@ import {
   LIVING_COSTS_PLACEHOLDER,
   livingCostsFlowFor,
 } from "../simulation/cost-of-living";
+import { homeValueForJurisdiction } from "../simulation/county-home-value";
 import {
-  HOME_PURCHASE_PLACEHOLDER,
   MORTGAGE_BASIS,
   buyHome,
   homePurchaseReason,
@@ -65,6 +65,12 @@ function lifeWithSavings(savingsMinor: number): {
   };
 }
 
+const usd = (minor: number) => `$${(minor / 100).toLocaleString("en-US")}`;
+
+/** The terms the buyer faces in their own county. */
+const termsFor = (world: World, personId: EntityId) =>
+  homePurchaseTerms(world, world.people[personId]!.homeJurisdictionId);
+
 const balanceOf = (world: World, personId: EntityId) =>
   resourcePositionAt(
     world,
@@ -114,7 +120,7 @@ describe("buying a home", () => {
   it("says what the down payment is when there is not enough saved", () => {
     const { world, personId } = lifeWithSavings(1_000_000);
     expect(homePurchaseReason(world, personId)).toBe(
-      "The down payment is $50,000. You have $10,000.",
+      `The down payment is ${usd(termsFor(world, personId).downPaymentMinor)}. You have $10,000.`,
     );
     const result = buyHome(world, personId);
     expect(result.status).toBe("not-bought");
@@ -131,13 +137,16 @@ describe("buying a home", () => {
     assertWorldIntegrity(bought);
     expect(personOwnsHome(bought, personId)).toBe(true);
     expect(balanceOf(bought, personId)).toBe(
-      10_000_000 - HOME_PURCHASE_PLACEHOLDER.downPaymentMinor,
+      10_000_000 - termsFor(world, personId).downPaymentMinor,
     );
     const view = projectHomePurchase(bought, personId);
     expect(view).toEqual({
       kind: "owns",
       headline: "Your household owns its home.",
-      mortgageLine: "$200,000 is left on the mortgage.",
+      mortgageLine: `${usd(
+        termsFor(world, personId).priceMinor -
+          termsFor(world, personId).downPaymentMinor,
+      )} is left on the mortgage.`,
     });
     expect(homePurchaseReason(bought, personId)).toBe(
       "Your household already owns its home.",
@@ -190,8 +199,9 @@ describe("buying a home", () => {
   });
 
   it("notes the first missed mortgage payment once", () => {
+    const seeded = lifeWithSavings(10_000_000);
     const { world, personId } = lifeWithSavings(
-      HOME_PURCHASE_PLACEHOLDER.downPaymentMinor,
+      termsFor(seeded.world, seeded.personId).downPaymentMinor,
     );
     const bought = buyHome(world, personId);
     expect(bought.status).toBe("bought");
@@ -202,19 +212,33 @@ describe("buying a home", () => {
     );
     expect(missed).toHaveLength(1);
     expect(missed[0]!.summary).toMatch(
-      /^[A-Z][a-z]+'s mortgage payment was \$1,200, and you could not pay any of it\.$/,
+      new RegExp(
+        `^[A-Z][a-z]+'s mortgage payment was \\${usd(
+          termsFor(world, personId).monthlyPaymentMinor,
+        )}, and you could not pay any of it\\.$`,
+      ),
     );
   });
 
-  // Fourteen years of play. The town's businesses add 26 people and their
+  // Years of play, enough for every payment. The town's businesses add 26 people and their
   // jobs to every day of it: about 3.6 seconds without them and 5.1 with them
   // on this machine, which is over the default 5-second limit.
   it("takes only what is left in the last month and then stops", () => {
     const { world, personId } = lifeWithSavings(100_000_000);
     const bought = buyHome(world, personId);
     expect(bought.status).toBe("bought");
-    // $200,000 at $1,200 a month is 166 full payments and one of $800.
-    const later = letAdultTimePass(bought.world, 5_200);
+    // The loan paid at the monthly figure is some full payments and one that
+    // is whatever is left.
+    const terms = termsFor(world, personId);
+    const loan = terms.priceMinor - terms.downPaymentMinor;
+    const fullPayments = Math.floor(loan / terms.monthlyPaymentMinor);
+    const remainder = loan - fullPayments * terms.monthlyPaymentMinor;
+    // One stretch of play stopped at 189 monthly payments when given 8,000
+    // days (measured), so the remaining months take a second stretch.
+    const later = letAdultTimePass(
+      letAdultTimePass(bought.world, 5_200),
+      5_200,
+    );
     assertWorldIntegrity(later);
     const mortgage = later.history.resourceFlows.find(
       (flow) => flow.basisKind === MORTGAGE_BASIS,
@@ -222,11 +246,13 @@ describe("buying a home", () => {
     const payments = later.history.resourceTransferOutcomes.filter(
       (outcome) => outcome.resourceFlowId === mortgage.id,
     );
-    expect(payments).toHaveLength(167);
+    expect(payments).toHaveLength(fullPayments + (remainder > 0 ? 1 : 0));
     expect(payments.every((payment) => payment.status === "completed")).toBe(
       true,
     );
-    expect(payments.at(-1)!.transferredAmount.minorUnits).toBe(80_000);
+    expect(payments.at(-1)!.transferredAmount.minorUnits).toBe(
+      remainder > 0 ? remainder : terms.monthlyPaymentMinor,
+    );
     expect(projectHomePurchase(later, personId)).toMatchObject({
       kind: "owns",
       mortgageLine: "The mortgage is paid off.",
@@ -235,7 +261,7 @@ describe("buying a home", () => {
     expect(serializeWorld(refreshLifeOpportunities(reloaded, personId))).toBe(
       serializeWorld(later),
     );
-  }, 20_000);
+  }, 60_000);
 
   it("prices the house in the world's prices, not the first month's", () => {
     // The opening route starts the world's own economy, as play does. Since
@@ -264,8 +290,10 @@ describe("buying a home", () => {
       "can-buy",
     );
     const home = start.world.people[start.personId]!.homeJurisdictionId;
+    // The first month's price is the county's median home value.
+    const openingPriceMinor = homeValueForJurisdiction(home).dollars * 100;
     expect(homePurchaseTerms(start.world, home).priceMinor).toBe(
-      HOME_PURCHASE_PLACEHOLDER.priceMinor,
+      Math.round(openingPriceMinor / 100_000) * 100_000,
     );
     // The world's own economy runs on the transition clock, as in play.
     const later = advanceWorld(
@@ -284,8 +312,7 @@ describe("buying a home", () => {
     expect(factor).not.toBe(1);
     const terms = homePurchaseTerms(later, home);
     expect(terms.priceMinor).toBe(
-      Math.round((HOME_PURCHASE_PLACEHOLDER.priceMinor * factor) / 100_000) *
-        100_000,
+      Math.round((openingPriceMinor * factor) / 100_000) * 100_000,
     );
     const shown = projectHomePurchase(later, start.personId);
     expect(shown?.terms).toContain(

@@ -39,10 +39,12 @@ describe("the record of which towns have researched rules", () => {
     const coverage = localRuleCoverage();
     expect(coverage.towns).toBe(19_462);
     // Pinned so a change to what has been read is a deliberate edit here.
-    expect(coverage.researched).toHaveLength(60);
+    expect(coverage.researched).toHaveLength(64);
+    // Every linked government now states its seat count (Build 25's
+    // council-size readings, September 29, 2026).
     expect(
       coverage.researched.filter((row) => row.read.length > 0),
-    ).toHaveLength(40);
+    ).toHaveLength(64);
     expect(coverage.onTypicalValues).toBe(
       coverage.towns -
         coverage.researched.filter((row) => row.read.length > 0).length,
