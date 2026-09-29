@@ -26,3 +26,7 @@ Comparing the 120th file with the 119th block by block, ten states differ: Alaba
 ## Start date
 
 `effectiveFrom` is one shared PLACEHOLDER, January 1, 2026. Each state's plan took effect on its own enactment date, which is not sourced yet.
+
+## Map outlines
+
+The Census publishes no cartographic file for the 120th Congress. `scripts/maps/district-outlines-2026.ts` dissolves each district from the 2020 block file and the 120th Congress block equivalency, then clips it to the state outline. `scripts/maps/check-district-outlines-2026.ts` runs the same method on the 119th Congress file and compares it with the shipped outlines. Agreement is 99.907% to 99.996% of points, gaps are at most 0.072%, overlaps are 0, and nothing is drawn past the shoreline. The history slider draws these outlines for every date.
