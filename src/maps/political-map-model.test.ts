@@ -27,7 +27,9 @@ import {
 import {
   districtsHeldBy,
   earliestMapDate,
+  executiveTitleForUsps,
   inspectRegion,
+  placeKindLabel,
   playerGeography,
   projectPoliticalMap,
   resolveMapDate,
@@ -394,6 +396,9 @@ describe("political map: player places and ambiguous membership", () => {
       geoid: "11",
       stateUsps: "DC",
     });
+    expect(dc.offices.find((line) => line.key === "governor:DC")?.title).toBe(
+      "Mayor of the District of Columbia",
+    );
     expect(dc.offices[0]?.status).toEqual({
       kind: "no-voting-seat",
       reason: "District of Columbia has no seats in the U.S. Senate.",
@@ -412,6 +417,18 @@ describe("political map: player places and ambiguous membership", () => {
       });
       const senate = inspection.offices.find(
         (line) => line.status.kind === "no-voting-seat",
+      );
+      // A seat this save has not recorded is named by the place table.
+      const executive = inspection.offices.find(
+        (line) => line.key === `governor:${usps}`,
+      );
+      if (executive) expect(executive.title).toBe(executiveTitleForUsps(usps));
+      expect(placeKindLabel(usps)).toBe(
+        usps === "DC"
+          ? "Federal district"
+          : ["PR", "GU", "VI", "AS", "MP"].includes(usps)
+            ? "Territory"
+            : "State",
       );
       if (nonvotingHouseMemberTitle(usps) === null)
         expect(senate).toBeUndefined();

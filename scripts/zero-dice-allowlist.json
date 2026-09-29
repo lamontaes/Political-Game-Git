@@ -332,13 +332,6 @@
       "code": "if (roll < 0) return category;"
     },
     {
-      "file": "src/simulation/career-path7.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "if (!calledAlready && rng.next() < JOB_MARKET_PLACEHOLDER.followUpChance) {"
-    },
-    {
       "file": "src/simulation/character-history.ts",
       "kind": "roll",
       "build": "Build 7",
@@ -815,13 +808,6 @@
       "code": "rng.integer(0, 100) < STATE_GOVERNING_CALENDAR.overrideSucceedsPercent;"
     },
     {
-      "file": "src/simulation/job-market.ts",
-      "kind": "fixed-share",
-      "build": "Build 20",
-      "count": 1,
-      "code": "followUpChance: 0.5,"
-    },
-    {
       "file": "src/simulation/justice/clemency.ts",
       "kind": "fixed-share",
       "build": "Build 26",
@@ -1163,13 +1149,6 @@
       "build": "Build 19",
       "count": 1,
       "code": "shockMonthlyChance: 0.003,"
-    },
-    {
-      "file": "src/simulation/measure-numbering.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "if (pack.jurisdictionKey === \"US-DC\") {"
     },
     {
       "file": "src/simulation/migration/review.ts",

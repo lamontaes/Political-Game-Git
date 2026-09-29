@@ -10,6 +10,12 @@ import {
   type CreateWorkRelationshipInput,
 } from "./life";
 import { lifePlaceByJurisdictionId } from "./life-places";
+import {
+  activeWorkRelationshipsAt,
+  householdMembershipsAt,
+  kinshipRelationshipsAt,
+  workRoleAt,
+} from "./life-queries";
 import { localBusinessSupplyFor } from "./local-business-counts";
 import { townJobRate } from "./living-world/town-pay";
 import {
@@ -818,4 +824,71 @@ export function refreshLocalEconomy(world: World, personId: EntityId): World {
     seatLocalBusinesses(world, jurisdictionId),
     jurisdictionId,
   );
+}
+
+/**
+ * The local business a grown-up new life works at when the game opens, chosen
+ * from the person's own situation rather than first in the town's list.
+ *
+ * - Only work the person is fit for: the professional roles (legal
+ *   assistant, bookkeeper) need schooling no summarized history gives. A
+ *   trade is learned on the job, as most builders and mechanics learn it;
+ *   an apprenticeship the history records counts as that line of work.
+ * - Somebody they know works there or owns it: family and household put a
+ *   person forward, as they do in the job market.
+ * - Otherwise the line of work they already did: a person who worked a shop
+ *   counter at school goes back to a counter.
+ * - Otherwise the best-paid of those jobs, at the town's own published pay.
+ *
+ * Null when the town has no business, or none the person is fit for, and
+ * then nobody is hired: the person starts looking for work.
+ */
+export function adultStartEmployer(
+  world: World,
+  personId: EntityId,
+  jurisdictionId: EntityId,
+): { organization: Organization; kind: LocalBusinessKind } | null {
+  const past = world.history.workRelationships.filter(
+    (work) => work.personId === personId,
+  );
+  const fit = localBusinessesIn(world, jurisdictionId).filter(
+    ({ kind }) => !kind.workerOccupation.startsWith("profession:"),
+  );
+  if (fit.length === 0) return null;
+  const known = new Set<EntityId>();
+  for (const kin of kinshipRelationshipsAt(world, personId))
+    for (const id of kin.personIds) if (id !== personId) known.add(id);
+  const homes = new Set(
+    householdMembershipsAt(world, personId).map((entry) => entry.household.id),
+  );
+  for (const record of world.history.householdMemberships)
+    if (record.personId !== personId && homes.has(record.householdId))
+      known.add(record.personId);
+  const vouched = fit.filter(({ organization }) =>
+    [...known].some(
+      (id) =>
+        world.people[id] &&
+        activeWorkRelationshipsAt(world, id).some(
+          (entry) => entry.relationship.organizationId === organization.id,
+        ),
+    ),
+  );
+  const lines = new Set(
+    past.flatMap((work) => {
+      const occupation = workRoleAt(world, work.id)?.occupationClassification;
+      return occupation ? [occupation.split(":")[0]!] : [];
+    }),
+  );
+  const experienced = fit.filter(({ kind }) =>
+    lines.has(kind.workerOccupation.split(":")[0]!),
+  );
+  const pool =
+    vouched.length > 0 ? vouched : experienced.length > 0 ? experienced : fit;
+  const pay = (kind: LocalBusinessKind) =>
+    localBusinessWageMinor(kind, jurisdictionId).monthlyMinor;
+  return [...pool].sort(
+    (left, right) =>
+      pay(right.kind) - pay(left.kind) ||
+      left.organization.id.localeCompare(right.organization.id),
+  )[0]!;
 }

@@ -8,6 +8,7 @@ import {
   nextMeasureDesignation,
   serializeWorld,
 } from "../simulation";
+import { openingBillNumber } from "../simulation/measure-numbering";
 import { LEGISLATIVE_RULE_PACKS } from "../simulation/legislature-rule-packs";
 import { chamberByKey } from "../simulation/legislature-rules";
 import { createNewGameWorld } from "./new-game";
@@ -60,7 +61,7 @@ function ordinaryLife(seed: string, placeKey: string) {
 }
 
 /**
- * Seeds whose Kentucky lives differ.
+ * Two seeds, so a proof does not rest on one life.
  *
  * Named rather than searched for at run time: a test that hunts for a seed that
  * makes it pass proves only that one exists.
@@ -69,14 +70,20 @@ const SEED_A = "dehardwire-seed-a";
 const SEED_B = "dehardwire-seed-b";
 
 describe("the opening measure comes from the world, not from a literal", () => {
-  it("does not hand two different lives the same bill", () => {
+  it("numbers the bill where its own legislature's filing has reached", () => {
     const a = ordinaryLife(SEED_A, "kentucky");
     const b = ordinaryLife(SEED_B, "kentucky");
 
     expect(a.game.world.seed).not.toBe(b.game.world.seed);
-    // Same legislature, same rules, different bill: the identity a player sees
-    // is a fact about their own world.
-    expect(a.measure.designation).not.toBe(b.measure.designation);
+    // The identity a player sees is a fact about their own world: the number
+    // the legislature's real filing pace has reached by the world's date, not
+    // the authored literal and not a seeded draw.
+    for (const life of [a, b]) {
+      expect(life.measure.designation).not.toBe("HB 214");
+      expect(life.measure.designation).toBe(
+        `HB ${openingBillNumber("US-KY", 2, life.game.world.startedAt)}`,
+      );
+    }
   });
 
   it("replays a seed exactly", () => {
