@@ -256,7 +256,7 @@ describe("the town's size", { timeout: 180_000 }, () => {
   it("pairs most couples as a woman and a man, and a few as two women or two men", () => {
     const { world, personId } = openAt(RENO, "residents-couples");
     const town = world.people[personId]!.homeJurisdictionId;
-    const skeletons = Array.from({ length: 400 }, (_, index) =>
+    const skeletons = Array.from({ length: 1_000 }, (_, index) =>
       townHouseholdSkeleton(world, town, index),
     );
     let mixed = 0;

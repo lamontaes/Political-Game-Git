@@ -3,19 +3,19 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 638,
+    "markers": 632,
     "byKind": {
       "unresearched": 211,
-      "placeholder": 316,
+      "placeholder": 310,
       "blanket": 126
     },
     "byPath": {
-      "other": 356,
+      "other": 350,
       "money": 78,
       "law": 113,
       "government": 91
     },
-    "withoutQuestion": 365,
+    "withoutQuestion": 361,
     "questionNotFiled": 2,
     "moneyOrLawQuestions": 57
   },
@@ -738,17 +738,6 @@
     },
     {
       "file": "src/presentation/production-world.ts",
-      "line": 68,
-      "text": "LOCAL_BUSINESS_PLACEHOLDER,",
-      "kinds": [
-        "placeholder"
-      ],
-      "path": "other",
-      "researchQuestionId": "businesses-owners-and-wealth",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/presentation/production-world.ts",
       "line": 221,
       "text": "* PLACEHOLDER, NOT RESEARCHED: the same-sex share, and that a parent who died",
       "kinds": [
@@ -758,28 +747,6 @@
       "path": "other",
       "researchQuestionId": null,
       "researchQuestionFiled": false
-    },
-    {
-      "file": "src/presentation/production-world.ts",
-      "line": 402,
-      "text": "monthlyWageMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,",
-      "kinds": [
-        "placeholder"
-      ],
-      "path": "other",
-      "researchQuestionId": "businesses-owners-and-wealth",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/presentation/production-world.ts",
-      "line": 570,
-      "text": "monthlyWageMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,",
-      "kinds": [
-        "placeholder"
-      ],
-      "path": "other",
-      "researchQuestionId": "businesses-owners-and-wealth",
-      "researchQuestionFiled": true
     },
     {
       "file": "src/presentation/social-invitation.ts",
@@ -1984,30 +1951,8 @@
     },
     {
       "file": "src/simulation/demo.ts",
-      "line": 4,
+      "line": 10,
       "text": "LEXINGTON_PLACEHOLDER_ID,",
-      "kinds": [
-        "placeholder"
-      ],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/demo.ts",
-      "line": 11,
-      "text": "LEXINGTON_PLACEHOLDER_ID,",
-      "kinds": [
-        "placeholder"
-      ],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/demo.ts",
-      "line": 716,
-      "text": "jurisdictionId === LEXINGTON_PLACEHOLDER_ID",
       "kinds": [
         "placeholder"
       ],
@@ -2446,18 +2391,18 @@
     },
     {
       "file": "src/simulation/home-purchase.ts",
-      "line": 69,
-      "text": "* PLACEHOLDER(research: what-it-takes-to-buy-a-home). Nobody has researched",
+      "line": 71,
+      "text": "* `county-home-value.ts`). The rest is still a PLACEHOLDER(research:",
       "kinds": [
         "placeholder"
       ],
       "path": "money",
-      "researchQuestionId": "what-it-takes-to-buy-a-home",
-      "researchQuestionFiled": true
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
     },
     {
       "file": "src/simulation/home-purchase.ts",
-      "line": 75,
+      "line": 78,
       "text": "export const HOME_PURCHASE_PLACEHOLDER = {",
       "kinds": [
         "placeholder"
@@ -2468,30 +2413,8 @@
     },
     {
       "file": "src/simulation/home-purchase.ts",
-      "line": 123,
-      "text": "priceMinor: roundTo(HOME_PURCHASE_PLACEHOLDER.priceMinor * factor, 100_000),",
-      "kinds": [
-        "placeholder"
-      ],
-      "path": "money",
-      "researchQuestionId": "what-it-takes-to-buy-a-home",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/home-purchase.ts",
-      "line": 125,
-      "text": "HOME_PURCHASE_PLACEHOLDER.downPaymentMinor * factor,",
-      "kinds": [
-        "placeholder"
-      ],
-      "path": "money",
-      "researchQuestionId": "what-it-takes-to-buy-a-home",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/home-purchase.ts",
       "line": 129,
-      "text": "HOME_PURCHASE_PLACEHOLDER.monthlyPaymentMinor * factor,",
+      "text": "openingPriceMinor * HOME_PURCHASE_PLACEHOLDER.downPaymentShare * factor,",
       "kinds": [
         "placeholder"
       ],
@@ -2501,7 +2424,18 @@
     },
     {
       "file": "src/simulation/home-purchase.ts",
-      "line": 179,
+      "line": 134,
+      "text": "HOME_PURCHASE_PLACEHOLDER.monthlyPaymentShare *",
+      "kinds": [
+        "placeholder"
+      ],
+      "path": "money",
+      "researchQuestionId": "what-it-takes-to-buy-a-home",
+      "researchQuestionFiled": true
+    },
+    {
+      "file": "src/simulation/home-purchase.ts",
+      "line": 185,
       "text": "// PLACEHOLDER(research: age-of-majority-by-state). Leaving home to buy one",
       "kinds": [
         "placeholder"
@@ -2512,7 +2446,7 @@
     },
     {
       "file": "src/simulation/home-purchase.ts",
-      "line": 184,
+      "line": 190,
       "text": "GROWN_UP_PRESENTATION_AGE_PLACEHOLDER",
       "kinds": [
         "placeholder"
@@ -2523,7 +2457,7 @@
     },
     {
       "file": "src/simulation/home-purchase.ts",
-      "line": 271,
+      "line": 277,
       "text": "position.openingBalance.currency === HOME_PURCHASE_PLACEHOLDER.currency,",
       "kinds": [
         "placeholder"
@@ -2534,7 +2468,7 @@
     },
     {
       "file": "src/simulation/home-purchase.ts",
-      "line": 278,
+      "line": 284,
       "text": "money(0, HOME_PURCHASE_PLACEHOLDER.currency).currency,",
       "kinds": [
         "placeholder"
@@ -2545,7 +2479,7 @@
     },
     {
       "file": "src/simulation/home-purchase.ts",
-      "line": 361,
+      "line": 367,
       "text": "const currency = money(0, HOME_PURCHASE_PLACEHOLDER.currency).currency;",
       "kinds": [
         "placeholder"
@@ -2556,7 +2490,7 @@
     },
     {
       "file": "src/simulation/home-purchase.ts",
-      "line": 367,
+      "line": 373,
       "text": "const provenanceNote = `Placeholder home purchase pending research question ${HOME_PURCHASE_PLACEHOLDER.researchQuestionId}.`;",
       "kinds": [
         "placeholder"
@@ -3756,19 +3690,19 @@
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
-      "line": 90,
+      "line": 93,
       "text": "* PLACEHOLDER: the size used for a place the Census estimates do not cover",
       "kinds": [
         "placeholder"
       ],
       "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
+      "researchQuestionId": "town-household-composition",
+      "researchQuestionFiled": true
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
-      "line": 103,
-      "text": "* PLACEHOLDER pending `town-household-composition`: the share of households of",
+      "line": 101,
+      "text": "* and the average size of each shape below are still marked PLACEHOLDERs",
       "kinds": [
         "placeholder"
       ],
@@ -3778,8 +3712,8 @@
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
-      "line": 127,
-      "text": "* population. PLACEHOLDER with them, pending `town-household-composition`.",
+      "line": 105,
+      "text": "/** PLACEHOLDER: how many people a household of each shape holds on average. */",
       "kinds": [
         "placeholder"
       ],
@@ -3789,7 +3723,18 @@
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
-      "line": 143,
+      "line": 117,
+      "text": "* sizes above, so the town's homes hold its population. PLACEHOLDER with the",
+      "kinds": [
+        "placeholder"
+      ],
+      "path": "other",
+      "researchQuestionId": "town-household-composition",
+      "researchQuestionFiled": true
+    },
+    {
+      "file": "src/simulation/living-world/town-residents.ts",
+      "line": 136,
       "text": "* PLACEHOLDER pending `town-congregations`: how many congregations a town has,",
       "kinds": [
         "placeholder"
@@ -3800,7 +3745,7 @@
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
-      "line": 160,
+      "line": 153,
       "text": "/** PLACEHOLDER: residents each kind of town employer is staffed with. */",
       "kinds": [
         "placeholder"
@@ -3811,7 +3756,7 @@
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
-      "line": 166,
+      "line": 159,
       "text": "/** PLACEHOLDER: the player's nearest neighbors, written out at the start. */",
       "kinds": [
         "placeholder"
@@ -3822,7 +3767,7 @@
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
-      "line": 233,
+      "line": 226,
       "text": "* The town's size and household count. PLACEHOLDER: the owner decided the",
       "kinds": [
         "placeholder"
@@ -3833,7 +3778,7 @@
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
-      "line": 504,
+      "line": 498,
       "text": "// PLACEHOLDER pending `town-household-composition`: every couple is",
       "kinds": [
         "placeholder"
@@ -3844,7 +3789,7 @@
     },
     {
       "file": "src/simulation/local-economy.ts",
-      "line": 54,
+      "line": 55,
       "text": "* PLACEHOLDER(research: businesses-owners-and-wealth). Nobody has researched",
       "kinds": [
         "placeholder"
@@ -3855,7 +3800,7 @@
     },
     {
       "file": "src/simulation/local-economy.ts",
-      "line": 60,
+      "line": 66,
       "text": "export const LOCAL_BUSINESS_PLACEHOLDER = {",
       "kinds": [
         "placeholder"
@@ -3866,7 +3811,29 @@
     },
     {
       "file": "src/simulation/local-economy.ts",
-      "line": 286,
+      "line": 69,
+      "text": "/** PLACEHOLDER: a worker's monthly pay where no published wage covers. */",
+      "kinds": [
+        "placeholder"
+      ],
+      "path": "money",
+      "researchQuestionId": "businesses-owners-and-wealth",
+      "researchQuestionFiled": true
+    },
+    {
+      "file": "src/simulation/local-economy.ts",
+      "line": 103,
+      "text": "monthlyMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,",
+      "kinds": [
+        "placeholder"
+      ],
+      "path": "money",
+      "researchQuestionId": "businesses-owners-and-wealth",
+      "researchQuestionFiled": true
+    },
+    {
+      "file": "src/simulation/local-economy.ts",
+      "line": 327,
       "text": "const currency = money(0, LOCAL_BUSINESS_PLACEHOLDER.currency).currency;",
       "kinds": [
         "placeholder"
@@ -3877,19 +3844,8 @@
     },
     {
       "file": "src/simulation/local-economy.ts",
-      "line": 292,
+      "line": 333,
       "text": "note: `Placeholder local business pending research question ${LOCAL_BUSINESS_PLACEHOLDER.researchQuestionId}.`,",
-      "kinds": [
-        "placeholder"
-      ],
-      "path": "money",
-      "researchQuestionId": "businesses-owners-and-wealth",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/local-economy.ts",
-      "line": 461,
-      "text": "amount: money(LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor, currency),",
       "kinds": [
         "placeholder"
       ],
@@ -5505,28 +5461,6 @@
       "path": "other",
       "researchQuestionId": "age-of-majority-by-state",
       "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/person-stress-harness.ts",
-      "line": 2,
-      "text": "import { DEMO_START_DATE, LEXINGTON_PLACEHOLDER_ID } from \"./demo\";",
-      "kinds": [
-        "placeholder"
-      ],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/person-stress-harness.ts",
-      "line": 96,
-      "text": "const jurisdictionId = options.jurisdictionId ?? LEXINGTON_PLACEHOLDER_ID;",
-      "kinds": [
-        "placeholder"
-      ],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
     },
     {
       "file": "src/simulation/personality-catalogue.ts",
