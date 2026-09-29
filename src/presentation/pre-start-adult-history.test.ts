@@ -100,9 +100,11 @@ describe("pre-start adult history reaches the ordinary readers", () => {
           .filter((id) => id !== playerPersonId),
       );
       expect(family.size).toBeGreaterThanOrEqual(3);
-      const mother = [...family].find(
+      // A parent, not always a mother: a father-only home is a real share.
+      const parent = [...family].find(
         (id) =>
-          world.people[id]?.identity?.gender === "female" &&
+          world.people[id]!.birthDate <
+            world.people[playerPersonId]!.birthDate &&
           world.history.kinshipRelationships.some(
             (row) =>
               row.kind === "lineal:parent-child" &&
@@ -110,12 +112,12 @@ describe("pre-start adult history reaches the ordinary readers", () => {
               row.personIds.includes(playerPersonId),
           ),
       );
-      expect(mother).toBeDefined();
+      expect(parent).toBeDefined();
       expect(
         world.history.events.some(
           (event) =>
             event.type === "life.family-time" &&
-            event.participants.some((person) => person.personId === mother) &&
+            event.participants.some((person) => person.personId === parent) &&
             event.participants.some(
               (person) => person.personId === playerPersonId,
             ),
