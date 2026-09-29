@@ -1,4 +1,5 @@
 import { createStableId } from "./ids";
+import { hasStableKey } from "./history-index";
 import type {
   AppraisalMeaning,
   AppraisalRecord,
@@ -987,7 +988,7 @@ function assertUniqueStableKey(
   if (stableKey.trim().length === 0) {
     throw new Error(`${label} stable key must not be empty.`);
   }
-  if (records.some((record) => record.stableKey === stableKey)) {
+  if (hasStableKey(records, stableKey)) {
     throw new Error(`${label} stable key already exists: ${stableKey}`);
   }
 }
