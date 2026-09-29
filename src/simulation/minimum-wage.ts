@@ -171,6 +171,8 @@ export interface MinimumWageSetting {
   /** The enacted measure that set it; null for a rate on file at the start. */
   readonly measureId: EntityId | null;
   readonly designation: string | null;
+  /** The day that law took effect; null for a rate on file at the start. */
+  readonly effectiveAt: IsoDate | null;
 }
 
 /**
@@ -192,6 +194,7 @@ export function minimumWageSettingAt(
     level: "federal",
     measureId: step?.measureId ?? null,
     designation: step?.designation ?? null,
+    effectiveAt: step?.from ?? null,
   };
   const place = jurisdictionId
     ? lifePlaceByJurisdictionId(jurisdictionId)
@@ -215,6 +218,7 @@ export function minimumWageSettingAt(
         level: "state",
         measureId: law.measureId,
         designation: law.designation,
+        effectiveAt: law.effectiveAt,
       };
   }
   if (!state) {
@@ -225,6 +229,7 @@ export function minimumWageSettingAt(
       level: "state",
       measureId: null,
       designation: null,
+      effectiveAt: null,
     };
   }
   return federal.hourlyMinor > state.hourlyMinor ? federal : state;
