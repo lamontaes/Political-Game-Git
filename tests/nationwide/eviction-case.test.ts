@@ -295,13 +295,16 @@ describe("how an eviction case is decided, with no roll", () => {
     );
     // A tenant who does not answer loses by default.
     expect(outcome({ tenantAnswers: false, judgeLean: -1 })).toBe("evicted");
-    // A lawyer keeps the home until the tenant is far behind, and further
-    // before a conciliatory judge.
+    // A lawyer keeps the home until the tenant is far behind; further
+    // behind, only on a plan their pay can carry, before any judge.
     expect(outcome({ lawyer: "Bill 12" })).toBe("settled");
     const far = EVICTION.lawyerKeepsHomeUpTo + 1;
     expect(outcome({ lawyer: "Bill 12", monthsBehind: far })).toBe("evicted");
     expect(
       outcome({ lawyer: "Bill 12", monthsBehind: far, judgeLean: -1 }),
+    ).toBe("evicted");
+    expect(
+      outcome({ lawyer: "Bill 12", monthsBehind: far, planCarried: true }),
     ).toBe("settled");
     // A plan the household's pay can carry is accepted; one it cannot is not.
     expect(outcome({ planCarried: true, judgeLean: 1 })).toBe("settled");

@@ -270,6 +270,8 @@ describe("every place reads its starting law on every researched question", () =
                 readonly operativeAt?: string;
                 readonly source?: string;
                 readonly preempts?: unknown;
+                readonly estimated?: string;
+                readonly before?: { readonly answer: string };
               }
             >
           >;
@@ -304,6 +306,21 @@ describe("every place reads its starting law on every researched question", () =
     );
   }
 
+  /** A row's answer on the start date: its own, else what held before. */
+  function answerAtStart(
+    row:
+      | {
+          readonly answer: string;
+          readonly operativeAt?: string;
+          readonly before?: { readonly answer: string };
+        }
+      | undefined,
+  ): string | null {
+    if (row === undefined) return null;
+    const before = row.before?.answer ?? null;
+    return inForce(row) ? row.answer : before;
+  }
+
   it("names only real places, answers only yes or no, and sources every row; preempts is true or false", () => {
     const known = new Set(["US", ...places]);
     for (const key of questionKeys) {
@@ -318,6 +335,14 @@ describe("every place reads its starting law on every researched question", () =
         expect(row.source ?? question.source, `${key} ${place}`).toBeTruthy();
         if (row.preempts !== undefined)
           expect(typeof row.preempts, `${key} ${place}`).toBe("boolean");
+        if (row.estimated !== undefined)
+          expect(row.estimated, `${key} ${place}`).toMatch(
+            /^ESTIMATED FROM AVERAGE: /,
+          );
+        if (row.before) {
+          expect(["yes", "no"], `${key} ${place}`).toContain(row.before.answer);
+          expect(row.operativeAt, `${key} ${place}`).toBeTruthy();
+        }
       }
     }
   });
@@ -329,11 +354,9 @@ describe("every place reads its starting law on every researched question", () =
       const jurisdiction = stateJurisdictionForKey(place);
       expect(jurisdiction, place).toBeTruthy();
       const own = answers[place];
-      const expected = inForce(federal)
-        ? federal.answer
-        : inForce(own)
-          ? own.answer
-          : null;
+      const expected = inForce(federal) ? federal.answer : answerAtStart(own);
+      // No place starts the game with the law unknown.
+      expect(expected, `${key} ${place}`).not.toBeNull();
       expect(
         lawInForce(world, jurisdiction!.id, propositionId(key))?.answer ?? null,
         `${key} ${place}`,

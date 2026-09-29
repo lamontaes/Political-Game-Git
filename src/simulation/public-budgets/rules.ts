@@ -67,16 +67,6 @@ export const PENSION = {
 } as const;
 
 /**
- * Minimum reserve law: the floor as a share of a year's spending, and the
- * most the adopted budget sets aside toward it in one year. PLACEHOLDER,
- * research: state-balanced-budget-and-reserve-rules.
- */
-export const RESERVE = {
-  floorShareOfSpending: 0.05,
-  yearlyDepositShareOfSpending: 0.01,
-} as const;
-
-/**
  * Balanced-budget law, mid-year: the first round of across-the-board cuts is
  * at most this share of the year's remaining cuttable spending; the reserve
  * is drawn next, then cuts close the rest. PLACEHOLDER order and size,

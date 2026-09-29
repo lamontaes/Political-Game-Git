@@ -18,13 +18,11 @@
  *
  * A seat count is drawn from the interior of the researched spread, because a
  * chamber genuinely can be any size — real houses run from forty members to
- * four hundred, and no integer between them would look out of place. A veto
- * window is drawn only from values a legislature actually enacted, because that
- * is a discrete institutional choice rather than a continuum: the researched
- * spread runs from three days to sixty, and drawing uniformly across it would
- * hand most of the country a forty-day veto window no state has ever written.
- * The same reasoning governs override thresholds, which are always a named
- * fraction and never an arbitrary one.
+ * four hundred, and no integer between them would look out of place. Veto
+ * windows and override bars are not drawn: the windows are each state's own
+ * figures from The Council of State Governments' 2023 survey, and the override
+ * bar is read from each state's constitution
+ * (`veto-override-source-readings.ts`).
  *
  * A senate is never drawn independently of its house. Every researched state
  * seats between a fifth and a half as many senators as representatives, and a
@@ -56,11 +54,15 @@ import {
   type VoteDenominator,
   type VoteThresholdRule,
 } from "./legislature-rules";
+import vetoWindowTable from "../../data/research/laws/veto-windows-2023.json" with { type: "json" };
 import { districtIdentityCatalog } from "../districts/catalog";
 import { listDistrictIdentities } from "../districts/query";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import { STATES } from "./state-reference";
-import { vetoOverrideReadingFor } from "./veto-override-source-readings";
+import {
+  VETO_OVERRIDE_SOURCE_READINGS,
+  vetoOverrideReadingFor,
+} from "./veto-override-source-readings";
 
 /**
  * The version of the generated ruleset.
@@ -110,13 +112,86 @@ function drawWithin(
   return lowest + (draw(stateJurisdictionKey, field) % (highest - lowest + 1));
 }
 
-/** One of the values a researched legislature actually enacted. */
-function drawFrom<T>(
-  stateJurisdictionKey: string,
-  field: string,
-  options: readonly T[],
-): T {
-  return options[draw(stateJurisdictionKey, field) % options.length]!;
+interface VetoWindowRow {
+  readonly usps: string;
+  readonly inSessionDays: number | null;
+  readonly afterAdjournmentDays: number | null;
+}
+
+const VETO_WINDOW_ROWS: readonly VetoWindowRow[] = (
+  vetoWindowTable as { readonly rows: readonly VetoWindowRow[] }
+).rows;
+
+/** Where The Council of State Governments' table gives a state's windows. */
+export const VETO_WINDOW_SOURCE = {
+  citation: "The Book of the States 2023, Table 3.16",
+  sourceTitle:
+    "Enacting Legislation: Veto, Veto Override and Effective Date (The Council of State Governments)",
+  sourceUrl: (vetoWindowTable as { readonly url: string }).url,
+} as const;
+
+/** The most common value, ties to the larger. */
+function mostCommon(values: readonly number[]): number {
+  const counts = new Map<number, number>();
+  for (const value of values) counts.set(value, (counts.get(value) ?? 0) + 1);
+  return [...counts.entries()].sort(
+    ([a, countA], [b, countB]) => countB - countA || b - a,
+  )[0]![0];
+}
+
+/**
+ * How many days a state's governor has to act on a bill, during the session
+ * and after adjournment, as The Council of State Governments' 2023 survey
+ * gives them (`veto-windows-2023.json`). Where the table gives no figure,
+ * the most common figure among the places it does, marked estimated.
+ */
+export function vetoWindowFor(stateJurisdictionKey: string): {
+  readonly inSessionDays: number;
+  readonly afterAdjournmentDays: number;
+  readonly inSessionEstimated: boolean;
+  readonly afterAdjournmentEstimated: boolean;
+} {
+  const row = VETO_WINDOW_ROWS.find(
+    (candidate) => `US-${candidate.usps}` === stateJurisdictionKey,
+  );
+  const inSession = row?.inSessionDays ?? null;
+  const after = row?.afterAdjournmentDays ?? null;
+  return {
+    inSessionDays:
+      inSession ??
+      mostCommon(VETO_WINDOW_ROWS.flatMap((r) => r.inSessionDays ?? [])),
+    afterAdjournmentDays:
+      after ??
+      mostCommon(VETO_WINDOW_ROWS.flatMap((r) => r.afterAdjournmentDays ?? [])),
+    inSessionEstimated: inSession === null,
+    afterAdjournmentEstimated: after === null,
+  };
+}
+
+/**
+ * The ordinary override bar the most constitutions read set, as a fraction.
+ * Ties go to the higher bar. Computed from the readings, so it moves when
+ * they do.
+ */
+function mostCommonReadOverride(): readonly [number, number] {
+  const counts = new Map<string, number>();
+  for (const reading of VETO_OVERRIDE_SOURCE_READINGS) {
+    const threshold = reading.actions[0]?.thresholds[0];
+    if (!threshold) continue;
+    const key = `${threshold.numerator}/${threshold.denominatorParts}`;
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+  const [best] = [...counts.entries()].sort(
+    ([a, countA], [b, countB]) =>
+      countB - countA || fractionValue(b) - fractionValue(a),
+  );
+  const [numerator, denominatorParts] = best![0].split("/").map(Number);
+  return [numerator!, denominatorParts!];
+}
+
+function fractionValue(fraction: string): number {
+  const [numerator, denominatorParts] = fraction.split("/").map(Number);
+  return numerator! / denominatorParts!;
 }
 
 // ---------------------------------------------------------------------------
@@ -388,22 +463,26 @@ export function legislatureProfileFor(
     lowerSeatsBasis: basis(lowerDistricts),
     upperSeatsBasis: basis(upperDistricts),
     seatSource: settled?.source ?? null,
-    vetoWindowDaysInSession: drawFrom(
-      stateJurisdictionKey,
-      "veto-in-session",
-      executive.inSessionDays,
-    ),
-    vetoWindowDaysAfterAdjournment: drawFrom(
-      stateJurisdictionKey,
-      "veto-after-adjournment",
-      executive.afterAdjournmentDays,
-    ),
-    overrideFraction: drawFrom(
-      stateJurisdictionKey,
-      "override",
-      executive.overrideFractions,
-    ),
+    vetoWindowDaysInSession: vetoWindowFor(stateJurisdictionKey).inSessionDays,
+    vetoWindowDaysAfterAdjournment:
+      vetoWindowFor(stateJurisdictionKey).afterAdjournmentDays,
+    // Every state and Puerto Rico now has its override read from its own
+    // constitution, which `overrideThresholdFor` prefers. This is only the
+    // fallback for a place with no reading: the bar most constitutions set.
+    overrideFraction: mostCommonReadOverride(),
   };
+}
+
+function vetoWindowSentence(
+  stateJurisdictionKey: string,
+  profile: LegislatureProfile,
+): string {
+  const window = vetoWindowFor(stateJurisdictionKey);
+  const estimated = [
+    window.inSessionEstimated ? "during session" : null,
+    window.afterAdjournmentEstimated ? "after adjournment" : null,
+  ].filter((part): part is string => part !== null);
+  return `The governor has ${profile.vetoWindowDaysInSession} days to act on a measure during session and ${profile.vetoWindowDaysAfterAdjournment} after adjournment, as ${VETO_WINDOW_SOURCE.citation} gives them.${estimated.length ? ` The table gives no figure ${estimated.join(" or ")} here, so that figure is the most common one it gives for other places (ESTIMATED FROM AVERAGE).` : ""}`;
 }
 
 const QUORUM_SOURCE = profileSource(
@@ -564,7 +643,7 @@ export function legislatureProfilePack(
   );
   const overrideSource = profileSource(
     "Veto and override",
-    `The governor has ${profile.vetoWindowDaysInSession} days to act on a measure during session and ${profile.vetoWindowDaysAfterAdjournment} after adjournment. Each figure is one a compiled state actually enacted, fixed for this state.`,
+    vetoWindowSentence(stateJurisdictionKey, profile),
   );
   // The override is the one rule here that may rest on real law. Where a
   // constitution has been read for this state, the read threshold wins and

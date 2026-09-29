@@ -1,0 +1,22 @@
+{
+  "filedAt": "2026-09-29T09:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "state government",
+  "notes": [
+    "Filed at the CTO's 10:24 p.m. ruling on Build 15 (California was stale). Tried from the build container: ncsl.org legislator compensation pages (refused, 403), Ballotpedia (bot challenge), the Wayback Machine (blocked), calhr.ca.gov (refused, 403). Only California was replaced, from the CTO's own reading."
+  ],
+  "priority": "P2",
+  "question": "For each of the 50 states, D.C. and the five territories, what is the governor's, a legislator's and a trial court judge's current annual salary from the newest official source (the state's compensation commission, the legislature's pay schedule, or the state's published salary schedule), with the date the figure took effect?",
+  "questionId": "office-pay-newest-official-tables",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Build 15 · Real Money Numbers",
+  "sourcesChecked": [
+    {
+      "source": "NCSL Legislator Compensation 2025; California Citizens Compensation Commission",
+      "whatItDidNotSettle": "Could not be fetched from the build container, so no row other than California's is verified against a newer table."
+    }
+  ],
+  "title": "Each state's newest official salary for its governor, legislators and judges",
+  "usableAnswer": "A table by place and office giving the annual salary, the date it took effect, and the official source read, so that each row can replace the Book of the States 2023 figure the game holds. California is already replaced ($128,215 since December 4, 2023).",
+  "whyItMatters": "A governor's and a legislator's salary are recognizable numbers, so they must be exact. The game holds the Book of the States 2023 tables, which run a year or more behind; the sources that hold the newest figures (NCSL, state commission pages) refuse automated requests from the build container."
+}
