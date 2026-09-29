@@ -289,8 +289,10 @@ export function packForResearchGovernment(
           ? no("the pass did not state a seat count for this body.")
           : yes(
               government.body.size,
-              government.body.sourceKey,
-              government.attestedAsOf,
+              government.body.sizeReading?.sourceKey ??
+                government.body.sourceKey,
+              government.body.sizeReading?.attestedAsOf ??
+                government.attestedAsOf,
               "body size",
             ),
       composition:

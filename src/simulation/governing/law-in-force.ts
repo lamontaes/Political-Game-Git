@@ -352,6 +352,13 @@ function governs(candidate: Candidate, current: Candidate): boolean {
  * The jurisdictions whose law reaches a place, each with the level its
  * ordinary acts rank at: the place itself, its state, and the United States.
  */
+/** The rank of the law a place's own lawmakers enact there. */
+export function ownLawLevel(jurisdictionId: EntityId): LawLevel {
+  return (
+    governingChain(jurisdictionId).get(jurisdictionId) ?? "local-ordinance"
+  );
+}
+
 function governingChain(
   jurisdictionId: EntityId,
 ): ReadonlyMap<EntityId, LawLevel> {
