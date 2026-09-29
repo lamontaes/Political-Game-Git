@@ -208,6 +208,18 @@ export const SPENDING_QUESTION_EFFECTS: readonly {
     basis:
       "Utah SB 152 (2023) fiscal note: $220,500 a year ongoing for the Division of Consumer Protection to investigate and enforce, over Utah's 2023 residents.",
   },
+  {
+    questionKey:
+      "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+    program: "corrections",
+    // New York's Raise the Age aid, $250 million each state fiscal year since
+    // 2021 (Office of the State Comptroller, 2025), over 19,867,248 residents.
+    // A state that lowers the age again stops paying it.
+    toYes: 250_000_000 / 19_867_248,
+    toNo: -250_000_000 / 19_867_248,
+    basis:
+      "ESTIMATED FROM AVERAGE: New York's Raise the Age appropriation, $250 million a year (Office of the State Comptroller, 2025), per New York resident.",
+  },
 ];
 
 /** An interest rate for a government whose research shows no debt. */
