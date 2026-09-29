@@ -18,6 +18,7 @@ import {
 } from ".";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
 import { MEDIAN_PAID_SHARE } from "./pension-share";
+import { fundingGovernment } from "./staffing";
 import { TAX_QUESTION_EFFECTS } from "./rules";
 
 /*
@@ -597,21 +598,49 @@ describe("public budgets", () => {
     ).toBe(3_184_835);
   });
 
-  it("a place with no government whose county area has none either keeps no budget, and says why", () => {
+  it("a place with no government in a county area with none is served by its town, its consolidated government or its state", () => {
     // Bethel, Connecticut is a census-designated place in a state with no
-    // county governments; its town government is not linked yet.
+    // county governments: the Town of Bethel serves it. Ahuimanu, Hawaii is
+    // served by the City and County of Honolulu, a consolidated government.
+    // Akiachak, Alaska lies in Alaska's unorganized borough, where no borough or
+    // town government exists: the state serves it directly.
     const store = opened(
-      worldAt("2026-01-05", { places: ["0904790"] }),
+      worldAt("2026-01-05", { places: ["0904790", "1500400", "0200760"] }),
     ).publicBudgets!;
-    expect(store.governments.filter((row) => row.level !== "state")).toEqual(
-      [],
+    expect(store.unknown).toEqual([]);
+    const bethel = store.governments.find(
+      (row) => row.key === "town:0919004720",
+    )!;
+    expect(bethel.level).toBe("city");
+    expect(bethel.name).toBe("Town of Bethel, Connecticut");
+    // The town's own population, not the census-designated place's.
+    expect(bethel.population).toBeGreaterThan(11_404);
+    expect(sum(bethel.years[0]!.appropriations)).toBeGreaterThan(0);
+    expect(bethel.lawJurisdictionId).toBe(
+      lifePlaceByKey("0904790")!.context.jurisdiction.id,
     );
-    expect(store.unknown).toEqual([
-      expect.objectContaining({
-        key: "place:0904790",
-        reason: expect.stringMatching(/no county government/),
-      }),
-    ]);
+    const honolulu = store.governments.find(
+      (row) => row.key === "county:15003",
+    )!;
+    expect(honolulu.level).toBe("county");
+    // Each place's police are funded by the government that serves it.
+    const world = opened(
+      worldAt("2026-01-05", { places: ["0904790", "1500400", "0200760"] }),
+    );
+    const police = (key: string) =>
+      fundingGovernment(
+        world,
+        lifePlaceByKey(key)!.context.jurisdiction.id,
+        "serving-local",
+      )?.key;
+    expect(police("0904790")).toBe("town:0919004720");
+    expect(police("1500400")).toBe("county:15003");
+    expect(police("0200760")).toBe("US-AK");
+    expect(
+      store.governments.filter(
+        (row) => row.level !== "state" && row !== bethel && row !== honolulu,
+      ),
+    ).toEqual([]);
   });
 
   it("the balance above the reserve target is carried into the next budget and spent across the year, once", () => {
