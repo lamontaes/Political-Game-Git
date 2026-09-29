@@ -3,7 +3,7 @@
   "publisher": "The Council of State Governments",
   "url": "https://bookofthestates.org/tables/2023-3-3/",
   "retrievedAt": "2026-09-29",
-  "note": "Seat totals as the table gives them. A chamber the table marks U does not exist (a one-house legislature); its one chamber is listed as unicameralSeats. Row keys are postal codes.",
+  "note": "Seat totals as the table gives them. A chamber the table marks U does not exist (a one-house legislature); its one chamber is listed as unicameralSeats. Row keys are postal codes. Party counts are the chambers' members by party in 2023, as the table gives them (NPE: nonpartisan election, carried as null).",
   "rows": [
     {
       "usps": "AK",
@@ -12,7 +12,22 @@
       "houseTotalCell": "40",
       "upperSeats": 20,
       "lowerSeats": 40,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["9", "11", ". . .", ". . ."],
+      "housePartyCells": ["13", "22", "5 (b)", ". . ."],
+      "upperParties": {
+        "democrats": 9,
+        "republicans": 11,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 13,
+        "republicans": 22,
+        "other": 5,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "AL",
@@ -21,7 +36,22 @@
       "houseTotalCell": "105",
       "upperSeats": 35,
       "lowerSeats": 105,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["8", "27", ". . .", ". . ."],
+      "housePartyCells": ["27", "76", ". . .", "2"],
+      "upperParties": {
+        "democrats": 8,
+        "republicans": 27,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 27,
+        "republicans": 76,
+        "other": 0,
+        "vacancies": 2
+      },
+      "unicameralParties": null
     },
     {
       "usps": "AR",
@@ -30,7 +60,22 @@
       "houseTotalCell": "100",
       "upperSeats": 35,
       "lowerSeats": 100,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["6", "29", "", ". . ."],
+      "housePartyCells": ["18", "82", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 6,
+        "republicans": 29,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 18,
+        "republicans": 82,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "AS",
@@ -39,7 +84,12 @@
       "houseTotalCell": "21 (j)",
       "upperSeats": 18,
       "lowerSeats": 21,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["NPE", "NPE", "NPE", ". . ."],
+      "housePartyCells": ["NPE", "NPE", "NPE", ". . ."],
+      "upperParties": null,
+      "lowerParties": null,
+      "unicameralParties": null
     },
     {
       "usps": "AZ",
@@ -48,7 +98,22 @@
       "houseTotalCell": "60",
       "upperSeats": 30,
       "lowerSeats": 60,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["14", "16", ". . .", ". . ."],
+      "housePartyCells": ["29", "31", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 14,
+        "republicans": 16,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 29,
+        "republicans": 31,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "CA",
@@ -57,7 +122,22 @@
       "houseTotalCell": "80",
       "upperSeats": 40,
       "lowerSeats": 80,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["32", "8", ". . .", ". . ."],
+      "housePartyCells": ["62", "18", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 32,
+        "republicans": 8,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 62,
+        "republicans": 18,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "CO",
@@ -66,7 +146,22 @@
       "houseTotalCell": "65",
       "upperSeats": 35,
       "lowerSeats": 65,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["23", "12", ". . .", ". ."],
+      "housePartyCells": ["46", "19", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 23,
+        "republicans": 12,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 46,
+        "republicans": 19,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "CT",
@@ -75,7 +170,22 @@
       "houseTotalCell": "151",
       "upperSeats": 36,
       "lowerSeats": 151,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["24", "12", ". . .", ". . ."],
+      "housePartyCells": ["98", "53", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 24,
+        "republicans": 12,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 98,
+        "republicans": 53,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "DC",
@@ -84,7 +194,17 @@
       "houseTotalCell": "U",
       "upperSeats": null,
       "lowerSeats": null,
-      "unicameralSeats": 13
+      "unicameralSeats": 13,
+      "senatePartyCells": ["11", "0", "2 (b)", ". . ."],
+      "housePartyCells": ["U", "U", "U", "U"],
+      "unicameralParties": {
+        "democrats": 11,
+        "republicans": 0,
+        "other": 2,
+        "vacancies": 0
+      },
+      "upperParties": null,
+      "lowerParties": null
     },
     {
       "usps": "DE",
@@ -93,7 +213,22 @@
       "houseTotalCell": "41",
       "upperSeats": 21,
       "lowerSeats": 41,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["15", "6", ". . .", ". . ."],
+      "housePartyCells": ["26", "14", ". . .", "1"],
+      "upperParties": {
+        "democrats": 15,
+        "republicans": 6,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 26,
+        "republicans": 14,
+        "other": 0,
+        "vacancies": 1
+      },
+      "unicameralParties": null
     },
     {
       "usps": "FL",
@@ -102,7 +237,22 @@
       "houseTotalCell": "120",
       "upperSeats": 40,
       "lowerSeats": 120,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["12", "28", ". . .", ". . ."],
+      "housePartyCells": ["35", "83", ". . .", "2"],
+      "upperParties": {
+        "democrats": 12,
+        "republicans": 28,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 35,
+        "republicans": 83,
+        "other": 0,
+        "vacancies": 2
+      },
+      "unicameralParties": null
     },
     {
       "usps": "GA",
@@ -111,7 +261,22 @@
       "houseTotalCell": "180",
       "upperSeats": 56,
       "lowerSeats": 180,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["23", "33", ". . .", ". . ."],
+      "housePartyCells": ["78", "102", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 23,
+        "republicans": 33,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 78,
+        "republicans": 102,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "GU",
@@ -120,7 +285,17 @@
       "houseTotalCell": "U",
       "upperSeats": null,
       "lowerSeats": null,
-      "unicameralSeats": 15
+      "unicameralSeats": 15,
+      "senatePartyCells": ["9", "6", ". . .", ". . ."],
+      "housePartyCells": ["U", "U", "U", "U"],
+      "unicameralParties": {
+        "democrats": 9,
+        "republicans": 6,
+        "other": 0,
+        "vacancies": 0
+      },
+      "upperParties": null,
+      "lowerParties": null
     },
     {
       "usps": "HI",
@@ -129,7 +304,22 @@
       "houseTotalCell": "51",
       "upperSeats": 25,
       "lowerSeats": 51,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["23", "2", ". . .", ". . ."],
+      "housePartyCells": ["45", "6", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 23,
+        "republicans": 2,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 45,
+        "republicans": 6,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "IA",
@@ -138,7 +328,22 @@
       "houseTotalCell": "100",
       "upperSeats": 50,
       "lowerSeats": 100,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["16", "34", ". . .", ". . ."],
+      "housePartyCells": ["36", "64", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 16,
+        "republicans": 34,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 36,
+        "republicans": 64,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "ID",
@@ -147,7 +352,22 @@
       "houseTotalCell": "70",
       "upperSeats": 35,
       "lowerSeats": 70,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["7", "28", ". . .", ". . ."],
+      "housePartyCells": ["11", "59", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 7,
+        "republicans": 28,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 11,
+        "republicans": 59,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "IL",
@@ -156,7 +376,22 @@
       "houseTotalCell": "118",
       "upperSeats": 59,
       "lowerSeats": 118,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["40", "19", ". . .", ". . ."],
+      "housePartyCells": ["78", "40", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 40,
+        "republicans": 19,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 78,
+        "republicans": 40,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "IN",
@@ -165,7 +400,22 @@
       "houseTotalCell": "100",
       "upperSeats": 50,
       "lowerSeats": 100,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["10", "40", ". . .", ". . ."],
+      "housePartyCells": ["30", "70", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 10,
+        "republicans": 40,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 30,
+        "republicans": 70,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "KS",
@@ -174,7 +424,22 @@
       "houseTotalCell": "125",
       "upperSeats": 40,
       "lowerSeats": 125,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["11", "28 (q)", "1 (q)", ". . ."],
+      "housePartyCells": ["40", "85", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 11,
+        "republicans": 28,
+        "other": 1,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 40,
+        "republicans": 85,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "KY",
@@ -183,7 +448,22 @@
       "houseTotalCell": "100",
       "upperSeats": 38,
       "lowerSeats": 100,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["7", "31", ". . .", ". . ."],
+      "housePartyCells": ["20", "80", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 7,
+        "republicans": 31,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 20,
+        "republicans": 80,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "LA",
@@ -192,7 +472,22 @@
       "houseTotalCell": "105",
       "upperSeats": 39,
       "lowerSeats": 105,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["11", "28", ". . .", ". . ."],
+      "housePartyCells": ["32", "73", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 11,
+        "republicans": 28,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 32,
+        "republicans": 73,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "MA",
@@ -201,7 +496,22 @@
       "houseTotalCell": "160",
       "upperSeats": 40,
       "lowerSeats": 160,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["36", "4", ". . .", ". . ."],
+      "housePartyCells": ["134", "25", "1 (o)", ". . ."],
+      "upperParties": {
+        "democrats": 36,
+        "republicans": 4,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 134,
+        "republicans": 25,
+        "other": 1,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "MD",
@@ -210,7 +520,22 @@
       "houseTotalCell": "141",
       "upperSeats": 47,
       "lowerSeats": 141,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["33", "13", ". . .", "1"],
+      "housePartyCells": ["102", "39", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 33,
+        "republicans": 13,
+        "other": 0,
+        "vacancies": 1
+      },
+      "lowerParties": {
+        "democrats": 102,
+        "republicans": 39,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "ME",
@@ -219,7 +544,22 @@
       "houseTotalCell": "151",
       "upperSeats": 35,
       "lowerSeats": 151,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["22", "13", ". . .", ". . ."],
+      "housePartyCells": ["81", "68", "2 (b)", ". . ."],
+      "upperParties": {
+        "democrats": 22,
+        "republicans": 13,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 81,
+        "republicans": 68,
+        "other": 2,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "MI",
@@ -228,7 +568,22 @@
       "houseTotalCell": "110",
       "upperSeats": 38,
       "lowerSeats": 110,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["20", "18", ". . .", ". . ."],
+      "housePartyCells": ["54", "54", ". . .", "2"],
+      "upperParties": {
+        "democrats": 20,
+        "republicans": 18,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 54,
+        "republicans": 54,
+        "other": 0,
+        "vacancies": 2
+      },
+      "unicameralParties": null
     },
     {
       "usps": "MN",
@@ -237,7 +592,22 @@
       "houseTotalCell": "134",
       "upperSeats": 67,
       "lowerSeats": 134,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["34 (d)", "33", ". . .", ". . ."],
+      "housePartyCells": ["70 (d)", "64", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 34,
+        "republicans": 33,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 70,
+        "republicans": 64,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "MO",
@@ -246,7 +616,22 @@
       "houseTotalCell": "163",
       "upperSeats": 34,
       "lowerSeats": 163,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["10", "24", ". . .", ". . ."],
+      "housePartyCells": ["51", "111", ". . .", "1"],
+      "upperParties": {
+        "democrats": 10,
+        "republicans": 24,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 51,
+        "republicans": 111,
+        "other": 0,
+        "vacancies": 1
+      },
+      "unicameralParties": null
     },
     {
       "usps": "MP",
@@ -255,7 +640,22 @@
       "houseTotalCell": "20",
       "upperSeats": 9,
       "lowerSeats": 20,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["2", "4", "3 (b)", ". . ."],
+      "housePartyCells": ["4", "3", "13 (b)", ". . ."],
+      "upperParties": {
+        "democrats": 2,
+        "republicans": 4,
+        "other": 3,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 4,
+        "republicans": 3,
+        "other": 13,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "MS",
@@ -264,7 +664,22 @@
       "houseTotalCell": "122",
       "upperSeats": 52,
       "lowerSeats": 122,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["16", "36", ". . .", ". . ."],
+      "housePartyCells": ["41", "79", "2 (b)", ". . ."],
+      "upperParties": {
+        "democrats": 16,
+        "republicans": 36,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 41,
+        "republicans": 79,
+        "other": 2,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "MT",
@@ -273,7 +688,22 @@
       "houseTotalCell": "100",
       "upperSeats": 50,
       "lowerSeats": 100,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["16", "34", ". . .", ". . ."],
+      "housePartyCells": ["32", "68", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 16,
+        "republicans": 34,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 32,
+        "republicans": 68,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "NC",
@@ -282,7 +712,22 @@
       "houseTotalCell": "120",
       "upperSeats": 50,
       "lowerSeats": 120,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["20", "30", ". . .", ". . ."],
+      "housePartyCells": ["48", "72", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 20,
+        "republicans": 30,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 48,
+        "republicans": 72,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "ND",
@@ -291,7 +736,22 @@
       "houseTotalCell": "94",
       "upperSeats": 47,
       "lowerSeats": 94,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["4", "43", ". . .", ". . ."],
+      "housePartyCells": ["12", "82", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 4,
+        "republicans": 43,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 12,
+        "republicans": 82,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "NE",
@@ -300,7 +760,12 @@
       "houseTotalCell": "U",
       "upperSeats": null,
       "lowerSeats": null,
-      "unicameralSeats": 49
+      "unicameralSeats": 49,
+      "senatePartyCells": ["NPE", "NPE", "NPE", ". . ."],
+      "housePartyCells": ["U", "U", "U", "U"],
+      "unicameralParties": null,
+      "upperParties": null,
+      "lowerParties": null
     },
     {
       "usps": "NH",
@@ -309,7 +774,22 @@
       "houseTotalCell": "400",
       "upperSeats": 24,
       "lowerSeats": 400,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["10", "14", ". . .", ". . ."],
+      "housePartyCells": ["197", "198", "2 (b)", "3"],
+      "upperParties": {
+        "democrats": 10,
+        "republicans": 14,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 197,
+        "republicans": 198,
+        "other": 2,
+        "vacancies": 3
+      },
+      "unicameralParties": null
     },
     {
       "usps": "NJ",
@@ -318,7 +798,22 @@
       "houseTotalCell": "80",
       "upperSeats": 40,
       "lowerSeats": 80,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["25", "15", ". . .", ". . ."],
+      "housePartyCells": ["51", "29", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 25,
+        "republicans": 15,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 51,
+        "republicans": 29,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "NM",
@@ -327,7 +822,22 @@
       "houseTotalCell": "70",
       "upperSeats": 42,
       "lowerSeats": 70,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["27", "14", ". . .", "1"],
+      "housePartyCells": ["45", "25", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 27,
+        "republicans": 14,
+        "other": 0,
+        "vacancies": 1
+      },
+      "lowerParties": {
+        "democrats": 45,
+        "republicans": 25,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "NV",
@@ -336,7 +846,22 @@
       "houseTotalCell": "42",
       "upperSeats": 21,
       "lowerSeats": 42,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["13", "7", ". . .", "1"],
+      "housePartyCells": ["26", "14", ". . .", "2"],
+      "upperParties": {
+        "democrats": 13,
+        "republicans": 7,
+        "other": 0,
+        "vacancies": 1
+      },
+      "lowerParties": {
+        "democrats": 26,
+        "republicans": 14,
+        "other": 0,
+        "vacancies": 2
+      },
+      "unicameralParties": null
     },
     {
       "usps": "NY",
@@ -345,7 +870,22 @@
       "houseTotalCell": "150",
       "upperSeats": 63,
       "lowerSeats": 150,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["42", "21", ". . .", ". . ."],
+      "housePartyCells": ["102", "48", "", ". . ."],
+      "upperParties": {
+        "democrats": 42,
+        "republicans": 21,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 102,
+        "republicans": 48,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "OH",
@@ -354,7 +894,22 @@
       "houseTotalCell": "99",
       "upperSeats": 33,
       "lowerSeats": 99,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["7", "26", ". . .", ". . ."],
+      "housePartyCells": ["32", "66", ". . .", "1"],
+      "upperParties": {
+        "democrats": 7,
+        "republicans": 26,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 32,
+        "republicans": 66,
+        "other": 0,
+        "vacancies": 1
+      },
+      "unicameralParties": null
     },
     {
       "usps": "OK",
@@ -363,7 +918,22 @@
       "houseTotalCell": "101",
       "upperSeats": 48,
       "lowerSeats": 101,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["8", "39", ". . .", "1"],
+      "housePartyCells": ["20", "80", ". . .", "1"],
+      "upperParties": {
+        "democrats": 8,
+        "republicans": 39,
+        "other": 0,
+        "vacancies": 1
+      },
+      "lowerParties": {
+        "democrats": 20,
+        "republicans": 80,
+        "other": 0,
+        "vacancies": 1
+      },
+      "unicameralParties": null
     },
     {
       "usps": "OR",
@@ -372,7 +942,22 @@
       "houseTotalCell": "60",
       "upperSeats": 30,
       "lowerSeats": 60,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["17", "11", "2 (r)", ". . ."],
+      "housePartyCells": ["35", "25", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 17,
+        "republicans": 11,
+        "other": 2,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 35,
+        "republicans": 25,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "PA",
@@ -381,7 +966,22 @@
       "houseTotalCell": "203",
       "upperSeats": 50,
       "lowerSeats": 203,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["22", "28", ". . .", ". . ."],
+      "housePartyCells": ["102", "101", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 22,
+        "republicans": 28,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 102,
+        "republicans": 101,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "PR",
@@ -390,7 +990,22 @@
       "houseTotalCell": "51 (n)",
       "upperSeats": 27,
       "lowerSeats": 51,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["12 (l)", "10 (m)", "5 (k)", ". . ."],
+      "housePartyCells": ["24 (l)", "21 (m)", "5 (k)", "1"],
+      "upperParties": {
+        "democrats": 12,
+        "republicans": 10,
+        "other": 5,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 24,
+        "republicans": 21,
+        "other": 5,
+        "vacancies": 1
+      },
+      "unicameralParties": null
     },
     {
       "usps": "RI",
@@ -399,7 +1014,22 @@
       "houseTotalCell": "75",
       "upperSeats": 38,
       "lowerSeats": 75,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["33", "5", ". . .", ". . ."],
+      "housePartyCells": ["65", "10", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 33,
+        "republicans": 5,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 65,
+        "republicans": 10,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "SC",
@@ -408,7 +1038,22 @@
       "houseTotalCell": "124",
       "upperSeats": 46,
       "lowerSeats": 124,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["15", "30", "1", ". . ."],
+      "housePartyCells": ["36", "88", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 15,
+        "republicans": 30,
+        "other": 1,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 36,
+        "republicans": 88,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "SD",
@@ -417,7 +1062,22 @@
       "houseTotalCell": "70",
       "upperSeats": 35,
       "lowerSeats": 70,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["4", "31", ". . .", ". . ."],
+      "housePartyCells": ["7", "63", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 4,
+        "republicans": 31,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 7,
+        "republicans": 63,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "TN",
@@ -426,7 +1086,22 @@
       "houseTotalCell": "99",
       "upperSeats": 33,
       "lowerSeats": 99,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["6", "27", ". . .", ". . ."],
+      "housePartyCells": ["24", "75", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 6,
+        "republicans": 27,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 24,
+        "republicans": 75,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "TX",
@@ -435,7 +1110,22 @@
       "houseTotalCell": "150",
       "upperSeats": 31,
       "lowerSeats": 150,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["12", "19", ". . .", ". . ."],
+      "housePartyCells": ["64", "86", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 12,
+        "republicans": 19,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 64,
+        "republicans": 86,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "UT",
@@ -444,7 +1134,22 @@
       "houseTotalCell": "75",
       "upperSeats": 29,
       "lowerSeats": 75,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["6", "23", ". . .", ". . ."],
+      "housePartyCells": ["14", "61", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 6,
+        "republicans": 23,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 14,
+        "republicans": 61,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "VA",
@@ -453,7 +1158,22 @@
       "houseTotalCell": "100",
       "upperSeats": 40,
       "lowerSeats": 100,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["21", "19", ". . .", ". . ."],
+      "housePartyCells": ["51", "49", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 21,
+        "republicans": 19,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 51,
+        "republicans": 49,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "VI",
@@ -462,7 +1182,17 @@
       "houseTotalCell": "U",
       "upperSeats": null,
       "lowerSeats": null,
-      "unicameralSeats": 15
+      "unicameralSeats": 15,
+      "senatePartyCells": ["11", ". . .", "4 (b)", ". . ."],
+      "housePartyCells": ["U", "U", "U", "U"],
+      "unicameralParties": {
+        "democrats": 11,
+        "republicans": 0,
+        "other": 4,
+        "vacancies": 0
+      },
+      "upperParties": null,
+      "lowerParties": null
     },
     {
       "usps": "VT",
@@ -471,7 +1201,22 @@
       "houseTotalCell": "150",
       "upperSeats": 30,
       "lowerSeats": 150,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["22", "7", "1 (p)", ". . ."],
+      "housePartyCells": ["104", "37", "9 (p)", ". . ."],
+      "upperParties": {
+        "democrats": 22,
+        "republicans": 7,
+        "other": 1,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 104,
+        "republicans": 37,
+        "other": 9,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "WA",
@@ -480,7 +1225,22 @@
       "houseTotalCell": "98",
       "upperSeats": 49,
       "lowerSeats": 98,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["29", "20", ". . .", ". . ."],
+      "housePartyCells": ["58", "40", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 29,
+        "republicans": 20,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 58,
+        "republicans": 40,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "WI",
@@ -489,7 +1249,22 @@
       "houseTotalCell": "99 (h)",
       "upperSeats": 33,
       "lowerSeats": 99,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["11", "22", ". . .", ". . ."],
+      "housePartyCells": ["35", "64", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 11,
+        "republicans": 22,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 35,
+        "republicans": 64,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "WV",
@@ -498,7 +1273,22 @@
       "houseTotalCell": "100",
       "upperSeats": 34,
       "lowerSeats": 100,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["3", "31", ". . .", ". . ."],
+      "housePartyCells": ["11", "89", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 3,
+        "republicans": 31,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 11,
+        "republicans": 89,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     },
     {
       "usps": "WY",
@@ -507,7 +1297,22 @@
       "houseTotalCell": "62",
       "upperSeats": 31,
       "lowerSeats": 62,
-      "unicameralSeats": null
+      "unicameralSeats": null,
+      "senatePartyCells": ["2", "29", ". . .", ". . ."],
+      "housePartyCells": ["5", "57", ". . .", ". . ."],
+      "upperParties": {
+        "democrats": 2,
+        "republicans": 29,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lowerParties": {
+        "democrats": 5,
+        "republicans": 57,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameralParties": null
     }
   ]
 }

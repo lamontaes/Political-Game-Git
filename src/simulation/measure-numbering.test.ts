@@ -24,6 +24,7 @@ import type { ChamberRule, LegislativeRulePack } from "./legislature-rules";
 import {
   measureFullDesignation,
   nextMeasureNumbering,
+  openingBillNumber,
 } from "./measure-numbering";
 import { STATES } from "./state-reference";
 import type { IsoDate, Jurisdiction, World } from "./types";
@@ -346,15 +347,39 @@ describe("bill numbers restart every session, in every state", () => {
     ).toBe(1);
   });
 
-  it("is the same for the same seed and history, and differs by seed", () => {
+  it("opens where the legislature's own filing pace has reached, whatever the seed", () => {
     const pack = legislatureForState("US-OH")!;
     const house = pack.chambers[0]!;
+    // The seed plays no part: the count is Ohio's, not a draw.
     expect(file(worldIn("us-oh", "a"), pack, house).designation).toBe(
-      file(worldIn("us-oh", "a"), pack, house).designation,
-    );
-    expect(file(worldIn("us-oh", "a"), pack, house).designation).not.toBe(
       file(worldIn("us-oh", "b"), pack, house).designation,
     );
+    // Ohio introduced 317 bills in its 2022 session (The Book of the
+    // States 2023, Table 3.19), half to each chamber.
+    expect(openingBillNumber("US-OH", 2, "2026-01-01")).toBe(1);
+    expect(openingBillNumber("US-OH", 2, "2026-07-02")).toBe(
+      1 + Math.floor((317 / 2) * (182 / 365)),
+    );
+    // A legislature the table does not count takes the middle state's pace.
+    expect(openingBillNumber(null, 1, "2026-07-02")).toBeGreaterThan(1);
+  });
+
+  it("continues an opening session from its own highest number", () => {
+    const pack = legislatureForState("US-OH")!;
+    const house = pack.chambers[0]!;
+    const first = file(worldIn("us-oh"), pack, house);
+    const [measure] = first.world.history.legislativeMeasures!;
+    // A bill filed under an earlier opening rule, numbered far up.
+    const earlier = { ...measure!, designation: "HB 412" };
+    const next = file(
+      {
+        ...first.world,
+        history: { ...first.world.history, legislativeMeasures: [earlier] },
+      },
+      pack,
+      house,
+    );
+    expect(next.designation).toBe("HB 413");
   });
 
   it("places a bill saved before sessions were recorded in its own session", () => {
