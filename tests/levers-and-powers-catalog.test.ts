@@ -2,7 +2,12 @@ import { existsSync, readdirSync, readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
 
-import { scanPlaceholders } from "../scripts/research/placeholder-scan";
+import {
+  NOT_MARKERS,
+  isScanned,
+  scanPlaceholders,
+  walk,
+} from "../scripts/research/placeholder-scan";
 
 /**
  * Spec 3 (every part of a bill does something) and spec 12 (what each level
@@ -166,5 +171,53 @@ describe("the placeholder ledger", () => {
       missing,
       "run node --import tsx scripts/research/placeholder-ledger.ts",
     ).toEqual([]);
+  });
+
+  it("holds every marker in src, not only money and law, and says so in its counts", () => {
+    const held = new Set(
+      ledger.markers.map(
+        (marker: { file: string; text: string }) =>
+          `${marker.file}\n${marker.text}`,
+      ),
+    );
+    const scanned = scanPlaceholders(root);
+    const missing = scanned
+      .filter((marker) => !held.has(`${marker.file}\n${marker.text}`))
+      .map((marker) => `${marker.file}:${marker.line}`);
+    expect(
+      missing,
+      "run node --import tsx scripts/research/placeholder-ledger.ts",
+    ).toEqual([]);
+    expect(ledger.counts.markers).toBe(scanned.length);
+    expect(ledger.counts.withoutQuestion).toBe(
+      scanned.filter((marker) => marker.researchQuestionId === null).length,
+    );
+    expect(Object.keys(ledger.counts.byKind).sort()).toEqual([
+      "blanket",
+      "placeholder",
+      "unresearched",
+    ]);
+  });
+
+  it("finds the same lines a plain search of src finds, less the named exclusions", () => {
+    const files: string[] = [];
+    walk(path.join(root, "src"), files);
+    let plain = 0;
+    let excludedByName = 0;
+    for (const full of files) {
+      const file = path.relative(root, full).split(path.sep).join("/");
+      if (!isScanned(file)) {
+        if (file in NOT_MARKERS) excludedByName += 1;
+        continue;
+      }
+      for (const line of readFileSync(full, "utf8").split("\n"))
+        if (
+          /PLACEHOLDER|BLANKET/.test(line) ||
+          /unresearched|not researched/i.test(line)
+        )
+          plain += 1;
+    }
+    expect(excludedByName).toBe(Object.keys(NOT_MARKERS).length);
+    expect(scanPlaceholders(root).length).toBe(plain);
   });
 });

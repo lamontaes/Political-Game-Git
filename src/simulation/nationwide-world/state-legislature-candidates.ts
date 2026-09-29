@@ -3,6 +3,7 @@ import {
   createCharacterHistoryContextPeople,
 } from "../character-history";
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
+import { legislativeTermDates } from "../legislative-office-terms";
 import {
   electionProspectInput,
   recordProspectRunChoice,
@@ -633,6 +634,9 @@ export function prepareStateCandidateSlates(
         opportunity,
         lowOpportunityShare:
           STATE_LEGISLATURE_CANDIDATE_PROFILE.lowOpportunityShare,
+        termEnds:
+          legislativeTermDates(plan.officeKey, makeIsoDate(`${year}-11-03`))
+            ?.endsAt ?? makeIsoDate(`${year + 3}-01-01`),
         ...(partyId === null
           ? {
               recruitmentSourceType:

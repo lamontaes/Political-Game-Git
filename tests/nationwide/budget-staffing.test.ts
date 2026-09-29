@@ -193,6 +193,17 @@ describe("the state's school line funds the town's teachers", () => {
     // for teachers and is hired.
     const open = hiredTeachers(world, town, personId);
     expect(open.teachers.length).toBeGreaterThan(0);
+    // Teachers written with the town's residents at the opening count as
+    // staff too, not only those the town's job market hired.
+    const keys = new Map(
+      world.history.workRelationships.map((row) => [row.id, row.stableKey]),
+    );
+    expect(
+      open.teachers.some(
+        (job) =>
+          !keys.get(job.relationshipId)!.startsWith("town-employment-v1:"),
+      ),
+    ).toBe(true);
     expect(open.hired.length).toBeGreaterThan(0);
     expect(open.now.length).toBeLessThanOrEqual(open.teachers.length * 2);
     expect(open.hired.some((job) => job.personId === seeker.personId)).toBe(
