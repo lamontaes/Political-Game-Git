@@ -299,6 +299,9 @@ export function ensureLocalGovernmentSeatsForUnit(
   }
 
   const members = seated.filter((seat) => !seat.mayor).length;
+  // Nobody could be seated, so there is nobody for the record to name; the
+  // seats stay open and a later pass fills them.
+  if (seated.length === 0) return next;
   return recordWorldEvent(next, {
     stableKey: localGovernmentSeatsKey(unit.id),
     type: "local.government-seated",
@@ -416,6 +419,9 @@ export function ensureCountyGovernmentSeatsForUnit(
   const members =
     seated.filter((row) => !row.mayor).length +
     sitting.filter((row) => !row.mayor).length;
+  // Nobody could be seated, so there is nobody for the record to name; the
+  // seats stay open and a later pass fills them.
+  if (seated.length === 0) return next;
   const name = localGovernmentDisplayName(unit);
   return recordWorldEvent(next, {
     stableKey: localGovernmentSeatsKey(unit.id),
@@ -455,6 +461,27 @@ export function ensureCountyGovernmentSeatsForUnit(
 }
 
 /**
+ * The player and everyone in the player's own household. Nobody among them
+ * is seated at the opening: a life that starts beside a sitting mayor is a
+ * story the player did not choose.
+ */
+export function playerHousemates(
+  world: World,
+  playerPersonId: EntityId,
+): readonly EntityId[] {
+  const households = new Set(
+    world.history.householdMemberships
+      .filter((membership) => membership.personId === playerPersonId)
+      .map((membership) => membership.householdId),
+  );
+  const housemates = new Set<EntityId>([playerPersonId]);
+  for (const membership of world.history.householdMemberships)
+    if (households.has(membership.householdId))
+      housemates.add(membership.personId);
+  return [...housemates];
+}
+
+/**
  * The player's town governments, seated once at the opening. Only the
  * governments of the town the player lives in are seated with individuals;
  * everywhere else stays modeled.
@@ -466,25 +493,13 @@ export function ensureLocalGovernmentSeats(
   const town = playerTown(world, playerPersonId);
   if (!town) return world;
   const units = homeLocalGovernmentUnits(world, playerPersonId);
-  // Nobody in the player's own household is seated at the opening: a life
-  // that starts beside a sitting mayor is a story the player did not choose.
-  const households = new Set(
-    world.history.householdMemberships
-      .filter((membership) => membership.personId === playerPersonId)
-      .map((membership) => membership.householdId),
-  );
-  const housemates = new Set<EntityId>([playerPersonId]);
-  for (const membership of world.history.householdMemberships)
-    if (households.has(membership.householdId))
-      housemates.add(membership.personId);
+  const housemates = playerHousemates(world, playerPersonId);
   let next = world;
   for (const unit of units.municipal)
-    next = ensureLocalGovernmentSeatsForUnit(next, unit, town, [...housemates]);
+    next = ensureLocalGovernmentSeatsForUnit(next, unit, town, housemates);
   // The county board, or the municipio's legislature and mayor, is seated
   // from the same town's residents.
   for (const unit of units.counties)
-    next = ensureCountyGovernmentSeatsForUnit(next, unit, town, [
-      ...housemates,
-    ]);
+    next = ensureCountyGovernmentSeatsForUnit(next, unit, town, housemates);
   return next;
 }

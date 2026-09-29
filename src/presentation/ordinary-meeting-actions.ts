@@ -19,7 +19,11 @@ import { meetingHomeRoute, meetingDepartureRoute } from "./meeting-home-route";
 import { openingLifeLocation } from "./life-scene-flow";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { travelToPlace } from "./place-travel";
-import { performVenueActivity, venueActivities } from "./venue-activity";
+import {
+  performVenueActivity,
+  recordJourneyArrival,
+  venueActivities,
+} from "./venue-activity";
 
 const meetingPlanKey = (activityId: EntityId, personId: EntityId) =>
   `ordinary-meeting:plan:${activityId}:${personId}`;
@@ -148,9 +152,12 @@ export function arriveAtOrdinaryMeeting(
       candidate.sourceEntityIds.includes(activityId) &&
       candidate.responsiblePersonId === personId,
   );
+  // A completed journey is past its travel, so the late path below (which
+  // travels now) is not for it; the offer below enters from its arrival.
   if (
     state.status === "scheduled" &&
     journey &&
+    scheduledActivityState(world, journey.id).status !== "completed" &&
     compareSimulationMoments(
       world.currentMoment,
       scheduledActivityState(world, journey.id).start,
@@ -249,14 +256,29 @@ export function arriveAtOrdinaryMeeting(
       ? enterOrdinaryMeeting(waited, personId, activityId)
       : world;
   }
-  const arrived = offer.journey.alreadyCompleted
-    ? world
-    : performVenueActivity(
+  if (offer.journey.alreadyCompleted) {
+    // Entry from a recorded arrival was tried above. A save from before the Calendar journey wrote its arrival has the
+    // journey completed and nothing placing the player in the room. The
+    // travel happened, so the arrival it lacks is recorded once, as the
+    // journey writer records it now, and the meeting opens from it.
+    return enterOrdinaryMeeting(
+      recordJourneyArrival(
         world,
-        personId,
-        offer.journey.activity.id,
-        handlers,
-      );
+        offer.journey.activity,
+        offer.activity,
+        offer.journey.destinationSetting,
+        `Attend ${offer.activity.title}`,
+      ),
+      personId,
+      activityId,
+    );
+  }
+  const arrived = performVenueActivity(
+    world,
+    personId,
+    offer.journey.activity.id,
+    handlers,
+  );
   return enterOrdinaryMeeting(arrived, personId, activityId);
 }
 

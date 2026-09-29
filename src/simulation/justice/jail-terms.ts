@@ -1,4 +1,5 @@
 import { isoDateFromParts } from "../dates";
+import { recordsWithFieldValue } from "../history-index";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 
 /**
@@ -66,22 +67,32 @@ export function addCalendarMonths(date: IsoDate, months: number): IsoDate {
   return isoDateFromParts(targetYear, targetMonth, Math.min(day, lastDay));
 }
 
+/**
+ * The events of one type, in history order, read from an index that follows
+ * history as it grows, so the weekly court and clemency sweeps do not scan
+ * every event of a long life for each case. A copy: the index's own list
+ * grows with later history, and a caller holding it would see events its
+ * world does not have.
+ */
+export function eventsOfType(
+  world: World,
+  type: HistoricalEvent["type"],
+): readonly HistoricalEvent[] {
+  return [...recordsWithFieldValue(world.history.events, "type", type)];
+}
+
 /** Every sentence a person has received, oldest first. Read-only. */
 export function sentencesOf(
   world: World,
   personId: EntityId,
 ): readonly Sentence[] {
   const grants = new Map<string, HistoricalEvent>();
-  for (const event of world.history.events)
-    if (
-      event.type === CLEMENCY_GRANTED_EVENT &&
-      event.participants.some((entry) => entry.personId === personId)
-    )
+  for (const event of eventsOfType(world, CLEMENCY_GRANTED_EVENT))
+    if (event.participants.some((entry) => entry.personId === personId))
       for (const tag of event.tags)
         if (tag.startsWith(CLEMENCY_SENTENCE_TAG))
           grants.set(tag.slice(CLEMENCY_SENTENCE_TAG.length), event);
-  return world.history.events.flatMap((event) => {
-    if (event.type !== PROSECUTION_SENTENCED_EVENT) return [];
+  return eventsOfType(world, PROSECUTION_SENTENCED_EVENT).flatMap((event) => {
     if (sentencedPersonOf(event) !== personId) return [];
     const kind = event.tags
       .find((tag) => tag.startsWith(SENTENCE_KIND_TAG))

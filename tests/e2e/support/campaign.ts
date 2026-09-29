@@ -200,3 +200,24 @@ export async function bookAndHoldCampaignChoice(
   await expect(page.getByTestId("campaign-recent-results")).toBeVisible();
   return true;
 }
+
+/**
+ * Walks home, the way a player does: Personal, the life's choices, then
+ * "Walk home". A life that went to a chapter meeting is still where it last
+ * arrived until it walks back. Does nothing when already home.
+ */
+export async function walkHome(page: Page) {
+  await goTo(page, "nav-personal");
+  const personal = page.getByTestId("personal-workspace");
+  await personal
+    .getByTestId("personal-life-choices")
+    .locator(":scope > summary")
+    .click();
+  const home = personal.getByTestId("life-walk-home");
+  await expect(home).toBeVisible();
+  if (await home.isEnabled()) {
+    await home.click();
+    await expect(personal.getByTestId("life-scene-outcome")).toBeVisible();
+  }
+  await page.keyboard.press("Escape");
+}

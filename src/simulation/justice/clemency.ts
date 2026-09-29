@@ -28,6 +28,7 @@ import { isPersonAliveAt } from "../vitality";
 import { recordWorldEvent } from "../world";
 import { CLEMENCY_PETITION_DECISION } from "./clemency-decisions";
 import { CLEMENCY_GRANT } from "./clemency-reasoning";
+import { settleJailAbsences } from "./jail-absence";
 import {
   ANSWER_TAG,
   ANSWERED_BY_TAG,
@@ -57,6 +58,7 @@ import {
   CLEMENCY_GRANTED_EVENT,
   CLEMENCY_KIND_TAG,
   CLEMENCY_SENTENCE_TAG,
+  eventsOfType,
   PROSECUTION_SENTENCED_EVENT,
   SENTENCE_KIND_TAG,
   sentencedPersonOf,
@@ -240,23 +242,24 @@ function routeFor(
 
 /** Every petition on record, oldest first. */
 export function clemencyPetitions(world: World): readonly HistoricalEvent[] {
-  return world.history.events.filter(
-    (event) => event.type === CLEMENCY_PETITION_EVENT,
-  );
+  return eventsOfType(world, CLEMENCY_PETITION_EVENT);
 }
 
 function closingEventFor(
   world: World,
   petitionId: EntityId,
 ): HistoricalEvent | null {
-  return (
-    world.history.events.find(
-      (event) =>
-        (event.type === CLEMENCY_GRANTED_EVENT ||
-          event.type === CLEMENCY_DENIED_EVENT) &&
-        event.tags.includes(`${PETITION_TAG}${petitionId}`),
-    ) ?? null
-  );
+  const tag = `${PETITION_TAG}${petitionId}`;
+  const closing = [
+    eventsOfType(world, CLEMENCY_GRANTED_EVENT).find((event) =>
+      event.tags.includes(tag),
+    ),
+    eventsOfType(world, CLEMENCY_DENIED_EVENT).find((event) =>
+      event.tags.includes(tag),
+    ),
+  ].filter((event): event is HistoricalEvent => event !== undefined);
+  // The earlier of the two, as a scan of history in order finds it.
+  return closing.sort((a, b) => a.sequence - b.sequence)[0] ?? null;
 }
 
 export type ClemencyPetitionStatus = "open" | "granted" | "denied";
@@ -559,8 +562,7 @@ function runningSentences(world: World) {
     sentenced: HistoricalEvent;
     sentence: Sentence;
   }[] = [];
-  for (const event of world.history.events) {
-    if (event.type !== PROSECUTION_SENTENCED_EVENT) continue;
+  for (const event of eventsOfType(world, PROSECUTION_SENTENCED_EVENT)) {
     if (!event.tags.some((tag) => tag.startsWith(SENTENCE_KIND_TAG))) continue;
     const personId = sentencedPersonOf(event);
     if (!personId || !world.people[personId]) continue;
@@ -1032,8 +1034,10 @@ function grant(
 
 /**
  * The weekly step: the game's people under sentence decide whether to ask,
- * and every open request moves as far as its law and today allow. Runs on
- * the press desk's weekly sweep, beside `advanceProsecutions`.
+ * and every open request moves as far as its law and today allow; then the
+ * jobs of anyone whose jail term began or ended go on leave or come back
+ * (`jail-absence.ts`). Runs on the press desk's weekly sweep, beside
+ * `advanceProsecutions`.
  */
 export function advanceClemency(world: World): World {
   let next = produceRequests(world);
@@ -1041,5 +1045,6 @@ export function advanceClemency(world: World): World {
     if (clemencyPetitionStatus(next, petition.id) !== "open") continue;
     next = advancePetition(next, petition);
   }
-  return next;
+  // Last, so a term that began or was cut short this week moves its jobs.
+  return settleJailAbsences(next);
 }

@@ -28,13 +28,24 @@ import {
 import { TOWN_JOB_END_REASONS } from "../../src/simulation/living-world/town-labor-market";
 import { reviewTownJobs } from "../../src/simulation/living-world/town-labor-market";
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
+import { BUSINESS_CLOSED_EVENT } from "../../src/simulation/living-world/town-finances";
 import { openingTakesApplications } from "../../src/simulation/job-market";
 import type { JobOpeningRecord } from "../../src/simulation/types";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
-import { townWorkplaceWeights } from "../../src/simulation/living-world/town-employment";
+import {
+  TOWN_EMPLOYMENT_VERSION,
+  townWorkplaceWeights,
+} from "../../src/simulation/living-world/town-employment";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
 import type { World } from "../../src/simulation";
+import type { EntityId } from "../../src/simulation/types";
+import {
+  jailTermOn,
+  PROSECUTION_SENTENCED_EVENT,
+  SENTENCE_KIND_TAG,
+  SENTENCE_MONTHS_TAG,
+} from "../../src/simulation/justice/jail-terms";
 
 const QUARTERS = 20;
 
@@ -58,11 +69,14 @@ function openAt(placeKey: string, seed: string) {
  * The whole-world check is deferred because the world's other due items are
  * not run here; the watched-world report runs these reviews on the real clock.
  */
-function fiveYears(placeKey: string) {
+function fiveYears(
+  placeKey: string,
+  prepare: (world: World) => World = (world) => world,
+) {
   const opened = openAt(placeKey, `businesses-${placeKey}`);
   const { personId, town } = opened;
   const start = opened.world.currentDate;
-  let world: World = opened.world;
+  let world: World = prepare(opened.world);
   const before = townBusinesses(world, town).length;
   withWorldIntegrityDeferred(() => {
     for (let round = 0; round < QUARTERS; round += 1) {
@@ -116,18 +130,36 @@ describe("the town's businesses open and close", { timeout: 600_000 }, () => {
     ["Columbus, Ohio", "3918000"],
     ["Belzoni, Mississippi", "2805140"],
   ] as const) {
-    it(`${name}: about as many open as close over five years`, () => {
+    it(`${name}: businesses open where the town runs short, and none closes by chance`, () => {
       const { world, town, start, before } = fiveYears(placeKey);
       const summary = describeTownBusinesses(world, town, start);
       expect(before).toBeGreaterThan(5);
-      expect(summary.closed, JSON.stringify(summary)).toBeGreaterThan(0);
-      expect(summary.opened).toBeGreaterThan(0);
-      // 11.6% a year each way over five years is about 58% of the town's
-      // businesses; well inside twice that either way.
-      const rate = (summary.opened + summary.closed) / 2 / before / 5;
-      expect(rate, JSON.stringify(summary)).toBeGreaterThan(0.116 / 2.5);
+      // On the calendar alone nobody is paid, so no business's books open
+      // and none runs out of cash (tests/nationwide/town-finances.test.ts
+      // runs the real clock). A business closes only when whoever ran it
+      // retired, died or moved away and nobody was left: never because its
+      // owner quit it or was laid off by a roll.
+      for (const event of world.history.events.filter(
+        (row) => row.type === BUSINESS_CLOSED_EVENT,
+      )) {
+        expect(event.tags.join(","), event.summary).toMatch(
+          /cause:(owner-retired|nobody-left)/,
+        );
+        expect(event.tags, event.summary).not.toContain("last-left:labor:quit");
+        expect(event.tags, event.summary).not.toContain(
+          "last-left:labor:laid-off",
+        );
+      }
+      // Nothing is drawn for an opening: on the calendar alone no customers
+      // are counted, so a business opens only where the town's jobs of its
+      // kind run a worker short of the town's mix. Hiring now fills that mix
+      // as it goes, so openings are few; never more than two and a half
+      // times the national entry rate of 11.6% a year.
+      const rate = summary.opened / before / 5;
       expect(rate, JSON.stringify(summary)).toBeLessThan(0.116 * 2.5);
-      expect(summary.open).toBeGreaterThan(before / 2);
+      expect(summary.open, JSON.stringify(summary)).toBeGreaterThanOrEqual(
+        before - summary.closed,
+      );
 
       // Everybody who worked at a closed business lost that job the day it
       // closed, and nobody works there afterwards.
@@ -173,6 +205,57 @@ describe("the town's businesses open and close", { timeout: 600_000 }, () => {
   it("a review run twice writes nothing new", () => {
     const { world, town, personId } = fiveYears("2146027");
     expect(reviewTownBusinesses(world, town, personId, "test-19")).toBe(world);
+  });
+
+  it("nobody serving a jail term opens a business or is hired", () => {
+    // Who opened each business in five years, when nobody is in jail: by the
+    // openings rule, or by a hire that brought a new employer to town.
+    const founded = (world: World, town: string, start: string) => {
+      const stem = `${TOWN_EMPLOYMENT_VERSION}:${town}:employer:`;
+      return world.history.organizations.flatMap((organization) => {
+        if (!organization.stableKey.startsWith(stem)) return [];
+        // A business open from the start has staff from before it.
+        const founder = world.history.workRelationships
+          .filter((row) => row.organizationId === organization.id)
+          .sort((a, b) => a.startedAt.localeCompare(b.startedAt))[0];
+        return founder && founder.startedAt > start ? [founder.personId] : [];
+      });
+    };
+    // Los Angeles, California: on the calendar alone, few towns open any.
+    const placeKey = "0644000";
+    const free = fiveYears(placeKey);
+    const first = founded(free.world, free.town, free.start)[0];
+    expect(first).toBeDefined();
+    // The same five years with that person sentenced to ten years in jail
+    // the day they begin.
+    const jailed = fiveYears(placeKey, (world) => ({
+      ...world,
+      history: {
+        ...world.history,
+        events: [
+          ...world.history.events,
+          {
+            ...world.history.events[0]!,
+            id: "event:test-jail-term" as EntityId,
+            stableKey: "test-jail-term",
+            type: PROSECUTION_SENTENCED_EVENT,
+            occurredAt: world.currentDate,
+            participants: [{ personId: first!, role: "focus:defendant" }],
+            tags: [`${SENTENCE_KIND_TAG}jail`, `${SENTENCE_MONTHS_TAG}120`],
+          },
+        ],
+      },
+    }));
+    expect(jailTermOn(jailed.world, first!)).not.toBeNull();
+    expect(founded(jailed.world, jailed.town, jailed.start)).not.toContain(
+      first,
+    );
+    // Nor are they hired anywhere while serving it.
+    expect(
+      jailed.world.history.workRelationships.filter(
+        (row) => row.personId === first && row.startedAt > jailed.start,
+      ),
+    ).toEqual([]);
   });
 });
 

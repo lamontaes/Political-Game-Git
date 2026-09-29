@@ -14,27 +14,25 @@
  * recorded as the game's own, or genuinely unknown. Only the middle state was
  * missing.
  *
- * What a generated pack draws, and what it does not:
+ * What a generated pack reads, and what it estimates:
  *
- * A seat count is drawn from the interior of the researched spread, because a
- * chamber genuinely can be any size — real houses run from forty members to
- * four hundred, and no integer between them would look out of place. Veto
- * windows and override bars are not drawn: the windows are each state's own
- * figures from The Council of State Governments' 2023 survey, and the override
- * bar is read from each state's constitution
- * (`veto-override-source-readings.ts`).
+ * A chamber's seats are each state's own count from The Council of State
+ * Governments' 2023 table (Book of the States, Table 3.3), after any size
+ * settled in this file from the state's constitution. Where neither lists a
+ * chamber, the state's own Census legislative districts size it, and last the
+ * middle of the compiled chambers' spread, marked ESTIMATED FROM AVERAGE.
+ * Veto windows are each state's own figures from the same survey's Table
+ * 3.16, and the override bar is read from each state's constitution
+ * (`veto-override-source-readings.ts`). Nothing is drawn.
  *
- * A senate is never drawn independently of its house. Every researched state
- * seats between a fifth and a half as many senators as representatives, and a
- * senate larger than its house is the one shape American bicameralism never
- * takes. So the upper chamber is drawn as a proportion of the lower.
+ * A senate is never estimated independently of its house. Every researched
+ * state seats between a fifth and a half as many senators as representatives,
+ * and a senate larger than its house is the one shape American bicameralism
+ * never takes. So an estimated upper chamber is a proportion of the lower.
  *
- * Every draw is a stable hash of the state's own key, so a state answers the
- * same way in every session, in every save, on every machine. A value rolled
- * per session would let one save contradict itself between two readings.
- *
- * And nothing here claims to be law. Every source ref carries authority
- * `game-profile` and verification `game-profile`, `assertRulePackIntegrity`
+ * And nothing here claims to be law. Every source ref but a seat count read
+ * from a table or a constitution carries authority `game-profile` and
+ * verification `game-profile`, `assertRulePackIntegrity`
  * refuses a pack that mixes the two kinds, and compiling the state's own
  * constitution replaces the whole pack.
  */
@@ -54,6 +52,7 @@ import {
   type VoteDenominator,
   type VoteThresholdRule,
 } from "./legislature-rules";
+import legislatorsTable from "../../data/research/laws/legislators-2023.json" with { type: "json" };
 import vetoWindowTable from "../../data/research/laws/veto-windows-2023.json" with { type: "json" };
 import { districtIdentityCatalog } from "../districts/catalog";
 import { listDistrictIdentities } from "../districts/query";
@@ -87,30 +86,54 @@ function profileSource(citation: string, note: string): RuleSourceRef {
   };
 }
 
-/** A stable hash. FNV-1a, written out so it can never be retuned under saves. */
-function stableHash(text: string): number {
-  let hash = 0x811c9dc5;
-  for (let index = 0; index < text.length; index += 1) {
-    hash ^= text.charCodeAt(index);
-    hash = Math.imul(hash, 0x01000193) >>> 0;
-  }
-  return hash >>> 0;
+/**
+ * The middle value of an ascending list: the estimate a generated chamber
+ * takes where nothing about its own state has been read.
+ */
+function middleOf(values: readonly number[]): number {
+  return values[Math.floor((values.length - 1) / 2)]!;
 }
 
-function draw(stateJurisdictionKey: string, field: string): number {
-  return stableHash(
-    `${LEGISLATURE_GAME_PROFILE_VERSION}|${stateJurisdictionKey}|${field}`,
-  );
+interface ChamberSeatRow {
+  readonly usps: string;
+  readonly lowerSeats: number | null;
+  readonly upperSeats: number | null;
+  readonly unicameralSeats: number | null;
 }
 
-/** A whole number anywhere inside the researched spread, ends included. */
-function drawWithin(
-  stateJurisdictionKey: string,
-  field: string,
-  lowest: number,
-  highest: number,
-): number {
-  return lowest + (draw(stateJurisdictionKey, field) % (highest - lowest + 1));
+const CHAMBER_SEAT_ROWS: readonly ChamberSeatRow[] = (
+  legislatorsTable as { readonly rows: readonly ChamberSeatRow[] }
+).rows;
+
+/** Where The Council of State Governments counts each chamber's seats. */
+const CHAMBER_SEATS_SOURCE: RuleSourceRef = {
+  authority: "research-reference",
+  citation: "The Book of the States 2023, Table 3.3",
+  sourceTitle:
+    "The Legislators: Numbers, Terms and Party Affiliations: 2023 (The Council of State Governments)",
+  sourceUrl: (legislatorsTable as { readonly url: string }).url,
+  retrievedAt: "2026-09-29",
+  verification: "verified",
+  note: "Each chamber's total seats as the Council of State Governments compiled them from the legislatures in 2023. A compiled survey, not the state's own constitution or apportionment statute. The rest of this legislature is the game's own.",
+};
+
+/**
+ * A state's chamber sizes from the 2023 table, keyed `US-TX`; null where the
+ * table has no row. A one-house legislature has only `unicameral`.
+ */
+function compiledChamberSeats(jurisdictionKey: string): {
+  readonly lower: number | null;
+  readonly upper: number | null;
+  readonly unicameral: number | null;
+} | null {
+  const usps = /^US-([A-Z]{2})$/.exec(jurisdictionKey)?.[1];
+  const row = CHAMBER_SEAT_ROWS.find((candidate) => candidate.usps === usps);
+  if (!row) return null;
+  return {
+    lower: row.lowerSeats,
+    upper: row.upperSeats,
+    unicameral: row.unicameralSeats,
+  };
 }
 
 interface VetoWindowRow {
@@ -361,7 +384,8 @@ const SETTLED_CHAMBER_SEATS: Readonly<
   },
 };
 
-export type SeatBasis = "settled" | "census-districts" | "drawn";
+export type SeatBasis =
+  "settled" | "compiled-table" | "census-districts" | "estimated";
 
 /**
  * How many members the Census districts of one of a state's chambers elect,
@@ -423,30 +447,17 @@ export function legislatureProfileFor(
   ) {
     return null;
   }
-  const lowerSeats = drawWithin(
-    stateJurisdictionKey,
-    "lower-seats",
-    chambers.lowerSeats[0]!,
-    chambers.lowerSeats[chambers.lowerSeats.length - 1]!,
-  );
-  const percent = drawWithin(
-    stateJurisdictionKey,
-    "senate-percent",
-    chambers.senatePercentOfHouse[0]!,
-    chambers.senatePercentOfHouse[chambers.senatePercentOfHouse.length - 1]!,
-  );
-  // At least two senators, and always fewer than the house: a senate that
-  // matched or outgrew its lower chamber is the one shape no state has.
-  const upperSeats = Math.min(
-    lowerSeats - 1,
-    Math.max(2, Math.round((lowerSeats * percent) / 100)),
-  );
-  // PLACEHOLDER until state-legislature-chamber-sizes-and-quorum is answered:
-  // settled law wins. Then a state's own Census districts, which are a record
-  // of that state rather than a range across others, each district seating
-  // the members it elects. The draw comes last. The seated chambers are sized
-  // the same way.
+  // Settled law wins, then the Council of State Governments' count of each
+  // chamber's seats, then the state's own Census districts (each district seating the
+  // members it elects), and last the middle of the compiled
+  // states' spread, marked ESTIMATED FROM AVERAGE. Nothing is drawn. The
+  // seated chambers are sized the same way.
   const settled = SETTLED_CHAMBER_SEATS[stateJurisdictionKey] ?? null;
+  const row = compiledChamberSeats(stateJurisdictionKey);
+  const compiled =
+    row && row.lower !== null && row.upper !== null
+      ? { lower: row.lower, upper: row.upper }
+      : null;
   const lowerDistricts = censusDistrictSeats(
     stateJurisdictionKey,
     "state-lower",
@@ -455,18 +466,39 @@ export function legislatureProfileFor(
     stateJurisdictionKey,
     "state-upper",
   );
+  const lowerEstimate = middleOf(chambers.lowerSeats);
+  const lowerSeats =
+    settled?.lower ??
+    compiled?.lower ??
+    (lowerDistricts > 0 ? lowerDistricts : lowerEstimate);
+  // At least two senators, and always fewer than the house: a senate that
+  // matched or outgrew its lower chamber is the one shape no state has.
+  const upperEstimate = Math.min(
+    lowerSeats - 1,
+    Math.max(
+      2,
+      Math.round((lowerSeats * middleOf(chambers.senatePercentOfHouse)) / 100),
+    ),
+  );
   const basis = (districts: number): SeatBasis =>
-    settled ? "settled" : districts > 0 ? "census-districts" : "drawn";
+    settled
+      ? "settled"
+      : compiled
+        ? "compiled-table"
+        : districts > 0
+          ? "census-districts"
+          : "estimated";
   return {
     stateJurisdictionKey,
     version: LEGISLATURE_GAME_PROFILE_VERSION,
-    lowerSeats:
-      settled?.lower ?? (lowerDistricts > 0 ? lowerDistricts : lowerSeats),
+    lowerSeats,
     upperSeats:
-      settled?.upper ?? (upperDistricts > 0 ? upperDistricts : upperSeats),
+      settled?.upper ??
+      compiled?.upper ??
+      (upperDistricts > 0 ? upperDistricts : upperEstimate),
     lowerSeatsBasis: basis(lowerDistricts),
     upperSeatsBasis: basis(upperDistricts),
-    seatSource: settled?.source ?? null,
+    seatSource: settled?.source ?? (compiled ? CHAMBER_SEATS_SOURCE : null),
     vetoWindowDaysInSession: vetoWindowFor(stateJurisdictionKey).inSessionDays,
     vetoWindowDaysAfterAdjournment:
       vetoWindowFor(stateJurisdictionKey).afterAdjournmentDays,
@@ -544,8 +576,8 @@ function profileChamber(
     profileSource(
       "Seats",
       seatBasis === "census-districts"
-        ? `The chamber seats ${seats} members: the members each of the state's Census legislative districts elects, one where no count is on file.`
-        : `The chamber seats ${seats} members, drawn from the range the compiled states span and fixed for this state.`,
+        ? `The chamber seats ${seats} members, the members each of the state's Census legislative districts elects, one where no count is on file.`
+        : `The chamber seats ${seats} members, the middle of the range the compiled states span (ESTIMATED FROM AVERAGE).`,
     );
   const quorum: VoteThresholdRule = majorityOf(
     "members-elected",
@@ -878,41 +910,46 @@ export function seatsForChamber(
           : "researched",
     };
   }
-  const spread = researchedChamberSpread();
-  if (spread.lowerSeats.length === 0) return null;
-  const lowest = spread.lowerSeats[0]!;
-  const highest = spread.lowerSeats[spread.lowerSeats.length - 1]!;
-  const key = `${pack.jurisdictionKey}|${chamberKey}`;
-
-  // An upper chamber is drawn from its own lower chamber where there is one, so
-  // a senate is never as large as the house it sits beside. A unicameral
-  // legislature has no such pair and draws from the lower-chamber spread, which
-  // is the only measurement of "a chamber that does the whole job".
+  // The Council of State Governments' count of the state's seats, where the
+  // pack is a state's and the table lists this chamber.
+  const compiled = compiledChamberSeats(pack.jurisdictionKey);
   const isUpper =
     pack.structure === "bicameral" && pack.chamberOrder[1] === chamberKey;
+  if (compiled) {
+    const seats =
+      pack.structure === "bicameral"
+        ? isUpper
+          ? compiled.upper
+          : compiled.lower
+        : compiled.unicameral;
+    if (seats !== null) return { seats, basis: "researched" };
+  }
+  const spread = researchedChamberSpread();
+  if (spread.lowerSeats.length === 0) return null;
+
+  // ESTIMATED FROM AVERAGE: the middle of the compiled chambers' spread. An
+  // upper chamber is estimated from its own lower chamber where there is one,
+  // so a senate is never as large as the house it sits beside. A unicameral
+  // legislature has no such pair and takes the lower-chamber middle, the only
+  // measurement of "a chamber that does the whole job".
   if (isUpper && spread.senatePercentOfHouse.length > 0) {
-    const lowerKey = pack.chamberOrder[0]!;
-    const lower = seatsForChamber(pack, lowerKey);
+    const lower = seatsForChamber(pack, pack.chamberOrder[0]!);
     if (lower !== null) {
-      const percent = drawWithin(
-        key,
-        "upper-percent",
-        spread.senatePercentOfHouse[0]!,
-        spread.senatePercentOfHouse[spread.senatePercentOfHouse.length - 1]!,
-      );
       return {
         seats: Math.min(
           lower.seats - 1,
-          Math.max(2, Math.round((lower.seats * percent) / 100)),
+          Math.max(
+            2,
+            Math.round(
+              (lower.seats * middleOf(spread.senatePercentOfHouse)) / 100,
+            ),
+          ),
         ),
         basis: "game-profile",
       };
     }
   }
-  return {
-    seats: drawWithin(key, "chamber-seats", lowest, highest),
-    basis: "game-profile",
-  };
+  return { seats: middleOf(spread.lowerSeats), basis: "game-profile" };
 }
 
 // ---------------------------------------------------------------------------

@@ -2,6 +2,7 @@ import { currentFederalTenure } from "../federal-tenures";
 import { projectCongress } from "../living-world/congress";
 import { nationalOfficeHolder } from "../national-election-consumer";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
+import { seatHolderAt, seatsForCourt } from "../judiciary/courts";
 import type { EntityId, World } from "../types";
 import type { OfficeRef } from "./types";
 
@@ -32,6 +33,8 @@ interface OfficeTable {
   readonly electedPresident: boolean;
   readonly electedVice: boolean;
   readonly stateExecutive: ReadonlyMap<EntityId, readonly OfficeRef[]>;
+  /** Associate justices; the Chief Justice is read from its federal tenure. */
+  readonly justices: ReadonlyMap<EntityId, readonly OfficeRef[]>;
   readonly congress: ReadonlyMap<EntityId, readonly OfficeRef[]>;
 }
 
@@ -83,6 +86,20 @@ function officeTable(world: World): OfficeTable {
       organizationId: holder.organizationId,
       termEvidenceId: holder.termId,
     });
+  const justices = new Map<EntityId, OfficeRef[]>();
+  for (const seat of world.judiciary?.courts["us-supreme-court"]
+    ? seatsForCourt(world, "us-supreme-court")
+    : []) {
+    if (seat.linkedOfficeId) continue;
+    const holder = seatHolderAt(world, seat.seatId);
+    if (!holder) continue;
+    add(justices, holder.personId, {
+      officeKey: seat.seatId,
+      title: "Associate Justice of the Supreme Court",
+      organizationId: null,
+      termEvidenceId: holder.tenureId as EntityId,
+    });
+  }
   const congress = new Map<EntityId, OfficeRef[]>();
   const seated = projectCongress(world);
   if (seated) {
@@ -105,6 +122,7 @@ function officeTable(world: World): OfficeTable {
     electedPresident: nationalOfficeHolder(world, "president") !== null,
     electedVice: nationalOfficeHolder(world, "vice-president") !== null,
     stateExecutive,
+    justices,
     congress,
   };
   OFFICE_TABLES.set(world, table);
@@ -125,6 +143,7 @@ export function publicOfficesHeldBy(
     ),
   );
   refs.push(...(table.stateExecutive.get(personId) ?? []));
+  refs.push(...(table.justices.get(personId) ?? []));
   refs.push(...(table.congress.get(personId) ?? []));
   return refs.sort((a, b) => a.officeKey.localeCompare(b.officeKey));
 }

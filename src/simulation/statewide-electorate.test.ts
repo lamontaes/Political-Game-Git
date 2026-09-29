@@ -59,3 +59,27 @@ describe("a statewide race's electorate", () => {
     ).toBeNull();
   });
 });
+
+describe("the vote for neither major party", () => {
+  const world = createWorld({
+    seed: "statewide-electorate-neither",
+    currentDate: makeIsoDate("2026-11-03"),
+    jurisdictions: [stateJurisdictionForKey("US-OR")!],
+    people: [],
+  });
+
+  it("is each state's own 2024 count, small and never missing", () => {
+    for (const usps of CHIEF_EXECUTIVE_JURISDICTIONS.filter(
+      (candidate) => !isTerritoryUsps(candidate),
+    )) {
+      const share = statewideElectorate(
+        world,
+        chiefExecutiveJurisdictionId(usps)!,
+      )!.neitherMajorShare;
+      // Independents, minor parties and write-ins took a sliver of every
+      // state's 2024 ballots, never none and never a tenth.
+      expect(share, usps).toBeGreaterThan(0);
+      expect(share, usps).toBeLessThan(0.1);
+    }
+  });
+});

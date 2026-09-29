@@ -12,6 +12,7 @@ import {
   recordWorkStatus,
 } from "../simulation/life";
 import {
+  activeWorkRelationshipsAt,
   kinshipRelationshipsAt,
   workStatusAt,
 } from "../simulation/life-queries";
@@ -27,6 +28,7 @@ import {
   introducersFor,
   jobOpening,
   latestApplicationStep,
+  leaveJob,
   openJobListings,
   startJob,
 } from "../simulation/job-market";
@@ -56,8 +58,22 @@ function begin(placeKey: string, seed: string) {
   const personId = life.game.playerPersonId;
   return {
     personId,
-    world: openOrdinaryLife(life.game.world, personId),
+    world: betweenJobs(openOrdinaryLife(life.game.world, personId), personId),
   };
+}
+
+/**
+ * A grown-up start arrives holding a job in town. These scenes are about
+ * someone looking for work, so the person leaves it first, as a player can.
+ */
+function betweenJobs(world: World, personId: EntityId): World {
+  let next = world;
+  for (const { relationship } of activeWorkRelationshipsAt(next, personId)) {
+    const left = leaveJob(next, relationship.id);
+    expect(left.ok).toBe(true);
+    next = left.world;
+  }
+  return next;
 }
 
 function untilListed(world: World, personId: EntityId, weeks = 12): World {
@@ -152,15 +168,18 @@ function adultStranger(world: World, personId: EntityId): EntityId {
 }
 
 describe("jobs in a town", () => {
+  // Three towns, each built from the new-game route with its businesses
+  // staffed, so this runs past the default five seconds.
   it("lists the town's own public employers with actual pay and hours, in several places", () => {
-    for (const [place, seed] of [
-      [ELY, "jobs-ely"],
-      [HOUMA, "jobs-houma"],
-      [RENO, "jobs-reno"],
+    for (const [place, seed, townName] of [
+      [ELY, "jobs-ely", "Ely"],
+      [HOUMA, "jobs-houma", null],
+      [RENO, "jobs-reno", null],
     ] as const) {
       const start = begin(place, seed);
       const world = untilListed(start.world, start.personId);
       const view = projectJobMarket(world, start.personId);
+      if (townName) expect(view.townName, place).toBe(townName);
       expect(view.listings.length, place).toBeGreaterThan(0);
       for (const listing of view.listings) {
         expect(listing.termsLine).toMatch(
@@ -173,14 +192,7 @@ describe("jobs in a town", () => {
       }
       assertWorldIntegrity(world);
     }
-    const ely = untilListed(
-      begin(ELY, "jobs-ely").world,
-      begin(ELY, "jobs-ely").personId,
-    );
-    expect(
-      projectJobMarket(ely, begin(ELY, "jobs-ely").personId).townName,
-    ).toBe("Ely");
-  });
+  }, 60_000);
 
   it("draws each recruitment window once, inside the owner's range, and a reload keeps it", () => {
     const start = begin(ELY, "jobs-window");

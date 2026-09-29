@@ -5,7 +5,10 @@ import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/st
 import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
 import { ensureLocalCouncilMeetings } from "../simulation/living-world/local-council-meetings";
 import { ensureLocalElectionCalendar } from "../simulation/living-world/local-elections";
-import { ensureLocalGovernmentSeats } from "../simulation/living-world/local-government-seats";
+import {
+  ensureLocalGovernmentSeats,
+  playerHousemates,
+} from "../simulation/living-world/local-government-seats";
 import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import {
@@ -41,6 +44,7 @@ import {
   macroStartForHistory,
 } from "../simulation/macro-economy";
 import type { World, EntityId } from "../simulation";
+import { isFederalDistrictUsps } from "../simulation/state-reference";
 import { createNewGameWorld } from "./new-game";
 import { proseDate } from "./prose-dates";
 import type { NewGameSetup, NewGame } from "./new-game";
@@ -168,6 +172,7 @@ function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
         ),
         game.playerPersonId,
         session.setup.openingDataVersion,
+        session.setup.livingWorldMemberNameVersion,
       ),
     },
   };
@@ -188,8 +193,13 @@ function ensureHomeStateLegislature(
   const stateUsps = homeStateUsps(world, playerPersonId);
   if (!stateUsps) return world;
   // The District's legislature is its Council, which is seated on its own.
-  return stateUsps === "DC"
-    ? scheduleDcCouncilSitting(ensureDistrictOfColumbiaCouncilOpening(world))
+  return isFederalDistrictUsps(stateUsps)
+    ? scheduleDcCouncilSitting(
+        ensureDistrictOfColumbiaCouncilOpening(
+          world,
+          playerHousemates(world, playerPersonId),
+        ),
+      )
     : ensureStateLegislatureOpening(world, playerPersonId, stateUsps);
 }
 
@@ -202,6 +212,7 @@ function openedWorld(
   world: World,
   playerPersonId: EntityId,
   openingDataVersion: NewGameSetup["openingDataVersion"],
+  memberNameVersion?: NewGameSetup["livingWorldMemberNameVersion"],
 ): World {
   // Migration is scheduled only for a current opening too, so a legacy replay
   // keeps the world it always built (MIGRATION_SEAMS "old-saves").
@@ -231,7 +242,7 @@ function openedWorld(
     ),
   );
   return openingDataVersion === "playtest65-v3"
-    ? ensureOpeningJudiciary(opened)
+    ? ensureOpeningJudiciary(opened, memberNameVersion)
     : opened;
 }
 

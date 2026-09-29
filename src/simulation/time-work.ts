@@ -1,3 +1,4 @@
+import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
@@ -7,6 +8,7 @@ import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnov
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyConstitutionalReform } from "./living-world/constitutional-reform";
 import { applyFederalReform } from "./living-world/federal-reform";
+import { applyArticleV } from "./governing/article-v";
 import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { workStatusAt } from "./life-queries";
 import { eventById } from "./event-index";
@@ -1975,20 +1977,25 @@ function setCurrentMoment(
   // GOVERNING's, and it runs on the same date boundary so a death reaches the
   // office the day it happens. The consumer applies each notice once.
   return applyCrisisRepairFunding(
-    applyCrisisOfficeContinuity(
-      applyCongressLawmaking(
-        crossedFrom,
-        applyFederalReform(
+    applyEnactedCourtSizes(
+      applyCrisisOfficeContinuity(
+        applyCongressLawmaking(
           crossedFrom,
-          applyConstitutionalReform(
+          applyFederalReform(
             crossedFrom,
-            applyPresidentialTurnover(
+            applyArticleV(
               crossedFrom,
-              applyGovernorTurnover(
+              applyConstitutionalReform(
                 crossedFrom,
-                applyCongressTurnover(
+                applyPresidentialTurnover(
                   crossedFrom,
-                  applyStateLegislatureTurnover(crossedFrom, moved),
+                  applyGovernorTurnover(
+                    crossedFrom,
+                    applyCongressTurnover(
+                      crossedFrom,
+                      applyStateLegislatureTurnover(crossedFrom, moved),
+                    ),
+                  ),
                 ),
               ),
             ),
