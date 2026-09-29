@@ -1,3 +1,5 @@
+import { feltDebtConsiderations } from "./favors";
+import { heardOfRefusalConsiderations } from "./favor-collection";
 import { eventById } from "./event-index";
 import { homePartyChapters } from "./living-world/party-chapters";
 import { addDays, ageOnDate } from "./dates";
@@ -11,7 +13,14 @@ import {
   kinshipRelationshipsAt,
 } from "./life-queries";
 import { personName } from "./people";
-import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import {
+  ensurePeopleTraits,
+  personTrait,
+  traitConsiderations,
+} from "./people-traits";
+import { workSchedulesFor } from "./living-world/work-schedules";
+import { readRelationshipStanding } from "./relationship-standing";
+import type { StandingBand } from "./relationship-standing";
 import { traitRegistryFor } from "./trait-registry";
 import { registeredTraitConsiderations } from "./trait-readings";
 import { CONTACT_ANSWER_DECISION } from "./people-contact-decisions";
@@ -30,7 +39,6 @@ import {
   goalConsiderations,
   recordGoalStepTaken,
 } from "./people-goal-pursuit";
-import { SeededRng } from "./rng";
 import { recordWorldEvent } from "./world";
 import {
   DATE_KIND,
@@ -268,7 +276,11 @@ function contactChannels(
   if (basis.includes("works where you work")) {
     channels.push({ kind: "through-work", label: "At work", note: waiting });
   }
-  if (basis.includes("in the same group as you")) {
+  // A member of the organizer's own chapter reaches them through it once.
+  if (
+    basis.includes("in the same group as you") &&
+    !channels.some((channel) => channel.kind === "through-group")
+  ) {
     channels.push({
       kind: "through-group",
       label: "Through the group",
@@ -787,6 +799,24 @@ export function npcContactAnswer(
       },
     ]),
   );
+  // Help the one asking once gave is a reason to make the time; having heard
+  // they turned down somebody who had helped them is a reason not to.
+  considerations.push(
+    ...feltDebtConsiderations(
+      withTraits,
+      to,
+      from,
+      `contact:${proposalEventId}`,
+      "accept",
+    ),
+    ...heardOfRefusalConsiderations(
+      withTraits,
+      to,
+      from,
+      `contact:${proposalEventId}`,
+      "accept",
+    ),
+  );
   // Registered effects first: whatever the loaded packs say bears on
   // `contact.answer`. This decision names no trait, and a pack adding one
   // reaches it without this file changing.
@@ -980,50 +1010,56 @@ const REACH_OUT_UNANSWERED_LIMIT = 2;
  * starting on the same day, unrelated lives received the same call and the
  * same evening: one friend rang exactly every five months, and a fresh
  * Maryland life met somebody on the very evening another life had (Time
- * skips thread, 2026-09-23).
+ * skips thread, 2026-09-23). They were then drawn per pair. Now they come
+ * from the two people, and nothing is drawn:
  *
- * PLACEHOLDER, NOT RESEARCH: the ranges are calibration until
- * `how-often-people-and-groups-get-in-touch` (and the relationship answers) give
- * real ones. What is not a placeholder is that the variation belongs to the
- * two people, stays the same for them on every load, and is drawn from
- * nothing else.
+ * - how far ahead they suggest meeting follows the caller's deliberation: a
+ *   planner names a day further off;
+ * - how long they leave it follows how warm the caller is toward the other
+ *   person: a warm friend rings sooner;
+ * - they ring on a day they are not at work.
+ *
+ * PLACEHOLDER, NOT RESEARCH: the day counts and the steps are calibration
+ * until `how-often-people-and-groups-get-in-touch` (and the relationship
+ * answers) give real ones.
  */
 const REACH_OUT_NOTICE_DAYS_MIN = 5;
-const REACH_OUT_NOTICE_DAYS_SPREAD = 10;
-const REACH_OUT_PAIR_SPACING_SPREAD = 0.5;
-/** On any day they could ring, the share of days they actually do. */
-const REACH_OUT_DAILY_SHARE = 0.25;
+/** Days added for each step of deliberation above its lowest pole. */
+const REACH_OUT_NOTICE_DAYS_PER_STEP = 2;
+/** How long they leave it, as a share of the usual spacing, by warmth. */
+const REACH_OUT_SPACING_BY_WARMTH: Readonly<Record<StandingBand, number>> = {
+  strong: 0.75,
+  marked: 0.9,
+  slight: 1.1,
+  none: 1.25,
+};
 
-/** A number in [0, 1) that belongs to this world and key and never changes. */
-function unitFor(world: World, key: string): number {
-  return new SeededRng(world.seed).fork(key).next();
-}
-
-function pairKey(a: EntityId, b: EntityId): string {
-  return [a, b].sort().join(":");
-}
-
-function reachOutNoticeDays(world: World, a: EntityId, b: EntityId): number {
+function reachOutNoticeDays(world: World, callerId: EntityId): number {
+  const deliberation = personTrait(world, callerId, "deliberation").value;
   return (
     REACH_OUT_NOTICE_DAYS_MIN +
-    Math.floor(
-      unitFor(world, `reach-out-notice:${pairKey(a, b)}`) *
-        REACH_OUT_NOTICE_DAYS_SPREAD,
-    )
+    (deliberation + 2) * REACH_OUT_NOTICE_DAYS_PER_STEP
   );
 }
 
 function reachOutPairSpacingDays(
   world: World,
-  a: EntityId,
-  b: EntityId,
+  playerPersonId: EntityId,
+  callerId: EntityId,
 ): number {
-  const spread =
-    1 -
-    REACH_OUT_PAIR_SPACING_SPREAD / 2 +
-    unitFor(world, `reach-out-spacing:${pairKey(a, b)}`) *
-      REACH_OUT_PAIR_SPACING_SPREAD;
-  return Math.round(REACH_OUT_PAIR_SPACING_DAYS * spread);
+  const warmth = readRelationshipStanding(world, callerId, playerPersonId)
+    .readings.warmth;
+  const band = warmth.adverse ? "none" : warmth.band;
+  return Math.round(
+    REACH_OUT_PAIR_SPACING_DAYS * REACH_OUT_SPACING_BY_WARMTH[band],
+  );
+}
+
+/** Whether the caller has a shift at any job today. */
+function workingToday(world: World, callerId: EntityId): boolean {
+  return workSchedulesFor(world, callerId).some((schedule) =>
+    schedule.worksOn(world.currentDate),
+  );
 }
 
 /**
@@ -1113,18 +1149,11 @@ export function produceReachingOut(
   for (const basis of contactBases(world, playerPersonId)) {
     if (basis.gap !== "long-gap" && basis.gap !== "reconnected") continue;
     if (!basis.lastContactOn) continue;
-    // Not the first day it becomes possible for everyone at once: each pair
-    // has its own days (see the placeholder above).
-    if (
-      unitFor(
-        world,
-        `reach-out-day:${pairKey(playerPersonId, basis.personId)}:${world.currentDate}`,
-      ) >= REACH_OUT_DAILY_SHARE
-    )
-      continue;
+    // They ring on a day off, not at work (see the placeholder above).
+    if (workingToday(world, basis.personId)) continue;
     const on = addDays(
       world.currentDate,
-      reachOutNoticeDays(world, playerPersonId, basis.personId),
+      reachOutNoticeDays(world, basis.personId),
     );
     if (openProposal(world, playerPersonId, basis.personId)) continue;
     if (askedRecently(world, playerPersonId, basis.personId)) continue;

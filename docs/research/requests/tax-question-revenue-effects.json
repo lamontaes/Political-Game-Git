@@ -1,0 +1,15 @@
+{
+  "filedAt": "2026-09-29T01:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "public budgets",
+  "priority": "P2",
+  "question": "For a state that (1) adopts a broad personal income tax where it had none, (2) moves from a flat to a graduated income tax, (3) exempts groceries from its general sales tax, or (4) caps annual growth in property-tax levies: the typical change in the affected revenue source as a share of that source, with the range across states and the years it takes to reach full effect. Cite fiscal notes or studies (for example Massachusetts' 2022 surtax, Illinois' 2020 graduated-tax fiscal note, grocery exemptions in Mississippi, Tennessee and Arkansas, and property-tax caps such as California's Proposition 13 and Massachusetts' Proposition 2\u00bd).",
+  "questionId": "tax-question-revenue-effects",
+  "relatedQuestionIds": ["which-local-governments-can-tax-income"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "filed by Build 12 \u00b7 Public Budgets",
+  "sourcesChecked": [],
+  "title": "How much revenue changes when a state adopts an income tax, a graduated tax, a grocery exemption or a property-tax cap",
+  "usableAnswer": "One row per question with the share change of its source, its range and its phase-in, each cited.",
+  "whyItMatters": "A law answering one of these four questions changes no budget yet: each size is null in src/simulation/public-budgets/rules.ts (TAX_QUESTION_EFFECTS), so the revenue source stays where it was until the size is read."
+}

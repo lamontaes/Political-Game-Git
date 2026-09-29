@@ -503,7 +503,7 @@ function resolveStateField(
         ? {
             field,
             state: "ADMITTED",
-            value: { kind: rule.commencement },
+            value: rule.commencement,
             ruleScope: "state-constitution",
             ruleVersion: rule.ruleVersion,
             validFrom: null,
@@ -830,8 +830,12 @@ function enactedField(
     source: {
       citation:
         change.operativeBasis === "game-default"
-          ? `${change.designation}, enacted in this game; in force after the game's default of ${STATUTE_EFFECTIVE_DEFAULT_DAYS} days because this state's effective-date rule is not modeled`
-          : `${change.designation}, enacted in this game`,
+          ? `${change.designation}, enacted in this game; in force after the game's default of ${STATUTE_EFFECTIVE_DEFAULT_DAYS} days because this state's effective-date rule does not date this act`
+          : change.operativeBasis === "state-rule"
+            ? `${change.designation}, enacted in this game; in force on the date this state's law sets for an act that names none`
+            : change.operativeBasis === "estimated-state-rule"
+              ? `${change.designation}, enacted in this game; in force on a date estimated from similar places, because this state's own rule or session length was not read`
+              : `${change.designation}, enacted in this game`,
       url: null,
       artifactId: null,
     },

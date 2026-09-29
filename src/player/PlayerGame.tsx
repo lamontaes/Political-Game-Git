@@ -114,6 +114,7 @@ import { PressSourceDesk } from "./PressSourceDesk";
 import { RecallCardsPanel } from "./RecallCardsPanel";
 import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
 import { JudicialOfficeWork } from "./JudicialOfficeWork";
+import { LegalRecordPanel, SelfRecordTabs } from "./LegalRecord";
 import { judicialOfficeContexts } from "../simulation/judicial-office-work";
 import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
 import { GoverningBriefing } from "./GoverningBriefing";
@@ -185,7 +186,10 @@ import {
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
 import { SceneBackdrop } from "./SceneBackdrop";
-import { backdropForLocation } from "../presentation/place-backdrops";
+import {
+  backdropForLocation,
+  electionNightLocationKey,
+} from "../presentation/place-backdrops";
 import { placeBackdropPeople } from "../presentation/backdrop-people";
 import { projectBackdropSurfaces } from "../presentation/backdrop-surfaces";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
@@ -303,6 +307,7 @@ import {
 } from "./ShellWorkspaces";
 import { GuideWorkspace } from "./GuideWorkspace";
 import { GuideHelpProvider } from "./GuideTerm";
+import { GuideHighlighter } from "./GuideHighlighter";
 import { PlayerVersion } from "./PlayerVersion";
 import { ReturnToTitleAction } from "./ReturnToTitleAction";
 import {
@@ -329,6 +334,11 @@ const PoliticalMap = lazy(() => import("../maps/PoliticalMap"));
  * pins change) instead of a fresh object on every render.
  */
 const mapFocusByPins = new WeakMap<readonly ShellPin[], PoliticalMapFocus>();
+/* The guide marks civic terms anywhere on the page while a life is open. */
+function documentBody(): Element | null {
+  return typeof document === "undefined" ? null : document.body;
+}
+
 function mapFocusForPins(pins: readonly ShellPin[]): PoliticalMapFocus {
   const cached = mapFocusByPins.get(pins);
   if (cached) return cached;
@@ -1519,7 +1529,12 @@ function PlayingScreen({
         : backdropForLocation(
             session.world,
             session.personId,
-            playScene.purpose === "home" ? "home" : playScene.locationKey,
+            // Election night wins over the home screen, never over an
+            // activity in progress.
+            (playScene.purpose !== "activity"
+              ? electionNightLocationKey(session.world, session.personId)
+              : null) ??
+              (playScene.purpose === "home" ? "home" : playScene.locationKey),
           ),
     [
       sceneHasPlate,
@@ -1634,6 +1649,19 @@ function PlayingScreen({
     conversation && conversation.addressee !== "everyone"
       ? conversation.addressee
       : null;
+  // The recorded turns of the open conversation: what faces react to.
+  const conversationTurns = useMemo(
+    () =>
+      conversation
+        ? conversationExchangeTurns(
+            session.world,
+            session.personId,
+            conversation.subject,
+            conversationSpeaker,
+          )
+        : [],
+    [conversation, conversationSpeaker, session.world, session.personId],
+  );
   const scenePeople = useMemo(
     () =>
       planLifeScenePeople(
@@ -1647,7 +1675,7 @@ function PlayingScreen({
           ...(artPreview ? { artPreview } : {}),
         },
         // The person the player is talking with answers; the rest listen.
-        { speakerId: conversationSpeaker },
+        { speakerId: conversationSpeaker, turns: conversationTurns },
       ),
     [
       session.world,
@@ -1657,6 +1685,7 @@ function PlayingScreen({
       renderSnapshots,
       artPreview,
       conversationSpeaker,
+      conversationTurns,
     ],
   );
 
@@ -2063,6 +2092,7 @@ function PlayingScreen({
    * Asked once, and kept: the same answer drives the Talk control AND the
    * sentence beside it, so the two cannot disagree.
    */
+  const talkingInTheRoom = conversation !== null && view.surface === "scene";
   const inspectTalkEntry = selectedDossier
     ? openConversationWith(
         session.world,
@@ -2286,6 +2316,19 @@ function PlayingScreen({
 
   return (
     <TimeCommandProvider runner={timeRunner}>
+      <GuideHelpProvider
+        help={{
+          learnedKeys: shell.preferences.learnedGuideTermKeys,
+          setLearned: (semanticKey, learned) =>
+            dispatch({ type: "set-guide-term-learned", semanticKey, learned }),
+          openGuide: (semanticKey) => {
+            setGuideTermKey(semanticKey);
+            dispatch({ type: "go-to-surface", surface: "guide" });
+          },
+        }}
+      >
+        <GuideHighlighter root={documentBody} />
+      </GuideHelpProvider>
       <SavedAppearanceProvider value={shell.personWardrobes}>
         <SavedRenderSnapshotsProvider value={renderSnapshots}>
           <main
@@ -2615,7 +2658,10 @@ function PlayingScreen({
                     onControlChange(next, base, { kind: "observing" })
                   }
                   onOpenRecord={() =>
-                    dispatch({ type: "go-to-surface", surface: "world-record" })
+                    dispatch({
+                      type: "go-to-surface",
+                      surface: "world-record",
+                    })
                   }
                 />
                 {continuation && !showContinuation ? (
@@ -2730,9 +2776,13 @@ function PlayingScreen({
               ) : null}
               {/*
                 The recap and the morning note are for a life already under
-                way: neither opens over the first orientation tour.
+                way: neither opens over the first orientation tour. Nor do they
+                stand in the room while somebody is being spoken to there: the
+                conversation is the one surface in front of the people, and at
+                720 px tall a note beside it leaves the box no room for its
+                replies. Both come back, undismissed, when the talk ends.
               */}
-              {!showOrientation && dayRhythm.summary ? (
+              {!showOrientation && !talkingInTheRoom && dayRhythm.summary ? (
                 <WorldRecapPanel
                   summary={dayRhythm.summary}
                   onDismiss={(throughSequence, throughMoment) =>
@@ -2751,6 +2801,7 @@ function PlayingScreen({
                 />
               ) : null}
               {!showOrientation &&
+              !talkingInTheRoom &&
               !dayRhythm.summary &&
               dayRhythm.morningThought ? (
                 <MorningThoughtPanel
@@ -3242,6 +3293,27 @@ function renderWorkspace({
         session.personId,
         dossier.personId,
       );
+      const fullDossier = (
+        <FullDossier
+          world={session.world}
+          playerId={session.personId}
+          dossier={dossier}
+          pinned={pinnedRef({ kind: "person", id: dossier.personId })}
+          onTogglePin={() =>
+            togglePin({ kind: "person", id: dossier.personId })
+          }
+          onTalk={() => talkTo(dossier.personId)}
+          {...(readOnly
+            ? {}
+            : { onContact: () => openContact(dossier.personId) })}
+          onMeet={() => dispatch({ type: "go-to-scene" })}
+          talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
+          onOpenLink={openEntity}
+          onOpenPerson={(personId) =>
+            openEntity({ kind: "person", id: personId })
+          }
+        />
+      );
       return frame(
         dossier.name,
         "person-workspace",
@@ -3255,25 +3327,21 @@ function renderWorkspace({
               dispatch({ type: "set-person-wardrobe", preference })
             }
           />
-          <FullDossier
-            world={session.world}
-            playerId={session.personId}
-            dossier={dossier}
-            pinned={pinnedRef({ kind: "person", id: dossier.personId })}
-            onTogglePin={() =>
-              togglePin({ kind: "person", id: dossier.personId })
-            }
-            onTalk={() => talkTo(dossier.personId)}
-            {...(readOnly
-              ? {}
-              : { onContact: () => openContact(dossier.personId) })}
-            onMeet={() => dispatch({ type: "go-to-scene" })}
-            talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
-            onOpenLink={openEntity}
-            onOpenPerson={(personId) =>
-              openEntity({ kind: "person", id: personId })
-            }
-          />
+          {dossier.personId === session.personId ? (
+            <SelfRecordTabs
+              record={fullDossier}
+              legal={
+                <LegalRecordPanel
+                  world={session.world}
+                  personId={session.personId}
+                  readOnly={readOnly}
+                  onWorldChange={onWorldChange}
+                />
+              }
+            />
+          ) : (
+            fullDossier
+          )}
         </>,
         "Record",
       );

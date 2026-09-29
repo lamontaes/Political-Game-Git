@@ -1,0 +1,22 @@
+{
+  "filedAt": "2026-09-29T00:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "local government",
+  "notes": [
+    "Filed by the placeholder-ledger work because the markers named this id and no request file existed."
+  ],
+  "priority": "P2",
+  "question": "For US municipal and county elections, how are terms staggered (share of seats up each cycle), how far before the general election is a primary held where one exists, how many days before the vote does filing close, and when the law names a month but not a day, which day is used? Also: how many candidates run per seat, how often does an incumbent retire, resign or run unopposed, and what share of registered voters vote, by government type and population size?",
+  "questionId": "local-election-behavior",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Build 15 · Real Money Numbers",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/living-world/local-elections.ts",
+      "whatItDidNotSettle": "Marks the default election day, stagger, primary and filing lead times and the draw of who runs, retires and votes as PLACEHOLDERS; the calendar per state is read elsewhere but not these behaviors."
+    }
+  ],
+  "title": "How local elections are actually run: timing, staggering, who runs and turnout",
+  "usableAnswer": "Per government type and population band: the typical stagger pattern, primary lead days, filing deadline lead days, candidates per seat, unopposed share, incumbent retirement rate and turnout share of registered voters, each with a named public source (state election codes, NCSL, Ballotpedia local election data, Census voting supplement, or published local turnout studies) and its year.",
+  "whyItMatters": "Local elections in the game use a first-Tuesday default, even stagger, fixed primary and filing lead times and drawn candidate counts and turnout, none read from any town, so who wins and how many people vote is invented in every town."
+}

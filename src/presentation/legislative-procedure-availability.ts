@@ -1,5 +1,6 @@
 import { measurePosition } from "../simulation/legislation";
 import { chamberByKey } from "../simulation/legislature-rules";
+import { governorOfficeForJurisdiction } from "../simulation/governing/state-governing";
 import {
   votePlanKeyForAmendment,
   votePlanKeyForCommittee,
@@ -17,7 +18,14 @@ export function legislativeProcedureRefusal(
   procedure: LegislativeProcedureContext,
   step: MeasureStepKey,
 ): string | null {
-  if (step === "await-executive-decision" && procedure.governorAction === null)
+  // A seated governor decides the bill on their own desk; only a world with
+  // no governorship falls back to the authored answer, and without one the
+  // step is refused rather than inferred.
+  if (
+    step === "await-executive-decision" &&
+    procedure.governorAction === null &&
+    !governorOfficeForJurisdiction(world, procedure.pack.jurisdictionKey)
+  )
     return "No executive disposition has been supplied for this authored bill. Signature, veto, inaction and an effective date will not be inferred.";
   const position = measurePosition(world, procedure.measureId);
   const chamberKey = position.chamberKey ?? procedure.pack.chamberOrder[0]!;

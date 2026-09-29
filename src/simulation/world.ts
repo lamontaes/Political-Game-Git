@@ -600,6 +600,20 @@ export function advanceWithWorldIntegrityAtEnd(
   return result;
 }
 
+/**
+ * Runs a batch of writes to one World with each writer's check deferred, then
+ * checks the result once against its input. A batch that writes nothing is
+ * returned as it came, unchecked, as a writer that writes nothing would be.
+ */
+export function writeWithWorldIntegrityOnce(
+  previous: World,
+  run: () => World,
+): World {
+  const result = withWorldIntegrityDeferred(run);
+  if (result === previous) return previous;
+  return advanceWithWorldIntegrityAtEnd(() => result, previous);
+}
+
 /*
  * The newest World that passed a check. During play the next World to be
  * checked is almost always its descendant (a Day, a scene answer, a writer's
@@ -718,6 +732,7 @@ function validateWorldIntegrity(
   delta: AppendOnlyHistoryDelta | null = null,
   previous?: World,
 ): void {
+  if (delta) assertAppendedJsonSafe(delta.changed);
   assertJsonSafe(world, "world");
   if (
     world.contentPacks !== undefined &&
@@ -2104,6 +2119,10 @@ function validateHistoryIntegrity(
         ...(history.officeStaffIncumbencies ?? []),
         ...(history.officeVoteInstructions ?? []),
         ...(history.officeBriefingInspections ?? []),
+        ...(history.chamberRuleChanges ?? []),
+        ...(history.sessionAdjournments ?? []),
+        ...(history.itemVetoes ?? []),
+        ...(history.favors ?? []),
         ...history.events,
         ...history.memories,
         ...history.knowledge,
@@ -2187,6 +2206,15 @@ function validateHistoryIntegrity(
     "legislative provision",
   );
   assertSequenceOrdered(
+    history.chamberRuleChanges ?? [],
+    "chamber rule change",
+  );
+  assertSequenceOrdered(
+    history.sessionAdjournments ?? [],
+    "session adjournment",
+  );
+  assertSequenceOrdered(history.itemVetoes ?? [], "item veto");
+  assertSequenceOrdered(
     history.legislativeDraftLineages ?? [],
     "legislative draft lineage",
   );
@@ -2206,6 +2234,7 @@ function validateHistoryIntegrity(
     history.legislativeCommitments ?? [],
     "legislative commitment",
   );
+  assertSequenceOrdered(history.favors ?? [], "favor");
   assertSequenceOrdered(
     history.legislativeNegotiations ?? [],
     "legislative negotiation",
@@ -2348,6 +2377,20 @@ function validateHistoryIntegrity(
       );
     }
   }
+  for (const record of history.favors ?? []) {
+    assertUniqueId(ids, record.id);
+    if (
+      !world.people[record.giverPersonId] ||
+      !world.people[record.receiverPersonId]
+    ) {
+      throw new Error(`Favor names a missing person: ${record.id}`);
+    }
+    if (
+      record.id !== createStableId("favor", `${world.id}:${record.stableKey}`)
+    ) {
+      throw new Error(`Favor ID does not match its stable key: ${record.id}`);
+    }
+  }
   for (const record of history.officeBriefingInspections ?? []) {
     assertUniqueId(ids, record.id);
     if (!world.people[record.personId]) {
@@ -2408,6 +2451,15 @@ function validateHistoryIntegrity(
     "legislative provision",
   );
   assertUniqueStableKeys(
+    history.chamberRuleChanges ?? [],
+    "chamber rule change",
+  );
+  assertUniqueStableKeys(
+    history.sessionAdjournments ?? [],
+    "session adjournment",
+  );
+  assertUniqueStableKeys(history.itemVetoes ?? [], "item veto");
+  assertUniqueStableKeys(
     history.legislativeDraftLineages ?? [],
     "legislative draft lineage",
   );
@@ -2427,6 +2479,7 @@ function validateHistoryIntegrity(
     history.legislativeCommitments ?? [],
     "legislative commitment",
   );
+  assertUniqueStableKeys(history.favors ?? [], "favor");
   assertUniqueStableKeys(
     history.legislativeNegotiations ?? [],
     "legislative negotiation",
@@ -4308,17 +4361,49 @@ function assertJsonSafe(
   }
 
   ancestors.add(value);
+  // An entry already known to be safe is passed over before its path is
+  // spelled out: a history list keeps its old records when it grows, and
+  // naming each of them again on every Day cost more the longer a world ran.
   if (Array.isArray(value)) {
-    value.forEach((entry, index) =>
-      assertJsonSafe(entry, `${path}[${index}]`, ancestors),
-    );
+    value.forEach((entry, index) => {
+      if (!knownJsonSafe(entry, ancestors))
+        assertJsonSafe(entry, `${path}[${index}]`, ancestors);
+    });
   } else {
     for (const [key, entry] of Object.entries(value)) {
-      assertJsonSafe(entry, `${path}.${key}`, ancestors);
+      if (!knownJsonSafe(entry, ancestors))
+        assertJsonSafe(entry, `${path}.${key}`, ancestors);
     }
   }
   ancestors.delete(value);
   JSON_SAFE.add(value);
+}
+
+/**
+ * A history list that only grew from a list already found JSON-safe needs
+ * only its new records checked; its old ones are the same objects. Without
+ * this, every list a Day added to was walked again record by record, a cost
+ * that grew with every year the world ran.
+ */
+function assertAppendedJsonSafe(
+  changed: readonly ChangedHistoryFamily[],
+): void {
+  for (const { key, before, after } of changed) {
+    if (!JSON_SAFE.has(before) || !Array.isArray(after)) continue;
+    for (let index = before.length; index < after.length; index += 1)
+      assertJsonSafe(after[index], `world.history.${key}[${index}]`);
+    JSON_SAFE.add(after);
+  }
+}
+
+/** True when `assertJsonSafe` would accept the value without looking inside. */
+function knownJsonSafe(value: unknown, ancestors: Set<object>): boolean {
+  if (value === null || typeof value === "string" || typeof value === "boolean")
+    return true;
+  if (typeof value === "number") return Number.isFinite(value);
+  return (
+    typeof value === "object" && JSON_SAFE.has(value) && !ancestors.has(value)
+  );
 }
 
 function cloneFact(fact: PersonFact): PersonFact {

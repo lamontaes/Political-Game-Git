@@ -9,11 +9,13 @@
  */
 
 .front-door {
-  --front-door-ink: #f5ebd4;
-  --front-door-ink-dim: #e8d9b4;
-  --front-door-muted: #c8b997;
-  --front-door-brass: #e0c37a;
-  --front-door-focus: #f6c75a;
+  --front-door-ink: var(--run-a-ink, #2b2118);
+  --front-door-ink-dim: #4a3b2b;
+  --front-door-muted: var(--run-a-muted, #5f4e3b);
+  --front-door-brass: var(--run-a-gold, #8a6420);
+  --front-door-accent: var(--run-a-oxblood, #7a2e2a);
+  --front-door-focus: var(--run-a-focus, #7a2e2a);
+  --front-door-paper: rgb(246 239 225 / 96%);
   --front-door-display:
     Palatino, "Palatino Linotype", "Book Antiqua", Georgia, "Times New Roman",
     serif;
@@ -23,23 +25,23 @@
 }
 
 /*
- * The light full-plate wash in player.css was for dark type on a frost card.
- * Ivory type needs the opposite: a faint darkening, heavier on the menu side.
+ * The room is left almost untouched: a faint warm shade toward the menu side
+ * only, so the framed menu sits on the picture rather than in a dark slab.
  */
 .title-tableau--art.front-door .title-tableau-stage::after {
   background: linear-gradient(
     90deg,
-    rgb(8 13 21 / 0.22) 0%,
-    rgb(8 13 21 / 0.06) 34%,
-    rgb(8 13 21 / 0.02) 58%,
-    rgb(8 13 21 / 0.08) 100%
+    rgb(38 26 14 / 0.16) 0%,
+    rgb(38 26 14 / 0.04) 34%,
+    transparent 58%,
+    rgb(38 26 14 / 0.06) 100%
   );
 }
 
 /*
- * No rectangular backing behind the title. The owner rejected the "black box
- * behind the logo"; the wordmark and the menu earn their legibility with a
- * soft text shadow and each control's own faint edge, over the room itself.
+ * The menu and the creator are one framed paper panel with a brass rule
+ * (UI overhaul, September 29, 2026): the "black box behind the logo" stays
+ * gone, and the type is dark ink on paper rather than ivory over the room.
  */
 
 /* The version stamp stays fixed bottom-right, outside the column. */
@@ -64,14 +66,18 @@
   max-height: calc(var(--pg-vv-height, 100dvh) - 2 * clamp(2rem, 6vh, 4rem));
   overflow-y: auto;
   overscroll-behavior: contain;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
+  padding: 1.35rem 1.25rem 1.2rem;
+  box-sizing: border-box;
+  background: var(--pg-paper-texture), var(--front-door-paper);
+  border: 1px solid rgb(90 62 24 / 55%);
+  border-radius: 4px;
   backdrop-filter: none;
-  box-shadow: none;
+  box-shadow:
+    var(--pg-frame),
+    0 1.2rem 2.8rem rgb(46 30 12 / 38%);
   color: var(--front-door-ink);
   font-family: var(--front-door-read);
-  text-shadow: 0 1px 10px rgb(8 13 21 / 0.72);
+  text-shadow: none;
 }
 
 .title-tableau--art.front-door .game-title h1 {
@@ -87,7 +93,10 @@
   font-weight: 600;
   letter-spacing: 0.012em;
   line-height: 1.12;
-  text-shadow: 0 1px 12px rgb(8 13 21 / 0.9);
+  text-shadow: none;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid rgb(176 138 62 / 70%);
+  box-shadow: 0 1px 0 rgb(255 250 238 / 80%);
 }
 
 .title-tableau--art.front-door .game-title-actions {
@@ -100,21 +109,16 @@
   width: 100%;
   min-height: 2.75rem;
   padding: 0.55rem 0.75rem;
-  border: 0;
-  border-radius: 2px;
-  background: linear-gradient(
-    90deg,
-    rgb(8 13 21 / 0.42) 0%,
-    rgb(8 13 21 / 0.1) 78%,
-    transparent 100%
-  );
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
   color: var(--front-door-ink);
   font-family: var(--front-door-read);
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.01em;
   text-transform: none;
-  text-shadow: 0 1px 8px rgb(8 13 21 / 0.85);
+  text-shadow: none;
 }
 
 .title-tableau--art.front-door .game-title-actions button {
@@ -137,14 +141,15 @@
 .title-tableau--art.front-door
   .game-title
   button:is(:hover, :focus-visible):not(:disabled) {
-  color: var(--front-door-brass);
+  color: var(--front-door-accent);
   background: linear-gradient(
     90deg,
-    rgb(16 22 33 / 0.62) 0%,
-    rgb(16 22 33 / 0.12) 80%,
+    rgb(176 138 62 / 0.24) 0%,
+    rgb(176 138 62 / 0.06) 80%,
     transparent 100%
   );
-  box-shadow: inset 2px 0 currentColor;
+  border-color: rgb(176 138 62 / 0.45);
+  box-shadow: inset 3px 0 var(--run-a-brass, #b08a3e);
 }
 
 .title-tableau--art.front-door .game-title button:focus-visible,
@@ -157,26 +162,22 @@
 .title-tableau--art.front-door .game-title button:disabled {
   cursor: not-allowed;
   opacity: 1;
-  color: rgb(245 235 212 / 0.68);
-  background: linear-gradient(
-    90deg,
-    rgb(8 13 21 / 0.28) 0%,
-    rgb(8 13 21 / 0.04) 78%,
-    transparent 100%
-  );
+  color: rgb(95 78 59 / 0.72);
+  background: transparent;
 }
 
 .title-tableau--art.front-door .game-title button:disabled small {
-  color: rgb(200 185 151 / 0.78);
+  color: rgb(95 78 59 / 0.8);
 }
 
 .title-tableau--art.front-door .game-title button.is-chosen {
-  color: var(--front-door-brass);
-  box-shadow: inset 2px 0 currentColor;
+  color: var(--front-door-accent);
+  box-shadow: inset 3px 0 var(--run-a-brass, #b08a3e);
 }
 
 .title-tableau--art.front-door .game-creator button {
-  background: rgb(8 13 21 / 0.78);
+  background: rgb(255 251 242 / 0.7);
+  border: 1px solid rgb(122 90 40 / 0.32);
 }
 
 .title-tableau--art.front-door .game-creator button small {
@@ -187,9 +188,10 @@
 .title-tableau--art.front-door
   .game-creator
   button:is(:hover, :focus-visible):not(:disabled) {
-  color: var(--front-door-brass);
-  background: rgb(16 22 33 / 0.88);
-  box-shadow: inset 2px 0 currentColor;
+  color: var(--front-door-accent);
+  background: rgb(255 251 242 / 0.95);
+  border-color: rgb(176 138 62 / 0.8);
+  box-shadow: inset 3px 0 var(--run-a-brass, #b08a3e);
 }
 
 /*
@@ -202,17 +204,17 @@
   max-height: 100%;
   overflow-y: auto;
   overscroll-behavior: contain;
-  border: 0;
-  border-radius: 3px;
-  background: transparent;
+  border: 1px solid rgb(90 62 24 / 55%);
+  border-radius: 4px;
+  background: var(--pg-paper-texture), var(--front-door-paper);
   backdrop-filter: none;
-  box-shadow: none;
+  box-shadow:
+    var(--pg-frame),
+    0 1.2rem 2.8rem rgb(46 30 12 / 38%);
   padding: 0.9rem 1rem 1rem;
   box-sizing: border-box;
-}
-
-.title-tableau--art.front-door .game-creator button {
-  background: rgb(8 13 21 / 0.5);
+  color: var(--front-door-ink);
+  text-shadow: none;
 }
 
 .title-tableau--art.front-door .game-creator h2 {
@@ -277,9 +279,9 @@
 .title-tableau--art.front-door .game-creator input[type="text"],
 .title-tableau--art.front-door .game-creator input[type="number"],
 .title-tableau--art.front-door .game-creator input[type="search"] {
-  background: rgb(8 13 21 / 0.62);
-  border: 1px solid rgb(245 235 212 / 0.28);
-  border-radius: 0;
+  background: #fffbf2;
+  border: 1px solid rgb(122 90 40 / 0.45);
+  border-radius: 3px;
   color: var(--front-door-ink);
   font-family: var(--front-door-read);
   font-weight: 500;
@@ -287,11 +289,11 @@
 
 .title-tableau--art.front-door .creator-summary {
   color: var(--front-door-ink);
-  border-bottom-color: rgb(245 235 212 / 0.22);
+  border-bottom-color: rgb(122 90 40 / 0.28);
   background: linear-gradient(
     90deg,
-    rgb(8 13 21 / 0.55) 0%,
-    rgb(8 13 21 / 0.08) 80%,
+    rgb(176 138 62 / 0.2) 0%,
+    rgb(176 138 62 / 0.04) 80%,
     transparent 100%
   );
   text-transform: none;
@@ -321,8 +323,8 @@
 }
 
 .title-tableau--art.front-door .game-problem {
-  background: rgb(58 32 8 / 0.62);
-  border-left-color: var(--front-door-focus);
+  background: rgb(122 46 42 / 0.1);
+  border-left-color: var(--front-door-accent);
   color: var(--front-door-ink);
 }
 
@@ -340,8 +342,8 @@
 }
 
 .front-door .pg-version {
-  color: rgb(245 235 212 / 0.78);
-  text-shadow: 0 1px 6px rgb(8 13 21 / 0.9);
+  color: rgb(255 250 238 / 0.9);
+  text-shadow: 0 1px 4px rgb(38 26 14 / 0.8);
   letter-spacing: 0.1em;
   font-family: var(--front-door-read);
 }
@@ -357,7 +359,7 @@
 .title-tableau--art.front-door .game-creator .creator-group {
   margin: 0 0 0.85rem;
   padding: 0 0 0.7rem;
-  border-bottom: 1px solid rgb(245 235 212 / 0.16);
+  border-bottom: 1px solid rgb(122 90 40 / 0.2);
 }
 
 .title-tableau--art.front-door .game-creator .creator-group-label {
@@ -415,8 +417,9 @@
   gap: 0.5rem;
   margin-top: 0.5rem;
   padding: 0.3rem;
-  background: #142033;
-  box-shadow: 0 -10px 18px -10px rgba(0, 0, 0, 0.75);
+  background: #efe3c9;
+  border-top: 1px solid rgb(176 138 62 / 0.6);
+  box-shadow: 0 -10px 18px -12px rgba(46, 30, 12, 0.45);
 }
 
 .title-tableau--art.front-door .game-creator > .creator-navigation button {
@@ -430,7 +433,7 @@
   > .creator-navigation
   .creator-back-action {
   flex: 0 1 auto;
-  border: 1px solid rgb(245 235 212 / 0.32);
+  border: 1px solid rgb(122 90 40 / 0.45);
 }
 
 .title-tableau--art.front-door
@@ -440,29 +443,33 @@
   flex: 1 1 auto;
   justify-content: center;
   align-items: center;
-  border: 1px solid var(--front-door-brass);
-  background: var(--front-door-brass);
-  color: #142033;
+  border: 1px solid #5a1f1c;
+  background: linear-gradient(180deg, #8c3a34, var(--front-door-accent));
+  color: #fbf3e2;
   text-shadow: none;
-  box-shadow: 0 3px 12px rgb(8 13 21 / 45%);
+  box-shadow:
+    inset 0 0 0 1px rgb(217 184 112 / 55%),
+    0 3px 10px rgb(46 30 12 / 35%);
 }
 
 .title-tableau--art.front-door
   .game-creator
   > .creator-navigation
   .creator-primary-action:is(:hover, :focus-visible):not(:disabled) {
-  background: #f1d79a;
-  color: #142033;
-  box-shadow: 0 3px 12px rgb(8 13 21 / 45%);
+  background: linear-gradient(180deg, #9c4740, #84342f);
+  color: #fffaf0;
+  box-shadow:
+    inset 0 0 0 1px rgb(217 184 112 / 85%),
+    0 3px 10px rgb(46 30 12 / 35%);
 }
 
 .title-tableau--art.front-door
   .game-creator
   > .creator-navigation
   .creator-primary-action:disabled {
-  border-color: rgb(245 235 212 / 0.45);
-  background: rgb(200 185 151 / 0.72);
-  color: #142033;
+  border-color: rgb(122 90 40 / 0.35);
+  background: #ddd0b5;
+  color: #5f4e3b;
   box-shadow: none;
 }
 
@@ -510,23 +517,26 @@
   max-height: calc(var(--pg-vv-height, 100dvh) - 2 * clamp(2rem, 6vh, 4rem));
   overflow-y: auto;
   overscroll-behavior: contain;
-  border-radius: 0.75rem;
-  background: rgb(248 249 252 / 0.95);
-  box-shadow: 0 1.4rem 3rem rgb(8 13 21 / 0.35);
+  border: 1px solid rgb(90 62 24 / 55%);
+  border-radius: 4px;
+  background: var(--pg-paper-texture), var(--front-door-paper);
+  box-shadow:
+    var(--pg-frame),
+    0 1.4rem 3rem rgb(46 30 12 / 0.35);
 }
 
 .title-tableau--art.front-door .title-side-panel > main {
   max-width: none;
   margin: 0;
   padding: 1.6rem 1.75rem 1.9rem;
-  color: #16233a;
+  color: var(--run-a-ink, #2b2118);
   text-shadow: none;
 }
 
-/* The front door's ivory notes are written for the dark room, not this card. */
+/* Notes in the side panel read in the same muted ink as the menu. */
 .title-tableau--art.front-door .title-side-panel .game-note,
 .title-tableau--art.front-door .title-side-panel .game-hint {
-  color: #47536a;
+  color: var(--run-a-muted, #5f4e3b);
   text-shadow: none;
 }
 

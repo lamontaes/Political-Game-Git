@@ -1,0 +1,775 @@
+{
+  "id": "pension-funded-ratio",
+  "source": "Public Plans Database, ActAssets_GASB over ActLiabilities_GASB (each plan's latest reported fiscal year)",
+  "url": "https://publicplansdata.org/api/?q=QVariables&variables=fy,ppd_id,PlanName,StateAbbrev,AdministeringGovt,ActLiabilities_GASB,ActAssets_GASB&filterfystart=2019&filterfyend=2024&format=csv&includeheader=1",
+  "readOn": "2026-09-29",
+  "script": "scripts/research/export-pension-funded-ratio.py",
+  "median": 0.7666,
+  "planCount": 250,
+  "byState": {
+    "AK": {
+      "fundedRatio": 0.712,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "AL": {
+      "fundedRatio": 0.6524,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "AR": {
+      "fundedRatio": 0.8341,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "AZ": {
+      "fundedRatio": 0.7239,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "CA": {
+      "fundedRatio": 0.7423,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "CO": {
+      "fundedRatio": 0.6782,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "CT": {
+      "fundedRatio": 0.5954,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "DE": {
+      "fundedRatio": 0.8769,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "FL": {
+      "fundedRatio": 0.8071,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "GA": {
+      "fundedRatio": 0.7771,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "HI": {
+      "fundedRatio": 0.6299,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "IA": {
+      "fundedRatio": 0.9026,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "ID": {
+      "fundedRatio": 0.8536,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "IL": {
+      "fundedRatio": 0.5484,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "IN": {
+      "fundedRatio": 0.8082,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "KS": {
+      "fundedRatio": 0.7401,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "KY": {
+      "fundedRatio": 0.519,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "LA": {
+      "fundedRatio": 0.7802,
+      "plans": 7,
+      "fiscalYear": 2024
+    },
+    "MA": {
+      "fundedRatio": 0.6575,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "MD": {
+      "fundedRatio": 0.7379,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "ME": {
+      "fundedRatio": 0.9424,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "MI": {
+      "fundedRatio": 0.7219,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "MN": {
+      "fundedRatio": 0.8634,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "MO": {
+      "fundedRatio": 0.8175,
+      "plans": 6,
+      "fiscalYear": 2024
+    },
+    "MS": {
+      "fundedRatio": 0.5586,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "MT": {
+      "fundedRatio": 0.7554,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "NC": {
+      "fundedRatio": 0.8824,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "ND": {
+      "fundedRatio": 0.6974,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "NE": {
+      "fundedRatio": 1.0008,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "NH": {
+      "fundedRatio": 0.6863,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "NJ": {
+      "fundedRatio": 0.5509,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "NM": {
+      "fundedRatio": 0.6599,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "NV": {
+      "fundedRatio": 0.7561,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "NY": {
+      "fundedRatio": 0.9629,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "OH": {
+      "fundedRatio": 0.8117,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "OK": {
+      "fundedRatio": 0.8415,
+      "plans": 5,
+      "fiscalYear": 2024
+    },
+    "OR": {
+      "fundedRatio": 0.7238,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "PA": {
+      "fundedRatio": 0.6726,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "RI": {
+      "fundedRatio": 0.6659,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "SC": {
+      "fundedRatio": 0.607,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "SD": {
+      "fundedRatio": 1.0003,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "TN": {
+      "fundedRatio": 0.9718,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "TX": {
+      "fundedRatio": 0.8003,
+      "plans": 5,
+      "fiscalYear": 2024
+    },
+    "UT": {
+      "fundedRatio": 0.9395,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "VA": {
+      "fundedRatio": 0.826,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "VT": {
+      "fundedRatio": 0.6691,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "WA": {
+      "fundedRatio": 0.9982,
+      "plans": 8,
+      "fiscalYear": 2024
+    },
+    "WI": {
+      "fundedRatio": 0.9813,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "WV": {
+      "fundedRatio": 0.9132,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "WY": {
+      "fundedRatio": 0.8066,
+      "plans": 4,
+      "fiscalYear": 2024
+    }
+  },
+  "byLocal": [
+    {
+      "state": "AK",
+      "kind": "city",
+      "name": "Anchorage",
+      "fundedRatio": 0.7366,
+      "plans": 1,
+      "fiscalYear": 2023
+    },
+    {
+      "state": "AL",
+      "kind": "city",
+      "name": "Birmingham",
+      "fundedRatio": 0.6616,
+      "plans": 2,
+      "fiscalYear": 2020
+    },
+    {
+      "state": "AR",
+      "kind": "city",
+      "name": "Little Rock",
+      "fundedRatio": 0.4841,
+      "plans": 1,
+      "fiscalYear": 2019
+    },
+    {
+      "state": "AZ",
+      "kind": "city",
+      "name": "Phoenix",
+      "fundedRatio": 0.7262,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "AZ",
+      "kind": "city",
+      "name": "Tucson",
+      "fundedRatio": 0.7663,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "city",
+      "name": "Los Angeles",
+      "fundedRatio": 0.8954,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "city",
+      "name": "San Diego",
+      "fundedRatio": 0.7473,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "city",
+      "name": "San Francisco",
+      "fundedRatio": 0.9658,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "Alameda County",
+      "fundedRatio": 0.8803,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "Contra Costa County",
+      "fundedRatio": 0.9101,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "Kern County",
+      "fundedRatio": 0.6987,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "LA County",
+      "fundedRatio": 0.8087,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "Orange County",
+      "fundedRatio": 0.8383,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "Sacramento County",
+      "fundedRatio": 0.8532,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "San Bernadino County",
+      "fundedRatio": 0.8726,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "San Diego County",
+      "fundedRatio": 0.775,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CO",
+      "kind": "city",
+      "name": "Denver",
+      "fundedRatio": 0.6178,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CO",
+      "kind": "county",
+      "name": "Arapahoe County",
+      "fundedRatio": 0.6318,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CT",
+      "kind": "city",
+      "name": "Hartford",
+      "fundedRatio": 0.6907,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "DC",
+      "kind": "city",
+      "name": "DC Police & Fire",
+      "fundedRatio": 1.0829,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "DC",
+      "kind": "city",
+      "name": "DC Teachers",
+      "fundedRatio": 0.9343,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "DE",
+      "kind": "county",
+      "name": "New Castle County",
+      "fundedRatio": 0.7323,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "FL",
+      "kind": "city",
+      "name": "Jacksonville",
+      "fundedRatio": 0.4804,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "FL",
+      "kind": "city",
+      "name": "Miami",
+      "fundedRatio": 0.5925,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "GA",
+      "kind": "city",
+      "name": "Atlanta",
+      "fundedRatio": 0.7256,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "IA",
+      "kind": "city",
+      "name": "Des Moines",
+      "fundedRatio": 0.9205,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "IL",
+      "kind": "city",
+      "name": "Chicago",
+      "fundedRatio": 0.2622,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "IL",
+      "kind": "county",
+      "name": "Cook County",
+      "fundedRatio": 0.6593,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "IN",
+      "kind": "county",
+      "name": "Marion County",
+      "fundedRatio": 0.8404,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "KS",
+      "kind": "city",
+      "name": "Wichita",
+      "fundedRatio": 0.8742,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "KY",
+      "kind": "city",
+      "name": "Lexington-Fayette County",
+      "fundedRatio": 0.7128,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "LA",
+      "kind": "city",
+      "name": "Baton Rouge City-Parish",
+      "fundedRatio": 0.6438,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "LA",
+      "kind": "city",
+      "name": "New Orleans",
+      "fundedRatio": 0.4351,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MA",
+      "kind": "city",
+      "name": "Boston",
+      "fundedRatio": 0.7611,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MD",
+      "kind": "city",
+      "name": "Baltimore",
+      "fundedRatio": 0.7515,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MD",
+      "kind": "county",
+      "name": "Montgomery County",
+      "fundedRatio": 0.9626,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MI",
+      "kind": "city",
+      "name": "Detroit",
+      "fundedRatio": 1.0182,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MO",
+      "kind": "city",
+      "name": "Kansas City",
+      "fundedRatio": 0.7339,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MO",
+      "kind": "city",
+      "name": "St. Louis",
+      "fundedRatio": 0.7873,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "NC",
+      "kind": "city",
+      "name": "Charlotte",
+      "fundedRatio": 0.688,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "ND",
+      "kind": "city",
+      "name": "Bismarck",
+      "fundedRatio": 0.7985,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "NE",
+      "kind": "city",
+      "name": "Omaha",
+      "fundedRatio": 0.5854,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "NH",
+      "kind": "city",
+      "name": "Manchester",
+      "fundedRatio": 0.6393,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "NJ",
+      "kind": "city",
+      "name": "Jersey",
+      "fundedRatio": 0.5389,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "NY",
+      "kind": "city",
+      "name": "New York City",
+      "fundedRatio": 0.8118,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "OH",
+      "kind": "city",
+      "name": "Cincinnati",
+      "fundedRatio": 0.6883,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "OK",
+      "kind": "city",
+      "name": "Oklahoma City",
+      "fundedRatio": 0.9831,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "PA",
+      "kind": "city",
+      "name": "Philadelphia",
+      "fundedRatio": 0.6535,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "PA",
+      "kind": "city",
+      "name": "Pittsburgh",
+      "fundedRatio": 2.4167,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "RI",
+      "kind": "city",
+      "name": "Providence",
+      "fundedRatio": 0.2802,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "SC",
+      "kind": "city",
+      "name": "Greenville",
+      "fundedRatio": 0.8808,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "SD",
+      "kind": "city",
+      "name": "Sioux Falls",
+      "fundedRatio": 1.0723,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "TN",
+      "kind": "city",
+      "name": "Nashville-Davidson",
+      "fundedRatio": 0.9274,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "TN",
+      "kind": "county",
+      "name": "Knox County",
+      "fundedRatio": 0.6501,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "TX",
+      "kind": "city",
+      "name": "Austin",
+      "fundedRatio": 0.6316,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "TX",
+      "kind": "city",
+      "name": "Dallas",
+      "fundedRatio": 0.499,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "TX",
+      "kind": "city",
+      "name": "Houston",
+      "fundedRatio": 0.8672,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "VA",
+      "kind": "county",
+      "name": "Arlington County",
+      "fundedRatio": 1.11,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "VA",
+      "kind": "county",
+      "name": "Fairfax County",
+      "fundedRatio": 0.7392,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "VT",
+      "kind": "city",
+      "name": "Burlington",
+      "fundedRatio": 0.6627,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "WA",
+      "kind": "city",
+      "name": "Seattle",
+      "fundedRatio": 0.7601,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "WI",
+      "kind": "city",
+      "name": "Milwaukee",
+      "fundedRatio": 0.7601,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "WI",
+      "kind": "county",
+      "name": "Milwaukee County",
+      "fundedRatio": 0.7036,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "WV",
+      "kind": "city",
+      "name": "Charleston",
+      "fundedRatio": 0.3468,
+      "plans": 2,
+      "fiscalYear": 2024
+    }
+  ]
+}

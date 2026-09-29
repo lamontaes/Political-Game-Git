@@ -54,6 +54,7 @@ export type CampaignRecordKind =
   | "campaign-life-activity"
   | "campaign-life-outcome"
   | "campaign-weekly-plan"
+  | "campaign-routine"
   | "campaign-opponent"
   | "campaign-opponent-step";
 
@@ -668,6 +669,7 @@ export function assertCampaignIntegrity(
   // CRUNCH46 CAMPAIGN families.
   assertCampaignLifeIntegrity(world, ids, campaignById);
   assertCampaignWeeklyPlanIntegrity(world, ids, campaignById, actionById);
+  assertCampaignRoutineIntegrity(world, ids, campaignById);
   assertCampaignOpponentIntegrity(world, ids, campaignById);
 
   // UNRESEARCHED_CAMPAIGN_FILING_RULE.version in campaign-compliance.ts; a
@@ -739,5 +741,50 @@ export function assertCampaignIntegrity(
       }
     }
     complianceById.set(filingRecord.id, filingRecord);
+  }
+}
+
+/**
+ * D-11 routines: each belongs to an earlier campaign, supersedes that
+ * campaign's previous routine, and holds sessions that fit in a day.
+ */
+function assertCampaignRoutineIntegrity(
+  world: World,
+  ids: Set<EntityId>,
+  campaignById: ReadonlyMap<EntityId, CampaignRecord>,
+): void {
+  const routines = world.history.campaignRoutines ?? [];
+  assertCampaignRecordsOrdered(routines, "Campaign routines");
+  const latest = new Map<EntityId, EntityId>();
+  for (const routine of routines) {
+    assertCampaignRecordIdentity(ids, world, routine, "campaign-routine");
+    const campaign = campaignById.get(routine.campaignId);
+    if (
+      !campaign ||
+      campaign.sequence >= routine.sequence ||
+      routine.createdAt < campaign.filedAt ||
+      !world.history.events.some(
+        (event) =>
+          event.id === routine.eventId &&
+          event.type === "campaign.routine-set" &&
+          event.sequence < routine.sequence,
+      ) ||
+      routine.supersedesRoutineId !== (latest.get(campaign.id) ?? null) ||
+      routine.blocks.some(
+        (block) =>
+          !["outreach", "fundraising"].includes(block.work) ||
+          block.weekdays.length === 0 ||
+          block.weekdays.some(
+            (day) => !Number.isSafeInteger(day) || day < 0 || day > 6,
+          ) ||
+          !Number.isSafeInteger(block.startMinute) ||
+          !Number.isSafeInteger(block.minutes) ||
+          block.startMinute < 0 ||
+          block.minutes <= 0 ||
+          block.startMinute + block.minutes > 24 * 60,
+      )
+    )
+      throw new Error(`Campaign routine is invalid: ${routine.id}`);
+    latest.set(campaign.id, routine.id);
   }
 }

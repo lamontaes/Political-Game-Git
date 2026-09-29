@@ -18,15 +18,15 @@
       "preempts": true
     },
     "US-AR": {
-      "answer": "yes",
+      "answer": "no",
       "dateBasis": "not-found",
       "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-      "note": "Automatic restoration upon completion of sentence (prison, parole and probation). Registration requires proof the sentence was discharged, including payment of probation fees, court costs, fines and restitution; counted as part of the sentence here.",
+      "note": "Fines, fees and restitution must be paid before the vote returns, so restoration is not automatic (the same rule as Florida).",
       "preempts": true
     },
     "US-AZ": {
       "answer": "no",
-      "cite": "Ariz. Rev. Stat. \u00a7 13-907",
+      "cite": "Ariz. Rev. Stat. § 13-907",
       "dateBasis": "not-found",
       "source": "https://www.azleg.gov/ars/13/00907.htm",
       "note": "First-time offenders are restored automatically on completion of probation or absolute discharge if victim restitution is paid; people with two or more felonies must obtain a pardon or court restoration.",
@@ -55,7 +55,7 @@
     },
     "US-DC": {
       "answer": "yes",
-      "cite": "D.C. Code \u00a7 1-1001.02(2)",
+      "cite": "D.C. Code § 1-1001.02(2)",
       "dateBasis": "pre-2000",
       "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-1001.02",
       "note": "People never lose the right to vote for a criminal conviction; the former exclusion of people incarcerated for a felony (repealed in 2020) already restored the right on release.",
@@ -63,7 +63,7 @@
     },
     "US-DE": {
       "answer": "no",
-      "cite": "Del. Const. art. V, \u00a7 2; 15 Del. C. \u00a7 6102",
+      "cite": "Del. Const. art. V, § 2; 15 Del. C. § 6102",
       "dateBasis": "not-found",
       "source": "https://delcode.delaware.gov/title15/c061/index.html",
       "note": "Most people are restored automatically on completion of sentence, but disqualifying felonies (for example murder, bribery, sexual offenses) are a permanent bar unless pardoned, and election offenses carry a 10-year bar.",
@@ -71,7 +71,7 @@
     },
     "US-FL": {
       "answer": "no",
-      "cite": "Fla. Stat. \u00a7 98.0751; Fla. Const. art. VI, \u00a7 4",
+      "cite": "Fla. Stat. § 98.0751; Fla. Const. art. VI, § 4",
       "dateBasis": "pre-2000",
       "source": "https://www.flsenate.gov/Laws/Statutes/2025/98.0751",
       "note": "Amendment 4 as implemented by SB 7066 restores rights automatically only after completion of all terms of sentence, defined to include full payment of restitution and court-ordered fines and fees; murder and felony sexual offenses require clemency. The answer was also no before SB 7066 took effect on July 1, 2019.",
@@ -93,7 +93,7 @@
     },
     "US-IA": {
       "answer": "no",
-      "cite": "Iowa Const. art. II, \u00a7 5",
+      "cite": "Iowa Const. art. II, § 5",
       "dateBasis": "not-found",
       "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
       "note": "The constitution disenfranchises permanently; Governor Reynolds's executive order of August 5, 2020 automatically restores most people on completion of sentence, but certain homicide offenses need individual gubernatorial restoration, and the order is executive, not statutory.",
@@ -129,7 +129,7 @@
     },
     "US-KY": {
       "answer": "no",
-      "cite": "Ky. Const. \u00a7 145",
+      "cite": "Ky. Const. § 145",
       "dateBasis": "not-found",
       "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
       "note": "The constitution disenfranchises permanently; Governor Beshear's executive order of December 12, 2019 automatically restores most people who complete their sentence, but treason, election bribery and certain violent offenses require individual restoration.",
@@ -179,7 +179,7 @@
     },
     "US-MO": {
       "answer": "yes",
-      "cite": "Mo. Rev. Stat. \u00a7 115.133",
+      "cite": "Mo. Rev. Stat. § 115.133",
       "dateBasis": "not-found",
       "source": "https://revisor.mo.gov/main/OneSection.aspx?section=115.133",
       "note": "On 2026-01-01 rights returned automatically on completion of sentence; HB 1871 (effective August 28, 2026) restores most on release from prison; a felony or misdemeanor connected with the right of suffrage remains a permanent bar, treated here as a narrow election-crime exception.",
@@ -187,7 +187,7 @@
     },
     "US-MS": {
       "answer": "no",
-      "cite": "Miss. Const. art. 12, \u00a7 241",
+      "cite": "Miss. Const. art. 12, § 241",
       "dateBasis": "not-found",
       "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
       "note": "Specified disqualifying offenses are a permanent bar unless the governor pardons or both houses of the legislature restore the right by a two-thirds vote.",
@@ -216,7 +216,7 @@
     },
     "US-NE": {
       "answer": "yes",
-      "cite": "Neb. Rev. Stat. \u00a7 29-112",
+      "cite": "Neb. Rev. Stat. § 29-112",
       "dateBasis": "not-found",
       "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=29-112",
       "note": "Disqualification is automatically removed on completion of the sentence including parole; Laws 2024, LB 20 repealed the former two-year waiting period (effective July 19, 2024, per the task brief; the exact date was not on a fetched page).",
@@ -329,7 +329,7 @@
     },
     "US-VA": {
       "answer": "no",
-      "cite": "Va. Const. art. II, \u00a7 1",
+      "cite": "Va. Const. art. II, § 1",
       "dateBasis": "not-found",
       "source": "https://law.lis.virginia.gov/constitution/article2/section1/",
       "note": "On 2026-01-01 the constitution required restoration by the governor case by case; under Department of Elections guidance of September 15, 2026 most people are restored automatically on release from prison, while murder and manslaughter still require an application.",
@@ -365,7 +365,7 @@
     },
     "US-WY": {
       "answer": "no",
-      "cite": "Wyo. Stat. \u00a7 7-13-105",
+      "cite": "Wyo. Stat. § 7-13-105",
       "dateBasis": "not-found",
       "source": "https://wyoleg.gov/statutes/compress/title07.pdf",
       "note": "Automatic restoration applies only to first-time nonviolent felonies in a Wyoming court completed on or after January 1, 2010; others must apply, and violent or multiple felonies are a permanent bar unless pardoned.",

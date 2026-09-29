@@ -24,11 +24,12 @@ import {
 } from "./resources";
 import { resourceFlowTermsAt } from "./resource-queries";
 import { recordWorldEvent } from "./world";
-import { SeededRng } from "./rng";
 import {
   JOB_MARKET_PLACEHOLDER,
   JOB_TIMING,
+  holdsWork,
   leaveFirstJobFor,
+  someoneKnownWorksAt,
   spoken,
 } from "./job-market";
 import { employerName, lifePathDefinition } from "./life-paths2-catalog";
@@ -490,13 +491,30 @@ function expectedStartOf(w: World, id: EntityId, startedAt: IsoDate): IsoDate {
   );
 }
 
-/** The date an older offer was answered by, drawn once from its own id. */
-function replyByOf(w: World, id: EntityId, offeredOn: IsoDate): IsoDate {
-  const rng = new SeededRng(`${w.seed}:career-reply:${id}`);
-  const { minimum, maximum } = JOB_TIMING.offerReplyDays;
-  return addDays(
-    offeredOn,
-    minimum + Math.floor(rng.next() * (maximum - minimum + 1)),
+/**
+ * The date an older offer must be answered by. These jobs pay by the shift,
+ * and the job market gives work that is not salaried the short end of the
+ * reply window.
+ */
+function replyByOf(offeredOn: IsoDate): IsoDate {
+  return addDays(offeredOn, JOB_TIMING.offerReplyDays.minimum);
+}
+
+/**
+ * Whether anyone else is waiting to start at this employer: somebody it could
+ * call instead of the person who did not come in.
+ */
+function othersWaitingAt(
+  w: World,
+  personId: EntityId,
+  organizationId: EntityId | null,
+): boolean {
+  if (!organizationId) return false;
+  return w.history.workRelationships.some(
+    (other) =>
+      other.organizationId === organizationId &&
+      other.personId !== personId &&
+      workStatusAt(w, other.id)?.status === "expected",
   );
 }
 
@@ -547,7 +565,7 @@ export function settleCareerOffers(w: World, personId: EntityId): World {
       "The employer";
     const title = workRoleAt(n, r.id)?.title ?? "the job";
     if (!careerOfferAccepted(n, r.id)) {
-      const replyBy = replyByOf(n, r.id, addDays(r.startedAt, -1));
+      const replyBy = replyByOf(addDays(r.startedAt, -1));
       if (n.currentDate > replyBy)
         n = endOffer(
           n,
@@ -566,12 +584,20 @@ export function settleCareerOffers(w: World, personId: EntityId): World {
         e.type === "career-path7.followed-up" &&
         e.involvedEntityIds.includes(r.id),
     );
-    const rng = new SeededRng(`${n.seed}:career-missed-start:${r.id}`);
-    if (!calledAlready && rng.next() < JOB_MARKET_PLACEHOLDER.followUpChance) {
+    // The same rule as the job market's employers: they call once when
+    // somebody who works there can vouch for the person, or when nobody else
+    // is waiting to start whom they could call instead.
+    const callsBack =
+      !calledAlready &&
+      ((r.organizationId !== null &&
+        someoneKnownWorksAt(n, personId, r.organizationId)) ||
+        !othersWaitingAt(n, personId, r.organizationId));
+    if (callsBack) {
       const { minimum, maximum } = JOB_MARKET_PLACEHOLDER.followUpStartDays;
+      // The long end when the person has a job to leave first.
       const startAt = addDays(
         n.currentDate,
-        minimum + Math.floor(rng.next() * (maximum - minimum + 1)),
+        holdsWork(n, personId) ? maximum : minimum,
       );
       const summary = `${employer} called when you did not come in to start as ${title.toLowerCase()}. They still want you, starting ${spoken(startAt)}.`;
       n = recordWorldEvent(n, {
@@ -627,7 +653,7 @@ export function careerReplyBy(w: World, id: EntityId): IsoDate | null {
     )
   )
     return null;
-  return replyByOf(w, id, addDays(r.startedAt, -1));
+  return replyByOf(addDays(r.startedAt, -1));
 }
 
 /** The start date an accepted older offer is waiting on now. */

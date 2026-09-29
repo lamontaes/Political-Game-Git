@@ -2,6 +2,10 @@ import {
   PLACE_OUTCOMES_TRANSITION_KEY,
   placeOutcomesHandler,
 } from "../outcome-web/place-outcomes";
+import {
+  PUBLIC_BUDGETS_TRANSITION_KEY,
+  publicBudgetsHandler,
+} from "../public-budgets";
 import { createFutureTransitionHandlerRegistry } from "../future-transitions";
 import {
   HEALTH_REVIEW_KEY,
@@ -36,6 +40,11 @@ import {
   crimeSampleHandler,
 } from "../crime/producer";
 import { FATAL_ILLNESS_ONSET_KEY } from "./death-causes";
+import { EPIDEMIC_PASS_KEY, epidemicPassHandler } from "./epidemic";
+import {
+  OFFICIAL_FUNERAL_KEY,
+  officialFuneralHandler,
+} from "./official-funeral";
 import { fatalIllnessOnsetHandler } from "./fatal-illness";
 import {
   MORTALITY_DEATH_KEY,
@@ -60,6 +69,8 @@ export * from "./disaster";
 export * from "./disaster-warrants";
 export * from "./hazard-producer";
 export * from "./international";
+export * from "./epidemic";
+export * from "./official-funeral";
 
 /** Every CRISIS due-item handler, for composition into the production registry. */
 export function createCrisisTransitionRegistry() {
@@ -69,6 +80,10 @@ export function createCrisisTransitionRegistry() {
     [FATAL_ILLNESS_ONSET_KEY, fatalIllnessOnsetHandler],
     [HEALTH_REVIEW_KEY, healthReviewHandler],
     [NPC_DISCLOSURE_KEY, npcHealthDisclosureHandler],
+    // Illness spreading between named people, and officials' closures.
+    [EPIDEMIC_PASS_KEY, epidemicPassHandler],
+    // A death in office is followed by the official's funeral.
+    [OFFICIAL_FUNERAL_KEY, officialFuneralHandler],
     [HAZARD_SAMPLE_TRANSITION_KEY, hazardSampleHandler],
     [HAZARD_EPISODE_TRANSITION_KEY, hazardEpisodeHandler],
     // Ordinary local crime shares the crisis namespace so every clock path
@@ -76,6 +91,8 @@ export function createCrisisTransitionRegistry() {
     [CRIME_SAMPLE_TRANSITION_KEY, crimeSampleHandler],
     // Place outcomes (the outcome web) settle on every clock path too.
     [PLACE_OUTCOMES_TRANSITION_KEY, placeOutcomesHandler],
+    // Every government's budget settles its month on every clock path too.
+    [PUBLIC_BUDGETS_TRANSITION_KEY, publicBudgetsHandler],
     [DISASTER_STATE_REVIEW_KEY, disasterStateReviewHandler],
     [DISASTER_FEDERAL_REVIEW_KEY, disasterFederalReviewHandler],
     [DISASTER_REPAIR_CYCLE_KEY, disasterRepairCycleHandler],

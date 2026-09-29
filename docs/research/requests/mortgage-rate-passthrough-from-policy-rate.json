@@ -1,0 +1,22 @@
+{
+  "filedAt": "2026-09-29T11:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "housing",
+  "notes": [
+    "Filed after Build 10's housing market began using the policy-rate midpoint change as a labeled stand-in for the 30-year mortgage rate. The home price model's rate coefficient (-0.0046 per percentage point) was measured on the 30-year mortgage rate, not on the policy rate."
+  ],
+  "priority": "P3",
+  "question": "When the Federal Reserve's policy-rate target changes by one percentage point, how much does the 30-year fixed mortgage rate change over the following twelve months, and how does that pass-through differ by period (for example 1990 to 2007, 2008 to 2015, 2016 to 2024)? The published series are the Federal Reserve's federal funds target and Freddie Mac's Primary Mortgage Market Survey.",
+  "questionId": "mortgage-rate-passthrough-from-policy-rate",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Build 15 · Real Money Numbers",
+  "sourcesChecked": [
+    {
+      "source": "Freddie Mac Primary Mortgage Market Survey; Federal Reserve federal funds target range history",
+      "whatItDidNotSettle": "The series could not be downloaded from the build container, so no pass-through has been measured and the game passes the policy-rate change unscaled."
+    }
+  ],
+  "title": "How much of a policy-rate change reaches the 30-year mortgage rate",
+  "usableAnswer": "A twelve-month pass-through coefficient (with its standard error) for each period, with the two series, the dates and the file or page each was read from.",
+  "whyItMatters": "Home prices in the game move with the change in the 30-year mortgage rate. Where the game only carries a policy rate, the stand-in is passed unscaled and is labeled a stand-in; a measured pass-through would replace it."
+}
