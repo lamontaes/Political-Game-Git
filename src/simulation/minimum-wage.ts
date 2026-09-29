@@ -333,6 +333,7 @@ function computeStateMinimumSetting(
       beforeMinor: beforeMinor ?? filed.value,
       measureId: filed.measureId,
       designation: filed.designation,
+      effectiveAt: filed.effectiveAt,
     };
   const proposition = Object.values(
     world.policyCatalog?.propositions ?? {},
@@ -358,6 +359,7 @@ function computeStateMinimumSetting(
         beforeMinor,
         measureId: law.measureId,
         designation: measure?.designation ?? "A state law",
+        effectiveAt: law.operativeAt,
       };
     }
   }
@@ -368,6 +370,7 @@ function computeStateMinimumSetting(
         beforeMinor,
         measureId: null,
         designation: null,
+        effectiveAt: null,
       };
 }
 
