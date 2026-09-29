@@ -1,7 +1,6 @@
 import bases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
 import acsTowns from "../../../data/research/money/place-towns-acs-2024.json" with { type: "json" };
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import {
   allGovernmentUnits,
   countyGeoidsForPlace,
@@ -154,40 +153,6 @@ const MEDIAN_RAINY_DAY_SHARE = (() => {
     ? shares[middle]!
     : (shares[middle - 1]! + shares[middle]!) / 2;
 })();
-
-/**
- * A state that began with no tax on wages and adopts one collects, from the
- * tax year the law governs, the median individual income tax per resident of
- * the states that do tax wages (their 2022 Census state collections), times
- * its own population and the calibration factor. ESTIMATED FROM AVERAGE: a
- * bill does not carry its own rates yet, and paychecks withhold at the
- * average rates the same way (`state-income-tax-law.ts`).
- */
-export const MEDIAN_INCOME_TAX_PER_RESIDENT = (() => {
-  const answers = (
-    startingLaw.questions as Record<
-      string,
-      { answers: Record<string, { answer: string }> }
-    >
-  )["us-policy-positions:fiscal.adopt-income-tax"]!.answers;
-  const perResident = Object.entries(PLACES)
-    .filter(
-      ([key, place]) =>
-        answers[key]?.answer === "yes" &&
-        (place.state?.revenue.individualIncomeTax ?? 0) > 0,
-    )
-    .map(([, place]) => place.state!.revenue.individualIncomeTax!)
-    .sort((a, b) => a - b);
-  const middle = Math.floor(perResident.length / 2);
-  return perResident.length % 2
-    ? perResident[middle]!
-    : (perResident[middle - 1]! + perResident[middle]!) / 2;
-})();
-
-/** A year's income tax for a state that adopts one, at its population. */
-export function adoptedIncomeTaxLevel(population: number): number {
-  return MEDIAN_INCOME_TAX_PER_RESIDENT * population * BUDGET_CALIBRATION;
-}
 
 /**
  * An island area NASBO does not survey (American Samoa, the Northern Mariana
@@ -774,14 +739,6 @@ function stateOpening(
       };
     }
   }
-  if (
-    column &&
-    !STATE_IS_LOCAL.has(candidate.key) &&
-    revenue[BUDGET_SOURCES.indexOf("individualIncomeTax")] === 0
-  )
-    notes.push(
-      `Income tax if one is adopted: ESTIMATED FROM AVERAGE, $${Math.round(MEDIAN_INCOME_TAX_PER_RESIDENT)} per resident a year before calibration, the median of the states that tax wages (Census Bureau 2022 state finances).`,
-    );
   const balance = general.endingBalance;
   const rainy = general.rainyDayFundBalance;
   const totalSpending = sum(spending);
