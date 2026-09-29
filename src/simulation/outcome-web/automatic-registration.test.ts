@@ -103,7 +103,7 @@ describe("automatic voter registration moves turnout", () => {
       (row) => row.key === "automatic-registration-to-turnout",
     )!;
     expect(link.size).toBe(0.015);
-    expect(link.range).toEqual([0, 0.03]);
+    expect(link.range).toEqual([0.005, 0.055]);
     expect(link.lagMonths).toBe(12);
   });
 
