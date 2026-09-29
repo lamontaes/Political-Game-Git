@@ -283,6 +283,9 @@ test("state voting card shows dated survey counts and readable group tables with
       reviewCandidates: false,
     });
   });
+  // The opening begins with the year (Sept. 28), then the White House.
+  await expect(page.getByTestId("orientation-step-year")).toBeVisible();
+  await page.getByTestId("orientation-next").click();
   await page.getByTestId("orientation-next").click();
   await expect(page.getByTestId("opening-state-population")).toBeVisible();
   await expect(
