@@ -34,6 +34,9 @@ export const SCENE_FAMILIES = [
   "study-peer",
   // The second education question: having agreed to work together, how.
   "study-plan",
+  // Build 22: somebody at a campaign town hall asks where the candidate
+  // stands on a bill still in play.
+  "town-hall",
 ] as const;
 export type SceneFamily = (typeof SCENE_FAMILIES)[number];
 
