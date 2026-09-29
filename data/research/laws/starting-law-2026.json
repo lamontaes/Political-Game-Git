@@ -16503,6 +16503,193 @@
           "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
         }
       }
+    },
+    "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
+      "source": "https://www.mapresearch.org/equality-maps/non_discrimination_laws",
+      "note": "Yes where state or territorial law expressly bars discrimination for both sexual orientation and gender identity in both employment and housing; no where it leaves one out. Federal law already bars it in employment (Bostock v. Clayton County, 2020), so the question is what state law adds. Read from the Movement Advancement Project's map, data as of 9/28/2026; interpretations of 'sex' by a commission are not counted as law. Where the state is no, its cities may pass their own ordinance unless the state preempts them.",
+      "answers": {
+        "US-AK": {
+          "answer": "no"
+        },
+        "US-AL": {
+          "answer": "no"
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ark. Code Ann. §§ 14-1-401 to -403 (Act 137 of 2015)",
+          "source": "https://law.justia.com/cases/arkansas/supreme-court/2017/cv-16-586.html",
+          "note": "The Intrastate Commerce Improvement Act bars a county or city from protecting a class state law does not, except for its own employees; the Arkansas Supreme Court applied it to void Fayetteville's ordinance in 2017."
+        },
+        "US-AS": {
+          "answer": "no"
+        },
+        "US-AZ": {
+          "answer": "no"
+        },
+        "US-CA": {
+          "answer": "yes"
+        },
+        "US-CO": {
+          "answer": "yes"
+        },
+        "US-CT": {
+          "answer": "yes"
+        },
+        "US-DC": {
+          "answer": "yes"
+        },
+        "US-DE": {
+          "answer": "yes"
+        },
+        "US-FL": {
+          "answer": "no"
+        },
+        "US-GA": {
+          "answer": "no"
+        },
+        "US-GU": {
+          "answer": "yes"
+        },
+        "US-HI": {
+          "answer": "yes"
+        },
+        "US-IA": {
+          "answer": "no",
+          "note": "Sexual orientation only: Iowa's 2025 SF 418 took gender identity out of the Iowa Civil Rights Act from 7/1/2025."
+        },
+        "US-ID": {
+          "answer": "no"
+        },
+        "US-IL": {
+          "answer": "yes"
+        },
+        "US-IN": {
+          "answer": "no"
+        },
+        "US-KS": {
+          "answer": "no"
+        },
+        "US-KY": {
+          "answer": "no"
+        },
+        "US-LA": {
+          "answer": "no"
+        },
+        "US-MA": {
+          "answer": "yes"
+        },
+        "US-MD": {
+          "answer": "yes"
+        },
+        "US-ME": {
+          "answer": "yes"
+        },
+        "US-MI": {
+          "answer": "yes",
+          "note": "SB 4 (2023) wrote sexual orientation and gender identity into the Elliott-Larsen Civil Rights Act."
+        },
+        "US-MN": {
+          "answer": "yes"
+        },
+        "US-MO": {
+          "answer": "no"
+        },
+        "US-MP": {
+          "answer": "no"
+        },
+        "US-MS": {
+          "answer": "no"
+        },
+        "US-MT": {
+          "answer": "no"
+        },
+        "US-NC": {
+          "answer": "no"
+        },
+        "US-ND": {
+          "answer": "no"
+        },
+        "US-NE": {
+          "answer": "no"
+        },
+        "US-NH": {
+          "answer": "yes"
+        },
+        "US-NJ": {
+          "answer": "yes"
+        },
+        "US-NM": {
+          "answer": "yes"
+        },
+        "US-NV": {
+          "answer": "yes"
+        },
+        "US-NY": {
+          "answer": "yes"
+        },
+        "US-OH": {
+          "answer": "no"
+        },
+        "US-OK": {
+          "answer": "no"
+        },
+        "US-OR": {
+          "answer": "yes"
+        },
+        "US-PA": {
+          "answer": "no"
+        },
+        "US-PR": {
+          "answer": "yes"
+        },
+        "US-RI": {
+          "answer": "yes"
+        },
+        "US-SC": {
+          "answer": "no"
+        },
+        "US-SD": {
+          "answer": "no"
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Tenn. Code Ann. § 7-51-1802 (2011 Pub. Ch. 278)",
+          "source": "https://law.justia.com/codes/tennessee/2012/title-7/local/chapter-51/part-18/section-7-51-1802",
+          "note": "The Equal Access to Intrastate Commerce Act bars a local government from adding any ground of discrimination beyond state law, except for its own employees."
+        },
+        "US-TX": {
+          "answer": "no"
+        },
+        "US-UT": {
+          "answer": "yes",
+          "note": "SB 296 (2015) added sexual orientation and gender identity for employment and housing, with religious exemptions."
+        },
+        "US-VA": {
+          "answer": "yes",
+          "note": "The Virginia Values Act (2020) added sexual orientation and gender identity to the Virginia Human Rights Act."
+        },
+        "US-VI": {
+          "answer": "yes"
+        },
+        "US-VT": {
+          "answer": "yes"
+        },
+        "US-WA": {
+          "answer": "yes"
+        },
+        "US-WI": {
+          "answer": "no",
+          "note": "Sexual orientation only, in employment and housing; gender identity is not listed."
+        },
+        "US-WV": {
+          "answer": "no"
+        },
+        "US-WY": {
+          "answer": "no"
+        }
+      }
     }
   }
 }

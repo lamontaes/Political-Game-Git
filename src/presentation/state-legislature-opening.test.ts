@@ -90,7 +90,9 @@ describe.each(SEATED)("a life opened in %s, %s", (name, state) => {
         expect(chamber.size).toBe(office.seats.value);
       } else {
         // A size the profile drew gives way to the state's own districts.
-        expect(chamber.basis).toBe("one-member-per-district");
+        expect(["one-member-per-district", "members-per-district"]).toContain(
+          chamber.basis,
+        );
         expect(
           chamber.districts.every(
             (district) => district !== null && district.stateUsps === usps,

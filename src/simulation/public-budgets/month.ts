@@ -1,3 +1,4 @@
+import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
 import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
@@ -10,14 +11,23 @@ import {
   nominalEconomyIndex,
   propositionIdFor,
 } from "./fiscal";
+import { ADOPT_STATE_INCOME_TAX_QUESTION } from "../state-income-tax-law";
+import {
+  CANNABIS_FIRST_SALE_LAG_MONTHS,
+  CANNABIS_SALES_QUESTION,
+  CANNABIS_TAX_PER_RESIDENT,
+} from "./cannabis-sales-tax";
+import { adoptedIncomeTaxPerYear } from "./income-tax-adoption";
 import { actuarialContribution } from "./opening";
 import { pensionFlows, pensionPayment } from "./pension-share";
 import { reserveRule } from "./reserve-rule";
+import { tuitionFreezeFactor } from "./tuition-freeze";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import {
   ECONOMY_ELASTICITY,
   FIRST_CUT_SHARE,
   PENSION,
+  SPENDING_QUESTION_EFFECTS,
   TAX_QUESTION_EFFECTS,
 } from "./rules";
 import {
@@ -66,6 +76,7 @@ const PENSION_PROGRAM = BUDGET_PROGRAMS.indexOf("pensionContribution");
 const STATE_AID = BUDGET_SOURCES.indexOf("intergovernmental");
 const LOCAL_AID = BUDGET_PROGRAMS.indexOf("localAid");
 const SALES_TAX = BUDGET_SOURCES.indexOf("generalSalesTax");
+const SELECTIVE_TAX = BUDGET_SOURCES.indexOf("selectiveSalesTaxes");
 
 /**
  * A city's taxable sales today, when its town keeps business books
@@ -276,6 +287,7 @@ function monthsInto(year: AdoptedBudget, month: IsoDate): number {
  * own taxes these state questions do not set. Income tax is read on January 1
  * of the date's year, the law paychecks withhold under for that tax year
  * (`stateIncomeTaxUnderLaw`), so the budget collects what paychecks withhold.
+ * A tuition freeze moves charges and fees (`tuition-freeze.ts`).
  */
 export function taxLawFactor(
   world: World,
@@ -288,7 +300,14 @@ export function taxLawFactor(
     source === "individualIncomeTax"
       ? (`${date.slice(0, 4)}-01-01` as IsoDate)
       : date;
-  let factor = 1;
+  let factor =
+    source === "individualIncomeTax"
+      ? adoptedIncomeTaxFactor(world, government, onDate)
+      : source === "selectiveSalesTaxes"
+        ? cannabisSalesFactor(world, government, onDate)
+        : source === "chargesAndFees"
+          ? tuitionFreezeFactor(world, government, onDate)
+          : 1;
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.source !== source) continue;
     if (effect.toYes === null && effect.toNo === null) continue;
@@ -313,10 +332,137 @@ export function taxLawFactor(
 }
 
 /**
+ * What a state's laws cost it to carry out in one month, by program, against
+ * the laws it began with (`SPENDING_QUESTION_EFFECTS`): nothing where no law
+ * changed, where the cost is not researched, or for a county or city, which
+ * these state questions do not bind. A law counts from the day it takes
+ * effect, at the government's own population.
+ */
+export function lawSpendingForMonth(
+  world: World,
+  government: PublicBudgetGovernment,
+  date: IsoDate,
+): readonly number[] {
+  const spending = BUDGET_PROGRAMS.map(() => 0);
+  if (government.level !== "state") return spending;
+  for (const effect of SPENDING_QUESTION_EFFECTS) {
+    const propositionId = propositionIdFor(world, effect.questionKey);
+    if (!propositionId) continue;
+    const now = lawInForce(
+      world,
+      government.lawJurisdictionId,
+      propositionId,
+      date,
+    )?.answer;
+    const began = lawInForceAtStart(
+      world,
+      government.lawJurisdictionId,
+      propositionId,
+      date,
+    );
+    const perResident =
+      began === "no" && now === "yes"
+        ? effect.toYes
+        : began === "yes" && now === "no"
+          ? effect.toNo
+          : null;
+    if (perResident === null) continue;
+    spending[BUDGET_PROGRAMS.indexOf(effect.program)]! +=
+      (perResident * government.population) / 12;
+  }
+  return spending;
+}
+
+/**
+ * How a law adopting a wage income tax moves the income tax of a state that
+ * began with none (`income-tax-adoption.ts`): 1 for any other state. A state
+ * whose income tax collected nothing at the opening reads 0 until a law
+ * adopts one and 1 after, against the adopted tax's level
+ * (`openingMonthLevel`); a state that collected some, such as a tax on
+ * interest and dividends, collects the adopted tax on top of it.
+ */
+function adoptedIncomeTaxFactor(
+  world: World,
+  government: PublicBudgetGovernment,
+  taxYearStart: IsoDate,
+): number {
+  const adopted = adoptedIncomeTaxPerYear(
+    government.stateKey,
+    government.population,
+  );
+  if (adopted === null) return 1;
+  const opening = government.years[0]!.expectedRevenue[INCOME_TAX] ?? 0;
+  const propositionId = propositionIdFor(
+    world,
+    ADOPT_STATE_INCOME_TAX_QUESTION,
+  );
+  const now = propositionId
+    ? lawInForce(
+        world,
+        government.lawJurisdictionId,
+        propositionId,
+        taxYearStart,
+      )?.answer
+    : undefined;
+  const began = propositionId
+    ? lawInForceAtStart(
+        world,
+        government.lawJurisdictionId,
+        propositionId,
+        taxYearStart,
+      )
+    : undefined;
+  const inForce = now === "yes" && began !== "yes";
+  if (opening <= 0) return inForce ? 1 : 0;
+  return inForce ? (opening + adopted) / opening : 1;
+}
+
+/**
+ * How a law on legal cannabis sales moves a state's selective sales taxes
+ * against the law it began with (`cannabis-sales-tax.ts`): a law making sales
+ * legal adds the cannabis tax a resident pays from the first store opening,
+ * and a law ending them takes it away the day it takes effect. 1 for any
+ * other state or date.
+ */
+function cannabisSalesFactor(
+  world: World,
+  government: PublicBudgetGovernment,
+  date: IsoDate,
+): number {
+  const propositionId = propositionIdFor(world, CANNABIS_SALES_QUESTION);
+  const opening = government.years[0]!.expectedRevenue[SELECTIVE_TAX] ?? 0;
+  if (!propositionId || opening <= 0) return 1;
+  const law = (on: IsoDate) =>
+    lawInForce(world, government.lawJurisdictionId, propositionId, on)?.answer;
+  const began = lawInForceAtStart(
+    world,
+    government.lawJurisdictionId,
+    propositionId,
+    date,
+  );
+  const cannabis = CANNABIS_TAX_PER_RESIDENT * government.population;
+  if (began !== "yes" && law(date) === "yes") {
+    const total =
+      Number(date.slice(0, 4)) * 12 +
+      Number(date.slice(5, 7)) -
+      1 -
+      CANNABIS_FIRST_SALE_LAG_MONTHS;
+    const storesOpenedBy = makeIsoDate(
+      `${Math.floor(total / 12)}-${String((total % 12) + 1).padStart(2, "0")}-${date.slice(8, 10) > "28" ? "28" : date.slice(8, 10)}`,
+    );
+    return law(storesOpenedBy) === "yes" ? (opening + cannabis) / opening : 1;
+  }
+  if (began === "yes" && law(date) === "no")
+    return Math.max(0, (opening - cannabis) / opening);
+  return 1;
+}
+
+/**
  * One month of a source at the level the government opened with, under the
  * law it began with, carried to the economy on `economyIndex`. A tax a law
  * ended collected nothing to scale from, so a law that restores it starts
- * again from this level.
+ * again from this level. A state that opened with no income tax at all
+ * reads the level of the tax a law adopting one would collect.
  */
 function openingMonthLevel(
   government: PublicBudgetGovernment,
@@ -329,9 +475,13 @@ function openingMonthLevel(
     economyIndex !== null && first.economyAtAdoption
       ? economyIndex / first.economyAtAdoption
       : 1;
+  const opened =
+    source === "individualIncomeTax" && first.expectedRevenue[at]! <= 0
+      ? (adoptedIncomeTaxPerYear(government.stateKey, government.population) ??
+        0)
+      : first.expectedRevenue[at]!;
   return (
-    (first.expectedRevenue[at]! / 12) *
-    Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (since - 1))
+    (opened / 12) * Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (since - 1))
   );
 }
 
@@ -435,6 +585,12 @@ export function settleGovernmentMonth(
   if (payments)
     for (const [at, value] of payments.entries())
       spending[at]! += Math.round(value);
+  // What the state's laws cost to carry out, on top of its programs; a law
+  // that ended a cost the state began with takes it off, never below zero.
+  const lawSpending = lawSpendingForMonth(world, government, month);
+  for (const [at, value] of lawSpending.entries())
+    if (value !== 0)
+      spending[at] = Math.max(0, spending[at]! + Math.round(value));
 
   let balance = government.balance + sum(revenue) - sum(spending);
   let reserve = government.reserve;
@@ -796,9 +952,11 @@ function adoptNextYear(
           ),
         )
       : 0;
+  // What the laws in force cost to carry out comes first, like interest.
+  const lawCost = sum(lawSpendingForMonth(world, government, startsOn)) * 12;
   const available = Math.max(
     0,
-    sum(expectedRevenue) - interest - pensionPaid - reserveDeposit,
+    sum(expectedRevenue) - interest - pensionPaid - reserveDeposit - lawCost,
   );
   const cuttablePrior = sum(
     base.map((value, at) => (CUTTABLE[at] ? value : 0)),

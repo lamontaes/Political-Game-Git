@@ -1,14 +1,23 @@
+import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
+import { COUNCIL_TERM_LIMIT_QUESTION } from "../living-world/local-council-term-limits";
 import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
 import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../nationwide-world/state-legislative-term-limits";
 import { OUTCOME_LINKS, outcomeLinkStatus } from "../outcome-web";
 import { RENT_LAW_KEYS } from "../living-world/town-rent";
-import { TAX_QUESTION_EFFECTS } from "../public-budgets/rules";
+import { CANNABIS_SALES_QUESTION } from "../public-budgets/cannabis-sales-tax";
+import {
+  SPENDING_QUESTION_EFFECTS,
+  TAX_QUESTION_EFFECTS,
+} from "../public-budgets/rules";
+import { TUITION_FREEZE_QUESTION } from "../public-budgets/tuition-freeze";
 import {
   ADOPT_STATE_INCOME_TAX_QUESTION,
   GRADUATED_STATE_INCOME_TAX_QUESTION,
 } from "../state-income-tax-law";
 import { PAID_LEAVE_QUESTION } from "../state-paid-leave-law";
+import { TEACHER_SALARY_FLOOR_QUESTION } from "../teacher-salary-floor";
 import type { PolicyCatalog } from "../types";
+import { HOME_RULE_QUESTION } from "./question-authority";
 
 /**
  * WHICH LAWS ACT IN THE WORLD (Claude CTO's 8:00 a.m. all-hands, September
@@ -31,8 +40,10 @@ export type LawEffectPathKind =
   | "outcome-web"
   | "paycheck"
   | "state-revenue"
+  | "state-spending"
   | "rent-and-eviction"
-  | "seat-turnover";
+  | "seat-turnover"
+  | "local-powers";
 
 export interface LawEffectPath {
   readonly questionKey: string;
@@ -47,6 +58,11 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
     kind: "paycheck",
     via: "src/simulation/minimum-wage.ts",
+  },
+  {
+    questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
+    kind: "paycheck",
+    via: "src/simulation/federal-top-income-tax-law.ts",
   },
   {
     questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
@@ -64,9 +80,26 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     via: "src/simulation/state-paid-leave-law.ts",
   },
   {
+    questionKey: TEACHER_SALARY_FLOOR_QUESTION,
+    kind: "paycheck",
+    via: "src/simulation/living-world/town-pay.ts",
+  },
+  {
     questionKey: LEGISLATIVE_TERM_LIMIT_QUESTION,
     kind: "seat-turnover",
     via: "src/simulation/nationwide-world/state-legislative-term-limits.ts",
+  },
+  {
+    questionKey: COUNCIL_TERM_LIMIT_QUESTION,
+    kind: "seat-turnover",
+    via: "src/simulation/living-world/local-council-term-limits.ts",
+  },
+  // Home rule or Dillon's rule decides which local questions a town's
+  // council may answer, so it opens or closes every ordinance on them.
+  {
+    questionKey: HOME_RULE_QUESTION,
+    kind: "local-powers",
+    via: "src/simulation/governing/question-authority.ts",
   },
   ...Object.values(RENT_LAW_KEYS).map((questionKey): LawEffectPath => ({
     questionKey,
@@ -82,6 +115,25 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     kind: "state-revenue",
     via: "src/simulation/public-budgets/rules.ts",
   })),
+  // What carrying out a law costs a state's budget, where a fiscal note set
+  // a size.
+  ...SPENDING_QUESTION_EFFECTS.filter(
+    (effect) => effect.toYes !== null || effect.toNo !== null,
+  ).map((effect): LawEffectPath => ({
+    questionKey: effect.questionKey,
+    kind: "state-spending",
+    via: "src/simulation/public-budgets/month.ts",
+  })),
+  {
+    questionKey: CANNABIS_SALES_QUESTION,
+    kind: "state-revenue",
+    via: "src/simulation/public-budgets/cannabis-sales-tax.ts",
+  },
+  {
+    questionKey: TUITION_FREEZE_QUESTION,
+    kind: "state-revenue",
+    via: "src/simulation/public-budgets/tuition-freeze.ts",
+  },
 ];
 
 const LAW_CAUSE_PREFIX = "law:";
