@@ -742,6 +742,62 @@
       "year": 2019,
       "accessed": "2026-09-29",
       "kind": "primary"
+    },
+    {
+      "id": "gas-variable2025",
+      "title": "NCSL variable-rate gasoline-tax survey, May 28, 2025",
+      "url": "https://www.ncsl.org/transportation/variable-rate-gas-taxes",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "accepted-survey"
+    },
+    {
+      "id": "jenn2018",
+      "title": "Jenn, Assessing Alternatives to California EV Registration Fee, pp15,30\u201331",
+      "url": "https://escholarship.org/content/qt62f72449/qt62f72449.pdf",
+      "year": 2018,
+      "accessed": "2026-09-29",
+      "kind": "study"
+    },
+    {
+      "id": "water-assistance2020",
+      "title": "California Water Board final AB401 report, February2020, p23",
+      "url": "https://www.waterboards.ca.gov/conservation/assistance/docs/ab401_report.pdf",
+      "year": 2020,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "vpra-fy25",
+      "title": "VPRA FY2025 financial report; ridership in unaudited management discussion p19",
+      "url": "https://vapassengerrailauthority.org/wp-content/uploads/2025/10/FY25-Financial-Statements-FINAL.pdf",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mo-zweig2013",
+      "title": "Missouri Supreme Court Zweig SC92581, November12,2013; reproduced judicial opinion",
+      "url": "https://law.justia.com/cases/missouri/supreme-court/2013/sc92581.html",
+      "year": 2013,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "fta-cig2025",
+      "title": "FTA CIG program, November12,2025 policy guidance notice",
+      "url": "https://www.transit.dot.gov/CIG",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ca-prop218-current",
+      "title": "California Constitution ArticleXIII D section6 current text",
+      "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CONS&sectionNum=SEC.%206.&article=XIII%20D",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
     }
   ],
   "topics": [
@@ -2146,14 +2202,23 @@
           },
           "effects": [
             {
-              "measure": "Downstream behavioral change",
-              "size": "no sized evidence",
-              "range": null,
-              "lag": "No sourced lag established",
-              "affectedGroup": "People and providers subject to this decision",
-              "study": null,
-              "sources": [],
-              "transferLimit": "No numerical causal effect assigned; direct legal and financial mechanism remains separate."
+              "measure": "EV sales association per $1 enacted registration fee",
+              "size": -0.24,
+              "range": {
+                "low": -0.24,
+                "high": -0.24,
+                "unit": "percent per dollar fee",
+                "kind": "reported point estimate; no confidence interval supplied"
+              },
+              "lag": "Report interprets early effects as 2\u20134 years",
+              "affectedGroup": "BEV/PHEV sales across50states, January2010\u2013June2018",
+              "study": {
+                "authors": "Alan Jenn",
+                "year": 2018,
+                "venue": "UC Davis ITS Research Report18-27, p15 and AppendixA3"
+              },
+              "sources": ["jenn2018"],
+              "transferLimit": "Observational fixed-effects model. Enactment coefficient\u22120.00238 (p<.05); implementation\u22120.00160 is not statistically significant. Do not assign universal causal response or extrapolate linearly to arbitrary fees."
             }
           ],
           "directMechanism": "Charge eligible registered vehicles; allocate proceeds.",
@@ -11947,11 +12012,18 @@
               "differentLargeCityCharters": []
             },
             "FL": {
-              "status": "yes",
-              "scope": "state, city, special-district",
-              "reason": "State legislature enacted restrictions on covered additives.",
+              "status": "no",
+              "scope": "Public water operator under existing statute; legislature can amend the statute",
+              "reason": "Section403.859(8) restricts additives for health purposes unrelated to improving water quality fromJuly1,2025; broader wording than a fluoride-specific prohibition.",
               "sources": ["fl-additive"],
-              "bars": [],
+              "bars": [
+                {
+                  "description": "Section403.859(8) restricts additives for health purposes unrelated to improving water quality fromJuly1,2025; broader wording than a fluoride-specific prohibition.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature through statutory amendment or repeal; exact legislative procedure remains unresearched.",
+                  "sources": ["fl-additive"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -12262,11 +12334,18 @@
               "differentLargeCityCharters": []
             },
             "UT": {
-              "status": "yes",
-              "scope": "state, city, special-district",
-              "reason": "State legislature enacted restrictions on covered additives.",
+              "status": "no",
+              "scope": "Public water operator under existing statute; legislature can amend the statute",
+              "reason": "HB81 prohibits intentional fluoride addition to public water systems fromMay7,2025.",
               "sources": ["ut81"],
-              "bars": [],
+              "bars": [
+                {
+                  "description": "HB81 prohibits intentional fluoride addition to public water systems fromMay7,2025.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature through statutory amendment or repeal; exact legislative procedure remains unresearched.",
+                  "sources": ["ut81"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -19246,22 +19325,22 @@
       "id": "verify-04-item1",
       "promptClaim": "1. **Fuel tax rate, and indexing it to inflation.** State. About 22 states index or vary their rate (**verify** count, ITEP). Effect: gasoline demand elasticity about -0.05 to -0.1 short run, -0.3 long run (Hughes, Knittel and Sperling 2008; Brons and others 2008). Revenue falls about 0.84% a year as fuel economy rises (already in the game). Available in every state and D.C.; territories set their own. Local fuel taxes are allowed in about 12 states (**verify**).",
       "status": "partially verified",
-      "finding": "CaliforniaSB 1 verifies indexing example. National variable-rate and local fuel-tax counts and gasoline elasticity contrast remain unresearched. The 0.84%-per-year figure is not adopted.",
-      "sources": ["sb1"]
+      "finding": "May2025 NCSL survey lists26 states plusDC but includes Colorado indexing scheduled for FY2032\u201333. It is not a clean count of currently indexed taxes. January2026 reconciliation and gasoline elasticity remain unresolved.",
+      "sources": ["gas-variable2025", "sb1"]
     },
     {
       "id": "verify-04-item2",
       "promptClaim": "1. **Fuel tax rate, and indexing it to inflation.** State. About 22 states index or vary their rate (**verify** count, ITEP). Effect: gasoline demand elasticity about -0.05 to -0.1 short run, -0.3 long run (Hughes, Knittel and Sperling 2008; Brons and others 2008). Revenue falls about 0.84% a year as fuel economy rises (already in the game). Available in every state and D.C.; territories set their own. Local fuel taxes are allowed in about 12 states (**verify**).",
       "status": "partially verified",
-      "finding": "CaliforniaSB 1 verifies indexing example. National variable-rate and local fuel-tax counts and gasoline elasticity contrast remain unresearched. The 0.84%-per-year figure is not adopted.",
-      "sources": ["sb1"]
+      "finding": "Current nationwide local fuel-tax count remains unresearched. Do not reuse a2009 count as2026 law. The draft gasoline-elasticity contrast remains unverified.",
+      "sources": ["gas-variable2025"]
     },
     {
       "id": "verify-05-item1",
       "promptClaim": "3. **Electric vehicle registration fee.** State. More than 30 states charge one, typically $50 to $200 a year. Effect: a small drop in electric vehicle sales (**verify** study).",
       "status": "partially verified",
-      "finding": "NCSL current fee table contains rates outside the draft typical range; no causal EV-sales estimate admitted. National as-of-January 2026 count still needs frozen survey extraction.",
-      "sources": ["ev-fees"]
+      "finding": "Jenn2018 fixed-effects observational model reports0.24% lower EV sales per$1 enacted fee over2010\u2013June2018 data. Implementation coefficient is smaller and statistically nonsignificant. This is study-specific, not universal causation. January2026 fee count remains unresolved.",
+      "sources": ["jenn2018", "ev-fees"]
     },
     {
       "id": "verify-06-item1",
@@ -19329,9 +19408,9 @@
     {
       "id": "verify-15-item1",
       "promptClaim": "- Effect: route ridership. Virginia's routes grew strongly after frequency was added (**verify** figures). Road trips shift, and emissions fall per diverted trip.",
-      "status": "unresearched",
-      "finding": "Not yet resolved against dated primary evidence; original figure not adopted.",
-      "sources": []
+      "status": "partially verified",
+      "finding": "VPRA management discussion reports FY2024 ridership1,384,665 and FY2025 ridership1,451,276. This section is unaudited. The increase alone does not identify frequency effects; a harmonized2015\u20132025 corridor panel remains unresolved.",
+      "sources": ["vpra-fy25"]
     },
     {
       "id": "verify-16-item1",
@@ -19413,9 +19492,9 @@
     {
       "id": "verify-26-item1",
       "promptClaim": "2. **Low-income rate assistance.** Local; state law sometimes limits using rate revenue for discounts (California's Proposition 218 cost-of-service rule constrains it, **verify**).",
-      "status": "unresearched",
-      "finding": "Not yet resolved against dated primary evidence; original figure not adopted.",
-      "sources": []
+      "status": "verified",
+      "finding": "Current California Constitution articleXIII D\u00a76(b)(3) retains proportional-cost requirements. Water Board2020 report p23 explains limits on public-system rate-funded cross-subsidies and non-rate assistance funding. This is a funding constraint, not a blanket assistance ban.",
+      "sources": ["water-assistance2020", "ca-prop218-current"]
     },
     {
       "id": "verify-27-item1",
@@ -19455,9 +19534,9 @@
     {
       "id": "verify-30-item1",
       "promptClaim": "1. **Create a stormwater utility fee**, based on paved area. Local, where state law allows. Some courts treated fees as taxes needing voter approval (Proposition 218 in California; Missouri's Hancock Amendment cases, **verify**).",
-      "status": "unresearched",
-      "finding": "Not yet resolved against dated primary evidence; original figure not adopted.",
-      "sources": []
+      "status": "partially verified",
+      "finding": "Zweig2013 affirmed that MSD impervious-area stormwater charge required voter approval under Missouri articleX\u00a722(a). Holding concerns this assessment, not every stormwater fee. California classification and current amendment routes remain unresolved.",
+      "sources": ["mo-zweig2013"]
     },
     {
       "id": "verify-31-item1",
