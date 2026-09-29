@@ -9,6 +9,7 @@ import type {
 } from "../character-history";
 import { candidacyPackById, stateCandidacyPack } from "../candidacy-packs";
 import { legislativeTermForRelationship } from "../legislative-office-terms";
+import { legislativeTermLimitInForce } from "./state-legislative-term-limits";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
 import { addDays, makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
@@ -408,6 +409,13 @@ export function ensureStateLegislatureOpening(
       office.qualification.minimumAge.kind === "known"
         ? office.qualification.minimumAge.value
         : 18;
+    const limit = legislativeTermLimitInForce(next, stateUsps, date);
+    const limitYears = limit
+      ? Math.min(
+          limit.perChamberYears ?? Number.POSITIVE_INFINITY,
+          limit.totalYears ?? Number.POSITIVE_INFINITY,
+        )
+      : null;
     for (let ordinal = 1; ordinal <= chamber.size; ordinal += 1) {
       const seatKey = STATE_LEGISLATURE_KEYS.seat(chamber.officeKey, ordinal);
       const seatRng = rng.fork(`seat:${chamber.officeKey}:${ordinal}`);
@@ -419,8 +427,12 @@ export function ensureStateLegislatureOpening(
         party = democraticShare >= 0.5 ? "democratic" : "republican";
       }
       const age = seatRng.integer(minimumAge + 7, 81);
+      // A state that limits its legislators' terms has no sitting member
+      // past the limit: service so far is spread over the years under it
+      // (the current term is part of it), not piled at the limit.
+      const drawnYears = seatRng.integer(0, 13);
       const yearsServed = Math.min(
-        seatRng.integer(0, 13),
+        limitYears === null ? drawnYears : drawnYears % limitYears,
         Math.max(0, age - minimumAge - 1),
       );
       const year = Number(date.slice(0, 4));
