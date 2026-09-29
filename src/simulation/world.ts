@@ -70,6 +70,7 @@ import {
 } from "./dates";
 import { assertSetupPriorIntegrity, clonePriors } from "./setup-priors";
 import { assertMacroEconomyIntegrity } from "./macro-economy/store";
+import { assertTownFinanceIntegrity } from "./living-world/town-finances";
 import { assertPressureIntegrity } from "./pressure/integrity";
 import {
   assertCausalEffectIntegrity,
@@ -854,6 +855,7 @@ function validateWorldIntegrity(
   }
   if (!checkedChanges) validateHistoryIntegrity(world, delta, previous);
   if (world.macroEconomy !== undefined) assertMacroEconomyIntegrity(world);
+  assertTownFinanceIntegrity(world);
   if (world.pressure !== undefined) assertPressureIntegrity(world);
 }
 

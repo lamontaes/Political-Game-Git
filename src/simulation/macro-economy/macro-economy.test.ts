@@ -42,7 +42,11 @@ import {
   publicConcernsAt,
 } from "./readers";
 import type { MacroStartingConditions } from "./types";
-import { CENTRAL_BANK_PROFILE } from "./central-bank";
+import {
+  CENTRAL_BANK_PROFILE,
+  RESERVE_BANKS,
+  votingReserveBanks,
+} from "./central-bank";
 import { stepNationalConditions } from "./conditions";
 import {
   MACRO_CREDIT_POLICY,
@@ -561,15 +565,20 @@ describe("CHANGE canonical macro history", { timeout: 1_800_000 }, () => {
 describe("the economy's eras: a century is several economies, not one number with noise", () => {
   /**
    * Twelve worlds of 100 years under Build 19's conditions: no recession is
-   * drawn. A stand-in board of seven members with drawn views sets the rate
-   * at eight meetings a year from the same considerations the game's board
+   * drawn. A stand-in committee of twelve with drawn views (seven governors,
+   * the New York president and four presidents in rotation) sets the rate at
+   * eight meetings a year from the same considerations the game's committee
    * weighs (the game decides through `evaluateDecision`; this pure run ranks
    * them with the same arithmetic). Decade averages of growth, inflation and
    * unemployment, and every recession start with its drivers.
    */
   function centuries() {
     const worlds: {
-      recessions: { month: number; drivers: MacroGrowthDrivers }[];
+      recessions: {
+        month: number;
+        drivers: MacroGrowthDrivers;
+        months: number;
+      }[];
       growth: number[];
       inflation: number[];
       unemployment: number[];
@@ -598,11 +607,20 @@ describe("the economy's eras: a century is several economies, not one number wit
           deliberation: trait("deliberation"),
         };
       };
+      // The committee that votes: seven governors, and the New York president
+      // with four others in the statute's rotation.
       let board = Array.from({ length: 7 }, (_, i) => member(`member-${i}`));
+      const presidents = new Map(
+        RESERVE_BANKS.map((row) => [row.key, member(`president-${row.key}`)]),
+      );
       const history: MacroMonthlyState[] = [];
       const recentDrivers: MacroGrowthDrivers[] = [];
       const world = {
-        recessions: [] as { month: number; drivers: MacroGrowthDrivers }[],
+        recessions: [] as {
+          month: number;
+          drivers: MacroGrowthDrivers;
+          months: number;
+        }[],
         growth: [] as number[],
         inflation: [] as number[],
         unemployment: [] as number[],
@@ -633,6 +651,8 @@ describe("the economy's eras: a century is several economies, not one number wit
         credit = step.credit;
         history.push(state);
         recentDrivers.push(step.drivers);
+        const openRecession = world.recessions.at(-1);
+        if (inRecession && openRecession) openRecession.months += 1;
         if (recentDrivers.length > 6) recentDrivers.shift();
         shrinking = state.growthPct < 0 ? shrinking + 1 : 0;
         growing = state.growthPct >= 0 ? growing + 1 : 0;
@@ -647,9 +667,13 @@ describe("the economy's eras: a century is several economies, not one number wit
             shocksPp: sum.shocksPp + row.shocksPp,
             chancePp: sum.chancePp + row.chancePp,
           }));
-          world.recessions.push({ month, drivers });
+          world.recessions.push({ month, drivers, months: 3 });
         }
-        if (inRecession && growing === 3) inRecession = false;
+        if (inRecession && growing === 3) {
+          inRecession = false;
+          // The three growing months that ended it are not part of it.
+          world.recessions.at(-1)!.months -= 3;
+        }
         if (MEETINGS.has(((month + 1) % 12) + 1) && history.length > 12) {
           const year = history.at(-13)!;
           const inflationPct = 100 * (state.priceIndex / year.priceIndex - 1);
@@ -667,7 +691,13 @@ describe("the economy's eras: a century is several economies, not one number wit
             policyMidPct: rate,
             neutralRealRatePct: MACRO_CREDIT_POLICY.neutralRealRatePct,
           };
-          const votes = board.map(
+          const voters = [
+            ...board,
+            ...votingReserveBanks(2026 + Math.floor(month / 12)).map((key) =>
+              presidents.get(key)!,
+            ),
+          ];
+          const votes = voters.map(
             (view) =>
               rankRateOptionsWithoutWorld(
                 rateConsiderations(view, readings),
@@ -680,7 +710,7 @@ describe("the economy's eras: a century is several economies, not one number wit
               (vote) =>
                 Math.sign(rateMoveOf(vote)) !== Math.sign(rateMoveOf(proposal)),
             ).length;
-          if (against * 2 < board.length)
+          if (against * 2 < voters.length)
             rate = Math.max(0.125, rate + rateMoveOf(proposal));
         }
         world.worstUnemployment = Math.max(
@@ -720,8 +750,16 @@ describe("the economy's eras: a century is several economies, not one number wit
   it("recessions arise from recorded conditions, with no recession drawn", () => {
     for (const world of worlds) {
       expect(world.recessions.length).toBeGreaterThanOrEqual(2);
-      expect(world.recessions.length).toBeLessThanOrEqual(25);
+      // The densest century on record, 1854 to 1954, had about 25.
+      expect(world.recessions.length).toBeLessThanOrEqual(30);
     }
+    // The record, 1854 to 2020 (National Bureau of Economic Research): about
+    // two onsets a decade, and about 1.3 since 1945.
+    const perCentury =
+      worlds.reduce((sum, world) => sum + world.recessions.length, 0) /
+      worlds.length;
+    expect(perCentury).toBeGreaterThan(8);
+    expect(perCentury).toBeLessThan(22);
     // Every start is explained: credit, the policy rate and lost jobs
     // together pulled harder than unexplained monthly surprises.
     const starts = worlds.flatMap((world) => world.recessions);
@@ -740,6 +778,23 @@ describe("the economy's eras: a century is several economies, not one number wit
     expect(Math.max(...gaps) - Math.min(...gaps)).toBeGreaterThan(60);
     for (const world of worlds)
       expect(world.worstUnemployment).toBeGreaterThan(6.5);
+  });
+
+  it("recessions last as long as the record's: most about a year, long ones rare", () => {
+    // Closed recessions only; the record averaged about 17 months from 1854
+    // to 2020 and about 10 after 1945, and the longest ran 65 months.
+    const lengths = worlds
+      .flatMap((world) => world.recessions.slice(0, -1))
+      .map((row) => row.months)
+      .sort((a, b) => a - b);
+    const at = (share: number) =>
+      lengths[Math.floor(share * (lengths.length - 1))]!;
+    expect(at(0.5)).toBeGreaterThanOrEqual(6);
+    expect(at(0.5)).toBeLessThanOrEqual(20);
+    expect(at(0.9)).toBeLessThanOrEqual(30);
+    expect(lengths.filter((months) => months > 65).length).toBeLessThanOrEqual(
+      Math.ceil(lengths.length / 50),
+    );
   });
 
   it("some worlds live through a 1970s-style inflation and others never do", () => {

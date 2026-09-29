@@ -25,6 +25,7 @@ import type { PlaceOutcomeStore } from "./outcome-web/place-outcome-store";
 import type { PublicFundingMandate } from "./public-fiscal";
 import type { MacroEconomyStore } from "./macro-economy/types";
 import type { PressureStore } from "./pressure/contract";
+import type { TownFinanceStore } from "./living-world/town-finance-types";
 import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
 import type {
   TaxProposalRecord,
@@ -5183,4 +5184,9 @@ export interface World {
    * before it existed has no readings and is never retrofitted.
    */
   readonly pressure?: PressureStore;
+  /**
+   * The seated town's businesses' and banks' books (Build 19). Optional and
+   * additive: opened at a town's first quarterly review after it existed.
+   */
+  readonly townFinances?: TownFinanceStore;
 }

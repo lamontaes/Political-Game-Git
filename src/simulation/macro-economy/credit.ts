@@ -1,5 +1,6 @@
 import { detExp, logistic } from "../world-setup/deterministic-math";
 import type { MacroEra } from "./kernel";
+import { MACRO_ERA_POLICY } from "./policy";
 
 /**
  * CONDITIONS, NOT DICE: the credit and demand arithmetic behind the national
@@ -36,11 +37,12 @@ export const MACRO_CREDIT_POLICY = {
   version: MACRO_CREDIT_VERSION,
   start: {
     /**
-     * PLACEHOLDER: private nonfinancial debt (households and businesses) as
-     * a multiple of a year's output. The Federal Reserve's Financial Accounts
-     * (Z.1) carry the real figure; it was not read tonight (TO READ).
+     * MEASURED: credit to households and nonfinancial businesses as a
+     * multiple of a year's output, 140.3 percent in the fourth quarter of
+     * 2025 (Bank for International Settlements, FRED series QUSPAM770A,
+     * read September 28, 2026).
      */
-    debtRatio: 1.45,
+    debtRatio: 1.4,
     /** PLACEHOLDER: what borrowers pay over the policy rate, in points. */
     spreadPp: 2,
     /**
@@ -57,8 +59,11 @@ export const MACRO_CREDIT_POLICY = {
     /** PLACEHOLDER: yearly share of debt charged off in calm years, percent. */
     chargeOffPct: 0.5,
   },
-  /** PLACEHOLDER: share of the debt stock that reprices each month (about three years). */
-  monthlyRepricingShare: 1 / 36,
+  /**
+   * PLACEHOLDER: share of the debt stock that reprices each month (about two
+   * and a half years), calibrated with the strengths below.
+   */
+  monthlyRepricingShare: 0.033,
   /** PLACEHOLDER: extra points lenders charge when credit is fully tight. */
   spreadPerTightnessPp: 3,
   /**
@@ -66,11 +71,19 @@ export const MACRO_CREDIT_POLICY = {
    * carry without strain. Above it, defaults climb.
    */
   burdenLine: 0.082,
+  /*
+   * The response strengths in chargeOff, tightness, lending, growth and
+   * inflation are PLACEHOLDER values, calibrated on September 28, 2026 so a
+   * century of simulated months matches the record of U.S. recessions
+   * (National Bureau of Economic Research dates, 1854 to 2020): about 1.3
+   * onsets a decade, a median of 13 months, a tenth longer than 19 months,
+   * and the longest near three and a half years.
+   */
   chargeOff: {
     /** Percent a year added per point of burden over the line. */
-    perBurdenPointPct: 0.9,
+    perBurdenPointPct: 2,
     /** Percent a year added per point of unemployment over its normal rate. */
-    perUnemploymentPointPct: 0.35,
+    perUnemploymentPointPct: 0.14,
     /** Share of a charged-off loan the bank loses (the rest is recovered). */
     lossGivenDefault: 0.55,
   },
@@ -86,43 +99,45 @@ export const MACRO_CREDIT_POLICY = {
     /** Logistic intercept; with calm conditions tightness sits near the start draw. */
     intercept: 0,
     /** Per point of capital below target. */
-    perCapitalShortfallPoint: 0.9,
+    perCapitalShortfallPoint: 2,
     /** Per point of yearly charge-offs over the calm rate. */
-    perChargeOffPoint: 0.5,
+    perChargeOffPoint: 0.35,
     /** Per point the real policy rate sits above neutral. */
-    perRealRatePoint: 0.25,
+    perRealRatePoint: 0.11,
     /** Share of the gap to its new level closed each month. */
-    monthlyAdjustment: 0.35,
+    monthlyAdjustment: 0.59,
   },
   lending: {
     /** Points of lending growth per point growth ran above trend last month. */
-    perGrowthGapPp: 0.2,
+    perGrowthGapPp: 0.35,
     /** Points of lending growth lost per 0.1 of tightness over its start. */
-    perTightnessTenthPp: 1.2,
+    perTightnessTenthPp: 2.5,
     /** Points of lending growth lost per point of burden over the line. */
-    perBurdenPointPp: 1.5,
+    perBurdenPointPp: 0.8,
     /** Points gained per point of burden under the line: room to borrow tempts less than strain deters. */
-    perRoomPointPp: 0.5,
+    perRoomPointPp: 0.1,
   },
   growth: {
     /** Growth points per point that lending grows faster than nominal trend. */
-    perCreditGapPp: 0.04,
+    perCreditGapPp: 0.011,
+    /** Growth points per point lending growth rose over the month. */
+    perCreditChangePp: 1.5,
     /** Growth points lost per point the real policy rate sits above neutral. */
-    perRealRatePointPp: 0.04,
+    perRealRatePointPp: 0.017,
     /** Growth points lost per point unemployment rose last month. */
-    perUnemploymentRisePp: 1.2,
+    perUnemploymentRisePp: 0.32,
   },
   inflation: {
     /** Inflation points added per point unemployment sits below its normal rate. */
-    perSlackPointPp: 0.03,
+    perSlackPointPp: 0.048,
   },
   /**
-   * PLACEHOLDER: the real policy rate that neither pushes nor holds back
-   * growth. The Federal Open Market Committee's longer-run projection of the
-   * nominal rate less its 2 percent goal gives about 1 point (not read
-   * tonight; TO READ).
+   * ESTIMATED FROM AVERAGE: the real policy rate that neither pushes nor
+   * holds back growth. The Federal Open Market Committee's median longer-run
+   * projection of the nominal rate, 3.2 percent on September 16, 2026 (FRED
+   * series FEDTARMDLR), less its 2 percent inflation goal.
    */
-  neutralRealRatePct: 1,
+  neutralRealRatePct: 1.2,
 } as const;
 
 export interface MacroCreditState {
@@ -188,7 +203,13 @@ export function startCreditState(
     burden: round6((s.debtRatio * debtRatePct) / 100),
     chargeOffPct: s.chargeOffPct,
     bankCapitalRatio: s.bankCapitalRatio,
-    lendingGrowthPct: 0,
+    // Lending starts at its calm pace: the start era's nominal trend plus
+    // the loans written off.
+    lendingGrowthPct: round6(
+      MACRO_ERA_POLICY.start.trendGrowthPct +
+        MACRO_ERA_POLICY.start.inflationAnchorPct +
+        s.chargeOffPct,
+    ),
     tightness: round6(startTightness),
     priorUnemploymentPct: unemploymentPct,
   };
@@ -302,7 +323,12 @@ export function stepCredit(
     6,
   );
 
-  const creditPp = p.growth.perCreditGapPp * (lendingGrowthPct - calmLending);
+  // Spending follows new credit: its level against calm, and above all its
+  // change, the credit impulse (Biggs, Mayer and Pick, 2010). Once lending
+  // stops falling, spending stops falling, though lending stays low.
+  const creditPp =
+    p.growth.perCreditGapPp * (lendingGrowthPct - calmLending) +
+    p.growth.perCreditChangePp * (lendingGrowthPct - previous.lendingGrowthPct);
   const ratePp = -p.growth.perRealRatePointPp * realGap;
   const demandPp =
     -p.growth.perUnemploymentRisePp *

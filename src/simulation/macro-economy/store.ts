@@ -331,7 +331,10 @@ export function assertMacroEconomyIntegrity(world: World): void {
 
   const bank = store.centralBank;
   if (bank) {
-    const seated = bank.seats.flatMap((seat) => (seat ? [seat] : []));
+    const seated = [
+      ...bank.seats.flatMap((seat) => (seat ? [seat] : [])),
+      ...(bank.presidents ?? []).flatMap((seat) => (seat ? [seat] : [])),
+    ];
     if (
       seated.some(
         (seat) =>

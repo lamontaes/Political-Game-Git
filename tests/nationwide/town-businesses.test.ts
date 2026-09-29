@@ -116,18 +116,21 @@ describe("the town's businesses open and close", { timeout: 600_000 }, () => {
     ["Columbus, Ohio", "3918000"],
     ["Belzoni, Mississippi", "2805140"],
   ] as const) {
-    it(`${name}: about as many open as close over five years`, () => {
+    it(`${name}: businesses open at the entry rate, and none closes by chance`, () => {
       const { world, town, start, before } = fiveYears(placeKey);
       const summary = describeTownBusinesses(world, town, start);
       expect(before).toBeGreaterThan(5);
-      expect(summary.closed, JSON.stringify(summary)).toBeGreaterThan(0);
+      // On the calendar alone nobody is paid, so no business's books open
+      // and nothing closes: a closing comes only from books that ran out of
+      // cash (tests/nationwide/town-finances.test.ts runs the real clock).
+      expect(summary.closed, JSON.stringify(summary)).toBe(0);
       expect(summary.opened).toBeGreaterThan(0);
-      // 11.6% a year each way over five years is about 58% of the town's
-      // businesses; well inside twice that either way.
-      const rate = (summary.opened + summary.closed) / 2 / before / 5;
+      // 11.6% a year over five years, compounding as the town grows; well
+      // inside two and a half times that either way.
+      const rate = summary.opened / before / 5;
       expect(rate, JSON.stringify(summary)).toBeGreaterThan(0.116 / 2.5);
       expect(rate, JSON.stringify(summary)).toBeLessThan(0.116 * 2.5);
-      expect(summary.open).toBeGreaterThan(before / 2);
+      expect(summary.open).toBeGreaterThan(before);
 
       // Everybody who worked at a closed business lost that job the day it
       // closed, and nobody works there afterwards.

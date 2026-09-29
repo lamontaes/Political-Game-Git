@@ -7,21 +7,30 @@
  * scheduled meetings. Each governor is a person with their own temperament
  * and their own view of the trade-off between prices and jobs. At a meeting
  * every governor reads the same published numbers and weighs them through
- * the ordinary decision engine (`rate-choice.ts`, `decisions.ts`); the chair
- * proposes, and the proposal carries unless a majority of the board wanted
- * to move the other way. Nothing computes the rate from a formula.
+ * the ordinary decision engine (`rate-choice.ts`, `decisions.ts`). Nothing
+ * computes the rate from a formula.
  *
  * Governors and the chair are nominated by the President and confirmed by
  * the Senate when a seat opens (a term ends, or a member dies). A governor
  * whose term has ended serves until a successor is confirmed, as the law
- * provides (12 U.S.C. 242). The law is the route: seven governors appointed
+ * provides (12 U.S.C. 242). The chair presides; the proposal carries unless
+ * a majority of the committee's voters wanted to move the other way. The law is the route: seven governors appointed
  * by the President with the Senate's advice and consent for fourteen-year
  * terms, and a chair designated from among them for four years (12 U.S.C.
  * 241 and 242).
  *
+ * The rate is voted by the real committee's twelve (Claude CTO's 10:32 p.m.
+ * addendum, from Lamontae): the seven governors, the New York reserve
+ * bank's president, and four of the other eleven reserve bank presidents in
+ * the statutory yearly rotation (12 U.S.C. 263). Every reserve bank's
+ * president is a person; the voting four change each January.
+ *
  * Simplifications, each marked:
- * 1. PLACEHOLDER: the Federal Open Market Committee also seats five Reserve
- *    Bank presidents; the game's rate is set by the seven governors alone.
+ * 1. PLACEHOLDER: a reserve bank president is chosen by the bank's own
+ *    directors and approved by the board; the game seats a new person 90
+ *    days after a president dies or retires. A president retires at the
+ *    first five-year term end (the last day of February in a year ending in
+ *    1 or 6, 12 U.S.C. 341) at which they are 65 or older.
  * 2. PLACEHOLDER (filed as `central-bank-nomination-and-confirmation`): whom
  *    a President nominates and how the Senate votes. Until appointments
  *    become decisions among people the President knows (Build 20), the
@@ -91,7 +100,64 @@ export const CENTRAL_BANK_PROFILE = {
   fallbackNormalUnemploymentPct: 4.4,
   /** Months of published unemployment the board averages for its normal rate. */
   normalUnemploymentMonths: 240,
+  /** PLACEHOLDER: days from a president's death or retirement to a successor. */
+  daysToSeatReserveBankPresident: 90,
+  /** PLACEHOLDER: a president retires at a term end at this age or older. */
+  reserveBankPresidentRetirementAge: 65,
+  /** A reserve bank president's age range when first seated at the opening. */
+  presidentOpeningAge: { min: 50, max: 63 },
 } as const;
+
+/** The twelve reserve banks, in district order. */
+export const RESERVE_BANKS = [
+  { key: "boston", city: "Boston" },
+  { key: "new-york", city: "New York" },
+  { key: "philadelphia", city: "Philadelphia" },
+  { key: "cleveland", city: "Cleveland" },
+  { key: "richmond", city: "Richmond" },
+  { key: "atlanta", city: "Atlanta" },
+  { key: "chicago", city: "Chicago" },
+  { key: "st-louis", city: "St. Louis" },
+  { key: "minneapolis", city: "Minneapolis" },
+  { key: "kansas-city", city: "Kansas City" },
+  { key: "dallas", city: "Dallas" },
+  { key: "san-francisco", city: "San Francisco" },
+] as const;
+export type ReserveBankKey = (typeof RESERVE_BANKS)[number]["key"];
+
+/**
+ * The four rotating votes (12 U.S.C. 263(a)): one each from Boston,
+ * Philadelphia and Richmond; Chicago and Cleveland; St. Louis, Dallas and
+ * Atlanta; and Kansas City, Minneapolis and San Francisco, in the order the
+ * committee has rotated them (2025: Boston, Chicago, St. Louis, Kansas
+ * City; 2026: Philadelphia, Cleveland, Dallas, Minneapolis).
+ */
+const ROTATION: readonly (readonly ReserveBankKey[])[] = [
+  ["boston", "philadelphia", "richmond"],
+  ["chicago", "cleveland"],
+  ["st-louis", "dallas", "atlanta"],
+  ["kansas-city", "minneapolis", "san-francisco"],
+];
+const ROTATION_ANCHOR_YEAR = 2025;
+
+/** The reserve banks whose presidents vote in a year: New York and four more. */
+export function votingReserveBanks(year: number): readonly ReserveBankKey[] {
+  return [
+    "new-york",
+    ...ROTATION.map((group) => {
+      const step = (year - ROTATION_ANCHOR_YEAR) % group.length;
+      return group[(step + group.length) % group.length]!;
+    }),
+  ];
+}
+
+export interface ReserveBankPresidentSeat {
+  readonly bank: ReserveBankKey;
+  readonly personId: EntityId;
+  readonly since: IsoDate;
+  readonly appointedEventId: EntityId;
+  readonly inflationLean: TraitValue;
+}
 
 export interface CentralBankSeat {
   readonly seat: number;
@@ -131,6 +197,15 @@ export interface CentralBankState {
   readonly lastMeetingAt: IsoDate | null;
   /** A choice the player, as chair, recorded for the next meeting. */
   readonly chairChoice: RateOptionKey | null;
+  /**
+   * The twelve reserve banks' presidents, in district order; null while a
+   * bank's seat is open. Absent on a board seated before presidents were.
+   */
+  readonly presidents?: readonly (ReserveBankPresidentSeat | null)[];
+  readonly presidentOpenings?: readonly {
+    readonly bank: ReserveBankKey;
+    readonly since: IsoDate;
+  }[];
 }
 
 const CONTEXT = {
@@ -186,18 +261,24 @@ function recordAppointment(
   input: {
     readonly stableKey: string;
     readonly personId: EntityId;
-    readonly office: "governor" | "chair";
+    readonly office: "governor" | "chair" | "reserve-bank-president";
     readonly seat: number;
-    readonly termEnds: IsoDate;
+    readonly termEnds: IsoDate | null;
     readonly lean: TraitValue;
-    readonly basis: "opening" | "confirmed";
+    readonly basis: "opening" | "confirmed" | "chosen";
   },
 ): { world: World; eventId: EntityId } {
   const person = world.people[input.personId]!;
+  const city =
+    input.office === "reserve-bank-president"
+      ? RESERVE_BANKS[input.seat]!.city
+      : null;
   const title =
     input.office === "chair"
       ? "Chair of the central bank's board"
-      : "Governor on the central bank's board";
+      : city
+        ? `President of the ${city} reserve bank`
+        : "Governor on the central bank's board";
   const next = recordWorldEvent(world, {
     stableKey: input.stableKey,
     type: CENTRAL_BANK_APPOINTED_EVENT,
@@ -214,12 +295,16 @@ function recordAppointment(
       CENTRAL_BANK_VERSION,
       `office:central-bank-${input.office}`,
       `seat:${input.seat}`,
-      `term-end:${input.termEnds}`,
+      ...(input.termEnds ? [`term-end:${input.termEnds}`] : []),
+      ...(city ? [`reserve-bank:${RESERVE_BANKS[input.seat]!.key}`] : []),
       `view:inflation-lean:${input.lean}`,
       `basis:${input.basis}`,
     ],
-    summary:
-      input.basis === "opening"
+    summary: city
+      ? input.basis === "opening"
+        ? `${personName(person)} is president of the ${city} reserve bank, and ${leanWords(input.lean)}.`
+        : `The ${city} reserve bank's directors chose ${personName(person)} as its president, and the central bank's board approved.`
+      : input.basis === "opening"
         ? `${personName(person)} sits on the central bank's board as ${input.office === "chair" ? "its chair" : "a governor"}, and ${leanWords(input.lean)}.`
         : `The Senate confirmed ${personName(person)} as ${input.office === "chair" ? "chair of the central bank's board" : "a governor on the central bank's board"}.`,
     context: CONTEXT,
@@ -228,28 +313,23 @@ function recordAppointment(
 }
 
 /**
- * Seats the opening board: seven generated governors with staggered terms
- * and a chair among them, and the retained reference rate in force. Once;
- * a world without macro history gets nothing.
+ * New people for the central bank: each a generated person with a name, a
+ * birth date in the age range, and a home and birthplace, as the opening's
+ * federal officials are.
  */
-export function ensureCentralBankSeated(
+function generateBoardPeople(
   world: World,
-  policyRate: MacroPolicyRateRange,
-): World {
-  const store = world.macroEconomy;
-  if (!store || store.centralBank) return world;
+  stableKeys: readonly string[],
+  ages: { readonly min: number; readonly max: number },
+): { world: World; personIds: EntityId[] } {
   const year = Number(world.currentDate.slice(0, 4));
   let next = world;
   const inputs: CharacterHistoryContextPersonInput[] = [];
-  for (let seat = 0; seat < CENTRAL_BANK_PROFILE.seats; seat += 1) {
-    const stableKey = `${CENTRAL_BANK_VERSION}:opening:seat:${seat}`;
+  for (const stableKey of stableKeys) {
     const rng = new SeededRng(world.seed).fork(stableKey);
     const geography = prepareOpeningFederalGeography(next, stableKey);
     next = geography.world;
-    const age = rng.integer(
-      CENTRAL_BANK_PROFILE.openingAge.min,
-      CENTRAL_BANK_PROFILE.openingAge.max + 1,
-    );
+    const age = rng.integer(ages.min, ages.max + 1);
     inputs.push({
       stableKey,
       ...drawCanonicalNamedIdentity(
@@ -264,9 +344,40 @@ export function ensureCentralBankSeated(
     });
   }
   next = createCharacterHistoryContextPeople(next, inputs);
+  return {
+    world: next,
+    personIds: inputs.map((input) =>
+      characterHistoryContextPersonId(next, input.stableKey),
+    ),
+  };
+}
+
+/**
+ * Seats the opening board: seven generated governors with staggered terms
+ * and a chair among them, and the retained reference rate in force. Once;
+ * a world without macro history gets nothing.
+ */
+export function ensureCentralBankSeated(
+  world: World,
+  policyRate: MacroPolicyRateRange,
+): World {
+  const store = world.macroEconomy;
+  if (!store || store.centralBank) return world;
+  const year = Number(world.currentDate.slice(0, 4));
+  const stableKeys = Array.from(
+    { length: CENTRAL_BANK_PROFILE.seats },
+    (_, seat) => `${CENTRAL_BANK_VERSION}:opening:seat:${seat}`,
+  );
+  const people = generateBoardPeople(
+    world,
+    stableKeys,
+    CENTRAL_BANK_PROFILE.openingAge,
+  );
+  let next = people.world;
   const seats: CentralBankSeat[] = [];
-  for (const [seat, input] of inputs.entries()) {
-    const personId = characterHistoryContextPersonId(next, input.stableKey);
+  for (const [seat, stableKey] of stableKeys.entries()) {
+    const personId = people.personIds[seat]!;
+    const input = { stableKey };
     const lean = drawInflationLean(next, personId);
     const termEnds = seatTermEnds(seat, year);
     const recorded = recordAppointment(next, {
@@ -583,6 +694,135 @@ function confirm(
 }
 
 /** Keeps the board filled: openings found, nominations made, votes held. */
+/** The last day of February of a year. */
+function februaryEnd(year: number): IsoDate {
+  const leap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  return makeIsoDate(`${year}-02-${leap ? "29" : "28"}`);
+}
+
+/**
+ * Seats the twelve reserve bank presidents on a board that has none (a
+ * world's first month, or a board seated before presidents were). Once.
+ */
+export function ensureReserveBankPresidents(world: World): World {
+  const bank = world.macroEconomy?.centralBank;
+  if (!bank || bank.presidents) return world;
+  const stableKeys = RESERVE_BANKS.map(
+    (row) => `${CENTRAL_BANK_VERSION}:opening:reserve-bank:${row.key}`,
+  );
+  const people = generateBoardPeople(
+    world,
+    stableKeys,
+    CENTRAL_BANK_PROFILE.presidentOpeningAge,
+  );
+  let next = people.world;
+  const presidents: ReserveBankPresidentSeat[] = [];
+  for (const [index, row] of RESERVE_BANKS.entries()) {
+    const personId = people.personIds[index]!;
+    const lean = drawInflationLean(next, personId);
+    const recorded = recordAppointment(next, {
+      stableKey: `${stableKeys[index]}:appointed`,
+      personId,
+      office: "reserve-bank-president",
+      seat: index,
+      termEnds: null,
+      lean,
+      basis: "opening",
+    });
+    next = recorded.world;
+    presidents.push({
+      bank: row.key,
+      personId,
+      since: next.currentDate,
+      appointedEventId: recorded.eventId,
+      inflationLean: lean,
+    });
+  }
+  return withBank(next, {
+    ...next.macroEconomy!.centralBank!,
+    presidents,
+    presidentOpenings: [],
+  });
+}
+
+/**
+ * Presidents who died, or who had reached retirement age by a five-year
+ * term end, leave; a bank whose seat has been open long enough gets a new
+ * president.
+ */
+function stepReserveBankPresidents(world: World): World {
+  const bank = world.macroEconomy?.centralBank;
+  if (!bank?.presidents) return world;
+  const today = world.currentDate;
+  // The most recent term end on or before today: February in a year ending
+  // in 1 or 6.
+  let termYear = Number(today.slice(0, 4));
+  while (termYear % 5 !== 1 || februaryEnd(termYear) > today) termYear -= 1;
+  const lastTermEnd = februaryEnd(termYear);
+  const openings = [...(bank.presidentOpenings ?? [])];
+  const presidents = bank.presidents.map((seat) => {
+    if (!seat) return seat;
+    const person = world.people[seat.personId];
+    const retires =
+      person !== undefined &&
+      seat.since < lastTermEnd &&
+      ageOnDate(person.birthDate, lastTermEnd) >=
+        CENTRAL_BANK_PROFILE.reserveBankPresidentRetirementAge;
+    if (!isDead(world, seat.personId) && !retires) return seat;
+    openings.push({ bank: seat.bank, since: today });
+    return null;
+  });
+  let next = world;
+  const remaining: { bank: ReserveBankKey; since: IsoDate }[] = [];
+  for (const opening of openings) {
+    if (
+      addDays(
+        opening.since,
+        CENTRAL_BANK_PROFILE.daysToSeatReserveBankPresident,
+      ) > today
+    ) {
+      remaining.push(opening);
+      continue;
+    }
+    const index = RESERVE_BANKS.findIndex((row) => row.key === opening.bank);
+    const stableKey = `${CENTRAL_BANK_VERSION}:reserve-bank:${opening.bank}:${today}`;
+    const people = generateBoardPeople(next, [stableKey], {
+      min: 48,
+      max: 60,
+    });
+    next = people.world;
+    const personId = people.personIds[0]!;
+    const lean = drawInflationLean(next, personId);
+    const recorded = recordAppointment(next, {
+      stableKey: `${stableKey}:appointed`,
+      personId,
+      office: "reserve-bank-president",
+      seat: index,
+      termEnds: null,
+      lean,
+      basis: "chosen",
+    });
+    next = recorded.world;
+    presidents[index] = {
+      bank: opening.bank,
+      personId,
+      since: today,
+      appointedEventId: recorded.eventId,
+      inflationLean: lean,
+    };
+  }
+  if (
+    next === world &&
+    openings.length === (bank.presidentOpenings ?? []).length
+  )
+    return world;
+  return withBank(next, {
+    ...next.macroEconomy!.centralBank!,
+    presidents,
+    presidentOpenings: remaining,
+  });
+}
+
 export function stepCentralBankSeats(world: World): World {
   const bank = world.macroEconomy?.centralBank;
   if (!bank) return world;
@@ -591,7 +831,9 @@ export function stepCentralBankSeats(world: World): World {
   ({ world: next, bank: working } = confirm(next, working));
   working = findOpenings(next, working);
   ({ world: next, bank: working } = nominate(next, working));
-  return withBank(next, working);
+  return stepReserveBankPresidents(
+    ensureReserveBankPresidents(withBank(next, working)),
+  );
 }
 
 export function isCentralBankMeetingMonth(monthKey: string): boolean {
@@ -600,7 +842,13 @@ export function isCentralBankMeetingMonth(monthKey: string): boolean {
   );
 }
 
-function viewOf(world: World, seat: CentralBankSeat): RateSetterView {
+/** Who votes: a governor or a voting reserve bank president. */
+interface Voter {
+  readonly personId: EntityId;
+  readonly inflationLean: TraitValue;
+}
+
+function viewOf(world: World, seat: Voter): RateSetterView {
   return {
     inflationLean: seat.inflationLean,
     risk: personTrait(world, seat.personId, "risk").value,
@@ -654,7 +902,7 @@ export function centralBankReadings(
 
 function choiceOf(
   world: World,
-  seat: CentralBankSeat,
+  seat: Voter,
   readings: RateReadings,
   meetingKey: string,
 ): { option: RateOptionKey; reasons: readonly string[] } {
@@ -721,10 +969,18 @@ export function holdCentralBankMeeting(world: World, monthKey: string): World {
   const meetingKey = `${CENTRAL_BANK_VERSION}:meeting:${monthKey}`;
   if (world.history.events.some((event) => event.stableKey === meetingKey))
     return world;
-  const members = bank.seats.flatMap((seat) =>
+  const governors = bank.seats.flatMap((seat) =>
     seat && !isDead(world, seat.personId) ? [seat] : [],
   );
-  if (members.length === 0) return world;
+  if (governors.length === 0) return world;
+  // This year's voting presidents: New York and the four in rotation.
+  const voting = new Set(votingReserveBanks(Number(monthKey.slice(0, 4))));
+  const presidents = (bank.presidents ?? []).flatMap((seat) =>
+    seat && voting.has(seat.bank) && !isDead(world, seat.personId)
+      ? [seat]
+      : [],
+  );
+  const members: readonly Voter[] = [...governors, ...presidents];
   const current = bank.policyRate;
   const mid = (current.lowerPct + current.upperPct) / 2;
   const readings = centralBankReadings(world, store, mid, bank.lastMeetingAt);
@@ -732,8 +988,8 @@ export function holdCentralBankMeeting(world: World, monthKey: string): World {
   // governor (the lowest seat still filled) presides pro tempore.
   const presiding =
     (bank.chair &&
-      members.find((seat) => seat.personId === bank.chair!.personId)) ??
-    members[0]!;
+      governors.find((seat) => seat.personId === bank.chair!.personId)) ??
+    governors[0]!;
   const controlled =
     world.control.kind === "person" ? world.control.personId : null;
   const choices = new Map<
@@ -782,9 +1038,9 @@ export function holdCentralBankMeeting(world: World, monthKey: string): World {
       : `The central bank's board ${verb} its policy rate by ${Math.abs(moved) === 0.5 ? "half a point" : "a quarter point"}, to ${rangeText}.`,
     carried
       ? `${chairName} proposed it${proposalReasons.length ? `: ${proposalReasons.join(" ")}` : "."}`
-      : `${chairName} proposed to ${RATE_OPTIONS.find((row) => row.key === proposal)!.label.toLowerCase()}, but a majority of the board would not go along.`,
+      : `${chairName} proposed to ${RATE_OPTIONS.find((row) => row.key === proposal)!.label.toLowerCase()}, but a majority of the committee would not go along.`,
     dissenters.length
-      ? `${dissenters.length} of ${members.length} members wanted a different course.`
+      ? `${dissenters.length} of ${members.length} voters wanted a different course.`
       : "",
   ]
     .filter(Boolean)

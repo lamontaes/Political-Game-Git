@@ -16,8 +16,10 @@ import {
   CENTRAL_BANK_APPOINTED_EVENT,
   CENTRAL_BANK_PROFILE,
   CENTRAL_BANK_RATE_EVENT,
+  RESERVE_BANKS,
   chooseCentralBankRate,
   holdCentralBankMeeting,
+  votingReserveBanks,
 } from "./central-bank";
 import {
   RECESSION_BEGAN_EVENT,
@@ -70,10 +72,47 @@ describe("Build 19: the central bank is people", { timeout: 900_000 }, () => {
     const appointed = later.history.events.filter(
       (event) => event.type === CENTRAL_BANK_APPOINTED_EVENT,
     );
-    // Seven governors and the chair.
-    expect(appointed).toHaveLength(CENTRAL_BANK_PROFILE.seats + 1);
+    // Seven governors, the chair, and the twelve reserve bank presidents.
+    expect(appointed).toHaveLength(
+      CENTRAL_BANK_PROFILE.seats + 1 + RESERVE_BANKS.length,
+    );
     for (const event of appointed)
       expect(tagValue(event.tags, "view:inflation-lean:")).toBeDefined();
+    expect(bank.presidents).toHaveLength(RESERVE_BANKS.length);
+    expect(bank.presidents!.map((seat) => seat!.bank)).toEqual(
+      RESERVE_BANKS.map((row) => row.key),
+    );
+  });
+
+  it("votes with the twelve: the governors, New York and four presidents in rotation", () => {
+    expect(votingReserveBanks(2026)).toEqual([
+      "new-york",
+      "philadelphia",
+      "cleveland",
+      "dallas",
+      "minneapolis",
+    ]);
+    expect(votingReserveBanks(2027)).toEqual([
+      "new-york",
+      "richmond",
+      "chicago",
+      "atlanta",
+      "san-francisco",
+    ]);
+    const meeting = later.history.events
+      .filter((event) => event.type === CENTRAL_BANK_RATE_EVENT)
+      .at(-1)!;
+    const year = Number(tagValue(meeting.tags, "month:")!.slice(0, 4));
+    const voters = new Set([
+      ...bank.seats.map((seat) => seat!.personId),
+      ...bank
+        .presidents!.filter((seat) =>
+          votingReserveBanks(year).includes(seat!.bank),
+        )
+        .map((seat) => seat!.personId),
+    ]);
+    expect(voters.size).toBe(12);
+    expect([...meeting.involvedEntityIds].sort()).toEqual([...voters].sort());
   });
 
   it("meets in its meeting months and sets the rate from what the members decided", () => {
@@ -147,7 +186,9 @@ describe("Build 19: the central bank is people", { timeout: 900_000 }, () => {
   it("a save whose months carry no credit record starts one at its next month", () => {
     const store = later.macroEconomy!;
     const withoutCredit = (month: MacroMonthRecord): MacroMonthRecord => {
-      const copy: Partial<MacroMonthRecord> = { ...month };
+      const copy: {
+        -readonly [K in keyof MacroMonthRecord]?: MacroMonthRecord[K];
+      } = { ...month };
       delete copy.credit;
       delete copy.drivers;
       return copy as MacroMonthRecord;

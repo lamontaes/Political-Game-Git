@@ -1,4 +1,3 @@
-import { ageOnDate } from "../dates";
 import {
   createOrganization,
   createOrganizationParticipation,
@@ -35,15 +34,23 @@ import {
   type Workplace,
 } from "./town-employment";
 import { TOWN_JOB_END_REASONS } from "./town-labor-market";
+import { townUnemploymentRate } from "./town-economy-measures";
+import {
+  closeBusinessesOutOfCash,
+  stepTownFinances,
+  TOWN_FINANCE_CLOSING_REASONS,
+} from "./town-finances";
 
 /**
  * The town's businesses open and close.
  *
  * A business is one of the town's private employers (`town-employment.ts`):
- * a farm, a store, a diner, a garage. Each quarter some close and their
- * staff lose their jobs, who then look for work like anyone laid off
- * (`town-labor-market.ts`). About as many open, each where the town is
- * shortest of that kind of business, run by a resident who was out of work.
+ * a farm, a store, a diner, a garage. Each quarter its books run
+ * (`town-finances.ts`): one whose cash and credit are both gone closes, and
+ * its staff lose their jobs, who then look for work like anyone laid off
+ * (`town-labor-market.ts`). New ones open at the approved entry rate, each
+ * where the town is shortest of that kind of business, run by a resident
+ * who was out of work.
  *
  * A closing is recorded on the organization's profile (`closed`), so its
  * name and history stay and nothing hires there again.
@@ -54,11 +61,13 @@ export const TOWN_BUSINESSES_VERSION = "town-businesses-v1";
  * CALIBRATION, approved by Claude CTO on 9/28/2026 as provisional: the share
  * of US establishments that open in a year, 11.6% (Census Business Dynamics
  * Statistics, 2022, as quoted by the Congressional Research Service). Exits
- * equal entries until the BDS exit rate is read.
+ * are no longer drawn (Build 19): a business closes when its books say so.
+ * The published exit rate is a check on a run's closings, never a draw.
  */
 export const TOWN_BUSINESS_TURNOVER = {
   entryPerYear: 0.116,
-  exitPerYear: 0.116,
+  /** The rate a run's closings are compared with, never drawn. */
+  exitPerYearForComparison: 0.116,
 } as const;
 
 /**
@@ -98,11 +107,15 @@ export const TOWN_BUSINESS_WORKPLACES: ReadonlySet<string> = new Set([
  */
 export const TOWN_OWNER_RETIREMENT_AGE = 65;
 
-/** Why a business closed, as its closing profile's reason. */
+/**
+ * Why a business closed, as its closing profile's reason. The first two are
+ * on closings recorded before Build 19; since then a business closes when its
+ * cash runs out.
+ */
 export const TOWN_BUSINESS_CLOSING_REASONS = {
   ownerRetired: "business:owner-retired",
-  /** Until revenue and cash are modeled, every other closing. */
   lackOfBusiness: "business:lack-of-business",
+  ranOutOfCash: TOWN_FINANCE_CLOSING_REASONS.ranOutOfCash,
 } as const;
 
 export interface TownBusiness {
@@ -212,47 +225,30 @@ export function reviewTownBusinesses(
   };
   let next = world;
 
-  // Closings. A business the player works at stays open for now: the game
-  // has no way yet to tell the player their workplace closed.
-  for (const business of businesses) {
-    if (business.jobs.some((job) => job.personId === playerPersonId)) continue;
-    if (
-      rng.fork(`close:${business.organizationId}`).next() >=
-      TOWN_BUSINESS_TURNOVER.exitPerYear / 4
-    )
-      continue;
-    const manager = business.jobs.find((job) => job.directsOthers);
-    const managerAge = manager
-      ? ageOnDate(next.people[manager.personId]!.birthDate, today)
-      : null;
-    const profile = organizationProfileAt(next, business.organizationId)!;
-    next = recordOrganizationProfile(next, {
-      stableKey: `${prefix}close:${business.organizationId}`,
+  // Closings. Each business's books run a quarter (`town-finances.ts`), and
+  // a business whose cash and credit are both gone closes. A business the
+  // player works at stays open for now: the game has no way yet to tell the
+  // player their workplace closed.
+  const exempt = new Set(
+    businesses
+      .filter((business) =>
+        business.jobs.some((job) => job.personId === playerPersonId),
+      )
+      .map((business) => business.organizationId),
+  );
+  const unemployment = townUnemploymentRate(next, town).value;
+  const quarter = stepTownFinances(
+    next,
+    town,
+    businesses.map((business) => ({
       organizationId: business.organizationId,
-      effectiveAt: today,
-      name: profile.name,
-      classification: profile.classification,
-      locationJurisdictionId: profile.locationJurisdictionId,
-      provenance,
-      supersedesProfileId: profile.id,
-      closed: {
-        reason:
-          managerAge !== null && managerAge >= TOWN_OWNER_RETIREMENT_AGE
-            ? TOWN_BUSINESS_CLOSING_REASONS.ownerRetired
-            : TOWN_BUSINESS_CLOSING_REASONS.lackOfBusiness,
-      },
-    });
-    for (const job of business.jobs)
-      next = recordWorkStatus(next, {
-        stableKey: `${prefix}closed:${job.relationshipId}`,
-        workRelationshipId: job.relationshipId,
-        effectiveAt: today,
-        status: "ended",
-        reason: TOWN_JOB_END_REASONS.businessClosed,
-        supersedesStatusId: job.status.id,
-        provenance,
-      });
-  }
+      kind: business.workplace.key,
+    })),
+    exempt,
+    round,
+    unemployment,
+  );
+  next = closeBusinessesOutOfCash(quarter.world, town, quarter.closing, prefix);
 
   // Openings: about as many as the approved entry rate gives, each of the
   // kind the town is shortest of against its own mix of jobs.
