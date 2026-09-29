@@ -237,6 +237,21 @@ describe("public budgets", () => {
     expect(next.startsOn).toBe("2026-07-01");
   });
 
+  it("a state opens exactly at its read figures in every world; a city's estimated share opens with a spread", () => {
+    const at = (seed: string) =>
+      opened(worldAt("2026-01-05", { seed, places: ["1714000"] }))
+        .publicBudgets!.governments;
+    const first = at("b12-read-a");
+    const second = at("b12-read-b");
+    const line = (rows: typeof first, key: string) =>
+      rows.find((row) => row.key === key)!.years[0]!.expectedRevenue;
+    expect(line(first, "US-IL")).toEqual(line(second, "US-IL"));
+    expect(line(first, "US-GU")).toEqual(line(second, "US-GU"));
+    expect(line(first, "place:1714000")).not.toEqual(
+      line(second, "place:1714000"),
+    );
+  });
+
   it("D.C. reads the Census local column, and a territory's revenue is one line whose source is unknown", () => {
     const world = opened(worldAt("2026-01-05"));
     const district = world.publicBudgets!.governments.find(
