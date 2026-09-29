@@ -114,16 +114,27 @@ export function placeOutcomesForMonth(
       const jurisdictionId = stateJurisdictionForKey(placeKey)?.id;
       if (!jurisdictionId) continue;
       const last = previous.get(`${measure}|${placeKey}`);
-      const before = last ? (last.structural ?? last.base) : base;
+      // A save from before this measure replaced an index carries on from
+      // that index's level, as a ratio to where the place began.
+      const replaced =
+        last || !definition.replaces
+          ? undefined
+          : previous.get(`${definition.replaces}|${placeKey}`);
+      const before = last
+        ? (last.structural ?? last.base)
+        : replaced
+          ? (base * (replaced.structural ?? replaced.base)) / replaced.base
+          : base;
       const moved =
         definition.scale === "level"
           ? before + step(placeKey)
           : driftsInLogs(definition)
             ? before * Math.exp(step(placeKey))
             : fromLogit(logit(before) + step(placeKey));
-      const structural = last
-        ? Math.min(drift.maxPct, Math.max(drift.minPct, moved))
-        : base;
+      const structural =
+        last || replaced
+          ? Math.min(drift.maxPct, Math.max(drift.minPct, moved))
+          : base;
       const reading = outcomeFactor(world, jurisdictionId, measure, month);
       records.push({
         measure,
