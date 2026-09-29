@@ -1,4 +1,5 @@
 import { makeIsoDate } from "../dates";
+import { eventIndexOf } from "../event-index";
 import type { IsoDate, World } from "../types";
 import {
   CHANGE_AUTHORED_IMPULSES_VERSION,
@@ -154,9 +155,7 @@ export function assertMacroEconomyIntegrity(world: World): void {
     throw new Error("Macro starting conditions are out of bounds.");
   }
 
-  const eventIds = new Map(
-    world.history.events.map((event) => [event.id, event]),
-  );
+  const eventIds = eventIndexOf(world.history.events);
   const startMonth = monthKeyOf(start.effectiveDate);
 
   const shockKeys = new Set<string>();
