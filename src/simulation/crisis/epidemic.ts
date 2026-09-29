@@ -1120,6 +1120,14 @@ export interface WorkAbsence {
   readonly caringDays: number;
   /** Workdays missed for either reason, each day counted once. */
   readonly missedDays: number;
+  /**
+   * For each workday home with the person's own serious case, the days since
+   * it began: a paid leave program pays for a serious health condition, most
+   * of them after a waiting period.
+   */
+  readonly seriousOwnDaysSinceOnset: readonly number[];
+  /** Workdays home caring for a child with a serious case. */
+  readonly seriousCaringDays: number;
 }
 
 /**
@@ -1133,6 +1141,9 @@ export function epidemicWorkAbsences(
 ): ReadonlyMap<EntityId, WorkAbsence> {
   const sick = new Map<EntityId, Set<IsoDate>>();
   const caring = new Map<EntityId, Set<IsoDate>>();
+  // Serious-case workdays, with the days since the case began.
+  const seriousOwn = new Map<EntityId, Map<IsoDate, number>>();
+  const seriousCaring = new Map<EntityId, Set<IsoDate>>();
   const mark = (
     map: Map<EntityId, Set<IsoDate>>,
     personId: EntityId,
@@ -1151,10 +1162,22 @@ export function epidemicWorkAbsences(
     if (found.onsetAt > to || addDays(found.onsetAt, days) < from) continue;
     const person = world.people[found.personId];
     if (!person) continue;
+    const serious = found.episode.severity === "serious";
     mark(sick, found.personId, found.onsetAt, days);
+    if (serious) {
+      const own = seriousOwn.get(found.personId) ?? new Map<IsoDate, number>();
+      for (let offset = 0; offset < days; offset += 1) {
+        const day = addDays(found.onsetAt, offset);
+        if (day >= from && day <= to && isWorkday(day)) own.set(day, offset);
+      }
+      seriousOwn.set(found.personId, own);
+    }
     if (ageOnDate(person.birthDate, found.onsetAt) < U.careAgeUnder) {
       const carer = caregiverFor(world, found.personId);
-      if (carer) mark(caring, carer, found.onsetAt, days);
+      if (carer) {
+        mark(caring, carer, found.onsetAt, days);
+        if (serious) mark(seriousCaring, carer, found.onsetAt, days);
+      }
     }
   }
   const result = new Map<EntityId, WorkAbsence>();
@@ -1167,6 +1190,10 @@ export function epidemicWorkAbsences(
       sickDays: own.size,
       caringDays: care.size,
       missedDays: missed,
+      seriousOwnDaysSinceOnset: [
+        ...(seriousOwn.get(personId)?.values() ?? []),
+      ].sort((a, b) => a - b),
+      seriousCaringDays: seriousCaring.get(personId)?.size ?? 0,
     });
   }
   return result;
