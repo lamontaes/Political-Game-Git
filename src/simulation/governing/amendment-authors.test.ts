@@ -8,12 +8,7 @@ import {
   recordPrivateBelief,
   recordPublicPosition,
 } from "../politics";
-import type {
-  BeliefPosition,
-  EntityId,
-  PoliticalSalience,
-  World,
-} from "../types";
+import type { EntityId, PoliticalSalience, World } from "../types";
 import {
   CHAMBER,
   billOnTheFloor,
@@ -37,11 +32,11 @@ import {
 interface Bloc {
   readonly members: readonly EntityId[];
   readonly transit: {
-    position: BeliefPosition;
+    position: "support" | "oppose";
     salience: PoliticalSalience;
   } | null;
   readonly work: {
-    position: BeliefPosition;
+    position: "support" | "oppose";
     salience: PoliticalSalience;
   } | null;
   /** Which of the bloc's views it has said in public. */
