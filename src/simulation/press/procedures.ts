@@ -31,6 +31,7 @@ import {
 } from "./store";
 import {
   generatedStateOversightBody,
+  STATE_OVERSIGHT_RULE,
   type GeneratedStateOversightBody,
 } from "./generated-state-oversight";
 import {
@@ -498,11 +499,12 @@ function stateLegislativeEthicsDefinition(
 }
 
 /**
- * A state oversight body generated from an UNRESEARCHED range
- * (`generated-state-oversight.ts`): a realistic name and calendar drawn once
- * per state. It can open a matter from its own review of filed reports, with
- * no complainant, and it can issue findings; `finding-consequences.ts` reads
- * the same body for the civil penalty. The intervals are authored, not rule.
+ * A state oversight body (`generated-state-oversight.ts`): the state's
+ * researched regulator by name, on the one calendar every state follows until
+ * its own is read. It can open a matter from its own review of filed reports,
+ * with no complainant, and it can issue findings; `finding-consequences.ts`
+ * reads the same body for the civil penalty. Notice and answer are federal
+ * rule; the rest is authored, the same as the federal procedure's.
  */
 function generatedBodyFor(
   world: World,
@@ -522,11 +524,14 @@ const GENERATED_STATE_OVERSIGHT: ProcedureDefinition = {
     "state oversight body",
   institution: null,
   confidentialWhilePending: true,
-  sourceRefs: [],
+  sourceRefs: [
+    "https://www.law.cornell.edu/uscode/text/52/30109",
+    "https://www.fec.gov/resources/cms-content/documents/fy27-fec-congressional-budget-justification.pdf",
+  ],
   after(previous, supported, world, proceeding) {
     const days =
       generatedBodyFor(world, proceeding)?.intervalDays ??
-      UNRESEARCHED_STATE_OVERSIGHT_FALLBACK_DAYS;
+      STATE_OVERSIGHT_RULE.intervalDays;
     switch (previous?.step ?? null) {
       case null:
         return proceeding.complainantPersonId
@@ -537,7 +542,7 @@ const GENERATED_STATE_OVERSIGHT: ProcedureDefinition = {
               publicStep: false,
               outcome: null,
               closes: false,
-              next: { days: days.intake, basis: "authored" },
+              next: { days: days.intake, basis: "rule" },
               respondentsNotified: false,
               action: null,
             }
@@ -561,7 +566,7 @@ const GENERATED_STATE_OVERSIGHT: ProcedureDefinition = {
           publicStep: false,
           outcome: null,
           closes: false,
-          next: { days: days.notice, basis: "authored" },
+          next: { days: days.notice, basis: "rule" },
           respondentsNotified: true,
           action: null,
         };
@@ -631,13 +636,6 @@ const GENERATED_STATE_OVERSIGHT: ProcedureDefinition = {
 };
 
 /** Only for a matter whose state the World cannot name; the range midpoints. */
-const UNRESEARCHED_STATE_OVERSIGHT_FALLBACK_DAYS = {
-  intake: 14,
-  notice: 21,
-  answer: 40,
-  inquiry: 75,
-} as const;
-
 const DEFINITIONS = Object.fromEntries([
   ...[FEC, KLEC, SIMULATED, GENERATED_STATE_OVERSIGHT].map((definition) => [
     definition.key,

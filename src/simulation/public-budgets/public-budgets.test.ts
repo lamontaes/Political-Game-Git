@@ -401,7 +401,7 @@ describe("public budgets", () => {
     expect(kept.government.reserve).toBe(0);
   });
 
-  it("without a pension law the government pays its own measured share, and its unfunded liability grows faster", () => {
+  it("without a pension law the government pays its own measured share and its unfunded liability grows; paid in full it shrinks", () => {
     // Illinois' own reported share is below the full contribution.
     const seed = "budget-test-3";
     const withLaw = worldAt("2026-01-05", {
@@ -425,6 +425,11 @@ describe("public budgets", () => {
       government.pension.liability - government.pension.assets;
     expect(unfunded(partial.government)).toBeGreaterThan(
       unfunded(full.government),
+    );
+    // Paid in full, the contribution covers the interest on the unfunded
+    // part as well as some of it, so the unfunded part shrinks.
+    expect(unfunded(full.government)).toBeLessThan(
+      unfunded(publicBudgetFor(opened(withLaw), illinois)!),
     );
     const underpaid = partial.adjustments.filter(
       (row) => row.kind === "pension-underpaid",
@@ -515,10 +520,15 @@ describe("public budgets", () => {
       world.publicBudgets!.governments.find((row) => row.key === key)!;
     // Public Plans Database, each plan's latest year: Illinois' state plans
     // owe an employer normal cost of 0.92% of their liability a year and pay
-    // out 5.51%; Chicago's plans 0.51% and 5.60%.
+    // out 5.51%; Chicago's plans 0.51% and 5.60%. The unfunded part is paid
+    // off as a level-dollar payment over 30 years at a 7% return,
+    // 0.07 / (1 - 1.07^-30) = 0.0806 of it a year.
     const required = (key: string, normalCost: number) => {
       const { liability, assets } = government(key).pension;
-      return Math.round(liability * normalCost + (liability - assets) / 30);
+      return Math.round(
+        liability * normalCost +
+          (liability - assets) * (0.07 / (1 - 1.07 ** -30)),
+      );
     };
     expect(government("US-IL").years[0]!.pensionRequired).toBe(
       required("US-IL", 0.0092),

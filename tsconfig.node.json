@@ -23,6 +23,7 @@
     "scripts/prose-eval/**/*.ts",
     "scripts/release/**/*.ts",
     "scripts/source/**/*.ts",
+    "scripts/unwired-laws/**/*.ts",
     "src/authoring/**/*.ts",
     "src/cli/**/*.ts",
     "src/education/**/*.ts",

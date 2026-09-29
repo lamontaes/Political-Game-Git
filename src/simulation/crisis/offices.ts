@@ -33,6 +33,8 @@ interface OfficeTable {
   readonly electedPresident: boolean;
   readonly electedVice: boolean;
   readonly stateExecutive: ReadonlyMap<EntityId, readonly OfficeRef[]>;
+  /** Associate justices; the Chief Justice is read from its federal tenure. */
+  readonly justices: ReadonlyMap<EntityId, readonly OfficeRef[]>;
   readonly congress: ReadonlyMap<EntityId, readonly OfficeRef[]>;
 }
 
@@ -84,6 +86,20 @@ function officeTable(world: World): OfficeTable {
       organizationId: holder.organizationId,
       termEvidenceId: holder.termId,
     });
+  const justices = new Map<EntityId, OfficeRef[]>();
+  for (const seat of world.judiciary?.courts["us-supreme-court"]
+    ? seatsForCourt(world, "us-supreme-court")
+    : []) {
+    if (seat.linkedOfficeId) continue;
+    const holder = seatHolderAt(world, seat.seatId);
+    if (!holder) continue;
+    add(justices, holder.personId, {
+      officeKey: seat.seatId,
+      title: "Associate Justice of the Supreme Court",
+      organizationId: null,
+      termEvidenceId: holder.tenureId as EntityId,
+    });
+  }
   const congress = new Map<EntityId, OfficeRef[]>();
   const seated = projectCongress(world);
   if (seated) {
@@ -106,6 +122,7 @@ function officeTable(world: World): OfficeTable {
     electedPresident: nationalOfficeHolder(world, "president") !== null,
     electedVice: nationalOfficeHolder(world, "vice-president") !== null,
     stateExecutive,
+    justices,
     congress,
   };
   OFFICE_TABLES.set(world, table);
@@ -126,20 +143,7 @@ export function publicOfficesHeldBy(
     ),
   );
   refs.push(...(table.stateExecutive.get(personId) ?? []));
-  // Associate justices; the Chief Justice is read from its federal tenure.
-  for (const seat of world.judiciary?.courts["us-supreme-court"]
-    ? seatsForCourt(world, "us-supreme-court")
-    : []) {
-    if (seat.linkedOfficeId) continue;
-    const holder = seatHolderAt(world, seat.seatId);
-    if (holder?.personId !== personId) continue;
-    refs.push({
-      officeKey: seat.seatId,
-      title: "Associate Justice of the Supreme Court",
-      organizationId: null,
-      termEvidenceId: holder.tenureId as EntityId,
-    });
-  }
+  refs.push(...(table.justices.get(personId) ?? []));
   refs.push(...(table.congress.get(personId) ?? []));
   return refs.sort((a, b) => a.officeKey.localeCompare(b.officeKey));
 }

@@ -122,18 +122,18 @@ describe("press coverage", () => {
   });
 
   // Four real openings: each builds a whole life, so this one runs long.
-  it("gives towns different kinds of newsroom, stable for a save", () => {
+  it("gives a large town a daily and a small one a weekly, stable for a save", () => {
     const local = (place: string) =>
       mediaOutlets(opening(place, "press-coverage-variety").world).find(
         (outlet) => outlet.scope === "local",
       )!;
-    const kinds = new Set(
-      ["3918000", "3260600", "1304000"].map((place) => {
-        const outlet = local(place);
-        return `${outlet.product}/${outlet.resourceTier}/${outlet.cadence}`;
-      }),
-    );
-    expect(kinds.size).toBeGreaterThan(1);
+    // The kind follows the town's size, not a draw: Columbus, Ohio is among
+    // the 1,000 largest places, Nome, Alaska is not.
+    const columbus = local("3918000");
+    const nome = local("0254920");
+    expect(columbus.cadence).toBe("daily");
+    expect(nome.cadence).toBe("periodic");
+    expect(nome.product).toBe("general-newspaper");
     expect(local("4865384").name).toBe(local("4865384").name);
   }, 120_000);
 

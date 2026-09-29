@@ -6,6 +6,9 @@ import {
   serializeWorld,
   type World,
 } from "../simulation";
+// Loaded first, as the game loads it: the conversation modules import one
+// another, and this is the order that resolves them.
+import "./player-conversation";
 import { RUN_A_HIDDEN_CANONICAL_TEXT } from "./run-a-fixture";
 import {
   createRunAUiState,
