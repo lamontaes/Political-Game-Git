@@ -1123,6 +1123,14 @@
       "textRevision": "fa32565f4c95"
     },
     {
+      "anchor": "LIFE_TALK_INTENTS-0019",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Ask what they think of the people in office",
+      "occurrence": 0,
+      "textRevision": "59fd00172a41"
+    },
+    {
       "anchor": "MunicipalWorkspace-0001",
       "sourcePath": "src/player/MunicipalWorkspace.tsx",
       "symbol": "MunicipalWorkspace",
@@ -6945,6 +6953,14 @@
       "text": "What were you going to say?",
       "occurrence": 0,
       "textRevision": "5fadd86fcab7"
+    },
+    {
+      "anchor": "replyFor-0067",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I don't have much to say about the people in office right now.",
+      "occurrence": 0,
+      "textRevision": "e5190f499741"
     },
     {
       "anchor": "reporterQuestion-0001",
