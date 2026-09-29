@@ -449,10 +449,15 @@ function nomineePool(world: World, bank: CentralBankState): EntityId[] {
     bank.seats.flatMap((seat) => (seat ? [seat.personId] : [])),
   );
   const pending = new Set(bank.nominations.map((row) => row.nomineeId));
+  // LAW: a member of Congress may hold no other federal office while serving
+  // (U.S. Constitution, art. I, sec. 6, cl. 2), and the game has no way yet
+  // for a nominee to resign a seat to take one.
+  const barred = new Set(federalColleaguesOf(world));
   return Object.values(world.people)
     .filter(
       (person) =>
         person.id !== president &&
+        !barred.has(person.id) &&
         person.id !== controlled &&
         person.id !== vice &&
         !governors.has(person.id) &&
@@ -516,8 +521,8 @@ function nominate(
       continue;
     const key = `${CENTRAL_BANK_VERSION}:nomination:${opening.office}:${opening.seat}:${opening.since}:${world.currentDate}`;
     // The President names the chair from the sitting governors, and a
-    // governor from the people they know (appointments-v1), by the same
-    // decision any appointer makes. A President the player controls, or one
+    // governor from the people they know who may serve (appointments-v1),
+    // by the same decision any appointer makes. A President the player controls, or one
     // who knows nobody eligible, still falls back to the draw below.
     const controlled =
       next.control.kind === "person" ? next.control.personId : null;
@@ -543,7 +548,7 @@ function nominate(
       circle: appointmentCircle(
         next,
         president.personId,
-        opening.office === "chair" ? sitting : federalColleaguesOf(next),
+        opening.office === "chair" ? sitting : [],
       ),
       eligible: (personId) => eligible.has(personId),
     });

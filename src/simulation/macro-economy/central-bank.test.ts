@@ -25,6 +25,9 @@ import {
 } from "./central-bank";
 import { currentPresidentOf } from "../crisis/offices";
 import { addDays } from "../dates";
+import { federalColleaguesOf } from "../patronage/federal-circle";
+import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
+import { recordRelationshipInteraction } from "../records";
 import {
   RECESSION_BEGAN_EVENT,
   RECESSION_ENDED_EVENT,
@@ -179,6 +182,51 @@ describe("Build 19: the central bank is people", { timeout: 900_000 }, () => {
         !later.history.decisionTraces.includes(row),
     );
     expect(trace?.selectedOptionKey).toBe(`person:${nominee}`);
+  });
+
+  it("never names a sitting member of Congress to the board, even one who helped the President", () => {
+    const president = currentPresidentOf(later)!.personId;
+    const members = federalColleaguesOf(later).filter(
+      (id) =>
+        !currentStateExecutiveHolders(later).some((row) => row.personId === id),
+    );
+    expect(members.length).toBeGreaterThan(0);
+    const helper = members[0]!;
+    const known = recordRelationshipInteraction(later, {
+      stableKey: "test:member-helped-president",
+      personIds: [helper, president],
+      eventId: null,
+      occurredAt: later.currentDate,
+      kind: "support:helped-through-a-hard-time",
+      change: "strengthened",
+      significance: "major",
+      summary: "One helped the other through a hard time.",
+      tags: [`relationship.actor:${String(helper)}`],
+    });
+    const store = known.macroEconomy!;
+    const vacant: World = {
+      ...known,
+      macroEconomy: {
+        ...store,
+        centralBank: {
+          ...store.centralBank!,
+          openings: [
+            {
+              office: "governor",
+              seat: 0,
+              since: addDays(
+                later.currentDate,
+                -CENTRAL_BANK_PROFILE.daysFromVacancyToNomination,
+              ),
+            },
+          ],
+        },
+      },
+    };
+    const next = stepCentralBankSeats(vacant);
+    const nominated = next.history.events.at(-1)!;
+    expect(nominated.type).toBe(CENTRAL_BANK_NOMINATED_EVENT);
+    expect(members).not.toContain(nominated.participants[1]!.personId);
   });
 
   it("never decides for a player who chairs the board", () => {
