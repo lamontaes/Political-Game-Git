@@ -55,6 +55,7 @@ import {
   type StoryLeadRecord,
 } from "./records";
 import { editorialHeadline, editorialParagraphs } from "./editorial";
+import { reportLawEffects, reportLawOutcomes } from "./law-effect-news";
 import {
   appendPressRecord,
   pressDispositionsForLead,
@@ -1396,10 +1397,15 @@ export function pressDeskSweepHandler(
     throw new Error("The desk sweep handler received another transition.");
   }
   const frontier = dueItem.sequence;
-  const candidates = world.history.events.filter(
-    (event) => event.sequence > frontier && eventIsNewsCandidate(world, event),
+  // What the week's laws did to people in each town, and a year on what a law
+  // moved in a place, become records first, so this sweep can judge them
+  // (law-effect-news.ts).
+  const reported = reportLawOutcomes(reportLawEffects(world, frontier));
+  const candidates = reported.history.events.filter(
+    (event) =>
+      event.sequence > frontier && eventIsNewsCandidate(reported, event),
   );
-  let next = world;
+  let next = reported;
   for (const outlet of mediaOutlets(world)) {
     next = sweepOutlet(next, outlet, candidates);
   }
@@ -1826,6 +1832,8 @@ function beatForEventType(type: string): MediaBeat {
   )
     return "international";
   if (type.startsWith("civic.local-matter")) return "local-government";
+  // What a law did to a town's people is covered where they live.
+  if (type.startsWith("law.")) return "local-government";
   if (type.startsWith("congress.")) return "congress";
   if (type.startsWith("legislation.") || type.startsWith("legislative."))
     return "statehouse";
