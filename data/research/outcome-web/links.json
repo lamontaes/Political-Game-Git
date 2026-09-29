@@ -3884,6 +3884,24 @@
       "anchor": "Each 1% more transit service raises ridership about 0.5%: the elasticity with respect to service frequency averages 0.5, typical urban systems with 30-minute or better headways run about 0.30, and expanding routes into new areas typically gives 0.6 to 1.0. New service takes 1 to 3 years to reach its full ridership, so this acts from the first year. Only the part of service that laws and other causes moved is read, so service's own drift, which ridership's drift already stands for, is not counted twice.",
       "source": "Litman, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, June 17, 2025, page 12 (Service Elasticities), https://www.vtpi.org/tranelas.pdf",
       "range": [0.003, 0.01]
+    },
+    {
+      "key": "federal-deficit-to-borrowing-cost",
+      "from": "federal.deficit-change-pct-of-gdp",
+      "to": "gov.borrowing-cost",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 25,
+      "per": "percentage point of GDP the federal deficit changes, in basis points",
+      "lagMonths": 0,
+      "group": "state governments",
+      "owner": "F",
+      "evidence": "researched",
+      "anchor": "A one point rise in the projected federal deficit over GDP raises long-term interest rates about 25 basis points, and the rates states pay to borrow move with them. A law that cuts spending lowers what every state pays; a law that spends more raises it. Markets price the projected deficit when the law is made, so there is no lag. The paper's summary gives no band, so the spread is the default for researched links, 25% either way.",
+      "floor": -19,
+      "source": "Laubach 2009, New Evidence on the Interest Rate Effects of Budget Deficits and Debt, Journal of the European Economic Association 7(4): 858-885; the deficit change from data/research/federal/federal-outlay-terms-fy2025.json (Treasury Monthly Treasury Statement, BEA, CBO)"
     }
   ],
   "calibratedAt": "2024-07-01"

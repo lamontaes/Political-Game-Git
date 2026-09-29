@@ -6,6 +6,7 @@ import {
 } from "../macro-economy/readers";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import { defenseBoostPct } from "../federal-defense-spending";
+import { federalDeficitChangePctOfGdp } from "../federal-outlay-laws";
 import { farmPaymentsCutPctOfLandValue } from "../federal-farm-subsidy-law";
 import { stateMinimumSettingAt } from "../minimum-wage";
 import {
@@ -134,6 +135,7 @@ const CHANGE_MEASURES = new Set([
   "labor.minimum-wage-change-pct",
   "federal.defense-boost-pct",
   "federal.farm-payments-cut-pct-of-land-value",
+  "federal.deficit-change-pct-of-gdp",
 ]);
 
 /**
@@ -221,6 +223,16 @@ const FIXED_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
         ? null
         : farmPaymentsCutPctOfLandValue(world, key, asOf);
     },
+  },
+  "federal.deficit-change-pct-of-gdp": {
+    key: "federal.deficit-change-pct-of-gdp",
+    unit: "percentage points of GDP the federal deficit is above where the laws the game began with put it",
+    // Federal laws that cut spending before the debt limit rises, or spend
+    // more on foreign aid, change the federal deficit
+    // (`federal-outlay-laws.ts`); with neither the change is zero. The same
+    // nation-wide figure for every place.
+    read: (world, _jurisdictionId, asOf) =>
+      federalDeficitChangePctOfGdp(world, asOf),
   },
   "labor.unemployment-pct": {
     key: "labor.unemployment-pct",
@@ -341,6 +353,12 @@ export const LAW_QUESTION_MEASURES: Readonly<
   ],
   "us-federal-positions:agriculture.cut-farm-subsidies": [
     "federal.farm-payments-cut-pct-of-land-value",
+  ],
+  "us-federal-positions:budget.pay-for-a-higher-debt-limit": [
+    "federal.deficit-change-pct-of-gdp",
+  ],
+  "us-federal-positions:foreign-affairs.increase-foreign-aid": [
+    "federal.deficit-change-pct-of-gdp",
   ],
 };
 
