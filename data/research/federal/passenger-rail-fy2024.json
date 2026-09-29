@@ -1,0 +1,256 @@
+{
+  "id": "passenger-rail-fy2024",
+  "about": "Amtrak's riders in each place it serves, and how far a federal law that pays to expand passenger rail grows them. Used for the federal question on expanding passenger rail.",
+  "retrievedAt": "2026-09-29",
+  "sources": {
+    "riders": "Amtrak state fact sheets, fiscal year 2024 (October 1, 2023 to September 30, 2024): total passengers boarding or alighting in each state, https://www.amtrak.com/content/dam/projects/dotcom/english/public/documents/corporate/statefactsheets/<STATE>24.pdf, read September 29, 2026. Amtrak served 46 states and D.C.; Alaska, Hawaii, South Dakota, Wyoming and the five territories have no Amtrak station.",
+    "population": "data/research/money/population-2024.json (BEA CAINC1 line 2, 2024)",
+    "plan": "Amtrak, Amtrak Connects US: A Vision to Grow Rail Service Across America (March 2021), https://assets.amtrakconnectsus.com/uploads/2021/03/Amtrak-Connects-US-Vision-with-Map-Final.pdf: new or improved routes to add \"20 million more passengers than the 32 million served in FY 2019\" over 15 years, with increased federal funding.",
+    "firstService": "The 2021 infrastructure law was signed November 15, 2021. Amtrak's FY 2024 Company Profile reports the Borealis launched in May 2024, doubling daily service between Chicago and the Twin Cities, 30 months later. Reading that as the time before a federal expansion carries its first added riders is an inference.",
+    "forecastAccuracy": "Flyvbjerg, Skamris Holm and Buhl 2005, How (In)accurate Are Demand Forecasts in Public Works Projects? The Case of Transportation, Journal of the American Planning Association 71(2), https://arxiv.org/pdf/1303.6654: across 25 rail projects (27 less two statistical outliers), actual passenger traffic averaged 51.4% below forecast (sd 28.1)."
+  },
+  "plan": {
+    "meaning": "How many more riders Amtrak's plan projects from a federal expansion, as a percent of its riders before, and when.",
+    "projectedRisePct": 62.5,
+    "projectedRiseBasis": "20 million more over 32 million in FY 2019",
+    "firstServiceMonths": 30,
+    "fullYears": 15
+  },
+  "places": {
+    "US-AL": {
+      "passengers": 53285,
+      "population": 5157699,
+      "perResident": 0.0103
+    },
+    "US-AR": {
+      "passengers": 37061,
+      "population": 3088354,
+      "perResident": 0.012
+    },
+    "US-AZ": {
+      "passengers": 82304,
+      "population": 7582384,
+      "perResident": 0.0109
+    },
+    "US-CA": {
+      "passengers": 8495548,
+      "population": 39431263,
+      "perResident": 0.2155
+    },
+    "US-CO": {
+      "passengers": 228589,
+      "population": 5957493,
+      "perResident": 0.0384
+    },
+    "US-CT": {
+      "passengers": 2233901,
+      "population": 3675069,
+      "perResident": 0.6079
+    },
+    "US-DC": {
+      "passengers": 5639617,
+      "population": 702250,
+      "perResident": 8.0308
+    },
+    "US-DE": {
+      "passengers": 832809,
+      "population": 1051917,
+      "perResident": 0.7917
+    },
+    "US-FL": {
+      "passengers": 989095,
+      "population": 23372215,
+      "perResident": 0.0423
+    },
+    "US-GA": {
+      "passengers": 160682,
+      "population": 11180878,
+      "perResident": 0.0144
+    },
+    "US-IA": {
+      "passengers": 45149,
+      "population": 3241488,
+      "perResident": 0.0139
+    },
+    "US-ID": {
+      "passengers": 6469,
+      "population": 2001619,
+      "perResident": 0.0032
+    },
+    "US-IL": {
+      "passengers": 4355853,
+      "population": 12710158,
+      "perResident": 0.3427
+    },
+    "US-IN": {
+      "passengers": 88412,
+      "population": 6924275,
+      "perResident": 0.0128
+    },
+    "US-KS": {
+      "passengers": 43226,
+      "population": 2970606,
+      "perResident": 0.0146
+    },
+    "US-KY": {
+      "passengers": 10846,
+      "population": 4588372,
+      "perResident": 0.0024
+    },
+    "US-LA": {
+      "passengers": 195077,
+      "population": 4597740,
+      "perResident": 0.0424
+    },
+    "US-MA": {
+      "passengers": 4036037,
+      "population": 7136171,
+      "perResident": 0.5656
+    },
+    "US-MD": {
+      "passengers": 2467377,
+      "population": 6263220,
+      "perResident": 0.3939
+    },
+    "US-ME": {
+      "passengers": 448131,
+      "population": 1405012,
+      "perResident": 0.319
+    },
+    "US-MI": {
+      "passengers": 766073,
+      "population": 10140459,
+      "perResident": 0.0755
+    },
+    "US-MN": {
+      "passengers": 177521,
+      "population": 5793151,
+      "perResident": 0.0306
+    },
+    "US-MO": {
+      "passengers": 725473,
+      "population": 6245466,
+      "perResident": 0.1162
+    },
+    "US-MS": {
+      "passengers": 102012,
+      "population": 2943045,
+      "perResident": 0.0347
+    },
+    "US-MT": {
+      "passengers": 98487,
+      "population": 1137233,
+      "perResident": 0.0866
+    },
+    "US-NC": {
+      "passengers": 1398158,
+      "population": 11046024,
+      "perResident": 0.1266
+    },
+    "US-ND": {
+      "passengers": 85119,
+      "population": 796568,
+      "perResident": 0.1069
+    },
+    "US-NE": {
+      "passengers": 44207,
+      "population": 2005465,
+      "perResident": 0.022
+    },
+    "US-NH": {
+      "passengers": 197162,
+      "population": 1409032,
+      "perResident": 0.1399
+    },
+    "US-NJ": {
+      "passengers": 1870426,
+      "population": 9500851,
+      "perResident": 0.1969
+    },
+    "US-NM": {
+      "passengers": 88504,
+      "population": 2130256,
+      "perResident": 0.0415
+    },
+    "US-NV": {
+      "passengers": 73587,
+      "population": 3267467,
+      "perResident": 0.0225
+    },
+    "US-NY": {
+      "passengers": 14596155,
+      "population": 19867248,
+      "perResident": 0.7347
+    },
+    "US-OH": {
+      "passengers": 142689,
+      "population": 11883304,
+      "perResident": 0.012
+    },
+    "US-OK": {
+      "passengers": 81643,
+      "population": 4095393,
+      "perResident": 0.0199
+    },
+    "US-OR": {
+      "passengers": 854934,
+      "population": 4272371,
+      "perResident": 0.2001
+    },
+    "US-PA": {
+      "passengers": 6801451,
+      "population": 13078751,
+      "perResident": 0.52
+    },
+    "US-RI": {
+      "passengers": 1104183,
+      "population": 1112308,
+      "perResident": 0.9927
+    },
+    "US-SC": {
+      "passengers": 182208,
+      "population": 5478831,
+      "perResident": 0.0333
+    },
+    "US-TN": {
+      "passengers": 72040,
+      "population": 7227750,
+      "perResident": 0.01
+    },
+    "US-TX": {
+      "passengers": 397248,
+      "population": 31290831,
+      "perResident": 0.0127
+    },
+    "US-UT": {
+      "passengers": 46885,
+      "population": 3503613,
+      "perResident": 0.0134
+    },
+    "US-VA": {
+      "passengers": 2344558,
+      "population": 8811195,
+      "perResident": 0.2661
+    },
+    "US-VT": {
+      "passengers": 132601,
+      "population": 648493,
+      "perResident": 0.2045
+    },
+    "US-WA": {
+      "passengers": 1383335,
+      "population": 7958180,
+      "perResident": 0.1738
+    },
+    "US-WI": {
+      "passengers": 815061,
+      "population": 5960975,
+      "perResident": 0.1367
+    },
+    "US-WV": {
+      "passengers": 41601,
+      "population": 1769979,
+      "perResident": 0.0235
+    }
+  }
+}
