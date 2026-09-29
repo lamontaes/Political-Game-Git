@@ -24,7 +24,11 @@ import { SeededRng } from "../rng";
 import { STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
 import { standardNormal } from "../world-setup/deterministic-math";
-import { openingPaidShare, pensionPayment } from "./pension-share";
+import {
+  openingFundedRatio,
+  openingPaidShare,
+  pensionPayment,
+} from "./pension-share";
 import { reserveRule } from "./reserve-rule";
 import {
   budgetLawReadings,
@@ -514,16 +518,22 @@ function emptySpending(): number[] {
   return BUDGET_PROGRAMS.map(() => 0);
 }
 
-/** The opening pension and its actuarial contribution. PLACEHOLDER. */
+/**
+ * The opening pension and its actuarial contribution. The assets are the
+ * liability times the government's own reported funded ratio
+ * (`openingFundedRatio`); the liability's size against spending is still
+ * PLACEHOLDER.
+ */
 export function openingPension(
   spending: number,
   paidShare: number,
+  fundedRatio: number,
 ): {
   pension: PensionRecord;
   required: number;
 } {
   const liability = Math.round(spending * PENSION.liabilityToSpending);
-  const assets = Math.round(liability * PENSION.fundedRatio);
+  const assets = Math.round(liability * fundedRatio);
   return {
     pension: { liability, assets, paidShare },
     required: actuarialContribution({ liability, assets }),
@@ -844,7 +854,16 @@ export function openGovernmentBudget(
     candidate.level,
     candidate.name,
   );
-  const { pension, required } = openingPension(sum(spending), paid.share);
+  const funding = openingFundedRatio(
+    candidate.stateKey,
+    candidate.level,
+    candidate.name,
+  );
+  const { pension, required } = openingPension(
+    sum(spending),
+    paid.share,
+    funding.fundedRatio,
+  );
   // The opening year's contribution: in full under a law requiring it, and
   // at the government's own share otherwise.
   carvePension(
@@ -885,7 +904,10 @@ export function openGovernmentBudget(
     openingNotes: [
       ...opening.notes,
       `Calibration factor ${BUDGET_CALIBRATION}: ${bases.calibration.basis}`,
-      "Pension: liability, funded ratio and contribution are PLACEHOLDER (research: public-pension-funding-by-state), carved out of salary-paying programs.",
+      "Pension: the liability's size against spending is PLACEHOLDER (research: public-pension-funding-by-state); the contribution is carved out of salary-paying programs.",
+      funding.basis === "reported"
+        ? `Pension funded ratio: ${funding.fundedRatio}, as its own plans reported to the Public Plans Database.`
+        : `Pension funded ratio: ESTIMATED FROM AVERAGE, ${funding.fundedRatio}, the median of every plan in the Public Plans Database; its own plans are not listed.`,
       `Reserve target under a minimum-reserve law: ${reserveRule(candidate).floorShare} of a year's spending, at most ${reserveRule(candidate).depositShare} a year: ${reserveRule(candidate).basis}.`,
       paid.basis === "reported"
         ? `Pension share paid: ${paid.share}, as its own plans reported to the Public Plans Database.`

@@ -53,13 +53,12 @@ export const OPENING_DRAW_SD = 0.05;
 
 /**
  * Pension opening. The actuarial liability as a multiple of a year's general
- * spending, the funded ratio, the normal cost and benefits paid as shares of
+ * spending, the normal cost and benefits paid as shares of
  * the liability, the assumed return, and the amortization period for the
  * unfunded part. PLACEHOLDER, research: public-pension-funding-by-state.
  */
 export const PENSION = {
   liabilityToSpending: 1.2,
-  fundedRatio: 0.75,
   normalCostShare: 0.02,
   benefitShare: 0.08,
   assumedReturn: 0.07,

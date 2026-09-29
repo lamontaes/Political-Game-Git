@@ -1,4 +1,5 @@
 import paid from "../../../data/research/money/pension-contribution-paid.json" with { type: "json" };
+import funded from "../../../data/research/money/pension-funded-ratio.json" with { type: "json" };
 import type { BudgetLevel, BudgetLawReading } from "./store";
 
 /**
@@ -55,6 +56,51 @@ export function openingPaidShare(
   return reported === undefined
     ? { share: MEDIAN_PAID_SHARE, basis: "estimated-from-average" }
     : { share: reported, basis: "reported" };
+}
+
+/** The measured median funded ratio: what an unlisted government opens at. */
+export const MEDIAN_FUNDED_RATIO: number = funded.median;
+
+const FUNDED_BY_STATE: Readonly<
+  Record<string, { readonly fundedRatio: number }>
+> = funded.byState;
+const FUNDED_BY_LOCAL = new Map(
+  funded.byLocal.map((row) => [
+    `${row.state}|${row.kind}|${row.name.toLowerCase()}`,
+    row.fundedRatio,
+  ]),
+);
+
+export interface FundedRatioSource {
+  readonly fundedRatio: number;
+  /** Reported by the government's own plans, or the median of all plans. */
+  readonly basis: "reported" | "estimated-from-average";
+}
+
+/**
+ * The share of its pension liability a government's plans hold in assets
+ * when the world opens: each state's from the plans its government
+ * administers, each county's and city's from its own plans, the latest year
+ * the Public Plans Database reports (`pension-funded-ratio.json`, written by
+ * `scripts/research/export-pension-funded-ratio.py`). A government the
+ * database does not list opens at the median of every plan: ESTIMATED FROM
+ * AVERAGE.
+ */
+export function openingFundedRatio(
+  stateKey: string,
+  level: BudgetLevel,
+  name: string,
+): FundedRatioSource {
+  const usps = stateKey.replace(/^US-/, "");
+  const reported =
+    level === "state"
+      ? FUNDED_BY_STATE[usps]?.fundedRatio
+      : FUNDED_BY_LOCAL.get(
+          `${usps}|${level}|${name.split(",")[0]!.trim().toLowerCase()}`,
+        );
+  return reported === undefined
+    ? { fundedRatio: MEDIAN_FUNDED_RATIO, basis: "estimated-from-average" }
+    : { fundedRatio: reported, basis: "reported" };
 }
 
 /**
