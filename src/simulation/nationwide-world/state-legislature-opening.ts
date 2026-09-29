@@ -609,6 +609,42 @@ export function stateLegislators(
   world: World,
   packId: string,
 ): readonly StateLegislatorView[] {
+  return perWorld(STATE_LEGISLATORS, world, packId, readStateLegislators);
+}
+
+/**
+ * Answers kept for each World, which is never edited: a day's turnover asks
+ * for the same chamber's seats once for every election year it checks, and
+ * each reading walks every tenure the chamber has ever had.
+ */
+function perWorld<T>(
+  cache: WeakMap<World, Map<string, T>>,
+  world: World,
+  packId: string,
+  read: (world: World, packId: string) => T,
+): T {
+  let byPack = cache.get(world);
+  if (!byPack) {
+    byPack = new Map();
+    cache.set(world, byPack);
+  }
+  if (!byPack.has(packId)) byPack.set(packId, read(world, packId));
+  return byPack.get(packId)!;
+}
+
+const STATE_LEGISLATORS = new WeakMap<
+  World,
+  Map<string, readonly StateLegislatorView[]>
+>();
+const STATE_LEGISLATIVE_SEATS = new WeakMap<
+  World,
+  Map<string, readonly StateLegislativeSeatView[]>
+>();
+
+function readStateLegislators(
+  world: World,
+  packId: string,
+): readonly StateLegislatorView[] {
   const bodyId = createStableId(
     "organization",
     `${world.id}:${STATE_LEGISLATURE_KEYS.body(packId)}`,
@@ -704,6 +740,18 @@ export interface StateLegislativeSeatView {
  * size on the screen rather than shrinking to its survivors.
  */
 export function stateLegislativeSeats(
+  world: World,
+  packId: string,
+): readonly StateLegislativeSeatView[] {
+  return perWorld(
+    STATE_LEGISLATIVE_SEATS,
+    world,
+    packId,
+    readStateLegislativeSeats,
+  );
+}
+
+function readStateLegislativeSeats(
   world: World,
   packId: string,
 ): readonly StateLegislativeSeatView[] {
