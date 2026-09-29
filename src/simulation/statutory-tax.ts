@@ -19,6 +19,7 @@
  * Enacted game taxes (`tax-policy.ts`) are a separate route and untouched.
  */
 import { createStableId } from "./ids";
+import { recordById } from "./history-index";
 import {
   FEDERAL_INCOME_TAX_2026,
   filingStatusAt,
@@ -37,7 +38,11 @@ import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
 } from "./national-election-geography";
-import { resourcePositionAt } from "./resource-queries";
+import {
+  resourceFlowsTouching,
+  resourcePositionAt,
+  resourceTransferOutcomesOfFlows,
+} from "./resource-queries";
 import {
   createResourceFlow,
   money,
@@ -55,7 +60,10 @@ import {
 import { stateIncomeTaxUnderLaw } from "./state-income-tax-law";
 import { paidLeavePremium, premiumOn } from "./state-paid-leave-law";
 import { ensureTaxPublicAccount, publicOrganizationKey } from "./tax-policy";
-import type { StatutoryTaxLiabilityRecord } from "./tax-types";
+import type {
+  StatutoryTaxLiabilityRecord,
+  StatutoryTaxPaymentRecord,
+} from "./tax-types";
 import type {
   EntityId,
   MoneyAmount,
@@ -81,14 +89,10 @@ type LiabilityDraft = Omit<
  * pay transfer recorded before this existed is never assessed after the fact.
  */
 export function assessPaycheckTaxes(world: World, outcomeId: EntityId): World {
-  const outcome = world.history.resourceTransferOutcomes.find(
-    (row) => row.id === outcomeId,
-  );
+  const outcome = recordById(world.history.resourceTransferOutcomes, outcomeId);
   if (!outcome || outcome.transferredAmount.minorUnits <= 0) return world;
   if (outcome.transferredAmount.currency !== "USD") return world;
-  const flow = world.history.resourceFlows.find(
-    (row) => row.id === outcome.resourceFlowId,
-  );
+  const flow = recordById(world.history.resourceFlows, outcome.resourceFlowId);
   if (
     !flow ||
     flow.basisReference.kind !== "work" ||
@@ -96,24 +100,22 @@ export function assessPaycheckTaxes(world: World, outcomeId: EntityId): World {
   )
     return world;
   if (
-    (world.history.statutoryTaxLiabilities ?? []).some(
-      (row) => row.sourceOutcomeId === outcome.id,
+    taxRowIdentity(world.history.statutoryTaxLiabilities ?? []).sources.has(
+      outcome.id,
     )
   )
     return world;
 
   const drafts = paycheckLiabilities(world, flow, outcome);
-  let next = world;
-  const recorded: StatutoryTaxLiabilityRecord[] = [];
-  for (const draft of drafts) {
-    next = append(
-      next,
-      "statutoryTaxLiabilities",
-      "statutory-tax-liability",
-      draft,
-    );
-    recorded.push(next.history.statutoryTaxLiabilities!.at(-1)!);
-  }
+  const next = append(
+    world,
+    "statutoryTaxLiabilities",
+    "statutory-tax-liability",
+    drafts,
+  );
+  const recorded = drafts.length
+    ? next.history.statutoryTaxLiabilities!.slice(-drafts.length)
+    : [];
   return withhold(next, flow.recipient.personId, outcome, recorded);
 }
 
@@ -482,21 +484,21 @@ export function wagesPaidEarlierThisYear(
 ): number {
   const year = String(taxYear);
   let total = 0;
-  // The same employer's pay flows to the same worker, looked up by id.
+  // The same employer's pay flows to the same worker, looked up by id. Only
+  // the worker's own flows and their outcomes are read, by index.
   const same = new Set<EntityId>();
-  for (const other of world.history.resourceFlows)
+  for (const other of resourceFlowsTouching(world, flow.recipient))
     if (
       other.basisReference.kind === "work" &&
       sameOwner(other.source, flow.source) &&
       sameOwner(other.recipient, flow.recipient)
     )
       same.add(other.id);
-  for (const row of world.history.resourceTransferOutcomes) {
+  for (const row of resourceTransferOutcomesOfFlows(world, same)) {
     if (row.sequence >= outcome.sequence) continue;
     if (row.occurredAt.slice(0, 4) !== year) continue;
     if (row.transferredAmount.currency !== outcome.transferredAmount.currency)
       continue;
-    if (!same.has(row.resourceFlowId)) continue;
     total += row.transferredAmount.minorUnits;
   }
   return total;
@@ -653,11 +655,12 @@ function withholdTo(
   });
   const transfer = next.history.resourceTransferOutcomes.at(-1)!;
   let remaining = moved;
+  const payments: StatutoryTaxPaymentDraft[] = [];
   for (const liability of withheld) {
     const amount = Math.min(remaining, liability.liability!.minorUnits);
     if (amount === 0) break;
     remaining -= amount;
-    next = append(next, "statutoryTaxPayments", "statutory-tax-payment", {
+    payments.push({
       stableKey: `${liability.stableKey}:withholding`,
       liabilityId: liability.id,
       method: "withholding",
@@ -665,7 +668,12 @@ function withholdTo(
       resourceOutcomeId: transfer.id,
     });
   }
-  return next;
+  return append(
+    next,
+    "statutoryTaxPayments",
+    "statutory-tax-payment",
+    payments,
+  );
 }
 
 /** What a state's share of one paycheck's withholding paid for. */
@@ -768,8 +776,9 @@ export function assertStatutoryTaxIntegrity(
   const liabilities = new Map<EntityId, StatutoryTaxLiabilityRecord>();
   for (const row of world.history.statutoryTaxLiabilities ?? []) {
     liabilities.set(row.id, row);
-    const source = world.history.resourceTransferOutcomes.find(
-      (outcome) => outcome.id === row.sourceOutcomeId,
+    const source = recordById(
+      world.history.resourceTransferOutcomes,
+      row.sourceOutcomeId,
     );
     if (
       !source ||
@@ -829,14 +838,13 @@ export function assertStatutoryTaxIntegrity(
   const byLiability = new Map<EntityId, number>();
   for (const payment of world.history.statutoryTaxPayments ?? []) {
     const liability = liabilities.get(payment.liabilityId);
-    const transfer = world.history.resourceTransferOutcomes.find(
-      (row) => row.id === payment.resourceOutcomeId,
+    const transfer = recordById(
+      world.history.resourceTransferOutcomes,
+      payment.resourceOutcomeId,
     );
     const flow =
       transfer &&
-      world.history.resourceFlows.find(
-        (row) => row.id === transfer.resourceFlowId,
-      );
+      recordById(world.history.resourceFlows, transfer.resourceFlowId);
     if (
       !liability ||
       liability.sequence >= payment.sequence ||
@@ -859,8 +867,9 @@ export function assertStatutoryTaxIntegrity(
     );
   }
   for (const [outcomeId, paid] of byOutcome) {
-    const transfer = world.history.resourceTransferOutcomes.find(
-      (row) => row.id === outcomeId,
+    const transfer = recordById(
+      world.history.resourceTransferOutcomes,
+      outcomeId,
     )!;
     if (transfer.transferredAmount.minorUnits !== paid)
       throw new Error("Tax payments must add up to the withholding transfer.");
@@ -870,36 +879,115 @@ export function assertStatutoryTaxIntegrity(
       throw new Error("A tax payment cannot exceed its liability.");
 }
 
+type StatutoryTaxPaymentDraft = Omit<
+  StatutoryTaxPaymentRecord,
+  "id" | "sequence" | "recordedAt"
+>;
+
+/**
+ * Appends rows to one statutory tax list in order, each with the next
+ * sequence number, exactly as appending them one at a time would, but copying
+ * the list once. A paycheck writes several rows, and copying a list that
+ * grows with every paycheck once per row was most of a late Day's cost.
+ */
 function append<K extends "statutoryTaxLiabilities" | "statutoryTaxPayments">(
   world: World,
   field: K,
   kind: "statutory-tax-liability" | "statutory-tax-payment",
-  draft: Omit<
+  drafts: readonly Omit<
     NonNullable<World["history"][K]>[number],
     "id" | "sequence" | "recordedAt"
-  >,
+  >[],
 ): World {
-  const record = {
-    ...draft,
-    id: createStableId(kind, `${world.id}:${draft.stableKey}`),
-    sequence: world.history.nextSequence,
-    recordedAt: world.currentDate,
-  } as NonNullable<World["history"][K]>[number];
-  const duplicate = (row: { id: EntityId; stableKey: string }) =>
-    row.id === record.id || row.stableKey === record.stableKey;
-  if (
-    (world.history.statutoryTaxLiabilities ?? []).some(duplicate) ||
-    (world.history.statutoryTaxPayments ?? []).some(duplicate)
-  )
-    throw new Error("Duplicate statutory tax identity.");
+  if (drafts.length === 0) return world;
+  const records = drafts.map(
+    (draft, index) =>
+      ({
+        ...draft,
+        id: createStableId(kind, `${world.id}:${draft.stableKey}`),
+        sequence: world.history.nextSequence + index,
+        recordedAt: world.currentDate,
+      }) as NonNullable<World["history"][K]>[number],
+  );
+  const liabilities = taxRowIdentity(
+    world.history.statutoryTaxLiabilities ?? EMPTY_ROWS,
+  );
+  const payments = taxRowIdentity(
+    world.history.statutoryTaxPayments ?? EMPTY_ROWS,
+  );
+  const batchIds = new Set<EntityId>();
+  const batchKeys = new Set<string>();
+  for (const record of records) {
+    if (
+      liabilities.ids.has(record.id) ||
+      liabilities.keys.has(record.stableKey) ||
+      payments.ids.has(record.id) ||
+      payments.keys.has(record.stableKey) ||
+      batchIds.has(record.id) ||
+      batchKeys.has(record.stableKey)
+    )
+      throw new Error("Duplicate statutory tax identity.");
+    batchIds.add(record.id);
+    batchKeys.add(record.stableKey);
+  }
+  const before = world.history[field] ?? EMPTY_ROWS;
+  const after = [...before, ...records];
+  // The new list inherits the old list's identity index, grown by the new
+  // rows. The old list gives it up, so a later look at it builds its own.
+  const identity = TAX_ROW_IDENTITIES.get(before);
+  if (identity && before !== EMPTY_ROWS) {
+    TAX_ROW_IDENTITIES.delete(before);
+    for (const record of records) remember(identity, record);
+    TAX_ROW_IDENTITIES.set(after, identity);
+  }
   return {
     ...world,
     history: {
       ...world.history,
-      nextSequence: world.history.nextSequence + 1,
-      [field]: [...(world.history[field] ?? []), record],
+      nextSequence: world.history.nextSequence + records.length,
+      [field]: after,
     },
   };
+}
+
+/**
+ * The ids, stable keys and assessed pay of one statutory tax list. Every
+ * paycheck adds several rows to these lists, and checking each new row
+ * against every earlier one made a Day's paydays cost more each year the
+ * world ran. A list is never edited once written, so its index is exact; it
+ * moves forward to the list an append makes from it.
+ */
+interface TaxRowIdentity {
+  readonly ids: Set<EntityId>;
+  readonly keys: Set<string>;
+  /** The pay transfers liabilities in this list assess. */
+  readonly sources: Set<EntityId>;
+}
+
+const TAX_ROW_IDENTITIES = new WeakMap<readonly object[], TaxRowIdentity>();
+const EMPTY_ROWS: readonly never[] = [];
+
+function remember(
+  identity: TaxRowIdentity,
+  row: { readonly id: EntityId; readonly stableKey: string },
+): void {
+  identity.ids.add(row.id);
+  identity.keys.add(row.stableKey);
+  const source = (row as { readonly sourceOutcomeId?: EntityId })
+    .sourceOutcomeId;
+  if (source !== undefined) identity.sources.add(source);
+}
+
+function taxRowIdentity(
+  rows: readonly { readonly id: EntityId; readonly stableKey: string }[],
+): TaxRowIdentity {
+  let identity = TAX_ROW_IDENTITIES.get(rows);
+  if (!identity) {
+    identity = { ids: new Set(), keys: new Set(), sources: new Set() };
+    for (const row of rows) remember(identity, row);
+    TAX_ROW_IDENTITIES.set(rows, identity);
+  }
+  return identity;
 }
 
 function sameOwner(

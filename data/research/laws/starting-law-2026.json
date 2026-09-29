@@ -1539,15 +1539,373 @@
       }
     },
     "us-policy-positions:justice-public-safety.end-cash-bail": {
-      "source": "Illinois ended cash bail under the SAFE-T Act (Sept. 18, 2023); D.C. releases without money bail.",
-      "note": "Other states are left unanswered.",
+      "source": "Per-place primary pages fetched 9/28/2026: state code, court rule or session-law pages (e.g., azleg.gov, leginfo.legislature.ca.gov, delcode.delaware.gov, law.lis.virginia.gov, pub.njleg.gov P.L.2014 c.31, code.dccouncil.gov § 23-1321, col.guamcourts.gov 8 GCA ch. 40, cnmilaw.gov NMI R. Crim. P. 46); secondary only for IL (Bail Project), NY (Brennan Center) and PR/OK/TN constitutions (Wikisource); H.R. 5214 status from GovTrack.",
+      "note": "Unknown, and left out: US-AR, US-AS, US-GA, US-VI.",
       "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Alaska Stat. § 12.30.011",
+          "source": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=12.30.011&secEnd=12.30.011",
+          "note": "Section 12.30.011(b) lets the judge require a cash appearance bond, a bail bond with sureties or a cash performance bond; HB 49 (2019) repealed SB 91's release presumptions."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ala. R. Crim. P. 7.2",
+          "source": "https://judicial.alabama.gov/docs/library/rules/cr7_2.pdf",
+          "note": "Rule 7.2 lets the court release on recognizance or an appearance bond and refers to secured appearance bonds; money bail remains a standard condition."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ariz. Rev. Stat. § 13-3967",
+          "source": "https://www.azleg.gov/ars/13/03967.htm",
+          "note": "Section 13-3967 lets the judge require a deposit of cash or other security as a release condition."
+        },
+        "US-CA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Cal. Penal Code §§ 1269b, 1275",
+          "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=1269b",
+          "note": "Bail is accepted in cash or surety bond under countywide bail schedules; voters rejected SB 10's replacement of cash bail (Proposition 25, November 2020)."
+        },
+        "US-CO": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Colo. Rev. Stat. § 16-4-104(1)(c)",
+          "source": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-16.pdf",
+          "note": "Section 16-4-104 still authorizes a bond with secured monetary conditions, although unsecured personal recognizance bonds come first."
+        },
+        "US-CT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Conn. Practice Book § 38-4 (2026 ed.)",
+          "source": "https://www.jud.ct.gov/Publications/PracticeBook/PB.pdf",
+          "note": "Practice Book § 38-4 lists 7 percent cash bail and bonds with surety among release conditions and bars judges from prohibiting surety bonds; the statute (Conn. Gen. Stat. § 54-64a) could not be fetched from cga.ct.gov."
+        },
         "US-DC": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": true,
+          "cite": "D.C. Code § 23-1321(c)(3)",
+          "source": "https://code.dccouncil.gov/us/dc/council/code/sections/23-1321",
+          "note": "A judge may not set a financial condition that results in detention, so money bail is effectively unused (provision dates from the 1992 amendments). H.R. 5214 (D.C. Cash Bail Reform Act) passed the House on 11/19/2025 but had not passed the Senate, so it was not law on 1/1/2026 (GovTrack, https://www.govtrack.us/congress/bills/119/hr5214)."
+        },
+        "US-DE": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "11 Del. C. § 2105",
+          "source": "https://delcode.delaware.gov/title11/c021/index.html",
+          "note": "Delaware prefers nonmonetary conditions but still authorizes bonds guaranteed by financial terms, including cash-only bonds."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Fla. Stat. § 903.046",
+          "source": "https://www.flsenate.gov/Laws/Statutes/2025/903.046",
+          "note": "Florida law sets bail criteria and requires monetary bonds of at least $2,000 in certain failure-to-appear cases."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "8 GCA § 40.20(d)",
+          "source": "https://col.guamcourts.gov/sites/default/files/8gc040.pdf",
+          "note": "Section 40.20(d) authorizes a bond secured by cash, other property or qualified sureties; the compilation is current to 6/24/2021."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Haw. Rev. Stat. § 804-9",
+          "source": "https://data.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0804/HRS_0804-0009.htm",
+          "note": "Section 804-9 has judges set a reasonable bail amount considering ability to afford it; money bail remains lawful."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Iowa Code § 811.2",
+          "source": "https://www.legis.iowa.gov/docs/code/811.2.pdf",
+          "note": "Section 811.2 authorizes cash deposits and bail bonds with sufficient surety as release conditions."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Idaho Code § 19-2905",
+          "source": "https://legislature.idaho.gov/statutesrules/idstat/Title19/T19CH29/SECT19-2905/",
+          "note": "The Idaho Bail Act defines bail as a monetary amount required for release and regulates bail agents and bail bonds."
         },
         "US-IL": {
           "answer": "yes",
-          "operativeAt": "2023-09-18"
+          "operativeAt": "2023-09-18",
+          "preempts": true,
+          "cite": "725 ILCS 5/110-1.5",
+          "source": "https://bailproject.org/policy/illinois-ends-cash-bail-whats-next/",
+          "note": "The Pretrial Fairness Act (SAFE-T Act, P.A. 101-652) abolished monetary bail on 9/18/2023; release is decided by conditions or a detention hearing. The statute page on ilga.gov could not be fetched (TLS failure / egress block), so the source is secondary."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ind. Crim. Rule 2.6",
+          "source": "https://rules.incourts.gov/Content/criminal/rule2-6/current.htm",
+          "note": "Rule 2.6 (effective 1/1/2024) favors release without money bail for low-risk arrestees but expressly authorizes money bail by surety bond or cash deposit."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Kan. Stat. Ann. § 22-2802",
+          "source": "https://www.ksrevisor.gov/statutes/chapters/ch22/022_028_0002.html",
+          "note": "Section 22-2802 authorizes appearance bonds with sureties and cash bonds."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ky. Rev. Stat. § 431.066",
+          "source": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=40904",
+          "note": "Partial: Kentucky bans commercial bail bondsmen and presumes release on unsecured bond for low- and moderate-risk defendants, but courts still set bail and the statute credits jail time toward it."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "La. Code Crim. Proc. art. 321",
+          "source": "https://legis.la.gov/Legis/Law.aspx?d=112440",
+          "note": "Article 321 lists commercial surety, secured personal surety and cash deposit among the types of bail."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mass. Gen. Laws ch. 276, § 58",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section58",
+          "note": "Section 58 presumes personal recognizance but allows cash bail (or an equivalent surety bond) set with regard to financial resources."
+        },
+        "US-MD": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Md. Code, Crim. Proc. § 5-205",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=5-205&enactments=false",
+          "note": "Section 5-205 lets District Court judges set bond or bail, including cash bail; Maryland's 2017 court rule favors nonfinancial conditions but did not abolish money bail."
+        },
+        "US-ME": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Me. Rev. Stat. tit. 15, § 1026",
+          "source": "https://legislature.maine.gov/statutes/15/title15sec1026.html",
+          "note": "Section 1026 lets the judicial officer require a bail bond with sureties or a financial condition, considering ability to pay."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mich. Comp. Laws § 765.6",
+          "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-765-6",
+          "note": "Section 765.6 has the court fix a bail amount, with 10 percent deposit or surety bonds."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Minn. R. Crim. P. 6.02",
+          "source": "https://www.revisor.mn.gov/court_rules/cr/id/6/",
+          "note": "Rule 6.02 lets the court require an appearance bond, cash deposit or other security when recognizance is not enough."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mo. Rev. Stat. § 544.455",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=544.455",
+          "note": "Section 544.455 lets the judge require a bail bond with sureties or a cash deposit."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "NMI R. Crim. P. 46(a)(1)",
+          "source": "https://cnmilaw.gov/docs/courtrules/R06.pdf",
+          "note": "Rule 46 lets the judge require an appearance bond with a cash deposit or a bail bond with sureties."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Miss. R. Crim. P. 8.2",
+          "source": "https://courts.ms.gov/research/rules/msrulesofcourt/Rules%20of%20Criminal%20Procedure%20Post-070123.pdf",
+          "note": "Rule 8 provides for secured appearance bonds and publishes recommended money bond ranges."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mont. Code Ann. § 46-9-401",
+          "source": "https://mca.legmt.gov/bills/mca/title_0460/chapter_0090/part_0040/section_0010/0460-0090-0040-0010.html",
+          "note": "Section 46-9-401 lists cash deposits, real estate pledges and surety bonds as forms of bail."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.C. Gen. Stat. § 15A-534",
+          "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-534.html",
+          "note": "Section 15A-534 authorizes secured appearance bonds backed by cash, mortgage or surety."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.D. R. Crim. P. 46",
+          "source": "https://www.ndcourts.gov/legal-resources/rules/ndrcrimp/46",
+          "note": "Rule 46 lets the magistrate require an appearance bond with a cash deposit or other security."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Neb. Rev. Stat. § 29-901",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=29-901",
+          "note": "Section 29-901 authorizes appearance bonds with a cash deposit of up to 10 percent, or full bail bonds."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.H. Rev. Stat. § 597:2",
+          "source": "https://gc.nh.gov/rsa/html/LIX/597/597-2.htm",
+          "note": "Section 597:2 authorizes cash or corporate surety bail, set considering ability to post it."
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.J.S.A. 2A:162-15 et seq. (P.L.2014, c.31)",
+          "source": "https://pub.njleg.gov/bills/2014/PL14/31_.PDF",
+          "note": "Partial but near-abolition: the Criminal Justice Reform Act relies primarily on non-monetary release and allows monetary bail only when no other condition will assure appearance; it took effect with the 2014 amendment to N.J. Const. art. I, para. 11 (January 1, 2017)."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.M. Const. art. II, § 13",
+          "source": "https://www.nmlegis.gov/Sessions/16%20Regular/final/SJR01.pdf",
+          "note": "Partial: the 2016 amendment (SJR 1) allows felony detention without bail and bars holding someone solely for inability to post a money or property bond, but keeps bail by sufficient sureties."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Nev. Rev. Stat. § 178.502",
+          "source": "https://www.leg.state.nv.us/NRS/NRS-178.html",
+          "note": "Section 178.502 lets the court require sureties or accept cash for a bail bond."
+        },
+        "US-NY": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.Y. Crim. Proc. Law §§ 510.10, 520.10",
+          "source": "https://www.brennancenter.org/our-work/research-reports/facts-bail-reform-new-york-how-pretrial-detention-and-release-works-now",
+          "note": "Partial: since 1/1/2020 money bail is barred for most misdemeanors and nonviolent felonies, but it remains a standard condition for qualifying offenses (list since expanded); nysenate.gov refused the fetch, so the source is secondary."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ohio Rev. Code § 2937.22",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-2937.22",
+          "note": "Section 2937.22 lists deposits of cash and bonds and surety undertakings as forms of bail."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Okla. Const. art. 2, § 8",
+          "source": "https://en.wikisource.org/wiki/Constitution_of_Oklahoma",
+          "note": "The constitution makes all persons bailable by sufficient sureties (with listed exceptions); the statutes (22 O.S. § 1105) could not be fetched from oscn.net or oklegislature.gov."
+        },
+        "US-OR": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Or. Rev. Stat. § 135.265",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors135.html",
+          "note": "Partial: Oregon has no commercial bail bonds, but security release requires depositing 10 percent of a money security amount set by the magistrate."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Pa. R. Crim. P. 524",
+          "source": "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/234/chapter5/s524.html",
+          "note": "Rule 524 lists monetary conditions and full cash bail among the types of release on bail."
+        },
+        "US-PR": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "P.R. Const. art. II, § 11; P.R. R. Crim. P. 218",
+          "source": "https://en.wikisource.org/wiki/Constitution_of_the_Commonwealth_of_Puerto_Rico",
+          "note": "The constitution guarantees admission to bail before conviction and bars excessive bail; bail (fianza) is a money amount. Rule 218 itself could not be fetched."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "R.I. Gen. Laws § 12-13-1",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE12/12-13/12-13-1.htm",
+          "note": "Section 12-13-1 releases defendants upon recognizance with sufficient surety or sureties."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "S.C. Code § 17-15-10",
+          "source": "https://www.scstatehouse.gov/code/t17c015.php",
+          "note": "Section 17-15-10 lets the court require an appearance bond with good and sufficient sureties."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "S.D. Codified Laws § 23A-43-3",
+          "source": "https://sdlegislature.gov/api/Statutes/23A-43-3.html",
+          "note": "Section 23A-43-3 lets the court require an appearance bond backed by a cash or security deposit."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Tenn. Const. art. I, § 15",
+          "source": "https://en.wikisource.org/wiki/Constitution_of_the_State_of_Tennessee_(1870)",
+          "note": "The constitution makes all prisoners bailable by sufficient sureties; Tennessee's code (Tenn. Code Ann. tit. 40, ch. 11) is not on a fetchable official site."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Tex. Code Crim. Proc. ch. 17 (as amended by S.B. 6, 87th Leg., 2d C.S., 2021)",
+          "source": "https://capitol.texas.gov/tlodocs/872/billtext/html/SB00006F.htm",
+          "note": "S.B. 6 (2021) regulates setting bail amounts and restricts release on personal bond for certain defendants, so monetary bail remains standard."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Utah Code § 77-20-205",
+          "source": "https://le.utah.gov/xcode/Title77/Chapter20/C77-20-S205_2026050620260506.html",
+          "note": "Section 77-20-205 lists a financial condition among release conditions; the fetched page is the version effective 5/6/2026, and the financial-condition option also existed on 1/1/2026."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Va. Code § 19.2-123",
+          "source": "https://law.lis.virginia.gov/vacode/title19.2/chapter9/section19.2-123/",
+          "note": "Section 19.2-123 authorizes secure bonds satisfied by sureties or cash."
+        },
+        "US-VT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Vt. Stat. Ann. tit. 13, § 7554",
+          "source": "https://legislature.vermont.gov/statutes/section/13/229/07554",
+          "note": "Section 7554 lets the judicial officer require a secured appearance bond or surety bond, considering financial means."
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Wash. Super. Ct. Crim. R. 3.2",
+          "source": "https://www.courts.wa.gov/court_rules/pdf/CrR/SUP_CrR_03_02_00.pdf",
+          "note": "CrR 3.2 lets the court require a bond with a cash or security deposit or a surety bond."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Wis. Stat. §§ 969.02-969.03",
+          "source": "https://docs.legis.wisconsin.gov/statutes/statutes/969/03",
+          "note": "Partial: Wisconsin bars commercial bail bonds, but judges may require bail bonds with sureties or cash deposits."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "W. Va. Code § 62-1C-1",
+          "source": "https://code.wvlegislature.gov/62-1C-1/",
+          "note": "Article 1C governs admission to bail and review of the amount of bail; money bail remains lawful."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Wyo. Stat. §§ 7-10-101 to 7-10-105",
+          "source": "https://wyoleg.gov/statutes/compress/title07.pdf",
+          "note": "Title 7, ch. 10 governs bail amounts, sureties and forfeiture of bail (details in W.R.Cr.P. 46.1)."
         }
       }
     },
@@ -1781,11 +2139,11 @@
         },
         "US-NE": {
           "answer": "yes",
-          "operativeAt": "2024-04-01",
+          "operativeAt": "2024-05-14",
           "preempts": true,
           "cite": "Neb. Const. art. I, § 22 (LB 514 of 2023)",
           "source": "https://sos.nebraska.gov/voter-id",
-          "note": "Strict photo with a reasonable impediment certification for voters who cannot obtain ID; first applied to the May 2024 primary."
+          "note": "Strict photo with a reasonable impediment certification for voters who cannot obtain ID. Signed 6/1/2023 (LB 514); first applied at the 5/14/2024 primary."
         },
         "US-NH": {
           "answer": "yes",
@@ -2968,6 +3326,2803 @@
           "preempts": true,
           "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
           "note": "The legislature draws the legislative map; Wyoming has one congressional district."
+        }
+      }
+    },
+    "us-policy-positions:fiscal.graduated-income-tax": {
+      "source": "Tax Foundation, 2026 State Income Tax Rates and Brackets (as of 02/11/2026), 2023/2024/2025 editions and 2026 State Tax Changes; state statutes and agency pages fetched 09/28/2026 (azdor.gov, dor.georgia.gov, legis.iowa.gov, revenue.louisiana.gov, dor.ms.gov, ncleg.gov, apps.legislature.ky.gov, le.utah.gov, legislature.idaho.gov, codes.ohio.gov, legislature.mi.gov, tax.illinois.gov, pa.gov, palegis.us, malegislature.gov, leginfo.legislature.ca.gov); territories: IRS Publication 570 (2025), hacienda.pr.gov 2025 instructions, cnmilaw.gov, americansamoa.gov Tax Office.",
+      "note": "Every place is answered.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "No tax on wages."
+        },
+        "US-AL": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-AR": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-AS": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.americansamoa.gov/tax-office",
+          "note": "The American Samoa Government Tax Office publishes the IRS 2000 Tax Table and Instructions for use with Form 390, with graduated rates (15 percent and up); IRS Publication 570 (2025) says its tax laws are modeled on the Internal Revenue Code with certain differences."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "operativeAt": "2023-01-01",
+          "preempts": true,
+          "source": "https://azdor.gov/sites/default/files/2023-12/FORMS_INDIVIDUAL_2023_140i.pdf",
+          "note": "Flat 2.5 percent from tax year 2023 (Arizona Form 140 instructions for 2023 tell filers to multiply taxable income by 2.5 percent; Tax Foundation says S.B. 1828 triggers reached the flat rate a year early). The A.R.S. 43-1011 page served by azleg.gov did not show the flat-rate paragraph, so no cite is given."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Cal. Rev. & Tax. Code § 17041",
+          "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=17041"
+        },
+        "US-CO": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "Single 4.4 percent rate for 2026; flat structure predates 2000 (not re-verified from a primary page because tax.colorado.gov refused the request, so no cite is given)."
+        },
+        "US-CT": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-DC": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-DE": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "No tax on wages."
+        },
+        "US-GA": {
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "preempts": true,
+          "cite": "O.C.G.A. § 48-7-20",
+          "source": "https://dor.georgia.gov/document/document/2024-it-511-individual-income-tax-booklet/download",
+          "note": "Flat rate from 01/01/2024 (5.39 percent for 2024 per the Georgia IT-511 booklet; 5.19 percent in the Tax Foundation 2026 table), replacing a graduated tax with a 5.75 percent top rate."
+        },
+        "US-GU": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.irs.gov/publications/p570",
+          "note": "IRS Publication 570 (2025) says Guam has its own tax system based on the same tax laws and tax rates that apply in the United States (seven graduated federal brackets); the Guam Department of Revenue and Taxation administers it as the Guam Territorial Income Tax."
+        },
+        "US-HI": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-IA": {
+          "answer": "no",
+          "operativeAt": "2025-01-01",
+          "preempts": true,
+          "cite": "Iowa Code § 422.5",
+          "source": "https://www.legis.iowa.gov/docs/code/422.5.pdf",
+          "note": "Iowa Code 2026 section 422.5 imposes one rate of 3.8 percent; Tax Foundation reports the three brackets were consolidated into that single rate effective 01/01/2025."
+        },
+        "US-ID": {
+          "answer": "no",
+          "operativeAt": "2023-01-01",
+          "preempts": true,
+          "cite": "Idaho Code § 63-3024",
+          "source": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH30/SECT63-3024/",
+          "note": "Section 63-3024 was added by the 2022 First Extraordinary Session (HB 1), replacing brackets with one rate above an exempt band for tax year 2023 (Tax Foundation gives the bill an effective date of 01/03/2023); the rate is now 5.3 percent."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://tax.illinois.gov/research/taxrates/income.html",
+          "note": "The Illinois Department of Revenue lists one individual rate of 4.95 percent effective 07/01/2017; the single-rate structure predates 2000 (ilga.gov failed TLS verification, so no statute or constitution cite is given)."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "Single 2.95 percent state rate for 2026; flat structure predates 2000 (no primary statute page could be fetched, so no cite is given)."
+        },
+        "US-KS": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-KY": {
+          "answer": "no",
+          "operativeAt": "2018-01-01",
+          "preempts": true,
+          "cite": "KRS 141.020",
+          "source": "https://apps.legislature.ky.gov/recorddocuments/bill/18RS/hb487/bill.pdf",
+          "note": "2018 HB 487 amended KRS 141.020 to a single 5 percent rate for taxable years beginning on or after 01/01/2018, replacing six brackets; the Tax Foundation 2026 table shows 3.5 percent."
+        },
+        "US-LA": {
+          "answer": "no",
+          "operativeAt": "2025-01-01",
+          "preempts": true,
+          "source": "https://revenue.louisiana.gov/individuals/general-resources/individual-income-tax/",
+          "note": "The Louisiana Department of Revenue says tax years beginning on or after 01/01/2025 use a flat 3 percent rate, replacing 1.85/3.5/4.25 percent brackets; no fetched page supported a statute cite."
+        },
+        "US-MA": {
+          "answer": "yes",
+          "operativeAt": "2023-01-01",
+          "preempts": true,
+          "cite": "Mass. Const. amend. art. 44, as amended by art. 121",
+          "source": "https://malegislature.gov/Laws/Constitution",
+          "note": "The base rate is a flat 5 percent, but Article CXXI adds a 4 percent surtax on income over an inflation-adjusted $1,000,000 for tax years beginning on or after 01/01/2023."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-ME": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "MCL 206.51",
+          "source": "https://legislature.mi.gov/Laws/MCL?objectName=mcl-206-51",
+          "note": "MCL 206.51 sets one rate (4.25 percent since 10/01/2012, with revenue-trigger reductions); the single-rate structure predates 2000."
+        },
+        "US-MN": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-MO": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-MP": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "4 CMC § 1204; 4 CMC § 1701",
+          "source": "https://cnmilaw.gov/docs/cmc_section/T4/1204.pdf",
+          "note": "The CNMI wage and salary tax (4 CMC 1204, from PL 9-22) applies rates from 2 to 9 percent by wage level, and 4 CMC 1701 adopts the Internal Revenue Code as the Northern Marianas Territorial Income Tax."
+        },
+        "US-MS": {
+          "answer": "no",
+          "operativeAt": "2023-01-01",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2023/",
+          "note": "H.B. 531 (2022) removed the 4 percent band from 01/01/2023, leaving 0 percent on the first $10,000 and one positive rate above it (4 percent for 2026 per the Mississippi Department of Revenue); no fetched page supported a statute cite."
+        },
+        "US-MT": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "Two brackets remain for tax year 2026; the top rate fell to 5.65 percent."
+        },
+        "US-NC": {
+          "answer": "no",
+          "operativeAt": "2014-01-01",
+          "preempts": true,
+          "cite": "N.C. Gen. Stat. § 105-153.7",
+          "source": "https://www.ncleg.gov/EnactedLegislation/SessionLaws/HTML/2013-2014/SL2013-316.html",
+          "note": "Session Law 2013-316 enacted G.S. 105-153.7 with one 5.8 percent rate for taxable years beginning on or after 01/01/2014; the rate is 3.99 percent after 2025."
+        },
+        "US-ND": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "A zero-rate band sits below two positive rates, so the tax is graduated."
+        },
+        "US-NE": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "No tax on wages; the separate tax on interest and dividends ended for tax years from 01/01/2025."
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-NM": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "No tax on wages."
+        },
+        "US-NY": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-OH": {
+          "answer": "no",
+          "operativeAt": "2026-01-01",
+          "preempts": true,
+          "cite": "Ohio Rev. Code § 5747.02",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-5747.02",
+          "note": "HB 96 (2025) amended section 5747.02 so that for taxable years beginning in 2026 nonbusiness income over $26,050 is taxed at one 2.75 percent rate (income at or below $26,050 is exempt); 2025 still had 2.75 and 3.125 percent brackets."
+        },
+        "US-OK": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "HB 2764 collapsed six brackets into three (2.5, 3.5 and 4.5 percent) on 01/01/2026; the tax stays graduated."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Pa. Const. art. VIII, § 1",
+          "source": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/personal-income-tax",
+          "note": "The Pennsylvania Department of Revenue levies one 3.07 percent rate; the constitution requires taxes to be uniform on the same class of subjects. Single rate predates 2000."
+        },
+        "US-PR": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "P.R. Internal Revenue Code of 2011 § 1021.01",
+          "source": "https://hacienda.pr.gov/sites/default/files/inst_individuals_2025.pdf",
+          "note": "Hacienda 2025 individual return instructions give graduated normal-tax brackets of 0, 7, 14, 25 and 33 percent under section 1021.01; no 2026 change to a single rate was found."
+        },
+        "US-RI": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-SC": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "No tax on wages."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "No tax on wages."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "No tax on wages."
+        },
+        "US-UT": {
+          "answer": "no",
+          "operativeAt": "2008-01-01",
+          "preempts": true,
+          "cite": "Utah Code § 59-10-104",
+          "source": "https://le.utah.gov/~2007/bills/sbillenr/sb0223.htm",
+          "note": "2007 S.B. 223 ended graduated brackets for taxable years beginning on or after 01/01/2008. Tax Foundation lists 4.5 percent for 2026; the current Utah Code section 59-10-104, amended in the 2026 General Session and shown as effective 01/01/2026, sets 4.45 percent."
+        },
+        "US-VA": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-VI": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.irs.gov/publications/p570",
+          "note": "IRS Publication 570 (2025) says the USVI has its own tax system based on the same tax laws and tax rates that apply in the United States, so wages face the graduated federal schedule; residents file Form 1040 with the Virgin Islands Bureau of Internal Revenue."
+        },
+        "US-VT": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "No tax on wages; the capital gains excise tax adopted in 2021 does not count as a wage income tax."
+        },
+        "US-WI": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-WV": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "No tax on wages."
+        }
+      }
+    },
+    "us-policy-positions:transportation-infrastructure.public-broadband": {
+      "source": "Official state code pages fetched 9/28/2026 (ncleg.gov, nebraskalegislature.gov, le.utah.gov 2025 text, law.lis.virginia.gov, revisor.mo.gov, flsenate.gov 2025, docs.legis.wisconsin.gov, leg.mt.gov MCA 2025, legislature.mi.gov through PA 103 of 2026, palegis.us, legis.la.gov, scstatehouse.gov, leg.state.nv.us, ALISON, legis.iowa.gov 2026 code, gc.nh.gov); repeal acts (Arkansas Act 67 of 2021, Colorado SB23-183, Washington HB 1336, Minnesota 2024 ch. 114); 6th Cir. 2016 opinion for Tennessee; municipal utility pages for states answered yes without a statute.",
+      "note": "Unknown, and left out: US-AS, US-AZ, US-CT, US-DC, US-DE, US-GU, US-HI, US-ME, US-MP, US-MS, US-ND, US-NJ, US-NM, US-NY, US-PR, US-RI, US-SD, US-VI, US-WV, US-WY.",
+      "answers": {
+        "US-AK": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://www.kpunet.net/",
+          "note": "Ketchikan Public Utilities, a city utility, sells retail internet and phone service; no Alaska statute barring it was found."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ala. Code §§ 11-50B-3, 11-50B-8, 11-50B-9",
+          "source": "https://alison.legislature.state.al.us/code-of-alabama?section=11-50B-3",
+          "note": "Act 2000-614 lets municipal providers offer internet only within set territorial limits, requires hearings, and limits financing to revenue-backed debt; text read from the ALISON official code service."
+        },
+        "US-AR": {
+          "answer": "yes",
+          "operativeAt": "2021-02-04",
+          "preempts": false,
+          "cite": "Ark. Code Ann. § 23-17-409(b) (as amended by Act 67 of 2021)",
+          "source": "https://www.arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2021R%2FPublic%2F&file=67.pdf&ddBienniumSession=2021%2F2021R",
+          "note": "Act 67 of 2021 (SB 74, not Act 764 as in the draft) lets any government entity own and operate broadband facilities; bond- or tax-funded projects still need a private operating partner, a hearing and any election the bond law requires."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "Cal. Pub. Util. Code § 10001",
+          "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PUC&sectionNum=10001",
+          "note": "Municipal corporations may operate public utilities supplying their inhabitants with means of communication."
+        },
+        "US-CO": {
+          "answer": "yes",
+          "operativeAt": "2023-05-01",
+          "preempts": false,
+          "cite": "SB23-183 (Colo. Sess. Laws 2023, ch. 139)",
+          "source": "https://leg.colorado.gov/bills/sb23-183",
+          "note": "SB23-183 repealed the 2005 requirement that a local government win a referendum before offering broadband."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Fla. Stat. § 350.81",
+          "source": "https://www.flsenate.gov/Laws/Statutes/2025/350.81",
+          "note": "A governmental entity must hold two public hearings, adopt a business plan and meet break-even and enterprise-fund conditions before it sells communications service; 2025 statutes text."
+        },
+        "US-GA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://www.thomasville.org/",
+          "note": "The City of Thomasville lists CNSNext digital TV, telephone and high-speed internet among its city utility services."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Iowa Code §§ 388.2, 388.10",
+          "source": "https://www.legis.iowa.gov/docs/code/388.10.pdf",
+          "note": "Establishing a city utility, including a telecommunications system, needs voter approval (§ 388.2), and § 388.10 bars general-fund or cross-utility subsidy of city telecommunications; trackers do not list Iowa (see conflicts)."
+        },
+        "US-ID": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://www.idahofallsfiber.com/",
+          "note": "Idaho Falls Fiber, owned by the city's Idaho Falls Power, runs a fiber network serving homes and businesses on an open-access model with private retail providers."
+        },
+        "US-IL": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://www.rmu.net/departments/fiber-internet-phone/fiber-internet-phone.html",
+          "note": "Rochelle Municipal Utilities, a city utility, sells fiber internet and phone service to homes and businesses."
+        },
+        "US-IN": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://www.ci.auburn.in.us/294/Auburn-Essential-Services",
+          "note": "Auburn Essential Services, a City of Auburn department, sells residential internet plans up to multi-gigabit fiber."
+        },
+        "US-KS": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://www.coffeyville.com/CivicAlerts.aspx?AID=1066",
+          "note": "The City of Coffeyville sells Coffeyville Fiber Internet service; the cited notice (4/7/2026) announces updated rates for an existing service."
+        },
+        "US-KY": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://www.fpb.cc/",
+          "note": "The Frankfort Plant Board, a municipal utility, sells fiber internet, cable TV and telephone service."
+        },
+        "US-LA": {
+          "answer": "no",
+          "operativeAt": "2004-07-06",
+          "preempts": true,
+          "cite": "La. R.S. 45:844.41 et seq. (§ 844.47)",
+          "source": "https://legis.la.gov/Legis/Law.aspx?d=285528",
+          "note": "The Local Government Fair Competition Act bars a local government from providing cable, telecommunications or advanced service except as the chapter allows (feasibility, election and cost conditions)."
+        },
+        "US-MA": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "Mass. Gen. Laws ch. 164, § 47E",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXII/Chapter164/Section47E",
+          "note": "A municipal lighting plant may build and operate a telecommunications system for its customers; debt needs a town vote under ch. 44 as for any plant debt."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://eastonutilities.com/",
+          "note": "Easton Utilities, the Town of Easton's utility commission, sells internet, TV and phone service alongside electric, gas and water."
+        },
+        "US-MI": {
+          "answer": "no",
+          "operativeAt": "2005-11-22",
+          "preempts": true,
+          "cite": "Mich. Comp. Laws § 484.2252",
+          "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-484-2252",
+          "note": "A public entity may provide telecommunication service only after it seeks bids and receives fewer than three qualified private bids; unamended since 2005 per the MCL page current through PA 103 of 2026."
+        },
+        "US-MN": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "Minn. Stat. § 237.19 (as amended by 2024 Minn. Laws ch. 114, art. 4, § 2)",
+          "source": "https://www.revisor.mn.gov/statutes/cite/237.19",
+          "note": "The 2024 amendment removed the 65 percent supermajority election that had been required before a municipality could provide telecommunications service."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mo. Rev. Stat. § 392.410(7)",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=392.410",
+          "note": "Political subdivisions may not sell certificated telecommunications service or facilities to the public, though the subsection exempts internet-type services, so the bar mainly reaches voice and bundled service."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mont. Code Ann. § 2-17-603",
+          "source": "https://leg.mt.gov/bills/mca/title_0020/chapter_0170/part_0060/section_0030/0020-0170-0060-0030.html",
+          "note": "A political subdivision may be an internet service provider only where no private provider is available (or for services it offered before 7/1/2001); the 2025 code keeps this after 2021, 2023 and 2025 amendments."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.C. Gen. Stat. § 160A-340 et seq.",
+          "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/ByArticle/Chapter_160A/Article_16A.html",
+          "note": "Session Law 2011-84 imposes cost-imputation, enterprise-fund, special-election (before debt) and service-area conditions on city-owned communications service; a 2025 amendment (S.L. 2025-25) only touched definitions."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Neb. Rev. Stat. § 86-594",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=86-594",
+          "note": "An agency or political subdivision that is not a public power supplier may not provide broadband, internet, telecommunications or video service at retail or wholesale (LB 645, 2005; amended 2021)."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.H. Rev. Stat. § 33:3-g",
+          "source": "https://gc.nh.gov/rsa/html/III/33/33-3-g.htm",
+          "note": "Municipalities may bond for broadband infrastructure only in locations unserved by broadband and only after a request for information to incumbent providers; national trackers do not list New Hampshire (see conflicts)."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Nev. Rev. Stat. §§ 268.086, 710.147",
+          "source": "https://www.leg.state.nv.us/NRS/NRS-268.html",
+          "note": "Cities of 25,000 or more and counties of 55,000 or more may not sell telecommunication service to the general public."
+        },
+        "US-OH": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://www.fairlawngig.net/",
+          "note": "FairlawnGig, the City of Fairlawn's municipal broadband utility, sells residential and business fiber internet."
+        },
+        "US-OK": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://www.sallisawok.org/305/DiamondNet",
+          "note": "The City of Sallisaw's DiamondNet sells fiber internet and phone service over city-owned fiber."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://www.ci.sandy.or.us/sandynet",
+          "note": "SandyNet, a City of Sandy public utility, is the local internet service provider, selling fiber and wireless service."
+        },
+        "US-PA": {
+          "answer": "no",
+          "operativeAt": "2004-11-30",
+          "preempts": true,
+          "cite": "66 Pa.C.S. § 3014(h)",
+          "source": "https://www.palegis.us/statutes/consolidated/view-statute?iFrame=true&txtType=HTM&ttl=66&div=0&chapter=30&section=14&subsctn=0",
+          "note": "A political subdivision may not sell broadband in an incumbent's territory unless the incumbent declines a written request for the speeds sought; current consolidated text."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "S.C. Code Ann. § 58-9-2600 et seq.",
+          "source": "https://www.scstatehouse.gov/code/t58c009.php",
+          "note": "Government-owned communications providers must meet tax-equivalent payments, cost-imputation and no-subsidy rules (2002 Act 360, 2012 Act 284), with relief only for designated unserved areas."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Tenn. Code Ann. § 7-52-601",
+          "source": "https://www.opn.ca6.uscourts.gov/opinions.pdf/16a0189p-06.pdf",
+          "note": "Municipal electric systems may offer broadband only within their electric service area; the Sixth Circuit (2016) reinstated this limit after the FCC's preemption. The current code text was not reachable (official host requires JavaScript), so the 2026 status rests on this 2016 ruling."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Tex. Util. Code §§ 54.201-.202",
+          "source": "https://texas.public.law/statutes/tex._util._code_section_54.202",
+          "note": "A municipality or municipal electric system may not sell certificated telecommunications service to the public (1997; amended 2005); the official Texas statutes site serves a JavaScript shell, so a mirror citing it was used."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Utah Code § 10-18-101 et seq.",
+          "source": "https://le.utah.gov/xcode/Title10/Chapter18/C10-18_2025050720250507.xml",
+          "note": "The Municipal Cable Television and Communications Services Act requires feasibility studies, hearings and a revenue-over-cost test before a municipality offers broadband; 2025 amendments (effective 5/7/2025) kept and extended it."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Va. Code §§ 56-265.4:4, 15.2-2160",
+          "source": "https://law.lis.virginia.gov/vacode/title15.2/chapter21/section15.2-2160/",
+          "note": "Localities with electric systems need a commission certificate and must impute taxes and fees and avoid cross-subsidy when selling telecommunications service; other localities act through broadband or wireless authorities."
+        },
+        "US-VT": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "30 V.S.A. § 3051 et seq.",
+          "source": "https://legislature.vermont.gov/statutes/section/30/082/03051",
+          "note": "Towns may form communications union districts that build and operate communications plant and deliver service; each town joins by voter approval."
+        },
+        "US-WA": {
+          "answer": "yes",
+          "operativeAt": "2021-07-25",
+          "preempts": false,
+          "cite": "RCW 54.16.330 (as amended by HB 1336, 2021)",
+          "source": "https://app.leg.wa.gov/billsummary?BillNumber=1336&Year=2021",
+          "note": "HB 1336 lifted the limits that kept public utility districts and other public entities from selling retail broadband; RCW 54.16.330 now authorizes retail telecommunications service."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Wis. Stat. § 66.0422",
+          "source": "https://docs.legis.wisconsin.gov/statutes/statutes/66/iv/0422",
+          "note": "A city, village or town must hold a hearing and publish a three-year cost-benefit report before building a facility to serve the public, unless it shows the area lacks private broadband."
+        }
+      }
+    },
+    "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
+      "source": "Per-state primary pages fetched 9/28/2026: statute and agency pages for the four yes states (ORS 319.885 and ODOT OReGO; Utah Code 72-1-213.1 and UDOT; Va. Code 46.2-773, Acts 2020 c. 1230 and DMV Mileage Choice; HDOT HiRUC program page and 6/30/2025 release); Washington bill history on app.leg.wa.gov; for each no state, its own fuel tax statute, EV fee statute, pilot bill or revenue agency page.",
+      "note": "Unknown, and left out: US-AS, US-CT, US-GU, US-MP, US-PR, US-VI.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://tax.alaska.gov/programs/programs/index.aspx?60210",
+          "note": "Alaska levies a per-gallon motor fuel tax and surcharge; no per-mile road charge."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ala. Code § 40-17-325",
+          "source": "https://www.revenue.alabama.gov/business-license/motor-fuels-tax-rates/",
+          "note": "Per-gallon gasoline tax ($0.30 from 7/1/2025) applies; the only per-mile item listed is a motor carrier mileage tax on buses (Ala. Code § 40-19-3), which is not a road usage charge replacing the fuel tax."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.dfa.arkansas.gov/office/taxes/excise-tax-administration/motor-fuel-tax/",
+          "note": "Arkansas DFA administers per-gallon motor fuel taxes; no per-mile road charge. The page does not state rates."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ariz. Rev. Stat. § 28-5606",
+          "source": "https://www.azleg.gov/viewdocument/?docName=https://www.azleg.gov/ars/28/05606.htm",
+          "note": "Per-gallon motor fuel tax ($0.18) applies; no per-mile road charge."
+        },
+        "US-CA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202120220SB339",
+          "note": "Pilots only: SB 1077 (2014) created the road charge pilot and SB 339 (2021) extended the pilot program to 1/1/2027; the fuel tax (Rev. & Tax. Code § 7360) remains."
+        },
+        "US-CO": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://content.leg.colorado.gov/sites/default/files/2021a_260_signed.pdf",
+          "note": "SB 21-260 added a per-gallon 'road usage fee' on fuel and annual electric vehicle fees, not a per-mile charge."
+        },
+        "US-DC": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "D.C. Code § 47-2301",
+          "source": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2301",
+          "note": "Per-gallon motor vehicle fuel tax applies; no per-mile road charge."
+        },
+        "US-DE": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Del. Code tit. 30, § 5110",
+          "source": "https://delcode.delaware.gov/title30/c051/sc01/index.html",
+          "note": "Per-gallon gasoline tax applies; no per-mile road charge."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Fla. Stat. § 206.41",
+          "source": "https://www.flsenate.gov/Laws/Statutes/2025/206.41",
+          "note": "Per-gallon motor fuel taxes apply; no per-mile road charge."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "O.C.G.A. § 48-9-3",
+          "source": "https://dor.georgia.gov/2026-suspension-georgia-motor-fuel-taxes-faqs",
+          "note": "The motor fuel excise tax under § 48-9-3 applies (its collection was suspended by executive order in spring 2026, after the reference date); no per-mile road charge."
+        },
+        "US-HI": {
+          "answer": "yes",
+          "operativeAt": "2025-07-01",
+          "preempts": true,
+          "source": "https://hidot.hawaii.gov/hawai%ca%bbi-road-usage-charge-program/",
+          "note": "Electric vehicles only: from 7/1/2025 owners choose a per-mile charge ($8 per 1,000 miles, capped at $50) or a flat $50, both replacing the $50 EV registration surcharge; HDOT says per-mile becomes mandatory for EVs by 2028. Cite omitted because the statute page (capitol.hawaii.gov, HRS § 249-36 / Act 222 of 2023) refused the request."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Iowa Code § 452A.3",
+          "source": "https://www.legis.iowa.gov/docs/code/452A.3.pdf",
+          "note": "Per-gallon motor fuel excise tax applies; no per-mile road charge."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Idaho Code § 49-457",
+          "source": "https://legislature.idaho.gov/statutesrules/idstat/Title49/T49CH4/SECT49-457/",
+          "note": "Electric vehicles pay a flat $140 annual fee, not a per-mile charge."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://tax.illinois.gov/research/taxrates/motorfuel.html",
+          "note": "Per-gallon motor fuel tax ($0.483 on gasoline from 7/1/2025) applies; no per-mile road charge."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.in.gov/dor/i-am-a/business-corp/gasoline-use-tax/",
+          "note": "Indiana collects a gasoline excise tax and gas use tax per gallon (collection suspended by a 2026 energy emergency order, after the reference date); no per-mile road charge."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Kan. Stat. Ann. § 79-34,141",
+          "source": "https://ksrevisor.gov/statutes/chapters/ch79/079_034_0141.html",
+          "note": "Per-gallon motor-vehicle fuel tax applies; no per-mile road charge."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://revenue.ky.gov/Business/Motor-Fuels-Tax/Pages/default.aspx",
+          "note": "Per-gallon motor fuels taxes apply (rates reduced from 7/1/2026); no per-mile road charge."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://revenue.louisiana.gov/businesses/excise/motor-fuel-taxes/",
+          "note": "Per-gallon motor fuel tax ($0.20) applies; no per-mile road charge."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mass. Gen. Laws ch. 64A, § 4",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64A/Section4",
+          "note": "Per-gallon gasoline excise applies; no per-mile road charge."
+        },
+        "US-MD": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Md. Code, Tax-Gen. § 9-305",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=9-305&enactments=false",
+          "note": "Per-gallon motor fuel tax applies; no per-mile road charge."
+        },
+        "US-ME": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Me. Rev. Stat. tit. 36, § 2903",
+          "source": "https://legislature.maine.gov/statutes/36/title36sec2903.html",
+          "note": "Per-gallon fuel tax (30.0 cents) applies; no per-mile road charge."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mich. Comp. Laws § 207.1008",
+          "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-207-1008",
+          "note": "Per-gallon motor fuel tax applies; no per-mile road charge."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Minn. Stat. § 168.013, subd. 1m",
+          "source": "https://www.revisor.mn.gov/statutes/cite/168.013",
+          "note": "Electric vehicles pay a flat annual registration surcharge rather than a per-mile charge; the fuel tax is Minn. Stat. § 296A.07."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mo. Rev. Stat. § 142.803",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=142.803",
+          "note": "Per-gallon motor fuel tax applies; no per-mile road charge."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.dor.ms.gov/business/petroleum-tax",
+          "note": "Mississippi collects gasoline and special fuel taxes under its Gasoline Tax and Special Fuel Tax laws; no per-mile road charge. The page does not state rates."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mont. Code Ann. § 15-70-403",
+          "source": "https://mca.legmt.gov/bills/mca/title_0150/chapter_0700/part_0040/section_0030/0150-0700-0040-0030.html",
+          "note": "Per-gallon gasoline tax (33 cents) applies; no per-mile road charge."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.C. Gen. Stat. § 105-449.80",
+          "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-449.80.html",
+          "note": "Per-gallon motor fuel excise tax applies; no per-mile road charge."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.D. Cent. Code § 57-43.1-02",
+          "source": "https://ndlegis.gov/cencode/t57c43-1.pdf",
+          "note": "Per-gallon motor vehicle fuel tax (23 cents) applies; no per-mile road charge."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Neb. Rev. Stat. § 66-489",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=66-489",
+          "note": "Per-gallon motor fuel tax applies; no per-mile road charge."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.H. Rev. Stat. Ann. § 260:32",
+          "source": "https://gc.nh.gov/rsa/html/XXI/260/260-32.htm",
+          "note": "Per-gallon road toll on motor fuel applies; no per-mile road charge."
+        },
+        "US-NJ": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.nj.gov/treasury/taxation/excisetaxrate.shtml",
+          "note": "Per-gallon motor fuels tax applies; no per-mile road charge."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.tax.newmexico.gov/businesses/2020/10/23/gasoline-tax/",
+          "note": "Per-gallon gasoline tax ($0.17) applies; no per-mile road charge."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Nev. Rev. Stat. § 365.175",
+          "source": "https://www.leg.state.nv.us/NRS/NRS-365.html",
+          "note": "Per-gallon motor vehicle fuel taxes apply; no per-mile road charge."
+        },
+        "US-NY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.tax.ny.gov/bus/gas/gasidx.htm",
+          "note": "Per-gallon motor fuel excise tax applies; no per-mile road charge."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ohio Rev. Code § 5735.05",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-5735.05",
+          "note": "Per-gallon motor fuel tax applies; no per-mile road charge."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://oklahoma.gov/tax/businesses/other-taxes.html",
+          "note": "Per-gallon motor fuel tax ($0.19 on gasoline and diesel) applies; no per-mile road charge."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "operativeAt": "2015-07-01",
+          "preempts": true,
+          "cite": "Or. Rev. Stat. § 319.885",
+          "source": "https://www.oregon.gov/odot/programs/pages/orego.aspx",
+          "note": "OReGO is voluntary: enrolled drivers pay a per-mile charge (set by ORS 319.885 at 5% of the per-gallon tax) and get a credit for fuel tax paid; ODOT launched it 7/1/2015. HB 3991 (2025 special session, subject to referendum petitions per the ORS note) phases in a flat-or-per-mile choice for electric vehicles from 7/1/2027 and hybrids from 7/1/2028."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.pa.gov/agencies/revenue/resources/tax-rates/motor-fuel-tax-rates",
+          "note": "Per-gallon motor fuel taxes apply for 2026 ($0.576 per gallon on gasoline from 1/1/2026); no per-mile road charge."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "R.I. Gen. Laws § 31-36-7",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE31/31-36/31-36-7.htm",
+          "note": "Per-gallon motor fuel tax applies; no per-mile road charge."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "S.C. Code § 12-28-310",
+          "source": "https://www.scstatehouse.gov/code/t12c028.php",
+          "note": "Per-gallon motor fuel user fee applies; no per-mile road charge."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "S.D. Codified Laws § 10-47B-4",
+          "source": "https://sdlegislature.gov/api/Statutes/10-47B-4.html",
+          "note": "Per-gallon fuel excise tax applies; no per-mile road charge."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.tn.gov/revenue/taxes/motor-fuel-taxes.html",
+          "note": "Tennessee imposes gasoline and diesel taxes among its motor fuel taxes; no per-mile road charge. The page does not state rates."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Tex. Tax Code § 162.102",
+          "source": "https://comptroller.texas.gov/taxes/fuels/gasoline.php",
+          "note": "Per-gallon gasoline tax (20 cents) applies; no per-mile road charge."
+        },
+        "US-UT": {
+          "answer": "yes",
+          "operativeAt": "2020-01-01",
+          "preempts": true,
+          "cite": "Utah Code § 72-1-213.1",
+          "source": "https://le.utah.gov/xcode/Title72/Chapter1/C72-1-S213.1_2026050620260701.html",
+          "note": "Voluntary and limited to alternative fuel vehicles, whose owners may pay a per-mile charge in lieu of the flat annual alternative fuel vehicle fee (a fuel-tax substitute); the statute says the program began 1/1/2020. The only version the legislature site serves is the one effective 7/1/2026, so the 1/1/2026 text was not read directly."
+        },
+        "US-VA": {
+          "answer": "yes",
+          "operativeAt": "2022-07-01",
+          "preempts": true,
+          "cite": "Va. Code § 46.2-773",
+          "source": "https://law.lis.virginia.gov/vacode/title46.2/chapter7/section46.2-773/",
+          "note": "Mileage Choice is voluntary for vehicles subject to the highway use fee (the fuel-tax substitute for efficient and electric vehicles) and charges per mile, capped at that fee; Acts 2020 c. 1230, enactment 6, made § 46.2-773 effective 7/1/2022."
+        },
+        "US-VT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Vt. Stat. Ann. tit. 23, § 3106",
+          "source": "https://legislature.vermont.gov/statutes/section/23/028/03106",
+          "note": "Per-gallon motor fuel tax applies; no per-mile road charge."
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://app.leg.wa.gov/billsummary?BillNumber=5726&Year=2025",
+          "note": "The 2025 road usage charge bills (SB 5726 and companion HB 1921) got only a committee hearing and were reintroduced in 2026 without passing; SB 5801 (the 2025 revenue package) contains no per-mile charge."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Wis. Stat. § 78.01",
+          "source": "https://docs.legis.wisconsin.gov/statutes/statutes/78/i/01",
+          "note": "Per-gallon motor vehicle fuel tax applies; no per-mile road charge."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "W. Va. Code § 11-14C-5",
+          "source": "https://code.wvlegislature.gov/11-14C-5/",
+          "note": "Per-gallon motor fuel excise tax applies; no per-mile road charge."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.dot.state.wy.us/home/business_with_wydot/fuel_tax.html",
+          "note": "WYDOT administers Wyoming's fuel tax under Title 39, ch. 17; no per-mile road charge. The page does not state rates."
+        }
+      }
+    },
+    "us-policy-positions:environment-energy.ban-new-gas-hookups": {
+      "source": "State codes and enacted bills fetched September 2026: flsenate.gov, codes.ohio.gov, capitol.texas.gov, le.utah.gov, ksrevisor.gov, revisor.mo.gov, legis.iowa.gov, code.wvlegislature.gov, gc.nh.gov, ncleg.gov, apps.legislature.ky.gov, arkleg.state.ar.us, leg.mt.gov, wyoleg.gov, sdlegislature.gov, ndlegis.gov, nebraskalegislature.gov and legislature.maine.gov; the N.Y. Mulhern Gas stipulation (11/12/2025); the Wash. Supreme Court I-2066 opinion (9/17/2026); the Ninth Circuit Berkeley opinion (1/2/2024); Mass. St. 2022 c. 179; NPR (2/22/2021) for Arizona.",
+      "note": "Unknown, and left out: US-AK, US-AL, US-AS, US-CO, US-CT, US-DC, US-DE, US-GA, US-GU, US-HI, US-ID, US-IL, US-IN, US-LA, US-MD, US-MI, US-MN, US-MP, US-MS, US-NJ, US-NM, US-NV, US-OK, US-OR, US-PA, US-PR, US-RI, US-SC, US-TN, US-VA, US-VI, US-VT, US-WI.",
+      "answers": {
+        "US-AR": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ark. Code § 14-1-104",
+          "source": "https://www.arkleg.state.ar.us/Home/FTPDocument?path=%2FACTS%2F2021R%2FPublic%2FACT308.pdf",
+          "note": "Act 308 of 2021 (SB 137), approved 3/9/2021 without an emergency clause; the general effective date for 2021 acts was not confirmed."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.npr.org/2021/02/22/967439914/as-cities-grapple-with-climate-change-gas-utilities-fight-to-stay-in-business",
+          "note": "NPR (2/22/2021) reports that in February 2020 the Legislature passed a bill barring cities and counties from banning new gas hookups (HB 2686). azleg.gov refused automated fetches, so the statute text, cite and exact date were not confirmed from a primary page."
+        },
+        "US-CA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://cdn.ca9.uscourts.gov/datastore/opinions/2024/01/02/21-16278.pdf",
+          "note": "There is no statewide ban and no state preemption, and cities adopted their own gas bans (Berkeley, 2019). However, the Ninth Circuit held in California Restaurant Ass'n v. City of Berkeley (amended 1/2/2024) that federal EPCA preempts building codes banning gas piping in new buildings, which constrains local bans across the Ninth Circuit."
+        },
+        "US-FL": {
+          "answer": "no",
+          "operativeAt": "2021-07-01",
+          "preempts": true,
+          "cite": "Fla. Stat. § 366.032",
+          "source": "https://www.flsenate.gov/Laws/Statutes/2025/366.032",
+          "note": "Enacted by ch. 2021-150 (HB 919, effective 7/1/2021 per https://www.flsenate.gov/Session/Bill/2021/919); bars local governments from restricting the fuel sources utilities may supply, and later amendments add appliances."
+        },
+        "US-IA": {
+          "answer": "no",
+          "operativeAt": "2021-07-01",
+          "preempts": true,
+          "cite": "Iowa Code § 364.3(13) (cities); § 331.301(19) (counties)",
+          "source": "https://www.legis.iowa.gov/docs/code/364.3.pdf",
+          "note": "2021 Iowa Acts ch. 44; cities and counties may not restrict natural gas or propane service. The date is inferred from the statute's reference to ordinances adopted before 7/1/2021 and Iowa's usual July 1 effective date."
+        },
+        "US-KS": {
+          "answer": "no",
+          "operativeAt": "2021-04-22",
+          "preempts": true,
+          "cite": "K.S.A. 66-1288 (Kansas Energy Choice Act)",
+          "source": "https://www.ksrevisor.gov/statutes/chapters/ch66/066_012_0088.html",
+          "note": "L. 2021, ch. 26 (SB 24); municipalities may not restrict an end-use customer's use of natural gas or propane."
+        },
+        "US-KY": {
+          "answer": "no",
+          "operativeAt": "2021-06-29",
+          "preempts": true,
+          "cite": "2021 Ky. Acts ch. 120 (HB 207), § 1 (new section of KRS Chapter 65)",
+          "source": "https://apps.legislature.ky.gov/law/acts/21RS/documents/0120.pdf",
+          "note": "Signed 3/25/2021 with no emergency clause, so it took effect on the 2021 normal effective date of 6/29/2021 (https://legislature.ky.gov/Law/Statutes/Pages/KrsEffDates.aspx); the KRS section number was not captured."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "St. 2022, c. 179, § 84",
+          "source": "https://malegislature.gov/Laws/SessionLaws/Acts/2022/Chapter179",
+          "note": "No statewide ban. The 2022 climate law lets up to 10 cities and towns in a DOER demonstration project require fossil fuel-free new construction 'notwithstanding' chapters 40A, 142 and 164. Outside the pilot, general state law limits local bans, so local action is allowed only for pilot towns."
+        },
+        "US-ME": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Me. Rev. Stat. tit. 30-A, § 3016",
+          "source": "https://legislature.maine.gov/statutes/30-A/title30-Asec3016.html",
+          "note": "P.L. 2025, c. 456 bars municipalities, unless another statute authorizes it, from prohibiting the heating or energy system a person chooses. It was a 2025 non-emergency law, presumably in force before 1/1/2026, but the effective date was not confirmed."
+        },
+        "US-MO": {
+          "answer": "no",
+          "operativeAt": "2021-08-28",
+          "preempts": true,
+          "cite": "Mo. Rev. Stat. § 67.309",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=67.309",
+          "note": "L. 2021 H.B. 734 merged with S.B. 44; no political subdivision may prohibit a utility connection based on the type or source of energy."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mont. Code Ann. § 7-1-111(28)",
+          "source": "https://leg.mt.gov/bills/mca/title_0070/chapter_0010/part_0010/section_0110/0070-0010-0010-0110.html",
+          "note": "Self-government local units are denied any power to prohibit or impede an electric, natural gas, propane or other energy connection; the 2019 code lacks this clause, so it was added by a 2021 or 2023 amendment (exact chapter and date not confirmed)."
+        },
+        "US-NC": {
+          "answer": "no",
+          "operativeAt": "2023-06-26",
+          "preempts": true,
+          "cite": "N.C. Gen. Stat. § 160A-203.3 (cities); § 153A-145.11 (counties)",
+          "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_160A/GS_160A-203.3.html",
+          "note": "S.L. 2023-58 (HB 130) became law without the governor's signature on 6/26/2023 and took effect then (https://www.ncleg.gov/EnactedLegislation/SessionLaws/HTML/2023-2024/SL2023-58.html)."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.D. Cent. Code §§ 40-01-25 (cities), 11-10-32 (counties)",
+          "source": "https://ndlegis.gov/cencode/t40c01.pdf",
+          "note": "Cities and counties may not prohibit or impede a utility connection based on fuel source; enacted in 2023 (per the earlier draft), effective date not confirmed. County text at https://ndlegis.gov/cencode/t11c10.pdf."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Neb. Rev. Stat. § 13-407",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=13-407",
+          "note": "Laws 2024, LB 867, § 12; no county, city or village may restrict the fuel sources a natural gas utility or propane dealer supplies. The effective date was not confirmed."
+        },
+        "US-NH": {
+          "answer": "no",
+          "operativeAt": "2022-07-01",
+          "preempts": true,
+          "cite": "N.H. Rev. Stat. § 155-A:2, V-b; § 155-A:3, XI",
+          "source": "https://gc.nh.gov/rsa/html/XII/155-A/155-A-mrg.htm",
+          "note": "No local ordinance or code may bar a person from installing a heating or energy system of their choice or connecting to an energy provider; both paragraphs trace to 2022 N.H. Laws ch. 311, effective 7/1/2022 (inferred from the section source notes)."
+        },
+        "US-NY": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "N.Y. Energy Law § 11-104(6); Exec. Law § 378(19)",
+          "source": "https://earthjustice.org/wp-content/uploads/2025/11/stipulation-1.pdf",
+          "note": "The All-Electric Buildings Act bars fossil-fuel equipment in most new buildings of seven stories or fewer 'on or after December 31, 2025' (https://www.nysenate.gov/legislation/laws/ENG/11-104), but a stipulation filed 11/12/2025 in Mulhern Gas Co. v. Mosley (N.D.N.Y. 1:23-cv-01267) suspends the implementing code rules (19 NYCRR 1240.6, Subpart 1229-2) until the Second Circuit appeal and any certiorari petition are resolved. So no statewide ban was in force on 1/1/2026. Local action is allowed: New York City Local Law 154 of 2021 bars on-site fossil-fuel combustion in new buildings (https://www.nyc.gov/assets/buildings/local_laws/ll154of2021.pdf)."
+        },
+        "US-OH": {
+          "answer": "no",
+          "operativeAt": "2021-09-30",
+          "preempts": true,
+          "cite": "Ohio Rev. Code §§ 4933.40-4933.41",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-4933.41",
+          "note": "HB 201 (134th G.A.); no political subdivision may adopt a building code or other rule that limits consumers' use of available natural gas or propane service."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "S.D. Codified Laws §§ 6-1-23, 6-1-24",
+          "source": "https://sdlegislature.gov/api/Statutes/Statute/6-1",
+          "note": "SL 2023, ch. 19 and ch. 20 bar local bans on fuel gas appliances and on natural gas or propane service; the exact effective date (South Dakota's usual date is 7/1) was not confirmed."
+        },
+        "US-TX": {
+          "answer": "no",
+          "operativeAt": "2021-05-18",
+          "preempts": true,
+          "cite": "Tex. Util. Code § 181.903",
+          "source": "https://capitol.texas.gov/tlodocs/87R/billtext/html/HB00017F.htm",
+          "note": "HB 17 (87th Leg.) took effect immediately when signed on 5/18/2021 (https://capitol.texas.gov/BillLookup/History.aspx?LegSess=87R&Bill=HB17); bars cities from limiting utility connections by the type or source of energy."
+        },
+        "US-UT": {
+          "answer": "no",
+          "operativeAt": "2021-02-25",
+          "preempts": true,
+          "cite": "Utah Code § 10-9a-530 (cities); county counterpart enacted as § 17-27a-526",
+          "source": "https://le.utah.gov/~2021/bills/hbillenr/HB0017.htm",
+          "note": "H.B. 17 (2021), effective 2/25/2021 per https://le.utah.gov/~2021/bills/static/HB0017.html; cities and counties may not prohibit connection of an energy utility service."
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.courts.wa.gov/opinions/pdf/1042400.pdf",
+          "note": "Initiative 2066 (Laws of 2025, ch. 1) barred local governments from discouraging or prohibiting gas, but the King County Superior Court declared it unconstitutional in its entirety before 1/1/2026, and the state Supreme Court affirmed on 9/17/2026 (Climate Solutions v. State, No. 104240-0). The state has no statewide ban; the WA state energy code favors heat pumps but was not verified as barring gas."
+        },
+        "US-WV": {
+          "answer": "no",
+          "operativeAt": "2021-07-07",
+          "preempts": true,
+          "cite": "W. Va. Code § 8-12-23",
+          "source": "https://code.wvlegislature.gov/8-12-23/",
+          "note": "HB 2842 (2021), effective ninety days from passage on 7/7/2021 per https://www.wvlegislature.gov/Bill_Status/Bills_history.cfm?input=2842&year=2021&sessiontype=RS&btype=bill."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Wyo. Stat. §§ 15-1-132 (cities and towns), 18-2-116 (counties)",
+          "source": "https://wyoleg.gov/statutes/compress/title15.pdf",
+          "note": "No city, town or county may prohibit the connection of electric, natural gas, propane or other energy utility service; the enacting year and effective date were not found in the compiled titles."
+        }
+      }
+    },
+    "us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
+      "source": "Brennan Center, 'Can People Convicted of a Felony Vote?' (Criminal Disenfranchisement Laws Across the United States map, updated September 22, 2026; per-state map data read from the page), with state code pages fetched September 28, 2026 for NE, MO, VA, FL, AZ, DE, WY and D.C.",
+      "note": "Unknown, and left out: US-AS, US-GU, US-MP, US-PR, US-VI.",
+      "answers": {
+        "US-AK": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon completion of sentence (prison, parole and probation)."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "People convicted of felonies involving moral turpitude must apply for restoration after completing the sentence and paying fines, fees and restitution; certain crimes (for example murder, rape, treason) are permanent bars unless pardoned."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Fines, fees and restitution must be paid before the vote returns, so restoration is not automatic (the same rule as Florida)."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ariz. Rev. Stat. § 13-907",
+          "source": "https://www.azleg.gov/ars/13/00907.htm",
+          "note": "First-time offenders are restored automatically on completion of probation or absolute discharge if victim restitution is paid; people with two or more felonies must obtain a pardon or court restoration."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-CO": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-CT": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison. Election-law convictions bar voting until incarceration, probation and parole are complete."
+        },
+        "US-DC": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "D.C. Code § 1-1001.02(2)",
+          "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-1001.02",
+          "note": "People never lose the right to vote for a criminal conviction; the former exclusion of people incarcerated for a felony (repealed in 2020) already restored the right on release."
+        },
+        "US-DE": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Del. Const. art. V, § 2; 15 Del. C. § 6102",
+          "source": "https://delcode.delaware.gov/title15/c061/index.html",
+          "note": "Most people are restored automatically on completion of sentence, but disqualifying felonies (for example murder, bribery, sexual offenses) are a permanent bar unless pardoned, and election offenses carry a 10-year bar."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Fla. Stat. § 98.0751; Fla. Const. art. VI, § 4",
+          "source": "https://www.flsenate.gov/Laws/Statutes/2025/98.0751",
+          "note": "Amendment 4 as implemented by SB 7066 restores rights automatically only after completion of all terms of sentence, defined to include full payment of restitution and court-ordered fines and fees; murder and felony sexual offenses require clemency. The answer was also no before SB 7066 took effect on July 1, 2019."
+        },
+        "US-GA": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon completion of sentence (prison, parole and probation)."
+        },
+        "US-HI": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Iowa Const. art. II, § 5",
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "The constitution disenfranchises permanently; Governor Reynolds's executive order of August 5, 2020 automatically restores most people on completion of sentence, but certain homicide offenses need individual gubernatorial restoration, and the order is executive, not statutory."
+        },
+        "US-ID": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon completion of sentence (prison, parole and probation)."
+        },
+        "US-IL": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-IN": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-KS": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon completion of sentence (prison, parole and probation)."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ky. Const. § 145",
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "The constitution disenfranchises permanently; Governor Beshear's executive order of December 12, 2019 automatically restores most people who complete their sentence, but treason, election bribery and certain violent offenses require individual restoration."
+        },
+        "US-LA": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Rights return automatically no later than completion of sentence, and earlier for people on probation or parole who have not been incarcerated within the last five years; a person must show eligibility documentation when registering."
+        },
+        "US-MA": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison. A conviction for buying or selling votes is a permanent bar unless pardoned, a narrow election-crime exception."
+        },
+        "US-ME": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "People never lose the right to vote for a criminal conviction, even while incarcerated."
+        },
+        "US-MI": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-MN": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-MO": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mo. Rev. Stat. § 115.133",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=115.133",
+          "note": "On 2026-01-01 rights returned automatically on completion of sentence; HB 1871 (effective August 28, 2026) restores most on release from prison; a felony or misdemeanor connected with the right of suffrage remains a permanent bar, treated here as a narrow election-crime exception."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Miss. Const. art. 12, § 241",
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Specified disqualifying offenses are a permanent bar unless the governor pardons or both houses of the legislature restore the right by a two-thirds vote."
+        },
+        "US-MT": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-NC": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon completion of sentence (prison, parole and probation)."
+        },
+        "US-ND": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-NE": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Neb. Rev. Stat. § 29-112",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=29-112",
+          "note": "Disqualification is automatically removed on completion of the sentence including parole; Laws 2024, LB 20 repealed the former two-year waiting period (effective July 19, 2024, per the task brief; the exact date was not on a fetched page)."
+        },
+        "US-NH": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-NM": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-NV": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-NY": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-OH": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison. A person twice convicted of violating Ohio election law is permanently barred unless pardoned, a narrow election-crime exception."
+        },
+        "US-OK": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon completion, discharge or commutation of the original sentence, or a pardon."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-PA": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison. A person convicted of violating Pennsylvania election law is barred for four years after conviction, a narrow election-crime exception."
+        },
+        "US-RI": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-SC": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon completion of sentence (prison, parole and probation)."
+        },
+        "US-SD": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon completion of sentence (prison, parole and probation)."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "People must obtain a court order after completing the sentence and paying restitution and meeting child-support obligations; certain felonies (for example rape, murder, bribery, treason) are permanent bars."
+        },
+        "US-TX": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon completion of sentence (prison, parole and probation)."
+        },
+        "US-UT": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Va. Const. art. II, § 1",
+          "source": "https://law.lis.virginia.gov/constitution/article2/section1/",
+          "note": "On 2026-01-01 the constitution required restoration by the governor case by case; under Department of Elections guidance of September 15, 2026 most people are restored automatically on release from prison, while murder and manslaughter still require an application."
+        },
+        "US-VT": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "People never lose the right to vote for a criminal conviction, even while incarcerated."
+        },
+        "US-WA": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon release from prison."
+        },
+        "US-WI": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon completion of sentence (prison, parole and probation)."
+        },
+        "US-WV": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+          "note": "Automatic restoration upon completion of sentence (prison, parole and probation)."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Wyo. Stat. § 7-13-105",
+          "source": "https://wyoleg.gov/statutes/compress/title07.pdf",
+          "note": "Automatic restoration applies only to first-time nonviolent felonies in a Wyoming court completed on or after January 1, 2010; others must apply, and violent or multiple felonies are a permanent bar unless pardoned."
+        }
+      }
+    },
+    "us-policy-positions:civil-family-community.restrict-abortion": {
+      "source": "Guttmacher 'State Bans on Abortion Throughout Pregnancy' (as of 9/2/2026) and KFF abortion dashboard (as of 8/10/2026), cross-checked against Wikipedia 'Abortion law in the United States by state' (September 2026) for 2025-2026 court changes, plus state code pages fetched 9/28/2026 (ID, SD, WV, SC, NE, NC, KS, OH, WI, AZ, CA, DE, ME, MA, MO, MT, NV, NH, RI, VA, WA, MN, VT) and the CNMI constitution.",
+      "note": "Unknown, and left out: US-AS, US-GU, US-PR, US-VI.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "No gestational limit; the Alaska Supreme Court recognizes a state constitutional right to abortion."
+        },
+        "US-AL": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ala. Code § 26-23H-4",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "Banned at all stages, with exceptions for serious risk to the patient's health and lethal fetal anomaly."
+        },
+        "US-AR": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ark. Code § 5-61-304",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "Banned at all stages, with an exception only to save the patient's life."
+        },
+        "US-AZ": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ariz. Rev. Stat. § 36-2301.01",
+          "source": "https://www.azleg.gov/ars/36/02301-01.htm",
+          "note": "After viability, except to preserve the patient's life or health; after 2024 Prop 139, the 15-week ban was permanently enjoined in March 2025."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Cal. Health & Safety Code § 123466",
+          "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=HSC&sectionNum=123466",
+          "note": "After viability, except to protect the patient's life or health."
+        },
+        "US-CO": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Colo. Rev. Stat. § 25-6-403",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "No gestational limit; the Reproductive Health Equity Act and 2024 Amendment 79 protect abortion."
+        },
+        "US-CT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Conn. Gen. Stat. § 19a-602",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "After viability, except to protect the patient's life or health."
+        },
+        "US-DC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "No gestational limit in District law."
+        },
+        "US-DE": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Del. Code tit. 24, § 1790",
+          "source": "https://delcode.delaware.gov/title24/c017/sc09/index.html",
+          "note": "After viability, except for the patient's life or health or a fatal fetal anomaly."
+        },
+        "US-FL": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Fla. Stat. § 390.0111",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "After about six weeks (fetal cardiac activity), with listed exceptions; the 2024 Amendment 4 ballot measure fell short of the 60% threshold."
+        },
+        "US-GA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "O.C.G.A. § 16-12-141",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "After about six weeks (fetal cardiac activity), with listed exceptions; a September 2024 trial ruling striking it was stayed by the Georgia Supreme Court, and the limit stayed in force."
+        },
+        "US-HI": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Haw. Rev. Stat. § 453-16",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "After viability, except to protect the patient's life or health."
+        },
+        "US-IA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Iowa Code § 146C.2",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "After about six weeks (fetal cardiac activity), with listed exceptions; in force since July 29, 2024."
+        },
+        "US-ID": {
+          "answer": "yes",
+          "operativeAt": "2022-08-25",
+          "preempts": true,
+          "cite": "Idaho Code § 18-622",
+          "source": "https://legislature.idaho.gov/statutesrules/idstat/Title18/T18CH6/SECT18-622/",
+          "note": "Banned at all stages, with listed exceptions (life of the patient; reported rape or incest in the first trimester)."
+        },
+        "US-IL": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "775 ILCS 55/1-25",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "After viability, except to protect the patient's life or health."
+        },
+        "US-IN": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ind. Code § 16-34-2-1",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "Banned at all stages, with narrow listed exceptions (life and serious health risk, lethal anomaly, rape or incest early in pregnancy)."
+        },
+        "US-KS": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Kan. Stat. § 65-6724",
+          "source": "https://www.ksrevisor.gov/statutes/chapters/ch65/065_067_0024.html",
+          "note": "After 22 weeks (pain-capable limit), with listed exceptions."
+        },
+        "US-KY": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ky. Rev. Stat. § 311.772",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "Banned at all stages, with an exception for life or serious health risk to the patient."
+        },
+        "US-LA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "La. R.S. 14:87.7",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "Banned at all stages, with exceptions for life, serious health risk and listed medically futile pregnancies."
+        },
+        "US-MA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mass. Gen. Laws ch. 112, §§ 12M, 12N",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter112/Section12M",
+          "note": "After 24 weeks, with exceptions for life, health and fatal or grave fetal anomaly."
+        },
+        "US-MD": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Md. Code, Health-Gen. § 20-209",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "No gestational limit in force; 2024 Question 1 added a constitutional right to reproductive freedom."
+        },
+        "US-ME": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "22 M.R.S. § 1598",
+          "source": "https://legislature.maine.gov/statutes/22/title22sec1598.html",
+          "note": "After viability, unless a physician finds it medically necessary."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mich. Const. art. 1, § 28",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "No gestational limit; 2022 Proposal 3 allows post-viability regulation, but no such ban is in force."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Minn. Stat. § 145.409",
+          "source": "https://www.revisor.mn.gov/statutes/cite/145.409",
+          "note": "No gestational limit; the 2023 Protect Reproductive Options Act guarantees the right."
+        },
+        "US-MO": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mo. Rev. Stat. § 188.030",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=188.030",
+          "note": "After viability, except in a medical emergency or to preserve the patient's life or health; 2024 Amendment 3 ended the total ban, which a Jackson County court blocked again in July 2025 after the state Supreme Court vacated an earlier injunction. A repeal amendment is on the November 2026 ballot."
+        },
+        "US-MP": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N. Mar. I. Const. art. I, § 12",
+          "source": "https://cnmilaw.org/cons.php",
+          "note": "Banned at all stages by the constitution, except as provided by law."
+        },
+        "US-MS": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Miss. Code § 41-41-45",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "Banned at all stages, with exceptions for the patient's life and reported rape."
+        },
+        "US-MT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mont. Code § 50-20-109",
+          "source": "https://leg.mt.gov/bills/mca/title_0500/chapter_0200/part_0010/section_0090/0500-0200-0010-0090.html",
+          "note": "After viability, except to preserve the patient's life or health; the 20-week limit was blocked and 2024 Initiative 128 added an abortion right."
+        },
+        "US-NC": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.C. Gen. Stat. § 90-21.81B",
+          "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_90/GS_90-21.81B.html",
+          "note": "After 12 weeks, with longer windows for rape or incest (20 weeks) and life-limiting anomalies (24 weeks)."
+        },
+        "US-ND": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.D. Cent. Code § 12.1-19.1-02",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "Banned at all stages, with listed exceptions; a district court struck the ban in September 2024, but the North Dakota Supreme Court reinstated it in November 2025, so it was enforceable on 1/1/2026."
+        },
+        "US-NE": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Neb. Rev. Stat. § 71-6915",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=71-6915",
+          "note": "After 12 weeks, with listed exceptions; 2024 Initiative 434 wrote the 12-week limit into the constitution."
+        },
+        "US-NH": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.H. Rev. Stat. § 329:44",
+          "source": "https://www.gencourt.state.nh.us/rsa/html/XXX/329/329-44.htm",
+          "note": "After 24 weeks, with exceptions for medical emergency and fatal fetal anomaly."
+        },
+        "US-NJ": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.J.S.A. 10:7-2",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "No gestational limit; the 2022 Freedom of Reproductive Choice Act."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "No gestational limit; the old criminal ban was repealed in 2021."
+        },
+        "US-NV": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Nev. Rev. Stat. § 442.250",
+          "source": "https://www.leg.state.nv.us/NRS/NRS-442.html",
+          "note": "After 24 weeks, except to preserve the patient's life or health; the 2024 constitutional amendment needs a second vote in November 2026."
+        },
+        "US-NY": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.Y. Pub. Health Law § 2599-bb",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "After 24 weeks or viability, except to protect the patient's life or health."
+        },
+        "US-OH": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ohio Rev. Code § 2919.201",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-2919.201",
+          "note": "After 20 weeks post-fertilization (about 22 weeks), with exceptions; the six-week ban is blocked after 2023 Issue 1, which allows post-viability limits."
+        },
+        "US-OK": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Okla. Stat. tit. 21, § 861; tit. 63, § 1-731.4",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "Banned at all stages, with an exception to save the patient's life in a medical emergency."
+        },
+        "US-OR": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Or. Rev. Stat. § 659.880",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "No gestational limit."
+        },
+        "US-PA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "18 Pa.C.S. § 3211",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "After 24 weeks, except to prevent the patient's death or serious health risk."
+        },
+        "US-RI": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "R.I. Gen. Laws § 23-4.13-2",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE23/23-4.13/23-4.13-2.htm",
+          "note": "After viability, except to preserve the patient's life or health."
+        },
+        "US-SC": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "S.C. Code § 44-41-630",
+          "source": "https://www.scstatehouse.gov/code/t44c041.php",
+          "note": "After about six weeks (fetal cardiac activity), with listed exceptions."
+        },
+        "US-SD": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "S.D. Codified Laws § 22-17-5.1",
+          "source": "https://sdlegislature.gov/api/Statutes/22-17-5.1.html",
+          "note": "Banned at all stages, with an exception to preserve the patient's life (amended in 2026 without changing the answer)."
+        },
+        "US-TN": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Tenn. Code § 39-15-213",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "Banned at all stages, with listed medical exceptions (life, serious health risk, ectopic and molar pregnancies)."
+        },
+        "US-TX": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Tex. Health & Safety Code § 170A.002",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "Banned at all stages, with an exception for a life-threatening physical condition or serious risk of major bodily impairment."
+        },
+        "US-UT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Utah Code § 76-7-302",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "After 18 weeks, with listed exceptions; the near-total trigger ban remains enjoined by state courts."
+        },
+        "US-VA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Va. Code § 18.2-74",
+          "source": "https://law.lis.virginia.gov/vacode/title18.2/chapter4/section18.2-74/",
+          "note": "In the third trimester, unless three physicians certify it is needed for the patient's life or health; a constitutional amendment is on the November 2026 ballot."
+        },
+        "US-VT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "18 V.S.A. § 9493",
+          "source": "https://legislature.vermont.gov/statutes/section/18/223/09493",
+          "note": "No gestational limit; 2022 Article 22 added a constitutional right to reproductive autonomy."
+        },
+        "US-WA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Rev. Code Wash. § 9.02.110",
+          "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=9.02.110",
+          "note": "After viability, except to protect the patient's life or health."
+        },
+        "US-WI": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Wis. Stat. § 253.107",
+          "source": "https://docs.legis.wisconsin.gov/statutes/statutes/253/107",
+          "note": "After 20 weeks post-fertilization (about 22 weeks), with a medical-emergency exception; the Wisconsin Supreme Court held in July 2025 that the 1849 law does not ban abortion."
+        },
+        "US-WV": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "W. Va. Code § 16-2R-3",
+          "source": "https://code.wvlegislature.gov/16-2R-3/",
+          "note": "Banned at all stages, with exceptions for nonviable pregnancy, ectopic pregnancy, medical emergency and reported rape or incest early in pregnancy."
+        },
+        "US-WY": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Wyo. Stat. § 35-6-102",
+          "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+          "note": "After viability, with a life or health exception; the 2023 total and pill bans were struck by a district court in November 2024 (affirmed January 6, 2026), and a six-week ban signed in March 2026 is after this date."
+        }
+      }
+    },
+    "us-policy-positions:environment-energy.bottle-deposit": {
+      "source": "State codes and agency pages fetched 9/28/2026 (leginfo.legislature.ca.gov, legis.iowa.gov, legislature.maine.gov, malegislature.gov, legislature.mi.gov, oregon.public.law, legislature.vermont.gov, delcode.delaware.gov, col.guamcourts.gov) plus CT DEEP, Hawaii DOH, NY DEC and Oregon OLCC pages; Wikipedia 'Container deposit legislation in the United States' and bottlebill.org (Guam page, Existing Programs list, © 2026) for context; no 2025 enactment of a new state deposit law was found.",
+      "note": "Every place is answered.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Cal. Pub. Res. Code § 14560",
+          "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PRC&sectionNum=14560.",
+          "note": "California sets a refund value of 5 cents under 24 fluid ounces and 10 cents at 24 fluid ounces or more; the program dates from the 1986 act."
+        },
+        "US-CO": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-CT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Conn. Gen. Stat. § 22a-244",
+          "source": "https://portal.ct.gov/deep/reduce-reuse-recycle/bottles/connecticut-bottle-bill",
+          "note": "The deposit rose from 5 to 10 cents on 1/1/2024; the statute site cga.ct.gov could not be fetched, so the cite rests on the DEEP page and common citation."
+        },
+        "US-DC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-DE": {
+          "answer": "no",
+          "operativeAt": "2010-12-01",
+          "preempts": true,
+          "cite": "Del. Code Ann. tit. 7, § 6051 et seq. (77 Del. Laws c. 275)",
+          "source": "https://delcode.delaware.gov/title7/c060/sc03/index.html",
+          "note": "Delaware repealed its 5-cent deposit by SB 234 (2010), replacing it with universal recycling; deposits ended 12/1/2010 per the Wikipedia summary, and the current code carries no deposit requirement."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "10 Guam Code Ann. § 44119",
+          "source": "https://col.guamcourts.gov/sites/default/files/10gc044.pdf",
+          "note": "The Guam Beverage Container Recycling Act of 2010 (P.L. 30-221) takes effect only after a written agreement with the Navy and Air Force commands, and no government page shows that happened; Guam EPA's 2026 Recycling Guide (https://epa.guam.gov/wp-content/uploads/2026/05/2026-Recycling-Guide.pdf) lists no redemption program."
+        },
+        "US-HI": {
+          "answer": "yes",
+          "operativeAt": "2005-01-01",
+          "preempts": true,
+          "cite": "Haw. Rev. Stat. ch. 342G, pt. VIII",
+          "source": "https://health.hawaii.gov/hi5/",
+          "note": "The Department of Health says the Deposit Beverage Container program has run since January 2005 under the 2002 law; the HRS site returned 403, so the chapter cite is unverified here."
+        },
+        "US-IA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Iowa Code § 455C.2",
+          "source": "https://www.legis.iowa.gov/docs/code/455C.pdf",
+          "note": "A refund value of 5 cents is paid by the consumer on each covered beverage container."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-MA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mass. Gen. Laws ch. 94, § 323",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXV/Chapter94/Section323",
+          "note": "The 1982 law covers carbonated beverages only; the 2014 ballot expansion failed."
+        },
+        "US-MD": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-ME": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Me. Rev. Stat. tit. 38, § 3103",
+          "source": "https://legislature.maine.gov/statutes/38/title38sec3103.html",
+          "note": "The bottle law now sits in Title 38, chapter 33; the old Title 32, chapter 28 sections are repealed."
+        },
+        "US-MI": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mich. Comp. Laws § 445.572",
+          "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-445-572",
+          "note": "Initiated Law 1 of 1976 sets a 10-cent deposit."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-NJ": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-NY": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.Y. Envtl. Conserv. Law art. 27, tit. 10",
+          "source": "https://dec.ny.gov/environmental-protection/recycling-composting/bottle-bill",
+          "note": "The Returnable Container Act requires a deposit of at least 5 cents; the nysenate.gov statute page returned 403."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Or. Rev. Stat. § 459A.705",
+          "source": "https://oregon.public.law/statutes/ors_459a.705",
+          "note": "The refund value is 10 cents since 2017; canned wine was added on 7/1/2025 (OLCC page https://www.oregon.gov/olcc/pages/bottle_bill.aspx)."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-PR": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-VI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-VT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Vt. Stat. Ann. tit. 10, § 1522",
+          "source": "https://legislature.vermont.gov/statutes/section/10/053/01522",
+          "note": "A 2025 overhaul keeps the deposit and phases in a producer responsibility organization, with labeling changes on 7/1/2026 and PRO participation required from 7/1/2027 (DEC page https://dec.vermont.gov/waste-management/solid/product-stewardship/bottle-bill)."
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        }
+      }
+    },
+    "us-policy-positions:technology-privacy.consumer-data-privacy-law": {
+      "source": "State statute sites and attorney general privacy pages fetched 9/28/2026 (Cal. OAG, Va. LIS, Colo. AG, Conn. AG, Tex. Capitol, Or. Legislature/DOJ, Mont. MCA 2025, Iowa Code 2026, Del. Code/DOJ, Neb. Legislature, N.H. RSA, N.J. P.L.2023 c.266, Tenn. Pub. Ch. 408, Minn. Revisor, Md. 2024 ch. 455, Ky. Acts 2024 ch. 72, R.I. Gen. Laws, Utah Code, Fla. Senate, Vt. Act 145, Nev. NRS, Wash. AG).",
+      "note": "Unknown, and left out: US-AS, US-DC, US-GU, US-MP, US-PR, US-VI.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "A comprehensive privacy law was signed in 2026 but takes effect 2027-05-01."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "operativeAt": "2023-01-01",
+          "preempts": true,
+          "cite": "Cal. Civ. Code §§ 1798.100, 1798.105, 1798.106",
+          "source": "https://oag.ca.gov/privacy/ccpa",
+          "note": "The CCPA gave rights to know and delete on 1/1/2020; the CPRA (Proposition 24) added the right to correct on 1/1/2023, when all three rights were in effect."
+        },
+        "US-CO": {
+          "answer": "yes",
+          "operativeAt": "2023-07-01",
+          "preempts": true,
+          "cite": "Colo. Rev. Stat. § 6-1-1306",
+          "source": "https://coag.gov/resources/colorado-privacy-act/",
+          "note": "Colorado Privacy Act (SB 21-190)."
+        },
+        "US-CT": {
+          "answer": "yes",
+          "operativeAt": "2023-07-01",
+          "preempts": true,
+          "cite": "Conn. Gen. Stat. § 42-515 et seq. (Connecticut Data Privacy Act)",
+          "source": "https://portal.ct.gov/ag/sections/privacy/the-connecticut-data-privacy-act",
+          "note": "The attorney general's page confirms the effective date and the rights to access, correct and delete; the statute site cga.ct.gov refused the connection, so the exact rights section is not cited."
+        },
+        "US-DE": {
+          "answer": "yes",
+          "operativeAt": "2025-01-01",
+          "preempts": true,
+          "cite": "6 Del. C. § 12D-104",
+          "source": "https://attorneygeneral.delaware.gov/fraud/personal-data-privacy-portal/consumer/",
+          "note": "Delaware Personal Data Privacy Act (84 Del. Laws c. 197); statute text at https://delcode.delaware.gov/title6/c012d/index.html. An amended version of the chapter takes effect 1/1/2027."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Fla. Stat. §§ 501.702, 501.705",
+          "source": "https://www.flsenate.gov/Laws/Statutes/2025/501.702",
+          "note": "The Florida Digital Bill of Rights (ch. 2023-201, effective 7/1/2024) gives rights to access, correct and delete, but only against controllers with over $1 billion in global revenue that meet narrow tests, so it is not a comprehensive law."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Iowa Code § 715D.3",
+          "source": "https://www.legis.iowa.gov/docs/code/715D.pdf",
+          "note": "The Iowa Consumer Data Protection Act (2023 Acts ch. 17, effective 1/1/2025) gives rights to access, delete, copy and opt out but no right to correct."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-IN": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "On the IAPP list of signed comprehensive privacy laws, in effect from 2026-01-01."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-KY": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "preempts": true,
+          "cite": "2024 Ky. Acts ch. 72 (HB 15), § 3 (KRS ch. 367)",
+          "source": "https://apps.legislature.ky.gov/law/acts/24RS/documents/0072.pdf",
+          "note": "Kentucky Consumer Data Protection Act; Section 12 sets 1/1/2026, the reference date itself."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "A comprehensive privacy law was signed in 2026 but takes effect 2027-01-01."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "operativeAt": "2025-10-01",
+          "preempts": true,
+          "cite": "Md. Code, Com. Law § 14-4605",
+          "source": "https://mgaleg.maryland.gov/2024RS/Chapters_noln/CH_455_sb0541e.pdf",
+          "note": "Maryland Online Data Privacy Act (2024 ch. 455, SB 541); Section 4 sets 10/1/2025."
+        },
+        "US-ME": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-MN": {
+          "answer": "yes",
+          "operativeAt": "2025-07-31",
+          "preempts": true,
+          "cite": "Minn. Stat. § 325M.14",
+          "source": "https://www.revisor.mn.gov/statutes/cite/325M.14",
+          "note": "Minnesota Consumer Data Privacy Act (Laws 2024, ch. 121, art. 5); postsecondary institutions have until 7/31/2029."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-MT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mont. Code Ann. § 30-14-2808",
+          "source": "https://mca.legmt.gov/bills/mca/title_0300/chapter_0140/part_0280/section_0080/0300-0140-0280-0080.html",
+          "note": "Montana Consumer Data Privacy Act (Ch. 681, L. 2023), in the 2025 MCA; its effective date (widely reported as 10/1/2024) was not confirmed on a fetched page because the session-law PDF returned 404 and dojmt.gov refused."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-NE": {
+          "answer": "yes",
+          "operativeAt": "2025-01-01",
+          "preempts": true,
+          "cite": "Neb. Rev. Stat. § 87-1107",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=87-1107",
+          "note": "Nebraska Data Privacy Act (LB 1074, 2024); Section 100 of the act makes it operative 1/1/2025 (https://nebraskalegislature.gov/FloorDocs/108/PDF/Slip/LB1074.pdf)."
+        },
+        "US-NH": {
+          "answer": "yes",
+          "operativeAt": "2025-01-01",
+          "preempts": true,
+          "cite": "RSA 507-H:4",
+          "source": "https://gc.nh.gov/rsa/html/LII/507-H/507-H-4.htm",
+          "note": "The source note reads 2024, 5:1, eff. Jan. 1, 2025."
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "operativeAt": "2025-01-15",
+          "preempts": true,
+          "cite": "N.J.S.A. 56:8-166.10",
+          "source": "https://pub.njleg.state.nj.us/Bills/2022/PL23/266_.HTM",
+          "note": "P.L.2023, c.266 was approved 1/16/2024 and takes effect on the 365th day after enactment, which is 1/15/2025."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "NRS 603A.345",
+          "source": "https://www.leg.state.nv.us/nrs/nrs-603a.html",
+          "note": "Nevada's online privacy law (NRS 603A.300 to 603A.360) gives only a right to opt out of sale, not rights to access, correct or delete."
+        },
+        "US-NY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "A comprehensive privacy law was signed in 2026 but takes effect 2027-01-01."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "operativeAt": "2024-07-01",
+          "preempts": true,
+          "cite": "ORS 646A.574",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors646A.html",
+          "note": "Oregon Consumer Privacy Act (2023 c.369); the effective date is from the Oregon DOJ privacy page, https://www.doj.state.or.us/consumer-protection/id-theft-data-breaches/privacy/."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-RI": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "preempts": true,
+          "cite": "R.I. Gen. Laws § 6-48.1-5",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE6/6-48.1/6-48.1-5.htm",
+          "note": "Rhode Island Data Transparency and Privacy Protection Act (P.L. 2024, ch. 430 and 453), effective 1/1/2026, the reference date itself; the statute says customer rather than consumer."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-TN": {
+          "answer": "yes",
+          "operativeAt": "2025-07-01",
+          "preempts": true,
+          "cite": "Tenn. Code Ann. § 47-18-3203",
+          "source": "https://publications.tnsosfiles.com/acts/113/pub/pc0408.pdf",
+          "note": "Tennessee Information Protection Act (2023 Pub. Ch. 408, HB 1181); Section 6 sets 7/1/2025."
+        },
+        "US-TX": {
+          "answer": "yes",
+          "operativeAt": "2024-07-01",
+          "preempts": true,
+          "cite": "Tex. Bus. & Com. Code § 541.051",
+          "source": "https://capitol.texas.gov/tlodocs/88R/billtext/html/HB00004F.htm",
+          "note": "Texas Data Privacy and Security Act (HB 4, 2023); Section 7 sets 7/1/2024, and the attorney general's page confirms it."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Utah Code § 13-61-201",
+          "source": "https://le.utah.gov/xcode/Title13/Chapter61/C13-61-S201_2026070120250507.html",
+          "note": "The Utah Consumer Privacy Act (in effect 12/31/2023) gave rights to access and delete but no right to correct on 1/1/2026; Laws 2025 ch. 468 adds a right to correct effective 7/1/2026, which turns this into yes on that date."
+        },
+        "US-VA": {
+          "answer": "yes",
+          "operativeAt": "2023-01-01",
+          "preempts": true,
+          "cite": "Va. Code § 59.1-577",
+          "source": "https://law.lis.virginia.gov/vacode/title59.1/chapter53/section59.1-577/",
+          "note": "Virginia Consumer Data Protection Act (2021 Sp. Sess. I, ch. 35/36); the enactment clause sets 1/1/2023, confirmed at https://legacylis.virginia.gov/cgi-bin/legp604.exe?212+ful+CHAP0035."
+        },
+        "US-VT": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://legislature.vermont.gov/Documents/2026/Docs/ACTS/ACT145/ACT145%20Act%20Summary.pdf",
+          "note": "Vermont enacted a comprehensive law (S.71, Act 145, signed 6/16/2026) with access, correct and delete rights, but it takes effect 1/1/2028."
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.atg.wa.gov/data-privacy",
+          "note": "Washington's privacy law is the My Health My Data Act (HB 1155), limited to consumer health data; the attorney general's privacy hub lists no comprehensive consumer data law."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        }
+      }
+    },
+    "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
+      "source": "State code sites (IA, KS, MO, NC, OH, WI, UT, TX, ID, OR, FL, SC, MI, LA, AZ, WA, CO, AR), Eleventh Circuit en banc opinion (12/13/2019), NELP preemption brief (July 2017) and NYC agenda (Dec. 2025), NLC 'City Rights in an Era of Preemption' (2017/2018), UC Berkeley Labor Center local ordinance inventory (07/23/2026), all fetched September 2026.",
+      "note": "Unknown, and left out: US-AS, US-CT, US-DE, US-GA, US-GU, US-HI, US-IN, US-MA, US-MP, US-NE, US-NJ, US-PR, US-VI, US-WV, US-WY.",
+      "answers": {
+        "US-AK": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "Alaska Const. art. X, § 11; AS 29.10.200",
+          "source": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+          "note": "Home-rule boroughs and cities may exercise all legislative powers not prohibited by law or charter, and the list of home-rule limits in AS 29.10.200 (checked at https://www.akleg.gov/basis/statutes.asp?media=print&secStart=29.10.200&secEnd=29.10.200) says nothing about wages; no Alaska city has yet adopted one."
+        },
+        "US-AL": {
+          "answer": "no",
+          "operativeAt": "2016-02-25",
+          "preempts": true,
+          "cite": "Ala. Act No. 2016-18 (Ala. Code § 25-7-41)",
+          "source": "https://media.ca11.uscourts.gov/opinions/pub/files/201711009.enb.pdf",
+          "note": "Signed February 25, 2016, voiding Birmingham's $10.10 ordinance; the Eleventh Circuit (en banc, 2019) dismissed the challenge for lack of standing."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ark. Code § 11-4-221",
+          "source": "https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2017R%2FPublic%2F&file=643.pdf&ddBienniumSession=2017%2F2017R",
+          "note": "Act 643 of 2017 (approved 03/24/2017, no emergency clause) bars counties, cities and towns from requiring a minimum or living wage above state or federal law."
+        },
+        "US-AZ": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "A.R.S. § 23-364(I)",
+          "source": "https://www.azleg.gov/ars/23/00364.htm",
+          "note": "Counties, cities and towns may set higher minimum wages by ordinance; Flagstaff and Tucson have done so."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+          "note": "No state preemption; about 40 cities and counties, including Los Angeles, San Francisco and San Diego, have their own higher minimum wages."
+        },
+        "US-CO": {
+          "answer": "yes",
+          "operativeAt": "2020-01-01",
+          "preempts": false,
+          "cite": "C.R.S. § 29-1-1401; § 8-6-101(4)",
+          "source": "https://leg.colorado.gov/sites/default/files/2019a_1210_signed.pdf",
+          "note": "H.B. 19-1210 repealed the prior ban on local minimum wages; Denver, Edgewater and Boulder County have since adopted them."
+        },
+        "US-DC": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "D.C. Code § 32-1003",
+          "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+          "note": "D.C. has no state above it; the D.C. Council sets a local minimum wage above the federal rate (ordinance dates from 1992)."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Fla. Stat. § 218.077(2)",
+          "source": "https://www.flsenate.gov/Laws/Statutes/2025/218.077",
+          "note": "The statute (ch. 2003-87) bars local minimum wages, though Fla. Const. art. X, § 24(f) says the amendment does not limit any public body from requiring higher wages; ch. 2024-80 tightens the ban (adds 'maintain' and contractor wage rules) effective 09/30/2026."
+        },
+        "US-IA": {
+          "answer": "no",
+          "operativeAt": "2017-03-30",
+          "preempts": true,
+          "cite": "Iowa Code § 364.3(12)",
+          "source": "https://www.legis.iowa.gov/docs/code/364.3.pdf",
+          "note": "Ordinances adopted before 03/30/2017 were voided, including the Johnson, Linn, Polk, Lee and Wapello County wages."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Idaho Code § 44-1502(4)",
+          "source": "https://legislature.idaho.gov/statutesrules/idstat/Title44/T44CH15/SECT44-1502/",
+          "note": "Section history lists amendments in 2007 and 2016 (ch. 145); the exact date subsection (4) took effect was not confirmed."
+        },
+        "US-IL": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://www.chicago.gov/city/en/depts/bacp/supp_info/minimumwageinformation.html",
+          "note": "Home-rule units may set higher wages; Chicago and Cook County have (many Cook County municipalities have opted out of the county rate)."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "K.S.A. 12-16,130(a)(3)",
+          "source": "https://www.ksrevisor.org/statutes/chapters/ch12/012_016_0130.html",
+          "note": "Bars cities and counties from requiring wages above the minimum wage unless state or federal law requires them; enacted 2013 per NELP."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "KRS 337.275 (as construed in Ky. Restaurant Ass'n v. Louisville/Jefferson County Metro Gov't, Ky. 2016)",
+          "source": "https://www.nlc.org/wp-content/uploads/2017/02/NLC-SML-Preemption-Report-2017-pages.pdf",
+          "note": "No express statute; the Kentucky Supreme Court held in 2016 that the state wage law leaves no room for local minimums, voiding the Louisville and Lexington ordinances."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "La. R.S. 23:642(B)",
+          "source": "https://legis.la.gov/Legis/Law.aspx?d=83958",
+          "note": "Enacted by Acts 1997, No. 317; amended 2012."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+          "note": "Montgomery and Howard Counties have local minimum wages above the state rate."
+        },
+        "US-ME": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+          "note": "No state preemption found; Portland and Rockland have local minimum wages above the state rate."
+        },
+        "US-MI": {
+          "answer": "no",
+          "operativeAt": "2015-06-30",
+          "preempts": true,
+          "cite": "MCL 123.1385",
+          "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-123-1385",
+          "note": "Local Government Labor Regulatory Limitation Act, 2015 PA 105, immediate effect."
+        },
+        "US-MN": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+          "note": "Minneapolis and St. Paul have local minimum wages above the state rate."
+        },
+        "US-MO": {
+          "answer": "no",
+          "operativeAt": "2017-08-28",
+          "preempts": true,
+          "cite": "RSMo 290.528",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=290.528",
+          "note": "H.B. 1194 & 1193 (2017) nullified the St. Louis ordinance after the state supreme court struck the older 1998 ban (RSMo 67.1571) on single-subject grounds."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Miss. Code Ann. § 17-1-51",
+          "source": "https://www.nelp.org/publication/fighting-preemption-local-minimum-wage-laws/",
+          "note": "Cited by NELP (July 2017) among states that bar local minimum wages; the state code text itself was not reachable."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mont. Code Ann. § 7-1-111(23)",
+          "source": "https://leg.mt.gov/bills/mca/title_0070/chapter_0010/part_0010/section_0110/0070-0010-0010-0110.html",
+          "note": "Self-government units are denied any power to require a private employer to pay a wage or benefit not required by state or federal law (subsection (2) also bars acting on Title 39, the labor title); the section history lists several 2021 amendments, and which one added (23) was not confirmed."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.C. Gen. Stat. § 95-25.1(d)",
+          "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_95/GS_95-25.1.html",
+          "note": "Current subsection (d), added by S.L. 2023-134, s. 5.9(a), preempts local rules on private-employer pay; the earlier subsection (c) from the 2016 law was repealed by S.L. 2017-4."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.D.C.C. § 40-05.1-06",
+          "source": "https://ndlegis.gov/cencode/t40c05-1.pdf",
+          "note": "Weak: North Dakota applies Dillon's Rule (Wikipedia table) and home-rule cities get only the powers enumerated in § 40-05.1-06, which list no wage power; the general-welfare ordinance power in subsection 10 has not been tested on wages."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "RSA 31:39",
+          "source": "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States",
+          "note": "Weak: New Hampshire follows Dillon's Rule with no home rule (Wikipedia table), and the town bylaw powers in RSA 31:39 (https://gc.nh.gov/rsa/html/III/31/31-39.htm) list no wage power."
+        },
+        "US-NM": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+          "note": "Santa Fe city and county, Las Cruces and Albuquerque have local minimum wages."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "NRS 268.001; NRS 268.003(1)(c)",
+          "source": "https://www.leg.state.nv.us/nrs/nrs-268.html",
+          "note": "Weak: Nevada keeps Dillon's Rule except for city 'matters of local concern', a term that excludes matters needing statewide uniformity and business activities subject to substantial state regulation, and no statute grants wage-setting power."
+        },
+        "US-NY": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.Y. Labor Law § 652 (as construed in Wholesale Laundry Bd. of Trade v. City of New York, 1962)",
+          "source": "https://www.nelp.org/insights-research/nelps-new-york-city-worker-justice-agenda/",
+          "note": "No express statute; a 1962 court ruling holds cities cannot set their own minimum wage, and advocates argue it could be reconsidered; the higher NYC/Long Island/Westchester rates are set by state law."
+        },
+        "US-OH": {
+          "answer": "no",
+          "operativeAt": "2017-03-21",
+          "preempts": true,
+          "cite": "Ohio Rev. Code § 4111.02",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-4111.02",
+          "note": "Added by S.B. 331 (131st General Assembly)."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Okla. Stat. tit. 40, § 160",
+          "source": "https://www.nelp.org/publication/fighting-preemption-local-minimum-wage-laws/",
+          "note": "Cited by NELP (July 2017) among states that bar local minimum wages; the statute text was not reachable (oscn.net bot challenge)."
+        },
+        "US-OR": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "ORS 653.017",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors653.html",
+          "note": "Enacted 2001 (ch. 967); local governments may set wages only for their own employees, contracts and subsidies; the Portland-metro, standard and nonurban tiers are set by state law (ORS 653.025)."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "43 P.S. § 333.114a (Act 112 of 2006)",
+          "source": "https://www.phila.gov/2019-01-31-higher-minimum-wage-for-pennsylvania/",
+          "note": "Philadelphia states it is preempted by Act 112 from passing any minimum wage law."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "R.I. Gen. Laws § 28-12-25",
+          "source": "https://www.nelp.org/publication/fighting-preemption-local-minimum-wage-laws/",
+          "note": "Cited by NELP (July 2017) among states that bar local minimum wages; the state statute site was not reachable from this environment."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "S.C. Code Ann. § 6-1-130(B)",
+          "source": "https://www.scstatehouse.gov/code/t06c001.php",
+          "note": "Enacted by 2002 Act No. 243; bars local minimum wages above the federal rate."
+        },
+        "US-SD": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "SDCL 6-12-5; SDCL 6-12-6",
+          "source": "https://sdlegislature.gov/api/Statutes/6-12.html?all=true",
+          "note": "Only home-rule charter units qualify: their ordinances may set standards higher than state law unless a state law provides otherwise, though SDCL 6-12-6(1) withholds power over private civil relationships and no local wage has been tested."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Tenn. Code Ann. § 50-2-112",
+          "source": "https://www.nelp.org/publication/fighting-preemption-local-minimum-wage-laws/",
+          "note": "Cited by NELP (July 2017) among states that bar local minimum wages; the state code text was not reachable."
+        },
+        "US-TX": {
+          "answer": "no",
+          "operativeAt": "2003-09-01",
+          "preempts": true,
+          "cite": "Tex. Lab. Code § 62.0515(a)",
+          "source": "https://tcss.legis.texas.gov/resources/LA/htm/LA.62.htm",
+          "note": "The state minimum wage supersedes local wage ordinances for private employment, except public contracts."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Utah Code § 34-40-106(1)",
+          "source": "https://le.utah.gov/xcode/Title34/Chapter40/C34-40-S106_1800010118000101.html",
+          "note": "Cities, towns and counties may not require a minimum wage above the federal minimum; last amended 2005."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Va. Code § 15.2-1102 (charter powers, read under Dillon's Rule)",
+          "source": "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States",
+          "note": "Weak: Virginia follows Dillon's Rule with no home rule (Wikipedia table); the general-welfare charter powers in Va. Code § 15.2-1102 (https://law.lis.virginia.gov/vacode/title15.2/chapter11/section15.2-1102/) grant no wage power in terms, and no Virginia locality has one."
+        },
+        "US-VT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "24 V.S.A. § 2291",
+          "source": "https://legislature.vermont.gov/statutes/section/24/061/02291",
+          "note": "Weak: Vermont follows Dillon's Rule with no home rule (Wikipedia table), and the enumerated municipal powers in 24 V.S.A. § 2291 include no power to set wages."
+        },
+        "US-WA": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "RCW 49.46.120",
+          "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=49.46.120",
+          "note": "State law is a floor that leaves more favorable local wage ordinances in force; Seattle, SeaTac, Tukwila and others have higher rates."
+        },
+        "US-WI": {
+          "answer": "no",
+          "operativeAt": "2005-06-16",
+          "preempts": true,
+          "cite": "Wis. Stat. § 104.001(2)",
+          "source": "https://docs.legis.wisconsin.gov/statutes/statutes/104/001",
+          "note": "2005 Wis. Act 12 voided any local minimum wage ordinance in effect on June 16, 2005 (Madison's)."
         }
       }
     }
