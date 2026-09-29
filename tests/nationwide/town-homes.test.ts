@@ -31,6 +31,7 @@ import {
   TOWN_HOME_KINDS,
   TOWN_HOME_REASONS,
   chooseTownHomeKind,
+  homeForNewHousehold,
   describeTownHomes,
   reviewTownHomes,
   type TownHomeKind,
@@ -144,6 +145,40 @@ describe("a new game's households have homes", { timeout: 180_000 }, () => {
       tenure.stableKey.startsWith(TOWN_HOMES_VERSION),
     );
     expect(tenures.length).toBe(summary.households);
+  });
+});
+
+describe("a household with no home decides where to go, with no draw", () => {
+  const adults = (...ages: number[]) => ({
+    members: ages.map((age) => ({ age })),
+  });
+  it("buys when it works and its pay carries the payment, and rents otherwise", () => {
+    // A $1,200 payment needs $4,286 a month at 28%.
+    expect(homeForNewHousehold(adults(40, 38), true, 450_000, 120_000)).toEqual(
+      {
+        kind: "suburban-house",
+        tenure: "ownership:mortgaged",
+      },
+    );
+    expect(
+      homeForNewHousehold(adults(40, 38, 9, 7, 5), true, 450_000, 120_000).kind,
+    ).toBe("large-house");
+    expect(homeForNewHousehold(adults(40, 38), true, 400_000, 120_000)).toEqual(
+      {
+        kind: "small-apartment",
+        tenure: "lease:rented",
+      },
+    );
+    expect(
+      homeForNewHousehold(adults(40, 38, 6), false, 900_000, 120_000),
+    ).toEqual({
+      kind: "rowhouse",
+      tenure: "lease:rented",
+    });
+    // Unknown pay is not zero, and it is not enough to buy.
+    expect(homeForNewHousehold(adults(30), true, null, 120_000).tenure).toBe(
+      "lease:rented",
+    );
   });
 });
 

@@ -23,6 +23,7 @@ import { recordWorldEvent } from "../world";
 import { createStableId } from "../ids";
 import { bindingFromIdentity } from "../../districts/query";
 import { SeededRng } from "../rng";
+import { legislativeTermLimitBar } from "./state-legislative-term-limits";
 import {
   clampShare,
   logit,
@@ -290,9 +291,22 @@ function prepareStateIntake(
       next.control.personId === incumbentId;
     let seeking = false;
     let decisionTraceId: EntityId | null = null;
-    if (incumbent && alive && !controlled) {
+    const nextTerm = legislativeTermDates(row.officeKey, electionDay);
+    // Whether the member MAY stand is the state's term limit under the law
+    // in force; whether they WANT to is their own decision below.
+    const barredByLimit =
+      incumbent && alive && nextTerm
+        ? legislativeTermLimitBar(next, {
+            stateUsps: pack.jurisdictionKey.replace(/^US-/, ""),
+            packId,
+            officeKey: row.officeKey,
+            personId: incumbent.id,
+            termStartsAt: nextTerm.startsAt,
+            termEndsAt: nextTerm.endsAt,
+          })
+        : null;
+    if (incumbent && alive && !controlled && barredByLimit === null) {
       const key = `${stateIntentKey(seatKey, year)}:decision`;
-      const nextTerm = legislativeTermDates(row.officeKey, electionDay);
       const decided = decideAnotherTerm(next, {
         personId: incumbent.id,
         stableKey: key,
@@ -344,6 +358,7 @@ function prepareStateIntake(
           STATE_LEGISLATURE_TURNOVER_PROFILE.id,
           `seat:${seatKey}`,
           `intent:${seeking ? "seeking" : "not-seeking"}`,
+          ...(barredByLimit ? ["barred:term-limit"] : []),
           ...(seeking
             ? ["qualification:incumbent-provisional-game-profile"]
             : []),
@@ -351,9 +366,11 @@ function prepareStateIntake(
         ],
         summary: seeking
           ? `The holder of ${seat.title} is seeking another term.`
-          : incumbentId
-            ? `The holder of ${seat.title} is not seeking another term.`
-            : `No sitting member is seeking ${seat.title}.`,
+          : barredByLimit
+            ? `The holder of ${seat.title} may not seek another term: ${barredByLimit}`
+            : incumbentId
+              ? `The holder of ${seat.title} is not seeking another term.`
+              : `No sitting member is seeking ${seat.title}.`,
         context: {
           location: null,
           socialContext: null,

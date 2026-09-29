@@ -1387,8 +1387,12 @@ export function fillTownJobs(
       const fits = workplace.roles.filter(
         (entry) => resident.age >= (entry.minAge ?? WORKING_AGE_MIN),
       );
+      // A congregation or school has one pastor or principal, hired above
+      // for each one in town; the mix never adds a second.
       const offered = fits.filter(
-        (entry) => !budgetStaffed.has(`${workplace.key}|${entry.title}`),
+        (entry) =>
+          !budgetStaffed.has(`${workplace.key}|${entry.title}`) &&
+          !(workplace.existing && entry.authority === "directs-others"),
       );
       // Every role the resident fits here is budget-staffed: draw again.
       if (fits.length > 0 && offered.length === 0) continue;
