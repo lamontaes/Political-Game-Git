@@ -207,6 +207,23 @@ describe("a seated chamber deciding one question", () => {
     ).toBe("nay");
   });
 
+  it("decides a named few members exactly as a full count does", () => {
+    const members = chamber.body.members;
+    const full = decideChamberVote(world, {
+      stableKey: "test:full",
+      question,
+      members,
+    });
+    const named = new Set([members[1]!.memberKey, members[4]!.memberKey]);
+    const few = decideChamberVote(world, {
+      stableKey: "test:few",
+      question,
+      members,
+      only: named,
+    });
+    expect(few).toEqual(full.filter((row) => named.has(row.memberKey)));
+  });
+
   it("counts an empty seat as a vacancy, not a voter", () => {
     const members = chamber.body.members.map((member, index) =>
       index === 0 ? { ...member, personId: null } : member,
@@ -242,9 +259,11 @@ describe("a seated chamber deciding one question", () => {
     for (const [index, entry] of ordinary.entries()) {
       if (entry.personId === assignment.sponsorPersonId) continue;
       const same = publicPartyOf(world, entry.personId!) === sponsorParty;
+      // A member of another party with no view of their own and no other
+      // cue answers present: party is never a stand-in for having no view.
       expect(entry).toMatchObject({
-        disposition: "yea",
-        reason: same ? "member:party-cue:same" : "member:no-objection",
+        disposition: same ? "yea" : "present-not-voting",
+        reason: same ? "member:party-cue:same" : "member:no-reason",
       });
       expect(override[index]).toMatchObject({
         disposition: same ? "yea" : "nay",

@@ -5,7 +5,10 @@ import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/st
 import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
 import { ensureLocalCouncilMeetings } from "../simulation/living-world/local-council-meetings";
 import { ensureLocalElectionCalendar } from "../simulation/living-world/local-elections";
-import { ensureLocalGovernmentSeats } from "../simulation/living-world/local-government-seats";
+import {
+  ensureLocalGovernmentSeats,
+  playerHousemates,
+} from "../simulation/living-world/local-government-seats";
 import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import {
@@ -29,8 +32,11 @@ import {
 } from "../simulation";
 import { ensureMigrationSchedule } from "../simulation/migration";
 import { ensurePaydaySchedule } from "../simulation/living-world/town-pay";
+import { ensureRentDaySchedule } from "../simulation/living-world/town-rent";
 import { ensureCrimeProduction } from "../simulation/crime";
+import { ensureEpidemicProduction } from "../simulation/crisis/epidemic";
 import { ensurePlaceOutcomes } from "../simulation/outcome-web/place-outcomes";
+import { ensurePublicBudgets } from "../simulation/public-budgets";
 import { ensureOpeningJudiciary } from "../simulation/judiciary/opening";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
 import {
@@ -38,6 +44,7 @@ import {
   macroStartForHistory,
 } from "../simulation/macro-economy";
 import type { World, EntityId } from "../simulation";
+import { isFederalDistrictUsps } from "../simulation/state-reference";
 import { createNewGameWorld } from "./new-game";
 import { proseDate } from "./prose-dates";
 import type { NewGameSetup, NewGame } from "./new-game";
@@ -132,27 +139,31 @@ function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
       // start it on their first ordinary-day pass, as before.
       world: openedWorld(
         ensureOpeningMortality(
-          ensurePlaceOutcomes(
-            ensureCrimeProduction(
-              ensureHazardProduction(
-                ensureLivingWorldDevelopments(
-                  // Standing chapter committees exist only in current openings.
-                  ensurePartyGoverningBodies(
-                    ensureHomePartyChapters(
-                      ensureHomeStateLegislature(
-                        ensureLivingWorldOpening(
-                          withPriorRecords,
+          ensurePublicBudgets(
+            ensurePlaceOutcomes(
+              ensureEpidemicProduction(
+                ensureCrimeProduction(
+                  ensureHazardProduction(
+                    ensureLivingWorldDevelopments(
+                      // Standing chapter committees exist only in current openings.
+                      ensurePartyGoverningBodies(
+                        ensureHomePartyChapters(
+                          ensureHomeStateLegislature(
+                            ensureLivingWorldOpening(
+                              withPriorRecords,
+                              game.playerPersonId,
+                              session.setup.livingWorldMemberNameVersion,
+                            ),
+                            game.playerPersonId,
+                          ),
                           game.playerPersonId,
-                          session.setup.livingWorldMemberNameVersion,
+                          session.setup.partyChapterNameVersion,
                         ),
                         game.playerPersonId,
                       ),
                       game.playerPersonId,
-                      session.setup.partyChapterNameVersion,
                     ),
-                    game.playerPersonId,
                   ),
-                  game.playerPersonId,
                 ),
               ),
             ),
@@ -161,6 +172,7 @@ function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
         ),
         game.playerPersonId,
         session.setup.openingDataVersion,
+        session.setup.livingWorldMemberNameVersion,
       ),
     },
   };
@@ -181,8 +193,13 @@ function ensureHomeStateLegislature(
   const stateUsps = homeStateUsps(world, playerPersonId);
   if (!stateUsps) return world;
   // The District's legislature is its Council, which is seated on its own.
-  return stateUsps === "DC"
-    ? scheduleDcCouncilSitting(ensureDistrictOfColumbiaCouncilOpening(world))
+  return isFederalDistrictUsps(stateUsps)
+    ? scheduleDcCouncilSitting(
+        ensureDistrictOfColumbiaCouncilOpening(
+          world,
+          playerHousemates(world, playerPersonId),
+        ),
+      )
     : ensureStateLegislatureOpening(world, playerPersonId, stateUsps);
 }
 
@@ -195,6 +212,7 @@ function openedWorld(
   world: World,
   playerPersonId: EntityId,
   openingDataVersion: NewGameSetup["openingDataVersion"],
+  memberNameVersion?: NewGameSetup["livingWorldMemberNameVersion"],
 ): World {
   // Migration is scheduled only for a current opening too, so a legacy replay
   // keeps the world it always built (MIGRATION_SEAMS "old-saves").
@@ -211,17 +229,20 @@ function openedWorld(
     ),
     playerPersonId,
   );
-  // Payday starts with the same opening, so a watched world's jobs pay too.
-  const opened = ensurePaydaySchedule(
-    ensureMigrationSchedule(
-      ensureLocalCouncilMeetings(
-        ensureLocalElectionCalendar(seated, playerPersonId),
-        playerPersonId,
+  // Payday starts with the same opening, so a watched world's jobs pay too,
+  // and so does rent day, so its renters pay their landlords.
+  const opened = ensureRentDaySchedule(
+    ensurePaydaySchedule(
+      ensureMigrationSchedule(
+        ensureLocalCouncilMeetings(
+          ensureLocalElectionCalendar(seated, playerPersonId),
+          playerPersonId,
+        ),
       ),
     ),
   );
   return openingDataVersion === "playtest65-v3"
-    ? ensureOpeningJudiciary(opened)
+    ? ensureOpeningJudiciary(opened, memberNameVersion)
     : opened;
 }
 

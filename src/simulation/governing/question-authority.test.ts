@@ -41,6 +41,7 @@ interface Row {
   readonly dial: string;
   readonly levels: readonly QuestionReach[];
   readonly why?: string;
+  readonly gate?: { readonly question: string; readonly noBars: string };
 }
 const ROWS = questionPowers.questions as unknown as Readonly<
   Record<string, Row>
@@ -138,7 +139,7 @@ const PLACES = everyPlace();
 
 describe("which question each level may answer", () => {
   it("maps every question in the catalog to a powers dial, at levels its issue allows", () => {
-    expect(QUESTIONS.length).toBe(87);
+    expect(QUESTIONS.length).toBe(91);
     expect(Object.keys(ROWS).sort()).toEqual(
       QUESTIONS.map((question) => question.key).sort(),
     );
@@ -146,12 +147,10 @@ describe("which question each level may answer", () => {
       const row = ROWS[question.key]!;
       expect(CELLS.has(row.dial), `${question.key}: ${row.dial}`).toBe(true);
       expect(row.levels.length, question.key).toBeGreaterThan(0);
-      // Wider than its issue only for federal law, and only with the reason.
+      // Wider than its issue only with the reason.
       for (const level of row.levels)
-        if (!question.issueLevels.includes(level)) {
-          expect(level, question.key).toBe("federal");
-          expect(row.why, question.key).toBeTruthy();
-        }
+        if (!question.issueLevels.includes(level))
+          expect(row.why, `${question.key} at ${level}`).toBeTruthy();
       // Narrower than its issue only with the reason.
       if (question.issueLevels.some((level) => !row.levels.includes(level)))
         expect(row.why, question.key).toBeTruthy();
@@ -236,6 +235,8 @@ describe("which question each level may answer", () => {
           expect(authority.may, label).toBe("no");
           continue;
         }
+        // A gated question also reads the state's law; its own test covers it.
+        if (row.gate) continue;
         const cells = own.map((level) => CELLS.get(row.dial)![level]!.may);
         const expected = cells.some((may) => may === "yes" || may === "limited")
           ? "yes"
@@ -270,6 +271,23 @@ describe("which question each level may answer", () => {
           questionAuthority(WORLD, place.id, question.id).may,
           `${place.name}: ${question.key}`,
         ).toBe("no");
+  });
+
+  it("gates only local questions, on a state question the state answers", () => {
+    const gated = QUESTIONS.filter((question) => ROWS[question.key]!.gate);
+    expect(gated.map((question) => question.key).sort()).toEqual([
+      "us-policy-positions:civil-family-community.city-nondiscrimination-ordinance",
+      "us-policy-positions:labor-workforce.city-minimum-wage",
+    ]);
+    for (const question of gated) {
+      const row = ROWS[question.key]!;
+      expect(row.levels.every((l) => l === "county" || l === "city")).toBe(
+        true,
+      );
+      const gate = ROWS[row.gate!.question];
+      expect(gate?.levels, row.gate!.question).toContain("state");
+      expect(["always", "when-preempting"]).toContain(row.gate!.noBars);
+    }
   });
 
   it("agrees with every row of the starting law", () => {
@@ -372,8 +390,14 @@ describe("the law in force keeps to each level's powers", () => {
     const key = "us-policy-positions:fiscal.graduated-income-tax";
     const ordinance = enacted(lexington, key, "yes");
     const world = worldWith([ordinance]);
-    expect(lawInForce(world, lexington, questionId(key))).toBeNull();
-    expect(lawInForce(world, kentucky, questionId(key))).toBeNull();
+    // Kentucky's own starting law answers it; the ordinance changes nothing
+    // about it, in the city or in the state.
+    const state = lawInForce(world, kentucky, questionId(key));
+    expect(state?.origin).toBe("in-force-at-start");
+    const inCity = lawInForce(world, lexington, questionId(key));
+    expect(inCity).toEqual(state);
+    expect(inCity?.level).not.toBe("city-ordinance");
+    expect(inCity?.answer).not.toBe("yes");
     expect(world.history.legislativeMeasures).toHaveLength(1);
   });
 
@@ -387,7 +411,12 @@ describe("the law in force keeps to each level's powers", () => {
       level: "local-ordinance",
       measureId: ordinance.measure.id,
     });
-    expect(lawInForce(world, kentucky, questionId(key))).toBeNull();
+    // Kentucky's own law has no civilian oversight and leaves its cities
+    // free to set it up.
+    expect(lawInForce(world, kentucky, questionId(key))).toMatchObject({
+      answer: "no",
+      origin: "in-force-at-start",
+    });
   });
 
   it("still puts a state law over an ordinance on a question both may answer", () => {

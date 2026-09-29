@@ -39,11 +39,11 @@ the runtime uses.
 
 ### Production libraries
 
-- placements measured: 148
-- placements where some layer drew: 140
+- placements measured: 448
+- placements where some layer drew: 440
 - of those, COMPLETE recipes (compositor reported nothing): 0
-- partial draws (drew, but a slot or pose was reported): 140
-- by output class: {"production-fixture":140,"refused":8}
+- partial draws (drew, but a slot or pose was reported): 440
+- by output class: {"production-fixture":440,"refused":8}
 - feet off the declared contact line by more than 0.5% of the plate: 0
 - figures escaping the plate: 24
 - unfitted components not landing on their declared anchor: 0
@@ -52,11 +52,11 @@ Fitted figure height spans 16.1% to 135.6% of the plate.
 
 ### Candidate review libraries (development preview only)
 
-- placements measured: 148
+- placements measured: 448
 - placements where some layer drew: 0
 - of those, COMPLETE recipes (compositor reported nothing): 0
 - partial draws (drew, but a slot or pose was reported): 0
-- by output class: {"refused":148}
+- by output class: {"refused":448}
 - feet off the declared contact line by more than 0.5% of the plate: 0
 - figures escaping the plate: 0
 - unfitted components not landing on their declared anchor: 0

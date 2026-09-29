@@ -134,9 +134,10 @@ describe("how a town's mayor is chosen", () => {
     });
   });
 
-  it("across the country, unread towns come out in ICMA's national shares", () => {
-    // ICMA 2018 as ChatGPT reported it: direct election 75.6%; a 4-year
-    // chief's term 49.4%, a 2-year one 28.6%.
+  it("across the country, every unread town takes the most common real rule", () => {
+    // ESTIMATED FROM AVERAGE, ICMA 2018 as ChatGPT reported it: direct
+    // election is the most common way (75.6%), four years the most common
+    // chief's term (49.4%). No unread town draws another.
     const unread = allGovernmentUnits()
       .filter((unit) => unit.placeGeoid !== null)
       .map((unit) => localChiefExecutiveRules(unit))
@@ -144,12 +145,10 @@ describe("how a town's mayor is chosen", () => {
         (rules) => rules !== null && rules.researchedGovernmentKey === null,
       );
     expect(unread.length).toBeGreaterThan(19_000);
-    const share = (pick: (r: (typeof unread)[number]) => boolean) =>
-      unread.filter(pick).length / unread.length;
-    expect(share((r) => r!.directlyElected.value)).toBeCloseTo(0.756, 1);
-    expect(share((r) => r!.termYears.value === 4)).toBeCloseTo(0.494, 1);
-    expect(share((r) => r!.termYears.value === 2)).toBeCloseTo(0.286, 1);
-    // The same town draws the same mayor every time it is asked.
+    for (const rules of unread) {
+      expect(rules!.termYears).toEqual({ value: 4, basis: "typical" });
+      expect(rules!.directlyElected.value).toBe(true);
+    }
     expect(rulesAt(ELY)).toEqual(rulesAt(ELY));
   });
 
@@ -374,15 +373,15 @@ describe("the owner's interim rule for large cities", () => {
         (unit) => localChiefExecutiveRules(unit) !== null,
       )!;
     // Philadelphia's record does not say how its mayor is chosen. Without its
-    // size, the national draw gives it a council-chosen one.
+    // size, it takes the most common rule, an elected mayor.
     const philadelphia = unitAt("4260000");
     expect(
       localChiefExecutiveRules(philadelphia, () => null)!.directlyElected,
-    ).toEqual({ value: false, basis: "typical" });
+    ).toEqual({ value: true, basis: "typical" });
     expect(
       localChiefExecutiveRules(philadelphia, () => 1_573_916)!.directlyElected,
     ).toEqual({ value: true, basis: "owner-interim" });
-    // At or below the line, the draw stands.
+    // At or below the line, the most common rule stands.
     expect(
       localChiefExecutiveRules(philadelphia, () => 100_000)!.directlyElected
         .basis,

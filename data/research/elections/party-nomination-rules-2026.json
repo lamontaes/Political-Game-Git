@@ -1,0 +1,1985 @@
+{
+  "id": "party-nomination-rules-2026",
+  "about": "How each place's parties choose their candidates for the general election, as the law stood in 2026: the method (a party primary, an all-party top-two or top-four primary), the standing date rule and the 2026 date actually set, and any runoff. Read by simulation/nominations/nomination-rules.ts. A field that is null or \"unknown\" has not been read; the reader starts it from the closest real rule, marked ESTIMATED FROM AVERAGE, never zero or \"no\". South Carolina and Virginia let each party choose its method (partyMayChooseMethod); every party starts with a primary until the game has party officers to make that choice. A law enacted in play changes the date rule or the method through the rule-change reader (office key us-xx-election-law).",
+  "asOf": "2026-09-28",
+  "sourceNote": "Research 9's 2026 primary-rules table (project files research/r9-primaries, read 9/28/2026 about 9:44 p.m. EDT): primary dates, runoffs and NCSL voter-access categories; each state's date rule with its citation and whether the statute text was read. Weekdays are 0 = Sunday through 6 = Saturday.",
+  "places": {
+    "US-AL": {
+      "name": "Alabama",
+      "method": "party-primary",
+      "voterAccess": "Open",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 5,
+          "weekday": 1,
+          "nth": -1,
+          "offsetDays": -6
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-05-19"
+        },
+        "cite": "Ala. Code 17-13-3",
+        "verification": "read",
+        "ruleText": "Tuesday in May preceding Memorial Day (2026: May 19, matches)"
+      },
+      "runoff": {
+        "thresholdPercent": 50,
+        "outright": "more-than",
+        "date": {
+          "kind": "days-after-primary",
+          "days": 28
+        },
+        "onRequest": false,
+        "minimumCandidates": null,
+        "offices": null,
+        "verification": "read",
+        "ruleText": "Fourth Tuesday after the primary (2026: Jun 16, matches)",
+        "dates2026": {
+          "all": "2026-06-16"
+        }
+      },
+      "source": "https://law.justia.com/codes/alabama/title-17/chapter-13/article-1/section-17-13-3/",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-01-23"
+        },
+        "daysBeforePrimary": 116,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "Primary 5/19 for districts 3, 4 and 5 and 8/11 for districts 1, 2, 6 and 7 (redistricting); runoff 6/16; deadline measured against 5/19"
+      }
+    },
+    "US-AK": {
+      "name": "Alaska",
+      "method": "top-four",
+      "voterAccess": "Top four",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 8,
+          "weekday": 2,
+          "nth": 3
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-08-18"
+        },
+        "cite": "AS 15.25.020 (read)",
+        "verification": "read",
+        "ruleText": "Third Tuesday in August of every even-numbered year (AS 15.25.020, read 9/28 about 9:58 p.m.; 2026: Aug 18, matches)"
+      },
+      "runoff": null,
+      "note": "Ranked-choice general election",
+      "source": "https://www.elections.alaska.gov/Core/primaryelectioninformation.php",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-06-01"
+        },
+        "daysBeforePrimary": 78,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-AZ": {
+      "name": "Arizona",
+      "method": "party-primary",
+      "voterAccess": "Open to unaffiliated voters",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 7,
+          "weekday": 2,
+          "nth": -2
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-07-21"
+        },
+        "cite": "A.R.S. 16-201 (amended 2026, HB 2022)",
+        "verification": "read (curl, 9/28 9:43 p.m.)",
+        "ruleText": "Second-to-last Tuesday in July in any year with a general or special election (A.R.S. 16-201 as amended by HB 2022, 2026; read). 2026: Jul 21, matches"
+      },
+      "runoff": null,
+      "source": "https://www.azleg.gov/ars/16/00201.htm",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-23"
+        },
+        "daysBeforePrimary": 120,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-AR": {
+      "name": "Arkansas",
+      "method": "party-primary",
+      "voterAccess": "Open",
+      "primary": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 3,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-03-03"
+        },
+        "cite": "Ark. Code 7-7-203",
+        "verification": "read",
+        "ruleText": "First Tuesday after the first Monday in March (preferential primary) (2026: Mar 3, matches)"
+      },
+      "runoff": {
+        "thresholdPercent": 50,
+        "outright": "more-than",
+        "date": {
+          "kind": "days-after-primary",
+          "days": 28
+        },
+        "onRequest": false,
+        "minimumCandidates": null,
+        "offices": null,
+        "verification": "read",
+        "ruleText": "General primary runoff on the Tuesday four weeks after (2026: Mar 31, matches)",
+        "dates2026": {
+          "all": "2026-03-31"
+        }
+      },
+      "source": "https://law.justia.com/codes/arkansas/title-7/chapter-7/subchapter-2/section-7-7-203/",
+      "filing": {
+        "deadlines2026": {
+          "all": "2025-11-11"
+        },
+        "daysBeforePrimary": 112,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "Runoff 3/31"
+      }
+    },
+    "US-CA": {
+      "name": "California",
+      "method": "top-two",
+      "voterAccess": "Top two",
+      "primary": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 6,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2
+        },
+        "evenYearsOnly": true,
+        "presidentialYearRule": {
+          "kind": "weekday-after",
+          "month": 3,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2
+        },
+        "dates2026": {
+          "all": "2026-06-02"
+        },
+        "cite": "Cal. Elec. Code 1201, 1202",
+        "verification": "read (curl, 9/28 9:15 p.m.)",
+        "ruleText": "First Tuesday after the first Monday in June of even years not divisible by four; first Tuesday after the first Monday in March in presidential years (2026: Jun 2, matches)"
+      },
+      "runoff": null,
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=ELEC&sectionNum=1201",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-06"
+        },
+        "daysBeforePrimary": 88,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-CO": {
+      "name": "Colorado",
+      "method": "party-primary",
+      "voterAccess": "Open to unaffiliated voters",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 6,
+          "weekday": 2,
+          "nth": -1
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-06-30"
+        },
+        "cite": "C.R.S. 1-4-101(1)",
+        "verification": "read",
+        "ruleText": "Last Tuesday in June of even-numbered years (2026: Jun 30, matches)"
+      },
+      "runoff": null,
+      "source": "https://colorado.public.law/statutes/crs_1-4-101",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-18"
+        },
+        "daysBeforePrimary": 104,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-CT": {
+      "name": "Connecticut",
+      "method": "party-primary",
+      "voterAccess": "Partially closed",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 8,
+          "weekday": 2,
+          "nth": 2
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-08-11"
+        },
+        "cite": "Conn. Gen. Stat. 9-423",
+        "verification": "read",
+        "ruleText": "Second Tuesday in August for state offices (2026: Aug 11, matches)"
+      },
+      "runoff": null,
+      "source": "https://law.justia.com/codes/connecticut/title-9/chapter-153/section-9-423/",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-06-09"
+        },
+        "daysBeforePrimary": 63,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "Party conventions first: Democratic May 11, Republican May 15"
+      }
+    },
+    "US-DE": {
+      "name": "Delaware",
+      "method": "party-primary",
+      "voterAccess": "Closed",
+      "primary": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 9,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2,
+          "ordinal": 2
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-09-15"
+        },
+        "cite": "15 Del. C. 3101",
+        "verification": "read",
+        "ruleText": "Second Tuesday after the first Monday in September (2026: Sep 15, matches)"
+      },
+      "runoff": null,
+      "source": "https://delcode.delaware.gov/title15/c031/sc01",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-07-14"
+        },
+        "daysBeforePrimary": 63,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-DC": {
+      "name": "District of Columbia",
+      "method": "party-primary",
+      "voterAccess": "Closed",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 6,
+          "weekday": 2,
+          "nth": 3
+        },
+        "evenYearsOnly": false,
+        "presidentialYearRule": {
+          "kind": "nth-weekday",
+          "month": 6,
+          "weekday": 2,
+          "nth": 1
+        },
+        "dates2026": {
+          "all": "2026-06-16"
+        },
+        "cite": "D.C. Code 1-1001.10(a) as amended by D.C. Law 23-36",
+        "verification": "read",
+        "ruleText": "Third Tuesday in June; presidential-election years first Tuesday in June (2026: Jun 16, matches)"
+      },
+      "runoff": null,
+      "note": "Initiative 83's semi-open part was not funded in June 2025; ranked choice used for the first time",
+      "source": "https://code.dccouncil.gov/us/dc/council/laws/23-36",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-18"
+        },
+        "daysBeforePrimary": 90,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-FL": {
+      "name": "Florida",
+      "method": "party-primary",
+      "voterAccess": "Closed",
+      "primary": {
+        "rule": {
+          "kind": "days-before-general",
+          "days": 77
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-08-18"
+        },
+        "cite": "Fla. Stat. 100.061",
+        "verification": "read",
+        "ruleText": "Tuesday 11 weeks before the general election (2026: Aug 18, matches)"
+      },
+      "runoff": null,
+      "source": "https://www.flsenate.gov/Laws/Statutes/2025/Chapter100/All",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-04-24"
+        },
+        "daysBeforePrimary": 116,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-GA": {
+      "name": "Georgia",
+      "method": "party-primary",
+      "voterAccess": "Open",
+      "primary": {
+        "rule": {
+          "kind": "days-before-general",
+          "days": 168
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-05-19"
+        },
+        "cite": "O.C.G.A. 21-2-150",
+        "verification": "read",
+        "ruleText": "Tuesday of the 24th week before the November general election (2026: May 19, matches)"
+      },
+      "runoff": {
+        "thresholdPercent": 50,
+        "outright": "more-than",
+        "date": {
+          "kind": "days-after-primary",
+          "days": 28
+        },
+        "verification": "inferred from the 2026 dates; O.C.G.A. 21-2-501 not read",
+        "onRequest": false,
+        "minimumCandidates": null,
+        "offices": null,
+        "ruleText": "Four weeks after primary (2026: Jun 16 matches; runoff statute 21-2-501 not read)",
+        "dates2026": {
+          "all": "2026-06-16"
+        }
+      },
+      "source": "https://law.justia.com/codes/georgia/title-21/chapter-2/article-4/part-2/section-21-2-150/",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-06"
+        },
+        "daysBeforePrimary": 74,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "Runoff 6/16"
+      }
+    },
+    "US-HI": {
+      "name": "Hawaii",
+      "method": "party-primary",
+      "voterAccess": "Open",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 8,
+          "weekday": 6,
+          "nth": 2
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-08-08"
+        },
+        "cite": "HRS 12-2",
+        "verification": "read",
+        "ruleText": "Second Saturday of August in even-numbered years (2026: Aug 8, matches)"
+      },
+      "runoff": null,
+      "source": "https://law.onecle.com/hawaii/title-2/chapter-12/index.html",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-06-02"
+        },
+        "daysBeforePrimary": 67,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-ID": {
+      "name": "Idaho",
+      "method": "party-primary",
+      "voterAccess": "Partially closed",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 5,
+          "weekday": 2,
+          "nth": 3
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-05-19"
+        },
+        "cite": "Idaho Code 34-601; 34-106(1)(a) (per S1398)",
+        "verification": "read",
+        "ruleText": "Third Tuesday in May (Idaho Code 34-601, 2022 text). 2026 Senate Bill S1398 (68th Legislature) moves it to the date in 34-106(1)(a): third Tuesday following the first Monday in May; enactment not confirmed. Either yields 2026 May 19, matches"
+      },
+      "runoff": null,
+      "source": "https://legislature.idaho.gov/wp-content/uploads/sessioninfo/2026/legislation/S1398.pdf",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-02-27"
+        },
+        "daysBeforePrimary": 81,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-IL": {
+      "name": "Illinois",
+      "method": "party-primary",
+      "voterAccess": "Partially open",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 3,
+          "weekday": 2,
+          "nth": 3
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-03-17"
+        },
+        "cite": "10 ILCS 5/2A-1.1",
+        "verification": "read",
+        "ruleText": "Third Tuesday in March (2026: Mar 17, matches)"
+      },
+      "runoff": null,
+      "source": "https://law.justia.com/codes/illinois/2022/chapter-10/act-10-ilcs-5/article-2a/",
+      "filing": {
+        "deadlines2026": {
+          "all": "2025-11-03"
+        },
+        "daysBeforePrimary": 134,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-IN": {
+      "name": "Indiana",
+      "method": "party-primary",
+      "voterAccess": "Partially open",
+      "primary": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 5,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-05-05"
+        },
+        "cite": "Ind. Code 3-10-1-3",
+        "verification": "read",
+        "ruleText": "First Tuesday after the first Monday in May (2026: May 5, matches)"
+      },
+      "runoff": null,
+      "source": "https://law.justia.com/codes/indiana/title-3/article-10/chapter-1/section-3-10-1-3/",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-02-06"
+        },
+        "daysBeforePrimary": 88,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "Noon"
+      }
+    },
+    "US-IA": {
+      "name": "Iowa",
+      "method": "party-primary",
+      "voterAccess": "Partially open",
+      "primary": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 6,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-06-02"
+        },
+        "cite": "Iowa Code 43.7",
+        "verification": "read",
+        "ruleText": "First Tuesday after the first Monday in June of even years (2026: Jun 2, matches)"
+      },
+      "runoff": null,
+      "source": "https://www.legis.iowa.gov/docs/ico/chapter/43.pdf",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-13"
+        },
+        "daysBeforePrimary": 81,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-KS": {
+      "name": "Kansas",
+      "method": "party-primary",
+      "voterAccess": "Partially closed",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 8,
+          "weekday": 2,
+          "nth": 1
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-08-04"
+        },
+        "cite": "K.S.A. 25-203 (cite from NCSL); rule read in 25-205 and on Secretary of State page",
+        "verification": "read",
+        "ruleText": "First Tuesday in August of even years (2026: Aug 4, matches)"
+      },
+      "runoff": null,
+      "source": "https://www.sos.ks.gov/elections/voter-information.html",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-06-01"
+        },
+        "daysBeforePrimary": 64,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-KY": {
+      "name": "Kentucky",
+      "method": "party-primary",
+      "voterAccess": "Closed",
+      "primary": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 5,
+          "anchorWeekday": 1,
+          "anchorNth": 3,
+          "weekday": 2
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-05-19"
+        },
+        "cite": "KRS 118.025",
+        "verification": "read",
+        "ruleText": "First Tuesday after the third Monday in May (2026: May 19, matches)"
+      },
+      "runoff": null,
+      "source": "https://codes.findlaw.com/ky/title-x-elections/ky-rev-st-sect-118-025.html",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-01-09"
+        },
+        "daysBeforePrimary": 130,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-LA": {
+      "name": "Louisiana",
+      "method": "party-primary",
+      "voterAccess": "Closed party primary for Congress and the state supreme court; unaffiliated voters may choose one party's primary",
+      "methodByOffice": {
+        "state-legislature": "all-party-majority",
+        "governor": "all-party-majority"
+      },
+      "primary": {
+        "rule": null,
+        "evenYearsOnly": false,
+        "presidentialYearRule": null,
+        "dates2026": {
+          "us-senate": "2026-05-16",
+          "us-house": "2026-11-03"
+        },
+        "cite": "La. R.S. 18:402, 18:401.1 (closed primary; not read), 2025 acts",
+        "verification": "search only",
+        "ruleText": "2026 closed party primary for Congress (and Supreme Court): May 16 (matches given date). Set by 2025 Legislature act adjusting closed-primary dates; statutory formula not read. Regular congressional primary/general text in R.S. 18:402 is the first Tuesday after the first Monday in November. U.S. House primary later moved to Nov 3, 2026 (runoff Dec 12) after a Supreme Court redistricting ruling"
+      },
+      "runoff": {
+        "thresholdPercent": 50,
+        "outright": "more-than",
+        "date": null,
+        "verification": "search only; the six-week gap is read from the 2026 dates",
+        "onRequest": false,
+        "minimumCandidates": null,
+        "offices": null,
+        "ruleText": "Second party primary Jun 27, 2026 (six weeks after May 16); statutory formula not read",
+        "dates2026": {
+          "us-senate": "2026-06-27",
+          "us-house": "2026-12-12"
+        }
+      },
+      "note": "The all-party primary stays for governor, other statewide offices and the legislature (next in 2027); the governor suspended the U.S. House primaries after a Supreme Court ruling, and NCSL now lists them on November 3 (the link between the two is inferred)",
+      "source": "https://www.270towin.com/content/changes-to-louisiana-primaries-effective-in-2026",
+      "filing": {
+        "deadlines2026": {
+          "us-senate": "2026-01-14",
+          "us-house": "2026-08-07"
+        },
+        "daysBeforePrimary": 122,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "U.S. Senate: primary 5/16, filing 1/14. U.S. House moved to 11/3 (runoff 12/12), filing 8/7, after Louisiana v. Callais (Executive Order JML 26-038)"
+      }
+    },
+    "US-ME": {
+      "name": "Maine",
+      "method": "party-primary",
+      "voterAccess": "Open to unaffiliated voters",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 6,
+          "weekday": 2,
+          "nth": 2
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-06-09"
+        },
+        "cite": "21-A M.R.S. 339",
+        "verification": "read",
+        "ruleText": "Second Tuesday of June of general-election years (2026: Jun 9, matches)"
+      },
+      "runoff": null,
+      "note": "Ranked choice in primaries",
+      "source": "https://legislature.maine.gov/statutes/21-A/title21-Asec339.html",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-16"
+        },
+        "daysBeforePrimary": 85,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-MD": {
+      "name": "Maryland",
+      "method": "party-primary",
+      "voterAccess": "Partially closed",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 6,
+          "weekday": 2,
+          "nth": 4
+        },
+        "evenYearsOnly": false,
+        "presidentialYearRule": {
+          "kind": "nth-weekday",
+          "month": 4,
+          "weekday": 2,
+          "nth": 4
+        },
+        "dates2026": {
+          "all": "2026-06-23"
+        },
+        "cite": "Md. Elec. Law 8-201",
+        "verification": "read",
+        "ruleText": "Fourth Tuesday in June in gubernatorial election years (2026: Jun 23, matches)",
+        "presidentialYearCite": "Md. Election Law 8-201(a)(2)(ii), read on mgaleg.maryland.gov 9/28/2026 about 11:22 p.m. by Research 9: the fourth Tuesday in April (April 25, 2028); 2024 was moved to May 14 by a separate act"
+      },
+      "runoff": null,
+      "source": "https://msa.maryland.gov/msa/mdmanual/41electp/html/forth.html",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-02-24"
+        },
+        "daysBeforePrimary": 119,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-MA": {
+      "name": "Massachusetts",
+      "method": "party-primary",
+      "voterAccess": "Open to unaffiliated voters",
+      "primary": {
+        "rule": {
+          "kind": "days-before-general",
+          "days": 49
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-09-01"
+        },
+        "cite": "M.G.L. c.53 s.28; Acts of 2025, c.34 (2026 only)",
+        "verification": "read (curl, 9/28 about 9:21 p.m.)",
+        "ruleText": "Standing rule: seventh Tuesday preceding the biennial state election (c.53 s.28, read), which would be Sep 15, 2026. A one-year emergency act, Acts of 2025 chapter 34, set the 2026 state primary on Tuesday, September 1, 2026 'notwithstanding section 28' (read)"
+      },
+      "runoff": null,
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVIII/Chapter53/Section28",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-06-02"
+        },
+        "daysBeforePrimary": 91,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-MI": {
+      "name": "Michigan",
+      "method": "party-primary",
+      "voterAccess": "Open",
+      "primary": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 8,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-08-04"
+        },
+        "cite": "MCL 168.641 (primary on August regular election date); NCSL cites 168.534",
+        "verification": "read (curl, 9/28 9:15 p.m.)",
+        "ruleText": "August regular election date = first Tuesday after the first Monday in August (2026: Aug 4, matches)"
+      },
+      "runoff": null,
+      "source": "https://legislature.mi.gov/Laws/MCL?objectName=mcl-168-641",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-04-21"
+        },
+        "daysBeforePrimary": 105,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-MN": {
+      "name": "Minnesota",
+      "method": "party-primary",
+      "voterAccess": "Open",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 8,
+          "weekday": 2,
+          "nth": 2
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-08-11"
+        },
+        "cite": "Minn. Stat. 204D.03 subd. 1",
+        "verification": "read",
+        "ruleText": "Second Tuesday in August in even-numbered years (2026: Aug 11, matches)"
+      },
+      "runoff": null,
+      "source": "https://www.revisor.mn.gov/statutes/cite/204D.03",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-06-02"
+        },
+        "daysBeforePrimary": 70,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-MS": {
+      "name": "Mississippi",
+      "method": "party-primary",
+      "voterAccess": "Open",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 3,
+          "weekday": 2,
+          "nth": 2
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-03-10"
+        },
+        "ruleOffices": ["us-house", "us-senate"],
+        "cite": "Miss. Code 23-15-1031",
+        "verification": "read",
+        "ruleText": "U.S. House primaries: second Tuesday in March (2026: Mar 10, matches). Other-office primary rules not read"
+      },
+      "runoff": {
+        "thresholdPercent": 50,
+        "outright": "more-than",
+        "date": {
+          "kind": "days-after-primary",
+          "days": 28
+        },
+        "onRequest": false,
+        "minimumCandidates": null,
+        "offices": null,
+        "verification": "read",
+        "ruleText": "Second primary four weeks later (2026: Apr 7, matches)",
+        "dates2026": {
+          "all": "2026-04-07"
+        }
+      },
+      "source": "https://law.justia.com/codes/mississippi/title-23/chapter-15/article-33/section-23-15-1031/",
+      "filing": {
+        "deadlines2026": {
+          "all": "2025-12-26"
+        },
+        "daysBeforePrimary": 74,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "Runoff 4/7"
+      }
+    },
+    "US-MO": {
+      "name": "Missouri",
+      "method": "party-primary",
+      "voterAccess": "Open",
+      "primary": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 8,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-08-04"
+        },
+        "cite": "RSMo 115.121 (NCSL cites 115.341)",
+        "verification": "read",
+        "ruleText": "First Tuesday after the first Monday in August of even years (2026: Aug 4, matches)"
+      },
+      "runoff": null,
+      "source": "https://law.justia.com/codes/missouri/title-ix/chapter-115/section-115-121/",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-31"
+        },
+        "daysBeforePrimary": 126,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-MT": {
+      "name": "Montana",
+      "method": "party-primary",
+      "voterAccess": "Open",
+      "primary": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 6,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-06-02"
+        },
+        "cite": "MCA 13-1-107",
+        "verification": "read",
+        "ruleText": "First Tuesday after the first Monday in June before an even-year general election (2026: Jun 2, matches)"
+      },
+      "runoff": null,
+      "source": "https://mca.legmt.gov/bills/mca/title_0130/chapter_0010/part_0010/section_0070/0130-0010-0010-0070.html",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-04"
+        },
+        "daysBeforePrimary": 90,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-NE": {
+      "name": "Nebraska",
+      "method": "party-primary",
+      "voterAccess": "Nonpartisan or open",
+      "methodByOffice": {
+        "state-legislature": "nonpartisan-top-two"
+      },
+      "primary": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 5,
+          "anchorWeekday": 1,
+          "anchorNth": 2,
+          "weekday": 2
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-05-12"
+        },
+        "cite": "Neb. Rev. Stat. 32-401",
+        "verification": "read",
+        "ruleText": "First Tuesday after the second Monday in May of even years (2026: May 12, matches)"
+      },
+      "runoff": null,
+      "note": "The legislature is nonpartisan; the top two advance",
+      "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=s3204001000",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-02"
+        },
+        "daysBeforePrimary": 71,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "Incumbents file by 2/17; all others by 3/2"
+      }
+    },
+    "US-NV": {
+      "name": "Nevada",
+      "method": "party-primary",
+      "voterAccess": "Partially open",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 6,
+          "weekday": 2,
+          "nth": 2
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-06-09"
+        },
+        "cite": "NRS 293.175",
+        "verification": "read",
+        "ruleText": "Second Tuesday in June of even years (2026: Jun 9, matches)"
+      },
+      "runoff": null,
+      "source": "https://nevada.public.law/statutes/nrs_293.175",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-13"
+        },
+        "daysBeforePrimary": 88,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-NH": {
+      "name": "New Hampshire",
+      "method": "party-primary",
+      "voterAccess": "Open to unaffiliated voters",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 9,
+          "weekday": 2,
+          "nth": 2
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-09-08"
+        },
+        "cite": "RSA 653:8",
+        "verification": "read",
+        "ruleText": "Second Tuesday in September of even years (2026: Sep 8, matches)"
+      },
+      "runoff": null,
+      "note": "Moves to the second Tuesday of June from 2028",
+      "source": "https://law.justia.com/codes/new-hampshire/title-lxiii/chapter-653/section-653-8/",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-06-12"
+        },
+        "daysBeforePrimary": 88,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-NJ": {
+      "name": "New Jersey",
+      "method": "party-primary",
+      "voterAccess": "Closed",
+      "primary": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 6,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-06-02"
+        },
+        "cite": "N.J.S.A. 19:2-1; 19:23-40",
+        "verification": "read",
+        "ruleText": "Tuesday next after the first Monday in June (2026: Jun 2, matches)"
+      },
+      "runoff": null,
+      "source": "https://nj.gov/www.nj.gov/state/dos-statutes-elections-19-01-09.shtml",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-23"
+        },
+        "daysBeforePrimary": 71,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-NM": {
+      "name": "New Mexico",
+      "method": "party-primary",
+      "voterAccess": "Open to unaffiliated voters",
+      "primary": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 6,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-06-02"
+        },
+        "cite": "NMSA 1-8-11 (text read)",
+        "verification": "read (WebFetch, justia, 9/28)",
+        "ruleText": "First Tuesday after the first Monday in June of each even-numbered year (2026: Jun 2, matches)"
+      },
+      "runoff": null,
+      "source": "https://law.justia.com/codes/new-mexico/chapter-1/article-8/",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-02-03"
+        },
+        "daysBeforePrimary": 119,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-NY": {
+      "name": "New York",
+      "method": "party-primary",
+      "voterAccess": "Closed",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 6,
+          "weekday": 2,
+          "nth": 4
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-06-23"
+        },
+        "cite": "N.Y. Elec. Law 8-100(1) (text read)",
+        "verification": "read (WebFetch, 9/28)",
+        "ruleText": "Fourth Tuesday in June (2026: Jun 23, matches)"
+      },
+      "runoff": null,
+      "source": "https://www.nysenate.gov/legislation/laws/ELN/8-100",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-04-06"
+        },
+        "daysBeforePrimary": 78,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-NC": {
+      "name": "North Carolina",
+      "method": "party-primary",
+      "voterAccess": "Open to unaffiliated voters",
+      "primary": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 3,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-03-03"
+        },
+        "cite": "N.C.G.S. 163-1 (NCSL also 163-11)",
+        "verification": "163-1 and 163-111 read (WebFetch, 9/28)",
+        "ruleText": "First Tuesday after the first Monday in March, from 2020 (2026: Mar 3, matches)"
+      },
+      "runoff": {
+        "thresholdPercent": 30,
+        "outright": "more-than",
+        "onRequest": true,
+        "date": {
+          "kind": "days-after-primary",
+          "days": 70
+        },
+        "minimumCandidates": null,
+        "offices": null,
+        "verification": "163-1 and 163-111 read (WebFetch, 9/28)",
+        "ruleText": "Second primary if leader has 30% or less and runner-up requests; held 10 weeks after the first primary (GS 163-111, text read). 2026: May 12",
+        "dates2026": {
+          "all": "2026-05-12"
+        }
+      },
+      "source": "https://ballotpedia.org/Primary_elections_in_North_Carolina",
+      "filing": {
+        "deadlines2026": {
+          "all": "2025-12-19"
+        },
+        "daysBeforePrimary": 74,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "Runoff 5/12"
+      }
+    },
+    "US-ND": {
+      "name": "North Dakota",
+      "method": "party-primary",
+      "voterAccess": "Open",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 6,
+          "weekday": 2,
+          "nth": 2
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-06-09"
+        },
+        "cite": "NDCC 16.1-11-01",
+        "verification": "read",
+        "ruleText": "Second Tuesday in June (2026: Jun 9, matches)"
+      },
+      "runoff": null,
+      "source": "https://www.sos.nd.gov/sites/www/files/documents/elections/election-candidate-filing-info.pdf",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-04-06"
+        },
+        "daysBeforePrimary": 64,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-OH": {
+      "name": "Ohio",
+      "method": "party-primary",
+      "voterAccess": "Partially open",
+      "primary": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 5,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2
+        },
+        "evenYearsOnly": false,
+        "presidentialYearRule": {
+          "kind": "weekday-after",
+          "month": 3,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2,
+          "ordinal": 3
+        },
+        "dates2026": {
+          "all": "2026-05-05"
+        },
+        "cite": "ORC 3501.01",
+        "verification": "read",
+        "ruleText": "First Tuesday after the first Monday in May of each year except presidential-primary years (2026: May 5, matches)",
+        "presidentialYearCite": "ORC 3501.01(E)(2), read on codes.ohio.gov 9/28/2026 about 11:22 p.m. by Research 9: the third Tuesday after the first Monday in March (March 21, 2028)"
+      },
+      "runoff": null,
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-3501.01",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-02-04"
+        },
+        "daysBeforePrimary": 90,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-OK": {
+      "name": "Oklahoma",
+      "method": "party-primary",
+      "voterAccess": "Partially closed",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 6,
+          "weekday": 2,
+          "nth": 3
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-06-16"
+        },
+        "cite": "Okla. Stat. tit. 26, 1-102",
+        "verification": "read",
+        "ruleText": "Third Tuesday in June of even years (2026: Jun 16, matches)"
+      },
+      "runoff": {
+        "thresholdPercent": 50,
+        "outright": "more-than",
+        "date": {
+          "kind": "nth-weekday",
+          "month": 8,
+          "weekday": 2,
+          "nth": 4
+        },
+        "onRequest": false,
+        "minimumCandidates": null,
+        "offices": null,
+        "verification": "read",
+        "ruleText": "Fourth Tuesday of August (2026: Aug 25, matches), tit. 26, 1-103",
+        "dates2026": {
+          "all": "2026-08-25"
+        }
+      },
+      "source": "https://law.justia.com/codes/oklahoma/title-26/section-26-1-102/",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-04-03"
+        },
+        "daysBeforePrimary": 74,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "Runoff 8/25"
+      }
+    },
+    "US-OR": {
+      "name": "Oregon",
+      "method": "party-primary",
+      "voterAccess": "Partially closed",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 5,
+          "weekday": 2,
+          "nth": 3
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-05-19"
+        },
+        "cite": "ORS 254.056",
+        "verification": "read",
+        "ruleText": "Third Tuesday in May of even years (2026: May 19, matches)"
+      },
+      "runoff": null,
+      "source": "https://oregon.public.law/statutes/ors_254.056",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-10"
+        },
+        "daysBeforePrimary": 70,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "Incumbents file by 3/3; all others by 3/10"
+      }
+    },
+    "US-PA": {
+      "name": "Pennsylvania",
+      "method": "party-primary",
+      "voterAccess": "Closed",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 5,
+          "weekday": 2,
+          "nth": 3
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-05-19"
+        },
+        "cite": "25 P.S. 2753",
+        "verification": "read",
+        "ruleText": "General primary third Tuesday of May of even years (2026: May 19, matches)"
+      },
+      "runoff": null,
+      "source": "https://codes.findlaw.com/pa/title-25-ps-elections-electoral-districts/pa-st-sect-25-2753/",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-10"
+        },
+        "daysBeforePrimary": 70,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-RI": {
+      "name": "Rhode Island",
+      "method": "party-primary",
+      "voterAccess": "Open to unaffiliated voters",
+      "primary": {
+        "rule": {
+          "kind": "days-before-general",
+          "days": 56
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-09-09"
+        },
+        "cite": "R.I. Gen. Laws 17-15-1; HB 7049 (2026)",
+        "verification": "17-15-1 read (WebFetch, 9/28); HB 7049 search only",
+        "ruleText": "Eighth Tuesday before the biennial state election (text read; 2026: Sep 8). HB 7049 (signed Apr 20, 2026) moved the 2026 primary to Wednesday Sep 9, one time"
+      },
+      "runoff": null,
+      "source": "https://ballot-access.org/2026/04/22/rhode-island-moves-2026-primaries-from-september-8-to-september-9-for-2026-only/",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-06-24"
+        },
+        "daysBeforePrimary": 77,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-SC": {
+      "name": "South Carolina",
+      "method": "party-primary",
+      "voterAccess": "Open",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 6,
+          "weekday": 2,
+          "nth": 2
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-06-09"
+        },
+        "cite": "S.C. Code 7-13-15 (NCSL also 7-13-50)",
+        "verification": "read",
+        "ruleText": "Second Tuesday in June (2026: Jun 9, matches)"
+      },
+      "runoff": {
+        "thresholdPercent": 50,
+        "outright": "more-than",
+        "date": {
+          "kind": "days-after-primary",
+          "days": 14
+        },
+        "onRequest": false,
+        "minimumCandidates": null,
+        "offices": null,
+        "verification": "read",
+        "ruleText": "Two weeks after primary (2026: Jun 23, matches)",
+        "dates2026": {
+          "all": "2026-06-23"
+        }
+      },
+      "source": "https://scvotes.gov/candidates/",
+      "partyMayChooseMethod": {
+        "cite": "S.C. Code 7-11-10, 7-11-30",
+        "verification": "read (scstatehouse.gov, 9/28/2026 about 11:25 p.m. EDT)",
+        "ruleText": "A party may nominate by primary, convention or petition. It changes from a primary to a convention only if three-fourths of the convention's total membership vote for it and a majority of the voters in the party's next primary approve; it may not change once candidate filing for the cycle has begun.",
+        "startingMethod": "party-primary",
+        "startingBasis": "Both major parties nominated by primary in 2026 (the 2026 primary on June 9 is in Research 9's table)."
+      },
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-30"
+        },
+        "daysBeforePrimary": 71,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "Noon; runoff 6/23"
+      }
+    },
+    "US-SD": {
+      "name": "South Dakota",
+      "method": "party-primary",
+      "voterAccess": "Partially closed",
+      "primary": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 6,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-06-02"
+        },
+        "cite": "SDCL 12-2-1 (12-6-2 is the third-term bar, not the date); runoff SDCL 12-6-51.1",
+        "verification": "read (curl, 9/28 9:15 p.m.); presidential rule UNKNOWN",
+        "ruleText": "First Tuesday after the first Monday in June of every even-numbered year (2026: Jun 2, matches)"
+      },
+      "runoff": {
+        "thresholdPercent": 35,
+        "outright": "at-least",
+        "minimumCandidates": 3,
+        "offices": ["us-senate", "us-house", "governor"],
+        "date": {
+          "kind": "days-after-primary",
+          "days": 56
+        },
+        "onRequest": false,
+        "verification": "read (curl, 9/28 9:15 p.m.); presidential rule UNKNOWN",
+        "ruleText": "Runoff eight weeks after the primary when no candidate for U.S. Senate, U.S. House or governor in a race of three or more reaches 35 percent (2026: Jul 28, matches)",
+        "dates2026": {
+          "all": "2026-07-28"
+        }
+      },
+      "source": "https://sdlegislature.gov/Statutes/Codified_Laws/12-2-1",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-31"
+        },
+        "daysBeforePrimary": 63,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "Runoff 7/28"
+      }
+    },
+    "US-TN": {
+      "name": "Tennessee",
+      "method": "party-primary",
+      "voterAccess": "Closed",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 8,
+          "weekday": 4,
+          "nth": 1
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-08-06"
+        },
+        "cite": "Tenn. Code 2-1-104(a)(25); primary held on it (2-13-202/NCSL)",
+        "verification": "read",
+        "ruleText": "Regular August election = first Thursday in August of even years (2026: Aug 6, matches)"
+      },
+      "runoff": null,
+      "source": "https://law.justia.com/codes/tennessee/title-2/chapter-1/section-2-1-104/",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-10"
+        },
+        "daysBeforePrimary": 149,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "Noon"
+      }
+    },
+    "US-TX": {
+      "name": "Texas",
+      "method": "party-primary",
+      "voterAccess": "Open",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 3,
+          "weekday": 2,
+          "nth": 1
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-03-03"
+        },
+        "cite": "Tex. Elec. Code 41.007",
+        "verification": "read",
+        "ruleText": "First Tuesday in March of even years (2026: Mar 3, matches)"
+      },
+      "runoff": {
+        "thresholdPercent": 50,
+        "outright": "more-than",
+        "date": {
+          "kind": "nth-weekday",
+          "month": 5,
+          "weekday": 2,
+          "nth": 4
+        },
+        "onRequest": false,
+        "minimumCandidates": null,
+        "offices": null,
+        "verification": "read",
+        "ruleText": "Fourth Tuesday in May (2026: May 26, matches)",
+        "dates2026": {
+          "all": "2026-05-26"
+        }
+      },
+      "source": "https://law.justia.com/codes/texas/election-code/title-4/chapter-41/subchapter-a/section-41-007/",
+      "filing": {
+        "deadlines2026": {
+          "all": "2025-12-08"
+        },
+        "daysBeforePrimary": 85,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "Runoff 5/26"
+      }
+    },
+    "US-UT": {
+      "name": "Utah",
+      "method": "party-primary",
+      "voterAccess": "Partially closed",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 6,
+          "weekday": 2,
+          "nth": 4
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-06-23"
+        },
+        "cite": "Utah Code 20A-1-201.5",
+        "verification": "read",
+        "ruleText": "Fourth Tuesday of June of even years (2026: Jun 23, matches)"
+      },
+      "runoff": null,
+      "source": "https://law.justia.com/codes/utah/title-20a/chapter-1/part-2/section-201-5",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-03-13"
+        },
+        "daysBeforePrimary": 102,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "5 p.m.; party conventions April 10 to 25 come first"
+      }
+    },
+    "US-VT": {
+      "name": "Vermont",
+      "method": "party-primary",
+      "voterAccess": "Open",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 8,
+          "weekday": 2,
+          "nth": 2
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-08-11"
+        },
+        "cite": "17 V.S.A. 2351",
+        "verification": "read",
+        "ruleText": "Second Tuesday in August of even years (2026: Aug 11, matches)"
+      },
+      "runoff": null,
+      "source": "https://legislature.vermont.gov/statutes/section/17/049/02351",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-05-28"
+        },
+        "daysBeforePrimary": 75,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-VA": {
+      "name": "Virginia",
+      "method": "party-primary",
+      "voterAccess": "Open",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 6,
+          "weekday": 2,
+          "nth": 3
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-08-04"
+        },
+        "cite": "Va. Code 24.2-515 (section read); 2026 act not identified",
+        "verification": "statute read; 2026 act search only",
+        "ruleText": "Standing rule: third Tuesday in June (24.2-515, read again 9/28 9:15 p.m.). 2026 moved to Aug 4 by HB 29 (2026 session), the bill that also carried the new congressional map (VPM headline via Wikipedia); act text not read"
+      },
+      "runoff": null,
+      "source": "https://law.lis.virginia.gov/vacode/title24.2/chapter5/section24.2-515/",
+      "partyMayChooseMethod": {
+        "cite": "Va. Code 24.2-509",
+        "verification": "read (law.lis.virginia.gov, 9/28/2026 about 11:25 p.m. EDT)",
+        "ruleText": "The state party chooses the method for U.S. Senate and statewide offices; the district, county or city party chooses for other offices. A General Assembly seat with one incumbent of the party uses the method that incumbent designates. For any other office, a party whose last nominee won a primary (or was unopposed in one) and then the general election must nominate by primary unless all its incumbents for that office consent to another method. Otherwise the party decides.",
+        "startingMethod": "party-primary",
+        "startingBasis": "ESTIMATED FROM AVERAGE: each party's 2026 choice by district has not been read, so every party starts with a primary, the method most parties in the table use."
+      },
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-05-26",
+          "us-senate": "2026-04-02"
+        },
+        "daysBeforePrimary": 70,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "U.S. House filing 5/26; U.S. Senate filing 4/2. Parties may nominate by convention instead of a primary"
+      }
+    },
+    "US-WA": {
+      "name": "Washington",
+      "method": "top-two",
+      "voterAccess": "Top two",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 8,
+          "weekday": 2,
+          "nth": 1
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-08-04"
+        },
+        "cite": "RCW 29A.04.311",
+        "verification": "read",
+        "ruleText": "First Tuesday of August (2026: Aug 4, matches)"
+      },
+      "runoff": null,
+      "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=29A.04.311",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-05-08"
+        },
+        "daysBeforePrimary": 88,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-WV": {
+      "name": "West Virginia",
+      "method": "party-primary",
+      "voterAccess": "Partially closed",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 5,
+          "weekday": 2,
+          "nth": 2
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-05-12"
+        },
+        "cite": "W. Va. Code 3-5-1",
+        "verification": "read",
+        "ruleText": "Second Tuesday in May in even years (2026: May 12, matches)"
+      },
+      "runoff": null,
+      "source": "https://code.wvlegislature.gov/3-5-1/",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-01-31"
+        },
+        "daysBeforePrimary": 101,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-WI": {
+      "name": "Wisconsin",
+      "method": "party-primary",
+      "voterAccess": "Open",
+      "primary": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 8,
+          "weekday": 2,
+          "nth": 2
+        },
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-08-11"
+        },
+        "cite": "Wis. Stat. 5.02(12s)",
+        "verification": "read (curl, 9/28 9:15 p.m.); presidential rule UNKNOWN",
+        "ruleText": "Partisan primary on the second Tuesday in August (2026: Aug 11, matches)"
+      },
+      "runoff": null,
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/5/i/02/12s",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-06-01"
+        },
+        "daysBeforePrimary": 71,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-WY": {
+      "name": "Wyoming",
+      "method": "party-primary",
+      "voterAccess": "Closed",
+      "primary": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 8,
+          "anchorWeekday": 1,
+          "anchorNth": 3,
+          "weekday": 2
+        },
+        "evenYearsOnly": true,
+        "dates2026": {
+          "all": "2026-08-18"
+        },
+        "cite": "Wyo. Stat. 22-2-104(b)",
+        "verification": "read",
+        "ruleText": "First Tuesday after the third Monday in August in general-election years (2026: Aug 18, matches)"
+      },
+      "runoff": null,
+      "source": "https://law.justia.com/codes/wyoming/2021/title-22/chapter-2/section-22-2-104/",
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-05-29"
+        },
+        "daysBeforePrimary": 81,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-GU": {
+      "name": "Guam",
+      "method": null,
+      "voterAccess": null,
+      "primary": {
+        "rule": null,
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-08-01"
+        },
+        "cite": null,
+        "verification": "search results only",
+        "ruleText": null
+      },
+      "runoff": "unknown",
+      "note": "Checked only from search results",
+      "source": null,
+      "filing": {
+        "deadlines2026": {
+          "all": "2026-05-01"
+        },
+        "daysBeforePrimary": 92,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": null
+      }
+    },
+    "US-VI": {
+      "name": "U.S. Virgin Islands",
+      "method": null,
+      "voterAccess": null,
+      "primary": {
+        "rule": null,
+        "evenYearsOnly": false,
+        "dates2026": {
+          "all": "2026-08-01"
+        },
+        "cite": null,
+        "verification": "search results only",
+        "ruleText": null
+      },
+      "runoff": "unknown",
+      "note": "Not checked",
+      "source": null,
+      "filing": {
+        "deadlines2026": {},
+        "daysBeforePrimary": null,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "FEC row prints 8/1, 11/17, 7/18, 5/19 in that order; read as primary 8/1, runoff 11/17, filing 7/18, independent 5/19, but the column order is uncertain The game does not use this row: the FEC column order is uncertain, so the Virgin Islands take the median gap."
+      }
+    },
+    "US-PR": {
+      "name": "Puerto Rico",
+      "method": null,
+      "voterAccess": null,
+      "primary": {
+        "rule": null,
+        "evenYearsOnly": false,
+        "dates2026": {},
+        "cite": null,
+        "verification": "UNKNOWN",
+        "ruleText": null
+      },
+      "runoff": "unknown",
+      "note": "Inferred from the four-year cycle; not checked today",
+      "source": null,
+      "filing": {
+        "deadlines2026": {},
+        "daysBeforePrimary": null,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "No federal primary in 2026 (FEC: n/a); the resident commissioner is elected in presidential years"
+      }
+    },
+    "US-AS": {
+      "name": "American Samoa",
+      "method": null,
+      "voterAccess": null,
+      "primary": {
+        "rule": null,
+        "evenYearsOnly": false,
+        "dates2026": {},
+        "cite": null,
+        "verification": "UNKNOWN",
+        "ruleText": null
+      },
+      "runoff": "unknown",
+      "note": "Not checked today",
+      "source": null,
+      "filing": {
+        "deadlines2026": {},
+        "daysBeforePrimary": null,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "No party primary for Congress (FEC: n/a)"
+      }
+    },
+    "US-MP": {
+      "name": "Northern Mariana Islands",
+      "method": null,
+      "voterAccess": null,
+      "primary": {
+        "rule": null,
+        "evenYearsOnly": false,
+        "dates2026": {},
+        "cite": null,
+        "verification": "UNKNOWN",
+        "ruleText": null
+      },
+      "runoff": "unknown",
+      "note": "Not checked today",
+      "source": null,
+      "filing": {
+        "deadlines2026": {},
+        "daysBeforePrimary": null,
+        "otherOffices": "inferred-same-as-congress",
+        "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+        "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
+        "note": "No party primary for Congress (FEC: n/a)"
+      }
+    }
+  },
+  "filingSourceNote": "Research 9's primary-filing-deadlines-2026.csv (project files research/r9-primaries, read 9/28/2026 about 11:25 p.m. EDT), from the FEC's 2026 Congressional Primary Dates and Candidate Filing Deadlines (data as of May 18, 2026). daysBeforePrimary is the measured 2026 gap for Congress; each statute's own wording (a fixed date or a count of days) is not read, so later years keep the 2026 gap, ESTIMATED FROM AVERAGE. Governor and legislature deadlines are INFERRED to match Congress until read. Measured over the 52 places with a usable 2026 row: median 85.0 days, range 63 to 149."
+}

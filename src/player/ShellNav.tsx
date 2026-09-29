@@ -3,6 +3,7 @@ import {
   useEffect,
   useRef,
   useState,
+  type CSSProperties,
   type KeyboardEvent,
   type ReactNode,
   type RefObject,
@@ -127,17 +128,60 @@ const GROUP_ORDER: readonly ShellDestinationGroup[] = [
   "options",
 ];
 
-// PLACEHOLDER(overnight): Verify these shortcut keys against desktop and
-// browser bindings during cloud validation.
-const GROUP_SHORTCUTS: readonly ShellDestinationGroup[] = [
-  "calendar",
-  "people",
-  "politics",
-  "news",
-  "journal",
-  "personal",
-  "travel",
+/**
+ * Where each entry of the open menu sits around the portrait.
+ *
+ * Entries fan out in rings over the quarter above and to the right of the
+ * portrait, from straight up to a shallow angle that stays clear of the name
+ * label and the day controls. Each ring holds only as many entries as fit
+ * without touching, so a longer list opens a further ring rather than
+ * crowding the first. Offsets are in pixels from the portrait's center, y
+ * negative upwards.
+ */
+export const FAN_RINGS: readonly { radius: number; capacity: number }[] = [
+  { radius: 140, capacity: 3 },
+  { radius: 250, capacity: 5 },
+  { radius: 360, capacity: 7 },
+  { radius: 480, capacity: 9 },
 ];
+const FAN_FROM_DEGREES = 90;
+const FAN_TO_DEGREES = 25;
+
+export function fanLayout(
+  count: number,
+): readonly { x: number; y: number; ring: number }[] {
+  const positions: { x: number; y: number; ring: number }[] = [];
+  let remaining = count;
+  for (const [ring, { radius, capacity }] of FAN_RINGS.entries()) {
+    if (remaining <= 0) break;
+    const here = Math.min(remaining, capacity);
+    // A ring that is not full keeps the spacing of a full one, from the top.
+    const step =
+      (FAN_FROM_DEGREES - FAN_TO_DEGREES) / Math.max(capacity - 1, 1);
+    for (let index = 0; index < here; index += 1) {
+      const radians = ((FAN_FROM_DEGREES - step * index) * Math.PI) / 180;
+      positions.push({
+        x: Math.round(radius * Math.cos(radians)),
+        y: -Math.round(radius * Math.sin(radians)),
+        ring,
+      });
+    }
+    remaining -= here;
+  }
+  return positions;
+}
+
+function fanStyle(
+  layout: readonly { x: number; y: number }[],
+  index: number,
+): CSSProperties {
+  const at = layout[index] ?? { x: 0, y: 0 };
+  return {
+    "--fan-x": `${at.x}px`,
+    "--fan-y": `${at.y}px`,
+    "--fan-order": index,
+  } as CSSProperties;
+}
 
 function initialsOf(name: string): string {
   const words = name.split(/\s+/).filter(Boolean);
@@ -168,15 +212,15 @@ function submenuFor(
 }
 
 /**
- * The labeled section bar, its corner menu, and the day controls.
+ * The corner cluster, its hidden-until-opened menu, and the day controls.
  *
  * Closed, it is your own portrait, small, with who you are, when, and where
  * as its label — plus two quiet controls that move the day or the week
  * through the existing clock. The portrait grows as the pointer approaches or
- * the keyboard arrives. The seven labeled sections stay visible. The portrait
- * opens a corner menu for Save, Guide, Options, and Return to title. A section
- * with several destinations opens one submenu. Returning to the title asks
- * about saving first.
+ * the keyboard arrives. Open, the entries fan out around the portrait (a plain
+ * list on narrow or short windows): Calendar, People, Politics, News, Journal, Personal, Travel,
+ * Save, Options, Quit. One submenu level at most, drawn darker than its
+ * parent. Quit asks about saving first when the life is not saved.
  */
 export function ShellNav({
   state,
@@ -343,11 +387,7 @@ export function ShellNav({
       clusterRef.current?.focus();
       return;
     }
-    const trigger = navRef.current?.querySelector<HTMLButtonElement>(
-      `[data-testid="nav-group-${state.navigation}"]`,
-    );
-    dispatch({ type: "close-navigation" });
-    trigger?.focus();
+    dispatch({ type: "open-nav-primary" });
   };
 
   const go = (entry: ShellDestination) =>
@@ -357,11 +397,16 @@ export function ShellNav({
       ...(entry.section ? { section: entry.section } : {}),
     });
 
-  const renderEntry = (entry: ShellDestination, label = entry.label) => (
+  const renderEntry = (
+    entry: ShellDestination,
+    style: CSSProperties,
+    label = entry.label,
+  ) => (
     <button
       key={`${entry.surface}:${entry.section ?? ""}`}
       type="button"
       role="menuitem"
+      style={style}
       data-testid={entry.testid}
       aria-pressed={entry.open}
       onClick={() => go(entry)}
@@ -381,53 +426,18 @@ export function ShellNav({
       ? visibleNavigation
       : null;
 
-  const primaryGroups = GROUP_ORDER.filter(
-    (group) => group !== "options",
-  ).flatMap((group) => {
+  const primaryGroups = GROUP_ORDER.flatMap((group) => {
     const entries = destinations.filter((entry) => entry.group === group);
     return entries.length === 0 ? [] : [{ group, entries }];
   });
-  const menuOptions = destinations.filter((entry) => entry.group === "options");
   const submenuEntries = submenuGroup
     ? destinations.filter((entry) => entry.group === submenuGroup)
     : [];
-
-  useEffect(() => {
-    const onShortcut = (event: globalThis.KeyboardEvent) => {
-      if (
-        !event.altKey ||
-        !event.shiftKey ||
-        event.ctrlKey ||
-        event.metaKey ||
-        state.confirmingLeave
-      )
-        return;
-      const match = /^Digit([1-7])$/.exec(event.code);
-      if (!match) return;
-      const target = event.target;
-      if (
-        target instanceof HTMLElement &&
-        (target.isContentEditable || target.closest("input, textarea, select"))
-      )
-        return;
-      const group = GROUP_SHORTCUTS[Number(match[1]) - 1];
-      const entries = destinations.filter((entry) => entry.group === group);
-      if (entries.length === 0) return;
-      event.preventDefault();
-      if (entries.length === 1) {
-        const entry = entries[0]!;
-        dispatch({
-          type: "go-to-surface",
-          surface: entry.surface,
-          ...(entry.section ? { section: entry.section } : {}),
-        });
-      } else {
-        dispatch({ type: "open-nav-submenu", submenu: submenuFor(group!) });
-      }
-    };
-    window.addEventListener("keydown", onShortcut);
-    return () => window.removeEventListener("keydown", onShortcut);
-  }, [destinations, dispatch, state.confirmingLeave]);
+  const layout = fanLayout(
+    submenuGroup
+      ? submenuEntries.length + 1
+      : primaryGroups.length + (canSave ? 1 : 0) + 1,
+  );
 
   /* Arrow keys, Home and End move through the entries, in reading order. */
   const onMenuKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -454,7 +464,7 @@ export function ShellNav({
 
   return (
     <nav
-      className="pg-nav pg-nav--bar"
+      className="pg-nav"
       ref={navRef}
       aria-label="Time, place and navigation"
       data-state={open ? "open" : raised ? "near" : "rest"}
@@ -469,7 +479,7 @@ export function ShellNav({
           data-testid="shell-nav-cluster"
           aria-expanded={open}
           aria-controls={open ? "pg-nav-flyout" : undefined}
-          aria-label={`${playerName}. ${dateLabel}. ${place}. Open game menu.`}
+          aria-label={`${playerName}. ${dateLabel}. ${place}. Open navigation.`}
           onClick={() => dispatch({ type: "toggle-navigation" })}
         >
           <span className="pg-nav-cluster-inner" aria-hidden="true">
@@ -667,56 +677,9 @@ export function ShellNav({
             ) : null}
           </div>
         ) : null}
-        <div
-          className="pg-nav-main"
-          role="group"
-          aria-label="Game sections"
-          data-testid="shell-menu-bar"
-        >
-          {primaryGroups.map(({ group, entries }) => {
-            const label = GROUP_LABELS[group].label;
-            const shortcut = GROUP_SHORTCUTS.indexOf(group) + 1;
-            const selected = entries.some((entry) => entry.open);
-            return entries.length === 1 ? (
-              <button
-                key={group}
-                type="button"
-                className="pg-nav-section"
-                data-testid={entries[0]!.testid}
-                aria-pressed={selected}
-                aria-keyshortcuts={`Alt+Shift+${shortcut}`}
-                title={`${label} (Alt+Shift+${shortcut})`}
-                onClick={() => go(entries[0]!)}
-              >
-                {label}
-              </button>
-            ) : (
-              <button
-                key={group}
-                type="button"
-                className="pg-nav-section"
-                data-testid={`nav-group-${group}`}
-                aria-pressed={selected}
-                aria-expanded={state.navigation === submenuFor(group)}
-                aria-controls="pg-nav-flyout"
-                aria-keyshortcuts={`Alt+Shift+${shortcut}`}
-                title={`${label} (Alt+Shift+${shortcut})`}
-                onClick={() =>
-                  dispatch({
-                    type: "open-nav-submenu",
-                    submenu: submenuFor(group),
-                  })
-                }
-              >
-                {label}
-                <span aria-hidden="true">⌄</span>
-              </button>
-            );
-          })}
-        </div>
       </div>
 
-      {!state.confirmingLeave && (open || closing) ? (
+      {open || closing ? (
         <div
           key={visibleNavigation}
           id="pg-nav-flyout"
@@ -728,9 +691,7 @@ export function ShellNav({
           data-testid="shell-nav-flyout"
           role="menu"
           aria-label={
-            submenuGroup
-              ? `${GROUP_LABELS[submenuGroup].label} choices`
-              : "Game menu"
+            submenuGroup ? GROUP_LABELS[submenuGroup].label : "Main navigation"
           }
           ref={flyoutRef}
           onKeyDown={onMenuKeyDown}
@@ -741,32 +702,62 @@ export function ShellNav({
                 type="button"
                 role="menuitem"
                 data-testid="nav-submenu-back"
-                onClick={() => {
-                  const trigger =
-                    navRef.current?.querySelector<HTMLButtonElement>(
-                      `[data-testid="nav-group-${submenuGroup}"]`,
-                    );
-                  dispatch({ type: "close-navigation" });
-                  trigger?.focus();
-                }}
+                style={fanStyle(layout, 0)}
+                onClick={() => dispatch({ type: "open-nav-primary" })}
               >
                 ← Back
               </button>
               <p className="pg-nav-heading">
                 {GROUP_LABELS[submenuGroup].label}
               </p>
-              {submenuEntries.map((entry) => renderEntry(entry))}
+              {submenuEntries.map((entry, index) =>
+                renderEntry(entry, fanStyle(layout, index + 1)),
+              )}
             </>
           ) : (
             <>
-              <p className="pg-nav-heading">Game menu</p>
-              {menuOptions.map((entry) => renderEntry(entry))}
+              {primaryGroups.map(({ group, entries }, index) => {
+                const meta = GROUP_LABELS[group];
+                const style = fanStyle(layout, index);
+                if (entries.length === 1) {
+                  const only = entries[0]!;
+                  return renderEntry(
+                    { ...only, hint: only.hint || meta.hint },
+                    style,
+                    meta.label,
+                  );
+                }
+                return (
+                  <button
+                    key={group}
+                    type="button"
+                    role="menuitem"
+                    aria-haspopup="menu"
+                    style={style}
+                    data-testid={`nav-group-${group}`}
+                    aria-pressed={entries.some((entry) => entry.open)}
+                    onClick={() =>
+                      dispatch({
+                        type: "open-nav-submenu",
+                        submenu: submenuFor(group),
+                      })
+                    }
+                  >
+                    {meta.label}
+                    <small>{meta.hint}</small>
+                    <span className="pg-nav-more" aria-hidden="true">
+                      ›
+                    </span>
+                  </button>
+                );
+              })}
               <div className="pg-nav-persist">
                 {canSave ? (
                   <button
                     type="button"
                     role="menuitem"
                     data-testid={unsaved ? "keep-world" : "save-world"}
+                    style={fanStyle(layout, primaryGroups.length)}
                     onClick={onSave}
                   >
                     Save
@@ -777,6 +768,10 @@ export function ShellNav({
                   type="button"
                   role="menuitem"
                   data-testid="leave-game"
+                  style={fanStyle(
+                    layout,
+                    primaryGroups.length + (canSave ? 1 : 0),
+                  )}
                   onClick={() =>
                     onAskLeave ? onAskLeave() : dispatch({ type: "ask-leave" })
                   }

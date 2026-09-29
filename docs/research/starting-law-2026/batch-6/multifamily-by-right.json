@@ -1,0 +1,273 @@
+{
+  "question": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+  "definition": "yes (preempts true) = a state law in force on 1/1/2026 requires cities to allow at least duplexes (or more units) by right on lots zoned single-family; accessory dwelling unit laws alone do not count. no (preempts false) = no such state law; cities decide their own zoning.",
+  "summarySource": "State code pages fetched 9/28/2026: ORS 197A.420, Cal. Gov. Code 65852.21, RCW 36.70A.635, 30-A M.R.S. 4364-A, MCA 76-2-304, 24 V.S.A. 4412, A.R.S. 9-462.13; Montana Free Press (3/3/2025, 3/18/2026) on the SB 323 litigation; 'no' answers rest on each state's own zoning statute or section list (weak) because no complete current tracker fetched (Terner Center 2/2023 database is self-described as not comprehensive).",
+  "answers": {
+    "US-OR": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "ORS 197A.420 (Or. Laws 2019, ch. 639, HB 2001)",
+      "operativeAt": "2021-06-30",
+      "dateBasis": "enacted-effective",
+      "source": "https://oregon.public.law/statutes/ors_197A.420",
+      "note": "Cities of 10,000 or more must allow a duplex on every lot where a detached house is allowed, and cities of 25,000 or more plus Portland-metro cities and counties must allow all middle housing (duplexes through fourplexes, townhouses, cottage clusters); medium cities complied by 6/30/2021, large cities by 6/30/2022."
+    },
+    "US-CA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Cal. Gov. Code \u00a7 65852.21 (SB 9, Stats. 2021, ch. 162)",
+      "operativeAt": "2022-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=65852.21",
+      "note": "Every city and county must approve up to two units on a single-family lot ministerially, without a hearing, in urbanized areas (with a companion lot-split rule allowing up to four units); the fetched text reflects a 2026 amendment (SB 1426) that did not change the 1/1/2026 answer."
+    },
+    "US-WA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "RCW 36.70A.635 (HB 1110, 2023)",
+      "dateBasis": "not-found",
+      "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=36.70A.635",
+      "note": "Cities of 25,000 to 75,000 must allow at least two units per residential lot (four near major transit or with an affordable unit), and cities of 75,000 or more must allow four (six near transit or with affordable units); each city must comply at its next periodic comprehensive plan update, so a few smaller or later-cycle cities may not yet have been bound on 1/1/2026."
+    },
+    "US-ME": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "30-A M.R.S. \u00a7 4364-A (LD 2003, 2022; amended 2023 and 2025)",
+      "operativeAt": "2024-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://legislature.maine.gov/statutes/30-A/title30-Asec4364-A-2.html",
+      "note": "Every municipality must allow up to two units on a vacant residential lot (four in designated growth areas with water and sewer) and up to two added units on a lot with an existing home; implementation date 1/1/2024, or 7/1/2024 where voters must approve ordinances; a 2025 amendment raised the per-lot allowances."
+    },
+    "US-MT": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Mont. Code Ann. \u00a7 76-2-304(3) (SB 323, 2023)",
+      "dateBasis": "not-found",
+      "source": "https://archive.legmt.gov/bills/mca/title_0760/chapter_0020/part_0030/section_0040/0760-0020-0030-0040.html",
+      "note": "Cities of at least 5,000 residents must allow a duplex as a permitted use on any lot where a single-family home is permitted; a Gallatin County court challenge (filed 12/2023) ended with a 3/3/2025 district court ruling upholding SB 323 in its entirety, affirmed by the Montana Supreme Court on 3/17/2026."
+    },
+    "US-VT": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "24 V.S.A. \u00a7 4412(1) (Act 47 of 2023, the HOME Act)",
+      "operativeAt": "2023-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://legislature.vermont.gov/statutes/section/24/117/04412",
+      "note": "Every municipality must allow a duplex in any district that allows year-round residential use, on the same lot size as a single-unit home, and in districts served by municipal water and sewer must allow up to four units (source history: 2023, No. 47, \u00a7 2, eff. July 1, 2023)."
+    },
+    "US-AZ": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Ariz. Rev. Stat. \u00a7 9-462.13 (HB 2721, 2024)",
+      "operativeAt": "2026-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.azleg.gov/ars/9/00462-13.htm",
+      "note": "Cities of 75,000 or more must allow duplexes, triplexes, fourplexes and townhomes as a permitted use on all single-family lots within one mile of the central business district (and on 20% of new developments over 10 acres) by 1/1/2026; a city that misses the deadline must allow middle housing on all single-family lots."
+    },
+    "US-MA": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Mass. Gen. Laws ch. 40A, \u00a7\u00a7 3, 3A",
+      "dateBasis": "not-found",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter40A/Section3A",
+      "note": "Weak: The MBTA Communities law requires one as-of-right multifamily district of reasonable size near transit and \u00a7 3 now allows accessory dwelling units by right, but no statute requires duplexes on every single-family lot."
+    },
+    "US-CO": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://leg.colorado.gov/bills/hb24-1313",
+      "note": "Weak: HB24-1313 sets transit-area zoning-capacity goals (average 40 units per acre) for transit-oriented communities and HB24-1152 covers accessory dwelling units only; neither requires duplexes on single-family lots."
+    },
+    "US-RI": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "R.I. Gen. Laws \u00a7 45-24-37",
+      "dateBasis": "not-found",
+      "source": "https://webserver.rilegislature.gov/Statutes/TITLE45/45-24/45-24-37_45-24-37.htm",
+      "note": "Weak: The state permitted-uses section (version effective 1/1/2026) makes accessory dwelling units and attached single-family units permitted uses but does not require duplexes on single-family lots."
+    },
+    "US-NH": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "N.H. RSA ch. 674",
+      "dateBasis": "not-found",
+      "source": "https://gc.nh.gov/rsa/html/NHTOC/NHTOC-LXIV-674.htm",
+      "note": "Weak: The zoning chapter requires workforce housing opportunities and allows attached and detached accessory dwelling units, and multifamily on commercially zoned land, but has no duplex-by-right mandate for single-family lots."
+    },
+    "US-MN": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Minn. Stat. \u00a7 462.357",
+      "dateBasis": "not-found",
+      "source": "https://www.revisor.mn.gov/statutes/cite/462.357",
+      "note": "Weak: The municipal zoning statute has no duplex mandate; Minneapolis ended single-family-only zoning by its own ordinance."
+    },
+    "US-NC": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "N.C. Gen. Stat. ch. 160D, art. 7",
+      "dateBasis": "not-found",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/ByArticle/Chapter_160D/Article_7.html",
+      "note": "Weak: The state's zoning article contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+    },
+    "US-VA": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Va. Code tit. 15.2, ch. 22",
+      "dateBasis": "not-found",
+      "source": "https://law.lis.virginia.gov/vacode/title15.2/chapter22/",
+      "note": "Weak: The state's planning and zoning chapter (section list) contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+    },
+    "US-ID": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Idaho Code tit. 67, ch. 65",
+      "dateBasis": "not-found",
+      "source": "https://legislature.idaho.gov/statutesrules/idstat/Title67/T67CH65/",
+      "note": "Weak: The state's Local Land Use Planning Act (section list) contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+    },
+    "US-NV": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Nev. Rev. Stat. ch. 278",
+      "dateBasis": "not-found",
+      "source": "https://www.leg.state.nv.us/NRS/NRS-278.html",
+      "note": "Weak: The state's planning and zoning chapter contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+    },
+    "US-OH": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Ohio Rev. Code ch. 713",
+      "dateBasis": "not-found",
+      "source": "https://codes.ohio.gov/ohio-revised-code/chapter-713",
+      "note": "Weak: The state's municipal planning and zoning chapter contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+    },
+    "US-IA": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Iowa Code ch. 414",
+      "dateBasis": "not-found",
+      "source": "https://www.legis.iowa.gov/docs/code/414.pdf",
+      "note": "Weak: The state's city zoning chapter contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+    },
+    "US-KS": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Kan. Stat. ch. 12, art. 7",
+      "dateBasis": "not-found",
+      "source": "https://www.ksrevisor.gov/statutes/ksa_ch12.html",
+      "note": "Weak: The state's planning and zoning article (section list) contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+    },
+    "US-ND": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "N.D. Cent. Code ch. 40-47",
+      "dateBasis": "not-found",
+      "source": "https://ndlegis.gov/cencode/t40c47.pdf",
+      "note": "Weak: The state's municipal zoning chapter contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+    },
+    "US-WY": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Wyo. Stat. tit. 15",
+      "dateBasis": "not-found",
+      "source": "https://wyoleg.gov/statutes/compress/title15.pdf",
+      "note": "Weak: The state's cities and towns title contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+    },
+    "US-WV": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "W. Va. Code ch. 8A, art. 7",
+      "dateBasis": "not-found",
+      "source": "https://code.wvlegislature.gov/8A-7/",
+      "note": "Weak: The state's zoning article contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+    },
+    "US-MI": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Mich. Comp. Laws 125.3101 et seq. (Zoning Enabling Act, 2006 PA 110)",
+      "dateBasis": "not-found",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-Act-110-of-2006",
+      "note": "Weak: The state's Zoning Enabling Act (section list) contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+    },
+    "US-SD": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "S.D. Codified Laws ch. 11-4",
+      "dateBasis": "not-found",
+      "source": "https://sdlegislature.gov/api/Statutes/11-4.html",
+      "note": "Weak: The state's municipal zoning chapter (section list) contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+    },
+    "US-NE": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Neb. Rev. Stat. ch. 19",
+      "dateBasis": "not-found",
+      "source": "https://nebraskalegislature.gov/laws/browse-chapters.php?chapter=19",
+      "note": "Weak: Chapter 19 requires larger cities to adopt affordable housing action plans but contains no duplex-by-right mandate for single-family lots."
+    },
+    "US-DC": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://dcoz.dc.gov/",
+      "note": "There is no state layer: the District's own Zoning Commission writes its zoning regulations, so no higher law requires duplexes on single-family lots."
+    }
+  },
+  "unknown": {
+    "US-AL": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-AK": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-AR": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-DE": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-FL": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-GA": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-IL": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-IN": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-KY": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-LA": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-MD": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-MS": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-MO": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-NJ": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-NM": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-NY": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-OK": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-PA": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-SC": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-TN": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-WI": "No state duplex-by-right law is known, but no complete current state tracker fetched and the state zoning code was not checked (or its code page returned only a table stub or JavaScript shell), so absence is not shown.",
+    "US-CT": "cga.ct.gov did not complete a connection; the 2021 law (PA 21-29) covers accessory dwelling units, and whether the 11/2025 special-session housing act (HB 8002) added any by-right middle-housing mandate could not be checked.",
+    "US-UT": "le.utah.gov code pages render by JavaScript and returned no statute text; no duplex mandate is known but absence was not shown.",
+    "US-TX": "statutes.capitol.texas.gov returned only a JavaScript shell; 2025 laws on small lots and residential use in commercial zones are not duplex mandates, but absence was not shown.",
+    "US-HI": "capitol.hawaii.gov returned 403; Hawaii's 2024 law allowing additional units is framed as accessory dwelling units, which do not count, and the text could not be checked.",
+    "US-PR": "Territory: zoning is set under territorial planning law; no source confirming a duplex-by-right rule either way was fetched.",
+    "US-GU": "Territory: zoning is set under territorial planning law; no source confirming a duplex-by-right rule either way was fetched.",
+    "US-VI": "Territory: zoning is set under territorial planning law; no source confirming a duplex-by-right rule either way was fetched.",
+    "US-AS": "Territory: zoning is set under territorial planning law; no source confirming a duplex-by-right rule either way was fetched.",
+    "US-MP": "Territory: zoning is set under territorial planning law; no source confirming a duplex-by-right rule either way was fetched."
+  },
+  "conflicts": [],
+  "counts": {
+    "yes": 7,
+    "no": 19,
+    "unknown": 30
+  },
+  "refusedHosts": [
+    "www.cga.ct.gov (connection failed)",
+    "www.scstatutes.gov (proxy connect rejected)",
+    "www.pew.org (403)",
+    "www.capitol.hawaii.gov (403)",
+    "www.leg.state.fl.us (403)",
+    "www.planning.org (login wall)",
+    "le.utah.gov (JavaScript-only statute text)",
+    "statutes.capitol.texas.gov (JavaScript-only statute text)"
+  ],
+  "sourcesChecked": {
+    "trackerNotComplete": "https://ternercenter.berkeley.edu/wp-content/uploads/2023/02/State-Land-Use-Report-Final-1.pdf",
+    "montanaLitigation": [
+      "https://montanafreepress.org/2025/03/03/court-generally-upholds-pro-construction-housing-laws-but-nixes-nimby-focused-public-comment-limits/",
+      "https://montanafreepress.org/2026/03/18/montana-supreme-court-upholds-housing-reform-laws/"
+    ]
+  }
+}

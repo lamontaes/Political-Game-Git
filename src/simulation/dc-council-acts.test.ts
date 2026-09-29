@@ -12,7 +12,8 @@ import {
   takeProjectedOrdinanceVote,
   takeProjectedOverrideVote,
 } from "../presentation/municipal-governing";
-import { addDays, makeIsoDate } from "./dates";
+import { addDays, ageOnDate, makeIsoDate } from "./dates";
+import { personName } from "./people";
 import { dcCouncilActTitle } from "./dc-council-sittings";
 import { lifePlaceSearch } from "./life-places";
 import { recordOrganizationParticipationState } from "./life";
@@ -37,6 +38,7 @@ import {
   councilActOverrideDeadlineHandler,
   municipalOrdinanceStatus,
   overrideCouncilVeto,
+  passMunicipalOrdinance,
 } from "./municipal-ordinance-procedure";
 import { municipalMeasures, municipalSeats } from "./municipal-public-work";
 import { DC_GOVERNMENT_KEY } from "./nationwide-world/district-of-columbia-council-opening";
@@ -171,6 +173,30 @@ describe("a life that starts in Washington, D.C.", () => {
     expect(
       seats.filter((seat) => seat.seatLabel?.startsWith("Ward ")),
     ).toHaveLength(8);
+  });
+
+  it("seats District residents, none made up for the seat and none from the player's home", () => {
+    const player =
+      opened.control.kind === "person" ? opened.control.personId : null;
+    const seats = municipalSeats(opened, DC_GOVERNMENT_KEY);
+    const home = opened.people[player!]!.homeJurisdictionId;
+    const ages = seats.map((seat) => {
+      const person = opened.people[seat.personId]!;
+      expect(person.homeJurisdictionId).toBe(home);
+      expect(seat.personId).not.toBe(player);
+      return ageOnDate(person.birthDate, opened.currentDate);
+    });
+    expect(Math.min(...ages)).toBeGreaterThanOrEqual(18);
+    console.log(
+      JSON.stringify({
+        seed: "dc-council-acts",
+        members: seats.map((seat, index) => ({
+          seat: seat.seatLabel,
+          name: personName(opened.people[seat.personId]!),
+          age: ages[index],
+        })),
+      }),
+    );
   });
 
   it("gives an act on criminal law 60 days of review and others 30", () => {
@@ -338,20 +364,28 @@ describe("a life that starts in Washington, D.C.", () => {
       DC_GOVERNMENT_KEY,
       measure.id,
     ).world;
-    world = takeProjectedOrdinanceVote(
-      world,
-      DC_GOVERNMENT_KEY,
-      measure.id,
-      "yea",
-    ).world;
+    // The two readings pass unanimously, so this case tests the return and
+    // the reenactment, not how the members happen to vote.
+    const unanimous = (at: World) => ({
+      governmentKey: DC_GOVERNMENT_KEY,
+      measureId: measure.id,
+      dispositions: municipalSeats(at, DC_GOVERNMENT_KEY).map(
+        (seat, index) => ({
+          memberKey: `council:${index + 1}`,
+          personId: seat.personId,
+          disposition: "yea" as const,
+        }),
+      ),
+      provenance: {
+        method: "authored-fixture" as const,
+        note: "test",
+        sourceEntityIds: [],
+      },
+    });
+    world = passMunicipalOrdinance(world, unanimous(world)).world;
     expect(measurePosition(world, measure.id).phase).toBe("on-floor");
     world = passOrdinaryDays(world, 14);
-    world = takeProjectedOrdinanceVote(
-      world,
-      DC_GOVERNMENT_KEY,
-      measure.id,
-      "yea",
-    ).world;
+    world = passMunicipalOrdinance(world, unanimous(world)).world;
     expect(measurePosition(world, measure.id).phase).toBe("awaiting-executive");
     const returned = recordExecutiveAction(world, {
       stableKey: `${measure.stableKey}:executive`,
@@ -374,8 +408,9 @@ describe("a life that starts in Washington, D.C.", () => {
       outcome: "vetoed-and-sustained",
     });
 
-    // The vote to reenact counts two-thirds of those present and voting.
-    // With these authored colleague ballots, short of two-thirds.
+    // The vote to reenact counts two-thirds of those present and voting:
+    // the player's own reenactment vote carries exactly when its recorded
+    // tally reaches two-thirds.
     const short = takeProjectedOverrideVote(
       returned,
       DC_GOVERNMENT_KEY,
@@ -383,7 +418,10 @@ describe("a life that starts in Washington, D.C.", () => {
       "yea",
     );
     expect(short.ok).toBe(true);
-    expect(measurePosition(short.world, measure.id).phase).toBe("failed");
+    const tally = short.world.history.legislativeVotes!.at(-1)!.tally;
+    expect(measurePosition(short.world, measure.id).phase).toBe(
+      tally.yea * 3 >= (tally.yea + tally.nay) * 2 ? "enacted" : "failed",
+    );
 
     // Nine of thirteen present and voting yea is two-thirds; it becomes law
     // after congressional review.

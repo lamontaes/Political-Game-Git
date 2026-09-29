@@ -1,0 +1,440 @@
+{
+  "question": "us-policy-positions:fiscal.minimum-reserve-balance",
+  "definition": "yes = on 1/1/2026, state law requires the state to deposit into, or keep, a rainy-day or budget stabilization fund at a set share of spending or revenue (a mandatory deposit rule or a required minimum balance); no = a fund exists but deposits and balances are discretionary (at most a cap), or there is no fund.",
+  "summarySource": "Statute and constitution pages fetched on 9/28/2026 for 31 states and D.C.; the NASBO 'Budget Processes in the States' 2021 Tables 13 and 15 for the rest; the NASBO 'Budget Processes in the Territories' report (2023–24) for Guam.",
+  "answers": {
+    "US-AL": {
+      "answer": "yes",
+      "cite": "Ala. Const. amend. 803; Education Trust Fund Budget Stabilization Fund statute",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "Up to 1% of the prior year's Education Trust Fund appropriations must move from the fund's ending balance into its Budget Stabilization Fund each year until that fund reaches 7.5% of appropriations (NASBO 2021).",
+      "preempts": true
+    },
+    "US-AK": {
+      "answer": "yes",
+      "cite": "Alaska Const. art. IX, § 17",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "Oil and gas tax settlement money must go into the Constitutional Budget Reserve, and year-end surpluses are swept into it; the deposit is not a fixed share of spending (NASBO 2021).",
+      "preempts": true
+    },
+    "US-AZ": {
+      "answer": "yes",
+      "cite": "A.R.S. § 35-144",
+      "dateBasis": "not-found",
+      "source": "https://www.azleg.gov/ars/35/00144.htm",
+      "note": "When revenue grows faster than trend, a formula sets the deposit (excess growth times general fund revenue) the legislature is to appropriate to the Budget Stabilization Fund, up to a cap tied to revenue.",
+      "preempts": true
+    },
+    "US-AR": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "By statute, the Long Term Reserve Fund must be replenished by a transfer from the General Revenue Allotment Reserve Fund (50% of its balance or the prior year's draws, whichever is less) (NASBO 2021).",
+      "preempts": true
+    },
+    "US-CA": {
+      "answer": "yes",
+      "cite": "Cal. Const. art. XVI, § 20",
+      "operativeAt": "2015-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CONS&sectionNum=SEC.%2020.&article=XVI",
+      "note": "The Controller must transfer 1.5% of estimated General Fund revenue each year, plus a share of excess capital-gains revenue, into the Budget Stabilization Account until it reaches 10% of General Fund tax revenue.",
+      "preempts": true
+    },
+    "US-CO": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "Statute requires a General Fund reserve equal to a set percentage of appropriations that must be refilled if it is spent (7.25% in NASBO 2021; the percentage has since been changed by statute).",
+      "preempts": true
+    },
+    "US-CT": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "Unappropriated surplus and revenue from volatile taxes, chiefly capital gains, must be deposited into the Budget Reserve Fund until it reaches 15% of General Fund appropriations (NASBO 2021).",
+      "preempts": true
+    },
+    "US-DE": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "Under the constitution, the excess of unencumbered funds at year end must be paid into the Budget Reserve Account until it reaches 5% of estimated General Fund revenue (NASBO 2021).",
+      "preempts": true
+    },
+    "US-FL": {
+      "answer": "yes",
+      "cite": "Fla. Const. art. III, § 19(g)",
+      "dateBasis": "not-found",
+      "source": "https://www.flsenate.gov/Laws/Constitution",
+      "note": "At least 5% of the last completed fiscal year's general revenue collections must be kept in the Budget Stabilization Fund, and the fund may not exceed 10%.",
+      "preempts": true
+    },
+    "US-GA": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "By statute, General Fund money left over after the year's spending lapses into the Revenue Shortfall Reserve, which is capped at 15% of prior-year net revenue (NASBO 2021).",
+      "preempts": true
+    },
+    "US-HI": {
+      "answer": "yes",
+      "cite": "Haw. Const.; Haw. Rev. Stat. § 328L-3",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "The Emergency and Budget Reserve Fund must receive 5% of the general fund balance when conditions in the constitution and HRS § 328L-3 are met (NASBO 2021).",
+      "preempts": true
+    },
+    "US-ID": {
+      "answer": "yes",
+      "cite": "Idaho Code § 57-814",
+      "dateBasis": "not-found",
+      "source": "https://legislature.idaho.gov/statutesrules/idstat/Title57/T57CH8/SECT57-814/",
+      "note": "When general fund receipts grow more than 4%, the controller must transfer the excess, up to 1% of the prior year's collections, to the Budget Stabilization Fund, which is capped at 10% of receipts.",
+      "preempts": true
+    },
+    "US-IL": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "A 2004 statute directs surplus revenue to the Budget Stabilization Fund and Pension Stabilization Fund, but NASBO reports that no such transfer has ever occurred; other deposits are by appropriation.",
+      "preempts": true
+    },
+    "US-IN": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "By statute, General Fund money moves into and out of the Economic Stabilization Fund automatically according to the annual growth rate of adjusted personal income (NASBO 2021).",
+      "preempts": true
+    },
+    "US-IA": {
+      "answer": "yes",
+      "cite": "Iowa Code § 8.57",
+      "dateBasis": "not-found",
+      "source": "https://www.legis.iowa.gov/docs/code/8.57.pdf",
+      "note": "The year-end General Fund surplus must go to the Cash Reserve Fund, and a further transfer of up to 1% of revenue is made when needed to reach the 7.5% goal; any excess then goes to the Economic Emergency Fund, capped at 2.5%.",
+      "preempts": true
+    },
+    "US-KS": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "By statute, the enacted budget must leave an unspent State General Fund balance of 7.5% of expenditures, and the Budget Stabilization Fund receives a share of revenue above the consensus estimate (NASBO 2021).",
+      "preempts": true
+    },
+    "US-LA": {
+      "answer": "yes",
+      "cite": "La. Const. art. VII, § 10.3",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "Mineral revenue above $950 million and 25% of nonrecurring revenue must go into the Budget Stabilization Fund until it reaches 4% of total state revenue receipts (NASBO 2021).",
+      "preempts": true
+    },
+    "US-ME": {
+      "answer": "yes",
+      "cite": "5 M.R.S. § 1532",
+      "dateBasis": "not-found",
+      "source": "https://legislature.maine.gov/statutes/5/title5sec1532.html",
+      "note": "The Budget Stabilization Fund may not fall below 1% or exceed 18% of the prior year's General Fund revenue, and it receives a set share of the year-end unappropriated surplus.",
+      "preempts": true
+    },
+    "US-MD": {
+      "answer": "yes",
+      "cite": "Md. Code, State Fin. & Proc. § 7-311",
+      "dateBasis": "not-found",
+      "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gsf&section=7-311&enactments=false",
+      "note": "The Governor must budget $100 million, or $50 million, for the Revenue Stabilization Account whenever its balance is below 7.5% of revenue, and nonwithholding income tax above the cap must be deposited; fiscal year 2026 is exempt from the minimum appropriation.",
+      "preempts": true
+    },
+    "US-MA": {
+      "answer": "yes",
+      "cite": "Mass. Gen. Laws ch. 29, § 2H",
+      "dateBasis": "not-found",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIII/Chapter29/Section2H",
+      "note": "Available consolidated net surplus must be transferred to the Commonwealth Stabilization Fund, along with excess capital gains, within a cap tied to revenue.",
+      "preempts": true
+    },
+    "US-MI": {
+      "answer": "no",
+      "cite": "Mich. Comp. Laws § 18.1352",
+      "dateBasis": "not-found",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-18-1352",
+      "note": "A formula sets a pay-in when personal income grows more than 2%, but the legislature must provide every transfer into the fund through an appropriations act, and NASBO calls the formula advisory.",
+      "preempts": true
+    },
+    "US-MN": {
+      "answer": "yes",
+      "cite": "Minn. Stat. § 16A.152, subd. 2",
+      "dateBasis": "not-found",
+      "source": "https://www.revisor.mn.gov/statutes/cite/16A.152",
+      "note": "A forecast general fund balance must first fill the $350 million cash flow account and then the budget reserve up to its statutory target.",
+      "preempts": true
+    },
+    "US-MS": {
+      "answer": "yes",
+      "cite": "Miss. Code Ann. §§ 27-103-203, 27-103-213",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "Statute fixes the order in which the General Fund's year-end unencumbered cash is distributed, including to the Working Cash Stabilization Reserve Fund, which is capped at 10% of appropriations (NASBO 2021).",
+      "preempts": true
+    },
+    "US-MO": {
+      "answer": "yes",
+      "cite": "Mo. Const. art. IV, § 27(a)",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "The Budget Reserve Fund must hold 7.5% of the previous year's net general revenue collections (NASBO 2021).",
+      "preempts": true
+    },
+    "US-MT": {
+      "answer": "yes",
+      "cite": "Mont. Code Ann. § 17-7-130",
+      "dateBasis": "not-found",
+      "source": "https://archive.legmt.gov/bills/mca/title_0170/chapter_0070/part_0010/section_0300/0170-0070-0010-0300.html",
+      "note": "Each August, unspent general fund appropriations above 0.5% of the year's total must be transferred to the Budget Stabilization Reserve Fund, except in years with required budget cuts.",
+      "preempts": true
+    },
+    "US-NE": {
+      "answer": "yes",
+      "cite": "Neb. Rev. Stat. § 77-4602",
+      "dateBasis": "not-found",
+      "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-4602",
+      "note": "General Fund net receipts above the certified forecast must be transferred to the Cash Reserve Fund.",
+      "preempts": true
+    },
+    "US-NV": {
+      "answer": "yes",
+      "cite": "Nev. Rev. Stat. § 353.288",
+      "dateBasis": "not-found",
+      "source": "https://www.leg.state.nv.us/NRS/NRS-353.html",
+      "note": "Each year the Controller must transfer 1% of anticipated revenue, plus 40% of the year-end General Fund balance above 7% of appropriations, to the Account to Stabilize the Operation of State Government.",
+      "preempts": true
+    },
+    "US-NH": {
+      "answer": "yes",
+      "cite": "N.H. Rev. Stat. § 9:13-e",
+      "operativeAt": "2001-06-30",
+      "dateBasis": "enacted-effective",
+      "source": "https://gc.nh.gov/rsa/html/I/9/9-13-e.htm",
+      "note": "Unless another law provides otherwise, any audited biennial general fund surplus must be transferred to the Revenue Stabilization Reserve Account.",
+      "preempts": true
+    },
+    "US-NY": {
+      "answer": "yes",
+      "cite": "N.Y. State Fin. Law § 92",
+      "dateBasis": "not-found",
+      "source": "https://www.nysenate.gov/legislation/laws/STF/92",
+      "note": "A year-end general fund cash surplus, up to 0.2% of the year's disbursements, must be transferred to the Tax Stabilization Reserve Fund until that fund reaches 2%.",
+      "preempts": true
+    },
+    "US-NC": {
+      "answer": "yes",
+      "cite": "N.C. Gen. Stat. § 143C-4-2",
+      "dateBasis": "not-found",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_143C/GS_143C-4-2.html",
+      "note": "Each budget act must transfer 15% of estimated General Fund tax revenue growth to the Savings Reserve, or the smaller amount needed to reach its recommended balance.",
+      "preempts": true
+    },
+    "US-ND": {
+      "answer": "yes",
+      "cite": "N.D. Cent. Code § 54-27.2-02",
+      "dateBasis": "not-found",
+      "source": "https://ndlegis.gov/cencode/t54c27-2.pdf",
+      "note": "At the end of each biennium, general fund money above $65 million must be transferred to the Budget Stabilization Fund, which is capped at 15% of appropriations.",
+      "preempts": true
+    },
+    "US-OH": {
+      "answer": "yes",
+      "cite": "Ohio Rev. Code § 131.44",
+      "dateBasis": "not-found",
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-131.44",
+      "note": "Each July, surplus revenue must be transferred to the Budget Stabilization Fund until it equals 10% of the prior year's general revenue fund revenue.",
+      "preempts": true
+    },
+    "US-OK": {
+      "answer": "yes",
+      "cite": "Okla. Const. art. X, § 23",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "Revenue collected above 100% of the estimate must go into the Constitutional Reserve Fund until it reaches 15% of the prior year's General Revenue collections (NASBO 2021).",
+      "preempts": true
+    },
+    "US-OR": {
+      "answer": "yes",
+      "cite": "Or. Rev. Stat. § 293.146",
+      "dateBasis": "not-found",
+      "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors293.html",
+      "note": "After each biennium, 1% of General Fund appropriations (or the whole ending balance, if smaller) must be transferred to the Rainy Day Fund; the Education Stability Fund also receives a constitutional share of lottery proceeds.",
+      "preempts": true
+    },
+    "US-PA": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "By statute, 25% of the General Fund's year-end surplus must be transferred to the Budget Stabilization Reserve Fund, falling to 10% once the fund reaches 6% of revenue (NASBO 2021).",
+      "preempts": true
+    },
+    "US-RI": {
+      "answer": "yes",
+      "cite": "R.I. Const. art. IX, § 17; R.I. Gen. Laws §§ 35-3-20, 35-3-20.1",
+      "dateBasis": "not-found",
+      "source": "https://webserver.rilegislature.gov/Statutes/TITLE35/35-3/35-3-20.htm",
+      "note": "Spending is limited to 97% of revenue, and 3% of general revenue must be set aside in the Budget Reserve and Cash Stabilization Account, which is capped at 5%.",
+      "preempts": true
+    },
+    "US-SC": {
+      "answer": "yes",
+      "cite": "S.C. Const. art. III, § 36",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "The General Reserve must equal 5% of the most recently completed year's general fund revenue, and a Capital Reserve of 2% must also be kept (NASBO 2021).",
+      "preempts": true
+    },
+    "US-SD": {
+      "answer": "yes",
+      "cite": "S.D. Codified Laws § 4-7-32",
+      "dateBasis": "not-found",
+      "source": "https://sdlegislature.gov/api/Statutes/4-7-32.html?all=true",
+      "note": "All prior-year unobligated cash must be transferred to the budget reserve fund until it reaches 10% of the prior year's general fund appropriations.",
+      "preempts": true
+    },
+    "US-TN": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "By statute, 10% of state tax revenue growth allocated to the General and Education Funds must be set aside in the Reserve for Revenue Fluctuations, which is capped at 8% (NASBO 2021).",
+      "preempts": true
+    },
+    "US-TX": {
+      "answer": "yes",
+      "cite": "Tex. Const. art. III, § 49-g",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "Half of any unencumbered general revenue balance at the end of each biennium must be transferred to the Economic Stabilization Fund, which also receives oil and gas tax revenue, within a cap (NASBO 2021).",
+      "preempts": true
+    },
+    "US-UT": {
+      "answer": "yes",
+      "cite": "Utah Code § 63J-1-312",
+      "dateBasis": "not-found",
+      "source": "https://le.utah.gov/xcode/Title63J/Chapter1/C63J-1-S312_2026050620260506.html",
+      "note": "The Division of Finance must transfer 25% of any General Fund revenue surplus to the General Fund Budget Reserve Account until the account reaches its cap (8% of appropriations in NASBO 2021; the version effective 5/6/2026 says 9%).",
+      "preempts": true
+    },
+    "US-VT": {
+      "answer": "yes",
+      "cite": "32 V.S.A. § 308",
+      "dateBasis": "not-found",
+      "source": "https://legislature.vermont.gov/statutes/section/32/005/00308",
+      "note": "Any undesignated General Fund surplus at year end must be reserved in the Budget Stabilization Reserve up to 5% of the prior year's appropriations.",
+      "preempts": true
+    },
+    "US-VA": {
+      "answer": "yes",
+      "cite": "Va. Const. art. X, § 8",
+      "dateBasis": "not-found",
+      "source": "https://law.lis.virginia.gov/constitution/article10/section8/",
+      "note": "When income and sales tax revenue grows faster than its six-year average, the General Assembly must deposit at least half of the above-trend growth into the Revenue Stabilization Fund, which is capped at 15% of average revenue.",
+      "preempts": true
+    },
+    "US-WA": {
+      "answer": "yes",
+      "cite": "Wash. Const. art. VII, § 12; RCW 43.79.495",
+      "operativeAt": "2008-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=43.79.495",
+      "note": "By June 30 of each fiscal year, the treasurer must transfer 1% of general state revenue to the Budget Stabilization Account.",
+      "preempts": true
+    },
+    "US-WV": {
+      "answer": "yes",
+      "cite": "W. Va. Code § 11B-2-20",
+      "dateBasis": "not-found",
+      "source": "https://code.wvlegislature.gov/11B-2-20/",
+      "note": "Up to the first 50% of each year's surplus revenue must be deposited into the Revenue Shortfall Reserve Fund; since 7/1/2024 the target is 20% of a three-year average of appropriations (it was 13% earlier).",
+      "preempts": true
+    },
+    "US-WI": {
+      "answer": "yes",
+      "cite": "Wis. Stat. § 16.518",
+      "dateBasis": "not-found",
+      "source": "https://docs.legis.wisconsin.gov/document/statutes/16.518",
+      "note": "When tax collections exceed the budget projection, the secretary must transfer 50% of the difference to the Budget Stabilization Fund.",
+      "preempts": true
+    },
+    "US-WY": {
+      "answer": "yes",
+      "cite": "Wyo. Stat. § 9-2-1012(e)",
+      "dateBasis": "not-found",
+      "source": "https://wyoleg.gov/statutes/compress/title09.pdf",
+      "note": "The Governor must recommend a General Fund reserve of at least 5% of estimated receipts, and any unappropriated General Fund balance above that reserve at the end of each biennium must be transferred to the Legislative Stabilization Reserve Account.",
+      "preempts": true
+    },
+    "US-DC": {
+      "answer": "yes",
+      "cite": "D.C. Code § 47-392.02(j-1)–(j-3); D.C. Code § 1-204.50a",
+      "dateBasis": "not-found",
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/47-392.02",
+      "note": "The Mayor must keep the emergency cash reserve at 2% of operating expenditures (§ 1-204.50a), and year-end fund balance must fill the Fiscal Stabilization Reserve (2.34% of expenditures) and the Cash Flow Reserve (10% of the operating budget).",
+      "preempts": true
+    },
+    "US-GU": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/Budget_Processes_in_the_Territories.pdf",
+      "note": "Deposits into the Rainy Day Fund are set as a percentage of projected general fund revenue, and the fund must hold at least 2% of projected revenue (NASBO territories report, 2023–24).",
+      "preempts": true
+    }
+  },
+  "unknown": {
+    "US-KY": "NASBO 2021 says the Budget Reserve Trust Fund receives surplus revenue, unspent appropriations and sometimes direct appropriations (KRS 48.705) but does not say whether deposits are mandatory; no Kentucky statute page was fetched.",
+    "US-NJ": "The Surplus Revenue Fund statute requires deposits of 50% of revenue above estimates, but NASBO 2021 says every annual appropriations act since fiscal 2013 has overridden it; the fiscal 2026 act was not fetched.",
+    "US-NM": "NASBO 2021 lists the tax stabilization reserve as funded by appropriations only, but a statutory operating-reserve transfer rule may exist; no New Mexico statute page was reachable to confirm either reading.",
+    "US-PR": "The NASBO territories report says only that the emergency reserve fund receives deposits from the general fund; it does not say whether the deposits are mandatory or set as a share.",
+    "US-VI": "The NASBO territories report says the budget stabilization fund receives deposits when revenue exceeds estimates; it does not say whether the deposits are mandatory, and no Virgin Islands Code page was fetched.",
+    "US-AS": "American Samoa is not covered by the NASBO territories report, and no primary page was fetched.",
+    "US-MP": "The Northern Mariana Islands are not covered by the NASBO territories report, and no primary page was fetched."
+  },
+  "conflicts": [
+    {
+      "place": "US-MI",
+      "readings": "MCL 18.1352 says a formula determines the amount 'to be transferred' to the Countercyclical Budget and Economic Stabilization Fund when personal income grows more than 2%, but NASBO 2021 says the pay-in calculation is advisory only and every deposit needs an appropriation. Recorded as no.",
+      "sources": [
+        "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-18-1352",
+        "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf"
+      ]
+    },
+    {
+      "place": "US-IL",
+      "readings": "NASBO 2021 Table 13 lists only appropriations and transfers as the Budget Stabilization Fund's funding source, while its Table 15 notes say a 2004 statute directs surplus revenue to the fund and that no such transfer has ever occurred. Recorded as yes.",
+      "sources": [
+        "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf"
+      ]
+    },
+    {
+      "place": "US-AZ",
+      "readings": "A.R.S. § 35-144 sets the deposit by formula but describes it as an amount 'to be appropriated by the legislature', so the deposit still passes through an appropriation, much like Michigan's. Recorded as yes, following NASBO's description of an automatic deposit.",
+      "sources": [
+        "https://www.azleg.gov/ars/35/00144.htm",
+        "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf"
+      ]
+    }
+  ],
+  "refusedHosts": [
+    "www.pewtrusts.org (Cloudflare bot challenge, 403)",
+    "en.wikipedia.org (429 rate limit)",
+    "www.capitol.hawaii.gov (403)",
+    "www.leg.state.fl.us (403; used flsenate.gov instead)",
+    "www.cga.ct.gov (connection timeout)",
+    "www.ksrevisor.org and www.ksrevisor.gov (connection timeout)",
+    "www.ilga.gov (connection timeout)",
+    "statutes.capitol.texas.gov (JavaScript shell, no statute text)"
+  ],
+  "counts": {
+    "yes": 48,
+    "no": 1,
+    "unknown": 7
+  }
+}

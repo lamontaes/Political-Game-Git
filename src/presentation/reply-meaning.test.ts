@@ -1,7 +1,10 @@
 import { beforeAll, describe, expect, it } from "vitest";
 
 import {
+  assessUndertaking,
   recordRelationshipInteraction,
+  undertakingsHeldBy,
+  undertakingsKnownTo,
   type EntityId,
   type World,
 } from "../simulation";
@@ -198,6 +201,39 @@ describe("A neighbor's answer comes from who they are", () => {
     expect(answers.careful.outcome).toBe("undecided");
     // Four temperaments, four meanings, four different things said.
     expect(new Set(Object.values(answers).map((a) => a.dialogue)).size).toBe(4);
+  });
+
+  it("records the neighbor's yes as their own promise to the player, and a no as none", () => {
+    const answered = (world: World) =>
+      say(
+        say(world, life.playerId, "mention-meeting").world,
+        life.playerId,
+        "ask-them-to-go",
+      ).world;
+    const yes = answered(
+      withTemperament(life, { ...BALANCED, sociability: 2 }),
+    );
+    const no = answered(
+      withTemperament(life, { ...BALANCED, sociability: -2, conflict: 2 }),
+    );
+
+    const promised = undertakingsKnownTo(yes, life.playerId).filter(
+      (entry) => entry.holderPersonId === life.neighborId,
+    );
+    expect(promised).toHaveLength(1);
+    expect(promised[0]!.owedToPersonIds).toEqual([life.playerId]);
+    expect(promised[0]!.act).toMatchObject({ kind: "attend" });
+    expect(promised[0]!.statement).toBe(
+      "Said they would go to the posted public meeting.",
+    );
+    // The meeting is on the player's calendar, not the neighbor's, so
+    // nothing can yet say whether the neighbor went.
+    expect(assessUndertaking(yes, promised[0]!).standing).toBe("outstanding");
+    expect(
+      undertakingsHeldBy(no, life.neighborId).filter(
+        (entry) => entry.source.store === "lifeCommitments",
+      ),
+    ).toHaveLength(0);
   });
 
   it("gives different answers to the same temperament with a different history", () => {

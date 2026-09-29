@@ -511,9 +511,7 @@ export function MunicipalWorkspace({
                                   ))}
                                 </fieldset>
                                 <details>
-                                  <summary>
-                                    Other councilors' ballots (game-authored)
-                                  </summary>
+                                  <summary>Other councilors' ballots</summary>
                                   <p>{preview.note}</p>
                                   <ul>
                                     {preview.colleagues.map((colleague) => {
@@ -530,7 +528,12 @@ export function MunicipalWorkspace({
                                           {": "}
                                           {colleague.disposition === "yea"
                                             ? "Yea"
-                                            : "Nay"}
+                                            : colleague.disposition === "nay"
+                                              ? "Nay"
+                                              : colleague.disposition ===
+                                                  "present-not-voting"
+                                                ? "Present, not voting"
+                                                : "Absent"}
                                         </li>
                                       );
                                     })}

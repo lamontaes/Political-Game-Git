@@ -2,11 +2,14 @@ import { assessPaycheckTaxes } from "./statutory-tax";
 import { addDays, daysBetween } from "./dates";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { currentLifeCutoff, workStatusAt } from "./life-queries";
+import { officePayInForce } from "./office-pay";
 import {
   createWorkCompensation,
   money,
+  recordResourceFlowTerms,
   resolveWorkCompensationPeriod,
 } from "./resources";
+import { resourceFlowTermsHistory } from "./resource-queries";
 import type { EntityId, IsoDate, World, WorkRelationship } from "./types";
 
 /**
@@ -24,11 +27,12 @@ import type { EntityId, IsoDate, World, WorkRelationship } from "./types";
  */
 
 /**
- * PLACEHOLDER(research: what-public-officials-are-paid). Nobody has
- * researched this number. It is one national annual figure for every office
- * below, the same for a governor, a legislator, a judge and a civil servant in
- * every state, standing in until real salaries by office and state are on
- * file. Replace it; do not tune it.
+ * PLACEHOLDER(research: what-public-officials-are-paid). A governor, a state
+ * legislator, a judge and a member of Congress are paid the published salary
+ * (`office-pay.ts`). Every other office, and a state whose tables give no single annual figure, is paid this
+ * one national annual figure: nobody has researched it, and it is the same for
+ * a judge, a mayor and a civil servant in every state. Replace it; do not tune
+ * it.
  */
 export const OFFICE_SALARY_PLACEHOLDER = {
   annualMinor: 6_000_000,
@@ -50,8 +54,36 @@ export const PAID_OFFICE_KINDS: readonly string[] = [
 const WEEK_DAYS = 7;
 const CATCH_UP_LIMIT_WEEKS = 520;
 
-function weeklyMinor(): number {
-  return Math.round(OFFICE_SALARY_PLACEHOLDER.annualMinor / 52);
+/**
+ * The annual pay for an office on a date: what the state's pay law says if one
+ * is in force, else the state's published figure, else the placeholder.
+ */
+function annualPay(
+  world: World,
+  work: WorkRelationship,
+  onDate: IsoDate,
+): { readonly annualMinor: number; readonly note: string } {
+  const inForce = officePayInForce(world, work, onDate);
+  if (inForce?.law)
+    return {
+      annualMinor: inForce.annualDollars * 100,
+      note: `${inForce.law.designation} set this office's salary to $${inForce.annualDollars.toLocaleString("en-US")} a year.`,
+    };
+  return inForce
+    ? {
+        annualMinor: inForce.annualDollars * 100,
+        note:
+          inForce.estimatedBecause ??
+          `Salary for this office, published (The Book of the States 2023; Congressional Research Service 97-1011 for Congress).`,
+      }
+    : {
+        annualMinor: OFFICE_SALARY_PLACEHOLDER.annualMinor,
+        note: `Placeholder office salary pending research question ${OFFICE_SALARY_PLACEHOLDER.researchQuestionId}.`,
+      };
+}
+
+function weeklyMinor(annualMinor: number): number {
+  return Math.round(annualMinor / 52);
 }
 
 function salaryKey(work: WorkRelationship): string {
@@ -102,17 +134,21 @@ function settleOne(world: World, work: WorkRelationship): World {
       work.personId,
       money(0, OFFICE_SALARY_PLACEHOLDER.currency).currency,
     );
+    const pay = annualPay(world, work, world.currentDate);
     return createWorkCompensation(next, {
       stableKey: salaryKey(work),
       workRelationshipId: work.id,
       startsAt: next.currentDate,
-      amount: money(weeklyMinor(), OFFICE_SALARY_PLACEHOLDER.currency),
+      amount: money(
+        weeklyMinor(pay.annualMinor),
+        OFFICE_SALARY_PLACEHOLDER.currency,
+      ),
       cadenceKind: "schedule:weekly",
       restrictionKind: null,
       jurisdictionId: null,
       provenance: {
         kind: "authored",
-        note: `Placeholder office salary pending research question ${OFFICE_SALARY_PLACEHOLDER.researchQuestionId}.`,
+        note: pay.note,
       },
     });
   }
@@ -134,6 +170,7 @@ function settleOne(world: World, work: WorkRelationship): World {
     if (dueOn > next.currentDate) break;
     // A week that ends after the office did is not paid, and nothing later is.
     if (!isActiveOn(next, work.id, addDays(dueOn, -1))) break;
+    next = raiseToPayInForce(next, work, flow.id, periodStartsAt);
     next = resolveWorkCompensationPeriod(next, {
       stableKey: `${flow.stableKey}:${periodStartsAt}`,
       workRelationshipId: work.id,
@@ -151,4 +188,44 @@ function settleOne(world: World, work: WorkRelationship): World {
     );
   }
   return next;
+}
+
+/**
+ * Moves a salary to what a state's pay law sets, from the first week that
+ * begins on or after the day the law is operative. The change is recorded as
+ * new terms that name the law, so an earlier week keeps the pay it was paid
+ * at. A salary no law has touched keeps the terms it was created with.
+ */
+function raiseToPayInForce(
+  world: World,
+  work: WorkRelationship,
+  flowId: EntityId,
+  weekStartsAt: IsoDate,
+): World {
+  const inForce = officePayInForce(world, work, weekStartsAt);
+  if (!inForce?.law) return world;
+  const current = resourceFlowTermsHistory(world, flowId).at(-1);
+  if (!current || current.status !== "active") return world;
+  const weekly = weeklyMinor(inForce.annualDollars * 100);
+  if (current.amount.minorUnits === weekly) return world;
+  const enactment = (world.history.legislativeEnactments ?? []).find(
+    (row) => row.measureId === inForce.law!.measureId,
+  );
+  return recordResourceFlowTerms(world, {
+    stableKey: `${salaryKey(work)}:pay-law:${inForce.law.measureId}:${weekStartsAt}`,
+    resourceFlowId: flowId,
+    effectiveAt:
+      weekStartsAt > current.effectiveAt ? weekStartsAt : current.effectiveAt,
+    status: "active",
+    amount: money(weekly, current.amount.currency),
+    cadenceKind: current.cadenceKind,
+    reason: `${inForce.law.designation} set this office's salary to $${inForce.annualDollars.toLocaleString("en-US")} a year.`,
+    provenance: enactment
+      ? { kind: "simulated-event", eventId: enactment.outcomeEventId }
+      : {
+          kind: "authored",
+          note: `${inForce.law.designation} set this office's salary.`,
+        },
+    supersedesTermsId: current.id,
+  });
 }

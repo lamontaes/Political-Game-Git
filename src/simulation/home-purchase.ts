@@ -15,6 +15,7 @@ import {
   startHouseholdMembership,
 } from "./life";
 import { GROWN_UP_PRESENTATION_AGE_PLACEHOLDER } from "./age-of-majority";
+import { homeValueForJurisdiction } from "./county-home-value";
 import { personName } from "./people";
 import {
   createDwelling,
@@ -66,14 +67,15 @@ import type {
  */
 
 /**
- * PLACEHOLDER(research: what-it-takes-to-buy-a-home). Nobody has researched
- * any of these numbers. One national price, down payment and monthly payment
- * for every state and town, standing in until prices by state and town size,
- * lending rules and interest are answered. Interest is not modeled: the
- * payments below simply pay down the loan. Replace them; do not tune them.
+ * The price is the county's median home value (Census ACS, 2020-2024,
+ * `county-home-value.ts`). The rest is still a PLACEHOLDER(research:
+ * what-it-takes-to-buy-a-home): nobody has researched down payments by
+ * buyer age, mortgage terms or interest. The two amounts below are the old
+ * national figures, the same in every town, and interest is not modeled: the
+ * payments simply pay down the loan. The shared housing module's mortgage
+ * rate replaces them. Replace them; do not tune them.
  */
 export const HOME_PURCHASE_PLACEHOLDER = {
-  priceMinor: 25_000_000,
   downPaymentMinor: 5_000_000,
   monthlyPaymentMinor: 120_000,
   currency: "USD",
@@ -91,15 +93,15 @@ function roundTo(minor: number, step: number): number {
 }
 
 /**
- * The placeholder terms in today's prices.
+ * The terms in today's prices.
  *
- * The placeholder is a price in the world's first month. Since then the world
- * has its own price level, and rent on the same screen already moves with it,
- * so a house that never moved read as a bargain within a few years: $250,000
- * beside rent up half again in Bend. The terms move by the same price level
- * the rent line uses, the town's own where it has one and the nation's before
- * that. This makes the placeholder consistent with the world, not right: what
- * a home costs in a given town is still the research question's to answer.
+ * The price is the county's median home value read as the world's first-month
+ * price. Since then the world has its own price level, and rent on the same
+ * screen already moves with it, so a house that never moved read as a bargain
+ * within a few years. The terms move by the same price level the rent line
+ * uses, the town's own where it has one and the nation's before that. What a
+ * down payment and a monthly payment are for a price is still the research
+ * question's to answer.
  */
 export function homePurchaseTerms(
   world: World,
@@ -119,8 +121,10 @@ export function homePurchaseTerms(
     now && first && first.priceIndex > 0
       ? now.priceIndex / first.priceIndex
       : 1;
+  const openingPriceMinor =
+    homeValueForJurisdiction(jurisdictionId).dollars * 100;
   return {
-    priceMinor: roundTo(HOME_PURCHASE_PLACEHOLDER.priceMinor * factor, 100_000),
+    priceMinor: roundTo(openingPriceMinor * factor, 100_000),
     downPaymentMinor: roundTo(
       HOME_PURCHASE_PLACEHOLDER.downPaymentMinor * factor,
       100_000,

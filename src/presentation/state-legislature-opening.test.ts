@@ -11,6 +11,7 @@ import {
   STATE_LEGISLATURE_KEYS,
   ensureStateLegislatureOpening,
   planStateChambers,
+  recordedChamberParties,
   stateLegislators,
 } from "../simulation/nationwide-world/state-legislature-opening";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -103,6 +104,39 @@ describe.each(SEATED)("a life opened in %s, %s", (name, state) => {
     const parties = new Set(members.map((m) => m.party));
     expect(parties.has("democratic")).toBe(true);
     expect(parties.has("republican")).toBe(true);
+  });
+
+  it("holds each chamber's recorded party balance", () => {
+    for (const chamber of plan.chambers) {
+      const recorded = recordedChamberParties(usps, chamber.chamberKey);
+      if (!recorded) continue;
+      const inChamber = members.filter(
+        (member) => member.officeKey === chamber.officeKey,
+      );
+      const total =
+        recorded.democrats +
+        recorded.republicans +
+        recorded.other +
+        recorded.vacancies;
+      const count = (party: string) =>
+        inChamber.filter((member) => member.party === party).length;
+      const democrats = Math.round(
+        (inChamber.length * recorded.democrats) / total,
+      );
+      const republicans = Math.min(
+        inChamber.length - democrats,
+        Math.round((inChamber.length * recorded.republicans) / total),
+      );
+      // Seats the record gives to neither party keep their own lean, so each
+      // party holds at least its recorded share and exactly that when the
+      // record lists no one else.
+      expect(count("democratic")).toBeGreaterThanOrEqual(democrats);
+      expect(count("republican")).toBeGreaterThanOrEqual(republicans);
+      if (recorded.other + recorded.vacancies === 0) {
+        expect(count("democratic")).toBe(democrats);
+        expect(count("republican")).toBe(inChamber.length - democrats);
+      }
+    }
   });
 
   it("is written once and survives Save and Continue", () => {

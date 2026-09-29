@@ -16,7 +16,12 @@ import {
   shellReducer,
   type ShellState,
 } from "../presentation/shell-navigation";
-import { ShellNav, type ShellDestination } from "./ShellNav";
+import {
+  FAN_RINGS,
+  fanLayout,
+  ShellNav,
+  type ShellDestination,
+} from "./ShellNav";
 
 const DESTINATIONS: readonly ShellDestination[] = [
   ["calendar", "calendar", "nav-calendar"],
@@ -71,14 +76,12 @@ describe("ShellNav portrait hub", () => {
     expect(html).toContain("Jordan Avery Price");
     expect(html).toContain("Tuesday, January 20, 2026");
     expect(html).toContain(
-      'aria-label="Jordan Avery Price. Tuesday, January 20, 2026. Somewhere on record. Open game menu."',
+      'aria-label="Jordan Avery Price. Tuesday, January 20, 2026. Somewhere on record. Open navigation."',
     );
     // A figure never sits inside the button.
-    const cluster = html.match(
-      /<button[^>]*data-testid="shell-nav-cluster"[\s\S]*?<\/button>/,
-    )?.[0];
-    expect(cluster).toBeDefined();
-    expect(cluster).not.toContain("<figure");
+    expect(html).not.toMatch(
+      /<button[^>]*shell-nav-cluster[\s\S]*?<figure[\s\S]*?<\/button>/,
+    );
   });
 
   it("falls back to initials in the same circle when no portrait is available", () => {
@@ -87,67 +90,70 @@ describe("ShellNav portrait hub", () => {
     expect(html).toContain('<span class="pg-nav-initials">JP</span>');
   });
 
-  it("keeps seven labeled sections visible with the corner menu closed", () => {
-    const html = render(INITIAL_SHELL_STATE);
-    expect(html).toContain('data-testid="shell-menu-bar"');
-    for (const testid of [
-      "nav-calendar",
-      "elsewhere-people",
-      "nav-politics",
-      "nav-news",
-      "nav-journal-entry",
-      "nav-group-personal",
-      "nav-places",
-    ]) {
-      expect(html).toContain(`data-testid="${testid}"`);
-    }
-    expect(html).not.toContain('data-testid="shell-nav-flyout"');
-    expect(html).not.toContain("--fan-x");
-  });
-
-  it("opens Save, Options, and Return in one corner menu", () => {
+  it("opens the same menu, each entry carrying its place in the fan", () => {
     const open = shellReducer(INITIAL_SHELL_STATE, {
       type: "toggle-navigation",
     });
     const html = render(open);
     expect(html).toContain('role="menu"');
     const items = html.match(/role="menuitem"/g) ?? [];
-    expect(items).toHaveLength(3);
+    // Seven single groups, one Personal group, Save and Quit.
+    expect(items).toHaveLength(10);
     expect(html).toContain('data-testid="nav-group-personal"');
     expect(html).toContain('data-testid="save-world"');
-    expect(html).toContain('data-testid="nav-options"');
     expect(html).toContain('data-testid="leave-game"');
+    expect(html.match(/--fan-x:/g)).toHaveLength(10);
   });
 
-  it("gives a section submenu a way back to the bar", () => {
+  it("gives a submenu its way back as the first fanned entry", () => {
     const sub = shellReducer(
       shellReducer(INITIAL_SHELL_STATE, { type: "toggle-navigation" }),
       { type: "open-nav-submenu", submenu: "personal" },
     );
     const html = render(sub);
     expect(html).toContain('data-level="submenu"');
-    expect(html).toContain('data-testid="nav-submenu-back"');
+    expect(html).toMatch(
+      /data-testid="nav-submenu-back" style="--fan-x:0px;--fan-y:-140px/,
+    );
     expect(html).toContain('data-testid="nav-finances"');
-  });
-
-  it("shows the leave confirmation as the only open menu layer", () => {
-    const open = shellReducer(INITIAL_SHELL_STATE, {
-      type: "toggle-navigation",
-    });
-    const confirming = shellReducer(open, { type: "ask-leave" });
-    const html = render(confirming);
-    expect(html).toContain('data-testid="leave-confirm"');
-    expect(html).not.toContain('data-testid="shell-nav-flyout"');
   });
 });
 
-describe("ShellNav section shortcuts", () => {
-  it("names the seven keyboard shortcuts on the corresponding bar buttons", () => {
-    const html = render(INITIAL_SHELL_STATE);
-    for (let shortcut = 1; shortcut <= 7; shortcut += 1) {
-      expect(html).toContain(`aria-keyshortcuts="Alt+Shift+${shortcut}"`);
+describe("fanLayout", () => {
+  it("fills the inner ring first, straight up, then opens a further ring", () => {
+    const layout = fanLayout(10);
+    expect(layout).toHaveLength(10);
+    expect(layout[0]).toEqual({ x: 0, y: -140, ring: 0 });
+    expect(layout.filter((at) => at.ring === 0)).toHaveLength(3);
+    expect(layout.filter((at) => at.ring === 1)).toHaveLength(5);
+    expect(layout.filter((at) => at.ring === 2)).toHaveLength(2);
+    // Everything opens up and to the right of the portrait.
+    for (const at of layout) {
+      expect(at.x).toBeGreaterThanOrEqual(0);
+      expect(at.y).toBeLessThan(0);
     }
-    expect(html.match(/aria-keyshortcuts=/g)).toHaveLength(7);
+  });
+
+  it("keeps neighbors on a ring far enough apart that entries never touch", () => {
+    // An entry's width plus a visible margin between neighbors.
+    const entry = 3.9 * 16 + 4;
+    const layout = fanLayout(18);
+    for (const ring of FAN_RINGS.keys()) {
+      const points = layout.filter((at) => at.ring === ring);
+      for (let i = 1; i < points.length; i += 1) {
+        const gap = Math.hypot(
+          points[i]!.x - points[i - 1]!.x,
+          points[i]!.y - points[i - 1]!.y,
+        );
+        expect(gap).toBeGreaterThan(entry);
+      }
+    }
+  });
+
+  it("fits the tallest ring used by the full menu inside a 768-pixel window", () => {
+    const top = Math.min(...fanLayout(10).map((at) => at.y));
+    // Portrait center sits about 54px above the bottom edge; entries are 62px.
+    expect(54 - top + 31).toBeLessThan(768);
   });
 });
 

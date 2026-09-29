@@ -1,10 +1,12 @@
+import { recordById } from "../history-index";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../dates";
-import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
 import {
-  measurePropositionAnswer,
-  type PropositionAnswer,
-} from "../issue-record";
+  enactmentStatuteDateContext,
+  STATUTE_EFFECTIVE_DEFAULT_DAYS,
+  stateRuleBasis,
+} from "../enacted-rule-changes";
+import { type PropositionAnswer } from "../issue-record";
 import { lawLevelRank, type LawLevel } from "../law-hierarchy";
 import {
   lifePlaceByJurisdictionId,
@@ -12,16 +14,26 @@ import {
 } from "../life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { STATES } from "../state-reference";
-import type { EntityId, IsoDate, World } from "../types";
+import type {
+  EntityId,
+  IsoDate,
+  LegislativeEnactmentRecord,
+  LegislativeMeasureRecord,
+  World,
+} from "../types";
+import { measureAnswersAt } from "../vote-bundle";
 import { mayAnswerQuestion } from "./question-authority";
+import { stateStatuteOperativeAt } from "./statute-effective-date";
 
 /**
  * What the law in force says on one policy question, for one place.
  *
  * Derived, never stored: read from the enacted measures that answered the
  * question (`propositionAnswers`), each operative from its enactment's own
- * effective date or, where the state's effective-date rule is not modeled,
- * the blanket statute default the rule-change reader already uses.
+ * effective date, else its state's own effective-date rule
+ * (`statute-effective-date.ts`, read or estimated), else, where that rule
+ * does not date the act, the blanket statute default the rule-change reader
+ * also uses.
  *
  * Which law governs follows `law-hierarchy.ts`: the place's own ordinances,
  * then its state's statutes, then Acts of Congress, and a higher level in
@@ -67,8 +79,17 @@ export interface LawInForce {
   readonly origin: "enacted" | "in-force-at-start";
   readonly level: LawLevel;
   readonly operativeAt: IsoDate;
-  /** `game-default` when the blanket effective date was applied. */
-  readonly operativeBasis: "enacted-date" | "game-default";
+  /**
+   * `state-rule` when the state's own effective-date rule dated it,
+   * `game-default` when the blanket effective date was applied.
+   */
+  readonly operativeBasis:
+    "enacted-date" | "state-rule" | "estimated-state-rule" | "game-default";
+  /**
+   * For a law the game began with: whether it also bars the place's
+   * localities from answering otherwise, where the starting-law row says.
+   */
+  readonly preempts?: boolean;
 }
 
 export function lawInForce(
@@ -76,24 +97,52 @@ export function lawInForce(
   jurisdictionId: EntityId,
   propositionId: EntityId,
   onDate: IsoDate = world.currentDate,
+  /**
+   * `enacted-only` leaves out the law the game began with. A law enacted in
+   * play always comes after the start, so it governs over a starting law on
+   * the same question even where the starting law is dated to take effect
+   * later (a program scheduled for 2028 and repealed in 2026 stays repealed).
+   */
+  scope: "all" | "enacted-only" = "all",
 ): LawInForce | null {
   const chain = governingChain(jurisdictionId);
   let best: Candidate | null = null;
-  for (const enactment of world.history.legislativeEnactments ?? []) {
-    if (enactment.outcome !== "enacted") continue;
-    const measure = world.history.legislativeMeasures?.find(
-      (entry) => entry.id === enactment.measureId,
-    );
-    if (!measure) continue;
+  const authority = new Map<EntityId, boolean>();
+  for (const { enactment, measure } of enactedByQuestion(world).get(
+    propositionId,
+  ) ?? []) {
     const level = chain.get(measure.jurisdictionId);
     if (!level) continue;
-    const answer = measurePropositionAnswer(measure, propositionId);
+    // The law as enacted, sections an amendment or a rider put in included.
+    const answer =
+      measureAnswersAt(world, measure.id, enactment.sequence).find(
+        (row) => row.propositionId === propositionId,
+      )?.answer ?? null;
     if (!answer) continue;
     // Beyond its level's powers: on the record, and governing nothing.
-    if (!mayAnswerQuestion(world, measure.jurisdictionId, propositionId))
-      continue;
+    let may = authority.get(measure.jurisdictionId);
+    if (may === undefined) {
+      may = mayAnswerQuestion(
+        world,
+        measure.jurisdictionId,
+        propositionId,
+        onDate,
+      );
+      authority.set(measure.jurisdictionId, may);
+    }
+    if (!may) continue;
+    const placeKey = startingLawPlaceKey(measure.jurisdictionId);
+    const stateRuleAt =
+      enactment.effectiveAt || !placeKey?.startsWith("US-")
+        ? null
+        : stateStatuteOperativeAt(
+            placeKey,
+            enactment.resolvedAt,
+            enactmentStatuteDateContext(world, enactment),
+          );
     const operativeAt =
       enactment.effectiveAt ??
+      stateRuleAt ??
       addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS);
     if (operativeAt > onDate) continue;
     const candidate = {
@@ -103,13 +152,22 @@ export function lawInForce(
       operativeAt,
       operativeBasis: enactment.effectiveAt
         ? ("enacted-date" as const)
-        : ("game-default" as const),
+        : stateRuleAt
+          ? stateRuleBasis(
+              placeKey!,
+              enactment.resolvedAt,
+              enactmentStatuteDateContext(world, enactment),
+            )
+          : ("game-default" as const),
       origin: "enacted" as const,
       sequence: enactment.sequence,
     };
     if (!best || governs(candidate, best)) best = candidate;
   }
-  const starting = startingLawCandidate(world, chain, propositionId, onDate);
+  const starting =
+    scope === "all"
+      ? startingLawCandidate(world, chain, propositionId, onDate)
+      : null;
   if (starting && (!best || governs(starting, best))) best = starting;
   if (!best) return null;
   return {
@@ -119,7 +177,56 @@ export function lawInForce(
     level: best.level,
     operativeAt: best.operativeAt,
     operativeBasis: best.operativeBasis,
+    ...(best.preempts === undefined ? {} : { preempts: best.preempts }),
   };
+}
+
+interface EnactedMeasure {
+  readonly enactment: LegislativeEnactmentRecord;
+  readonly measure: LegislativeMeasureRecord;
+}
+
+const ENACTED_BY_QUESTION = new WeakMap<
+  readonly LegislativeEnactmentRecord[],
+  {
+    readonly measures: readonly LegislativeMeasureRecord[];
+    readonly byQuestion: ReadonlyMap<EntityId, readonly EnactedMeasure[]>;
+  }
+>();
+
+/**
+ * The enacted measures that answer each question, in enactment order. Every
+ * member's every vote asks what law is in force, and reading every enactment
+ * the world has ever had for each one grew with the save. Both lists only
+ * grow, so this is rebuilt when either one changes.
+ */
+function enactedByQuestion(
+  world: World,
+): ReadonlyMap<EntityId, readonly EnactedMeasure[]> {
+  const enactments = world.history.legislativeEnactments ?? [];
+  const measures = world.history.legislativeMeasures ?? [];
+  const cached = ENACTED_BY_QUESTION.get(enactments);
+  if (cached && cached.measures === measures) return cached.byQuestion;
+  const byQuestion = new Map<EntityId, EnactedMeasure[]>();
+  for (const enactment of enactments) {
+    if (enactment.outcome !== "enacted") continue;
+    const measure = recordById(measures, enactment.measureId);
+    if (!measure) continue;
+    // Every question the law answers as enacted: the ones it was filed on,
+    // and any a section an amendment or a rider put in answers (Build 25).
+    for (const propositionId of new Set([
+      ...(measure.propositionIds ?? []),
+      ...measureAnswersAt(world, measure.id, enactment.sequence).map(
+        (row) => row.propositionId,
+      ),
+    ])) {
+      const list = byQuestion.get(propositionId) ?? [];
+      list.push({ enactment, measure });
+      byQuestion.set(propositionId, list);
+    }
+  }
+  ENACTED_BY_QUESTION.set(enactments, { measures, byQuestion });
+  return byQuestion;
 }
 
 interface StartingLawRow {
@@ -131,6 +238,15 @@ interface StartingLawRow {
    * blanket rank.
    */
   readonly preempts?: boolean;
+  /**
+   * What the place's law said before `operativeAt`, for a row whose answer
+   * takes effect after the game begins (a program enacted but not yet
+   * started). Unsaid: nothing is known before that date.
+   */
+  readonly before?: {
+    readonly answer: PropositionAnswer;
+    readonly preempts?: boolean;
+  };
 }
 
 const STARTING_LAW = startingLaw as unknown as {
@@ -182,11 +298,16 @@ function startingLawCandidate(
   if (starting) {
     for (const [placeId, level] of chain) {
       const placeKey = startingLawPlaceKey(placeId);
-      const row = placeKey ? starting.answers[placeKey] : undefined;
-      if (!row) continue;
-      const operativeAt = makeIsoDate(
-        row.operativeAt ?? STARTING_LAW.defaultOperativeAt,
-      );
+      const dated = placeKey ? starting.answers[placeKey] : undefined;
+      if (!dated) continue;
+      const defaultAt = makeIsoDate(STARTING_LAW.defaultOperativeAt);
+      const answerAt = makeIsoDate(dated.operativeAt ?? defaultAt);
+      // Before its answer takes effect, a row says what held until then.
+      const row =
+        answerAt > onDate && dated.before
+          ? { ...dated.before, operativeAt: undefined }
+          : dated;
+      const operativeAt = row === dated ? answerAt : defaultAt;
       if (operativeAt > onDate) continue;
       const candidate: Candidate = {
         answer: row.answer,
@@ -197,6 +318,7 @@ function startingLawCandidate(
         origin: "in-force-at-start" as const,
         // Before any enactment: a law enacted in play on the same day governs.
         sequence: -1,
+        ...(row.preempts === undefined ? {} : { preempts: row.preempts }),
         ...(level === "state-statute" &&
         row.answer === "no" &&
         row.preempts === false
@@ -244,6 +366,11 @@ function governingRank(law: Candidate): number {
 function governs(candidate: Candidate, current: Candidate): boolean {
   const rank = governingRank(candidate) - governingRank(current);
   if (rank !== 0) return rank > 0;
+  // A law enacted in play was passed after every law the game began with,
+  // so it governs even when a starting law takes effect later: a repeal of
+  // a starting law not yet in force leaves nothing of it to take effect.
+  if (candidate.origin !== current.origin)
+    return candidate.origin === "enacted";
   if (candidate.operativeAt !== current.operativeAt)
     return candidate.operativeAt > current.operativeAt;
   return candidate.sequence > current.sequence;
@@ -253,6 +380,13 @@ function governs(candidate: Candidate, current: Candidate): boolean {
  * The jurisdictions whose law reaches a place, each with the level its
  * ordinary acts rank at: the place itself, its state, and the United States.
  */
+/** The rank of the law a place's own lawmakers enact there. */
+export function ownLawLevel(jurisdictionId: EntityId): LawLevel {
+  return (
+    governingChain(jurisdictionId).get(jurisdictionId) ?? "local-ordinance"
+  );
+}
+
 function governingChain(
   jurisdictionId: EntityId,
 ): ReadonlyMap<EntityId, LawLevel> {

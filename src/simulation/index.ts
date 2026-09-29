@@ -142,6 +142,18 @@ export type {
   CommitCampaignWeekInput,
 } from "./campaign-weekly-plans";
 export {
+  CAMPAIGN_ROUTINE_WORK,
+  campaignRoutineSlots,
+  currentCampaignRoutine,
+  describeCampaignRoutine,
+  setCampaignRoutine,
+} from "./campaign-routine";
+export type {
+  CampaignRoutineBlock,
+  CampaignRoutineRecord,
+  CampaignRoutineWork,
+} from "./campaign-routine";
+export {
   chooseCampaignWeekAction,
   projectCampaignWeekActions,
 } from "./campaign-week-actions";
@@ -246,6 +258,10 @@ export * from "./life-callbacks";
 export * from "./life-opportunities";
 export * from "./life-choice-evidence";
 export * from "./commitment-seam";
+export * from "./favors";
+export * from "./undertakings";
+export * from "./favor-collection";
+export * from "./campaign-stands";
 export * from "./relationship-leverage";
 export * from "./taxonomy";
 export * from "./time-work";
