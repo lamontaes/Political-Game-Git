@@ -4,6 +4,7 @@ import type {
   CampaignLifeOutcomeRecord,
   CampaignOpponentRecord,
   CampaignOpponentStepRecord,
+  CampaignRoutineRecord,
   CampaignWeeklyPlanRecord,
 } from "./campaign-life-types";
 import type { WorldContentPacks } from "./runtime-content-packs";
@@ -116,6 +117,7 @@ export type EntityKind =
   | "campaign-life-activity"
   | "campaign-life-outcome"
   | "campaign-weekly-plan"
+  | "campaign-routine"
   | "campaign-opponent"
   | "campaign-opponent-step"
   | "national-election"
@@ -2989,7 +2991,7 @@ export type FutureTransitionHandler = (
  */
 export interface RoutineWindow {
   readonly relationshipId: EntityId;
-  readonly kind: "work" | "study";
+  readonly kind: "work" | "study" | "campaign";
   readonly start: SimulationMoment;
   readonly end: SimulationMoment;
   readonly autoResolvable: boolean;
@@ -4338,6 +4340,8 @@ export interface HistoryStore {
   readonly campaignLifeActivities?: readonly CampaignLifeActivityRecord[];
   readonly campaignLifeOutcomes?: readonly CampaignLifeOutcomeRecord[];
   readonly campaignWeeklyPlans?: readonly CampaignWeeklyPlanRecord[];
+  /** D-11; optional so earlier saves read as having no campaign routine. */
+  readonly campaignRoutines?: readonly CampaignRoutineRecord[];
   readonly campaignOpponents?: readonly CampaignOpponentRecord[];
   readonly campaignOpponentSteps?: readonly CampaignOpponentStepRecord[];
   /** Optional so pre-NEWS-HELP2 snapshots remain structurally readable. */
@@ -4783,6 +4787,12 @@ export interface LegislativeEnactmentRecord {
    * default effective-date rule, which is not the same as taking effect now.
    */
   readonly effectiveAt: IsoDate | null;
+  /**
+   * The legislature's final passing vote: the last chamber passage or
+   * concurrence before enactment. A state that dates its acts from passage
+   * (Illinois) counts from it. Absent on records written before it was kept.
+   */
+  readonly finalPassageAt?: IsoDate | null;
   readonly outcomeEventId: EntityId;
 }
 
@@ -5278,6 +5288,7 @@ export type FormativeLifeSituationKey =
 export type AdultLifeSituationKey =
   | "adult.household-repair"
   | "adult.household-money-shortfall"
+  | "adult.eviction-case"
   | "adult.family-request"
   | "adult.care-request"
   | "adult.partner-plan"

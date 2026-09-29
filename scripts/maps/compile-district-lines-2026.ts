@@ -320,9 +320,6 @@ async function main(): Promise<void> {
     format: "ocd-district-lines-2026/v1",
     vintage: LINES_2026_VINTAGE,
     asOf: "2026-08-24",
-    effectiveFrom: "2026-01-01",
-    effectiveFromNote:
-      "PLACEHOLDER: one shared start date, the first day of the 2026 election year. Each state's plan took effect on its own enactment date, which is not sourced yet.",
     states,
   };
   mkdirSync(join(ROOT, LINES_2026_DIRECTORY), { recursive: true });

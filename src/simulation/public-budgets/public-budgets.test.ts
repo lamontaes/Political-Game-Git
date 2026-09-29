@@ -17,6 +17,14 @@ import {
   type PublicBudgetStore,
 } from ".";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
+import { MEDIAN_PAID_SHARE } from "./pension-share";
+import {
+  MEDIAN_RESERVE_DEPOSIT,
+  MEDIAN_RESERVE_TARGET,
+  reserveRule,
+} from "./reserve-rule";
+import { fundingGovernment } from "./staffing";
+import { TAX_QUESTION_EFFECTS } from "./rules";
 
 /*
  * Every government keeps a budget, and the three budget laws act on it. The
@@ -28,10 +36,12 @@ import { settleGovernmentMonth, type MonthFlows } from "./month";
 const BALANCED = "proposition_balanced" as EntityId;
 const RESERVE = "proposition_reserve" as EntityId;
 const PENSIONS = "proposition_pensions" as EntityId;
+const GRADUATED = "proposition_graduated" as EntityId;
 const QUESTIONS: Readonly<Record<string, EntityId>> = {
   "fiscal.balanced-operating-budget": BALANCED,
   "fiscal.minimum-reserve-balance": RESERVE,
   "fiscal.fund-pensions-to-schedule": PENSIONS,
+  "fiscal.graduated-income-tax": GRADUATED,
 };
 const illinois = stateJurisdictionForKey("US-IL")!.id;
 
@@ -209,7 +219,10 @@ describe("public budgets", () => {
   });
 
   it("Illinois opens at its Census figures per resident times its 2024 population, and adopts fiscal 2027 on July 1", () => {
-    const world = runThrough(opened(worldAt("2026-01-05")), "2026-06-01");
+    const start = opened(worldAt("2026-01-05"));
+    // The opening reserve, before Illinois' own reserve law moves a surplus.
+    expect(publicBudgetFor(start, illinois)!.reserve).toBe(2_518_000_000);
+    const world = runThrough(start, "2026-06-01");
     const state = publicBudgetFor(world, illinois)!;
     expect(state.population).toBe(12_710_158);
     expect(state.fiscalYearStart).toBe("07-01");
@@ -219,7 +232,6 @@ describe("public budgets", () => {
     const incomeTax =
       opening.expectedRevenue[BUDGET_SOURCES.indexOf("individualIncomeTax")]!;
     expect(incomeTax / 12_710_158).toBeCloseTo(1795.36 * 1.1506, 0);
-    expect(state.reserve).toBe(2_518_000_000);
     const next = state.years[1]!;
     expect(next.fiscalYear).toBe(2027);
     expect(next.startsOn).toBe("2026-07-01");
@@ -293,7 +305,11 @@ describe("public budgets", () => {
       Math.round(lawful.years[0]!.appropriations[pension]! / 12),
     );
 
-    const without = worldAt("2026-01-05");
+    // Illinois begins with a balanced-budget law, so "without" is a law
+    // enacted in play that says no.
+    const without = worldAt("2026-01-05", {
+      laws: [{ question: BALANCED, answer: "no", jurisdictionId: illinois }],
+    });
     const loose = shortfall(publicBudgetFor(opened(without), illinois)!);
     const debtRun = settleAlone(without, loose, "2026-06-01");
     expect(debtRun.adjustments.some((row) => row.kind === "mid-year-cut")).toBe(
@@ -302,14 +318,19 @@ describe("public budgets", () => {
     const borrowed = debtRun.adjustments.find(
       (row) => row.kind === "deficit-borrowed",
     )!;
-    expect(borrowed.law?.reading.answer).toBe("unknown");
+    expect(borrowed.law?.reading.answer).toBe("no");
     expect(debtRun.government.debt).toBe(loose.debt + borrowed.amount);
     expect(debtRun.government.balance).toBe(0);
   });
 
   it("a minimum-reserve law sends the year's surplus to the reserve and sets a deposit; without it the surplus stays in the balance", () => {
+    // The reserve law alone: Illinois' own balanced-budget law, which the
+    // game begins with, would cut a shortfall to a small surplus instead.
     const withLaw = worldAt("2026-01-05", {
-      laws: [{ question: RESERVE, answer: "yes", jurisdictionId: illinois }],
+      laws: [
+        { question: RESERVE, answer: "yes", jurisdictionId: illinois },
+        { question: BALANCED, answer: "no", jurisdictionId: illinois },
+      ],
     });
     const state = publicBudgetFor(opened(withLaw), illinois)!;
     const low = { ...state, reserve: 0 };
@@ -333,7 +354,11 @@ describe("public budgets", () => {
     expect(deposit?.law?.reading.answer).toBe("yes");
     expect(short.government.years.at(-1)!.reserveDeposit).toBe(deposit!.amount);
 
-    const without = worldAt("2026-01-05");
+    // Illinois begins with a reserve law, so "without" is a law enacted in
+    // play that says no.
+    const without = worldAt("2026-01-05", {
+      laws: [{ question: RESERVE, answer: "no", jurisdictionId: illinois }],
+    });
     const loose = {
       ...publicBudgetFor(opened(without), illinois)!,
       reserve: 0,
@@ -346,7 +371,7 @@ describe("public budgets", () => {
   });
 
   it("without a pension law the government pays its own measured share, and its unfunded liability grows faster", () => {
-    // In this seed Illinois' own share is below the full contribution.
+    // Illinois' own reported share is below the full contribution.
     const seed = "budget-test-3";
     const withLaw = worldAt("2026-01-05", {
       seed,
@@ -373,7 +398,8 @@ describe("public budgets", () => {
     const underpaid = partial.adjustments.filter(
       (row) => row.kind === "pension-underpaid",
     );
-    expect(underpaid[0]!.law?.reading.answer).toBe("unknown");
+    // Illinois' own law funds pensions below the schedule (starting law).
+    expect(underpaid[0]!.law?.reading.answer).toBe("no");
     // The opening year ran January to June: six months of the shortfall
     // went unpaid, not a whole year's.
     expect(underpaid[0]!.amount).toBeCloseTo(
@@ -390,27 +416,34 @@ describe("public budgets", () => {
     );
   });
 
-  it("each government's own pension share is spread around the measured average and drifts from year to year", () => {
+  it("each government's pension share starts from its own reported payment, or the median where none is reported, and holds", () => {
     const world = runThrough(
-      opened(worldAt("2026-01-05", { seed: "round-1" })),
+      opened(worldAt("2026-01-05", { places: ["1714000", "county:17031"] })),
       "2027-12-01",
     );
-    const governments = world.publicBudgets!.governments;
-    const opening = governments.map((row) => row.years[0]!.pensionShare);
-    // Most measured plans paid the full amount, and some paid less or more.
-    expect(opening.filter((share) => share === 1).length).toBeGreaterThan(
-      governments.length / 4,
+    const share = (key: string) =>
+      world.publicBudgets!.governments.find((row) => row.key === key)!;
+    // Public Plans Database: Illinois' state plans paid 73.27% of the
+    // required contribution, weighted by liability; Nevada's plans are not
+    // listed, so it pays the median of every plan.
+    expect(share("US-IL").years[0]!.pensionShare).toBe(0.7327);
+    expect(share("US-NV").years[0]!.pensionShare).toBe(MEDIAN_PAID_SHARE);
+    expect(share("US-NV").openingNotes.join(" ")).toContain(
+      "ESTIMATED FROM AVERAGE",
     );
-    expect(opening.some((share) => share < 1)).toBe(true);
-    expect(opening.some((share) => share > 1)).toBe(true);
-    const drifted = governments.filter(
-      (row) => row.years.at(-1)!.pensionShare !== row.years[0]!.pensionShare,
+    // Chicago and Cook County read their own plans.
+    const chicago = share("place:1714000");
+    expect(chicago.years[0]!.pensionShare).toBe(0.8635);
+    expect(chicago.openingNotes.join(" ")).toContain(
+      "as its own plans reported",
     );
-    expect(drifted.length).toBeGreaterThan(0);
-    // A world without a seed takes the measured median and never drifts.
-    const plain = runThrough(opened(worldAt("2026-01-05")), "2027-12-01");
-    for (const row of plain.publicBudgets!.governments)
-      for (const year of row.years) expect(year.pensionShare).toBe(1);
+    expect(share("county:17031").openingNotes.join(" ")).toContain(
+      "as its own plans reported",
+    );
+    // The share holds from year to year until budgets pass as bills.
+    for (const row of world.publicBudgets!.governments)
+      for (const year of row.years)
+        expect(year.pensionShare).toBe(row.years[0]!.pensionShare);
   });
 
   it("a pension law enacted after the budget was adopted governs the next budget, and the year's shortfall is credited to the law read at adoption", () => {
@@ -437,7 +470,7 @@ describe("public budgets", () => {
       "2027-06-01",
     );
     const [fiscal2026, fiscal2027, fiscal2028] = settled.government.years;
-    expect(fiscal2027!.laws.pensions.answer).toBe("unknown");
+    expect(fiscal2027!.laws.pensions.answer).toBe("no");
     expect(fiscal2028!.laws.pensions.answer).toBe("yes");
     const pension = BUDGET_PROGRAMS.indexOf("pensionContribution");
     expect(fiscal2028!.appropriations[pension]).toBe(
@@ -452,9 +485,9 @@ describe("public budgets", () => {
       fiscal2026!.fiscalYear,
       fiscal2027!.fiscalYear,
     ]);
-    expect(
-      underpaid.every((row) => row.law?.reading.answer === "unknown"),
-    ).toBe(true);
+    expect(underpaid.every((row) => row.law?.reading.answer === "no")).toBe(
+      true,
+    );
   });
 
   it("income tax withheld from represented people is counted dollar for dollar, and the modeled part covers only everyone else", () => {
@@ -517,7 +550,13 @@ describe("public budgets", () => {
     );
     const state = publicBudgetFor(world, illinois)!.years[0]!.laws;
     expect(state.balanced.answer).toBe("yes");
-    expect(state.reserve.answer).toBe("unknown");
+    // Illinois' own reserve statute, which the game begins with.
+    expect(state.reserve).toEqual({
+      answer: "yes",
+      measureId:
+        "starting-law:US-IL:us-policy-positions:fiscal.minimum-reserve-balance",
+      level: "state-statute",
+    });
     const city = publicBudgetFor(world, chicagoId)!.years[0]!.laws;
     expect(city.balanced.answer).toBe("unknown");
     expect(city.reserve).toEqual({
@@ -564,26 +603,89 @@ describe("public budgets", () => {
     ).toBe(3_184_835);
   });
 
-  it("a place with no government whose county area has none either keeps no budget, and says why", () => {
+  it("a place with no government in a county area with none is served by its town, its consolidated government or its state", () => {
     // Bethel, Connecticut is a census-designated place in a state with no
-    // county governments; its town government is not linked yet.
+    // county governments: the Town of Bethel serves it. Ahuimanu, Hawaii is
+    // served by the City and County of Honolulu, a consolidated government.
+    // Akiachak, Alaska lies in Alaska's unorganized borough, where no borough or
+    // town government exists: the state serves it directly.
     const store = opened(
-      worldAt("2026-01-05", { places: ["0904790"] }),
+      worldAt("2026-01-05", { places: ["0904790", "1500400", "0200760"] }),
     ).publicBudgets!;
-    expect(store.governments.filter((row) => row.level !== "state")).toEqual(
-      [],
+    expect(store.unknown).toEqual([]);
+    const bethel = store.governments.find(
+      (row) => row.key === "town:0919004720",
+    )!;
+    expect(bethel.level).toBe("city");
+    expect(bethel.name).toBe("Town of Bethel, Connecticut");
+    // The town's own population, not the census-designated place's.
+    expect(bethel.population).toBeGreaterThan(11_404);
+    expect(sum(bethel.years[0]!.appropriations)).toBeGreaterThan(0);
+    expect(bethel.lawJurisdictionId).toBe(
+      lifePlaceByKey("0904790")!.context.jurisdiction.id,
     );
-    expect(store.unknown).toEqual([
-      expect.objectContaining({
-        key: "place:0904790",
-        reason: expect.stringMatching(/no county government/),
-      }),
-    ]);
+    const honolulu = store.governments.find(
+      (row) => row.key === "county:15003",
+    )!;
+    expect(honolulu.level).toBe("county");
+    // Each place's police are funded by the government that serves it.
+    const world = opened(
+      worldAt("2026-01-05", { places: ["0904790", "1500400", "0200760"] }),
+    );
+    const police = (key: string) =>
+      fundingGovernment(
+        world,
+        lifePlaceByKey(key)!.context.jurisdiction.id,
+        "serving-local",
+      )?.key;
+    expect(police("0904790")).toBe("town:0919004720");
+    expect(police("1500400")).toBe("county:15003");
+    expect(police("0200760")).toBe("US-AK");
+    expect(
+      store.governments.filter(
+        (row) => row.level !== "state" && row !== bethel && row !== honolulu,
+      ),
+    ).toEqual([]);
+  });
+
+  it("each state's reserve law sets its own target and yearly deposit; one that sets none, and every county and city, takes the median state's", () => {
+    // NASBO 2021, Table 13: Rhode Island fills its fund to 5% of general
+    // revenue, 3% a year; Texas caps its fund at 10% of a two-year
+    // biennium's revenue, 20% of one year's.
+    expect(reserveRule({ key: "US-RI", level: "state" })).toMatchObject({
+      floorShare: 0.05,
+      depositShare: 0.03,
+    });
+    expect(reserveRule({ key: "US-TX", level: "state" })).toMatchObject({
+      floorShare: 0.2,
+      depositShare: MEDIAN_RESERVE_DEPOSIT,
+    });
+    // Illinois' Budget Stabilization Fund has no size in law.
+    const illinoisRule = reserveRule({ key: "US-IL", level: "state" });
+    expect(illinoisRule.floorShare).toBe(MEDIAN_RESERVE_TARGET);
+    expect(illinoisRule.basis).toMatch(/ESTIMATED FROM AVERAGE/);
+    expect(MEDIAN_RESERVE_TARGET).toBe(0.1);
+    expect(MEDIAN_RESERVE_DEPOSIT).toBe(0.01);
+    const chicago = reserveRule({ key: "place:1714000", level: "city" });
+    expect(chicago.floorShare).toBe(MEDIAN_RESERVE_TARGET);
+    expect(chicago.basis).toMatch(/own reserve policy is not read yet/);
   });
 
   it("the balance above the reserve target is carried into the next budget and spent across the year, once", () => {
-    const world = worldAt("2026-01-05");
-    const state = publicBudgetFor(opened(world), illinois)!;
+    // Without a reserve law, which Illinois begins with, a surplus stays in
+    // the balance.
+    const world = worldAt("2026-01-05", {
+      laws: [{ question: RESERVE, answer: "no", jurisdictionId: illinois }],
+    });
+    // Its reserve starts at its target, so the whole spare balance is
+    // carried.
+    const opening = publicBudgetFor(opened(world), illinois)!;
+    const state = {
+      ...opening,
+      reserve: Math.round(
+        reserveRule(opening).floorShare * sum(opening.years[0]!.appropriations),
+      ),
+    };
     const run = settleAlone(world, state, "2027-06-01");
     const carried = run.adjustments.filter(
       (row) => row.kind === "balance-carried",
@@ -604,7 +706,10 @@ describe("public budgets", () => {
     const june2026 = run.government.months.find(
       (row) => row.month === "2026-06-01",
     )!;
-    const target = 0.05 * sum(state.years[0]!.appropriations);
+    // Illinois' own law sets no size, so its target is the median state's.
+    expect(reserveRule(state).floorShare).toBe(MEDIAN_RESERVE_TARGET);
+    const target =
+      reserveRule(state).floorShare * sum(state.years[0]!.appropriations);
     expect(carried[0]!.amount).toBe(
       Math.round(june2026.balance - Math.max(0, target - june2026.reserve)),
     );
@@ -664,6 +769,60 @@ describe("public budgets", () => {
     const june = months.find((row) => row.month === "2026-06-01")!;
     const july = months.find((row) => row.month === "2026-07-01")!;
     expect(july.revenue[aid]!).toBeGreaterThan(june.revenue[aid]!);
+  });
+
+  it("a state income tax law changes the income tax from the month it takes effect, and the next budgets count it once", () => {
+    // Illinois began with a flat income tax; a graduated one takes effect on
+    // March 1, 2026.
+    const graduated = TAX_QUESTION_EFFECTS.find((row) =>
+      row.questionKey.endsWith("graduated-income-tax"),
+    )!;
+    const withLaw = worldAt("2026-01-05", {
+      laws: [{ question: GRADUATED, answer: "yes", jurisdictionId: illinois }],
+      history: {
+        legislativeEnactments: [
+          {
+            id: "enactment_0" as EntityId,
+            sequence: 1000,
+            measureId: "measure_0" as EntityId,
+            resolvedAt: makeIsoDate("2026-02-01"),
+            outcome: "enacted",
+            effectiveAt: makeIsoDate("2026-03-01"),
+          },
+        ] as unknown as World["history"]["legislativeEnactments"],
+      },
+    });
+    const without = worldAt("2026-01-05");
+    const run = (world: World) =>
+      settleAlone(
+        world,
+        publicBudgetFor(opened(world), illinois)!,
+        "2028-06-01",
+      ).government;
+    const lawful = run(withLaw);
+    const flat = run(without);
+    const at = BUDGET_SOURCES.indexOf("individualIncomeTax");
+    const month = (government: PublicBudgetGovernment, on: string) =>
+      government.months.find((row) => row.month === on)!.revenue[at]!;
+    const size = 1 + graduated.toYes!;
+    expect(size).toBeCloseTo(1 + 3.4 / 22.7, 6);
+    // Nothing before it takes effect; the full change from that month on.
+    expect(month(lawful, "2026-02-01")).toBe(month(flat, "2026-02-01"));
+    expect(month(lawful, "2026-03-01") / month(flat, "2026-03-01")).toBeCloseTo(
+      size,
+      4,
+    );
+    // Fiscal 2027 and 2028 each expect the change once, not compounded.
+    for (const fy of [1, 2]) {
+      const ratio =
+        lawful.years[fy]!.expectedRevenue[at]! /
+        flat.years[fy]!.expectedRevenue[at]!;
+      expect(ratio).toBeCloseTo(size, 3);
+    }
+    expect(month(lawful, "2028-03-01") / month(flat, "2028-03-01")).toBeCloseTo(
+      size,
+      3,
+    );
   });
 
   it("maps an appropriation's program to its budget line", () => {

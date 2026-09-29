@@ -1,0 +1,172 @@
+{
+  "question": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+  "definition": "yes (preempts false) = a state law creates a statewide civilian body that investigates police complaints or expressly authorizes local civilian boards with investigative or subpoena power; no (preempts true) = a state law bars or strips local civilian boards' power to investigate police complaints; no (preempts false) = no state law either way (only with a fetched complete tracker).",
+  "summarySource": "State code and legislature pages fetched 9/28/2026: Fla. HB 601 (2024), Tenn. SB 591 (2023), Ariz. Rev. Stat. 38-1117, Cal. Gov. Code 25303.7, D.C. Code 5-1107, Md. Pub. Safety 3-102/3-104, Mass. G.L. c. 6E, Minn. Stat. 626.89, Mo. Rev. Stat. 590.653, NRS 289, Va. Code 9.1-601, RCW 43.102, Wis. Stat. 62.13; no complete tracker fetchable.",
+  "answers": {
+    "US-FL": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Fla. Stat. \u00a7 112.533(3) (ch. 2024-86, Laws of Fla., HB 601)",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.flsenate.gov/Session/Bill/2024/601",
+      "note": "Since 7/1/2024 local governments may not adopt ordinances on investigating police misconduct complaints or on civilian oversight of those investigations; sheriffs and police chiefs may set up civilian boards that only review policies.",
+      "operativeAt": "2024-07-01"
+    },
+    "US-TN": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Tenn. Code Ann. Title 38, Ch. 8 (Pub. Ch. 454, 2023, SB 591)",
+      "dateBasis": "enacted-effective",
+      "source": "https://wapp.capitol.tn.gov/apps/BillInfo/Default.aspx?BillNumber=SB0591&GA=113",
+      "note": "The 2023 law abolished community oversight boards and lets cities create police advisory and review committees that send complaints to internal affairs, review its files and may only ask for further investigation; they have no subpoena power.",
+      "operativeAt": "2023-07-01"
+    },
+    "US-AZ": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Ariz. Rev. Stat. \u00a7 38-1117",
+      "dateBasis": "not-found",
+      "source": "https://www.azleg.gov/ars/38/01117.htm",
+      "note": "At least two-thirds of any government body that investigates officer misconduct or recommends or imposes discipline must be certified officers from the officer's own department, so a civilian board may only review decisions after the fact."
+    },
+    "US-CA": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Cal. Gov. Code \u00a7 25303.7 (AB 1185, 2020)",
+      "dateBasis": "not-found",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=25303.7",
+      "note": "Counties may create civilian sheriff oversight boards and an inspector general with subpoena power over the sheriff's department; AB 1185 took effect in 2021 and AB 847 (ch. 383) amended the section effective 1/1/2026."
+    },
+    "US-DC": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "D.C. Code \u00a7 5-1107 (D.C. Law 12-208)",
+      "dateBasis": "pre-2000",
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/5-1107",
+      "note": "The District's Office of Police Complaints and Police Complaints Board receive, investigate and adjudicate civilian complaints against Metropolitan Police officers."
+    },
+    "US-MD": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Md. Code, Pub. Safety \u00a7\u00a7 3-102, 3-104 (Police Accountability Act of 2021)",
+      "dateBasis": "not-found",
+      "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gps&section=3-104&enactments=false",
+      "note": "Every county must have a police accountability board that takes public complaints and an administrative charging committee with civilian members that reviews each misconduct investigation, can require more investigation and subpoenas, and decides whether to charge the officer."
+    },
+    "US-MA": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Mass. Gen. Laws ch. 6E, \u00a7\u00a7 2, 8 (St. 2020, c. 253)",
+      "dateBasis": "not-found",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter6E/Section8",
+      "note": "The Peace Officer Standards and Training Commission, a nine-member board with a civilian majority, has a division of police standards that receives every agency's complaints, investigates officer misconduct and recommends discipline up to decertification."
+    },
+    "US-MN": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Minn. Stat. \u00a7 626.89, subd. 17",
+      "dateBasis": "not-found",
+      "source": "https://www.revisor.mn.gov/statutes/cite/626.89",
+      "note": "Local governments may create civilian oversight councils that investigate misconduct after any criminal case, subpoena testimony and documents, and make findings and recommend discipline to the chief."
+    },
+    "US-MO": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Mo. Rev. Stat. \u00a7 590.653",
+      "dateBasis": "enacted-effective",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=590.653",
+      "note": "Since 2000 cities and counties may create civilian review boards to receive, investigate and make findings on public complaints; a 2024 amendment (SB 754, effective 8/28/2024) limits them to those powers and voids any broader authority.",
+      "operativeAt": "2000-08-28"
+    },
+    "US-NV": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Nev. Rev. Stat. \u00a7\u00a7 289.380-289.390",
+      "dateBasis": "pre-2000",
+      "source": "https://www.leg.state.nv.us/nrs/nrs-289.html",
+      "note": "Cities and counties may create civilian review boards whose panels review internal investigations, recommend discipline and may subpoena witnesses and documents; they have no jurisdiction over alleged crimes."
+    },
+    "US-VA": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Va. Code \u00a7 9.1-601",
+      "dateBasis": "not-found",
+      "source": "https://law.lis.virginia.gov/vacode/title9.1/chapter6/section9.1-601/",
+      "note": "Localities may create civilian oversight bodies that investigate complaints, issue findings, make binding discipline decisions in serious cases and seek court subpoenas (2020 Special Session I, cc. 29-30)."
+    },
+    "US-WA": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Rev. Code Wash. ch. 43.102 (2021 c 318)",
+      "dateBasis": "not-found",
+      "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=43.102.020",
+      "note": "The 2021 law created the Office of Independent Investigations in the governor's office to investigate police uses of deadly force independently of police agencies; it covers serious incidents, not every complaint."
+    },
+    "US-WI": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Wis. Stat. \u00a7 62.13(5)",
+      "dateBasis": "pre-2000",
+      "source": "https://docs.legis.wisconsin.gov/document/statutes/62.13(5)",
+      "note": "State law gives each city's citizen police and fire commission the power to hear charges filed by any aggrieved person against an officer and to impose discipline; it is a hearing board rather than an investigating office."
+    }
+  },
+  "unknown": {
+    "US-AL": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-AK": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-AR": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-CO": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-CT": "Believed to authorize local civilian review boards with subpoena power (2020 Police Accountability Act), but cga.ct.gov failed TLS verification and codes.findlaw.com returned 403, so the statute text could not be fetched.",
+    "US-DE": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-GA": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-HI": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-ID": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-IL": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-IN": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-IA": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-KS": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-KY": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-LA": "No statute barring or authorizing civilian investigation of police complaints was found in a fetched page, and no complete tracker could be fetched (nacole.org 403).",
+    "US-ME": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-MI": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-MS": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-MT": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-NE": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-NH": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-NJ": "Newark's review board powers rest on a 2021 state supreme court ruling; njcourts.gov returned 403 and no state statute granting or barring investigative power was fetched.",
+    "US-NM": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-NY": "New York City's review board is created by city charter; no state statute either way was fetched, and no complete tracker could be fetched (nacole.org 403).",
+    "US-NC": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-ND": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-OH": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-OK": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-OR": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-PA": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-RI": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-SC": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-SD": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-TX": "No statute barring or authorizing civilian investigation of police complaints was found in a fetched page, and no complete tracker could be fetched (nacole.org 403).",
+    "US-UT": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-VT": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-WV": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-WY": "No state statute either way was found in fetched pages, and no complete state-by-state tracker could be fetched (nacole.org returned 403), so absence could not be confirmed.",
+    "US-PR": "Territory not confirmed from a fetched primary source.",
+    "US-GU": "Territory not confirmed from a fetched primary source.",
+    "US-VI": "Territory not confirmed from a fetched primary source.",
+    "US-AS": "Territory not confirmed from a fetched primary source.",
+    "US-MP": "Territory not confirmed from a fetched primary source."
+  },
+  "conflicts": [],
+  "counts": {
+    "yes": 10,
+    "no": 3,
+    "unknown": 43
+  },
+  "refusedHosts": [
+    "www.nacole.org (403)",
+    "www.leg.state.fl.us (403)",
+    "www.cga.ct.gov (TLS certificate failure over https, 403 over http)",
+    "codes.findlaw.com (403)",
+    "www.njcourts.gov (403)"
+  ]
+}

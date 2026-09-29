@@ -10,6 +10,8 @@ import {
   type CreateWorkRelationshipInput,
 } from "./life";
 import { lifePlaceByJurisdictionId } from "./life-places";
+import { localBusinessSupplyFor } from "./local-business-counts";
+import { townJobRate } from "./living-world/town-pay";
 import {
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   drawCanonicalNameForGender,
@@ -53,17 +55,57 @@ import type {
 
 /**
  * PLACEHOLDER(research: businesses-owners-and-wealth). Nobody has researched
- * any of this. One list of eight businesses for every town in the country,
- * with invented staff counts, revenue and owner pay, standing in until the
- * count by kind and town size, the size split and revenue bands are answered.
- * Replace it; do not tune it.
+ * the rest of this. One list of eight businesses for every town in the
+ * country, with invented staff counts, revenue and owner pay, standing in
+ * until the count by kind and town size, the size split and revenue bands are
+ * answered. Replace it; do not tune it.
+ *
+ * A worker's pay is not part of that placeholder: it is the published wage
+ * for the worker's occupation where the town is (BLS, May 2025), by
+ * `localBusinessWageMinor`. `monthlyWageMinor` below is used only where no
+ * published wage covers the town, and is marked as the placeholder it is.
  */
 export const LOCAL_BUSINESS_PLACEHOLDER = {
   researchQuestionId: "businesses-owners-and-wealth",
   currency: "USD",
-  /** One worker's monthly pay, the same in every business. */
+  /** PLACEHOLDER: a worker's monthly pay where no published wage covers. */
   monthlyWageMinor: 280_000,
 } as const;
+
+/**
+ * GAME ASSUMPTION: the percentile of the published wage distribution a
+ * business's staff are paid at. Staff have been there for years, so the
+ * middle of the distribution.
+ */
+export const LOCAL_BUSINESS_WAGE_PERCENTILE = 50;
+
+const HOURS_PER_YEAR = 2_080;
+
+/**
+ * What one of a business's workers is paid a month in `jurisdictionId`: the
+ * BLS Occupational Employment and Wage Statistics wage for the worker's
+ * occupation in the town's area, never below the minimum wage. The marked
+ * placeholder pay where no wage is published for that occupation and area.
+ */
+export function localBusinessWageMinor(
+  kind: Pick<LocalBusinessKind, "workerOccupation">,
+  jurisdictionId: EntityId | null,
+): { readonly monthlyMinor: number; readonly sourced: boolean } {
+  const rate = townJobRate(
+    kind.workerOccupation,
+    jurisdictionId,
+    LOCAL_BUSINESS_WAGE_PERCENTILE,
+  );
+  return rate
+    ? {
+        monthlyMinor: Math.round((rate.hourlyMinor * HOURS_PER_YEAR) / 12),
+        sourced: true,
+      }
+    : {
+        monthlyMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,
+        sourced: false,
+      };
+}
 
 export interface LocalBusinessKind {
   readonly key: string;
@@ -168,6 +210,99 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
   },
 ];
 
+/**
+ * GAME ASSUMPTION: how much of a town's real business list the game seats as
+ * individual organizations with named people. A city of 200,000 has hundreds
+ * of restaurants; seating each would put tens of thousands of people in a new
+ * life. The game seats at most this many of each kind and at most this many
+ * staff in each, for the speed of a new life and a Day. The real counts stay
+ * in the business's provenance note; nothing here is a claim about the town.
+ */
+export const LOCAL_BUSINESS_MAX_PER_KIND = 2;
+export const LOCAL_BUSINESS_MAX_STAFF = 3;
+
+/** One business the game seats in a town. */
+export interface LocalBusinessPlan {
+  readonly kind: LocalBusinessKind;
+  /** 0 for the first of its kind in the town. */
+  readonly index: number;
+  readonly workers: number;
+  readonly monthlyRevenueMinor: number;
+  /** Establishments of this kind the town really has, before rounding. */
+  readonly expected: number | null;
+  /** Whether count, staff and revenue come from published data. */
+  readonly sourced: boolean;
+}
+
+/**
+ * The businesses a town gets.
+ *
+ * Where the town's population is held, its share of the county's
+ * establishments of each kind (County Business Patterns 2023), rounded to the
+ * nearest whole business, at most `LOCAL_BUSINESS_MAX_PER_KIND` of a kind. A
+ * kind whose share rounds to zero is not in town. Staff are the county's
+ * employees per establishment, at most `LOCAL_BUSINESS_MAX_STAFF`, and
+ * revenue is the state's Economic Census sales per employee times those
+ * staff. GAME ASSUMPTION: a town whose every share rounds to zero still has
+ * its likeliest kind once, because an adult in town needs an employer.
+ *
+ * Where the population is not held, each kind once with the marked
+ * placeholder figures on the kind: unknown is not none.
+ */
+export function localBusinessPlansFor(
+  jurisdictionId: EntityId,
+): readonly LocalBusinessPlan[] {
+  const supply = localBusinessSupplyFor(jurisdictionId);
+  if (!supply)
+    return LOCAL_BUSINESS_KINDS.map((kind) => ({
+      kind,
+      index: 0,
+      workers: kind.workers,
+      monthlyRevenueMinor: kind.monthlyRevenueMinor,
+      expected: null,
+      sourced: false,
+    }));
+  const plans: LocalBusinessPlan[] = [];
+  const build = (
+    kind: LocalBusinessKind,
+    row: (typeof supply)[number],
+    count: number,
+  ) => {
+    const workers = Math.min(
+      LOCAL_BUSINESS_MAX_STAFF,
+      Math.max(1, Math.round(row.staffPerBusiness)),
+    );
+    for (let index = 0; index < count; index += 1)
+      plans.push({
+        kind,
+        index,
+        workers,
+        monthlyRevenueMinor: Math.round(
+          (workers * row.salesPerEmployeeDollars * 100) / 12,
+        ),
+        expected: row.expected,
+        sourced: true,
+      });
+  };
+  for (const kind of LOCAL_BUSINESS_KINDS) {
+    const row = supply.find((entry) => entry.kind === kind.key);
+    if (!row) continue;
+    build(
+      kind,
+      row,
+      Math.min(LOCAL_BUSINESS_MAX_PER_KIND, Math.round(row.expected)),
+    );
+  }
+  if (plans.length === 0) {
+    const likeliest = [...supply].sort((a, b) => b.expected - a.expected)[0]!;
+    const kind = LOCAL_BUSINESS_KINDS.find(
+      (entry) => entry.key === likeliest.kind,
+    )!;
+    build(kind, likeliest, 1);
+  }
+  return plans;
+}
+
 export const BUSINESS_REVENUE_BASIS = "custom:business-revenue" as const;
 export const BUSINESS_WAGES_BASIS = "compensation:wages" as const;
 export const OWNER_DRAW_BASIS = "compensation:owner-draw" as const;
@@ -184,8 +319,14 @@ const FULL_TIME: Omit<TimeDemandProfile, "locationJurisdictionId"> = {
   interruptibility: "limited",
 };
 
-function businessKey(jurisdictionId: EntityId, kind: LocalBusinessKind) {
-  return `local-business:${jurisdictionId}:${kind.key}`;
+/** The first business of a kind keeps the key it has always had. */
+function businessKey(
+  jurisdictionId: EntityId,
+  kind: LocalBusinessKind,
+  index = 0,
+) {
+  const base = `local-business:${jurisdictionId}:${kind.key}`;
+  return index === 0 ? base : `${base}:${index + 1}`;
 }
 
 /**
@@ -204,19 +345,37 @@ function seatedBusinessKeys(
   return keys;
 }
 
-/** The businesses seated in a town, in catalog order. */
+/** The businesses seated in a town, in catalog order and then in the order seated. */
 export function localBusinessesIn(
   world: World,
   jurisdictionId: EntityId,
 ): readonly { organization: Organization; kind: LocalBusinessKind }[] {
-  const found: { organization: Organization; kind: LocalBusinessKind }[] = [];
-  for (const kind of LOCAL_BUSINESS_KINDS) {
-    const organization = world.history.organizations.find(
-      (record) => record.stableKey === businessKey(jurisdictionId, kind),
+  const prefix = `local-business:${jurisdictionId}:`;
+  const found: {
+    organization: Organization;
+    kind: LocalBusinessKind;
+    order: number;
+    index: number;
+  }[] = [];
+  for (const record of world.history.organizations) {
+    if (!record.stableKey.startsWith(prefix)) continue;
+    const [kindKey, ordinal, ...extra] = record.stableKey
+      .slice(prefix.length)
+      .split(":");
+    const order = LOCAL_BUSINESS_KINDS.findIndex(
+      (kind) => kind.key === kindKey,
     );
-    if (organization) found.push({ organization, kind });
+    if (order < 0 || extra.length > 0) continue;
+    found.push({
+      organization: record,
+      kind: LOCAL_BUSINESS_KINDS[order]!,
+      order,
+      index: ordinal === undefined ? 0 : Number(ordinal) - 1,
+    });
   }
-  return found;
+  return found
+    .sort((a, b) => a.order - b.order || a.index - b.index)
+    .map(({ organization, kind }) => ({ organization, kind }));
 }
 
 function birthDateFor(rng: SeededRng, today: IsoDate, age: number): IsoDate {
@@ -289,22 +448,24 @@ function seatMissingLocalBusinesses(
   jurisdictionId: EntityId,
 ): World {
   if (!world.jurisdictions[jurisdictionId]) return world;
-  const seated = seatedBusinessKeys(world, jurisdictionId);
-  const missing = LOCAL_BUSINESS_KINDS.filter(
-    (kind) => !seated.has(businessKey(jurisdictionId, kind)),
-  );
-  if (missing.length === 0) return world;
+  // A town is seated once, whole. Businesses already there (a save from
+  // before the list followed the town's counts) are kept as they are.
+  if (seatedBusinessKeys(world, jurisdictionId).size > 0) return world;
+  const missing = localBusinessPlansFor(jurisdictionId);
   const today = world.currentDate;
   const currency = money(0, LOCAL_BUSINESS_PLACEHOLDER.currency).currency;
   const rng = new SeededRng(world.seed).fork(
     `local-businesses:${jurisdictionId}`,
   );
-  const provenance = {
+  const provenanceFor = (planned: LocalBusinessPlan) => ({
     kind: "authored" as const,
-    note: `Placeholder local business pending research question ${LOCAL_BUSINESS_PLACEHOLDER.researchQuestionId}.`,
-  };
+    note: planned.sourced
+      ? `Local business from published counts: the town's share of the county's establishments (about ${planned.expected!.toFixed(1)} of this kind in town; County Business Patterns 2023), staff from employees per establishment and sales from Economic Census 2022 sales per employee. At most ${LOCAL_BUSINESS_MAX_PER_KIND} of a kind and ${LOCAL_BUSINESS_MAX_STAFF} staff are seated (game assumption, for speed). The owner's draw is a placeholder pending research question ${LOCAL_BUSINESS_PLACEHOLDER.researchQuestionId}.`
+      : `Placeholder local business pending research question ${LOCAL_BUSINESS_PLACEHOLDER.researchQuestionId}.`,
+  });
 
   type Staffing = {
+    planned: LocalBusinessPlan;
     kind: LocalBusinessKind;
     formedAt: IsoDate;
     owner: CharacterHistoryContextPersonInput;
@@ -314,8 +475,11 @@ function seatMissingLocalBusinesses(
   const corpusVersion = nameCorpusVersionForWorld(world, jurisdictionId);
   const people: CharacterHistoryContextPersonInput[] = [];
   const taken = new Set<string>();
-  for (const kind of missing) {
-    const kindRng = rng.fork(kind.key);
+  for (const planned of missing) {
+    const { kind } = planned;
+    const kindRng = rng.fork(
+      planned.index === 0 ? kind.key : `${kind.key}:${planned.index + 1}`,
+    );
     const draw = (role: string, minAge: number, maxAge: number) => {
       const personRng = kindRng.fork(role);
       const identity = generatePersonIdentity(personRng.fork("identity"));
@@ -339,7 +503,7 @@ function seatMissingLocalBusinesses(
         );
       if (role === "owner") taken.add(name.familyName);
       const input: CharacterHistoryContextPersonInput = {
-        stableKey: `${businessKey(jurisdictionId, kind)}:${role}`,
+        stableKey: `${businessKey(jurisdictionId, kind, planned.index)}:${role}`,
         ...name,
         identity,
         birthDate: birthDateFor(
@@ -358,7 +522,7 @@ function seatMissingLocalBusinesses(
       yearsBefore(today, kindRng.integer(1, 31)),
       ownerAdult,
     );
-    const workers = Array.from({ length: kind.workers }, (_, index) => {
+    const workers = Array.from({ length: planned.workers }, (_, index) => {
       const input = draw(`worker:${index + 1}`, 18, 60);
       const since = later(
         yearsBefore(today, kindRng.integer(0, 6)),
@@ -367,6 +531,7 @@ function seatMissingLocalBusinesses(
       return { input, since: since > today ? today : since };
     });
     plans.push({
+      planned,
       kind,
       formedAt: formedAt > today ? today : formedAt,
       owner,
@@ -383,7 +548,8 @@ function seatMissingLocalBusinesses(
   const jobs: CreateWorkRelationshipInput[] = [];
   const flows: CreateResourceFlowInput[] = [];
   for (const plan of plans) {
-    const key = businessKey(jurisdictionId, plan.kind);
+    const key = businessKey(jurisdictionId, plan.kind, plan.planned.index);
+    const provenance = provenanceFor(plan.planned);
     next = createOrganization(next, {
       stableKey: key,
       formedAt: plan.formedAt,
@@ -424,7 +590,7 @@ function seatMissingLocalBusinesses(
       },
       recipient: business,
       startsAt: today,
-      amount: money(plan.kind.monthlyRevenueMinor, currency),
+      amount: money(plan.planned.monthlyRevenueMinor, currency),
       cadenceKind: "schedule:monthly",
       basisKind: BUSINESS_REVENUE_BASIS,
       basisReference: { kind: "general" },
@@ -470,7 +636,10 @@ function seatMissingLocalBusinesses(
         source: business,
         recipient: { kind: "person", personId: workerId },
         startsAt: today,
-        amount: money(LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor, currency),
+        amount: money(
+          localBusinessWageMinor(plan.kind, jurisdictionId).monthlyMinor,
+          currency,
+        ),
         cadenceKind: "schedule:monthly",
         basisKind: BUSINESS_WAGES_BASIS,
         basisReference: { kind: "general" },

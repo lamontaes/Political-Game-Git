@@ -500,6 +500,7 @@ export function assertLegislationIntegrity(
     if (enactment.effectiveAt !== null) {
       makeIsoDate(enactment.effectiveAt);
     }
+    if (enactment.finalPassageAt) makeIsoDate(enactment.finalPassageAt);
   }
 
   // A measure resolves once. Two enactment records, or an enactment record

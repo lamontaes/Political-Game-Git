@@ -25,6 +25,18 @@ export type ClemencyKind = "pardon" | "commutation";
 
 export type SentenceKind = "jail" | "probation";
 
+/**
+ * Who a sentencing record sentences. The record also names the judge who
+ * handed it down, so a reader asks for the defendant's role rather than any
+ * participant.
+ */
+export function sentencedPersonOf(event: HistoricalEvent): EntityId | null {
+  return (
+    event.participants.find((entry) => entry.role === "focus:defendant")
+      ?.personId ?? null
+  );
+}
+
 export interface Sentence {
   readonly sentencedEventId: EntityId;
   readonly kind: SentenceKind;
@@ -70,8 +82,7 @@ export function sentencesOf(
           grants.set(tag.slice(CLEMENCY_SENTENCE_TAG.length), event);
   return world.history.events.flatMap((event) => {
     if (event.type !== PROSECUTION_SENTENCED_EVENT) return [];
-    if (!event.participants.some((entry) => entry.personId === personId))
-      return [];
+    if (sentencedPersonOf(event) !== personId) return [];
     const kind = event.tags
       .find((tag) => tag.startsWith(SENTENCE_KIND_TAG))
       ?.slice(SENTENCE_KIND_TAG.length) as SentenceKind | undefined;
