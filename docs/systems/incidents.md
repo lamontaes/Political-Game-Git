@@ -35,6 +35,21 @@ key, caller evaluation key, scope, date, and historical cutoff. A non-consuming
 actor-initiated definition has no RNG draw, but still records the same explicit
 eligibility and risk evidence.
 
+A `condition` definition occurs exactly when its prerequisites hold and no
+blocker does. It has no RNG draw and no actor; it is the mode for a condition
+that lasts, where the design sets how bad counts as bad but never the chance
+of an outcome. `recordIncidentStage` records the next stage of an active
+incident after its caller re-checks the world, with the same ordinary phase
+event and superseding state a scheduled transition records. An onset may name
+subjects in an `impact:` role, such as the target of a threat; they take no
+action through the incident.
+
+The production boundary admits the incident definitions the simulation
+establishes itself (`SIMULATION_ESTABLISHED_INCIDENT_STABLE_KEYS` in
+`production-catalog.ts`): the pressure layer's unrest and political threat.
+They are installed the first time a state's anger crosses the line, so a
+world where nothing does carries none. Any other definition is still refused.
+
 Incident evaluation remains definition-level and does not make a person act.
 An actor-initiated occurrence requires exactly one `agency:actor`, while a
 probabilistic occurrence has none. Both `recordActorInitiatedIncident` and the

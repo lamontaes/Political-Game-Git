@@ -502,6 +502,22 @@ function findOpenings(world: World, bank: CentralBankState): CentralBankState {
   return { ...bank, seats, chair, openings };
 }
 
+/** The sitting governor who has served longest: their term ends first. */
+function longestServing(
+  bank: CentralBankState,
+  eligible: readonly EntityId[],
+): EntityId | null {
+  const allowed = new Set(eligible);
+  const seats = bank.seats
+    .flatMap((seat) => (seat && allowed.has(seat.personId) ? [seat] : []))
+    .sort(
+      (left, right) =>
+        left.termEnds.localeCompare(right.termEnds) ||
+        left.personId.localeCompare(right.personId),
+    );
+  return seats[0]?.personId ?? null;
+}
+
 function nominate(
   world: World,
   bank: CentralBankState,
@@ -522,8 +538,11 @@ function nominate(
     const key = `${CENTRAL_BANK_VERSION}:nomination:${opening.office}:${opening.seat}:${opening.since}:${world.currentDate}`;
     // The President names the chair from the sitting governors, and a
     // governor from the people they know who may serve (appointments-v1),
-    // by the same decision any appointer makes. A President the player controls, or one
-    // who knows nobody eligible, still falls back to the draw below.
+    // by the same decision any appointer makes. A President the player
+    // controls, or one who knows nobody eligible, names the longest-serving
+    // governor as chair (the one whose term ends first), and leaves a
+    // governor's seat open until they know someone: the real board has sat
+    // with two or three seats empty for years at a time (2014-2018).
     const controlled =
       next.control.kind === "person" ? next.control.personId : null;
     const sitting = working.seats
@@ -553,7 +572,9 @@ function nominate(
       eligible: (personId) => eligible.has(personId),
     });
     const nomineeId =
-      choice?.personId ?? new SeededRng(world.seed).fork(key).pick(pool);
+      choice?.personId ??
+      (opening.office === "chair" ? longestServing(working, sitting) : null);
+    if (!nomineeId) continue;
     if (choice)
       next = recordPassedOver(choice.world, {
         stableKey: key,

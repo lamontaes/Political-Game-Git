@@ -35,7 +35,11 @@ import {
 
 const SEEDS = ["build-25:county-law:1", "build-25:county-law:2"];
 
-/** A random place with no town government and a county government over it. */
+/**
+ * A random place with no town or township government and a county government
+ * over it; a place inside a town or township is governed by that board
+ * (`township-board-lawmaking.test.ts`).
+ */
 function unincorporatedPlace(seed: string): LifePlace {
   const rng = new SeededRng(`county-law-place:${seed}`);
   const states = [...lifePlaceStateIdentities()];
@@ -46,7 +50,11 @@ function unincorporatedPlace(seed: string): LifePlace {
       scope: "locality",
     }).filter((place) => {
       const units = placeLocalGovernmentUnits(place);
-      return units.municipal.length === 0 && units.counties.length > 0;
+      return (
+        units.municipal.length === 0 &&
+        units.townships.length === 0 &&
+        units.counties.length > 0
+      );
     });
     if (places.length > 0) return rng.pick(places);
   }

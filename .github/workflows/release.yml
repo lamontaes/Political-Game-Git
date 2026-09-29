@@ -14,11 +14,19 @@ concurrency:
 permissions:
   contents: read
 
+# The candidate passes the whole of `npm run validate` before it can publish,
+# split the way validate.yml splits it: `validate:ci-sharded` (everything but
+# the unit suite, the build included) in one job, the unit suite in six
+# shards, and an aggregate that proves the shards covered the whole suite.
+# Until 2026-09-28 all of it ran in one 40-minute job. The unit suite alone
+# takes longer than that on a hosted runner, so the release on 6b6548bc was
+# cut off at 40 minutes with nothing published, like every run before it.
+
 jobs:
   build_candidate:
-    name: Build and validate candidate (read only)
+    name: Build candidate (read only)
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 20
     permissions:
       contents: read
     if: >-
@@ -105,27 +113,9 @@ jobs:
           printf 'source_sha=%s\ncandidate_sha=%s\ncandidate_tree=%s\n' \
             "$source_sha" "$candidate_sha" "$candidate_tree" >> "$GITHUB_OUTPUT"
 
-      - name: Validate and build the exact clean candidate commit
-        if: steps.plan.outputs.outcome == 'release'
-        env:
-          RELEASE_DECLARATION_BASE: ${{ env.DECLARATION_BASE }}
-          RELEASE_DECLARATION_HEAD: ${{ env.SOURCE_SHA }}
-          RELEASE_DECLARATION_MODE: push
-        run: npm run validate
-
-      - name: Prove validation did not change candidate identity
-        if: steps.plan.outputs.outcome == 'release'
-        env:
-          CANDIDATE_SHA: ${{ steps.candidate.outputs.candidate_sha }}
-          CANDIDATE_TREE: ${{ steps.candidate.outputs.candidate_tree }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          [[ "$(git rev-parse HEAD)" == "$CANDIDATE_SHA" ]]
-          [[ "$(git rev-parse 'HEAD^{tree}')" == "$CANDIDATE_TREE" ]]
-          [[ -z "$(git status --porcelain)" ]]
-
-      - name: Package the validated commit as inert Git object data
+      # The validation jobs below check out the commit inside this bundle, so
+      # the bytes that pass validation are the bytes the publisher receives.
+      - name: Package the candidate commit as inert Git object data
         id: bundle
         if: steps.plan.outputs.outcome == 'release'
         env:
@@ -150,17 +140,288 @@ jobs:
           git format-patch --stdout -1 "$CANDIDATE_SHA" > "$artifact_dir/staged-release.patch"
           printf 'bundle_sha256=%s\n' "$bundle_sha256" >> "$GITHUB_OUTPUT"
 
-      - name: Upload the exact validated candidate
+      - name: Upload the exact candidate
         if: steps.plan.outputs.outcome == 'release'
         uses: actions/upload-artifact@v7
         with:
-          name: validated-release-candidate
+          name: release-candidate
           path: ${{ runner.temp }}/release-candidate
           if-no-files-found: error
           retention-days: 14
 
+      - name: Report a blocked release
+        if: steps.plan.outputs.outcome == 'blocked'
+        shell: bash
+        run: |
+          echo "::error::This revision has pending changes that cannot be released automatically. Nothing was published and no declaration was consumed."
+          exit 1
+
+  validate_candidate_repository:
+    name: Validate candidate, repository (read only)
+    needs: build_candidate
+    if: needs.build_candidate.outputs.outcome == 'release'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    env:
+      SOURCE_SHA: ${{ needs.build_candidate.outputs.source_sha }}
+      CANDIDATE_SHA: ${{ needs.build_candidate.outputs.candidate_sha }}
+      CANDIDATE_TREE: ${{ needs.build_candidate.outputs.candidate_tree }}
+      BUNDLE_SHA256: ${{ needs.build_candidate.outputs.bundle_sha256 }}
+      NEXT_VERSION: ${{ needs.build_candidate.outputs.next_version }}
+    steps:
+      - name: Check out the pushed revision without write credentials
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.build_candidate.outputs.source_sha }}
+          persist-credentials: false
+
+      - name: Download the candidate data
+        uses: actions/download-artifact@v7
+        with:
+          name: release-candidate
+          path: ${{ runner.temp }}/release-candidate
+
+      - name: Check out the exact candidate commit from its bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle="$RUNNER_TEMP/release-candidate/release-candidate.bundle"
+          [[ "$(sha256sum "$bundle" | awk '{print $1}')" == "$BUNDLE_SHA256" ]]
+          git bundle verify "$bundle"
+          git fetch --no-tags "$bundle" HEAD:refs/candidates/release
+          [[ "$(git rev-parse refs/candidates/release)" == "$CANDIDATE_SHA" ]]
+          [[ "$(git rev-parse "${CANDIDATE_SHA}^{tree}")" == "$CANDIDATE_TREE" ]]
+          [[ "$(git show -s --format=%P "$CANDIDATE_SHA")" == "$SOURCE_SHA" ]]
+          git checkout -q --detach "$CANDIDATE_SHA"
+          [[ -z "$(git status --porcelain)" ]]
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install deterministic dependencies
+        run: npm ci
+
+      - name: Validate and build the exact clean candidate commit
+        env:
+          RELEASE_DECLARATION_BASE: ${{ github.event_name == 'push' && github.event.before || github.sha }}
+          RELEASE_DECLARATION_HEAD: ${{ needs.build_candidate.outputs.source_sha }}
+          RELEASE_DECLARATION_MODE: push
+        run: npm run validate:ci-sharded
+
+      - name: Prove the built game shows the new version
+        shell: bash
+        run: |
+          set -euo pipefail
+          # The title screen shows `v` and the number (displayVersion).
+          grep -rqF "v${NEXT_VERSION}" dist/client/assets || {
+            echo "::error::The built client does not carry version ${NEXT_VERSION}."
+            exit 1
+          }
+
+      - name: Prove validation did not change candidate identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$(git rev-parse HEAD)" == "$CANDIDATE_SHA" ]]
+          [[ "$(git rev-parse 'HEAD^{tree}')" == "$CANDIDATE_TREE" ]]
+          [[ -z "$(git status --porcelain)" ]]
+
+      - name: Record the baseline unit suite
+        run: |
+          mkdir -p test-results/unit-baseline
+          npx vitest list --filesOnly > test-results/unit-baseline/files.txt
+          wc -l test-results/unit-baseline/files.txt
+
+      - name: Upload the baseline unit suite
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-unit-suite-baseline
+          path: test-results/unit-baseline/files.txt
+          if-no-files-found: error
+          retention-days: 14
+
+  validate_candidate_unit:
+    name: Validate candidate, unit (read only)
+    needs: build_candidate
+    if: needs.build_candidate.outputs.outcome == 'release'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - shard: 1
+            total: 6
+          - shard: 2
+            total: 6
+          - shard: 3
+            total: 6
+          - shard: 4
+            total: 6
+          - shard: 5
+            total: 6
+          - shard: 6
+            total: 6
+    env:
+      SOURCE_SHA: ${{ needs.build_candidate.outputs.source_sha }}
+      CANDIDATE_SHA: ${{ needs.build_candidate.outputs.candidate_sha }}
+      CANDIDATE_TREE: ${{ needs.build_candidate.outputs.candidate_tree }}
+      BUNDLE_SHA256: ${{ needs.build_candidate.outputs.bundle_sha256 }}
+    steps:
+      - name: Check out the pushed revision without write credentials
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.build_candidate.outputs.source_sha }}
+          persist-credentials: false
+
+      - name: Download the candidate data
+        uses: actions/download-artifact@v7
+        with:
+          name: release-candidate
+          path: ${{ runner.temp }}/release-candidate
+
+      - name: Check out the exact candidate commit from its bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle="$RUNNER_TEMP/release-candidate/release-candidate.bundle"
+          [[ "$(sha256sum "$bundle" | awk '{print $1}')" == "$BUNDLE_SHA256" ]]
+          git bundle verify "$bundle"
+          git fetch --no-tags "$bundle" HEAD:refs/candidates/release
+          [[ "$(git rev-parse refs/candidates/release)" == "$CANDIDATE_SHA" ]]
+          [[ "$(git rev-parse "${CANDIDATE_SHA}^{tree}")" == "$CANDIDATE_TREE" ]]
+          [[ "$(git show -s --format=%P "$CANDIDATE_SHA")" == "$SOURCE_SHA" ]]
+          git checkout -q --detach "$CANDIDATE_SHA"
+          [[ -z "$(git status --porcelain)" ]]
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install deterministic dependencies
+        run: npm ci
+
+      - name: Run unit shard ${{ matrix.shard }} of ${{ matrix.total }}
+        run: |
+          mkdir -p test-results/unit-shards
+          npx vitest run --shard=${{ matrix.shard }}/${{ matrix.total }} \
+            --reporter=default --reporter=json \
+            --outputFile.json=test-results/unit-shards/shard-${{ matrix.shard }}-of-${{ matrix.total }}.json
+
+      - name: Prove the shard did not change candidate identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$(git rev-parse HEAD)" == "$CANDIDATE_SHA" ]]
+          [[ "$(git rev-parse 'HEAD^{tree}')" == "$CANDIDATE_TREE" ]]
+          [[ -z "$(git status --porcelain)" ]]
+
+      - name: Upload this shard's report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-unit-shard-report-${{ matrix.shard }}-of-${{ matrix.total }}
+          path: test-results/unit-shards/shard-${{ matrix.shard }}-of-${{ matrix.total }}.json
+          if-no-files-found: error
+          retention-days: 14
+
+  validate_candidate:
+    name: Validate candidate (whole suite)
+    if: always() && needs.build_candidate.outputs.outcome == 'release'
+    needs:
+      - build_candidate
+      - validate_candidate_repository
+      - validate_candidate_unit
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    env:
+      SOURCE_SHA: ${{ needs.build_candidate.outputs.source_sha }}
+      CANDIDATE_SHA: ${{ needs.build_candidate.outputs.candidate_sha }}
+      CANDIDATE_TREE: ${{ needs.build_candidate.outputs.candidate_tree }}
+      BUNDLE_SHA256: ${{ needs.build_candidate.outputs.bundle_sha256 }}
+    steps:
+      - name: Require every validation job
+        shell: bash
+        run: |
+          set -euo pipefail
+          repository='${{ needs.validate_candidate_repository.result }}'
+          unit='${{ needs.validate_candidate_unit.result }}'
+          echo "repository=$repository"
+          echo "unit=$unit"
+          if [[ "$repository" != "success" || "$unit" != "success" ]]; then
+            echo "::error::The candidate did not pass validation. Nothing was published and no declaration was consumed."
+            exit 1
+          fi
+
+      - name: Check out the pushed revision without write credentials
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.build_candidate.outputs.source_sha }}
+          persist-credentials: false
+
+      - name: Download the candidate data
+        uses: actions/download-artifact@v7
+        with:
+          name: release-candidate
+          path: ${{ runner.temp }}/release-candidate
+
+      - name: Check out the exact candidate commit from its bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle="$RUNNER_TEMP/release-candidate/release-candidate.bundle"
+          [[ "$(sha256sum "$bundle" | awk '{print $1}')" == "$BUNDLE_SHA256" ]]
+          git bundle verify "$bundle"
+          git fetch --no-tags "$bundle" HEAD:refs/candidates/release
+          [[ "$(git rev-parse refs/candidates/release)" == "$CANDIDATE_SHA" ]]
+          [[ "$(git rev-parse "${CANDIDATE_SHA}^{tree}")" == "$CANDIDATE_TREE" ]]
+          [[ "$(git show -s --format=%P "$CANDIDATE_SHA")" == "$SOURCE_SHA" ]]
+          git checkout -q --detach "$CANDIDATE_SHA"
+          [[ -z "$(git status --porcelain)" ]]
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install deterministic dependencies
+        run: npm ci
+
+      - name: Download the baseline unit suite
+        uses: actions/download-artifact@v7
+        with:
+          name: release-unit-suite-baseline
+          path: ${{ runner.temp }}/unit-suite-baseline
+
+      - name: Download unit shard reports
+        uses: actions/download-artifact@v7
+        with:
+          pattern: release-unit-shard-report-*
+          path: ${{ runner.temp }}/unit-shard-reports
+
+      - name: Confirm unit shard union equals the baseline suite
+        run: >-
+          node --import tsx scripts/dev-lab/assert-unit-shard-union.ts
+          "$RUNNER_TEMP/unit-suite-baseline/files.txt"
+          "$RUNNER_TEMP/unit-shard-reports"
+
       - name: Report staged-only behavior
-        if: steps.plan.outputs.outcome == 'release' && vars.RELEASE_AUTOMATION != 'enabled'
+        if: vars.RELEASE_AUTOMATION != 'enabled'
         shell: bash
         run: |
           {
@@ -170,18 +431,14 @@ jobs:
             echo "Activation requires the repository variable RELEASE_AUTOMATION to equal \`enabled\`."
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Report a blocked release
-        if: steps.plan.outputs.outcome == 'blocked'
-        shell: bash
-        run: |
-          echo "::error::This revision has pending changes that cannot be released automatically. Nothing was published and no declaration was consumed."
-          exit 1
-
   publish_candidate:
     name: Publish exact candidate (minimal write authority)
-    needs: build_candidate
+    needs:
+      - build_candidate
+      - validate_candidate
     if: >-
       needs.build_candidate.result == 'success' &&
+      needs.validate_candidate.result == 'success' &&
       needs.build_candidate.outputs.outcome == 'release' &&
       vars.RELEASE_AUTOMATION == 'enabled'
     runs-on: ubuntu-latest
@@ -195,7 +452,7 @@ jobs:
       - name: Download the validated candidate data
         uses: actions/download-artifact@v7
         with:
-          name: validated-release-candidate
+          name: release-candidate
           path: ${{ runner.temp }}/release-candidate
 
       - name: Verify the candidate and publish it onto main
