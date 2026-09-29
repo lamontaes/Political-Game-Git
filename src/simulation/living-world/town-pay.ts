@@ -41,7 +41,6 @@ import { addDays, daysBetween, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   enactedRuleChanges,
-  ruleChangeInForce,
   type EnactedRuleChange,
 } from "../enacted-rule-changes";
 import { countyGeoidsForPlace } from "../government-units";
@@ -62,7 +61,9 @@ import {
   federalMinimumSchedule,
   federalMinimumStepAt,
   minimumHourlyAt,
+  anyStateMinimumWageQuestionEnacted,
   startingMinimumHourly,
+  stateMinimumSettingAt,
 } from "../minimum-wage";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
 import { resourceFlowTermsAt } from "../resource-queries";
@@ -753,7 +754,12 @@ export function raiseTownPayToMinimum(
     (step) => step.hourlyMinor > FEDERAL_MINIMUM_HOURLY_MINOR,
   );
   // Only a law can move the floor after pay began.
-  if (laws.size === 0 && !federalRaised) return world;
+  if (
+    laws.size === 0 &&
+    !federalRaised &&
+    !anyStateMinimumWageQuestionEnacted(world)
+  )
+    return world;
   const recordedOn = new Map<EntityId, IsoDate>();
   const eventOf = new Map<EntityId, EntityId>();
   for (const enactment of world.history.legislativeEnactments ?? []) {
@@ -790,7 +796,6 @@ export function raiseTownPayToMinimum(
       ? lifePlaceByJurisdictionId(role.locationJurisdictionId)
       : null;
     const stateKey = place?.stateJurisdictionKey ?? "";
-    const stateLaws = laws.get(stateKey.replace(/^US-/, "")) ?? [];
     if (!role) continue;
     let current = termsByFlow.get(flow.id)?.at(-1);
     const note = current ? payNoteOf(current.cadenceKind) : null;
@@ -812,17 +817,24 @@ export function raiseTownPayToMinimum(
         continue;
       const ended = endedOn.get(flow.basisReference.workRelationshipId);
       if (ended !== undefined && ended <= day) break;
-      const law = ruleChangeInForce(
-        stateLaws.filter(
-          (change) =>
-            change.operativeAt <= day &&
-            (recordedOn.get(change.measureId) ?? change.operativeAt) <= day,
-        ),
-      );
-      const stateHourly =
-        law && typeof law.value === "number"
-          ? Math.max(FEDERAL_MINIMUM_HOURLY, law.value / 100)
-          : 0;
+      // A state law enacted in play sets the state's rate: a wage term its
+      // bill filed, or the average raise of a yes on the question. The rate
+      // on file at the start sets nothing to raise to.
+      const setting = /^US-[A-Z]{2}$/.test(stateKey)
+        ? stateMinimumSettingAt(world, stateKey, day)
+        : null;
+      const law =
+        setting?.measureId && (recordedOn.get(setting.measureId) ?? day) <= day
+          ? {
+              measureId: setting.measureId,
+              designation: setting.designation ?? "A state law",
+              hourly: Math.max(
+                FEDERAL_MINIMUM_HOURLY,
+                setting.hourlyMinor / 100,
+              ),
+            }
+          : null;
+      const stateHourly = law ? law.hourly : 0;
       const step = federalMinimumStepAt(world, day);
       const federalHourly =
         step && (recordedOn.get(step.measureId) ?? step.from) <= day
