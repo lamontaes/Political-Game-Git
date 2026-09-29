@@ -1,6 +1,13 @@
 import { addDays, makeIsoDate } from "../dates";
 import { currentPresidentOf } from "../crisis/offices";
 import {
+  appointmentCircle,
+  chooseAppointee,
+  recordAppointmentFavor,
+  recordPassedOver,
+} from "../patronage/appointments";
+import { federalColleaguesOf } from "../patronage/federal-circle";
+import {
   FEDERAL_TENURE_EVENT,
   FEDERAL_VACANCY_EVENT,
   currentFederalTenure,
@@ -158,6 +165,11 @@ export function openChiefJusticeVacancy(
   return { world: next, presidentId: president?.personId ?? null };
 }
 
+const CHIEF_JUSTICE_POST = {
+  officeKey: "us-chief-justice",
+  title: "Chief Justice of the United States",
+} as const;
+
 /** The President names a nominee. */
 export function chiefJusticeNominationHandler(
   world: World,
@@ -197,10 +209,35 @@ export function chiefJusticeNominationHandler(
     .sort();
   if (!pool.length)
     return resolved(world, "Nobody in the World can be nominated.");
-  const nomineeId = new SeededRng(world.seed).fork(due.stableKey).pick(pool);
+  // The President names someone they know (appointments-v1); the draw from
+  // every eligible adult stays only for a President who knows nobody
+  // eligible, and it is still the PLACEHOLDER above.
+  const eligible = new Set(pool);
+  const choice = chooseAppointee(world, {
+    stableKey: due.stableKey,
+    appointerPersonId: president.personId,
+    post: CHIEF_JUSTICE_POST,
+    circle: appointmentCircle(
+      world,
+      president.personId,
+      federalColleaguesOf(world),
+    ),
+    eligible: (personId) => eligible.has(personId),
+  });
+  const nomineeId =
+    choice?.personId ??
+    new SeededRng(world.seed).fork(due.stableKey).pick(pool);
+  const chosenWorld = choice
+    ? recordPassedOver(choice.world, {
+        stableKey: due.stableKey,
+        appointerPersonId: president.personId,
+        passedOver: choice.passedOver,
+        post: CHIEF_JUSTICE_POST,
+      })
+    : world;
   const presidentName = personName(world.people[president.personId]!);
   const nomineeName = personName(world.people[nomineeId]!);
-  let next = recordWorldEvent(world, {
+  let next = recordWorldEvent(chosenWorld, {
     stableKey: `${due.stableKey}:nominated`,
     type: CHIEF_JUSTICE_NOMINATED_EVENT,
     occurredAt: world.currentDate,
@@ -281,6 +318,7 @@ export function confirmChiefJustice(
   if (
     !nominee ||
     isDead(world, nomineeId) ||
+    !nominatedBy ||
     nominatedBy !== president?.personId
   ) {
     return resolved(
@@ -298,7 +336,7 @@ export function confirmChiefJustice(
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: null,
-    involvedEntityIds: [nomineeId],
+    involvedEntityIds: [nomineeId, nominatedBy],
     participants: [
       {
         personId: nomineeId,
@@ -319,6 +357,15 @@ export function confirmChiefJustice(
     context: CONTEXT,
   });
   const confirmedEventId = next.history.events.at(-1)!.id;
+  // The appointment is a favor from the President who named them.
+  next = recordAppointmentFavor(next, {
+    stableKey: `${due.stableKey}:appointed`,
+    appointerPersonId: nominatedBy,
+    appointeePersonId: nomineeId,
+    post: CHIEF_JUSTICE_POST,
+    eventId: confirmedEventId,
+    subject: { kind: "none" },
+  });
   next = leaveCongressSeat(next, nomineeId);
   return resolved(
     next,
