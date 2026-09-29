@@ -9,3 +9,6 @@ The line that opens an ordinary day now says what day it is, where you
 are, how much is waiting on you and who is home, and it does not read the
 same two days running. A different town, a longer list or a new housemate
 reads differently on the same day.
+
+When nobody in a conversation answers, the room no longer says the same
+thing two turns in a row, and a visit on another day opens differently.
