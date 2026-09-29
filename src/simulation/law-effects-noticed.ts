@@ -1,4 +1,5 @@
 import { addDays } from "./dates";
+import { recordById } from "./history-index";
 import { recordLawExposure } from "./law-exposure";
 import { money } from "./resources";
 import type { EntityId, IsoDate, World } from "./types";
@@ -48,22 +49,16 @@ export function noticeLawPayChanges(world: World, since: IsoDate): World {
   }
   if (lawOfEvent.size === 0) return world;
   const from = addDays(since, -LOOK_BACK_DAYS);
-  const noticed = new Set(
-    (world.history.lawExposures ?? []).map((row) => row.stableKey),
-  );
-  const flows = new Map(
-    world.history.resourceFlows.map((flow) => [flow.id, flow]),
-  );
-  const terms = new Map(
-    world.history.resourceFlowTerms.map((row) => [row.id, row]),
-  );
+  // Read only when a term names a law: every payday passes through here, and
+  // listing every flow and term in the world each time grew with its years.
+  let noticed: Set<string> | null = null;
   let next = world;
   for (const row of world.history.resourceFlowTerms) {
     if (row.effectiveAt < from || row.effectiveAt > world.currentDate) continue;
     if (row.provenance.kind !== "simulated-event") continue;
     const measureId = lawOfEvent.get(row.provenance.eventId);
     if (!measureId || !row.supersedesTermsId) continue;
-    const flow = flows.get(row.resourceFlowId);
+    const flow = recordById(world.history.resourceFlows, row.resourceFlowId);
     if (
       !flow ||
       flow.basisReference.kind !== "work" ||
@@ -72,8 +67,14 @@ export function noticeLawPayChanges(world: World, since: IsoDate): World {
       continue;
     const personId = flow.recipient.personId;
     const stableKey = `${LAW_EFFECTS_NOTICED_VERSION}:${row.id}`;
+    noticed ??= new Set(
+      (world.history.lawExposures ?? []).map((exposure) => exposure.stableKey),
+    );
     if (noticed.has(stableKey) || !next.people[personId]) continue;
-    const before = terms.get(row.supersedesTermsId);
+    const before = recordById(
+      world.history.resourceFlowTerms,
+      row.supersedesTermsId,
+    );
     const periods = periodsPerYear(row.cadenceKind);
     if (!before || periods === null) continue;
     const change = row.amount.minorUnits - before.amount.minorUnits;
