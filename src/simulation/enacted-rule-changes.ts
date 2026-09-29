@@ -14,8 +14,8 @@
  *
  * - an ordinary statute, through a rule-change provision filed on the measure
  *   before it is enacted (`fileRuleChangeProvision`), operative from the
- *   enactment's effective date, or the blanket default where the state's
- *   effective-date rule is not modeled;
+ *   enactment's effective date, else its state's effective-date rule, or the
+ *   blanket default where that rule does not date the act;
  * - a constitutional amendment carrying a `rule-field` delta
  *   (`ConstitutionalRuleDelta`), operative from its ratified operative date.
  *
@@ -32,7 +32,11 @@
 import { constitutionalPosition } from "./constitutional-process";
 import { addDays } from "./dates";
 import { createStableId } from "./ids";
-import { stateStatuteOperativeAt } from "./governing/statute-effective-date";
+import {
+  stateStatuteOperativeAt,
+  statuteEffectiveDateEstimated,
+  type StatuteDateContext,
+} from "./governing/statute-effective-date";
 import { requireMeasure } from "./legislation";
 import { lawLevelRank, type LawLevel } from "./law-hierarchy";
 import { rulePackById } from "./legislature-rule-packs";
@@ -42,7 +46,12 @@ import {
   isElectionDateRule,
   type ElectionDateRule,
 } from "./nominations/date-rules";
-import type { EntityId, IsoDate, World } from "./types";
+import type {
+  EntityId,
+  IsoDate,
+  LegislativeEnactmentRecord,
+  World,
+} from "./types";
 
 /**
  * The rules a law in the game can change today, with the bounds a value must
@@ -273,13 +282,36 @@ export function amendableRuleFieldLabel(field: AmendableRuleField): string {
   return AMENDABLE_RULE_FIELD_LABELS[field];
 }
 
+/** Whether the date the state's effective-date rule gives an act enacted on
+ * `enactedAt` was read or rests on an estimate (the rule, or the session end
+ * it counts from). */
+export function stateRuleBasis(
+  jurisdictionKey: string,
+  enactedAt: IsoDate,
+): "state-rule" | "estimated-state-rule" {
+  return statuteEffectiveDateEstimated(jurisdictionKey, enactedAt)
+    ? "estimated-state-rule"
+    : "state-rule";
+}
+
 /**
- * The blanket effective date for a statute whose state's effective-date rule is
- * not researched (`governing/statute-effective-date.ts`): ninety days after the act is recorded. Ninety days is the most
+ * The blanket effective date for a statute whose state's effective-date rule
+ * does not date it, such as an act of a special session
+ * (`governing/statute-effective-date.ts`): ninety days after the act is recorded. Ninety days is the most
  * common default among the states the game has read (Alaska, Missouri, Ohio);
  * it is a game profile, not a claim about any other state's law.
  */
 export const STATUTE_EFFECTIVE_DEFAULT_DAYS = 90;
+
+/**
+ * The dates an act's own record carries that a state's effective-date rule
+ * may count from: the final passage its enactment recorded.
+ */
+export function enactmentStatuteDateContext(
+  enactment: LegislativeEnactmentRecord,
+): StatuteDateContext {
+  return { finalPassageAt: () => enactment.finalPassageAt ?? null };
+}
 
 export function isAmendableRuleField(
   field: string,
@@ -319,7 +351,8 @@ export interface EnactedRuleChange {
    * state's own effective-date rule dates it; `game-default` when that rule is
    * not researched and the blanket rule applied.
    */
-  readonly operativeBasis: "enacted-date" | "state-rule" | "game-default";
+  readonly operativeBasis:
+    "enacted-date" | "state-rule" | "estimated-state-rule" | "game-default";
   readonly instrument: "statute" | "constitutional-amendment";
   /** Where the law ranks; see `law-hierarchy.ts`. */
   readonly level: LawLevel;
@@ -581,6 +614,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       : stateStatuteOperativeAt(
           `US-${provision.stateUsps}`,
           enactment.resolvedAt,
+          enactmentStatuteDateContext(enactment),
         );
     changes.push({
       stateUsps: provision.stateUsps,
@@ -596,7 +630,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       operativeBasis: explicit
         ? "enacted-date"
         : stateRuleAt
-          ? "state-rule"
+          ? stateRuleBasis(`US-${provision.stateUsps}`, enactment.resolvedAt)
           : "game-default",
       instrument: "statute",
       level: "state-statute",

@@ -4783,6 +4783,12 @@ export interface LegislativeEnactmentRecord {
    * default effective-date rule, which is not the same as taking effect now.
    */
   readonly effectiveAt: IsoDate | null;
+  /**
+   * The legislature's final passing vote: the last chamber passage or
+   * concurrence before enactment. A state that dates its acts from passage
+   * (Illinois) counts from it. Absent on records written before it was kept.
+   */
+  readonly finalPassageAt?: IsoDate | null;
   readonly outcomeEventId: EntityId;
 }
 
