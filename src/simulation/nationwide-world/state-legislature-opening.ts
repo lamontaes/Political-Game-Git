@@ -57,6 +57,7 @@ import {
   gazetteerChamberForOfficeChamberKey,
   listDistrictIdentities,
 } from "../../districts/query";
+import { seatsByDistrict } from "../../districts/members-per-district";
 import type { DistrictIdentity } from "../../districts/types";
 import {
   hasStableKey,
@@ -151,7 +152,8 @@ export const STATE_LEGISLATURE_KEYS = {
 } as const;
 
 /** Where a seated chamber's size came from. */
-export type ChamberSizeBasis = "rule-pack" | "one-member-per-district";
+export type ChamberSizeBasis =
+  "rule-pack" | "one-member-per-district" | "members-per-district";
 
 export interface SeatedChamberPlan {
   readonly officeKey: string;
@@ -194,13 +196,15 @@ export function planStateChambers(pack: CandidacyPack): {
     let basis: ChamberSizeBasis;
     // PLACEHOLDER until research question
     // state-legislature-chamber-sizes-and-quorum is answered: a Census
-    // district is not a seat, and multi-member districts (Arizona's House)
-    // seat fewer members here than the chamber has.
+    // district is not a seat. How many members a district elects is read
+    // from `members-per-district.json`; a chamber it does not list elects
+    // one per district.
     //
     // A size read from law wins. A size the game drew for an unresearched
-    // state's profile gives way to the state's own Census districts, which
-    // are a record of that state rather than a range across others; the draw
-    // seats a chamber only where the Census has no districts for it.
+    // state's profile gives way to the state's own Census districts and their
+    // member counts, which are a record of that state rather than a range
+    // across others; the draw seats a chamber only where the Census has no
+    // districts for it.
     const drawn =
       office.seats.kind === "known" &&
       office.seats.source?.authority === "game-profile";
@@ -208,8 +212,11 @@ export function planStateChambers(pack: CandidacyPack): {
       size = office.seats.value;
       basis = "rule-pack";
     } else if (districts.length > 0) {
-      size = districts.length;
-      basis = "one-member-per-district";
+      size = seatsByDistrict(districts).length;
+      basis =
+        size === districts.length
+          ? "one-member-per-district"
+          : "members-per-district";
     } else {
       unseated.push({
         officeKey: office.officeKey,
@@ -248,16 +255,23 @@ const AT_LARGE_SEATS: Readonly<
 };
 
 /**
- * Seats to districts. One member each where the counts match, an equal number
- * each where the seats divide evenly, and none bound otherwise: a seat is
- * never put in a district the record cannot support. Seats past the district
- * seats are at-large seats, bound to no district.
+ * Seats to districts. Each district takes the members it elects, read from
+ * `members-per-district.json`, when those add up to the seats to bind. Failing
+ * that, an equal number each where the seats divide evenly, and none bound
+ * otherwise: a seat is never put in a district the record cannot support.
+ * Seats past the district seats are at-large seats, bound to no district.
  */
 function bindDistricts(
   districtSeats: number,
   districts: readonly DistrictIdentity[],
   size: number = districtSeats,
 ): readonly (DistrictIdentity | null)[] {
+  const counted = seatsByDistrict(districts);
+  if (districtSeats > 0 && counted.length === districtSeats) {
+    return Array.from({ length: size }, (_, index) =>
+      index < districtSeats ? counted[index]! : null,
+    );
+  }
   if (
     districtSeats <= 0 ||
     districts.length === 0 ||
