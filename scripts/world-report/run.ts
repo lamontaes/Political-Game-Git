@@ -54,7 +54,9 @@ import {
   OUTCOME_LINKS,
   OUTCOMES_PRODUCED,
   outcomeFactor,
+  LAW_QUESTION_MEASURES,
   outcomeLinkStatus,
+  outcomeLinksFedByQuestion,
 } from "../../src/simulation/outcome-web";
 import {
   PLACE_OUTCOME_BASES,
@@ -2034,9 +2036,8 @@ function powersLines(world: World): string[] {
           "";
         federal.push({
           key,
-          built: OUTCOME_LINKS.filter(
-            (link) =>
-              link.from === `law:${key}` && outcomeLinkStatus(link) === "built",
+          built: outcomeLinksFedByQuestion(key).filter(
+            (link) => outcomeLinkStatus(link) === "built",
           ).length,
         });
       }
@@ -2122,6 +2123,7 @@ function startingLawAcrossPlaces(world: World): string[] {
 const DIRECT_PATH_WORDS: Readonly<Record<string, string>> = {
   paycheck: "paychecks",
   "state-revenue": "the state's revenue",
+  "state-spending": "a state program's spending",
   "rent-and-eviction": "rents and evictions",
   "home-prices": "home prices and the rents that follow them",
   "seat-turnover": "who holds seats",
@@ -2195,9 +2197,7 @@ function lawOutcomeLines(run: WorldReportRun): string[] {
     "",
   );
   for (const row of [...inPlay, ...atStart]) {
-    const links = OUTCOME_LINKS.filter(
-      (link) => link.from === `law:${row.stableKey}`,
-    );
+    const links = outcomeLinksFedByQuestion(row.stableKey);
     const acting = links.filter((link) => outcomeLinkStatus(link) === "built");
     out.push(
       `- **${row.name}**: ${row.answer}${row.origin === "enacted" ? `, ${row.designation}, in force from ${proseDate(row.since)}` : ", as the game began"}. ${links.length ? `Feeds ${count(links.length, "outcome")}; ${acting.length} ${acting.length === 1 ? "acts" : "act"} in the world today.` : "Feeds no outcome yet."}${directMoves(paths.get(row.stableKey) ?? [])}`,
@@ -2245,11 +2245,18 @@ function lawOutcomeLines(run: WorldReportRun): string[] {
  * outcome web reads, and what that law moved there at the end of the run.
  */
 function lawsMovingOutcomesEverywhere(world: World): string[] {
-  const lawLinks = OUTCOME_LINKS.filter(
-    (link) =>
-      link.from.startsWith("law:") && outcomeLinkStatus(link) === "built",
+  const questions = [
+    ...new Set([
+      ...OUTCOME_LINKS.filter((link) => link.from.startsWith("law:")).map(
+        (link) => link.from.slice(4),
+      ),
+      ...Object.keys(LAW_QUESTION_MEASURES),
+    ]),
+  ].filter((key) =>
+    outcomeLinksFedByQuestion(key).some(
+      (link) => outcomeLinkStatus(link) === "built",
+    ),
   );
-  const questions = [...new Set(lawLinks.map((link) => link.from.slice(4)))];
   const rows: string[] = [];
   const moving = new Set<string>();
   for (const questionKey of questions) {
@@ -2266,8 +2273,8 @@ function lawsMovingOutcomesEverywhere(world: World): string[] {
       const measure = world.history.legislativeMeasures?.find(
         (row) => row.id === law.measureId,
       );
-      const moved = lawLinks
-        .filter((link) => link.from === `law:${questionKey}`)
+      const moved = outcomeLinksFedByQuestion(questionKey)
+        .filter((link) => outcomeLinkStatus(link) === "built")
         .flatMap((link) => {
           const cause = outcomeFactor(
             world,

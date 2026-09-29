@@ -245,7 +245,11 @@ export function payFloorSentenceAt(
   const federal =
     now.level === "federal" ||
     (!now.measureId && now.hourlyMinor === FEDERAL_MINIMUM_HOURLY_MINOR);
-  const levelLaw = federal ? "Federal law" : "State law";
+  const levelLaw = federal
+    ? "Federal law"
+    : now.level === "local"
+      ? "Local law"
+      : "State law";
   if (now.measureId && now.effectiveAt) {
     const before = minimumWageSettingAt(
       world,
