@@ -12,3 +12,7 @@ government the database does not list opens at the median of every plan,
 76.7%, marked as estimated from the average. Before, every pension opened at
 the same hand-set 75%, so Chicago's plans opened as healthy as any other's
 and asked for a far smaller yearly contribution than their real gap does.
+
+A budget's record of a rainy-day deposit or a carried balance now names the
+reserve size its own law sets, such as Missouri's 7.5%.
+Before, both records still said every reserve was a hand-set 5%.

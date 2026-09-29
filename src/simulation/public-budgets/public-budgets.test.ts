@@ -368,6 +368,10 @@ describe("public budgets", () => {
     );
     expect(deposit?.law?.reading.answer).toBe("yes");
     expect(short.government.years.at(-1)!.reserveDeposit).toBe(deposit!.amount);
+    // The note names Illinois' own law, not a hand-set floor.
+    expect(deposit!.note).toContain(`${reserveRule(state).floorShare}`);
+    expect(deposit!.note).toContain(reserveRule(state).basis);
+    expect(deposit!.note).not.toContain("PLACEHOLDER");
 
     // Illinois begins with a reserve law, so "without" is a law enacted in
     // play that says no.
@@ -731,6 +735,8 @@ describe("public budgets", () => {
     );
     expect(carried[0]!.fiscalYear).toBe(2027);
     expect(carried[0]!.law).toBeNull();
+    expect(carried[0]!.note).toContain(reserveRule(opening).basis);
+    expect(carried[0]!.note).not.toContain("PLACEHOLDER");
     const [, fy2027, fy2028] = run.government.years;
     const cuttable = (values: readonly number[]) =>
       sum(
