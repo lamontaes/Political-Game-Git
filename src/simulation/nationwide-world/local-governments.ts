@@ -17,6 +17,7 @@ import { createOrganization } from "../life";
 import {
   lifePlaceByJurisdictionId,
   lifePlaceByKey,
+  type LifePlace,
   residentNameForJurisdiction,
 } from "../life-places";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
@@ -83,6 +84,13 @@ export function homeLocalGovernmentUnits(
   const place = person
     ? lifePlaceByJurisdictionId(person.homeJurisdictionId)
     : null;
+  return placeLocalGovernmentUnits(place);
+}
+
+/** Which government units serve one place. Reads only. */
+export function placeLocalGovernmentUnits(
+  place: LifePlace | null,
+): HomeLocalGovernmentUnits {
   const none = (
     placeScope: HomeLocalGovernmentUnits["placeScope"],
     countyStatus: CountyGovernmentStatus,
@@ -301,6 +309,37 @@ export function localGovernmentOrganizationKey(
   unit: GovernmentUnitIdentity,
 ): string {
   return `local-government:${unit.id}`;
+}
+
+const UNINCORPORATED = new Map<EntityId, readonly EntityId[]>();
+
+/**
+ * The county governments whose ordinances govern a place with no municipal
+ * government of its own: an unincorporated place (a census-designated place,
+ * or a Puerto Rico place under its municipio) is governed by its county's
+ * law, the most common rule in every state. Empty for an incorporated place,
+ * a county or a state, and for a place with no county government.
+ */
+export function unincorporatedCountyJurisdictionIds(
+  jurisdictionId: EntityId,
+): readonly EntityId[] {
+  const cached = UNINCORPORATED.get(jurisdictionId);
+  if (cached) return cached;
+  const place = lifePlaceByJurisdictionId(jurisdictionId);
+  const units = placeLocalGovernmentUnits(place);
+  const ids =
+    units.placeScope === "locality" && units.municipal.length === 0
+      ? units.counties.flatMap((unit) => jurisdictionForUnit(unit)?.id ?? [])
+      : [];
+  UNINCORPORATED.set(jurisdictionId, ids);
+  return ids;
+}
+
+/** The jurisdiction a local government's own law is recorded under, or null. */
+export function localGovernmentJurisdiction(
+  unit: GovernmentUnitIdentity,
+): Jurisdiction | null {
+  return jurisdictionForUnit(unit);
 }
 
 function jurisdictionForUnit(
