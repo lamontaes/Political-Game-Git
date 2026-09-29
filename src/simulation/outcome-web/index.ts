@@ -339,6 +339,23 @@ export function outcomeLinksFedByQuestion(
   );
 }
 
+/**
+ * The same part as a percent of the outcome's level before its causes acted:
+ * 0 until a law or another outcome moves it, 6 when they raised it 6%
+ * (`transit.service-access:pct-moved-by-causes`). A link sized as an
+ * elasticity reads this, so it acts the same in a place with little of the
+ * outcome as in one with a lot.
+ */
+const PCT_MOVED_BY_CAUSES_SUFFIX = ":pct-moved-by-causes";
+
+function placeOutcomePctMovedByCauses(key: string): string | null {
+  if (!key.endsWith(PCT_MOVED_BY_CAUSES_SUFFIX)) return null;
+  const measure = key.slice(0, -PCT_MOVED_BY_CAUSES_SUFFIX.length);
+  const definition = PLACE_OUTCOME_BASES[measure];
+  // A level adds its causes rather than multiplying, so it has no percent.
+  return definition && definition.scale !== "level" ? measure : null;
+}
+
 /** The reader for a cause: a registered measure, or the law on a question. */
 export function outcomeMeasure(key: string): OutcomeMeasure | null {
   const registered = OUTCOME_MEASURES[key];
@@ -363,6 +380,22 @@ export function outcomeMeasure(key: string): OutcomeMeasure | null {
         return definition.scale === "level"
           ? record.value - structural
           : structural * (record.multiplier - 1);
+      },
+    };
+  }
+  const pctMovedMeasure = placeOutcomePctMovedByCauses(key);
+  if (pctMovedMeasure) {
+    return {
+      key,
+      unit: `percent the causes moved the place's ${PLACE_OUTCOME_BASES[pctMovedMeasure]!.name.toLowerCase()}`,
+      read: (world, jurisdictionId, asOf) => {
+        const record = placeOutcomeAt(
+          world,
+          pctMovedMeasure,
+          jurisdictionId,
+          asOf,
+        );
+        return record ? (record.multiplier - 1) * 100 : null;
       },
     };
   }
@@ -412,6 +445,7 @@ function baselineOf(
   if (CHANGE_MEASURES.has(cause)) return 0;
   if (placeOutcomeOfPctOfStart(cause)) return 100;
   if (placeOutcomeMovedByCauses(cause)) return 0;
+  if (placeOutcomePctMovedByCauses(cause)) return 0;
   // A place outcome is measured from where the place began.
   const placeBase = PLACE_OUTCOME_BASES[cause];
   if (placeBase) {
