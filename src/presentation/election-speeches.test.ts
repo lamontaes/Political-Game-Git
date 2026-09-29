@@ -80,6 +80,18 @@ describe("election-night speeches", () => {
         ? /gave a victory speech after winning the race for/
         : /conceded the race for .+ to /,
     );
+    // The speech is worded from the moves the speaker made: it opens by
+    // thanking the room, and a concession names the person who won.
+    const words = projectCampaign(spoken, personId).speech?.words;
+    expect(words).not.toBeNull();
+    expect(words!.opening).toMatch(/^Thank you/);
+    expect(words!.text.startsWith(words!.opening)).toBe(true);
+    if (result.winnerPersonId !== personId) {
+      const winner = spoken.people[result.winnerPersonId]!;
+      expect(words!.text).toContain(`${winner.givenName} ${winner.familyName}`);
+    }
+    // The same saved speech reads the same every time.
+    expect(projectCampaign(spoken, personId).speech?.words).toEqual(words);
     // Giving it twice says nothing new.
     expect(giveElectionSpeech(spoken, personId)).toBe(spoken);
   }, 300_000);

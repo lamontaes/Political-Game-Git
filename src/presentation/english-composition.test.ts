@@ -7,6 +7,7 @@ import type {
 } from "../simulation/relationship-standing";
 import type { GroundedEnglishPacket } from "./grounded-english";
 import {
+  composeAddress,
   composeGroundedLine,
   linePartsOf,
   linePartsTag,
@@ -366,5 +367,169 @@ describe("lines built from parts", () => {
       complaint("gossip" as SpeechAct),
     );
     expect(line.kind).toBe("missing-context");
+  });
+});
+
+describe("registers, refusals and addresses", () => {
+  function line(
+    act: SpeechAct,
+    parts: Partial<ComposedLineBank["parts"]> = {},
+  ): ComposedLineBank {
+    return {
+      key: `test.${act}`,
+      version: "1",
+      surface: "dialogue",
+      act,
+      parts: {
+        core: {
+          variants: [{ key: "core", kind: "template", text: "not tonight." }],
+        },
+        ...parts,
+      },
+    };
+  }
+  const reason = {
+    variants: [
+      {
+        key: "prices",
+        kind: "template" as const,
+        text: "Groceries are up {{grocery-rise}}.",
+      },
+    ],
+  };
+
+  it("speaks a register-bound part only in its register", () => {
+    const bank = line("tell", {
+      opener: {
+        variants: [
+          {
+            key: "chair",
+            kind: "template",
+            text: "Mr. Speaker,",
+            registers: ["house-one-minute"],
+          },
+        ],
+      },
+    });
+    const floor = composeGroundedLine(packet(), bank, {
+      register: "house-one-minute",
+    });
+    expect(floor.kind === "rendered" && floor.text).toBe(
+      "Mr. Speaker, not tonight.",
+    );
+    for (const register of [undefined, "family"] as const) {
+      const other = composeGroundedLine(packet(), bank, {
+        ...(register ? { register } : {}),
+      });
+      expect(other.kind === "rendered" && other.text).toBe("Not tonight.");
+    }
+  });
+
+  it("keeps crafted devices out of private talk", () => {
+    const bank = line("tell", {
+      closer: {
+        variants: [
+          {
+            key: "contrast",
+            kind: "template",
+            text: "It was never about me.",
+            device: "contrast",
+          },
+        ],
+      },
+    });
+    const rally = composeGroundedLine(packet(), bank, { register: "rally" });
+    expect(rally.kind === "rendered" && rally.parts.at(-1)!.device).toBe(
+      "contrast",
+    );
+    const kitchen = composeGroundedLine(packet(), bank, { register: "family" });
+    expect(kitchen.kind === "rendered" && kitchen.parts).toHaveLength(1);
+  });
+
+  it("lets a disclosure copy only facts from the speaker's own life", () => {
+    const bank = line("tell", {
+      closer: {
+        variants: [
+          {
+            key: "disclose",
+            kind: "template",
+            text: "I know what {{grocery-rise}} means.",
+            device: "disclosure",
+          },
+        ],
+      },
+    });
+    const own = composeGroundedLine(packet(), bank, {
+      register: "rally",
+      speakerOwnRecordIds: ["price-grocery-2026"],
+    });
+    expect(own.kind === "rendered" && own.parts).toHaveLength(2);
+    const borrowed = composeGroundedLine(packet(), bank, {
+      register: "rally",
+      speakerOwnRecordIds: ["somebody-else"],
+    });
+    expect(borrowed.kind === "rendered" && borrowed.parts).toHaveLength(1);
+  });
+
+  it("gives a refusal its reason, and refuses one with none", () => {
+    expect(composeGroundedLine(packet(), line("decline")).kind).toBe(
+      "missing-context",
+    );
+    const noFact = composeGroundedLine(
+      packet({ facts: {} }),
+      line("decline", { reason }),
+    );
+    expect(noFact.kind).toBe("missing-context");
+    const said = composeGroundedLine(packet(), line("decline", { reason }));
+    expect(
+      said.kind === "rendered" && said.parts.map((part) => part.part),
+    ).toEqual(["opener", "core", "reason"]);
+    expect(said.kind === "rendered" && said.parts[0]!.partKey).toMatch(
+      /^english\.slow-opener:opener:/,
+    );
+  });
+
+  it("says no flat, without easing in, to someone the speaker is at odds with", () => {
+    const flat = composeGroundedLine(packet(), line("decline", { reason }), {
+      relationship: readings({
+        tension: { band: "strong", basis: ["argument-2"] },
+      }),
+    });
+    expect(flat.kind === "rendered" && flat.text).toBe(
+      "Not tonight. Groceries are up twenty dollars a week.",
+    );
+  });
+
+  it("keeps a yes short", () => {
+    const yes = composeGroundedLine(packet(), line("agree", { reason }));
+    expect(yes.kind === "rendered" && yes.text).toBe("Not tonight.");
+  });
+
+  it("composes an address move by move, and only as a public address", () => {
+    const moves = [
+      { key: "one", bank: line("greet"), required: true },
+      { key: "two", bank: line("tell", { core: reason }) },
+      {
+        key: "three",
+        bank: line("tell", {
+          core: {
+            variants: [
+              { key: "rent", kind: "template", text: "Rent is {{rent}}." },
+            ],
+          },
+        }),
+      },
+    ];
+    const address = composeAddress(packet(), "election-night", moves);
+    expect(address.kind).toBe("rendered");
+    if (address.kind !== "rendered") return;
+    // The third move needs a rent the record does not hold, so it is left out.
+    expect(address.moves.map((move) => move.move)).toEqual(["one", "two"]);
+    expect(address.text).toBe(
+      "Not tonight. Groceries are up twenty dollars a week.",
+    );
+    expect(composeAddress(packet(), "family", moves).kind).toBe(
+      "missing-context",
+    );
   });
 });

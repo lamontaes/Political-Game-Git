@@ -1,3 +1,4 @@
+import { electionSpeechWords } from "./election-speech-english";
 import {
   legacyLegislativeSeat,
   legislativeTermDates,
@@ -289,6 +290,11 @@ export interface CampaignView {
     readonly kind: ElectionSpeechKind;
     readonly winnerName: string;
     readonly given: string | null;
+    /** The speech in words: its opening and the whole text, when recorded. */
+    readonly words: {
+      readonly opening: string;
+      readonly text: string;
+    } | null;
   } | null;
 }
 
@@ -525,6 +531,10 @@ export function projectCampaign(
             winnerName: displayName(world, result.winnerPersonId),
             given:
               electionSpeechGiven(world, contest.id, personId)?.summary ?? null,
+            words: (() => {
+              const event = electionSpeechGiven(world, contest.id, personId);
+              return event ? electionSpeechWords(world, event) : null;
+            })(),
           }
         : null,
     tallies: (() => {

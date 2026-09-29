@@ -1,0 +1,17 @@
+---
+id: speeches-and-refusals-sound-real
+impact: minor
+section: Changed
+title: Election-night speeches are spoken in full, and a no comes with a reason
+---
+
+After the votes are counted, a victory speech or a concession is now spoken
+in full. The winner thanks the room, names the other candidate and turns to
+the work ahead; the loser congratulates the winner by name. A speaker whose
+parent has died may say so, unless they are a private person. The result
+screen shows the opening line, and tapping it shows the whole speech.
+
+When someone turns down a game, a quiet talk or a date, they now say why: they
+want time to themselves, they would rather try something new, or they would
+rather play a game you both know. Unless the two of you are at odds, they ease
+into it. Saying yes to a game is short.
