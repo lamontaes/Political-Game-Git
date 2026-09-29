@@ -17,7 +17,7 @@
       ]
     },
     "barbershop": {
-      "checked": ["barbershop__midday.jpg"],
+      "checked": ["barbershop__midday.jpg", "barbershop__morning.jpg"],
       "surfaces": [],
       "skipped": [
         "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
@@ -1000,6 +1000,7 @@
       "checked": [
         "police-station__midday.jpg",
         "police-station__morning.jpg",
+        "police-station__night.jpg",
         "police-station__rain.jpg"
       ],
       "surfaces": [],
@@ -1010,6 +1011,7 @@
     "polling-place": {
       "checked": [
         "polling-place__midday.jpg",
+        "polling-place__morning.jpg",
         "polling-place__night.jpg",
         "polling-place__rain.jpg"
       ],
@@ -1019,7 +1021,7 @@
       ]
     },
     "public-library": {
-      "checked": ["public-library__midday.jpg"],
+      "checked": ["public-library__midday.jpg", "public-library__morning.jpg"],
       "surfaces": [],
       "skipped": [
         "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"

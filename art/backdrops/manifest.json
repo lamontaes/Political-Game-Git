@@ -57,6 +57,17 @@
       "approval": "live-owner-reviews-in-play-2026-09-28"
     },
     {
+      "place": "barbershop",
+      "variant": "morning",
+      "file": "barbershop__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "0e157beffa2e4fe31b1da2c0db5792f92816cd0948bb780b282d473f5f1903ff",
+      "sourceFile": "barbershop__morning.png",
+      "sourceSha256": "8d249f1072c716c9a6acc524e697faa20c02ad76602229199593c51b6cb7ee15",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
       "place": "campaign-storefront",
       "variant": "midday",
       "file": "campaign-storefront__midday.jpg",
@@ -1378,6 +1389,17 @@
     },
     {
       "place": "police-station",
+      "variant": "night",
+      "file": "police-station__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "0e020ee5a69d8576744f34f0ce38f44956de273d97bb956beb7a267bfaa7c783",
+      "sourceFile": "police-station__night.png",
+      "sourceSha256": "a6f6890bbd5baff3edeac2c7d30bfb3bc4fe622417a5fa5116079cdbc41b9acb",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "police-station",
       "variant": "rain",
       "file": "police-station__rain.jpg",
       "width": 1672,
@@ -1396,6 +1418,17 @@
       "sha256": "b24ca8d406600c37e5e9c12f9a82fd4227f3f1d76b14361436f1ef00348c5195",
       "sourceFile": "polling-place__midday.png",
       "sourceSha256": "f67f793d2f4d71e5fe5d5202158d6569075d0b95517b5b8ac5a692963bbba1ec",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "polling-place",
+      "variant": "morning",
+      "file": "polling-place__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "5a56d79e24f375181563dabd5533393eca4ce85271ad4d9829ed41c3edfcba62",
+      "sourceFile": "polling-place__morning.png",
+      "sourceSha256": "016ee84f311b87b7202e2f32b96d9c84c465936c6e36637c1835802822db9822",
       "approval": "live-owner-reviews-in-play-2026-09-28"
     },
     {
@@ -1429,6 +1462,17 @@
       "sha256": "afac024c670e6a3964daa30a4c1489d625647b9d48f4e8035d915efd65beccff",
       "sourceFile": "public-library__midday.png",
       "sourceSha256": "dd490102916515b34fb45c0d64d5103f78dcecdf2f5951e8cd81478b0df0662c",
+      "approval": "live-owner-reviews-in-play-2026-09-28"
+    },
+    {
+      "place": "public-library",
+      "variant": "morning",
+      "file": "public-library__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "eb63b6ce4ba218e8b780f745bb53904f6d2fbedd2ffddc2bc849587fe1311535",
+      "sourceFile": "public-library__morning.png",
+      "sourceSha256": "ce9b8cb2ebb15c6fdb009978519001a28c71a64283daa7d619c4fa40c37ea121",
       "approval": "live-owner-reviews-in-play-2026-09-28"
     },
     {
