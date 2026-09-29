@@ -29,6 +29,7 @@ import {
 } from "./trait-packs";
 import { readTrait } from "./trait-readings";
 import { traitRegistryFor } from "./trait-registry";
+import { advanceWithWorldIntegrityAtEnd } from "./world";
 import type {
   DecisionConsideration,
   DecisionImportance,
@@ -335,6 +336,19 @@ function seedRegisteredTrait(
  * layer only accepts the player's own choices as a change to that person.
  */
 export function ensurePeopleTraits(
+  world: World,
+  personIds: readonly EntityId[],
+): World {
+  // Every trait is its own writer, and each writer checked the whole World,
+  // so opening a life with a large family paid a full check per trait per
+  // relative. The writes are checked once, together, at the end.
+  return advanceWithWorldIntegrityAtEnd(
+    () => writePeopleTraits(world, personIds),
+    world,
+  );
+}
+
+function writePeopleTraits(
   world: World,
   personIds: readonly EntityId[],
 ): World {
