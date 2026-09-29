@@ -11,7 +11,7 @@ import {
 import { ensureOpeningJudiciary } from "../judiciary/opening";
 import { personName } from "../people";
 import { ensurePeopleTraits } from "../people-traits";
-import type { EntityId, HistoricalEvent, World } from "../types";
+import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
   chosenReasons,
@@ -276,9 +276,13 @@ function isPlayer(world: World, personId: EntityId): boolean {
 }
 
 export const PROSECUTION_MISTRIAL_EVENT = "justice.mistrial";
+/** A plea the defendant entered themselves, ahead of the hearing. */
+export const PROSECUTION_PLEA_ENTERED_EVENT = "justice.plea-entered";
+const PLEA_TAG = "justice.plea:";
 
 type FollowUpType =
   | typeof PROSECUTION_CHARGED_EVENT
+  | typeof PROSECUTION_PLEA_ENTERED_EVENT
   | typeof PROSECUTION_DECLINED_EVENT
   | typeof PROSECUTION_MISTRIAL_EVENT
   | typeof PROSECUTION_ENDED_EVENT
@@ -574,22 +578,35 @@ export function advanceProsecutions(world: World): World {
     if (addDays(last.occurredAt, rule.resolveAfterDays) > next.currentDate)
       continue;
 
-    // The defendant decides once, before the first trial. Nobody decides
-    // for the player: with no plea entered, the court enters not guilty
-    // (Fed. R. Crim. P. 11(a)(4)) and the case goes to trial.
+    // The defendant decides once, before the first trial. A plea they
+    // entered themselves stands. Nobody decides for the player: with no plea
+    // entered, the court enters not guilty (Fed. R. Crim. P. 11(a)(4)) and
+    // the case goes to trial.
     let pleaded = false;
-    if (mistrials.length === 0 && !isPlayer(next, subjectId)) {
-      next = ensurePeopleTraits(next, [subjectId]);
-      const plea = evaluatePlea(next, courtCase);
-      next = recordDurableDecisionTrace(next, plea);
-      pleaded = plea.selectedOptionKey === PLEA;
-      if (pleaded) {
-        next = followUp(next, last, referral, PROSECUTION_ENDED_EVENT, {
-          summary: outcomeLine("plea", name, offense),
-          extraTags: [`${OUTCOME_TAG}plea`],
-          motivation: chosenReasons(plea),
-          decidedBy: { personId: subjectId, role: "Defendant" },
-        });
+    if (mistrials.length === 0) {
+      const entered = enteredPleaOf(next, referral);
+      if (entered) {
+        pleaded = entered === "guilty";
+        if (pleaded)
+          next = followUp(next, last, referral, PROSECUTION_ENDED_EVENT, {
+            summary: outcomeLine("plea", name, offense),
+            extraTags: [`${OUTCOME_TAG}plea`],
+            motivation: "They chose to plead guilty.",
+            decidedBy: { personId: subjectId, role: "Defendant" },
+          });
+      } else if (!isPlayer(next, subjectId)) {
+        next = ensurePeopleTraits(next, [subjectId]);
+        const plea = evaluatePlea(next, courtCase);
+        next = recordDurableDecisionTrace(next, plea);
+        pleaded = plea.selectedOptionKey === PLEA;
+        if (pleaded) {
+          next = followUp(next, last, referral, PROSECUTION_ENDED_EVENT, {
+            summary: outcomeLine("plea", name, offense),
+            extraTags: [`${OUTCOME_TAG}plea`],
+            motivation: chosenReasons(plea),
+            decidedBy: { personId: subjectId, role: "Defendant" },
+          });
+        }
       }
     }
     if (!pleaded) {
@@ -665,4 +682,147 @@ export function advanceProsecutions(world: World): World {
       next = removeFromOffice(next, subjectId, next.history.events.at(-1)!);
   }
   return next;
+}
+
+/* ------------------------------------------------------------------ *
+ * The defendant's own view of a case, and the plea they may enter
+ * ------------------------------------------------------------------ */
+
+export type EnteredPlea = "guilty" | "not-guilty";
+
+function eventsFor(
+  world: World,
+  type: string,
+  referral: HistoricalEvent,
+): readonly HistoricalEvent[] {
+  return world.history.events.filter(
+    (event) =>
+      event.type === type &&
+      event.tags.includes(`${REFERRAL_TAG}${referral.id}`),
+  );
+}
+
+function enteredPleaOf(
+  world: World,
+  referral: HistoricalEvent,
+): EnteredPlea | null {
+  const [entered] = eventsFor(world, PROSECUTION_PLEA_ENTERED_EVENT, referral);
+  const plea = entered ? tagValue(entered, PLEA_TAG) : null;
+  return plea === "guilty" || plea === "not-guilty" ? plea : null;
+}
+
+/** One case against a person, as the person can see it. */
+export interface CourtCaseRecord {
+  readonly referralId: EntityId;
+  readonly offenseLabel: string;
+  readonly chargedOn: IsoDate;
+  /** When the plea is taken or the trial held, while the case is open. */
+  readonly hearingOn: IsoDate | null;
+  readonly enteredPlea: EnteredPlea | null;
+  readonly mistrials: number;
+  readonly outcome: CaseOutcome | null;
+  readonly endedOn: IsoDate | null;
+  readonly sentencedEventId: EntityId | null;
+}
+
+/**
+ * Every case filed against a person, oldest first. A referral that
+ * prosecutors have not acted on, or declined, stays private and is not
+ * listed: the person learns of a case when they are charged. Read-only.
+ */
+export function courtCasesOf(
+  world: World,
+  personId: EntityId,
+): readonly CourtCaseRecord[] {
+  return world.history.events.flatMap((referral) => {
+    if (referral.type !== PROSECUTION_REFERRED_EVENT) return [];
+    const subject = referral.participants.find(
+      (entry) => entry.role === "focus:subject",
+    )?.personId;
+    if (subject !== personId) return [];
+    const [charged] = eventsFor(world, PROSECUTION_CHARGED_EVENT, referral);
+    if (!charged) return [];
+    const mistrials = eventsFor(world, PROSECUTION_MISTRIAL_EVENT, referral);
+    const [ended] = eventsFor(world, PROSECUTION_ENDED_EVENT, referral);
+    const [sentenced] = eventsFor(world, PROSECUTION_SENTENCED_EVENT, referral);
+    const offenseKey = tagValue(referral, OFFENSE_TAG) ?? "";
+    return [
+      {
+        referralId: referral.id,
+        offenseLabel: offenseLabel(offenseKey),
+        chargedOn: charged.occurredAt,
+        hearingOn: ended
+          ? null
+          : addDays(
+              (mistrials.at(-1) ?? charged).occurredAt,
+              UNRESEARCHED_PROSECUTION.resolveAfterDays,
+            ),
+        enteredPlea: enteredPleaOf(world, referral),
+        mistrials: mistrials.length,
+        outcome: ended
+          ? ((tagValue(ended, OUTCOME_TAG) as CaseOutcome | null) ?? null)
+          : null,
+        endedOn: ended?.occurredAt ?? null,
+        sentencedEventId: sentenced?.id ?? null,
+      },
+    ];
+  });
+}
+
+export type PleaActionResult =
+  | { readonly ok: true; readonly world: World }
+  | { readonly ok: false; readonly world: World; readonly reason: string };
+
+/**
+ * A defendant enters their own plea before the hearing. The player's route:
+ * the game's people decide theirs at the hearing (`advanceProsecutions`). A
+ * guilty plea is taken at the hearing and ends the case there; not guilty
+ * sends it to trial, as it would with no plea entered. Refused, with the
+ * reason, when there is no open charge to answer or a plea already stands.
+ */
+export function enterPlea(
+  world: World,
+  input: {
+    readonly personId: EntityId;
+    readonly referralId: EntityId;
+    readonly plea: EnteredPlea;
+  },
+): PleaActionResult {
+  const refuse = (reason: string): PleaActionResult => ({
+    ok: false,
+    world,
+    reason,
+  });
+  const person = world.people[input.personId];
+  const referral = world.history.events.find(
+    (event) =>
+      event.id === input.referralId &&
+      event.type === PROSECUTION_REFERRED_EVENT,
+  );
+  const subject = referral?.participants.find(
+    (entry) => entry.role === "focus:subject",
+  )?.personId;
+  if (!person || !referral || subject !== input.personId)
+    return refuse("There is no charge against them to answer.");
+  const [charged] = eventsFor(world, PROSECUTION_CHARGED_EVENT, referral);
+  if (!charged) return refuse("There is no charge against them to answer.");
+  if (eventsFor(world, PROSECUTION_ENDED_EVENT, referral).length > 0)
+    return refuse("The case is already over.");
+  if (eventsFor(world, PROSECUTION_MISTRIAL_EVENT, referral).length > 0)
+    return refuse("The case has already gone to trial.");
+  if (enteredPleaOf(world, referral))
+    return refuse("A plea has already been entered.");
+  const offense = offenseLabel(tagValue(referral, OFFENSE_TAG) ?? "");
+  const name = personName(person);
+  return {
+    ok: true,
+    world: followUp(world, charged, referral, PROSECUTION_PLEA_ENTERED_EVENT, {
+      summary:
+        input.plea === "guilty"
+          ? `${name} told the court they would plead guilty to ${offense}.`
+          : `${name} pleaded not guilty to ${offense}.`,
+      extraTags: [`${PLEA_TAG}${input.plea}`],
+      decidedBy: { personId: input.personId, role: "Defendant" },
+    }),
+  };
 }

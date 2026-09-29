@@ -1,7 +1,11 @@
 import { recordById } from "../history-index";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../dates";
-import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
+import {
+  enactmentStatuteDateContext,
+  STATUTE_EFFECTIVE_DEFAULT_DAYS,
+  stateRuleBasis,
+} from "../enacted-rule-changes";
 import { type PropositionAnswer } from "../issue-record";
 import { lawLevelRank, type LawLevel } from "../law-hierarchy";
 import {
@@ -27,8 +31,9 @@ import { stateStatuteOperativeAt } from "./statute-effective-date";
  * Derived, never stored: read from the enacted measures that answered the
  * question (`propositionAnswers`), each operative from its enactment's own
  * effective date, else its state's own effective-date rule
- * (`statute-effective-date.ts`), else, where that rule is not researched, the
- * blanket statute default the rule-change reader also uses.
+ * (`statute-effective-date.ts`, read or estimated), else, where that rule
+ * does not date the act, the blanket statute default the rule-change reader
+ * also uses.
  *
  * Which law governs follows `law-hierarchy.ts`: the place's own ordinances,
  * then its state's statutes, then Acts of Congress, and a higher level in
@@ -78,7 +83,8 @@ export interface LawInForce {
    * `state-rule` when the state's own effective-date rule dated it,
    * `game-default` when the blanket effective date was applied.
    */
-  readonly operativeBasis: "enacted-date" | "state-rule" | "game-default";
+  readonly operativeBasis:
+    "enacted-date" | "state-rule" | "estimated-state-rule" | "game-default";
   /**
    * For a law the game began with: whether it also bars the place's
    * localities from answering otherwise, where the starting-law row says.
@@ -122,7 +128,11 @@ export function lawInForce(
     const stateRuleAt =
       enactment.effectiveAt || !placeKey?.startsWith("US-")
         ? null
-        : stateStatuteOperativeAt(placeKey, enactment.resolvedAt);
+        : stateStatuteOperativeAt(
+            placeKey,
+            enactment.resolvedAt,
+            enactmentStatuteDateContext(enactment),
+          );
     const operativeAt =
       enactment.effectiveAt ??
       stateRuleAt ??
@@ -136,7 +146,7 @@ export function lawInForce(
       operativeBasis: enactment.effectiveAt
         ? ("enacted-date" as const)
         : stateRuleAt
-          ? ("state-rule" as const)
+          ? stateRuleBasis(placeKey!, enactment.resolvedAt)
           : ("game-default" as const),
       origin: "enacted" as const,
       sequence: enactment.sequence,
@@ -328,6 +338,11 @@ function governingRank(law: Candidate): number {
 function governs(candidate: Candidate, current: Candidate): boolean {
   const rank = governingRank(candidate) - governingRank(current);
   if (rank !== 0) return rank > 0;
+  // A law enacted in play was passed after every law the game began with,
+  // so it governs even when a starting law takes effect later: a repeal of
+  // a starting law not yet in force leaves nothing of it to take effect.
+  if (candidate.origin !== current.origin)
+    return candidate.origin === "enacted";
   if (candidate.operativeAt !== current.operativeAt)
     return candidate.operativeAt > current.operativeAt;
   return candidate.sequence > current.sequence;
