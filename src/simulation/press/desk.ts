@@ -153,7 +153,8 @@ export function ensurePressDeskSchedule(world: World): World {
   const stableKey = "press46:desk-sweep:0";
   if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return world;
-  return scheduleFutureDueItem(world, {
+  const archived = publishOpeningPublicRecords(world);
+  return scheduleFutureDueItem(archived, {
     stableKey,
     dueAt: addDays(world.currentDate, PRESS_DESK_INTERVALS.sweepDays),
     transitionKey: PRESS_DESK_SWEEP_TRANSITION_KEY,
@@ -161,6 +162,38 @@ export function ensurePressDeskSchedule(world: World): World {
     jurisdictionId: null,
     provenance: { kind: "initialization", reference: PRESS_CONTRACT_VERSION },
   });
+}
+
+/** Opening is a writer boundary: publish the recent canonical public archive
+ * once, through Civic Ledger. No reporter response or occurrence is invented.
+ * Dates remain the event's own dates; this opening edition is dated today.
+ */
+export function publishOpeningPublicRecords(world: World): World {
+  const oldest = addDays(world.currentDate, -90);
+  const published = new Set(
+    (world.history.publications ?? []).map((record) => record.sourceEventId),
+  );
+  const candidates = world.history.events.filter(
+    (event) =>
+      event.occurredAt >= oldest &&
+      event.occurredAt < world.currentDate &&
+      event.recordedAt <= world.currentDate &&
+      !published.has(event.id) &&
+      !event.tags.some(
+        (tag) =>
+          tag.startsWith("family:local-matter") ||
+          tag.startsWith("family:international"),
+      ) &&
+      eventIsNewsCandidate(world, event),
+  );
+  let next = world;
+  for (const event of candidates) {
+    next = publishPublicEvent(next, {
+      stableKey: `press46:opening-archive:${event.id}`,
+      sourceEventId: event.id,
+    });
+  }
+  return next;
 }
 
 export interface RecordStoryLeadInput {
@@ -1406,7 +1439,10 @@ export function pressDeskSweepHandler(
   if (dueItem.transitionKey !== PRESS_DESK_SWEEP_TRANSITION_KEY) {
     throw new Error("The desk sweep handler received another transition.");
   }
-  const frontier = dueItem.sequence;
+  // Only the opening sweep reads the archive. Later sweeps retain the
+  // incremental frontier so older records are not rescanned every week.
+  const frontier =
+    dueItem.stableKey === "press46:desk-sweep:0" ? 0 : dueItem.sequence;
   // What the week's laws did to people in each town, and a year on what a law
   // moved in a place, become records first, so this sweep can judge them
   // (law-effect-news.ts).

@@ -17,7 +17,6 @@ import { householdLocationAt } from "../life-queries";
 import { searchLifePlaces } from "../life-places";
 import type { World } from "../types";
 import {
-  BLANKET_INTERNATIONAL_FRICTION,
   BLANKET_POLITICAL_VIOLENCE,
   POLITICAL_THREAT_EVENT,
   PRESSURE_CONTRACT_VERSION,
@@ -27,7 +26,6 @@ import {
   UNREST_LASTING_PHASE,
   causesInPeriod,
   internationalFriction,
-  latestReadings,
   prominentPeopleIn,
   stepPressure,
   stepInternationalFriction,
@@ -269,33 +267,17 @@ describe("what pressure sets off", { timeout: LONG }, () => {
     expect(governor.personId).toBeTruthy();
   });
 
-  it("escalates an open international development into one crisis, once", () => {
-    const game = openLife("pressure-events-international");
+  it("does not turn domestic anger into a canned foreign dispute", () => {
+    const game = openLife("pressure-events-international-retired");
     const states = worldStates(game.world).map((row) => row.stateKey);
-    const opened = latestReadings(game.world);
-    expect(opened.size).toBe(0);
-    const quiet = internationalFriction(game.world, []);
-    for (const { friction } of quiet.values())
-      expect(friction).toBeLessThanOrEqual(BLANKET_INTERNATIONAL_FRICTION.line);
-
-    // Fixture: anger across every state, as the readings would carry it,
-    // today. The step is run twice on the same quarter to prove a
-    // development starts one crisis at most.
     const angry = seedAnger(game.world, states, 3);
-    const once = stepInternationalFriction(angry);
-    const twice = stepInternationalFriction(once);
-    const crises = (world: World) =>
-      crisisRecords(world).filter(
+    expect(internationalFriction(angry, [])).toEqual(new Map());
+    expect(stepInternationalFriction(angry)).toBe(angry);
+    expect(
+      crisisRecords(angry).filter(
         (record) => record.kind === "international-crisis",
-      );
-    expect(quiet.size).toBeGreaterThan(0);
-    expect(crises(once).length).toBeGreaterThan(0);
-    expect(crises(once).length).toBeLessThanOrEqual(quiet.size);
-    expect(crises(twice)).toEqual(crises(once));
-    expect(crises(once)[0]).toMatchObject({
-      counterpartyLabel: "a foreign government",
-      tension: "high",
-    });
+      ),
+    ).toEqual([]);
   });
 });
 
