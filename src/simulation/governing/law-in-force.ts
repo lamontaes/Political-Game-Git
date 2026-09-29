@@ -1,4 +1,4 @@
-import { recordById } from "../history-index";
+import { recordById, recordByStableKey } from "../history-index";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../dates";
 import {
@@ -151,34 +151,21 @@ export function lawInForce(
       authority.set(measure.jurisdictionId, may);
     }
     if (!may) continue;
-    const placeKey = startingLawPlaceKey(measure.jurisdictionId);
-    const stateRuleAt =
-      enactment.effectiveAt || !placeKey?.startsWith("US-")
-        ? null
-        : stateStatuteOperativeAt(
-            placeKey,
-            enactment.resolvedAt,
-            enactmentStatuteDateContext(world, enactment),
-          );
-    const operativeAt =
-      enactment.effectiveAt ??
-      stateRuleAt ??
-      addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS);
+    const { operativeAt, operativeBasis } = enactmentOperative(
+      world,
+      measure,
+      enactment,
+    );
     if (operativeAt > onDate) continue;
+    // Struck down by a court before this day: on the record, and governing
+    // nothing (judiciary/judicial-review.ts).
+    if (struckDownBy(world, enactment.id, propositionId, onDate)) continue;
     const candidate = {
       answer,
       measureId: measure.id,
       level,
       operativeAt,
-      operativeBasis: enactment.effectiveAt
-        ? ("enacted-date" as const)
-        : stateRuleAt
-          ? stateRuleBasis(
-              placeKey!,
-              enactment.resolvedAt,
-              enactmentStatuteDateContext(world, enactment),
-            )
-          : ("game-default" as const),
+      operativeBasis,
       origin: "enacted" as const,
       sequence: enactment.sequence,
     };
@@ -209,7 +196,81 @@ export function lawInForce(
   };
 }
 
-interface EnactedMeasure {
+/** The day a law enacted in play takes effect, and on what basis. */
+export function enactmentOperative(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  enactment: LegislativeEnactmentRecord,
+): {
+  readonly operativeAt: IsoDate;
+  readonly operativeBasis: LawInForce["operativeBasis"];
+} {
+  const placeKey = startingLawPlaceKey(measure.jurisdictionId);
+  const stateRuleAt =
+    enactment.effectiveAt || !placeKey?.startsWith("US-")
+      ? null
+      : stateStatuteOperativeAt(
+          placeKey,
+          enactment.resolvedAt,
+          enactmentStatuteDateContext(world, enactment),
+        );
+  return {
+    operativeAt:
+      enactment.effectiveAt ??
+      stateRuleAt ??
+      addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS),
+    operativeBasis: enactment.effectiveAt
+      ? "enacted-date"
+      : stateRuleAt
+        ? stateRuleBasis(
+            placeKey!,
+            enactment.resolvedAt,
+            enactmentStatuteDateContext(world, enactment),
+          )
+        : "game-default",
+  };
+}
+
+/** The record key of a court's ruling on one question a law answers. */
+export function judicialRulingKey(
+  enactmentId: EntityId,
+  propositionId: EntityId,
+): string {
+  return `judicial-review:${enactmentId}:${propositionId}`;
+}
+
+/** Whether a court struck the law's answer to this question by `onDate`. */
+function struckDownBy(
+  world: World,
+  enactmentId: EntityId,
+  propositionId: EntityId,
+  onDate: IsoDate,
+): boolean {
+  const ruling = recordByStableKey(
+    world.history.events,
+    judicialRulingKey(enactmentId, propositionId),
+  );
+  return (
+    ruling !== undefined &&
+    ruling.occurredAt <= onDate &&
+    ruling.tags.includes("outcome:struck")
+  );
+}
+
+/** Every law enacted in play that answers this question. */
+export function enactmentsAnswering(
+  world: World,
+  propositionId: EntityId,
+): readonly EnactedMeasure[] {
+  return enactedByQuestion(world).get(propositionId) ?? [];
+}
+
+/** The state a jurisdiction belongs to: itself for a state. */
+export function stateJurisdictionOf(jurisdictionId: EntityId): EntityId | null {
+  return stateOf(jurisdictionId);
+}
+
+export interface EnactedMeasure {
   readonly enactment: LegislativeEnactmentRecord;
   readonly measure: LegislativeMeasureRecord;
 }

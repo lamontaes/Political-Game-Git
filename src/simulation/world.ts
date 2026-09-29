@@ -1,5 +1,6 @@
 import { applySpeechRetelling } from "./speech-retelling";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
+import { applyJudicialReview } from "./judiciary/judicial-review";
 import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { assertWorldContentPacks } from "./runtime-content-packs";
@@ -1421,28 +1422,31 @@ function advanceWorldUnchecked(
     actionSequence: actionSequence + 1,
   };
 
-  const continued = applySpeechRetelling(
+  const continued = applyJudicialReview(
     world.currentDate,
-    applyCrisisRepairFunding(
-      applyEnactedCourtSizes(
-        applyCrisisOfficeContinuity(
-          applyCongressLawmaking(
-            world.currentDate,
-            applyFederalReform(
+    applySpeechRetelling(
+      world.currentDate,
+      applyCrisisRepairFunding(
+        applyEnactedCourtSizes(
+          applyCrisisOfficeContinuity(
+            applyCongressLawmaking(
               world.currentDate,
-              applyArticleV(
+              applyFederalReform(
                 world.currentDate,
-                applyConstitutionalReform(
+                applyArticleV(
                   world.currentDate,
-                  applyPresidentialTurnover(
+                  applyConstitutionalReform(
                     world.currentDate,
-                    applyGovernorTurnover(
+                    applyPresidentialTurnover(
                       world.currentDate,
-                      applyCongressTurnover(
+                      applyGovernorTurnover(
                         world.currentDate,
-                        applyStateLegislatureTurnover(
+                        applyCongressTurnover(
                           world.currentDate,
-                          applyNationalTermTransitions(advanced),
+                          applyStateLegislatureTurnover(
+                            world.currentDate,
+                            applyNationalTermTransitions(advanced),
+                          ),
                         ),
                       ),
                     ),
