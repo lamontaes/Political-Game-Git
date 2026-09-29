@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { projectPersonDossier } from "./person-dossier";
 import { recordWorldEvent } from "../simulation/world";
+import { makeIsoDate } from "../simulation/dates";
+import { createStableId } from "../simulation/ids";
 import { serializeWorld } from "../simulation/serialization";
 import { createLightweightPerson } from "../simulation/people";
 import type { OccupationFact, World } from "../simulation/types";
@@ -126,7 +128,7 @@ describe("another person's biography access", () => {
     });
     const event = world.history.events.at(-1)!;
     const fact: OccupationFact = {
-      id: "dossier-test-occupation",
+      id: createStableId("fact", "dossier-test-occupation"),
       stableKey: "dossier-test-occupation",
       kind: "occupation",
       occurredAt: event.occurredAt,
@@ -178,7 +180,7 @@ describe("another person's biography access", () => {
         ...world.history,
         events: world.history.events.map((entry) =>
           entry.id === event.id
-            ? { ...entry, recordedAt: "9999-01-01" }
+            ? { ...entry, recordedAt: makeIsoDate("9999-01-01") }
             : entry,
         ),
       },

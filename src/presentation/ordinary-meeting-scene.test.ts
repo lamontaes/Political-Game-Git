@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  type EntityId,
   advanceWorldMinutes,
   deserializeWorld,
   serializeWorld,
@@ -308,7 +309,7 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
       );
       const scene = projectOrdinaryMeetingScene(recorded, personId)!;
       const town = activity.location.jurisdictionId!;
-      const belongs = (id: string) =>
+      const belongs = (id: EntityId) =>
         activeOrganizationParticipationsAt(completed, id).length;
       console.log(
         JSON.stringify({

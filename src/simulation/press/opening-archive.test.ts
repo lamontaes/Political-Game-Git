@@ -3,6 +3,7 @@ import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../../presentation/new-game";
+import { makeIsoDate } from "../dates";
 import { recordWorldEvent } from "../world";
 import { publishOpeningPublicRecords } from "./desk";
 import { projectPublicInformationDigest } from "../public-information";
@@ -16,8 +17,8 @@ function archive() {
   return recordWorldEvent(game.world, {
     stableKey: "archive:recorded-vote",
     type: "civic.council-vote",
-    occurredAt: "2025-12-15",
-    recordedAt: "2025-12-15",
+    occurredAt: makeIsoDate("2025-12-15"),
+    recordedAt: makeIsoDate("2025-12-15"),
     jurisdictionId: null,
     involvedEntityIds: [game.world.id],
     participants: [],

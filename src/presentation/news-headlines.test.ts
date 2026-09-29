@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { World } from "../simulation";
+import type { EntityId, World } from "../simulation";
 import { readerHeadline } from "./news-headlines";
 
 describe("recorded newspaper headlines", () => {
@@ -10,7 +10,10 @@ describe("recorded newspaper headlines", () => {
       "Correction: ORD 12 takes effect February 1",
     ]) {
       expect(
-        readerHeadline(world, { sourceEventId: "event_1", headline }),
+        readerHeadline(world, {
+          sourceEventId: "event_1" as EntityId,
+          headline,
+        }),
       ).toBe(headline);
     }
   });
