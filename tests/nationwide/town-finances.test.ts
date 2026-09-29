@@ -206,7 +206,7 @@ describe(
       ).toBeLessThanOrEqual(1);
     });
 
-    it("a bank loses on a household borrower out of work past the charge-off day, once", () => {
+    it("a bank loses on a household borrower out of work past benefits and the charge-off day, once", () => {
       const store = world.townFinances!;
       const bankId = Object.keys(store.banks).find(
         (id) => !store.banks[id]!.failed,
@@ -232,9 +232,10 @@ describe(
         ...from,
         currentDate: addDays(from.currentDate, days),
       });
-      // Not yet 120 days out of work: nothing is charged off.
+      // Benefits last 26 weeks and a loan is charged off 120 days past due:
+      // at 273 days nothing is charged off yet.
       const early = stepTownFinances(
-        later(laidOff, 91),
+        later(laidOff, 273),
         town,
         businesses,
         new Set(),

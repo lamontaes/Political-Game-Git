@@ -148,11 +148,16 @@ export const TOWN_FINANCE_POLICY = {
     /**
      * REGULATION: a closed-end consumer loan is charged off once it is 120
      * days past due (FFIEC Uniform Retail Credit Classification and Account
-     * Management Policy, 65 Fed. Reg. 36903, June 12, 2000). A borrower out
-     * of work that long, with no job since, is taken to have missed every
-     * payment since.
+     * Management Policy, 65 Fed. Reg. 36903, June 12, 2000).
      */
     chargeOffDaysPastDue: 120,
+    /**
+     * LAW, the most common rule: a laid-off worker draws unemployment
+     * benefits for up to 26 weeks in most states (U.S. Department of Labor,
+     * Comparison of State Unemployment Insurance Laws). A borrower
+     * keeps paying while benefits last, and misses payments after.
+     */
+    unemploymentBenefitDays: 26 * 7,
   },
 } as const;
 
@@ -1179,8 +1184,9 @@ export function closeBusinessWithNobodyLeft(
  * town's businesses is lent to the town's households, an equal part to each
  * worker; a worker banks where their last employer banks, else at the
  * town's first bank. A borrower whose last town job ended in a layoff or a
- * closing, who has held no job since, and whose job ended at least
- * `chargeOffDaysPastDue` days ago, defaults on their part, once.
+ * closing, and who has held no job since, pays while unemployment benefits
+ * last; once they run out and the loan is past the charge-off day, the
+ * borrower defaults on their part, once.
  */
 function townHouseholdDefaults(
   world: World,
@@ -1193,7 +1199,13 @@ function townHouseholdDefaults(
   const open = bankIds.filter((id) => banks[id] && !banks[id]!.failed);
   if (open.length === 0) return result;
   const today = world.currentDate;
-  const dueBy = addDays(today, -TOWN_FINANCE_POLICY.bank.chargeOffDaysPastDue);
+  const dueBy = addDays(
+    today,
+    -(
+      TOWN_FINANCE_POLICY.bank.unemploymentBenefitDays +
+      TOWN_FINANCE_POLICY.bank.chargeOffDaysPastDue
+    ),
+  );
   const stem = `${TOWN_EMPLOYMENT_VERSION}:${town}:job:`;
   const latest = new Map<EntityId, WorkStatusRecord>();
   for (const row of world.history.workStatuses)
@@ -1257,7 +1269,7 @@ function lossesSentence(bank: TownBankBooks): string {
   const parts: string[] = [];
   if (d && d.households > 0)
     parts.push(
-      `${d.households} ${d.households === 1 ? "household" : "households"} whose earners had been out of work ${TOWN_FINANCE_POLICY.bank.chargeOffDaysPastDue} days or more owed it ${formatDollars(d.householdsOwed)}`,
+      `${d.households} ${d.households === 1 ? "household" : "households"} whose earners had been out of work past their unemployment benefits owed it ${formatDollars(d.householdsOwed)}`,
     );
   if (d && d.businesses > 0)
     parts.push(`businesses that closed owed it ${formatDollars(d.businesses)}`);
