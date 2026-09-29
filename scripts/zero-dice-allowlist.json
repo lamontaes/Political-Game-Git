@@ -1424,20 +1424,6 @@
       "code": "(record.unitKey.startsWith(\"ME\") ? null : source.winnerPersonId) ||"
     },
     {
-      "file": "src/simulation/nationwide-world/local-chief-executive-rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 25",
-      "count": 1,
-      "code": "const SELECTION_SHARES: readonly Share<boolean>[] = ["
-    },
-    {
-      "file": "src/simulation/nationwide-world/local-chief-executive-rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 25",
-      "count": 1,
-      "code": "const CHIEF_TERM_SHARES: readonly Share<number>[] = ["
-    },
-    {
       "file": "src/simulation/nationwide-world/local-governing-body-rules.ts",
       "kind": "fixed-share",
       "build": "Build 25",
