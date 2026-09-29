@@ -16,6 +16,13 @@
         "no painted screens, posters, papers or boards"
       ]
     },
+    "barbershop": {
+      "checked": ["barbershop__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
     "campaign-storefront": {
       "checked": [
         "campaign-storefront__midday.jpg",
@@ -465,6 +472,17 @@
         "windows and door: windows"
       ]
     },
+    "courthouse-hallway": {
+      "checked": [
+        "courthouse-hallway__midday.jpg",
+        "courthouse-hallway__morning.jpg",
+        "courthouse-hallway__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
     "debate-stage": {
       "checked": [
         "debate-stage__midday.jpg",
@@ -485,53 +503,21 @@
         "diner__night.jpg",
         "diner__rain.jpg"
       ],
-      "surfaces": [
-        {
-          "id": "diner-left-wall-board",
-          "kind": "board",
-          "finish": "panel",
-          "what": "blank framed board on the back wall above the booths, left of the kitchen pass-through",
-          "quad": [
-            [609, 214],
-            [719, 214],
-            [719, 305],
-            [609, 305]
-          ],
-          "perspective": false,
-          "shows": []
-        },
-        {
-          "id": "diner-right-wall-board",
-          "kind": "board",
-          "finish": "panel",
-          "what": "blank framed board on the back wall right of the kitchen pass-through, above the counter",
-          "quad": [
-            [1240, 184],
-            [1392, 184],
-            [1392, 307],
-            [1240, 307]
-          ],
-          "perspective": false,
-          "shows": ["candidates"]
-        },
-        {
-          "id": "diner-side-wall-menu-board",
-          "kind": "board",
-          "finish": "panel",
-          "what": "blank framed board on the right side wall above the coffee shelf; runs off the right image edge and its lower right is hidden by the stacked plates, so the quad covers only the visible clear part",
-          "quad": [
-            [1597, 161],
-            [1671, 141],
-            [1671, 224],
-            [1597, 256]
-          ],
-          "perspective": true,
-          "shows": []
-        }
-      ],
+      "surfaces": [],
       "skipped": [
-        "kitchen door window (x 818-850, y 283-318): a window and under 36 px",
-        "no screens, posters or papers"
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "dmv-office": {
+      "checked": [
+        "dmv-office__midday.jpg",
+        "dmv-office__morning.jpg",
+        "dmv-office__night.jpg",
+        "dmv-office__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
       ]
     },
     "door-knocking-rural": {
@@ -621,6 +607,18 @@
         "no posters, papers or boards"
       ]
     },
+    "fire-station": {
+      "checked": [
+        "fire-station__midday.jpg",
+        "fire-station__morning.jpg",
+        "fire-station__night.jpg",
+        "fire-station__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
     "governor-office": {
       "checked": [
         "governor-office__midday.jpg",
@@ -647,6 +645,18 @@
         "framed landscape on the left waiting-room wall: a picture",
         "door vision panels: windows",
         "no posters, papers or boards"
+      ]
+    },
+    "hotel-ballroom": {
+      "checked": [
+        "hotel-ballroom__midday.jpg",
+        "hotel-ballroom__morning.jpg",
+        "hotel-ballroom__night.jpg",
+        "hotel-ballroom__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
       ]
     },
     "large-house": {
@@ -741,6 +751,13 @@
       "skipped": [
         "framed landscape pictures on the back wall: pictures, not drawable",
         "books and cable box on the TV stand: not a readable surface"
+      ]
+    },
+    "newsroom": {
+      "checked": ["newsroom__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
       ]
     },
     "office": {
@@ -887,6 +904,13 @@
       ],
       "skipped": ["no screens, posters or papers"]
     },
+    "party-headquarters": {
+      "checked": ["party-headquarters__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
     "phone-bank-room": {
       "checked": [
         "phone-bank-room__midday.jpg",
@@ -970,6 +994,35 @@
         "laptop behind the plant on the right desks: about 31 px wide",
         "papers on the desks: under 36 px tall",
         "clerestory windows: windows"
+      ]
+    },
+    "police-station": {
+      "checked": [
+        "police-station__midday.jpg",
+        "police-station__morning.jpg",
+        "police-station__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "polling-place": {
+      "checked": [
+        "polling-place__midday.jpg",
+        "polling-place__night.jpg",
+        "polling-place__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "public-library": {
+      "checked": ["public-library__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
       ]
     },
     "public-meeting-room": {
@@ -1096,6 +1149,18 @@
       "skipped": [
         "no painted screens, posters, notes, papers, brochures or boards",
         "framed landscape picture at the left edge: picture"
+      ]
+    },
+    "school-board-room": {
+      "checked": [
+        "school-board-room__midday.jpg",
+        "school-board-room__morning.jpg",
+        "school-board-room__night.jpg",
+        "school-board-room__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
       ]
     },
     "school-gym-town-hall": {
