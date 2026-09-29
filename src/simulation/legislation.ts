@@ -4,6 +4,8 @@ import { createStableId } from "./ids";
 import {
   growingIndex,
   indexOverArrays,
+  recordById,
+  recordByStableKey,
   type GrowingIndexKind,
 } from "./history-index";
 import {
@@ -1196,9 +1198,7 @@ function appendAction(world: World, input: AppendActionInput): World {
     },
   });
 
-  const event = next.history.events.find(
-    (candidate) => candidate.stableKey === eventStableKey,
-  );
+  const event = recordByStableKey(next.history.events, eventStableKey);
   if (!event) {
     throw new Error("Failed to record the legislative event.");
   }
@@ -1445,9 +1445,8 @@ export function introduceMeasure(
     );
   }
   for (const alternativeId of input.policyAlternativeIds ?? []) {
-    const exists = world.history.policyAlternatives.some(
-      (record) => record.id === alternativeId,
-    );
+    const exists =
+      recordById(world.history.policyAlternatives, alternativeId) !== undefined;
     if (!exists) {
       throw new Error(
         `Measure references a missing policy alternative: ${alternativeId}`,
@@ -1757,8 +1756,9 @@ export function committeeHearingTransitionHandler(
     occurredAt: dueItem.dueAt,
   });
 
-  const event = next.history.events.find(
-    (candidate) => candidate.stableKey === `event:${dueItem.stableKey}:hearing`,
+  const event = recordByStableKey(
+    next.history.events,
+    `event:${dueItem.stableKey}:hearing`,
   );
 
   return {
@@ -2779,8 +2779,9 @@ export function recordEnactment(
     tags: ["legislation.enacted"],
   });
 
-  const event = next.history.events.find(
-    (candidate) => candidate.stableKey === `event:${input.stableKey}:enacted`,
+  const event = recordByStableKey(
+    next.history.events,
+    `event:${input.stableKey}:enacted`,
   );
   if (!event) {
     throw new Error("Failed to record the enactment event.");
