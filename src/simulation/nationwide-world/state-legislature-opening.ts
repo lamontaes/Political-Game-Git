@@ -51,6 +51,7 @@ import {
   logit,
   standardNormal,
 } from "../world-setup/deterministic-math";
+import legislatorsTable from "../../../data/research/laws/legislators-2023.json" with { type: "json" };
 import { districtIdentityCatalog } from "../../districts/catalog";
 import {
   gazetteerChamberForOfficeChamberKey,
@@ -92,10 +93,51 @@ import {
  * and spread by how far House districts inside one state differ from each
  * other across the whole save. A state whose House seats carry no two-party
  * share is centered on its own statewide Senate contests; one with neither
- * seats its members without a party rather than guessing one.
+ * seats its members without a party rather than guessing one. Each chamber
+ * then holds the party balance the state recorded (The Book of the States
+ * 2023, Table 3.3): the seats leaning furthest toward each party take that
+ * party's count, and seats the record gives to neither party keep their lean.
  *
  * Only a current opening calls this, for the player's home state, once.
  */
+
+interface RecordedParties {
+  readonly democrats: number;
+  readonly republicans: number;
+  readonly other: number;
+  readonly vacancies: number;
+}
+
+interface LegislatorPartyRow {
+  readonly usps: string;
+  readonly lowerParties: RecordedParties | null;
+  readonly upperParties: RecordedParties | null;
+  readonly unicameralParties: RecordedParties | null;
+}
+
+const LEGISLATOR_PARTY_ROWS: readonly LegislatorPartyRow[] = (
+  legislatorsTable as { readonly rows: readonly LegislatorPartyRow[] }
+).rows;
+
+/**
+ * A chamber's members by party as The Council of State Governments recorded
+ * them in 2023 (The Book of the States 2023, Table 3.3), or null where the
+ * table gives none, as for a nonpartisan legislature.
+ */
+export function recordedChamberParties(
+  stateUsps: string,
+  chamberKey: string,
+): RecordedParties | null {
+  const row = LEGISLATOR_PARTY_ROWS.find(
+    (candidate) => candidate.usps === stateUsps,
+  );
+  if (!row) return null;
+  const chamber = gazetteerChamberForOfficeChamberKey(chamberKey);
+  if (chamber === "state-lower") return row.lowerParties;
+  if (chamber === "state-upper")
+    return row.upperParties ?? row.unicameralParties;
+  return null;
+}
 
 export const STATE_LEGISLATURE_OPENING_VERSION =
   "state-legislature-opening/v1" as const;
@@ -466,6 +508,46 @@ export function ensureStateLegislatureOpening(
         },
       });
     }
+  }
+  // Each chamber's party balance is the state's own recorded one: the seats
+  // leaning furthest toward each party take that party's recorded count, and
+  // the seats the record gives to neither keep their own lean.
+  for (const chamber of chambers) {
+    const recorded = recordedChamberParties(stateUsps, chamber.chamberKey);
+    if (!recorded) continue;
+    const indices = members
+      .map((member, index) => ({ member, index }))
+      .filter(
+        ({ member }) =>
+          member.chamber === chamber && member.democraticShare !== null,
+      )
+      .sort(
+        (left, right) =>
+          right.member.democraticShare! - left.member.democraticShare! ||
+          left.member.ordinal - right.member.ordinal,
+      )
+      .map(({ index }) => index);
+    if (indices.length === 0) continue;
+    const total =
+      recorded.democrats +
+      recorded.republicans +
+      recorded.other +
+      recorded.vacancies;
+    if (total === 0) continue;
+    const democrats = Math.round((indices.length * recorded.democrats) / total);
+    const republicans = Math.min(
+      indices.length - democrats,
+      Math.round((indices.length * recorded.republicans) / total),
+    );
+    indices.forEach((index, rank) => {
+      const party =
+        rank < democrats
+          ? "democratic"
+          : rank >= indices.length - republicans
+            ? "republican"
+            : members[index]!.party;
+      members[index] = { ...members[index]!, party };
+    });
   }
   if (members.length === 0) return world;
 
