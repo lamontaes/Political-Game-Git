@@ -5,7 +5,11 @@ import {
 } from "../congress-rule-pack";
 import { currentPresidentOf } from "../crisis/offices";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { measurePosition, measureVotes } from "../legislation";
+import {
+  introduceMeasure,
+  measurePosition,
+  measureVotes,
+} from "../legislation";
 import { chamberByKey } from "../legislature-rules";
 import { publicPartyAffiliation } from "../living-world/congress";
 import { livingWorldEstablished } from "../living-world/opening";
@@ -63,9 +67,16 @@ import {
  * does not: it files bills, it gathers cosponsors, and it decides what the
  * President does with a bill on the desk.
  *
- * A Congress bill answers one federal question in the policy catalog. Only
- * questions with a mapped operative configuration are filed; other catalog
- * answers remain unsupported until their exact effects are implemented.
+ * A Congress bill answers one federal question in the policy catalog, yes
+ * or no. A question with a mapped operative configuration is filed with it
+ * (see automatic-legislation.ts). A question without one is still filed, as a
+ * bill that says only its yes or no answer, so mapping coverage never narrows
+ * what Congress takes up.
+ *
+ * PLACEHOLDER, pending research question
+ * `expand-effect-mapping-so-every-law-changes-the-world`: an enacted bill on
+ * an unmapped question is federal law (law-in-force.ts) but changes nothing
+ * else in the world yet.
  */
 
 export const CONGRESS_LAWMAKING_VERSION = "congress-intake/v1";
@@ -109,12 +120,7 @@ function federalQuestions(world: World): readonly FederalQuestion[] {
   const questions: FederalQuestion[] = [];
   for (const propositionId of catalog.propositionOrder) {
     const proposition = catalog.propositions[propositionId];
-    if (
-      !proposition ||
-      (!automaticLawMappingFor(proposition.stableKey, "yes", "federal") &&
-        !automaticLawMappingFor(proposition.stableKey, "no", "federal"))
-    )
-      continue;
+    if (!proposition) continue;
     const issue = catalog.issues[proposition.issueId];
     if (
       !issue?.stableKey.startsWith(FEDERAL_ISSUE_PREFIX) ||
@@ -141,6 +147,29 @@ function subjectClassFor(
   return "general-policy";
 }
 
+const SMALL_WORDS = new Set([
+  "a",
+  "an",
+  "and",
+  "of",
+  "the",
+  "for",
+  "in",
+  "on",
+  "or",
+  "to",
+]);
+function titleCase(name: string): string {
+  return name
+    .split(" ")
+    .map((word, index) =>
+      index > 0 && SMALL_WORDS.has(word)
+        ? word
+        : `${word.charAt(0).toUpperCase()}${word.slice(1)}`,
+    )
+    .join(" ");
+}
+
 function controlledPersonId(world: World): EntityId | null {
   return world.control.kind === "person" ? world.control.personId : null;
 }
@@ -158,11 +187,13 @@ function pendingFederalBillOn(world: World, propositionId: EntityId): boolean {
 }
 
 /**
- * The bill a member's principles move them to file: the strongest eligible
- * mapped question this House may start, past the filing threshold, where
- * federal law does not already say what they want and no federal bill on it
- * is moving. An unsupported answer is skipped rather than filed without an
- * operative configuration. Null when nothing mapped moves them.
+ * The bill a member's principles move them to file: the question they lean
+ * on hardest, past the filing threshold, that this House may start a bill on,
+ * where federal law does not already say what they want and no federal bill
+ * on it is moving. Support files a bill to enact unless the law already says
+ * yes; opposition files only a repeal of a law that says yes. A mapped
+ * question that just reached a final result waits out its cooldown. Null when
+ * nothing moves them.
  */
 function memberBillChoice(
   world: World,
@@ -215,29 +246,31 @@ function memberBillChoice(
           ? "no"
           : null;
     if (!answer) continue;
-    const proposition =
-      world.policyCatalog.propositions[question.propositionId];
-    if (
-      !proposition ||
-      !automaticLawMappingFor(proposition.stableKey, answer, "federal")
-    )
-      continue;
     if (!pending.has(question.propositionId))
       pending.set(
         question.propositionId,
         pendingFederalBillOn(world, question.propositionId),
       );
     if (pending.get(question.propositionId)) continue;
-    if (!coolingDown.has(question.propositionId))
-      coolingDown.set(
-        question.propositionId,
-        automaticLawQuestionOnCooldown(world, {
-          jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-          propositionId: question.propositionId,
-          stableKeyPrefix: `${CONGRESS_LAWMAKING_VERSION}:`,
-        }),
-      );
-    if (coolingDown.get(question.propositionId)) continue;
+    // The cooldown guards the mapped path only: an unmapped answer has no
+    // operative configuration to thrash, so it is never held back.
+    const proposition =
+      world.policyCatalog.propositions[question.propositionId];
+    if (
+      proposition &&
+      automaticLawMappingFor(proposition.stableKey, answer, "federal")
+    ) {
+      if (!coolingDown.has(question.propositionId))
+        coolingDown.set(
+          question.propositionId,
+          automaticLawQuestionOnCooldown(world, {
+            jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+            propositionId: question.propositionId,
+            stableKeyPrefix: `${CONGRESS_LAWMAKING_VERSION}:`,
+          }),
+        );
+      if (coolingDown.get(question.propositionId)) continue;
+    }
     best = {
       question,
       answer,
@@ -319,31 +352,57 @@ export function fileCongressBill(
   const stableKey = `${CONGRESS_LAWMAKING_VERSION}:${question.issueKey}${intakeSuffix}`;
   next = ensureNationalElectionJurisdiction(next);
   const jurisdictionId = NATIONAL_ELECTION_JURISDICTION.id;
+  const year = world.currentDate.slice(0, 4);
   const numbering = nextMeasureNumbering(next, {
     jurisdictionId,
     originChamber: chamber,
     rulePackId: US_CONGRESS_PACK_ID,
   });
   const designation = numbering.designation;
-  const introduced = introduceAutomaticLawMeasure(next, {
-    jurisdictionId,
-    governmentLevel: "federal",
-    propositionId: question.propositionId,
-    answer,
-    intakeKey: stableKey,
-    stableKey,
-    designation,
-    numberingSession: numbering.numberingSession,
-    sponsorPersonId: sponsor.personId!,
-    originChamberKey: input.chamberKey,
-    principleRecordIds: choice.principleRecordIds,
-    principleScore: choice.principleScore,
-  });
-  if (!introduced) return world;
-  next = introduced.world;
-  const measure = (next.history.legislativeMeasures ?? []).find(
-    (candidate) => candidate.id === introduced.measureId,
-  );
+  let measure: LegislativeMeasureRecord | undefined;
+  if (automaticLawMappingFor(proposition.stableKey, answer, "federal")) {
+    const introduced = introduceAutomaticLawMeasure(next, {
+      jurisdictionId,
+      governmentLevel: "federal",
+      propositionId: question.propositionId,
+      answer,
+      intakeKey: stableKey,
+      stableKey,
+      designation,
+      numberingSession: numbering.numberingSession,
+      sponsorPersonId: sponsor.personId!,
+      originChamberKey: input.chamberKey,
+      principleRecordIds: choice.principleRecordIds,
+      principleScore: choice.principleScore,
+    });
+    if (!introduced) return world;
+    next = introduced.world;
+    measure = (next.history.legislativeMeasures ?? []).find(
+      (candidate) => candidate.id === introduced.measureId,
+    );
+  } else {
+    next = introduceMeasure(next, {
+      stableKey,
+      jurisdictionId,
+      rulePackId: US_CONGRESS_PACK_ID,
+      ...numbering,
+      shortTitle:
+        answer === "yes"
+          ? `${titleCase(proposition.name)} Act of ${year}`
+          : `${titleCase(proposition.name)} Repeal Act of ${year}`,
+      summary:
+        answer === "yes"
+          ? `${proposition.question} This bill says yes.`
+          : `${proposition.question} This bill repeals the law that says yes.`,
+      origin: "member-introduction",
+      subjectClass: subjectClassFor(question.issueKey),
+      sponsorPersonId: sponsor.personId,
+      originChamberKey: input.chamberKey,
+      propositionIds: [question.propositionId],
+      propositionAnswers: [{ propositionId: question.propositionId, answer }],
+    });
+    measure = next.history.legislativeMeasures!.at(-1);
+  }
   if (!measure)
     throw new Error(`${designation} was not recorded after introduction.`);
   next = recordWorldEvent(next, {
