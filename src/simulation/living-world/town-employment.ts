@@ -1741,12 +1741,16 @@ export function fillTownJobs(
     for (const [key] of order) {
       const workplace = WORKPLACE.get(key);
       if (!workplace) continue;
-      // A role a budget staffs is never offered here.
+      // A role a budget staffs is never offered here. A congregation or
+      // school has one pastor or principal, hired above for each one in
+      // town; the mix never adds a second.
       const chosen = roleFor(
         workplace,
         resident,
         workplace.roles.filter(
-          (entry) => !budgetStaffed.has(`${workplace.key}|${entry.title}`),
+          (entry) =>
+            !budgetStaffed.has(`${workplace.key}|${entry.title}`) &&
+            !(workplace.existing && entry.authority === "directs-others"),
         ),
       );
       if (chosen && hire(resident, workplace, chosen)) break;

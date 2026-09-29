@@ -310,7 +310,7 @@ describe("Build 22 · the favor record", () => {
     return { world, giver: giver!, receiver: receiver! };
   }
 
-  it("stores what happened and reads the debt, which fades while the expectation does not", () => {
+  it("stores what happened and reads the debt, which fades to a lasting one while the expectation does not", () => {
     const { world, giver, receiver } = helped("build22-favor", "great");
     const now = favorStandingBetween(world, receiver, giver);
     expect(now.receiverDebt).toBe("strong");
@@ -328,7 +328,8 @@ describe("Build 22 · the favor record", () => {
       giver,
       makeIsoDate("2040-01-01"),
     );
-    expect(years.receiverDebt).toBe("none");
+    // A great favor never fades below a slight debt until it is returned.
+    expect(years.receiverDebt).toBe("slight");
     expect(years.giverExpectation).toBe("strong");
   });
 

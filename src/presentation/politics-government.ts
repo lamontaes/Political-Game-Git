@@ -39,7 +39,10 @@ import {
   stateSeatTitle,
 } from "../simulation/nationwide-world/state-legislature-opening";
 import { nextStateSeatFilling } from "../simulation/nationwide-world/state-legislature-turnover";
-import { isTerritoryUsps } from "../simulation/state-reference";
+import {
+  isTerritoryUsps,
+  nonvotingHouseMemberTitle,
+} from "../simulation/state-reference";
 import {
   US_TERRITORY_GOVERNED_NAMES,
   isUsTerritoryWithGovernor,
@@ -942,8 +945,11 @@ function representedBy(
     // A territory sends one nonvoting member to the House, elected
     // territory-wide, and has no seat in the Senate. The 435 seats the game
     // seats are the states' alone, so this member is not among them yet.
+    const member = nonvotingHouseMemberTitle(usps);
     const title =
-      usps === "PR" ? "Resident Commissioner" : "Delegate to the U.S. House";
+      member === "Resident Commissioner"
+        ? member
+        : "Delegate to the U.S. House";
     rows.push({
       key: "us-house",
       office: title,

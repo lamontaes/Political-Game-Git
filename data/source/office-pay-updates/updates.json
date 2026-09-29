@@ -1,0 +1,15 @@
+{
+  "purpose": "Salaries a newer official source gives for a state than the Book of the States 2023 tables do. Each entry replaces that state's table row in the exported office pay. Add an entry only with the newer source named.",
+  "updates": [
+    {
+      "office": "state-legislator",
+      "state": "CA",
+      "annualDollars": 128215,
+      "effectiveFrom": "2023-12-04",
+      "replaces": 122694,
+      "source": "California Citizens Compensation Commission, legislators' annual salary in effect since December 4, 2023",
+      "readBy": "Claude CTO, September 28, 2026, 10:24 p.m. Eastern (ruling on Build 15)",
+      "note": "The commission's own page could not be fetched from the build container (its host refuses automated requests), so this figure is as the CTO read it from the source. Replace it with a fetched copy when one is saved."
+    }
+  ]
+}

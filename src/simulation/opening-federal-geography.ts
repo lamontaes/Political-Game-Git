@@ -1,4 +1,5 @@
 import { lifePlaceByKey, lifePlaceSearch } from "./life-places";
+import { isFederalDistrictUsps } from "./state-reference";
 import { US_STATE_USPS } from "./nationwide-world/state-executive-candidacy-packs";
 import { SeededRng } from "./rng";
 import type { EntityId, World } from "./types";
@@ -33,7 +34,7 @@ export function prepareOpeningFederalGeography(
   if (
     !washington ||
     washington.scope !== "locality" ||
-    washington.stateJurisdictionKey !== "US-DC"
+    !isFederalDistrictUsps(washington.stateJurisdictionKey?.replace(/^US-/, ""))
   ) {
     throw new Error("The accepted Washington locality is unavailable.");
   }

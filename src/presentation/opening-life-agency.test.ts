@@ -42,7 +42,9 @@ function start(age = 24, seed = "ordinary-agency") {
   });
 }
 
-describe("ordinary-life agency and boundaries", () => {
+// Several cases open whole lives, each now seating its town's council and
+// its county's board: seconds of real work apiece.
+describe("ordinary-life agency and boundaries", { timeout: 60_000 }, () => {
   it("does not derive the player's personality from a name or gender", () => {
     const setup = {
       ...DEFAULT_NEW_GAME_SETUP,

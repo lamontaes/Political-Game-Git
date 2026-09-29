@@ -100,6 +100,9 @@ describe("a family drawn from real shares", () => {
     const places = onePlaceEach();
     expect(places).toHaveLength(56);
     const shapes = new Set<string>();
+    const deaths: [string, string][] = [];
+    const parentsGone: boolean[] = [];
+    const grandparentsGone: boolean[] = [];
     for (const placeKey of places) {
       const { world, playerPersonId: player } = newGameAdult(
         placeKey,
@@ -116,6 +119,21 @@ describe("a family drawn from real shares", () => {
         "lineal:grandparent-grandchild",
       );
       shapes.add(`${parents.length}:${siblings.length}`);
+      const died = (id: EntityId) =>
+        world.history.personDeaths.find((death) => death.personId === id)
+          ?.diedAt;
+      for (const id of [...parents, ...grandparents]) {
+        const lastChild = relatives(world, id, "lineal:parent-child")
+          .map(born)
+          .filter((birth) => birth > born(id))
+          .sort()
+          .at(-1)!;
+        if (died(id)) deaths.push([died(id)!, lastChild]);
+      }
+      parentsGone.push(...parents.map((id) => died(id) !== undefined));
+      grandparentsGone.push(
+        ...grandparents.map((id) => died(id) !== undefined),
+      );
       expect(parents.length, placeKey).toBeGreaterThanOrEqual(1);
       expect(parents.length, placeKey).toBeLessThanOrEqual(2);
       // Grandparents on each recorded parent's side.
@@ -137,6 +155,14 @@ describe("a family drawn from real shares", () => {
     }
     // One rule, many shapes: the places do not all come out the same.
     expect(shapes.size).toBeGreaterThan(3);
+    // The game's own mortality, from the youngest child's birth: nobody died
+    // before a child the record gives them, and at 40 most grandparents are
+    // gone while most parents are not.
+    expect(deaths.every(([died, lastChild]) => died >= lastChild)).toBe(true);
+    const gone = (rows: readonly boolean[]) =>
+      rows.filter(Boolean).length / rows.length;
+    expect(gone(grandparentsGone)).toBeGreaterThan(0.6);
+    expect(gone(parentsGone)).toBeLessThan(0.5);
   }, 600_000);
 
   it("draws the prior-year start's family the same way", () => {

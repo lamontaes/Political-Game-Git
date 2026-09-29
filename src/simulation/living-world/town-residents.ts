@@ -53,7 +53,7 @@ import { organizationProfileAt } from "../life-queries";
 import { householdMixForJurisdiction } from "../household-mix";
 import type { HouseholdShape } from "../household-mix";
 import { lifePlaceByJurisdictionId } from "../life-places";
-import { placePopulation } from "../nationwide-world/place-population";
+import { placeReferencePopulation } from "../nationwide-world/place-population";
 import { recordRelationshipInteraction } from "../records";
 import {
   ensureTownEmployment,
@@ -90,8 +90,9 @@ const PROVENANCE = {
 };
 
 /**
- * PLACEHOLDER: the size used for a place the Census estimates do not cover
- * (a census-designated place, or one not matched). Never shown to the player.
+ * PLACEHOLDER: the size used for a place the Census Bureau publishes no
+ * population for (a territory town, or one not matched). Never shown to the
+ * player.
  */
 export const UNKNOWN_TOWN_POPULATION = 1_000;
 
@@ -204,7 +205,7 @@ export interface TownHouseholdSkeleton {
 /** What the world holds about a town's size. */
 export interface TownRoster {
   readonly town: EntityId;
-  /** The Census reference, or null when the estimates do not cover it. */
+  /** The Census figure (estimate or five-year survey), or null where none is held. */
   readonly referencePopulation: number | null;
   /** The size the town's people are generated from. */
   readonly population: number;
@@ -229,8 +230,10 @@ export function playerTown(world: World, personId: EntityId): EntityId | null {
  */
 export function townRoster(town: EntityId): TownRoster {
   const place = lifePlaceByJurisdictionId(town);
+  // A census-designated place has no annual estimate but has the five-year
+  // survey's count, which is still a Census figure, not a stand-in.
   const reference = place?.sourceGeoid
-    ? placePopulation(place.sourceGeoid)
+    ? (placeReferencePopulation(place.sourceGeoid)?.value ?? null)
     : null;
   const population = reference ?? UNKNOWN_TOWN_POPULATION;
   return {

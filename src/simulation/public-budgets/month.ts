@@ -11,7 +11,7 @@ import {
   propositionIdFor,
 } from "./fiscal";
 import { actuarialContribution } from "./opening";
-import { pensionPayment } from "./pension-share";
+import { pensionFlows, pensionPayment } from "./pension-share";
 import { reserveRule } from "./reserve-rule";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import {
@@ -583,8 +583,10 @@ export function settleGovernmentMonth(
   // The adopted budget set the pension share, so the law read at adoption is
   // the one that decided it; a law enacted later governs the next budget.
   const pensionLaw = year.laws.pensions;
-  // Monthly rounding leaves a few dollars either way; that is not underpaying.
-  if (unpaid > required * 0.001)
+  // Each month's payment rounds to a whole dollar, which can leave up to a
+  // dollar a month short even when the whole share is paid; that is not
+  // underpaying.
+  if (unpaid > Math.max(yearRows.length, required * 0.001))
     adjustments.push({
       governmentKey: government.key,
       on: asOf,
@@ -597,16 +599,17 @@ export function settleGovernmentMonth(
           ? "The pension payments fell short of the full actuarial contribution the law requires."
           : pensionLaw.answer === "no"
             ? "No law requires the full actuarial contribution; the unpaid part grows the unfunded liability."
-            : "No law in force when the budget was adopted answered whether pensions must be funded on schedule, so the government paid its own share (its plans' reported share, or the median of every plan where they are not listed).",
+            : "No law in force when the budget was adopted answered whether pensions must be funded on schedule, so the government paid its own share (the share its own plans filed, or the median of every plan where they are not listed).",
     });
   const liability = government.pension.liability;
-  const benefits = liability * PENSION.benefitShare * share;
+  const plans = pensionFlows(government);
+  const benefits = liability * plans.benefitShare * share;
   const pension = {
     // The share stays where it began until budgets pass as bills.
     paidShare: government.pension.paidShare,
     liability: Math.round(
       liability * (1 + PENSION.assumedReturn * share) +
-        liability * PENSION.normalCostShare * share -
+        liability * plans.normalCostShare * share -
         benefits,
     ),
     assets: Math.round(
@@ -711,7 +714,10 @@ function adoptNextYear(
       (prior.expectedRevenue[STATE_AID]! * stateLocalAidAtAdoption) /
         priorAidBase,
     );
-  const pensionRequired = actuarialContribution(government.pension);
+  const pensionRequired = actuarialContribution(
+    government.pension,
+    pensionFlows(government).normalCostShare,
+  );
   const pensionPaid = pensionPayment(
     pensionRequired,
     government.pension.paidShare,
@@ -783,7 +789,7 @@ function adoptNextYear(
       kind: "balance-carried",
       amount: carried,
       law: null,
-      note: "The balance above the reserve target (5% of a year's spending, PLACEHOLDER) was carried into the new year and is spent across it, once.",
+      note: `The balance above what the reserve still lacks of its target (${reserveLaw.floorShare} of a year's spending; ${reserveLaw.basis}) was carried into the new year and is spent across it, once.`,
     });
   if (reserveDeposit > 0)
     adjustments.push({
@@ -793,7 +799,7 @@ function adoptNextYear(
       kind: "reserve-deposit",
       amount: reserveDeposit,
       law: { name: "reserve", reading: laws.reserve },
-      note: "The reserve is below its required floor, so the adopted budget sets a deposit aside (PLACEHOLDER floor and pace).",
+      note: `The reserve is below its required floor, so the adopted budget sets a deposit aside: the floor is ${reserveLaw.floorShare} of a year's spending, at most ${reserveLaw.depositShare} a year (${reserveLaw.basis}).`,
     });
   const planned = base.map((value, at) => (CUTTABLE[at] ? value * scale : 0));
   // Spread over this year's programs, or last year's when none is planned.

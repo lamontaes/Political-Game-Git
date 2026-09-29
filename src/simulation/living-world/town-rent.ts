@@ -21,8 +21,9 @@
  *   home and the size of the household that first rented it.
  * - The rent, one of three ways:
  *   - market: the county's HUD Fair Market Rent for that many bedrooms
- *     (`town-rent.generated.ts`), carried forward with the world's price
- *     level, times a draw for the world's county and one for the home;
+ *     (`town-rent.generated.ts`), carried forward with the town's home
+ *     prices (`housing-market.ts`), times a draw for the world's county and
+ *     one for the home;
  *   - public housing: 30% of the household's monthly income (the Brooke
  *     rule, 42 U.S.C. 1437a(a)(1)), at least $50 and at most the flat rent
  *     of 80% of the Fair Market Rent; the flat rent where income is unknown;
@@ -39,9 +40,9 @@
  * Laws that act on these records, read with `lawInForce` for the town:
  *
  * - Rent stabilization caps a renewal's rise on a private landlord's home at
- *   the price level's rise plus five points, at most ten percent, and makes a
- *   covered tenant 20% less likely to move (`renterMoveFactor`, Diamond,
- *   McQuade and Qian 2019, the outcome web's researched link).
+ *   the price level's rise plus five points, at most ten percent, so a
+ *   covered tenant's rent outruns their pay less often and they move less
+ *   (`town-homes.ts`; measured check in RENT_STABILIZATION_MEASURED).
  * - An inclusionary housing requirement makes a share of apartments and
  *   rowhouses recorded after it took effect affordable homes.
  * - Right to counsel in eviction gives a tenant a lawyer when their landlord
@@ -116,6 +117,7 @@ import type {
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
+import { homePriceLevel } from "./housing-market";
 import type { TownHomeKind } from "./town-homes";
 import { TOWN_RENT_COUNTIES, TOWN_RENT_TOWNS } from "./town-rent.generated";
 
@@ -209,8 +211,6 @@ export const BEDROOM_SHARES: Readonly<
 export const RENT_SPREAD = {
   home: 0.25,
   world: 0.05,
-  /** A private landlord's renewal around the price level's rise. */
-  renewal: 0.03,
 } as const;
 
 /** The Brooke rule: public housing rent is 30% of monthly income. */
@@ -245,8 +245,17 @@ export const INCLUSIONARY_SET_ASIDE = 0.15;
  */
 export const RENT_STABILIZATION_CAP = { overPrices: 0.05, most: 0.1 } as const;
 
-/** Diamond, McQuade and Qian 2019: covered renters move 20% less. */
-export const RENT_STABILIZATION_MOBILITY = 0.8;
+/**
+ * Measured, a check and never a rule: Diamond, McQuade and Qian 2019 found
+ * renters covered by San Francisco's rent control 20% less likely to move.
+ * The game's renters move when their rent outruns their pay
+ * (`town-homes.ts`), so a capped renewal keeps them in place; a watched run
+ * compares its covered renters' moves with this.
+ */
+export const RENT_STABILIZATION_MEASURED = {
+  coveredMovesRatio: 0.8,
+  source: "Diamond, McQuade and Qian 2019, American Economic Review 109(9)",
+} as const;
 
 /**
  * How an eviction case runs. Nothing here is a chance: a case is decided from
@@ -259,7 +268,10 @@ export const RENT_STABILIZATION_MOBILITY = 0.8;
  *   their own home waits a third month;
  * - a conciliatory person landlord settles a case up to three months behind;
  * - a tenant who answers with a lawyer keeps the home up to four months
- *   behind, and further behind before a conciliatory judge;
+ *   behind; further behind, only on a payment plan their pay can carry, as
+ *   anyone would (a watched Providence run on 9/29/2026 showed that "any
+ *   amount before a conciliatory judge" let one household's debt grow from
+ *   $6,647 to $12,607 across two cases with no end);
  * - a payment plan is one the household's pay can carry: the rent plus a
  *   sixth of what is owed, within half the household's monthly pay;
  * - a conciliatory judge gives a tenant who answers time to pay up to two
@@ -532,7 +544,7 @@ export function marketRentMinor(
     fmr *
     Math.exp(RENT_SPREAD.home * homeDraw) *
     worldCountyFactor(world, row.area) *
-    rentPriceLevel(world, town, date);
+    homePriceLevel(world, town, date);
   return Math.round(dollars) * 100;
 }
 
@@ -924,33 +936,47 @@ export function housingLawYes(
     : null;
 }
 
+/** What a household's home costs it and what it earns, a month, on a date. */
+export interface HouseholdHousingFacts {
+  /** Living primary members. */
+  readonly members: number;
+  /** Recorded pay a month, in cents; null when nobody's pay is on record. */
+  readonly payMinor: number | null;
+  /** Rent due a month on the lease it holds, in cents; null with no lease. */
+  readonly rentMinor: number | null;
+}
+
 /**
- * How much less likely a renting household is to move this quarter: 20% less
- * when rent stabilization is in force in its town and a private landlord
- * holds its lease. 1 otherwise.
+ * Every household's members, pay and rent on a date, read from the record:
+ * the facts a household weighs when it decides whether to move.
  */
-export function renterMoveFactor(
+export function householdHousingFacts(
   world: World,
-  town: EntityId,
-  householdId: EntityId,
-): number {
-  if (
-    !housingLawYes(
-      world,
-      town,
-      RENT_LAW_KEYS.rentStabilization,
-      world.currentDate,
-    )
-  )
-    return 1;
-  const covered = townLeases(world).some(
-    (lease) =>
-      !lease.ended &&
-      lease.householdId === householdId &&
-      lease.regime === "market" &&
-      landlordKindOf(world, lease.flow.recipient) !== "public",
+  onDate: IsoDate,
+): Map<EntityId, HouseholdHousingFacts> {
+  const members = householdMembers(world, onDate);
+  const pay = monthlyPayByPerson(world, onDate);
+  const leases = townLeases(world, onDate).filter(
+    (lease) => !lease.ended && lease.flow.startsAt <= onDate,
   );
-  return covered ? RENT_STABILIZATION_MOBILITY : 1;
+  const terms = termsByFlow(
+    world,
+    new Set(leases.map((lease) => lease.flow.id)),
+  );
+  const rentOf = new Map<EntityId, number>();
+  for (const lease of leases) {
+    const current = termsOn(terms.get(lease.flow.id) ?? [], onDate);
+    if (current?.status === "active")
+      rentOf.set(lease.householdId, current.amount.minorUnits);
+  }
+  const facts = new Map<EntityId, HouseholdHousingFacts>();
+  for (const [householdId, list] of members)
+    facts.set(householdId, {
+      members: list.length,
+      payMinor: householdMonthlyIncome(list, pay),
+      rentMinor: rentOf.get(householdId) ?? null,
+    });
+  return facts;
 }
 
 // ─── Schedule ───────────────────────────────────────────────────────────
@@ -1158,6 +1184,14 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
   // The last lease on each home: its landlord and bedrooms carry over.
   const lastOnHome = new Map<EntityId, LeaseFacts>();
   for (const lease of leases) lastOnHome.set(lease.dwellingId, lease);
+  // How many homes each landlord already lets, so a new home goes to the
+  // landlord with the fewest.
+  const held = new Map<string, number>();
+  for (const lease of leases)
+    if (!lease.ended) {
+      const key = endpointKey(lease.flow.recipient);
+      held.set(key, (held.get(key) ?? 0) + 1);
+    }
   let next = world;
   for (const tenure of candidates) {
     if (tenure.holder.kind !== "household") continue;
@@ -1198,12 +1232,14 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
         town,
         landlordKind,
         household,
-        rng.fork(`who${sold}`),
+        { held, pay },
         // A body written now was there when the tenancy began.
         tenure.startedAt,
       );
       next = chosen.world;
       landlord = chosen.landlord;
+      const key = endpointKey(landlord);
+      held.set(key, (held.get(key) ?? 0) + 1);
     }
     const isPublic = landlordKindOf(next, landlord) === "public";
     const income = householdMonthlyIncome(household, pay);
@@ -1380,13 +1416,31 @@ function measureDesignation(world: World, measureId: EntityId): string {
     : "the law in force";
 }
 
+function endpointKey(endpoint: ResourceEndpoint): string {
+  return endpoint.kind === "person"
+    ? `person:${endpoint.personId}`
+    : endpoint.kind === "organization"
+      ? `organization:${endpoint.organizationId}`
+      : endpoint.kind;
+}
+
+/**
+ * Who lets a home, with no draw. A person landlord is an owner in town who
+ * is not one of the tenants: the one letting the fewest homes, then the one
+ * with the highest recorded pay (people with more means let more homes),
+ * then by record. A firm is the one letting the fewest homes, then by
+ * record. HARDWIRED, a PLACEHOLDER(research: who-lets-homes).
+ */
 function chooseLandlord(
   world: World,
   index: TownIndex,
   town: EntityId,
   kind: LandlordKind,
   tenants: readonly Member[],
-  rng: SeededRng,
+  read: {
+    readonly held: ReadonlyMap<string, number>;
+    readonly pay: ReadonlyMap<EntityId, number>;
+  },
   onDate: IsoDate,
 ): { world: World; landlord: ResourceEndpoint } {
   if (kind === "public") {
@@ -1399,31 +1453,34 @@ function chooseLandlord(
       },
     };
   }
+  const letting = (key: string) => read.held.get(key) ?? 0;
   if (kind === "person") {
     const tenantIds = new Set(tenants.map((member) => member.id));
     const owners = (index.owners.get(town) ?? []).filter(
       (id) => !tenantIds.has(id),
     );
-    if (owners.length > 0)
-      return {
-        world,
-        landlord: {
-          kind: "person",
-          personId:
-            owners[Math.floor(rng.fork("owner").next() * owners.length)]!,
-        },
-      };
+    if (owners.length > 0) {
+      const [personId] = [...owners].sort(
+        (a, b) =>
+          letting(`person:${a}`) - letting(`person:${b}`) ||
+          (read.pay.get(b) ?? -1) - (read.pay.get(a) ?? -1) ||
+          a.localeCompare(b),
+      );
+      return { world, landlord: { kind: "person", personId: personId! } };
+    }
   }
   const firms = index.firms.get(town) ?? [];
-  if (firms.length > 0)
+  if (firms.length > 0) {
+    const [organizationId] = [...firms].sort(
+      (a, b) =>
+        letting(`organization:${a}`) - letting(`organization:${b}`) ||
+        a.localeCompare(b),
+    );
     return {
       world,
-      landlord: {
-        kind: "organization",
-        organizationId:
-          firms[Math.floor(rng.fork("firm").next() * firms.length)]!,
-      },
+      landlord: { kind: "organization", organizationId: organizationId! },
     };
+  }
   const manager = propertyManager(world, town, onDate, 0);
   return {
     world: manager.world,
@@ -1432,14 +1489,15 @@ function chooseLandlord(
 }
 
 /**
- * A private landlord's renewal: last year's rent moved by the price level's
- * rise and the landlord's own draw, held to rent stabilization's cap when it
- * covers the home. Whole dollars, in cents.
+ * A private landlord's renewal: last year's rent moved by the town's home
+ * prices over the year (`homePrices`, the level now over a year ago), held
+ * to rent stabilization's cap when it covers the home. The cap reads the
+ * general price level's rise (`prices`). Whole dollars, in cents.
  */
 export function renewedMarketRent(
   oldMinor: number,
+  homePrices: number,
   prices: number,
-  draw: number,
   stabilized: boolean,
 ): {
   readonly amountMinor: number;
@@ -1447,13 +1505,12 @@ export function renewedMarketRent(
   readonly capped: boolean;
   readonly cap: number;
 } {
-  const market = prices * Math.exp(RENT_SPREAD.renewal * draw);
   const cap = Math.min(
     RENT_STABILIZATION_CAP.most,
     prices - 1 + RENT_STABILIZATION_CAP.overPrices,
   );
-  const capped = stabilized && market - 1 > cap;
-  const uncappedMinor = Math.round((oldMinor * market) / 100) * 100;
+  const capped = stabilized && homePrices - 1 > cap;
+  const uncappedMinor = Math.round((oldMinor * homePrices) / 100) * 100;
   return {
     amountMinor: capped
       ? Math.round((oldMinor * (1 + cap)) / 100) * 100
@@ -1509,10 +1566,12 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       reason = "The affordable rent was reset to this year's income limit.";
     } else {
       const lastYear = addDays(dueOn, -365);
+      const homePrices =
+        homePriceLevel(next, lease.town, dueOn) /
+        homePriceLevel(next, lease.town, lastYear);
       const prices =
         rentPriceLevel(next, lease.town, dueOn) /
         rentPriceLevel(next, lease.town, lastYear);
-      const draw = normal(new SeededRng(next.seed).fork(`${stableKey}:market`));
       const rule = housingLawYes(
         next,
         lease.town,
@@ -1521,8 +1580,8 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       );
       const renewal = renewedMarketRent(
         old,
+        homePrices,
         prices,
-        draw,
         rule !== null &&
           landlordKindOf(next, lease.flow.recipient) !== "public",
       );
@@ -1954,7 +2013,13 @@ function evictionCaseFacts(
     const answer = evictionCaseAnswer(world, read.played, filedOn);
     tenantAnswers = answer !== null;
     lawyer = answer === EVICTION_CASE_CHOICES.lawyer && law !== null;
-    planCarried = answer === EVICTION_CASE_CHOICES.plan ? carried : null;
+    // A lawyer offers the plan for them when their pay could carry one.
+    planCarried =
+      answer === EVICTION_CASE_CHOICES.plan
+        ? carried
+        : lawyer && carried
+          ? true
+          : null;
   } else {
     tenantAnswers =
       personTrait(world, lease.leaseholderId, "reliability").value >= 0;
@@ -1992,17 +2057,17 @@ export function decideEvictionCase(facts: EvictionCaseFacts): {
       reason: (court) =>
         `the tenant did not answer the case, and ${court} ruled for the landlord`,
     };
-  if (facts.lawyer)
-    return facts.monthsBehind <= EVICTION.lawyerKeepsHomeUpTo || lenient
-      ? {
-          outcome: "settled",
-          reason: () => "their lawyer settled the case",
-        }
-      : {
-          outcome: "evicted",
-          reason: (court) =>
-            `${court} found them too far behind to stay, even with a lawyer`,
-        };
+  if (facts.lawyer && facts.monthsBehind <= EVICTION.lawyerKeepsHomeUpTo)
+    return {
+      outcome: "settled",
+      reason: () => "their lawyer settled the case",
+    };
+  if (facts.lawyer && facts.planCarried !== true)
+    return {
+      outcome: "evicted",
+      reason: (court) =>
+        `${court} found them too far behind to stay, even with a lawyer`,
+    };
   if (facts.planCarried === true)
     return {
       outcome: "settled",
@@ -2355,6 +2420,9 @@ function householdName(
   midSentence = false,
 ): string {
   const record = world.history.households.find((row) => row.id === householdId);
+  // A household named for one person ("Ana Ruiz's household") takes no
+  // article; a family name does ("the Ruiz household").
+  if (record && /'s household$/.test(record.label)) return record.label;
   const name = record
     ? `The ${record.label.replace(/ household$/, "")} household`
     : "A household";

@@ -9,6 +9,7 @@ import type {
 } from "../character-history";
 import { candidacyPackById, stateCandidacyPack } from "../candidacy-packs";
 import { legislativeTermForRelationship } from "../legislative-office-terms";
+import { legislativeTermLimitInForce } from "./state-legislative-term-limits";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
 import { addDays, makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
@@ -408,6 +409,13 @@ export function ensureStateLegislatureOpening(
       office.qualification.minimumAge.kind === "known"
         ? office.qualification.minimumAge.value
         : 18;
+    const limit = legislativeTermLimitInForce(next, stateUsps, date);
+    const limitYears = limit
+      ? Math.min(
+          limit.perChamberYears ?? Number.POSITIVE_INFINITY,
+          limit.totalYears ?? Number.POSITIVE_INFINITY,
+        )
+      : null;
     for (let ordinal = 1; ordinal <= chamber.size; ordinal += 1) {
       const seatKey = STATE_LEGISLATURE_KEYS.seat(chamber.officeKey, ordinal);
       const seatRng = rng.fork(`seat:${chamber.officeKey}:${ordinal}`);
@@ -419,8 +427,12 @@ export function ensureStateLegislatureOpening(
         party = democraticShare >= 0.5 ? "democratic" : "republican";
       }
       const age = seatRng.integer(minimumAge + 7, 81);
+      // A state that limits its legislators' terms has no sitting member
+      // past the limit: service so far is spread over the years under it
+      // (the current term is part of it), not piled at the limit.
+      const drawnYears = seatRng.integer(0, 13);
       const yearsServed = Math.min(
-        seatRng.integer(0, 13),
+        limitYears === null ? drawnYears : drawnYears % limitYears,
         Math.max(0, age - minimumAge - 1),
       );
       const year = Number(date.slice(0, 4));
@@ -609,6 +621,42 @@ export function stateLegislators(
   world: World,
   packId: string,
 ): readonly StateLegislatorView[] {
+  return perWorld(STATE_LEGISLATORS, world, packId, readStateLegislators);
+}
+
+/**
+ * Answers kept for each World, which is never edited: a day's turnover asks
+ * for the same chamber's seats once for every election year it checks, and
+ * each reading walks every tenure the chamber has ever had.
+ */
+function perWorld<T>(
+  cache: WeakMap<World, Map<string, T>>,
+  world: World,
+  packId: string,
+  read: (world: World, packId: string) => T,
+): T {
+  let byPack = cache.get(world);
+  if (!byPack) {
+    byPack = new Map();
+    cache.set(world, byPack);
+  }
+  if (!byPack.has(packId)) byPack.set(packId, read(world, packId));
+  return byPack.get(packId)!;
+}
+
+const STATE_LEGISLATORS = new WeakMap<
+  World,
+  Map<string, readonly StateLegislatorView[]>
+>();
+const STATE_LEGISLATIVE_SEATS = new WeakMap<
+  World,
+  Map<string, readonly StateLegislativeSeatView[]>
+>();
+
+function readStateLegislators(
+  world: World,
+  packId: string,
+): readonly StateLegislatorView[] {
   const bodyId = createStableId(
     "organization",
     `${world.id}:${STATE_LEGISLATURE_KEYS.body(packId)}`,
@@ -704,6 +752,18 @@ export interface StateLegislativeSeatView {
  * size on the screen rather than shrinking to its survivors.
  */
 export function stateLegislativeSeats(
+  world: World,
+  packId: string,
+): readonly StateLegislativeSeatView[] {
+  return perWorld(
+    STATE_LEGISLATIVE_SEATS,
+    world,
+    packId,
+    readStateLegislativeSeats,
+  );
+}
+
+function readStateLegislativeSeats(
   world: World,
   packId: string,
 ): readonly StateLegislativeSeatView[] {

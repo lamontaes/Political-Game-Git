@@ -17,7 +17,12 @@ import {
   type PublicBudgetStore,
 } from ".";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
-import { MEDIAN_PAID_SHARE } from "./pension-share";
+import {
+  MEDIAN_BENEFIT_SHARE,
+  MEDIAN_FUNDED_RATIO,
+  MEDIAN_NORMAL_COST_SHARE,
+  MEDIAN_PAID_SHARE,
+} from "./pension-share";
 import {
   MEDIAN_RESERVE_DEPOSIT,
   MEDIAN_RESERVE_TARGET,
@@ -237,6 +242,21 @@ describe("public budgets", () => {
     expect(next.startsOn).toBe("2026-07-01");
   });
 
+  it("a state opens exactly at its read figures in every world; a city's estimated share opens with a spread", () => {
+    const at = (seed: string) =>
+      opened(worldAt("2026-01-05", { seed, places: ["1714000"] }))
+        .publicBudgets!.governments;
+    const first = at("b12-read-a");
+    const second = at("b12-read-b");
+    const line = (rows: typeof first, key: string) =>
+      rows.find((row) => row.key === key)!.years[0]!.expectedRevenue;
+    expect(line(first, "US-IL")).toEqual(line(second, "US-IL"));
+    expect(line(first, "US-GU")).toEqual(line(second, "US-GU"));
+    expect(line(first, "place:1714000")).not.toEqual(
+      line(second, "place:1714000"),
+    );
+  });
+
   it("D.C. reads the Census local column, and a territory's revenue is one line whose source is unknown", () => {
     const world = opened(worldAt("2026-01-05"));
     const district = world.publicBudgets!.governments.find(
@@ -353,6 +373,10 @@ describe("public budgets", () => {
     );
     expect(deposit?.law?.reading.answer).toBe("yes");
     expect(short.government.years.at(-1)!.reserveDeposit).toBe(deposit!.amount);
+    // The note names Illinois' own law, not a hand-set floor.
+    expect(deposit!.note).toContain(`${reserveRule(state).floorShare}`);
+    expect(deposit!.note).toContain(reserveRule(state).basis);
+    expect(deposit!.note).not.toContain("PLACEHOLDER");
 
     // Illinois begins with a reserve law, so "without" is a law enacted in
     // play that says no.
@@ -416,6 +440,103 @@ describe("public budgets", () => {
     );
   });
 
+  it("a small government that pays its whole contribution records no underpayment from monthly rounding", () => {
+    const world = worldAt("2026-01-05", {
+      laws: [{ question: PENSIONS, answer: "no", jurisdictionId: illinois }],
+    });
+    // A pension the size of a 16-person town's, paid in full: the monthly
+    // payments round to whole dollars and can fall a dollar or two short.
+    const small = {
+      ...publicBudgetFor(opened(world), illinois)!,
+      pension: {
+        ...publicBudgetFor(opened(world), illinois)!.pension,
+        paidShare: 1,
+        liability: 27_076,
+        assets: 19_470,
+      },
+    };
+    const run = settleAlone(world, small, "2027-06-01");
+    expect(
+      run.adjustments.filter(
+        (row) => row.kind === "pension-underpaid" && row.fiscalYear === 2027,
+      ),
+    ).toEqual([]);
+  });
+
+  it("each government's pension opens at its own plans' funded ratio, or the median where none is reported", () => {
+    const world = opened(
+      worldAt("2026-01-05", { places: ["1714000", "county:17031"] }),
+    );
+    const funded = (key: string) => {
+      const pension = world.publicBudgets!.governments.find(
+        (row) => row.key === key,
+      )!.pension;
+      return pension.assets / pension.liability;
+    };
+    // Public Plans Database, each plan's latest year: Illinois' state plans
+    // hold 54.84% of their liability, Chicago's 26.22%, Cook County's 65.93%.
+    expect(funded("US-IL")).toBeCloseTo(0.5484, 3);
+    expect(funded("place:1714000")).toBeCloseTo(0.2622, 3);
+    expect(funded("county:17031")).toBeCloseTo(0.6593, 3);
+    // D.C.'s plans are not listed, so it opens at the median of every plan.
+    expect(funded("US-DC")).toBeCloseTo(MEDIAN_FUNDED_RATIO, 3);
+    expect(
+      world
+        .publicBudgets!.governments.find((row) => row.key === "US-DC")!
+        .openingNotes.join(" "),
+    ).toContain("Pension funded ratio: ESTIMATED FROM AVERAGE");
+  });
+
+  it("each government's pension costs and pays out what its own plans report, or the median where they do not", () => {
+    const world = opened(worldAt("2026-01-05", { places: ["1714000"] }));
+    const government = (key: string) =>
+      world.publicBudgets!.governments.find((row) => row.key === key)!;
+    // Public Plans Database, each plan's latest year: Illinois' state plans
+    // owe an employer normal cost of 0.92% of their liability a year and pay
+    // out 5.51%; Chicago's plans 0.51% and 5.60%.
+    const required = (key: string, normalCost: number) => {
+      const { liability, assets } = government(key).pension;
+      return Math.round(liability * normalCost + (liability - assets) / 30);
+    };
+    expect(government("US-IL").years[0]!.pensionRequired).toBe(
+      required("US-IL", 0.0092),
+    );
+    expect(government("place:1714000").years[0]!.pensionRequired).toBe(
+      required("place:1714000", 0.0051),
+    );
+    // Missouri's reporting plans hold less than half its liability, so it
+    // owes the median normal cost; D.C.'s plans are not listed at all.
+    expect(government("US-MO").years[0]!.pensionRequired).toBe(
+      required("US-MO", MEDIAN_NORMAL_COST_SHARE),
+    );
+    const dc = government("US-DC").openingNotes.join(" ");
+    expect(dc).toContain(
+      `Pension normal cost: ${MEDIAN_NORMAL_COST_SHARE} of the liability a year, ESTIMATED FROM AVERAGE`,
+    );
+    expect(dc).toContain(
+      `Benefits paid: ${MEDIAN_BENEFIT_SHARE} of the liability a year, ESTIMATED FROM AVERAGE`,
+    );
+    expect(government("US-IL").openingNotes.join(" ")).toContain(
+      "Benefits paid: 0.0551 of the liability a year, as its own plans filed",
+    );
+
+    // At the year's close the liability grows by the plans' own normal cost
+    // and both it and the assets shrink by their own benefits: the opening
+    // year ran six months, January to June.
+    const state = government("US-IL");
+    const closed = settleAlone(worldAt("2026-01-05"), state, "2026-07-01")
+      .government.pension;
+    const { liability } = state.pension;
+    const half = 6 / 12;
+    expect(closed.liability).toBe(
+      Math.round(
+        liability * (1 + 0.07 * half) +
+          liability * 0.0092 * half -
+          liability * 0.0551 * half,
+      ),
+    );
+  });
+
   it("each government's pension share starts from its own reported payment, or the median where none is reported, and holds", () => {
     const world = runThrough(
       opened(worldAt("2026-01-05", { places: ["1714000", "county:17031"] })),
@@ -434,11 +555,9 @@ describe("public budgets", () => {
     // Chicago and Cook County read their own plans.
     const chicago = share("place:1714000");
     expect(chicago.years[0]!.pensionShare).toBe(0.8635);
-    expect(chicago.openingNotes.join(" ")).toContain(
-      "as its own plans reported",
-    );
+    expect(chicago.openingNotes.join(" ")).toContain("as its own plans filed");
     expect(share("county:17031").openingNotes.join(" ")).toContain(
-      "as its own plans reported",
+      "as its own plans filed",
     );
     // The share holds from year to year until budgets pass as bills.
     for (const row of world.publicBudgets!.governments)
@@ -692,6 +811,8 @@ describe("public budgets", () => {
     );
     expect(carried[0]!.fiscalYear).toBe(2027);
     expect(carried[0]!.law).toBeNull();
+    expect(carried[0]!.note).toContain(reserveRule(opening).basis);
+    expect(carried[0]!.note).not.toContain("PLACEHOLDER");
     const [, fy2027, fy2028] = run.government.years;
     const cuttable = (values: readonly number[]) =>
       sum(
