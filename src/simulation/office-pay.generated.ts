@@ -16,7 +16,16 @@ export const OFFICE_PAY_META = {
   "asOf": "2026-09-29",
   "governors": 52,
   "legislators": 40,
-  "judges": 54
+  "judges": 54,
+  "newerThanTables": [
+    {
+      "office": "state-legislator",
+      "state": "CA",
+      "annualDollars": 128215,
+      "effectiveFrom": "2023-12-04",
+      "source": "California Citizens Compensation Commission, legislators' annual salary in effect since December 4, 2023"
+    }
+  ]
 } as const;
 
 /** `state or territory postal code:governor's annual salary in dollars`. */
@@ -25,7 +34,7 @@ export const GOVERNOR_SALARY_ROWS =
 
 /** `state or territory postal code:legislator's annual salary in dollars`. */
 export const LEGISLATOR_SALARY_ROWS =
-  "AK:50400;AL:53913;AR:44356;AZ:24000;CA:122694;CO:40242;CT:40000;DE:49202;FL:18000;GA:23342;HI:72348;IA:25000;ID:19913;IL:85000;IN:29749;LA:16800;MA:73655;MD:52343;MI:71685;MN:48250;MO:37711;MS:23500;NC:13951;NE:12000;NH:100;NJ:49000;NY:142000;OH:69876;OK:47500;OR:35052;PA:102844;RI:17627;SC:10400;SD:14778;TN:28406;TX:7200;WA:57876;WI:55141;WV:20000;WY:57408";
+  "AK:50400;AL:53913;AR:44356;AZ:24000;CA:128215;CO:40242;CT:40000;DE:49202;FL:18000;GA:23342;HI:72348;IA:25000;ID:19913;IL:85000;IN:29749;LA:16800;MA:73655;MD:52343;MI:71685;MN:48250;MO:37711;MS:23500;NC:13951;NE:12000;NH:100;NJ:49000;NY:142000;OH:69876;OK:47500;OR:35052;PA:102844;RI:17627;SC:10400;SD:14778;TN:28406;TX:7200;WA:57876;WI:55141;WV:20000;WY:57408";
 
 /** `state or territory postal code:general trial court judge's annual salary in dollars`. */
 export const TRIAL_JUDGE_SALARY_ROWS =
