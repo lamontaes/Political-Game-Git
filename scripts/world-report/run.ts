@@ -403,13 +403,15 @@ export class WorldRecordReader {
     return person ? personName(person) : "someone the record does not name";
   }
 
-  party(personId: EntityId): string | null {
-    const partyId = publicPartyAffiliation(this.world, personId);
+  // A race reads each candidate's party on its own date: a party left or a
+  // life ended later does not rewrite who ran under which label.
+  party(personId: EntityId, asOf?: IsoDate): string | null {
+    const partyId = publicPartyAffiliation(this.world, personId, { asOf });
     return partyId ? organizationNameAt(this.world, partyId) : null;
   }
 
-  nameWithParty(personId: EntityId): string {
-    const party = this.party(personId);
+  nameWithParty(personId: EntityId, asOf?: IsoDate): string {
+    const party = this.party(personId, asOf);
     return party ? `${this.name(personId)} (${party})` : this.name(personId);
   }
 
@@ -548,16 +550,51 @@ function electionLines(
       .added("electionContests")
       .map((contest) => [contest.id, contest] as const),
   );
-  for (const contest of contests.values()) {
+  // Congress's seats are a national round of several hundred races: one line
+  // a day for the round, naming the place's own state's races in full.
+  const national = (contest: AnyRecord | undefined) =>
+    Boolean(
+      contest &&
+      /^us-(house|senate):/.test(
+        (contest.office as { officeKey: string }).officeKey,
+      ),
+    );
+  const ballotRounds = new Map<IsoDate, string[]>();
+  const ballotText = (contest: AnyRecord) => {
     const office = (contest.office as { title: string }).title;
     const candidates = contest.candidatePersonIds as readonly EntityId[];
+    return `The ballot for ${office} (${reader.jurisdictionName(contest.jurisdictionId as EntityId) || "no place recorded"}) closed with ${count(candidates.length, "candidate")}${candidates.length ? `: ${list(candidates.map((id) => reader.nameWithParty(id, contest.scheduledAt as IsoDate)))}` : ""}. Election day: ${proseDate(contest.electionDate as string)}.`;
+  };
+  for (const contest of contests.values()) {
+    if (national(contest)) {
+      const date = contest.scheduledAt as IsoDate;
+      ballotRounds.set(date, [...(ballotRounds.get(date) ?? []), contest.id]);
+      continue;
+    }
     lines.push({
       date: contest.scheduledAt as IsoDate,
       section: "elections",
-      text: `The ballot for ${office} (${reader.jurisdictionName(contest.jurisdictionId as EntityId) || "no place recorded"}) closed with ${count(candidates.length, "candidate")}${candidates.length ? `: ${list(candidates.map((id) => reader.nameWithParty(id)))}` : ""}. Election day: ${proseDate(contest.electionDate as string)}.`,
+      text: ballotText(contest),
       sources: [contest.id],
     });
   }
+  for (const [date, ids] of ballotRounds) {
+    const round = ids.map((id) => contests.get(id)!);
+    const home = round.filter((contest) =>
+      reader.mentionsState((contest.office as { title: string }).title),
+    );
+    lines.push({
+      date,
+      section: "elections",
+      text: `The ballots for ${count(round.length, "seat")} in Congress closed, each with its own nominees.${home.length > 0 ? ` In ${reader.stateName}:` : ""}`,
+      details: home.map(ballotText),
+      sources: ids.slice(0, 12),
+    });
+  }
+  const countRounds = new Map<
+    IsoDate,
+    { text: string; home: boolean; winnerParty: string; id: string }[]
+  >();
   for (const result of reader.added("electionContestResults")) {
     const contest = (reader.history.electionContests ?? []).find(
       (row) => row.id === result.contestId,
@@ -579,13 +616,46 @@ function electionLines(
       .sort((left, right) => right.votes - left.votes)
       .map(
         (tally) =>
-          `${reader.nameWithParty(tally.candidatePersonId)}${incumbent?.personId === tally.candidatePersonId ? ", the incumbent," : ""} ${tally.votes.toLocaleString("en-US")} votes (${(tally.voteShare * 100).toFixed(1)}%)`,
+          `${reader.nameWithParty(tally.candidatePersonId, result.resolvedAt as IsoDate)}${incumbent?.personId === tally.candidatePersonId ? ", the incumbent," : ""} ${tally.votes.toLocaleString("en-US")} votes (${(tally.voteShare * 100).toFixed(1)}%)`,
       );
+    const text = `${office?.title ?? "A race"}: ${reader.name(result.winnerPersonId as EntityId)} won. ${tallies.join("; ")}.`;
+    if (national(contest)) {
+      const date = result.resolvedAt as IsoDate;
+      countRounds.set(date, [
+        ...(countRounds.get(date) ?? []),
+        {
+          text,
+          home: reader.mentionsState(office?.title ?? ""),
+          winnerParty: reader.nameWithParty(
+            result.winnerPersonId as EntityId,
+            date,
+          ),
+          id: result.id as string,
+        },
+      ]);
+      continue;
+    }
     lines.push({
       date: result.resolvedAt as IsoDate,
       section: "elections",
-      text: `${office?.title ?? "A race"}: ${reader.name(result.winnerPersonId as EntityId)} won. ${tallies.join("; ")}.`,
+      text,
       sources: [result.id, ...(contest ? [contest.id] : [])],
+    });
+  }
+  for (const [date, round] of countRounds) {
+    const won = (party: string) =>
+      round.filter((row) => row.winnerParty.includes(party)).length;
+    // A winner the record shows in neither party is named, wherever the seat.
+    const neither = (row: (typeof round)[number]) =>
+      !/Democratic|Republican/.test(row.winnerParty);
+    const named = round.filter((row) => row.home || neither(row));
+    const others = round.filter(neither).length;
+    lines.push({
+      date,
+      section: "elections",
+      text: `${count(round.length, "race")} for Congress were counted from each seat's own voters: ${won("Democratic")} Democrats${others > 0 ? `, ${won("Republican")} Republicans and ${count(others, "winner")} in neither party` : ` and ${won("Republican")} Republicans`} won.${named.length > 0 ? ` In ${reader.stateName}${named.length > round.filter((row) => row.home).length ? " and outside both parties" : ""}:` : ""}`,
+      details: named.map((row) => row.text),
+      sources: round.slice(0, 12).map((row) => row.id),
     });
   }
   // Everything else under election.*, as the record words it.
@@ -1418,6 +1488,11 @@ export function neverChecks(
   const localContests = contests.filter((row) =>
     reader.isLocal(row.jurisdictionId as EntityId),
   );
+  const legislativeRaces = contests.filter((row) =>
+    /us-house|us-senate|legislat/.test(
+      (row.office as { officeKey: string }).officeKey,
+    ),
+  );
   const aggregateResults = reader.newEvents.filter((event) =>
     /general-results$/.test(event.type),
   );
@@ -1669,12 +1744,8 @@ export function neverChecks(
       "named-legislative-races",
       "No congressional or state legislative race recorded its candidates or votes.",
       "Some congressional or state legislative races recorded their candidates.",
-      contests.some((row) =>
-        /us-house|us-senate|legislat/.test(
-          (row.office as { officeKey: string }).officeKey,
-        ),
-      ),
-      `${count(aggregateResults.length, "general election")} for Congress or a legislature reported only totals. No candidate or vote count was recorded for any of their seats.`,
+      legislativeRaces.length > 0,
+      `${count(legislativeRaces.length, "congressional or legislative race")} recorded ${legislativeRaces.length === 1 ? "its" : "their"} candidates and votes; ${count(aggregateResults.length, "general election")} for Congress or a legislature also wrote a totals record.`,
     ),
     check(
       "primary",
