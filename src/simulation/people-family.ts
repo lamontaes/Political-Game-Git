@@ -2,6 +2,7 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
 } from "./character-history";
+import { YOUNGEST_AGE_AT_BIRTH } from "./birth-rates";
 import { ageOnDate, makeIsoDate } from "./dates";
 import {
   createChildAuthority,
@@ -48,10 +49,13 @@ export const FAMILY_MEMBER_ADDED_EVENT = "life.family-member-added";
 export const PEOPLE_FAMILY_VERSION = "people-family-v1";
 
 /**
- * Authored plausibility bounds, not a biological or legal standard: a parent
- * at least this much older than their child, and an adoptive parent an adult.
+ * The youngest parent at a birth is the first age the birth table carries
+ * (`birth-rates.ts`, from NCHS natality data), so the town birth draw and this
+ * writer read one rule. The adoption bounds are authored plausibility bounds,
+ * not a biological or legal standard: an adoptive parent an adult, and at
+ * least this much older than the child.
  */
-export const MINIMUM_PARENT_AGE_AT_BIRTH = 16;
+export const MINIMUM_PARENT_AGE_AT_BIRTH = YOUNGEST_AGE_AT_BIRTH;
 export const MINIMUM_ADOPTIVE_PARENT_AGE = 21;
 export const MINIMUM_ADOPTION_AGE_GAP = 10;
 

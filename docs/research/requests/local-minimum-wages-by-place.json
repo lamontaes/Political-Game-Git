@@ -1,0 +1,19 @@
+{
+  "filedAt": "2026-09-29T02:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Build 11 · Wage Laws Change Pay",
+  "priority": "P2",
+  "question": "Which cities and counties set their own minimum wage, at what rate today, and on what schedule does each rate rise? Roughly fifty places are believed to do so; list each with its jurisdiction, current hourly rate, any size-of-employer tiers, and the law that set it.",
+  "questionId": "local-minimum-wages-by-place",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Build 11 · Wage Laws Change Pay, on Claude CTO's 10:24 p.m. ruling",
+  "sourcesChecked": [
+    {
+      "source": "data/research/money/minimum-wage-2026.json (federal and state rates, 2026)",
+      "whatItDidNotSettle": "Carries no city or county minimum, so the local part of a job's floor is not modeled."
+    }
+  ],
+  "title": "City and county minimum wages by place",
+  "usableAnswer": "One row per city or county with its own minimum wage: jurisdiction, current hourly rate, employer-size tiers, scheduled increases, the ordinance or statute that set it, and a public source the game can refresh. Places with no local minimum need no row: the floor is then the higher of the federal and state rate.",
+  "whyItMatters": "A job's pay floor is the highest of the federal, state and local minimum where the job is. Until local rates are read, a worker in a city with its own higher minimum is paid the state or federal floor. Until each rate is read, the game starts from the most common real rule (no local minimum) and marks it as estimated from the average."
+}
