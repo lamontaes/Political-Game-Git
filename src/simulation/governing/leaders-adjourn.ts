@@ -123,10 +123,13 @@ export function considerSessionAdjournment(
   const limit = sessionLegalLimit(pack, year);
   if (limit !== null && world.currentDate > limit) return world;
 
+  // Filtered on each record's own introduction date: replaying every
+  // measure's actions on every step grew with the square of a long world's
+  // bills.
   const session = (world.history.legislativeMeasures ?? []).filter(
     (candidate) =>
       candidate.rulePackId === pack.packId &&
-      measureSessionYear(world, candidate.id) === year,
+      yearOf(candidate.introducedAt) === year,
   );
   const budget = session.find((candidate) => {
     if (candidate.subjectClass !== "appropriation") return false;
