@@ -1,6 +1,10 @@
 import { CANNABIS_TAX_BASIS } from "./cannabis-sales-tax";
 import type { BudgetLevel, BudgetProgram, BudgetSource } from "./store";
 
+/** Should a fixed share of revenue be dedicated to parks and recreation? */
+export const PARKS_DEDICATION_QUESTION =
+  "us-policy-positions:civil-family-community.dedicated-parks-funding";
+
 /** Should tax incentives offered to attract employers be capped and disclosed? */
 export const INCENTIVE_CAP_QUESTION =
   "us-policy-positions:business-commerce.cap-development-incentives";
@@ -246,6 +250,23 @@ export const SPENDING_QUESTION_EFFECTS: readonly {
     toNo: -250_000_000 / 19_867_248,
     basis:
       "ESTIMATED FROM AVERAGE: New York's Raise the Age appropriation, $250 million a year (Office of the State Comptroller, 2025), per New York resident.",
+  },
+  {
+    questionKey: PARKS_DEDICATION_QUESTION,
+    program: "parks",
+    // What a dedicated tax adds to the state's parks line, from the two
+    // constitutions Research 1 read: Missouri's 0.05% of sales (the parks half
+    // of its 0.1% tax, Const. art. IV, sec. 47) yields $53.9 million a year
+    // over 6,208,038 residents ($8.68), and Minnesota's 14.25% of its
+    // 0.375% Legacy sales tax (Const. art. XI, sec. 15) yields $56.6 million
+    // over 5,753,048 ($9.84). Both are fiscal 2022 sales tax at the state's
+    // rate, over the Census file's 2023 residents; the spread is $8.68 to
+    // $9.84.
+    toYes: (53_900_000 / 6_208_038 + 56_600_000 / 5_753_048) / 2,
+    // A repeal ends the dedication, and the yield with it.
+    toNo: -(53_900_000 / 6_208_038 + 56_600_000 / 5_753_048) / 2,
+    basis:
+      "ESTIMATED FROM AVERAGE: Missouri's ($53.9 million a year) and Minnesota's ($56.6 million a year) dedicated sales tax for parks, read from their constitutions by Research 1 and worked out on fiscal 2022 state sales tax (Census Bureau), each over the state's 2023 residents, averaged. Oregon, Texas, Florida and Michigan dedicate other bases the Census table does not carry, so they are not sized separately.",
   },
 ];
 

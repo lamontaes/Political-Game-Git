@@ -46,6 +46,8 @@ import {
   officialFuneralHandler,
 } from "./official-funeral";
 import { fatalIllnessOnsetHandler } from "./fatal-illness";
+import { HEALTH_COVERAGE_KEY } from "./health-coverage";
+import { healthCoveragePassHandler } from "./health-coverage-pass";
 import {
   MORTALITY_DEATH_KEY,
   MORTALITY_WINDOW_KEY,
@@ -71,6 +73,7 @@ export * from "./hazard-producer";
 export * from "./international";
 export * from "./epidemic";
 export * from "./official-funeral";
+export * from "./health-coverage";
 
 /** Every CRISIS due-item handler, for composition into the production registry. */
 export function createCrisisTransitionRegistry() {
@@ -84,6 +87,8 @@ export function createCrisisTransitionRegistry() {
     [EPIDEMIC_PASS_KEY, epidemicPassHandler],
     // A death in office is followed by the official's funeral.
     [OFFICIAL_FUNERAL_KEY, officialFuneralHandler],
+    // Who holds Medicaid expansion coverage, and the death risk it lowers.
+    [HEALTH_COVERAGE_KEY, healthCoveragePassHandler],
     [HAZARD_SAMPLE_TRANSITION_KEY, hazardSampleHandler],
     [HAZARD_EPISODE_TRANSITION_KEY, hazardEpisodeHandler],
     // Ordinary local crime shares the crisis namespace so every clock path
