@@ -299,6 +299,11 @@ describe("public budgets", () => {
     expect(district.lawJurisdictionId).toBe(
       lifePlaceByKey("1150000")!.context.jurisdiction.id,
     );
+    // Its Census state column is empty, so it opens from the local column.
+    expect(district.openingNotes.join(" ")).toContain(
+      "Census 2022 local-government column, since District of Columbia's state column is empty",
+    );
+    expect(sum(district.years[0]!.appropriations)).toBeGreaterThan(0);
   });
 
   it("under a balanced-budget law a shortfall is cut across the board and drawn from the reserve, naming the law; without one it is borrowed", () => {
@@ -485,6 +490,21 @@ describe("public budgets", () => {
         .publicBudgets!.governments.find((row) => row.key === "US-DC")!
         .openingNotes.join(" "),
     ).toContain("Pension funded ratio: ESTIMATED FROM AVERAGE");
+  });
+
+  it("a state NASBO reports no rainy-day balance for opens at the median share of the states it does", () => {
+    const world = opened(worldAt("2026-01-05"));
+    const georgia = world.publicBudgets!.governments.find(
+      (row) => row.key === "US-GA",
+    )!;
+    // NASBO fiscal 2026: the median rainy-day balance over general-fund
+    // spending of the states it reports is 0.1307 (measured from the table).
+    const opening = georgia.years[0]!;
+    const spent = sum(opening.appropriations);
+    expect(georgia.reserve / spent).toBeCloseTo(0.1307, 3);
+    expect(georgia.openingNotes.join(" ")).toContain(
+      "Opening reserve: ESTIMATED FROM AVERAGE, NASBO has no figure, so 0.131 of spending",
+    );
   });
 
   it("each government's pension costs and pays out what its own plans report, or the median where they do not", () => {

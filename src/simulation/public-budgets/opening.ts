@@ -110,6 +110,51 @@ const COUNTY_POPULATION = bases.countyPopulation2024 as Readonly<
 export const BUDGET_CALIBRATION = bases.calibration.factor;
 
 /**
+ * The states whose Census state-government column is empty because one
+ * government is both their state and their local government (the District of
+ * Columbia): their budget reads the local-government column, and their one
+ * town is that same government. Read from the data, never named in logic.
+ */
+const STATE_IS_LOCAL: ReadonlySet<string> = new Set(
+  Object.entries(PLACES)
+    .filter(
+      ([, place]) =>
+        place.state &&
+        place.local &&
+        [
+          ...Object.values(place.state.revenue),
+          ...Object.values(place.state.spending),
+        ].every((value) => value === 0),
+    )
+    .map(([key]) => key),
+);
+
+/**
+ * The median rainy-day balance as a share of general-fund spending, fiscal
+ * 2026, over the states NASBO reports both for: what a government NASBO has
+ * no balance for opens with, ESTIMATED FROM AVERAGE.
+ */
+const MEDIAN_RAINY_DAY_SHARE = (() => {
+  const shares = Object.values(PLACES)
+    .filter(
+      (place) =>
+        place.state &&
+        place.generalFundFY2026Millions.rainyDayFundBalance !== null &&
+        place.generalFundFY2026Millions.expenditures,
+    )
+    .map(
+      (place) =>
+        place.generalFundFY2026Millions.rainyDayFundBalance! /
+        place.generalFundFY2026Millions.expenditures!,
+    )
+    .sort((a, b) => a - b);
+  const middle = Math.floor(shares.length / 2);
+  return shares.length % 2
+    ? shares[middle]!
+    : (shares[middle - 1]! + shares[middle]!) / 2;
+})();
+
+/**
  * An island area NASBO does not survey (American Samoa, the Northern Mariana
  * Islands) opens ESTIMATED FROM AVERAGE: the island areas NASBO does survey
  * (Guam, the U.S. Virgin Islands), averaged per resident over the Census
@@ -218,9 +263,6 @@ const ACS_TOWN_POPULATION = acsTowns.townPopulation as Readonly<
   Record<string, number>
 >;
 
-/** NASBO's median rainy-day balance as a share of spending, fiscal 2026. */
-const MEDIAN_RAINY_DAY_SHARE = 0.131;
-
 export interface BudgetCandidate {
   readonly key: string;
   readonly jurisdictionId: EntityId;
@@ -248,13 +290,16 @@ export function budgetCandidates(world: World): {
   const unknown: { key: string; jurisdictionId: EntityId; reason: string }[] =
     [];
   const stateIds = new Set<EntityId>();
-  // Washington's town is the District government itself (question-authority).
-  let districtTown: EntityId | null = null;
+  // A state that is also its own local government: its town is that same
+  // government (question-authority), so its laws are read there.
+  const stateTowns = new Map<string, EntityId>();
   for (const id of world.jurisdictionOrder ?? []) {
     const place = lifePlaceByJurisdictionId(id);
-    if (place?.stateJurisdictionKey === "US-DC" && place.scope !== "state")
-      districtTown ??= id;
+    const stateKey = place?.stateJurisdictionKey;
+    if (stateKey && STATE_IS_LOCAL.has(stateKey) && place.scope !== "state")
+      if (!stateTowns.has(stateKey)) stateTowns.set(stateKey, id);
   }
+  const townIds = new Set(stateTowns.values());
   for (const usps of Object.keys(STATES)) {
     const key = `US-${usps}`;
     const jurisdiction = stateJurisdictionForKey(key);
@@ -263,8 +308,7 @@ export function budgetCandidates(world: World): {
     candidates.push({
       key,
       jurisdictionId: jurisdiction.id,
-      lawJurisdictionId:
-        usps === "DC" && districtTown ? districtTown : jurisdiction.id,
+      lawJurisdictionId: stateTowns.get(key) ?? jurisdiction.id,
       level: "state",
       name: STATES[usps]!.name,
       stateKey: key,
@@ -273,7 +317,7 @@ export function budgetCandidates(world: World): {
   }
   for (const id of world.jurisdictionOrder ?? []) {
     if (stateIds.has(id) || id === NATIONAL_ELECTION_JURISDICTION.id) continue;
-    if (id === districtTown) continue;
+    if (townIds.has(id)) continue;
     const jurisdiction = world.jurisdictions[id];
     const place = lifePlaceByJurisdictionId(id);
     const stateKey = place?.stateJurisdictionKey ?? null;
@@ -602,8 +646,9 @@ function stateOpening(
   let debt = 0;
   let interestRate = DEFAULT_INTEREST_RATE;
   let population = base.population2024 ?? 0;
-  const column =
-    candidate.key === "US-DC" ? base.local : (base.state ?? undefined);
+  const column = STATE_IS_LOCAL.has(candidate.key)
+    ? base.local
+    : (base.state ?? undefined);
   if (column && population > 0) {
     const scale = population * BUDGET_CALIBRATION;
     for (const [at, source] of BUDGET_SOURCES.entries())
@@ -632,8 +677,8 @@ function stateOpening(
     const interest = column.spending.interest ?? 0;
     if (column.debt > 0 && interest > 0) interestRate = interest / column.debt;
     notes.push(
-      candidate.key === "US-DC"
-        ? "Census 2022 local-government column, since D.C.'s state column is empty, per resident times BEA 2024 population, times the calibration factor."
+      STATE_IS_LOCAL.has(candidate.key)
+        ? `Census 2022 local-government column, since ${base.name}'s state column is empty, per resident times BEA 2024 population, times the calibration factor.`
         : "Census 2022 state-government figures per resident times BEA 2024 population, times the calibration factor.",
     );
   } else {
@@ -695,7 +740,7 @@ function stateOpening(
       ? "Opening balance unknown in NASBO; opens at none."
       : "Opening balance: NASBO's estimate of the fiscal 2026 general fund ending balance.",
     rainy === null
-      ? "Opening reserve: NASBO has no figure, so the national median rainy-day share of spending (PLACEHOLDER)."
+      ? `Opening reserve: ESTIMATED FROM AVERAGE, NASBO has no figure, so ${Math.round(MEDIAN_RAINY_DAY_SHARE * 1000) / 1000} of spending, the median rainy-day share of the states NASBO reports (fiscal 2026).`
       : "Opening reserve: NASBO's fiscal 2026 rainy-day fund balance.",
   );
   return {
