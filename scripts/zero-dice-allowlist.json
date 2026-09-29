@@ -1662,41 +1662,6 @@
       "code": "draw(next, [\"international\", matter, ordinal]) >="
     },
     {
-      "file": "src/simulation/public-budgets/opening.ts",
-      "kind": "fixed-share",
-      "build": "Build 12",
-      "count": 1,
-      "code": "const MEDIAN_RAINY_DAY_SHARE = 0.131;"
-    },
-    {
-      "file": "src/simulation/public-budgets/opening.ts",
-      "kind": "place-in-logic",
-      "build": "Build 12",
-      "count": 1,
-      "code": "if (place?.stateJurisdictionKey === \"US-DC\" && place.scope !== \"state\")"
-    },
-    {
-      "file": "src/simulation/public-budgets/opening.ts",
-      "kind": "place-in-logic",
-      "build": "Build 12",
-      "count": 1,
-      "code": "usps === \"DC\" && districtTown ? districtTown : jurisdiction.id,"
-    },
-    {
-      "file": "src/simulation/public-budgets/opening.ts",
-      "kind": "place-in-logic",
-      "build": "Build 12",
-      "count": 1,
-      "code": "candidate.key === \"US-DC\" ? base.local : (base.state ?? undefined);"
-    },
-    {
-      "file": "src/simulation/public-budgets/opening.ts",
-      "kind": "place-in-logic",
-      "build": "Build 12",
-      "count": 1,
-      "code": "candidate.key === \"US-DC\""
-    },
-    {
       "file": "src/simulation/public-budgets/rules.ts",
       "kind": "fixed-share",
       "build": "Build 12",
