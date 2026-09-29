@@ -4,7 +4,10 @@ import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../nationwide-world/state-legis
 import { OUTCOME_LINKS, outcomeLinkStatus } from "../outcome-web";
 import { RENT_LAW_KEYS } from "../living-world/town-rent";
 import { CANNABIS_SALES_QUESTION } from "../public-budgets/cannabis-sales-tax";
-import { TAX_QUESTION_EFFECTS } from "../public-budgets/rules";
+import {
+  SPENDING_QUESTION_EFFECTS,
+  TAX_QUESTION_EFFECTS,
+} from "../public-budgets/rules";
 import {
   ADOPT_STATE_INCOME_TAX_QUESTION,
   GRADUATED_STATE_INCOME_TAX_QUESTION,
@@ -33,6 +36,7 @@ export type LawEffectPathKind =
   | "outcome-web"
   | "paycheck"
   | "state-revenue"
+  | "state-spending"
   | "rent-and-eviction"
   | "seat-turnover";
 
@@ -88,6 +92,15 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: effect.questionKey,
     kind: "state-revenue",
     via: "src/simulation/public-budgets/rules.ts",
+  })),
+  // What carrying out a law costs a state's budget, where a fiscal note set
+  // a size.
+  ...SPENDING_QUESTION_EFFECTS.filter(
+    (effect) => effect.toYes !== null || effect.toNo !== null,
+  ).map((effect): LawEffectPath => ({
+    questionKey: effect.questionKey,
+    kind: "state-spending",
+    via: "src/simulation/public-budgets/month.ts",
   })),
   {
     questionKey: CANNABIS_SALES_QUESTION,
