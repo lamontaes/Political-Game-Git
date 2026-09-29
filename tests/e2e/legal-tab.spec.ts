@@ -16,7 +16,7 @@ test("the player's own record opens a Legal tab from the court's records", async
   await startLife(page, { place: "Anchorage", state: "Alaska", age: 36 });
   await enterLife(page);
 
-  await goTo(page, "nav-people");
+  await goTo(page, "elsewhere-people");
   const you = page
     .locator('[data-testid^="people-web-node-"]')
     .filter({ has: page.locator('circle[aria-label="You"]') });
