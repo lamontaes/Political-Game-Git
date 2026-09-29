@@ -4338,12 +4338,22 @@ export const EVENT_PROOF_MONOTONE_CHECKS_COMPOSED: readonly string[] = [
 
 const JSON_SAFE = new WeakSet<object>();
 
+/*
+ * How deep below a checked value an object is remembered as safe. The world's
+ * own lists and records sit within this depth, so an unchanged one is passed
+ * over next time; a record's inner objects are walked with it and not kept,
+ * because remembering every one of them made the set, and the collector's
+ * work on it, grow with every year the world ran.
+ */
+const REMEMBERED_DEPTH = 3;
+
 function assertJsonSafe(
   value: unknown,
   path: string,
   ancestors: Set<object> = new Set(),
+  depth = 0,
 ): void {
-  const failure = jsonSafetyFailure(value, ancestors);
+  const failure = jsonSafetyFailure(value, ancestors, depth);
   if (failure)
     throw new Error(
       `${failure.problem} at ${path}${failure.steps.reverse().join("")}.`,
@@ -4364,6 +4374,7 @@ interface JsonSafetyFailure {
 function jsonSafetyFailure(
   value: unknown,
   ancestors: Set<object>,
+  depth: number,
 ): JsonSafetyFailure | null {
   if (
     value === null ||
@@ -4405,16 +4416,20 @@ function jsonSafetyFailure(
       // A hole in a sparse list is passed over, as forEach would.
       if (entry === undefined && !(index in value)) continue;
       if (knownJsonSafe(entry, ancestors)) continue;
-      const failure = jsonSafetyFailure(entry, ancestors);
+      const failure = jsonSafetyFailure(entry, ancestors, depth + 1);
       if (failure) {
         failure.steps.push(`[${index}]`);
         return failure;
       }
     }
   } else {
-    for (const [key, entry] of Object.entries(value)) {
+    // A plain object's prototype holds no enumerable keys, so for-in reads the
+    // same keys, in the same order, as Object.entries, without a copy of them.
+    const record = value as Record<string, unknown>;
+    for (const key in record) {
+      const entry = record[key];
       if (knownJsonSafe(entry, ancestors)) continue;
-      const failure = jsonSafetyFailure(entry, ancestors);
+      const failure = jsonSafetyFailure(entry, ancestors, depth + 1);
       if (failure) {
         failure.steps.push(`.${key}`);
         return failure;
@@ -4422,7 +4437,7 @@ function jsonSafetyFailure(
     }
   }
   ancestors.delete(value);
-  JSON_SAFE.add(value);
+  if (depth <= REMEMBERED_DEPTH) JSON_SAFE.add(value);
   return null;
 }
 
@@ -4438,7 +4453,13 @@ function assertAppendedJsonSafe(
   for (const { key, before, after } of changed) {
     if (!JSON_SAFE.has(before) || !Array.isArray(after)) continue;
     for (let index = before.length; index < after.length; index += 1)
-      assertJsonSafe(after[index], `world.history.${key}[${index}]`);
+      // A record sits at world.history.<list>[index], three levels down.
+      assertJsonSafe(
+        after[index],
+        `world.history.${key}[${index}]`,
+        new Set(),
+        REMEMBERED_DEPTH,
+      );
     JSON_SAFE.add(after);
   }
 }
