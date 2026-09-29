@@ -193,46 +193,49 @@ export function growingIndex<I>(
 }
 
 /**
+ * A new list: `records` followed by `added`. The list is remembered as a
+ * growth of `records`, so an index that followed `records` moves to it without
+ * rereading every record to prove it (see `beginsWith`).
+ */
+export function appendedList<T>(
+  records: readonly T[],
+  added: readonly T[],
+): T[] {
+  // `concat` copies a long list faster than spreading it; records are
+  // objects, never arrays, so nothing is flattened.
+  const next = records.concat(added);
+  if (added.length > 0) GREW_FROM.set(next, new WeakRef(records));
+  return next;
+}
+
+/** Each list `appendedList` built, to the list it grew from. */
+const GREW_FROM = new WeakMap<
+  readonly unknown[],
+  WeakRef<readonly unknown[]>
+>();
+
+/**
  * Whether `records` begins with every record of `prefix`, by identity.
  *
- * A short list is compared record by record. A long one is compared at its
- * last `PREFIX_TAIL` records and at `PREFIX_SAMPLES` places spread over the
- * rest: comparing all of it made each growth of a long list cost as much as
- * the list, so a world's tenth year spent seconds only confirming that its
- * lists had grown (Build 18 profile, September 28, 2026). A long list that was
- * rewritten away from its end, not appended to, would be missed only if the
- * rewrite also kept its length, its last record and every sampled record;
- * history lists that long are only appended to. Tests keep the full
- * comparison (tests/support/deep-transition-guard.ts), so a writer that
- * rewrote one in place would still be caught there.
+ * A list built by `appendedList` from `prefix`, directly or through a chain of
+ * such appends, begins with it by construction. Any other list is compared
+ * record by record: proving a long list had only grown cost as much as the
+ * list, so a world's tenth year spent seconds on it (Build 18 profile,
+ * September 28, 2026).
  */
 function beginsWith(
   records: readonly unknown[],
   prefix: readonly unknown[],
 ): boolean {
-  const length = prefix.length;
-  if (length <= PREFIX_FULL_CHECK || fullPrefixCheck()) {
-    for (let at = length - 1; at >= 0; at -= 1)
-      if (records[at] !== prefix[at]) return false;
-    return true;
-  }
-  for (let at = length - 1; at >= length - PREFIX_TAIL; at -= 1)
-    if (records[at] !== prefix[at]) return false;
-  const stride = Math.floor((length - PREFIX_TAIL) / PREFIX_SAMPLES);
-  for (let at = 0; at < length - PREFIX_TAIL; at += stride)
+  for (
+    let list: readonly unknown[] | undefined = records;
+    list !== undefined && list.length >= prefix.length;
+    list = GREW_FROM.get(list)?.deref()
+  )
+    if (list === prefix) return true;
+  for (let at = prefix.length - 1; at >= 0; at -= 1)
     if (records[at] !== prefix[at]) return false;
   return true;
-}
-
-const PREFIX_FULL_CHECK = 2_048;
-const PREFIX_TAIL = 256;
-const PREFIX_SAMPLES = 256;
-
-function fullPrefixCheck(): boolean {
-  return (
-    (globalThis as { __civicFullHistoryPrefixCheck?: boolean })
-      .__civicFullHistoryPrefixCheck === true
-  );
 }
 
 const STABLE_KEYS: GrowingIndexKind<Set<unknown>> = {

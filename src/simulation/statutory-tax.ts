@@ -19,7 +19,7 @@
  * Enacted game taxes (`tax-policy.ts`) are a separate route and untouched.
  */
 import { createStableId } from "./ids";
-import { recordById } from "./history-index";
+import { appendedList, recordById } from "./history-index";
 import {
   FEDERAL_INCOME_TAX_2026,
   filingStatusAt,
@@ -136,7 +136,7 @@ export function assessPaychecksTaxes(
   world: World,
   outcomeIds: readonly EntityId[],
 ): World {
-  if (outcomeIds.length < 2 || pendingRows)
+  if (outcomeIds.length < 2 || pendingRows || assessOneByOne())
     return outcomeIds.reduce(assessPaycheckTaxes, world);
   const held: PendingTaxRows = {
     statutoryTaxLiabilities: [],
@@ -160,7 +160,7 @@ export function assessPaychecksTaxes(
     const rows = held[field];
     if (rows.length === 0) continue;
     const before = history[field] ?? EMPTY_ROWS;
-    const after = [...before, ...rows] as NonNullable<
+    const after = appendedList<object>(before, rows) as NonNullable<
       World["history"][typeof field]
     >;
     const identity = TAX_ROW_IDENTITIES.get(before);
@@ -184,6 +184,14 @@ interface PendingTaxRows {
   >[number][];
   /** Ids, keys and assessed pay of the rows held back. */
   readonly identity: TaxRowIdentity;
+}
+
+/** A test sets this to compare a batch with the same paychecks one by one. */
+function assessOneByOne(): boolean {
+  return (
+    (globalThis as { __civicPaycheckTaxesOneByOne?: boolean })
+      .__civicPaycheckTaxesOneByOne === true
+  );
 }
 
 /** While a payday is assessed as one batch, the rows it has written so far. */
@@ -904,7 +912,9 @@ function append<K extends "statutoryTaxLiabilities" | "statutoryTaxPayments">(
     };
   }
   const before = world.history[field] ?? EMPTY_ROWS;
-  const after = [...before, ...records];
+  const after = appendedList<object>(before, records) as NonNullable<
+    World["history"][K]
+  >;
   // The new list inherits the old list's identity index, grown by the new
   // rows. The old list gives it up, so a later look at it builds its own.
   const identity = TAX_ROW_IDENTITIES.get(before);

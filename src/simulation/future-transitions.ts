@@ -4,6 +4,7 @@ import { worldIntegrityCheckMode } from "./world-integrity-changed";
 import { crisisEntityAvailableAt, crisisEntityExists } from "./crisis/records";
 import { eventById } from "./event-index";
 import {
+  appendedList,
   growingIndex,
   recordById,
   type GrowingIndexKind,
@@ -243,8 +244,10 @@ export function scheduleFutureDueItem(
   return commit(world, {
     ...world.history,
     nextSequence: world.history.nextSequence + 2,
-    futureDueItems: [...world.history.futureDueItems, dueItem],
-    futureDueItemStates: [...world.history.futureDueItemStates, scheduledState],
+    futureDueItems: appendedList(world.history.futureDueItems, [dueItem]),
+    futureDueItemStates: appendedList(world.history.futureDueItemStates, [
+      scheduledState,
+    ]),
   });
 }
 
@@ -321,7 +324,9 @@ export function setFutureDueItemTerminalState(
   return commit(world, {
     ...world.history,
     nextSequence: world.history.nextSequence + 1,
-    futureDueItemStates: [...world.history.futureDueItemStates, record],
+    futureDueItemStates: appendedList(world.history.futureDueItemStates, [
+      record,
+    ]),
   });
 }
 
