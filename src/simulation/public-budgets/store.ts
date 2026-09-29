@@ -1,5 +1,6 @@
 import type { LawLevel } from "../law-hierarchy";
 import type { EntityId, IsoDate, World } from "../types";
+import type { FederalTreasury } from "./federal-treasury";
 import type { StatehoodCertification } from "./statehood-funds";
 
 /**
@@ -294,6 +295,11 @@ export interface PublicBudgetStore {
    * (`staffing.ts`). Absent in a world whose town was never staffed.
    */
   readonly staffing?: readonly StaffingBaseline[];
+  /**
+   * The federal government's books (`federal-treasury.ts`). Absent in a world
+   * opened before it existed; the next monthly pass opens it.
+   */
+  readonly federal?: FederalTreasury;
   /** Governments in the world that keep no budget, and why. */
   readonly unknown: readonly {
     readonly key: string;
