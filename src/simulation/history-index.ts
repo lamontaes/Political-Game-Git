@@ -204,35 +204,50 @@ export function appendedList<T>(
   // `concat` copies a long list faster than spreading it; records are
   // objects, never arrays, so nothing is flattened.
   const next = records.concat(added);
-  if (added.length > 0) GREW_FROM.set(next, new WeakRef(records));
+  const from = LINES.get(records);
+  if (from && !from.grown) {
+    from.grown = true;
+    LINES.set(next, { line: from.line, grown: false });
+  } else {
+    // The first growth of a list starts a line. So does a second growth of
+    // the same list: the two new lists share a start but not each other.
+    const line = {};
+    if (!from) LINES.set(records, { line, grown: true });
+    LINES.set(next, { line, grown: false });
+  }
   return next;
 }
 
-/** Each list `appendedList` built, to the list it grew from. */
-const GREW_FROM = new WeakMap<
+/**
+ * Lists built by `appendedList`, grouped in lines: each list in a line is the
+ * one before it with records added, so a shorter list in a line begins every
+ * longer one. Only a line's newest list can grow it. The lists hold no
+ * reference to each other, so an old list is freed as usual.
+ */
+const LINES = new WeakMap<
   readonly unknown[],
-  WeakRef<readonly unknown[]>
+  { readonly line: object; grown: boolean }
 >();
 
 /**
  * Whether `records` begins with every record of `prefix`, by identity.
  *
- * A list built by `appendedList` from `prefix`, directly or through a chain of
- * such appends, begins with it by construction. Any other list is compared
- * record by record: proving a long list had only grown cost as much as the
- * list, so a world's tenth year spent seconds on it (Build 18 profile,
- * September 28, 2026).
+ * Two lists on one line (`appendedList`) are proven by their lengths. Any
+ * other pair is compared record by record: proving a long list had only
+ * grown cost as much as the list, so a world's tenth year spent seconds on it
+ * (Build 18 profile, September 28, 2026).
  */
 function beginsWith(
   records: readonly unknown[],
   prefix: readonly unknown[],
 ): boolean {
-  for (
-    let list: readonly unknown[] | undefined = records;
-    list !== undefined && list.length >= prefix.length;
-    list = GREW_FROM.get(list)?.deref()
+  const line = LINES.get(records)?.line;
+  if (
+    line !== undefined &&
+    LINES.get(prefix)?.line === line &&
+    prefix.length <= records.length
   )
-    if (list === prefix) return true;
+    return true;
   for (let at = prefix.length - 1; at >= 0; at -= 1)
     if (records[at] !== prefix[at]) return false;
   return true;

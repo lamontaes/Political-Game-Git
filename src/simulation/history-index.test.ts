@@ -96,6 +96,14 @@ describe("immutable history lookup indexes", () => {
     expect(recordByStableKey(twice, "key:r7")).toBe(base[7]);
     expect(recordById(once, "y" as EntityId)).toBeUndefined();
 
+    // A second writer grows the same list differently: its list never
+    // borrows the other writer's records.
+    const fork = appendedList(once, [row("v")]);
+    expect(recordById(fork, "v" as EntityId)).toBe(fork.at(-1));
+    expect(recordById(fork, "y" as EntityId)).toBeUndefined();
+    expect(hasStableKey(appendedList(fork, [row("u")]), "key:z")).toBe(false);
+    expect(hasStableKey(twice, "key:v")).toBe(false);
+
     // A writer that replaces one record far from the end, then appends, keeps
     // the length and the last records of the old list: the new list is read
     // again, so the replacement is what a lookup finds.

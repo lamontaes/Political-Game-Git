@@ -1,6 +1,11 @@
 import { organizationParticipationStateAt } from "../life-queries";
 import { makeIsoDate } from "../dates";
-import { recordsByStringField, recordsWithFieldValue } from "../history-index";
+import {
+  growingIndex,
+  recordsByStringField,
+  recordsWithFieldValue,
+  type GrowingIndexKind,
+} from "../history-index";
 import { personName } from "../people";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import {
@@ -169,30 +174,28 @@ function activeOrganization(
 }
 
 /** The person's in-term seat-roll record, if they hold a seat on `asOf`. */
-// History arrays are replaced on write, as in event-index.ts. One index serves
-// repeated party reads of the same saved world without changing as-of rules.
-const ROLL_EVENTS_BY_PERSON = new WeakMap<
-  readonly HistoricalEvent[],
+// Follows the event list as it grows: rebuilding this from every event on
+// each Congress sitting day grew with the save.
+const ROLL_EVENTS_BY_PERSON: GrowingIndexKind<
   Map<EntityId, HistoricalEvent[]>
->();
-
-function rollEventsByPerson(
-  events: readonly HistoricalEvent[],
-): Map<EntityId, HistoricalEvent[]> {
-  let indexed = ROLL_EVENTS_BY_PERSON.get(events);
-  if (indexed) return indexed;
-  indexed = new Map();
-  for (const event of events) {
-    if (event.type !== SEAT_TENURE_EVENT) continue;
+> = {
+  create: () => new Map(),
+  add: (indexed, entry) => {
+    const event = entry as HistoricalEvent;
+    if (event.type !== SEAT_TENURE_EVENT) return;
     for (const participant of event.participants) {
       if (participant.role !== "focus:subject") continue;
       const records = indexed.get(participant.personId) ?? [];
       records.push(event);
       indexed.set(participant.personId, records);
     }
-  }
-  ROLL_EVENTS_BY_PERSON.set(events, indexed);
-  return indexed;
+  },
+};
+
+function rollEventsByPerson(
+  events: readonly HistoricalEvent[],
+): Map<EntityId, HistoricalEvent[]> {
+  return growingIndex(ROLL_EVENTS_BY_PERSON, events);
 }
 
 function currentRollEvent(
