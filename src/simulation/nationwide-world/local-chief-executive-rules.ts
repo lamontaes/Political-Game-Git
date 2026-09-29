@@ -1,4 +1,3 @@
-import { stableHash } from "../ids";
 import { governmentUnit } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import { primaryReading } from "../municipal-government";
@@ -11,21 +10,26 @@ import { placePopulation } from "./place-population";
  * long, for every town with a government of its own.
  *
  * Read where the game has compiled the town's government and its reading says
- * so; otherwise drawn, stable per town, from the national shares in ICMA's
- * 2018 Municipal Form of Government Survey as ChatGPT reported them on
- * 2026-09-22 (answer to `local-executive-and-council-rules`, kept verbatim
- * under docs/research/chatgpt-answers/2026-09-22-nationwide-2235/):
+ * so. Otherwise ESTIMATED FROM AVERAGE: every unread town takes the most
+ * common real rule in ICMA's 2018 Municipal Form of Government Survey, as
+ * ChatGPT reported it on 2026-09-22 (answer to
+ * `local-executive-and-council-rules`, kept verbatim under
+ * docs/research/chatgpt-answers/2026-09-22-nationwide-2235/), the same rule
+ * for every place (CTO rulings of September 28, 10:32 p.m., and September 29,
+ * 1:54 a.m.: no draw where a rule is unread):
  *
- * - how the chief elected official is chosen: direct election 75.6%, by the
- *   council 21.3%, the top vote-getter for council 0.9%, rotation 1.6%, other
- *   0.7%;
- * - the chief elected official's term: 1 year 13.5%, 2 years 28.6%, 3 years
- *   6.1%, 4 years 49.4%.
+ * - the chief elected official is elected directly, as in 75.6% of towns
+ *   (by the council 21.3%, the top vote-getter for council 0.9%, rotation
+ *   1.6%, other 0.7%);
+ * - the term is four years, as in 49.4% of towns (1 year 13.5%, 2 years
+ *   28.6%, 3 years 6.1%).
+ *
+ * Until September 29, 2026, each unread town drew both from those shares.
  *
  * The owner's interim rule, not research (lamontae, 2026-09-23 9:07 p.m. ET,
  * "yes to the democratically elected mayor"): until a city's own rule is read,
  * a city of more than `OWNER_LARGE_CITY_POPULATION` people elects its mayor
- * directly rather than drawing, since nearly every large American city does.
+ * directly, since nearly every large American city does.
  * A read rule overrides it. It applies only where the town's population is
  * known, and `place-population.ts` holds none yet, so today it changes no
  * town; it takes effect the day that table is filled.
@@ -38,13 +42,10 @@ import { placePopulation } from "./place-population";
  * pending research question `town-mayor-rules-by-town-size`:
  *
  * - shares by town size or state are not published, so every unread town
- *   draws from the same national shares. That includes large cities whose
- *   compiled reading does not say how the mayor is chosen, so a well-known
- *   city can draw a council-chosen mayor until its own rule is read; the
- *   question asks for those cities by name;
+ *   takes the same national rule, and a town whose council in fact chooses
+ *   its mayor has an elected one until its own rule is read;
  * - the survey's term shares describe every chief elected official, including
- *   council presidents chosen for a year, and are applied to directly elected
- *   mayors as they stand;
+ *   council presidents chosen for a year;
  * - a directly elected chief official is titled "Mayor" unless the town's
  *   reading names another title (ICMA's title shares describe every chief
  *   official, including council presidents chosen by their councils);
@@ -76,44 +77,19 @@ export interface LocalChiefExecutiveRules {
   readonly termYears: ChiefExecutiveValue<number>;
 }
 
-interface Share<T> {
-  readonly value: T;
-  readonly percent: number;
-}
-
-/** ICMA 2018, method of selecting the chief elected official. */
-const SELECTION_SHARES: readonly Share<boolean>[] = [
-  { value: true, percent: 75.6 },
-  // Chosen by the council, the top council vote-getter, rotation, or other.
-  { value: false, percent: 21.3 + 0.9 + 1.6 + 0.7 },
-];
-
-/** ICMA 2018, term of the chief elected official in years. */
-const CHIEF_TERM_SHARES: readonly Share<number>[] = [
-  { value: 1, percent: 13.5 },
-  { value: 2, percent: 28.6 },
-  { value: 3, percent: 6.1 },
-  { value: 4, percent: 49.4 },
-];
-
-function draw<T>(
-  table: readonly Share<T>[],
-  unitId: string,
-  what: string,
-): ChiefExecutiveValue<T> {
-  const total = table.reduce((sum, share) => sum + share.percent, 0);
-  const point =
-    Number(
-      BigInt(`0x${stableHash(`local-chief-executive:${what}:${unitId}`)}`) %
-        1_000_000n,
-    ) / 1_000_000;
-  let reached = 0;
-  for (const share of table) {
-    reached += share.percent / total;
-    if (point < reached) return { value: share.value, basis: "typical" };
-  }
-  return { value: table.at(-1)!.value, basis: "typical" };
-}
+/**
+ * ESTIMATED FROM AVERAGE: the most common real rule where a town's own is
+ * unread (ICMA 2018; see the note above): a directly elected chief official
+ * serving four years.
+ */
+const MOST_COMMON_DIRECT_ELECTION: ChiefExecutiveValue<boolean> = {
+  value: true,
+  basis: "typical",
+};
+const MOST_COMMON_TERM: ChiefExecutiveValue<number> = {
+  value: 4,
+  basis: "typical",
+};
 
 /** A council that picks the mayor from among its own members. */
 const CHOSEN_BY_COUNCIL =
@@ -124,7 +100,7 @@ const CHOSEN_BY_VOTERS =
 
 /**
  * Whether the reading says the voters choose the mayor. Null where it does not
- * say, which leaves the town on the national shares for that one fact.
+ * say, which leaves the town on the most common rule for that one fact.
  *
  * The form of government settles it where the selection itself was not read:
  * a mayor-council government has a separately elected mayor by definition,
@@ -182,14 +158,12 @@ export function localChiefExecutiveRules(
         ? { value: direct, basis: "read" }
         : largeCity
           ? { value: true, basis: "owner-interim" }
-          : draw(SELECTION_SHARES, unit.id, "selection"),
+          : MOST_COMMON_DIRECT_ELECTION,
     title: reading?.mayor?.title
       ? { value: reading.mayor.title, basis: "read" }
       : { value: "Mayor", basis: "typical" },
     termYears:
-      term !== null
-        ? { value: term, basis: "read" }
-        : draw(CHIEF_TERM_SHARES, unit.id, "term"),
+      term !== null ? { value: term, basis: "read" } : MOST_COMMON_TERM,
   };
 }
 
