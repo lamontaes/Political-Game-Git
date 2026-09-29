@@ -94,25 +94,26 @@ describe("a container deposit law and recycling", () => {
         makeIsoDate("2026-01-01"),
       );
       expect(PLACE_OUTCOME_BASES[MEASURE]!.places[placeKey], placeKey).toBe(
-        began === "yes" ? 74 : 26,
+        began === "yes" ? 71.6 : 27.9,
       );
     }
   });
 
-  it("enacting one raises the share recycled a year after it takes effect, and repealing one lowers it, everywhere", () => {
-    expect(LINK.size).toBe(43);
+  it("enacting one raises the share recycled six months after it takes effect, and repealing one lowers it, everywhere", () => {
+    expect(LINK.size).toBe(43.7);
     for (const placeKey of places) {
       const id = stateJurisdictionForKey(placeKey)!.id;
       const base = PLACE_OUTCOME_BASES[MEASURE]!.places[placeKey]!;
-      const hadOne = base === 74;
+      const hadOne = base === 71.6;
       // The law the place did not begin with, taking effect January 1, 2027.
       const changed = enacted(id, hadOne ? "no" : "yes", "2027-01-01");
-      // Before the law and within its first year, nothing moves.
+      // Before the law and within its first six months, nothing moves.
       expect(recyclingIn(changed, placeKey, "2027-06-01"), placeKey).toBe(base);
-      // A year on, the return points are open (or closed).
-      expect(recyclingIn(changed, placeKey, "2028-02-01"), placeKey).toBe(
-        hadOne ? base - 43 : base + 43,
-      );
+      // Once the return points are open (or closed), the share moves.
+      expect(
+        recyclingIn(changed, placeKey, "2028-02-01"),
+        placeKey,
+      ).toBeCloseTo(hadOne ? base - 43.7 : base + 43.7, 6);
       // Keeping the law it began with changes nothing.
       const kept = enacted(id, hadOne ? "yes" : "no", "2027-01-01");
       expect(recyclingIn(kept, placeKey, "2028-02-01"), placeKey).toBe(base);
