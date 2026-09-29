@@ -1,6 +1,6 @@
 {
   "id": "question-powers/v1",
-  "about": "Which level's own law answers each policy question, and which dial of the powers catalog (catalog.json) the answer turns. A level answers a question only when the question is its own (levels) and the catalog does not say no for that dial at that level. \"state\" also covers D.C. and the territories, which answer through their own catalog columns; the D.C. Council also holds the District's city and county powers, and a consolidated city-county holds both. A catalog cell that is UNKNOWN or varies by state neither permits nor refuses (Decision Register, Sept. 22): the level may act and its authority stays unsettled until researched. why says why a question is narrower than its issue's levels, or why federal law answers a state question. Read by src/simulation/governing/question-authority.ts.",
+  "about": "Which level's own law answers each policy question, and which dial of the powers catalog (catalog.json) the answer turns. A level answers a question only when the question is its own (levels) and the catalog does not say no for that dial at that level. \"state\" also covers D.C. and the territories, which answer through their own catalog columns; the D.C. Council also holds the District's city and county powers, and a consolidated city-county holds both. A catalog cell that is UNKNOWN or varies by state neither permits nor refuses (Decision Register, Sept. 22): the level may act and its authority stays unsettled until researched. why says why a question is narrower than its issue's levels, or why federal law answers a state question. Read by src/simulation/governing/question-authority.ts. gate names the state question that decides whether a county or city may act at all: with noBars \"always\" (a question that asks whether localities may act), a state \"no\" bars them and a state \"yes\" settles that they may; with noBars \"when-preempting\", only a state \"no\" that preempts bars them.",
   "questions": {
     "us-policy-positions:fiscal.adopt-income-tax": {
       "dial": "income-tax",
@@ -144,7 +144,8 @@
     },
     "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
       "dial": "zoning",
-      "levels": ["county", "city"]
+      "levels": ["state", "county", "city"],
+      "why": "States have required it statewide (Oregon, California, Washington, Montana), and a town decides it in its own zoning."
     },
     "us-policy-positions:housing-land-use.rent-stabilization": {
       "dial": "rent-rules",
@@ -152,7 +153,8 @@
     },
     "us-policy-positions:housing-land-use.by-right-permitting": {
       "dial": "zoning",
-      "levels": ["county", "city"]
+      "levels": ["state", "county", "city"],
+      "why": "States have required it statewide (California, Montana, Washington), and a town decides it in its own permitting."
     },
     "us-policy-positions:housing-land-use.inclusionary-requirement": {
       "dial": "zoning",
@@ -376,6 +378,34 @@
     "us-federal-positions:territories-culture.statehood-for-dc": {
       "dial": "charters-and-structure",
       "levels": ["federal"]
+    },
+    "us-policy-positions:labor-workforce.city-minimum-wage": {
+      "dial": "minimum-wage",
+      "levels": ["city"],
+      "why": "It asks about a city's own wage floor; the state's is another question.",
+      "gate": {
+        "question": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+        "noBars": "always"
+      }
+    },
+    "us-policy-positions:civil-family-community.city-nondiscrimination-ordinance": {
+      "dial": "nondiscrimination",
+      "levels": ["county", "city"],
+      "why": "It asks about a local ordinance; what state law covers is another question.",
+      "gate": {
+        "question": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+        "noBars": "when-preempting"
+      }
+    },
+    "us-policy-positions:government-operations.council-term-limits": {
+      "dial": "charters-and-structure",
+      "levels": ["county", "city"],
+      "why": "It asks about a council's own members; limits on state legislators are another question."
+    },
+    "us-policy-positions:government-operations.independent-ward-commission": {
+      "dial": "election-rules",
+      "levels": ["county", "city"],
+      "why": "It asks who draws a council's own districts; the legislature's are another question."
     }
   }
 }
