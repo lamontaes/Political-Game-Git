@@ -638,11 +638,15 @@ export function constitutionalReformReviewHandler(
       jurisdictionId: chiefExecutiveJurisdictionId(stateUsps)!,
       processKind: "state-amendment",
     });
-  const termLimit = reviewTermLimit(next, stateUsps, year, routeOpen);
+  // The legislators' principles are drawn once, and kept whatever the
+  // review finds: a review that proposes nothing still leaves them on the
+  // record, so next year's review reads them instead of drawing again.
+  const voiced = legislatureVoice(next, stateUsps).world;
+  const termLimit = reviewTermLimit(voiced, stateUsps, year, routeOpen);
   if (typeof termLimit !== "string") return termLimit;
-  const background = reviewBackground(next, stateUsps, year, routeOpen);
+  const background = reviewBackground(voiced, stateUsps, year, routeOpen);
   return typeof background === "string"
-    ? done(next, `${termLimit} ${background}`)
+    ? done(voiced, `${termLimit} ${background}`)
     : background;
 }
 

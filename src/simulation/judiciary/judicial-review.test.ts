@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import {
   observerPlace,
   observerSetup,
@@ -158,6 +158,12 @@ function withLaw(
 }
 
 describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law in US-${lawState})`, () => {
+  // Opening a world with every court seated takes seconds on a slow
+  // machine; it is opened once, outside any one test's time limit.
+  beforeAll(() => {
+    openedWorld();
+  }, 120_000);
+
   it("names a seated highest court for every one of the 56 places", () => {
     const world = openedWorld();
     for (const usps of PLACES) {

@@ -327,20 +327,40 @@ function reviewOne(
   });
 }
 
+interface AwaitingReview {
+  readonly measure: LegislativeMeasureRecord;
+  readonly enactment: LegislativeEnactmentRecord;
+  readonly propositionId: EntityId;
+  readonly reviewed: ReviewedQuestion;
+  readonly operativeAt: IsoDate;
+  readonly ruledAt: IsoDate;
+}
+
 /**
- * Called whenever the canonical clock moves: rules on each reviewable law
- * whose day before taking effect fell in the days just passed.
+ * Every reviewable law, sorted by the day it is ruled on, built once for each
+ * version of the enactment record: the clock reads it every day, and most
+ * days no new law was enacted.
  */
-export function applyJudicialReview(before: IsoDate, world: World): World {
-  if (world.currentDate <= before || !world.judiciary?.seatTenures.length)
-    return world;
+const AWAITING = new WeakMap<
+  readonly LegislativeEnactmentRecord[],
+  {
+    readonly measures: readonly LegislativeMeasureRecord[] | undefined;
+    readonly rows: readonly AwaitingReview[];
+  }
+>();
+
+function awaitingReview(world: World): readonly AwaitingReview[] {
+  const enactments = world.history.legislativeEnactments ?? [];
+  const measures = world.history.legislativeMeasures;
+  const cached = AWAITING.get(enactments);
+  if (cached && cached.measures === measures) return cached.rows;
   const byKey = new Map(
     Object.values(world.policyCatalog?.propositions ?? {}).map((row) => [
       row.stableKey,
       row.id,
     ]),
   );
-  let next = world;
+  const rows: AwaitingReview[] = [];
   for (const reviewed of REVIEWED_QUESTIONS) {
     const propositionId = byKey.get(reviewed.question);
     if (!propositionId) continue;
@@ -358,32 +378,54 @@ export function applyJudicialReview(before: IsoDate, world: World): World {
       if (answer !== reviewed.answer) continue;
       const { operativeAt } = enactmentOperative(world, measure, enactment);
       const eve = addDays(operativeAt, -1);
-      const ruledAt = eve < enactment.resolvedAt ? enactment.resolvedAt : eve;
-      if (ruledAt <= before || ruledAt > world.currentDate) continue;
-      if (
-        hasStableKey(
-          next.history.events,
-          judicialRulingKey(enactment.id, propositionId),
-        )
-      )
-        continue;
-      if (
-        !mayAnswerQuestion(
-          next,
-          measure.jurisdictionId,
-          propositionId,
-          operativeAt,
-        )
-      )
-        continue;
-      next = reviewOne(next, {
+      rows.push({
         measure,
         enactment,
         propositionId,
         reviewed,
-        ruledAt,
+        operativeAt,
+        ruledAt: eve < enactment.resolvedAt ? enactment.resolvedAt : eve,
       });
     }
+  }
+  rows.sort(
+    (a, b) =>
+      a.ruledAt.localeCompare(b.ruledAt) ||
+      a.enactment.sequence - b.enactment.sequence ||
+      a.propositionId.localeCompare(b.propositionId),
+  );
+  AWAITING.set(enactments, { measures, rows });
+  return rows;
+}
+
+/**
+ * Called whenever the canonical clock moves: rules on each reviewable law
+ * whose day before taking effect fell in the days just passed.
+ */
+export function applyJudicialReview(before: IsoDate, world: World): World {
+  if (world.currentDate <= before || !world.judiciary?.seatTenures.length)
+    return world;
+  let next = world;
+  for (const row of awaitingReview(world)) {
+    if (row.ruledAt <= before) continue;
+    if (row.ruledAt > world.currentDate) break;
+    if (
+      hasStableKey(
+        next.history.events,
+        judicialRulingKey(row.enactment.id, row.propositionId),
+      )
+    )
+      continue;
+    if (
+      !mayAnswerQuestion(
+        next,
+        row.measure.jurisdictionId,
+        row.propositionId,
+        row.operativeAt,
+      )
+    )
+      continue;
+    next = reviewOne(next, row);
   }
   return next;
 }

@@ -145,17 +145,16 @@ describe("a state amending its governor's term limit on its own", () => {
   });
 
   it("proposes nothing without a cause on the record", () => {
-    const world = passOrdinaryDays(nebraska(), 1);
+    let world = passOrdinaryDays(nebraska(), 1);
     expect(reformCause(world, "NE")).toBeNull();
-    let proposals = 0;
-    for (let year = 2030; year < 2230; year += 1) {
-      const result = constitutionalReformReviewHandler(
+    // Each year's review reads the World the last one left, as the clock
+    // hands it on.
+    for (let year = 2030; year < 2230; year += 1)
+      world = constitutionalReformReviewHandler(
         world,
         review(world, year),
-      );
-      if (termLimitMeasures(result.world).length) proposals += 1;
-    }
-    expect(proposals).toBe(0);
+      ).world;
+    expect(termLimitMeasures(world)).toHaveLength(0);
   });
 
   it(
