@@ -1,4 +1,7 @@
-import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
+import {
+  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+  STATE_MINIMUM_WAGE_QUESTION_KEY,
+} from "../minimum-wage";
 import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../nationwide-world/state-legislative-term-limits";
 import { OUTCOME_LINKS, outcomeLinkStatus } from "../outcome-web";
 import { RENT_LAW_KEYS } from "../living-world/town-rent";
@@ -45,6 +48,11 @@ export interface LawEffectPath {
 const DIRECT_PATHS: readonly LawEffectPath[] = [
   {
     questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+    kind: "paycheck",
+    via: "src/simulation/minimum-wage.ts",
+  },
+  {
+    questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
     kind: "paycheck",
     via: "src/simulation/minimum-wage.ts",
   },
