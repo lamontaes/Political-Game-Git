@@ -2,6 +2,7 @@ import { currentFederalTenure } from "../federal-tenures";
 import { projectCongress } from "../living-world/congress";
 import { nationalOfficeHolder } from "../national-election-consumer";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
+import { seatHolderAt, seatsForCourt } from "../judiciary/courts";
 import type { EntityId, World } from "../types";
 import type { OfficeRef } from "./types";
 
@@ -125,6 +126,20 @@ export function publicOfficesHeldBy(
     ),
   );
   refs.push(...(table.stateExecutive.get(personId) ?? []));
+  // Associate justices; the Chief Justice is read from its federal tenure.
+  for (const seat of world.judiciary?.courts["us-supreme-court"]
+    ? seatsForCourt(world, "us-supreme-court")
+    : []) {
+    if (seat.linkedOfficeId) continue;
+    const holder = seatHolderAt(world, seat.seatId);
+    if (holder?.personId !== personId) continue;
+    refs.push({
+      officeKey: seat.seatId,
+      title: "Associate Justice of the Supreme Court",
+      organizationId: null,
+      termEvidenceId: holder.tenureId as EntityId,
+    });
+  }
   refs.push(...(table.congress.get(personId) ?? []));
   return refs.sort((a, b) => a.officeKey.localeCompare(b.officeKey));
 }

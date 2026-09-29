@@ -14,7 +14,17 @@ import {
   type TermLimitRule,
 } from "../enacted-rule-changes";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { dispositionsFromCounts } from "../legislation-scenarios";
+import { evaluateDecision } from "../decisions";
+import {
+  CONSTITUTIONAL_BAR,
+  congressVoters,
+  stateVoice,
+  type Voter,
+} from "../governing/article-v";
+import { publicPartyOf } from "../governing/chamber-votes";
+import { ensureOfficeholderPrinciples } from "../governing/officeholder-principles";
+import { relationshipConsiderations } from "../governing/standing-considerations";
+import { currentHistoricalCutoff } from "../queries";
 import {
   NATIONAL_ELECTION_JURISDICTION,
   ensureNationalElectionJurisdiction,
@@ -29,8 +39,10 @@ import {
 } from "../nationwide-world/presidential-turnover";
 import { SeededRng } from "../rng";
 import type {
+  DecisionConsideration,
   EntityId,
   FutureDueItem,
+  LegislativeVoteDisposition,
   FutureTransitionHandlerResult,
   IsoDate,
   World,
@@ -49,10 +61,16 @@ import type {
  * states, 38 of 50, ratify, and the District and the territories do not; a
  * ratified amendment is law on the day the last needed state acts.
  *
- * PLACEHOLDERS, NOT RESEARCH. Every cause, rate, margin and delay below is a
- * marked stand-in for research question `federal-amendment-causes-and-pace`.
- * When the answer comes back it replaces `FEDERAL_REFORM_PROFILE` and
- * `federalReformCause`; nothing else here should need to change.
+ * Members decide (CTO ruling, September 29, 2026: no dice). Each member of
+ * Congress votes through the shared decision evaluator: the President's own
+ * party is a reason to let them serve on and the other party a reason not
+ * to, a recorded relationship with the President counts at its strength, and
+ * changing the Constitution is a higher bar than passing a law
+ * (`article-v.ts`). Congress proposes when two-thirds of each house would
+ * vote yes. Each state legislature ratifies by the same count among the
+ * people who speak for it (its seated members, or ESTIMATED, its members of
+ * Congress). The cause and the weights are hand-set pending research
+ * question `federal-amendment-causes-and-pace`.
  *
  * NOT MODELED, with the blanket rule applied meanwhile:
  * - Any subject but the presidential term limit. It is the one federal rule
@@ -60,8 +78,6 @@ import type {
  * - An Article V convention called by two-thirds of the states, and
  *   ratification by state conventions. Congress proposes and state
  *   legislatures ratify.
- * - Members' own positions. Each house's division is a keyed draw, recorded
- *   by seat with no person named, as the state route records its chambers.
  * - A state legislature's own procedure (which chamber, what majority). Each
  *   state's action is recorded once as approved or not.
  * - Rescinding a ratification, and a state acting again after rejecting.
@@ -83,38 +99,26 @@ export const FEDERAL_REFORM_PROFILE = {
   id: "ocd-federal-reform-placeholder/v1",
   /** Month and day of each year's review; Congress convenes in January. */
   reviewMonthDay: "03-01",
-  /** Chance, per mille, that a year with a cause produces a proposal. */
-  proposalPermille: 30,
   /** A President who has served this many terms is a cause to restore a limit. */
   longTenureTerms: 3,
   /** The limit a restoring proposal sets. */
   restoredLimit: 2,
   /** No extension goes past this many terms. */
   highestExtendedLimit: 4,
-  /** Each house's yes share, per mille, drawn from [min, max). */
-  houseYesPermille: [500, 800],
-  /** Each state legislature's chance, per mille, of ratifying, by direction. */
-  stateRatifiesPermille: {
-    extend: [300, 700],
-    restore: [600, 950],
-  },
-  /** A state acts this many days after the proposal, drawn from [min, max). */
+  /**
+   * A state acts this many days after the proposal, spread by the World's
+   * seed from [min, max). Timing only; it decides nothing about the vote.
+   */
   stateActionDays: [30, 900],
   /** Years Congress allows for ratification. */
   ratificationYears: 7,
 } as const;
 
-/** Members of each house who vote; Article I sizes, full attendance. */
-const HOUSES = [
-  { bodyKey: "house", members: 435, label: "House of Representatives" },
-  { bodyKey: "senate", members: 100, label: "Senate" },
-] as const;
-
 const PLACEHOLDER_NOTE = `${FEDERAL_REFORM_PROFILE.id}: a placeholder pending research (federal-amendment-causes-and-pace), not any Congress's record.`;
 
 type ReformDirection = "extend" | "restore";
 
-interface FederalReformCause {
+export interface FederalReformCause {
   readonly direction: ReformDirection;
   readonly holderPersonId: EntityId;
   readonly value: TermLimitRule;
@@ -273,14 +277,7 @@ export function federalReformReviewHandler(
 ): FutureTransitionHandlerResult {
   const year = yearForDue(due);
   if (year === null) return done(world, "No year matches this review.");
-  const next = scheduleNextReview(world, world.currentDate);
-  // Drawn before looking: independent of the cause, so no outcome changes.
-  const rng = new SeededRng(next.seed).fork(measureKey(year));
-  if (
-    rng.fork("propose").integer(0, 1000) >=
-    FEDERAL_REFORM_PROFILE.proposalPermille
-  )
-    return done(next, "Congress proposed no amendment this year.");
+  let next = scheduleNextReview(world, world.currentDate);
   if (hasOpenReform(next))
     return done(next, "An amendment on this is already pending.");
   const cause = federalReformCause(next);
@@ -290,9 +287,162 @@ export function federalReformReviewHandler(
     processKind: "federal-amendment",
   });
   if (!route.available) return done(next, route.reason);
+  const house = congressVoters(next, "house");
+  const senate = congressVoters(next, "senate");
+  if (house.length === 0 || senate.length === 0)
+    return done(next, "Congress is not seated in this world.");
+  next = ensureOfficeholderPrinciples(next, [
+    ...house.map((voter) => voter.personId),
+    ...senate.map((voter) => voter.personId),
+  ]);
+  // A member files it only when two-thirds of each house would vote for it:
+  // the count, not a draw, decides whether a proposal is made. The same
+  // Congress with the same reasons gives the same answer every year.
+  const { houses, carries } = termLimitCount(next, year, cause);
+  if (!carries)
+    return done(
+      next,
+      `Two-thirds of each house would not propose an amendment on the President's term limit, though ${cause.reason}.`,
+    );
   return done(
-    proposeAndVote(next, year, cause, rng),
+    proposeAndVote(next, year, cause, houses),
     `Congress considered an amendment on the President's term limit because ${cause.reason}.`,
+  );
+}
+
+/**
+ * How each house would vote on the cause's amendment, member by member, and
+ * whether two-thirds of each would vote yes. Pure; members' principles must
+ * already be drawn.
+ */
+export function termLimitCount(
+  world: World,
+  year: number,
+  cause: FederalReformCause,
+): {
+  readonly houses: readonly {
+    readonly bodyKey: "house" | "senate";
+    readonly rows: readonly {
+      readonly voter: Voter;
+      readonly ballot: "yea" | "nay" | "absent";
+      readonly reason: string;
+    }[];
+  }[];
+  readonly carries: boolean;
+} {
+  const key = measureKey(year);
+  const ballots = (voters: readonly Voter[]) =>
+    voters.map((voter) => ({
+      voter,
+      ...termLimitBallot(world, `${key}:${voter.memberKey}`, voter, cause),
+    }));
+  const houses = [
+    { bodyKey: "house", rows: ballots(congressVoters(world, "house")) },
+    { bodyKey: "senate", rows: ballots(congressVoters(world, "senate")) },
+  ] as const;
+  const carries = houses.every(({ rows }) => {
+    const cast = rows.filter((row) => row.ballot !== "absent");
+    return (
+      cast.length > 0 &&
+      cast.filter((row) => row.ballot === "yea").length * 3 >= cast.length * 2
+    );
+  });
+  return { houses, carries };
+}
+
+/**
+ * How a member votes on the President's term limit. HAND-SET weights on the
+ * shared decision scale: the President's party "strong", a relationship at
+ * its recorded strength, the constitutional bar "moderate".
+ */
+function termLimitBallot(
+  world: World,
+  stableKey: string,
+  voter: Voter,
+  cause: FederalReformCause,
+): { readonly ballot: "yea" | "nay" | "absent"; readonly reason: string } {
+  const player =
+    world.control.kind === "person" ? world.control.personId : null;
+  if (voter.personId === player)
+    return { ballot: "absent", reason: "member:player-not-asked" };
+  // Extending the limit keeps the President eligible; restoring it bars them.
+  const forPresident = cause.direction === "extend" ? "vote-yea" : "vote-nay";
+  const againstPresident =
+    forPresident === "vote-yea" ? "vote-nay" : "vote-yea";
+  const party = publicPartyOf(world, voter.personId);
+  const presidentParty = publicPartyOf(world, cause.holderPersonId);
+  const considerations: DecisionConsideration[] = [CONSTITUTIONAL_BAR];
+  if (party && presidentParty)
+    considerations.push({
+      stableKey:
+        party === presidentParty
+          ? "member:presidents-party"
+          : "member:other-party",
+      optionKey: party === presidentParty ? forPresident : againstPresident,
+      sourceType: "context:presidents-party",
+      direction: "supports",
+      importance: "strong",
+      confidence: "high",
+      explanation:
+        party === presidentParty
+          ? "The President is of the member's own party."
+          : "The President is of the other party.",
+      sourceRefs: [],
+    });
+  for (const reason of relationshipConsiderations(
+    world,
+    voter.personId,
+    cause.holderPersonId,
+    {
+      optionKey: forPresident,
+      fond: {
+        stableKey: "member:president-relationship",
+        explanation: "The member thinks well of the President.",
+      },
+      strain: {
+        stableKey: "member:president-strain",
+        explanation: "The member has a strained history with the President.",
+      },
+    },
+  ))
+    considerations.push(
+      reason.direction === "opposes"
+        ? { ...reason, optionKey: againstPresident, direction: "supports" }
+        : reason,
+    );
+  const evaluation = evaluateDecision(world, {
+    stableKey,
+    decisionType: "governing.presidential-term-limit-vote",
+    actorPersonId: voter.personId,
+    cutoff: currentHistoricalCutoff(world),
+    subject: {
+      kind: "context:constitutional-amendment",
+      key: stableKey,
+      entityId: null,
+    },
+    options: [
+      { key: "vote-yea", label: "Vote yes", description: "Propose it." },
+      { key: "vote-nay", label: "Vote no", description: "Leave it out." },
+    ],
+    constraints: [],
+    considerations,
+    perceptionIds: [],
+    randomness: "none",
+    retention: "ephemeral",
+  });
+  const ballot = evaluation.selectedOptionKey === "vote-yea" ? "yea" : "nay";
+  const reason =
+    considerations
+      .filter((c) => c.optionKey === `vote-${ballot}`)
+      .sort((a, b) => weight(b) - weight(a))[0]?.stableKey ??
+    "member:no-reason";
+  return { ballot, reason };
+}
+
+function weight(c: DecisionConsideration): number {
+  return (
+    { slight: 1, moderate: 2, strong: 4, decisive: 6 }[c.importance] *
+    { low: 1, medium: 2, high: 3 }[c.confidence]
   );
 }
 
@@ -301,7 +451,14 @@ export function proposeAndVote(
   world: World,
   year: number,
   cause: FederalReformCause,
-  rng: SeededRng,
+  houses: readonly {
+    readonly bodyKey: "house" | "senate";
+    readonly rows: readonly {
+      readonly voter: Voter;
+      readonly ballot: "yea" | "nay" | "absent";
+      readonly reason: string;
+    }[];
+  }[],
 ): World {
   const key = measureKey(year);
   let next = proposeConstitutionalMeasure(world, {
@@ -334,25 +491,24 @@ export function proposeAndVote(
     ordinaryMeasureId: null,
   });
   const measureId = next.history.constitutionalMeasures!.at(-1)!.id;
-  for (const house of HOUSES) {
-    const members = Array.from({ length: house.members }, (_, index) => ({
-      memberKey: `${house.bodyKey}:seat:${index + 1}`,
-      name: `Seat ${index + 1}`,
-      personId: null,
-      caucusLabel: "",
-    }));
-    const [min, max] = FEDERAL_REFORM_PROFILE.houseYesPermille;
-    const share = rng.fork(`vote:${house.bodyKey}`).integer(min, max);
-    const yea = Math.round((house.members * share) / 1000);
+  for (const house of houses) {
+    const dispositions: LegislativeVoteDisposition[] = house.rows.map(
+      (row) => ({
+        memberKey: row.voter.memberKey,
+        personId: row.voter.personId,
+        disposition: row.ballot,
+        ...(row.ballot === "absent" ? {} : { reason: row.reason }),
+      }),
+    );
     next = recordConstitutionalProposalVote(
       next,
       measureId,
       house.bodyKey,
-      dispositionsFromCounts(members, { yea, nay: house.members - yea }),
-      house.members,
+      dispositions,
+      house.rows.length,
       {
-        method: "authored-fixture",
-        note: `${PLACEHOLDER_NOTE} Members' own positions are not modeled; the ${house.label}'s division is drawn and members are recorded by seat.`,
+        method: "member-decisions",
+        note: "Each member voted by their party, their relationship with the President and the bar of amending the Constitution.",
         sourceEntityIds: [],
       },
     );
@@ -360,8 +516,9 @@ export function proposeAndVote(
       return next;
   }
   const [low, high] = FEDERAL_REFORM_PROFILE.stateActionDays;
+  const spread = new SeededRng(next.seed).fork(key);
   for (const stateKey of ARTICLE_V_STATE_KEYS) {
-    const days = rng.fork(`state:${stateKey}:day`).integer(low, high);
+    const days = spread.fork(`state:${stateKey}:day`).integer(low, high);
     next = scheduleFutureDueItem(next, {
       stableKey: `${key}:state:${stateKey}`,
       dueAt: addDays(next.currentDate, days),
@@ -399,16 +556,42 @@ export function federalReformStateActionHandler(
     delta.applicability?.appliesTo === "immediately"
       ? "extend"
       : "restore";
-  const rng = new SeededRng(world.seed).fork(`${measure.stableKey}:states`);
-  const [min, max] = FEDERAL_REFORM_PROFILE.stateRatifiesPermille[direction];
-  const chance = rng.fork("chance").integer(min, max);
-  const approved = rng.fork(stateKey).integer(0, 1000) < chance;
-  const next = recordArticleVRatification(world, measure.id, {
+  // The legislature ratifies when a majority of those who speak for it
+  // would vote yes, each for their own reasons, as members of Congress did.
+  const holder = currentPresidentOf(world)?.personId ?? null;
+  const voice = stateVoice(world, stateKey.slice(3));
+  let next = ensureOfficeholderPrinciples(world, voice.personIds);
+  const cause: FederalReformCause | null =
+    holder && delta.kind === "rule-field"
+      ? {
+          direction,
+          holderPersonId: holder,
+          value: delta.value as TermLimitRule,
+          reason: "",
+        }
+      : null;
+  const cast = cause
+    ? voice.personIds
+        .map(
+          (personId) =>
+            termLimitBallot(
+              next,
+              `${measure.stableKey}:${stateKey}:${personId}`,
+              { memberKey: personId, personId },
+              cause,
+            ).ballot,
+        )
+        .filter((ballot) => ballot !== "absent")
+    : [];
+  const approved =
+    cast.length > 0 &&
+    cast.filter((ballot) => ballot === "yea").length * 2 > cast.length;
+  next = recordArticleVRatification(next, measure.id, {
     kind: "state-ratification",
     stateKey,
     body: "state-legislature",
     approved,
-    authenticationKey: `${measure.stableKey}:${stateKey}:${world.currentDate}`,
+    authenticationKey: `${measure.stableKey}:${stateKey}:${next.currentDate}`,
   });
   const after = constitutionalPosition(next, measure.id);
   return done(
