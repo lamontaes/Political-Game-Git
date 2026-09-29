@@ -184,11 +184,17 @@ export function lawInForce(
     };
     if (!best || governs(candidate, best)) best = candidate;
   }
-  const starting =
-    scope === "all"
-      ? startingLawCandidate(world, chain, propositionId, onDate)
-      : null;
-  if (starting && (!best || governs(starting, best))) best = starting;
+  const starting = startingLawCandidate(world, chain, propositionId, onDate);
+  if (scope === "all") {
+    if (starting && (!best || governs(starting, best))) best = starting;
+  } else if (
+    // A statute enacted in play against what the state's constitution wrote
+    // when the game began governs nothing, for a reader of enacted law too.
+    best &&
+    starting?.level === "state-constitution" &&
+    governs(starting, best)
+  )
+    best = null;
   const amended = constitutionalCandidate(world, chain, propositionId, onDate);
   if (amended && (!best || governs(amended, best))) best = amended;
   if (!best) return null;
@@ -269,6 +275,16 @@ interface StartingLawRow {
     readonly answer: PropositionAnswer;
     readonly preempts?: boolean;
   };
+  /**
+   * Where the state's own constitution writes this answer, so no statute can
+   * change it and only an amendment can: the clause, and the ruling that
+   * reads it that way where the text alone does not say so.
+   */
+  readonly constitution?: {
+    readonly cite: string;
+    readonly source: string;
+    readonly note?: string;
+  };
 }
 
 const STARTING_LAW = startingLaw as unknown as {
@@ -334,7 +350,14 @@ function startingLawCandidate(
       const candidate: Candidate = {
         answer: row.answer,
         measureId: `starting-law:${placeKey}:${questionKey}` as EntityId,
-        level,
+        level: startingLevel(
+          world,
+          level,
+          row,
+          placeKey!,
+          propositionId,
+          onDate,
+        ),
         operativeAt,
         operativeBasis: "enacted-date" as const,
         origin: "in-force-at-start" as const,
@@ -351,6 +374,35 @@ function startingLawCandidate(
     }
   }
   return best;
+}
+
+/**
+ * The rank of a starting row: a state constitution's where the state's own
+ * constitution writes the answer (`constitution` on the row), until an
+ * amendment on the question takes effect. After that the amendment speaks
+ * for the constitution, and what the state's statutes said remains only at
+ * a statute's rank: a repealed bar leaves the flat tax in place, and a new
+ * statute may change it.
+ */
+function startingLevel(
+  world: World,
+  level: LawLevel,
+  row: StartingLawRow,
+  placeKey: string,
+  propositionId: EntityId,
+  onDate: IsoDate,
+): LawLevel {
+  if (!row.constitution || level !== "state-statute") return level;
+  const amended =
+    (world.history.constitutionalMeasures ?? []).some(
+      (measure) =>
+        measure.ruleDelta.kind === "policy-provision" &&
+        measure.ruleDelta.propositionId === propositionId,
+    ) &&
+    constitutionalPolicyProvisions(world, placeKey.slice(3), onDate).some(
+      (provision) => provision.propositionId === propositionId,
+    );
+  return amended ? level : "state-constitution";
 }
 
 /**

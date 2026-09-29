@@ -5292,7 +5292,12 @@
           "answer": "no",
           "preempts": true,
           "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-          "note": "Single 4.4 percent rate for 2026; flat structure predates 2000 (not re-verified from a primary page because tax.colorado.gov refused the request, so no cite is given)."
+          "note": "Single 4.4 percent rate for 2026; flat structure predates 2000 (not re-verified from a primary page because tax.colorado.gov refused the request, so no cite is given).",
+          "constitution": {
+            "cite": "Colo. Const. art. X, § 20(8)(a)",
+            "source": "https://leg.colorado.gov/colorado-constitution",
+            "note": "The Taxpayer's Bill of Rights requires any income tax law change after 07/01/1992 to tax all taxable net income at one rate."
+          }
         },
         "US-CT": {
           "answer": "yes",
@@ -5354,7 +5359,12 @@
           "answer": "no",
           "preempts": true,
           "source": "https://tax.illinois.gov/research/taxrates/income.html",
-          "note": "The Illinois Department of Revenue lists one individual rate of 4.95 percent effective 07/01/2017; the single-rate structure predates 2000 (ilga.gov failed TLS verification, so no statute or constitution cite is given)."
+          "note": "The Illinois Department of Revenue lists one individual rate of 4.95 percent effective 07/01/2017; the single-rate structure predates 2000, and the constitution requires it.",
+          "constitution": {
+            "cite": "Ill. Const. art. IX, § 3(a)",
+            "source": "https://www.ilga.gov/commission/lrb/con9.htm",
+            "note": "\"A tax on or measured by income shall be at a non-graduated rate.\" The 2020 amendment to strike it failed at the polls."
+          }
         },
         "US-IN": {
           "answer": "no",
@@ -5388,7 +5398,12 @@
           "preempts": true,
           "cite": "Mass. Const. amend. art. 44, as amended by art. 121",
           "source": "https://malegislature.gov/Laws/Constitution",
-          "note": "The base rate is a flat 5 percent, but Article CXXI adds a 4 percent surtax on income over an inflation-adjusted $1,000,000 for tax years beginning on or after 01/01/2023."
+          "note": "The base rate is a flat 5 percent, but Article CXXI adds a 4 percent surtax on income over an inflation-adjusted $1,000,000 for tax years beginning on or after 01/01/2023.",
+          "constitution": {
+            "cite": "Mass. Const. amend. art. 44, as amended by art. 121",
+            "source": "https://malegislature.gov/Laws/Constitution",
+            "note": "Article 44 requires a uniform rate; Article 121 (2022) writes the surtax on high incomes into the constitution."
+          }
         },
         "US-MD": {
           "answer": "yes",
@@ -5405,7 +5420,12 @@
           "preempts": true,
           "cite": "MCL 206.51",
           "source": "https://legislature.mi.gov/Laws/MCL?objectName=mcl-206-51",
-          "note": "MCL 206.51 sets one rate (4.25 percent since 10/01/2012, with revenue-trigger reductions); the single-rate structure predates 2000."
+          "note": "MCL 206.51 sets one rate (4.25 percent since 10/01/2012, with revenue-trigger reductions); the single-rate structure predates 2000.",
+          "constitution": {
+            "cite": "Mich. Const. art. IX, § 7",
+            "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-Article-IX-7",
+            "note": "\"No income tax graduated as to rate or base shall be imposed by the state or any of its subdivisions.\" Text read 09/29/2026."
+          }
         },
         "US-MN": {
           "answer": "yes",
@@ -5507,7 +5527,12 @@
           "preempts": true,
           "cite": "Pa. Const. art. VIII, § 1",
           "source": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/personal-income-tax",
-          "note": "The Pennsylvania Department of Revenue levies one 3.07 percent rate; the constitution requires taxes to be uniform on the same class of subjects. Single rate predates 2000."
+          "note": "The Pennsylvania Department of Revenue levies one 3.07 percent rate; the constitution requires taxes to be uniform on the same class of subjects. Single rate predates 2000.",
+          "constitution": {
+            "cite": "Pa. Const. art. VIII, § 1; Kelley v. Kalodner, 320 Pa. 180 (1935)",
+            "source": "https://www.palegis.us/statutes/constitution",
+            "note": "The uniformity clause, as the state supreme court read it in striking the 1935 graduated income tax."
+          }
         },
         "US-PR": {
           "answer": "yes",
@@ -5572,7 +5597,12 @@
           "answer": "no",
           "preempts": true,
           "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-          "note": "No tax on wages; the capital gains excise tax adopted in 2021 does not count as a wage income tax."
+          "note": "No tax on wages; the capital gains excise tax adopted in 2021 does not count as a wage income tax.",
+          "constitution": {
+            "cite": "Wash. Const. art. VII, § 1; Culliton v. Chase, 174 Wash. 363 (1933)",
+            "source": "https://leg.wa.gov/state-laws-and-rules/washington-state-constitution/",
+            "note": "Income is property under the uniformity clause, as the state supreme court held in striking the 1932 graduated income tax."
+          }
         },
         "US-WI": {
           "answer": "yes",
