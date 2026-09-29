@@ -1,4 +1,4 @@
-# Codex wave 1: the plan (draft for Lamontae's approval)
+# Codex wave 1: the plan (approved September 29, 5:28 p.m.)
 
 Written by Claude CTO at 5:20 p.m. on September 29, 2026. Nothing launches until Lamontae approves it on the docket.
 
@@ -122,7 +122,7 @@ Written by Claude CTO at 5:20 p.m. on September 29, 2026. Nothing launches until
 - every effect has a sourced size or says "no sized evidence";
 - whole-system redesigns are broken into pieces that can be negotiated, with U.S. examples and other countries' systems as models.
 
-### Team 7: art Firefly can't make, and image tagging (Sol 6.1 Low or Medium, for Lamontae to pick)
+### Team 7: art Firefly can't make, and image tagging (Sol 6.1 Medium)
 
 **Art:**
 
