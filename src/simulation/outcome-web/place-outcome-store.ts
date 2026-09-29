@@ -50,6 +50,13 @@ export interface PlaceOutcomeRecord {
    * place in the state keeps its own.
    */
   readonly places?: readonly PlaceOutcomeShare[];
+  /**
+   * On a state's record with `places`: its own multiplier and value, for the
+   * rest of the state. A town keeping no record of its own reads these, so one
+   * city's ordinance never reaches its neighbors through the state's average.
+   */
+  readonly restMultiplier?: number;
+  readonly restValue?: number;
   /** The first day of the month the value holds for. */
   readonly month: IsoDate;
   readonly base: number;
@@ -234,8 +241,9 @@ export function localWeights(
 
 /**
  * The latest recorded value of a place outcome as of a date, or null. A city
- * or county reads its own record where it keeps one that month, and its
- * state's otherwise.
+ * or county reads its own record where it keeps one that month, and otherwise
+ * the rest of its state: the state's own value, without the places averaged
+ * into it.
  */
 export function placeOutcomeAt(
   world: World,
@@ -260,6 +268,15 @@ export function placeOutcomeAt(
     const record = entry.records.find(
       (row) => row.measure === measure && row.placeKey === key,
     );
+    if (record && local !== null && record.places) {
+      const rest: PlaceOutcomeRecord = {
+        ...record,
+        multiplier: record.restMultiplier ?? record.multiplier,
+        value: record.restValue ?? record.value,
+      };
+      delete (rest as { places?: unknown }).places;
+      return rest;
+    }
     if (record) return record;
   }
   return null;

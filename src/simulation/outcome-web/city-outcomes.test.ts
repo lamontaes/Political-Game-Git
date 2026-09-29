@@ -180,6 +180,8 @@ describe("city outcomes", () => {
       { placeKey: "1714000", weight: own.weight, multiplier: own.multiplier },
     ]);
     expect(state.multiplier).toBeCloseTo(1 - 0.02 * share, 10);
+    expect(state.value).toBeCloseTo(100 * (1 - 0.02 * share), 2);
+    expect(state.restMultiplier).toBe(1);
 
     // Springfield, which passed nothing, reads Illinois.
     const elsewhere = placeOutcomeAt(
@@ -188,7 +190,10 @@ describe("city outcomes", () => {
       springfield.context.jurisdiction.id,
       makeIsoDate("2027-06-01"),
     )!;
-    expect(elsewhere).toBe(state);
+    expect(elsewhere.placeKey).toBe("US-IL");
+    expect(elsewhere.multiplier).toBe(1);
+    expect(elsewhere.value).toBe(100);
+    expect(elsewhere.places).toBeUndefined();
 
     // And Chicago's own crimes follow its own level, not Springfield's.
     const inChicago = crimeRateMultiplier(

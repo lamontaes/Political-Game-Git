@@ -221,7 +221,14 @@ export function placeOutcomesForMonth(
         multiplier,
         value: Math.round(structural * multiplier * 100) / 100,
         causes: movedBy(reading.causes),
-        ...(shares.length ? { places: shares } : {}),
+        ...(shares.length
+          ? {
+              places: shares,
+              restMultiplier: reading.multiplier,
+              restValue:
+                Math.round(structural * reading.multiplier * 100) / 100,
+            }
+          : {}),
       });
       records.push(...localRecords);
     }

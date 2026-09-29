@@ -84,7 +84,8 @@ export function renderAreaResidentsModule(bytes: Buffer): string {
 export const AREA_RESIDENTS_META = {
   source: "BEA Regional CAINC1 line 2, population (persons), ${YEAR}",
   corpus: "${CORPUS}",
-  corpusSha256: "${digest}",
+  corpusSha256:
+    "${digest}",
   year: ${YEAR},
   states: ${states},
   counties: ${counties},
