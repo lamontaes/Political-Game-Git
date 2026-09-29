@@ -1,0 +1,30 @@
+{
+  "filedAt": "2026-09-29T01:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "outcome web",
+  "notes": [
+    "Claude CTO, 2026-09-28 9:00 p.m. ET: file the research question for city-level starting values (CDC PLACES, FBI city rates). The placeholder that a city starts at its state's level is approved until this returns.",
+    "Since this change, every city or county whose own council has enacted a law keeps its own record of each place outcome, and its state's figure is the residents-weighted average of its places. The city's record starts at its state's structural level (PLACEHOLDER in src/simulation/outcome-web/place-outcomes.ts), so Chicago starts at Illinois's level.",
+    "Real data only calibrates the starting point, and no value shows as unknown (owner, 2026-09-28 10:02 p.m. ET, via Claude CTO's 10:32 p.m. addendum): where a city has no source for a measure, it starts from the real average for cities like it (region, size, kind) with a realistic spread drawn per world, marked ESTIMATED FROM AVERAGE with the average's source. Never zero.",
+    "The rule must hold for all 56 places. Where a territory or D.C. has no city-level series, say so."
+  ],
+  "priority": "P2",
+  "question": "For each place outcome the game tracks (uninsured share, child asthma, overdose deaths, food insecurity, poverty, high school graduation, math and reading proficiency, college completion, broadband at home, transit access, median earnings, voter turnout, crime rate, birth rate, in- and out-migration, and government borrowing cost), what public source gives a city-level and county-level value for 2024 or the latest year, how does each city's value compare to its state's (as a ratio or a difference), and how widely does it vary across cities within a state? Start with CDC PLACES (uninsured and asthma by city and county) and the FBI Crime Data Explorer (city crime rates), then the ACS 5-year place tables for poverty, earnings, broadband and migration.",
+  "questionId": "city-level-starting-values-for-place-outcomes",
+  "relatedQuestionIds": [],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Build 9 City Outcomes, on Claude CTO's 9:00 p.m. ruling of 2026-09-28; under the rule that depth is not invented.",
+  "sourcesChecked": [
+    {
+      "source": "data/research/outcome-web/place-outcome-bases-2024.json",
+      "whatItDidNotSettle": "Gives each measure's 2024 base for states only; no city or county values."
+    },
+    {
+      "source": "src/simulation/outcome-web/area-residents.generated.ts (BEA CAINC1, 2024)",
+      "whatItDidNotSettle": "Gives residents per state and county, used only to weight a state's average, not any outcome's level."
+    }
+  ],
+  "title": "Where a city's outcomes start, measure by measure",
+  "usableAnswer": "One row per measure: the named source and table, its geography (city, county or both), year, and how to read a city's value; then, for the 25 largest cities and at least one city in every state that has any, the city value beside its state value with the ratio. Where no city source exists for a measure, give the average city-to-state ratio for cities of that size and region and its spread, so the game can start a city from it.",
+  "whyItMatters": "A city's own laws now move its own outcomes, but every city starts at its state's level, so Chicago's crime and uninsured share begin at Illinois's average. Real starting values make a city's numbers, and what its ordinances change, believable."
+}
