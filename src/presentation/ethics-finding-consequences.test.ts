@@ -37,7 +37,6 @@ import {
 } from "../simulation/press";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
 import {
-  caseCourse,
   jailTermOn,
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_DECLINED_EVENT,
@@ -45,7 +44,6 @@ import {
   PROSECUTION_REFERRED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
   referForProsecution,
-  referralStableKey,
   regulatorRefers,
   UNRESEARCHED_PROSECUTION,
 } from "../simulation/justice/prosecution";
@@ -514,86 +512,101 @@ describe("a Washington candidate who keeps taking after a finding", () => {
     expect(leads.length).toBeGreaterThan(0);
   });
 
-  it("may go to prosecutors, and the case runs the course drawn for it", () => {
-    // Whether each finding is referred, and how a case ends, are chances
-    // drawn from the world's seed: this run's own draws, not a fixed rule.
+  it("goes to prosecutors once a finding shows they knew, and people decide the case", () => {
+    // The first finding settles itself; the second, taken after the first
+    // told them the rule, is knowing and willful and goes to prosecutors.
     const events = (w: World, type: string) =>
       w.history.events.filter(
         (event) =>
           event.type === type &&
           event.participants.some((entry) => entry.personId === run.personId),
       );
-    const expected = findings.filter((step, index) =>
-      regulatorRefers(world, `${step.stableKey}:${run.personId}`, index + 1),
+    const expected = findings.filter((_, index) =>
+      regulatorRefers({ standingFindings: index + 1, deniedIt: false }),
     );
+    expect(expected).toHaveLength(findings.length - 1);
     const referrals = events(world, PROSECUTION_REFERRED_EVENT);
     expect(referrals.map((event) => event.occurredAt)).toEqual(
       expected.map((step) => step.at),
     );
+    // Run on until every case has had time to be charged and to reach its
+    // plea or trial (60 and 120 days), which a referral made during these
+    // months also needs.
     let later = world;
-    for (let month = 0; month < 7; month += 1)
+    const settled = (w: World) =>
+      events(w, PROSECUTION_REFERRED_EVENT).every(
+        (referral) =>
+          addDays(
+            referral.occurredAt,
+            UNRESEARCHED_PROSECUTION.chargeDecisionDays +
+              UNRESEARCHED_PROSECUTION.resolveAfterDays +
+              14,
+          ) <= w.currentDate,
+      );
+    for (
+      let month = 0;
+      month < 7 || (month < 14 && !settled(later));
+      month += 1
+    )
       later = passOrdinaryDays(later, 30);
+    expect(settled(later)).toBe(true);
     for (const referral of events(later, PROSECUTION_REFERRED_EVENT)) {
       expect(referral.visibility).toBe("private");
-      const course = caseCourse(
-        later,
-        referral.stableKey,
-        "documentary",
-        Number(
-          referral.tags
-            .find((tag) => tag.startsWith("justice.standing-findings:"))!
-            .split(":")[1],
-        ),
-      );
       const after = (type: string) =>
         later.history.events.filter(
           (event) =>
             event.type === type &&
             event.tags.includes(`justice.referral:${referral.id}`),
         );
-      expect(after(PROSECUTION_CHARGED_EVENT)).toHaveLength(
-        course.charged ? 1 : 0,
+      // The committee's own reports are documentary evidence, which meets
+      // the charging standard.
+      expect(after(PROSECUTION_CHARGED_EVENT)).toHaveLength(1);
+      expect(after(PROSECUTION_DECLINED_EVENT)).toHaveLength(0);
+      const [ended] = after(PROSECUTION_ENDED_EVENT);
+      expect(ended).toBeDefined();
+      // The defendant chose between the plea and a trial, and the choice is
+      // a recorded decision with its reasons.
+      const plea = later.history.decisionTraces.find(
+        (trace) => trace.context.stableKey === `${referral.stableKey}:plea`,
       );
-      expect(after(PROSECUTION_DECLINED_EVENT)).toHaveLength(
-        course.charged ? 0 : 1,
-      );
-      expect(after(PROSECUTION_ENDED_EVENT).map((e) => e.tags)).toEqual(
-        course.outcome
-          ? [expect.arrayContaining([`justice.outcome:${course.outcome}`])]
-          : [],
-      );
-      expect(after(PROSECUTION_SENTENCED_EVENT)).toHaveLength(
-        course.sentence ? 1 : 0,
-      );
+      expect(plea?.context.actorPersonId).toBe(run.personId);
+      if (ended!.tags.includes("justice.outcome:plea")) {
+        expect(plea?.selectedOptionKey).toBe("plead");
+      } else {
+        expect(plea?.selectedOptionKey).toBe("trial");
+        const votes = later.history.decisionTraces.filter((trace) =>
+          trace.context.stableKey.startsWith(`${referral.stableKey}:trial:`),
+        );
+        expect(votes.length).toBeGreaterThan(0);
+      }
+      const sentenced = after(PROSECUTION_SENTENCED_EVENT);
+      if (ended!.tags.includes("justice.outcome:acquitted"))
+        expect(sentenced).toHaveLength(0);
+      else {
+        expect(sentenced).toHaveLength(1);
+        expect(sentenced[0]!.context.motivation).toBeTruthy();
+      }
     }
   }, 900_000);
 
   it("takes a jailed candidate off the campaign trail but not the ballot", () => {
-    // A referral whose drawn course ends in jail, made directly.
-    let key = "";
-    for (let index = 0; index < 500 && !key; index += 1) {
-      const course = caseCourse(
-        run.after,
-        referralStableKey(`jail-test:${index}`),
-        "documentary",
-        1,
-      );
-      if (course.sentence?.kind === "jail") key = `jail-test:${index}`;
-    }
-    expect(key).not.toBe("");
+    // A violent offense with two findings already standing: every judge the
+    // game seats weighs both toward jail (court-reasoning.ts), so this case
+    // ends in jail whichever judge sentences it and however the candidate
+    // pleads.
     const referred = referForProsecution(run.after, {
-      stableKey: key,
+      stableKey: "jail-test",
       subjectPersonId: run.personId,
       jurisdictionId: run.campaign.jurisdictionId,
-      offenseKey: "campaign-funds-personal-use",
+      offenseKey: "crime:robbery",
       referredBy: {
-        kind: "regulator",
-        label: "Washington State Public Disclosure Commission",
+        kind: "police",
+        label: "Police",
         personId: null,
       },
       basisEventIds: [],
       evidence: "documentary",
-      standingFindings: 1,
+      standingFindings: 3,
     }).world;
     const jailed = passOrdinaryDays(
       referred,
@@ -646,6 +659,16 @@ describe("a Washington candidate who lies to reporters about the money", () => {
         event.tags.includes(`${CLAIM_EVIDENCE_TAG_PREFIX}${run.step.eventId}`),
       ),
     ).toBe(true);
+  });
+
+  it("goes to prosecutors on the first finding, because the denial shows they knew", () => {
+    const referrals = run.after.history.events.filter(
+      (event) =>
+        event.type === PROSECUTION_REFERRED_EVENT &&
+        event.participants.some((entry) => entry.personId === run.personId),
+    );
+    expect(referrals).toHaveLength(1);
+    expect(referrals[0]!.tags).toContain("justice.standing-findings:1");
   });
 
   it("gives the reporter who was lied to a follow-up story", () => {
