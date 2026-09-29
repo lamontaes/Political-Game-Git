@@ -1,0 +1,13 @@
+{
+  "artifacts": [
+    {
+      "length": 265158,
+      "localPath": "data/source/crs-member-pay/raw/crs-97-1011.html",
+      "mediaType": "text/html",
+      "sha256": "cb066c18b132ff4e464ae6857bbb09c4ef32603615724928dc687aee4d25fe46",
+      "note": "Congressional Research Service report 97-1011, Salaries of Members of Congress: Recent Actions and Historical Tables, as mirrored by EveryCRSReport.com (dateModified 2026). States that Members' salary has been $174,000 since January 2009 and that adjustments have been denied through P.L. 119-37 (November 12, 2025).",
+      "url": "https://www.everycrsreport.com/reports/97-1011.html"
+    }
+  ],
+  "asOf": "2026-09-29"
+}

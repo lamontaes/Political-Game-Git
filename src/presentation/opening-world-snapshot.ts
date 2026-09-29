@@ -1,5 +1,6 @@
 import { openingRegionTypesForPlace } from "./opening-region-context";
 import { type EntityId, type IsoDate, type World } from "../simulation";
+import { isFederalDistrictUsps } from "../simulation/state-reference";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { stableHash } from "../simulation/ids";
 import type { OpeningRegionalSceneContext } from "./opening-regional-plate";
@@ -30,7 +31,7 @@ export function projectOpeningWorldSnapshot(world: World, personId: EntityId) {
     officials.find((item) => item.officeKey === "us-president") ?? null;
   const vicePresident =
     officials.find((item) => item.officeKey === "us-vice-president") ?? null;
-  const district = orientation.homeState?.stateUsps === "DC";
+  const district = isFederalDistrictUsps(orientation.homeState?.stateUsps);
   const executiveIds = [president, vicePresident].flatMap((item) =>
     item ? [item.personId] : [],
   );

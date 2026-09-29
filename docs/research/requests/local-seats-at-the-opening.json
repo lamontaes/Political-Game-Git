@@ -1,0 +1,22 @@
+{
+  "filedAt": "2026-09-29T00:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "local government",
+  "notes": [
+    "Filed by the placeholder-ledger work because the markers named this id and no request file existed."
+  ],
+  "priority": "P2",
+  "question": "At any moment, how far into their current terms are the sitting members of a US city, town or county council, and its mayor? What is the typical distribution of years served so far, and how many members are serving their first term, by government type and population size?",
+  "questionId": "local-seats-at-the-opening",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Build 15 · Real Money Numbers",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/living-world/local-government-seats.ts",
+      "whatItDidNotSettle": "Marks every member's term start as the opening date, a PLACEHOLDER; how far into their terms members already are has not been read for any town."
+    }
+  ],
+  "title": "How far into their terms sitting local officials are when a life opens",
+  "usableAnswer": "A distribution per government type and population band of tenure so far (years in office, first-term share), with a named public source (ICMA, state municipal league or NLC surveys, or sampled council rosters with start dates) and its year, so the opening can draw each member's term start rather than set it to the opening date.",
+  "whyItMatters": "Every seated member's term is recorded as starting the day the life opens, so no town has a veteran on the council, no seat is about to come up soon, and every seat turns over together instead of on the real staggered schedule."
+}

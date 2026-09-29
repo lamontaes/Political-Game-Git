@@ -100,6 +100,8 @@ export interface AmendmentAuthorsInput {
     measure: LegislativeMeasureRecord,
     part: PropositionAnswerRef,
   ) => boolean;
+  /** The chamber's members are elected without party labels (Nebraska). */
+  readonly nonpartisan?: boolean;
 }
 
 /**
@@ -311,6 +313,7 @@ export function planFloorAmendment(
       stableKey: `${input.stableKey}:own-lean`,
       question: billQuestion(input, null, undefined),
       members: seated,
+      nonpartisan: input.nonpartisan ?? false,
     }).map((row) => [row.personId, row.disposition]),
   );
 
@@ -335,7 +338,11 @@ export function planFloorAmendment(
   ): readonly LegislativeVoteDisposition[] => {
     const first = readings.get(reading);
     if (!first || first.by === member.memberKey) {
-      const rows = decideChamberVote(world, { ...vote, members: seated });
+      const rows = decideChamberVote(world, {
+        ...vote,
+        members: seated,
+        nonpartisan: input.nonpartisan ?? false,
+      });
       if (!first)
         readings.set(reading, {
           by: member.memberKey,
@@ -347,6 +354,7 @@ export function planFloorAmendment(
       decideChamberVote(world, {
         ...vote,
         members: seated,
+        nonpartisan: input.nonpartisan ?? false,
         only: new Set([first.by, member.memberKey]),
       }).map((row) => [row.memberKey, row]),
     );
@@ -496,7 +504,7 @@ function reasoningFor(
     case "sink":
       return `The author, who opposed the bill, counted it passing ${tally(billNow)} as it read and failing ${tally(withPart)} with this part, which the chamber would adopt ${tally(amendment)}.`;
     case "record":
-      return `The author cares most about this question and expected the amendment to fail ${tally(amendment)}, putting those who voted no on the record.`;
+      return `The author cares most about this question and expected the amendment to fail ${tally(amendment)}, so those who voted no must answer for it later.`;
     case "ride":
       return `The author attached this part to a bill the legislature has to pass, counting the amendment adopted ${tally(amendment)} and the bill still passing ${tally(withPart)}.`;
   }
@@ -537,6 +545,7 @@ export function offerPlannedAmendment(
       undefined,
     ),
     members: input.members,
+    nonpartisan: input.nonpartisan ?? false,
     playerPersonId:
       world.control.kind === "person" ? world.control.personId : null,
     playerBallot: null,

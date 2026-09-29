@@ -4,6 +4,7 @@ import type {
   CampaignLifeOutcomeRecord,
   CampaignOpponentRecord,
   CampaignOpponentStepRecord,
+  CampaignRoutineRecord,
   CampaignWeeklyPlanRecord,
 } from "./campaign-life-types";
 import type { WorldContentPacks } from "./runtime-content-packs";
@@ -116,6 +117,7 @@ export type EntityKind =
   | "campaign-life-activity"
   | "campaign-life-outcome"
   | "campaign-weekly-plan"
+  | "campaign-routine"
   | "campaign-opponent"
   | "campaign-opponent-step"
   | "national-election"
@@ -133,6 +135,7 @@ export type EntityKind =
   | "legislative-negotiation"
   | "legislative-provision"
   | "chamber-rule-change"
+  | "session-adjournment"
   | "item-veto"
   | "legislative-referral"
   | "legislative-vote"
@@ -2989,7 +2992,7 @@ export type FutureTransitionHandler = (
  */
 export interface RoutineWindow {
   readonly relationshipId: EntityId;
-  readonly kind: "work" | "study";
+  readonly kind: "work" | "study" | "campaign";
   readonly start: SimulationMoment;
   readonly end: SimulationMoment;
   readonly autoResolvable: boolean;
@@ -4338,6 +4341,8 @@ export interface HistoryStore {
   readonly campaignLifeActivities?: readonly CampaignLifeActivityRecord[];
   readonly campaignLifeOutcomes?: readonly CampaignLifeOutcomeRecord[];
   readonly campaignWeeklyPlans?: readonly CampaignWeeklyPlanRecord[];
+  /** D-11; optional so earlier saves read as having no campaign routine. */
+  readonly campaignRoutines?: readonly CampaignRoutineRecord[];
   readonly campaignOpponents?: readonly CampaignOpponentRecord[];
   readonly campaignOpponentSteps?: readonly CampaignOpponentStepRecord[];
   /** Optional so pre-NEWS-HELP2 snapshots remain structurally readable. */
@@ -4360,6 +4365,12 @@ export interface HistoryStore {
    * written before chambers could change their rules.
    */
   readonly chamberRuleChanges?: readonly ChamberRuleChangeRecord[];
+  /**
+   * A legislature's regular session ending on the day its leaders chose,
+   * before its legal limit. A session with no record ran to its limit.
+   * Optional; absent in saves written before leaders could adjourn.
+   */
+  readonly sessionAdjournments?: readonly SessionAdjournmentRecord[];
   readonly itemVetoes?: readonly ItemVetoRecord[];
   readonly legislativeDraftLineages?: readonly LegislativeDraftLineageRecord[];
   /**
@@ -4783,6 +4794,12 @@ export interface LegislativeEnactmentRecord {
    * default effective-date rule, which is not the same as taking effect now.
    */
   readonly effectiveAt: IsoDate | null;
+  /**
+   * The legislature's final passing vote: the last chamber passage or
+   * concurrence before enactment. A state that dates its acts from passage
+   * (Illinois) counts from it. Absent on records written before it was kept.
+   */
+  readonly finalPassageAt?: IsoDate | null;
   readonly outcomeEventId: EntityId;
 }
 
@@ -5008,6 +5025,29 @@ export interface ChamberRuleChangeRecord {
   /** The recorded vote that adopted it, where one did. */
   readonly adoptedByVoteId: EntityId | null;
   /** Why, in plain words, as the chamber's record would give it. */
+  readonly rationale: string;
+  readonly eventId: EntityId;
+}
+
+/**
+ * A legislature adjourning its regular session sine die on the day its
+ * leaders decided to, within the session's legal limit. The session's end,
+ * and every date counted from it, is this day.
+ */
+export interface SessionAdjournmentRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly rulePackId: string;
+  readonly jurisdictionId: EntityId;
+  /** The calendar year of the regular session. */
+  readonly sessionYear: number;
+  readonly adjournedOn: IsoDate;
+  /** The appropriation the session passed before the leaders adjourned. */
+  readonly budgetMeasureId: EntityId;
+  /** Bills still before the chambers that the leaders did not wait for. */
+  readonly leftPendingMeasureIds: readonly EntityId[];
+  /** Why, in plain words, as the legislature's record would give it. */
   readonly rationale: string;
   readonly eventId: EntityId;
 }
@@ -5278,6 +5318,7 @@ export type FormativeLifeSituationKey =
 export type AdultLifeSituationKey =
   | "adult.household-repair"
   | "adult.household-money-shortfall"
+  | "adult.eviction-case"
   | "adult.family-request"
   | "adult.care-request"
   | "adult.partner-plan"

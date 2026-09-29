@@ -14,6 +14,7 @@ import {
   SCENE_REGISTRY,
   type SceneRegistry,
 } from "./scene-registry";
+import { HOME_SCENE_SPECS } from "./home-scenes";
 
 /**
  * EVERY PLAYER-FACING SURFACE THAT COULD SHOW A ROOM, AND WHAT IT ACTUALLY
@@ -63,6 +64,12 @@ export interface SceneConsumerDeclaration {
    * room for this surface.
    */
   readonly sceneId: string | null;
+  /**
+   * Further scenes the same surface resolves from the record, when the room
+   * depends on a fact such as the kind of home and the time of day. `sceneId`
+   * stays the one it falls back to.
+   */
+  readonly alsoResolves?: readonly string[];
   /**
    * The module that actually paints it. Null means nothing does, which is what
    * separates "registered" from "wired".
@@ -129,6 +136,11 @@ export const SCENE_CONSUMERS: readonly SceneConsumerDeclaration[] = [
     runtimeComponent: "src/player/PlayerGame.tsx",
     canonicalGate: "The character has an open ordinary week.",
     sceneId: DOMESTIC_ORDINARY_SCENE_ID,
+    // life-scene.ts picks the player's own kind of home in the current light
+    // and weather (the 25 home pictures) before this shared living room.
+    alsoResolves: HOME_SCENE_SPECS.flatMap((spec) =>
+      spec.scene_id === undefined ? [] : [spec.scene_id],
+    ),
     wiredThrough: "src/player/SceneBackdrop.tsx",
     openRequestIds: [],
     blockedSeam: null,
@@ -369,9 +381,10 @@ export function unconsumedProductionScenes(
   registry: SceneRegistry = SCENE_REGISTRY,
 ): readonly string[] {
   const named = new Set(
-    SCENE_CONSUMERS.map((consumer) => consumer.sceneId).filter(
-      (sceneId): sceneId is string => sceneId !== null,
-    ),
+    SCENE_CONSUMERS.flatMap((consumer) => [
+      consumer.sceneId,
+      ...(consumer.alsoResolves ?? []),
+    ]).filter((sceneId): sceneId is string => sceneId !== null),
   );
   return [...registry.scenes.values()]
     .filter(

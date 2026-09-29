@@ -56,7 +56,7 @@ export function datedTermsInOffice(
     if (
       event.type === "world.office-tenure" &&
       event.tags.includes(`office:${officeKey}`) &&
-      event.occurredAt <= world.currentDate &&
+      termBegins(event) <= world.currentDate &&
       event.participants.some(
         (participant) =>
           participant.personId === personId &&
@@ -65,7 +65,7 @@ export function datedTermsInOffice(
     ) {
       const endTag = event.tags.find((tag) => tag.startsWith("term-end:"));
       terms.push({
-        startsAt: event.occurredAt,
+        startsAt: termBegins(event),
         endsAt: endTag ? makeIsoDate(endTag.slice("term-end:".length)) : null,
       });
     }
@@ -83,4 +83,15 @@ export function recordedTermsInOffice(
   officeKey: string,
 ): number {
   return datedTermsInOffice(world, personId, officeKey).length;
+}
+
+/** A tenure's first day: a governor-elect's term begins after the election. */
+function termBegins(event: {
+  readonly occurredAt: IsoDate;
+  readonly tags: readonly string[];
+}): IsoDate {
+  const tag = event.tags.find((candidate) =>
+    candidate.startsWith("term-begins:"),
+  );
+  return tag ? makeIsoDate(tag.slice("term-begins:".length)) : event.occurredAt;
 }

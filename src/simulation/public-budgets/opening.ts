@@ -1,9 +1,13 @@
 import bases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
+import acsTowns from "../../../data/research/money/place-towns-acs-2024.json" with { type: "json" };
 import {
+  allGovernmentUnits,
   countyGeoidsForPlace,
   countyGovernmentUnit,
   governmentUnitsForPlace,
+  governmentUnitsForState,
+  type GovernmentUnitIdentity,
 } from "../government-units";
 import {
   lifePlaceByJurisdictionId,
@@ -20,7 +24,13 @@ import { SeededRng } from "../rng";
 import { STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
 import { standardNormal } from "../world-setup/deterministic-math";
-import { openingPaidShare, pensionPayment } from "./pension-share";
+import {
+  openingFundedRatio,
+  openingPaidShare,
+  pensionFlows,
+  pensionPayment,
+} from "./pension-share";
+import { reserveRule } from "./reserve-rule";
 import {
   budgetLawReadings,
   fiscalYearContaining,
@@ -49,7 +59,7 @@ import {
 /**
  * THE OPENING DRAW. Each government starts from research:
  *
- * 1. A state draws around its Census 2022 state-government figures per
+ * 1. A state opens at its Census 2022 state-government figures per
  *    resident times its BEA 2024 population, carried forward by the measured
  *    calibration factor (`public-budget-bases.json`). D.C.'s Census "state"
  *    column is empty, so the District reads the local column whole.
@@ -60,9 +70,13 @@ import {
  * 4. A state's opening balance and reserve are NASBO's fiscal 2026 estimates;
  *    a local government's are its state's shares of spending (PLACEHOLDER).
  *
- * Every amount is drawn once per line around its figure, so two worlds differ
- * (Lamontae, September 26, 2026: real data calibrates, the game makes its
- * own). A world without a seed (a fixture) takes the figures as they are.
+ * A figure read for the government itself (a state's Census column, a
+ * territory's NASBO totals) opens exactly as read. An estimate from an
+ * average (a county's or city's share, an unsurveyed territory) opens with a
+ * per-world spread around it, so two worlds differ where the game has no
+ * figure of its own (Lamontae, September 26, 2026: real data calibrates, the
+ * game makes its own; September 28: an estimate starts from the real average
+ * with a spread). A world without a seed (a fixture) takes every figure as is.
  */
 
 interface PerResident {
@@ -94,6 +108,51 @@ const COUNTY_POPULATION = bases.countyPopulation2024 as Readonly<
   Record<string, number>
 >;
 export const BUDGET_CALIBRATION = bases.calibration.factor;
+
+/**
+ * The states whose Census state-government column is empty because one
+ * government is both their state and their local government (the District of
+ * Columbia): their budget reads the local-government column, and their one
+ * town is that same government. Read from the data, never named in logic.
+ */
+const STATE_IS_LOCAL: ReadonlySet<string> = new Set(
+  Object.entries(PLACES)
+    .filter(
+      ([, place]) =>
+        place.state &&
+        place.local &&
+        [
+          ...Object.values(place.state.revenue),
+          ...Object.values(place.state.spending),
+        ].every((value) => value === 0),
+    )
+    .map(([key]) => key),
+);
+
+/**
+ * The median rainy-day balance as a share of general-fund spending, fiscal
+ * 2026, over the states NASBO reports both for: what a government NASBO has
+ * no balance for opens with, ESTIMATED FROM AVERAGE.
+ */
+const MEDIAN_RAINY_DAY_SHARE = (() => {
+  const shares = Object.values(PLACES)
+    .filter(
+      (place) =>
+        place.state &&
+        place.generalFundFY2026Millions.rainyDayFundBalance !== null &&
+        place.generalFundFY2026Millions.expenditures,
+    )
+    .map(
+      (place) =>
+        place.generalFundFY2026Millions.rainyDayFundBalance! /
+        place.generalFundFY2026Millions.expenditures!,
+    )
+    .sort((a, b) => a - b);
+  const middle = Math.floor(shares.length / 2);
+  return shares.length % 2
+    ? shares[middle]!
+    : (shares[middle - 1]! + shares[middle]!) / 2;
+})();
 
 /**
  * An island area NASBO does not survey (American Samoa, the Northern Mariana
@@ -192,8 +251,17 @@ const ACS_MUNICIPIO_POPULATION = acsPlaces.puertoRicoMunicipios as Readonly<
   Record<string, number>
 >;
 
-/** NASBO's median rainy-day balance as a share of spending, fiscal 2026. */
-const MEDIAN_RAINY_DAY_SHARE = 0.131;
+/**
+ * Each place the Vintage 2025 estimates leave out whose county area has no
+ * county government: its residents by county subdivision (ACS 2020-2024),
+ * largest first, and each subdivision's population.
+ */
+const ACS_PLACE_TOWNS = acsTowns.placeTowns as unknown as Readonly<
+  Record<string, readonly (readonly [string, number])[]>
+>;
+const ACS_TOWN_POPULATION = acsTowns.townPopulation as Readonly<
+  Record<string, number>
+>;
 
 export interface BudgetCandidate {
   readonly key: string;
@@ -208,8 +276,10 @@ export interface BudgetCandidate {
 /**
  * Every government the world holds: each state, D.C. and territory, each
  * county present, and each city present that has a government of its own. A
- * census-designated place present brings in the county or Puerto Rico
- * municipio that serves it. The rest are listed with the reason they keep no
+ * census-designated place present brings in the government that serves it
+ * (`servingGovernment`): its county, municipio, New England town or
+ * consolidated government; where the state serves it directly, the state's
+ * budget is already held. The rest are listed with the reason they keep no
  * budget.
  */
 export function budgetCandidates(world: World): {
@@ -220,13 +290,16 @@ export function budgetCandidates(world: World): {
   const unknown: { key: string; jurisdictionId: EntityId; reason: string }[] =
     [];
   const stateIds = new Set<EntityId>();
-  // Washington's town is the District government itself (question-authority).
-  let districtTown: EntityId | null = null;
+  // A state that is also its own local government: its town is that same
+  // government (question-authority), so its laws are read there.
+  const stateTowns = new Map<string, EntityId>();
   for (const id of world.jurisdictionOrder ?? []) {
     const place = lifePlaceByJurisdictionId(id);
-    if (place?.stateJurisdictionKey === "US-DC" && place.scope !== "state")
-      districtTown ??= id;
+    const stateKey = place?.stateJurisdictionKey;
+    if (stateKey && STATE_IS_LOCAL.has(stateKey) && place.scope !== "state")
+      if (!stateTowns.has(stateKey)) stateTowns.set(stateKey, id);
   }
+  const townIds = new Set(stateTowns.values());
   for (const usps of Object.keys(STATES)) {
     const key = `US-${usps}`;
     const jurisdiction = stateJurisdictionForKey(key);
@@ -235,8 +308,7 @@ export function budgetCandidates(world: World): {
     candidates.push({
       key,
       jurisdictionId: jurisdiction.id,
-      lawJurisdictionId:
-        usps === "DC" && districtTown ? districtTown : jurisdiction.id,
+      lawJurisdictionId: stateTowns.get(key) ?? jurisdiction.id,
       level: "state",
       name: STATES[usps]!.name,
       stateKey: key,
@@ -245,7 +317,7 @@ export function budgetCandidates(world: World): {
   }
   for (const id of world.jurisdictionOrder ?? []) {
     if (stateIds.has(id) || id === NATIONAL_ELECTION_JURISDICTION.id) continue;
-    if (id === districtTown) continue;
+    if (townIds.has(id)) continue;
     const jurisdiction = world.jurisdictions[id];
     const place = lifePlaceByJurisdictionId(id);
     const stateKey = place?.stateJurisdictionKey ?? null;
@@ -274,10 +346,9 @@ export function budgetCandidates(world: World): {
       });
       continue;
     }
-    // A census-designated place has no government of its own. Its residents
-    // are served by the county holding most of them, or in Puerto Rico by the
-    // municipio; that government keeps the budget.
-    const serving = servingCounty(geoid, stateKey);
+    // A census-designated place has no government of its own. The
+    // government that serves its residents keeps the budget.
+    const serving = servingGovernment(geoid, stateKey, id);
     if (typeof serving === "string") {
       unknown.push({
         key: `place:${geoid}`,
@@ -286,11 +357,13 @@ export function budgetCandidates(world: World): {
       });
       continue;
     }
+    // The state serves it directly, and the state's budget is already held.
+    if (serving.level === "state") continue;
     candidates.push({
-      key: `county:${serving.geoid}`,
+      key: serving.key,
       jurisdictionId: serving.jurisdictionId,
       lawJurisdictionId: serving.jurisdictionId,
-      level: "county",
+      level: serving.level,
       name: serving.name,
       stateKey,
       geoid: serving.geoid,
@@ -307,47 +380,175 @@ export function budgetCandidates(world: World): {
   };
 }
 
+export interface ServingGovernment {
+  /** The budget's key: `county:<GEOID>`, `town:<county subdivision GEOID>` or the state's. */
+  readonly key: string;
+  readonly level: BudgetLevel;
+  readonly geoid: string | null;
+  readonly jurisdictionId: EntityId;
+  readonly name: string;
+}
+
 /**
- * The county government, or Puerto Rico municipio, that serves a place with
- * no government of its own: the county holding most of its residents (ACS
- * 2020-2024), or else most of its land (2020 Census files). Where
- * that county area has no county government (New England towns, Alaska's
- * unorganized borough, consolidated city-counties), the reason.
+ * The government that serves a place with no government of its own, found in
+ * the county area holding most of its residents (ACS 2020-2024), or else most
+ * of its land (2020 Census files):
+ *
+ * 1. that area's county government, or its municipio where the listing holds
+ *    no governments for the territory (Puerto Rico);
+ * 2. else the town holding most of the place's residents (ACS 2020-2024
+ *    county subdivisions), where the Census Bureau's 2025 listing files that
+ *    town as a government (a New England town); the place's own jurisdiction
+ *    carries its laws;
+ * 3. else, in an area with no town governments, its consolidated government:
+ *    the area's one municipality filed under a county-level name or with no
+ *    place of its own (the City and County of Honolulu; the City-Parish of
+ *    Lafayette), which keeps the county area's budget;
+ * 4. else, in an area with no county, town or consolidated government
+ *    (Alaska's unorganized borough), the state, which serves it directly.
+ *
+ * Otherwise, the reason no government is linked.
  */
-export function servingCounty(
+export function servingGovernment(
   placeGeoid: string,
   stateKey: string,
-):
-  | {
-      readonly geoid: string;
-      readonly jurisdictionId: EntityId;
-      readonly name: string;
-    }
-  | string {
+  placeJurisdictionId: EntityId,
+): ServingGovernment | string {
   const countyGeoid =
     ACS_PLACE_COUNTIES[placeGeoid]?.[0]?.[0] ??
     countyGeoidsForPlace(placeGeoid)[0];
   if (!countyGeoid)
     return "No government of its own, and no county is recorded for it.";
-  if (stateKey !== "US-PR" && !countyGovernmentUnit(countyGeoid))
-    return "No government of its own, and its county area has no county government; the town or consolidated government that serves it is not linked yet.";
-  const place = lifePlaceByKey(`county:${countyGeoid}`);
-  if (!place)
-    return "No government of its own, and the county that serves it is not in the places corpus.";
-  return {
-    geoid: countyGeoid,
-    jurisdictionId: place.context.jurisdiction.id,
-    name: place.context.jurisdiction.name,
+  const area = localUnitsByCountyArea().get(countyGeoid);
+  const county = (): ServingGovernment | string => {
+    const place = lifePlaceByKey(`county:${countyGeoid}`);
+    if (!place)
+      return "No government of its own, and the county that serves it is not in the places corpus.";
+    return {
+      key: `county:${countyGeoid}`,
+      level: "county",
+      geoid: countyGeoid,
+      jurisdictionId: place.context.jurisdiction.id,
+      name: place.context.jurisdiction.name,
+    };
   };
+  const usps = stateKey.replace(/^US-/, "");
+  // Where the listing holds no governments for the whole state or territory
+  // (Puerto Rico's municipios), the county equivalent is its government.
+  if (
+    countyGovernmentUnit(countyGeoid) ||
+    governmentUnitsForState(usps).length === 0
+  )
+    return county();
+  const townGeoid = ACS_PLACE_TOWNS[placeGeoid]?.[0]?.[0];
+  const town = townGeoid
+    ? localUnitsByCountyArea()
+        .get(townGeoid.slice(0, 5))
+        ?.townships.find(
+          (unit) =>
+            unit.stateUsps === usps &&
+            unit.publisherPlaceCode === townGeoid.slice(5),
+        )
+    : undefined;
+  if (townGeoid && town)
+    return {
+      key: `town:${townGeoid}`,
+      level: "city",
+      geoid: townGeoid,
+      jurisdictionId: placeJurisdictionId,
+      name: `${titleCase(town.name)}, ${STATES[usps]?.name ?? usps}`,
+    };
+  if (!area?.townships.length) {
+    if (area?.consolidated) return county();
+    const state = stateJurisdictionForKey(stateKey);
+    if (state)
+      return {
+        key: stateKey,
+        level: "state",
+        geoid: null,
+        jurisdictionId: state.id,
+        name: STATES[usps]?.name ?? usps,
+      };
+  }
+  return "No government of its own, and the town that serves it is not linked: its county area has no county government, and no town in the Census Bureau's 2025 listing holds most of its residents.";
 }
 
-function drawn(
+interface CountyAreaUnits {
+  /** The area's consolidated government, if exactly one is found. */
+  readonly consolidated: GovernmentUnitIdentity | null;
+  readonly townships: readonly GovernmentUnitIdentity[];
+}
+
+let countyAreaUnits: Map<string, CountyAreaUnits> | null = null;
+
+/**
+ * A municipality the Census Bureau files under a county-level name ("City and
+ * County of Honolulu", "City-Parish of Lafayette", "Consolidated Government of
+ * Terrebonne"): the publisher's own name for a government that
+ * governs its whole county area.
+ */
+const COUNTY_LEVEL_NAME =
+  /\b(COUNTY|PARISH)\b|\bCITY AND BOROUGH\b|\bCONSOLIDATED GOVERNMENT\b/;
+
+/**
+ * Each county area's consolidated government and townships, from the Census
+ * Bureau's 2025 listing. The consolidated government is the area's one
+ * municipality filed under a county-level name or with no place of its own.
+ */
+function localUnitsByCountyArea(): ReadonlyMap<string, CountyAreaUnits> {
+  if (countyAreaUnits) return countyAreaUnits;
+  const consolidated = new Map<string, GovernmentUnitIdentity[]>();
+  const townships = new Map<string, GovernmentUnitIdentity[]>();
+  for (const unit of allGovernmentUnits()) {
+    if (!unit.countyGeoid) continue;
+    const into =
+      unit.unitType === "township"
+        ? townships
+        : unit.unitType === "municipality" &&
+            (!unit.placeGeoid || COUNTY_LEVEL_NAME.test(unit.name))
+          ? consolidated
+          : null;
+    if (!into) continue;
+    into.set(unit.countyGeoid, [...(into.get(unit.countyGeoid) ?? []), unit]);
+  }
+  countyAreaUnits = new Map();
+  for (const county of new Set([...consolidated.keys(), ...townships.keys()])) {
+    const loose = consolidated.get(county) ?? [];
+    countyAreaUnits.set(county, {
+      consolidated: loose.length === 1 ? loose[0]! : null,
+      townships: townships.get(county) ?? [],
+    });
+  }
+  return countyAreaUnits;
+}
+
+/** "TOWN OF EAST WINDSOR" as "Town of East Windsor". */
+function titleCase(name: string): string {
+  return name
+    .toLowerCase()
+    .split(" ")
+    .map((word, at) =>
+      at > 0 && ["of", "and", "the"].includes(word)
+        ? word
+        : word.charAt(0).toUpperCase() + word.slice(1),
+    )
+    .join(" ");
+}
+
+/**
+ * An opening amount. A figure read for this government itself opens exactly
+ * as read. An estimate from an average (a county's or city's share of its
+ * state's local finances, an unsurveyed territory) opens with a per-world
+ * spread around the average, so two worlds do not share one made-up number.
+ */
+function opened(
   world: World,
   governmentKey: string,
   line: string,
   amount: number,
+  read: "read" | "estimated",
 ): number {
-  if (!world.seed || amount === 0) return Math.round(amount);
+  if (read === "read" || !world.seed || amount === 0) return Math.round(amount);
   const rng = new SeededRng(world.seed).fork(
     `${PUBLIC_BUDGETS_VERSION}:open:${governmentKey}:${line}`,
   );
@@ -362,28 +563,40 @@ function emptySpending(): number[] {
   return BUDGET_PROGRAMS.map(() => 0);
 }
 
-/** The opening pension and its actuarial contribution. PLACEHOLDER. */
+/**
+ * The opening pension and its actuarial contribution. The assets are the
+ * liability times the government's own reported funded ratio
+ * (`openingFundedRatio`), and the contribution's normal cost is its own
+ * plans' (`pensionFlows`); the liability's size against spending is still
+ * PLACEHOLDER.
+ */
 export function openingPension(
   spending: number,
   paidShare: number,
+  fundedRatio: number,
+  normalCostShare: number,
 ): {
   pension: PensionRecord;
   required: number;
 } {
   const liability = Math.round(spending * PENSION.liabilityToSpending);
-  const assets = Math.round(liability * PENSION.fundedRatio);
+  const assets = Math.round(liability * fundedRatio);
   return {
     pension: { liability, assets, paidShare },
-    required: actuarialContribution({ liability, assets }),
+    required: actuarialContribution({ liability, assets }, normalCostShare),
   };
 }
 
-/** Normal cost plus the unfunded part amortized. */
+/**
+ * The employer's normal cost, as its own plans' share of the liability
+ * (`pensionFlows`), plus the unfunded part amortized.
+ */
 export function actuarialContribution(
   pension: Pick<PensionRecord, "liability" | "assets">,
+  normalCostShare: number,
 ): number {
   return Math.round(
-    pension.liability * PENSION.normalCostShare +
+    pension.liability * normalCostShare +
       Math.max(0, pension.liability - pension.assets) /
         PENSION.amortizationYears,
   );
@@ -433,30 +646,39 @@ function stateOpening(
   let debt = 0;
   let interestRate = DEFAULT_INTEREST_RATE;
   let population = base.population2024 ?? 0;
-  const column =
-    candidate.key === "US-DC" ? base.local : (base.state ?? undefined);
+  const column = STATE_IS_LOCAL.has(candidate.key)
+    ? base.local
+    : (base.state ?? undefined);
   if (column && population > 0) {
     const scale = population * BUDGET_CALIBRATION;
     for (const [at, source] of BUDGET_SOURCES.entries())
-      revenue[at] = drawn(
+      revenue[at] = opened(
         world,
         candidate.key,
         source,
         (column.revenue[source] ?? 0) * scale,
+        "read",
       );
     for (const [at, program] of BUDGET_PROGRAMS.entries())
-      spending[at] = drawn(
+      spending[at] = opened(
         world,
         candidate.key,
         program,
         (column.spending[program] ?? 0) * scale,
+        "read",
       );
-    debt = drawn(world, candidate.key, "debt", column.debt * population);
+    debt = opened(
+      world,
+      candidate.key,
+      "debt",
+      column.debt * population,
+      "read",
+    );
     const interest = column.spending.interest ?? 0;
     if (column.debt > 0 && interest > 0) interestRate = interest / column.debt;
     notes.push(
-      candidate.key === "US-DC"
-        ? "Census 2022 local-government column, since D.C.'s state column is empty, per resident times BEA 2024 population, times the calibration factor."
+      STATE_IS_LOCAL.has(candidate.key)
+        ? `Census 2022 local-government column, since ${base.name}'s state column is empty, per resident times BEA 2024 population, times the calibration factor.`
         : "Census 2022 state-government figures per resident times BEA 2024 population, times the calibration factor.",
     );
   } else {
@@ -476,17 +698,19 @@ function stateOpening(
     const revenueToSpending = surveyed
       ? general.revenues! / general.expenditures!
       : ISLAND_AREA_AVERAGE.revenueToSpending;
-    spending[BUDGET_PROGRAMS.indexOf("programUnknown")] = drawn(
+    spending[BUDGET_PROGRAMS.indexOf("programUnknown")] = opened(
       world,
       candidate.key,
       "programUnknown",
       total,
+      surveyed ? "read" : "estimated",
     );
-    revenue[BUDGET_SOURCES.indexOf("sourceUnknown")] = drawn(
+    revenue[BUDGET_SOURCES.indexOf("sourceUnknown")] = opened(
       world,
       candidate.key,
       "sourceUnknown",
       total * revenueToSpending,
+      surveyed ? "read" : "estimated",
     );
     notes.push(
       surveyed
@@ -516,7 +740,7 @@ function stateOpening(
       ? "Opening balance unknown in NASBO; opens at none."
       : "Opening balance: NASBO's estimate of the fiscal 2026 general fund ending balance.",
     rainy === null
-      ? "Opening reserve: NASBO has no figure, so the national median rainy-day share of spending (PLACEHOLDER)."
+      ? `Opening reserve: ESTIMATED FROM AVERAGE, NASBO has no figure, so ${Math.round(MEDIAN_RAINY_DAY_SHARE * 1000) / 1000} of spending, the median rainy-day share of the states NASBO reports (fiscal 2026).`
       : "Opening reserve: NASBO's fiscal 2026 rainy-day fund balance.",
   );
   return {
@@ -550,7 +774,10 @@ function localOpening(
       ? (COUNTY_POPULATION[candidate.geoid!] ??
         ACS_MUNICIPIO_POPULATION[candidate.geoid!] ??
         null)
-      : (placePopulation(candidate.geoid!) ?? acsPopulation);
+      : (placePopulation(candidate.geoid!) ??
+        acsPopulation ??
+        ACS_TOWN_POPULATION[candidate.geoid!] ??
+        null);
   if (population === null || population <= 0)
     return "No population for this place in the research.";
   const populationSource =
@@ -566,11 +793,12 @@ function localOpening(
   const spending = emptySpending();
   for (const [at, program] of BUDGET_PROGRAMS.entries()) {
     const share = LOCAL_PROGRAM_SPLIT[program]?.[level] ?? 0;
-    spending[at] = drawn(
+    spending[at] = opened(
       world,
       candidate.key,
       program,
       (local.spending[program] ?? 0) * share * scale,
+      "estimated",
     );
   }
   const localSpendingPerResident = sum(
@@ -584,17 +812,19 @@ function localOpening(
       : 0;
   const revenue = emptyRevenue();
   for (const [at, source] of BUDGET_SOURCES.entries())
-    revenue[at] = drawn(
+    revenue[at] = opened(
       world,
       candidate.key,
       source,
       (local.revenue[source] ?? 0) * scale * share,
+      "estimated",
     );
-  const debt = drawn(
+  const debt = opened(
     world,
     candidate.key,
     "debt",
     local.debt * population * share,
+    "estimated",
   );
   const interest = local.spending.interest ?? 0;
   const general = base.generalFundFY2026Millions;
@@ -671,9 +901,22 @@ export function openGovernmentBudget(
     candidate.level !== "state",
   );
   const spending = opening.spending;
+  const paid = openingPaidShare(
+    candidate.stateKey,
+    candidate.level,
+    candidate.name,
+  );
+  const funding = openingFundedRatio(
+    candidate.stateKey,
+    candidate.level,
+    candidate.name,
+  );
+  const flows = pensionFlows(candidate);
   const { pension, required } = openingPension(
     sum(spending),
-    openingPaidShare(world, candidate.key),
+    paid.share,
+    funding.fundedRatio,
+    flows.normalCostShare,
   );
   // The opening year's contribution: in full under a law requiring it, and
   // at the government's own share otherwise.
@@ -715,10 +958,18 @@ export function openGovernmentBudget(
     openingNotes: [
       ...opening.notes,
       `Calibration factor ${BUDGET_CALIBRATION}: ${bases.calibration.basis}`,
-      "Pension: liability, funded ratio and contribution are PLACEHOLDER (research: public-pension-funding-by-state), carved out of salary-paying programs.",
+      "Pension: the liability's size against spending is PLACEHOLDER (research: public-pension-funding-by-state); the contribution is carved out of salary-paying programs.",
+      funding.basis === "reported"
+        ? `Pension funded ratio: ${funding.fundedRatio}, as its own plans filed with the Public Plans Database.`
+        : `Pension funded ratio: ESTIMATED FROM AVERAGE, ${funding.fundedRatio}, the median of every plan in the Public Plans Database; its own plans are not listed.`,
+      `Pension normal cost: ${flows.normalCostShare} of the liability a year, ${flows.normalCostBasis === "reported" ? "as its own plans filed with the Public Plans Database" : "ESTIMATED FROM AVERAGE, the median of every plan in the Public Plans Database; its own plans do not file it"}. Benefits paid: ${flows.benefitShare} of the liability a year, ${flows.benefitBasis === "reported" ? "as its own plans filed" : "ESTIMATED FROM AVERAGE, the median of every plan"}.`,
+      `Reserve target under a minimum-reserve law: ${reserveRule(candidate).floorShare} of a year's spending, at most ${reserveRule(candidate).depositShare} a year: ${reserveRule(candidate).basis}.`,
+      paid.basis === "reported"
+        ? `Pension share paid: ${paid.share}, as its own plans filed with the Public Plans Database.`
+        : `Pension share paid: ${paid.share}, ESTIMATED FROM AVERAGE (the median of every plan in the Public Plans Database, fiscal 2022 to 2024); its own plans are not listed.`,
       ...(basis === "state-start-placeholder"
         ? [
-            "Fiscal year: the state's start (PLACEHOLDER, research: local-government-finances-by-type).",
+            "Budget year: begins when the state's does (PLACEHOLDER, research: local-government-finances-by-type).",
           ]
         : []),
       "Adoption is automatic each year; a budget passed as a bill comes later.",

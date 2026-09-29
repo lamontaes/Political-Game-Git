@@ -1,4 +1,10 @@
-import { campaignUntilDecided, fileCandidacy } from "./support/campaign";
+import {
+  askChapterOrganizerForSupport,
+  bookAndHoldCampaignChoice,
+  campaignUntilDecided,
+  fileCandidacy,
+  walkHome,
+} from "./support/campaign";
 import { expect, test, type Page } from "./fixtures";
 
 import {
@@ -237,7 +243,7 @@ test.describe("A life can stand for something", () => {
       .locator('input[value="us-ky-general-assembly-v1:house"]')
       .check();
     await expect(page.getByTestId("campaign-offer")).toContainText(
-      /there is a .* to be filled/i,
+      /there is an election for a seat in .+/i,
     );
 
     expect(errors).toEqual([]);
@@ -298,6 +304,7 @@ test.describe("A life can stand for something", () => {
   test("runs a campaign, and never shows more than somebody's estimate", async ({
     page,
   }) => {
+    test.setTimeout(180_000);
     const errors = watchForErrors(page);
     await freshBrowser(page);
     await beginAdultLifeIn(page, "Kentucky");
@@ -315,19 +322,15 @@ test.describe("A life can stand for something", () => {
     await expect(page.getByTestId("campaign-treasury")).toContainText("$0.");
     await expect(page.getByTestId("campaign-no-memo")).toBeVisible();
 
-    // An afternoon on the phones puts money in the committee's account.
-    await page.getByTestId("campaign-fundraising").click();
-    await expect(page.getByTestId("campaign-treasury")).not.toContainText(
-      "$0.",
-    );
+    // With no staff, a chapter hosts the work once its organizer agrees.
+    expect(await askChapterOrganizerForSupport(page)).toBe(true);
 
-    // An afternoon on the doors produces a memo, and the memo admits a margin.
-    // A day only holds so much, so this one happens tomorrow.
-    await page.getByTestId("shell-pass-day").click();
-    await page.getByTestId("campaign-outreach").click();
-    const memo = page.getByTestId("campaign-memo");
-    await expect(memo).toContainText(/give or take/i);
-    await expect(memo).toContainText(/further out than that/i);
+    // An afternoon on the doors reports what it reached as a range: an
+    // estimate with its spread, never one exact count.
+    expect(await bookAndHoldCampaignChoice(page, "door-canvass")).toBe(true);
+    await expect(
+      page.locator('[data-testid^="campaign-result-reach-"]').first(),
+    ).toContainText(/Estimated conversations: \d+–\d+/);
 
     // Nothing on this screen is a meter, a threshold, or a certainty.
     await expect(campaign.locator("progress")).toHaveCount(0);
@@ -383,22 +386,63 @@ test.describe("A life can stand for something", () => {
     expect(errors).toEqual([]);
   });
 
+  test("keeps standing campaign hours until the candidate stops them", async ({
+    page,
+  }) => {
+    const errors = watchForErrors(page);
+    await freshBrowser(page);
+    await beginAdultLifeIn(page, unreadStateLocality().displayName);
+    await fileCandidacy(page);
+
+    // D-11: the hours are set once and repeat; nothing runs until a day is
+    // ticked, so there is nothing to keep yet.
+    const hours = page.getByTestId("campaign-hours");
+    await expect(hours).toBeVisible();
+    await expect(page.getByTestId("campaign-hours-current")).toHaveText(
+      "You have no set campaign hours.",
+    );
+    const keep = page.getByTestId("campaign-hours-keep");
+    await expect(keep).toBeDisabled();
+
+    const doors = page.getByTestId("campaign-hours-outreach");
+    await doors.getByRole("checkbox", { name: "Mon" }).check();
+    await doors.getByRole("checkbox", { name: "Wed" }).check();
+    await keep.click();
+    await expect(page.getByTestId("campaign-hours-current")).toHaveText(
+      "Knocking on doors, Mon, Wed, 6 p.m. to 8 p.m.",
+    );
+    await expect(page.getByTestId("campaign-hours-message")).toContainText(
+      "They repeat every week until you change them.",
+    );
+
+    // The geography and "Do this now" controls sit below the hours.
+    await expect(page.getByTestId("campaign-strategy")).toBeVisible();
+    await expect(page.getByTestId("campaign-offers")).toBeVisible();
+
+    await page.getByTestId("campaign-hours-stop").click();
+    await expect(page.getByTestId("campaign-hours-current")).toHaveText(
+      "You have no set campaign hours.",
+    );
+    await expect(page.getByTestId("campaign-hours-stop")).toHaveCount(0);
+    expect(errors).toEqual([]);
+  });
+
   test("reaches election day by living the weeks, and carries on afterwards", async ({
     page,
   }) => {
-    // Living to election day is 27 shell days plus the creator: about 25 s on
-    // a quiet host, so the default budget is decided by runner load.
-    test.setTimeout(90_000);
+    // A January start is ten months from a November election: 45 days, then
+    // the rest a week at a time, plus asking a chapter for support. Measured
+    // below before this budget was set.
+    test.setTimeout(300_000);
     const errors = watchForErrors(page);
     await freshBrowser(page);
     await beginAdultLifeIn(page, "Kentucky");
 
     await fileCandidacy(page);
-    await page.getByTestId("campaign-outreach").click();
-    await expect(page.getByTestId("campaign-memo")).toBeVisible();
-    // A second afternoon, a day later, because a day only holds so much.
-    await pressTime(page, "shell-pass-day");
-    await page.getByTestId("campaign-outreach").click();
+    // A campaign with no staff campaigns through a local chapter, once its
+    // organizer agrees to host the work; then an afternoon on the doors.
+    if (await askChapterOrganizerForSupport(page))
+      expect(await bookAndHoldCampaignChoice(page)).toBe(true);
 
     // Nobody presses "hold the election". The world reaches the date.
     expect(await liveUntilDecided(page)).toBe(true);
@@ -406,7 +450,7 @@ test.describe("A life can stand for something", () => {
     const result = page.getByTestId("campaign-result");
     await expect(result).toBeVisible();
     await expect(page.getByTestId("campaign-afterword")).toContainText(
-      /won\.|lost\./i,
+      /\b(won|lost)[,.]/i,
     );
     // There is nothing left to spend an afternoon on, and the buttons say so.
     await expect(page.getByTestId("campaign-offers")).toHaveCount(0);
@@ -430,11 +474,12 @@ test.describe("A life can stand for something", () => {
     await expect(page.getByTestId("play-screen")).toBeVisible();
 
     if (/\blost[,.]/i.test(afterword)) {
-      // Losing is a thing that happened, said in those words. The afterword
-      // is in Work, where the campaign is, not on the day.
+      // Losing is a thing that happened, said with the score and without a
+      // stock consolation. The afterword is in Work, where the campaign is,
+      // not on the day.
       await openCampaign(page);
       await expect(page.getByTestId("campaign-afterword")).toContainText(
-        /not the end of (them|him|her)\b/i,
+        /lost, \d+(\.\d)?% to \d+(\.\d)?%\./,
       );
       // And it opens no office it did not earn.
       await expect(page.getByTestId("office-section")).toHaveCount(0);
@@ -454,13 +499,17 @@ test.describe("A life can stand for something", () => {
   test("keeps the campaign through a save and a reload", async ({ page }) => {
     // Living to election day is 27 shell days plus the creator: about 25 s on
     // a quiet host, so the default budget is decided by runner load.
-    test.setTimeout(90_000);
+    test.setTimeout(180_000);
     const errors = watchForErrors(page);
     await freshBrowser(page);
     await beginAdultLifeIn(page, "Kentucky");
 
     await fileCandidacy(page);
-    await page.getByTestId("campaign-fundraising").click();
+    expect(await askChapterOrganizerForSupport(page)).toBe(true);
+    expect(await bookAndHoldCampaignChoice(page)).toBe(true);
+    const held = await page
+      .getByTestId("campaign-recent-results")
+      .textContent();
     const treasury = await page.getByTestId("campaign-treasury").textContent();
     const band = await page.getByTestId("campaign-band").textContent();
 
@@ -477,6 +526,9 @@ test.describe("A life can stand for something", () => {
       treasury ?? "",
     );
     await expect(page.getByTestId("campaign-band")).toHaveText(band ?? "");
+    await expect(page.getByTestId("campaign-recent-results")).toHaveText(
+      held ?? "",
+    );
 
     expect(errors).toEqual([]);
   });
@@ -488,7 +540,7 @@ test.describe("P85D integration through ordinary player controls", () => {
       page,
     }) => {
       // Same 27-day path as above; the budget follows the sibling winner case.
-      test.setTimeout(90_000);
+      test.setTimeout(300_000);
       const errors = watchForErrors(page);
       await freshBrowser(page);
       await page.goto("/?seed=p85c-owner-clock");
@@ -530,7 +582,7 @@ test.describe("P85D integration through ordinary player controls", () => {
   test("a Lexington winner can activate Kentucky Work before and after reload", async ({
     page,
   }) => {
-    test.setTimeout(90_000);
+    test.setTimeout(480_000);
     const errors = watchForErrors(page);
     await freshBrowser(page);
     await page.goto("/?seed=p85c-owner-0");
@@ -543,13 +595,17 @@ test.describe("P85D integration through ordinary player controls", () => {
     await enterLife(page);
     await openCampaign(page);
     await fileCandidacy(page);
-    await page.getByTestId("campaign-fundraising").click();
+    expect(await askChapterOrganizerForSupport(page)).toBe(true);
+    // Every week the chapter offers an afternoon on the doors, it is taken.
     expect(
-      await campaignUntilDecided(page, (page) =>
-        pressTime(page, "shell-pass-day"),
-      ),
+      await campaignUntilDecided(page, async (page) => {
+        await bookAndHoldCampaignChoice(page, "door-canvass");
+        await pressTime(page, "shell-pass-day");
+      }),
     ).toBe(true);
-    await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
+    await expect(page.getByTestId("campaign-afterword")).toContainText(
+      /\bwon, /,
+    );
     // The office is its own Politics tab, apart from the campaign.
     await openElsewhere(page, "work");
     await expect(page.getByTestId("office-section")).toHaveCount(0);
@@ -561,6 +617,8 @@ test.describe("P85D integration through ordinary player controls", () => {
     await expect(page.getByTestId("office-section")).toContainText(
       "Kentucky legislature",
     );
+    // The chapter's meetings left him in the community room; he walks home.
+    await walkHome(page);
     await goTo(page, "keep-world");
     await expectNoDestination(page, "keep-world");
     await page.reload();

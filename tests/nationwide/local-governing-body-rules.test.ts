@@ -3,7 +3,9 @@ import {
   allGovernmentUnits,
   governmentUnitsForPlace,
 } from "../../src/simulation/government-units";
+import { placePopulation } from "../../src/simulation/nationwide-world/place-population";
 import {
+  SMALL_TOWN_POPULATION,
   localGoverningBodyReadSpread,
   localGoverningBodyRules,
   localRuleCoverage,
@@ -39,10 +41,12 @@ describe("the record of which towns have researched rules", () => {
     const coverage = localRuleCoverage();
     expect(coverage.towns).toBe(19_462);
     // Pinned so a change to what has been read is a deliberate edit here.
-    expect(coverage.researched).toHaveLength(60);
+    expect(coverage.researched).toHaveLength(64);
+    // Every linked government now states its seat count (Build 25's
+    // council-size readings, September 29, 2026).
     expect(
       coverage.researched.filter((row) => row.read.length > 0),
-    ).toHaveLength(40);
+    ).toHaveLength(64);
     expect(coverage.onTypicalValues).toBe(
       coverage.towns -
         coverage.researched.filter((row) => row.read.length > 0).length,
@@ -108,7 +112,7 @@ describe("a town nobody has read", () => {
     // ICMA 2018 as ChatGPT reported it: 5 seats 39.3%, 7 seats 26.1%, 4-year
     // terms 63.6% of those with a stated length.
     const unread = allGovernmentUnits()
-      .map(localGoverningBodyRules)
+      .map((unit) => localGoverningBodyRules(unit))
       .filter(
         (rules) => rules !== null && rules.researchedGovernmentKey === null,
       );
@@ -118,7 +122,31 @@ describe("a town nobody has read", () => {
     expect(share((r) => r!.seats!.value === 5)).toBeCloseTo(0.393, 1);
     expect(share((r) => r!.seats!.value === 7)).toBeCloseTo(0.261, 1);
     expect(share((r) => r!.termYears!.value === 4)).toBeCloseTo(0.652, 1);
-    expect(share((r) => r!.seats!.value >= 8)).toBeCloseTo(0.101, 1);
+  });
+
+  it("gives the large councils only to towns of 2,500 people or more", () => {
+    // ICMA's "8 or more" band (10.1%) is drawn only where the town is known
+    // to be at least ICMA's smallest population group.
+    const rows = allGovernmentUnits().flatMap((unit) => {
+      const rules = localGoverningBodyRules(unit);
+      const population = unit.placeGeoid
+        ? placePopulation(unit.placeGeoid)
+        : null;
+      return rules &&
+        rules.researchedGovernmentKey === null &&
+        population !== null
+        ? [{ seats: rules.seats!.value, population }]
+        : [];
+    });
+    const small = rows.filter((row) => row.population < SMALL_TOWN_POPULATION);
+    const large = rows.filter((row) => row.population >= SMALL_TOWN_POPULATION);
+    expect(small.length).toBeGreaterThan(5_000);
+    expect(small.every((row) => row.seats < 8)).toBe(true);
+    expect(
+      large.filter((row) => row.seats >= 8).length / large.length,
+    ).toBeCloseTo(0.101, 1);
+    // Balta, North Dakota, about 60 people, drew eleven seats before.
+    expect(rulesAt("3804580").seats).toEqual({ value: 6, basis: "typical" });
   });
 });
 

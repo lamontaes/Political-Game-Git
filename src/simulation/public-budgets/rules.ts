@@ -53,27 +53,15 @@ export const OPENING_DRAW_SD = 0.05;
 
 /**
  * Pension opening. The actuarial liability as a multiple of a year's general
- * spending, the funded ratio, the normal cost and benefits paid as shares of
- * the liability, the assumed return, and the amortization period for the
- * unfunded part. PLACEHOLDER, research: public-pension-funding-by-state.
+ * spending, the assumed return, and the amortization period for the unfunded
+ * part. PLACEHOLDER, research: public-pension-funding-by-state. Each
+ * government's normal cost and benefits paid are its own plans'
+ * (`pensionFlows` in `pension-share.ts`).
  */
 export const PENSION = {
   liabilityToSpending: 1.2,
-  fundedRatio: 0.75,
-  normalCostShare: 0.02,
-  benefitShare: 0.08,
   assumedReturn: 0.07,
   amortizationYears: 30,
-} as const;
-
-/**
- * Minimum reserve law: the floor as a share of a year's spending, and the
- * most the adopted budget sets aside toward it in one year. PLACEHOLDER,
- * research: state-balanced-budget-and-reserve-rules.
- */
-export const RESERVE = {
-  floorShareOfSpending: 0.05,
-  yearlyDepositShareOfSpending: 0.01,
 } as const;
 
 /**
@@ -104,34 +92,58 @@ export const ECONOMY_ELASTICITY: Readonly<Record<BudgetSource, number>> = {
 };
 
 /**
- * The revenue change each yes-or-no tax question makes, as a share of its
- * source. Null: not researched yet, so an answer moves no money and the
- * budget says so. research: tax-question-revenue-effects.
+ * The revenue change a state's tax law makes when it moves from the answer
+ * the state began with: `toYes` when a "no" becomes "yes", `toNo` when a
+ * "yes" becomes "no", each as a share of the source. Null: not researched
+ * yet, so that change moves no money. Each size is one state's fiscal note
+ * divided by that state's own collections in the Census Bureau's 2022 state
+ * finances (`data/research/money/state-local-finances-2022.json`), the base
+ * the budget opens from; one note each, so ESTIMATED FROM AVERAGE until more
+ * are read. research: tax-question-revenue-effects.
  */
 export const TAX_QUESTION_EFFECTS: readonly {
   readonly questionKey: string;
   readonly source: BudgetSource;
-  readonly shareChange: number | null;
+  readonly toYes: number | null;
+  readonly toNo: number | null;
+  readonly basis: string;
 }[] = [
   {
     questionKey: "us-policy-positions:fiscal.adopt-income-tax",
     source: "individualIncomeTax",
-    shareChange: null,
+    toYes: null,
+    // A repeal ends the tax: a state with no income tax collects none.
+    toNo: -1,
+    basis:
+      "A repeal ends the tax, so the state collects none; adopting one needs a level, not a share, and is not researched.",
   },
   {
     questionKey: "us-policy-positions:fiscal.graduated-income-tax",
     source: "individualIncomeTax",
-    shareChange: null,
+    // Illinois' 2020 graduated-rate amendment: the $3.4 billion a year the
+    // rates passed with it were estimated to raise, over Illinois' $22.70
+    // billion (2022).
+    toYes: 3.4 / 22.7,
+    // Iowa's 2024 SF 2442, which replaced the brackets due in 2025 with a
+    // flat 3.8% rate: $605.3 million in its first full year (FY 2026, Iowa
+    // Legislative Services Agency fiscal note), over Iowa's $4.97 billion.
+    toNo: -0.6053 / 4.97,
+    basis:
+      "Illinois 2020 graduated-rate estimate ($3.4 billion a year) and Iowa SF 2442 fiscal note, final action ($605.3 million in FY 2026), each over the state's 2022 individual income tax collections (Census Bureau).",
   },
   {
     questionKey: "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
     source: "generalSalesTax",
-    shareChange: null,
+    toYes: null,
+    toNo: null,
+    basis: "Not researched.",
   },
   {
     questionKey: "us-policy-positions:fiscal.cap-property-tax-growth",
     source: "propertyTax",
-    shareChange: null,
+    toYes: null,
+    toNo: null,
+    basis: "Not researched: a cap slows growth rather than moving a level.",
   },
 ];
 

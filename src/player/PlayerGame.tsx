@@ -114,6 +114,7 @@ import { PressSourceDesk } from "./PressSourceDesk";
 import { RecallCardsPanel } from "./RecallCardsPanel";
 import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
 import { JudicialOfficeWork } from "./JudicialOfficeWork";
+import { LegalRecordPanel, SelfRecordTabs } from "./LegalRecord";
 import { judicialOfficeContexts } from "../simulation/judicial-office-work";
 import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
 import { GoverningBriefing } from "./GoverningBriefing";
@@ -306,6 +307,7 @@ import {
 } from "./ShellWorkspaces";
 import { GuideWorkspace } from "./GuideWorkspace";
 import { GuideHelpProvider } from "./GuideTerm";
+import { GuideHighlighter } from "./GuideHighlighter";
 import { PlayerVersion } from "./PlayerVersion";
 import { ReturnToTitleAction } from "./ReturnToTitleAction";
 import {
@@ -332,6 +334,11 @@ const PoliticalMap = lazy(() => import("../maps/PoliticalMap"));
  * pins change) instead of a fresh object on every render.
  */
 const mapFocusByPins = new WeakMap<readonly ShellPin[], PoliticalMapFocus>();
+/* The guide marks civic terms anywhere on the page while a life is open. */
+function documentBody(): Element | null {
+  return typeof document === "undefined" ? null : document.body;
+}
+
 function mapFocusForPins(pins: readonly ShellPin[]): PoliticalMapFocus {
   const cached = mapFocusByPins.get(pins);
   if (cached) return cached;
@@ -2309,6 +2316,19 @@ function PlayingScreen({
 
   return (
     <TimeCommandProvider runner={timeRunner}>
+      <GuideHelpProvider
+        help={{
+          learnedKeys: shell.preferences.learnedGuideTermKeys,
+          setLearned: (semanticKey, learned) =>
+            dispatch({ type: "set-guide-term-learned", semanticKey, learned }),
+          openGuide: (semanticKey) => {
+            setGuideTermKey(semanticKey);
+            dispatch({ type: "go-to-surface", surface: "guide" });
+          },
+        }}
+      >
+        <GuideHighlighter root={documentBody} />
+      </GuideHelpProvider>
       <SavedAppearanceProvider value={shell.personWardrobes}>
         <SavedRenderSnapshotsProvider value={renderSnapshots}>
           <main
@@ -2638,7 +2658,10 @@ function PlayingScreen({
                     onControlChange(next, base, { kind: "observing" })
                   }
                   onOpenRecord={() =>
-                    dispatch({ type: "go-to-surface", surface: "world-record" })
+                    dispatch({
+                      type: "go-to-surface",
+                      surface: "world-record",
+                    })
                   }
                 />
                 {continuation && !showContinuation ? (
@@ -3270,6 +3293,27 @@ function renderWorkspace({
         session.personId,
         dossier.personId,
       );
+      const fullDossier = (
+        <FullDossier
+          world={session.world}
+          playerId={session.personId}
+          dossier={dossier}
+          pinned={pinnedRef({ kind: "person", id: dossier.personId })}
+          onTogglePin={() =>
+            togglePin({ kind: "person", id: dossier.personId })
+          }
+          onTalk={() => talkTo(dossier.personId)}
+          {...(readOnly
+            ? {}
+            : { onContact: () => openContact(dossier.personId) })}
+          onMeet={() => dispatch({ type: "go-to-scene" })}
+          talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
+          onOpenLink={openEntity}
+          onOpenPerson={(personId) =>
+            openEntity({ kind: "person", id: personId })
+          }
+        />
+      );
       return frame(
         dossier.name,
         "person-workspace",
@@ -3283,25 +3327,21 @@ function renderWorkspace({
               dispatch({ type: "set-person-wardrobe", preference })
             }
           />
-          <FullDossier
-            world={session.world}
-            playerId={session.personId}
-            dossier={dossier}
-            pinned={pinnedRef({ kind: "person", id: dossier.personId })}
-            onTogglePin={() =>
-              togglePin({ kind: "person", id: dossier.personId })
-            }
-            onTalk={() => talkTo(dossier.personId)}
-            {...(readOnly
-              ? {}
-              : { onContact: () => openContact(dossier.personId) })}
-            onMeet={() => dispatch({ type: "go-to-scene" })}
-            talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
-            onOpenLink={openEntity}
-            onOpenPerson={(personId) =>
-              openEntity({ kind: "person", id: personId })
-            }
-          />
+          {dossier.personId === session.personId ? (
+            <SelfRecordTabs
+              record={fullDossier}
+              legal={
+                <LegalRecordPanel
+                  world={session.world}
+                  personId={session.personId}
+                  readOnly={readOnly}
+                  onWorldChange={onWorldChange}
+                />
+              }
+            />
+          ) : (
+            fullDossier
+          )}
         </>,
         "Record",
       );

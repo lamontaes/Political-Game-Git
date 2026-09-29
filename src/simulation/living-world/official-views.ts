@@ -2,10 +2,12 @@ import { ageOnDate } from "../dates";
 import { createStableId } from "../ids";
 import {
   OFFICIAL_VIEW_TRANSITION_KEY,
+  monthlyPay,
   officialViewReflectionKey,
   recordHeardExposure,
 } from "../law-exposure";
 import { OFFICIAL_VIEW_BASE_POINTS as BASE_POINTS } from "../official-view-reads";
+import { confidantsOf } from "../confidants";
 import {
   activePartnershipsAt,
   activeWorkRelationshipsAt,
@@ -13,7 +15,11 @@ import {
 } from "../life-queries";
 import { SYNTHETIC_MIND_IDS } from "../mind-catalog";
 import { latestPersonalityTendency } from "../queries";
-import { SeededRng, pickDistinct } from "../rng";
+import {
+  readRelationshipStanding,
+  type StandingBand,
+} from "../relationship-standing";
+import { sharedPlaceAcquaintances } from "../shared-places";
 import type {
   EntityId,
   FutureDueItem,
@@ -57,30 +63,24 @@ export {
 // law they signed; a legislator's single vote carries less.
 const EXECUTIVE_VISIBILITY = 1;
 const LEGISLATOR_VISIBILITY = 0.6;
-// PLACEHOLDER, approved provisional: about 11 percent of people can recall
-// their state legislator, so blame for one vote reaches only an informed
-// minority of those it touched. A close news follower is likelier to know;
-// the two rates below keep the population average at 11 percent when 22
-// percent follow closely.
-const KNOWS_VOTE_CLOSE_FOLLOWER = 0.3;
-const KNOWS_VOTE_OTHERS = (0.11 - 0.22 * KNOWS_VOTE_CLOSE_FOLLOWER) / 0.78;
-// PLACEHOLDER, approved provisional (Pew 2024): the share who follow local
-// news very closely, by age: 9 percent at 18 to 29, 35 percent at 65 and
-// older, 22 percent overall (used for the ages between).
-const FOLLOWS_CLOSELY_YOUNG = 0.09;
-const FOLLOWS_CLOSELY_MIDDLE = 0.22;
-const FOLLOWS_CLOSELY_OLDER = 0.35;
-// PLACEHOLDER, approved provisional: people have about 2 to 4 political
-// discussion partners, and about half talk politics at least a few times a
-// week. Each of up to three people someone knows hears about the law with
-// even odds.
+// SET BY HAND from the finding that people have about 2 to 4 political
+// discussion partners (Huckfeldt and Sprague, 1995): someone tells at most
+// the three people closest to them.
 const DISCUSSION_PARTNERS = 3;
-const TELLS_EACH = 0.5;
-// PLACEHOLDER: what a friend went through moves a view less than one's own
-// or a family member's.
-const FRIEND_SHARE = 0.25;
-// PLACEHOLDER: a family member's paycheck is felt at home, less than one's own.
-const FAMILY_SHARE = 0.5;
+// SET BY HAND from Pew (2024): 35 percent of people 65 and older follow local
+// news very closely, against 9 percent at 18 to 29. From this age someone with
+// no job to go to has the time and the habit of the older news audience.
+const RETIREMENT_AGE = 65;
+// SET BY HAND: what someone else went through moves a view as much as the
+// hearer cares about the teller. People feel more for those they are closer to
+// (Cialdini and others, 1997), so a strong tie passes on half of it, a marked
+// one a quarter, and a slight one or none an eighth.
+const HEARD_BY_WARMTH: Readonly<Record<StandingBand, number>> = {
+  strong: 1 / 2,
+  marked: 1 / 4,
+  slight: 1 / 8,
+  none: 1 / 8,
+};
 // PLACEHOLDER, approved provisional: partisans are anchored. Blame for their
 // own party's official, and credit for the other party's, count half.
 const PARTY_ANCHOR = 0.5;
@@ -184,45 +184,50 @@ export function officialsBehind(
   return acts;
 }
 
-/** Whether this person learned how this legislator voted on the law. */
+/**
+ * Whether this person learned how this legislator voted on the law: they
+ * follow the news closely, or they know the legislator themselves. About 11
+ * percent of people can name their state legislator (Johns Hopkins, 2018);
+ * that is a check on the total, never a chance for one person.
+ */
 export function knowsVote(
   world: World,
   exposure: LawExposureRecord,
   officialId: EntityId,
 ): boolean {
-  const rng = new SeededRng(world.seed).fork(
-    `${V}:knows:${exposure.personId}:${exposure.measureId}:${officialId}`,
-  );
   return (
-    rng.next() <
-    (followsNewsClosely(world, exposure.personId)
-      ? KNOWS_VOTE_CLOSE_FOLLOWER
-      : KNOWS_VOTE_OTHERS)
+    followsNewsClosely(world, exposure.personId) ||
+    peopleKnownTo(world, exposure.personId).includes(officialId)
   );
 }
 
 /**
- * A person's news habit: whether they follow local news very closely. Seeded
- * once per person and shaped by age, so it holds across laws.
- * NOT MODELED: interests and temperament beyond age.
+ * A person's news habit: whether they follow local news very closely. It
+ * comes from who they are: someone curious seeks the news out, and someone of
+ * retirement age with no job to go to has the time and the habit of the older
+ * news audience.
  */
 export function followsNewsClosely(world: World, personId: EntityId): boolean {
   const person = world.people[personId];
   if (!person) return false;
-  const age = ageOnDate(person.birthDate, world.currentDate);
-  const share =
-    age < 30
-      ? FOLLOWS_CLOSELY_YOUNG
-      : age >= 65
-        ? FOLLOWS_CLOSELY_OLDER
-        : FOLLOWS_CLOSELY_MIDDLE;
-  return new SeededRng(world.seed).fork(`${V}:news:${personId}`).next() < share;
+  const curiosity = latestPersonalityTendency(
+    world,
+    personId,
+    SYNTHETIC_MIND_IDS.tendencies.curiosity,
+  )?.expressionKey;
+  if (curiosity === "curious") return true;
+  return (
+    ageOnDate(person.birthDate, world.currentDate) >= RETIREMENT_AGE &&
+    activeWorkRelationshipsAt(world, personId).length === 0
+  );
 }
 
 /**
  * The people someone knows, from the game's own records: the others in their
  * home who are not their partner (a partner already feels the law as family),
- * the people they work alongside, and anyone they have a recorded moment with.
+ * the people they work alongside, anyone they have a recorded moment with, and
+ * the people they share a room with now: a council, a congregation, a club, or
+ * a child's class at school (`sharedPlaceAcquaintances`).
  */
 export function peopleKnownTo(
   world: World,
@@ -266,24 +271,33 @@ export function peopleKnownTo(
     if (row.personIds.includes(personId))
       for (const other of row.personIds)
         if (world.people[other] && !partners.has(other)) known.add(other);
+  for (const other of sharedPlaceAcquaintances(world, personId))
+    if (!partners.has(other)) known.add(other);
   known.delete(personId);
   return [...known].sort();
 }
 
-/** Whom a person tells about what a law did to them: seeded, at most three. */
+/**
+ * Whom a person tells about what a law did to them: the people closest to
+ * them among those they know, at most three. Someone who avoids conflict keeps
+ * politics to themselves (Ulbig and Funk, 1999, on conflict avoidance and
+ * political talk).
+ */
 function hearersOf(
   world: World,
   exposure: LawExposureRecord,
 ): readonly EntityId[] {
+  const conflict = latestPersonalityTendency(
+    world,
+    exposure.personId,
+    SYNTHETIC_MIND_IDS.tendencies.conflictApproach,
+  )?.expressionKey;
+  if (conflict === "conflict-averse") return [];
   // The player can hear it too; they just decide for themselves what it means.
-  const known = peopleKnownTo(world, exposure.personId);
-  const rng = new SeededRng(world.seed).fork(`${V}:tells:${exposure.id}`);
-  const partners = pickDistinct(
-    rng,
-    known,
-    Math.min(DISCUSSION_PARTNERS, known.length),
-  );
-  return partners.filter((personId) => rng.fork(personId).next() < TELLS_EACH);
+  const known = new Set(peopleKnownTo(world, exposure.personId));
+  return confidantsOf(world, exposure.personId)
+    .filter((personId) => known.has(personId))
+    .slice(0, DISCUSSION_PARTNERS);
 }
 
 function reasonsFor(
@@ -296,15 +310,10 @@ function reasonsFor(
   const made = act.act !== "voted-against";
   const sign = exposure.direction === "cost" ? (made ? -1 : 1) : made ? 1 : -1;
   const felt =
-    felt01(exposure) *
+    felt01(world, exposure) *
     (act.executive ? EXECUTIVE_VISIBILITY : LEGISLATOR_VISIBILITY) *
     lens(world, exposure.personId);
-  const share =
-    exposure.relation === "family"
-      ? FAMILY_SHARE
-      : exposure.relation === "friend"
-        ? FRIEND_SHARE
-        : 1;
+  const share = heardShare(world, exposure);
   const own = Math.round(sign * BASE_POINTS * felt * share);
   if (own === 0) return [];
   const reasons: OfficialViewReason[] = [
@@ -326,10 +335,34 @@ function reasonsFor(
   return reasons;
 }
 
-/** How hard the law landed, 0 to 1: its money next to the person's pay. */
-function felt01(exposure: LawExposureRecord): number {
+/**
+ * How much of what happened to someone else reaches the hearer's own view:
+ * all of their own and their household's, and of a friend's story as much as
+ * they care about the one who told it.
+ */
+export function heardShare(world: World, exposure: LawExposureRecord): number {
+  if (exposure.relation !== "friend" || exposure.viaPersonId === null) return 1;
+  const warmth = readRelationshipStanding(
+    world,
+    exposure.personId,
+    exposure.viaPersonId,
+  ).readings.warmth.band;
+  return HEARD_BY_WARMTH[warmth];
+}
+
+/**
+ * How hard the law landed, 0 to 1: its money next to the pay it comes out of.
+ * A partner's paycheck lands in a shared household, so a partner weighs it
+ * against both their pays together (couples pool their income; Pahl, 1989).
+ */
+function felt01(world: World, exposure: LawExposureRecord): number {
   if (exposure.amount === null) return 0;
-  const pay = exposure.monthlyPay?.minorUnits ?? 0;
+  const household =
+    exposure.relation === "family" && exposure.viaPersonId
+      ? (monthlyPay(world, exposure.viaPersonId, exposure.recordedAt)
+          ?.minorUnits ?? 0)
+      : 0;
+  const pay = (exposure.monthlyPay?.minorUnits ?? 0) + household;
   if (pay <= 0) return UNMEASURED_WEIGHT;
   // PLACEHOLDER: a law costing a tenth of a month's pay is felt fully; the
   // square root keeps small amounts noticeable.

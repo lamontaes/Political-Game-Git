@@ -81,7 +81,13 @@ describe("recorded arrival after travel", () => {
     expect(playCalendarActivity(loaded, personId, journey.id).world).toBe(
       loaded,
     );
-    const attended = playCalendarActivity(loaded, personId, meeting.id).world;
+    // Since #727 the first Attend walks into the meeting room and the second
+    // stays through the discussion, which is what completes the meeting.
+    const entered = playCalendarActivity(loaded, personId, meeting.id).world;
+    expect(scheduledActivityState(entered, meeting.id).status).toBe(
+      "scheduled",
+    );
+    const attended = playCalendarActivity(entered, personId, meeting.id).world;
     expect(
       simulationMinutesBetween(loaded.currentMoment, attended.currentMoment),
     ).toBe(75);
@@ -122,7 +128,9 @@ describe("recorded arrival after travel", () => {
       waitMinutes: 0,
     });
     expect(serializeWorld(legacy)).toBe(before);
-    const attended = playCalendarActivity(legacy, personId, meeting.id).world;
+    const entered = playCalendarActivity(legacy, personId, meeting.id).world;
+    expect(entered).not.toBe(legacy);
+    const attended = playCalendarActivity(entered, personId, meeting.id).world;
     expect(
       simulationMinutesBetween(legacy.currentMoment, attended.currentMoment),
     ).toBe(75);

@@ -1,3 +1,4 @@
+import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
 import {
   PLACE_POPULATION_META,
   PLACE_POPULATION_ROWS,
@@ -56,3 +57,31 @@ export function placePopulationCoverage(): number {
 }
 
 export const PLACE_POPULATION_SOURCE = PLACE_POPULATION_META;
+
+const ACS_PLACE_POPULATION = acsPlaces.places as Readonly<
+  Record<string, number>
+>;
+
+/** Which published figure a town's reference population comes from. */
+export type PlacePopulationSource = "census-estimate-2025" | "acs-2020-2024";
+
+/**
+ * A town's reference population from the best figure the Census Bureau
+ * publishes for it, or null where the game holds none.
+ *
+ * The Vintage 2025 estimate covers incorporated places only. A
+ * census-designated place, such as Kittery, Maine, Urban Honolulu or East Los
+ * Angeles, has no annual estimate; for those the Bureau publishes the American
+ * Community Survey 2020-2024 five-year estimate (table B01003, in
+ * `data/research/money/place-population-acs-2024.json`, the table the public
+ * budgets already size those places by). The estimate wins where both exist.
+ */
+export function placeReferencePopulation(
+  placeGeoid: string,
+): { readonly value: number; readonly source: PlacePopulationSource } | null {
+  const estimate = placePopulation(placeGeoid);
+  if (estimate !== null)
+    return { value: estimate, source: "census-estimate-2025" };
+  const acs = ACS_PLACE_POPULATION[placeGeoid];
+  return acs === undefined ? null : { value: acs, source: "acs-2020-2024" };
+}

@@ -91,11 +91,12 @@ export function applyFindingConsequences(
 }
 
 /**
- * A finding that somebody took campaign money for themselves may go to
- * prosecutors (`justice/prosecution.ts`): a chance, likelier with each
- * finding that stands against them. The payments are on the committee's own
- * filed reports, so the evidence is documentary. When a regulator refers,
- * and everything after, is an UNRESEARCHED placeholder.
+ * A finding that somebody took campaign money for themselves goes to
+ * prosecutors (`justice/prosecution.ts`) when the record shows the violation
+ * was knowing and willful: an earlier finding for the same thing stands, or
+ * the person denied what this finding established (`regulatorRefers`). The
+ * payments are on the committee's own filed reports, so the evidence is
+ * documentary.
  */
 function referralConsequence(
   world: World,
@@ -108,7 +109,12 @@ function referralConsequence(
   if (matter.family !== "M1") return world;
   const standing = priorAdverseFindings(world, respondentId, step).length + 1;
   const key = `${step.stableKey}:${respondentId}`;
-  if (!regulatorRefers(world, key, standing)) return world;
+  const deniedIt = claimStancesBy(world, respondentId).some(
+    ({ stance }) =>
+      stance.propositionKey === `matter:${proceeding.matterId}` &&
+      stance.asserted === "denies",
+  );
+  if (!regulatorRefers({ standingFindings: standing, deniedIt })) return world;
   return referForProsecution(world, {
     stableKey: key,
     subjectPersonId: respondentId,

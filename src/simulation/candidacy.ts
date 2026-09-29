@@ -17,7 +17,7 @@ import {
   stateKeyForJurisdiction,
 } from "./life-places";
 import { factsForPerson } from "./people";
-import { isTerritoryUsps } from "./state-reference";
+import { birthConfersCitizenship, isTerritoryUsps } from "./state-reference";
 import { chiefExecutiveJurisdictionId } from "./nationwide-world/government-jurisdiction";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import {
@@ -876,6 +876,6 @@ export function citizenByBirthSince(
     lifePlaceByJurisdictionId(birthplace.jurisdictionId)
       ?.stateJurisdictionKey ??
     (jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null);
-  if (stateKey === null || stateKey === "US-AS") return null;
+  if (stateKey === null || !birthConfersCitizenship(stateKey)) return null;
   return person.birthDate;
 }

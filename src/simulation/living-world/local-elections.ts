@@ -1,6 +1,7 @@
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import { decideAnotherTerm } from "../careers/another-term";
 import { townSupportFromViews } from "../official-view-reads";
+import { townSupportFromFavors } from "../patronage/following";
 import { campaigns } from "../campaign-queries";
 import {
   cancelElectionContest,
@@ -40,6 +41,12 @@ import {
   nextTownElection,
   novemberGeneralElectionDay,
 } from "../nationwide-world/town-election-calendar";
+import {
+  appointmentCircle,
+  chooseAppointee,
+  recordAppointmentFavor,
+  recordPassedOver,
+} from "../patronage/appointments";
 import { personName } from "../people";
 
 function nameOf(world: World, personId: EntityId): string {
@@ -64,6 +71,7 @@ import {
   sittingLocalOfficers,
 } from "./local-government-seats";
 import type { SeatedLocalOffice } from "./local-government-seats";
+import { peopleKnownTo } from "./official-views";
 import { playerTown, townRoster } from "./town-residents";
 
 /**
@@ -935,7 +943,9 @@ function countVotes(
     const base = 0.6 + rng.next() * 0.8;
     // Spec 5: what residents think of what the candidate did in office.
     const views = townSupportFromViews(world, town, id, electionDate);
-    return (id === incumbent ? base * P.incumbentEdge : base) * views;
+    // What the households who owe the candidate a job or a seat do with it.
+    const debts = townSupportFromFavors(world, town, id, electionDate);
+    return (id === incumbent ? base * P.incumbentEdge : base) * views * debts;
   });
   const total = support.reduce((sum, value) => sum + value, 0);
   const votes = support.map((value) =>
@@ -1232,17 +1242,65 @@ export function localGovernmentYearHandler(
     } else {
       next = endSeat(next, holder, `Died while holding ${phrase}`, key);
     }
-    const drawn = drawTownResident(
-      next,
-      town,
-      `local-appointment:${key}`,
-      0,
-      P.minimumCandidateAge,
-      excluded,
-      taken,
+    // The mayor names someone they know who lives in the town
+    // (appointments-v1), or somebody a council member knows and puts forward:
+    // a council fills a vacancy from the names its members bring. Only when
+    // there is no other mayor, or nobody any of them knows is eligible, does
+    // the body's appointee come from the town roster.
+    const sitting = sittingLocalOfficers(next, unit).filter(
+      (officer) =>
+        officer.personId !== holder.personId && alive(next, officer.personId),
     );
+    const mayor = sitting.find((officer) => officer.mayor);
+    const putForward = mayor
+      ? [
+          ...new Set(
+            sitting
+              .filter((officer) => officer.personId !== mayor.personId)
+              .flatMap((officer) => peopleKnownTo(next, officer.personId)),
+          ),
+        ].sort()
+      : [];
+    const post = { officeKey: `${unit.id}:${seat}`, title: label };
+    const choice = mayor
+      ? chooseAppointee(next, {
+          stableKey: key,
+          appointerPersonId: mayor.personId,
+          post,
+          circle: appointmentCircle(next, mayor.personId, putForward),
+          eligible: (personId) => {
+            const person = next.people[personId];
+            return (
+              !!person &&
+              !excluded.has(personId) &&
+              alive(next, personId) &&
+              person.homeJurisdictionId === town &&
+              ageOnDate(person.birthDate, next.currentDate) >=
+                P.minimumCandidateAge
+            );
+          },
+        })
+      : null;
+    const drawn = choice
+      ? { world: choice.world, personId: choice.personId }
+      : drawTownResident(
+          next,
+          town,
+          `local-appointment:${key}`,
+          0,
+          P.minimumCandidateAge,
+          excluded,
+          taken,
+        );
     next = drawn.world;
     if (!drawn.personId) continue;
+    if (choice && mayor)
+      next = recordPassedOver(next, {
+        stableKey: key,
+        appointerPersonId: mayor.personId,
+        passedOver: choice.passedOver,
+        post,
+      });
     excluded.add(drawn.personId);
     next = takeSeat(next, unit, drawn.personId, seat, label, key);
     next = event(next, {
@@ -1250,10 +1308,27 @@ export function localGovernmentYearHandler(
       type: "local.vacancy-appointed",
       town,
       label: office.governmentName,
-      involved: [drawn.personId, holder.personId],
+      involved:
+        choice && mayor
+          ? [drawn.personId, holder.personId, mayor.personId]
+          : [drawn.personId, holder.personId],
       tags: [`unit:${unit.id}`, `seat:${seat}`],
-      summary: `${office.bodyName} appointed ${nameOf(next, drawn.personId)} to ${phrase} until the next election.`,
+      summary:
+        choice && mayor
+          ? `Mayor ${nameOf(next, mayor.personId)} appointed ${nameOf(next, drawn.personId)} to ${phrase} until the next election.`
+          : `${office.bodyName} appointed ${nameOf(next, drawn.personId)} to ${phrase} until the next election.`,
     });
+    if (choice && mayor)
+      next = recordAppointmentFavor(next, {
+        stableKey: key,
+        appointerPersonId: mayor.personId,
+        appointeePersonId: drawn.personId,
+        post,
+        eventId: next.history.events.find(
+          (row) => row.stableKey === `${key}:appointed`,
+        )!.id,
+        subject: { kind: "none" },
+      });
     vacancies += 1;
   }
   if (player) next = scheduleYear(next, unit, town, player);
