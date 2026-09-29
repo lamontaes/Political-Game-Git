@@ -2252,6 +2252,26 @@
       "to": "disaster.damage"
     },
     {
+      "key": "container-deposit-to-recycling",
+      "from": "law:us-policy-positions:environment-energy.bottle-deposit",
+      "to": "env.container-recycling-pct",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 43,
+      "per": "law in force says yes (1) rather than no (0), in percentage points of beverage containers recycled",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "O",
+      "evidence": "researched",
+      "anchor": "Containers on deposit are recycled at 64% and containers without one at about 26% (38 points); states with a deposit law recycle 74% of their beverage containers and states without one about 26% (48 points). A new program takes about a year to open its return points",
+      "source": "Container Recycling Institute, Bottle Bills (container-recycling.org/bottle-bills), and its 2023 redemption data (August 6, 2024)",
+      "range": [38, 48],
+      "floor": -100,
+      "ceiling": 101
+    },
+    {
       "key": "unemployment-to-uninsured",
       "to": "health.uninsured-pct",
       "strength": "strong",
