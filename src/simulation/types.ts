@@ -131,6 +131,8 @@ export type EntityKind =
   | "legislative-measure"
   | "legislative-negotiation"
   | "legislative-provision"
+  | "chamber-rule-change"
+  | "item-veto"
   | "legislative-referral"
   | "legislative-vote"
   | "fact"
@@ -4208,6 +4210,7 @@ export interface HistoryStore {
    * written before chambers could change their rules.
    */
   readonly chamberRuleChanges?: readonly ChamberRuleChangeRecord[];
+  readonly itemVetoes?: readonly ItemVetoRecord[];
   readonly legislativeDraftLineages?: readonly LegislativeDraftLineageRecord[];
   /**
    * Player office workflow preferences. Optional on old saves. Bound to a
@@ -4853,6 +4856,25 @@ export interface ChamberRuleChangeRecord {
   /** The recorded vote that adopted it, where one did. */
   readonly adoptedByVoteId: EntityId | null;
   /** Why, in plain words, as the chamber's record would give it. */
+  readonly rationale: string;
+  readonly eventId: EntityId;
+}
+
+/**
+ * An executive's veto of one section of a bill it otherwise signed, where the
+ * constitution gives an item veto (Build 25 step 5). The section stays on the
+ * record of every vote taken before the signing and is not part of the law.
+ */
+export interface ItemVetoRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly measureId: EntityId;
+  readonly provisionId: EntityId;
+  readonly executiveDispositionId: EntityId;
+  /** The signing's own sequence: the section is out of the law from it on. */
+  readonly dispositionSequence: number;
+  readonly actorPersonId: EntityId | null;
   readonly rationale: string;
   readonly eventId: EntityId;
 }

@@ -121,6 +121,11 @@ export function sectionsBefore(
       record.supersedesProvisionId ? [record.supersedesProvisionId] : [],
     ),
   );
+  // A section the executive struck with an item veto is out of the bill from
+  // the signing on; every vote before the signing still read it.
+  for (const veto of world.history.itemVetoes ?? [])
+    if (veto.measureId === measureId && veto.dispositionSequence < sequence)
+      replaced.add(veto.provisionId);
   return recorded
     .filter((record) => !replaced.has(record.id))
     .sort((a, b) => a.sectionNumber - b.sectionNumber);

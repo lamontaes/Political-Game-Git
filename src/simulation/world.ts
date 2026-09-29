@@ -2104,6 +2104,8 @@ function validateHistoryIntegrity(
         ...(history.officeStaffIncumbencies ?? []),
         ...(history.officeVoteInstructions ?? []),
         ...(history.officeBriefingInspections ?? []),
+        ...(history.chamberRuleChanges ?? []),
+        ...(history.itemVetoes ?? []),
         ...history.events,
         ...history.memories,
         ...history.knowledge,
@@ -2190,6 +2192,7 @@ function validateHistoryIntegrity(
     history.chamberRuleChanges ?? [],
     "chamber rule change",
   );
+  assertSequenceOrdered(history.itemVetoes ?? [], "item veto");
   assertSequenceOrdered(
     history.legislativeDraftLineages ?? [],
     "legislative draft lineage",
@@ -2415,6 +2418,7 @@ function validateHistoryIntegrity(
     history.chamberRuleChanges ?? [],
     "chamber rule change",
   );
+  assertUniqueStableKeys(history.itemVetoes ?? [], "item veto");
   assertUniqueStableKeys(
     history.legislativeDraftLineages ?? [],
     "legislative draft lineage",

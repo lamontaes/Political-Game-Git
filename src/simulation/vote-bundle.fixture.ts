@@ -50,6 +50,8 @@ export interface Setup {
   readonly world: World;
   readonly transitId: EntityId;
   readonly workRuleId: EntityId;
+  /** A question in another policy domain than the bill's. */
+  readonly offSubjectId: EntityId;
   readonly measureId: EntityId;
   readonly memberId: EntityId;
   readonly jurisdictionId: EntityId;
@@ -85,38 +87,65 @@ export function withQuestions(world: World) {
     "Work requirement for assistance",
     "Should adults receiving assistance have to work or look for work?",
   );
+  // A question in another domain, for amendments that are off the subject.
+  const elections = createPolicyDomainDefinition(
+    "test:elections",
+    "Elections",
+    "How people vote.",
+  );
+  const registrationIssue = createPolicyIssueDefinition(
+    "test:registration",
+    elections.id,
+    "Voter registration",
+    "When and how a person may register to vote.",
+  );
+  const sameDay = createPolicyPropositionDefinition(
+    "test:same-day-registration",
+    registrationIssue.id,
+    "Same-day voter registration",
+    "Should a person be able to register on the day they vote?",
+  );
   const catalog = world.policyCatalog;
   return {
     world: {
       ...world,
       policyCatalog: {
         ...catalog,
-        domains: { ...catalog.domains, [domain.id]: domain },
-        domainOrder: [...catalog.domainOrder, domain.id],
+        domains: {
+          ...catalog.domains,
+          [domain.id]: domain,
+          [elections.id]: elections,
+        },
+        domainOrder: [...catalog.domainOrder, domain.id, elections.id],
         issues: {
           ...catalog.issues,
           [transitIssue.id]: transitIssue,
           [assistanceIssue.id]: assistanceIssue,
+          [registrationIssue.id]: registrationIssue,
         },
         issueOrder: [
           ...catalog.issueOrder,
           transitIssue.id,
           assistanceIssue.id,
+          registrationIssue.id,
         ],
         propositions: {
           ...catalog.propositions,
           [transit.id]: transit,
           [workRule.id]: workRule,
+          [sameDay.id]: sameDay,
         },
         propositionOrder: [
           ...catalog.propositionOrder,
           transit.id,
           workRule.id,
+          sameDay.id,
         ],
       },
     },
     transitId: transit.id,
     workRuleId: workRule.id,
+    offSubjectId: sameDay.id,
   };
 }
 
@@ -128,6 +157,7 @@ export function billOnTheFloor(
     world: withCatalog,
     transitId,
     workRuleId,
+    offSubjectId,
   } = withQuestions(scenario.world);
   const jurisdictionId = scenario.world.history.legislativeMeasures!.find(
     (measure) => measure.id === scenario.measureId,
@@ -179,6 +209,7 @@ export function billOnTheFloor(
     world,
     transitId,
     workRuleId,
+    offSubjectId,
     measureId,
     memberId: body.members[0]!.personId!,
     jurisdictionId,

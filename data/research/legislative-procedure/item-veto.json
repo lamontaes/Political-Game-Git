@@ -21,27 +21,34 @@
       "itemVeto": "yes",
       "scope": "appropriations-only",
       "reduction": "yes",
-      "amendatory": "unknown",
+      "amendatory": "no",
       "overrideVote": "3/4 of the membership of the legislature for appropriation bills or items",
       "citation": "Alaska Const. art. II, secs. 15-16",
       "quote": "He may, by veto, strike or reduce items in appropriation bills.",
       "sourceUrl": "https://law.justia.com/constitution/alaska/constitution-2.html",
       "evidence": "primary-text-read",
-      "notes": null
+      "notes": null,
+      "estimatedFromAverage": {
+        "amendatory": "most common among read item-veto places: 27 of 34"
+      }
     },
     {
       "place": "Arizona",
       "code": "AZ",
       "itemVeto": "yes",
       "scope": "appropriations-only",
-      "reduction": "unknown",
-      "amendatory": "unknown",
+      "reduction": "no",
+      "amendatory": "no",
       "overrideVote": "2/3 of members (same procedure as a vetoed bill; BOTS notes some 3/4 cases)",
       "citation": "Ariz. Const. art. 5, sec. 7",
       "quote": "he may object to one or more of such items, while approving other portions of the bill.",
       "sourceUrl": "https://www.azleg.gov/const/5/7.htm",
       "evidence": "primary-text-read",
-      "notes": "Text read allows objection to items only; no reduction language in the section, but reduction not asserted as 'no' beyond that text."
+      "notes": "Text read allows objection to items only; no reduction language in the section, but reduction not asserted as 'no' beyond that text.",
+      "estimatedFromAverage": {
+        "reduction": "most common among read item-veto places: 30 of 43",
+        "amendatory": "most common among read item-veto places: 27 of 34"
+      }
     },
     {
       "place": "Arkansas",
@@ -63,13 +70,16 @@
       "itemVeto": "yes",
       "scope": "appropriations-only",
       "reduction": "yes",
-      "amendatory": "unknown",
+      "amendatory": "no",
       "overrideVote": "2/3 (same manner as bills)",
       "citation": "Cal. Const. art. IV, sec. 10(e)",
       "quote": "The Governor may reduce or eliminate one or more items of appropriation while approving other portions of a bill.",
       "sourceUrl": "https://law.justia.com/constitution/california/article-iv/section-10/",
       "evidence": "primary-text-read",
-      "notes": null
+      "notes": null,
+      "estimatedFromAverage": {
+        "amendatory": "most common among read item-veto places: 27 of 34"
+      }
     },
     {
       "place": "Colorado",
@@ -119,13 +129,16 @@
       "itemVeto": "yes",
       "scope": "appropriations-only",
       "reduction": "no",
-      "amendatory": "unknown",
+      "amendatory": "no",
       "overrideVote": "2/3 vote of each house (BOTS: members present)",
       "citation": "Fla. Const. art. III, sec. 8(a)",
       "quote": "The governor may veto any specific appropriation in a general appropriation bill, but may not veto any qualification or restriction without also vetoing the appropriation",
       "sourceUrl": "https://www.flsenate.gov/Laws/Constitution",
       "evidence": "primary-text-read",
-      "notes": "Limited to general appropriation bills. BOTS marks Florida's first column with an X despite this text."
+      "notes": "Limited to general appropriation bills. BOTS marks Florida's first column with an X despite this text.",
+      "estimatedFromAverage": {
+        "amendatory": "most common among read item-veto places: 27 of 34"
+      }
     },
     {
       "place": "Georgia",
@@ -273,13 +286,16 @@
       "itemVeto": "yes",
       "scope": "other",
       "reduction": "no",
-      "amendatory": "unknown",
+      "amendatory": "no",
       "overrideVote": "3/5 of members elected (repassed as other bills over veto)",
       "citation": "Md. Const. art. II, sec. 17",
       "quote": "The Governor shall have power to disapprove of any item or items of any Bills making appropriations of money embracing distinct items",
       "sourceUrl": "https://law.justia.com/constitution/maryland/article-ii/section-17/",
       "evidence": "primary-text-read",
-      "notes": "BOTS fn (w): the governor cannot veto the Budget Bill itself (it becomes law on passage, art. III, sec. 52, not read) but may item veto supplementary appropriation bills."
+      "notes": "BOTS fn (w): the governor cannot veto the Budget Bill itself (it becomes law on passage, art. III, sec. 52, not read) but may item veto supplementary appropriation bills.",
+      "estimatedFromAverage": {
+        "amendatory": "most common among read item-veto places: 27 of 34"
+      }
     },
     {
       "place": "Massachusetts",
@@ -301,13 +317,16 @@
       "itemVeto": "yes",
       "scope": "appropriations-only",
       "reduction": "no",
-      "amendatory": "unknown",
+      "amendatory": "no",
       "overrideVote": "Same as other bills over veto (BOTS: 2/3 elected and serving)",
       "citation": "Mich. Const. art. V, sec. 19",
       "quote": "The governor may disapprove any distinct item or items appropriating moneys in any appropriation bill.",
       "sourceUrl": "https://law.justia.com/constitution/michigan/article-v/section-19/",
       "evidence": "primary-text-read",
-      "notes": "Wikipedia lists Michigan with a reduction veto; that appears to refer to executive-order spending reductions (art. V, sec. 20), not an item veto on a bill."
+      "notes": "Wikipedia lists Michigan with a reduction veto; that appears to refer to executive-order spending reductions (art. V, sec. 20), not an item veto on a bill.",
+      "estimatedFromAverage": {
+        "amendatory": "most common among read item-veto places: 27 of 34"
+      }
     },
     {
       "place": "Minnesota",
@@ -315,13 +334,16 @@
       "itemVeto": "yes",
       "scope": "appropriations-only",
       "reduction": "no",
-      "amendatory": "unknown",
+      "amendatory": "no",
       "overrideVote": "2/3 of members elected to each house",
       "citation": "Minn. Const. art. IV, sec. 23",
       "quote": "he may veto one or more of the items while approving the bill.",
       "sourceUrl": "https://www.revisor.mn.gov/constitution/",
       "evidence": "primary-text-read",
-      "notes": null
+      "notes": null,
+      "estimatedFromAverage": {
+        "amendatory": "most common among read item-veto places: 27 of 34"
+      }
     },
     {
       "place": "Mississippi",
@@ -482,14 +504,18 @@
       "code": "OH",
       "itemVeto": "yes",
       "scope": "appropriations-only",
-      "reduction": "unknown",
-      "amendatory": "unknown",
+      "reduction": "no",
+      "amendatory": "no",
       "overrideVote": "3/5 of members elected in each house",
       "citation": "Ohio Const. art. II, sec. 16",
       "quote": "The governor may disapprove any item or items in any bill making an appropriation of money",
       "sourceUrl": "https://codes.ohio.gov/ohio-constitution/section-2.16",
       "evidence": "primary-text-read",
-      "notes": null
+      "notes": null,
+      "estimatedFromAverage": {
+        "reduction": "most common among read item-veto places: 30 of 43",
+        "amendatory": "most common among read item-veto places: 27 of 34"
+      }
     },
     {
       "place": "Oklahoma",
@@ -581,13 +607,16 @@
       "itemVeto": "yes",
       "scope": "appropriations-only",
       "reduction": "yes",
-      "amendatory": "unknown",
+      "amendatory": "no",
       "overrideVote": "Constitutional majority (same as other bills over veto)",
       "citation": "Tenn. Const. art. III, sec. 18",
       "quote": "The governor may reduce or disapprove the sum of money appropriated by any one or more items or parts of items in any bill appropriating money",
       "sourceUrl": "https://law.justia.com/constitution/tennessee/article-iii/section-18/",
       "evidence": "primary-text-read",
-      "notes": null
+      "notes": null,
+      "estimatedFromAverage": {
+        "amendatory": "most common among read item-veto places: 27 of 34"
+      }
     },
     {
       "place": "Texas",
@@ -595,13 +624,16 @@
       "itemVeto": "yes",
       "scope": "appropriations-only",
       "reduction": "no",
-      "amendatory": "unknown",
+      "amendatory": "no",
       "overrideVote": "2/3 of members present in each house",
       "citation": "Tex. Const. art. 4, sec. 14",
       "quote": "If any bill presented to the Governor contains several items of appropriation he may object to one or more of such items",
       "sourceUrl": "https://statutes.capitol.texas.gov/Docs/CN/htm/CN.4/CN.4.14.htm",
       "evidence": "primary-text-read",
-      "notes": null
+      "notes": null,
+      "estimatedFromAverage": {
+        "amendatory": "most common among read item-veto places: 27 of 34"
+      }
     },
     {
       "place": "Utah",
@@ -636,14 +668,17 @@
       "code": "VA",
       "itemVeto": "yes",
       "scope": "appropriations-only",
-      "reduction": "unknown",
+      "reduction": "no",
       "amendatory": "yes",
       "overrideVote": "2/3 of members present, including a majority of members elected (as for a vetoed bill)",
       "citation": "Va. Const. art. V, sec. 6",
       "quote": "The Governor shall have the power to veto any particular item or items of an appropriation bill",
       "sourceUrl": "https://law.lis.virginia.gov/constitution/article5/section6/",
       "evidence": "primary-text-read",
-      "notes": "Same section lets the governor return a bill with 'specific and severable amendments.'"
+      "notes": "Same section lets the governor return a bill with 'specific and severable amendments.'",
+      "estimatedFromAverage": {
+        "reduction": "most common among read item-veto places: 30 of 43"
+      }
     },
     {
       "place": "Washington",
@@ -665,13 +700,16 @@
       "itemVeto": "yes",
       "scope": "appropriations-only",
       "reduction": "yes",
-      "amendatory": "unknown",
+      "amendatory": "no",
       "overrideVote": "2/3 of members elected to each house",
       "citation": "W. Va. Const. art. VI, sec. 51",
       "quote": "he or she may disapprove or reduce items or parts of items contained therein.",
       "sourceUrl": "https://codes.findlaw.com/wv/west-virginia-constitution-of-1872/wv-const-art-vi-sect-51/",
       "evidence": "primary-text-read",
-      "notes": "Applies to the budget bill and supplementary appropriation bills. BOTS marks WV's first column with an X despite this text."
+      "notes": "Applies to the budget bill and supplementary appropriation bills. BOTS marks WV's first column with an X despite this text.",
+      "estimatedFromAverage": {
+        "amendatory": "most common among read item-veto places: 27 of 34"
+      }
     },
     {
       "place": "Wisconsin",
@@ -706,14 +744,18 @@
       "code": "DC",
       "itemVeto": "yes",
       "scope": "appropriations-only",
-      "reduction": "unknown",
-      "amendatory": "unknown",
+      "reduction": "no",
+      "amendatory": "no",
       "overrideVote": "2/3 of Council members present and voting, within 30 calendar days",
       "citation": "D.C. Code sec. 1-204.04(f) (Home Rule Act sec. 404(f))",
       "quote": "two-thirds of the members of the Council present and voting vote to reenact any such item or provision",
       "sourceUrl": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.04",
       "evidence": "primary-text-read",
-      "notes": "Mayor may disapprove any item or provision of an act that appropriates funds. Reenacted items also go through congressional review (not verified here)."
+      "notes": "Mayor may disapprove any item or provision of an act that appropriates funds. Reenacted items also go through congressional review (not verified here).",
+      "estimatedFromAverage": {
+        "reduction": "most common among read item-veto places: 30 of 43",
+        "amendatory": "most common among read item-veto places: 27 of 34"
+      }
     },
     {
       "place": "Puerto Rico",
@@ -721,55 +763,70 @@
       "itemVeto": "yes",
       "scope": "appropriations-only",
       "reduction": "yes",
-      "amendatory": "unknown",
+      "amendatory": "no",
       "overrideVote": "2/3 of members elected (BOTS)",
       "citation": "P.R. Const. art. III, sec. 20",
       "quote": "the Governor may eliminate one or more of such items or reduce their amounts, at the same time reducing the total amounts involved.",
       "sourceUrl": "https://law.justia.com/constitution/puerto-rico/article-iii/section-20/",
       "evidence": "primary-text-read",
-      "notes": null
+      "notes": null,
+      "estimatedFromAverage": {
+        "amendatory": "most common among read item-veto places: 27 of 34"
+      }
     },
     {
       "place": "Guam",
       "code": "GU",
       "itemVeto": "yes",
       "scope": "other",
-      "reduction": "unknown",
-      "amendatory": "unknown",
+      "reduction": "no",
+      "amendatory": "no",
       "overrideVote": "2/3 of all members of the legislature (BOTS: 10 votes)",
       "citation": "48 U.S.C. sec. 1423i",
       "quote": "he may object to one or more of such items, or any part or parts, portion or portions thereof",
       "sourceUrl": "https://www.law.cornell.edu/uscode/text/48/1423i",
       "evidence": "primary-text-read",
-      "notes": "Organic Act allows vetoing parts or portions of appropriation items, not just whole items."
+      "notes": "Organic Act allows vetoing parts or portions of appropriation items, not just whole items.",
+      "estimatedFromAverage": {
+        "reduction": "most common among read item-veto places: 30 of 43",
+        "amendatory": "most common among read item-veto places: 27 of 34"
+      }
     },
     {
       "place": "U.S. Virgin Islands",
       "code": "VI",
       "itemVeto": "yes",
       "scope": "other",
-      "reduction": "unknown",
-      "amendatory": "unknown",
+      "reduction": "no",
+      "amendatory": "no",
       "overrideVote": "2/3 of all members of the legislature",
       "citation": "48 U.S.C. sec. 1575(d)",
       "quote": "he may object to one or more of such items, or any part or parts, portion or portions thereof",
       "sourceUrl": "https://www.law.cornell.edu/uscode/text/48/1575",
       "evidence": "primary-text-read",
-      "notes": "BOTS fn (ccc): may item veto language or amounts in a bill with two or more appropriations."
+      "notes": "BOTS fn (ccc): may item veto language or amounts in a bill with two or more appropriations.",
+      "estimatedFromAverage": {
+        "reduction": "most common among read item-veto places: 30 of 43",
+        "amendatory": "most common among read item-veto places: 27 of 34"
+      }
     },
     {
       "place": "American Samoa",
       "code": "AS",
       "itemVeto": "yes",
       "scope": "appropriations-only",
-      "reduction": "unknown",
-      "amendatory": "unknown",
+      "reduction": "no",
+      "amendatory": "no",
       "overrideVote": "2/3 of members elected (BOTS); then referral to the Secretary of the Interior per Wikipedia",
       "citation": null,
       "quote": null,
       "sourceUrl": "https://bookofthestates.org/tables/2022-3-16/",
       "evidence": "secondary-summary",
-      "notes": "Revised Constitution not read (asbar.org refused). Wikipedia: governor may forward an overridden bill to the Secretary of the Interior, who has 90 days to approve."
+      "notes": "Revised Constitution not read (asbar.org refused). Wikipedia: governor may forward an overridden bill to the Secretary of the Interior, who has 90 days to approve.",
+      "estimatedFromAverage": {
+        "reduction": "most common among read item-veto places: 30 of 43",
+        "amendatory": "most common among read item-veto places: 27 of 34"
+      }
     },
     {
       "place": "Northern Mariana Islands",

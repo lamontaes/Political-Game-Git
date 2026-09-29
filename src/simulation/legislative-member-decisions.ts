@@ -85,6 +85,12 @@ export interface MemberVoteQuestion {
    * mind.
    */
   readonly knownTo?: EntityId;
+  /**
+   * Who offered the amendment on an amendment question. Colleagues take
+   * their party cue from the author of the amendment, not from the bill's
+   * sponsor. Omitted where the author is not recorded as a person.
+   */
+  readonly offeredBy?: EntityId;
 }
 
 export interface DeriveMemberDispositionInput {
@@ -531,7 +537,7 @@ function capitalize(value: string): string {
 }
 
 /** The bill's answers with hypothetical parts laid over them. */
-function withParts(
+export function withParts(
   answers: readonly PropositionAnswerRef[],
   parts: readonly PropositionAnswerRef[],
 ): readonly PropositionAnswerRef[] {

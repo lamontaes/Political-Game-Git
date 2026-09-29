@@ -23,6 +23,7 @@ import type {
 } from "../types";
 import { measureAnswersAt } from "../vote-bundle";
 import { decideChamberVote } from "./chamber-votes";
+import { holdsPrinciples, principleView } from "./officeholder-principles";
 
 /**
  * Legislators who offer amendments for their own reasons (Build 25 step 3,
@@ -122,12 +123,15 @@ function ownView(
   readonly salience: PoliticalSalience;
 } | null {
   const belief = latestPrivateBelief(world, personId, propositionId);
-  if (belief?.position !== "support" && belief?.position !== "oppose")
-    return null;
-  return {
-    answer: belief.position === "support" ? "yes" : "no",
-    salience: belief.salience,
-  };
+  if (belief?.position === "support" || belief?.position === "oppose")
+    return {
+      answer: belief.position === "support" ? "yes" : "no",
+      salience: belief.salience,
+    };
+  // No formed view: the member's principles, where they lean on it. A
+  // formed view governs over them, as it would in the member's own vote.
+  if (belief) return null;
+  return principleView(world, personId, propositionId);
 }
 
 function strongViews(world: World, personId: EntityId) {
@@ -135,11 +139,17 @@ function strongViews(world: World, personId: EntityId) {
     EntityId,
     { readonly answer: "yes" | "no"; readonly salience: PoliticalSalience }
   >();
-  for (const belief of world.history.privateBeliefs) {
-    if (belief.personId !== personId) continue;
-    const view = ownView(world, personId, belief.propositionId);
+  const questions = new Set<EntityId>();
+  for (const belief of world.history.privateBeliefs)
+    if (belief.personId === personId) questions.add(belief.propositionId);
+  if (holdsPrinciples(world, personId))
+    for (const propositionId of world.policyCatalog.propositionOrder)
+      if (world.policyCatalog.propositions[propositionId]?.principles?.length)
+        questions.add(propositionId);
+  for (const propositionId of questions) {
+    const view = ownView(world, personId, propositionId);
     if (view && SALIENCE_RANK[view.salience] >= SALIENCE_RANK.high)
-      found.set(belief.propositionId, view);
+      found.set(propositionId, view);
   }
   return found;
 }
@@ -206,6 +216,7 @@ function amendmentQuestion(
   input: AmendmentAuthorsInput,
   part: PropositionAnswerRef,
   amendmentStableKey: string,
+  offeredBy: EntityId,
   knownTo: EntityId | undefined,
 ): MemberVoteQuestion {
   return {
@@ -224,6 +235,7 @@ function amendmentQuestion(
       addsExposureMinorUnits: 0,
       answers: [part],
     },
+    offeredBy,
     ...(knownTo ? { knownTo } : {}),
   };
 }
@@ -337,7 +349,13 @@ export function planFloorAmendment(
         "amendment",
         decideChamberVote(world, {
           stableKey: `${input.stableKey}:count-amendment:${member.memberKey}`,
-          question: amendmentQuestion(input, part, amendmentKey, knownTo),
+          question: amendmentQuestion(
+            input,
+            part,
+            amendmentKey,
+            member.personId,
+            knownTo,
+          ),
           members: seated,
         }),
       );
@@ -459,7 +477,13 @@ export function offerPlannedAmendment(
   const heading = proposition.name;
   const dispositions = decideChamberVote(world, {
     stableKey: `${stableKey}:vote`,
-    question: amendmentQuestion(input, plan.part, stableKey, undefined),
+    question: amendmentQuestion(
+      input,
+      plan.part,
+      stableKey,
+      plan.authorPersonId,
+      undefined,
+    ),
     members: input.members,
     playerPersonId:
       world.control.kind === "person" ? world.control.personId : null,

@@ -72,6 +72,10 @@ import {
   type MemberBallot,
 } from "./member-ballots";
 import { offerPlannedAmendment } from "./amendment-authors";
+import {
+  amendmentAdmissible,
+  floorStageTakesAmendments,
+} from "./chamber-procedure";
 import { decideChamberVote, seatedChamberForPack } from "./chamber-votes";
 import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 import {
@@ -621,16 +625,17 @@ export function applyInstitutionStep(
       body.members.length > 0 &&
       body.members.every((member) => member.personId) &&
       isSeatedChamber(world, blueprint) &&
-      stage.amendable.kind === "known" &&
-      stage.amendable.value &&
-      chamber.amendments.floorAmendmentsAllowed.kind === "known" &&
-      chamber.amendments.floorAmendmentsAllowed.value
+      floorStageTakesAmendments(chamber, stage)
         ? offerPlannedAmendment(world, {
             measureId,
             chamber,
             stage,
             members: body.members,
             stableKey,
+            // Only what the chamber's rules put in order, as they stand now.
+            admissible: (bill, part) =>
+              amendmentAdmissible(world, blueprint.pack, chamberKey, bill, part)
+                .admissible,
           })
         : world;
     const decided = body

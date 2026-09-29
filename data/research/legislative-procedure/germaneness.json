@@ -280,13 +280,17 @@
       "code": "HI",
       "chamber": "House",
       "chamberName": "Hawaii House of Representatives",
-      "germaneRequired": "unknown",
+      "germaneRequired": "yes",
       "sourceType": "unknown",
       "citation": "NCSL ILP Table 00-5.21, footnote 2 (2000)",
       "quote": "",
       "sourceUrl": "https://documents.ncsl.org/wwwncsl/LegislativeStaff/ASLCS/ILP/00Tab5Pt5.pdf",
-      "evidence": "secondary-summary",
-      "note": "NCSL: House rules had no germaneness provision, but 'germaneness language or tests are set forth in case law and attorney general opinion.' Haw. Const. art. III, sec. 15 (read) has no original-purpose sentence; it is a three-reading and printing rule."
+      "evidence": "estimated-from-average",
+      "note": "NCSL: House rules had no germaneness provision, but 'germaneness language or tests are set forth in case law and attorney general opinion.' Haw. Const. art. III, sec. 15 (read) has no original-purpose sentence; it is a three-reading and printing rule.",
+      "estimatedFromAverage": {
+        "basis": "most common rule among read state and territorial chambers: 83 of 83 require germane amendments",
+        "source": "research-r6 germaneness.json rows with evidence primary-text-read"
+      }
     },
     {
       "place": "Idaho",
@@ -605,13 +609,17 @@
       "code": "MS",
       "chamber": "Senate",
       "chamberName": "Mississippi Senate",
-      "germaneRequired": "unknown",
+      "germaneRequired": "yes",
       "sourceType": "unknown",
       "citation": "NCSL ILP (2000): did not return survey",
       "quote": "",
       "sourceUrl": "https://documents.ncsl.org/wwwncsl/LegislativeStaff/ASLCS/ILP/00Tab5Pt5.pdf",
-      "evidence": "unknown",
-      "note": "No NCSL data and current rules not read."
+      "evidence": "estimated-from-average",
+      "note": "No NCSL data and current rules not read.",
+      "estimatedFromAverage": {
+        "basis": "most common rule among read state and territorial chambers: 83 of 83 require germane amendments",
+        "source": "research-r6 germaneness.json rows with evidence primary-text-read"
+      }
     },
     {
       "place": "Mississippi",
@@ -800,13 +808,17 @@
       "code": "NY",
       "chamber": "Senate",
       "chamberName": "New York Senate",
-      "germaneRequired": "unknown",
+      "germaneRequired": "yes",
       "sourceType": "unknown",
       "citation": "NCSL ILP (2000): did not return survey",
       "quote": "",
       "sourceUrl": "https://documents.ncsl.org/wwwncsl/LegislativeStaff/ASLCS/ILP/00Tab5Pt5.pdf",
-      "evidence": "unknown",
-      "note": "No NCSL data and current rules not read."
+      "evidence": "estimated-from-average",
+      "note": "No NCSL data and current rules not read.",
+      "estimatedFromAverage": {
+        "basis": "most common rule among read state and territorial chambers: 83 of 83 require germane amendments",
+        "source": "research-r6 germaneness.json rows with evidence primary-text-read"
+      }
     },
     {
       "place": "New York",
@@ -982,13 +994,17 @@
       "code": "RI",
       "chamber": "Senate",
       "chamberName": "Rhode Island Senate",
-      "germaneRequired": "unknown",
+      "germaneRequired": "yes",
       "sourceType": "unknown",
       "citation": "NCSL ILP (2000): did not return survey",
       "quote": "",
       "sourceUrl": "https://documents.ncsl.org/wwwncsl/LegislativeStaff/ASLCS/ILP/00Tab5Pt5.pdf",
-      "evidence": "unknown",
-      "note": "No NCSL data and current rules not read."
+      "evidence": "estimated-from-average",
+      "note": "No NCSL data and current rules not read.",
+      "estimatedFromAverage": {
+        "basis": "most common rule among read state and territorial chambers: 83 of 83 require germane amendments",
+        "source": "research-r6 germaneness.json rows with evidence primary-text-read"
+      }
     },
     {
       "place": "Rhode Island",
@@ -1346,39 +1362,51 @@
       "code": "VI",
       "chamber": "Unicameral",
       "chamberName": "Legislature of the Virgin Islands",
-      "germaneRequired": "unknown",
+      "germaneRequired": "yes",
       "sourceType": "unknown",
       "citation": "none found",
       "quote": "",
       "sourceUrl": "https://viconsortium.com/vi-senate/virgin-islands-controversial-whistling-cay-amendment-passes-as-addition-to-non-germane-bill",
-      "evidence": "unknown",
-      "note": "Rules not located. NCSL (2000): did not return survey. A 12/20/2023 news report describes a non-germane amendment being attached and a Rule 511 (24-hour circulation) objection, but it does not show whether a germaneness rule exists."
+      "evidence": "estimated-from-average",
+      "note": "Rules not located. NCSL (2000): did not return survey. A 12/20/2023 news report describes a non-germane amendment being attached and a Rule 511 (24-hour circulation) objection, but it does not show whether a germaneness rule exists.",
+      "estimatedFromAverage": {
+        "basis": "most common rule among read state and territorial chambers: 83 of 83 require germane amendments",
+        "source": "research-r6 germaneness.json rows with evidence primary-text-read"
+      }
     },
     {
       "place": "American Samoa",
       "code": "AS",
       "chamber": "Senate",
       "chamberName": "American Samoa Senate",
-      "germaneRequired": "unknown",
+      "germaneRequired": "yes",
       "sourceType": "unknown",
       "citation": "none found",
       "quote": "",
       "sourceUrl": "",
-      "evidence": "unknown",
-      "note": "Fono rules not located within budget. NCSL (2000): did not return survey."
+      "evidence": "estimated-from-average",
+      "note": "Fono rules not located within budget. NCSL (2000): did not return survey.",
+      "estimatedFromAverage": {
+        "basis": "most common rule among read state and territorial chambers: 83 of 83 require germane amendments",
+        "source": "research-r6 germaneness.json rows with evidence primary-text-read"
+      }
     },
     {
       "place": "American Samoa",
       "code": "AS",
       "chamber": "House",
       "chamberName": "American Samoa House of Representatives",
-      "germaneRequired": "unknown",
+      "germaneRequired": "yes",
       "sourceType": "unknown",
       "citation": "none found",
       "quote": "",
       "sourceUrl": "",
-      "evidence": "unknown",
-      "note": "Fono rules not located within budget. NCSL (2000): did not return survey."
+      "evidence": "estimated-from-average",
+      "note": "Fono rules not located within budget. NCSL (2000): did not return survey.",
+      "estimatedFromAverage": {
+        "basis": "most common rule among read state and territorial chambers: 83 of 83 require germane amendments",
+        "source": "research-r6 germaneness.json rows with evidence primary-text-read"
+      }
     },
     {
       "place": "Northern Mariana Islands",
