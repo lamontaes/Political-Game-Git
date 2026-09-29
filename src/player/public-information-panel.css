@@ -14,7 +14,7 @@
   padding: 0.45rem 0.75rem;
   border: 1px solid var(--run-a-line);
   border-radius: 999px;
-  background: rgb(255 255 255 / 3%);
+  background: rgb(92 64 28 / 3%);
   color: inherit;
 }
 
@@ -22,7 +22,7 @@
   .public-information-views
   button[aria-pressed="true"] {
   border-color: var(--run-a-accent);
-  background: rgb(255 255 255 / 10%);
+  background: rgb(92 64 28 / 9%);
 }
 
 .public-information-panel .public-information-masthead {
@@ -81,7 +81,7 @@
   padding: 0.65rem 0.75rem;
   border: 1px solid var(--run-a-line);
   border-radius: 0.45rem;
-  background: rgb(255 255 255 / 3%);
+  background: rgb(92 64 28 / 3%);
 }
 
 .public-information-panel .public-information-corrections summary {
@@ -93,7 +93,7 @@
   margin: 0.75rem 0 0;
   padding: 0.75rem;
   border-radius: 0.45rem;
-  background: rgb(255 255 255 / 4%);
+  background: rgb(92 64 28 / 4%);
   color: var(--run-a-muted);
 }
 
