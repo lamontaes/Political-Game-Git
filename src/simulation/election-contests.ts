@@ -1,3 +1,4 @@
+import { majorPartyOf, statewideElectorate } from "./statewide-electorate";
 import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import {
@@ -168,6 +169,9 @@ export function evaluateDeterministicContestOutcome(
     };
   }
 
+  const statewide = statewideContestOutcome(world, contest);
+  if (statewide) return statewide;
+
   const rng = new SeededRng(world.seed).fork(
     `election-contest:${contest.id}:${contest.stableKey}:${contest.electionDate}`,
   );
@@ -197,6 +201,60 @@ export function evaluateDeterministicContestOutcome(
     winnerPersonId,
     tallies,
   };
+}
+
+/**
+ * A statewide race decided by the state's voters rather than by a draw: each
+ * major party's nominees split that party's share of the state's two-party
+ * vote, and the ballots are the state's (see `statewide-electorate.ts`).
+ * Null for a contest that is not statewide or has a candidate on neither
+ * major party's line.
+ */
+function statewideContestOutcome(
+  world: World,
+  contest: ElectionContestRecord,
+): {
+  readonly winnerPersonId: EntityId;
+  readonly tallies: readonly CandidateTally[];
+} | null {
+  const electorate = statewideElectorate(world, contest.jurisdictionId);
+  if (!electorate) return null;
+  const parties = new Map(
+    contest.candidatePersonIds.map((personId) => [
+      personId,
+      majorPartyOf(world, personId, contest.electionDate),
+    ]),
+  );
+  // The state's lean says how its voters split between the two major
+  // parties and nothing about anyone else, so a field with a candidate on
+  // neither line is left to the older count until minor parties are read.
+  if ([...parties.values()].some((party) => party === null)) return null;
+  const count = (party: string | null) =>
+    [...parties.values()].filter((value) => value === party).length;
+  const weightOf = (personId: EntityId): number =>
+    parties.get(personId) === "democratic"
+      ? electorate.democraticShare / count("democratic")
+      : (1 - electorate.democraticShare) / count("republican");
+  const weights = contest.candidatePersonIds.map((personId) => ({
+    candidatePersonId: personId,
+    weight: weightOf(personId),
+  }));
+  const total = weights.reduce((sum, entry) => sum + entry.weight, 0);
+  const tallies: CandidateTally[] = weights
+    .map((entry) => {
+      const share = entry.weight / total;
+      return {
+        candidatePersonId: entry.candidatePersonId,
+        votes: Math.round(electorate.ballots * share),
+        voteShare: Number(share.toFixed(4)),
+      };
+    })
+    .sort(
+      (a, b) =>
+        b.votes - a.votes ||
+        a.candidatePersonId.localeCompare(b.candidatePersonId),
+    );
+  return { winnerPersonId: tallies[0]!.candidatePersonId, tallies };
 }
 
 export function resolveElectionContest(
