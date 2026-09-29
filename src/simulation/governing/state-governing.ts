@@ -1,4 +1,3 @@
-import { measureAnswersAt } from "../vote-bundle";
 import { applyItemVetoes } from "./item-veto";
 import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
@@ -32,6 +31,11 @@ import type {
 } from "../types";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { recordDurableDecisionTrace } from "../decisions";
+import {
+  BILL_SIGN,
+  evaluateGovernorBill,
+  ownPartyPassageVote,
+} from "./governor-bill-decision";
 import { CLEMENCY_KIND_TAG } from "../justice/jail-terms";
 import {
   CLEMENCY_DENY,
@@ -64,17 +68,14 @@ import {
 } from "./legislative-clock";
 import {
   GOVERNING_SEASON,
-  STATE_GOVERNING_CALENDAR,
   scheduleGoverningSeasons,
 } from "./governing-calendar";
 import { ensureStateLegislatureOpening } from "../nationwide-world/state-legislature-opening";
 import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { fileMemberAgendaBill } from "./member-agenda";
-import {
-  ensureOfficeholderPrinciples,
-  principleVoteConsideration,
-} from "./officeholder-principles";
+import { ensureOfficeholderPrinciples } from "./officeholder-principles";
+import { publicPartyOf } from "./chamber-votes";
 
 /**
  * STATE GOVERNING — the shared practical loop every governorship runs.
@@ -744,6 +745,20 @@ export function governingMatterById(
     : null;
 }
 
+function billOpposedByOwnParty(
+  world: World,
+  office: GoverningOffice,
+  matter: GoverningMatter,
+): boolean {
+  if (!matter.measureId) return false;
+  const own = ownPartyPassageVote(
+    world,
+    matter.measureId,
+    publicPartyOf(world, office.holderPersonId),
+  );
+  return own.nay > own.yea;
+}
+
 /** What the chief of staff would do, with a reason; null without one. */
 export function staffRecommendation(
   world: World,
@@ -798,19 +813,19 @@ export function staffRecommendation(
             byPersonId: chief,
             reason: "It moves the office's own priority.",
           }
-        : // PLACEHOLDER: three signatures in four. How often a governor signs
-          // what reaches the desk is filed as
-          // `why-a-governor-signs-or-vetoes`; no rate is approved.
-          rng.integer(0, 3) > 0
+        : // The chief reads the floor vote: a bill the governor's own party
+          // voted down is one to send back; any other is not worth a fight.
+          billOpposedByOwnParty(world, office, matter)
           ? {
+              optionKey: "bill:return",
+              byPersonId: chief,
+              reason:
+                "The governor's own party voted against it in the legislature.",
+            }
+          : {
               optionKey: "bill:sign",
               byPersonId: chief,
               reason: `${clause(assessment.background)}, and sees no reason to pick this fight.`,
-            }
-          : {
-              optionKey: "bill:return",
-              byPersonId: chief,
-              reason: "Thinks the agencies cannot absorb it this year.",
             };
     case "program": {
       // The advice is about money that exists: a steady chief spreads it over
@@ -1781,39 +1796,63 @@ export function governingNpcDecisionHandler(
       "The officeholder decided.",
     );
   }
-  let next = world;
-  let principled: GoverningMatter["options"][number] | undefined;
   const measure =
     matter.family === "bill" && matter.measureId
-      ? next.history.legislativeMeasures?.find(
+      ? world.history.legislativeMeasures?.find(
           (entry) => entry.id === matter.measureId,
         )
       : undefined;
   if (measure) {
-    // A governor whose own principles bear on the bill more than slightly
-    // signs or returns it on them, whatever the staff advise.
-    next = ensureOfficeholderPrinciples(next, [matter.holderPersonId]);
-    // The bill as it was passed, sections amendments added included.
-    const bearing = principleVoteConsideration(
-      next,
+    // The governor signs or vetoes for reasons, all of them written down:
+    // their principles, the bill's backers, their party's floor vote, the
+    // sponsor, the override count and the staff's advice
+    // (governor-bill-decision.ts).
+    const principled = ensureOfficeholderPrinciples(world, [
       matter.holderPersonId,
+    ]);
+    const advice = staffRecommendation(principled, matter);
+    const evaluation = evaluateGovernorBill(principled, {
+      stableKey: matter.stableKey,
+      governorId: matter.holderPersonId,
       measure,
-      measureAnswersAt(next, measure.id, undefined, "all"),
+      staff: advice,
+    });
+    const traced = recordDurableDecisionTrace(principled, evaluation);
+    const option = matter.options.find(
+      (o) => o.key === (evaluation.selectedOptionKey ?? BILL_SIGN),
     );
-    if (bearing && bearing.importance !== "slight")
-      principled = matter.options.find(
-        (o) =>
-          o.key ===
-          (bearing.optionKey === "vote-yea" ? "bill:sign" : "bill:return"),
-      );
+    return resolved(
+      recordDecision(
+        traced,
+        matter,
+        option ?? null,
+        option ? "officeholder" : "lapsed",
+        matter.holderPersonId,
+      ),
+      "The officeholder decided.",
+    );
   }
+  // Other matters: the officeholder takes the advice of the staff they
+  // hired, and a new officeholder keeps or hires the steadiest candidate
+  // for chief of staff by their record.
+  const next = world;
   const recommendation = staffRecommendation(next, matter);
-  const rng = new SeededRng(`${matter.stableKey}:npc-choice`);
-  const recommended =
-    recommendation && rng.integer(0, 4) > 0
-      ? matter.options.find((o) => o.key === recommendation.optionKey)
+  const recommended = recommendation
+    ? matter.options.find((o) => o.key === recommendation.optionKey)
+    : undefined;
+  const steadiest =
+    matter.family === "chief-of-staff"
+      ? [...matter.options].sort(
+          (a, b) =>
+            (b.assessment?.steadiness ?? 0) - (a.assessment?.steadiness ?? 0),
+        )[0]
       : undefined;
-  const option = principled ?? recommended ?? rng.pick(matter.options);
+  // PLACEHOLDER (zero-dice row, left): an agenda with no chief of staff to
+  // advise still falls to a seeded pick.
+  const option =
+    recommended ??
+    steadiest ??
+    new SeededRng(`${matter.stableKey}:npc-choice`).pick(matter.options);
   return resolved(
     recordDecision(next, matter, option, "officeholder", matter.holderPersonId),
     "The officeholder decided.",
@@ -1903,11 +1942,13 @@ function budgetOutcome(
 
 function returnedBillOutcome(
   matter: GoverningMatter,
-  rng: SeededRng,
 ): FollowUpOutcome & { readonly overridden: boolean } {
   const subject = subjectLabel(matter.subjectKey);
-  const overridden =
-    rng.integer(0, 100) < STATE_GOVERNING_CALENDAR.overrideSucceedsPercent;
+  // Only an older save still holds a bill with no measure behind it, so no
+  // member can vote to override it. ESTIMATED FROM AVERAGE: most vetoes are
+  // not overridden, so the veto stands. A real bill's override is its
+  // members' own vote (legislative-clock.ts).
+  const overridden = false;
   return overridden
     ? {
         tag: "bill:overridden",
@@ -1942,7 +1983,7 @@ export function governingFollowUpHandler(
     outcome = budget;
     if (budget.funded) extraTags = [`funded:${budget.funded}`];
   } else if (matter.family === "bill") {
-    const returned = returnedBillOutcome(matter, rng);
+    const returned = returnedBillOutcome(matter);
     outcome = returned;
     if (returned.overridden) reopen = "implementation";
   } else {

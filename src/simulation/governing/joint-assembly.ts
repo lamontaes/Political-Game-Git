@@ -9,19 +9,10 @@ import {
   type StateLegislatorView,
 } from "../nationwide-world/state-legislature-opening";
 import { currentHistoricalCutoff } from "../queries";
-import {
-  readRelationshipStanding,
-  type StandingBand,
-} from "../relationship-standing";
-import type {
-  DecisionConsideration,
-  DecisionImportance,
-  EntityId,
-  IsoDate,
-  World,
-} from "../types";
+import type { DecisionConsideration, EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { principleAgreement } from "./officeholder-principles";
+import { relationshipConsiderations } from "./standing-considerations";
 
 /**
  * A STATE LEGISLATURE ELECTS A U.S. SENATOR, member by member.
@@ -128,15 +119,6 @@ export function jointAssemblyCandidates(
   return candidates;
 }
 
-const BAND_IMPORTANCE: Readonly<
-  Record<Exclude<StandingBand, "none">, DecisionImportance>
-> = { slight: "slight", marked: "moderate", strong: "strong" };
-
-function strongerBand(a: StandingBand, b: StandingBand): StandingBand {
-  const order: readonly StandingBand[] = ["none", "slight", "marked", "strong"];
-  return order.indexOf(a) >= order.indexOf(b) ? a : b;
-}
-
 function memberReasons(
   world: World,
   member: StateLegislatorView,
@@ -168,59 +150,19 @@ function memberReasons(
       explanation: "The candidate already holds the seat.",
       sourceRefs: [],
     });
-  const standing = readRelationshipStanding(
-    world,
-    member.personId,
-    candidate.personId,
+  reasons.push(
+    ...relationshipConsiderations(world, member.personId, candidate.personId, {
+      optionKey,
+      fond: {
+        stableKey: `legislator:relationship:${optionKey}`,
+        explanation: "The member knows and thinks well of the candidate.",
+      },
+      strain: {
+        stableKey: `legislator:relationship-strain:${optionKey}`,
+        explanation: "The member has a strained history with the candidate.",
+      },
+    }),
   );
-  let good: StandingBand = "none";
-  let bad: StandingBand = "none";
-  const goodBasis = new Set<EntityId>();
-  const badBasis = new Set<EntityId>();
-  for (const dimension of ["warmth", "trust", "respect"] as const) {
-    const reading = standing.readings[dimension];
-    if (reading.band === "none") continue;
-    if (reading.adverse) {
-      bad = strongerBand(bad, reading.band);
-      for (const id of reading.basis) badBasis.add(id);
-    } else {
-      good = strongerBand(good, reading.band);
-      for (const id of reading.basis) goodBasis.add(id);
-    }
-  }
-  const tension = standing.readings.tension;
-  if (tension.band !== "none") {
-    bad = strongerBand(bad, tension.band);
-    for (const id of tension.basis) badBasis.add(id);
-  }
-  if (good !== "none")
-    reasons.push({
-      stableKey: `legislator:relationship:${optionKey}`,
-      optionKey,
-      sourceType: "social:relationship",
-      direction: "supports",
-      importance: BAND_IMPORTANCE[good],
-      confidence: "high",
-      explanation: "The member knows and thinks well of the candidate.",
-      sourceRefs: [...goodBasis].map((interactionId) => ({
-        kind: "relationship-interaction" as const,
-        interactionId,
-      })),
-    });
-  if (bad !== "none")
-    reasons.push({
-      stableKey: `legislator:relationship-strain:${optionKey}`,
-      optionKey,
-      sourceType: "social:relationship",
-      direction: "opposes",
-      importance: BAND_IMPORTANCE[bad],
-      confidence: "high",
-      explanation: "The member has a strained history with the candidate.",
-      sourceRefs: [...badBasis].map((interactionId) => ({
-        kind: "relationship-interaction" as const,
-        interactionId,
-      })),
-    });
   const agreement = principleAgreement(
     world,
     member.personId,
