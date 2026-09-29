@@ -17,7 +17,7 @@ import {
   type PublicBudgetStore,
 } from ".";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
-import { MEDIAN_PAID_SHARE } from "./pension-share";
+import { MEDIAN_FUNDED_RATIO, MEDIAN_PAID_SHARE } from "./pension-share";
 import {
   MEDIAN_RESERVE_DEPOSIT,
   MEDIAN_RESERVE_TARGET,
@@ -429,6 +429,30 @@ describe("public budgets", () => {
     expect(adopted.appropriations[pension]).toBe(
       Math.round(adopted.pensionRequired * adopted.pensionShare),
     );
+  });
+
+  it("each government's pension opens at its own plans' funded ratio, or the median where none is reported", () => {
+    const world = opened(
+      worldAt("2026-01-05", { places: ["1714000", "county:17031"] }),
+    );
+    const funded = (key: string) => {
+      const pension = world.publicBudgets!.governments.find(
+        (row) => row.key === key,
+      )!.pension;
+      return pension.assets / pension.liability;
+    };
+    // Public Plans Database, each plan's latest year: Illinois' state plans
+    // hold 54.84% of their liability, Chicago's 26.22%, Cook County's 65.93%.
+    expect(funded("US-IL")).toBeCloseTo(0.5484, 3);
+    expect(funded("place:1714000")).toBeCloseTo(0.2622, 3);
+    expect(funded("county:17031")).toBeCloseTo(0.6593, 3);
+    // D.C.'s plans are not listed, so it opens at the median of every plan.
+    expect(funded("US-DC")).toBeCloseTo(MEDIAN_FUNDED_RATIO, 3);
+    expect(
+      world
+        .publicBudgets!.governments.find((row) => row.key === "US-DC")!
+        .openingNotes.join(" "),
+    ).toContain("Pension funded ratio: ESTIMATED FROM AVERAGE");
   });
 
   it("each government's pension share starts from its own reported payment, or the median where none is reported, and holds", () => {
