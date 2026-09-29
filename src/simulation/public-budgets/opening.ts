@@ -671,10 +671,12 @@ export function openGovernmentBudget(
     candidate.level !== "state",
   );
   const spending = opening.spending;
-  const { pension, required } = openingPension(
-    sum(spending),
-    openingPaidShare(world, candidate.key),
+  const paid = openingPaidShare(
+    candidate.stateKey,
+    candidate.level,
+    candidate.name,
   );
+  const { pension, required } = openingPension(sum(spending), paid.share);
   // The opening year's contribution: in full under a law requiring it, and
   // at the government's own share otherwise.
   carvePension(
@@ -716,6 +718,9 @@ export function openGovernmentBudget(
       ...opening.notes,
       `Calibration factor ${BUDGET_CALIBRATION}: ${bases.calibration.basis}`,
       "Pension: liability, funded ratio and contribution are PLACEHOLDER (research: public-pension-funding-by-state), carved out of salary-paying programs.",
+      paid.basis === "reported"
+        ? `Pension share paid: ${paid.share}, as its own plans reported to the Public Plans Database.`
+        : `Pension share paid: ${paid.share}, ESTIMATED FROM AVERAGE (the median of every plan in the Public Plans Database, fiscal 2022 to 2024); its own plans are not listed.`,
       ...(basis === "state-start-placeholder"
         ? [
             "Fiscal year: the state's start (PLACEHOLDER, research: local-government-finances-by-type).",

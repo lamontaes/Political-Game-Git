@@ -1,0 +1,469 @@
+{
+  "readOn": "2026-09-29",
+  "readBy": "Build 25, Votes, Ads and Investigations",
+  "note": "The number of seats on each governing body, not counting a mayor elected separately. Read from the government's own charter, code or official website where the national pass stated no seat count. A town meeting, where every voter sits, has no seat count and is not listed.",
+  "readings": [
+    {
+      "key": "us-ak-fairbanks",
+      "size": 6,
+      "title": "City of Fairbanks, City Council",
+      "url": "https://www.fairbanks.gov/city-council",
+      "claimSupported": "The City Council is composed of seven members (Mayor and six Council Members), Seats A through F."
+    },
+    {
+      "key": "us-ak-fairbanks-north-star-borough",
+      "size": 9,
+      "title": "Fairbanks North Star Borough, Borough Assembly",
+      "url": "https://fnsb.gov/171/Borough-Assembly",
+      "claimSupported": "The Assembly is composed of nine members elected borough-wide to Seats A through I for three-year terms."
+    },
+    {
+      "key": "us-ak-north-pole",
+      "size": 6,
+      "title": "City of North Pole Home Rule Charter; City of North Pole, City Council",
+      "url": "https://www.northpolealaska.com/government/city_council.php",
+      "claimSupported": "The Mayor and six Council Members, each elected from the City at large for three-year terms."
+    },
+    {
+      "key": "us-ar-little-rock",
+      "size": 10,
+      "title": "City of Little Rock, Find Your Ward Director",
+      "url": "https://littlerock.gov/government/board-of-directors/find-your-ward-director/",
+      "claimSupported": "Ten city directors, seven from wards and three at large, with the mayor elected citywide as chair."
+    },
+    {
+      "key": "us-az-tucson",
+      "size": 6,
+      "title": "City of Tucson, City Council Wards",
+      "url": "https://www.tucsonaz.gov/Government/Mayor-Council-and-City-Manager/City-Council-Wards",
+      "claimSupported": "Six wards, each represented by one council member; the mayor is elected at large."
+    },
+    {
+      "key": "us-ca-los-angeles",
+      "size": 15,
+      "title": "City of Los Angeles, City Charter, Rules, and Codes",
+      "url": "https://lacity.gov/government/city-charter-rules-and-codes",
+      "claimSupported": "Fifteen City Council members representing fifteen districts are elected for four-year terms."
+    },
+    {
+      "key": "us-ca-oakland",
+      "size": 8,
+      "title": "The Charter of the City of Oakland § 200, Composition of the Council",
+      "url": "https://cao-94612.s3.amazonaws.com/documents/A-Oakland-City-Charter_2022-04-15-204856_hoik.pdf",
+      "claimSupported": "The Council consists of eight Councilmembers: seven nominated from districts and one at large. The Mayor is not a member."
+    },
+    {
+      "key": "us-ca-san-diego",
+      "size": 9,
+      "title": "Charter of the City of San Diego § 270",
+      "url": "https://docs.sandiego.gov/citycharter/charter_amendments/articleXV/sec270.pdf",
+      "claimSupported": "The Council shall be composed of nine councilmembers elected by district."
+    },
+    {
+      "key": "us-ca-san-francisco",
+      "size": 11,
+      "title": "San Francisco Board of Supervisors, SF.gov",
+      "url": "https://www.sf.gov/departments--board-supervisors",
+      "claimSupported": "The city and county is divided into 11 supervisorial districts, each represented by one member of the Board of Supervisors (Charter § 13.110)."
+    },
+    {
+      "key": "us-co-pueblo",
+      "size": 7,
+      "title": "City of Pueblo, City Council",
+      "url": "https://www.pueblo.us/86/City-Council",
+      "claimSupported": "Seven council seats: four elected by district and three at large."
+    },
+    {
+      "key": "us-ct-bridgeport",
+      "size": 20,
+      "title": "City of Bridgeport, About the City Council; Charter, Chapter 5, § 2",
+      "url": "https://www.bridgeportct.gov/government/departments/city-council/about-city-council",
+      "claimSupported": "Twenty members, two from each of ten council districts."
+    },
+    {
+      "key": "us-fl-miami",
+      "size": 5,
+      "title": "City of Miami Charter, as amended (mayor-city commissioner plan)",
+      "url": "https://www.miami.gov/files/assets/public/v/1/document-resources/pdf-docs/city-attorney/legal-opinions/2003/015-relative-powers-and-duties-of-city-commission-and-city-manager-under-citys-mayor-city-commissioner-form-of-government.pdf",
+      "claimSupported": "The city commission consists of five commissioners elected from districts; the mayor does not serve as a member of the commission."
+    },
+    {
+      "key": "us-fl-orlando",
+      "size": 6,
+      "title": "City of Orlando, Mayor and City Council",
+      "url": "https://www.orlando.gov/Our-Government/Mayor-City-Council",
+      "claimSupported": "A seven-member City Council: the Mayor, elected at large, and six District Commissioners."
+    },
+    {
+      "key": "us-fl-pensacola",
+      "size": 7,
+      "title": "Charter for the City of Pensacola",
+      "url": "https://www.cityofpensacola.com/charter",
+      "claimSupported": "Seven Council Members, one from each of seven election districts; the Mayor, elected at large, is not a member."
+    },
+    {
+      "key": "us-ga-atlanta",
+      "size": 15,
+      "title": "Atlanta City Council, How Your Council Works",
+      "url": "https://citycouncil.atlantaga.gov/how-your-council-works",
+      "claimSupported": "Fifteen members: twelve from single-member districts and three at-large posts."
+    },
+    {
+      "key": "us-ga-augusta-richmond-county",
+      "size": 10,
+      "title": "Augusta-Richmond County Code, Article 5, Charter",
+      "url": "https://library.municode.com/ga/augusta-richmond_county/codes/code_of_ordinances?nodeId=CH_CH1AD_ART5CH",
+      "claimSupported": "A mayor and ten commissioners: eight from districts and two from super districts."
+    },
+    {
+      "key": "us-hi-hawaii-county",
+      "size": 9,
+      "title": "Hawaiʻi County, Council Members and Districts",
+      "url": "https://www.hawaiicounty.gov/our-county/legislative/county-council/council-members-and-districts",
+      "claimSupported": "Nine members, one elected from each of nine districts for two-year terms."
+    },
+    {
+      "key": "us-hi-kauai-county",
+      "size": 7,
+      "title": "The Charter of the County of Kauaʻi (2022 codified version)",
+      "url": "https://www.kauai.gov/files/assets/public/v/1/county-council/documents/council-meetings/the-charter-of-the-county-of-kauai-2022.pdf",
+      "claimSupported": "A council of seven members elected at large for two-year terms."
+    },
+    {
+      "key": "us-hi-maui-county",
+      "size": 9,
+      "title": "Charter, County of Maui (2025), § 3-1",
+      "url": "https://www.mauicounty.gov/DocumentCenter/View/153586/2025-Charter",
+      "claimSupported": "Nine members elected at large, each resident of one of nine residency areas."
+    },
+    {
+      "key": "us-ia-cedar-rapids",
+      "size": 8,
+      "title": "City of Cedar Rapids, City Council",
+      "url": "https://www.cedar-rapids.org/local_government/city_council/index.php",
+      "claimSupported": "The Mayor and eight members: three at large and five from districts, on staggered four-year terms."
+    },
+    {
+      "key": "us-ia-davenport",
+      "size": 10,
+      "title": "Davenport Municipal Code, Chapter 1.08, City Charter",
+      "url": "https://ecode360.com/35564410",
+      "claimSupported": "Ten aldermen: two elected at large and one from each of eight wards, for terms of two years."
+    },
+    {
+      "key": "us-ia-des-moines",
+      "size": 6,
+      "title": "City of Des Moines, City Council",
+      "url": "https://www.dsm.city/government/city_council/index.php",
+      "claimSupported": "The Mayor, two members at large and one member from each of four wards."
+    },
+    {
+      "key": "us-ia-dubuque",
+      "size": 6,
+      "title": "City of Dubuque, Mayor and City Council",
+      "url": "https://www.cityofdubuque.org/990/Mayor-City-Council",
+      "claimSupported": "The Mayor, two council members at large and four from wards."
+    },
+    {
+      "key": "us-il-chicago",
+      "size": 50,
+      "title": "Chicago Municipal Code, Chapter 2-8, City Council and Wards of the City; City of Chicago, City Council, Your Ward & Alderperson",
+      "url": "https://www.chicago.gov/city/en/about/council.html",
+      "claimSupported": "50 alderpersons, one elected from each of 50 wards."
+    },
+    {
+      "key": "us-il-peoria",
+      "size": 10,
+      "title": "City of Peoria, Mayor and City Council",
+      "url": "https://www.peoriagov.org/157/Mayor-and-City-Council",
+      "claimSupported": "The Mayor and ten Council members: one from each of five districts and five at large."
+    },
+    {
+      "key": "us-il-springfield",
+      "size": 10,
+      "title": "City of Springfield, City Council",
+      "url": "https://www.springfield.il.us/Departments/CityCouncil/CityCouncilHome.aspx",
+      "claimSupported": "Ten wards, each represented by one elected alderperson, with the Mayor."
+    },
+    {
+      "key": "us-ma-boston",
+      "size": 13,
+      "title": "Boston City Charter (Acts of 1982, c. 605, s. 1), updated January 2025",
+      "url": "https://www.boston.gov/sites/default/files/file/2025/07/City%20Charter%20PDF%20Update.pdf",
+      "claimSupported": "Thirteen councillors: nine from districts and four at large."
+    },
+    {
+      "key": "us-mi-detroit",
+      "size": 9,
+      "title": "The Detroit Charter and City Government",
+      "url": "https://www.detcharter.com/charter/charter-03-00.php",
+      "claimSupported": "Nine members: one from each of seven districts and two elected at large (Charter of the City of Detroit, 2012)."
+    },
+    {
+      "key": "us-mi-grand-rapids",
+      "size": 6,
+      "title": "City of Grand Rapids, City Commission",
+      "url": "https://www.grandrapidsmi.gov/Government/City-Commission",
+      "claimSupported": "The Mayor and six Commissioners, two elected from each of three wards."
+    },
+    {
+      "key": "us-mi-lansing",
+      "size": 8,
+      "title": "City of Lansing, Council Members",
+      "url": "https://www.lansingmi.gov/council-members",
+      "claimSupported": "Eight members: four at large and one from each of four wards, for four-year terms."
+    },
+    {
+      "key": "us-mn-minneapolis",
+      "size": 13,
+      "title": "City of Minneapolis, Council Members",
+      "url": "https://www.minneapolismn.gov/government/city-council/members/",
+      "claimSupported": "Thirteen members, one from each of the city's 13 wards, for four-year terms."
+    },
+    {
+      "key": "us-mn-saint-paul",
+      "size": 7,
+      "title": "City of Saint Paul, Council Ward",
+      "url": "https://information.stpaul.gov/datasets/8baf64c6c1aa4aabb1677663b0606b65",
+      "claimSupported": "Seven council members, one elected from each of seven wards for four-year terms."
+    },
+    {
+      "key": "us-ms-gulfport",
+      "size": 7,
+      "title": "Gulfport Code of Ordinances § 1-36, Ward districts created",
+      "url": "http://gulfport-ms.elaws.us/code/coor_ch1_artii_sec1-36",
+      "claimSupported": "The city is divided into seven wards, each electing one council member."
+    },
+    {
+      "key": "us-nc-charlotte",
+      "size": 11,
+      "title": "City of Charlotte, Charlotte City Council; Charter § 2.03",
+      "url": "https://www.charlottenc.gov/City-Government/Leadership/City-Council",
+      "claimSupported": "Eleven members and the Mayor: four at large and seven from single-member districts."
+    },
+    {
+      "key": "us-nc-raleigh",
+      "size": 7,
+      "title": "City of Raleigh, City Council",
+      "url": "https://raleighnc.gov/city-council",
+      "claimSupported": "Eight members including the mayor: five from districts A to E and two at large, with the mayor elected separately."
+    },
+    {
+      "key": "us-nd-bismarck",
+      "size": 4,
+      "title": "City of Bismarck, City Commission",
+      "url": "https://www.bismarcknd.gov/2375/City-Commission",
+      "claimSupported": "A five-person commission: four City Commissioners and the Mayor as President of the Commission."
+    },
+    {
+      "key": "us-nd-fargo",
+      "size": 4,
+      "title": "City of Fargo, City Commission, About",
+      "url": "https://www.fargond.gov/city-government/departments/city-commission/about",
+      "claimSupported": "The Mayor and four Commissioners, all elected at large, are the Board of City Commissioners."
+    },
+    {
+      "key": "us-nd-grand-forks",
+      "size": 7,
+      "title": "City of Grand Forks, City Council",
+      "url": "https://www.grandforksgov.com/government/city-leadership/city-council",
+      "claimSupported": "Seven council members, each elected from one of seven wards for four-year terms, with the Mayor."
+    },
+    {
+      "key": "us-ne-lincoln",
+      "size": 7,
+      "title": "City of Lincoln, City Council",
+      "url": "https://www.lincoln.ne.gov/City/City-Council",
+      "claimSupported": "Seven members: four elected by district and three at large, for four-year terms."
+    },
+    {
+      "key": "us-nm-albuquerque",
+      "size": 9,
+      "title": "Charter of the City of Albuquerque, Article IV, Council",
+      "url": "https://codelibrary.amlegal.com/codes/albuquerque/latest/albuqcharter/0-0-0-207",
+      "claimSupported": "The Council consists of nine members from separate Council Districts, each known as a Councillor."
+    },
+    {
+      "key": "us-nm-santa-fe",
+      "size": 8,
+      "title": "City of Santa Fe, Elected Officials",
+      "url": "https://santafenm.gov/elected-officials",
+      "claimSupported": "Eight councilors, two from each of four districts, with the mayor elected at large."
+    },
+    {
+      "key": "us-nv-las-vegas",
+      "size": 6,
+      "title": "Las Vegas City Charter",
+      "url": "https://www.leg.state.nv.us/CITYCHARTERS/CtyLasVegasCC.html",
+      "claimSupported": "Six council members, one from each of six wards, with the mayor elected at large."
+    },
+    {
+      "key": "us-ny-buffalo",
+      "size": 9,
+      "title": "Buffalo Charter, Article 3, Common Council",
+      "url": "https://ecode360.com/13551020",
+      "claimSupported": "The Common Council consists of nine district council members."
+    },
+    {
+      "key": "us-ny-new-york-city",
+      "size": 51,
+      "title": "New York City Charter § 22, Composition of council",
+      "url": "https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCcharter/0-0-0-296",
+      "claimSupported": "The council consists of the public advocate and fifty-one other members, one elected from each council district."
+    },
+    {
+      "key": "us-oh-cincinnati",
+      "size": 9,
+      "title": "Cincinnati Charter, Article II, Legislative Power",
+      "url": "https://library.municode.com/oh/cincinnati/codes/code_of_ordinances?nodeId=CHCI_ARTIILEPO_S4B",
+      "claimSupported": "A council of nine members elected at large for a term of two years."
+    },
+    {
+      "key": "us-oh-cleveland",
+      "size": 15,
+      "title": "City of Cleveland Wards (2026), Cleveland Open Data; Cleveland Charter § 25",
+      "url": "https://data.clevelandohio.gov/datasets/city-of-cleveland-wards-2026/about",
+      "claimSupported": "Fifteen wards under Ordinance No. 1-2025, each electing one council member; the 119th Council was sworn in on January 5, 2026."
+    },
+    {
+      "key": "us-ok-oklahoma-city",
+      "size": 8,
+      "title": "City of OKC, City Council",
+      "url": "https://www.okc.gov/Government/Elected-Officials/City-Council",
+      "claimSupported": "Eight council members, one from each of eight wards, with the mayor elected by all city voters."
+    },
+    {
+      "key": "us-ok-tulsa",
+      "size": 9,
+      "title": "Tulsa City Council, About Us",
+      "url": "https://www.tulsacouncil.org/about",
+      "claimSupported": "Nine councilors, one from each council district; the mayor is elected citywide."
+    },
+    {
+      "key": "us-pa-philadelphia",
+      "size": 17,
+      "title": "Philadelphia City Council, About",
+      "url": "https://phlcouncil.com/about-phl-council/",
+      "claimSupported": "Seventeen members under the 1951 Home Rule Charter: ten elected by district and seven at large."
+    },
+    {
+      "key": "us-pa-pittsburgh",
+      "size": 9,
+      "title": "City of Pittsburgh, The City Council",
+      "url": "https://www.pittsburghpa.gov/City-Government/The-City-Council",
+      "claimSupported": "Nine members, one elected from each of nine districts for four-year terms."
+    },
+    {
+      "key": "us-ri-providence",
+      "size": 15,
+      "title": "Providence City Council, Ward Boundaries",
+      "url": "https://council.providenceri.gov/ward-boundaries/",
+      "claimSupported": "Fifteen members, one elected from each of the city's fifteen wards under the Home Rule Charter."
+    },
+    {
+      "key": "us-sc-charleston",
+      "size": 12,
+      "title": "City of Charleston, Members and Districts",
+      "url": "https://www.charleston-sc.gov/180/Members-Districts",
+      "claimSupported": "Twelve council members, one for each of Districts One through Twelve, with the mayor."
+    },
+    {
+      "key": "us-sd-aberdeen",
+      "size": 8,
+      "title": "City of Aberdeen, City Council",
+      "url": "https://www.aberdeen.sd.us/74/City-Council",
+      "claimSupported": "The City Council consists of 8 members from four council districts, with the mayor."
+    },
+    {
+      "key": "us-sd-sioux-falls",
+      "size": 8,
+      "title": "City of Sioux Falls, About the Council",
+      "url": "https://www.siouxfalls.gov/government/council/about-the-council",
+      "claimSupported": "Three at-large members and five district members, with the Mayor."
+    },
+    {
+      "key": "us-tn-nashville-davidson-county",
+      "size": 40,
+      "title": "Metropolitan Council, Nashville.gov",
+      "url": "https://www.nashville.gov/departments/council/boards/metro-council",
+      "claimSupported": "Forty members: five at large and thirty-five from districts."
+    },
+    {
+      "key": "us-tx-austin",
+      "size": 10,
+      "title": "Austin City Clerk, History of Council",
+      "url": "https://www.austintexas.gov/clerk/programs/history-council",
+      "claimSupported": "Charter amendment of November 6, 2012: council members from 10 single-member districts, with the mayor elected at large."
+    },
+    {
+      "key": "us-vt-burlington",
+      "size": 12,
+      "title": "City of Burlington, Maps: Wards, State Districts and Polling Places",
+      "url": "https://burlingtonvt.gov/CT/Maps-Wards-State-Districts-and-Polling-Places",
+      "claimSupported": "Twelve councilors: one from each of eight wards and one from each of four districts, each district two wards."
+    },
+    {
+      "key": "us-wa-spokane",
+      "size": 7,
+      "title": "City of Spokane Charter, Article III, Council and Legislation",
+      "url": "https://my.spokanecity.org/opendata/charter/article-03/",
+      "claimSupported": "The city council consists of the council president and six council members, two from each of three districts."
+    },
+    {
+      "key": "us-wi-madison",
+      "size": 20,
+      "title": "City of Madison, Common Council, Council Members",
+      "url": "https://www.cityofmadison.com/council/council-members",
+      "claimSupported": "Twenty alders, one elected from each of 20 districts."
+    },
+    {
+      "key": "us-wi-milwaukee",
+      "size": 15,
+      "title": "Milwaukee Common Council, Council Members",
+      "url": "https://city.milwaukee.gov/CommonCouncil/Council-Members",
+      "claimSupported": "Fifteen members, one from each aldermanic district, each for a four-year term."
+    },
+    {
+      "key": "us-wv-charleston",
+      "size": 26,
+      "title": "City of Charleston, City Council",
+      "url": "https://www.charlestonwv.gov/government/city-council",
+      "claimSupported": "Twenty-six members: twenty from the city's twenty wards and six at large."
+    },
+    {
+      "key": "us-wv-huntington",
+      "size": 11,
+      "title": "Huntington Charter, Article Three, Council",
+      "url": "https://library.municode.com/wv/huntington/codes/code_of_ordinances?nodeId=CH_ARTTHREECO_S3.5CORE",
+      "claimSupported": "Eleven members: one from each of nine districts and two at large."
+    },
+    {
+      "key": "us-wv-morgantown",
+      "size": 7,
+      "title": "City of Morgantown, City Council",
+      "url": "https://www.morgantownwv.gov/154/City-Council",
+      "claimSupported": "Seven members, one from each of the First through Seventh Wards."
+    },
+    {
+      "key": "us-wy-casper",
+      "size": 9,
+      "title": "City of Casper, Mayor and City Council",
+      "url": "https://www.casperwy.gov/government/city_council/index.php",
+      "claimSupported": "Nine members, three from each of three wards; the council elects the Mayor and Vice Mayor from among them."
+    },
+    {
+      "key": "us-wy-cheyenne",
+      "size": 9,
+      "title": "City of Cheyenne, City Council",
+      "url": "https://www.cheyennecity.org/Your-Government/City-Council",
+      "claimSupported": "The Mayor and nine Council members, three from each of three wards."
+    },
+    {
+      "key": "us-wy-laramie",
+      "size": 9,
+      "title": "City of Laramie, City Council",
+      "url": "https://www.cityoflaramie.org/68/City-Council",
+      "claimSupported": "Nine members on overlapping four-year terms, three from each of three wards."
+    }
+  ]
+}
