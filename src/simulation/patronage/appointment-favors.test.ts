@@ -173,7 +173,7 @@ describe("appointments read and write the one favor record", () => {
   test("a choice is personal only when a better-placed person lost to a tie", () => {
     const row = (
       optionKey: string,
-      sourceType: string,
+      sourceType: DecisionConsideration["sourceType"],
       importance: DecisionConsideration["importance"],
     ): DecisionConsideration => ({
       stableKey: `${optionKey}:${sourceType}`,
