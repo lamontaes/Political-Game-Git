@@ -1,4 +1,6 @@
+import { identifiedBallotTallies } from "../voter-photo-identification-law";
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
+import { photoIdCanvassDate } from "../voter-photo-identification-law";
 import { decideAnotherTerm } from "../careers/another-term";
 import { councilTermLimitBar } from "./local-council-term-limits";
 import { townSupportFromViews } from "../official-view-reads";
@@ -795,7 +797,7 @@ function scheduleRace(
   // due the same day, which then finds the contest already decided.
   let next = scheduleFutureDueItem(world, {
     stableKey: `${stableKey}:count`,
-    dueAt: input.voteDate,
+    dueAt: photoIdCanvassDate(world, input.town, input.voteDate),
     transitionKey: LOCAL_ELECTION_COUNT,
     entityIds: [input.town],
     jurisdictionId: input.town,
@@ -1120,6 +1122,11 @@ export function localElectionCountHandler(
       })),
   ];
 
+  const countedWithIndividualBallots = identifiedBallotTallies(
+    world,
+    contest.id,
+    tallies,
+  );
   let winner: EntityId | null = counted[0]!.candidatePersonId;
   let advancing: EntityId[] = [];
   let ruleNote = "";
@@ -1135,8 +1142,10 @@ export function localElectionCountHandler(
       ? tabulateBallot({
           rule: rule.rule,
           majorityTriggerPercent: rule.majorityTriggerPercent,
-          candidateIds: counted.map((row) => row.candidatePersonId),
-          ballots: counted.map((row) => ({
+          candidateIds: countedWithIndividualBallots.map(
+            (row) => row.candidatePersonId,
+          ),
+          ballots: countedWithIndividualBallots.map((row) => ({
             ranking: [row.candidatePersonId],
             count: row.votes,
           })),
@@ -1145,7 +1154,9 @@ export function localElectionCountHandler(
     if (outcome?.kind === "decided") {
       ruleNote = ` and won outright under ${unit.stateUsps}'s ${rule.rule} rule (${rule.basis})`;
     } else {
-      advancing = counted.slice(0, 2).map((row) => row.candidatePersonId);
+      advancing = countedWithIndividualBallots
+        .slice(0, 2)
+        .map((row) => row.candidatePersonId);
       winner = counted[0]!.candidatePersonId;
     }
   }
@@ -1162,6 +1173,8 @@ export function localElectionCountHandler(
       note: `${P.id}: a placeholder count of a town ${stage}.`,
     },
   });
+
+  winner = electionContestResult(next, contest.id)!.winnerPersonId;
 
   if (stage === "primary") {
     next = event(next, {

@@ -1,3 +1,8 @@
+import { recordById, recordsByStringField } from "./history-index";
+import {
+  identifiedBallotTallies,
+  photoIdCanvassDate,
+} from "./voter-photo-identification-law";
 import { nationalMoodDemocraticShift } from "./national-mood";
 import { CONGRESS_INCUMBENCY_SHARE_BONUS } from "./living-world/congress-aggregate-outcome";
 import { STATE_LEGISLATURE_TURNOVER_PROFILE } from "./nationwide-world/state-legislature-turnover";
@@ -136,7 +141,11 @@ export function scheduleElectionContest(
 
   return scheduleFutureDueItem(worldWithContest, {
     stableKey: `${input.stableKey}:due`,
-    dueAt: electionDate,
+    dueAt: photoIdCanvassDate(
+      worldWithContest,
+      input.jurisdictionId,
+      electionDate,
+    ),
     transitionKey: ELECTION_CONTEST_TRANSITION_KEY,
     entityIds: [contestRecord.id],
     jurisdictionId: input.jurisdictionId,
@@ -413,6 +422,19 @@ export function resolveElectionContest(
     );
   }
 
+  const pendingBallots = (world.voterIdentification?.ballots ?? []).filter(
+    (b) =>
+      b.contestId === contest.id &&
+      b.kind === "provisional" &&
+      !b.curedOn &&
+      b.cureBy &&
+      b.cureBy >= resolvedAt,
+  );
+  if (pendingBallots.length)
+    throw Error(
+      "Uncured provisional ballots still have a statutory return window.",
+    );
+
   const hasWinner = input.winnerPersonId !== undefined;
   const hasTallies = input.tallies !== undefined;
   if (hasWinner !== hasTallies) {
@@ -461,6 +483,10 @@ export function resolveElectionContest(
     tallies = outcome.tallies;
   }
 
+  const countedTallies = identifiedBallotTallies(world, contest.id, tallies);
+  if (countedTallies !== tallies)
+    winnerPersonId = countedTallies[0]!.candidatePersonId;
+  tallies = countedTallies;
   const winner = world.people[winnerPersonId];
   const jurisdiction = world.jurisdictions[contest.jurisdictionId];
   const eventStableKey = `event:${stableKey}:outcome`;
@@ -510,9 +536,11 @@ export function resolveElectionContest(
     },
   });
 
-  const outcomeEvent = worldWithEvent.history.events.find(
-    (event) => event.stableKey === eventStableKey,
-  );
+  const outcomeEvent = recordsByStringField(
+    worldWithEvent.history.events,
+    "stableKey",
+    eventStableKey,
+  )[0];
   if (!outcomeEvent) {
     throw new Error("Failed to retrieve recorded election resolution event.");
   }
@@ -577,11 +605,12 @@ export function cancelElectionContest(
     );
   }
 
-  const dueItem = world.history.futureDueItems.find(
-    (item) =>
-      item.transitionKey === ELECTION_CONTEST_TRANSITION_KEY &&
-      item.entityIds.length === 1 &&
-      item.entityIds[0] === contest.id,
+  const dueItem = recordsByStringField(
+    world.history.futureDueItems,
+    "transitionKey",
+    ELECTION_CONTEST_TRANSITION_KEY,
+  ).find(
+    (item) => item.entityIds.length === 1 && item.entityIds[0] === contest.id,
   );
   if (!dueItem) {
     throw new Error(
@@ -623,7 +652,10 @@ export function electionContestTransitionHandler(
       status: "resolved",
       reasonKey: null,
       context: "Election contest was already resolved.",
-      outcomeEventId: existingResult.outcomeEventId,
+      outcomeEventId:
+        existingResult.resolvedAt === dueItem.dueAt
+          ? existingResult.outcomeEventId
+          : null,
     };
   }
 
@@ -658,11 +690,7 @@ export function electionContestById(
   world: World,
   contestId: EntityId,
 ): ElectionContestRecord | null {
-  return (
-    (world.history.electionContests ?? []).find(
-      (record) => record.id === contestId,
-    ) ?? null
-  );
+  return recordById(world.history.electionContests ?? [], contestId) ?? null;
 }
 
 export function requireElectionContest(
@@ -681,9 +709,11 @@ export function electionContestResult(
   contestId: EntityId,
 ): ElectionContestResultRecord | null {
   return (
-    (world.history.electionContestResults ?? []).find(
-      (record) => record.contestId === contestId,
-    ) ?? null
+    recordsByStringField(
+      world.history.electionContestResults ?? [],
+      "contestId",
+      contestId,
+    )[0] ?? null
   );
 }
 
@@ -692,17 +722,22 @@ export function electionContestStatus(
   contestId: EntityId,
 ): ElectionContestStatus {
   const contest = requireElectionContest(world, contestId);
-  const dueItem = world.history.futureDueItems.find(
-    (item) =>
-      item.transitionKey === ELECTION_CONTEST_TRANSITION_KEY &&
-      item.entityIds.length === 1 &&
-      item.entityIds[0] === contest.id,
+  const dueItem = recordsByStringField(
+    world.history.futureDueItems,
+    "transitionKey",
+    ELECTION_CONTEST_TRANSITION_KEY,
+  ).find(
+    (item) => item.entityIds.length === 1 && item.entityIds[0] === contest.id,
   );
   if (dueItem) {
-    const states = world.history.futureDueItemStates.filter(
-      (state) => state.dueItemId === dueItem.id,
+    const states = recordsByStringField(
+      world.history.futureDueItemStates,
+      "dueItemId",
+      dueItem.id,
     );
-    const latestState = states.sort((a, b) => a.sequence - b.sequence).at(-1);
+    const latestState = [...states]
+      .sort((a, b) => a.sequence - b.sequence)
+      .at(-1);
     if (latestState?.status === "cancelled") {
       return "cancelled";
     }
