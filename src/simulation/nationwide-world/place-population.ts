@@ -39,6 +39,17 @@ export function placePopulation(placeGeoid: string): number | null {
   return load().get(placeGeoid) ?? null;
 }
 
+let ranked: readonly number[] | null = null;
+
+/**
+ * The population of the place at `rank` (1 is the largest) among every place
+ * the table holds, or null past the end of the table.
+ */
+export function populationAtRank(rank: number): number | null {
+  ranked ??= [...load().values()].sort((a, b) => b - a);
+  return ranked[rank - 1] ?? null;
+}
+
 /** How many towns the table covers. */
 export function placePopulationCoverage(): number {
   return load().size;
