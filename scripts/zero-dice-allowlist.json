@@ -948,41 +948,6 @@
       "code": "servedShareBeforeTakenUp: 0.5,"
     },
     {
-      "file": "src/simulation/justice/prosecution.ts",
-      "kind": "fixed-share",
-      "build": "Build 26",
-      "count": 1,
-      "code": "referralChanceByStandingFindings: [0.1, 0.5, 0.8],"
-    },
-    {
-      "file": "src/simulation/justice/prosecution.ts",
-      "kind": "roll",
-      "build": "Build 26",
-      "count": 1,
-      "code": "return draw(world, `${findingKey}:refer`).next() < chance;"
-    },
-    {
-      "file": "src/simulation/justice/prosecution.ts",
-      "kind": "roll",
-      "build": "Build 26",
-      "count": 1,
-      "code": "if (rng.next() >= rule.chargeChance[evidence])"
-    },
-    {
-      "file": "src/simulation/justice/prosecution.ts",
-      "kind": "roll",
-      "build": "Build 26",
-      "count": 1,
-      "code": "if (pick < weights[key]) {"
-    },
-    {
-      "file": "src/simulation/justice/prosecution.ts",
-      "kind": "roll",
-      "build": "Build 26",
-      "count": 1,
-      "code": "const jail = rng.next() < rule.jailChance[outcome];"
-    },
-    {
       "file": "src/simulation/living-world/congress-aggregate-outcome.ts",
       "kind": "fixed-share",
       "build": "Build 27",
@@ -1079,27 +1044,6 @@
       "build": "Build 22",
       "count": 1,
       "code": "const FAMILY_SHARE = 0.5;"
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "kind": "roll",
-      "build": "Build 22",
-      "count": 1,
-      "code": "rng.next() <"
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "kind": "roll",
-      "build": "Build 22",
-      "count": 1,
-      "code": "return new SeededRng(world.seed).fork(`${V}:news:${personId}`).next() < share;"
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "kind": "roll",
-      "build": "Build 22",
-      "count": 1,
-      "code": "return partners.filter((personId) => rng.fork(personId).next() < TELLS_EACH);"
     },
     {
       "file": "src/simulation/living-world/opening.ts",
@@ -1295,7 +1239,7 @@
       "kind": "roll",
       "build": "Build 10",
       "count": 1,
-      "code": "rng.fork(\"renter-move\").next() < TOWN_HOME_MOVES.renterMove"
+      "code": "rng.fork(\"renter-move\").next() <"
     },
     {
       "file": "src/simulation/living-world/town-labor-market.ts",
@@ -1982,13 +1926,6 @@
       "build": "Build 12",
       "count": 1,
       "code": "usps === \"DC\" && districtTown ? districtTown : jurisdiction.id,"
-    },
-    {
-      "file": "src/simulation/public-budgets/opening.ts",
-      "kind": "place-in-logic",
-      "build": "Build 12",
-      "count": 1,
-      "code": "if (stateKey !== \"US-PR\" && !countyGovernmentUnit(countyGeoid))"
     },
     {
       "file": "src/simulation/public-budgets/opening.ts",
