@@ -104,8 +104,17 @@ function tagValue(event: HistoricalEvent, prefix: string): string | null {
   return tag ? tag.slice(prefix.length) : null;
 }
 
-function latestSeatRecords(world: World): Map<string, HistoricalEvent> {
-  const bySeat = new Map<string, HistoricalEvent>();
+/**
+ * Each seat's record as it stood on a date: the latest tenure or vacancy
+ * record dated on or before it. A long step resolves the days it covers
+ * before a filing day is handled, so a later record (an appointee seated
+ * after the filing day) can already exist; a decision made on the filing day
+ * cannot know it.
+ */
+function seatRecordsOn(
+  world: World,
+): (seatKey: string, date: IsoDate) => HistoricalEvent | undefined {
+  const bySeat = new Map<string, HistoricalEvent[]>();
   for (const event of world.history.events) {
     if (
       (event.type !== SEAT_TENURE_EVENT && event.type !== SEAT_VACANCY_EVENT) ||
@@ -114,16 +123,24 @@ function latestSeatRecords(world: World): Map<string, HistoricalEvent> {
       continue;
     const seatKey = tagValue(event, "seat:");
     if (!seatKey) continue;
-    const current = bySeat.get(seatKey);
-    if (
-      !current ||
-      event.occurredAt > current.occurredAt ||
-      (event.occurredAt === current.occurredAt &&
-        event.sequence > current.sequence)
-    )
-      bySeat.set(seatKey, event);
+    const rows = bySeat.get(seatKey);
+    if (rows) rows.push(event);
+    else bySeat.set(seatKey, [event]);
   }
-  return bySeat;
+  return (seatKey, date) => {
+    let latest: HistoricalEvent | undefined;
+    for (const event of bySeat.get(seatKey) ?? []) {
+      if (event.occurredAt > date) continue;
+      if (
+        !latest ||
+        event.occurredAt > latest.occurredAt ||
+        (event.occurredAt === latest.occurredAt &&
+          event.sequence > latest.sequence)
+      )
+        latest = event;
+    }
+    return latest;
+  };
 }
 
 function aliveOn(world: World, personId: EntityId, date: IsoDate): boolean {
@@ -271,7 +288,7 @@ function prepareCongressIntake(
   due: readonly { readonly seat: CongressSeat; readonly intakeDate: IsoDate }[],
 ): World {
   if (due.length === 0) return world;
-  const latest = latestSeatRecords(world);
+  const recordOn = seatRecordsOn(world);
   const electionDay = congressionalElectionDay(year);
   let next = world;
   const plans: CongressCandidateSeatPlan[] = [];
@@ -284,7 +301,7 @@ function prepareCongressIntake(
       seatCandidacyIntent(next, seat.seatKey, year) !== null
     )
       continue;
-    const record = latest.get(seat.seatKey);
+    const record = recordOn(seat.seatKey, intakeDate);
     const incumbentPersonId =
       record?.type === SEAT_TENURE_EVENT
         ? (record.participants.find((row) => row.role === "focus:subject")
@@ -619,7 +636,7 @@ function holdCongressElection(world: World, year: number): World {
   const seats = congressSeats().filter(
     (seat) => seatTermWindow(seat, electionDay).endExclusive === newStart,
   );
-  const latest = latestSeatRecords(world);
+  const recordOn = seatRecordsOn(world);
   // A save first resumed after the placeholder intake window still receives
   // real candidate people before results are written. Its event date is the
   // election day, rather than a fabricated earlier filing day.
@@ -629,7 +646,7 @@ function holdCongressElection(world: World, year: number): World {
     seats.map((seat) => ({ seat, intakeDate: electionDay })),
   );
   for (const seat of seats) {
-    const record = latest.get(seat.seatKey);
+    const record = recordOn(seat.seatKey, electionDay);
     const incumbent =
       record?.type === SEAT_TENURE_EVENT
         ? (record.participants.find((p) => p.role === "focus:subject")
@@ -668,7 +685,7 @@ function holdCongressElection(world: World, year: number): World {
     const decided = decideSeat(
       intents,
       seat,
-      latest.get(seat.seatKey),
+      recordOn(seat.seatKey, electionDay),
       year,
       newStart,
       electionDay,

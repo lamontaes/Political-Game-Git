@@ -719,31 +719,22 @@ function presidentialRuling(
       record.id === office.termEvidenceId &&
       record.office === "president",
   );
-  const noVicePresident = {
-    world,
-    ruling: {
-      ...base,
-      outcome: "blocked" as const,
-      // PLACEHOLDER: the Speaker is next under 3 U.S.C. § 19, but that line of
-      // succession is not compiled. The sentence is printed to players.
-      sentence:
-        "The presidency is vacant, and with no sitting Vice President no successor has taken office.",
-    },
-  };
   if (!plan || plan.kind !== "term-plan") {
     // A President seated by tenure record: the opening's, or one who came to
     // the office by succession. The Vice President by tenure record succeeds.
     const vacated = latestFederalOfficeRecord(world, "us-president");
     const vice = currentFederalTenure(world, "us-vice-president");
     const termEnd = vacated ? federalTenureEnd("us-president", vacated) : null;
-    if (!vice || !termEnd) return noVicePresident;
+    if (!vice) return statutorySuccession(world, notice, base, termEnd);
+    if (!termEnd) return statutorySuccession(world, notice, base, null);
     return tenureSuccession(world, notice, base, vice.personId, termEnd);
   }
   const vice = nationalOfficeHolder(world, "vice-president");
   if (!vice || vice.plan.electionId !== plan.electionId) {
     // A Vice President confirmed under § 2 holds by tenure record.
     const confirmed = currentFederalTenure(world, "us-vice-president");
-    if (!confirmed) return noVicePresident;
+    if (!confirmed)
+      return statutorySuccession(world, notice, base, plan.endsAt.date);
     return tenureSuccession(
       world,
       notice,
@@ -798,6 +789,160 @@ function presidentialRuling(
       ...base,
       outcome: "succeeded",
       sentence: `${personName(world.people[vice.plan.personId]!)} became President under the Twenty-Fifth Amendment. ${VICE_PRESIDENCY_VACANT_SENTENCE}`,
+    },
+  };
+}
+
+/**
+ * The officer who acts as President when there is neither a President nor a
+ * Vice President: the Speaker of the House, "upon his resignation as Speaker
+ * and as Representative in Congress" (3 U.S.C. § 19(a)(1)); failing a
+ * Speaker, the President pro tempore of the Senate on the same terms
+ * (§ 19(b)). The Cabinet officers after them (§ 19(d)) are not seated in
+ * the game, so the line stops there.
+ *
+ * The game records no Speaker or President pro tempore election. Each chamber
+ * elects its officer by majority, so the holder is read from the caucus with
+ * more than half of the chamber's sitting members: in the Senate its longest-
+ * serving member, as the Senate's long custom has it; in the House
+ * its longest-serving member too, a labeled game assumption (the real House
+ * majority chooses its Speaker by its own vote, which the game does not hold).
+ * A member the player controls is not placed in the line without the player's
+ * own choice, so the line passes over them.
+ */
+function statutoryPresidentialSuccessor(world: World): {
+  readonly personId: EntityId;
+  readonly seat: CongressSeat;
+  readonly office:
+    "Speaker of the House" | "President pro tempore of the Senate";
+  readonly basis: "3-usc-19-a-1" | "3-usc-19-b";
+} | null {
+  const congress = projectCongress(world);
+  if (!congress) return null;
+  const chambers = [
+    {
+      view: congress.house,
+      office: "Speaker of the House" as const,
+      basis: "3-usc-19-a-1" as const,
+    },
+    {
+      view: congress.senate,
+      office: "President pro tempore of the Senate" as const,
+      basis: "3-usc-19-b" as const,
+    },
+  ];
+  for (const { view, office, basis } of chambers) {
+    const sitting = view.seats.flatMap((seat) =>
+      seat.occupant.kind === "member"
+        ? [{ seat, member: seat.occupant.member }]
+        : [],
+    );
+    const byCaucus = new Map<EntityId, typeof sitting>();
+    for (const row of sitting) {
+      const caucus =
+        row.member.caucusOrganizationId ?? row.member.partyOrganizationId;
+      if (!caucus) continue;
+      byCaucus.set(caucus, [...(byCaucus.get(caucus) ?? []), row]);
+    }
+    const majority = [...byCaucus.values()].find(
+      (rows) => rows.length * 2 > sitting.length,
+    );
+    if (!majority) continue;
+    const holder = majority
+      .filter((row) => !isControlledPerson(world, row.member.personId))
+      .sort(
+        (a, b) =>
+          (a.member.serviceSince ?? a.member.startedAt ?? "9999").localeCompare(
+            b.member.serviceSince ?? b.member.startedAt ?? "9999",
+          ) || a.seat.seatKey.localeCompare(b.seat.seatKey),
+      )[0];
+    const seat = holder
+      ? congressSeats().find(
+          (candidate) => candidate.seatKey === holder.seat.seatKey,
+        )
+      : undefined;
+    if (holder && seat)
+      return { personId: holder.member.personId, seat, office, basis };
+  }
+  return null;
+}
+
+function isControlledPerson(world: World, personId: EntityId): boolean {
+  return world.control.kind === "person" && world.control.personId === personId;
+}
+
+/**
+ * Neither a President nor a Vice President: the statutory successor resigns
+ * as a presiding officer and member of Congress and acts as President for the
+ * rest of the term (3 U.S.C. § 19(c)). Their seat falls vacant and is filled
+ * like any other. The vice presidency stays vacant: the Twenty-Fifth
+ * Amendment's § 2 nomination belongs to "the President", and whether an
+ * acting President may make it is unsettled, so none is scheduled.
+ */
+function statutorySuccession(
+  world: World,
+  notice: OfficeContinuityNoticeInput,
+  base: { readonly officeKey: string; readonly title: string },
+  termEnd: IsoDate | null,
+): { world: World; ruling: OfficeContinuityRuling } {
+  const death = world.history.personDeaths.find(
+    (row) => row.id === notice.sourceRecordId,
+  );
+  const successor = statutoryPresidentialSuccessor(world);
+  if (!death || !termEnd || !successor)
+    return {
+      world,
+      ruling: {
+        ...base,
+        outcome: "blocked",
+        sentence: !death
+          ? "The death this notice reports is not in the record."
+          : "The presidency is vacant. There is no Vice President, and no Speaker of the House or President pro tempore of the Senate is seated to act as President.",
+      },
+    };
+  const person = world.people[successor.personId]!;
+  const former = world.people[death.personId];
+  const stableKey = `${OFFICE_CONTINUITY_VERSION}:acting-president:${death.id}`;
+  let next = world;
+  if (!next.history.events.some((event) => event.stableKey === stableKey)) {
+    next = recordWorldEvent(next, {
+      stableKey,
+      type: FEDERAL_TENURE_EVENT,
+      occurredAt: death.diedAt,
+      recordedAt: next.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [successor.personId],
+      participants: [
+        {
+          personId: successor.personId,
+          role: "focus:subject",
+          detail: "Acting President of the United States",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        OFFICE_CONTINUITY_VERSION,
+        "office:us-president",
+        `term-end:${termEnd}`,
+        `basis:${successor.basis}`,
+        "acting:true",
+      ],
+      summary: `${personName(person)}, the ${successor.office}, resigned from Congress and is acting as President of the United States${former ? ` after the death of ${personName(former)}` : ""}, for the rest of the term.`,
+      context: CONTEXT,
+    });
+    next = vacateSeat(next, successor.seat, {
+      effectiveDate: death.diedAt,
+      key: "member-acting-as-president",
+      clause: "after the member resigned to act as President",
+    }).world;
+  }
+  return {
+    world: next,
+    ruling: {
+      ...base,
+      outcome: "succeeded",
+      sentence: `With no Vice President, ${personName(person)}, the ${successor.office}, resigned from Congress and is acting as President for the rest of the term.`,
     },
   };
 }

@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import { explicitNewGameSetup } from "../../presentation/new-game-geography";
+import { lifePlaces } from "../life-places";
+import { SeededRng } from "../rng";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -444,6 +447,88 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     ).toBe(true);
     const reopened = deserializeWorld(serializeWorld(next));
     expect(currentPresidentOf(reopened)!.personId).toBe(vice.personId);
+  }, 300_000);
+
+  it("with no Vice President, the Speaker resigns from the House and acts as President (3 U.S.C. 19)", () => {
+    const seed = "b27-speaker-acts";
+    const place = new SeededRng(seed).pick(lifePlaces());
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...explicitNewGameSetup({ placeKey: place.key, seed }),
+        startAge: 40,
+      }),
+    ).game!;
+    const world = openOrdinaryLife(game.world, game.playerPersonId);
+    const vice = currentFederalTenure(world, "us-vice-president")!;
+    const tenure = currentFederalTenure(world, "us-president")!;
+    // The Vice President dies first; the President dies before anyone is
+    // nominated to replace them.
+    const viceDead = die(world, vice.personId, [
+      {
+        officeKey: "us-vice-president",
+        title: "Vice President of the United States",
+        organizationId: null,
+        termEvidenceId: vice.event.id,
+      },
+    ]);
+    let next = applyOfficeContinuityNotices(viceDead.world, [viceDead.notice]);
+    // The Speaker: the longest-serving member of the House majority caucus.
+    const house = projectCongress(next)!.house.seats.flatMap((seat) =>
+      seat.occupant.kind === "member"
+        ? [{ seatKey: seat.seatKey, member: seat.occupant.member }]
+        : [],
+    );
+    const caucusOf = (row: (typeof house)[number]) =>
+      row.member.caucusOrganizationId ?? row.member.partyOrganizationId;
+    const majorityCaucus = [...new Set(house.map(caucusOf))].find(
+      (caucus) =>
+        caucus &&
+        house.filter((row) => caucusOf(row) === caucus).length * 2 >
+          house.length,
+    );
+    expect(majorityCaucus).toBeTruthy();
+    const speaker = house
+      .filter(
+        (row) =>
+          caucusOf(row) === majorityCaucus &&
+          !(
+            next.control.kind === "person" &&
+            next.control.personId === row.member.personId
+          ),
+      )
+      .sort(
+        (a, b) =>
+          (a.member.serviceSince ?? a.member.startedAt ?? "9999").localeCompare(
+            b.member.serviceSince ?? b.member.startedAt ?? "9999",
+          ) || a.seatKey.localeCompare(b.seatKey),
+      )[0]!;
+    const dead = die(next, tenure.personId, [
+      {
+        officeKey: "us-president",
+        title: "President of the United States",
+        organizationId: null,
+        termEvidenceId: tenure.event.id,
+      },
+    ]);
+    next = applyOfficeContinuityNotices(dead.world, [dead.notice]);
+    const ruling = officeContinuityRulings(next, "us-president")[0]!;
+    expect(ruling.outcome).toBe("succeeded");
+    // Acting President for the rest of the same term, read the same way by
+    // every reader and after a reload.
+    expect(currentPresidentOf(next)!.personId).toBe(speaker.member.personId);
+    expect(currentFederalTenure(next, "us-president")!.endExclusive).toBe(
+      tenure.endExclusive,
+    );
+    // They resigned from the House: the seat is vacant.
+    expect(
+      projectCongress(next)!.house.seats.find(
+        (seat) => seat.seatKey === speaker.seatKey,
+      )!.occupant.kind,
+    ).toBe("vacancy");
+    const reopened = deserializeWorld(serializeWorld(next));
+    expect(currentPresidentOf(reopened)!.personId).toBe(
+      speaker.member.personId,
+    );
   }, 300_000);
 
   it("a Vice President who dies is replaced by the President's confirmed nominee for the rest of the term", () => {
