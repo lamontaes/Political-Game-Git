@@ -96,8 +96,6 @@ export const TOWN_FINANCE_POLICY = {
     medianCashBufferDays: 27,
     /** PLACEHOLDER: the spread of buffers around it (log scale). */
     cashBufferLogSd: 0.8,
-    /** PLACEHOLDER: pay as a share of a small business's revenue. */
-    payShareOfRevenue: 0.3,
     /** PLACEHOLDER: a line of credit up to this share of a year's revenue. */
     creditLineShareOfRevenue: 0.1,
     /**
@@ -385,12 +383,13 @@ export function townUnservedJobs(
   const store = world.townFinances;
   const unserved = new Map<string, number>();
   if (!store) return unserved;
-  const P = TOWN_FINANCE_POLICY.business;
   for (const market of Object.values(store.markets)) {
     if (market.town !== town) continue;
     const perJob =
       market.townPay !== undefined && market.townJobs > 0
-        ? market.townPay / market.townJobs / P.payShareOfRevenue
+        ? market.townPay /
+          market.townJobs /
+          townBusinessKindBooks(market.kind).payShare
         : 0;
     if (perJob <= 0) continue;
     const capacity = market.members
@@ -570,8 +569,8 @@ function openBusinessBooks(
     `${TOWN_FINANCES_VERSION}:business:${organizationId}`,
   );
   const yearlyPay = quarterPay * 4;
-  const annualRevenue = yearlyPay / P.payShareOfRevenue;
-  const margin = townBusinessKindBooks(kind).margin;
+  const { margin, payShare } = townBusinessKindBooks(kind);
+  const annualRevenue = yearlyPay / payShare;
   const annualOtherCosts = Math.max(
     0,
     annualRevenue * (1 - margin) - yearlyPay,
