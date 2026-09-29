@@ -435,6 +435,29 @@ describe("public budgets", () => {
     );
   });
 
+  it("a small government that pays its whole contribution records no underpayment from monthly rounding", () => {
+    const world = worldAt("2026-01-05", {
+      laws: [{ question: PENSIONS, answer: "no", jurisdictionId: illinois }],
+    });
+    // A pension the size of a 16-person town's, paid in full: the monthly
+    // payments round to whole dollars and can fall a dollar or two short.
+    const small = {
+      ...publicBudgetFor(opened(world), illinois)!,
+      pension: {
+        ...publicBudgetFor(opened(world), illinois)!.pension,
+        paidShare: 1,
+        liability: 27_076,
+        assets: 19_470,
+      },
+    };
+    const run = settleAlone(world, small, "2027-06-01");
+    expect(
+      run.adjustments.filter(
+        (row) => row.kind === "pension-underpaid" && row.fiscalYear === 2027,
+      ),
+    ).toEqual([]);
+  });
+
   it("each government's pension opens at its own plans' funded ratio, or the median where none is reported", () => {
     const world = opened(
       worldAt("2026-01-05", { places: ["1714000", "county:17031"] }),

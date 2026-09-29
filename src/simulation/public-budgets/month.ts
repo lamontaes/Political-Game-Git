@@ -538,8 +538,10 @@ export function settleGovernmentMonth(
   // The adopted budget set the pension share, so the law read at adoption is
   // the one that decided it; a law enacted later governs the next budget.
   const pensionLaw = year.laws.pensions;
-  // Monthly rounding leaves a few dollars either way; that is not underpaying.
-  if (unpaid > required * 0.001)
+  // Each month's payment rounds to a whole dollar, which can leave up to a
+  // dollar a month short even when the whole share is paid; that is not
+  // underpaying.
+  if (unpaid > Math.max(yearRows.length, required * 0.001))
     adjustments.push({
       governmentKey: government.key,
       on: asOf,
