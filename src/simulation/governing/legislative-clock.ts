@@ -71,6 +71,7 @@ import {
   type ChamberQuestion,
   type MemberBallot,
 } from "./member-ballots";
+import { offerPlannedAmendment } from "./amendment-authors";
 import { decideChamberVote, seatedChamberForPack } from "./chamber-votes";
 import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 import {
@@ -612,9 +613,29 @@ export function applyInstitutionStep(
   if (steps.includes("move-floor-vote")) {
     const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
     const stableKey = key(`floor:${chamberKey}:${stage.stageKey}`);
+    // Before the question is put, a member may offer an amendment for their
+    // own reasons, where this stage takes amendments and the chamber is
+    // seated with people who have reasons (Build 25 step 3).
+    const onFloor =
+      body &&
+      body.members.length > 0 &&
+      body.members.every((member) => member.personId) &&
+      isSeatedChamber(world, blueprint) &&
+      stage.amendable.kind === "known" &&
+      stage.amendable.value &&
+      chamber.amendments.floorAmendmentsAllowed.kind === "known" &&
+      chamber.amendments.floorAmendmentsAllowed.value
+        ? offerPlannedAmendment(world, {
+            measureId,
+            chamber,
+            stage,
+            members: body.members,
+            stableKey,
+          })
+        : world;
     const decided = body
       ? decide(
-          world,
+          onFloor,
           blueprint,
           body.members,
           votePlanKeyForFloor(chamberKey, stage.stageKey),
@@ -640,7 +661,7 @@ export function applyInstitutionStep(
         reason: `The ${chamber.name} has no recorded member decisions on this question.`,
       };
     return applied(
-      takeFloorVote(world, {
+      takeFloorVote(onFloor, {
         stableKey,
         measureId,
         dispositions: decided.dispositions,

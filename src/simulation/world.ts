@@ -2187,6 +2187,10 @@ function validateHistoryIntegrity(
     "legislative provision",
   );
   assertSequenceOrdered(
+    history.chamberRuleChanges ?? [],
+    "chamber rule change",
+  );
+  assertSequenceOrdered(
     history.legislativeDraftLineages ?? [],
     "legislative draft lineage",
   );
@@ -2406,6 +2410,10 @@ function validateHistoryIntegrity(
   assertUniqueStableKeys(
     history.legislativeProvisions ?? [],
     "legislative provision",
+  );
+  assertUniqueStableKeys(
+    history.chamberRuleChanges ?? [],
+    "chamber rule change",
   );
   assertUniqueStableKeys(
     history.legislativeDraftLineages ?? [],

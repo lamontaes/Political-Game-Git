@@ -25,6 +25,7 @@ import type {
   LegislativeQuestionIdentity,
   LegislativeVoteRecord,
   MetricScope,
+  PropositionAnswerRef,
   World,
 } from "./types";
 import { recordWorldEvent } from "./world";
@@ -66,6 +67,8 @@ export interface RecordFiledProvisionInput {
   readonly fiscalExposureLabel?: string | null;
   readonly fiscalExposureMinorUnits?: number | null;
   readonly fiscalPeriod?: "annual";
+  /** The catalog question this section answers, when it answers one. */
+  readonly answers?: PropositionAnswerRef;
 }
 
 export interface AdoptProvisionRevisionInput {
@@ -84,6 +87,8 @@ export interface AdoptProvisionRevisionInput {
   readonly fiscalExposureLabel?: string | null;
   readonly fiscalExposureMinorUnits?: number | null;
   readonly fiscalPeriod?: "annual";
+  /** The catalog question this section answers, when it answers one. */
+  readonly answers?: PropositionAnswerRef;
 }
 
 /** Records a section of a measure as filed, before anyone has amended it. */
@@ -190,6 +195,24 @@ export function adoptProvisionRevisions(
     }
     sectionNumbers.add(input.sectionNumber);
     validateProvisionContent(world, input);
+    // What the chamber adopted is what was offered. An amendment that
+    // recorded its sections when it was put carries exactly those sections,
+    // answering the same questions the same way.
+    if (amendment.proposedSections) {
+      const offered = amendment.proposedSections.find(
+        (section) => section.provisionKey === input.provisionKey,
+      );
+      if (
+        !offered ||
+        offered.supersedesProvisionId !== input.supersedesProvisionId ||
+        offered.answers?.propositionId !== input.answers?.propositionId ||
+        offered.answers?.answer !== input.answers?.answer
+      ) {
+        throw new Error(
+          `Amendment ${amendment.stableKey} did not offer section '${input.provisionKey}' as written.`,
+        );
+      }
+    }
     if (input.supersedesProvisionId !== null) {
       const superseded = current.find(
         (record) => record.id === input.supersedesProvisionId,
@@ -1017,6 +1040,19 @@ function validateProvisionContent(
       "A provision states its fiscal exposure both in words and as an amount, or not at all.",
     );
   }
+  if (input.answers) assertAnswerRef(world, input.answers);
+}
+
+/** A section can only answer a question the world's catalog actually asks. */
+export function assertAnswerRef(world: World, ref: PropositionAnswerRef): void {
+  if (!world.policyCatalog.propositions[ref.propositionId]) {
+    throw new Error(
+      `A section answers a question the catalog does not hold: ${ref.propositionId}`,
+    );
+  }
+  if (ref.answer !== "yes" && ref.answer !== "no") {
+    throw new Error("A section answers a question yes or no.");
+  }
 }
 
 function appendProvision(world: World, input: AppendProvisionInput): World {
@@ -1102,6 +1138,7 @@ function appendProvision(world: World, input: AppendProvisionInput): World {
     supersedesProvisionId: input.supersedesProvisionId,
     originAmendmentId: input.originAmendmentId,
     eventId: event.id,
+    ...(input.answers ? { answers: { ...input.answers } } : {}),
   };
   next = {
     ...next,

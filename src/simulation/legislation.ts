@@ -37,7 +37,9 @@ import type {
   IsoDate,
   LegislativeActionKind,
   LegislativeActionRecord,
+  LegislativeAmendmentMotive,
   LegislativeAmendmentRecord,
+  LegislativeProposedSection,
   LegislativeEnactmentRecord,
   LegislativeMeasureNumberingSession,
   LegislativeMeasureOrigin,
@@ -1971,6 +1973,14 @@ export interface OfferAmendmentInput {
   /** Members currently elected, when the chamber is not at full strength. */
   readonly electedMembers?: number;
   readonly provenance: LegislativeVoteProvenance;
+  /**
+   * The sections the amendment would add or rewrite, as offered. Recorded on
+   * the amendment so its vote keeps what was on the table even if the text
+   * never enters the bill.
+   */
+  readonly proposedSections?: readonly LegislativeProposedSection[];
+  /** Why a computer-run member offered it. */
+  readonly authorMotive?: LegislativeAmendmentMotive;
 }
 
 /** Offers a floor amendment and decides it by recorded vote. */
@@ -2046,6 +2056,15 @@ export function offerFloorAmendment(
     description: input.description,
     status: adopted ? "adopted" : "rejected",
     voteId: vote.id,
+    ...(input.proposedSections && input.proposedSections.length > 0
+      ? {
+          proposedSections: input.proposedSections.map((section) => ({
+            ...section,
+            ...(section.answers ? { answers: { ...section.answers } } : {}),
+          })),
+        }
+      : {}),
+    ...(input.authorMotive ? { authorMotive: input.authorMotive } : {}),
   };
 
   return appendAction(world, {
