@@ -1046,27 +1046,6 @@
       "code": "const FAMILY_SHARE = 0.5;"
     },
     {
-      "file": "src/simulation/living-world/official-views.ts",
-      "kind": "roll",
-      "build": "Build 22",
-      "count": 1,
-      "code": "rng.next() <"
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "kind": "roll",
-      "build": "Build 22",
-      "count": 1,
-      "code": "return new SeededRng(world.seed).fork(`${V}:news:${personId}`).next() < share;"
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "kind": "roll",
-      "build": "Build 22",
-      "count": 1,
-      "code": "return partners.filter((personId) => rng.fork(personId).next() < TELLS_EACH);"
-    },
-    {
       "file": "src/simulation/living-world/opening.ts",
       "kind": "roll",
       "build": "Build 7",
