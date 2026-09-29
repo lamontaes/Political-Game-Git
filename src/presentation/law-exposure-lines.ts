@@ -201,8 +201,9 @@ export function paycheckLawLines(
   return lines;
 }
 
-/** "a month", "a week", "every two weeks", from a terms record's cadence. */
+/** "a month", "a week", "a shift", from a terms record's cadence. */
 function cadenceWords(cadenceKind: string): string {
+  if (/completed-shift/.test(cadenceKind)) return " a shift";
   if (/biweekly/.test(cadenceKind)) return " every two weeks";
   if (/semimonthly/.test(cadenceKind)) return " twice a month";
   if (/weekly/.test(cadenceKind)) return " a week";

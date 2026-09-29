@@ -8,6 +8,8 @@ import {
   scheduleLifePathSession,
 } from "../../src/simulation/life-paths2";
 import { minimumHourlyAt } from "../../src/simulation/minimum-wage";
+import { rentAndPayLawLines } from "../../src/presentation/law-exposure-lines";
+import { projectWorld39Journal } from "../../src/presentation/world39-journal";
 import type { World } from "../../src/simulation";
 
 import { omahaWithRaiseBills } from "./omaha-minimum-wage-bills";
@@ -87,6 +89,16 @@ describe(
       expect(raises[0]!.reason).toBe(
         "LB 900, 2026 raised the state minimum wage to $20.00 an hour.",
       );
+      // The player reads the raise in their own Journal, naming the law.
+      const line = rentAndPayLawLines(after, person.id).find((row) =>
+        row.text.startsWith("Your pay rose from $72 to $80 a shift on "),
+      );
+      expect(line?.text).toMatch(
+        /^Your pay rose from \$72 to \$80 a shift on .+\. LB 900, 2026 raised the state minimum wage to \$20\.00 an hour\.$/,
+      );
+      expect(
+        projectWorld39Journal(after, person.id).entries.map((row) => row.text),
+      ).toContain(line!.text);
       console.info(
         "Omaha player shifts: $72.00 before LB 900, $80.00 after; the law's floor was $20.00 an hour.",
       );
