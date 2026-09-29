@@ -22,14 +22,8 @@ import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { createStableId } from "../ids";
 import { bindingFromIdentity } from "../../districts/query";
-import { SeededRng } from "../rng";
 import { legislativeTermLimitBar } from "./state-legislative-term-limits";
-import {
-  clampShare,
-  logit,
-  logistic,
-  standardNormal,
-} from "../world-setup/deterministic-math";
+import { clampShare, logit, logistic } from "../world-setup/deterministic-math";
 import {
   isStateLegislativeSeatDue,
   stateLegislativeElectionRule,
@@ -47,7 +41,11 @@ import {
   stateLegislativeSeats,
   stateSeatsInDistrict,
 } from "./state-legislature-opening";
-import { electionContestResult } from "../election-contests";
+import {
+  electionContestResult,
+  resolveElectionContest,
+  scheduleElectionContest,
+} from "../election-contests";
 import { fieldIntakeDay, filingWindowOpens } from "../nominations/field-entry";
 import { nominationPlan } from "../nominations/nomination-rules";
 import { holdFiledNominations } from "../nominations/party-nominations";
@@ -107,9 +105,9 @@ const V = STATE_LEGISLATURE_TURNOVER_VERSION;
 
 export const STATE_LEGISLATURE_TURNOVER_PROFILE = {
   id: "ocd-state-legislature-turnover-game-profile/v3",
-  // PLACEHOLDER(overnight): deterministic election-to-election variation and
-  // a small incumbency effect around the save's recorded generated seat view.
-  electionSwingLogit: 0.5,
+  // PLACEHOLDER(overnight): a small incumbency effect around the save's
+  // recorded generated seat view. The seeded swing that varied each election
+  // is gone (Rule 0): a seat's own count decides it.
   incumbencyBonusLogit: 0.18,
 } as const;
 
@@ -423,6 +421,127 @@ function prepareStateIntake(
 }
 
 /** Election day: the regular seats due in these chambers are decided. */
+/**
+ * The ballot is set when military and overseas ballots go out, 45 days before
+ * a federal general election (52 U.S.C. § 20302(a)(8)); a state prints one
+ * ballot, so its legislative races are set the same day. GAME ASSUMPTION for
+ * a state that elects its legislature in an odd year, where that federal
+ * deadline does not bind: the same 45 days.
+ */
+export const STATE_BALLOT_SET_DAYS = 45;
+
+const stateBallotKey = (seatKey: string, year: number) =>
+  `${V}:ballot:${seatKey}:${year}`;
+
+/**
+ * Whether any state ballot for this year (in one pack, when named) is already
+ * set. Ballots open once, on the day they are set; a game that opens after
+ * that day sets them on its first day instead.
+ */
+function stateBallotsSet(world: World, year: number, packId?: string): boolean {
+  const prefix = `${V}:ballot:${packId ? `${packId}|` : ""}`;
+  const suffix = `:${year}`;
+  return (world.history.electionContests ?? []).some(
+    (contest) =>
+      contest.stableKey.startsWith(prefix) &&
+      contest.stableKey.endsWith(suffix),
+  );
+}
+
+/**
+ * Each seat due this year whose nominees stand under different parties gets a
+ * ballot of its own, counted on election day from the seat's voters
+ * (`stateSeatElectorate`). A seat a campaign already holds on this ballot, a
+ * field with two nominees of one party (a top-two primary's general), or a
+ * seat with no recorded lean keeps the legislature's own decision below.
+ */
+function openStateBallots(
+  world: World,
+  packId: string,
+  electionDay: IsoDate,
+): World {
+  const pack = candidacyPackById(packId);
+  const jurisdiction = pack
+    ? stateJurisdictionForKey(pack.jurisdictionKey)
+    : null;
+  if (!pack || !jurisdiction) return world;
+  const year = Number(electionDay.slice(0, 4));
+  const contested = contestedStateSeats(world, packId, electionDay);
+  let next = world;
+  for (const seat of regularSeatsDue(world, packId, year)) {
+    if (contested.has(`${seat.officeKey}|${seat.ordinal}`)) continue;
+    const seatKey = stateCandidateSeatKey(packId, seat.officeKey, seat.ordinal);
+    const stableKey = stateBallotKey(seatKey, year);
+    if (hasStableKey(next.history.electionContests ?? [], stableKey)) continue;
+    const nominees = stateGeneralCandidates(next, seatKey, year).filter(
+      (candidate) =>
+        !recordsWithFieldValue(
+          next.history.personDeaths,
+          "personId",
+          candidate.personId,
+        ).some((death) => death.diedAt <= next.currentDate),
+    );
+    const parties = nominees.map((candidate) => candidate.party);
+    if (
+      nominees.length === 0 ||
+      parties.some((party) => party === null) ||
+      new Set(parties).size !== parties.length ||
+      stateSeatDemocraticShare(next, packId, seat.officeKey, seat.ordinal) ===
+        null
+    )
+      continue;
+    next = scheduleElectionContest(next, {
+      stableKey,
+      jurisdictionId: jurisdiction.id,
+      office: {
+        officeKey: seat.officeKey,
+        title: seat.title,
+        seatKey,
+        occupationClassification: null,
+      },
+      electionDate: electionDay,
+      candidatePersonIds: nominees.map((candidate) => candidate.personId),
+      provenance: {
+        method: "simulated",
+        sourceEntityIds: [],
+        note: "The seat's nominees, set on the ballot 45 days before election day.",
+      },
+    });
+  }
+  return next;
+}
+
+/** The winner a seat's own counted ballot chose, counting it if it is not yet. */
+function countedStateBallot(
+  world: World,
+  seatKey: string,
+  year: number,
+  electionDay: IsoDate,
+): { readonly world: World; readonly winnerPersonId: EntityId | null } {
+  const contest = recordByStableKey(
+    world.history.electionContests ?? [],
+    stateBallotKey(seatKey, year),
+  );
+  if (!contest) return { world, winnerPersonId: null };
+  let next = world;
+  if (!electionContestResult(next, contest.id))
+    next = resolveElectionContest(next, {
+      stableKey: `${contest.stableKey}:count`,
+      contestId: contest.id,
+      resolvedAt: electionDay,
+      provenance: {
+        method: "simulated",
+        sourceEntityIds: [contest.id],
+        note: "Counted on election day from the seat's own voters.",
+      },
+    });
+  return {
+    world: next,
+    winnerPersonId:
+      electionContestResult(next, contest.id)?.winnerPersonId ?? null,
+  };
+}
+
 function holdStateLegislativeElection(
   world: World,
   packId: string,
@@ -494,14 +613,16 @@ function holdStateLegislativeElection(
       unfilled.push(`${seatKey}|${termStartOf(seat.officeKey, electionDay)}`);
       continue;
     }
+    const counted = countedStateBallot(next, canonicalKey, year, electionDay);
+    next = counted.world;
+    const ballotWinner = candidates.find(
+      (candidate) => candidate.personId === counted.winnerPersonId,
+    );
     const share = stateSeatDemocraticShare(
       next,
       packId,
       seat.officeKey,
       seat.ordinal,
-    );
-    const electionRng = new SeededRng(next.seed).fork(
-      `${V}:${packId}:${seat.officeKey}:${seat.ordinal}:${electionDay}:view`,
     );
     const incumbentBonus =
       sitting?.party === "democratic"
@@ -512,12 +633,7 @@ function holdStateLegislativeElection(
     const electionShare =
       share === null
         ? null
-        : logistic(
-            logit(clampShare(share, 1e-6)) +
-              STATE_LEGISLATURE_TURNOVER_PROFILE.electionSwingLogit *
-                standardNormal(electionRng) +
-              incumbentBonus,
-          );
+        : logistic(logit(clampShare(share, 1e-6)) + incumbentBonus);
     // PLACEHOLDER(overnight): the saved generated seat lean chooses between
     // living candidates. A missing lean keeps the incumbent if they filed,
     // then uses stable candidate order; it is not a fabricated vote margin.
@@ -527,7 +643,9 @@ function holdStateLegislativeElection(
         : electionShare >= 0.5
           ? "democratic"
           : "republican";
+    // The seat's own count decides where there was one.
     const winner =
+      ballotWinner ??
       candidates.find((candidate) => candidate.party === preferredParty) ??
       [...candidates].sort((left, right) =>
         left.personId.localeCompare(right.personId),
@@ -1104,7 +1222,16 @@ export function applyStateLegislatureTurnover(
     crossesAny =
       (before < january && january <= after) ||
       (before < `${year}-03-07` && filingWindowOpens(year) <= after) ||
-      (before < `${year}-11-08` && `${year}-11-02` <= after);
+      (before < `${year}-11-08` && `${year}-11-02` <= after) ||
+      // The ballot is set 45 days before an early-November election day,
+      // or on a game's first day when it opens after that.
+      (before < addDays(makeIsoDate(`${year}-11-08`), -STATE_BALLOT_SET_DAYS) &&
+        addDays(makeIsoDate(`${year}-11-02`), -STATE_BALLOT_SET_DAYS) <=
+          after) ||
+      (addDays(makeIsoDate(`${year}-11-02`), -STATE_BALLOT_SET_DAYS) <=
+        before &&
+        after < `${year}-11-02` &&
+        !stateBallotsSet(start, year));
   }
   if (!crossesAny) return world;
   const packs = seatedPacks(world);
@@ -1153,6 +1280,13 @@ export function applyStateLegislatureTurnover(
           : [];
       });
       next = prepareStateIntake(next, packId, electionDay, due);
+      const ballotDay = addDays(electionDay, -STATE_BALLOT_SET_DAYS);
+      if (
+        ballotDay <= after &&
+        after < electionDay &&
+        (before < ballotDay || !stateBallotsSet(next, year, packId))
+      )
+        next = openStateBallots(next, packId, electionDay);
       if (before < electionDay && electionDay <= after)
         next = holdStateLegislativeElection(next, packId, electionDay);
       const results = recordByStableKey(
