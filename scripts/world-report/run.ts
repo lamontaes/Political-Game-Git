@@ -69,6 +69,11 @@ import {
   formattedMarkdown,
   openWatchedWorld,
 } from "../dev-lab/world-aging";
+import {
+  vitalCounts,
+  vitalSnapshot,
+  type VitalSnapshot,
+} from "./vital-statistics";
 
 /* -------------------------------------------------------------------------- */
 /* Running the world                                                           */
@@ -107,6 +112,8 @@ export interface WorldReportRun {
   readonly world: World;
   /** Who held each executive office at the opening and each month's start. */
   readonly officeholders: readonly OfficeholderSnapshot[];
+  /** The place's vital statistics as the watched world opened. */
+  readonly vitalsAtStart?: VitalSnapshot;
 }
 
 function officeholderSnapshot(world: World): OfficeholderSnapshot {
@@ -133,6 +140,10 @@ export function runWorldReport(options: WorldReportOptions): WorldReportRun {
       ? button.world.currentDate >= until
       : daysPressed >= options.days;
   const officeholders = [officeholderSnapshot(button.world)];
+  const town = watched.world.people[watched.anchorPersonId]?.homeJurisdictionId;
+  const vitalsAtStart = town
+    ? vitalSnapshot(button.world, town, watched.anchorPersonId)
+    : undefined;
   let daysPressed = 0;
   let stopped: string | null = null;
   while (!done()) {
@@ -155,6 +166,7 @@ export function runWorldReport(options: WorldReportOptions): WorldReportRun {
     stopped,
     world: button.world,
     officeholders,
+    ...(vitalsAtStart ? { vitalsAtStart } : {}),
   };
 }
 
@@ -2161,8 +2173,64 @@ export function worldReportMarkdown(run: WorldReportRun): string {
     "- People near the place are those living in it at the end, and anyone who moved into or out of it.",
     "- Each chronicle line ends with a hidden comment naming the ids of the records it came from. Open this file as text to see them.",
     "",
+    ...vitalStatisticsLines(run, reader),
   );
   return `${out.join("\n")}\n`;
+}
+
+const KEPT_FOR = { town: "the place", state: "the state" } as const;
+
+/**
+ * VITAL STATISTICS, the same list for every place, last in the report so two
+ * worlds can be set side by side: each figure at the opening and at the end.
+ */
+export function vitalStatisticsLines(
+  run: WorldReportRun,
+  reader: WorldRecordReader,
+): string[] {
+  const town = reader.placeJurisdictionId;
+  const end = vitalSnapshot(run.world, town, run.anchorPersonId);
+  const start = new Map(
+    (run.vitalsAtStart?.figures ?? []).map((figure) => [figure.key, figure]),
+  );
+  const cell = (value: string | null | undefined, missing?: string) =>
+    value ?? (missing ? `not recorded: ${missing}` : "not recorded");
+  const out = [
+    "## Vital statistics",
+    "",
+    `${reader.placeName}, at the opening (${proseDate(reader.startedOn)}) and at the end (${proseDate(reader.endedOn)}). Every figure is read from what the world recorded; a figure it does not record says so and is never shown as zero.`,
+    "",
+    "| Figure | Kept for | Start | End |",
+    "| --- | --- | --- | --- |",
+  ];
+  for (const figure of end.figures) {
+    const opening = start.get(figure.key);
+    out.push(
+      `| ${figure.label} | ${KEPT_FOR[figure.scope]} | ${opening ? cell(opening.value, opening.missing) : "not recorded: the run kept no opening figures"} | ${cell(figure.value, figure.missing)} |`,
+    );
+  }
+  const firstYearEnd = anniversary(reader.startedOn, 1);
+  const first = vitalCounts(
+    run.world,
+    town,
+    reader.startedOn,
+    firstYearEnd < reader.endedOn ? firstYearEnd : reader.endedOn,
+  );
+  const lastYearStart = anniversary(reader.startedOn, run.options.years - 1);
+  const last = vitalCounts(
+    run.world,
+    town,
+    lastYearStart > reader.startedOn ? lastYearStart : reader.startedOn,
+    reader.endedOn,
+  );
+  out.push(
+    `| Births, first year and last year | the place | ${first.births} | ${last.births} |`,
+    `| Deaths, first year and last year | the place | ${first.deaths} | ${last.deaths} |`,
+    `| Businesses opened, first year and last year | the place | ${first.businessesOpened} | ${last.businessesOpened} |`,
+    `| Businesses closed, first year and last year | the place | ${first.businessesClosed} | ${last.businessesClosed} |`,
+    "",
+  );
+  return out;
 }
 
 /* -------------------------------------------------------------------------- */

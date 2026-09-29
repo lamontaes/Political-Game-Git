@@ -520,7 +520,9 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "housing-land-use.allow-multifamily-in-single-family-zones",
-      issue: "us-state-and-local:housing-land-use.zoning",
+      // A housing-supply question: states answer it too, overriding local
+      // zoning (Oregon, California, Washington, Montana, Maine, Vermont, Arizona).
+      issue: "us-state-and-local:housing-land-use.housing-supply",
       name: "Allow multifamily housing in single-family zones",
       question:
         "Should small multifamily housing be allowed by right in areas zoned for single-family homes?",

@@ -376,9 +376,10 @@ describe("migration scaffold", () => {
       ...new Set(wrecked.flatMap((record) => householdsHit(record))),
     ].filter(
       (householdId) =>
-        peopleInHouseholdAt(struck, householdId).every(
-          (id) => !moveTieReader(struck).bindingTie(id),
-        ) &&
+        // The flood's dead keep their jobs on the books; they bind nobody.
+        peopleInHouseholdAt(struck, householdId)
+          .filter((id) => !died.has(id))
+          .every((id) => !moveTieReader(struck).bindingTie(id)) &&
         peopleInHouseholdAt(struck, householdId).some((id) => !died.has(id)) &&
         !peopleInHouseholdAt(struck, householdId).includes(opened.playerId),
     );

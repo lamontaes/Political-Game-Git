@@ -3,10 +3,21 @@ import { join, relative, resolve } from "node:path";
 
 export type PlaceholderPath = "money" | "law" | "government" | "other";
 
+/**
+ * The three ways the code says a number is not a researched fact. A line can
+ * carry more than one: "PLACEHOLDER, NOT RESEARCHED" is both.
+ *  - placeholder: the literal word PLACEHOLDER (also inside an identifier).
+ *  - blanket: the literal word BLANKET, the migration and pressure lanes' name
+ *    for one flat rule that holds until someone researches the real one.
+ *  - unresearched: "unresearched" or "not researched", in any case.
+ */
+export type MarkerKind = "placeholder" | "blanket" | "unresearched";
+
 export interface PlaceholderMarker {
   readonly file: string;
   readonly line: number;
   readonly text: string;
+  readonly kinds: readonly MarkerKind[];
   readonly path: PlaceholderPath;
   readonly researchQuestionId: string | null;
   readonly researchQuestionFiled: boolean;
@@ -18,13 +29,55 @@ export interface PlaceholderLedger {
   readonly pathRule: string;
   readonly counts: {
     readonly markers: number;
+    readonly byKind: Readonly<Record<string, number>>;
     readonly byPath: Readonly<Record<string, number>>;
+    /** Markers that name no research question: nobody has asked for the real number yet. */
+    readonly withoutQuestion: number;
+    /** Markers that name a question with no file under docs/research/requests. */
+    readonly questionNotFiled: number;
     readonly moneyOrLawQuestions: number;
   };
   readonly markers: readonly PlaceholderMarker[];
 }
 
-const ROOTS = ["src/simulation", "src/presentation"];
+/** The whole game source. Tests are left out; the exclusions below are named. */
+const ROOTS = ["src"];
+
+/**
+ * Files a plain search finds the words in that are not unresearched game
+ * values. Each has a reason; anything else under src is counted.
+ */
+export const NOT_MARKERS: Readonly<Record<string, string>> = {
+  "src/source/domains/state-office-qualifications/validate.ts":
+    "holds the lists of fake citations and values the validator rejects; correct as written",
+  "src/source/domains/state-office-qualifications/index.ts":
+    "re-exports the two rejected-value lists",
+};
+
+/** Directories of test fixtures, not game values. */
+const FIXTURE_DIRS = ["src/authoring/fixtures/"];
+
+/** Files that are machine output: one very long line of data, no comments. */
+const GENERATED = /\.generated\.tsx?$/;
+
+const KIND_PATTERNS: readonly (readonly [MarkerKind, RegExp])[] = [
+  ["placeholder", /PLACEHOLDER/],
+  ["blanket", /BLANKET/],
+  ["unresearched", /unresearched|not researched/i],
+];
+
+export function markerKinds(line: string): MarkerKind[] {
+  return KIND_PATTERNS.filter(([, pattern]) => pattern.test(line)).map(
+    ([kind]) => kind,
+  );
+}
+
+/** True when a path under the repository root is scanned for markers. */
+export function isScanned(file: string): boolean {
+  if (/\.test\.tsx?$/.test(file) || GENERATED.test(file)) return false;
+  if (FIXTURE_DIRS.some((dir) => file.startsWith(dir))) return false;
+  return !(file in NOT_MARKERS);
+}
 
 /** Files whose values reach pay, prices, balances or public money. */
 const MONEY =
@@ -67,12 +120,11 @@ function findId(text: string): string | null {
   return null;
 }
 
-function walk(dir: string, out: string[]): void {
+export function walk(dir: string, out: string[]): void {
   for (const name of readdirSync(dir).sort()) {
     const full = join(dir, name);
     if (statSync(full).isDirectory()) walk(full, out);
-    else if (/\.tsx?$/.test(name) && !/\.test\.tsx?$/.test(name))
-      out.push(full);
+    else if (/\.tsx?$/.test(name)) out.push(full);
   }
 }
 
@@ -82,13 +134,15 @@ function walk(dir: string, out: string[]): void {
  * the one id its file names, when the file names exactly one.
  */
 export function scanPlaceholders(root: string): PlaceholderMarker[] {
-  const files: string[] = [];
-  for (const dir of ROOTS) walk(resolve(root, dir), files);
+  const found: string[] = [];
+  for (const dir of ROOTS) walk(resolve(root, dir), found);
+  const rel = (full: string) => relative(root, full).split("\\").join("/");
+  const files = found.filter((full) => isScanned(rel(full)));
   const constantIds = new Map<string, string>();
   for (const full of files) {
     const lines = readFileSync(full, "utf8").split("\n");
     lines.forEach((line, index) => {
-      const declared = /const (\w*PLACEHOLDER\w*)\b/.exec(line);
+      const declared = /const (\w*(?:PLACEHOLDER|BLANKET)\w*)\b/.exec(line);
       if (!declared) return;
       const id = findId(lines.slice(index, index + 25).join("\n"));
       if (id) constantIds.set(declared[1]!, id);
@@ -97,9 +151,9 @@ export function scanPlaceholders(root: string): PlaceholderMarker[] {
   const markers: PlaceholderMarker[] = [];
   for (const full of files) {
     const source = readFileSync(full, "utf8");
-    if (!source.includes("PLACEHOLDER")) continue;
-    const file = relative(root, full).split("\\").join("/");
+    const file = rel(full);
     const lines = source.split("\n");
+    if (!lines.some((line) => markerKinds(line).length > 0)) continue;
     const fileIds = new Set<string>();
     for (const line of lines) {
       const id = findId(line);
@@ -107,7 +161,8 @@ export function scanPlaceholders(root: string): PlaceholderMarker[] {
     }
     const soleFileId = fileIds.size === 1 ? [...fileIds][0]! : null;
     lines.forEach((line, index) => {
-      if (!line.includes("PLACEHOLDER")) return;
+      const kinds = markerKinds(line);
+      if (kinds.length === 0) return;
       let id: string | null = null;
       for (const width of [0, 3, 8]) {
         id = findId(
@@ -115,13 +170,14 @@ export function scanPlaceholders(root: string): PlaceholderMarker[] {
         );
         if (id) break;
       }
-      for (const name of line.match(/\w*PLACEHOLDER\w*/g) ?? [])
+      for (const name of line.match(/\w*(?:PLACEHOLDER|BLANKET)\w*/g) ?? [])
         id ??= constantIds.get(name) ?? null;
       id ??= soleFileId;
       markers.push({
         file,
         line: index + 1,
         text: line.trim().slice(0, 160),
+        kinds,
         path: placeholderPathFor(file),
         researchQuestionId: id,
         researchQuestionFiled:
