@@ -86,7 +86,7 @@ export function decideStatehoodCertification(
     certified,
     changeStartsOn,
     reason: certified
-      ? `The state holds ${million(held)} in its general fund and reserve against ${million(needed)}, the ${million(loss)} a year that ending the higher Medicaid and children's insurance match costs it, for ${years} fiscal years, so it certifies to the President and the higher match ends when the next fiscal year begins.`
+      ? `The state holds ${million(held)} in its general fund and reserve against ${million(needed)}, the ${million(loss)} a year that ending the higher Medicaid and children's insurance match costs it, for ${years} fiscal years, so it certifies to the President and the higher match ends when the next budget year begins.`
       : `The state holds ${million(held)} in its general fund and reserve against ${million(needed)}, the ${million(loss)} a year that ending the higher Medicaid and children's insurance match costs it, for ${years} fiscal years, so it does not certify, keeps the higher match, and asks again when it adopts next year's budget.`,
   };
 }

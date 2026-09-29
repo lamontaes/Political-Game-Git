@@ -13,8 +13,8 @@ declare is reported as undeclared rather than filled in from a guess.
 | Family | Templates | Withheld | Undeclared grounding | Canonical concerns |
 | --- | --- | --- | --- | --- |
 | `campaign/campaign-status` | 29 | 0 | 0 | candidacy |
-| `conversation/commit-contract` | 95 | 0 | 0 | — |
-| `conversation/contextual-scene` | 201 | 0 | 0 | — |
+| `conversation/commit-contract` | 111 | 0 | 0 | — |
+| `conversation/contextual-scene` | 202 | 0 | 0 | — |
 | `conversation/conversation-subject` | 47 | 0 | 0 | — |
 | `conversation/conversation-turn` | 24 | 0 | 0 | — |
 | `governing/municipal-attendance-and-work` | 40 | 0 | 0 | activity-evidence, work-standing |
@@ -22,9 +22,9 @@ declare is reported as undeclared rather than filled in from a guess.
 | `governing/municipal-institution-record` | 2 | 0 | 0 | activity-evidence |
 | `governing/municipal-law-projection` | 48 | 0 | 0 | — |
 | `governing/municipal-work-and-session` | 7 | 0 | 0 | activity-evidence, work-standing |
-| `governing/municipal-workspace` | 88 | 0 | 0 | — |
+| `governing/municipal-workspace` | 89 | 0 | 0 | — |
 | `legislative/measure-briefing` | 97 | 0 | 0 | measure |
-| `life/adult` | 292 | 238 | 0 | colleague-identity, household-kinship, persistent-cast |
+| `life/adult` | 305 | 238 | 0 | colleague-identity, household-kinship, persistent-cast |
 | `life/callback` | 33 | 0 | 0 | — |
 | `life/episode` | 1003 | 204 | 0 | activity-evidence, age, colleague-identity, elapsed-time, enrollment, household-kinship, incident-locality, persistent-cast, work-standing |
 | `life/formative` | 177 | 0 | 0 | persistent-cast |

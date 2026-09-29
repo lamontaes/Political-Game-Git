@@ -85,7 +85,7 @@ export function budgetDeadlineConsideration(
           ? "moderate"
           : "slight",
     confidence: "high",
-    explanation: `Without a budget in force when the fiscal year begins in ${days} days, the government's offices close.`,
+    explanation: `Without a budget in force when the new budget year begins in ${days} days, the government's offices close.`,
     sourceRefs: [],
   };
 }

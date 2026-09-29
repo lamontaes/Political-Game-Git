@@ -1,6 +1,6 @@
 # Prose diagnostics — current main baseline
 
-**0 hard errors. 374 review warnings.**
+**0 hard errors. 375 review warnings.**
 
 A hard error is objectively wrong: an ID collision, a slot the record's own
 grounding cannot bind, a withheld record with no reason. A review warning is a
@@ -13,7 +13,7 @@ defect than the one it was aimed at.
 
 | Family | Count |
 | --- | --- |
-| vague-referent | 184 |
+| vague-referent | 185 |
 | label-restated-in-description | 116 |
 | and-it-scaffold | 39 |
 | rather-than-scaffold | 24 |
@@ -22,10 +22,10 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 3089 templates, 2879 distinct texts.
-- 186 exact duplicate groups.
-- 196 normalized duplicate groups.
-- 25 near-duplicate clusters (Jaccard ≥ 0.72).
+- 3120 templates, 2908 distinct texts.
+- 188 exact duplicate groups.
+- 198 normalized duplicate groups.
+- 26 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".
@@ -45,20 +45,20 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `at the end` | 15 | 4 |
 | `at the end of` | 15 | 4 |
 | `the end of` | 15 | 4 |
+| `go to the` | 14 | 7 |
 | `instrument read establishes` | 14 | 2 |
+| `said they would` | 14 | 4 |
 | `the two of` | 14 | 4 |
 | `you want to` | 14 | 3 |
 | `a long time` | 13 | 3 |
 | `existing saves are` | 13 | 1 |
 | `existing saves are unchanged` | 13 | 1 |
+| `proof of income` | 13 | 3 |
 | `saves are unchanged` | 13 | 1 |
-| `go to the` | 12 | 7 |
 | `is on the` | 12 | 6 |
 | `no instrument read establishes` | 12 | 1 |
-| `proof of income` | 12 | 2 |
-| `the bill is` | 12 | 2 |
-| `the two of you` | 12 | 4 |
-| `two of you` | 12 | 4 |
+| `of income form` | 12 | 3 |
+| `proof of income form` | 12 | 3 |
 
 ### Most repeated sentence openings
 
@@ -74,10 +74,10 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `ask for a` | 9 |
 | `that file is` | 9 |
 | `you put the` | 9 |
+| `you took the` | 9 |
 | `stay out of` | 8 |
 | `you asked for` | 8 |
 | `you told the` | 8 |
-| `you took the` | 8 |
 | `ask about the` | 7 |
 
 Every finding with its exact semantic ID is in `lint-findings.json`.
