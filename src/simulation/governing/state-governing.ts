@@ -758,8 +758,8 @@ export function staffRecommendation(
   const assessment = staffAssessment(world, chief);
   const rng = new SeededRng(`${matter.stableKey}:recommendation:${chief}`);
   switch (matter.family) {
-    case "chief-of-staff":
     // Clemency is the officeholder's own power; nobody decides it for them.
+    case "chief-of-staff":
     case "clemency":
       return null;
     case "agenda": {
