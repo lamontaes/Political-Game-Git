@@ -14,6 +14,9 @@ export const TRANSIT_VARIANT_KEY = "transit-staged-service-v1";
  */
 export const LEGACY_TRANSIT_COMPILED_STATE = "US-AK";
 export const STATE_TRANSIT_VARIANT_KEY = "transit-staged-service-v2";
+/** The catalog question a state transit service bill answers. */
+export const STATE_TRANSIT_SERVICE_QUESTION =
+  "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours";
 export const TRANSIT_PROGRAM_KEY = "standing:rural-transit-assistance";
 /** Prices and scope are authored contract terms, never empirical effectiveness. */
 export const TRANSIT_CONTRACT_PRICE_MINOR_UNITS_PER_HOUR = 10_000;
