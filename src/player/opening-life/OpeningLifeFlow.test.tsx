@@ -42,7 +42,8 @@ describe("ordinary life without a situation", () => {
         onOpenPending={() => {}}
       />,
     );
-    expect(available).toContain("What’s happening");
+    // The opener was renamed "Your choices here" in b61ce4c0a.
+    expect(available).toContain("Your choices here");
     expect(available).not.toContain("The moment");
   });
 });
