@@ -283,13 +283,6 @@
       "code": "const district = orientation.homeState?.stateUsps === \"DC\";"
     },
     {
-      "file": "src/presentation/politics-government.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "usps === \"PR\" ? \"Resident Commissioner\" : \"Delegate to the U.S. House\";"
-    },
-    {
       "file": "src/presentation/production-world.ts",
       "kind": "fixed-share",
       "build": "Build 7",
@@ -308,21 +301,7 @@
       "kind": "place-in-logic",
       "build": "Build 3",
       "count": 1,
-      "code": "return seat.stateUsps === \"PR\""
-    },
-    {
-      "file": "src/presentation/world-orientation.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
       "code": "if (home?.stateUsps === \"DC\") {"
-    },
-    {
-      "file": "src/presentation/world-orientation.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "`${name} is a U.S. territory, not a state. It elects its own Governor and legislature, and sends ${home.stateUsps === \"PR\" ? \"a Resident Commissioner\" : \"a Delegate\"} to the U.S. House, who does not cast final votes there. It has no seat in the U.S. Senate.`,"
     },
     {
       "file": "src/presentation/world-orientation.ts",

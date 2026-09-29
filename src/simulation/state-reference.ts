@@ -44,6 +44,34 @@ export function isTerritoryUsps(usps: string | null | undefined): boolean {
 }
 
 /**
+ * What each territory and the District call the member they send to the U.S.
+ * House, who sits on committees but casts no final vote: Puerto Rico's
+ * Resident Commissioner (48 U.S.C. § 891), and a Delegate from the District
+ * (2 U.S.C. § 25a), Guam and the Virgin Islands (48 U.S.C. § 1711), American
+ * Samoa (48 U.S.C. § 1731) and the Northern Mariana Islands (48 U.S.C.
+ * § 1751).
+ */
+export const NONVOTING_HOUSE_MEMBER_TITLE: Readonly<
+  Record<string, "Resident Commissioner" | "Delegate">
+> = {
+  PR: "Resident Commissioner",
+  DC: "Delegate",
+  GU: "Delegate",
+  VI: "Delegate",
+  AS: "Delegate",
+  MP: "Delegate",
+};
+
+/** The nonvoting House member's title for a place that sends one, else null. */
+export function nonvotingHouseMemberTitle(
+  usps: string,
+): "Resident Commissioner" | "Delegate" | null {
+  return Object.hasOwn(NONVOTING_HOUSE_MEMBER_TITLE, usps)
+    ? NONVOTING_HOUSE_MEMBER_TITLE[usps]!
+    : null;
+}
+
+/**
  * What a birth in each territory confers. Every state and the District confer
  * citizenship (Fourteenth Amendment; 8 U.S.C. § 1401). Four territories do by
  * statute: Puerto Rico (§ 1402), the Virgin Islands (§ 1406), Guam (§ 1407)
