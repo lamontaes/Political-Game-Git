@@ -601,20 +601,22 @@ export function SetupScreen({
           )}
           {location.stateJurisdictionKey ? (
             <>
-              <label className="game-search">
-                Search places in this state
-                <input
-                  type="search"
-                  data-testid="place-search"
-                  value={placeQuery}
-                  placeholder="Type a city or town"
-                  onChange={(event) => {
-                    setPlaceQuery(event.target.value);
-                    if (location.placeKey) setReplacingPlace(true);
-                  }}
-                />
-              </label>
-              {custom && statewidePlace ? (
+              {placeListOpen ? (
+                <label className="game-search">
+                  Search places in this state
+                  <input
+                    type="search"
+                    data-testid="place-search"
+                    value={placeQuery}
+                    placeholder="Type a city or town"
+                    onChange={(event) => {
+                      setPlaceQuery(event.target.value);
+                      if (location.placeKey) setReplacingPlace(true);
+                    }}
+                  />
+                </label>
+              ) : null}
+              {placeListOpen && custom && statewidePlace ? (
                 <div className="game-choices" data-testid="place-statewide">
                   <button
                     type="button"
@@ -750,15 +752,17 @@ export function SetupScreen({
                     {fact.text}
                   </p>
                 ))}
-              {placeRegionalFacts(place).map((fact) => (
-                <p
-                  key={fact.key}
-                  className="game-hint"
-                  data-testid={`place-regional-${fact.key}`}
-                >
-                  {fact.text}
-                </p>
-              ))}
+              {placeRegionalFacts(place)
+                .filter((fact) => fact.key !== "rent")
+                .map((fact) => (
+                  <p
+                    key={fact.key}
+                    className="game-hint"
+                    data-testid={`place-regional-${fact.key}`}
+                  >
+                    {fact.text}
+                  </p>
+                ))}
               {populationFacts.map((fact) => (
                 <p
                   key={`${fact.kind}:${fact.text}:${fact.asOf}`}
