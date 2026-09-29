@@ -1,7 +1,13 @@
 import bases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
 import {
+  countyGeoidsForPlace,
+  countyGovernmentUnit,
+  governmentUnitsForPlace,
+} from "../government-units";
+import {
   lifePlaceByJurisdictionId,
+  lifePlaceByKey,
   stateJurisdictionForKey,
 } from "../life-places";
 import {
@@ -176,6 +182,16 @@ const ACS_PLACE_POPULATION = acsPlaces.places as Readonly<
   Record<string, number>
 >;
 
+/** Each such place's residents by county (ACS 2020-2024), largest first. */
+const ACS_PLACE_COUNTIES = acsPlaces.placeCounties as unknown as Readonly<
+  Record<string, readonly (readonly [string, number])[]>
+>;
+
+/** Puerto Rico's municipios, which the BEA county figures leave out: ACS 2020-2024. */
+const ACS_MUNICIPIO_POPULATION = acsPlaces.puertoRicoMunicipios as Readonly<
+  Record<string, number>
+>;
+
 /** NASBO's median rainy-day balance as a share of spending, fiscal 2026. */
 const MEDIAN_RAINY_DAY_SHARE = 0.131;
 
@@ -190,9 +206,11 @@ export interface BudgetCandidate {
 }
 
 /**
- * Every government the world holds: each state, D.C. and territory, and each
- * county and city jurisdiction present. The rest are listed with the reason
- * they keep no budget.
+ * Every government the world holds: each state, D.C. and territory, each
+ * county present, and each city present that has a government of its own. A
+ * census-designated place present brings in the county or Puerto Rico
+ * municipio that serves it. The rest are listed with the reason they keep no
+ * budget.
  */
 export function budgetCandidates(world: World): {
   readonly candidates: readonly BudgetCandidate[];
@@ -244,17 +262,83 @@ export function budgetCandidates(world: World): {
       });
       continue;
     }
+    if (county || governmentUnitsForPlace(geoid).length > 0) {
+      candidates.push({
+        key: county ? `county:${geoid}` : `place:${geoid}`,
+        jurisdictionId: id,
+        lawJurisdictionId: id,
+        level: county ? "county" : "city",
+        name: jurisdiction.name,
+        stateKey,
+        geoid,
+      });
+      continue;
+    }
+    // A census-designated place has no government of its own. Its residents
+    // are served by the county holding most of them, or in Puerto Rico by the
+    // municipio; that government keeps the budget.
+    const serving = servingCounty(geoid, stateKey);
+    if (typeof serving === "string") {
+      unknown.push({
+        key: `place:${geoid}`,
+        jurisdictionId: id,
+        reason: serving,
+      });
+      continue;
+    }
     candidates.push({
-      key: county ? `county:${geoid}` : `place:${geoid}`,
-      jurisdictionId: id,
-      lawJurisdictionId: id,
-      level: county ? "county" : "city",
-      name: jurisdiction.name,
+      key: `county:${serving.geoid}`,
+      jurisdictionId: serving.jurisdictionId,
+      lawJurisdictionId: serving.jurisdictionId,
+      level: "county",
+      name: serving.name,
       stateKey,
-      geoid,
+      geoid: serving.geoid,
     });
   }
-  return { candidates, unknown };
+  const seen = new Set<string>();
+  return {
+    candidates: candidates.filter((candidate) => {
+      if (seen.has(candidate.key)) return false;
+      seen.add(candidate.key);
+      return true;
+    }),
+    unknown,
+  };
+}
+
+/**
+ * The county government, or Puerto Rico municipio, that serves a place with
+ * no government of its own: the county holding most of its residents (ACS
+ * 2020-2024), or else most of its land (2020 Census files). Where
+ * that county area has no county government (New England towns, Alaska's
+ * unorganized borough, consolidated city-counties), the reason.
+ */
+function servingCounty(
+  placeGeoid: string,
+  stateKey: string,
+):
+  | {
+      readonly geoid: string;
+      readonly jurisdictionId: EntityId;
+      readonly name: string;
+    }
+  | string {
+  const countyGeoid =
+    ACS_PLACE_COUNTIES[placeGeoid]?.[0]?.[0] ??
+    countyGeoidsForPlace(placeGeoid)[0];
+  if (!countyGeoid)
+    return "No government of its own, and no county is recorded for it.";
+  if (stateKey !== "US-PR" && !countyGovernmentUnit(countyGeoid))
+    return "No government of its own, and its county area has no county government; the town or consolidated government that serves it is not linked yet.";
+  const place = lifePlaceByKey(`county:${countyGeoid}`);
+  if (!place)
+    return "No government of its own, and the county that serves it is not in the places corpus.";
+  return {
+    geoid: countyGeoid,
+    jurisdictionId: place.context.jurisdiction.id,
+    name: place.context.jurisdiction.name,
+  };
 }
 
 function drawn(
@@ -463,13 +547,17 @@ function localOpening(
       : (ACS_PLACE_POPULATION[candidate.geoid!] ?? null);
   const population =
     candidate.level === "county"
-      ? (COUNTY_POPULATION[candidate.geoid!] ?? null)
+      ? (COUNTY_POPULATION[candidate.geoid!] ??
+        ACS_MUNICIPIO_POPULATION[candidate.geoid!] ??
+        null)
       : (placePopulation(candidate.geoid!) ?? acsPopulation);
   if (population === null || population <= 0)
     return "No population for this place in the research.";
   const populationSource =
     candidate.level === "county"
-      ? "BEA 2024"
+      ? COUNTY_POPULATION[candidate.geoid!] !== undefined
+        ? "BEA 2024"
+        : "ACS 2020-2024 five-year"
       : placePopulation(candidate.geoid!) !== null
         ? "Census 2025"
         : "ACS 2020-2024 five-year";
