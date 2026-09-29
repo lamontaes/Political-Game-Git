@@ -100,6 +100,7 @@
     "release:check-push": "node --import tsx scripts/release/check-push.ts",
     "release:check": "node --import tsx scripts/release/index.ts check",
     "zero-dice": "node scripts/zero-dice-guard.mjs",
+    "unwired-laws": "node --import tsx scripts/unwired-laws/run.ts",
     "release:preview": "node --import tsx scripts/release/index.ts preview",
     "release:apply": "node --import tsx scripts/release/index.ts apply",
     "release:recover": "node --import tsx scripts/release/index.ts recover",
