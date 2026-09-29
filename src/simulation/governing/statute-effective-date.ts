@@ -10,11 +10,34 @@ import type { IsoDate } from "../types";
  *
  * NOT MODELED: acts that set their own date, emergency clauses, appropriation
  * acts where a state dates them differently (Minnesota, Missouri, Ohio), and
- * special sessions (Missouri counts from the regular session's end).
+ * special sessions (Missouri counts from the regular session's end). Rules
+ * that count from an adjournment the law does not fix to a date (Texas,
+ * Florida and most "ninety days after adjournment" states), from publication
+ * (Kansas, Hawaii) or from Congress's review (D.C.) stay out of the file. A
+ * rule written from passage or filing is counted from enactment, the one
+ * date the game records, and its note says so.
  */
 export type StatuteEffectiveRule =
   | { readonly kind: "days-after-enactment"; readonly days: number }
   | { readonly kind: "next-date"; readonly month: number; readonly day: number }
+  | {
+      /** The first of several yearly dates after the act (Georgia: July 1
+       * for acts approved January to June, January 1 for the rest). */
+      readonly kind: "next-of-dates";
+      readonly dates: readonly {
+        readonly month: number;
+        readonly day: number;
+      }[];
+    }
+  | {
+      /** A date in the act's own year if the act comes before it, otherwise
+       * a number of days after the act (North Dakota: August 1, or 90 days
+       * after filing from August 1 on; Rhode Island: July 1, or at once). */
+      readonly kind: "date-in-year-else-days";
+      readonly month: number;
+      readonly day: number;
+      readonly lateDays: number;
+    }
   | {
       readonly kind: "days-after-session-end";
       readonly days: number;
@@ -57,12 +80,22 @@ export function stateStatuteOperativeAt(
   switch (rule.kind) {
     case "days-after-enactment":
       return addDays(enactedAt, rule.days);
-    case "next-date": {
+    case "next-date":
       // The first such date after the act: "the first day of June next".
+      return nextYearlyDate(enactedAt, rule.month, rule.day);
+    case "next-of-dates": {
+      const candidates = rule.dates.map((date) =>
+        nextYearlyDate(enactedAt, date.month, date.day),
+      );
+      return candidates.reduce((earliest, date) =>
+        date < earliest ? date : earliest,
+      );
+    }
+    case "date-in-year-else-days": {
       const thisYear = isoDateFromParts(year, rule.month, rule.day);
-      return thisYear > enactedAt
+      return enactedAt < thisYear
         ? thisYear
-        : isoDateFromParts(year + 1, rule.month, rule.day);
+        : addDays(enactedAt, rule.lateDays);
     }
     case "days-after-session-end": {
       // The regular session of the act's year. An act passed after that
@@ -75,4 +108,12 @@ export function stateStatuteOperativeAt(
       return operative > enactedAt ? operative : null;
     }
   }
+}
+
+/** The first `month`/`day` strictly after `from`. */
+function nextYearlyDate(from: IsoDate, month: number, day: number): IsoDate {
+  const thisYear = isoDateFromParts(yearOf(from), month, day);
+  return thisYear > from
+    ? thisYear
+    : isoDateFromParts(yearOf(from) + 1, month, day);
 }
