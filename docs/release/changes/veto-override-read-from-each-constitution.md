@@ -22,3 +22,10 @@ condition, a majority of the members elected.
 Georgia, Mississippi and New Hampshire were read from a search engine's
 excerpt of the official text, because their official pages refused the
 connection.
+
+The days a governor has to act on a bill, during the session and after the
+legislature adjourns, were drawn the same way. Each is now the state's own
+figure from The Council of State Governments' Book of the States 2023. Where
+that table gives no count of days (Maine, New Jersey and South Carolina after
+adjournment), the game uses the most common figure it gives for other places
+and marks it estimated.

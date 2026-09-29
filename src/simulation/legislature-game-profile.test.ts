@@ -11,10 +11,10 @@ import {
   LEGISLATURE_GAME_PROFILE_VERSION,
   legislatureForState,
   legislatureProfileFor,
+  vetoWindowFor,
   legislatureProfilePack,
   legislatureProfilePackById,
   researchedChamberSpread,
-  researchedExecutiveSpread,
   overrideThresholdFor,
   seatsForChamber,
 } from "./legislature-game-profile";
@@ -170,29 +170,44 @@ describe("what it draws, and from where", () => {
     }
   });
 
-  it("only ever uses a veto window and an override fraction a state enacted", () => {
-    // A seat count may fall between two compiled values, because a chamber
-    // genuinely can be any size. A veto window may not: it is a discrete
-    // institutional choice, and a forty-day window nobody wrote would not
-    // resemble anything.
-    const executive = researchedExecutiveSpread();
+  it("takes each state's veto windows from the 2023 survey, not a draw", () => {
+    // The Book of the States 2023, Table 3.16.
+    expect(vetoWindowFor("US-TX")).toEqual({
+      inSessionDays: 10,
+      afterAdjournmentDays: 20,
+      inSessionEstimated: false,
+      afterAdjournmentEstimated: false,
+    });
+    expect(vetoWindowFor("US-CA")).toMatchObject({
+      inSessionDays: 12,
+      afterAdjournmentDays: 30,
+    });
+    // Tennessee's footnote: adjournment is irrelevant, ten days from
+    // presentment either way.
+    expect(vetoWindowFor("US-TN")).toMatchObject({
+      inSessionDays: 10,
+      afterAdjournmentDays: 10,
+      afterAdjournmentEstimated: false,
+    });
+    // Maine's window after adjournment runs from the next meeting, which is
+    // no count of days, so it is the table's most common figure.
+    expect(vetoWindowFor("US-ME")).toMatchObject({
+      inSessionDays: 10,
+      afterAdjournmentEstimated: true,
+    });
     for (const identity of UNCOMPILED) {
       const profile = legislatureProfileFor(identity.jurisdictionKey);
       if (profile === null) continue;
-      expect(executive.inSessionDays).toContain(
-        profile.vetoWindowDaysInSession,
+      const window = vetoWindowFor(identity.jurisdictionKey);
+      expect(profile.vetoWindowDaysInSession).toBe(window.inSessionDays);
+      expect(profile.vetoWindowDaysAfterAdjournment).toBe(
+        window.afterAdjournmentDays,
       );
-      expect(executive.afterAdjournmentDays).toContain(
-        profile.vetoWindowDaysAfterAdjournment,
-      );
-      expect(
-        executive.overrideFractions.some(
-          ([numerator, denominator]) =>
-            numerator === profile.overrideFraction[0] &&
-            denominator === profile.overrideFraction[1],
-        ),
-      ).toBe(true);
     }
+    const estimated = legislatureForState("US-ME")!.sources.find((source) =>
+      source.note?.includes("ESTIMATED FROM AVERAGE"),
+    );
+    expect(estimated?.note).toMatch(/no figure after adjournment/);
   });
 
   it("answers the same way for one state every single time", () => {
