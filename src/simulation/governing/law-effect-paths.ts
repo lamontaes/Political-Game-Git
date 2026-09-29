@@ -24,6 +24,7 @@ import {
 import { HOUSING_SUPPLY_LAWS } from "../living-world/housing-market";
 import { RENT_LAW_KEYS } from "../living-world/town-rent";
 import { CANNABIS_SALES_QUESTION } from "../public-budgets/cannabis-sales-tax";
+import { MILEAGE_FEE_QUESTION } from "../public-budgets/road-usage-charge";
 import {
   SPENDING_QUESTION_EFFECTS,
   TAX_QUESTION_EFFECTS,
@@ -204,6 +205,11 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: CANNABIS_SALES_QUESTION,
     kind: "state-revenue",
     via: "src/simulation/public-budgets/cannabis-sales-tax.ts",
+  },
+  {
+    questionKey: MILEAGE_FEE_QUESTION,
+    kind: "state-revenue",
+    via: "src/simulation/public-budgets/road-usage-charge.ts",
   },
   {
     questionKey: TUITION_FREEZE_QUESTION,
