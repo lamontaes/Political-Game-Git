@@ -16,10 +16,15 @@ file:
 
 and writes data/research/money/place-towns-acs-2024.json with, for each place
 the Vintage 2025 estimates leave out whose largest county part lies in a
-county area with no county government (src/simulation/government-units.generated.ts):
+county area with no county government (src/simulation/government-units.generated.ts),
+or which lies in a state whose listing holds town or township governments
+(New York's towns, New Jersey's and Pennsylvania's townships, the Midwest's
+civil townships), where the town or township is the place's local government:
 its residents in each county subdivision (summary level 070, largest first),
 and each such subdivision's population (summary level 060). The public
-budgets read it (src/simulation/public-budgets/opening.ts, servingGovernment).
+budgets read it (src/simulation/public-budgets/opening.ts, servingGovernment),
+and so does the town or township a place's local law comes from
+(src/simulation/government-units.ts, townshipGovernmentUnitsForPlace).
 
 Run: python3 scripts/research/export-acs-place-towns.py <acsdt5y2024-b01003.dat>
 """
@@ -37,21 +42,26 @@ OUT = ROOT / "data/research/money/place-towns-acs-2024.json"
 SOURCE = "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b01003.dat"
 
 
-def county_governments() -> set[str]:
+def unit_rows() -> list:
     text = UNITS.read_text()
     literal = re.search(r"GOVERNMENT_UNITS_ROWS: string =\s*'(.*)';", text, re.S)
     # A JavaScript single-quoted string: its only escape is the apostrophe.
-    rows = json.loads(literal.group(1).replace("\\'", "'"))
-    return {row[4] for row in rows if row[2] == 1 and row[4]}
+    return json.loads(literal.group(1).replace("\\'", "'"))
 
 
 def main() -> None:
     acs = json.loads(PLACES.read_text())
-    governed = county_governments()
+    rows = unit_rows()
+    governed = {row[4] for row in rows if row[2] == 1 and row[4]}
+    # State FIPS codes of the states whose listing holds town or township
+    # governments.
+    township_states = {row[4][:2] for row in rows if row[2] == 3 and row[4]}
     places = {
         geoid
         for geoid, parts in acs["placeCounties"].items()
-        if parts and parts[0][0] not in governed and not geoid.startswith("72")
+        if parts
+        and not geoid.startswith("72")
+        and (parts[0][0] not in governed or geoid[:2] in township_states)
     }
     parts: dict[str, list[list]] = {}
     towns: dict[str, int] = {}
@@ -76,7 +86,7 @@ def main() -> None:
         "id": "place-towns-acs-2024",
         "source": SOURCE,
         "table": "B01003 total population, American Community Survey 2020-2024 five-year estimates",
-        "scope": "Places the Census Vintage 2025 estimates leave out whose largest county part has no county government: residents in each county subdivision (summary level 070), and each subdivision's population (summary level 060).",
+        "scope": "Places the Census Vintage 2025 estimates leave out whose largest county part has no county government, or which lie in a state whose listing holds town or township governments: residents in each county subdivision (summary level 070), and each subdivision's population (summary level 060).",
         "script": "scripts/research/export-acs-place-towns.py",
         "placeTowns": placeTowns,
         "townPopulation": {code: towns[code] for code in sorted(used) if code in towns},

@@ -345,3 +345,80 @@ export function principleAgreement(
 export function holdsPrinciples(world: World, personId: EntityId): boolean {
   return (principlesByPerson(world).get(personId)?.length ?? 0) > 0;
 }
+
+/**
+ * How the principles a spending bill engages bear on it. An appropriation
+ * answers no catalog question, but it spends public money, and three of the
+ * pack's principles speak to that directly: collective provision for it,
+ * limited government and fiscal restraint against it
+ * (`policy-pack-us-policy-positions.ts`, each principle's own description).
+ */
+const SPENDING_BEARINGS: readonly {
+  readonly principle: string;
+  readonly bearing: "consistent-with" | "against";
+}[] = [
+  { principle: "collective-provision", bearing: "consistent-with" },
+  { principle: "limited-government", bearing: "against" },
+  { principle: "fiscal-restraint", bearing: "against" },
+];
+
+/**
+ * A member's own view of a spending bill, from the principles they hold on
+ * public spending: for it where they endorse collective provision, against
+ * it where they hold to limited government or fiscal restraint, weighed by
+ * conviction as a question's principles are. Null where none is held.
+ */
+export function spendingPrincipleConsideration(
+  world: World,
+  personId: EntityId,
+): DecisionConsideration | null {
+  const keyOf = (principleId: EntityId) => {
+    const stableKey = world.policyCatalog.principles[principleId]?.stableKey;
+    return stableKey ? stableKey.slice(stableKey.lastIndexOf(":") + 1) : null;
+  };
+  const latest = new Map<EntityId, PrincipleRecord>();
+  for (const record of principlesByPerson(world).get(personId) ?? []) {
+    if (record.formedAt > world.currentDate) continue;
+    const prior = latest.get(record.principleId);
+    if (!prior || prior.sequence < record.sequence)
+      latest.set(record.principleId, record);
+  }
+  let score = 0;
+  const recordIds: EntityId[] = [];
+  for (const held of latest.values()) {
+    if (held.stance === "conflicted") continue;
+    const bearing = SPENDING_BEARINGS.find(
+      (row) => row.principle === keyOf(held.principleId),
+    );
+    if (!bearing) continue;
+    const agrees =
+      (held.stance === "endorses") === (bearing.bearing === "consistent-with");
+    score += (agrees ? 1 : -1) * CONVICTION_WEIGHT[held.conviction];
+    recordIds.push(held.id);
+  }
+  if (score === 0) return null;
+  const size = Math.abs(score);
+  return {
+    stableKey: score > 0 ? "member:spending:for" : "member:spending:against",
+    optionKey: score > 0 ? "vote-yea" : "vote-nay",
+    sourceType: "belief:political-principle",
+    direction: "supports",
+    importance:
+      size >= VOTE_IMPORTANCE.decisive
+        ? "decisive"
+        : size >= VOTE_IMPORTANCE.strong
+          ? "strong"
+          : size >= VOTE_IMPORTANCE.moderate
+            ? "moderate"
+            : "slight",
+    confidence: "high",
+    explanation:
+      score > 0
+        ? "The member holds that some things are met better by everyone together."
+        : "The member holds that government should spend no more than the job requires.",
+    sourceRefs: recordIds.map((principleRecordId) => ({
+      kind: "political-principle" as const,
+      principleRecordId,
+    })),
+  };
+}

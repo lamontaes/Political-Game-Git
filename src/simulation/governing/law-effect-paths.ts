@@ -1,5 +1,7 @@
+import { NATIONAL_DATA_PRIVACY_QUESTION } from "../federal-data-privacy-law";
 import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
 import { COUNCIL_TERM_LIMIT_QUESTION } from "../living-world/local-council-term-limits";
+import { STATEHOOD_QUESTION } from "../living-world/statehood-seats";
 import {
   CITY_MINIMUM_WAGE_QUESTION_KEY,
   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
@@ -7,7 +9,12 @@ import {
   STATE_MINIMUM_WAGE_QUESTION_KEY,
 } from "../minimum-wage";
 import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../nationwide-world/state-legislative-term-limits";
-import { OUTCOME_LINKS, outcomeLinkStatus } from "../outcome-web";
+import {
+  LAW_QUESTION_MEASURES,
+  OUTCOME_LINKS,
+  outcomeLinksFedByQuestion,
+  outcomeLinkStatus,
+} from "../outcome-web";
 import { HOUSING_SUPPLY_LAWS } from "../living-world/housing-market";
 import { RENT_LAW_KEYS } from "../living-world/town-rent";
 import { CANNABIS_SALES_QUESTION } from "../public-budgets/cannabis-sales-tax";
@@ -52,7 +59,8 @@ export type LawEffectPathKind =
   | "seat-turnover"
   | "authority-gate"
   | "local-powers"
-  | "court-and-jail";
+  | "court-and-jail"
+  | "business-costs";
 
 export interface LawEffectPath {
   readonly questionKey: string;
@@ -82,6 +90,11 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: LOCAL_MINIMUM_WAGE_AUTHORITY_QUESTION_KEY,
     kind: "authority-gate",
     via: "src/simulation/governing/question-authority.ts",
+  },
+  {
+    questionKey: NATIONAL_DATA_PRIVACY_QUESTION,
+    kind: "business-costs",
+    via: "src/simulation/federal-data-privacy-law.ts",
   },
   {
     questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
@@ -117,6 +130,13 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: COUNCIL_TERM_LIMIT_QUESTION,
     kind: "seat-turnover",
     via: "src/simulation/living-world/local-council-term-limits.ts",
+  },
+  // Statehood for a nonvoting place adds its seats to both chambers on the day
+  // the law takes effect.
+  {
+    questionKey: STATEHOOD_QUESTION,
+    kind: "seat-turnover",
+    via: "src/simulation/living-world/statehood-seats.ts",
   },
   // Home rule or Dillon's rule decides which local questions a town's
   // council may answer, so it opens or closes every ordinance on them.
@@ -204,7 +224,22 @@ export function lawEffectPaths(): readonly LawEffectPath[] {
     kind: "outcome-web",
     via: link.key,
   }));
-  return [...web, ...DIRECT_PATHS, ...JUSTICE_PATHS];
+  // A question whose bill term sets a measure the web reads acts through the
+  // links from that measure (`LAW_QUESTION_MEASURES`).
+  const viaMeasure = Object.keys(LAW_QUESTION_MEASURES).flatMap((questionKey) =>
+    outcomeLinksFedByQuestion(questionKey)
+      .filter(
+        (link) =>
+          !link.from.startsWith(LAW_CAUSE_PREFIX) &&
+          outcomeLinkStatus(link) === "built",
+      )
+      .map((link): LawEffectPath => ({
+        questionKey,
+        kind: "outcome-web",
+        via: link.key,
+      })),
+  );
+  return [...web, ...viaMeasure, ...DIRECT_PATHS, ...JUSTICE_PATHS];
 }
 
 export interface UnwiredQuestion {

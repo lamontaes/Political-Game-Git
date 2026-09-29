@@ -532,7 +532,7 @@ export function MunicipalWorkspace({
                                               ? "Nay"
                                               : colleague.disposition ===
                                                   "present-not-voting"
-                                                ? "Present, not voting"
+                                                ? "Answered present"
                                                 : "Absent"}
                                         </li>
                                       );

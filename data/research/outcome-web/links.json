@@ -3666,6 +3666,21 @@
       "range": [-0.2, 0.1]
     },
     {
+      "key": "congress-stock-ban-to-member-returns",
+      "from": "law:us-federal-positions:government.ban-congressional-stock-trading",
+      "to": "government.member-market-returns",
+      "strength": "about-zero",
+      "shape": { "kind": "linear" },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "B-cloud",
+      "evidence": "about-zero",
+      "anchor": "Members of Congress' stock trades matched or trailed the market after the 2012 STOCK Act, so barring the trades changes no market return the game measures; the game keeps no member holdings to change",
+      "source": "Chen and Sacerdote 2026, NBER Working Paper 35041 (Research 1's federal table, September 29, 2026)"
+    },
+    {
       "key": "privacy-law-to-earnings",
       "from": "law:us-policy-positions:technology-privacy.consumer-data-privacy-law",
       "to": "labor.median-earnings",
@@ -3778,6 +3793,23 @@
       "anchor": "Kansas's first Local Enhanced Management Area (Sheridan 6, 2013 to 2017), where irrigators pumped under capped five-year allocations (55 inches of water over five years), cut pumping 31% against a modeled business-as-usual over its first five years (95% interval 21% to 40%). A state law that meters and limits large withdrawals is read as putting such a cap on irrigation pumping; where the cap binds less than it did there, the cut is smaller, so the evidence is provisional. The spread is the paper's interval. The lag is one year, the next irrigation season.",
       "source": "Deines, Kendall, Butler and Hyndman 2019, Quantifying irrigation adaptation strategies in response to stakeholder-driven groundwater management in the US High Plains Aquifer, Environmental Research Letters 14: 044014 (https://iopscience.iop.org/article/10.1088/1748-9326/aafe39)",
       "range": [-0.4, -0.21]
+    },
+    {
+      "key": "defense-contracts-to-earnings",
+      "from": "federal.defense-boost-pct",
+      "to": "labor.median-earnings",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.015,
+      "per": "percent of what the state produces that extra defense contracts add",
+      "lagMonths": 0,
+      "group": "workers in the states that get the contracts",
+      "owner": "F",
+      "evidence": "researched",
+      "anchor": "A state that gets a dollar more of military procurement than others gets about $1.50 more output. Earnings are read to move one for one with output, so each percent of the state's output that extra contracts add lifts earnings 1.5%. The extra contracts follow a build-up at the pace defense contracts rose in the years they beat inflation, in each state in proportion to the contracts it drew in 2024 (data/research/federal/defense-contracts-by-state-fy2024.json). The paper's summary gives no band, so the spread is the default for researched links, 25% either way. The effect is read the same year the money is spent, since the study measures it within the year and the build-up already phases in over the years of the law.",
+      "source": "Nakamura and Steinsson 2014, Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions, American Economic Review 104(3), NBER w17391; contracts from USAspending.gov and output from the Bureau of Economic Analysis, read September 29, 2026"
     }
   ],
   "calibratedAt": "2024-07-01"
