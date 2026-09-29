@@ -7,7 +7,12 @@ import {
   stateJurisdictionForKey,
 } from "../life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
-import { outcomeMeasure } from "../outcome-web";
+import {
+  OUTCOME_LINKS,
+  outcomeFactor,
+  outcomeLinkStatus,
+  outcomeMeasure,
+} from "../outcome-web";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import type {
   EntityId,
@@ -137,6 +142,160 @@ describe("an Act of Congress reaches every place", () => {
         measure!.read(world, PLACES[0]!.id, makeIsoDate("2026-02-01")),
         key,
       ).toBeNull();
+    }
+  });
+});
+
+/**
+ * The federal rows Claude CTO approved on Sept. 28, 2026 (CLOUD C's research
+ * checkpoint 2): what each federal law now changes, or on purpose does not.
+ */
+describe("what federal laws change in the outcome web", () => {
+  const STATES = PLACES.filter((place) => /^US-[A-Z]{2}$/.test(place.name));
+  const acts = FEDERAL_QUESTIONS.map((id, index) => act(id, index + 1));
+  const world = {
+    currentDate: makeIsoDate("2032-01-01"),
+    policyCatalog: POLICY,
+    history: {
+      legislativeMeasures: acts.map((entry) => entry.measure),
+      legislativeEnactments: acts.map((entry) => entry.enactment),
+    },
+  } as unknown as World;
+  const link = (key: string) => OUTCOME_LINKS.find((row) => row.key === key)!;
+
+  it("raises poverty about 2% everywhere once a higher retirement age has phased in", () => {
+    const row = link("retirement-age-to-poverty");
+    expect(row).toMatchObject({ size: 0.02, lagMonths: 60, owner: "C" });
+    expect(outcomeLinkStatus(row)).toBe("built");
+    for (const place of STATES) {
+      // In force from March 1, 2026: five years later it has phased in.
+      const after = outcomeFactor(
+        world,
+        place.id,
+        "household.poverty-pct",
+        makeIsoDate("2031-03-02"),
+      ).causes.find((cause) => cause.key === row.key);
+      expect(after?.factor, place.name).toBeCloseTo(1.02, 10);
+      const before = outcomeFactor(
+        world,
+        place.id,
+        "household.poverty-pct",
+        makeIsoDate("2031-02-01"),
+      ).causes.find((cause) => cause.key === row.key);
+      expect(before, place.name).toBeUndefined();
+    }
+  });
+
+  it("changes nothing where the research finds nothing, in every state", () => {
+    const zeros = [
+      "immigration-to-crime",
+      "federal-mandatory-minimums-to-crime",
+      "housing-vouchers-to-graduation",
+      "housing-vouchers-to-crime",
+      "top-income-tax-rate-to-poverty",
+      "student-loan-forgiveness-to-poverty",
+    ].map(link);
+    for (const row of zeros) {
+      expect(row, row?.key).toMatchObject({
+        size: 0,
+        strength: "about-zero",
+        evidence: "about-zero",
+      });
+      expect(outcomeLinkStatus(row)).toBe("about-zero");
+      for (const place of STATES)
+        expect(
+          outcomeFactor(world, place.id, row.to, world.currentDate).causes.map(
+            (cause) => cause.key,
+          ),
+          `${place.name}: ${row.key}`,
+        ).not.toContain(row.key);
+    }
+  });
+
+  it("cuts homelessness where a voucher law is in force, now that the game records it", () => {
+    expect([
+      link("housing-vouchers-to-homelessness").size,
+      outcomeLinkStatus(link("housing-vouchers-to-homelessness")),
+    ]).toEqual([-0.3, "built"]);
+  });
+
+  it("sizes the federal rows that wait on an outcome the game does not measure yet", () => {
+    expect(
+      Object.fromEntries(
+        [
+          "drug-negotiation-to-out-of-pocket",
+          "federal-loan-cap-to-high-cost-loans",
+          "retirement-age-to-older-work",
+          "tariffs-to-prices",
+        ].map((key) => [key, [link(key).size, outcomeLinkStatus(link(key))]]),
+      ),
+    ).toEqual({
+      "drug-negotiation-to-out-of-pocket": [-0.08, "outcome-not-produced"],
+      "federal-loan-cap-to-high-cost-loans": [-0.32, "outcome-not-produced"],
+      "retirement-age-to-older-work": [0.1, "outcome-not-produced"],
+      "tariffs-to-prices": [0.008, "outcome-not-produced"],
+    });
+  });
+});
+
+/**
+ * Laws change both ways (Claude CTO, Sept. 28, 2026): when Congress repeals a
+ * federal law, the effect it switched on ends the day the repeal takes effect,
+ * not a phase-in lag later.
+ */
+describe("a federal repeal ends the effect it switched on", () => {
+  const row = OUTCOME_LINKS.find(
+    (link) => link.key === "retirement-age-to-poverty",
+  )!;
+  const questionKey = row.from.replace(/^law:/, "");
+  const proposition = Object.values(POLICY.propositions).find(
+    (definition) => definition.stableKey === questionKey,
+  )!;
+  const STATES = PLACES.filter((place) => /^US-[A-Z]{2}$/.test(place.name));
+  const passed = act(proposition.id, 1);
+  const second = act(proposition.id, 2);
+  const repeal = {
+    measure: {
+      ...second.measure,
+      propositionAnswers: [{ propositionId: proposition.id, answer: "no" }],
+    },
+    enactment: {
+      ...second.enactment,
+      resolvedAt: makeIsoDate("2029-06-01"),
+      effectiveAt: makeIsoDate("2029-06-01"),
+    },
+  } as ReturnType<typeof act>;
+  const worldAt = (date: string, both: boolean) =>
+    ({
+      currentDate: makeIsoDate(date),
+      policyCatalog: POLICY,
+      history: {
+        legislativeMeasures: both
+          ? [passed.measure, repeal.measure]
+          : [passed.measure],
+        legislativeEnactments: both
+          ? [passed.enactment, repeal.enactment]
+          : [passed.enactment],
+      },
+    }) as unknown as World;
+  const cause = (world: World, id: EntityId, on: string) =>
+    outcomeFactor(world, id, row.to, makeIsoDate(on)).causes.find(
+      (entry) => entry.key === row.key,
+    );
+
+  it("keeps the effect while the law stands, and drops it once it is repealed", () => {
+    for (const place of STATES) {
+      // Never repealed: five years after March 1, 2026 the effect is in.
+      expect(
+        cause(worldAt("2032-01-01", false), place.id, "2031-03-02")?.factor,
+        place.name,
+      ).toBeCloseTo(1.02, 10);
+      // Repealed June 1, 2029, before the phase-in finished: nothing of it
+      // is left on March 2, 2031, the day it would have reached full size.
+      expect(
+        cause(worldAt("2032-01-01", true), place.id, "2031-03-02"),
+        place.name,
+      ).toBeUndefined();
     }
   });
 });

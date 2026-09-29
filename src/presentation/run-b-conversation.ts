@@ -2,6 +2,7 @@ import type { ChoiceTruthDeclaration } from "./lie-marker";
 import { isContextualSceneProgress } from "./contextual-scenes";
 import {
   assertNpcAutonomousApplication,
+  assessUndertaking,
   assertWorldIntegrity,
   currentHistoricalCutoff,
   evaluateDecision,
@@ -12,6 +13,7 @@ import {
   recordPerception,
   recordRelationshipInteraction,
   recordWorldEvent,
+  undertakingForLifeCommitment,
 } from "../simulation";
 import type {
   ClaimAudience,
@@ -39,7 +41,10 @@ import {
   scheduleConversationAftermath,
   writeConversationCommitment,
 } from "./conversation-consequences";
-import type { ConversationOutcome } from "./conversation-consequences";
+import type {
+  ConversationCommitmentSpec,
+  ConversationOutcome,
+} from "./conversation-consequences";
 import type { ConversationCommitContract } from "./conversation-subjects";
 import { commitLifeTalkConversationTurn } from "./life-talk-conversation";
 import {
@@ -111,6 +116,38 @@ export const RUN_B_CONVERSATION_INTENTS = [
 ] as const;
 
 export type ConversationAddressee = EntityId | "everyone";
+
+/**
+ * Whether the same person has already undertaken the same thing to the same
+ * person, and it is still open.
+ *
+ * Saying it again ("I've got the third referral") is not a second promise. A
+ * second record would count one undertaking twice, and would let one kept act
+ * look like two.
+ */
+function alreadyUndertaken(
+  world: World,
+  holderPersonId: EntityId,
+  owedToPersonId: EntityId,
+  spec: ConversationCommitmentSpec,
+): boolean {
+  if (!spec.undertaking) return false;
+  return world.history.lifeCommitments.some((record) => {
+    if (
+      record.personId !== holderPersonId ||
+      record.kind !== spec.kind ||
+      record.label !== spec.label ||
+      !record.undertaking?.owedToPersonIds.includes(owedToPersonId)
+    ) {
+      return false;
+    }
+    const undertaking = undertakingForLifeCommitment(world, record.id);
+    return (
+      undertaking !== null &&
+      assessUndertaking(world, undertaking).standing === "outstanding"
+    );
+  });
+}
 
 /**
  * The person playing a named part in this room.
@@ -884,18 +921,50 @@ export function commitConversationTurn(
   const commitmentSpec =
     resolved.speakerPersonId === null
       ? null
-      : (commit.commitment?.(input.intent, resolved.outcome) ?? null);
-  if (commitmentSpec !== null && resolved.speakerPersonId !== null) {
-    const holderId =
-      commitmentSpec.holder === "player"
+      : (commit.commitment?.(input.intent, resolved.outcome, {
+          speakerRole:
+            Object.entries(input.room.roles).find(
+              ([, personId]) => personId === resolved.speakerPersonId,
+            )?.[0] ?? null,
+        }) ?? null);
+  const commitmentHolderId =
+    commitmentSpec === null || resolved.speakerPersonId === null
+      ? null
+      : commitmentSpec.holder === "player"
         ? input.room.playerPersonId
         : resolved.speakerPersonId;
+  if (
+    commitmentSpec !== null &&
+    resolved.speakerPersonId !== null &&
+    commitmentHolderId !== null &&
+    !alreadyUndertaken(
+      world,
+      commitmentHolderId,
+      commitmentHolderId === input.room.playerPersonId
+        ? resolved.speakerPersonId
+        : input.room.playerPersonId,
+      commitmentSpec,
+    )
+  ) {
+    const holderId = commitmentHolderId;
     world = writeConversationCommitment(world, {
       personId: holderId,
       eventId: event.id,
       stableKey: turnKey,
       jurisdictionId: input.room.jurisdictionId,
       spec: commitmentSpec,
+      hearing: {
+        owedToPersonIds: [
+          holderId === input.room.playerPersonId
+            ? resolved.speakerPersonId
+            : input.room.playerPersonId,
+        ],
+        heardByPersonIds: canonicalPeople(input.room, [
+          input.room.playerPersonId,
+          ...actualListenerPersonIds,
+        ]),
+        audience: claimAudience ?? "limited",
+      },
     });
     commitmentId = world.history.lifeCommitments.at(-1)?.id ?? null;
   }

@@ -2,6 +2,10 @@ import {
   PLACE_OUTCOMES_TRANSITION_KEY,
   placeOutcomesHandler,
 } from "../outcome-web/place-outcomes";
+import {
+  PUBLIC_BUDGETS_TRANSITION_KEY,
+  publicBudgetsHandler,
+} from "../public-budgets";
 import { createFutureTransitionHandlerRegistry } from "../future-transitions";
 import {
   HEALTH_REVIEW_KEY,
@@ -76,6 +80,8 @@ export function createCrisisTransitionRegistry() {
     [CRIME_SAMPLE_TRANSITION_KEY, crimeSampleHandler],
     // Place outcomes (the outcome web) settle on every clock path too.
     [PLACE_OUTCOMES_TRANSITION_KEY, placeOutcomesHandler],
+    // Every government's budget settles its month on every clock path too.
+    [PUBLIC_BUDGETS_TRANSITION_KEY, publicBudgetsHandler],
     [DISASTER_STATE_REVIEW_KEY, disasterStateReviewHandler],
     [DISASTER_FEDERAL_REVIEW_KEY, disasterFederalReviewHandler],
     [DISASTER_REPAIR_CYCLE_KEY, disasterRepairCycleHandler],

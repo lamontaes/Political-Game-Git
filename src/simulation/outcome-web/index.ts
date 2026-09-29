@@ -497,6 +497,17 @@ export function outcomeFactor(
     if (value === null) continue;
     const baseline = baselineOf(world, jurisdictionId, link.from);
     if (baseline === undefined) continue;
+    // A lagged effect phases in after its law, but it does not outlast the
+    // law: once the law in force is back to where the place began (a repeal
+    // or amendment took effect), the effect ends that day, not a lag later.
+    if (
+      link.lagMonths > 0 &&
+      link.from.startsWith(LAW_CAUSE_PREFIX) &&
+      value !== baseline &&
+      measure.read(world, jurisdictionId, asOf) === baseline
+    ) {
+      continue;
+    }
     let factor = shapedLinkFactor(
       { shape: link.shape, size: drawnLinkSize(world, link, jurisdictionId) },
       value,

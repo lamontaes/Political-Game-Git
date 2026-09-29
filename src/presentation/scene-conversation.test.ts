@@ -80,6 +80,38 @@ describe("PT3 — the scene conversation box reads the record back", () => {
     expect(current.reply.length).toBeGreaterThan(0);
   });
 
+  it("shows the last exchange in the quiet room a player walks into", () => {
+    // No opening scene: the room itself, where a player talks to whoever is
+    // standing there. Its turns are tagged with the quiet room, not a scene.
+    const game = createNewGameWorld({
+      startKind: "custom",
+      placeKey: "nebraska",
+      startAge: 22,
+      depth: "summarize-earlier-life",
+      startingLife: "ordinary-life",
+      household: "shares-a-home",
+      seed: "pt3-quiet-room",
+      givenName: null,
+      familyName: null,
+      questionnaire: "skipped",
+      priors: [],
+    } as NewGameSetup);
+    const personId = game.playerPersonId;
+    const world = openOrdinaryLife(game.world, personId);
+    const view = projectPlayerConversation(world, personId, "life-talk")!;
+    expect(view).not.toBeNull();
+    const other = view.addressee as EntityId;
+    const after = say(world, personId, "life-talk", "greet", {
+      addressee: other,
+    });
+    const current = currentExchangeTurn(
+      conversationExchangeTurns(after, personId, "life-talk", other),
+    )!;
+    expect(current).not.toBeNull();
+    expect(current.playerLine).toBe("You say hello.");
+    expect(current.speakerPersonId).toBe(other);
+  });
+
   it("keeps the last turn when the player turns to somebody else, and says who heard it", () => {
     const { world, personId } = life(
       {
