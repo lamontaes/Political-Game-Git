@@ -10,7 +10,7 @@ import {
   propositionIdFor,
 } from "./fiscal";
 import { actuarialContribution } from "./opening";
-import { pensionPayment } from "./pension-share";
+import { pensionFlows, pensionPayment } from "./pension-share";
 import { reserveRule } from "./reserve-rule";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import {
@@ -557,13 +557,14 @@ export function settleGovernmentMonth(
             : "No law in force when the budget was adopted answered whether pensions must be funded on schedule, so the government paid its own share (its plans' reported share, or the median of every plan where they are not listed).",
     });
   const liability = government.pension.liability;
-  const benefits = liability * PENSION.benefitShare * share;
+  const plans = pensionFlows(government);
+  const benefits = liability * plans.benefitShare * share;
   const pension = {
     // The share stays where it began until budgets pass as bills.
     paidShare: government.pension.paidShare,
     liability: Math.round(
       liability * (1 + PENSION.assumedReturn * share) +
-        liability * PENSION.normalCostShare * share -
+        liability * plans.normalCostShare * share -
         benefits,
     ),
     assets: Math.round(
@@ -659,7 +660,10 @@ function adoptNextYear(
       (prior.expectedRevenue[STATE_AID]! * stateLocalAidAtAdoption) /
         priorAidBase,
     );
-  const pensionRequired = actuarialContribution(government.pension);
+  const pensionRequired = actuarialContribution(
+    government.pension,
+    pensionFlows(government).normalCostShare,
+  );
   const pensionPaid = pensionPayment(
     pensionRequired,
     government.pension.paidShare,

@@ -1778,20 +1778,6 @@
       "kind": "fixed-share",
       "build": "Build 12",
       "count": 1,
-      "code": "normalCostShare: 0.02,"
-    },
-    {
-      "file": "src/simulation/public-budgets/rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 12",
-      "count": 1,
-      "code": "benefitShare: 0.08,"
-    },
-    {
-      "file": "src/simulation/public-budgets/rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 12",
-      "count": 1,
       "code": "export const FIRST_CUT_SHARE = 0.03;"
     },
     {
