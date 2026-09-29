@@ -124,7 +124,7 @@ describe("high-cost loans", () => {
       const link = OUTCOME_LINKS.find((row) => row.key === key)!;
       expect(outcomeLinkStatus(link), key).toBe("built");
       expect(link.size, key).toBe(-0.32);
-      expect(link.range, key).toEqual([-0.5, -0.2]);
+      expect(link.range, key).toEqual([-0.61, -0.2]);
       expect(link.lagMonths, key).toBe(12);
     }
   });
