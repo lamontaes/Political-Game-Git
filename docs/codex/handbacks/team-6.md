@@ -4,7 +4,7 @@ The first transportation tranche has twenty-one sourced legislative decisions an
 
 ## MERGED
 
-Nothing merged. A draft pull request will carry only Team 6 research files; its link and published head follow publication.
+Nothing merged. [Draft pull request 1133](https://github.com/lamontaes/Political-Game-Git/pull/1133) records transportation authority decisions and explicit evidence gaps. It is not ready for approval. The first published head is `6c78ad034f78ec5faf280c060d5da14a4b962280`.
 
 ## WHAT EMERGED
 
@@ -27,7 +27,7 @@ The research schema validates structure; it does not validate source truth. Draf
 - Research baseline: fetched `origin/main` at `cdb6e4ab1d6a26aa876d99f6831570ed0c057d92`.
 - Publication: isolated index and commit tree based on current main, limited to the five claimed research files.
 - Validation: lightweight JSON schema and evidence-structure checks; mixed workspace disclosed. No full suite, TypeScript compilation, benchmark or game build.
-- Mechanical report check: both reports passed with zero errors.
+- Mechanical report check: both reports passed with zero errors and zero warnings. Missing-place, unsourced-permission, and invented-size negative checks were rejected.
 
 ## NEEDS LAMONTAE
 
