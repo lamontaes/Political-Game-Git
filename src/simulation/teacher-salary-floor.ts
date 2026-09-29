@@ -128,11 +128,17 @@ function teacherFloorProposition(world: World): EntityId | null {
   return found;
 }
 
-/** Whether any law on the teacher salary floor question was enacted in play. */
+/**
+ * Whether a law enacted in play could set a floor: the question is in the
+ * catalog and some law was enacted. A cheap test before reading pay; the law
+ * itself is read through `lawInForce`, which also finds a floor an amendment
+ * or a rider put into another bill.
+ */
 export function anyTeacherFloorLawEnacted(world: World): boolean {
-  const proposition = teacherFloorProposition(world);
-  if (!proposition) return false;
-  return (world.history.legislativeMeasures ?? []).some((measure) =>
-    measure.propositionIds.includes(proposition),
+  return (
+    teacherFloorProposition(world) !== null &&
+    (world.history.legislativeEnactments ?? []).some(
+      (enactment) => enactment.outcome === "enacted",
+    )
   );
 }
