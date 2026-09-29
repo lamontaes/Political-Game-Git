@@ -1,16 +1,16 @@
-# The final ten laws now have direct operations; year proofs are running
+# The final ten laws have direct operations; the year proof stopped incomplete
 
-MERGED: Nothing. The laws are in a draft pull request for Claude CTO to review. The full matched-year proof is running, so this hand-back is a checkpoint. It does not establish completion or readiness.
+MERGED: Nothing. The laws are in a draft pull request for Claude CTO to review. The full matched-year proof stopped at the coordinator’s operational bound with no complete paired year. This hand-back establishes a stopped checkpoint, not completion or readiness.
 
 ## WHAT EMERGED
 
 HARDWIRED: Ten laws now have direct producers for school materials, student balances, public-land management, identification visits, post-office employment, library challenges, immigrant residents, disaster repairs, federal sentences, and congressional holdings. The catalog guard counts all 92 policy questions as wired. That measures producer coverage, not the effects of an enacted year. `src/simulation/governing/law-effect-paths.ts:81` registers the direct producer routes.
 
-The serial full proof uses seed `wave1-team1-20260929`. Its source fingerprint is `1c0dc135a1349e808af3512da93bddc942aed28d3169b9924bd5bddb47fe8889`. Each law receives a place draw from the available government routes across all 56 places. Each treatment uses controlled passage votes and an ordinary Day-clock year. Those votes do not establish autonomous legislative support. The live table is [Law enactment proof](../../evidence/laws-proof-2026-09-29.md); completed results will be incorporated below.
+The serial full proof uses seed `wave1-team1-20260929`. Its source fingerprint is `1c0dc135a1349e808af3512da93bddc942aed28d3169b9924bd5bddb47fe8889`. Each law receives a place draw from the available government routes across all 56 places. Each treatment uses controlled passage votes and an ordinary Day-clock year. Those votes do not establish autonomous legislative support. The preserved partial table is [Law enactment proof](../../evidence/laws-proof-2026-09-29.md); it contains zero completed rows.
 
 ## Wider knock-on effects and missing links
 
-The proof compares government books, cash, jobs, residents, court seats, jail terms, rent, and investments. Budget expenses and actual transfers are measured separately. The first world opened in Clearbrook, New Jersey. The first 90 control days were slow. After host load was released and the active legislative interval ended, the control advanced from 90 to 300 days in about one minute. This seasonal throughput is measured from progress checkpoints, not an isolated timing acceptance run. No completed-year outcome is claimed at this checkpoint. A bounded 19.3-second CPU profile measured 8,651 samples. Garbage collection accounted for 2,272 samples; autonomous chamber decisions and member considerations were leading named functions. The full profile remains in `/private/tmp/team1-proof.cpuprofile`. This is a correctness-run diagnostic, not a speed-budget comparison.
+The proof compares government books, cash, jobs, residents, court seats, jail terms, rent, and investments. Budget expenses and actual transfers are measured separately. The first world opened in Clearbrook, New Jersey. The latest emitted checkpoints are 360 control days and 60 enacted days; no paired year has completed. The first 90 control days were slow. After host load was released and the active legislative interval ended, the control advanced from 90 to 300 days in about one minute. This seasonal throughput is measured from progress checkpoints, not an isolated timing acceptance run. The control finished its anniversary year, as established by the enacted arm starting. No completed paired-year outcome is claimed. A bounded 19.3-second CPU profile measured 8,651 samples. Garbage collection accounted for 2,272 samples; autonomous chamber decisions and member considerations were leading named functions. The full profile remains in `/private/tmp/team1-proof.cpuprofile`. This is a correctness-run diagnostic, not a speed-budget comparison.
 
 Individual ballot casting and cure have canonical writers but no autonomous resident producer or player UI. Library title challenges use the existing council route. Immigration residents use canonical people and household records. Federal minimum-sentence and lobbying proofs declare matched fictional conditions; they do not infer crime or retirement incidence. The stock module does not collect unpaid obligations later.
 
@@ -22,21 +22,26 @@ Individual ballot casting and cure have canonical writers but no autonomous resi
 - The seven remaining laws each have a separate commit. Shared integration is `bff446ee8`.
 - Catalog: 92 of 92; allowlist empty.
 - ESLint, PR release check, zero-dice, spelling, and seven law-report checks pass. Zero-dice remains at 217 allowed lines.
-- Typecheck and eleven focused law/budget test files were stopped with SIGTERM to release host load at the coordinator request. Both returned 143: NO RESULT. They must be rerun serially. The generated live proof report needs final formatting.
-- Speed comparison: NOT RUN. Exclusive timing has been requested from the coordinator.
+- Typecheck and eleven focused law/budget test files were stopped with SIGTERM to release host load at the coordinator request. Both returned 143: NO RESULT. They must be rerun serially. The preserved partial proof report requires final formatting when the proof resumes.
+- Full proof: INCOMPLETE, 0 of 92 paired-year rows; no completed-law passes or failures.
+- Speed comparison: NOT RUN. Team 4 receives the next exclusive timing slot.
 - Claims: 115 exact paths registered in the shared canonical `docs/codex/claims.md`, including all inherited branch changes and this hand-back. Claims were appended under the atomic lock. No conflicts were found. Coordinator owns `status.md`.
 
 ## NEEDS LAMONTAE
 
-No product decision is required at this checkpoint. The measured chamber-vote bottleneck was routed to the coordinator because that file belongs to Team 2. Browser and GitHub validation are NOT RUN locally under the latest owner direction; Claude owns them. The wave permits only a research helper, so the skill's separate report reviewer was not spawned. Claude CTO must review this hand-back before acceptance.
+No product decision is required at this stopped checkpoint. The coordinator/Claude must decide when the full proof resumes after the speed work. The measured chamber-vote bottleneck was routed to the coordinator because that file belongs to Team 2. Browser and GitHub validation are NOT RUN locally under the latest owner direction; Claude owns them. The wave permits only a research helper, so the skill's separate report reviewer was not spawned. Claude CTO must review this hand-back before acceptance.
 
 ## PLACEHOLDERS
 
 Each law report discloses its source-backed estimates. Identification uses ownership and cure-deadline estimates. Lobbying uses counts and openings. Libraries use staffing and review costs. Immigration uses allocation and household mix. Public land uses acreage and visitor spending. Student debt uses balances and payments. Disasters use eligibility and repair costs. Federal sentences use authored reform proposals. Congressional holdings, fees, proposed fines, and curriculum costs retain disclosed benchmarks. The territorial proof packs retain explicitly experimental procedural profiles. They are not evidence of fully sourced territorial procedure.
 
+## Claude validation handoff
+
+No screen files changed in this task. Browser and GitHub validation are NOT RUN locally by owner direction. For a player-clock smoke check, use the title screen’s **Watch the world** button and then **A day**. Record the place that the ordinary entry actually opens. That button supplies its configured setup directly; it does not offer a Clearbrook selector. Capture the opening place and date, then the date after an ordinary day; check Save/Continue in that same build. These screenshots would verify the entry and clock route, not all 92 law effects. The law proof still needs its paired-year receipts. Claude should rerun the stopped typecheck and focused law/budget tests after the speed slot.
+
 ## Method
 
-The existing dirty branch and index were preserved. Each of the seven remaining laws was committed separately, followed by the shared integration and proof runner. No root product edits, merge, reset, stash, cleanup, force push, clone, or project copy occurred. The command is `npm run storage -- run test -- npm run laws:proof -- --jobs 1 --seed wave1-team1-20260929`. It holds a storage reservation and runs one worker. Diagnostic progress is retained in `/private/tmp/team1-proof-progress.log`, with the native sample in `/private/tmp/team1-proof-sample.txt`. A coordinator stop instruction was superseded before any proof signal was sent. The current bound is the first complete control-and-treated row; no competing gates may run. Automatic approval review rejected generic remaining-path staging; an explicit list checked against Team 1 claims was approved and committed instead.
+The existing dirty branch and index were preserved. Each of the seven remaining laws was committed separately, followed by the shared integration and proof runner. No root product edits, merge, reset, stash, cleanup, force push, clone, or project copy occurred. The command is `npm run storage -- run test -- npm run laws:proof -- --jobs 1 --seed wave1-team1-20260929`. It holds a storage reservation and runs one worker. Diagnostic progress is retained in `/private/tmp/team1-proof-progress.log`, with the native sample in `/private/tmp/team1-proof-sample.txt`. A coordinator stop instruction was superseded before any proof signal was sent. The five-minute operational bound expired at 6:01:04 p.m. Eastern on September 29. Only the verified owned parent and worker received SIGTERM. The runner returned 143, and a process inventory confirmed both exited. Team 1 explicitly released the heavy slot for Team 4. No replacement run or further gate was launched. Automatic approval review rejected generic remaining-path staging; an explicit list checked against Team 1 claims was approved and committed instead.
 
 ## Exact claimed paths
 
