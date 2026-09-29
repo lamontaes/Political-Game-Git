@@ -112,9 +112,13 @@ describe("named poses", () => {
               pack,
               recipe(pack, { presentation, build, outfit: outfit.id, pose }),
             );
-            // Always a body, and always the outfit, in one of the pose's
-            // fallbacks; never nothing and never a layer from another pose.
-            expect(poseFallbacks(pose)).toContain(pieces.pose);
+            // Always a body, and always the outfit, in one of the fallbacks
+            // of the pose this presentation uses (a woman's hand on the hip
+            // for a man's hands in pockets); never nothing and never a layer
+            // from another pose.
+            expect(
+              poseFallbacks(presentationPose(pose, presentation)),
+            ).toContain(pieces.pose);
             expect(pieces.body.file.length).toBeGreaterThan(0);
             expect(pieces.outfit).toBeDefined();
             const suffix = pieces.pose === "standing" ? "" : `-${pieces.pose}`;
