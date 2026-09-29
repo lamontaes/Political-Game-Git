@@ -338,6 +338,12 @@ describe("ordinary conversation follow-through", () => {
       expect(
         explained.intents.some((intent) => intent.key === "spendTime"),
       ).toBe(agreed);
+      // Saying no takes work: a refusal gives the person's own reason.
+      const answer = proposed.transcript.at(-1)!.reply;
+      if (!agreed)
+        expect(answer).toMatch(
+          /time to myself|on my own|something new|something different|game we both know|usual games/,
+        );
       if (agreed) {
         accepted = true;
         expect(explained.transcript.at(-1)!.reply).toContain(

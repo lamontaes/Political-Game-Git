@@ -86,6 +86,7 @@ import { PublicServicePanel } from "./politics/PublicServicePanel";
 import { NewsDesk } from "./news/NewsDesk";
 import "./controls/controls.css";
 import { PinToggle } from "./controls/PinToggle";
+import { PlaceConditionsPanel } from "./PlaceConditions";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
 import { issuesPlaceForSelection } from "../presentation/politics-government";
 import {
@@ -1815,6 +1816,7 @@ function PlayingScreen({
       "politics",
       "transit",
       "tax",
+      "conditions",
       "candidacy",
     ];
     entries.push(
@@ -3145,7 +3147,14 @@ function renderWorkspace({
    */
   const politicsTabs = (
     active: PoliticsTab,
-    section?: "budget" | "transit" | "tax" | "overview" | "map" | "records",
+    section?:
+      | "budget"
+      | "conditions"
+      | "transit"
+      | "tax"
+      | "overview"
+      | "map"
+      | "records",
   ) => {
     const goTo = (tab: PoliticsTab) => {
       if (tab === "office")
@@ -3178,6 +3187,7 @@ function renderWorkspace({
       active === "issues"
         ? [
             { key: "budget", label: "Budget and constitution" },
+            { key: "conditions", label: "Conditions" },
             ...(access?.transit || section === "transit"
               ? [{ key: "transit", label: "Transit" }]
               : []),
@@ -3208,15 +3218,17 @@ function renderWorkspace({
           const surface =
             key === "budget"
               ? "politics"
-              : key === "records"
-                ? "municipal"
-                : key === "overview"
-                  ? "government"
-                  : key === "map"
-                    ? "government-map"
-                    : key === "transit"
-                      ? "transit"
-                      : "tax";
+              : key === "conditions"
+                ? "conditions"
+                : key === "records"
+                  ? "municipal"
+                  : key === "overview"
+                    ? "government"
+                    : key === "map"
+                      ? "government-map"
+                      : key === "transit"
+                        ? "transit"
+                        : "tax";
           dispatch({ type: "go-to-subroute", surface });
         }}
       />
@@ -3900,6 +3912,20 @@ function renderWorkspace({
               }}
             />
           )}
+        </>,
+        "Politics",
+      );
+
+    case "conditions":
+      return frame(
+        "How the state is doing",
+        "conditions-workspace",
+        <>
+          {politicsTabs("issues", "conditions")}
+          <PlaceConditionsPanel
+            world={session.world}
+            personId={session.personId}
+          />
         </>,
         "Politics",
       );

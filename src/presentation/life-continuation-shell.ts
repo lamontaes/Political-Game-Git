@@ -96,6 +96,7 @@ const READ_ONLY_SURFACES: readonly (ShellSurface | "entity")[] = [
   "municipal",
   "parties",
   "politics",
+  "conditions",
   "options",
   "patch-notes",
   "world-record",
