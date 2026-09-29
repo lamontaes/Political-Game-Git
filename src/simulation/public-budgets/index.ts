@@ -11,9 +11,7 @@ import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { firstOfNextMonth, firstOfPreviousMonth } from "./fiscal";
 import { readMonthFlows, settleGovernmentMonth } from "./month";
 import { budgetCandidates, openGovernmentBudget } from "./opening";
-import { TAX_QUESTION_EFFECTS } from "./rules";
 import {
-  BUDGET_LAW_KEYS,
   PUBLIC_BUDGETS_VERSION,
   stateLocalAidRate,
   type PublicBudgetGovernment,
@@ -22,19 +20,6 @@ import {
 
 export * from "./store";
 export { budgetProgramFor } from "./month";
-
-/**
- * The policy questions whose law every public budget reads: the balanced
- * budget, reserve and pension laws, and each tax question whose revenue change
- * is sized (`TAX_QUESTION_EFFECTS`). A law answering one moves money in the
- * budgets of the governments it governs.
- */
-export const BUDGET_READ_QUESTIONS: ReadonlySet<string> = new Set([
-  ...Object.values(BUDGET_LAW_KEYS),
-  ...TAX_QUESTION_EFFECTS.filter(
-    (effect) => effect.toYes !== null || effect.toNo !== null,
-  ).map((effect) => effect.questionKey),
-]);
 
 export const PUBLIC_BUDGETS_TRANSITION_KEY = "crisis:public-budgets" as const;
 
