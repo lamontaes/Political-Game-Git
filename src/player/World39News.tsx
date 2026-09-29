@@ -1,4 +1,5 @@
 import type { EntityId, World } from "../simulation";
+import { lawEffectsHere } from "../presentation/law-effects-here";
 import { projectWorld39News } from "../presentation/world39-news";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import "./world39-readers.css";
@@ -14,6 +15,10 @@ export function World39News({
   readonly onOpenPerson: (id: EntityId) => void;
 }) {
   const model = projectWorld39News(world, personId);
+  const homeJurisdictionId = world.people[personId]?.homeJurisdictionId ?? null;
+  const lawEffects = homeJurisdictionId
+    ? lawEffectsHere(world, homeJurisdictionId).slice(0, 6)
+    : [];
   return (
     <section
       className="world39-reader"
@@ -39,6 +44,21 @@ export function World39News({
             >
               <h5>{item.headline}</h5>
               <p>{item.sentence}</p>
+            </article>
+          ))}
+        </section>
+      ) : null}
+      {lawEffects.length > 0 ? (
+        <section aria-label="What the laws changed" data-testid="world39-laws">
+          <h4>What the laws changed</h4>
+          {lawEffects.map((effect) => (
+            <article
+              key={effect.key}
+              data-measure={effect.measure}
+              data-direction={effect.direction}
+            >
+              <h5>{effect.headline}</h5>
+              <p>{effect.sentence}</p>
             </article>
           ))}
         </section>
