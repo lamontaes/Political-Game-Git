@@ -171,8 +171,8 @@ function scheduleNextReview(world: World, after: IsoDate): World {
 /** Called whenever the clock moves; puts the next yearly review on the calendar. */
 export function applyArticleV(before: IsoDate, world: World): World {
   if (world.currentDate <= before) return world;
-  if (!seatedCongressChamber(world, "senate")) return world;
   const year = Number(world.currentDate.slice(0, 4));
+  // The cheap calendar check first: seating the Senate reads every record.
   const scheduled = world.history.futureDueItems.some(
     (due) =>
       due.transitionKey === ARTICLE_V_REVIEW &&
@@ -180,7 +180,8 @@ export function applyArticleV(before: IsoDate, world: World): World {
         (due.stableKey === reviewKey(year) &&
           reviewDateFor(year) > world.currentDate)),
   );
-  return scheduled ? world : scheduleNextReview(world, world.currentDate);
+  if (scheduled || !seatedCongressChamber(world, "senate")) return world;
+  return scheduleNextReview(world, world.currentDate);
 }
 
 function controlledPersonId(world: World): EntityId | null {
@@ -660,6 +661,13 @@ export function articleVConventionHandler(
   });
   const measureId = proposed.measureId;
   let next = proposed.world;
+  // Members seated since the review hold principles of their own before they
+  // vote; unknown is never counted as no.
+  for (const stateKey of ARTICLE_V_STATE_KEYS)
+    next = ensureOfficeholderPrinciples(
+      next,
+      stateVoice(next, stateKey.slice(3)).personIds,
+    );
   const dispositions: LegislativeVoteDisposition[] = ARTICLE_V_STATE_KEYS.map(
     (stateKey) => {
       const voice = stateVoice(next, stateKey.slice(3));

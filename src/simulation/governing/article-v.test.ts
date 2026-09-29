@@ -33,7 +33,7 @@ import {
   conventionApplications,
 } from "./article-v";
 import { seatedCongressChamber } from "./congress-chambers";
-import { lawInForce } from "./law-in-force";
+import { lawInForce, statuteAnswer } from "./law-in-force";
 import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 
 /** A life in a place drawn by the seed from every place a life can start. */
@@ -191,6 +191,9 @@ describe("Build 27 step 5: amending the Constitution on any subject", () => {
       level: "federal-constitution",
       measureId: measure.id,
     });
+    // A legislature reads the question as closed to statute: a bill against
+    // it could never take effect, so no member files one.
+    expect(statuteAnswer(lawInForce(world, place, question))).toBe("closed");
   }, 1_800_000);
 
   it("34 state legislatures call a convention that Congress would not, and 38 are still needed to ratify", () => {

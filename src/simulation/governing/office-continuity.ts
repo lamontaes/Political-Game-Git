@@ -20,6 +20,8 @@ import {
 } from "../living-world/congress-seats";
 import type { CongressSeat } from "../living-world/congress-seats";
 import { projectCongress } from "../living-world/congress";
+import { aggregateCongressAffiliation } from "../living-world/congress-aggregate-outcome";
+import { seatStartingCondition } from "../world-setup/conditions";
 import {
   CONGRESS_TURNOVER_PROFILE,
   congressionalElectionDay,
@@ -612,12 +614,25 @@ function seatNewMember(
       ? governorParty
       : priorParty;
   // A legislature choosing senators elects its majority's candidate.
-  const legislatureParty =
+  // ESTIMATED where the state's legislature is not seated in this world: the
+  // state's own lean stands in for its majority, as at a regular election
+  // (congress-turnover.ts).
+  const legislatureChooses =
     mode === "special-election" &&
     seat.chamberKey === "us-senate" &&
-    senateSelectionRuleAt(world, vacancyDate).method === "state-legislature"
-      ? (stateLegislatureMajority(world, seat.stateUsps)?.party ?? null)
-      : null;
+    senateSelectionRuleAt(world, vacancyDate).method === "state-legislature";
+  const condition = legislatureChooses
+    ? seatStartingCondition(world, seat.seatKey)
+    : null;
+  const legislatureParty = legislatureChooses
+    ? (stateLegislatureMajority(world, seat.stateUsps)?.party ??
+      aggregateCongressAffiliation({
+        democraticShare: condition?.generatedShare ?? null,
+        baselineAffiliation: condition?.affiliation ?? null,
+        incumbentAffiliation: priorParty,
+        incumbentSeeking: false,
+      }))
+    : null;
   const party = legislatureParty
     ? legislatureParty
     : mode === "appointment" && appointeeParty

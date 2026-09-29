@@ -14,3 +14,7 @@ state legislatures must ratify. A ratified amendment that writes a policy into
 the Constitution becomes the law in force everywhere, above every statute, so
 whatever the game reads from the law follows it. A state amendment that writes
 a policy into a state constitution now does the same within that state.
+In a save that already holds such a state amendment, the law in force changes
+the first time the save is loaded, and the next monthly outcome for that state
+follows it. A question a constitution settles is closed to statute:
+legislators no longer file bills that could not change it.

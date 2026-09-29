@@ -456,14 +456,18 @@ function decideSeat(
   // legislature, both houses in joint assembly, elects (Act of July 25,
   // 1866). A seeking incumbent of that party is returned. ESTIMATED where
   // the state's legislature is not seated in this world: the state's own
-  // lean stands in for its majority.
-  if (legislatureChooses(world, seat, electionDay)) {
+  // lean stands in for its majority. A contest recorded in this world (one
+  // the player filed, or one scheduled before the rule changed) keeps its
+  // own result below. A player who holds the seat has made no choice to
+  // leave it, so they stand for the legislature's vote like a seeking member.
+  if (
+    legislatureChooses(world, seat, electionDay) &&
+    !recordedSeatContest(world, seat, electionDay)
+  ) {
     const majority = stateLegislatureMajority(world, seat.stateUsps);
     const condition = seatStartingCondition(world, seat.seatKey);
     const seeking =
-      eligible &&
-      !isControlled(world, incumbent!) &&
-      seatCandidacyIntent(world, seat.seatKey, year) !== false;
+      eligible && seatCandidacyIntent(world, seat.seatKey, year) !== false;
     const party =
       majority?.party ??
       aggregateCongressAffiliation({

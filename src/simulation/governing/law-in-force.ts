@@ -75,6 +75,22 @@ export interface LawInForce {
   readonly operativeBasis: "enacted-date" | "game-default";
 }
 
+/**
+ * The law in force as a legislature filing a bill reads it: its answer, or
+ * `closed` when a constitution settles the question. A statute ranks below
+ * the constitution, so no bill on it could change what is in force, and a
+ * member files none (only an amendment can).
+ */
+export function statuteAnswer(
+  law: LawInForce | null,
+): PropositionAnswer | null | "closed" {
+  if (!law) return null;
+  return law.level === "federal-constitution" ||
+    law.level === "state-constitution"
+    ? "closed"
+    : law.answer;
+}
+
 export function lawInForce(
   world: World,
   jurisdictionId: EntityId,
@@ -226,12 +242,23 @@ function constitutionalCandidate(
   propositionId: EntityId,
   onDate: IsoDate,
 ): Candidate | null {
-  if (!(world.history.constitutionalMeasures ?? []).length) return null;
+  // Cheap guard: only a measure on this very question can answer it.
+  if (
+    !(world.history.constitutionalMeasures ?? []).some(
+      (row) =>
+        row.ruleDelta.kind === "policy-provision" &&
+        row.ruleDelta.propositionId === propositionId,
+    )
+  )
+    return null;
   let best: Candidate | null = null;
   for (const [placeId, level] of chain) {
     const placeKey = startingLawPlaceKey(placeId);
     if (!placeKey || level === "local-ordinance") continue;
     const federal = placeKey === "US";
+    // A state constitution answers only what the state may decide, as a
+    // state statute does.
+    if (!federal && !mayAnswerQuestion(world, placeId, propositionId)) continue;
     const provision = constitutionalPolicyProvisions(
       world,
       federal ? "US" : placeKey.slice(3),

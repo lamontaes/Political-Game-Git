@@ -44,7 +44,7 @@ import {
   scheduleInstitutionStep,
 } from "./legislative-clock";
 import type { SeatedMember } from "../legislation-scenarios";
-import { lawInForce } from "./law-in-force";
+import { lawInForce, statuteAnswer } from "./law-in-force";
 import { mayAnswerQuestion } from "./question-authority";
 import {
   ensureOfficeholderPrinciples,
@@ -187,7 +187,7 @@ function memberBillChoice(
   personId: EntityId,
   chamberKey: "house" | "senate",
   questions: readonly FederalQuestion[],
-  lawAnswers: Map<EntityId, "yes" | "no" | null>,
+  lawAnswers: Map<EntityId, "yes" | "no" | null | "closed">,
   pending: Map<EntityId, boolean>,
 ): {
   readonly question: FederalQuestion;
@@ -216,11 +216,13 @@ function memberBillChoice(
     if (!lawAnswers.has(question.propositionId))
       lawAnswers.set(
         question.propositionId,
-        lawInForce(
-          world,
-          NATIONAL_ELECTION_JURISDICTION.id,
-          question.propositionId,
-        )?.answer ?? null,
+        statuteAnswer(
+          lawInForce(
+            world,
+            NATIONAL_ELECTION_JURISDICTION.id,
+            question.propositionId,
+          ),
+        ),
       );
     const lawAnswer = lawAnswers.get(question.propositionId);
     const answer: "yes" | "no" | null =
@@ -231,7 +233,7 @@ function memberBillChoice(
         : lawAnswer === "yes"
           ? "no"
           : null;
-    if (!answer) continue;
+    if (!answer || lawAnswer === "closed") continue;
     if (!pending.has(question.propositionId))
       pending.set(
         question.propositionId,
@@ -288,7 +290,7 @@ export function fileCongressBill(
   const order = seated.body.members.filter(
     (member) => member.personId && member.personId !== player,
   );
-  const lawAnswers = new Map<EntityId, "yes" | "no" | null>();
+  const lawAnswers = new Map<EntityId, "yes" | "no" | null | "closed">();
   const pending = new Map<EntityId, boolean>();
   let sponsor: SeatedMember | null = null;
   let choice: ReturnType<typeof memberBillChoice> = null;
