@@ -5,6 +5,7 @@ import {
 import { US_CONGRESS_PACK_ID } from "./congress-rule-pack";
 import billIntroductionTable from "../../data/research/laws/bill-introductions-2022.json" with { type: "json" };
 import { rulePackById } from "./legislature-rule-packs";
+import { isFederalDistrictUsps } from "./state-reference";
 import type { ChamberRule, LegislativeRulePack } from "./legislature-rules";
 import type {
   EntityId,
@@ -208,7 +209,7 @@ function schemeFor(
     };
   }
   if (chamber.chamberKey === "council") {
-    if (pack.jurisdictionKey === "US-DC") {
+    if (isFederalDistrictUsps(pack.jurisdictionKey.replace(/^US-/, ""))) {
       return {
         kind: "dc-council",
         template: DC_COUNCIL_TEMPLATE,
