@@ -42,7 +42,9 @@ const BALANCED = "proposition_balanced" as EntityId;
 const RESERVE = "proposition_reserve" as EntityId;
 const PENSIONS = "proposition_pensions" as EntityId;
 const GRADUATED = "proposition_graduated" as EntityId;
+const INCOME_TAX = "proposition_income_tax" as EntityId;
 const QUESTIONS: Readonly<Record<string, EntityId>> = {
+  "fiscal.adopt-income-tax": INCOME_TAX,
   "fiscal.balanced-operating-budget": BALANCED,
   "fiscal.minimum-reserve-balance": RESERVE,
   "fiscal.fund-pensions-to-schedule": PENSIONS,
@@ -914,9 +916,10 @@ describe("public budgets", () => {
     expect(july.revenue[aid]!).toBeGreaterThan(june.revenue[aid]!);
   });
 
-  it("a state income tax law changes the income tax from the month it takes effect, and the next budgets count it once", () => {
+  it("a state income tax law changes the income tax from the tax year it takes effect in, as paychecks do, and the next budgets count it once", () => {
     // Illinois began with a flat income tax; a graduated one takes effect on
-    // March 1, 2026.
+    // March 1, 2026. Paychecks withhold under the law in force on January 1
+    // of the tax year, so the budget collects the change from January 2027.
     const graduated = TAX_QUESTION_EFFECTS.find((row) =>
       row.questionKey.endsWith("graduated-income-tax"),
     )!;
@@ -949,23 +952,65 @@ describe("public budgets", () => {
       government.months.find((row) => row.month === on)!.revenue[at]!;
     const size = 1 + graduated.toYes!;
     expect(size).toBeCloseTo(1 + 3.4 / 22.7, 6);
-    // Nothing before it takes effect; the full change from that month on.
-    expect(month(lawful, "2026-02-01")).toBe(month(flat, "2026-02-01"));
-    expect(month(lawful, "2026-03-01") / month(flat, "2026-03-01")).toBeCloseTo(
+    // Nothing before the tax year it takes effect in; the full change from
+    // January on.
+    expect(month(lawful, "2026-03-01")).toBe(month(flat, "2026-03-01"));
+    expect(month(lawful, "2026-12-01")).toBe(month(flat, "2026-12-01"));
+    expect(month(lawful, "2027-01-01") / month(flat, "2027-01-01")).toBeCloseTo(
       size,
       4,
     );
-    // Fiscal 2027 and 2028 each expect the change once, not compounded.
-    for (const fy of [1, 2]) {
-      const ratio =
-        lawful.years[fy]!.expectedRevenue[at]! /
-        flat.years[fy]!.expectedRevenue[at]!;
-      expect(ratio).toBeCloseTo(size, 3);
-    }
+    // Fiscal 2027 was adopted in July 2026 under the flat tax; fiscal 2028
+    // expects the change once, not compounded.
+    const expected = (fy: number) =>
+      lawful.years[fy]!.expectedRevenue[at]! /
+      flat.years[fy]!.expectedRevenue[at]!;
+    expect(expected(1)).toBeCloseTo(1, 6);
+    expect(expected(2)).toBeCloseTo(size, 3);
     expect(month(lawful, "2028-03-01") / month(flat, "2028-03-01")).toBeCloseTo(
       size,
       3,
     );
+  });
+
+  it("a state that repeals its income tax collects none from the next tax year, and its next budget expects none", () => {
+    // Illinois began with an income tax; a repeal is enacted May 12, 2026.
+    const repealed = worldAt("2026-01-05", {
+      laws: [{ question: INCOME_TAX, answer: "no", jurisdictionId: illinois }],
+      history: {
+        legislativeEnactments: [
+          {
+            id: "enactment_0" as EntityId,
+            sequence: 1000,
+            measureId: "measure_0" as EntityId,
+            resolvedAt: makeIsoDate("2026-05-12"),
+            outcome: "enacted",
+            effectiveAt: makeIsoDate("2026-05-12"),
+          },
+        ] as unknown as World["history"]["legislativeEnactments"],
+      },
+    });
+    const government = settleAlone(
+      repealed,
+      publicBudgetFor(opened(repealed), illinois)!,
+      "2028-06-01",
+    ).government;
+    const at = BUDGET_SOURCES.indexOf("individualIncomeTax");
+    const month = (on: string) =>
+      government.months.find((row) => row.month === on)!.revenue[at]!;
+    // Paychecks withhold until the tax year ends, so the budget collects
+    // until then too.
+    expect(month("2026-12-01")).toBeGreaterThan(0);
+    for (const on of ["2027-01-01", "2027-06-01", "2028-03-01"])
+      expect(month(on)).toBe(0);
+    expect(government.years[2]!.expectedRevenue[at]).toBe(0);
+    // Other sources keep collecting.
+    const sales = BUDGET_SOURCES.indexOf("generalSalesTax");
+    expect(
+      government.months.find((row) => row.month === "2027-01-01")!.revenue[
+        sales
+      ]!,
+    ).toBeGreaterThan(0);
   });
 
   it("maps an appropriation's program to its budget line", () => {

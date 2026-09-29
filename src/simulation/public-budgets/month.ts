@@ -258,15 +258,21 @@ function monthsInto(year: AdoptedBudget, month: IsoDate): number {
  * How a state's tax law in force on a date moves a revenue source against
  * the law the state began with (`TAX_QUESTION_EFFECTS`): 1 where nothing
  * changed, where the size is not researched, or for a county or city, whose
- * own taxes these state questions do not set.
+ * own taxes these state questions do not set. Income tax is read on January 1
+ * of the date's year, the law paychecks withhold under for that tax year
+ * (`stateIncomeTaxUnderLaw`), so the budget collects what paychecks withhold.
  */
 export function taxLawFactor(
   world: World,
   government: PublicBudgetGovernment,
   source: BudgetSource,
-  onDate: IsoDate,
+  date: IsoDate,
 ): number {
   if (government.level !== "state") return 1;
+  const onDate =
+    source === "individualIncomeTax"
+      ? (`${date.slice(0, 4)}-01-01` as IsoDate)
+      : date;
   let factor = 1;
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.source !== source) continue;
@@ -288,7 +294,16 @@ export function taxLawFactor(
     if (began === "no" && now === "yes") factor *= 1 + (effect.toYes ?? 0);
     if (began === "yes" && now === "no") factor *= 1 + (effect.toNo ?? 0);
   }
-  return factor;
+  return Math.max(0, factor);
+}
+
+/**
+ * The law factor now against the law factor then. A source a law has ended
+ * (factor 0) collects nothing, and a month that collected nothing cannot be
+ * scaled back up; either way the ratio is 0, never a division by zero.
+ */
+function lawRatio(now: number, then: number): number {
+  return then > 0 ? now / then : 0;
 }
 
 interface Settled {
@@ -327,8 +342,10 @@ export function settleGovernmentMonth(
     Math.round(
       (year.expectedRevenue[at]! / 12) *
         Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (economy - 1)) *
-        (taxLawFactor(world, government, source, month) /
-          taxLawFactor(world, government, source, year.startsOn)),
+        lawRatio(
+          taxLawFactor(world, government, source, month),
+          taxLawFactor(world, government, source, year.startsOn),
+        ),
     ),
   );
   if (government.population > 0)
@@ -637,7 +654,10 @@ function adoptNextYear(
     // law that changed last year counts once, in full.
     const lawNow = taxLawFactor(world, government, source, startsOn);
     const restated = rows.map((row) => {
-      const law = lawNow / taxLawFactor(world, government, source, row.month);
+      const law = lawRatio(
+        lawNow,
+        taxLawFactor(world, government, source, row.month),
+      );
       if (economyNow === null) return row.revenue[at]! * law;
       const then = scaleAt(row.economy);
       return then > 0
