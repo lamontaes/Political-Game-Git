@@ -2,8 +2,10 @@ import { describe, expect, it } from "vitest";
 
 import { eventIndexOf } from "./event-index";
 import {
+  appendedList,
   hasStableKey,
   recordById,
+  recordByStableKey,
   recordsByStringField,
   recordsWithFieldValue,
 } from "./history-index";
@@ -74,6 +76,43 @@ describe("immutable history lookup indexes", () => {
     expect(hasStableKey(grown, "key:a")).toBe(false);
     expect(hasStableKey(grown, "key:b")).toBe(true);
     expect(recordById(grown, "a" as EntityId)).toBeUndefined();
+  });
+
+  it("follows lists built by appending, and rereads a list rewritten in place", () => {
+    const row = (id: string, detail = "brief") => ({
+      id: id as EntityId,
+      stableKey: `key:${id}`,
+      detail,
+    });
+    const base = Array.from({ length: 3_000 }, (_, at) => row(`r${at}`));
+    expect(recordById(base, "r1500" as EntityId)).toBe(base[1500]);
+
+    // Two appends with no lookup between them still extend the index.
+    const once = appendedList(base, [row("x")]);
+    const twice = appendedList(once, [row("y"), row("z")]);
+    expect(twice).toHaveLength(3_003);
+    expect(recordById(twice, "y" as EntityId)).toBe(twice[3_001]);
+    expect(hasStableKey(twice, "key:z")).toBe(true);
+    expect(recordByStableKey(twice, "key:r7")).toBe(base[7]);
+    expect(recordById(once, "y" as EntityId)).toBeUndefined();
+
+    // A second writer grows the same list differently: its list never
+    // borrows the other writer's records.
+    const fork = appendedList(once, [row("v")]);
+    expect(recordById(fork, "v" as EntityId)).toBe(fork.at(-1));
+    expect(recordById(fork, "y" as EntityId)).toBeUndefined();
+    expect(hasStableKey(appendedList(fork, [row("u")]), "key:z")).toBe(false);
+    expect(hasStableKey(twice, "key:v")).toBe(false);
+
+    // A writer that replaces one record far from the end, then appends, keeps
+    // the length and the last records of the old list: the new list is read
+    // again, so the replacement is what a lookup finds.
+    const rewritten = twice.map((record) =>
+      record.id === "r1234" ? row("r1234", "detailed") : record,
+    );
+    const after = [...rewritten, row("w")];
+    expect(recordById(after, "r1234" as EntityId)?.detail).toBe("detailed");
+    expect(recordById(after, "w" as EntityId)).toBe(after.at(-1));
   });
 
   it("extends the event index as events are appended, last id winning", () => {

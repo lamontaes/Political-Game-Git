@@ -39,6 +39,11 @@ import {
   livingWorldEstablished,
   livingWorldOrganizationId,
 } from "./opening";
+import {
+  hasStableKey,
+  recordByStableKey,
+  recordsWithFieldValue,
+} from "../history-index";
 
 /**
  * CONGRESS CONTINUITY — the regular elections the opening snapshot does not
@@ -102,12 +107,13 @@ function tagValue(event: HistoricalEvent, prefix: string): string | null {
 
 function latestSeatRecords(world: World): Map<string, HistoricalEvent> {
   const bySeat = new Map<string, HistoricalEvent>();
-  for (const event of world.history.events) {
-    if (
-      (event.type !== SEAT_TENURE_EVENT && event.type !== SEAT_VACANCY_EVENT) ||
-      !event.tags.includes(LIVING_WORLD_WRITER_VERSION)
-    )
-      continue;
+  // Read by type from an index: the latest record is the same whichever
+  // order the two kinds are read in, since no two share a sequence.
+  for (const event of [
+    ...recordsWithFieldValue(world.history.events, "type", SEAT_TENURE_EVENT),
+    ...recordsWithFieldValue(world.history.events, "type", SEAT_VACANCY_EVENT),
+  ]) {
+    if (!event.tags.includes(LIVING_WORLD_WRITER_VERSION)) continue;
     const seatKey = tagValue(event, "seat:");
     if (!seatKey) continue;
     const current = bySeat.get(seatKey);
@@ -125,9 +131,11 @@ function latestSeatRecords(world: World): Map<string, HistoricalEvent> {
 function aliveOn(world: World, personId: EntityId, date: IsoDate): boolean {
   return (
     Boolean(world.people[personId]) &&
-    !world.history.personDeaths.some(
-      (death) => death.personId === personId && death.diedAt <= date,
-    )
+    !recordsWithFieldValue(
+      world.history.personDeaths,
+      "personId",
+      personId,
+    ).some((death) => death.diedAt <= date)
   );
 }
 
@@ -157,11 +165,14 @@ export function recordedSeatContest(
   seat: CongressSeat,
   electionDay: IsoDate,
 ) {
-  return (world.history.electionContests ?? []).find(
+  return recordsWithFieldValue(
+    world.history.electionContests ?? [],
+    "electionDate",
+    electionDay,
+  ).find(
     (contest) =>
-      contest.electionDate === electionDay &&
-      (contest.office.seatKey === seat.seatKey ||
-        contest.office.officeKey === seat.seatKey),
+      contest.office.seatKey === seat.seatKey ||
+      contest.office.officeKey === seat.seatKey,
   );
 }
 
@@ -189,8 +200,7 @@ export function recordSeatCandidacyIntent(
   } = {},
 ): World {
   const stableKey = seekingKey(seat.seatKey, year);
-  if (world.history.events.some((event) => event.stableKey === stableKey))
-    return world;
+  if (hasStableKey(world.history.events, stableKey)) return world;
   const chamberId = livingWorldOrganizationId(
     world,
     LIVING_WORLD_KEYS.chamber(seat.chamberKey),
@@ -248,8 +258,9 @@ export function seatCandidacyIntent(
   seatKey: string,
   year: number,
 ): boolean | null {
-  const event = world.history.events.find(
-    (candidate) => candidate.stableKey === seekingKey(seatKey, year),
+  const event = recordByStableKey(
+    world.history.events,
+    seekingKey(seatKey, year),
   );
   return event ? event.tags.includes("intent:seeking") : null;
 }
@@ -540,8 +551,7 @@ function decideSeat(
 
 /** Election day: decide the seats whose terms end next January 3. */
 function holdCongressElection(world: World, year: number): World {
-  if (world.history.events.some((e) => e.stableKey === resultsKey(year)))
-    return world;
+  if (hasStableKey(world.history.events, resultsKey(year))) return world;
   const electionDay = congressionalElectionDay(year);
   const newStart = makeIsoDate(`${year + 1}-01-03`);
   const seats = congressSeats().filter(
@@ -689,9 +699,7 @@ function holdCongressElection(world: World, year: number): World {
 
 /** January 3: seat each recorded winner for the new term. */
 function seatCongressWinners(world: World, year: number): World {
-  const results = world.history.events.find(
-    (event) => event.stableKey === resultsKey(year),
-  );
+  const results = recordByStableKey(world.history.events, resultsKey(year));
   if (!results) return world;
   const newStart = makeIsoDate(`${year + 1}-01-03`);
   const seatsByKey = new Map(congressSeats().map((s) => [s.seatKey, s]));
@@ -797,9 +805,7 @@ function seatCongressWinners(world: World, year: number): World {
         chamberOrganizationId: chamberId,
         jurisdictionId,
         startsAt: newStart,
-        tenureEventId: next.history.events.find(
-          (event) => event.stableKey === stableKey,
-        )!.id,
+        tenureEventId: recordByStableKey(next.history.events, stableKey)!.id,
       });
   }
   for (const tag of results.tags) {
@@ -808,8 +814,7 @@ function seatCongressWinners(world: World, year: number): World {
     const seat = seatsByKey.get(seatKey);
     if (!seat) continue;
     const vacancyKey = `${LIVING_WORLD_KEYS.seat(seatKey)}:vacancy:${newStart}`;
-    if (next.history.events.some((event) => event.stableKey === vacancyKey))
-      continue;
+    if (hasStableKey(next.history.events, vacancyKey)) continue;
     const chamberId = livingWorldOrganizationId(
       next,
       LIVING_WORLD_KEYS.chamber(seat.chamberKey),

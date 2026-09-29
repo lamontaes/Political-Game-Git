@@ -212,6 +212,13 @@ describe("what federal laws change in the outcome web", () => {
     }
   });
 
+  it("cuts homelessness where a voucher law is in force, now that the game records it", () => {
+    expect([
+      link("housing-vouchers-to-homelessness").size,
+      outcomeLinkStatus(link("housing-vouchers-to-homelessness")),
+    ]).toEqual([-0.3, "built"]);
+  });
+
   it("sizes the federal rows that wait on an outcome the game does not measure yet", () => {
     expect(
       Object.fromEntries(
@@ -219,7 +226,6 @@ describe("what federal laws change in the outcome web", () => {
           "drug-negotiation-to-out-of-pocket",
           "federal-loan-cap-to-high-cost-loans",
           "retirement-age-to-older-work",
-          "housing-vouchers-to-homelessness",
           "tariffs-to-prices",
         ].map((key) => [key, [link(key).size, outcomeLinkStatus(link(key))]]),
       ),
@@ -227,7 +233,6 @@ describe("what federal laws change in the outcome web", () => {
       "drug-negotiation-to-out-of-pocket": [-0.08, "outcome-not-produced"],
       "federal-loan-cap-to-high-cost-loans": [-0.32, "outcome-not-produced"],
       "retirement-age-to-older-work": [0.1, "outcome-not-produced"],
-      "housing-vouchers-to-homelessness": [-0.3, "outcome-not-produced"],
       "tariffs-to-prices": [0.008, "outcome-not-produced"],
     });
   });

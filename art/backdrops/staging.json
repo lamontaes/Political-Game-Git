@@ -2,6 +2,24 @@
   "schema": "ocd-place-staging/v1",
   "note": "Where people stand in a place picture, shared by its morning, midday, night and rain versions. Percent of the picture (1672 x 941). A person's height is 1.7 m x metersPercent x (floorY - horizonY): the floor line's distance below the horizon sets the scale, read from a door, counter, desk or chair of known size in each picture. A spot with clipBelowY stands behind a counter or podium and is cut off at that line. Measured by eye on Sept. 28, 2026; adjust by looking.",
   "places": {
+    "election-night-venue": {
+      "horizonY": 40,
+      "metersPercent": 0.69,
+      "spots": [
+        { "x": 44, "y": 56 },
+        { "x": 56, "y": 58 },
+        { "x": 50, "y": 68 }
+      ]
+    },
+    "school-gym-town-hall": {
+      "horizonY": 38,
+      "metersPercent": 0.8,
+      "spots": [
+        { "x": 50, "y": 62 },
+        { "x": 41, "y": 72 },
+        { "x": 59, "y": 66 }
+      ]
+    },
     "clerk-counter": {
       "horizonY": 30,
       "metersPercent": 0.61,
