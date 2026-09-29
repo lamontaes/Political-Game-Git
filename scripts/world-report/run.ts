@@ -57,6 +57,10 @@ import {
   outcomeLinkStatus,
 } from "../../src/simulation/outcome-web";
 import {
+  lawEffectPaths,
+  unwiredQuestions,
+} from "../../src/simulation/governing/law-effect-paths";
+import {
   PLACE_OUTCOME_BASES,
   PLACE_OUTCOME_MEASURES,
   placeOutcomeKey,
@@ -1991,6 +1995,12 @@ function powersLines(world: World): string[] {
       `Congress's laws answered ${count(questions.size, "federal question")}; ${count(feeding.length, "law")} of ${federal.length} feed an outcome that acts in the world.`,
     );
   }
+  const total = world.policyCatalog.propositionOrder.length;
+  const unwired = unwiredQuestions(world.policyCatalog).length;
+  out.push(
+    "",
+    `Wired laws: ${total - unwired} of ${total} policy questions have a sized path that acts in the world, through the outcome web or a rule.`,
+  );
   return out;
 }
 
@@ -2085,8 +2095,16 @@ function lawOutcomeLines(run: WorldReportRun): string[] {
       (link) => link.from === `law:${row.stableKey}`,
     );
     const acting = links.filter((link) => outcomeLinkStatus(link) === "built");
+    // A law that acts through a module rather than the outcome web.
+    const direct = lawEffectPaths().filter(
+      (path) =>
+        path.questionKey === row.stableKey && path.kind !== "outcome-web",
+    );
+    const directText = direct.length
+      ? ` Acts directly: ${[...new Set(direct.map((path) => `${path.kind} (${path.via})`))].join(", ")}.`
+      : "";
     out.push(
-      `- **${row.name}**: ${row.answer}${row.origin === "enacted" ? `, ${row.designation}, in force from ${proseDate(row.since)}` : ", as the game began"}. ${links.length ? `Feeds ${count(links.length, "outcome")}; ${acting.length} ${acting.length === 1 ? "acts" : "act"} in the world today.` : "Feeds no outcome yet."}`,
+      `- **${row.name}**: ${row.answer}${row.origin === "enacted" ? `, ${row.designation}, in force from ${proseDate(row.since)}` : ", as the game began"}. ${links.length ? `Feeds ${count(links.length, "outcome")}; ${acting.length} ${acting.length === 1 ? "acts" : "act"} in the world today.` : "Feeds no outcome yet."}${directText}`,
     );
     for (const link of links)
       out.push(`  - ${link.to} (${link.strength}): ${outcomeLinkStatus(link)}`);

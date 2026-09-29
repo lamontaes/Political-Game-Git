@@ -1,3 +1,4 @@
+import { COUNCIL_TERM_LIMIT_QUESTION } from "../living-world/local-council-term-limits";
 import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
 import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../nationwide-world/state-legislative-term-limits";
 import { OUTCOME_LINKS, outcomeLinkStatus } from "../outcome-web";
@@ -9,6 +10,7 @@ import {
 } from "../state-income-tax-law";
 import { PAID_LEAVE_QUESTION } from "../state-paid-leave-law";
 import type { PolicyCatalog } from "../types";
+import { HOME_RULE_QUESTION } from "./question-authority";
 
 /**
  * WHICH LAWS ACT IN THE WORLD (Claude CTO's 8:00 a.m. all-hands, September
@@ -32,7 +34,8 @@ export type LawEffectPathKind =
   | "paycheck"
   | "state-revenue"
   | "rent-and-eviction"
-  | "seat-turnover";
+  | "seat-turnover"
+  | "local-powers";
 
 export interface LawEffectPath {
   readonly questionKey: string;
@@ -67,6 +70,18 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: LEGISLATIVE_TERM_LIMIT_QUESTION,
     kind: "seat-turnover",
     via: "src/simulation/nationwide-world/state-legislative-term-limits.ts",
+  },
+  {
+    questionKey: COUNCIL_TERM_LIMIT_QUESTION,
+    kind: "seat-turnover",
+    via: "src/simulation/living-world/local-council-term-limits.ts",
+  },
+  // Home rule or Dillon's rule decides which local questions a town's
+  // council may answer, so it opens or closes every ordinance on them.
+  {
+    questionKey: HOME_RULE_QUESTION,
+    kind: "local-powers",
+    via: "src/simulation/governing/question-authority.ts",
   },
   ...Object.values(RENT_LAW_KEYS).map((questionKey): LawEffectPath => ({
     questionKey,
