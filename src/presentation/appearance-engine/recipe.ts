@@ -174,6 +174,8 @@ export interface EngineRecipeOptions {
    * pass an expensive lookup.
    */
   readonly officeholder?: () => boolean;
+  /** Whether this person is married now (a wedding ring goes on a married person). */
+  readonly married?: () => boolean;
 }
 
 /**
@@ -229,6 +231,7 @@ export function engineRecipeFor(
   const accessories = accessoriesFor(seed, age, presentation, pack, choice, {
     wear: options.wear,
     officeholder: options.officeholder,
+    married: options.married,
   });
   return {
     presentation,

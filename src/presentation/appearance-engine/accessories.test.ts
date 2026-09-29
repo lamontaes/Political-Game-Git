@@ -205,6 +205,34 @@ describe("who wears jewelry", () => {
     expect(asked).toBeLessThan(seeds.length / 2);
   });
 
+  it("puts a wedding ring on married people only, at the placeholder share among them", () => {
+    const married = { married: () => true };
+    const single = { married: () => false };
+    for (const [presentation, pack] of [
+      ["feminine", feminine],
+      ["masculine", masculine],
+    ] as const) {
+      expect(share(presentation, pack, "ring", single)).toBe(0);
+      // Marital status not given: no ring is drawn.
+      expect(share(presentation, pack, "ring")).toBe(0);
+      expect(
+        Math.abs(
+          share(presentation, pack, "ring", married) -
+            ACCESSORY_SHARE.ring[presentation],
+        ),
+      ).toBeLessThan(0.03);
+    }
+  });
+
+  it("lets a saved choice give an unmarried person a ring", () => {
+    expect(
+      accessoriesFor("s", 40, "masculine", masculine, {
+        version: "people-engine-v1",
+        accessories: ["ring-band"],
+      }),
+    ).toEqual(["ring-band"]);
+  });
+
   it("marks the watch and ring shares as placeholders, since a portrait shows no wrist", async () => {
     const { readFileSync } = await import("node:fs");
     const source = readFileSync(
@@ -214,6 +242,8 @@ describe("who wears jewelry", () => {
     expect(
       source.match(/PLACEHOLDER\(accessories\)/g)?.length,
     ).toBeGreaterThanOrEqual(2);
+    // The British beard survey standing in for American men is marked too.
+    expect(source).toMatch(/PLACEHOLDER\(facial-hair\)/);
   });
 });
 

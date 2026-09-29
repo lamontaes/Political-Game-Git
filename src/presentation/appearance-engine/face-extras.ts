@@ -48,6 +48,8 @@ function shareAt(table: readonly AgeShare[], age: number): number {
  * British shares stand in for American men: an assumption, stated here.
  * https://ygo-assets-websites-editorial-emea.yougov.net/documents/YouGov_-_Facial_hair_2023.pdf
  */
+// PLACEHOLDER(facial-hair): a British survey standing in for American men,
+// until a U.S. source is found (research question filed).
 export const FACIAL_HAIR_SHARE: readonly AgeShare[] = [
   { fromAge: 18, share: 0.66 },
   { fromAge: 25, share: 0.68 },
@@ -221,8 +223,11 @@ export const ACCESSORY_SHARE: Readonly<
   "lapel-pin": { feminine: 21 / 76, masculine: 18 / 80 },
   // PLACEHOLDER(accessories): not countable from a head-and-shoulders portrait.
   watch: { feminine: 0.25, masculine: 0.4 },
-  // PLACEHOLDER(accessories): not countable from a head-and-shoulders portrait.
-  ring: { feminine: 0.4, masculine: 0.4 },
+  // PLACEHOLDER(accessories): the share of MARRIED people who wear a wedding
+  // ring, not counted from a head-and-shoulders portrait. Unmarried people
+  // wear none (see accessoriesFor). Research question filed: the share of
+  // married American adults who wear a wedding ring, by sex.
+  ring: { feminine: 0.8, masculine: 0.8 },
 };
 
 /** The kinds a player chooses in the creator; a lapel pin comes with an office. */
@@ -237,6 +242,12 @@ export interface AccessoryContext {
   readonly wear?: Exclude<OutfitTag, "uniform">;
   /** Whether the person holds a public office now; asked only when a pin could be worn. */
   readonly officeholder?: () => boolean;
+  /**
+   * Whether the person is married now (an active legal marriage). A wedding
+   * ring follows this: only a married person wears one, at ACCESSORY_SHARE.
+   * When the caller does not say, no ring is drawn.
+   */
+  readonly married?: () => boolean;
 }
 
 /** The kind an accessory id is a variant of ("earrings-pearl" -> "earrings"). */
@@ -289,6 +300,7 @@ export function accessoriesFor(
         worn.push(chosen);
       continue;
     }
+    if (kind === "ring" && !context.married?.()) continue;
     if (draw(seed, `accessory:${kind}`) < ACCESSORY_SHARE[kind][presentation])
       worn.push(pickVariant(seed, kind, variants));
   }

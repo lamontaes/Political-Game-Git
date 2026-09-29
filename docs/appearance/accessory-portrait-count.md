@@ -34,7 +34,10 @@ and a lapel pin. The shares in `src/presentation/appearance-engine/face-extras.t
 3. It is one reader's count, not a coded study.
 4. A portrait shows head and shoulders. No wrist and no hand appeared in any
    of the 156, so the count says nothing about watches or rings. Those shares
-   are placeholders marked `PLACEHOLDER(accessories)` in the code.
+   are placeholders marked `PLACEHOLDER(accessories)` in the code. A wedding
+   ring follows marital status: only a person with an active legal marriage
+   wears one, at a placeholder share among married people, and unmarried
+   people wear none.
 5. Nothing varies with age, because 156 portraits are too few to split.
 
 ## Bioguide IDs counted

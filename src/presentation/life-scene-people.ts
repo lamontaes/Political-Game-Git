@@ -12,6 +12,7 @@ import {
 import { conversationExpression } from "./appearance-engine/expression-chooser";
 import type { ConversationExchangeTurn } from "./scene-conversation";
 import { officesHeldBy } from "../simulation/governing/office-consequence";
+import { isMarriedNow } from "./appearance-engine/marital-status";
 import { placeWear } from "./dress-code";
 import { engineRecipeFor } from "./appearance-engine/recipe";
 import {
@@ -770,6 +771,7 @@ export function planLifeScenePeople(
             wear: placeWear(sceneId, world.currentDate),
             officeholder: () =>
               officesHeldBy(world, person.personId).length > 0,
+            married: () => isMarriedNow(world, person.personId),
             uniform: workUniform(
               world,
               person.personId,
