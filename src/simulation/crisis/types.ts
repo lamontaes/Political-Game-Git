@@ -94,6 +94,29 @@ export interface HealthEpisodeRecord extends CrisisRecordBase {
   readonly course: readonly HealthCourseStep[];
 }
 
+/**
+ * A change in a person's public health coverage, written by the quarterly
+ * coverage pass (`health-coverage.ts`). While covered, the multiplier applies
+ * to their all-cause hazard from `hazardFrom` within the program's ages.
+ */
+export interface HealthCoverageRecord extends CrisisRecordBase {
+  readonly kind: "health-coverage";
+  readonly personId: EntityId;
+  readonly program: "medicaid-expansion";
+  readonly covered: boolean;
+  readonly reasonKey: string;
+  readonly stateKey: string | null;
+  readonly householdSize: number;
+  readonly monthlyIncomeMinor: number;
+  readonly monthlyWorkHours: number | null;
+  /** Millionths applied to all-cause hazard while covered. */
+  readonly hazardMultiplierMicros: number;
+  readonly hazardFrom: IsoDate | null;
+  readonly hazardBasis: string;
+  /** Why the person holds or lost coverage, in plain words. */
+  readonly basis: string;
+}
+
 export interface HealthStateRecord extends CrisisRecordBase {
   readonly kind: "health-state";
   readonly episodeId: EntityId;
@@ -322,6 +345,7 @@ export type CrisisRecord =
   | HealthEpisodeRecord
   | HealthStateRecord
   | HealthDisclosureRecord
+  | HealthCoverageRecord
   | OfficialContinuityRecord;
 
 export type CrisisRecordKind = CrisisRecord["kind"];

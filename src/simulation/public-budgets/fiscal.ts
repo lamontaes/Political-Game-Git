@@ -89,12 +89,30 @@ export function budgetLawReading(
 ): BudgetLawReading {
   const propositionId = propositionIdFor(world, BUDGET_LAW_KEYS[name]);
   if (!propositionId) return UNKNOWN_LAW;
-  if (ownOrdinancesOnly)
-    return ownOrdinance(world, jurisdictionId, propositionId, onDate);
+  if (ownOrdinancesOnly) {
+    const own = ownOrdinance(world, jurisdictionId, propositionId, onDate);
+    return own.answer === "unknown" && name === "balanced"
+      ? LOCAL_BALANCED_ESTIMATE
+      : own;
+  }
   const law = lawInForce(world, jurisdictionId, propositionId, onDate);
   if (!law || (law.answer !== "yes" && law.answer !== "no")) return UNKNOWN_LAW;
   return { answer: law.answer, measureId: law.measureId, level: law.level };
 }
+
+/**
+ * A county's or city's balanced-budget rule where no ordinance of its own
+ * answers. The rule comes from state law on local governments, which is not
+ * read place by place yet, so the most common real rule stands in for every
+ * county and city alike: it must pass a balanced budget.
+ */
+export const LOCAL_BALANCED_ESTIMATE: BudgetLawReading = {
+  answer: "yes",
+  measureId: null,
+  level: null,
+  estimated:
+    'ESTIMATED FROM AVERAGE: "Most state and local governments are subject to a requirement to pass a balanced budget" (Government Finance Officers Association, Achieving a Structurally Balanced Budget); each state\'s rule for its local governments is not read yet.',
+};
 
 const UNKNOWN_LAW: BudgetLawReading = {
   answer: "unknown",

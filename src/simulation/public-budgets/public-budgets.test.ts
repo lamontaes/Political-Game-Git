@@ -5,7 +5,7 @@ import { makeIsoDate } from "../dates";
 import { lifePlaceByKey, stateJurisdictionForKey } from "../life-places";
 import { STATES } from "../state-reference";
 import type { EntityId, World } from "../types";
-import { firstOfNextMonth } from "./fiscal";
+import { LOCAL_BALANCED_ESTIMATE, firstOfNextMonth } from "./fiscal";
 import {
   BUDGET_PROGRAMS,
   BUDGET_SOURCES,
@@ -732,7 +732,11 @@ describe("public budgets", () => {
       level: "state-statute",
     });
     const city = publicBudgetFor(world, chicagoId)!.years[0]!.laws;
-    expect(city.balanced.answer).toBe("unknown");
+    // No ordinance of Chicago's answers whether its budget must balance, and
+    // Illinois' statute governs only the state's books: the most common real
+    // rule for local governments stands in, marked as an estimate.
+    expect(city.balanced).toEqual(LOCAL_BALANCED_ESTIMATE);
+    expect(city.balanced.estimated).toContain("ESTIMATED FROM AVERAGE");
     expect(city.reserve).toEqual({
       answer: "yes",
       measureId: "measure_1",
@@ -741,7 +745,7 @@ describe("public budgets", () => {
     const county = world.publicBudgets!.governments.find(
       (row) => row.key === "county:17031",
     )!.years[0]!.laws;
-    expect(county.balanced.answer).toBe("unknown");
+    expect(county.balanced).toEqual(LOCAL_BALANCED_ESTIMATE);
     expect(county.reserve.answer).toBe("unknown");
   });
 
