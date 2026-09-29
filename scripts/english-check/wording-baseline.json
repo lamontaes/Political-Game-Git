@@ -107,7 +107,6 @@
     "src/simulation/press/views.ts :: reported": 1,
     "src/simulation/pressure/contract.ts :: reported": 4,
     "src/simulation/pressure/events.ts :: reported": 1,
-    "src/simulation/rule-capability-resolver.ts :: not modeled": 1,
     "src/simulation/tax-policy.ts :: not modeled": 1,
     "src/simulation/transit-service.ts :: reported": 1
   },
@@ -118,7 +117,7 @@
     "src/player/CampaignActionChoicesPanel.tsx": 5,
     "src/player/CampaignLifePanel.tsx": 4,
     "src/player/CampaignOwnMoney.tsx": 2,
-    "src/player/CampaignWorkspace.tsx": 7,
+    "src/player/CampaignWorkspace.tsx": 6,
     "src/player/CareerPathsPanel.tsx": 1,
     "src/player/CivilPersonnelPanel.tsx": 9,
     "src/player/CongressCandidacySection.tsx": 4,
