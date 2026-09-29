@@ -232,3 +232,65 @@ describe("what federal laws change in the outcome web", () => {
     });
   });
 });
+
+/**
+ * Laws change both ways (Claude CTO, Sept. 28, 2026): when Congress repeals a
+ * federal law, the effect it switched on ends the day the repeal takes effect,
+ * not a phase-in lag later.
+ */
+describe("a federal repeal ends the effect it switched on", () => {
+  const row = OUTCOME_LINKS.find(
+    (link) => link.key === "retirement-age-to-poverty",
+  )!;
+  const questionKey = row.from.replace(/^law:/, "");
+  const proposition = Object.values(POLICY.propositions).find(
+    (definition) => definition.stableKey === questionKey,
+  )!;
+  const STATES = PLACES.filter((place) => /^US-[A-Z]{2}$/.test(place.name));
+  const passed = act(proposition.id, 1);
+  const second = act(proposition.id, 2);
+  const repeal = {
+    measure: {
+      ...second.measure,
+      propositionAnswers: [{ propositionId: proposition.id, answer: "no" }],
+    },
+    enactment: {
+      ...second.enactment,
+      resolvedAt: makeIsoDate("2029-06-01"),
+      effectiveAt: makeIsoDate("2029-06-01"),
+    },
+  } as ReturnType<typeof act>;
+  const worldAt = (date: string, both: boolean) =>
+    ({
+      currentDate: makeIsoDate(date),
+      policyCatalog: POLICY,
+      history: {
+        legislativeMeasures: both
+          ? [passed.measure, repeal.measure]
+          : [passed.measure],
+        legislativeEnactments: both
+          ? [passed.enactment, repeal.enactment]
+          : [passed.enactment],
+      },
+    }) as unknown as World;
+  const cause = (world: World, id: EntityId, on: string) =>
+    outcomeFactor(world, id, row.to, makeIsoDate(on)).causes.find(
+      (entry) => entry.key === row.key,
+    );
+
+  it("keeps the effect while the law stands, and drops it once it is repealed", () => {
+    for (const place of STATES) {
+      // Never repealed: five years after March 1, 2026 the effect is in.
+      expect(
+        cause(worldAt("2032-01-01", false), place.id, "2031-03-02")?.factor,
+        place.name,
+      ).toBeCloseTo(1.02, 10);
+      // Repealed June 1, 2029, before the phase-in finished: nothing of it
+      // is left on March 2, 2031, the day it would have reached full size.
+      expect(
+        cause(worldAt("2032-01-01", true), place.id, "2031-03-02"),
+        place.name,
+      ).toBeUndefined();
+    }
+  });
+});
