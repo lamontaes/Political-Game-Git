@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
   CAMPAIGN_SUPPORT_CEILING_BASIS_POINTS,
@@ -47,7 +48,7 @@ describe("how far campaigning can carry a share", () => {
     let world = fileForOffice(
       created.game.world,
       personId,
-      null,
+      namedSeatForFixture(created.game.world, personId, office.officeKey),
       office.officeKey,
     );
     let afternoons = 0;

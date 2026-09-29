@@ -242,7 +242,8 @@ function levySource(world: World, flow: ResourceFlow): BudgetSource {
     ? world.history.taxProposals?.find((row) => row.id === policy.proposalId)
     : undefined;
   return (
-    (proposal && LEVY_SOURCE[proposal.power.instrument]) ??
+    // A game-profile levy has no sourced instrument; it counts as other taxes.
+    (proposal?.power && LEVY_SOURCE[proposal.power.instrument]) ??
     "vehicleAndOtherTaxes"
   );
 }

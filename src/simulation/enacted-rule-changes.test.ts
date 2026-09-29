@@ -250,6 +250,7 @@ describe("A Kentucky bill changing the House's rules", () => {
       ruleScope: "state-statute",
       validFrom: effectiveAt,
     });
+    // An act dated by the game's own interval says so in its citation.
     expect(seats.source?.citation).toContain("2026 Ky. Acts ch. 40");
     expect(seats.source?.citation).toContain("the date this state's law sets");
     expect(houseRule(world, "term.years", effectiveAt).value).toBe(4);

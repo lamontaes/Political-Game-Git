@@ -1,6 +1,10 @@
 import { useState, type ReactNode } from "react";
 
-import type { EntityId, World } from "../../simulation";
+import {
+  addSimulationMinutes,
+  type EntityId,
+  type World,
+} from "../../simulation";
 import type { NewsMode } from "../../presentation/shell-navigation";
 import {
   projectNewsFrontPage,
@@ -8,8 +12,18 @@ import {
   type NewsStory,
 } from "../../presentation/news-front-page";
 import { world39Date } from "../World39News";
+import {
+  readTransitDecisionReport,
+  TRANSIT_REPORT_READ_MINUTES,
+  unreadTransitDecisionReportIds,
+} from "../../presentation/transit-report-reading";
+import {
+  describeTimeTarget,
+  PROTECTED_STOP_NOTE,
+} from "../../presentation/time-target-label";
 import "./news.css";
 import { GameSelect } from "../controls/GameSelect";
+import { useSharedTimeCommand } from "../time-command-runner";
 
 export type NewsContext = "read" | "around" | "directory" | "press";
 
@@ -56,9 +70,39 @@ export function NewsDesk({
 }) {
   const page = projectNewsFrontPage(world, mode, outletKey);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [readNotice, setReadNotice] = useState<string | null>(null);
+  const runner = useSharedTimeCommand();
+  const unreadReports = unreadTransitDecisionReportIds(world);
+  const reportReadTarget = describeTimeTarget(
+    addSimulationMinutes(world.currentMoment, TRANSIT_REPORT_READ_MINUTES),
+  );
   const selected = selectedId
     ? projectNewsArticle(world, selectedId as EntityId)
     : null;
+  const openArticle = (story: NewsStory) => {
+    setReadNotice(null);
+    // The headline click is the explicit read; front-page projection is free.
+    if (!unreadReports.has(story.id) || !runner) {
+      setSelectedId(story.id);
+      return;
+    }
+    let completed = false;
+    runner.perform(
+      (current, handlers) => {
+        const result = readTransitDecisionReport(current, story.id, handlers);
+        completed = result.completed;
+        return { world: result.world, outcome: result.outcome };
+      },
+      (report) => {
+        setReadNotice(report.outcome);
+        if (report.status === "accepted" && completed) setSelectedId(story.id);
+      },
+    );
+  };
+  const reportReadingLabel = (story: NewsStory) =>
+    runner && unreadReports.has(story.id)
+      ? `Reading this report takes ${TRANSIT_REPORT_READ_MINUTES} minutes, to ${reportReadTarget}. ${PROTECTED_STOP_NOTE}`
+      : null;
   return (
     <div className="pg-news-desk" data-testid="news-desk">
       <nav aria-label="News" className="pg-news-sections">
@@ -144,6 +188,8 @@ export function NewsDesk({
             </header>
           )}
 
+          {readNotice ? <p role="status">{readNotice}</p> : null}
+
           {selected ? (
             <section className="pg-news-article" data-testid="news-article">
               <button
@@ -182,7 +228,11 @@ export function NewsDesk({
                   }
                   onOpenPerson={onOpenPerson}
                   {...(onOpenMeasure ? { onOpenMeasure } : {})}
-                  onRead={() => setSelectedId(page.lead!.id)}
+                  onRead={() => openArticle(page.lead!)}
+                  readingLabel={reportReadingLabel(page.lead)}
+                  readPending={
+                    runner?.pending && unreadReports.has(page.lead.id)
+                  }
                 />
               ) : null}
               {page.stories.length > 0 ? (
@@ -199,7 +249,11 @@ export function NewsDesk({
                       }
                       onOpenPerson={onOpenPerson}
                       {...(onOpenMeasure ? { onOpenMeasure } : {})}
-                      onRead={() => setSelectedId(story.id)}
+                      onRead={() => openArticle(story)}
+                      readingLabel={reportReadingLabel(story)}
+                      readPending={
+                        runner?.pending && unreadReports.has(story.id)
+                      }
                     />
                   ))}
                 </div>
@@ -252,10 +306,14 @@ function Story({
   onOpenPerson,
   onOpenMeasure,
   onRead,
+  readingLabel = null,
+  readPending = false,
   expanded = false,
 }: {
   readonly story: NewsStory;
   readonly onRead: () => void;
+  readonly readingLabel?: string | null;
+  readonly readPending?: boolean;
   readonly expanded?: boolean;
   readonly lead?: boolean;
   readonly showOutlet: boolean;
@@ -279,11 +337,17 @@ function Story({
         {expanded ? (
           story.readerHeadline
         ) : (
-          <button className="pg-news-headline" type="button" onClick={onRead}>
+          <button
+            className="pg-news-headline"
+            type="button"
+            onClick={onRead}
+            disabled={readPending}
+          >
             {story.readerHeadline}
           </button>
         )}
       </h3>
+      {readingLabel ? <p>{readingLabel}</p> : null}
       <p className="pg-news-dateline">
         {story.place ? `${story.place} · ` : ""}
         <time dateTime={story.publishedAt}>

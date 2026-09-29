@@ -381,8 +381,9 @@ export function passOrdinaryDays(
   days = 1,
   supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry = {},
 ): World {
-  return advanceWithWorldIntegrityAtEnd(() =>
-    passOrdinaryDaysUnchecked(world, days, supplied),
+  return advanceWithWorldIntegrityAtEnd(
+    () => passOrdinaryDaysUnchecked(world, days, supplied),
+    world,
   );
 }
 

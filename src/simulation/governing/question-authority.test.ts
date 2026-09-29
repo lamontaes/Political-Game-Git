@@ -139,7 +139,7 @@ const PLACES = everyPlace();
 
 describe("which question each level may answer", () => {
   it("maps every question in the catalog to a powers dial, at levels its issue allows", () => {
-    expect(QUESTIONS.length).toBe(91);
+    expect(QUESTIONS.length).toBe(92);
     expect(Object.keys(ROWS).sort()).toEqual(
       QUESTIONS.map((question) => question.key).sort(),
     );

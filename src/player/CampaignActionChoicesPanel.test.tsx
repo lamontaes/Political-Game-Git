@@ -11,6 +11,11 @@ import {
 } from "../presentation/campaign-life-actions";
 import { fileForOffice } from "../presentation/campaign-projection";
 import {
+  bindingForDistrict,
+  offeredDistricts,
+  recordedDistrictForOffice,
+} from "../presentation/district-selection";
+import {
   addDays,
   campaignLifeActivityRecords,
   campaignLifeOutcomeRecords,
@@ -45,10 +50,18 @@ beforeAll(() => {
   const office = candidacyPackForJurisdiction(
     opening.world.people[personId]!.homeJurisdictionId,
   )!.offices[0]!;
+  const homeJurisdictionId = opening.world.people[personId]!.homeJurisdictionId;
+  // A numbered chamber seat is filed against a recorded Gazetteer district.
+  const district =
+    recordedDistrictForOffice(opening.world, personId, office.officeKey)
+      ?.binding ??
+    bindingForDistrict(
+      offeredDistricts(opening.world, homeJurisdictionId, office.officeKey)[0]!,
+    );
   unhostedWorld = fileForOffice(
     opening.world,
     personId,
-    null,
+    district,
     office.officeKey,
     addDays(opening.world.currentDate, 28),
   );

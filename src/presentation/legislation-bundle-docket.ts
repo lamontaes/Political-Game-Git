@@ -40,6 +40,7 @@ import {
   type ProgramParameterValue,
 } from "../simulation/legislation-program-families";
 import {
+  assertOfficeForFiling,
   docketBill,
   docketKeyOf,
   docketMeasureStableKey,
@@ -391,6 +392,9 @@ export function fileBundleDraft(
         ...(clause.fiscalPeriod !== undefined
           ? { fiscalPeriod: clause.fiscalPeriod }
           : {}),
+        ...(clause.operativeEffect !== undefined
+          ? { operativeEffect: clause.operativeEffect }
+          : {}),
         beneficiary: clause.beneficiary,
         applicationScope: {
           jurisdictionId: component.jurisdictionId,
@@ -490,6 +494,20 @@ export function fileBundleDraft(
 /* -------------------------------------------------------------------------- */
 /* Reading one back                                                            */
 /* -------------------------------------------------------------------------- */
+
+/**
+ * The docket action for a measure with parts: the same office check the
+ * single-bill action makes, then the bundle filer, which compiles the whole
+ * measure (the preview a drafter reads) before it writes anything. There is
+ * one drafting system; this only lets the player reach its bundle route.
+ */
+export function fileBundleDraftFromOffice(
+  world: World,
+  input: FileBundleDraftInput,
+): FileBundleDraftResult {
+  assertOfficeForFiling(world, input);
+  return fileBundleDraft(world, input);
+}
 
 /** Why a saved measure cannot be re-read as a bundle. Its filed text is unaffected. */
 export interface BundleUnavailable {

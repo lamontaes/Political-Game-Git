@@ -9,6 +9,7 @@ import {
 import type { EntityId, World } from "../simulation";
 import { BillConfigurationError } from "../simulation/legislation-drafting";
 import {
+  governmentMayEnactVariant,
   legalInstrumentRule,
   programConfigurations,
   programVariant,
@@ -359,7 +360,19 @@ describe("previewing a draft writes nothing", () => {
     // unsupported one is offered nothing at all rather than a default.
     const kentucky = availableDraftOptions("kentucky");
     const nebraska = availableDraftOptions("nebraska");
-    expect(kentucky.length).toBe(programConfigurations().length);
+    // Filtered by authority only: every variant a state may pass, including
+    // the ones whose effect is not modeled yet.
+    expect(kentucky.length).toBe(
+      programConfigurations().filter(
+        (row) =>
+          governmentMayEnactVariant("state", row.familyKey, row.variantKey).ok,
+      ).length,
+    );
+    expect(
+      kentucky.some(
+        (option) => option.variantKey === "federal-passenger-rail-v1",
+      ),
+    ).toBe(false);
     expect(
       nebraska.map((option) => `${option.familyKey}/${option.variantKey}`),
     ).toEqual(
@@ -697,7 +710,8 @@ describe("a docket that has grown can still be worked", () => {
     if (cached) return cached;
     let world = fixture.world;
     let filed = 0;
-    for (const configuration of programConfigurations()) {
+    // Everything this legislature may enact, which is what its docket offers.
+    for (const configuration of availableDraftOptions(fixture.scenarioKey)) {
       const { variant } = programVariant(
         configuration.familyKey,
         configuration.variantKey,
@@ -740,7 +754,7 @@ describe("a docket that has grown can still be worked", () => {
     "keeps every bill distinct across a docket far larger than three",
     () => {
       const { world, filed } = wholeBank(FIXTURE);
-      expect(filed).toBe(programConfigurations().length);
+      expect(filed).toBe(availableDraftOptions(FIXTURE.scenarioKey).length);
       expect(filed).toBeGreaterThan(20);
 
       const docket = readDocket(world, INPUT);
@@ -966,6 +980,24 @@ describe("a bill can be written against another bill", () => {
         candidate.citationLabel.includes(appropriated.bill.designation),
       ),
     ).toBe(false);
+  });
+});
+
+describe("standing program authorities on the docket", () => {
+  it("names the program the game authority actually covers", () => {
+    const fixture = kentucky();
+    const authority = availableAuthorities(fixture.world, {
+      scenarioKey: fixture.scenarioKey,
+      playerPersonId: fixture.playerPersonId,
+    }).find(
+      (candidate) =>
+        candidate.kind === "standing-statute" &&
+        candidate.authorityKey === "standing:school-facilities",
+    );
+
+    expect(authority).toBeDefined();
+    expect(authority!.note).toContain(authority!.programLabel);
+    expect(authority!.note).not.toContain("in this content bank");
   });
 });
 

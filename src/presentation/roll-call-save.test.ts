@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  PACKED_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION,
   PACKED_WORLD_SNAPSHOT_FORMAT_VERSION,
+  PRINCIPLE_ROLL_CALL_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION,
+  PRINCIPLE_ROLL_CALL_WORLD_SNAPSHOT_FORMAT_VERSION,
   WORLD_SNAPSHOT_FORMAT_VERSION,
   createWorldSnapshot,
   deserializeWorld,
@@ -9,6 +12,7 @@ import {
   serializeWorld,
   serializeWorldAs,
 } from "../simulation/serialization";
+import { CONTENT_PACK_API } from "../simulation/runtime-content-packs";
 import { createDemoWorld } from "../simulation/demo";
 import type { LegislativeVoteRecord, World } from "../simulation/types";
 import {
@@ -81,8 +85,11 @@ describe("roll calls in a save", () => {
 
   it("writes each vote as a code against a shared roster", () => {
     const stored = JSON.parse(serializeWorld(world));
-    expect(stored.formatVersion).toBe(PACKED_WORLD_SNAPSHOT_FORMAT_VERSION);
+    expect(stored.formatVersion).toBe(
+      PRINCIPLE_ROLL_CALL_WORLD_SNAPSHOT_FORMAT_VERSION,
+    );
     expect(stored.rollCalls.rosters.length).toBeGreaterThan(0);
+    expect(stored.principlesPacking.persons.length).toBeGreaterThan(0);
     for (const vote of stored.world.history.legislativeVotes)
       expect(Array.isArray(vote.dispositions)).toBe(false);
     expect(serializeWorld(world).length).toBeLessThan(legacy.length);
@@ -109,10 +116,25 @@ describe("roll calls in a save", () => {
     );
   });
 
+  it("still opens a roll-call-only save written before principle packing", () => {
+    const previous = serializeWorldAs(
+      world,
+      PACKED_WORLD_SNAPSHOT_FORMAT_VERSION,
+    );
+    expect(JSON.parse(previous).formatVersion).toBe(
+      PACKED_WORLD_SNAPSHOT_FORMAT_VERSION,
+    );
+    const reopened = readWorldSnapshot(previous);
+    expect(JSON.stringify(reopened.world)).toBe(JSON.stringify(world));
+    expect(serializeWorldAs(reopened.world, reopened.formatVersion)).toBe(
+      previous,
+    );
+  });
+
   it("keeps an older browser save healthy, and its next write packs it", () => {
     const current = createBrowserWorldRecord(world, "2026-09-23T12:00:00.000Z");
     expect(current.metadata.snapshotFormatVersion).toBe(
-      PACKED_WORLD_SNAPSHOT_FORMAT_VERSION,
+      PRINCIPLE_ROLL_CALL_WORLD_SNAPSHOT_FORMAT_VERSION,
     );
     const older = {
       ...current,
@@ -129,6 +151,35 @@ describe("roll calls in a save", () => {
     expect(() =>
       validateBrowserWorldRecord({ ...older, payload: current.payload }),
     ).toThrow();
+  });
+
+  it("rebuilds both packs in a content-pack world", () => {
+    const withContentPacks: World = {
+      ...world,
+      contentPacks: { api: CONTENT_PACK_API, installed: [] },
+    };
+    const payload = serializeWorld(withContentPacks);
+    expect(JSON.parse(payload).formatVersion).toBe(
+      PRINCIPLE_ROLL_CALL_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION,
+    );
+    const restored = readWorldSnapshot(payload);
+    expect(JSON.stringify(restored.world)).toBe(
+      JSON.stringify(withContentPacks),
+    );
+    expect(serializeWorldAs(restored.world, restored.formatVersion)).toBe(
+      payload,
+    );
+    const previous = serializeWorldAs(
+      withContentPacks,
+      PACKED_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION,
+    );
+    const reopened = readWorldSnapshot(previous);
+    expect(JSON.stringify(reopened.world)).toBe(
+      JSON.stringify(withContentPacks),
+    );
+    expect(serializeWorldAs(reopened.world, reopened.formatVersion)).toBe(
+      previous,
+    );
   });
 
   it("leaves a vote it cannot rebuild exactly as it was", () => {

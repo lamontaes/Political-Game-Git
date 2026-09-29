@@ -1,18 +1,17 @@
 import { canonicalJson } from "./canonical-json";
 import { addDays, makeIsoDate } from "./dates";
+import { operativeDateInWorld } from "./governing/law-in-force";
 import { currentMeasureProvisions } from "./legislative-politics";
-import {
-  publicTaxAccountForJurisdiction,
-  taxPowerEvidenceFor,
-} from "./tax-policy";
+import { publicTaxAccountForJurisdiction } from "./tax-policy";
 import { resourcePositionAt, resourceFlowTermsAt } from "./resource-queries";
 import { createResourceFlow, recordResourceTransferOutcome } from "./resources";
 import { recordWorldEvent } from "./world";
-import { stateJurisdictionForKey } from "./life-places";
+import { appropriationCommittedMinorUnits } from "./public-appropriation-balance";
 import type {
   EntityId,
   IsoDate,
   MoneyAmount,
+  PublicProgramAppropriationRecord,
   ResourceEndpoint,
   World,
 } from "./types";
@@ -23,6 +22,8 @@ import type {
 export interface PublicFundingMandate {
   readonly version: string;
   readonly fundingId: EntityId;
+  /** New payments bind the historical enactment key to saved authority. */
+  readonly appropriationId?: EntityId;
   readonly measureId: EntityId;
   readonly jurisdictionId: EntityId;
   readonly provisionIds: readonly EntityId[];
@@ -68,9 +69,6 @@ export const fundingAvailabilityText = (endsAt: IsoDate | null) =>
     : `The amount appropriated by this Act remains available through ${endsAt}.`;
 export const PUBLIC_FUNDING_DEFAULT_DATE_TEXT =
   "This Act takes effect ninety days after enactment.";
-/** The one state whose sourced default effective date and acquired tax power
- * this funding contract has compiled. A reader names it; nothing infers it. */
-export const PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY = "US-AK";
 
 /** Pure shared checks also run on reload at the payment's sequence/date.
  * The adopted text must explicitly carry administrative/date/availability
@@ -113,16 +111,14 @@ export function assertPublicFundingMandate(
       row.provisionKey === "effective-date" ||
       row.provisionKey === "transit-effective-date",
   );
-  const power = taxPowerEvidenceFor(
-    PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY,
-  );
-  const defaultDate =
-    !!power &&
-    measure?.jurisdictionId ===
-      stateJurisdictionForKey(PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY)
-        ?.id &&
-    effective?.text === PUBLIC_FUNDING_DEFAULT_DATE_TEXT &&
-    mandate.availableAt === addDays(enactment?.resolvedAt ?? at, 90);
+  const operative = enactment ? operativeDateInWorld(world, enactment) : null;
+  const appropriation = mandate.appropriationId
+    ? (world.history.publicProgramRecords ?? []).find(
+        (record): record is PublicProgramAppropriationRecord =>
+          record.kind === "appropriation" &&
+          record.id === mandate.appropriationId,
+      )
+    : null;
   if (
     !mandate.version.trim() ||
     !/^[a-z][a-z0-9-]*:[a-z0-9][a-z0-9._-]*$/.test(mandate.programKey) ||
@@ -145,16 +141,28 @@ export function assertPublicFundingMandate(
       availability?.text === fundingAvailabilityText(mandate.endsAt) ||
       (availability?.text ===
         "The appropriation remains available for 365 days after its effective date. No payment may be made before its effective date or after its availability expires." &&
-        mandate.endsAt === addDays(mandate.availableAt, 365))
+        (mandate.endsAt === addDays(mandate.availableAt, 365) ||
+          (mandate.appropriationId !== undefined &&
+            mandate.endsAt === addDays(mandate.availableAt, 364))))
     ) ||
-    (enactment.effectiveAt === null
-      ? !defaultDate
-      : enactment.effectiveAt !== mandate.availableAt) ||
+    !effective ||
+    !operative ||
+    operative.date !== mandate.availableAt ||
     mandate.administrativeEventId !== enactment.outcomeEventId ||
     makeIsoDate(mandate.availableAt) > at ||
     (mandate.endsAt !== null &&
       (makeIsoDate(mandate.endsAt) < mandate.availableAt ||
-        mandate.endsAt < at))
+        mandate.endsAt < at)) ||
+    (mandate.appropriationId !== undefined &&
+      (!appropriation ||
+        appropriation.sequence >= sequenceExclusive ||
+        appropriation.sourceMeasureId !== mandate.measureId ||
+        appropriation.jurisdictionId !== mandate.jurisdictionId ||
+        appropriation.amount.minorUnits !== mandate.amount.minorUnits ||
+        appropriation.availableFrom !== mandate.availableAt ||
+        (mandate.endsAt !== null &&
+          appropriation.availableThrough > mandate.endsAt) ||
+        appropriation.availableThrough < at))
   )
     throw new Error(
       "The public payment lacks a matching operative appropriation, administrative mandate or availability.",
@@ -229,12 +237,20 @@ export function settlePublicResourcePayment(
   } catch (error) {
     return refuse((error as Error).message);
   }
+  const appropriation = (world.history.publicProgramRecords ?? []).find(
+    (record): record is PublicProgramAppropriationRecord =>
+      record.kind === "appropriation" && record.id === mandate.appropriationId,
+  );
+  if (!appropriation)
+    return refuse("This payment has no saved program appropriation.");
   const account = publicTaxAccountForJurisdiction(
     world,
     mandate.jurisdictionId,
   );
   if (!account)
     return refuse("No existing same-jurisdiction public receipts account.");
+  if (appropriation.accountOrganizationId !== account.organizationId)
+    return refuse("The appropriation does not use this public account.");
   if (
     input.recipient.kind === "organization" &&
     input.recipient.organizationId === account.organizationId
@@ -274,24 +290,10 @@ export function settlePublicResourcePayment(
     return refuse(
       "Actual same-jurisdiction public cash is absent or insufficient; an appropriation or forecast is not cash.",
     );
-  const spent = world.history.resourceTransferOutcomes
-    .filter(
-      (row) =>
-        row.status === "completed" &&
-        world.history.resourceFlows.some(
-          (flow) =>
-            flow.id === row.resourceFlowId &&
-            flow.basisReference.kind === "public-funding" &&
-            flow.basisReference.mandate.fundingId === mandate.fundingId,
-        ),
-    )
-    .reduce(
-      (total, row) => total + BigInt(row.transferredAmount.minorUnits),
-      0n,
-    );
+  const spent = appropriationCommittedMinorUnits(world, appropriation);
   if (
-    spent + BigInt(input.requestedAmount.minorUnits) >
-    BigInt(mandate.amount.minorUnits)
+    BigInt(spent) + BigInt(input.requestedAmount.minorUnits) >
+    BigInt(appropriation.amount.minorUnits)
   )
     return refuse("This payment exceeds the remaining enacted appropriation.");
   let next = recordWorldEvent(world, {
@@ -408,12 +410,27 @@ export function assertPublicPaymentIntegrity(world: World): void {
           (total, row) => total + BigInt(row.transferredAmount.minorUnits),
           0n,
         );
+      const appropriation = mandate.appropriationId
+        ? (world.history.publicProgramRecords ?? []).find(
+            (record): record is PublicProgramAppropriationRecord =>
+              record.kind === "appropriation" &&
+              record.id === mandate.appropriationId,
+          )
+        : null;
       if (
         outcome.status !== "completed" ||
         outcome.occurredAt !== flow.recordedAt ||
         !funds ||
         funds.liquidBalance.minorUnits < outcome.transferredAmount.minorUnits ||
-        spent > BigInt(mandate.amount.minorUnits)
+        spent > BigInt(mandate.amount.minorUnits) ||
+        (mandate.appropriationId !== undefined &&
+          (!appropriation ||
+            appropriation.accountOrganizationId !== account.organizationId ||
+            appropriationCommittedMinorUnits(
+              world,
+              appropriation,
+              outcome.sequence + 1,
+            ) > appropriation.amount.minorUnits))
       )
         throw new Error(
           "Public expenditure exceeds recorded cash or operative funding.",

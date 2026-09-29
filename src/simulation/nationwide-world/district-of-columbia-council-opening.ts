@@ -9,8 +9,11 @@ import {
   seatMunicipalMember,
 } from "../municipal-public-work";
 import { drawTownResident } from "../living-world/local-government-seats";
+import { dcCouncilSeatLabels } from "../municipal-seat-identity";
 import type { EntityId, World } from "../types";
 import { recordWorldEvent } from "../world";
+
+export { dcCouncilSeatLabels } from "../municipal-seat-identity";
 
 /**
  * The Council of the District of Columbia, with a person in each of its
@@ -45,24 +48,6 @@ const DC_COUNCIL_MINIMUM_AGE = 18;
 
 const V = DC_COUNCIL_OPENING_VERSION;
 const openingKey = `${V}:opening`;
-
-/** The thirteen seats of § 1-204.01(b)(1), in the order they are seated. */
-export function dcCouncilSeatLabels(): readonly {
-  readonly label: string;
-  readonly presiding: boolean;
-}[] {
-  return [
-    { label: "Chairman (at large)", presiding: true },
-    ...[1, 2, 3, 4].map((n) => ({
-      label: `At-large member, seat ${n}`,
-      presiding: false,
-    })),
-    ...[1, 2, 3, 4, 5, 6, 7, 8].map((n) => ({
-      label: `Ward ${n}`,
-      presiding: false,
-    })),
-  ];
-}
 
 export function dcCouncilSeated(world: World): boolean {
   return world.history.events.some((event) => event.stableKey === openingKey);

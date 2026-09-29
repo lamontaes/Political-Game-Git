@@ -10,6 +10,7 @@ import { buildProductionWorld } from "./production-world";
 import { openOrdinaryLife } from "./ordinary-life";
 import { fileForOffice, projectCampaign } from "./campaign-projection";
 import { projectCampaignOffices } from "./campaign-office-discovery";
+import { bindingForDistrict, offeredDistricts } from "./district-selection";
 
 function life() {
   const built = buildProductionWorld({
@@ -64,11 +65,24 @@ describe("deliberate supported office discovery", () => {
   it("files the explicitly selected alternative through the existing writer and preserves it on reload", () => {
     const { world, personId } = life();
     const selected = "us-ky-general-assembly-v1:senate";
-    const filed = fileForOffice(world, personId, null, selected);
+    expect(() => fileForOffice(world, personId, null, selected)).toThrow(
+      /filled by district/,
+    );
+    // This older statewide setup records no numbered home membership. The
+    // candidate may still name an actual seat where no residence rule bars it.
+    const district = offeredDistricts(
+      world,
+      world.people[personId]!.homeJurisdictionId,
+      selected,
+    )[0];
+    expect(district).toBeDefined();
+    const binding = bindingForDistrict(district!);
+    const filed = fileForOffice(world, personId, binding, selected);
     const campaign = campaignForCandidate(filed, personId)!;
     const contest = requireElectionContest(filed, campaign.contestId);
     expect(campaign.officeKey).toBe(selected);
     expect(contest.office.officeKey).toBe(selected);
+    expect(contest.office.districtBinding).toStrictEqual(binding);
     expect(
       projectCampaign(filed, personId, "us-ky-general-assembly-v1:house")
         .officeTitle,

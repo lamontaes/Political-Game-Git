@@ -11,7 +11,7 @@ import {
   type LegislativeScenario,
 } from "./legislation-scenarios";
 import { SqliteWorldRepository } from "../persistence/sqlite-world-repository";
-import { daysBetween } from "./dates";
+import { addDays, daysBetween } from "./dates";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import {
   attemptVetoOverride,
@@ -296,10 +296,34 @@ describe("Kentucky bicameral path", () => {
       action: "signed",
       rationale: "The Governor supported the transit pilot.",
     });
+    expect(() =>
+      recordEnactment(world, {
+        stableKey: "conflicting-date",
+        measureId: scenario.measureId,
+        effectiveAt: world.currentDate,
+        effectiveDateGameProfile: {
+          version: "fixture-kentucky-date/v1",
+          days: 45,
+        },
+      }),
+    ).toThrow(/either an explicit effective date or a game profile/);
     world = recordEnactment(world, {
       stableKey: "enactment",
       measureId: scenario.measureId,
       actDesignation: "2026 Ky. Acts ch. 14",
+      effectiveDateGameProfile: {
+        version: "fixture-kentucky-date/v1",
+        days: 45,
+      },
+    });
+
+    expect(world.history.legislativeEnactments?.at(-1)).toMatchObject({
+      effectiveAt: addDays(world.currentDate, 45),
+      effectiveDateBasis: "game-default",
+      effectiveDateGameProfile: {
+        version: "fixture-kentucky-date/v1",
+        days: 45,
+      },
     });
 
     position = measurePosition(world, scenario.measureId);
@@ -308,6 +332,25 @@ describe("Kentucky bicameral path", () => {
     expect(position.outcome).toBe("enacted");
     expect(availableMeasureSteps(world, scenario.measureId)).toEqual([]);
     expect(() => assertWorldIntegrity(world)).not.toThrow();
+    const enactment = world.history.legislativeEnactments!.at(-1)!;
+    const altered = {
+      ...world,
+      history: {
+        ...world.history,
+        legislativeEnactments: [
+          {
+            ...enactment,
+            effectiveDateGameProfile: {
+              version: "fixture-kentucky-date/v1",
+              days: 46,
+            },
+          },
+        ],
+      },
+    } satisfies World;
+    expect(() => assertWorldIntegrity(altered)).toThrow(
+      /effective date does not match its profile/,
+    );
   });
 
   it("applies each chamber's own denominator on the floor", () => {
@@ -638,6 +681,43 @@ describe("Nebraska unicameral path", () => {
 
 describe("Alaska joint-session override", () => {
   const scenario = createLegislativeScenario("alaska");
+
+  it("records the source-backed ninety-day effective date and keeps it through reload", () => {
+    let world = toFloor(scenario, scenario.world, "house", 4);
+    world = clearFloor(scenario, world, "house", 25);
+    world = transmitMeasure(world, {
+      stableKey: "effective:transmit",
+      measureId: scenario.measureId,
+    });
+    world = toFloor(scenario, world, "senate", 4);
+    world = clearFloor(scenario, world, "senate", 15);
+    world = enrollMeasure(world, {
+      stableKey: "effective:enroll",
+      measureId: scenario.measureId,
+    });
+    world = presentMeasureToExecutive(world, {
+      stableKey: "effective:present",
+      measureId: scenario.measureId,
+    });
+    world = recordExecutiveAction(world, {
+      stableKey: "effective:sign",
+      measureId: scenario.measureId,
+      action: "signed",
+      rationale: "The Governor signed the measure.",
+    });
+    world = recordEnactment(world, {
+      stableKey: "effective:enact",
+      measureId: scenario.measureId,
+    });
+    const enactment = world.history.legislativeEnactments!.at(-1)!;
+    expect(enactment.effectiveAt).toBe(addDays(enactment.resolvedAt, 90));
+    expect(enactment.effectiveDateBasis).toBe("source-default");
+    expect(
+      deserializeWorld(serializeWorld(world)).history.legislativeEnactments?.at(
+        -1,
+      ),
+    ).toEqual(enactment);
+  });
 
   function toVeto(): World {
     let world = toFloor(scenario, scenario.world, "house", 4);

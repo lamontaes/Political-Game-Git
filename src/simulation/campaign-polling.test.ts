@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import { campaignPollingQuality, surveyWorkDays } from "./campaign-polling";
 import { candidacyPackForJurisdiction } from "./candidacy";
@@ -23,7 +24,7 @@ function filedIn(placeKey: string, seed: string) {
   const world = fileForOffice(
     created.game.world,
     personId,
-    null,
+    namedSeatForFixture(created.game.world, personId, office.officeKey),
     office.officeKey,
   );
   return { world, personId };

@@ -1,3 +1,4 @@
+import { councilSitsOnAuthoredCalendar } from "../simulation/municipal-seat-identity";
 import {
   municipalGovernmentByKey,
   municipalGovernmentForLifePlace,
@@ -17,21 +18,31 @@ import {
   installMunicipalGovernment,
 } from "../simulation/municipal-public-work";
 import { addSimulationMinutes } from "../simulation/dates";
+import { futureDueItemStateAt } from "../simulation/future-transitions";
 import { decideCouncilVote } from "../simulation/governing/council-lawmaking";
 import { requireMeasure } from "../simulation/legislation";
 import {
   actOnCouncilMeasure,
+  COUNCIL_READING_DUE,
+  decideOrdinaryCouncilReading,
   municipalExecutiveHolder,
+  municipalReadingQuestion,
   municipalOrdinanceStatuses,
   overrideCouncilVeto,
   passMunicipalOrdinance,
   placeMunicipalOrdinanceOnAgenda,
+  scheduleOrdinaryCouncilReading,
 } from "../simulation/municipal-ordinance-procedure";
+import {
+  memberBallotOn,
+  recordMemberBallot,
+} from "../simulation/governing/member-ballots";
 import { nextDcCouncilDesignation } from "../simulation/dc-council-sittings";
 import { scheduledActivityState } from "../simulation/time-work";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import type {
   EntityId,
+  LegislativeMemberDisposition,
   LegislativeVoteDisposition,
   World,
 } from "../simulation/types";
@@ -40,13 +51,15 @@ import type {
 export type OwnOrdinanceBallot = "yea" | "nay" | "present-not-voting";
 
 /**
- * The note every colleague's ballot carries, in the vote record and on
- * screen. The owner accepted authored colleague ballots on 2026-09-14 only
- * until a councilor-decision producer existed; the councils' vote engine
- * (`council-lawmaking.ts`) is that producer, so each colleague now decides.
+ * The note every colleague ballot on the D.C. Council carries, in the vote
+ * record and on screen: each colleague decides through the councils' vote
+ * engine.
  */
 export const COLLEAGUE_BALLOT_NOTE =
   "Your ballot is yours. Each other councilor decides their own ballot from their principles, their record, the ordinance's sponsor and the voters they answer to.";
+
+export const ORDINARY_COUNCIL_BALLOT_NOTE =
+  "If the council voted now, each seated councilor would decide from their recorded reasons. Those decisions may change before the scheduled reading.";
 
 /**
  * Feature-local ordinary municipal route for A / FABLE-UI.
@@ -83,6 +96,7 @@ export function projectMunicipalGoverning(
     displayName: reading.displayName,
     bodyName: reading.bodyName,
     evidence: reading.evidence,
+    procedureBasis: pack.ok ? pack.pack.basis : null,
     jurisdictionId: municipalGovernmentJurisdictionId(world, government.key),
     standing,
     seats: municipalSeats(world, government.key),
@@ -117,12 +131,48 @@ export function projectMunicipalGoverning(
           reason: entry.reason,
         })),
     meetings: discoverMunicipalPublicMeetings(world, government.key),
-    ordinances: municipalOrdinanceStatuses(world, government.key),
+    ordinances: municipalOrdinanceStatuses(world, government.key).map(
+      (ordinance) => {
+        const question = municipalReadingQuestion(
+          world,
+          government.key,
+          ordinance.measureId,
+        );
+        return {
+          ...ordinance,
+          scheduledReadingOn: scheduledOrdinaryCouncilReadingOn(
+            world,
+            ordinance.measureId,
+          ),
+          savedBallot: question
+            ? memberBallotOn(world, personId, question)
+            : null,
+        };
+      },
+    ),
     managerAppointment: world.history.events.find(
       (event) =>
         event.stableKey === `municipal-manager-appointed:${government.key}`,
     ),
   };
+}
+
+/** Current scheduled reading, when an ordinary council has one pending. */
+export function scheduledOrdinaryCouncilReadingOn(
+  world: World,
+  measureId: EntityId,
+) {
+  return (
+    world.history.futureDueItems.find(
+      (item) =>
+        item.transitionKey === COUNCIL_READING_DUE &&
+        item.entityIds.includes(measureId) &&
+        futureDueItemStateAt(world, item.id, {
+          asOfDate: world.currentDate,
+          historySequenceExclusive: world.history.nextSequence,
+        })?.status === "scheduled",
+    )?.dueAt ?? null
+  );
 }
 
 /** Existing sittings already on the calendar. Inspection must not add one. */
@@ -326,15 +376,77 @@ export function placeProjectedOrdinanceOnAgenda(
   governmentKey: string,
   measureId: EntityId,
 ) {
-  return placeMunicipalOrdinanceOnAgenda(world, { governmentKey, measureId });
+  const placed = placeMunicipalOrdinanceOnAgenda(world, {
+    governmentKey,
+    measureId,
+  });
+  return placed.ok && !councilSitsOnAuthoredCalendar(governmentKey)
+    ? {
+        ok: true as const,
+        world: scheduleOrdinaryCouncilReading(
+          placed.world,
+          governmentKey,
+          measureId,
+        ),
+      }
+    : placed;
+}
+
+/** A councilor's choice remains in World history until this reading occurs. */
+export function saveProjectedOrdinanceBallot(
+  world: World,
+  governmentKey: string,
+  measureId: EntityId,
+  ballot: OwnOrdinanceBallot,
+) {
+  if (
+    world.control.kind !== "person" ||
+    councilSitsOnAuthoredCalendar(governmentKey)
+  )
+    return {
+      ok: false as const,
+      world,
+      reason: "No ordinary council ballot is available to save here.",
+    };
+  const personId = world.control.personId;
+  const place = resolvePlayerCapabilities(world).homePlace;
+  const authority = municipalActionAuthority(world, {
+    governmentKey,
+    personId,
+    residentPlaceGeoid: place?.sourceGeoid ?? null,
+    action: "vote-on-ordinance",
+  });
+  if (!authority.ok)
+    return { ok: false as const, world, reason: authority.reason };
+  const question = municipalReadingQuestion(world, governmentKey, measureId);
+  if (!question)
+    return {
+      ok: false as const,
+      world,
+      reason: "This ordinance has no pending council reading.",
+    };
+  if (memberBallotOn(world, personId, question) === ballot)
+    return { ok: true as const, world };
+  const measure = requireMeasure(world, measureId);
+  return {
+    ok: true as const,
+    world: recordMemberBallot(world, {
+      personId,
+      jurisdictionId: measure.jurisdictionId,
+      question,
+      ballot,
+      summary: `Decided to vote ${ballot === "yea" ? "yea" : ballot === "nay" ? "nay" : "present, not voting"} on ${measure.designation}, ${measure.shortTitle}, at its next council reading.`,
+    }),
+  };
 }
 
 export interface AuthoredCouncilBallotPreview {
+  readonly method: "authored-fixture" | "member-decisions";
   readonly dispositions: readonly LegislativeVoteDisposition[];
   readonly colleagues: readonly {
     readonly personId: EntityId;
     readonly seatLabel: string | null;
-    readonly disposition: LegislativeVoteDisposition["disposition"];
+    readonly disposition: LegislativeMemberDisposition;
   }[];
   readonly yea: number;
   readonly nay: number;
@@ -345,10 +457,8 @@ export interface AuthoredCouncilBallotPreview {
 /**
  * The ballots a vote would record, before anything is written.
  *
- * The player's own ballot is exactly what they chose. Each other seated
- * councilor decides through the councils' vote engine (`decideCouncilVote`)
- * from what the world already holds, so previewing twice, reloading, or
- * navigating away never changes it, and the preview writes nothing.
+ * An ordinary council reads individual decisions; the D.C. authored sitting
+ * retains its disclosed stand-ins. No preview writes a vote.
  */
 export function previewAuthoredCouncilBallots(
   world: World,
@@ -362,6 +472,36 @@ export function previewAuthoredCouncilBallots(
     (seat) => seat.role === "member" || seat.role === "presiding-member",
   );
   if (!seats.some((seat) => seat.personId === playerId)) return null;
+  if (!councilSitsOnAuthoredCalendar(governmentKey)) {
+    const dispositions = decideOrdinaryCouncilReading(
+      world,
+      governmentKey,
+      measureId,
+      own,
+    );
+    if (!dispositions) return null;
+    return {
+      method: "member-decisions",
+      dispositions,
+      colleagues: dispositions
+        .filter(
+          (entry) => entry.personId !== playerId && entry.personId !== null,
+        )
+        .map((entry) => ({
+          personId: entry.personId!,
+          seatLabel:
+            seats.find((seat) => seat.personId === entry.personId)?.seatLabel ??
+            null,
+          disposition: entry.disposition,
+        })),
+      yea: dispositions.filter((entry) => entry.disposition === "yea").length,
+      nay: dispositions.filter((entry) => entry.disposition === "nay").length,
+      presentNotVoting: dispositions.filter(
+        (entry) => entry.disposition === "present-not-voting",
+      ).length,
+      note: ORDINARY_COUNCIL_BALLOT_NOTE,
+    };
+  }
   const measure = requireMeasure(world, measureId);
   const government = municipalGovernmentByKey(governmentKey);
   const decided = decideCouncilVote(world, {
@@ -399,6 +539,7 @@ export function previewAuthoredCouncilBallots(
     }),
   );
   return {
+    method: "member-decisions",
     dispositions,
     colleagues,
     yea: dispositions.filter((entry) => entry.disposition === "yea").length,
@@ -417,6 +558,44 @@ export function takeProjectedOrdinanceVote(
   measureId: EntityId,
   own: OwnOrdinanceBallot,
 ) {
+  if (!councilSitsOnAuthoredCalendar(governmentKey)) {
+    const readingOn = scheduledOrdinaryCouncilReadingOn(world, measureId);
+    if (readingOn && world.currentDate < readingOn)
+      return {
+        ok: false as const,
+        world,
+        reason: `The council reading is scheduled for ${readingOn}.`,
+      };
+    const saved = saveProjectedOrdinanceBallot(
+      world,
+      governmentKey,
+      measureId,
+      own,
+    );
+    if (!saved.ok) return saved;
+    const dispositions = decideOrdinaryCouncilReading(
+      saved.world,
+      governmentKey,
+      measureId,
+    );
+    if (!dispositions)
+      return {
+        ok: false as const,
+        world,
+        reason: "This council has no pending reading to decide.",
+      };
+    const taken = passMunicipalOrdinance(saved.world, {
+      governmentKey,
+      measureId,
+      dispositions,
+      provenance: {
+        method: "member-decisions",
+        note: "The seated councilors decided this reading from their recorded reasons and the player's own ballot.",
+        sourceEntityIds: [measureId],
+      },
+    });
+    return taken.ok ? taken : { ...taken, world };
+  }
   const preview = previewAuthoredCouncilBallots(
     world,
     governmentKey,
@@ -456,6 +635,7 @@ export function mountOrdinaryMunicipalRoute() {
     introduceOrdinance: introduceProjectedOrdinance,
     placeOrdinanceOnAgenda: placeProjectedOrdinanceOnAgenda,
     previewOrdinanceVote: previewAuthoredCouncilBallots,
+    saveOrdinanceBallot: saveProjectedOrdinanceBallot,
     takeOrdinanceVote: takeProjectedOrdinanceVote,
     actOnCouncilMeasure: actOnProjectedCouncilMeasure,
     takeOverrideVote: takeProjectedOverrideVote,

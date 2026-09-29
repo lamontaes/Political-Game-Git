@@ -37,6 +37,7 @@ import {
 import { PAID_LEAVE_QUESTION } from "../state-paid-leave-law";
 import { TEACHER_SALARY_FLOOR_QUESTION } from "../teacher-salary-floor";
 import type { PolicyCatalog } from "../types";
+import { STATE_TRANSIT_SERVICE_QUESTION } from "../legislation-transit-families";
 import { HOME_RULE_QUESTION } from "./question-authority";
 
 /**
@@ -189,6 +190,18 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
   })),
   // What carrying out a law costs a state's budget, where a fiscal note set
   // a size.
+  // A state transit bill's own appropriation (the money and hours are the
+  // bill's clause figures, priced per hour) is written as a public program
+  // appropriation when the act takes effect; the state's transit service
+  // program then pays for the hours and returns service to use. The size is
+  // the bill's own term, not a fixed rate. PLACEHOLDER: the ridership that
+  // service draws is Build 3's transit link, and the hour price is a game
+  // profile until a sourced price is read.
+  {
+    questionKey: STATE_TRANSIT_SERVICE_QUESTION,
+    kind: "state-spending",
+    via: "src/simulation/governing/program-governing.ts",
+  },
   ...SPENDING_QUESTION_EFFECTS.filter(
     (effect) => effect.toYes !== null || effect.toNo !== null,
   ).map((effect): LawEffectPath => ({

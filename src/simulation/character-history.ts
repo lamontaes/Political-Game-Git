@@ -217,6 +217,27 @@ export function withBirthCohortGivenNames(
   });
 }
 
+/**
+ * Birth-cohort given names for the people an opening seats in a public body.
+ * Only the given name changes, on the stream `birthCohortGivenName` forks from
+ * the world seed and each person's stable key, so no other draw moves. Members
+ * of one body are strangers to each other, so no name is reserved between them.
+ */
+export function withBirthCohortGivenNamesForPeople(
+  worldSeed: string,
+  inputs: readonly CharacterHistoryContextPersonInput[],
+): CharacterHistoryContextPersonInput[] {
+  return inputs.map((input) => {
+    const givenName = birthCohortGivenName(worldSeed, input.stableKey, {
+      givenName: input.givenName,
+      familyName: input.familyName,
+      birthDate: input.birthDate,
+      gender: input.identity?.gender,
+    });
+    return givenName === input.givenName ? input : { ...input, givenName };
+  });
+}
+
 export type CharacterHistoryTransition =
   | {
       readonly kind: "context-person";

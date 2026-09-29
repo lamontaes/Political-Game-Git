@@ -4,6 +4,7 @@ import {
   suppliedLegislativeSeat,
 } from "../../tests/fixtures/supplied-legislative-seat";
 import { TEST_TAX_TERMS } from "../../tests/fixtures/tax-policy-fixture";
+import { ordinaryAlaskaHouseMember } from "../../tests/fixtures/civic-funded-service-entry";
 import { CAREER_PROVIDERS } from "./career-path7-provider";
 import {
   applyLegislativeCommand,
@@ -25,6 +26,12 @@ import {
 import { passOrdinaryDays } from "./ordinary-life";
 import { publishLegislativeTransition } from "./publish-legislative-transition";
 import {
+  castMemberBallot,
+  LEGISLATIVE_CLOCK_VERSION,
+  memberVotesAhead,
+} from "../simulation/governing/legislative-clock";
+import { chamberQuestionKey } from "../simulation/governing/member-ballots";
+import {
   declarePersonalTaxOccurrence,
   fileTaxProposalFromOffice,
 } from "./tax-work";
@@ -41,26 +48,30 @@ import {
   seekCareerOffer,
   startCareerWork,
 } from "../simulation/career-path7";
-import { daysBetween, makeIsoDate } from "../simulation/dates";
 import {
   availableMeasureSteps,
   measurePosition,
 } from "../simulation/legislation";
 import { resourcePositionAt } from "../simulation/resource-queries";
+import {
+  addDays,
+  compareSimulationMoments,
+  daysBetween,
+} from "../simulation/dates";
 import { money } from "../simulation/resources";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
-import {
-  createTaxTransitionHandlerRegistry,
-  publicTaxAccountForJurisdiction,
-} from "../simulation/tax-policy";
-import { advanceWorld, assertWorldIntegrity } from "../simulation/world";
+import { publicTaxAccountForJurisdiction } from "../simulation/tax-policy";
+import { assertWorldIntegrity } from "../simulation/world";
+import { scheduledActivityState } from "../simulation/time-work";
 import type { EntityId, World } from "../simulation/types";
 
-// One supplied Alaska House seat, labeled as a supplied office scenario: it
-// exercises governing, not ordinary candidacy. Everything after the seat uses
-// ordinary player actions and the ordinary clock: earned pay, both recorded
-// sittings, enactment, the tax's own effective date, a declared occurrence,
-// collection, request, due settlement and publication. No cash is seeded.
+// The player starts as an ordinarily generated Alaska resident, files for a
+// district-bound House seat on the state's own election calendar, and enters a
+// recorded term. The test supplies only a deterministic election result; it
+// injects no office or member relationship. From the term onward, the route
+// uses earned pay, both recorded sittings, enactment, the tax's effective date,
+// an explicit taxable occurrence, collection, payment, delivery and return.
+// No cash is seeded.
 
 const USD = money(0, "USD").currency;
 const LONG = 300_000;
@@ -75,6 +86,7 @@ function enactThroughSitting(
     ...input,
     playerBallot: "yea",
   });
+  next = recordPendingMemberVotesYea(next, personId);
   for (
     let guard = 0;
     guard < 40 && measurePosition(next, measureId).phase !== "enacted";
@@ -100,8 +112,89 @@ function enactThroughSitting(
       next,
       applyLegislativeCommand(next, entry.assignment, { kind, step }).world,
     );
+    next = recordPendingMemberVotesYea(next, personId);
   }
   expect(measurePosition(next, measureId).outcome).toBe("enacted");
+  return next;
+}
+
+function recordPendingMemberVotesYea(world: World, personId: EntityId): World {
+  let next = world;
+  for (const vote of memberVotesAhead(next, personId)) {
+    if (vote.ballot === null)
+      next = castMemberBallot(next, {
+        personId,
+        question: vote.question,
+        ballot: "yea",
+      });
+  }
+  return next;
+}
+
+/** Pass to the filed tax date through actual member-vote reminders. The player
+ * explicitly records a neutral ballot on unrelated measures that stop time;
+ * a missing or stale reminder remains a descriptive test failure.
+ */
+function passThroughMemberVoteNotices(
+  world: World,
+  personId: EntityId,
+  targetDate: string,
+): World {
+  let next = world;
+  for (let guard = 0; guard < 100 && next.currentDate < targetDate; guard++) {
+    const before = next;
+    next = passOrdinaryDays(
+      next,
+      Math.min(7, Math.max(1, daysBetween(next.currentDate, targetDate))),
+    );
+    if (compareSimulationMoments(before.currentMoment, next.currentMoment) < 0)
+      continue;
+    const activeNotices = next.history.scheduledActivities.filter(
+      (activity) => {
+        if (
+          !activity.stableKey.includes(":member-vote:") ||
+          !activity.participantPersonIds.includes(personId)
+        )
+          return false;
+        const state = scheduledActivityState(next, activity.id);
+        return (
+          state.status === "scheduled" &&
+          compareSimulationMoments(state.start, next.currentMoment) === 0
+        );
+      },
+    );
+    const dueVotes = memberVotesAhead(next, personId).filter(
+      (vote) =>
+        vote.ballot === null &&
+        vote.voteOn !== null &&
+        vote.voteOn <= addDays(next.currentDate, 1) &&
+        activeNotices.some(
+          (activity) =>
+            activity.stableKey ===
+            `${LEGISLATIVE_CLOCK_VERSION}:member-vote:${chamberQuestionKey(vote.question)}:${personId}`,
+        ),
+    );
+    if (dueVotes.length === 0)
+      throw new Error(
+        `Ordinary time stopped at ${next.currentDate} ${next.currentMoment.minuteOfDay}; no actionable member vote matches ${activeNotices.map((activity) => activity.id).join(", ") || "the stop"}.`,
+      );
+    for (const vote of dueVotes) {
+      const decided = castMemberBallot(next, {
+        personId,
+        question: vote.question,
+        ballot: "present-not-voting",
+      });
+      if (decided === next)
+        throw new Error(
+          `The explicit ballot for ${vote.measure.designation} made no progress.`,
+        );
+      next = decided;
+    }
+  }
+  if (next.currentDate < targetDate)
+    throw new Error(
+      `Ordinary time stopped at ${next.currentDate} before the tax date ${targetDate}.`,
+    );
   return next;
 }
 
@@ -144,15 +237,11 @@ interface Funded {
 /** Builds one life up to "both laws operative" and declares `occurrences`
  * collected taxes, each $101.00 of public receipts. */
 function fundedLife(occurrences: 1 | 2): Funded {
-  const seat = suppliedLegislativeSeat("US-AK", "house");
-  const personId = seat.personId;
+  const elected = ordinaryAlaskaHouseMember();
+  const personId = elected.personId;
+  let world = elected.world;
   // The acquired Alaska tax-power baseline is dated 2026-09-06; filing waits
   // for the next regular session rather than backdating the power.
-  let world = advanceWorld(
-    seat.world,
-    daysBetween(seat.world.currentDate, makeIsoDate("2027-02-01")),
-    createTaxTransitionHandlerRegistry(),
-  );
   // The member has no recorded money; ordinary shop work is the only source.
   expect(cash(world, { kind: "person", personId })).toBeNull();
   const provider = CAREER_PROVIDERS.find(
@@ -188,15 +277,7 @@ function fundedLife(occurrences: 1 | 2): Funded {
   });
   world = enactThroughSitting(tax.world, tax.measureId, personId);
   const policy = world.history.taxPolicies!.at(-1)!;
-  for (
-    let guard = 0;
-    guard < 30 && world.currentDate < policy.effectiveAt;
-    guard++
-  )
-    world = passOrdinaryDays(
-      world,
-      world.currentDate < policy.effectiveAt ? 7 : 1,
-    );
+  world = passThroughMemberVoteNotices(world, personId, policy.effectiveAt);
   const proposal = world.history.taxProposals!.at(-1)!;
   for (let n = 1; n <= occurrences; n++)
     world = declarePersonalTaxOccurrence(world, {

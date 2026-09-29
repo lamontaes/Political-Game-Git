@@ -11,6 +11,31 @@ import {
 import type { LegislativeProcedureContext } from "../simulation/legislation-scenarios";
 import type { MeasureStepKey } from "../simulation/legislation";
 import type { World } from "../simulation/types";
+import { currentGoverningOffices } from "../simulation/governing/state-governing";
+
+/** A seated member may wait on the state governor actually in this world. */
+export function canonicalStateExecutiveWaitAvailable(
+  world: World,
+  procedure: LegislativeProcedureContext,
+): boolean {
+  if (
+    !procedure.memberDecisions ||
+    procedure.recordedSittingEventId ||
+    procedure.governorAction !== null ||
+    measurePosition(world, procedure.measureId).phase !== "awaiting-executive"
+  )
+    return false;
+  const measure = world.history.legislativeMeasures?.find(
+    (entry) => entry.id === procedure.measureId,
+  );
+  return (
+    measure !== undefined &&
+    measure.rulePackId === procedure.pack.packId &&
+    currentGoverningOffices(world).some(
+      (office) => office.jurisdictionId === measure.jurisdictionId,
+    )
+  );
+}
 
 /** Readiness belongs to the specific act, never to the entire jurisdiction. */
 export function legislativeProcedureRefusal(
@@ -18,15 +43,15 @@ export function legislativeProcedureRefusal(
   procedure: LegislativeProcedureContext,
   step: MeasureStepKey,
 ): string | null {
-  // A seated governor decides the bill on their own desk; only a world with
-  // no governorship falls back to the authored answer, and without one the
-  // step is refused rather than inferred.
   if (
     step === "await-executive-decision" &&
     procedure.governorAction === null &&
+    !canonicalStateExecutiveWaitAvailable(world, procedure) &&
     !governorOfficeForJurisdiction(world, procedure.pack.jurisdictionKey)
   )
-    return "No executive disposition has been supplied for this authored bill. Signature, veto, inaction and an effective date will not be inferred.";
+    return procedure.memberDecisions
+      ? "No current governor's desk is recorded for this bill. Signature, veto, inaction and an effective date will not be inferred."
+      : "No executive disposition has been supplied for this authored bill. Signature, veto, inaction and an effective date will not be inferred.";
   const position = measurePosition(world, procedure.measureId);
   const chamberKey = position.chamberKey ?? procedure.pack.chamberOrder[0]!;
   const chamber = chamberByKey(procedure.pack, chamberKey);
@@ -63,7 +88,10 @@ export function legislativeProcedureRefusal(
         ? [votePlanKeyForOverride("joint")]
         : procedure.pack.chamberOrder.map(votePlanKeyForOverride),
   };
-  if (questionKeys[step]?.some((key) => !procedure.votePlan[key])) {
+  if (
+    !procedure.memberDecisions &&
+    questionKeys[step]?.some((key) => !procedure.votePlan[key])
+  ) {
     return "The institution supports this question, but this bill has no supplied member decisions on it. No tally or predicted political outcome will be invented.";
   }
   return null;

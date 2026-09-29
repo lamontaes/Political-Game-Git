@@ -7,6 +7,7 @@ import "./world39-readers.css";
 const LEVEL_LABEL = {
   federal: "National law",
   state: "State law",
+  territory: "Territorial law",
   local: "Local law",
 } as const;
 

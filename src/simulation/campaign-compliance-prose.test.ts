@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
   CAMPAIGN_COMPLIANCE_STATE_KEYS,
@@ -84,6 +85,11 @@ function fileKentuckyCampaign(seed: string): Filed {
     candidatePersonId,
     jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
     officeKey: "us-ky-general-assembly-v1:house",
+    districtBinding: namedSeatForFixture(
+      base,
+      candidatePersonId,
+      "us-ky-general-assembly-v1:house",
+    ),
     electionDate: addDays(base.currentDate, 21),
     rivalPersonIds: opponents.personIds,
     existingContestId: null,

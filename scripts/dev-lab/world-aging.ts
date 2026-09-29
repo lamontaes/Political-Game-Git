@@ -112,6 +112,9 @@ export function createObserverDayButton(world: World) {
       try {
         next = advanceObservedWorld(base, 1);
       } catch (error) {
+        // Diagnostic runs can ask for where the Day stopped, not only why.
+        if (process.env.OCD_DAY_STACK && error instanceof Error)
+          console.error(error.stack);
         return {
           status: "stopped",
           problem:

@@ -360,9 +360,14 @@ function localBranches(
     return { governs: null, branches: [], localGovernments: [] };
   }
   const government = municipalGovernmentForLifePlace(place);
-  const reading = government?.readings.length
+  // A game-profile reading is the game's default ordinary council, not a
+  // recorded institution of this place, so the place stays in the local
+  // government list (with whoever the save has seated) rather than gaining
+  // branches read from the profile.
+  const primary = government?.readings.length
     ? primaryReading(government)
     : null;
+  const reading = primary?.evidence === "game-profile" ? null : primary;
   const seats = government ? municipalSeats(world, government.key) : [];
   const branches: GovernmentBranchView[] = [];
   if (government && reading?.bodyName) {

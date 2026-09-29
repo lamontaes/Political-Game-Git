@@ -6,84 +6,86 @@ Rule admission only. An admitted field is a compiled, dated rule the resolver wi
 
 ## Totals
 
-- States: 50; with a compiled legislative pack: 9.
+- States: 50; with a legislature rule pack: 50 (9 researched, 41 versioned game profiles).
+- States with a separately compiled candidacy pack: 9.
+- States whose legislature resolves through the shared bill-process work key: 50; whose work key the draft compiler accepts: 50. These are component admissions, not a measured ordinary bill-to-effect route.
+- Default effective date: 1 state source rule computed; 49 states use the versioned game interval. 4 of those also have known source text that is not computed by this route.
 - States where standing for at least one legislative seat is admitted: 3.
 - States where a legislative term rule is admitted: 1.
 - General-purpose governments in the catalog: 38704.
-- Governments with at least one admitted local action: 4.
+- Governments with at least one admitted local action: 5.
 - Loaded municipal records: 144; mapped to a catalog unit: 71.
 
 Missing mandatory fields for passing an ordinance (first missing field per government):
 
 - `body.seats`: 38699
-- `ordinance.introductionToPassage`: 3
-- `ordinance.passage`: 1
+- `ordinance.introductionToPassage`: 4
 
 ## By unit type
 
 | Type | Units | Enacted instrument compiled | Introduce ordinance | Pass ordinance | Appropriation vote rule | Pass appropriation | Inherited default only | Identity only |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | county | 3031 | 0 | 0 | 0 | 95 | 0 | 95 | 2936 |
-| municipality | 19489 | 5 | 4 | 1 | 227 | 2 | 225 | 19259 |
+| municipality | 19489 | 5 | 5 | 1 | 227 | 2 | 225 | 19259 |
 | township | 16184 | 0 | 0 | 0 | 0 | 0 | 0 | 16184 |
 
 ## By state
 
 States where a legislator's qualifications are admitted for at least one chamber, with or without a playable office: 3.
 
-| State | Legislature | Legislator qualifications | Seats with candidacy admitted | Seats with term rule | Local units | Enacted instrument | Pass ordinance | Appropriation rule | Missing for candidacy |
-| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| AL | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 531 | 0 | 0 | 0 | no compiled legislative pack |
-| AK | bicameral | lower: refused; upper: refused | 2/2 | 0/2 | 164 | 0 | 0 | 0 | — |
-| AZ | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 106 | 0 | 0 | 0 | no compiled legislative pack |
-| AR | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 575 | 0 | 0 | 0 | no compiled legislative pack |
-| CA | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 540 | 0 | 0 | 0 | no compiled legislative pack |
-| CO | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 335 | 0 | 0 | 0 | no compiled legislative pack |
-| CT | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 178 | 0 | 0 | 0 | no compiled legislative pack |
-| DE | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 60 | 0 | 0 | 0 | no compiled legislative pack |
-| FL | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 477 | 0 | 0 | 0 | no compiled legislative pack |
-| GA | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 689 | 0 | 0 | 0 | no compiled legislative pack |
-| HI | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 4 | 0 | 0 | 0 | no compiled legislative pack |
-| ID | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 243 | 0 | 0 | 0 | no compiled legislative pack |
-| IL | bicameral | lower: refused; upper: refused | 0/2 | 0/2 | 2821 | 0 | 0 | 0 | qualification.minimumAge |
-| IN | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 1660 | 0 | 0 | 0 | no compiled legislative pack |
-| IA | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 1041 | 0 | 0 | 0 | no compiled legislative pack |
-| KS | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 1981 | 0 | 0 | 0 | no compiled legislative pack |
-| KY | bicameral | lower: refused; upper: refused | 0/2 | 2/2 | 530 | 0 | 0 | 0 | qualification.minimumAge |
-| LA | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 364 | 0 | 0 | 0 | no compiled legislative pack |
-| ME | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 497 | 0 | 0 | 0 | no compiled legislative pack |
-| MD | bicameral | lower: refused; upper: refused | 0/2 | 0/2 | 180 | 0 | 0 | 0 | qualification.minimumAge |
-| MA | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 357 | 0 | 0 | 0 | no compiled legislative pack |
-| MI | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 1856 | 0 | 0 | 0 | no compiled legislative pack |
-| MN | bicameral | lower: admitted; upper: refused | 1/2 | 0/2 | 2720 | 0 | 0 | 0 | qualification.minimumAge |
-| MS | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 381 | 0 | 0 | 0 | no compiled legislative pack |
-| MO | bicameral | lower: refused; upper: refused | 0/2 | 0/2 | 1337 | 0 | 0 | 0 | qualification.stateResidenceYears |
-| MT | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 183 | 0 | 0 | 0 | no compiled legislative pack |
-| NE | unicameral | unicameral: refused | 0/1 | 0/1 | 971 | 0 | 0 | 0 | qualification.stateResidenceYears |
-| NV | bicameral | lower: admitted; upper: refused | 1/2 | 0/2 | 35 | 1 | 0 | 0 | qualification.minimumAge |
-| NH | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 246 | 0 | 0 | 0 | no compiled legislative pack |
-| NJ | not compiled | lower: admitted; upper: admitted | 0/0 | 0/0 | 585 | 0 | 0 | 0 | no compiled legislative pack |
-| NM | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 138 | 0 | 0 | 0 | no compiled legislative pack |
-| NY | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 1581 | 0 | 0 | 0 | no compiled legislative pack |
-| NC | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 651 | 0 | 0 | 0 | no compiled legislative pack |
-| ND | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 1710 | 0 | 0 | 0 | no compiled legislative pack |
-| OH | bicameral | lower: refused; upper: refused | 0/2 | 0/2 | 2321 | 0 | 0 | 0 | qualification.minimumAge |
-| OK | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 672 | 0 | 0 | 0 | no compiled legislative pack |
-| OR | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 277 | 1 | 0 | 0 | no compiled legislative pack |
-| PA | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 2623 | 0 | 0 | 0 | no compiled legislative pack |
-| RI | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 39 | 0 | 0 | 0 | no compiled legislative pack |
-| SC | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 317 | 0 | 0 | 0 | no compiled legislative pack |
-| SD | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 1268 | 0 | 0 | 0 | no compiled legislative pack |
-| TN | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 437 | 0 | 0 | 0 | no compiled legislative pack |
-| TX | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 1480 | 0 | 0 | 0 | no compiled legislative pack |
-| UT | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 284 | 0 | 0 | 0 | no compiled legislative pack |
-| VT | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 288 | 0 | 0 | 0 | no compiled legislative pack |
-| VA | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 322 | 2 | 1 | 322 | no compiled legislative pack |
-| WA | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 321 | 0 | 0 | 0 | no compiled legislative pack |
-| WV | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 285 | 0 | 0 | 0 | no compiled legislative pack |
-| WI | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 1920 | 0 | 0 | 0 | no compiled legislative pack |
-| WY | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 122 | 0 | 0 | 0 | no compiled legislative pack |
-| DC | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 1 | 1 | 0 | 0 | no compiled legislative pack |
+| State | Legislature | Legislature pack basis | Effective date | Legislator qualifications | Seats with candidacy admitted | Seats with term rule | Local units | Enacted instrument | Pass ordinance | Appropriation rule | Missing for candidacy |
+| --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| AL | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 531 | 0 | 0 | 0 | no compiled legislative pack |
+| AK | bicameral | researched | source-computed | lower: refused; upper: refused | 2/2 | 0/2 | 164 | 0 | 0 | 0 | — |
+| AZ | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 106 | 0 | 0 | 0 | no compiled legislative pack |
+| AR | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 575 | 0 | 0 | 0 | no compiled legislative pack |
+| CA | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 540 | 0 | 0 | 0 | no compiled legislative pack |
+| CO | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 335 | 0 | 0 | 0 | no compiled legislative pack |
+| CT | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 178 | 0 | 0 | 0 | no compiled legislative pack |
+| DE | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 60 | 0 | 0 | 0 | no compiled legislative pack |
+| FL | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 477 | 0 | 0 | 0 | no compiled legislative pack |
+| GA | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 689 | 0 | 0 | 0 | no compiled legislative pack |
+| HI | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 4 | 0 | 0 | 0 | no compiled legislative pack |
+| ID | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 243 | 0 | 0 | 0 | no compiled legislative pack |
+| IL | bicameral | researched | game-default | lower: refused; upper: refused | 0/2 | 0/2 | 2821 | 0 | 0 | 0 | qualification.minimumAge |
+| IN | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 1660 | 0 | 0 | 0 | no compiled legislative pack |
+| IA | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 1041 | 0 | 0 | 0 | no compiled legislative pack |
+| KS | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 1981 | 0 | 0 | 0 | no compiled legislative pack |
+| KY | bicameral | researched | game-default | lower: refused; upper: refused | 0/2 | 2/2 | 530 | 0 | 0 | 0 | qualification.minimumAge |
+| LA | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 364 | 0 | 0 | 0 | no compiled legislative pack |
+| ME | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 497 | 0 | 0 | 0 | no compiled legislative pack |
+| MD | bicameral | researched | game-default | lower: refused; upper: refused | 0/2 | 0/2 | 180 | 0 | 0 | 0 | qualification.minimumAge |
+| MA | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 357 | 0 | 0 | 0 | no compiled legislative pack |
+| MI | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 1856 | 0 | 0 | 0 | no compiled legislative pack |
+| MN | bicameral | researched | game-default | lower: admitted; upper: refused | 1/2 | 0/2 | 2720 | 0 | 0 | 0 | qualification.minimumAge |
+| MS | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 381 | 0 | 0 | 0 | no compiled legislative pack |
+| MO | bicameral | researched | game-default | lower: refused; upper: refused | 0/2 | 0/2 | 1337 | 0 | 0 | 0 | qualification.stateResidenceYears |
+| MT | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 183 | 0 | 0 | 0 | no compiled legislative pack |
+| NE | unicameral | researched | game-default | unicameral: refused | 0/1 | 0/1 | 971 | 0 | 0 | 0 | qualification.stateResidenceYears |
+| NV | bicameral | researched | game-default | lower: admitted; upper: refused | 1/2 | 0/2 | 35 | 1 | 0 | 0 | qualification.minimumAge |
+| NH | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 246 | 0 | 0 | 0 | no compiled legislative pack |
+| NJ | not compiled | game-profile | game-default | lower: admitted; upper: admitted | 0/0 | 0/0 | 585 | 0 | 0 | 0 | no compiled legislative pack |
+| NM | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 138 | 0 | 0 | 0 | no compiled legislative pack |
+| NY | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 1581 | 0 | 0 | 0 | no compiled legislative pack |
+| NC | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 651 | 0 | 0 | 0 | no compiled legislative pack |
+| ND | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 1710 | 0 | 0 | 0 | no compiled legislative pack |
+| OH | bicameral | researched | game-default | lower: refused; upper: refused | 0/2 | 0/2 | 2321 | 0 | 0 | 0 | qualification.minimumAge |
+| OK | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 672 | 0 | 0 | 0 | no compiled legislative pack |
+| OR | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 277 | 1 | 0 | 0 | no compiled legislative pack |
+| PA | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 2623 | 0 | 0 | 0 | no compiled legislative pack |
+| RI | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 39 | 0 | 0 | 0 | no compiled legislative pack |
+| SC | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 317 | 0 | 0 | 0 | no compiled legislative pack |
+| SD | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 1268 | 0 | 0 | 0 | no compiled legislative pack |
+| TN | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 437 | 0 | 0 | 0 | no compiled legislative pack |
+| TX | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 1480 | 0 | 0 | 0 | no compiled legislative pack |
+| UT | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 284 | 0 | 0 | 0 | no compiled legislative pack |
+| VT | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 288 | 0 | 0 | 0 | no compiled legislative pack |
+| VA | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 322 | 2 | 1 | 322 | no compiled legislative pack |
+| WA | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 321 | 0 | 0 | 0 | no compiled legislative pack |
+| WV | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 285 | 0 | 0 | 0 | no compiled legislative pack |
+| WI | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 1920 | 0 | 0 | 0 | no compiled legislative pack |
+| WY | not compiled | game-profile | game-default | lower: refused; upper: refused | 0/0 | 0/0 | 122 | 0 | 0 | 0 | no compiled legislative pack |
+| DC | not compiled | none | no-legislature-pack | lower: refused; upper: refused | 0/0 | 0/0 | 1 | 1 | 0 | 0 | no compiled legislative pack |
 
 Ordinary initialization, office/contest producers and save continuity are not measured here; they belong to the NATIONWIDE WORLD/ELECTION producers.
 
@@ -93,6 +95,7 @@ Ordinary initialization, office/contest producers and save continuity are not me
 - CITY OF CHARLOTTESVILLE (VA, `gus2025:194177`): introduce-ordinance, pass-ordinance, pass-appropriation
 - CITY OF RICHMOND (VA, `gus2025:194178`): introduce-ordinance, pass-appropriation
 - CITY OF CARSON CITY (NV, `gus2025:194943`): introduce-ordinance
+- CITY OF PORTLAND (OR, `gus2025:211254`): introduce-ordinance
 
 ## Loaded municipal records not mapped to the catalog
 

@@ -1,4 +1,5 @@
 import { ageOnDate, daysBetween } from "./dates";
+import { countyGeoidsForPlace } from "./government-units";
 import {
   activeOrganizationParticipationsAt,
   activeWorkRelationshipsAt,
@@ -145,6 +146,72 @@ function closeCircle(world: World, personId: EntityId): readonly EntityId[] {
 }
 
 /**
+ * Who counts as near enough to be introduced (owner, 2026-09-26): people who
+ * live in this person's own city or county, and the important people
+ * everywhere — governors, state legislators, members of Congress, and state
+ * and federal executives. Everybody else who lives somewhere else is not
+ * somebody this person meets.
+ */
+const IMPORTANT_WORK_KINDS: ReadonlySet<string> = new Set([
+  "employment:legislative-member",
+  "employment:executive-office",
+  "employment:executive-officeholder",
+  "employment:vice-presidential-officeholder",
+  "employment:state-agency-director",
+]);
+
+function geoidOfJurisdiction(
+  world: World,
+  jurisdictionId: EntityId,
+): { readonly kind: "place" | "county"; readonly geoid: string } | null {
+  const slug = world.jurisdictions[jurisdictionId]?.slug ?? "";
+  const match = /^us-(place|county)-(\d+)$/.exec(slug);
+  return match
+    ? { kind: match[1] as "place" | "county", geoid: match[2]! }
+    : null;
+}
+
+function nearnessFor(
+  world: World,
+  personId: EntityId,
+  cutoff: ReturnType<typeof currentLifeCutoff>,
+): (otherId: EntityId) => boolean {
+  const homeId = world.people[personId]!.homeJurisdictionId;
+  const home = geoidOfJurisdiction(world, homeId);
+  const homeCounties = new Set(
+    home?.kind === "county"
+      ? [home.geoid]
+      : home
+        ? countyGeoidsForPlace(home.geoid)
+        : [],
+  );
+  const nearPlaces = new Map<EntityId, boolean>([[homeId, true]]);
+  const nearPlace = (jurisdictionId: EntityId): boolean => {
+    let answer = nearPlaces.get(jurisdictionId);
+    if (answer === undefined) {
+      const place = geoidOfJurisdiction(world, jurisdictionId);
+      answer =
+        !!place &&
+        (place.kind === "county"
+          ? homeCounties.has(place.geoid)
+          : countyGeoidsForPlace(place.geoid).some((county) =>
+              homeCounties.has(county),
+            ));
+      nearPlaces.set(jurisdictionId, answer);
+    }
+    return answer;
+  };
+  return (otherId) => {
+    const other = world.people[otherId];
+    if (!other) return false;
+    if (nearPlace(other.homeJurisdictionId)) return true;
+    return activeWorkRelationshipsAt(world, otherId, cutoff).some((entry) =>
+      IMPORTANT_WORK_KINDS.has(entry.relationship.kind),
+    );
+  };
+}
+
+/**
  * Everybody with any record at one of these organizations, in the World's
  * person order: the only people who could share one of them now.
  */
@@ -206,9 +273,11 @@ export function introductionCandidates(
   const adult = isAdult(world, personId);
   const candidates: IntroductionCandidate[] = [];
   const seen = new Set<string>();
+  const near = nearnessFor(world, personId, cutoff);
   const add = (candidate: IntroductionCandidate) => {
     if (known.has(candidate.personId) || !alive(world, candidate.personId))
       return;
+    if (!near(candidate.personId)) return;
     const key = `${candidate.setting}:${candidate.personId}`;
     if (seen.has(key)) return;
     seen.add(key);

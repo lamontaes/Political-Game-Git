@@ -1,4 +1,6 @@
 import { recordById, recordByStableKey } from "../history-index";
+import { operativeDateForEnactment } from "../legislative-effective-date";
+import { stateStatuteOperativeAt } from "./statute-effective-date";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../dates";
 import {
@@ -25,7 +27,6 @@ import { measureAnswersAt } from "../vote-bundle";
 import { mayAnswerQuestion } from "./question-authority";
 import { unincorporatedCountyJurisdictionIds } from "../nationwide-world/local-governments";
 import { constitutionalPolicyProvisions } from "../policy-provisions";
-import { stateStatuteOperativeAt } from "./statute-effective-date";
 
 /**
  * What the law in force says on one policy question, for one place.
@@ -367,7 +368,9 @@ const STARTING_LAW = startingLaw as unknown as {
  * first use: the places it reads are not ready while modules load.
  */
 let startingLawPlaceKeys: ReadonlyMap<EntityId, string> | null = null;
-function startingLawPlaceKey(jurisdictionId: EntityId): string | undefined {
+export function startingLawPlaceKey(
+  jurisdictionId: EntityId,
+): string | undefined {
   startingLawPlaceKeys ??= new Map([
     [NATIONAL_ELECTION_JURISDICTION.id, "US"],
     ...Object.keys(STATES).flatMap((usps): [EntityId, string][] => {
@@ -600,4 +603,23 @@ function stateOf(jurisdictionId: EntityId): EntityId | null {
   if (isState) return jurisdictionId;
   const key = lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey;
   return key ? (stateJurisdictionForKey(key)?.id ?? null) : null;
+}
+
+/**
+ * The date an enacted state measure takes effect, by the one reading every
+ * consumer shares: the enactment's saved date, else its state's own effective-date
+ * rule, else the game interval.
+ */
+export function operativeDateInWorld(
+  world: World,
+  enactment: LegislativeEnactmentRecord,
+): ReturnType<typeof operativeDateForEnactment> {
+  const measure = (world.history.legislativeMeasures ?? []).find(
+    (row) => row.id === enactment.measureId,
+  );
+  return operativeDateForEnactment(
+    enactment,
+    measure ? startingLawPlaceKey(measure.jurisdictionId) : null,
+    enactmentStatuteDateContext(world, enactment),
+  );
 }

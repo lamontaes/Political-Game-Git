@@ -42,12 +42,15 @@ import {
   committeeHearingTransitionHandler,
 } from "../simulation/legislation";
 import { addDays, daysBetween } from "../simulation/dates";
+import { typedTaxEnactmentDate } from "../simulation/tax-policy-activation";
 import type {
   LegislativeQuestionIdentity,
   LegislativeVoteDisposition,
   World,
 } from "../simulation/types";
 import { decideChamberVote } from "../simulation/governing/chamber-votes";
+import { committeeRoster } from "../simulation/governing/committee-assignment";
+import { memberBallotOn } from "../simulation/governing/member-ballots";
 import { dispositionsHonoringOfficeInstructions } from "./office-vote-instruction";
 
 /**
@@ -97,19 +100,27 @@ function recordedDispositions(
   },
 ): readonly LegislativeVoteDisposition[] {
   if (scenario.memberDecisions && decided) {
+    const ballotQuestion = {
+      ...decided.question,
+      measureId: scenario.measureId,
+    };
+    const playerPersonId = scenario.memberDecisions.playerPersonId;
     return decideChamberVote(decided.world, {
       stableKey: decided.stableKey,
       question: {
         question: {
-          ...decided.question,
-          measureId: scenario.measureId,
+          ...ballotQuestion,
           amendmentStableKey: null,
           provisionKey: null,
         },
         questionLabel: question,
       },
       members,
-      playerPersonId: scenario.memberDecisions.playerPersonId,
+      playerPersonId,
+      playerBallot:
+        playerPersonId === null
+          ? null
+          : memberBallotOn(decided.world, playerPersonId, ballotQuestion),
     });
   }
   const dispositions = dispositionsFromCounts(
@@ -214,8 +225,19 @@ export function applyLegislativeStep(
       };
     }
     case "move-committee-report": {
-      const committee = chamber.committees[0]!;
+      const committee =
+        chamber.committees.find(
+          (entry) => entry.committeeKey === position.committeeKey,
+        ) ?? chamber.committees[0]!;
       const body = bodyForChamber(scenario, chamberKey);
+      const members = scenario.memberDecisions
+        ? committeeRoster(
+            body,
+            chamber.committees,
+            committee.committeeKey,
+            `${pack.packId}:${chamberKey}`,
+          )
+        : committeeMembers(body, committee.appointedMembers);
       const stableKey = key(`committee:${chamberKey}`);
       const next = recordCommitteeDisposition(world, {
         stableKey,
@@ -223,7 +245,7 @@ export function applyLegislativeStep(
         recommendation: "favorable",
         dispositions: recordedDispositions(
           scenario,
-          committeeMembers(body, committee.appointedMembers),
+          members,
           votePlanKeyForCommittee(committee.committeeKey),
           {
             world,
@@ -551,9 +573,11 @@ export function applyLegislativeStep(
       };
     }
     case "record-enactment": {
+      const typedTaxDate = typedTaxEnactmentDate(world, measureId);
       const next = recordEnactment(world, {
         stableKey: key("enactment"),
         measureId,
+        ...(typedTaxDate ? { effectiveAt: typedTaxDate } : {}),
       });
       return { world: next, message: "Your bill is now law." };
     }

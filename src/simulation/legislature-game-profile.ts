@@ -432,7 +432,26 @@ export interface LegislatureProfile {
  * cannot yet say even what is usual, which happens only if no researched pack
  * resolves a seat count at all.
  */
+/*
+ * A state's profile and pack are drawn from static research and the state's
+ * own key, so each is built once per state. The clock and every bill step
+ * used to rebuild them, recounting the state's Census districts each time.
+ */
+const PROFILES = new Map<string, LegislatureProfile | null>();
+const PROFILE_PACKS = new Map<string, LegislativeRulePack | null>();
+
 export function legislatureProfileFor(
+  stateJurisdictionKey: string,
+): LegislatureProfile | null {
+  if (!PROFILES.has(stateJurisdictionKey))
+    PROFILES.set(
+      stateJurisdictionKey,
+      buildLegislatureProfile(stateJurisdictionKey),
+    );
+  return PROFILES.get(stateJurisdictionKey)!;
+}
+
+function buildLegislatureProfile(
   stateJurisdictionKey: string,
 ): LegislatureProfile | null {
   if (NO_STATE_LEGISLATURE.has(stateJurisdictionKey)) return null;
@@ -665,6 +684,19 @@ export function legislatureProfilePackId(stateJurisdictionKey: string): string {
  * would read as another state that had been checked.
  */
 export function legislatureProfilePack(
+  stateJurisdictionKey: string,
+  stateName: string,
+): LegislativeRulePack | null {
+  const key = `${stateJurisdictionKey}|${stateName}`;
+  if (!PROFILE_PACKS.has(key))
+    PROFILE_PACKS.set(
+      key,
+      buildLegislatureProfilePack(stateJurisdictionKey, stateName),
+    );
+  return PROFILE_PACKS.get(key)!;
+}
+
+function buildLegislatureProfilePack(
   stateJurisdictionKey: string,
   stateName: string,
 ): LegislativeRulePack | null {
