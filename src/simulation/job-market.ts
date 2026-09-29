@@ -30,6 +30,7 @@ import {
   FEDERAL_MINIMUM_HOURLY_MINOR,
   minimumWageSettingAt,
 } from "./minimum-wage";
+import { payAtHire, UNCOVERED_PAY_NOTE } from "./fairness-pay-law";
 import {
   resourceFlowTermsAt,
   resourceFlowTermsHistory,
@@ -1447,11 +1448,16 @@ function beginWork(world: World, applicationId: EntityId): JobMarketResult {
   });
   const work = next.history.workRelationships.at(-1)!;
   next = leaveFirstJobFor(next, application.personId, opening.title);
-  const weekly =
+  const hours = offer.agreedWeeklyHours ?? opening.weeklyHours.minimumHours;
+  const weekly = weeklyPayAtHire(
+    world,
+    application.personId,
+    opening.jurisdictionId,
     opening.pay.basis === "annual-salary"
       ? Math.round(opening.pay.amount.minorUnits / 52)
-      : opening.pay.amount.minorUnits *
-        (offer.agreedWeeklyHours ?? opening.weeklyHours.minimumHours);
+      : opening.pay.amount.minorUnits * hours,
+    hours,
+  );
   next = ensureLifePathPersonalPosition(
     next,
     application.personId,
@@ -1461,11 +1467,11 @@ function beginWork(world: World, applicationId: EntityId): JobMarketResult {
     stableKey: `${PAY_KEY_PREFIX}${work.id}`,
     workRelationshipId: work.id,
     startsAt: next.currentDate,
-    amount: money(weekly, opening.pay.amount.currency),
+    amount: money(weekly.weeklyMinor, opening.pay.amount.currency),
     cadenceKind: "schedule:weekly",
     restrictionKind: null,
     jurisdictionId: null,
-    provenance,
+    provenance: { ...provenance, note: `${PROVENANCE_NOTE}${weekly.note}` },
   });
   next = addStep(next, application, {
     kind: "started",
@@ -1623,14 +1629,48 @@ export function hireAtAdultStart(
     employer.kind,
     input.jurisdictionId,
   ).monthlyMinor;
+  const weekly = weeklyPayAtHire(
+    next,
+    person.id,
+    input.jurisdictionId,
+    Math.round((monthly * 12) / 52),
+    40,
+  );
   return payWeekly(
     next,
     person.id,
     work.id,
-    Math.round((monthly * 12) / 52),
+    weekly.weeklyMinor,
     "USD",
-    note,
+    `${note}${weekly.note}`,
   );
+}
+
+/**
+ * A hire's weekly pay under the fairness-law rule (`fairness-pay-law.ts`):
+ * a man partnered with a man whom no fairness law covers where the job is,
+ * hired today, is paid the job's pay over 1.027, never below the minimum wage
+ * for his hours. The note says so, or is empty.
+ */
+function weeklyPayAtHire(
+  world: World,
+  personId: EntityId,
+  jurisdictionId: EntityId | null,
+  weeklyMinor: number,
+  hours: number,
+): { readonly weeklyMinor: number; readonly note: string } {
+  const paid = payAtHire(world, {
+    personId,
+    jobJurisdictionId: jurisdictionId,
+    date: world.currentDate,
+    amountMinor: weeklyMinor,
+    floorMinor:
+      minimumHourlyMinorFor(world, jurisdictionId, world.currentDate) * hours,
+  });
+  return {
+    weeklyMinor: paid.amountMinor,
+    note: paid.belowRate ? ` Paid ${UNCOVERED_PAY_NOTE}.` : "",
+  };
 }
 
 /**

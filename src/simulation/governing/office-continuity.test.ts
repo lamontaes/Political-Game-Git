@@ -56,6 +56,7 @@ import {
   CHIEF_JUSTICE_NOMINATED_EVENT,
   CHIEF_JUSTICE_VACANCY_PROFILE,
 } from "./chief-justice-vacancy";
+import { federalColleaguesOf } from "../patronage/federal-circle";
 import {
   HOUSE_SPECIAL_ELECTION,
   SENATE_VACANCY_PROFILE,
@@ -377,6 +378,8 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     expect(nomineeId).not.toBe(president.personId);
     if (next.control.kind === "person")
       expect(nomineeId).not.toBe(next.control.personId);
+    // A sitting member of Congress may hold no other federal office.
+    expect(federalColleaguesOf(next)).not.toContain(nomineeId);
     expect(currentFederalTenure(next, "us-chief-justice")).toBeNull();
     next = passOrdinaryDays(
       next,

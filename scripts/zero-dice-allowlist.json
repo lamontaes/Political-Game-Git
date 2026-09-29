@@ -794,34 +794,6 @@
       "code": "lowOpportunityShare: 0.18,"
     },
     {
-      "file": "src/simulation/living-world/constitutional-reform.ts",
-      "kind": "fixed-share",
-      "build": "Build 27",
-      "count": 1,
-      "code": "proposalPermille: 30,"
-    },
-    {
-      "file": "src/simulation/living-world/constitutional-reform.ts",
-      "kind": "fixed-share",
-      "build": "Build 27",
-      "count": 1,
-      "code": "backgroundProposalPermille: 15,"
-    },
-    {
-      "file": "src/simulation/living-world/constitutional-reform.ts",
-      "kind": "fixed-share",
-      "build": "Build 27",
-      "count": 1,
-      "code": "chamberYesPermille: [450, 800],"
-    },
-    {
-      "file": "src/simulation/living-world/constitutional-reform.ts",
-      "kind": "roll",
-      "build": "Build 27",
-      "count": 2,
-      "code": "rng.fork(\"propose\").integer(0, 1000) >="
-    },
-    {
       "file": "src/simulation/living-world/local-elections.ts",
       "kind": "fixed-share",
       "build": "Build 24",

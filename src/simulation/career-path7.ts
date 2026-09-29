@@ -40,6 +40,7 @@ import {
   performLifePathSession,
   changeLifePathStatus,
   LIFE_PATHS2_HANDLERS,
+  shiftPayAtHire,
 } from "./life-paths2";
 import type { LifePathResult } from "./life-paths2";
 export interface CareerTask {
@@ -205,22 +206,23 @@ export function seekCareerOffer(w: World, p: CareerProvider): LifePathResult {
     },
   });
   const work = n.history.workRelationships.at(-1)!;
+  const paid = shiftPayAtHire(n, a, path, path.sessionPayMinor);
   n = createWorkCompensation(n, {
     stableKey: key(n, "terms"),
     workRelationshipId: work.id,
     startsAt: work.startedAt,
     initialStatus: "expected",
-    amount: money(path.sessionPayMinor, "USD"),
+    amount: money(paid.amountMinor, "USD"),
     cadenceKind: "work:completed-shift",
     restrictionKind: null,
     jurisdictionId: null,
-    provenance: authored,
+    provenance: { ...authored, note: `${authored.note}${paid.note}` },
   });
   n = event(
     n,
     "offer",
     [a, org.id, work.id],
-    `${employerName(path)} offers ${path.title}: $${(path.sessionPayMinor / 100).toFixed(2)} for each completed ${path.sessionMinutes}-minute shift, paid the following day.`,
+    `${employerName(path)} offers ${path.title}: $${(paid.amountMinor / 100).toFixed(2)} for each completed ${path.sessionMinutes}-minute shift, paid the following day.`,
   );
   return result(
     n,
