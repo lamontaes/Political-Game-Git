@@ -71,6 +71,14 @@ const REFILE_AFTER_DAYS = 365;
  */
 export const COUNCIL_DEFERENCE_REASON = "member:council-deference";
 
+/**
+ * The reason a member with no view votes against undoing a law their own
+ * body enacted: going along with the body means keeping what it decided.
+ * Councils rarely reverse their own recent ordinances, and a member with no
+ * stake of their own has no reason to.
+ */
+export const COUNCIL_PRECEDENT_REASON = "member:council-precedent";
+
 export const COUNCIL_VOTE_NOTE = `${COUNCIL_LAWMAKING_VERSION}: each member decided their own ballot from their principles, their record, the ordinance's sponsor and the town's voters.`;
 
 export interface CouncilMember {
@@ -299,11 +307,40 @@ export function decideCouncilVote(
   });
   // A member with nothing of their own to weigh on the question goes along
   // with the ordinance that reached the floor, the way councils do.
+  // A member with nothing of their own to weigh goes along with the body:
+  // for the ordinance before it, unless the ordinance would undo a law this
+  // same body enacted, in which case they keep the body's standing law.
+  const undoes = undoesOwnLaw(world, input.measureId);
   return decided.map((row) =>
     row.disposition === "present-not-voting" &&
     row.reason === "member:no-reason" &&
     row.personId !== input.playerPersonId
-      ? { ...row, disposition: "yea", reason: COUNCIL_DEFERENCE_REASON }
+      ? undoes
+        ? { ...row, disposition: "nay", reason: COUNCIL_PRECEDENT_REASON }
+        : { ...row, disposition: "yea", reason: COUNCIL_DEFERENCE_REASON }
       : row,
   );
+}
+
+/**
+ * Whether the ordinance answers a question otherwise than a law the same
+ * body enacted and that is in force today.
+ */
+function undoesOwnLaw(world: World, measureId: EntityId): boolean {
+  const measure = world.history.legislativeMeasures?.find(
+    (row) => row.id === measureId,
+  );
+  if (!measure) return false;
+  return (measure.propositionAnswers ?? []).some((row) => {
+    const law = lawInForce(world, measure.jurisdictionId, row.propositionId);
+    if (!law || law.origin !== "enacted" || law.answer === row.answer)
+      return false;
+    const enacted = world.history.legislativeMeasures?.find(
+      (other) => other.id === law.measureId,
+    );
+    return (
+      enacted?.jurisdictionId === measure.jurisdictionId &&
+      enacted.rulePackId === measure.rulePackId
+    );
+  });
 }

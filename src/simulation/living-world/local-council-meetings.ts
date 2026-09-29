@@ -30,7 +30,16 @@ import {
 } from "../municipal-government";
 import { recordCouncilReadingVote } from "../municipal-ordinance-procedure";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
-import { homeLocalGovernmentUnits } from "../nationwide-world/local-governments";
+import {
+  homeLocalGovernmentUnits,
+  localGovernmentDisplayName,
+  localGovernmentJurisdiction,
+} from "../nationwide-world/local-governments";
+import {
+  countyGoverningBodyRules,
+  municipioUnit,
+} from "../nationwide-world/county-governing-body-rules";
+import { ensureJurisdiction } from "../national-election-geography";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import { townCouncilProfilePackId } from "../town-council-profile";
 import type {
@@ -116,8 +125,53 @@ function councilRules(unit: GovernmentUnitIdentity): CouncilRules | null {
         governmentKey: compiled.key,
       };
   }
-  if (!localGoverningBodyIdentity(unit)) return null;
+  if (!localGoverningBodyIdentity(unit) && !countyGoverningBodyRules(unit))
+    return null;
   return { packId: townCouncilProfilePackId(unit), governmentKey: null };
+}
+
+/** The body's name and its government's, for a town council or a county board. */
+function bodyNames(unit: GovernmentUnitIdentity): {
+  readonly bodyName: string;
+  readonly governmentName: string;
+} {
+  const town = localGoverningBodyIdentity(unit);
+  if (town)
+    return { bodyName: town.bodyName, governmentName: town.governmentName };
+  return {
+    bodyName: countyGoverningBodyRules(unit)?.bodyName ?? "governing body",
+    governmentName: localGovernmentDisplayName(unit),
+  };
+}
+
+/**
+ * Where the body's ordinances are recorded: the town, or the county a place
+ * with no town government lives under (`law-in-force.ts` reads the county's
+ * ordinances for it). The county's jurisdiction is registered in the world
+ * the first time its board acts.
+ */
+function lawJurisdiction(
+  world: World,
+  unit: GovernmentUnitIdentity,
+  town: EntityId,
+): { readonly world: World; readonly jurisdictionId: EntityId } {
+  if (unit.unitType !== "county") return { world, jurisdictionId: town };
+  const county = localGovernmentJurisdiction(unit);
+  if (!county) return { world, jurisdictionId: town };
+  return {
+    world: ensureJurisdiction(world, county),
+    jurisdictionId: county.id,
+  };
+}
+
+/** A government unit by the id a meeting was scheduled under. */
+function unitById(id: string): GovernmentUnitIdentity | null {
+  return (
+    governmentUnit(id) ??
+    (id.startsWith("municipio:")
+      ? municipioUnit(id.slice("municipio:".length))
+      : null)
+  );
 }
 
 function members(world: World, unit: GovernmentUnitIdentity) {
@@ -207,16 +261,17 @@ function introduce(
   },
 ): World {
   const pack = rulePackById(rules.packId);
-  const numbering = nextMeasureNumbering(world, {
-    jurisdictionId: town,
+  const law = lawJurisdiction(world, unit, town);
+  const numbering = nextMeasureNumbering(law.world, {
+    jurisdictionId: law.jurisdictionId,
     originChamber: chamberByKey(pack, "council"),
     rulePackId: rules.packId,
   });
-  return introduceMeasure(world, {
+  return introduceMeasure(law.world, {
     stableKey:
       input.stableKey ??
       `${V}:${unit.id}:${numbering.numberingSession.key}:${numbering.designation}`,
-    jurisdictionId: town,
+    jurisdictionId: law.jurisdictionId,
     rulePackId: rules.packId,
     ...numbering,
     shortTitle: input.shortTitle,
@@ -248,13 +303,14 @@ function fileOrdinances(
   player: EntityId | null,
 ): World {
   const seats = members(world, unit);
-  let next = ensureCouncilPrinciples(world, seats);
+  const law = lawJurisdiction(world, unit, town);
+  let next = ensureCouncilPrinciples(law.world, seats);
   const filings = councilFilings(next, {
     stableKey: `${V}:${unit.id}:${next.currentDate}:filings`,
-    jurisdictionId: town,
+    jurisdictionId: law.jurisdictionId,
     members: seats,
-    questions: townQuestions(next, town),
-    measures: councilMeasures(next, rules, town),
+    questions: townQuestions(next, law.jurisdictionId),
+    measures: councilMeasures(next, rules, law.jurisdictionId),
     playerPersonId: player,
   });
   for (const filing of filings)
@@ -274,11 +330,12 @@ function fileOrdinances(
 function councilMeasures(
   world: World,
   rules: CouncilRules,
-  town: EntityId,
+  jurisdictionId: EntityId,
 ): readonly LegislativeMeasureRecord[] {
   return (world.history.legislativeMeasures ?? []).filter(
     (measure) =>
-      measure.rulePackId === rules.packId && measure.jurisdictionId === town,
+      measure.rulePackId === rules.packId &&
+      measure.jurisdictionId === jurisdictionId,
   );
 }
 
@@ -309,7 +366,8 @@ function moveOrdinances(
   player: EntityId | null,
 ): World {
   let next = world;
-  for (const measure of councilMeasures(world, rules, town)) {
+  const law = lawJurisdiction(world, unit, town).jurisdictionId;
+  for (const measure of councilMeasures(world, rules, law)) {
     if (player && measure.sponsorPersonId === player) continue;
     const phase = measurePosition(next, measure.id).phase;
     if (phase === "awaiting-referral") {
@@ -389,9 +447,12 @@ function seatedCouncil(
   if (!town) return null;
   // Only the town's own council meets; a second government for the same
   // place (rare) keeps its seats but not a calendar.
-  for (const unit of homeLocalGovernmentUnits(world, playerPersonId)
-    .municipal) {
+  // Where the place has no town government, its county's board (or its
+  // municipio's legislature) is the body that makes its local law.
+  const units = homeLocalGovernmentUnits(world, playerPersonId);
+  for (const unit of [...units.municipal, ...units.counties]) {
     if (!localGovernmentSeated(world, unit.id)) continue;
+    if (unit.unitType === "county" && units.municipal.length > 0) continue;
     const rules = councilRules(unit);
     if (rules) return { unit, town, rules };
   }
@@ -526,9 +587,8 @@ export function localCouncilChair(
   town: EntityId,
   playerPersonId: EntityId,
 ): EntityId | null {
-  for (const unit of homeLocalGovernmentUnits(world, playerPersonId)
-    .municipal) {
-    if (!localGovernmentSeated(world, unit.id)) continue;
+  const council = seatedCouncil(world, playerPersonId);
+  for (const unit of council ? [council.unit] : []) {
     const officers = sittingLocalOfficers(world, unit).filter(
       (seat) =>
         seat.personId !== playerPersonId &&
@@ -551,9 +611,9 @@ export function localCouncilMeetingHandler(
   due: FutureDueItem,
 ): FutureTransitionHandlerResult {
   const match = new RegExp(
-    `^${V.replace("/", "\\/")}:(gus2025:[^:]+):(meeting|posted-meeting):`,
+    `^${V.replace("/", "\\/")}:((?:gus2025|municipio):[^:]+):(meeting|posted-meeting):`,
   ).exec(due.stableKey);
-  const unit = match ? governmentUnit(match[1]!) : null;
+  const unit = match ? unitById(match[1]!) : null;
   const town = due.jurisdictionId;
   const player = due.entityIds[1] ?? null;
   const done = (next: World, context: string) => ({
@@ -567,7 +627,7 @@ export function localCouncilMeetingHandler(
     return done(world, "No town council matches this meeting.");
   const rules = councilRules(unit);
   if (!rules) return done(world, "This town has no council to meet.");
-  const identity = localGoverningBodyIdentity(unit)!;
+  const identity = bodyNames(unit);
   // The chair may cancel a regular meeting while an illness is going around.
   // The posted public meeting is one the player may attend, and its
   // attendance scene does not read a cancellation yet, so it always meets.
