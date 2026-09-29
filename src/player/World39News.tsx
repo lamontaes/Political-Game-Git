@@ -1,7 +1,6 @@
 import type { EntityId, World } from "../simulation";
 import { lawEffectsHere } from "../presentation/law-effects-here";
 import { projectWorld39News } from "../presentation/world39-news";
-import { DIAGNOSTICS } from "./diagnostics-profile";
 import "./world39-readers.css";
 
 const LEVEL_LABEL = {
@@ -97,55 +96,6 @@ export function World39News({
           ))}
         </section>
       ) : null}
-      <section aria-label="Current officeholders">
-        <h4>In office</h4>
-        {model.officeholders.length === 0 ? (
-          <p>No public officeholders are named here yet.</p>
-        ) : (
-          model.officeholders.map((holder) => (
-            <article
-              key={holder.termId}
-              data-tenure-id={holder.termId}
-              data-organization-id={holder.organizationId}
-            >
-              <h5>{holder.headline}</h5>
-              <p>{holder.sentence}</p>
-              <button
-                type="button"
-                onClick={() => onOpenPerson(holder.personId)}
-              >
-                {holder.personName}
-              </button>
-              <details>
-                <summary>Office details</summary>
-                {holder.endExclusive ? (
-                  <p>The term runs until {world39Date(holder.endExclusive)}.</p>
-                ) : holder.termFactsUnknown.length > 0 ? (
-                  <p>The term dates are not established in this game yet.</p>
-                ) : (
-                  <p>The office has no fixed end date.</p>
-                )}
-                {/*
-                  A separation, not a deletion. The institutional sources stay
-                  on the record and stay renderable, but a player is never
-                  shown where a fact came from — this surface is mounted for
-                  every life, so ungated they were the one place ordinary play
-                  named a source.
-                */}
-                {DIAGNOSTICS
-                  ? holder.sources.map((source, index) => (
-                      <p key={source}>
-                        <a href={source} target="_blank" rel="noreferrer">
-                          Institutional source {index + 1}
-                        </a>
-                      </p>
-                    ))
-                  : null}
-              </details>
-            </article>
-          ))
-        )}
-      </section>
       <section aria-label="Recent public events">
         <h4>Lately</h4>
         {model.publicEvents.length === 0 ? (

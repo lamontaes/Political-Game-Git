@@ -44,6 +44,7 @@ import {
   type ArtPreviewMode,
 } from "../presentation/art-preview";
 import { replayDescriptorUrl } from "../presentation/new-game-identity";
+import { DIAGNOSTICS } from "./diagnostics-profile";
 import {
   defaultPronounsForGender,
   GENDER_IDENTITY_KEYS,
@@ -1112,28 +1113,25 @@ export function SetupScreen({
         />
       ) : null}
 
-      {/*
-            Reproducibility, moved off the setup surface proper. A raw seed and
-            a replay address are development tools; they stay reachable behind a
-            collapsed Advanced disclosure rather than on the creator itself.
-          */}
-      <details className="game-dev" data-testid="setup-advanced">
-        <summary>Advanced &mdash; reproducing this world</summary>
-        <p>
-          This world is generated from{" "}
-          <code data-testid="setup-seed">{seed}</code>
-          {seedOrigin === "replay"
-            ? ", which was supplied to reproduce an earlier one."
-            : ", drawn fresh for this session."}{" "}
-          The address below carries the place, the age and any names you typed
-          as well, so it rebuilds the same world.
-        </p>
-        <p>
-          <code data-testid="setup-replay-link">
-            {replayDescriptorUrl("", "/", committed)}
-          </code>
-        </p>
-      </details>
+      {DIAGNOSTICS ? (
+        <details className="game-dev" data-testid="setup-advanced">
+          <summary>Advanced &mdash; reproducing this world</summary>
+          <p>
+            This world is generated from{" "}
+            <code data-testid="setup-seed">{seed}</code>
+            {seedOrigin === "replay"
+              ? ", which was supplied to reproduce an earlier one."
+              : ", drawn fresh for this session."}{" "}
+            The address below carries the place, the age and any names you typed
+            as well, so it rebuilds the same world.
+          </p>
+          <p>
+            <code data-testid="setup-replay-link">
+              {replayDescriptorUrl("", "/", committed)}
+            </code>
+          </p>
+        </details>
+      ) : null}
     </main>
   );
 }
