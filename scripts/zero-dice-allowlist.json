@@ -1592,13 +1592,6 @@
       "code": "rng.fork(\"wave\").next() < drift.waveMonthlyChance"
     },
     {
-      "file": "src/simulation/people-contact.ts",
-      "kind": "fixed-share",
-      "build": "Build 20",
-      "count": 1,
-      "code": "const REACH_OUT_DAILY_SHARE = 0.25;"
-    },
-    {
       "file": "src/simulation/people-traits.ts",
       "kind": "roll",
       "build": "Build 22",

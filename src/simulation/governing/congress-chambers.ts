@@ -24,7 +24,8 @@ import type {
   LegislativeMeasureRecord,
   World,
 } from "../types";
-import { hasStableKey } from "../history-index";
+import { growingIndex, hasStableKey } from "../history-index";
+import type { GrowingIndexKind } from "../history-index";
 
 /**
  * Congress as a seated legislature: the real members the save already holds
@@ -204,19 +205,34 @@ export function measureCosponsors(
   world: World,
   measureId: EntityId,
 ): readonly EntityId[] {
-  const ids: EntityId[] = [];
-  for (const event of world.history.events) {
-    if (
-      event.type !== COSPONSOR_EVENT ||
-      !event.involvedEntityIds.includes(measureId)
-    )
-      continue;
-    for (const participant of event.participants)
-      if (participant.role === "agency:cosponsor")
-        ids.push(participant.personId);
-  }
-  return ids;
+  // A copy: the index's own list keeps growing with later events.
+  return [
+    ...(growingIndex(COSPONSORS_BY_MEASURE, world.history.events).get(
+      measureId,
+    ) ?? []),
+  ];
 }
+
+/**
+ * Each measure's cosponsors in the order they signed on, kept as the event
+ * list grows: every chamber vote asks, and reading every event each time cost
+ * more with each year a world ran.
+ */
+const COSPONSORS_BY_MEASURE: GrowingIndexKind<Map<EntityId, EntityId[]>> = {
+  create: () => new Map(),
+  add: (index, record) => {
+    const event = record as World["history"]["events"][number];
+    if (event.type !== COSPONSOR_EVENT) return;
+    const cosponsors = event.participants.flatMap((participant) =>
+      participant.role === "agency:cosponsor" ? [participant.personId] : [],
+    );
+    for (const measureId of new Set(event.involvedEntityIds)) {
+      const ids = index.get(measureId);
+      if (ids) ids.push(...cosponsors);
+      else index.set(measureId, [...cosponsors]);
+    }
+  },
+};
 
 /* ------------------------------------------------------------------ *
  * Sittings
