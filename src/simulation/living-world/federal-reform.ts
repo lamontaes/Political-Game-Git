@@ -350,43 +350,66 @@ export function termLimitCount(
   return { houses, carries };
 }
 
+/** Whose term limit a member is voting on, for the reasons they write. */
+export interface TermLimitHolder {
+  /** "President" or "governor", as a sentence names them after "the". */
+  readonly title: string;
+  readonly decisionType: string;
+  /** Stable-key word for the holder's own reasons: "president", "governor". */
+  readonly keyWord: string;
+}
+
+const PRESIDENT: TermLimitHolder = {
+  title: "President",
+  decisionType: "governing.presidential-term-limit-vote",
+  keyWord: "president",
+};
+
 /**
- * How a member votes on the President's term limit. HAND-SET weights on the
- * shared decision scale: the President's party "strong", a relationship at
+ * How a member votes on an officeholder's term limit. HAND-SET weights on the
+ * shared decision scale: the officeholder's party "strong", a relationship at
  * its recorded strength, the constitutional bar "moderate".
  */
-function termLimitBallot(
+export function termLimitBallot(
   world: World,
   stableKey: string,
   voter: Voter,
-  cause: FederalReformCause,
+  cause: {
+    readonly direction: "extend" | "restore";
+    readonly holderPersonId: EntityId;
+  },
+  holder: TermLimitHolder = PRESIDENT,
+  extra: readonly DecisionConsideration[] = [],
 ): { readonly ballot: "yea" | "nay" | "absent"; readonly reason: string } {
   const player =
     world.control.kind === "person" ? world.control.personId : null;
   if (voter.personId === player)
     return { ballot: "absent", reason: "member:player-not-asked" };
-  // Extending the limit keeps the President eligible; restoring it bars them.
+  // Extending the limit keeps the officeholder eligible; restoring it bars them.
   const forPresident = cause.direction === "extend" ? "vote-yea" : "vote-nay";
   const againstPresident =
     forPresident === "vote-yea" ? "vote-nay" : "vote-yea";
   const party = publicPartyOf(world, voter.personId);
   const presidentParty = publicPartyOf(world, cause.holderPersonId);
-  const considerations: DecisionConsideration[] = [CONSTITUTIONAL_BAR];
+  const considerations: DecisionConsideration[] = [
+    CONSTITUTIONAL_BAR,
+    ...extra,
+  ];
   if (party && presidentParty)
     considerations.push({
       stableKey:
         party === presidentParty
-          ? "member:presidents-party"
+          ? `member:${holder.keyWord}s-party`
           : "member:other-party",
       optionKey: party === presidentParty ? forPresident : againstPresident,
-      sourceType: "context:presidents-party",
+      sourceType: `context:${holder.keyWord}s-party`,
       direction: "supports",
       importance: "strong",
       confidence: "high",
       explanation:
         party === presidentParty
-          ? "The President is of the member's own party."
-          : "The President is of the other party.",
+          ? `The ${holder.title} is of the member's own party.`
+          : `The ${holder.title} is of the other party.`,
       sourceRefs: [],
     });
   for (const reason of relationshipConsiderations(
@@ -396,12 +419,12 @@ function termLimitBallot(
     {
       optionKey: forPresident,
       fond: {
-        stableKey: "member:president-relationship",
-        explanation: "The member thinks well of the President.",
+        stableKey: `member:${holder.keyWord}-relationship`,
+        explanation: `The member thinks well of the ${holder.title}.`,
       },
       strain: {
-        stableKey: "member:president-strain",
-        explanation: "The member has a strained history with the President.",
+        stableKey: `member:${holder.keyWord}-strain`,
+        explanation: `The member has a strained history with the ${holder.title}.`,
       },
     },
   ))
@@ -412,7 +435,7 @@ function termLimitBallot(
     );
   const evaluation = evaluateDecision(world, {
     stableKey,
-    decisionType: "governing.presidential-term-limit-vote",
+    decisionType: holder.decisionType,
     actorPersonId: voter.personId,
     cutoff: currentHistoricalCutoff(world),
     subject: {
