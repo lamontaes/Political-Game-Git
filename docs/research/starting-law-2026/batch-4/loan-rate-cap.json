@@ -1,0 +1,494 @@
+{
+  "question": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+  "definition": "yes = on 1/1/2026 state law caps small-dollar consumer loans (payday and small installment loans) at a stated rate of 36% a year or less, so that single-payment payday loans are not authorized and the maximum all-in APR stays well below triple digits (states whose modest fees push a $500 loan somewhat above 36% are still yes, with the NCLC all-in figure in the note); no = high-cost payday loans are authorized, or the fees allowed on top of a nominal cap produce triple-digit all-in APRs, or there is no cap.",
+  "summarySource": "NCLC, Predatory Installment Lending in the States (December 2025; rates current as of September 2025) with Appendices B-C and its December 2025 fact sheet; CRL, Red Alert Rates payday APR map (June 2023); state code pages for SD, MT, NH, NC, MN, WV, OH, VA, RI and Colorado Proposition 111 text, fetched 9/28/2026.",
+  "refusedHosts": [
+    "www.ilga.gov (connection reset)",
+    "www.cga.ct.gov (connection reset)",
+    "nebraskalegislature.gov (bot block)",
+    "www.azleg.gov (redirect failure)",
+    "www.capitol.hawaii.gov (403)",
+    "ncsl.org",
+    "ballotpedia.org",
+    "law.justia.com"
+  ],
+  "answers": {
+    "US-AK": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 424% APR (CRL), though small installment loans are capped at 36% (NCLC).",
+      "preempts": true
+    },
+    "US-AL": {
+      "answer": "no",
+      "cite": "Ala. Code \u00a7 5-18-15(m)",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 456% APR (CRL), and small installment loans reach about 107% APR (NCLC).",
+      "preempts": true
+    },
+    "US-AR": {
+      "answer": "yes",
+      "cite": "Ark. Const. amend. 89",
+      "dateBasis": "not-found",
+      "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+      "note": "The state constitution caps interest at 17% a year, so payday loans are not made (NCLC: 17% maximum on a $500 loan).",
+      "preempts": true
+    },
+    "US-AZ": {
+      "answer": "yes",
+      "cite": "Ariz. Rev. Stat. \u00a7\u00a7 6-632(A), 6-635(A)(4)",
+      "operativeAt": "2010-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://en.wikipedia.org/wiki/Payday_loans_in_the_United_States",
+      "note": "Payday lending ended when its exemption expired on 7/1/2010; consumer loans are capped at 36% interest plus a 5% origination fee (about 54% all-in on a $500 six-month loan per NCLC), and vehicle title loans remain a separate high-cost product.",
+      "preempts": true
+    },
+    "US-CA": {
+      "answer": "no",
+      "cite": "Cal. Fin. Code \u00a7\u00a7 22303, 22305",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans up to $300 are legal at about 460% APR (CRL), and $500 installment loans may reach about 45% APR (NCLC).",
+      "preempts": true
+    },
+    "US-CO": {
+      "answer": "yes",
+      "cite": "Colo. Rev. Stat. \u00a7 5-3.1-105",
+      "dateBasis": "not-found",
+      "source": "https://leg.colorado.gov/sites/default/files/initiatives/2017-2018%2520%2523126.pdf",
+      "note": "Voter-approved Proposition 111 (2018) caps payday loans at 36% APR including all charges; NCLC notes another consumer-credit option still allows about 78% on a six-month $500 installment loan.",
+      "preempts": true
+    },
+    "US-CT": {
+      "answer": "yes",
+      "cite": "Conn. Gen. Stat. \u00a7\u00a7 36a-555(2), 36a-558",
+      "dateBasis": "not-found",
+      "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+      "note": "Small loans are capped at 36% APR counting all fees, including so-called voluntary and add-on charges, and payday loans are not made.",
+      "preempts": true
+    },
+    "US-DC": {
+      "answer": "yes",
+      "cite": "D.C. Code \u00a7\u00a7 26-905, 28-3301(a)",
+      "dateBasis": "not-found",
+      "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+      "note": "Small loans by licensed lenders are capped at 24% APR and payday lending is not permitted.",
+      "preempts": true
+    },
+    "US-DE": {
+      "answer": "no",
+      "cite": "Del. Code Ann. tit. 5, \u00a7\u00a7 2229, 2237",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 639% APR (CRL), and the state places no APR cap on installment loans (NCLC).",
+      "preempts": true
+    },
+    "US-FL": {
+      "answer": "no",
+      "cite": "Fla. Stat. \u00a7 516.031",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 293% APR (CRL), and $500 installment loans may reach about 52% APR (NCLC).",
+      "preempts": true
+    },
+    "US-GA": {
+      "answer": "yes",
+      "cite": "Ga. Code Ann. \u00a7\u00a7 7-3-11, 7-4-18",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are not issued; small installment loans are limited to 10% discount interest plus fees under a 60% ceiling (NCLC: about 61% all-in on a $500 six-month loan), and vehicle title pawns remain a separate high-cost product.",
+      "preempts": true
+    },
+    "US-HI": {
+      "answer": "no",
+      "cite": "Haw. Rev. Stat. \u00a7\u00a7 480J-2, 480J-4",
+      "dateBasis": "not-found",
+      "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-B.pdf",
+      "note": "A 2021 law (H.B. 1192) replaced payday loans with installment loans allowing 36% interest plus a $30 monthly fee, about 146% APR on a $500 six-month loan (NCLC).",
+      "preempts": true
+    },
+    "US-IA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 247% APR (CRL), though small installment loans are capped at 36% (NCLC).",
+      "preempts": true
+    },
+    "US-ID": {
+      "answer": "no",
+      "cite": "Idaho Code \u00a7\u00a7 28-42-201(1), 28-45-106",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 475% APR (CRL), and installment loans have no cap except unconscionability (NCLC).",
+      "preempts": true
+    },
+    "US-IL": {
+      "answer": "yes",
+      "cite": "815 ILCS 123/15-5-5",
+      "operativeAt": "2021-03-23",
+      "dateBasis": "enacted-effective",
+      "source": "https://en.wikipedia.org/wiki/Payday_loans_in_the_United_States",
+      "note": "The Predatory Loan Prevention Act caps every consumer loan from a non-bank lender at 36% APR, counting all fees the way the Military Lending Act does.",
+      "preempts": true
+    },
+    "US-IN": {
+      "answer": "no",
+      "cite": "Ind. Code \u00a7\u00a7 24-4.5-3-201, 24-4.5-3-508",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 372% APR (CRL), and $500 installment loans may reach about 89% APR (NCLC).",
+      "preempts": true
+    },
+    "US-KS": {
+      "answer": "no",
+      "cite": "Kan. Stat. Ann. \u00a7 16a-2-401",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 391% APR (CRL), and $500 installment loans may reach about 43% APR (NCLC).",
+      "preempts": true
+    },
+    "US-KY": {
+      "answer": "no",
+      "cite": "Ky. Rev. Stat. Ann. \u00a7\u00a7 286.4-530, 286.4-533",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Deferred-deposit (payday) loans remain legal at about 450% APR (CRL); a 2024 law repealed only high-cost auto title loans (NCLC).",
+      "preempts": true
+    },
+    "US-LA": {
+      "answer": "no",
+      "cite": "La. Stat. Ann. \u00a7\u00a7 9:3519, 9:3530",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans up to $350 are legal at about 410% APR (CRL), and $500 installment loans may reach about 85% APR (NCLC).",
+      "preempts": true
+    },
+    "US-MA": {
+      "answer": "yes",
+      "cite": "Mass. Gen. Laws ch. 140, \u00a7 100",
+      "dateBasis": "not-found",
+      "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+      "note": "Small loans up to $6,000 are capped at 23% interest plus a $20 fee (about 37% all-in on a $500 six-month loan per NCLC), and payday loans are not made.",
+      "preempts": true
+    },
+    "US-MD": {
+      "answer": "yes",
+      "cite": "Md. Code, Com. Law \u00a7 12-306(a)(6)",
+      "dateBasis": "not-found",
+      "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+      "note": "Small loans are capped at 33% on the first $1,000 and 24% above that, and payday loans are not made.",
+      "preempts": true
+    },
+    "US-ME": {
+      "answer": "no",
+      "cite": "Me. Stat. tit. 9-A, \u00a7 2-401(2)",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal with fee limits, still about 228% APR (CRL), though installment loans are capped at 30% (NCLC).",
+      "preempts": true
+    },
+    "US-MI": {
+      "answer": "no",
+      "cite": "Mich. Comp. Laws \u00a7\u00a7 493.13, 445.1854",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 356% APR (CRL), and $500 installment loans may reach about 43% APR (NCLC).",
+      "preempts": true
+    },
+    "US-MN": {
+      "answer": "yes",
+      "cite": "Minn. Stat. \u00a7\u00a7 47.60, 47.601",
+      "operativeAt": "2024-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.revisor.mn.gov/statutes/cite/47.601",
+      "note": "A 2023 law ended 220% payday loans on 1/1/2024: small and short-term loans are capped at 36% APR, with loans up to a 50% all-in APR allowed only with ability-to-repay underwriting.",
+      "preempts": true
+    },
+    "US-MO": {
+      "answer": "no",
+      "cite": "Mo. Rev. Stat. \u00a7 408.100",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 652% APR (CRL), and the state places no APR cap on installment loans (NCLC).",
+      "preempts": true
+    },
+    "US-MS": {
+      "answer": "no",
+      "cite": "Miss. Code Ann. \u00a7\u00a7 75-67-619, 75-67-181",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 572% APR (CRL), and the Credit Availability Act allows installment loans at about 305% APR (NCLC).",
+      "preempts": true
+    },
+    "US-MT": {
+      "answer": "yes",
+      "cite": "Mont. Code Ann. \u00a7 31-1-722; \u00a7 32-5-301(1)",
+      "dateBasis": "not-found",
+      "source": "https://leg.mt.gov/bills/mca/title_0310/chapter_0010/part_0070/section_0220/0310-0010-0070-0220.html",
+      "note": "Voter-approved I-164 (approved 11/2/2010) caps deferred-deposit (payday) loans at 36% a year, and consumer loans are also capped at 36% APR.",
+      "preempts": true
+    },
+    "US-NC": {
+      "answer": "yes",
+      "cite": "N.C. Gen. Stat. \u00a7 53-176",
+      "dateBasis": "not-found",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_53/GS_53-176.html",
+      "note": "Payday loans are not issued; consumer finance installment loans are capped at 33% on the first $4,000 plus a processing fee of up to $30 (NCLC: 16% maximum on a six-month $500 loan).",
+      "preempts": true
+    },
+    "US-ND": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Deferred-presentment (payday) loans are legal at about 521% APR (CRL), even though a 2021 law caps money brokers' loans at 36% (NCLC).",
+      "preempts": true
+    },
+    "US-NE": {
+      "answer": "yes",
+      "cite": "Neb. Rev. Stat. \u00a7\u00a7 45-919, 45-1024",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are no longer issued after voters' 2020 Initiative 428 capped delayed-deposit fees at 36% APR; installment loans allow 24% interest plus an origination fee (NCLC: about 48% all-in on a $500 six-month loan).",
+      "preempts": true
+    },
+    "US-NH": {
+      "answer": "yes",
+      "cite": "N.H. Rev. Stat. Ann. \u00a7 399-A:16(I)",
+      "dateBasis": "not-found",
+      "source": "https://www.gencourt.state.nh.us/rsa/html/XXXVI/399-A/399-A-16.htm",
+      "note": "Small loans are capped at 36% APR and payday loans are not issued, though vehicle title loans are licensed separately at higher rates.",
+      "preempts": true
+    },
+    "US-NJ": {
+      "answer": "yes",
+      "cite": "N.J. Stat. Ann. \u00a7 2C:21-19",
+      "dateBasis": "not-found",
+      "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+      "note": "The criminal usury law limits non-bank loans to 30% APR, which rules out payday lending.",
+      "preempts": true
+    },
+    "US-NM": {
+      "answer": "yes",
+      "cite": "N.M. Stat. Ann. \u00a7 58-15-17",
+      "dateBasis": "not-found",
+      "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-B.pdf",
+      "note": "A 2022 law (H.B. 132) replaced 175% storefront loans with a 36% interest cap plus a 5% fee on loans of $500 or less (NCLC: about 52% all-in on a $500 six-month loan).",
+      "preempts": true
+    },
+    "US-NV": {
+      "answer": "no",
+      "cite": "Nev. Rev. Stat. \u00a7\u00a7 604A.400, 604A.0703",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 548% APR (CRL), and $500 installment loans may reach about 40% APR (NCLC).",
+      "preempts": true
+    },
+    "US-NY": {
+      "answer": "yes",
+      "cite": "N.Y. Penal Law \u00a7 190.40",
+      "dateBasis": "not-found",
+      "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+      "note": "The criminal usury law limits non-bank loans to 25% APR, which rules out payday lending.",
+      "preempts": true
+    },
+    "US-OH": {
+      "answer": "no",
+      "cite": "Ohio Rev. Code \u00a7 1321.40",
+      "dateBasis": "not-found",
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-1321.40",
+      "note": "The 2018 short-term loan law allows 28% interest plus a monthly fee of up to $30 and a 2% origination charge, about 145% APR on a $500 six-month loan (NCLC).",
+      "preempts": true
+    },
+    "US-OK": {
+      "answer": "no",
+      "cite": "Okla. Stat. tit. 59, \u00a7 3150.10(B)",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 424% APR (CRL), and small installment loans may reach about 204% APR (NCLC).",
+      "preempts": true
+    },
+    "US-OR": {
+      "answer": "no",
+      "cite": "Or. Rev. Stat. \u00a7 725.340(1)(a)",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans of at least 31 days are legal at up to about 140% APR (CRL), though installment loans are capped at 36% (NCLC).",
+      "preempts": true
+    },
+    "US-PA": {
+      "answer": "yes",
+      "cite": "7 Pa. Stat. Ann. \u00a7 6213(E), (F)",
+      "dateBasis": "not-found",
+      "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+      "note": "Payday loans are not made, and consumer discount loans are limited to discount interest and small fees (NCLC: 27% maximum on a $500 six-month loan).",
+      "preempts": true
+    },
+    "US-RI": {
+      "answer": "no",
+      "cite": "R.I. Gen. Laws \u00a7 19-14.4-5.1",
+      "dateBasis": "not-found",
+      "source": "https://webserver.rilegislature.gov/Statutes/TITLE19/19-14.4/INDEX.htm",
+      "note": "Deferred-deposit (payday) loans up to $500 with a 10% fee (about 261% APR per CRL) remain legal on 1/1/2026; the statute is repealed effective 1/1/2027, which would leave the 36%-and-lower small-loan caps.",
+      "preempts": true
+    },
+    "US-SC": {
+      "answer": "no",
+      "cite": "S.C. Code Ann. \u00a7 37-3-201",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 391% APR (CRL), and $500 installment loans may reach about 72% APR (NCLC).",
+      "preempts": true
+    },
+    "US-SD": {
+      "answer": "yes",
+      "cite": "S.D. Codified Laws \u00a7 54-4-44",
+      "operativeAt": "2016-11-16",
+      "dateBasis": "enacted-effective",
+      "source": "https://sdlegislature.gov/api/Statutes/54-4-44.html?all=true",
+      "note": "Voter-approved Initiated Measure 21 caps every licensed lender's loans at 36% a year including all fees and add-on products; loans above the cap are void.",
+      "preempts": true
+    },
+    "US-TN": {
+      "answer": "no",
+      "cite": "Tenn. Code Ann. \u00a7 45-5-403(b)",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 460% APR (CRL), and $500 installment loans may reach about 114% APR (NCLC).",
+      "preempts": true
+    },
+    "US-TX": {
+      "answer": "no",
+      "cite": "Tex. Fin. Code \u00a7\u00a7 342.252, 342.259",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 662% APR (CRL), and $500 installment loans may reach about 116% APR (NCLC).",
+      "preempts": true
+    },
+    "US-UT": {
+      "answer": "no",
+      "cite": "Utah Code Ann. \u00a7\u00a7 70C-2-101, 70C-7-106",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 543% APR (CRL), and installment loans have no cap except unconscionability (NCLC).",
+      "preempts": true
+    },
+    "US-VA": {
+      "answer": "no",
+      "cite": "Va. Code Ann. \u00a7 6.2-1817",
+      "dateBasis": "not-found",
+      "source": "https://law.lis.virginia.gov/vacode/title6.2/chapter18/section6.2-1817/",
+      "note": "The 2020 Fairness in Lending Act ended single-payment payday loans but allows short-term loans at 36% interest plus a monthly fee of up to $25, about 129% APR on a $500 six-month loan (NCLC).",
+      "preempts": true
+    },
+    "US-VT": {
+      "answer": "yes",
+      "cite": "Vt. Stat. Ann. tit. 8, \u00a7 2230(a)",
+      "dateBasis": "not-found",
+      "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+      "note": "Non-bank loans are capped at 24% on the first $1,000 and 12% above that, and payday loans are not made.",
+      "preempts": true
+    },
+    "US-WA": {
+      "answer": "no",
+      "cite": "Wash. Rev. Code \u00a7 31.04.105",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal under a small loan endorsement at about 391% APR (CRL), and $500 installment loans may reach about 39% APR (NCLC).",
+      "preempts": true
+    },
+    "US-WI": {
+      "answer": "no",
+      "cite": "Wis. Stat. \u00a7 138.09(7)(bp), (k)",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 537% APR (CRL), and installment loans have no cap except unconscionability (NCLC).",
+      "preempts": true
+    },
+    "US-WV": {
+      "answer": "yes",
+      "cite": "W. Va. Code \u00a7 46A-4-107(7)",
+      "dateBasis": "not-found",
+      "source": "https://code.wvlegislature.gov/46A-4-107/",
+      "note": "Payday loans are not made, and small consumer loans are capped at 31% interest plus a 2% processing fee (NCLC: about 38% all-in on a $500 six-month loan).",
+      "preempts": true
+    },
+    "US-WY": {
+      "answer": "no",
+      "cite": "Wyo. Stat. Ann. \u00a7 40-14-310",
+      "dateBasis": "not-found",
+      "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+      "note": "Payday loans are legal at about 316% APR (CRL), though installment loans are capped at 36% on the first $1,000 (NCLC).",
+      "preempts": true
+    }
+  },
+  "unknown": {
+    "US-PR": "Not confirmed: the NCLC and CRL state surveys cover only the 50 states and D.C., and no territorial lending statute was fetched.",
+    "US-GU": "Not confirmed: the NCLC and CRL state surveys cover only the 50 states and D.C., and no territorial lending statute was fetched.",
+    "US-VI": "Not confirmed: the NCLC and CRL state surveys cover only the 50 states and D.C., and no territorial lending statute was fetched.",
+    "US-AS": "Not confirmed: the NCLC and CRL state surveys cover only the 50 states and D.C., and no territorial lending statute was fetched.",
+    "US-MP": "Not confirmed: the NCLC and CRL state surveys cover only the 50 states and D.C., and no territorial lending statute was fetched."
+  },
+  "conflicts": [
+    {
+      "place": "US-VA",
+      "readings": "CRL counts Virginia among states that ended single-payment payday loans (and its statute says 36% interest), but the monthly maintenance fee makes the all-in APR about 129% on a $500 loan per NCLC; recorded as no under the all-in test.",
+      "sources": [
+        "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+        "https://law.lis.virginia.gov/vacode/title6.2/chapter18/section6.2-1817/",
+        "https://www.nclc.org/wp-content/uploads/2022/08/202512_Fact-Sheet_APR-Caps-for-Installment-Loans.pdf"
+      ]
+    },
+    {
+      "place": "US-OH",
+      "readings": "CRL counts Ohio among states without $400 single-payment payday loans, but its short-term loan law allows about 145% all-in APR on a $500 loan per NCLC; recorded as no.",
+      "sources": [
+        "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+        "https://codes.ohio.gov/ohio-revised-code/section-1321.40",
+        "https://www.nclc.org/wp-content/uploads/2022/08/202512_Fact-Sheet_APR-Caps-for-Installment-Loans.pdf"
+      ]
+    },
+    {
+      "place": "US-HI",
+      "readings": "CRL shows Hawaii without single-payment payday loans, but its 2021 replacement law allows about 146% all-in APR on a $500 installment loan per NCLC; recorded as no.",
+      "sources": [
+        "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+        "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-B.pdf",
+        "https://www.nclc.org/wp-content/uploads/2022/08/202512_Fact-Sheet_APR-Caps-for-Installment-Loans.pdf"
+      ]
+    },
+    {
+      "place": "US-MN",
+      "readings": "Minnesota's default cap is 36% APR and payday loans ended 1/1/2024, but short-term and small loans up to 50% all-in APR are allowed with ability-to-repay underwriting (NCLC: 51% on a $500 six-month loan); recorded as yes.",
+      "sources": [
+        "https://www.revisor.mn.gov/statutes/cite/47.601",
+        "https://www.revisor.mn.gov/statutes/cite/47.60",
+        "https://www.nclc.org/wp-content/uploads/2022/08/202512_Fact-Sheet_APR-Caps-for-Installment-Loans.pdf"
+      ]
+    },
+    {
+      "place": "US-CO",
+      "readings": "Proposition 111 caps payday loans at 36% all-in, but NCLC computes about 78% as the maximum all-in APR on a $500 six-month loan under another Colorado consumer-credit option; recorded as yes.",
+      "sources": [
+        "https://leg.colorado.gov/sites/default/files/initiatives/2017-2018%2520%2523126.pdf",
+        "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+        "https://www.nclc.org/wp-content/uploads/2022/08/202512_Fact-Sheet_APR-Caps-for-Installment-Loans.pdf"
+      ]
+    },
+    {
+      "place": "US-GA",
+      "readings": "Payday lending is banned, but installment-loan fees allow up to about 61% all-in APR on a $500 loan (NCLC) and title pawns are high-cost; recorded as yes.",
+      "sources": [
+        "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+        "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+        "https://www.nclc.org/wp-content/uploads/2022/08/202512_Fact-Sheet_APR-Caps-for-Installment-Loans.pdf"
+      ]
+    }
+  ],
+  "counts": {
+    "yes": 21,
+    "no": 30,
+    "unknown": 5
+  }
+}

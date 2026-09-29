@@ -1,0 +1,437 @@
+{
+  "question": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+  "definition": "yes = state law gives most state and local public employees (beyond just police and firefighters) a legal right to bargain collectively with their employer, in force on 1/1/2026; no = state law bans public-sector bargaining, gives the right only to police/firefighters (or teachers only), leaves it to local option, or has no bargaining law.",
+  "summarySource": "State code and labor-board pages fetched 9/28/2026 (leginfo, delcode, DC Code, Florida, Iowa, Kansas, Massachusetts, Maine, Maryland, Michigan, Minnesota, Missouri, Montana, Nebraska, Nevada, New Hampshire, NJ PERC, NM PELRB, NY PERB, Ohio, Oregon, Pennsylvania, Rhode Island, South Dakota, Vermont, Washington, Wisconsin, NC, Texas, Virginia, Colorado General Assembly, Illinois and Hawaii labor boards); NCTQ teacher-bargaining database (updated January 2019) for states without a statute; Wikipedia for Utah HB 267 and Wisconsin Act 10.",
+  "answers": {
+    "US-AK": {
+      "answer": "yes",
+      "cite": "Alaska Stat. § 23.40.080",
+      "dateBasis": "pre-2000",
+      "source": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=23.40.080&secEnd=23.40.080",
+      "note": "All public employees: state and local workers and teachers may bargain collectively under the Public Employment Relations Act.",
+      "preempts": true
+    },
+    "US-AL": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+      "note": "No bargaining statute; Alabama courts hold public agencies may not bargain absent express statutory authority, though they may meet and confer (teacher data updated January 2019).",
+      "preempts": true
+    },
+    "US-AZ": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+      "note": "No bargaining statute; public employers may only 'meet and confer' (Ariz. Att'y Gen. Op. I06-004), with some cities such as Phoenix acting by local ordinance.",
+      "preempts": true
+    },
+    "US-AR": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+      "note": "No public-sector bargaining statute; the general labor policy (Ark. Code § 11-3-301) gives no duty to bargain, so any bargaining is voluntary for the employer.",
+      "preempts": true
+    },
+    "US-CA": {
+      "answer": "yes",
+      "cite": "Cal. Gov. Code § 3502 (MMBA); §§ 3512 et seq. (Dills Act); §§ 3540 et seq. (EERA)",
+      "dateBasis": "pre-2000",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=3502.",
+      "note": "All public employees: local government (MMBA), state (Dills Act) and school (EERA) employees have bargaining rights.",
+      "preempts": true
+    },
+    "US-CO": {
+      "answer": "yes",
+      "cite": "C.R.S. § 24-50-1101 et seq. (state employees, HB20-1153); C.R.S. § 8-3.3-101 et seq. (county employees, SB22-230)",
+      "dateBasis": "enacted-effective",
+      "source": "https://leg.colorado.gov/bills/sb22-230",
+      "note": "State employees (2020 Partnership Act) and employees of counties with 7,500+ people (from July 1, 2023); teachers and city workers bargain only where the local employer agrees.",
+      "preempts": true,
+      "operativeAt": "2023-07-01"
+    },
+    "US-CT": {
+      "answer": "yes",
+      "cite": "Conn. Gen. Stat. §§ 5-271 (state employees), 7-468 (municipal employees), 10-153d (teachers)",
+      "dateBasis": "pre-2000",
+      "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+      "note": "All public employees: state, municipal and teacher bargaining acts; the state code site (cga.ct.gov) was unreachable, so the fetched source shows the teacher statute only.",
+      "preempts": true
+    },
+    "US-DE": {
+      "answer": "yes",
+      "cite": "19 Del. C. §§ 1302, 1303",
+      "dateBasis": "pre-2000",
+      "source": "https://delcode.delaware.gov/title19/c013/index.html",
+      "note": "State employees and local employers with 25+ full-time employees (or that opt in); teachers have a separate act (14 Del. C. ch. 40).",
+      "preempts": true
+    },
+    "US-DC": {
+      "answer": "yes",
+      "cite": "D.C. Code § 1-617.06",
+      "dateBasis": "pre-2000",
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-617.06",
+      "note": "All District government employees may bargain collectively under the Comprehensive Merit Personnel Act.",
+      "preempts": true
+    },
+    "US-FL": {
+      "answer": "yes",
+      "cite": "Fla. Const. art. I, § 6; Fla. Stat. § 447.301",
+      "dateBasis": "pre-2000",
+      "source": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0400-0499/0447/Sections/0447.301.html",
+      "note": "All public employees have a constitutional and statutory right to bargain collectively; recent laws added membership and recertification rules but kept the right.",
+      "preempts": true
+    },
+    "US-GA": {
+      "answer": "no",
+      "cite": "O.C.G.A. § 20-2-989.10 (teachers)",
+      "dateBasis": "pre-2000",
+      "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+      "note": "No general bargaining law; the teacher statute says nothing permits collective bargaining, and only firefighters have a local-option law (O.C.G.A. § 25-5-1 et seq.).",
+      "preempts": true
+    },
+    "US-HI": {
+      "answer": "yes",
+      "cite": "Haw. Rev. Stat. §§ 89-3, 89-9",
+      "dateBasis": "pre-2000",
+      "source": "https://labor.hawaii.gov/hlrb/",
+      "note": "All public employees: state and county employees and teachers bargain under HRS chapter 89, enforced by the Hawaii Labor Relations Board.",
+      "preempts": true
+    },
+    "US-ID": {
+      "answer": "no",
+      "cite": "Idaho Code § 33-1271 (teachers)",
+      "dateBasis": "pre-2000",
+      "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+      "note": "Teachers (and firefighters under Idaho Code § 44-1801 et seq.) only; state and other local employees have no bargaining right.",
+      "preempts": true
+    },
+    "US-IL": {
+      "answer": "yes",
+      "cite": "5 ILCS 315 (Illinois Public Labor Relations Act); 115 ILCS 5 (educational employees); Ill. Const. art. I, § 25",
+      "dateBasis": "pre-2000",
+      "source": "https://ilrb.illinois.gov/",
+      "note": "All public employees: state and local workers under the Public Labor Relations Act and school employees under the Educational Labor Relations Act; a 2022 constitutional amendment added a right to bargain.",
+      "preempts": true
+    },
+    "US-IN": {
+      "answer": "no",
+      "cite": "Ind. Code § 20-29-6-1 (teachers)",
+      "dateBasis": "pre-2000",
+      "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+      "note": "Teachers only, limited to wages and benefits; state employees have had no bargaining since a 2005 executive order was rescinded, and other local employees have no statute.",
+      "preempts": true
+    },
+    "US-IA": {
+      "answer": "yes",
+      "cite": "Iowa Code §§ 20.8, 20.9",
+      "dateBasis": "pre-2000",
+      "source": "https://www.legis.iowa.gov/docs/code/20.8.pdf",
+      "note": "All public employees keep the right, but since 2017 units with fewer than 30% public-safety members bargain only over base wages.",
+      "preempts": true
+    },
+    "US-KS": {
+      "answer": "yes",
+      "cite": "K.S.A. §§ 75-4321, 75-4324 (PEERA); K.S.A. § 72-2218 et seq. (teachers)",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ksrevisor.gov/statutes/chapters/ch75/075_043_0024.html",
+      "note": "State employees and teachers are covered; other local employers come under the act only if their governing body elects it (the act says 'meet and confer').",
+      "preempts": true
+    },
+    "US-KY": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+      "note": "No general public-sector bargaining law; a public agency may choose to negotiate but has no duty to (Fayette County Educ. Ass'n v. Hardy, 1980); only some police and firefighter statutes exist.",
+      "preempts": true
+    },
+    "US-LA": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+      "note": "No public-sector bargaining statute; school boards and localities may bargain at their discretion (Louisiana Teachers' Ass'n v. Orleans Parish School Bd., 1974).",
+      "preempts": true
+    },
+    "US-ME": {
+      "answer": "yes",
+      "cite": "26 M.R.S. §§ 963, 965; 26 M.R.S. §§ 979-B, 1023 (state and university employees)",
+      "dateBasis": "pre-2000",
+      "source": "https://legislature.maine.gov/statutes/26/title26sec963.html",
+      "note": "All public employees: municipal, school, state and university employees bargain under separate acts.",
+      "preempts": true
+    },
+    "US-MD": {
+      "answer": "yes",
+      "cite": "Md. Code, State Pers. & Pens. § 3-501; Md. Code, Educ. §§ 6-402, 6-408",
+      "dateBasis": "pre-2000",
+      "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gsp&section=3-501&enactments=false",
+      "note": "State employees and public school employees bargain by statute; county and city employees depend on local law.",
+      "preempts": true
+    },
+    "US-MA": {
+      "answer": "yes",
+      "cite": "M.G.L. c. 150E, § 2",
+      "dateBasis": "pre-2000",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter150E/Section2",
+      "note": "All public employees: state, municipal and school employees bargain under chapter 150E.",
+      "preempts": true
+    },
+    "US-MI": {
+      "answer": "yes",
+      "cite": "MCL 423.209, 423.215 (PERA)",
+      "dateBasis": "pre-2000",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-423-209",
+      "note": "Local and school employees under PERA; classified state employees bargain under the Civil Service Commission's constitutional authority; the 2023 right-to-work repeal did not change this.",
+      "preempts": true
+    },
+    "US-MN": {
+      "answer": "yes",
+      "cite": "Minn. Stat. § 179A.06",
+      "dateBasis": "pre-2000",
+      "source": "https://www.revisor.mn.gov/statutes/cite/179A.06",
+      "note": "All public employees: state, local and school employees bargain under the Public Employment Labor Relations Act.",
+      "preempts": true
+    },
+    "US-MS": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+      "note": "No public-sector bargaining statute; teachers may join unions but employers have no duty to bargain (Jackson v. Hazlehurst Mun. Separate School Dist., 1983).",
+      "preempts": true
+    },
+    "US-MO": {
+      "answer": "yes",
+      "cite": "Mo. Const. art. I, § 29; RSMo § 105.510",
+      "dateBasis": "not-found",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=I++++29&constit=y",
+      "note": "All public employees, including teachers and police, under the constitutional right to bargain as applied to the public sector in Independence-NEA v. Independence School District (2007); a 2018 restrictive law (HB 1413) was later struck down.",
+      "preempts": true
+    },
+    "US-MT": {
+      "answer": "yes",
+      "cite": "Mont. Code Ann. § 39-31-201",
+      "dateBasis": "pre-2000",
+      "source": "https://leg.mt.gov/bills/mca/title_0390/chapter_0310/part_0020/section_0010/0390-0310-0020-0010.html",
+      "note": "All public employees: state, local and school employees.",
+      "preempts": true
+    },
+    "US-NE": {
+      "answer": "yes",
+      "cite": "Neb. Rev. Stat. § 48-837",
+      "dateBasis": "pre-2000",
+      "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=48-837",
+      "note": "All public employees, with disputes resolved by the Commission of Industrial Relations; state employees also under the State Employees Collective Bargaining Act.",
+      "preempts": true
+    },
+    "US-NV": {
+      "answer": "yes",
+      "cite": "NRS 288.150 (local government); NRS 288.500 (state executive branch)",
+      "dateBasis": "pre-2000",
+      "source": "https://www.leg.state.nv.us/NRS/NRS-288.html",
+      "note": "Local government employees and teachers since 1969; state executive-branch employees were added by SB 135 (2019).",
+      "preempts": true
+    },
+    "US-NH": {
+      "answer": "yes",
+      "cite": "RSA 273-A:3",
+      "dateBasis": "pre-2000",
+      "source": "https://gc.nh.gov/rsa/html/XXIII/273-A/273-A-3.htm",
+      "note": "All public employees: state, local and school employees bargain under RSA 273-A.",
+      "preempts": true
+    },
+    "US-NJ": {
+      "answer": "yes",
+      "cite": "N.J.S.A. 34:13A-5.3; N.J. Const. art. I, ¶ 19",
+      "dateBasis": "pre-2000",
+      "source": "https://www.nj.gov/perc/documents/Chapter%2013A.pdf?ver=20220404",
+      "note": "All public employees: state, local and school employees.",
+      "preempts": true
+    },
+    "US-NM": {
+      "answer": "yes",
+      "cite": "NMSA 1978 §§ 10-7E-1 to 10-7E-26 (Public Employee Bargaining Act)",
+      "dateBasis": "not-found",
+      "source": "https://pelrb.nm.gov/",
+      "note": "All public employees: state and local employees and teachers; the current act (2003) reinstated bargaining after the first act expired in 1999.",
+      "preempts": true
+    },
+    "US-NY": {
+      "answer": "yes",
+      "cite": "N.Y. Civ. Serv. Law §§ 203, 204 (Taylor Law)",
+      "dateBasis": "pre-2000",
+      "source": "https://perb.ny.gov/",
+      "note": "All public employees: state, local and school employees under the Taylor Law.",
+      "preempts": true
+    },
+    "US-NC": {
+      "answer": "no",
+      "cite": "N.C. Gen. Stat. § 95-98",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_95/GS_95-98.html",
+      "note": "State law declares any public-sector collective bargaining contract illegal and void.",
+      "preempts": true
+    },
+    "US-ND": {
+      "answer": "no",
+      "cite": "N.D. Cent. Code § 15.1-16-13 (teachers)",
+      "dateBasis": "pre-2000",
+      "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+      "note": "Teachers only; state and other local employees have no bargaining right.",
+      "preempts": true
+    },
+    "US-OH": {
+      "answer": "yes",
+      "cite": "Ohio Rev. Code § 4117.03",
+      "dateBasis": "pre-2000",
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-4117.03",
+      "note": "All public employees: state, local and school employees (the 2011 SB 5 limits were repealed by referendum).",
+      "preempts": true
+    },
+    "US-OK": {
+      "answer": "no",
+      "cite": "70 O.S. § 509.6 (teachers); 11 O.S. § 51-101 et seq. (police and fire)",
+      "dateBasis": "pre-2000",
+      "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+      "note": "Teachers and police/fire only; state employees have no right, and the 2004 law for general employees of large cities was repealed in 2011.",
+      "preempts": true
+    },
+    "US-OR": {
+      "answer": "yes",
+      "cite": "ORS 243.662",
+      "dateBasis": "pre-2000",
+      "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors243.html",
+      "note": "All public employees: state, local and school employees.",
+      "preempts": true
+    },
+    "US-PA": {
+      "answer": "yes",
+      "cite": "43 P.S. § 1101.401 (Act 195 of 1970)",
+      "dateBasis": "pre-2000",
+      "source": "https://www.palegis.us/statutes/unconsolidated/law-information/view-statute?txtType=PDF&SessYr=1970&ActNum=0195.&SessInd=0",
+      "note": "All public employees: state, local and school employees under the Public Employe Relations Act; police and fire under Act 111.",
+      "preempts": true
+    },
+    "US-RI": {
+      "answer": "yes",
+      "cite": "R.I. Gen. Laws § 36-11-1 (state employees); § 28-9.4-3 (municipal employees); § 28-9.3 (teachers)",
+      "dateBasis": "pre-2000",
+      "source": "https://webserver.rilegislature.gov/Statutes/TITLE36/36-11/36-11-1.htm",
+      "note": "All public employees: state, municipal and school employees.",
+      "preempts": true
+    },
+    "US-SC": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+      "note": "Public employees have no right to collective bargaining (Branch v. City of Myrtle Beach, S.C. 2000), and no statute grants one.",
+      "preempts": true
+    },
+    "US-SD": {
+      "answer": "yes",
+      "cite": "SDCL §§ 3-18-2, 3-18-3",
+      "dateBasis": "pre-2000",
+      "source": "https://sdlegislature.gov/api/Statutes/3-18-2.html",
+      "note": "All public employees, including state employees, may designate representatives to meet and negotiate in good faith.",
+      "preempts": true
+    },
+    "US-TN": {
+      "answer": "no",
+      "cite": "Tenn. Code Ann. § 49-5-608 (collaborative conferencing)",
+      "dateBasis": "pre-2000",
+      "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+      "note": "No public-sector bargaining law; since 2011 teachers have only 'collaborative conferencing' on listed topics, which replaced bargaining.",
+      "preempts": true
+    },
+    "US-TX": {
+      "answer": "no",
+      "cite": "Tex. Gov't Code § 617.002",
+      "dateBasis": "pre-2000",
+      "source": "https://tcss.legis.texas.gov/resources/GV/htm/GV.617.htm",
+      "note": "State law bars public employers from recognizing a union or signing a bargaining contract; only police and firefighters may bargain where local voters adopt it (Local Gov't Code ch. 143, 174).",
+      "preempts": true
+    },
+    "US-UT": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://en.wikipedia.org/wiki/Utah_House_Bill_267",
+      "note": "No statute gives public employees a bargaining right; HB 267 (2025) would ban it outright but was blocked on May 6, 2025 pending a November 3, 2026 referendum, and a reported December 2025 repeal was not verified here.",
+      "preempts": true
+    },
+    "US-VT": {
+      "answer": "yes",
+      "cite": "3 V.S.A. § 903; 21 V.S.A. ch. 22; 16 V.S.A. ch. 57",
+      "dateBasis": "pre-2000",
+      "source": "https://legislature.vermont.gov/statutes/section/03/027/00903",
+      "note": "All public employees: state, municipal and school employees.",
+      "preempts": true
+    },
+    "US-VA": {
+      "answer": "no",
+      "cite": "Va. Code § 40.1-57.2",
+      "dateBasis": "not-found",
+      "source": "https://law.lis.virginia.gov/vacode/title40.1/chapter4/section40.1-57.2/",
+      "note": "No right: bargaining is barred unless a county, city, town or school board opts in by ordinance (allowed since May 1, 2021), and state employees are excluded.",
+      "preempts": true
+    },
+    "US-WA": {
+      "answer": "yes",
+      "cite": "RCW 41.56.040 (local); RCW 41.80.050 (state); RCW 41.59 (teachers)",
+      "dateBasis": "pre-2000",
+      "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=41.80.050",
+      "note": "All public employees: state, local and school employees.",
+      "preempts": true
+    },
+    "US-WV": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+      "note": "No public-sector bargaining statute; employers may negotiate voluntarily but no binding bargaining right exists.",
+      "preempts": true
+    },
+    "US-WI": {
+      "answer": "yes",
+      "cite": "Wis. Stat. § 111.70(2), (4)(mb) (2011 Act 10)",
+      "dateBasis": "pre-2000",
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/111/iv/70/2",
+      "note": "General municipal and school employees (and state employees) keep a right to bargain limited to total base wages since Act 10; a Dane County ruling of 12/2/2024 struck much of Act 10 but was on appeal, and either way a bargaining right existed on 1/1/2026.",
+      "preempts": true
+    },
+    "US-WY": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+      "note": "Only firefighters have a bargaining statute (Wyo. Stat. § 27-10-101 et seq.); school boards may bargain voluntarily (1978 Att'y Gen. opinion).",
+      "preempts": true
+    }
+  },
+  "unknown": {
+    "US-PR": "Law 45-1998 grants central-government employees bargaining rights, but no primary page could be fetched to confirm the 2026 status.",
+    "US-GU": "Not confirmed; Guam legislature and courts sites were unreachable.",
+    "US-VI": "The Public Employees Labor Relations Act (24 V.I.C. § 361 et seq.) likely grants rights, but perb.vi.gov was unreachable and no primary page was fetched.",
+    "US-AS": "No source found or fetched.",
+    "US-MP": "No source found or fetched."
+  },
+  "conflicts": [],
+  "refusedHosts": [
+    "www.cga.ct.gov (timeout)",
+    "www.ilga.gov (timeout)",
+    "www.capitol.hawaii.gov (403)",
+    "www.nysenate.gov (403)",
+    "codes.findlaw.com (403)",
+    "cepr.net (403)",
+    "www.dol.ks.gov (403)",
+    "dlt.ri.gov (403)",
+    "slrb.ri.gov (connection refused)",
+    "www.palrb.us (timeout)",
+    "www.pelrb.state.nm.us (timeout)",
+    "labor.alaska.gov (timeout)",
+    "perb.vi.gov (timeout)",
+    "nmonesource.com (JavaScript-only page)",
+    "statutes.capitol.texas.gov (JavaScript-only page)",
+    "le.utah.gov bill pages (JavaScript-only page)"
+  ],
+  "counts": {
+    "yes": 32,
+    "no": 19,
+    "unknown": 5
+  }
+}
