@@ -116,6 +116,12 @@ export const UNRESEARCHED_EPIDEMIC = {
   meetingCancelShare: { cautious: 0.06, neutral: 0.1, "risk-seeking": 0.15 },
   /** A school decision is only considered, and recorded, from this many out sick. */
   minimumSickToDecide: 2,
+  /**
+   * Each official's own bar is the one above times a factor drawn once per
+   * person, from 1 minus this to 1 plus it: people differ beyond their
+   * recorded approach to risk.
+   */
+  personalBarSpread: 0.25,
   researchQuestions: [
     "epidemic-transmission-by-setting",
     "epidemic-severity-by-age",
@@ -390,6 +396,17 @@ export function riskApproachOf(world: World, personId: EntityId): RiskApproach {
   return "neutral";
 }
 
+/** One official's own bar: the average for their approach, with their own spread. */
+export function personalBar(
+  world: World,
+  personId: EntityId,
+  decision: string,
+  average: number,
+): number {
+  const draw = stream(world, "personal-bar", decision, personId).next();
+  return average * (1 - U.personalBarSpread + 2 * U.personalBarSpread * draw);
+}
+
 const APPROACH_WORD: Record<RiskApproach, string> = {
   cautious: "cautious",
   neutral: "",
@@ -472,7 +489,9 @@ function schoolDecisions(
       : null;
     if (!principal && !isClosed) continue;
     const approach = principal ? riskApproachOf(next, principal) : "neutral";
-    const bar = U.schoolClosureShare[approach];
+    const bar = principal
+      ? personalBar(next, principal, "school", U.schoolClosureShare[approach])
+      : U.schoolClosureShare[approach];
     const share = people.length === 0 ? 0 : out / people.length;
     const profile = organizationProfileAt(next, orgId);
     const school = profile?.name ?? "the school";
@@ -565,7 +584,11 @@ export function epidemicCouncilMeetingDecision(
   let reason: string | null = null;
   if (input.memberPersonIds.length > 0 && well < quorum)
     reason = `only ${well} of its ${input.memberPersonIds.length} members were well enough to attend, short of a quorum`;
-  else if (chair && share >= U.meetingCancelShare[approach])
+  else if (
+    chair &&
+    share >=
+      personalBar(world, chair, "meeting", U.meetingCancelShare[approach])
+  )
     reason = `${townSick} of the ${residents.length} people the town knows by name were out sick`;
   if (!reason) return { world, canceled: false };
   const chairName = chair ? personName(world.people[chair]!) : null;
