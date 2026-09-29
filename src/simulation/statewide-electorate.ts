@@ -1,13 +1,21 @@
 import {
   livingWorldOrganizationId,
   LIVING_WORLD_KEYS,
+  LIVING_WORLD_WRITER_VERSION,
+  SEAT_TENURE_EVENT,
+  SEAT_VACANCY_EVENT,
 } from "./living-world/opening";
+import { recordsWithFieldValue } from "./history-index";
 import { publicPartyAffiliation } from "./living-world/congress";
 import { chiefExecutiveJurisdictionId } from "./nationwide-world/government-jurisdiction";
 import { stateJurisdictionForKey } from "./life-places";
-import { politicalStartingConditions } from "./world-setup/conditions";
+import {
+  politicalStartingConditions,
+  seatStartingCondition,
+} from "./world-setup/conditions";
 import {
   applySwing,
+  calibrationRow,
   calibrationRows,
   ELECTORAL_CALIBRATION,
   sharedSwing,
@@ -119,4 +127,79 @@ export function majorPartyOf(
     )
       return party;
   return null;
+}
+
+/**
+ * Who votes for one seat in Congress, and how they lean.
+ *
+ * The ballots are the seat's own last certified count in the calibration
+ * source (the 2024 House race, or the Senate class's last race), and the lean
+ * is the two-party share this world generated for the seat at its start from
+ * that same result. Null for a seat whose printed figures give no two-party
+ * share (an uncontested or undetermined race): it has no count to divide.
+ * The vote for neither major party is the state's (see `neitherMajorShare`).
+ */
+export interface SeatElectorate extends StatewideElectorate {
+  readonly seatKey: string;
+  /** Who held the seat on the day asked, if anybody. */
+  readonly holderPersonId: EntityId | null;
+}
+
+export function congressSeatElectorate(
+  world: World,
+  seatKey: string,
+  asOf: IsoDate,
+): SeatElectorate | null {
+  if (!/^us-(house|senate):/.test(seatKey)) return null;
+  const row = calibrationRow(seatKey);
+  const share = seatStartingCondition(world, seatKey)?.generatedShare;
+  if (
+    !row ||
+    row.totalVotes === null ||
+    row.totalVotes <= 0 ||
+    share === null ||
+    share === undefined
+  )
+    return null;
+  return {
+    seatKey,
+    stateUsps: row.stateUsps,
+    democraticShare: share,
+    ballots: row.totalVotes,
+    neitherMajorShare: neitherMajorShareOf(row.stateUsps),
+    holderPersonId: seatHolderOn(world, seatKey, asOf),
+  };
+}
+
+function seatHolderOn(
+  world: World,
+  seatKey: string,
+  asOf: IsoDate,
+): EntityId | null {
+  let latest: World["history"]["events"][number] | undefined;
+  for (const type of [SEAT_TENURE_EVENT, SEAT_VACANCY_EVENT])
+    for (const event of recordsWithFieldValue(
+      world.history.events,
+      "type",
+      type,
+    )) {
+      if (
+        event.occurredAt > asOf ||
+        !event.tags.includes(LIVING_WORLD_WRITER_VERSION) ||
+        !event.tags.includes(`seat:${seatKey}`)
+      )
+        continue;
+      if (
+        !latest ||
+        event.occurredAt > latest.occurredAt ||
+        (event.occurredAt === latest.occurredAt &&
+          event.sequence > latest.sequence)
+      )
+        latest = event;
+    }
+  if (latest?.type !== SEAT_TENURE_EVENT) return null;
+  return (
+    latest.participants.find((p) => p.role === "focus:subject")?.personId ??
+    null
+  );
 }
