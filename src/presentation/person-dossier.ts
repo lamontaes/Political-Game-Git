@@ -236,12 +236,15 @@ function buildDetails(
       const event = eventById(world, fact.provenance.sourceEventId);
       const knowledge = event ? knownEvents.get(event.id) : undefined;
       const publicFact =
-        event?.visibility === "public" && event.occurredAt <= world.currentDate;
+        event?.visibility === "public" &&
+        event.occurredAt <= world.currentDate &&
+        event.recordedAt <= world.currentDate;
       // A heard account does not grant the underlying private biography.
       const knownFact =
         knowledge?.accuracy === "accurate" &&
         event?.occurredAt !== undefined &&
-        event.occurredAt <= world.currentDate;
+        event.occurredAt <= world.currentDate &&
+        event.recordedAt <= world.currentDate;
       if (personId !== playerId && !publicFact && !knownFact) continue;
       const attribution =
         personId === playerId || knownFact
