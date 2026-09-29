@@ -72,7 +72,7 @@ describe("News says what the laws changed", () => {
   it("shows the section once a law has moved a condition, with both values", () => {
     const { world, playerPersonId } = nevadaLife("news-law-effects");
     const markup = markupFor(withRecords(world, true), playerPersonId);
-    expect(markup).toContain('data-testid="world39-laws"');
+    expect(markup).toContain('data-testid="world39-law-effects"');
     expect(markup).toContain("What the laws changed");
     expect(markup).toContain("because of a change in the law");
     expect(markup).toContain("Without that change it would stand at");
