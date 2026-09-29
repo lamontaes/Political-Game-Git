@@ -3,9 +3,9 @@ import {
   stateChamberStyle,
 } from "./bill-numbering-styles";
 import { US_CONGRESS_PACK_ID } from "./congress-rule-pack";
+import billIntroductionTable from "../../data/research/laws/bill-introductions-2022.json" with { type: "json" };
 import { rulePackById } from "./legislature-rule-packs";
 import type { ChamberRule, LegislativeRulePack } from "./legislature-rules";
-import { SeededRng } from "./rng";
 import type {
   EntityId,
   IsoDate,
@@ -25,8 +25,8 @@ import type {
  *     recorded session labels show; Congress restarts with each two-year
  *     Congress. Only the session the world opens in starts partway up, because
  *     bills were already filed before the player arrived. Where that opening
- *     session stands is drawn once from the world's seed, so two lives started
- *     differently do not open on the same bill number.
+ *     session stands follows the legislature's own yearly filing count and the
+ *     date the world opens (`openingBillNumber`).
  *   - The session is part of the name: "HB 1 (2027 Regular Session)",
  *     "H.R. 1, 120th Congress". The designation itself stays the short form a
  *     person says out loud ("HB 1"); the session travels with it on the record.
@@ -41,14 +41,53 @@ import type {
  * introduction date falls in, so an old save's next bill continues its count.
  */
 
+interface BillIntroductionRow {
+  readonly usps: string;
+  readonly billsIntroduced: number | null;
+}
+
+const BILL_INTRODUCTION_ROWS: readonly BillIntroductionRow[] = (
+  billIntroductionTable as { readonly rows: readonly BillIntroductionRow[] }
+).rows;
+
 /**
- * Where a chamber's numbering sits when a world's first session opens.
- *
- * The band a session's bills actually fall in by the time a player arrives.
- * It is content, not a claim about any particular legislature's practice.
+ * ESTIMATED FROM AVERAGE: the middle count of bills a state legislature
+ * introduced in its 2022 regular session, for a legislature the table does
+ * not count (Congress, the District, the territories, and states that held
+ * no 2022 regular session).
  */
-const OPENING_NUMBER_MINIMUM = 12;
-const OPENING_NUMBER_MAXIMUM_EXCLUSIVE = 640;
+const MIDDLE_BILLS_INTRODUCED: number = (() => {
+  const counts = BILL_INTRODUCTION_ROWS.flatMap((row) =>
+    row.billsIntroduced === null ? [] : [row.billsIntroduced],
+  ).sort((left, right) => left - right);
+  return counts[Math.floor((counts.length - 1) / 2)]!;
+})();
+
+/**
+ * Where a chamber's numbering sits on the day a world opens: the bills its
+ * legislature files in a year (The Book of the States 2023, Table 3.19,
+ * 2022 regular sessions, both chambers together), shared evenly among its
+ * chambers, times the share of the year gone by. A life that opens in the
+ * first days of January meets bill 1 or close to it.
+ *
+ * GAME ASSUMPTION: bills are filed evenly across the calendar year. Real
+ * sessions file most of theirs in their first weeks.
+ */
+export function openingBillNumber(
+  jurisdictionKey: string | null,
+  chambers: number,
+  startedAt: string,
+): number {
+  const usps = /^US-([A-Z]{2})$/.exec(jurisdictionKey ?? "")?.[1];
+  const counted = BILL_INTRODUCTION_ROWS.find(
+    (row) => row.usps === usps,
+  )?.billsIntroduced;
+  const perYear = counted ?? MIDDLE_BILLS_INTRODUCED;
+  const date = new Date(`${startedAt.slice(0, 10)}T00:00:00Z`);
+  const january = Date.UTC(date.getUTCFullYear(), 0, 1);
+  const daysGone = Math.floor((date.getTime() - january) / 86_400_000);
+  return 1 + Math.floor((perYear / Math.max(1, chambers)) * (daysGone / 365));
+}
 
 /**
  * Where a town council's ordinance count sits on the day a world opens: about
@@ -298,8 +337,8 @@ export function nextMeasureNumbering(
   const session = scheme.sessionOf(yearOf(world.currentDate));
   const openingSession = scheme.sessionOf(yearOf(world.startedAt));
 
-  // Only the session the world opened in starts partway up. The draw keeps
-  // the fork it always had, so an old save's opening count is unchanged.
+  // Only the session the world opened in starts partway up; a chamber that
+  // has already filed in it continues from its own highest number below.
   const inThisSession = (world.history.legislativeMeasures ?? []).filter(
     (record) =>
       record.jurisdictionId === input.jurisdictionId &&
@@ -326,18 +365,28 @@ export function nextMeasureNumbering(
         ? councilOpeningNumber(world.startedAt)
         : sessionStart -
           1 +
-          new SeededRng(world.seed)
-            .fork(
-              `measure-numbering:${input.jurisdictionId}:${originChamberKey}`,
-            )
-            .integer(OPENING_NUMBER_MINIMUM, OPENING_NUMBER_MAXIMUM_EXCLUSIVE);
+          openingBillNumber(
+            pack?.jurisdictionKey ?? null,
+            pack?.chambers.length ?? 1,
+            world.startedAt,
+          );
 
   // Two bills in one session never share a number. The count is the ordinary
   // increment; the loop is what keeps that true when a world already holds a
   // measure numbered by some other route, such as a save filed before this
   // existed or a bill the player drafted themselves.
+  // A chamber that has already filed this session continues from its
+  // highest number, so a save made under an earlier opening rule keeps its
+  // count.
   const taken = new Set(inThisSession.map((record) => record.designation));
-  let number = firstNumber + alreadyInThisChamber;
+  const highest = Math.max(
+    0,
+    ...inThisChamber.map((record) => numberOf(record.designation) ?? 0),
+  );
+  let number =
+    session.key === openingSession.key && highest > 0
+      ? highest + 1
+      : firstNumber + alreadyInThisChamber;
   let designation = formatDesignation(scheme.template, number, session);
   while (taken.has(designation)) {
     number += 1;
