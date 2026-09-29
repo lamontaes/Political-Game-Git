@@ -2839,3 +2839,86 @@
   gap: var(--pg-space-1);
   margin-top: 0.4rem;
 }
+
+/* Politics → Issues → Conditions: how the state is doing, and what moves it. */
+.pg-conditions {
+  display: grid;
+  gap: var(--pg-space-2);
+}
+
+.pg-conditions-heading {
+  margin: 0;
+  font-family: var(--pg-font-display);
+  font-size: 1.05rem;
+  color: var(--pg-ivory);
+}
+
+.pg-conditions-list,
+.pg-condition-causes {
+  display: grid;
+  gap: var(--pg-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pg-condition {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--pg-hairline);
+  border-left: 3px solid var(--pg-brass);
+  border-radius: 4px;
+  background: rgb(255 250 238 / 55%);
+}
+
+.pg-condition p {
+  margin: 0.15rem 0;
+}
+
+.pg-condition-name {
+  font-weight: 700;
+}
+
+.pg-condition-start {
+  color: var(--pg-ivory-dim);
+}
+
+.pg-condition-causes {
+  gap: 0.15rem;
+  margin-top: 0.3rem;
+  font-size: 0.86rem;
+  color: var(--pg-ivory-dim);
+}
+
+.pg-condition-law {
+  color: var(--pg-ivory);
+  font-weight: 600;
+}
+
+/* A lawmaker's record: the laws they wrote, and what each is doing. */
+.pg-dossier-laws {
+  display: grid;
+  gap: var(--pg-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pg-dossier-law-title {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  color: var(--pg-ivory);
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-color: var(--pg-brass);
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.pg-dossier-law-effect {
+  margin: 0.15rem 0 0;
+  font-size: 0.86rem;
+  color: var(--pg-ivory-dim);
+}

@@ -23,6 +23,7 @@ import type {
 } from "../types";
 import { measureAnswersAt } from "../vote-bundle";
 import { mayAnswerQuestion } from "./question-authority";
+import { unincorporatedCountyJurisdictionIds } from "../nationwide-world/local-governments";
 import { constitutionalPolicyProvisions } from "../policy-provisions";
 import { stateStatuteOperativeAt } from "./statute-effective-date";
 
@@ -470,6 +471,9 @@ function governingChain(
   const state = stateOf(jurisdictionId);
   if (state) chain.set(state, "state-statute");
   if (state !== jurisdictionId) chain.set(jurisdictionId, "local-ordinance");
+  // A place with no town government lives under its county's ordinances.
+  for (const county of unincorporatedCountyJurisdictionIds(jurisdictionId))
+    chain.set(county, "local-ordinance");
   return chain;
 }
 

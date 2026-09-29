@@ -87,6 +87,8 @@ export type ShellSurface =
   | "government-map"
   | "transit"
   | "tax"
+  /** How the home state is doing on each condition, and what moves it. */
+  | "conditions"
   /** Who governs home, and standing for the state's executive office. */
   | "candidacy"
   | "news"
