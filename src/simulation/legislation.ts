@@ -2784,6 +2784,15 @@ export function recordEnactment(
     // recorded without inventing an effective date.
   }
 
+  // Chamber passage and concurrence only: a veto override is not the
+  // passage a state counts an effective date from.
+  const finalPassage = measureActions(world, measure.id)
+    .filter(
+      (action) =>
+        action.kind === "floor-stage-passed" || action.kind === "concurred",
+    )
+    .at(-1);
+
   const next = appendAction(world, {
     measure,
     kind: "enacted",
@@ -2818,6 +2827,7 @@ export function recordEnactment(
     outcome: "enacted",
     actDesignation: input.actDesignation ?? null,
     effectiveAt: input.effectiveAt ? makeIsoDate(input.effectiveAt) : null,
+    finalPassageAt: finalPassage?.occurredAt ?? null,
     outcomeEventId: event.id,
   };
 
