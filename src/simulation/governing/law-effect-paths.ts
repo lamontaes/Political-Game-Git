@@ -1,5 +1,7 @@
 import {
+  CITY_MINIMUM_WAGE_QUESTION_KEY,
   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+  LOCAL_MINIMUM_WAGE_AUTHORITY_QUESTION_KEY,
   STATE_MINIMUM_WAGE_QUESTION_KEY,
 } from "../minimum-wage";
 import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../nationwide-world/state-legislative-term-limits";
@@ -35,7 +37,8 @@ export type LawEffectPathKind =
   | "paycheck"
   | "state-revenue"
   | "rent-and-eviction"
-  | "seat-turnover";
+  | "seat-turnover"
+  | "authority-gate";
 
 export interface LawEffectPath {
   readonly questionKey: string;
@@ -55,6 +58,16 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
     kind: "paycheck",
     via: "src/simulation/minimum-wage.ts",
+  },
+  {
+    questionKey: CITY_MINIMUM_WAGE_QUESTION_KEY,
+    kind: "paycheck",
+    via: "src/simulation/minimum-wage.ts",
+  },
+  {
+    questionKey: LOCAL_MINIMUM_WAGE_AUTHORITY_QUESTION_KEY,
+    kind: "authority-gate",
+    via: "src/simulation/governing/question-authority.ts",
   },
   {
     questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,

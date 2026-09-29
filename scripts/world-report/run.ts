@@ -50,6 +50,7 @@ import {
   jurisdictionPowersLevels,
   questionAuthority,
 } from "../../src/simulation/governing/question-authority";
+import { lawEffectPaths } from "../../src/simulation/governing/law-effect-paths";
 import {
   OUTCOME_LINKS,
   OUTCOMES_PRODUCED,
@@ -2084,8 +2085,12 @@ function lawOutcomeLines(run: WorldReportRun): string[] {
   for (const row of [...inPlay, ...atStart]) {
     const links = outcomeLinksFedByQuestion(row.stableKey);
     const acting = links.filter((link) => outcomeLinkStatus(link) === "built");
+    const direct = lawEffectPaths().filter(
+      (path) =>
+        path.questionKey === row.stableKey && path.kind !== "outcome-web",
+    );
     out.push(
-      `- **${row.name}**: ${row.answer}${row.origin === "enacted" ? `, ${row.designation}, in force from ${proseDate(row.since)}` : ", as the game began"}. ${links.length ? `Feeds ${count(links.length, "outcome")}; ${acting.length} ${acting.length === 1 ? "acts" : "act"} in the world today.` : "Feeds no outcome yet."}`,
+      `- **${row.name}**: ${row.answer}${row.origin === "enacted" ? `, ${row.designation}, in force from ${proseDate(row.since)}` : ", as the game began"}. ${links.length ? `Feeds ${count(links.length, "outcome")}; ${acting.length} ${acting.length === 1 ? "acts" : "act"} in the world today.` : direct.length ? `Feeds no outcome, but acts directly (${direct.map((path) => `${path.kind}, ${path.via}`).join("; ")}).` : "Feeds no outcome yet."}`,
     );
     for (const link of links)
       out.push(`  - ${link.to} (${link.strength}): ${outcomeLinkStatus(link)}`);

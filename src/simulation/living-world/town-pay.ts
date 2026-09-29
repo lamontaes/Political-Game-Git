@@ -59,11 +59,10 @@ import { lifePlaceByJurisdictionId } from "../life-places";
 import {
   FEDERAL_MINIMUM_HOURLY_MINOR,
   federalMinimumSchedule,
-  federalMinimumStepAt,
   minimumHourlyAt,
-  anyStateMinimumWageQuestionEnacted,
+  minimumWageSettingAt,
+  anyMinimumWageQuestionEnacted,
   startingMinimumHourly,
-  stateMinimumSettingAt,
 } from "../minimum-wage";
 import { noticeLawPayChanges } from "../law-effects-noticed";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
@@ -99,7 +98,6 @@ import type {
 import { TOWN_EMPLOYMENT_VERSION } from "./town-employment";
 import { TOWN_JOB_SOC } from "./town-job-soc";
 import {
-  FEDERAL_MINIMUM_HOURLY,
   TOWN_PAY_COUNTY_AREAS,
   TOWN_PAY_META,
   TOWN_PAY_PERCENTILES,
@@ -760,7 +758,7 @@ export function raiseTownPayToMinimum(
   if (
     laws.size === 0 &&
     !federalRaised &&
-    !anyStateMinimumWageQuestionEnacted(world)
+    !anyMinimumWageQuestionEnacted(world)
   )
     return world;
   const recordedOn = new Map<EntityId, IsoDate>();
@@ -795,10 +793,6 @@ export function raiseTownPayToMinimum(
     )
       continue;
     const role = roles.get(flow.basisReference.workRelationshipId);
-    const place = role?.locationJurisdictionId
-      ? lifePlaceByJurisdictionId(role.locationJurisdictionId)
-      : null;
-    const stateKey = place?.stateJurisdictionKey ?? "";
     if (!role) continue;
     let current = termsByFlow.get(flow.id)?.at(-1);
     const note = current ? payNoteOf(current.cadenceKind) : null;
@@ -820,32 +814,21 @@ export function raiseTownPayToMinimum(
         continue;
       const ended = endedOn.get(flow.basisReference.workRelationshipId);
       if (ended !== undefined && ended <= day) break;
-      // A state law enacted in play sets the state's rate: a wage term its
-      // bill filed, or the average raise of a yes on the question. The rate
-      // on file at the start sets nothing to raise to.
-      const setting = /^US-[A-Z]{2}$/.test(stateKey)
-        ? stateMinimumSettingAt(world, stateKey, day)
-        : null;
-      const law =
-        setting?.measureId && (recordedOn.get(setting.measureId) ?? day) <= day
-          ? {
-              measureId: setting.measureId,
-              designation: setting.designation ?? "A state law",
-              hourly: Math.max(
-                FEDERAL_MINIMUM_HOURLY,
-                setting.hourlyMinor / 100,
-              ),
-            }
-          : null;
-      const stateHourly = law ? law.hourly : 0;
-      const step = federalMinimumStepAt(world, day);
-      const federalHourly =
-        step && (recordedOn.get(step.measureId) ?? step.from) <= day
-          ? step.hourlyMinor / 100
-          : 0;
-      // The floor is the higher of the two; the law that set it is named.
-      const hourly = Math.max(stateHourly, federalHourly);
-      if (hourly <= 0) continue;
+      // Only a law enacted in play raises pay after it began: the rate on
+      // file at the start, and the unraised federal rate, set nothing to
+      // raise to. A law counts from the day it was recorded.
+      const setting = minimumWageSettingAt(
+        world,
+        role.locationJurisdictionId ?? null,
+        day,
+      );
+      if (
+        !setting ||
+        setting.measureId === null ||
+        (recordedOn.get(setting.measureId) ?? day) > day
+      )
+        continue;
+      const hourly = setting.hourlyMinor / 100;
       // The same arithmetic as a new job's pay, so a job hired at the floor
       // is never "raised" by a cent of rounding.
       const amount = Math.round(
@@ -853,13 +836,13 @@ export function raiseTownPayToMinimum(
           PERIODS_PER_YEAR[note.period],
       );
       if (amount <= current.amount.minorUnits) continue;
-      const federalSets = federalHourly > stateHourly && step !== null;
-      const setBy = federalSets
-        ? { measureId: step.measureId, designation: step.designation }
-        : { measureId: law!.measureId, designation: law!.designation };
+      const setBy = {
+        measureId: setting.measureId,
+        designation: setting.designation ?? "A law",
+      };
       const event = eventOf.get(setBy.measureId);
       const rate = `$${hourly.toFixed(2)} an hour`;
-      const which = federalSets ? "federal" : "state";
+      const which = setting.level === "local" ? "city" : setting.level;
       next = recordResourceFlowTerms(next, {
         stableKey: `${flow.stableKey}:minimum-wage:${day}`,
         resourceFlowId: flow.id,
