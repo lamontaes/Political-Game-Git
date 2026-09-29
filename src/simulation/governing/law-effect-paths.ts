@@ -9,11 +9,13 @@ import {
   SPENDING_QUESTION_EFFECTS,
   TAX_QUESTION_EFFECTS,
 } from "../public-budgets/rules";
+import { TUITION_FREEZE_QUESTION } from "../public-budgets/tuition-freeze";
 import {
   ADOPT_STATE_INCOME_TAX_QUESTION,
   GRADUATED_STATE_INCOME_TAX_QUESTION,
 } from "../state-income-tax-law";
 import { PAID_LEAVE_QUESTION } from "../state-paid-leave-law";
+import { TEACHER_SALARY_FLOOR_QUESTION } from "../teacher-salary-floor";
 import type { PolicyCatalog } from "../types";
 import { HOME_RULE_QUESTION } from "./question-authority";
 
@@ -78,6 +80,11 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     via: "src/simulation/state-paid-leave-law.ts",
   },
   {
+    questionKey: TEACHER_SALARY_FLOOR_QUESTION,
+    kind: "paycheck",
+    via: "src/simulation/living-world/town-pay.ts",
+  },
+  {
     questionKey: LEGISLATIVE_TERM_LIMIT_QUESTION,
     kind: "seat-turnover",
     via: "src/simulation/nationwide-world/state-legislative-term-limits.ts",
@@ -121,6 +128,11 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: CANNABIS_SALES_QUESTION,
     kind: "state-revenue",
     via: "src/simulation/public-budgets/cannabis-sales-tax.ts",
+  },
+  {
+    questionKey: TUITION_FREEZE_QUESTION,
+    kind: "state-revenue",
+    via: "src/simulation/public-budgets/tuition-freeze.ts",
   },
 ];
 
