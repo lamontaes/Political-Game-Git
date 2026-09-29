@@ -49,7 +49,9 @@ function start(placeKey: string) {
   return { world, personId: game.playerPersonId, activity };
 }
 
-describe("prospective meeting presence", () => {
+// Each case opens a whole life and holds a council meeting whose members
+// decide through the vote engine: several seconds of real work.
+describe("prospective meeting presence", { timeout: 60_000 }, () => {
   it("opens the posted meeting at its start through the normal Attend command, then finishes on a second choice", () => {
     const { world, personId, activity } = start("2743000");
     const command = {

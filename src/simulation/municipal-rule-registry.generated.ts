@@ -3,7 +3,7 @@
 export const MUNICIPAL_RULE_REGISTRY_META = {
   "productionCorpusSha256": "d991c2349ec3b0ee9bc083d386f74aa077421bfb02bc88432ec5cd809f509342",
   "kentuckyCorpusSha256": "954038a7f5914716800f86a93ba87473b167614b7a99011853eb5e125cfcc3df",
-  "nationalCorpusSha256": "94617b17f0666e7eb2f69c8c48e70e3c5203aa3fced33edc383f4ef4d80658d9",
+  "nationalCorpusSha256": "9cbc15440fb34e2d170ab4be526056ca26ac805950b8900287b35ff44a788bb6",
   "referenceObservationSha256": "3fd95ab93879e62b21bc6f8c7e47ac93b7b51c552dece89a8ee5118b5d8fd2ea",
   "inventoryGovernments": 144,
   "admittedPacks": 2

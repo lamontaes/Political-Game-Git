@@ -2138,6 +2138,22 @@ export function governingSeasonHandler(
 }
 
 /**
+ * The seated governorship a state legislature's bills go to ("US-NE"), or
+ * null where none has been materialized.
+ */
+export function governorOfficeForJurisdiction(
+  world: World,
+  jurisdictionKey: string,
+): GoverningOffice | null {
+  const stateUsps = jurisdictionKey.replace(/^US-/, "");
+  return (
+    currentGoverningOffices(world).find(
+      (candidate) => candidate.stateUsps === stateUsps,
+    ) ?? null
+  );
+}
+
+/**
  * A bill on the governor's desk. Whoever holds the governorship, player or
  * not, decides it through the same bound matter. Only where no governorship
  * has been materialized does a bill's authored disposition still stand, so an
@@ -2156,9 +2172,9 @@ export const governorDesk: ExecutiveDeskHandler = (
   measure,
   blueprint,
 ) => {
-  const stateUsps = blueprint.pack.jurisdictionKey.replace(/^US-/, "");
-  const office = currentGoverningOffices(world).find(
-    (candidate) => candidate.stateUsps === stateUsps,
+  const office = governorOfficeForJurisdiction(
+    world,
+    blueprint.pack.jurisdictionKey,
   );
   const alreadyOpen = world.history.events.some(
     (event) =>
