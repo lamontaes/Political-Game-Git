@@ -223,12 +223,12 @@ function settledOrPending(world: World, propositionId: EntityId): boolean {
   );
 }
 
-interface Voter {
+export interface Voter {
   readonly memberKey: string;
   readonly personId: EntityId;
 }
 
-function congressVoters(
+export function congressVoters(
   world: World,
   chamberKey: "house" | "senate",
 ): readonly Voter[] {
@@ -245,7 +245,7 @@ function congressVoters(
  * members where the legislature is seated, otherwise (ESTIMATED) the state's
  * own members of Congress.
  */
-function stateVoice(
+export function stateVoice(
   world: World,
   stateUsps: string,
 ): { readonly personIds: readonly EntityId[]; readonly estimated: boolean } {
@@ -313,6 +313,21 @@ function leanShare(
   );
 }
 
+/**
+ * PLACEHOLDER weight: changing the Constitution is a higher bar than passing
+ * a law, and a member needs more than a slight reason to clear it.
+ */
+export const CONSTITUTIONAL_BAR: DecisionConsideration = {
+  stableKey: "member:constitutional-bar",
+  optionKey: "vote-nay",
+  sourceType: "context:constitutional-bar",
+  direction: "supports",
+  importance: "moderate",
+  confidence: "medium",
+  explanation: "Changing the Constitution asks more than passing a law does.",
+  sourceRefs: [],
+};
+
 /** A member's vote on writing a policy into the Constitution. */
 function memberBallot(
   world: World,
@@ -335,19 +350,7 @@ function memberBallot(
           },
         ]
       : []),
-    {
-      // PLACEHOLDER weight: changing the Constitution is a higher bar than
-      // passing a law, and a member needs more than a slight reason to clear it.
-      stableKey: "member:constitutional-bar",
-      optionKey: "vote-nay",
-      sourceType: "context:constitutional-bar",
-      direction: "supports",
-      importance: "moderate",
-      confidence: "medium",
-      explanation:
-        "Changing the Constitution asks more than passing a law does.",
-      sourceRefs: [],
-    },
+    CONSTITUTIONAL_BAR,
   ];
   const evaluation = evaluateDecision(world, {
     stableKey,
