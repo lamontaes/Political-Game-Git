@@ -1,19 +1,24 @@
 import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
+import { COUNCIL_TERM_LIMIT_QUESTION } from "../living-world/local-council-term-limits";
 import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
 import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../nationwide-world/state-legislative-term-limits";
 import { OUTCOME_LINKS, outcomeLinkStatus } from "../outcome-web";
+import { HOUSING_SUPPLY_LAWS } from "../living-world/housing-market";
 import { RENT_LAW_KEYS } from "../living-world/town-rent";
 import { CANNABIS_SALES_QUESTION } from "../public-budgets/cannabis-sales-tax";
 import {
   SPENDING_QUESTION_EFFECTS,
   TAX_QUESTION_EFFECTS,
 } from "../public-budgets/rules";
+import { TUITION_FREEZE_QUESTION } from "../public-budgets/tuition-freeze";
 import {
   ADOPT_STATE_INCOME_TAX_QUESTION,
   GRADUATED_STATE_INCOME_TAX_QUESTION,
 } from "../state-income-tax-law";
 import { PAID_LEAVE_QUESTION } from "../state-paid-leave-law";
+import { TEACHER_SALARY_FLOOR_QUESTION } from "../teacher-salary-floor";
 import type { PolicyCatalog } from "../types";
+import { HOME_RULE_QUESTION } from "./question-authority";
 
 /**
  * WHICH LAWS ACT IN THE WORLD (Claude CTO's 8:00 a.m. all-hands, September
@@ -24,8 +29,8 @@ import type { PolicyCatalog } from "../types";
  * 1. a link in the outcome web from `law:<question>` whose status is "built":
  *    its size is set, its cause is read and its outcome is produced;
  * 2. a module that reads the law in force on the question and changes a
- *    paycheck, a budget, a rent, a lease or a seat from it, with sizes from
- *    its own sources. Each is listed below with the file that does it.
+ *    paycheck, a budget, a rent, a lease, a town's home prices or a seat
+ *    from it, with sizes from its own sources. Each is listed below with the file that does it.
  *
  * An "about-zero" link does not count here: it says one outcome is not moved,
  * not that the law does nothing. A link whose size is not set, whose cause
@@ -38,7 +43,9 @@ export type LawEffectPathKind =
   | "state-revenue"
   | "state-spending"
   | "rent-and-eviction"
-  | "seat-turnover";
+  | "home-prices"
+  | "seat-turnover"
+  | "local-powers";
 
 export interface LawEffectPath {
   readonly questionKey: string;
@@ -75,14 +82,36 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     via: "src/simulation/state-paid-leave-law.ts",
   },
   {
+    questionKey: TEACHER_SALARY_FLOOR_QUESTION,
+    kind: "paycheck",
+    via: "src/simulation/living-world/town-pay.ts",
+  },
+  {
     questionKey: LEGISLATIVE_TERM_LIMIT_QUESTION,
     kind: "seat-turnover",
     via: "src/simulation/nationwide-world/state-legislative-term-limits.ts",
+  },
+  {
+    questionKey: COUNCIL_TERM_LIMIT_QUESTION,
+    kind: "seat-turnover",
+    via: "src/simulation/living-world/local-council-term-limits.ts",
+  },
+  // Home rule or Dillon's rule decides which local questions a town's
+  // council may answer, so it opens or closes every ordinance on them.
+  {
+    questionKey: HOME_RULE_QUESTION,
+    kind: "local-powers",
+    via: "src/simulation/governing/question-authority.ts",
   },
   ...Object.values(RENT_LAW_KEYS).map((questionKey): LawEffectPath => ({
     questionKey,
     kind: "rent-and-eviction",
     via: "src/simulation/living-world/town-rent.ts",
+  })),
+  ...HOUSING_SUPPLY_LAWS.map((questionKey): LawEffectPath => ({
+    questionKey,
+    kind: "home-prices",
+    via: "src/simulation/living-world/housing-market.ts",
   })),
   // A tax question moves a state's revenue only where its research set a
   // size; a null size moves no money, so it is no path.
@@ -106,6 +135,11 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: CANNABIS_SALES_QUESTION,
     kind: "state-revenue",
     via: "src/simulation/public-budgets/cannabis-sales-tax.ts",
+  },
+  {
+    questionKey: TUITION_FREEZE_QUESTION,
+    kind: "state-revenue",
+    via: "src/simulation/public-budgets/tuition-freeze.ts",
   },
 ];
 

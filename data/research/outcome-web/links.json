@@ -2069,14 +2069,15 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "law in force",
-      "lagMonths": 0,
+      "size": 0.015,
+      "range": [0.005, 0.055],
+      "per": "law in force: about +1 point on a turnout near 66% of eligible voters",
+      "lagMonths": 12,
       "group": "place",
       "owner": "C",
-      "anchor": "Registration rises a lot, turnout a little (to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "AVR raises registration a lot; the new registrants vote less often than others, but enough of them vote to raise the eligible turnout rate, and the effect builds the longer AVR is in place. Front-end registration (at the agency visit) raised turnout 1.1 points and back-end registration (a notice after the visit) 3.3 points, as Data for Progress quotes the paper; the front-end size is used, with the back-end one as the top of the range. For people whose registration AVR updated when they moved, turnout rose 5.8 points (Orange County, California), which bounds it from above.",
+      "source": "McGhee, Hill and Romero 2021, The Registration and Turnout Effects of Automatic Voter Registration (SSRN 3933442); Kim 2021, APSA preprint (doi 10.33774/apsa-2021-3wzbh)",
+      "evidence": "provisional",
       "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
       "to": "voting.turnout-pct"
     },
@@ -3048,8 +3049,8 @@
       "group": "place",
       "owner": "F-cloud",
       "evidence": "about-zero",
-      "anchor": "State employment protections raised gay men's wages 2.7% and lowered lesbian women's employment, too small a group to move a state's poverty rate",
-      "source": "Burn 2018, Journal of Labor Research"
+      "anchor": "State employment protections raised gay men's wages 2.7% and lowered lesbian women's employment, too small a group to move a state's poverty rate. Enforcing one costs about nothing: the fiscal notes for Utah SB 296 (2015) and West Virginia HB 2266 (2023) each show $0, and the West Virginia commission expected no rise in complaints",
+      "source": "Burn 2018, Journal of Labor Research; Utah Legislative Fiscal Analyst, S.B. 296 fiscal note (3/9/2015); West Virginia Human Rights Commission, HB 2266 fiscal note (1/18/2023)"
     },
     {
       "key": "incentive-cap-to-poverty",
@@ -3678,6 +3679,42 @@
       "anchor": "Where federal law let highway money go to transit (1992 to 2006), states spent about 3% of the whole federal-aid highway program on transit, 13% of the flexible part; California put nearly 40% of its flexible money there, and 19 states less than 2%. The same 3% of a state's own highway spending (Census Bureau, 2022: $128.0 billion) is 5.9% of what transit agencies spend to run service (FTA National Transit Database, 2024: $65.6 billion), so service rises about 6% at the average cost per mile. The spread takes 2% to 40% of the flexible part. The lag is a budget cycle and the buses it buys, the most common use GAO found.",
       "source": "GAO-07-772, Highway and Transit Investments: Flexible Funding Supports State and Local Transportation Priorities (2007); Census Bureau, 2022 Census of Governments: Finance, Table 1 (state highways); FTA National Transit Database 2024 (data.transportation.gov ekg5-frzt, total operating expenses)",
       "range": [0.01, 0.18]
+    },
+    {
+      "key": "farmland-easements-to-farmland-lost",
+      "from": "law:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "to": "farmland.developed-acres",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.47,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 60,
+      "group": "place",
+      "owner": "M",
+      "evidence": "researched",
+      "anchor": "Across 269 counties in six Mid-Atlantic states over 50 years, a state or local program that buys farmland development rights cut the county's rate of farmland loss by 40% to 55%. The size is the middle of that range, 47%, and the spread is the paper's own. The lag is one Census of Agriculture period, the step at which the loss was measured, since a program needs years of purchases before its easements hold back development.",
+      "source": "Liu and Lynch 2011, Do Agricultural Land Preservation Programs Reduce Farmland Loss? Evidence from a Propensity Score Matching Estimator, Land Economics 87(2): 183-201; its 40% to 55% as reported in USDA Economic Research Service, Additionality in U.S. Agricultural Conservation and Regulatory Offset Programs, ERR-170 (2014)",
+      "range": [-0.55, -0.4]
+    },
+    {
+      "key": "groundwater-limits-to-irrigation-pumping",
+      "from": "law:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "to": "water.irrigation-groundwater",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.31,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "M",
+      "evidence": "provisional",
+      "anchor": "Kansas's first Local Enhanced Management Area (Sheridan 6, 2013 to 2017), where irrigators pumped under capped five-year allocations (55 inches of water over five years), cut pumping 31% against a modeled business-as-usual over its first five years (95% interval 21% to 40%). A state law that meters and limits large withdrawals is read as putting such a cap on irrigation pumping; where the cap binds less than it did there, the cut is smaller, so the evidence is provisional. The spread is the paper's interval. The lag is one year, the next irrigation season.",
+      "source": "Deines, Kendall, Butler and Hyndman 2019, Quantifying irrigation adaptation strategies in response to stakeholder-driven groundwater management in the US High Plains Aquifer, Environmental Research Letters 14: 044014 (https://iopscience.iop.org/article/10.1088/1748-9326/aafe39)",
+      "range": [-0.4, -0.21]
     }
   ],
   "calibratedAt": "2024-07-01"
