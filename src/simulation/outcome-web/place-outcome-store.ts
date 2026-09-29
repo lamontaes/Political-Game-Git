@@ -76,9 +76,37 @@ export interface PlaceOutcomeMeasureBase {
   /**
    * "share" (the default): a percent, drifting in log-odds. "index": a level
    * where 100 is the place's start, drifting in logs; `monthlySdLogit` is
-   * then a standard deviation in logs.
+   * then a standard deviation in logs. "rate": a level in the measure's own
+   * unit (crimes per 100,000 people, micrograms per cubic meter), drifting in
+   * logs like an index; `minPct` and `maxPct` are then bounds in that unit.
    */
-  readonly scale?: "share" | "index";
+  readonly scale?: "share" | "index" | "rate";
+  /** How a value reads in a report: "per 10,000 people". Shares read as %. */
+  readonly shortUnit?: string;
+  /**
+   * An older index measure (100 at the start) this one replaces. A save made
+   * before the change carries its level forward from that index, so the
+   * place does not snap back to its base.
+   */
+  readonly replaces?: string;
+}
+
+/** Whether a measure drifts in logs (an index or a rate), not log-odds. */
+export function driftsInLogs(definition: PlaceOutcomeMeasureBase): boolean {
+  return definition.scale === "index" || definition.scale === "rate";
+}
+
+/** A value as a report writes it: "16.7%", "412.3 per 100,000 people". */
+export function placeOutcomeValueText(
+  definition: PlaceOutcomeMeasureBase,
+  value: number,
+): string {
+  if (definition.scale === "index") return `${value}`;
+  if (definition.scale === "rate")
+    return definition.shortUnit
+      ? `${value} ${definition.shortUnit}`
+      : `${value}`;
+  return `${value}%`;
 }
 
 export const PLACE_OUTCOME_BASES = bases.measures as Readonly<

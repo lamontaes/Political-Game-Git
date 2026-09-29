@@ -94,6 +94,20 @@ export const SCENE_VENUES: readonly SceneVenue[] = [
     isJourney: false,
   },
   {
+    locationKey: "campaign-life:town-hall-school-gym",
+    sceneId: null,
+    reason:
+      "A town hall a school or civic group hosts, held in the school gym. It is a place picture (school-gym-town-hall), not a registered room.",
+    isJourney: false,
+  },
+  {
+    locationKey: "campaign-election-night",
+    sceneId: null,
+    reason:
+      "Election night: the player's own victory speech or concession, at the venue. It is a place picture (election-night-venue), not a registered room.",
+    isJourney: false,
+  },
+  {
     locationKey: "east-end-community-room",
     sceneId: PUBLIC_MEETING_ROOM_SCENE_ID,
     reason:

@@ -1,4 +1,10 @@
 import { eventById } from "./event-index";
+import {
+  appendedList,
+  hasStableKey,
+  recordById,
+  recordsWithFieldValue,
+} from "./history-index";
 import { assertPublicFundingMandate } from "./public-fiscal";
 import { assertProgramInstallmentBasis } from "./public-program-integrity";
 import { makeIsoDate } from "./dates";
@@ -373,8 +379,8 @@ function resourceFlowHistory(
   return {
     ...world.history,
     nextSequence: world.history.nextSequence + 2,
-    resourceFlows: [...world.history.resourceFlows, flow],
-    resourceFlowTerms: [...world.history.resourceFlowTerms, terms],
+    resourceFlows: appendedList(world.history.resourceFlows, [flow]),
+    resourceFlowTerms: appendedList(world.history.resourceFlowTerms, [terms]),
   };
 }
 
@@ -468,10 +474,10 @@ export function recordResourceTransferOutcomes(
       history: {
         ...probe.history,
         nextSequence: probe.history.nextSequence + 1,
-        resourceTransferOutcomes: [
-          ...probe.history.resourceTransferOutcomes,
-          record,
-        ],
+        resourceTransferOutcomes: appendedList(
+          probe.history.resourceTransferOutcomes,
+          [record],
+        ),
       },
     };
   }
@@ -502,15 +508,17 @@ function buildResourceTransferOutcome(
     throw new Error("Resource transfer period/outcome chronology is invalid.");
   }
   if (
-    world.history.resourceTransferOutcomes.some(
-      (outcome) =>
-        outcome.resourceFlowId === flow.id &&
-        settlementPeriodsOverlap(
-          periodStartsAt,
-          periodEndsAt,
-          outcome.periodStartsAt,
-          outcome.periodEndsAt,
-        ),
+    recordsWithFieldValue(
+      world.history.resourceTransferOutcomes,
+      "resourceFlowId",
+      flow.id,
+    ).some((outcome) =>
+      settlementPeriodsOverlap(
+        periodStartsAt,
+        periodEndsAt,
+        outcome.periodStartsAt,
+        outcome.periodEndsAt,
+      ),
     )
   ) {
     throw new Error(
@@ -1120,9 +1128,12 @@ function settlementTermsForPeriod(
     throw new Error("A transfer outcome requires active resource-flow terms.");
   }
   if (
-    world.history.resourceFlowTerms.some(
+    recordsWithFieldValue(
+      world.history.resourceFlowTerms,
+      "resourceFlowId",
+      flow.id,
+    ).some(
       (record) =>
-        record.resourceFlowId === flow.id &&
         record.sequence < world.history.nextSequence &&
         record.effectiveAt > periodStartsAt &&
         record.effectiveAt <= periodEndsAt,
@@ -1392,7 +1403,7 @@ function appendOne<K extends keyof World["history"]>(
   return commit(world, {
     ...world.history,
     nextSequence: world.history.nextSequence + 1,
-    [family]: [...records, record],
+    [family]: appendedList(records, [record]),
   });
 }
 
@@ -1407,7 +1418,7 @@ function requireRecord<T extends { readonly id: EntityId }>(
   id: EntityId,
   label: string,
 ): T {
-  const record = records.find((candidate) => candidate.id === id);
+  const record = recordById(records, id);
   if (!record) throw new Error(`Missing ${label}: ${id}`);
   return record;
 }
@@ -1418,7 +1429,7 @@ function assertUniqueStableKey(
   label: string,
 ): void {
   assertNonEmpty(stableKey, `${label} stable key`);
-  if (records.some((record) => record.stableKey === stableKey))
+  if (hasStableKey(records, stableKey))
     throw new Error(`${label} stable key already exists: ${stableKey}`);
 }
 

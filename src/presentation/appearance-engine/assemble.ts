@@ -15,7 +15,11 @@ export const LAYER_ORDER = [
   "dress",
   "outfit",
   "outerwear",
+  "jewelry",
   "head",
+  "facial-hair",
+  "glasses",
+  "earrings",
   "front-hair",
   "accessories",
 ] as const;
@@ -26,6 +30,9 @@ export type LayerSlot = (typeof LAYER_ORDER)[number];
 const HEAD_BOUND: ReadonlySet<LayerSlot> = new Set([
   "back-hair",
   "head",
+  "facial-hair",
+  "glasses",
+  "earrings",
   "front-hair",
 ]);
 
