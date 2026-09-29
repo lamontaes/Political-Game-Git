@@ -57,6 +57,20 @@ const FILING_THRESHOLD = 3;
  */
 const REFILE_AFTER_DAYS = 365;
 
+/**
+ * The reason a member with no view and no cue on an ordinance votes for it.
+ * Councils vote together far more than legislatures: 87 percent of recorded
+ * votes in California city councils were unanimous, against 10 percent of
+ * votes in Congress (Participation and Representation in Local Government
+ * Speech, arXiv 2604.21202, 2026); Austin's council agreed more than 95
+ * percent of the time in 2025 (Austin American-Statesman), Boulder's more
+ * than 70 percent (Boulder Reporting Lab, 2026). The most common real rule
+ * for a member who has nothing at stake is to go along with the item before
+ * the body. Only a member with no view, no record and no cue defers; one who
+ * has any of those decides from them.
+ */
+export const COUNCIL_DEFERENCE_REASON = "member:council-deference";
+
 export const COUNCIL_VOTE_NOTE = `${COUNCIL_LAWMAKING_VERSION}: each member decided their own ballot from their principles, their record, the ordinance's sponsor and the town's voters.`;
 
 export interface CouncilMember {
@@ -258,7 +272,7 @@ export function decideCouncilVote(
     readonly nonpartisan: boolean;
   },
 ): readonly LegislativeVoteDisposition[] {
-  return decideChamberVote(world, {
+  const decided = decideChamberVote(world, {
     stableKey: input.stableKey,
     question: {
       question: {
@@ -283,4 +297,13 @@ export function decideCouncilVote(
     executivePersonId: input.executivePersonId,
     nonpartisan: input.nonpartisan,
   });
+  // A member with nothing of their own to weigh on the question goes along
+  // with the ordinance that reached the floor, the way councils do.
+  return decided.map((row) =>
+    row.disposition === "present-not-voting" &&
+    row.reason === "member:no-reason" &&
+    row.personId !== input.playerPersonId
+      ? { ...row, disposition: "yea", reason: COUNCIL_DEFERENCE_REASON }
+      : row,
+  );
 }
