@@ -51,6 +51,7 @@ import {
 import type { NominationPlan } from "../nominations/nomination-rules";
 import { generalCandidatesFromField } from "../nominations/party-nominations";
 import { STATE_LEGISLATURE_KEYS } from "./state-legislature-opening";
+import { recordByStableKey } from "../history-index";
 
 export const STATE_LEGISLATURE_CANDIDATE_VERSION =
   "state-legislature-candidates/v1";
@@ -115,9 +116,8 @@ export function stateCandidateSlate(
   year: number,
 ): HistoricalEvent | null {
   return (
-    world.history.events.find(
-      (event) => event.stableKey === stateSlateKey(seatKey, year),
-    ) ?? null
+    recordByStableKey(world.history.events, stateSlateKey(seatKey, year)) ??
+    null
   );
 }
 
@@ -185,8 +185,9 @@ export function stateSeatDemocraticShare(
   officeKey: string,
   ordinal: number,
 ): number | null {
-  const opening = world.history.events.find(
-    (event) => event.stableKey === STATE_LEGISLATURE_KEYS.opening(packId),
+  const opening = recordByStableKey(
+    world.history.events,
+    STATE_LEGISLATURE_KEYS.opening(packId),
   );
   const prefix = `seat-share:${officeKey}|${ordinal}|`;
   const text = opening?.tags

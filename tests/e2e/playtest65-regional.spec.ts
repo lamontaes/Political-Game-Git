@@ -43,6 +43,9 @@ for (const place of places) {
       },
     );
     expect(result.date).toBe("2026-06-05");
+    // The opening begins with the year (Sept. 28), then the White House.
+    await expect(page.getByTestId("orientation-step-year")).toBeVisible();
+    await page.getByTestId("orientation-next").click();
     await expect(page.getByTestId("orientation-step-executive")).toBeVisible();
     await page.getByTestId("orientation-next").focus();
     await page.keyboard.press("Enter");
@@ -130,6 +133,9 @@ for (const place of places) {
           includeBankedTestAlternative: true,
         },
       );
+      // The opening begins with the year (Sept. 28), then the White House.
+      await expect(page.getByTestId("orientation-step-year")).toBeVisible();
+      await page.getByTestId("orientation-next").click();
       await expect(
         page.getByTestId("orientation-step-executive"),
       ).toBeVisible();
@@ -199,6 +205,9 @@ for (const scenario of [
       },
       { ...scenario, reviewCandidates: process.env.PG_REGIONAL_REVIEW === "1" },
     );
+    // The opening begins with the year (Sept. 28), then the White House.
+    await expect(page.getByTestId("orientation-step-year")).toBeVisible();
+    await page.getByTestId("orientation-next").click();
     await expect(page.getByTestId("orientation-step-executive")).toBeVisible();
     await page.getByTestId("orientation-next").click();
     await expect(page.getByTestId("orientation-step-state")).toBeVisible();
@@ -228,6 +237,9 @@ test("District introduction follows the White House and keeps population and Con
       reviewCandidates: false,
     });
   });
+  // The opening begins with the year (Sept. 28), then the White House.
+  await expect(page.getByTestId("orientation-step-year")).toBeVisible();
+  await page.getByTestId("orientation-next").click();
   await expect(page.getByTestId("orientation-step-executive")).toBeVisible();
   await page.getByTestId("orientation-next").click();
   await expect(
@@ -244,6 +256,9 @@ test("District introduction follows the White House and keeps population and Con
   await page.getByTestId("orientation-next").click();
   await expect(page.getByTestId("orientation-step-congress")).toBeVisible();
   await page.getByTestId("orientation-next").click();
+  // Parents or guardians, when the life records any, come before your life.
+  if (await page.getByTestId("orientation-step-parents").isVisible())
+    await page.getByTestId("orientation-next").click();
   await expect(page.getByTestId("orientation-step-your-life")).toBeVisible();
   expect(
     await page.evaluate(async () => {
@@ -268,6 +283,9 @@ test("state voting card shows dated survey counts and readable group tables with
       reviewCandidates: false,
     });
   });
+  // The opening begins with the year (Sept. 28), then the White House.
+  await expect(page.getByTestId("orientation-step-year")).toBeVisible();
+  await page.getByTestId("orientation-next").click();
   await page.getByTestId("orientation-next").click();
   await expect(page.getByTestId("opening-state-population")).toBeVisible();
   await expect(

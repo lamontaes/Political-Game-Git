@@ -33,6 +33,7 @@ import {
   congressSeatTitle,
   livingWorldOrganizationId,
 } from "./opening";
+import { recordByStableKey } from "../history-index";
 
 export const CONGRESS_CANDIDATE_VERSION = "congress-candidates/v1";
 
@@ -120,9 +121,7 @@ export function congressCandidateSlate(
   year: number,
 ): HistoricalEvent | null {
   return (
-    world.history.events.find(
-      (event) => event.stableKey === slateKey(seatKey, year),
-    ) ?? null
+    recordByStableKey(world.history.events, slateKey(seatKey, year)) ?? null
   );
 }
 
