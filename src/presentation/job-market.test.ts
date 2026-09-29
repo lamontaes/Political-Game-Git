@@ -258,18 +258,23 @@ describe("jobs in a town", () => {
     const start = begin(SAN_JUAN, "jobs-san-juan");
     let world = start.world;
     const home = world.people[start.personId]!.homeJurisdictionId;
-    // Puerto Rico has no Census government listing, so no public body is
-    // named; town businesses are the only employers here.
-    const localBusinessIds = new Set(
+    // Puerto Rico has no Census government listing; the one public body is
+    // the municipio, a government under the Municipal Code (Law 107 of
+    // 2020). Every other employer is a town business.
+    const employerIds = new Set(
       world.history.organizations
-        .filter((org) => org.stableKey.startsWith("local-business:"))
+        .filter(
+          (org) =>
+            org.stableKey.startsWith("local-business:") ||
+            org.stableKey === "local-government:municipio:72127",
+        )
         .map((org) => org.id),
     );
     expect(
       openJobListings(
         untilListed(world, start.personId, 2),
         start.personId,
-      ).filter((opening) => !localBusinessIds.has(opening.organizationId)),
+      ).filter((opening) => !employerIds.has(opening.organizationId)),
     ).toEqual([]);
     const relative = kinshipRelationshipsAt(world, start.personId)
       .flatMap((kin) => kin.personIds)

@@ -1911,20 +1911,6 @@
       "kind": "fixed-share",
       "build": "Build 12",
       "count": 1,
-      "code": "floorShareOfSpending: 0.05,"
-    },
-    {
-      "file": "src/simulation/public-budgets/rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 12",
-      "count": 1,
-      "code": "yearlyDepositShareOfSpending: 0.01,"
-    },
-    {
-      "file": "src/simulation/public-budgets/rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 12",
-      "count": 1,
       "code": "export const FIRST_CUT_SHARE = 0.03;"
     },
     {

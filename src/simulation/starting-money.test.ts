@@ -10,7 +10,11 @@ import {
   money,
   recordResourceTransferOutcome,
 } from "./resources";
-import { ensureStartingPersonalMoney } from "./starting-money";
+import scf from "../../data/research/money/scf-transaction-accounts-2022.json" with { type: "json" };
+import {
+  ensureStartingPersonalMoney,
+  medianTransactionBalance,
+} from "./starting-money";
 
 const PROVENANCE = {
   kind: "authored" as const,
@@ -89,7 +93,17 @@ describe("recorded starting money", () => {
       { kind: "person", personId },
       money(0, "USD").currency,
     );
-    expect(position?.liquidBalance.minorUnits).toBeGreaterThan(0);
+    // $33,600 a year sits between the survey's two lowest income groups, so
+    // the balance's share of pay is read between theirs.
+    expect(position?.liquidBalance.minorUnits).toBe(
+      Math.round(medianTransactionBalance(33_600) * 100),
+    );
+    expect(medianTransactionBalance(33_600)).toBeGreaterThan(
+      (33_600 * 900) / 20_537,
+    );
+    expect(medianTransactionBalance(33_600)).toBeLessThan(
+      (33_600 * 2_550) / 43_236,
+    );
     const repeated = ensureStartingPersonalMoney(created.world, personId);
     expect(repeated.status).toBe("existing");
     expect(repeated.world).toBe(created.world);
@@ -184,5 +198,20 @@ describe("recorded starting money", () => {
         money(0, "USD").currency,
       )?.liquidBalance.minorUnits,
     ).toBe(5_000);
+  });
+
+  it("keeps the survey's median balance at each income group's median income", () => {
+    for (const group of scf.groups) {
+      expect(medianTransactionBalance(group.medianFamilyIncome)).toBeCloseTo(
+        group.medianTransactionAccounts,
+        6,
+      );
+    }
+    // Beyond the table it keeps the nearest group's share of income.
+    expect(medianTransactionBalance(10_000)).toBeCloseTo(
+      (10_000 * 900) / 20_537,
+      6,
+    );
+    expect(medianTransactionBalance(0)).toBe(0);
   });
 });
