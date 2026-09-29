@@ -2,10 +2,7 @@ import { recordById } from "../history-index";
 import { operativeDateForEnactment } from "../legislative-effective-date";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { makeIsoDate } from "../dates";
-import {
-  measurePropositionAnswer,
-  type PropositionAnswer,
-} from "../issue-record";
+import { type PropositionAnswer } from "../issue-record";
 import { lawLevelRank, type LawLevel } from "../law-hierarchy";
 import {
   lifePlaceByJurisdictionId,

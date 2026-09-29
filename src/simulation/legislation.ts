@@ -8,7 +8,6 @@ import {
 } from "./legislative-effective-date";
 import {
   growingIndex,
-  indexOverArrays,
   recordById,
   recordByStableKey,
   type GrowingIndexKind,
