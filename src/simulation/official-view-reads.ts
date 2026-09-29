@@ -145,6 +145,24 @@ export function lawInterestGroup(
   );
 }
 
+/** Everyone in any group formed in this town against a law. */
+export function lawInterestMembersInTown(
+  world: World,
+  town: EntityId,
+): ReadonlySet<EntityId> {
+  const prefix = `${G}:${town}:`;
+  const groups = new Set(
+    world.history.organizations
+      .filter((row) => row.stableKey.startsWith(prefix))
+      .map((row) => row.id),
+  );
+  const members = new Set<EntityId>();
+  if (groups.size === 0) return members;
+  for (const row of world.history.organizationParticipations)
+    if (groups.has(row.organizationId)) members.add(row.personId);
+  return members;
+}
+
 /** Everyone active in the group. */
 export function lawInterestMembers(
   world: World,

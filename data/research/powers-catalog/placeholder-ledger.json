@@ -3,19 +3,19 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 754,
+    "markers": 755,
     "byKind": {
       "unresearched": 221,
-      "placeholder": 422,
+      "placeholder": 423,
       "blanket": 126
     },
     "byPath": {
-      "other": 469,
+      "other": 470,
       "money": 73,
       "law": 133,
       "government": 79
     },
-    "withoutQuestion": 456,
+    "withoutQuestion": 457,
     "questionNotFiled": 30,
     "moneyOrLawQuestions": 61
   },
@@ -3199,8 +3199,17 @@
     },
     {
       "file": "src/simulation/living-world/civic-actions.ts",
-      "line": 34,
-      "text": "// PLACEHOLDER: a person holding a view of an official at least this strong",
+      "line": 45,
+      "text": "// PLACEHOLDER weights, in parts of one quarter's pull. Age and years in town",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/living-world/civic-actions.ts",
+      "line": 55,
+      "text": "// PLACEHOLDER: a view of an official at least this strong doubles the pull.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3352,8 +3361,8 @@
     },
     {
       "file": "src/simulation/living-world/law-interest-groups.ts",
-      "line": 30,
-      "text": "// PLACEHOLDER: joining odds rise with the loss as a share of a month's pay,",
+      "line": 38,
+      "text": "// PLACEHOLDER: resolve is the loss in multiples of the loss that counts,",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3361,7 +3370,7 @@
     },
     {
       "file": "src/simulation/living-world/law-interest-groups.ts",
-      "line": 89,
+      "line": 99,
       "text": "// PLACEHOLDER wording, awaiting editorial review.",
       "kinds": ["placeholder"],
       "path": "other",

@@ -17,16 +17,20 @@ import {
 } from "../../src/simulation/living-world/civic-actions";
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
 import type { World } from "../../src/simulation";
+import { drawRandomPlace } from "../support/random-place";
+
+const SEED = "civic-actions";
+const PLACE = drawRandomPlace(SEED);
 
 describe(
-  "residents contact officials and attend meetings",
+  `residents contact officials and attend meetings in ${PLACE.displayName} (${PLACE.key}, seed ${SEED})`,
   { timeout: 300_000 },
   () => {
     const game = generateOpeningLife(
       prepareOpeningLife({
         ...DEFAULT_NEW_GAME_SETUP,
-        seed: "civic-actions-lexington",
-        placeKey: "2146027",
+        seed: SEED,
+        placeKey: PLACE.key,
         startAge: 24,
         questionnaire: "skipped",
       }),
@@ -67,7 +71,7 @@ describe(
                   .personId,
             ),
         ).size / adults;
-      expect(adults).toBeGreaterThan(100);
+      expect(adults).toBeGreaterThan(40);
       expect(share(CIVIC_ACTION_EVENTS.contacted)).toBeGreaterThan(0.15);
       expect(share(CIVIC_ACTION_EVENTS.contacted)).toBeLessThan(0.31);
       expect(share(CIVIC_ACTION_EVENTS.attended)).toBeGreaterThan(0.2);
@@ -77,6 +81,30 @@ describe(
           event.participants.some((row) => row.personId === personId),
         ),
       ).toBe(false);
+    });
+
+    it("residents with more years at stake act more often than young adults", () => {
+      const acted = new Set(
+        events.map(
+          (event) =>
+            event.participants.find((row) => row.role === "focus:subject")!
+              .personId,
+        ),
+      );
+      const shareAged = (low: number, high: number) => {
+        const group = game.world.personOrder.filter((id) => {
+          const person = game.world.people[id]!;
+          const age = ageOnDate(person.birthDate, game.world.currentDate);
+          return (
+            id !== personId &&
+            person.homeJurisdictionId === town &&
+            age >= low &&
+            age < high
+          );
+        });
+        return group.filter((id) => acted.has(id)).length / group.length;
+      };
+      expect(shareAged(50, 120)).toBeGreaterThan(shareAged(18, 30));
     });
 
     it("a contact names a real official, dated on its review", () => {
