@@ -42,12 +42,38 @@ import {
 } from "../../src/simulation/serialization";
 import { currentPublicOfficeholders } from "../../src/presentation/opening-officeholders";
 import { proseDate } from "../../src/presentation/prose-dates";
+import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import { lawInForce } from "../../src/simulation/governing/law-in-force";
+import { stateJurisdictionForKey } from "../../src/simulation/life-places";
+import { STATES } from "../../src/simulation/state-reference";
+import {
+  jurisdictionPowersLevels,
+  questionAuthority,
+} from "../../src/simulation/governing/question-authority";
+import {
+  OUTCOME_LINKS,
+  OUTCOMES_PRODUCED,
+  outcomeFactor,
+  outcomeLinkStatus,
+} from "../../src/simulation/outcome-web";
+import {
+  PLACE_OUTCOME_BASES,
+  PLACE_OUTCOME_MEASURES,
+  placeOutcomeKey,
+  placeOutcomeRecords,
+  placeOutcomeValueText,
+} from "../../src/simulation/outcome-web/place-outcomes";
 import {
   anniversary,
   createObserverDayButton,
   formattedMarkdown,
   openWatchedWorld,
 } from "../dev-lab/world-aging";
+import {
+  vitalCounts,
+  vitalSnapshot,
+  type VitalSnapshot,
+} from "./vital-statistics";
 
 /* -------------------------------------------------------------------------- */
 /* Running the world                                                           */
@@ -86,6 +112,8 @@ export interface WorldReportRun {
   readonly world: World;
   /** Who held each executive office at the opening and each month's start. */
   readonly officeholders: readonly OfficeholderSnapshot[];
+  /** The place's vital statistics as the watched world opened. */
+  readonly vitalsAtStart?: VitalSnapshot;
 }
 
 function officeholderSnapshot(world: World): OfficeholderSnapshot {
@@ -112,6 +140,10 @@ export function runWorldReport(options: WorldReportOptions): WorldReportRun {
       ? button.world.currentDate >= until
       : daysPressed >= options.days;
   const officeholders = [officeholderSnapshot(button.world)];
+  const town = watched.world.people[watched.anchorPersonId]?.homeJurisdictionId;
+  const vitalsAtStart = town
+    ? vitalSnapshot(button.world, town, watched.anchorPersonId)
+    : undefined;
   let daysPressed = 0;
   let stopped: string | null = null;
   while (!done()) {
@@ -134,6 +166,7 @@ export function runWorldReport(options: WorldReportOptions): WorldReportRun {
     stopped,
     world: button.world,
     officeholders,
+    ...(vitalsAtStart ? { vitalsAtStart } : {}),
   };
 }
 
@@ -758,7 +791,96 @@ function lawConsequences(
       }
     }
   }
+  // A law also acts through the outcome web, which names no measure: its
+  // monthly records name the link that moved them.
+  for (const [measureId, moves] of lawOutcomeMoves(
+    reader.world,
+    reader.startedOn,
+  )) {
+    const seen = found.get(measureId) ?? [];
+    for (const move of moves)
+      seen.push({ array: "placeOutcomes", id: move.label });
+    found.set(measureId, seen);
+  }
   return found;
+}
+
+/**
+ * Each outcome a law enacted in play moved, read from the outcome web's
+ * monthly records since `since`: a record's cause names a link from a law's
+ * question, and the law in force in that place that month is the measure.
+ * A lagged link is credited to the law in force in the month it moved, which
+ * is the law it reads unless a newer law on the same question took effect
+ * inside the lag.
+ */
+export function lawOutcomeMoves(
+  world: World,
+  since: IsoDate,
+): Map<string, { measure: string; placeKey: string; label: string }[]> {
+  const propositionOf = new Map(
+    Object.values(world.policyCatalog?.propositions ?? {}).map(
+      (definition) => [definition.stableKey, definition.id] as const,
+    ),
+  );
+  const questionOfLink = new Map<string, EntityId>();
+  for (const link of OUTCOME_LINKS) {
+    if (!link.from.startsWith("law:")) continue;
+    const propositionId = propositionOf.get(link.from.slice(4));
+    if (propositionId) questionOfLink.set(link.key, propositionId);
+  }
+  const lawAt = new Map<string, string | null>();
+  const found = new Map<
+    string,
+    { measure: string; placeKey: string; label: string }[]
+  >();
+  for (const record of placeOutcomeRecords(world)) {
+    if (record.month < since) continue;
+    for (const cause of record.causes) {
+      const propositionId = questionOfLink.get(cause.key);
+      if (!propositionId || Math.abs(cause.factor - 1) < 1e-9) continue;
+      const key = `${record.jurisdictionId}|${propositionId}|${record.month}`;
+      let measureId = lawAt.get(key);
+      if (measureId === undefined) {
+        const law = lawInForce(
+          world,
+          record.jurisdictionId,
+          propositionId,
+          record.month,
+        );
+        measureId = law?.origin === "enacted" ? law.measureId : null;
+        lawAt.set(key, measureId);
+      }
+      if (!measureId) continue;
+      const rows = found.get(measureId) ?? [];
+      if (
+        !rows.some(
+          (row) =>
+            row.measure === record.measure && row.placeKey === record.placeKey,
+        )
+      )
+        rows.push({
+          measure: record.measure,
+          placeKey: record.placeKey,
+          label: `${(PLACE_OUTCOME_BASES[record.measure]?.name ?? record.measure).toLowerCase()} in ${record.placeKey}`,
+        });
+      found.set(measureId, rows);
+    }
+  }
+  return found;
+}
+
+/** "people homeless … in US-VA" labels, one phrase per outcome. */
+function outcomePlaces(labels: readonly string[]): string[] {
+  const places = new Map<string, number>();
+  for (const label of labels) {
+    const outcome = label.slice(0, label.lastIndexOf(" in "));
+    places.set(outcome, (places.get(outcome) ?? 0) + 1);
+  }
+  return [...places].map(([outcome, n]) =>
+    n === 1
+      ? labels.find((label) => label.startsWith(`${outcome} in `))!
+      : `${outcome} in ${n} places`,
+  );
 }
 
 function lawLines(
@@ -801,14 +923,26 @@ function lawLines(
       });
       continue;
     }
-    const changed = consequences.get(enactment.measureId as string) ?? [];
+    const all = consequences.get(enactment.measureId as string) ?? [];
+    const changed = all.filter((row) => row.array !== "placeOutcomes");
+    const moved = all.filter((row) => row.array === "placeOutcomes");
     const byArray = new Map<string, number>();
     for (const row of changed)
       byArray.set(row.array, (byArray.get(row.array) ?? 0) + 1);
+    const parts = [
+      ...[...byArray].map(
+        ([array, value]) => `${value} ${array} record${value === 1 ? "" : "s"}`,
+      ),
+      ...(moved.length
+        ? [
+            `through the outcome web, ${list(outcomePlaces(moved.map((row) => row.id)))}`,
+          ]
+        : []),
+    ];
     lines.push({
       date: enactment.resolvedAt as IsoDate,
       section: "laws",
-      text: `${label} became law${enactment.effectiveAt ? `, effective ${proseDate(enactment.effectiveAt as string)}` : ""}. What it changed in the world's records: ${changed.length === 0 ? "nothing outside its own passage" : list([...byArray].map(([array, value]) => `${value} ${array} record${value === 1 ? "" : "s"}`))}.`,
+      text: `${label} became law${enactment.effectiveAt ? `, effective ${proseDate(enactment.effectiveAt as string)}` : ""}. What it changed in the world's records: ${parts.length === 0 ? "nothing outside its own passage" : list(parts)}.`,
       sources: [enactment.id, ...changed.slice(0, 6).map((row) => row.id)],
     });
   }
@@ -1522,7 +1656,7 @@ export function neverChecks(
       "No law changed anything in the world beyond its own passage.",
       "At least one law changed a record beyond its own passage.",
       lawsWithConsequences.length > 0,
-      `${count(enacted.length, "bill")} became law; ${lawsWithConsequences.length} of them are named by any record outside the legislative process, the news, people's memories and the scheduler.`,
+      `${count(enacted.length, "bill")} became law; ${lawsWithConsequences.length} of them are named by any record outside the legislative process, the news, people's memories and the scheduler, or moved an outcome the outcome web records.`,
     ),
     check(
       "big-field",
@@ -1766,6 +1900,288 @@ function monthDay(date: IsoDate): string {
   return proseDate(date).replace(/, \d{4}$/, "");
 }
 
+/**
+ * Every enacted law that answers a policy question, by the level that made it,
+ * and whether that level's powers cover the question (`question-authority.ts`).
+ * Then what Congress's laws feed in the outcome web.
+ */
+function powersLines(world: World): string[] {
+  const measures = new Map(
+    (world.history.legislativeMeasures ?? []).map((row) => [row.id, row]),
+  );
+  const tally = new Map<
+    string,
+    {
+      laws: number;
+      answers: number;
+      beyond: number;
+      unsettled: number;
+      noQuestion: number;
+    }
+  >();
+  const federal: { key: string; built: number }[] = [];
+  for (const enactment of world.history.legislativeEnactments ?? []) {
+    if (enactment.outcome !== "enacted") continue;
+    const measure = measures.get(enactment.measureId);
+    if (!measure) continue;
+    const levels = jurisdictionPowersLevels(world, measure.jurisdictionId);
+    const level = levels.includes("federal")
+      ? "Congress"
+      : levels.some((l) => l === "state" || l === "dc" || l === "territory")
+        ? "state, D.C. and territory legislatures"
+        : "city and county councils";
+    const row = tally.get(level) ?? {
+      laws: 0,
+      answers: 0,
+      beyond: 0,
+      unsettled: 0,
+      noQuestion: 0,
+    };
+    tally.set(level, row);
+    if (!measure.propositionAnswers?.length) {
+      row.noQuestion += 1;
+      continue;
+    }
+    row.laws += 1;
+    for (const answer of measure.propositionAnswers) {
+      row.answers += 1;
+      const may = questionAuthority(
+        world,
+        measure.jurisdictionId,
+        answer.propositionId,
+      ).may;
+      if (may === "no") row.beyond += 1;
+      if (may === "unknown") row.unsettled += 1;
+      if (level === "Congress") {
+        const key =
+          world.policyCatalog.propositions[answer.propositionId]?.stableKey ??
+          "";
+        federal.push({
+          key,
+          built: OUTCOME_LINKS.filter(
+            (link) =>
+              link.from === `law:${key}` && outcomeLinkStatus(link) === "built",
+          ).length,
+        });
+      }
+    }
+  }
+  const out = ["Laws that answered a policy question, by who made them:", ""];
+  for (const level of [
+    "Congress",
+    "state, D.C. and territory legislatures",
+    "city and county councils",
+  ]) {
+    const row = tally.get(level) ?? {
+      laws: 0,
+      answers: 0,
+      beyond: 0,
+      unsettled: 0,
+      noQuestion: 0,
+    };
+    out.push(
+      `- ${level}: ${count(row.laws, "law")}; ${row.beyond} answered a question that is not theirs to answer${row.unsettled ? `, and ${row.unsettled} rest on a power the research has not settled` : ""}.${row.noQuestion ? ` ${count(row.noQuestion, "more law")} answered no policy question.` : ""}`,
+    );
+  }
+  if (federal.length) {
+    const feeding = federal.filter((row) => row.built > 0);
+    const questions = new Set(federal.map((row) => row.key));
+    out.push(
+      "",
+      `Congress's laws answered ${count(questions.size, "federal question")}; ${count(feeding.length, "law")} of ${federal.length} feed an outcome that acts in the world.`,
+    );
+  }
+  return out;
+}
+
+/**
+ * The law in force in every state, D.C. and territory on each question the
+ * starting-law file covers, as `lawInForce` reads it at the end of the run:
+ * how many places say yes, no, or have no answer (unknown), and how many of
+ * those answers are still the law each place began with.
+ */
+function startingLawAcrossPlaces(world: World): string[] {
+  const places = Object.keys(STATES).flatMap((usps) => {
+    const id = stateJurisdictionForKey(`US-${usps}`)?.id;
+    return id ? [id] : [];
+  });
+  const covered = new Set(Object.keys(startingLaw.questions));
+  const lines: string[] = [];
+  let yes = 0;
+  let no = 0;
+  let unknown = 0;
+  let fromStart = 0;
+  for (const propositionId of world.policyCatalog.propositionOrder) {
+    const proposition = world.policyCatalog.propositions[propositionId]!;
+    if (!covered.has(proposition.stableKey)) continue;
+    const tally = { yes: 0, no: 0, unknown: 0, fromStart: 0 };
+    for (const place of places) {
+      const law = lawInForce(world, place, propositionId);
+      if (!law) tally.unknown += 1;
+      else {
+        tally[law.answer] += 1;
+        if (law.origin === "in-force-at-start") tally.fromStart += 1;
+      }
+    }
+    yes += tally.yes;
+    no += tally.no;
+    unknown += tally.unknown;
+    fromStart += tally.fromStart;
+    lines.push(
+      `  - ${proposition.name}: ${tally.yes} yes, ${tally.no} no, ${tally.unknown} unknown; ${tally.fromStart} as the place began.`,
+    );
+  }
+  return [
+    `Across all ${places.length} places (the states, D.C. and the territories), on the ${count(lines.length, "question")} with researched starting law: ${yes} yes, ${no} no, ${unknown} unknown; ${fromStart} answers are still the law the place began with.`,
+    ...lines,
+  ];
+}
+
+/**
+ * What the law in force says in the watched town on each policy question,
+ * where it came from, what each law feeds in the outcome web, and which causes
+ * moved each outcome the world computes (04 SYSTEM SPECS parts 4 and 5).
+ */
+function lawOutcomeLines(run: WorldReportRun): string[] {
+  const world = run.world;
+  const town = world.people[run.anchorPersonId]?.homeJurisdictionId;
+  if (!town) return [];
+  const out = ["## What the laws changed beyond money", ""];
+  const answered: {
+    name: string;
+    stableKey: string;
+    answer: string;
+    origin: string;
+    designation: string;
+    since: IsoDate;
+  }[] = [];
+  for (const propositionId of world.policyCatalog.propositionOrder) {
+    const law = lawInForce(world, town, propositionId);
+    if (!law) continue;
+    const proposition = world.policyCatalog.propositions[propositionId]!;
+    const measure = world.history.legislativeMeasures?.find(
+      (row) => row.id === law.measureId,
+    );
+    answered.push({
+      name: proposition.name,
+      stableKey: proposition.stableKey,
+      answer: law.answer,
+      origin: law.origin,
+      designation: measure?.designation ?? "",
+      since: law.operativeAt,
+    });
+  }
+  const atStart = answered.filter((row) => row.origin === "in-force-at-start");
+  const inPlay = answered.filter((row) => row.origin === "enacted");
+  out.push(
+    `The law in force here answers ${count(answered.length, "policy question")}: ${atStart.length} as the law stood when the game began, and ${inPlay.length} by laws enacted during the run.`,
+    "",
+    ...powersLines(world),
+    "",
+  );
+  out.push(...startingLawAcrossPlaces(world), "");
+  for (const row of [...inPlay, ...atStart]) {
+    const links = OUTCOME_LINKS.filter(
+      (link) => link.from === `law:${row.stableKey}`,
+    );
+    const acting = links.filter((link) => outcomeLinkStatus(link) === "built");
+    out.push(
+      `- **${row.name}**: ${row.answer}${row.origin === "enacted" ? `, ${row.designation}, in force from ${proseDate(row.since)}` : ", as the game began"}. ${links.length ? `Feeds ${count(links.length, "outcome")}; ${acting.length} ${acting.length === 1 ? "acts" : "act"} in the world today.` : "Feeds no outcome yet."}`,
+    );
+    for (const link of links)
+      out.push(`  - ${link.to} (${link.strength}): ${outcomeLinkStatus(link)}`);
+  }
+  out.push(
+    "",
+    "What moved each outcome the world computes, at the end of the run:",
+    "",
+  );
+  for (const outcome of OUTCOMES_PRODUCED) {
+    const reading = outcomeFactor(world, town, outcome, world.currentDate);
+    const moved = reading.causes.filter((cause) => cause.factor !== 1);
+    out.push(
+      `- ${outcome}: ${reading.multiplier.toFixed(3)} times its base rate${moved.length ? `, from ${moved.map((cause) => `${cause.key} (${cause.factor.toFixed(3)})`).join(", ")}` : ", nothing moved it"}.`,
+    );
+  }
+  const stateKey = placeOutcomeKey(town);
+  const records = placeOutcomeRecords(world).filter(
+    (record) => record.placeKey === stateKey,
+  );
+  if (records.length) {
+    out.push("", `How the state's outcomes moved (${stateKey}):`, "");
+    for (const measure of PLACE_OUTCOME_MEASURES) {
+      const series = records.filter((record) => record.measure === measure);
+      const first = series[0];
+      const last = series.at(-1);
+      if (!first || !last) continue;
+      const moved = [
+        ...new Set(series.flatMap((r) => r.causes.map((c) => c.key))),
+      ];
+      out.push(
+        `- ${PLACE_OUTCOME_BASES[measure]!.name}: ${placeOutcomeValueText(PLACE_OUTCOME_BASES[measure]!, first.value)} in ${monthTitle(first.month.slice(0, 7))}, ${placeOutcomeValueText(PLACE_OUTCOME_BASES[measure]!, last.value)} in ${monthTitle(last.month.slice(0, 7))}${moved.length ? `; moved by ${moved.join(", ")}` : "; nothing moved it"}.`,
+      );
+    }
+  }
+  out.push("", ...lawsMovingOutcomesEverywhere(world));
+  return out;
+}
+
+/**
+ * Every state where a law enacted in play changed its answer on a question the
+ * outcome web reads, and what that law moved there at the end of the run.
+ */
+function lawsMovingOutcomesEverywhere(world: World): string[] {
+  const lawLinks = OUTCOME_LINKS.filter(
+    (link) =>
+      link.from.startsWith("law:") && outcomeLinkStatus(link) === "built",
+  );
+  const questions = [...new Set(lawLinks.map((link) => link.from.slice(4)))];
+  const rows: string[] = [];
+  const moving = new Set<string>();
+  for (const questionKey of questions) {
+    const proposition = Object.values(world.policyCatalog.propositions).find(
+      (definition) => definition.stableKey === questionKey,
+    );
+    if (!proposition) continue;
+    const places: string[] = [];
+    for (const usps of Object.keys(STATES)) {
+      const state = stateJurisdictionForKey(`US-${usps}`)?.id;
+      if (!state) continue;
+      const law = lawInForce(world, state, proposition.id);
+      if (law?.origin !== "enacted") continue;
+      const measure = world.history.legislativeMeasures?.find(
+        (row) => row.id === law.measureId,
+      );
+      const moved = lawLinks
+        .filter((link) => link.from === `law:${questionKey}`)
+        .flatMap((link) => {
+          const cause = outcomeFactor(
+            world,
+            state,
+            link.to,
+            world.currentDate,
+          ).causes.find((row) => row.key === link.key);
+          return cause && cause.factor !== 1
+            ? [`${link.to} ${cause.factor.toFixed(3)}`]
+            : [];
+        });
+      if (moved.length) moving.add(questionKey);
+      places.push(
+        `${usps} ${measure?.designation ?? ""} (${law.answer}): ${moved.length ? moved.join(", ") : "nothing yet (the law's lag, or the state's starting law already said so)"}`,
+      );
+    }
+    if (places.length)
+      rows.push(`- **${proposition.name}**: ${places.join("; ")}.`);
+  }
+  return [
+    "Laws enacted in play, in every state, on questions the outcome web reads (the factor is the multiplier on the outcome at the end of the run):",
+    "",
+    `${count(moving.size, "question")} moved an outcome through a named law.`,
+    "",
+    ...rows,
+  ];
+}
+
 export function worldReportMarkdown(run: WorldReportRun): string {
   const reader = new WorldRecordReader(run.world, run.anchorPersonId);
   const lines = chronicle(reader, run.officeholders);
@@ -1810,6 +2226,7 @@ export function worldReportMarkdown(run: WorldReportRun): string {
   const bySection = new Map<Section, number>();
   for (const line of lines)
     bySection.set(line.section, (bySection.get(line.section) ?? 0) + 1);
+  out.push("", ...lawOutcomeLines(run));
   out.push(
     "",
     "## The chronicle in numbers",
@@ -1857,8 +2274,64 @@ export function worldReportMarkdown(run: WorldReportRun): string {
     "- People near the place are those living in it at the end, and anyone who moved into or out of it.",
     "- Each chronicle line ends with a hidden comment naming the ids of the records it came from. Open this file as text to see them.",
     "",
+    ...vitalStatisticsLines(run, reader),
   );
   return `${out.join("\n")}\n`;
+}
+
+const KEPT_FOR = { town: "the place", state: "the state" } as const;
+
+/**
+ * VITAL STATISTICS, the same list for every place, last in the report so two
+ * worlds can be set side by side: each figure at the opening and at the end.
+ */
+export function vitalStatisticsLines(
+  run: WorldReportRun,
+  reader: WorldRecordReader,
+): string[] {
+  const town = reader.placeJurisdictionId;
+  const end = vitalSnapshot(run.world, town, run.anchorPersonId);
+  const start = new Map(
+    (run.vitalsAtStart?.figures ?? []).map((figure) => [figure.key, figure]),
+  );
+  const cell = (value: string | null | undefined, missing?: string) =>
+    value ?? (missing ? `not recorded: ${missing}` : "not recorded");
+  const out = [
+    "## Vital statistics",
+    "",
+    `${reader.placeName}, at the opening (${proseDate(reader.startedOn)}) and at the end (${proseDate(reader.endedOn)}). Every figure is read from what the world recorded; a figure it does not record says so and is never shown as zero.`,
+    "",
+    "| Figure | Kept for | Start | End |",
+    "| --- | --- | --- | --- |",
+  ];
+  for (const figure of end.figures) {
+    const opening = start.get(figure.key);
+    out.push(
+      `| ${figure.label} | ${KEPT_FOR[figure.scope]} | ${opening ? cell(opening.value, opening.missing) : "not recorded: the run kept no opening figures"} | ${cell(figure.value, figure.missing)} |`,
+    );
+  }
+  const firstYearEnd = anniversary(reader.startedOn, 1);
+  const first = vitalCounts(
+    run.world,
+    town,
+    reader.startedOn,
+    firstYearEnd < reader.endedOn ? firstYearEnd : reader.endedOn,
+  );
+  const lastYearStart = anniversary(reader.startedOn, run.options.years - 1);
+  const last = vitalCounts(
+    run.world,
+    town,
+    lastYearStart > reader.startedOn ? lastYearStart : reader.startedOn,
+    reader.endedOn,
+  );
+  out.push(
+    `| Births, first year and last year | the place | ${first.births} | ${last.births} |`,
+    `| Deaths, first year and last year | the place | ${first.deaths} | ${last.deaths} |`,
+    `| Businesses opened, first year and last year | the place | ${first.businessesOpened} | ${last.businessesOpened} |`,
+    `| Businesses closed, first year and last year | the place | ${first.businessesClosed} | ${last.businessesClosed} |`,
+    "",
+  );
+  return out;
 }
 
 /* -------------------------------------------------------------------------- */

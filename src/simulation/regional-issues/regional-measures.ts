@@ -1,4 +1,4 @@
-import generated from "./regional-measures.generated.json";
+import generated from "./regional-measures.generated.json" with { type: "json" };
 import type { IsoDate } from "../types";
 
 /**

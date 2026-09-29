@@ -43,6 +43,75 @@ export function isTerritoryUsps(usps: string | null | undefined): boolean {
   return usps != null && TERRITORY_USPS.has(usps);
 }
 
+/**
+ * The seat of the national government (U.S. Const. art. I, § 8, cl. 17): no
+ * state and no territory. One government, its Mayor and Council, is both its
+ * local and its state-level government, so its home is that government.
+ */
+export const FEDERAL_DISTRICT_USPS: ReadonlySet<string> = new Set(["DC"]);
+
+export function isFederalDistrictUsps(
+  usps: string | null | undefined,
+): boolean {
+  return usps != null && FEDERAL_DISTRICT_USPS.has(usps);
+}
+
+/**
+ * What each territory and the District call the member they send to the U.S.
+ * House, who sits on committees but casts no final vote: Puerto Rico's
+ * Resident Commissioner (48 U.S.C. § 891), and a Delegate from the District
+ * (2 U.S.C. § 25a), Guam and the Virgin Islands (48 U.S.C. § 1711), American
+ * Samoa (48 U.S.C. § 1731) and the Northern Mariana Islands (48 U.S.C.
+ * § 1751).
+ */
+export const NONVOTING_HOUSE_MEMBER_TITLE: Readonly<
+  Record<string, "Resident Commissioner" | "Delegate">
+> = {
+  PR: "Resident Commissioner",
+  DC: "Delegate",
+  GU: "Delegate",
+  VI: "Delegate",
+  AS: "Delegate",
+  MP: "Delegate",
+};
+
+/** The nonvoting House member's title for a place that sends one, else null. */
+export function nonvotingHouseMemberTitle(
+  usps: string,
+): "Resident Commissioner" | "Delegate" | null {
+  return Object.hasOwn(NONVOTING_HOUSE_MEMBER_TITLE, usps)
+    ? NONVOTING_HOUSE_MEMBER_TITLE[usps]!
+    : null;
+}
+
+/**
+ * What a birth in each territory confers. Every state and the District confer
+ * citizenship (Fourteenth Amendment; 8 U.S.C. § 1401). Four territories do by
+ * statute: Puerto Rico (§ 1402), the Virgin Islands (§ 1406), Guam (§ 1407)
+ * and the Northern Mariana Islands (Covenant § 303, 48 U.S.C. § 1801 note).
+ * American Samoa confers nationality, not citizenship (§ 1408).
+ */
+export const TERRITORY_BIRTH_STATUS: Readonly<
+  Record<string, "citizen" | "national">
+> = {
+  PR: "citizen",
+  VI: "citizen",
+  GU: "citizen",
+  MP: "citizen",
+  AS: "national",
+};
+
+/**
+ * Whether a birth in this state or territory, keyed `US-KY`, makes a person a
+ * citizen. A key the table cannot read answers false rather than guessing.
+ */
+export function birthConfersCitizenship(stateJurisdictionKey: string): boolean {
+  const usps = /^US-([A-Z]{2})$/.exec(stateJurisdictionKey)?.[1];
+  if (usps === undefined) return false;
+  if (isTerritoryUsps(usps)) return TERRITORY_BIRTH_STATUS[usps] === "citizen";
+  return true;
+}
+
 export const EASTERN = { timeZone: "America/New_York", utcOffsetMinutes: -300 };
 const CENTRAL = { timeZone: "America/Chicago", utcOffsetMinutes: -360 };
 const MOUNTAIN = { timeZone: "America/Denver", utcOffsetMinutes: -420 };

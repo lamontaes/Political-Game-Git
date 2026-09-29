@@ -9,11 +9,20 @@ import type {
 import { SCENE_REGISTRY } from "../presentation/scene-registry";
 import {
   ambientPresentation,
-  orderedAmbientCycle,
+  civicAmbientCycle,
+  pictureRoom,
   TITLE_AMBIENT_HOLD_MS,
   titleAmbientFrame,
   type TitleAmbientRoom,
 } from "../presentation/title-ambient";
+import {
+  civicTitlePictures,
+  rotationForSave,
+  type TitlePicture,
+} from "../presentation/title-civic-rotation";
+import { titlePictureHero } from "../presentation/title-picture-hero";
+import backdropManifest from "../../art/backdrops/manifest.json" with { type: "json" };
+import { backdropUrl } from "../presentation/backdrop-urls";
 import {
   titleHeroFromSaveSummary,
   visualLibraryVersion,
@@ -142,6 +151,7 @@ function useAmbientStep(active: boolean): number {
 export function AmbientTableau({
   resolved = null,
   hero = null,
+  recent = null,
   still = false,
   children,
 }: {
@@ -155,6 +165,14 @@ export function AmbientTableau({
    */
   readonly hero?: TitleLecternHero | null;
   /**
+   * The most recently played save. Its role's civic place leads the rotation,
+   * with the character standing in front of it (Lamontae, Sept. 28: never the
+   * apartment when there is a saved game). Every screen of the front door
+   * passes the same save, so the rotation is one rotation across all of them
+   * and a screen change never makes the picture jump.
+   */
+  readonly recent?: BrowserWorldSummary | null;
+  /**
    * Hold the room. The creator and the transition stand in front of one
    * stable backdrop rather than a cycling one: a room crossfading behind a
    * form is the ghosting the owner saw, and it reads as an error.
@@ -162,12 +180,20 @@ export function AmbientTableau({
   readonly still?: boolean;
   readonly children: (roomDescription: string) => ReactNode;
 }) {
+  const pictures = useMemo(() => titlePictures(), []);
   const cycle = useMemo<readonly TitleAmbientRoom[]>(() => {
-    const ambient = orderedAmbientCycle(
+    const ambient = civicAmbientCycle(
       TITLE_TABLEAU_REGISTRY,
       SCENE_REGISTRY,
       PRODUCTION_VISUAL_LIBRARY,
+      pictures,
     );
+    if (recent) {
+      const { first } = rotationForSave(pictures, recent.playerRole);
+      if (!first) return ambient;
+      const lead = pictureRoom(first);
+      return [lead, ...ambient.filter((room) => room.sceneId !== lead.sceneId)];
+    }
     const scene = resolved?.scene;
     const tableau = resolved?.tableau;
     if (!scene?.raster || !tableau) return ambient;
@@ -178,7 +204,18 @@ export function AmbientTableau({
       label: tableau.label,
     };
     return [first, ...ambient.filter((room) => room.sceneId !== first.sceneId)];
-  }, [resolved]);
+  }, [resolved, recent, pictures]);
+
+  /**
+   * The returning player in front of their place. Only on the title itself:
+   * behind the creator a new life is being made, and the last one standing
+   * there would say otherwise.
+   */
+  const leadHero = useMemo(() => {
+    const lead = cycle[0]?.picture;
+    if (!recent || !lead || !peoplePackAvailable()) return null;
+    return titlePictureHero(recent, lead.place);
+  }, [cycle, recent]);
 
   const reducedMotion = usePrefersReducedMotion();
   const step = useAmbientStep(cycle.length > 1 && !still);
@@ -191,10 +228,29 @@ export function AmbientTableau({
    */
   const presentationFor = (room: TitleAmbientRoom | null, index: number) => {
     if (!room) return null;
-    if (index === 0 && resolved && room.sceneId === resolved.scene?.sceneId) {
+    if (
+      index === 0 &&
+      !recent &&
+      resolved &&
+      room.sceneId === resolved.scene?.sceneId
+    ) {
       return resolved;
     }
-    return ambientPresentation(room, TITLE_TABLEAU_REGISTRY, SCENE_REGISTRY);
+    const empty = ambientPresentation(
+      room,
+      TITLE_TABLEAU_REGISTRY,
+      SCENE_REGISTRY,
+    );
+    if (index === 0 && empty && leadHero && !still) {
+      return {
+        ...empty,
+        kind: "hero-in-tableau" as const,
+        heroName: leadHero.name,
+        description: `${room.label}, with ${leadHero.name} in front.`,
+        pictureHero: leadHero,
+      };
+    }
+    return empty;
   };
 
   const showing = frame ? presentationFor(frame.current, frame.index) : null;
@@ -237,11 +293,6 @@ export function AmbientTableau({
 
   return (
     <TitleTableau
-      illustration={
-        !resolved?.heroName
-          ? candidateEstablishingPlate(PLAYTEST65_WHITE_HOUSE_LAYOUT.assetId)
-          : null
-      }
       presentation={presentation}
       leaving={leaving}
       drifting={!reducedMotion}
@@ -252,6 +303,29 @@ export function AmbientTableau({
       <PlayerVersion />
     </TitleTableau>
   );
+}
+
+/**
+ * Every civic picture this build can paint, the White House first. The
+ * reviewed White House exterior joins at the front wherever the build's art
+ * preview hands it back; a production build shows the Oval Office there.
+ */
+function titlePictures(): readonly TitlePicture[] {
+  const pictures = civicTitlePictures(backdropManifest.backdrops, backdropUrl);
+  const whiteHouse = candidateEstablishingPlate(
+    PLAYTEST65_WHITE_HOUSE_LAYOUT.assetId,
+  );
+  return whiteHouse
+    ? [
+        {
+          place: "white-house-exterior",
+          kind: "white-house",
+          url: whiteHouse.url,
+          label: "The White House",
+        },
+        ...pictures,
+      ]
+    : pictures;
 }
 
 /** What the wrapper paints when there is no art and no save: nothing at all. */
@@ -419,6 +493,9 @@ export function TitleScreen({
               {recent.observing
                 ? "Watching the world"
                 : `${recent.playerName}, ${recent.playerAge}`}
+              {!recent.observing && recent.playerRole
+                ? ` \u00b7 ${recent.playerRole.title}`
+                : ""}
               {recent.residence ? ` \u00b7 ${recent.residence.name}` : ""}
             </small>
           ) : reading ? (

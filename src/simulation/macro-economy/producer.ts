@@ -16,6 +16,8 @@ import {
   drawInnovations,
   roundMacro,
   stepLocalMonth,
+  START_ERA,
+  stepEra,
   stepMonth,
   twelveMonthChangePct,
   type MacroImpulses,
@@ -292,7 +294,10 @@ function nationalMonth(
     .fork(monthKey);
   const innovations = drawInnovations(rng);
   const { impulses, shockKeys } = impulsesFor(store, "national", monthKey, 1);
-  const next = stepMonth(prior, innovations, impulses);
+  // The era moves first, from last month's record, then the month steps
+  // toward the era's anchors.
+  const era = stepEra(previous?.era ?? START_ERA, prior, rng.fork("era"));
+  const next = stepMonth(prior, innovations, impulses, era);
   const ratio = previous?.housing
     ? previous.housing.supplyDemandRatio
     : store.start.initial.housingSupplyDemandRatio;
@@ -326,6 +331,7 @@ function nationalMonth(
     innovations,
     impulses,
     shockKeys,
+    era,
     unemploymentRule: UNEMPLOYMENT_RECOVERY_RULE,
   };
 }

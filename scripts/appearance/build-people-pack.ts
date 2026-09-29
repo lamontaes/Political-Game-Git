@@ -28,12 +28,23 @@ import { extractGarment } from "../../src/presentation/appearance-engine/extract
 import {
   PEOPLE_PACK_VERSION,
   type BodyBuild,
+  FACE_EXPRESSIONS,
+  ACCESSORY_KINDS,
+  BODY_BUILDS,
+  FACIAL_HAIR_STYLES,
+  accessoryPlacement,
+  isSeatedPose,
+  type PackAccessory,
+  type BodyPose,
+  type NamedBodyPose,
   type OutfitBuilds,
   type OutfitTag,
   type PackBody,
   type PackOutfit,
   type PeoplePackManifest,
   type PackPresentation,
+  type PackFace,
+  type PackView,
 } from "../../src/presentation/appearance-engine/pack";
 import {
   createRaster,
@@ -596,6 +607,253 @@ function scaleAbout(raster: Raster, k: number, cx: number, cy: number): Raster {
 const FIREFLY_OUTFITS_SEATED =
   "/Users/lamontae/political-game-play/cto-notes/firefly/outfits/cut-seated";
 
+/**
+ * Claude CTO's posed paintings (Sept. 28, 2026), one folder per pose, each
+ * with the bare body in the pose (<sex>-<build>-bare-v1.png) and every outfit
+ * painted on it (<sex>-<outfit>-<build>-onbody-v1.png and -skin-v1.png), cut
+ * like the standing ones. A standing pose is painted on the standing canvas
+ * with the head where the standing body has it; a seated pose is registered
+ * like the seated bodies (the seat on SEAT_ROW). A pose goes in the pack for
+ * a presentation only when every build's body is painted, and an outfit in a
+ * pose only when every build of it is; the game falls back for the rest.
+ */
+const FIREFLY_POSES =
+  "/Users/lamontae/political-game-play/cto-notes/firefly/poses";
+const STANDING_POSES = [
+  "arms-folded",
+  "explaining",
+  "hand-on-hip",
+  "hands-in-pockets",
+  "podium",
+] as const satisfies readonly NamedBodyPose[];
+const SEATED_POSES = [
+  "seated-leaning",
+  "seated-legs-crossed",
+  "seated-ankle-on-knee",
+] as const satisfies readonly NamedBodyPose[];
+/** Rows (at half size) a standing pose's head may sit from the standing one. */
+const HEAD_TOLERANCE = 2;
+
+/**
+ * The whole person turned three quarters, toward the viewer's right (Claude
+ * CTO, Sept. 28, 2026), laid out like the front: the bare bodies
+ * (<sex>-<build>-bare-v1.png), each outfit (<sex>-<outfit>-<build>-onbody-v1
+ * and -skin-v1), a folder per other pose, and the heads as separate layers
+ * by the front ids: faces/face-<sex>-<id>.png and
+ * hair/hair-<sex>-<id>-back.png and -front.png, all at full size on the same
+ * canvas. A face or hairstyle not painted turned is left out, and the game
+ * draws that person facing front.
+ */
+const FIREFLY_THREE_QUARTER =
+  "/Users/lamontae/political-game-play/cto-notes/firefly/three-quarter";
+
+/**
+ * Claude CTO's expressions (Sept. 28, 2026): each face painted again in each
+ * expression, as a separate head layer at full size on the same canvas,
+ * face-<sex>-<id>-<expression>.png. The three-quarter faces' expressions sit
+ * beside them in FIREFLY_THREE_QUARTER/faces. An expression not painted is
+ * left out, and the game draws the neutral face for it.
+ */
+const FIREFLY_EXPRESSIONS =
+  "/Users/lamontae/political-game-play/cto-notes/firefly/expressions";
+
+function paintedExpressions(
+  dir: string,
+  sex: string,
+  faceId: string,
+  suffix: string,
+): { readonly expressions?: PackFace["expressions"] } {
+  const expressions = Object.fromEntries(
+    FACE_EXPRESSIONS.filter((expression) => expression !== "neutral")
+      .filter((expression) =>
+        existsSync(join(dir, `face-${sex}-${faceId}-${expression}.png`)),
+      )
+      .map((expression) => {
+        const head = downscaleHalf(
+          read(join(dir, `face-${sex}-${faceId}-${expression}.png`)),
+        );
+        return [
+          expression,
+          {
+            file: write(
+              head,
+              `face-${sex}-${faceId}-${expression}${suffix}.png`,
+            ),
+            skin: skinOf(head),
+          },
+        ];
+      }),
+  );
+  return Object.keys(expressions).length > 0 ? { expressions } : {};
+}
+
+/**
+ * Claude CTO's facial hair and glasses (Sept. 28, 2026): each a separate head
+ * layer painted at full size on the canonical average head, on the same
+ * canvas. Facial hair is facial-hair/facial-hair-<sex>-<style>.png, painted
+ * dark brown so it takes the hair's color; glasses are glasses/glasses-<frame>
+ * .png, the same frames for both presentations. The three-quarter heads keep
+ * theirs in FIREFLY_THREE_QUARTER's facial-hair/ and glasses/. What is not
+ * painted is left out, and the game draws no layer for it.
+ */
+const FIREFLY_FACIAL_HAIR =
+  "/Users/lamontae/political-game-play/cto-notes/firefly/facial-hair";
+const FIREFLY_GLASSES =
+  "/Users/lamontae/political-game-play/cto-notes/firefly/glasses";
+
+function headLayers(
+  sex: string,
+  facialHairDir: string,
+  glassesDir: string,
+  suffix: string,
+): Pick<PackPresentation, "facialHair" | "glasses"> {
+  const facialHair = FACIAL_HAIR_STYLES.filter((style) =>
+    existsSync(join(facialHairDir, `facial-hair-${sex}-${style}.png`)),
+  ).map((style) => ({
+    id: style,
+    file: write(
+      downscaleHalf(
+        read(join(facialHairDir, `facial-hair-${sex}-${style}.png`)),
+      ),
+      `facial-hair-${sex}-${style}${suffix}.png`,
+    ),
+  }));
+  const frames = existsSync(glassesDir)
+    ? readdirSync(glassesDir)
+        .filter((file) => /^glasses-[a-z0-9-]+\.png$/.test(file))
+        .map((file) => file.slice("glasses-".length, -".png".length))
+        .sort()
+    : [];
+  const glasses = frames.map((frame) => ({
+    id: frame,
+    file: write(
+      downscaleHalf(read(join(glassesDir, `glasses-${frame}.png`))),
+      `glasses-${sex}-${frame}${suffix}.png`,
+    ),
+  }));
+  return {
+    ...(facialHair.length > 0 ? { facialHair } : {}),
+    ...(glasses.length > 0 ? { glasses } : {}),
+  };
+}
+
+/**
+ * Claude CTO's earrings, necklaces, watches, rings and lapel pins: files in
+ * one folder, cto-notes/firefly/accessories (and its three-quarter/accessories
+ * for the turned person, every name ending -three-quarter). Earrings are a
+ * head layer painted once on the canonical head, like glasses:
+ * earrings-<variant>.png. The others sit on the body, so each is painted per
+ * build and pose like an outfit: <kind>-<variant>-<sex>-<build>.png standing,
+ * <kind>-<variant>-<sex>-<build>-<pose>.png in each other pose. A variant name
+ * is letters and digits only ("pearl", "steel"). Whatever is not painted is
+ * left out, and the game draws no layer for it.
+ */
+const FIREFLY_ACCESSORIES =
+  "/Users/lamontae/political-game-play/cto-notes/firefly/accessories";
+
+function accessoryLayers(
+  sex: string,
+  dir: string,
+  suffix: string,
+): Pick<PackPresentation, "accessories"> {
+  if (!existsSync(dir)) return {};
+  const files = new Set(readdirSync(dir));
+  const painted = (name: string): string | null =>
+    files.has(`${name}.png`) ? name : null;
+  const variantsOf = (kind: string, pattern: RegExp): string[] =>
+    [...files]
+      .flatMap((file) => {
+        const match = pattern.exec(file);
+        return match && file.startsWith(`${kind}-`) ? [match[1]!] : [];
+      })
+      .filter((variant, index, all) => all.indexOf(variant) === index)
+      .sort();
+  const out: PackAccessory[] = [];
+  for (const kind of ACCESSORY_KINDS) {
+    const placement = accessoryPlacement(kind);
+    if (placement === "head") {
+      for (const variant of variantsOf(
+        kind,
+        new RegExp(`^${kind}-([a-z0-9]+)${suffix}\\.png$`),
+      )) {
+        const name = painted(`${kind}-${variant}${suffix}`);
+        if (!name) continue;
+        out.push({
+          id: `${kind}-${variant}`,
+          kind,
+          placement,
+          file: write(
+            downscaleHalf(read(join(dir, `${name}.png`))),
+            `accessory-${sex}-${kind}-${variant}${suffix}.png`,
+          ),
+        });
+      }
+      continue;
+    }
+    for (const variant of variantsOf(
+      kind,
+      new RegExp(`^${kind}-([a-z0-9]+)-${sex}-`),
+    )) {
+      const paint = (build: string, pose?: string) => {
+        const name = painted(
+          `${kind}-${variant}-${sex}-${build}${pose ? `-${pose}` : ""}${suffix}`,
+        );
+        return name
+          ? {
+              file: write(
+                downscaleHalf(read(join(dir, `${name}.png`))),
+                `accessory-${sex}-${name}.png`,
+              ),
+            }
+          : null;
+      };
+      const builds = Object.fromEntries(
+        BODY_BUILDS.flatMap((build) => {
+          const found = paint(build);
+          return found ? [[build, found]] : [];
+        }),
+      );
+      const poses = Object.fromEntries(
+        [...STANDING_POSES, "seated", ...SEATED_POSES].flatMap((pose) => {
+          const byBuild = Object.fromEntries(
+            BODY_BUILDS.flatMap((build) => {
+              const found = paint(build, pose);
+              return found ? [[build, found]] : [];
+            }),
+          );
+          return Object.keys(byBuild).length > 0 ? [[pose, byBuild]] : [];
+        }),
+      );
+      if (Object.keys(builds).length === 0 && Object.keys(poses).length === 0)
+        continue;
+      out.push({
+        id: `${kind}-${variant}`,
+        kind,
+        placement,
+        ...(Object.keys(builds).length > 0 ? { builds } : {}),
+        ...(Object.keys(poses).length > 0 ? { poses } : {}),
+      });
+    }
+  }
+  return out.length > 0 ? { accessories: out } : {};
+}
+
+function packPoses(
+  painted: Map<BodyPose, Record<BodyBuild, { readonly body: PackBody }>>,
+  poses: readonly NamedBodyPose[],
+): NonNullable<PackPresentation["poses"]> {
+  return Object.fromEntries(
+    poses.map((pose) => [
+      pose,
+      {
+        bodies: Object.fromEntries(
+          BUILDS.map((build) => [build, painted.get(pose)![build].body]),
+        ),
+      },
+    ]),
+  );
+}
+
 const presentations: Record<string, PackPresentation> = {};
 for (const sex of ["feminine", "masculine"] as const) {
   const bodies: PackPresentation["bodies"] = {} as PackPresentation["bodies"];
@@ -650,6 +908,132 @@ for (const sex of ["feminine", "masculine"] as const) {
       ),
     };
   }
+  // Bodies painted in a pose: the bare painting at full size (for cutting
+  // outfits from), the transform applied to it and its outfits as read, and
+  // the pack entry. `dir` holds the view's standing bodies and a folder per
+  // other pose; `suffix` ends every file name written for the view.
+  type Painted = Record<
+    BodyBuild,
+    {
+      readonly bareFull: Raster;
+      readonly transform: (raster: Raster) => Raster;
+      readonly body: PackBody & { readonly seatRow?: number };
+    }
+  >;
+  const paintPostures = (
+    dir: string,
+    suffix: string,
+    poses: readonly BodyPose[],
+    /** The standing bodies a standing pose's head must match, if any. */
+    headOfStanding: PackPresentation["bodies"] | null,
+  ) => {
+    const painted = new Map<BodyPose, Painted>();
+    for (const pose of poses) {
+      const bareOf = (build: BodyBuild) =>
+        pose === "standing"
+          ? join(dir, `${sex}-${build}-bare-v1.png`)
+          : join(dir, pose, `${sex}-${build}-bare-v1.png`);
+      if (!BUILDS.every((build) => existsSync(bareOf(build)))) continue;
+      const seatedPose = isSeatedPose(pose);
+      const bodiesInPose = {} as Painted;
+      for (const build of BUILDS) {
+        const source = read(bareOf(build));
+        const at = measureBodyAnchors(source);
+        const transform = seatedPose
+          ? (raster: Raster) =>
+              scaleAbout(raster, seatedScale, at.neck.centerX, at.feet)
+          : (raster: Raster) => raster;
+        const bareFull = transform(source);
+        const bare = downscaleHalf(bareFull);
+        const anchors = measureBodyAnchors(bare);
+        if (!seatedPose && headOfStanding) {
+          const standing = headOfStanding[build].anchors;
+          const drift = Math.max(
+            Math.abs(anchors.top - standing.top),
+            Math.abs(anchors.neck.row - standing.neck.row),
+            Math.abs(anchors.neck.centerX - standing.neck.centerX),
+          );
+          if (drift > HEAD_TOLERANCE)
+            throw new Error(
+              `${pose} ${sex} ${build}: the head is ${drift} pixels from the standing body's; paint it where the standing head is.`,
+            );
+        }
+        const name = pose === "standing" ? "" : `-${pose}`;
+        bodiesInPose[build] = {
+          bareFull,
+          transform,
+          body: {
+            file: write(bare, `body-${sex}-${build}${name}${suffix}.png`),
+            anchors,
+            skin: skinOf(bare),
+            ...(seatedPose
+              ? {
+                  seatRow: Math.round(
+                    (at.feet -
+                      (at.feet - (SEAT_ROW + HEADROOM)) * seatedScale) /
+                      2,
+                  ),
+                }
+              : {}),
+          },
+        };
+      }
+      painted.set(pose, bodiesInPose);
+    }
+    return painted;
+  };
+  // Every outfit painted on those bodies, pose by pose; an outfit goes in a
+  // pose only when every build of it is painted.
+  const wearPostures = (
+    spec: OutfitSpec,
+    dir: string,
+    suffix: string,
+    painted: Map<BodyPose, Painted>,
+  ) => {
+    const worn = new Map<BodyPose, OutfitBuilds>();
+    for (const [pose, inPose] of painted) {
+      const painting = (build: BodyBuild, kind: "onbody" | "skin") =>
+        join(
+          pose === "standing" ? dir : join(dir, pose),
+          `${sex}-${spec.id}-${build}-${kind}-v1.png`,
+        );
+      if (!BUILDS.every((build) => existsSync(painting(build, "onbody"))))
+        continue;
+      const builds: OutfitBuilds = {};
+      const name = pose === "standing" ? "" : `-${pose}`;
+      for (const build of BUILDS)
+        (builds as Record<string, unknown>)[build] = dressedBody(
+          sex,
+          spec,
+          build,
+          inPose[build].bareFull,
+          inPose[build].body.anchors,
+          painting(build, "onbody"),
+          painting(build, "skin"),
+          `outfit-${sex}-${spec.id}-${build}${name}${suffix}`,
+          inPose[build].transform,
+        );
+      worn.set(pose, builds);
+    }
+    return worn;
+  };
+  const namedPoses = (map: Map<BodyPose, unknown>) =>
+    [...map.keys()].filter(
+      (pose): pose is NamedBodyPose => pose !== "standing" && pose !== "seated",
+    );
+  const posed = paintPostures(
+    FIREFLY_POSES,
+    "",
+    [...STANDING_POSES, ...SEATED_POSES],
+    bodies,
+  );
+  // The whole person turned three quarters (see FIREFLY_THREE_QUARTER).
+  const turned = paintPostures(
+    FIREFLY_THREE_QUARTER,
+    "-three-quarter",
+    ["standing", "seated", ...STANDING_POSES, ...SEATED_POSES],
+    null,
+  );
   const outfits: PackOutfit[] = [];
   for (const spec of OUTFITS[sex]) {
     const builds: OutfitBuilds = {};
@@ -693,6 +1077,10 @@ for (const sex of ["feminine", "masculine"] as const) {
           seatedTransform[build],
         );
     }
+    const outfitPoses = wearPostures(spec, FIREFLY_POSES, "", posed);
+    const turnedWorn = turned.has("standing")
+      ? wearPostures(spec, FIREFLY_THREE_QUARTER, "-three-quarter", turned)
+      : new Map<BodyPose, OutfitBuilds>();
     outfits.push({
       id: spec.id,
       label: spec.label,
@@ -706,6 +1094,39 @@ for (const sex of ["feminine", "masculine"] as const) {
       builds,
       // Seated only when every body has it.
       ...(BUILDS.every((build) => seated[build]) ? { seated } : {}),
+      ...(namedPoses(outfitPoses).length > 0
+        ? {
+            poses: Object.fromEntries(
+              namedPoses(outfitPoses).map((pose) => [
+                pose,
+                outfitPoses.get(pose)!,
+              ]),
+            ),
+          }
+        : {}),
+      // Turned only when it is painted standing on every body.
+      ...(turnedWorn.has("standing")
+        ? {
+            views: {
+              "three-quarter": {
+                builds: turnedWorn.get("standing")!,
+                ...(turnedWorn.has("seated")
+                  ? { seated: turnedWorn.get("seated")! }
+                  : {}),
+                ...(namedPoses(turnedWorn).length > 0
+                  ? {
+                      poses: Object.fromEntries(
+                        namedPoses(turnedWorn).map((pose) => [
+                          pose,
+                          turnedWorn.get(pose)!,
+                        ]),
+                      ),
+                    }
+                  : {}),
+              },
+            },
+          }
+        : {}),
     });
   }
   const faces = SOURCES[sex].faces.map((face) => {
@@ -716,6 +1137,7 @@ for (const sex of ["feminine", "masculine"] as const) {
       id: face.id,
       file: write(head, `face-${sex}-${face.id}.png`),
       skin: skinOf(head),
+      ...paintedExpressions(FIREFLY_EXPRESSIONS, sex, face.id, ""),
     };
   });
   const hair = SOURCES[sex].hair.map((style) => ({
@@ -743,6 +1165,82 @@ for (const sex of ["feminine", "masculine"] as const) {
       `hair-${sex}-${style.id}-front.png`,
     ),
   }));
+  // The turned view, when its standing bodies are painted: its heads by the
+  // front ids, each only where it is painted turned.
+  const turnedView = (
+    painted: Map<BodyPose, Painted>,
+    frontFaces: readonly { readonly id: string }[],
+    frontHair: readonly { readonly id: string }[],
+  ): PackView | null => {
+    const standing = painted.get("standing");
+    if (!standing) return null;
+    const dir = FIREFLY_THREE_QUARTER;
+    const turnedFaces = frontFaces
+      .filter((face) =>
+        existsSync(join(dir, "faces", `face-${sex}-${face.id}.png`)),
+      )
+      .map((face) => {
+        const head = downscaleHalf(
+          read(join(dir, "faces", `face-${sex}-${face.id}.png`)),
+        );
+        return {
+          id: face.id,
+          file: write(head, `face-${sex}-${face.id}-three-quarter.png`),
+          skin: skinOf(head),
+          ...paintedExpressions(
+            join(dir, "faces"),
+            sex,
+            face.id,
+            "-three-quarter",
+          ),
+        };
+      });
+    const turnedHair = frontHair
+      .filter((style) =>
+        (["back", "front"] as const).every((side) =>
+          existsSync(join(dir, "hair", `hair-${sex}-${style.id}-${side}.png`)),
+        ),
+      )
+      .map((style) => {
+        const layer = (side: "back" | "front") =>
+          write(
+            downscaleHalf(
+              read(join(dir, "hair", `hair-${sex}-${style.id}-${side}.png`)),
+            ),
+            `hair-${sex}-${style.id}-${side}-three-quarter.png`,
+          );
+        return { id: style.id, back: layer("back"), front: layer("front") };
+      });
+    const seatedTurned = painted.get("seated");
+    return {
+      canonical: standing.average.body.anchors,
+      bodies: Object.fromEntries(
+        BUILDS.map((build) => [build, standing[build].body]),
+      ) as PackView["bodies"],
+      ...(seatedTurned
+        ? {
+            seated: {
+              bodies: Object.fromEntries(
+                BUILDS.map((build) => [build, seatedTurned[build].body]),
+              ) as NonNullable<PackView["seated"]>["bodies"],
+            },
+          }
+        : {}),
+      ...(namedPoses(painted).length > 0
+        ? { poses: packPoses(painted, namedPoses(painted)) }
+        : {}),
+      faces: turnedFaces,
+      hair: turnedHair,
+      ...headLayers(
+        sex,
+        join(dir, "facial-hair"),
+        join(dir, "glasses"),
+        "-three-quarter",
+      ),
+      ...accessoryLayers(sex, join(dir, "accessories"), "-three-quarter"),
+      toward: "right",
+    };
+  };
   presentations[sex] = {
     canonical: measureBodyAnchors(
       downscaleHalf(read(join(bodiesDir, `${bodyFile(sex, "average")}.png`))),
@@ -750,8 +1248,16 @@ for (const sex of ["feminine", "masculine"] as const) {
     bodies,
     faces,
     hair,
+    ...headLayers(sex, FIREFLY_FACIAL_HAIR, FIREFLY_GLASSES, ""),
+    ...accessoryLayers(sex, FIREFLY_ACCESSORIES, ""),
     seated: { bodies: seatedBodies },
+    ...(namedPoses(posed).length > 0
+      ? { poses: packPoses(posed, namedPoses(posed)) }
+      : {}),
     outfits,
+    ...(turnedView(turned, faces, hair)
+      ? { views: { "three-quarter": turnedView(turned, faces, hair)! } }
+      : {}),
   };
 }
 

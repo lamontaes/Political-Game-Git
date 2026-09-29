@@ -13,10 +13,11 @@ import { factsForPerson, personName } from "../simulation/people";
 import {
   createWorldSnapshot,
   readWorldSnapshot,
-  serializeWorldAs,
-  serializeWorldSnapshot,
+  serializeWorldSnapshotPayload,
   storedFormatVersion,
   worldContentId,
+  worldPayloadMatches,
+  type WorldPayload,
   type WorldSnapshot,
   type WorldSnapshotFormatVersion,
 } from "../simulation/serialization";
@@ -34,6 +35,7 @@ import {
   READABLE_RECORD_VERSIONS,
   SLOT_MESSAGES,
   decideWrite,
+  isWorldPayload,
   readSlotState,
   UNGENERATIONED,
 } from "./browser-world-repository-protocol";
@@ -41,6 +43,7 @@ import { createSaveId } from "./new-game-identity";
 import type { EngineRecipe } from "./appearance-engine/pack";
 import { engineRecipeFor } from "./appearance-engine/recipe";
 import { PEOPLE_PACK } from "./appearance-engine/runtime";
+import { savedRoleSummary, type SavedRoleSummary } from "./save-role-summary";
 
 export {
   BROWSER_WORLD_RECORD_KIND,
@@ -167,6 +170,14 @@ export interface BrowserWorldSummary {
   readonly playerLooks?: Partial<
     Record<"casual" | "business" | "formal", EngineRecipe>
   >;
+  /**
+   * The civic role the character holds when saved (save-role-summary.ts):
+   * the office, seat, court, campaign or government job. It is what lets the
+   * title show a returning player in their chamber or courtroom rather than
+   * at home. Absent when they hold none, and in saves made before it existed
+   * until they are saved again.
+   */
+  readonly playerRole?: SavedRoleSummary;
   readonly currentMoment: SimulationMoment;
   readonly actionSequence: number;
   readonly createdAt: string;
@@ -185,7 +196,8 @@ export interface StoredBrowserWorldRecord {
    */
   readonly generation: number;
   readonly metadata: BrowserWorldSummary;
-  readonly payload: string;
+  /** One string, or for a world too long for one, the same text in pieces. */
+  readonly payload: WorldPayload;
 }
 
 /** The durable proof that a slot was deleted, kept at the slot's own key. */
@@ -1173,7 +1185,7 @@ export class BrowserSaveStore {
  * comparison and, at most, a put.
  */
 interface PreparedRecord {
-  readonly payload: string;
+  readonly payload: WorldPayload;
   readonly contentId: EntityId;
   readonly fields: Omit<
     BrowserWorldSummary,
@@ -1183,10 +1195,12 @@ interface PreparedRecord {
 
 function prepareWorldRecord(world: World): PreparedRecord {
   // One snapshot, used for the summary, the payload and the content identity.
-  // `serializeWorld` is exactly `serializeWorldSnapshot(createWorldSnapshot())`.
+  // `serializeWorld` is exactly `serializeWorldSnapshot(createWorldSnapshot())`,
+  // and the payload is that text, in pieces only when it is too long for one
+  // string.
   const snapshot = createWorldSnapshot(world);
   return {
-    payload: serializeWorldSnapshot(snapshot),
+    payload: serializeWorldSnapshotPayload(snapshot),
     contentId: snapshot.snapshotId,
     fields: worldRecordFields(world, snapshot),
   };
@@ -1210,6 +1224,7 @@ function worldRecordFields(
     ...(watchedFromStart(world) ? { observing: true as const } : {}),
     residence: currentResidence(world, player),
     ...playerLooks(world, player),
+    ...playerRole(world, player),
     currentMoment: { ...world.currentMoment },
     actionSequence: world.actionSequence,
   };
@@ -1228,6 +1243,14 @@ function playerLooks(
     }),
   );
   return Object.keys(looks).length > 0 ? { playerLooks: looks } : {};
+}
+
+function playerRole(
+  world: World,
+  player: Person,
+): Pick<BrowserWorldSummary, "playerRole"> {
+  const role = savedRoleSummary(world, player.id);
+  return role ? { playerRole: role } : {};
 }
 
 function completeRecord(
@@ -1351,7 +1374,7 @@ export function readStoredRecord(value: unknown): ReadRecord {
       savedAt,
     );
   }
-  if (typeof value.payload !== "string") {
+  if (!isWorldPayload(value.payload)) {
     return damaged(
       saveId,
       "unreadable-record",
@@ -1377,7 +1400,7 @@ export function readStoredRecord(value: unknown): ReadRecord {
   // Compared in the format the record was written in: a save from before roll
   // calls were packed is the same save, and is rewritten packed on its next
   // write.
-  if (value.payload !== serializeWorldAs(world, formatVersion)) {
+  if (!worldPayloadMatches(value.payload, world, formatVersion)) {
     return damaged(
       saveId,
       "altered-after-write",
@@ -1463,7 +1486,7 @@ function migrateRecord(
     saveId,
     generation,
     metadata: cloneSummary({ ...actual, lastPlayedAt: actual.lastPlayedAt }),
-    payload: value.payload as string,
+    payload: value.payload as WorldPayload,
   };
 }
 

@@ -163,7 +163,7 @@ export function SavedAppearanceControls(
               withEngineChoice(
                 props.world,
                 person.id,
-                choiceFromRecipe(recipe),
+                choiceFromRecipe(recipe, PEOPLE_PACK),
               ),
             )
           }

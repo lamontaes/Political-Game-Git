@@ -9,6 +9,7 @@ import { contactProposals, answerContact } from "../simulation/people-contact";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { projectPartyChapters } from "./party-chapter-surface";
+import { joinPartyChapter } from "../simulation/living-world/party-chapters";
 import { askToMeet } from "./people-contacts";
 
 describe("public chapter contact before membership", () => {
@@ -72,5 +73,15 @@ describe("public chapter contact before membership", () => {
     expect(projectPartyChapters(restored, player)[0]!.meetings).toEqual([]);
     expect(publicPartyAffiliation(restored, player)).toBeNull();
     expect(restored.currentMoment).toEqual(game.world.currentMoment);
+  });
+  it("offers a member one way to reach their own organizer, not two", () => {
+    // The organizer is both the chapter's public face and a fellow member;
+    // the contact card listed "through the group" twice, with one React key.
+    const chapter = projectPartyChapters(game.world, player)[0]!;
+    const joined = joinPartyChapter(game.world, player, chapter.organizationId);
+    const kinds = projectPartyChapters(joined, player)
+      .find((row) => row.organizationId === chapter.organizationId)!
+      .contact!.channels.map((row) => row.kind);
+    expect(kinds.filter((kind) => kind === "through-group")).toHaveLength(1);
   });
 });

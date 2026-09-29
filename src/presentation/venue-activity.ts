@@ -75,6 +75,12 @@ const ATTEND_JOURNEYS = [
     costDisclosure: "There is no fare.",
   },
   {
+    journeyLocationKey: "ordinary-life:to-meeting-room",
+    destinationLocationKey: "campaign-life:town-hall-school-gym",
+    destinationSetting: "school gym",
+    costDisclosure: "There is no fare.",
+  },
+  {
     journeyLocationKey: "office-to-east-end",
     destinationLocationKey: "east-end-community-room",
     destinationSetting: "community room",
@@ -153,7 +159,7 @@ function disclosedJourneyFor(
  * decision they have not taken yet. Same mistake as a lapsed hold wearing a
  * refusal's clothes.
  */
-function recordJourneyArrival(
+export function recordJourneyArrival(
   world: World,
   travel: ScheduledActivityRecord,
   destination: ScheduledActivityRecord,
@@ -209,18 +215,21 @@ function arrivedDestinationFor(
   personId: EntityId,
   travel: ScheduledActivityRecord,
 ) {
-  const adapter = ATTEND_JOURNEYS.find(
+  // Several destinations can share one journey (the community room and the
+  // school gym), so look at every adapter for it.
+  for (const adapter of ATTEND_JOURNEYS.filter(
     (candidate) => candidate.journeyLocationKey === travel.location.locationKey,
-  );
-  if (!adapter) return null;
-  const destination = scheduledActivitiesVisibleTo(world, personId).find(
-    (candidate) =>
-      travel.sourceEntityIds.includes(candidate.id) &&
-      candidate.location.locationKey === adapter.destinationLocationKey &&
-      scheduledActivityState(world, candidate.id).status === "scheduled",
-  );
-  if (!destination) return null;
-  return { destination, destinationSetting: adapter.destinationSetting };
+  )) {
+    const destination = scheduledActivitiesVisibleTo(world, personId).find(
+      (candidate) =>
+        travel.sourceEntityIds.includes(candidate.id) &&
+        candidate.location.locationKey === adapter.destinationLocationKey &&
+        scheduledActivityState(world, candidate.id).status === "scheduled",
+    );
+    if (destination)
+      return { destination, destinationSetting: adapter.destinationSetting };
+  }
+  return null;
 }
 
 /** A player action over existing scheduled activity truth; no separate clock. */

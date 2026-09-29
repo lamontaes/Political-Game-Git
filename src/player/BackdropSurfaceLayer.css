@@ -1,0 +1,413 @@
+/*
+ * Live content on a place picture's painted surfaces. Everything is sized in
+ * em against the face's font size, which BackdropSurfaceLayer sets from the
+ * surface's own size, and drawn with the same type as the room's television
+ * (sans) and newspaper (serif) so the two read as one world. A dark outline
+ * matches the ink lines of the paintings.
+ */
+
+.backdrop-surface {
+  overflow: hidden;
+  box-sizing: border-box;
+  line-height: 1.15;
+}
+
+/* Paper and card in a dark room are lit by the room, not by themselves. */
+.backdrop-surfaces--night .backdrop-surface:not(.backdrop-surface--screen) {
+  filter: brightness(0.62) saturate(0.85);
+}
+
+.backdrop-surfaces--rain .backdrop-surface:not(.backdrop-surface--screen) {
+  filter: brightness(0.9);
+}
+
+/* ---------------------------------------------------------------- boards */
+
+.bs-board {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+  padding: 0.35em 0.45em;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  color: #f4f1e8;
+  background: linear-gradient(160deg, #2c2620, #12100d);
+  border: 0.08em solid #0d0b09;
+}
+
+.bs-board-heading {
+  flex: none;
+  font-size: 0.7em;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #d4a53a;
+  border-bottom: 0.06em solid rgba(212, 165, 58, 0.6);
+  padding-bottom: 0.15em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.bs-board-sub {
+  flex: none;
+  font-size: 0.5em;
+  opacity: 0.8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bs-board-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.bs-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  column-gap: 0.4em;
+  align-items: baseline;
+  font-size: 0.6em;
+}
+
+.bs-row-name {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.bs-row-value {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.bs-row--yes .bs-row-value {
+  color: #7fd6a0;
+}
+
+.bs-row--no .bs-row-value {
+  color: #f08a7e;
+}
+
+.bs-row-note {
+  flex: 1 0 100%;
+  font-size: 0.8em;
+  opacity: 0.8;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------- posters */
+
+.bs-posters {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  gap: 6%;
+}
+
+/* On cork, posters are pinned with the cork showing around them. */
+.bs-posters--cork,
+.bs-posters--whiteboard {
+  padding: 8% 6%;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.bs-posters--cork .bs-poster,
+.bs-posters--whiteboard .bs-poster {
+  flex: 0 1 30%;
+  height: 80%;
+  font-size: 0.5em;
+  box-shadow: 0.1em 0.15em 0.2em rgba(0, 0, 0, 0.35);
+}
+
+.bs-posters--cork .bs-poster:nth-child(2) {
+  transform: rotate(2deg);
+}
+
+.bs-posters--cork .bs-poster:nth-child(3) {
+  transform: rotate(-2deg);
+}
+
+.bs-posters--panel .bs-poster {
+  flex: 1 1 100%;
+  font-size: 1.2em;
+}
+
+.bs-poster {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.4em 0.3em;
+  text-align: center;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  border: 0.08em solid #1a1a1a;
+  background: var(--bs-poster-bg);
+  color: var(--bs-poster-ink);
+  --bs-poster-bg: #1f3a6b;
+  --bs-poster-ink: #ffffff;
+  --bs-poster-accent: #e7b83c;
+}
+
+.bs-poster--look-1 {
+  --bs-poster-bg: #b3261e;
+  --bs-poster-ink: #ffffff;
+  --bs-poster-accent: #ffffff;
+}
+
+.bs-poster--look-2 {
+  --bs-poster-bg: #f4f1e8;
+  --bs-poster-ink: #1f3a6b;
+  --bs-poster-accent: #b3261e;
+}
+
+.bs-poster--look-3 {
+  --bs-poster-bg: #0f3b3a;
+  --bs-poster-ink: #ffffff;
+  --bs-poster-accent: #7fd6c2;
+}
+
+.bs-poster-name {
+  font-size: 0.85em;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1.05;
+  overflow: hidden;
+}
+
+.bs-poster-office {
+  font-size: 0.55em;
+  font-weight: 700;
+  color: var(--bs-poster-accent);
+  border-top: 0.08em solid currentColor;
+  padding-top: 0.2em;
+}
+
+.bs-poster-date {
+  font-size: 0.4em;
+  opacity: 0.85;
+}
+
+/* ----------------------------------------------------------------- notes */
+
+.bs-plans {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  gap: 6%;
+  font-family: "Marker Felt", "Comic Sans MS", "Segoe Print", cursive;
+}
+
+/* Sticky notes on cork. */
+.bs-plans--cork {
+  padding: 8% 6%;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.bs-plans--cork .bs-note {
+  flex: 0 1 28%;
+  aspect-ratio: 1;
+  max-height: 80%;
+  padding: 0.3em;
+  background: #f7e27a;
+  color: #2a2618;
+  border: 0.05em solid rgba(60, 50, 20, 0.5);
+  box-shadow: 0.08em 0.12em 0.18em rgba(0, 0, 0, 0.3);
+}
+
+.bs-plans--cork .bs-note:nth-child(2) {
+  background: #f5b8c8;
+  transform: rotate(3deg);
+}
+
+.bs-plans--cork .bs-note:nth-child(3) {
+  background: #bfe3f2;
+  transform: rotate(-2deg);
+}
+
+/* Marker on a whiteboard: no card, just writing. */
+.bs-plans--whiteboard {
+  flex-direction: column;
+  gap: 0.5em;
+  padding: 7% 8%;
+  color: #1f3a6b;
+  font-size: 1.3em;
+}
+
+.bs-plans--whiteboard .bs-note:nth-child(2) {
+  color: #1d6b3a;
+}
+
+.bs-plans--whiteboard .bs-note:nth-child(3) {
+  color: #a3261e;
+}
+
+/* A to-do sheet on a clipboard or panel. */
+.bs-plans--panel {
+  flex-direction: column;
+  gap: 0.25em;
+  padding: 0.4em 0.5em;
+  background: #fbfaf5;
+  color: #1c1a17;
+}
+
+.bs-note {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1em;
+  overflow: hidden;
+}
+
+.bs-plans--panel .bs-note {
+  flex-direction: row;
+  gap: 0.4em;
+  white-space: nowrap;
+}
+
+.bs-plans--panel {
+  font-size: 1.3em;
+}
+
+.bs-note-when {
+  font-size: 0.55em;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.bs-note-title {
+  font-size: 0.55em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bs-plans--cork .bs-note-title,
+.bs-plans--whiteboard .bs-note-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+
+/* ---------------------------------------------------------------- papers */
+
+.bs-sheet {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+  padding: 0.35em 0.45em;
+  font-family: Georgia, "Times New Roman", serif;
+  color: #1c1a17;
+  background: #f3efe4;
+  border: 0.05em solid rgba(28, 26, 23, 0.4);
+}
+
+/* Pinned to a board: a sheet with the board showing around it. */
+.bs-sheet--cork {
+  width: 70%;
+  height: 84%;
+  margin: 6% auto 0;
+  box-shadow: 0.08em 0.12em 0.18em rgba(0, 0, 0, 0.3);
+}
+
+.bs-sheet-heading {
+  font-size: 0.6em;
+  border-bottom: 0.06em solid #1c1a17;
+  padding-bottom: 0.1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bs-sheet-place {
+  font-size: 0.4em;
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bs-sheet-line {
+  font-size: 0.5em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------- brochures */
+
+.bs-brochure {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  gap: 0.2em;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+.bs-brochure--cork {
+  padding: 8% 10%;
+}
+
+.bs-brochure-panel {
+  flex: 1;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+  padding: 0.3em;
+  background: linear-gradient(to bottom, #23395b 0 32%, #fbfaf5 32%);
+  color: #1c1a17;
+  border: 0.05em solid rgba(28, 26, 23, 0.45);
+  overflow: hidden;
+}
+
+.bs-brochure-title {
+  font-size: 0.6em;
+  color: #ffffff;
+  line-height: 1.1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.bs-brochure-place {
+  font-size: 0.4em;
+  color: #d9e2f0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bs-brochure-body {
+  margin-top: 0.4em;
+  font-size: 0.45em;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

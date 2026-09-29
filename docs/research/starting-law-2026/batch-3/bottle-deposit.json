@@ -1,0 +1,390 @@
+{
+  "question": "us-policy-positions:environment-energy.bottle-deposit",
+  "definition": "yes = a state (or territorial) law requires a refundable deposit on beverage containers, in force 1/1/2026; no = no such deposit law in force (a repealed or not-yet-operative law counts as no, with a note). Every answer row carries preempts: true because a deposit system is a state-level program.",
+  "summarySource": "State codes and agency pages fetched 9/28/2026 (leginfo.legislature.ca.gov, legis.iowa.gov, legislature.maine.gov, malegislature.gov, legislature.mi.gov, oregon.public.law, legislature.vermont.gov, delcode.delaware.gov, col.guamcourts.gov) plus CT DEEP, Hawaii DOH, NY DEC and Oregon OLCC pages; Wikipedia 'Container deposit legislation in the United States' and bottlebill.org (Guam page, Existing Programs list, © 2026) for context; no 2025 enactment of a new state deposit law was found.",
+  "answers": {
+    "US-CA": {
+      "answer": "yes",
+      "cite": "Cal. Pub. Res. Code § 14560",
+      "dateBasis": "pre-2000",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PRC&sectionNum=14560.",
+      "note": "California sets a refund value of 5 cents under 24 fluid ounces and 10 cents at 24 fluid ounces or more; the program dates from the 1986 act.",
+      "preempts": true
+    },
+    "US-CT": {
+      "answer": "yes",
+      "cite": "Conn. Gen. Stat. § 22a-244",
+      "dateBasis": "pre-2000",
+      "source": "https://portal.ct.gov/deep/reduce-reuse-recycle/bottles/connecticut-bottle-bill",
+      "note": "The deposit rose from 5 to 10 cents on 1/1/2024; the statute site cga.ct.gov could not be fetched, so the cite rests on the DEEP page and common citation.",
+      "preempts": true
+    },
+    "US-HI": {
+      "answer": "yes",
+      "cite": "Haw. Rev. Stat. ch. 342G, pt. VIII",
+      "operativeAt": "2005-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://health.hawaii.gov/hi5/",
+      "note": "The Department of Health says the Deposit Beverage Container program has run since January 2005 under the 2002 law; the HRS site returned 403, so the chapter cite is unverified here.",
+      "preempts": true
+    },
+    "US-IA": {
+      "answer": "yes",
+      "cite": "Iowa Code § 455C.2",
+      "dateBasis": "pre-2000",
+      "source": "https://www.legis.iowa.gov/docs/code/455C.pdf",
+      "note": "A refund value of 5 cents is paid by the consumer on each covered beverage container.",
+      "preempts": true
+    },
+    "US-ME": {
+      "answer": "yes",
+      "cite": "Me. Rev. Stat. tit. 38, § 3103",
+      "dateBasis": "pre-2000",
+      "source": "https://legislature.maine.gov/statutes/38/title38sec3103.html",
+      "note": "The bottle law now sits in Title 38, chapter 33; the old Title 32, chapter 28 sections are repealed.",
+      "preempts": true
+    },
+    "US-MA": {
+      "answer": "yes",
+      "cite": "Mass. Gen. Laws ch. 94, § 323",
+      "dateBasis": "pre-2000",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXV/Chapter94/Section323",
+      "note": "The 1982 law covers carbonated beverages only; the 2014 ballot expansion failed.",
+      "preempts": true
+    },
+    "US-MI": {
+      "answer": "yes",
+      "cite": "Mich. Comp. Laws § 445.572",
+      "dateBasis": "pre-2000",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-445-572",
+      "note": "Initiated Law 1 of 1976 sets a 10-cent deposit.",
+      "preempts": true
+    },
+    "US-NY": {
+      "answer": "yes",
+      "cite": "N.Y. Envtl. Conserv. Law art. 27, tit. 10",
+      "dateBasis": "pre-2000",
+      "source": "https://dec.ny.gov/environmental-protection/recycling-composting/bottle-bill",
+      "note": "The Returnable Container Act requires a deposit of at least 5 cents; the nysenate.gov statute page returned 403.",
+      "preempts": true
+    },
+    "US-OR": {
+      "answer": "yes",
+      "cite": "Or. Rev. Stat. § 459A.705",
+      "dateBasis": "pre-2000",
+      "source": "https://oregon.public.law/statutes/ors_459a.705",
+      "note": "The refund value is 10 cents since 2017; canned wine was added on 7/1/2025 (OLCC page https://www.oregon.gov/olcc/pages/bottle_bill.aspx).",
+      "preempts": true
+    },
+    "US-VT": {
+      "answer": "yes",
+      "cite": "Vt. Stat. Ann. tit. 10, § 1522",
+      "dateBasis": "pre-2000",
+      "source": "https://legislature.vermont.gov/statutes/section/10/053/01522",
+      "note": "A 2025 overhaul keeps the deposit and phases in a producer responsibility organization, with labeling changes on 7/1/2026 and PRO participation required from 7/1/2027 (DEC page https://dec.vermont.gov/waste-management/solid/product-stewardship/bottle-bill).",
+      "preempts": true
+    },
+    "US-DE": {
+      "answer": "no",
+      "cite": "Del. Code Ann. tit. 7, § 6051 et seq. (77 Del. Laws c. 275)",
+      "operativeAt": "2010-12-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://delcode.delaware.gov/title7/c060/sc03/index.html",
+      "note": "Delaware repealed its 5-cent deposit by SB 234 (2010), replacing it with universal recycling; deposits ended 12/1/2010 per the Wikipedia summary, and the current code carries no deposit requirement.",
+      "preempts": true
+    },
+    "US-GU": {
+      "answer": "no",
+      "cite": "10 Guam Code Ann. § 44119",
+      "dateBasis": "not-found",
+      "source": "https://col.guamcourts.gov/sites/default/files/10gc044.pdf",
+      "note": "The Guam Beverage Container Recycling Act of 2010 (P.L. 30-221) takes effect only after a written agreement with the Navy and Air Force commands, and no government page shows that happened; Guam EPA's 2026 Recycling Guide (https://epa.guam.gov/wp-content/uploads/2026/05/2026-Recycling-Guide.pdf) lists no redemption program.",
+      "preempts": true
+    },
+    "US-AL": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-AK": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-AZ": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-AR": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-CO": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-FL": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-GA": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-ID": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-IL": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-IN": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-KS": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-KY": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-LA": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-MD": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-MN": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-MS": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-MO": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-MT": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-NE": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-NV": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-NH": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-NJ": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-NM": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-NC": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-ND": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-OH": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-OK": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-PA": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-RI": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-SC": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-SD": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-TN": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-TX": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-UT": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-VA": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-WA": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-WV": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-WI": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-WY": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-DC": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-PR": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-VI": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-AS": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    },
+    "US-MP": {
+      "answer": "no",
+      "preempts": true,
+      "source": "https://www.bottlebill.org/proposed-laws/",
+      "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+    }
+  },
+  "unknown": {},
+  "conflicts": [],
+  "refusedHosts": [
+    "calrecycle.ca.gov (403)",
+    "www.capitol.hawaii.gov (403)",
+    "www.mass.gov (403)",
+    "www.nysenate.gov (403)",
+    "www.cga.ct.gov (TLS chain verification failure; http returned 403)",
+    "dnrec.delaware.gov (request rejected)",
+    "dem.ri.gov (403)",
+    "epa.guam.gov (http: host not in proxy allowlist; https worked intermittently)",
+    "www.guamepa.net (no connection)",
+    "www.becq.gov.mp (no connection)",
+    "dpw.gov.mp (406)",
+    "www.iowadnr.gov, www.maine.gov, www.michigan.gov, www.pca.state.mn.us (404 at tried URLs, not refusals)"
+  ],
+  "counts": {
+    "yes": 10,
+    "no": 2,
+    "unknown": 44
+  }
+}

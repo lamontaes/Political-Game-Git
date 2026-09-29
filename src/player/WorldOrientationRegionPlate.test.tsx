@@ -159,7 +159,7 @@ describe("which approved picture stands behind each card", () => {
     hash: "fixture",
   };
 
-  it("uses the White House plate for the executive card, and nothing borrowed without it", () => {
+  it("uses the White House plate for the executive card, and the Oval Office without it", () => {
     expect(
       orientationBackdrop("executive", {
         whiteHouse: raster,
@@ -172,8 +172,8 @@ describe("which approved picture stands behind each card", () => {
         whiteHouse: null,
         regionalPlate: plate,
         regionScene: raster,
-      }).kind,
-    ).toBe("neutral");
+      }),
+    ).toMatchObject({ kind: "place", place: "oval-office" });
   });
 
   it("prefers the approved regional plate for the state card, then the reviewed preview, then plain ground", () => {
@@ -205,7 +205,8 @@ describe("which approved picture stands behind each card", () => {
         regionScene: null,
         homeStateUsps: "NE",
       }),
-    ).toMatchObject({ kind: "place", place: "state-capitol-tower" });
+      // Nebraska has its own capitol picture, so it wins over the generic tower.
+    ).toMatchObject({ kind: "place", place: "state-capitol-ne" });
   });
 
   it("falls back from the civic building to the regional plate on the town card", () => {

@@ -1,0 +1,29 @@
+{
+  "artifacts": [
+    {
+      "derivation": "Header row plus every nation (0100000US), state (0400000US) and place (1600000US) row of the full published file; tract, block group and other geographies are dropped, no value is changed. Kept so the repository does not hold the 45 MB full file.",
+      "fullFileLength": 45827971,
+      "fullFileSha256": "77200c3d9c0d99773bc7f78208bc96f25170e5d4d175a5de320620b478ceaff5",
+      "length": 2503017,
+      "localPath": "data/source/acs-household-mix/raw/acsdt5y2024-b11001.dat",
+      "mediaType": "text/plain; delimiter=pipe",
+      "sha256": "a5266c3919147940f867c12260fa75db4f1527970d1068c2c1a7d8f709bf3d14",
+      "table": "B11001 Household Type (Including Living Alone)",
+      "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b11001.dat",
+      "vintage": "2020-2024 ACS 5-year"
+    },
+    {
+      "derivation": "Header row plus every nation (0100000US), state (0400000US) and place (1600000US) row of the full published file; tract, block group and other geographies are dropped, no value is changed. Kept so the repository does not hold the 79 MB full file.",
+      "fullFileLength": 78591509,
+      "fullFileSha256": "fe6806a6a8f80df955b850e0a1da01b2da8f2d76faed834206561b4f72d19b76",
+      "length": 4395226,
+      "localPath": "data/source/acs-household-mix/raw/acsdt5y2024-b11003.dat",
+      "mediaType": "text/plain; delimiter=pipe",
+      "sha256": "d4966623d69742deab87d73faf82f4b891b7460303d452f49b21e9047f56305f",
+      "table": "B11003 Family Type by Presence and Age of Own Children Under 18 Years",
+      "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b11003.dat",
+      "vintage": "2020-2024 ACS 5-year"
+    }
+  ],
+  "asOf": "2026-09-29"
+}

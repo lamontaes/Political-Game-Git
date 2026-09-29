@@ -45,10 +45,12 @@ import {
 } from "./legislative-clock";
 import type { SeatedMember } from "../legislation-scenarios";
 import { lawInForce } from "./law-in-force";
+import { mayAnswerQuestion } from "./question-authority";
 import {
   ensureOfficeholderPrinciples,
   principledLeaning,
 } from "./officeholder-principles";
+import { hasStableKey } from "../history-index";
 
 /**
  * CONGRESS MAKES LAW — members of Congress file bills on the questions their
@@ -110,8 +112,12 @@ function federalQuestions(world: World): readonly FederalQuestion[] {
   for (const propositionId of catalog.propositionOrder) {
     const issue = catalog.issues[catalog.propositions[propositionId]!.issueId];
     if (
-      !issue?.levels?.includes("federal") ||
-      !issue.stableKey.startsWith(FEDERAL_ISSUE_PREFIX)
+      !issue?.stableKey.startsWith(FEDERAL_ISSUE_PREFIX) ||
+      !mayAnswerQuestion(
+        world,
+        NATIONAL_ELECTION_JURISDICTION.id,
+        propositionId,
+      )
     )
       continue;
     questions.push({
@@ -555,8 +561,7 @@ function nextIntakeDate(after: IsoDate): IsoDate {
 function scheduleNextIntake(world: World): World {
   const dueAt = nextIntakeDate(world.currentDate);
   const stableKey = `${CONGRESS_LAWMAKING_VERSION}:intake:${dueAt}`;
-  if (world.history.futureDueItems.some((due) => due.stableKey === stableKey))
-    return world;
+  if (hasStableKey(world.history.futureDueItems, stableKey)) return world;
   const next = ensureNationalElectionJurisdiction(world);
   return scheduleFutureDueItem(next, {
     stableKey,

@@ -1,0 +1,394 @@
+{
+  "question": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+  "definition": "yes = state law restores the right to vote automatically, with no application, no later than completion of the sentence (including restoration on release from prison, and Maine, Vermont and D.C., where people never lose it). no = restoration needs an application, pardon, court order, waiting period, payment of all fines and fees as a condition beyond the sentence, or is permanent for some broad crime categories. Narrow bars limited to election crimes (Maryland, Missouri, Ohio, Pennsylvania) are noted but not treated as no.",
+  "summarySource": "Brennan Center, 'Can People Convicted of a Felony Vote?' (Criminal Disenfranchisement Laws Across the United States map, updated September 22, 2026; per-state map data read from the page), with state code pages fetched September 28, 2026 for NE, MO, VA, FL, AZ, DE, WY and D.C.",
+  "answers": {
+    "US-AK": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon completion of sentence (prison, parole and probation).",
+      "preempts": true
+    },
+    "US-AL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "People convicted of felonies involving moral turpitude must apply for restoration after completing the sentence and paying fines, fees and restitution; certain crimes (for example murder, rape, treason) are permanent bars unless pardoned.",
+      "preempts": true
+    },
+    "US-AR": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Fines, fees and restitution must be paid before the vote returns, so restoration is not automatic (the same rule as Florida).",
+      "preempts": true
+    },
+    "US-AZ": {
+      "answer": "no",
+      "cite": "Ariz. Rev. Stat. § 13-907",
+      "dateBasis": "not-found",
+      "source": "https://www.azleg.gov/ars/13/00907.htm",
+      "note": "First-time offenders are restored automatically on completion of probation or absolute discharge if victim restitution is paid; people with two or more felonies must obtain a pardon or court restoration.",
+      "preempts": true
+    },
+    "US-CA": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-CO": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-CT": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison. Election-law convictions bar voting until incarceration, probation and parole are complete.",
+      "preempts": true
+    },
+    "US-DC": {
+      "answer": "yes",
+      "cite": "D.C. Code § 1-1001.02(2)",
+      "dateBasis": "pre-2000",
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-1001.02",
+      "note": "People never lose the right to vote for a criminal conviction; the former exclusion of people incarcerated for a felony (repealed in 2020) already restored the right on release.",
+      "preempts": true
+    },
+    "US-DE": {
+      "answer": "no",
+      "cite": "Del. Const. art. V, § 2; 15 Del. C. § 6102",
+      "dateBasis": "not-found",
+      "source": "https://delcode.delaware.gov/title15/c061/index.html",
+      "note": "Most people are restored automatically on completion of sentence, but disqualifying felonies (for example murder, bribery, sexual offenses) are a permanent bar unless pardoned, and election offenses carry a 10-year bar.",
+      "preempts": true
+    },
+    "US-FL": {
+      "answer": "no",
+      "cite": "Fla. Stat. § 98.0751; Fla. Const. art. VI, § 4",
+      "dateBasis": "pre-2000",
+      "source": "https://www.flsenate.gov/Laws/Statutes/2025/98.0751",
+      "note": "Amendment 4 as implemented by SB 7066 restores rights automatically only after completion of all terms of sentence, defined to include full payment of restitution and court-ordered fines and fees; murder and felony sexual offenses require clemency. The answer was also no before SB 7066 took effect on July 1, 2019.",
+      "preempts": true
+    },
+    "US-GA": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon completion of sentence (prison, parole and probation).",
+      "preempts": true
+    },
+    "US-HI": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-IA": {
+      "answer": "no",
+      "cite": "Iowa Const. art. II, § 5",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "The constitution disenfranchises permanently; Governor Reynolds's executive order of August 5, 2020 automatically restores most people on completion of sentence, but certain homicide offenses need individual gubernatorial restoration, and the order is executive, not statutory.",
+      "preempts": true
+    },
+    "US-ID": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon completion of sentence (prison, parole and probation).",
+      "preempts": true
+    },
+    "US-IL": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-IN": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-KS": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon completion of sentence (prison, parole and probation).",
+      "preempts": true
+    },
+    "US-KY": {
+      "answer": "no",
+      "cite": "Ky. Const. § 145",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "The constitution disenfranchises permanently; Governor Beshear's executive order of December 12, 2019 automatically restores most people who complete their sentence, but treason, election bribery and certain violent offenses require individual restoration.",
+      "preempts": true
+    },
+    "US-LA": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Rights return automatically no later than completion of sentence, and earlier for people on probation or parole who have not been incarcerated within the last five years; a person must show eligibility documentation when registering.",
+      "preempts": true
+    },
+    "US-MA": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-MD": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison. A conviction for buying or selling votes is a permanent bar unless pardoned, a narrow election-crime exception.",
+      "preempts": true
+    },
+    "US-ME": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "People never lose the right to vote for a criminal conviction, even while incarcerated.",
+      "preempts": true
+    },
+    "US-MI": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-MN": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-MO": {
+      "answer": "yes",
+      "cite": "Mo. Rev. Stat. § 115.133",
+      "dateBasis": "not-found",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=115.133",
+      "note": "On 2026-01-01 rights returned automatically on completion of sentence; HB 1871 (effective August 28, 2026) restores most on release from prison; a felony or misdemeanor connected with the right of suffrage remains a permanent bar, treated here as a narrow election-crime exception.",
+      "preempts": true
+    },
+    "US-MS": {
+      "answer": "no",
+      "cite": "Miss. Const. art. 12, § 241",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Specified disqualifying offenses are a permanent bar unless the governor pardons or both houses of the legislature restore the right by a two-thirds vote.",
+      "preempts": true
+    },
+    "US-MT": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-NC": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon completion of sentence (prison, parole and probation).",
+      "preempts": true
+    },
+    "US-ND": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-NE": {
+      "answer": "yes",
+      "cite": "Neb. Rev. Stat. § 29-112",
+      "dateBasis": "not-found",
+      "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=29-112",
+      "note": "Disqualification is automatically removed on completion of the sentence including parole; Laws 2024, LB 20 repealed the former two-year waiting period (effective July 19, 2024, per the task brief; the exact date was not on a fetched page).",
+      "preempts": true
+    },
+    "US-NH": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-NJ": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-NM": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-NV": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-NY": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-OH": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison. A person twice convicted of violating Ohio election law is permanently barred unless pardoned, a narrow election-crime exception.",
+      "preempts": true
+    },
+    "US-OK": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon completion, discharge or commutation of the original sentence, or a pardon.",
+      "preempts": true
+    },
+    "US-OR": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-PA": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison. A person convicted of violating Pennsylvania election law is barred for four years after conviction, a narrow election-crime exception.",
+      "preempts": true
+    },
+    "US-RI": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-SC": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon completion of sentence (prison, parole and probation).",
+      "preempts": true
+    },
+    "US-SD": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon completion of sentence (prison, parole and probation).",
+      "preempts": true
+    },
+    "US-TN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "People must obtain a court order after completing the sentence and paying restitution and meeting child-support obligations; certain felonies (for example rape, murder, bribery, treason) are permanent bars.",
+      "preempts": true
+    },
+    "US-TX": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon completion of sentence (prison, parole and probation).",
+      "preempts": true
+    },
+    "US-UT": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-VA": {
+      "answer": "no",
+      "cite": "Va. Const. art. II, § 1",
+      "dateBasis": "not-found",
+      "source": "https://law.lis.virginia.gov/constitution/article2/section1/",
+      "note": "On 2026-01-01 the constitution required restoration by the governor case by case; under Department of Elections guidance of September 15, 2026 most people are restored automatically on release from prison, while murder and manslaughter still require an application.",
+      "preempts": true
+    },
+    "US-VT": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "People never lose the right to vote for a criminal conviction, even while incarcerated.",
+      "preempts": true
+    },
+    "US-WA": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon release from prison.",
+      "preempts": true
+    },
+    "US-WI": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon completion of sentence (prison, parole and probation).",
+      "preempts": true
+    },
+    "US-WV": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
+      "note": "Automatic restoration upon completion of sentence (prison, parole and probation).",
+      "preempts": true
+    },
+    "US-WY": {
+      "answer": "no",
+      "cite": "Wyo. Stat. § 7-13-105",
+      "dateBasis": "not-found",
+      "source": "https://wyoleg.gov/statutes/compress/title07.pdf",
+      "note": "Automatic restoration applies only to first-time nonviolent felonies in a Wyoming court completed on or after January 1, 2010; others must apply, and violent or multiple felonies are a permanent bar unless pardoned.",
+      "preempts": true
+    }
+  },
+  "unknown": {
+    "US-PR": "Not confirmed: no fetched primary or secondary page addressed Puerto Rico's rules (the Brennan map covers only the 50 states and D.C.).",
+    "US-GU": "Not confirmed: the Guam Compiler of Laws title 3 PDFs returned 404 and no other fetched page addressed Guam.",
+    "US-VI": "Not confirmed: no fetched page addressed the U.S. Virgin Islands.",
+    "US-AS": "Not confirmed: no fetched page addressed American Samoa.",
+    "US-MP": "Not confirmed: no fetched page addressed the Northern Mariana Islands."
+  },
+  "conflicts": [],
+  "counts": {
+    "yes": 41,
+    "no": 10,
+    "unknown": 5
+  },
+  "refusedHosts": [
+    "www.leg.state.fl.us (403)",
+    "sos.tn.gov (403)",
+    "www.sos.ms.gov (403)",
+    "web.archive.org (connection reset)"
+  ]
+}

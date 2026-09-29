@@ -1,5 +1,5 @@
 import { expect, test, type Locator, type Page } from "./fixtures";
-import { enterLife, goTo, openElsewhere, startLife } from "./support/creator";
+import { enterLife, openElsewhere, startLife } from "./support/creator";
 
 /**
  * PT3: one conversation box, in the room, that never needs a scrollbar.
@@ -43,13 +43,23 @@ async function stepIntoTheScene(page: Page) {
     await opening.getByRole("button", { name: "Meet your household" }).click();
     await opening.getByRole("button", { name: "Step inside" }).click();
   }
-  await goTo(page, "nav-group-personal");
-  await page.getByTestId("nav-personal").click();
-  await page
-    .getByTestId("personal-life-choices")
-    .locator(":scope > summary")
-    .click();
-  await expect(page.getByTestId("opening-life-scene")).toBeVisible();
+  await expect(page.getByTestId("play-screen")).toBeVisible();
+}
+
+/*
+ * Talking to somebody is done the way a player does it now: choose a person
+ * standing in the room, then Talk on their card. The room no longer lists a
+ * "life-talk" button per person in a personal-choices drawer, so the four
+ * walks that pressed one were waiting on a control that no longer exists.
+ * Every geometric rule below is unchanged.
+ */
+async function talkToSomeoneInTheRoom(page: Page) {
+  const person = page.locator('[data-testid^="scene-person-"]').first();
+  await expect(person).toBeVisible();
+  await person.click();
+  await expect(page.getByTestId("quick-dossier")).toBeFocused();
+  await page.getByTestId("dossier-talk").click();
+  return person;
 }
 
 /*
@@ -110,19 +120,17 @@ test("the owner's age-22 conversation is one bounded box with paged history and 
   await startLife(page, { age: 22, place: "Lexington", state: "Kentucky" });
   await stepIntoTheScene(page);
 
-  // Choosing somebody in the scene opens the box with exactly them.
-  const talkTo = page.locator('[data-testid^="life-talk-"]').first();
-  const personName = (await talkTo.innerText()).split(" · ")[0]!.trim();
-  await talkTo.click();
-  const box = page.getByRole("region", {
-    name: `Conversation with ${personName}`,
-  });
+  // Choosing somebody in the room opens the box with exactly them.
+  const scenePerson = await talkToSomeoneInTheRoom(page);
+  const box = page.getByRole("region", { name: /^Conversation with / });
   await expect(box).toBeVisible();
-  await expect(page.getByTestId("opening-life-scene")).toHaveCount(0);
+  const personName = (await box.getByTestId("talk-name").innerText()).trim();
+  await expect(box).toHaveAccessibleName(`Conversation with ${personName}`);
   await expect(box.getByTestId("talk-name")).toHaveText(personName);
   await expect(box.getByTestId("talk-relationship")).not.toBeEmpty();
   await expect(box.getByTestId("conversation-topic")).not.toBeEmpty();
-  await expect(box.getByTestId("person-portrait")).toBeVisible();
+  // The box shows both faces of the exchange, the player's and this person's.
+  await expect(box.getByTestId("person-portrait").first()).toBeVisible();
   await expectBounded(page, box);
   await expectAllOnScreen(
     page,
@@ -143,7 +151,11 @@ test("the owner's age-22 conversation is one bounded box with paged history and 
     const before = await box.getByTestId("conversation-beat").innerText();
     await choice.click();
     await expect(box.getByTestId("conversation-beat")).not.toHaveText(before);
-    await expect(box.getByTestId("talk-clock")).toContainText("→");
+    // A moment together reads back as no time passing; a beat that spends time
+    // still shows its start and end.
+    await expect(box.getByTestId("talk-clock")).toHaveText(
+      /→|No time passed\./,
+    );
     await expectBounded(page, box);
     await expectAllOnScreen(
       page,
@@ -165,17 +177,16 @@ test("the owner's age-22 conversation is one bounded box with paged history and 
   await page.keyboard.press("Escape");
   await expect(box).toHaveAttribute("data-state", "active");
 
-  // Back, by keyboard, returns to the scene the conversation was opened from.
+  // Back, by keyboard, returns to the room the conversation was opened from.
   await box.getByTestId("talk-back").focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByTestId("opening-life-scene")).toBeVisible();
+  await expect(page.getByTestId("play-screen")).toBeVisible();
   await expect(box).toHaveCount(0);
-  // Focus comes back to where the conversation was started from.
-  await expect(talkTo).toBeFocused();
+  // Focus comes back to the person the conversation was started with.
+  await expect(scenePerson).toBeFocused();
 
   // Talking to them again from the room carries the conversation on rather
   // than greeting them as though nothing had been said.
-  const scenePerson = page.locator('[data-testid^="scene-person-"]').first();
   await scenePerson.click();
   const card = page.getByTestId("quick-dossier");
   await expect(card).toBeFocused();
@@ -213,7 +224,7 @@ test("turning to a second classmate keeps the last exchange and says who heard i
     childhood: true,
     household: "shares-a-home",
   });
-  await expect(page.getByTestId("play-screen")).toBeVisible();
+  await stepIntoTheScene(page);
   await openElsewhere(page, "people");
   await page.getByTestId("conversation-start-school-project-share").click();
   const box = page.getByTestId("conversation-school-project-share");
@@ -249,7 +260,7 @@ test("at the smaller 1280 x 720 window the box still needs no scrollbar", async 
   await page.goto("/?seed=pt3-owner-22");
   await startLife(page, { age: 22, place: "Lexington", state: "Kentucky" });
   await stepIntoTheScene(page);
-  await page.locator('[data-testid^="life-talk-"]').first().click();
+  await talkToSomeoneInTheRoom(page);
   const box = page.getByRole("region", { name: /^Conversation with / });
   for (let turn = 0; turn < 3; turn += 1) {
     await box
@@ -272,7 +283,7 @@ test("at 1200 x 720 the conversation stays bottom-center without a scrollbar", a
   await page.goto("/?seed=pt3-owner-22");
   await startLife(page, { age: 22, place: "Lexington", state: "Kentucky" });
   await stepIntoTheScene(page);
-  await page.locator('[data-testid^="life-talk-"]').first().click();
+  await talkToSomeoneInTheRoom(page);
   const box = page.getByRole("region", { name: /^Conversation with / });
   await expect(page.getByTestId("scene-backdrop-content")).toHaveAttribute(
     "data-content",

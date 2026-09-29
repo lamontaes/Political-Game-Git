@@ -2,10 +2,13 @@ import "./pose41-scene.css";
 import {
   sceneConversationFrame,
   type SceneConversationFrame,
+  type ScreenRect,
 } from "../presentation/scene-conversation-frame";
 import { MaterialGroup, MaterialImage } from "./ModularCharacter";
 import { EngineFigure } from "./EnginePerson";
 import { PlacePeopleLayer } from "./PlacePeopleLayer";
+import { BackdropSurfaceLayer } from "./BackdropSurfaceLayer";
+import type { BackdropSurface } from "../presentation/backdrop-surfaces";
 import type { BackdropPerson } from "../presentation/backdrop-people";
 import {
   useLayoutEffect,
@@ -67,6 +70,42 @@ import {
  */
 const DOCK_LEFT_INSET = 272;
 const DOCK_RIGHT_INSET = 20;
+/* Below 52rem the conversation keeps its narrow-screen strip (pose41-scene.css). */
+const NARROW_SCREEN = 832;
+
+/**
+ * How tall the box is at `width` with nothing clipped. The panel is laid out
+ * at that width for the reading and put back exactly as it was, inside one
+ * layout pass, so nothing is painted in between.
+ */
+function panelHeightAt(panel: HTMLElement, width: number): number {
+  const { style } = panel;
+  const { width: w, maxWidth, maxHeight, boxSizing, flexShrink } = style;
+  style.boxSizing = "border-box";
+  // The frame is a flex row: without this a wider reading shrinks to it.
+  style.flexShrink = "0";
+  style.width = `${width}px`;
+  style.maxWidth = "none";
+  style.maxHeight = "none";
+  // A pixel of slack for sub-pixel rounding between this reading and layout.
+  const height = panel.getBoundingClientRect().height + 1;
+  Object.assign(style, {
+    width: w,
+    maxWidth,
+    maxHeight,
+    boxSizing,
+    flexShrink,
+  });
+  return height;
+}
+
+/** The shell's own cards standing over the room, such as the morning note. */
+function shellCardsOverTheRoom(): ScreenRect[] {
+  return [...document.querySelectorAll(".life-shell .pg-recap")]
+    .map((element) => element.getBoundingClientRect())
+    .filter((rect) => rect.width > 0 && rect.height > 0)
+    .map(({ left, right, top, bottom }) => ({ left, right, top, bottom }));
+}
 
 /**
  * A registered room, painted behind a section of the page.
@@ -104,6 +143,7 @@ export function SceneBackdrop({
   objects,
   placeBackdrop = null,
   placePeople = [],
+  placeSurfaces = [],
   children,
 }: {
   readonly sceneId: string | null;
@@ -177,6 +217,12 @@ export function SceneBackdrop({
    * marked spots. Drawn only over a place picture.
    */
   readonly placePeople?: readonly BackdropPerson[];
+  /**
+   * The place picture's painted screens, boards and papers that have live
+   * content today (backdrop-surfaces.ts). Drawn only over a place picture,
+   * beneath the people standing in it.
+   */
+  readonly placeSurfaces?: readonly BackdropSurface[];
   readonly children: ReactNode;
 }) {
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -281,6 +327,7 @@ export function SceneBackdrop({
   const [conversationFrame, setConversationFrame] =
     useState<SceneConversationFrame | null>(null);
   const measuredContent = useRef("");
+  const floorRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     const content = contentRef.current;
     const panel = content?.firstElementChild;
@@ -288,23 +335,55 @@ export function SceneBackdrop({
       measuredContent.current = "";
       return;
     }
+    const talking = panel.classList.contains("pg-talk");
+    const framed =
+      talking &&
+      panel instanceof HTMLElement &&
+      covering.viewport.width > NARROW_SCREEN;
+    // The lowest the box may reach: above the corner cluster, as CSS places it.
+    const floor = framed
+      ? Math.floor(
+          floorRef.current?.getBoundingClientRect().top ??
+            covering.viewport.height - 48,
+        )
+      : null;
+    const cards = framed ? shellCardsOverTheRoom() : [];
     const measurementKey = JSON.stringify([
       covering.viewport,
       figures,
       panel.className,
       panel.textContent,
+      floor,
+      cards,
     ]);
     if (measurementKey === measuredContent.current) return;
     measuredContent.current = measurementKey;
-    const talking = panel.classList.contains("pg-talk");
-    if (talking && people.length > 1) {
+    if (framed) {
+      /*
+       * Every conversation takes a rectangle sized from its own wrapped
+       * content, among the people rather than over their faces, and never
+       * one that needs a scrollbar or hides a choice when the window has room
+       * for them all (scene-conversation-frame.ts).
+       */
       const frame = sceneConversationFrame(
         figures,
         covering.viewport,
-        Math.min(416, panel.scrollHeight),
+        (width) => panelHeightAt(panel, width),
+        {
+          top: 48,
+          bottom: floor ?? covering.viewport.height - 48,
+          leftInset: DOCK_LEFT_INSET,
+          rightInset: DOCK_RIGHT_INSET,
+        },
+        cards,
       );
       setConversationFrame(frame);
       setConversationMaxHeight(frame.maxHeight);
+      setPlacement((current) =>
+        current.dock === "center" && current.maxWidth === null
+          ? current
+          : { dock: "center", maxWidth: null },
+      );
       return;
     }
     setConversationFrame((current) => (current === null ? current : null));
@@ -426,6 +505,13 @@ export function SceneBackdrop({
             alt=""
             draggable="false"
             data-testid="scene-place-backdrop"
+          />
+        ) : null}
+        {placePainted ? (
+          <BackdropSurfaceLayer
+            surfaces={placeSurfaces}
+            variant={placeBackdrop.variant}
+            stageRef={viewportRef}
           />
         ) : null}
         {placePainted ? (
@@ -776,6 +862,11 @@ export function SceneBackdrop({
           onOpenEntity={onOpenSurfaceEntity}
         />
       ) : null}
+      <div
+        className="scene-backdrop-conversation-floor"
+        ref={floorRef}
+        aria-hidden="true"
+      />
       <div
         className="scene-backdrop-content"
         ref={contentRef}

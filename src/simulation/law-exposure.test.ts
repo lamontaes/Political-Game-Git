@@ -10,10 +10,12 @@ import { createPartnership } from "./life";
 import {
   lawExposuresFrom,
   lawExposuresOf,
+  recordHeardExposure,
   recordLawExposure,
 } from "./law-exposure";
 import {
   followsNewsClosely,
+  heardShare,
   knowsVote,
   officialsBehind,
   peopleKnownTo,
@@ -27,6 +29,7 @@ import {
   membersAgainstLaw,
 } from "./official-view-reads";
 import { joinLawInterestGroup } from "./living-world/law-interest-groups";
+import { recordRelationshipInteraction } from "./records";
 import { money } from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { advanceWorld, assertWorldIntegrity } from "./world";
@@ -299,29 +302,51 @@ describe("a law reaches a person", () => {
     assertWorldIntegrity(later);
   });
 
-  it("close news followers are likelier to know a legislator's vote", () => {
+  it("a friend's story moves the hearer as much as they care about the teller", () => {
+    const { world, personId, spouseId } = collected();
+    const row = lawExposuresOf(world, personId)[0]!;
+    const heardFrom = (w: typeof world) =>
+      (w.history.lawExposures ?? []).find(
+        (exposure) =>
+          exposure.relation === "friend" && exposure.personId === spouseId,
+      )!;
+    const stranger = recordHeardExposure(world, row, spouseId);
+    let close = world;
+    for (const [i, day] of ["2019-01-07", "2019-03-04", "2019-06-03"].entries())
+      close = recordRelationshipInteraction(close, {
+        stableKey: `law-exposure-test:care:${i}`,
+        personIds: [personId, spouseId].sort() as [
+          typeof spouseId,
+          typeof spouseId,
+        ],
+        eventId: null,
+        occurredAt: day as typeof world.currentDate,
+        kind: "care:looked-after",
+        change: "strengthened",
+        significance: "major",
+        summary: "They looked after each other through a hard winter.",
+        tags: [],
+      });
+    close = recordHeardExposure(close, row, spouseId);
+    // Nobody's own money or household is discounted.
+    expect(heardShare(world, row)).toBe(1);
+    // A story from someone they have no warmth for reaches them faintly; the
+    // same story from someone who looked after them reaches them far more.
+    expect(heardShare(stranger, heardFrom(stranger))).toBe(1 / 8);
+    expect(heardShare(close, heardFrom(close))).toBeGreaterThan(1 / 8);
+  });
+
+  it("a close news follower knows a legislator's vote; someone who neither follows nor knows them does not", () => {
     const { world } = collected();
     const exposure = lawExposuresOf(world, world.personOrder[0]!)[0]!;
-    let close = 0;
-    let knewClose = 0;
-    let knewOthers = 0;
-    const trials = 4000;
-    for (let index = 0; index < trials; index += 1) {
-      const probe = {
-        ...exposure,
-        personId: world.personOrder[index % world.personOrder.length]!,
-        measureId:
-          `${exposure.measureId}-${index}` as typeof exposure.measureId,
-      };
-      const follows = followsNewsClosely(world, probe.personId);
-      const knows = knowsVote(world, probe, exposure.personId);
-      if (follows) {
-        close += 1;
-        if (knows) knewClose += 1;
-      } else if (knows) knewOthers += 1;
+    const official = world.personOrder[0]!;
+    for (const personId of world.personOrder) {
+      if (personId === official) continue;
+      const probe = { ...exposure, personId };
+      const follows = followsNewsClosely(world, personId);
+      const acquainted = peopleKnownTo(world, personId).includes(official);
+      expect(knowsVote(world, probe, official)).toBe(follows || acquainted);
     }
-    expect(close).toBeGreaterThan(0);
-    expect(knewClose / close).toBeGreaterThan(knewOthers / (trials - close));
   });
 
   it("people a law cost a tenth of a month's pay form a group once six in town are hit", () => {

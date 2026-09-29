@@ -1,10 +1,32 @@
 import { workUniform } from "./work-uniform";
 import type { AppearanceMaterial } from "../simulation/appearance-material";
 import type { SceneSeatContact } from "../environment/environment-scene-spec";
-import type { EngineRecipe } from "./appearance-engine/pack";
+import {
+  mirrorToFace,
+  posedPieces,
+  type BodyPose,
+  type BodyView,
+  type EngineRecipe,
+  type FaceExpression,
+} from "./appearance-engine/pack";
+import { conversationExpression } from "./appearance-engine/expression-chooser";
+import type { ConversationExchangeTurn } from "./scene-conversation";
+import { officesHeldBy } from "../simulation/governing/office-consequence";
+import { isMarriedNow } from "./appearance-engine/marital-status";
 import { placeWear } from "./dress-code";
 import { engineRecipeFor } from "./appearance-engine/recipe";
-import { PEOPLE_PACK, peoplePackAvailable } from "./appearance-engine/runtime";
+import {
+  PEOPLE_PACK,
+  peoplePackAvailable,
+  peoplePackFileAvailable,
+} from "./appearance-engine/runtime";
+import {
+  chooseBodyPose,
+  chooseBodyView,
+  sceneActivity,
+  type SceneActivity,
+} from "./appearance-engine/pose-chooser";
+import { personTrait } from "../simulation/people-traits";
 import type { PersonRenderSnapshot } from "./person-render-snapshot";
 import {
   SCENE_REGISTRY,
@@ -319,7 +341,11 @@ export function seatedEngineBox(
   standingHeightPercent: number,
 ): { readonly topPercent: number; readonly heightPercent: number } {
   const pack = PEOPLE_PACK.presentations[recipe.presentation];
-  const body = pack.seated?.bodies[recipe.build];
+  const posed = posedPieces(pack, recipe, peoplePackFileAvailable);
+  const body =
+    posed.seated && posed.body.seatRow !== undefined
+      ? { anchors: posed.body.anchors, seatRow: posed.body.seatRow }
+      : undefined;
   const standing = pack.bodies[recipe.build].anchors;
   if (!body)
     return {
@@ -366,6 +392,89 @@ export function engineStandingHeightPercent(
     ((body.feet - body.top + 1) / 768)
   );
 }
+
+/**
+ * The pose, view and face the engine draws a person in, for what they are
+ * doing and what is being said.
+ */
+function posedFor(
+  world: World,
+  personId: ScenePerson["personId"],
+  activity: SceneActivity,
+  seated: boolean,
+  turns: readonly ConversationExchangeTurn[],
+): {
+  readonly pose: BodyPose;
+  readonly view: BodyView;
+  readonly expression: FaceExpression;
+  readonly reading: boolean;
+} {
+  const record = world.people[personId]!;
+  return {
+    // At a desk or table: anyone who wears glasses to read has them on.
+    reading: activity === "desk",
+    expression: conversationExpression(
+      world,
+      personId,
+      record.appearance?.seed ?? record.id,
+      turns,
+    ),
+    pose: chooseBodyPose({
+      activity,
+      seated,
+      seed: record.appearance?.seed ?? record.id,
+      ...recordedGuardedness(world, personId),
+    }),
+    view: chooseBodyView(activity),
+  };
+}
+
+/**
+ * How guarded a person is, for the pose chooser: the opposite of their
+ * sociability (a reserved person folds their arms more), and only when it
+ * has been recorded. A trait nobody has observed is not read.
+ */
+function recordedGuardedness(
+  world: World,
+  personId: ScenePerson["personId"],
+): { readonly guarded?: number } {
+  const sociability = personTrait(world, personId, "sociability");
+  return sociability.recordId === null ? {} : { guarded: -sociability.value };
+}
+
+/**
+ * Engine people turned to face what they attend to: a listener toward the
+ * one speaking, and the speaker (and anyone at a podium) toward the viewer,
+ * who is at the middle of the picture. A pose that turns neither way, or a
+ * person already facing the right way, is left as drawn.
+ */
+function facingEachOther(
+  placed: readonly PlacedScenePerson[],
+  scene: RegisteredScene,
+  speakerId: string | null,
+): PlacedScenePerson[] {
+  const xOf = (person: PlacedScenePerson) =>
+    scene.anchors.get(person.anchorId)?.xPercent ?? 50;
+  const speaker = placed.find((person) => person.personId === speakerId);
+  return placed.map((person) => {
+    if (!person.engine) return person;
+    const toward =
+      speaker && speaker !== person ? xOf(speaker) : VIEWER_X_PERCENT;
+    const mirrored = mirrorToFace(
+      PEOPLE_PACK.presentations[person.engine.presentation],
+      person.engine,
+      xOf(person),
+      toward,
+      peoplePackFileAvailable,
+    );
+    return mirrored
+      ? { ...person, engine: { ...person.engine, mirrored: true } }
+      : person;
+  });
+}
+
+/** The first-person viewer stands at the middle of the picture. */
+const VIEWER_X_PERCENT = 50;
 
 /** A standing figure is roughly this many times as tall as it is wide. */
 const STANDING_HEIGHT_RATIO = 2.55;
@@ -578,6 +687,18 @@ export function planLifeScenePeople(
   sceneId: string | null,
   wardrobe?: CharacterWardrobeContext,
   savedWardrobes?: LifeSceneWardrobeOptions,
+  /**
+   * What is happening in the room: who is answering in its conversation, if
+   * anyone. The engine poses people by it (pose-chooser.ts).
+   */
+  activity?: {
+    readonly speakerId: string | null;
+    /**
+     * The conversation's recorded turns, oldest first
+     * (conversationExchangeTurns): what each person's face reacts to.
+     */
+    readonly turns?: readonly ConversationExchangeTurn[];
+  },
 ): readonly PlacedScenePerson[] {
   if (!sceneId) return [];
   const scene = SCENE_REGISTRY.scenes.get(sceneId);
@@ -648,12 +769,26 @@ export function planLifeScenePeople(
       peoplePackAvailable()
         ? engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
             wear: placeWear(sceneId, world.currentDate),
+            officeholder: () =>
+              officesHeldBy(world, person.personId).length > 0,
+            married: () => isMarriedNow(world, person.personId),
             uniform: workUniform(
               world,
               person.personId,
               placeWear(sceneId, world.currentDate),
             ),
-            ...(seated ? { pose: "seated" as const } : {}),
+            ...posedFor(
+              world,
+              person.personId,
+              sceneActivity({
+                personId: person.personId,
+                speakerId: activity?.speakerId ?? null,
+                anchorType: anchor.type,
+                seated,
+              }),
+              seated,
+              activity?.turns ?? [],
+            ),
           })
         : null;
     if (engine) {
@@ -843,7 +978,11 @@ export function planLifeScenePeople(
       })),
     };
   });
-  const placed = [...allocateSceneOccupancy(candidates)];
+  const placed = facingEachOther(
+    [...allocateSceneOccupancy(candidates)],
+    scene,
+    activity?.speakerId ?? null,
+  );
   // Head height cannot determine paint order when postures differ.
   return placed.sort((a, b) => {
     const left = scene.anchors.get(a.anchorId)!;

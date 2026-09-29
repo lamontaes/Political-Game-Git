@@ -193,6 +193,24 @@ export function countyGovernmentUnitsForPlace(
 }
 
 /**
+ * The county areas a Census place lies in with the share of the place's land
+ * in each, largest first. Geography only, like `countyGeoidsForPlace`; the
+ * shares sum to one. Empty when the place is not in the 2020 files.
+ */
+export function countyLandSharesForPlace(
+  placeGeoid: string,
+): readonly (readonly [countyGeoid: string, share: number])[] {
+  const parts = loadPlaceCountyParts().get(placeGeoid) ?? [];
+  const total = parts.reduce((sum, [, land]) => sum + land, 0);
+  if (total <= 0) return [];
+  return [...parts]
+    .sort(
+      (left, right) => right[1] - left[1] || left[0].localeCompare(right[0]),
+    )
+    .map(([countyGeoid, land]) => [countyGeoid, land / total] as const);
+}
+
+/**
  * The county areas a Census place lies in, largest land share first.
  *
  * Geography only, and deliberately distinct from

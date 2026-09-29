@@ -96,7 +96,7 @@ export function PlacePeopleLayer({
 }
 
 /** The rectangle a cover-fitted place picture occupies inside the stage. */
-function useCoverRect(stageRef: RefObject<HTMLDivElement | null>) {
+export function useCoverRect(stageRef: RefObject<HTMLDivElement | null>) {
   const [rect, setRect] = useState<{
     left: number;
     top: number;

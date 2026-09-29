@@ -6,9 +6,11 @@ import {
 } from "../presentation/new-game";
 import type { NewGameSetup } from "../presentation/new-game";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
-import { buyHome } from "../simulation/home-purchase";
+import { buyHome, homePurchaseTerms } from "../simulation/home-purchase";
 import { createResourcePosition, money } from "../simulation/resources";
 import { HomePurchasePanel } from "./HomePurchasePanel";
+
+const usd = (minor: number) => `$${(minor / 100).toLocaleString("en-US")}`;
 
 function life(savingsMinor: number) {
   const created = createNewGameWorld({
@@ -43,8 +45,14 @@ describe("the home panel on Money and property", () => {
         onWorldChange={() => {}}
       />,
     );
-    expect(html).toContain("A house costs $250,000.");
-    expect(html).toContain("The down payment is $50,000. You have $10,000.");
+    const terms = homePurchaseTerms(
+      world,
+      world.people[personId]!.homeJurisdictionId,
+    );
+    expect(html).toContain(`A house costs ${usd(terms.priceMinor)}.`);
+    expect(html).toContain(
+      `The down payment is ${usd(terms.downPaymentMinor)}. You have $10,000.`,
+    );
     expect(html).toMatch(/<button[^>]*disabled[^>]*>Buy a home<\/button>/);
   });
 
@@ -60,7 +68,13 @@ describe("the home panel on Money and property", () => {
       />,
     );
     expect(html).toContain("Your household owns its home.");
-    expect(html).toContain("$200,000 is left on the mortgage.");
+    const terms = homePurchaseTerms(
+      world,
+      world.people[personId]!.homeJurisdictionId,
+    );
+    expect(html).toContain(
+      `${usd(terms.priceMinor - terms.downPaymentMinor)} is left on the mortgage.`,
+    );
     expect(html).not.toContain("Buy a home</button>");
   });
 });

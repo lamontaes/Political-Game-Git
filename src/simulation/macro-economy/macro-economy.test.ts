@@ -15,6 +15,9 @@ import type { World } from "../types";
 import { advanceWorld, recordWorldEvent } from "../world";
 import {
   annualizedQuarterlyGrowthPct,
+  drawInnovations,
+  START_ERA,
+  stepEra,
   standardNormal,
   startValuesFromLatents,
   stepLocalMonth,
@@ -540,5 +543,95 @@ describe("CHANGE canonical macro history", { timeout: 1_800_000 }, () => {
       },
     };
     expect(() => deserializeWorld(serializeWorld(tampered))).toThrow();
+  });
+});
+
+describe("the economy's eras: a century is several economies, not one number with noise", () => {
+  /** Twelve worlds of 100 years, decade averages of growth and inflation. */
+  function centuries() {
+    const worlds: {
+      recessions: number;
+      growth: number[];
+      inflation: number[];
+      unemployment: number[];
+    }[] = [];
+    for (let seed = 0; seed < 12; seed += 1) {
+      let state: MacroMonthlyState = {
+        growthPct: 2,
+        unemploymentPct: 4.6,
+        inflationPct: 2.7,
+        realOutputIndex: 100,
+        priceIndex: 100,
+      };
+      let era = START_ERA;
+      const rng = new SeededRng(`century-${seed}`);
+      const world = {
+        recessions: 0,
+        growth: [] as number[],
+        inflation: [] as number[],
+        unemployment: [] as number[],
+      };
+      let g = 0;
+      let inf = 0;
+      let u = 0;
+      for (let month = 0; month < 1200; month += 1) {
+        const draw = rng.fork(`m${month}`);
+        const before = era.phase;
+        era = stepEra(era, state, draw.fork("era"));
+        state = stepMonth(state, drawInnovations(draw), NO_IMPULSES, era);
+        if (before === "expansion" && era.phase === "recession")
+          world.recessions += 1;
+        g += state.growthPct;
+        inf += state.inflationPct;
+        u += state.unemploymentPct;
+        if (month % 120 === 119) {
+          world.growth.push(g / 120);
+          world.inflation.push(inf / 120);
+          world.unemployment.push(u / 120);
+          g = inf = u = 0;
+        }
+      }
+      worlds.push(world);
+    }
+    return worlds;
+  }
+  const worlds = centuries();
+  const all = (key: "growth" | "inflation" | "unemployment") =>
+    worlds.flatMap((world) => world[key]);
+
+  it("decade growth ranges from slumps to booms, and worlds end up in different places", () => {
+    expect(Math.min(...all("growth"))).toBeLessThan(0);
+    expect(Math.max(...all("growth"))).toBeGreaterThan(4);
+    const centuryAverages = worlds.map(
+      (world) => world.growth.reduce((a, b) => a + b, 0) / 10,
+    );
+    expect(
+      Math.max(...centuryAverages) - Math.min(...centuryAverages),
+    ).toBeGreaterThan(1.5);
+  });
+
+  it("recessions come every few years with drawn depths, and some worlds see a depression", () => {
+    for (const world of worlds) {
+      expect(world.recessions).toBeGreaterThanOrEqual(5);
+      expect(world.recessions).toBeLessThanOrEqual(25);
+    }
+    expect(Math.max(...all("unemployment"))).toBeGreaterThan(12);
+  });
+
+  it("some worlds live through a 1970s-style inflation and others never do", () => {
+    const worst = worlds.map((world) => Math.max(...world.inflation));
+    expect(Math.max(...worst)).toBeGreaterThan(6);
+    expect(Math.min(...worst)).toBeLessThan(3.5);
+  });
+
+  it("every value stays inside its bounds", () => {
+    for (const value of all("unemployment")) {
+      expect(value).toBeGreaterThanOrEqual(0);
+      expect(value).toBeLessThan(40);
+    }
+    for (const value of all("inflation")) {
+      expect(value).toBeGreaterThan(-5);
+      expect(value).toBeLessThan(20);
+    }
   });
 });

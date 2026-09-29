@@ -1,0 +1,1537 @@
+{
+  "schema": "ocd-place-surfaces/v1",
+  "note": "Painted surfaces in a place picture that the game draws live content on: screens, boards, posters, notes, papers and brochures. Shared by a place's morning, midday, night, rain and winter versions; 'variants' gives a version its own corners, and 'absentIn' lists versions without the surface. 'quad' is the drawable face in the picture's own pixels (1672 x 941), corners top-left, top-right, bottom-right, bottom-left as seen. 'finish' is what the face is (cork takes pinned cards, whiteboard takes marker writing, panel takes content across the whole face). 'shows' lists what the surface is for, in order: votes, news, candidates, results, plans, bills, programs; an empty list keeps the painted face. Measured from the pictures on Sept. 28, 2026, each quad checked by overlay on every version listed in 'checked'.",
+  "places": {
+    "appellate-courtroom": {
+      "checked": [
+        "appellate-courtroom__midday.jpg",
+        "appellate-courtroom__morning.jpg",
+        "appellate-courtroom__night.jpg",
+        "appellate-courtroom__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "wall panels at the far left and right: molded wainscot panels, not sign boards",
+        "curtains behind the bench: curtains",
+        "no painted screens, posters, papers or boards"
+      ]
+    },
+    "barbershop": {
+      "checked": [
+        "barbershop__midday.jpg",
+        "barbershop__morning.jpg",
+        "barbershop__night.jpg",
+        "barbershop__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "campaign-storefront": {
+      "checked": [
+        "campaign-storefront__midday.jpg",
+        "campaign-storefront__morning.jpg",
+        "campaign-storefront__night.jpg",
+        "campaign-storefront__rain.jpg"
+      ],
+      "surfaces": [
+        {
+          "id": "campaign-storefront-corkboard",
+          "kind": "board",
+          "finish": "cork",
+          "what": "cork board on the right wall",
+          "quad": [
+            [1122, 240],
+            [1420, 198],
+            [1420, 451],
+            [1122, 419]
+          ],
+          "perspective": true,
+          "shows": ["candidates", "plans"]
+        },
+        {
+          "id": "campaign-storefront-whiteboard",
+          "kind": "board",
+          "finish": "whiteboard",
+          "what": "whiteboard on the far right wall, running off the right edge",
+          "quad": [
+            [1461, 190],
+            [1671, 153],
+            [1671, 451],
+            [1461, 441]
+          ],
+          "perspective": true,
+          "shows": ["plans"]
+        },
+        {
+          "id": "campaign-storefront-laptop-front",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "dark laptop screen on the front right table",
+          "quad": [
+            [1057, 521],
+            [1164, 544],
+            [1140, 634],
+            [1033, 606]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "campaign-storefront-laptop-middle",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "dark laptop screen on the middle table",
+          "quad": [
+            [755, 445],
+            [809, 454],
+            [790, 517],
+            [736, 503]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "campaign-storefront-leaning-frame",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blank white frame leaning against the right wall",
+          "quad": [
+            [1442, 535],
+            [1520, 545],
+            [1508, 619],
+            [1437, 599]
+          ],
+          "perspective": true,
+          "shows": ["candidates"]
+        }
+      ],
+      "skipped": [
+        "small laptop screen on the back table near the door: about 33 px wide",
+        "laptop at the left table: screen seen edge-on",
+        "papers on the tables: under 36 px tall (the left-table sheet is about 34-36 px)",
+        "rolling stand in the middle: an empty rack frame, no painted board face",
+        "storefront windows and door: windows"
+      ]
+    },
+    "church-supper-hall": {
+      "checked": [
+        "church-supper-hall__midday.jpg",
+        "church-supper-hall__morning.jpg",
+        "church-supper-hall__night.jpg",
+        "church-supper-hall__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "kitchen pass-through: an opening, not a board",
+        "cross on the wall: not a text surface",
+        "no painted screens, posters, papers or boards"
+      ]
+    },
+    "city-hall-exterior": {
+      "checked": [
+        "city-hall-exterior__midday.jpg",
+        "city-hall-exterior__morning.jpg",
+        "city-hall-exterior__night.jpg",
+        "city-hall-exterior__rain.jpg"
+      ],
+      "surfaces": [
+        {
+          "id": "city-hall-exterior-name-panel",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blank recessed name panel above the entrance",
+          "quad": [
+            [836, 306],
+            [1056, 306],
+            [1056, 346],
+            [836, 346]
+          ],
+          "perspective": false,
+          "shows": []
+        }
+      ],
+      "skipped": ["windows and doors: windows"]
+    },
+    "classroom": {
+      "checked": ["classroom__midday.jpg", "classroom__night.jpg"],
+      "surfaces": [
+        {
+          "id": "classroom-whiteboard",
+          "kind": "board",
+          "finish": "whiteboard",
+          "what": "whiteboard on the front wall",
+          "quad": [
+            [550, 116],
+            [1203, 116],
+            [1203, 346],
+            [550, 346]
+          ],
+          "perspective": false,
+          "shows": ["plans"]
+        }
+      ],
+      "skipped": [
+        "windows and door window: windows",
+        "books on the shelves: spines, no readable face",
+        "whiteboard lower edge is partly covered by the plant, desk chair and books; quad keeps the full board face"
+      ]
+    },
+    "clerk-counter": {
+      "checked": ["clerk-counter__midday.jpg"],
+      "surfaces": [
+        {
+          "id": "clerk-counter-notice-board",
+          "kind": "board",
+          "finish": "cork",
+          "what": "blue notice board on the left wall, running off the left edge",
+          "quad": [
+            [0, 57],
+            [124, 100],
+            [124, 306],
+            [0, 311]
+          ],
+          "perspective": true,
+          "shows": ["bills", "programs"]
+        },
+        {
+          "id": "clerk-counter-brochure-top-left",
+          "kind": "brochure",
+          "finish": "panel",
+          "what": "blank brochure in the top left pocket of the rack",
+          "quad": [
+            [35, 361],
+            [86, 359],
+            [103, 442],
+            [53, 449]
+          ],
+          "perspective": true,
+          "shows": ["programs"]
+        },
+        {
+          "id": "clerk-counter-brochure-top-right",
+          "kind": "brochure",
+          "finish": "panel",
+          "what": "blank brochure in the top right pocket of the rack",
+          "quad": [
+            [100, 357],
+            [151, 355],
+            [167, 432],
+            [119, 438]
+          ],
+          "perspective": true,
+          "shows": ["programs"]
+        },
+        {
+          "id": "clerk-counter-brochure-middle-left",
+          "kind": "brochure",
+          "finish": "panel",
+          "what": "blank brochure in the middle left pocket of the rack",
+          "quad": [
+            [60, 467],
+            [113, 457],
+            [129, 540],
+            [79, 550]
+          ],
+          "perspective": true,
+          "shows": ["programs"]
+        },
+        {
+          "id": "clerk-counter-brochure-middle-right",
+          "kind": "brochure",
+          "finish": "panel",
+          "what": "blank brochure in the middle right pocket of the rack",
+          "quad": [
+            [127, 452],
+            [175, 448],
+            [192, 524],
+            [143, 536]
+          ],
+          "perspective": true,
+          "shows": ["programs"]
+        },
+        {
+          "id": "clerk-counter-brochure-bottom-left",
+          "kind": "brochure",
+          "finish": "panel",
+          "what": "blank brochure in the bottom left pocket of the rack",
+          "quad": [
+            [83, 577],
+            [135, 566],
+            [148, 645],
+            [99, 666]
+          ],
+          "perspective": true,
+          "shows": ["programs"]
+        },
+        {
+          "id": "clerk-counter-brochure-bottom-right",
+          "kind": "brochure",
+          "finish": "panel",
+          "what": "blank brochure in the bottom right pocket of the rack",
+          "quad": [
+            [145, 560],
+            [194, 548],
+            [206, 621],
+            [160, 639]
+          ],
+          "perspective": true,
+          "shows": ["programs"]
+        },
+        {
+          "id": "clerk-counter-desk-card",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "blank card in a holder on the left counter",
+          "quad": [
+            [381, 334],
+            [426, 334],
+            [423, 376],
+            [376, 377]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "computer monitor on the right counter: seen from behind",
+        "framed landscape picture: picture",
+        "window: window"
+      ]
+    },
+    "college-quad": {
+      "checked": ["college-quad__midday.jpg", "college-quad__night.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, papers or boards; building faces are too distant and carry no sign panels"
+      ]
+    },
+    "community-room": {
+      "checked": [
+        "community-room__midday.jpg",
+        "community-room__morning.jpg",
+        "community-room__night.jpg",
+        "community-room__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, papers or boards; stage back wall is plain wall, windows and door excluded"
+      ]
+    },
+    "construction-site": {
+      "checked": [
+        "construction-site__midday.jpg",
+        "construction-site__night.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, papers or boards; no site sign is painted"
+      ]
+    },
+    "convention-hall": {
+      "checked": [
+        "convention-hall__midday.jpg",
+        "convention-hall__morning.jpg",
+        "convention-hall__night.jpg",
+        "convention-hall__rain.jpg"
+      ],
+      "surfaces": [
+        {
+          "id": "convention-hall-screen-left",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "large dark video screen hanging left of the stage",
+          "quad": [
+            [147, 142],
+            [480, 142],
+            [480, 326],
+            [147, 326]
+          ],
+          "perspective": false,
+          "shows": ["candidates", "news"]
+        },
+        {
+          "id": "convention-hall-screen-right",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "large dark video screen hanging right of the stage",
+          "quad": [
+            [1192, 142],
+            [1525, 142],
+            [1525, 326],
+            [1192, 326]
+          ],
+          "perspective": false,
+          "shows": ["news"]
+        }
+      ],
+      "skipped": ["podium front: plain wood, not a sign surface"]
+    },
+    "council-chamber": {
+      "checked": [
+        "council-chamber__midday.jpg",
+        "council-chamber__morning.jpg",
+        "council-chamber__night.jpg",
+        "council-chamber__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "round seal on the back wall: seal, excluded",
+        "nameplates on the dais: under 36 px tall",
+        "no painted screens, posters, papers or boards"
+      ]
+    },
+    "county-commission": {
+      "checked": [
+        "county-commission__midday.jpg",
+        "county-commission__morning.jpg",
+        "county-commission__night.jpg",
+        "county-commission__rain.jpg"
+      ],
+      "surfaces": [
+        {
+          "id": "county-commission-projection-screen",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "pull-down projection screen on the back wall, upper right",
+          "quad": [
+            [1167, 68],
+            [1426, 68],
+            [1426, 246],
+            [1167, 246]
+          ],
+          "perspective": false,
+          "shows": ["votes", "bills"]
+        }
+      ],
+      "skipped": ["nameplates on the dais: under 36 px tall"]
+    },
+    "county-courthouse": {
+      "checked": [
+        "county-courthouse__midday.jpg",
+        "county-courthouse__morning.jpg",
+        "county-courthouse__night.jpg",
+        "county-courthouse__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "exterior facade: clock, windows and doors only; no painted screens, posters, papers or boards"
+      ]
+    },
+    "county-courtroom": {
+      "checked": [
+        "county-courtroom__midday.jpg",
+        "county-courtroom__morning.jpg",
+        "county-courtroom__night.jpg",
+        "county-courtroom__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "clerk's desk monitor: about 65 x 24 px, under 36 px tall",
+        "round seal above the bench: seal, excluded",
+        "windows and doors excluded"
+      ]
+    },
+    "county-party-office": {
+      "checked": [
+        "county-party-office__midday.jpg",
+        "county-party-office__morning.jpg",
+        "county-party-office__night.jpg",
+        "county-party-office__rain.jpg"
+      ],
+      "surfaces": [
+        {
+          "id": "county-party-office-corkboard",
+          "kind": "board",
+          "finish": "cork",
+          "what": "large cork board on the right wall",
+          "quad": [
+            [1299, 169],
+            [1613, 93],
+            [1612, 370],
+            [1299, 358]
+          ],
+          "perspective": true,
+          "shows": ["candidates", "plans"]
+        },
+        {
+          "id": "county-party-office-foam-boards",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blank white foam boards on a folding stand at the right",
+          "quad": [
+            [1511, 523],
+            [1640, 548],
+            [1625, 680],
+            [1499, 638]
+          ],
+          "perspective": true,
+          "shows": ["candidates"]
+        }
+      ],
+      "skipped": [
+        "county map on the wall: painted geography",
+        "closed laptop on the front desk: no visible screen",
+        "rolled posters at the right: rolled, no face",
+        "windows and door: windows"
+      ]
+    },
+    "courthouse-hallway": {
+      "checked": [
+        "courthouse-hallway__midday.jpg",
+        "courthouse-hallway__morning.jpg",
+        "courthouse-hallway__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "debate-stage": {
+      "checked": [
+        "debate-stage__midday.jpg",
+        "debate-stage__morning.jpg",
+        "debate-stage__night.jpg",
+        "debate-stage__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "podium fronts: paneled wood, not a painted sign surface",
+        "no painted screens, posters, papers or boards"
+      ]
+    },
+    "diner": {
+      "checked": [
+        "diner__midday.jpg",
+        "diner__morning.jpg",
+        "diner__night.jpg",
+        "diner__rain.jpg"
+      ],
+      "surfaces": [
+        {
+          "id": "diner-left-wall-board",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blank framed board on the back wall above the booths, left of the kitchen pass-through",
+          "quad": [
+            [609, 214],
+            [719, 214],
+            [719, 305],
+            [609, 305]
+          ],
+          "perspective": false,
+          "shows": []
+        },
+        {
+          "id": "diner-right-wall-board",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blank framed board on the back wall right of the kitchen pass-through, above the counter",
+          "quad": [
+            [1240, 184],
+            [1392, 184],
+            [1392, 307],
+            [1240, 307]
+          ],
+          "perspective": false,
+          "shows": ["candidates"]
+        },
+        {
+          "id": "diner-side-wall-menu-board",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blank framed board on the right side wall above the coffee shelf; runs off the right image edge and its lower right is hidden by the stacked plates, so the quad covers only the visible clear part",
+          "quad": [
+            [1597, 161],
+            [1671, 141],
+            [1671, 224],
+            [1597, 256]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "kitchen door window (x 818-850, y 283-318): a window and under 36 px",
+        "no screens, posters or papers"
+      ]
+    },
+    "dmv-office": {
+      "checked": [
+        "dmv-office__midday.jpg",
+        "dmv-office__morning.jpg",
+        "dmv-office__night.jpg",
+        "dmv-office__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "door-knocking-rural": {
+      "checked": [
+        "door-knocking-rural__midday.jpg",
+        "door-knocking-rural__morning.jpg",
+        "door-knocking-rural__night.jpg",
+        "door-knocking-rural__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, notes, papers, brochures or boards (exterior street/porch view)"
+      ]
+    },
+    "door-knocking-suburban": {
+      "checked": [
+        "door-knocking-suburban__midday.jpg",
+        "door-knocking-suburban__morning.jpg",
+        "door-knocking-suburban__night.jpg",
+        "door-knocking-suburban__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, notes, papers, brochures or boards (exterior street/porch view)"
+      ]
+    },
+    "door-knocking-urban": {
+      "checked": [
+        "door-knocking-urban__midday.jpg",
+        "door-knocking-urban__morning.jpg",
+        "door-knocking-urban__night.jpg",
+        "door-knocking-urban__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, notes, papers, brochures or boards (exterior street/porch view)"
+      ]
+    },
+    "election-night-venue": {
+      "checked": [
+        "election-night-venue__midday.jpg",
+        "election-night-venue__morning.jpg",
+        "election-night-venue__night.jpg",
+        "election-night-venue__rain.jpg"
+      ],
+      "surfaces": [
+        {
+          "id": "election-night-venue-screen-left",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "wall-mounted dark TV left of the stage",
+          "quad": [
+            [311, 146],
+            [600, 146],
+            [600, 325],
+            [311, 325]
+          ],
+          "perspective": false,
+          "shows": ["results", "candidates", "news"]
+        },
+        {
+          "id": "election-night-venue-screen-right",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "wall-mounted dark TV right of the stage",
+          "quad": [
+            [1084, 146],
+            [1364, 146],
+            [1364, 325],
+            [1084, 325]
+          ],
+          "perspective": false,
+          "shows": ["news"]
+        }
+      ],
+      "skipped": [
+        "no other painted screens, posters, papers or boards; windows excluded"
+      ]
+    },
+    "factory-floor": {
+      "checked": ["factory-floor__midday.jpg", "factory-floor__night.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "CNC control-panel screen on the left machine (x 386-409, y 356-397): about 23 px wide, under 36",
+        "control screen on the right machine (x 1324-1342, y 361-385): under 36",
+        "machine door viewing windows: windows",
+        "no posters, papers or boards"
+      ]
+    },
+    "fire-station": {
+      "checked": [
+        "fire-station__midday.jpg",
+        "fire-station__morning.jpg",
+        "fire-station__night.jpg",
+        "fire-station__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "governor-office": {
+      "checked": [
+        "governor-office__midday.jpg",
+        "governor-office__morning.jpg",
+        "governor-office__night.jpg",
+        "governor-office__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "round landscape painting: a painting with a picture",
+        "desk blotter (x 410-565, y 382-398): about 16 px tall, under 36",
+        "books on the desk and coffee table: closed books, not papers",
+        "no painted screens, posters, papers or boards"
+      ]
+    },
+    "hospital-hallway": {
+      "checked": [
+        "hospital-hallway__midday.jpg",
+        "hospital-hallway__night.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "monitor on the nurse-station counter (x 1118-1197, y 322-373): reads as the back of the monitor facing the staff side (stand drawn over its lower edge, no bezel/screen distinction), so not readable by the viewer",
+        "framed landscape on the left waiting-room wall: a picture",
+        "door vision panels: windows",
+        "no posters, papers or boards"
+      ]
+    },
+    "hotel-ballroom": {
+      "checked": [
+        "hotel-ballroom__midday.jpg",
+        "hotel-ballroom__morning.jpg",
+        "hotel-ballroom__night.jpg",
+        "hotel-ballroom__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "large-house": {
+      "checked": [
+        "large-house__midday.jpg",
+        "large-house__morning.jpg",
+        "large-house__night.jpg",
+        "large-house__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, notes, papers, brochures or boards",
+        "stacked closed books on the coffee table: books, not papers",
+        "framed landscape paintings: pictures"
+      ]
+    },
+    "main-street": {
+      "checked": ["main-street__midday.jpg", "main-street__night.jpg"],
+      "surfaces": [
+        {
+          "id": "main-street-green-store-sign",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blank cream sign band above the green awning of the nearest storefront; the sign runs off the top of the picture, so the quad is the visible full-height part right of x 190",
+          "quad": [
+            [190, 3],
+            [478, 137],
+            [478, 227],
+            [190, 89]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "main-street-brick-store-sign",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blank cream sign band on the red-brick storefront above the rust awning",
+          "quad": [
+            [560, 191],
+            [764, 311],
+            [764, 370],
+            [560, 279]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "main-street-third-store-sign",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blank dark-green sign panel above the blue awning of the third storefront",
+          "quad": [
+            [802, 319],
+            [875, 366],
+            [875, 418],
+            [802, 382]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "fourth storefront sign panel (x 907-933, y 403-448): about 26 px wide, under 36",
+        "farther storefront signs down the street: under 36 px",
+        "storefront windows and doors: windows/doors"
+      ]
+    },
+    "mobile-home": {
+      "checked": [
+        "mobile-home__midday.jpg",
+        "mobile-home__morning.jpg",
+        "mobile-home__night.jpg",
+        "mobile-home__rain.jpg"
+      ],
+      "surfaces": [
+        {
+          "id": "mobile-home-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "flat-screen TV on the stand against the back wall",
+          "quad": [
+            [762, 317],
+            [920, 317],
+            [920, 411],
+            [762, 411]
+          ],
+          "perspective": false,
+          "shows": ["news"]
+        }
+      ],
+      "skipped": [
+        "framed landscape pictures on the back wall: pictures, not drawable",
+        "books and cable box on the TV stand: not a readable surface"
+      ]
+    },
+    "newsroom": {
+      "checked": [
+        "newsroom__midday.jpg",
+        "newsroom__morning.jpg",
+        "newsroom__night.jpg",
+        "newsroom__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "office": {
+      "checked": ["office__midday.jpg", "office__night.jpg"],
+      "surfaces": [
+        {
+          "id": "office-corkboard",
+          "kind": "board",
+          "finish": "cork",
+          "what": "long cork board on the right wall, running off the right edge",
+          "quad": [
+            [1202, 236],
+            [1671, 164],
+            [1671, 457],
+            [1202, 424]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "office-green-poster",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "blank green sheet pinned to the cork board",
+          "quad": [
+            [1216, 250],
+            [1315, 236],
+            [1315, 318],
+            [1216, 321]
+          ],
+          "perspective": true,
+          "shows": ["bills"]
+        },
+        {
+          "id": "office-white-sheet",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "blank white sheet pinned at the right end of the cork board",
+          "quad": [
+            [1591, 199],
+            [1671, 189],
+            [1671, 349],
+            [1591, 348]
+          ],
+          "perspective": true,
+          "shows": ["programs"]
+        },
+        {
+          "id": "office-green-sign",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "small blank green sign on the back wall",
+          "quad": [
+            [651, 313],
+            [688, 313],
+            [688, 358],
+            [651, 358]
+          ],
+          "perspective": false,
+          "shows": []
+        },
+        {
+          "id": "office-laptop",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "lit laptop screen on the long table",
+          "quad": [
+            [767, 428],
+            [823, 436],
+            [800, 497],
+            [749, 483]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "office-clipboard-stack",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "top sheet of the stacked clipboards on the long table",
+          "quad": [
+            [1029, 599],
+            [1121, 581],
+            [1177, 604],
+            [1086, 625]
+          ],
+          "perspective": true,
+          "shows": ["bills"]
+        },
+        {
+          "id": "office-clipboard-front",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "sheet on the front clipboard on the long table",
+          "quad": [
+            [1129, 657],
+            [1232, 636],
+            [1305, 663],
+            [1198, 690]
+          ],
+          "perspective": true,
+          "shows": ["plans"]
+        }
+      ],
+      "skipped": [
+        "yellow note and blue sheet on the cork board: under 36 px wide",
+        "red circle on the cork board: a round shape, not a sheet",
+        "framed notice on the back wall: framed picture with painted blue and white panels",
+        "back clipboard on the table: about 29 px tall",
+        "laptop at the front right: seen from behind",
+        "small laptops at the far end: under 36 px"
+      ]
+    },
+    "oval-office": {
+      "checked": [
+        "oval-office__midday.jpg",
+        "oval-office__morning.jpg",
+        "oval-office__night.jpg",
+        "oval-office__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "desk blotter (about x 770-895, y 400-408): under 36 px tall",
+        "no painted screens, posters, papers or boards (windows, curtains and doors excluded)"
+      ]
+    },
+    "park": {
+      "checked": ["park__midday.jpg", "park__night.jpg"],
+      "surfaces": [
+        {
+          "id": "park-notice-board",
+          "kind": "board",
+          "finish": "cork",
+          "what": "blank wooden notice board on two posts to the right of the picnic pavilion",
+          "quad": [
+            [1416, 489],
+            [1545, 491],
+            [1545, 602],
+            [1416, 592]
+          ],
+          "perspective": true,
+          "shows": ["programs", "candidates"]
+        }
+      ],
+      "skipped": ["no screens, posters or papers"]
+    },
+    "party-headquarters": {
+      "checked": [
+        "party-headquarters__midday.jpg",
+        "party-headquarters__morning.jpg",
+        "party-headquarters__night.jpg",
+        "party-headquarters__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "phone-bank-room": {
+      "checked": [
+        "phone-bank-room__midday.jpg",
+        "phone-bank-room__morning.jpg",
+        "phone-bank-room__night.jpg",
+        "phone-bank-room__rain.jpg"
+      ],
+      "surfaces": [
+        {
+          "id": "phone-bank-room-whiteboard",
+          "kind": "board",
+          "finish": "whiteboard",
+          "what": "whiteboard on the back wall",
+          "quad": [
+            [656, 207],
+            [1025, 207],
+            [1025, 366],
+            [656, 366]
+          ],
+          "perspective": false,
+          "shows": ["plans", "candidates"]
+        },
+        {
+          "id": "phone-bank-room-laptop-left-front",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "dark laptop screen at the front of the left desks",
+          "quad": [
+            [201, 404],
+            [269, 395],
+            [290, 468],
+            [222, 488]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "phone-bank-room-laptop-left-back",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "dark laptop screen at the back of the left desks",
+          "quad": [
+            [382, 378],
+            [421, 373],
+            [438, 423],
+            [401, 434]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "phone-bank-room-laptop-right-front",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "dark laptop screen at the front of the right desks",
+          "quad": [
+            [1491, 402],
+            [1551, 410],
+            [1530, 503],
+            [1470, 488]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "phone-bank-room-laptop-right-middle",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "dark laptop screen in the middle of the right desks",
+          "quad": [
+            [1316, 383],
+            [1360, 387],
+            [1345, 460],
+            [1298, 445]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "laptop behind the plant on the right desks: about 31 px wide",
+        "papers on the desks: under 36 px tall",
+        "clerestory windows: windows"
+      ]
+    },
+    "police-station": {
+      "checked": [
+        "police-station__midday.jpg",
+        "police-station__morning.jpg",
+        "police-station__night.jpg",
+        "police-station__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "polling-place": {
+      "checked": [
+        "polling-place__midday.jpg",
+        "polling-place__morning.jpg",
+        "polling-place__night.jpg",
+        "polling-place__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "public-library": {
+      "checked": [
+        "public-library__midday.jpg",
+        "public-library__morning.jpg",
+        "public-library__night.jpg",
+        "public-library__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "public-meeting-room": {
+      "checked": [
+        "public-meeting-room__midday.jpg",
+        "public-meeting-room__morning.jpg",
+        "public-meeting-room__night.jpg",
+        "public-meeting-room__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "two framed landscape pictures on the walls: pictures, excluded",
+        "bookshelf spines: not a surface",
+        "windows and doors excluded"
+      ]
+    },
+    "radio-booth": {
+      "checked": [
+        "radio-booth__midday.jpg",
+        "radio-booth__morning.jpg",
+        "radio-booth__night.jpg",
+        "radio-booth__rain.jpg"
+      ],
+      "surfaces": [
+        {
+          "id": "radio-booth-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "dark computer monitor on the right desk",
+          "quad": [
+            [1356, 232],
+            [1498, 229],
+            [1487, 337],
+            [1349, 330]
+          ],
+          "perspective": true,
+          "shows": ["news"]
+        },
+        {
+          "id": "radio-booth-control-left",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "left control-room monitor seen through the booth window",
+          "quad": [
+            [626, 217],
+            [738, 217],
+            [738, 277],
+            [626, 277]
+          ],
+          "perspective": false,
+          "shows": []
+        },
+        {
+          "id": "radio-booth-control-center",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "center control-room monitor seen through the booth window",
+          "quad": [
+            [801, 219],
+            [911, 219],
+            [911, 279],
+            [801, 279]
+          ],
+          "perspective": false,
+          "shows": []
+        },
+        {
+          "id": "radio-booth-control-right",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "right control-room monitor seen through the booth window, partly behind a mic arm",
+          "quad": [
+            [965, 238],
+            [1057, 238],
+            [1057, 283],
+            [965, 283]
+          ],
+          "perspective": false,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "acoustic foam panels on the walls: sound treatment, not signs",
+        "mixing console: controls, no screen",
+        "pale back-wall panel in the control room seen through the window: window glass view, not a sign board"
+      ]
+    },
+    "rally-stage": {
+      "checked": [
+        "rally-stage__midday.jpg",
+        "rally-stage__morning.jpg",
+        "rally-stage__night.jpg",
+        "rally-stage__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "basketball backboard: not a sign surface",
+        "no painted screens, posters, papers or boards; windows and doors excluded"
+      ]
+    },
+    "rowhouse": {
+      "checked": [
+        "rowhouse__midday.jpg",
+        "rowhouse__morning.jpg",
+        "rowhouse__night.jpg",
+        "rowhouse__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, notes, papers, brochures or boards",
+        "closed books on the coffee table and side table: books, not papers",
+        "framed pictures: pictures"
+      ]
+    },
+    "rural-farmhouse": {
+      "checked": [
+        "rural-farmhouse__midday.jpg",
+        "rural-farmhouse__morning.jpg",
+        "rural-farmhouse__night.jpg",
+        "rural-farmhouse__rain.jpg",
+        "rural-farmhouse__winter.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, notes, papers, brochures or boards",
+        "framed landscape picture at the left edge: picture"
+      ]
+    },
+    "school-board-room": {
+      "checked": [
+        "school-board-room__midday.jpg",
+        "school-board-room__morning.jpg",
+        "school-board-room__night.jpg",
+        "school-board-room__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "school-gym-town-hall": {
+      "checked": [
+        "school-gym-town-hall__midday.jpg",
+        "school-gym-town-hall__morning.jpg",
+        "school-gym-town-hall__night.jpg",
+        "school-gym-town-hall__rain.jpg"
+      ],
+      "surfaces": [
+        {
+          "id": "school-gym-town-hall-panel-1",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blank gray wall panel high on the back wall, far left",
+          "quad": [
+            [331, 81],
+            [401, 81],
+            [401, 171],
+            [331, 171]
+          ],
+          "perspective": false,
+          "shows": []
+        },
+        {
+          "id": "school-gym-town-hall-panel-2",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blank gray wall panel high on the back wall, left",
+          "quad": [
+            [436, 81],
+            [565, 81],
+            [565, 171],
+            [436, 171]
+          ],
+          "perspective": false,
+          "shows": ["candidates"]
+        },
+        {
+          "id": "school-gym-town-hall-panel-3",
+          "kind": "board",
+          "finish": "panel",
+          "what": "wide blank gray wall panel high on the back wall, center",
+          "quad": [
+            [674, 81],
+            [999, 81],
+            [999, 171],
+            [674, 171]
+          ],
+          "perspective": false,
+          "shows": ["candidates"]
+        },
+        {
+          "id": "school-gym-town-hall-panel-4",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blank gray wall panel high on the back wall, right",
+          "quad": [
+            [1105, 81],
+            [1235, 81],
+            [1235, 171],
+            [1105, 171]
+          ],
+          "perspective": false,
+          "shows": ["candidates"]
+        },
+        {
+          "id": "school-gym-town-hall-panel-5",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blank gray wall panel high on the back wall, far right",
+          "quad": [
+            [1270, 81],
+            [1343, 81],
+            [1343, 171],
+            [1270, 171]
+          ],
+          "perspective": false,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "basketball backboard: not a sign surface",
+        "windows and doors excluded"
+      ]
+    },
+    "small-apartment": {
+      "checked": [
+        "small-apartment__midday.jpg",
+        "small-apartment__morning.jpg",
+        "small-apartment__night.jpg",
+        "small-apartment__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, notes, papers, brochures or boards",
+        "framed landscape picture: picture"
+      ]
+    },
+    "state-legislative-chamber-bicameral": {
+      "checked": [
+        "state-legislative-chamber-bicameral__midday.jpg",
+        "state-legislative-chamber-bicameral__morning.jpg",
+        "state-legislative-chamber-bicameral__night.jpg",
+        "state-legislative-chamber-bicameral__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "papers on the front desks (left x 40-170, right x 1420-1640, y 600-625): about 25 px tall, under 36",
+        "papers on the second-row desks (x 320-430 and 1235-1365, y 563-578): about 15 px tall, under 36",
+        "papers on the rear desks: tiny, under 36",
+        "recessed wood wall panels: architectural paneling, not sign panels; no screens, posters or boards"
+      ]
+    },
+    "state-legislative-chamber-unicameral": {
+      "checked": [
+        "state-legislative-chamber-unicameral__midday.jpg",
+        "state-legislative-chamber-unicameral__morning.jpg",
+        "state-legislative-chamber-unicameral__night.jpg",
+        "state-legislative-chamber-unicameral__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "dark gray inset desk pads on the front desks (left x 25-300, right x 1370-1640, y 645-692): desk blotters/leather inlays, not papers or screens (about 45 px tall)",
+        "small gray pads on the rear desks: under 36 px tall",
+        "no painted screens, posters, papers or boards"
+      ]
+    },
+    "store": {
+      "checked": ["store__midday.jpg", "store__night.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "register monitor on the counter: seen from behind",
+        "cooler doors: glass doors with painted stock",
+        "no painted posters, papers or boards",
+        "windows: windows"
+      ]
+    },
+    "suburban-house": {
+      "checked": [
+        "suburban-house__midday.jpg",
+        "suburban-house__morning.jpg",
+        "suburban-house__night.jpg",
+        "suburban-house__rain.jpg"
+      ],
+      "surfaces": [
+        {
+          "id": "suburban-house-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "wall TV at the left edge, angled toward the room and cut off by the frame; plant leaves cover its lower-left corner",
+          "quad": [
+            [0, 279],
+            [123, 290],
+            [123, 436],
+            [0, 447]
+          ],
+          "perspective": true,
+          "shows": ["news"]
+        }
+      ],
+      "skipped": [
+        "closed books on the coffee table: books, not papers",
+        "framed pictures on the walls: pictures, not drawable"
+      ]
+    },
+    "supreme-courtroom": {
+      "checked": [
+        "supreme-courtroom__midday.jpg",
+        "supreme-courtroom__morning.jpg",
+        "supreme-courtroom__night.jpg",
+        "supreme-courtroom__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "molded wall panels at the far left and right (x 15-120 and 1550-1660, y 40-285): architectural paneling, not sign panels",
+        "bench front panels: carved wood paneling",
+        "no painted screens, posters, papers or boards"
+      ]
+    },
+    "tv-studio": {
+      "checked": [
+        "tv-studio__midday.jpg",
+        "tv-studio__morning.jpg",
+        "tv-studio__night.jpg",
+        "tv-studio__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "camera viewfinder monitor at left (about 70 x 49 px): angled inside its hood, face edges indistinct against the housing, reads as camera hardware",
+        "blue studio backdrop: plain wall, not a framed panel",
+        "no other painted screens, posters, papers or boards"
+      ]
+    },
+    "union-hall": {
+      "checked": [
+        "union-hall__midday.jpg",
+        "union-hall__morning.jpg",
+        "union-hall__night.jpg",
+        "union-hall__rain.jpg"
+      ],
+      "surfaces": [
+        {
+          "id": "union-hall-corkboard-left",
+          "kind": "board",
+          "finish": "cork",
+          "what": "framed cork board on the left side wall",
+          "quad": [
+            [70, 220],
+            [223, 246],
+            [223, 350],
+            [70, 354]
+          ],
+          "perspective": true,
+          "shows": ["candidates"]
+        },
+        {
+          "id": "union-hall-corkboard-right",
+          "kind": "board",
+          "finish": "cork",
+          "what": "framed cork board on the right side wall",
+          "quad": [
+            [1455, 246],
+            [1613, 218],
+            [1613, 355],
+            [1455, 351]
+          ],
+          "perspective": true,
+          "shows": ["plans"]
+        }
+      ],
+      "skipped": [
+        "no other painted screens, posters, papers or boards; windows and doors excluded"
+      ]
+    },
+    "us-capitol-exterior": {
+      "checked": [
+        "us-capitol-exterior__midday.jpg",
+        "us-capitol-exterior__morning.jpg",
+        "us-capitol-exterior__night.jpg",
+        "us-capitol-exterior__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "stone plinths flanking the steps and plaza: blank sides are 60-70 px but plinth pedestals, not sign panels",
+        "no painted screens, posters, papers or boards"
+      ]
+    },
+    "us-house-floor": {
+      "checked": [
+        "us-house-floor__midday.jpg",
+        "us-house-floor__morning.jpg",
+        "us-house-floor__night.jpg",
+        "us-house-floor__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "blue items on the desks (about x 515-545, y 540-550): under 36 px",
+        "wall panels with round medallions and the blank panel behind the rostrum: architectural stone paneling, not sign panels",
+        "no painted screens, posters, papers or boards"
+      ]
+    },
+    "us-senate-floor": {
+      "checked": [
+        "us-senate-floor__midday.jpg",
+        "us-senate-floor__morning.jpg",
+        "us-senate-floor__night.jpg",
+        "us-senate-floor__rain.jpg"
+      ],
+      "surfaces": [
+        {
+          "id": "us-senate-floor-panel-left",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blue panel in a gilt frame on the wall left of the rostrum; the bottom band behind the desk chair is left out; kept as painted, because the real Senate chamber has no vote boards",
+          "quad": [
+            [244, 217],
+            [334, 220],
+            [334, 345],
+            [244, 345]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "us-senate-floor-panel-right",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blue panel in a gilt frame on the wall right of the rostrum; the bottom band behind the desk chair is left out; kept as painted, because the real Senate chamber has no vote boards",
+          "quad": [
+            [1337, 221],
+            [1427, 218],
+            [1427, 345],
+            [1337, 345]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "desk tops: bare wood, no papers",
+        "no painted screens, posters, papers or boards",
+        "the narrow blue panels beside the rostrum columns: under 50 px wide",
+        "the far blue panels at the picture edges: steep angle, cut by the frame"
+      ]
+    }
+  }
+}

@@ -10,8 +10,11 @@ import {
   BODY_BUILDS,
   HAIR_COLORS,
   PART_PALETTES,
+  presentationPose,
   type BodyBuild,
   type BodyPose,
+  type BodyView,
+  type FaceExpression,
   type BodyPresentation,
   type EngineRecipe,
   type OutfitTag,
@@ -20,6 +23,13 @@ import {
   type PeoplePackManifest,
 } from "./pack";
 import { SKIN_RAMPS } from "./skin";
+import {
+  CHOSEN_ACCESSORY_KINDS,
+  accessoriesFor,
+  accessoryKindOf,
+  facialHairFor,
+  glassesFor,
+} from "./face-extras";
 
 /**
  * WHO LOOKS LIKE WHAT.
@@ -139,13 +149,33 @@ export interface EngineRecipeOptions {
    * formal clothes at work, a coat outdoors in the cold months.
    */
   readonly wear?: Exclude<OutfitTag, "uniform">;
-  /** Seated where the place has a seat for them. */
+  /**
+   * Seated where the place has a seat for them, or the pose the scene gives
+   * them (pose-chooser.ts).
+   */
   readonly pose?: BodyPose;
+  /** Turned toward something in the scene, rather than facing front. */
+  readonly view?: BodyView;
+  /** The face they make (expression-chooser.ts); neutral when absent. */
+  readonly expression?: FaceExpression;
   /**
    * A work uniform (an outfit id) this person wears here because of their
    * job (src/presentation/work-uniform.ts). It replaces the outfit.
    */
   readonly uniform?: string;
+  /**
+   * They are reading or working at a desk, so someone who wears glasses only
+   * to read has them on.
+   */
+  readonly reading?: boolean;
+  /**
+   * Whether this person holds a public office now (a lapel pin goes on
+   * someone who does). Asked only when a pin could be worn, so a caller may
+   * pass an expensive lookup.
+   */
+  readonly officeholder?: () => boolean;
+  /** Whether this person is married now (a wedding ring goes on a married person). */
+  readonly married?: () => boolean;
 }
 
 /**
@@ -196,6 +226,13 @@ export function engineRecipeFor(
     Number(onDate.slice(0, 4)) - Number(String(person.birthDate).slice(0, 4));
   const shade =
     choice?.shade ?? 1 + Math.floor(draw(seed, "shade") * SKIN_RAMPS.length);
+  const facialHair = facialHairFor(seed, age, presentation, choice);
+  const glasses = glassesFor(seed, age, pack, choice);
+  const accessories = accessoriesFor(seed, age, presentation, pack, choice, {
+    wear: options.wear,
+    officeholder: options.officeholder,
+    married: options.married,
+  });
   return {
     presentation,
     build: choice?.build ?? buildFor(seed),
@@ -210,7 +247,30 @@ export function engineRecipeFor(
     // Everyday clothes unless the person chose otherwise or the place calls
     // for something else (work clothes, formal wear, a coat).
     outfit: outfit.id,
-    ...(options.pose === "seated" ? { pose: "seated" as const } : {}),
+    ...(options.pose &&
+    presentationPose(options.pose, presentation) !== "standing"
+      ? { pose: presentationPose(options.pose, presentation) }
+      : {}),
+    ...(options.view && options.view !== "front" ? { view: options.view } : {}),
+    ...(options.expression && options.expression !== "neutral"
+      ? { expression: options.expression }
+      : {}),
+    // Only what the pack has painted goes in the recipe, so today's recipes
+    // and their keys are unchanged until the art lands.
+    ...(facialHair && pack.facialHair?.some((style) => style.id === facialHair)
+      ? { facialHair }
+      : {}),
+    ...(glasses
+      ? {
+          glasses: glasses.frame,
+          ...(glasses.wear === "reading"
+            ? { glassesWear: "reading" as const }
+            : {}),
+          ...(options.reading ? { reading: true } : {}),
+        }
+      : {}),
+    // Only what the pack has painted (accessoriesFor), for the same reason.
+    ...(accessories.length > 0 ? { accessories } : {}),
     // Each garment part in a color of its own, kept per person.
     colors: Object.fromEntries(
       Object.entries(outfit.parts).map(([part, paletteId]) => {
@@ -252,7 +312,11 @@ export function withEngineChoice(
 }
 
 /** A recipe written back as a complete saved choice. */
-export function choiceFromRecipe(recipe: EngineRecipe): EngineAppearanceChoice {
+export function choiceFromRecipe(
+  recipe: EngineRecipe,
+  /** The pack the creator offered, which says what could be chosen. */
+  manifest?: PeoplePackManifest,
+): EngineAppearanceChoice {
   return {
     version: "people-engine-v1",
     presentation: recipe.presentation,
@@ -263,5 +327,61 @@ export function choiceFromRecipe(recipe: EngineRecipe): EngineAppearanceChoice {
     hairColor: recipe.hairColor,
     outfit: recipe.outfit,
     colors: { ...recipe.colors },
+    ...facialHairChoice(recipe, manifest),
+    ...glassesChoice(recipe, manifest),
+    ...accessoriesChoice(recipe, manifest),
   };
+}
+
+/**
+ * The jewelry and watch a recipe saves: what it wears of the kinds a player
+ * chooses (a lapel pin comes with an office, so it is never saved), or an
+ * empty list once the pack has any to choose from (a choice of none is a
+ * choice); nothing before that, so the person's seeded jewelry applies when
+ * the art lands.
+ */
+function accessoriesChoice(
+  recipe: EngineRecipe,
+  manifest: PeoplePackManifest | undefined,
+): Pick<EngineAppearanceChoice, "accessories"> {
+  const chosenKinds = (
+    manifest?.presentations[recipe.presentation].accessories ?? []
+  ).filter((entry) => CHOSEN_ACCESSORY_KINDS.includes(entry.kind));
+  if (chosenKinds.length === 0) return {};
+  return {
+    accessories: (recipe.accessories ?? []).filter((id) => {
+      const kind = accessoryKindOf(id);
+      return kind !== null && CHOSEN_ACCESSORY_KINDS.includes(kind);
+    }),
+  };
+}
+
+/**
+ * The facial hair a recipe saves: its style, or "none" once the pack has
+ * styles to choose from (a choice of none is a choice); nothing before that,
+ * so the person's seeded style applies when the art lands.
+ */
+function facialHairChoice(
+  recipe: EngineRecipe,
+  manifest: PeoplePackManifest | undefined,
+): Pick<EngineAppearanceChoice, "facialHair"> {
+  if (recipe.facialHair) return { facialHair: recipe.facialHair };
+  return recipe.presentation === "masculine" &&
+    (manifest?.presentations.masculine.facialHair?.length ?? 0) > 0
+    ? { facialHair: "none" }
+    : {};
+}
+
+function glassesChoice(
+  recipe: EngineRecipe,
+  manifest: PeoplePackManifest | undefined,
+): Pick<EngineAppearanceChoice, "glasses" | "glassesWear"> {
+  if (recipe.glasses)
+    return {
+      glasses: recipe.glasses,
+      glassesWear: recipe.glassesWear ?? "always",
+    };
+  return (manifest?.presentations[recipe.presentation].glasses?.length ?? 0) > 0
+    ? { glasses: "none" }
+    : {};
 }
