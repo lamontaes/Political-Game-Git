@@ -11,4 +11,6 @@ the week it lands: "LB 900, 2026 raised pay for 17 workers." A year after a
 law takes effect, the papers in each place it governs report where each
 outcome it moves stands against the month before it took effect, such as
 the homelessness count after a housing-voucher law, and they do the same a
-year after a repeal. Before, a law made the news only when it passed.
+year after a repeal. The people the law reached, its sponsor and the members
+who voted on it and live there learn of the story. Before, a law made the
+news only when it passed.
