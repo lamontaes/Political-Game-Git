@@ -29,7 +29,9 @@ import {
   TOWN_FINANCE_CLOSING_REASONS,
   closeBusinessesOutOfCash,
   stepTownFinances,
+  townTaxableSales,
 } from "../../src/simulation/living-world/town-finances";
+import { BUDGET_SOURCES } from "../../src/simulation/public-budgets/store";
 import { TOWN_FINANCE_ORIGIN_READER } from "../../src/simulation/macro-economy/sources";
 import type { World } from "../../src/simulation";
 
@@ -176,6 +178,27 @@ describe(
       );
       for (const origin of origins)
         expect(origin.scope).toBe(`jurisdiction:${town}`);
+    });
+
+    it("a city's sales tax follows what its town's businesses sell", () => {
+      const index = townTaxableSales(world, town);
+      expect(index).not.toBeNull();
+      const city = world.publicBudgets!.governments.find(
+        (government) =>
+          government.level === "city" && government.jurisdictionId === town,
+      )!;
+      const year = city.years.at(-1)!;
+      expect(year.townSalesAtAdoption).toBeGreaterThan(0);
+      const at = BUDGET_SOURCES.indexOf("generalSalesTax");
+      const row = city.months.at(-1)!;
+      expect(row.townSales).toBeGreaterThan(0);
+      // The month's sales tax is the budget's twelfth times the town's
+      // taxable sales against where the budget set it.
+      expect(
+        Math.abs(
+          row.revenue[at]! - (year.expectedRevenue[at]! / 12) * row.townSales!,
+        ),
+      ).toBeLessThanOrEqual(1);
     });
 
     it("a bank whose capital is gone fails, is recorded, and tightens credit in its town", () => {

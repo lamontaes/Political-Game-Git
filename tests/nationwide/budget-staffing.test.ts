@@ -59,7 +59,27 @@ function withCut(world: World, town: EntityId, cut: number): World {
 
 describe("budgets fund the town's police officers", () => {
   it("records the funded staff first, lays off the newest when the police line is cut, and recalls them when it is restored", () => {
-    const { world, personId, town } = openAt(COLUMBUS, "budget-staffing-1");
+    const opened = openAt(COLUMBUS, "budget-staffing-1");
+    const { personId, town } = opened;
+    // The town's job mix gives this slice of Columbus one officer, its share
+    // of the town's jobs. Laying off the newest needs two, so one more
+    // resident looking for work is hired into the department first.
+    const department = opened.world.history.organizations.find((row) =>
+      row.stableKey.endsWith(`:${town}:employer:police:0`),
+    )!;
+    const recruit = townResidents(opened.world, town)
+      .filter(
+        (resident) =>
+          resident.personId !== personId &&
+          resident.age >= 21 &&
+          laborStatus(opened.world, resident) === "looking-for-work",
+      )
+      .slice(0, 1);
+    expect(recruit).toHaveLength(1);
+    const world = fillTownJobs(opened.world, town, recruit, {
+      round: "second-officer",
+      into: { workplace: "police", organizationId: department.id },
+    });
     expect(fundingGovernment(world, town, "serving-local")?.key).toBe(
       `place:${COLUMBUS}`,
     );
