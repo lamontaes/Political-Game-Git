@@ -134,7 +134,11 @@ describe("member votes read what constituents made of an existing law", () => {
   const federal = NATIONAL_ELECTION_JURISDICTION.id;
   const lawId = "measure_existing_law" as EntityId;
 
-  function withLaw(billAnswer: "yes" | "no", points: readonly number[]) {
+  function withLaw(
+    billAnswer: "yes" | "no",
+    points: readonly number[],
+    groupMembers = 0,
+  ) {
     return {
       currentDate: makeIsoDate("2026-06-01"),
       policyCatalog: {
@@ -180,11 +184,24 @@ describe("member votes read what constituents made of an existing law", () => {
         legislativeCommitments: [],
         privateBeliefs: [],
         relationshipInteractions: [],
+        organizations: groupMembers
+          ? [{ id: "org_group", stableKey: `law-interest:town_x:${lawId}` }]
+          : [],
+        organizationParticipations: Array.from(
+          { length: groupMembers },
+          (_, index) => ({
+            organizationId: "org_group",
+            personId: `person_member_${index}`,
+          }),
+        ),
       },
     } as unknown as World;
   }
 
-  function constituents(world: World) {
+  function constituents(
+    world: World,
+    sourceType = "context:constituents-view",
+  ) {
     return memberVoteConsiderations(world, {
       stableKey: "test:vote",
       personId: memberId,
@@ -199,7 +216,7 @@ describe("member votes read what constituents made of an existing law", () => {
         },
         questionLabel: "Pass this measure?",
       },
-    }).filter((row) => row.sourceType === "context:constituents-view");
+    }).filter((row) => row.sourceType === sourceType);
   }
 
   it("a member blamed for a law leans toward the bill that changes it, and away from one that keeps it", () => {
@@ -217,6 +234,18 @@ describe("member votes read what constituents made of an existing law", () => {
     ]);
     expect(constituents(withLaw("no", [10, -10]))).toEqual([]);
     expect(constituents(withLaw("no", []))).toEqual([]);
+  });
+
+  it("groups of people a law cost lobby every member to change it", () => {
+    const lobby = (world: World) =>
+      constituents(world, "context:organized-interest");
+    expect(lobby(withLaw("no", [], 12))).toMatchObject([
+      { optionKey: "vote-yea", importance: "moderate" },
+    ]);
+    expect(lobby(withLaw("yes", [], 3))).toMatchObject([
+      { optionKey: "vote-nay", importance: "slight" },
+    ]);
+    expect(lobby(withLaw("no", [], 0))).toEqual([]);
   });
 });
 

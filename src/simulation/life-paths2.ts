@@ -61,7 +61,11 @@ import {
   recordResourceTransferOutcome,
   recordResourceFlowTerms,
 } from "./resources";
-import { minimumWageSettingAt } from "./minimum-wage";
+import {
+  FEDERAL_MINIMUM_HOURLY_MINOR,
+  minimumWageSettingAt,
+} from "./minimum-wage";
+import { payAtHire, UNCOVERED_PAY_NOTE } from "./fairness-pay-law";
 import { resourcePositionAt, resourceFlowTermsAt } from "./resource-queries";
 import {
   createScheduledActivity,
@@ -428,6 +432,8 @@ function createPathWork(
     },
   });
   const work = next.history.workRelationships.at(-1)!;
+  const paid = shiftPayAtHire(world, personId, path, pay);
+  const provenance = { ...authored, note: `${authored.note}${paid.note}` };
   if (pay > 0)
     next = payerPersonId
       ? createResourceFlow(next, {
@@ -436,26 +442,55 @@ function createPathWork(
           recipient: { kind: "person", personId },
           startsAt: work.startedAt,
           initialStatus: expected ? "expected" : "active",
-          amount: money(pay, "USD"),
+          amount: money(paid.amountMinor, "USD"),
           cadenceKind: "work:completed-shift",
           basisKind: "compensation:work",
           basisReference: { kind: "work", workRelationshipId: work.id },
           restrictionKind: null,
           jurisdictionId: null,
-          provenance: authored,
+          provenance,
         })
       : createWorkCompensation(next, {
           stableKey: key(next, "pay"),
           workRelationshipId: work.id,
           startsAt: work.startedAt,
           initialStatus: expected ? "expected" : "active",
-          amount: money(pay, "USD"),
+          amount: money(paid.amountMinor, "USD"),
           cadenceKind: "work:completed-shift",
           restrictionKind: null,
           jurisdictionId: null,
-          provenance: authored,
+          provenance,
         });
   return next;
+}
+/**
+ * A paid path's pay for each shift under the fairness-law rule
+ * (`fairness-pay-law.ts`): a man partnered with a man whom no fairness law
+ * covers where he lives, hired today, is paid the shift's pay over 1.027,
+ * never below the minimum wage for the shift's length. The note says so, or
+ * is empty.
+ */
+export function shiftPayAtHire(
+  world: World,
+  personId: EntityId,
+  path: LifePathDefinition,
+  payMinor: number,
+): { readonly amountMinor: number; readonly note: string } {
+  const home = world.people[personId]?.homeJurisdictionId ?? null;
+  const hourly =
+    minimumWageSettingAt(world, home, world.currentDate)?.hourlyMinor ??
+    FEDERAL_MINIMUM_HOURLY_MINOR;
+  const paid = payAtHire(world, {
+    personId,
+    jobJurisdictionId: home,
+    date: world.currentDate,
+    amountMinor: payMinor,
+    floorMinor: (hourly * path.sessionMinutes) / 60,
+  });
+  return {
+    amountMinor: paid.amountMinor,
+    note: paid.belowRate ? ` Paid ${UNCOVERED_PAY_NOTE}.` : "",
+  };
 }
 function relationshipActor(world: World, id: EntityId): EntityId | undefined {
   return (
