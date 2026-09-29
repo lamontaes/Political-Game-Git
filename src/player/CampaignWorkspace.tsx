@@ -31,6 +31,7 @@ import { CampaignLifePanel } from "./CampaignLifePanel";
 import { DistrictResidencePanel } from "./DistrictResidencePanel";
 import { CampaignWeekPanel } from "./CampaignWeekPanel";
 import { CampaignActionChoicesPanel } from "./CampaignActionChoicesPanel";
+import { CampaignHoursPanel } from "./CampaignHoursPanel";
 import { projectCampaignWeekPanel } from "../presentation/campaign-life-surface";
 import { projectCampaignWeekActions } from "../simulation";
 import {
@@ -598,6 +599,13 @@ export function CampaignWorkspace({
                     : "false"
                 }
               >
+                {actionChoices ? (
+                  <CampaignHoursPanel
+                    world={world}
+                    personId={personId}
+                    onWorldChange={onWorldChange}
+                  />
+                ) : null}
                 {actionChoices ? (
                   <CampaignActionChoicesPanel
                     world={world}
