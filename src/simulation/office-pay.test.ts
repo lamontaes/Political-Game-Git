@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { OFFICE_PAY_META, statePayFor } from "./office-pay";
+import type { World } from "./types";
+import { estimatedStatePay, OFFICE_PAY_META, statePayFor } from "./office-pay";
 
 describe("what states pay for an office", () => {
   it("holds the governor's published salary", () => {
@@ -12,6 +13,19 @@ describe("what states pay for an office", () => {
   it("holds a legislator's annual salary where the state pays one", () => {
     expect(statePayFor("state-legislator", "NY")?.annualDollars).toBe(142_000);
     expect(statePayFor("state-legislator", "TX")?.annualDollars).toBe(7_200);
+  });
+
+  it("holds California's newer legislator salary in place of the 2023 table's", () => {
+    // $128,215 since December 4, 2023; the Book of the States 2023 shows $122,694.
+    expect(statePayFor("state-legislator", "CA")?.annualDollars).toBe(128_215);
+    expect(OFFICE_PAY_META.newerThanTables).toEqual([
+      expect.objectContaining({
+        office: "state-legislator",
+        state: "CA",
+        annualDollars: 128_215,
+        effectiveFrom: "2023-12-04",
+      }),
+    ]);
   });
 
   it("holds a trial court judge's and a member of Congress's salary", () => {
@@ -27,5 +41,33 @@ describe("what states pay for an office", () => {
     for (const state of ["UT", "VT", "VA", "NM"])
       expect(statePayFor("state-legislator", state)).toBeNull();
     expect(statePayFor("governor", "ZZ")).toBeNull();
+  });
+
+  it("estimates from the average, never zero, where the tables give no salary", () => {
+    const world = (seed: string) => ({ seed }) as unknown as World;
+    const utah = estimatedStatePay(world("a"), "state-legislator", "UT")!;
+    expect(utah.basis).toMatch(
+      /^ESTIMATED FROM AVERAGE: between the 25th and 75th percentile/,
+    );
+    // Inside the middle half of what the 40 publishing states pay.
+    expect(utah.annualDollars).toBeGreaterThan(20_000);
+    expect(utah.annualDollars).toBeLessThan(75_000);
+    expect(utah.annualDollars % 100).toBe(0);
+    // The same on every replay of a world; not the same in every world.
+    expect(estimatedStatePay(world("a"), "state-legislator", "UT")).toEqual(
+      utah,
+    );
+    const others = new Set(
+      ["b", "c", "d", "e", "f"].map(
+        (seed) =>
+          estimatedStatePay(world(seed), "state-legislator", "UT")!
+            .annualDollars,
+      ),
+    );
+    expect(others.size).toBeGreaterThan(1);
+    // Congress is set by statute, never estimated.
+    expect(
+      estimatedStatePay(world("a"), "member-of-congress", "US"),
+    ).toBeNull();
   });
 });

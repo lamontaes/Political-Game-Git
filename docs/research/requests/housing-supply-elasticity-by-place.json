@@ -1,0 +1,22 @@
+{
+  "filedAt": "2026-09-29T09:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "housing",
+  "notes": [
+    "Filed with the home price model design in the 07 research document for Build 15 (Home price model). Building permits by state were tested as a supply measure and cannot be used: they rise with prices, so they do not isolate what supply does."
+  ],
+  "priority": "P3",
+  "question": "For each metropolitan area and county, how much does the number of homes grow when home prices rise one percent (the housing supply elasticity), and what land and law limits it (share of undevelopable land, zoning strictness, permitting time)? The published measures are Saiz (2010) elasticities and the Wharton Residential Land Use Regulation Index.",
+  "questionId": "housing-supply-elasticity-by-place",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Build 15 · Real Money Numbers",
+  "sourcesChecked": [
+    {
+      "source": "Saiz (2010), The Geographic Determinants of Housing Supply; Gyourko, Saiz and Summers (2008), Wharton Residential Land Use Regulation Index",
+      "whatItDidNotSettle": "The published tables could not be reached from the build container, so no place has a value in the game yet."
+    }
+  ],
+  "title": "How quickly a place can build housing when prices rise",
+  "usableAnswer": "A table by metropolitan area (and a rule for the counties outside them) with the elasticity, its source and year, and the regulation index value, each with the file and page it was read from.",
+  "whyItMatters": "The home price model moves prices with income, mortgage rates and the last year's price change, all measured. How much a rise in price brings new homes, and so pulls the price back, differs by place; until it is read every town uses one labeled placeholder."
+}
