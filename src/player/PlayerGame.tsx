@@ -306,6 +306,7 @@ import {
 } from "./ShellWorkspaces";
 import { GuideWorkspace } from "./GuideWorkspace";
 import { GuideHelpProvider } from "./GuideTerm";
+import { GuideHighlighter } from "./GuideHighlighter";
 import { PlayerVersion } from "./PlayerVersion";
 import { ReturnToTitleAction } from "./ReturnToTitleAction";
 import {
@@ -332,6 +333,11 @@ const PoliticalMap = lazy(() => import("../maps/PoliticalMap"));
  * pins change) instead of a fresh object on every render.
  */
 const mapFocusByPins = new WeakMap<readonly ShellPin[], PoliticalMapFocus>();
+/* The guide marks civic terms anywhere on the page while a life is open. */
+function documentBody(): Element | null {
+  return typeof document === "undefined" ? null : document.body;
+}
+
 function mapFocusForPins(pins: readonly ShellPin[]): PoliticalMapFocus {
   const cached = mapFocusByPins.get(pins);
   if (cached) return cached;
@@ -2309,6 +2315,19 @@ function PlayingScreen({
 
   return (
     <TimeCommandProvider runner={timeRunner}>
+      <GuideHelpProvider
+        help={{
+          learnedKeys: shell.preferences.learnedGuideTermKeys,
+          setLearned: (semanticKey, learned) =>
+            dispatch({ type: "set-guide-term-learned", semanticKey, learned }),
+          openGuide: (semanticKey) => {
+            setGuideTermKey(semanticKey);
+            dispatch({ type: "go-to-surface", surface: "guide" });
+          },
+        }}
+      >
+        <GuideHighlighter root={documentBody} />
+      </GuideHelpProvider>
       <SavedAppearanceProvider value={shell.personWardrobes}>
         <SavedRenderSnapshotsProvider value={renderSnapshots}>
           <main
@@ -2638,7 +2657,10 @@ function PlayingScreen({
                     onControlChange(next, base, { kind: "observing" })
                   }
                   onOpenRecord={() =>
-                    dispatch({ type: "go-to-surface", surface: "world-record" })
+                    dispatch({
+                      type: "go-to-surface",
+                      surface: "world-record",
+                    })
                   }
                 />
                 {continuation && !showContinuation ? (
