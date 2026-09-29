@@ -8,6 +8,7 @@ import {
   electionContestResult,
   VICTORY_SPEECH_EVENT,
 } from "../simulation";
+import type { EntityId } from "../simulation";
 import { electionSpeechGiven } from "../simulation/campaign-speeches";
 import { ageOnDate } from "../simulation/dates";
 import { householdMembershipsAt } from "../simulation/life-queries";
@@ -179,7 +180,10 @@ describe("election-night speeches", () => {
     const newcomerId = spoken.personOrder.find(
       (id) =>
         !speech.involvedEntityIds.includes(id) &&
+        // Old enough to be told, and young enough to be living a month on:
+        // the first match can otherwise be a person who dies that month.
         ageOnDate(spoken.people[id]!.birthDate, spoken.currentDate) >= 5 &&
+        ageOnDate(spoken.people[id]!.birthDate, spoken.currentDate) < 70 &&
         !spoken.history.knowledge.some(
           (row) => row.personId === id && row.eventId === speech.id,
         ),
@@ -210,17 +214,23 @@ describe("election-night speeches", () => {
     });
     // A sister who lives elsewhere in the same place is told too.
     const holderHome = spoken.people[holderId]!.homeJurisdictionId;
-    const sisterId = spoken.personOrder.find(
-      (id) =>
-        id !== newcomerId &&
-        !speech.involvedEntityIds.includes(id) &&
-        spoken.people[id]!.homeJurisdictionId === holderHome &&
-        !householdmatesOf(spoken, holderId).includes(id) &&
-        ageOnDate(spoken.people[id]!.birthDate, spoken.currentDate) >= 5 &&
-        !spoken.history.knowledge.some(
-          (row) => row.personId === id && row.eventId === speech.id,
-        ),
-    )!;
+    // The youngest who is old enough to be told, so the fixture does not
+    // pick someone who dies within the month.
+    const ageOf = (id: EntityId) =>
+      ageOnDate(spoken.people[id]!.birthDate, spoken.currentDate);
+    const sisterId = spoken.personOrder
+      .filter(
+        (id) =>
+          id !== newcomerId &&
+          !speech.involvedEntityIds.includes(id) &&
+          spoken.people[id]!.homeJurisdictionId === holderHome &&
+          !householdmatesOf(spoken, holderId).includes(id) &&
+          ageOf(id) >= 5 &&
+          !spoken.history.knowledge.some(
+            (row) => row.personId === id && row.eventId === speech.id,
+          ),
+      )
+      .sort((a, b) => ageOf(a) - ageOf(b))[0]!;
     told = recordKinship(told, {
       stableKey: "test:holder-sister",
       personIds: [holderId, sisterId],
