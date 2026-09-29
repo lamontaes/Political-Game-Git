@@ -896,6 +896,18 @@ export function commitConversationTurn(
       stableKey: turnKey,
       jurisdictionId: input.room.jurisdictionId,
       spec: commitmentSpec,
+      hearing: {
+        owedToPersonIds: [
+          holderId === input.room.playerPersonId
+            ? resolved.speakerPersonId
+            : input.room.playerPersonId,
+        ],
+        heardByPersonIds: canonicalPeople(input.room, [
+          input.room.playerPersonId,
+          ...actualListenerPersonIds,
+        ]),
+        audience: claimAudience ?? "limited",
+      },
     });
     commitmentId = world.history.lifeCommitments.at(-1)?.id ?? null;
   }

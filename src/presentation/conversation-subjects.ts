@@ -1,4 +1,5 @@
 import { personName, SeededRng } from "../simulation";
+import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import type {
   EntityId,
   EventType,
@@ -1233,6 +1234,14 @@ const COMMIT_CONTRACTS: Readonly<
             kind: "personal:school-project",
             label: "the part of the project nobody else started",
             weeklyHours: [1, 4],
+            undertaking: {
+              act: {
+                kind: "help",
+                description: "do the part of the project nobody had started",
+              },
+              promised: "Said they would do the part nobody had started.",
+              mattered: "slight",
+            },
           }
         : null,
     landed: (intent, outcome, { speakerName }) => {
@@ -1342,6 +1351,15 @@ const COMMIT_CONTRACTS: Readonly<
             kind: "civic:neighborhood-meeting",
             label: "the neighborhood meeting you said you would go to",
             weeklyHours: [1, 2],
+            undertaking: {
+              act: {
+                kind: "attend",
+                activityStableKey: `${PUBLIC_MEETING_KEY}:activity`,
+                description: "the posted public meeting",
+              },
+              promised: "Said they would go to the posted public meeting.",
+              mattered: "slight",
+            },
           }
         : null,
     // An evening you said out loud you would give is exactly the kind of thing

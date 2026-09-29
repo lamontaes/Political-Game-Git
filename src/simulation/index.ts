@@ -246,6 +246,8 @@ export * from "./life-callbacks";
 export * from "./life-opportunities";
 export * from "./life-choice-evidence";
 export * from "./commitment-seam";
+export * from "./favors";
+export * from "./undertakings";
 export * from "./relationship-leverage";
 export * from "./taxonomy";
 export * from "./time-work";
