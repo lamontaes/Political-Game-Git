@@ -133,6 +133,8 @@ export type EntityKind =
   | "legislative-measure"
   | "legislative-negotiation"
   | "legislative-provision"
+  | "chamber-rule-change"
+  | "item-veto"
   | "legislative-referral"
   | "legislative-vote"
   | "fact"
@@ -4351,6 +4353,15 @@ export interface HistoryStore {
   readonly committeeActions?: readonly CommitteeActionRecord[];
   readonly legislativeAmendments?: readonly LegislativeAmendmentRecord[];
   readonly legislativeProvisions?: readonly LegislativeProvisionRecord[];
+  /**
+   * Changes a chamber made to its own procedure in play: a rules package, a
+   * vote to drop the germaneness rule, a new habit of closed rules. Each is
+   * a record, so the rule a chamber works under always traces to the real
+   * 2026 rule or to the change that replaced it. Optional; absent in saves
+   * written before chambers could change their rules.
+   */
+  readonly chamberRuleChanges?: readonly ChamberRuleChangeRecord[];
+  readonly itemVetoes?: readonly ItemVetoRecord[];
   readonly legislativeDraftLineages?: readonly LegislativeDraftLineageRecord[];
   /**
    * Player office workflow preferences. Optional on old saves. Bound to a
@@ -4619,6 +4630,41 @@ export interface LegislativeAmendmentRecord {
   readonly description: string;
   readonly status: LegislativeAmendmentStatus;
   readonly voteId: EntityId;
+  /**
+   * The sections the amendment would put into the bill, as offered, so the
+   * record of its vote says what was on the table even when the chamber
+   * rejected it and the text never entered the bill. Omitted for an amendment
+   * offered by description only, which is how every amendment before this
+   * field was recorded.
+   */
+  readonly proposedSections?: readonly LegislativeProposedSection[];
+  /**
+   * Why a computer-run member offered it, where one did: to pass the bill,
+   * to sink it, to put the other side on the record, or to ride a bill that
+   * has to pass. Omitted for the player's amendments and older records.
+   */
+  readonly authorMotive?: LegislativeAmendmentMotive;
+}
+
+export type LegislativeAmendmentMotive = "pass" | "sink" | "record" | "ride";
+
+/**
+ * Which way one part of a bill answers a policy question: enacting the part
+ * does what the question proposes ("yes"), or the reverse ("no").
+ */
+export interface PropositionAnswerRef {
+  readonly propositionId: EntityId;
+  readonly answer: "yes" | "no";
+}
+
+/** One section an amendment would add to a bill, or rewrite in it. */
+export interface LegislativeProposedSection {
+  readonly provisionKey: string;
+  readonly heading: string;
+  /** The current section it would replace; null when it adds a new one. */
+  readonly supersedesProvisionId: EntityId | null;
+  /** The policy question the section answers, when it answers one. */
+  readonly answers?: PropositionAnswerRef;
 }
 
 export type LegislativeVoteForum =
@@ -4931,6 +4977,58 @@ export interface LegislativeProvisionRecord {
    * except through the ordinary amendment path.
    */
   readonly originAmendmentId: EntityId | null;
+  readonly eventId: EntityId;
+  /**
+   * The policy question this section answers, and which way. This is what
+   * lets a section added by amendment enter the voting record: a vote for a
+   * bill carrying a work requirement is a vote for the work requirement,
+   * whatever the bill was filed to do. Omitted when the section answers no
+   * catalog question, which is true of every section recorded before it.
+   */
+  readonly answers?: PropositionAnswerRef;
+}
+
+/** A procedural rule a chamber can change for itself in play. */
+export type ChamberProcedureRuleKey = "germaneness" | "amendment-access";
+
+/**
+ * One change a chamber made to its own procedure. `value` is the rule's new
+ * setting: for germaneness "required", "not-required" or
+ * "appropriations-only"; for amendment access "open", "structured" or
+ * "closed".
+ */
+export interface ChamberRuleChangeRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly rulePackId: string;
+  readonly chamberKey: string;
+  readonly rule: ChamberProcedureRuleKey;
+  readonly value: string;
+  readonly adoptedAt: IsoDate;
+  /** The recorded vote that adopted it, where one did. */
+  readonly adoptedByVoteId: EntityId | null;
+  /** Why, in plain words, as the chamber's record would give it. */
+  readonly rationale: string;
+  readonly eventId: EntityId;
+}
+
+/**
+ * An executive's veto of one section of a bill it otherwise signed, where the
+ * constitution gives an item veto (Build 25 step 5). The section stays on the
+ * record of every vote taken before the signing and is not part of the law.
+ */
+export interface ItemVetoRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly measureId: EntityId;
+  readonly provisionId: EntityId;
+  readonly executiveDispositionId: EntityId;
+  /** The signing's own sequence: the section is out of the law from it on. */
+  readonly dispositionSequence: number;
+  readonly actorPersonId: EntityId | null;
+  readonly rationale: string;
   readonly eventId: EntityId;
 }
 

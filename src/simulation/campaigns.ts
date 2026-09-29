@@ -198,7 +198,11 @@ import {
   recordWorldMetricObservation,
   recordWorldMetricState,
 } from "./world-metrics";
-import { assertWorldIntegrity, recordWorldEvent } from "./world";
+import {
+  advanceWithWorldIntegrityAtEnd,
+  assertWorldIntegrity,
+  recordWorldEvent,
+} from "./world";
 import { CAMPAIGN_LIFE_HANDLERS } from "./campaign-life-handlers";
 import { ensureCampaignWeeklyEvaluation } from "./campaign-opponents";
 import {
@@ -934,6 +938,21 @@ export function scheduleCampaignAction(
   world: World,
   input: ScheduleCampaignActionInput,
 ): ScheduledCampaignActionResult {
+  // One booking calls several writers (the scheduled activity, the action,
+  // their events), and each checked the whole World again. They run with the
+  // check deferred, and the booked World is checked once against its input.
+  const booking: { result?: ScheduledCampaignActionResult } = {};
+  advanceWithWorldIntegrityAtEnd(() => {
+    booking.result = bookCampaignAction(world, input);
+    return booking.result.world;
+  }, world);
+  return booking.result!;
+}
+
+function bookCampaignAction(
+  world: World,
+  input: ScheduleCampaignActionInput,
+): ScheduledCampaignActionResult {
   const campaign = requireCampaign(world, input.campaignId);
   if (campaignState(world, campaign.id).status !== "active") {
     throw new Error("A finished campaign cannot take on more work.");
@@ -1328,6 +1347,16 @@ function actionMoney(
  * surface above says whose commitment it was.
  */
 export function performCampaignAction(world: World, actionId: EntityId): World {
+  // Doing the work calls a dozen writers (the activity, money, events, support
+  // and its observation), and each checked the whole World again. They run
+  // with the check deferred, and the result is checked once against its input.
+  return advanceWithWorldIntegrityAtEnd(
+    () => doCampaignAction(world, actionId),
+    world,
+  );
+}
+
+function doCampaignAction(world: World, actionId: EntityId): World {
   const action = campaignActionById(world, actionId);
   if (!action) throw new Error(`Campaign action not found: ${actionId}`);
   if (campaignActionResult(world, action.id)) {

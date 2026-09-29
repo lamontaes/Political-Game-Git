@@ -78,6 +78,9 @@ test("a creator control keeps the front-door hover, not the old green form", asy
   const begin = page.getByTestId("begin");
   await expect(begin).toBeEnabled();
   await begin.hover();
-  await expect(begin).toHaveCSS("color", "rgb(224, 195, 122)");
-  await expect(begin).toHaveCSS("background-color", "rgba(16, 22, 33, 0.88)");
+  await expect(begin).toHaveCSS("color", "rgb(122, 46, 42)");
+  await expect(begin).toHaveCSS(
+    "background-color",
+    "rgba(255, 251, 242, 0.95)",
+  );
 });

@@ -247,7 +247,7 @@ describe.each([
   ],
 ] as const)(
   "The governor's requirements from %s",
-  (placeName, stateKey, usps, title, unrecorded) => {
+  (placeName, stateKey, usps, title, other) => {
     let life: Life;
 
     beforeAll(() => {
@@ -262,8 +262,10 @@ describe.each([
       expect(governor).toContain(
         `You must be at least ${ages[0]} to run for this office.`,
       );
-      expect(governor).toContain(unrecorded);
-      expect(governor).toContain("nothing yet shows that you meet it.");
+      // The other requirement is decided from the life's own record: born in
+      // the state and living there, they meet it, so it bars nothing.
+      expect(governor).not.toContain(other);
+      expect(governor).not.toContain("nothing yet shows that you meet it.");
       expect(governor).not.toMatch(/too young to stand/i);
       expect(governor).not.toMatch(PROVENANCE);
 

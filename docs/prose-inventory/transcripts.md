@@ -1146,7 +1146,7 @@ Seed `p85c-owner-clock`, start age 34, Luke Vance.
 
 ### Legislative surface reached
 
-- HB 292 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
+- HB 1 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
   - Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.
   - The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
   - Filed on 2027-01-30. Filed in the House of Representatives.

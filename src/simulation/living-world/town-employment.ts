@@ -1126,7 +1126,7 @@ function yearsBefore(date: IsoDate, years: number): IsoDate {
   return makeIsoDate(`${year}${rest === "-02-29" ? "-02-28" : rest}`);
 }
 
-function townOrganizationsOf(
+export function townOrganizationsOf(
   world: World,
   town: EntityId,
   classification: OrganizationClassification,
@@ -1363,6 +1363,8 @@ export function fillTownJobs(
     readonly into?: {
       readonly workplace: string;
       readonly organizationId: EntityId;
+      /** Hire everyone into this one role (a funded position), when named. */
+      readonly role?: string;
     };
   },
 ): World {
@@ -1634,6 +1636,16 @@ export function fillTownJobs(
   if (options.into) {
     const workplace = WORKPLACE.get(options.into.workplace);
     if (!workplace) return next;
+    const named = options.into.role
+      ? workplace.roles.find((entry) => entry.title === options.into!.role)
+      : undefined;
+    if (named) {
+      for (const resident of open)
+        if (resident.age >= (named.minAge ?? WORKING_AGE_MIN))
+          // A funded position is a full-time one.
+          hire(resident, workplace, named, options.into.organizationId, true);
+      return jobs.length === 0 ? next : createWorkRelationships(next, jobs);
+    }
     let lead = workplace.roles.find(
       (entry) => entry.authority === "directs-others",
     );
@@ -1669,9 +1681,17 @@ export function fillTownJobs(
     pool.splice(pool.indexOf(pick), 1);
     return pick;
   };
+  // A role a budget staffs (police officers, teachers) is filled by the
+  // budget alone (`public-budgets/staffing.ts`), never by the town's mix.
+  const budgetStaffed = new Set(
+    (world.publicBudgets?.staffing ?? [])
+      .filter((row) => row.town === town)
+      .map((row) => `${row.workplace}|${row.role}`),
+  );
   const held = heldTownRoles(next, prefix);
   for (const [key, title] of CIVIC_MINIMUM) {
     if (key === "county-clerk" && !countyName) continue;
+    if (budgetStaffed.has(`${key}|${title}`)) continue;
     const workplace = WORKPLACE.get(key)!;
     const chosen = workplace.roles.find((entry) => entry.title === title)!;
     const organizationIds = existingOf(workplace);
@@ -1721,7 +1741,14 @@ export function fillTownJobs(
     for (const [key] of order) {
       const workplace = WORKPLACE.get(key);
       if (!workplace) continue;
-      const chosen = roleFor(workplace, resident);
+      // A role a budget staffs is never offered here.
+      const chosen = roleFor(
+        workplace,
+        resident,
+        workplace.roles.filter(
+          (entry) => !budgetStaffed.has(`${workplace.key}|${entry.title}`),
+        ),
+      );
       if (chosen && hire(resident, workplace, chosen)) break;
     }
   }

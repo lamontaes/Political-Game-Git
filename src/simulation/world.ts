@@ -601,6 +601,20 @@ export function advanceWithWorldIntegrityAtEnd(
   return result;
 }
 
+/**
+ * Runs a batch of writes to one World with each writer's check deferred, then
+ * checks the result once against its input. A batch that writes nothing is
+ * returned as it came, unchecked, as a writer that writes nothing would be.
+ */
+export function writeWithWorldIntegrityOnce(
+  previous: World,
+  run: () => World,
+): World {
+  const result = withWorldIntegrityDeferred(run);
+  if (result === previous) return previous;
+  return advanceWithWorldIntegrityAtEnd(() => result, previous);
+}
+
 /*
  * The newest World that passed a check. During play the next World to be
  * checked is almost always its descendant (a Day, a scene answer, a writer's
@@ -2107,6 +2121,8 @@ function validateHistoryIntegrity(
         ...(history.officeStaffIncumbencies ?? []),
         ...(history.officeVoteInstructions ?? []),
         ...(history.officeBriefingInspections ?? []),
+        ...(history.chamberRuleChanges ?? []),
+        ...(history.itemVetoes ?? []),
         ...(history.favors ?? []),
         ...history.events,
         ...history.memories,
@@ -2190,6 +2206,11 @@ function validateHistoryIntegrity(
     history.legislativeProvisions ?? [],
     "legislative provision",
   );
+  assertSequenceOrdered(
+    history.chamberRuleChanges ?? [],
+    "chamber rule change",
+  );
+  assertSequenceOrdered(history.itemVetoes ?? [], "item veto");
   assertSequenceOrdered(
     history.legislativeDraftLineages ?? [],
     "legislative draft lineage",
@@ -2426,6 +2447,11 @@ function validateHistoryIntegrity(
     history.legislativeProvisions ?? [],
     "legislative provision",
   );
+  assertUniqueStableKeys(
+    history.chamberRuleChanges ?? [],
+    "chamber rule change",
+  );
+  assertUniqueStableKeys(history.itemVetoes ?? [], "item veto");
   assertUniqueStableKeys(
     history.legislativeDraftLineages ?? [],
     "legislative draft lineage",
