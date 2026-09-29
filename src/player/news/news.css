@@ -159,14 +159,16 @@
   padding-left: 1rem;
 }
 
-.pg-news-people {
+.pg-news-people,
+.pg-news-laws {
   display: flex;
   flex-wrap: wrap;
   gap: 0.3rem 0.6rem;
   margin: 0;
 }
 
-.pg-news-people button {
+.pg-news-people button,
+.pg-news-laws button {
   border: 0;
   padding: 0;
   background: none;
@@ -176,6 +178,11 @@
   font-size: 0.82rem;
   text-decoration: underline;
   cursor: pointer;
+}
+
+.pg-news-laws button {
+  font-family: Georgia, serif;
+  font-style: italic;
 }
 
 .pg-news-empty {

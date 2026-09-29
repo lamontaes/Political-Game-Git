@@ -59,6 +59,9 @@ export interface PlaceConditions {
   readonly rows: readonly PlaceConditionRow[];
 }
 
+/** What the Conditions page says where the world keeps none for the place. */
+export const NO_PLACE_CONDITIONS = "No conditions are kept for this place yet.";
+
 const LAW_PREFIX = "law:";
 const MOST_CAUSES_SHOWN = 3;
 
@@ -282,8 +285,16 @@ export function lawConditionSentences(
     const law = lawInForce(world, place, questionId, asOf);
     if (!law) continue;
     if (law.measureId !== measureId) {
+      const governing =
+        law.origin === "enacted"
+          ? world.history.legislativeMeasures?.find(
+              (row) => row.id === law.measureId,
+            )
+          : undefined;
       sentences.push(
-        `Another law now decides "${lowerFirst(proposition.name)}" here, so this one no longer moves anything.`,
+        governing
+          ? `${governing.shortTitle} (${governing.designation}) now decides "${lowerFirst(proposition.name)}" here, so this one no longer moves anything.`
+          : `The existing law on "${lowerFirst(proposition.name)}" still decides it here, so this one moves nothing.`,
       );
       continue;
     }

@@ -3716,6 +3716,9 @@ function renderWorkspace({
             })
           }
           onOpenPerson={openPerson}
+          onOpenMeasure={(measureId) =>
+            openEntity({ kind: "measure", id: measureId })
+          }
           around={
             <>
               <WorldOrientationEntry

@@ -1,5 +1,10 @@
 import { useState, type ReactNode } from "react";
 
+import {
+  legalStandingSentence,
+  NO_CASES_ON_RECORD,
+  NO_SENTENCES_ON_RECORD,
+} from "../presentation/legal-record-english";
 import { projectLegalRecord } from "../presentation/legal-record";
 import { fileClemencyPetition } from "../simulation/justice/clemency";
 import { enterPlea, type EnteredPlea } from "../simulation/justice/prosecution";
@@ -86,17 +91,11 @@ export function LegalRecordPanel({
     apply(enterPlea(world, { personId, referralId, plea }));
   const serving = legal.sentences.find((line) => line.servingNow);
   const open = legal.cases.filter((line) => line.canEnterPlea).length;
-  const standing = serving
-    ? serving.kind === "jail"
-      ? "You are serving a jail term."
-      : "You are on probation."
-    : legal.cases.length === 0
-      ? "No one has charged you with a crime."
-      : open > 0
-        ? open === 1
-          ? "One charge against you is waiting for your plea."
-          : `${open} charges against you are waiting for your plea.`
-        : null;
+  const standing = legalStandingSentence({
+    serving: serving ? (serving.kind === "jail" ? "jail" : "probation") : null,
+    cases: legal.cases.length,
+    awaitingPlea: open,
+  });
 
   return (
     <div className="pg-legal-record" data-testid="legal-record">
@@ -115,7 +114,7 @@ export function LegalRecordPanel({
         <h3>Cases</h3>
         {legal.cases.length === 0 ? (
           <p className="pg-person-card-note" data-testid="legal-cases-empty">
-            No charges on record.
+            {NO_CASES_ON_RECORD}
           </p>
         ) : (
           <ul className="pg-legal-list" data-testid="legal-cases">
@@ -167,7 +166,7 @@ export function LegalRecordPanel({
             className="pg-person-card-note"
             data-testid="legal-sentences-empty"
           >
-            No sentences on record.
+            {NO_SENTENCES_ON_RECORD}
           </p>
         ) : (
           <ul className="pg-legal-list" data-testid="legal-sentences">
