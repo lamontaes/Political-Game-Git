@@ -80,12 +80,12 @@
       "state": "AK"
     },
     {
-      "catalogUnitId": null,
+      "catalogUnitId": "gus2025:122711",
       "evidence": [
         "research-transcription"
       ],
       "governmentKey": "us-ak-north-pole",
-      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "mapping": "mapped",
       "state": "AK"
     },
     {
@@ -390,21 +390,21 @@
       "state": "HI"
     },
     {
-      "catalogUnitId": null,
+      "catalogUnitId": "gus2025:162013",
       "evidence": [
         "research-transcription"
       ],
       "governmentKey": "us-hi-kauai-county",
-      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "mapping": "mapped",
       "state": "HI"
     },
     {
-      "catalogUnitId": null,
+      "catalogUnitId": "gus2025:189877",
       "evidence": [
         "research-transcription"
       ],
       "governmentKey": "us-hi-maui-county",
-      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "mapping": "mapped",
       "state": "HI"
     },
     {
@@ -435,12 +435,12 @@
       "state": "IA"
     },
     {
-      "catalogUnitId": null,
+      "catalogUnitId": "gus2025:184216",
       "evidence": [
         "research-transcription"
       ],
       "governmentKey": "us-ia-dubuque",
-      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "mapping": "mapped",
       "state": "IA"
     },
     {
@@ -490,13 +490,13 @@
       "state": "IL"
     },
     {
-      "catalogUnitId": null,
+      "catalogUnitId": "gus2025:162629",
       "evidence": [
         "research-transcription",
         "reference-observation"
       ],
       "governmentKey": "us-il-springfield",
-      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "mapping": "mapped",
       "state": "IL"
     },
     {
@@ -745,12 +745,12 @@
       "state": "MI"
     },
     {
-      "catalogUnitId": null,
+      "catalogUnitId": "gus2025:166690",
       "evidence": [
         "research-transcription"
       ],
       "governmentKey": "us-mi-lansing",
-      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "mapping": "mapped",
       "state": "MI"
     },
     {
@@ -3684,7 +3684,7 @@
     },
     "catalogUnits": 38704,
     "loadedMunicipalRecords": 144,
-    "loadedRecordsMappedToCatalog": 65,
+    "loadedRecordsMappedToCatalog": 71,
     "missingMandatoryLocalFields": {
       "body.seats": 38699,
       "ordinance.introductionToPassage": 3,

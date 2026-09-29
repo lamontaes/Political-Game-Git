@@ -9,6 +9,7 @@ import {
 import { ageOnDate, makeIsoDate } from "./dates";
 import { activeIncidentsAt } from "./incidents";
 import { workItemOccasionHasPassed } from "./time-work";
+import { canPayRentOwed, openEvictionCase } from "./living-world/town-rent";
 import {
   activeCareResponsibilitiesAt,
   activeLifeCommitmentsAt,
@@ -106,7 +107,11 @@ export type AdultOptionWrite =
       readonly label: string;
       readonly commitmentKind: LifeCommitmentKind;
       readonly weeklyHours: readonly [number, number];
-    };
+    }
+  /** Pays the back rent on the lease the person holds, from their money. */
+  | { readonly kind: "pay-rent-owed" }
+  /** The household leaves the home it rents before an eviction hearing. */
+  | { readonly kind: "move-out-before-hearing" };
 
 /** Who else the scene needs, resolved from the world and never created. */
 export type AdultCompanionRole =
@@ -137,6 +142,12 @@ export interface AdultSituationOption extends LifeSituationOption {
    */
   readonly aftermath: AdultAftermathKind | null;
   readonly writes?: AdultOptionWrite | null;
+  /**
+   * Whether the world allows this choice right now, when it does not always:
+   * paying needs the money, and a lawyer needs the law that provides one. An
+   * option the world does not allow is not shown and cannot be chosen.
+   */
+  readonly offered?: (context: AdultLifeContext) => boolean;
 }
 
 export interface AdultSituation {
@@ -601,6 +612,92 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
           nudge("privacy-preference", -0.3),
         ],
         aftermath: "goodwill",
+      },
+    ],
+  },
+  {
+    key: "adult.eviction-case",
+    // Written by the rent day when a landlord files against the lease the
+    // played person holds. The prose shown is that notice's own summary, with
+    // the landlord, the amount and the day the case is decided; the line below
+    // is the fallback. A case left unanswered is decided on that day against
+    // a tenant who did not answer.
+    opportunity: "eviction-case",
+    companion: null,
+    stakes: "pressing",
+    prose: "Your landlord has gone to court to evict you over unpaid rent.",
+    tensions: [
+      tension(
+        "security-stability",
+        1,
+        "risk-appetite",
+        1,
+        "Keeping the home at any cost, against starting over somewhere else.",
+      ),
+    ],
+    available: (context) =>
+      openEvictionCase(context.world, context.personId, context.asOfDate) !==
+      null,
+    relevance: () => 1,
+    options: [
+      {
+        key: "pay-what-is-owed",
+        label: "Pay everything you owe",
+        description: "Pay the back rent now, and the landlord drops the case.",
+        memory: "You paid the back rent before the eviction case was heard.",
+        stance: "engaged",
+        nudges: [
+          nudge("security-stability", 0.5),
+          nudge("risk-appetite", -0.3),
+        ],
+        aftermath: null,
+        writes: { kind: "pay-rent-owed" },
+        offered: (context) =>
+          canPayRentOwed(context.world, context.personId, context.asOfDate),
+      },
+      {
+        key: "offer-a-payment-plan",
+        label: "Offer a payment plan",
+        description:
+          "Ask the landlord to settle for payments over the coming months. The court can still evict you.",
+        memory:
+          "You offered your landlord a payment plan to settle the eviction case.",
+        stance: "engaged",
+        nudges: [
+          nudge("security-stability", 0.35),
+          nudge("personal-ties", 0.2),
+        ],
+        aftermath: null,
+      },
+      {
+        key: "take-the-lawyer",
+        label: "Take the lawyer",
+        description:
+          "Let the lawyer the law provides answer the case for you. The court can still evict you.",
+        memory: "You took the lawyer the law provides for your eviction case.",
+        stance: "engaged",
+        nudges: [
+          nudge("security-stability", 0.3),
+          nudge("privacy-preference", -0.2),
+        ],
+        aftermath: null,
+        offered: (context) =>
+          openEvictionCase(context.world, context.personId, context.asOfDate)
+            ?.counselLaw != null,
+      },
+      {
+        key: "move-out-first",
+        label: "Move out before the hearing",
+        description:
+          "Leave the home now. The case is dropped, and you still owe the rent.",
+        memory: "You moved out before the eviction case was heard.",
+        stance: "withdrawn",
+        nudges: [
+          nudge("risk-appetite", 0.35),
+          nudge("security-stability", -0.3),
+        ],
+        aftermath: null,
+        writes: { kind: "move-out-before-hearing" },
       },
     ],
   },
@@ -2337,12 +2434,29 @@ export function bindRequestSituation(
   context: AdultLifeContext,
   situation: AdultSituation,
 ): AdultSituation {
+  const bound = bindRequestTerms(context, situation);
+  if (!bound.options.some((option) => option.offered)) return bound;
+  return {
+    ...bound,
+    options: bound.options.filter(
+      (option) => !option.offered || option.offered(context),
+    ),
+  };
+}
+
+function bindRequestTerms(
+  context: AdultLifeContext,
+  situation: AdultSituation,
+): AdultSituation {
   if (!situation.opportunity) return situation;
-  const request = lifeOpportunitiesFor(
+  const requests = lifeOpportunitiesFor(
     context.world,
     context.personId,
     context.asOfDate,
-  ).find((entry) => entry.kind === situation.opportunity);
+  ).filter((entry) => entry.kind === situation.opportunity);
+  // A case left unanswered stays on the record; a later case binds its own.
+  const request =
+    situation.opportunity === "eviction-case" ? requests.at(-1) : requests[0];
   const event = eventById(context.world, request?.eventId);
   if (!event) return situation;
   if (!request?.counterpartPersonId)

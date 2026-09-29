@@ -142,6 +142,18 @@ export type {
   CommitCampaignWeekInput,
 } from "./campaign-weekly-plans";
 export {
+  CAMPAIGN_ROUTINE_WORK,
+  campaignRoutineSlots,
+  currentCampaignRoutine,
+  describeCampaignRoutine,
+  setCampaignRoutine,
+} from "./campaign-routine";
+export type {
+  CampaignRoutineBlock,
+  CampaignRoutineRecord,
+  CampaignRoutineWork,
+} from "./campaign-routine";
+export {
   chooseCampaignWeekAction,
   projectCampaignWeekActions,
 } from "./campaign-week-actions";

@@ -2,6 +2,7 @@ import { assessPaycheckTaxes } from "./statutory-tax";
 import { addDays, daysBetween } from "./dates";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { currentLifeCutoff, workStatusAt } from "./life-queries";
+import { publishedOfficePay } from "./office-pay";
 import {
   createWorkCompensation,
   money,
@@ -24,11 +25,12 @@ import type { EntityId, IsoDate, World, WorkRelationship } from "./types";
  */
 
 /**
- * PLACEHOLDER(research: what-public-officials-are-paid). Nobody has
- * researched this number. It is one national annual figure for every office
- * below, the same for a governor, a legislator, a judge and a civil servant in
- * every state, standing in until real salaries by office and state are on
- * file. Replace it; do not tune it.
+ * PLACEHOLDER(research: what-public-officials-are-paid). A governor, a state
+ * legislator, a judge and a member of Congress are paid the published salary
+ * (`office-pay.ts`). Every other office, and a state whose tables give no single annual figure, is paid this
+ * one national annual figure: nobody has researched it, and it is the same for
+ * a judge, a mayor and a civil servant in every state. Replace it; do not tune
+ * it.
  */
 export const OFFICE_SALARY_PLACEHOLDER = {
   annualMinor: 6_000_000,
@@ -50,8 +52,25 @@ export const PAID_OFFICE_KINDS: readonly string[] = [
 const WEEK_DAYS = 7;
 const CATCH_UP_LIMIT_WEEKS = 520;
 
-function weeklyMinor(): number {
-  return Math.round(OFFICE_SALARY_PLACEHOLDER.annualMinor / 52);
+/** The annual pay for an office: the state's published figure, else the placeholder. */
+function annualPay(
+  world: World,
+  work: WorkRelationship,
+): { readonly annualMinor: number; readonly note: string } {
+  const published = publishedOfficePay(world, work);
+  return published
+    ? {
+        annualMinor: published.annualDollars * 100,
+        note: `${published.state} ${published.office} salary, published (The Book of the States 2023; Congressional Research Service 97-1011 for Congress).`,
+      }
+    : {
+        annualMinor: OFFICE_SALARY_PLACEHOLDER.annualMinor,
+        note: `Placeholder office salary pending research question ${OFFICE_SALARY_PLACEHOLDER.researchQuestionId}.`,
+      };
+}
+
+function weeklyMinor(annualMinor: number): number {
+  return Math.round(annualMinor / 52);
 }
 
 function salaryKey(work: WorkRelationship): string {
@@ -102,17 +121,21 @@ function settleOne(world: World, work: WorkRelationship): World {
       work.personId,
       money(0, OFFICE_SALARY_PLACEHOLDER.currency).currency,
     );
+    const pay = annualPay(world, work);
     return createWorkCompensation(next, {
       stableKey: salaryKey(work),
       workRelationshipId: work.id,
       startsAt: next.currentDate,
-      amount: money(weeklyMinor(), OFFICE_SALARY_PLACEHOLDER.currency),
+      amount: money(
+        weeklyMinor(pay.annualMinor),
+        OFFICE_SALARY_PLACEHOLDER.currency,
+      ),
       cadenceKind: "schedule:weekly",
       restrictionKind: null,
       jurisdictionId: null,
       provenance: {
         kind: "authored",
-        note: `Placeholder office salary pending research question ${OFFICE_SALARY_PLACEHOLDER.researchQuestionId}.`,
+        note: pay.note,
       },
     });
   }

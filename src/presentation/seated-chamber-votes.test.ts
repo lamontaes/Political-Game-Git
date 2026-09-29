@@ -259,9 +259,11 @@ describe("a seated chamber deciding one question", () => {
     for (const [index, entry] of ordinary.entries()) {
       if (entry.personId === assignment.sponsorPersonId) continue;
       const same = publicPartyOf(world, entry.personId!) === sponsorParty;
+      // A member of another party with no view of their own and no other
+      // cue answers present: party is never a stand-in for having no view.
       expect(entry).toMatchObject({
-        disposition: "yea",
-        reason: same ? "member:party-cue:same" : "member:no-objection",
+        disposition: same ? "yea" : "present-not-voting",
+        reason: same ? "member:party-cue:same" : "member:no-reason",
       });
       expect(override[index]).toMatchObject({
         disposition: same ? "yea" : "nay",
