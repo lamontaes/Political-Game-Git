@@ -11,13 +11,13 @@ import {
   propositionIdFor,
 } from "./fiscal";
 import { actuarialContribution } from "./opening";
-import { driftedPaidShare, pensionPayment } from "./pension-share";
-import { lawInForce } from "../governing/law-in-force";
+import { pensionPayment } from "./pension-share";
+import { reserveRule } from "./reserve-rule";
+import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import {
   ECONOMY_ELASTICITY,
   FIRST_CUT_SHARE,
   PENSION,
-  RESERVE,
   TAX_QUESTION_EFFECTS,
 } from "./rules";
 import {
@@ -269,6 +269,43 @@ function monthsInto(year: AdoptedBudget, month: IsoDate): number {
   return now - start + 1;
 }
 
+/**
+ * How a state's tax law in force on a date moves a revenue source against
+ * the law the state began with (`TAX_QUESTION_EFFECTS`): 1 where nothing
+ * changed, where the size is not researched, or for a county or city, whose
+ * own taxes these state questions do not set.
+ */
+export function taxLawFactor(
+  world: World,
+  government: PublicBudgetGovernment,
+  source: BudgetSource,
+  onDate: IsoDate,
+): number {
+  if (government.level !== "state") return 1;
+  let factor = 1;
+  for (const effect of TAX_QUESTION_EFFECTS) {
+    if (effect.source !== source) continue;
+    if (effect.toYes === null && effect.toNo === null) continue;
+    const propositionId = propositionIdFor(world, effect.questionKey);
+    if (!propositionId) continue;
+    const now = lawInForce(
+      world,
+      government.lawJurisdictionId,
+      propositionId,
+      onDate,
+    )?.answer;
+    const began = lawInForceAtStart(
+      world,
+      government.lawJurisdictionId,
+      propositionId,
+      onDate,
+    );
+    if (began === "no" && now === "yes") factor *= 1 + (effect.toYes ?? 0);
+    if (began === "yes" && now === "no") factor *= 1 + (effect.toNo ?? 0);
+  }
+  return factor;
+}
+
 interface Settled {
   readonly government: PublicBudgetGovernment;
   readonly adjustments: readonly BudgetAdjustment[];
@@ -313,12 +350,15 @@ export function settleGovernmentMonth(
 
   // Revenue.
   const represented = flows.represented.get(government.key) ?? 0;
+  // A tax law that changed since adoption moves its source from that month.
   const revenue = BUDGET_SOURCES.map((source, at) =>
     Math.round(
       (year.expectedRevenue[at]! / 12) *
         (at === SALES_TAX && townSales !== null
           ? townSales
-          : Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (economy - 1))),
+          : Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (economy - 1))) *
+        (taxLawFactor(world, government, source, month) /
+          taxLawFactor(world, government, source, year.startsOn)),
     ),
   );
   if (government.population > 0)
@@ -513,7 +553,7 @@ export function settleGovernmentMonth(
   }
   const yearSpending = sum(year.appropriations);
   if (balance > 0 && laws.reserve.answer === "yes") {
-    const floor = Math.round(RESERVE.floorShareOfSpending * yearSpending);
+    const floor = Math.round(reserveRule(government).floorShare * yearSpending);
     const moved = Math.min(balance, Math.max(0, floor - reserve));
     if (moved > 0) {
       balance -= moved;
@@ -557,18 +597,13 @@ export function settleGovernmentMonth(
           ? "The pension payments fell short of the full actuarial contribution the law requires."
           : pensionLaw.answer === "no"
             ? "No law requires the full actuarial contribution; the unpaid part grows the unfunded liability."
-            : "No law in force when the budget was adopted answered whether pensions must be funded on schedule, so the government paid its own share (ESTIMATED FROM AVERAGE: the measured spread of shares paid).",
+            : "No law in force when the budget was adopted answered whether pensions must be funded on schedule, so the government paid its own share (its plans' reported share, or the median of every plan where they are not listed).",
     });
   const liability = government.pension.liability;
   const benefits = liability * PENSION.benefitShare * share;
   const pension = {
-    // Next year's own share: this year's, moved by one year's measured drift.
-    paidShare: driftedPaidShare(
-      world,
-      government.key,
-      year.fiscalYear + 1,
-      government.pension.paidShare,
-    ),
+    // The share stays where it began until budgets pass as bills.
+    paidShare: government.pension.paidShare,
     liability: Math.round(
       liability * (1 + PENSION.assumedReturn * share) +
         liability * PENSION.normalCostShare * share -
@@ -645,16 +680,20 @@ function adoptNextYear(
     const elasticity = ECONOMY_ELASTICITY[source];
     const scaleAt = (economy: number) =>
       Math.max(0, 1 + elasticity * (economy - 1));
+    // Each month is also restated to the tax law in force at adoption, so a
+    // law that changed last year counts once, in full.
+    const lawNow = taxLawFactor(world, government, source, startsOn);
     const restated = rows.map((row) => {
+      const law = lawNow / taxLawFactor(world, government, source, row.month);
       // A city's sales tax collected on its town's sales, restated at
       // today's sales.
       if (at === SALES_TAX && row.townSales && townSalesNow !== null)
-        return (row.revenue[at]! * townSalesNow) / row.townSales;
-      if (economyNow === null) return row.revenue[at]!;
+        return ((row.revenue[at]! * townSalesNow) / row.townSales) * law;
+      if (economyNow === null) return row.revenue[at]! * law;
       const then = scaleAt(row.economy);
       return then > 0
-        ? (row.revenue[at]! * scaleAt(economyNow)) / then
-        : row.revenue[at]!;
+        ? (row.revenue[at]! * scaleAt(economyNow) * law) / then
+        : row.revenue[at]! * law;
     });
     return Math.round((sum(restated) * 12) / rows.length);
   });
@@ -672,19 +711,6 @@ function adoptNextYear(
       (prior.expectedRevenue[STATE_AID]! * stateLocalAidAtAdoption) /
         priorAidBase,
     );
-  for (const effect of TAX_QUESTION_EFFECTS) {
-    if (effect.shareChange === null) continue;
-    const propositionId = propositionIdFor(world, effect.questionKey);
-    const law = propositionId
-      ? lawInForce(world, government.lawJurisdictionId, propositionId, startsOn)
-      : null;
-    if (law?.origin === "enacted" && law.answer === "yes") {
-      const at = BUDGET_SOURCES.indexOf(effect.source);
-      expectedRevenue[at] = Math.round(
-        expectedRevenue[at]! * (1 + effect.shareChange),
-      );
-    }
-  }
   const pensionRequired = actuarialContribution(government.pension);
   const pensionPaid = pensionPayment(
     pensionRequired,
@@ -705,13 +731,14 @@ function adoptNextYear(
     CUTTABLE[at] ? value * (1 - oneTimeShare) : value,
   );
   const priorTotal = sum(base);
-  const floor = RESERVE.floorShareOfSpending * priorTotal;
+  const reserveLaw = reserveRule(government);
+  const floor = reserveLaw.floorShare * priorTotal;
   const reserveDeposit =
     laws.reserve.answer === "yes" && government.reserve < floor
       ? Math.round(
           Math.min(
             floor - government.reserve,
-            RESERVE.yearlyDepositShareOfSpending * priorTotal,
+            reserveLaw.depositShare * priorTotal,
           ),
         )
       : 0;

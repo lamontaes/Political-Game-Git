@@ -23,6 +23,17 @@ const REQUIRED_KEYS = [
   "veto",
   "appropriation",
   "obligation",
+  // UI 2 orders, September 29, 2026: the terms a new player meets first.
+  "committee-assignment",
+  "cloture",
+  "veto-override",
+  "primary",
+  "filing-deadline",
+  "germane-amendment",
+  "recorded-vote",
+  "on-the-record",
+  "on-background",
+  "off-the-record",
 ] as const;
 
 const URL_PATTERN = /https?:\/\/|www\.|\.com|\.gov\b/i;
@@ -176,6 +187,50 @@ describe("recognizing a term inside a sentence", () => {
     expect(
       segments.filter((s) => s.semanticKey === "appropriation").length,
     ).toBe(1);
+  });
+
+  it("finds the new civic terms in ordinary sentences", () => {
+    const keyOf = (text: string) =>
+      annotateGuideTerms(text).find((s) => s.semanticKey !== null);
+    expect(keyOf("Cloture failed, 52 to 48.")?.semanticKey).toBe("cloture");
+    expect(keyOf("They voted to override the veto.")?.semanticKey).toBe(
+      "veto-override",
+    );
+    expect(keyOf("Her committee assignment came through.")?.semanticKey).toBe(
+      "committee-assignment",
+    );
+    expect(keyOf("The amendment is not germane.")?.text).toBe("amendment");
+    expect(
+      annotateGuideTerms("The amendment is not germane.").some(
+        (s) => s.semanticKey === "germane-amendment",
+      ),
+    ).toBe(true);
+  });
+
+  it("underlines only the election in a phrase like the primary", () => {
+    const term = annotateGuideTerms("She lost the primary in May.").find(
+      (s) => s.semanticKey !== null,
+    );
+    expect(term?.semanticKey).toBe("primary");
+    expect(term?.text).toBe("primary");
+    expect(
+      annotateGuideTerms("She lost the primary in May.")
+        .map((s) => s.text)
+        .join(""),
+    ).toBe("She lost the primary in May.");
+  });
+
+  it("leaves primary alone where it is an ordinary adjective", () => {
+    for (const text of [
+      "The primary reason was money.",
+      "Her primary care doctor retired.",
+      "A primary school teacher.",
+      "Primary colors.",
+    ]) {
+      expect(
+        annotateGuideTerms(text).some((s) => s.semanticKey === "primary"),
+      ).toBe(false);
+    }
   });
 
   it("returns the sentence unchanged when it holds no term", () => {

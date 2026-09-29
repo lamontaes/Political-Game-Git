@@ -1,0 +1,397 @@
+{
+  "question": "us-policy-positions:education.raise-teacher-minimum-salary",
+  "definition": "yes = a state statute sets a minimum (starting or salary-schedule) salary that school districts must pay public school teachers, in force for the 2025-26 school year (on 1/1/2026); no = no statutory minimum in force: districts set pay, or the state only funds an allocation or sets a local-option or future-dated floor. Every row carries preempts: true as instructed.",
+  "summarySource": "State code pages fetched 9/28/2026 (legislature sites for AR, DE, IA, ID, KY, ME, MO, NJ, NM, NC, OH, OK, PA, SC, TX, WA, WV and the no states), plus NEA's 2024-25 Teacher Salary Benchmark Report (April 2026) for AL, GA, MS and CO; NCTQ's state tracker was refused (403).",
+  "answers": {
+    "US-AL": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://www.nea.org/sites/default/files/2026-04/2024-2025-teacher-salary-benchmark-report-final-new.pdf",
+      "note": "Alabama pays teachers on a state minimum salary schedule set each year in the Education Trust Fund budget; NEA's 2024-25 benchmark report lists Alabama among states with state minimum salaries or salary schedules (statute page not fetched)."
+    },
+    "US-AK": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "AS 14.20.158; AS 14.20.240-.270 (repealed)",
+      "dateBasis": "not-found",
+      "source": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=14.20.220&secEnd=14.20.280",
+      "note": "Alaska's state salary scale sections were repealed in 1970 and 1984; districts pay under local salary schedules."
+    },
+    "US-AZ": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "A.R.S. § 15-502",
+      "dateBasis": "not-found",
+      "source": "https://www.azleg.gov/viewdocument/?docName=https://www.azleg.gov/ars/15/00502.htm",
+      "note": "Weak: the governing board fixes employee salaries; no statewide minimum teacher salary found."
+    },
+    "US-AR": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Ark. Code § 6-17-2403",
+      "dateBasis": "not-found",
+      "source": "https://arkleg.state.ar.us/Home/FTPDocument?path=%2FACTS%2F2023R%2FPublic%2FACT237.pdf",
+      "note": "$50,000 minimum base salary for a starting teacher since the 2023-24 school year, under the LEARNS Act (Act 237 of 2023)."
+    },
+    "US-CA": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Cal. Educ. Code § 45022",
+      "dateBasis": "not-found",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=EDC&sectionNum=45022",
+      "note": "Weak: each governing board fixes certificated pay; no statewide minimum teacher salary found."
+    },
+    "US-CO": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://www.nea.org/sites/default/files/2026-04/2024-2025-teacher-salary-benchmark-report-final-new.pdf",
+      "note": "Weak: NEA describes Colorado starting pay as set by district bargaining and district salary schedules; no statewide minimum found."
+    },
+    "US-DE": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "14 Del. C. § 1305",
+      "dateBasis": "pre-2000",
+      "source": "https://delcode.delaware.gov/title14/c013/index.html",
+      "note": "Statewide indexed salary schedule for teachers (the state-paid portion), with the base dollar amount set in the annual budget and local supplements added on top."
+    },
+    "US-FL": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Fla. Stat. § 1012.22(1)(c)",
+      "dateBasis": "not-found",
+      "source": "https://www.flsenate.gov/Laws/Statutes/2025/1012.22",
+      "note": "District school boards adopt salary schedules; the state's Teacher Salary Increase Allocation funds raises but sets no enforceable statutory minimum salary."
+    },
+    "US-GA": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://www.nea.org/sites/default/files/2026-04/2024-2025-teacher-salary-benchmark-report-final-new.pdf",
+      "note": "Georgia pays teachers on the State Board of Education's state salary schedule (O.C.G.A. § 20-2-212); NEA's 2024-25 benchmark report lists Georgia among states with state minimum salaries or salary schedules (statute page not fetched)."
+    },
+    "US-ID": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Idaho Code § 33-1004E; § 33-1004B",
+      "dateBasis": "not-found",
+      "source": "https://legislature.idaho.gov/statutesrules/idstat/Title33/T33CH10/SECT33-1004E/",
+      "note": "No full-time teacher may be paid less than the minimum on the state career ladder; the first residency cell was $41,500 in 2024-25 and is adjusted for 2025-26."
+    },
+    "US-IA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Iowa Code § 284.15(2)(a)",
+      "dateBasis": "not-found",
+      "source": "https://www.legis.iowa.gov/docs/code/284.15.pdf",
+      "note": "$50,000 for a starting teacher from the 2025-26 school year ($47,500 in 2024-25)."
+    },
+    "US-KS": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "K.S.A. 72-2220",
+      "dateBasis": "not-found",
+      "source": "https://www.ksrevisor.gov/statutes/chapters/ch72/072_022_0020.html",
+      "note": "Weak: teacher salaries are negotiated locally under the professional negotiations act; no statewide minimum found."
+    },
+    "US-KY": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "KRS 157.320(14)",
+      "dateBasis": "not-found",
+      "source": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=55950",
+      "note": "When the biennial budget contains a minimum statewide salary schedule, no teacher may be paid less than it; the dollar amounts are set in the budget bill, not in the statute."
+    },
+    "US-LA": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "La. R.S. 17:418",
+      "dateBasis": "not-found",
+      "source": "https://legis.la.gov/Legis/Law.aspx?d=81043",
+      "note": "Each school system sets its own salary schedule; the old state minimum salary schedule sections were repealed by Act 1 of 2012."
+    },
+    "US-ME": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "20-A M.R.S. § 13407",
+      "dateBasis": "not-found",
+      "source": "https://legislature.maine.gov/statutes/20-A/title20-Asec13407.html",
+      "note": "$40,000 minimum salary for certified teachers since the 2022-23 school year."
+    },
+    "US-MD": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Md. Code, Educ. § 6-1009(e)",
+      "dateBasis": "not-found",
+      "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=ged&section=6-1009&enactments=false",
+      "note": "Enacted but not yet in force on 1/1/2026: the Blueprint sets a $60,000 minimum teacher salary beginning 7/1/2026 (2026-27 school year)."
+    },
+    "US-MA": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Mass. Gen. Laws ch. 71, § 40",
+      "dateBasis": "not-found",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXII/Chapter71/Section40",
+      "note": "Only a local-option floor ($18,000 or $20,000) that applies if a school committee and appropriating authority vote to adopt it; no statewide mandate."
+    },
+    "US-MI": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "MCL 380.1231",
+      "dateBasis": "not-found",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-380-1231",
+      "note": "Weak: district boards hire and contract with teachers; no statewide minimum found."
+    },
+    "US-MN": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Minn. Stat. § 122A.40",
+      "dateBasis": "not-found",
+      "source": "https://www.revisor.mn.gov/statutes/cite/122A.40",
+      "note": "Weak: salary is set in district contracts and bargaining; no statewide minimum found."
+    },
+    "US-MS": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://www.nea.org/sites/default/files/2026-04/2024-2025-teacher-salary-benchmark-report-final-new.pdf",
+      "note": "Mississippi pays teachers on a state salary schedule (Miss. Code § 37-19-7), raised in 2022 to about $41,500 for a starting teacher; NEA's 2024-25 benchmark report lists Mississippi among states with state minimum salaries (statute page not fetched)."
+    },
+    "US-MO": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "RSMo § 163.172",
+      "dateBasis": "pre-2000",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=163.172",
+      "note": "$40,000 for a starting teacher from the 2025-26 school year (it was $25,000 through 2024-25), with inflation adjustments from 2028-29."
+    },
+    "US-MT": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "MCA 20-4-201",
+      "dateBasis": "not-found",
+      "source": "https://archive.legmt.gov/bills/mca/title_0200/chapter_0040/part_0020/section_0010/0200-0040-0020-0010.html",
+      "note": "Weak: trustees contract with teachers; the state's starting-pay incentive program sets no mandatory minimum."
+    },
+    "US-NE": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Neb. Rev. Stat. § 48-818",
+      "dateBasis": "not-found",
+      "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=48-818",
+      "note": "Weak: teacher pay is bargained locally, with the Commission of Industrial Relations setting comparable wages in disputes; no statewide minimum found."
+    },
+    "US-NV": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://www.leg.state.nv.us/NRS/NRS-391.html",
+      "note": "A statutory commission studies whether districts should use a minimum salary scale, which confirms none is required; districts set pay."
+    },
+    "US-NH": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://gc.nh.gov/rsa/html/XV/189/189-mrg.htm",
+      "note": "Weak: districts set teacher pay and report average salaries; no statewide minimum found."
+    },
+    "US-NJ": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "N.J.S.A. 18A:29-5",
+      "dateBasis": "pre-2000",
+      "source": "https://pub.njleg.gov/statutes/STATUTES-TEXT.zip",
+      "note": "$18,500 statutory minimum for a full-time teacher, unchanged since 1985 and far below actual pay."
+    },
+    "US-NM": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "NMSA 1978 § 22-10A-7(G)",
+      "dateBasis": "not-found",
+      "source": "https://www.nmlegis.gov/Sessions/22%20Regular/final/SB0001.pdf",
+      "note": "$50,000 minimum for a level one (starting) teacher since Senate Bill 1 of 2022, with higher tiers for level two and three."
+    },
+    "US-NC": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "N.C.G.S. § 115C-302.1",
+      "dateBasis": "not-found",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_115C/GS_115C-302.1.html",
+      "note": "State-allotted teachers are paid on the State salary schedule adopted in the budget act; the dollar amounts are set there, not in the statute."
+    },
+    "US-ND": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "N.D.C.C. ch. 15.1-16",
+      "dateBasis": "not-found",
+      "source": "https://ndlegis.gov/cencode/t15-1c16.pdf",
+      "note": "Weak: salaries are negotiated by district boards and teacher units; no statewide minimum found."
+    },
+    "US-OH": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Ohio Rev. Code § 3317.13",
+      "dateBasis": "pre-2000",
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-3317.13",
+      "note": "$35,000 for a starting teacher with a bachelor's degree, on the state minimum salary schedule (as amended by House Bill 33, effective 10/3/2023)."
+    },
+    "US-OK": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "70 O.S. § 18-114.15",
+      "dateBasis": "not-found",
+      "source": "https://www.oklegislature.gov/OK_Statutes/CompleteTitles/os70.pdf",
+      "note": "$39,601 in salary and/or fringe benefits for a starting teacher with a bachelor's degree on the 2025-26 state minimum salary schedule."
+    },
+    "US-OR": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://oregon.public.law/statutes/ors_342.934",
+      "note": "Weak: ORS chapter 342 sets a minimum only for substitute teachers (ORS 342.610); districts set regular teacher pay."
+    },
+    "US-PA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "24 P.S. § 11-1142.1",
+      "dateBasis": "pre-2000",
+      "source": "https://www.palegis.us/statutes/unconsolidated/law-information/view-statute?txtType=PDF&SessYr=1949&SessInd=0&ActNum=0014.",
+      "note": "$18,500 statutory minimum for a full-time teacher since the 1988-89 school term, far below actual pay."
+    },
+    "US-RI": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "R.I. Gen. Laws § 16-7-29",
+      "dateBasis": "not-found",
+      "source": "https://webserver.rilegislature.gov/Statutes/TITLE16/16-7/16-7-29.htm",
+      "note": "The 'minimum salary schedule' section requires each district to adopt a step schedule but sets no dollar floor."
+    },
+    "US-SC": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "S.C. Code § 59-20-50(4)(a)",
+      "dateBasis": "pre-2000",
+      "source": "https://www.scstatehouse.gov/code/t59c020.php",
+      "note": "Districts must pay at least the statewide minimum salary schedule set in the annual budget; NEA reports the minimum was raised to $47,000 for 2024-25."
+    },
+    "US-SD": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "SDCL 13-13-73.8",
+      "dateBasis": "not-found",
+      "source": "https://sdlegislature.gov/api/Statutes/13-13-73.8.html",
+      "note": "Enacted but not yet in force on 1/1/2026: from 7/1/2026 each district must pay at least the state minimum salary ($45,000 for fiscal 2025, indexed), enforced by aid cuts under § 13-13-73.9."
+    },
+    "US-TN": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Tenn. Code § 49-3-306(a)(1)",
+      "dateBasis": "not-found",
+      "source": "https://www.capitol.tn.gov/Bills/113/Bill/SB0281.pdf",
+      "note": "Teachers are paid at least the annual state salary schedule; the 2023 Teacher Paycheck Protection Act raises the minimum starting salary in steps to $50,000 by 2026-27."
+    },
+    "US-TX": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Tex. Educ. Code § 21.402",
+      "dateBasis": "pre-2000",
+      "source": "https://texas.public.law/statutes/tex._educ._code_section_21.402",
+      "note": "Districts must pay classroom teachers at least the state minimum salary schedule set by the commissioner, by years of experience."
+    },
+    "US-UT": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Utah Code § 53F-2-405",
+      "dateBasis": "not-found",
+      "source": "https://le.utah.gov/xcode/Title53F/Chapter2/C53F-2-S405_2026050620260701.html",
+      "note": "The state funds educator salary adjustments by allocation; no statutory minimum salary."
+    },
+    "US-VT": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "16 V.S.A. ch. 57",
+      "dateBasis": "not-found",
+      "source": "https://legislature.vermont.gov/statutes/section/16/057/01981",
+      "note": "Weak: teacher pay is bargained with school boards; no statewide minimum found."
+    },
+    "US-VA": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Va. Code § 22.1-289.1",
+      "dateBasis": "not-found",
+      "source": "https://law.lis.virginia.gov/vacode/title22.1/chapter15/section22.1-289.1/",
+      "note": "The Code sets only a goal of competitive pay and a biennial review; localities set salaries."
+    },
+    "US-WA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "RCW 28A.400.200(2)(c)",
+      "dateBasis": "not-found",
+      "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=28A.400.200",
+      "note": "Full-time certificated instructional staff must earn at least $40,000, adjusted annually for inflation and regional cost since the 2018-19 school year."
+    },
+    "US-WV": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "W. Va. Code § 18A-4-2",
+      "dateBasis": "not-found",
+      "source": "https://code.wvlegislature.gov/18A-4-2/",
+      "note": "Teachers receive at least the State Minimum Salary Schedule in the statute (A.B., zero years: $43,015 on the schedule effective for 2026-27), plus county supplements."
+    },
+    "US-WI": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Wis. Stat. § 118.21",
+      "dateBasis": "not-found",
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/118/21",
+      "note": "Weak: school boards contract with teachers; no statewide minimum found."
+    },
+    "US-WY": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Wyo. Stat. § 21-7-104",
+      "dateBasis": "not-found",
+      "source": "https://wyoleg.gov/statutes/compress/title21.pdf",
+      "note": "Weak: teachers are placed on each district's own salary schedule; no statewide minimum found."
+    }
+  },
+  "unknown": {
+    "US-CT": "Believed no statewide minimum; cga.ct.gov failed to connect and no other supporting page was fetched.",
+    "US-HI": "Believed no statutory minimum (statewide pay set by collective bargaining); capitol.hawaii.gov and hawaiipublicschools.org returned 403.",
+    "US-IL": "Believed yes (105 ILCS 5/24-8 minimum salary, $40,000 from 2023-24, indexed); ilga.gov failed TLS verification and no other supporting page was fetched.",
+    "US-IN": "Believed yes (a $40,000 statutory minimum teacher salary from 2023); iga.in.gov serves only a script shell and no other supporting page was fetched.",
+    "US-NY": "Believed no statewide minimum; nysenate.gov returned 403 and no other supporting page was fetched.",
+    "US-DC": "Not confirmed; teacher pay is set by the Washington Teachers' Union contract, and no D.C. Code page was fetched.",
+    "US-PR": "Not confirmed; no Puerto Rico statute page was fetched.",
+    "US-GU": "Not confirmed; no Guam code page was fetched.",
+    "US-VI": "Not confirmed; no Virgin Islands code page was fetched.",
+    "US-AS": "Not confirmed; no American Samoa code page was fetched.",
+    "US-MP": "Not confirmed; no Northern Mariana Islands code page was fetched."
+  },
+  "conflicts": [],
+  "counts": {
+    "yes": 21,
+    "no": 24,
+    "unknown": 11
+  },
+  "refusedHosts": [
+    "www.nctq.org (403 bot challenge)",
+    "law.justia.com (403)",
+    "codes.findlaw.com (403)",
+    "www.ilga.gov / ilga.gov (TLS: unable to get local issuer certificate)",
+    "illinois.public.law (connection failed)",
+    "iga.in.gov (script shell only; 403 over http)",
+    "www.gadoe.org (403)",
+    "billstatus.ls.state.ms.us (403 / connection failed)",
+    "www.mdek12.org (403)",
+    "www.legislature.ms.gov (connection failed)",
+    "publications.tnsosfiles.com (403)",
+    "capitol.hawaii.gov / www.capitol.hawaii.gov (403)",
+    "www.hawaiipublicschools.org (403)",
+    "www.nysenate.gov (403)",
+    "www.cga.ct.gov / cga.ct.gov (connection failed)",
+    "legiscan.com (403)"
+  ]
+}

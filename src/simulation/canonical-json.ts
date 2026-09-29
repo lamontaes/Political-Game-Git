@@ -92,3 +92,114 @@ export function canonicalJson(value: unknown): string {
 
   return write(value) ?? "undefined";
 }
+
+/**
+ * The same text as `canonicalJson`, handed over in pieces instead of built.
+ *
+ * A twenty-year world written out canonically is longer than the longest
+ * string JavaScript can hold, so the save's identity is hashed from these
+ * pieces as they come and the whole text never exists at once. Joined, the
+ * pieces are exactly `canonicalJson(value)`; a value `canonicalJson` writes
+ * as "undefined" emits nothing. `canonicalJson` keeps its own recursion
+ * because the simulation calls it on small records many times a day, where
+ * it is faster; `json-chunks.test.ts` holds the two to the same text.
+ */
+export function writeCanonicalJson(
+  value: unknown,
+  emit: (part: string) => void,
+): void {
+  writeJsonParts(value, emit, true);
+}
+
+/**
+ * `JSON.stringify(value)`, handed over in pieces: keys in their own order,
+ * not sorted. Joined, the pieces are exactly `JSON.stringify(value)` for the
+ * plain data a world holds, which is how a save longer than any string is
+ * written without ever being one string.
+ */
+export function writeJson(value: unknown, emit: (part: string) => void): void {
+  writeJsonParts(value, emit, false);
+}
+
+function writeJsonParts(
+  value: unknown,
+  emit: (part: string) => void,
+  sortKeys: boolean,
+): void {
+  const seen = new Set<object>();
+
+  function resolved(input: unknown): unknown {
+    return input !== null &&
+      typeof input === "object" &&
+      typeof (input as { toJSON?: unknown }).toJSON === "function"
+      ? (input as { toJSON: () => unknown }).toJSON()
+      : input;
+  }
+
+  function skipped(current: unknown): boolean {
+    return (
+      current === undefined ||
+      typeof current === "function" ||
+      typeof current === "symbol"
+    );
+  }
+
+  // Writes a value already passed through `resolved` and known not skipped.
+  function write(current: unknown): void {
+    if (current === null) {
+      emit("null");
+      return;
+    }
+    switch (typeof current) {
+      case "string":
+        emit(JSON.stringify(current));
+        return;
+      case "number":
+        emit(Number.isFinite(current) ? String(current) : "null");
+        return;
+      case "boolean":
+        emit(current ? "true" : "false");
+        return;
+      case "bigint":
+        throw new TypeError("Do not know how to serialize a BigInt");
+    }
+
+    const object = current as object;
+    if (seen.has(object)) {
+      throw new TypeError("Converting circular structure to JSON");
+    }
+    seen.add(object);
+    try {
+      if (Array.isArray(object)) {
+        // Arrays are ordered on purpose; their order is the content.
+        emit("[");
+        for (let index = 0; index < object.length; index += 1) {
+          if (index > 0) emit(",");
+          const entry = resolved(object[index]);
+          if (skipped(entry)) emit("null");
+          else write(entry);
+        }
+        emit("]");
+        return;
+      }
+      const record = object as Record<string, unknown>;
+      emit("{");
+      let first = true;
+      const keys = Object.keys(record);
+      if (sortKeys) keys.sort(compareKeys);
+      for (const key of keys) {
+        const entry = resolved(record[key]);
+        if (skipped(entry)) continue;
+        emit(first ? `${JSON.stringify(key)}:` : `,${JSON.stringify(key)}:`);
+        first = false;
+        write(entry);
+      }
+      emit("}");
+    } finally {
+      seen.delete(object);
+    }
+  }
+
+  const top = resolved(value);
+  if (!skipped(top)) write(top);
+}

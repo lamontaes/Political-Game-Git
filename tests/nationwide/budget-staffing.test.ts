@@ -59,37 +59,40 @@ function withCut(world: World, town: EntityId, cut: number): World {
 
 describe("budgets fund the town's police officers", () => {
   it("records the funded staff first, lays off the newest when the police line is cut, and recalls them when it is restored", () => {
-    const opened = openAt(COLUMBUS, "budget-staffing-1");
-    const { personId, town } = opened;
-    // The town's job mix gives this slice of Columbus one officer, its share
-    // of the town's jobs. Laying off the newest needs two, so one more
-    // resident looking for work is hired into the department first.
-    const department = opened.world.history.organizations.find((row) =>
-      row.stableKey.endsWith(`:${town}:employer:police:0`),
-    )!;
-    const recruit = townResidents(opened.world, town)
-      .filter(
-        (resident) =>
-          resident.personId !== personId &&
-          resident.age >= 21 &&
-          laborStatus(opened.world, resident) === "looking-for-work",
-      )
-      .slice(0, 1);
-    expect(recruit).toHaveLength(1);
-    const world = fillTownJobs(opened.world, town, recruit, {
-      round: "second-officer",
-      into: { workplace: "police", organizationId: department.id },
-    });
+    const { world, personId, town } = openAt(COLUMBUS, "budget-staffing-3");
     expect(fundingGovernment(world, town, "serving-local")?.key).toBe(
       `place:${COLUMBUS}`,
     );
-    const first = staffPublicJobs(world, town, personId, "t1");
+    const opened = staffPublicJobs(world, town, personId, "t1");
+    const recorded = opened.publicBudgets!.staffing!.find(
+      (row) => row.program === "police",
+    )!;
+    expect(recorded.headcount).toBe(fundedStaff(opened, town, police).length);
+    expect(recorded.headcount).toBeGreaterThan(0);
+
+    // The police line funds four times the staff it opened with: the town
+    // hires officers from its job seekers.
+    const first = staffPublicJobs(
+      {
+        ...opened,
+        publicBudgets: {
+          ...opened.publicBudgets!,
+          staffing: opened.publicBudgets!.staffing!.map((row) =>
+            row.program === "police"
+              ? { ...row, realFunding: row.realFunding / 4 }
+              : row,
+          ),
+        },
+      },
+      town,
+      personId,
+      "t1a",
+    );
     const baseline = first.publicBudgets!.staffing!.find(
       (row) => row.program === "police",
     )!;
     const officers = fundedStaff(first, town, police);
-    expect(baseline.headcount).toBe(officers.length);
-    expect(officers.length).toBeGreaterThanOrEqual(2);
+    expect(officers.length).toBe(recorded.headcount * 4);
 
     // A new budget year that only keeps up with prices funds the same staff.
     const government = fundingGovernment(first, town, "serving-local")!;
@@ -169,6 +172,17 @@ describe("budgets fund the town's police officers", () => {
   });
 });
 
+/** Whether the person holds an active job today. */
+function holdsJob(world: World, personId: EntityId): boolean {
+  const latest = new Map<EntityId, string>();
+  for (const row of world.history.workStatuses)
+    if (row.effectiveAt <= world.currentDate)
+      latest.set(row.workRelationshipId, row.status);
+  return world.history.workRelationships.some(
+    (row) => row.personId === personId && latest.get(row.id) === "active",
+  );
+}
+
 /** Doubles the school line's real funding and returns the teachers hired. */
 function hiredTeachers(world: World, town: EntityId, personId: EntityId) {
   const first = staffPublicJobs(world, town, personId, "t1");
@@ -199,13 +213,14 @@ function hiredTeachers(world: World, town: EntityId, personId: EntityId) {
 
 describe("the state's school line funds the town's teachers", () => {
   it("hires teachers when school funding rises, but not a resident whose schooling on record has no degree", () => {
-    const { world, personId, town } = openAt(COLUMBUS, "budget-staffing-2");
+    const { world, personId, town } = openAt(COLUMBUS, "budget-staffing-3");
     expect(fundingGovernment(world, town, "state")?.key).toBe("US-OH");
     const seeker = townResidents(world, town).find(
       (resident) =>
         resident.personId !== personId &&
         resident.age >= 25 &&
-        laborStatus(world, resident) === "looking-for-work",
+        laborStatus(world, resident) === "looking-for-work" &&
+        !holdsJob(world, resident.personId),
     )!;
     expect(seeker).toBeTruthy();
 

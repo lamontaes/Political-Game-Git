@@ -1,6 +1,10 @@
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
-import { indexOverArrays } from "./history-index";
+import {
+  growingIndex,
+  indexOverArrays,
+  type GrowingIndexKind,
+} from "./history-index";
 import { pressRecordSequence } from "./press/integrity";
 import {
   MEDIA_OUTLET_KEY_PREFIX,
@@ -348,44 +352,87 @@ function sourceIndexes(world: World) {
       history.taxCollections,
     ],
     () => {
-      const first = <K, V>(rows: readonly V[], key: (row: V) => K | null) => {
-        const index = new Map<K, V>();
-        for (const row of rows) {
-          const k = key(row);
-          if (k !== null && !index.has(k)) index.set(k, row);
-        }
-        return index;
-      };
-      const sequenceById = new Map<EntityId, number>();
-      for (const rows of [
-        history.legislativeMeasures ?? [],
-        history.legislativeActions ?? [],
-        history.legislativeVotes ?? [],
-        history.taxPolicies ?? [],
-        history.taxCollections ?? [],
-      ] as readonly (readonly { id: EntityId; sequence: number }[])[])
-        for (const row of rows)
-          if (!sequenceById.has(row.id)) sequenceById.set(row.id, row.sequence);
+      // Each map follows its family as it grows, so a new record adds one
+      // entry rather than every map being rebuilt from every record.
+      const sequences = [
+        history.legislativeMeasures,
+        history.legislativeActions,
+        history.legislativeVotes,
+        history.taxPolicies,
+        history.taxCollections,
+      ].map((rows) =>
+        growingIndex(
+          SEQUENCED_BY_ID,
+          (rows ?? NO_ROWS) as readonly SequencedRow[],
+        ),
+      );
       return {
-        pressById: first(history.pressRecords ?? [], (row): string => row.id),
-        actionByEventId: first(
-          history.legislativeActions ?? [],
-          (row) => row.eventId,
+        pressById: growingIndex(PRESS_BY_ID, history.pressRecords ?? NO_ROWS),
+        actionByEventId: growingIndex(
+          ACTION_BY_EVENT_ID,
+          history.legislativeActions ?? NO_ROWS,
         ),
-        measureById: first(history.legislativeMeasures ?? [], (row) => row.id),
-        voteById: first(history.legislativeVotes ?? [], (row) => row.id),
-        taxPolicyByEventId: first(
-          history.taxPolicies ?? [],
-          (row) => row.outcomeEventId,
+        measureById: growingIndex(
+          MEASURE_BY_ID,
+          history.legislativeMeasures ?? NO_ROWS,
         ),
-        collectedTaxByEventId: first(history.taxCollections ?? [], (row) =>
-          row.status === "collected" ? row.outcomeEventId : null,
+        voteById: growingIndex(VOTE_BY_ID, history.legislativeVotes ?? NO_ROWS),
+        taxPolicyByEventId: growingIndex(
+          TAX_POLICY_BY_EVENT_ID,
+          history.taxPolicies ?? NO_ROWS,
         ),
-        sequenceById,
+        collectedTaxByEventId: growingIndex(
+          COLLECTED_TAX_BY_EVENT_ID,
+          history.taxCollections ?? NO_ROWS,
+        ),
+        sequenceById: {
+          get(id: EntityId): number | undefined {
+            for (const index of sequences) {
+              const row = index.get(id);
+              if (row) return row.sequence;
+            }
+            return undefined;
+          },
+        },
       };
     },
   );
 }
+
+type History = World["history"];
+type Row<K extends keyof History> =
+  NonNullable<History[K]> extends readonly (infer R)[] ? R : never;
+type SequencedRow = { readonly id: EntityId; readonly sequence: number };
+
+const NO_ROWS: readonly never[] = [];
+
+/** A map of one family's rows by `key`, keeping the first row of each key. */
+function firstByKey<V, K>(
+  key: (row: V) => K | null,
+): GrowingIndexKind<Map<K, V>> {
+  return {
+    create: () => new Map(),
+    add: (index, entry) => {
+      const row = entry as V;
+      const k = key(row);
+      if (k !== null && !index.has(k)) index.set(k, row);
+    },
+  };
+}
+
+const PRESS_BY_ID = firstByKey((row: Row<"pressRecords">): string => row.id);
+const ACTION_BY_EVENT_ID = firstByKey(
+  (row: Row<"legislativeActions">) => row.eventId,
+);
+const MEASURE_BY_ID = firstByKey((row: Row<"legislativeMeasures">) => row.id);
+const VOTE_BY_ID = firstByKey((row: Row<"legislativeVotes">) => row.id);
+const TAX_POLICY_BY_EVENT_ID = firstByKey(
+  (row: Row<"taxPolicies">) => row.outcomeEventId,
+);
+const COLLECTED_TAX_BY_EVENT_ID = firstByKey((row: Row<"taxCollections">) =>
+  row.status === "collected" ? row.outcomeEventId : null,
+);
+const SEQUENCED_BY_ID = firstByKey((row: SequencedRow) => row.id);
 
 /** Anchors the index above; its identity is all that matters. */
 const PUBLICATION_SOURCE_ANCHOR = {};

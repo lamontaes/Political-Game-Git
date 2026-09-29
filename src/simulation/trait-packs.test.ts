@@ -11,6 +11,7 @@ import {
   type TraitPack,
 } from "./trait-packs";
 import { CLEMENCY_PETITION_DECISION } from "./justice/clemency-decisions";
+import { JURY_VOTE_DECISION, PLEA_DECISION } from "./justice/court-decisions";
 import { peopleTraitPack, PEOPLE_TRAIT_SCALE } from "./people-trait-pack";
 import {
   PEOPLE_TRAITS,
@@ -27,6 +28,8 @@ const ORDINARY: DecisionDeclaration = {
 const PEOPLE_DECISIONS: readonly DecisionDeclaration[] = [
   ORDINARY,
   CLEMENCY_PETITION_DECISION,
+  PLEA_DECISION,
+  JURY_VOTE_DECISION,
 ];
 
 const BARGAINING: DecisionDeclaration = {
@@ -57,18 +60,22 @@ describe("a trait pack is loaded, not imported", () => {
     const registry = loadTraitPacks([peopleTraitPack()], PEOPLE_DECISIONS);
     const report = registry.report.packs[0]!;
     expect(report.traitsRegistered).toHaveLength(5);
-    expect(report.leansRegistered).toBe(8);
+    expect(report.leansRegistered).toBe(14);
     // The report says which decision reads each trait, not merely that the
-    // pack parsed. One of the five is declared and read by nothing yet, and
-    // being able to see that is the point.
+    // pack parsed. Since the court decisions (plea and jury vote) arrived,
+    // every one of the five is read by something, and the report says so.
     expect(report.consumedBy["people-mind-v1:sociability"]).toEqual([
       "contact.answer",
     ]);
     expect(report.consumedBy["people-mind-v1:risk"]).toEqual([
       "clemency.petition",
+      "court.plea",
     ]);
-    expect(report.registeredButUnused).toEqual(["people-mind-v1:conflict"]);
-    expect(describeTraitLoad(registry.report)).toContain("read by nothing");
+    expect(report.consumedBy["people-mind-v1:conflict"]).toEqual([
+      "court.plea",
+    ]);
+    expect(report.registeredButUnused).toEqual([]);
+    expect(describeTraitLoad(registry.report)).not.toContain("read by nothing");
   });
 
   it("carries the scale the five have always used, and no fourth strength", () => {
