@@ -23,6 +23,7 @@ import { STATES } from "../../../src/simulation/state-reference";
 export const OFFICE_PAY_OUTPUT_PATH = "src/simulation/office-pay.generated.ts";
 const RAW = "data/source/book-of-the-states/raw";
 const LOCK = "data/source/book-of-the-states/artifact-lock.json";
+const UPDATES = "data/source/office-pay-updates/updates.json";
 
 const decode = (text: string) =>
   text
@@ -84,6 +85,27 @@ export function renderOfficePayModule(): string {
     const dollars = cells[8] ? plainDollars(cells[8]) : null;
     if (code && dollars !== null && dollars > 0) judges.set(code, dollars);
   }
+  // A newer official source than the 2023 tables replaces that state's row.
+  const updates = (
+    JSON.parse(readFileSync(UPDATES, "utf8")) as {
+      updates: {
+        office: "governor" | "state-legislator" | "trial-court-judge";
+        state: string;
+        annualDollars: number;
+        effectiveFrom: string;
+        source: string;
+      }[];
+    }
+  ).updates;
+  for (const update of updates) {
+    const table =
+      update.office === "governor"
+        ? governors
+        : update.office === "trial-court-judge"
+          ? judges
+          : legislators;
+    table.set(update.state, update.annualDollars);
+  }
   const lock = JSON.parse(readFileSync(LOCK, "utf8")) as {
     asOf: string;
     artifacts: { sha256: string }[];
@@ -96,6 +118,13 @@ export function renderOfficePayModule(): string {
     governors: governors.size,
     legislators: legislators.size,
     judges: judges.size,
+    newerThanTables: updates.map((update) => ({
+      office: update.office,
+      state: update.state,
+      annualDollars: update.annualDollars,
+      effectiveFrom: update.effectiveFrom,
+      source: update.source,
+    })),
   };
   const join = (map: Map<string, number>) =>
     [...map]

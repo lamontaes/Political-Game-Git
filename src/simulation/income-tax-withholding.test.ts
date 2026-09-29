@@ -25,8 +25,16 @@ describe("federal income tax, 2026", () => {
     expect(annualTax(0, single.brackets)).toBe(0);
   });
 
-  it("leaves head of household UNKNOWN until its schedule is read", () => {
-    expect(FEDERAL_INCOME_TAX_2026["head-of-household"]).toBeNull();
+  it("taxes a head of household by its own brackets", () => {
+    const head = FEDERAL_INCOME_TAX_2026["head-of-household"]!;
+    expect(head.standardDeductionMinor).toBe(2_415_000);
+    // $17,700 at 10% is $1,770; $22,300 more at 12% is $2,676: $4,446.
+    expect(annualTax(4_000_000, head.brackets)).toBe(444_600);
+    expect(head.brackets.at(-1)).toEqual({
+      overMinor: 64_060_000,
+      rateBasisPoints: 3700,
+    });
+    expect(head.sourceUrl).toMatch(/rp-25-32\.pdf$/);
   });
 
   it("withholds a weekly paycheck by annualizing it", () => {
@@ -58,11 +66,12 @@ describe("federal income tax, 2026", () => {
 });
 
 describe("state income tax, all 56 places", () => {
-  it("prices a place only where its schedule was read, and never guesses", () => {
-    let priced = 0;
+  it("prices every state that taxes wages, estimating the parts not read", () => {
+    let read = 0;
+    const estimated: string[] = [];
     for (const key of RESEARCHED_PLACE_KEYS) {
       const place = placeWageIncomeTax(key);
-      const single = stateIncomeTaxSchedule(key, "single");
+      const single = stateIncomeTaxSchedule(key, "single", "seed");
       if (place.status === "not-imposed") {
         expect(single.kind, key).toBe("none");
         continue;
@@ -72,29 +81,87 @@ describe("state income tax, all 56 places", () => {
         expect(single.kind, key).toBe("unknown");
         continue;
       }
-      expect(single.kind, key).not.toBe("none");
-      if (single.kind === "schedule") {
-        priced += 1;
-        expect(single.schedule.brackets.length, key).toBeGreaterThan(0);
-        expect(single.schedule.sourceUrl, key).toContain("taxfoundation.org");
-      } else if (single.kind === "unknown") {
-        expect(single.researchQuestionId, key).toBeTruthy();
+      if (single.kind !== "schedule") throw new Error(key);
+      expect(single.schedule.brackets.length, key).toBeGreaterThan(0);
+      expect(single.schedule.sourceUrl, key).toContain("taxfoundation.org");
+      if (single.estimatedFromAverage) {
+        estimated.push(key);
+        expect(single.estimatedFromAverage).toMatch(
+          /^ESTIMATED FROM AVERAGE: the state's personal exemptions/,
+        );
+      } else read += 1;
+      // Joint returns and heads of household are estimated everywhere.
+      for (const status of [
+        "married-filing-jointly",
+        "head-of-household",
+      ] as const) {
+        const other = stateIncomeTaxSchedule(key, status, "seed");
+        if (other.kind !== "schedule") throw new Error(`${key} ${status}`);
+        expect(other.estimatedFromAverage, key).toMatch(
+          /^ESTIMATED FROM AVERAGE: /,
+        );
       }
-      // Married and head-of-household schedules have not been read anywhere.
-      expect(stateIncomeTaxSchedule(key, "married-filing-jointly").kind).toBe(
-        "unknown",
-      );
-      expect(stateIncomeTaxSchedule(key, "head-of-household").kind).toBe(
-        "unknown",
-      );
     }
     // 42 places tax wages; the 10 with personal exemptions or credits in
-    // place of a standard deduction stay UNKNOWN until those are read.
-    expect(priced).toBe(32);
+    // place of a standard deduction take the average deduction.
+    expect(read).toBe(32);
+    expect(estimated.sort()).toEqual(
+      [
+        "US-CT",
+        "US-IL",
+        "US-IN",
+        "US-MA",
+        "US-MI",
+        "US-NJ",
+        "US-OH",
+        "US-PA",
+        "US-UT",
+        "US-WV",
+      ].sort(),
+    );
+  });
+
+  it("doubles a joint return and files a head of household as single", () => {
+    const single = stateIncomeTaxSchedule("US-MT", "single", "seed");
+    const joint = stateIncomeTaxSchedule(
+      "US-MT",
+      "married-filing-jointly",
+      "seed",
+    );
+    const head = stateIncomeTaxSchedule("US-MT", "head-of-household", "seed");
+    if (
+      single.kind !== "schedule" ||
+      joint.kind !== "schedule" ||
+      head.kind !== "schedule"
+    )
+      throw new Error("Montana is not priced");
+    expect(joint.schedule.standardDeductionMinor).toBe(
+      single.schedule.standardDeductionMinor * 2,
+    );
+    expect(joint.schedule.brackets.map((row) => row.overMinor)).toEqual(
+      single.schedule.brackets.map((row) => row.overMinor * 2),
+    );
+    expect(head.schedule).toEqual(single.schedule);
+    expect(head.estimatedFromAverage).toMatch(
+      /head of household files on the single schedule/,
+    );
+  });
+
+  it("moves an unread deduction by the world's seed within the spread", () => {
+    const deduction = (seed: string) => {
+      const ohio = stateIncomeTaxSchedule("US-OH", "single", seed);
+      if (ohio.kind !== "schedule") throw new Error("Ohio is not priced");
+      return ohio.schedule.standardDeductionMinor;
+    };
+    expect(deduction("a")).toBe(deduction("a"));
+    expect(deduction("a")).not.toBe(deduction("b"));
+    for (const seed of ["a", "b", "c"]) {
+      expect(deduction(seed)).toBeGreaterThan(0);
+    }
   });
 
   it("taxes Montana's wages at its 2026 rates", () => {
-    const montana = stateIncomeTaxSchedule("US-MT", "single");
+    const montana = stateIncomeTaxSchedule("US-MT", "single", "seed");
     expect(montana.kind).toBe("schedule");
     if (montana.kind !== "schedule") return;
     expect(montana.schedule.brackets.map((row) => row.rateBasisPoints)).toEqual(

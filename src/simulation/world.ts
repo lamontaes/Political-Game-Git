@@ -2120,6 +2120,7 @@ function validateHistoryIntegrity(
         ...(history.officeVoteInstructions ?? []),
         ...(history.officeBriefingInspections ?? []),
         ...(history.chamberRuleChanges ?? []),
+        ...(history.sessionAdjournments ?? []),
         ...(history.itemVetoes ?? []),
         ...(history.favors ?? []),
         ...history.events,
@@ -2207,6 +2208,10 @@ function validateHistoryIntegrity(
   assertSequenceOrdered(
     history.chamberRuleChanges ?? [],
     "chamber rule change",
+  );
+  assertSequenceOrdered(
+    history.sessionAdjournments ?? [],
+    "session adjournment",
   );
   assertSequenceOrdered(history.itemVetoes ?? [], "item veto");
   assertSequenceOrdered(
@@ -2448,6 +2453,10 @@ function validateHistoryIntegrity(
   assertUniqueStableKeys(
     history.chamberRuleChanges ?? [],
     "chamber rule change",
+  );
+  assertUniqueStableKeys(
+    history.sessionAdjournments ?? [],
+    "session adjournment",
   );
   assertUniqueStableKeys(history.itemVetoes ?? [], "item veto");
   assertUniqueStableKeys(

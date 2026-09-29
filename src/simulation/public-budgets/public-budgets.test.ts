@@ -18,6 +18,11 @@ import {
 } from ".";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
 import { MEDIAN_PAID_SHARE } from "./pension-share";
+import {
+  MEDIAN_RESERVE_DEPOSIT,
+  MEDIAN_RESERVE_TARGET,
+  reserveRule,
+} from "./reserve-rule";
 import { fundingGovernment } from "./staffing";
 import { TAX_QUESTION_EFFECTS } from "./rules";
 
@@ -230,6 +235,21 @@ describe("public budgets", () => {
     const next = state.years[1]!;
     expect(next.fiscalYear).toBe(2027);
     expect(next.startsOn).toBe("2026-07-01");
+  });
+
+  it("a state opens exactly at its read figures in every world; a city's estimated share opens with a spread", () => {
+    const at = (seed: string) =>
+      opened(worldAt("2026-01-05", { seed, places: ["1714000"] }))
+        .publicBudgets!.governments;
+    const first = at("b12-read-a");
+    const second = at("b12-read-b");
+    const line = (rows: typeof first, key: string) =>
+      rows.find((row) => row.key === key)!.years[0]!.expectedRevenue;
+    expect(line(first, "US-IL")).toEqual(line(second, "US-IL"));
+    expect(line(first, "US-GU")).toEqual(line(second, "US-GU"));
+    expect(line(first, "place:1714000")).not.toEqual(
+      line(second, "place:1714000"),
+    );
   });
 
   it("D.C. reads the Census local column, and a territory's revenue is one line whose source is unknown", () => {
@@ -643,13 +663,44 @@ describe("public budgets", () => {
     ).toEqual([]);
   });
 
+  it("each state's reserve law sets its own target and yearly deposit; one that sets none, and every county and city, takes the median state's", () => {
+    // NASBO 2021, Table 13: Rhode Island fills its fund to 5% of general
+    // revenue, 3% a year; Texas caps its fund at 10% of a two-year
+    // biennium's revenue, 20% of one year's.
+    expect(reserveRule({ key: "US-RI", level: "state" })).toMatchObject({
+      floorShare: 0.05,
+      depositShare: 0.03,
+    });
+    expect(reserveRule({ key: "US-TX", level: "state" })).toMatchObject({
+      floorShare: 0.2,
+      depositShare: MEDIAN_RESERVE_DEPOSIT,
+    });
+    // Illinois' Budget Stabilization Fund has no size in law.
+    const illinoisRule = reserveRule({ key: "US-IL", level: "state" });
+    expect(illinoisRule.floorShare).toBe(MEDIAN_RESERVE_TARGET);
+    expect(illinoisRule.basis).toMatch(/ESTIMATED FROM AVERAGE/);
+    expect(MEDIAN_RESERVE_TARGET).toBe(0.1);
+    expect(MEDIAN_RESERVE_DEPOSIT).toBe(0.01);
+    const chicago = reserveRule({ key: "place:1714000", level: "city" });
+    expect(chicago.floorShare).toBe(MEDIAN_RESERVE_TARGET);
+    expect(chicago.basis).toMatch(/own reserve policy is not read yet/);
+  });
+
   it("the balance above the reserve target is carried into the next budget and spent across the year, once", () => {
     // Without a reserve law, which Illinois begins with, a surplus stays in
     // the balance.
     const world = worldAt("2026-01-05", {
       laws: [{ question: RESERVE, answer: "no", jurisdictionId: illinois }],
     });
-    const state = publicBudgetFor(opened(world), illinois)!;
+    // Its reserve starts at its target, so the whole spare balance is
+    // carried.
+    const opening = publicBudgetFor(opened(world), illinois)!;
+    const state = {
+      ...opening,
+      reserve: Math.round(
+        reserveRule(opening).floorShare * sum(opening.years[0]!.appropriations),
+      ),
+    };
     const run = settleAlone(world, state, "2027-06-01");
     const carried = run.adjustments.filter(
       (row) => row.kind === "balance-carried",
@@ -670,7 +721,10 @@ describe("public budgets", () => {
     const june2026 = run.government.months.find(
       (row) => row.month === "2026-06-01",
     )!;
-    const target = 0.05 * sum(state.years[0]!.appropriations);
+    // Illinois' own law sets no size, so its target is the median state's.
+    expect(reserveRule(state).floorShare).toBe(MEDIAN_RESERVE_TARGET);
+    const target =
+      reserveRule(state).floorShare * sum(state.years[0]!.appropriations);
     expect(carried[0]!.amount).toBe(
       Math.round(june2026.balance - Math.max(0, target - june2026.reserve)),
     );
