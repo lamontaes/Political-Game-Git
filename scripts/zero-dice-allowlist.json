@@ -2002,13 +2002,6 @@
       "kind": "place-in-logic",
       "build": "Build 12",
       "count": 1,
-      "code": "if (stateKey !== \"US-PR\" && !countyGovernmentUnit(countyGeoid))"
-    },
-    {
-      "file": "src/simulation/public-budgets/opening.ts",
-      "kind": "place-in-logic",
-      "build": "Build 12",
-      "count": 1,
       "code": "candidate.key === \"US-DC\" ? base.local : (base.state ?? undefined);"
     },
     {
