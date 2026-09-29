@@ -222,12 +222,16 @@ export function rentReport(world: World, town: EntityId) {
             (lease) => lease.flow.startsAt >= from && lease.flow.startsAt < to,
           ).length,
         });
+        // The whole time in force: until the next recorded change of the
+        // law, or the end of the run.
+        const until = changes.find((later) => later.on > change.on)?.on ?? end;
         return {
           inForce: change.on,
           by: change.measure,
           level: change.level,
           before: window(before, change.on),
           after: window(change.on, after),
+          whileInForce: window(change.on, until),
         };
       });
     return { name, key, changes, effects };
@@ -273,7 +277,7 @@ function markdown(
     );
     for (const effect of law.effects)
       lines.push(
-        `  - In force ${effect.inForce} by ${effect.by}. Year before: ${JSON.stringify(effect.before)}. Year after: ${JSON.stringify(effect.after)}.`,
+        `  - In force ${effect.inForce} by ${effect.by}. Year before: ${JSON.stringify(effect.before)}. Year after: ${JSON.stringify(effect.after)}. While in force: ${JSON.stringify(effect.whileInForce)}.`,
       );
   }
   return lines.join("\n");
