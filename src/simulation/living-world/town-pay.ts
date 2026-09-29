@@ -76,7 +76,14 @@ import {
   type CreateResourceFlowInput,
   type RecordResourceTransferOutcomeInput,
 } from "../resources";
-import { assessPaychecksTaxes } from "../statutory-tax";
+import {
+  paidLeaveBenefitMinor,
+  paidLeaveBenefitRate,
+  paidLeaveCoveredDays,
+  payPaidLeaveClaims,
+  type PaidLeaveClaim,
+} from "../paid-leave-benefits";
+import { assessPaychecksTaxes, residenceStateKey } from "../statutory-tax";
 import {
   epidemicWorkAbsences,
   jobPaysSickLeave,
@@ -889,6 +896,7 @@ export function payTownPaydays(
   const dead = deathDates(world);
   const termsByFlow = termsByPayFlow(world);
   const inputs: RecordResourceTransferOutcomeInput[] = [];
+  const claims: PaidLeaveClaim[] = [];
   const recipients = new Set<EntityId>();
   // Days missed to the illness, read once per pay period.
   const absencesByWindow = new Map<
@@ -959,6 +967,32 @@ export function payTownPaydays(
             );
       const caring =
         !!absence && absence.caringDays > 0 && absence.sickDays === 0;
+      // A state paid leave program in force replaces part of the pay lost
+      // to a serious illness, the worker's own or a child's.
+      const coveredDays =
+        absence && unpaidDays > 0
+          ? paidLeaveCoveredDays(absence, unpaidDays)
+          : 0;
+      const stateKey =
+        coveredDays > 0 ? residenceStateKey(world, recipientId) : null;
+      const rate = stateKey
+        ? paidLeaveBenefitRate(world, stateKey, payday)
+        : null;
+      if (stateKey && rate)
+        claims.push({
+          paycheckKey: stableKey,
+          personId: recipientId,
+          stateKey,
+          coveredDays,
+          caring: absence!.seriousOwnDaysSinceOnset.length === 0,
+          amountMinor: paidLeaveBenefitMinor(
+            rate,
+            terms.amount.minorUnits,
+            workdays,
+            coveredDays,
+          ),
+          rate,
+        });
       inputs.push({
         stableKey,
         resourceFlowId: flow.id,
@@ -1001,7 +1035,10 @@ export function payTownPaydays(
   const ids = next.history.resourceTransferOutcomes
     .slice(first)
     .map((outcome) => outcome.id);
-  return assessPaychecksTaxes(next, ids);
+  next = assessPaychecksTaxes(next, ids);
+  // Benefits are paid after the premiums of the same paychecks reach the
+  // state's account.
+  return payPaidLeaveClaims(next, claims);
 }
 
 /**
