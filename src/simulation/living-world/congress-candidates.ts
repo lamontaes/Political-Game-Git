@@ -9,6 +9,13 @@ import {
   recordProspectRunChoice,
 } from "../election-candidate-prospect";
 import { createOrganizationParticipations } from "../life";
+import { activeOrganizationParticipationsAt } from "../life-queries";
+import {
+  canStandAgain,
+  pastCandidatesBySeat,
+  returningCandidate,
+  type PastCandidate,
+} from "../nominations/candidate-pool";
 import {
   generalElectionDay,
   nominationPlan,
@@ -19,6 +26,7 @@ import {
   decideSelfStarterRun,
   drawsSelfStarter,
   fieldIntakeDay,
+  filingWindowOpens,
 } from "../nominations/field-entry";
 import { stateJurisdictionForKey } from "../life-places";
 import { personName } from "../people";
@@ -70,7 +78,7 @@ const MAJOR_PARTIES = ["democratic", "republican"] as const;
 export const slateKey = (seatKey: string, year: number) =>
   `${CONGRESS_CANDIDATE_VERSION}:slate:${seatKey}:${year}`;
 
-/** The nomination plan for a Congress seat, under the law in force on `onDate`. */
+/** The nomination plan for a Congress seat, under the law in force when its cycle's filing opens. */
 export function congressNominationPlan(
   world: World,
   seat: CongressSeat,
@@ -80,28 +88,29 @@ export function congressNominationPlan(
     stateUsps: seat.stateUsps,
     family: seat.chamberKey,
     year,
-    // The law in force when the year's filing opens governs the whole
+    // The law in force when the cycle's filing opens governs the whole
     // cycle, so a law passed while fields are filing takes effect next time.
-    onDate: congressCandidateIntakeDay(year, 0),
+    onDate: filingWindowOpens(year),
     generalDay: generalElectionDay(year),
   });
 }
 
 /**
  * The day a seat's field files: the game's staggered intake day, but never
- * later than the state's field closing before its primary.
+ * later than the state's filing deadline before its primary. `plan` is the
+ * seat's nomination plan when the caller already has it.
  */
 export function congressFieldIntakeDay(
   world: World,
   seat: CongressSeat,
   year: number,
   seatIndex: number,
+  plan: NominationPlan = congressNominationPlan(world, seat, year),
 ): IsoDate {
-  const base = congressCandidateIntakeDay(year, seatIndex);
   return fieldIntakeDay(
-    base,
-    congressNominationPlan(world, seat, year),
-    congressCandidateIntakeDay(year, 0),
+    congressCandidateIntakeDay(year, seatIndex),
+    plan,
+    year,
   );
 }
 
@@ -254,6 +263,73 @@ function prospectDecision(
   });
 }
 
+function returningKey(
+  seat: CongressSeat,
+  party: string,
+  kind: PastCandidate["kind"],
+): string {
+  return `${seat.seatKey}|${party}|${kind}`;
+}
+
+/**
+ * The people each seat's parties ask first this year: someone an earlier
+ * cycle already brought into the district, of the same party, who can still
+ * stand. A new person is generated only where nobody can.
+ */
+function returningCandidates(
+  world: World,
+  year: number,
+  plans: readonly CongressCandidateSeatPlan[],
+  nominations: ReadonlyMap<string, NominationPlan>,
+): ReadonlyMap<string, EntityId> {
+  const pool = pastCandidatesBySeat(world, CONGRESS_CANDIDATE_VERSION);
+  const chosen = new Map<string, EntityId>();
+  if (pool.size === 0) return chosen;
+  const asked = new Set<EntityId>();
+  for (const plan of plans) {
+    const past = pool.get(plan.seat.seatKey);
+    if (!past) continue;
+    const canStand = (personId: EntityId): boolean =>
+      !asked.has(personId) &&
+      personId !== plan.incumbentPersonId &&
+      canStandAgain(world, personId, plan.intakeDate);
+    const ask = (party: string, kind: PastCandidate["kind"]) => {
+      const personId = returningCandidate(past, {
+        party,
+        year,
+        prefer: kind,
+        canStand,
+      });
+      if (!personId) return;
+      asked.add(personId);
+      chosen.set(returningKey(plan.seat, party, kind), personId);
+    };
+    for (const party of MAJOR_PARTIES)
+      if (!(plan.incumbentSeeking && plan.incumbentParty === party))
+        ask(party, "prospect");
+    for (const party of selfStarterParties(
+      world,
+      plan,
+      nominations.get(plan.seat.seatKey)!,
+    ))
+      ask(party, "self-starter");
+  }
+  return chosen;
+}
+
+/** Whether the person already belongs to the party on that day. */
+function affiliatedWith(
+  world: World,
+  personId: EntityId,
+  partyId: EntityId,
+  onDate: IsoDate,
+): boolean {
+  return activeOrganizationParticipationsAt(world, personId, {
+    asOfDate: onDate,
+    historySequenceExclusive: world.history.nextSequence,
+  }).some((row) => row.participation.organizationId === partyId);
+}
+
 /** Materialize candidates before the general election, in bounded daily batches. */
 export function prepareCongressCandidateSlates(
   world: World,
@@ -270,12 +346,19 @@ export function prepareCongressCandidateSlates(
       congressNominationPlan(world, plan.seat, year),
     ]),
   );
+  const returning = returningCandidates(world, year, pending, nominations);
   const inputs = pending.flatMap((plan) => [
     ...MAJOR_PARTIES.filter(
-      (party) => !(plan.incumbentSeeking && plan.incumbentParty === party),
-    ).map((party) => prospectInput(world, plan.seat, year, party)),
-    ...selfStarterParties(world, plan, nominations.get(plan.seat.seatKey)!).map(
       (party) =>
+        !(plan.incumbentSeeking && plan.incumbentParty === party) &&
+        !returning.has(returningKey(plan.seat, party, "prospect")),
+    ).map((party) => prospectInput(world, plan.seat, year, party)),
+    ...selfStarterParties(world, plan, nominations.get(plan.seat.seatKey)!)
+      .filter(
+        (party) =>
+          !returning.has(returningKey(plan.seat, party, "self-starter")),
+      )
+      .map((party) =>
         electionProspectInput({
           world,
           stableKey: selfStarterKey(plan.seat, year, party),
@@ -285,7 +368,7 @@ export function prepareCongressCandidateSlates(
             `US-${plan.seat.stateUsps}`,
           )!.id,
         }),
-    ),
+      ),
   ]);
   let next = createCharacterHistoryContextPeople(world, inputs);
   for (const plan of pending) {
@@ -307,10 +390,9 @@ export function prepareCongressCandidateSlates(
         : [];
     for (const party of MAJOR_PARTIES) {
       if (plan.incumbentSeeking && plan.incumbentParty === party) continue;
-      const personId = characterHistoryContextPersonId(
-        next,
-        prospectKey(seat, year, party),
-      );
+      const personId =
+        returning.get(returningKey(seat, party, "prospect")) ??
+        characterHistoryContextPersonId(next, prospectKey(seat, year, party));
       const partyId = livingWorldOrganizationId(
         next,
         LIVING_WORLD_KEYS.nationalParty(party),
@@ -353,27 +435,30 @@ export function prepareCongressCandidateSlates(
       );
       next = decision.world;
       if (!decision.runs) continue;
-      next = createOrganizationParticipations(next, [
-        {
-          stableKey: `${recruitmentKey}:affiliation`,
-          personId,
-          organizationId: partyId,
-          startedAt: intakeDate,
-          initialStatus: "active",
-          kind: PARTY_AFFILIATION_KIND,
-          roleKind: "member:public-affiliation",
-          context: "Public party affiliation",
-          provenance: { kind: "simulated-event", eventId: recruitment.id },
-        },
-      ]);
+      if (!affiliatedWith(next, personId, partyId, intakeDate))
+        next = createOrganizationParticipations(next, [
+          {
+            stableKey: `${recruitmentKey}:affiliation`,
+            personId,
+            organizationId: partyId,
+            startedAt: intakeDate,
+            initialStatus: "active",
+            kind: PARTY_AFFILIATION_KIND,
+            roleKind: "member:public-affiliation",
+            context: "Public party affiliation",
+            provenance: { kind: "simulated-event", eventId: recruitment.id },
+          },
+        ]);
       candidates.push({ personId, party, incumbent: false });
     }
     const nomination = nominations.get(seat.seatKey)!;
     for (const party of selfStarterParties(next, plan, nomination)) {
-      const personId = characterHistoryContextPersonId(
-        next,
-        selfStarterKey(seat, year, party),
-      );
+      const personId =
+        returning.get(returningKey(seat, party, "self-starter")) ??
+        characterHistoryContextPersonId(
+          next,
+          selfStarterKey(seat, year, party),
+        );
       const decision = decideSelfStarterRun(next, {
         stableKey: `${slateKey(seat.seatKey, year)}:self-starter:${party}:${personId}`,
         decisionType: "election.consider-congress-run",
@@ -416,19 +501,20 @@ export function prepareCongressCandidateSlates(
         },
       });
       const entry = next.history.events.at(-1)!;
-      next = createOrganizationParticipations(next, [
-        {
-          stableKey: `${slateKey(seat.seatKey, year)}:self-starter:${party}:affiliation`,
-          personId,
-          organizationId: partyId,
-          startedAt: intakeDate,
-          initialStatus: "active",
-          kind: PARTY_AFFILIATION_KIND,
-          roleKind: "member:public-affiliation",
-          context: "Public party affiliation",
-          provenance: { kind: "simulated-event", eventId: entry.id },
-        },
-      ]);
+      if (!affiliatedWith(next, personId, partyId, intakeDate))
+        next = createOrganizationParticipations(next, [
+          {
+            stableKey: `${slateKey(seat.seatKey, year)}:self-starter:${party}:affiliation`,
+            personId,
+            organizationId: partyId,
+            startedAt: intakeDate,
+            initialStatus: "active",
+            kind: PARTY_AFFILIATION_KIND,
+            roleKind: "member:public-affiliation",
+            context: "Public party affiliation",
+            provenance: { kind: "simulated-event", eventId: entry.id },
+          },
+        ]);
       candidates.push({ personId, party, incumbent: false, selfStarter: true });
     }
     next = recordWorldEvent(next, {
