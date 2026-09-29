@@ -23,8 +23,8 @@ const PROPOSITION = "proposition_term-limits" as EntityId;
  */
 function worldWith(
   usps: string,
-  since: IsoDate,
-  laws: readonly { answer: "yes" | "no"; effectiveAt: IsoDate }[] = [],
+  since: string,
+  laws: readonly { answer: "yes" | "no"; effectiveAt: string }[] = [],
 ) {
   const pack = stateCandidacyPack(`US-${usps}`)!;
   const officeKey = pack.offices[0]!.officeKey;
@@ -82,7 +82,7 @@ function worldWith(
 
 function bar(
   usps: string,
-  since: IsoDate,
+  since: string,
   laws?: Parameters<typeof worldWith>[2],
 ) {
   const { world, packId, officeKey } = worldWith(usps, since, laws);
@@ -112,9 +112,7 @@ describe("state legislative term limits follow the law in force", () => {
     ).toBeNull();
     // Virginia began with no limit.
     expect(bar("VA", "2014-01-01")).toBeNull();
-    const enacted = [
-      { answer: "yes" as const, effectiveAt: "2026-07-01" as IsoDate },
-    ];
+    const enacted = [{ answer: "yes" as const, effectiveAt: "2026-07-01" }];
     const { world } = worldWith("VA", "2014-01-01", enacted);
     expect(
       legislativeTermLimitInForce(world, "VA", "2027-01-01" as IsoDate),
