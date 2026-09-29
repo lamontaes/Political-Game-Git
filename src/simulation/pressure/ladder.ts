@@ -285,10 +285,7 @@ function scopeOf(reading: PressureReading): MetricScope {
  * A threat's line: the strain at which an attempt comes. Nothing is drawn;
  * how long and how far anger stays over its line decides it.
  */
-export function threatAttemptLine(
-  _world: World,
-  _threat: IncidentRecord,
-): number {
+export function threatAttemptLine(): number {
   return BLANKET_POLITICAL_VIOLENCE.attemptLine;
 }
 
@@ -394,7 +391,7 @@ export function stepPressureLadder(
       continue;
     }
     const strain = threatStrain(store.readings, threat);
-    const line = threatAttemptLine(next, threat);
+    const line = threatAttemptLine();
     if (stillOver && unrest && strain >= line) {
       const target = next.people[targetId]!;
       next = recordViolenceAttempt(next, {

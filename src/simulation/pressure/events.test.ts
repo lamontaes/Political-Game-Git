@@ -196,7 +196,7 @@ describe("what pressure sets off", { timeout: LONG }, () => {
       const threatRecord = incidentOf(threat.id);
       expect(
         threatStrain(world.pressure!.readings, threatRecord),
-      ).toBeGreaterThanOrEqual(threatAttemptLine(world, threatRecord));
+      ).toBeGreaterThanOrEqual(threatAttemptLine());
       expect(statesOf(threat.id).at(-1)).toMatchObject({
         status: "resolved",
         phaseKey: THREAT_ATTEMPTED_PHASE,
