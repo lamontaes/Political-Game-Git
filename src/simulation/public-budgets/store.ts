@@ -97,6 +97,11 @@ export interface BudgetLawReading {
   /** The enacted measure, or a `starting-law:` key; null when unknown. */
   readonly measureId: EntityId | null;
   readonly level: LawLevel | null;
+  /**
+   * Where no law answers and the most common real rule stands in: that
+   * rule's basis, marked ESTIMATED FROM AVERAGE. Absent where a law answers.
+   */
+  readonly estimated?: string;
 }
 
 export interface AdoptedBudget {
