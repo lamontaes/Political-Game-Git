@@ -22,10 +22,16 @@ import { aggregateCongressAffiliation } from "./congress-aggregate-outcome";
 import {
   congressCandidateIntakeDay,
   congressCandidateSlate,
-  congressCandidates,
+  congressFieldIntakeDay,
+  congressGeneralCandidates,
+  congressNominationPlan,
   prepareCongressCandidateSlates,
+  slateKey,
   type CongressCandidateSeatPlan,
 } from "./congress-candidates";
+import { filingWindowOpens } from "../nominations/field-entry";
+import type { NominationPlan } from "../nominations/nomination-rules";
+import { holdFiledNominations } from "../nominations/party-nominations";
 import {
   endCongressSeatWork,
   takeCongressSeatWork,
@@ -537,13 +543,17 @@ function decideSeat(
   }
   const slate = congressCandidateSlate(world, seat.seatKey, year);
   if (slate) {
-    const viable = congressCandidates(world, seat.seatKey, year).filter(
+    const viable = congressGeneralCandidates(world, seat.seatKey, year).filter(
       (candidate) => aliveOn(world, candidate.personId, electionDay),
     );
     if (viable.length === 0) return null;
     const condition = seatStartingCondition(world, seat.seatKey);
+    // A member who lost renomination is not on the ballot, so their party
+    // carries no incumbent into the general election.
     const seeking =
-      eligible && seatCandidacyIntent(world, seat.seatKey, year) === true;
+      eligible &&
+      seatCandidacyIntent(world, seat.seatKey, year) === true &&
+      viable.some((candidate) => candidate.personId === incumbent);
     const preferredParty = aggregateCongressAffiliation({
       democraticShare: condition?.generatedShare ?? null,
       baselineAffiliation: condition?.affiliation ?? null,
@@ -961,6 +971,63 @@ function seatCongressWinners(world: World, year: number): World {
   return next;
 }
 
+const SLATE_EVENT = "election.congress-candidate-slate";
+
+/**
+ * The nomination stage for every field filed this year: each state's primary
+ * on its own date, and a runoff where one was left open. Only dates the clock
+ * crosses act.
+ */
+function holdCongressNominations(
+  before: IsoDate,
+  world: World,
+  year: number,
+  electionDay: IsoDate,
+): World {
+  // Primaries and runoffs fall between the first filing and election day.
+  if (world.currentDate < `${year}-02-01` || before >= electionDay)
+    return world;
+  const seatsByKey = new Map(
+    congressSeats().map((seat) => [seat.seatKey, seat]),
+  );
+  return holdFiledNominations(before, world, {
+    fieldType: SLATE_EVENT,
+    stableKeySuffix: `:${year}`,
+    seatFor: (field) => {
+      const seat = seatsByKey.get(
+        field.tags.find((tag) => tag.startsWith("seat:"))?.slice(5) ?? "",
+      );
+      if (!seat || field.stableKey !== slateKey(seat.seatKey, year))
+        return null;
+      return {
+        seatKey: seat.seatKey,
+        title: congressSeatTitle(seat),
+        jurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id,
+        involvedEntityIds: [
+          livingWorldOrganizationId(
+            world,
+            LIVING_WORLD_KEYS.chamber(seat.chamberKey),
+          ),
+        ],
+        plan: () => congressNominationPlan(world, seat, year),
+        partyShare: (party) => {
+          const share = seatStartingCondition(
+            world,
+            seat.seatKey,
+          )?.generatedShare;
+          if (share === null || share === undefined) return null;
+          return party === "democratic"
+            ? share
+            : party === "republican"
+              ? 1 - share
+              : null;
+        },
+        aliveOn: (personId, date) => aliveOn(world, personId, date),
+      };
+    },
+  });
+}
+
 /**
  * Called whenever the canonical clock moves from `before` to the World's
  * current date. Only dates actually crossed act.
@@ -970,20 +1037,43 @@ export function applyCongressTurnover(before: IsoDate, world: World): World {
   if (after <= before || !livingWorldEstablished(world)) return world;
   let next = world;
   const firstYear = Number(before.slice(0, 4)) - 1;
-  const lastYear = Number(after.slice(0, 4));
+  // A field can file in the year before its election (Texas files in
+  // December), so next year's cycle is read once its filing window opens.
+  const lastYear =
+    Number(after.slice(0, 4)) +
+    (after >= filingWindowOpens(Number(after.slice(0, 4)) + 1) ? 1 : 0);
   for (let year = firstYear; year <= lastYear; year += 1) {
     if (year % 2 !== 0) continue;
     const electionDay = congressionalElectionDay(year);
     const newStart = makeIsoDate(`${year + 1}-01-03`);
+    // One plan per state and chamber: every seat of it shares the rule.
+    const plans = new Map<string, NominationPlan>();
     const due = congressSeats().flatMap((seat, index) => {
       if (seatTermWindow(seat, electionDay).endExclusive !== newStart)
         return [];
-      const intakeDate = congressCandidateIntakeDay(year, index);
-      return before < intakeDate && intakeDate <= after
+      // The field never files later than the game's own intake day, so a
+      // day already past needs no look at the state's primary.
+      const base = congressCandidateIntakeDay(year, index);
+      if (base <= before) return [];
+      const planKey = `${seat.stateUsps}|${seat.chamberKey}`;
+      let plan = plans.get(planKey);
+      if (!plan) {
+        plan = congressNominationPlan(next, seat, year);
+        plans.set(planKey, plan);
+      }
+      const intakeDate = congressFieldIntakeDay(next, seat, year, index, plan);
+      if (before < intakeDate && intakeDate <= after)
+        return [{ seat, intakeDate }];
+      // Decision D-9: a game that opens after a state's real deadline starts
+      // with that field already filed, dated on the deadline. The game's own
+      // intake day not having passed means the field was never gathered.
+      return intakeDate <= before &&
+        !congressCandidateSlate(next, seat.seatKey, year)
         ? [{ seat, intakeDate }]
         : [];
     });
     next = prepareCongressIntake(next, year, due);
+    next = holdCongressNominations(before, next, year, electionDay);
     if (before < electionDay && electionDay <= after)
       next = holdCongressElection(next, year);
     if (before < newStart && newStart <= after)

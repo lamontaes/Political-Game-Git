@@ -65,8 +65,9 @@ describe("LIFE normal earned-money account lifecycle", () => {
       if (shiftNumber === 0) expect(balance(worked.world)).toBeUndefined();
       w = advanceWorld(worked.world, 1, LIFE_PATHS2_HANDLERS);
     }
-    // Each $72.00 shift has $4.46 Social Security and $1.04 Medicare withheld.
-    expect(balance(w)).toBe(72_000 - 10 * 550);
+    // Each $72.00 shift has $4.46 Social Security, $1.04 Medicare, $1.01
+    // federal and $2.07 Kentucky income tax withheld (a day's pay, 260 a year).
+    expect(balance(w)).toBe(72_000 - 10 * 858);
     expect(w.history.resourcePositions.at(-1)!.openingBalance.minorUnits).toBe(
       0,
     );
@@ -78,7 +79,8 @@ describe("LIFE normal earned-money account lifecycle", () => {
     w = deserializeWorld(serializeWorld(w));
     w = enterLifePath(w, "college-office-certificate").world;
     const attended = advanceWorld(w, 161, LIFE_PATHS2_HANDLERS);
-    expect(balance(attended)).toBe(6_500);
+    // $634.20 earned, less the certificate's $600.00 tuition.
+    expect(balance(attended)).toBe(3_420);
     expect(
       balance(
         advanceWorld(
@@ -87,7 +89,7 @@ describe("LIFE normal earned-money account lifecycle", () => {
           LIFE_PATHS2_HANDLERS,
         ),
       ),
-    ).toBe(6_500);
+    ).toBe(3_420);
   }, 30_000);
   it("blocks an unfunded period without inventing an account or tuition payment", () => {
     const entered = enterLifePath(normal(), "college-office-certificate").world;
