@@ -6,13 +6,13 @@ import {
   householdMembershipsAt,
   organizationProfileAt,
   peopleInHouseholdAt,
+  workRoleAt,
   workStatusAt,
 } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { personName } from "../people";
 import { latestPersonalityTendency } from "../queries";
 import { recordEventKnowledge } from "../records";
-import { SeededRng } from "../rng";
 import type {
   EntityId,
   FutureDueItem,
@@ -27,6 +27,7 @@ import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { createStableId } from "../ids";
 import { beginHealthEpisode } from "./health";
+import { latestHealthState } from "./health-queries";
 import { crisisRecords } from "./records";
 import type { HealthEpisodeRecord, HealthSeverity } from "./types";
 
@@ -82,28 +83,46 @@ export const UNRESEARCHED_EPIDEMIC = {
   provenance: "unresearched-blanket-rule",
   /** Days between passes; a case passes it on during the week after onset. */
   passDays: 7,
-  /** Chance per named resident per week that it arrives from outside. */
-  introductionPerResidentPerWeek: 0.0015,
-  /** Multiplier on arrivals by calendar month, January first. */
+  /**
+   * The exposure one person carries in from outside town in a week, for each
+   * person they see outside their home: the illness reaches a town through
+   * its most-connected residents.
+   */
+  outsideExposurePerContact: 0.02,
+  /** Multiplier on outside exposure by calendar month, January first. */
   seasonalMultiplier: [3, 3, 2, 1, 0.5, 0.25, 0.2, 0.2, 0.5, 1, 1.5, 2.5],
-  /** Chance that one sick person passes it to one contact in one week. */
-  transmission: {
+  /** The exposure one sick contact gives a person in one week, by setting. */
+  exposureBySetting: {
     household: 0.3,
-    family: 0.06,
-    work: 0.05,
-    school: 0.07,
-    acquaintance: 0.04,
+    family: 0.08,
+    work: 0.08,
+    school: 0.15,
+    acquaintance: 0.05,
   } satisfies Record<ContactSetting, number>,
+  /**
+   * A person falls ill when a week's exposure, times how susceptible they
+   * are and how careful they are, reaches this.
+   */
+  catchAt: 0.3,
+  /** How susceptible a person is by age at exposure (upper bounds inclusive). */
+  susceptibilityByAge: [
+    { maxAge: 4, factor: 1.5 },
+    { maxAge: 17, factor: 1.2 },
+    { maxAge: 64, factor: 1 },
+    { maxAge: 200, factor: 1.4 },
+  ],
+  /** Susceptibility is multiplied by this while another illness is open. */
+  alreadyIllFactor: 1.5,
+  /** Exposure is multiplied by this for a person's recorded approach to risk. */
+  carefulnessFactor: { cautious: 0.6, neutral: 1, "risk-seeking": 1.4 },
   /** Days after a case began in which the same person cannot catch it again. */
   immunityDays: 240,
-  /** Share of cases that are serious, by age at onset (upper bounds inclusive). */
-  seriousShareByAge: [
-    { maxAge: 4, share: 0.03 },
-    { maxAge: 17, share: 0.005 },
-    { maxAge: 49, share: 0.01 },
-    { maxAge: 64, share: 0.04 },
-    { maxAge: 200, share: 0.12 },
-  ],
+  /**
+   * A case is serious in an infant under this age, in a person this old or
+   * older, and in anyone already fighting another illness.
+   */
+  seriousUnderAge: 1,
+  seriousFromAge: 80,
   /** Multiplier on all-cause death risk while an episode lasts, in millionths. */
   hazardMicros: {
     acute: 1_500_000,
@@ -118,17 +137,13 @@ export const UNRESEARCHED_EPIDEMIC = {
   /** A school decision is only considered, and recorded, from this many out sick. */
   minimumSickToDecide: 2,
   /**
-   * Each official's own bar is the one above times a factor drawn once per
-   * person, from 1 minus this to 1 plus it: people differ beyond their
-   * recorded approach to risk.
+   * A job of this many expected hours a week or more pays through sick days;
+   * a shorter one does not. The line is the federal full-time line (26 U.S.C.
+   * 4980H(c)(4)). Check: the BLS National Compensation Survey (March 2024)
+   * finds paid sick leave for 88% of full-time and 47% of part-time
+   * private-industry workers.
    */
-  personalBarSpread: 0.25,
-  /**
-   * ESTIMATED FROM AVERAGE: the share of jobs that carry paid sick leave,
-   * about 79% of private-industry workers (BLS National Compensation Survey,
-   * March 2024). Drawn once per job; a job without it loses the days.
-   */
-  paidSickLeaveShare: 0.79,
+  fullTimeWeeklyHours: 30,
   /** A sick child this young needs an adult home with them. */
   careAgeUnder: 12,
   /** Days a newspaper-worthy week needs: new cases in one town in one week. */
@@ -152,12 +167,6 @@ const EMPTY_CONTEXT = {
   motivation: null,
   immediateReaction: null,
 } as const;
-
-function stream(world: World, ...parts: readonly string[]): SeededRng {
-  return new SeededRng(EPIDEMIC_VERSION).fork(
-    JSON.stringify([EPIDEMIC_VERSION, world.seed, ...parts]),
-  );
-}
 
 function isLocalPlace(jurisdictionId: EntityId): boolean {
   const place = lifePlaceByJurisdictionId(jurisdictionId);
@@ -407,17 +416,6 @@ export function riskApproachOf(world: World, personId: EntityId): RiskApproach {
   return "neutral";
 }
 
-/** One official's own bar: the average for their approach, with their own spread. */
-export function personalBar(
-  world: World,
-  personId: EntityId,
-  decision: string,
-  average: number,
-): number {
-  const draw = stream(world, "personal-bar", decision, personId).next();
-  return average * (1 - U.personalBarSpread + 2 * U.personalBarSpread * draw);
-}
-
 const APPROACH_WORD: Record<RiskApproach, string> = {
   cautious: "cautious",
   neutral: "",
@@ -500,9 +498,7 @@ function schoolDecisions(
       : null;
     if (!principal && !isClosed) continue;
     const approach = principal ? riskApproachOf(next, principal) : "neutral";
-    const bar = principal
-      ? personalBar(next, principal, "school", U.schoolClosureShare[approach])
-      : U.schoolClosureShare[approach];
+    const bar = U.schoolClosureShare[approach];
     const share = people.length === 0 ? 0 : out / people.length;
     const profile = organizationProfileAt(next, orgId);
     const school = profile?.name ?? "the school";
@@ -595,11 +591,7 @@ export function epidemicCouncilMeetingDecision(
   let reason: string | null = null;
   if (input.memberPersonIds.length > 0 && well < quorum)
     reason = `only ${well} of its ${input.memberPersonIds.length} members were well enough to attend, short of a quorum`;
-  else if (
-    chair &&
-    share >=
-      personalBar(world, chair, "meeting", U.meetingCancelShare[approach])
-  )
+  else if (chair && share >= U.meetingCancelShare[approach])
     reason = `${townSick} of the ${residents.length} people the town knows by name were out sick`;
   if (!reason) return { world, canceled: false };
   const chairName = chair ? personName(world.people[chair]!) : null;
@@ -634,10 +626,50 @@ export function epidemicCouncilMeetingDecision(
 /* The weekly pass                                                             */
 /* -------------------------------------------------------------------------- */
 
-function severityFor(world: World, personId: EntityId, rng: SeededRng) {
+/**
+ * How hard a case hits, from the person: the very young, the very old and
+ * anyone already fighting another illness have a serious case.
+ */
+function severityFor(
+  world: World,
+  personId: EntityId,
+  alreadyIll: ReadonlySet<EntityId>,
+): "serious" | "acute" {
   const age = ageOnDate(world.people[personId]!.birthDate, world.currentDate);
-  const band = U.seriousShareByAge.find((row) => age <= row.maxAge)!;
-  return rng.next() < band.share ? "serious" : "acute";
+  return age < U.seriousUnderAge ||
+    age >= U.seriousFromAge ||
+    alreadyIll.has(personId)
+    ? "serious"
+    : "acute";
+}
+
+/** People with an illness other than this one still open today. */
+function peopleAlreadyIll(world: World): ReadonlySet<EntityId> {
+  const ill = new Set<EntityId>();
+  for (const record of crisisRecords(world)) {
+    if (record.kind !== "health-episode") continue;
+    if (outbreakKeyOf(record) !== null) continue;
+    if (record.effectiveAt > world.currentDate) continue;
+    const state = latestHealthState(world, record.id)?.state;
+    if (state === "recovered" || state === "deceased") continue;
+    ill.add(record.personId);
+  }
+  return ill;
+}
+
+/** How readily a person catches it: by age, and more while already ill. */
+function susceptibility(
+  world: World,
+  personId: EntityId,
+  alreadyIll: ReadonlySet<EntityId>,
+): number {
+  const age = ageOnDate(world.people[personId]!.birthDate, world.currentDate);
+  const band = U.susceptibilityByAge.find((row) => age <= row.maxAge)!;
+  return (
+    band.factor *
+    (alreadyIll.has(personId) ? U.alreadyIllFactor : 1) *
+    U.carefulnessFactor[riskApproachOf(world, personId)]
+  );
 }
 
 const CAUGHT_PHRASE: Record<
@@ -658,11 +690,15 @@ interface NewCase {
   readonly contact: Contact | null;
 }
 
-function recordCase(world: World, passKey: string, found: NewCase): World {
+function recordCase(
+  world: World,
+  passKey: string,
+  found: NewCase,
+  alreadyIll: ReadonlySet<EntityId>,
+): World {
   const person = world.people[found.personId]!;
   const town = person.homeJurisdictionId;
-  const rng = stream(world, passKey, "severity", found.personId);
-  const severity = severityFor(world, found.personId, rng);
+  const severity = severityFor(world, found.personId, alreadyIll);
   const household = householdMembershipsAt(world, found.personId).flatMap(
     (membership) => peopleInHouseholdAt(world, membership.household.id),
   );
@@ -773,13 +809,19 @@ function residentsByTown(world: World): ReadonlyMap<EntityId, EntityId[]> {
 
 /**
  * One week of the illness: who caught it from whom. Pure: the handler writes.
- * Exported for tests and reports.
+ * Nobody catches it by chance. Each sick person gives the people they spent
+ * the week with an exposure that depends on where they were together; a
+ * person falls ill when the week's exposure, times how susceptible and how
+ * careful they are, reaches the bar. A town with nobody sick takes it in
+ * from outside through its most-connected resident, when the season's
+ * exposure is high enough. Exported for tests and reports.
  */
 export function sampleEpidemicWeek(
   world: World,
-  passKey: string,
+  _passKey: string,
   index: PassIndex = passIndex(world),
   closed: ReadonlySet<EntityId> = closedSchools(world),
+  alreadyIll: ReadonlySet<EntityId> = peopleAlreadyIll(world),
 ): readonly NewCase[] {
   const date = world.currentDate;
   const cutoff = currentLifeCutoff(world);
@@ -799,7 +841,11 @@ export function sampleEpidemicWeek(
       found.onsetAt < date &&
       isPersonAliveAt(world, found.personId, cutoff),
   );
-  const caught = new Map<EntityId, NewCase>();
+  interface Exposure {
+    total: number;
+    strongest: { source: EpidemicCase; contact: Contact; weight: number };
+  }
+  const exposures = new Map<EntityId, Exposure>();
   for (const source of infectious) {
     for (const contact of weeklyContacts(
       world,
@@ -807,48 +853,65 @@ export function sampleEpidemicWeek(
       index,
       closed,
     )) {
-      if (caught.has(contact.personId) || !susceptible(contact.personId))
+      if (!susceptible(contact.personId)) continue;
+      const weight = U.exposureBySetting[contact.setting];
+      const found = exposures.get(contact.personId);
+      if (!found) {
+        exposures.set(contact.personId, {
+          total: weight,
+          strongest: { source, contact, weight },
+        });
         continue;
-      const rng = stream(
-        world,
-        passKey,
-        "contact",
-        source.personId,
-        contact.personId,
-      );
-      if (rng.next() >= U.transmission[contact.setting]) continue;
-      caught.set(contact.personId, {
-        personId: contact.personId,
-        outbreakKey: source.outbreakKey,
-        source,
-        contact,
-      });
+      }
+      found.total += weight;
+      if (weight > found.strongest.weight)
+        found.strongest = { source, contact, weight };
     }
   }
-  // Arrivals from outside, at the season's rate.
+  const caught = new Map<EntityId, NewCase>();
+  for (const [personId, exposure] of exposures) {
+    if (
+      exposure.total * susceptibility(world, personId, alreadyIll) <
+      U.catchAt
+    )
+      continue;
+    caught.set(personId, {
+      personId,
+      outbreakKey: exposure.strongest.source.outbreakKey,
+      source: exposure.strongest.source,
+      contact: exposure.strongest.contact,
+    });
+  }
+  // A town with nobody sick takes it in from outside, through the resident
+  // who sees the most people, once the season's exposure is high enough.
   const month = Number(date.slice(5, 7));
-  const rate =
-    U.introductionPerResidentPerWeek * U.seasonalMultiplier[month - 1]!;
-  const activeOutbreak = new Map<EntityId, string>();
-  for (const found of infectious)
-    activeOutbreak.set(
-      world.people[found.personId]!.homeJurisdictionId,
-      found.outbreakKey,
-    );
+  const outside =
+    U.outsideExposurePerContact * U.seasonalMultiplier[month - 1]!;
+  const townsWithCases = new Set(
+    infectious.map((found) => world.people[found.personId]!.homeJurisdictionId),
+  );
+  for (const found of caught.values())
+    townsWithCases.add(world.people[found.personId]!.homeJurisdictionId);
   for (const [town, residents] of residentsByTown(world)) {
-    const rng = stream(world, passKey, "arrival", town);
+    if (townsWithCases.has(town)) continue;
+    let best: { personId: EntityId; level: number } | null = null;
     for (const personId of residents) {
-      if (rng.next() >= rate) continue;
-      if (caught.has(personId) || !susceptible(personId)) continue;
-      const outbreakKey = activeOutbreak.get(town) ?? `${town}:${date}`;
-      activeOutbreak.set(town, outbreakKey);
-      caught.set(personId, {
-        personId,
-        outbreakKey,
-        source: null,
-        contact: null,
-      });
+      if (!susceptible(personId)) continue;
+      const seen = weeklyContacts(world, personId, index, closed).filter(
+        (contact) => contact.setting !== "household",
+      ).length;
+      const level =
+        outside * seen * susceptibility(world, personId, alreadyIll);
+      if (level < U.catchAt) continue;
+      if (!best || level > best.level) best = { personId, level };
     }
+    if (!best) continue;
+    caught.set(best.personId, {
+      personId: best.personId,
+      outbreakKey: `${town}:${date}`,
+      source: null,
+      contact: null,
+    });
   }
   return [...caught.values()].sort((a, b) =>
     a.personId.localeCompare(b.personId),
@@ -958,8 +1021,16 @@ export function epidemicPassHandler(
     `${EPIDEMIC_VERSION}:${passKey}`,
   );
   let next = decided.world;
-  const cases = sampleEpidemicWeek(next, passKey, index, decided.closed);
-  for (const found of cases) next = recordCase(next, passKey, found);
+  const alreadyIll = peopleAlreadyIll(next);
+  const cases = sampleEpidemicWeek(
+    next,
+    passKey,
+    index,
+    decided.closed,
+    alreadyIll,
+  );
+  for (const found of cases)
+    next = recordCase(next, passKey, found, alreadyIll);
   next = reportOutbreaks(next, cases, passKey);
   const following = addDays(dueItem.dueAt, U.passDays);
   next = scheduleFutureDueItem(next, {
@@ -1002,11 +1073,14 @@ function daysOut(found: EpidemicCase): number {
 }
 
 /**
- * Whether a job pays through sick days. Drawn once per job from the world's
- * seed, at the average share of jobs that do.
+ * Whether a job pays through sick days: a full-time job does, a part-time
+ * one does not. A state's paid sick leave law does not reach it yet.
  */
 export function jobPaysSickLeave(world: World, workId: EntityId): boolean {
-  return stream(world, "paid-sick-leave", workId).next() < U.paidSickLeaveShare;
+  const role = workRoleAt(world, workId);
+  if (!role) return false;
+  const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
+  return (minimumHours + maximumHours) / 2 >= U.fullTimeWeeklyHours;
 }
 
 /** The expected weekly hours of the jobs a person holds today; 0 without one. */

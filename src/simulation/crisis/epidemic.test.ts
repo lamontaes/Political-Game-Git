@@ -1,7 +1,11 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { addDays, ageOnDate } from "../dates";
-import { householdMembershipsAt, peopleInHouseholdAt } from "../life-queries";
+import {
+  activeWorkRelationshipsAt,
+  householdMembershipsAt,
+  peopleInHouseholdAt,
+} from "../life-queries";
 import { storyLeads } from "../press/desk";
 import { advanceWorld, assertWorldIntegrity } from "../world";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
@@ -53,7 +57,7 @@ describe("epidemics among named people", () => {
         "epidemic-seasonality",
       ]),
     );
-    for (const rate of Object.values(UNRESEARCHED_EPIDEMIC.transmission)) {
+    for (const rate of Object.values(UNRESEARCHED_EPIDEMIC.exposureBySetting)) {
       expect(rate).toBeGreaterThan(0);
       expect(rate).toBeLessThan(1);
     }
@@ -187,39 +191,6 @@ describe("epidemics among named people", () => {
       }
     });
 
-    it("days out sick come off the paycheck in a job without paid sick leave", () => {
-      const cut = later.history.resourceTransferOutcomes.filter(
-        (outcome) => outcome.reasonKind === "custom:unpaid-sick-days",
-      );
-      expect(cut.length).toBeGreaterThan(0);
-      const flows = new Map(
-        later.history.resourceFlows.map((flow) => [flow.id, flow]),
-      );
-      const cases = epidemicCases(later);
-      for (const outcome of cut) {
-        expect(
-          outcome.status === "partial" || outcome.status === "missed",
-        ).toBe(true);
-        expect(outcome.transferredAmount.minorUnits).toBeLessThan(
-          outcome.attemptedAmount.minorUnits,
-        );
-        expect(outcome.note).toMatch(/, less \d+ unpaid days? out sick\.$/);
-        const personId = (
-          flows.get(outcome.resourceFlowId)!.recipient as {
-            personId: EntityId;
-          }
-        ).personId;
-        expect(
-          cases.some(
-            (found) =>
-              found.personId === personId &&
-              found.onsetAt <= outcome.periodEndsAt &&
-              addDays(found.onsetAt, 14) >= outcome.periodStartsAt,
-          ),
-        ).toBe(true);
-      }
-    });
-
     it("a week with enough new cases becomes public news the local paper picks up", () => {
       const reports = later.history.events.filter(
         (event) => event.type === EPIDEMIC_EVENT_TYPES.outbreakReported,
@@ -247,6 +218,80 @@ describe("epidemics among named people", () => {
       ).toBe(true);
     });
   });
+
+  it(
+    "days out sick come off the paycheck in a part-time job, not a full-time one",
+    () => {
+      const life = open("epidemic-paycheck");
+      // Town pay flows open on the first payday.
+      let world = advanceWorld(
+        life.world,
+        21,
+        createCampaignElectionTransitionRegistry(),
+      );
+      const paid = (hoursOk: (hours: number) => boolean) =>
+        world.history.resourceFlows.find((flow) => {
+          if (flow.basisReference.kind !== "work") return false;
+          const personId = (flow.recipient as { personId: EntityId }).personId;
+          if (personId === life.playerPersonId) return false;
+          const job = activeWorkRelationshipsAt(world, personId).find(
+            (work) =>
+              work.relationship.id ===
+              (flow.basisReference as { workRelationshipId: EntityId })
+                .workRelationshipId,
+          );
+          if (!job) return false;
+          const { minimumHours, maximumHours } =
+            job.role.timeDemand.expectedWeekly;
+          return hoursOk((minimumHours + maximumHours) / 2);
+        })!;
+      const partTime = paid(
+        (hours) => hours < UNRESEARCHED_EPIDEMIC.fullTimeWeeklyHours,
+      );
+      const fullTime = paid(
+        (hours) => hours >= UNRESEARCHED_EPIDEMIC.fullTimeWeeklyHours,
+      );
+      expect(partTime).toBeDefined();
+      expect(fullTime).toBeDefined();
+      for (const flow of [partTime, fullTime])
+        world = beginHealthEpisode(world, {
+          stableKey: `test:${flow.id}`,
+          personId: (flow.recipient as { personId: EntityId }).personId,
+          severity: "acute",
+          initialLimitation: "limited",
+          origin: { kind: "authored", note: `${EPIDEMIC_VERSION}:test` },
+          causalParentIds: [],
+        });
+      const onset = world.currentDate;
+      world = advanceWorld(
+        world,
+        35,
+        createCampaignElectionTransitionRegistry(),
+      );
+      const covering = (flowId: EntityId) =>
+        world.history.resourceTransferOutcomes.filter(
+          (outcome) =>
+            outcome.resourceFlowId === flowId &&
+            outcome.periodEndsAt >= onset &&
+            outcome.periodStartsAt <= addDays(onset, 6),
+        );
+      const cut = covering(partTime.id);
+      expect(cut.length).toBeGreaterThan(0);
+      expect(
+        cut.some(
+          (outcome) =>
+            outcome.reasonKind === "custom:unpaid-sick-days" &&
+            outcome.transferredAmount.minorUnits <
+              outcome.attemptedAmount.minorUnits &&
+            /, less \d+ unpaid days? out sick\.$/.test(outcome.note ?? ""),
+        ),
+      ).toBe(true);
+      const kept = covering(fullTime.id);
+      expect(kept.length).toBeGreaterThan(0);
+      for (const outcome of kept) expect(outcome.status).toBe("completed");
+    },
+    LONG,
+  );
 
   it(
     "the adult with the fewest paid hours stays home with a sick child",
