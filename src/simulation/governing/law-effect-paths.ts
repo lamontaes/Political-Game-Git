@@ -80,6 +80,11 @@ export interface LawEffectPath {
 /** Modules that read the law in force and change the world from it. */
 const DIRECT_PATHS: readonly LawEffectPath[] = [
   {
+    questionKey: "us-policy-positions:education.state-curriculum-standards",
+    kind: "state-spending",
+    via: "src/simulation/public-budgets/curriculum-standards.ts",
+  },
+  {
     questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
     kind: "paycheck",
     via: "src/simulation/minimum-wage.ts",

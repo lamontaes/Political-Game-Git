@@ -1,4 +1,5 @@
 import { addDays, makeIsoDate, spokenDate } from "./dates";
+import { sponsorPolicyTerms } from "./governing/policy-bill-terms";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { createStableId } from "./ids";
 import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
@@ -1448,6 +1449,7 @@ const BLOCKED_STABLE_KEYS: GrowingIndexKind<Set<string>> = {
 // ---------------------------------------------------------------------------
 
 export interface IntroduceMeasureInput {
+  readonly policyTerms?: LegislativeMeasureRecord["policyTerms"];
   readonly stableKey: string;
   readonly jurisdictionId: EntityId;
   readonly rulePackId: string;
@@ -1544,7 +1546,20 @@ export function introduceMeasure(
     answered.add(row.propositionId);
   }
 
+  const policyTerms =
+    input.policyTerms ??
+    sponsorPolicyTerms(
+      world,
+      input.jurisdictionId,
+      input.sponsorPersonId ?? null,
+      input.propositionAnswers ?? [],
+    );
+  for (const terms of policyTerms)
+    for (const value of Object.values(terms.values))
+      if (!Number.isSafeInteger(value) || value < 0)
+        throw new Error("Policy bill terms require nonnegative safe integers.");
   const measure: LegislativeMeasureRecord = {
+    ...(policyTerms.length ? { policyTerms } : {}),
     id: createStableId(
       "legislative-measure",
       `${world.id}:${input.jurisdictionId}:${input.stableKey}`,

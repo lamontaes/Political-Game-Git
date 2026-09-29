@@ -1,4 +1,5 @@
 import { makeIsoDate } from "../dates";
+import { curriculumAdoptionSpending } from "./curriculum-standards";
 import { stateJurisdictionForKey } from "../life-places";
 import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
@@ -616,6 +617,11 @@ export function settleGovernmentMonth(
     if (value !== 0)
       spending[at] = Math.max(0, spending[at]! + Math.round(value));
 
+  spending[BUDGET_PROGRAMS.indexOf("schools")]! += curriculumAdoptionSpending(
+    world,
+    government,
+    month,
+  );
   let balance = government.balance + sum(revenue) - sum(spending);
   let reserve = government.reserve;
   let debt = government.debt;

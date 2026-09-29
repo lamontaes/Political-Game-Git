@@ -4490,7 +4490,16 @@ export interface LegislativeMeasureNumberingSession {
   readonly fullDesignation: string;
 }
 
+/** Numeric policy terms are filed with the bill, never chosen by its consumer. */
+export interface PolicyBillTerms {
+  readonly questionKey: string;
+  readonly values: Readonly<Record<string, number>>;
+  readonly reason: string;
+  readonly principleRecordIds: readonly EntityId[];
+}
+
 export interface LegislativeMeasureRecord {
+  readonly policyTerms?: readonly PolicyBillTerms[];
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
