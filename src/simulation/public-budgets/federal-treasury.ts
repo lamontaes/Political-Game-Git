@@ -172,7 +172,7 @@ export const FEDERAL_LAW_EFFECTS: readonly FederalLawEffect[] = [
         ? null
         : {
             share: CONTRACTS_SHARE_OF_DEFENSE * share,
-            measureId: lawMeasureId,
+            measureId: lawMeasureId as EntityId,
           };
     },
   },
