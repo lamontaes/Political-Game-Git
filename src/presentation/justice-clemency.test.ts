@@ -114,6 +114,15 @@ describe("clemency in a place where the governor decides alone", () => {
     expect(sentences.length).toBe(convicted.length);
   });
 
+  it("lets each person referred decide their own plea", () => {
+    const pleas = later.history.decisionTraces.filter(
+      (trace) => trace.context.decisionType === "justice.plea",
+    );
+    expect(pleas.map((trace) => trace.context.actorPersonId).sort()).toEqual(
+      adults.map((person) => person.id).sort(),
+    );
+  });
+
   it("answers every request at the governor's desk, and no request is left hanging", () => {
     const petitions = clemencyPetitions(later);
     expect(petitions.length).toBeGreaterThan(0);

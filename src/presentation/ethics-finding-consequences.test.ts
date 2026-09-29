@@ -564,21 +564,19 @@ describe("a Washington candidate who keeps taking after a finding", () => {
       expect(after(PROSECUTION_DECLINED_EVENT)).toHaveLength(0);
       const [ended] = after(PROSECUTION_ENDED_EVENT);
       expect(ended).toBeDefined();
-      // The defendant chose between the plea and a trial, and the choice is
-      // a recorded decision with its reasons.
+      // The candidate is the player, and nobody pleads for the player: the
+      // court enters not guilty, and twelve jurors decide, each vote a
+      // recorded decision with its reasons.
+      expect(later.control).toEqual({ kind: "person", personId: run.personId });
       const plea = later.history.decisionTraces.find(
         (trace) => trace.context.stableKey === `${referral.stableKey}:plea`,
       );
-      expect(plea?.context.actorPersonId).toBe(run.personId);
-      if (ended!.tags.includes("justice.outcome:plea")) {
-        expect(plea?.selectedOptionKey).toBe("plead");
-      } else {
-        expect(plea?.selectedOptionKey).toBe("trial");
-        const votes = later.history.decisionTraces.filter((trace) =>
-          trace.context.stableKey.startsWith(`${referral.stableKey}:trial:`),
-        );
-        expect(votes.length).toBeGreaterThan(0);
-      }
+      expect(plea).toBeUndefined();
+      expect(ended!.tags).not.toContain("justice.outcome:plea");
+      const votes = later.history.decisionTraces.filter((trace) =>
+        trace.context.stableKey.startsWith(`${referral.stableKey}:trial:`),
+      );
+      expect(votes.length).toBeGreaterThan(0);
       const sentenced = after(PROSECUTION_SENTENCED_EVENT);
       if (ended!.tags.includes("justice.outcome:acquitted"))
         expect(sentenced).toHaveLength(0);

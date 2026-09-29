@@ -13,7 +13,9 @@ probably convict.
 
 The person charged then chooses between pleading guilty and going to trial,
 from the evidence, the lighter sentence a plea brings, what a guilty plea
-would do to a career in public life, and their own temperament. At a trial,
+would do to a career in public life, and their own temperament. Nobody
+chooses for the player: until the player can enter a plea, the court enters
+not guilty for them and the case goes to trial. At a trial,
 twelve people from their town who do not know them hear the case. Each juror
 votes from the evidence, the reasonable-doubt rule and their own temperament,
 and a juror who disagrees with most of the room usually comes around on the

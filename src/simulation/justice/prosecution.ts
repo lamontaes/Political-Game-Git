@@ -208,7 +208,7 @@ export function referralStableKey(stableKey: string): string {
 
 /**
  * Sends a case to prosecutors. The referral itself is private; what follows
- * is drawn by `caseCourse` and recorded by `advanceProsecutions`. Idempotent
+ * is decided and recorded by `advanceProsecutions`. Idempotent
  * on `stableKey`. Any producer may call this: a regulator after a finding,
  * and later the police or a prosecutor on their own. Nothing here decides
  * guilt.
@@ -269,6 +269,10 @@ export function referForProsecution(
     },
   });
   return { world: next, referralId: next.history.events.at(-1)!.id };
+}
+
+function isPlayer(world: World, personId: EntityId): boolean {
+  return world.control.kind === "person" && world.control.personId === personId;
 }
 
 export const PROSECUTION_MISTRIAL_EVENT = "justice.mistrial";
@@ -570,9 +574,11 @@ export function advanceProsecutions(world: World): World {
     if (addDays(last.occurredAt, rule.resolveAfterDays) > next.currentDate)
       continue;
 
-    // The defendant decides once, before the first trial.
+    // The defendant decides once, before the first trial. Nobody decides
+    // for the player: with no plea entered, the court enters not guilty
+    // (Fed. R. Crim. P. 11(a)(4)) and the case goes to trial.
     let pleaded = false;
-    if (mistrials.length === 0) {
+    if (mistrials.length === 0 && !isPlayer(next, subjectId)) {
       next = ensurePeopleTraits(next, [subjectId]);
       const plea = evaluatePlea(next, courtCase);
       next = recordDurableDecisionTrace(next, plea);
