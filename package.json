@@ -36,6 +36,7 @@
     "compile:map-geometry": "node --max-old-space-size=3072 --import tsx scripts/maps/compile-map-geometry.ts",
     "compile:map-membership": "node --import tsx scripts/maps/compile-membership-candidates.ts",
     "compile:place-population": "node --import tsx scripts/world/compile-place-population.ts",
+    "compile:area-residents": "node --import tsx scripts/world/compile-area-residents.ts",
     "test:maps": "vitest run src/maps",
     "coverage:state-legislatures": "node --import tsx scripts/source/state-legislature-coverage.ts",
     "coverage:nationwide-rules": "node --import tsx scripts/source/nationwide-rule-coverage.ts",
