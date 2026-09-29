@@ -145,17 +145,16 @@ describe("a state amending its governor's term limit on its own", () => {
   });
 
   it("proposes nothing without a cause on the record", () => {
-    const world = passOrdinaryDays(nebraska(), 1);
+    let world = passOrdinaryDays(nebraska(), 1);
     expect(reformCause(world, "NE")).toBeNull();
-    let proposals = 0;
-    for (let year = 2030; year < 2230; year += 1) {
-      const result = constitutionalReformReviewHandler(
+    // Each year's review reads the World the last one left, as the clock
+    // hands it on.
+    for (let year = 2030; year < 2230; year += 1)
+      world = constitutionalReformReviewHandler(
         world,
         review(world, year),
-      );
-      if (termLimitMeasures(result.world).length) proposals += 1;
-    }
-    expect(proposals).toBe(0);
+      ).world;
+    expect(termLimitMeasures(world)).toHaveLength(0);
   });
 
   it(
@@ -186,35 +185,24 @@ describe("a state amending its governor's term limit on its own", () => {
       ).not.toBeNull();
       expect(reformCause(limited, "NE")).toMatchObject({ direction: "extend" });
 
-      // Rare: across two hundred qualifying years, only a few produce a proposal.
-      const proposedYears: number[] = [];
-      for (let year = 2030; year < 2230; year += 1) {
-        const result = constitutionalReformReviewHandler(
-          limited,
-          review(limited, year),
-        );
-        if (
-          termLimitMeasures(result.world).length >
-          termLimitMeasures(limited).length
-        )
-          proposedYears.push(year);
-      }
-      expect(proposedYears.length).toBeGreaterThan(0);
-      expect(proposedYears.length).toBeLessThan(20);
-
-      // Take the first proposal that cleared the legislature; some do not.
-      const outcomes = proposedYears.map((year) => {
-        const world = constitutionalReformReviewHandler(
-          limited,
-          review(limited, year),
-        ).world;
-        const id = termLimitMeasures(world).at(-1)!.id;
-        return { world, phase: constitutionalPosition(world, id).phase };
-      });
+      // The legislature's members decide, and the same members with the
+      // same reasons give the same answer in any year: no draw.
+      const outcomes = [2030, 2031, 2047].map(
+        (year) =>
+          constitutionalReformReviewHandler(limited, review(limited, year))
+            .world,
+      );
+      const counts = outcomes.map(
+        (world) =>
+          termLimitMeasures(world).length - termLimitMeasures(limited).length,
+      );
+      expect(counts).toEqual([1, 1, 1]);
+      // Filed only because it carries, so it goes straight to the voters.
+      const proposed = outcomes[0]!;
       expect(
-        outcomes.every((o) => ["ratification", "rejected"].includes(o.phase)),
-      ).toBe(true);
-      const proposed = outcomes.find((o) => o.phase === "ratification")!.world;
+        constitutionalPosition(proposed, termLimitMeasures(proposed).at(-1)!.id)
+          .phase,
+      ).toBe("ratification");
       const measure = termLimitMeasures(proposed).at(-1)!;
       expect(measure.ruleDelta).toMatchObject({
         kind: "rule-field",
@@ -229,6 +217,10 @@ describe("a state amending its governor's term limit on its own", () => {
       expect(votes).toHaveLength(1);
       expect(votes[0]!.eligibleMembers).toBe(
         stateAmendmentProfile("US-NE")!.bodies[0]!.members,
+      );
+      // Each member decided for a reason, and the record names the commonest.
+      expect(votes[0]!.provenance.note).toMatch(
+        /decided for their own reasons, most often member:/,
       );
       expect(() => assertWorldIntegrity(proposed)).not.toThrow();
 

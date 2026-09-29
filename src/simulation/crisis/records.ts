@@ -295,6 +295,17 @@ function validateCrisisRecords(
         latestDisclosure.set(record.episodeId, record);
         break;
       }
+      case "health-coverage":
+        if (
+          !Number.isSafeInteger(record.hazardMultiplierMicros) ||
+          record.hazardMultiplierMicros < 0 ||
+          !record.hazardBasis.trim() ||
+          !record.basis.trim() ||
+          (record.covered && record.hazardFrom === null) ||
+          (record.hazardFrom !== null && record.hazardFrom < record.effectiveAt)
+        )
+          fail(record, "malformed health coverage");
+        break;
       case "hazard-episode":
         if (
           record.jurisdictionIds.length === 0 ||

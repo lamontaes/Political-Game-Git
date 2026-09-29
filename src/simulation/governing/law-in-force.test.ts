@@ -11,7 +11,7 @@ import type {
   LegislativeMeasureRecord,
   World,
 } from "../types";
-import { lawInForce } from "./law-in-force";
+import { lawInForce, statuteAnswer } from "./law-in-force";
 
 /**
  * The reader alone, over hand-written records: which enacted law governs a
@@ -362,5 +362,96 @@ describe("every place reads its starting law on every researched question", () =
         `${key} ${place}`,
       ).toBe(expected);
     }
+  });
+});
+
+describe("a starting answer a state's own constitution writes", () => {
+  const GRADUATED = "proposition_graduated" as EntityId;
+  const KEY = "us-policy-positions:fiscal.graduated-income-tax";
+  const rows = (
+    startingLaw as unknown as {
+      readonly questions: Readonly<
+        Record<
+          string,
+          {
+            readonly answers: Readonly<
+              Record<string, { answer: string; constitution?: unknown }>
+            >;
+          }
+        >
+      >;
+    }
+  ).questions[KEY]!.answers;
+  const constitutional = Object.entries(rows).filter(
+    ([, row]) => row.constitution,
+  );
+
+  function worldAt(
+    currentDate: string,
+    laws: readonly ReturnType<typeof law>[],
+  ): World {
+    return {
+      currentDate: makeIsoDate(currentDate),
+      policyCatalog: {
+        propositions: { [GRADUATED]: { id: GRADUATED, stableKey: KEY } },
+      },
+      history: {
+        legislativeMeasures: laws.map((entry) => entry.measure),
+        legislativeEnactments: laws.map((entry) => entry.enactment),
+      },
+    } as unknown as World;
+  }
+
+  it("ranks as the constitution, and closes the question to a statute", () => {
+    expect(constitutional.length).toBeGreaterThan(0);
+    for (const [place, row] of constitutional) {
+      const state = stateJurisdictionForKey(place)!.id;
+      const law = lawInForce(worldAt("2027-01-01", []), state, GRADUATED);
+      expect(law, place).toMatchObject({
+        answer: row.answer,
+        level: "state-constitution",
+      });
+      expect(statuteAnswer(law), place).toBe("closed");
+    }
+  });
+
+  it("governs over a statute enacted against it, for every reader", () => {
+    for (const [place, row] of constitutional) {
+      const state = stateJurisdictionForKey(place)!.id;
+      const against = law(
+        state,
+        row.answer === "yes" ? "no" : "yes",
+        "2027-01-15",
+        "2027-02-01",
+        GRADUATED,
+      );
+      const world = worldAt("2027-06-01", [against]);
+      expect(lawInForce(world, state, GRADUATED)?.answer, place).toBe(
+        row.answer,
+      );
+      // A reader of enacted law finds nothing that governs.
+      expect(
+        lawInForce(world, state, GRADUATED, world.currentDate, "enacted-only"),
+        place,
+      ).toBeNull();
+    }
+  });
+
+  it("leaves a state whose constitution is silent to its statutes", () => {
+    const silent = Object.entries(rows).find(
+      ([place, row]) =>
+        !row.constitution && place !== "US" && stateJurisdictionForKey(place),
+    )!;
+    const state = stateJurisdictionForKey(silent[0])!.id;
+    const change = law(
+      state,
+      silent[1].answer === "yes" ? "no" : "yes",
+      "2027-01-15",
+      "2027-02-01",
+      GRADUATED,
+    );
+    expect(
+      lawInForce(worldAt("2027-06-01", [change]), state, GRADUATED),
+    ).toMatchObject({ origin: "enacted", level: "state-statute" });
   });
 });

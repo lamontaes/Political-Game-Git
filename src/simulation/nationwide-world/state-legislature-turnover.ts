@@ -1,3 +1,4 @@
+import { nationalMoodDemocraticShift } from "../national-mood";
 import { candidacyPackById } from "../candidacy-packs";
 import { addDays, makeIsoDate } from "../dates";
 import { decideAnotherTerm } from "../careers/another-term";
@@ -633,7 +634,14 @@ function holdStateLegislativeElection(
     const electionShare =
       share === null
         ? null
-        : logistic(logit(clampShare(share, 1e-6)) + incumbentBonus);
+        : logistic(
+            logit(
+              clampShare(
+                share + nationalMoodDemocraticShift(world, electionDay),
+                1e-6,
+              ),
+            ) + incumbentBonus,
+          );
     // PLACEHOLDER(overnight): the saved generated seat lean chooses between
     // living candidates. A missing lean keeps the incumbent if they filed,
     // then uses stable candidate order; it is not a fabricated vote margin.

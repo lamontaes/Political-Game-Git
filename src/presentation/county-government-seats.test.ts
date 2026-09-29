@@ -89,10 +89,34 @@ describe("a county board or municipal legislature at its lawful size", () => {
       memberTitle: "Police juror",
       basis: "estimated",
     });
-    expect(
-      countyGoverningBodyRules(countyGovernmentUnit("22051")!)!.bodyName,
-    ).toBe("Parish Council");
+    const jefferson = countyGoverningBodyRules(countyGovernmentUnit("22051")!)!;
+    expect(jefferson.bodyName).toBe("Parish Council");
+    // A council-president parish elects a parish president; a police jury
+    // parish has no chief executive of its own.
+    expect(jefferson.chiefTitle).toBe("Parish President");
+    expect(assumption.chiefTitle).toBeNull();
   });
+
+  it(
+    "seats Jefferson Parish's council and its parish president",
+    { timeout: 300_000 },
+    () => {
+      const { world, personId } = open("2250115", "build-25:parish:1");
+      const units = homeLocalGovernmentUnits(world, personId);
+      const parish = units.counties.find(
+        (unit) => unit.countyGeoid === "22051",
+      )!;
+      const rules = countyGoverningBodyRules(parish)!;
+      const officers = sittingLocalOfficers(world, parish);
+      const president = officers.filter((seat) => seat.mayor);
+      expect(president).toHaveLength(1);
+      expect(president[0]!.seatLabel).toBe("Parish President");
+      expect(officers.filter((seat) => !seat.mayor)).toHaveLength(rules.seats);
+      const event = seatedEvent(world, parish.id)!;
+      expect(event.summary).toMatch(/parish president/);
+      console.log(event.summary);
+    },
+  );
 
   it(
     "seats San Juan's municipal legislature and its mayor",

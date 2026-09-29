@@ -1,0 +1,318 @@
+{
+  "id": "apportionment-2020",
+  "version": "apportionment-2020-v1",
+  "asOf": "2020-04-01",
+  "about": "The 2020 Census apportionment population and the House seats it gave each state. Read by src/simulation/apportionment.ts, whose test checks that the method of equal proportions reproduces every state's seats from these counts. The apportionment population is each state's resident population plus federal military and civilian employees overseas, and their dependents, allocated to their home state. It excludes the District of Columbia.",
+  "source": {
+    "publisher": "U.S. Census Bureau",
+    "title": "Table 1. Apportionment Population and Number of Representatives by State: 2020 Census",
+    "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/apportionment/apportionment-2020-table01.xlsx",
+    "retrieved": "2026-09-29",
+    "sha256": "93e7e77a222f078c0af32457af2ecc7bcae2bcb9db0cedca4ad93ff3f99b55bf",
+    "law": "2 U.S.C. §§ 2a and 2b: 435 seats, method of equal proportions"
+  },
+  "houseSize": 435,
+  "totalApportionmentPopulation": 331108434,
+  "states": [
+    {
+      "state": "AL",
+      "name": "Alabama",
+      "apportionmentPopulation": 5030053,
+      "representatives": 7
+    },
+    {
+      "state": "AK",
+      "name": "Alaska",
+      "apportionmentPopulation": 736081,
+      "representatives": 1
+    },
+    {
+      "state": "AZ",
+      "name": "Arizona",
+      "apportionmentPopulation": 7158923,
+      "representatives": 9
+    },
+    {
+      "state": "AR",
+      "name": "Arkansas",
+      "apportionmentPopulation": 3013756,
+      "representatives": 4
+    },
+    {
+      "state": "CA",
+      "name": "California",
+      "apportionmentPopulation": 39576757,
+      "representatives": 52
+    },
+    {
+      "state": "CO",
+      "name": "Colorado",
+      "apportionmentPopulation": 5782171,
+      "representatives": 8
+    },
+    {
+      "state": "CT",
+      "name": "Connecticut",
+      "apportionmentPopulation": 3608298,
+      "representatives": 5
+    },
+    {
+      "state": "DE",
+      "name": "Delaware",
+      "apportionmentPopulation": 990837,
+      "representatives": 1
+    },
+    {
+      "state": "FL",
+      "name": "Florida",
+      "apportionmentPopulation": 21570527,
+      "representatives": 28
+    },
+    {
+      "state": "GA",
+      "name": "Georgia",
+      "apportionmentPopulation": 10725274,
+      "representatives": 14
+    },
+    {
+      "state": "HI",
+      "name": "Hawaii",
+      "apportionmentPopulation": 1460137,
+      "representatives": 2
+    },
+    {
+      "state": "ID",
+      "name": "Idaho",
+      "apportionmentPopulation": 1841377,
+      "representatives": 2
+    },
+    {
+      "state": "IL",
+      "name": "Illinois",
+      "apportionmentPopulation": 12822739,
+      "representatives": 17
+    },
+    {
+      "state": "IN",
+      "name": "Indiana",
+      "apportionmentPopulation": 6790280,
+      "representatives": 9
+    },
+    {
+      "state": "IA",
+      "name": "Iowa",
+      "apportionmentPopulation": 3192406,
+      "representatives": 4
+    },
+    {
+      "state": "KS",
+      "name": "Kansas",
+      "apportionmentPopulation": 2940865,
+      "representatives": 4
+    },
+    {
+      "state": "KY",
+      "name": "Kentucky",
+      "apportionmentPopulation": 4509342,
+      "representatives": 6
+    },
+    {
+      "state": "LA",
+      "name": "Louisiana",
+      "apportionmentPopulation": 4661468,
+      "representatives": 6
+    },
+    {
+      "state": "ME",
+      "name": "Maine",
+      "apportionmentPopulation": 1363582,
+      "representatives": 2
+    },
+    {
+      "state": "MD",
+      "name": "Maryland",
+      "apportionmentPopulation": 6185278,
+      "representatives": 8
+    },
+    {
+      "state": "MA",
+      "name": "Massachusetts",
+      "apportionmentPopulation": 7033469,
+      "representatives": 9
+    },
+    {
+      "state": "MI",
+      "name": "Michigan",
+      "apportionmentPopulation": 10084442,
+      "representatives": 13
+    },
+    {
+      "state": "MN",
+      "name": "Minnesota",
+      "apportionmentPopulation": 5709752,
+      "representatives": 8
+    },
+    {
+      "state": "MS",
+      "name": "Mississippi",
+      "apportionmentPopulation": 2963914,
+      "representatives": 4
+    },
+    {
+      "state": "MO",
+      "name": "Missouri",
+      "apportionmentPopulation": 6160281,
+      "representatives": 8
+    },
+    {
+      "state": "MT",
+      "name": "Montana",
+      "apportionmentPopulation": 1085407,
+      "representatives": 2
+    },
+    {
+      "state": "NE",
+      "name": "Nebraska",
+      "apportionmentPopulation": 1963333,
+      "representatives": 3
+    },
+    {
+      "state": "NV",
+      "name": "Nevada",
+      "apportionmentPopulation": 3108462,
+      "representatives": 4
+    },
+    {
+      "state": "NH",
+      "name": "New Hampshire",
+      "apportionmentPopulation": 1379089,
+      "representatives": 2
+    },
+    {
+      "state": "NJ",
+      "name": "New Jersey",
+      "apportionmentPopulation": 9294493,
+      "representatives": 12
+    },
+    {
+      "state": "NM",
+      "name": "New Mexico",
+      "apportionmentPopulation": 2120220,
+      "representatives": 3
+    },
+    {
+      "state": "NY",
+      "name": "New York",
+      "apportionmentPopulation": 20215751,
+      "representatives": 26
+    },
+    {
+      "state": "NC",
+      "name": "North Carolina",
+      "apportionmentPopulation": 10453948,
+      "representatives": 14
+    },
+    {
+      "state": "ND",
+      "name": "North Dakota",
+      "apportionmentPopulation": 779702,
+      "representatives": 1
+    },
+    {
+      "state": "OH",
+      "name": "Ohio",
+      "apportionmentPopulation": 11808848,
+      "representatives": 15
+    },
+    {
+      "state": "OK",
+      "name": "Oklahoma",
+      "apportionmentPopulation": 3963516,
+      "representatives": 5
+    },
+    {
+      "state": "OR",
+      "name": "Oregon",
+      "apportionmentPopulation": 4241500,
+      "representatives": 6
+    },
+    {
+      "state": "PA",
+      "name": "Pennsylvania",
+      "apportionmentPopulation": 13011844,
+      "representatives": 17
+    },
+    {
+      "state": "RI",
+      "name": "Rhode Island",
+      "apportionmentPopulation": 1098163,
+      "representatives": 2
+    },
+    {
+      "state": "SC",
+      "name": "South Carolina",
+      "apportionmentPopulation": 5124712,
+      "representatives": 7
+    },
+    {
+      "state": "SD",
+      "name": "South Dakota",
+      "apportionmentPopulation": 887770,
+      "representatives": 1
+    },
+    {
+      "state": "TN",
+      "name": "Tennessee",
+      "apportionmentPopulation": 6916897,
+      "representatives": 9
+    },
+    {
+      "state": "TX",
+      "name": "Texas",
+      "apportionmentPopulation": 29183290,
+      "representatives": 38
+    },
+    {
+      "state": "UT",
+      "name": "Utah",
+      "apportionmentPopulation": 3275252,
+      "representatives": 4
+    },
+    {
+      "state": "VT",
+      "name": "Vermont",
+      "apportionmentPopulation": 643503,
+      "representatives": 1
+    },
+    {
+      "state": "VA",
+      "name": "Virginia",
+      "apportionmentPopulation": 8654542,
+      "representatives": 11
+    },
+    {
+      "state": "WA",
+      "name": "Washington",
+      "apportionmentPopulation": 7715946,
+      "representatives": 10
+    },
+    {
+      "state": "WV",
+      "name": "West Virginia",
+      "apportionmentPopulation": 1795045,
+      "representatives": 2
+    },
+    {
+      "state": "WI",
+      "name": "Wisconsin",
+      "apportionmentPopulation": 5897473,
+      "representatives": 8
+    },
+    {
+      "state": "WY",
+      "name": "Wyoming",
+      "apportionmentPopulation": 577719,
+      "representatives": 1
+    }
+  ]
+}

@@ -66,13 +66,18 @@ function propositionId(world: World, stableKey: string): EntityId | null {
 export function menPartneredWithMen(
   world: World,
   date: IsoDate,
+  only?: EntityId,
 ): ReadonlySet<EntityId> {
+  const partnerships = (world.history.partnerships ?? []).filter(
+    (row) => only === undefined || row.personIds.includes(only),
+  );
+  const ids = new Set(partnerships.map((row) => row.id));
   const latest = new Map<
     EntityId,
     { at: IsoDate; seq: number; active: boolean }
   >();
   for (const state of world.history.partnershipStates ?? []) {
-    if (state.effectiveAt > date) continue;
+    if (state.effectiveAt > date || !ids.has(state.partnershipId)) continue;
     const seen = latest.get(state.partnershipId);
     if (
       !seen ||
@@ -86,7 +91,7 @@ export function menPartneredWithMen(
       });
   }
   const men = new Set<EntityId>();
-  for (const partnership of world.history.partnerships ?? []) {
+  for (const partnership of partnerships) {
     if (partnership.startedAt > date) continue;
     if (!latest.get(partnership.id)?.active) continue;
     const [a, b] = partnership.personIds;
@@ -135,4 +140,40 @@ export function fairnessLawCovers(
     jobJurisdictionId !== state?.id &&
     lawInForce(world, jobJurisdictionId, cityQuestion, date)?.answer === "yes"
   );
+}
+
+/** The share of the job's pay a man partnered with a man is hired at, as the provenance of his pay says it. */
+export const UNCOVERED_PAY_NOTE = `${((1 - UNCOVERED_PAY_SHARE) * 100).toFixed(1)}% below the job's rate: no fairness law covers him where he works`;
+
+/**
+ * What a person hired on `date` for work in `jobJurisdictionId` is paid, from
+ * the job's pay `amountMinor`: the job's pay over 1.027 when he is a man
+ * partnered with a man whom no fairness law covers there, never below
+ * `floorMinor` (the minimum wage for the same hours); otherwise the job's
+ * pay. One rule for every hire, the player's and the town's alike.
+ */
+export function payAtHire(
+  world: World,
+  input: {
+    readonly personId: EntityId;
+    readonly jobJurisdictionId: EntityId | null;
+    readonly date: IsoDate;
+    readonly amountMinor: number;
+    readonly floorMinor: number;
+  },
+): { readonly amountMinor: number; readonly belowRate: boolean } {
+  const unchanged = { amountMinor: input.amountMinor, belowRate: false };
+  if (
+    input.amountMinor <= 0 ||
+    !menPartneredWithMen(world, input.date, input.personId).has(
+      input.personId,
+    ) ||
+    fairnessLawCovers(world, input.jobJurisdictionId, input.date)
+  )
+    return unchanged;
+  const amountMinor = Math.max(
+    Math.round(input.amountMinor * UNCOVERED_PAY_SHARE),
+    Math.min(Math.round(input.floorMinor), input.amountMinor),
+  );
+  return { amountMinor, belowRate: amountMinor < input.amountMinor };
 }
