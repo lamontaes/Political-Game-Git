@@ -1064,21 +1064,7 @@
       "kind": "roll",
       "build": "Build 7",
       "count": 1,
-      "code": "rng.fork(\"who-leaves\").next() < 0.5 ? [a, b] : [b, a];"
-    },
-    {
-      "file": "src/simulation/living-world/town-families.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
       "code": "rng.fork(\"move-in\").next() <"
-    },
-    {
-      "file": "src/simulation/living-world/town-families.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "(size(homeA) === size(homeB) && rng.fork(\"host\").next() < 0.5)"
     },
     {
       "file": "src/simulation/living-world/town-families.ts",
