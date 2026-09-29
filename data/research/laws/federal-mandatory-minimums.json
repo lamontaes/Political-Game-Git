@@ -1,0 +1,32 @@
+{
+  "asOf": "2026-09-29",
+  "startingMinimums": {
+    "cocaineThresholdGrams": 500,
+    "cocaineHigherThresholdGrams": 5000,
+    "drugMonths": 60,
+    "higherDrugMonths": 120,
+    "firearmMonths": 60
+  },
+  "proposal": {
+    "drugMonths": 30,
+    "higherDrugMonths": 60,
+    "firearmMonths": 30,
+    "retroactive": 1
+  },
+  "comparison": {
+    "drugGuidelineReduction": 0.177,
+    "drugCases2024": 18281,
+    "firearmCases2024": 8131
+  },
+  "sources": {
+    "drugStatute": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title21-section841&num=0&edition=prelim",
+    "firearmStatute": "https://www.ussc.gov/guidelines/judiciary-sentencing-information",
+    "reformComparison": "https://guidelines.ussc.gov/apex/r/ussc_apex/guidelinesapp/appendixc-detail?APP_AMEND_ID=782",
+    "cases": "https://www.ussc.gov/about/annual-report-2024"
+  },
+  "placeholders": [
+    "The sponsor's proposal halves simple first-offense statutory minima; this is an authored proposal, not 2026 law or the measured effect of Drugs Minus Two.",
+    "Only recorded cocaine trafficking and possession of a firearm in furtherance of federal drug trafficking are covered. Other drugs, safety valve, substantial assistance, enhanced priors and guideline ranges await offense facts and research.",
+    "The 17.7 percent guideline reduction is a comparison benchmark, not a statutory minimum reduction and never selects a defendant or conviction."
+  ]
+}
