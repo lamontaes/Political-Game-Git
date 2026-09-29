@@ -104,6 +104,64 @@
             "shadow": 83.4,
             "base": 152,
             "highlight": 179.4
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-20s30s-01-smile.png",
+              "skin": {
+                "shadow": 83.1,
+                "base": 148.8,
+                "highlight": 175.1
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-20s30s-01-laugh.png",
+              "skin": {
+                "shadow": 77.8,
+                "base": 147.5,
+                "highlight": 222.3
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-20s30s-01-concerned.png",
+              "skin": {
+                "shadow": 79,
+                "base": 149,
+                "highlight": 177
+              }
+            },
+            "angry": {
+              "file": "face-feminine-20s30s-01-angry.png",
+              "skin": {
+                "shadow": 77.8,
+                "base": 149.6,
+                "highlight": 178.4
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-20s30s-01-skeptical.png",
+              "skin": {
+                "shadow": 77.5,
+                "base": 148.9,
+                "highlight": 177.4
+              }
+            },
+            "sad": {
+              "file": "face-feminine-20s30s-01-sad.png",
+              "skin": {
+                "shadow": 80.2,
+                "base": 149.6,
+                "highlight": 177.3
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-20s30s-01-surprised.png",
+              "skin": {
+                "shadow": 75.8,
+                "base": 148.1,
+                "highlight": 177
+              }
+            }
           }
         },
         {
@@ -113,6 +171,64 @@
             "shadow": 73.7,
             "base": 150.4,
             "highlight": 181.1
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-20s30s-02-smile.png",
+              "skin": {
+                "shadow": 76.2,
+                "base": 147.7,
+                "highlight": 176.3
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-20s30s-02-laugh.png",
+              "skin": {
+                "shadow": 73.7,
+                "base": 146.4,
+                "highlight": 215.8
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-20s30s-02-concerned.png",
+              "skin": {
+                "shadow": 74.8,
+                "base": 147.4,
+                "highlight": 176.4
+              }
+            },
+            "angry": {
+              "file": "face-feminine-20s30s-02-angry.png",
+              "skin": {
+                "shadow": 74.6,
+                "base": 148.1,
+                "highlight": 177.5
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-20s30s-02-skeptical.png",
+              "skin": {
+                "shadow": 75.7,
+                "base": 148.2,
+                "highlight": 177.2
+              }
+            },
+            "sad": {
+              "file": "face-feminine-20s30s-02-sad.png",
+              "skin": {
+                "shadow": 75.7,
+                "base": 148.3,
+                "highlight": 177.3
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-20s30s-02-surprised.png",
+              "skin": {
+                "shadow": 69.7,
+                "base": 147,
+                "highlight": 177.9
+              }
+            }
           }
         },
         {
@@ -122,6 +238,64 @@
             "shadow": 73.1,
             "base": 142.1,
             "highlight": 169.7
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-20s30s-03-smile.png",
+              "skin": {
+                "shadow": 69.9,
+                "base": 138.8,
+                "highlight": 166.4
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-20s30s-03-laugh.png",
+              "skin": {
+                "shadow": 67.3,
+                "base": 138.4,
+                "highlight": 212.1
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-20s30s-03-concerned.png",
+              "skin": {
+                "shadow": 68.2,
+                "base": 138.9,
+                "highlight": 167.1
+              }
+            },
+            "angry": {
+              "file": "face-feminine-20s30s-03-angry.png",
+              "skin": {
+                "shadow": 67.8,
+                "base": 140.9,
+                "highlight": 170.1
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-20s30s-03-skeptical.png",
+              "skin": {
+                "shadow": 69.3,
+                "base": 139.1,
+                "highlight": 167
+              }
+            },
+            "sad": {
+              "file": "face-feminine-20s30s-03-sad.png",
+              "skin": {
+                "shadow": 69.1,
+                "base": 139.4,
+                "highlight": 167.6
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-20s30s-03-surprised.png",
+              "skin": {
+                "shadow": 65.4,
+                "base": 138.7,
+                "highlight": 168
+              }
+            }
           }
         },
         {
@@ -131,6 +305,64 @@
             "shadow": 74.3,
             "base": 153.3,
             "highlight": 184.9
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-20s30s-04-smile.png",
+              "skin": {
+                "shadow": 74.8,
+                "base": 149.1,
+                "highlight": 178.9
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-20s30s-04-laugh.png",
+              "skin": {
+                "shadow": 69.9,
+                "base": 145.6,
+                "highlight": 217.3
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-20s30s-04-concerned.png",
+              "skin": {
+                "shadow": 73.3,
+                "base": 149.1,
+                "highlight": 179.5
+              }
+            },
+            "angry": {
+              "file": "face-feminine-20s30s-04-angry.png",
+              "skin": {
+                "shadow": 69.9,
+                "base": 149.6,
+                "highlight": 181.6
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-20s30s-04-skeptical.png",
+              "skin": {
+                "shadow": 70,
+                "base": 148.9,
+                "highlight": 180.4
+              }
+            },
+            "sad": {
+              "file": "face-feminine-20s30s-04-sad.png",
+              "skin": {
+                "shadow": 73.2,
+                "base": 148.9,
+                "highlight": 179.1
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-20s30s-04-surprised.png",
+              "skin": {
+                "shadow": 65.8,
+                "base": 147.6,
+                "highlight": 180.3
+              }
+            }
           }
         },
         {
@@ -140,6 +372,64 @@
             "shadow": 75.8,
             "base": 154.5,
             "highlight": 186
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-20s30s-05-smile.png",
+              "skin": {
+                "shadow": 70.9,
+                "base": 149.3,
+                "highlight": 180.6
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-20s30s-05-laugh.png",
+              "skin": {
+                "shadow": 71,
+                "base": 146.7,
+                "highlight": 217.3
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-20s30s-05-concerned.png",
+              "skin": {
+                "shadow": 72.1,
+                "base": 149.9,
+                "highlight": 181
+              }
+            },
+            "angry": {
+              "file": "face-feminine-20s30s-05-angry.png",
+              "skin": {
+                "shadow": 70,
+                "base": 149,
+                "highlight": 180.6
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-20s30s-05-skeptical.png",
+              "skin": {
+                "shadow": 71.6,
+                "base": 148.9,
+                "highlight": 179.8
+              }
+            },
+            "sad": {
+              "file": "face-feminine-20s30s-05-sad.png",
+              "skin": {
+                "shadow": 73.4,
+                "base": 150.1,
+                "highlight": 180.8
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-20s30s-05-surprised.png",
+              "skin": {
+                "shadow": 67,
+                "base": 148.9,
+                "highlight": 181.7
+              }
+            }
           }
         },
         {
@@ -149,6 +439,64 @@
             "shadow": 77.9,
             "base": 153.8,
             "highlight": 184.1
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-20s30s-06-smile.png",
+              "skin": {
+                "shadow": 75.3,
+                "base": 148.3,
+                "highlight": 177.5
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-20s30s-06-laugh.png",
+              "skin": {
+                "shadow": 67.5,
+                "base": 143.3,
+                "highlight": 212.9
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-20s30s-06-concerned.png",
+              "skin": {
+                "shadow": 74.4,
+                "base": 149.6,
+                "highlight": 179.8
+              }
+            },
+            "angry": {
+              "file": "face-feminine-20s30s-06-angry.png",
+              "skin": {
+                "shadow": 70.5,
+                "base": 149,
+                "highlight": 180.4
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-20s30s-06-skeptical.png",
+              "skin": {
+                "shadow": 73.4,
+                "base": 148.4,
+                "highlight": 178.5
+              }
+            },
+            "sad": {
+              "file": "face-feminine-20s30s-06-sad.png",
+              "skin": {
+                "shadow": 71.9,
+                "base": 149.5,
+                "highlight": 180.6
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-20s30s-06-surprised.png",
+              "skin": {
+                "shadow": 68.7,
+                "base": 147.6,
+                "highlight": 179.1
+              }
+            }
           }
         },
         {
@@ -158,6 +506,64 @@
             "shadow": 79.9,
             "base": 147.9,
             "highlight": 175.1
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-50s-01-smile.png",
+              "skin": {
+                "shadow": 79.2,
+                "base": 144.9,
+                "highlight": 171.2
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-50s-01-laugh.png",
+              "skin": {
+                "shadow": 71.2,
+                "base": 144.9,
+                "highlight": 212
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-50s-01-concerned.png",
+              "skin": {
+                "shadow": 77.6,
+                "base": 145.5,
+                "highlight": 172.7
+              }
+            },
+            "angry": {
+              "file": "face-feminine-50s-01-angry.png",
+              "skin": {
+                "shadow": 76.6,
+                "base": 146,
+                "highlight": 173.8
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-50s-01-skeptical.png",
+              "skin": {
+                "shadow": 78.6,
+                "base": 145.6,
+                "highlight": 172.5
+              }
+            },
+            "sad": {
+              "file": "face-feminine-50s-01-sad.png",
+              "skin": {
+                "shadow": 77.4,
+                "base": 144.9,
+                "highlight": 172
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-50s-01-surprised.png",
+              "skin": {
+                "shadow": 73.1,
+                "base": 144.5,
+                "highlight": 173.1
+              }
+            }
           }
         },
         {
@@ -167,6 +573,64 @@
             "shadow": 73.5,
             "base": 148,
             "highlight": 177.8
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-50s-02-smile.png",
+              "skin": {
+                "shadow": 73.9,
+                "base": 146,
+                "highlight": 174.8
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-50s-02-laugh.png",
+              "skin": {
+                "shadow": 65.3,
+                "base": 143.9,
+                "highlight": 210
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-50s-02-concerned.png",
+              "skin": {
+                "shadow": 67.2,
+                "base": 144.7,
+                "highlight": 175.7
+              }
+            },
+            "angry": {
+              "file": "face-feminine-50s-02-angry.png",
+              "skin": {
+                "shadow": 66.8,
+                "base": 145.8,
+                "highlight": 177.4
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-50s-02-skeptical.png",
+              "skin": {
+                "shadow": 71.2,
+                "base": 145,
+                "highlight": 174.5
+              }
+            },
+            "sad": {
+              "file": "face-feminine-50s-02-sad.png",
+              "skin": {
+                "shadow": 72.4,
+                "base": 144.9,
+                "highlight": 174
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-50s-02-surprised.png",
+              "skin": {
+                "shadow": 68.2,
+                "base": 144.6,
+                "highlight": 175.1
+              }
+            }
           }
         },
         {
@@ -176,6 +640,64 @@
             "shadow": 67.6,
             "base": 135.9,
             "highlight": 163.2
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-50s-03-smile.png",
+              "skin": {
+                "shadow": 67.8,
+                "base": 134,
+                "highlight": 160.4
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-50s-03-laugh.png",
+              "skin": {
+                "shadow": 61.5,
+                "base": 134,
+                "highlight": 210.3
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-50s-03-concerned.png",
+              "skin": {
+                "shadow": 65.2,
+                "base": 134.1,
+                "highlight": 161.6
+              }
+            },
+            "angry": {
+              "file": "face-feminine-50s-03-angry.png",
+              "skin": {
+                "shadow": 62.7,
+                "base": 135.9,
+                "highlight": 165.2
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-50s-03-skeptical.png",
+              "skin": {
+                "shadow": 64.9,
+                "base": 134.2,
+                "highlight": 162
+              }
+            },
+            "sad": {
+              "file": "face-feminine-50s-03-sad.png",
+              "skin": {
+                "shadow": 64.6,
+                "base": 133.4,
+                "highlight": 160.9
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-50s-03-surprised.png",
+              "skin": {
+                "shadow": 63.6,
+                "base": 134.2,
+                "highlight": 162.5
+              }
+            }
           }
         },
         {
@@ -185,6 +707,64 @@
             "shadow": 70.9,
             "base": 147.6,
             "highlight": 178.3
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-50s-04-smile.png",
+              "skin": {
+                "shadow": 68.1,
+                "base": 143.6,
+                "highlight": 173.9
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-50s-04-laugh.png",
+              "skin": {
+                "shadow": 65.2,
+                "base": 142.4,
+                "highlight": 206.5
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-50s-04-concerned.png",
+              "skin": {
+                "shadow": 66.8,
+                "base": 142.4,
+                "highlight": 172.6
+              }
+            },
+            "angry": {
+              "file": "face-feminine-50s-04-angry.png",
+              "skin": {
+                "shadow": 63.7,
+                "base": 143.5,
+                "highlight": 175.4
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-50s-04-skeptical.png",
+              "skin": {
+                "shadow": 69.6,
+                "base": 143,
+                "highlight": 172.4
+              }
+            },
+            "sad": {
+              "file": "face-feminine-50s-04-sad.png",
+              "skin": {
+                "shadow": 67.6,
+                "base": 142.8,
+                "highlight": 172.9
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-50s-04-surprised.png",
+              "skin": {
+                "shadow": 65.8,
+                "base": 142.2,
+                "highlight": 172.7
+              }
+            }
           }
         },
         {
@@ -194,6 +774,64 @@
             "shadow": 67.6,
             "base": 149.4,
             "highlight": 182.1
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-50s-05-smile.png",
+              "skin": {
+                "shadow": 71.1,
+                "base": 144.9,
+                "highlight": 174.4
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-50s-05-laugh.png",
+              "skin": {
+                "shadow": 68.2,
+                "base": 142.1,
+                "highlight": 209.7
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-50s-05-concerned.png",
+              "skin": {
+                "shadow": 65.4,
+                "base": 143.3,
+                "highlight": 174.5
+              }
+            },
+            "angry": {
+              "file": "face-feminine-50s-05-angry.png",
+              "skin": {
+                "shadow": 66.5,
+                "base": 144.3,
+                "highlight": 175.4
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-50s-05-skeptical.png",
+              "skin": {
+                "shadow": 69.1,
+                "base": 143.8,
+                "highlight": 173.7
+              }
+            },
+            "sad": {
+              "file": "face-feminine-50s-05-sad.png",
+              "skin": {
+                "shadow": 66.3,
+                "base": 143.4,
+                "highlight": 174.3
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-50s-05-surprised.png",
+              "skin": {
+                "shadow": 67.2,
+                "base": 143.1,
+                "highlight": 179
+              }
+            }
           }
         },
         {
@@ -203,6 +841,64 @@
             "shadow": 68.6,
             "base": 147.3,
             "highlight": 178.8
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-50s-06-smile.png",
+              "skin": {
+                "shadow": 67.6,
+                "base": 143.7,
+                "highlight": 174.1
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-50s-06-laugh.png",
+              "skin": {
+                "shadow": 65.5,
+                "base": 140.5,
+                "highlight": 211.6
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-50s-06-concerned.png",
+              "skin": {
+                "shadow": 66.9,
+                "base": 142.5,
+                "highlight": 172.8
+              }
+            },
+            "angry": {
+              "file": "face-feminine-50s-06-angry.png",
+              "skin": {
+                "shadow": 65.4,
+                "base": 142.2,
+                "highlight": 172.9
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-50s-06-skeptical.png",
+              "skin": {
+                "shadow": 68,
+                "base": 142.7,
+                "highlight": 172.6
+              }
+            },
+            "sad": {
+              "file": "face-feminine-50s-06-sad.png",
+              "skin": {
+                "shadow": 69.8,
+                "base": 142.7,
+                "highlight": 171.9
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-50s-06-surprised.png",
+              "skin": {
+                "shadow": 65.6,
+                "base": 141.5,
+                "highlight": 171.8
+              }
+            }
           }
         },
         {
@@ -212,6 +908,64 @@
             "shadow": 88.6,
             "base": 147.7,
             "highlight": 171.4
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-70s-01-smile.png",
+              "skin": {
+                "shadow": 86.9,
+                "base": 145.1,
+                "highlight": 171
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-70s-01-laugh.png",
+              "skin": {
+                "shadow": 81.6,
+                "base": 144.3,
+                "highlight": 190.1
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-70s-01-concerned.png",
+              "skin": {
+                "shadow": 86.8,
+                "base": 145,
+                "highlight": 170.4
+              }
+            },
+            "angry": {
+              "file": "face-feminine-70s-01-angry.png",
+              "skin": {
+                "shadow": 86.5,
+                "base": 145.5,
+                "highlight": 169.9
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-70s-01-skeptical.png",
+              "skin": {
+                "shadow": 87.1,
+                "base": 144.7,
+                "highlight": 170.3
+              }
+            },
+            "sad": {
+              "file": "face-feminine-70s-01-sad.png",
+              "skin": {
+                "shadow": 86,
+                "base": 145.4,
+                "highlight": 171
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-70s-01-surprised.png",
+              "skin": {
+                "shadow": 85.1,
+                "base": 144.4,
+                "highlight": 168.9
+              }
+            }
           }
         },
         {
@@ -221,6 +975,64 @@
             "shadow": 80.9,
             "base": 149,
             "highlight": 176.2
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-70s-02-smile.png",
+              "skin": {
+                "shadow": 75.4,
+                "base": 144.8,
+                "highlight": 172.6
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-70s-02-laugh.png",
+              "skin": {
+                "shadow": 76.4,
+                "base": 144.2,
+                "highlight": 186.6
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-70s-02-concerned.png",
+              "skin": {
+                "shadow": 76.9,
+                "base": 145.3,
+                "highlight": 172.6
+              }
+            },
+            "angry": {
+              "file": "face-feminine-70s-02-angry.png",
+              "skin": {
+                "shadow": 73.8,
+                "base": 144.9,
+                "highlight": 173.4
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-70s-02-skeptical.png",
+              "skin": {
+                "shadow": 79.6,
+                "base": 144.5,
+                "highlight": 170.5
+              }
+            },
+            "sad": {
+              "file": "face-feminine-70s-02-sad.png",
+              "skin": {
+                "shadow": 78.9,
+                "base": 145,
+                "highlight": 171.4
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-70s-02-surprised.png",
+              "skin": {
+                "shadow": 76.8,
+                "base": 144.3,
+                "highlight": 175
+              }
+            }
           }
         },
         {
@@ -230,6 +1042,64 @@
             "shadow": 74.7,
             "base": 140.6,
             "highlight": 166.9
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-70s-03-smile.png",
+              "skin": {
+                "shadow": 73.2,
+                "base": 137.6,
+                "highlight": 164.1
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-70s-03-laugh.png",
+              "skin": {
+                "shadow": 71.6,
+                "base": 137.7,
+                "highlight": 185.3
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-70s-03-concerned.png",
+              "skin": {
+                "shadow": 71.8,
+                "base": 137.8,
+                "highlight": 167.2
+              }
+            },
+            "angry": {
+              "file": "face-feminine-70s-03-angry.png",
+              "skin": {
+                "shadow": 71.1,
+                "base": 138.2,
+                "highlight": 165.6
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-70s-03-skeptical.png",
+              "skin": {
+                "shadow": 74,
+                "base": 137.6,
+                "highlight": 163.2
+              }
+            },
+            "sad": {
+              "file": "face-feminine-70s-03-sad.png",
+              "skin": {
+                "shadow": 74.9,
+                "base": 138.4,
+                "highlight": 166.8
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-70s-03-surprised.png",
+              "skin": {
+                "shadow": 70.8,
+                "base": 137.5,
+                "highlight": 167.7
+              }
+            }
           }
         },
         {
@@ -239,6 +1109,64 @@
             "shadow": 76.4,
             "base": 147.1,
             "highlight": 175.3
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-70s-04-smile.png",
+              "skin": {
+                "shadow": 75.5,
+                "base": 143.4,
+                "highlight": 170.5
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-70s-04-laugh.png",
+              "skin": {
+                "shadow": 73.6,
+                "base": 140.6,
+                "highlight": 184.7
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-70s-04-concerned.png",
+              "skin": {
+                "shadow": 74.8,
+                "base": 142.7,
+                "highlight": 169.9
+              }
+            },
+            "angry": {
+              "file": "face-feminine-70s-04-angry.png",
+              "skin": {
+                "shadow": 74.1,
+                "base": 142.9,
+                "highlight": 170.4
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-70s-04-skeptical.png",
+              "skin": {
+                "shadow": 77,
+                "base": 142.6,
+                "highlight": 168.8
+              }
+            },
+            "sad": {
+              "file": "face-feminine-70s-04-sad.png",
+              "skin": {
+                "shadow": 75.7,
+                "base": 142.8,
+                "highlight": 169.6
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-70s-04-surprised.png",
+              "skin": {
+                "shadow": 73.3,
+                "base": 141.8,
+                "highlight": 169.2
+              }
+            }
           }
         },
         {
@@ -248,6 +1176,64 @@
             "shadow": 78.6,
             "base": 148.8,
             "highlight": 176.9
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-70s-05-smile.png",
+              "skin": {
+                "shadow": 78,
+                "base": 145.2,
+                "highlight": 172.1
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-70s-05-laugh.png",
+              "skin": {
+                "shadow": 72.9,
+                "base": 141.9,
+                "highlight": 191.2
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-70s-05-concerned.png",
+              "skin": {
+                "shadow": 75.4,
+                "base": 144.4,
+                "highlight": 172
+              }
+            },
+            "angry": {
+              "file": "face-feminine-70s-05-angry.png",
+              "skin": {
+                "shadow": 76.2,
+                "base": 144.9,
+                "highlight": 172.3
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-70s-05-skeptical.png",
+              "skin": {
+                "shadow": 80.4,
+                "base": 144.7,
+                "highlight": 170.5
+              }
+            },
+            "sad": {
+              "file": "face-feminine-70s-05-sad.png",
+              "skin": {
+                "shadow": 78,
+                "base": 144.7,
+                "highlight": 173.7
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-70s-05-surprised.png",
+              "skin": {
+                "shadow": 76.2,
+                "base": 143.2,
+                "highlight": 170
+              }
+            }
           }
         },
         {
@@ -257,6 +1243,64 @@
             "shadow": 76.8,
             "base": 146.7,
             "highlight": 174.7
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-feminine-70s-06-smile.png",
+              "skin": {
+                "shadow": 75.4,
+                "base": 142.5,
+                "highlight": 169.3
+              }
+            },
+            "laugh": {
+              "file": "face-feminine-70s-06-laugh.png",
+              "skin": {
+                "shadow": 70.2,
+                "base": 140,
+                "highlight": 186.1
+              }
+            },
+            "concerned": {
+              "file": "face-feminine-70s-06-concerned.png",
+              "skin": {
+                "shadow": 73.9,
+                "base": 142.3,
+                "highlight": 169.7
+              }
+            },
+            "angry": {
+              "file": "face-feminine-70s-06-angry.png",
+              "skin": {
+                "shadow": 73.3,
+                "base": 142.4,
+                "highlight": 170.1
+              }
+            },
+            "skeptical": {
+              "file": "face-feminine-70s-06-skeptical.png",
+              "skin": {
+                "shadow": 79,
+                "base": 143,
+                "highlight": 168.7
+              }
+            },
+            "sad": {
+              "file": "face-feminine-70s-06-sad.png",
+              "skin": {
+                "shadow": 74.5,
+                "base": 142.1,
+                "highlight": 169.1
+              }
+            },
+            "surprised": {
+              "file": "face-feminine-70s-06-surprised.png",
+              "skin": {
+                "shadow": 73,
+                "base": 141.1,
+                "highlight": 168.3
+              }
+            }
           }
         }
       ],
@@ -4473,6 +5517,64 @@
             "shadow": 76.9,
             "base": 175.4,
             "highlight": 214.8
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-20s30s-01-smile.png",
+              "skin": {
+                "shadow": 81.8,
+                "base": 172.7,
+                "highlight": 209.1
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-20s30s-01-laugh.png",
+              "skin": {
+                "shadow": 77.2,
+                "base": 174,
+                "highlight": 217.2
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-20s30s-01-concerned.png",
+              "skin": {
+                "shadow": 76.6,
+                "base": 172.5,
+                "highlight": 210.9
+              }
+            },
+            "angry": {
+              "file": "face-masculine-20s30s-01-angry.png",
+              "skin": {
+                "shadow": 77.6,
+                "base": 172.5,
+                "highlight": 210.4
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-20s30s-01-skeptical.png",
+              "skin": {
+                "shadow": 78.9,
+                "base": 172.3,
+                "highlight": 209.7
+              }
+            },
+            "sad": {
+              "file": "face-masculine-20s30s-01-sad.png",
+              "skin": {
+                "shadow": 78.1,
+                "base": 172,
+                "highlight": 209.5
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-20s30s-01-surprised.png",
+              "skin": {
+                "shadow": 74.7,
+                "base": 171,
+                "highlight": 209.5
+              }
+            }
           }
         },
         {
@@ -4482,6 +5584,64 @@
             "shadow": 67.2,
             "base": 162.9,
             "highlight": 201.1
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-20s30s-02-smile.png",
+              "skin": {
+                "shadow": 67.9,
+                "base": 156.8,
+                "highlight": 192.4
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-20s30s-02-laugh.png",
+              "skin": {
+                "shadow": 64.9,
+                "base": 155.4,
+                "highlight": 216.2
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-20s30s-02-concerned.png",
+              "skin": {
+                "shadow": 71,
+                "base": 158.6,
+                "highlight": 193.7
+              }
+            },
+            "angry": {
+              "file": "face-masculine-20s30s-02-angry.png",
+              "skin": {
+                "shadow": 70.4,
+                "base": 158.8,
+                "highlight": 194.1
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-20s30s-02-skeptical.png",
+              "skin": {
+                "shadow": 71.1,
+                "base": 158.9,
+                "highlight": 194.1
+              }
+            },
+            "sad": {
+              "file": "face-masculine-20s30s-02-sad.png",
+              "skin": {
+                "shadow": 70.3,
+                "base": 158.3,
+                "highlight": 193.5
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-20s30s-02-surprised.png",
+              "skin": {
+                "shadow": 64.8,
+                "base": 156.8,
+                "highlight": 193.6
+              }
+            }
           }
         },
         {
@@ -4491,6 +5651,64 @@
             "shadow": 63.5,
             "base": 160.6,
             "highlight": 199.5
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-20s30s-03-smile.png",
+              "skin": {
+                "shadow": 65.9,
+                "base": 156.2,
+                "highlight": 192.8
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-20s30s-03-laugh.png",
+              "skin": {
+                "shadow": 64.1,
+                "base": 154.4,
+                "highlight": 202.4
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-20s30s-03-concerned.png",
+              "skin": {
+                "shadow": 65.2,
+                "base": 156.7,
+                "highlight": 193.2
+              }
+            },
+            "angry": {
+              "file": "face-masculine-20s30s-03-angry.png",
+              "skin": {
+                "shadow": 65.5,
+                "base": 156.9,
+                "highlight": 193.4
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-20s30s-03-skeptical.png",
+              "skin": {
+                "shadow": 66.2,
+                "base": 157.9,
+                "highlight": 194.7
+              }
+            },
+            "sad": {
+              "file": "face-masculine-20s30s-03-sad.png",
+              "skin": {
+                "shadow": 68,
+                "base": 156.7,
+                "highlight": 192.2
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-20s30s-03-surprised.png",
+              "skin": {
+                "shadow": 64.2,
+                "base": 155.7,
+                "highlight": 192.2
+              }
+            }
           }
         },
         {
@@ -4500,6 +5718,64 @@
             "shadow": 79,
             "base": 165.3,
             "highlight": 199.8
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-20s30s-04-smile.png",
+              "skin": {
+                "shadow": 80.9,
+                "base": 158.8,
+                "highlight": 189.9
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-20s30s-04-laugh.png",
+              "skin": {
+                "shadow": 70.5,
+                "base": 156,
+                "highlight": 220.4
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-20s30s-04-concerned.png",
+              "skin": {
+                "shadow": 78.9,
+                "base": 159.3,
+                "highlight": 191.4
+              }
+            },
+            "angry": {
+              "file": "face-masculine-20s30s-04-angry.png",
+              "skin": {
+                "shadow": 79.5,
+                "base": 160.4,
+                "highlight": 192.8
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-20s30s-04-skeptical.png",
+              "skin": {
+                "shadow": 78.9,
+                "base": 159.4,
+                "highlight": 191.7
+              }
+            },
+            "sad": {
+              "file": "face-masculine-20s30s-04-sad.png",
+              "skin": {
+                "shadow": 78.2,
+                "base": 160.9,
+                "highlight": 193.9
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-20s30s-04-surprised.png",
+              "skin": {
+                "shadow": 71.3,
+                "base": 158.6,
+                "highlight": 193.6
+              }
+            }
           }
         },
         {
@@ -4509,6 +5785,64 @@
             "shadow": 83.5,
             "base": 163.8,
             "highlight": 195.9
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-20s30s-05-smile.png",
+              "skin": {
+                "shadow": 82.8,
+                "base": 158.2,
+                "highlight": 188.4
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-20s30s-05-laugh.png",
+              "skin": {
+                "shadow": 77.3,
+                "base": 152,
+                "highlight": 217.7
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-20s30s-05-concerned.png",
+              "skin": {
+                "shadow": 85,
+                "base": 158.1,
+                "highlight": 187.3
+              }
+            },
+            "angry": {
+              "file": "face-masculine-20s30s-05-angry.png",
+              "skin": {
+                "shadow": 85.8,
+                "base": 158.1,
+                "highlight": 187
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-20s30s-05-skeptical.png",
+              "skin": {
+                "shadow": 86,
+                "base": 158,
+                "highlight": 187.6
+              }
+            },
+            "sad": {
+              "file": "face-masculine-20s30s-05-sad.png",
+              "skin": {
+                "shadow": 82.8,
+                "base": 158,
+                "highlight": 188.1
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-20s30s-05-surprised.png",
+              "skin": {
+                "shadow": 80.1,
+                "base": 155.1,
+                "highlight": 187.9
+              }
+            }
           }
         },
         {
@@ -4518,6 +5852,64 @@
             "shadow": 65,
             "base": 167.9,
             "highlight": 209
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-20s30s-06-smile.png",
+              "skin": {
+                "shadow": 69.1,
+                "base": 165.5,
+                "highlight": 204
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-20s30s-06-laugh.png",
+              "skin": {
+                "shadow": 69.4,
+                "base": 164.1,
+                "highlight": 219.8
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-20s30s-06-concerned.png",
+              "skin": {
+                "shadow": 67.8,
+                "base": 163.2,
+                "highlight": 201.4
+              }
+            },
+            "angry": {
+              "file": "face-masculine-20s30s-06-angry.png",
+              "skin": {
+                "shadow": 67.7,
+                "base": 162.6,
+                "highlight": 200.6
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-20s30s-06-skeptical.png",
+              "skin": {
+                "shadow": 68.9,
+                "base": 163.9,
+                "highlight": 201.8
+              }
+            },
+            "sad": {
+              "file": "face-masculine-20s30s-06-sad.png",
+              "skin": {
+                "shadow": 68.4,
+                "base": 163.4,
+                "highlight": 201.4
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-20s30s-06-surprised.png",
+              "skin": {
+                "shadow": 65,
+                "base": 161.9,
+                "highlight": 200.6
+              }
+            }
           }
         },
         {
@@ -4527,6 +5919,64 @@
             "shadow": 86.9,
             "base": 171.9,
             "highlight": 205.8
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-50s-01-smile.png",
+              "skin": {
+                "shadow": 89.7,
+                "base": 170.3,
+                "highlight": 202.5
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-50s-01-laugh.png",
+              "skin": {
+                "shadow": 83.2,
+                "base": 171.7,
+                "highlight": 207.1
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-50s-01-concerned.png",
+              "skin": {
+                "shadow": 90.6,
+                "base": 169.4,
+                "highlight": 200.9
+              }
+            },
+            "angry": {
+              "file": "face-masculine-50s-01-angry.png",
+              "skin": {
+                "shadow": 88.5,
+                "base": 171.1,
+                "highlight": 204.2
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-50s-01-skeptical.png",
+              "skin": {
+                "shadow": 89.8,
+                "base": 169.4,
+                "highlight": 201.2
+              }
+            },
+            "sad": {
+              "file": "face-masculine-50s-01-sad.png",
+              "skin": {
+                "shadow": 92,
+                "base": 170.2,
+                "highlight": 201.5
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-50s-01-surprised.png",
+              "skin": {
+                "shadow": 85.7,
+                "base": 170.1,
+                "highlight": 203.9
+              }
+            }
           }
         },
         {
@@ -4536,6 +5986,64 @@
             "shadow": 74.9,
             "base": 156.7,
             "highlight": 189.4
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-50s-02-smile.png",
+              "skin": {
+                "shadow": 76.1,
+                "base": 153.2,
+                "highlight": 184.1
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-50s-02-laugh.png",
+              "skin": {
+                "shadow": 67.1,
+                "base": 149.8,
+                "highlight": 218.4
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-50s-02-concerned.png",
+              "skin": {
+                "shadow": 73,
+                "base": 151,
+                "highlight": 182.2
+              }
+            },
+            "angry": {
+              "file": "face-masculine-50s-02-angry.png",
+              "skin": {
+                "shadow": 73.7,
+                "base": 150.1,
+                "highlight": 180.6
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-50s-02-skeptical.png",
+              "skin": {
+                "shadow": 74.1,
+                "base": 151.7,
+                "highlight": 183
+              }
+            },
+            "sad": {
+              "file": "face-masculine-50s-02-sad.png",
+              "skin": {
+                "shadow": 71,
+                "base": 150.4,
+                "highlight": 182.2
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-50s-02-surprised.png",
+              "skin": {
+                "shadow": 65.5,
+                "base": 150.2,
+                "highlight": 184
+              }
+            }
           }
         },
         {
@@ -4545,6 +6053,64 @@
             "shadow": 70.1,
             "base": 155.8,
             "highlight": 193.1
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-50s-03-smile.png",
+              "skin": {
+                "shadow": 70.9,
+                "base": 153.3,
+                "highlight": 190
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-50s-03-laugh.png",
+              "skin": {
+                "shadow": 69,
+                "base": 150.6,
+                "highlight": 205.3
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-50s-03-concerned.png",
+              "skin": {
+                "shadow": 69.5,
+                "base": 151.5,
+                "highlight": 187.8
+              }
+            },
+            "angry": {
+              "file": "face-masculine-50s-03-angry.png",
+              "skin": {
+                "shadow": 67.6,
+                "base": 151.5,
+                "highlight": 188.5
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-50s-03-skeptical.png",
+              "skin": {
+                "shadow": 68.5,
+                "base": 151.2,
+                "highlight": 188.2
+              }
+            },
+            "sad": {
+              "file": "face-masculine-50s-03-sad.png",
+              "skin": {
+                "shadow": 69.7,
+                "base": 151.6,
+                "highlight": 187.3
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-50s-03-surprised.png",
+              "skin": {
+                "shadow": 69.1,
+                "base": 150.2,
+                "highlight": 196.3
+              }
+            }
           }
         },
         {
@@ -4554,6 +6120,64 @@
             "shadow": 87.5,
             "base": 159.9,
             "highlight": 188.9
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-50s-04-smile.png",
+              "skin": {
+                "shadow": 80.9,
+                "base": 155.6,
+                "highlight": 185.5
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-50s-04-laugh.png",
+              "skin": {
+                "shadow": 75.4,
+                "base": 153.1,
+                "highlight": 227.7
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-50s-04-concerned.png",
+              "skin": {
+                "shadow": 80.1,
+                "base": 154.9,
+                "highlight": 184.8
+              }
+            },
+            "angry": {
+              "file": "face-masculine-50s-04-angry.png",
+              "skin": {
+                "shadow": 76.8,
+                "base": 153.6,
+                "highlight": 184.3
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-50s-04-skeptical.png",
+              "skin": {
+                "shadow": 85.1,
+                "base": 156.2,
+                "highlight": 184.6
+              }
+            },
+            "sad": {
+              "file": "face-masculine-50s-04-sad.png",
+              "skin": {
+                "shadow": 86.2,
+                "base": 155.5,
+                "highlight": 183.2
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-50s-04-surprised.png",
+              "skin": {
+                "shadow": 80.7,
+                "base": 155.6,
+                "highlight": 185.6
+              }
+            }
           }
         },
         {
@@ -4563,6 +6187,64 @@
             "shadow": 84.4,
             "base": 156.1,
             "highlight": 186.5
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-50s-05-smile.png",
+              "skin": {
+                "shadow": 80.6,
+                "base": 150.7,
+                "highlight": 183.1
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-50s-05-laugh.png",
+              "skin": {
+                "shadow": 73.1,
+                "base": 146.6,
+                "highlight": 227.2
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-50s-05-concerned.png",
+              "skin": {
+                "shadow": 75.6,
+                "base": 149.7,
+                "highlight": 183.2
+              }
+            },
+            "angry": {
+              "file": "face-masculine-50s-05-angry.png",
+              "skin": {
+                "shadow": 80.1,
+                "base": 148.8,
+                "highlight": 181.9
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-50s-05-skeptical.png",
+              "skin": {
+                "shadow": 72.2,
+                "base": 149.4,
+                "highlight": 180.2
+              }
+            },
+            "sad": {
+              "file": "face-masculine-50s-05-sad.png",
+              "skin": {
+                "shadow": 79.1,
+                "base": 148.6,
+                "highlight": 183.5
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-50s-05-surprised.png",
+              "skin": {
+                "shadow": 74.7,
+                "base": 148.8,
+                "highlight": 183.9
+              }
+            }
           }
         },
         {
@@ -4572,6 +6254,64 @@
             "shadow": 70.3,
             "base": 160.6,
             "highlight": 196.8
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-50s-06-smile.png",
+              "skin": {
+                "shadow": 72.5,
+                "base": 156.3,
+                "highlight": 189.8
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-50s-06-laugh.png",
+              "skin": {
+                "shadow": 68.7,
+                "base": 154.4,
+                "highlight": 220.7
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-50s-06-concerned.png",
+              "skin": {
+                "shadow": 69.2,
+                "base": 155.5,
+                "highlight": 190
+              }
+            },
+            "angry": {
+              "file": "face-masculine-50s-06-angry.png",
+              "skin": {
+                "shadow": 69.5,
+                "base": 154.8,
+                "highlight": 188.9
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-50s-06-skeptical.png",
+              "skin": {
+                "shadow": 72.8,
+                "base": 155.7,
+                "highlight": 188.9
+              }
+            },
+            "sad": {
+              "file": "face-masculine-50s-06-sad.png",
+              "skin": {
+                "shadow": 71.9,
+                "base": 154.5,
+                "highlight": 187.6
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-50s-06-surprised.png",
+              "skin": {
+                "shadow": 69.5,
+                "base": 153.7,
+                "highlight": 187.4
+              }
+            }
           }
         },
         {
@@ -4581,6 +6321,64 @@
             "shadow": 92.4,
             "base": 184.4,
             "highlight": 221.1
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-70s-01-smile.png",
+              "skin": {
+                "shadow": 94.6,
+                "base": 182.2,
+                "highlight": 217.2
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-70s-01-laugh.png",
+              "skin": {
+                "shadow": 85.9,
+                "base": 183.1,
+                "highlight": 222
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-70s-01-concerned.png",
+              "skin": {
+                "shadow": 93.6,
+                "base": 180.4,
+                "highlight": 215
+              }
+            },
+            "angry": {
+              "file": "face-masculine-70s-01-angry.png",
+              "skin": {
+                "shadow": 88.2,
+                "base": 183.6,
+                "highlight": 221.7
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-70s-01-skeptical.png",
+              "skin": {
+                "shadow": 95.8,
+                "base": 180.3,
+                "highlight": 214.1
+              }
+            },
+            "sad": {
+              "file": "face-masculine-70s-01-sad.png",
+              "skin": {
+                "shadow": 93.6,
+                "base": 180.5,
+                "highlight": 215.3
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-70s-01-surprised.png",
+              "skin": {
+                "shadow": 85.9,
+                "base": 180.9,
+                "highlight": 218.9
+              }
+            }
           }
         },
         {
@@ -4590,6 +6388,64 @@
             "shadow": 70.7,
             "base": 159.1,
             "highlight": 214.9
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-70s-02-smile.png",
+              "skin": {
+                "shadow": 68.6,
+                "base": 153.1,
+                "highlight": 212.9
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-70s-02-laugh.png",
+              "skin": {
+                "shadow": 66,
+                "base": 151.4,
+                "highlight": 215.2
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-70s-02-concerned.png",
+              "skin": {
+                "shadow": 66.9,
+                "base": 152.4,
+                "highlight": 212.9
+              }
+            },
+            "angry": {
+              "file": "face-masculine-70s-02-angry.png",
+              "skin": {
+                "shadow": 70.9,
+                "base": 150.8,
+                "highlight": 208.1
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-70s-02-skeptical.png",
+              "skin": {
+                "shadow": 68,
+                "base": 153.6,
+                "highlight": 213.6
+              }
+            },
+            "sad": {
+              "file": "face-masculine-70s-02-sad.png",
+              "skin": {
+                "shadow": 66.3,
+                "base": 151.4,
+                "highlight": 212.9
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-70s-02-surprised.png",
+              "skin": {
+                "shadow": 67.7,
+                "base": 150.7,
+                "highlight": 212.1
+              }
+            }
           }
         },
         {
@@ -4599,6 +6455,64 @@
             "shadow": 66.1,
             "base": 159.2,
             "highlight": 213.8
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-70s-03-smile.png",
+              "skin": {
+                "shadow": 67.7,
+                "base": 155.4,
+                "highlight": 210.8
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-70s-03-laugh.png",
+              "skin": {
+                "shadow": 67.5,
+                "base": 156.3,
+                "highlight": 215.6
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-70s-03-concerned.png",
+              "skin": {
+                "shadow": 67.8,
+                "base": 155,
+                "highlight": 210.4
+              }
+            },
+            "angry": {
+              "file": "face-masculine-70s-03-angry.png",
+              "skin": {
+                "shadow": 74.9,
+                "base": 159.8,
+                "highlight": 207.9
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-70s-03-skeptical.png",
+              "skin": {
+                "shadow": 67.6,
+                "base": 155.4,
+                "highlight": 211.2
+              }
+            },
+            "sad": {
+              "file": "face-masculine-70s-03-sad.png",
+              "skin": {
+                "shadow": 67.7,
+                "base": 154.4,
+                "highlight": 210
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-70s-03-surprised.png",
+              "skin": {
+                "shadow": 68,
+                "base": 154.2,
+                "highlight": 211.3
+              }
+            }
           }
         },
         {
@@ -4608,6 +6522,64 @@
             "shadow": 70.9,
             "base": 161,
             "highlight": 198.1
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-70s-04-smile.png",
+              "skin": {
+                "shadow": 71.6,
+                "base": 162.1,
+                "highlight": 200.3
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-70s-04-laugh.png",
+              "skin": {
+                "shadow": 68.5,
+                "base": 171,
+                "highlight": 215.1
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-70s-04-concerned.png",
+              "skin": {
+                "shadow": 71.1,
+                "base": 158.1,
+                "highlight": 198.3
+              }
+            },
+            "angry": {
+              "file": "face-masculine-70s-04-angry.png",
+              "skin": {
+                "shadow": 73.7,
+                "base": 169.8,
+                "highlight": 208.3
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-70s-04-skeptical.png",
+              "skin": {
+                "shadow": 69.6,
+                "base": 157.4,
+                "highlight": 196.7
+              }
+            },
+            "sad": {
+              "file": "face-masculine-70s-04-sad.png",
+              "skin": {
+                "shadow": 70.5,
+                "base": 157.9,
+                "highlight": 198.5
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-70s-04-surprised.png",
+              "skin": {
+                "shadow": 70,
+                "base": 161.7,
+                "highlight": 204.4
+              }
+            }
           }
         },
         {
@@ -4617,6 +6589,64 @@
             "shadow": 77.4,
             "base": 157.6,
             "highlight": 196.3
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-70s-05-smile.png",
+              "skin": {
+                "shadow": 76.5,
+                "base": 154.2,
+                "highlight": 192.5
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-70s-05-laugh.png",
+              "skin": {
+                "shadow": 71.3,
+                "base": 147.2,
+                "highlight": 209.3
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-70s-05-concerned.png",
+              "skin": {
+                "shadow": 75.2,
+                "base": 150.6,
+                "highlight": 194.1
+              }
+            },
+            "angry": {
+              "file": "face-masculine-70s-05-angry.png",
+              "skin": {
+                "shadow": 71.8,
+                "base": 147.2,
+                "highlight": 186
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-70s-05-skeptical.png",
+              "skin": {
+                "shadow": 79.2,
+                "base": 152.9,
+                "highlight": 193.1
+              }
+            },
+            "sad": {
+              "file": "face-masculine-70s-05-sad.png",
+              "skin": {
+                "shadow": 77.4,
+                "base": 149.8,
+                "highlight": 192.3
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-70s-05-surprised.png",
+              "skin": {
+                "shadow": 71.7,
+                "base": 149.2,
+                "highlight": 203.4
+              }
+            }
           }
         },
         {
@@ -4626,6 +6656,64 @@
             "shadow": 66.9,
             "base": 158.2,
             "highlight": 204.3
+          },
+          "expressions": {
+            "smile": {
+              "file": "face-masculine-70s-06-smile.png",
+              "skin": {
+                "shadow": 68.3,
+                "base": 154.6,
+                "highlight": 201.2
+              }
+            },
+            "laugh": {
+              "file": "face-masculine-70s-06-laugh.png",
+              "skin": {
+                "shadow": 65.1,
+                "base": 153.2,
+                "highlight": 204
+              }
+            },
+            "concerned": {
+              "file": "face-masculine-70s-06-concerned.png",
+              "skin": {
+                "shadow": 68,
+                "base": 152.8,
+                "highlight": 202.2
+              }
+            },
+            "angry": {
+              "file": "face-masculine-70s-06-angry.png",
+              "skin": {
+                "shadow": 69.1,
+                "base": 152.7,
+                "highlight": 198.4
+              }
+            },
+            "skeptical": {
+              "file": "face-masculine-70s-06-skeptical.png",
+              "skin": {
+                "shadow": 68.6,
+                "base": 154.9,
+                "highlight": 198.8
+              }
+            },
+            "sad": {
+              "file": "face-masculine-70s-06-sad.png",
+              "skin": {
+                "shadow": 67.2,
+                "base": 152,
+                "highlight": 201.4
+              }
+            },
+            "surprised": {
+              "file": "face-masculine-70s-06-surprised.png",
+              "skin": {
+                "shadow": 66.2,
+                "base": 152.2,
+                "highlight": 201.3
+              }
+            }
           }
         }
       ],
