@@ -60,7 +60,9 @@ import { LIVING_WORLD_WRITER_VERSION } from "./opening-keys";
 const V = LIVING_WORLD_WRITER_VERSION;
 export const STATEHOOD_PROVENANCE = "provenance:statehood-seat" as const;
 
-const QUESTION_KEY: string = statehood.questionKey;
+/** The policy question whose enacted law adds the seats. */
+export const STATEHOOD_QUESTION: string = statehood.questionKey;
+const QUESTION_KEY = STATEHOOD_QUESTION;
 const PLACE: string = statehood.place;
 
 /** The place the law would make a state, from the data file. */
