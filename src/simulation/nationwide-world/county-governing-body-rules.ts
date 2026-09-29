@@ -1,5 +1,6 @@
 import readings from "../../../data/research/local-government/county-governing-bodies.json" with { type: "json" };
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
+import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import type { GovernmentUnitIdentity } from "../government-units";
 import { lifePlaceByKey } from "../life-places";
 
@@ -40,7 +41,13 @@ export interface CountyGoverningBodyRules {
 }
 
 interface StateReading {
-  readonly seats: number;
+  /** The size the law sets for every county, or null where it goes by population. */
+  readonly seats?: number;
+  /** The size by population, largest first, where the law sets it that way. */
+  readonly bands?: readonly {
+    readonly atLeast: number;
+    readonly seats: number;
+  }[];
   readonly bodyName: string;
   readonly memberTitle: string;
   readonly citation: string;
@@ -48,7 +55,29 @@ interface StateReading {
 }
 
 const STATES = readings.states as Readonly<Record<string, StateReading>>;
-const AVERAGE = readings.nationalAverage as StateReading;
+const AVERAGE = readings.nationalAverage as StateReading & {
+  readonly seats: number;
+};
+
+/** Each county's residents: the Bureau of Economic Analysis 2024 count. */
+const COUNTY_POPULATION = budgetBases.countyPopulation2024 as Readonly<
+  Record<string, number>
+>;
+
+/** The size a state's law sets for one county, or null where unreadable. */
+function stateSeats(
+  reading: StateReading,
+  countyGeoid: string | null,
+): number | null {
+  const named = countyGeoid ? reading.exceptions?.[countyGeoid] : undefined;
+  if (named !== undefined) return named;
+  if (reading.seats !== undefined) return reading.seats;
+  const population = countyGeoid ? COUNTY_POPULATION[countyGeoid] : undefined;
+  if (population === undefined || !reading.bands) return null;
+  return (
+    reading.bands.find((band) => population >= band.atLeast)?.seats ?? null
+  );
+}
 
 interface MunicipalCode {
   readonly stateFips: string;
@@ -99,10 +128,11 @@ export function countyGoverningBodyRules(
   const code = MUNICIPAL_CODES[unit.stateUsps];
   if (code) return municipioRules(code, unit.countyGeoid);
   const state = STATES[unit.stateUsps];
-  const reading = state ?? AVERAGE;
+  const read = state ? stateSeats(state, unit.countyGeoid) : null;
+  const reading = read === null ? AVERAGE : state!;
   return {
-    seats: reading.seats,
-    basis: state ? "state-law" : "estimated",
+    seats: read ?? AVERAGE.seats,
+    basis: read === null ? "estimated" : "state-law",
     bodyName: reading.bodyName,
     memberTitle: reading.memberTitle,
     chiefTitle: null,

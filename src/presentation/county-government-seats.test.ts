@@ -57,6 +57,15 @@ describe("a county board or municipal legislature at its lawful size", () => {
       basis: "state-law",
       bodyName: "Board of Supervisors",
     });
+    // Arizona and Nevada set the size by the county's population
+    // (A.R.S. § 11-211(A); NRS 244.011, 244.014, 244.016).
+    const size = (geoid: string) =>
+      countyGoverningBodyRules(countyGovernmentUnit(geoid)!)!.seats;
+    expect(size("04013")).toBe(5); // Maricopa, 175,000 or more
+    expect(size("04001")).toBe(3); // Apache, fewer
+    expect(size("32003")).toBe(7); // Clark, 700,000 or more
+    expect(size("32031")).toBe(5); // Washoe, 100,000 to 699,999
+    expect(size("32001")).toBe(3); // Churchill, under 100,000
     // A state whose law is not read yet takes the national average.
     const unread = countyGoverningBodyRules(countyGovernmentUnit("48453")!)!;
     expect(unread).toMatchObject({ seats: 7, basis: "estimated" });
