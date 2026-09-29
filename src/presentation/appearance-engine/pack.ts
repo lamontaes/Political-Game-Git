@@ -108,6 +108,14 @@ export const BODY_POSES = [
   "seated-legs-crossed",
   "hands-in-pockets",
   "seated-ankle-on-knee",
+  // What a seated person is doing (Sept. 29, 2026 sheets): each is painted
+  // for both presentations.
+  "seated-reading",
+  "seated-writing",
+  "seated-phone",
+  "seated-hands-folded",
+  "seated-listening",
+  "seated-relaxed",
 ] as const;
 export type BodyPose = (typeof BODY_POSES)[number];
 
@@ -130,6 +138,12 @@ export const POSES_BY_PRESENTATION: Readonly<
     "podium",
     "seated-leaning",
     "seated-legs-crossed",
+    "seated-reading",
+    "seated-writing",
+    "seated-phone",
+    "seated-hands-folded",
+    "seated-listening",
+    "seated-relaxed",
   ],
   masculine: [
     "standing",
@@ -140,6 +154,12 @@ export const POSES_BY_PRESENTATION: Readonly<
     "podium",
     "seated-leaning",
     "seated-ankle-on-knee",
+    "seated-reading",
+    "seated-writing",
+    "seated-phone",
+    "seated-hands-folded",
+    "seated-listening",
+    "seated-relaxed",
   ],
 };
 
@@ -176,6 +196,12 @@ const SEATED_POSES: ReadonlySet<BodyPose> = new Set([
   "seated-leaning",
   "seated-legs-crossed",
   "seated-ankle-on-knee",
+  "seated-reading",
+  "seated-writing",
+  "seated-phone",
+  "seated-hands-folded",
+  "seated-listening",
+  "seated-relaxed",
 ]);
 
 export function isSeatedPose(pose: BodyPose): boolean {
@@ -213,6 +239,12 @@ export const POSE_PAINTED_TOWARD: Readonly<
   "seated-legs-crossed": null,
   "hands-in-pockets": null,
   "seated-ankle-on-knee": null,
+  "seated-reading": null,
+  "seated-writing": null,
+  "seated-phone": null,
+  "seated-hands-folded": null,
+  "seated-listening": null,
+  "seated-relaxed": null,
 };
 
 export interface PackBody {

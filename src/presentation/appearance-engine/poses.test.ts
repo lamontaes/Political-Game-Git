@@ -219,16 +219,19 @@ describe("the pose chooser", () => {
       expect(pose("idle")).toBe("standing");
       expect(pose("desk")).toBe("standing");
       expect(pose("speaking", true)).toBe("seated-leaning");
-      expect(["seated-leaning", "seated-legs-crossed"]).toContain(
+      expect(["seated-writing", "seated-reading"]).toContain(
         pose("desk", true),
       );
-      expect(["seated-leaning", "seated-legs-crossed"]).toContain(
+      expect(["seated-hands-folded", "seated-leaning"]).toContain(
         pose("meeting", true),
       );
-      expect(["seated-leaning", "seated-legs-crossed"]).toContain(
+      expect(["seated-hands-folded", "seated-listening"]).toContain(
         pose("listening", true),
       );
-      expect(pose("idle", true)).toBe("seated");
+      expect(["seated-legs-crossed", "seated-phone"]).toContain(
+        pose("waiting", true),
+      );
+      expect(["seated", "seated-relaxed"]).toContain(pose("idle", true));
     }
   });
 
@@ -270,7 +273,21 @@ describe("the pose chooser", () => {
           }),
         ),
       ),
-    ).toEqual(new Set(["seated-leaning", "seated-ankle-on-knee"]));
+    ).toEqual(new Set(["seated-writing", "seated-reading"]));
+    // A seated man waiting crosses an ankle over his knee where a woman
+    // crosses her legs.
+    expect(
+      new Set(
+        seeds.map((seed) =>
+          chooseBodyPose({
+            activity: "waiting",
+            seated: true,
+            seed,
+            presentation: "masculine",
+          }),
+        ),
+      ),
+    ).toEqual(new Set(["seated-ankle-on-knee", "seated-phone"]));
     // A pose from the other set, asked of the engine, is drawn as this one's.
     expect(presentationPose("hand-on-hip", "masculine")).toBe(
       "hands-in-pockets",
