@@ -1865,7 +1865,11 @@ function seatOnLocalGoverningBody(
   // the seat the town's own elections left off this year's ballot for the
   // campaign; on a full body without one, the seat of the member who has held
   // theirs longest, whose term is the one most likely up.
-  const campaignSeat = localCampaignSeat(unit, mayor, contest.electionDate);
+  const campaignSeat = localCampaignSeat(unit, mayor, contest.electionDate, {
+    world: next,
+    town: campaign.jurisdictionId,
+    personId: winnerPersonId,
+  });
   const campaignHolder =
     campaignSeat === null ? null : localSeatHolder(next, unit, campaignSeat);
   const seatLimit = mayor
