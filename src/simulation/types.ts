@@ -25,6 +25,7 @@ import type { PlaceOutcomeStore } from "./outcome-web/place-outcome-store";
 import type { PublicFundingMandate } from "./public-fiscal";
 import type { MacroEconomyStore } from "./macro-economy/types";
 import type { PressureStore } from "./pressure/contract";
+import type { PublicBudgetStore } from "./public-budgets/store";
 import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
 import type {
   TaxProposalRecord,
@@ -5191,6 +5192,11 @@ export interface World {
   readonly macroEconomy?: MacroEconomyStore;
   /** Place outcomes by month (outcome-web/place-outcome-store.ts). */
   readonly placeOutcomes?: PlaceOutcomeStore;
+  /**
+   * Every government's budget by month (public-budgets/store.ts). Optional
+   * and additive: a world written before it existed keeps no budgets.
+   */
+  readonly publicBudgets?: PublicBudgetStore;
   /**
    * The pressure layer (2026-09-22). Optional and additive: a world written
    * before it existed has no readings and is never retrofitted.
