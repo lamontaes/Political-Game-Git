@@ -1,4 +1,8 @@
-import type { BudgetProgram, BudgetSource } from "./store";
+import type { BudgetLevel, BudgetProgram, BudgetSource } from "./store";
+
+/** Should tax incentives offered to attract employers be capped and disclosed? */
+export const INCENTIVE_CAP_QUESTION =
+  "us-policy-positions:business-commerce.cap-development-incentives";
 
 /**
  * Every number the budgets use that research has not supplied yet. Each is a
@@ -92,20 +96,23 @@ export const ECONOMY_ELASTICITY: Readonly<Record<BudgetSource, number>> = {
 };
 
 /**
- * The revenue change a state's tax law makes when it moves from the answer
- * the state began with: `toYes` when a "no" becomes "yes", `toNo` when a
+ * The revenue change a tax law makes when it moves from the answer the
+ * government began with: `toYes` when a "no" becomes "yes", `toNo` when a
  * "yes" becomes "no", each as a share of the source. Null: not researched
- * yet, so that change moves no money. Each size is one state's fiscal note
- * divided by that state's own collections in the Census Bureau's 2022 state
- * finances (`data/research/money/state-local-finances-2022.json`), the base
- * the budget opens from; one note each, so ESTIMATED FROM AVERAGE until more
- * are read. research: tax-question-revenue-effects.
+ * yet, so that change moves no money. `levels` names the governments whose
+ * revenue it moves (a state by default); a county or city reads the law in
+ * force where it sits, its own ordinance or its state's law. Each size is one
+ * fiscal note divided by the collections in the Census Bureau's 2022 state
+ * and local finances (`data/research/money/state-local-finances-2022.json`),
+ * the base the budget opens from; one note each, so ESTIMATED FROM AVERAGE
+ * until more are read. research: tax-question-revenue-effects.
  */
 export const TAX_QUESTION_EFFECTS: readonly {
   readonly questionKey: string;
   readonly source: BudgetSource;
   readonly toYes: number | null;
   readonly toNo: number | null;
+  readonly levels?: readonly BudgetLevel[];
   readonly basis: string;
 }[] = [
   {
@@ -144,6 +151,34 @@ export const TAX_QUESTION_EFFECTS: readonly {
     toYes: null,
     toNo: null,
     basis: "Not researched: a cap slows growth rather than moving a level.",
+  },
+  {
+    questionKey: INCENTIVE_CAP_QUESTION,
+    source: "corporateIncomeTax",
+    // California's 2026 permanent business credit limitation (the greater of
+    // $5 million or half of a corporation's tax before credits): $1.7 to
+    // $1.8 billion a year from 2027-28 (Legislative Analyst's Office), over
+    // California's $46.01 billion corporate income tax (2022).
+    toYes: 1.75 / 46.01,
+    // Lifting a cap gives the same credits back.
+    toNo: -1.75 / 46.01,
+    basis:
+      "California 2026-27 May Revision business credit limitation, $1.7-1.8 billion a year (LAO, The 2026-27 Budget: Permanent Business Credit Limitation), over California's 2022 corporate income tax (Census Bureau); ESTIMATED FROM AVERAGE, one state's note.",
+  },
+  {
+    questionKey: INCENTIVE_CAP_QUESTION,
+    source: "propertyTax",
+    // Local incentives are mostly property tax abatements: governments
+    // reported $93 billion abated over 2017-2022 under GASB 77 (Good Jobs
+    // First), $15.5 billion a year, against $649.03 billion of state and
+    // local property tax (2022). A cap keeps about half of what it caps, the
+    // share California's cap takes back of its $3.5 billion a year in
+    // research credits.
+    toYes: ((1.75 / 3.5) * 15.5) / 649.03,
+    toNo: -((1.75 / 3.5) * 15.5) / 649.03,
+    levels: ["county", "city"],
+    basis:
+      "GASB 77 abatement disclosures, $93 billion over 2017-2022 (Good Jobs First, Hidden Costs No More, 2024), over 2022 state and local property tax (Census Bureau), times the half of credits California's 2026 cap takes back (LAO); ESTIMATED FROM AVERAGE.",
   },
 ];
 
