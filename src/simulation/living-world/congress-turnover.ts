@@ -32,6 +32,7 @@ import {
   takeCongressSeatWork,
 } from "./congress-member-work";
 import { MINIMUM_AGE, congressSeats, seatTermWindow } from "./congress-seats";
+import { applyHouseDelegateTurnover } from "./house-delegates";
 import { decideAnotherTerm } from "../careers/another-term";
 import type { CongressSeat } from "./congress-seats";
 import {
@@ -926,5 +927,5 @@ export function applyCongressTurnover(before: IsoDate, world: World): World {
     if (before < newStart && newStart <= after)
       next = seatCongressWinners(next, year);
   }
-  return next;
+  return applyHouseDelegateTurnover(before, next);
 }
