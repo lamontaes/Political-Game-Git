@@ -1,5 +1,3 @@
-import { appendFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import {
@@ -208,18 +206,6 @@ describe("a fairness law sets the pay of men partnered with men", () => {
       expect(row.without / row.withLaw, row.person).toBeCloseTo(
         UNCOVERED_PAY_SHARE,
         3,
-      );
-    if (process.env.PROBE_OUT)
-      appendFileSync(
-        process.env.PROBE_OUT,
-        `skipped: ${passed.join("; ")}\n${found!.key} ${lifePlaceByKey(found!.key)!.context.jurisdiction.name} start=${found!.start} others=${found!.others}\n` +
-          found!.covered
-            .map(
-              (row) =>
-                `  ${row.person}: ${row.withLaw} a period with the law, ${row.without} without`,
-            )
-            .join("\n") +
-          "\n",
       );
   });
 });
