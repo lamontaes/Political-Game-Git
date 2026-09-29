@@ -110,7 +110,7 @@ Written by Claude CTO at 5:20 p.m. on September 29, 2026. Nothing launches until
 
 ### Team 6: research, who governs each policy topic (Sol 6.1 Medium lead, plus 1 Low research agent)
 
-**Prompt:** `cto-notes/research/authorities/outline.md`, approved in full by Lamontae on September 29. Copy it into `docs/codex/research-outline.md` in the team's first pull request. The worked example is `transportation-infrastructure.md` in the same folder.
+**Prompt:** `docs/codex/research-outline.md`, approved in full by Lamontae on September 29. The worked example is `docs/codex/research-example-transportation.md`.
 
 **This is research only; no game code.** Order: transportation first (verify every item marked **verify**, and fill in availability for all 56 places), then housing, labor, health, education, budget and taxes, justice, government, business, environment, agriculture, civil and family, technology, then the federal areas.
 
