@@ -4343,26 +4343,48 @@ function assertJsonSafe(
   path: string,
   ancestors: Set<object> = new Set(),
 ): void {
+  const failure = jsonSafetyFailure(value, ancestors);
+  if (failure)
+    throw new Error(
+      `${failure.problem} at ${path}${failure.steps.reverse().join("")}.`,
+    );
+}
+
+interface JsonSafetyFailure {
+  readonly problem: string;
+  /** Path steps from the failing value up to the checked one, innermost first. */
+  readonly steps: string[];
+}
+
+/**
+ * The walk behind `assertJsonSafe`. A value's path is spelled out only when
+ * something inside it fails: building it for every nested field of every new
+ * record cost more than the check itself.
+ */
+function jsonSafetyFailure(
+  value: unknown,
+  ancestors: Set<object>,
+): JsonSafetyFailure | null {
   if (
     value === null ||
     typeof value === "string" ||
     typeof value === "boolean"
   ) {
-    return;
+    return null;
   }
   if (typeof value === "number") {
     if (!Number.isFinite(value)) {
-      throw new Error(`Non-finite number is not JSON-safe at ${path}.`);
+      return { problem: "Non-finite number is not JSON-safe", steps: [] };
     }
-    return;
+    return null;
   }
   if (typeof value !== "object") {
-    throw new Error(`Non-JSON-safe value at ${path}.`);
+    return { problem: "Non-JSON-safe value", steps: [] };
   }
   if (ancestors.has(value)) {
-    throw new Error(`Cyclic value is not JSON-safe at ${path}.`);
+    return { problem: "Cyclic value is not JSON-safe", steps: [] };
   }
-  if (JSON_SAFE.has(value)) return;
+  if (JSON_SAFE.has(value)) return null;
 
   const prototype = Object.getPrototypeOf(value);
   if (
@@ -4370,7 +4392,7 @@ function assertJsonSafe(
     prototype !== Object.prototype &&
     prototype !== null
   ) {
-    throw new Error(`Non-plain object is not JSON-safe at ${path}.`);
+    return { problem: "Non-plain object is not JSON-safe", steps: [] };
   }
 
   ancestors.add(value);
@@ -4378,18 +4400,30 @@ function assertJsonSafe(
   // spelled out: a history list keeps its old records when it grows, and
   // naming each of them again on every Day cost more the longer a world ran.
   if (Array.isArray(value)) {
-    value.forEach((entry, index) => {
-      if (!knownJsonSafe(entry, ancestors))
-        assertJsonSafe(entry, `${path}[${index}]`, ancestors);
-    });
+    for (let index = 0; index < value.length; index += 1) {
+      const entry: unknown = value[index];
+      // A hole in a sparse list is passed over, as forEach would.
+      if (entry === undefined && !(index in value)) continue;
+      if (knownJsonSafe(entry, ancestors)) continue;
+      const failure = jsonSafetyFailure(entry, ancestors);
+      if (failure) {
+        failure.steps.push(`[${index}]`);
+        return failure;
+      }
+    }
   } else {
     for (const [key, entry] of Object.entries(value)) {
-      if (!knownJsonSafe(entry, ancestors))
-        assertJsonSafe(entry, `${path}.${key}`, ancestors);
+      if (knownJsonSafe(entry, ancestors)) continue;
+      const failure = jsonSafetyFailure(entry, ancestors);
+      if (failure) {
+        failure.steps.push(`.${key}`);
+        return failure;
+      }
     }
   }
   ancestors.delete(value);
   JSON_SAFE.add(value);
+  return null;
 }
 
 /**
