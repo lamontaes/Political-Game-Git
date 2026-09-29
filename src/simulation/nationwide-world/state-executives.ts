@@ -538,6 +538,27 @@ function termBeginsOf(tags: readonly string[]): IsoDate | null {
 export function currentStateExecutiveHolders(
   world: World,
 ): readonly StateExecutiveHolderRecord[] {
+  let holders = STATE_EXECUTIVE_HOLDERS.get(world);
+  if (!holders) {
+    holders = readStateExecutiveHolders(world);
+    STATE_EXECUTIVE_HOLDERS.set(world, holders);
+  }
+  return holders;
+}
+
+/**
+ * Each World's holders, read once: a World is never edited, and a week of
+ * clemency asks which governor holds each sentence's pardon power, reading
+ * every state's records and every event again for each sentence.
+ */
+const STATE_EXECUTIVE_HOLDERS = new WeakMap<
+  World,
+  readonly StateExecutiveHolderRecord[]
+>();
+
+function readStateExecutiveHolders(
+  world: World,
+): readonly StateExecutiveHolderRecord[] {
   const records: StateExecutiveHolderRecord[] = [];
   for (const stateUsps of CHIEF_EXECUTIVE_JURISDICTIONS) {
     const office = stateExecutiveOffice(stateUsps);
