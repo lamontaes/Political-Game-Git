@@ -1,6 +1,11 @@
 import paid from "../../../data/research/money/pension-contribution-paid.json" with { type: "json" };
+import flows from "../../../data/research/money/pension-flows.json" with { type: "json" };
 import funded from "../../../data/research/money/pension-funded-ratio.json" with { type: "json" };
-import type { BudgetLevel, BudgetLawReading } from "./store";
+import type {
+  BudgetLevel,
+  BudgetLawReading,
+  PublicBudgetGovernment,
+} from "./store";
 
 /**
  * The share of its required pension contribution a government pays when no
@@ -101,6 +106,66 @@ export function openingFundedRatio(
   return reported === undefined
     ? { fundedRatio: MEDIAN_FUNDED_RATIO, basis: "estimated-from-average" }
     : { fundedRatio: reported, basis: "reported" };
+}
+
+/** The measured medians: what an unlisted government's plans cost and pay. */
+export const MEDIAN_NORMAL_COST_SHARE: number = flows.median.normalCostShare;
+export const MEDIAN_BENEFIT_SHARE: number = flows.median.benefitShare;
+
+interface FlowRow {
+  readonly normalCostShare?: number;
+  readonly benefitShare?: number;
+}
+
+const FLOWS_BY_STATE: Readonly<Record<string, FlowRow>> = flows.byState;
+const FLOWS_BY_LOCAL = new Map<string, FlowRow>(
+  flows.byLocal.map((row) => [
+    `${row.state}|${row.kind}|${row.name.toLowerCase()}`,
+    row,
+  ]),
+);
+
+export interface PensionFlows {
+  /** The employer's normal cost each year, as a share of the liability. */
+  readonly normalCostShare: number;
+  /** The benefits the plans pay each year, as a share of the liability. */
+  readonly benefitShare: number;
+  readonly normalCostBasis: "reported" | "estimated-from-average";
+  readonly benefitBasis: "reported" | "estimated-from-average";
+}
+
+/**
+ * What a government's pension plans cost and pay out each year, as shares
+ * of their liability: the employer's normal cost, which the liability grows
+ * by and the required contribution includes, and the benefits paid, which
+ * both the liability and the assets shrink by. Each state's are read from the
+ * plans its government administers and each county's and city's from its
+ * own plans, the latest year the Public Plans Database reports
+ * (`pension-flows.json`, written by `scripts/research/export-pension-flows.py`),
+ * when the plans reporting a share hold at least half the government's
+ * liability. Otherwise the government takes the median of every plan:
+ * ESTIMATED FROM AVERAGE.
+ */
+export function pensionFlows(
+  government: Pick<PublicBudgetGovernment, "stateKey" | "level" | "name">,
+): PensionFlows {
+  const usps = government.stateKey.replace(/^US-/, "");
+  const row =
+    government.level === "state"
+      ? FLOWS_BY_STATE[usps]
+      : FLOWS_BY_LOCAL.get(
+          `${usps}|${government.level}|${government.name.split(",")[0]!.trim().toLowerCase()}`,
+        );
+  return {
+    normalCostShare: row?.normalCostShare ?? MEDIAN_NORMAL_COST_SHARE,
+    benefitShare: row?.benefitShare ?? MEDIAN_BENEFIT_SHARE,
+    normalCostBasis:
+      row?.normalCostShare === undefined
+        ? "estimated-from-average"
+        : "reported",
+    benefitBasis:
+      row?.benefitShare === undefined ? "estimated-from-average" : "reported",
+  };
 }
 
 /**

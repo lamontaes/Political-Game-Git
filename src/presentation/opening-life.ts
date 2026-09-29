@@ -5,7 +5,10 @@ import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/st
 import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
 import { ensureLocalCouncilMeetings } from "../simulation/living-world/local-council-meetings";
 import { ensureLocalElectionCalendar } from "../simulation/living-world/local-elections";
-import { ensureLocalGovernmentSeats } from "../simulation/living-world/local-government-seats";
+import {
+  ensureLocalGovernmentSeats,
+  playerHousemates,
+} from "../simulation/living-world/local-government-seats";
 import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import {
@@ -41,6 +44,7 @@ import {
   macroStartForHistory,
 } from "../simulation/macro-economy";
 import type { World, EntityId } from "../simulation";
+import { isFederalDistrictUsps } from "../simulation/state-reference";
 import { createNewGameWorld } from "./new-game";
 import { proseDate } from "./prose-dates";
 import type { NewGameSetup, NewGame } from "./new-game";
@@ -188,8 +192,13 @@ function ensureHomeStateLegislature(
   const stateUsps = homeStateUsps(world, playerPersonId);
   if (!stateUsps) return world;
   // The District's legislature is its Council, which is seated on its own.
-  return stateUsps === "DC"
-    ? scheduleDcCouncilSitting(ensureDistrictOfColumbiaCouncilOpening(world))
+  return isFederalDistrictUsps(stateUsps)
+    ? scheduleDcCouncilSitting(
+        ensureDistrictOfColumbiaCouncilOpening(
+          world,
+          playerHousemates(world, playerPersonId),
+        ),
+      )
     : ensureStateLegislatureOpening(world, playerPersonId, stateUsps);
 }
 

@@ -6,6 +6,7 @@ import type { MunicipalGovernment } from "../municipal-government";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import { localGoverningBodyIdentity } from "./local-governing-body-candidacy-packs";
 import { isMayorSeatClass } from "./local-chief-executive-rules";
+import { placePopulation } from "./place-population";
 
 /**
  * How big a town's governing body is and how long its terms run, for every
@@ -162,6 +163,17 @@ function readTerm(government: MunicipalGovernment): number | null {
  * read it and typical otherwise. Null for anything that is not an active
  * municipal government.
  */
+/**
+ * ICMA's smallest population group. A town known to be smaller than this
+ * never draws the "8 or more" band: councils that large belong to bigger
+ * places (the band's read sizes all come from cities), and a village of 60
+ * people with eleven council seats would be most of its adults. A small town
+ * that lands in that band is drawn again from the smaller bands, at their
+ * national shares. PLACEHOLDER, pending research question
+ * `town-council-size-by-town-size`.
+ */
+export const SMALL_TOWN_POPULATION = 2_500;
+
 export function localGoverningBodyRules(
   unit: GovernmentUnitIdentity,
 ): LocalGoverningBodyRules | null {
@@ -174,13 +186,23 @@ export function localGoverningBodyRules(
       : null;
   const readYears = government ? readTerm(government) : null;
   const typical = typicalShares();
+  const population = unit.placeGeoid ? placePopulation(unit.placeGeoid) : null;
+  const small = population !== null && population < SMALL_TOWN_POPULATION;
+  // A small town keeps its draw unless it lands in the large band; only then
+  // is it drawn again from the smaller ones, so no other town's council moves.
+  const drawnSeats = draw(typical.seats, unit.id, "seats");
+  const seats =
+    small && drawnSeats && drawnSeats.value >= 8
+      ? draw(
+          typical.seats.filter((share) => share.value < 8),
+          unit.id,
+          "seats:small-town",
+        )
+      : drawnSeats;
   return {
     unitId: unit.id,
     researchedGovernmentKey: government?.key ?? null,
-    seats:
-      readSeats !== null
-        ? { value: readSeats, basis: "read" }
-        : draw(typical.seats, unit.id, "seats"),
+    seats: readSeats !== null ? { value: readSeats, basis: "read" } : seats,
     termYears:
       readYears !== null
         ? { value: readYears, basis: "read" }

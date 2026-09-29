@@ -27,6 +27,7 @@ import { standardNormal } from "../world-setup/deterministic-math";
 import {
   openingFundedRatio,
   openingPaidShare,
+  pensionFlows,
   pensionPayment,
 } from "./pension-share";
 import { reserveRule } from "./reserve-rule";
@@ -521,13 +522,15 @@ function emptySpending(): number[] {
 /**
  * The opening pension and its actuarial contribution. The assets are the
  * liability times the government's own reported funded ratio
- * (`openingFundedRatio`); the liability's size against spending is still
+ * (`openingFundedRatio`), and the contribution's normal cost is its own
+ * plans' (`pensionFlows`); the liability's size against spending is still
  * PLACEHOLDER.
  */
 export function openingPension(
   spending: number,
   paidShare: number,
   fundedRatio: number,
+  normalCostShare: number,
 ): {
   pension: PensionRecord;
   required: number;
@@ -536,16 +539,20 @@ export function openingPension(
   const assets = Math.round(liability * fundedRatio);
   return {
     pension: { liability, assets, paidShare },
-    required: actuarialContribution({ liability, assets }),
+    required: actuarialContribution({ liability, assets }, normalCostShare),
   };
 }
 
-/** Normal cost plus the unfunded part amortized. */
+/**
+ * The employer's normal cost, as its own plans' share of the liability
+ * (`pensionFlows`), plus the unfunded part amortized.
+ */
 export function actuarialContribution(
   pension: Pick<PensionRecord, "liability" | "assets">,
+  normalCostShare: number,
 ): number {
   return Math.round(
-    pension.liability * PENSION.normalCostShare +
+    pension.liability * normalCostShare +
       Math.max(0, pension.liability - pension.assets) /
         PENSION.amortizationYears,
   );
@@ -859,10 +866,12 @@ export function openGovernmentBudget(
     candidate.level,
     candidate.name,
   );
+  const flows = pensionFlows(candidate);
   const { pension, required } = openingPension(
     sum(spending),
     paid.share,
     funding.fundedRatio,
+    flows.normalCostShare,
   );
   // The opening year's contribution: in full under a law requiring it, and
   // at the government's own share otherwise.
@@ -908,6 +917,7 @@ export function openGovernmentBudget(
       funding.basis === "reported"
         ? `Pension funded ratio: ${funding.fundedRatio}, as its own plans reported to the Public Plans Database.`
         : `Pension funded ratio: ESTIMATED FROM AVERAGE, ${funding.fundedRatio}, the median of every plan in the Public Plans Database; its own plans are not listed.`,
+      `Pension normal cost: ${flows.normalCostShare} of the liability a year, ${flows.normalCostBasis === "reported" ? "as its own plans reported to the Public Plans Database" : "ESTIMATED FROM AVERAGE, the median of every plan in the Public Plans Database; its own plans do not report it"}. Benefits paid: ${flows.benefitShare} of the liability a year, ${flows.benefitBasis === "reported" ? "as its own plans reported" : "ESTIMATED FROM AVERAGE, the median of every plan"}.`,
       `Reserve target under a minimum-reserve law: ${reserveRule(candidate).floorShare} of a year's spending, at most ${reserveRule(candidate).depositShare} a year: ${reserveRule(candidate).basis}.`,
       paid.basis === "reported"
         ? `Pension share paid: ${paid.share}, as its own plans reported to the Public Plans Database.`
