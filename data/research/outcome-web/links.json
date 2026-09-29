@@ -2163,14 +2163,14 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.62,
       "per": "law in force",
       "lagMonths": 6,
       "group": "tenants",
       "owner": "M",
-      "anchor": "Represented tenants are evicted less (to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "A represented tenant's chance of eviction -45% to -78%, middle -62%. town-rent.ts already decides each case with the lawyer in it; a producer of housing.eviction counts those recorded cases and never applies this link again",
+      "source": "Cassidy and Currie 2022, NBER w29836; NYC Office of Civil Justice FY2019",
+      "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
       "to": "housing.eviction"
     },
