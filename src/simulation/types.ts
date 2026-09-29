@@ -25,6 +25,7 @@ import type { PlaceOutcomeStore } from "./outcome-web/place-outcome-store";
 import type { PublicFundingMandate } from "./public-fiscal";
 import type { MacroEconomyStore } from "./macro-economy/types";
 import type { PressureStore } from "./pressure/contract";
+import type { PublicBudgetStore } from "./public-budgets/store";
 import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
 import type {
   TaxProposalRecord,
@@ -572,6 +573,19 @@ export interface EngineAppearanceChoice {
   readonly outfit?: string;
   /** Fabric color per garment part (top, bottom, suit, shirt, tie, coat...). */
   readonly colors?: Readonly<Record<string, string>>;
+  /** A facial hair style (appearance-engine/pack.ts), or "none". */
+  readonly facialHair?: string;
+  /** A glasses frame id, or "none". */
+  readonly glasses?: string;
+  /** Whether the glasses are worn all day or only to read. */
+  readonly glassesWear?: "always" | "reading";
+  /**
+   * The jewelry and watch worn, as accessory ids (appearance-engine/pack.ts
+   * ACCESSORY_KINDS): "earrings-pearl", "watch-steel". A list that is present
+   * is a choice, so an empty one means wearing none; absent, the person's seed
+   * decides.
+   */
+  readonly accessories?: readonly string[];
 }
 
 export type PersonGenerationProfile = "production" | "stress";
@@ -5178,6 +5192,11 @@ export interface World {
   readonly macroEconomy?: MacroEconomyStore;
   /** Place outcomes by month (outcome-web/place-outcome-store.ts). */
   readonly placeOutcomes?: PlaceOutcomeStore;
+  /**
+   * Every government's budget by month (public-budgets/store.ts). Optional
+   * and additive: a world written before it existed keeps no budgets.
+   */
+  readonly publicBudgets?: PublicBudgetStore;
   /**
    * The pressure layer (2026-09-22). Optional and additive: a world written
    * before it existed has no readings and is never retrofitted.

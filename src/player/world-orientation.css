@@ -864,3 +864,36 @@
     border: 1px solid CanvasText;
   }
 }
+
+/* The opening's plain facts: the year, the legislature, the town. */
+.pg-orientation-lines,
+.pg-orientation-headlines ul {
+  margin: 0 0 0.8rem;
+  padding: 0;
+  list-style: none;
+  line-height: 1.5;
+}
+
+.pg-orientation-lines li + li,
+.pg-orientation-headlines li + li {
+  margin-top: 0.35rem;
+}
+
+.pg-orientation-headlines h3 {
+  margin: 0.4rem 0 0.35rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.pg-orientation-headlines li {
+  font-style: italic;
+}
+
+.pg-opening-family-detail {
+  display: block;
+  margin: 0.2rem 0 0.5rem 0.2rem;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}

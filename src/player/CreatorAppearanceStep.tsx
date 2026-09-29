@@ -102,7 +102,11 @@ export function CreatorAppearanceStep({
               recipe={engine}
               onChange={(recipe) =>
                 changeWorld(
-                  withEngineChoice(draft, person.id, choiceFromRecipe(recipe)),
+                  withEngineChoice(
+                    draft,
+                    person.id,
+                    choiceFromRecipe(recipe, PEOPLE_PACK),
+                  ),
                 )
               }
               onRandomize={() => {
@@ -113,20 +117,25 @@ export function CreatorAppearanceStep({
                   withEngineChoice(
                     draft,
                     person.id,
-                    choiceFromRecipe({
-                      ...engine,
-                      build: any(BODY_BUILDS),
-                      shade: 1 + Math.floor(Math.random() * 7),
-                      face: any(
-                        pack.faces.filter((f) => f.id.startsWith("20s30s-")),
-                      ).id,
-                      hair: any(pack.hair).id,
-                      hairColor: any(HAIR_COLORS).id,
-                      outfit: any(
-                        pack.outfits.filter((o) => !o.tags.includes("uniform")),
-                      ).id,
-                      colors: {},
-                    }),
+                    choiceFromRecipe(
+                      {
+                        ...engine,
+                        build: any(BODY_BUILDS),
+                        shade: 1 + Math.floor(Math.random() * 7),
+                        face: any(
+                          pack.faces.filter((f) => f.id.startsWith("20s30s-")),
+                        ).id,
+                        hair: any(pack.hair).id,
+                        hairColor: any(HAIR_COLORS).id,
+                        outfit: any(
+                          pack.outfits.filter(
+                            (o) => !o.tags.includes("uniform"),
+                          ),
+                        ).id,
+                        colors: {},
+                      },
+                      PEOPLE_PACK,
+                    ),
                   ),
                 );
               }}

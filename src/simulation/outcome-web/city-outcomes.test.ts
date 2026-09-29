@@ -36,7 +36,9 @@ import {
 const OVERSIGHT = "proposition_civilian_oversight" as EntityId;
 const OVERSIGHT_KEY =
   "us-policy-positions:justice-public-safety.civilian-oversight-of-police";
-const CRIME = "crime.rate-index";
+const CRIME = "crime.violent";
+/** Illinois's 2024 violent crime rate, per 100,000 residents. */
+const ILLINOIS_BASE = PLACE_OUTCOME_BASES[CRIME]!.places["US-IL"]!;
 
 const chicago = lifePlaceByKey("1714000")!;
 const springfield = lifePlaceByKey("1772000")!;
@@ -162,7 +164,7 @@ describe("city outcomes", () => {
     expect(own.stateKey).toBe("US-IL");
     expect(own.weight).toBeCloseTo(share, 10);
     expect(own.multiplier).toBeCloseTo(0.98, 10);
-    expect(own.value).toBeCloseTo(98, 2);
+    expect(own.value).toBeCloseTo(ILLINOIS_BASE * 0.98, 2);
     expect(own.causes.map((cause) => cause.key)).toEqual([
       "civilian-oversight-to-crime",
     ]);
@@ -180,7 +182,7 @@ describe("city outcomes", () => {
       { placeKey: "1714000", weight: own.weight, multiplier: own.multiplier },
     ]);
     expect(state.multiplier).toBeCloseTo(1 - 0.02 * share, 10);
-    expect(state.value).toBeCloseTo(100 * (1 - 0.02 * share), 2);
+    expect(state.value).toBeCloseTo(ILLINOIS_BASE * (1 - 0.02 * share), 2);
     expect(state.restMultiplier).toBe(1);
 
     // Springfield, which passed nothing, reads Illinois.
@@ -192,7 +194,7 @@ describe("city outcomes", () => {
     )!;
     expect(elsewhere.placeKey).toBe("US-IL");
     expect(elsewhere.multiplier).toBe(1);
-    expect(elsewhere.value).toBe(100);
+    expect(elsewhere.value).toBe(ILLINOIS_BASE);
     expect(elsewhere.places).toBeUndefined();
 
     // And Chicago's own crimes follow its own level, not Springfield's.
@@ -254,7 +256,18 @@ describe("city outcomes", () => {
       makeIsoDate("2026-04-01"),
     );
     const ownRecords = records.filter((record) => record.stateKey);
-    expect(new Set(ownRecords.map((record) => record.stateKey)).size).toBe(51);
+    // Every place with a base for some outcome, but D.C., which has no city
+    // under it.
+    const withBase = keys.filter(
+      (key) =>
+        key !== "US-DC" &&
+        PLACE_OUTCOME_MEASURES.some(
+          (measure) => PLACE_OUTCOME_BASES[measure]!.places[key] !== undefined,
+        ),
+    );
+    expect(new Set(ownRecords.map((record) => record.stateKey)).size).toBe(
+      withBase.length,
+    );
     for (const key of keys) {
       const law = laws.find((entry) =>
         entry.measure.stableKey.startsWith(`test:${key}:`),

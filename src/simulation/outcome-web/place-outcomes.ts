@@ -15,6 +15,7 @@ import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { outcomeFactor } from ".";
 import {
   DEFAULT_PLACE_OUTCOME_DRIFT,
+  driftsInLogs,
   localOutcomeKey,
   localWeights,
   PLACE_OUTCOME_BASES,
@@ -139,7 +140,9 @@ export function localOutcomePlaces(
  * `month`. The place's underlying level carries on from its last record
  * (the 2024 base in its first month) and drifts; nothing pulls it back to
  * the base. Laws and conditions then act on it through the outcome web's
- * multiplier, and the links that moved it are kept.
+ * multiplier, and the links that moved it are kept. `measures` narrows the
+ * pass to some outcomes (a test of one measure over a century); play records
+ * them all.
  *
  * A city or county keeping its own outcomes (`localOutcomePlaces`) gets its
  * own record: its state's level, moved by the web as read in that place, so
@@ -150,6 +153,7 @@ export function localOutcomePlaces(
 export function placeOutcomesForMonth(
   world: World,
   month: IsoDate,
+  measures: readonly string[] = PLACE_OUTCOME_MEASURES,
 ): readonly PlaceOutcomeRecord[] {
   const records: PlaceOutcomeRecord[] = [];
   const previous = new Map<string, PlaceOutcomeRecord>();
@@ -163,7 +167,7 @@ export function placeOutcomesForMonth(
     break;
   }
   const locals = localOutcomePlaces(world, month);
-  for (const measure of PLACE_OUTCOME_MEASURES) {
+  for (const measure of measures) {
     const definition = PLACE_OUTCOME_BASES[measure]!;
     const drift = definition.drift ?? DEFAULT_PLACE_OUTCOME_DRIFT;
     const step = driftSteps(world, measure, month, drift);
@@ -171,14 +175,24 @@ export function placeOutcomesForMonth(
       const jurisdictionId = stateJurisdictionForKey(placeKey)?.id;
       if (!jurisdictionId) continue;
       const last = previous.get(`${measure}|${placeKey}`);
-      const before = last ? (last.structural ?? last.base) : base;
-      const moved =
-        definition.scale === "index"
-          ? before * Math.exp(step(placeKey))
-          : fromLogit(logit(before) + step(placeKey));
-      const structural = last
-        ? Math.min(drift.maxPct, Math.max(drift.minPct, moved))
-        : base;
+      // A save from before this measure replaced an index carries on from
+      // that index's level, as a ratio to where the place began.
+      const replaced =
+        last || !definition.replaces
+          ? undefined
+          : previous.get(`${definition.replaces}|${placeKey}`);
+      const before = last
+        ? (last.structural ?? last.base)
+        : replaced
+          ? (base * (replaced.structural ?? replaced.base)) / replaced.base
+          : base;
+      const moved = driftsInLogs(definition)
+        ? before * Math.exp(step(placeKey))
+        : fromLogit(logit(before) + step(placeKey));
+      const structural =
+        last || replaced
+          ? Math.min(drift.maxPct, Math.max(drift.minPct, moved))
+          : base;
       const reading = outcomeFactor(world, jurisdictionId, measure, month);
       const shares: PlaceOutcomeShare[] = [];
       const localRecords: PlaceOutcomeRecord[] = [];
