@@ -1,3 +1,4 @@
+import { resolveLibraryChallenges } from "../library-materials-law";
 import { addDays } from "../dates";
 import { councilBallotPartisanship } from "../governing/body-partisanship";
 import { applyEnactedLawEffects } from "../enacted-law-effects";
@@ -662,6 +663,12 @@ export function localCouncilMeetingHandler(
   const votesBefore = (world.history.legislativeVotes ?? []).length;
   let next = moveOrdinances(world, unit, town, rules, player);
   next = fileOrdinances(next, unit, town, rules, player);
+  next = resolveLibraryChallenges(
+    next,
+    town,
+    members(next, unit).map((seat) => seat.personId),
+    due.stableKey,
+  );
   const votes = (next.history.legislativeVotes ?? []).slice(votesBefore);
   const measuresById = new Map(
     (next.history.legislativeMeasures ?? []).map((row) => [row.id, row]),
