@@ -1256,13 +1256,6 @@
       "code": "if (input.governmentKey !== \"us-va-charlottesville\") {"
     },
     {
-      "file": "src/simulation/names-data.ts",
-      "kind": "place-in-logic",
-      "build": "Build 7",
-      "count": 1,
-      "code": "return version === PLACE_NAMES_V1_VERSION && stateUsps === \"PR\""
-    },
-    {
       "file": "src/simulation/national-election-consumer.ts",
       "kind": "place-in-logic",
       "build": "Build 27",
