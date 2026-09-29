@@ -52,6 +52,14 @@ export interface JointAssemblyCandidate {
   readonly personId: EntityId | null;
   readonly party: string;
   readonly incumbent: boolean;
+  /** Set in a caucus's own vote for its longest-serving member. */
+  readonly seniorMost?: boolean;
+}
+
+/** Who casts a ballot: a person and the caucus they sit with. */
+export interface BallotMember {
+  readonly personId: EntityId;
+  readonly party: string | null;
 }
 
 export interface JointAssemblyBallot {
@@ -68,6 +76,9 @@ export interface JointAssemblyVote {
   /** Null when no candidate won a majority of the votes cast. */
   readonly winner: JointAssemblyCandidate | null;
 }
+
+export const JOINT_ASSEMBLY_VOTE_EVENT =
+  "governing.senate-joint-assembly-vote" as const;
 
 /** A state's sitting legislators, or null where no legislature is seated. */
 export function seatedStateLegislators(
@@ -121,7 +132,7 @@ export function jointAssemblyCandidates(
 
 function memberReasons(
   world: World,
-  member: StateLegislatorView,
+  member: BallotMember,
   candidate: JointAssemblyCandidate,
 ): DecisionConsideration[] {
   const reasons: DecisionConsideration[] = [];
@@ -139,6 +150,17 @@ function memberReasons(
     });
   if (!candidate.personId || candidate.personId === member.personId)
     return reasons;
+  if (candidate.seniorMost)
+    reasons.push({
+      stableKey: `legislator:seniority:${optionKey}`,
+      optionKey,
+      sourceType: "context:seniority",
+      direction: "supports",
+      importance: "slight",
+      confidence: "medium",
+      explanation: "The candidate is the caucus's longest-serving member.",
+      sourceRefs: [],
+    });
   if (candidate.incumbent)
     reasons.push({
       stableKey: `legislator:sitting-senator:${optionKey}`,
@@ -210,6 +232,30 @@ export function jointAssemblyVote(
     readonly candidates: readonly JointAssemblyCandidate[];
   },
 ): JointAssemblyVote {
+  return castBallots(world, {
+    ...input,
+    decisionType: JOINT_ASSEMBLY_VOTE_EVENT,
+    subjectKind: "context:senate-joint-assembly",
+    describe: (candidate) => `The ${candidate.party} candidate for the Senate.`,
+  });
+}
+
+/**
+ * A body's ballot for one office: each member votes for one candidate from
+ * their own caucus, relationships and principles (the reasons above), or
+ * casts none. The winner has a majority of the ballots cast. Pure.
+ */
+export function castBallots(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly decisionType: string;
+    readonly subjectKind: `context:${string}`;
+    readonly describe: (candidate: JointAssemblyCandidate) => string;
+    readonly members: readonly BallotMember[];
+    readonly candidates: readonly JointAssemblyCandidate[];
+  },
+): JointAssemblyVote {
   const player =
     world.control.kind === "person" ? world.control.personId : null;
   const options = input.candidates.map((candidate) => ({
@@ -217,7 +263,7 @@ export function jointAssemblyVote(
     label: candidate.personId
       ? "Vote for the candidate"
       : "Vote for the nominee",
-    description: `The ${candidate.party} candidate for the Senate.`,
+    description: input.describe(candidate),
   }));
   const ballots: JointAssemblyBallot[] = [];
   const tallies: Record<string, number> = {};
@@ -247,11 +293,11 @@ export function jointAssemblyVote(
       }
       const evaluation = evaluateDecision(world, {
         stableKey: `${input.stableKey}:${member.personId}`,
-        decisionType: "governing.senate-joint-assembly-vote",
+        decisionType: input.decisionType,
         actorPersonId: member.personId,
         cutoff: currentHistoricalCutoff(world),
         subject: {
-          kind: "context:senate-joint-assembly",
+          kind: input.subjectKind,
           key: input.stableKey,
           entityId: null,
         },
@@ -285,9 +331,6 @@ export function jointAssemblyVote(
     ) ?? null;
   return { candidates: input.candidates, ballots, tallies, winner };
 }
-
-export const JOINT_ASSEMBLY_VOTE_EVENT =
-  "governing.senate-joint-assembly-vote" as const;
 
 /**
  * Records the joint assembly's roll call as one public event naming every

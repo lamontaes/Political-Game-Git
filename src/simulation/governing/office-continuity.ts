@@ -43,6 +43,10 @@ import {
   senateSelectionRuleAt,
 } from "./senate-selection";
 import {
+  electPresidingOfficer,
+  recordPresidingOfficerVote,
+} from "./presiding-officers";
+import {
   jointAssemblyCandidates,
   jointAssemblyVote,
   recordJointAssemblyVote,
@@ -988,74 +992,86 @@ function presidentialRuling(
  * (§ 19(b)). The Cabinet officers after them (§ 19(d)) are not seated in
  * the game, so the line stops there.
  *
- * The game records no Speaker or President pro tempore election. Each chamber
- * elects its officer by majority, so the holder is read from the caucus with
- * more than half of the chamber's sitting members: in the Senate its longest-
- * serving member, as the Senate's long custom has it; in the House
- * its longest-serving member too, a labeled game assumption (the real House
- * majority chooses its Speaker by its own vote, which the game does not hold).
- * A member the player controls is not placed in the line without the player's
- * own choice, so the line passes over them.
+ * Each chamber elects its officer by vote, each member for their own
+ * reasons (`presiding-officers.ts`), and the vote is recorded. A chamber
+ * that elects nobody leaves the line to the next officer.
  */
-function statutoryPresidentialSuccessor(world: World): {
-  readonly personId: EntityId;
-  readonly seat: CongressSeat;
-  readonly office:
-    "Speaker of the House" | "President pro tempore of the Senate";
-  readonly basis: "3-usc-19-a-1" | "3-usc-19-b";
-} | null {
+function statutoryPresidentialSuccessor(
+  world: World,
+  stableKey: string,
+  occurredAt: IsoDate,
+): {
+  readonly world: World;
+  readonly successor: {
+    readonly personId: EntityId;
+    readonly seat: CongressSeat;
+    readonly office:
+      "Speaker of the House" | "President pro tempore of the Senate";
+    readonly basis: "3-usc-19-a-1" | "3-usc-19-b";
+  } | null;
+} {
   const congress = projectCongress(world);
-  if (!congress) return null;
+  if (!congress) return { world, successor: null };
   const chambers = [
     {
+      chamberKey: "house",
       view: congress.house,
       office: "Speaker of the House" as const,
       basis: "3-usc-19-a-1" as const,
     },
     {
+      chamberKey: "senate",
       view: congress.senate,
       office: "President pro tempore of the Senate" as const,
       basis: "3-usc-19-b" as const,
     },
   ];
-  for (const { view, office, basis } of chambers) {
-    const sitting = view.seats.flatMap((seat) =>
-      seat.occupant.kind === "member"
-        ? [{ seat, member: seat.occupant.member }]
-        : [],
+  let next = world;
+  for (const { chamberKey, view, office, basis } of chambers) {
+    const sitting = view.seats.flatMap((seat) => {
+      if (seat.occupant.kind !== "member") return [];
+      const member = seat.occupant.member;
+      const caucus = member.caucusOrganizationId ?? member.partyOrganizationId;
+      return caucus
+        ? [
+            {
+              seatKey: seat.seatKey,
+              personId: member.personId,
+              party: caucus,
+              serviceSince: member.serviceSince ?? member.startedAt ?? null,
+            },
+          ]
+        : [];
+    });
+    if (sitting.length === 0) continue;
+    const voteKey = `${stableKey}:${chamberKey}:presiding-officer`;
+    const elected = electPresidingOfficer(next, {
+      stableKey: voteKey,
+      officeTitle: office,
+      members: sitting,
+    });
+    next = recordPresidingOfficerVote(elected.world, {
+      stableKey: voteKey,
+      chamberKey,
+      officeTitle: office,
+      occurredAt,
+      election: elected.election,
+    });
+    const holder = sitting.find(
+      (row) => row.personId === elected.election.winnerPersonId,
     );
-    const byCaucus = new Map<EntityId, typeof sitting>();
-    for (const row of sitting) {
-      const caucus =
-        row.member.caucusOrganizationId ?? row.member.partyOrganizationId;
-      if (!caucus) continue;
-      byCaucus.set(caucus, [...(byCaucus.get(caucus) ?? []), row]);
-    }
-    const majority = [...byCaucus.values()].find(
-      (rows) => rows.length * 2 > sitting.length,
-    );
-    if (!majority) continue;
-    const holder = majority
-      .filter((row) => !isControlledPerson(world, row.member.personId))
-      .sort(
-        (a, b) =>
-          (a.member.serviceSince ?? a.member.startedAt ?? "9999").localeCompare(
-            b.member.serviceSince ?? b.member.startedAt ?? "9999",
-          ) || a.seat.seatKey.localeCompare(b.seat.seatKey),
-      )[0];
     const seat = holder
       ? congressSeats().find(
-          (candidate) => candidate.seatKey === holder.seat.seatKey,
+          (candidate) => candidate.seatKey === holder.seatKey,
         )
       : undefined;
     if (holder && seat)
-      return { personId: holder.member.personId, seat, office, basis };
+      return {
+        world: next,
+        successor: { personId: holder.personId, seat, office, basis },
+      };
   }
-  return null;
-}
-
-function isControlledPerson(world: World, personId: EntityId): boolean {
-  return world.control.kind === "person" && world.control.personId === personId;
+  return { world: next, successor: null };
 }
 
 /**
@@ -1075,10 +1091,18 @@ function statutorySuccession(
   const death = world.history.personDeaths.find(
     (row) => row.id === notice.sourceRecordId,
   );
-  const successor = statutoryPresidentialSuccessor(world);
+  const line =
+    death && termEnd
+      ? statutoryPresidentialSuccessor(
+          world,
+          `${OFFICE_CONTINUITY_VERSION}:acting-president:${death.id}`,
+          death.diedAt,
+        )
+      : { world, successor: null };
+  const successor = line.successor;
   if (!death || !termEnd || !successor)
     return {
-      world,
+      world: line.world,
       ruling: {
         ...base,
         outcome: "blocked",
@@ -1090,7 +1114,7 @@ function statutorySuccession(
   const person = world.people[successor.personId]!;
   const former = world.people[death.personId];
   const stableKey = `${OFFICE_CONTINUITY_VERSION}:acting-president:${death.id}`;
-  let next = world;
+  let next = line.world;
   if (!next.history.events.some((event) => event.stableKey === stableKey)) {
     next = recordWorldEvent(next, {
       stableKey,

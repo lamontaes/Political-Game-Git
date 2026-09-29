@@ -50,6 +50,7 @@ import type { EntityId, World } from "../types";
 import { recordPersonDeath } from "../vitality";
 import { advanceWorld } from "../world";
 import { currentPresidentOf, publicOfficesHeldBy } from "../crisis/offices";
+import { PRESIDING_OFFICER_VOTE_EVENT } from "./presiding-officers";
 import { currentFederalTenure } from "../federal-tenures";
 import {
   CHIEF_JUSTICE_NOMINATED_EVENT,
@@ -449,7 +450,7 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     expect(currentPresidentOf(reopened)!.personId).toBe(vice.personId);
   }, 300_000);
 
-  it("with no Vice President, the Speaker resigns from the House and acts as President (3 U.S.C. 19)", () => {
+  it("with no Vice President, the Speaker the House elects resigns from the House and acts as President (3 U.S.C. 19)", () => {
     const seed = "b27-speaker-acts";
     const place = new SeededRng(seed).pick(lifePlaces());
     const game = generateOpeningLife(
@@ -472,36 +473,6 @@ describe("GOVERNING K3: an office after its holder dies", () => {
       },
     ]);
     let next = applyOfficeContinuityNotices(viceDead.world, [viceDead.notice]);
-    // The Speaker: the longest-serving member of the House majority caucus.
-    const house = projectCongress(next)!.house.seats.flatMap((seat) =>
-      seat.occupant.kind === "member"
-        ? [{ seatKey: seat.seatKey, member: seat.occupant.member }]
-        : [],
-    );
-    const caucusOf = (row: (typeof house)[number]) =>
-      row.member.caucusOrganizationId ?? row.member.partyOrganizationId;
-    const majorityCaucus = [...new Set(house.map(caucusOf))].find(
-      (caucus) =>
-        caucus &&
-        house.filter((row) => caucusOf(row) === caucus).length * 2 >
-          house.length,
-    );
-    expect(majorityCaucus).toBeTruthy();
-    const speaker = house
-      .filter(
-        (row) =>
-          caucusOf(row) === majorityCaucus &&
-          !(
-            next.control.kind === "person" &&
-            next.control.personId === row.member.personId
-          ),
-      )
-      .sort(
-        (a, b) =>
-          (a.member.serviceSince ?? a.member.startedAt ?? "9999").localeCompare(
-            b.member.serviceSince ?? b.member.startedAt ?? "9999",
-          ) || a.seatKey.localeCompare(b.seatKey),
-      )[0]!;
     const dead = die(next, tenure.personId, [
       {
         officeKey: "us-president",
@@ -513,6 +484,37 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     next = applyOfficeContinuityNotices(dead.world, [dead.notice]);
     const ruling = officeContinuityRulings(next, "us-president")[0]!;
     expect(ruling.outcome).toBe("succeeded");
+    // The House elected its Speaker by vote: every member's ballot is on the
+    // record with its reason, and the winner has a majority of those cast.
+    const election = next.history.events.find(
+      (event) =>
+        event.type === PRESIDING_OFFICER_VOTE_EVENT &&
+        event.tags.includes("chamber:house"),
+    )!;
+    expect(election.tags).toContain("outcome:elected");
+    const ballots = election.participants.filter(
+      (row) => row.role === "agency:legislature-vote",
+    );
+    const cast = ballots.filter((row) => !row.detail!.startsWith("none|"));
+    const elected = election.participants.find(
+      (row) => row.role === "focus:subject",
+    )!.personId;
+    expect(
+      cast.filter((row) => row.detail!.startsWith(`person:${elected}|`))
+        .length * 2,
+    ).toBeGreaterThan(cast.length);
+    expect(ballots.every((row) => row.detail!.split("|")[1]!.length > 0)).toBe(
+      true,
+    );
+    const speakerSeat = projectCongress(viceDead.world)!.house.seats.find(
+      (seat) =>
+        seat.occupant.kind === "member" &&
+        seat.occupant.member.personId === elected,
+    )!;
+    const speaker = {
+      seatKey: speakerSeat.seatKey,
+      member: { personId: elected },
+    };
     // Acting President for the rest of the same term, read the same way by
     // every reader and after a reload.
     expect(currentPresidentOf(next)!.personId).toBe(speaker.member.personId);
