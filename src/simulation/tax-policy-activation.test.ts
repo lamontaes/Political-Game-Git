@@ -214,7 +214,8 @@ describe("typed tax enactment date", () => {
     );
     const enactment = after.history.legislativeEnactments!.at(-1)!;
     expect(enactment.outcome).toBe("enacted");
-    expect(enactment.effectiveAt).toBe(addDays(enactment.resolvedAt, 105));
+    // No interval is saved for it; the state rule dates the act where it is read.
+    expect(enactment.effectiveAt).toBeNull();
     expect(after.history.taxPolicies ?? []).toHaveLength(0);
     expect(after.history.taxCollections ?? []).toHaveLength(0);
     expect(taxActivationReadiness(after, fixture.proposalId)).toMatchObject({

@@ -6,7 +6,7 @@ import {
 } from "../legislation-draft-lineage";
 import { addYears } from "../legislation-drafting";
 import { currentMeasureProvisions } from "../legislative-politics";
-import { operativeDateForEnactment } from "../legislative-effective-date";
+import { operativeDateInWorld } from "./law-in-force";
 import { stateJurisdictionForKey } from "../life-places";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import {
@@ -409,7 +409,7 @@ export function appropriationFromEnactedMeasure(
   )
     return world;
   const pinnedOperativeDate = pinnedLegacyTransit
-    ? operativeDateForEnactment(enactment)?.date
+    ? operativeDateInWorld(world, enactment)?.date
     : null;
   if (pinnedLegacyTransit && !pinnedOperativeDate) return world;
   const transitProfile =

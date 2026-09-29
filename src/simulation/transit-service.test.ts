@@ -7,7 +7,7 @@ import { advanceWorld, assertWorldIntegrity } from "./world";
 import { addDays, daysBetween } from "./dates";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import { deserializeWorld, serializeWorld } from "./serialization";
-import { operativeDateForEnactment } from "./legislative-effective-date";
+import { operativeDateInWorld } from "./governing/law-in-force";
 import { resolveTransitFunding } from "./transit-funding";
 import {
   requestTransitImplementation,
@@ -214,10 +214,9 @@ it("reads the canonical terminating source's operative and expiration dates, its
   const repeal = unknown.world.history.legislativeEnactments!.find(
     (record) => record.measureId === unknown.terminationId,
   )!;
-  const operative = operativeDateForEnactment(repeal);
-  expect(repeal.effectiveAt).not.toBeNull();
-  expect(repeal.effectiveDateBasis).toBeDefined();
-  expect(operative?.date).toBe(repeal.effectiveAt);
+  const operative = operativeDateInWorld(unknown.world, repeal);
+  expect(operative).not.toBeNull();
+  expect(operative!.date >= repeal.resolvedAt).toBe(true);
   const defaultReady = advanceWorld(
     unknown.world,
     daysBetween(unknown.world.currentDate, base.availableAt),

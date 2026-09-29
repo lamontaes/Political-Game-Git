@@ -1,5 +1,5 @@
 import { addDays } from "./dates";
-import { operativeDateForEnactment } from "./legislative-effective-date";
+import { operativeDateInWorld } from "./governing/law-in-force";
 import { measurePosition } from "./legislation";
 import { currentMeasureProvisions } from "./legislative-politics";
 import {
@@ -90,7 +90,7 @@ export function resolveTransitFunding(
   );
   if (!enactment || measurePosition(world, measureId).outcome !== "enacted")
     return no("The transit appropriation has not become law.");
-  const operative = operativeDateForEnactment(enactment);
+  const operative = operativeDateInWorld(world, enactment);
   if (!operative)
     return no("This appropriation has no resolved operative date.");
   const availableAt = operative.date;
@@ -121,7 +121,7 @@ export function resolveTransitFunding(
       if (endingMeasure.jurisdictionId !== measure.jurisdictionId) continue;
       // The same operative date every other reader of this law uses: its
       // recorded date, or the game-default date its enactment carries.
-      const repealOperative = operativeDateForEnactment(repealing);
+      const repealOperative = operativeDateInWorld(world, repealing);
       if (!repealOperative)
         return no(
           "A recorded terminating authority has an unresolved operative date.",

@@ -1,13 +1,10 @@
 import { addDays, makeIsoDate, spokenDate } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { createStableId } from "./ids";
-import {
-  resolveLegislativeEffectiveDate,
-  STATUTE_EFFECTIVE_DEFAULT_DAYS,
-  STATUTE_EFFECTIVE_GAME_DEFAULT_VERSION,
-} from "./legislative-effective-date";
+import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
 import {
   growingIndex,
+  indexOverArrays,
   recordById,
   recordByStableKey,
   type GrowingIndexKind,
@@ -2861,16 +2858,11 @@ export function recordEnactment(
     "Enactment",
   );
   const pack = legislativeRulePackForWorld(world, measure.rulePackId);
-  const defaultDate = resolveLegislativeEffectiveDate(pack, world.currentDate);
-  const starting = legislativeProcedureForPack(world, measure.rulePackId);
-  const profile =
-    input.effectiveDateGameProfile ??
-    (starting && input.effectiveAt == null
-      ? {
-          version: starting.procedureProvenance.version,
-          days: starting.effectiveDateDays,
-        }
-      : undefined);
+
+  const resolvedDate = resolveLegislativeEffectiveDate(pack, world.currentDate);
+  const sourceDate =
+    resolvedDate.kind === "source-default" ? resolvedDate : null;
+  const profile = input.effectiveDateGameProfile;
   if (profile) {
     if (
       !profile.version.trim() ||
@@ -2887,6 +2879,15 @@ export function recordEnactment(
       );
     }
   }
+
+  // Chamber passage and concurrence only: a veto override is not the
+  // passage a state counts an effective date from.
+  const finalPassage = measureActions(world, measure.id)
+    .filter(
+      (action) =>
+        action.kind === "floor-stage-passed" || action.kind === "concurred",
+    )
+    .at(-1);
 
   const next = appendAction(world, {
     measure,
@@ -2921,25 +2922,33 @@ export function recordEnactment(
     resolvedAt: next.currentDate,
     outcome: "enacted",
     actDesignation: input.actDesignation ?? null,
+    // An explicit date, an explicit game profile, or a date the pack's own
+    // cited rule gives is saved with the act. Otherwise the date stays null
+    // and the state's researched effective-date rule dates it where it is read
+    // (`governing/statute-effective-date.ts`); no invented interval is saved.
     effectiveAt: profile
       ? addDays(next.currentDate, profile.days)
-      : input.effectiveAt == null
-        ? defaultDate.effectiveAt
-        : makeIsoDate(input.effectiveAt),
-    ...(input.effectiveAt == null
+      : input.effectiveAt != null
+        ? makeIsoDate(input.effectiveAt)
+        : sourceDate
+          ? sourceDate.effectiveAt
+          : null,
+    ...(input.effectiveAt == null && (profile || sourceDate)
       ? {
-          effectiveDateBasis: profile ? "game-default" : defaultDate.kind,
-          ...(profile || defaultDate.kind === "game-default"
+          effectiveDateBasis: profile
+            ? ("game-default" as const)
+            : ("source-default" as const),
+          ...(profile
             ? {
                 effectiveDateGameProfile: {
-                  version:
-                    profile?.version ?? STATUTE_EFFECTIVE_GAME_DEFAULT_VERSION,
-                  days: profile?.days ?? STATUTE_EFFECTIVE_DEFAULT_DAYS,
+                  version: profile.version,
+                  days: profile.days,
                 },
               }
             : {}),
         }
       : {}),
+    finalPassageAt: finalPassage?.occurredAt ?? null,
     outcomeEventId: event.id,
   };
 
@@ -3148,14 +3157,35 @@ export function legislationHistoryRecords(
 
 type LegislationRecord = { readonly id: EntityId; readonly sequence: number };
 
-/** Read each immutable family through its existing id index. An appended action
- * must not force copying and reindexing all the unchanged votes and measures. */
-function legislationRecordById(
+/** Anchors the id index below; its identity is all that matters. */
+const LEGISLATION_INDEX_ANCHOR = {};
+
+/** One legislative history list's records by id, the first of each id. */
+const LEGISLATION_IDS: GrowingIndexKind<Map<EntityId, LegislationRecord>> = {
+  create: () => new Map(),
+  add: (index, entry) => {
+    const record = entry as LegislationRecord;
+    if (!index.has(record.id)) index.set(record.id, record);
+  },
+};
+
+const NO_LEGISLATION: readonly LegislationRecord[] = [];
+
+/**
+ * Legislative records by id, the first one in `legislationHistoryRecords`
+ * order, as a `.find` over that list would return. The integrity pass asks
+ * this for every canonical source it checks, and each answer used to copy
+ * eight history families into one array and scan it.
+ *
+ * Each family keeps its own index, which grows with the family: a new vote
+ * adds one entry to the votes' index. Rebuilding one index over all eight
+ * whenever any of them grew was a second and a half of a late game year.
+ */
+function legislationRecordIndexes(
   world: World,
-  id: EntityId,
-): LegislationRecord | undefined {
+): readonly ReadonlyMap<EntityId, LegislationRecord>[] {
   const history = world.history;
-  const families = [
+  const families: readonly (readonly LegislationRecord[] | undefined)[] = [
     history.legislativeMeasures,
     history.legislativeActions,
     history.committeeReferrals,
@@ -3165,15 +3195,26 @@ function legislationRecordById(
     history.executiveDispositions,
     history.legislativeEnactments,
   ];
-  for (const family of families) {
-    const record = recordById<LegislationRecord>(family ?? [], id);
+  return indexOverArrays(LEGISLATION_INDEX_ANCHOR, families, () =>
+    families.map((family) =>
+      growingIndex(LEGISLATION_IDS, family ?? NO_LEGISLATION),
+    ),
+  );
+}
+
+function legislationRecord(
+  world: World,
+  id: EntityId,
+): LegislationRecord | undefined {
+  for (const index of legislationRecordIndexes(world)) {
+    const record = index.get(id);
     if (record) return record;
   }
   return undefined;
 }
 
 export function legislationEntityExists(world: World, id: EntityId): boolean {
-  return legislationRecordById(world, id) !== undefined;
+  return legislationRecord(world, id) !== undefined;
 }
 
 export function legislationEntityAvailableAt(
@@ -3182,7 +3223,7 @@ export function legislationEntityAvailableAt(
   asOfDate: string,
   sequenceExclusive: number,
 ): boolean {
-  const record = legislationRecordById(world, id);
+  const record = legislationRecord(world, id);
   if (!record || record.sequence >= sequenceExclusive) return false;
   const dated = record as unknown as {
     readonly introducedAt?: IsoDate;

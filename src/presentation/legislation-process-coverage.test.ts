@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { suppliedLegislativeSeat } from "../../tests/fixtures/supplied-legislative-seat";
 import { addDays, makeIsoDate } from "../simulation/dates";
+import { operativeDateInWorld } from "../simulation/governing/law-in-force";
 import {
   enactedRuleChangeAt,
   fileRuleChangeProvision,
@@ -279,24 +280,15 @@ describe("one shared state bill procedure across the fifty states", () => {
     (usps) => {
       const filed = fileSavedFixtureBill(usps);
       const enacted = enactFiledBill(filed);
-      const profile = legislativeProcedureForJurisdiction(
-        enacted,
-        stateJurisdictionForKey(`US-${usps}`)!.id,
-      );
-      if (!profile) throw new Error(`${usps}: saved procedure disappeared`);
       const enactment = enacted.history.legislativeEnactments?.at(-1);
       expect(measurePosition(enacted, filed.measureId).outcome).toBe("enacted");
-      expect(enactment).toMatchObject({
-        measureId: filed.measureId,
-        effectiveDateBasis: "game-default",
-        effectiveDateGameProfile: {
-          version: profile.procedureProvenance.version,
-          days: profile.effectiveDateDays,
-        },
-      });
-      expect(enactment?.effectiveAt).toBe(
-        addDays(enactment!.resolvedAt, profile.effectiveDateDays),
-      );
+      expect(enactment?.measureId).toBe(filed.measureId);
+      // The act saves no invented interval: a date its cited rule or the
+      // caller gave is kept, and the state's researched rule dates the rest.
+      expect(enactment?.effectiveDateGameProfile).toBeUndefined();
+      const operative = operativeDateInWorld(enacted, enactment!);
+      expect(operative).not.toBeNull();
+      expect(operative!.date >= enactment!.resolvedAt).toBe(true);
     },
   );
 
@@ -382,13 +374,10 @@ describe("one shared state bill procedure across the fifty states", () => {
       const enacted = enactFiledBill(filed, proposed);
       const enactment = enacted.history.legislativeEnactments?.at(-1);
       expect(enactment?.measureId).toBe(filed.measureId);
-      expect(enactment?.effectiveAt).not.toBeNull();
-      const effectiveAt = enactment!.effectiveAt!;
+      const effectiveAt = operativeDateInWorld(enacted, enactment!)!.date;
       const loaded = deserializeWorld(serializeWorld(enacted));
       expect(loaded.history.legislativeEnactments?.at(-1)).toMatchObject({
         measureId: filed.measureId,
-        effectiveAt,
-        effectiveDateBasis: usps === "AK" ? "source-default" : "game-default",
       });
       const reading = (world: World, date: string) =>
         ruleValueInWorld(

@@ -544,6 +544,7 @@ export function assertLegislationIntegrity(
         );
       }
     }
+    if (enactment.finalPassageAt) makeIsoDate(enactment.finalPassageAt);
   }
 
   // A measure resolves once. Two enactment records, or an enactment record

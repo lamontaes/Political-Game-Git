@@ -1,6 +1,6 @@
 import { canonicalJson } from "./canonical-json";
 import { addDays, makeIsoDate } from "./dates";
-import { operativeDateForEnactment } from "./legislative-effective-date";
+import { operativeDateInWorld } from "./governing/law-in-force";
 import { currentMeasureProvisions } from "./legislative-politics";
 import { publicTaxAccountForJurisdiction } from "./tax-policy";
 import { resourcePositionAt, resourceFlowTermsAt } from "./resource-queries";
@@ -111,7 +111,7 @@ export function assertPublicFundingMandate(
       row.provisionKey === "effective-date" ||
       row.provisionKey === "transit-effective-date",
   );
-  const operative = enactment ? operativeDateForEnactment(enactment) : null;
+  const operative = enactment ? operativeDateInWorld(world, enactment) : null;
   const appropriation = mandate.appropriationId
     ? (world.history.publicProgramRecords ?? []).find(
         (record): record is PublicProgramAppropriationRecord =>

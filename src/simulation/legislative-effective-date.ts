@@ -76,7 +76,9 @@ export function operativeDateForEnactment(
   }
   const stateRuleAt =
     !profile && stateKey?.startsWith("US-")
-      ? stateStatuteOperativeAt(stateKey, enactment.resolvedAt)
+      ? stateStatuteOperativeAt(stateKey, enactment.resolvedAt, {
+          finalPassageAt: () => enactment.finalPassageAt ?? null,
+        })
       : null;
   if (stateRuleAt) return { date: stateRuleAt, basis: "state-rule" };
   return {

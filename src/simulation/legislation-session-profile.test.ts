@@ -1,3 +1,4 @@
+import { operativeDateInWorld } from "./governing/law-in-force";
 import { describe, expect, it } from "vitest";
 
 import { applyLegislativeStep } from "../presentation/legislation-session";
@@ -181,9 +182,12 @@ describe("saved regular-session procedure at a pending measure", () => {
       actDesignation: "2026 Ky. Acts ch. 80",
     });
     expect(measurePosition(enacted, scenario.measureId).phase).toBe("enacted");
-    expect(enacted.history.legislativeEnactments?.at(-1)).toMatchObject({
-      effectiveAt: addDays(firstDayAfter, drawn.effectiveDateDays),
-      effectiveDateBasis: "game-default",
-    });
+    // No invented interval is saved; Kentucky's researched rule dates the act
+    // where it is read.
+    const enactment = enacted.history.legislativeEnactments!.at(-1)!;
+    expect(enactment.effectiveDateGameProfile).toBeUndefined();
+    expect(
+      operativeDateInWorld(enacted, enactment)!.date >= firstDayAfter,
+    ).toBe(true);
   });
 });
