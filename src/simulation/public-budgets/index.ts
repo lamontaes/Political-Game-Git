@@ -11,6 +11,10 @@ import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { firstOfNextMonth, firstOfPreviousMonth } from "./fiscal";
 import { ensureOfficeholderPrinciples } from "../governing/officeholder-principles";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
+import {
+  openFederalTreasury,
+  settleFederalTreasuryMonth,
+} from "./federal-treasury";
 import { readMonthFlows, settleGovernmentMonth } from "./month";
 import { budgetCandidates, openGovernmentBudget } from "./opening";
 import {
@@ -21,6 +25,7 @@ import {
 } from "./store";
 
 export * from "./store";
+export * from "./federal-treasury";
 export { budgetProgramFor } from "./month";
 
 export const PUBLIC_BUDGETS_TRANSITION_KEY = "crisis:public-budgets" as const;
@@ -96,6 +101,7 @@ export function ensurePublicBudgets(world: World): World {
     governments: [],
     adjustments: [],
     unknown: [],
+    federal: openFederalTreasury(today),
   };
   const opened: World = {
     ...world,
@@ -164,6 +170,11 @@ export function settlePublicBudgets(start: World, month: IsoDate): World {
     cursor,
     governments,
     adjustments,
+    federal: settleFederalTreasuryMonth(
+      world,
+      store.federal ?? openFederalTreasury(month),
+      month,
+    ),
   };
   return {
     ...world,
