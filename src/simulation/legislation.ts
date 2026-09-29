@@ -1317,7 +1317,10 @@ export function electedMembersFor(
       `The ${chamber.name} needs a positive count of elected members.`,
     );
   }
-  if (chamber.seats.kind === "known" && electedMembers > chamber.seats.value) {
+  if (
+    chamber.seats.kind === "known" &&
+    electedMembers > chamber.seats.value + (chamber.seatsMayGrowBy ?? 0)
+  ) {
     throw new Error(
       `The ${chamber.name} cannot have more members elected than its ${chamber.seats.value} formal seats.`,
     );

@@ -40,6 +40,11 @@ import {
   takeCongressSeatWork,
 } from "./congress-member-work";
 import { MINIMUM_AGE, congressSeats, seatTermWindow } from "./congress-seats";
+import {
+  applyStatehoodTurnover,
+  statehoodPlace,
+  statehoodTookEffect,
+} from "./statehood-seats";
 import { applyHouseDelegateTurnover } from "./house-delegates";
 import { decideAnotherTerm } from "../careers/another-term";
 import type { CongressSeat } from "./congress-seats";
@@ -1098,5 +1103,11 @@ export function applyCongressTurnover(before: IsoDate, world: World): World {
     if (before < newStart && newStart <= after)
       next = seatCongressWinners(next, year);
   }
-  return applyHouseDelegateTurnover(before, next);
+  const statesNow = statehoodTookEffect(next, after)
+    ? new Set([statehoodPlace()])
+    : new Set<string>();
+  return applyStatehoodTurnover(
+    before,
+    applyHouseDelegateTurnover(before, next, statesNow),
+  );
 }
