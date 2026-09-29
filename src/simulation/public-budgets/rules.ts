@@ -111,11 +111,12 @@ export const TAX_QUESTION_EFFECTS: readonly {
   {
     questionKey: "us-policy-positions:fiscal.adopt-income-tax",
     source: "individualIncomeTax",
+    // Adopting one needs a level, not a share: `income-tax-adoption.ts`.
     toYes: null,
     // A repeal ends the tax: a state with no income tax collects none.
     toNo: -1,
     basis:
-      "A repeal ends the tax, so the state collects none; adopting one needs a level, not a share, and is not researched.",
+      "A repeal ends the tax, so the state collects none. An adopted tax collects the per-resident average of the states that tax wages, moved by the state's median earnings (income-tax-adoption.ts, ESTIMATED FROM AVERAGE).",
   },
   {
     questionKey: "us-policy-positions:fiscal.graduated-income-tax",
@@ -134,9 +135,16 @@ export const TAX_QUESTION_EFFECTS: readonly {
   {
     questionKey: "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
     source: "generalSalesTax",
-    toYes: null,
-    toNo: null,
-    basis: "Not researched.",
+    // Oklahoma's HB 1955 (2024) ended the state's 4.5% sales tax on
+    // groceries: $370.3 million a year in the Oklahoma Tax Commission's fiscal
+    // impact statement, over Oklahoma's $3.57 billion of general sales tax
+    // (Census Bureau 2022 per resident times 2024 population), 10.4% of it.
+    toYes: -0.3703 / 3.5735,
+    // Taxing groceries again where they are exempt adds the same base back:
+    // the 10.4% share over the 89.6% left.
+    toNo: 0.3703 / (3.5735 - 0.3703),
+    basis:
+      "Oklahoma HB 1955 (2024) fiscal impact statement, Oklahoma Tax Commission: $370.3 million a year, over Oklahoma's 2022 general sales tax (Census Bureau) at 2024 population. A state that taxed groceries at a reduced rate loses less; the full-rate example is used for every state until each state's grocery base is read.",
   },
   {
     questionKey: "us-policy-positions:fiscal.cap-property-tax-growth",
