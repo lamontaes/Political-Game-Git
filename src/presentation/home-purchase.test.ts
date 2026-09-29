@@ -220,7 +220,7 @@ describe("buying a home", () => {
     );
   });
 
-  // Fourteen years of play. The town's businesses add 26 people and their
+  // Years of play, enough for every payment. The town's businesses add 26 people and their
   // jobs to every day of it: about 3.6 seconds without them and 5.1 with them
   // on this machine, which is over the default 5-second limit.
   it("takes only what is left in the last month and then stops", () => {
@@ -233,7 +233,12 @@ describe("buying a home", () => {
     const loan = terms.priceMinor - terms.downPaymentMinor;
     const fullPayments = Math.floor(loan / terms.monthlyPaymentMinor);
     const remainder = loan - fullPayments * terms.monthlyPaymentMinor;
-    const later = letAdultTimePass(bought.world, 5_200);
+    // One stretch of play stopped at 189 monthly payments when given 8,000
+    // days (measured), so the remaining months take a second stretch.
+    const later = letAdultTimePass(
+      letAdultTimePass(bought.world, 5_200),
+      5_200,
+    );
     assertWorldIntegrity(later);
     const mortgage = later.history.resourceFlows.find(
       (flow) => flow.basisKind === MORTGAGE_BASIS,

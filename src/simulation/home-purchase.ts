@@ -70,14 +70,14 @@ import type {
  * The price is the county's median home value (Census ACS, 2020-2024,
  * `county-home-value.ts`). The rest is still a PLACEHOLDER(research:
  * what-it-takes-to-buy-a-home): nobody has researched down payments by
- * buyer age, mortgage terms or interest. The two shares below carry the old
- * national figures over as shares of the price ($50,000 down and $1,200 a
- * month on $250,000), the same in every town, and interest is not modeled:
- * the payments simply pay down the loan. Replace them; do not tune them.
+ * buyer age, mortgage terms or interest. The two amounts below are the old
+ * national figures, the same in every town, and interest is not modeled: the
+ * payments simply pay down the loan. The shared housing module's mortgage
+ * rate replaces them. Replace them; do not tune them.
  */
 export const HOME_PURCHASE_PLACEHOLDER = {
-  downPaymentShare: 0.2,
-  monthlyPaymentShare: 0.0048,
+  downPaymentMinor: 5_000_000,
+  monthlyPaymentMinor: 120_000,
   currency: "USD",
   researchQuestionId: "what-it-takes-to-buy-a-home",
 } as const;
@@ -126,13 +126,11 @@ export function homePurchaseTerms(
   return {
     priceMinor: roundTo(openingPriceMinor * factor, 100_000),
     downPaymentMinor: roundTo(
-      openingPriceMinor * HOME_PURCHASE_PLACEHOLDER.downPaymentShare * factor,
+      HOME_PURCHASE_PLACEHOLDER.downPaymentMinor * factor,
       100_000,
     ),
     monthlyPaymentMinor: roundTo(
-      openingPriceMinor *
-        HOME_PURCHASE_PLACEHOLDER.monthlyPaymentShare *
-        factor,
+      HOME_PURCHASE_PLACEHOLDER.monthlyPaymentMinor * factor,
       1_000,
     ),
   };
