@@ -25,6 +25,7 @@ import { STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
 import { standardNormal } from "../world-setup/deterministic-math";
 import { openingPaidShare, pensionPayment } from "./pension-share";
+import { reserveRule } from "./reserve-rule";
 import {
   budgetLawReadings,
   fiscalYearContaining,
@@ -861,6 +862,7 @@ export function openGovernmentBudget(
       ...opening.notes,
       `Calibration factor ${BUDGET_CALIBRATION}: ${bases.calibration.basis}`,
       "Pension: liability, funded ratio and contribution are PLACEHOLDER (research: public-pension-funding-by-state), carved out of salary-paying programs.",
+      `Reserve target under a minimum-reserve law: ${reserveRule(candidate).floorShare} of a year's spending, at most ${reserveRule(candidate).depositShare} a year: ${reserveRule(candidate).basis}.`,
       paid.basis === "reported"
         ? `Pension share paid: ${paid.share}, as its own plans reported to the Public Plans Database.`
         : `Pension share paid: ${paid.share}, ESTIMATED FROM AVERAGE (the median of every plan in the Public Plans Database, fiscal 2022 to 2024); its own plans are not listed.`,

@@ -1,0 +1,321 @@
+{
+  "id": "state-reserve-rules-2021",
+  "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+  "table": "NASBO, Budget Processes in the States (2021), Table 13: Rainy Day Fund or Budget Stabilization Fund",
+  "readOn": "2026-09-29",
+  "rule": "target: the share of a year's spending the state's rainy-day law fills its fund to (the required minimum where one is set, else the maximum size), summed where the law sets two general funds; deposit: the share of spending the law moves into the fund each year, where it sets one. A state whose law sets none is null and takes the median of the states that do.",
+  "median": {
+    "target": 0.1,
+    "targetStates": 36,
+    "deposit": 0.01,
+    "depositStates": 6
+  },
+  "states": {
+    "AK": {
+      "target": null,
+      "targetBasis": "Constitutional Budget Reserve: no size set",
+      "deposit": null,
+      "depositBasis": "settlements and year-end sweeps, not a set share"
+    },
+    "AL": {
+      "target": 0.1,
+      "targetBasis": "General Fund Rainy Day Fund: 10% of the previous year's General Fund appropriations (Amendment 803)",
+      "deposit": null,
+      "depositBasis": "repaid from the Alabama Trust Fund, not a set share"
+    },
+    "AR": {
+      "target": null,
+      "targetBasis": "Long Term Reserve Fund: no size set",
+      "deposit": null,
+      "depositBasis": "a transfer from the allotment reserve, not a set share"
+    },
+    "AZ": {
+      "target": 0.1,
+      "targetBasis": "Budget Stabilization Fund: 10% of current-year General Fund revenue",
+      "deposit": null,
+      "depositBasis": "revenue growth above the seven-year average, not a set share"
+    },
+    "CA": {
+      "target": 0.1,
+      "targetBasis": "Budget Stabilization Account: 10% of General Fund tax revenues (Const. art. XVI, sec. 20)",
+      "deposit": 0.015,
+      "depositBasis": "1.5% of annual General Fund revenues, plus a share of capital gains"
+    },
+    "CO": {
+      "target": 0.0725,
+      "targetBasis": "General Fund reserve: 7.25% of General Fund appropriations",
+      "deposit": null,
+      "depositBasis": "set by the General Assembly each year"
+    },
+    "CT": {
+      "target": 0.15,
+      "targetBasis": "Budget Reserve Fund: 15% of General Fund appropriations",
+      "deposit": null,
+      "depositBasis": "year-end surplus and volatile taxes, not a set share"
+    },
+    "DC": {
+      "target": 0.0234,
+      "targetBasis": "Fiscal Stabilization Reserve Fund: 2.34% of adjusted expenditures",
+      "deposit": null,
+      "depositBasis": "uncommitted funds at year end"
+    },
+    "DE": {
+      "target": 0.05,
+      "targetBasis": "Budget Reserve Account: 5% of estimated General Fund revenue",
+      "deposit": null,
+      "depositBasis": "year-end surplus, not a set share"
+    },
+    "FL": {
+      "target": 0.05,
+      "targetBasis": "Budget Stabilization Fund: at least 5% of the last year's General Revenue collections",
+      "deposit": null,
+      "depositBasis": "appropriated by the Legislature"
+    },
+    "GA": {
+      "target": 0.15,
+      "targetBasis": "Revenue Shortfall Reserve: 15% of prior-year net treasury receipts",
+      "deposit": null,
+      "depositBasis": "year-end surplus lapses to it, not a set share"
+    },
+    "HI": {
+      "target": null,
+      "targetBasis": "Emergency and Budget Reserve Fund: no size set",
+      "deposit": null,
+      "depositBasis": "tobacco settlement and appropriations, not a set share"
+    },
+    "IA": {
+      "target": 0.1,
+      "targetBasis": "Cash Reserve Fund 7.5% plus Economic Emergency Fund 2.5% of adjusted revenues",
+      "deposit": null,
+      "depositBasis": "the previous year's surplus, not a set share"
+    },
+    "ID": {
+      "target": 0.1,
+      "targetBasis": "Budget Stabilization Fund: 10% of the previous year's General Fund receipts",
+      "deposit": 0.01,
+      "depositBasis": "up to 1% of the previous year's collections when receipts grow more than 4%"
+    },
+    "IL": {
+      "target": null,
+      "targetBasis": "Budget Stabilization Fund: no size set",
+      "deposit": null,
+      "depositBasis": "appropriated or transferred by law"
+    },
+    "IN": {
+      "target": null,
+      "targetBasis": "Rainy Day Fund: set by personal income growth, no size in the table",
+      "deposit": null,
+      "depositBasis": "set by the growth of adjusted personal income"
+    },
+    "KS": {
+      "target": null,
+      "targetBasis": "Budget Stabilization Fund: no size set",
+      "deposit": null,
+      "depositBasis": "a share of revenue above the consensus estimate"
+    },
+    "KY": {
+      "target": null,
+      "targetBasis": "Budget Reserve Trust Fund: no size set",
+      "deposit": null,
+      "depositBasis": "surplus and appropriations, not a set share"
+    },
+    "LA": {
+      "target": 0.04,
+      "targetBasis": "Budget Stabilization Fund: 4% of total state revenue receipts for the previous year",
+      "deposit": null,
+      "depositBasis": "mineral and nonrecurring revenue, not a set share"
+    },
+    "MA": {
+      "target": 0.15,
+      "targetBasis": "Commonwealth Stabilization Fund: 15% of annual revenue",
+      "deposit": null,
+      "depositBasis": "year-end surplus and excess capital gains, not a set share"
+    },
+    "MD": {
+      "target": 0.05,
+      "targetBasis": "Revenue Stabilization Account: 5% of estimated General Fund revenues",
+      "deposit": null,
+      "depositBasis": "mandated appropriations set by the fund's balance"
+    },
+    "ME": {
+      "target": 0.12,
+      "targetBasis": "Budget Stabilization Fund: 12% of the previous year's General Fund revenues",
+      "deposit": null,
+      "depositBasis": "48% of the unappropriated surplus, not a set share"
+    },
+    "MI": {
+      "target": 0.15,
+      "targetBasis": "Countercyclical Budget and Economic Stabilization Fund: 15% of General Fund and School Aid Fund revenue",
+      "deposit": null,
+      "depositBasis": "triggered by personal income growth"
+    },
+    "MN": {
+      "target": null,
+      "targetBasis": "Budget Reserve Account: a dollar amount set by revenue volatility ($2.4 billion in fiscal 2020-21), not a share",
+      "deposit": null,
+      "depositBasis": "one third of a November forecast balance"
+    },
+    "MO": {
+      "target": 0.075,
+      "targetBasis": "Budget Reserve Fund: at least 7.5% of the previous year's net general revenue collections (Constitution)",
+      "deposit": null,
+      "depositBasis": "kept at its required minimum"
+    },
+    "MS": {
+      "target": 0.1,
+      "targetBasis": "Working Cash Stabilization Reserve Fund: 10% of General Fund appropriation",
+      "deposit": null,
+      "depositBasis": "ending cash transfers, not a set share"
+    },
+    "MT": {
+      "target": 0.045,
+      "targetBasis": "Budget Stabilization Reserve: 4.5% of appropriations in the second year of the biennium",
+      "deposit": null,
+      "depositBasis": "revenue above the official estimate"
+    },
+    "NC": {
+      "target": null,
+      "targetBasis": "Savings Reserve: two years of need in 9 of 10 downturn scenarios, not a share",
+      "deposit": null,
+      "depositBasis": "15% of General Fund revenue growth"
+    },
+    "ND": {
+      "target": 0.15,
+      "targetBasis": "Budget Stabilization Fund: 15% of appropriated General Fund expenditures",
+      "deposit": null,
+      "depositBasis": "filled to its maximum from the General Fund after the budget is set"
+    },
+    "NE": {
+      "target": null,
+      "targetBasis": "Cash Reserve Fund: no size set",
+      "deposit": null,
+      "depositBasis": "receipts above the certified forecast"
+    },
+    "NH": {
+      "target": 0.1,
+      "targetBasis": "Revenue Stabilization Reserve Account: 10% of the last completed year's unrestricted General Fund revenue",
+      "deposit": null,
+      "depositBasis": "year-end surplus, not a set share"
+    },
+    "NJ": {
+      "target": null,
+      "targetBasis": "Surplus Revenue Fund: no size set",
+      "deposit": null,
+      "depositBasis": "half of revenue above estimates"
+    },
+    "NM": {
+      "target": null,
+      "targetBasis": "Tax Stabilization Reserve: no size in the table",
+      "deposit": null,
+      "depositBasis": "appropriations and investment income"
+    },
+    "NV": {
+      "target": 0.2,
+      "targetBasis": "Account to Stabilize the Operation of State Government: 20% of General Fund operating appropriations",
+      "deposit": null,
+      "depositBasis": "40% of the ending balance above 7% of the General Fund"
+    },
+    "NY": {
+      "target": 0.07,
+      "targetBasis": "Tax Stabilization Reserve 2% of the General Fund norm plus Rainy Day Reserve 5% of General Fund disbursements",
+      "deposit": 0.002,
+      "depositBasis": "at most 0.2% of the General Fund norm a year to the Tax Stabilization Reserve"
+    },
+    "OH": {
+      "target": 0.085,
+      "targetBasis": "Budget Stabilization Fund: 8.5% of the preceding year's General Revenue Fund revenues",
+      "deposit": null,
+      "depositBasis": "transfers from the General Revenue Fund"
+    },
+    "OK": {
+      "target": 0.15,
+      "targetBasis": "Constitutional Reserve Fund: 15% of prior-year General Revenue collections",
+      "deposit": null,
+      "depositBasis": "collections above 100% of the estimate"
+    },
+    "OR": {
+      "target": 0.125,
+      "targetBasis": "Rainy Day Fund 7.5% plus Education Stability Fund 5% of the previous biennium's General Fund revenue",
+      "deposit": 0.005,
+      "depositBasis": "1% of the previous biennium's General Fund appropriations, half a percent a year"
+    },
+    "PA": {
+      "target": 0.06,
+      "targetBasis": "Budget Stabilization Reserve Fund: the surplus transfer falls from 25% to 10% once the fund reaches 6% of General Fund revenues",
+      "deposit": null,
+      "depositBasis": "25% of the year-end surplus"
+    },
+    "RI": {
+      "target": 0.05,
+      "targetBasis": "Budget Reserve and Cash Stabilization Fund: 5% of general revenue resources (Constitution)",
+      "deposit": 0.03,
+      "depositBasis": "3% of general revenues each year"
+    },
+    "SC": {
+      "target": 0.07,
+      "targetBasis": "General Reserve 5% plus Capital Reserve 2% of the last completed year's General Fund revenues",
+      "deposit": null,
+      "depositBasis": "one-time transfers at the start of the year"
+    },
+    "SD": {
+      "target": 0.1,
+      "targetBasis": "Budget Reserve Fund: 10% of the prior year's General Appropriations Act",
+      "deposit": null,
+      "depositBasis": "unspent general funds at year end"
+    },
+    "TN": {
+      "target": 0.08,
+      "targetBasis": "Reserve for Revenue Fluctuations: 8% of General and Education Trust Fund allocations",
+      "deposit": null,
+      "depositBasis": "10% of tax revenue growth"
+    },
+    "TX": {
+      "target": 0.2,
+      "targetBasis": "Economic Stabilization Fund: 10% of general revenue deposited over the preceding two-year biennium, 20% of one year's",
+      "deposit": null,
+      "depositBasis": "half of the unencumbered general revenue balance"
+    },
+    "UT": {
+      "target": 0.08,
+      "targetBasis": "General Fund Budget Reserve Account: 8% of General Fund appropriations",
+      "deposit": null,
+      "depositBasis": "25% of the year-end surplus"
+    },
+    "VA": {
+      "target": 0.15,
+      "targetBasis": "Revenue Stabilization Fund: 15% of average annual income, corporate and sales tax revenue over the prior three years (Const. art. X, sec. 8)",
+      "deposit": null,
+      "depositBasis": "half the growth above the six-year average"
+    },
+    "VT": {
+      "target": 0.05,
+      "targetBasis": "Budget Stabilization Reserves: 5% of the prior year's appropriations",
+      "deposit": null,
+      "depositBasis": "undesignated surpluses"
+    },
+    "WA": {
+      "target": null,
+      "targetBasis": "Budget Stabilization Account: no size in the table",
+      "deposit": 0.01,
+      "depositBasis": "1% of general state revenues each year (RCW 43.79.490)"
+    },
+    "WI": {
+      "target": null,
+      "targetBasis": "Budget Stabilization Fund: no size set",
+      "deposit": null,
+      "depositBasis": "half of unanticipated revenues"
+    },
+    "WV": {
+      "target": 0.13,
+      "targetBasis": "Revenue Shortfall Reserve Fund: 13% of General Revenue appropriations",
+      "deposit": null,
+      "depositBasis": "the first half of the year-end surplus"
+    },
+    "WY": {
+      "target": null,
+      "targetBasis": "Legislative Stabilization Reserve Account: no size set",
+      "deposit": null,
+      "depositBasis": "legislative appropriation"
+    }
+  }
+}
