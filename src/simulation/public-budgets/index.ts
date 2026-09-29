@@ -13,6 +13,7 @@ import { readMonthFlows, settleGovernmentMonth } from "./month";
 import { budgetCandidates, openGovernmentBudget } from "./opening";
 import {
   PUBLIC_BUDGETS_VERSION,
+  stateLocalAidRate,
   type PublicBudgetGovernment,
   type PublicBudgetStore,
 } from "./store";
@@ -40,16 +41,39 @@ export function withOpenedBudgets(
   const governments: PublicBudgetGovernment[] = [...store.governments];
   const unknownRows = [...store.unknown];
   for (const row of unknown) if (!known.has(row.key)) unknownRows.push(row);
+  const opened: PublicBudgetGovernment[] = [];
   for (const candidate of candidates) {
     if (known.has(candidate.key)) continue;
-    const opened = openGovernmentBudget(world, candidate, today);
-    if (typeof opened === "string")
+    const government = openGovernmentBudget(world, candidate, today);
+    if (typeof government === "string")
       unknownRows.push({
         key: candidate.key,
         jurisdictionId: candidate.jurisdictionId,
-        reason: opened,
+        reason: government,
       });
-    else governments.push(opened);
+    else opened.push(government);
+  }
+  // A new county or city notes its state's local-aid rate at the opening,
+  // which its aid follows from then on.
+  const states = new Map(
+    [...governments, ...opened]
+      .filter((row) => row.level === "state")
+      .map((row) => [row.key, row]),
+  );
+  for (const government of opened) {
+    const state = states.get(government.stateKey);
+    const [first, ...rest] = government.years;
+    governments.push(
+      government.level === "state" || !state || !first
+        ? government
+        : {
+            ...government,
+            years: [
+              { ...first, stateLocalAidAtAdoption: stateLocalAidRate(state) },
+              ...rest,
+            ],
+          },
+    );
   }
   return { ...store, governments, unknown: unknownRows };
 }
@@ -92,8 +116,24 @@ export function settlePublicBudgets(world: World, month: IsoDate): World {
   if (!store) return world;
   const { flows, cursor } = readMonthFlows(world, store);
   const adjustments = [...store.adjustments];
-  const governments = store.governments.map((government) => {
+  // States settle first, so a county's or city's aid can follow what its
+  // state spent this month.
+  const settledStates = new Map<string, PublicBudgetGovernment>();
+  for (const government of store.governments) {
+    if (government.level !== "state") continue;
     const settled = settleGovernmentMonth(world, government, month, flows);
+    adjustments.push(...settled.adjustments);
+    settledStates.set(government.key, settled.government);
+  }
+  const governments = store.governments.map((government) => {
+    if (government.level === "state") return settledStates.get(government.key)!;
+    const settled = settleGovernmentMonth(
+      world,
+      government,
+      month,
+      flows,
+      settledStates.get(government.stateKey) ?? null,
+    );
     adjustments.push(...settled.adjustments);
     return settled.government;
   });

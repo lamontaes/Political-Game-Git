@@ -532,6 +532,111 @@ describe("public budgets", () => {
     expect(county.reserve.answer).toBe("unknown");
   });
 
+  it("a town the Census 2025 estimates leave out opens from its ACS population, and a Puerto Rico town from the national local average, marked as estimated", () => {
+    const world = opened(
+      worldAt("2026-01-05", { places: ["7258365", "1004130"] }),
+    );
+    const store = world.publicBudgets!;
+    expect(store.unknown).toEqual([]);
+    const palmas = store.governments.find(
+      (row) => row.key === "place:7258365",
+    )!;
+    const bear = store.governments.find((row) => row.key === "place:1004130")!;
+    expect(palmas.population).toBe(1_119);
+    expect(bear.population).toBe(22_370);
+    expect(palmas.openingNotes[0]).toMatch(/^ESTIMATED FROM AVERAGE/);
+    expect(bear.openingNotes[0]).toMatch(/ACS 2020-2024 five-year population/);
+    expect(sum(palmas.years[0]!.appropriations)).toBeGreaterThan(0);
+    expect(
+      store.governments.find((row) => row.key === "US-PR")!.population,
+    ).toBe(3_184_835);
+  });
+
+  it("the balance above the reserve target is carried into the next budget and spent across the year, once", () => {
+    const world = worldAt("2026-01-05");
+    const state = publicBudgetFor(opened(world), illinois)!;
+    const run = settleAlone(world, state, "2027-06-01");
+    const carried = run.adjustments.filter(
+      (row) => row.kind === "balance-carried",
+    );
+    expect(carried[0]!.fiscalYear).toBe(2027);
+    expect(carried[0]!.law).toBeNull();
+    const [, fy2027, fy2028] = run.government.years;
+    const cuttable = (values: readonly number[]) =>
+      sum(
+        BUDGET_PROGRAMS.map((program, at) =>
+          program === "interest" || program === "pensionContribution"
+            ? 0
+            : values[at]!,
+        ),
+      );
+    // Fiscal 2027 plans the carried balance on top of its programs.
+    expect(fy2027!.carriedBalance).toBe(carried[0]!.amount);
+    const june2026 = run.government.months.find(
+      (row) => row.month === "2026-06-01",
+    )!;
+    const target = 0.05 * sum(state.years[0]!.appropriations);
+    expect(carried[0]!.amount).toBe(
+      Math.round(june2026.balance - Math.max(0, target - june2026.reserve)),
+    );
+    // Spent across the year: the balance ends it near what was kept back.
+    const june2027 = run.government.months.find(
+      (row) => row.month === "2027-06-01",
+    )!;
+    expect(
+      Math.abs(june2027.balance - (june2026.balance - carried[0]!.amount)),
+    ).toBeLessThan(0.01 * sum(fy2027!.appropriations));
+    // Once: fiscal 2028 builds on fiscal 2027's programs without it.
+    expect(
+      Math.abs(
+        cuttable(fy2028!.appropriations) -
+          fy2028!.carriedBalance! -
+          (cuttable(fy2027!.appropriations) - fy2027!.carriedBalance!),
+      ),
+    ).toBeLessThan(0.001 * cuttable(fy2027!.appropriations));
+  });
+
+  it("a city's aid from its state follows what the state spends on local aid, so a state cut reaches it the same month", () => {
+    const world = opened(worldAt("2026-01-05", { places: ["1714000"] }));
+    const store = world.publicBudgets!;
+    const chicago = store.governments.find(
+      (row) => row.key === "place:1714000",
+    )!;
+    const state = publicBudgetFor(world, illinois)!;
+    const localAid = BUDGET_PROGRAMS.indexOf("localAid");
+    const aid = BUDGET_SOURCES.indexOf("intergovernmental");
+    expect(chicago.years[0]!.stateLocalAidAtAdoption).toBe(
+      state.years[0]!.appropriations[localAid],
+    );
+    const cutWorld: World = {
+      ...world,
+      publicBudgets: {
+        ...store,
+        governments: store.governments.map((row) =>
+          row.key === "US-IL" ? { ...row, cut: 0.1 } : row,
+        ),
+      },
+    };
+    const expected = chicago.years[0]!.expectedRevenue[aid]! / 12;
+    const whole = runThrough(world, "2026-01-01");
+    const cut = runThrough(cutWorld, "2026-01-01");
+    const januaryAid = (next: World) =>
+      next.publicBudgets!.governments.find(
+        (row) => row.key === "place:1714000",
+      )!.months[0]!.revenue[aid]!;
+    expect(januaryAid(whole)).toBeCloseTo(expected, -1);
+    expect(januaryAid(cut)).toBeCloseTo(expected * 0.9, -1);
+    // Illinois' fiscal 2027 budget spends its carried balance, local aid
+    // included, and Chicago's aid rises with it from July.
+    const year = runThrough(world, "2026-07-01");
+    const months = year.publicBudgets!.governments.find(
+      (row) => row.key === "place:1714000",
+    )!.months;
+    const june = months.find((row) => row.month === "2026-06-01")!;
+    const july = months.find((row) => row.month === "2026-07-01")!;
+    expect(july.revenue[aid]!).toBeGreaterThan(june.revenue[aid]!);
+  });
+
   it("maps an appropriation's program to its budget line", () => {
     expect(budgetProgramFor("transit-access:il")).toBe("transit");
     expect(budgetProgramFor("bridge-maintenance:il")).toBe("highways");
