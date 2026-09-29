@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+import type * as StateExecutives from "../nationwide-world/state-executives";
 import type { StateExecutiveHolderRecord } from "../nationwide-world/state-executives";
 import { makeIsoDate } from "../dates";
 import { lifePlaceByKey, stateJurisdictionForKey } from "../life-places";
@@ -41,8 +42,7 @@ import { SPENDING_QUESTION_EFFECTS, TAX_QUESTION_EFFECTS } from "./rules";
 // records no executive office.
 const seated: { holders: StateExecutiveHolderRecord[] } = { holders: [] };
 vi.mock("../nationwide-world/state-executives", async (original) => {
-  const actual =
-    await original<typeof import("../nationwide-world/state-executives")>();
+  const actual = await original<typeof StateExecutives>();
   return {
     ...actual,
     currentStateExecutiveHolders: (world: World) =>
