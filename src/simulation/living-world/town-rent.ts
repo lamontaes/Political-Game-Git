@@ -1,3 +1,4 @@
+import { immigrationRentLevel } from "../immigration-arrival-readers";
 /**
  * Rent day: every renting household in town pays rent on the first of the
  * month, to a landlord on record.
@@ -308,7 +309,11 @@ export function marketRentLevel(
   town: EntityId,
   date: IsoDate,
 ): number {
-  return homePriceLevel(world, town, date) * rentLawLevel(world, town, date);
+  return (
+    homePriceLevel(world, town, date) *
+    rentLawLevel(world, town, date) *
+    immigrationRentLevel(world, town, date)
+  );
 }
 
 /**
