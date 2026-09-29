@@ -205,11 +205,7 @@ export function principleVoteConsideration(
     readonly answer: "yes" | "no";
   }[] = measure.propositionAnswers ?? [],
 ): DecisionConsideration | null {
-  return principleAnswersConsideration(
-    world,
-    personId,
-    measure.propositionAnswers ?? [],
-  );
+  return principleAnswersConsideration(world, personId, answers);
 }
 
 /**
