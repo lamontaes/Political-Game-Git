@@ -3,6 +3,7 @@ import {
   type ElectionSpeechMove,
 } from "../simulation/campaign-speeches";
 import { requireElectionContest } from "../simulation/election-contests";
+import { speechReception } from "../simulation/speech-reception";
 import type { EntityId, HistoricalEvent, World } from "../simulation";
 import {
   composeAddress,
@@ -191,6 +192,8 @@ export interface ElectionSpeechWords {
   readonly opening: string;
   readonly text: string;
   readonly moves: readonly ComposedMove[];
+  /** Who heard it and how they took it, as recorded; null when nobody was there. */
+  readonly heard: string | null;
 }
 
 function fullName(world: World, personId: EntityId): string | null {
@@ -291,8 +294,10 @@ export function electionSpeechWords(
   });
   if (address.kind !== "rendered") return null;
   return {
-    opening: address.moves[0]!.text,
+    // Quoted: these are the speaker's own words.
+    opening: `“${address.moves[0]!.text}”`,
     text: address.text,
     moves: address.moves,
+    heard: speechReception(world, event)?.event.summary ?? null,
   };
 }

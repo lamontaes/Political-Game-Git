@@ -8,6 +8,16 @@ import { recordWorldEvent } from "./world";
 import { LIFE_MIND_IDS } from "./life-mind-content";
 import { parentsOf } from "./people-family";
 import { latestPersonalValue } from "./queries";
+import {
+  SPEECH_MOVES_TAG,
+  SPEECH_REGISTER_TAG,
+  type ElectionSpeechMove,
+} from "./speech-moves";
+import {
+  recordSpeechReception,
+  electionNightWitnesses,
+} from "./speech-reception";
+import { rememberSpeech } from "./speech-retelling";
 import type { EntityId, World } from "./types";
 
 /**
@@ -26,42 +36,12 @@ export const CONCESSION_EVENT = "campaign.concession";
 
 export type ElectionSpeechKind = "victory" | "concession";
 
-/**
- * What the speaker does in the speech, in order: the moves, not the words
- * (design D-3, step 3). The simulation decides the moves from the record and
- * the speaker's own character; the English engine words them later from this
- * same record, so the speech reads the same after Save and Continue.
- */
-export type ElectionSpeechMove =
-  | { readonly move: "thanks" }
-  | { readonly move: "opponent"; readonly personId: EntityId }
-  | { readonly move: "congratulate"; readonly personId: EntityId }
-  | {
-      readonly move: "lost-parent";
-      readonly personId: EntityId;
-      readonly kinshipId: EntityId;
-      readonly deathId: EntityId;
-    }
-  | { readonly move: "the-work" }
-  | { readonly move: "keep-going" }
-  | { readonly move: "close" };
-
-export const SPEECH_REGISTER_TAG = "speech.register:";
-export const SPEECH_MOVES_TAG = "speech.moves.v1:";
-
-/** The moves a recorded speech made, or null for a speech saved before them. */
-export function speechMovesOf(
-  tags: readonly string[],
-): readonly ElectionSpeechMove[] | null {
-  const tag = tags.find((entry) => entry.startsWith(SPEECH_MOVES_TAG));
-  if (!tag) return null;
-  try {
-    const moves = JSON.parse(tag.slice(SPEECH_MOVES_TAG.length));
-    return Array.isArray(moves) ? moves : null;
-  } catch {
-    return null;
-  }
-}
+export {
+  SPEECH_MOVES_TAG,
+  SPEECH_REGISTER_TAG,
+  speechMovesOf,
+  type ElectionSpeechMove,
+} from "./speech-moves";
 
 /**
  * A parent the speaker lost, if they would say so in public. Whether they do
@@ -192,7 +172,10 @@ export function recordElectionSpeech(
   const moveEntityIds = moves.flatMap((move) =>
     "personId" in move ? [move.personId] : [],
   );
-  return recordWorldEvent(world, {
+  // Step 4: who was in the room, from the record. They are in the speech's
+  // own record, since they were there when it was given.
+  const witnessIds = electionNightWitnesses(world, personId, contestId);
+  const spoken = recordWorldEvent(world, {
     stableKey: speechKey(contestId, personId),
     type: won ? VICTORY_SPEECH_EVENT : CONCESSION_EVENT,
     occurredAt: world.currentDate,
@@ -204,6 +187,7 @@ export function recordElectionSpeech(
       personId,
       winner.id,
       ...moveEntityIds,
+      ...witnessIds,
     ].filter((id, index, all) => all.indexOf(id) === index),
     participants: [
       {
@@ -245,4 +229,15 @@ export function recordElectionSpeech(
       immediateReaction: null,
     },
   });
+  // Steps 5 and 6: the people who were there each take it their own way,
+  // and each keeps a memory of it as strong as it mattered to them.
+  const speech = electionSpeechGiven(spoken, contestId, personId)!;
+  const received = recordSpeechReception(
+    spoken,
+    speech,
+    personId,
+    witnessIds,
+    won ? "victory" : "concession",
+  );
+  return rememberSpeech(received, speech, witnessIds);
 }

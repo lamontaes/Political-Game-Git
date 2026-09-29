@@ -411,6 +411,16 @@ test.describe("A life can stand for something", () => {
     // There is nothing left to spend an afternoon on, and the buttons say so.
     await expect(page.getByTestId("campaign-offers")).toHaveCount(0);
 
+    // The speech is the player's to give. Once given, it is there in words:
+    // the opening line, and the whole speech a tap away.
+    await page.getByTestId("campaign-speech").click();
+    const words = page.getByTestId("campaign-speech-words");
+    await expect(words).toBeVisible();
+    await expect(words.locator("summary")).toContainText(/Thank you/);
+    await words.locator("summary").click();
+    await expect(words.locator("p")).toBeVisible();
+    await expect(words.locator("p")).toContainText(/Good night/);
+
     // Whichever way it went, this is still a game with a day in it.
     const afterword = await page.getByTestId("campaign-afterword").innerText();
     await openDay(page);

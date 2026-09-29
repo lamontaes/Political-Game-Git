@@ -11,6 +11,12 @@ the work ahead; the loser congratulates the winner by name. A speaker whose
 parent has died may say so, unless they are a private person. The result
 screen shows the opening line, and tapping it shows the whole speech.
 
+The people who live with the speaker, and the campaign's staff, are in the
+room. Each cheers, applauds or stays quiet in their own way, and the result
+screen says how the room took it. Each remembers the speech, more strongly if
+it moved them or they were young. Over the months they tell the people they
+live with who weren't there, and a memory nobody retells fades.
+
 When someone turns down a game, a quiet talk or a date, they now say why: they
 want time to themselves, they would rather try something new, or they would
 rather play a game you both know. Unless the two of you are at odds, they ease

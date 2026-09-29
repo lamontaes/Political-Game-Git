@@ -7,6 +7,19 @@ import {
   electionContestResult,
   VICTORY_SPEECH_EVENT,
 } from "../simulation";
+import { electionSpeechGiven } from "../simulation/campaign-speeches";
+import { ageOnDate } from "../simulation/dates";
+import { householdMembershipsAt } from "../simulation/life-queries";
+import { startHouseholdMembership } from "../simulation/life";
+import { recordMemory } from "../simulation/records";
+import {
+  householdmatesOf,
+  speechReception,
+} from "../simulation/speech-reception";
+import {
+  retellSpeeches,
+  SPEECH_MEMORY_FADE_DAYS,
+} from "../simulation/speech-retelling";
 import { createExplicitGeographyLife } from "./new-game-geography";
 import {
   fileForOffice,
@@ -84,8 +97,8 @@ describe("election-night speeches", () => {
     // thanking the room, and a concession names the person who won.
     const words = projectCampaign(spoken, personId).speech?.words;
     expect(words).not.toBeNull();
-    expect(words!.opening).toMatch(/^Thank you/);
-    expect(words!.text.startsWith(words!.opening)).toBe(true);
+    expect(words!.opening).toMatch(/^“Thank you/);
+    expect(words!.text.startsWith(words!.opening.slice(1, -1))).toBe(true);
     if (result.winnerPersonId !== personId) {
       const winner = spoken.people[result.winnerPersonId]!;
       expect(words!.text).toContain(`${winner.givenName} ${winner.familyName}`);
@@ -94,5 +107,102 @@ describe("election-night speeches", () => {
     expect(projectCampaign(spoken, personId).speech?.words).toEqual(words);
     // Giving it twice says nothing new.
     expect(giveElectionSpeech(spoken, personId)).toBe(spoken);
+
+    // Steps 4 to 6: the people who live with the speaker were in the room.
+    // Each heard it firsthand, reacted in their own way, and remembers it.
+    const speech = electionSpeechGiven(spoken, contest.id, personId)!;
+    const witnesses = householdmatesOf(spoken, personId);
+    expect(witnesses.length).toBeGreaterThan(0);
+    for (const witnessId of witnesses) {
+      expect(speech.involvedEntityIds).toContain(witnessId);
+      expect(
+        spoken.history.knowledge.some(
+          (row) =>
+            row.personId === witnessId &&
+            row.eventId === speech.id &&
+            row.source.kind === "direct",
+        ),
+      ).toBe(true);
+      expect(
+        spoken.history.memories.some(
+          (row) => row.personId === witnessId && row.eventId === speech.id,
+        ),
+      ).toBe(true);
+    }
+    const reception = speechReception(spoken, speech)!;
+    const { cheered, applauded } = reception.counts;
+    expect(cheered + applauded + reception.counts["stayed-quiet"]).toBe(
+      witnesses.length,
+    );
+    expect(words!.heard).toBe(reception.event.summary);
+
+    // Step 7: someone who remembers it well tells the people they live with
+    // who were not there, and each of them remembers it one step less sharply.
+    const holderId = witnesses[0]!;
+    const home = householdMembershipsAt(spoken, personId)[0]!.household;
+    const newcomerId = spoken.personOrder.find(
+      (id) =>
+        !speech.involvedEntityIds.includes(id) &&
+        ageOnDate(spoken.people[id]!.birthDate, spoken.currentDate) >= 5 &&
+        !spoken.history.knowledge.some((row) => row.personId === id),
+    )!;
+    // Fixture: the witness's memory is strong, and someone who was not there
+    // moves in afterwards.
+    let told = recordMemory(spoken, {
+      stableKey: "test:holder-memory",
+      personId: holderId,
+      eventId: speech.id,
+      formedAt: spoken.currentDate,
+      rememberedSummary: speech.summary,
+      interpretation: "It stayed with them.",
+      strength: "strong",
+      relevanceTags: ["speech.heard"],
+      supersedesMemoryId: spoken.history.memories.find(
+        (row) => row.personId === holderId && row.eventId === speech.id,
+      )!.id,
+    });
+    told = startHouseholdMembership(told, {
+      stableKey: "test:newcomer",
+      personId: newcomerId,
+      householdId: home.id,
+      startedAt: told.currentDate,
+      residenceRole: "secondary",
+      kind: "resident:member",
+      provenance: { kind: "authored", note: "Retelling fixture" },
+    });
+    told = retellSpeeches(told);
+    expect(
+      told.history.knowledge.find(
+        (row) => row.personId === newcomerId && row.eventId === speech.id,
+      )?.source,
+    ).toEqual({ kind: "told-by", sourcePersonId: holderId, claimId: null });
+    expect(
+      told.history.memories.find(
+        (row) => row.personId === newcomerId && row.eventId === speech.id,
+      )?.strength,
+    ).toBe("moderate");
+    // The speaker is never told about their own speech.
+    expect(
+      told.history.knowledge.some(
+        (row) =>
+          row.personId === personId &&
+          row.eventId === speech.id &&
+          row.source.kind === "told-by",
+      ),
+    ).toBe(false);
+    // Retelling the same month again tells nobody twice.
+    expect(retellSpeeches(told).history.knowledge).toHaveLength(
+      told.history.knowledge.length,
+    );
+    // A memory nobody retells for the fade period weakens one step.
+    const later = retellSpeeches({
+      ...told,
+      currentDate: addDays(told.currentDate, SPEECH_MEMORY_FADE_DAYS),
+    });
+    expect(
+      later.history.memories
+        .filter((row) => row.personId === holderId && row.eventId === speech.id)
+        .at(-1)?.strength,
+    ).toBe("moderate");
   }, 300_000);
 });

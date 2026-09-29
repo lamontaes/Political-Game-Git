@@ -290,10 +290,14 @@ export interface CampaignView {
     readonly kind: ElectionSpeechKind;
     readonly winnerName: string;
     readonly given: string | null;
-    /** The speech in words: its opening and the whole text, when recorded. */
+    /**
+     * The speech in words: its opening, the whole text, and who heard it,
+     * when recorded.
+     */
     readonly words: {
       readonly opening: string;
       readonly text: string;
+      readonly heard: string | null;
     } | null;
   } | null;
 }

@@ -63,8 +63,26 @@ export interface RegisterCheck {
   /** A share from 0 to 1, or a count of words for a median. */
   readonly value: number;
   readonly unit: "share" | "words";
-  readonly basis: "measured";
+  /**
+   * `measured` where the corpus is the setting itself; `estimated-from-average`
+   * where one sample stands in for every place of that kind (one state's
+   * journal for every state's floor), per the one-rule-for-every-place ruling.
+   */
+  readonly basis: "measured" | "estimated-from-average";
   readonly source: string;
+  /**
+   * How much the share varies from one hearing, day or meeting to the next,
+   * where Research 2 measured it (10:50 p.m. update): one standard deviation
+   * and the range to check against. Where the deviation exceeds the average,
+   * check the range, not the band.
+   */
+  readonly spread?: {
+    readonly deviation: number;
+    readonly low: number;
+    readonly high: number;
+    readonly range: "middle-80-percent" | "lowest-to-highest";
+    readonly units: string;
+  };
 }
 
 export interface RegisterCard {
@@ -102,7 +120,13 @@ export const REGISTER_CARDS: Readonly<Record<SpeechRegister, RegisterCard>> = {
     swearing: "never",
     checks: [
       check("addresses-chair", "Open by addressing the chair", 295 / 298),
-      check("tribute", "Tributes", 0.58),
+      check("tribute", "Tributes", 0.58, {
+        deviation: 0.1,
+        low: 0.4,
+        high: 0.75,
+        range: "lowest-to-highest",
+        units: "10 sitting days with eight or more speeches",
+      }),
       check("mixed", "Tribute with a party jab", 0.11),
       check("argument", "Arguments", 0.31),
       check("has-figure", "Include a figure, date or year", 0.73),
@@ -124,7 +148,13 @@ export const REGISTER_CARDS: Readonly<Record<SpeechRegister, RegisterCard>> = {
     swearing: "never",
     checks: [
       check("addresses-chair", "Open by addressing the chair", 0.86),
-      check("names-party", "Name a party, administration or leader", 0.67),
+      check("names-party", "Name a party, administration or leader", 0.67, {
+        deviation: 0.12,
+        low: 0.38,
+        high: 0.8,
+        range: "lowest-to-highest",
+        units: "18 sitting days with ten or more long turns",
+      }),
       check("answers-senator", "Answer another senator", 0.28),
       check("yields-floor", 'End "I yield the floor"', 0.34),
       check("long", "Run 1,500 words or more", 0.13),
@@ -138,9 +168,15 @@ export const REGISTER_CARDS: Readonly<Record<SpeechRegister, RegisterCard>> = {
     devices: [],
     swearing: "never",
     checks: [
-      check("opens-thanks", "Open with thanks", 0.73),
-      check("yes-or-no", 'Ask "yes or no"', 0.06),
-      check("cuts-off", "Cut a witness off", 0.05),
+      check("opens-thanks", "Open with thanks", 0.73, hearing(0.16, 0.5, 0.91)),
+      check("yes-or-no", 'Ask "yes or no"', 0.06, hearing(0.08, 0, 0.16)),
+      check("cuts-off", "Cut a witness off", 0.05, hearing(0.05, 0, 0.11)),
+      check(
+        "names-party",
+        "Name a party or the administration",
+        0.33,
+        hearing(0.21, 0.07, 0.63),
+      ),
       check("mentions-home", "Mention home", 0.2),
       check("yields-back", 'End "I yield back"', 0.47),
       check("witness-hedges", "Witness hedges", 609 / 956),
@@ -153,12 +189,28 @@ export const REGISTER_CARDS: Readonly<Record<SpeechRegister, RegisterCard>> = {
     devices: PUBLIC_ADDRESS_DEVICES,
     swearing: "never",
     checks: [
-      check("thanks-chair", "Open by thanking the chair", 120 / 147),
+      check(
+        "thanks-chair",
+        "Open by thanking the chair",
+        120 / 147,
+        day(0.08, 0.71, 0.93),
+      ),
       check("ends-thanks", 'End "Thank you"', 90 / 147),
-      check("names-home", "Name a county or district", 30 / 147),
+      check(
+        "names-home",
+        "Name a county or district",
+        30 / 147,
+        day(0.11, 0.05, 0.38),
+      ),
       check("asks-vote", "Ask for a yes or no vote", 17 / 147),
       words("median-words", "Median length", 189),
-    ].map((row) => ({ ...row, source: PA_2025 })),
+      // One card for every state's floor: a single state's journal stands in
+      // for all of them, so every figure is an estimate from that average.
+    ].map((row) => ({
+      ...row,
+      basis: "estimated-from-average" as const,
+      source: PA_2025,
+    })),
   },
   "council-comment": {
     register: "council-comment",
@@ -170,7 +222,8 @@ export const REGISTER_CARDS: Readonly<Record<SpeechRegister, RegisterCard>> = {
       check("greets-body", "Greet the body first", 0.8),
       check("gives-place", "Give district, neighborhood or tenure", 0.75),
       check("ends-ask", "End on an ask", 0.6),
-      check("angry", "Show anger", 1 / 12),
+      check("angry", "Show anger", 1 / 12, meeting(0.09, 0, 0.25)),
+      check("supports", "Speak in support", 0.31, meeting(0.22, 0, 0.62)),
       words("median-words", "Median length", 410),
     ].map((row) => ({ ...row, source: MEETINGBANK })),
   },
@@ -180,7 +233,13 @@ export const REGISTER_CARDS: Readonly<Record<SpeechRegister, RegisterCard>> = {
     devices: [],
     swearing: "never",
     checks: [
-      check("evades", "Substantive answers using a set evasion", 173 / 731),
+      check("evades", "Substantive answers using a set evasion", 173 / 731, {
+        deviation: 0.11,
+        low: 0.09,
+        high: 0.5,
+        range: "lowest-to-highest",
+        units: "18 briefings",
+      }),
       words("median-question", "Median question", 14),
       words("median-answer", "Median answer turn", 17),
     ].map((row) => ({ ...row, source: BRIEFINGS })),
@@ -235,13 +294,50 @@ export const REGISTER_CARDS: Readonly<Record<SpeechRegister, RegisterCard>> = {
   },
 };
 
-function check(key: string, label: string, value: number) {
+function check(
+  key: string,
+  label: string,
+  value: number,
+  spread?: RegisterCheck["spread"],
+) {
   return {
     key,
     label,
     value,
     unit: "share" as const,
-    basis: "measured" as const,
+    basis: "measured" as RegisterCheck["basis"],
+    ...(spread ? { spread } : {}),
+  };
+}
+
+function hearing(deviation: number, low: number, high: number) {
+  return {
+    deviation,
+    low,
+    high,
+    range: "middle-80-percent" as const,
+    units: "59 hearings with five or more questioning turns",
+  };
+}
+
+function meeting(deviation: number, low: number, high: number) {
+  return {
+    deviation,
+    low,
+    high,
+    range: "lowest-to-highest" as const,
+    units: "11 meetings with eight or more speakers",
+  };
+}
+
+function day(deviation: number, low: number, high: number) {
+  return {
+    deviation,
+    low,
+    high,
+    range: "lowest-to-highest" as const,
+    units:
+      "6 Pennsylvania House days with eight or more turns of 40 words or more",
   };
 }
 
@@ -251,7 +347,7 @@ function words(key: string, label: string, value: number) {
     label,
     value,
     unit: "words" as const,
-    basis: "measured" as const,
+    basis: "measured" as RegisterCheck["basis"],
   };
 }
 

@@ -7,12 +7,19 @@ import {
 } from "./speech-registers";
 
 describe("speech registers", () => {
-  it("has a card for every register, and every figure says it was measured and from where", () => {
+  it("has a card for every register, and every figure says how it was found and from where", () => {
     for (const register of SPEECH_REGISTERS) {
       const card = REGISTER_CARDS[register];
       expect(card.register).toBe(register);
       for (const check of card.checks) {
-        expect(check.basis).toBe("measured");
+        // One state's journal stands in for every state's floor.
+        expect(check.basis).toBe(
+          register === "state-floor" ? "estimated-from-average" : "measured",
+        );
+        if (check.spread) {
+          expect(check.spread.low).toBeLessThanOrEqual(check.value);
+          expect(check.spread.high).toBeGreaterThanOrEqual(check.value);
+        }
         expect(check.source.length).toBeGreaterThan(10);
         if (check.unit === "share") {
           expect(check.value).toBeGreaterThanOrEqual(0);

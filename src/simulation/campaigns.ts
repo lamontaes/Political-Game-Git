@@ -131,6 +131,7 @@ import {
   MACRO_MONTHLY_STEP_KEY,
   macroMonthlyStepHandler,
 } from "./macro-economy/producer";
+import { withSpeechRetelling } from "./speech-retelling";
 import {
   DEVELOPMENT_STEP_TRANSITION_KEY,
   developmentStepTransitionHandler,
@@ -2120,7 +2121,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
           claimContradictionTransitionHandler,
         ],
         // CRUNCH46 CHANGE: canonical macro history closes each month once.
-        [MACRO_MONTHLY_STEP_KEY, macroMonthlyStepHandler],
+        // D-3 steps 6 and 7: remembered speeches are retold at home.
+        [MACRO_MONTHLY_STEP_KEY, withSpeechRetelling(macroMonthlyStepHandler)],
         [HOUSEHOLD_LOAN_MONTH_KEY, householdLoanMonthHandler],
         // CRUNCH46 WORLD: party governing bodies meet and may change.
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
