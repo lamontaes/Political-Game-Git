@@ -16908,6 +16908,7 @@
         },
         "US-IA": {
           "answer": "no",
+          "grounds": ["sexual-orientation"],
           "note": "Sexual orientation only: Iowa's 2025 SF 418 took gender identity out of the Iowa Civil Rights Act from 7/1/2025."
         },
         "US-ID": {
@@ -17033,6 +17034,7 @@
         },
         "US-WI": {
           "answer": "no",
+          "grounds": ["sexual-orientation"],
           "note": "Sexual orientation only, in employment and housing; gender identity is not listed."
         },
         "US-WV": {

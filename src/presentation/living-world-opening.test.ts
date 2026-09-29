@@ -3,7 +3,6 @@ import {
   CRUNCH46_WORLD_OPENING_VERSION,
   ensureWorldStartingConditions,
   generatePoliticalStartingConditions,
-  LIVING_WORLD_SCENARIO_PROFILE,
   MINIMUM_AGE,
   ageOnDate,
   deserializeWorld,
@@ -83,10 +82,9 @@ describe("ALIVE43 W1 opening world: Congress and parties", () => {
         expect(totals.byCaucus.reduce((sum, row) => sum + row.members, 0)).toBe(
           totals.members,
         );
-        const [vMin, vMax] =
-          LIVING_WORLD_SCENARIO_PROFILE.vacancies[chamber.chamberKey];
-        expect(totals.vacancies).toBeGreaterThanOrEqual(vMin);
-        expect(totals.vacancies).toBeLessThanOrEqual(vMax);
+        // A new world seats a member in every seat; a seat is vacant only
+        // when a later record (a death, a resignation) makes it so.
+        expect(totals.vacancies).toBe(0);
         const roster = members(chamber);
         expect(new Set(roster.map((m) => m.personId)).size).toBe(roster.length);
         for (const member of roster) {

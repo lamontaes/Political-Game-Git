@@ -1,4 +1,9 @@
+import {
+  FAIRNESS_CITY_QUESTION,
+  FAIRNESS_STATE_QUESTION,
+} from "../fairness-pay-law";
 import { NATIONAL_DATA_PRIVACY_QUESTION } from "../federal-data-privacy-law";
+import { DEBT_LIMIT_CUTS_QUESTION } from "../federal-outlay-laws";
 import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
 import { COUNCIL_TERM_LIMIT_QUESTION } from "../living-world/local-council-term-limits";
 import { STATEHOOD_QUESTION } from "../living-world/statehood-seats";
@@ -116,6 +121,15 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     kind: "paycheck",
     via: "src/simulation/state-paid-leave-law.ts",
   },
+  // A fairness law, the state's or a town's, sets the pay of a man partnered
+  // with a man hired where it is in force.
+  ...[FAIRNESS_STATE_QUESTION, FAIRNESS_CITY_QUESTION].map(
+    (questionKey): LawEffectPath => ({
+      questionKey,
+      kind: "paycheck",
+      via: "src/simulation/living-world/town-pay.ts",
+    }),
+  ),
   {
     questionKey: TEACHER_SALARY_FLOOR_QUESTION,
     kind: "paycheck",
@@ -173,6 +187,11 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     kind: "state-spending",
     via: "src/simulation/public-budgets/month.ts",
   })),
+  {
+    questionKey: DEBT_LIMIT_CUTS_QUESTION,
+    kind: "state-revenue",
+    via: "src/simulation/federal-outlay-laws.ts",
+  },
   {
     questionKey: CANNABIS_SALES_QUESTION,
     kind: "state-revenue",

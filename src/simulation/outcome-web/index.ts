@@ -6,6 +6,9 @@ import {
 } from "../macro-economy/readers";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import { defenseBoostPct } from "../federal-defense-spending";
+import { railExpansionPct } from "../federal-passenger-rail";
+import { federalDeficitChangePctOfGdp } from "../federal-outlay-laws";
+import { farmPaymentsCutPctOfLandValue } from "../federal-farm-subsidy-law";
 import { stateMinimumSettingAt } from "../minimum-wage";
 import {
   PLACE_OUTCOME_BASES,
@@ -132,6 +135,9 @@ const BASELINES = web.baselines as Readonly<
 const CHANGE_MEASURES = new Set([
   "labor.minimum-wage-change-pct",
   "federal.defense-boost-pct",
+  "federal.rail-expansion-pct",
+  "federal.farm-payments-cut-pct-of-land-value",
+  "federal.deficit-change-pct-of-gdp",
 ]);
 
 /**
@@ -207,6 +213,36 @@ const FIXED_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
       const key = placeOutcomeKey(jurisdictionId);
       return key === null ? null : defenseBoostPct(world, key, asOf);
     },
+  },
+  "federal.rail-expansion-pct": {
+    key: "federal.rail-expansion-pct",
+    unit: "percent more intercity rail riders a federal expansion plan projects",
+    // A federal law that pays to expand passenger rail grows riders by the
+    // same share in every place Amtrak serves (`federal-passenger-rail.ts`);
+    // with no such law it is zero.
+    read: (world, _jurisdictionId, asOf) => railExpansionPct(world, asOf),
+  },
+  "federal.farm-payments-cut-pct-of-land-value": {
+    key: "federal.farm-payments-cut-pct-of-land-value",
+    unit: "percent of the state's farm real estate value that the farm payments cut removes each year",
+    // A federal law that cuts farm subsidies removes a share of each state's
+    // payments (`federal-farm-subsidy-law.ts`); with no such law it is zero.
+    read: (world, jurisdictionId, asOf) => {
+      const key = placeOutcomeKey(jurisdictionId);
+      return key === null
+        ? null
+        : farmPaymentsCutPctOfLandValue(world, key, asOf);
+    },
+  },
+  "federal.deficit-change-pct-of-gdp": {
+    key: "federal.deficit-change-pct-of-gdp",
+    unit: "percentage points of GDP the federal deficit is above where the laws the game began with put it",
+    // Federal laws that cut spending before the debt limit rises, or spend
+    // more on foreign aid, change the federal deficit
+    // (`federal-outlay-laws.ts`); with neither the change is zero. The same
+    // nation-wide figure for every place.
+    read: (world, _jurisdictionId, asOf) =>
+      federalDeficitChangePctOfGdp(world, asOf),
   },
   "labor.unemployment-pct": {
     key: "labor.unemployment-pct",
@@ -324,6 +360,18 @@ export const LAW_QUESTION_MEASURES: Readonly<
   ],
   "us-federal-positions:defense.grow-defense-spending": [
     "federal.defense-boost-pct",
+  ],
+  "us-federal-positions:transport-water.expand-passenger-rail": [
+    "federal.rail-expansion-pct",
+  ],
+  "us-federal-positions:agriculture.cut-farm-subsidies": [
+    "federal.farm-payments-cut-pct-of-land-value",
+  ],
+  "us-federal-positions:budget.pay-for-a-higher-debt-limit": [
+    "federal.deficit-change-pct-of-gdp",
+  ],
+  "us-federal-positions:foreign-affairs.increase-foreign-aid": [
+    "federal.deficit-change-pct-of-gdp",
   ],
 };
 
