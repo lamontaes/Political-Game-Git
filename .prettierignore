@@ -23,6 +23,9 @@ src/simulation/campaign-compliance.generated.ts
 src/simulation/office-qualifications.generated.ts
 src/simulation/living-world/town-employment.generated.ts
 src/simulation/living-world/town-pay.generated.ts
+src/simulation/living-world/town-bank-shapes.generated.ts
+src/simulation/living-world/town-deposits.generated.ts
+src/simulation/living-world/town-business-books.generated.ts
 src/simulation/living-world/town-rent.generated.ts
 src/simulation/county-home-value.generated.ts
 src/simulation/household-mix.generated.ts

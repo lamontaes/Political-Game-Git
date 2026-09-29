@@ -1,4 +1,5 @@
 import { stateJurisdictionForKey } from "../life-places";
+import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
 import { publicOrganizationKey } from "../tax-policy";
 import type { EntityId, IsoDate, ResourceFlow, World } from "../types";
@@ -64,6 +65,20 @@ const INTEREST = BUDGET_PROGRAMS.indexOf("interest");
 const PENSION_PROGRAM = BUDGET_PROGRAMS.indexOf("pensionContribution");
 const STATE_AID = BUDGET_SOURCES.indexOf("intergovernmental");
 const LOCAL_AID = BUDGET_PROGRAMS.indexOf("localAid");
+const SALES_TAX = BUDGET_SOURCES.indexOf("generalSalesTax");
+
+/**
+ * A city's taxable sales today, when its town keeps business books
+ * (`living-world/town-finances.ts`); null otherwise.
+ */
+function citySalesNow(
+  world: World,
+  government: PublicBudgetGovernment,
+): number | null {
+  return government.level === "city"
+    ? townTaxableSales(world, government.jurisdictionId)
+    : null;
+}
 
 /** What the history recorded this month, by government key. */
 export interface MonthFlows {
@@ -349,6 +364,19 @@ export function settleGovernmentMonth(
       ? economyNow / year.economyAtAdoption
       : 1;
 
+  // A city whose town keeps business books collects its general sales tax
+  // on what those businesses sell: the tax follows their taxable sales from
+  // where this budget set it. A budget adopted before the books opened takes
+  // the first reading, carried back by the economy since adoption, as where
+  // it was set, so the tax does not jump.
+  const salesNow = citySalesNow(world, government);
+  const salesAtAdoption =
+    salesNow === null
+      ? null
+      : (year.townSalesAtAdoption ?? (economy > 0 ? salesNow / economy : null));
+  const townSales =
+    salesNow !== null && salesAtAdoption ? salesNow / salesAtAdoption : null;
+
   // Revenue.
   const represented = flows.represented.get(government.key) ?? 0;
   // A tax law that changed since adoption moves its source from that month.
@@ -368,7 +396,9 @@ export function settleGovernmentMonth(
       );
     return Math.round(
       (year.expectedRevenue[at]! / 12) *
-        Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (economy - 1)) *
+        (at === SALES_TAX && townSales !== null
+          ? townSales
+          : Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (economy - 1))) *
         (lawNow / lawAtAdoption),
     );
   });
@@ -490,6 +520,9 @@ export function settleGovernmentMonth(
     reserve,
     debt,
     economy: Math.round(economy * 10000) / 10000,
+    ...(townSales !== null
+      ? { townSales: Math.round(townSales * 10000) / 10000 }
+      : {}),
     represented,
   };
   let next: PublicBudgetGovernment = {
@@ -499,6 +532,18 @@ export function settleGovernmentMonth(
     debt,
     interestRate,
     cut,
+    // The first reading of a city's sales is kept as where its budget set
+    // the tax.
+    years:
+      salesAtAdoption !== null && year.townSalesAtAdoption == null
+        ? [
+            ...government.years.slice(0, -1),
+            {
+              ...year,
+              townSalesAtAdoption: Math.round(salesAtAdoption * 1e6) / 1e6,
+            },
+          ]
+        : government.years,
     months: [...government.months, row],
   };
   if (!yearEnds) return { government: next, adjustments };
@@ -619,7 +664,7 @@ export function settleGovernmentMonth(
   const adopted = adoptNextYear(
     world,
     next,
-    year,
+    next.years.at(-1)!,
     yearRows,
     adjustments,
     state,
@@ -662,6 +707,11 @@ function adoptNextYear(
   const economyAtAdoption = stateId
     ? nominalEconomyIndex(world, stateId, startsOn)
     : null;
+  const townSalesAtAdoption = citySalesNow(world, government);
+  const townSalesNow =
+    townSalesAtAdoption !== null && prior.townSalesAtAdoption
+      ? townSalesAtAdoption / prior.townSalesAtAdoption
+      : null;
   // Last year's collections, each month restated at the economy the new
   // budget is adopted in: a growing economy has already raised the base, so
   // last year's average would understate it.
@@ -686,6 +736,10 @@ function adoptNextYear(
           openingMonthLevel(government, source, at, economyAtAdoption) * lawNow
         );
       const law = lawNow / lawThen;
+      // A city's sales tax collected on its town's sales, restated at
+      // today's sales.
+      if (at === SALES_TAX && row.townSales && townSalesNow !== null)
+        return ((row.revenue[at]! * townSalesNow) / row.townSales) * law;
       if (economyNow === null) return row.revenue[at]! * law;
       const then = scaleAt(row.economy);
       return then > 0
@@ -825,5 +879,8 @@ function adoptNextYear(
     laws,
     carriedBalance,
     stateLocalAidAtAdoption,
+    ...(townSalesAtAdoption !== null
+      ? { townSalesAtAdoption: Math.round(townSalesAtAdoption * 1e6) / 1e6 }
+      : {}),
   };
 }
