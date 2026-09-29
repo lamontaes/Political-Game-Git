@@ -120,4 +120,11 @@ export interface TownFinanceStore {
    * dollars. Absent in older saves until their next quarter.
    */
   readonly basePriceIndex?: number;
+  /**
+   * Each town's taxable sales, chained quarter to quarter over the markets
+   * it already had, in the books' dollars (1 when first read): a kind whose
+   * first business opens its books adds coverage, not sales, so it joins
+   * the chain the quarter after. Absent in older saves.
+   */
+  readonly taxableSales?: Readonly<Record<EntityId, number>>;
 }

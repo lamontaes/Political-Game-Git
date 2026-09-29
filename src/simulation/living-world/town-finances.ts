@@ -388,6 +388,40 @@ export function townUnservedJobs(
   return unserved;
 }
 
+/**
+ * GAME ASSUMPTION, from how general sales taxes are written: the kinds of
+ * business whose sales are retail sales a town's general sales tax reaches
+ * (goods, meals, lodging, admissions, repairs and personal services). Sales
+ * between businesses (manufacturing, wholesale, trucking) and most
+ * professional, medical and school services are outside it.
+ */
+export const TOWN_TAXABLE_SALES_KINDS: ReadonlySet<string> = new Set([
+  "retail",
+  "restaurant",
+  "inn",
+  "recreation",
+  "repair",
+  "personal-care",
+]);
+
+/**
+ * How the town's taxable sales have moved since its books began, in
+ * today's dollars: the chained index of each taxable kind's spending in
+ * town (`TownFinanceStore.taxableSales`), times the nation's prices since.
+ * Null while the town keeps no books. A city's sales tax follows it
+ * (`public-budgets/month.ts`), so a closing, a recession or a raise reaches
+ * the city's revenue.
+ */
+export function townTaxableSales(world: World, town: EntityId): number | null {
+  const store = world.townFinances;
+  const economy = economyOf(world);
+  const index = store?.taxableSales?.[town];
+  if (!store || !economy || index === undefined) return null;
+  return (
+    index * (economy.priceIndex / (store.basePriceIndex ?? economy.priceIndex))
+  );
+}
+
 // ─── Opening books ──────────────────────────────────────────────────────
 
 function openBankBooks(
@@ -694,6 +728,16 @@ export function stepTownFinances(
   const kinds = new Set(members.keys());
   for (const market of Object.values(markets))
     if (market.town === town) kinds.add(market.kind);
+  // The town's taxable sales last quarter, over the markets it had then.
+  const taxableBefore = new Map<string, number>();
+  for (const [key, market] of Object.entries(markets))
+    if (
+      market.town === town &&
+      market.lastRound !== round &&
+      TOWN_TAXABLE_SALES_KINDS.has(market.kind)
+    )
+      taxableBefore.set(key, market.annualSales);
+  const coverage = new Map<string, number>();
   for (const kind of [...kinds].sort()) {
     const key = `${town}:${kind}`;
     const now = members.get(kind) ?? [];
@@ -751,9 +795,14 @@ export function stepTownFinances(
         : 1;
     let sales = market.annualSales * demandGrowth * incomeFactor * priceFactor;
     for (const id of now)
-      if (!before.has(id))
+      if (!before.has(id)) {
         sales +=
           books[id]!.capacity * (newcomers.has(id) ? P.newDemandShare : 1);
+        // One of the town's own, first hired into, brings spending the
+        // books were not counting: coverage, not new sales.
+        if (!newcomers.has(id))
+          coverage.set(key, (coverage.get(key) ?? 0) + books[id]!.capacity);
+      }
     for (const id of market.members)
       if (!current.has(id))
         sales -= (books[id]?.annualRevenue ?? 0) * P.newDemandShare;
@@ -932,6 +981,19 @@ export function stepTownFinances(
     if (cause) failing.push({ bankId, cause });
   }
 
+  const taxableSales = { ...(store.taxableSales ?? {}) };
+  const salesThen = [...taxableBefore.values()].reduce((a, b) => a + b, 0);
+  const salesNow = [...taxableBefore.keys()].reduce(
+    (sum, key) =>
+      sum + (markets[key]?.annualSales ?? 0) - (coverage.get(key) ?? 0),
+    0,
+  );
+  if (taxableSales[town] === undefined) {
+    if (Object.values(markets).some((market) => market.town === town))
+      taxableSales[town] = 1;
+  } else if (salesThen > 0)
+    taxableSales[town] = round6((taxableSales[town]! * salesNow) / salesThen);
+
   let next: World = {
     ...world,
     townFinances: {
@@ -940,6 +1002,7 @@ export function stepTownFinances(
       banks,
       markets,
       basePriceIndex,
+      taxableSales,
     },
   };
   for (const { bankId, cause } of failing)
