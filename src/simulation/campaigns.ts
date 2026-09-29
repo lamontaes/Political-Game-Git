@@ -31,6 +31,7 @@ import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
 import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
 import { CONSTITUTIONAL_REFORM_HANDLERS } from "./living-world/constitutional-reform";
 import { FEDERAL_REFORM_HANDLERS } from "./living-world/federal-reform";
+import { ARTICLE_V_HANDLERS } from "./governing/article-v";
 import {
   POLITICAL_REFLECTION_TRANSITION_KEY,
   politicalReflectionTransitionHandler,
@@ -2088,6 +2089,7 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         ...CONSTITUTIONAL_REFORM_HANDLERS,
         // Congress and the states amending the U.S. Constitution.
         ...FEDERAL_REFORM_HANDLERS,
+        ...ARTICLE_V_HANDLERS,
         ...PRESIDENTIAL_TURNOVER_HANDLERS,
         // Voters recalling a town official: petition, then recall election.
         ...RECALL_HANDLERS,

@@ -14,6 +14,7 @@ import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
 import { mayAnswerQuestion } from "./question-authority";
+import { constitutionalPolicyProvisions } from "../policy-provisions";
 
 /**
  * What the law in force says on one policy question, for one place.
@@ -51,8 +52,11 @@ import { mayAnswerQuestion } from "./question-authority";
  * NOT MODELED, blanket rule meanwhile: floor preemption for laws enacted in
  * play (every conflict is resolved by rank), and each state's local-authority
  * doctrine beyond the powers catalog (where the catalog has not settled a
- * power, an ordinance counts where no higher law answers it). Constitutional
- * amendments do not answer catalog questions yet.
+ * power, an ordinance counts where no higher law answers it).
+ *
+ * A ratified amendment that writes a policy into a constitution (a state's,
+ * or the United States') answers its question "yes" at that constitution's
+ * rank, above every statute beneath it (`policy-provisions.ts`).
  */
 
 export interface LawInForce {
@@ -111,6 +115,8 @@ export function lawInForce(
   }
   const starting = startingLawCandidate(world, chain, propositionId, onDate);
   if (starting && (!best || governs(starting, best))) best = starting;
+  const amended = constitutionalCandidate(world, chain, propositionId, onDate);
+  if (amended && (!best || governs(amended, best))) best = amended;
   if (!best) return null;
   return {
     answer: best.answer,
@@ -205,6 +211,46 @@ function startingLawCandidate(
       };
       if (!best || governs(candidate, best)) best = candidate;
     }
+  }
+  return best;
+}
+
+/**
+ * The answer a constitution in the governing chain writes on the question:
+ * the U.S. Constitution's, then the state's, each only where a ratified
+ * amendment adopted the policy and no later one repealed it.
+ */
+function constitutionalCandidate(
+  world: World,
+  chain: ReadonlyMap<EntityId, LawLevel>,
+  propositionId: EntityId,
+  onDate: IsoDate,
+): Candidate | null {
+  if (!(world.history.constitutionalMeasures ?? []).length) return null;
+  let best: Candidate | null = null;
+  for (const [placeId, level] of chain) {
+    const placeKey = startingLawPlaceKey(placeId);
+    if (!placeKey || level === "local-ordinance") continue;
+    const federal = placeKey === "US";
+    const provision = constitutionalPolicyProvisions(
+      world,
+      federal ? "US" : placeKey.slice(3),
+      onDate,
+    ).find((row) => row.propositionId === propositionId);
+    if (!provision || provision.stance !== "adopt") continue;
+    const measure = world.history.constitutionalMeasures!.find(
+      (row) => row.id === provision.measureId,
+    )!;
+    const candidate: Candidate = {
+      answer: "yes",
+      measureId: provision.measureId,
+      level: federal ? "federal-constitution" : "state-constitution",
+      operativeAt: provision.operativeAt,
+      operativeBasis: "enacted-date",
+      origin: "enacted",
+      sequence: measure.sequence,
+    };
+    if (!best || governs(candidate, best)) best = candidate;
   }
   return best;
 }

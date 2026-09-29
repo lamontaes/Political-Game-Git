@@ -50,8 +50,8 @@ function openingWorld(seed: string): World {
   const place = new SeededRng(seed).pick(lifePlaces());
   const game = generateOpeningLife(
     prepareOpeningLife({
-      ...explicitNewGameSetup({ placeKey: place.key, startAge: 40 }),
-      seed,
+      ...explicitNewGameSetup({ placeKey: place.key, seed }),
+      startAge: 40,
     }),
   ).game!;
   return openOrdinaryLife(game.world, game.playerPersonId);

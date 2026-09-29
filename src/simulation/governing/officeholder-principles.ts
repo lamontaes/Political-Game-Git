@@ -197,9 +197,30 @@ export function principleVoteConsideration(
   personId: EntityId,
   measure: LegislativeMeasureRecord,
 ): DecisionConsideration | null {
+  return principleAnswersConsideration(
+    world,
+    personId,
+    measure.propositionAnswers ?? [],
+  );
+}
+
+/**
+ * How a member's principles bear on a set of answers to catalog questions,
+ * as `principleVoteConsideration` reads a bill's: for voting yes where the
+ * answers are the ones they lean toward. A constitutional amendment that
+ * writes a policy in is asked the same way.
+ */
+export function principleAnswersConsideration(
+  world: World,
+  personId: EntityId,
+  answers: readonly {
+    readonly propositionId: EntityId;
+    readonly answer: "yes" | "no";
+  }[],
+): DecisionConsideration | null {
   let score = 0;
   const recordIds = new Set<EntityId>();
-  for (const row of measure.propositionAnswers ?? []) {
+  for (const row of answers) {
     const leaning = principledLeaning(world, personId, row.propositionId);
     score += row.answer === "yes" ? leaning.score : -leaning.score;
     for (const id of leaning.recordIds) recordIds.add(id);

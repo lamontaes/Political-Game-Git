@@ -8,6 +8,7 @@ import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnov
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyConstitutionalReform } from "./living-world/constitutional-reform";
 import { applyFederalReform } from "./living-world/federal-reform";
+import { applyArticleV } from "./governing/article-v";
 import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { workStatusAt } from "./life-queries";
 import { eventById } from "./event-index";
@@ -1982,15 +1983,18 @@ function setCurrentMoment(
           crossedFrom,
           applyFederalReform(
             crossedFrom,
-            applyConstitutionalReform(
+            applyArticleV(
               crossedFrom,
-              applyPresidentialTurnover(
+              applyConstitutionalReform(
                 crossedFrom,
-                applyGovernorTurnover(
+                applyPresidentialTurnover(
                   crossedFrom,
-                  applyCongressTurnover(
+                  applyGovernorTurnover(
                     crossedFrom,
-                    applyStateLegislatureTurnover(crossedFrom, moved),
+                    applyCongressTurnover(
+                      crossedFrom,
+                      applyStateLegislatureTurnover(crossedFrom, moved),
+                    ),
                   ),
                 ),
               ),

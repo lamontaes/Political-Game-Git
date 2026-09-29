@@ -14,6 +14,7 @@ import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnov
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyConstitutionalReform } from "./living-world/constitutional-reform";
 import { applyFederalReform } from "./living-world/federal-reform";
+import { applyArticleV } from "./governing/article-v";
 import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { assertAppearanceMaterial } from "./appearance-material";
 import { applyNationalTermTransitions } from "./national-election-consumer";
@@ -1409,17 +1410,20 @@ function advanceWorldUnchecked(
           world.currentDate,
           applyFederalReform(
             world.currentDate,
-            applyConstitutionalReform(
+            applyArticleV(
               world.currentDate,
-              applyPresidentialTurnover(
+              applyConstitutionalReform(
                 world.currentDate,
-                applyGovernorTurnover(
+                applyPresidentialTurnover(
                   world.currentDate,
-                  applyCongressTurnover(
+                  applyGovernorTurnover(
                     world.currentDate,
-                    applyStateLegislatureTurnover(
+                    applyCongressTurnover(
                       world.currentDate,
-                      applyNationalTermTransitions(advanced),
+                      applyStateLegislatureTurnover(
+                        world.currentDate,
+                        applyNationalTermTransitions(advanced),
+                      ),
                     ),
                   ),
                 ),
