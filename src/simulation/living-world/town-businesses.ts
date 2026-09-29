@@ -720,15 +720,32 @@ function reviewTownGroupsOf(
     "organization",
     `${next.id}:${stableKey}`,
   );
-  // Founders drawn by a seeded key each, so the draw does not depend on order.
-  const founders = unaffiliated
-    .map((resident) => ({
-      resident,
-      key: rng.fork(`founder:${resident.personId}`).next(),
-    }))
-    .sort((a, b) => a.key - b.key)
-    .slice(0, profile.smallMembership)
-    .map((entry) => entry.resident);
+  // Who founds it: first the people who belonged to one of this kind that
+  // has since ended for them (a disbanded congregation's members are the
+  // ones who start the next), then the eldest, then by id.
+  const kindIds = new Set(
+    next.history.organizations
+      .filter(
+        (organization) =>
+          organizationProfileAt(next, organization.id)?.classification ===
+          profile.classification,
+      )
+      .map((organization) => organization.id),
+  );
+  const belongedBefore = new Set(
+    next.history.organizationParticipations
+      .filter((participation) => kindIds.has(participation.organizationId))
+      .map((participation) => participation.personId),
+  );
+  const founders = [...unaffiliated]
+    .sort(
+      (a, b) =>
+        Number(belongedBefore.has(b.personId)) -
+          Number(belongedBefore.has(a.personId)) ||
+        b.age - a.age ||
+        a.personId.localeCompare(b.personId),
+    )
+    .slice(0, profile.smallMembership);
   for (const founder of founders)
     next = createOrganizationParticipation(next, {
       stableKey: `${prefix}member:${founder.personId}`,

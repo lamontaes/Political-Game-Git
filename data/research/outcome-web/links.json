@@ -2087,14 +2087,56 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "law in force",
+      "size": 0,
+      "sizeByPlace": {
+        "US-TN": {
+          "size": -0.0413,
+          "range": [-0.0432, -0.0338]
+        },
+        "US-FL": {
+          "size": -0.0352,
+          "range": [-0.0365, -0.0299]
+        },
+        "US-AL": {
+          "size": -0.0344,
+          "range": [-0.0359, -0.0282]
+        },
+        "US-AZ": {
+          "size": -0.0167,
+          "range": [-0.0174, -0.0141]
+        },
+        "US-MS": {
+          "size": -0.0159,
+          "range": [-0.0167, -0.013]
+        },
+        "US-KY": {
+          "size": -0.0161,
+          "range": [-0.0167, -0.0134]
+        },
+        "US-VA": {
+          "size": -0.021,
+          "range": [-0.0217, -0.0181]
+        },
+        "US-DE": {
+          "size": -0.0065,
+          "range": [-0.0068, -0.0055]
+        },
+        "US-WY": {
+          "size": -0.0051,
+          "range": [-0.0054, -0.0043]
+        },
+        "US-IA": {
+          "size": -0.0002,
+          "range": [-0.0002, -0.0002]
+        }
+      },
+      "per": "law in force says yes (1) rather than no (0); zero where the place already restores the vote by the end of a sentence",
       "lagMonths": 0,
-      "group": "people with past convictions",
+      "group": "people barred from voting after their sentence",
       "owner": "C",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "Restoring the vote at the end of a sentence adds people to the voting-eligible population who vote less than others, so the eligible turnout rate falls while ballots rise. Each place's size is (1 + s x t / T) / (1 + s) - 1: s is its share of the voting-eligible population barred after their sentence, t = 0.14 the turnout of restored people (0.12 to 0.22 for the range) and T its 2024 turnout. In Tennessee the rate falls about 4% while ballots rise about 0.8 points of the old eligible population. The places that already restore by the end of a sentence (the rest of the states, D.C., the territories, and Arkansas, where Locked Out 2024 counts no one barred after the sentence, as Research 3 read it) have no one for the law to restore.",
+      "source": "The Sentencing Project, Locked Out 2024 (post-sentence shares by state); Meredith and Morse, Florida restorations 2007 to 2011 (12 to 16% voted); Burch 2011 (about 22%); University of Florida Election Lab 2024 VEP turnout. Sized by Research 3, 9/29/2026, /mnt/project-files/research/law-effect-sizes/justice.json.",
+      "evidence": "researched",
       "from": "law:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
       "to": "voting.turnout-pct"
     },
@@ -2121,14 +2163,14 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.62,
       "per": "law in force",
       "lagMonths": 6,
       "group": "tenants",
       "owner": "M",
-      "anchor": "Represented tenants are evicted less (to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "A represented tenant's chance of eviction -45% to -78%, middle -62%. town-rent.ts already decides each case with the lawyer in it; a producer of housing.eviction counts those recorded cases and never applies this link again",
+      "source": "Cassidy and Currie 2022, NBER w29836; NYC Office of Civil Justice FY2019",
+      "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
       "to": "housing.eviction"
     },
@@ -2242,16 +2284,37 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "law in force",
+      "size": -0.02,
+      "per": "law in force says yes (1) rather than no (0): the share of a flood's exposed homes it damages",
       "lagMonths": 24,
       "group": "place",
       "owner": "O",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "ESTIMATED FROM AVERAGE: the law keeps new homes out of the flood zone, and new homes are about 1% of the housing stock a year (Census Bureau new residential construction over the housing unit estimates); a home kept out of the zone, like one built to the flood program's standards, escapes about 80% of the damage (FEMA). About two years of new building kept out gives about 2% fewer homes damaged; building above the 100-year flood line saves about $6 for every $1 spent (National Institute of Building Sciences 2019). Communities that protect open floodplain land have measurably lower insured flood losses (Brody and Highfield 2013)",
+      "source": "FEMA, National Flood Insurance Program floodplain management FAQ (structures built to NFIP criteria experience 80 percent less damage); Census Bureau, New Residential Construction and Housing Unit Estimates; Brody and Highfield 2013, Land Use Policy 32:89-95; National Institute of Building Sciences 2019, Natural Hazard Mitigation Saves; sized by Research 6 (07 LAW EFFECT SIZES, September 29, 2026)",
+      "evidence": "provisional",
+      "range": [-0.06, 0],
       "from": "law:us-policy-positions:environment-energy.restrict-building-in-flood-zones",
-      "to": "disaster.damage"
+      "to": "disaster.flood-damage"
+    },
+    {
+      "key": "container-deposit-to-recycling",
+      "from": "law:us-policy-positions:environment-energy.bottle-deposit",
+      "to": "env.container-recycling-pct",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 43.7,
+      "per": "law in force says yes (1) rather than no (0), in percentage points of beverage containers recycled",
+      "lagMonths": 6,
+      "group": "place",
+      "owner": "O",
+      "evidence": "researched",
+      "anchor": "States with a deposit law return 71.6% of their beverage containers and states without one 27.9% (43.7 points). Return rates run from 33% under a 5-cent deposit to 92% under a 10-cent one, so the range spans a weak program to a strong one. A new program opens its return points within about six months",
+      "source": "Container Recycling Institute, Bottle Bill Resource Guide (container-recycling.org/bottle-bills), quoting BEAR 2002, and its 2026 table of redemption rates in the 10 deposit states; sized by Research 6 (07 LAW EFFECT SIZES, September 29, 2026)",
+      "range": [20, 55],
+      "floor": -100,
+      "ceiling": 101
     },
     {
       "key": "unemployment-to-uninsured",
@@ -3603,6 +3666,21 @@
       "range": [-0.2, 0.1]
     },
     {
+      "key": "congress-stock-ban-to-member-returns",
+      "from": "law:us-federal-positions:government.ban-congressional-stock-trading",
+      "to": "government.member-market-returns",
+      "strength": "about-zero",
+      "shape": { "kind": "linear" },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "B-cloud",
+      "evidence": "about-zero",
+      "anchor": "Members of Congress' stock trades matched or trailed the market after the 2012 STOCK Act, so barring the trades changes no market return the game measures; the game keeps no member holdings to change",
+      "source": "Chen and Sacerdote 2026, NBER Working Paper 35041 (Research 1's federal table, September 29, 2026)"
+    },
+    {
       "key": "privacy-law-to-earnings",
       "from": "law:us-policy-positions:technology-privacy.consumer-data-privacy-law",
       "to": "labor.median-earnings",
@@ -3679,6 +3757,42 @@
       "anchor": "Where federal law let highway money go to transit (1992 to 2006), states spent about 3% of the whole federal-aid highway program on transit, 13% of the flexible part; California put nearly 40% of its flexible money there, and 19 states less than 2%. The same 3% of a state's own highway spending (Census Bureau, 2022: $128.0 billion) is 5.9% of what transit agencies spend to run service (FTA National Transit Database, 2024: $65.6 billion), so service rises about 6% at the average cost per mile. The spread takes 2% to 40% of the flexible part. The lag is a budget cycle and the buses it buys, the most common use GAO found.",
       "source": "GAO-07-772, Highway and Transit Investments: Flexible Funding Supports State and Local Transportation Priorities (2007); Census Bureau, 2022 Census of Governments: Finance, Table 1 (state highways); FTA National Transit Database 2024 (data.transportation.gov ekg5-frzt, total operating expenses)",
       "range": [0.01, 0.18]
+    },
+    {
+      "key": "farmland-easements-to-farmland-lost",
+      "from": "law:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "to": "farmland.developed-acres",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.47,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 60,
+      "group": "place",
+      "owner": "M",
+      "evidence": "researched",
+      "anchor": "Across 269 counties in six Mid-Atlantic states over 50 years, a state or local program that buys farmland development rights cut the county's rate of farmland loss by 40% to 55%. The size is the middle of that range, 47%, and the spread is the paper's own. The lag is one Census of Agriculture period, the step at which the loss was measured, since a program needs years of purchases before its easements hold back development.",
+      "source": "Liu and Lynch 2011, Do Agricultural Land Preservation Programs Reduce Farmland Loss? Evidence from a Propensity Score Matching Estimator, Land Economics 87(2): 183-201; its 40% to 55% as reported in USDA Economic Research Service, Additionality in U.S. Agricultural Conservation and Regulatory Offset Programs, ERR-170 (2014)",
+      "range": [-0.55, -0.4]
+    },
+    {
+      "key": "groundwater-limits-to-irrigation-pumping",
+      "from": "law:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "to": "water.irrigation-groundwater",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.31,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "M",
+      "evidence": "provisional",
+      "anchor": "Kansas's first Local Enhanced Management Area (Sheridan 6, 2013 to 2017), where irrigators pumped under capped five-year allocations (55 inches of water over five years), cut pumping 31% against a modeled business-as-usual over its first five years (95% interval 21% to 40%). A state law that meters and limits large withdrawals is read as putting such a cap on irrigation pumping; where the cap binds less than it did there, the cut is smaller, so the evidence is provisional. The spread is the paper's interval. The lag is one year, the next irrigation season.",
+      "source": "Deines, Kendall, Butler and Hyndman 2019, Quantifying irrigation adaptation strategies in response to stakeholder-driven groundwater management in the US High Plains Aquifer, Environmental Research Letters 14: 044014 (https://iopscience.iop.org/article/10.1088/1748-9326/aafe39)",
+      "range": [-0.4, -0.21]
     }
   ],
   "calibratedAt": "2024-07-01"

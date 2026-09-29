@@ -1,0 +1,18 @@
+{
+  "about": "What a state law that answers \"raise the minimum wage?\" with yes does to the state's rate when the bill names no dollar figure. ESTIMATED FROM AVERAGE: the size and pace of the real state increases from January 2013 to January 2024. A bill that files its own wage term (labor.minimumWage.hourlyCents) uses that term instead.",
+  "evidence": "estimated-from-average",
+  "totalMinor": 200,
+  "totalRangeMinor": [136, 324],
+  "yearlyStepMinor": 90,
+  "yearlyStepRangeMinor": [75, 100],
+  "sample": {
+    "raiseRuns": 68,
+    "yearlySteps": 161,
+    "window": "January 1, 2013 to January 1, 2024",
+    "states": 50
+  },
+  "method": "A run is a stretch of consecutive years in which a state's January 1 rate rose by $0.50 or more; its total is the rate at the end minus the rate before it began. totalMinor is the median run total; yearlyStepMinor is the median single-year rise of $0.50 or more. Ranges are the first and third quartiles. Indexed (cost-of-living) rises of $0.50 or more count with statutory ones: the table does not separate them.",
+  "source": "U.S. Department of Labor, Wage and Hour Division, Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024, https://www.dol.gov/agencies/whd/state/minimum-wage/history (fetched September 29, 2026)",
+  "effectiveDate": "The law's own date: its enactment date if it names one, else the state's effective-date rule (statute-effective-date.ts), else the blanket statute default.",
+  "reverses": "A later state law answering no takes the state back to the rate before the first raise; repeal undoes the whole raise."
+}

@@ -8,7 +8,8 @@ import {
 } from "../life-queries";
 import { latestPersonalityTendency } from "../queries";
 import type { EntityId, HistoricalEvent, World } from "../types";
-import { jailTermOn } from "../justice/jail-terms";
+import { eventsOfType, jailTermOn } from "../justice/jail-terms";
+import { adultCourtAgeAt } from "../justice/juvenile-court";
 import { isPersonAliveAt } from "../vitality";
 import type { CrimeOffense } from "./contract";
 
@@ -38,7 +39,6 @@ export const OFFENDER_VERSION = "crime-offenders-v1" as const;
  */
 export const UNRESEARCHED_OFFENDERS = {
   provenance: "unresearched-blanket-rule",
-  youngestCharged: 18,
   /** Ages with the most offending, and the next band. */
   peakAges: { from: 18, to: 29 },
   nextAges: { from: 30, to: 44 },
@@ -99,8 +99,7 @@ export interface NamedOffender {
 /** People who have been referred to prosecutors, with the latest date. */
 function referralsByPerson(world: World): ReadonlyMap<EntityId, string> {
   const latest = new Map<EntityId, string>();
-  for (const event of world.history.events) {
-    if (event.type !== "justice.prosecution-referred") continue;
+  for (const event of eventsOfType(world, "justice.prosecution-referred")) {
     for (const participant of event.participants) {
       if (participant.role !== "focus:subject") continue;
       const prior = latest.get(participant.personId);
@@ -157,13 +156,16 @@ export function offenderFor(
     -UNRESEARCHED_OFFENDERS.busyAfterReferralDays,
   );
 
+  // The youngest the police charge as an adult is the law's, where the
+  // offense happened; a younger offender belongs to the juvenile court.
+  const youngestCharged = adultCourtAgeAt(world, town, incident.occurredAt);
   let best: NamedOffender | null = null;
   for (const personId of Object.keys(world.people).sort() as EntityId[]) {
     const person = world.people[personId]!;
     if (person.homeJurisdictionId !== town || excluded.has(personId)) continue;
     if (!isPersonAliveAt(world, personId, cutoff)) continue;
     const age = ageOnDate(person.birthDate, incident.occurredAt);
-    if (age < UNRESEARCHED_OFFENDERS.youngestCharged) continue;
+    if (age < youngestCharged) continue;
     const lastReferral = referred.get(personId);
     // Someone already answering for a recent case is not out offending.
     if (lastReferral && lastReferral >= busyFrom) continue;

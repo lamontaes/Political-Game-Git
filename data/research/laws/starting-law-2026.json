@@ -16504,6 +16504,358 @@
         }
       }
     },
+    "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
+      "source": "American Farmland Trust, Farmland Information Center, Status of State Purchase of Agricultural Conservation Easement (PACE) Programs, as of January 2026, read 9/29/2026 for the 50 states; the District and territorial codes for the rest.",
+      "note": "Yes: the state pays landowners (or local governments and land trusts) to put easements on farmland that keep it from being developed. No: it has no such program running. Places whose law could not be read take an estimate, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "Alabama's program has ended and buys no more easements (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: no territorial program could be found, and the federal Agricultural Conservation Easement Program, which the territory does not fund, is the only buyer of farmland easements its rules name here (7 CFR part 1468), so this place takes the answer of the 20 states with no program of their own.",
+          "source": "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XIV/subchapter-B/part-1468",
+          "note": "Tried: the American Samoa Code Annotated at asbar.org, which refuses this container (HTTP 403), 9/29/2026."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: California Farmland Conservancy Program (1995) and three later programs (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-CO": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Great Outdoors Colorado (1992) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-CT": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Farmland Preservation Program (1978) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-DC": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "D.C. Code § 47-868",
+          "source": "https://code.dccouncil.gov/us/dc/council/code/sections/47-868",
+          "note": "The District lowers the property tax on certain urban farms but buys no easements to keep land in farming."
+        },
+        "US-DE": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Agricultural Lands Preservation Program (1991) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-FL": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Rural and Family Lands Protection Program (2001) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-GA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Georgia Farmland Conservation Fund Program (2023) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: no territorial program could be found, and the federal Agricultural Conservation Easement Program, which the territory does not fund, is the only buyer of farmland easements its rules name here (7 CFR part 1468), so this place takes the answer of the 20 states with no program of their own.",
+          "source": "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XIV/subchapter-B/part-1468",
+          "note": "Tried: the Guam Code at col.guamcourts.gov, whose land chapters (21 GCA, among them the Chamorro Land Trust, which leases public land for farming) turned up no easement fund, 9/29/2026."
+        },
+        "US-HI": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Legacy Land Conservation Program (2005) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-KY": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Purchase of Agricultural Conservation Easements program (1994) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-MA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Agricultural Preservation Restriction Program (1977) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Maryland Agricultural Land Preservation Foundation (1977) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-ME": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Farmland Protection Program (1987) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-MI": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Farmland and Open Space Preservation Program (1994) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "Missouri has authorized a program but has none running (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: no territorial program could be found, and the federal Agricultural Conservation Easement Program, which the territory does not fund, is the only buyer of farmland easements its rules name here (7 CFR part 1468), so this place takes the answer of the 20 states with no program of their own.",
+          "source": "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XIV/subchapter-B/part-1468",
+          "note": "Tried: the Commonwealth Code at cnmilaw.org, Title 2 (Natural Resources), where a search found no farmland easement fund, 9/29/2026."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "Montana's Agricultural Heritage Program has ended and buys no more easements (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-NC": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Agricultural Development and Farmland Preservation Trust Fund (1986) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-NH": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Agricultural Lands Preservation Program (1979) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: New Jersey Farmland Preservation Program (1983) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-NM": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: New Mexico Natural Heritage Conservation Program (2010) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-NY": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Agricultural and Farmland Protection Program (1996) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-OH": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Local Agricultural Easement Purchase Program (1999) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Oregon Agricultural Heritage Program (2017) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-PA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Agricultural Conservation Easement Purchase Program (1988) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-PR": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "Ley Núm. 107 de 3 de julio de 1974, según enmendada",
+          "source": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/107-1974.pdf",
+          "note": "The Farmland Preservation for Agricultural Use Act keeps undivided and zoned for farming the land that the Land Administration and other public bodies buy to keep in agriculture."
+        },
+        "US-RI": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Farmland Preservation Program (1981) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-SC": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: South Carolina Conservation Bank (2002) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-TN": {
+          "answer": "yes",
+          "preempts": false,
+          "operativeAt": "2026-09-01",
+          "before": {
+            "answer": "no"
+          },
+          "source": "https://www.tn.gov/agriculture/farms/heritage/preserving-land-for-agriculture-now--plan-.html",
+          "note": "The Farmland Preservation Act, signed in May 2025, set aside $25 million to help pay landowners for conservation easements; its Preserving Land for Agriculture Now program opened to applications on 9/1/2026."
+        },
+        "US-TX": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Texas Farm and Ranch Lands Conservation Program (2005) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-UT": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: LeRay McAllister Working Farm and Ranch Fund (1999) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-VA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Virginia Land Conservation Foundation (2000) and Farmland Preservation Fund (2001) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-VI": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: no territorial program could be found, and the federal Agricultural Conservation Easement Program, which the territory does not fund, is the only buyer of farmland easements its rules name here (7 CFR part 1468), so this place takes the answer of the 20 states with no program of their own.",
+          "source": "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XIV/subchapter-B/part-1468",
+          "note": "Tried: the Virgin Islands Code at law.justia.com, which refuses this container (HTTP 403), 9/29/2026."
+        },
+        "US-VT": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Vermont Housing and Conservation Board, Farmland Conservation Program (1987) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-WA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Wildlife and Recreation Program, Farmland Protection Category (2005) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-WI": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Farmland Preservation Program (2009) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-WV": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: West Virginia Agricultural Land Protection Authority (2000) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        }
+      }
+    },
     "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
       "source": "https://www.mapresearch.org/equality-maps/non_discrimination_laws",
       "note": "Yes where state or territorial law expressly bars discrimination for both sexual orientation and gender identity in both employment and housing; no where it leaves one out. Federal law already bars it in employment (Bostock v. Clayton County, 2020), so the question is what state law adds. Read from the Movement Advancement Project's map, data as of 9/28/2026; interpretations of 'sex' by a commission are not counted as law. Where the state is no, its cities may pass their own ordinance unless the state preempts them.",
@@ -16688,6 +17040,695 @@
         },
         "US-WY": {
           "answer": "no"
+        }
+      }
+    },
+    "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
+      "source": "National Agricultural Law Center (Richardson), Water Rights Tables, October 31, 2016, Tables 1 and 2, read 9/29/2026 for the 50 states; New York's permit program page for its 2011 change; the Illinois Water Use Act of 1983; the Puerto Rico Water Law and Guam's water regulations for those territories.",
+      "note": "Yes: a state permit sets how much a large well may pump, across the whole state, and the amounts are reported or metered. No: the state only registers wells or collects reports, or limits pumping only in named areas or through local districts. Places whose law could not be read take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Groundwater belongs to the first in time with a state permit, which sets how much each well may pump (National Agricultural Law Center, Water Rights Tables, 2016: prior appropriation for groundwater)."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state registers and collects reports of withdrawals above 100,000 gallons a day but sets no limit (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state registers withdrawals but sets no limit (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-AS": {
+          "answer": "yes",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 2 territories read for this question (both answer yes), because this place's own law could not be read.",
+          "note": "Tried: the American Samoa Code Annotated at asbar.org, which refuses this container (HTTP 403), 9/29/2026."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state limits groundwater only inside its Active Management Areas, not across the state (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-CA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state has no state groundwater permit; local sustainability agencies manage basins under the 2014 Sustainable Groundwater Management Act (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-CO": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Groundwater belongs to the first in time with a state permit, which sets how much each well may pump (National Agricultural Law Center, Water Rights Tables, 2016: prior appropriation for groundwater)."
+        },
+        "US-CT": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Large groundwater withdrawals need a permit above 50,000 gallons a day (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-DC": {
+          "answer": "yes",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 50 states read for this question (31 answer yes), because the District's own rule could not be read; the District draws no groundwater (US Geological Survey, 2015), so the answer moves nothing.",
+          "note": "Not read on 9/29/2026: the District draws no groundwater (US Geological Survey, 2015), so its well rules were left for later."
+        },
+        "US-DE": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Large groundwater withdrawals need a permit above 50,000 gallons a day (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-FL": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Large groundwater withdrawals need a permit from one of its five water management districts (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-GA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Large groundwater withdrawals need a permit above 100,000 gallons a day (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-GU": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "22 GAR Div. II, ch. 7, §§ 7105, 7124",
+          "source": "https://col.guamcourts.gov/sites/default/files/22GAR002-7a.pdf",
+          "note": "The Water Resources Development and Operating Regulations require a well permit with a production meter, and cap each well's capacity at the pumping rates the Northern Lens Study sets for its management zone."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state requires water use permits only inside designated water management areas (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-IA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Large groundwater withdrawals need a permit above 25,000 gallons a day (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-ID": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Groundwater belongs to the first in time with a state permit, which sets how much each well may pump (National Agricultural Law Center, Water Rights Tables, 2016: prior appropriation for groundwater)."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "525 ILCS 45/5",
+          "source": "https://www.ilga.gov/Legislation/ILCS/Articles?ActID=1743&ChapterID=44",
+          "note": "A new high-capacity well (100,000 gallons a day or more) must be reported to the soil and water conservation district, which reviews its effect on other users; the Water Use Act of 1983 requires no permit and sets no limit. The National Agricultural Law Center's 2016 table lists a permit here; the statute does not."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state registers and collects reports of withdrawals above 100,000 gallons a day but sets no limit (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-KS": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Groundwater belongs to the first in time with a state permit, which sets how much each well may pump (National Agricultural Law Center, Water Rights Tables, 2016: prior appropriation for groundwater)."
+        },
+        "US-KY": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Large groundwater withdrawals need a permit above 10,000 gallons a day, farms and homes exempt (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state registers wells and collects reports above 1,000,000 gallons a day but sets no limit (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-MA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Large groundwater withdrawals need a permit above 100,000 gallons a day (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Large groundwater withdrawals need a permit for any withdrawal, small farms and homes exempt (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-ME": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state permits only select groundwater withdrawals and otherwise collects reports (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-MI": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Large groundwater withdrawals need a permit above 2,000,000 gallons a day and reports above 100,000 (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-MN": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Large groundwater withdrawals need a permit above 10,000 gallons in a day or 1,000,000 in a year (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state registers and collects reports of withdrawals above 100,000 gallons a day but sets no limit (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-MP": {
+          "answer": "yes",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 2 territories read for this question (both answer yes), because this place's own law could not be read.",
+          "note": "Tried: the Commonwealth Code at cnmilaw.org, whose code browser needs a script this container cannot run, 9/29/2026."
+        },
+        "US-MS": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Large groundwater withdrawals need a permit, with more above 20,000 gallons a day (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-MT": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Groundwater belongs to the first in time with a state permit, which sets how much each well may pump (National Agricultural Law Center, Water Rights Tables, 2016: prior appropriation for groundwater)."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state registers withdrawals and requires permits only in its 15-county Central Coastal Plain capacity use area (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-ND": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Groundwater belongs to the first in time with a state permit, which sets how much each well may pump (National Agricultural Law Center, Water Rights Tables, 2016: prior appropriation for groundwater)."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state registers wells; its natural resources districts, not the state, set any allocations (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-NH": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Large groundwater withdrawals need a permit for large groundwater withdrawals, 57,600 gallons a day or more (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Large groundwater withdrawals need a permit above 100,000 gallons a day (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-NM": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Groundwater belongs to the first in time with a state permit, which sets how much each well may pump (National Agricultural Law Center, Water Rights Tables, 2016: prior appropriation for groundwater)."
+        },
+        "US-NV": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Groundwater belongs to the first in time with a state permit, which sets how much each well may pump (National Agricultural Law Center, Water Rights Tables, 2016: prior appropriation for groundwater)."
+        },
+        "US-NY": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "N.Y. Envtl. Conserv. Law § 15-1501",
+          "source": "https://dec.ny.gov/environmental-protection/water/water-quantity/water-withdrawal-permits-reporting/permits",
+          "note": "Since the 2011 amendment, any system able to withdraw 100,000 gallons a day or more of groundwater or surface water needs a state water withdrawal permit (New York State Department of Environmental Conservation)."
+        },
+        "US-OH": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Large groundwater withdrawals need a permit above 2,000,000 gallons a day and registration above 100,000 (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-OK": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "cite": "Okla. Stat. tit. 82, § 1020.9",
+          "note": "Groundwater use needs a state permit, allotted by the land over the aquifer (National Agricultural Law Center, Water Rights Tables, 2016: the reasonable use rule changed by statute)."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Groundwater belongs to the first in time with a state permit, which sets how much each well may pump (National Agricultural Law Center, Water Rights Tables, 2016: prior appropriation for groundwater)."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state registers and collects reports of withdrawals above 10,000 gallons a day but sets no limit (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-PR": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "Ley Núm. 136 de 3 de junio de 1976, según enmendada",
+          "source": "https://www.lexjuris.com/lexlex/leyes2004/lexl2004408.htm",
+          "note": "The Water Law requires a permit to drill a well and a franchise to extract groundwater, and charges by the gallon extracted (farms exempt from the charge)."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state follows the common law rule of absolute ownership and has no withdrawal permit (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state requires permits only inside designated capacity use areas (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-SD": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Groundwater belongs to the first in time with a state permit, which sets how much each well may pump (National Agricultural Law Center, Water Rights Tables, 2016: prior appropriation for groundwater)."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state registers withdrawals above 10,000 gallons a day but sets no limit (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state leaves limits to local groundwater conservation districts; state law follows the rule of capture (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-UT": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Groundwater belongs to the first in time with a state permit, which sets how much each well may pump (National Agricultural Law Center, Water Rights Tables, 2016: prior appropriation for groundwater)."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state requires permits only inside its groundwater management areas (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-VI": {
+          "answer": "yes",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 2 territories read for this question (both answer yes), because this place's own law could not be read.",
+          "note": "Tried: the Virgin Islands Code at law.justia.com, which refuses this container (HTTP 403), 9/29/2026."
+        },
+        "US-VT": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Large groundwater withdrawals need a permit for groundwater withdrawals of 57,600 gallons a day or more (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-WA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Groundwater belongs to the first in time with a state permit, which sets how much each well may pump (National Agricultural Law Center, Water Rights Tables, 2016: prior appropriation for groundwater)."
+        },
+        "US-WI": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Large groundwater withdrawals need a permit for groundwater withdrawals above 100,000 gallons a day (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "The state registers withdrawals but sets no limit (National Agricultural Law Center, Water Rights Tables, 2016)."
+        },
+        "US-WY": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nationalaglawcenter.org/wp-content/uploads/2017/03/2016.10.31-Water-Rights-Tables.pdf",
+          "note": "Groundwater belongs to the first in time with a state permit, which sets how much each well may pump (National Agricultural Law Center, Water Rights Tables, 2016: prior appropriation for groundwater)."
+        }
+      }
+    },
+    "us-policy-positions:transportation-infrastructure.fare-free-transit": {
+      "source": "FTA National Transit Database 2024 (data.transportation.gov ekg5-frzt), fare revenues earned summed by the reporting agency's state, territory or district, read 9/29/2026.",
+      "note": "Yes: a law makes local transit free for every rider. No: riders pay fares. Every place's transit agencies reported fare revenue for 2024, so every place starts at no; a city's own fare-free choice is a local answer this file does not hold.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $48.6 million in fares in 2024, 34.1% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $4.9 million in fares in 2024, 5.1% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $24.1 million in fares in 2024, 33.3% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $114,541 in fares in 2024, 7.2% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $43.3 million in fares in 2024, 6.6% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-CA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $1,025.9 million in fares in 2024, 10.3% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-CO": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $77.8 million in fares in 2024, 6.9% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-CT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $35.6 million in fares in 2024, 9.5% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-DC": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $356.3 million in fares in 2024, 11.9% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-DE": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $17.2 million in fares in 2024, 10.5% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $222.5 million in fares in 2024, 10.3% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $91.0 million in fares in 2024, 10.3% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $101,569 in fares in 2024, 3.5% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $51.0 million in fares in 2024, 11.0% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $28.4 million in fares in 2024, 17.7% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $2.4 million in fares in 2024, 10.9% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $573.8 million in fares in 2024, 15.4% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $34.0 million in fares in 2024, 9.8% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $6.0 million in fares in 2024, 6.8% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $22.4 million in fares in 2024, 8.6% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $18.2 million in fares in 2024, 7.1% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $507.1 million in fares in 2024, 19.4% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-MD": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $73.9 million in fares in 2024, 5.4% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-ME": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $43.8 million in fares in 2024, 33.9% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $65.3 million in fares in 2024, 9.1% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $70.6 million in fares in 2024, 8.2% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $28.3 million in fares in 2024, 5.5% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $110,944 in fares in 2024, 3.1% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $4.1 million in fares in 2024, 7.5% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $1.7 million in fares in 2024, 3.4% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $42.0 million in fares in 2024, 5.9% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $2.9 million in fares in 2024, 7.4% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $10.3 million in fares in 2024, 11.9% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $21.5 million in fares in 2024, 44.1% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-NJ": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $919.9 million in fares in 2024, 28.7% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $3.6 million in fares in 2024, 2.2% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $69.4 million in fares in 2024, 17.4% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-NY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $5,360.7 million in fares in 2024, 30.3% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $93.7 million in fares in 2024, 8.8% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $6.0 million in fares in 2024, 4.4% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-OR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $87.2 million in fares in 2024, 8.9% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $469.7 million in fares in 2024, 18.9% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-PR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $16.1 million in fares in 2024, 7.8% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $18.3 million in fares in 2024, 13.6% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $16.9 million in fares in 2024, 14.9% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $4.3 million in fares in 2024, 10.9% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $28.3 million in fares in 2024, 8.6% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $175.3 million in fares in 2024, 6.2% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $39.5 million in fares in 2024, 7.6% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $61.8 million in fares in 2024, 8.9% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-VI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $40,000 in fares in 2024, 0.5% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-VT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $13.2 million in fares in 2024, 19.9% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $261.6 million in fares in 2024, 8.9% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $53.3 million in fares in 2024, 14.4% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $5.7 million in fares in 2024, 8.7% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
+          "note": "Transit riders here paid fares: agencies based here earned $1.2 million in fares in 2024, 5.5% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
         }
       }
     }

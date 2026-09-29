@@ -405,12 +405,15 @@ function latestTenure(
 export function applyHouseDelegateTurnover(
   before: IsoDate,
   world: World,
+  /** Places that became states: their Delegate seat is not renewed. */
+  admittedPlaces: ReadonlySet<string> = new Set(),
 ): World {
   const after = world.currentDate;
   if (after <= before) return world;
   if (!recordByStableKey(world.history.events, OPENING_KEY)) return world;
   let next = world;
   for (const seat of HOUSE_DELEGATE_SEATS) {
+    if (admittedPlaces.has(seat.stateUsps)) continue;
     if (!latestTenure(next, seat)) continue;
     for (
       let year = Number(before.slice(0, 4));
@@ -455,6 +458,19 @@ export function applyHouseDelegateTurnover(
   }
   return next;
 }
+
+/** The caucus a place's 2024 result projects for a coming term. */
+export function houseDelegateProjectedCaucus(
+  stateUsps: string,
+  incumbentCaucus: string | null,
+  incumbentSeeking: boolean,
+): "democratic" | "republican" {
+  const seat = houseDelegateSeat(stateUsps);
+  if (!seat) throw new Error(`No nonvoting seat for ${stateUsps}.`);
+  return projectedCaucus(seat, incumbentCaucus, incumbentSeeking);
+}
+
+export { aliveOn as houseDelegateAliveOn, tagValue as houseDelegateTagValue };
 
 export type HouseDelegateOccupant =
   | {

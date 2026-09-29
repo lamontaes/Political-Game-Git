@@ -24,7 +24,7 @@ import {
   UNRESEARCHED_LOCAL_CRIME,
 } from "./index";
 import { arrestReferral } from "./producer";
-import { UNRESEARCHED_OFFENDERS } from "./offenders";
+import { adultCourtAgeAt } from "../justice/juvenile-court";
 import { referForProsecution } from "../justice/prosecution";
 
 const LONG = 900_000;
@@ -341,7 +341,9 @@ describe("ordinary local crime", () => {
         expect(person.homeJurisdictionId).toBe(arrest.jurisdictionId);
         expect(
           ageOnDate(person.birthDate, arrest.occurredAt),
-        ).toBeGreaterThanOrEqual(UNRESEARCHED_OFFENDERS.youngestCharged);
+        ).toBeGreaterThanOrEqual(
+          adultCourtAgeAt(world, arrest.jurisdictionId!, arrest.occurredAt),
+        );
         expect(arrest.summary).toContain(personName(person));
         // The circumstances that pointed to them ride on the record.
         expect(offender.detail).toMatch(/^Arrested; /);

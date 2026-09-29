@@ -1,8 +1,16 @@
+import { NATIONAL_DATA_PRIVACY_QUESTION } from "../federal-data-privacy-law";
 import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
 import { COUNCIL_TERM_LIMIT_QUESTION } from "../living-world/local-council-term-limits";
-import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
+import { STATEHOOD_QUESTION } from "../living-world/statehood-seats";
+import {
+  CITY_MINIMUM_WAGE_QUESTION_KEY,
+  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+  LOCAL_MINIMUM_WAGE_AUTHORITY_QUESTION_KEY,
+  STATE_MINIMUM_WAGE_QUESTION_KEY,
+} from "../minimum-wage";
 import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../nationwide-world/state-legislative-term-limits";
 import { OUTCOME_LINKS, outcomeLinkStatus } from "../outcome-web";
+import { HOUSING_SUPPLY_LAWS } from "../living-world/housing-market";
 import { RENT_LAW_KEYS } from "../living-world/town-rent";
 import { CANNABIS_SALES_QUESTION } from "../public-budgets/cannabis-sales-tax";
 import {
@@ -28,8 +36,8 @@ import { HOME_RULE_QUESTION } from "./question-authority";
  * 1. a link in the outcome web from `law:<question>` whose status is "built":
  *    its size is set, its cause is read and its outcome is produced;
  * 2. a module that reads the law in force on the question and changes a
- *    paycheck, a budget, a rent, a lease or a seat from it, with sizes from
- *    its own sources. Each is listed below with the file that does it.
+ *    paycheck, a budget, a rent, a lease, a town's home prices or a seat
+ *    from it, with sizes from its own sources. Each is listed below with the file that does it.
  *
  * An "about-zero" link does not count here: it says one outcome is not moved,
  * not that the law does nothing. A link whose size is not set, whose cause
@@ -42,8 +50,12 @@ export type LawEffectPathKind =
   | "state-revenue"
   | "state-spending"
   | "rent-and-eviction"
+  | "home-prices"
   | "seat-turnover"
-  | "local-powers";
+  | "authority-gate"
+  | "local-powers"
+  | "court-and-jail"
+  | "business-costs";
 
 export interface LawEffectPath {
   readonly questionKey: string;
@@ -58,6 +70,26 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
     kind: "paycheck",
     via: "src/simulation/minimum-wage.ts",
+  },
+  {
+    questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
+    kind: "paycheck",
+    via: "src/simulation/minimum-wage.ts",
+  },
+  {
+    questionKey: CITY_MINIMUM_WAGE_QUESTION_KEY,
+    kind: "paycheck",
+    via: "src/simulation/minimum-wage.ts",
+  },
+  {
+    questionKey: LOCAL_MINIMUM_WAGE_AUTHORITY_QUESTION_KEY,
+    kind: "authority-gate",
+    via: "src/simulation/governing/question-authority.ts",
+  },
+  {
+    questionKey: NATIONAL_DATA_PRIVACY_QUESTION,
+    kind: "business-costs",
+    via: "src/simulation/federal-data-privacy-law.ts",
   },
   {
     questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
@@ -94,6 +126,13 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     kind: "seat-turnover",
     via: "src/simulation/living-world/local-council-term-limits.ts",
   },
+  // Statehood for a nonvoting place adds its seats to both chambers on the day
+  // the law takes effect.
+  {
+    questionKey: STATEHOOD_QUESTION,
+    kind: "seat-turnover",
+    via: "src/simulation/living-world/statehood-seats.ts",
+  },
   // Home rule or Dillon's rule decides which local questions a town's
   // council may answer, so it opens or closes every ordinance on them.
   {
@@ -105,6 +144,11 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey,
     kind: "rent-and-eviction",
     via: "src/simulation/living-world/town-rent.ts",
+  })),
+  ...HOUSING_SUPPLY_LAWS.map((questionKey): LawEffectPath => ({
+    questionKey,
+    kind: "home-prices",
+    via: "src/simulation/living-world/housing-market.ts",
   })),
   // A tax question moves a state's revenue only where its research set a
   // size; a null size moves no money, so it is no path.
@@ -138,6 +182,32 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
 
 const LAW_CAUSE_PREFIX = "law:";
 
+/**
+ * The court reads these laws in force in each case it hears: cash bail
+ * decides who waits for trial in jail and off work, mandatory minimums take
+ * probation off the table, and the juvenile court age decides who police
+ * charge as an adult.
+ */
+const JUSTICE_PATHS: readonly LawEffectPath[] = [
+  {
+    questionKey: "us-policy-positions:justice-public-safety.end-cash-bail",
+    kind: "court-and-jail",
+    via: "src/simulation/justice/pretrial.ts",
+  },
+  {
+    questionKey:
+      "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+    kind: "court-and-jail",
+    via: "src/simulation/justice/court-reasoning.ts",
+  },
+  {
+    questionKey:
+      "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+    kind: "court-and-jail",
+    via: "src/simulation/justice/juvenile-court.ts",
+  },
+];
+
 /** Every sized, built path by which a law on a question acts in the world. */
 export function lawEffectPaths(): readonly LawEffectPath[] {
   const web = OUTCOME_LINKS.filter(
@@ -149,7 +219,7 @@ export function lawEffectPaths(): readonly LawEffectPath[] {
     kind: "outcome-web",
     via: link.key,
   }));
-  return [...web, ...DIRECT_PATHS];
+  return [...web, ...DIRECT_PATHS, ...JUSTICE_PATHS];
 }
 
 export interface UnwiredQuestion {

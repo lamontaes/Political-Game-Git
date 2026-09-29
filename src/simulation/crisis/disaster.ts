@@ -6,6 +6,7 @@ import {
   organizationProfileAt,
   peopleInHouseholdAt,
 } from "../life-queries";
+import { FLOOD_DAMAGE_OUTCOME, outcomeFactor } from "../outcome-web";
 import { SeededRng } from "../rng";
 import type {
   EntityId,
@@ -228,8 +229,25 @@ function homeLevel(
   world: World,
   episode: HazardEpisodeRecord,
   key: string,
+  jurisdictionId: EntityId,
 ): DisasterDamageLevel | null {
-  const policy = PROVISIONAL_DISASTER_POLICY.homeDamage[episode.magnitude];
+  const sourced = PROVISIONAL_DISASTER_POLICY.homeDamage[episode.magnitude];
+  // A flood reaches fewer homes where the law has kept new building out of
+  // the flood zone (the outcome web's flood damage links).
+  const policy =
+    episode.family === "flood"
+      ? {
+          ...sourced,
+          damaged:
+            sourced.damaged *
+            outcomeFactor(
+              world,
+              jurisdictionId,
+              FLOOD_DAMAGE_OUTCOME,
+              world.currentDate,
+            ).multiplier,
+        }
+      : sourced;
   if (draw(world, episode, `${key}:damaged`) >= policy.damaged) return null;
   return draw(world, episode, `${key}:destroyed`) < policy.destroyedGivenDamaged
     ? "destroyed"
@@ -372,11 +390,21 @@ function applyDamage(world: World, episode: HazardEpisodeRecord): World {
       : policy.repairUnits.damaged;
 
   for (const dwelling of exposure.dwellings) {
-    const level = homeLevel(next, episode, `dwelling:${dwelling.id}`);
+    const level = homeLevel(
+      next,
+      episode,
+      `dwelling:${dwelling.id}`,
+      dwelling.jurisdictionId,
+    );
     if (level) addDamage("dwelling", dwelling, level, homeUnits(level));
   }
   for (const household of exposure.households) {
-    const level = homeLevel(next, episode, `household:${household.id}`);
+    const level = homeLevel(
+      next,
+      episode,
+      `household:${household.id}`,
+      household.jurisdictionId,
+    );
     if (!level) continue;
     const damageId = addDamage("household", household, level, homeUnits(level));
     const cutoff = {

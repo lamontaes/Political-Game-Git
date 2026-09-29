@@ -5,7 +5,7 @@ import {
   macroScopeForJurisdiction,
 } from "../macro-economy/readers";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
-import { ruleValueInWorld, laborLawOfficeKey } from "../enacted-rule-changes";
+import { stateMinimumSettingAt } from "../minimum-wage";
 import {
   PLACE_OUTCOME_BASES,
   placeOutcomeAt,
@@ -51,9 +51,6 @@ export const OUTCOME_WEB_VERSION = web.version;
 export const OUTCOME_WEB_CALIBRATED_AT = web.calibratedAt as IsoDate;
 
 const FEDERAL_MINIMUM_HOURLY = minimumWages.federalHourly;
-const STARTING_MINIMUM_HOURLY = minimumWages.places as Readonly<
-  Record<string, { readonly basicHourly: number | null }>
->;
 
 export type OutcomeEvidence =
   "researched" | "provisional" | "contested" | "about-zero" | "to-confirm";
@@ -106,6 +103,17 @@ export interface OutcomeLink {
    * its own size for each place within it; `size` is the central estimate.
    */
   readonly range?: readonly [number, number];
+  /**
+   * Where research sizes the link place by place (a law whose effect depends
+   * on how many people it reaches in each state): each place's own central
+   * size and range, by its `US-XX` key. A place not listed uses `size`.
+   */
+  readonly sizeByPlace?: Readonly<
+    Record<
+      string,
+      { readonly size: number; readonly range?: readonly [number, number] }
+    >
+  >;
   readonly floor?: number;
   readonly ceiling?: number;
 }
@@ -144,24 +152,12 @@ function stateMinimumHourlyAt(
 ): { readonly now: number; readonly before: number } | null {
   const key = placeOutcomeKey(jurisdictionId);
   if (!key || !/^US-[A-Z]{2}$/.test(key)) return null;
-  const starting = STARTING_MINIMUM_HOURLY[key]?.basicHourly;
-  if (starting === null || starting === undefined) return null;
-  const before = Math.max(FEDERAL_MINIMUM_HOURLY, starting);
-  const law = ruleValueInWorld(
-    world,
-    {
-      jurisdiction: key,
-      officeKey: laborLawOfficeKey(key.slice(3)),
-      field: "labor.minimumWage.hourlyCents",
-      onDate: asOf,
-    },
-    null,
-  );
-  const now =
-    law.source === "enacted" && typeof law.value === "number"
-      ? Math.max(FEDERAL_MINIMUM_HOURLY, law.value / 100)
-      : before;
-  return { now, before };
+  const setting = stateMinimumSettingAt(world, key, asOf);
+  if (setting === null) return null;
+  return {
+    now: Math.max(FEDERAL_MINIMUM_HOURLY, setting.hourlyMinor / 100),
+    before: Math.max(FEDERAL_MINIMUM_HOURLY, setting.beforeMinor / 100),
+  };
 }
 
 /**
@@ -245,7 +241,14 @@ export type OutcomeLinkStatus =
  * Outcomes some producer computes from `outcomeFactor` today. A link into any
  * other outcome is ready but has nothing to move until that producer reads it.
  */
+/**
+ * The share of a flood's exposed homes it damages
+ * (`crisis/disaster.ts`, `homeLevel`), as a multiplier on the game's rate.
+ */
+export const FLOOD_DAMAGE_OUTCOME = "disaster.flood-damage";
+
 export const OUTCOMES_PRODUCED: ReadonlySet<string> = new Set([
+  FLOOD_DAMAGE_OUTCOME,
   "crime.assault",
   "crime.robbery",
   "crime.burglary",
@@ -289,6 +292,33 @@ function placeOutcomeMovedByCauses(key: string): string | null {
   if (!key.endsWith(MOVED_BY_CAUSES_SUFFIX)) return null;
   const measure = key.slice(0, -MOVED_BY_CAUSES_SUFFIX.length);
   return PLACE_OUTCOME_BASES[measure] ? measure : null;
+}
+
+/**
+ * A law's own answer is not always the cause an outcome reads. A state law that
+ * answers yes to "raise the minimum wage" carries a wage term (its bill's, or
+ * the average raise, `minimum-wage.ts`), and the outcome web reads the wage the
+ * term sets. So the question feeds the links whose cause is that measure, the
+ * same way it feeds a link whose cause is `law:<question>`.
+ */
+export const LAW_QUESTION_MEASURES: Readonly<
+  Record<string, readonly string[]>
+> = {
+  "us-policy-positions:labor-workforce.raise-minimum-wage": [
+    "labor.minimum-wage-change-pct",
+  ],
+};
+
+/** Every link a law on this question feeds, by its answer or by its bill term. */
+export function outcomeLinksFedByQuestion(
+  questionKey: string,
+): readonly OutcomeLink[] {
+  const measures = LAW_QUESTION_MEASURES[questionKey] ?? [];
+  return OUTCOME_LINKS.filter(
+    (link) =>
+      link.from === `${LAW_CAUSE_PREFIX}${questionKey}` ||
+      measures.includes(link.from),
+  );
 }
 
 /** The reader for a cause: a registered measure, or the law on a question. */
@@ -496,13 +526,20 @@ const DEFAULT_SPREAD: Readonly<Record<OutcomeEvidence, number>> = {
  */
 export function drawnLinkSize(
   world: World,
-  link: Pick<OutcomeLink, "key" | "size" | "range" | "evidence">,
+  link: Pick<OutcomeLink, "key" | "size" | "range" | "evidence"> &
+    Partial<Pick<OutcomeLink, "sizeByPlace">>,
   jurisdictionId: EntityId,
 ): number {
-  const size = link.size ?? 0;
+  const own = link.sizeByPlace
+    ? link.sizeByPlace[placeOutcomeKey(jurisdictionId) ?? ""]
+    : undefined;
+  const size = own ? own.size : (link.size ?? 0);
   if (size === 0 || !world.seed) return size;
   const spread = DEFAULT_SPREAD[link.evidence];
-  const [low, high] = link.range ?? [size * (1 - spread), size * (1 + spread)];
+  const [low, high] = (own ? own.range : link.range) ?? [
+    size * (1 - spread),
+    size * (1 + spread),
+  ];
   // Two draws averaged: the middle of the range is likelier than its ends.
   const rng = new SeededRng(world.seed).fork(
     `outcome-web:${link.key}:${jurisdictionId}`,
