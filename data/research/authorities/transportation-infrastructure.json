@@ -457,7 +457,7 @@
     },
     {
       "id": "iihs-laws",
-      "title": "IIHS safety camera laws, September 2026",
+      "title": "IIHS camera-law survey, September2026 canonical table",
       "url": "https://www.iihs.org/research-areas/red-light-running/safety-camera-laws",
       "year": 2026,
       "accessed": "2026-09-29",
@@ -795,6 +795,150 @@
       "id": "ca-prop218-current",
       "title": "California Constitution ArticleXIII D section6 current text",
       "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CONS&sectionNum=SEC.%206.&article=XIII%20D",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wa-speed",
+      "title": "Washington RCW46.61.415 current text and2013/2022/2025 enactment history",
+      "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=46.61.415",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mi-withdrawal2024",
+      "title": "Michigan HB6088 passed text; PA236/2024 adoption separately recorded",
+      "url": "https://www.legislature.mi.gov/documents/2023-2024/billengrossed/House/pdf/2024-HEBS-6088.pdf",
+      "year": 2024,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mi-acttable2024",
+      "title": "Michigan public act table PA236/2024, approvedJanuary17,2025",
+      "url": "https://www.legislature.mi.gov/documents/2023-2024/publicacttable/pdf/2024-PAT.pdf",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "in-hoosier",
+      "title": "INDOT passenger rail service and2019 Hoosier State discontinuation",
+      "url": "https://secure.in.gov/indot/multimodal/railroad/passenger-rail/",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "sb1029",
+      "title": "California SB1029 Chapter152, July18,2012 appropriations of rail bond proceeds",
+      "url": "https://www.leginfo.ca.gov/pub/11-12/bill/sen/sb_1001-1050/sb_1029_bill_20120718_chaptered.html",
+      "year": 2012,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "irs45g",
+      "title": "IRS Form8900 instructions, December2023 version;40% credit rate",
+      "url": "https://www.irs.gov/instructions/i8900",
+      "year": 2023,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "45g-notes",
+      "title": "26USC45G statute and2020 permanent-credit amendment notes",
+      "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title26/pdf/USCODE-2024-title26-subtitleA-chap1-subchapA-partIV-subpartD-sec45G.pdf",
+      "year": 2024,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "hks2008",
+      "title": "Hughes/Knittel/Sperling2008 gasoline-demand study; university publication record",
+      "url": "https://itspubs.ucdavis.edu/publication_detail.php?id=1904",
+      "year": 2008,
+      "accessed": "2026-09-29",
+      "kind": "study"
+    },
+    {
+      "id": "tefft2013",
+      "title": "Tefft2013 impact speed and pedestrian severe-injury/death study",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S000145751200276X",
+      "year": 2013,
+      "accessed": "2026-09-29",
+      "kind": "study"
+    },
+    {
+      "id": "itep-gas2025",
+      "title": "ITEP July16,2025 variable-rate gasoline-tax survey",
+      "url": "https://itep.org/state-gas-taxes-2025/",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "accepted-survey"
+    },
+    {
+      "id": "complete2025",
+      "title": "SGA Best Complete Streets Policies2025 survey",
+      "url": "https://www.smartgrowthamerica.org/signature-reports/best-complete-streets/",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "accepted-survey"
+    },
+    {
+      "id": "wku2026",
+      "title": "WKU Stormwater Utility Survey2026 abstract, more than2200 US utilities",
+      "url": "https://digitalcommons.wku.edu/seas_faculty_pubs/24/",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "accepted-survey"
+    },
+    {
+      "id": "me-camera",
+      "title": "Maine29-A\u00a72117 current official text",
+      "url": "https://www.legislature.maine.gov/legis/statutes/29-A/title29-Asec2117.html",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nh-camera",
+      "title": "NewHampshire RSA236:130 current official text",
+      "url": "https://gc.nh.gov/rsa/html/XX/236/236-130.htm",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "tx-camera",
+      "title": "Texas Transportation Code542.2035 current official text",
+      "url": "https://statutes.capitol.texas.gov/Docs/TN/htm/TN.542.htm#542.2035",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wv-camera",
+      "title": "WestVirginia17C-6-7a current official text",
+      "url": "https://code.wvlegislature.gov/17c-6-7a/",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "sc-camera",
+      "title": "SouthCarolina56-7-35 and56-5-70 current official text",
+      "url": "https://www.scstatehouse.gov/code/t56c007.php",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ut-camera",
+      "title": "Utah41-6a-608 photo-radar statutory conditions",
+      "url": "https://le.utah.gov/xcode/Title41/Chapter6A/C41-6a-S608_1800010118000101.pdf",
       "year": 2026,
       "accessed": "2026-09-29",
       "kind": "primary"
@@ -1381,14 +1525,23 @@
           },
           "effects": [
             {
-              "measure": "Downstream behavioral change",
-              "size": "no sized evidence",
-              "range": null,
-              "lag": "No sourced lag established",
-              "affectedGroup": "People and providers subject to this decision",
-              "study": null,
-              "sources": [],
-              "transferLimit": "No numerical causal effect assigned; direct legal and financial mechanism remains separate."
+              "measure": "Short-run gasoline demand elasticity to price",
+              "size": -0.034,
+              "range": {
+                "low": -0.077,
+                "high": -0.034,
+                "unit": "elasticity",
+                "kind": "range across reported specifications; not confidence interval"
+              },
+              "lag": "Short-run model;2001\u20132006 observations",
+              "affectedGroup": "US gasoline consumers in historical aggregate data",
+              "study": {
+                "authors": "Hughes, Knittel and Sperling",
+                "year": 2008,
+                "venue": "Energy Journal29(1),113\u2013134"
+              },
+              "sources": ["hks2008"],
+              "transferLimit": "Gasoline price response, not directly a tax response. Requires separately sourced tax pass-through; historical coefficient cannot be assumed current or universal. No long-run coefficient admitted."
             }
           ],
           "directMechanism": "Collect the enacted charge on taxable fuel and allocate actual revenue.",
@@ -3532,11 +3685,18 @@
               "differentLargeCityCharters": []
             },
             "ME": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "no",
+              "scope": "Ordinary local automated speed enforcement; statutory exceptions separate",
+              "reason": "State and municipalities cannot use defined traffic-surveillance cameras for Title29-A enforcement; school-bus and turnpike-toll exceptions are separate.",
+              "sources": ["me-camera"],
+              "bars": [
+                {
+                  "description": "Maine29-A\u00a72117: State and municipalities cannot use defined traffic-surveillance cameras for Title29-A enforcement; school-bus and turnpike-toll exceptions are separate.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature through statutory amendment or repeal; exact procedure remains unresearched.",
+                  "sources": ["me-camera"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -3622,11 +3782,18 @@
               "differentLargeCityCharters": []
             },
             "NH": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "no",
+              "scope": "Ordinary local automated speed enforcement; statutory exceptions separate",
+              "reason": "State/subdivisions cannot conduct defined highway vehicle surveillance, subject to statutory, investigation, toll/security/DOT and2026 school-bus exceptions; no general speeding-camera route established.",
+              "sources": ["nh-camera"],
+              "bars": [
+                {
+                  "description": "NewHampshire RSA236:130: State/subdivisions cannot conduct defined highway vehicle surveillance, subject to statutory, investigation, toll/security/DOT and2026 school-bus exceptions; no general speeding-camera route established.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature through statutory amendment or repeal; exact procedure remains unresearched.",
+                  "sources": ["nh-camera"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -3721,11 +3888,18 @@
               "differentLargeCityCharters": []
             },
             "SC": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "no",
+              "scope": "Ordinary local automated speed enforcement; statutory exceptions separate",
+              "reason": "Ordinary speeding citation requires contemporaneous stop/direct delivery and cannot rely on photos; emergency-relief, toll and school-bus exceptions have separate conditions.",
+              "sources": ["sc-camera"],
+              "bars": [
+                {
+                  "description": "SouthCarolina56-7-35 and56-5-70: Ordinary speeding citation requires contemporaneous stop/direct delivery and cannot rely on photos; emergency-relief, toll and school-bus exceptions have separate conditions.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature through statutory amendment or repeal; exact procedure remains unresearched.",
+                  "sources": ["sc-camera"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -3748,21 +3922,33 @@
               "differentLargeCityCharters": []
             },
             "TX": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "no",
+              "scope": "Ordinary local automated speed enforcement; statutory exceptions separate",
+              "reason": "Municipalities cannot operate automated systems on roads within their jurisdiction for posted-speed enforcement. Municipality-specific bar; not a finding about every state officer.",
+              "sources": ["tx-camera"],
+              "bars": [
+                {
+                  "description": "Texas Transportation Code542.2035: Municipalities cannot operate automated systems on roads within their jurisdiction for posted-speed enforcement. Municipality-specific bar; not a finding about every state officer.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature through statutory amendment or repeal; exact procedure remains unresearched.",
+                  "sources": ["tx-camera"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "UT": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "Defined vehicle-mounted photo radar in school zones or roads posted30mph or lower",
+              "reason": "Requires officer presence, warning signs, prescribed local approval and photographic citation. Research/warning-only use exempt; not general unattended automation permission.",
+              "sources": ["ut-camera"],
               "bars": [],
-              "localGrant": null,
+              "localGrant": {
+                "description": "Utah41-6a-608 conditionally enables defined photo radar.",
+                "lawKind": "state statute",
+                "changedBy": "State legislature amends statute; local authority approves operation subject to statutory procedure.",
+                "sources": ["ut-camera"]
+              },
               "differentLargeCityCharters": []
             },
             "VT": {
@@ -3793,11 +3979,18 @@
               "differentLargeCityCharters": []
             },
             "WV": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "no",
+              "scope": "Ordinary local automated speed enforcement; statutory exceptions separate",
+              "reason": "Defined camera/sensor traffic-enforcement devices and their violation evidence are barred; ordinary microwave/reflected-light measurement and other lawful uses remain allowed.",
+              "sources": ["wv-camera"],
+              "bars": [
+                {
+                  "description": "WestVirginia17C-6-7a: Defined camera/sensor traffic-enforcement devices and their violation evidence are barred; ordinary microwave/reflected-light measurement and other lawful uses remain allowed.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature through statutory amendment or repeal; exact procedure remains unresearched.",
+                  "sources": ["wv-camera"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -4187,6 +4380,13 @@
               "year": 2017,
               "status": "enacted",
               "sources": ["or2682"]
+            },
+            {
+              "place": "Washington",
+              "measure": "2013 chapter264;2022 chapter235;2025 chapter300",
+              "year": 2025,
+              "status": "enacted",
+              "sources": ["wa-speed"]
             }
           ],
           "availability": {
@@ -4610,12 +4810,17 @@
               "differentLargeCityCharters": []
             },
             "WA": {
-              "status": "unresearched",
-              "scope": "city, state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "Local authorities on nonarterial highways; shared streets separately10mph",
+              "reason": "RCW46.61.415(3) permits20mph with adopted procedures, signs and MUTCD consultation; state-highway alterations need secretary approval.",
+              "sources": ["wa-speed"],
               "bars": [],
-              "localGrant": null,
+              "localGrant": {
+                "description": "Delegation under RCW46.61.415(3), amended2013/2022/2025.",
+                "lawKind": "state statute",
+                "changedBy": "Washington legislature through statutory amendment; local authority adopts limit using delegated procedure.",
+                "sources": ["wa-speed"]
+              },
               "differentLargeCityCharters": []
             },
             "WV": {
@@ -19318,15 +19523,15 @@
       "id": "verify-03-item1",
       "promptClaim": "- **State, then local:** revenue sharing of fuel tax and registration fees by formula (the formula is a state setting); state preemption of local speed limits (varies: some states let cities set 20 or 25 mph by ordinance, and Oregon and Washington expanded this, **verify**); state approval of local tolling.",
       "status": "partially verified",
-      "finding": "OregonHB 2682(2017) grants Portland a five-mph reduction on residential nonarterials. Washington delegation and nationwide revenue-sharing formulas remain unresearched.",
-      "sources": ["or2682"]
+      "finding": "Washington RCW46.61.415 permits20mph nonarterial limits and10mph shared streets, subject to procedures/signs; state-highway changes need secretary approval. Oregon delegation separately sourced. National revenue-sharing formulas remain unresolved.",
+      "sources": ["wa-speed", "or2682"]
     },
     {
       "id": "verify-04-item1",
       "promptClaim": "1. **Fuel tax rate, and indexing it to inflation.** State. About 22 states index or vary their rate (**verify** count, ITEP). Effect: gasoline demand elasticity about -0.05 to -0.1 short run, -0.3 long run (Hughes, Knittel and Sperling 2008; Brons and others 2008). Revenue falls about 0.84% a year as fuel economy rises (already in the game). Available in every state and D.C.; territories set their own. Local fuel taxes are allowed in about 12 states (**verify**).",
       "status": "partially verified",
-      "finding": "May2025 NCSL survey lists26 states plusDC but includes Colorado indexing scheduled for FY2032\u201333. It is not a clean count of currently indexed taxes. January2026 reconciliation and gasoline elasticity remain unresolved.",
-      "sources": ["gas-variable2025", "sb1"]
+      "finding": "ITEP July2025 reports26 variable-rate states plusDC. NCSL table also includes future Colorado indexing; January2026 reconciliation remains unresolved. HKS2008 short-run gasoline-price estimates for2001\u20132006 span\u22120.077 to\u22120.034; the draft long-run estimate is not verified.",
+      "sources": ["gas-variable2025", "sb1", "itep-gas2025", "hks2008"]
     },
     {
       "id": "verify-04-item2",
@@ -19352,15 +19557,15 @@
     {
       "id": "verify-07-item1",
       "promptClaim": "7. **Complete streets and Vision Zero rules.** State and city. More than 1,700 complete-streets policies nationwide (Smart Growth America, **verify**). Effect: pedestrian deaths down where speeds drop; a lower speed limit of 20 mph cuts pedestrian fatality risk sharply (AAA Foundation, Tefft 2011).",
-      "status": "partially verified",
-      "finding": "SGA current program page says more than 1,600 policies; the draft 1,700 count is not independently established. Policy version/date and speed-fatality contrast still need research.",
-      "sources": ["complete"]
+      "status": "corrected",
+      "finding": "SGA2025 report verifies more than1700 adopted policies; older1600 page was stale. Tefft2013 links impact speed to conditional pedestrian death risk, not direct effect of lowering a posted limit. No automatic policy-to-fatality coefficient admitted.",
+      "sources": ["complete2025", "tefft2013"]
     },
     {
       "id": "verify-08-item1",
       "promptClaim": "8. **Automated speed and red-light cameras.** State law authorizes or bans them, and cities deploy them. About 20 states ban or limit speed cameras (IIHS, **verify**). Effect: red-light cameras cut fatal red-light crashes about 21% in large cities (IIHS 2011).",
-      "status": "partially verified",
-      "finding": "IIHSSeptember 2026 table supports place-specific camera restrictions; a national ban/limit count is not extracted. The 2011 study reports 24% fatal red-light-running reduction;21% belongs to 2016 study. Do not conflate vintages.",
+      "status": "corrected",
+      "finding": "Canonical September2026 IIHS speed rows explicitly list prohibitions inID,ME,MS,NH,NJ,TX,WV,WI; SC generally prohibits with emergency exception. No-law rows are not bans; permitted systems may have narrower site limits. About20 lacks a defined category.2011 fatal red-light study24%,2016 study21%.",
       "sources": ["iihs-laws", "iihs-effect", "iihs2016"]
     },
     {
@@ -19373,9 +19578,9 @@
     {
       "id": "verify-10-item1",
       "promptClaim": "- **Member governments:** board appointment shares and a cost-sharing formula; a member may withdraw where state law allows it (Michigan towns opted out of SMART, **verify**).",
-      "status": "unresearched",
-      "finding": "Not yet resolved against dated primary evidence; original figure not adopted.",
-      "sources": []
+      "status": "partially verified",
+      "finding": "Michigan PA236/2024 limits withdrawal for covered populous counties after existing millage expires. Older SMART municipal opt-out examples cannot establish current countywide authority. Exact county expiration and2026 outcomes remain unresolved.",
+      "sources": ["mi-withdrawal2024", "mi-acttable2024"]
     },
     {
       "id": "verify-11-item1",
@@ -19401,9 +19606,9 @@
     {
       "id": "verify-14-item1",
       "promptClaim": "1. **Fund or drop a state-supported Amtrak route.** State. It carries an annual appropriation. Examples: Virginia's Transforming Rail in Virginia (2019 to 2021, bought rail right of way, **verify**); Indiana funded, then ended, the Hoosier State (2019).",
-      "status": "partially verified",
-      "finding": "Virginia2020 Chapters1230/1275 enable authority acquisition and financing. CSX first-phase2021 transaction verified. Indiana service-termination budget remains unresearched.",
-      "sources": ["va-rail-law", "csx"]
+      "status": "verified",
+      "finding": "Virginia2020 authority law and2021 CSX acquisition verified. INDOT identifies funding loss and final Hoosier State runJune30,2019; federally supported Cardinal is a separate service.",
+      "sources": ["va-rail-law", "csx", "in-hoosier"]
     },
     {
       "id": "verify-15-item1",
@@ -19422,9 +19627,9 @@
     {
       "id": "verify-17-item1",
       "promptClaim": "2. **Create and fund a high-speed or new intercity rail authority and bond.** State. Example: California Proposition 1A (2008). Effect: capital spending and jobs; ridership only when a segment opens. Cost overruns are common (Flyvbjerg: rail projects overrun about 45% on average, **verify**).",
-      "status": "unresearched",
-      "finding": "Not yet resolved against dated primary evidence; original figure not adopted.",
-      "sources": []
+      "status": "corrected",
+      "finding": "Prop1A bond authorization was2008, outside required example window. SB1029 Chapter152/2012 appropriated already-authorized bond proceeds; use it as an appropriation example, not new bond authorization. No ridership or construction-cost causal coefficient admitted.",
+      "sources": ["sb1029"]
     },
     {
       "id": "verify-18-item1",
@@ -19436,9 +19641,16 @@
     {
       "id": "verify-18-item2",
       "promptClaim": "3. **Short-line freight rail tax credit or grants.** State: Georgia, Oregon, Alabama and others (**verify** list). Federal: the 45G credit, made permanent in 2020. Effect: track upgraded to 286,000-pound cars keeps freight off roads and lowers road damage (**verify** size).",
-      "status": "partially verified",
-      "finding": "Oregon HB2164/2019 and Alabama HB457/2019 credit examples verified. Georgia HB588/2021 concerns freight grants/P3 authority, not proof of a short-line tax credit. Exhaustive state list, federal45G permanence and road-damage size remain unresearched.",
-      "sources": ["or-credit", "or-credit-law", "al-credit2019", "al-credit"]
+      "status": "verified",
+      "finding": "PL116-260 divisionEE\u00a7105 removed45G expiry in2020. Credit is40% for tax years starting2023 onward,50% before2023, capped at$3500 per eligible mile with assignment restrictions. Road-damage effect remains unsized.",
+      "sources": [
+        "45g-notes",
+        "irs45g",
+        "or-credit",
+        "or-credit-law",
+        "al-credit2019",
+        "al-credit"
+      ]
     },
     {
       "id": "verify-19-item1",
@@ -19527,9 +19739,9 @@
     {
       "id": "verify-29-item1",
       "promptClaim": "- **County, city and special district:** a stormwater utility fee (about 2,000 or more exist; Western Kentucky University survey, **verify**); flood control districts (Harris County Flood Control District).",
-      "status": "partially verified",
-      "finding": "WKU 2024 survey describes more than 2,000 utilities; survey is an internet-based inventory with acknowledged fee errors. Precise count, fees and legal availability need separate verification.",
-      "sources": ["wku"]
+      "status": "verified",
+      "finding": "WKU2026 abstract reports more than2200 US stormwater utilities, supporting the worked example more-than2000 scale. This is a dated survey inventory, not an exhaustive legal-authority census or proof of fee accuracy.",
+      "sources": ["wku2026", "wku"]
     },
     {
       "id": "verify-30-item1",
