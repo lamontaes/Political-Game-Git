@@ -11,9 +11,11 @@ import {
   seekCareerOffer,
   startCareerWork,
 } from "../simulation/career-path7";
-import { workStatusAt } from "../simulation/life-queries";
+import { createWorkRelationship } from "../simulation/life";
+import { workRoleAt, workStatusAt } from "../simulation/life-queries";
 import { CAREER_PROVIDERS } from "./career-path7-provider";
 import { createExplicitGeographyLife } from "./new-game-geography";
+import { observerPlace } from "./observer-world";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 
 /**
@@ -84,32 +86,70 @@ describe("an offer on the older work list", () => {
     expect(eventsFor(later, offer.id, "withdrawn")).toHaveLength(0);
   });
 
-  it("after a missed start, the employer calls once with a new date, or withdraws", () => {
-    const outcomes = new Set<string>();
-    for (let n = 1; n <= 16 && outcomes.size < 2; n += 1) {
-      const { world, personId } = adult(RENO, `career-miss-${n}`);
-      const sought = seekCareerOffer(world, shop).world;
-      const offer = offerFor(sought, personId);
-      const accepted = respondCareerOffer(sought, offer.id, shop, true).world;
-      const missed = passOrdinaryDays(accepted, 5);
-      const called = eventsFor(missed, offer.id, "followed-up");
-      if (called.length > 0) {
-        outcomes.add("followed-up");
-        expect(workStatusAt(missed, offer.id)?.status).toBe("expected");
-        expect(called[0]!.summary).toMatch(/still want you, starting/);
-        // A second miss ends it.
-        const again = passOrdinaryDays(missed, 12);
-        expect(workStatusAt(again, offer.id)?.status).toBe("ended");
-        expect(eventsFor(again, offer.id, "followed-up")).toHaveLength(1);
-      } else {
-        outcomes.add("withdrawn");
-        expect(workStatusAt(missed, offer.id)?.reason).toBe(
-          "The employer withdrew the offer after a missed start.",
-        );
-      }
-      assertWorldIntegrity(missed);
-    }
-    expect([...outcomes].sort()).toEqual(["followed-up", "withdrawn"]);
+  // The employer calls back from the record, not a coin: when somebody who
+  // works there knows the person, or when nobody else is waiting to start.
+  // Each run draws its place from all 56 and names it with the seed.
+  it("after a missed start, the employer calls once when nobody else is waiting", () => {
+    const seed = "career-miss-nobody-waiting";
+    const place = observerPlace(seed);
+    const { world, personId } = adult(place.key, seed);
+    const sought = seekCareerOffer(world, shop).world;
+    const offer = offerFor(sought, personId);
+    const accepted = respondCareerOffer(sought, offer.id, shop, true).world;
+    const missed = passOrdinaryDays(accepted, 5);
+    const called = eventsFor(missed, offer.id, "followed-up");
+    expect(called, `${place.key} seed ${seed}`).toHaveLength(1);
+    expect(workStatusAt(missed, offer.id)?.status).toBe("expected");
+    expect(called[0]!.summary).toMatch(/still want you, starting/);
+    // A second miss ends it.
+    const again = passOrdinaryDays(missed, 12);
+    expect(workStatusAt(again, offer.id)?.status).toBe("ended");
+    expect(eventsFor(again, offer.id, "followed-up")).toHaveLength(1);
+    assertWorldIntegrity(missed);
+  });
+
+  it("withdraws after a missed start when someone else is waiting to start there", () => {
+    const seed = "career-miss-someone-waiting";
+    const place = observerPlace(seed);
+    const { world, personId } = adult(place.key, seed);
+    const sought = seekCareerOffer(world, shop).world;
+    const offer = offerFor(sought, personId);
+    const accepted = respondCareerOffer(sought, offer.id, shop, true).world;
+    const rival = Object.values(accepted.people).find(
+      (person) => person.id !== personId,
+    )!;
+    const role = workRoleAt(accepted, offer.id)!;
+    const waiting = createWorkRelationship(accepted, {
+      stableKey: "test:career-miss:rival",
+      personId: rival.id,
+      organizationId: offer.organizationId!,
+      startedAt: offer.startedAt,
+      initialStatus: "expected",
+      kind: offer.kind,
+      compensation: "paid",
+      authority: "directed",
+      dependency: "partly-dependent",
+      economicRisk: "organization-borne",
+      provenance: {
+        kind: "authored",
+        note: "A second person waiting to start.",
+      },
+      initialRole: {
+        title: role.title,
+        occupationClassification: role.occupationClassification,
+        locationJurisdictionId: null,
+        timeDemand: role.timeDemand,
+      },
+    });
+    const missed = passOrdinaryDays(waiting, 5);
+    expect(
+      eventsFor(missed, offer.id, "followed-up"),
+      `${place.key} seed ${seed}`,
+    ).toHaveLength(0);
+    expect(workStatusAt(missed, offer.id)?.reason).toBe(
+      "The employer withdrew the offer after a missed start.",
+    );
+    assertWorldIntegrity(missed);
   });
 });
 

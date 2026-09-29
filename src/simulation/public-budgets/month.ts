@@ -10,7 +10,7 @@ import {
   propositionIdFor,
 } from "./fiscal";
 import { actuarialContribution } from "./opening";
-import { pensionPayment } from "./pension-share";
+import { pensionFlows, pensionPayment } from "./pension-share";
 import { reserveRule } from "./reserve-rule";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import {
@@ -258,15 +258,21 @@ function monthsInto(year: AdoptedBudget, month: IsoDate): number {
  * How a state's tax law in force on a date moves a revenue source against
  * the law the state began with (`TAX_QUESTION_EFFECTS`): 1 where nothing
  * changed, where the size is not researched, or for a county or city, whose
- * own taxes these state questions do not set.
+ * own taxes these state questions do not set. Income tax is read on January 1
+ * of the date's year, the law paychecks withhold under for that tax year
+ * (`stateIncomeTaxUnderLaw`), so the budget collects what paychecks withhold.
  */
 export function taxLawFactor(
   world: World,
   government: PublicBudgetGovernment,
   source: BudgetSource,
-  onDate: IsoDate,
+  date: IsoDate,
 ): number {
   if (government.level !== "state") return 1;
+  const onDate =
+    source === "individualIncomeTax"
+      ? (`${date.slice(0, 4)}-01-01` as IsoDate)
+      : date;
   let factor = 1;
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.source !== source) continue;
@@ -288,7 +294,30 @@ export function taxLawFactor(
     if (began === "no" && now === "yes") factor *= 1 + (effect.toYes ?? 0);
     if (began === "yes" && now === "no") factor *= 1 + (effect.toNo ?? 0);
   }
-  return factor;
+  return Math.max(0, factor);
+}
+
+/**
+ * One month of a source at the level the government opened with, under the
+ * law it began with, carried to the economy on `economyIndex`. A tax a law
+ * ended collected nothing to scale from, so a law that restores it starts
+ * again from this level.
+ */
+function openingMonthLevel(
+  government: PublicBudgetGovernment,
+  source: BudgetSource,
+  at: number,
+  economyIndex: number | null,
+): number {
+  const first = government.years[0]!;
+  const since =
+    economyIndex !== null && first.economyAtAdoption
+      ? economyIndex / first.economyAtAdoption
+      : 1;
+  return (
+    (first.expectedRevenue[at]! / 12) *
+    Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (since - 1))
+  );
 }
 
 interface Settled {
@@ -323,14 +352,26 @@ export function settleGovernmentMonth(
   // Revenue.
   const represented = flows.represented.get(government.key) ?? 0;
   // A tax law that changed since adoption moves its source from that month.
-  const revenue = BUDGET_SOURCES.map((source, at) =>
-    Math.round(
+  const revenue = BUDGET_SOURCES.map((source, at) => {
+    const lawNow = taxLawFactor(world, government, source, month);
+    const lawAtAdoption = taxLawFactor(
+      world,
+      government,
+      source,
+      year.startsOn,
+    );
+    // A budget adopted while a law had ended the source expects none of it;
+    // a law restoring it collects from the level the government opened with.
+    if (lawAtAdoption === 0)
+      return Math.round(
+        openingMonthLevel(government, source, at, economyNow) * lawNow,
+      );
+    return Math.round(
       (year.expectedRevenue[at]! / 12) *
         Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (economy - 1)) *
-        (taxLawFactor(world, government, source, month) /
-          taxLawFactor(world, government, source, year.startsOn)),
-    ),
-  );
+        (lawNow / lawAtAdoption),
+    );
+  });
   if (government.population > 0)
     revenue[INCOME_TAX] = Math.round(
       (revenue[INCOME_TAX]! *
@@ -538,8 +579,10 @@ export function settleGovernmentMonth(
   // The adopted budget set the pension share, so the law read at adoption is
   // the one that decided it; a law enacted later governs the next budget.
   const pensionLaw = year.laws.pensions;
-  // Monthly rounding leaves a few dollars either way; that is not underpaying.
-  if (unpaid > required * 0.001)
+  // Each month's payment rounds to a whole dollar, which can leave up to a
+  // dollar a month short even when the whole share is paid; that is not
+  // underpaying.
+  if (unpaid > Math.max(yearRows.length, required * 0.001))
     adjustments.push({
       governmentKey: government.key,
       on: asOf,
@@ -552,16 +595,17 @@ export function settleGovernmentMonth(
           ? "The pension payments fell short of the full actuarial contribution the law requires."
           : pensionLaw.answer === "no"
             ? "No law requires the full actuarial contribution; the unpaid part grows the unfunded liability."
-            : "No law in force when the budget was adopted answered whether pensions must be funded on schedule, so the government paid its own share (its plans' reported share, or the median of every plan where they are not listed).",
+            : "No law in force when the budget was adopted answered whether pensions must be funded on schedule, so the government paid its own share (the share its own plans filed, or the median of every plan where they are not listed).",
     });
   const liability = government.pension.liability;
-  const benefits = liability * PENSION.benefitShare * share;
+  const plans = pensionFlows(government);
+  const benefits = liability * plans.benefitShare * share;
   const pension = {
     // The share stays where it began until budgets pass as bills.
     paidShare: government.pension.paidShare,
     liability: Math.round(
       liability * (1 + PENSION.assumedReturn * share) +
-        liability * PENSION.normalCostShare * share -
+        liability * plans.normalCostShare * share -
         benefits,
     ),
     assets: Math.round(
@@ -634,7 +678,14 @@ function adoptNextYear(
     // law that changed last year counts once, in full.
     const lawNow = taxLawFactor(world, government, source, startsOn);
     const restated = rows.map((row) => {
-      const law = lawNow / taxLawFactor(world, government, source, row.month);
+      const lawThen = taxLawFactor(world, government, source, row.month);
+      // A month a law had ended the source collected nothing to restate; it
+      // counts at the opening level under today's law.
+      if (lawThen === 0)
+        return (
+          openingMonthLevel(government, source, at, economyAtAdoption) * lawNow
+        );
+      const law = lawNow / lawThen;
       if (economyNow === null) return row.revenue[at]! * law;
       const then = scaleAt(row.economy);
       return then > 0
@@ -657,7 +708,10 @@ function adoptNextYear(
       (prior.expectedRevenue[STATE_AID]! * stateLocalAidAtAdoption) /
         priorAidBase,
     );
-  const pensionRequired = actuarialContribution(government.pension);
+  const pensionRequired = actuarialContribution(
+    government.pension,
+    pensionFlows(government).normalCostShare,
+  );
   const pensionPaid = pensionPayment(
     pensionRequired,
     government.pension.paidShare,

@@ -104,10 +104,23 @@ describe("PLAYTEST65 real opening and practical-life readers", () => {
       (entry) => entry.activity.title === "Posted public meeting",
     )!;
     expect(meeting.refusal).toBeNull();
-    const attended = submitTimeCommand(ordinary, {
+    // Since #727 the first Attend travels and opens the meeting room at its
+    // start; staying through the discussion is the second, which completes it.
+    const entered = submitTimeCommand(ordinary, {
       requestId: "journey-attend",
       personId: player,
       sourceMoment: ordinary.currentMoment,
+      command: meeting.command,
+    });
+    expect(entered.receipt.status).toBe("accepted");
+    expect(entered.world.currentMoment).toEqual(meeting.state.start);
+    expect(
+      scheduledActivityState(entered.world, meeting.activity.id).status,
+    ).toBe("scheduled");
+    const attended = submitTimeCommand(entered.world, {
+      requestId: "journey-stay",
+      personId: player,
+      sourceMoment: entered.world.currentMoment,
       command: meeting.command,
     });
     expect(attended.receipt.status).toBe("accepted");

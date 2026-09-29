@@ -175,6 +175,10 @@ describe("a household with no home decides where to go, with no draw", () => {
       kind: "rowhouse",
       tenure: "lease:rented",
     });
+    // A recent eviction bars the loan, whatever the pay.
+    expect(
+      homeForNewHousehold(adults(40, 38), true, 900_000, 120_000, false),
+    ).toEqual({ kind: "small-apartment", tenure: "lease:rented" });
     // Unknown pay is not zero, and it is not enough to buy.
     expect(homeForNewHousehold(adults(30), true, null, 120_000).tenure).toBe(
       "lease:rented",

@@ -19,7 +19,7 @@ import {
 } from "./living-world/opening";
 import { affiliationAt } from "./living-world/party-evolution";
 import { TOWN_JOB_END_REASONS } from "./living-world/town-labor-market";
-import { placePopulation } from "./nationwide-world/place-population";
+import { placeReferencePopulation } from "./nationwide-world/place-population";
 import { personName } from "./people";
 import { parentsOf } from "./people-family";
 import { personTrait } from "./people-traits";
@@ -422,7 +422,9 @@ export function principlePullsOf(
   const home = householdMembershipsAt(world, personId)[0]?.location
     ?.jurisdictionId;
   const geoid = home ? lifePlaceByJurisdictionId(home)?.sourceGeoid : null;
-  const population = geoid ? placePopulation(geoid) : null;
+  const population = geoid
+    ? (placeReferencePopulation(geoid)?.value ?? null)
+    : null;
   if (population !== null && population < SMALL_TOWN_BELOW) {
     pulls.push({
       principle: "local-control",

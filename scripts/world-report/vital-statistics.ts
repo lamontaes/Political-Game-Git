@@ -112,7 +112,8 @@ function partyName(world: World, personId: EntityId | null): string | null {
   return partyId ? (organizationNameAt(world, partyId) ?? null) : null;
 }
 
-function governingParty(
+/** The parties that govern the place: its executive, legislature and mayor. */
+export function governingParty(
   world: World,
   town: EntityId,
   anchorPersonId: EntityId,
@@ -122,10 +123,15 @@ function governingParty(
   const governor = currentStateExecutiveHolders(world).find(
     (holder) => holder.stateUsps === usps,
   );
+  // The row names the office the holder actually holds: D.C.'s executive is
+  // its mayor, not a governor.
+  const executiveTitle = governor?.title.startsWith("Governor")
+    ? "Governor"
+    : (governor?.title ?? "Governor");
   const figures: VitalFigure[] = [
     {
       key: "governor-party",
-      label: "Governor's party",
+      label: `${executiveTitle}'s party`,
       scope: "state",
       value: governor
         ? `${partyName(world, governor.personId) ?? "no party"} (${governor.personName})`
@@ -166,9 +172,14 @@ function governingParty(
       : {}),
   });
   const unit = homeLocalGovernmentUnits(world, anchorPersonId).municipal[0];
-  const mayor = unit
-    ? sittingLocalOfficers(world, unit).find((office) => office.mayor)
-    : undefined;
+  // Where the jurisdiction's own executive is a mayor (D.C.), that holder is
+  // the town's mayor too.
+  const executiveMayor = governor && /\bMayor\b/.test(governor.title);
+  const mayor =
+    (unit
+      ? sittingLocalOfficers(world, unit).find((office) => office.mayor)
+      : undefined) ??
+    (executiveMayor ? { personId: governor.personId } : undefined);
   figures.push({
     key: "mayor-party",
     label: "Mayor's party",
@@ -180,9 +191,10 @@ function governingParty(
     ...(mayor
       ? {}
       : {
-          missing: unit
-            ? "no sitting mayor is recorded"
-            : "the place has no municipal government on record",
+          missing:
+            unit || executiveMayor
+              ? "no sitting mayor is recorded"
+              : "the place has no municipal government on record",
         }),
   });
   return figures;

@@ -3,6 +3,7 @@ import {
   bookAndHoldCampaignChoice,
   campaignUntilDecided,
   fileCandidacy,
+  walkHome,
 } from "./support/campaign";
 import { expect, test, type Page } from "./fixtures";
 
@@ -606,6 +607,8 @@ test.describe("P85D integration through ordinary player controls", () => {
     await expect(page.getByTestId("office-section")).toContainText(
       "Kentucky legislature",
     );
+    // The chapter's meetings left him in the community room; he walks home.
+    await walkHome(page);
     await goTo(page, "keep-world");
     await expectNoDestination(page, "keep-world");
     await page.reload();

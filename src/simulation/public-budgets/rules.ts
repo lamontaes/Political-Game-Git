@@ -53,14 +53,13 @@ export const OPENING_DRAW_SD = 0.05;
 
 /**
  * Pension opening. The actuarial liability as a multiple of a year's general
- * spending, the normal cost and benefits paid as shares of
- * the liability, the assumed return, and the amortization period for the
- * unfunded part. PLACEHOLDER, research: public-pension-funding-by-state.
+ * spending, the assumed return, and the amortization period for the unfunded
+ * part. PLACEHOLDER, research: public-pension-funding-by-state. Each
+ * government's normal cost and benefits paid are its own plans'
+ * (`pensionFlows` in `pension-share.ts`).
  */
 export const PENSION = {
   liabilityToSpending: 1.2,
-  normalCostShare: 0.02,
-  benefitShare: 0.08,
   assumedReturn: 0.07,
   amortizationYears: 30,
 } as const;
@@ -113,9 +112,10 @@ export const TAX_QUESTION_EFFECTS: readonly {
     questionKey: "us-policy-positions:fiscal.adopt-income-tax",
     source: "individualIncomeTax",
     toYes: null,
-    toNo: null,
+    // A repeal ends the tax: a state with no income tax collects none.
+    toNo: -1,
     basis:
-      "Not researched: a state with no income tax collects none, so adopting one needs a level, not a share.",
+      "A repeal ends the tax, so the state collects none; adopting one needs a level, not a share, and is not researched.",
   },
   {
     questionKey: "us-policy-positions:fiscal.graduated-income-tax",

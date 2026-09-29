@@ -28,6 +28,11 @@ export interface NameCorpusProvenance {
 export interface NameCorpus {
   readonly version: string;
   readonly provenance: NameCorpusProvenance;
+  /**
+   * The places, by postal code, whose own records this corpus was read from
+   * and whose people it names. Absent, it is a national corpus.
+   */
+  readonly placesUsps?: readonly string[];
   readonly givenNames: readonly string[];
   readonly familyNames: readonly string[];
   /**
@@ -1179,6 +1184,7 @@ const PR_MEASURED = PLACE_NAME_CORPORA.places.PR as unknown as {
  */
 export const PUERTO_RICO_NAMES_V1: NameCorpus = {
   version: "names-pr-v1",
+  placesUsps: ["PR"],
   provenance: {
     source:
       "NCES Common Core of Data public school directory, 2025-26: the given names and surnames of the people Puerto Rico's schools are named for",
@@ -1274,9 +1280,12 @@ export function nameCorpusVersionForPlace(
   stateUsps: string | null,
   version: PlaceNameVersion | undefined,
 ): string {
-  return version === PLACE_NAMES_V1_VERSION && stateUsps === "PR"
-    ? PUERTO_RICO_NAMES_V1.version
-    : DEFAULT_CORPUS_VERSION;
+  if (version !== PLACE_NAMES_V1_VERSION || stateUsps === null)
+    return DEFAULT_CORPUS_VERSION;
+  const own = Object.values(CORPORA_BY_VERSION).find((corpus) =>
+    corpus.placesUsps?.includes(stateUsps),
+  );
+  return own?.version ?? DEFAULT_CORPUS_VERSION;
 }
 
 /**

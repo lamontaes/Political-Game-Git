@@ -43,6 +43,7 @@ import {
   buildProductionWorld,
   FAMILY_BIRTHDAYS_V1,
   PARENT_PARTNERS_V1,
+  ADULT_START_WORK_V1,
 } from "./production-world";
 import { assignSplitHomeDistricts } from "../simulation/district-residence";
 import {
@@ -242,6 +243,11 @@ export interface NewGameSetup {
    */
   readonly parentPartnerVersion?: typeof PARENT_PARTNERS_V1;
   /**
+   * Absent keeps an old replay's grown-up start between jobs. New Game
+   * declares the start that holds a job in town. Office starts never do.
+   */
+  readonly adultStartWorkVersion?: typeof ADULT_START_WORK_V1;
+  /**
    * Absent keeps an old replay's home join to the state legislative chambers.
    * New Game declares the join that also records the U.S. House district when
    * the Census place file lists the home place with exactly one district.
@@ -302,6 +308,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   schoolStageVersion: SCHOOL_STAGES_V2,
   familyBirthdayVersion: FAMILY_BIRTHDAYS_V1,
   parentPartnerVersion: PARENT_PARTNERS_V1,
+  adultStartWorkVersion: ADULT_START_WORK_V1,
   districtHomeJoinVersion: CONGRESSIONAL_HOME_JOIN_V1,
   // OFF, deliberately, and not removed. `context-v2` declines to write a
   // school or a job into a grown character's summarized past on the grounds
@@ -560,6 +567,11 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     ...(setup.parentPartnerVersion === undefined
       ? {}
       : { parentPartnerVersion: setup.parentPartnerVersion }),
+    // An office start is employed by its own initializer below, never twice.
+    ...(setup.adultStartWorkVersion === undefined ||
+    setup.startingLife !== "ordinary-life"
+      ? {}
+      : { adultStartWorkVersion: setup.adultStartWorkVersion }),
     ...(setup.appearanceCatalogGeneration === undefined
       ? {}
       : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),
