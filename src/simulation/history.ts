@@ -1,5 +1,5 @@
 import { createStableId } from "./ids";
-import { hasStableKey } from "./history-index";
+import { appendedList, hasStableKey } from "./history-index";
 import type {
   AppraisalMeaning,
   AppraisalRecord,
@@ -396,7 +396,9 @@ export function appendPropositionExposureRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    propositionExposures: [...history.propositionExposures, exposure],
+    propositionExposures: appendedList(history.propositionExposures, [
+      exposure,
+    ]),
   };
 }
 
@@ -445,7 +447,7 @@ export function appendHistoricalEvent(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    events: [...history.events, event],
+    events: appendedList(history.events, [event]),
   };
 }
 
@@ -464,7 +466,7 @@ export function appendMemoryRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    memories: [...history.memories, memory],
+    memories: appendedList(history.memories, [memory]),
   };
 }
 
@@ -483,7 +485,7 @@ export function appendEventKnowledgeRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    knowledge: [...history.knowledge, knowledge],
+    knowledge: appendedList(history.knowledge, [knowledge]),
   };
 }
 
@@ -502,7 +504,7 @@ export function appendClaimRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    claims: [...history.claims, claim],
+    claims: appendedList(history.claims, [claim]),
   };
 }
 
@@ -527,10 +529,9 @@ export function appendRelationshipInteraction(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    relationshipInteractions: [
-      ...history.relationshipInteractions,
+    relationshipInteractions: appendedList(history.relationshipInteractions, [
       interaction,
-    ],
+    ]),
   };
 }
 
@@ -553,7 +554,7 @@ export function appendPrivateBeliefRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    privateBeliefs: [...history.privateBeliefs, belief],
+    privateBeliefs: appendedList(history.privateBeliefs, [belief]),
   };
 }
 
@@ -575,7 +576,7 @@ export function appendPublicPositionRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    publicPositions: [...history.publicPositions, position],
+    publicPositions: appendedList(history.publicPositions, [position]),
   };
 }
 
@@ -597,7 +598,9 @@ export function appendCampaignCommitmentRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    campaignCommitments: [...history.campaignCommitments, commitment],
+    campaignCommitments: appendedList(history.campaignCommitments, [
+      commitment,
+    ]),
   };
 }
 
@@ -620,7 +623,7 @@ export function appendPrincipleRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    principles: [...history.principles, principle],
+    principles: appendedList(history.principles, [principle]),
   };
 }
 
@@ -643,7 +646,7 @@ export function appendSubjectKnowledgeRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    subjectKnowledge: [...history.subjectKnowledge, knowledge],
+    subjectKnowledge: appendedList(history.subjectKnowledge, [knowledge]),
   };
 }
 
@@ -667,7 +670,9 @@ export function appendPersonalityTendencyRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    personalityTendencies: [...history.personalityTendencies, record],
+    personalityTendencies: appendedList(history.personalityTendencies, [
+      record,
+    ]),
   };
 }
 
@@ -690,7 +695,7 @@ export function appendPersonalValueRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    personalValues: [...history.personalValues, record],
+    personalValues: appendedList(history.personalValues, [record]),
   };
 }
 
@@ -709,7 +714,7 @@ export function appendGoalStateRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    goalStates: [...history.goalStates, record],
+    goalStates: appendedList(history.goalStates, [record]),
   };
 }
 
@@ -732,7 +737,7 @@ export function appendAppraisalRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    appraisals: [...history.appraisals, record],
+    appraisals: appendedList(history.appraisals, [record]),
   };
 }
 
@@ -751,7 +756,7 @@ export function appendPerceptionRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    perceptions: [...history.perceptions, record],
+    perceptions: appendedList(history.perceptions, [record]),
   };
 }
 
@@ -775,7 +780,7 @@ export function appendTemporaryStateRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    temporaryStates: [...history.temporaryStates, record],
+    temporaryStates: appendedList(history.temporaryStates, [record]),
   };
 }
 
@@ -799,7 +804,7 @@ export function appendDecisionTraceRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    decisionTraces: [...history.decisionTraces, record],
+    decisionTraces: appendedList(history.decisionTraces, [record]),
   };
 }
 
