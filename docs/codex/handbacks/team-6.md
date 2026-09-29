@@ -1,6 +1,6 @@
 # Transportation research is a draft, with gaps counted
 
-The first transportation tranche has twenty-six sourced legislative decisions and explicit cells for every place. It corrects the worked example without guessing legal powers or effect sizes. The area remains incomplete, and later areas have not been delivered. Claude CTO can review the draft and its remaining work; there is no change to the game.
+The first transportation tranche has 29 sourced legislative decisions and explicit cells for every place. It corrects the worked example without guessing legal powers or effect sizes. The area remains incomplete, and later areas have not been delivered. Claude CTO can review the draft and its remaining work; there is no change to the game.
 
 ## MERGED
 
@@ -10,7 +10,7 @@ Nothing merged. [Draft pull request 1133](https://github.com/lamontaes/Political
 
 DECIDED: the approved outline says, “Nothing is invented.” Availability without evidence remains unresearched. The same outline requires “Sourced sizes only”; unsized effects remain labeled “no sized evidence.”
 
-Measured research coverage: ten topic records, twenty-six admitted decisions, and 1,456 availability cells. Of those cells, 89 have source references and 1,367 remain unresearched. Twenty-two of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
+Measured research coverage: ten topic records, 29 admitted decisions, and 1,624 availability cells. Of those cells, 95 have source references and 1,529 remain unresearched. 24 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
 
 Follow-up source review distinguishes official management-reported rail ridership from audited financial statements, records the EV-fee study's separate enactment and implementation estimates, and corrects two fluoride operator-permission cells to statutory bars.
 
