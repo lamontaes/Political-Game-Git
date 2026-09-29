@@ -15,6 +15,10 @@ import {
 import { currentPresidentOf } from "../crisis/offices";
 import { seatedCongressChamber } from "./congress-chambers";
 import { publicPartyOf } from "./chamber-votes";
+import {
+  ensureOfficeholderPrinciples,
+  principleAgreement,
+} from "./officeholder-principles";
 import type {
   DecisionConsideration,
   EntityId,
@@ -415,6 +419,28 @@ function senatorReasons(
           sourceRefs: [],
         },
   );
+  // The nominee's record as the senator reads it: how far the principles
+  // the nominee holds agree with the senator's own. The game records no
+  // court rulings yet, so the principles stand for the record; a nominee
+  // with none gives the senator nothing to weigh here.
+  const views = principleAgreement(world, input.personId, input.nomineeId);
+  if (views.importance)
+    reasons.push({
+      stableKey: "senator:nominee-views",
+      optionKey: views.score > 0 ? "vote-yea" : "vote-nay",
+      sourceType: "belief:political-principle",
+      direction: "supports",
+      importance: views.importance,
+      confidence: "medium",
+      explanation:
+        views.score > 0
+          ? `${personName(nominee)}'s views match the senator's principles.`
+          : `${personName(nominee)}'s views cut against the senator's principles.`,
+      sourceRefs: views.recordIds.map((principleRecordId) => ({
+        kind: "political-principle" as const,
+        principleRecordId,
+      })),
+    });
   const home = input.stateUsps
     ? stateJurisdictionForKey(`US-${input.stateUsps}`)
     : null;
@@ -555,6 +581,21 @@ export function senateConfirmationVote(
     tieBreaker,
     confirmed: yeas > nays || (yeas === nays && tieBreaker?.ballot === "yea"),
   };
+}
+
+/**
+ * Before the Senate votes, the nominee and every senator hold principles
+ * through the same writer every officeholder's come from, so a senator can
+ * weigh the nominee's views against their own.
+ */
+export function briefSenateOnNominee(world: World, nomineeId: EntityId): World {
+  const senate = seatedCongressChamber(world, "senate");
+  return ensureOfficeholderPrinciples(world, [
+    nomineeId,
+    ...(senate?.body.members ?? []).flatMap((member) =>
+      member.personId ? [member.personId] : [],
+    ),
+  ]);
 }
 
 /** Records the roll call as one public event naming every senator's ballot. */
@@ -907,12 +948,13 @@ export function confirmAssociateJustice(
         ? "The nominee died before the vote; the President nominates again."
         : "The President who made the nomination has left office; the nomination lapses.",
     );
-  const vote = senateConfirmationVote(world, {
+  const briefed = briefSenateOnNominee(world, nomineeId);
+  const vote = senateConfirmationVote(briefed, {
     stableKey: due.stableKey,
     nomineeId,
     presidentId: president.personId,
   });
-  let next = world;
+  let next = briefed;
   let voteEventId: EntityId | null = null;
   if (vote) {
     const recorded = recordConfirmationVote(next, {

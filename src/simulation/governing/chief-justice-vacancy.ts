@@ -28,6 +28,7 @@ import {
   SUPREME_COURT_APPOINTMENT_PROFILE,
   SUPREME_COURT_VOTE_EVENT,
   associateJusticeSeatsHeldBy,
+  briefSenateOnNominee,
   choosePresidentialNominee,
   leaveLowerBench,
   openAssociateJusticeVacancy,
@@ -377,12 +378,13 @@ export function confirmChiefJustice(
         : "The President who made the nomination has left office; the nomination lapses.",
     );
   }
-  const vote = senateConfirmationVote(world, {
+  const briefed = briefSenateOnNominee(world, nomineeId);
+  const vote = senateConfirmationVote(briefed, {
     stableKey: due.stableKey,
     nomineeId,
     presidentId: president.personId,
   });
-  let next = world;
+  let next = briefed;
   if (vote) {
     next = recordConfirmationVote(next, {
       stableKey: due.stableKey,

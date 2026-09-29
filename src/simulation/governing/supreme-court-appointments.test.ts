@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import { explicitNewGameSetup } from "../../presentation/new-game-geography";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -12,6 +12,9 @@ import {
 import { publicOfficesHeldBy, currentPresidentOf } from "../crisis/offices";
 import { seatHolderAt, seatsForCourt } from "../judiciary/courts";
 import { deserializeWorld, serializeWorld } from "../serialization";
+import { lifePlaces } from "../life-places";
+import { createFormationContext, recordPrinciples } from "../politics";
+import { SeededRng } from "../rng";
 import type { World } from "../types";
 import { recordPersonDeath } from "../vitality";
 import {
@@ -23,15 +26,21 @@ import {
   SUPREME_COURT_NOMINATED_EVENT,
   SUPREME_COURT_SEATED_EVENT,
   SUPREME_COURT_VOTE_EVENT,
+  briefSenateOnNominee,
   senateConfirmationVote,
   supremeCourtNomineePool,
 } from "./supreme-court-appointments";
 import { seatedCongressChamber } from "./congress-chambers";
 import { publicPartyOf } from "./chamber-votes";
 
+/** A life in a place drawn by the seed from every place a life can start. */
 function openingWorld(seed: string): World {
+  const place = new SeededRng(seed).pick(lifePlaces());
   const game = generateOpeningLife(
-    prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, seed, startAge: 40 }),
+    prepareOpeningLife({
+      ...explicitNewGameSetup({ placeKey: place.key, seed }),
+      startAge: 40,
+    }),
   ).game!;
   return openOrdinaryLife(game.world, game.playerPersonId);
 }
@@ -162,5 +171,61 @@ describe("Build 27 step 1: every Supreme Court seat is filled by nomination and 
       vote.yeas > vote.nays ||
         (vote.yeas === vote.nays && vote.tieBreaker?.ballot === "yea"),
     );
+  }, 600_000);
+
+  it("a senator of the other party votes for a nominee whose views match their own principles", () => {
+    const world = openingWorld("b27-nominee-views");
+    const president = currentPresidentOf(world)!;
+    const presidentParty = publicPartyOf(world, president.personId);
+    const nominee = supremeCourtNomineePool(world, "associate").find(
+      (c) => c.bench === "federal-appeals",
+    )!;
+    let briefed = briefSenateOnNominee(world, nominee.personId);
+    const senator = seatedCongressChamber(briefed, "senate")!.body.members.find(
+      (m) =>
+        m.personId &&
+        presidentParty &&
+        m.partyKey &&
+        m.partyKey !== presidentParty &&
+        briefed.history.principles.some((row) => row.personId === m.personId),
+    )!;
+    // The senator holds their principles firmly, and the nominee holds the same.
+    const held = briefed.history.principles.filter(
+      (row) => row.personId === senator.personId,
+    );
+    for (const personId of [senator.personId!, nominee.personId])
+      briefed = recordPrinciples(
+        briefed,
+        held.map((row) => ({
+          stableKey: `b27-test:views:${personId}:${row.principleId}`,
+          personId,
+          principleId: row.principleId,
+          formedAt: briefed.currentDate,
+          stance: row.stance,
+          conviction: "settled" as const,
+          flexibility: "firm" as const,
+          qualification: null,
+          formation: createFormationContext("other:drawn-before-play", {
+            note: "Test fixture.",
+          }),
+          supersedesPrincipleRecordId:
+            briefed.history.principles
+              .filter(
+                (p) =>
+                  p.personId === personId && p.principleId === row.principleId,
+              )
+              .at(-1)?.id ?? null,
+        })),
+      );
+    const vote = senateConfirmationVote(briefed, {
+      stableKey: "b27:views-fixture",
+      nomineeId: nominee.personId,
+      presidentId: president.personId,
+    })!;
+    const ballot = vote.ballots.find((b) => b.personId === senator.personId)!;
+    expect(ballot).toMatchObject({
+      ballot: "yea",
+      reason: "senator:nominee-views",
+    });
   }, 600_000);
 });
