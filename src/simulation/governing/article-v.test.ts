@@ -63,16 +63,24 @@ function federalQuestion(world: World): EntityId {
 }
 
 /** A federal question exactly one principle bears on. */
+/** A federal question not yet law, the fewest principles bearing on it. */
 function singlePrincipleQuestion(world: World): EntityId {
   const catalog = world.policyCatalog;
-  return catalog.propositionOrder.find((id) => {
-    const proposition = catalog.propositions[id]!;
-    return (
-      (catalog.issues[proposition.issueId]?.levels ?? []).includes("federal") &&
-      proposition.principles?.length === 1 &&
-      lawInForce(world, NATIONAL_ELECTION_JURISDICTION.id, id)?.answer !== "yes"
-    );
-  })!;
+  const bearings = (id: EntityId) =>
+    catalog.propositions[id]!.principles?.length ?? 0;
+  return catalog.propositionOrder
+    .filter((id) => {
+      const proposition = catalog.propositions[id]!;
+      return (
+        (catalog.issues[proposition.issueId]?.levels ?? []).includes(
+          "federal",
+        ) &&
+        bearings(id) > 0 &&
+        lawInForce(world, NATIONAL_ELECTION_JURISDICTION.id, id)?.answer !==
+          "yes"
+      );
+    })
+    .sort((a, b) => bearings(a) - bearings(b))[0]!;
 }
 
 /**
