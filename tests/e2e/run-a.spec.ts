@@ -103,15 +103,15 @@ test("preserves deliberate component hover surfaces", async ({ page }) => {
     page.getByRole("menuitem", { name: /Inspect/ }),
   );
   expect(actionStyle.backgroundColor).toBe("rgba(197, 164, 87, 0.12)");
-  expect(actionStyle.color).toBe("rgb(245, 235, 212)");
+  expect(actionStyle.color).toBe("rgb(43, 33, 24)");
   await page.keyboard.press("Escape");
 
   await page.getByTestId("navigation-cluster").click();
   const navigationStyle = await hoverStyle(
     page.getByRole("menuitem", { name: "Places" }),
   );
-  expect(navigationStyle.backgroundColor).toBe("rgb(32, 45, 64)");
-  expect(navigationStyle.color).toBe("rgb(255, 244, 216)");
+  expect(navigationStyle.backgroundColor).toBe("rgb(237, 227, 211)");
+  expect(navigationStyle.color).toBe("rgb(64, 50, 16)");
 });
 
 test("replaces the anchored person menu with an epistemically filtered dossier", async ({
