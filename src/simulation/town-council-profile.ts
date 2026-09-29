@@ -11,6 +11,11 @@ import {
 } from "./legislature-rules";
 import { localGoverningBodyIdentity } from "./nationwide-world/local-governing-body-candidacy-packs";
 import { localGoverningBodyRules } from "./nationwide-world/local-governing-body-rules";
+import {
+  countyGoverningBodyRules,
+  municipioUnit,
+} from "./nationwide-world/county-governing-body-rules";
+import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
 
 /**
  * A playable council for a town whose own charter the game has not read.
@@ -72,18 +77,52 @@ export function townCouncilProfilePackId(unit: GovernmentUnitIdentity): string {
   return `us-${unit.stateUsps.toLowerCase()}-town-council-profile-v1:${unit.id}`;
 }
 
+/**
+ * The body a profile council sits as: a town's council, or, for a place with
+ * no town government, its county's board (or a Puerto Rico municipio's
+ * municipal legislature), at the size the law or the estimate sets.
+ */
+function profileBody(unit: GovernmentUnitIdentity): {
+  readonly governmentName: string;
+  readonly bodyName: string;
+  readonly executiveTitle: string;
+  readonly seats: number;
+  readonly seatNote: string;
+} | null {
+  const identity = localGoverningBodyIdentity(unit);
+  const seats = localGoverningBodyRules(unit)?.seats;
+  if (identity && seats)
+    return {
+      governmentName: identity.governmentName,
+      bodyName: identity.bodyName,
+      executiveTitle: "Mayor",
+      seats: seats.value,
+      seatNote:
+        seats.basis === "read"
+          ? `The body seats ${seats.value} members, as the game's reading of this town records.`
+          : `The body seats ${seats.value} members, the typical size for a town of this kind in the ICMA survey.`,
+    };
+  const county = countyGoverningBodyRules(unit);
+  if (!county) return null;
+  return {
+    governmentName: governmentUnitDisplayName(unit),
+    bodyName: county.bodyName,
+    executiveTitle: county.chiefTitle ?? "County executive",
+    seats: county.seats,
+    seatNote:
+      county.basis === "estimated"
+        ? `The body seats ${county.seats} members, ESTIMATED FROM AVERAGE: the national average county board (${county.citation}).`
+        : `The body seats ${county.seats} members, as ${county.citation} sets.`,
+  };
+}
+
 export function townCouncilProfilePack(
   unit: GovernmentUnitIdentity,
 ): LegislativeRulePack | null {
-  const identity = localGoverningBodyIdentity(unit);
-  const seats = localGoverningBodyRules(unit)?.seats;
-  if (!identity || !seats) return null;
-  const seatSource = source(
-    "Seats",
-    seats.basis === "read"
-      ? `The body seats ${seats.value} members, as the game's reading of this town records.`
-      : `The body seats ${seats.value} members, the typical size for a town of this kind in the ICMA survey.`,
-  );
+  const identity = profileBody(unit);
+  if (!identity) return null;
+  const seats = { value: identity.seats };
+  const seatSource = source("Seats", identity.seatNote);
   return {
     packId: townCouncilProfilePackId(unit),
     jurisdictionKey: `US-${unit.stateUsps}`,
@@ -156,7 +195,7 @@ export function townCouncilProfilePack(
       note: "A town council sits as one chamber.",
     },
     executive: {
-      titleLabel: "Mayor",
+      titleLabel: identity.executiveTitle,
       presentmentRequired: knownRule(false, EXECUTIVE),
       actionWindowDaysInSession: notApplicableRule(
         "Nothing is presented to the mayor under this profile, so no period runs.",
@@ -205,7 +244,13 @@ export function townCouncilProfilePackById(
   packId: string,
 ): LegislativeRulePack | null {
   const matched = PACK_ID.exec(packId);
-  const unit = matched ? governmentUnit(matched[1]!) : null;
+  const id = matched?.[1] ?? null;
+  const unit = id
+    ? (governmentUnit(id) ??
+      (id.startsWith("municipio:")
+        ? municipioUnit(id.slice("municipio:".length))
+        : null))
+    : null;
   return unit && townCouncilProfilePackId(unit) === packId
     ? townCouncilProfilePack(unit)
     : null;
