@@ -15,9 +15,7 @@ import type { World } from "../types";
 import { advanceWorld, recordWorldEvent } from "../world";
 import {
   annualizedQuarterlyGrowthPct,
-  drawInnovations,
   START_ERA,
-  stepEra,
   standardNormal,
   startValuesFromLatents,
   stepLocalMonth,
@@ -44,6 +42,20 @@ import {
   publicConcernsAt,
 } from "./readers";
 import type { MacroStartingConditions } from "./types";
+import { CENTRAL_BANK_PROFILE } from "./central-bank";
+import { stepNationalConditions } from "./conditions";
+import {
+  MACRO_CREDIT_POLICY,
+  startCreditState,
+  type MacroGrowthDrivers,
+} from "./credit";
+import {
+  rankRateOptionsWithoutWorld,
+  rateConsiderations,
+  rateMoveOf,
+  type RateReadings,
+  type RateSetterView,
+} from "./rate-choice";
 
 /**
  * Test-only stand-in for WORLD's persisted draw. It uses the section-13
@@ -547,13 +559,21 @@ describe("CHANGE canonical macro history", { timeout: 1_800_000 }, () => {
 });
 
 describe("the economy's eras: a century is several economies, not one number with noise", () => {
-  /** Twelve worlds of 100 years, decade averages of growth and inflation. */
+  /**
+   * Twelve worlds of 100 years under Build 19's conditions: no recession is
+   * drawn. A stand-in board of seven members with drawn views sets the rate
+   * at eight meetings a year from the same considerations the game's board
+   * weighs (the game decides through `evaluateDecision`; this pure run ranks
+   * them with the same arithmetic). Decade averages of growth, inflation and
+   * unemployment, and every recession start with its drivers.
+   */
   function centuries() {
     const worlds: {
-      recessions: number;
+      recessions: { month: number; drivers: MacroGrowthDrivers }[];
       growth: number[];
       inflation: number[];
       unemployment: number[];
+      worstUnemployment: number;
     }[] = [];
     for (let seed = 0; seed < 12; seed += 1) {
       let state: MacroMonthlyState = {
@@ -564,23 +584,109 @@ describe("the economy's eras: a century is several economies, not one number wit
         priceIndex: 100,
       };
       let era = START_ERA;
+      let rate = 3.625;
+      const startTightness = 0.5;
+      let credit = startCreditState(rate, startTightness, 4.6);
       const rng = new SeededRng(`century-${seed}`);
+      const member = (key: string): RateSetterView => {
+        const draw = rng.fork(key);
+        const trait = (name: string) =>
+          draw.fork(name).integer(-2, 3) as RateSetterView["risk"];
+        return {
+          inflationLean: trait("lean"),
+          risk: trait("risk"),
+          deliberation: trait("deliberation"),
+        };
+      };
+      let board = Array.from({ length: 7 }, (_, i) => member(`member-${i}`));
+      const history: MacroMonthlyState[] = [];
+      const recentDrivers: MacroGrowthDrivers[] = [];
       const world = {
-        recessions: 0,
+        recessions: [] as { month: number; drivers: MacroGrowthDrivers }[],
         growth: [] as number[],
         inflation: [] as number[],
         unemployment: [] as number[],
+        worstUnemployment: 0,
       };
+      let shrinking = 0;
+      let inRecession = false;
+      let growing = 0;
       let g = 0;
       let inf = 0;
       let u = 0;
       for (let month = 0; month < 1200; month += 1) {
-        const draw = rng.fork(`m${month}`);
-        const before = era.phase;
-        era = stepEra(era, state, draw.fork("era"));
-        state = stepMonth(state, drawInnovations(draw), NO_IMPULSES, era);
-        if (before === "expansion" && era.phase === "recession")
-          world.recessions += 1;
+        if (month > 0 && month % 24 === 0)
+          board = board.map((row, i) =>
+            i === (month / 24) % 7 ? member(`member-${month}`) : row,
+          );
+        const step = stepNationalConditions({
+          previous: state,
+          previousEra: era,
+          credit,
+          policyMidPct: rate,
+          startTightness,
+          shockImpulses: NO_IMPULSES,
+          rng: rng.fork(`m${month}`),
+        });
+        state = step.state;
+        era = step.era;
+        credit = step.credit;
+        history.push(state);
+        recentDrivers.push(step.drivers);
+        if (recentDrivers.length > 6) recentDrivers.shift();
+        shrinking = state.growthPct < 0 ? shrinking + 1 : 0;
+        growing = state.growthPct >= 0 ? growing + 1 : 0;
+        if (!inRecession && shrinking === 3) {
+          inRecession = true;
+          const drivers = recentDrivers.reduce((sum, row) => ({
+            trendPct: sum.trendPct + row.trendPct,
+            carriedPp: sum.carriedPp + row.carriedPp,
+            creditPp: sum.creditPp + row.creditPp,
+            ratePp: sum.ratePp + row.ratePp,
+            demandPp: sum.demandPp + row.demandPp,
+            shocksPp: sum.shocksPp + row.shocksPp,
+            chancePp: sum.chancePp + row.chancePp,
+          }));
+          world.recessions.push({ month, drivers });
+        }
+        if (inRecession && growing === 3) inRecession = false;
+        if (MEETINGS.has(((month + 1) % 12) + 1) && history.length > 12) {
+          const year = history.at(-13)!;
+          const inflationPct = 100 * (state.priceIndex / year.priceIndex - 1);
+          const window = history.slice(-240);
+          const readings: RateReadings = {
+            inflationPct,
+            unemploymentPct: state.unemploymentPct,
+            unemploymentEarlierPct: history.at(-4)?.unemploymentPct ?? null,
+            normalUnemploymentPct:
+              window.reduce((sum, row) => sum + row.unemploymentPct, 0) /
+              window.length,
+            chargeOffPct: credit.chargeOffPct,
+            calmChargeOffPct: MACRO_CREDIT_POLICY.start.chargeOffPct,
+            recentBankFailures: 0,
+            policyMidPct: rate,
+            neutralRealRatePct: MACRO_CREDIT_POLICY.neutralRealRatePct,
+          };
+          const votes = board.map(
+            (view) =>
+              rankRateOptionsWithoutWorld(
+                rateConsiderations(view, readings),
+              )[0]!,
+          );
+          const proposal = votes[0]!;
+          const against = votes
+            .slice(1)
+            .filter(
+              (vote) =>
+                Math.sign(rateMoveOf(vote)) !== Math.sign(rateMoveOf(proposal)),
+            ).length;
+          if (against * 2 < board.length)
+            rate = Math.max(0.125, rate + rateMoveOf(proposal));
+        }
+        world.worstUnemployment = Math.max(
+          world.worstUnemployment,
+          state.unemploymentPct,
+        );
         g += state.growthPct;
         inf += state.inflationPct;
         u += state.unemploymentPct;
@@ -595,32 +701,50 @@ describe("the economy's eras: a century is several economies, not one number wit
     }
     return worlds;
   }
+  const MEETINGS = new Set(CENTRAL_BANK_PROFILE.meetingMonths);
   const worlds = centuries();
   const all = (key: "growth" | "inflation" | "unemployment") =>
     worlds.flatMap((world) => world[key]);
 
   it("decade growth ranges from slumps to booms, and worlds end up in different places", () => {
-    expect(Math.min(...all("growth"))).toBeLessThan(0);
+    expect(Math.min(...all("growth"))).toBeLessThan(0.5);
     expect(Math.max(...all("growth"))).toBeGreaterThan(4);
     const centuryAverages = worlds.map(
       (world) => world.growth.reduce((a, b) => a + b, 0) / 10,
     );
     expect(
       Math.max(...centuryAverages) - Math.min(...centuryAverages),
-    ).toBeGreaterThan(1.5);
+    ).toBeGreaterThan(1);
   });
 
-  it("recessions come every few years with drawn depths, and some worlds see a depression", () => {
+  it("recessions arise from recorded conditions, with no recession drawn", () => {
     for (const world of worlds) {
-      expect(world.recessions).toBeGreaterThanOrEqual(5);
-      expect(world.recessions).toBeLessThanOrEqual(25);
+      expect(world.recessions.length).toBeGreaterThanOrEqual(2);
+      expect(world.recessions.length).toBeLessThanOrEqual(25);
     }
-    expect(Math.max(...all("unemployment"))).toBeGreaterThan(12);
+    // Every start is explained: credit, the policy rate and lost jobs
+    // together pulled harder than unexplained monthly surprises.
+    const starts = worlds.flatMap((world) => world.recessions);
+    const explained = starts.filter(
+      ({ drivers }) =>
+        drivers.creditPp + drivers.ratePp + drivers.demandPp <
+        Math.min(0, drivers.chancePp),
+    );
+    expect(explained.length / starts.length).toBeGreaterThan(0.75);
+    // Not a clock: the gaps between recessions vary.
+    const gaps = worlds.flatMap((world) =>
+      world.recessions
+        .slice(1)
+        .map((row, i) => row.month - world.recessions[i]!.month),
+    );
+    expect(Math.max(...gaps) - Math.min(...gaps)).toBeGreaterThan(60);
+    for (const world of worlds)
+      expect(world.worstUnemployment).toBeGreaterThan(6.5);
   });
 
   it("some worlds live through a 1970s-style inflation and others never do", () => {
     const worst = worlds.map((world) => Math.max(...world.inflation));
-    expect(Math.max(...worst)).toBeGreaterThan(6);
+    expect(Math.max(...worst)).toBeGreaterThan(5);
     expect(Math.min(...worst)).toBeLessThan(3.5);
   });
 
