@@ -1,0 +1,137 @@
+{
+  "readOn": "2026-09-29",
+  "readBy": "Build 25",
+  "note": "How many members sit on a town or township board, from the state statute that sets it where the town has not changed it. A town that voted to enlarge its board, or that adopted a charter of its own, is not read yet and takes its state's size: a known gap. Population bands read the town's residents from data/research/money/place-towns-acs-2024.json (ACS 2020-2024).",
+  "states": {
+    "CT": {
+      "seats": 3,
+      "bodyName": "Board of Selectmen",
+      "memberTitle": "Selectman",
+      "citation": "Conn. Gen. Stat. § 9-188: \"each town shall, at its regular municipal election, elect a first selectman ... and two other selectmen\" unless otherwise provided by law; a town of ten thousand or more may elect more.",
+      "url": "https://law.justia.com/codes/connecticut/title-9/chapter-146/section-9-188/"
+    },
+    "IL": {
+      "seats": 5,
+      "bodyName": "Township Board",
+      "memberTitle": "Trustee",
+      "citation": "60 ILCS 1/80-5: \"the township board shall consist of the supervisor and 4 other members elected at large\".",
+      "url": "https://ilga.gov/documents/legislation/ilcs/documents/006000010K80-5.htm"
+    },
+    "IN": {
+      "seats": 3,
+      "bodyName": "Township Board",
+      "memberTitle": "Township board member",
+      "citation": "IC 36-6-6-2: the township board, the township's legislative body, has three members (seven in Marion County's townships).",
+      "url": "https://law.justia.com/codes/indiana/title-36/article-6/chapter-6/"
+    },
+    "KS": {
+      "seats": 3,
+      "bodyName": "Township Board",
+      "memberTitle": "Township officer",
+      "citation": "K.S.A. 80-302: \"The township trustee, clerk and treasurer of each municipal township shall constitute\" its board, which allows every claim against the township.",
+      "url": "https://ksrevisor.gov/statutes/chapters/ch80/080_003_0002.html"
+    },
+    "MA": {
+      "seats": 3,
+      "bodyName": "Select Board",
+      "memberTitle": "Select board member",
+      "citation": "M.G.L. c. 41, § 1: every town elects \"three or more selectmen\"; the game seats the three the law requires until a town's own vote is read.",
+      "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter41/section1"
+    },
+    "ME": {
+      "seats": 3,
+      "bodyName": "Select Board",
+      "memberTitle": "Select board member",
+      "citation": "30-A M.R.S. § 2526: a town may choose 3, 5 or 7 members, and \"if a town fails to fix the number, 3 shall be elected.\"",
+      "url": "https://legislature.maine.gov/statutes/30-A/title30-Asec2526.html"
+    },
+    "MI": {
+      "bands": [
+        {
+          "atLeast": 5000,
+          "seats": 7
+        },
+        {
+          "atLeast": 0,
+          "seats": 5
+        }
+      ],
+      "bodyName": "Township Board",
+      "memberTitle": "Township board member",
+      "citation": "MCL 41.70: the supervisor, clerk, treasurer and 2 trustees constitute the township board; in a township of 5,000 or more residents, the supervisor, treasurer, clerk and 4 trustees.",
+      "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-41-70"
+    },
+    "MN": {
+      "seats": 3,
+      "bodyName": "Town Board",
+      "memberTitle": "Supervisor",
+      "citation": "Minn. Stat. § 367.03: \"three supervisors shall be elected in each town\" unless it adopts option A's five-member board.",
+      "url": "https://www.revisor.mn.gov/statutes/cite/367.03"
+    },
+    "NH": {
+      "seats": 3,
+      "bodyName": "Board of Selectmen",
+      "memberTitle": "Selectman",
+      "citation": "RSA 41:8 and 41:8-b: a town elects three selectmen unless its voters increase the board to five.",
+      "url": "https://gc.nh.gov/rsa/html/iii/41/41-8.htm"
+    },
+    "NJ": {
+      "seats": 3,
+      "bodyName": "Township Committee",
+      "memberTitle": "Committee member",
+      "citation": "N.J.S.A. 40A:63-2: \"The township committee shall consist of three or five members elected at large\"; the game seats three until the township's own choice, or its other form of government, is read.",
+      "url": "https://law.justia.com/codes/new-jersey/title-40a/section-40a-63-2/"
+    },
+    "NY": {
+      "bands": [
+        {
+          "atLeast": 10000,
+          "seats": 5
+        },
+        {
+          "atLeast": 0,
+          "seats": 3
+        }
+      ],
+      "bodyName": "Town Board",
+      "memberTitle": "Town board member",
+      "citation": "N.Y. Town Law § 60: the supervisor and the town council members constitute the town board; a town of the first class (Town Law § 10: ten thousand or more residents) has four council members, a town of the second class two.",
+      "url": "https://www.nysenate.gov/legislation/laws/TWN/60"
+    },
+    "OH": {
+      "seats": 3,
+      "bodyName": "Board of Township Trustees",
+      "memberTitle": "Trustee",
+      "citation": "Ohio Rev. Code § 505.01: \"In each township there shall be a board of township trustees consisting of three members.\"",
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-505.01"
+    },
+    "PA": {
+      "seats": 3,
+      "bodyName": "Board of Supervisors",
+      "memberTitle": "Supervisor",
+      "citation": "Second Class Township Code § 402 (53 P.S. § 65402): the board of supervisors consists of three members, or five if the township's voters approve.",
+      "url": "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1933/0/0069..htm"
+    },
+    "VT": {
+      "seats": 3,
+      "bodyName": "Selectboard",
+      "memberTitle": "Selectboard member",
+      "citation": "17 V.S.A. § 2646: one selectboard member is elected each year for three years, a board of three, unless the town votes to elect two more.",
+      "url": "https://legislature.vermont.gov/statutes/section/17/055/02646"
+    },
+    "WI": {
+      "seats": 3,
+      "bodyName": "Town Board",
+      "memberTitle": "Supervisor",
+      "citation": "Wis. Stat. § 60.20 and § 60.21: a town board of three supervisors, one of them its chairperson, unless the town meeting increases it to five.",
+      "url": "https://docs.legis.wisconsin.gov/statutes/statutes/60/iv/20"
+    }
+  },
+  "nationalAverage": {
+    "seats": 3,
+    "bodyName": "Township Board",
+    "memberTitle": "Township board member",
+    "citation": "ESTIMATED FROM AVERAGE: the state has not been read, so the town takes the most common size: 12 of the 15 township states read here set a board of three.",
+    "url": "https://www.census.gov/programs-surveys/cog.html"
+  }
+}

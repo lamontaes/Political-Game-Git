@@ -163,5 +163,251 @@
       "citation": "Puerto Rico Municipal Code, Law 107 of August 13, 2020, Article 1.020 (a legislature of 16 members at 40,000 residents or more, 14 from 20,000 to 39,999 and 12 below 20,000, by the last decennial census; 17 for San Juan and 5 for Culebra), Article 1.022 (four-year terms by direct vote; a party may nominate only 13, 11 or 9 candidates, 14 in San Juan and 4 in Culebra) and Article 1.012 (the mayor, elected by direct vote for four years).",
       "url": "https://www.lexjuris.com/lexlex/leyes2020/lexl2020107-I.htm"
     }
+  },
+  "namedBodies": {
+    "note": "The body's own name where a county's government is read but its size is not: the size stays its state's reading or the national average. The 38 police jury parishes, the 21 council-president parishes, the 4 consolidated governments and Caddo's council-manager commission, as listed in \"Police jury\" (Wikipedia, read September 29, 2026); the Police Jury Association of Louisiana counted 41 police juries in 2023 before three parishes adopted home rule charters.",
+    "url": "https://en.wikipedia.org/wiki/Police_jury",
+    "counties": {
+      "22001": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22003": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22007": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22009": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22011": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22013": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22015": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22019": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22021": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22023": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22025": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22027": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22029": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22031": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22035": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22037": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22039": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22041": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22043": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22049": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22053": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22059": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22061": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22065": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22067": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22073": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22079": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22081": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22083": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22085": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22091": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22107": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22111": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22113": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22115": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22119": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22123": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22127": {
+        "bodyName": "Police Jury",
+        "memberTitle": "Police juror"
+      },
+      "22005": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22045": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22047": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22051": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22057": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22063": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22069": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22075": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22077": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22087": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22089": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22093": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22095": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22097": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22099": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22101": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22103": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22105": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22117": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22121": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22125": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "22017": {
+        "bodyName": "Parish Commission",
+        "memberTitle": "Commissioner"
+      }
+    }
   }
 }

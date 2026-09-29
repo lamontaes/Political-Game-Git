@@ -13,6 +13,7 @@ import {
   placeLocalGovernmentUnits,
 } from "../simulation/nationwide-world/local-governments";
 import { playerTown } from "../simulation/living-world/town-residents";
+import { boardGoverningBodyRules } from "../simulation/nationwide-world/township-governing-body-rules";
 import { SeededRng } from "../simulation/rng";
 import {
   advanceObservedWorld,
@@ -22,26 +23,23 @@ import {
 
 /**
  * Build 25, CTO ruling of September 29, 7:55 a.m.: local councils pass local
- * law in small towns too. A place with no town government of its own (a
- * census-designated place, or a Puerto Rico place under its municipio) is
- * governed by its county's board. A watched world opened in such a place,
- * drawn at random from every state and territory that has one, runs 75 days:
+ * law in small towns too. A census-designated place inside a New England or
+ * New York town, or inside a township, has no government of its own; its
+ * local government is that town or township. A watched world opened in such
+ * a place, drawn at random from every state that has one, runs 75 days:
  *
- * 1. the county's board meets and its members file and vote for their own
- *    reasons, recorded under the county's jurisdiction;
+ * 1. the town's or township's board, not the county's, meets and its members
+ *    file and vote for their own reasons, recorded under the town's own
+ *    jurisdiction, at the size the state's law sets;
  * 2. an ordinance in force governs the place: the place's law in force on
- *    that question is the county's ordinance.
+ *    that question is the town's ordinance.
  */
 
-const SEEDS = ["build-25:county-law:1", "build-25:county-law:2"];
+const SEEDS = ["build-25:township-law:1", "build-25:township-law:2"];
 
-/**
- * A random place with no town or township government and a county government
- * over it; a place inside a town or township is governed by that board
- * (`township-board-lawmaking.test.ts`).
- */
-function unincorporatedPlace(seed: string): LifePlace {
-  const rng = new SeededRng(`county-law-place:${seed}`);
+/** A random place with no government of its own inside a town government. */
+function townshipPlace(seed: string): LifePlace {
+  const rng = new SeededRng(`township-law-place:${seed}`);
   const states = [...lifePlaceStateIdentities()];
   while (states.length > 0) {
     const state = states.splice(rng.integer(0, states.length), 1)[0]!;
@@ -50,29 +48,30 @@ function unincorporatedPlace(seed: string): LifePlace {
       scope: "locality",
     }).filter((place) => {
       const units = placeLocalGovernmentUnits(place);
-      return (
-        units.municipal.length === 0 &&
-        units.townships.length === 0 &&
-        units.counties.length > 0
-      );
+      return units.municipal.length === 0 && units.townships.length > 0;
     });
     if (places.length > 0) return rng.pick(places);
   }
-  throw new Error("No place without a town government was found.");
+  throw new Error("No place inside a town or township government was found.");
 }
 
-describe("a county board makes law for a place with no town government", () => {
+describe("a town or township board makes law for a place inside it", () => {
   for (const seed of SEEDS)
     it(
       `meets, files, votes and governs (${seed})`,
       { timeout: 600_000 },
       () => {
-        const place = unincorporatedPlace(seed);
+        const place = townshipPlace(seed);
         const opened = openObserverWorld(observerSetup(seed, place.key));
         let world = opened.world;
         const town = playerTown(world, opened.anchorPersonId)!;
         const board = homeLocalGovernmentUnits(world, opened.anchorPersonId)
-          .counties[0]!;
+          .townships[0]!;
+        const seated = world.history.events.find(
+          (event) =>
+            event.type === "local.government-seated" &&
+            event.tags.includes(`unit:${board.id}`),
+        );
         world = advanceObservedWorld(world, 75);
 
         const meetings = world.history.events.filter(
@@ -102,6 +101,7 @@ describe("a county board makes law for a place with no town government", () => {
               seed,
               place: `${place.displayName} (${place.key})`,
               board: board.name,
+              seated: seated?.summary ?? null,
               meetings: meetings.length,
               filed: measures.length,
               votes: votes.map(
@@ -115,9 +115,12 @@ describe("a county board makes law for a place with no town government", () => {
             }) + "\n",
           );
 
+        expect(seated?.tags).toContain(
+          `seats:${boardGoverningBodyRules(board)!.seats}`,
+        );
         expect(meetings.length).toBeGreaterThanOrEqual(4);
         expect(measures.length).toBeGreaterThan(0);
-        // Recorded under the county, never the place itself.
+        // Recorded under the town, never the place itself.
         for (const measure of measures)
           expect(measure.jurisdictionId).not.toBe(town);
         for (const vote of votes) {
@@ -125,7 +128,9 @@ describe("a county board makes law for a place with no town government", () => {
           for (const row of vote.dispositions)
             expect(row.reason ?? "").not.toBe("member:no-reason");
         }
-        // An ordinance in force governs the place.
+        // An ordinance in force governs the place, unless a state or federal
+        // law on the same question outranks it.
+        let governing = 0;
         for (const enactment of enactments) {
           if (
             !enactment.effectiveAt ||
@@ -138,9 +143,14 @@ describe("a county board makes law for a place with no town government", () => {
           const answer = measure.propositionAnswers?.[0];
           if (!answer) continue;
           const law = lawInForce(world, town, answer.propositionId);
-          expect(law?.measureId).toBe(measure.id);
-          expect(law?.answer).toBe(answer.answer);
+          if (law?.measureId !== measure.id) {
+            expect(law?.level).not.toBe("local-ordinance");
+            continue;
+          }
+          expect(law.answer).toBe(answer.answer);
+          governing += 1;
         }
+        expect(governing).toBeGreaterThan(0);
       },
     );
 });

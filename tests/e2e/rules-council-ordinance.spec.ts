@@ -214,7 +214,7 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
   // No colleague weighs anything on a sidewalk permit, so each goes along
   // with the ordinance before the council rather than sitting it out.
   await expect(
-    ordinance.getByRole("listitem").filter({ hasText: "Present, not voting" }),
+    ordinance.getByRole("listitem").filter({ hasText: "Answered present" }),
   ).toHaveCount(0);
   await page.screenshot({
     path: info.outputPath("ordinance-too-early.png"),
