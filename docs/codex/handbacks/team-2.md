@@ -59,7 +59,7 @@ The candidate preserves the existing filing threshold and intake cadence. Unmapp
 
 ## Sources and method
 
-The source workspace is `/Users/lamontae/.codex/worktrees/succession-complete/PG-LAND`, branch `codex/wave1-state-governing`, based on main `cdb6e4ab1d6a26aa876d99f6831570ed0c057d92`. The branch published a draft candidate checkpoint; it is not a validated delivery. 
+The source workspace is `/Users/lamontae/.codex/worktrees/succession-complete/PG-LAND`, branch `codex/wave1-state-governing`, based on main `cdb6e4ab1d6a26aa876d99f6831570ed0c057d92`. The branch published a draft candidate checkpoint; it is not a validated delivery.
 
 Before publication, a network fetch found main at `6183fb11992012844d8e8a4851b140b5a4c9b30a` after the art merge. No owned implementation or awaited law-core file changed in that range. The owner's play folder, saves, and port were not changed. No browser suite or GitHub validation run was launched.
 
