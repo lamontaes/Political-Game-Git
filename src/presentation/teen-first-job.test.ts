@@ -6,8 +6,11 @@ import {
 } from "../simulation";
 import type { EntityId, World } from "../simulation/types";
 import { createOrganization, createWorkRelationship } from "../simulation/life";
-import { LEGACY_FIRST_JOB_WORK_KEY } from "../simulation/job-market";
-import { workStatusAt } from "../simulation/life-queries";
+import { LEGACY_FIRST_JOB_WORK_KEY, leaveJob } from "../simulation/job-market";
+import {
+  activeWorkRelationshipsAt,
+  workStatusAt,
+} from "../simulation/life-queries";
 import { createExplicitGeographyLife } from "./new-game-geography";
 import { chooseFormativeOption } from "./formative-play";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
@@ -190,7 +193,15 @@ function withFirstJob(world: World, personId: EntityId) {
 function grownUp(placeKey: string, seed: string) {
   const life = createExplicitGeographyLife({ placeKey, seed, startAge: 24 });
   const personId = life.game.playerPersonId;
-  return { personId, world: openOrdinaryLife(life.game.world, personId) };
+  // A grown-up start arrives holding a job in town. These scenes are about
+  // the first adult job after school, so the person leaves it, as a player can.
+  let world = openOrdinaryLife(life.game.world, personId);
+  for (const { relationship } of activeWorkRelationshipsAt(world, personId)) {
+    const left = leaveJob(world, relationship.id);
+    expect(left.ok).toBe(true);
+    world = left.world;
+  }
+  return { personId, world };
 }
 
 describe("the first job, once an adult job starts", () => {
