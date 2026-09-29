@@ -17,6 +17,7 @@ import {
   type PublicBudgetStore,
 } from ".";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
+import { MEDIAN_PAID_SHARE } from "./pension-share";
 import { TAX_QUESTION_EFFECTS } from "./rules";
 
 /*
@@ -349,7 +350,7 @@ describe("public budgets", () => {
   });
 
   it("without a pension law the government pays its own measured share, and its unfunded liability grows faster", () => {
-    // In this seed Illinois' own share is below the full contribution.
+    // Illinois' own reported share is below the full contribution.
     const seed = "budget-test-3";
     const withLaw = worldAt("2026-01-05", {
       seed,
@@ -393,27 +394,34 @@ describe("public budgets", () => {
     );
   });
 
-  it("each government's own pension share is spread around the measured average and drifts from year to year", () => {
+  it("each government's pension share starts from its own reported payment, or the median where none is reported, and holds", () => {
     const world = runThrough(
-      opened(worldAt("2026-01-05", { seed: "round-1" })),
+      opened(worldAt("2026-01-05", { places: ["1714000", "county:17031"] })),
       "2027-12-01",
     );
-    const governments = world.publicBudgets!.governments;
-    const opening = governments.map((row) => row.years[0]!.pensionShare);
-    // Most measured plans paid the full amount, and some paid less or more.
-    expect(opening.filter((share) => share === 1).length).toBeGreaterThan(
-      governments.length / 4,
+    const share = (key: string) =>
+      world.publicBudgets!.governments.find((row) => row.key === key)!;
+    // Public Plans Database: Illinois' state plans paid 73.27% of the
+    // required contribution, weighted by liability; Nevada's plans are not
+    // listed, so it pays the median of every plan.
+    expect(share("US-IL").years[0]!.pensionShare).toBe(0.7327);
+    expect(share("US-NV").years[0]!.pensionShare).toBe(MEDIAN_PAID_SHARE);
+    expect(share("US-NV").openingNotes.join(" ")).toContain(
+      "ESTIMATED FROM AVERAGE",
     );
-    expect(opening.some((share) => share < 1)).toBe(true);
-    expect(opening.some((share) => share > 1)).toBe(true);
-    const drifted = governments.filter(
-      (row) => row.years.at(-1)!.pensionShare !== row.years[0]!.pensionShare,
+    // Chicago and Cook County read their own plans.
+    const chicago = share("place:1714000");
+    expect(chicago.years[0]!.pensionShare).toBe(0.8635);
+    expect(chicago.openingNotes.join(" ")).toContain(
+      "as its own plans reported",
     );
-    expect(drifted.length).toBeGreaterThan(0);
-    // A world without a seed takes the measured median and never drifts.
-    const plain = runThrough(opened(worldAt("2026-01-05")), "2027-12-01");
-    for (const row of plain.publicBudgets!.governments)
-      for (const year of row.years) expect(year.pensionShare).toBe(1);
+    expect(share("county:17031").openingNotes.join(" ")).toContain(
+      "as its own plans reported",
+    );
+    // The share holds from year to year until budgets pass as bills.
+    for (const row of world.publicBudgets!.governments)
+      for (const year of row.years)
+        expect(year.pensionShare).toBe(row.years[0]!.pensionShare);
   });
 
   it("a pension law enacted after the budget was adopted governs the next budget, and the year's shortfall is credited to the law read at adoption", () => {

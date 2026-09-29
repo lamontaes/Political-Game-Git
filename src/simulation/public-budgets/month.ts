@@ -10,7 +10,7 @@ import {
   propositionIdFor,
 } from "./fiscal";
 import { actuarialContribution } from "./opening";
-import { driftedPaidShare, pensionPayment } from "./pension-share";
+import { pensionPayment } from "./pension-share";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import {
   ECONOMY_ELASTICITY,
@@ -552,18 +552,13 @@ export function settleGovernmentMonth(
           ? "The pension payments fell short of the full actuarial contribution the law requires."
           : pensionLaw.answer === "no"
             ? "No law requires the full actuarial contribution; the unpaid part grows the unfunded liability."
-            : "No law in force when the budget was adopted answered whether pensions must be funded on schedule, so the government paid its own share (ESTIMATED FROM AVERAGE: the measured spread of shares paid).",
+            : "No law in force when the budget was adopted answered whether pensions must be funded on schedule, so the government paid its own share (its plans' reported share, or the median of every plan where they are not listed).",
     });
   const liability = government.pension.liability;
   const benefits = liability * PENSION.benefitShare * share;
   const pension = {
-    // Next year's own share: this year's, moved by one year's measured drift.
-    paidShare: driftedPaidShare(
-      world,
-      government.key,
-      year.fiscalYear + 1,
-      government.pension.paidShare,
-    ),
+    // The share stays where it began until budgets pass as bills.
+    paidShare: government.pension.paidShare,
     liability: Math.round(
       liability * (1 + PENSION.assumedReturn * share) +
         liability * PENSION.normalCostShare * share -
