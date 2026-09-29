@@ -24,6 +24,7 @@ const QUESTION = "proposition_question" as EntityId;
 const OTHER = "proposition_other" as EntityId;
 const ohio = stateJurisdictionForKey("US-OH")!.id;
 const texas = stateJurisdictionForKey("US-TX")!.id;
+const kansas = stateJurisdictionForKey("US-KS")!.id;
 const federal = NATIONAL_ELECTION_JURISDICTION.id;
 
 let sequence = 0;
@@ -120,6 +121,19 @@ describe("the law in force on a question", () => {
     expect(
       lawInForce(worldWith("2026-05-30", [texan]), texas, QUESTION),
     ).toMatchObject({ answer: "no", operativeBasis: "game-default" });
+  });
+
+  it("says when the state's rule is an estimate, not its own", () => {
+    // Kansas dates acts from publication, which is not dated; it takes the
+    // most common rule read, 91 days after the estimated session end
+    // (April 15 in 2026).
+    const kansan = law(kansas, "yes", "2026-03-01");
+    expect(
+      lawInForce(worldWith("2026-07-14", [kansan]), kansas, QUESTION),
+    ).toBeNull();
+    expect(
+      lawInForce(worldWith("2026-07-15", [kansan]), kansas, QUESTION),
+    ).toMatchObject({ answer: "yes", operativeBasis: "estimated-state-rule" });
   });
 
   it("lets the later law govern within a level", () => {
