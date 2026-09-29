@@ -25,8 +25,8 @@ Comparing the 120th file with the 119th block by block, ten states differ: Alaba
 
 ## Start date
 
-`effectiveFrom` is one shared PLACEHOLDER, January 1, 2026. Each state's plan took effect on its own enactment date, which is not sourced yet.
+`enactment-dates.json` holds the day each state's plan became law or took effect, with the event and a cited source. Texas August 29, 2025; North Carolina October 22, 2025; Ohio October 31, 2025; California November 4, 2025; Utah November 10, 2025; Florida May 4, 2026; Tennessee May 7, 2026; Louisiana May 29, 2026; Alabama June 2, 2026. The exporters group states that share a day into one dated set, so a game date before a state's day reads the 119th Congress lines. The dates come from the English Wikipedia overview and the news reports it cites, retrieved September 29, 2026. Two rows say what was not read: California's date is election day for Proposition 50, not the day certification made it take effect, and Alabama's date is the day the U.S. Supreme Court lifted the injunction.
 
 ## Map outlines
 
-The Census publishes no cartographic file for the 120th Congress. `scripts/maps/district-outlines-2026.ts` dissolves each district from the 2020 block file and the 120th Congress block equivalency, then clips it to the state outline. `scripts/maps/check-district-outlines-2026.ts` runs the same method on the 119th Congress file and compares it with the shipped outlines. Agreement is 99.907% to 99.996% of points, gaps are at most 0.072%, overlaps are 0, and nothing is drawn past the shoreline. The history slider draws these outlines for every date.
+The Census publishes no cartographic file for the 120th Congress. `scripts/maps/district-outlines-2026.ts` dissolves each district from the 2020 block file and the 120th Congress block equivalency. It then clips each district to the state outline. `scripts/maps/check-district-outlines-2026.ts` runs the same method on the 119th Congress file and compares it with the shipped outlines. Agreement is 99.907% to 99.996% of points, gaps are at most 0.072%, overlaps are 0, and nothing is drawn past the shoreline. The history slider draws these outlines for every date.

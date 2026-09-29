@@ -5,7 +5,6 @@ import {
 import { scheduleSeatFilling } from "../governing/office-continuity";
 import type { CharacterHistoryContextPersonInput } from "../character-history";
 import { makeIsoDate } from "../dates";
-import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { electionContestResult } from "../election-contests";
 import { stateJurisdictionForKey } from "../life-places";
 import { drawCanonicalNamedIdentity, personName } from "../people";
@@ -37,6 +36,7 @@ import {
   takeCongressSeatWork,
 } from "./congress-member-work";
 import { MINIMUM_AGE, congressSeats, seatTermWindow } from "./congress-seats";
+import { decideAnotherTerm } from "../careers/another-term";
 import type { CongressSeat } from "./congress-seats";
 import {
   LIVING_WORLD_KEYS,
@@ -80,14 +80,12 @@ import {
 export const CONGRESS_TURNOVER_VERSION = "congress-turnover/v1";
 
 /**
- * PLACEHOLDER(overnight): an age-only incumbent filing floor is a game rule,
- * pending a person-level candidacy decision with recorded reasons. The
- * election day below is sourced to 2 U.S.C. section 7; this age is not.
+ * The provenance tag Congress turnover writes on its records. Whether a
+ * sitting member runs again is their own decision (`decideAnotherTerm`);
+ * nothing here retires anybody at an age.
  */
 export const CONGRESS_TURNOVER_PROFILE = {
-  id: "ocd-congress-aggregate-game-profile/v2",
-  /** Incumbents this old or older retire. */
-  retirementAge: 82,
+  id: "ocd-congress-aggregate-game-profile/v3",
 } as const;
 
 export const CONGRESS_ELECTION_SOURCE = {
@@ -164,11 +162,6 @@ function aliveOn(world: World, personId: EntityId, date: IsoDate): boolean {
       personId,
     ).some((death) => death.diedAt <= date)
   );
-}
-
-function ageOn(birthDate: IsoDate, date: IsoDate): number {
-  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
-  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
 }
 
 function pad(value: number): string {
@@ -294,9 +287,9 @@ export function seatCandidacyIntent(
   return event ? event.tags.includes("intent:seeking") : null;
 }
 
-// PLACEHOLDER(overnight): this preference age is a game assumption until a
-// person-level ambition and retirement model has admitted calibration.
-const CANDIDACY_STEP_DOWN_PREFERENCE_AGE = 75;
+function lowerFirst(text: string): string {
+  return text.charAt(0).toLowerCase() + text.slice(1);
+}
 
 /** A dated NPC choice precedes the public candidate slate. */
 function prepareCongressIntake(
@@ -337,70 +330,35 @@ function prepareCongressIntake(
     const alive = incumbentPersonId
       ? aliveOn(next, incumbentPersonId, intakeDate)
       : false;
-    const tooOld =
-      incumbent !== undefined &&
-      ageOn(incumbent.birthDate, electionDay) >=
-        CONGRESS_TURNOVER_PROFILE.retirementAge;
     let seeking = false;
     let decisionTraceId: EntityId | undefined;
-    if (incumbent && alive && !tooOld && record) {
-      const decisionKey = `${seekingKey(seat.seatKey, year)}:decision`;
-      const age = ageOn(incumbent.birthDate, electionDay);
-      const evaluation = evaluateDecision(next, {
-        stableKey: decisionKey,
+    let reason = "they decided to step down.";
+    if (incumbent && alive && record) {
+      const decided = decideAnotherTerm(next, {
+        personId: incumbent.id,
+        stableKey: `${seekingKey(seat.seatKey, year)}:decision`,
+        subjectKey: seat.seatKey,
         decisionType: "election.consider-another-congress-term",
-        actorPersonId: incumbent.id,
-        cutoff: {
-          asOfDate: intakeDate,
-          historySequenceExclusive: next.history.nextSequence,
-        },
-        subject: { kind: "context:life", key: seat.seatKey, entityId: null },
-        options: [
+        onDate: intakeDate,
+        termEnds: seatTermWindow(seat, makeIsoDate(`${year + 1}-01-03`))
+          .endExclusive,
+        serving: [
           {
-            key: "seek",
-            label: "Seek another term",
-            description: "Run again.",
-          },
-          {
-            key: "step-down",
-            label: "Step down",
-            description: "Leave the seat.",
-          },
-        ],
-        constraints: [],
-        considerations: [
-          {
-            stableKey: `${decisionKey}:serving`,
+            stableKey: `${seekingKey(seat.seatKey, year)}:decision:serving`,
             optionKey: "seek",
             sourceType: "institution:current-office",
             direction: "supports",
-            importance: "strong",
+            importance: "moderate",
             confidence: "high",
             explanation: "They are serving in this seat.",
             sourceRefs: [{ kind: "historical-event", eventId: record.id }],
           },
-          ...(age >= CANDIDACY_STEP_DOWN_PREFERENCE_AGE
-            ? [
-                {
-                  stableKey: `${decisionKey}:age`,
-                  optionKey: "step-down" as const,
-                  sourceType: "context:age" as const,
-                  direction: "supports" as const,
-                  importance: "decisive" as const,
-                  confidence: "medium" as const,
-                  explanation: "They are considering retirement from Congress.",
-                  sourceRefs: [],
-                },
-              ]
-            : []),
         ],
-        perceptionIds: [],
-        randomness: "none",
-        retention: "durable",
       });
-      next = recordDurableDecisionTrace(next, evaluation);
-      decisionTraceId = next.history.decisionTraces.at(-1)!.id;
-      seeking = evaluation.selectedOptionKey === "seek";
+      next = decided.world;
+      decisionTraceId = decided.decisionTraceId;
+      seeking = decided.seeks;
+      reason = decided.reason;
     }
     next = recordSeatCandidacyIntent(
       next,
@@ -412,9 +370,9 @@ function prepareCongressIntake(
         ? "the seat has no sitting member."
         : !alive
           ? "the seat is vacant."
-          : tooOld
-            ? `they are ${CONGRESS_TURNOVER_PROFILE.retirementAge} or older.`
-            : "they decided to step down.",
+          : seeking
+            ? "they decided to run again."
+            : lowerFirst(reason),
       { occurredAt: intakeDate, decisionTraceId },
     );
     // A seat the state's legislature fills has no candidates filing with
@@ -466,9 +424,7 @@ function decideSeat(
   const eligible =
     incumbent !== undefined &&
     person !== undefined &&
-    aliveOn(world, incumbent, electionDay) &&
-    ageOn(person.birthDate, electionDay) <
-      CONGRESS_TURNOVER_PROFILE.retirementAge;
+    aliveOn(world, incumbent, electionDay);
   // Where the legislatures choose senators, the majority of the state's
   // legislature, both houses in joint assembly, elects (Act of July 25,
   // 1866). A seeking incumbent of that party is returned. ESTIMATED where
@@ -676,16 +632,10 @@ function holdCongressElection(world: World, year: number): World {
         ? (record.participants.find((p) => p.role === "focus:subject")
             ?.personId ?? null)
         : null;
-    const person = incumbent ? intents.people[incumbent] : undefined;
-    const tooOld =
-      person !== undefined &&
-      ageOn(person.birthDate, electionDay) >=
-        CONGRESS_TURNOVER_PROFILE.retirementAge;
     const alive = incumbent ? aliveOn(intents, incumbent, electionDay) : false;
     const played = incumbent !== null && isControlled(intents, incumbent);
     const filed = recordedSeatContest(intents, seat, electionDay) !== undefined;
-    const seeking =
-      incumbent !== null && alive && !tooOld && (played ? filed : true);
+    const seeking = incumbent !== null && alive && (played ? filed : true);
     intents = recordSeatCandidacyIntent(
       intents,
       seat,
@@ -698,9 +648,7 @@ function holdCongressElection(world: World, year: number): World {
           ? "the seat is vacant."
           : played && !filed
             ? "they did not file for another term."
-            : tooOld
-              ? `they are ${CONGRESS_TURNOVER_PROFILE.retirementAge} or older.`
-              : "they are standing down.",
+            : "they are standing down.",
     );
   }
   // A seat whose own contest has not been decided yet is left undecided here:

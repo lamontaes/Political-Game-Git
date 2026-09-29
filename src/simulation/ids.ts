@@ -44,6 +44,51 @@ export function stableHash(value: string): string {
   );
 }
 
+/**
+ * `stableHash` over text that arrives in pieces: hashing "ab" then "cd" gives
+ * `stableHash("abcd")`. FNV-1a reads one code unit at a time, so the pieces
+ * can be cut anywhere and the whole text never has to exist.
+ */
+export function stableHasher(): {
+  update(piece: string): void;
+  digest(): string;
+} {
+  let h0 = 0x2325;
+  let h1 = 0x8422;
+  let h2 = 0x9ce4;
+  let h3 = 0xcbf2;
+  return {
+    update(piece: string): void {
+      for (let index = 0; index < piece.length; index += 1) {
+        h0 ^= piece.charCodeAt(index);
+        const t0 = h0 * 0x1b3;
+        let t1 = h1 * 0x1b3;
+        let t2 = h2 * 0x1b3 + (h0 << 8);
+        let t3 = h3 * 0x1b3 + (h1 << 8);
+        t1 += t0 >>> 16;
+        t2 += t1 >>> 16;
+        t3 += t2 >>> 16;
+        h0 = t0 & 0xffff;
+        h1 = t1 & 0xffff;
+        h2 = t2 & 0xffff;
+        h3 = t3 & 0xffff;
+      }
+    },
+    digest(): string {
+      return (
+        HEX_BYTE[h3 >>> 8]! +
+        HEX_BYTE[h3 & 0xff]! +
+        HEX_BYTE[h2 >>> 8]! +
+        HEX_BYTE[h2 & 0xff]! +
+        HEX_BYTE[h1 >>> 8]! +
+        HEX_BYTE[h1 & 0xff]! +
+        HEX_BYTE[h0 >>> 8]! +
+        HEX_BYTE[h0 & 0xff]!
+      );
+    },
+  };
+}
+
 const HEX_BYTE: readonly string[] = Array.from({ length: 256 }, (_, byte) =>
   byte.toString(16).padStart(2, "0"),
 );
@@ -54,4 +99,25 @@ export function createStableId(kind: EntityKind, stableKey: string): EntityId {
   }
 
   return `${kind}_${stableHash(`${kind}:v1:${stableKey}`)}` as EntityId;
+}
+
+/**
+ * `createStableId(kind, key)` for a key written out in pieces by `write`, so
+ * a key longer than any string can still name a record.
+ */
+export function createStableIdFromParts(
+  kind: EntityKind,
+  write: (emit: (part: string) => void) => void,
+): EntityId {
+  const hasher = stableHasher();
+  hasher.update(`${kind}:v1:`);
+  let length = 0;
+  write((part) => {
+    length += part.length;
+    hasher.update(part);
+  });
+  if (length === 0) {
+    throw new Error(`Cannot create a ${kind} ID from an empty stable key.`);
+  }
+  return `${kind}_${hasher.digest()}` as EntityId;
 }
