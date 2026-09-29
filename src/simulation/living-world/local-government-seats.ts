@@ -1,3 +1,4 @@
+import { isPersonAliveAt } from "../vitality";
 import { createOrganizationParticipation } from "../life";
 import { activeOrganizationParticipationsAt } from "../life-queries";
 import { primaryReading } from "../municipal-government";
@@ -165,6 +166,14 @@ export function drawTownResident(
     next = materializeSettledTownHousehold(next, town, found.household);
     const personId = townResidentId(next, town, found.household, found.member);
     if (!next.people[personId] || excluded.has(personId)) continue;
+    // A resident who has died is still on the roster, but cannot serve.
+    if (
+      !isPersonAliveAt(next, personId, {
+        asOfDate: next.currentDate,
+        historySequenceExclusive: next.history.nextSequence,
+      })
+    )
+      continue;
     return { world: next, personId };
   }
   return { world: next, personId: null };

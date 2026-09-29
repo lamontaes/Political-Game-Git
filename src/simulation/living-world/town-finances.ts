@@ -40,7 +40,6 @@ import { organizationClosingAt, organizationProfileAt } from "../life-queries";
 import { MACRO_CREDIT_POLICY } from "../macro-economy/credit";
 import { MACRO_ERA_POLICY } from "../macro-economy/policy";
 import { standardNormal } from "../macro-economy/kernel";
-import { macroScopeForJurisdiction } from "../macro-economy/readers";
 import { SeededRng } from "../rng";
 import type {
   EntityId,
@@ -102,12 +101,27 @@ export const TOWN_FINANCE_POLICY = {
      */
     localDemandShare: 0.5,
     /**
-     * PLACEHOLDER: the share of a new business's sales that is new spending
-     * in town; the rest it takes from the businesses of its kind already
-     * there. The same share of a closed business's sales leaves town with
-     * it; the rest goes to the ones that stay.
+     * GAME ASSUMPTION: the share of a new business's sales that is new
+     * spending in town. Zero: a newcomer takes its sales from the businesses
+     * of its kind already there, and the pay of the jobs it adds reaches
+     * every business through the jobs held in town (`localDemandShare`).
+     * The same share of a closed business's sales leaves town with it; the
+     * rest goes to the ones that stay. A kind the town had none of draws its
+     * first business's sales from what residents spent elsewhere.
      */
-    newDemandShare: 0.5,
+    newDemandShare: 0,
+    /**
+     * PLACEHOLDER: each business's own customers drift from quarter to
+     * quarter: the log of its own demand keeps this share of last quarter's
+     * value and moves by a normal step with this spread. Set by hand. In a
+     * scratch model of 30 towns over 20 years, closings ran about 10% a
+     * year against 11.6% openings with or without it; it decides which
+     * business closes more than how many. The published exit rate
+     * (`TOWN_BUSINESS_TURNOVER.exitPerYearForComparison`) is a check on a
+     * run, never a chance of closing.
+     */
+    ownDemandPersistence: 0.9,
+    ownDemandQuarterSd: 0.05,
   },
   bank: {
     /** PLACEHOLDER: capital as a share of assets when books open. */
@@ -226,10 +240,11 @@ function payBetween(
 
 interface Economy {
   /**
-   * Growth over its trend, percent a year: the town's own when it has
-   * recorded months, else the nation's. The books run in constant dollars
-   * at today's productivity, because game pay follows neither prices nor
-   * the trend; what moves sales is the swing around the trend.
+   * The nation's growth over its trend, percent a year. The books run in
+   * constant dollars at today's productivity, because game pay follows
+   * neither prices nor the trend; what moves sales is the swing around the
+   * trend. The town's own downturns reach its businesses through the jobs
+   * held in town (`localDemandShare`), not a second time here.
    */
   readonly growthGapPct: number;
   readonly trendPct: number;
@@ -241,8 +256,8 @@ interface Economy {
   readonly nationalUnemploymentPct: number | null;
 }
 
-/** The last three recorded months: national, and the town's own if any. */
-function economyOf(world: World, town: EntityId): Economy | null {
+/** The last three recorded national months. */
+function economyOf(world: World): Economy | null {
   const months = world.macroEconomy?.months ?? [];
   const national = months
     .filter(
@@ -251,17 +266,9 @@ function economyOf(world: World, town: EntityId): Economy | null {
     )
     .slice(-3);
   if (national.length === 0) return null;
-  const scope = macroScopeForJurisdiction(town);
-  const local = months
-    .filter(
-      (month) => month.scope === scope && month.recordedAt <= world.currentDate,
-    )
-    .slice(-3);
   const mean = (values: readonly number[]) =>
     values.reduce((sum, value) => sum + value, 0) / values.length;
-  const growth = mean(
-    (local.length ? local : national).map((m) => m.growthPct),
-  );
+  const growth = mean(national.map((m) => m.growthPct));
   const inflation = mean(national.map((m) => m.inflationPct));
   const credit = national.map((m) => m.credit).filter((c) => c !== undefined);
   const start = MACRO_CREDIT_POLICY.start;
@@ -366,6 +373,9 @@ function openBusinessBooks(
     capacity: round2(annualRevenue),
     annualOtherCosts: round2(annualOtherCosts),
     margin: round6(margin),
+    ownDemandLog: 0,
+    openingShare: 1,
+    openingMarketSales: round2(annualRevenue),
     bankId,
     lineLimit: round2(annualRevenue * P.creditLineShareOfRevenue),
     lastQuarterNet: 0,
@@ -382,6 +392,9 @@ export interface TownFinanceQuarter {
     readonly organizationId: EntityId;
     readonly books: TownBusinessBooks;
     readonly why: "no-line" | "bank-refused" | "bank-failed" | "line-used-up";
+    /** Its share of its market's capacity, and the market's sales, now. */
+    readonly share: number;
+    readonly marketSales: number;
   }[];
 }
 
@@ -424,12 +437,18 @@ export function stepTownFinances(
   businesses: readonly {
     readonly organizationId: EntityId;
     readonly kind: string;
+    /**
+     * Opened after the town's own businesses: its sales come out of its
+     * kind's market. One of the town's own, first hired into later, brings
+     * its whole market with it.
+     */
+    readonly newcomer: boolean;
   }[],
   exempt: ReadonlySet<EntityId>,
   round: string,
   townUnemploymentPct: number | null,
 ): TownFinanceQuarter {
-  const economy = economyOf(world, town);
+  const economy = economyOf(world);
   if (!economy) return { world, closing: [] };
   const store: TownFinanceStore = world.townFinances ?? {
     version: TOWN_FINANCES_VERSION,
@@ -503,6 +522,9 @@ export function stepTownFinances(
   // Each kind of business shares one market. A newcomer brings some new
   // spending and takes the rest from the others; a closing takes some
   // spending out of town and leaves the rest to the others.
+  const newcomers = new Set(
+    businesses.filter((row) => row.newcomer).map((row) => row.organizationId),
+  );
   const members = new Map<string, EntityId[]>();
   for (const { organizationId, kind } of businesses)
     if (books[organizationId])
@@ -539,10 +561,7 @@ export function stepTownFinances(
     for (const id of now)
       if (!before.has(id))
         sales +=
-          books[id]!.capacity *
-          ((formedAt.get(id) ?? market.openedAt) > market.openedAt
-            ? P.newDemandShare
-            : 1);
+          books[id]!.capacity * (newcomers.has(id) ? P.newDemandShare : 1);
     for (const id of market.members)
       if (!current.has(id))
         sales -= (books[id]?.annualRevenue ?? 0) * P.newDemandShare;
@@ -555,6 +574,24 @@ export function stepTownFinances(
     };
   }
 
+  // A business whose books opened this round records where it started.
+  for (const { organizationId, kind } of businesses) {
+    const opening = books[organizationId];
+    if (!opening || opening.openedAt !== world.currentDate) continue;
+    const market = markets[`${town}:${kind}`]!;
+    const capacityOfKind = market.members.reduce(
+      (sum, id) => sum + books[id]!.capacity,
+      0,
+    );
+    books[organizationId] = {
+      ...opening,
+      openingShare: round6(
+        capacityOfKind > 0 ? opening.capacity / capacityOfKind : 1,
+      ),
+      openingMarketSales: market.annualSales,
+    };
+  }
+
   for (const { organizationId, kind } of businesses) {
     const existing = books[organizationId];
     if (!existing || existing.lastRound === round) continue;
@@ -564,9 +601,18 @@ export function stepTownFinances(
       (sum, id) => sum + books[id]!.capacity,
       0,
     );
+    const ownDemandLog =
+      P.ownDemandPersistence * existing.ownDemandLog +
+      P.ownDemandQuarterSd *
+        standardNormal(
+          new SeededRng(world.seed).fork(
+            `${TOWN_FINANCES_VERSION}:own-demand:${organizationId}:${round}`,
+          ),
+        );
     const annualRevenue =
       capacityOfKind > 0
-        ? (market.annualSales * existing.capacity) / capacityOfKind
+        ? ((market.annualSales * existing.capacity) / capacityOfKind) *
+          Math.exp(ownDemandLog)
         : 0;
     const annualOtherCosts = existing.annualOtherCosts;
     const interest = (existing.debt * realDebtRatePct) / 400;
@@ -595,6 +641,7 @@ export function stepTownFinances(
       cash: round2(cash),
       debt: round2(debt),
       annualRevenue: round2(annualRevenue),
+      ownDemandLog: round6(ownDemandLog),
       bankId,
       lastQuarterNet: round2(net),
       lastRound: round,
@@ -608,7 +655,13 @@ export function stepTownFinances(
           : !lends(bank, economy)
             ? "bank-refused"
             : "line-used-up";
-      closing.push({ organizationId, books: next, why });
+      closing.push({
+        organizationId,
+        books: next,
+        why,
+        share: capacityOfKind > 0 ? existing.capacity / capacityOfKind : 0,
+        marketSales: market.annualSales,
+      });
       if (bankId && debt > 0)
         pendingDefaults.set(bankId, (pendingDefaults.get(bankId) ?? 0) + debt);
     }
@@ -847,6 +900,36 @@ function failTownBank(
   return next;
 }
 
+const percent = (share: number) => `${Math.round(share * 100)}%`;
+
+/** What the town calls businesses of one kind, for a closing's record. */
+const KIND_NAMES: Readonly<Record<string, string>> = {
+  farm: "farms",
+  quarry: "quarries",
+  construction: "builders",
+  manufacturing: "factories",
+  wholesale: "wholesalers",
+  retail: "stores",
+  trucking: "trucking firms",
+  information: "media and tech firms",
+  insurance: "insurance agencies",
+  realty: "real estate offices",
+  professional: "professional offices",
+  "building-services": "building services firms",
+  "private-school": "private schools",
+  clinic: "clinics",
+  "care-home": "care homes",
+  recreation: "recreation businesses",
+  restaurant: "restaurants",
+  inn: "inns",
+  repair: "repair shops",
+  "personal-care": "salons and barbershops",
+};
+
+function kindPlural(kind: string): string {
+  return KIND_NAMES[kind] ?? "businesses like it";
+}
+
 /**
  * Closes the businesses whose books say they cannot go on, each with an
  * event naming why, and ends their staff's jobs.
@@ -859,7 +942,7 @@ export function closeBusinessesOutOfCash(
 ): World {
   let next = world;
   const townJobs = activeTownJobs(world, town).length;
-  for (const { organizationId, books, why } of closing) {
+  for (const { organizationId, books, why, share, marketSales } of closing) {
     const name =
       organizationProfileAt(next, organizationId)?.name ?? "A business";
     const stableKey = `${prefix}close:${organizationId}`;
@@ -881,8 +964,36 @@ export function closeBusinessesOutOfCash(
           : why === "bank-refused"
             ? `${bankName} was making no new loans.`
             : `It had used up its ${formatDollars(books.lineLimit)} line of credit at ${bankName}.`;
+    // What moved its sales since it opened, largest first.
+    const spending = marketSales / Math.max(1, books.openingMarketSales) - 1;
+    const ownDemand = Math.exp(books.ownDemandLog) - 1;
+    const causes = [
+      {
+        tag: "competition",
+        size: share / Math.max(1e-9, books.openingShare) - 1,
+        text: `Other ${kindPlural(books.kind)} in town took its customers: its share of the town's spending on them fell from ${percent(books.openingShare)} to ${percent(share)}.`,
+      },
+      {
+        tag: "town-spending",
+        size: spending,
+        text: `The town spent ${percent(-spending)} less on ${kindPlural(books.kind)} than when it opened.`,
+      },
+      {
+        tag: "own-customers",
+        size: ownDemand,
+        text: `Its own customers came ${percent(-ownDemand)} less often than when it opened.`,
+      },
+    ]
+      .filter((cause) => cause.size < -0.03)
+      .sort((a, b) => a.size - b.size);
     const summary = [
       `${name} closed after its cash ran out: it spent ${formatDollars(-books.lastQuarterNet)} more than it took in last quarter.`,
+      ...causes.map((cause) => cause.text),
+      causes.length > 0
+        ? ""
+        : books.margin <= 0
+          ? "It never took in enough to cover its costs."
+          : "Its pay and other costs had come to outrun its sales.",
       credit,
       closed.jobsLost
         ? `${closed.jobsLost} ${closed.jobsLost === 1 ? "person" : "people"} lost ${closed.jobsLost === 1 ? "a job" : "their jobs"}.`
@@ -903,7 +1014,9 @@ export function closeBusinessesOutOfCash(
       tags: [
         TOWN_FINANCES_VERSION,
         "cause:ran-out-of-cash",
+        ...causes.map((cause) => `sales-fell:${cause.tag}`),
         `credit:${why}`,
+        `kind:${books.kind}`,
         `organization:${organizationId}`,
         `jobs:${closed.jobsLost}`,
         `town-jobs:${townJobs}`,

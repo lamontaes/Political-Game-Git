@@ -76,6 +76,11 @@ describe(
           organizationClosingAt(world, organizationId)?.closed?.reason,
         ).toBe(TOWN_BUSINESS_CLOSING_REASONS.ranOutOfCash);
         expect(event.summary).toMatch(/closed after its cash ran out/);
+        // It names what moved its sales, or that its costs outran them.
+        expect(
+          event.tags.some((tag) => tag.startsWith("sales-fell:")) ||
+            /never took in enough|costs had come to outrun/.test(event.summary),
+        ).toBe(true);
       }
     });
 
@@ -108,6 +113,7 @@ describe(
       const businesses = townBusinesses(withBank, town).map((business) => ({
         organizationId: business.organizationId,
         kind: business.workplace.key,
+        newcomer: business.outlet >= business.workplace.outlets,
       }));
       const first = stepTownFinances(
         withBank,

@@ -27,6 +27,15 @@ export interface TownBusinessBooks {
   readonly annualOtherCosts: number;
   /** Its own margin when its books were opened, a share of revenue. */
   readonly margin: number;
+  /**
+   * How its own customers have drifted since it opened, as a log: zero at
+   * opening, then its own ups and downs that the town's spending does not
+   * explain (a good cook leaves, a road closes out front).
+   */
+  readonly ownDemandLog: number;
+  /** Its share of its market's capacity, and the market's sales, when it opened. */
+  readonly openingShare: number;
+  readonly openingMarketSales: number;
   readonly bankId: EntityId | null;
   readonly lineLimit: number;
   /** Cash in less cash out over its last quarter. */

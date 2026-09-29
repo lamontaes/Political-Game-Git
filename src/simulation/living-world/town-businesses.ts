@@ -243,6 +243,7 @@ export function reviewTownBusinesses(
     businesses.map((business) => ({
       organizationId: business.organizationId,
       kind: business.workplace.key,
+      newcomer: business.outlet >= business.workplace.outlets,
     })),
     exempt,
     round,
