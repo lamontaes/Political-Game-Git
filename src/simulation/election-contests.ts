@@ -1,3 +1,4 @@
+import { nationalMoodDemocraticShift } from "./national-mood";
 import { CONGRESS_INCUMBENCY_SHARE_BONUS } from "./living-world/congress-aggregate-outcome";
 import { STATE_LEGISLATURE_TURNOVER_PROFILE } from "./nationwide-world/state-legislature-turnover";
 import {
@@ -269,6 +270,7 @@ function congressSeatContestOutcome(
     Math.max(
       0,
       electorate.democraticShare +
+        nationalMoodDemocraticShift(world, contest.electionDate) +
         (holderParty === "democratic"
           ? CONGRESS_INCUMBENCY_SHARE_BONUS
           : holderParty === "republican"
@@ -309,7 +311,14 @@ function stateSeatContestOutcome(
         ? -STATE_LEGISLATURE_TURNOVER_PROFILE.incumbencyBonusLogit
         : 0
     : 0;
-  const share = Math.min(1 - 1e-6, Math.max(1e-6, electorate.democraticShare));
+  const share = Math.min(
+    1 - 1e-6,
+    Math.max(
+      1e-6,
+      electorate.democraticShare +
+        nationalMoodDemocraticShift(world, contest.electionDate),
+    ),
+  );
   const lifted = 1 / (1 + Math.exp(-(Math.log(share / (1 - share)) + bonus)));
   return countedByParty(world, contest, electorate, lifted, electorate.parties);
 }

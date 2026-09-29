@@ -328,15 +328,20 @@ export const CONSTITUTIONAL_BAR: DecisionConsideration = {
   sourceRefs: [],
 };
 
-/** A member's vote on writing a policy into the Constitution. */
-function memberBallot(
+/**
+ * A member's vote on writing a policy into a constitution, or, with the
+ * answer "no", on taking it out.
+ */
+export function memberBallot(
   world: World,
   stableKey: string,
   personId: EntityId,
   propositionId: EntityId,
+  answer: "yes" | "no" = "yes",
+  extra: readonly DecisionConsideration[] = [],
 ): { readonly ballot: "yea" | "nay"; readonly reason: string } {
   const principle = principleAnswersConsideration(world, personId, [
-    { propositionId, answer: "yes" },
+    { propositionId, answer },
   ]);
   const considerations: DecisionConsideration[] = [
     ...(principle
@@ -345,12 +350,15 @@ function memberBallot(
             ...principle,
             explanation:
               principle.optionKey === "vote-yea"
-                ? "The amendment writes in what the member's principles call for."
+                ? answer === "yes"
+                  ? "The amendment writes in what the member's principles call for."
+                  : "The amendment takes out what the member's principles reject."
                 : "The amendment cuts against the member's principles.",
           },
         ]
       : []),
     CONSTITUTIONAL_BAR,
+    ...extra,
   ];
   const evaluation = evaluateDecision(world, {
     stableKey,

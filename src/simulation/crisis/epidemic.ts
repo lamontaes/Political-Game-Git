@@ -672,12 +672,17 @@ function susceptibility(
   );
 }
 
+/**
+ * The source stays the subject of its own verb ("after Ana had it"), so the
+ * Journal's first-person telling reads "after I had it" when the player is
+ * the source.
+ */
 const CAUGHT_PHRASE: Record<
   ContactSetting,
   (source: string, org: string) => string
 > = {
-  household: (source) => `after ${source}, at home, had it`,
-  family: (source) => `after time with ${source}, family who had it`,
+  household: (source) => `after ${source} had it at home`,
+  family: (source) => `after ${source} had it on a family visit`,
   work: (source, org) => `after ${source} had it at ${org}`,
   school: (source, org) => `after ${source} had it at ${org}`,
   acquaintance: (source) => `after seeing ${source}, who had it`,

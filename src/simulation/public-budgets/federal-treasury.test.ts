@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
 import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
+import { GROW_DEFENSE_SPENDING_QUESTION } from "../federal-defense-spending";
+import { CUT_FARM_SUBSIDIES_QUESTION } from "../federal-farm-subsidy-law";
+import {
+  DEBT_LIMIT_CUTS_QUESTION,
+  INCREASE_FOREIGN_AID_QUESTION,
+} from "../federal-outlay-laws";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import type {
   EntityId,
@@ -29,11 +35,16 @@ import {
  */
 
 const TOP_RATE = "proposition_top_rate" as EntityId;
+const AID = "proposition_foreign_aid" as EntityId;
+const CUTS = "proposition_debt_limit_cuts" as EntityId;
+const FARM = "proposition_farm_subsidies" as EntityId;
+const DEFENSE = "proposition_defense" as EntityId;
 
 let sequence = 0;
 function enacted(
   answer: "yes" | "no",
   effectiveAt: string,
+  proposition: EntityId = TOP_RATE,
 ): {
   measure: LegislativeMeasureRecord;
   enactment: LegislativeEnactmentRecord;
@@ -57,8 +68,8 @@ function enacted(
       introducedAt: makeIsoDate("2026-01-05"),
       sourceDocumentKey: null,
       policyAlternativeIds: [],
-      propositionIds: [TOP_RATE],
-      propositionAnswers: [{ propositionId: TOP_RATE, answer }],
+      propositionIds: [proposition],
+      propositionAnswers: [{ propositionId: proposition, answer }],
     },
     enactment: {
       id: `enactment_top_rate_${sequence}` as EntityId,
@@ -85,6 +96,10 @@ function lawWorld(laws: readonly ReturnType<typeof enacted>[]): World {
           id: TOP_RATE,
           stableKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
         },
+        [AID]: { id: AID, stableKey: INCREASE_FOREIGN_AID_QUESTION },
+        [CUTS]: { id: CUTS, stableKey: DEBT_LIMIT_CUTS_QUESTION },
+        [FARM]: { id: FARM, stableKey: CUT_FARM_SUBSIDIES_QUESTION },
+        [DEFENSE]: { id: DEFENSE, stableKey: GROW_DEFENSE_SPENDING_QUESTION },
       },
     },
     history: {
@@ -160,5 +175,65 @@ describe("the federal treasury", () => {
     expect(withLaws[3]!.debtHeldByPublic).toBeLessThan(
       none[3]!.debtHeldByPublic,
     );
+  });
+
+  it("spends 6.72% more on international affairs under a foreign aid law, and $150 billion a year less under debt-limit cuts", () => {
+    const month = ["2026-06-01"];
+    const none = settleThrough(lawWorld([]), month).months[0]!;
+    const withLaws = settleThrough(
+      lawWorld([
+        enacted("yes", "2026-04-01", AID),
+        enacted("yes", "2026-04-01", CUTS),
+      ]),
+      month,
+    ).months[0]!;
+    const intl = FEDERAL_OUTLAYS.indexOf("internationalAffairs");
+    const defense = FEDERAL_OUTLAYS.indexOf("nationalDefense");
+    expect(withLaws.outlays[defense]).toBe(none.outlays[defense]);
+    expect(withLaws.outlays[interest]).toBe(none.outlays[interest]);
+    // Foreign aid then the cut: 1.0672 times 0.9707 of the line.
+    expect(withLaws.outlays[intl]! / none.outlays[intl]!).toBeCloseTo(
+      1.0672 * (1 - 0.02928),
+      4,
+    );
+    const total = (row: typeof none) =>
+      row.outlays.reduce((sum, value) => sum + value, 0);
+    const aidDollars = (45_169_891_179.7 * 0.0672 * (1 - 0.02928)) / 12;
+    expect((total(none) - total(withLaws) + aidDollars) / 1e9).toBeCloseTo(
+      150 / 12,
+      1,
+    );
+  });
+
+  it("spends $3.9 billion a year less on farms under a subsidy cut, and more on defense each year of a build-up, up to five", () => {
+    const farm = FEDERAL_OUTLAYS.indexOf("agriculture");
+    const defense = FEDERAL_OUTLAYS.indexOf("nationalDefense");
+    const months = ["2026-03-01", "2027-04-01", "2033-04-01"];
+    const none = settleThrough(lawWorld([]), months).months;
+    const build = enacted("yes", "2026-04-01", DEFENSE);
+    const withLaws = settleThrough(
+      lawWorld([enacted("yes", "2026-04-01", FARM), build]),
+      months,
+    ).months;
+    // Before either law, nothing moves.
+    expect(withLaws[0]!.outlays).toEqual(none[0]!.outlays);
+    // 21.18% of $18.35 billion of payments: 7.88% of Agriculture.
+    expect(
+      ((none[1]!.outlays[farm]! - withLaws[1]!.outlays[farm]!) * 12) / 1e9,
+    ).toBeCloseTo(0.2118 * 18.3524102, 1);
+    // A year in, contracts ($445.8 billion, 48.6% of defense) are 6.94% up.
+    const rise = (index: number) =>
+      withLaws[index]!.outlays[defense]! / none[index]!.outlays[defense]! - 1;
+    expect(rise(1)).toBeCloseTo((445.8e9 / 916_648_676_662.05) * 0.0694, 3);
+    // Seven years in, the build-up stopped after five.
+    expect(rise(2)).toBeCloseTo(
+      (445.8e9 / 916_648_676_662.05) * (1.0694 ** 5 - 1),
+      4,
+    );
+    expect(withLaws[1]!.laws.map((law) => law.line)).toEqual([
+      "nationalDefense",
+      "agriculture",
+    ]);
+    expect(withLaws[1]!.laws[0]!.measureId).toBe(build.measure.id);
   });
 });
