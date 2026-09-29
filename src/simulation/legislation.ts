@@ -3036,39 +3036,61 @@ type LegislationRecord = { readonly id: EntityId; readonly sequence: number };
 /** Anchors the id index below; its identity is all that matters. */
 const LEGISLATION_INDEX_ANCHOR = {};
 
+/** One legislative history list's records by id, the first of each id. */
+const LEGISLATION_IDS: GrowingIndexKind<Map<EntityId, LegislationRecord>> = {
+  create: () => new Map(),
+  add: (index, entry) => {
+    const record = entry as LegislationRecord;
+    if (!index.has(record.id)) index.set(record.id, record);
+  },
+};
+
+const NO_LEGISLATION: readonly LegislationRecord[] = [];
+
 /**
  * Legislative records by id, the first one in `legislationHistoryRecords`
  * order, as a `.find` over that list would return. The integrity pass asks
  * this for every canonical source it checks, and each answer used to copy
  * eight history families into one array and scan it.
+ *
+ * Each family keeps its own index, which grows with the family: a new vote
+ * adds one entry to the votes' index. Rebuilding one index over all eight
+ * whenever any of them grew was a second and a half of a late game year.
  */
-function legislationRecordIndex(
+function legislationRecordIndexes(
   world: World,
-): ReadonlyMap<EntityId, LegislationRecord> {
+): readonly ReadonlyMap<EntityId, LegislationRecord>[] {
   const history = world.history;
-  return indexOverArrays(
-    LEGISLATION_INDEX_ANCHOR,
-    [
-      history.legislativeMeasures,
-      history.legislativeActions,
-      history.committeeReferrals,
-      history.committeeActions,
-      history.legislativeAmendments,
-      history.legislativeVotes,
-      history.executiveDispositions,
-      history.legislativeEnactments,
-    ],
-    () => {
-      const index = new Map<EntityId, LegislationRecord>();
-      for (const record of legislationHistoryRecords(world))
-        if (!index.has(record.id)) index.set(record.id, record);
-      return index;
-    },
+  const families: readonly (readonly LegislationRecord[] | undefined)[] = [
+    history.legislativeMeasures,
+    history.legislativeActions,
+    history.committeeReferrals,
+    history.committeeActions,
+    history.legislativeAmendments,
+    history.legislativeVotes,
+    history.executiveDispositions,
+    history.legislativeEnactments,
+  ];
+  return indexOverArrays(LEGISLATION_INDEX_ANCHOR, families, () =>
+    families.map((family) =>
+      growingIndex(LEGISLATION_IDS, family ?? NO_LEGISLATION),
+    ),
   );
 }
 
+function legislationRecord(
+  world: World,
+  id: EntityId,
+): LegislationRecord | undefined {
+  for (const index of legislationRecordIndexes(world)) {
+    const record = index.get(id);
+    if (record) return record;
+  }
+  return undefined;
+}
+
 export function legislationEntityExists(world: World, id: EntityId): boolean {
-  return legislationRecordIndex(world).has(id);
+  return legislationRecord(world, id) !== undefined;
 }
 
 export function legislationEntityAvailableAt(
@@ -3077,7 +3099,7 @@ export function legislationEntityAvailableAt(
   asOfDate: string,
   sequenceExclusive: number,
 ): boolean {
-  const record = legislationRecordIndex(world).get(id);
+  const record = legislationRecord(world, id);
   if (!record || record.sequence >= sequenceExclusive) return false;
   const dated = record as unknown as {
     readonly introducedAt?: IsoDate;

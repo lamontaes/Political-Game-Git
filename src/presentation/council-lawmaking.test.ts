@@ -58,7 +58,10 @@ describe("a town council makes law for its own reasons", () => {
         );
         const meetings = world.history.events.filter(
           (event) =>
-            event.type === "local.council-meeting-held" &&
+            // A meeting the chair canceled while an illness went around
+            // was still one the council was due to hold.
+            (event.type === "local.council-meeting-held" ||
+              event.type === "local.council-meeting-canceled") &&
             event.jurisdictionId === town,
         ).length;
         const reasons = new Map<string, number>();

@@ -1,7 +1,12 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
-import { GuideTerm, GuideHelpProvider, type GuideHelp } from "./GuideTerm";
+import {
+  GuideTerm,
+  GuideTermText,
+  GuideHelpProvider,
+  type GuideHelp,
+} from "./GuideTerm";
 import { GuideWorkspace } from "./GuideWorkspace";
 
 /*
@@ -38,17 +43,29 @@ describe("inline term help", () => {
     );
     expect(markup).toContain('data-testid="guide-term-quorum"');
     expect(markup).toContain('aria-expanded="false"');
-    expect(markup).toContain('data-learned="false"');
     expect(markup).toContain("what Quorum means");
   });
 
-  it("says a learned term is learned, and still links to it", () => {
+  it("returns a learned term to plain text, with no underline", () => {
     const markup = withHelp(
       { ...HELP, learnedKeys: ["quorum"] },
       <GuideTerm semanticKey="quorum">quorum</GuideTerm>,
     );
-    expect(markup).toContain('data-learned="true"');
-    expect(markup).toContain("marked learned");
+    expect(markup).toBe("quorum");
+  });
+
+  it("marks each term once in a paragraph and skips learned ones", () => {
+    const text =
+      "The primary is in May; the filing deadline for the primary is March 1.";
+    const fresh = withHelp(HELP, <GuideTermText text={text} />);
+    expect(fresh.match(/data-testid="guide-term-primary"/g)?.length).toBe(1);
+    expect(fresh).toContain('data-testid="guide-term-filing-deadline"');
+    const learned = withHelp(
+      { ...HELP, learnedKeys: ["primary"] },
+      <GuideTermText text={text} />,
+    );
+    expect(learned).not.toContain('data-testid="guide-term-primary"');
+    expect(learned).toContain('data-testid="guide-term-filing-deadline"');
   });
 
   it("leaves a label that is not a term exactly as it was", () => {

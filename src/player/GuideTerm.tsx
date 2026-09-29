@@ -3,10 +3,12 @@ import {
   useContext,
   useEffect,
   useId,
+  useLayoutEffect,
   useRef,
   useState,
   type ReactNode,
 } from "react";
+import { createPortal } from "react-dom";
 
 import {
   annotateGuideTerms,
@@ -28,8 +30,8 @@ import "./guide.css";
  * component alone — the wrapper is the plain text it wrapped, which is the
  * same screen as before rather than a dead control.
  *
- * A term the player has marked learned keeps the link into the Guide and drops
- * the nudge: no dotted underline, no hint. Nothing here is knowledge in the
+ * A term the player has marked learned ("Got it") is ordinary text again
+ * everywhere; the Guide keeps its entry. Nothing here is knowledge in the
  * world. The character does not learn anything because the player pressed
  * this, and nothing that decides an outcome may read it.
  */
@@ -40,7 +42,7 @@ export interface GuideHelp {
   readonly openGuide: (semanticKey: string) => void;
 }
 
-const GuideHelpContext = createContext<GuideHelp | null>(null);
+export const GuideHelpContext = createContext<GuideHelp | null>(null);
 
 export function GuideHelpProvider({
   help,
@@ -73,38 +75,59 @@ function resolve(props: GuideTermProps): GuideTermEntry | null {
   return null;
 }
 
+/* How long a pointer must rest on a word before its card opens, and how long
+   the card waits after the pointer leaves, so crossing the gap to the card or
+   brushing past a word does not flicker it. */
+const HOVER_OPEN_MS = 250;
+const HOVER_CLOSE_MS = 180;
+
 export function GuideTerm(props: GuideTermProps) {
   const { children, label } = props;
   const help = useContext(GuideHelpContext);
   const entry = resolve(props);
-  const [open, setOpen] = useState(false);
+  /*
+   * "hover": opened by resting the pointer or keyboard focus on the word; the
+   * card reads alongside the sentence and takes no focus. "pinned": opened by
+   * a click or Enter; focus moves into the card so its buttons are reachable
+   * from the keyboard, and Escape brings it back to the word.
+   */
+  const [open, setOpen] = useState<"closed" | "hover" | "pinned">("closed");
   const triggerRef = useRef<HTMLButtonElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
   const returnFocus = useRef(false);
+  const timer = useRef<number | null>(null);
   const popoverId = useId();
+  const definitionId = useId();
   const text = children ?? label ?? entry?.term ?? null;
 
   useEffect(() => {
-    if (open) {
+    if (open === "pinned") {
       popoverRef.current?.focus();
-    } else if (returnFocus.current) {
+    } else if (open === "closed" && returnFocus.current) {
       returnFocus.current = false;
       triggerRef.current?.focus();
     }
   }, [open]);
 
+  useEffect(
+    () => () => {
+      if (timer.current !== null) window.clearTimeout(timer.current);
+    },
+    [],
+  );
+
   /*
    * Where the explanation goes.
    *
-   * A popover pinned under the word covers the next two lines, which on a
-   * docket is the sentence the player was reading when the word stopped them.
-   * So it opens below only when there is room below, flips above when there is
-   * not, and slides sideways rather than off the edge of a narrow screen. The
-   * word itself is never covered either way, so the player can still see what
-   * they asked about.
+   * A card pinned under the word covers the next two lines, which is the
+   * sentence the player was reading when the word stopped them. So it opens
+   * below only when there is room below, flips above when there is not, and
+   * slides sideways rather than off the edge of a narrow screen. It is drawn
+   * at the top of the page, not inside the sentence's own panel, so a
+   * scrolling conversation or a clipped dossier cannot cut it off.
    */
-  useEffect(() => {
-    if (!open) return;
+  useLayoutEffect(() => {
+    if (open === "closed") return;
     const place = (): void => {
       const trigger = triggerRef.current;
       const popover = popoverRef.current;
@@ -113,13 +136,17 @@ export function GuideTerm(props: GuideTermProps) {
       const card = popover.getBoundingClientRect();
       const margin = 8;
       const below = window.innerHeight - anchor.bottom;
-      popover.dataset.placement =
-        below < card.height + margin && anchor.top > below ? "above" : "below";
-      const overflow = anchor.left + card.width + margin - window.innerWidth;
-      popover.style.setProperty(
-        "--pg-guide-popover-shift",
-        `${Math.round(Math.min(0, -Math.max(0, overflow)))}px`,
+      const above = below < card.height + margin && anchor.top > below;
+      popover.dataset.placement = above ? "above" : "below";
+      const top = above
+        ? Math.max(margin, anchor.top - card.height - 6)
+        : anchor.bottom + 6;
+      const left = Math.max(
+        margin,
+        Math.min(anchor.left, window.innerWidth - card.width - margin),
       );
+      popover.style.top = `${Math.round(top)}px`;
+      popover.style.left = `${Math.round(left)}px`;
     };
     place();
     window.addEventListener("resize", place);
@@ -132,99 +159,159 @@ export function GuideTerm(props: GuideTermProps) {
 
   if (!entry || !help) return <>{text}</>;
 
-  const learned = help.learnedKeys.includes(entry.semanticKey);
+  /*
+   * A term the player has said they know is ordinary text again, everywhere
+   * it appears. The Guide still lists it, and can take the mark back.
+   */
+  if (help.learnedKeys.includes(entry.semanticKey)) return <>{text}</>;
 
-  function close(): void {
-    returnFocus.current = true;
-    setOpen(false);
+  function later(action: () => void, delay: number): void {
+    if (timer.current !== null) window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => {
+      timer.current = null;
+      action();
+    }, delay);
   }
 
+  function cancelLater(): void {
+    if (timer.current !== null) window.clearTimeout(timer.current);
+    timer.current = null;
+  }
+
+  function close(): void {
+    cancelLater();
+    returnFocus.current = true;
+    setOpen("closed");
+  }
+
+  const hoverIn = (): void => {
+    if (open === "closed")
+      later(
+        () => setOpen((now) => (now === "closed" ? "hover" : now)),
+        HOVER_OPEN_MS,
+      );
+    else cancelLater();
+  };
+  const hoverOut = (): void => {
+    later(
+      () => setOpen((now) => (now === "hover" ? "closed" : now)),
+      HOVER_CLOSE_MS,
+    );
+  };
+
+  const card =
+    open === "closed" ? null : (
+      <div
+        ref={popoverRef}
+        id={popoverId}
+        className="pg-guide-popover"
+        data-testid={`guide-term-card-${entry.semanticKey}`}
+        role="dialog"
+        aria-modal="false"
+        aria-label={`${entry.term}: what it means`}
+        tabIndex={-1}
+        onPointerEnter={cancelLater}
+        onPointerLeave={hoverOut}
+        onBlur={(event) => {
+          const next = event.relatedTarget as Node | null;
+          if (next && popoverRef.current?.contains(next)) return;
+          if (next && triggerRef.current?.contains(next)) return;
+          setOpen("closed");
+        }}
+        onKeyDown={(event) => {
+          if (event.key !== "Escape") return;
+          event.preventDefault();
+          event.stopPropagation();
+          close();
+        }}
+      >
+        <p className="pg-guide-popover-term">{entry.term}</p>
+        <p className="pg-guide-popover-definition" id={definitionId}>
+          <GuideTermText
+            text={entry.shortDefinition}
+            except={entry.semanticKey}
+          />
+        </p>
+        <div className="pg-guide-popover-actions">
+          <button
+            type="button"
+            className="pg-guide-popover-got-it"
+            data-testid={`guide-term-learned-${entry.semanticKey}`}
+            onClick={() => {
+              cancelLater();
+              setOpen("closed");
+              help.setLearned(entry.semanticKey, true);
+            }}
+          >
+            Got it
+          </button>
+          <button
+            type="button"
+            className="pg-guide-popover-more"
+            data-testid={`guide-term-open-${entry.semanticKey}`}
+            onClick={() => {
+              cancelLater();
+              setOpen("closed");
+              help.openGuide(entry.semanticKey);
+            }}
+          >
+            More in the Guide
+          </button>
+        </div>
+      </div>
+    );
+
   return (
-    <span className="pg-guide-term" data-guide-term={entry.semanticKey}>
+    <span
+      className="pg-guide-term"
+      data-guide-term={entry.semanticKey}
+      onPointerEnter={hoverIn}
+      onPointerLeave={hoverOut}
+    >
       <button
         ref={triggerRef}
         type="button"
         className="pg-guide-term-trigger"
-        data-learned={learned ? "true" : "false"}
+        data-learned="false"
         data-testid={`guide-term-${entry.semanticKey}`}
-        aria-expanded={open}
-        aria-controls={open ? popoverId : undefined}
-        title={
-          learned ? `${entry.term} — in the Guide` : `What ${entry.term} means`
-        }
+        aria-expanded={open !== "closed"}
+        aria-controls={open === "closed" ? undefined : popoverId}
+        aria-describedby={open === "closed" ? undefined : definitionId}
+        onFocus={() => {
+          if (open === "closed") setOpen("hover");
+        }}
+        onBlur={(event) => {
+          const next = event.relatedTarget as Node | null;
+          if (next && popoverRef.current?.contains(next)) return;
+          if (open === "hover") setOpen("closed");
+        }}
+        onKeyDown={(event) => {
+          if (event.key !== "Escape" || open === "closed") return;
+          event.preventDefault();
+          event.stopPropagation();
+          cancelLater();
+          setOpen("closed");
+        }}
         onClick={(event) => {
           /*
-           * Shift-click is the shortcut, not the only way. Everything it does
-           * is also a labeled control inside the popover and in the Guide, so
-           * a keyboard or a touchscreen reaches it without a modifier key.
+           * Shift-click is a shortcut for "Got it". Everything it does is also
+           * a labeled button inside the card and in the Guide, so a keyboard
+           * or a touchscreen reaches it without a modifier key.
            */
           if (event.shiftKey) {
-            help.setLearned(entry.semanticKey, !learned);
+            help.setLearned(entry.semanticKey, true);
             return;
           }
-          setOpen((current) => !current);
+          cancelLater();
+          setOpen((now) => (now === "pinned" ? "closed" : "pinned"));
         }}
       >
         {text}
-        <span className="pg-guide-term-mark" aria-hidden="true">
-          ?
-        </span>
-        <span className="sr-only">
-          {learned
-            ? ` — ${entry.term}, marked learned. Open its explanation.`
-            : ` — what ${entry.term} means`}
-        </span>
+        <span className="sr-only">{` — what ${entry.term} means`}</span>
       </button>
-      {open ? (
-        <div
-          ref={popoverRef}
-          id={popoverId}
-          className="pg-guide-popover civic-glass"
-          role="dialog"
-          aria-modal="false"
-          aria-label={`${entry.term}: what it means`}
-          tabIndex={-1}
-          onKeyDown={(event) => {
-            if (event.key !== "Escape") return;
-            event.preventDefault();
-            event.stopPropagation();
-            close();
-          }}
-        >
-          <p className="pg-guide-popover-term">{entry.term}</p>
-          <p className="pg-guide-popover-definition">{entry.shortDefinition}</p>
-          <div className="pg-guide-popover-actions">
-            <button
-              type="button"
-              className="ui-action ui-action--subtle"
-              data-testid={`guide-term-open-${entry.semanticKey}`}
-              onClick={() => {
-                setOpen(false);
-                help.openGuide(entry.semanticKey);
-              }}
-            >
-              Read more in the Guide
-            </button>
-            <button
-              type="button"
-              className="ui-action ui-action--rail"
-              aria-pressed={learned}
-              data-testid={`guide-term-learned-${entry.semanticKey}`}
-              onClick={() => help.setLearned(entry.semanticKey, !learned)}
-            >
-              {learned ? "Marked learned" : "Mark learned"}
-            </button>
-            <button
-              type="button"
-              className="ui-action ui-action--subtle"
-              data-testid={`guide-term-close-${entry.semanticKey}`}
-              onClick={close}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      ) : null}
+      {card && typeof document !== "undefined"
+        ? createPortal(card, document.body)
+        : null}
     </span>
   );
 }
@@ -237,8 +324,19 @@ export function GuideTerm(props: GuideTermProps) {
  * their explanation. Which words those are is declared in the catalog, not
  * guessed here, and the text is rendered exactly as it was written.
  */
-export function GuideTermText({ text }: { readonly text: string }) {
-  const segments = annotateGuideTerms(text);
+export function GuideTermText({
+  text,
+  except,
+}: {
+  readonly text: string;
+  /** A term not to mark here: a card's own definition never links to itself. */
+  readonly except?: string;
+}) {
+  const segments = annotateGuideTerms(text).map((segment) =>
+    segment.semanticKey === except
+      ? { ...segment, semanticKey: null }
+      : segment,
+  );
   return (
     <>
       {segments.map((segment, index) =>
