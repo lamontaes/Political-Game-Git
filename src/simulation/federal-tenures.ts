@@ -1,3 +1,4 @@
+import { recordsByStringField } from "./history-index";
 import { makeIsoDate } from "./dates";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "./types";
 
@@ -65,7 +66,15 @@ export function latestFederalOfficeRecord(
   asOf: IsoDate = world.currentDate,
 ): HistoricalEvent | null {
   let latest: HistoricalEvent | null = null;
-  for (const event of world.history.events) {
+  const records = [
+    ...recordsByStringField(world.history.events, "type", FEDERAL_TENURE_EVENT),
+    ...recordsByStringField(
+      world.history.events,
+      "type",
+      FEDERAL_VACANCY_EVENT,
+    ),
+  ];
+  for (const event of records) {
     if (
       (event.type !== FEDERAL_TENURE_EVENT &&
         event.type !== FEDERAL_VACANCY_EVENT) ||

@@ -1,0 +1,650 @@
+{
+  "asOf": "2026-09-29",
+  "registeredLobbyistsPA2024": 1383,
+  "registeredFirmsPA2024": 161,
+  "populationPA2024": 13078751,
+  "annualPayMean": 80310,
+  "annualRevenuePerFirmMean": 2277122.3687254223,
+  "proposalCoolingMonths": 24,
+  "startingPeriods": {
+    "US-AK": {
+      "legislatorMonths": 12,
+      "startAt": "leaving-office",
+      "cite": "Alaska Stat. \u00a7 24.45.121(c)",
+      "source": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=24.45.121&secEnd=24.45.121",
+      "basis": "One year: a former legislator may not lobby the legislature for one year after leaving."
+    },
+    "US-AL": {
+      "legislatorMonths": 24,
+      "startAt": "term-end",
+      "cite": "Ala. Code \u00a7 36-25-13(a)-(b)",
+      "source": "https://alison.legislature.state.al.us/code-of-alabama?section=36-25-13",
+      "basis": "Two years after the elected term: a former legislator may not lobby for a fee before the legislative body he or she served for two years after the term of office ends, even if he or she left early."
+    },
+    "US-AR": {
+      "legislatorMonths": 24,
+      "startAt": "term-end",
+      "cite": "Ark. Ethics Comm'n Rules on Lobbyist Registration and Reporting \u00a7 517(b) (Ark. Code Ann. \u00a7 21-8-601 et seq.)",
+      "source": "https://www.arkansasethics.com/wp-content/uploads/2020/01/05-FINAL-RULE-Rules-on-Lobbyist-Registration-and-Reporting.pdf",
+      "basis": "Two years after the term ends: a former member of the General Assembly elected on or after 11/4/2014 may not register as a lobbyist until two years after the end of the term (source is the Ethics Commission rule text revised 1/31/2020)."
+    },
+    "US-AS": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": null,
+      "source": null,
+      "basis": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (2 answer no), because this place's own law could not be read."
+    },
+    "US-AZ": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "Ariz. Rev. Stat. \u00a7 38-504(A); \u00a7\u00a7 41-1231 to 41-1239",
+      "source": "https://www.azleg.gov/ars/38/00504.htm",
+      "basis": "No cooling-off period on lobbying the Legislature: the 12-month post-service bar covers only matters decided through administrative discretion, and the lobbying article (\u00a7\u00a7 41-1231 to 41-1239) has no section on former legislators."
+    },
+    "US-CA": {
+      "legislatorMonths": 12,
+      "startAt": "leaving-office",
+      "cite": "Cal. Gov. Code \u00a7 87406(b)",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=87406",
+      "basis": "One year: a former Member of the Legislature may not lobby the Legislature for pay for one year after leaving office (a member who resigns is barred until one year after that session adjourns)."
+    },
+    "US-CO": {
+      "legislatorMonths": 24,
+      "startAt": "leaving-office",
+      "cite": "Colo. Const. art. XXIX, \u00a7 4",
+      "source": "https://olls.info/crs/crs2025-title-00.htm",
+      "basis": "Two years: a former member of the General Assembly may not represent others for pay before any member of the General Assembly or statewide elected officeholder for two years after leaving office."
+    },
+    "US-CT": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "Conn. Gen. Stat. \u00a7 1-84b",
+      "source": "https://www.cga.ct.gov/current/pub/chap_010.htm",
+      "basis": "No cooling-off period for legislators: the one-year post-service bar covers former executive branch and quasi-public officials; a former legislator is barred from lobbying only after a corruption-related felony conviction.",
+      "executiveMonths": 12
+    },
+    "US-DC": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "D.C. Code \u00a7\u00a7 1-1162.27 to 1-1162.32",
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-1162.31",
+      "basis": "The lobbying part of the Ethics Act only bars a public official from being a lobbyist while in office, and it sets no waiting period for former Councilmembers."
+    },
+    "US-DE": {
+      "legislatorMonths": 12,
+      "startAt": "leaving-office",
+      "cite": "Del. Code tit. 29, \u00a7 5837",
+      "source": "https://delcode.delaware.gov/title29/c058/sc04/index.html",
+      "basis": "One year: a former member of the General Assembly may not lobby for pay for one year after leaving office (79 Del. Laws c. 427)."
+    },
+    "US-FL": {
+      "legislatorMonths": 72,
+      "startAt": "leaving-office",
+      "cite": "Fla. Const. art. II, \u00a7 8(e), (f)(3)",
+      "source": "https://www.flsenate.gov/Laws/Constitution",
+      "basis": "Six years: a former legislator may not lobby the Legislature or any state agency for pay for six years after leaving office (the older two-year bar on representing others before one's former body also remains)."
+    },
+    "US-GA": {
+      "legislatorMonths": 12,
+      "startAt": "leaving-office",
+      "cite": "Ga. Code Ann. \u00a7 21-5-75(a); \u00a7 21-5-3(22)(D)",
+      "source": "https://ethics.ga.gov/wp-content/uploads/2022/06/Campaign-Finance-Act.pdf",
+      "basis": "One year: a former member of the General Assembly may not register as a lobbyist or lobby for one year after leaving office, unless he or she stays employed in state government."
+    },
+    "US-GU": {
+      "legislatorMonths": 24,
+      "startAt": "term-end",
+      "cite": "2 GCA \u00a7 8101(f)",
+      "source": "https://col.guamcourts.gov/sites/default/files/2gc008.pdf",
+      "basis": "Two years: a former legislator may not act as a lobbyist for two years after the end of his or her last term."
+    },
+    "US-HI": {
+      "legislatorMonths": 12,
+      "startAt": "leaving-office",
+      "cite": "Haw. Rev. Stat. \u00a7 84-18(b)-(c)",
+      "source": "https://ethics.hawaii.gov/wp-content/uploads/2013/09/postEmpRestrict.pdf",
+      "basis": "One year: for 12 months after leaving, a former legislator may not represent anyone for pay on matters involving official action by the Legislature (State Ethics Commission guide)."
+    },
+    "US-IA": {
+      "legislatorMonths": 24,
+      "startAt": "leaving-office",
+      "cite": "Iowa Code \u00a7 68B.5A(4)",
+      "source": "https://www.legis.iowa.gov/docs/code/68B.5A.pdf",
+      "basis": "Two years: a former member of the General Assembly may not become a lobbyist within two years after leaving service."
+    },
+    "US-ID": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "Idaho Code tit. 74, ch. 7 (Lobbying Disclosure); ch. 4 (Ethics in Government)",
+      "source": "https://legislature.idaho.gov/statutesrules/idstat/Title74/T74CH7/",
+      "basis": "No cooling-off period: Idaho's lobbying and ethics chapters contain no waiting period before a former legislator may register as a lobbyist."
+    },
+    "US-IL": {
+      "legislatorMonths": 6,
+      "startAt": "leaving-office",
+      "cite": "5 ILCS 430/5-45(b-7)",
+      "source": "https://www.ilga.gov/legislation/ILCS/details?ActID=2529&ChapterID=2&SeqStart=&&ChapAct=FullText",
+      "basis": "Six months: a former member of the General Assembly may not do state-level lobbying in a General Assembly in which he or she served until six months after leaving office."
+    },
+    "US-IN": {
+      "legislatorMonths": 12,
+      "startAt": "leaving-office",
+      "cite": "Ind. Code \u00a7 2-7-5-7",
+      "source": "https://www.in.gov/ilrc/files/Q_and_A_Document.pdf",
+      "basis": "One year: a former member of the General Assembly may not register as a legislative lobbyist or work as a legislative liaison for 365 days after leaving (Lobby Registration Commission guidance)."
+    },
+    "US-KS": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "Kan. Stat. ch. 46, art. 2",
+      "source": "https://www.ksrevisor.gov/statutes/ksa_ch46.html",
+      "basis": "No cooling-off period found: the state governmental ethics and lobbying article has no section restricting former legislators from lobbying; its post-service rule (\u00a7 46-233) covers only contract-related employment."
+    },
+    "US-KY": {
+      "legislatorMonths": 24,
+      "startAt": "leaving-office",
+      "cite": "Ky. Rev. Stat. \u00a7 6.757(1)",
+      "source": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=376",
+      "basis": "Two years: a former legislator may not be a legislative agent (lobbyist), other than for a public agency, until two years after leaving office."
+    },
+    "US-LA": {
+      "legislatorMonths": 24,
+      "startAt": "leaving-office",
+      "cite": "La. Rev. Stat. \u00a7 42:1121(A)(1)",
+      "source": "https://ethics.la.gov/Pub/Laws/ethsum.pdf?2025",
+      "basis": "Two years: a former elected official, which includes a legislator, may not assist another person for pay in any transaction or appearance involving his or her former agency (for a legislator, the Legislature) for two years after leaving (Board of Ethics summary)."
+    },
+    "US-MA": {
+      "legislatorMonths": 12,
+      "startAt": "leaving-office",
+      "cite": "Mass. Gen. Laws ch. 268A, \u00a7 5(e)",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleI/Chapter268A/Section5",
+      "basis": "One year: a former member of the General Court may not act as a legislative agent before the body he or she served for one year after leaving."
+    },
+    "US-MD": {
+      "legislatorMonths": 12,
+      "startAt": "leaving-office",
+      "cite": "Md. Code, Gen. Prov. \u00a7 5-504(d)(2)",
+      "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=ggp&section=5-504&enactments=false",
+      "basis": "One year: a former member of the General Assembly may not assist or represent another party for pay in a matter that is the subject of legislative action for one year after leaving office."
+    },
+    "US-ME": {
+      "legislatorMonths": 12,
+      "startAt": "term-end",
+      "cite": "Me. Rev. Stat. tit. 1, \u00a7 1024(1-A)",
+      "source": "https://legislature.maine.gov/statutes/1/title1sec1024.html",
+      "basis": "One year: a former Legislator may not engage in compensated lobbying until one year after his or her term ends (in this form since the 130th Legislature convened in December 2020)."
+    },
+    "US-MI": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "Mich. Comp. Laws \u00a7 4.416a",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-4-416a",
+      "basis": "No cooling-off period on 1/1/2026: only a legislator who resigned early was barred from paid lobbying for the rest of the term. 2026 Public Act 74 (effective 7/27/2026) adds a two-year ban for members whose terms begin on or after 1/1/2027."
+    },
+    "US-MN": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "Minn. Stat. ch. 10A",
+      "source": "https://www.revisor.mn.gov/statutes/cite/10A/full",
+      "basis": "No cooling-off period found: Minnesota's lobbying and ethics chapter lets former legislators register as lobbyists without a waiting period."
+    },
+    "US-MO": {
+      "legislatorMonths": 24,
+      "startAt": "session-end",
+      "cite": "Mo. Const. art. III, \u00a7 2(a)",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=III++++++2&constit=y",
+      "basis": "Two years after the last session served: a former member of the General Assembly may not serve or register as a paid lobbyist until two calendar years after the end of the last session in which he or she served."
+    },
+    "US-MP": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "1 CMC \u00a7\u00a7 8543, 9415",
+      "source": "https://cnmilaw.gov/docs/cmc_section/T1/8543.pdf",
+      "basis": "The Ethics Act bars a former official only from matters he or she personally handled (plus a one-year bar on business transactions), and the lobbying law sets no waiting period for former legislators."
+    },
+    "US-MS": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "Miss. Code \u00a7 25-4-105(3)(e)",
+      "source": "https://www.ethics.ms.gov/title-25-chapter-4-ethics-government",
+      "basis": "Mississippi bars a former public servant only from paid work on a matter he or she personally handled in office, and no fixed waiting period for former legislators to lobby was found."
+    },
+    "US-MT": {
+      "legislatorMonths": 24,
+      "startAt": "leaving-office",
+      "cite": "Mont. Code Ann. \u00a7 5-7-310",
+      "source": "https://leg.mt.gov/bills/mca/title_0050/chapter_0070/part_0030/section_0100/0050-0070-0030-0100.html",
+      "basis": "Two years: a person who served as a state legislator in the previous 24 months may not be licensed as a lobbyist (voter-approved I-153, 2006)."
+    },
+    "US-NC": {
+      "legislatorMonths": 6,
+      "startAt": "session-end",
+      "cite": "N.C. Gen. Stat. \u00a7 120C-304(a)",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_120C/GS_120C-304.html",
+      "basis": "Six months or the end of the session, whichever is later: a former legislator may not register as a lobbyist before the later of the close of the session in which he or she served or six months after leaving office."
+    },
+    "US-ND": {
+      "legislatorMonths": 24,
+      "startAt": "leaving-office",
+      "cite": "N.D. Const. art. XIV, \u00a7 2(2)",
+      "source": "https://www.ndlegis.gov/constit/a14.pdf",
+      "basis": "Two years: an elected public official, including a legislator, may not be a lobbyist for two years after leaving office (voter-approved Measure 1, 2018)."
+    },
+    "US-NE": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "Neb. Rev. Stat. ch. 49, art. 14 (Nebraska Political Accountability and Disclosure Act)",
+      "source": "https://nebraskalegislature.gov/laws/browse-chapters.php?chapter=49",
+      "basis": "No cooling-off period found: none of the lobbying or conflict-of-interest sections of the Political Accountability and Disclosure Act restricts former legislators from lobbying."
+    },
+    "US-NH": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "N.H. Rev. Stat. \u00a7 21-G:26; ch. 15; ch. 14-B",
+      "source": "https://gc.nh.gov/rsa/html/I/21-G/21-G-26.htm",
+      "basis": "No cooling-off period for legislators: the six-month post-service lobbying bar covers only executive branch officials and classified employees, and the lobbying and legislative ethics chapters set none for former legislators."
+    },
+    "US-NJ": {
+      "legislatorMonths": 12,
+      "startAt": "leaving-office",
+      "cite": "N.J.S.A. 52:13C-21.4",
+      "source": "https://pub.njleg.state.nj.us/statutes/STATUTES-TEXT.zip",
+      "basis": "One year: a former member of the Legislature may not register as a governmental affairs agent (lobbyist) for one year after leaving office."
+    },
+    "US-NM": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "N.M. Const. art. IV, \u00a7 28; NMSA 1978, \u00a7\u00a7 10-16-9, 2-11-1 et seq.",
+      "source": "https://www.sec.nm.gov/wp-content/uploads/2022/12/2022-12-12-Ethics-law-for-legislators.pdf",
+      "basis": "The State Ethics Commission summary of ethics law for legislators lists no lobbying bar after leaving office, only limits on state contracts and civil offices for one year."
+    },
+    "US-NV": {
+      "legislatorMonths": 0,
+      "startAt": "next-session-end",
+      "cite": "Nev. Rev. Stat. \u00a7 218H.950",
+      "source": "https://www.leg.state.nv.us/NRS/NRS-218H.html",
+      "basis": "Until the end of the next session: a former Legislator may not be paid to lobby until the final adjournment of the next regular session after leaving office (enacted 2015; narrow exception for an in-house employee whose job is mostly not lobbying)."
+    },
+    "US-NY": {
+      "legislatorMonths": 24,
+      "startAt": "leaving-office",
+      "cite": "N.Y. Pub. Off. Law \u00a7 73(8)(a)(iii)",
+      "source": "https://legethics.ny.gov/advice-guidance/post-employment-restrictions-members-legislature",
+      "basis": "Two years: a former member of the Senate or Assembly may not be paid to promote or oppose legislation before either house for two years after leaving."
+    },
+    "US-OH": {
+      "legislatorMonths": 12,
+      "startAt": "leaving-office",
+      "cite": "Ohio Rev. Code \u00a7 102.03(A)(4)",
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-102.03",
+      "basis": "One year: a former member of the General Assembly may not represent anyone on any matter before the General Assembly or its committees for one year after leaving."
+    },
+    "US-OK": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "Okla. Const. art. XXIX; Okla. Admin. Code tit. 257 (Ethics Rules)",
+      "source": "https://oklahoma.gov/content/dam/ok/en/ethics/documents/resources/laws/2025%20Annotated%20Ethics%20Rules.pdf",
+      "basis": "Weak: not in the Ethics Commission's 2025 annotated rules (which govern lobbying) or its 2021 compilation of ethics statutes and constitutional provisions; neither sets a waiting period before a former legislator may lobby."
+    },
+    "US-OR": {
+      "legislatorMonths": 12,
+      "startAt": "leaving-office",
+      "cite": "Or. Rev. Stat. \u00a7 244.045(6)",
+      "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors244.html",
+      "basis": "One year: a former member of the Legislative Assembly may not be paid for lobbying within one year after leaving the Legislative Assembly."
+    },
+    "US-PA": {
+      "legislatorMonths": 12,
+      "startAt": "leaving-office",
+      "cite": "65 Pa. C.S. \u00a7 1103(g); \u00a7 1102",
+      "source": "https://www.palegis.us/statutes/consolidated/view-statute?txtType=PDF&ttl=65&div=0&chpt=11&sctn=3&subsctn=0",
+      "basis": "One year: a former public official, which includes an elected legislator, may not represent anyone for pay before the governmental body he or she served for one year after leaving."
+    },
+    "US-PR": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "P.R. Laws, Ley 1-2012, art. 4.8",
+      "source": "https://www.lexjuris.com/lexlex/Leyes2012/lexl2012001.htm",
+      "basis": "The Government Ethics Act leaves legislators to their own chamber rules (art. 4.8), and no statute sets a waiting period before a former legislator may lobby."
+    },
+    "US-RI": {
+      "legislatorMonths": 12,
+      "startAt": "leaving-office",
+      "cite": "R.I. Gen. Laws \u00a7 36-14-5(e)(4); \u00a7 36-14-2(8)(i)",
+      "source": "https://webserver.rilegislature.gov/Statutes/TITLE36/36-14/36-14-5.htm",
+      "basis": "One year: a former official may not represent others before the agency he or she served for one year after leaving, and 'state agency' includes either chamber of the General Assembly."
+    },
+    "US-SC": {
+      "legislatorMonths": 12,
+      "startAt": "leaving-office",
+      "cite": "S.C. Code \u00a7 2-17-15",
+      "source": "https://www.scstatehouse.gov/code/t02c017.php",
+      "basis": "One year: a member of the General Assembly may not serve as a lobbyist while in office or for one year after leaving (applies to members elected after 12/31/1991)."
+    },
+    "US-SD": {
+      "legislatorMonths": 24,
+      "startAt": "leaving-office",
+      "cite": "S.D. Codified Laws \u00a7 2-12-8.2",
+      "source": "https://sdlegislature.gov/api/Statutes/2-12-8.2.html?all=true",
+      "basis": "Two years: no elected state officer, which includes a legislator, may be paid, act or register as a lobbyist for two years after leaving state government (current text from 2017 session laws)."
+    },
+    "US-TN": {
+      "legislatorMonths": 12,
+      "startAt": "leaving-office",
+      "cite": "Tenn. Code Ann. \u00a7 3-6-304(l)",
+      "source": "https://www.tn.gov/content/dam/tn/ethicscommission/documents/Ethics%20Laws.1.24.pdf",
+      "basis": "One year: a former member of the General Assembly may not be a lobbyist during the 12 months after leaving office (Ethics Commission compilation of ethics laws, January 2024)."
+    },
+    "US-TX": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "Tex. Gov't Code ch. 305",
+      "source": "https://www.ethics.state.tx.us/statutes/ch305.php",
+      "basis": "No cooling-off period: the lobbying chapter lets former legislators register at once; it only bars a lobbyist from spending leftover campaign money on lobbying (\u00a7 305.029)."
+    },
+    "US-UT": {
+      "legislatorMonths": 12,
+      "startAt": "leaving-office",
+      "cite": "Utah Code \u00a7 67-24-103",
+      "source": "https://le.utah.gov/xcode/Title67/Chapter24/C67-24-S103_2026050620260506.html",
+      "basis": "One year: a former member of the Legislature may not register or lobby for one calendar year after leaving office (Lobbying Restrictions Act of 2009; the section was amended again in 2026, effective 5/6/2026, keeping the one-year period)."
+    },
+    "US-VA": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "Va. Code \u00a7 2.2-3104; Va. Code tit. 30, ch. 13",
+      "source": "https://law.lis.virginia.gov/vacode/title2.2/chapter31/section2.2-3104/",
+      "basis": "No cooling-off period for legislators: the one-year post-service bar covers executive officials and designated legislative staff, not members, and the General Assembly Conflicts of Interests Act has no post-service provision.",
+      "executiveMonths": 12
+    },
+    "US-VI": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": null,
+      "source": null,
+      "basis": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (2 answer no), because this place's own law could not be read."
+    },
+    "US-VT": {
+      "legislatorMonths": 12,
+      "startAt": "leaving-office",
+      "cite": "Vt. Stat. Ann. tit. 2, \u00a7 266(b)",
+      "source": "https://legislature.vermont.gov/statutes/section/02/011/00266",
+      "basis": "One year: a former legislator may not be a lobbyist in Vermont for one year after leaving office."
+    },
+    "US-WA": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "Rev. Code Wash. \u00a7 42.52.080",
+      "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=42.52.080",
+      "basis": "No cooling-off period on lobbying: the post-service rules bar contract-related jobs and help on specific matters the official worked on, but set no period during which a former legislator may not lobby."
+    },
+    "US-WI": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "Wis. Stat. \u00a7 19.45(8)",
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/19/III/45",
+      "basis": "No cooling-off period for legislators: the 12-month post-service bar expressly excludes former legislators."
+    },
+    "US-WV": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "W. Va. Code \u00a7 6B-2-5(f)(3)-(4)",
+      "source": "https://code.wvlegislature.gov/6B-2-5/",
+      "basis": "No cooling-off period: the ethics act says a present or former official may appear at any time in a representative capacity before the Legislature on a statute or budget."
+    },
+    "US-WY": {
+      "legislatorMonths": 0,
+      "startAt": "leaving-office",
+      "cite": "Wyo. Stat. \u00a7\u00a7 28-7-101 to -104; \u00a7\u00a7 9-13-101 et seq.",
+      "source": "https://wyoleg.gov/statutes/compress/title28.pdf",
+      "basis": "No cooling-off period: neither the lobbyist registration chapter nor the Ethics and Disclosure Act restricts former legislators from lobbying."
+    }
+  },
+  "capitals": {
+    "AK": {
+      "name": "Juneau",
+      "placeKey": "0236400"
+    },
+    "AL": {
+      "name": "Montgomery",
+      "placeKey": "0151000"
+    },
+    "AR": {
+      "name": "Little Rock",
+      "placeKey": "0541000"
+    },
+    "AZ": {
+      "name": "Phoenix",
+      "placeKey": "0455000"
+    },
+    "CA": {
+      "name": "Sacramento",
+      "placeKey": "0664000"
+    },
+    "CO": {
+      "name": "Denver",
+      "placeKey": "0820000"
+    },
+    "CT": {
+      "name": "Hartford",
+      "placeKey": "0937000"
+    },
+    "DE": {
+      "name": "Dover",
+      "placeKey": "1021200"
+    },
+    "FL": {
+      "name": "Tallahassee",
+      "placeKey": "1270600"
+    },
+    "GA": {
+      "name": "Atlanta",
+      "placeKey": "1304000"
+    },
+    "HI": {
+      "name": "Urban Honolulu",
+      "placeKey": "1571550"
+    },
+    "IA": {
+      "name": "Des Moines",
+      "placeKey": "1921000"
+    },
+    "ID": {
+      "name": "Boise City",
+      "placeKey": "1608830"
+    },
+    "IL": {
+      "name": "Springfield",
+      "placeKey": "1772000"
+    },
+    "IN": {
+      "name": "Indianapolis",
+      "placeKey": "1836003"
+    },
+    "KS": {
+      "name": "Topeka",
+      "placeKey": "2071000"
+    },
+    "KY": {
+      "name": "Frankfort",
+      "placeKey": "2128900"
+    },
+    "LA": {
+      "name": "Baton Rouge",
+      "placeKey": "2205000"
+    },
+    "MA": {
+      "name": "Boston",
+      "placeKey": "2507000"
+    },
+    "MD": {
+      "name": "Annapolis",
+      "placeKey": "2401600"
+    },
+    "ME": {
+      "name": "Augusta",
+      "placeKey": "2302100"
+    },
+    "MI": {
+      "name": "Lansing",
+      "placeKey": "2646000"
+    },
+    "MN": {
+      "name": "St. Paul",
+      "placeKey": "2758000"
+    },
+    "MO": {
+      "name": "Jefferson City",
+      "placeKey": "2937000"
+    },
+    "MS": {
+      "name": "Jackson",
+      "placeKey": "2836000"
+    },
+    "MT": {
+      "name": "Helena",
+      "placeKey": "3035600"
+    },
+    "NC": {
+      "name": "Raleigh",
+      "placeKey": "3755000"
+    },
+    "ND": {
+      "name": "Bismarck",
+      "placeKey": "3807200"
+    },
+    "NE": {
+      "name": "Lincoln",
+      "placeKey": "3128000"
+    },
+    "NH": {
+      "name": "Concord",
+      "placeKey": "3314200"
+    },
+    "NJ": {
+      "name": "Trenton",
+      "placeKey": "3474000"
+    },
+    "NM": {
+      "name": "Santa Fe",
+      "placeKey": "3570500"
+    },
+    "NV": {
+      "name": "Carson City",
+      "placeKey": "3209700"
+    },
+    "NY": {
+      "name": "Albany",
+      "placeKey": "3601000"
+    },
+    "OH": {
+      "name": "Columbus",
+      "placeKey": "3918000"
+    },
+    "OK": {
+      "name": "Oklahoma City",
+      "placeKey": "4055000"
+    },
+    "OR": {
+      "name": "Salem",
+      "placeKey": "4164900"
+    },
+    "PA": {
+      "name": "Harrisburg",
+      "placeKey": "4232800"
+    },
+    "RI": {
+      "name": "Providence",
+      "placeKey": "4459000"
+    },
+    "SC": {
+      "name": "Columbia",
+      "placeKey": "4516000"
+    },
+    "SD": {
+      "name": "Pierre",
+      "placeKey": "4649600"
+    },
+    "TN": {
+      "name": "Nashville",
+      "placeKey": "4752006"
+    },
+    "TX": {
+      "name": "Austin",
+      "placeKey": "4805000"
+    },
+    "UT": {
+      "name": "Salt Lake City",
+      "placeKey": "4967000"
+    },
+    "VA": {
+      "name": "Richmond",
+      "placeKey": "5167000"
+    },
+    "VT": {
+      "name": "Montpelier",
+      "placeKey": "5046000"
+    },
+    "WA": {
+      "name": "Olympia",
+      "placeKey": "5351300"
+    },
+    "WI": {
+      "name": "Madison",
+      "placeKey": "5548000"
+    },
+    "WV": {
+      "name": "Charleston",
+      "placeKey": "5414600"
+    },
+    "WY": {
+      "name": "Cheyenne",
+      "placeKey": "5613900"
+    },
+    "DC": {
+      "name": "Washington",
+      "placeKey": "1150000"
+    },
+    "PR": {
+      "name": "San Juan",
+      "placeKey": "7276770"
+    },
+    "GU": {
+      "name": "Hag\u00e5t\u00f1a",
+      "placeKey": "territory:GU:hagatna"
+    },
+    "AS": {
+      "name": "Fagatogo",
+      "placeKey": "territory:AS:fagatogo"
+    },
+    "MP": {
+      "name": "Capitol Hill",
+      "placeKey": "territory:MP:capitol-hill"
+    },
+    "VI": {
+      "name": "Charlotte Amalie",
+      "placeKey": "territory:VI:charlotte-amalie"
+    }
+  },
+  "sources": {
+    "registrations": "https://www.pa.gov/content/dam/copapwp-pagov/en/dos/resources/voting-and-elections/lobbying-disclosure/reports/2024-dos-lobbying-annual-report-final.pdf",
+    "pay": "https://www.bls.gov/news.release/archives/ocwage_04022025.pdf",
+    "revenue": "https://fred.stlouisfed.org/series/REVEF54182ALLEST",
+    "establishments": "https://data.census.gov/profile/541820_-_Public_relations_agencies?codeset=naics~541820",
+    "transitions": "https://sites.bu.edu/fisman/files/2026/01/Revolving_Door-15.pdf",
+    "startingLaw": "data/research/laws/starting-law-2026.json"
+  },
+  "basis": "ESTIMATED FROM AVERAGE: unread registered-firm counts use Pennsylvania 2024 firms per resident with a stable world spread. Actual pay uses May 2024 PR-specialist national mean 80310 dollars as a lobbying-pay proxy. Census 2022 public-relations receipts divided by 2023 establishments estimate fee revenue per firm; these universes and years differ. An initial month of those estimated receipts funds the firm, explicitly estimated opening working capital. Two years is an authored proposal; statutory starting periods are retained separately. The revolving-door 12-percent benchmark never picks who applies. Nonlobbying PR vacancies use the same occupation's May 2024 median 69780 dollars; this is a disclosed distribution proxy, not a measured revolving-door wage premium.",
+  "placeholders": [
+    "Capital firms are fictional employers with estimated counts and receipts, not real named registrants. Only the first firm is materialized until additional openings require another.",
+    "Corporate-wide matter/client-specific conflicts remain outside this period gate.",
+    "Starting executive periods beyond Connecticut and Virginia reuse the documented legislator period as an explicit cross-role estimate; exact senior-official statutes remain unread.",
+    "Term/session-end start dates use recorded expected expiry and session due items; missing calendars use a labeled estimate from the current recorded term and existing session profile.",
+    "Lobbying pay uses PR-specialist mean; differences among real firms and former-officeholders are unread.",
+    "Initial liquid working capital equals one month of estimated receipts; no actual firm cash statement was read."
+  ],
+  "annualNonLobbyPayMedian": 69780,
+  "publicRelationsEstablishmentsUS2023": 8646
+}
