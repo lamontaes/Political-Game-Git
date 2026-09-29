@@ -624,7 +624,8 @@ export function unseatedBodyReading(
       event.type === "justice.prosecution-referred" &&
       event.occurredAt > sentenced.occurredAt &&
       event.participants.some(
-        (entry) => entry.role === "focus:subject" && entry.personId === personId,
+        (entry) =>
+          entry.role === "focus:subject" && entry.personId === personId,
       ),
   );
   if (later)

@@ -955,41 +955,6 @@
       "code": "servedShareBeforeTakenUp: 0.5,"
     },
     {
-      "file": "src/simulation/justice/prosecution.ts",
-      "kind": "fixed-share",
-      "build": "Build 26",
-      "count": 1,
-      "code": "referralChanceByStandingFindings: [0.1, 0.5, 0.8],"
-    },
-    {
-      "file": "src/simulation/justice/prosecution.ts",
-      "kind": "roll",
-      "build": "Build 26",
-      "count": 1,
-      "code": "return draw(world, `${findingKey}:refer`).next() < chance;"
-    },
-    {
-      "file": "src/simulation/justice/prosecution.ts",
-      "kind": "roll",
-      "build": "Build 26",
-      "count": 1,
-      "code": "if (rng.next() >= rule.chargeChance[evidence])"
-    },
-    {
-      "file": "src/simulation/justice/prosecution.ts",
-      "kind": "roll",
-      "build": "Build 26",
-      "count": 1,
-      "code": "if (pick < weights[key]) {"
-    },
-    {
-      "file": "src/simulation/justice/prosecution.ts",
-      "kind": "roll",
-      "build": "Build 26",
-      "count": 1,
-      "code": "const jail = rng.next() < rule.jailChance[outcome];"
-    },
-    {
       "file": "src/simulation/living-world/congress-aggregate-outcome.ts",
       "kind": "fixed-share",
       "build": "Build 27",
