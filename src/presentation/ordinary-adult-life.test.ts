@@ -252,4 +252,55 @@ describe("holding office pays a salary", () => {
       serializeWorld(later),
     );
   });
+
+  it("pays a New York governor the state's published salary, weekly", () => {
+    const { world, personId } = newLife();
+    let w = createOrganization(world, {
+      stableKey: "test:ny-executive",
+      formedAt: world.currentDate,
+      provenance: { kind: "authored", note: "Test office." },
+      initialProfile: {
+        name: "Office of the Governor of New York",
+        classification: "sector:government",
+        locationJurisdictionId: null,
+      },
+    });
+    w = createWorkRelationship(w, {
+      stableKey: "test:ny-governor",
+      personId,
+      organizationId: w.history.organizations.at(-1)!.id,
+      startedAt: w.currentDate,
+      kind: "employment:executive-office",
+      compensation: "paid",
+      authority: "directed",
+      dependency: "partly-dependent",
+      economicRisk: "organization-borne",
+      provenance: { kind: "authored", note: "Test office." },
+      initialRole: {
+        title: "Governor",
+        occupationClassification: "service:us-ny-governor",
+        locationJurisdictionId: null,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 40, maximumHours: 60 },
+          attention: "high",
+          concurrency: "partly-concurrent",
+          scheduleRigidity: "mixed",
+          interruptibility: "limited",
+          locationJurisdictionId: null,
+        },
+      },
+    });
+    const later = letAdultTimePass(letAdultTimePass(w, 1), 21);
+    assertWorldIntegrity(later);
+    const salary = later.history.resourceFlows.find((flow) =>
+      flow.stableKey.startsWith("office-salary:"),
+    )!;
+    const paid = later.history.resourceTransferOutcomes.filter(
+      (outcome) => outcome.resourceFlowId === salary.id,
+    );
+    expect(paid).toHaveLength(3);
+    expect(paid[0]!.transferredAmount.minorUnits).toBe(
+      Math.round(25_000_000 / 52),
+    );
+  });
 });

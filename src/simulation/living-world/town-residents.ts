@@ -25,7 +25,8 @@
  *    the same people forever after.
  *
  * Every share and count below is a marked PLACEHOLDER pending the research
- * questions named beside it, except the employment share, which is BLS's.
+ * questions named beside it, except the employment share, which is BLS's and
+ * the mix of household shapes, which is the Census Bureau's.
  */
 
 import {
@@ -49,6 +50,8 @@ import {
 } from "../life";
 import type { CreateWorkRelationshipInput } from "../life";
 import { organizationProfileAt } from "../life-queries";
+import { householdMixForJurisdiction } from "../household-mix";
+import type { HouseholdShape } from "../household-mix";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { placePopulation } from "../nationwide-world/place-population";
 import { recordRelationshipInteraction } from "../records";
@@ -92,27 +95,14 @@ const PROVENANCE = {
  */
 export const UNKNOWN_TOWN_POPULATION = 1_000;
 
-type HouseholdShape =
-  | "alone"
-  | "couple"
-  | "couple-with-children"
-  | "parent-with-children"
-  | "housemates";
-
 /**
- * PLACEHOLDER pending `town-household-composition`: the share of households of
- * each shape, and the age bands in `townHouseholdSkeleton`. Not read from any
- * source.
+ * The share of a town's households of each shape is the Census Bureau's
+ * (`householdMixForJurisdiction`). The age bands in `townHouseholdSkeleton`
+ * and the average size of each shape below are still marked PLACEHOLDERs
+ * pending `town-household-composition`.
  */
-const HOUSEHOLD_SHAPES: readonly (readonly [HouseholdShape, number])[] = [
-  ["alone", 0.28],
-  ["couple", 0.3],
-  ["couple-with-children", 0.2],
-  ["parent-with-children", 0.1],
-  ["housemates", 0.12],
-];
 
-/** How many people a household of each shape holds on average. */
+/** PLACEHOLDER: how many people a household of each shape holds on average. */
 const MEAN_MEMBERS: Readonly<Record<HouseholdShape, number>> = {
   alone: 1,
   couple: 2,
@@ -123,13 +113,16 @@ const MEAN_MEMBERS: Readonly<Record<HouseholdShape, number>> = {
 };
 
 /**
- * People per household, from the shapes above, so the town's homes hold its
- * population. PLACEHOLDER with them, pending `town-household-composition`.
+ * People per household in a town, from its own household mix and the average
+ * sizes above, so the town's homes hold its population. PLACEHOLDER with the
+ * sizes, pending `town-household-composition`.
  */
-export const PEOPLE_PER_HOUSEHOLD = HOUSEHOLD_SHAPES.reduce(
-  (sum, [shape, share]) => sum + share * MEAN_MEMBERS[shape],
-  0,
-);
+export function peoplePerHousehold(town: EntityId): number {
+  return householdMixForJurisdiction(town).shares.reduce(
+    (sum, [shape, share]) => sum + share * MEAN_MEMBERS[shape],
+    0,
+  );
+}
 
 /**
  * BLS Current Population Survey, 2025 annual average: 59.7% of the civilian
@@ -244,7 +237,7 @@ export function townRoster(town: EntityId): TownRoster {
     town,
     referencePopulation: reference,
     population,
-    households: Math.ceil(population / PEOPLE_PER_HOUSEHOLD),
+    households: Math.ceil(population / peoplePerHousehold(town)),
   };
 }
 
@@ -256,13 +249,14 @@ function householdRng(world: World, town: EntityId, index: number) {
   return new SeededRng(world.seed).fork(householdKey(town, index));
 }
 
-function pickShape(rng: SeededRng): HouseholdShape {
+function pickShape(rng: SeededRng, town: EntityId): HouseholdShape {
+  const { shares } = householdMixForJurisdiction(town);
   let point = rng.next();
-  for (const [shape, share] of HOUSEHOLD_SHAPES) {
+  for (const [shape, share] of shares) {
     point -= share;
     if (point < 0) return shape;
   }
-  return HOUSEHOLD_SHAPES.at(-1)![0];
+  return shares.at(-1)![0];
 }
 
 /** Household `index` of the town: its shape and its members' ages. Cheap. */
@@ -272,7 +266,7 @@ export function townHouseholdSkeleton(
   index: number,
 ): TownHouseholdSkeleton {
   const rng = householdRng(world, town, index);
-  const shape = pickShape(rng.fork("shape"));
+  const shape = pickShape(rng.fork("shape"), town);
   const members: SkeletonMember[] = [];
   const adult = (n: number, min: number, max: number) => {
     const age = rng.fork(`age:${n}`).integer(min, max + 1);
