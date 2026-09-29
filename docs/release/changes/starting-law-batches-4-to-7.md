@@ -33,3 +33,8 @@ A law a place already had when its crime and school figures were measured is
 part of those figures, and repealing it later moves them. A law passed after
 that date, such as Maryland's 2024 limits on police facial recognition, counts
 as a change from those figures from the start.
+
+A new state law now takes effect when that state's own rule says, if the law
+names no date itself. In Alaska and Ohio that is 90 days after it passes, in
+Maryland the next June 1, in Minnesota the next August 1, and in Missouri
+August 28. Every other place still waits 90 days until its rule is looked up.
