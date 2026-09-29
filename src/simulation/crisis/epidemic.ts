@@ -3,9 +3,7 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import {
   activeWorkRelationshipsAt,
   currentLifeCutoff,
-  educationEnrollmentStateAt,
   householdMembershipsAt,
-  kinshipRelationshipsAt,
   organizationProfileAt,
   peopleInHouseholdAt,
   workStatusAt,
@@ -48,7 +46,7 @@ import type { HealthEpisodeRecord, HealthSeverity } from "./types";
  * sick knew and where they spent their days.
  *
  * Officials decide what to do about it:
- * - a school's principal decides whether to close the school for a week,
+ * - a school's principal decides each week whether to close the school,
  *   reading how many of its students and staff are out sick and their own
  *   appetite for risk. A closed school passes nothing on until it reopens;
  * - the chair of the town council decides whether to cancel a meeting
@@ -232,6 +230,7 @@ interface PassIndex {
   readonly studentsByOrg: ReadonlyMap<EntityId, readonly EntityId[]>;
   readonly schoolsOf: ReadonlyMap<EntityId, readonly EntityId[]>;
   readonly acquaintances: ReadonlyMap<EntityId, ReadonlySet<EntityId>>;
+  readonly kin: ReadonlyMap<EntityId, ReadonlySet<EntityId>>;
 }
 
 /** Built once per pass: who is at which school and workplace today. */
@@ -248,16 +247,29 @@ function passIndex(world: World): PassIndex {
     list.push(relationship.personId);
     workersByOrg.set(relationship.organizationId, list);
   }
+  // One read of the enrollment states, the latest for each enrollment.
+  const enrollmentStatus = new Map<
+    EntityId,
+    { effectiveAt: IsoDate; sequence: number; status: string }
+  >();
+  for (const state of world.history.educationEnrollmentStates) {
+    if (state.effectiveAt > cutoff.asOfDate) continue;
+    if (state.sequence >= cutoff.historySequenceExclusive) continue;
+    const prior = enrollmentStatus.get(state.enrollmentId);
+    if (
+      !prior ||
+      state.effectiveAt > prior.effectiveAt ||
+      (state.effectiveAt === prior.effectiveAt &&
+        state.sequence > prior.sequence)
+    )
+      enrollmentStatus.set(state.enrollmentId, state);
+  }
   const studentsByOrg = new Map<EntityId, EntityId[]>();
   const schoolsOf = new Map<EntityId, EntityId[]>();
   for (const enrollment of world.history.educationEnrollments) {
     if (enrollment.startedAt > cutoff.asOfDate) continue;
     if (enrollment.sequence >= cutoff.historySequenceExclusive) continue;
-    if (
-      educationEnrollmentStateAt(world, enrollment.id, cutoff)?.status !==
-      "active"
-    )
-      continue;
+    if (enrollmentStatus.get(enrollment.id)?.status !== "active") continue;
     const list = studentsByOrg.get(enrollment.organizationId) ?? [];
     list.push(enrollment.personId);
     studentsByOrg.set(enrollment.organizationId, list);
@@ -265,20 +277,37 @@ function passIndex(world: World): PassIndex {
     schools.push(enrollment.organizationId);
     schoolsOf.set(enrollment.personId, schools);
   }
-  const acquaintances = new Map<EntityId, Set<EntityId>>();
-  for (const interaction of world.history.relationshipInteractions) {
-    if (interaction.sequence >= cutoff.historySequenceExclusive) continue;
-    const [a, b] = interaction.personIds;
-    if (!a || !b || a === b) continue;
-    for (const [x, y] of [
-      [a, b],
-      [b, a],
-    ] as const) {
-      const set = acquaintances.get(x) ?? new Set<EntityId>();
-      set.add(y);
-      acquaintances.set(x, set);
+  const pairs = (
+    rows: Iterable<readonly EntityId[]>,
+  ): Map<EntityId, Set<EntityId>> => {
+    const map = new Map<EntityId, Set<EntityId>>();
+    for (const ids of rows) {
+      for (const x of ids)
+        for (const y of ids) {
+          if (x === y) continue;
+          const set = map.get(x) ?? new Set<EntityId>();
+          set.add(y);
+          map.set(x, set);
+        }
     }
-  }
+    return map;
+  };
+  const acquaintances = pairs(
+    world.history.relationshipInteractions
+      .filter(
+        (interaction) => interaction.sequence < cutoff.historySequenceExclusive,
+      )
+      .map((interaction) => interaction.personIds),
+  );
+  const kin = pairs(
+    world.history.kinshipRelationships
+      .filter(
+        (relationship) =>
+          relationship.sequence < cutoff.historySequenceExclusive &&
+          relationship.establishedAt <= cutoff.asOfDate,
+      )
+      .map((relationship) => relationship.personIds),
+  );
   const sortValues = <T>(map: Map<EntityId, T[]>) => {
     for (const [key, list] of map) map.set(key, [...new Set(list)].sort());
     return map;
@@ -288,6 +317,7 @@ function passIndex(world: World): PassIndex {
     studentsByOrg: sortValues(studentsByOrg),
     schoolsOf: sortValues(schoolsOf),
     acquaintances,
+    kin,
   };
 }
 
@@ -317,13 +347,7 @@ export function weeklyContacts(
   };
   for (const membership of householdMembershipsAt(world, personId))
     add(peopleInHouseholdAt(world, membership.household.id), "household", null);
-  add(
-    kinshipRelationshipsAt(world, personId).flatMap((kin) =>
-      kin.personIds.filter((id) => id !== personId),
-    ),
-    "family",
-    null,
-  );
+  add(index.kin.get(personId) ?? [], "family", null);
   const schools = new Set(index.schoolsOf.get(personId) ?? []);
   for (const work of activeWorkRelationshipsAt(world, personId)) {
     const orgId = work.relationship.organizationId;
@@ -414,58 +438,76 @@ function principalOf(
   return null;
 }
 
+/**
+ * Each principal's call for the week. Returns the schools closed after it.
+ * A closed school with no principal left to decide, or nobody attending,
+ * reopens, so nothing stays closed without a record saying why.
+ */
 function schoolDecisions(
   world: World,
   index: PassIndex,
   sick: ReadonlySet<EntityId>,
   passKey: string,
-): World {
+): { readonly world: World; readonly closed: ReadonlySet<EntityId> } {
   let next = world;
   const status = schoolStatusEvents(world);
-  for (const [orgId, students] of [...index.studentsByOrg].sort(([a], [b]) =>
-    a.localeCompare(b),
-  )) {
+  const closed = new Set<EntityId>();
+  for (const [orgId, event] of status)
+    if (event.type === EPIDEMIC_EVENT_TYPES.schoolClosed) closed.add(orgId);
+  const schools = [
+    ...new Set<EntityId>([...index.studentsByOrg.keys(), ...closed]),
+  ].sort();
+  for (const orgId of schools) {
     const people = [
-      ...new Set([...students, ...(index.workersByOrg.get(orgId) ?? [])]),
+      ...new Set([
+        ...(index.studentsByOrg.get(orgId) ?? []),
+        ...(index.workersByOrg.get(orgId) ?? []),
+      ]),
     ];
     const out = people.filter((id) => sick.has(id)).length;
-    const isClosed =
-      status.get(orgId)?.type === EPIDEMIC_EVENT_TYPES.schoolClosed;
+    const isClosed = closed.has(orgId);
     if (!isClosed && out < U.minimumSickToDecide) continue;
-    const principal = principalOf(next, orgId, index);
-    if (!principal) continue;
-    const approach = riskApproachOf(next, principal);
+    const principal = index.studentsByOrg.has(orgId)
+      ? principalOf(next, orgId, index)
+      : null;
+    if (!principal && !isClosed) continue;
+    const approach = principal ? riskApproachOf(next, principal) : "neutral";
     const bar = U.schoolClosureShare[approach];
-    const share = out / people.length;
+    const share = people.length === 0 ? 0 : out / people.length;
     const profile = organizationProfileAt(next, orgId);
     const school = profile?.name ?? "the school";
     const town = profile?.locationJurisdictionId ?? null;
-    const who = personName(next.people[principal]!);
+    const who = principal ? personName(next.people[principal]!) : null;
     const counted = `${out} of its ${people.length} students and staff ${out === 1 ? "was" : "were"} out sick`;
     const lean = APPROACH_WORD[approach];
     let type: string | null = null;
     let summary = "";
-    if (!isClosed && share >= bar) {
+    if (!who) {
+      type = EPIDEMIC_EVENT_TYPES.schoolReopened;
+      summary = `${school} reopened with no principal in charge to keep it closed.`;
+    } else if (!isClosed && share >= bar) {
       type = EPIDEMIC_EVENT_TYPES.schoolClosed;
-      summary = `${who}, the principal, closed ${school} for a week because ${counted}.`;
+      summary = `${who}, the principal, closed ${school} because ${counted}.`;
     } else if (isClosed && share < bar * U.reopenFractionOfBar) {
       type = EPIDEMIC_EVENT_TYPES.schoolReopened;
       summary = `${who}, the principal, reopened ${school} now that ${counted}.`;
-    } else if (!isClosed) {
+    } else if (!isClosed && share >= bar * U.reopenFractionOfBar) {
       type = EPIDEMIC_EVENT_TYPES.schoolKeptOpen;
       summary = `${who}, the principal, kept ${school} open although ${counted}.`;
     }
     if (!type) continue;
+    if (type === EPIDEMIC_EVENT_TYPES.schoolClosed) closed.add(orgId);
+    if (type === EPIDEMIC_EVENT_TYPES.schoolReopened) closed.delete(orgId);
     next = recordWorldEvent(next, {
       stableKey: `${passKey}:school:${orgId}`,
       type: type as `${string}.${string}`,
       occurredAt: next.currentDate,
       recordedAt: next.currentDate,
       jurisdictionId: town,
-      involvedEntityIds: [orgId, principal],
-      participants: [
-        { personId: principal, role: "agency:decider", detail: approach },
-      ],
+      involvedEntityIds: principal ? [orgId, principal] : [orgId],
+      participants: principal
+        ? [{ personId: principal, role: "agency:decider", detail: approach }]
+        : [],
       personFactConstraints: [],
       visibility: "public",
       tags: [
@@ -486,7 +528,7 @@ function schoolDecisions(
       },
     });
   }
-  return next;
+  return { world: next, closed };
 }
 
 /**
@@ -702,6 +744,8 @@ function residentsByTown(world: World): ReadonlyMap<EntityId, EntityId[]> {
 export function sampleEpidemicWeek(
   world: World,
   passKey: string,
+  index: PassIndex = passIndex(world),
+  closed: ReadonlySet<EntityId> = closedSchools(world),
 ): readonly NewCase[] {
   const date = world.currentDate;
   const cutoff = currentLifeCutoff(world);
@@ -715,8 +759,6 @@ export function sampleEpidemicWeek(
     if (last && last.onsetAt >= immuneFrom) return false;
     return isPersonAliveAt(world, personId, cutoff);
   };
-  const index = passIndex(world);
-  const closed = closedSchools(world);
   const infectious = epidemicCases(world).filter(
     (found) =>
       found.onsetAt >= addDays(date, -U.passDays) &&
@@ -809,13 +851,15 @@ export function epidemicPassHandler(
   const passKey = `pass:${dueItem.dueAt}`;
   // Principals decide first, on last week's cases: a closed school passes
   // nothing on this week.
-  let next = schoolDecisions(
+  const index = passIndex(world);
+  const decided = schoolDecisions(
     world,
-    passIndex(world),
+    index,
     peopleOutSick(world),
     `${EPIDEMIC_VERSION}:${passKey}`,
   );
-  const cases = sampleEpidemicWeek(next, passKey);
+  let next = decided.world;
+  const cases = sampleEpidemicWeek(next, passKey, index, decided.closed);
   for (const found of cases) next = recordCase(next, passKey, found);
   const following = addDays(dueItem.dueAt, U.passDays);
   next = scheduleFutureDueItem(next, {

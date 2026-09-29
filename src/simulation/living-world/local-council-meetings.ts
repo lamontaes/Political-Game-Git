@@ -563,17 +563,22 @@ export function localCouncilMeetingHandler(
   const rules = councilRules(unit);
   if (!rules) return done(world, "This town has no council to meet.");
   const identity = localGoverningBodyIdentity(unit)!;
-  // The chair may cancel a meeting while an illness is going around.
-  const decision = epidemicCouncilMeetingDecision(world, {
-    stableKey: due.stableKey,
-    town,
-    bodyName: identity.bodyName,
-    chairPersonId: player ? localCouncilChair(world, town, player) : null,
-    memberPersonIds: members(world, unit).map((seat) => seat.personId),
-  });
+  // The chair may cancel a regular meeting while an illness is going around.
+  // The posted public meeting is one the player may attend, and its
+  // attendance scene does not read a cancellation yet, so it always meets.
+  const decision =
+    match![2] !== "meeting"
+      ? { world, canceled: false }
+      : epidemicCouncilMeetingDecision(world, {
+          stableKey: due.stableKey,
+          town,
+          bodyName: identity.bodyName,
+          chairPersonId: player ? localCouncilChair(world, town, player) : null,
+          memberPersonIds: members(world, unit).map((seat) => seat.personId),
+        });
   if (decision.canceled) {
     let next = decision.world;
-    if (player && match![2] === "meeting")
+    if (player)
       next = scheduleMeeting(
         next,
         unit,
