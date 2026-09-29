@@ -15,6 +15,7 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 
 import type { PlaceDistrictRelationRecord } from "../../src/source/domains/sld-place-relations/index";
+import { districtGeoid, loadLines2026 } from "./lines-2026-overlay";
 import { readShapefileArchive } from "./shapefile";
 
 const ROOT = join(dirname(new URL(import.meta.url).pathname), "..", "..");
@@ -173,6 +174,23 @@ const pack = (
   );
 };
 
+// U.S. House lines for the 2026 elections: a dated set of county rows on top of
+// the baseline. It holds only the states the Census republished for the 120th
+// Congress, and a reader takes it once the game date reaches `effectiveFrom`.
+const lines2026 = loadLines2026(ROOT);
+const datedCounties: [string, string | string[]][] = [];
+for (const [stateFips, state] of Object.entries(lines2026.states)) {
+  for (const [code, value] of Object.entries(state.counties)) {
+    const districts = (typeof value === "string" ? [value] : value).map(
+      (district) => districtGeoid(stateFips, district),
+    );
+    datedCounties.push([
+      `${stateFips}${code}`,
+      districts.length === 1 ? (districts[0] as string) : districts,
+    ]);
+  }
+}
+
 const payload = {
   format: "ocd-map-membership-candidates/v2",
   countyCongressional: {
@@ -185,6 +203,15 @@ const payload = {
       ]),
       3,
     ),
+    dated: [
+      {
+        vintage: lines2026.vintage,
+        effectiveFrom: lines2026.effectiveFrom,
+        asOf: lines2026.asOf,
+        stateFips: Object.keys(lines2026.states).sort(),
+        byState: pack(datedCounties, 3),
+      },
+    ],
   },
   placeCongressional: {
     source: { artifactId: relation.artifactId, sha256: relation.sha256 },
