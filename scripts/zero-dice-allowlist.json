@@ -556,13 +556,6 @@
       "code": "while (product > limit && count < 25) {"
     },
     {
-      "file": "src/simulation/crime/producer.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "if (rng.next() >= crimeRule(offense).arrestShare) continue;"
-    },
-    {
       "file": "src/simulation/crisis/death-causes.ts",
       "kind": "fixed-share",
       "build": "Build 21",
@@ -1064,21 +1057,7 @@
       "kind": "roll",
       "build": "Build 7",
       "count": 1,
-      "code": "rng.fork(\"who-leaves\").next() < 0.5 ? [a, b] : [b, a];"
-    },
-    {
-      "file": "src/simulation/living-world/town-families.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
       "code": "rng.fork(\"move-in\").next() <"
-    },
-    {
-      "file": "src/simulation/living-world/town-families.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "(size(homeA) === size(homeB) && rng.fork(\"host\").next() < 0.5)"
     },
     {
       "file": "src/simulation/living-world/town-families.ts",
@@ -1289,20 +1268,6 @@
       "build": "Build 24",
       "count": 1,
       "code": "for (let n = 0; n < count; n += 1) {"
-    },
-    {
-      "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "kind": "place-in-logic",
-      "build": "Build 25",
-      "count": 1,
-      "code": "if (government.state === \"DC\") {"
-    },
-    {
-      "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "kind": "place-in-logic",
-      "build": "Build 25",
-      "count": 1,
-      "code": "(holder) => holder.stateUsps === \"DC\","
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
@@ -1772,20 +1737,6 @@
       "build": "Build 12",
       "count": 1,
       "code": "candidate.key === \"US-DC\""
-    },
-    {
-      "file": "src/simulation/public-budgets/rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 12",
-      "count": 1,
-      "code": "normalCostShare: 0.02,"
-    },
-    {
-      "file": "src/simulation/public-budgets/rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 12",
-      "count": 1,
-      "code": "benefitShare: 0.08,"
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",

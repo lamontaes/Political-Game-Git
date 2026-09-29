@@ -425,6 +425,47 @@ export function reviewTownFamilies(
     });
   };
 
+  /** When this person moved into the home they live in now. */
+  const settledSince = (id: EntityId): IsoDate =>
+    householdMembershipsAt(next, id).find(
+      (entry) =>
+        entry.household.id === householdOf(id) &&
+        entry.state.residenceRole === "primary",
+    )?.membership.startedAt ?? today;
+  /**
+   * Of two people, the one who has lived in their home longer; with the same
+   * date, the older of them. HARDWIRED tie-break: age, where the record
+   * holds nothing else that tells them apart.
+   */
+  const settledLonger = (a: EntityId, b: EntityId): EntityId => {
+    const [sinceA, sinceB] = [settledSince(a), settledSince(b)];
+    if (sinceA !== sinceB) return sinceA < sinceB ? a : b;
+    const born = (id: EntityId) => view.people.get(id)!.person.birthDate;
+    return born(a) <= born(b) ? a : b;
+  };
+  /**
+   * Who moves out when a couple sharing a home breaks up, from the home as it
+   * stands: the children stay with their parent, so the partner who parents
+   * more of the children living there keeps the home; otherwise the one who
+   * lived there first does. Returns [leaving, staying].
+   */
+  const leavesAfterBreakUp = (
+    a: EntityId,
+    b: EntityId,
+  ): readonly [EntityId, EntityId] => {
+    const home = householdOf(a);
+    const childrenHere = (id: EntityId) =>
+      (view.childrenOf.get(id) ?? []).filter(
+        (child) =>
+          (view.people.get(child)?.age ?? 99) < 18 &&
+          householdOf(child) === home,
+      ).length;
+    const [kidsA, kidsB] = [childrenHere(a), childrenHere(b)];
+    const staying =
+      kidsA !== kidsB ? (kidsA > kidsB ? a : b) : settledLonger(a, b);
+    return staying === a ? [b, a] : [a, b];
+  };
+
   /** Moves a person, and the children only they parent, into a household. */
   const moveInto = (
     key: string,
@@ -549,8 +590,7 @@ export function reviewTownFamilies(
       );
       endPartnership(couple, key, provenance);
       if (together && couple.stage !== "dating") {
-        const [leaving, staying] =
-          rng.fork("who-leaves").next() < 0.5 ? [a, b] : [b, a];
+        const [leaving, staying] = leavesAfterBreakUp(a, b);
         const home = newHousehold(
           key,
           view.people.get(leaving)!.person,
@@ -587,10 +627,11 @@ export function reviewTownFamilies(
         const homeB = householdOf(b);
         const size = (id: EntityId | null) =>
           id === null ? 0 : (view.householdMembers.get(id)?.length ?? 0);
-        // The one from the smaller household moves in with the other.
+        // The one from the smaller household moves in with the other; with
+        // homes the same size, the one settled there longer keeps theirs.
         const [mover, host] =
           size(homeA) > size(homeB) ||
-          (size(homeA) === size(homeB) && rng.fork("host").next() < 0.5)
+          (size(homeA) === size(homeB) && settledLonger(a, b) === a)
             ? [b, a]
             : [a, b];
         const hostHome = householdOf(host);
