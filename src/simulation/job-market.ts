@@ -20,12 +20,17 @@ import {
   localGovernmentOrganizationKey,
 } from "./nationwide-world/local-governments";
 import {
+  FEDERAL_MINIMUM_HOURLY_MINOR,
+  minimumWageSettingAt,
+} from "./minimum-wage";
+import {
   resourceFlowTermsAt,
   resourceFlowTermsHistory,
 } from "./resource-queries";
 import {
   createWorkCompensation,
   money,
+  recordResourceFlowTerms,
   resolveWorkCompensationPeriod,
 } from "./resources";
 import { SeededRng } from "./rng";
@@ -137,27 +142,10 @@ export const PUBLIC_BODY_ROLE_PLACEHOLDER = {
 } as const;
 
 /**
- * The federal minimum wage (Fair Labor Standards Act, $7.25 an hour since
- * July 24, 2009). No offer is written below it. State and territory minimums
- * are not on file (research: minimum-wages-by-place), so none is claimed.
- */
-export const FEDERAL_MINIMUM_HOURLY_MINOR = 725;
-
-/**
  * The youngest applicant an employer takes: 16, the federal general minimum
  * for nonfarm work without hour limits.
  */
 export const MINIMUM_APPLICANT_AGE = 16;
-
-/**
- * PLACEHOLDER(research: teen-first-jobs). What a teenager's first job pays by
- * the hour, until ChatGPT says what first jobs pay by state: the federal
- * minimum, not this employer's pay.
- */
-export const FIRST_JOB_PAY_PLACEHOLDER = {
-  researchQuestionId: "teen-first-jobs",
-  hourlyMinor: FEDERAL_MINIMUM_HOURLY_MINOR,
-} as const;
 
 /**
  * The stable key of the job the first-job situation records. It was recorded
@@ -621,6 +609,7 @@ function roundTo(minor: number, step: number): number {
 function offerTerms(
   role: EmployerRole,
   rng: SeededRng,
+  minimumHourlyMinor: number,
 ): {
   pay: JobPayTerms;
   weeklyHours: { minimumHours: number; maximumHours: number };
@@ -656,7 +645,7 @@ function offerTerms(
   const fullTimeHours =
     (role.weeklyHours.minimumHours + role.weeklyHours.maximumHours) / 2;
   const hourly = Math.max(
-    FEDERAL_MINIMUM_HOURLY_MINOR,
+    minimumHourlyMinor,
     roundTo((role.annualMinor / 52 / fullTimeHours) * spread, 5),
   );
   return {
@@ -684,7 +673,11 @@ export function openWeeklyListings(world: World, personId: EntityId): World {
     const key = `job-opening:${role.key}:${week}`;
     const rng = rngFor(next, key);
     if (rng.next() >= JOB_MARKET_PLACEHOLDER.weeklyOpeningChance) continue;
-    const terms = offerTerms(role, rng);
+    const terms = offerTerms(
+      role,
+      rng,
+      minimumHourlyMinorFor(next, role.jurisdictionId, next.currentDate),
+    );
     const closesAt = addDays(
       next.currentDate,
       between(rng, JOB_TIMING.recruitmentWindowDays),
@@ -1390,8 +1383,42 @@ function retireSupersededFirstJob(world: World, personId: EntityId): World {
 }
 
 /**
+ * The minimum wage in force where a job is on `onDate`, in cents an hour: the
+ * highest of the federal, state and local minimum (`minimum-wage.ts`). Where
+ * the state's rate is unknown, the federal rate is the floor known.
+ */
+function minimumHourlyMinorFor(
+  world: World,
+  jurisdictionId: EntityId | null,
+  onDate: IsoDate,
+): number {
+  return (
+    minimumWageSettingAt(world, jurisdictionId, onDate)?.hourlyMinor ??
+    FEDERAL_MINIMUM_HOURLY_MINOR
+  );
+}
+
+/** Where a job is worked: its role's place, else its employer's, else home. */
+function workplaceJurisdictionId(
+  world: World,
+  work: WorkRelationship,
+): EntityId | null {
+  const role = activeRole(world, work);
+  return (
+    role?.locationJurisdictionId ??
+    role?.timeDemand.locationJurisdictionId ??
+    (work.organizationId
+      ? (organizationProfileAt(world, work.organizationId)
+          ?.locationJurisdictionId ?? null)
+      : null) ??
+    world.people[work.personId]?.homeJurisdictionId ??
+    null
+  );
+}
+
+/**
  * Pays a teenager's first job weekly from today, at its expected hours (the
- * middle of the range) and the placeholder hourly rate. Called when the job
+ * middle of the range) and the state minimum wage for today's date. Called when the job
  * is taken; a saved one is found at the next settlement and paid forward
  * only. Unchanged when the job is not active or is already paid.
  */
@@ -1406,13 +1433,18 @@ export function payFirstJob(world: World, personId: EntityId): World {
   const weekly = activeRole(world, work)?.timeDemand.expectedWeekly;
   if (!weekly) return world;
   const hours = Math.round((weekly.minimumHours + weekly.maximumHours) / 2);
+  const hourlyMinor = minimumHourlyMinorFor(
+    world,
+    workplaceJurisdictionId(world, work),
+    world.currentDate,
+  );
   return payWeekly(
     world,
     personId,
     work.id,
-    FIRST_JOB_PAY_PLACEHOLDER.hourlyMinor * hours,
+    hourlyMinor * hours,
     "USD",
-    `A first job, paid weekly from ${world.currentDate} for ${hours} hours at the placeholder rate (research: ${FIRST_JOB_PAY_PLACEHOLDER.researchQuestionId}).`,
+    `A first job, paid weekly from ${world.currentDate} for ${hours} hours at the minimum wage where it is, $${(hourlyMinor / 100).toFixed(2)} an hour.`,
   );
 }
 
@@ -1524,6 +1556,75 @@ export function settleJobPay(world: World, personId: EntityId): World {
   );
 }
 
+/**
+ * A minimum-wage law's effective date raises the pay of every job paid below
+ * the new floor, from the first unpaid week that begins on or after it. Each
+ * rise is recorded as a change of the flow's pay terms that names the law. A
+ * law that lowers or repeals the floor cuts nobody's pay. Only pay from this
+ * job market (`job-pay:`) is read; a week already paid keeps the pay it had.
+ *
+ * NOT MODELED: back pay, and pay changes inside a week (a week is paid at the
+ * terms in force when it begins).
+ */
+function raiseWeeklyPayToMinimum(
+  world: World,
+  work: WorkRelationship,
+  flow: World["history"]["resourceFlows"][number],
+  firstUnpaidWeek: number,
+): World {
+  if (!flow.stableKey.startsWith(PAY_KEY_PREFIX)) return world;
+  const role = activeRole(world, work);
+  if (!role) return world;
+  const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
+  const hours = (minimumHours + maximumHours) / 2;
+  if (hours <= 0) return world;
+  const place = workplaceJurisdictionId(world, work);
+  let next = world;
+  let current = resourceFlowTermsAt(next, flow.id, {
+    asOfDate: next.currentDate,
+    historySequenceExclusive: next.history.nextSequence,
+  });
+  if (current?.status !== "active" || current.cadenceKind !== "schedule:weekly")
+    return world;
+  for (
+    let week = firstUnpaidWeek;
+    week < firstUnpaidWeek + CATCH_UP_LIMIT_WEEKS;
+    week += 1
+  ) {
+    const weekStart = addDays(flow.startsAt, (week - 1) * WEEK_DAYS);
+    if (weekStart > next.currentDate) break;
+    const setting = minimumWageSettingAt(next, place, weekStart);
+    if (!setting) continue;
+    const weekly = Math.round(setting.hourlyMinor * hours);
+    if (weekly <= current.amount.minorUnits) continue;
+    const enactment = setting.measureId
+      ? (next.history.legislativeEnactments ?? []).find(
+          (row) => row.measureId === setting.measureId,
+        )
+      : undefined;
+    const rate = `$${(setting.hourlyMinor / 100).toFixed(2)} an hour`;
+    const law = setting.designation ?? `The ${setting.level} minimum wage`;
+    next = recordResourceFlowTerms(next, {
+      stableKey: `${flow.stableKey}:minimum-wage:${weekStart}`,
+      resourceFlowId: flow.id,
+      effectiveAt: weekStart,
+      status: "active",
+      amount: money(weekly, current.amount.currency),
+      cadenceKind: current.cadenceKind,
+      reason: `${law} raised the ${setting.level} minimum wage to ${rate}.`,
+      provenance: enactment?.outcomeEventId
+        ? { kind: "simulated-event", eventId: enactment.outcomeEventId }
+        : {
+            kind: "authored",
+            note: `${PROVENANCE_NOTE} Raised to the ${setting.level} minimum wage, ${rate}.`,
+          },
+      supersedesTermsId: current.id,
+    });
+    current = next.history.resourceFlowTerms.at(-1)!;
+  }
+  return next;
+}
+
 function settleWeeklyRecordedPay(
   world: World,
   personId: EntityId,
@@ -1567,6 +1668,7 @@ function settleWeeklyRecordedPay(
           ) + 1
         : 1;
     const firstWeek = Math.max(paidWeeks + 1, firstNewWeek);
+    next = raiseWeeklyPayToMinimum(next, work, flow, firstWeek);
     for (
       let week = firstWeek;
       week < firstWeek + CATCH_UP_LIMIT_WEEKS;
