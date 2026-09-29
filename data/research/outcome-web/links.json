@@ -3850,6 +3850,24 @@
       "source": "Nakamura and Steinsson 2014, Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions, American Economic Review 104(3), NBER w17391; contracts from USAspending.gov and output from the Bureau of Economic Analysis, read September 29, 2026"
     },
     {
+      "key": "farm-payments-cut-to-land-values",
+      "from": "federal.farm-payments-cut-pct-of-land-value",
+      "to": "farmland.value-per-acre",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.215,
+      "per": "percent of the state's farm real estate value that the payments cut removes each year",
+      "lagMonths": 12,
+      "group": "farmland owners",
+      "owner": "F",
+      "evidence": "researched",
+      "anchor": "Each $1 of government payments per acre is worth $13 to $30 per acre of farmland value; the middle is $21.50. A payments cut equal to 1% of a state's farm real estate value each year lowers its land values by 21.5%, and the spread is the paper's own. Land values move as land trades, so the lag is one year, the interval of the land value survey. Owners, not operators, hold most of the loss.",
+      "source": "Goodwin, Mishra and Ortalo-Magne 2011, Landowners' Riches: The Distribution of Agricultural Subsidies, NBER w16693; payments from USDA ERS Farm Income and Wealth Statistics (September 3, 2026 release) and land values from USDA NASS Land Values 2024 Summary, read September 29, 2026",
+      "range": [-0.3, -0.13]
+    },
+    {
       "key": "transit-service-to-ridership",
       "from": "transit.service-access:pct-moved-by-causes",
       "to": "transit.ridership",
