@@ -33,7 +33,7 @@ import type {
 /**
  * A fairness law sets what a man partnered with a man is paid when he is
  * hired: where neither his state's law nor his town's ordinance covers him,
- * 2.7% below the job's rate (Burn 2018); where one does, the full rate. The
+ * the job's rate over 1.027 (Burn 2018); where one does, the full rate. The
  * same town is opened twice, once under its real starting law and once with
  * the state's law turned the other way before anyone is hired, and every
  * town job is paid in both. The place is drawn from the largest town of each
@@ -184,7 +184,7 @@ function watch(key: string): Watched {
 }
 
 describe("a fairness law sets the pay of men partnered with men", () => {
-  it(`in the first town, in an order drawn from seed ${SEED}, with such a man in a paid job: 2.7% less where no law covers him`, () => {
+  it(`in the first town, in an order drawn from seed ${SEED}, with such a man in a paid job: the law's 2.7% gain is missing where no law covers him`, () => {
     const places = onePlaceEach();
     expect(places).toHaveLength(56);
     const order = [...places].sort((a, b) =>
