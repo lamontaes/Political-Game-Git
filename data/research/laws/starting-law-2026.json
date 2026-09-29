@@ -16474,6 +16474,358 @@
         }
       }
     },
+    "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
+      "source": "American Farmland Trust, Farmland Information Center, Status of State Purchase of Agricultural Conservation Easement (PACE) Programs, as of January 2026, read 9/29/2026 for the 50 states; the District and territorial codes for the rest.",
+      "note": "Yes: the state pays landowners (or local governments and land trusts) to put easements on farmland that keep it from being developed. No: it has no such program running. Places whose law could not be read take an estimate, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "Alabama's program has ended and buys no more easements (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: no territorial program could be found, and the federal Agricultural Conservation Easement Program, which the territory does not fund, is the only buyer of farmland easements its rules name here (7 CFR part 1468), so this place takes the answer of the 20 states with no program of their own.",
+          "source": "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XIV/subchapter-B/part-1468",
+          "note": "Tried: the American Samoa Code Annotated at asbar.org, which refuses this container (HTTP 403), 9/29/2026."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: California Farmland Conservancy Program (1995) and three later programs (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-CO": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Great Outdoors Colorado (1992) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-CT": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Farmland Preservation Program (1978) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-DC": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "D.C. Code § 47-868",
+          "source": "https://code.dccouncil.gov/us/dc/council/code/sections/47-868",
+          "note": "The District lowers the property tax on certain urban farms but buys no easements to keep land in farming."
+        },
+        "US-DE": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Agricultural Lands Preservation Program (1991) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-FL": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Rural and Family Lands Protection Program (2001) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-GA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Georgia Farmland Conservation Fund Program (2023) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: no territorial program could be found, and the federal Agricultural Conservation Easement Program, which the territory does not fund, is the only buyer of farmland easements its rules name here (7 CFR part 1468), so this place takes the answer of the 20 states with no program of their own.",
+          "source": "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XIV/subchapter-B/part-1468",
+          "note": "Tried: the Guam Code at col.guamcourts.gov, whose land chapters (21 GCA, among them the Chamorro Land Trust, which leases public land for farming) turned up no easement fund, 9/29/2026."
+        },
+        "US-HI": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Legacy Land Conservation Program (2005) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-KY": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Purchase of Agricultural Conservation Easements program (1994) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-MA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Agricultural Preservation Restriction Program (1977) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Maryland Agricultural Land Preservation Foundation (1977) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-ME": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Farmland Protection Program (1987) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-MI": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Farmland and Open Space Preservation Program (1994) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "Missouri has authorized a program but has none running (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: no territorial program could be found, and the federal Agricultural Conservation Easement Program, which the territory does not fund, is the only buyer of farmland easements its rules name here (7 CFR part 1468), so this place takes the answer of the 20 states with no program of their own.",
+          "source": "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XIV/subchapter-B/part-1468",
+          "note": "Tried: the Commonwealth Code at cnmilaw.org, Title 2 (Natural Resources), where a search found no farmland easement fund, 9/29/2026."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "Montana's Agricultural Heritage Program has ended and buys no more easements (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-NC": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Agricultural Development and Farmland Preservation Trust Fund (1986) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-NH": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Agricultural Lands Preservation Program (1979) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: New Jersey Farmland Preservation Program (1983) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-NM": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: New Mexico Natural Heritage Conservation Program (2010) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-NY": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Agricultural and Farmland Protection Program (1996) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-OH": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Local Agricultural Easement Purchase Program (1999) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Oregon Agricultural Heritage Program (2017) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-PA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Agricultural Conservation Easement Purchase Program (1988) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-PR": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "Ley Núm. 107 de 3 de julio de 1974, según enmendada",
+          "source": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/107-1974.pdf",
+          "note": "The Farmland Preservation for Agricultural Use Act keeps undivided and zoned for farming the land that the Land Administration and other public bodies buy to keep in agriculture."
+        },
+        "US-RI": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Farmland Preservation Program (1981) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-SC": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: South Carolina Conservation Bank (2002) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        },
+        "US-TN": {
+          "answer": "yes",
+          "preempts": false,
+          "operativeAt": "2026-09-01",
+          "before": {
+            "answer": "no"
+          },
+          "source": "https://www.tn.gov/agriculture/farms/heritage/preserving-land-for-agriculture-now--plan-.html",
+          "note": "The Farmland Preservation Act, signed in May 2025, set aside $25 million to help pay landowners for conservation easements; its Preserving Land for Agriculture Now program opened to applications on 9/1/2026."
+        },
+        "US-TX": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Texas Farm and Ranch Lands Conservation Program (2005) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-UT": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: LeRay McAllister Working Farm and Ranch Fund (1999) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-VA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Virginia Land Conservation Foundation (2000) and Farmland Preservation Fund (2001) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-VI": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: no territorial program could be found, and the federal Agricultural Conservation Easement Program, which the territory does not fund, is the only buyer of farmland easements its rules name here (7 CFR part 1468), so this place takes the answer of the 20 states with no program of their own.",
+          "source": "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XIV/subchapter-B/part-1468",
+          "note": "Tried: the Virgin Islands Code at law.justia.com, which refuses this container (HTTP 403), 9/29/2026."
+        },
+        "US-VT": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Vermont Housing and Conservation Board, Farmland Conservation Program (1987) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-WA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Wildlife and Recreation Program, Farmland Protection Category (2005) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-WI": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: Farmland Preservation Program (2009) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-WV": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state buys easements that keep farmland in farming: West Virginia Agricultural Land Protection Authority (2000) (American Farmland Trust, Status of State PACE Programs, January 2026)."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://farmlandinfo.org/wp-content/uploads/sites/2/2025/10/state-pace-program-fact-sheet.pdf",
+          "note": "The state has no program that buys easements to keep farmland in farming (American Farmland Trust, Status of State PACE Programs, January 2026, lists none)."
+        }
+      }
+    },
     "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
       "source": "https://www.mapresearch.org/equality-maps/non_discrimination_laws",
       "note": "Yes where state or territorial law expressly bars discrimination for both sexual orientation and gender identity in both employment and housing; no where it leaves one out. Federal law already bars it in employment (Bostock v. Clayton County, 2020), so the question is what state law adds. Read from the Movement Advancement Project's map, data as of 9/28/2026; interpretations of 'sex' by a commission are not counted as law. Where the state is no, its cities may pass their own ordinance unless the state preempts them.",
