@@ -103,6 +103,7 @@ import type {
   LegislativeVoteDisposition,
   World,
 } from "../types";
+import { hasStableKey, recordByStableKey } from "../history-index";
 
 /**
  * LEGISLATIVE CLOCK — the institution acts while the player is elsewhere.
@@ -1182,10 +1183,9 @@ export function castMemberBallot(
     summary: `Decided to vote ${label} ${facing.measure.designation}, ${facing.measure.shortTitle}, in ${facing.forumName}.`,
   });
   // Decided: the reminder to decide no longer needs to stop the day.
-  const notice = next.history.scheduledActivities.find(
-    (activity) =>
-      activity.stableKey ===
-      memberVoteNoticeKey(input.question, input.personId),
+  const notice = recordByStableKey(
+    next.history.scheduledActivities,
+    memberVoteNoticeKey(input.question, input.personId),
   );
   return notice &&
     scheduledActivityState(next, notice.id).status === "scheduled"
@@ -1266,9 +1266,7 @@ function noticeMemberVote(
     const stableKey = memberVoteNoticeKey(forum.question, personId);
     if (
       memberBallotOn(next, personId, forum.question) !== null ||
-      next.history.scheduledActivities.some(
-        (activity) => activity.stableKey === stableKey,
-      )
+      hasStableKey(next.history.scheduledActivities, stableKey)
     )
       continue;
     const dayBefore = simulationMomentAtLocalTime({

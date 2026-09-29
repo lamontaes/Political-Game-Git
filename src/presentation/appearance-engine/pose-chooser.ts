@@ -1,5 +1,10 @@
 import { stableHash } from "../../simulation/ids";
-import type { BodyPose, BodyView } from "./pack";
+import {
+  presentationPose,
+  type BodyPose,
+  type BodyPresentation,
+  type BodyView,
+} from "./pack";
 
 /**
  * WHAT A PERSON IS DOING IN THE SCENE, AND THE POSE THAT SHOWS IT.
@@ -37,6 +42,8 @@ export interface PoseChoice {
    * seed alone to decide.
    */
   readonly guarded?: number;
+  /** Their presentation, whose own poses are the only ones chosen. */
+  readonly presentation?: BodyPresentation;
 }
 
 function draw(seed: string, question: string): number {
@@ -71,6 +78,13 @@ function either(
  * - idle: standing, or plainly seated
  */
 export function chooseBodyPose(choice: PoseChoice): BodyPose {
+  const pose = choosePose(choice);
+  return choice.presentation
+    ? presentationPose(pose, choice.presentation)
+    : pose;
+}
+
+function choosePose(choice: PoseChoice): BodyPose {
   const { activity, seated, seed } = choice;
   // PLACEHOLDER(wave2): 0.15 per trait step, picked by eye.
   const guarded = (choice.guarded ?? 0) * 0.15;

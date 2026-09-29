@@ -1,0 +1,137 @@
+diff --git a/data/research/outcome-web/links.json b/data/research/outcome-web/links.json
+index 3b6f7ee3..d494ed79 100644
+--- a/data/research/outcome-web/links.json
++++ b/data/research/outcome-web/links.json
+@@ -29,6 +29,10 @@
+     "household.poverty-pct": {
+       "floor": 0.5,
+       "ceiling": 2
++    },
++    "crime.violent": {
++      "floor": 0.25,
++      "ceiling": 3
+     }
+   },
+   "baselines": {
+@@ -2696,6 +2700,42 @@
+       "source": "Spec part 6: the entire world changes",
+       "evidence": "researched",
+       "range": [0.01, 0.01]
++    },
++    {
++      "key": "carry-permit-to-violent-crime",
++      "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
++      "to": "crime.violent",
++      "strength": "moderate",
++      "shape": {
++        "kind": "linear"
++      },
++      "size": -0.1,
++      "range": [-0.15, -0.04],
++      "per": "permit required (dropping it raises violent crime about 10%)",
++      "lagMonths": 12,
++      "group": "place",
++      "owner": "B-cloud",
++      "evidence": "researched",
++      "anchor": "States that adopted right-to-carry laws had 13 to 15% more violent crime ten years on than their synthetic controls; RAND rates the evidence supportive",
++      "source": "Donohue, Aneja and Weber 2019, Journal of Empirical Legal Studies 16(2); RAND Science of Gun Policy"
++    },
++    {
++      "key": "unemployment-to-violent-crime",
++      "from": "labor.unemployment-pct",
++      "to": "crime.violent",
++      "strength": "weak",
++      "shape": {
++        "kind": "linear"
++      },
++      "size": 0.01,
++      "range": [0, 0.025],
++      "per": "percentage point of unemployment above 4%",
++      "lagMonths": 3,
++      "group": "place",
++      "owner": "B-cloud",
++      "evidence": "provisional",
++      "anchor": "Violent crime responds weakly to unemployment, far less than property crime (about 2% burglary per point)",
++      "source": "Raphael and Winter-Ebmer 2001, Journal of Law and Economics 44(1)"
+     }
+   ],
+   "calibratedAt": "2024-07-01"
+diff --git a/data/research/outcome-web/place-outcome-bases-2024.json b/data/research/outcome-web/place-outcome-bases-2024.json
+index 950afc6f..1665fd4e 100644
+--- a/data/research/outcome-web/place-outcome-bases-2024.json
++++ b/data/research/outcome-web/place-outcome-bases-2024.json
+@@ -471,6 +471,74 @@
+         "minPct": 40,
+         "maxPct": 180
+       }
++    },
++    "crime.violent": {
++      "name": "Violent crimes per 100,000 people",
++      "unit": "violent crimes known to police per 100,000 residents (murder and nonnegligent manslaughter, rape, robbery, aggravated assault)",
++      "shortUnit": "per 100,000 people",
++      "scale": "rate",
++      "source": "FBI Uniform Crime Reporting, Crime in the Nation 2024, state estimates (Crime Data Explorer). Values read from published summaries of that table (USAFacts and others) because this lane could not reach the FBI site; to confirm against the table.",
++      "drift": {
++        "monthlySdLogit": 0.02,
++        "nationalShare": 0.6,
++        "waveMonthlyChance": 0.00125,
++        "waveSdLogit": 0.35,
++        "minPct": 30,
++        "maxPct": 3000
++      },
++      "places": {
++        "US-AK": 724.1,
++        "US-AL": 359.9,
++        "US-AR": 579.4,
++        "US-AZ": 421.9,
++        "US-CA": 486.0,
++        "US-CO": 476.3,
++        "US-CT": 136.0,
++        "US-DC": 1005.5,
++        "US-DE": 361,
++        "US-FL": 267,
++        "US-GA": 326,
++        "US-HI": 217.7,
++        "US-IA": 243,
++        "US-ID": 231,
++        "US-IL": 289,
++        "US-IN": 313,
++        "US-KS": 439,
++        "US-KY": 213,
++        "US-LA": 519.8,
++        "US-MA": 315,
++        "US-MD": 420,
++        "US-ME": 100.1,
++        "US-MI": 434,
++        "US-MN": 257,
++        "US-MO": 462.0,
++        "US-MS": 210.5,
++        "US-MT": 423.5,
++        "US-NC": 375.8,
++        "US-ND": 254,
++        "US-NE": 221,
++        "US-NH": 110.1,
++        "US-NJ": 218,
++        "US-NM": 717.1,
++        "US-NV": 402.0,
++        "US-NY": 380.2,
++        "US-OH": 294,
++        "US-OK": 423,
++        "US-OR": 331,
++        "US-PA": 246,
++        "US-RI": 153.6,
++        "US-SC": 437,
++        "US-SD": 362,
++        "US-TN": 592.3,
++        "US-TX": 389,
++        "US-UT": 230,
++        "US-VA": 218,
++        "US-VT": 219,
++        "US-WA": 326,
++        "US-WI": 279,
++        "US-WV": 249,
++        "US-WY": 203.4
++      }
+     }
+   },
+   "defaultDrift": {

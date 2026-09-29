@@ -35,7 +35,7 @@ const EVIDENCE = new Set([
   "about-zero",
   "to-confirm",
 ]);
-const OWNERS = new Set(["M", "F", "O", "B", "C", "G", "F-cloud"]);
+const OWNERS = new Set(["M", "F", "O", "B", "C", "G", "F-cloud", "B-cloud"]);
 
 describe("the outcome web table", () => {
   it("every link is complete: cause, outcome, strength, shape, owner, evidence and a source", () => {
