@@ -428,8 +428,13 @@ describe("How a chamber divides, and who sits against their own party", () => {
       );
       expect(byParty).toBe(members);
       expect(byCaucus).toBe(members);
-      // A vacant seat and a seat with no current record belong to nobody.
-      expect(byParty).toBeLessThan(chamber.counts!.seats);
+      // A vacant seat and a seat with no current record belong to nobody; a
+      // new world seats a member in every seat, so the parties fill it.
+      expect(byParty).toBe(
+        chamber.counts!.seats -
+          chamber.counts!.vacancies -
+          chamber.counts!.noCurrentRecord,
+      );
     }
   });
 

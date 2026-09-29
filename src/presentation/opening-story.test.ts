@@ -10,6 +10,7 @@ import {
   projectOpeningTown,
   projectOpeningYear,
 } from "./opening-story";
+import { observerPlace, observerSetup } from "./observer-world";
 import { openOrdinaryLife } from "./ordinary-life";
 import { projectOrientationView } from "./world-orientation";
 
@@ -70,6 +71,88 @@ describe("In the year 2026", () => {
         expect(published.has(headline)).toBe(true);
     }
   });
+});
+
+describe("The Senate on the opening card", () => {
+  // Lamontae's playtest showed 58 + 39 + 2 = 99 senators: the opening drew a
+  // vacant seat and the card left it out. Places are drawn from all 56;
+  // seed s99-b drew a vacant Hawaii seat before the fix.
+  const senateCount = (line: string) =>
+    [...line.matchAll(/(\d+) [A-Z]/g)].reduce(
+      (sum, match) => sum + Number(match[1]),
+      0,
+    );
+  it.each(["senate-100-a", "s99-b"])(
+    "seats 100 senators in a new world (seed %s)",
+    (seed) => {
+      const place = observerPlace(seed);
+      const game = generateOpeningLife(
+        prepareOpeningLife({ ...observerSetup(seed), startAge: 25 }),
+      ).game!;
+      const orientation = projectOrientationView(
+        projectWorldOrientation(game.world, game.playerPersonId),
+        stateNameForUsps,
+      );
+      const senate = orientation.steps
+        .find((step) => step.key === "congress")!
+        .chambers.find((chamber) => chamber.chamberKey === "us-senate")!;
+      expect(senate.members, place.key).toBe(100);
+      const line = projectOpeningYear(
+        game.world,
+        game.playerPersonId,
+        orientation,
+      ).lines.find((text) => text.startsWith("In the United States Senate"))!;
+      expect(senateCount(line), `${place.key}: ${line}`).toBe(100);
+
+      // A seat a death or resignation leaves empty is named, so the card
+      // still accounts for all 100.
+      const [first, ...rest] = senate.roster;
+      const leaving = senate.parties.find(
+        (party) =>
+          party.partyOrganizationId ===
+          (first!.person?.partyOrganizationId ?? null),
+      )!;
+      const withVacancy = {
+        ...orientation,
+        steps: orientation.steps.map((step) =>
+          step.key !== "congress"
+            ? step
+            : {
+                ...step,
+                chambers: step.chambers.map((chamber) =>
+                  chamber !== senate
+                    ? chamber
+                    : {
+                        ...chamber,
+                        members: 99,
+                        vacancies: 1,
+                        parties: chamber.parties.map((party) =>
+                          party === leaving
+                            ? { ...party, members: party.members - 1 }
+                            : party,
+                        ),
+                        roster: [
+                          {
+                            ...first!,
+                            status: "vacancy" as const,
+                            person: null,
+                          },
+                          ...rest,
+                        ],
+                      },
+                ),
+              },
+        ),
+      };
+      const vacantLine = projectOpeningYear(
+        game.world,
+        game.playerPersonId,
+        withVacancy,
+      ).lines.find((text) => text.startsWith("In the United States Senate"))!;
+      expect(senateCount(vacantLine)).toBe(99);
+      expect(vacantLine).toContain(`a ${first!.seatLabel} seat is vacant`);
+    },
+  );
 });
 
 describe("Your legislature", () => {
