@@ -12,6 +12,8 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
+import { format, resolveConfig } from "prettier";
+
 import {
   placeholderPathFor,
   scanPlaceholders,
@@ -58,7 +60,12 @@ function build(): PlaceholderLedger {
 }
 
 const ledger = build();
-const text = `${JSON.stringify(ledger, null, 2)}\n`;
+// The committed file is formatted the way `prettier --check .` wants it, so
+// the check below compares the formatted text, not the raw JSON.
+const text = await format(JSON.stringify(ledger, null, 2), {
+  ...(await resolveConfig(LEDGER)),
+  filepath: LEDGER,
+});
 if (process.argv.includes("--check")) {
   const held = readFileSync(LEDGER, "utf8");
   if (held !== text) {
