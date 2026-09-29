@@ -328,21 +328,20 @@ export function taxLawFactor(
 }
 
 /**
- * What a state's laws in force on a date add to one program a year, in
- * dollars, against the laws the state began with (`SPENDING_QUESTION_EFFECTS`):
- * 0 where nothing changed, and for a county or city, whose programs these
- * state questions do not set.
+ * What a state's laws cost it to carry out in one month, by program, against
+ * the laws it began with (`SPENDING_QUESTION_EFFECTS`): nothing where no law
+ * changed, where the cost is not researched, or for a county or city, which
+ * these state questions do not bind. A law counts from the day it takes
+ * effect, at the government's own population.
  */
-export function spendingLawDollars(
+export function lawSpendingForMonth(
   world: World,
   government: PublicBudgetGovernment,
-  program: BudgetProgram,
   date: IsoDate,
-): number {
-  if (government.level !== "state") return 0;
-  let perResident = 0;
+): readonly number[] {
+  const spending = BUDGET_PROGRAMS.map(() => 0);
+  if (government.level !== "state") return spending;
   for (const effect of SPENDING_QUESTION_EFFECTS) {
-    if (effect.program !== program) continue;
     const propositionId = propositionIdFor(world, effect.questionKey);
     if (!propositionId) continue;
     const now = lawInForce(
@@ -357,10 +356,17 @@ export function spendingLawDollars(
       propositionId,
       date,
     );
-    if (began !== "yes" && now === "yes") perResident += effect.toYes;
-    if (began === "yes" && now === "no") perResident += effect.toNo;
+    const perResident =
+      began === "no" && now === "yes"
+        ? effect.toYes
+        : began === "yes" && now === "no"
+          ? effect.toNo
+          : null;
+    if (perResident === null) continue;
+    spending[BUDGET_PROGRAMS.indexOf(effect.program)]! +=
+      (perResident * government.population) / 12;
   }
-  return perResident * government.population;
+  return spending;
 }
 
 /**
@@ -565,14 +571,8 @@ export function settleGovernmentMonth(
 
   // Spending.
   const payments = flows.payments.get(government.key);
-  // A spending law that changed since adoption moves its program from that
-  // month; the next budget builds it in.
-  const spending = BUDGET_PROGRAMS.map((program, at) => {
-    const planned =
-      (year.appropriations[at]! +
-        spendingLawDollars(world, government, program, month) -
-        spendingLawDollars(world, government, program, year.startsOn)) /
-      12;
+  const spending = BUDGET_PROGRAMS.map((_, at) => {
+    const planned = year.appropriations[at]! / 12;
     return Math.round(CUTTABLE[at] ? planned * (1 - government.cut) : planned);
   });
   spending[INTEREST] = Math.round(
@@ -581,6 +581,12 @@ export function settleGovernmentMonth(
   if (payments)
     for (const [at, value] of payments.entries())
       spending[at]! += Math.round(value);
+  // What the state's laws cost to carry out, on top of its programs; a law
+  // that ended a cost the state began with takes it off, never below zero.
+  const lawSpending = lawSpendingForMonth(world, government, month);
+  for (const [at, value] of lawSpending.entries())
+    if (value !== 0)
+      spending[at] = Math.max(0, spending[at]! + Math.round(value));
 
   let balance = government.balance + sum(revenue) - sum(spending);
   let reserve = government.reserve;
@@ -927,17 +933,8 @@ function adoptNextYear(
     priorCuttableAll > 0
       ? Math.min(1, (prior.carriedBalance ?? 0) / priorCuttableAll)
       : 0;
-  // A spending law enacted since the last budget was adopted is built in.
-  const base = prior.appropriations.map(
-    (value, at) =>
-      (CUTTABLE[at] ? value * (1 - oneTimeShare) : value) +
-      spendingLawDollars(world, government, BUDGET_PROGRAMS[at]!, startsOn) -
-      spendingLawDollars(
-        world,
-        government,
-        BUDGET_PROGRAMS[at]!,
-        prior.startsOn,
-      ),
+  const base = prior.appropriations.map((value, at) =>
+    CUTTABLE[at] ? value * (1 - oneTimeShare) : value,
   );
   const priorTotal = sum(base);
   const reserveLaw = reserveRule(government);
@@ -951,9 +948,11 @@ function adoptNextYear(
           ),
         )
       : 0;
+  // What the laws in force cost to carry out comes first, like interest.
+  const lawCost = sum(lawSpendingForMonth(world, government, startsOn)) * 12;
   const available = Math.max(
     0,
-    sum(expectedRevenue) - interest - pensionPaid - reserveDeposit,
+    sum(expectedRevenue) - interest - pensionPaid - reserveDeposit - lawCost,
   );
   const cuttablePrior = sum(
     base.map((value, at) => (CUTTABLE[at] ? value : 0)),

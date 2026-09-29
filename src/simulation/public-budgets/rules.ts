@@ -166,46 +166,59 @@ export const TAX_QUESTION_EFFECTS: readonly {
 ];
 
 /**
- * The spending a state's law adds to one program when it moves from the
- * answer the state began with, in dollars per resident a year: `toYes` when a
- * "yes" is enacted where the state did not begin answering "yes", `toNo` when
- * a "yes" it began with becomes "no". Each is a real state's annual cost of
- * the same law over that state's 2024 population (BEA), so ESTIMATED FROM
- * AVERAGE for every other state. A law changes the program from the month it
- * takes effect, and the next budget builds it in.
+ * What a state's law on a question costs it to carry out, when the law moves
+ * from the answer the state began with: `toYes` dollars a resident a year when
+ * a "no" becomes "yes", `toNo` when a "yes" becomes "no", spent on `program`
+ * each month the law is in force. Null: not researched, so that change spends
+ * nothing. Each size is enacted bills' fiscal notes, each over its state's
+ * 2023 residents, averaged: ESTIMATED FROM AVERAGE until more are read. The
+ * cost sits outside the adopted programs, so a budget pays it on top and a
+ * balanced-budget law finds the money by cutting the rest.
+ * research: law-enforcement-costs.
  */
 export const SPENDING_QUESTION_EFFECTS: readonly {
   readonly questionKey: string;
   readonly program: BudgetProgram;
-  readonly toYes: number;
-  readonly toNo: number;
+  readonly toYes: number | null;
+  readonly toNo: number | null;
   readonly basis: string;
 }[] = [
   {
     questionKey:
+      "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+    program: "administration",
+    // Colorado SB 21-190, final fiscal note: $323,691 a year and 2 staff at
+    // the Department of Law from FY 2023-24, over 5,877,610 residents
+    // ($0.0551). Virginia HB 2307 (2021): $330,556 a year for 3 staff at the
+    // Office of the Attorney General, over 8,715,698 residents ($0.0379).
+    toYes: (0.0551 + 0.0379) / 2,
+    // A repeal ends the enforcement; the staff go.
+    toNo: -(0.0551 + 0.0379) / 2,
+    basis:
+      "Colorado SB 21-190 final fiscal note ($323,691 a year, Department of Law) and Virginia HB 2307 budget amendment ($330,556 a year, Office of the Attorney General), each over the state's 2023 residents, averaged.",
+  },
+  {
+    questionKey:
+      "us-policy-positions:technology-privacy.age-verification-for-social-media",
+    program: "administration",
+    // Utah SB 152 (2023), fiscal note: $220,500 a year ongoing for the
+    // Division of Consumer Protection, over 3,417,734 residents.
+    toYes: 0.0645,
+    toNo: -0.0645,
+    basis:
+      "Utah SB 152 (2023) fiscal note: $220,500 a year ongoing for the Division of Consumer Protection to investigate and enforce, over Utah's 2023 residents.",
+  },
+  {
+    questionKey:
       "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
     program: "corrections",
-    // New York's Raise the Age aid to counties, $250 million each state fiscal
-    // year since 2021 (Office of the State Comptroller, "Spending on Raise
-    // the Age Programs in New York", 2025), over 19,867,248 residents.
+    // New York's Raise the Age aid, $250 million each state fiscal year since
+    // 2021 (Office of the State Comptroller, 2025), over 19,867,248 residents.
+    // A state that lowers the age again stops paying it.
     toYes: 250_000_000 / 19_867_248,
     toNo: -250_000_000 / 19_867_248,
     basis:
       "ESTIMATED FROM AVERAGE: New York's Raise the Age appropriation, $250 million a year (Office of the State Comptroller, 2025), per New York resident.",
-  },
-  {
-    questionKey:
-      "us-policy-positions:civil-family-community.dedicated-parks-funding",
-    program: "parks",
-    // Missouri's parks half of its 0.1% Parks, Soils and Water Sales Tax,
-    // about $69.9 million in 2025 (St. Louis Public Radio, August 4, 2026),
-    // over 6,245,466 residents; Minnesota's Parks and Trails Fund, $130.17
-    // million for the 2026-27 biennium (Minnesota House, 2025 session), over
-    // 5,793,151 residents. The average of the two.
-    toYes: (69_900_000 / 6_245_466 + 130_170_000 / 2 / 5_793_151) / 2,
-    toNo: -(69_900_000 / 6_245_466 + 130_170_000 / 2 / 5_793_151) / 2,
-    basis:
-      "ESTIMATED FROM AVERAGE: the average per resident of Missouri's parks sales tax share ($69.9 million, 2025) and Minnesota's Parks and Trails Fund ($65.1 million a year, 2026-27).",
   },
 ];
 

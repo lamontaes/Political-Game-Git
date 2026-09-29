@@ -93,18 +93,20 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     kind: "state-revenue",
     via: "src/simulation/public-budgets/rules.ts",
   })),
+  // What carrying out a law costs a state's budget, where a fiscal note set
+  // a size.
+  ...SPENDING_QUESTION_EFFECTS.filter(
+    (effect) => effect.toYes !== null || effect.toNo !== null,
+  ).map((effect): LawEffectPath => ({
+    questionKey: effect.questionKey,
+    kind: "state-spending",
+    via: "src/simulation/public-budgets/month.ts",
+  })),
   {
     questionKey: CANNABIS_SALES_QUESTION,
     kind: "state-revenue",
     via: "src/simulation/public-budgets/cannabis-sales-tax.ts",
   },
-  // A spending question moves a state program by its sized cost per
-  // resident (`SPENDING_QUESTION_EFFECTS`).
-  ...SPENDING_QUESTION_EFFECTS.map((effect): LawEffectPath => ({
-    questionKey: effect.questionKey,
-    kind: "state-spending",
-    via: "src/simulation/public-budgets/month.ts",
-  })),
 ];
 
 const LAW_CAUSE_PREFIX = "law:";
