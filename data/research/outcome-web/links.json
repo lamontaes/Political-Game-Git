@@ -3938,6 +3938,24 @@
       "anchor": "Rough roads cost drivers in repairs, tires, fuel and a car that wears out sooner: $130 billion a year when 33% of major urban roads were substandard (2016), 1.02% of the $12.75 trillion Americans spent that year, or 0.031% of prices per point of rough road. Only the part of the road share that laws moved counts, so the roads' own drift does not move prices",
       "source": "TRIP, Bumpy Roads Ahead (2018), $130 billion a year in extra vehicle operating costs on major urban roads in poor or mediocre condition in 2016, 33% of them; Bureau of Economic Analysis, personal consumption expenditures 2016, $12.75 trillion. ESTIMATED FROM AVERAGE: TRIP counts mediocre roads as well as poor ones, so each point of poor road is taken to cost what a point of substandard road does",
       "range": [0.00015, 0.0005]
+    },
+    {
+      "key": "federal-rail-expansion-to-riders",
+      "from": "federal.rail-expansion-pct",
+      "to": "rail.intercity-ridership",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.00486,
+      "per": "percent more intercity rail riders a federal expansion plan projects",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "M",
+      "evidence": "provisional",
+      "anchor": "A federal law that pays to expand passenger rail funds the plan Amtrak asked Congress for: 62.5% more riders over 15 years, with the first added service 30 months in (src/simulation/federal-passenger-rail.ts). Rail ridership forecasts come true only in part: across 25 rail projects, actual traffic averaged 51.4% below forecast, with a standard deviation of 28.1 points. So each percent the plan projects adds 0.486% more riders, and each world draws between 0.205% and 0.767%, one standard deviation either way. The same share reaches every place Amtrak serves. The timing is the plan's own, so the link acts in the month the plan's riders arrive. Provisional: the projection is Amtrak's, not a measured result of a past federal law.",
+      "source": "Amtrak, Amtrak Connects US (2021), https://assets.amtrakconnectsus.com/uploads/2021/03/Amtrak-Connects-US-Vision-with-Map-Final.pdf; Flyvbjerg, Skamris Holm and Buhl 2005, Journal of the American Planning Association 71(2), https://arxiv.org/pdf/1303.6654; riders from Amtrak's fiscal year 2024 state fact sheets, read September 29, 2026",
+      "range": [0.00205, 0.00767]
     }
   ],
   "calibratedAt": "2024-07-01"

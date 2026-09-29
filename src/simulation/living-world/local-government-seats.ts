@@ -29,6 +29,14 @@ import {
   townResidentId,
   townRosterPlace,
 } from "./town-residents";
+import {
+  councilWardPlan,
+  isWardSeat,
+  redrawTownWards,
+  seatWard,
+  townWardMap,
+  wardRange,
+} from "./town-wards";
 
 /**
  * The player's town government, seated with its own residents.
@@ -156,6 +164,7 @@ export function drawTownResident(
   minimumAge: number,
   excluded: ReadonlySet<EntityId>,
   taken: Set<string> = new Set(),
+  range: readonly [number, number] | null = null,
 ): { readonly world: World; readonly personId: EntityId | null } {
   let next = world;
   for (let attempt = 0; attempt < 8; attempt += 1) {
@@ -166,6 +175,7 @@ export function drawTownResident(
       slot * 8 + attempt,
       (member) => member.role === "adult" && member.age >= minimumAge,
       taken,
+      range,
     );
     if (!found) return { world: next, personId: null };
     taken.add(`${found.household}:${found.member}`);
@@ -266,8 +276,25 @@ export function ensureLocalGovernmentSeatsForUnit(
     ...sitting.map((seat) => seat.personId),
   ]);
   let next = world;
+  // A council elected by ward has its map before its ward seats are filled,
+  // and each ward seat is filled from its own ward (`town-wards.ts`).
+  const plan = councilWardPlan(unit);
+  if (plan && plan.wardSeats >= 2 && !townWardMap(next, unit))
+    next = redrawTownWards(next, {
+      unit,
+      town,
+      drawnBy: "council",
+      members: sitting.flatMap((seat) => {
+        const n = /seat (\d+)$/.exec(seat.seatLabel)?.[1];
+        return !seat.mayor && n
+          ? [{ seat: Number(n), personId: seat.personId }]
+          : [];
+      }),
+      reason: "when the council was seated",
+    });
+  const wardMap = townWardMap(next, unit);
   const seated: SeatedLocalOffice[] = [];
-  const draw = (slot: number): EntityId | null => {
+  const draw = (slot: number, seat: number | null = null): EntityId | null => {
     const found = drawTownResident(
       next,
       town,
@@ -276,6 +303,9 @@ export function ensureLocalGovernmentSeatsForUnit(
       MINIMUM_AGE,
       excluded,
       taken,
+      wardMap && seat !== null && isWardSeat(plan, seat)
+        ? wardRange(wardMap, seatWard(wardMap, seat))
+        : null,
     );
     next = found.world;
     if (found.personId) excluded.add(found.personId);
@@ -291,7 +321,7 @@ export function ensureLocalGovernmentSeatsForUnit(
     }
   }
   for (let n = 0; n < openMembers; n += 1) {
-    const personId = draw(slot++);
+    const personId = draw(slot++, sitting.length + n + 1);
     if (!personId) break;
     const label = `${identity.officeTitle}, seat ${sitting.length + n + 1}`;
     next = seatOne(next, unit, town, personId, false, label);
