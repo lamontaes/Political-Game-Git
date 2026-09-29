@@ -33,7 +33,6 @@ import { principledLeaning } from "../governing/officeholder-principles";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 import {
   ECONOMY_ELASTICITY,
-  FIRST_CUT_SHARE,
   PENSION,
   SPENDING_QUESTION_EFFECTS,
   TAX_QUESTION_EFFECTS,
@@ -650,7 +649,7 @@ export function settleGovernmentMonth(
     laws.balanced.answer === "yes"
   ) {
     const pace = sum(revenue) - sum(spending);
-    let gap = -(balance + remaining * pace);
+    const gap = -(balance + remaining * pace);
     if (gap > 0) {
       const cuttableMonthly = sum(
         BUDGET_PROGRAMS.map((_, at) =>
@@ -658,42 +657,67 @@ export function settleGovernmentMonth(
         ),
       );
       const room = cuttableMonthly * remaining;
-      const first = Math.min(gap, FIRST_CUT_SHARE * room);
-      gap -= first;
-      const draw = Math.min(gap, reserve);
-      gap -= draw;
-      const second = Math.min(gap, room - first);
-      const cutTotal = Math.round(first + second);
+      // Whether programs are cut before the reserve is drawn, or after, is
+      // the governor's decision (`decideShortfallOrder`).
+      const order = decideShortfallOrder(world, government);
+      let cutTotal = 0;
+      let draw = 0;
+      if (order.cutFirst) {
+        cutTotal = Math.min(gap, room);
+        draw = Math.min(gap - cutTotal, reserve);
+      } else {
+        draw = Math.min(gap, reserve);
+        cutTotal = Math.min(gap - draw, room);
+      }
+      cutTotal = Math.round(cutTotal);
+      const decidedBy = order.personId
+        ? {
+            decidedBy: {
+              personId: order.personId,
+              principleRecordIds: order.recordIds,
+            },
+          }
+        : {};
       const plannedCuttable = sum(
         BUDGET_PROGRAMS.map((_, at) =>
           CUTTABLE[at] ? year.appropriations[at]! / 12 : 0,
         ),
       );
+      const records: BudgetAdjustment[] = [];
+      const drawn = Math.round(draw);
       if (cutTotal > 0 && plannedCuttable > 0) {
         cut = Math.min(1, cut + cutTotal / remaining / plannedCuttable);
-        adjustments.push({
+        // When the reserve went first, the cut is what it could not cover.
+        const after = order.cutFirst
+          ? order.reason
+          : `${order.reason} The reserve covered only ${shortfallDollars(drawn)}, so programs were cut for the remaining ${shortfallDollars(cutTotal)}.`;
+        records.push({
           governmentKey: government.key,
           on: asOf,
           fiscalYear: year.fiscalYear,
           kind: "mid-year-cut",
           amount: cutTotal,
           law: lawNote("balanced", laws.balanced),
-          note: `Collections would leave the year in deficit, so every program except interest and pensions is cut across the board for the rest of the year (${Math.round(first)} first, ${Math.round(second)} after the reserve).`,
+          note: `Collections would leave the year in deficit, so every program except interest and pensions is cut across the board for the rest of the year. ${after}`,
+          ...decidedBy,
         });
       }
-      if (draw > 0) {
-        reserve -= Math.round(draw);
-        balance += Math.round(draw);
-        adjustments.push({
+      if (drawn > 0) {
+        reserve -= drawn;
+        balance += drawn;
+        records.push({
           governmentKey: government.key,
           on: asOf,
           fiscalYear: year.fiscalYear,
           kind: "reserve-draw",
-          amount: Math.round(draw),
+          amount: drawn,
           law: lawNote("balanced", laws.balanced),
-          note: "Drawn from the reserve to keep the year balanced, after the first round of cuts.",
+          note: `Drawn from the reserve to keep the year balanced. ${order.reason}`,
+          ...decidedBy,
         });
       }
+      // Recorded in the order the money moved.
+      adjustments.push(...(order.cutFirst ? records : records.reverse()));
     }
   }
 
@@ -890,6 +914,67 @@ export function lawMoneyChange(
   const costNow = sum(lawSpendingForMonth(world, government, startsOn));
   const costThen = sum(lawSpendingForMonth(world, government, then));
   return change - (costNow - costThen) * 12;
+}
+
+/** Dollars as a shortfall note says them: "$1.42 million" or "$640,000". */
+function shortfallDollars(amount: number): string {
+  return amount >= 1_000_000
+    ? `$${(amount / 1e6).toFixed(2)} million`
+    : `$${Math.round(amount).toLocaleString("en-US")}`;
+}
+
+/**
+ * Whether a government facing a shortfall mid-year, under a balanced-budget
+ * law, cuts its programs before it draws its reserve or after. A state's
+ * governor decides from their own principles: one whose principles lean
+ * toward requiring a reserve (fiscal restraint over collective provision)
+ * keeps it and cuts first. Otherwise the reserve goes first, as reserves are
+ * kept for: "to protect against reducing service levels or raising taxes and
+ * fees because of temporary revenue shortfalls" (National Advisory Council on
+ * State and Local Budgeting, Recommended Practice 4.1, quoted in the
+ * Government Finance Officers Association's Fund Balance Guidelines). A
+ * county or city, where no executive is modeled, follows that practice.
+ */
+export function decideShortfallOrder(
+  world: World,
+  government: PublicBudgetGovernment,
+): {
+  readonly cutFirst: boolean;
+  readonly personId: EntityId | null;
+  readonly recordIds: readonly EntityId[];
+  readonly reason: string;
+} {
+  const practice =
+    "Reserves are kept to protect services through a temporary revenue shortfall, so the reserve went first.";
+  const governor =
+    government.level === "state"
+      ? currentStateExecutiveHolders(world).find(
+          (holder) => `US-${holder.stateUsps}` === government.stateKey,
+        )
+      : undefined;
+  if (!governor)
+    return { cutFirst: false, personId: null, recordIds: [], reason: practice };
+  const propositionId = propositionIdFor(world, BUDGET_LAW_KEYS.reserve);
+  const { score, recordIds } = propositionId
+    ? principledLeaning(world, governor.personId, propositionId)
+    : { score: 0, recordIds: [] as EntityId[] };
+  const who = `${governor.title} ${governor.personName}`;
+  return score > 0
+    ? {
+        cutFirst: true,
+        personId: governor.personId,
+        recordIds,
+        reason: `${who}'s principles favor keeping the reserve, so programs were cut before it was drawn.`,
+      }
+    : {
+        cutFirst: false,
+        personId: governor.personId,
+        recordIds,
+        reason:
+          score < 0
+            ? `${who}'s principles put public programs ahead of holding a reserve, so the reserve went first.`
+            : `${who} holds no principle that bears on the reserve. ${practice}`,
+      };
 }
 
 const REACTION_KIND = {
