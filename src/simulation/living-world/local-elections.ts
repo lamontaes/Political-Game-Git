@@ -71,6 +71,7 @@ import {
   sittingLocalOfficers,
 } from "./local-government-seats";
 import type { SeatedLocalOffice } from "./local-government-seats";
+import { peopleKnownTo } from "./official-views";
 import { playerTown, townRoster } from "./town-residents";
 
 /**
@@ -1242,21 +1243,31 @@ export function localGovernmentYearHandler(
       next = endSeat(next, holder, `Died while holding ${phrase}`, key);
     }
     // The mayor names someone they know who lives in the town
-    // (appointments-v1). Only when there is no other mayor, or the mayor knows
-    // nobody eligible, does the body's appointee come from the town roster.
-    const mayor = sittingLocalOfficers(next, unit).find(
+    // (appointments-v1), or somebody a council member knows and puts forward:
+    // a council fills a vacancy from the names its members bring. Only when
+    // there is no other mayor, or nobody any of them knows is eligible, does
+    // the body's appointee come from the town roster.
+    const sitting = sittingLocalOfficers(next, unit).filter(
       (officer) =>
-        officer.mayor &&
-        officer.personId !== holder.personId &&
-        alive(next, officer.personId),
+        officer.personId !== holder.personId && alive(next, officer.personId),
     );
+    const mayor = sitting.find((officer) => officer.mayor);
+    const putForward = mayor
+      ? [
+          ...new Set(
+            sitting
+              .filter((officer) => officer.personId !== mayor.personId)
+              .flatMap((officer) => peopleKnownTo(next, officer.personId)),
+          ),
+        ].sort()
+      : [];
     const post = { officeKey: `${unit.id}:${seat}`, title: label };
     const choice = mayor
       ? chooseAppointee(next, {
           stableKey: key,
           appointerPersonId: mayor.personId,
           post,
-          circle: appointmentCircle(next, mayor.personId, []),
+          circle: appointmentCircle(next, mayor.personId, putForward),
           eligible: (personId) => {
             const person = next.people[personId];
             return (
