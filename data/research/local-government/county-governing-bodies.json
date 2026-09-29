@@ -1,0 +1,104 @@
+{
+  "readOn": "2026-09-29",
+  "readBy": "Build 25",
+  "note": "How many members sit on a county's governing body, read from each state's own law. A state listed here gives every county the size its law sets for a county without a charter of its own; a county whose own charter has been read keeps that charter's size. A state not listed has not been read, and its counties take the national average below. Under municipalCodes, a place whose county-equivalents are governed as municipalities under its own municipal code gives each a mayor and a legislature at the size that code sets.",
+  "states": {
+    "CA": {
+      "seats": 5,
+      "bodyName": "Board of Supervisors",
+      "memberTitle": "Supervisor",
+      "citation": "Cal. Gov. Code § 25000(a): \"Each county shall have a board of supervisors consisting of five members.\"",
+      "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=25000"
+    },
+    "ID": {
+      "seats": 3,
+      "bodyName": "Board of County Commissioners",
+      "memberTitle": "County Commissioner",
+      "citation": "Idaho Code § 31-701: the board of county commissioners consists of \"three (3) members.\"",
+      "url": "https://legislature.idaho.gov/statutesrules/idstat/Title31/T31CH7/SECT31-701/"
+    },
+    "MO": {
+      "seats": 3,
+      "bodyName": "County Commission",
+      "memberTitle": "County Commissioner",
+      "citation": "RSMo § 49.010: the county commission \"shall be composed of three members, to be styled 'commissioners' of the county.\"",
+      "url": "https://revisor.mo.gov/main/OneSection.aspx?section=49.010"
+    },
+    "MT": {
+      "seats": 3,
+      "bodyName": "Board of County Commissioners",
+      "memberTitle": "County Commissioner",
+      "citation": "MCA 7-4-2101: \"Each county may have a board of county commissioners consisting of three members or any other number provided for under any of the forms of government allowed under Title 7, chapter 3.\"",
+      "url": "https://mca.legmt.gov/bills/mca/title_0070/chapter_0040/part_0210/section_0010/0070-0040-0210-0010.html"
+    },
+    "OH": {
+      "seats": 3,
+      "bodyName": "Board of County Commissioners",
+      "memberTitle": "County Commissioner",
+      "citation": "Ohio Rev. Code § 305.01: \"The board of county commissioners shall consist of three persons.\"",
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-305.01"
+    },
+    "OR": {
+      "seats": 3,
+      "bodyName": "Board of County Commissioners",
+      "memberTitle": "County Commissioner",
+      "citation": "ORS 203.240(1)(b): the board shall, \"[u]nless provided otherwise by county charter or ordinance, consist of three county commissioners.\"",
+      "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors203.html"
+    },
+    "WA": {
+      "seats": 3,
+      "bodyName": "Board of County Commissioners",
+      "memberTitle": "County Commissioner",
+      "citation": "RCW 36.32.010: \"each board of county commissioners shall consist of three qualified electors,\" except as RCW 36.32.055 and 36.32.0552 provide.",
+      "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=36.32.010"
+    }
+  },
+  "nationalAverage": {
+    "seats": 7,
+    "bodyName": "Board of Commissioners",
+    "memberTitle": "Commissioner",
+    "citation": "ESTIMATED FROM AVERAGE: the National Association of Counties counts \"nearly 20,000 elected county board members\"; the Census Bureau's 2025 Government Units listing holds 3,031 county governments. 20,000 / 3,031 is 6.6 members per board, rounded to 7. NACo also says a commission or board is the most common form, so the name is the common one.",
+    "url": "https://www.naco.org/page/county-structure-authority-and-finances"
+  },
+  "municipalCodes": {
+    "PR": {
+      "stateFips": "72",
+      "inForceSince": "2020-08-13",
+      "bodyName": "Municipal Legislature",
+      "memberTitle": "Municipal Legislator",
+      "chiefTitle": "Mayor",
+      "termYears": 4,
+      "bands": [
+        {
+          "atLeast": 40000,
+          "seats": 16,
+          "partyMayNominate": 13
+        },
+        {
+          "atLeast": 20000,
+          "seats": 14,
+          "partyMayNominate": 11
+        },
+        {
+          "atLeast": 0,
+          "seats": 12,
+          "partyMayNominate": 9
+        }
+      ],
+      "exceptions": {
+        "72127": {
+          "name": "San Juan",
+          "seats": 17,
+          "partyMayNominate": 14
+        },
+        "72049": {
+          "name": "Culebra",
+          "seats": 5,
+          "partyMayNominate": 4
+        }
+      },
+      "citation": "Puerto Rico Municipal Code, Law 107 of August 13, 2020, Article 1.020 (a legislature of 16 members at 40,000 residents or more, 14 from 20,000 to 39,999 and 12 below 20,000, by the last decennial census; 17 for San Juan and 5 for Culebra), Article 1.022 (four-year terms by direct vote; a party may nominate only 13, 11 or 9 candidates, 14 in San Juan and 4 in Culebra) and Article 1.012 (the mayor, elected by direct vote for four years).",
+      "url": "https://www.lexjuris.com/lexlex/leyes2020/lexl2020107-I.htm"
+    }
+  }
+}
