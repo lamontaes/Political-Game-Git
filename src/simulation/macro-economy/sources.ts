@@ -319,10 +319,11 @@ export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
 };
 
 /**
- * PLACEHOLDER: a closing that ends this share of the jobs held in town is a
- * full-strength local downturn; a smaller one is proportionally weaker.
+ * PLACEHOLDER: a closing that ends this many of every hundred jobs held in
+ * town is a full-strength local downturn; a smaller one is proportionally
+ * weaker.
  */
-export const TOWN_CLOSING_FULL_INTENSITY_JOB_SHARE = 0.05;
+export const TOWN_CLOSING_FULL_INTENSITY_JOBS_PER_HUNDRED = 5;
 
 /**
  * Build 19: town closings feed upward. A business that ran out of cash and
@@ -350,7 +351,10 @@ export const TOWN_FINANCE_ORIGIN_READER: MacroOriginReader = {
       if (jobShare > 0)
         intensities.set(
           "regional-industry-downturn",
-          Math.min(1, jobShare / TOWN_CLOSING_FULL_INTENSITY_JOB_SHARE),
+          Math.min(
+            1,
+            (jobShare * 100) / TOWN_CLOSING_FULL_INTENSITY_JOBS_PER_HUNDRED,
+          ),
         );
       if (event.type === BANK_FAILED_EVENT)
         intensities.set("credit-tightening", 1);
