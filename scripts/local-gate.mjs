@@ -75,10 +75,11 @@ if (roots.length) {
 run("npm", ["run", "release:check", "--", "--mode", "pr"]);
 run("npm", ["run", "zero-dice"]);
 if (tests.length) run("npx", ["--no-install", "vitest", "run", ...tests]);
-run("npm", [
-  "run",
-  "speed:years",
-  "--",
+run(process.execPath, [
+  "--max-old-space-size=4096",
+  "--import",
+  "tsx",
+  "scripts/speed-years/run.ts",
   "--seed",
   baseline.seed,
   "--place",
