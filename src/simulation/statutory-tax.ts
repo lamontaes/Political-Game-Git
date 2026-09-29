@@ -52,6 +52,7 @@ import {
   placeWageIncomeTax,
   type FederalEmploymentRule,
 } from "./statutory-tax-rules";
+import { stateIncomeTaxUnderLaw } from "./state-income-tax-law";
 import { ensureTaxPublicAccount, publicOrganizationKey } from "./tax-policy";
 import type { StatutoryTaxLiabilityRecord } from "./tax-types";
 import type {
@@ -207,6 +208,7 @@ function paycheckLiabilities(
     taxKey: string,
     authorityKey: string,
     schedule: IncomeTaxSchedule,
+    law: Pick<LiabilityDraft, "lawMeasureIds" | "estimatedFromAverage"> = {},
   ): LiabilityDraft => {
     const { taxableMinor, withheldMinor } = withholdingForPaycheck(
       wages.minorUnits,
@@ -227,6 +229,7 @@ function paycheckLiabilities(
       dueAt: outcome.occurredAt,
       sourceUrl: schedule.sourceUrl,
       researchQuestionId: null,
+      ...law,
     };
   };
   // Federal income tax: a 2026 paycheck of a stateside resident, withheld
@@ -286,7 +289,48 @@ function paycheckLiabilities(
   // earned there would need that work place, and none is applied.
   const place = placeWageIncomeTax(stateKey);
   const placeTaxKey = `${stateKey.toLowerCase()}:wage-income-tax`;
-  if (place.status === "not-imposed")
+  // A law enacted in play that repealed, adopted or reshaped the state's tax
+  // (`state-income-tax-law.ts`) governs over the tables the state began with.
+  const underLaw =
+    taxYear >= FIRST_VERIFIED_TAX_YEAR
+      ? stateIncomeTaxUnderLaw(world, stateKey, status, outcome.occurredAt)
+      : ({ kind: "as-begun" } as const);
+  if (underLaw.kind === "repealed")
+    rows.push({
+      ...base,
+      stableKey: key(placeTaxKey),
+      taxKey: placeTaxKey,
+      authorityKey: stateKey,
+      payer: employee,
+      taxableAmount: money(0, wages.currency),
+      liability: money(0, wages.currency),
+      status: "not-imposed",
+      collection: "none",
+      dueAt: null,
+      sourceUrl: null,
+      researchQuestionId: null,
+      lawMeasureIds: underLaw.lawMeasureIds,
+    });
+  else if (underLaw.kind === "estimated")
+    rows.push(
+      underLaw.schedule
+        ? incomeTax(placeTaxKey, stateKey, underLaw.schedule, {
+            lawMeasureIds: underLaw.lawMeasureIds,
+            estimatedFromAverage: underLaw.estimatedFromAverage,
+          })
+        : {
+            ...unknown(
+              placeTaxKey,
+              stateKey,
+              employee,
+              "rule-unknown",
+              "state-income-tax-filing-status-schedules-2026",
+              null,
+            ),
+            lawMeasureIds: underLaw.lawMeasureIds,
+          },
+    );
+  else if (place.status === "not-imposed")
     rows.push({
       ...base,
       stableKey: key(placeTaxKey),
