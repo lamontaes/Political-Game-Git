@@ -643,6 +643,23 @@ function executiveHoldersNeedingAffiliation(
       stateUsps: holder.stateUsps,
     });
   }
+  // A governor-elect waiting for the term to begin runs on a party line too.
+  for (const event of world.history.events) {
+    if (
+      event.type !== "world.office-tenure" ||
+      !event.tags.includes("governor-elect") ||
+      event.recordedAt > world.currentDate
+    )
+      continue;
+    const personId = event.participants.find(
+      (p) => p.role === "focus:subject",
+    )?.personId;
+    const stateUsps = event.tags
+      .find((tag) => tag.startsWith("state:"))
+      ?.slice("state:".length);
+    if (personId && stateUsps && world.people[personId])
+      holders.push({ personId, startedAt: world.currentDate, stateUsps });
+  }
   return holders.filter(
     (holder, index) =>
       holders.findIndex((other) => other.personId === holder.personId) ===

@@ -1,7 +1,12 @@
 import type { OrientationHolderDisplay } from "./municipal-orientation-holder";
 import type { EntityId } from "../simulation";
 import { proseDate } from "./prose-dates";
-import { isTerritoryUsps, STATES } from "../simulation/state-reference";
+import {
+  isFederalDistrictUsps,
+  isTerritoryUsps,
+  nonvotingHouseMemberTitle,
+  STATES,
+} from "../simulation/state-reference";
 import type {
   ChamberView,
   PartyView,
@@ -242,9 +247,7 @@ function seatLabel(
   const state = placeName(seat.stateUsps, stateName);
   if (seat.district === null) return state;
   if (seat.district === NON_VOTING_DISTRICT) {
-    return seat.stateUsps === "PR"
-      ? `${state}, Resident Commissioner`
-      : `${state}, Delegate`;
+    return `${state}, ${nonvotingHouseMemberTitle(seat.stateUsps) ?? "Delegate"}`;
   }
   if (seat.district === "00") return `${state}, at large`;
   return `${state}, district ${Number(seat.district)}`;
@@ -256,7 +259,7 @@ function stateStep(
   stateName: (usps: string) => string | null,
 ): OrientationStep {
   const home = orientation.homeState;
-  if (home?.stateUsps === "DC") {
+  if (isFederalDistrictUsps(home?.stateUsps)) {
     return districtOfColumbiaStep(orientation, parties);
   }
   const name = home ? placeName(home.stateUsps, stateName) : null;
@@ -266,7 +269,7 @@ function stateStep(
       key: "state",
       title: name,
       summary: [
-        `${name} is a U.S. territory, not a state. It elects its own Governor and legislature, and sends ${home.stateUsps === "PR" ? "a Resident Commissioner" : "a Delegate"} to the U.S. House, who does not cast final votes there. It has no seat in the U.S. Senate.`,
+        `${name} is a U.S. territory, not a state. It elects its own Governor and legislature, and sends a ${nonvotingHouseMemberTitle(home.stateUsps) ?? "Delegate"} to the U.S. House, who does not cast final votes there. It has no seat in the U.S. Senate.`,
         governor
           ? `${governor.personName} is ${governor.title}.`
           : `No current record names the Governor of ${name}.`,
@@ -301,7 +304,7 @@ function districtOfColumbiaStep(
     (government) => government.holders,
   );
   const delegates = (orientation.congress?.house.seats ?? []).flatMap((seat) =>
-    seat.stateUsps === "DC" &&
+    seat.stateUsps === orientation.homeState?.stateUsps &&
     (seat.district === NON_VOTING_DISTRICT || seat.district === "00") &&
     seat.occupant.kind === "member"
       ? [seat.occupant.member]

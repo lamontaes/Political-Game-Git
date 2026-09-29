@@ -1,5 +1,10 @@
 import { expect, type Page } from "../fixtures";
-import { passShellTime, waitForClockIdle } from "./creator";
+import {
+  goTo,
+  openElsewhere,
+  passShellTime,
+  waitForClockIdle,
+} from "./creator";
 import { chooseStateLegislativeOffice } from "./jurisdictions";
 
 /**
@@ -87,4 +92,111 @@ export async function workOfferedOutreach(page: Page) {
   // nothing there is none, and that is a day to pass, not a wait.
   if ((await outreach.count()) > 0 && (await outreach.isEnabled()))
     await outreach.click();
+}
+
+/**
+ * Goes to the newest accepted party-work row, briefly, until its outcome is
+ * recorded. A row can be set for later in the day, or clash with an earlier
+ * commitment; then the day is passed and the row tried again, the way a
+ * player gets on with the day until the evening.
+ */
+async function attendNewestPartyWork(page: Page) {
+  const partyWork = page.getByTestId("party-work");
+  const row = partyWork.locator('li[data-state="accepted"]').first();
+  await expect(row).toBeVisible();
+  const rowId = (await row.getAttribute("data-testid"))!;
+  const sameRow = partyWork.getByTestId(rowId);
+  const outcome = sameRow.locator('[data-testid^="party-work-outcome-"]');
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const go = sameRow.locator('[data-testid^="party-work-attend-condensed-"]');
+    if ((await go.count()) > 0) await go.click();
+    const went = await outcome
+      .waitFor({ timeout: 5_000 })
+      .then(() => true)
+      .catch(() => false);
+    if (went) return;
+    await waitForClockIdle(page);
+    await page.getByTestId("shell-pass-day").click();
+    await waitForClockIdle(page);
+  }
+  await expect(outcome).toBeVisible();
+}
+
+/**
+ * A campaign without paid staff has nobody to host its work until a local
+ * party chapter agrees to. The campaign says so ("Ask a local chapter
+ * organizer for support"). An organizer weighs whether the candidate is a
+ * member and has turned up for the chapter's work before, so this does what a
+ * player would: join a chapter on Politics > Parties, go to its meetings,
+ * then ask its organizer. A "later" or a "no" is answered with more meetings
+ * and another ask; a chapter that still says no is left for the next one.
+ * The organizer decides; this never forces a yes. Ends back on
+ * the campaign and returns whether the chapter agreed.
+ */
+export async function askChapterOrganizerForSupport(page: Page) {
+  await goTo(page, "nav-parties");
+  const workspace = page.getByTestId("parties-workspace");
+  await expect(workspace).toBeVisible();
+  // One chapter's organizer may decline; the player can ask the next one.
+  const chapterIds = (
+    await workspace
+      .locator('[data-testid^="chapter-join-"]')
+      .evaluateAll((nodes) =>
+        nodes.map((node) => node.getAttribute("data-testid")!),
+      )
+  ).map((id) => id.slice("chapter-join-".length));
+  let granted = false;
+  for (const chapterId of chapterIds) {
+    if (granted) break;
+    await workspace.getByTestId(`chapter-join-${chapterId}`).click();
+    // The organizer weighs the work the player has turned up for, so each
+    // round shows up for more of it before asking again.
+    for (let round = 0; round < 3 && !granted; round += 1) {
+      for (let meeting = 0; meeting <= round; meeting += 1) {
+        await workspace
+          .getByTestId(`party-work-request-organization-meeting-${chapterId}`)
+          .click();
+        await attendNewestPartyWork(page);
+      }
+      await workspace
+        .getByTestId(`party-work-request-support-request-${chapterId}`)
+        .click();
+      await attendNewestPartyWork(page);
+      const answer =
+        (await workspace
+          .locator('li[data-state="completed"]')
+          .first()
+          .textContent()) ?? "";
+      granted = !/will not back|take it up later/.test(answer);
+    }
+    // A player belongs to one chapter at a time; leave before asking another.
+    if (!granted)
+      await workspace.getByTestId(`chapter-leave-${chapterId}`).click();
+  }
+  await openElsewhere(page, "campaign");
+  await expect(page.getByTestId("work-section-campaign")).toBeVisible();
+  return (await page.locator('[data-testid^="campaign-book-"]').count()) > 0;
+}
+
+/**
+ * Puts one of the week's campaign choices on the calendar and goes to it:
+ * the named form, or with none named whichever the week offers first.
+ * Returns false when the week offers nothing that fits.
+ */
+export async function bookAndHoldCampaignChoice(
+  page: Page,
+  form?: "door-canvass" | "phone-shift" | "fundraiser",
+) {
+  const book = page
+    .locator(
+      form === undefined
+        ? '[data-testid^="campaign-book-"]'
+        : `[data-testid="campaign-book-${form}"]`,
+    )
+    .first();
+  if ((await book.count()) === 0) return false;
+  await book.click();
+  await attendNewestPartyWork(page);
+  await expect(page.getByTestId("campaign-recent-results")).toBeVisible();
+  return true;
 }
