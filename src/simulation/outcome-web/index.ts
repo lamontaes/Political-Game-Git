@@ -5,6 +5,7 @@ import {
   macroScopeForJurisdiction,
 } from "../macro-economy/readers";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
+import { defenseBoostPct } from "../federal-defense-spending";
 import { stateMinimumSettingAt } from "../minimum-wage";
 import {
   PLACE_OUTCOME_BASES,
@@ -117,7 +118,10 @@ const BASELINES = web.baselines as Readonly<
 >;
 
 /** Measures whose baseline is zero: a change from where the place began. */
-const CHANGE_MEASURES = new Set(["labor.minimum-wage-change-pct"]);
+const CHANGE_MEASURES = new Set([
+  "labor.minimum-wage-change-pct",
+  "federal.defense-boost-pct",
+]);
 
 /**
  * A measure the world records, read for one place on one date. `read` returns
@@ -182,6 +186,17 @@ const FIXED_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
     },
   },
 
+  "federal.defense-boost-pct": {
+    key: "federal.defense-boost-pct",
+    unit: "percent of what the state produces that extra defense contracts add",
+    // A federal law that grows defense spending faster than inflation sends
+    // each state more contracts, in proportion to what it draws today
+    // (`federal-defense-spending.ts`); with no such law the boost is zero.
+    read: (world, jurisdictionId, asOf) => {
+      const key = placeOutcomeKey(jurisdictionId);
+      return key === null ? null : defenseBoostPct(world, key, asOf);
+    },
+  },
   "labor.unemployment-pct": {
     key: "labor.unemployment-pct",
     unit: "percent of the labor force",
@@ -295,6 +310,9 @@ export const LAW_QUESTION_MEASURES: Readonly<
 > = {
   "us-policy-positions:labor-workforce.raise-minimum-wage": [
     "labor.minimum-wage-change-pct",
+  ],
+  "us-federal-positions:defense.grow-defense-spending": [
+    "federal.defense-boost-pct",
   ],
 };
 
