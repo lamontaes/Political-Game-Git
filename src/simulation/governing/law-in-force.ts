@@ -10,7 +10,13 @@ import {
 } from "../life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { STATES } from "../state-reference";
-import type { EntityId, IsoDate, World } from "../types";
+import type {
+  EntityId,
+  IsoDate,
+  LegislativeEnactmentRecord,
+  LegislativeMeasureRecord,
+  World,
+} from "../types";
 import { measureAnswersAt } from "../vote-bundle";
 import { mayAnswerQuestion } from "./question-authority";
 
@@ -78,13 +84,9 @@ export function lawInForce(
 ): LawInForce | null {
   const chain = governingChain(jurisdictionId);
   let best: Candidate | null = null;
-  for (const enactment of world.history.legislativeEnactments ?? []) {
-    if (enactment.outcome !== "enacted") continue;
-    const measure = recordById(
-      world.history.legislativeMeasures ?? [],
-      enactment.measureId,
-    );
-    if (!measure) continue;
+  for (const { enactment, measure } of enactedByQuestion(world).get(
+    propositionId,
+  ) ?? []) {
     const level = chain.get(measure.jurisdictionId);
     if (!level) continue;
     // The law as enacted, sections an amendment or a rider put in included.
@@ -124,6 +126,54 @@ export function lawInForce(
     operativeAt: best.operativeAt,
     operativeBasis: best.operativeBasis,
   };
+}
+
+interface EnactedMeasure {
+  readonly enactment: LegislativeEnactmentRecord;
+  readonly measure: LegislativeMeasureRecord;
+}
+
+const ENACTED_BY_QUESTION = new WeakMap<
+  readonly LegislativeEnactmentRecord[],
+  {
+    readonly measures: readonly LegislativeMeasureRecord[];
+    readonly byQuestion: ReadonlyMap<EntityId, readonly EnactedMeasure[]>;
+  }
+>();
+
+/**
+ * The enacted measures that answer each question, in enactment order. Every
+ * member's every vote asks what law is in force, and reading every enactment
+ * the world has ever had for each one grew with the save. Both lists only
+ * grow, so this is rebuilt when either one changes.
+ */
+function enactedByQuestion(
+  world: World,
+): ReadonlyMap<EntityId, readonly EnactedMeasure[]> {
+  const enactments = world.history.legislativeEnactments ?? [];
+  const measures = world.history.legislativeMeasures ?? [];
+  const cached = ENACTED_BY_QUESTION.get(enactments);
+  if (cached && cached.measures === measures) return cached.byQuestion;
+  const byQuestion = new Map<EntityId, EnactedMeasure[]>();
+  for (const enactment of enactments) {
+    if (enactment.outcome !== "enacted") continue;
+    const measure = recordById(measures, enactment.measureId);
+    if (!measure) continue;
+    // Every question the law answers as enacted: the ones it was filed on,
+    // and any a section an amendment or a rider put in answers (Build 25).
+    for (const propositionId of new Set([
+      ...(measure.propositionIds ?? []),
+      ...measureAnswersAt(world, measure.id, enactment.sequence).map(
+        (row) => row.propositionId,
+      ),
+    ])) {
+      const list = byQuestion.get(propositionId) ?? [];
+      list.push({ enactment, measure });
+      byQuestion.set(propositionId, list);
+    }
+  }
+  ENACTED_BY_QUESTION.set(enactments, { measures, byQuestion });
+  return byQuestion;
 }
 
 interface StartingLawRow {

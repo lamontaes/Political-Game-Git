@@ -372,8 +372,13 @@ describe("the law in force keeps to each level's powers", () => {
     const key = "us-policy-positions:fiscal.graduated-income-tax";
     const ordinance = enacted(lexington, key, "yes");
     const world = worldWith([ordinance]);
-    expect(lawInForce(world, lexington, questionId(key))).toBeNull();
-    expect(lawInForce(world, kentucky, questionId(key))).toBeNull();
+    // Kentucky now has a real starting answer on this question; the ordinance
+    // must change nothing about it, in the city or in the state.
+    const inCity = lawInForce(world, lexington, questionId(key));
+    const inState = lawInForce(world, kentucky, questionId(key));
+    expect(inCity).toEqual(inState);
+    expect(inCity?.level).not.toBe("city-ordinance");
+    expect(inCity?.answer).not.toBe("yes");
     expect(world.history.legislativeMeasures).toHaveLength(1);
   });
 
