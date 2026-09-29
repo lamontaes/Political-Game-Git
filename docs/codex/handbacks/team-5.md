@@ -6,9 +6,9 @@ No Team 5 product changes have merged. The routing table is ready for review. Th
 
 DECIDED: The assigned Job 07 records the September 29 ruling: “remove canned news. Old saves don't matter.” The candidate removes the ready-made local and international news producers and the crisis draw that consumed them. Existing scheduled synthetic transitions cancel without creating events or successors.
 
-HARDWIRED: The opening archive considers the preceding 90 days in `src/simulation/press/desk.ts`. It publishes existing eligible public occurrences through Civic Ledger, using their original occurrence dates. It creates no election, law, vote, business opening, or death to fill an empty archive. The first desk sweep reads the pre-schedule record; later sweeps keep their incremental frontier.
+HARDWIRED: The opening archive considers the preceding 90 days in `src/simulation/press/desk.ts:172`. It publishes existing eligible public occurrences through Civic Ledger, using their original occurrence dates. It creates no election, law, vote, business opening, or death to fill an empty archive. The first desk sweep reads the pre-schedule record; later sweeps keep their incremental frontier.
 
-HARDWIRED: The dossier candidate reads public events involving the person, beyond office tenures, in `src/presentation/person-dossier.ts`. Work and education facts require the player's own identity, a public source event, or accurate recorded event knowledge. Private biography remains withheld. This does not generate missing pre-play hiring or favor history.
+HARDWIRED: The dossier candidate reads public events involving the person, beyond office tenures, in `src/presentation/person-dossier.ts:186`. Work and education facts require the player's own identity, a public source event, or accurate recorded event knowledge. Private biography remains withheld. This does not generate missing pre-play hiring or favor history.
 
 HARDWIRED: The rejected generic choice opener and appearance developer notice are removed from their player components. The ownership check still prevents editing another person's appearance.
 
@@ -38,6 +38,8 @@ Meeting attendees, agenda-driven speech, full pre-play leader history, and most 
 - Contact controls: expanded dossiers offered unavailable travel, meeting and contact buttons; each button now requires an available action and a callback.
 
 ## Source and workspace
+
+The unvalidated [draft PR #1134](https://github.com/lamontaes/Political-Game-Git/pull/1134) retires canned news and exposes record-backed history. Its product checkpoint is `f99e10b48b17efb31a0f32fde7eb8631a01052c5`. It is stacked on the routing branch and must remain unmerged until its required checks and dependency review pass.
 
 The routing-only [PR #1132](https://github.com/lamontaes/Political-Game-Git/pull/1132) assigns every September 29 playtest item to a job. It does not mark any defect fixed.
 
