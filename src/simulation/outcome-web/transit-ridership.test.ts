@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { makeIsoDate } from "../dates";
 import { lifePlaceByKey, stateJurisdictionForKey } from "../life-places";
 import type {
@@ -125,6 +126,19 @@ describe("transit ridership", () => {
       10,
     );
     expect(ridership(world, missouri, "2026-04-15").multiplier).toBe(1);
+  });
+
+  it("starts all 56 places with riders paying fares, so only a new law moves ridership", () => {
+    const answers = (
+      startingLaw.questions as Record<
+        string,
+        { answers: Record<string, { answer: "yes" | "no" }> }
+      >
+    )[QUESTION_KEY]!.answers;
+    expect(Object.keys(answers)).toHaveLength(56);
+    expect(Object.values(answers).every((row) => row.answer === "no")).toBe(
+      true,
+    );
   });
 
   it("a law answering no leaves ridership where it began", () => {
