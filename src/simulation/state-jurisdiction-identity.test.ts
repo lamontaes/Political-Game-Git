@@ -7,6 +7,8 @@ import {
   NEBRASKA_CONTEXT,
 } from "./legislation-scenarios";
 import {
+  STATES,
+  lifePlaces,
   stateJurisdictionForKey,
   stateKeyForJurisdiction,
   stateKeyForJurisdictionSlug,
@@ -91,5 +93,29 @@ describe("what is not a state stays not a state", () => {
     expect(stateKeyForJurisdictionSlug("state-us-zz-placeholder")).toBe(null);
     expect(stateKeyForJurisdictionSlug("")).toBe(null);
     expect(stateKeyForJurisdictionSlug("us-ky")).toBe(null);
+  });
+
+  it("gives every state the same jurisdiction each time it is asked", () => {
+    // Found once and kept: the law in force asks for every state's
+    // jurisdiction each time it places a law.
+    for (const usps of Object.keys(STATES)) {
+      const key = `US-${usps}`;
+      const first = stateJurisdictionForKey(key)!;
+      const established = lifePlaces().find(
+        (place) =>
+          place.scope === "state" && place.stateJurisdictionKey === key,
+      );
+      expect(first.id).toBe(
+        established?.context.jurisdiction.id ??
+          createStableId(
+            "jurisdiction",
+            `definition:state-${key.toLowerCase()}-placeholder`,
+          ),
+      );
+      expect(stateJurisdictionForKey(key)).toBe(first);
+      expect(stateKeyForJurisdiction(first)).toBe(key);
+    }
+    expect(stateJurisdictionForKey("US-ZZ")).toBe(null);
+    expect(stateJurisdictionForKey("US-ZZ")).toBe(null);
   });
 });

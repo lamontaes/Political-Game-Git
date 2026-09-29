@@ -14,6 +14,7 @@ import {
 } from "../life-queries";
 import { SYNTHETIC_MIND_IDS } from "../mind-catalog";
 import { latestPersonalityTendency } from "../queries";
+import { sharedPlaceAcquaintances } from "../shared-places";
 import type {
   EntityId,
   FutureDueItem,
@@ -214,7 +215,9 @@ export function followsNewsClosely(world: World, personId: EntityId): boolean {
 /**
  * The people someone knows, from the game's own records: the others in their
  * home who are not their partner (a partner already feels the law as family),
- * the people they work alongside, and anyone they have a recorded moment with.
+ * the people they work alongside, anyone they have a recorded moment with, and
+ * the people they share a room with now: a council, a congregation, a club, or
+ * a child's class at school (`sharedPlaceAcquaintances`).
  */
 export function peopleKnownTo(
   world: World,
@@ -258,6 +261,8 @@ export function peopleKnownTo(
     if (row.personIds.includes(personId))
       for (const other of row.personIds)
         if (world.people[other] && !partners.has(other)) known.add(other);
+  for (const other of sharedPlaceAcquaintances(world, personId))
+    if (!partners.has(other)) known.add(other);
   known.delete(personId);
   return [...known].sort();
 }

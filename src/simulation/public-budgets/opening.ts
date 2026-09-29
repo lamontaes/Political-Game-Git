@@ -1,9 +1,13 @@
 import bases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
+import acsTowns from "../../../data/research/money/place-towns-acs-2024.json" with { type: "json" };
 import {
+  allGovernmentUnits,
   countyGeoidsForPlace,
   countyGovernmentUnit,
   governmentUnitsForPlace,
+  governmentUnitsForState,
+  type GovernmentUnitIdentity,
 } from "../government-units";
 import {
   lifePlaceByJurisdictionId,
@@ -192,6 +196,18 @@ const ACS_MUNICIPIO_POPULATION = acsPlaces.puertoRicoMunicipios as Readonly<
   Record<string, number>
 >;
 
+/**
+ * Each place the Vintage 2025 estimates leave out whose county area has no
+ * county government: its residents by county subdivision (ACS 2020-2024),
+ * largest first, and each subdivision's population.
+ */
+const ACS_PLACE_TOWNS = acsTowns.placeTowns as unknown as Readonly<
+  Record<string, readonly (readonly [string, number])[]>
+>;
+const ACS_TOWN_POPULATION = acsTowns.townPopulation as Readonly<
+  Record<string, number>
+>;
+
 /** NASBO's median rainy-day balance as a share of spending, fiscal 2026. */
 const MEDIAN_RAINY_DAY_SHARE = 0.131;
 
@@ -208,8 +224,10 @@ export interface BudgetCandidate {
 /**
  * Every government the world holds: each state, D.C. and territory, each
  * county present, and each city present that has a government of its own. A
- * census-designated place present brings in the county or Puerto Rico
- * municipio that serves it. The rest are listed with the reason they keep no
+ * census-designated place present brings in the government that serves it
+ * (`servingGovernment`): its county, municipio, New England town or
+ * consolidated government; where the state serves it directly, the state's
+ * budget is already held. The rest are listed with the reason they keep no
  * budget.
  */
 export function budgetCandidates(world: World): {
@@ -274,10 +292,9 @@ export function budgetCandidates(world: World): {
       });
       continue;
     }
-    // A census-designated place has no government of its own. Its residents
-    // are served by the county holding most of them, or in Puerto Rico by the
-    // municipio; that government keeps the budget.
-    const serving = servingCounty(geoid, stateKey);
+    // A census-designated place has no government of its own. The
+    // government that serves its residents keeps the budget.
+    const serving = servingGovernment(geoid, stateKey, id);
     if (typeof serving === "string") {
       unknown.push({
         key: `place:${geoid}`,
@@ -286,11 +303,13 @@ export function budgetCandidates(world: World): {
       });
       continue;
     }
+    // The state serves it directly, and the state's budget is already held.
+    if (serving.level === "state") continue;
     candidates.push({
-      key: `county:${serving.geoid}`,
+      key: serving.key,
       jurisdictionId: serving.jurisdictionId,
       lawJurisdictionId: serving.jurisdictionId,
-      level: "county",
+      level: serving.level,
       name: serving.name,
       stateKey,
       geoid: serving.geoid,
@@ -307,38 +326,159 @@ export function budgetCandidates(world: World): {
   };
 }
 
+export interface ServingGovernment {
+  /** The budget's key: `county:<GEOID>`, `town:<county subdivision GEOID>` or the state's. */
+  readonly key: string;
+  readonly level: BudgetLevel;
+  readonly geoid: string | null;
+  readonly jurisdictionId: EntityId;
+  readonly name: string;
+}
+
 /**
- * The county government, or Puerto Rico municipio, that serves a place with
- * no government of its own: the county holding most of its residents (ACS
- * 2020-2024), or else most of its land (2020 Census files). Where
- * that county area has no county government (New England towns, Alaska's
- * unorganized borough, consolidated city-counties), the reason.
+ * The government that serves a place with no government of its own, found in
+ * the county area holding most of its residents (ACS 2020-2024), or else most
+ * of its land (2020 Census files):
+ *
+ * 1. that area's county government, or its municipio where the listing holds
+ *    no governments for the territory (Puerto Rico);
+ * 2. else the town holding most of the place's residents (ACS 2020-2024
+ *    county subdivisions), where the Census Bureau's 2025 listing files that
+ *    town as a government (a New England town); the place's own jurisdiction
+ *    carries its laws;
+ * 3. else, in an area with no town governments, its consolidated government:
+ *    the area's one municipality filed under a county-level name or with no
+ *    place of its own (the City and County of Honolulu; the City-Parish of
+ *    Lafayette), which keeps the county area's budget;
+ * 4. else, in an area with no county, town or consolidated government
+ *    (Alaska's unorganized borough), the state, which serves it directly.
+ *
+ * Otherwise, the reason no government is linked.
  */
-function servingCounty(
+export function servingGovernment(
   placeGeoid: string,
   stateKey: string,
-):
-  | {
-      readonly geoid: string;
-      readonly jurisdictionId: EntityId;
-      readonly name: string;
-    }
-  | string {
+  placeJurisdictionId: EntityId,
+): ServingGovernment | string {
   const countyGeoid =
     ACS_PLACE_COUNTIES[placeGeoid]?.[0]?.[0] ??
     countyGeoidsForPlace(placeGeoid)[0];
   if (!countyGeoid)
     return "No government of its own, and no county is recorded for it.";
-  if (stateKey !== "US-PR" && !countyGovernmentUnit(countyGeoid))
-    return "No government of its own, and its county area has no county government; the town or consolidated government that serves it is not linked yet.";
-  const place = lifePlaceByKey(`county:${countyGeoid}`);
-  if (!place)
-    return "No government of its own, and the county that serves it is not in the places corpus.";
-  return {
-    geoid: countyGeoid,
-    jurisdictionId: place.context.jurisdiction.id,
-    name: place.context.jurisdiction.name,
+  const area = localUnitsByCountyArea().get(countyGeoid);
+  const county = (): ServingGovernment | string => {
+    const place = lifePlaceByKey(`county:${countyGeoid}`);
+    if (!place)
+      return "No government of its own, and the county that serves it is not in the places corpus.";
+    return {
+      key: `county:${countyGeoid}`,
+      level: "county",
+      geoid: countyGeoid,
+      jurisdictionId: place.context.jurisdiction.id,
+      name: place.context.jurisdiction.name,
+    };
   };
+  const usps = stateKey.replace(/^US-/, "");
+  // Where the listing holds no governments for the whole state or territory
+  // (Puerto Rico's municipios), the county equivalent is its government.
+  if (
+    countyGovernmentUnit(countyGeoid) ||
+    governmentUnitsForState(usps).length === 0
+  )
+    return county();
+  const townGeoid = ACS_PLACE_TOWNS[placeGeoid]?.[0]?.[0];
+  const town = townGeoid
+    ? localUnitsByCountyArea()
+        .get(townGeoid.slice(0, 5))
+        ?.townships.find(
+          (unit) =>
+            unit.stateUsps === usps &&
+            unit.publisherPlaceCode === townGeoid.slice(5),
+        )
+    : undefined;
+  if (townGeoid && town)
+    return {
+      key: `town:${townGeoid}`,
+      level: "city",
+      geoid: townGeoid,
+      jurisdictionId: placeJurisdictionId,
+      name: `${titleCase(town.name)}, ${STATES[usps]?.name ?? usps}`,
+    };
+  if (!area?.townships.length) {
+    if (area?.consolidated) return county();
+    const state = stateJurisdictionForKey(stateKey);
+    if (state)
+      return {
+        key: stateKey,
+        level: "state",
+        geoid: null,
+        jurisdictionId: state.id,
+        name: STATES[usps]?.name ?? usps,
+      };
+  }
+  return "No government of its own, and the town that serves it is not linked: its county area has no county government, and no town in the Census Bureau's 2025 listing holds most of its residents.";
+}
+
+interface CountyAreaUnits {
+  /** The area's consolidated government, if exactly one is found. */
+  readonly consolidated: GovernmentUnitIdentity | null;
+  readonly townships: readonly GovernmentUnitIdentity[];
+}
+
+let countyAreaUnits: Map<string, CountyAreaUnits> | null = null;
+
+/**
+ * A municipality the Census Bureau files under a county-level name ("City and
+ * County of Honolulu", "City-Parish of Lafayette", "Consolidated Government of
+ * Terrebonne"): the publisher's own name for a government that
+ * governs its whole county area.
+ */
+const COUNTY_LEVEL_NAME =
+  /\b(COUNTY|PARISH)\b|\bCITY AND BOROUGH\b|\bCONSOLIDATED GOVERNMENT\b/;
+
+/**
+ * Each county area's consolidated government and townships, from the Census
+ * Bureau's 2025 listing. The consolidated government is the area's one
+ * municipality filed under a county-level name or with no place of its own.
+ */
+function localUnitsByCountyArea(): ReadonlyMap<string, CountyAreaUnits> {
+  if (countyAreaUnits) return countyAreaUnits;
+  const consolidated = new Map<string, GovernmentUnitIdentity[]>();
+  const townships = new Map<string, GovernmentUnitIdentity[]>();
+  for (const unit of allGovernmentUnits()) {
+    if (!unit.countyGeoid) continue;
+    const into =
+      unit.unitType === "township"
+        ? townships
+        : unit.unitType === "municipality" &&
+            (!unit.placeGeoid || COUNTY_LEVEL_NAME.test(unit.name))
+          ? consolidated
+          : null;
+    if (!into) continue;
+    into.set(unit.countyGeoid, [...(into.get(unit.countyGeoid) ?? []), unit]);
+  }
+  countyAreaUnits = new Map();
+  for (const county of new Set([...consolidated.keys(), ...townships.keys()])) {
+    const loose = consolidated.get(county) ?? [];
+    countyAreaUnits.set(county, {
+      consolidated: loose.length === 1 ? loose[0]! : null,
+      townships: townships.get(county) ?? [],
+    });
+  }
+  return countyAreaUnits;
+}
+
+/** "TOWN OF EAST WINDSOR" as "Town of East Windsor". */
+function titleCase(name: string): string {
+  return name
+    .toLowerCase()
+    .split(" ")
+    .map((word, at) =>
+      at > 0 && ["of", "and", "the"].includes(word)
+        ? word
+        : word.charAt(0).toUpperCase() + word.slice(1),
+    )
+    .join(" ");
 }
 
 function drawn(
@@ -550,7 +690,10 @@ function localOpening(
       ? (COUNTY_POPULATION[candidate.geoid!] ??
         ACS_MUNICIPIO_POPULATION[candidate.geoid!] ??
         null)
-      : (placePopulation(candidate.geoid!) ?? acsPopulation);
+      : (placePopulation(candidate.geoid!) ??
+        acsPopulation ??
+        ACS_TOWN_POPULATION[candidate.geoid!] ??
+        null);
   if (population === null || population <= 0)
     return "No population for this place in the research.";
   const populationSource =
@@ -671,10 +814,12 @@ export function openGovernmentBudget(
     candidate.level !== "state",
   );
   const spending = opening.spending;
-  const { pension, required } = openingPension(
-    sum(spending),
-    openingPaidShare(world, candidate.key),
+  const paid = openingPaidShare(
+    candidate.stateKey,
+    candidate.level,
+    candidate.name,
   );
+  const { pension, required } = openingPension(sum(spending), paid.share);
   // The opening year's contribution: in full under a law requiring it, and
   // at the government's own share otherwise.
   carvePension(
@@ -716,6 +861,9 @@ export function openGovernmentBudget(
       ...opening.notes,
       `Calibration factor ${BUDGET_CALIBRATION}: ${bases.calibration.basis}`,
       "Pension: liability, funded ratio and contribution are PLACEHOLDER (research: public-pension-funding-by-state), carved out of salary-paying programs.",
+      paid.basis === "reported"
+        ? `Pension share paid: ${paid.share}, as its own plans reported to the Public Plans Database.`
+        : `Pension share paid: ${paid.share}, ESTIMATED FROM AVERAGE (the median of every plan in the Public Plans Database, fiscal 2022 to 2024); its own plans are not listed.`,
       ...(basis === "state-start-placeholder"
         ? [
             "Fiscal year: the state's start (PLACEHOLDER, research: local-government-finances-by-type).",

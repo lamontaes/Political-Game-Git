@@ -31,7 +31,9 @@ import type {
  * than in an election year.
  *
  * Every consideration below is read from a record the decider holds or from
- * the case itself. The two calendar windows are hand-set and marked.
+ * the case itself. The two calendar windows are hand-set and marked. No seeded
+ * draw settles a close call: an exact tie falls to the first option key,
+ * `clemency:deny`, so a sentence stands unless the decider has a reason.
  */
 
 export const CLEMENCY_GRANT = "clemency:grant" as const;
@@ -323,7 +325,7 @@ export function evaluateClemency(
     constraints: [],
     considerations: clemencyConsiderations(world, deciderId, question, term),
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   });
 }

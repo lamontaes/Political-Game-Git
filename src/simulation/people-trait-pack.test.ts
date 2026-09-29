@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { canonicalJson } from "./canonical-json";
 import { CLEMENCY_PETITION_DECISION } from "./justice/clemency-decisions";
+import { JURY_VOTE_DECISION, PLEA_DECISION } from "./justice/court-decisions";
 import { peopleTraitPack } from "./people-trait-pack";
 import {
   PEOPLE_TRAITS,
@@ -29,6 +30,8 @@ describe("the pack is the five traits, to the byte", () => {
         options: ["accept", "counter", "decline"],
       },
       CLEMENCY_PETITION_DECISION,
+      PLEA_DECISION,
+      JURY_VOTE_DECISION,
     ],
   );
 

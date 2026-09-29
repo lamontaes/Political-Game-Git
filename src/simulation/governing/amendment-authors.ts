@@ -22,7 +22,11 @@ import type {
   World,
 } from "../types";
 import { measureAnswersAt } from "../vote-bundle";
-import { decideChamberVote } from "./chamber-votes";
+import {
+  decideChamberVote,
+  publicPartyOf,
+  type ChamberVoteInput,
+} from "./chamber-votes";
 import { holdsPrinciples, principleView } from "./officeholder-principles";
 
 /**
@@ -96,6 +100,8 @@ export interface AmendmentAuthorsInput {
     measure: LegislativeMeasureRecord,
     part: PropositionAnswerRef,
   ) => boolean;
+  /** The chamber's members are elected without party labels (Nebraska). */
+  readonly nonpartisan?: boolean;
 }
 
 /**
@@ -307,8 +313,61 @@ export function planFloorAmendment(
       stableKey: `${input.stableKey}:own-lean`,
       question: billQuestion(input, null, undefined),
       members: seated,
+      nonpartisan: input.nonpartisan ?? false,
     }).map((row) => [row.personId, row.disposition]),
   );
+
+  // Each member counts the chamber as they know it: their own vote from their
+  // own mind, each colleague's from what that colleague is known to stand for.
+  // A colleague's vote on a reading of the bill is the same whoever counts
+  // it, so each reading is decided for the whole chamber once; only the
+  // member counting and the member it was first decided for are decided
+  // again. On an amendment, the reading also carries its author's party and
+  // whether the author is the bill's sponsor, which set every colleague's cue.
+  const readings = new Map<
+    string,
+    {
+      readonly by: string;
+      readonly rows: ReadonlyMap<string, LegislativeVoteDisposition>;
+    }
+  >();
+  const countedBy = (
+    reading: string,
+    member: SeatedMember,
+    vote: Omit<ChamberVoteInput, "members" | "only">,
+  ): readonly LegislativeVoteDisposition[] => {
+    const first = readings.get(reading);
+    if (!first || first.by === member.memberKey) {
+      const rows = decideChamberVote(world, {
+        ...vote,
+        members: seated,
+        nonpartisan: input.nonpartisan ?? false,
+      });
+      if (!first)
+        readings.set(reading, {
+          by: member.memberKey,
+          rows: new Map(rows.map((row) => [row.memberKey, row])),
+        });
+      return rows;
+    }
+    const again = new Map(
+      decideChamberVote(world, {
+        ...vote,
+        members: seated,
+        nonpartisan: input.nonpartisan ?? false,
+        only: new Set([first.by, member.memberKey]),
+      }).map((row) => [row.memberKey, row]),
+    );
+    return seated.map(
+      (seat) => again.get(seat.memberKey) ?? first.rows.get(seat.memberKey)!,
+    );
+  };
+  const authorReading = (member: SeatedMember & { personId: EntityId }) =>
+    `${
+      member.partyKey !== undefined
+        ? member.partyKey
+        : publicPartyOf(world, member.personId)
+    }:${member.personId === measure.sponsorPersonId}`;
 
   const plans: (AmendmentPlan & { readonly rank: number })[] = [];
   for (const member of seated) {
@@ -324,10 +383,9 @@ export function planFloorAmendment(
         input,
         measure,
         "floor-stage",
-        decideChamberVote(world, {
+        countedBy("bill", member, {
           stableKey: `${input.stableKey}:count:${member.memberKey}`,
           question: billQuestion(input, null, knownTo),
-          members: seated,
         }),
       );
       const amendmentKey = `${input.stableKey}:${AMENDMENT_AUTHORS_VERSION}`;
@@ -336,10 +394,9 @@ export function planFloorAmendment(
         input,
         measure,
         "floor-stage",
-        decideChamberVote(world, {
+        countedBy(`with:${partKey(part)}`, member, {
           stableKey: `${input.stableKey}:count-with:${member.memberKey}`,
           question: billQuestion(input, part, knownTo),
-          members: seated,
         }),
       );
       const amendment = count(
@@ -347,17 +404,20 @@ export function planFloorAmendment(
         input,
         measure,
         "amendment",
-        decideChamberVote(world, {
-          stableKey: `${input.stableKey}:count-amendment:${member.memberKey}`,
-          question: amendmentQuestion(
-            input,
-            part,
-            amendmentKey,
-            member.personId,
-            knownTo,
-          ),
-          members: seated,
-        }),
+        countedBy(
+          `amendment:${partKey(part)}:${authorReading(member)}`,
+          member,
+          {
+            stableKey: `${input.stableKey}:count-amendment:${member.memberKey}`,
+            question: amendmentQuestion(
+              input,
+              part,
+              amendmentKey,
+              member.personId,
+              knownTo,
+            ),
+          },
+        ),
       );
       const motive = chooseMotive(
         measure,
@@ -485,6 +545,7 @@ export function offerPlannedAmendment(
       undefined,
     ),
     members: input.members,
+    nonpartisan: input.nonpartisan ?? false,
     playerPersonId:
       world.control.kind === "person" ? world.control.personId : null,
     playerBallot: null,
