@@ -1,4 +1,3 @@
-import { FAMILY_SHAPE_V2 } from "../simulation/family-shape";
 import { PLACE_NAMES_V1_VERSION } from "../simulation/names-data";
 import { SCHOOL_NAMES_V2_VERSION } from "../simulation/school-names";
 import {
@@ -258,9 +257,6 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
     ...(setup.parentPartnerVersion === undefined
       ? {}
       : { parentPartnerVersion: setup.parentPartnerVersion }),
-    ...(setup.familyShapeVersion === undefined
-      ? {}
-      : { familyShapeVersion: setup.familyShapeVersion }),
     ...(setup.birthYear === undefined ? {} : { birthYear: setup.birthYear }),
     ...(setup.openingDataVersion === undefined
       ? {}
@@ -445,11 +441,6 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   )
     return null;
   if (
-    record.familyShapeVersion !== undefined &&
-    record.familyShapeVersion !== FAMILY_SHAPE_V2
-  )
-    return null;
-  if (
     record.districtHomeJoinVersion !== undefined &&
     record.districtHomeJoinVersion !== CONGRESSIONAL_HOME_JOIN_V1
   )
@@ -556,9 +547,6 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     ...(record.parentPartnerVersion === undefined
       ? {}
       : { parentPartnerVersion: PARENT_PARTNERS_V1 }),
-    ...(record.familyShapeVersion === undefined
-      ? {}
-      : { familyShapeVersion: FAMILY_SHAPE_V2 }),
     ...(record.districtHomeJoinVersion === undefined
       ? {}
       : { districtHomeJoinVersion: CONGRESSIONAL_HOME_JOIN_V1 }),
