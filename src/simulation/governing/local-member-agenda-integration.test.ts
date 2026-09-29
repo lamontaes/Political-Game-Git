@@ -29,6 +29,8 @@ import { createFormationContext, recordPrinciples } from "../politics";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { World } from "../types";
 import { advanceWorld } from "../world";
+import { AUTOMATIC_LAW_POSITION_MAPPINGS } from "./automatic-legislation";
+import { lawInForce } from "./law-in-force";
 import {
   LOCAL_MEMBER_AGENDA_INTAKE,
   LOCAL_MEMBER_AGENDA_VERSION,
@@ -205,5 +207,64 @@ describe("ordinary local member fiscal agenda", () => {
     expect(measurePosition(reloaded, measure.id)).toEqual(
       measurePosition(afterIntake, measure.id),
     );
+  });
+});
+
+describe("a council's plain position bills", () => {
+  it("files a general-policy bill on a question with no local effect writer, and keeps a mapped question's bill separate", () => {
+    let world = openedWorld();
+    const mappedKeys = new Set(
+      AUTOMATIC_LAW_POSITION_MAPPINGS.filter(
+        (mapping) =>
+          mapping.governmentLevel === "municipality" ||
+          mapping.governmentLevel === "county",
+      ).map((mapping) => mapping.propositionKey),
+    );
+    for (let quarter = 0; quarter < 4; quarter += 1) {
+      const dueAt = addDays(world.currentDate, 1);
+      world = advanceWorld(
+        scheduleFutureDueItem(world, {
+          stableKey: intakeKeyFor(dueAt),
+          dueAt,
+          transitionKey: LOCAL_MEMBER_AGENDA_INTAKE,
+          entityIds: [place.context.jurisdiction.id],
+          jurisdictionId: place.context.jurisdiction.id,
+          provenance: {
+            kind: "authored",
+            note: "Exercise the ordinary local agenda handler at one game-profile intake.",
+          },
+        }),
+        1,
+        handlers,
+      );
+    }
+    const filed = (world.history.legislativeMeasures ?? []).filter((entry) =>
+      entry.stableKey.startsWith(
+        `${LOCAL_MEMBER_AGENDA_VERSION}:${encodeURIComponent(city.id)}:`,
+      ),
+    );
+    const positionBills = filed.filter((entry) =>
+      (entry.propositionIds ?? []).every(
+        (id) =>
+          !mappedKeys.has(world.policyCatalog.propositions[id]!.stableKey),
+      ),
+    );
+    expect(positionBills.length).toBeGreaterThan(0);
+    // Each is a plain position bill the council takes up, never a money bill.
+    for (const bill of positionBills) {
+      expect(bill.subjectClass).toBe("general-policy");
+      const phase = measurePosition(world, bill.id).phase;
+      expect(["on-floor", "enacted", "failed"]).toContain(phase);
+      // An enacted one is law in force, which is the only thing it moves yet.
+      if (phase === "enacted")
+        expect(
+          lawInForce(world, bill.jurisdictionId, bill.propositionIds![0]!)
+            ?.answer,
+        ).toBe(bill.propositionAnswers![0]!.answer);
+    }
+    // The mapped question keeps its own appropriation bill.
+    expect(
+      filed.filter((entry) => entry.subjectClass === "appropriation"),
+    ).toHaveLength(1);
   });
 });
