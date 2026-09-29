@@ -71,3 +71,21 @@ Team 4 received the urgent CTO override, sent TERM to verified baseline PID 3318
 Team 1 confirmed a clean published local-elections blob 03830617c5e8e5a98b439348690ba7fdb800dcab at 32fd449dbbd51eece4c79c076b8ef5de5ebf465f and recorded the narrow two-loop batching release to Team 4 under the claims lock. Coordinator relayed it. Team 4 can proceed without changing other law hunks. Speed PR requires identical two-year fingerprints and year 1 under 60 seconds, then Claude merges it first. Other heavy work remains held. No new owner decision.
 
 Coordinator documentation is published in draft PR #1137; no coordinator merge. Previous six-thirty team receipts remain the latest received for Teams 2, 3, 5, 6 and 7.
+
+## Latest owner override: full work resumed
+
+The wave-wide hold is lifted, including Team 7 image QA. All seven teams were notified. Team 4 keeps speed priority, but its two-year fingerprint and year-one-under-60-second gate no longer requires an empty machine. At most two other heavy jobs may run alongside Team 4.
+
+Team 1 is expressly authorized to restart the 92-law proof in additional slot A. Team 2 has slot B for its current bounded validation command; Team 3 is ready for B next, followed by other ready short validation/QA work. Actual launches and releases must be confirmed; a dispatch is not a running-process receipt. Lightweight work proceeds across all teams immediately. Finished pieces should be published promptly without waiting for other teams. No Codex merges or art approval.
+
+At 7:30 p.m. the coordinator will post which teams are actually running, and distinguish queued heavy work from live commands.
+
+## September 29, 7:30 p.m. Eastern: actual running work
+
+Live process inventory confirms Team 1 proof runner 37950/worker 37986 (about 25 minutes) and Team 3 baseline Node 39827 (about 22 minutes). These occupy both additional heavy slots. Team 4 has no benchmark running; it is preparing speed patches and awaiting four narrow Team 1 helper releases. Coordinator requested those releases without altering Team 1's running proof source. Team 4's priority slot remains available.
+
+Team 2 scoped typecheck passed; focused tests queued. Team 5 source work continues; tests queued. Team 6 lightweight research continues. Team 7 inspected 61 candidates and tagged 886 assets; short batch QA queued. Queues enforce only the two-job cap, not a wave-wide hold.
+
+Team 4's latest monthly diagnostic took 406.793 seconds, worse overall despite lower candidate-pool/index self time. No annual candidate identity or under-60-second pass. Four proposed helper changes await ownership receipts: personalityTendencyHistory, validateImmediateSupersession, recordsForId and affiliationIndexes.
+
+Latest team receipts: PR #1136 at 0ff324c2551f149ffee288aea1e61dbbc8693853; #1134 at e8d7e60bbe15875d8e6011b1309ff77e474833d2; #1133 at b0c11480eaaeb3fb3ab4fbb685b1728528aae55b. Research has 26 decisions, 89 sourced and 1367 unresearched availability cells. All remain incomplete as documented. Seven-thirty check-in posted to coordinator 00. No new owner decision.
