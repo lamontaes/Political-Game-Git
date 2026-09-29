@@ -573,6 +573,19 @@ export interface EngineAppearanceChoice {
   readonly outfit?: string;
   /** Fabric color per garment part (top, bottom, suit, shirt, tie, coat...). */
   readonly colors?: Readonly<Record<string, string>>;
+  /** A facial hair style (appearance-engine/pack.ts), or "none". */
+  readonly facialHair?: string;
+  /** A glasses frame id, or "none". */
+  readonly glasses?: string;
+  /** Whether the glasses are worn all day or only to read. */
+  readonly glassesWear?: "always" | "reading";
+  /**
+   * The jewelry and watch worn, as accessory ids (appearance-engine/pack.ts
+   * ACCESSORY_KINDS): "earrings-pearl", "watch-steel". A list that is present
+   * is a choice, so an empty one means wearing none; absent, the person's seed
+   * decides.
+   */
+  readonly accessories?: readonly string[];
 }
 
 export type PersonGenerationProfile = "production" | "stress";

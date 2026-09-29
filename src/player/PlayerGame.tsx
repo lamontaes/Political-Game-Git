@@ -185,7 +185,10 @@ import {
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
 import { SceneBackdrop } from "./SceneBackdrop";
-import { backdropForLocation } from "../presentation/place-backdrops";
+import {
+  backdropForLocation,
+  electionNightLocationKey,
+} from "../presentation/place-backdrops";
 import { placeBackdropPeople } from "../presentation/backdrop-people";
 import { projectBackdropSurfaces } from "../presentation/backdrop-surfaces";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
@@ -1519,7 +1522,12 @@ function PlayingScreen({
         : backdropForLocation(
             session.world,
             session.personId,
-            playScene.purpose === "home" ? "home" : playScene.locationKey,
+            // Election night wins over the home screen, never over an
+            // activity in progress.
+            (playScene.purpose !== "activity"
+              ? electionNightLocationKey(session.world, session.personId)
+              : null) ??
+              (playScene.purpose === "home" ? "home" : playScene.locationKey),
           ),
     [
       sceneHasPlate,
@@ -1634,6 +1642,19 @@ function PlayingScreen({
     conversation && conversation.addressee !== "everyone"
       ? conversation.addressee
       : null;
+  // The recorded turns of the open conversation: what faces react to.
+  const conversationTurns = useMemo(
+    () =>
+      conversation
+        ? conversationExchangeTurns(
+            session.world,
+            session.personId,
+            conversation.subject,
+            conversationSpeaker,
+          )
+        : [],
+    [conversation, conversationSpeaker, session.world, session.personId],
+  );
   const scenePeople = useMemo(
     () =>
       planLifeScenePeople(
@@ -1647,7 +1668,7 @@ function PlayingScreen({
           ...(artPreview ? { artPreview } : {}),
         },
         // The person the player is talking with answers; the rest listen.
-        { speakerId: conversationSpeaker },
+        { speakerId: conversationSpeaker, turns: conversationTurns },
       ),
     [
       session.world,
@@ -1657,6 +1678,7 @@ function PlayingScreen({
       renderSnapshots,
       artPreview,
       conversationSpeaker,
+      conversationTurns,
     ],
   );
 
