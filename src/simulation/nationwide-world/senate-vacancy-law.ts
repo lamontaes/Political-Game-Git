@@ -20,8 +20,9 @@
  * November election (`next-general`). The proximity rules that move a
  * special election onto a regular election are simplified: whenever the next
  * regular November election comes before the prompt date, it is used. Where
- * the statute's window is not recorded, `promptDays` is null and the game's
- * placeholder (`SENATE_SPECIAL_ELECTION_PLACEHOLDER_DAYS`) applies, marked.
+ * the statute's window is not recorded, `promptDays` is null and the window
+ * is ESTIMATED FROM AVERAGE: the median of the windows the other states'
+ * statutes set (`SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS`), marked as such.
  */
 
 export type SenateAppointmentRule =
@@ -46,8 +47,6 @@ export interface SenateVacancyLaw {
   readonly source: "crs-r44781-2017" | "statute-read-2026";
 }
 
-/** PLACEHOLDER: a prompt special election whose window is not recorded. */
-export const SENATE_SPECIAL_ELECTION_PLACEHOLDER_DAYS = 90;
 /**
  * PLACEHOLDER: how many days a governor takes to appoint when the statute
  * sets no deadline. Kept from the earlier game profile.
@@ -179,6 +178,25 @@ const ROWS: readonly SenateVacancyLaw[] = [
     "WV",
   ].map((usps) => crs(usps, "governor")),
 ];
+
+/**
+ * ESTIMATED FROM AVERAGE: the days to a prompt special election where the
+ * state's statute gives no window, the median of the windows the recorded
+ * statutes do give (10 states; 92 days as recorded September 28, 2026).
+ * Affects when a vacant seat in such a state is filled.
+ */
+export const SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS: number = (() => {
+  const days = ROWS.flatMap((row) =>
+    row.specialElection.kind === "prompt" &&
+    row.specialElection.promptDays !== null
+      ? [row.specialElection.promptDays]
+      : [],
+  ).sort((a, b) => a - b);
+  const mid = days.length >> 1;
+  return days.length % 2 === 1
+    ? days[mid]!
+    : Math.floor((days[mid - 1]! + days[mid]!) / 2);
+})();
 
 const BY_STATE: ReadonlyMap<string, SenateVacancyLaw> = new Map(
   ROWS.map((row) => [row.stateUsps, row]),

@@ -38,7 +38,7 @@ import { currentGovernorOf, currentPresidentOf } from "../crisis/offices";
 import { publicPartyOf } from "./chamber-votes";
 import {
   SENATE_APPOINTMENT_PLACEHOLDER_DAYS,
-  SENATE_SPECIAL_ELECTION_PLACEHOLDER_DAYS,
+  SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS,
   senateVacancyLaw,
 } from "../nationwide-world/senate-vacancy-law";
 import {
@@ -451,7 +451,7 @@ function openSenateVacancy(
       ? addDays(
           from,
           law.specialElection.promptDays ??
-            SENATE_SPECIAL_ELECTION_PLACEHOLDER_DAYS,
+            SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS,
         )
       : null;
   const special =
@@ -481,7 +481,7 @@ function openSenateVacancy(
         kind: "authored",
         note:
           law && special === promptDate
-            ? `${seat.stateUsps} law (${law.citation ?? law.source}): a prompt special election${law.specialElection.kind === "prompt" && law.specialElection.promptDays === null ? `; the ${SENATE_SPECIAL_ELECTION_PLACEHOLDER_DAYS}-day interval is a game placeholder` : ""}.`
+            ? `${seat.stateUsps} law (${law.citation ?? law.source}): a prompt special election${law.specialElection.kind === "prompt" && law.specialElection.promptDays === null ? `; the ${SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS}-day interval is estimated from the median of other states' statutes` : ""}.`
             : `${law ? `${seat.stateUsps} law (${law.citation ?? law.source})` : SENATE_VACANCY_PROFILE.id}: the governor issues writs of election (U.S. Const. amend. XVII) for the next regular November election.`,
       },
     });

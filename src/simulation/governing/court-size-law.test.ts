@@ -42,7 +42,7 @@ const AUTHORED = {
   note: "Authored member decisions for this scenario.",
   sourceEntityIds: [] as readonly EntityId[],
 };
-const KY_SUPREME = "us-ky:highest_court";
+const STATE_SUPREME = "us-ak:highest_court";
 const hearingRegistry = createFutureTransitionHandlerRegistry([
   [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
 ]);
@@ -105,14 +105,14 @@ function toFloor(s: LegislativeScenario, world: World, chamberKey: string) {
   return next;
 }
 
-/** A Kentucky act setting its supreme court at `seats`, 90 days after enactment. */
+/** A state act setting its supreme court at `seats`, 90 days after enactment. */
 function enactCourtSize(seats: number): World {
-  const s = createLegislativeScenario("kentucky");
+  const s = createLegislativeScenario("alaska");
   let world = ensureOpeningJudiciary(s.world);
   world = fileRuleChangeProvision(world, {
     stableKey: "court-size",
     measureId: s.measureId,
-    officeKey: KY_SUPREME,
+    officeKey: STATE_SUPREME,
     field: "court.seats",
     value: seats,
   });
@@ -133,12 +133,14 @@ function enactCourtSize(seats: number): World {
   return recordEnactment(world, {
     stableKey: "enactment",
     measureId: s.measureId,
-    actDesignation: "2026 Ky. Acts ch. 77",
+    actDesignation: "2026 Alaska Sess. Laws ch. 77",
   });
 }
 
 function activeSeats(world: World) {
-  return seatsForCourt(world, KY_SUPREME).filter((s) => !s.allocationRecordId);
+  return seatsForCourt(world, STATE_SUPREME).filter(
+    (s) => !s.allocationRecordId,
+  );
 }
 
 describe("Build 27 step 2: a law changes a court's size", () => {
@@ -159,7 +161,7 @@ describe("Build 27 step 2: a law changes a court's size", () => {
     const seats = activeSeats(operative);
     expect(seats).toHaveLength(9);
     expect(
-      courtById(operative, KY_SUPREME)!.rules.authorizedSeats,
+      courtById(operative, STATE_SUPREME)!.rules.authorizedSeats,
     ).toMatchObject({ state: "known", value: 9, basis: "enacted-rule" });
     const newSeats = seats.filter(
       (seat) => !seatHolderAt(operative, seat.seatId),
@@ -196,7 +198,7 @@ describe("Build 27 step 2: a law changes a court's size", () => {
   });
 
   it("refuses a Congress-only court for a state bill", () => {
-    const s = createLegislativeScenario("kentucky");
+    const s = createLegislativeScenario("alaska");
     const world = ensureOpeningJudiciary(s.world);
     expect(() =>
       fileRuleChangeProvision(world, {
@@ -206,6 +208,6 @@ describe("Build 27 step 2: a law changes a court's size", () => {
         field: "court.seats",
         value: 13,
       }),
-    ).toThrow(/only change rules for KY's own offices/);
+    ).toThrow(/only change rules for AK's own offices/);
   });
 });

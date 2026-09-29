@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { senateVacancyLaw, senateVacancyLawRows } from "./senate-vacancy-law";
+import {
+  SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS,
+  senateVacancyLaw,
+  senateVacancyLawRows,
+} from "./senate-vacancy-law";
 
 describe("Build 27 step 3: each state's Senate vacancy law", () => {
   it("records exactly one row for each of the 50 states", () => {
@@ -27,5 +31,9 @@ describe("Build 27 step 3: each state's Senate vacancy law", () => {
     });
     // D.C. and the territories elect no senators.
     expect(senateVacancyLaw("DC")).toBeNull();
+  });
+
+  it("estimates an unrecorded special-election window from the other states' median", () => {
+    expect(SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS).toBe(92);
   });
 });
