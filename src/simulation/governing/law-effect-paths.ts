@@ -1,7 +1,9 @@
+import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
 import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
 import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../nationwide-world/state-legislative-term-limits";
 import { OUTCOME_LINKS, outcomeLinkStatus } from "../outcome-web";
 import { RENT_LAW_KEYS } from "../living-world/town-rent";
+import { CANNABIS_SALES_QUESTION } from "../public-budgets/cannabis-sales-tax";
 import { TAX_QUESTION_EFFECTS } from "../public-budgets/rules";
 import {
   ADOPT_STATE_INCOME_TAX_QUESTION,
@@ -49,6 +51,11 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     via: "src/simulation/minimum-wage.ts",
   },
   {
+    questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
+    kind: "paycheck",
+    via: "src/simulation/federal-top-income-tax-law.ts",
+  },
+  {
     questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
     kind: "paycheck",
     via: "src/simulation/state-income-tax-law.ts",
@@ -82,6 +89,11 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     kind: "state-revenue",
     via: "src/simulation/public-budgets/rules.ts",
   })),
+  {
+    questionKey: CANNABIS_SALES_QUESTION,
+    kind: "state-revenue",
+    via: "src/simulation/public-budgets/cannabis-sales-tax.ts",
+  },
 ];
 
 const LAW_CAUSE_PREFIX = "law:";
