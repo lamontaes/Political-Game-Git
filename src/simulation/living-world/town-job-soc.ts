@@ -54,6 +54,7 @@ export const TOWN_JOB_SOC: Readonly<Record<string, string>> = {
   "occupation:truck-driver": "53-3032",
   "occupation:warehouse-worker": "53-7062",
   "profession:accountant": "13-2011",
+  "profession:bookkeeper": "43-3031",
   "profession:budget-analyst": "13-2031",
   "profession:business-analyst": "13-1111",
   "profession:campaign-manager": "13-1199",

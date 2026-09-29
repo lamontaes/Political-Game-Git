@@ -1057,27 +1057,6 @@
       "kind": "fixed-share",
       "build": "Build 24",
       "count": 1,
-      "code": "oldRetireShare: 0.6,"
-    },
-    {
-      "file": "src/simulation/living-world/local-elections.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "retireShare: 0.15,"
-    },
-    {
-      "file": "src/simulation/living-world/local-elections.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "resignShare: 0.03,"
-    },
-    {
-      "file": "src/simulation/living-world/local-elections.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
       "code": "adultShare: 0.75,"
     },
     {
@@ -1086,20 +1065,6 @@
       "build": "Build 24",
       "count": 1,
       "code": "if (point < 0) return index;"
-    },
-    {
-      "file": "src/simulation/living-world/local-elections.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "rng.next() < (age >= P.oldAge ? P.oldRetireShare : P.retireShare);"
-    },
-    {
-      "file": "src/simulation/living-world/local-elections.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "const resigns = !died && rng.next() < P.resignShare;"
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1646,20 +1611,6 @@
       "build": "Build 27",
       "count": 1,
       "code": ": rng.fork(`tie:${unit.state}`).integer(0, 2) === 0"
-    },
-    {
-      "file": "src/simulation/nationwide-world/state-executive-turnover-calendar.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "incumbentRunsPermille: 800,"
-    },
-    {
-      "file": "src/simulation/nationwide-world/state-executive-turnover.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "rng.integer(0, 1000) < GOVERNOR_TURNOVER_PROFILE.incumbentRunsPermille;"
     },
     {
       "file": "src/simulation/nationwide-world/state-legislature-candidates.ts",

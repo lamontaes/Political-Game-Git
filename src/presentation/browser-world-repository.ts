@@ -13,10 +13,11 @@ import { factsForPerson, personName } from "../simulation/people";
 import {
   createWorldSnapshot,
   readWorldSnapshot,
-  serializeWorldAs,
-  serializeWorldSnapshot,
+  serializeWorldSnapshotPayload,
   storedFormatVersion,
   worldContentId,
+  worldPayloadMatches,
+  type WorldPayload,
   type WorldSnapshot,
   type WorldSnapshotFormatVersion,
 } from "../simulation/serialization";
@@ -34,6 +35,7 @@ import {
   READABLE_RECORD_VERSIONS,
   SLOT_MESSAGES,
   decideWrite,
+  isWorldPayload,
   readSlotState,
   UNGENERATIONED,
 } from "./browser-world-repository-protocol";
@@ -194,7 +196,8 @@ export interface StoredBrowserWorldRecord {
    */
   readonly generation: number;
   readonly metadata: BrowserWorldSummary;
-  readonly payload: string;
+  /** One string, or for a world too long for one, the same text in pieces. */
+  readonly payload: WorldPayload;
 }
 
 /** The durable proof that a slot was deleted, kept at the slot's own key. */
@@ -1182,7 +1185,7 @@ export class BrowserSaveStore {
  * comparison and, at most, a put.
  */
 interface PreparedRecord {
-  readonly payload: string;
+  readonly payload: WorldPayload;
   readonly contentId: EntityId;
   readonly fields: Omit<
     BrowserWorldSummary,
@@ -1192,10 +1195,12 @@ interface PreparedRecord {
 
 function prepareWorldRecord(world: World): PreparedRecord {
   // One snapshot, used for the summary, the payload and the content identity.
-  // `serializeWorld` is exactly `serializeWorldSnapshot(createWorldSnapshot())`.
+  // `serializeWorld` is exactly `serializeWorldSnapshot(createWorldSnapshot())`,
+  // and the payload is that text, in pieces only when it is too long for one
+  // string.
   const snapshot = createWorldSnapshot(world);
   return {
-    payload: serializeWorldSnapshot(snapshot),
+    payload: serializeWorldSnapshotPayload(snapshot),
     contentId: snapshot.snapshotId,
     fields: worldRecordFields(world, snapshot),
   };
@@ -1369,7 +1374,7 @@ export function readStoredRecord(value: unknown): ReadRecord {
       savedAt,
     );
   }
-  if (typeof value.payload !== "string") {
+  if (!isWorldPayload(value.payload)) {
     return damaged(
       saveId,
       "unreadable-record",
@@ -1395,7 +1400,7 @@ export function readStoredRecord(value: unknown): ReadRecord {
   // Compared in the format the record was written in: a save from before roll
   // calls were packed is the same save, and is rewritten packed on its next
   // write.
-  if (value.payload !== serializeWorldAs(world, formatVersion)) {
+  if (!worldPayloadMatches(value.payload, world, formatVersion)) {
     return damaged(
       saveId,
       "altered-after-write",
@@ -1481,7 +1486,7 @@ function migrateRecord(
     saveId,
     generation,
     metadata: cloneSummary({ ...actual, lastPlayedAt: actual.lastPlayedAt }),
-    payload: value.payload as string,
+    payload: value.payload as WorldPayload,
   };
 }
 
