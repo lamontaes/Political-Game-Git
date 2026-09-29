@@ -3,19 +3,19 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 755,
+    "markers": 758,
     "byKind": {
       "unresearched": 221,
-      "placeholder": 423,
-      "blanket": 126
+      "placeholder": 422,
+      "blanket": 130
     },
     "byPath": {
-      "other": 470,
+      "other": 473,
       "money": 73,
       "law": 133,
       "government": 79
     },
-    "withoutQuestion": 457,
+    "withoutQuestion": 460,
     "questionNotFiled": 30,
     "moneyOrLawQuestions": 61
   },
@@ -2011,7 +2011,7 @@
     },
     {
       "file": "src/simulation/governing/chamber-votes.ts",
-      "line": 55,
+      "line": 59,
       "text": "* PLACEHOLDER until research question",
       "kinds": ["placeholder"],
       "path": "law",
@@ -3379,7 +3379,7 @@
     },
     {
       "file": "src/simulation/living-world/local-council-meetings.ts",
-      "line": 87,
+      "line": 85,
       "text": "* PLACEHOLDER, pending `local-council-legislative-volume`: the council meets",
       "kinds": ["placeholder"],
       "path": "law",
@@ -3388,7 +3388,7 @@
     },
     {
       "file": "src/simulation/living-world/local-elections.ts",
-      "line": 101,
+      "line": 113,
       "text": "* PLACEHOLDERS, pending `local-election-behavior`:",
       "kinds": ["placeholder"],
       "path": "government",
@@ -3397,7 +3397,7 @@
     },
     {
       "file": "src/simulation/living-world/local-government-seats.ts",
-      "line": 55,
+      "line": 63,
       "text": "* PLACEHOLDER, pending `local-seats-at-the-opening`: every member's term is",
       "kinds": ["placeholder"],
       "path": "law",
@@ -3469,16 +3469,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 97,
-      "text": "/** PLACEHOLDER: the spread of buffers around it (log scale). */",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/living-world/town-finances.ts",
-      "line": 99,
+      "line": 119,
       "text": "/** PLACEHOLDER: a line of credit up to this many days of revenue. */",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3487,7 +3478,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 102,
+      "line": 122,
       "text": "* PLACEHOLDER: how far a business's revenue follows what the town's",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3496,7 +3487,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 118,
+      "line": 138,
       "text": "* PLACEHOLDER: how far a quarter's crowding moves a business's prices.",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3505,7 +3496,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 126,
+      "line": 146,
       "text": "* PLACEHOLDER: how strongly customers choose among a town's businesses",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3514,7 +3505,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 133,
+      "line": 153,
       "text": "/** PLACEHOLDER: capital as a share of assets when books open. */",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3523,7 +3514,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 141,
+      "line": 161,
       "text": "/** PLACEHOLDER: below this capital ratio it makes no new loans. */",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3532,7 +3523,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 143,
+      "line": 163,
       "text": "/** PLACEHOLDER: below this capital ratio depositors take fright. */",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3541,7 +3532,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 145,
+      "line": 165,
       "text": "/** PLACEHOLDER: how much of a lost cushion it rebuilds a quarter. */",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3550,7 +3541,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 168,
+      "line": 188,
       "text": "* Every other kind: PLACEHOLDER, 0.5.",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3883,7 +3874,7 @@
     },
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
-      "line": 631,
+      "line": 652,
       "text": "// PLACEHOLDER: the Senate confirms unless the nominee died or the",
       "kinds": ["placeholder"],
       "path": "other",
@@ -5080,8 +5071,8 @@
     },
     {
       "file": "src/simulation/nationwide-world/state-legislature-turnover.ts",
-      "line": 110,
-      "text": "// PLACEHOLDER(overnight): deterministic election-to-election variation and",
+      "line": 108,
+      "text": "// PLACEHOLDER(overnight): a small incumbency effect around the save's",
       "kinds": ["placeholder"],
       "path": "government",
       "researchQuestionId": null,
@@ -5089,7 +5080,7 @@
     },
     {
       "file": "src/simulation/nationwide-world/state-legislature-turnover.ts",
-      "line": 387,
+      "line": 385,
       "text": "// PLACEHOLDER(overnight): unknown state qualifications remain unknown;",
       "kinds": ["placeholder"],
       "path": "government",
@@ -5098,7 +5089,7 @@
     },
     {
       "file": "src/simulation/nationwide-world/state-legislature-turnover.ts",
-      "line": 521,
+      "line": 637,
       "text": "// PLACEHOLDER(overnight): the saved generated seat lean chooses between",
       "kinds": ["placeholder"],
       "path": "government",
@@ -5494,7 +5485,7 @@
     },
     {
       "file": "src/simulation/press/desk.ts",
-      "line": 227,
+      "line": 232,
       "text": "* PLACEHOLDER, NOT RESEARCHED: that capacity scales in proportion to staff is",
       "kinds": ["placeholder", "unresearched"],
       "path": "government",
@@ -5503,7 +5494,7 @@
     },
     {
       "file": "src/simulation/press/desk.ts",
-      "line": 662,
+      "line": 667,
       "text": "* PLACEHOLDER: who comments and what an answer says are not researched. A",
       "kinds": ["placeholder", "unresearched"],
       "path": "government",
@@ -5512,7 +5503,7 @@
     },
     {
       "file": "src/simulation/press/desk.ts",
-      "line": 1082,
+      "line": 1087,
       "text": "* PLACEHOLDER, NOT RESEARCHED: relevance here is `outletCovers` alone. The",
       "kinds": ["placeholder", "unresearched"],
       "path": "government",
@@ -5521,7 +5512,7 @@
     },
     {
       "file": "src/simulation/press/desk.ts",
-      "line": 1710,
+      "line": 1726,
       "text": "// PLACEHOLDER weight: a local outlet's own resident named in the news. The",
       "kinds": ["placeholder"],
       "path": "government",
@@ -5530,7 +5521,7 @@
     },
     {
       "file": "src/simulation/press/editorial.ts",
-      "line": 429,
+      "line": 430,
       "text": "* PLACEHOLDER: vote counts and shares are not printed. The tallies a contest",
       "kinds": ["placeholder"],
       "path": "government",
@@ -6304,8 +6295,8 @@
     },
     {
       "file": "src/simulation/pressure/events.ts",
-      "line": 30,
-      "text": "* Every number in `BLANKET_POLITICAL_VIOLENCE` and",
+      "line": 22,
+      "text": "* Every number in `BLANKET_INTERNATIONAL_FRICTION` is a placeholder, filed",
       "kinds": ["blanket"],
       "path": "other",
       "researchQuestionId": null,
@@ -6313,8 +6304,8 @@
     },
     {
       "file": "src/simulation/pressure/events.ts",
-      "line": 31,
-      "text": "* `BLANKET_INTERNATIONAL_FRICTION` is a placeholder, filed with ChatGPT as",
+      "line": 37,
+      "text": "BLANKET_POLITICAL_VIOLENCE,",
       "kinds": ["blanket"],
       "path": "other",
       "researchQuestionId": null,
@@ -6323,24 +6314,6 @@
     {
       "file": "src/simulation/pressure/events.ts",
       "line": 58,
-      "text": "/** BLANKET placeholders; see the file comment. None is researched. */",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/events.ts",
-      "line": 59,
-      "text": "export const BLANKET_POLITICAL_VIOLENCE = Object.freeze({",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/events.ts",
-      "line": 76,
       "text": "export const BLANKET_INTERNATIONAL_FRICTION = Object.freeze({",
       "kinds": ["blanket"],
       "path": "other",
@@ -6349,16 +6322,7 @@
     },
     {
       "file": "src/simulation/pressure/events.ts",
-      "line": 149,
-      "text": "const policy = BLANKET_POLITICAL_VIOLENCE;",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/events.ts",
-      "line": 308,
+      "line": 121,
       "text": "const policy = BLANKET_INTERNATIONAL_FRICTION;",
       "kinds": ["blanket"],
       "path": "other",
@@ -6367,7 +6331,7 @@
     },
     {
       "file": "src/simulation/pressure/events.ts",
-      "line": 376,
+      "line": 189,
       "text": "const policy = BLANKET_INTERNATIONAL_FRICTION;",
       "kinds": ["blanket"],
       "path": "other",
@@ -6438,6 +6402,69 @@
       "researchQuestionFiled": false
     },
     {
+      "file": "src/simulation/pressure/ladder.ts",
+      "line": 30,
+      "text": "* Every number in `BLANKET_POLITICAL_VIOLENCE` is a placeholder, filed with",
+      "kinds": ["blanket"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/pressure/ladder.ts",
+      "line": 73,
+      "text": "/** BLANKET placeholders; see the file comment. None is researched. */",
+      "kinds": ["blanket"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/pressure/ladder.ts",
+      "line": 74,
+      "text": "export const BLANKET_POLITICAL_VIOLENCE = Object.freeze({",
+      "kinds": ["blanket"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/pressure/ladder.ts",
+      "line": 144,
+      "text": "threshold: angerValue(BLANKET_POLITICAL_VIOLENCE.angerLine + 0.0001),",
+      "kinds": ["blanket"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/pressure/ladder.ts",
+      "line": 289,
+      "text": "return BLANKET_POLITICAL_VIOLENCE.attemptLine;",
+      "kinds": ["blanket"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/pressure/ladder.ts",
+      "line": 311,
+      "text": "reading.levels.anger - BLANKET_POLITICAL_VIOLENCE.angerLine,",
+      "kinds": ["blanket"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/pressure/ladder.ts",
+      "line": 335,
+      "text": "const policy = BLANKET_POLITICAL_VIOLENCE;",
+      "kinds": ["blanket"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
       "file": "src/simulation/pressure/step.ts",
       "line": 29,
       "text": "/** BLANKET: the share of every pressure lost each quarter. Not researched. */",
@@ -6466,7 +6493,7 @@
     },
     {
       "file": "src/simulation/public-budgets/month.ts",
-      "line": 286,
+      "line": 294,
       "text": "* changed, where the size is not researched, or for a level the question's",
       "kinds": ["unresearched"],
       "path": "other",
@@ -6475,7 +6502,7 @@
     },
     {
       "file": "src/simulation/public-budgets/month.ts",
-      "line": 341,
+      "line": 352,
       "text": "* changed, where the cost is not researched, or for a county or city, which",
       "kinds": ["unresearched"],
       "path": "other",
@@ -6484,7 +6511,7 @@
     },
     {
       "file": "src/simulation/public-budgets/month.ts",
-      "line": 844,
+      "line": 989,
       "text": "* and plans programs to spend the rest (PLACEHOLDER rule). Under a",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6565,7 +6592,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 10,
+      "line": 14,
       "text": "* PLACEHOLDER naming the research question filed for it",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6574,7 +6601,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 19,
+      "line": 23,
       "text": "* (school districts, special districts, townships). PLACEHOLDER until Census",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6583,7 +6610,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 46,
+      "line": 50,
       "text": "* scaled to the government's own spending. PLACEHOLDER, research:",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6592,7 +6619,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 50,
+      "line": 54,
       "text": "\"local revenue by source follows the state's local mix, scaled to this government's spending (PLACEHOLDER, research: local-government-finances-by-type)\";",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6601,7 +6628,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 54,
+      "line": 58,
       "text": "* log-normal draw per line with this standard deviation. PLACEHOLDER, a game",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6610,7 +6637,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 62,
+      "line": 66,
       "text": "* part. PLACEHOLDER, research: public-pension-funding-by-state. Each",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6619,7 +6646,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 75,
+      "line": 79,
       "text": "* is drawn next, then cuts close the rest. PLACEHOLDER order and size,",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6628,7 +6655,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 82,
+      "line": 86,
       "text": "* (real output times prices). PLACEHOLDER, research:",
       "kinds": ["placeholder"],
       "path": "other",
@@ -6637,7 +6664,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 102,
+      "line": 106,
       "text": "* \"yes\" becomes \"no\", each as a share of the source. Null: not researched",
       "kinds": ["unresearched"],
       "path": "other",
@@ -6646,7 +6673,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 171,
+      "line": 175,
       "text": "basis: \"Not researched: a cap slows growth rather than moving a level.\",",
       "kinds": ["unresearched"],
       "path": "other",
@@ -6655,7 +6682,7 @@
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
-      "line": 207,
+      "line": 211,
       "text": "* each month the law is in force. Null: not researched, so that change spends",
       "kinds": ["unresearched"],
       "path": "other",
