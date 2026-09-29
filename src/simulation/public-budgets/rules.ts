@@ -1,4 +1,5 @@
 import { CANNABIS_TAX_BASIS } from "./cannabis-sales-tax";
+import { MILEAGE_FEE_QUESTION, ROAD_CHARGE_BASIS } from "./road-usage-charge";
 import type { BudgetLevel, BudgetProgram, BudgetSource } from "./store";
 
 /** Should a fixed share of revenue be dedicated to parks and recreation? */
@@ -160,6 +161,15 @@ export const TAX_QUESTION_EFFECTS: readonly {
     basis: CANNABIS_TAX_BASIS,
   },
   {
+    questionKey: MILEAGE_FEE_QUESTION,
+    source: "selectiveSalesTaxes",
+    // A share that grows each year the fuel tax erodes, not one size:
+    // `road-usage-charge.ts`.
+    toYes: null,
+    toNo: null,
+    basis: ROAD_CHARGE_BASIS,
+  },
+  {
     questionKey: "us-policy-positions:fiscal.cap-property-tax-growth",
     source: "propertyTax",
     toYes: null,
@@ -177,7 +187,7 @@ export const TAX_QUESTION_EFFECTS: readonly {
     // Lifting a cap gives the same credits back.
     toNo: -1.75 / 46.01,
     basis:
-      "California 2026-27 May Revision business credit limitation, $1.7-1.8 billion a year (LAO, The 2026-27 Budget: Permanent Business Credit Limitation), over California's 2022 corporate income tax (Census Bureau); ESTIMATED FROM AVERAGE, one state's note.",
+      "California business credit limitation in the May Revision of the 2026-27 budget, $1.7-1.8 billion a year (LAO, The 2026-27 Budget: Permanent Business Credit Limitation), over California's 2022 corporate income tax (Census Bureau); ESTIMATED FROM AVERAGE, one state's note.",
   },
   {
     questionKey: INCENTIVE_CAP_QUESTION,

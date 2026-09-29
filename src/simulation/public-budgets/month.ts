@@ -21,6 +21,7 @@ import { adoptedIncomeTaxPerYear } from "./income-tax-adoption";
 import { actuarialContribution } from "./opening";
 import { pensionFlows, pensionPayment } from "./pension-share";
 import { reserveRule } from "./reserve-rule";
+import { roadChargeFactor } from "./road-usage-charge";
 import {
   decideStatehoodCertification,
   statehoodFederalAidFactor,
@@ -295,13 +296,17 @@ function monthsInto(year: AdoptedBudget, month: IsoDate): number {
  * income tax question). Income tax is read on January 1
  * of the date's year, the law paychecks withhold under for that tax year
  * (`stateIncomeTaxUnderLaw`), so the budget collects what paychecks withhold.
- * A tuition freeze moves charges and fees (`tuition-freeze.ts`).
+ * A tuition freeze moves charges and fees (`tuition-freeze.ts`). The fuel
+ * tax erodes, and a road charge holds it (`road-usage-charge.ts`); given
+ * `erodedOn`, the erosion is read on that date instead, so two dates' laws
+ * compare over the same fleet.
  */
 export function taxLawFactor(
   world: World,
   government: PublicBudgetGovernment,
   source: BudgetSource,
   date: IsoDate,
+  erodedOn: IsoDate = date,
 ): number {
   const onDate =
     source === "individualIncomeTax"
@@ -311,7 +316,11 @@ export function taxLawFactor(
     source === "individualIncomeTax"
       ? adoptedIncomeTaxFactor(world, government, onDate)
       : source === "selectiveSalesTaxes"
-        ? cannabisSalesFactor(world, government, onDate)
+        ? // Cannabis adds its own level; the fuel tax's erosion comes off
+          // its own share. Each is measured against the opening level.
+          cannabisSalesFactor(world, government, onDate) +
+          roadChargeFactor(world, government, onDate, erodedOn) -
+          1
         : source === "chargesAndFees"
           ? tuitionFreezeFactor(world, government, onDate)
           : source === "federalAid"
@@ -893,7 +902,9 @@ export function lawMoneyChange(
   let change = 0;
   for (const [at, source] of BUDGET_SOURCES.entries()) {
     const now = taxLawFactor(world, government, source, startsOn);
-    const before = taxLawFactor(world, government, source, then);
+    // The fleet's fuel economy is not a law: the laws of both dates are read
+    // over the fleet of the new budget.
+    const before = taxLawFactor(world, government, source, then, startsOn);
     if (now === before) continue;
     change +=
       now > 0
