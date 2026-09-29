@@ -4,8 +4,13 @@ import {
 } from "../character-history";
 import { scheduleSeatFilling } from "../governing/office-continuity";
 import type { CharacterHistoryContextPersonInput } from "../character-history";
-import { makeIsoDate } from "../dates";
-import { electionContestResult } from "../election-contests";
+import { addDays, makeIsoDate } from "../dates";
+import {
+  electionContestResult,
+  resolveElectionContest,
+  scheduleElectionContest,
+} from "../election-contests";
+import { congressSeatElectorate } from "../statewide-electorate";
 import { stateJurisdictionForKey } from "../life-places";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
@@ -529,13 +534,25 @@ function decideSeat(
     const result = electionContestResult(world, contest.id);
     if (!result) return null;
     const incumbentWon = result.winnerPersonId === incumbent;
+    // A nominee who wins sits with the party that nominated them.
+    const nominee = incumbentWon
+      ? undefined
+      : congressGeneralCandidates(world, seat.seatKey, year).find(
+          (candidate) => candidate.personId === result.winnerPersonId,
+        );
+    const nomineeCaucus =
+      nominee?.party === "democratic" || nominee?.party === "republican"
+        ? nominee.party
+        : "none";
     return {
       seat,
       incumbentPersonId: incumbentWon ? result.winnerPersonId : null,
       successorKey: null,
       recordedWinnerPersonId: result.winnerPersonId,
-      party: incumbentWon ? (recordedParty ?? "none") : "none",
-      caucus: incumbentWon ? (recordedCaucus ?? "none") : "none",
+      party: incumbentWon
+        ? (recordedParty ?? "none")
+        : (nominee?.party ?? "none"),
+      caucus: incumbentWon ? (recordedCaucus ?? "none") : nomineeCaucus,
       serviceSince: incumbentWon
         ? ((record
             ? (tagValue(record, "service-since:") as IsoDate | null)
@@ -656,6 +673,101 @@ function decideSeat(
   };
 }
 
+/**
+ * Days before a federal general election by which each seat's ballot is set:
+ * ballots go to voters overseas 45 days out (52 U.S.C. § 20302(a)(8)), so
+ * every nominee is known by then.
+ */
+const BALLOT_SET_DAYS = 45;
+
+const ballotKey = (seatKey: string, year: number) =>
+  `${CONGRESS_TURNOVER_VERSION}:ballot:${seatKey}:${year}`;
+
+/**
+ * Once the ballot is set, each seat's general election is recorded as its
+ * own race with its own candidates: the nominees on its slate. A seat the
+ * player filed for keeps the race their filing opened, and a seat whose
+ * printed result gives no two-party count stays with the aggregate model.
+ */
+function openCongressBallots(
+  world: World,
+  year: number,
+  electionDay: IsoDate,
+): World {
+  const newStart = makeIsoDate(`${year + 1}-01-03`);
+  let next = world;
+  for (const seat of congressSeats()) {
+    if (seatTermWindow(seat, electionDay).endExclusive !== newStart) continue;
+    const stableKey = ballotKey(seat.seatKey, year);
+    if (
+      hasStableKey(next.history.electionContests ?? [], stableKey) ||
+      recordedSeatContest(next, seat, electionDay) ||
+      !congressCandidateSlate(next, seat.seatKey, year) ||
+      !congressSeatElectorate(next, seat.seatKey, electionDay)
+    )
+      continue;
+    const nominees = congressGeneralCandidates(next, seat.seatKey, year).filter(
+      (candidate) => aliveOn(next, candidate.personId, next.currentDate),
+    );
+    // PLACEHOLDER(overnight): a general ballot with two nominees of one party
+    // (a top-two or top-four state) needs a count of how that party's voters
+    // divide between them, which is not modeled yet; it stays aggregate.
+    const parties = nominees.map((candidate) => candidate.party);
+    if (nominees.length === 0 || new Set(parties).size !== parties.length)
+      continue;
+    const candidatePersonIds = nominees.map((candidate) => candidate.personId);
+    next = scheduleElectionContest(next, {
+      stableKey,
+      jurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id,
+      office: {
+        officeKey: seat.seatKey,
+        title: congressSeatTitle(seat),
+        seatKey: seat.seatKey,
+        occupationClassification: null,
+      },
+      electionDate: electionDay,
+      candidatePersonIds,
+      provenance: {
+        method: "simulated",
+        sourceEntityIds: [...candidatePersonIds].sort(),
+        note: `${CONGRESS_TURNOVER_VERSION}: the ${year} general election for ${congressSeatTitle(seat)}, its nominees as the ballot was set.`,
+      },
+    });
+  }
+  return next;
+}
+
+/** Counts each seat ballot this turnover opened that is not counted yet. */
+function countCongressBallots(
+  world: World,
+  year: number,
+  electionDay: IsoDate,
+): World {
+  let next = world;
+  for (const contest of recordsWithFieldValue(
+    world.history.electionContests ?? [],
+    "electionDate",
+    electionDay,
+  )) {
+    if (
+      contest.stableKey !== ballotKey(contest.office.seatKey ?? "", year) ||
+      electionContestResult(next, contest.id)
+    )
+      continue;
+    next = resolveElectionContest(next, {
+      stableKey: `${contest.stableKey}:count`,
+      contestId: contest.id,
+      resolvedAt: electionDay,
+      provenance: {
+        method: "simulated",
+        sourceEntityIds: [contest.id],
+        note: "Counted on election day from the seat's own voters.",
+      },
+    });
+  }
+  return next;
+}
+
 /** Election day: decide the seats whose terms end next January 3. */
 function holdCongressElection(world: World, year: number): World {
   if (hasStableKey(world.history.events, resultsKey(year))) return world;
@@ -699,6 +811,9 @@ function holdCongressElection(world: World, year: number): World {
             : "they are standing down.",
     );
   }
+  // Each seat's own ballot is counted on election day, from the seat's
+  // voters, before the seats are decided from their results.
+  intents = countCongressBallots(intents, year, electionDay);
   // A seat whose own contest has not been decided yet is left undecided here:
   // no winner is invented to fill it.
   const decisions = seats.flatMap((seat) => {
@@ -1093,6 +1208,12 @@ export function applyCongressTurnover(before: IsoDate, world: World): World {
     });
     next = prepareCongressIntake(next, year, due);
     next = holdCongressNominations(before, next, year, electionDay);
+    if (
+      before < electionDay &&
+      next.currentDate < electionDay &&
+      next.currentDate >= addDays(electionDay, -BALLOT_SET_DAYS)
+    )
+      next = openCongressBallots(next, year, electionDay);
     if (before < electionDay && electionDay <= after)
       next = holdCongressElection(next, year);
     if (before < newStart && newStart <= after)

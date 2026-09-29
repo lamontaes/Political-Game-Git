@@ -59,6 +59,9 @@ export interface PlaceConditions {
   readonly rows: readonly PlaceConditionRow[];
 }
 
+/** What the Conditions page says where the world keeps none for the place. */
+export const NO_PLACE_CONDITIONS = "No conditions are kept for this place yet.";
+
 const LAW_PREFIX = "law:";
 const MOST_CAUSES_SHOWN = 3;
 
@@ -330,4 +333,58 @@ export function lawConditionSentences(
     }
   }
   return sentences;
+}
+
+export interface SponsoredLaw {
+  readonly measureId: EntityId;
+  readonly title: string;
+  readonly designation: string;
+  readonly enactedOn: IsoDate;
+  readonly enactedLabel: string;
+  /** What it is doing to the place's conditions; empty when it moves none. */
+  readonly effects: readonly string[];
+}
+
+/** The most sponsored laws a record lists, newest first. */
+const MOST_SPONSORED_LAWS = 5;
+
+/**
+ * The laws a person sponsored that were enacted, newest first, each with what
+ * it is doing to the conditions the world keeps. For a lawmaker's record.
+ */
+export function sponsoredLaws(
+  world: World,
+  personId: EntityId,
+  viewerJurisdictionId: EntityId | null,
+): readonly SponsoredLaw[] {
+  const measures = new Map(
+    (world.history.legislativeMeasures ?? [])
+      .filter((measure) => measure.sponsorPersonId === personId)
+      .map((measure) => [measure.id, measure] as const),
+  );
+  if (measures.size === 0) return [];
+  return (world.history.legislativeEnactments ?? [])
+    .filter(
+      (enactment) =>
+        enactment.outcome === "enacted" &&
+        measures.has(enactment.measureId) &&
+        enactment.resolvedAt <= world.currentDate,
+    )
+    .sort((a, b) =>
+      a.resolvedAt === b.resolvedAt
+        ? b.sequence - a.sequence
+        : b.resolvedAt.localeCompare(a.resolvedAt),
+    )
+    .slice(0, MOST_SPONSORED_LAWS)
+    .map((enactment) => {
+      const measure = measures.get(enactment.measureId)!;
+      return {
+        measureId: measure.id,
+        title: measure.shortTitle,
+        designation: enactment.actDesignation ?? measure.designation,
+        enactedOn: enactment.resolvedAt,
+        enactedLabel: proseDate(enactment.resolvedAt),
+        effects: lawConditionSentences(world, measure.id, viewerJurisdictionId),
+      };
+    });
 }

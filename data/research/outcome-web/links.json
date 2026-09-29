@@ -2069,14 +2069,15 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "law in force",
-      "lagMonths": 0,
+      "size": 0.015,
+      "range": [0.005, 0.055],
+      "per": "law in force: about +1 point on a turnout near 66% of eligible voters",
+      "lagMonths": 12,
       "group": "place",
       "owner": "C",
-      "anchor": "Registration rises a lot, turnout a little (to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "AVR raises registration a lot; the new registrants vote less often than others, but enough of them vote to raise the eligible turnout rate, and the effect builds the longer AVR is in place. Front-end registration (at the agency visit) raised turnout 1.1 points and back-end registration (a notice after the visit) 3.3 points, as Data for Progress quotes the paper; the front-end size is used, with the back-end one as the top of the range. For people whose registration AVR updated when they moved, turnout rose 5.8 points (Orange County, California), which bounds it from above.",
+      "source": "McGhee, Hill and Romero 2021, The Registration and Turnout Effects of Automatic Voter Registration (SSRN 3933442); Kim 2021, APSA preprint (doi 10.33774/apsa-2021-3wzbh)",
+      "evidence": "provisional",
       "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
       "to": "voting.turnout-pct"
     },
@@ -2177,12 +2178,12 @@
       "lagMonths": 12,
       "group": "borrowers",
       "owner": "B",
-      "anchor": "Prohibiting payday loans goes with a 35% decline in their use (Urban Institute working paper, read); the published version reports 32%. A state rate cap of 36% APR ends storefront payday lending as a prohibition does. Cross-state survey evidence, not a trial. Read on the count of consumer lenders, a stand-in for use",
-      "source": "McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO)",
+      "anchor": "Prohibiting payday loans goes with a 35% decline in their use (Urban Institute working paper, read); the published version reports 32%. A state rate cap of 36% APR ends storefront payday lending as a prohibition does. Cross-state survey evidence, not a trial. Read on the count of consumer lenders, a stand-in for use. Enforced loan limits in Dallas and Austin cut payday loan volume 44% and 61% (Wang and Burke 2021, NBER w28765), inside the range; the effect began when enforcement began",
+      "source": "McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO); Wang and Burke 2021 (NBER w28765) for the range",
       "evidence": "provisional",
       "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
       "to": "finance.high-cost-loans",
-      "range": [-0.5, -0.2]
+      "range": [-0.61, -0.2]
     },
     {
       "key": "paid-leave-to-mothers-work",
@@ -2449,12 +2450,12 @@
       "lagMonths": 12,
       "group": "borrowers",
       "owner": "B",
-      "anchor": "Prohibiting payday loans goes with a 35% decline in their use (Urban Institute working paper, read); the published version reports 32%. A 36% APR cap ends storefront payday lending, as a prohibition does. Cross-state survey evidence, not a trial",
-      "source": "McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO)",
+      "anchor": "Prohibiting payday loans goes with a 35% decline in their use (Urban Institute working paper, read); the published version reports 32%. A 36% APR cap ends storefront payday lending, as a prohibition does. Cross-state survey evidence, not a trial. Enforced loan limits in Dallas and Austin cut payday loan volume 44% and 61% (Wang and Burke 2021, NBER w28765), inside the range; the effect began when enforcement began",
+      "source": "McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO); Wang and Burke 2021 (NBER w28765) for the range",
       "evidence": "provisional",
       "from": "law:us-federal-positions:monetary-financial.cap-consumer-loan-interest",
       "to": "finance.high-cost-loans",
-      "range": [-0.5, -0.2],
+      "range": [-0.61, -0.2],
       "moderator": {
         "measure": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
         "effectAtFull": -1,
@@ -3048,8 +3049,8 @@
       "group": "place",
       "owner": "F-cloud",
       "evidence": "about-zero",
-      "anchor": "State employment protections raised gay men's wages 2.7% and lowered lesbian women's employment, too small a group to move a state's poverty rate",
-      "source": "Burn 2018, Journal of Labor Research"
+      "anchor": "State employment protections raised gay men's wages 2.7% and lowered lesbian women's employment, too small a group to move a state's poverty rate. Enforcing one costs about nothing: the fiscal notes for Utah SB 296 (2015) and West Virginia HB 2266 (2023) each show $0, and the West Virginia commission expected no rise in complaints",
+      "source": "Burn 2018, Journal of Labor Research; Utah Legislative Fiscal Analyst, S.B. 296 fiscal note (3/9/2015); West Virginia Human Rights Commission, HB 2266 fiscal note (1/18/2023)"
     },
     {
       "key": "incentive-cap-to-poverty",
@@ -3586,6 +3587,82 @@
       "range": [0.22, 0.65]
     },
     {
+      "key": "cannabis-sales-to-overdose-deaths",
+      "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "to": "health.overdose-deaths",
+      "strength": "weak",
+      "shape": { "kind": "linear" },
+      "size": -0.05,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 11,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "contested",
+      "anchor": "Legal adult sales went with 20 to 35% fewer opioid deaths where stores opened, which is 15 to 27% of all overdose deaths at opioids' 76% share (2022). A later check found that result fragile and stores going with more opioid deaths, so the evidence runs both ways and the middle is a small fall. The lag is the months from the law taking effect to the first store opening, averaged over six states: Colorado 13, Washington 19, Michigan 12, Illinois 0, New York 21, Missouri 2 (ESTIMATED FROM AVERAGE: 11)",
+      "source": "Chan, Burkhardt and Flyr 2020, Economic Inquiry 58(2); Mathur and Ruhm 2023, Journal of Health Economics 88; CDC WONDER 2022 overdose deaths by drug",
+      "range": [-0.2, 0.1]
+    },
+    {
+      "key": "privacy-law-to-earnings",
+      "from": "law:us-policy-positions:technology-privacy.consumer-data-privacy-law",
+      "to": "labor.median-earnings",
+      "strength": "about-zero",
+      "shape": { "kind": "linear" },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "State privacy laws bind only large data holders: the common model reaches a business handling data on 100,000 of the state's consumers, and California's also one with $25 million in revenue. The cost falls on data firms and app makers, which lost investment and apps under Europe's rule, too small a share of a state's workers to move its median earnings",
+      "source": "Va. Code 59.1-576; Cal. Civ. Code 1798.140(d); Jia, Jin and Wagman 2021, Marketing Science 40(4); Janssen, Kesler, Kummer and Waldfogel 2022, NBER Working Paper 30028"
+    },
+    {
+      "key": "social-media-age-check-to-graduation",
+      "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "to": "school.graduation-pct",
+      "strength": "about-zero",
+      "shape": { "kind": "linear" },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "Courts blocked most state laws requiring platforms to check ages before they took effect (Arkansas, Ohio, Utah, California, Texas, Maryland), and no study has measured an effect on students. Facebook's arrival at colleges hurt students' mental health and schoolwork, but an age check on a platform teenagers already use is not the reverse of its arrival",
+      "source": "NetChoice v. Griffin, W.D. Ark. 2025; Braghieri, Levy and Makarin 2022, American Economic Review 112(11)"
+    },
+    {
+      "key": "library-materials-to-reading",
+      "from": "law:us-policy-positions:civil-family-community.local-control-of-library-materials",
+      "to": "school.reading-proficient-pct",
+      "strength": "about-zero",
+      "shape": { "kind": "linear" },
+      "size": 0,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "Leaving the choice to local boards changes which titles stay on the shelf: challenges reached 4,240 titles nationwide in 2023, a small share of any library's collection, and no study links removals to reading scores. What moves reading is money for the library itself, a different question",
+      "source": "American Library Association, Office for Intellectual Freedom, 2023 book challenge data; Gilpin, Karger and Nencka 2024, AEJ: Economic Policy"
+    },
+    {
+      "key": "city-anti-discrimination-to-poverty",
+      "from": "law:us-policy-positions:civil-family-community.city-nondiscrimination-ordinance",
+      "to": "household.poverty-pct",
+      "strength": "about-zero",
+      "shape": { "kind": "linear" },
+      "size": 0,
+      "per": "ordinance in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "State employment protections raised gay men's wages 2.7% and lowered lesbian women's employment, too small a group to move poverty; a city's ordinance reaches fewer people still",
+      "source": "Burn 2018, Journal of Labor Research"
+    },
+    {
       "key": "highway-money-for-transit-to-service",
       "from": "law:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
       "to": "transit.service-access",
@@ -3602,6 +3679,24 @@
       "anchor": "Where federal law let highway money go to transit (1992 to 2006), states spent about 3% of the whole federal-aid highway program on transit, 13% of the flexible part; California put nearly 40% of its flexible money there, and 19 states less than 2%. The same 3% of a state's own highway spending (Census Bureau, 2022: $128.0 billion) is 5.9% of what transit agencies spend to run service (FTA National Transit Database, 2024: $65.6 billion), so service rises about 6% at the average cost per mile. The spread takes 2% to 40% of the flexible part. The lag is a budget cycle and the buses it buys, the most common use GAO found.",
       "source": "GAO-07-772, Highway and Transit Investments: Flexible Funding Supports State and Local Transportation Priorities (2007); Census Bureau, 2022 Census of Governments: Finance, Table 1 (state highways); FTA National Transit Database 2024 (data.transportation.gov ekg5-frzt, total operating expenses)",
       "range": [0.01, 0.18]
+    },
+    {
+      "key": "farmland-easements-to-farmland-lost",
+      "from": "law:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "to": "farmland.developed-acres",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.47,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 60,
+      "group": "place",
+      "owner": "M",
+      "evidence": "researched",
+      "anchor": "Across 269 counties in six Mid-Atlantic states over 50 years, a state or local program that buys farmland development rights cut the county's rate of farmland loss by 40% to 55%. The size is the middle of that range, 47%, and the spread is the paper's own. The lag is one Census of Agriculture period, the step at which the loss was measured, since a program needs years of purchases before its easements hold back development.",
+      "source": "Liu and Lynch 2011, Do Agricultural Land Preservation Programs Reduce Farmland Loss? Evidence from a Propensity Score Matching Estimator, Land Economics 87(2): 183-201; its 40% to 55% as reported in USDA Economic Research Service, Additionality in U.S. Agricultural Conservation and Regulatory Offset Programs, ERR-170 (2014)",
+      "range": [-0.55, -0.4]
     }
   ],
   "calibratedAt": "2024-07-01"

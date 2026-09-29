@@ -85,6 +85,13 @@ import {
 } from "../paid-leave-benefits";
 import { assessPaychecksTaxes, residenceStateKey } from "../statutory-tax";
 import {
+  anyTeacherFloorLawEnacted,
+  TEACHER_FLOOR_EMPLOYER,
+  TEACHER_FLOOR_OCCUPATION,
+  teacherSalaryFloorAt,
+  type TeacherSalaryFloor,
+} from "../teacher-salary-floor";
+import {
   epidemicWorkAbsences,
   jobPaysSickLeave,
   workdaysBetween,
@@ -252,6 +259,26 @@ export function townMinimumHourlyAt(
   onDate: IsoDate,
 ): number | null {
   return minimumHourlyAt(world, jurisdictionId, onDate);
+}
+
+/**
+ * The median annual wage for `occupation` in the state or territory where
+ * `jurisdictionId` is, from the same BLS tables; the nation's when the state's
+ * is withheld; null where BLS publishes none.
+ */
+export function stateMedianAnnualWage(
+  occupation: string,
+  jurisdictionId: EntityId | null,
+): number | null {
+  const soc = TOWN_JOB_SOC[occupation];
+  const byArea = soc ? wageTable().get(soc) : undefined;
+  if (!byArea) return null;
+  for (const area of townPayAreas(jurisdictionId)) {
+    if (area !== "US" && !area.startsWith("S")) continue;
+    const median = byArea.get(area)?.[PERCENTILE_POINTS.indexOf(50)];
+    if (median !== null && median !== undefined) return median;
+  }
+  return null;
 }
 
 export interface TownJobRate {
@@ -479,6 +506,7 @@ export function paydayHandler(
     world.control.kind === "person" ? world.control.personId : null;
   let next = startTownJobPay(world, played, since);
   next = raiseTownPayToMinimum(next, played);
+  next = raiseTeacherPayToFloor(next, played);
   // A raise a law made reaches the person it raised.
   next = noticeLawPayChanges(next, since);
   next = payTownPaydays(next, since, played);
@@ -646,6 +674,7 @@ export function startTownJobPay(
     candidates.push(work);
   }
   const inputs: CreateResourceFlowInput[] = [];
+  const floorLaws = anyTeacherFloorLawEnacted(world);
   // An employer keeps the payday its workers already have.
   const periods = new Map<EntityId, TownPayPeriod>();
   for (const flow of world.history.resourceFlows) {
@@ -684,6 +713,13 @@ export function startTownJobPay(
     );
     if (!rate) continue;
     const organizationId = work.organizationId!;
+    // A public school teacher is paid at least the state's minimum teacher
+    // salary a law enacted in play set.
+    const floor = floorLaws
+      ? teacherFloorFor(world, role, organizationId, startsAt)
+      : null;
+    const floorHourlyMinor = floor ? floorHourlyMinorOf(floor) : 0;
+    const hourlyMinor = Math.max(rate.hourlyMinor, floorHourlyMinor);
     let period = periods.get(organizationId);
     if (!period) {
       const profile = organizationProfileAt(world, organizationId);
@@ -705,7 +741,7 @@ export function startTownJobPay(
         : 0;
     const weeklyHours = weeklyHoursOf(role);
     const perPeriod = Math.round(
-      (rate.hourlyMinor * weeklyHours * 52) / PERIODS_PER_YEAR[period],
+      (hourlyMinor * weeklyHours * 52) / PERIODS_PER_YEAR[period],
     );
     if (perPeriod <= 0) continue;
     inputs.push({
@@ -721,7 +757,7 @@ export function startTownJobPay(
       jurisdictionId: null,
       provenance: {
         kind: "authored",
-        note: `${TOWN_PAY_VERSION}: $${(rate.hourlyMinor / 100).toFixed(2)} an hour${rate.floored ? " (the minimum wage)" : ""} for ${weeklyHours} hours a week, paid ${period}; the ${Math.round(rate.percentile)}th percentile for SOC ${rate.soc} in OEWS area ${rate.area} (${TOWN_PAY_META.wages}).`,
+        note: `${TOWN_PAY_VERSION}: $${(hourlyMinor / 100).toFixed(2)} an hour${hourlyMinor > rate.hourlyMinor ? " (the state's minimum teacher salary)" : rate.floored ? " (the minimum wage)" : ""} for ${weeklyHours} hours a week, paid ${period}; the ${Math.round(rate.percentile)}th percentile for SOC ${rate.soc} in OEWS area ${rate.area} (${TOWN_PAY_META.wages}).`,
       },
     });
   }
@@ -863,6 +899,135 @@ export function raiseTownPayToMinimum(
           : {
               kind: "authored",
               note: `${TOWN_PAY_VERSION}: raised to the minimum wage ${setBy.designation} set, ${rate}.`,
+            },
+        supersedesTermsId: current.id,
+      });
+      current = next.history.resourceFlowTerms.at(-1)!;
+    }
+  }
+  return next;
+}
+
+/**
+ * The state's minimum teacher salary for this job on `onDate`: a public
+ * school's teacher only, and only where a law enacted in play set one.
+ */
+function teacherFloorFor(
+  world: World,
+  role: WorkRoleRecord,
+  organizationId: EntityId,
+  onDate: IsoDate,
+): TeacherSalaryFloor | null {
+  if (role.occupationClassification !== TEACHER_FLOOR_OCCUPATION) return null;
+  if (
+    organizationProfileAt(world, organizationId)?.classification !==
+    TEACHER_FLOOR_EMPLOYER
+  )
+    return null;
+  return teacherSalaryFloorAt(
+    world,
+    role.locationJurisdictionId,
+    onDate,
+    stateMedianAnnualWage(
+      TEACHER_FLOOR_OCCUPATION,
+      role.locationJurisdictionId,
+    ),
+  );
+}
+
+/** A floor in dollars a year as cents an hour over a 2,080-hour year. */
+function floorHourlyMinorOf(floor: TeacherSalaryFloor): number {
+  return Math.round((floor.annual / HOURS_PER_YEAR) * 100);
+}
+
+/**
+ * Raises every public school teacher paid below the state's minimum teacher
+ * salary (`teacher-salary-floor.ts`), from the first pay period that begins
+ * on or after the floor's school year starts and after the last period
+ * already paid, as `raiseTownPayToMinimum` does for the minimum wage. Each
+ * raise names its law. A law that ends the floor cuts nobody's pay. Run
+ * before paying, so the period is paid at the new rate.
+ */
+export function raiseTeacherPayToFloor(
+  world: World,
+  exceptPersonId: EntityId | null,
+): World {
+  if (!anyTeacherFloorLawEnacted(world)) return world;
+  const designationOf = new Map<EntityId, string>();
+  for (const measure of world.history.legislativeMeasures ?? [])
+    designationOf.set(measure.id, measure.designation);
+  const eventOf = new Map<EntityId, EntityId>();
+  for (const enactment of world.history.legislativeEnactments ?? [])
+    eventOf.set(enactment.measureId, enactment.outcomeEventId);
+  const roles = latestRoles(world);
+  const termsByFlow = termsByPayFlow(world);
+  const endedOn = new Map<EntityId, IsoDate>();
+  for (const status of world.history.workStatuses) {
+    if (status.status === "ended")
+      endedOn.set(status.workRelationshipId, status.effectiveAt);
+    else endedOn.delete(status.workRelationshipId);
+  }
+  const lastPaid = new Map<EntityId, IsoDate>();
+  for (const outcome of world.history.resourceTransferOutcomes) {
+    if (!termsByFlow.has(outcome.resourceFlowId)) continue;
+    const previous = lastPaid.get(outcome.resourceFlowId);
+    if (!previous || previous < outcome.periodEndsAt)
+      lastPaid.set(outcome.resourceFlowId, outcome.periodEndsAt);
+  }
+  let next = world;
+  for (const flow of townPayFlows(world)) {
+    if (
+      flow.basisReference.kind !== "work" ||
+      flow.source.kind !== "organization" ||
+      (flow.recipient.kind === "person" &&
+        flow.recipient.personId === exceptPersonId)
+    )
+      continue;
+    const role = roles.get(flow.basisReference.workRelationshipId);
+    if (!role || role.occupationClassification !== TEACHER_FLOOR_OCCUPATION)
+      continue;
+    const organizationId = flow.source.organizationId;
+    let current = termsByFlow.get(flow.id)?.at(-1);
+    const note = current ? payNoteOf(current.cadenceKind) : null;
+    if (!current || current.status !== "active" || !note) continue;
+    const weeklyHours = weeklyHoursOf(role);
+    const after = [
+      current.effectiveAt,
+      lastPaid.get(flow.id) ?? current.effectiveAt,
+      addDays(world.currentDate, -CATCH_UP_LIMIT_DAYS),
+    ].reduce((a, b) => (a > b ? a : b));
+    for (
+      let day = addDays(after, 1);
+      day <= world.currentDate;
+      day = addDays(day, 1)
+    ) {
+      if (!payPeriodEndingOn(note.period, addDays(day, -1), note.phase))
+        continue;
+      const ended = endedOn.get(flow.basisReference.workRelationshipId);
+      if (ended !== undefined && ended <= day) break;
+      const floor = teacherFloorFor(next, role, organizationId, day);
+      if (!floor) continue;
+      const amount = Math.round(
+        (floorHourlyMinorOf(floor) * weeklyHours * 52) /
+          PERIODS_PER_YEAR[note.period],
+      );
+      if (amount <= current.amount.minorUnits) continue;
+      const designation = designationOf.get(floor.measureId) ?? "A state law";
+      const event = eventOf.get(floor.measureId);
+      const salary = `$${floor.annual.toLocaleString("en-US")} a year`;
+      next = recordResourceFlowTerms(next, {
+        stableKey: `${flow.stableKey}:teacher-floor:${day}`,
+        resourceFlowId: flow.id,
+        effectiveAt: day,
+        status: "active",
+        amount: money(amount, current.amount.currency),
+        cadenceKind: current.cadenceKind,
+        reason: `${designation} set the state's minimum teacher salary at ${salary}.`,
+        provenance: event
+          ? { kind: "simulated-event", eventId: event }
+          : {
+              kind: "authored",
+              note: `${TOWN_PAY_VERSION}: raised to the minimum teacher salary ${designation} set, ${salary}.`,
             },
         supersedesTermsId: current.id,
       });

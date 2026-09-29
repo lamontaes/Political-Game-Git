@@ -5,7 +5,7 @@
   "notes": [
     "Filed with the home price model design in the 07 research document for Build 15 (Home price model). Building permits by state were tested as a supply measure and cannot be used: they rise with prices, so they do not isolate what supply does."
   ],
-  "priority": "P3",
+  "priority": "P2",
   "question": "For each metropolitan area and county, how much does the number of homes grow when home prices rise one percent (the housing supply elasticity), and what land and law limits it (share of undevelopable land, zoning strictness, permitting time)? The published measures are Saiz (2010) elasticities and the Wharton Residential Land Use Regulation Index.",
   "questionId": "housing-supply-elasticity-by-place",
   "requestVersion": "research-request/v1",
