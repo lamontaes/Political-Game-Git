@@ -1078,7 +1078,7 @@ const COUNTY_CANDIDATE_METHOD =
  */
 function countyTableFor(stateFips: string, asOf: string): PackedTable {
   const set = selectDatedSet(
-    candidates.countyCongressional.dated as readonly {
+    candidates.countyCongressional.dated as unknown as readonly {
       readonly effectiveFrom: string;
       readonly stateFips: readonly string[];
       readonly byState: PackedTable;
