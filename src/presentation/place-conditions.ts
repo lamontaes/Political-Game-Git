@@ -59,6 +59,9 @@ export interface PlaceConditions {
   readonly rows: readonly PlaceConditionRow[];
 }
 
+/** What the Conditions page says where the world keeps none for the place. */
+export const NO_PLACE_CONDITIONS = "No conditions are kept for this place yet.";
+
 const LAW_PREFIX = "law:";
 const MOST_CAUSES_SHOWN = 3;
 

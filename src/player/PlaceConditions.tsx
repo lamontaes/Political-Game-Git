@@ -1,4 +1,7 @@
-import { projectPlaceConditions } from "../presentation/place-conditions";
+import {
+  NO_PLACE_CONDITIONS,
+  projectPlaceConditions,
+} from "../presentation/place-conditions";
 import type { EntityId, World } from "../simulation";
 
 /**
@@ -19,7 +22,7 @@ export function PlaceConditionsPanel({
   if (!conditions)
     return (
       <p className="game-note" data-testid="place-conditions-none">
-        No conditions are kept for this place yet.
+        {NO_PLACE_CONDITIONS}
       </p>
     );
   return (

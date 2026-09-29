@@ -1,10 +1,26 @@
 import { describe, expect, it } from "vitest";
 
+import { addDays } from "../../src/simulation/dates";
+import { lawEffectPaths } from "../../src/simulation/governing/law-effect-paths";
+import { lawInForceAtStart } from "../../src/simulation/governing/law-in-force";
+import { stateJurisdictionForKey } from "../../src/simulation/life-places";
 import {
   homePriceLevel,
   homePriceLevels,
+  HOUSING_SUPPLY_LAW_EFFECT,
+  HOUSING_SUPPLY_LAWS,
+  housingLawEffect,
 } from "../../src/simulation/living-world/housing-market";
 import type { MacroMonthRecord } from "../../src/simulation/macro-economy/types";
+import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
+import type {
+  EntityId,
+  IsoDate,
+  LegislativeEnactmentRecord,
+  LegislativeMeasureRecord,
+  World,
+} from "../../src/simulation";
+import { drawRandomPlace } from "../support/random-place";
 
 /** Months whose real growth and inflation are the given annual rates. */
 function months(
@@ -71,12 +87,15 @@ describe("a town's home prices follow its economy, with no draw", () => {
       "jurisdiction:town-1",
       12,
     ).map((month) => ({ ...month, realOutputIndex: 50, priceIndex: 70 }));
-    const early = { macroEconomy: { months: nation.slice(0, 12) } } as never;
+    const early = {
+      macroEconomy: { months: nation.slice(0, 12) },
+      history: {},
+    } as never;
     const level = (world: never, date: string) =>
       homePriceLevel(world, "town-1" as never, date as never);
     expect(level(early, "2026-12-01")).toBeGreaterThan(1.03);
     const all = [...nation, ...own];
-    const later = { macroEconomy: { months: all } } as never;
+    const later = { macroEconomy: { months: all }, history: {} } as never;
     const year1 = level(later, "2026-12-01");
     const year2 = level(later, "2027-12-01");
     const year3 = level(later, "2028-12-01");
@@ -85,9 +104,169 @@ describe("a town's home prices follow its economy, with no draw", () => {
     expect(Math.log(year3 / year2)).toBeCloseTo(Math.log(year2 / year1), 2);
     // A month added to the same array later is read.
     const growing = all.slice(0, 30);
-    const world = { macroEconomy: { months: growing } } as never;
+    const world = { macroEconomy: { months: growing }, history: {} } as never;
     const before = level(world, "2031-01-01");
     growing.push(...all.slice(30));
     expect(level(world, "2031-01-01")).toBeGreaterThan(before);
+  });
+});
+
+const POLICY = createProductionPolicyCatalog();
+const OPENED = "2026-02-01" as IsoDate;
+
+/**
+ * A world whose state enacts, on `effectiveAt`, the given answers to supply
+ * laws: only the record `lawInForce` reads, no people.
+ */
+function stateEnacts(
+  stateId: EntityId,
+  laws: readonly {
+    question: string;
+    answer: "yes" | "no";
+    effectiveAt: IsoDate;
+  }[],
+): World {
+  const idOf = (key: string) =>
+    Object.values(POLICY.propositions).find((row) => row.stableKey === key)!.id;
+  const measures: LegislativeMeasureRecord[] = [];
+  const enactments: LegislativeEnactmentRecord[] = [];
+  laws.forEach((law, index) => {
+    const measure = {
+      id: `measure_supply_${index}` as EntityId,
+      stableKey: `test:supply:${index}`,
+      sequence: index + 1,
+      jurisdictionId: stateId,
+      designation: `HB ${index + 1}`,
+      propositionIds: [idOf(law.question)],
+      propositionAnswers: [
+        { propositionId: idOf(law.question), answer: law.answer },
+      ],
+    } as unknown as LegislativeMeasureRecord;
+    measures.push(measure);
+    enactments.push({
+      id: `enactment_supply_${index}` as EntityId,
+      stableKey: `test:supply:${index}:enactment`,
+      sequence: 1_000_000 + index,
+      measureId: measure.id,
+      resolvedAt: OPENED,
+      outcome: "enacted",
+      actDesignation: null,
+      effectiveAt: law.effectiveAt,
+      outcomeEventId: null,
+    } as unknown as LegislativeEnactmentRecord);
+  });
+  return {
+    currentDate: OPENED,
+    policyCatalog: POLICY,
+    history: {
+      events: [],
+      legislativeMeasures: measures,
+      legislativeEnactments: enactments,
+    },
+  } as unknown as World;
+}
+
+describe("a law that lets more homes be built lowers home prices a year after it takes effect", () => {
+  const place = drawRandomPlace("housing-supply-law");
+  const town = place.context.jurisdiction.id;
+  const state = stateJurisdictionForKey(place.stateJurisdictionKey!)!.id;
+  const question = HOUSING_SUPPLY_LAWS[1];
+  const questionId = Object.values(POLICY.propositions).find(
+    (row) => row.stableKey === question,
+  )!.id;
+  const effectiveAt = "2027-07-01" as IsoDate;
+  const acts = addDays(effectiveAt, HOUSING_SUPPLY_LAW_EFFECT.actsAfterDays);
+  // The answer the place began with, and the one a change in play gives it.
+  const started =
+    lawInForceAtStart(
+      { policyCatalog: POLICY, history: {} } as unknown as World,
+      town,
+      questionId,
+      effectiveAt,
+    ) === "yes";
+  const changed = started ? "no" : "yes";
+  const direction = started ? -1 : 1;
+
+  it(`${place.displayName} (${place.key}, seed housing-supply-law): nothing before the law has been in force a year`, () => {
+    const world = stateEnacts(state, [
+      { question, answer: changed, effectiveAt },
+    ]);
+    expect(housingLawEffect(world, town, OPENED)).toBe(0);
+    expect(housingLawEffect(world, town, addDays(acts, -1))).toBe(0);
+  });
+
+  it("then prices lower by the measured size when the law allows more homes, higher when a repeal takes that away", () => {
+    const world = stateEnacts(state, [
+      { question, answer: changed, effectiveAt },
+    ]);
+    expect(housingLawEffect(world, town, acts)).toBeCloseTo(
+      direction * HOUSING_SUPPLY_LAW_EFFECT.monthlyLogChange,
+      12,
+    );
+    // Both directions: the law repealed a year later puts prices back on
+    // their own path once the repeal has been in force a year.
+    const repealed = stateEnacts(state, [
+      { question, answer: changed, effectiveAt },
+      {
+        question,
+        answer: started ? "yes" : "no",
+        effectiveAt: addDays(effectiveAt, 365),
+      },
+    ]);
+    expect(housingLawEffect(repealed, town, addDays(acts, 400))).toBe(0);
+  });
+
+  it("an enacted law that repeats the answer the place began with moves nothing", () => {
+    const world = stateEnacts(state, [
+      { question, answer: started ? "yes" : "no", effectiveAt },
+    ]);
+    expect(housingLawEffect(world, town, addDays(acts, 30))).toBe(0);
+  });
+
+  it("the home-price level follows the law: lower after it acts than without it", () => {
+    const steady = months(
+      Array.from({ length: 60 }, () => ({ growthPct: 2, inflationPct: 2.5 })),
+    );
+    const law = stateEnacts(state, [
+      { question, answer: changed, effectiveAt },
+    ]);
+    const base = homePriceLevels(steady);
+    const moved = homePriceLevels(steady, (month) =>
+      housingLawEffect(law, town, month.recordedAt),
+    );
+    const at = (levels: typeof base, date: string) =>
+      levels.filter((row) => row.recordedAt <= date).at(-1)!.level;
+    // Before the law acts the two paths are the same; after, prices part
+    // the way the law points.
+    expect(at(moved, "2028-06-01")).toBe(at(base, "2028-06-01"));
+    const parted = Math.log(at(moved, "2030-12-01") / at(base, "2030-12-01"));
+    expect(Math.sign(parted)).toBe(
+      direction * Math.sign(HOUSING_SUPPLY_LAW_EFFECT.monthlyLogChange),
+    );
+  });
+
+  it("in a steady economy, prices end five years later the measured amount lower", () => {
+    const steady = months(
+      Array.from({ length: 61 }, () => ({ growthPct: 2, inflationPct: 2.5 })),
+    );
+    const base = homePriceLevels(steady).at(-1)!.level;
+    const moved = homePriceLevels(
+      steady,
+      () => HOUSING_SUPPLY_LAW_EFFECT.monthlyLogChange,
+    ).at(-1)!.level;
+    expect(Math.log(moved / base)).toBeCloseTo(
+      HOUSING_SUPPLY_LAW_EFFECT.fiveYearLogChange,
+      2,
+    );
+  });
+
+  it("each supply law is a law effect path the unwired-laws list counts", () => {
+    for (const key of HOUSING_SUPPLY_LAWS)
+      expect(
+        lawEffectPaths().filter(
+          (path) => path.questionKey === key && path.kind === "home-prices",
+        ),
+        key,
+      ).toHaveLength(1);
   });
 });

@@ -21,11 +21,13 @@ import { adoptedIncomeTaxPerYear } from "./income-tax-adoption";
 import { actuarialContribution } from "./opening";
 import { pensionFlows, pensionPayment } from "./pension-share";
 import { reserveRule } from "./reserve-rule";
+import { tuitionFreezeFactor } from "./tuition-freeze";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import {
   ECONOMY_ELASTICITY,
   FIRST_CUT_SHARE,
   PENSION,
+  SPENDING_QUESTION_EFFECTS,
   TAX_QUESTION_EFFECTS,
 } from "./rules";
 import {
@@ -286,6 +288,7 @@ function monthsInto(year: AdoptedBudget, month: IsoDate): number {
  * income tax question). Income tax is read on January 1
  * of the date's year, the law paychecks withhold under for that tax year
  * (`stateIncomeTaxUnderLaw`), so the budget collects what paychecks withhold.
+ * A tuition freeze moves charges and fees (`tuition-freeze.ts`).
  */
 export function taxLawFactor(
   world: World,
@@ -302,7 +305,9 @@ export function taxLawFactor(
       ? adoptedIncomeTaxFactor(world, government, onDate)
       : source === "selectiveSalesTaxes"
         ? cannabisSalesFactor(world, government, onDate)
-        : 1;
+        : source === "chargesAndFees"
+          ? tuitionFreezeFactor(world, government, onDate)
+          : 1;
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.source !== source) continue;
     if (!(effect.levels ?? ["state"]).includes(government.level)) continue;
@@ -328,6 +333,48 @@ export function taxLawFactor(
     if (began === "yes" && now === "no") factor *= 1 + (effect.toNo ?? 0);
   }
   return Math.max(0, factor);
+}
+
+/**
+ * What a state's laws cost it to carry out in one month, by program, against
+ * the laws it began with (`SPENDING_QUESTION_EFFECTS`): nothing where no law
+ * changed, where the cost is not researched, or for a county or city, which
+ * these state questions do not bind. A law counts from the day it takes
+ * effect, at the government's own population.
+ */
+export function lawSpendingForMonth(
+  world: World,
+  government: PublicBudgetGovernment,
+  date: IsoDate,
+): readonly number[] {
+  const spending = BUDGET_PROGRAMS.map(() => 0);
+  if (government.level !== "state") return spending;
+  for (const effect of SPENDING_QUESTION_EFFECTS) {
+    const propositionId = propositionIdFor(world, effect.questionKey);
+    if (!propositionId) continue;
+    const now = lawInForce(
+      world,
+      government.lawJurisdictionId,
+      propositionId,
+      date,
+    )?.answer;
+    const began = lawInForceAtStart(
+      world,
+      government.lawJurisdictionId,
+      propositionId,
+      date,
+    );
+    const perResident =
+      began === "no" && now === "yes"
+        ? effect.toYes
+        : began === "yes" && now === "no"
+          ? effect.toNo
+          : null;
+    if (perResident === null) continue;
+    spending[BUDGET_PROGRAMS.indexOf(effect.program)]! +=
+      (perResident * government.population) / 12;
+  }
+  return spending;
 }
 
 /**
@@ -542,6 +589,12 @@ export function settleGovernmentMonth(
   if (payments)
     for (const [at, value] of payments.entries())
       spending[at]! += Math.round(value);
+  // What the state's laws cost to carry out, on top of its programs; a law
+  // that ended a cost the state began with takes it off, never below zero.
+  const lawSpending = lawSpendingForMonth(world, government, month);
+  for (const [at, value] of lawSpending.entries())
+    if (value !== 0)
+      spending[at] = Math.max(0, spending[at]! + Math.round(value));
 
   let balance = government.balance + sum(revenue) - sum(spending);
   let reserve = government.reserve;
@@ -903,9 +956,11 @@ function adoptNextYear(
           ),
         )
       : 0;
+  // What the laws in force cost to carry out comes first, like interest.
+  const lawCost = sum(lawSpendingForMonth(world, government, startsOn)) * 12;
   const available = Math.max(
     0,
-    sum(expectedRevenue) - interest - pensionPaid - reserveDeposit,
+    sum(expectedRevenue) - interest - pensionPaid - reserveDeposit - lawCost,
   );
   const cuttablePrior = sum(
     base.map((value, at) => (CUTTABLE[at] ? value : 0)),
