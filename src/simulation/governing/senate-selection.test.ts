@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import { explicitNewGameSetup } from "../../presentation/new-game-geography";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -31,6 +31,8 @@ import {
 } from "../national-election-geography";
 import { SEAT_PARTY_TAG } from "../living-world/opening";
 import { recordPersonDeath } from "../vitality";
+import { lifePlaces } from "../life-places";
+import { SeededRng } from "../rng";
 import type { EntityId, World } from "../types";
 import {
   HOUSE_SPECIAL_ELECTION,
@@ -43,9 +45,14 @@ import {
   stateLegislatureMajority,
 } from "./senate-selection";
 
+/** A life in a place drawn by the seed from every place a life can start. */
 function openingWorld(seed: string): World {
+  const place = new SeededRng(seed).pick(lifePlaces());
   const game = generateOpeningLife(
-    prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, seed, startAge: 40 }),
+    prepareOpeningLife({
+      ...explicitNewGameSetup({ placeKey: place.key, startAge: 40 }),
+      seed,
+    }),
   ).game!;
   return openOrdinaryLife(game.world, game.playerPersonId);
 }
