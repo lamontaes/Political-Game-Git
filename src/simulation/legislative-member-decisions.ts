@@ -3,7 +3,8 @@ import { favorStandingBetween } from "./favors";
 import { favorEventRefs } from "./patronage/favor-refs";
 import { requireMeasure } from "./legislation";
 import { lawInForce } from "./governing/law-in-force";
-import { netViewOnLaw } from "./official-view-reads";
+import { measurePropositionAnswer } from "./issue-record";
+import { membersAgainstLaw, netViewOnLaw } from "./official-view-reads";
 import {
   assessCommitment,
   commitmentObligation,
@@ -396,6 +397,28 @@ function memberConsiderations(
         answer.propositionId,
       );
       if (!law || law.measureId === measureId) continue;
+      const billAnswerForGroups = measurePropositionAnswer(
+        measure,
+        answer.propositionId,
+      );
+      // Organized interests: the groups a law's cost-bearers formed lobby
+      // every member to change it.
+      const lobbying = membersAgainstLaw(world, law.measureId);
+      if (lobbying > 0 && billAnswerForGroups) {
+        const changesLaw = law.answer !== billAnswerForGroups;
+        considerations.push({
+          stableKey: `member:organized-interest:${law.measureId}:${answer.propositionId}`,
+          optionKey: changesLaw ? "vote-yea" : "vote-nay",
+          sourceType: "context:organized-interest",
+          direction: "supports",
+          // PLACEHOLDER: group members to the engine's ordinal weight.
+          importance:
+            lobbying >= 30 ? "strong" : lobbying >= 10 ? "moderate" : "slight",
+          confidence: "medium",
+          explanation: `Groups of people the current law cost want it ${changesLaw ? "changed, as this bill would" : "changed, and this bill would keep it"}.`,
+          sourceRefs: [],
+        });
+      }
       const net = netViewOnLaw(world, input.personId, law.measureId);
       if (net === 0) continue;
       const changes = law.answer !== answer.answer;

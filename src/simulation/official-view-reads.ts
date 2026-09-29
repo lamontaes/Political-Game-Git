@@ -12,6 +12,9 @@ import type { EntityId, IsoDate, OfficialViewRecord, World } from "./types";
 // PLACEHOLDER: the points one fully felt law moves a view.
 export const OFFICIAL_VIEW_BASE_POINTS = 20;
 const BASE_POINTS = OFFICIAL_VIEW_BASE_POINTS;
+// PLACEHOLDER: how much one organized group backing a candidate's opponents
+// cuts that candidate's support in a town count, within the overall cap.
+const GROUP_OPPOSITION = 0.05;
 
 /** A person's standing view of an official: the sum of every reflection. */
 export function viewOfOfficial(
@@ -98,7 +101,11 @@ export function townSupportFromViews(
     if (row.recordedAt > electionDate) continue;
     weighted += row.points * (row.recordedAt >= recentFrom ? RECENT_WEIGHT : 1);
   }
-  const shift = weighted / (residents * BASE_POINTS);
+  // Each law-interest group in town that blames the candidate backs their
+  // opponents.
+  const opposed = groupsAgainst(world, town, candidateId, electionDate).length;
+  const shift =
+    weighted / (residents * BASE_POINTS) - opposed * GROUP_OPPOSITION;
   return 1 + Math.max(-MAX_SUPPORT_SHIFT, Math.min(MAX_SUPPORT_SHIFT, shift));
 }
 
@@ -116,4 +123,96 @@ export function netViewOnLaw(
     if (row.officialId === officialId && row.measureId === measureId)
       net += row.points;
   return net;
+}
+
+// Organized interests: reads of the groups living-world/law-interest-groups.ts
+// forms.
+const G = "law-interest";
+
+export function lawInterestGroupKey(town: EntityId, measureId: EntityId) {
+  return `${G}:${town}:${measureId}`;
+}
+
+/** The group formed in this town against this law, if there is one. */
+export function lawInterestGroup(
+  world: World,
+  town: EntityId,
+  measureId: EntityId,
+): EntityId | null {
+  const key = lawInterestGroupKey(town, measureId);
+  return (
+    world.history.organizations.find((row) => row.stableKey === key)?.id ?? null
+  );
+}
+
+/** Everyone active in the group. */
+export function lawInterestMembers(
+  world: World,
+  organizationId: EntityId,
+): readonly EntityId[] {
+  return [
+    ...new Set(
+      world.history.organizationParticipations
+        .filter((row) => row.organizationId === organizationId)
+        .map((row) => row.personId),
+    ),
+  ].sort();
+}
+
+/**
+ * The law-interest groups in a town whose members, on balance, blame this
+ * official. Each one backs the official's opponents.
+ */
+export function groupsAgainst(
+  world: World,
+  town: EntityId | null,
+  officialId: EntityId,
+  onDate: string = world.currentDate,
+): readonly { readonly organizationId: EntityId; readonly members: number }[] {
+  const groups = world.history.organizations.filter(
+    (row) =>
+      row.stableKey.startsWith(`${G}:`) &&
+      row.formedAt <= onDate &&
+      (town === null || row.stableKey.startsWith(`${G}:${town}:`)),
+  );
+  const result: { organizationId: EntityId; members: number }[] = [];
+  for (const group of groups) {
+    const members = new Set(lawInterestMembers(world, group.id));
+    if (members.size === 0) continue;
+    let net = 0;
+    for (const view of world.history.officialViews ?? [])
+      if (
+        view.officialId === officialId &&
+        members.has(view.personId) &&
+        view.recordedAt <= onDate
+      )
+        net += view.points;
+    if (net < 0)
+      result.push({ organizationId: group.id, members: members.size });
+  }
+  return result;
+}
+
+/** The measure a law-interest group was formed against. */
+export function lawInterestMeasure(
+  world: World,
+  organizationId: EntityId,
+): EntityId | null {
+  const key = world.history.organizations.find(
+    (row) => row.id === organizationId,
+  )?.stableKey;
+  if (!key?.startsWith(`${G}:`)) return null;
+  return (key.split(":").at(-1) as EntityId | undefined) ?? null;
+}
+
+/** Members of every law-interest group formed against this law. */
+export function membersAgainstLaw(world: World, measureId: EntityId): number {
+  let members = 0;
+  for (const group of world.history.organizations)
+    if (
+      group.stableKey.startsWith(`${G}:`) &&
+      group.stableKey.endsWith(`:${measureId}`)
+    )
+      members += lawInterestMembers(world, group.id).length;
+  return members;
 }
