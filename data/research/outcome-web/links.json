@@ -2208,16 +2208,53 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.03,
       "per": "law in force",
       "lagMonths": 12,
       "group": "place",
       "owner": "O",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "Sweden's carbon tax cut transport emissions almost 11% over 1990 to 2005; British Columbia's cut transport emissions but brought no large, significant fall in total emissions. Transport is about a third of a place's emissions, so the total falls about 3%",
+      "source": "Andersson 2019, American Economic Journal: Economic Policy 11(4); Pretis 2022, Environmental and Resource Economics 83",
+      "evidence": "contested",
       "from": "law:us-policy-positions:environment-energy.price-carbon",
-      "to": "env.emissions"
+      "to": "env.emissions",
+      "range": [-0.08, 0]
+    },
+    {
+      "key": "container-deposit-to-litter",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.45,
+      "range": [-0.64, -0.3],
+      "per": "law in force",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "B",
+      "anchor": "Before-and-after studies in seven states in the 1970s and 1980s found total litter fell 30 to 64% after a container deposit took effect",
+      "source": "Container Recycling Institute, Bottle Bill Resource Guide, summary of state litter studies (bottlebill.org); the individual studies were not read",
+      "evidence": "provisional",
+      "from": "law:us-policy-positions:environment-energy.bottle-deposit",
+      "to": "env.litter"
+    },
+    {
+      "key": "container-deposit-to-prices",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.0005,
+      "range": [0.0002, 0.0011],
+      "per": "law in force",
+      "lagMonths": 3,
+      "group": "households",
+      "owner": "B",
+      "anchor": "Stores raised prices on covered drinks 4% when New York's deposit took in bottled water, and left other prices alone. Drinks bought for home are 1.9% of household spending (2024: $142 billion nonalcoholic and $229 billion alcoholic of $19.9 trillion), about two thirds of it in covered containers, so the whole price level rises about 0.05%",
+      "source": "Consequences of Bottle Bills, Journal of Marketing 2025 (doi 10.1177/00222429251347284), abstract read; Bureau of Economic Analysis, NIPA personal consumption expenditures 2024 (DNBVRC, DAOPRC, DPCERC)",
+      "evidence": "provisional",
+      "from": "law:us-policy-positions:environment-energy.bottle-deposit",
+      "to": "household.prices"
     },
     {
       "key": "clean-electricity-to-price",
@@ -2225,16 +2262,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0.11,
       "per": "law in force",
-      "lagMonths": 24,
+      "lagMonths": 84,
       "group": "ratepayers",
       "owner": "O",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "Seven years after passage, renewable portfolio standards left retail electricity prices 11% higher, while cutting the power sector's carbon emissions 11 to 24%",
+      "source": "Greenstone and Nath 2019, Becker Friedman Institute Working Paper 2019-62 (Do Renewable Portfolio Standards Deliver?)",
+      "evidence": "researched",
       "from": "law:us-policy-positions:environment-energy.clean-electricity-standard",
-      "to": "energy.electricity-price"
+      "to": "energy.electricity-price",
+      "range": [0.03, 0.17]
     },
     {
       "key": "flood-zone-limits-to-damage",
