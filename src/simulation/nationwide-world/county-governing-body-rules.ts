@@ -48,6 +48,8 @@ interface StateReading {
     readonly atLeast: number;
     readonly seats: number;
   }[];
+  /** Counties the law names with a size of their own, by GEOID. */
+  readonly exceptions?: Readonly<Record<string, number>>;
   readonly bodyName: string;
   readonly memberTitle: string;
   readonly citation: string;
