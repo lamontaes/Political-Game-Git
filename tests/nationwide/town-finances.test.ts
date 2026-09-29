@@ -285,6 +285,61 @@ describe(
       expect(perResident).toBeLessThan(100_000);
     });
 
+    it("when lending tightens nationwide, a business still draws its line, and a new line waits", () => {
+      const store = world.townFinances!;
+      const [withLine, withoutLine] = Object.keys(store.businesses);
+      const books = store.businesses[withLine!]!;
+      expect(books.lineLimit).toBeGreaterThan(0);
+      // Lenders nationwide have tightened well past their start, and two
+      // businesses are short of cash: one with a line is short a twentieth
+      // of a year's sales, one with no line yet a quarter's sales.
+      const tight: World = {
+        ...world,
+        macroEconomy: {
+          ...world.macroEconomy!,
+          months: world.macroEconomy!.months.map((month) =>
+            month.scope === "national"
+              ? { ...month, creditTightness: 1 }
+              : month,
+          ),
+        },
+        townFinances: {
+          ...store,
+          businesses: {
+            ...store.businesses,
+            [withLine!]: { ...books, cash: -books.annualRevenue / 20 },
+            [withoutLine!]: {
+              ...store.businesses[withoutLine!]!,
+              cash: -store.businesses[withoutLine!]!.annualRevenue / 4,
+              lineLimit: 0,
+            },
+          },
+        },
+      };
+      const businesses = townBusinesses(tight, town).map((business) => ({
+        organizationId: business.organizationId,
+        kind: business.workplace.key,
+        newcomer: business.outlet >= business.workplace.outlets,
+      }));
+      // The same day's review again, so the quarter's pay is on record.
+      const quarter = stepTownFinances(
+        tight,
+        town,
+        businesses,
+        new Set(),
+        "tight",
+      );
+      const after = quarter.world.townFinances!.businesses;
+      expect(after[withLine!]!.debt).toBeGreaterThan(0);
+      expect(
+        quarter.closing.some((row) => row.organizationId === withLine),
+      ).toBe(false);
+      expect(after[withoutLine!]!.lineLimit).toBe(0);
+      expect(
+        quarter.closing.find((row) => row.organizationId === withoutLine)?.why,
+      ).toBe("bank-refused");
+    });
+
     it("a business without a bank borrows from the town's bank at its next review", () => {
       // McBride's Cafe in this town closed in 2029 saying it had no bank,
       // because its books opened before the town bank's did.

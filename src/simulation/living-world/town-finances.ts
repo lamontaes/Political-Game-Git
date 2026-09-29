@@ -631,6 +631,23 @@ function capitalRatio(bank: TownBankBooks): number {
   return assets > 0 ? bank.capital / assets : 0;
 }
 
+/**
+ * Whether a bank lets a business draw on the line it already has: it is
+ * open and its own capital allows lending. A line is a commitment, so
+ * tightening nationwide does not close it; in the fall of 2008 businesses
+ * drew down their existing lines as banks cut new lending (Ivashina and
+ * Scharfstein, "Bank Lending During the Financial Crisis of 2008," Journal
+ * of Financial Economics 97, 2010).
+ */
+function honorsLine(bank: TownBankBooks | undefined): boolean {
+  return (
+    !!bank &&
+    !bank.failed &&
+    capitalRatio(bank) >= TOWN_FINANCE_POLICY.bank.lendingCapitalRatio
+  );
+}
+
+/** Whether a bank opens new credit: a new line, or growth in its loans. */
 function lends(bank: TownBankBooks | undefined, economy: Economy): boolean {
   if (!bank || bank.failed) return false;
   return (
@@ -733,15 +750,19 @@ export function stepTownFinances(
     if (quarterPay <= 0 || (formedAt.get(organizationId) ?? since) > since)
       continue;
     const bankId = lenderOf(banks, openBanks);
+    const opened = openBusinessBooks(
+      world,
+      organizationId,
+      kind,
+      quarterPay,
+      bankId,
+      round,
+    );
     books[organizationId] = {
-      ...openBusinessBooks(
-        world,
-        organizationId,
-        kind,
-        quarterPay,
-        bankId,
-        round,
-      ),
+      ...opened,
+      lineLimit: lends(bankId ? banks[bankId] : undefined, economy)
+        ? opened.lineLimit
+        : 0,
       price: round6(priceLevel),
     };
   }
@@ -950,9 +971,15 @@ export function stepTownFinances(
     if (!bankId || banks[bankId]?.failed)
       bankId = lenderOf(banks, openBanks) ?? bankId;
     const bank = bankId ? banks[bankId] : undefined;
+    // A business opened while its bank made no new loans gets its line
+    // once the bank lends again.
+    const lineLimit =
+      existing.lineLimit > 0 || !lends(bank, economy)
+        ? existing.lineLimit
+        : round2(existing.capacity * P.creditLineShareOfRevenue);
     if (cash < 0) {
-      const room = Math.max(0, existing.lineLimit - debt);
-      if (lends(bank, economy) && room >= -cash) {
+      const room = Math.max(0, lineLimit - debt);
+      if (honorsLine(bank) && room >= -cash) {
         debt += -cash;
         cash = 0;
       }
@@ -965,6 +992,7 @@ export function stepTownFinances(
       ...existing,
       cash: round2(cash),
       debt: round2(debt),
+      lineLimit,
       annualRevenue: round2(annualRevenue),
       ownDemandLog: 0,
       lastQuarterPay: round2(quarterPay),
@@ -979,7 +1007,7 @@ export function stepTownFinances(
         ? "no-line"
         : bank.failed
           ? "bank-failed"
-          : !lends(bank, economy)
+          : !honorsLine(bank) || lineLimit === 0
             ? "bank-refused"
             : "line-used-up";
       closing.push({
@@ -1487,7 +1515,7 @@ export function closeBusinessesOutOfCash(
         : why === "bank-failed"
           ? `${bankName} had failed.`
           : why === "bank-refused"
-            ? `${bankName} was making no new loans.`
+            ? `${bankName} was not lending.`
             : `It had used up its ${formatDollars(books.lineLimit)} line of credit at ${bankName}.`;
     // What moved its sales since it opened, largest first.
     const spending = marketSales / Math.max(1, books.openingMarketSales) - 1;
