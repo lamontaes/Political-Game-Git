@@ -1,3 +1,4 @@
+import { NATIONAL_DATA_PRIVACY_QUESTION } from "../federal-data-privacy-law";
 import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
 import { COUNCIL_TERM_LIMIT_QUESTION } from "../living-world/local-council-term-limits";
 import { STATEHOOD_QUESTION } from "../living-world/statehood-seats";
@@ -53,7 +54,8 @@ export type LawEffectPathKind =
   | "seat-turnover"
   | "authority-gate"
   | "local-powers"
-  | "court-and-jail";
+  | "court-and-jail"
+  | "business-costs";
 
 export interface LawEffectPath {
   readonly questionKey: string;
@@ -83,6 +85,11 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: LOCAL_MINIMUM_WAGE_AUTHORITY_QUESTION_KEY,
     kind: "authority-gate",
     via: "src/simulation/governing/question-authority.ts",
+  },
+  {
+    questionKey: NATIONAL_DATA_PRIVACY_QUESTION,
+    kind: "business-costs",
+    via: "src/simulation/federal-data-privacy-law.ts",
   },
   {
     questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
