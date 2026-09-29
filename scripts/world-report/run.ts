@@ -2281,10 +2281,15 @@ function lawsMovingOutcomesEverywhere(world: World): string[] {
         });
       if (moved.length) moving.add(questionKey);
       places.push(
-        `${usps} ${measure?.designation ?? ""} (${law.answer}): ${moved.length ? moved.join(", ") : "nothing yet (the law's lag, or the state's starting law already said so)"}${directLawPaths(
-          questionKey,
-        )
-          .map((path) => `, and acts through ${path.via} (${path.kind})`)
+        `${usps} ${measure?.designation ?? ""} (${law.answer}): ${moved.length ? moved.join(", ") : "nothing yet (the law's lag, or the state's starting law already said so)"}${lawEffectPaths()
+          .filter(
+            (path) =>
+              path.questionKey === questionKey && path.kind !== "outcome-web",
+          )
+          .map(
+            (path) =>
+              `, and it moves ${DIRECT_PATH_WORDS[path.kind] ?? path.kind}`,
+          )
           .join("")}`,
       );
     }
