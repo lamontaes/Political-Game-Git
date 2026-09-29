@@ -1,0 +1,614 @@
+import { stateJurisdictionForKey } from "../life-places";
+import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
+import { publicOrganizationKey } from "../tax-policy";
+import type { EntityId, IsoDate, ResourceFlow, World } from "../types";
+import {
+  budgetLawReadings,
+  firstOfNextMonth,
+  fiscalYearContaining,
+  nominalEconomyIndex,
+  propositionIdFor,
+} from "./fiscal";
+import { actuarialContribution } from "./opening";
+import { lawInForce } from "../governing/law-in-force";
+import {
+  ECONOMY_ELASTICITY,
+  FIRST_CUT_SHARE,
+  PENSION,
+  RESERVE,
+  TAX_QUESTION_EFFECTS,
+} from "./rules";
+import {
+  BUDGET_PROGRAMS,
+  BUDGET_SOURCES,
+  PROTECTED_PROGRAMS,
+  sum,
+  type AdoptedBudget,
+  type BudgetAdjustment,
+  type BudgetLawName,
+  type BudgetLawReading,
+  type BudgetMonthRow,
+  type BudgetProgram,
+  type BudgetSource,
+  type PublicBudgetGovernment,
+  type PublicBudgetStore,
+} from "./store";
+
+/**
+ * THE MONTHLY PASS. On the first of each month every government settles the
+ * month just ended:
+ *
+ * 1. Revenue: each source's adopted twelfth, moved by the economy since
+ *    adoption. Income tax from represented people is what their withholding
+ *    actually paid into the public account; the modeled part covers only the
+ *    rest of the population, since represented people pay no other tax as
+ *    records yet. A levy collected under an enacted tax law goes to the source
+ *    its power names.
+ * 2. Spending: each program's adopted twelfth, less any mid-year cut, interest
+ *    on the debt actually outstanding, and every payment made that month under
+ *    an enacted appropriation, recorded against its program. The public
+ *    account's cash check is unchanged; the budget only records the payments.
+ * 3. The laws, read at the government's own jurisdiction on the day
+ *    (`law-in-force.ts`): a balanced-budget check each quarter, then at the
+ *    year's end deficits, surpluses, the reserve and pensions, and the next
+ *    year's budget is adopted.
+ */
+
+const CUTTABLE = BUDGET_PROGRAMS.map(
+  (program) => !PROTECTED_PROGRAMS.has(program),
+);
+const INCOME_TAX = BUDGET_SOURCES.indexOf("individualIncomeTax");
+const INTEREST = BUDGET_PROGRAMS.indexOf("interest");
+const PENSION_PROGRAM = BUDGET_PROGRAMS.indexOf("pensionContribution");
+
+/** What the history recorded this month, by government key. */
+export interface MonthFlows {
+  readonly withheld: ReadonlyMap<string, number>;
+  readonly represented: ReadonlyMap<string, number>;
+  readonly levies: ReadonlyMap<string, readonly number[]>;
+  readonly payments: ReadonlyMap<string, readonly number[]>;
+}
+
+/** The budget program an appropriation's program key belongs to. */
+export function budgetProgramFor(programKey: string): BudgetProgram {
+  const key = programKey.toLowerCase();
+  if (/transit/.test(key)) return "transit";
+  if (/bridge|highway|(^|[^a-z])road/.test(key)) return "highways";
+  if (/school|education|teacher/.test(key)) return "schools";
+  if (/police|law-enforcement/.test(key)) return "police";
+  if (/fire/.test(key)) return "fire";
+  if (/prison|correction/.test(key)) return "corrections";
+  if (/housing|homeless/.test(key)) return "housing";
+  if (/medicaid|assistance|welfare/.test(key)) return "welfareAndMedicaid";
+  if (/health|hospital/.test(key)) return "healthAndHospitals";
+  if (/park/.test(key)) return "parks";
+  if (/water|environment|conservation/.test(key)) return "naturalResources";
+  if (/workforce|reporting|agency/.test(key)) return "administration";
+  return "otherPrograms";
+}
+
+const LEVY_SOURCE: Readonly<Record<string, BudgetSource>> = {
+  sales: "generalSalesTax",
+  property: "propertyTax",
+  "selective-excise": "selectiveSalesTaxes",
+};
+
+/**
+ * Reads the resource flows and outcomes recorded since the cursor, keeping
+ * only what moved into or out of a budget government's public account.
+ */
+export function readMonthFlows(
+  world: World,
+  store: PublicBudgetStore,
+): { flows: MonthFlows; cursor: PublicBudgetStore["cursor"] } {
+  const history = world.history;
+  const accountOwner = new Map<EntityId, string>();
+  const byStableKey = new Map<string, string>();
+  for (const government of store.governments) {
+    byStableKey.set(
+      publicOrganizationKey(government.jurisdictionId),
+      government.key,
+    );
+    byStableKey.set(
+      publicOrganizationKey(government.lawJurisdictionId),
+      government.key,
+    );
+  }
+  for (const organization of history.organizations) {
+    const key = byStableKey.get(organization.stableKey);
+    if (key) accountOwner.set(organization.id, key);
+  }
+  const relevant = new Map<EntityId, ResourceFlow>();
+  for (
+    let at = store.cursor.flows;
+    at < history.resourceFlows.length;
+    at += 1
+  ) {
+    const flow = history.resourceFlows[at]!;
+    const touches =
+      (flow.recipient.kind === "organization" &&
+        accountOwner.has(flow.recipient.organizationId)) ||
+      (flow.source.kind === "organization" &&
+        accountOwner.has(flow.source.organizationId));
+    if (touches) relevant.set(flow.id, flow);
+  }
+  const withheld = new Map<string, number>();
+  const payers = new Map<string, Set<EntityId>>();
+  const levies = new Map<string, number[]>();
+  const payments = new Map<string, number[]>();
+  for (
+    let at = store.cursor.outcomes;
+    at < history.resourceTransferOutcomes.length;
+    at += 1
+  ) {
+    const outcome = history.resourceTransferOutcomes[at]!;
+    if (outcome.status !== "completed") continue;
+    const flow = relevant.get(outcome.resourceFlowId);
+    if (!flow) continue;
+    const dollars = outcome.transferredAmount.minorUnits / 100;
+    if (dollars <= 0) continue;
+    const into =
+      flow.recipient.kind === "organization"
+        ? accountOwner.get(flow.recipient.organizationId)
+        : undefined;
+    const outOf =
+      flow.source.kind === "organization"
+        ? accountOwner.get(flow.source.organizationId)
+        : undefined;
+    if (into && flow.basisKind === "custom:tax-withholding") {
+      withheld.set(into, (withheld.get(into) ?? 0) + dollars);
+      if (flow.source.kind === "person") {
+        const set = payers.get(into) ?? new Set<EntityId>();
+        set.add(flow.source.personId);
+        payers.set(into, set);
+      }
+    } else if (into && flow.basisKind === "custom:tax-collection") {
+      const source = levySource(world, flow);
+      const row = levies.get(into) ?? BUDGET_SOURCES.map(() => 0);
+      row[BUDGET_SOURCES.indexOf(source)]! += dollars;
+      levies.set(into, row);
+    } else if (outOf && !into) {
+      const program = paymentProgram(world, flow);
+      const row = payments.get(outOf) ?? BUDGET_PROGRAMS.map(() => 0);
+      row[BUDGET_PROGRAMS.indexOf(program)]! += dollars;
+      payments.set(outOf, row);
+    }
+  }
+  return {
+    flows: {
+      withheld,
+      represented: new Map(
+        [...payers].map(([key, set]) => [key, set.size] as const),
+      ),
+      levies,
+      payments,
+    },
+    cursor: {
+      flows: history.resourceFlows.length,
+      outcomes: history.resourceTransferOutcomes.length,
+    },
+  };
+}
+
+function levySource(world: World, flow: ResourceFlow): BudgetSource {
+  const suffix = ":collection:flow";
+  if (!flow.stableKey.endsWith(suffix)) return "vehicleAndOtherTaxes";
+  const assessmentKey = flow.stableKey.slice(0, -suffix.length);
+  const assessment = world.history.taxAssessments?.find(
+    (row) => row.stableKey === assessmentKey,
+  );
+  const policy = assessment
+    ? world.history.taxPolicies?.find((row) => row.id === assessment.policyId)
+    : undefined;
+  const proposal = policy
+    ? world.history.taxProposals?.find((row) => row.id === policy.proposalId)
+    : undefined;
+  return (
+    (proposal && LEVY_SOURCE[proposal.power.instrument]) ??
+    "vehicleAndOtherTaxes"
+  );
+}
+
+function paymentProgram(world: World, flow: ResourceFlow): BudgetProgram {
+  const reference = flow.basisReference;
+  if (reference.kind === "public-funding")
+    return budgetProgramFor(reference.mandate.programKey);
+  if (reference.kind === "public-program") {
+    const commitment = world.history.publicProgramRecords?.find(
+      (row) => row.id === reference.commitmentId,
+    );
+    return commitment
+      ? budgetProgramFor(commitment.programKey)
+      : "otherPrograms";
+  }
+  return "otherPrograms";
+}
+
+/** The change in a state's borrowing cost since the start, as a rate. */
+function borrowingCostChange(
+  world: World,
+  stateId: EntityId | null,
+  asOf: IsoDate,
+): number {
+  if (!stateId) return 0;
+  // Build 5's measure; absent until it lands, and absent is no change.
+  const record = placeOutcomeAt(world, "gov.borrowing-cost", stateId, asOf);
+  return record ? (record.value - record.base) / 10_000 : 0;
+}
+
+function lawNote(
+  name: BudgetLawName,
+  reading: BudgetLawReading,
+): BudgetAdjustment["law"] {
+  return { name, reading };
+}
+
+function monthsInto(year: AdoptedBudget, month: IsoDate): number {
+  const start =
+    Number(year.startsOn.slice(0, 4)) * 12 + Number(year.startsOn.slice(5, 7));
+  const now = Number(month.slice(0, 4)) * 12 + Number(month.slice(5, 7));
+  return now - start + 1;
+}
+
+interface Settled {
+  readonly government: PublicBudgetGovernment;
+  readonly adjustments: readonly BudgetAdjustment[];
+}
+
+/** Settles one government's month, and its year when the month ends one. */
+export function settleGovernmentMonth(
+  world: World,
+  government: PublicBudgetGovernment,
+  month: IsoDate,
+  flows: MonthFlows,
+): Settled {
+  if (government.months.some((row) => row.month === month))
+    return { government, adjustments: [] };
+  const adjustments: BudgetAdjustment[] = [];
+  const stateId = stateJurisdictionForKey(government.stateKey)?.id ?? null;
+  const year = government.years.at(-1)!;
+  const asOf = firstOfNextMonth(month);
+  const economyNow = stateId ? nominalEconomyIndex(world, stateId, asOf) : null;
+  const economy =
+    economyNow !== null && year.economyAtAdoption
+      ? economyNow / year.economyAtAdoption
+      : 1;
+
+  // Revenue.
+  const represented = flows.represented.get(government.key) ?? 0;
+  const revenue = BUDGET_SOURCES.map((source, at) =>
+    Math.round(
+      (year.expectedRevenue[at]! / 12) *
+        Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (economy - 1)),
+    ),
+  );
+  if (government.population > 0)
+    revenue[INCOME_TAX] = Math.round(
+      (revenue[INCOME_TAX]! *
+        Math.max(0, government.population - represented)) /
+        government.population,
+    );
+  revenue[INCOME_TAX]! += Math.round(flows.withheld.get(government.key) ?? 0);
+  const levy = flows.levies.get(government.key);
+  if (levy)
+    for (const [at, value] of levy.entries()) revenue[at]! += Math.round(value);
+
+  // Spending.
+  const payments = flows.payments.get(government.key);
+  const spending = BUDGET_PROGRAMS.map((_, at) => {
+    const planned = year.appropriations[at]! / 12;
+    return Math.round(CUTTABLE[at] ? planned * (1 - government.cut) : planned);
+  });
+  spending[INTEREST] = Math.round(
+    (government.debt * government.interestRate) / 12,
+  );
+  if (payments)
+    for (const [at, value] of payments.entries())
+      spending[at]! += Math.round(value);
+
+  let balance = government.balance + sum(revenue) - sum(spending);
+  let reserve = government.reserve;
+  let debt = government.debt;
+  let interestRate = government.interestRate;
+  let cut = government.cut;
+  const deposit = Math.round(year.reserveDeposit / 12);
+  if (deposit > 0 && balance >= deposit) {
+    balance -= deposit;
+    reserve += deposit;
+  }
+
+  const laws = budgetLawReadings(world, government.lawJurisdictionId, asOf);
+  const into = monthsInto(year, month);
+  const remaining = 12 - into;
+  const yearEnds = asOf > year.endsOn;
+
+  // Balanced-budget check each quarter.
+  if (
+    !yearEnds &&
+    into % 3 === 0 &&
+    remaining > 0 &&
+    laws.balanced.answer === "yes"
+  ) {
+    const pace = sum(revenue) - sum(spending);
+    let gap = -(balance + remaining * pace);
+    if (gap > 0) {
+      const cuttableMonthly = sum(
+        BUDGET_PROGRAMS.map((_, at) =>
+          CUTTABLE[at] ? (year.appropriations[at]! / 12) * (1 - cut) : 0,
+        ),
+      );
+      const room = cuttableMonthly * remaining;
+      const first = Math.min(gap, FIRST_CUT_SHARE * room);
+      gap -= first;
+      const draw = Math.min(gap, reserve);
+      gap -= draw;
+      const second = Math.min(gap, room - first);
+      const cutTotal = Math.round(first + second);
+      const plannedCuttable = sum(
+        BUDGET_PROGRAMS.map((_, at) =>
+          CUTTABLE[at] ? year.appropriations[at]! / 12 : 0,
+        ),
+      );
+      if (cutTotal > 0 && plannedCuttable > 0) {
+        cut = Math.min(1, cut + cutTotal / remaining / plannedCuttable);
+        adjustments.push({
+          governmentKey: government.key,
+          on: asOf,
+          fiscalYear: year.fiscalYear,
+          kind: "mid-year-cut",
+          amount: cutTotal,
+          law: lawNote("balanced", laws.balanced),
+          note: `Collections would leave the year in deficit, so every program except interest and pensions is cut across the board for the rest of the year (${Math.round(first)} first, ${Math.round(second)} after the reserve).`,
+        });
+      }
+      if (draw > 0) {
+        reserve -= Math.round(draw);
+        balance += Math.round(draw);
+        adjustments.push({
+          governmentKey: government.key,
+          on: asOf,
+          fiscalYear: year.fiscalYear,
+          kind: "reserve-draw",
+          amount: Math.round(draw),
+          law: lawNote("balanced", laws.balanced),
+          note: "Drawn from the reserve to keep the year balanced, after the first round of cuts.",
+        });
+      }
+    }
+  }
+
+  const row: BudgetMonthRow = {
+    month,
+    revenue,
+    spending,
+    balance,
+    reserve,
+    debt,
+    economy: Math.round(economy * 10000) / 10000,
+    represented,
+  };
+  let next: PublicBudgetGovernment = {
+    ...government,
+    balance,
+    reserve,
+    debt,
+    interestRate,
+    cut,
+    months: [...government.months, row],
+  };
+  if (!yearEnds) return { government: next, adjustments };
+
+  // The year ends.
+  if (balance < 0 && laws.balanced.answer === "yes") {
+    const draw = Math.min(-balance, reserve);
+    if (draw > 0) {
+      reserve -= draw;
+      balance += draw;
+      adjustments.push({
+        governmentKey: government.key,
+        on: asOf,
+        fiscalYear: year.fiscalYear,
+        kind: "reserve-draw",
+        amount: draw,
+        law: lawNote("balanced", laws.balanced),
+        note: "Drawn from the reserve to close the year's deficit.",
+      });
+    }
+  }
+  if (balance < 0) {
+    const borrowed = -balance;
+    const newRate = Math.max(
+      0,
+      government.interestRate + borrowingCostChange(world, stateId, asOf),
+    );
+    interestRate =
+      debt + borrowed > 0
+        ? (debt * interestRate + borrowed * newRate) / (debt + borrowed)
+        : interestRate;
+    debt += borrowed;
+    balance = 0;
+    adjustments.push({
+      governmentKey: government.key,
+      on: asOf,
+      fiscalYear: year.fiscalYear,
+      kind: "deficit-borrowed",
+      amount: borrowed,
+      law: lawNote("balanced", laws.balanced),
+      note:
+        laws.balanced.answer === "yes"
+          ? "The cuts and the reserve could not close the year; the rest was borrowed."
+          : laws.balanced.answer === "no"
+            ? "No law requires a balanced budget, so the deficit was borrowed."
+            : "No law in force answers whether the budget must balance, so no requirement applied and the deficit was borrowed.",
+    });
+  }
+  const yearSpending = sum(year.appropriations);
+  if (balance > 0 && laws.reserve.answer === "yes") {
+    const floor = Math.round(RESERVE.floorShareOfSpending * yearSpending);
+    const moved = Math.min(balance, Math.max(0, floor - reserve));
+    if (moved > 0) {
+      balance -= moved;
+      reserve += moved;
+      adjustments.push({
+        governmentKey: government.key,
+        on: asOf,
+        fiscalYear: year.fiscalYear,
+        kind: "surplus-to-reserve",
+        amount: moved,
+        law: lawNote("reserve", laws.reserve),
+        note: "The year's surplus went to the reserve first, toward the required floor.",
+      });
+    }
+  }
+
+  // Pensions for the year: paid against required, and the plan rolls on.
+  const yearRows = next.months.filter(
+    (entry) => entry.month >= year.startsOn && entry.month <= year.endsOn,
+  );
+  const paid = sum(yearRows.map((entry) => entry.spending[PENSION_PROGRAM]!));
+  const paidAnnual = yearRows.length > 0 ? (paid * 12) / yearRows.length : 0;
+  const unpaid = Math.round(year.pensionRequired - paidAnnual);
+  // Monthly rounding leaves a few dollars either way; that is not underpaying.
+  if (unpaid > year.pensionRequired * 0.001)
+    adjustments.push({
+      governmentKey: government.key,
+      on: asOf,
+      fiscalYear: year.fiscalYear,
+      kind: "pension-underpaid",
+      amount: unpaid,
+      law: lawNote("pensions", laws.pensions),
+      note:
+        laws.pensions.answer === "no"
+          ? "No law requires the full actuarial contribution; the unpaid part grows the unfunded liability."
+          : "No law in force answers whether pensions must be funded on schedule, so the lower share was paid (PLACEHOLDER share).",
+    });
+  const liability = government.pension.liability;
+  const benefits = liability * PENSION.benefitShare;
+  const pension = {
+    liability: Math.round(
+      liability * (1 + PENSION.assumedReturn) +
+        liability * PENSION.normalCostShare -
+        benefits,
+    ),
+    assets: Math.round(
+      government.pension.assets * (1 + PENSION.assumedReturn) +
+        paidAnnual -
+        benefits,
+    ),
+  };
+
+  next = { ...next, balance, reserve, debt, interestRate, pension, cut: 0 };
+  const adopted = adoptNextYear(world, next, year, yearRows, adjustments);
+  return {
+    government: { ...next, years: [...next.years, adopted] },
+    adjustments,
+  };
+}
+
+/**
+ * The government's own modeled adoption for the next year (automatic; a
+ * budget passed as a bill comes later). It expects to collect what it
+ * collected last year, pays interest and the pension share its law requires,
+ * sets aside the reserve deposit its law requires, and plans programs to
+ * spend the rest (PLACEHOLDER rule). Under a balanced-budget law programs
+ * shrink when that is less than last year; without one they are not cut at
+ * adoption, and the gap shows up as a deficit.
+ */
+function adoptNextYear(
+  world: World,
+  government: PublicBudgetGovernment,
+  prior: AdoptedBudget,
+  rows: readonly BudgetMonthRow[],
+  adjustments: BudgetAdjustment[],
+): AdoptedBudget {
+  const startsOn = firstOfNextMonth(prior.endsOn);
+  const year = fiscalYearContaining(startsOn, government.fiscalYearStart);
+  const laws = budgetLawReadings(world, government.lawJurisdictionId, startsOn);
+  const stateId = stateJurisdictionForKey(government.stateKey)?.id ?? null;
+  const expectedRevenue = BUDGET_SOURCES.map((_, at) =>
+    rows.length > 0
+      ? Math.round(
+          (sum(rows.map((row) => row.revenue[at]!)) * 12) / rows.length,
+        )
+      : prior.expectedRevenue[at]!,
+  );
+  for (const effect of TAX_QUESTION_EFFECTS) {
+    if (effect.shareChange === null) continue;
+    const propositionId = propositionIdFor(world, effect.questionKey);
+    const law = propositionId
+      ? lawInForce(world, government.lawJurisdictionId, propositionId, startsOn)
+      : null;
+    if (law?.origin === "enacted" && law.answer === "yes") {
+      const at = BUDGET_SOURCES.indexOf(effect.source);
+      expectedRevenue[at] = Math.round(
+        expectedRevenue[at]! * (1 + effect.shareChange),
+      );
+    }
+  }
+  const pensionRequired = actuarialContribution(government.pension);
+  const pensionPaid = Math.round(
+    pensionRequired *
+      (laws.pensions.answer === "yes" ? 1 : PENSION.paidShareWithoutLaw),
+  );
+  const interest = Math.round(government.debt * government.interestRate);
+  const priorTotal = sum(prior.appropriations);
+  const floor = RESERVE.floorShareOfSpending * priorTotal;
+  const reserveDeposit =
+    laws.reserve.answer === "yes" && government.reserve < floor
+      ? Math.round(
+          Math.min(
+            floor - government.reserve,
+            RESERVE.yearlyDepositShareOfSpending * priorTotal,
+          ),
+        )
+      : 0;
+  const available = Math.max(
+    0,
+    sum(expectedRevenue) - interest - pensionPaid - reserveDeposit,
+  );
+  const cuttablePrior = sum(
+    prior.appropriations.map((value, at) => (CUTTABLE[at] ? value : 0)),
+  );
+  const fitted = cuttablePrior > 0 ? available / cuttablePrior : 1;
+  const scale = laws.balanced.answer === "yes" ? fitted : Math.max(1, fitted);
+  if (laws.balanced.answer === "yes" && fitted < 1)
+    adjustments.push({
+      governmentKey: government.key,
+      on: startsOn,
+      fiscalYear: year.fiscalYear,
+      kind: "balanced-at-adoption",
+      amount: Math.round(cuttablePrior * (1 - fitted)),
+      law: { name: "balanced", reading: laws.balanced },
+      note: "Expected revenue fell short of last year's programs, so the adopted budget cut them to balance.",
+    });
+  if (reserveDeposit > 0)
+    adjustments.push({
+      governmentKey: government.key,
+      on: startsOn,
+      fiscalYear: year.fiscalYear,
+      kind: "reserve-deposit",
+      amount: reserveDeposit,
+      law: { name: "reserve", reading: laws.reserve },
+      note: "The reserve is below its required floor, so the adopted budget sets a deposit aside (PLACEHOLDER floor and pace).",
+    });
+  const appropriations = prior.appropriations.map((value, at) =>
+    CUTTABLE[at] ? Math.round(value * scale) : 0,
+  );
+  appropriations[INTEREST] = interest;
+  appropriations[PENSION_PROGRAM] = pensionPaid;
+  return {
+    fiscalYear: year.fiscalYear,
+    startsOn: year.startsOn,
+    endsOn: year.endsOn,
+    adoptedOn: startsOn,
+    basis: "automatic",
+    expectedRevenue,
+    appropriations,
+    reserveDeposit,
+    pensionRequired,
+    economyAtAdoption: stateId
+      ? nominalEconomyIndex(world, stateId, startsOn)
+      : null,
+    laws,
+  };
+}
