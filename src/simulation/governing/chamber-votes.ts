@@ -155,6 +155,12 @@ export interface ChamberVoteInput {
    * mayor), whose known position is a cue to every member.
    */
   readonly executivePersonId?: EntityId | null;
+  /**
+   * The body's members are elected without party labels (the Nebraska
+   * Legislature; most town councils, `body-partisanship.ts`), so a member's
+   * party is no cue on its votes. A member still carries their own bill.
+   */
+  readonly nonpartisan?: boolean;
 }
 
 const OPTIONS = [
@@ -294,6 +300,7 @@ export function decideChamberVote(
       cueCosponsors,
       cueParties,
       contested,
+      input.nonpartisan ?? false,
     );
     const views = [
       ...memberVoteConsiderations(world, {
@@ -595,6 +602,7 @@ function partyCue(
   cosponsors: readonly EntityId[],
   sponsorParties: ReadonlySet<string>,
   contested: boolean,
+  nonpartisan: boolean,
 ): readonly DecisionConsideration[] {
   if (sponsorPersonId === personId)
     return [
@@ -622,6 +630,8 @@ function partyCue(
         sourceRefs: [],
       },
     ];
+  // A body elected without party labels has no party cue at all.
+  if (nonpartisan) return [];
   // A member with no national party, as in Puerto Rico's chambers, or a bill
   // whose sponsor has none, carries no party cue either way.
   const same = party !== null && sponsorParties.has(party);

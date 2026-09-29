@@ -1,4 +1,5 @@
 import { addDays } from "../dates";
+import { councilBallotPartisanship } from "../governing/body-partisanship";
 import { applyEnactedLawEffects } from "../enacted-law-effects";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { mayAnswerQuestion } from "../governing/question-authority";
@@ -338,6 +339,7 @@ function moveOrdinances(
       playerPersonId: player,
       questionLabel: `Adopt ${measure.designation}`,
       executivePersonId: mayor,
+      nonpartisan: councilBallotPartisanship(unit).nonpartisan,
     });
     const provenance = {
       method: "member-decisions" as const,

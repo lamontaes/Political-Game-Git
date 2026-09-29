@@ -221,6 +221,10 @@ function moveActs(world: World): World {
       playerPersonId: player,
       questionLabel: `Pass ${measure.designation}`,
       executivePersonId: mayor,
+      // The Council is elected in party primaries, and the Home Rule Act
+      // limits how many at-large seats one party may hold (D.C. Code
+      // § 1-204.01), so its members' parties are cues.
+      nonpartisan: false,
     });
     const result = recordCouncilReadingVote(next, {
       governmentKey: DC_GOVERNMENT_KEY,

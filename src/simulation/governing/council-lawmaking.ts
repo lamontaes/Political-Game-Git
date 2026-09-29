@@ -2,7 +2,6 @@ import { addDays } from "../dates";
 import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
 import { measurePosition } from "../legislation";
 import { personName } from "../people";
-import { SeededRng } from "../rng";
 import type {
   EntityId,
   IsoDate,
@@ -134,10 +133,14 @@ function recentlyDefeated(
 /**
  * The ordinances members file at one meeting: at most one each, on the
  * question their principles press hardest, where the town's law does not
- * already say what they want. Members are taken in a seeded order only so
- * that two members pressing the same question do not both file it; the order
- * decides who carries it, not whether it is filed. Empty when no member leans
- * hard enough on anything open.
+ * already say what they want. Where two members press the same question, the
+ * one with the stronger stake carries it, and the other files on their next
+ * question or not at all; nothing is drawn. Empty when no member leans hard
+ * enough on anything open.
+ *
+ * HARDWIRED, until the council seats carry seniority: between two members
+ * with the same stake in the same question, the one listed first on the body
+ * carries it.
  *
  * Call `ensureOfficeholderPrinciples` for the members first.
  */
@@ -153,17 +156,11 @@ export function councilFilings(
     readonly playerPersonId: EntityId | null;
   },
 ): readonly CouncilFiling[] {
-  const rng = new SeededRng(world.seed).fork(input.stableKey);
-  const order = input.members.filter(
+  const members = input.members.filter(
     (member) => member.personId !== input.playerPersonId,
   );
-  for (let i = order.length - 1; i > 0; i -= 1) {
-    const j = rng.fork(`order:${i}`).integer(0, i + 1);
-    [order[i], order[j]] = [order[j]!, order[i]!];
-  }
   const since = addDays(world.currentDate, -REFILE_AFTER_DAYS);
   const own = ownLawLevel(input.jurisdictionId);
-  const laws = new Map<EntityId, ReturnType<typeof lawInForce>>();
   const closed = new Set<EntityId>();
   for (const proposition of input.questions)
     if (
@@ -172,23 +169,20 @@ export function councilFilings(
       awaitingEffect(world, input.measures, proposition.id)
     )
       closed.add(proposition.id);
-  const filings: CouncilFiling[] = [];
-  for (const member of order) {
-    let best: CouncilFiling | null = null;
-    for (const proposition of input.questions) {
-      if (closed.has(proposition.id)) continue;
+  // Every filing any member would make, before anyone claims a question.
+  const wanted: { filing: CouncilFiling; seat: number }[] = [];
+  for (const proposition of input.questions) {
+    if (closed.has(proposition.id)) continue;
+    let law: ReturnType<typeof lawInForce> | undefined;
+    members.forEach((member, seat) => {
       const leaning = principledLeaning(
         world,
         member.personId,
         proposition.id,
       ).score;
-      if (Math.abs(leaning) < FILING_THRESHOLD) continue;
-      if (!laws.has(proposition.id))
-        laws.set(
-          proposition.id,
-          lawInForce(world, input.jurisdictionId, proposition.id),
-        );
-      const law = laws.get(proposition.id) ?? null;
+      if (Math.abs(leaning) < FILING_THRESHOLD) return;
+      if (law === undefined)
+        law = lawInForce(world, input.jurisdictionId, proposition.id);
       // Support files to enact unless the law already says yes; opposition
       // files only a repeal of a law that says yes.
       const answer: "yes" | "no" | null =
@@ -199,23 +193,36 @@ export function councilFilings(
           : law?.answer === "yes"
             ? "no"
             : null;
+      if (!answer) return;
       // A higher law this body cannot override is no reason to file: the
       // ordinance would be on the record and govern nothing. A state "no"
       // that leaves its localities free is not such a law.
-      if (answer && law && outranks(law.level, own) && law.preempts !== false)
-        continue;
-      if (!answer) continue;
-      if (!best || Math.abs(leaning) > Math.abs(best.leaning))
-        best = {
+      if (law && outranks(law.level, own) && law.preempts !== false) return;
+      wanted.push({
+        filing: {
           sponsorPersonId: member.personId,
           proposition,
           answer,
           leaning,
-        };
-    }
-    if (!best) continue;
-    closed.add(best.proposition.id);
-    filings.push(best);
+        },
+        seat,
+      });
+    });
+  }
+  // The strongest stakes are claimed first.
+  wanted.sort(
+    (left, right) =>
+      Math.abs(right.filing.leaning) - Math.abs(left.filing.leaning) ||
+      left.seat - right.seat,
+  );
+  const filed = new Set<EntityId>();
+  const filings: CouncilFiling[] = [];
+  for (const { filing } of wanted) {
+    if (filed.has(filing.sponsorPersonId)) continue;
+    if (closed.has(filing.proposition.id)) continue;
+    filed.add(filing.sponsorPersonId);
+    closed.add(filing.proposition.id);
+    filings.push(filing);
   }
   return filings;
 }
@@ -247,6 +254,8 @@ export function decideCouncilVote(
     readonly questionLabel: string;
     /** The mayor, whose known position every member hears. */
     readonly executivePersonId: EntityId | null;
+    /** Members are elected without party labels (`body-partisanship.ts`). */
+    readonly nonpartisan: boolean;
   },
 ): readonly LegislativeVoteDisposition[] {
   return decideChamberVote(world, {
@@ -272,5 +281,6 @@ export function decideCouncilVote(
     playerBallot: null,
     constituencyId: input.jurisdictionId,
     executivePersonId: input.executivePersonId,
+    nonpartisan: input.nonpartisan,
   });
 }
