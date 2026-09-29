@@ -165,5 +165,62 @@ export const TAX_QUESTION_EFFECTS: readonly {
   },
 ];
 
+/**
+ * What a state's law on a question costs it to carry out, when the law moves
+ * from the answer the state began with: `toYes` dollars a resident a year when
+ * a "no" becomes "yes", `toNo` when a "yes" becomes "no", spent on `program`
+ * each month the law is in force. Null: not researched, so that change spends
+ * nothing. Each size is enacted bills' fiscal notes, each over its state's
+ * 2023 residents, averaged: ESTIMATED FROM AVERAGE until more are read. The
+ * cost sits outside the adopted programs, so a budget pays it on top and a
+ * balanced-budget law finds the money by cutting the rest.
+ * research: law-enforcement-costs.
+ */
+export const SPENDING_QUESTION_EFFECTS: readonly {
+  readonly questionKey: string;
+  readonly program: BudgetProgram;
+  readonly toYes: number | null;
+  readonly toNo: number | null;
+  readonly basis: string;
+}[] = [
+  {
+    questionKey:
+      "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+    program: "administration",
+    // Colorado SB 21-190, final fiscal note: $323,691 a year and 2 staff at
+    // the Department of Law from FY 2023-24, over 5,877,610 residents
+    // ($0.0551). Virginia HB 2307 (2021): $330,556 a year for 3 staff at the
+    // Office of the Attorney General, over 8,715,698 residents ($0.0379).
+    toYes: (0.0551 + 0.0379) / 2,
+    // A repeal ends the enforcement; the staff go.
+    toNo: -(0.0551 + 0.0379) / 2,
+    basis:
+      "Colorado SB 21-190 final fiscal note ($323,691 a year, Department of Law) and Virginia HB 2307 budget amendment ($330,556 a year, Office of the Attorney General), each over the state's 2023 residents, averaged.",
+  },
+  {
+    questionKey:
+      "us-policy-positions:technology-privacy.age-verification-for-social-media",
+    program: "administration",
+    // Utah SB 152 (2023), fiscal note: $220,500 a year ongoing for the
+    // Division of Consumer Protection, over 3,417,734 residents.
+    toYes: 0.0645,
+    toNo: -0.0645,
+    basis:
+      "Utah SB 152 (2023) fiscal note: $220,500 a year ongoing for the Division of Consumer Protection to investigate and enforce, over Utah's 2023 residents.",
+  },
+  {
+    questionKey:
+      "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+    program: "corrections",
+    // New York's Raise the Age aid, $250 million each state fiscal year since
+    // 2021 (Office of the State Comptroller, 2025), over 19,867,248 residents.
+    // A state that lowers the age again stops paying it.
+    toYes: 250_000_000 / 19_867_248,
+    toNo: -250_000_000 / 19_867_248,
+    basis:
+      "ESTIMATED FROM AVERAGE: New York's Raise the Age appropriation, $250 million a year (Office of the State Comptroller, 2025), per New York resident.",
+  },
+];
+
 /** An interest rate for a government whose research shows no debt. */
 export const DEFAULT_INTEREST_RATE = 0.04;

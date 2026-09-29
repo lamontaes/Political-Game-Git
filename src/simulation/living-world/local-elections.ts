@@ -1,5 +1,6 @@
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import { decideAnotherTerm } from "../careers/another-term";
+import { councilTermLimitBar } from "./local-council-term-limits";
 import { townSupportFromViews } from "../official-view-reads";
 import { townSupportFromFavors } from "../patronage/following";
 import { campaigns } from "../campaign-queries";
@@ -832,43 +833,69 @@ export function localElectionFilingHandler(
     if (holder && alive(next, holder.personId)) {
       const seatTerm =
         seat === 0 ? (chief?.termYears.value ?? termYears) : termYears;
-      const decided = decideAnotherTerm(next, {
-        personId: holder.personId,
-        stableKey: `${race}:another-term`,
-        subjectKey: race,
-        decisionType: "election.consider-another-local-term",
-        onDate: next.currentDate,
-        termEnds: addDays(generalDate, Math.round(seatTerm * 365.25)),
-        serving: [
-          {
-            stableKey: `${race}:another-term:serving`,
-            optionKey: "seek",
-            sourceType: "context:current-office",
-            direction: "supports",
-            importance: "moderate",
-            confidence: "high",
-            explanation: `They hold ${phrase}.`,
-            sourceRefs: [],
-          },
-        ],
-      });
+      // A council seat under a term-limit ordinance: the law decides before
+      // the member does.
+      const organizationId = seat === 0 ? null : organizationIdFor(next, unit);
+      const barred = organizationId
+        ? councilTermLimitBar(next, {
+            town,
+            organizationId,
+            personId: holder.personId,
+            termYears: seatTerm,
+            termStartsAt: generalDate,
+          })
+        : null;
+      if (barred) {
+        next = event(next, {
+          stableKey: `${race}:term-limited`,
+          type: "local.officeholder-retired",
+          town,
+          label: office.governmentName,
+          involved: [holder.personId],
+          tags: [`unit:${unit.id}`, `seat:${seat}`, "barred:term-limit"],
+          summary: `${nameOf(next, holder.personId)} may not run again for ${phrase}: ${barred}`,
+        });
+      }
+      const decided = barred
+        ? { world: next, seeks: false }
+        : decideAnotherTerm(next, {
+            personId: holder.personId,
+            stableKey: `${race}:another-term`,
+            subjectKey: race,
+            decisionType: "election.consider-another-local-term",
+            onDate: next.currentDate,
+            termEnds: addDays(generalDate, Math.round(seatTerm * 365.25)),
+            serving: [
+              {
+                stableKey: `${race}:another-term:serving`,
+                optionKey: "seek",
+                sourceType: "context:current-office",
+                direction: "supports",
+                importance: "moderate",
+                confidence: "high",
+                explanation: `They hold ${phrase}.`,
+                sourceRefs: [],
+              },
+            ],
+          });
       next = decided.world;
       // The person being played decides their own candidacy by filing.
       const played =
         next.control.kind === "person" &&
         next.control.personId === holder.personId;
-      const retires = !played && !decided.seeks;
-      if (retires)
-        next = event(next, {
-          stableKey: `${race}:retired`,
-          type: "local.officeholder-retired",
-          town,
-          label: office.governmentName,
-          involved: [holder.personId],
-          tags: [`unit:${unit.id}`, `seat:${seat}`],
-          summary: `${nameOf(next, holder.personId)} will not run again for ${phrase}.`,
-        });
-      else {
+      const retires = barred !== null || (!played && !decided.seeks);
+      if (retires) {
+        if (!barred)
+          next = event(next, {
+            stableKey: `${race}:retired`,
+            type: "local.officeholder-retired",
+            town,
+            label: office.governmentName,
+            involved: [holder.personId],
+            tags: [`unit:${unit.id}`, `seat:${seat}`],
+            summary: `${nameOf(next, holder.personId)} will not run again for ${phrase}.`,
+          });
+      } else {
         candidates.push(holder.personId);
         incumbentRuns = true;
       }

@@ -16,7 +16,11 @@ import {
   type PublicBudgetGovernment,
   type PublicBudgetStore,
 } from ".";
-import { settleGovernmentMonth, type MonthFlows } from "./month";
+import {
+  lawSpendingForMonth,
+  settleGovernmentMonth,
+  type MonthFlows,
+} from "./month";
 import {
   MEDIAN_BENEFIT_SHARE,
   MEDIAN_FUNDED_RATIO,
@@ -29,7 +33,7 @@ import {
   reserveRule,
 } from "./reserve-rule";
 import { fundingGovernment } from "./staffing";
-import { TAX_QUESTION_EFFECTS } from "./rules";
+import { SPENDING_QUESTION_EFFECTS, TAX_QUESTION_EFFECTS } from "./rules";
 
 /*
  * Every government keeps a budget, and the three budget laws act on it. The
@@ -43,12 +47,14 @@ const RESERVE = "proposition_reserve" as EntityId;
 const PENSIONS = "proposition_pensions" as EntityId;
 const GRADUATED = "proposition_graduated" as EntityId;
 const INCOME_TAX = "proposition_income_tax" as EntityId;
+const JUVENILE_AGE = "proposition_juvenile_age" as EntityId;
 const QUESTIONS: Readonly<Record<string, EntityId>> = {
   "fiscal.adopt-income-tax": INCOME_TAX,
   "fiscal.balanced-operating-budget": BALANCED,
   "fiscal.minimum-reserve-balance": RESERVE,
   "fiscal.fund-pensions-to-schedule": PENSIONS,
   "fiscal.graduated-income-tax": GRADUATED,
+  "justice-public-safety.raise-juvenile-court-age": JUVENILE_AGE,
 };
 const illinois = stateJurisdictionForKey("US-IL")!.id;
 
@@ -1038,6 +1044,66 @@ describe("public budgets", () => {
         sales
       ]!,
     ).toBeGreaterThan(0);
+  });
+
+  it("a law raising or lowering the juvenile court age moves the state's corrections spending from the month it takes effect", () => {
+    // Texas began trying 17-year-olds as adults and raises the juvenile court
+    // age; Illinois began with the higher age and lowers it. Each takes
+    // effect May 12, 2026.
+    const texas = stateJurisdictionForKey("US-TX")!.id;
+    const enacted = (at: number) => ({
+      id: `enactment_${at}` as EntityId,
+      sequence: 1000 + at,
+      measureId: `measure_${at}` as EntityId,
+      resolvedAt: makeIsoDate("2026-05-12"),
+      outcome: "enacted",
+      effectiveAt: makeIsoDate("2026-05-12"),
+    });
+    const world = worldAt("2026-01-05", {
+      laws: [
+        { question: JUVENILE_AGE, answer: "yes", jurisdictionId: texas },
+        { question: JUVENILE_AGE, answer: "no", jurisdictionId: illinois },
+      ],
+      history: {
+        legislativeEnactments: [
+          enacted(0),
+          enacted(1),
+        ] as unknown as World["history"]["legislativeEnactments"],
+      },
+    });
+    const juvenile = SPENDING_QUESTION_EFFECTS.find((effect) =>
+      effect.questionKey.endsWith("raise-juvenile-court-age"),
+    )!;
+    const corrections = BUDGET_PROGRAMS.indexOf("corrections");
+    const run = (jurisdictionId: EntityId) => {
+      const opening = publicBudgetFor(opened(world), jurisdictionId)!;
+      const government = settleAlone(world, opening, "2027-08-01").government;
+      const month = (on: string) =>
+        government.months.find((row) => row.month === on)!.spending[
+          corrections
+        ]!;
+      return { opening, government, month };
+    };
+    // New York's $250 million a year over its 19,867,248 residents, $12.58 a
+    // resident, times Texas's residents, a twelfth a month.
+    expect(juvenile.toYes).toBeCloseTo(12.58, 2);
+    const tx = run(texas);
+    const txMonthly = (juvenile.toYes! * tx.opening.population) / 12;
+    expect(tx.month("2026-06-01") - tx.month("2026-04-01")).toBeCloseTo(
+      txMonthly,
+      -1,
+    );
+    // The cost stays in every later month, across Texas's next budget.
+    expect(
+      lawSpendingForMonth(world, tx.government, makeIsoDate("2027-07-01"))[
+        corrections
+      ],
+    ).toBeCloseTo(txMonthly, 2);
+    const il = run(illinois);
+    expect(il.month("2026-06-01") - il.month("2026-04-01")).toBeCloseTo(
+      (juvenile.toNo! * il.opening.population) / 12,
+      -1,
+    );
   });
 
   it("maps an appropriation's program to its budget line", () => {
