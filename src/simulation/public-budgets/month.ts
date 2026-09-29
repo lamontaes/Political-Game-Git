@@ -945,7 +945,7 @@ export function decideLawMoneyReaction(
           "spend",
           score < 0
             ? `${who}'s principles favor spending on public programs over holding a reserve, so the ${dollars} the laws added went to programs.`
-            : `Nothing ${who} holds bears on saving or spending, so the ${dollars} the laws added went to programs, as the budget does by default.`,
+            : `${who} holds no principle that bears on saving or spending, so the ${dollars} the laws added went to programs, as the budget does by default.`,
         );
   if (balancedLaw) {
     if (score < 0 && drawable > 0)
@@ -959,7 +959,7 @@ export function decideLawMoneyReaction(
         ? `The law requires a balanced budget, and ${who}'s principles favor keeping the reserve, so programs were cut to meet the ${dollars} the laws took away.`
         : score < 0
           ? `The law requires a balanced budget; ${who} would have drawn the reserve, but it held nothing above what the law keeps there, so programs were cut to meet the ${dollars} the laws took away.`
-          : `The law requires a balanced budget and nothing ${who} holds bears on the reserve, so programs were cut to meet the ${dollars} the laws took away, as the budget does by default.`,
+          : `The law requires a balanced budget and ${who} holds no principle that bears on the reserve, so programs were cut to meet the ${dollars} the laws took away, as the budget does by default.`,
     );
   }
   return score > 0
@@ -971,7 +971,7 @@ export function decideLawMoneyReaction(
         "keep",
         score < 0
           ? `${who}'s principles put public programs ahead of balancing the budget, so programs were kept and the ${dollars} the laws took away runs as a deficit.`
-          : `Nothing ${who} holds bears on balancing the budget, so programs were kept and the ${dollars} the laws took away runs as a deficit, as the budget does by default.`,
+          : `${who} holds no principle that bears on balancing the budget, so programs were kept and the ${dollars} the laws took away runs as a deficit, as the budget does by default.`,
       );
 }
 
