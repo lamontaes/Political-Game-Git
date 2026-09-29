@@ -32,7 +32,6 @@
 import { constitutionalPosition } from "./constitutional-process";
 import { addDays } from "./dates";
 import { createStableId } from "./ids";
-import { measureSessionClosedOn } from "./governing/legislative-clock";
 import {
   stateStatuteOperativeAt,
   type StatuteDateContext,
@@ -45,7 +44,6 @@ import type {
   EntityId,
   IsoDate,
   LegislativeEnactmentRecord,
-  LegislativeMeasureRecord,
   World,
 } from "./types";
 
@@ -247,19 +245,12 @@ export const STATUTE_EFFECTIVE_DEFAULT_DAYS = 90;
 
 /**
  * The dates an act's own record carries that a state's effective-date rule
- * may count from: the close of its session as the game records it, and the
- * final passage its enactment recorded.
+ * may count from: the final passage its enactment recorded.
  */
 export function enactmentStatuteDateContext(
-  world: World,
-  measure: LegislativeMeasureRecord,
   enactment: LegislativeEnactmentRecord,
 ): StatuteDateContext {
-  return {
-    sessionClosedOn: () =>
-      measureSessionClosedOn(world, measure, rulePackById(measure.rulePackId)),
-    finalPassageAt: () => enactment.finalPassageAt ?? null,
-  };
+  return { finalPassageAt: () => enactment.finalPassageAt ?? null };
 }
 
 export function isAmendableRuleField(
@@ -557,11 +548,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       : stateStatuteOperativeAt(
           `US-${provision.stateUsps}`,
           enactment.resolvedAt,
-          enactmentStatuteDateContext(
-            world,
-            requireMeasure(world, provision.measureId),
-            enactment,
-          ),
+          enactmentStatuteDateContext(enactment),
         );
     changes.push({
       stateUsps: provision.stateUsps,

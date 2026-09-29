@@ -107,7 +107,7 @@ export function lawInForce(
         : stateStatuteOperativeAt(
             placeKey,
             enactment.resolvedAt,
-            enactmentStatuteDateContext(world, measure, enactment),
+            enactmentStatuteDateContext(enactment),
           );
     const operativeAt =
       enactment.effectiveAt ??

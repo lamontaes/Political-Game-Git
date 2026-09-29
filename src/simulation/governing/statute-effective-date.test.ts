@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
-import { makeIsoDate } from "../dates";
+import { isoDateFromParts, makeIsoDate } from "../dates";
+import { rulePackById } from "../legislature-rule-packs";
 import { STATES } from "../state-reference";
 import {
+  stateRegularSessionEnd,
   stateStatuteOperativeAt,
   statuteEffectiveRule,
 } from "./statute-effective-date";
@@ -10,15 +12,13 @@ import {
 const at = (key: string, enacted: string) =>
   stateStatuteOperativeAt(key, makeIsoDate(enacted));
 
-/** An act whose record carries its session's close and its final passage. */
+/** An act whose record carries its final passage. */
 const recorded = (
   key: string,
   enacted: string,
-  dates: { sessionClosedOn?: string; finalPassageAt?: string },
+  dates: { finalPassageAt?: string },
 ) =>
   stateStatuteOperativeAt(key, makeIsoDate(enacted), {
-    sessionClosedOn: () =>
-      dates.sessionClosedOn ? makeIsoDate(dates.sessionClosedOn) : null,
     finalPassageAt: () =>
       dates.finalPassageAt ? makeIsoDate(dates.finalPassageAt) : null,
   });
@@ -38,7 +38,6 @@ describe("when a state law takes effect by its state's own rule", () => {
     for (const key of places) {
       const rule = statuteEffectiveRule(key);
       const operative = recorded(key, "2026-03-15", {
-        sessionClosedOn: "2026-04-15",
         finalPassageAt: "2026-03-10",
       });
       if (!rule) {
@@ -141,15 +140,26 @@ describe("when a state law takes effect by its state's own rule", () => {
     expect(at("US-MO", "2026-09-15")).toBeNull();
   });
 
-  it("dates Kentucky from the session's recorded close, the day after ninety full days", () => {
+  it("dates Kentucky from its session's end, the day after ninety full days", () => {
     // OAG 26-03: adjourned April 15, 2026; acts took effect July 15, 2026.
-    const close = { sessionClosedOn: "2026-04-15" };
-    expect(recorded("US-KY", "2026-03-20", close)).toBe("2026-07-15");
+    expect(at("US-KY", "2026-03-20")).toBe("2026-07-15");
     // Signed during the governor's days after adjournment: the same date.
-    expect(recorded("US-KY", "2026-04-24", close)).toBe("2026-07-15");
-    // No recorded close: not dated, so the caller keeps its labeled default.
-    expect(recorded("US-KY", "2026-03-20", {})).toBeNull();
-    expect(at("US-KY", "2026-03-20")).toBeNull();
+    expect(at("US-KY", "2026-04-24")).toBe("2026-07-15");
+    // Odd years end by March 30.
+    expect(at("US-KY", "2027-03-01")).toBe("2027-06-29");
+  });
+
+  it("reads Kentucky's session end from the same limit its rule pack holds", () => {
+    const limit = rulePackById("us-ky-general-assembly-v1").session
+      .regularSessionLatestAdjournment!.value;
+    for (const [year, end] of [
+      [2027, limit.oddYear],
+      [2026, limit.evenYear],
+    ] as const) {
+      expect(stateRegularSessionEnd("US-KY", year)).toBe(
+        isoDateFromParts(year, end.month, end.day),
+      );
+    }
   });
 
   it("dates Illinois from final passage: January 1 before June 1, else June 1", () => {

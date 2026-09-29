@@ -123,12 +123,12 @@
       },
       "US-KY": {
         "rule": {
-          "kind": "full-days-after-recorded-session-end",
-          "days": 90
+          "kind": "days-after-session-end",
+          "days": 91
         },
         "cite": "Ky. Const. § 55; OAG 26-03",
         "source": "https://www.ag.ky.gov/Resources/Opinions/Opinions/OAG%2026-03.pdf",
-        "note": "No act becomes law until ninety days after the session adjourns. The Attorney General leaves out the day of adjournment and dates acts from the day after the ninetieth: the 2026 session adjourned April 15, 2026, and its acts took effect July 15, 2026. The game counts from the session end its Kentucky rule pack records, the latest the constitution allows (March 30 in odd years, April 15 in even years), so a session that adjourned before that date is dated late by the difference."
+        "note": "No act becomes law until ninety days after the session adjourns. The Attorney General leaves out the day of adjournment and dates acts from the day after the ninetieth: the 2026 session adjourned April 15, 2026, and its acts took effect July 15, 2026. So the rule is 91 days after the session's last day, which the session-end table gives as the latest the constitution allows (March 30 in odd years, April 15 in even years); a session that adjourned earlier is dated late by the difference."
       },
       "US-LA": {
         "rule": {
@@ -172,11 +172,7 @@
       "US-MO": {
         "rule": {
           "kind": "days-after-session-end",
-          "days": 90,
-          "sessionEnds": {
-            "month": 5,
-            "day": 30
-          }
+          "days": 90
         },
         "cite": "Mo. Const. art. III, §§ 20(a), 29",
         "source": "https://revisor.mo.gov/main/OneSection.aspx?section=Article%20III%20Section%2029",
@@ -363,6 +359,46 @@
         "cite": "W. Va. Const. art. VI, § 30",
         "source": "https://www.wvlegislature.gov/WVCODE/WV_CON.cfm",
         "note": "An act takes effect 90 days after its passage unless two-thirds of each house direct otherwise; the game counts from enactment."
+      }
+    },
+    "sessionEnds": {
+      "US-KY": {
+        "oddYear": {
+          "kind": "on",
+          "day": {
+            "month": 3,
+            "day": 30
+          }
+        },
+        "evenYear": {
+          "kind": "on",
+          "day": {
+            "month": 4,
+            "day": 15
+          }
+        },
+        "cite": "Ky. Const. § 42",
+        "source": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=46",
+        "note": "Even-year sessions adjourn by April 15 and odd-year sessions by March 30, the same limit Kentucky's legislative rule pack holds."
+      },
+      "US-MO": {
+        "oddYear": {
+          "kind": "on",
+          "day": {
+            "month": 5,
+            "day": 30
+          }
+        },
+        "evenYear": {
+          "kind": "on",
+          "day": {
+            "month": 5,
+            "day": 30
+          }
+        },
+        "cite": "Mo. Const. art. III, § 20(a)",
+        "source": "https://revisor.mo.gov/main/OneSection.aspx?section=Article%20III%20Section%2020(a)",
+        "note": "The regular session adjourns on May 30 each year."
       }
     },
     "notModeled": {
