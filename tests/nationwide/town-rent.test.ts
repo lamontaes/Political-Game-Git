@@ -137,19 +137,22 @@ describe("rent arithmetic", () => {
   });
 
   it("caps a stabilized renewal at the price rise plus five points, at most ten", () => {
-    const steep = renewedMarketRent(2000_00, 1.03, 3, true);
+    // Home prices up 9% while prices in general rose 3%.
+    const steep = renewedMarketRent(2000_00, 1.09, 1.03, true);
     expect(steep.capped).toBe(true);
     expect(steep.cap).toBeCloseTo(0.08);
     expect(steep.amountMinor).toBe(2160_00);
-    expect(steep.uncappedMinor).toBeGreaterThan(steep.amountMinor);
-    // The same renewal without the law is the market's.
-    const free = renewedMarketRent(2000_00, 1.03, 3, false);
+    expect(steep.uncappedMinor).toBe(2180_00);
+    // The same renewal without the law follows home prices.
+    const free = renewedMarketRent(2000_00, 1.09, 1.03, false);
     expect(free.capped).toBe(false);
     expect(free.amountMinor).toBe(steep.uncappedMinor);
     // High inflation: never more than ten percent.
-    expect(renewedMarketRent(2000_00, 1.08, 3, true).cap).toBeCloseTo(0.1);
+    expect(renewedMarketRent(2000_00, 1.12, 1.08, true).cap).toBeCloseTo(0.1);
     // An ordinary renewal is under the cap and untouched.
-    expect(renewedMarketRent(2000_00, 1.03, 0, true).capped).toBe(false);
+    const ordinary = renewedMarketRent(2000_00, 1.04, 1.03, true);
+    expect(ordinary.capped).toBe(false);
+    expect(ordinary.amountMinor).toBe(2080_00);
   });
 
   it("fits a home's bedrooms to who first rents it", () => {

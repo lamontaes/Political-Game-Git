@@ -915,16 +915,16 @@ export function openGovernmentBudget(
       `Calibration factor ${BUDGET_CALIBRATION}: ${bases.calibration.basis}`,
       "Pension: the liability's size against spending is PLACEHOLDER (research: public-pension-funding-by-state); the contribution is carved out of salary-paying programs.",
       funding.basis === "reported"
-        ? `Pension funded ratio: ${funding.fundedRatio}, as its own plans reported to the Public Plans Database.`
+        ? `Pension funded ratio: ${funding.fundedRatio}, as its own plans filed with the Public Plans Database.`
         : `Pension funded ratio: ESTIMATED FROM AVERAGE, ${funding.fundedRatio}, the median of every plan in the Public Plans Database; its own plans are not listed.`,
-      `Pension normal cost: ${flows.normalCostShare} of the liability a year, ${flows.normalCostBasis === "reported" ? "as its own plans reported to the Public Plans Database" : "ESTIMATED FROM AVERAGE, the median of every plan in the Public Plans Database; its own plans do not report it"}. Benefits paid: ${flows.benefitShare} of the liability a year, ${flows.benefitBasis === "reported" ? "as its own plans reported" : "ESTIMATED FROM AVERAGE, the median of every plan"}.`,
+      `Pension normal cost: ${flows.normalCostShare} of the liability a year, ${flows.normalCostBasis === "reported" ? "as its own plans filed with the Public Plans Database" : "ESTIMATED FROM AVERAGE, the median of every plan in the Public Plans Database; its own plans do not file it"}. Benefits paid: ${flows.benefitShare} of the liability a year, ${flows.benefitBasis === "reported" ? "as its own plans filed" : "ESTIMATED FROM AVERAGE, the median of every plan"}.`,
       `Reserve target under a minimum-reserve law: ${reserveRule(candidate).floorShare} of a year's spending, at most ${reserveRule(candidate).depositShare} a year: ${reserveRule(candidate).basis}.`,
       paid.basis === "reported"
-        ? `Pension share paid: ${paid.share}, as its own plans reported to the Public Plans Database.`
+        ? `Pension share paid: ${paid.share}, as its own plans filed with the Public Plans Database.`
         : `Pension share paid: ${paid.share}, ESTIMATED FROM AVERAGE (the median of every plan in the Public Plans Database, fiscal 2022 to 2024); its own plans are not listed.`,
       ...(basis === "state-start-placeholder"
         ? [
-            "Fiscal year: the state's start (PLACEHOLDER, research: local-government-finances-by-type).",
+            "Budget year: begins when the state's does (PLACEHOLDER, research: local-government-finances-by-type).",
           ]
         : []),
       "Adoption is automatic each year; a budget passed as a bill comes later.",

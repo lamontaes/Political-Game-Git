@@ -383,12 +383,14 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
     );
   }, 900_000);
 
+  // Writing and reading back a campaign-season world took 5.8 seconds on a
+  // busy machine on 9/29, past the 5-second default; the check is unchanged.
   it("survives a save", () => {
     const reopened = deserializeWorld(serializeWorld(run.after));
     expect(publicAdverseFindingsAgainst(reopened, run.personId)).toEqual(
       publicAdverseFindingsAgainst(run.after, run.personId),
     );
-  });
+  }, 60_000);
 });
 
 /**

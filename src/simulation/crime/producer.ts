@@ -3,7 +3,10 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { householdLocationAt, peopleInHouseholdAt } from "../life-queries";
 import { personName } from "../people";
-import type { ProsecutionReferralInput } from "../justice/prosecution";
+import {
+  referForProsecution,
+  type ProsecutionReferralInput,
+} from "../justice/prosecution";
 import { recordEventKnowledge } from "../records";
 import { SeededRng } from "../rng";
 import type {
@@ -29,6 +32,7 @@ import {
   type CrimeOffense,
 } from "./contract";
 import { crimeRateMultiplier } from "./causes";
+import { offenderFor, policeCanName } from "./offenders";
 
 /**
  * Ordinary local crime, as background life.
@@ -40,9 +44,10 @@ import { crimeRateMultiplier } from "./causes";
  * its weekly sweep like any other public record. One the victim keeps to
  * themselves stays private: only the people it happened to know.
  *
- * The month after a report, police either make an arrest or do not. An arrest
- * is public. Its hand-off to prosecution is shaped by `arrestReferral` for the
- * justice route's `referForProsecution`, once an arrest names an offender.
+ * The month after a report, the offense is laid at the door of the resident
+ * whose circumstances point to it (`./offenders`), and police arrest them when
+ * they can name them. An arrest is public and goes to prosecutors through
+ * `referForProsecution`.
  *
  * Every rate is in `UNRESEARCHED_LOCAL_CRIME`. Nothing here reads a place's
  * real crime rate, police force or budget yet, and nothing here moves an
@@ -435,14 +440,8 @@ export function offenseOf(event: HistoricalEvent): CrimeOffense | null {
 
 /**
  * The justice hand-off: an arrest goes to the one prosecution route an
- * officeholder's case also uses. A referral names the person charged, and no
- * arrest names one yet (see `OFFENDERS_ARE_NOT_REPRESENTED`), so
- * `arrestReferral` returns null and nothing is referred until offenders exist.
- *
- * This pass is registered with the world clock, which loads before state
- * governing; importing `referForProsecution` here closes an import loop
- * through `governing/office-consequence` and breaks module start-up. The lane
- * that draws offenders (`cause-offenders`) makes the referral with this shape.
+ * officeholder's case also uses, naming the person police arrested
+ * (`./offenders`). Null only when no offender is named.
  */
 export function arrestReferral(
   incident: HistoricalEvent,
@@ -458,7 +457,7 @@ export function arrestReferral(
     offenseKey: `crime:${offense}`,
     referredBy: {
       kind: "police",
-      label: `Police in ${placeName(incident.jurisdictionId!)}`,
+      label: `police in ${placeName(incident.jurisdictionId!)}`,
       personId: null,
     },
     basisEventIds: [incident.id, arrest.id],
@@ -470,8 +469,8 @@ export function arrestReferral(
 
 /**
  * Police outcome for reports made during the month starting `reportMonth`.
- * Decided once, on the pass after the report month, from the report's own
- * seeded stream, so a report never gets a second chance at an arrest.
+ * Decided once, on the pass after the report month, so a report never gets a
+ * second chance at an arrest.
  */
 function recordArrests(
   world: World,
@@ -486,17 +485,30 @@ function recordArrests(
       continue;
     const offense = offenseOf(incident);
     if (!offense) continue;
-    const rng = stream(world, "arrest", incident.stableKey);
-    if (rng.next() >= crimeRule(offense).arrestShare) continue;
+    // Police arrest the person the offense points to, when they can name
+    // them: the victim knows them, or police already do.
+    const offender = offenderFor(next, incident, offense);
+    if (!offender || !policeCanName(offender)) continue;
     const place = placeName(incident.jurisdictionId!);
+    const offenderName = personName(next.people[offender.personId]!);
     next = recordWorldEvent(next, {
       stableKey: `${incident.stableKey}:arrest`,
       type: CRIME_EVENT_TYPES.arrest,
       occurredAt: arrestDate,
       recordedAt: arrestDate,
       jurisdictionId: incident.jurisdictionId,
-      involvedEntityIds: [...incident.involvedEntityIds],
-      participants: [...incident.participants],
+      involvedEntityIds: [
+        ...incident.involvedEntityIds,
+        offender.personId,
+      ].sort(),
+      participants: [
+        ...incident.participants,
+        {
+          personId: offender.personId,
+          role: "focus:subject" as const,
+          detail: `Arrested; ${offender.reasons.join(", ")}`,
+        },
+      ],
       personFactConstraints: [],
       visibility: "public",
       tags: [
@@ -504,9 +516,10 @@ function recordArrests(
         `${CRIME_INCIDENT_TAG_PREFIX}${incident.stableKey}`,
         `${CRIME_OFFENSE_TAG_PREFIX}${offense}`,
         "crime:arrest",
+        `crime:offender:${offender.personId}`,
         `policy:${CRIME_CONTRACT_VERSION}`,
       ],
-      summary: `Police in ${place} made an arrest in ${REPORTED_OFFENSE_PHRASE[offense]} reported last month.`,
+      summary: `Police in ${place} arrested ${offenderName} in ${REPORTED_OFFENSE_PHRASE[offense]} reported last month.`,
       context: EMPTY_CONTEXT,
     });
     const arrest = next.history.events.at(-1)!;
@@ -516,12 +529,26 @@ function recordArrests(
         personId: participant.personId,
         eventId: arrest.id,
         learnedAt: arrestDate,
-        believedSummary: `Police made an arrest in what happened to ${personName(next.people[participant.personId]!)}.`,
+        believedSummary: `Police arrested ${offenderName} in what happened to ${personName(next.people[participant.personId]!)}.`,
         accuracy: "accurate",
         confidence: "high",
         source: { kind: "direct" },
       });
     }
+    next = recordEventKnowledge(next, {
+      stableKey: `${arrest.stableKey}:knows:${offender.personId}`,
+      personId: offender.personId,
+      eventId: arrest.id,
+      learnedAt: arrestDate,
+      believedSummary: `${offenderName} was arrested.`,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "direct" },
+    });
+    next = referForProsecution(
+      next,
+      arrestReferral(incident, arrest, offense, offender.personId)!,
+    ).world;
   }
   return next;
 }
