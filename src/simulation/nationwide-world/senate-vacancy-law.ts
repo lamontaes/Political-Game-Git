@@ -14,7 +14,6 @@
  *   states have changed since. Research 9 is reading each current statute,
  *   and a row is replaced when it is read.
  * - `statute-read-2026`: the statute text itself, read September 28, 2026.
- * - `secondary-2026`: a 2026 secondary source; the statute is unread.
  *
  * A special election's timing is simplified to one date: the earliest day
  * the statute allows after the vacancy (`prompt`), or the next regular
@@ -44,7 +43,7 @@ export interface SenateVacancyLaw {
     | { readonly kind: "next-general" }
     | { readonly kind: "prompt"; readonly promptDays: number | null };
   readonly citation: string | null;
-  readonly source: "crs-r44781-2017" | "statute-read-2026" | "secondary-2026";
+  readonly source: "crs-r44781-2017" | "statute-read-2026";
 }
 
 /** PLACEHOLDER: a prompt special election whose window is not recorded. */
@@ -75,51 +74,78 @@ function crs(
   };
 }
 
-const ROWS: readonly SenateVacancyLaw[] = [
-  // Special election only (CRS 2017): North Dakota, Oklahoma, Rhode Island,
-  // Wisconsin. The window is not in the CRS summary.
-  crs("ND", "none", prompt(null)),
-  crs("OK", "none", prompt(null)),
-  crs("RI", "none", prompt(null)),
-  crs("WI", "none", prompt(null)),
-  {
-    // ORS 188.120, read September 28, 2026: the governor appoints within 30
-    // days someone affiliated with the departed senator's party for the 180
-    // days before; a special election 80 to 150 days after the vacancy.
-    stateUsps: "OR",
-    appointment: "governor-same-party",
-    appointmentDeadlineDays: 30,
-    specialElection: prompt(80),
-    citation: "ORS 188.120",
+function read(
+  stateUsps: string,
+  appointment: SenateAppointmentRule,
+  appointmentDeadlineDays: number | null,
+  specialElection: SenateVacancyLaw["specialElection"],
+  citation: string,
+): SenateVacancyLaw {
+  return {
+    stateUsps,
+    appointment,
+    appointmentDeadlineDays,
+    specialElection,
+    citation,
     source: "statute-read-2026",
-  },
-  {
-    // Wikipedia, "Seventeenth Amendment," citing NCSL (retrieved February
-    // 2026): Kentucky no longer permits appointment. KRS 63.200 is unread.
-    stateUsps: "KY",
-    appointment: "none",
-    appointmentDeadlineDays: null,
-    specialElection: prompt(null),
-    citation: "KRS 63.200 (unread)",
-    source: "secondary-2026",
-  },
-  // Same-party limits (CRS 2017).
-  crs("AZ", "governor-same-party"),
+  };
+}
+
+const ROWS: readonly SenateVacancyLaw[] = [
+  // Statutes read September 28, 2026, by Research 9 (research file
+  // r9-primaries/senate-vacancy-law-2026.csv) and by Build 27 (Oregon).
+  // No appointment: the seat is empty until the special election.
+  read("ND", "none", null, prompt(95), "N.D.C.C. 16.1-13-08"),
+  // Read in the Oklahoma Senate's 2019 compilation; later amendments unread.
+  read("OK", "none", null, prompt(null), "26 O.S. 12-101"),
+  read("RI", "none", null, prompt(null), "R.I. Gen. Laws 17-4-9"),
+  read("WI", "none", null, prompt(null), "Wis. Stat. 17.18, 8.50(4)(b)"),
+  // KRS 63.200, the appointment statute, was repealed by 2024 Ky. Acts
+  // ch. 187, sec. 4, effective April 12, 2024. KRS 118.720 sets no date.
+  read("KY", "none", null, prompt(null), "KRS 118.720"),
+  // The appointee must share the departed senator's party.
+  // ORS 188.120: within 30 days; a special election 80 to 150 days after.
+  read("OR", "governor-same-party", 30, prompt(80), "ORS 188.120"),
+  // A.R.S. 16-222(D), an exception, is unread.
+  read("AZ", "governor-same-party", null, NEXT_GENERAL, "A.R.S. 16-222"),
+  // The governor picks from the departed senator's party's names. North
+  // Carolina: three names within 30 days, election at the first legislative
+  // election more than 60 days after the vacancy. Maryland: names within 30
+  // days, then 15 days to appoint. Wyoming: the committee meets within 15
+  // days, then 5 days to appoint.
+  read("NC", "governor-from-party-list", null, NEXT_GENERAL, "G.S. 163-12"),
+  read(
+    "MD",
+    "governor-from-party-list",
+    45,
+    NEXT_GENERAL,
+    "Md. Election Law 8-602",
+  ),
+  read(
+    "WY",
+    "governor-from-party-list",
+    20,
+    NEXT_GENERAL,
+    "W.S. 22-18-111(a)(i)",
+  ),
+  // Appointment, then a prompt special election. Alaska: a special primary
+  // 60 to 90 days after the vacancy and the election at least 60 days
+  // later, so 120 days at the earliest. Washington: a writ within 10 days,
+  // the primary at least 70 days after it and the election at least 70
+  // after that, so 140 days at the earliest.
+  read("AK", "governor", 30, prompt(120), "AS 15.40.140, 15.40.145"),
+  read("MA", "governor", null, prompt(145), "M.G.L. c.54 s.140"),
+  read("WA", "governor", null, prompt(140), "RCW 29A.28.030, 29A.28.041"),
+  // Not readable by script in 2026 (TO READ): the 2017 summary stands.
   crs("HI", "governor-from-party-list"),
-  crs("MD", "governor-from-party-list"),
-  crs("NC", "governor-same-party", NEXT_GENERAL, "N.C.G.S. 163-12"),
   crs("UT", "governor-same-party", NEXT_GENERAL, "Utah Code 20A-1-502"),
-  crs("WY", "governor-same-party", NEXT_GENERAL, "Wyo. Stat. 22-18-111"),
+  crs("TX", "governor", prompt(36)),
   // Appointment, then a prompt special election (CRS 2017).
   crs("AL", "governor", prompt(null), "Ala. Code 36-9-7"),
-  crs("AK", "governor", prompt(60)),
   crs("CT", "governor", prompt(150)),
   crs("LA", "governor", prompt(77)),
-  crs("MA", "governor", prompt(145)),
   crs("MS", "governor", prompt(90)),
-  crs("TX", "governor", prompt(36)),
   crs("VT", "governor", prompt(90)),
-  crs("WA", "governor", prompt(140)),
   // Appointment until the next general election (CRS 2017).
   ...[
     "AR",
