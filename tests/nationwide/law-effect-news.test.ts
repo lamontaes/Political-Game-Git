@@ -42,8 +42,11 @@ import {
 } from "../../src/simulation/living-world/town-pay";
 import {
   LAW_EFFECT_EVENT_TYPE,
+  LAW_EFFECT_MEASURE_TAG,
   reportLawEffects,
 } from "../../src/simulation/press/law-effect-news";
+import { recordLawExposure } from "../../src/simulation/law-exposure";
+import { money } from "../../src/simulation/resources";
 import {
   PRESS_DESK_SWEEP_TRANSITION_KEY,
   pressDeskSweepHandler,
@@ -311,6 +314,35 @@ describe(
 
       // Read again, nothing is news twice.
       expect(reportLawEffects(reported, frontier - 1)).toBe(reported);
+
+      // A worker told of the raise (an exposure citing the raised pay row)
+      // is the same change, not a second story.
+      let told = paid;
+      // As in the sweep below, the fixture's other due items are left behind.
+      withWorldIntegrityDeferred(() => {
+        for (const raise of raises) {
+          const recipient = flows.get(raise.resourceFlowId)!.recipient;
+          if (recipient.kind !== "person") continue;
+          told = recordLawExposure(told, {
+            stableKey: `test:told:${raise.id}`,
+            personId: recipient.personId,
+            measureId: records[0]!.tags
+              .find((tag) => tag.startsWith(LAW_EFFECT_MEASURE_TAG))!
+              .slice(LAW_EFFECT_MEASURE_TAG.length) as EntityId,
+            channel: "paycheck",
+            direction: "gain",
+            amount: money(1_000, "USD"),
+            cadence: "monthly",
+            sourceRecordId: raise.id,
+          });
+        }
+      });
+      expect(told.history.lawExposures!.length).toBeGreaterThan(0);
+      expect(
+        lawEffects(reportLawEffects(told, frontier - 1)).map(
+          (event) => event.stableKey,
+        ),
+      ).toEqual(records.map((event) => event.stableKey));
 
       // The desk's weekly sweep writes the same records and takes them up.
       const due = {

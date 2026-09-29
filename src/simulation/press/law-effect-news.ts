@@ -214,10 +214,15 @@ function lawStepOrdinals(
 function exposureTouches(world: World, sinceSequence: number): Touch[] {
   const exposures = world.history.lawExposures ?? [];
   const touches: Touch[] = [];
+  let termIds: Set<EntityId> | null = null;
   for (let index = exposures.length - 1; index >= 0; index -= 1) {
     const row: LawExposureRecord = exposures[index]!;
     if (row.sequence <= sinceSequence) break;
     if (row.relation !== "own") continue;
+    // An exposure written from a law-set pay or rent row repeats that row,
+    // which `flowTermTouches` already reads: one change is one story.
+    termIds ??= new Set(world.history.resourceFlowTerms.map((t) => t.id));
+    if (termIds.has(row.sourceRecordId)) continue;
     const person = world.people[row.personId];
     if (!person) continue;
     touches.push({
