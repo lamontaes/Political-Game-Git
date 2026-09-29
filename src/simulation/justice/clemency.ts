@@ -28,6 +28,7 @@ import { isPersonAliveAt } from "../vitality";
 import { recordWorldEvent } from "../world";
 import { CLEMENCY_PETITION_DECISION } from "./clemency-decisions";
 import { CLEMENCY_GRANT } from "./clemency-reasoning";
+import { settleJailAbsences } from "./jail-absence";
 import {
   ANSWER_TAG,
   ANSWERED_BY_TAG,
@@ -1032,8 +1033,10 @@ function grant(
 
 /**
  * The weekly step: the game's people under sentence decide whether to ask,
- * and every open request moves as far as its law and today allow. Runs on
- * the press desk's weekly sweep, beside `advanceProsecutions`.
+ * and every open request moves as far as its law and today allow; then the
+ * jobs of anyone whose jail term began or ended go on leave or come back
+ * (`jail-absence.ts`). Runs on the press desk's weekly sweep, beside
+ * `advanceProsecutions`.
  */
 export function advanceClemency(world: World): World {
   let next = produceRequests(world);
@@ -1041,5 +1044,6 @@ export function advanceClemency(world: World): World {
     if (clemencyPetitionStatus(next, petition.id) !== "open") continue;
     next = advancePetition(next, petition);
   }
-  return next;
+  // Last, so a term that began or was cut short this week moves its jobs.
+  return settleJailAbsences(next);
 }

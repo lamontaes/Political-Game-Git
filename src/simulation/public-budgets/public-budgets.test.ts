@@ -17,7 +17,12 @@ import {
   type PublicBudgetStore,
 } from ".";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
-import { MEDIAN_PAID_SHARE } from "./pension-share";
+import {
+  MEDIAN_BENEFIT_SHARE,
+  MEDIAN_FUNDED_RATIO,
+  MEDIAN_NORMAL_COST_SHARE,
+  MEDIAN_PAID_SHARE,
+} from "./pension-share";
 import {
   MEDIAN_RESERVE_DEPOSIT,
   MEDIAN_RESERVE_TARGET,
@@ -37,7 +42,9 @@ const BALANCED = "proposition_balanced" as EntityId;
 const RESERVE = "proposition_reserve" as EntityId;
 const PENSIONS = "proposition_pensions" as EntityId;
 const GRADUATED = "proposition_graduated" as EntityId;
+const INCOME_TAX = "proposition_income_tax" as EntityId;
 const QUESTIONS: Readonly<Record<string, EntityId>> = {
+  "fiscal.adopt-income-tax": INCOME_TAX,
   "fiscal.balanced-operating-budget": BALANCED,
   "fiscal.minimum-reserve-balance": RESERVE,
   "fiscal.fund-pensions-to-schedule": PENSIONS,
@@ -294,6 +301,11 @@ describe("public budgets", () => {
     expect(district.lawJurisdictionId).toBe(
       lifePlaceByKey("1150000")!.context.jurisdiction.id,
     );
+    // Its Census state column is empty, so it opens from the local column.
+    expect(district.openingNotes.join(" ")).toContain(
+      "Census 2022 local-government column, since District of Columbia's state column is empty",
+    );
+    expect(sum(district.years[0]!.appropriations)).toBeGreaterThan(0);
   });
 
   it("under a balanced-budget law a shortfall is cut across the board and drawn from the reserve, naming the law; without one it is borrowed", () => {
@@ -368,6 +380,10 @@ describe("public budgets", () => {
     );
     expect(deposit?.law?.reading.answer).toBe("yes");
     expect(short.government.years.at(-1)!.reserveDeposit).toBe(deposit!.amount);
+    // The note names Illinois' own law, not a hand-set floor.
+    expect(deposit!.note).toContain(`${reserveRule(state).floorShare}`);
+    expect(deposit!.note).toContain(reserveRule(state).basis);
+    expect(deposit!.note).not.toContain("PLACEHOLDER");
 
     // Illinois begins with a reserve law, so "without" is a law enacted in
     // play that says no.
@@ -431,6 +447,118 @@ describe("public budgets", () => {
     );
   });
 
+  it("a small government that pays its whole contribution records no underpayment from monthly rounding", () => {
+    const world = worldAt("2026-01-05", {
+      laws: [{ question: PENSIONS, answer: "no", jurisdictionId: illinois }],
+    });
+    // A pension the size of a 16-person town's, paid in full: the monthly
+    // payments round to whole dollars and can fall a dollar or two short.
+    const small = {
+      ...publicBudgetFor(opened(world), illinois)!,
+      pension: {
+        ...publicBudgetFor(opened(world), illinois)!.pension,
+        paidShare: 1,
+        liability: 27_076,
+        assets: 19_470,
+      },
+    };
+    const run = settleAlone(world, small, "2027-06-01");
+    expect(
+      run.adjustments.filter(
+        (row) => row.kind === "pension-underpaid" && row.fiscalYear === 2027,
+      ),
+    ).toEqual([]);
+  });
+
+  it("each government's pension opens at its own plans' funded ratio, or the median where none is reported", () => {
+    const world = opened(
+      worldAt("2026-01-05", { places: ["1714000", "county:17031"] }),
+    );
+    const funded = (key: string) => {
+      const pension = world.publicBudgets!.governments.find(
+        (row) => row.key === key,
+      )!.pension;
+      return pension.assets / pension.liability;
+    };
+    // Public Plans Database, each plan's latest year: Illinois' state plans
+    // hold 54.84% of their liability, Chicago's 26.22%, Cook County's 65.93%.
+    expect(funded("US-IL")).toBeCloseTo(0.5484, 3);
+    expect(funded("place:1714000")).toBeCloseTo(0.2622, 3);
+    expect(funded("county:17031")).toBeCloseTo(0.6593, 3);
+    // D.C.'s plans are not listed, so it opens at the median of every plan.
+    expect(funded("US-DC")).toBeCloseTo(MEDIAN_FUNDED_RATIO, 3);
+    expect(
+      world
+        .publicBudgets!.governments.find((row) => row.key === "US-DC")!
+        .openingNotes.join(" "),
+    ).toContain("Pension funded ratio: ESTIMATED FROM AVERAGE");
+  });
+
+  it("a state NASBO reports no rainy-day balance for opens at the median share of the states it does", () => {
+    const world = opened(worldAt("2026-01-05"));
+    const georgia = world.publicBudgets!.governments.find(
+      (row) => row.key === "US-GA",
+    )!;
+    // NASBO fiscal 2026: the median rainy-day balance over general-fund
+    // spending of the states it reports is 0.1307 (measured from the table).
+    const opening = georgia.years[0]!;
+    const spent = sum(opening.appropriations);
+    expect(georgia.reserve / spent).toBeCloseTo(0.1307, 3);
+    expect(georgia.openingNotes.join(" ")).toContain(
+      "Opening reserve: ESTIMATED FROM AVERAGE, NASBO has no figure, so 0.131 of spending",
+    );
+  });
+
+  it("each government's pension costs and pays out what its own plans report, or the median where they do not", () => {
+    const world = opened(worldAt("2026-01-05", { places: ["1714000"] }));
+    const government = (key: string) =>
+      world.publicBudgets!.governments.find((row) => row.key === key)!;
+    // Public Plans Database, each plan's latest year: Illinois' state plans
+    // owe an employer normal cost of 0.92% of their liability a year and pay
+    // out 5.51%; Chicago's plans 0.51% and 5.60%.
+    const required = (key: string, normalCost: number) => {
+      const { liability, assets } = government(key).pension;
+      return Math.round(liability * normalCost + (liability - assets) / 30);
+    };
+    expect(government("US-IL").years[0]!.pensionRequired).toBe(
+      required("US-IL", 0.0092),
+    );
+    expect(government("place:1714000").years[0]!.pensionRequired).toBe(
+      required("place:1714000", 0.0051),
+    );
+    // Missouri's reporting plans hold less than half its liability, so it
+    // owes the median normal cost; D.C.'s plans are not listed at all.
+    expect(government("US-MO").years[0]!.pensionRequired).toBe(
+      required("US-MO", MEDIAN_NORMAL_COST_SHARE),
+    );
+    const dc = government("US-DC").openingNotes.join(" ");
+    expect(dc).toContain(
+      `Pension normal cost: ${MEDIAN_NORMAL_COST_SHARE} of the liability a year, ESTIMATED FROM AVERAGE`,
+    );
+    expect(dc).toContain(
+      `Benefits paid: ${MEDIAN_BENEFIT_SHARE} of the liability a year, ESTIMATED FROM AVERAGE`,
+    );
+    expect(government("US-IL").openingNotes.join(" ")).toContain(
+      "Benefits paid: 0.0551 of the liability a year, as its own plans filed",
+    );
+
+    // At the year's close the liability grows by the plans' own normal cost
+    // and both it and the assets shrink by their own benefits: the opening
+    // year ran six months, January to June.
+    const state = government("US-IL");
+    const closed = settleAlone(worldAt("2026-01-05"), state, "2026-07-01")
+      .government.pension;
+    const { liability } = state.pension;
+    const half = 6 / 12;
+    expect(closed.liability).toBe(
+      Math.round(
+        liability * (1 + 0.07 * half) +
+          liability * 0.0092 * half -
+          liability * 0.0551 * half,
+      ),
+    );
+  });
+
   it("each government's pension share starts from its own reported payment, or the median where none is reported, and holds", () => {
     const world = runThrough(
       opened(worldAt("2026-01-05", { places: ["1714000", "county:17031"] })),
@@ -449,11 +577,9 @@ describe("public budgets", () => {
     // Chicago and Cook County read their own plans.
     const chicago = share("place:1714000");
     expect(chicago.years[0]!.pensionShare).toBe(0.8635);
-    expect(chicago.openingNotes.join(" ")).toContain(
-      "as its own plans reported",
-    );
+    expect(chicago.openingNotes.join(" ")).toContain("as its own plans filed");
     expect(share("county:17031").openingNotes.join(" ")).toContain(
-      "as its own plans reported",
+      "as its own plans filed",
     );
     // The share holds from year to year until budgets pass as bills.
     for (const row of world.publicBudgets!.governments)
@@ -707,6 +833,8 @@ describe("public budgets", () => {
     );
     expect(carried[0]!.fiscalYear).toBe(2027);
     expect(carried[0]!.law).toBeNull();
+    expect(carried[0]!.note).toContain(reserveRule(opening).basis);
+    expect(carried[0]!.note).not.toContain("PLACEHOLDER");
     const [, fy2027, fy2028] = run.government.years;
     const cuttable = (values: readonly number[]) =>
       sum(
@@ -786,9 +914,10 @@ describe("public budgets", () => {
     expect(july.revenue[aid]!).toBeGreaterThan(june.revenue[aid]!);
   });
 
-  it("a state income tax law changes the income tax from the month it takes effect, and the next budgets count it once", () => {
+  it("a state income tax law changes the income tax from the tax year it takes effect in, as paychecks do, and the next budgets count it once", () => {
     // Illinois began with a flat income tax; a graduated one takes effect on
-    // March 1, 2026.
+    // March 1, 2026. Paychecks withhold under the law in force on January 1
+    // of the tax year, so the budget collects the change from January 2027.
     const graduated = TAX_QUESTION_EFFECTS.find((row) =>
       row.questionKey.endsWith("graduated-income-tax"),
     )!;
@@ -821,23 +950,84 @@ describe("public budgets", () => {
       government.months.find((row) => row.month === on)!.revenue[at]!;
     const size = 1 + graduated.toYes!;
     expect(size).toBeCloseTo(1 + 3.4 / 22.7, 6);
-    // Nothing before it takes effect; the full change from that month on.
-    expect(month(lawful, "2026-02-01")).toBe(month(flat, "2026-02-01"));
-    expect(month(lawful, "2026-03-01") / month(flat, "2026-03-01")).toBeCloseTo(
+    // Nothing before the tax year it takes effect in; the full change from
+    // January on.
+    expect(month(lawful, "2026-03-01")).toBe(month(flat, "2026-03-01"));
+    expect(month(lawful, "2026-12-01")).toBe(month(flat, "2026-12-01"));
+    expect(month(lawful, "2027-01-01") / month(flat, "2027-01-01")).toBeCloseTo(
       size,
       4,
     );
-    // Fiscal 2027 and 2028 each expect the change once, not compounded.
-    for (const fy of [1, 2]) {
-      const ratio =
-        lawful.years[fy]!.expectedRevenue[at]! /
-        flat.years[fy]!.expectedRevenue[at]!;
-      expect(ratio).toBeCloseTo(size, 3);
-    }
+    // Fiscal 2027 was adopted in July 2026 under the flat tax; fiscal 2028
+    // expects the change once, not compounded.
+    const expected = (fy: number) =>
+      lawful.years[fy]!.expectedRevenue[at]! /
+      flat.years[fy]!.expectedRevenue[at]!;
+    expect(expected(1)).toBeCloseTo(1, 6);
+    expect(expected(2)).toBeCloseTo(size, 3);
     expect(month(lawful, "2028-03-01") / month(flat, "2028-03-01")).toBeCloseTo(
       size,
       3,
     );
+  });
+
+  it("a state that repeals its income tax collects none from the next tax year, its next budget expects none, and a law restoring it collects again", () => {
+    // Illinois began with an income tax. A repeal takes effect May 12, 2026;
+    // a law restoring the tax takes effect June 1, 2027.
+    const world = worldAt("2026-01-05", {
+      laws: [
+        { question: INCOME_TAX, answer: "no", jurisdictionId: illinois },
+        { question: INCOME_TAX, answer: "yes", jurisdictionId: illinois },
+      ],
+      history: {
+        legislativeEnactments: [
+          {
+            id: "enactment_0" as EntityId,
+            sequence: 1000,
+            measureId: "measure_0" as EntityId,
+            resolvedAt: makeIsoDate("2026-05-12"),
+            outcome: "enacted",
+            effectiveAt: makeIsoDate("2026-05-12"),
+          },
+          {
+            id: "enactment_1" as EntityId,
+            sequence: 1001,
+            measureId: "measure_1" as EntityId,
+            resolvedAt: makeIsoDate("2027-06-01"),
+            outcome: "enacted",
+            effectiveAt: makeIsoDate("2027-06-01"),
+          },
+        ] as unknown as World["history"]["legislativeEnactments"],
+      },
+    });
+    const government = settleAlone(
+      world,
+      publicBudgetFor(opened(world), illinois)!,
+      "2028-06-01",
+    ).government;
+    const at = BUDGET_SOURCES.indexOf("individualIncomeTax");
+    const month = (on: string) =>
+      government.months.find((row) => row.month === on)!.revenue[at]!;
+    // Paychecks withhold until the tax year ends, so the budget collects
+    // until then too.
+    expect(month("2026-12-01")).toBeGreaterThan(0);
+    for (const on of ["2027-01-01", "2027-06-01", "2027-12-01"])
+      expect(month(on)).toBe(0);
+    // Fiscal 2028 was adopted in July 2027, while the repeal still governed
+    // the tax year: it expects none.
+    expect(government.years[2]!.expectedRevenue[at]).toBe(0);
+    // The restored tax collects from January 2028 at the level Illinois
+    // opened with (this test world records no economy to carry it by).
+    expect(month("2028-01-01")).toBe(
+      Math.round(government.years[0]!.expectedRevenue[at]! / 12),
+    );
+    // Other sources keep collecting throughout.
+    const sales = BUDGET_SOURCES.indexOf("generalSalesTax");
+    expect(
+      government.months.find((row) => row.month === "2027-01-01")!.revenue[
+        sales
+      ]!,
+    ).toBeGreaterThan(0);
   });
 
   it("maps an appropriation's program to its budget line", () => {
