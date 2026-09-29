@@ -75,6 +75,15 @@ export function planCadence(changedFiles, options = {}) {
     });
   }
 
+  if (simulation || presentation) {
+    stages.push({
+      label: "Zero-dice guard",
+      command: "npm run zero-dice",
+      receiptStage: "zero-dice",
+      kind: "focus",
+    });
+  }
+
   if (player || browser) {
     stages.push({
       label: "Collect Playwright specs (early compile/collection)",
