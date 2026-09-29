@@ -472,6 +472,26 @@ function openBankBooks(
   };
 }
 
+/**
+ * The bank a business borrows from: the town's open bank that holds the
+ * most deposits, as a small town's businesses mostly bank with its largest
+ * bank. Ties go by record id. GAME ASSUMPTION.
+ */
+function lenderOf(
+  banks: Readonly<Record<EntityId, TownBankBooks>>,
+  openBanks: readonly EntityId[],
+): EntityId | null {
+  let best: EntityId | null = null;
+  for (const id of openBanks)
+    if (
+      best === null ||
+      banks[id]!.deposits > banks[best]!.deposits ||
+      (banks[id]!.deposits === banks[best]!.deposits && id < best)
+    )
+      best = id;
+  return best;
+}
+
 function openBusinessBooks(
   world: World,
   organizationId: EntityId,
@@ -655,13 +675,7 @@ export function stepTownFinances(
     const quarterPay = pay.get(organizationId) ?? 0;
     if (quarterPay <= 0 || (formedAt.get(organizationId) ?? since) > since)
       continue;
-    const bankId = openBanks.length
-      ? openBanks[
-          new SeededRng(world.seed)
-            .fork(`${TOWN_FINANCES_VERSION}:lender:${organizationId}`)
-            .integer(0, openBanks.length)
-        ]!
-      : null;
+    const bankId = lenderOf(banks, openBanks);
     books[organizationId] = {
       ...openBusinessBooks(
         world,
@@ -873,10 +887,11 @@ export function stepTownFinances(
       annualRevenue / 4 - annualOtherCosts / 4 - quarterPay - interest;
     let cash = existing.cash + net;
     let debt = existing.debt;
-    // A business whose bank failed borrows from another open one.
+    // A business whose bank failed, or that opened before the town's bank
+    // kept books, borrows from the town's largest open bank.
     let bankId = existing.bankId;
-    if (bankId && banks[bankId]?.failed && openBanks.length)
-      bankId = openBanks[0]!;
+    if (!bankId || banks[bankId]?.failed)
+      bankId = lenderOf(banks, openBanks) ?? bankId;
     const bank = bankId ? banks[bankId] : undefined;
     if (cash < 0) {
       const room = Math.max(0, existing.lineLimit - debt);

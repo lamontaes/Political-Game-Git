@@ -270,6 +270,44 @@ describe(
       ).toHaveLength(1);
     });
 
+    it("a business without a bank borrows from the town's bank at its next review", () => {
+      // McBride's Cafe in this town closed in 2029 saying it had no bank,
+      // because its books opened before the town bank's did.
+      const store = world.townFinances!;
+      const [bankId] = Object.keys(store.banks);
+      const [organizationId] = Object.keys(store.businesses);
+      const unbanked: World = {
+        ...world,
+        townFinances: {
+          ...store,
+          businesses: {
+            ...store.businesses,
+            [organizationId!]: {
+              ...store.businesses[organizationId!]!,
+              bankId: null,
+            },
+          },
+        },
+      };
+      const businesses = townBusinesses(unbanked, town).map((business) => ({
+        organizationId: business.organizationId,
+        kind: business.workplace.key,
+        newcomer: business.outlet >= business.workplace.outlets,
+      }));
+      const next = stepTownFinances(
+        { ...unbanked, currentDate: addDays(unbanked.currentDate, 91) },
+        town,
+        businesses,
+        new Set(),
+        "unbanked",
+      ).world;
+      expect(next.townFinances!.businesses[organizationId!]!.bankId).toBe(
+        bankId,
+      );
+      for (const books of Object.values(next.townFinances!.businesses))
+        expect(books.bankId).toBe(bankId);
+    });
+
     it("a bank whose capital is gone fails, is recorded, and tightens credit in its town", () => {
       const bankWorkplace = TOWN_WORKPLACES.find((row) => row.key === "bank")!;
       const withBank = writeTownEmployer(
