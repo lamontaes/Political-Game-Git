@@ -21,6 +21,11 @@ import {
 } from "../life-places";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import type { EntityId, IsoDate, Jurisdiction, World } from "../types";
+import {
+  countyGoverningBodyRules,
+  municipioUnit,
+  municipiosForPlace,
+} from "./county-governing-body-rules";
 import { governingJurisdictionIdFor } from "./government-jurisdiction";
 import {
   resolveNationwideRuleCapability,
@@ -97,7 +102,9 @@ export function homeLocalGovernmentUnits(
     const geoid = place.key.startsWith("county:")
       ? place.key.slice("county:".length)
       : (place.sourceGeoid ?? null);
-    const county = geoid ? countyGovernmentUnit(geoid) : null;
+    const county = geoid
+      ? (countyGovernmentUnit(geoid) ?? municipioUnit(geoid))
+      : null;
     return county
       ? {
           placeScope: "county",
@@ -134,6 +141,20 @@ export function homeLocalGovernmentUnits(
         unitId: share.unit.id,
         landAreaShare: share.landAreaShare,
       })),
+    };
+  // A municipio is its own government under its place's municipal code,
+  // though the Census listing holds none: every one the place lies in.
+  const municipios = place.sourceGeoid
+    ? municipiosForPlace(place.sourceGeoid)
+    : [];
+  if (municipios.length > 0)
+    return {
+      placeScope: "locality",
+      municipal,
+      counties: municipios,
+      countyStatus: "established",
+      countyReason: null,
+      countyShares: null,
     };
   if (municipal.length === 0)
     return none("locality", "not-established", countyRelationEmpty(term));
@@ -345,6 +366,32 @@ export function ensureLocalGovernmentOrganization(
       },
       jurisdictionOrder: [...next.jurisdictionOrder, jurisdiction.id],
     };
+  }
+  // A municipio is not in the Census listing: its record is the municipal
+  // code that makes it a government.
+  const code =
+    unit.id === `municipio:${unit.countyGeoid}`
+      ? countyGoverningBodyRules(unit)
+      : null;
+  if (code) {
+    // On the books since the code took effect, so a matter the world dates
+    // before the opening can name it.
+    const since = (code.inForceSince ?? next.currentDate) as IsoDate;
+    return createOrganization(next, {
+      stableKey,
+      formedAt: since <= next.currentDate ? since : next.currentDate,
+      detailLevel: "lightweight",
+      provenance: {
+        kind: "source-record",
+        reference: `${code.citation} (${code.url})`,
+        asOf: since,
+      },
+      initialProfile: {
+        name: unit.name,
+        classification: "service:municipal-government",
+        locationJurisdictionId: jurisdiction.id,
+      },
+    });
   }
   const asOf = unit.asOf as IsoDate;
   const listed = asOf <= next.currentDate;

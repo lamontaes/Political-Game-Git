@@ -896,49 +896,7 @@
       "kind": "fixed-share",
       "build": "Build 20",
       "count": 1,
-      "code": "weeklyOpeningChance: 0.35,"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "fixed-share",
-      "build": "Build 20",
-      "count": 1,
-      "code": "partTimeShare: 0.3,"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "fixed-share",
-      "build": "Build 20",
-      "count": 1,
       "code": "followUpChance: 0.5,"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "!role.salaried && rng.next() < JOB_MARKET_PLACEHOLDER.partTimeShare;"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "if (rng.next() >= JOB_MARKET_PLACEHOLDER.weeklyOpeningChance) continue;"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "if (rng.next() >= JOB_MARKET_PLACEHOLDER.hireChance[application.route])"
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "kind": "roll",
-      "build": "Build 20",
-      "count": 1,
-      "code": "rng.next() < JOB_MARKET_PLACEHOLDER.followUpChance);"
     },
     {
       "file": "src/simulation/justice/clemency.ts",
@@ -1044,27 +1002,6 @@
       "build": "Build 22",
       "count": 1,
       "code": "const FAMILY_SHARE = 0.5;"
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "kind": "roll",
-      "build": "Build 22",
-      "count": 1,
-      "code": "rng.next() <"
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "kind": "roll",
-      "build": "Build 22",
-      "count": 1,
-      "code": "return new SeededRng(world.seed).fork(`${V}:news:${personId}`).next() < share;"
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "kind": "roll",
-      "build": "Build 22",
-      "count": 1,
-      "code": "return partners.filter((personId) => rng.fork(personId).next() < TELLS_EACH);"
     },
     {
       "file": "src/simulation/living-world/opening.ts",
@@ -1233,34 +1170,6 @@
       "build": "Build 10",
       "count": 1,
       "code": "return head < 60 && rng.fork(\"mortgage\").next() < 0.7"
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "rng.fork(\"buy\").next() <"
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "rng.fork(\"outgrow\").next() < TOWN_HOME_MOVES.outgrow / pressure"
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "rng.fork(\"downsize\").next() < TOWN_HOME_MOVES.downsize"
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "rng.fork(\"renter-move\").next() <"
     },
     {
       "file": "src/simulation/living-world/town-labor-market.ts",
@@ -1515,20 +1424,6 @@
       "code": "(record.unitKey.startsWith(\"ME\") ? null : source.winnerPersonId) ||"
     },
     {
-      "file": "src/simulation/nationwide-world/local-chief-executive-rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 25",
-      "count": 1,
-      "code": "const SELECTION_SHARES: readonly Share<boolean>[] = ["
-    },
-    {
-      "file": "src/simulation/nationwide-world/local-chief-executive-rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 25",
-      "count": 1,
-      "code": "const CHIEF_TERM_SHARES: readonly Share<number>[] = ["
-    },
-    {
       "file": "src/simulation/nationwide-world/local-governing-body-rules.ts",
       "kind": "fixed-share",
       "build": "Build 25",
@@ -1611,13 +1506,6 @@
       "build": "Build 2",
       "count": 1,
       "code": "rng.fork(\"wave\").next() < drift.waveMonthlyChance"
-    },
-    {
-      "file": "src/simulation/people-contact.ts",
-      "kind": "fixed-share",
-      "build": "Build 20",
-      "count": 1,
-      "code": "const REACH_OUT_DAILY_SHARE = 0.25;"
     },
     {
       "file": "src/simulation/people-traits.ts",
@@ -1975,20 +1863,6 @@
       "build": "Build 12",
       "count": 1,
       "code": "benefitShare: 0.08,"
-    },
-    {
-      "file": "src/simulation/public-budgets/rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 12",
-      "count": 1,
-      "code": "floorShareOfSpending: 0.05,"
-    },
-    {
-      "file": "src/simulation/public-budgets/rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 12",
-      "count": 1,
-      "code": "yearlyDepositShareOfSpending: 0.01,"
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",

@@ -276,10 +276,48 @@ function placeOutcomeOfPctOfStart(key: string): string | null {
   return PLACE_OUTCOME_BASES[measure] ? measure : null;
 }
 
+/**
+ * The part of a place outcome that its causes moved, in the outcome's own
+ * units: 0 until a law or another outcome moves it
+ * (`program.snap-receipt:moved-by-causes`). The outcome's own drift, which
+ * stands for everything the web does not model, is left out, so a link that
+ * reads this acts only on what the world's causes did.
+ */
+const MOVED_BY_CAUSES_SUFFIX = ":moved-by-causes";
+
+function placeOutcomeMovedByCauses(key: string): string | null {
+  if (!key.endsWith(MOVED_BY_CAUSES_SUFFIX)) return null;
+  const measure = key.slice(0, -MOVED_BY_CAUSES_SUFFIX.length);
+  return PLACE_OUTCOME_BASES[measure] ? measure : null;
+}
+
 /** The reader for a cause: a registered measure, or the law on a question. */
 export function outcomeMeasure(key: string): OutcomeMeasure | null {
   const registered = OUTCOME_MEASURES[key];
   if (registered) return registered;
+  const movedMeasure = placeOutcomeMovedByCauses(key);
+  if (movedMeasure) {
+    const definition = PLACE_OUTCOME_BASES[movedMeasure]!;
+    return {
+      key,
+      unit: `${definition.unit}, moved by its causes`,
+      read: (world, jurisdictionId, asOf) => {
+        const record = placeOutcomeAt(
+          world,
+          movedMeasure,
+          jurisdictionId,
+          asOf,
+        );
+        if (!record) return null;
+        const structural = record.structural ?? record.base;
+        // From the multiplier, not the rounded value, so an outcome no
+        // cause has moved reads exactly 0.
+        return definition.scale === "level"
+          ? record.value - structural
+          : structural * (record.multiplier - 1);
+      },
+    };
+  }
   const placeMeasure = placeOutcomeOfPctOfStart(key);
   if (placeMeasure) {
     return {
@@ -325,6 +363,7 @@ function baselineOf(
 ): number | undefined {
   if (CHANGE_MEASURES.has(cause)) return 0;
   if (placeOutcomeOfPctOfStart(cause)) return 100;
+  if (placeOutcomeMovedByCauses(cause)) return 0;
   // A place outcome is measured from where the place began.
   const placeBase = PLACE_OUTCOME_BASES[cause];
   if (placeBase) {
