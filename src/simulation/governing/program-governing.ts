@@ -299,7 +299,10 @@ export function appropriationFromEnactedMeasure(
       term.years <= 0
     )
       return null;
-    const through = addYears(lineage.compiledAt, term.years);
+    // The term runs from the day the appropriation opens (the law's effective
+    // date, or today when it is already in force), the same as one that states
+    // no term, and not from the day the bill was filed.
+    const through = addDays(addYears(adoptedOn, term.years), -1);
     return through >= adoptedOn ? through : null;
   };
 

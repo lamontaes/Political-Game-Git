@@ -21,6 +21,7 @@ import {
 import { applyLegislativeStep } from "./legislation-session";
 import { fileDraft } from "./legislation-docket";
 import { publishLegislativeTransition } from "./publish-legislative-transition";
+import { addDays } from "../simulation/dates";
 import { addYears } from "../simulation/legislation-drafting";
 import type { PublicProgramAppropriationRecord } from "../simulation/types";
 
@@ -100,9 +101,10 @@ describe("enacted saved service profiles", () => {
         (record) => record.sourceMeasureId === measureId,
       ),
     ).toBe(false);
-    // The bill's own stated term (one year) runs from the day it was filed.
+    // The bill's own stated term (one year) runs from the day the money
+    // opens, its effective date, not from the day the bill was filed.
     expect(appropriation?.availableThrough).toBe(
-      addYears(opened.currentDate, 1),
+      addDays(addYears(enactment.effectiveAt!, 1), -1),
     );
 
     const capacity = programCapacity(world, profile.appropriation.programKey);
