@@ -81,6 +81,11 @@ export interface LawInForce {
    * `game-default` when the blanket effective date was applied.
    */
   readonly operativeBasis: "enacted-date" | "state-rule" | "game-default";
+  /**
+   * For a law the game began with: whether it also bars the place's
+   * localities from answering otherwise, where the starting-law row says.
+   */
+  readonly preempts?: boolean;
 }
 
 export function lawInForce(
@@ -91,6 +96,7 @@ export function lawInForce(
 ): LawInForce | null {
   const chain = governingChain(jurisdictionId);
   let best: Candidate | null = null;
+  const authority = new Map<EntityId, boolean>();
   for (const { enactment, measure } of enactedByQuestion(world).get(
     propositionId,
   ) ?? []) {
@@ -99,8 +105,17 @@ export function lawInForce(
     const answer = measurePropositionAnswer(measure, propositionId);
     if (!answer) continue;
     // Beyond its level's powers: on the record, and governing nothing.
-    if (!mayAnswerQuestion(world, measure.jurisdictionId, propositionId))
-      continue;
+    let may = authority.get(measure.jurisdictionId);
+    if (may === undefined) {
+      may = mayAnswerQuestion(
+        world,
+        measure.jurisdictionId,
+        propositionId,
+        onDate,
+      );
+      authority.set(measure.jurisdictionId, may);
+    }
+    if (!may) continue;
     const placeKey = startingLawPlaceKey(measure.jurisdictionId);
     const stateRuleAt =
       enactment.effectiveAt || !placeKey?.startsWith("US-")
@@ -136,6 +151,7 @@ export function lawInForce(
     level: best.level,
     operativeAt: best.operativeAt,
     operativeBasis: best.operativeBasis,
+    ...(best.preempts === undefined ? {} : { preempts: best.preempts }),
   };
 }
 
@@ -255,6 +271,7 @@ function startingLawCandidate(
         origin: "in-force-at-start" as const,
         // Before any enactment: a law enacted in play on the same day governs.
         sequence: -1,
+        ...(row.preempts === undefined ? {} : { preempts: row.preempts }),
         ...(level === "state-statute" &&
         row.answer === "no" &&
         row.preempts === false

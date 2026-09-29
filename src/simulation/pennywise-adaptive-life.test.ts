@@ -1027,7 +1027,11 @@ describe("The adult bank holds the content the wave was asked for", () => {
 describe("Scope E — one commitment vocabulary, and leverage that is not a meter", () => {
   it("reads a terminal due-item state as a commitment standing, in one place", () => {
     expect(standingFromDueItemState("scheduled", null)).toBe("outstanding");
-    expect(standingFromDueItemState("resolved", "life:came-back")).toBe("met");
+    // Raised again is not met: the other person bringing it up says nothing
+    // about whether the promise was kept (Build 22, "resolved means met").
+    expect(standingFromDueItemState("resolved", "life:came-back")).toBe(
+      "outstanding",
+    );
     expect(
       standingFromDueItemState("blocked", "life:actor-lost-standing"),
     ).toBe("withdrawn");
@@ -1060,6 +1064,7 @@ describe("Scope E — one commitment vocabulary, and leverage that is not a mete
           "outstanding",
           "met",
           "broken",
+          "lapsed",
           "superseded",
           "withdrawn",
           "moot",

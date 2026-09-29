@@ -21,6 +21,22 @@ import type {
 } from "../simulation";
 import { commitmentPromisee } from "../simulation/claim-contradictions";
 import { evaluateDecision } from "../simulation/decisions";
+import { CAMPAIGN_LIFE_ATTENDED_EVENT } from "../simulation/campaign-life-activities";
+import { activeCampaignForCandidate } from "../simulation/campaign-queries";
+import {
+  liveQuestionsIn,
+  officeBodyJurisdiction,
+} from "../simulation/campaign-stands";
+import {
+  electionContestStatus,
+  requireElectionContest,
+} from "../simulation/election-contests";
+import {
+  FAVOR_ASK_OPEN_DAYS,
+  openFavorAsk,
+  produceFavorCollection,
+} from "../simulation/favor-collection";
+import { favorRecords } from "../simulation/favors";
 import { offerBereavementScene } from "../simulation/people-bereavement";
 import {
   contactBases,
@@ -87,6 +103,11 @@ import { formatMinute } from "./player-calendar";
 const CAMPAIGN_REACTION_WINDOW_DAYS = 7;
 const REPORTER_PROMISE_WINDOW_DAYS = 30;
 const STAFF_MEASURE_WINDOW_DAYS = 60;
+/**
+ * SET BY HAND: how long after a town hall its question stays open, about as
+ * long as a voter remembers asking.
+ */
+const TOWN_HALL_WINDOW_DAYS = 7;
 
 type Producer = (world: World, personId: EntityId) => World;
 
@@ -123,6 +144,8 @@ export function refreshContextualScenes(
     // Somebody new may come into this life while time passes; they are then
     // somebody the player can ask to meet, or who may ask.
     produceIntroduction,
+    // Somebody who once helped may come to ask for help back.
+    produceFavorAsk,
     // Last of the request scenes: while somebody is waiting on an answer about
     // meeting, that is the conversation this family is holding.
     produceMeetUp,
@@ -130,6 +153,7 @@ export function refreshContextualScenes(
     produceCampaignReaction,
     produceStaffFollowup,
     produceReporterQuestion,
+    produceTownHallQuestion,
   ];
   let next = noticed;
   for (const produce of producers) {
@@ -246,6 +270,125 @@ function produceMeetUp(world: World, personId: EntityId): World {
       expiresAt: open.on,
     },
     `${personName(speaker)} asked to meet.`,
+  );
+}
+
+/**
+ * Somebody at the player's own campaign town hall asks where they stand on a
+ * bill still in play in the place the player wants to represent.
+ *
+ * Bound only from records: the town hall the player attended, a person who
+ * was there, the player's open campaign and a filed, undecided bill there
+ * that says which way it answers a policy question. With no such bill there
+ * is nothing live to ask about, and nothing is bound.
+ */
+function produceTownHallQuestion(world: World, personId: EntityId): World {
+  const campaign = activeCampaignForCandidate(world, personId);
+  if (
+    !campaign ||
+    campaignState(world, campaign.id).status !== "active" ||
+    electionContestStatus(world, campaign.contestId) !== "pending"
+  ) {
+    return world;
+  }
+  const townHall = world.history.events
+    .filter(
+      (event) =>
+        event.type === CAMPAIGN_LIFE_ATTENDED_EVENT &&
+        event.tags.includes("form:town-hall") &&
+        event.involvedEntityIds.includes(personId) &&
+        event.occurredAt >= addDays(world.currentDate, -TOWN_HALL_WINDOW_DAYS),
+    )
+    .at(-1);
+  if (!townHall) return world;
+  if (sceneAlreadyBound(world, personId, "town-hall", "stand", townHall.id)) {
+    return world;
+  }
+  const speakerId = townHall.participants.find(
+    (entry) => entry.personId !== personId && entry.detail === "Was there",
+  )?.personId;
+  const speaker = speakerId ? world.people[speakerId] : undefined;
+  if (!speaker) return world;
+  const contest = requireElectionContest(world, campaign.contestId);
+  const body = officeBodyJurisdiction(world, contest);
+  const question = body ? liveQuestionsIn(world, body)[0] : undefined;
+  if (!question) return world;
+  return recordSceneBinding(
+    world,
+    {
+      version: 1,
+      family: "town-hall",
+      variant: "stand",
+      playerPersonId: personId,
+      speakerPersonId: speaker.id,
+      relationship: relationshipLabel(world, personId, speaker.id),
+      place: townHall.context.location?.label ?? "The town hall",
+      jurisdictionId:
+        townHall.jurisdictionId ?? world.people[personId]!.homeJurisdictionId,
+      request: `Where the player stands on ${question.designation}.`,
+      sourceEntityIds: [townHall.id, question.measureId],
+      facts: {
+        heldOn: townHall.occurredAt,
+        measureId: question.measureId,
+        designation: question.designation,
+        shortTitle: question.shortTitle,
+        propositionId: question.propositionId,
+        question: question.question,
+        answer: question.answer,
+      },
+      knownRecordIds: [townHall.id],
+      target: question.designation,
+      date: townHall.occurredAt,
+      expiresAt: addDays(townHall.occurredAt, TOWN_HALL_WINDOW_DAYS),
+    },
+    `${personName(speaker)} asked about ${question.designation} at the town hall.`,
+  );
+}
+
+/**
+ * Somebody who once helped the player asks for help back.
+ *
+ * Whether they ask is theirs to decide, from what they expect, what they need
+ * and who they are (`produceFavorCollection`); this binds only the call that
+ * follows, once, for as long as the ask is open.
+ */
+function produceFavorAsk(world: World, personId: EntityId): World {
+  const next = produceFavorCollection(world, personId);
+  const ask = openFavorAsk(next, personId);
+  if (!ask) return next;
+  if (sceneAlreadyBound(next, personId, "favor", "collect", ask.eventId)) {
+    return next;
+  }
+  const speaker = next.people[ask.askerPersonId];
+  const favor = favorRecords(next).find((entry) => entry.id === ask.favorId);
+  if (!speaker || !favor) return next;
+  const until = addDays(ask.askedOn, FAVOR_ASK_OPEN_DAYS);
+  return recordSceneBinding(
+    next,
+    {
+      version: 1,
+      family: "favor",
+      variant: "collect",
+      playerPersonId: personId,
+      speakerPersonId: speaker.id,
+      relationship: relationshipLabel(next, personId, speaker.id),
+      place: "By phone",
+      jurisdictionId: next.people[personId]!.homeJurisdictionId,
+      request: `Whether to help ${personName(speaker)} with ${ask.needWords}.`,
+      sourceEntityIds: [ask.eventId],
+      facts: {
+        speakerGiven: speaker.givenName,
+        need: ask.need,
+        needWords: ask.needWords,
+        helped: favor.description,
+        helpedOn: favor.givenAt,
+      },
+      knownRecordIds: [ask.eventId, favor.eventId],
+      target: null,
+      date: ask.askedOn,
+      expiresAt: until,
+    },
+    `${personName(speaker)} asked for help with ${ask.needWords}.`,
   );
 }
 

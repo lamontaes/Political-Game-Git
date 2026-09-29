@@ -949,5 +949,62 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         { principle: "personal-liberty", bearing: "against" },
       ],
     },
+    // A city's own versions of four state questions: its own wage floor, its
+    // own fairness ordinance, its own council's terms and its own wards.
+    // Whether the state lets it act is the state's answer, not the city's
+    // (data/research/powers-catalog/question-powers.json).
+    {
+      key: "labor-workforce.city-minimum-wage",
+      issue: "us-state-and-local:labor-workforce.minimum-wage",
+      name: "City minimum wage",
+      question: "Should the city set its own minimum wage above the state's?",
+      parameters: [{ key: "target", value: "hourly-rate" }],
+      tags: ["contested"],
+      principles: [
+        { principle: "worker-protection", bearing: "consistent-with" },
+        { principle: "local-control", bearing: "consistent-with" },
+        { principle: "market-competition", bearing: "against" },
+      ],
+    },
+    {
+      key: "civil-family-community.city-nondiscrimination-ordinance",
+      issue:
+        "us-state-and-local:civil-family-community.civil-rights-and-discrimination",
+      name: "City nondiscrimination ordinance",
+      question:
+        "Should the city bar discrimination in housing and employment on grounds state law does not cover?",
+      tags: ["contested"],
+      principles: [
+        { principle: "equal-treatment", bearing: "consistent-with" },
+        { principle: "local-control", bearing: "consistent-with" },
+        { principle: "property-rights", bearing: "against" },
+      ],
+    },
+    {
+      key: "government-operations.council-term-limits",
+      issue: "us-state-and-local:government-operations.legislative-procedure",
+      name: "Limit council terms",
+      question:
+        "Should members of the city council be limited in how many terms they may serve?",
+      parameters: [{ key: "limit", value: "consecutive-terms" }],
+      tags: ["contested"],
+      principles: [
+        { principle: "limited-government", bearing: "consistent-with" },
+        { principle: "tradition", bearing: "against" },
+      ],
+    },
+    {
+      key: "government-operations.independent-ward-commission",
+      issue: "us-state-and-local:government-operations.redistricting",
+      name: "Independent ward commission",
+      question:
+        "Should the city's council districts be drawn by an independent commission rather than by the council?",
+      tags: ["contested"],
+      principles: [
+        { principle: "equal-treatment", bearing: "consistent-with" },
+        { principle: "transparency", bearing: "consistent-with" },
+        { principle: "tradition", bearing: "against" },
+      ],
+    },
   ],
 };
