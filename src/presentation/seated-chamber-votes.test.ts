@@ -1,4 +1,6 @@
 import { beforeAll, describe, expect, it } from "vitest";
+import { recordWorldEvent } from "../simulation/world";
+import { COSPONSOR_EVENT } from "../simulation/governing/congress-chambers";
 import { seatedChamberMember } from "../../tests/fixtures/seated-chamber-member";
 
 import {
@@ -275,6 +277,66 @@ describe("a seated chamber deciding one question", () => {
       },
       questionLabel: "Pass the bill",
     };
+  });
+
+  it("carries the public party already recorded on each seated member", () => {
+    for (const member of chamber.body.members) {
+      if (member.personId)
+        expect(member.partyKey).toBe(publicPartyOf(world, member.personId));
+    }
+  });
+
+  it("a cross-party cosponsor does not change the sponsor's party cue for their caucus", () => {
+    const sponsorParty = publicPartyOf(world, assignment.sponsorPersonId);
+    const other = chamber.body.members.filter(
+      (member) =>
+        member.personId &&
+        member.personId !== assignment.sponsorPersonId &&
+        publicPartyOf(world, member.personId) !== sponsorParty,
+    );
+    expect(other.length).toBeGreaterThan(1);
+    const signer = other[0]!;
+    const unsigned = other[1]!;
+    const signed = recordWorldEvent(world, {
+      stableKey: "test:cross-party-cosponsor",
+      type: COSPONSOR_EVENT,
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [assignment.measureId, signer.personId!],
+      participants: [
+        {
+          personId: signer.personId!,
+          role: "agency:cosponsor",
+          detail: "Explicit fictional cosponsor for the cue regression.",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["test:cosponsor"],
+      summary:
+        "One member of the other party signed the bill in this unit fixture.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const voted = decideChamberVote(signed, {
+      stableKey: "test:cosponsor-cue",
+      question,
+      members: chamber.body.members,
+      only: new Set([signer.memberKey, unsigned.memberKey]),
+    });
+    expect(voted.find((row) => row.personId === signer.personId)?.reason).toBe(
+      "member:cosponsor",
+    );
+    expect(
+      voted.find((row) => row.personId === unsigned.personId)?.reason,
+    ).not.toBe("member:party-cue:same");
   });
 
   it("never votes for the player", () => {

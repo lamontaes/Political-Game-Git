@@ -18,7 +18,7 @@ import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
 } from "../national-election-geography";
-import { SeededRng } from "../rng";
+import { agendaCaucus, majorityAgendaChoice } from "./majority-agenda";
 import type {
   EntityId,
   FutureDueItem,
@@ -97,13 +97,12 @@ export const SPONSOR_MOTIVE_EVENT = "legislation.sponsor-motive" as const;
  *   placeholder threshold a state legislator files at (member-agenda.ts).
  * - Every other member of the sponsor's party whose principles lean the same
  *   way that hard signs on. A member of the other party who leans that way
- *   signs on one time in ten.
+ *   signs on from the same recorded principles.
  */
 export const CONGRESS_LAWMAKING_PROFILE = {
   id: "ocd-congress-lawmaking/v1",
   intakeDayOfMonth: 1,
   filingThreshold: 3,
-  crossPartyCosponsorOneIn: 10,
 } as const;
 
 /** A federal question in the catalog, with the federal issue it sits under. */
@@ -311,9 +310,6 @@ export function fileCongressBill(
   )
     return world;
   const player = controlledPersonId(world);
-  const rng = new SeededRng(world.seed).fork(
-    `${CONGRESS_LAWMAKING_VERSION}:${input.intakeKey}:${input.chamberKey}`,
-  );
   // Every member who will vote on the bill holds principles, in both Houses.
   let next = ensureOfficeholderPrinciples(
     world,
@@ -326,18 +322,14 @@ export function fileCongressBill(
   );
   const questions = federalQuestions(next);
   const chamber = chamberByKey(US_CONGRESS_RULE_PACK, input.chamberKey);
-  // Draw sponsors until one is moved to file something.
-  const order = seated.body.members.filter(
-    (member) => member.personId && member.personId !== player,
-  );
+  const members = seated.body.members.filter((member) => member.personId);
+  const caucus = agendaCaucus(members);
   const lawAnswers = new Map<EntityId, "yes" | "no" | null | "closed">();
   const pending = new Map<EntityId, boolean>();
   const coolingDown = new Map<EntityId, boolean>();
-  let sponsor: SeatedMember | null = null;
-  let choice: ReturnType<typeof memberBillChoice> = null;
-  while (order.length > 0 && !choice) {
-    const candidate = order.splice(rng.integer(0, order.length), 1)[0]!;
-    choice = memberBillChoice(
+  const proposals = caucus.flatMap((candidate) => {
+    if (candidate.personId === player) return [];
+    const proposal = memberBillChoice(
       next,
       candidate.personId!,
       input.chamberKey,
@@ -346,9 +338,27 @@ export function fileCongressBill(
       pending,
       coolingDown,
     );
-    if (choice) sponsor = candidate;
-  }
-  if (!sponsor || !choice) return world;
+    return proposal
+      ? [{ sponsor: candidate, proposal, pressure: proposal.weight }]
+      : [];
+  });
+  const selected = majorityAgendaChoice(
+    members,
+    caucus,
+    proposals,
+    (member, proposal) => {
+      if (member.personId === player) return false;
+      const score = principledLeaning(
+        next,
+        member.personId!,
+        proposal.question.propositionId,
+      ).score;
+      return (proposal.answer === "yes" ? score : -score) > 0;
+    },
+  );
+  if (!selected) return next;
+  const sponsor = selected.sponsor;
+  const choice = selected.proposal;
 
   const { question, answer } = choice;
   const proposition = next.policyCatalog.propositions[question.propositionId]!;
@@ -443,7 +453,6 @@ export function fileCongressBill(
     question,
     answer,
     seated.body.members,
-    rng,
   );
   return scheduleInstitutionStep(next, measure.id);
 }
@@ -455,7 +464,6 @@ function gatherCosponsors(
   question: FederalQuestion,
   answer: "yes" | "no",
   members: readonly SeatedMember[],
-  rng: SeededRng,
 ): World {
   const player = controlledPersonId(world);
   const joining = members.filter((member) => {
@@ -475,12 +483,7 @@ function gatherCosponsors(
       CONGRESS_LAWMAKING_PROFILE.filingThreshold
     )
       return false;
-    if (member.partyKey && member.partyKey === sponsor.partyKey) return true;
-    return (
-      rng
-        .fork(`cosponsor:${member.personId}`)
-        .integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0
-    );
+    return true;
   });
   if (joining.length === 0) return world;
   return recordWorldEvent(world, {
