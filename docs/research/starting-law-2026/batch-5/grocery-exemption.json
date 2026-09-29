@@ -1,0 +1,421 @@
+{
+  "question": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+  "definition": "yes = on 1/1/2026 the state-level general sales tax (or its equivalent) fully exempts groceries (food for home consumption), even where local sales taxes still apply to groceries (noted); no = the state taxes groceries at the full or a reduced state rate, including states that offset the tax with an income tax credit. The five states with no statewide sales tax (AK, DE, MT, NH, OR) are answered yes with the note 'no state sales tax', because a shopper there pays no state tax on groceries. Territories whose tax is a gross receipts tax rather than a sales tax are listed under unknown.",
+  "summarySource": "State code and revenue pages fetched 9/28/2026 (AL, ID, IL, KS, MS, MO, OK, SD, TN, UT, VA and 16 state codes plus D.C.); Tax Foundation 'The Surprising Regressivity of Grocery Tax Exemptions' (updated 9/13/2023), '2026 State Tax Changes' and '2026 Sales Tax Rates Midyear'; Wikipedia 'Sales taxes in the United States' table as a cross-check.",
+  "refusedHosts": [
+    "dfa.arkansas.gov (403 bot challenge)",
+    "tax.utah.gov (403)",
+    "www.cbpp.org (403)",
+    "tax.colorado.gov (403)",
+    "www.leg.state.fl.us (403)",
+    "webserver.rilegislature.gov (403)",
+    "tax.ri.gov (403)",
+    "dor.sd.gov PDF fact sheets (502)",
+    "statutes.capitol.texas.gov (script-only page, no statute text)",
+    "ncsl.org, ballotpedia.org, law.justia.com, ilsr.org, courtlistener.com, nmhc.org (known refusals from the brief; not attempted)"
+  ],
+  "answers": {
+    "US-AK": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/",
+      "note": "No state sales tax; some Alaska boroughs and cities levy local sales taxes, and many of those apply to groceries."
+    },
+    "US-AL": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://www.revenue.alabama.gov/sales-use/tax-rates/",
+      "note": "Alabama taxes groceries at a reduced state rate of 2% (4% general rate), plus local taxes; the rate was cut from 4% in steps starting in 2023, and the exact date of the step to 2% was not confirmed on a fetched page."
+    },
+    "US-AR": {
+      "answer": "yes",
+      "preempts": true,
+      "operativeAt": "2026-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://taxfoundation.org/research/all/state/2026-state-tax-changes/",
+      "note": "Arkansas repealed its 0.125% state sales tax on groceries effective January 1, 2026 (HB1685, the Grocery Tax Relief Act); local sales taxes still apply to groceries."
+    },
+    "US-AZ": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "A.R.S. \u00a7 42-5102",
+      "dateBasis": "pre-2000",
+      "source": "https://www.azleg.gov/ars/42/05102.htm",
+      "note": "Some Arizona cities tax food under their own transaction privilege taxes."
+    },
+    "US-CA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Cal. Rev. & Tax. Code \u00a7 6359",
+      "dateBasis": "pre-2000",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=6359"
+    },
+    "US-CO": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+      "note": "Colorado exempts food for home consumption from the state tax; many home-rule cities and some counties tax groceries. State exemption confirmed by a Tax Foundation list of states that tax groceries (updated 9/13/2023; this state is not on it), matched by the 2026 Wikipedia sales-tax table; no later change found."
+    },
+    "US-CT": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+      "note": "State exemption confirmed by a Tax Foundation list of states that tax groceries (updated 9/13/2023; this state is not on it), matched by the 2026 Wikipedia sales-tax table; no later change found."
+    },
+    "US-DC": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "D.C. Code \u00a7 47-2001(n)(2)(E)",
+      "dateBasis": "pre-2000",
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+      "note": "D.C. excludes SNAP-eligible food from taxable retail sales."
+    },
+    "US-DE": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/",
+      "note": "No state sales tax."
+    },
+    "US-FL": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+      "note": "State exemption confirmed by a Tax Foundation list of states that tax groceries (updated 9/13/2023; this state is not on it), matched by the 2026 Wikipedia sales-tax table; no later change found."
+    },
+    "US-GA": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+      "note": "Georgia exempts groceries from the 4% state tax; local sales taxes of up to 4% apply to groceries. State exemption confirmed by a Tax Foundation list of states that tax groceries (updated 9/13/2023; this state is not on it), matched by the 2026 Wikipedia sales-tax table; no later change found."
+    },
+    "US-HI": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+      "note": "Hawaii's 4% general excise tax (plus any county surcharge) applies to groceries at the full rate; there is a refundable food/excise tax credit for lower-income residents."
+    },
+    "US-IA": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+      "note": "State exemption confirmed by a Tax Foundation list of states that tax groceries (updated 9/13/2023; this state is not on it), matched by the 2026 Wikipedia sales-tax table; no later change found."
+    },
+    "US-ID": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Idaho Code \u00a7 63-3024A (grocery credit)",
+      "dateBasis": "pre-2000",
+      "source": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH30/SECT63-3024A/",
+      "note": "Idaho taxes groceries at the full 6% state rate and offsets it with an income tax grocery credit of $155 per person from tax year 2025."
+    },
+    "US-IL": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Public Act 103-0781",
+      "operativeAt": "2026-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://tax.illinois.gov/research/publications/compliancealerts/ca-2026-01.html",
+      "note": "Illinois eliminated its 1% state grocery tax on January 1, 2026; counties and municipalities may impose a 1% local grocery tax by ordinance, and many did."
+    },
+    "US-IN": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+      "note": "State exemption confirmed by a Tax Foundation list of states that tax groceries (updated 9/13/2023; this state is not on it), matched by the 2026 Wikipedia sales-tax table; no later change found."
+    },
+    "US-KS": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "K.S.A. 79-3603d",
+      "operativeAt": "2025-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+      "note": "Kansas cut its state rate on food and food ingredients to 0% on January 1, 2025 (from 4% in 2023 and 2% in 2024); local sales taxes still apply."
+    },
+    "US-KY": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+      "note": "State exemption confirmed by a Tax Foundation list of states that tax groceries (updated 9/13/2023; this state is not on it), matched by the 2026 Wikipedia sales-tax table; no later change found."
+    },
+    "US-LA": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+      "note": "Louisiana exempts food for home consumption from the state tax; local parish and city taxes apply. State exemption confirmed by a Tax Foundation list of states that tax groceries (updated 9/13/2023; this state is not on it), matched by the 2026 Wikipedia sales-tax table; no later change found."
+    },
+    "US-MA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Mass. Gen. Laws ch. 64H, \u00a7 6(h)",
+      "dateBasis": "pre-2000",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64H/Section6"
+    },
+    "US-MD": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Md. Code, Tax-Gen. \u00a7 11-206(c)",
+      "dateBasis": "pre-2000",
+      "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-206"
+    },
+    "US-ME": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "36 M.R.S. \u00a7 1760(3)",
+      "dateBasis": "pre-2000",
+      "source": "https://legislature.maine.gov/statutes/36/title36sec1760.html"
+    },
+    "US-MI": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "MCL 205.54g",
+      "dateBasis": "pre-2000",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g"
+    },
+    "US-MN": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Minn. Stat. \u00a7 297A.67, subd. 2",
+      "dateBasis": "pre-2000",
+      "source": "https://www.revisor.mn.gov/statutes/cite/297A.67"
+    },
+    "US-MO": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "RSMo \u00a7 144.014",
+      "dateBasis": "pre-2000",
+      "source": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+      "note": "Missouri taxes food for home consumption at a reduced state rate of 1.225% (general rate 4.225%), plus full local rates."
+    },
+    "US-MS": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://www.dor.ms.gov/business/sales-tax-rates",
+      "note": "Mississippi taxes groceries (SNAP-eligible food) at a reduced state rate of 5% against a 7% general rate; the cut from 7% to 5% took effect July 1, 2025 (date per the Mississippi DOR notice cited in Wikipedia; the fetched rates page shows only the current 5%)."
+    },
+    "US-MT": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/",
+      "note": "No state sales tax."
+    },
+    "US-NC": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "N.C. Gen. Stat. \u00a7 105-164.13B",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.13B.html",
+      "note": "Food is exempt from the state tax; a 2% local tax applies to groceries."
+    },
+    "US-ND": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+      "note": "State exemption confirmed by a Tax Foundation list of states that tax groceries (updated 9/13/2023; this state is not on it), matched by the 2026 Wikipedia sales-tax table; no later change found."
+    },
+    "US-NE": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Neb. Rev. Stat. \u00a7 77-2704.24",
+      "dateBasis": "pre-2000",
+      "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-2704.24"
+    },
+    "US-NH": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/",
+      "note": "No state sales tax."
+    },
+    "US-NJ": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+      "note": "State exemption confirmed by a Tax Foundation list of states that tax groceries (updated 9/13/2023; this state is not on it), matched by the 2026 Wikipedia sales-tax table; no later change found."
+    },
+    "US-NM": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+      "note": "State exemption confirmed by a Tax Foundation list of states that tax groceries (updated 9/13/2023; this state is not on it), matched by the 2026 Wikipedia sales-tax table; no later change found."
+    },
+    "US-NV": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "NRS 372.284",
+      "dateBasis": "pre-2000",
+      "source": "https://www.leg.state.nv.us/NRS/NRS-372.html"
+    },
+    "US-NY": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+      "note": "State exemption confirmed by a Tax Foundation list of states that tax groceries (updated 9/13/2023; this state is not on it), matched by the 2026 Wikipedia sales-tax table; no later change found."
+    },
+    "US-OH": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Ohio Rev. Code \u00a7 5739.02(B)(2)",
+      "dateBasis": "pre-2000",
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-5739.02"
+    },
+    "US-OK": {
+      "answer": "yes",
+      "preempts": true,
+      "operativeAt": "2024-08-29",
+      "dateBasis": "enacted-effective",
+      "source": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+      "note": "Oklahoma exempted food and food ingredients from the 4.5% state sales tax on August 29, 2024 (HB 1955); city and county sales taxes still apply."
+    },
+    "US-OR": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/",
+      "note": "No state sales tax."
+    },
+    "US-PA": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+      "note": "State exemption confirmed by a Tax Foundation list of states that tax groceries (updated 9/13/2023; this state is not on it), matched by the 2026 Wikipedia sales-tax table; no later change found."
+    },
+    "US-RI": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+      "note": "State exemption confirmed by a Tax Foundation list of states that tax groceries (updated 9/13/2023; this state is not on it), matched by the 2026 Wikipedia sales-tax table; no later change found."
+    },
+    "US-SC": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "S.C. Code \u00a7 12-36-2120(75)",
+      "dateBasis": "pre-2000",
+      "source": "https://www.scstatehouse.gov/code/t12c036.php",
+      "note": "The exemption covers the state tax only; local sales taxes can apply to groceries."
+    },
+    "US-SD": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "SDCL \u00a7 10-45-2",
+      "dateBasis": "pre-2000",
+      "source": "https://sdlegislature.gov/api/Statutes/10-45-2.html",
+      "note": "South Dakota taxes groceries at the full 4.2% state rate; voters rejected a grocery exemption (Initiated Measure 28) in November 2024."
+    },
+    "US-TN": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://www.tn.gov/revenue/taxes/sales-and-use-tax/due-dates-and-tax-rates.html",
+      "note": "Tennessee taxes food at a reduced state rate of 4% (general rate 7%), plus local taxes."
+    },
+    "US-TX": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+      "note": "State exemption confirmed by a Tax Foundation list of states that tax groceries (updated 9/13/2023; this state is not on it), matched by the 2026 Wikipedia sales-tax table; no later change found."
+    },
+    "US-UT": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Utah Code \u00a7 59-12-103(2)(c)",
+      "dateBasis": "pre-2000",
+      "source": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
+      "note": "Utah taxes food at a reduced state rate of 1.75% plus local rates (about 3% combined), against a general state rate of 4.85%."
+    },
+    "US-VA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Va. Code \u00a7 58.1-611.1",
+      "operativeAt": "2023-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+      "note": "Virginia removed the state portion of its grocery tax on January 1, 2023, but the 1% local sales tax still applies to groceries throughout the state."
+    },
+    "US-VT": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "32 V.S.A. \u00a7 9741(13)",
+      "dateBasis": "pre-2000",
+      "source": "https://legislature.vermont.gov/statutes/section/32/233/09741"
+    },
+    "US-WA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "RCW 82.08.0293",
+      "dateBasis": "pre-2000",
+      "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=82.08.0293"
+    },
+    "US-WI": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Wis. Stat. \u00a7 77.54(20n)",
+      "dateBasis": "pre-2000",
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/77/iii/54/20n"
+    },
+    "US-WV": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "W. Va. Code \u00a7 11-15-3a",
+      "operativeAt": "2013-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://code.wvlegislature.gov/11-15-3a/",
+      "note": "West Virginia's tax on food and food ingredients ceased after June 30, 2013."
+    },
+    "US-WY": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+      "note": "State exemption confirmed by a Tax Foundation list of states that tax groceries (updated 9/13/2023; this state is not on it), matched by the 2026 Wikipedia sales-tax table; no later change found."
+    }
+  },
+  "unknown": {
+    "US-PR": "Puerto Rico's IVU exempts unprocessed food at the commonwealth level per general knowledge, and Wikipedia shows a 1% rate on groceries, but no primary page was fetched to confirm which applies on 1/1/2026.",
+    "US-GU": "Guam has no general sales tax; its gross receipts tax is a business privilege tax, so the question does not clearly apply and nothing primary was fetched.",
+    "US-VI": "The U.S. Virgin Islands has a gross receipts tax, not a general sales tax; not confirmed from a fetched page.",
+    "US-AS": "American Samoa has no general sales tax found; not confirmed from a fetched page.",
+    "US-MP": "The Northern Mariana Islands has a business gross revenue tax, not a general sales tax; not confirmed from a fetched page."
+  },
+  "conflicts": [
+    {
+      "place": "US-AL",
+      "readings": "The task prompt suggested a 3% state grocery rate from 9/1/2025; the Alabama Department of Revenue rate table fetched 9/28/2026 lists 2% for food/grocery. Both readings give 'no'.",
+      "sources": ["https://www.revenue.alabama.gov/sales-use/tax-rates/"]
+    },
+    {
+      "place": "US-AR",
+      "readings": "The Tax Foundation grocery page (2023) lists Arkansas at 0.125%; the Tax Foundation 2026 changes page reports that rate repealed on 1/1/2026. Resolved as yes on 1/1/2026.",
+      "sources": [
+        "https://taxfoundation.org/research/all/state/sales-tax-grocery-tax-exemptions/",
+        "https://taxfoundation.org/research/all/state/2026-state-tax-changes/"
+      ]
+    }
+  ],
+  "counts": {
+    "yes": 43,
+    "no": 8,
+    "unknown": 5
+  }
+}

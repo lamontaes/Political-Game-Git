@@ -1,4 +1,5 @@
 import { eventById } from "./event-index";
+import { recordById, recordsByStringField } from "./history-index";
 import { assertTaxDraftIdentityIntegrity } from "./legislation-tax-identity";
 import powerProjection from "../fiscal-authority/tax-powers.generated.json" with { type: "json" };
 import { canonicalJson } from "./canonical-json";
@@ -685,25 +686,38 @@ export function taxEntityAvailableAt(
   at: string,
   sequenceExclusive: number,
 ): boolean {
-  return taxHistoryRecords(world).some(
-    (row) =>
-      row.id === id && row.recordedAt <= at && row.sequence < sequenceExclusive,
+  return taxRecordLists(world).some((rows) =>
+    recordsByStringField(rows, "id", id).some(
+      (row) => row.recordedAt <= at && row.sequence < sequenceExclusive,
+    ),
   );
 }
 export function taxEntityExists(world: World, id: EntityId): boolean {
-  // Each list is searched in place: copying them all into one array for every
-  // lookup made a town's paydays slow.
+  // Each list is looked up by id through an index kept while the list is
+  // unchanged: scanning every paycheck's tax rows for each id an event names
+  // made a Day in a world's fifth year cost several times its first.
+  return taxRecordLists(world).some(
+    (rows) => recordById(rows, id) !== undefined,
+  );
+}
+/** The tax lists that share one id namespace, each as the history holds it. */
+function taxRecordLists(world: World): readonly (readonly {
+  readonly id: EntityId;
+  readonly recordedAt: string;
+  readonly sequence: number;
+}[])[] {
   const history = world.history;
   return [
-    history.taxProposals,
-    history.taxPolicies,
-    history.taxBases,
-    history.taxAssessments,
-    history.taxCollections,
-    history.statutoryTaxLiabilities,
-    history.statutoryTaxPayments,
-  ].some((rows) => (rows ?? []).some((row) => row.id === id));
+    history.taxProposals ?? EMPTY_TAX_ROWS,
+    history.taxPolicies ?? EMPTY_TAX_ROWS,
+    history.taxBases ?? EMPTY_TAX_ROWS,
+    history.taxAssessments ?? EMPTY_TAX_ROWS,
+    history.taxCollections ?? EMPTY_TAX_ROWS,
+    history.statutoryTaxLiabilities ?? EMPTY_TAX_ROWS,
+    history.statutoryTaxPayments ?? EMPTY_TAX_ROWS,
+  ];
 }
+const EMPTY_TAX_ROWS: readonly never[] = [];
 
 function append<
   K extends
