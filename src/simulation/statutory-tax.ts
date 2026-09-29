@@ -313,22 +313,10 @@ function paycheckLiabilities(
     });
   else if (underLaw.kind === "estimated")
     rows.push(
-      underLaw.schedule
-        ? incomeTax(placeTaxKey, stateKey, underLaw.schedule, {
-            lawMeasureIds: underLaw.lawMeasureIds,
-            estimatedFromAverage: underLaw.estimatedFromAverage,
-          })
-        : {
-            ...unknown(
-              placeTaxKey,
-              stateKey,
-              employee,
-              "rule-unknown",
-              "state-income-tax-filing-status-schedules-2026",
-              null,
-            ),
-            lawMeasureIds: underLaw.lawMeasureIds,
-          },
+      incomeTax(placeTaxKey, stateKey, underLaw.schedule, {
+        lawMeasureIds: underLaw.lawMeasureIds,
+        estimatedFromAverage: underLaw.estimatedFromAverage,
+      }),
     );
   else if (place.status === "not-imposed")
     rows.push({

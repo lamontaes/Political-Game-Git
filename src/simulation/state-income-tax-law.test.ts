@@ -152,7 +152,7 @@ describe("a state's income tax law, as enacted in play", () => {
     expect(read.estimatedFromAverage).toMatch(/^ESTIMATED FROM AVERAGE: /);
     expect(read.estimatedFromAverage).toContain("27 states");
     expect(read.estimatedFromAverage).toContain("Tax Foundation");
-    const schedule = read.schedule!;
+    const schedule = read.schedule;
     // Graduated: the rate rises with income, and never falls.
     const rates = schedule.brackets.map((bracket) => bracket.rateBasisPoints);
     expect(rates.at(-1)!).toBeGreaterThan(rates[0]!);
@@ -188,9 +188,9 @@ describe("a state's income tax law, as enacted in play", () => {
     if (read.kind !== "estimated") throw new Error(read.kind);
     expect(read.shape).toBe("flat");
     expect(read.lawMeasureIds).toEqual([adopt.measure.id, flat.measure.id]);
-    expect(read.schedule!.brackets).toHaveLength(1);
+    expect(read.schedule.brackets).toHaveLength(1);
     // Within half a standard deviation of the 15 flat states' 3.88% average.
-    const rate = read.schedule!.brackets[0]!.rateBasisPoints;
+    const rate = read.schedule.brackets[0]!.rateBasisPoints;
     expect(rate).toBeGreaterThan(330);
     expect(rate).toBeLessThan(420);
     expect(read.estimatedFromAverage).toContain("15 states");
@@ -207,7 +207,7 @@ describe("a state's income tax law, as enacted in play", () => {
     );
     if (read.kind !== "estimated") throw new Error(read.kind);
     expect(read.shape).toBe("graduated");
-    expect(read.schedule!.standardDeductionMinor).toBe(1_610_000);
+    expect(read.schedule.standardDeductionMinor).toBe(1_610_000);
     expect(read.estimatedFromAverage).toContain(
       "the state's own standard deduction of $16,100",
     );
@@ -219,15 +219,39 @@ describe("a state's income tax law, as enacted in play", () => {
     ).toEqual({ kind: "as-begun" });
   });
 
-  it("keeps a joint return with its open research question", () => {
+  it("doubles a joint return's brackets and deduction, and says so", () => {
     const adopt = enacted(stateId("US-WA"), ADOPT, "yes", "2027-01-01");
-    const read = stateIncomeTaxUnderLaw(
-      lawWorld("s", [adopt]),
+    const world = lawWorld("s", [adopt]);
+    const single = stateIncomeTaxUnderLaw(world, "US-WA", "single", paid);
+    const joint = stateIncomeTaxUnderLaw(
+      world,
       "US-WA",
       "married-filing-jointly",
       paid,
     );
-    if (read.kind !== "estimated") throw new Error(read.kind);
-    expect(read.schedule).toBeNull();
+    const head = stateIncomeTaxUnderLaw(
+      world,
+      "US-WA",
+      "head-of-household",
+      paid,
+    );
+    if (
+      single.kind !== "estimated" ||
+      joint.kind !== "estimated" ||
+      head.kind !== "estimated"
+    )
+      throw new Error("not estimated");
+    expect(joint.schedule.standardDeductionMinor).toBe(
+      single.schedule.standardDeductionMinor * 2,
+    );
+    expect(joint.schedule.brackets).toEqual(
+      single.schedule.brackets.map((bracket) => ({
+        ...bracket,
+        overMinor: bracket.overMinor * 2,
+      })),
+    );
+    expect(joint.estimatedFromAverage).toContain("A joint return doubles");
+    expect(head.schedule).toEqual(single.schedule);
+    expect(head.estimatedFromAverage).toContain("head of household");
   });
 });

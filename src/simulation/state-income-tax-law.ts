@@ -25,9 +25,10 @@
  *   states that tax wages (27 of 42 in the tables) use brackets.
  * - A state that reshapes its tax keeps its own read standard deduction; a
  *   state with none read takes the average.
- * Only single filers' schedules have been read, so, like the schedules the
- * states began with, another filing status stays with its open research
- * question.
+ * - Only single filers' schedules have been read. A joint return takes the
+ *   single schedule with its brackets and deduction doubled, and a head of
+ *   household files on the single schedule: the most common state rules,
+ *   not yet counted state by state, so the label says so.
  */
 import stateIncomeTax2026 from "../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
@@ -72,8 +73,7 @@ export type StateIncomeTaxUnderLaw =
       readonly kind: "estimated";
       readonly shape: TaxShape;
       readonly lawMeasureIds: readonly EntityId[];
-      /** Null for a filing status whose schedule has not been read. */
-      readonly schedule: IncomeTaxSchedule | null;
+      readonly schedule: IncomeTaxSchedule;
       readonly estimatedFromAverage: string;
     };
 
@@ -133,8 +133,34 @@ export function stateIncomeTaxUnderLaw(
     kind: "estimated",
     shape,
     lawMeasureIds,
-    schedule: status === "single" ? estimate.schedule : null,
-    estimatedFromAverage: estimate.note,
+    schedule: forFilingStatus(estimate.schedule, status),
+    estimatedFromAverage:
+      status === "single"
+        ? estimate.note
+        : `${estimate.note} ${FILING_STATUS_NOTE[status]}`,
+  };
+}
+
+const FILING_STATUS_NOTE: Readonly<Record<FilingStatus, string>> = {
+  single: "",
+  "married-filing-jointly":
+    "A joint return doubles the single brackets and deduction, the most common state rule (not yet counted state by state).",
+  "head-of-household":
+    "A head of household files on the single schedule, the most common state rule (not yet counted state by state).",
+};
+
+function forFilingStatus(
+  single: IncomeTaxSchedule,
+  status: FilingStatus,
+): IncomeTaxSchedule {
+  if (status !== "married-filing-jointly") return single;
+  return {
+    ...single,
+    standardDeductionMinor: single.standardDeductionMinor * 2,
+    brackets: single.brackets.map((bracket) => ({
+      ...bracket,
+      overMinor: bracket.overMinor * 2,
+    })),
   };
 }
 
