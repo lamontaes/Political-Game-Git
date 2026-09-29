@@ -61,6 +61,7 @@ import {
   PLACE_OUTCOME_MEASURES,
   placeOutcomeKey,
   placeOutcomeRecords,
+  placeOutcomeValueText,
 } from "../../src/simulation/outcome-web/place-outcomes";
 import {
   anniversary,
@@ -2004,7 +2005,7 @@ function lawOutcomeLines(run: WorldReportRun): string[] {
         ...new Set(series.flatMap((r) => r.causes.map((c) => c.key))),
       ];
       out.push(
-        `- ${PLACE_OUTCOME_BASES[measure]!.name}: ${first.value}% in ${monthTitle(first.month.slice(0, 7))}, ${last.value}% in ${monthTitle(last.month.slice(0, 7))}${moved.length ? `; moved by ${moved.join(", ")}` : "; nothing moved it"}.`,
+        `- ${PLACE_OUTCOME_BASES[measure]!.name}: ${placeOutcomeValueText(PLACE_OUTCOME_BASES[measure]!, first.value)} in ${monthTitle(first.month.slice(0, 7))}, ${placeOutcomeValueText(PLACE_OUTCOME_BASES[measure]!, last.value)} in ${monthTitle(last.month.slice(0, 7))}${moved.length ? `; moved by ${moved.join(", ")}` : "; nothing moved it"}.`,
       );
     }
   }

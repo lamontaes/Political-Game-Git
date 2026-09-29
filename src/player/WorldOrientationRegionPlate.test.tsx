@@ -159,7 +159,7 @@ describe("which approved picture stands behind each card", () => {
     hash: "fixture",
   };
 
-  it("uses the White House plate for the executive card, and nothing borrowed without it", () => {
+  it("uses the White House plate for the executive card, and the Oval Office without it", () => {
     expect(
       orientationBackdrop("executive", {
         whiteHouse: raster,
@@ -172,8 +172,8 @@ describe("which approved picture stands behind each card", () => {
         whiteHouse: null,
         regionalPlate: plate,
         regionScene: raster,
-      }).kind,
-    ).toBe("neutral");
+      }),
+    ).toMatchObject({ kind: "place", place: "oval-office" });
   });
 
   it("prefers the approved regional plate for the state card, then the reviewed preview, then plain ground", () => {

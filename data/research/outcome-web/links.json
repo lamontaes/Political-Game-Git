@@ -29,6 +29,18 @@
     "household.poverty-pct": {
       "floor": 0.5,
       "ceiling": 2
+    },
+    "crime.violent": {
+      "floor": 0.25,
+      "ceiling": 3
+    },
+    "housing.homelessness": {
+      "floor": 0.25,
+      "ceiling": 3
+    },
+    "env.particulates": {
+      "floor": 0.5,
+      "ceiling": 2
     }
   },
   "baselines": {
@@ -361,7 +373,7 @@
       "owner": "O",
       "anchor": "Elasticity about 0.5",
       "source": "Chay and Greenstone 2003 (Clean Air Act)",
-      "from": "env.particulates",
+      "from": "env.particulates:pct-of-start",
       "evidence": "researched"
     },
     {
@@ -2123,16 +2135,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.03,
       "per": "law in force",
-      "lagMonths": 6,
+      "lagMonths": 24,
       "group": "people experiencing homelessness",
       "owner": "M",
-      "anchor": "Housing First keeps people housed (to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "Housing First trials show large gains in housing stability for the people served, but community panels find a small effect on the count: about one fewer homeless person per 10 permanent supportive beds",
+      "source": "Corinth 2017, Journal of Housing Economics 35; At Home/Chez Soi trial",
+      "evidence": "contested",
       "from": "law:us-policy-positions:health-human-services.housing-first-homelessness",
-      "to": "housing.homelessness"
+      "to": "housing.homelessness",
+      "range": [-0.1, 0.02]
     },
     {
       "key": "cannabis-sales-to-youth-use",
@@ -2338,16 +2351,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.005,
       "per": "law in force",
-      "lagMonths": 24,
+      "lagMonths": 72,
       "group": "people downwind of coal plants",
       "owner": "O",
-      "anchor": "Cutting coal generation also cuts fine particles, and infant deaths with them (to confirm the size)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "Coal plants now add only about 0.07 micrograms of PM2.5 nationally (2.34 in 1999), so carbon limits cut fine particles by well under 1% on average, more in coal-heavy states",
+      "source": "Henneman et al. 2023, Science 382; U.S. EPA 2024, Regulatory Impact Analysis for the Carbon Pollution Standards",
+      "evidence": "provisional",
       "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
-      "to": "env.particulates"
+      "to": "env.particulates",
+      "range": [-0.015, -0.001]
     },
     {
       "key": "tariffs-to-prices",
@@ -2355,16 +2369,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0.008,
       "per": "law in force",
-      "lagMonths": 3,
+      "lagMonths": 12,
       "group": "households",
       "owner": "B",
-      "anchor": "The 2018 tariffs passed almost fully into import prices (to confirm)",
-      "source": "Amiti, Redding and Weinstein 2019 (to confirm)",
-      "evidence": "to-confirm",
+      "anchor": "The 2025 tariffs raised consumer prices between 0.5% and 1%",
+      "source": "Yale Budget Lab, One year of tariff analysis (April 2, 2026)",
+      "evidence": "researched",
       "from": "law:us-federal-positions:trade.raise-tariffs",
-      "to": "household.prices"
+      "to": "household.prices",
+      "range": [0.005, 0.01]
     },
     {
       "key": "housing-vouchers-to-homelessness",
@@ -2372,16 +2387,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.3,
       "per": "law in force",
       "lagMonths": 12,
       "group": "families who qualify",
       "owner": "M",
-      "anchor": "Vouchers sharply cut shelter stays among homeless families (to confirm the size)",
-      "source": "Family Options Study 2016 (to confirm)",
-      "evidence": "to-confirm",
+      "anchor": "A national program reaches more than the families already in shelter, so this uses CLOUD B's universal-scale size (Claude CTO, Sept. 28). Homeless families offered a permanent subsidy had less than half as many later episodes of homelessness over 37 months (-0.5)",
+      "source": "HUD Family Options Study, three-year impacts (2016)",
+      "evidence": "researched",
       "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
-      "to": "housing.homelessness"
+      "to": "housing.homelessness",
+      "range": [-0.5, -0.15]
     },
     {
       "key": "retirement-age-to-older-work",
@@ -2389,16 +2405,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "law in force",
+      "size": 0.1,
+      "per": "law in force (a two-year rise in the full retirement age, 67 to 69)",
       "lagMonths": 12,
       "group": "people 62 to 67",
       "owner": "B",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "The mean retirement age of the affected cohorts rose about half as much as the full retirement age; the employment share at 62 to 66 is inferred from that",
+      "source": "Mastrobuoni 2009 (JPubE)",
+      "evidence": "provisional",
       "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
-      "to": "labor.older-employment"
+      "to": "labor.older-employment",
+      "range": [0.04, 0.22]
     },
     {
       "key": "drug-negotiation-to-out-of-pocket",
@@ -2406,16 +2423,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.08,
       "per": "law in force",
-      "lagMonths": 12,
+      "lagMonths": 0,
       "group": "Medicare enrollees",
       "owner": "F",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "Negotiated prices for the first ten drugs save enrollees about $1.5 billion in 2026, against $18.9 billion of out-of-pocket Part D spending in 2023 (7.9%)",
+      "source": "CMS fact sheet, negotiated prices for initial price applicability year 2026 (2024)",
+      "evidence": "provisional",
       "from": "law:us-federal-positions:health.medicare-drug-price-negotiation",
-      "to": "health.drug-out-of-pocket"
+      "to": "health.drug-out-of-pocket",
+      "range": [-0.1, -0.06]
     },
     {
       "key": "federal-loan-cap-to-high-cost-loans",
@@ -2423,16 +2441,22 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.32,
       "per": "law in force",
-      "lagMonths": 0,
+      "lagMonths": 12,
       "group": "borrowers",
       "owner": "B",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "Prohibiting payday loans goes with a 35% decline in their use (Urban Institute working paper, read); the published version reports 32%. A 36% APR cap ends storefront payday lending, as a prohibition does. Cross-state survey evidence, not a trial",
+      "source": "McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO)",
+      "evidence": "provisional",
       "from": "law:us-federal-positions:monetary-financial.cap-consumer-loan-interest",
-      "to": "finance.high-cost-loans"
+      "to": "finance.high-cost-loans",
+      "range": [-0.5, -0.2],
+      "moderator": {
+        "measure": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+        "effectAtFull": -1,
+        "mode": "scale"
+      }
     },
     {
       "key": "student-debt-relief-to-finances",
@@ -2614,75 +2638,83 @@
     },
     {
       "key": "crime-level-to-burglary",
-      "from": "crime.rate-index",
+      "from": "crime.violent:pct-of-start",
       "to": "crime.burglary",
       "strength": "strong",
       "shape": {
         "kind": "linear"
       },
       "size": 0.01,
-      "per": "index point above the place's start",
+      "per": "percentage point the state's violent crime rate sits above its start",
       "lagMonths": 0,
       "group": "place",
       "owner": "O",
       "anchor": "The place's drifting crime level scales every offense one for one (index 150: half again as much).",
       "source": "Spec part 6: the entire world changes",
       "evidence": "researched",
-      "range": [0.01, 0.01]
+      "range": [0.01, 0.01],
+      "floor": 0.25,
+      "ceiling": 3
     },
     {
       "key": "crime-level-to-robbery",
-      "from": "crime.rate-index",
+      "from": "crime.violent:pct-of-start",
       "to": "crime.robbery",
       "strength": "strong",
       "shape": {
         "kind": "linear"
       },
       "size": 0.01,
-      "per": "index point above the place's start",
+      "per": "percentage point the state's violent crime rate sits above its start",
       "lagMonths": 0,
       "group": "place",
       "owner": "O",
       "anchor": "The place's drifting crime level scales every offense one for one (index 150: half again as much).",
       "source": "Spec part 6: the entire world changes",
       "evidence": "researched",
-      "range": [0.01, 0.01]
+      "range": [0.01, 0.01],
+      "floor": 0.25,
+      "ceiling": 3
     },
     {
       "key": "crime-level-to-assault",
-      "from": "crime.rate-index",
+      "from": "crime.violent:pct-of-start",
       "to": "crime.assault",
       "strength": "strong",
       "shape": {
         "kind": "linear"
       },
       "size": 0.01,
-      "per": "index point above the place's start",
+      "per": "percentage point the state's violent crime rate sits above its start",
       "lagMonths": 0,
       "group": "place",
       "owner": "O",
       "anchor": "The place's drifting crime level scales every offense one for one (index 150: half again as much).",
       "source": "Spec part 6: the entire world changes",
       "evidence": "researched",
-      "range": [0.01, 0.01]
+      "range": [0.01, 0.01],
+      "floor": 0.25,
+      "ceiling": 3
     },
     {
       "key": "crime-level-to-vandalism",
-      "from": "crime.rate-index",
+      "from": "crime.violent:pct-of-start",
       "to": "crime.vandalism",
       "strength": "strong",
       "shape": {
         "kind": "linear"
       },
       "size": 0.01,
-      "per": "index point above the place's start",
+      "per": "percentage point the state's violent crime rate sits above its start",
       "lagMonths": 0,
       "group": "place",
       "owner": "O",
       "anchor": "The place's drifting crime level scales every offense one for one (index 150: half again as much).",
       "source": "Spec part 6: the entire world changes",
       "evidence": "researched",
-      "range": [0.01, 0.01]
+      "range": [0.01, 0.01],
+      "floor": 0.25,
+      "ceiling": 3
     },
     {
       "key": "births-level-to-births",
@@ -2740,7 +2772,7 @@
     {
       "key": "juvenile-court-age-to-crime",
       "from": "law:us-policy-positions:justice-public-safety.raise-juvenile-court-age",
-      "to": "crime.rate-index",
+      "to": "crime.violent",
       "strength": "about-zero",
       "shape": {
         "kind": "linear"
@@ -2757,7 +2789,7 @@
     {
       "key": "crisis-response-to-crime",
       "from": "law:us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
-      "to": "crime.rate-index",
+      "to": "crime.violent",
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -2845,7 +2877,7 @@
     {
       "key": "civilian-oversight-to-crime",
       "from": "law:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
-      "to": "crime.rate-index",
+      "to": "crime.violent",
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -2863,7 +2895,7 @@
     {
       "key": "harm-reduction-to-crime",
       "from": "law:us-policy-positions:health-human-services.harm-reduction-services",
-      "to": "crime.rate-index",
+      "to": "crime.violent",
       "strength": "about-zero",
       "shape": {
         "kind": "linear"
@@ -2984,7 +3016,7 @@
     {
       "key": "facial-recognition-limit-to-crime",
       "from": "law:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
-      "to": "crime.rate-index",
+      "to": "crime.violent",
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -3090,6 +3122,231 @@
       "evidence": "about-zero",
       "anchor": "Inclusionary rules raised prices and slowed building in Boston's suburbs and had no significant effect around San Francisco; the few below-market homes and the slower building roughly cancel",
       "source": "Schuetz, Meltzer and Been 2011, Urban Studies"
+    },
+    {
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "group": "place",
+      "owner": "B-cloud",
+      "key": "carry-permit-to-violent-crime",
+      "to": "crime.violent",
+      "size": -0.1,
+      "range": [-0.15, -0.04],
+      "per": "permit required (dropping it raises violent crime about 10%)",
+      "lagMonths": 12,
+      "evidence": "contested",
+      "anchor": "States that adopted right-to-carry laws had 13 to 15% more violent crime ten years on than their synthetic controls. The study compares shall-issue with may-issue permits, so it is a proxy for requiring a permit at all",
+      "source": "Donohue, Aneja and Weber 2019, Journal of Empirical Legal Studies 16(2); RAND Science of Gun Policy",
+      "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed"
+    },
+    {
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "group": "place",
+      "owner": "B-cloud",
+      "key": "end-cash-bail-to-violent-crime",
+      "to": "crime.violent",
+      "size": 0,
+      "per": "law in force",
+      "lagMonths": 6,
+      "evidence": "about-zero",
+      "anchor": "New Jersey nearly ended money bail in 2017 with about a 2-point rise in pretrial rearrest and no measurable rise in violent crime",
+      "source": "Anderson, Redcross, Valentine and Miratrix 2019, MDRC",
+      "from": "law:us-policy-positions:justice-public-safety.end-cash-bail"
+    },
+    {
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "group": "place",
+      "owner": "B-cloud",
+      "key": "cannabis-sales-to-violent-crime",
+      "to": "crime.violent",
+      "size": 0,
+      "per": "law in force",
+      "lagMonths": 12,
+      "evidence": "about-zero",
+      "anchor": "Legal retail cannabis in Colorado and Washington showed no lasting effect on violent crime against comparison states",
+      "source": "Dragone, Prarolo, Vanin and Zanella 2019, Journal of Economic Behavior and Organization 159",
+      "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales"
+    },
+    {
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "group": "place",
+      "owner": "B-cloud",
+      "key": "mandatory-minimums-to-violent-crime",
+      "to": "crime.violent",
+      "size": 0,
+      "per": "law in force",
+      "lagMonths": 24,
+      "evidence": "about-zero",
+      "anchor": "At today's incarceration levels, longer or mandatory sentences have little effect on crime",
+      "source": "Roodman 2017, The Impacts of Incarceration on Crime (Open Philanthropy)",
+      "from": "law:us-policy-positions:justice-public-safety.mandatory-minimum-sentences"
+    },
+    {
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "group": "place",
+      "owner": "B-cloud",
+      "key": "clean-electricity-to-particulates",
+      "to": "env.particulates",
+      "size": -0.01,
+      "range": [-0.03, 0],
+      "per": "law in force",
+      "lagMonths": 60,
+      "evidence": "provisional",
+      "anchor": "Five to nine years after enactment, states with stringent renewable standards cut power-plant sulfur dioxide about 58% and nitrogen oxides about 34%; power plants are a small share of today's fine particles",
+      "source": "Ji, Li, Lee, Luke and Mavrothalassitis 2024, working paper, Cleaner Bills, Cleaner Air",
+      "from": "law:us-policy-positions:environment-energy.clean-electricity-standard"
+    },
+    {
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "group": "place",
+      "owner": "B-cloud",
+      "key": "carbon-price-to-particulates",
+      "to": "env.particulates",
+      "size": -0.005,
+      "range": [-0.02, 0],
+      "per": "law in force",
+      "lagMonths": 24,
+      "evidence": "provisional",
+      "anchor": "California's cap-and-trade lowered fine-particle emissions at regulated plants 3 to 9% a year from 2012 to 2017; the statewide change in the air is far smaller",
+      "source": "Hernandez-Cortes and Meng 2023, Journal of Public Economics 217",
+      "from": "law:us-policy-positions:environment-energy.price-carbon"
+    },
+    {
+      "key": "retirement-age-to-poverty",
+      "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
+      "to": "household.poverty-pct",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.02,
+      "range": [0.011, 0.034],
+      "per": "law in force (a two-year rise in the full retirement age, 67 to 69)",
+      "lagMonths": 60,
+      "group": "people 65 and older",
+      "owner": "C",
+      "evidence": "provisional",
+      "anchor": "A one-year rise cuts benefits 6.7% at any claiming age (5/9 of 1% a month); elderly poverty moves about one for one with benefits; people 65 and older were 6.1 million of the 35.9 million poor people in 2024 (17.0%), so each year of rise raises the poverty rate about 1.1% of itself",
+      "source": "Engelhardt and Gruber 2004 (NBER w10466); 20 CFR 404.410; Census P60-287 (2025)"
+    },
+    {
+      "key": "immigration-to-crime",
+      "from": "law:us-federal-positions:immigration.admit-more-immigrants",
+      "to": "crime.rate-index",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Across all 50 states and D.C., 1990 to 2014, undocumented immigration did not increase violent crime; the relationship was generally negative and not always significant",
+      "source": "Light and Miller 2018 (Criminology); Ousey and Kubrin 2018 (Annual Review of Criminology)"
+    },
+    {
+      "key": "federal-mandatory-minimums-to-crime",
+      "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+      "to": "crime.rate-index",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Drug offenders released early under the 2014 retroactive cut reoffended no more than those who served full terms (27.9% vs 30.5% in three years); federal prisoners are a small share of all prisoners",
+      "source": "U.S. Sentencing Commission 2020 (Drugs Minus Two recidivism); BJS Prisoners in 2023"
+    },
+    {
+      "key": "housing-vouchers-to-graduation",
+      "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "to": "school.graduation-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force",
+      "lagMonths": 0,
+      "group": "children in families who qualify",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Chicago's 1997 voucher lottery (82,607 applicants), children tracked 14 years: effects on schooling mostly statistically insignificant",
+      "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)"
+    },
+    {
+      "key": "housing-vouchers-to-crime",
+      "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "to": "crime.rate-index",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force",
+      "lagMonths": 0,
+      "group": "children in families who qualify",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Same lottery: effects on arrests mostly statistically insignificant",
+      "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)"
+    },
+    {
+      "key": "top-income-tax-rate-to-poverty",
+      "from": "law:us-federal-positions:tax.raise-top-income-tax-rate",
+      "to": "household.poverty-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "The official poverty measure uses money income before taxes, and the top rate reaches no one near the line",
+      "source": "U.S. Census Bureau, How the Census Bureau measures poverty"
+    },
+    {
+      "key": "student-loan-forgiveness-to-poverty",
+      "from": "law:us-federal-positions:education.forgive-student-loans",
+      "to": "household.poverty-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Debt relief is not money income, which is what the official poverty measure counts",
+      "source": "U.S. Census Bureau, How the Census Bureau measures poverty"
     }
   ],
   "calibratedAt": "2024-07-01"

@@ -1,5 +1,6 @@
 import { eventById } from "./event-index";
 import {
+  appendedList,
   hasStableKey,
   recordById,
   recordsWithFieldValue,
@@ -378,8 +379,8 @@ function resourceFlowHistory(
   return {
     ...world.history,
     nextSequence: world.history.nextSequence + 2,
-    resourceFlows: [...world.history.resourceFlows, flow],
-    resourceFlowTerms: [...world.history.resourceFlowTerms, terms],
+    resourceFlows: appendedList(world.history.resourceFlows, [flow]),
+    resourceFlowTerms: appendedList(world.history.resourceFlowTerms, [terms]),
   };
 }
 
@@ -473,10 +474,10 @@ export function recordResourceTransferOutcomes(
       history: {
         ...probe.history,
         nextSequence: probe.history.nextSequence + 1,
-        resourceTransferOutcomes: [
-          ...probe.history.resourceTransferOutcomes,
-          record,
-        ],
+        resourceTransferOutcomes: appendedList(
+          probe.history.resourceTransferOutcomes,
+          [record],
+        ),
       },
     };
   }
@@ -1402,7 +1403,7 @@ function appendOne<K extends keyof World["history"]>(
   return commit(world, {
     ...world.history,
     nextSequence: world.history.nextSequence + 1,
-    [family]: [...records, record],
+    [family]: appendedList(records, [record]),
   });
 }
 

@@ -4,6 +4,7 @@ import {
   addDays,
   candidacyPackForJurisdiction,
   CONCESSION_EVENT,
+  ELECTION_NIGHT_LOCATION_KEY,
   electionContestResult,
   VICTORY_SPEECH_EVENT,
 } from "../simulation";
@@ -26,6 +27,10 @@ import {
   giveElectionSpeech,
   projectCampaign,
 } from "./campaign-projection";
+import {
+  electionNightLocationKey,
+  placeForLocationKey,
+} from "./place-backdrops";
 import { passOrdinaryDays } from "./ordinary-life";
 
 /**
@@ -214,5 +219,17 @@ describe("election-night speeches", () => {
         .filter((row) => row.personId === holderId && row.eventId === speech.id)
         .at(-1)?.strength,
     ).toBe("moderate");
+    // Election night is a place: the venue, on the day the player spoke, and
+    // never before they have or on a later day.
+    expect(electionNightLocationKey(world, personId)).toBeNull();
+    expect(electionNightLocationKey(spoken, personId)).toBe(
+      ELECTION_NIGHT_LOCATION_KEY,
+    );
+    expect(
+      placeForLocationKey(spoken, personId, ELECTION_NIGHT_LOCATION_KEY),
+    ).toBe("election-night-venue");
+    expect(
+      electionNightLocationKey(passOrdinaryDays(spoken), personId),
+    ).toBeNull();
   }, 300_000);
 });

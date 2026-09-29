@@ -34,6 +34,13 @@ import type { EntityId, World } from "./types";
 export const VICTORY_SPEECH_EVENT = "campaign.victory-speech";
 export const CONCESSION_EVENT = "campaign.concession";
 
+/**
+ * Where election night is held. The speech event carries it as a `place:` tag,
+ * and the presentation layer turns the key into the venue picture, the same
+ * way a scheduled activity's location key becomes its picture.
+ */
+export const ELECTION_NIGHT_LOCATION_KEY = "campaign-election-night";
+
 export type ElectionSpeechKind = "victory" | "concession";
 
 export {
@@ -210,6 +217,7 @@ export function recordElectionSpeech(
     tags: [
       "campaign.election-night",
       `election.contest:${contest.id}`,
+      `place:${ELECTION_NIGHT_LOCATION_KEY}`,
       `${SPEECH_REGISTER_TAG}election-night`,
       `${SPEECH_MOVES_TAG}${JSON.stringify(moves)}`,
     ],
