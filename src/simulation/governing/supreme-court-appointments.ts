@@ -643,7 +643,7 @@ function associateNominationKey(
   return `${SUPREME_COURT_APPOINTMENTS_VERSION}:associate-nomination:${ordinal}:${vacancyDate}:${after}`;
 }
 
-function scheduleAssociateNomination(
+export function scheduleAssociateNomination(
   world: World,
   ordinal: number,
   vacancyDate: IsoDate,

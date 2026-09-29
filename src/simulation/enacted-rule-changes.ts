@@ -35,6 +35,7 @@ import { createStableId } from "./ids";
 import { requireMeasure } from "./legislation";
 import { lawLevelRank, type LawLevel } from "./law-hierarchy";
 import { rulePackById } from "./legislature-rule-packs";
+import { FEDERAL_COURTS_PROJECTION } from "./judiciary/generated/federal-courts";
 import type { MunicipalRecallDoctrine } from "./municipal-election-rules";
 import type { EntityId, IsoDate, World } from "./types";
 
@@ -109,6 +110,15 @@ export const AMENDABLE_RULE_FIELDS = {
     max: 100_000,
     family: "labor",
   },
+  /**
+   * How many judges a court has. The office key is the court's own id
+   * (`us-supreme-court`, `ca9`, `us-ky:highest_court`, `dc-court-of-appeals`).
+   * Congress sets the size of the federal courts; a state sets its own. Read
+   * by `judiciary/court-size-law.ts`, which opens new seats and retires only
+   * empty ones: a smaller court shrinks as judges leave, as in 1866. The
+   * bounds are game bounds; a real court has had from 1 to 15 or so seats.
+   */
+  "court.seats": { kind: "integer", min: 1, max: 99, family: "judiciary" },
 } as const;
 
 /** The office key a state's law on its towns is recorded under. */
@@ -184,6 +194,7 @@ const AMENDABLE_RULE_FIELD_LABELS: Readonly<
   "executive.term.limit": "the chief executive's term limit",
   "municipal.recall.doctrine": "how towns' voters may recall an official",
   "labor.minimumWage.hourlyCents": "state minimum wage",
+  "court.seats": "the number of judges on the court",
 };
 
 const CHOICE_WORDS: Readonly<Record<string, string>> = {
@@ -375,6 +386,15 @@ function officeBelongsToState(
   rulePackId: string | null,
 ): boolean {
   const lower = stateUsps.toLowerCase();
+  if (AMENDABLE_RULE_FIELDS[field].family === "judiciary") {
+    // Congress reaches the federal courts and nothing else; a state reaches
+    // only its own courts.
+    if (stateUsps === FEDERAL_JURISDICTION_KEY)
+      return FEDERAL_COURT_IDS.has(officeKey);
+    return (
+      officeKey.startsWith(`us-${lower}:`) || officeKey.startsWith(`${lower}-`)
+    );
+  }
   if (AMENDABLE_RULE_FIELDS[field].family === "legislature" && rulePackId) {
     // A statute names a chamber its own legislature actually has.
     const [packId, chamberKey] = officeKey.split(":");
@@ -393,9 +413,37 @@ function officeBelongsToState(
   );
 }
 
-function stateUspsForPack(rulePackId: string): string | null {
+function stateUspsForPack(
+  rulePackId: string,
+  field?: AmendableRuleField,
+): string | null {
   const key = rulePackById(rulePackId).jurisdictionKey;
+  // A Congress bill can change a rule of the federal government's own; the
+  // only such rule routed here is the size of a federal court.
+  if (
+    key === FEDERAL_JURISDICTION_KEY &&
+    field !== undefined &&
+    AMENDABLE_RULE_FIELDS[field].family === "judiciary"
+  )
+    return FEDERAL_JURISDICTION_KEY;
   return /^US-[A-Z]{2}$/.test(key) ? key.slice(3) : null;
+}
+
+/** Every federal court a Congress bill can resize. */
+const FEDERAL_COURT_IDS: ReadonlySet<string> = new Set([
+  "us-supreme-court",
+  ...FEDERAL_COURTS_PROJECTION.map((court) => court.courtId),
+]);
+
+/**
+ * Whether a statute may change this court's size, by the route the court's
+ * rules record. A court whose size its constitution fixes changes only by
+ * constitutional amendment; an unknown route does not block (it is recorded
+ * with the change, and the court's writer applies it).
+ */
+function statuteMayResizeCourt(world: World, courtId: string): boolean {
+  const route = world.judiciary?.courts[courtId]?.rules.amendmentRoute;
+  return !(route?.state === "known" && route.value === "constitution");
 }
 
 /**
@@ -442,7 +490,7 @@ export function fileRuleChangeProvision(
     input.officeKey,
     input.applicability,
   );
-  const stateUsps = stateUspsForPack(measure.rulePackId);
+  const stateUsps = stateUspsForPack(measure.rulePackId, input.field);
   if (!stateUsps) {
     // Local governments change these rules by charter, which is not routed
     // here yet; say so instead of recording a clause that could never act.
@@ -460,6 +508,14 @@ export function fileRuleChangeProvision(
   ) {
     throw new Error(
       `A ${stateUsps} bill can only change rules for ${stateUsps}'s own offices.`,
+    );
+  }
+  if (
+    input.field === "court.seats" &&
+    !statuteMayResizeCourt(world, input.officeKey)
+  ) {
+    throw new Error(
+      "This court's size is set by its constitution; only a constitutional amendment can change it.",
     );
   }
   if (firstFloorVoteSequence(world, measure.id) !== null) {
@@ -522,9 +578,12 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
     // date is not "effective now". Blanket rule meanwhile: the change operates
     // STATUTE_EFFECTIVE_DEFAULT_DAYS after the act was recorded, and says so.
     const explicit = enactment.effectiveAt;
+    const federal = provision.stateUsps === FEDERAL_JURISDICTION_KEY;
     changes.push({
       stateUsps: provision.stateUsps,
-      jurisdictionKey: `US-${provision.stateUsps}`,
+      jurisdictionKey: federal
+        ? FEDERAL_JURISDICTION_KEY
+        : `US-${provision.stateUsps}`,
       officeKey: provision.officeKey,
       field: provision.field,
       value: structuredClone(provision.value),
@@ -534,7 +593,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
         addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS),
       operativeBasis: explicit ? "enacted-date" : "game-default",
       instrument: "statute",
-      level: "state-statute",
+      level: federal ? "federal-statute" : "state-statute",
       measureId: provision.measureId,
       designation:
         enactment.actDesignation ??
@@ -711,7 +770,7 @@ export function assertRuleChangeProvisionIntegrity(
       row.applicability,
     );
     if (
-      stateUspsForPack(measure.rulePackId) !== row.stateUsps ||
+      stateUspsForPack(measure.rulePackId, row.field) !== row.stateUsps ||
       !officeBelongsToState(
         row.field,
         row.officeKey,
@@ -752,6 +811,19 @@ export function assertConstitutionalRuleFieldDelta(
   },
 ): void {
   if (jurisdictionKey === FEDERAL_JURISDICTION_KEY) {
+    // An amendment may fix a federal court's size in the Constitution itself,
+    // as the "Keep Nine" proposals would.
+    if (delta.field === "court.seats") {
+      assertAmendableRuleValue(
+        delta.field,
+        delta.value,
+        delta.officeKey,
+        delta.applicability,
+      );
+      if (!FEDERAL_COURT_IDS.has(delta.officeKey))
+        throw new Error("The amendment names a court that is not federal.");
+      return;
+    }
     // An Article V amendment reaches the national offices only. NOT MODELED:
     // any other federal rule (House size, Senate terms, qualifications).
     if (

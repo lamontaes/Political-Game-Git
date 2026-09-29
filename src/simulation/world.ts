@@ -1,3 +1,4 @@
+import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { assertWorldContentPacks } from "./runtime-content-packs";
@@ -1402,22 +1403,24 @@ function advanceWorldUnchecked(
   };
 
   const continued = applyCrisisRepairFunding(
-    applyCrisisOfficeContinuity(
-      applyCongressLawmaking(
-        world.currentDate,
-        applyFederalReform(
+    applyEnactedCourtSizes(
+      applyCrisisOfficeContinuity(
+        applyCongressLawmaking(
           world.currentDate,
-          applyConstitutionalReform(
+          applyFederalReform(
             world.currentDate,
-            applyPresidentialTurnover(
+            applyConstitutionalReform(
               world.currentDate,
-              applyGovernorTurnover(
+              applyPresidentialTurnover(
                 world.currentDate,
-                applyCongressTurnover(
+                applyGovernorTurnover(
                   world.currentDate,
-                  applyStateLegislatureTurnover(
+                  applyCongressTurnover(
                     world.currentDate,
-                    applyNationalTermTransitions(advanced),
+                    applyStateLegislatureTurnover(
+                      world.currentDate,
+                      applyNationalTermTransitions(advanced),
+                    ),
                   ),
                 ),
               ),
