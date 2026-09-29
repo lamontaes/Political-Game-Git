@@ -14,13 +14,17 @@ import { CRUNCH46_PROVISIONAL_POLICY } from "./policy";
 import { ensureMacroEconomyStarted } from "./producer";
 import {
   CENTRAL_BANK_APPOINTED_EVENT,
+  CENTRAL_BANK_NOMINATED_EVENT,
   CENTRAL_BANK_PROFILE,
   CENTRAL_BANK_RATE_EVENT,
   RESERVE_BANKS,
   chooseCentralBankRate,
   holdCentralBankMeeting,
+  stepCentralBankSeats,
   votingReserveBanks,
 } from "./central-bank";
+import { currentPresidentOf } from "../crisis/offices";
+import { addDays } from "../dates";
 import {
   RECESSION_BEGAN_EVENT,
   RECESSION_ENDED_EVENT,
@@ -137,6 +141,44 @@ describe("Build 19: the central bank is people", { timeout: 900_000 }, () => {
     );
     expect(national.at(-1)!.credit).toBeDefined();
     expect(national.at(-1)!.drivers).toBeDefined();
+  });
+
+  it("the President names the chair from the sitting governors by a recorded decision, not a draw", () => {
+    const president = currentPresidentOf(later)!.personId;
+    expect(later.control).not.toMatchObject({ personId: president });
+    const store = later.macroEconomy!;
+    const vacant: World = {
+      ...later,
+      macroEconomy: {
+        ...store,
+        centralBank: {
+          ...store.centralBank!,
+          chair: null,
+          openings: [
+            {
+              office: "chair",
+              seat: 0,
+              since: addDays(
+                later.currentDate,
+                -CENTRAL_BANK_PROFILE.daysFromVacancyToNomination,
+              ),
+            },
+          ],
+        },
+      },
+    };
+    const next = stepCentralBankSeats(vacant);
+    const nominated = next.history.events.at(-1)!;
+    expect(nominated.type).toBe(CENTRAL_BANK_NOMINATED_EVENT);
+    const nominee = nominated.participants[1]!.personId;
+    expect(bank.seats.map((seat) => seat!.personId)).toContain(nominee);
+    const trace = next.history.decisionTraces.find(
+      (row) =>
+        row.context.decisionType === "appointment.choose-appointee" &&
+        row.context.actorPersonId === president &&
+        !later.history.decisionTraces.includes(row),
+    );
+    expect(trace?.selectedOptionKey).toBe(`person:${nominee}`);
   });
 
   it("never decides for a player who chairs the board", () => {

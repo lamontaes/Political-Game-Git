@@ -17,7 +17,10 @@ which is close to the historical record.
 The interest rate is set by a committee of 12 people, as federal law sets it:
 seven governors, the president of the New York reserve bank, and four other
 reserve bank presidents who take turns by year. Each member has a recorded
-view on inflation, and they vote at eight meetings a year.
+view on inflation, and they vote at eight meetings a year. When a seat or
+the chair opens, the President names someone they know and trust, weighing
+favors and loyalty the way any appointer does, and passed-over allies
+remember it. The chair comes from the sitting governors.
 
 A town's businesses keep books. Each takes in its share of what the town
 spends on its kind of business. It pays its staff and its other costs, and

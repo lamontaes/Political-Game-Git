@@ -64,6 +64,12 @@ import { currentHistoricalCutoff } from "../queries";
 import { SeededRng } from "../rng";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
+import {
+  appointmentCircle,
+  chooseAppointee,
+  recordPassedOver,
+} from "../patronage/appointments";
+import { federalColleaguesOf } from "../patronage/federal-circle";
 import { MACRO_CREDIT_POLICY } from "./credit";
 import {
   RATE_OPTIONS,
@@ -509,23 +515,47 @@ function nominate(
     )
       continue;
     const key = `${CENTRAL_BANK_VERSION}:nomination:${opening.office}:${opening.seat}:${opening.since}:${world.currentDate}`;
-    const rng = new SeededRng(world.seed).fork(key);
-    let nomineeId: EntityId | undefined;
-    if (opening.office === "chair") {
-      // PLACEHOLDER: the President designates the chair from the sitting
-      // governors, other than one the player controls.
-      const controlled =
-        next.control.kind === "person" ? next.control.personId : null;
-      const sitting = working.seats
-        .flatMap((seat) => (seat ? [seat.personId] : []))
-        .filter((id) => id !== controlled && !isDead(next, id))
-        .sort();
-      if (sitting.length) nomineeId = rng.pick(sitting);
-    } else {
-      const pool = nomineePool(next, working);
-      if (pool.length) nomineeId = rng.pick(pool);
-    }
-    if (!nomineeId) continue;
+    // The President names the chair from the sitting governors, and a
+    // governor from the people they know (appointments-v1), by the same
+    // decision any appointer makes. A President the player controls, or one
+    // who knows nobody eligible, still falls back to the draw below.
+    const controlled =
+      next.control.kind === "person" ? next.control.personId : null;
+    const sitting = working.seats
+      .flatMap((seat) => (seat ? [seat.personId] : []))
+      .filter((id) => id !== controlled && !isDead(next, id))
+      .sort();
+    const pool =
+      opening.office === "chair" ? sitting : nomineePool(next, working);
+    if (pool.length === 0) continue;
+    const post = {
+      officeKey: `central-bank-${opening.office}:${opening.seat}`,
+      title:
+        opening.office === "chair"
+          ? "chair of the central bank's board"
+          : "a governor on the central bank's board",
+    };
+    const eligible = new Set(pool);
+    const choice = chooseAppointee(next, {
+      stableKey: key,
+      appointerPersonId: president.personId,
+      post,
+      circle: appointmentCircle(
+        next,
+        president.personId,
+        opening.office === "chair" ? sitting : federalColleaguesOf(next),
+      ),
+      eligible: (personId) => eligible.has(personId),
+    });
+    const nomineeId =
+      choice?.personId ?? new SeededRng(world.seed).fork(key).pick(pool);
+    if (choice)
+      next = recordPassedOver(choice.world, {
+        stableKey: key,
+        appointerPersonId: president.personId,
+        passedOver: choice.passedOver,
+        post,
+      });
     const nominee = next.people[nomineeId]!;
     next = recordWorldEvent(next, {
       stableKey: key,
