@@ -1,3 +1,4 @@
+import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
 import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
 import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../nationwide-world/state-legislative-term-limits";
 import { OUTCOME_LINKS, outcomeLinkStatus } from "../outcome-web";
@@ -47,6 +48,11 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
     kind: "paycheck",
     via: "src/simulation/minimum-wage.ts",
+  },
+  {
+    questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
+    kind: "paycheck",
+    via: "src/simulation/federal-top-income-tax-law.ts",
   },
   {
     questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,

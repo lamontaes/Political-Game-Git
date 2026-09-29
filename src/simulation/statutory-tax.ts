@@ -20,8 +20,8 @@
  */
 import { createStableId } from "./ids";
 import { appendedList, recordById } from "./history-index";
+import { federalIncomeTaxUnderLaw } from "./federal-top-income-tax-law";
 import {
-  FEDERAL_INCOME_TAX_2026,
   filingStatusAt,
   payPeriodsPerYear,
   stateIncomeTaxSchedule,
@@ -318,7 +318,14 @@ function paycheckLiabilities(
   // Federal income tax: a 2026 paycheck of a stateside resident, withheld
   // under the filing status's schedule where it has been read. Puerto Rico
   // and the other territories tax their residents' local wages themselves.
-  const federalSchedule = FEDERAL_INCOME_TAX_2026[status];
+  // A law enacted in play that raised the top rate, or put it back
+  // (`federal-top-income-tax-law.ts`), governs over the 2026 schedule.
+  const federalLaw = federalIncomeTaxUnderLaw(
+    world,
+    status,
+    outcome.occurredAt,
+  );
+  const federalSchedule = federalLaw.schedule;
   const federalGap =
     taxYear < FIRST_VERIFIED_TAX_YEAR
       ? "tax-rules-before-2026"
@@ -339,7 +346,14 @@ function paycheckLiabilities(
           federalGap ?? "federal-income-tax-filing-status-schedules-2026",
           FEDERAL_INCOME_TAX_SOURCE_URL,
         )
-      : incomeTax(FEDERAL_INCOME_TAX_KEY, "US", federalSchedule),
+      : incomeTax(
+          FEDERAL_INCOME_TAX_KEY,
+          "US",
+          federalSchedule,
+          federalLaw.lawMeasureIds.length
+            ? { lawMeasureIds: federalLaw.lawMeasureIds }
+            : {},
+        ),
   );
   for (const rule of FEDERAL_UNPRICED_PAYROLL_RULES) {
     rows.push(
