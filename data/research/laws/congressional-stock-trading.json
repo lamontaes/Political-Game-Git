@@ -1,0 +1,63 @@
+{
+  "asOf": "2026-09-29",
+  "sources": [
+    {
+      "url": "https://campaignlegal.org/sites/default/files/2024-12/Congressional%20Stock%20Trading%20by%20the%20Numbers%20-%20119th%20Freshman%20(backup).pdf",
+      "finding": "CLC's original review of 71 filed freshmen-member disclosures found 43 individual-stock holders, 23 fund-only holders, and five with neither; missing filings were excluded. Household assets of spouses and dependents are included."
+    },
+    {
+      "url": "https://www.federalreserve.gov/publications/october-2023-changes-in-us-family-finances-from-2019-to-2022.htm",
+      "finding": "2022 SCF median family net worth was $192,900 overall and $464,600 for college-degree families. Age-band medians provide the age profile. These are family estimates, not Congressional disclosure valuations."
+    },
+    {
+      "url": "https://advisors.vanguard.com/investments/products/vti/vanguard-total-stock-market-etf",
+      "finding": "Vanguard's broad total-market ETF charges 0.03 percent annually as of April 28, 2026."
+    },
+    {
+      "url": "https://www.congress.gov/crs_external_products/R/PDF/R48641/R48641.6.pdf",
+      "finding": "CRS's November 2025 comparison describes a proposal with 120 days to divest or enter a blind trust and a civil penalty equal to one month's Congressional pay. These are proposal benchmarks, not the starting law."
+    },
+    {
+      "url": "https://www.congress.gov/bill/119th-congress/house-bill/7008",
+      "finding": "The Stop Insider Trading Act is a separate 2026 proposal; a House vote is not enactment of a full ownership ban. The game's January 2026 opening does not impose this proposal."
+    }
+  ],
+  "individualStockHolders": 43,
+  "observedMembers": 71,
+  "collegeMedianWealthCents": 46460000,
+  "allFamilyMedianWealthCents": 19290000,
+  "stockWealthShareBasisPoints": 778,
+  "ageMedianWealthCents": [
+    {
+      "under": 35,
+      "cents": 3900000
+    },
+    {
+      "under": 45,
+      "cents": 13560000
+    },
+    {
+      "under": 55,
+      "cents": 24720000
+    },
+    {
+      "under": 65,
+      "cents": 36450000
+    },
+    {
+      "under": 75,
+      "cents": 40990000
+    },
+    {
+      "under": 200,
+      "cents": 33560000
+    }
+  ],
+  "diversifiedFundFeeBasisPoints": 3,
+  "proposal": {
+    "deadlineDays": 120,
+    "fineCents": 1450000
+  },
+  "basis": "ESTIMATED FROM AVERAGE: disclosure ownership share is a freshmen-cohort proxy. Ownership is allocated by each fictional member's own wealth and risk tolerance, not a draw. Wealth uses the SCF age profile and college-family median adjustment; the member's recorded liquid balance remains intact. Stock and liquid shares use ratios of SCF conditional medians to all-family median wealth. These are named asset-allocation PLACEHOLDERS, not measured Congressional medians. No investment-return advantage is added. Qualified blind-trust administration and changing market prices are not modeled; compliant members use diversified funds. The clearing market's finite opening cash equals the modeled individual shares it can buy.",
+  "liquidWealthShareBasisPoints": 415
+}
