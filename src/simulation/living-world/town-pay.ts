@@ -76,6 +76,12 @@ import {
   type RecordResourceTransferOutcomeInput,
 } from "../resources";
 import { assessPaychecksTaxes } from "../statutory-tax";
+import {
+  epidemicWorkAbsences,
+  jobPaysSickLeave,
+  workdaysBetween,
+  type WorkAbsence,
+} from "../crisis/epidemic";
 import type {
   EntityId,
   FutureDueItem,
@@ -886,6 +892,20 @@ export function payTownPaydays(
   const termsByFlow = termsByPayFlow(world);
   const inputs: RecordResourceTransferOutcomeInput[] = [];
   const recipients = new Set<EntityId>();
+  // Days missed to the illness, read once per pay period.
+  const absencesByWindow = new Map<
+    string,
+    ReadonlyMap<EntityId, WorkAbsence>
+  >();
+  const absencesIn = (from: IsoDate, to: IsoDate) => {
+    const key = `${from}|${to}`;
+    let found = absencesByWindow.get(key);
+    if (!found) {
+      found = epidemicWorkAbsences(world, from, to);
+      absencesByWindow.set(key, found);
+    }
+    return found;
+  };
   for (const flow of flows) {
     if (flow.basisReference.kind !== "work") continue;
     const history = termsByFlow.get(flow.id) ?? [];
@@ -919,17 +939,52 @@ export function payTownPaydays(
       // paid at the terms in force the day it began.
       const terms = termsOn(history, window.startsAt);
       if (!terms || terms.status !== "active") continue;
+      // Days out sick, or home with a sick child, go unpaid in a job that
+      // carries no paid sick leave.
+      const recipientId = (flow.recipient as { personId: EntityId }).personId;
+      const absence = absencesIn(window.startsAt, window.endsAt).get(
+        recipientId,
+      );
+      const workdays = workdaysBetween(window.startsAt, window.endsAt);
+      const unpaidDays =
+        absence && workdays > 0 && !jobPaysSickLeave(world, workId)
+          ? Math.min(absence.missedDays, workdays)
+          : 0;
+      const amount =
+        unpaidDays === 0
+          ? terms.amount
+          : money(
+              Math.round(
+                (terms.amount.minorUnits * (workdays - unpaidDays)) / workdays,
+              ),
+              terms.amount.currency,
+            );
+      const caring =
+        !!absence && absence.caringDays > 0 && absence.sickDays === 0;
       inputs.push({
         stableKey,
         resourceFlowId: flow.id,
         periodStartsAt: window.startsAt,
         periodEndsAt: window.endsAt,
         occurredAt: payday,
-        status: "completed",
+        status:
+          unpaidDays === 0
+            ? "completed"
+            : amount.minorUnits > 0
+              ? "partial"
+              : "missed",
         attemptedAmount: terms.amount,
-        transferredAmount: terms.amount,
-        reasonKind: null,
-        note: "Pay for the period.",
+        transferredAmount: amount,
+        reasonKind:
+          unpaidDays === 0
+            ? null
+            : caring
+              ? "custom:unpaid-days-home-with-sick-child"
+              : "custom:unpaid-sick-days",
+        note:
+          unpaidDays === 0
+            ? "Pay for the period."
+            : `Pay for the period, less ${unpaidDays} unpaid ${unpaidDays === 1 ? "day" : "days"} ${caring ? "home with a sick child" : "out sick"}.`,
         provenance: flow.provenance,
       });
       recipients.add((flow.recipient as { personId: EntityId }).personId);
