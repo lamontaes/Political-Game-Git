@@ -95,7 +95,7 @@ describe("the law in force on a question", () => {
     ).toBeNull();
   });
 
-  it("waits for the act's effective date, or the blanket ninety days", () => {
+  it("waits for the act's effective date, else its state's rule, else the blanket ninety days", () => {
     const dated = law(ohio, "yes", "2026-03-01", "2026-07-01");
     expect(
       lawInForce(worldWith("2026-06-30", [dated]), ohio, QUESTION),
@@ -103,12 +103,21 @@ describe("the law in force on a question", () => {
     expect(
       lawInForce(worldWith("2026-07-01", [dated]), ohio, QUESTION),
     ).toMatchObject({ answer: "yes", operativeBasis: "enacted-date" });
+    // Ohio's own rule: ninety days after the act.
     const undated = law(ohio, "no", "2026-03-01");
     expect(
       lawInForce(worldWith("2026-05-29", [undated]), ohio, QUESTION),
     ).toBeNull();
     expect(
       lawInForce(worldWith("2026-05-30", [undated]), ohio, QUESTION),
+    ).toMatchObject({ answer: "no", operativeBasis: "state-rule" });
+    // Texas's rule is not researched: the blanket ninety days, said so.
+    const texan = law(texas, "no", "2026-03-01");
+    expect(
+      lawInForce(worldWith("2026-05-29", [texan]), texas, QUESTION),
+    ).toBeNull();
+    expect(
+      lawInForce(worldWith("2026-05-30", [texan]), texas, QUESTION),
     ).toMatchObject({ answer: "no", operativeBasis: "game-default" });
   });
 

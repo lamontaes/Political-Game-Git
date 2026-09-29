@@ -3,6 +3,62 @@
   "about": "What each place's law already says on a policy question when a game starts (2026). governing/law-in-force.ts reads it as law in force at its level (US is federal, US-XX is the state); an enacted law at the same or a higher level governs after it takes effect. A place that isn't listed for a question has no answer, which is unknown and never read as no. Dates are operative dates; a law with no date has been in force since before any game starts. A row may also carry cite (the statute or constitutional section), source (a page that supports it) and preempts: true where state law rules the question out for its cities (a preemption statute, or a question only the state answers), false where the state has no law on it and its cities may act.",
   "asOf": "2026-09-28",
   "defaultOperativeAt": "2000-01-01",
+  "effectiveDates": {
+    "about": "When a state law takes effect if the act names no date of its own, as in force on 1/1/2026. Each rule is read from the state's constitution or code (the same sources as the state's legislative rule pack). A place left out has no researched rule: the game then uses its blanket default of 90 days after enactment and says so. Acts that name their own date, emergency clauses and appropriation acts are not modeled here.",
+    "rules": {
+      "US-AK": {
+        "rule": {
+          "kind": "days-after-enactment",
+          "days": 90
+        },
+        "cite": "Alaska Const. art. II, § 18",
+        "source": "https://www.akleg.gov/basis/constitution.asp",
+        "note": "Laws take effect ninety days after enactment unless two-thirds of each house set another date."
+      },
+      "US-MD": {
+        "rule": {
+          "kind": "next-date",
+          "month": 6,
+          "day": 1
+        },
+        "cite": "Md. Const. art. III, § 31",
+        "source": "https://msa.maryland.gov/msa/mdmanual/43const/html/03art3.html",
+        "note": "A law takes effect the first day of June after the session that passed it, unless it says otherwise."
+      },
+      "US-MN": {
+        "rule": {
+          "kind": "next-date",
+          "month": 8,
+          "day": 1
+        },
+        "cite": "Minn. Stat. § 645.02",
+        "source": "https://www.revisor.mn.gov/statutes/2025/cite/645.02",
+        "note": "Ordinary acts take effect the following August 1; acts making appropriations take effect the following July 1, which the game does not yet tell apart."
+      },
+      "US-MO": {
+        "rule": {
+          "kind": "days-after-session-end",
+          "days": 90,
+          "sessionEnds": {
+            "month": 5,
+            "day": 30
+          }
+        },
+        "cite": "Mo. Const. art. III, §§ 20(a), 29",
+        "source": "https://revisor.mo.gov/main/OneSection.aspx?section=Article%20III%20Section%2029",
+        "note": "A law other than an appropriation act takes effect ninety days after the session adjourns, and the regular session adjourns on May 30, so ordinary laws take effect August 28. Special sessions are not modeled."
+      },
+      "US-OH": {
+        "rule": {
+          "kind": "days-after-enactment",
+          "days": 90
+        },
+        "cite": "Ohio Const. art. II, § 1c",
+        "source": "https://codes.ohio.gov/ohio-constitution/section-2.1c",
+        "note": "A law takes effect ninety days after the governor files it with the secretary of state, the window for a referendum petition; the game counts from enactment. Tax levies, current-expense appropriations and emergency laws take effect at once, which the game does not yet tell apart."
+      }
+    }
+  },
   "questions": {
     "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
       "source": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
