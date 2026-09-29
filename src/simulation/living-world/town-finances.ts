@@ -851,7 +851,7 @@ function failTownBank(
   const summary = [
     `${name} failed.`,
     why,
-    `It lost ${formatDollars(bank.lastQuarterLosses)} on loans last quarter, while lenders nationwide were writing off ${economy.chargeOffPct.toFixed(1)} percent of loans a year${localFactor > 1.05 ? ` and the town's unemployment ran ${localFactor.toFixed(1)} times the nation's` : ""}.`,
+    `It lost ${formatDollars(bank.lastQuarterLosses)} on loans last quarter, while lenders nationwide were writing off ${economy.chargeOffPct.toFixed(1)} percent of loans a year${localFactor > 1.05 ? ` and the town's unemployment ran ${localFactor >= TOWN_FINANCE_POLICY.bank.localLossFactorMax ? "at least " : ""}${localFactor.toFixed(1)} times the nation's` : ""}.`,
     closed.jobsLost
       ? `${closed.jobsLost} people who worked there lost their jobs.`
       : "",
