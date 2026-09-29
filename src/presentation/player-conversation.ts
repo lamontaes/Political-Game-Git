@@ -80,32 +80,47 @@ interface SubjectWiring {
  * none of those would have to be given a fake one to reach them, and a faked
  * office is worse than an unreachable subject.
  */
-const WIRINGS: readonly SubjectWiring[] = [
-  // PROSE B: situations the world has made answerable, each bound to its own
-  // saved facts. First, so a specific situation is offered before small talk.
-  ...(Object.keys(CONTEXTUAL_SCENE_SUBJECT) as SceneFamily[]).map(
-    (family): SubjectWiring => ({
-      subject: CONTEXTUAL_SCENE_SUBJECT[family],
-      room: (world, personId) => sceneRoom(world, personId, family),
-      opening: () => placeholderSceneProgress(CONTEXTUAL_SCENE_SUBJECT[family]),
-    }),
-  ),
-  {
-    subject: "life-talk",
-    room: lifeTalkConversationRoom,
-    opening: createLifeTalkProgress,
-  },
-  {
-    subject: "neighborhood-meeting-notice",
-    room: neighborhoodConversationRoom,
-    opening: createNeighborhoodMeetingProgress,
-  },
-  {
-    subject: "school-project-share",
-    room: schoolConversationRoom,
-    opening: createSchoolProjectProgress,
-  },
-];
+let wirings: readonly SubjectWiring[] | null = null;
+
+/**
+ * Built on first use: contextual-scenes reaches this module through an import
+ * cycle (contextual-scenes to people-goals to here), so its subject table is
+ * not ready while modules load.
+ */
+function subjectWirings(): readonly SubjectWiring[] {
+  wirings ??= buildSubjectWirings();
+  return wirings;
+}
+
+function buildSubjectWirings(): readonly SubjectWiring[] {
+  return [
+    // PROSE B: situations the world has made answerable, each bound to its own
+    // saved facts. First, so a specific situation is offered before small talk.
+    ...(Object.keys(CONTEXTUAL_SCENE_SUBJECT) as SceneFamily[]).map(
+      (family): SubjectWiring => ({
+        subject: CONTEXTUAL_SCENE_SUBJECT[family],
+        room: (world, personId) => sceneRoom(world, personId, family),
+        opening: () =>
+          placeholderSceneProgress(CONTEXTUAL_SCENE_SUBJECT[family]),
+      }),
+    ),
+    {
+      subject: "life-talk",
+      room: lifeTalkConversationRoom,
+      opening: createLifeTalkProgress,
+    },
+    {
+      subject: "neighborhood-meeting-notice",
+      room: neighborhoodConversationRoom,
+      opening: createNeighborhoodMeetingProgress,
+    },
+    {
+      subject: "school-project-share",
+      room: schoolConversationRoom,
+      opening: createSchoolProjectProgress,
+    },
+  ];
+}
 
 export interface AvailableConversation {
   readonly subject: ConversationSubjectKey;
@@ -129,7 +144,7 @@ export function availablePlayerConversations(
   world: World,
   personId: EntityId,
 ): readonly AvailableConversation[] {
-  return WIRINGS.flatMap((wiring) => {
+  return subjectWirings().flatMap((wiring) => {
     const room = wiring.room(world, personId);
     if (!room) return [];
     const progress =

@@ -14,6 +14,8 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
+import { currentLifeCutoff } from "../simulation/life-queries";
+import { isPersonAliveAt } from "../simulation/vitality-integrity";
 import { householdIdFor } from "./person-dossier";
 
 /**
@@ -234,10 +236,13 @@ export function projectPeopleDirectory(
     }
   }
 
+  // People lists who this life can deal with now. A grandparent or anybody
+  // else who has died stays in the life story and the dossier, not here.
+  const cutoff = currentLifeCutoff(world);
   const people: DirectoryPerson[] = [];
   for (const [personId, set] of categories) {
     const person = world.people[personId];
-    if (!person) continue;
+    if (!person || !isPersonAliveAt(world, personId, cutoff)) continue;
     const summary = deriveRelationshipSummary(world, playerId, personId);
     people.push({
       personId,
@@ -266,7 +271,12 @@ export function projectPeopleDirectory(
   const notYetMet: DirectoryPerson[] = [];
   for (const [personId, set] of unmet) {
     const person = world.people[personId];
-    if (!person || categories.has(personId)) continue;
+    if (
+      !person ||
+      categories.has(personId) ||
+      !isPersonAliveAt(world, personId, cutoff)
+    )
+      continue;
     notYetMet.push({
       personId,
       name: personName(person),

@@ -1,0 +1,24 @@
+{
+  "filedAt": "2026-09-29T05:15:00.000Z",
+  "impact": "shapes-design",
+  "lane": "public budgets",
+  "priority": "P1",
+  "question": "For each state, D.C. and each territory: which state constitutional or statutory provisions bind the budgets of its local governments, separately for counties, cities and towns, and school districts? (1) Must a local government adopt a balanced budget, and may it carry a deficit into the next year? (2) Must it keep a minimum reserve or fund balance, or is its reserve capped? (3) Must it pay its full actuarially determined pension contribution, or the state plan's certified rate? (4) What happens when a local government breaks the rule: state review board, fiscal-emergency takeover, receivership, or nothing? Cite the provision for each answer (statute or constitution section, with its URL), and say where a rule depends on a local government's class or charter.",
+  "questionId": "state-requirements-on-local-budgets",
+  "relatedQuestionIds": [
+    "state-balanced-budget-and-reserve-rules",
+    "local-government-finances-by-type",
+    "public-pension-funding-by-state"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "filed by Build 12 · Public Budgets",
+  "sourcesChecked": [
+    {
+      "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json",
+      "whatItDidNotSettle": "Carries each state's own balanced-budget requirement, but no field for what a state requires of its local governments' budgets (checked by search on September 29, 2026)."
+    }
+  ],
+  "title": "What each state requires of its counties' and cities' budgets",
+  "usableAnswer": "One row per state and type of local government, with a yes or no for a balanced budget, a reserve rule, full pension funding and the enforcement step, each with its cited provision.",
+  "whyItMatters": "Claude CTO's ruling of September 28, 2026, 9:54 p.m. EDT, says a state law that names its local governments binds them. Today a county or city reads only its own budget ordinances (src/simulation/public-budgets/fiscal.ts:80), so a state's balanced-budget, reserve or pension requirement on its towns changes nothing in their books. With these rows, each state's rule for its towns goes into the starting law, and a town's budget reads its state's rule as well as its own."
+}

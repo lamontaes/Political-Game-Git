@@ -1,0 +1,30 @@
+{
+  "id": "pension-contribution-paid",
+  "source": "Public Plans Database, PercentReqContPaid (employer contributions received over the actuarially required contribution)",
+  "url": "https://publicplansdata.org/api/?q=QVariables&variables=fy,ppd_id,PlanName,StateAbbrev,AdministeringGovt,PercentReqContPaid&filterfystart=2019&filterfyend=2024&format=csv&includeheader=1",
+  "readOn": "2026-09-28",
+  "script": "scripts/research/export-pension-contribution-paid.py",
+  "quantiles": [
+    0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65,
+    0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0
+  ],
+  "share": {
+    "fiscalYears": [2022, 2024],
+    "planYears": 688,
+    "median": 1.0,
+    "mean": 1.0621,
+    "belowFull": 0.1584,
+    "values": [
+      0.5747, 0.7747, 0.9037, 0.9942, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+      1.0, 1.003, 1.0212, 1.0446, 1.0821, 1.1404, 1.2633, 1.522, 2.6726
+    ]
+  },
+  "yearlyChange": {
+    "fiscalYears": [2019, 2024],
+    "planYears": 1146,
+    "values": [
+      -0.622, -0.1219, -0.0528, -0.0203, -0.0061, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0051, 0.0173, 0.0379, 0.0665, 0.1008, 0.1865, 0.6896
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "filedAt": "2026-09-29T01:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "public budgets",
+  "priority": "P2",
+  "question": "The short-run elasticity of state and local revenue to output (or personal income) and to prices, separately for individual income tax, corporate income tax, general sales tax, selective sales taxes, property tax and charges; whether property tax lags the economy and by how long; and how federal aid to states moves in a recession. Prefer peer-reviewed or official estimates (for example Federal Reserve, Pew, Urban Institute, CBO).",
+  "questionId": "tax-revenue-response-to-economy",
+  "relatedQuestionIds": [],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "filed by Build 12 \u00b7 Public Budgets",
+  "sourcesChecked": [],
+  "title": "How each kind of state and local tax revenue moves with income, output and prices",
+  "usableAnswer": "One elasticity per source with its lag and range, each cited.",
+  "whyItMatters": "Every revenue source in the game's budgets moves one to one with nominal output, and federal and state aid does not move at all, as a PLACEHOLDER (src/simulation/public-budgets/rules.ts, ECONOMY_ELASTICITY). A recession therefore hits income and sales taxes no harder than property tax."
+}

@@ -214,13 +214,13 @@ export const RENT_SPREAD = {
 } as const;
 
 /** The Brooke rule: public housing rent is 30% of monthly income. */
-export const PUBLIC_HOUSING_INCOME_SHARE = 0.3;
+export const PUBLIC_HOUSING_RENT_OF_INCOME = 0.3;
 /** The highest minimum rent a housing authority may set (24 CFR 5.630). */
 export const PUBLIC_HOUSING_MINIMUM_RENT_MINOR = 5_000;
 /** The flat rent is at least 80% of the Fair Market Rent (Pub. L. 113-235). */
-export const PUBLIC_HOUSING_FLAT_RENT_SHARE = 0.8;
+export const PUBLIC_HOUSING_FLAT_RENT_OF_FMR = 0.8;
 /** An affordable home's rent: 30% of 60% of area median income, a month. */
-export const AFFORDABLE_INCOME_SHARE = 0.3;
+export const AFFORDABLE_RENT_OF_INCOME = 0.3;
 /** HUD's 60% limit is 120% of its very low (50%) limit. */
 export const AFFORDABLE_LIMIT_OF_VERY_LOW = 1.2;
 /** HUD's family-size adjustment of an income limit, one to eight people. */
@@ -229,11 +229,13 @@ export const HUD_FAMILY_SIZE_FACTORS = [
 ] as const;
 
 /**
- * PLACEHOLDER(research: inclusionary-set-aside). The share of apartments and
- * rowhouses recorded after an inclusionary housing law took effect that it
- * makes affordable. Local laws set 10% to 20%; the game uses one figure.
+ * PLACEHOLDER(research: inclusionary-set-aside). The law's set-aside: the part
+ * of the apartments and rowhouses recorded after an inclusionary housing law
+ * took effect that it makes affordable. Local laws set 10% to 20%; the game
+ * uses one figure. These rent terms are law, not odds: nothing is drawn
+ * against them.
  */
-export const INCLUSIONARY_SHARE = 0.15;
+export const INCLUSIONARY_SET_ASIDE = 0.15;
 
 /**
  * Rent stabilization's cap on a renewal: the price level's rise plus five
@@ -437,7 +439,7 @@ export function affordableRentMinor(
   const limit = veryLowIncomeLimit(row, people);
   if (limit === null) return null;
   return Math.round(
-    ((limit * AFFORDABLE_LIMIT_OF_VERY_LOW * AFFORDABLE_INCOME_SHARE) / 12) *
+    ((limit * AFFORDABLE_LIMIT_OF_VERY_LOW * AFFORDABLE_RENT_OF_INCOME) / 12) *
       100,
   );
 }
@@ -1309,17 +1311,20 @@ export function publicHousingRentMinor(
   fmrMinor: number,
 ): number {
   const flat =
-    Math.round((fmrMinor * PUBLIC_HOUSING_FLAT_RENT_SHARE) / 100) * 100;
+    Math.round((fmrMinor * PUBLIC_HOUSING_FLAT_RENT_OF_FMR) / 100) * 100;
   if (monthlyIncomeMinor === null) return flat;
   const share =
-    Math.round((monthlyIncomeMinor * PUBLIC_HOUSING_INCOME_SHARE) / 100) * 100;
+    Math.round((monthlyIncomeMinor * PUBLIC_HOUSING_RENT_OF_INCOME) / 100) *
+    100;
   return Math.min(flat, Math.max(PUBLIC_HOUSING_MINIMUM_RENT_MINOR, share));
 }
 
 /**
  * Whether an inclusionary law made this home affordable: an apartment or
- * rowhouse recorded after the law took effect in its town, one in the law's
- * share, drawn once for the home.
+ * rowhouse recorded in its town after the law took effect, counted in the
+ * order the homes were recorded. The law's set-aside is met exactly, rounding
+ * up, the way ordinances round a building's affordable units: with a 15%
+ * set-aside the 1st, 7th, 14th and 21st such homes are affordable.
  */
 function inclusionaryHome(
   world: World,
@@ -1327,7 +1332,7 @@ function inclusionaryHome(
   kind: TownHomeKind,
   town: EntityId,
 ): { readonly designation: string } | null {
-  if (kind !== "small-apartment" && kind !== "rowhouse") return null;
+  if (!coveredKind(kind)) return null;
   const law = housingLawYes(
     world,
     town,
@@ -1337,11 +1342,32 @@ function inclusionaryHome(
   if (!law) return null;
   // A law in force at the opening applies only to homes built after it.
   if (dwelling.establishedAt <= law.operativeAt) return null;
-  const draw = new SeededRng(world.seed)
-    .fork(`${TOWN_RENT_VERSION}:inclusionary:${dwelling.id}`)
-    .next();
-  if (draw >= INCLUSIONARY_SHARE) return null;
+  const position = world.history.dwellings.filter(
+    (row) =>
+      row.jurisdictionId === town &&
+      coveredKind(homeKindOf(row.classification)) &&
+      row.establishedAt > law.operativeAt &&
+      (row.establishedAt < dwelling.establishedAt ||
+        (row.establishedAt === dwelling.establishedAt &&
+          row.id.localeCompare(dwelling.id) <= 0)),
+  ).length;
+  if (!inclusionarySetAsideTakes(position)) return null;
   return { designation: measureDesignation(world, law.measureId) };
+}
+
+/**
+ * Whether the home at this position (1 for the first covered home recorded
+ * after the law) is one the set-aside takes: the count taken so far never
+ * falls below the set-aside, rounded up.
+ */
+export function inclusionarySetAsideTakes(position: number): boolean {
+  const due = (count: number) =>
+    Math.ceil(count * INCLUSIONARY_SET_ASIDE - 1e-9);
+  return due(position) > due(position - 1);
+}
+
+function coveredKind(kind: TownHomeKind): boolean {
+  return kind === "small-apartment" || kind === "rowhouse";
 }
 
 function measureDesignation(world: World, measureId: EntityId): string {

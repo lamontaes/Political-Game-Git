@@ -9,7 +9,10 @@
  */
 
 import { districtIdentityCatalog } from "../districts/catalog";
-import { placeDistrictJoin } from "../districts/place-membership";
+import {
+  placeDistrictJoin,
+  selectDatedSet,
+} from "../districts/place-membership";
 import { districtRecordId } from "../districts/query";
 import type { DistrictChamber } from "../districts/types";
 import { makeIsoDate } from "../simulation/dates";
@@ -885,7 +888,7 @@ export function inspectRegion(
       break;
     }
     case "county": {
-      const relation = countyCongressional([input.geoid]);
+      const relation = countyCongressional([input.geoid], date.asOf);
       membership.push(
         relation.kind === "known"
           ? `Entirely within congressional district ${districtLabel(relation.geoid)}.`
@@ -913,7 +916,7 @@ export function inspectRegion(
           membership.push(`No published ${label} relationship for this place.`);
         }
       }
-      const house = placeCongressional(input.geoid);
+      const house = placeCongressional(input.geoid, date.asOf);
       membership.push(describeRelation("congressional district", house));
       break;
     }
@@ -1069,11 +1072,32 @@ const COUNTY_METHOD =
 const COUNTY_CANDIDATE_METHOD =
   "Candidates from the Census county-within-district file for the counties this place touches; an address would decide.";
 
+/**
+ * The county table for one state on a game date: a dated U.S. House set when
+ * one is in force, otherwise the baseline.
+ */
+function countyTableFor(stateFips: string, asOf: string): PackedTable {
+  const set = selectDatedSet(
+    candidates.countyCongressional.dated as readonly {
+      readonly effectiveFrom: string;
+      readonly stateFips: readonly string[];
+      readonly byState: PackedTable;
+    }[],
+    stateFips,
+    asOf,
+  );
+  return (
+    set?.byState ?? (candidates.countyCongressional.byState as PackedTable)
+  );
+}
+
 function countyCongressional(
   countyGeoids: readonly string[],
+  asOf: string,
 ): DistrictRelation {
-  const table = candidates.countyCongressional.byState as PackedTable;
-  const entries = countyGeoids.map((county) => packedLookup(table, county));
+  const entries = countyGeoids.map((county) =>
+    packedLookup(countyTableFor(county.slice(0, 2), asOf), county),
+  );
   if (!entries.length || entries.some((entry) => entry === null)) {
     return {
       kind: "unknown",
@@ -1105,16 +1129,19 @@ function countyCongressional(
 }
 
 const PLACE_METHOD =
-  "The Census 119th Congress district–2020 place relationship file lists this place with only this district.";
+  "The Census district–2020 place relationship for the U.S. House lines in force lists this place with only this district.";
 const PLACE_CANDIDATE_METHOD =
-  "The Census 119th Congress district–2020 place relationship file lists this place with each of these districts; an address would decide.";
+  "The Census district–2020 place relationship for the U.S. House lines in force lists this place with each of these districts; an address would decide.";
 
 /**
  * The same place join the canonical home join writes residence from, so the
  * map and the saved record cannot disagree about a place.
  */
-function placeCongressional(placeGeoid: string): DistrictRelation {
-  const join = placeDistrictJoin(placeGeoid, "congressional");
+function placeCongressional(
+  placeGeoid: string,
+  asOf: string,
+): DistrictRelation {
+  const join = placeDistrictJoin(placeGeoid, "congressional", asOf);
   if (join.kind === "whole-place")
     return { kind: "known", geoid: join.districtGeoid, method: PLACE_METHOD };
   if (join.kind === "split")
@@ -1124,7 +1151,7 @@ function placeCongressional(placeGeoid: string): DistrictRelation {
       method: PLACE_CANDIDATE_METHOD,
     };
   // A place newer than the 2020 relationship file falls back to its counties.
-  return countyCongressional(countiesForPlace(placeGeoid));
+  return countyCongressional(countiesForPlace(placeGeoid), asOf);
 }
 
 function describeRelation(label: string, relation: DistrictRelation): string {
@@ -1211,7 +1238,10 @@ export function playerGeography(
   };
   const homeRef = home.ref;
   if (homeRef?.layer === "place") {
-    homeDistricts.congressional = placeCongressional(homeRef.geoid);
+    homeDistricts.congressional = placeCongressional(
+      homeRef.geoid,
+      world.currentDate,
+    );
     for (const chamber of ["state-upper", "state-lower"] as const) {
       const join = placeDistrictJoin(homeRef.geoid, chamber);
       homeDistricts[chamber] =
@@ -1232,7 +1262,10 @@ export function playerGeography(
             : { kind: "unknown", reason: HOME_UNKNOWN };
     }
   } else if (homeRef?.layer === "county") {
-    homeDistricts.congressional = countyCongressional([homeRef.geoid]);
+    homeDistricts.congressional = countyCongressional(
+      [homeRef.geoid],
+      world.currentDate,
+    );
   }
   // At-large states have exactly one district: that is a fact, not a guess.
   if (homeRef && homeDistricts.congressional.kind !== "known") {

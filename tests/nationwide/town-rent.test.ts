@@ -29,6 +29,8 @@ import {
   collectTownRent,
   drawBedrooms,
   hudRentRowFor,
+  INCLUSIONARY_SET_ASIDE,
+  inclusionarySetAsideTakes,
   publicHousingRentMinor,
   RENT_BASIS,
   RENT_DAY_TRANSITION_KEY,
@@ -123,6 +125,14 @@ describe("rent arithmetic", () => {
     expect(publicHousingRentMinor(10_000_00, fmr)).toBe(1409_00);
     // Unknown income is not zero income: the flat rent applies.
     expect(publicHousingRentMinor(null, fmr)).toBe(1409_00);
+  });
+
+  it("meets an inclusionary set-aside by count, in the order homes are recorded", () => {
+    const taken = Array.from({ length: 100 }, (_, index) => index + 1).filter(
+      inclusionarySetAsideTakes,
+    );
+    expect(taken.slice(0, 4)).toEqual([1, 7, 14, 21]);
+    expect(taken).toHaveLength(Math.round(100 * INCLUSIONARY_SET_ASIDE));
   });
 
   it("caps a stabilized renewal at the price rise plus five points, at most ten", () => {
