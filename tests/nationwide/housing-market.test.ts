@@ -11,6 +11,12 @@ import {
   HOUSING_SUPPLY_LAWS,
   housingLawEffect,
 } from "../../src/simulation/living-world/housing-market";
+import {
+  RENT_LAW_KEYS,
+  RENT_STABILIZATION_CITYWIDE,
+  renewedMarketRent,
+  rentLawLevel,
+} from "../../src/simulation/living-world/town-rent";
 import type { MacroMonthRecord } from "../../src/simulation/macro-economy/types";
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
 import type {
@@ -268,5 +274,63 @@ describe("a law that lets more homes be built lowers home prices a year after it
         ),
         key,
       ).toHaveLength(1);
+  });
+});
+
+describe("rent stabilization raises the town's market rents a year after it takes effect", () => {
+  const place = drawRandomPlace("rent-stabilization-citywide");
+  const town = place.context.jurisdiction.id;
+  const state = stateJurisdictionForKey(place.stateJurisdictionKey!)!.id;
+  const question = RENT_LAW_KEYS.rentStabilization;
+  const questionId = Object.values(POLICY.propositions).find(
+    (row) => row.stableKey === question,
+  )!.id;
+  const effectiveAt = "2027-07-01" as IsoDate;
+  const acts = addDays(effectiveAt, RENT_STABILIZATION_CITYWIDE.actsAfterDays);
+  const started =
+    lawInForceAtStart(
+      { policyCatalog: POLICY, history: {} } as unknown as World,
+      town,
+      questionId,
+      effectiveAt,
+    ) === "yes";
+  const changed = started ? "no" : "yes";
+  const raised = 1 + RENT_STABILIZATION_CITYWIDE.rentRise;
+
+  it(`${place.displayName} (${place.key}, seed rent-stabilization-citywide): one until the law has been in force a year, then the measured rise`, () => {
+    const world = stateEnacts(state, [
+      { question, answer: changed, effectiveAt },
+    ]);
+    expect(rentLawLevel(world, town, OPENED)).toBe(1);
+    expect(rentLawLevel(world, town, addDays(acts, -1))).toBe(1);
+    expect(rentLawLevel(world, town, acts)).toBeCloseTo(
+      started ? 1 / raised : raised,
+      12,
+    );
+  });
+
+  it("a repeal a year later puts rents back once it has acted, and a law repeating the starting answer moves nothing", () => {
+    const repealed = stateEnacts(state, [
+      { question, answer: changed, effectiveAt },
+      {
+        question,
+        answer: started ? "yes" : "no",
+        effectiveAt: addDays(effectiveAt, 365),
+      },
+    ]);
+    expect(rentLawLevel(repealed, town, addDays(acts, 400))).toBe(1);
+    const same = stateEnacts(state, [
+      { question, answer: started ? "yes" : "no", effectiveAt },
+    ]);
+    expect(rentLawLevel(same, town, addDays(acts, 30))).toBe(1);
+  });
+
+  it("a covered renewal in the year rents rise is still held to the cap", () => {
+    // Home prices up 4% and the law's rise on top, against prices up 3%:
+    // the landlord seeks 9.3%, the cap allows 8%.
+    const renewal = renewedMarketRent(150_000, 1.04 * raised, 1.03, true);
+    expect(renewal.capped).toBe(true);
+    expect(renewal.amountMinor).toBe(162_000);
+    expect(renewal.uncappedMinor).toBe(164_000);
   });
 });
