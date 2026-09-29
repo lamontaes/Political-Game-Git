@@ -10,11 +10,14 @@ import type {
   AdultAftermathKind,
   ClaimAudience,
   EntityId,
+  FavorWeight,
   IsoDate,
   LifeCommitmentKind,
   RelationshipChange,
   RelationshipInteractionKind,
   RelationshipSignificance,
+  UndertakingAct,
+  UndertakingFirmness,
   World,
 } from "../simulation";
 
@@ -118,6 +121,18 @@ export interface ConversationCommitmentSpec {
   readonly label: string;
   /** Lower and upper weekly hours, as the accepted time-demand profile wants. */
   readonly weeklyHours: readonly [number, number];
+  /**
+   * What was promised to the other person, when the line promised something
+   * to somebody. The act says what later record would answer it; the words
+   * say, in the third person, what the holder undertook.
+   */
+  readonly undertaking?: {
+    readonly act: UndertakingAct;
+    readonly promised: string;
+    readonly mattered: FavorWeight;
+    /** How firmly it was said. Plain "I will" unless the words hedged. */
+    readonly firmness?: UndertakingFirmness;
+  };
 }
 
 /** What a conversation may leave behind, in the accepted aftermath vocabulary. */
@@ -133,6 +148,12 @@ export interface WriteConversationCommitmentInput {
   readonly stableKey: string;
   readonly jurisdictionId: EntityId | null;
   readonly spec: ConversationCommitmentSpec;
+  /** Who it was said to and who heard, for a spec that promises something. */
+  readonly hearing?: {
+    readonly owedToPersonIds: readonly EntityId[];
+    readonly heardByPersonIds: readonly EntityId[];
+    readonly audience: ClaimAudience;
+  };
 }
 
 /**
@@ -165,6 +186,25 @@ export function writeConversationCommitment(
       locationJurisdictionId: input.jurisdictionId,
     },
     provenance: { kind: "simulated-event", eventId: input.eventId },
+    ...(input.spec.undertaking && input.hearing
+      ? {
+          undertaking: {
+            owedToPersonIds: input.hearing.owedToPersonIds,
+            act: input.spec.undertaking.act,
+            firmness: input.spec.undertaking.firmness ?? "explicit",
+            audience: input.hearing.audience,
+            heardByPersonIds: input.hearing.heardByPersonIds.filter(
+              (personId) => personId !== input.personId,
+            ),
+            statement: input.spec.undertaking.promised,
+            // The words on record are the other person's reply; the holder's
+            // own line is the choice on the event, not a claim.
+            claimId: null,
+            mattered: input.spec.undertaking.mattered,
+            dueBy: null,
+          },
+        }
+      : {}),
   });
 }
 

@@ -1420,28 +1420,52 @@ function laterRecordedVoteBy(
   world: World,
   commitment: LegislativeCommitmentRecord,
 ): LaterVote | null {
+  const vote = laterRecordedVoteOn(
+    world,
+    commitment.holderPersonId,
+    commitment.subject.question,
+    commitment.sequence,
+  );
+  return vote
+    ? { disposition: vote.disposition, questionLabel: vote.questionLabel }
+    : null;
+}
+
+/**
+ * The first yea or nay this person cast on exactly this question after a
+ * point in the record. Any undertaking about a vote, legislative or not, is
+ * answered by the same roll call.
+ */
+export function laterRecordedVoteOn(
+  world: World,
+  personId: EntityId,
+  question: LegislativeQuestionIdentity,
+  afterSequence: number,
+): {
+  readonly voteId: EntityId;
+  readonly disposition: "yea" | "nay";
+  readonly questionLabel: string;
+} | null {
   const votes = (world.history.legislativeVotes ?? [])
     .filter(
       (vote) =>
-        vote.sequence > commitment.sequence &&
-        legislativeQuestionAnswers(
-          commitment.subject.question,
-          questionPutByVote(world, vote),
-        ),
+        vote.sequence > afterSequence &&
+        legislativeQuestionAnswers(question, questionPutByVote(world, vote)),
     )
     .slice()
     .sort((a, b) => a.sequence - b.sequence);
   for (const vote of votes) {
     const disposition = vote.dispositions.find(
-      (record) => record.personId === commitment.holderPersonId,
+      (record) => record.personId === personId,
     );
     if (
       disposition &&
       (disposition.disposition === "yea" || disposition.disposition === "nay")
     ) {
       return {
+        voteId: vote.id,
         disposition: disposition.disposition,
-        questionLabel: questionInWords(commitment.subject.question),
+        questionLabel: questionInWords(question),
       };
     }
   }
