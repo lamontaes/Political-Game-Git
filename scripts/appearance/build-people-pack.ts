@@ -630,6 +630,12 @@ const SEATED_POSES = [
   "seated-leaning",
   "seated-legs-crossed",
   "seated-ankle-on-knee",
+  "seated-reading",
+  "seated-writing",
+  "seated-phone",
+  "seated-hands-folded",
+  "seated-listening",
+  "seated-relaxed",
 ] as const satisfies readonly NamedBodyPose[];
 /** Rows (at half size) a standing pose's head may sit from the standing one. */
 const HEAD_TOLERANCE = 2;
