@@ -17,6 +17,12 @@ and writes data/research/money/place-population-acs-2024.json with each place
 read it only where the Vintage 2025 figure is missing
 (src/simulation/public-budgets/opening.ts).
 
+A census-designated place has no government of its own: its residents are
+served by their county, or in Puerto Rico by their municipio. So the file also
+carries each such place's parts by county (summary level 155, residents in
+each county, largest first), and each Puerto Rico municipio's population
+(summary level 050), which the BEA county figures leave out.
+
 Run: python3 scripts/research/export-acs-place-population.py <acsdt5y2024-b01003.dat>
 """
 
@@ -46,15 +52,27 @@ def main() -> None:
             if row["geography_type"] == "Census estimates-universe place"
         }
     places = {}
+    parts = {}
+    municipios = {}
     with open(sys.argv[1], newline="") as handle:
         for row in csv.DictReader(handle, delimiter="|"):
             geo = row["GEO_ID"]
-            if not geo.startswith("1600000US"):
-                continue
-            geoid = geo[len("1600000US") :]
-            if geoid in covered:
-                continue
-            places[geoid] = int(row["B01003_E001"])
+            population = int(row["B01003_E001"])
+            if geo.startswith("0500000US72"):
+                municipios[geo[len("0500000US") :]] = population
+            elif geo.startswith("1550000US"):
+                # State (2), place (5), county (3).
+                code = geo[len("1550000US") :]
+                parts.setdefault(code[:7], []).append([code[:2] + code[7:], population])
+            elif geo.startswith("1600000US"):
+                geoid = geo[len("1600000US") :]
+                if geoid not in covered:
+                    places[geoid] = population
+    counties = {
+        geoid: sorted(parts[geoid], key=lambda part: (-part[1], part[0]))
+        for geoid in sorted(places)
+        if geoid in parts
+    }
     out = {
         "id": "place-population-acs-2024",
         "source": SOURCE,
@@ -62,9 +80,13 @@ def main() -> None:
         "scope": "Places (summary level 160) that the Census Vintage 2025 place estimates do not cover: census-designated places and Puerto Rico.",
         "script": "scripts/research/export-acs-place-population.py",
         "places": dict(sorted(places.items())),
+        "placeCounties": counties,
+        "puertoRicoMunicipios": dict(sorted(municipios.items())),
     }
     OUT.write_text(json.dumps(out, indent=2) + "\n")
-    print(f"wrote {len(places)} places to {OUT.relative_to(ROOT)}")
+    print(
+        f"wrote {len(places)} places, {len(counties)} with county parts and {len(municipios)} municipios to {OUT.relative_to(ROOT)}"
+    )
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+import { makeIsoDate } from "../dates";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import {
   ensurePeopleTraitCatalog,
@@ -21,26 +22,36 @@ export const NOMINATION_FIELD_PROFILE = {
 } as const;
 
 /**
+ * The first day any field for an election year can file, and the day whose
+ * law governs the whole cycle: a law in force then sets the cycle's primary
+ * date and method, and a later law waits for the next cycle.
+ *
+ * PLACEHOLDER(build-24-d9): July 1 of the year before, set by hand. The
+ * earliest real 2026 deadline is Illinois's, November 3, 2025, 120 days
+ * after it; a law that moved a deadline earlier than this would file here.
+ */
+export function filingWindowOpens(year: number): IsoDate {
+  return makeIsoDate(`${year - 1}-07-01`);
+}
+
+/**
  * The day a seat's field files: the office's own intake day, but never later
  * than the state's filing deadline for the primary (the plan's
  * `filingDeadline`: the FEC's 2026 date, or the place's own 2026 gap before
- * its primary).
- *
- * PLACEHOLDER(build-24-step-1): a field never files before `earliest`, the
- * first intake day of the election year (January 6). Several states' real
- * deadlines fall in the year before (Texas: December 8, 2025; Illinois:
- * November 3, 2025); their fields file on January 6 instead, the first day
- * the game gathers any field for that year.
+ * its primary). A deadline in the year before files then (Texas: December 8,
+ * 2025), and a game that opens after it starts with the field already filed,
+ * dated on the deadline (decision D-9).
  */
 export function fieldIntakeDay(
   base: IsoDate,
   plan: NominationPlan,
-  earliest: IsoDate,
+  year: number,
 ): IsoDate {
   if (!plan.known) return base;
   const closes = plan.filingDeadline;
   const day = closes < base ? closes : base;
-  return day < earliest ? earliest : day;
+  const opens = filingWindowOpens(year);
+  return day < opens ? opens : day;
 }
 
 /**
@@ -83,7 +94,13 @@ export function decideSelfStarterRun(
   },
 ): { world: World; runs: boolean; decisionTraceId: EntityId } {
   const { stableKey: key, personId } = input;
-  let next = ensurePeopleTraits(ensurePeopleTraitCatalog(world), [personId]);
+  // A field filed before the game opened is decided on its own day, from
+  // the temperament the person had then.
+  let next = ensurePeopleTraits(
+    ensurePeopleTraitCatalog(world),
+    [personId],
+    input.intakeDate < world.currentDate ? input.intakeDate : world.currentDate,
+  );
   const evaluation = evaluateDecision(next, {
     stableKey: key,
     decisionType: input.decisionType,

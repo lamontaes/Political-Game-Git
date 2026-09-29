@@ -82,6 +82,7 @@ import type {
   RecoveryLevel,
   ResidenceRole,
   TimeDemandProfile,
+  UndertakingTerms,
   WorkAuthority,
   WorkCompensation,
   WorkDependency,
@@ -326,6 +327,8 @@ export interface RecordLifeCommitmentInput {
   readonly label: string;
   readonly timeDemand: TimeDemandProfile;
   readonly provenance: LifeRecordProvenance;
+  /** Present when the commitment was promised to somebody. */
+  readonly undertaking?: UndertakingTerms;
 }
 
 export interface ResolveLifeLoadPeriodInput {
@@ -1506,14 +1509,21 @@ export function recordLifeCommitment(
   assertNonEmpty(input.label, "Life commitment label");
   validateTimeDemand(world, input.timeDemand);
   validateLifeProvenance(world, input.provenance, startsAt);
+  const { undertaking, ...rest } = input;
+  if (undertaking !== undefined) {
+    validateUndertakingTerms(world, input.personId, undertaking);
+  }
   const record: LifeCommitmentRecord = {
-    ...input,
+    ...rest,
     id: createStableId("life-commitment", `${world.id}:${input.stableKey}`),
     sequence: world.history.nextSequence,
     startsAt,
     endsAt,
     timeDemand: cloneTimeDemand(input.timeDemand),
     provenance: cloneLifeProvenance(input.provenance),
+    ...(undertaking === undefined
+      ? {}
+      : { undertaking: cloneUndertakingTerms(undertaking) }),
   };
   return appendOne(world, "lifeCommitments", record);
 }
@@ -1631,6 +1641,70 @@ export function resolveLifeLoadPeriod(
       note: "Deterministically derived from the resolved life-load period.",
     },
   });
+}
+
+const UNDERTAKING_FIRMNESS = [
+  "explicit",
+  "qualified",
+  "provisional",
+  "noncommittal",
+] as const;
+const UNDERTAKING_AUDIENCES = ["private", "limited", "public"] as const;
+const FAVOR_WEIGHTS = ["slight", "moderate", "great", "life-changing"] as const;
+
+/**
+ * An undertaking names real people and says something. Anything else is a
+ * record of a promise nobody made to anybody.
+ */
+function validateUndertakingTerms(
+  world: World,
+  holderPersonId: EntityId,
+  terms: UndertakingTerms,
+): void {
+  if (terms.owedToPersonIds.length === 0) {
+    throw new Error("An undertaking must be owed to somebody.");
+  }
+  for (const personId of [
+    ...terms.owedToPersonIds,
+    ...terms.heardByPersonIds,
+  ]) {
+    if (!world.people[personId]) {
+      throw new Error(`An undertaking names a missing person: ${personId}`);
+    }
+  }
+  if (terms.owedToPersonIds.includes(holderPersonId)) {
+    throw new Error("Nobody owes an undertaking to themselves.");
+  }
+  if (!(UNDERTAKING_FIRMNESS as readonly string[]).includes(terms.firmness)) {
+    throw new Error(`Invalid undertaking firmness: ${String(terms.firmness)}`);
+  }
+  if (!(UNDERTAKING_AUDIENCES as readonly string[]).includes(terms.audience)) {
+    throw new Error(`Invalid undertaking audience: ${String(terms.audience)}`);
+  }
+  if (!(FAVOR_WEIGHTS as readonly string[]).includes(terms.mattered)) {
+    throw new Error(`Invalid undertaking weight: ${String(terms.mattered)}`);
+  }
+  assertNonEmpty(terms.statement, "Undertaking statement");
+  assertNonEmpty(terms.act.description, "Undertaking act");
+  if (
+    terms.claimId !== null &&
+    !world.history.claims.some((claim) => claim.id === terms.claimId)
+  ) {
+    throw new Error(`An undertaking names a missing claim: ${terms.claimId}`);
+  }
+  if (terms.dueBy !== null) makeIsoDate(terms.dueBy);
+}
+
+function cloneUndertakingTerms(terms: UndertakingTerms): UndertakingTerms {
+  return {
+    ...terms,
+    owedToPersonIds: [...terms.owedToPersonIds],
+    heardByPersonIds: [...terms.heardByPersonIds],
+    act:
+      terms.act.kind === "vote"
+        ? { ...terms.act, question: { ...terms.act.question } }
+        : { ...terms.act },
+  };
 }
 
 function appendOne<K extends keyof World["history"]>(

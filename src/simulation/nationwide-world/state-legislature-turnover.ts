@@ -47,7 +47,7 @@ import {
   stateSeatsInDistrict,
 } from "./state-legislature-opening";
 import { electionContestResult } from "../election-contests";
-import { fieldIntakeDay } from "../nominations/field-entry";
+import { fieldIntakeDay, filingWindowOpens } from "../nominations/field-entry";
 import { nominationPlan } from "../nominations/nomination-rules";
 import { holdFiledNominations } from "../nominations/party-nominations";
 import {
@@ -1041,8 +1041,8 @@ function stateNominationPlan(
     stateUsps: usps,
     family: "state-legislature",
     year,
-    // The law in force when the year's filing opens governs the whole cycle.
-    onDate: stateCandidateIntakeDay(year, 0),
+    // The law in force when the cycle's filing opens governs the whole cycle.
+    onDate: filingWindowOpens(year),
     generalDay: generalElectionDay(rule, year),
   });
 }
@@ -1138,16 +1138,18 @@ export function applyStateLegislatureTurnover(
   const world = holdStateLegislativeNominations(before, start);
   // Cheap window test before any history scan: the game-profile prospect
   // window, a regular election, or a term beginning is due.
+  // A field can file from its filing window in the year before (decision
+  // D-9), so next year's window counts too.
   let crossesAny = false;
   for (
     let year = Number(before.slice(0, 4));
-    year <= Number(after.slice(0, 4)) && !crossesAny;
+    year <= Number(after.slice(0, 4)) + 1 && !crossesAny;
     year += 1
   ) {
     const january = `${year}-01-01`;
     crossesAny =
       (before < january && january <= after) ||
-      (before < `${year}-03-07` && `${year}-01-06` <= after) ||
+      (before < `${year}-03-07` && filingWindowOpens(year) <= after) ||
       (before < `${year}-11-08` && `${year}-11-02` <= after);
   }
   if (!crossesAny) return world;
@@ -1160,12 +1162,15 @@ export function applyStateLegislatureTurnover(
     const usps = pack.jurisdictionKey.replace(/^US-/, "");
     const rule = stateLegislativeElectionRule(usps);
     const firstYear = Number(before.slice(0, 4)) - 4;
-    const lastYear = Number(after.slice(0, 4));
+    const lastYear =
+      Number(after.slice(0, 4)) +
+      (after >= filingWindowOpens(Number(after.slice(0, 4)) + 1) ? 1 : 0);
     for (let year = firstYear; year <= lastYear; year += 1) {
       // Every reviewed seat cycle is a subset of the state's regular general
       // election years; this cheap check avoids a national seat scan each day.
       if (!isElectionYear(rule, year)) continue;
       const electionDay = generalElectionDay(rule, year);
+      let plan: ReturnType<typeof stateNominationPlan> | null = null;
       const due = stateLegislativeSeats(next, packId).flatMap((seat, index) => {
         if (
           !isStateLegislativeSeatDue(usps, seat.officeKey, seat.ordinal, year)
@@ -1174,13 +1179,23 @@ export function applyStateLegislatureTurnover(
         const base = stateCandidateIntakeDay(year, index);
         // The field never files later than the game's own intake day.
         if (base <= before) return [];
-        const intakeDate = fieldIntakeDay(
-          base,
-          stateNominationPlan(next, pack.jurisdictionKey, year),
-          stateCandidateIntakeDay(year, 0),
-        );
-        return before < intakeDate && intakeDate <= after
-          ? [{ officeKey: seat.officeKey, ordinal: seat.ordinal, intakeDate }]
+        plan ??= stateNominationPlan(next, pack.jurisdictionKey, year);
+        const intakeDate = fieldIntakeDay(base, plan, year);
+        const entry = {
+          officeKey: seat.officeKey,
+          ordinal: seat.ordinal,
+          intakeDate,
+        };
+        if (before < intakeDate && intakeDate <= after) return [entry];
+        // Decision D-9: a game that opens after the state's real deadline
+        // starts with the field already filed, dated on the deadline.
+        return intakeDate <= before &&
+          !stateCandidateSlate(
+            next,
+            stateCandidateSeatKey(packId, seat.officeKey, seat.ordinal),
+            year,
+          )
+          ? [entry]
           : [];
       });
       next = prepareStateIntake(next, packId, electionDay, due);
