@@ -1,4 +1,4 @@
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import { decideAnotherTerm } from "../careers/another-term";
 import { townSupportFromViews } from "../official-view-reads";
 import { townSupportFromFavors } from "../patronage/following";
