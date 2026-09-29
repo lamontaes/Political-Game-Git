@@ -1,0 +1,32 @@
+{
+  "filedAt": "2026-09-29T15:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "federal laws (Build 14)",
+  "notes": [
+    "Research 1 has the federal table lane; this is the one row of it that has no dollar size. It may be simplest for Research 1 to take it.",
+    "The game moves the District's seats on the day the law takes effect. Give the effective-date rule each bill uses (a transition period, a special election) so the funds change can start on the same day."
+  ],
+  "priority": "P1",
+  "question": "If Congress admits the District of Columbia as a state, which federal payments and formula grants change, by how many dollars a year, and what changes in how the District's budget is made? Cover: the Medicaid match rate (the District's is set by statute at 70 percent; what would a state's formula give it, and do the leading bills keep 70), other formula grants where a state gets a minimum or the District is counted differently (highways, Title I education, block grants), the federal payments the District gets today for costs no state bears (courts, prosecution, corrections, pension liability), anything the bills say the District must start paying for itself, and what changes in budget control (Congress reviewing and able to rewrite the District's budget, the borrowing limit, the Home Rule Act's limits on taxing commuters).",
+  "questionId": "dc-statehood-federal-funds-and-budget",
+  "relatedQuestionIds": [],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Build 14 · 2026 District Lines (federal laws split)",
+  "sourcesChecked": [
+    {
+      "source": "Research 1's 'Law effect sizes: Federal' table of September 29, 2026 (Drive)",
+      "whatItDidNotSettle": "Sizes the statehood question at 'two senators and a voting House member, at admission, law's terms.' It gives no dollar effect on federal funds or on the District's budget."
+    },
+    {
+      "source": "data/research/money/state-local-finances-2022.json (Census Bureau, 2022 Census of Governments: Finance)",
+      "whatItDidNotSettle": "Holds the District's combined state and local revenue and spending by line, including what it receives from the federal government. It does not say which of those federal dollars would change on admission."
+    },
+    {
+      "source": "src/simulation/public-budgets/ on main",
+      "whatItDidNotSettle": "The District already has a state-level budget with a federal aid line held at its opening value. Nothing changes that line when a law changes the District's status, because no size exists to change it by."
+    }
+  ],
+  "title": "What statehood for the District of Columbia changes in federal money and in the District's own budget",
+  "usableAnswer": "A table, one row per item: the item, what the District gets or pays today in the latest full fiscal year (dollars), what changes at admission under the leading bill's own text (dollars a year, or the rule that changes), when the change starts, and the source (bill section, CBO or CRS report, District budget document). Say where two bills disagree. Where the bill is silent, say so and give the closest real precedent (Alaska and Hawaii at admission) with its figure.",
+  "whyItMatters": "The Claude CTO's 10:49 a.m. federal split gave Build 14 statehood for the District, measured as seats in Congress, federal funds formulas and the District's budget. The seats are built and merged for review (pull request 1092). The funds and budget half has no sized source: Research 1's federal table sizes only the seats. Without dollar figures the game would have to invent them, which the owner's rules forbid."
+}

@@ -33,6 +33,9 @@ export function JobListingsPanel({
   return (
     <section aria-label="Jobs" data-testid="job-listings">
       <h3>{view.townName ? `Jobs in ${view.townName}` : "Jobs"}</h3>
+      {view.payFloor ? (
+        <p data-testid="job-pay-floor">{view.payFloor}</p>
+      ) : null}
       <p role="status" aria-live="polite">
         {notice}
       </p>
