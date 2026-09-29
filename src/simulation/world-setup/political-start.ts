@@ -57,6 +57,12 @@ export interface ElectoralCalibration {
   readonly schema: string;
   readonly asOfDate: string;
   readonly calibrationRows: readonly CalibrationRow[];
+  /** Each state's certified 2024 presidential ballots, by the party printed. */
+  readonly presidentialByState?: readonly {
+    readonly stateUsps: string;
+    readonly totalVotes: number | null;
+    readonly totalsByParty: Readonly<Record<string, number>>;
+  }[];
 }
 
 export const ELECTORAL_CALIBRATION =

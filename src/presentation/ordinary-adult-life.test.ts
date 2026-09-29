@@ -26,12 +26,18 @@ import { openOrdinaryLife } from "./ordinary-life";
 /**
  * Ordinary adult life in Minneapolis, away from the Kentucky fixture.
  */
-function newLife(seed = "ordinary-adult-life"): {
+function newLife(
+  seed = "ordinary-adult-life",
+  options: { readonly betweenJobs?: boolean } = {},
+): {
   world: World;
   personId: EntityId;
 } {
   const created = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
+    // An adult who earns nothing: the start as it was before a grown-up
+    // start arrived holding a job in town.
+    ...(options.betweenJobs ? { adultStartWorkVersion: undefined } : {}),
     startAge: 32,
     placeKey: "2743000",
     questionnaire: "skipped",
@@ -88,7 +94,7 @@ describe("living costs are charged on the first of each month", () => {
   };
 
   it("charges a tracked person on each first of the month, and only once", () => {
-    const { world, personId } = newLife();
+    const { world, personId } = newLife(undefined, { betweenJobs: true });
     const funded = ensureLifePathPersonalPosition(
       world,
       personId,
@@ -120,7 +126,7 @@ describe("living costs are charged on the first of each month", () => {
   });
 
   it("offers the first short month as a moment, with its amounts, once", () => {
-    const { world, personId } = newLife();
+    const { world, personId } = newLife(undefined, { betweenJobs: true });
     const broke = letAdultTimePass(
       letAdultTimePass(
         ensureLifePathPersonalPosition(
@@ -152,7 +158,7 @@ describe("living costs are charged on the first of each month", () => {
   });
 
   it("takes the month's costs out of recorded money", () => {
-    const { world, personId } = newLife();
+    const { world, personId } = newLife(undefined, { betweenJobs: true });
     const funded = createResourcePosition(world, {
       stableKey: "test:opening-savings",
       owner: { kind: "person", personId },
@@ -175,7 +181,7 @@ describe("living costs are charged on the first of each month", () => {
   });
 
   it("charges nobody whose money the game is not tracking", () => {
-    const { world, personId } = newLife();
+    const { world, personId } = newLife(undefined, { betweenJobs: true });
     // A new ordinary start records no money until something is earned.
     expect(positionOf(world, personId)).toBeUndefined();
     const later = letAdultTimePass(world, 30);

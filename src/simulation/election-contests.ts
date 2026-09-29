@@ -206,9 +206,9 @@ export function evaluateDeterministicContestOutcome(
 /**
  * A statewide race decided by the state's voters rather than by a draw: each
  * major party's nominees split that party's share of the state's two-party
- * vote, and the ballots are the state's (see `statewide-electorate.ts`).
- * Null for a contest that is not statewide or has a candidate on neither
- * major party's line.
+ * vote, a candidate on neither line shares the state's vote for neither,
+ * and the ballots are the state's (see `statewide-electorate.ts`). Null for a
+ * contest that is not statewide, such as a territory's.
  */
 function statewideContestOutcome(
   world: World,
@@ -225,21 +225,28 @@ function statewideContestOutcome(
       majorPartyOf(world, personId, contest.electionDate),
     ]),
   );
-  // The state's lean says how its voters split between the two major
-  // parties and nothing about anyone else, so a field with a candidate on
-  // neither line is left to the older count until minor parties are read.
-  if ([...parties.values()].some((party) => party === null)) return null;
+  // The state's lean splits the major-party vote; a candidate on neither
+  // line shares the part of the state's ballots that went to neither major
+  // party in the same count, so a sitting executive with no party on record
+  // is still judged by the place's own voters.
   const count = (party: string | null) =>
     [...parties.values()].filter((value) => value === party).length;
-  const weightOf = (personId: EntityId): number =>
-    parties.get(personId) === "democratic"
-      ? electorate.democraticShare / count("democratic")
-      : (1 - electorate.democraticShare) / count("republican");
+  // A field of major-party nominees alone keeps its old arithmetic exactly.
+  const major = count(null) > 0 ? 1 - electorate.neitherMajorShare : 1;
+  const weightOf = (personId: EntityId): number => {
+    const party = parties.get(personId) ?? null;
+    if (party === "democratic")
+      return (major * electorate.democraticShare) / count("democratic");
+    if (party === "republican")
+      return (major * (1 - electorate.democraticShare)) / count("republican");
+    return electorate.neitherMajorShare / count(null);
+  };
   const weights = contest.candidatePersonIds.map((personId) => ({
     candidatePersonId: personId,
     weight: weightOf(personId),
   }));
   const total = weights.reduce((sum, entry) => sum + entry.weight, 0);
+  if (!(total > 0)) return null;
   const tallies: CandidateTally[] = weights
     .map((entry) => {
       const share = entry.weight / total;
