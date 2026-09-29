@@ -21,8 +21,15 @@ import { adoptedIncomeTaxPerYear } from "./income-tax-adoption";
 import { actuarialContribution } from "./opening";
 import { pensionFlows, pensionPayment } from "./pension-share";
 import { reserveRule } from "./reserve-rule";
+import {
+  decideStatehoodCertification,
+  statehoodFederalAidFactor,
+} from "./statehood-funds";
 import { tuitionFreezeFactor } from "./tuition-freeze";
+import { federalAidFactor } from "../federal-outlay-laws";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
+import { principledLeaning } from "../governing/officeholder-principles";
+import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 import {
   ECONOMY_ELASTICITY,
   FIRST_CUT_SHARE,
@@ -31,6 +38,7 @@ import {
   TAX_QUESTION_EFFECTS,
 } from "./rules";
 import {
+  BUDGET_LAW_KEYS,
   BUDGET_PROGRAMS,
   BUDGET_SOURCES,
   PROTECTED_PROGRAMS,
@@ -307,7 +315,10 @@ export function taxLawFactor(
         ? cannabisSalesFactor(world, government, onDate)
         : source === "chargesAndFees"
           ? tuitionFreezeFactor(world, government, onDate)
-          : 1;
+          : source === "federalAid"
+            ? federalAidFactor(world, onDate) *
+              statehoodFederalAidFactor(government, onDate)
+            : 1;
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.source !== source) continue;
     if (!(effect.levels ?? ["state"]).includes(government.level)) continue;
@@ -605,6 +616,11 @@ export function settleGovernmentMonth(
   if (deposit > 0 && balance >= deposit) {
     balance -= deposit;
     reserve += deposit;
+  } else if (deposit < 0) {
+    // A planned draw on the reserve, as far as it holds.
+    const drawnNow = Math.min(-deposit, reserve);
+    reserve -= drawnNow;
+    balance += drawnNow;
   }
 
   const laws = budgetLawReadings(
@@ -836,6 +852,135 @@ export function settleGovernmentMonth(
 }
 
 /**
+ * What laws changed between the last budget's adoption and this one gained
+ * (positive) or lost (negative) the government a year, in dollars: each
+ * source's expected revenue against the same revenue under the tax laws of
+ * the last adoption, less what the laws in force now cost to carry out over
+ * what they cost then.
+ */
+export function lawMoneyChange(
+  world: World,
+  government: PublicBudgetGovernment,
+  prior: AdoptedBudget,
+  expectedRevenue: readonly number[],
+  startsOn: IsoDate,
+): number {
+  const then = prior.adoptedOn;
+  let change = 0;
+  for (const [at, source] of BUDGET_SOURCES.entries()) {
+    const now = taxLawFactor(world, government, source, startsOn);
+    const before = taxLawFactor(world, government, source, then);
+    if (now === before) continue;
+    change +=
+      now > 0
+        ? expectedRevenue[at]! * (1 - before / now)
+        : -prior.expectedRevenue[at]!;
+  }
+  const costNow = sum(lawSpendingForMonth(world, government, startsOn));
+  const costThen = sum(lawSpendingForMonth(world, government, then));
+  return change - (costNow - costThen) * 12;
+}
+
+const REACTION_KIND = {
+  save: "law-gain-saved",
+  spend: "law-gain-spent",
+  cut: "law-loss-cut",
+  draw: "law-loss-drawn",
+  keep: "law-loss-kept",
+} as const;
+
+/**
+ * How a state's governor has the next budget answer money laws gained or
+ * lost it since the last budget, decided from their own principles, never
+ * drawn. Their lean on requiring a reserve (fiscal restraint for it,
+ * collective provision against) decides a gain: saved in the reserve, or
+ * spent on programs. Where a law requires a balanced budget, the same lean
+ * decides a loss: programs are cut, or the reserve above any required floor
+ * (`drawable`) covers it. Where no law requires balance, their lean on a
+ * balanced budget decides it: programs are cut, or kept and the gap runs as
+ * a deficit. Where nothing the governor holds bears on it, the budget does
+ * what it did before this decision existed (spend a gain; cut under a
+ * balanced-budget law, keep programs without one) and says so. Null for a
+ * county or city, where no executive is modeled, for no change, and where no
+ * governor is seated.
+ */
+export function decideLawMoneyReaction(
+  world: World,
+  government: PublicBudgetGovernment,
+  change: number,
+  balancedLaw: boolean,
+  drawable: number,
+): {
+  readonly choice: keyof typeof REACTION_KIND;
+  readonly personId: EntityId;
+  readonly recordIds: readonly EntityId[];
+  readonly note: string;
+} | null {
+  if (government.level !== "state" || Math.round(change) === 0) return null;
+  const governor = currentStateExecutiveHolders(world).find(
+    (holder) => `US-${holder.stateUsps}` === government.stateKey,
+  );
+  if (!governor) return null;
+  const question =
+    change < 0 && !balancedLaw
+      ? BUDGET_LAW_KEYS.balanced
+      : BUDGET_LAW_KEYS.reserve;
+  const propositionId = propositionIdFor(world, question);
+  const { score, recordIds } = propositionId
+    ? principledLeaning(world, governor.personId, propositionId)
+    : { score: 0, recordIds: [] as EntityId[] };
+  const who = `${governor.title} ${governor.personName}`;
+  const dollars = `$${(Math.abs(change) / 1e6).toFixed(2)} million a year`;
+  const decided = (
+    choice: keyof typeof REACTION_KIND,
+    note: string,
+  ): ReturnType<typeof decideLawMoneyReaction> => ({
+    choice,
+    personId: governor.personId,
+    recordIds,
+    note,
+  });
+  if (change > 0)
+    return score > 0
+      ? decided(
+          "save",
+          `${who}'s principles favor keeping a reserve over spending more, so the ${dollars} the laws added went to the reserve.`,
+        )
+      : decided(
+          "spend",
+          score < 0
+            ? `${who}'s principles favor spending on public programs over holding a reserve, so the ${dollars} the laws added went to programs.`
+            : `Nothing ${who} holds bears on saving or spending, so the ${dollars} the laws added went to programs, as the budget does by default.`,
+        );
+  if (balancedLaw) {
+    if (score < 0 && drawable > 0)
+      return decided(
+        "draw",
+        `The law requires a balanced budget, and ${who}'s principles put public programs ahead of holding a reserve, so the reserve covered the ${dollars} the laws took away.`,
+      );
+    return decided(
+      "cut",
+      score > 0
+        ? `The law requires a balanced budget, and ${who}'s principles favor keeping the reserve, so programs were cut to meet the ${dollars} the laws took away.`
+        : score < 0
+          ? `The law requires a balanced budget; ${who} would have drawn the reserve, but it held nothing above what the law keeps there, so programs were cut to meet the ${dollars} the laws took away.`
+          : `The law requires a balanced budget and nothing ${who} holds bears on the reserve, so programs were cut to meet the ${dollars} the laws took away, as the budget does by default.`,
+    );
+  }
+  return score > 0
+    ? decided(
+        "cut",
+        `${who}'s principles call for a balanced budget, so programs were cut to meet the ${dollars} the laws took away.`,
+      )
+    : decided(
+        "keep",
+        score < 0
+          ? `${who}'s principles put public programs ahead of balancing the budget, so programs were kept and the ${dollars} the laws took away runs as a deficit.`
+          : `Nothing ${who} holds bears on balancing the budget, so programs were kept and the ${dollars} the laws took away runs as a deficit, as the budget does by default.`,
+      );
+}
+
+/**
  * The government's own modeled adoption for the next year (automatic; a
  * budget passed as a bill comes later). It expects to collect what it
  * collected last year at today's economy, and a county or city expects its
@@ -947,7 +1092,7 @@ function adoptNextYear(
   const priorTotal = sum(base);
   const reserveLaw = reserveRule(government);
   const floor = reserveLaw.floorShare * priorTotal;
-  const reserveDeposit =
+  let reserveDeposit =
     laws.reserve.answer === "yes" && government.reserve < floor
       ? Math.round(
           Math.min(
@@ -958,19 +1103,90 @@ function adoptNextYear(
       : 0;
   // What the laws in force cost to carry out comes first, like interest.
   const lawCost = sum(lawSpendingForMonth(world, government, startsOn)) * 12;
-  const available = Math.max(
-    0,
-    sum(expectedRevenue) - interest - pensionPaid - reserveDeposit - lawCost,
-  );
   const cuttablePrior = sum(
     base.map((value, at) => (CUTTABLE[at] ? value : 0)),
   );
+  // What laws changed since the last budget was adopted gained or lost the
+  // state; its governor decides what the budget does with it.
+  const lawChange = lawMoneyChange(
+    world,
+    government,
+    prior,
+    expectedRevenue,
+    startsOn,
+  );
+  // What the reserve holds above any floor its law keeps there.
+  const drawable = Math.max(
+    0,
+    laws.reserve.answer === "yes"
+      ? government.reserve - floor
+      : government.reserve,
+  );
+  const reaction = decideLawMoneyReaction(
+    world,
+    government,
+    lawChange,
+    laws.balanced.answer === "yes",
+    drawable,
+  );
+  const beforeSaving = Math.max(
+    0,
+    sum(expectedRevenue) - interest - pensionPaid - reserveDeposit - lawCost,
+  );
+  // A governor who saves a law's gain sets it aside in the reserve, out of
+  // what is left above last year's programs, never by cutting them. One who
+  // draws the reserve for a law's loss takes it out across the year (a
+  // negative deposit), up to what the reserve holds above its floor.
+  const saved =
+    reaction?.choice === "save"
+      ? Math.round(
+          Math.min(lawChange, Math.max(0, beforeSaving - cuttablePrior)),
+        )
+      : 0;
+  const drawn =
+    reaction?.choice === "draw"
+      ? Math.round(Math.min(-lawChange, drawable))
+      : 0;
+  reserveDeposit += saved - drawn;
+  const available = beforeSaving - saved + drawn;
   const fitted = cuttablePrior > 0 ? available / cuttablePrior : 1;
-  const scale = laws.balanced.answer === "yes" ? fitted : Math.max(1, fitted);
+  const scale =
+    laws.balanced.answer === "yes" || reaction?.choice === "cut"
+      ? fitted
+      : Math.max(1, fitted);
+  if (reaction) {
+    const amount =
+      reaction.choice === "save"
+        ? saved
+        : reaction.choice === "draw"
+          ? drawn
+          : reaction.choice === "cut"
+            ? Math.round(
+                Math.min(-lawChange, Math.max(0, cuttablePrior - available)),
+              )
+            : Math.round(Math.abs(lawChange));
+    if (amount > 0)
+      adjustments.push({
+        governmentKey: government.key,
+        on: startsOn,
+        fiscalYear: year.fiscalYear,
+        kind: REACTION_KIND[reaction.choice],
+        amount,
+        law: null,
+        note: reaction.note,
+        decidedBy: {
+          personId: reaction.personId,
+          principleRecordIds: reaction.recordIds,
+        },
+      });
+  }
   // The balance above the reserve target is carried into the year and spent
   // across it. What the reserve still lacks of its target, after this year's
   // deposit, stays in the balance.
-  const kept = Math.max(0, floor - government.reserve - reserveDeposit);
+  const kept = Math.max(
+    0,
+    floor - government.reserve - Math.max(0, reserveDeposit),
+  );
   const carried =
     cuttablePrior > 0 ? Math.max(0, Math.round(government.balance - kept)) : 0;
   const recurring = cuttablePrior * scale;
@@ -1026,6 +1242,13 @@ function adoptNextYear(
   );
   appropriations[INTEREST] = interest;
   appropriations[PENSION_PROGRAM] = pensionPaid;
+  // A place admitted as a state decides whether to certify, from its books
+  // as this budget is adopted.
+  const statehoodCertification = decideStatehoodCertification(
+    world,
+    government,
+    startsOn,
+  );
   return {
     fiscalYear: year.fiscalYear,
     startsOn: year.startsOn,
@@ -1041,6 +1264,7 @@ function adoptNextYear(
     laws,
     carriedBalance,
     stateLocalAidAtAdoption,
+    ...(statehoodCertification ? { statehoodCertification } : {}),
     ...(townSalesAtAdoption !== null
       ? { townSalesAtAdoption: Math.round(townSalesAtAdoption * 1e6) / 1e6 }
       : {}),
