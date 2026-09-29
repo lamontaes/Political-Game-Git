@@ -9,14 +9,21 @@ import { favorRecords, favorStandingBetween } from "./favors";
 import { recordLifeCommitment } from "./life";
 import { activeWorkRelationshipsAt } from "./life-queries";
 import { personName } from "./people";
+import { confidantsOf } from "./confidants";
+import { ensureOwnTies } from "./people-own-ties";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
-import { recordRelationshipInteraction } from "./records";
+import {
+  recordClaim,
+  recordEventKnowledge,
+  recordRelationshipInteraction,
+} from "./records";
 import type { StandingBand } from "./relationship-standing";
 import type {
   DecisionConsideration,
   DecisionImportance,
   EntityId,
   FavorRecord,
+  FavorWeight,
   HistoricalEvent,
   IsoDate,
   World,
@@ -464,6 +471,196 @@ export function answerFavorAsk(
       summary: `${personName(asked)} would not help ${personName(asker)} after ${personName(asker)} had ${favor.description}.`,
       tags: [FAVOR_ASK_TAG],
     });
+    next = tellOfRefusal(next, {
+      answered,
+      askerId: ask.askerPersonId,
+      refuserId: askedId,
+      favor,
+      needWords: ask.needWords,
+    });
   }
   return next;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Word travels                                                               */
+/* -------------------------------------------------------------------------- */
+
+/** SET BY HAND: how much a refusal stings, by how much the favor mattered. */
+const STING: Readonly<Record<FavorWeight, DecisionImportance>> = {
+  slight: "slight",
+  moderate: "moderate",
+  great: "strong",
+  "life-changing": "strong",
+};
+
+interface RefusalToTell {
+  readonly answered: HistoricalEvent;
+  readonly askerId: EntityId;
+  readonly refuserId: EntityId;
+  readonly favor: FavorRecord;
+  readonly needWords: string;
+}
+
+/**
+ * The one who was refused decides whether to tell the people they confide in
+ * (`confidantsOf`), and anybody who saw the favor done. Whether they tell is their own choice,
+ * from how much the favor mattered and who they are; those who hear it know
+ * it secondhand, from them, and it counts against the one who refused when
+ * they later ask those people for something.
+ */
+function tellOfRefusal(start: World, input: RefusalToTell): World {
+  const { answered, askerId, refuserId, favor } = input;
+  // Somebody written around the played life may know nobody but the player;
+  // the same few neighbors and friends their own goals would reach are
+  // recorded first, drawn from people who already live in their town.
+  const world = ensureOwnTies(start, askerId, refuserId);
+  const listeners = [
+    ...new Set([
+      ...favor.witnessPersonIds.filter(
+        (id) => !!world.people[id] && alive(world, id),
+      ),
+      ...confidantsOf(world, askerId),
+    ]),
+  ].filter((id) => id !== refuserId && id !== askerId);
+  if (listeners.length === 0) return start;
+  const key = `favor-answer:${answered.id}:word`;
+  const withTraits = ensurePeopleTraits(world, [askerId]);
+  const evaluation = evaluateDecision(withTraits, {
+    stableKey: key,
+    decisionType: "people.tell-of-refusal",
+    actorPersonId: askerId,
+    cutoff: {
+      asOfDate: withTraits.currentDate,
+      historySequenceExclusive: withTraits.history.nextSequence,
+    },
+    subject: { kind: "context:life", key: "favor-refused", entityId: null },
+    options: [
+      {
+        key: "tell",
+        label: "Tell people",
+        description: "Tell the people they talk to what happened.",
+      },
+      {
+        key: "keep-it",
+        label: "Keep it to themselves",
+        description: "Say nothing about it.",
+      },
+    ],
+    constraints: [],
+    considerations: [
+      {
+        stableKey: `${key}:sting`,
+        optionKey: "tell",
+        sourceType: "social:favor",
+        direction: "supports",
+        importance: STING[favor.weight],
+        confidence: "high",
+        explanation: `They had ${favor.description}, and were turned down.`,
+        sourceRefs: [{ kind: "historical-event", eventId: answered.id }],
+      },
+      ...traitConsiderations(withTraits, askerId, key, [
+        {
+          optionKey: "tell",
+          trait: "sociability",
+          pole: "high",
+          explanation: "They talk to people about what happens to them.",
+        },
+        {
+          optionKey: "keep-it",
+          trait: "sociability",
+          pole: "low",
+          explanation: "They keep things to themselves.",
+        },
+        {
+          optionKey: "tell",
+          trait: "conflict",
+          pole: "high",
+          explanation: "They do not let a slight pass.",
+        },
+        {
+          optionKey: "keep-it",
+          trait: "conflict",
+          pole: "low",
+          explanation: "They would rather not make trouble for anybody.",
+        },
+      ]),
+    ],
+    perceptionIds: [],
+    randomness: "close-choices",
+    retention: "ephemeral",
+  });
+  if (evaluation.selectedOptionKey !== "tell") return start;
+  const asker = withTraits.people[askerId]!;
+  const refuser = withTraits.people[refuserId]!;
+  let next = recordClaim(withTraits, {
+    stableKey: `${key}:claim`,
+    speakerPersonId: askerId,
+    eventId: answered.id,
+    madeAt: withTraits.currentDate,
+    audience: "limited",
+    statement: `${personName(refuser)} would not help me with ${input.needWords}, after I had ${favor.description}.`,
+    relationshipToTruth: "consistent",
+    provenance: { kind: "direct-record" },
+  });
+  const claimId = next.history.claims.at(-1)!.id;
+  for (const listenerId of listeners) {
+    next = recordEventKnowledge(next, {
+      stableKey: `${key}:heard:${listenerId}`,
+      personId: listenerId,
+      eventId: answered.id,
+      learnedAt: next.currentDate,
+      believedSummary: `${personName(refuser)} would not help ${personName(asker)} with ${input.needWords}, after ${personName(asker)} had ${favor.description}.`,
+      accuracy: "accurate",
+      // SET BY HAND: heard from the one it happened to, so believed, but
+      // secondhand.
+      confidence: "medium",
+      source: { kind: "told-by", sourcePersonId: askerId, claimId },
+    });
+  }
+  return next;
+}
+
+/**
+ * What a person asked for something has heard about the one asking turning
+ * down somebody who had helped them, as a reason to say no. Nothing when they
+ * heard nothing. Heard secondhand, so it weighs slight.
+ */
+export function heardOfRefusalConsiderations(
+  world: World,
+  actorPersonId: EntityId,
+  askerPersonId: EntityId,
+  keyPrefix: string,
+  optionKey: string,
+): readonly DecisionConsideration[] {
+  const heard = world.history.knowledge.filter((record) => {
+    if (record.personId !== actorPersonId || record.source.kind !== "told-by")
+      return false;
+    const event = world.history.events.find(
+      (entry) => entry.id === record.eventId,
+    );
+    return (
+      !!event &&
+      event.type === FAVOR_ASK_ANSWERED_EVENT &&
+      event.tags.includes("favor.answer:refuse") &&
+      event.participants.some(
+        (entry) =>
+          entry.role === "agency:answered" && entry.personId === askerPersonId,
+      )
+    );
+  });
+  const latest = heard.at(-1);
+  if (!latest) return [];
+  return [
+    {
+      stableKey: `${keyPrefix}:heard-refused:${askerPersonId}`,
+      optionKey,
+      sourceType: "social:favor",
+      direction: "opposes",
+      importance: "slight",
+      confidence: "medium",
+      explanation: `They heard that ${latest.believedSummary}`,
+      sourceRefs: [{ kind: "event-knowledge", knowledgeId: latest.id }],
+    },
+  ];
 }

@@ -21,6 +21,7 @@ import {
   PLACE_OUTCOME_BASES,
   PLACE_OUTCOME_MEASURES,
   placeOutcomeKey,
+  placeOutcomeValue,
   type PlaceOutcomeDrift,
   type PlaceOutcomeRecord,
   type PlaceOutcomeShare,
@@ -186,15 +187,27 @@ export function placeOutcomesForMonth(
         : replaced
           ? (base * (replaced.structural ?? replaced.base)) / replaced.base
           : base;
-      const moved = driftsInLogs(definition)
-        ? before * Math.exp(step(placeKey))
-        : fromLogit(logit(before) + step(placeKey));
+      const moved =
+        definition.scale === "level"
+          ? before + step(placeKey)
+          : driftsInLogs(definition)
+            ? before * Math.exp(step(placeKey))
+            : fromLogit(logit(before) + step(placeKey));
       const structural =
         last || replaced
           ? Math.min(drift.maxPct, Math.max(drift.minPct, moved))
           : base;
       const reading = outcomeFactor(world, jurisdictionId, measure, month);
+      // A level measure adds each cause's excess over 1; the others multiply.
+      const valueOf = (read: ReturnType<typeof outcomeFactor>) =>
+        placeOutcomeValue(
+          definition,
+          structural,
+          read.multiplier,
+          read.causes.map((cause) => cause.factor),
+        );
       const shares: PlaceOutcomeShare[] = [];
+      const localValues: number[] = [];
       const localRecords: PlaceOutcomeRecord[] = [];
       for (const local of locals.get(placeKey) ?? []) {
         const own = outcomeFactor(world, local.jurisdictionId, measure, month);
@@ -208,15 +221,17 @@ export function placeOutcomesForMonth(
           base,
           structural: Math.round(structural * 10000) / 10000,
           multiplier: own.multiplier,
-          value: Math.round(structural * own.multiplier * 100) / 100,
+          value: Math.round(valueOf(own) * 100) / 100,
           causes: movedBy(own.causes),
         });
-        if (local.weight !== null)
+        if (local.weight !== null) {
           shares.push({
             placeKey: local.localKey,
             weight: local.weight,
             multiplier: own.multiplier,
           });
+          localValues.push(local.weight * valueOf(own));
+        }
       }
       // The state is the average of its places: those keeping their own at
       // their share of residents, the rest of the state at its own.
@@ -224,6 +239,10 @@ export function placeOutcomesForMonth(
       const multiplier = shares.reduce(
         (sum, share) => sum + share.weight * share.multiplier,
         rest * reading.multiplier,
+      );
+      const value = localValues.reduce(
+        (sum, part) => sum + part,
+        rest * valueOf(reading),
       );
       records.push({
         measure,
@@ -233,14 +252,13 @@ export function placeOutcomesForMonth(
         base,
         structural: Math.round(structural * 10000) / 10000,
         multiplier,
-        value: Math.round(structural * multiplier * 100) / 100,
+        value: Math.round(value * 100) / 100,
         causes: movedBy(reading.causes),
         ...(shares.length
           ? {
               places: shares,
               restMultiplier: reading.multiplier,
-              restValue:
-                Math.round(structural * reading.multiplier * 100) / 100,
+              restValue: Math.round(valueOf(reading) * 100) / 100,
             }
           : {}),
       });

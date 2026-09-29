@@ -1,12 +1,9 @@
 import { SeededRng } from "./rng";
 
-/**
- * The family a pre-start life grew up in, drawn from real shares instead of
- * one fixed template. Absent from a save's setup, the old template stands, so
- * every existing replay rebuilds the family it always had.
+/*
+ * The family a grown-up player grew up in, drawn from real shares instead of
+ * one fixed template.
  */
-export const FAMILY_SHAPE_V2 = "family-shape-v2" as const;
-export type FamilyShapeVersion = typeof FAMILY_SHAPE_V2;
 
 /**
  * MEASURED. Children under 18 by who they live with, U.S. Census Bureau,
