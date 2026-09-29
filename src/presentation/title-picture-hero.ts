@@ -1,4 +1,6 @@
+import { heroRecipe } from "./appearance-engine/hero-posture";
 import type { EngineRecipe } from "./appearance-engine/pack";
+import { PEOPLE_PACK } from "./appearance-engine/runtime";
 import type { BrowserWorldSummary } from "./browser-world-repository";
 import { placeDressCode } from "./dress-code";
 
@@ -52,9 +54,16 @@ export function titlePictureHero(
   if (!summary || summary.observing || !summary.playerLooks) return null;
   const looks = summary.playerLooks;
   const dress = placeDressCode(place).dress;
-  const engine =
+  const look =
     looks[dress] ?? looks.business ?? looks.formal ?? looks.casual ?? null;
-  if (!engine) return null;
+  if (!look) return null;
+  // Posed for the role (CLOUD G's hero-posture.ts): an official at the
+  // podium, a judge seated in the robe, anyone else with arms folded.
+  // The figure's box is a standing person's, so a judge keeps the robe but
+  // stands (CLOUD G: stand them, or seat them with seatedEngineBox).
+  const posed = heroRecipe(look, summary.playerRole?.kind, PEOPLE_PACK);
+  const engine =
+    posed.pose === "seated" ? { ...posed, pose: look.pose } : posed;
   const heightPercent = TITLE_HERO_HEIGHT_PERCENT;
   const widthPercent = heightPercent / FIGURE_HEIGHT_TO_WIDTH / PICTURE_ASPECT;
   return {
