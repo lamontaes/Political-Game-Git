@@ -55,3 +55,19 @@ These are team receipts unless otherwise noted. No player acceptance is inferred
 - Team 7: all 61 candidates saved (54 child sheets, four TV surfaces, three newspaper fronts), with lineage. All 825 inputs tagged; 155 issue flags. Final local image QA/contact sheets/tagging/publication wait for speed timing release. No approval or runtime admission.
 
 Dependencies routed: Team 2 national-mood API supplied to Team 3; Team 2/5 exact allowlist removals queued with Team 4 only after corresponding source is received. No new team or helper started by coordinator. No new NEEDS LAMONTAE decision.
+
+## Urgent owner-approved CTO speed override
+
+The ten-year baseline is ordered stopped; Team 4 must confirm owned-process exit and preserve existing yearly receipts. The new acceptance prerequisite for opening the speed PR is identical year 1 and year 2 saved-world fingerprints and year 1 under 60 seconds. Ten-year completion no longer blocks opening. Claude merges speed first under this newest dispatch.
+
+Implement batching in order: seed traits for all due incumbents once before state intake seat loops; index past candidates once per state intake; create all new candidate history-context people once per state; then equivalent batching in Congress and local election decideAnotherTerm loops. Preserve every answer and ordering. Claude profile: /tmp/prof/summary.txt and /tmp/prof/m1.cpuprofile, main 6183fb119, South Fork PA 4272168, seed b18-f375512c. Team 4 must reconcile reported year 1 values (its receipt 615.558 seconds versus dispatch 515.9 seconds) from raw evidence.
+
+Team 1 asked to release local-elections batching hunks after supplying exact published state and confirming no active edits. Other heavy work remains paused; Team 4 retains priority for fix and two-year proof.
+
+## September 29, 7 p.m. Eastern checkpoint
+
+Team 4 received the urgent CTO override, sent TERM to verified baseline PID 33187 and preserved the fresh two-year receipt. Final process-exit confirmation is pending. Fresh baseline is 515.91243975 seconds in year 1 and 333.683822042 seconds in year 2; earlier interrupted run is 615.558/279.335 seconds. Both runs produced the same yearly fingerprints. Do not mix timing rows. No after-fix result yet.
+
+Team 1 confirmed a clean published local-elections blob 03830617c5e8e5a98b439348690ba7fdb800dcab at 32fd449dbbd51eece4c79c076b8ef5de5ebf465f and recorded the narrow two-loop batching release to Team 4 under the claims lock. Coordinator relayed it. Team 4 can proceed without changing other law hunks. Speed PR requires identical two-year fingerprints and year 1 under 60 seconds, then Claude merges it first. Other heavy work remains held. No new owner decision.
+
+Coordinator documentation is published in draft PR #1137; no coordinator merge. Previous six-thirty team receipts remain the latest received for Teams 2, 3, 5, 6 and 7.

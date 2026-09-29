@@ -352,3 +352,10 @@
 | Team 7 | `art/authoring/sept29-team7/contact-sheets/kids-girl-14.jpg` | 2026-09-29T22:08:11.499673+00:00 |
 | Team 7 | `art/authoring/sept29-team7/contact-sheets/references.jpg` | 2026-09-29T22:08:11.499690+00:00 |
 | Team 7 | `docs/release/changes/sept29-team7-art-review.md` | 2026-09-29T22:24:33.053125+00:00 |
+| Team 1 release to Team 4 | `src/simulation/living-world/local-elections.ts`: ONLY batching around `decideAnotherTerm` in the candidacy loop (published line 935) and yearly resignation loop (published line 1379); all law edits and other hunks stay Team 1. Owner-approved CTO speed override. Baseline head `32fd449dbbd51eece4c79c076b8ef5de5ebf465f`, blob `03830617c5e8e5a98b439348690ba7fdb800dcab`. | 2026-09-29T23:01:31.562315+00:00 |
+| Team 4 | `src/simulation/nominations/candidate-pool.ts` | 2026-09-29T23:02:45.278940+00:00 |
+| Team 4 | `src/simulation/nominations/candidate-pool.test.ts` | 2026-09-29T23:02:45.279321+00:00 |
+| Team 4 | `src/simulation/character-history.ts` | 2026-09-29T23:02:45.279340+00:00 |
+| Team 4 | `src/simulation/character-history-context-people.test.ts` | 2026-09-29T23:02:45.279356+00:00 |
+| Team 4 | `src/simulation/people-traits.ts` | 2026-09-29T23:02:45.279375+00:00 |
+| Team 4 | `src/simulation/people-traits.test.ts` | 2026-09-29T23:02:45.279392+00:00 |
