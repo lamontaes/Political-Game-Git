@@ -1,7 +1,16 @@
 /** 30-day watched-world steps; SHA-256 of the real saved payload each year. */
 import { createHash } from "node:crypto";
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  closeSync,
+  openSync,
+  readSync,
+  appendFileSync,
+  mkdirSync,
+  readFileSync,
+  writeFileSync,
+} from "node:fs";
+import { StringDecoder } from "node:string_decoder";
 import { hostname } from "node:os";
 import { dirname } from "node:path";
 import { performance } from "node:perf_hooks";
@@ -35,6 +44,26 @@ function save(path: string, value: unknown) {
   writeFileSync(path, JSON.stringify(value));
 }
 
+/** Read a large save without first making one oversized JavaScript string. */
+function readPayload(path: string): WorldPayload {
+  const file = openSync(path, "r");
+  const buffer = Buffer.alloc(16 * 1024 * 1024);
+  const decoder = new StringDecoder("utf8");
+  const chunks: string[] = [];
+  try {
+    for (;;) {
+      const length = readSync(file, buffer, 0, buffer.length, null);
+      if (length === 0) break;
+      chunks.push(decoder.write(buffer.subarray(0, length)));
+    }
+    const end = decoder.end();
+    if (end) chunks.push(end);
+    return chunks.length === 1 ? chunks[0]! : chunks;
+  } finally {
+    closeSync(file);
+  }
+}
+
 export async function main(): Promise<void> {
   const seed = option("seed", "b18-f375512c")!;
   const place = option("place", "4272168")!;
@@ -42,20 +71,26 @@ export async function main(): Promise<void> {
   const stepDays = 30;
   const from = option("from");
   const checkpoint = from
-    ? (JSON.parse(readFileSync(from, "utf8")) as {
+    ? (JSON.parse(readFileSync(`${from}.meta.json`, "utf8")) as {
         seed: string;
         place: string;
         start: string;
         year: number;
-        payload: WorldPayload;
       })
     : null;
   if (checkpoint && (checkpoint.seed !== seed || checkpoint.place !== place))
     throw new Error("Checkpoint seed/place differs from this run");
-  let world = checkpoint
-    ? deserializeWorld(checkpoint.payload)
-    : openWatchedWorld(seed, place).world;
+  let world =
+    checkpoint && from
+      ? deserializeWorld(readPayload(from))
+      : openWatchedWorld(seed, place).world;
   const start = checkpoint?.start ?? world.currentDate;
+  if (
+    checkpoint &&
+    world.currentDate !==
+      anniversary(start as typeof world.currentDate, checkpoint.year)
+  )
+    throw new Error("Checkpoint date does not match its completed year");
   const first = (checkpoint?.year ?? 0) + 1;
   if (first > years)
     throw new Error("Checkpoint is already past the requested years");
@@ -127,8 +162,14 @@ export async function main(): Promise<void> {
     const out = option("out");
     if (out) save(out, receipt);
     const keep = option("checkpoint");
-    if (keep && year === Number(option("checkpoint-year", String(years))))
-      save(keep, { seed, place, start, year, payload });
+    if (keep && year === Number(option("checkpoint-year", String(years)))) {
+      mkdirSync(dirname(keep), { recursive: true });
+      const chunks = typeof payload === "string" ? [payload] : payload;
+      writeFileSync(keep, chunks[0]!);
+      for (let at = 1; at < chunks.length; at += 1)
+        appendFileSync(keep, chunks[at]!);
+      save(`${keep}.meta.json`, { seed, place, start, year });
+    }
   }
   const baseline = option("baseline");
   if (baseline) {

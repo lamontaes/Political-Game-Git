@@ -17,7 +17,7 @@ npm run storage -- run test -- node --cpu-prof --cpu-prof-dir=test-results/speed
 node scripts/speed-years/profile.mjs test-results/speed/year9.cpuprofile
 ```
 
-The summarizer prints the 25 frames with greatest inclusive time and the 25 with greatest self time. Inclusive time includes samples in descendants. Frame locations use V8's source locations; no heap snapshot is created.
+The summarizer aggregates repeated call frames by function and source location and prints the 25 functions with greatest inclusive time and the 25 with greatest self time. Inclusive time includes samples in descendants, counting a recursive function once per sample. Frame locations use V8's source locations; no heap snapshot is created.
 
 After the speed repair, start again from the opening. All ten saved-world fingerprints must equal the baseline; year ten must take at most twice year one:
 
@@ -31,4 +31,4 @@ The normal local gate accepts a separate three-year main receipt and the exact f
 npm run storage -- run test -- node scripts/local-gate.mjs --baseline test-results/speed/main-three-years.json --tests scripts/speed-years/compare.test.ts
 ```
 
-Keep receipts and CPU profiles outside tracked evidence. A checkpoint holds a full save payload and can be large. No cleanup is automatic in this tool.
+Keep receipts and CPU profiles outside tracked evidence. A checkpoint holds a full save payload and can be large. Its metadata is written next to it as `<checkpoint>.meta.json`; keep both files together. No cleanup is automatic in this tool.

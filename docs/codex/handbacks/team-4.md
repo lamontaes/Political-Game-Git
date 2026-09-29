@@ -4,7 +4,7 @@ The timing tool now follows the watched world's clock in 30-day steps and prints
 
 ## MERGED
 
-Nothing is merged or published. The timing tool, comparison tests, profile summarizer and local gate are local candidates. Four comparison tests pass. The tenth-year target, year-nine profile and ten-year fingerprint comparison have not run.
+Nothing is merged or published. The committed speed-tool checkpoint is `d9eff8529b38d6d8b70ac3fcab6eae082462e39f`. The timing tool, comparison tests, profile summarizer and local gate are local candidates. Four comparison tests pass. The tenth-year target, year-nine profile and ten-year fingerprint comparison have not run.
 
 ## WHAT EMERGED
 
@@ -16,7 +16,7 @@ DECIDED: the coordinator scheduled Team 1's 92-law correctness proof first: “D
 
 ## Wider knock-on effects and missing links
 
-The npm command is blocked by Team 1's existing `package.json` claim. Group D also includes two checks in Team 1's claimed `src/simulation/governing/question-authority.ts`; these remain untouched until its PR merges. A single authorized Low research helper mapped group D to existing source records and compiled capabilities. It made no edits and ran no checks. Its finding is that Minnesota and Charlottesville checks encode bounded compiled support; replacing them must preserve refusals rather than imply national procedure coverage. Other group D files have been inspected read-only. The dice allowlist has not changed. Team 4 also claimed its 16 available group D paths and `scripts/speed-years/README.md` in the same canonical file under the atomic lock; the exact names are the Team 4 rows. `question-authority.ts` was reported as a conflict and was not claimed.
+The npm command is blocked by Team 1's existing `package.json` claim. Group D also includes two checks in Team 1's claimed `src/simulation/governing/question-authority.ts`; these remain untouched until its PR merges. A single authorized Low research helper mapped group D to existing source records and compiled capabilities. It made no edits and ran no checks. Its finding is that Minnesota and Charlottesville checks encode bounded compiled support; replacing them must preserve refusals rather than imply national procedure coverage. Group D is checkpointed separately at `83a0e2627` on `codex/wave1-place-rules`. Its candidate removes 25 checks, reducing that branch's allowlist from 217 to 192; formatting, ESLint and the zero-dice guard passed, but behavior and speed checks have not run. The coordinator's latest priority holds group D until the speed PR opens. The active speed branch retains unchanged simulation source and the original 217-line allowlist. Team 4 also claimed its 16 available group D paths and `scripts/speed-years/README.md` in the same canonical file under the atomic lock; the exact names are the Team 4 rows. `question-authority.ts` was reported as a conflict and was not claimed.
 
 Automatic approval review rejected outgoing coordinator messaging because it could not establish trusted user authorization for the destination. The coordinator subsequently said it can read this chat and requested no retry or workaround. Updates remain in this chat and handback.
 
@@ -26,7 +26,7 @@ No watched-world run has executed for Team 4. Births, deaths, moves, crime and b
 
 ## NEEDS LAMONTAE
 
-No product decision is pending. The current dependencies are workspace publication, the exclusive timing schedule and existing file claims.
+No product decision is pending. The current dependencies are the exclusive timing schedule and existing file claims. The coordinator has assigned Team 4 the next heavy slot after Team 1 explicitly releases; no timing has started.
 
 ## PLACEHOLDERS
 
@@ -51,4 +51,4 @@ Claims were appended under the atomic `/private/tmp/ocd-wave1-claims.lock` lock 
 - `docs/codex/handbacks/team-4.md`
 - `docs/release/changes/world-speed.md`
 
-Executed: `npm run agent:preflight`; guarded workspace registration; `npx --no-install vitest run scripts/speed-years/compare.test.ts` (4/4); Prettier on candidate files. ESLint found missing JavaScript global declarations, which were repaired; ESLint passed after repair. The full TypeScript check and a focused TypeScript check were interrupted without a result when the coordinator reserved all heavy checks for Team 1. Team 4 verified its own process IDs before sending SIGTERM and did not stop any other owner's process. No merge, installation, player-screen review or public release has occurred.
+Executed: `npm run agent:preflight`; guarded workspace registration; `npx --no-install vitest run scripts/speed-years/compare.test.ts` (4/4); Prettier on candidate files. ESLint found missing JavaScript global declarations, which were repaired; ESLint passed after repair. The full TypeScript check and a focused TypeScript check were interrupted without a result when the coordinator reserved all heavy checks for Team 1. Team 4 verified its own process IDs before sending SIGTERM and did not stop any other owner's process. A tiny profile-summarizer fixture gave 3 milliseconds inclusive time for a recursive work function and 3 milliseconds self time, without double counting recursion. No merge, installation, player-screen review or public release has occurred.
