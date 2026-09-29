@@ -28,6 +28,10 @@ import {
   type SeatView,
 } from "../simulation/living-world";
 import { US_STATE_NAMES } from "../simulation/nationwide-world/state-executive-candidacy-packs";
+import {
+  nonvotingHouseMemberTitle,
+  STATES,
+} from "../simulation/state-reference";
 import { currentStateExecutiveHolders } from "../simulation/nationwide-world/state-executives";
 import { PLACE_COUNTY_RELATIONS_ROWS } from "../simulation/place-county-relations.generated";
 import { desiredDistrictBinding } from "../simulation/district-residence";
@@ -266,8 +270,11 @@ export function stateFipsForUsps(usps: string): string | null {
 }
 
 export function stateNameForUsps(usps: string): string {
-  if (usps === "DC") return "District of Columbia";
-  return US_STATE_NAMES[usps as keyof typeof US_STATE_NAMES] ?? usps;
+  return (
+    STATES[usps]?.name ??
+    US_STATE_NAMES[usps as keyof typeof US_STATE_NAMES] ??
+    usps
+  );
 }
 
 function houseSeatGeoid(seat: SeatView): string | null {
@@ -359,8 +366,18 @@ const NO_ROSTER_REASON =
   "This save keeps no roster for this chamber. Only seats won through a contest the save ran are recorded.";
 const DC_HOUSE_REASON =
   "The District of Columbia elects a non-voting Delegate. The save's House roll records voting seats only.";
-const DC_SENATE_REASON =
-  "The District of Columbia has no seats in the U.S. Senate.";
+/*
+ * A place that sends a nonvoting member to the House (the District and the
+ * territories) sends no one to the Senate: only states are represented there
+ * (U.S. Const. art. I, § 3; amend. XVII). The table of such places is data.
+ */
+function hasSenateSeats(usps: string): boolean {
+  return nonvotingHouseMemberTitle(usps) === null;
+}
+
+function noSenateSeatsReason(usps: string): string {
+  return `${stateNameForUsps(usps)} has no seats in the U.S. Senate.`;
+}
 
 /* ------------------------------------------------------------------ */
 /* Public projection                                                   */
@@ -544,8 +561,11 @@ export function projectPoliticalMap(
       );
       for (const geoid of input.geoids) {
         const usps = byFips.get(geoid) ?? "";
-        if (usps === "DC") {
-          add(geoid, [], { kind: "no-voting-seat", reason: DC_SENATE_REASON });
+        if (usps && !hasSenateSeats(usps)) {
+          add(geoid, [], {
+            kind: "no-voting-seat",
+            reason: noSenateSeatsReason(usps),
+          });
           continue;
         }
         const stateLines = lines.get(usps) ?? [];
@@ -796,11 +816,14 @@ export function inspectRegion(
       break;
     }
     case "state": {
-      if (input.stateUsps === "DC") {
+      if (!hasSenateSeats(input.stateUsps)) {
         offices.push({
-          key: "senate:DC",
+          key: `senate:${input.stateUsps}`,
           title: "U.S. Senate",
-          status: { kind: "no-voting-seat", reason: DC_SENATE_REASON },
+          status: {
+            kind: "no-voting-seat",
+            reason: noSenateSeatsReason(input.stateUsps),
+          },
           basis: "Constitutional fact.",
         });
       } else {
