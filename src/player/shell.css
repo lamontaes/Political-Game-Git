@@ -2237,186 +2237,6 @@
 }
 
 /*
- * The menu stays labeled and uses the same restrained shell tokens as the
- * workspaces. Its buttons own their painted rectangles, so hit targets and
- * visible edges cannot drift apart as the viewport changes.
- */
-.pg-nav.pg-nav--bar {
-  right: max(1.15rem, env(safe-area-inset-right, 0px));
-  align-items: stretch;
-}
-
-.pg-nav--bar .pg-nav-row {
-  min-width: 0;
-  align-items: center;
-  gap: var(--pg-space-2);
-  padding: var(--pg-space-2);
-  border: 1px solid var(--pg-hairline);
-  border-radius: var(--pg-radius);
-  background: var(--pg-glass-strong);
-  box-shadow: var(--pg-edge), var(--pg-shadow);
-  backdrop-filter: var(--pg-blur);
-}
-
-.pg-nav--bar .pg-nav-cluster {
-  flex: 0 0 auto;
-  align-self: stretch;
-  min-height: 3.4rem;
-  max-width: min(100%, 18rem);
-}
-
-.pg-nav--bar .pg-nav-cluster-inner {
-  min-width: 0;
-}
-
-.pg-nav--bar .pg-nav-main {
-  display: flex;
-  flex: 1 1 auto;
-  min-width: 0;
-  gap: 2px;
-  align-self: stretch;
-}
-
-.pg-nav--bar .pg-nav-section {
-  display: inline-flex;
-  flex: 1 1 0;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-  min-width: 0;
-  min-height: 2.75rem;
-  padding: 0.35rem 0.45rem;
-  border: 1px solid rgb(122 90 40 / 30%);
-  border-radius: var(--pg-radius);
-  background: linear-gradient(180deg, #fbf6ea, #eee2c8);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 70%);
-  color: var(--pg-ivory);
-  font-family: var(--pg-font-ui);
-  font-size: 0.76rem;
-  font-weight: 600;
-  line-height: 1.15;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.pg-nav--bar .pg-nav-section:hover,
-.pg-nav--bar .pg-nav-section:focus-visible,
-.pg-nav--bar .pg-nav-section[aria-expanded="true"] {
-  border-color: var(--run-a-brass, #b08a3e);
-  background: linear-gradient(180deg, #fffaf0, #f1e4c6);
-  color: var(--run-a-oxblood, #7a2e2a);
-  outline: none;
-}
-
-.pg-nav--bar .pg-nav-section:focus-visible {
-  box-shadow: 0 0 0 2px var(--run-a-focus, #7a2e2a);
-}
-
-.pg-nav--bar .pg-nav-section[aria-pressed="true"] {
-  color: #fbf3e2;
-  border-color: #5a1f1c;
-  background: linear-gradient(180deg, #8c3a34, var(--run-a-oxblood, #7a2e2a));
-  box-shadow: inset 0 0 0 1px rgb(217 184 112 / 60%);
-}
-
-.pg-nav--bar .pg-nav-days {
-  flex: 0 0 auto;
-}
-
-.pg-nav--bar .pg-nav-days-target {
-  display: none;
-}
-
-.pg-nav--bar .pg-nav-stops {
-  position: fixed;
-  left: max(1.15rem, env(safe-area-inset-left, 0px));
-  bottom: calc(var(--pg-content-bottom) + var(--pg-nav-reserve, 5rem) + 0.5rem);
-  width: min(24rem, calc(100dvw - 2.3rem));
-}
-
-.pg-nav--bar .pg-nav-flyout:not(.pg-nav-confirm) {
-  position: absolute;
-  left: 0;
-  bottom: calc(100% + var(--pg-space-2));
-  width: min(22rem, calc(100dvw - 2.3rem));
-  min-width: 0;
-  max-height: calc(
-    var(--pg-vv-height, 100dvh) - var(--pg-nav-reserve, 5rem) - 2rem
-  );
-  overflow-y: auto;
-  margin: 0;
-  padding: var(--pg-space-2);
-  border: 1px solid var(--pg-hairline);
-  border-radius: var(--pg-radius);
-  background: var(--pg-glass-strong);
-  box-shadow: var(--pg-edge), var(--pg-shadow);
-  backdrop-filter: var(--pg-blur);
-}
-
-.pg-nav--bar .pg-nav-flyout[data-level="submenu"] {
-  margin-left: 0;
-  border-left: 2px solid var(--pg-brass);
-}
-
-.pg-nav--bar .pg-nav-confirm {
-  position: absolute;
-  left: 0;
-  bottom: calc(100% + var(--pg-space-2));
-}
-
-.pg-nav--bar .pg-nav-flyout[data-motion="closing"] {
-  pointer-events: none;
-  opacity: 0;
-}
-
-/* The existing pin rail clears the measured bar instead of sharing its edge. */
-.life-shell:has(.pg-nav--bar) .pg-pin-rail {
-  bottom: calc(var(--pg-content-bottom) + var(--pg-nav-reserve, 5rem) + 0.5rem);
-}
-
-@media (max-width: 920px) {
-  .pg-nav--bar .pg-nav-row {
-    flex-wrap: wrap;
-  }
-
-  .pg-nav--bar .pg-nav-main {
-    flex-basis: 100%;
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-  }
-
-  .pg-nav--bar .pg-nav-section {
-    min-width: 0;
-  }
-
-  .pg-nav--bar .pg-nav-days {
-    margin-left: auto;
-  }
-}
-
-@media (max-width: 600px) {
-  .pg-nav--bar .pg-nav-main {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .pg-nav--bar .pg-nav-section {
-    padding-inline: 0.15rem;
-    font-size: 0.69rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pg-nav--bar .pg-nav-avatar {
-    transform: none;
-    transition: opacity 120ms linear;
-  }
-
-  .pg-nav--bar .pg-nav-flyout {
-    animation: none;
-  }
-}
-
-/*
  * Phone widths (UI46 polish, MAPS s7-390 report).
  *
  * The rail-lane reservation above is a desktop rule: at 390px it left the
@@ -2787,9 +2607,8 @@
  * screen changes at once; screens only set their own layout.
  */
 .pg-workspace,
-.pg-nav--bar .pg-nav-row,
+.pg-nav-row,
 .pg-nav-flyout,
-.pg-nav--bar .pg-nav-flyout:not(.pg-nav-confirm),
 .pg-person-card--overlay,
 .pg-recap,
 .pg-continuation,
@@ -2808,4 +2627,215 @@
 .pg-recap :is(h1, h2) {
   font-family: var(--pg-font-display);
   color: var(--run-a-ink);
+}
+
+/*
+ * The radial menu (Lamontae's decision of September 27, restored by the UI 2
+ * orders of September 29, 2026). Entries open from the portrait's center into
+ * rings above and to its right; each one's resting offset comes from
+ * `fanLayout` as --fan-x and --fan-y. Each entry is a brass-rimmed paper disc.
+ * Windows too narrow or too short for the rings keep a framed paper list.
+ */
+@media (min-width: 761px) and (min-height: 700px) {
+  .pg-nav-flyout:not(.pg-nav-confirm) {
+    position: absolute;
+    left: calc(var(--pg-nav-pad) + 1px + var(--pg-nav-avatar) / 2);
+    bottom: calc(var(--pg-nav-pad) + 1px + var(--pg-nav-avatar) / 2);
+    /* One pixel at the portrait's center: an empty box reads as hidden. */
+    width: 1px;
+    height: 1px;
+    min-width: 0;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+  .pg-nav-flyout:not(.pg-nav-confirm) .pg-nav-persist {
+    display: contents;
+  }
+  .pg-nav-flyout:not(.pg-nav-confirm) .pg-nav-heading {
+    position: absolute;
+    left: calc(var(--pg-nav-avatar) / -2);
+    bottom: calc(var(--pg-nav-avatar) / 2 + 0.3rem);
+    margin: 0;
+    padding: 0.1rem 0.5rem;
+    border: 1px solid rgb(90 62 24 / 45%);
+    border-radius: 999px;
+    background: rgb(248 242 229 / 94%);
+    color: var(--run-a-ink);
+    white-space: nowrap;
+    text-shadow: none;
+  }
+  .pg-nav-flyout:not(.pg-nav-confirm) button[role="menuitem"] {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    width: 4.4rem;
+    height: 4.4rem;
+    padding: 0.25rem;
+    gap: 0;
+    border: 1px solid rgb(90 62 24 / 60%);
+    border-radius: 50%;
+    background:
+      var(--pg-paper-texture),
+      radial-gradient(circle at 50% 32%, #fffaf0, #eadcbf 78%);
+    box-shadow:
+      inset 0 0 0 2px rgb(217 184 112 / 80%),
+      inset 0 0 0 4px rgb(255 250 238 / 60%),
+      0 8px 20px rgb(46 30 12 / 38%);
+    backdrop-filter: none;
+    color: var(--run-a-ink);
+    text-align: center;
+    text-shadow: none;
+    font-family: var(--pg-font-display);
+    font-size: 0.74rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    transform: translate(-50%, 50%)
+      translate(var(--fan-x, 0px), var(--fan-y, 0px));
+    animation: pg-nav-fan-in 220ms ease-out both;
+    animation-delay: calc(var(--fan-order, 0) * 18ms);
+  }
+  .pg-nav-flyout:not(.pg-nav-confirm)
+    > button[role="menuitem"]
+    + button[role="menuitem"] {
+    border-top: 1px solid rgb(90 62 24 / 60%);
+    border-radius: 50%;
+  }
+  .pg-nav-flyout:not(.pg-nav-confirm) button[role="menuitem"]:hover,
+  .pg-nav-flyout:not(.pg-nav-confirm) button[role="menuitem"]:focus-visible {
+    border-color: var(--pg-brass);
+    background:
+      var(--pg-paper-texture),
+      radial-gradient(circle at 50% 32%, #fffdf6, #f1e4c8 78%);
+    color: var(--run-a-oxblood);
+    outline: 3px solid var(--run-a-focus);
+    outline-offset: 2px;
+  }
+  .pg-nav-flyout:not(.pg-nav-confirm)
+    button[role="menuitem"][aria-pressed="true"] {
+    background: linear-gradient(180deg, #8c3a34, var(--run-a-oxblood));
+    border-color: #5a1f1c;
+    color: #fbf3e2;
+  }
+  .pg-nav-flyout:not(.pg-nav-confirm) button[role="menuitem"] small {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .pg-nav-flyout:not(.pg-nav-confirm) .pg-nav-more {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    color: var(--pg-brass);
+  }
+  .pg-nav-flyout[data-level="submenu"] button[role="menuitem"] {
+    background:
+      var(--pg-paper-texture),
+      radial-gradient(circle at 50% 32%, #f8efdc, #e2d0ab 78%);
+    border-color: rgb(122 90 40 / 70%);
+  }
+  .pg-nav-flyout:not(.pg-nav-confirm) [data-testid="nav-submenu-back"] {
+    color: var(--run-a-oxblood);
+  }
+}
+
+@keyframes pg-nav-fan-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 50%) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 50%)
+      translate(var(--fan-x, 0px), var(--fan-y, 0px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pg-nav-flyout:not(.pg-nav-confirm) button[role="menuitem"] {
+    animation: none !important;
+  }
+}
+
+/*
+ * The Legal tab of the player's own record: cases, sentences and clemency
+ * requests on framed paper, one ruled entry each, with an oxblood tag on an
+ * open case.
+ */
+.pg-legal-record {
+  display: grid;
+  gap: var(--pg-space-2);
+}
+
+.pg-legal-standing {
+  margin: 0;
+  font-family: var(--pg-font-display);
+  font-size: 1.05rem;
+  color: var(--pg-ivory);
+}
+
+.pg-legal-list {
+  display: grid;
+  gap: var(--pg-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pg-legal-item {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--pg-hairline);
+  border-left: 3px solid var(--pg-brass);
+  border-radius: 4px;
+  background: rgb(255 250 238 / 55%);
+}
+
+.pg-legal-item p {
+  margin: 0.15rem 0;
+}
+
+.pg-legal-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--pg-space-1);
+}
+
+.pg-legal-standing-badge {
+  padding: 0.05rem 0.5rem;
+  border: 1px solid var(--pg-hairline);
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--pg-ivory-dim);
+}
+
+.pg-legal-standing-badge[data-open="true"] {
+  border-color: var(--run-a-oxblood, #7a2e2a);
+  color: var(--run-a-oxblood, #7a2e2a);
+}
+
+.pg-legal-meta {
+  font-size: 0.82rem;
+  color: var(--pg-ivory-faint);
+}
+
+.pg-legal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pg-space-1);
+  margin-top: 0.4rem;
 }

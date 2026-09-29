@@ -114,6 +114,7 @@ import { PressSourceDesk } from "./PressSourceDesk";
 import { RecallCardsPanel } from "./RecallCardsPanel";
 import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
 import { JudicialOfficeWork } from "./JudicialOfficeWork";
+import { LegalRecordPanel, SelfRecordTabs } from "./LegalRecord";
 import { judicialOfficeContexts } from "../simulation/judicial-office-work";
 import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
 import { GoverningBriefing } from "./GoverningBriefing";
@@ -3292,6 +3293,27 @@ function renderWorkspace({
         session.personId,
         dossier.personId,
       );
+      const fullDossier = (
+        <FullDossier
+          world={session.world}
+          playerId={session.personId}
+          dossier={dossier}
+          pinned={pinnedRef({ kind: "person", id: dossier.personId })}
+          onTogglePin={() =>
+            togglePin({ kind: "person", id: dossier.personId })
+          }
+          onTalk={() => talkTo(dossier.personId)}
+          {...(readOnly
+            ? {}
+            : { onContact: () => openContact(dossier.personId) })}
+          onMeet={() => dispatch({ type: "go-to-scene" })}
+          talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
+          onOpenLink={openEntity}
+          onOpenPerson={(personId) =>
+            openEntity({ kind: "person", id: personId })
+          }
+        />
+      );
       return frame(
         dossier.name,
         "person-workspace",
@@ -3305,25 +3327,21 @@ function renderWorkspace({
               dispatch({ type: "set-person-wardrobe", preference })
             }
           />
-          <FullDossier
-            world={session.world}
-            playerId={session.personId}
-            dossier={dossier}
-            pinned={pinnedRef({ kind: "person", id: dossier.personId })}
-            onTogglePin={() =>
-              togglePin({ kind: "person", id: dossier.personId })
-            }
-            onTalk={() => talkTo(dossier.personId)}
-            {...(readOnly
-              ? {}
-              : { onContact: () => openContact(dossier.personId) })}
-            onMeet={() => dispatch({ type: "go-to-scene" })}
-            talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
-            onOpenLink={openEntity}
-            onOpenPerson={(personId) =>
-              openEntity({ kind: "person", id: personId })
-            }
-          />
+          {dossier.personId === session.personId ? (
+            <SelfRecordTabs
+              record={fullDossier}
+              legal={
+                <LegalRecordPanel
+                  world={session.world}
+                  personId={session.personId}
+                  readOnly={readOnly}
+                  onWorldChange={onWorldChange}
+                />
+              }
+            />
+          ) : (
+            fullDossier
+          )}
         </>,
         "Record",
       );
