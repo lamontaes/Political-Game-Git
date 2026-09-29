@@ -43,6 +43,7 @@ import {
 import { currentPublicOfficeholders } from "../../src/presentation/opening-officeholders";
 import { proseDate } from "../../src/presentation/prose-dates";
 import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import { lawEffectPaths } from "../../src/simulation/governing/law-effect-paths";
 import { lawInForce } from "../../src/simulation/governing/law-in-force";
 import { stateJurisdictionForKey } from "../../src/simulation/life-places";
 import { STATES } from "../../src/simulation/state-reference";
@@ -56,7 +57,6 @@ import {
   outcomeFactor,
   outcomeLinkStatus,
 } from "../../src/simulation/outcome-web";
-import { lawLeversFor } from "../../src/simulation/outcome-web/law-levers";
 import {
   PLACE_OUTCOME_BASES,
   PLACE_OUTCOME_MEASURES,
@@ -1964,7 +1964,7 @@ function powersLines(world: World): string[] {
               (link) =>
                 link.from === `law:${key}` &&
                 outcomeLinkStatus(link) === "built",
-            ).length + lawLeversFor(key).length,
+            ).length + directLawPaths(key).length,
         });
       }
     }
@@ -2041,6 +2041,16 @@ function startingLawAcrossPlaces(world: World): string[] {
 }
 
 /**
+ * The modules that read the law in force on a question and change the world
+ * from it, outside the outcome web (Build 2's list of law effect paths).
+ */
+function directLawPaths(questionKey: string) {
+  return lawEffectPaths().filter(
+    (path) => path.questionKey === questionKey && path.kind !== "outcome-web",
+  );
+}
+
+/**
  * What the law in force says in the watched town on each policy question,
  * where it came from, what each law feeds in the outcome web, and which causes
  * moved each outcome the world computes (04 SYSTEM SPECS parts 4 and 5).
@@ -2090,7 +2100,7 @@ function lawOutcomeLines(run: WorldReportRun): string[] {
       (link) => link.from === `law:${row.stableKey}`,
     );
     const acting = links.filter((link) => outcomeLinkStatus(link) === "built");
-    const levers = lawLeversFor(row.stableKey);
+    const levers = directLawPaths(row.stableKey);
     if (acting.length + levers.length > 0) actingQuestions += 1;
     lawRows.push(
       `- **${row.name}**: ${row.answer}${row.origin === "enacted" ? `, ${row.designation}, in force from ${proseDate(row.since)}` : ", as the game began"}. ${links.length ? `Feeds ${count(links.length, "outcome")}; ${acting.length} ${acting.length === 1 ? "acts" : "act"} in the world today.` : levers.length ? "Feeds no outcome in the web." : "Feeds no outcome yet."}`,
@@ -2100,7 +2110,7 @@ function lawOutcomeLines(run: WorldReportRun): string[] {
         `  - ${link.to} (${link.strength}): ${outcomeLinkStatus(link)}`,
       );
     for (const lever of levers)
-      lawRows.push(`  - acts through ${lever.module}: ${lever.moves}`);
+      lawRows.push(`  - acts through ${lever.via} (${lever.kind})`);
   }
   out.push(
     `Wired: the law in force here acts in the world on ${actingQuestions} of the ${count(answered.length, "question")} it answers, through a built outcome link or its own area's records.`,

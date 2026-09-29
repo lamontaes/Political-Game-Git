@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { addDays } from "../../src/simulation/dates";
+import { lawEffectPaths } from "../../src/simulation/governing/law-effect-paths";
 import { lawInForceAtStart } from "../../src/simulation/governing/law-in-force";
 import { stateJurisdictionForKey } from "../../src/simulation/life-places";
 import {
@@ -11,7 +12,6 @@ import {
   housingLawEffect,
 } from "../../src/simulation/living-world/housing-market";
 import type { MacroMonthRecord } from "../../src/simulation/macro-economy/types";
-import { LAW_LEVERS } from "../../src/simulation/outcome-web/law-levers";
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
 import type {
   EntityId,
@@ -260,10 +260,12 @@ describe("a law that lets more homes be built lowers home prices a year after it
     );
   });
 
-  it("each supply law is listed as a lever the world report counts", () => {
+  it("each supply law is a law effect path the unwired-laws list counts", () => {
     for (const key of HOUSING_SUPPLY_LAWS)
       expect(
-        LAW_LEVERS.filter((lever) => lever.question === key),
+        lawEffectPaths().filter(
+          (path) => path.questionKey === key && path.kind === "home-prices",
+        ),
         key,
       ).toHaveLength(1);
   });
