@@ -1,6 +1,11 @@
 import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
 import { COUNCIL_TERM_LIMIT_QUESTION } from "../living-world/local-council-term-limits";
-import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
+import {
+  CITY_MINIMUM_WAGE_QUESTION_KEY,
+  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+  LOCAL_MINIMUM_WAGE_AUTHORITY_QUESTION_KEY,
+  STATE_MINIMUM_WAGE_QUESTION_KEY,
+} from "../minimum-wage";
 import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../nationwide-world/state-legislative-term-limits";
 import { OUTCOME_LINKS, outcomeLinkStatus } from "../outcome-web";
 import { HOUSING_SUPPLY_LAWS } from "../living-world/housing-market";
@@ -45,6 +50,7 @@ export type LawEffectPathKind =
   | "rent-and-eviction"
   | "home-prices"
   | "seat-turnover"
+  | "authority-gate"
   | "local-powers";
 
 export interface LawEffectPath {
@@ -60,6 +66,21 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
     kind: "paycheck",
     via: "src/simulation/minimum-wage.ts",
+  },
+  {
+    questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
+    kind: "paycheck",
+    via: "src/simulation/minimum-wage.ts",
+  },
+  {
+    questionKey: CITY_MINIMUM_WAGE_QUESTION_KEY,
+    kind: "paycheck",
+    via: "src/simulation/minimum-wage.ts",
+  },
+  {
+    questionKey: LOCAL_MINIMUM_WAGE_AUTHORITY_QUESTION_KEY,
+    kind: "authority-gate",
+    via: "src/simulation/governing/question-authority.ts",
   },
   {
     questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
