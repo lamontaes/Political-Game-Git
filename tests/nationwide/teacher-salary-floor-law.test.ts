@@ -319,6 +319,18 @@ describe("the state's minimum teacher salary", { timeout: 900_000 }, () => {
           );
       }
     }
+    // Each raised teacher knows the law raised their pay.
+    const exposures = (world.history.lawExposures ?? []).filter(
+      (row) =>
+        row.measureId === "measure_teacher_floor_1" &&
+        row.channel === "paycheck" &&
+        row.direction === "gain" &&
+        raises.some((terms) => terms.id === row.sourceRecordId),
+    );
+    const heard = new Set(exposures.map((row) => row.personId));
+    for (const flow of flows)
+      if (raisedFlows.has(flow.id) && flow.recipient.kind === "person")
+        expect(heard.has(flow.recipient.personId)).toBe(true);
     // Every public school teacher is now paid at least the floor.
     for (const flow of publicTeachers) {
       const terms = world.history.resourceFlowTerms.filter(
