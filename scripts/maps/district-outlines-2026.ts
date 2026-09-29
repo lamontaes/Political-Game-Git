@@ -5,7 +5,7 @@
  * The Census Bureau publishes the 120th Congress lines only as a block
  * equivalency file (block to district), not as a cartographic boundary
  * shapefile. This module builds each district's outline by joining that file
- * to the 2020 block polygons and cancelling every edge two blocks of the same
+ * to the 2020 block polygons and canceling every edge two blocks of the same
  * district share, so what is left is the district's own boundary.
  *
  * Water follows the shipped cartographic boundary files: a block is drawn when
