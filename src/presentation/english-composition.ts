@@ -10,6 +10,12 @@ import {
   type EnglishSurface,
   type GroundedEnglishPacket,
 } from "./grounded-english";
+import {
+  REGISTER_CARDS,
+  registerAllows,
+  type SpeechDevice,
+  type SpeechRegister,
+} from "./speech-registers";
 
 /**
  * Lines built from reviewed parts.
@@ -70,6 +76,14 @@ export type LinePartVariant = AuthoredEnglishVariant & {
   readonly requiresRelationship?: readonly RelationshipCondition[];
   /** Recorded mood keys this part may be spoken in. */
   readonly requiresMood?: readonly string[];
+  /** The settings this part may be spoken in; omitted means any. */
+  readonly registers?: readonly SpeechRegister[];
+  /**
+   * The crafted device this part makes, if any. A device is spoken only where
+   * the register admits it, and a disclosure only from the speaker's own
+   * recorded life.
+   */
+  readonly device?: SpeechDevice;
 };
 
 export interface LinePartBank {
@@ -104,6 +118,13 @@ export interface CompositionContext {
    * same moment producing the same line after Save and Continue.
    */
   readonly recentPartKeys?: readonly string[];
+  /** Where the line is spoken. Parts limited to a register need one. */
+  readonly register?: SpeechRegister;
+  /**
+   * Records of the speaker's own life: events they took part in and facts
+   * about them. A disclosure may copy only facts sourced wholly from these.
+   */
+  readonly speakerOwnRecordIds?: readonly EntityId[];
 }
 
 export interface ComposedPart {
@@ -113,6 +134,7 @@ export interface ComposedPart {
   readonly variantKey: string;
   readonly text: string;
   readonly usedFactKeys: readonly string[];
+  readonly device?: SpeechDevice;
 }
 
 export type ComposedLineResult =
@@ -157,6 +179,39 @@ export function linePartsOf(tags: readonly string[]): readonly string[] | null {
   }
 }
 
+/**
+ * Saying no takes work (Pomerantz 1984; Heritage 1984). Declining and putting
+ * off an answer carry a reason, and a speaker who is not at odds with the
+ * listener eases into them ("Well, ..."). Agreeing is short: it drops the
+ * reason. These are rules of how people talk, not draws: whether a line
+ * softens follows the recorded relationship.
+ */
+export const REASONED_ACTS: readonly SpeechAct[] = ["decline", "undecided"];
+export const SOFTENED_ACTS: readonly SpeechAct[] = [
+  "decline",
+  "undecided",
+  "suggest-another-way",
+];
+
+/**
+ * The engine's own slow openers for a line that eases into a refusal. They
+ * start lower case after nothing, so the engine capitalizes the first; each
+ * leaves the core to follow in lower case.
+ */
+export const SLOW_OPENER_BANK: LinePartBank = {
+  variants: [
+    { key: "well", kind: "template", text: "well," },
+    { key: "oh", kind: "template", text: "oh," },
+    {
+      key: "i-mean",
+      kind: "template",
+      text: "I mean,",
+      stages: ["adult"],
+    },
+  ],
+};
+const SLOW_OPENER_KEY = "english.slow-opener";
+
 export function composeGroundedLine(
   packet: GroundedEnglishPacket,
   bank: ComposedLineBank,
@@ -164,6 +219,8 @@ export function composeGroundedLine(
 ): ComposedLineResult {
   if (!SPEECH_ACTS.includes(bank.act))
     return missing([`Speech act ${bank.act} is not on the list.`]);
+  if (REASONED_ACTS.includes(bank.act) && !bank.parts.reason)
+    return missing([`A ${bank.act} line needs a reason part.`]);
 
   const recent = new Set(context.recentPartKeys ?? []);
   const parts: ComposedPart[] = [];
@@ -171,12 +228,24 @@ export function composeGroundedLine(
   const reasons: string[] = [];
 
   for (const part of LINE_PARTS) {
-    const partBank = bank.parts[part];
+    // Agreeing is short: it gives no reason.
+    if (part === "reason" && bank.act === "agree") continue;
+    const own = bank.parts[part];
+    const slow =
+      part === "opener" &&
+      !own &&
+      SOFTENED_ACTS.includes(bank.act) &&
+      eases(context);
+    const partBank = own ?? (slow ? SLOW_OPENER_BANK : undefined);
     if (!partBank) continue;
-    const required = part === "core" || partBank.required === true;
+    const bankKey = own ? bank.key : SLOW_OPENER_KEY;
+    const required =
+      part === "core" ||
+      partBank.required === true ||
+      (part === "reason" && REASONED_ACTS.includes(bank.act));
 
     const conditioned = partBank.variants.filter((variant) => {
-      const blocked = conditionProblems(variant, context);
+      const blocked = conditionProblems(variant, context, packet);
       if (blocked.length > 0)
         reasons.push(`${part}/${variant.key}: ${blocked.join(", ")}`);
       return blocked.length === 0;
@@ -184,7 +253,7 @@ export function composeGroundedLine(
     // Prefer parts this speaker has not used with the player lately; fall
     // back to the recent ones rather than refuse a line that can be said.
     const fresh = conditioned.filter(
-      (variant) => !recent.has(partKey(bank, part, variant.key)),
+      (variant) => !recent.has(`${bankKey}:${part}:${variant.key}`),
     );
     const attempts = fresh.length > 0 ? [fresh, conditioned] : [conditioned];
 
@@ -195,7 +264,7 @@ export function composeGroundedLine(
       const result = renderGroundedEnglish(
         { ...packet, momentKey: `${packet.momentKey}/${part}` },
         {
-          key: `${bank.key}:${part}`,
+          key: `${bankKey}:${part}`,
           version: bank.version,
           surface: bank.surface,
           variants,
@@ -217,10 +286,11 @@ export function composeGroundedLine(
 
     parts.push({
       part,
-      partKey: partKey(bank, part, rendered.variantKey),
+      partKey: `${bankKey}:${part}:${rendered.variantKey}`,
       variantKey: rendered.variantKey,
       text: rendered.text,
       usedFactKeys: rendered.usedFactKeys,
+      ...(chosen.device ? { device: chosen.device } : {}),
     });
     for (const id of rendered.sourceRecordIds) sourceRecordIds.add(id);
     for (const id of conditionSources(chosen, context)) sourceRecordIds.add(id);
@@ -235,11 +305,50 @@ export function composeGroundedLine(
   };
 }
 
+/**
+ * Whether the speaker eases into a refusal: yes, unless the recorded
+ * relationship says the two are at odds, in which case it comes out flat.
+ */
+function eases(context: CompositionContext): boolean {
+  const tension = context.relationship?.readings.tension;
+  return !(
+    tension &&
+    tension.basis.length > 0 &&
+    (tension.band === "marked" || tension.band === "strong")
+  );
+}
+
 function conditionProblems(
   variant: LinePartVariant,
   context: CompositionContext,
+  packet: GroundedEnglishPacket,
 ): string[] {
   const problems: string[] = [];
+  if (variant.registers) {
+    if (!context.register) problems.push("no register");
+    else if (!variant.registers.includes(context.register))
+      problems.push(`register is ${context.register}`);
+  }
+  if (variant.device) {
+    if (!context.register) problems.push("no register for a device");
+    else if (!registerAllows(context.register, variant.device))
+      problems.push(`${context.register} does not admit ${variant.device}`);
+    if (variant.device === "disclosure") {
+      const own = new Set(context.speakerOwnRecordIds ?? []);
+      const keys = variantFactKeys(variant);
+      if (keys.length === 0)
+        problems.push("a disclosure must copy a fact from the speaker's life");
+      for (const key of keys) {
+        const fact = packet.facts[key];
+        if (
+          fact &&
+          (fact.sourceRecordIds.length === 0 ||
+            fact.sourceRecordIds.some((id) => !own.has(id)))
+        )
+          problems.push(`fact ${key} is not from the speaker's own life`);
+      }
+    }
+  }
   for (const condition of variant.requiresRelationship ?? []) {
     const reading = context.relationship?.readings[condition.dimension];
     if (!reading || reading.basis.length === 0) {
@@ -266,6 +375,16 @@ function conditionProblems(
   return problems;
 }
 
+const SLOT = /\{\{([a-z][a-z0-9-]*)\}\}/g;
+
+function variantFactKeys(variant: LinePartVariant): string[] {
+  const slots =
+    variant.kind === "template"
+      ? [...variant.text.matchAll(SLOT)].map((match) => match[1]!)
+      : [variant.factKey];
+  return [...new Set([...slots, ...(variant.requiresFacts ?? [])])];
+}
+
 function conditionSources(
   variant: LinePartVariant,
   context: CompositionContext,
@@ -290,4 +409,91 @@ function sentenceStart(text: string): string {
 
 function missing(reasons: readonly string[]): ComposedLineResult {
   return { kind: "missing-context", reasons };
+}
+
+/**
+ * One move of an address: what the speaker is doing at that point (thanking
+ * the room, naming the other candidate, telling something from their own
+ * life), worded from its own bank. A move that cannot be worded from the
+ * record is left out, unless the address cannot stand without it.
+ */
+export interface AddressMove {
+  readonly key: string;
+  readonly bank: ComposedLineBank;
+  readonly required?: boolean;
+}
+
+export interface ComposedMove {
+  readonly move: string;
+  readonly text: string;
+  readonly parts: readonly ComposedPart[];
+  readonly devices: readonly SpeechDevice[];
+}
+
+export type ComposedAddressResult =
+  | {
+      readonly kind: "rendered";
+      readonly register: SpeechRegister;
+      readonly moves: readonly ComposedMove[];
+      readonly text: string;
+      readonly sourceRecordIds: readonly EntityId[];
+    }
+  | {
+      readonly kind: "missing-context";
+      /** Internal diagnostics; never expose these to a player. */
+      readonly reasons: readonly string[];
+    };
+
+/**
+ * A speech, a eulogy or a turn at a council microphone is a sequence of
+ * moves, not one line (Research 2, register cards). Each move is composed
+ * with the same grounding and the same stable choice as any line, under the
+ * address's register, so devices appear only where that register admits
+ * them. Only a public address is composed this way.
+ */
+export function composeAddress(
+  packet: GroundedEnglishPacket,
+  register: SpeechRegister,
+  moves: readonly AddressMove[],
+  context: Omit<CompositionContext, "register"> = {},
+): ComposedAddressResult {
+  if (REGISTER_CARDS[register].setting !== "public-address")
+    return {
+      kind: "missing-context",
+      reasons: [`${register} is not a public address.`],
+    };
+  const composed: ComposedMove[] = [];
+  const sources = new Set<EntityId>();
+  const reasons: string[] = [];
+  for (const move of moves) {
+    const line = composeGroundedLine(
+      { ...packet, momentKey: `${packet.momentKey}/${move.key}` },
+      move.bank,
+      { ...context, register },
+    );
+    if (line.kind !== "rendered") {
+      reasons.push(...line.reasons.map((reason) => `${move.key}: ${reason}`));
+      if (move.required) return { kind: "missing-context", reasons };
+      continue;
+    }
+    composed.push({
+      move: move.key,
+      text: line.text,
+      parts: line.parts,
+      devices: line.parts.flatMap((part) => (part.device ? [part.device] : [])),
+    });
+    for (const id of line.sourceRecordIds) sources.add(id);
+  }
+  if (composed.length === 0)
+    return {
+      kind: "missing-context",
+      reasons: reasons.length > 0 ? reasons : ["No move exists."],
+    };
+  return {
+    kind: "rendered",
+    register,
+    moves: composed,
+    text: composed.map((move) => move.text).join(" "),
+    sourceRecordIds: [...sources],
+  };
 }

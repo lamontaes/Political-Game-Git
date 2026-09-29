@@ -1,3 +1,4 @@
+import { applySpeechRetelling } from "./speech-retelling";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
@@ -1420,26 +1421,29 @@ function advanceWorldUnchecked(
     actionSequence: actionSequence + 1,
   };
 
-  const continued = applyCrisisRepairFunding(
-    applyEnactedCourtSizes(
-      applyCrisisOfficeContinuity(
-        applyCongressLawmaking(
-          world.currentDate,
-          applyFederalReform(
+  const continued = applySpeechRetelling(
+    world.currentDate,
+    applyCrisisRepairFunding(
+      applyEnactedCourtSizes(
+        applyCrisisOfficeContinuity(
+          applyCongressLawmaking(
             world.currentDate,
-            applyArticleV(
+            applyFederalReform(
               world.currentDate,
-              applyConstitutionalReform(
+              applyArticleV(
                 world.currentDate,
-                applyPresidentialTurnover(
+                applyConstitutionalReform(
                   world.currentDate,
-                  applyGovernorTurnover(
+                  applyPresidentialTurnover(
                     world.currentDate,
-                    applyCongressTurnover(
+                    applyGovernorTurnover(
                       world.currentDate,
-                      applyStateLegislatureTurnover(
+                      applyCongressTurnover(
                         world.currentDate,
-                        applyNationalTermTransitions(advanced),
+                        applyStateLegislatureTurnover(
+                          world.currentDate,
+                          applyNationalTermTransitions(advanced),
+                        ),
                       ),
                     ),
                   ),
