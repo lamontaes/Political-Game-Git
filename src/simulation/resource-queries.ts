@@ -21,6 +21,7 @@ import type {
 import { isOpenTaxonomyKey, RESOURCE_CADENCE_NAMESPACES } from "./taxonomy";
 import {
   growingIndex,
+  recordById,
   recordsWithFieldValue,
   type GrowingIndexKind,
 } from "./history-index";
@@ -105,6 +106,32 @@ export function resourcePositionAt(
   );
   if (!position) return undefined;
   const endpoint = positionOwnerEndpoint(owner);
+  const ledger = runningLedger(world, endpoint, currency);
+  if (
+    !ledger ||
+    (position.sequence < ledger.firstSequence &&
+      ledger.lastSequence < cutoff.historySequenceExclusive &&
+      position.openedAt <= ledger.earliestAt &&
+      ledger.latestAt <= cutoff.asOfDate)
+  )
+    return {
+      positionId: position.id,
+      owner: { ...owner },
+      cutoff: { ...cutoff },
+      openingBalance: { ...position.openingBalance },
+      inflows: money(ledger?.inflows ?? 0, currency),
+      outflows: money(ledger?.outflows ?? 0, currency),
+      liquidBalance: money(
+        addExact(
+          addExact(position.openingBalance.minorUnits, ledger?.inflows ?? 0),
+          -(ledger?.outflows ?? 0),
+        ),
+        currency,
+      ),
+      outcomeIds: ledger ? [...ledger.outcomeIds] : [],
+    };
+  // Some of the account's payments fall outside this reading (an earlier
+  // moment, or before the position opened): read them one by one.
   let inflows = 0;
   let outflows = 0;
   const outcomeIds: EntityId[] = [];
@@ -589,6 +616,111 @@ export function resourceTransferOutcomesOfFlows(
   }
   positions.sort((left, right) => left - right);
   return positions.map((position) => outcomes[position]!);
+}
+
+/**
+ * Each account's payments kept as running totals, by currency, as the outcome
+ * list grows: finding a balance read every payment the account had ever made
+ * or received, twice for every paycheck withheld, so a paycheck cost more each
+ * year its worker worked. The totals are the same sums over the same payments
+ * in the same order; a reading that must leave some of them out (an earlier
+ * moment, or a position opened after them) reads the payments instead.
+ */
+interface RunningLedger {
+  inflows: number;
+  outflows: number;
+  readonly outcomeIds: EntityId[];
+  firstSequence: number;
+  lastSequence: number;
+  earliestAt: string;
+  latestAt: string;
+}
+
+interface LedgerIndex {
+  /** Outcome positions added to the list but not yet read into a ledger. */
+  readonly pending: number[];
+  /** By endpoint key, then currency. */
+  readonly ledgers: Map<string, Map<string, RunningLedger>>;
+}
+
+const LEDGERS: GrowingIndexKind<LedgerIndex> = {
+  create: () => ({ pending: [], ledgers: new Map() }),
+  add: (index, _record, position) => {
+    index.pending.push(position);
+  },
+};
+
+function runningLedger(
+  world: World,
+  endpoint: ResourceEndpoint,
+  currency: CurrencyCode,
+): RunningLedger | undefined {
+  const key = endpointKey(endpoint);
+  if (key === null) return undefined;
+  const outcomes = world.history.resourceTransferOutcomes;
+  const index = growingIndex(LEDGERS, outcomes);
+  if (index.pending.length > 0) {
+    // A flow is recorded before any outcome of it, so every pending outcome's
+    // flow is in this World.
+    for (const position of index.pending) {
+      const outcome = outcomes[position]!;
+      const amount = outcome.transferredAmount;
+      if (amount.minorUnits === 0) continue;
+      const flow = recordById(
+        world.history.resourceFlows,
+        outcome.resourceFlowId,
+      );
+      if (!flow) continue;
+      const recipient = endpointKey(flow.recipient);
+      const source = endpointKey(flow.source);
+      if (recipient !== null)
+        enter(index, recipient, outcome, amount.minorUnits, 0);
+      if (source !== null && source !== recipient)
+        enter(index, source, outcome, 0, amount.minorUnits);
+      else if (source !== null)
+        enter(index, source, outcome, 0, amount.minorUnits, false);
+    }
+    index.pending.length = 0;
+  }
+  return index.ledgers.get(key)?.get(currency);
+}
+
+function enter(
+  index: LedgerIndex,
+  key: string,
+  outcome: ResourceTransferOutcome,
+  inflow: number,
+  outflow: number,
+  listed = true,
+): void {
+  let byCurrency = index.ledgers.get(key);
+  if (!byCurrency) {
+    byCurrency = new Map();
+    index.ledgers.set(key, byCurrency);
+  }
+  const currency = outcome.transferredAmount.currency;
+  const ledger = byCurrency.get(currency);
+  if (!ledger) {
+    byCurrency.set(currency, {
+      inflows: inflow,
+      outflows: outflow,
+      outcomeIds: [outcome.id],
+      firstSequence: outcome.sequence,
+      lastSequence: outcome.sequence,
+      earliestAt: outcome.occurredAt,
+      latestAt: outcome.occurredAt,
+    });
+    return;
+  }
+  ledger.inflows = addExact(ledger.inflows, inflow);
+  ledger.outflows = addExact(ledger.outflows, outflow);
+  if (listed) ledger.outcomeIds.push(outcome.id);
+  ledger.firstSequence = Math.min(ledger.firstSequence, outcome.sequence);
+  ledger.lastSequence = Math.max(ledger.lastSequence, outcome.sequence);
+  if (outcome.occurredAt < ledger.earliestAt)
+    ledger.earliestAt = outcome.occurredAt;
+  if (outcome.occurredAt > ledger.latestAt)
+    ledger.latestAt = outcome.occurredAt;
 }
 
 /** Where each owner's tracked positions sit in the position list, in order. */

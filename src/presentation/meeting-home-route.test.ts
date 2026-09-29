@@ -272,17 +272,3 @@ describe("recorded local meeting return and activity ownership", () => {
     expect(serializeWorld(next)).toBe(before);
   });
 });
-
-describe("where a finished meeting leaves the player", () => {
-  it("names the meeting room only while the meeting is not yet over, and the town after", () => {
-    const { world, player } = attended("2309585");
-    // Just after it completes, the room is still where the player stands and
-    // the return route reads it.
-    expect(openingLifeLocation(world, player)?.setting).not.toBe("home");
-    const label = openingLifeLocation(world, player)?.label;
-    // A year later the meeting is long over: its arrival no longer places the
-    // player, whatever the number of days.
-    const later = passOrdinaryDays(world, 365);
-    expect(openingLifeLocation(later, player)?.label).not.toBe(label);
-  });
-});

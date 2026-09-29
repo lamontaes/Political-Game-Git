@@ -64,7 +64,11 @@ import { recordWorldEvent } from "../world";
 import { TOWN_RESIDENTS_VERSION, townRoster } from "./town-residents";
 import { townWorkplaceWeights } from "./town-employment";
 import { homePurchaseTerms } from "../home-purchase";
-import { householdHousingFacts, type HouseholdHousingFacts } from "./town-rent";
+import {
+  householdHousingFacts,
+  RENT_EVENTS,
+  type HouseholdHousingFacts,
+} from "./town-rent";
 
 export const TOWN_HOMES_VERSION = "town-homes-v1";
 
@@ -181,11 +185,16 @@ export const TOWN_OWNERSHIP_BY_KIND: Readonly<Record<TownHomeKind, number>> = {
  * - `downsizeFromAge`: an owner this age or older, left alone in a house,
  *   sells and rents an apartment. HARDWIRED, a PLACEHOLDER(research:
  *   when-older-owners-sell).
+ * - `evictionOnRecordDays`: a household evicted within this many days rents
+ *   rather than buys. A credit report may carry a civil judgment for seven
+ *   years (15 U.S.C. 1681c(a)(2)); that a lender refuses for the whole
+ *   period is HARDWIRED, a PLACEHOLDER(research: mortgage-after-eviction).
  */
 export const TOWN_HOME_DECISIONS = {
   buyAtPayOfPayment: 1 / 0.28,
   severeRentBurden: 0.5,
   downsizeFromAge: 65,
+  evictionOnRecordDays: 7 * 365,
 } as const;
 
 /** Why a household moved, in the words its event records. */
@@ -195,7 +204,39 @@ export const TOWN_HOME_REASONS = {
   rentOutranPay: "the rent reached half of what they earn",
   leftAlone: "one of them was left alone in the house",
   noHome: "they had no home in town yet",
+  evicted: "they were evicted from their last home",
 } as const;
+
+/**
+ * Where a household with no home goes, decided from its record: a house it
+ * buys when it has work, its pay carries the payments and no recent eviction
+ * bars a loan (`mayBorrow`), otherwise a rented
+ * apartment for one or two people and a rowhouse for more. HARDWIRED, a
+ * PLACEHOLDER(research: first-home-by-household-size).
+ */
+export function homeForNewHousehold(
+  household: { readonly members: readonly { readonly age: number }[] },
+  working: boolean,
+  payMinor: number | null,
+  paymentMinor: number,
+  mayBorrow = true,
+): { readonly kind: TownHomeKind; readonly tenure: HousingTenureKind } {
+  const head = Math.max(0, ...household.members.map((member) => member.age));
+  if (
+    mayBorrow &&
+    working &&
+    payMinor !== null &&
+    payMinor >= paymentMinor * TOWN_HOME_DECISIONS.buyAtPayOfPayment
+  )
+    return {
+      kind: household.members.length >= 5 ? "large-house" : "suburban-house",
+      tenure: head < 60 ? TOWN_TENURE_KINDS.mortgaged : TOWN_TENURE_KINDS.owned,
+    };
+  return {
+    kind: household.members.length <= 2 ? "small-apartment" : "rowhouse",
+    tenure: TOWN_TENURE_KINDS.rented,
+  };
+}
 
 /** The quarterly review's interval (`migration/review.ts`), in days. */
 const REVIEW_INTERVAL_DAYS = 91;
@@ -668,6 +709,7 @@ export function reviewTownHomes(
     const record = world.history.households.find(
       (row) => row.id === household.id,
     );
+    if (record && /'s household$/.test(record.label)) return record.label;
     return record
       ? `The ${record.label.replace(/ household$/, "")} household`
       : "A household";
@@ -701,23 +743,59 @@ export function reviewTownHomes(
 
     // A household in town with no home finds one.
     if (!home) {
-      const kind = chooseTownHomeKind(town, household, rng.fork("kind"));
-      const tenure = chooseTenure(kind, head, rng.fork("tenure"));
-      // A written household that never had a home was always there.
+      // A written household that never had a home was always there: the
+      // town's opening housing stock, drawn from its mix until that mix is
+      // sourced.
       const quiet =
         household.stableKey.startsWith(`${TOWN_RESIDENTS_VERSION}:`) &&
         !view.everHoused.has(household.id);
-      const provenance: LifeRecordProvenance = quiet
-        ? { kind: "generated", generatorKey: TOWN_HOMES_VERSION }
-        : event(
-            key,
-            tenure === TOWN_TENURE_KINDS.rented
-              ? TOWN_HOME_EVENTS.movedIn
-              : TOWN_HOME_EVENTS.bought,
-            household,
-            `${nameOf(household)} ${tenure === TOWN_TENURE_KINDS.rented ? "moved into" : "bought"} ${KIND_LABEL[kind]}: ${TOWN_HOME_REASONS.noHome}.`,
-          );
-      enterHome(writer, key, household.id, kind, tenure, provenance);
+      if (quiet) {
+        const kind = chooseTownHomeKind(town, household, rng.fork("kind"));
+        const tenure = chooseTenure(kind, head, rng.fork("tenure"));
+        enterHome(writer, key, household.id, kind, tenure, {
+          kind: "generated",
+          generatorKey: TOWN_HOMES_VERSION,
+        });
+        continue;
+      }
+      // Anyone else decides from its own record: it buys a house when its
+      // pay carries the payments, and rents otherwise, an apartment for one
+      // or two people and a rowhouse for more.
+      const evictions = world.history.events.filter(
+        (row) =>
+          row.type === RENT_EVENTS.evicted &&
+          row.involvedEntityIds.includes(household.id),
+      );
+      const evicted = evictions.some(
+        (row) => row.occurredAt > addDays(today, -REVIEW_INTERVAL_DAYS),
+      );
+      const found = homeForNewHousehold(
+        household,
+        adults.some((adult) => view.working.has(adult.id)),
+        factsNow.get(household.id)?.payMinor ?? null,
+        paymentMinor,
+        !evictions.some(
+          (row) =>
+            row.occurredAt >
+            addDays(today, -TOWN_HOME_DECISIONS.evictionOnRecordDays),
+        ),
+      );
+      const provenance = event(
+        key,
+        found.tenure === TOWN_TENURE_KINDS.rented
+          ? TOWN_HOME_EVENTS.movedIn
+          : TOWN_HOME_EVENTS.bought,
+        household,
+        `${nameOf(household)} ${found.tenure === TOWN_TENURE_KINDS.rented ? "moved into" : "bought"} ${KIND_LABEL[found.kind]}: ${evicted ? TOWN_HOME_REASONS.evicted : TOWN_HOME_REASONS.noHome}.`,
+      );
+      enterHome(
+        writer,
+        key,
+        household.id,
+        found.kind,
+        found.tenure,
+        provenance,
+      );
       continue;
     }
     if (household.id === player) continue;

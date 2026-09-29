@@ -67,9 +67,11 @@ import {
 import { establishLifePersonality } from "../simulation/life-personality";
 import {
   localBusinessWageMinor,
+  adultStartEmployer,
   localBusinessesIn,
   seatLocalBusinesses,
 } from "../simulation/local-economy";
+import { hireAtAdultStart } from "../simulation/job-market";
 import { ensureStartingPersonalMoney } from "../simulation/starting-money";
 import type {
   CharacterHistoryTransition,
@@ -193,6 +195,8 @@ export interface ProductionWorldInput {
   readonly familyBirthdayVersion?: FamilyBirthdayVersion;
   /** Absent keeps an old replay's parents unlinked to each other. */
   readonly parentPartnerVersion?: ParentPartnerVersion;
+  /** Absent keeps an old replay's grown-up start between jobs. */
+  readonly adultStartWorkVersion?: typeof ADULT_START_WORK_V1;
 }
 
 /**
@@ -223,6 +227,8 @@ export type FamilyBirthdayVersion = typeof FAMILY_BIRTHDAYS_V1;
  * had been the other's partner. Filed as `who-a-childs-parents-were-to-each-other`.
  */
 export const PARENT_PARTNERS_V1 = "parent-partners-v1" as const;
+/** A grown-up start arrives holding a job in town (`hireAtAdultStart`). */
+export const ADULT_START_WORK_V1 = "adult-start-work-v1" as const;
 export type ParentPartnerVersion = typeof PARENT_PARTNERS_V1;
 const SAME_SEX_PARENT_SHARE = 0.01;
 
@@ -394,10 +400,13 @@ export function buildProductionWorld(
     ageOnDate(player.birthDate, world.currentDate) >= 19
   ) {
     world = seatLocalBusinesses(world, jurisdiction.id);
-    const employer = [...localBusinessesIn(world, jurisdiction.id)].sort(
-      (left, right) =>
+    // Chosen from the person's own situation; the oldest business only when
+    // the town has nothing they are fit for, because this path must employ.
+    const employer =
+      adultStartEmployer(world, player.id, jurisdiction.id) ??
+      [...localBusinessesIn(world, jurisdiction.id)].sort((left, right) =>
         left.organization.formedAt.localeCompare(right.organization.formedAt),
-    )[0];
+      )[0];
     if (!employer) throw new Error("A pre-start adult needs a local employer.");
     const employerName = world.history.organizationProfiles.find(
       (profile) => profile.organizationId === employer.organization.id,
@@ -417,6 +426,16 @@ export function buildProductionWorld(
   }
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
+  } else if (
+    input.adultStartWorkVersion === ADULT_START_WORK_V1 &&
+    !input.preStartYear &&
+    ageOnDate(player.birthDate, world.currentDate) >= 19
+  ) {
+    // A grown-up start arrives with the job they hold, not between jobs.
+    world = hireAtAdultStart(seatLocalBusinesses(world, jurisdiction.id), {
+      personId: player.id,
+      jurisdictionId: jurisdiction.id,
+    });
   }
 
   for (const personId of world.personOrder) {

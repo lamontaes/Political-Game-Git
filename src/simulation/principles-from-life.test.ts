@@ -6,6 +6,13 @@ import {
   prepareOpeningLife,
 } from "../presentation/opening-life";
 import { ageOnDate } from "./dates";
+import { stableHash } from "./ids";
+import acsPlaces from "../../data/research/money/place-population-acs-2024.json" with { type: "json" };
+import { lifePlaceByKey } from "./life-places";
+import {
+  placePopulation,
+  placeReferencePopulation,
+} from "./nationwide-world/place-population";
 import { parentsOf } from "./people-family";
 import { createFormationContext, recordPrinciple } from "./politics";
 import {
@@ -206,4 +213,40 @@ describe("principles that form from a life", () => {
       w.history.principles.filter((row) => row.personId === someone).length;
     expect(own(formPrinciplesFromLife(drawn, [someone]))).toBe(own(drawn));
   });
+
+  it("reads a census-designated town's size from the survey count", () => {
+    // A census-designated place has no annual estimate, only the American
+    // Community Survey count. One is drawn from every such place under 10,000
+    // people in all 56 jurisdictions.
+    const unincorporated = Object.keys(acsPlaces.places).filter((geoid) => {
+      if (placePopulation(geoid) !== null) return false;
+      const reference = placeReferencePopulation(geoid);
+      return (
+        reference !== null &&
+        reference.value < 10_000 &&
+        lifePlaceByKey(geoid) !== null
+      );
+    });
+    expect(unincorporated.length).toBeGreaterThan(0);
+    const seed = "principles-small-cdp";
+    const place = lifePlaceByKey(
+      unincorporated[
+        Number.parseInt(stableHash(seed).slice(0, 8), 16) %
+          unincorporated.length
+      ]!,
+    )!;
+    const town = opening(place.key, seed);
+    const neighbor = town.world.personOrder.find(
+      (id) =>
+        id !== town.player &&
+        ageOnDate(town.world.people[id]!.birthDate, town.world.currentDate) >=
+          18,
+    )!;
+    const reasons = principlePullsOf(town.world, neighbor).map(
+      (item) => item.because,
+    );
+    expect(reasons, `${place.displayName}, seed ${seed}`).toContain(
+      "they live in a small town",
+    );
+  }, 60_000);
 });

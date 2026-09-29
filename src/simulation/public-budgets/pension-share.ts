@@ -1,5 +1,11 @@
 import paid from "../../../data/research/money/pension-contribution-paid.json" with { type: "json" };
-import type { BudgetLevel, BudgetLawReading } from "./store";
+import flows from "../../../data/research/money/pension-flows.json" with { type: "json" };
+import funded from "../../../data/research/money/pension-funded-ratio.json" with { type: "json" };
+import type {
+  BudgetLevel,
+  BudgetLawReading,
+  PublicBudgetGovernment,
+} from "./store";
 
 /**
  * The share of its required pension contribution a government pays when no
@@ -55,6 +61,111 @@ export function openingPaidShare(
   return reported === undefined
     ? { share: MEDIAN_PAID_SHARE, basis: "estimated-from-average" }
     : { share: reported, basis: "reported" };
+}
+
+/** The measured median funded ratio: what an unlisted government opens at. */
+export const MEDIAN_FUNDED_RATIO: number = funded.median;
+
+const FUNDED_BY_STATE: Readonly<
+  Record<string, { readonly fundedRatio: number }>
+> = funded.byState;
+const FUNDED_BY_LOCAL = new Map(
+  funded.byLocal.map((row) => [
+    `${row.state}|${row.kind}|${row.name.toLowerCase()}`,
+    row.fundedRatio,
+  ]),
+);
+
+export interface FundedRatioSource {
+  readonly fundedRatio: number;
+  /** Reported by the government's own plans, or the median of all plans. */
+  readonly basis: "reported" | "estimated-from-average";
+}
+
+/**
+ * The share of its pension liability a government's plans hold in assets
+ * when the world opens: each state's from the plans its government
+ * administers, each county's and city's from its own plans, the latest year
+ * the Public Plans Database reports (`pension-funded-ratio.json`, written by
+ * `scripts/research/export-pension-funded-ratio.py`). A government the
+ * database does not list opens at the median of every plan: ESTIMATED FROM
+ * AVERAGE.
+ */
+export function openingFundedRatio(
+  stateKey: string,
+  level: BudgetLevel,
+  name: string,
+): FundedRatioSource {
+  const usps = stateKey.replace(/^US-/, "");
+  const reported =
+    level === "state"
+      ? FUNDED_BY_STATE[usps]?.fundedRatio
+      : FUNDED_BY_LOCAL.get(
+          `${usps}|${level}|${name.split(",")[0]!.trim().toLowerCase()}`,
+        );
+  return reported === undefined
+    ? { fundedRatio: MEDIAN_FUNDED_RATIO, basis: "estimated-from-average" }
+    : { fundedRatio: reported, basis: "reported" };
+}
+
+/** The measured medians: what an unlisted government's plans cost and pay. */
+export const MEDIAN_NORMAL_COST_SHARE: number = flows.median.normalCostShare;
+export const MEDIAN_BENEFIT_SHARE: number = flows.median.benefitShare;
+
+interface FlowRow {
+  readonly normalCostShare?: number;
+  readonly benefitShare?: number;
+}
+
+const FLOWS_BY_STATE: Readonly<Record<string, FlowRow>> = flows.byState;
+const FLOWS_BY_LOCAL = new Map<string, FlowRow>(
+  flows.byLocal.map((row) => [
+    `${row.state}|${row.kind}|${row.name.toLowerCase()}`,
+    row,
+  ]),
+);
+
+export interface PensionFlows {
+  /** The employer's normal cost each year, as a share of the liability. */
+  readonly normalCostShare: number;
+  /** The benefits the plans pay each year, as a share of the liability. */
+  readonly benefitShare: number;
+  readonly normalCostBasis: "reported" | "estimated-from-average";
+  readonly benefitBasis: "reported" | "estimated-from-average";
+}
+
+/**
+ * What a government's pension plans cost and pay out each year, as shares
+ * of their liability: the employer's normal cost, which the liability grows
+ * by and the required contribution includes, and the benefits paid, which
+ * both the liability and the assets shrink by. Each state's are read from the
+ * plans its government administers and each county's and city's from its
+ * own plans, the latest year the Public Plans Database reports
+ * (`pension-flows.json`, written by `scripts/research/export-pension-flows.py`),
+ * when the plans reporting a share hold at least half the government's
+ * liability. Otherwise the government takes the median of every plan:
+ * ESTIMATED FROM AVERAGE.
+ */
+export function pensionFlows(
+  government: Pick<PublicBudgetGovernment, "stateKey" | "level" | "name">,
+): PensionFlows {
+  const usps = government.stateKey.replace(/^US-/, "");
+  const row =
+    government.level === "state"
+      ? FLOWS_BY_STATE[usps]
+      : FLOWS_BY_LOCAL.get(
+          `${usps}|${government.level}|${government.name.split(",")[0]!.trim().toLowerCase()}`,
+        );
+  return {
+    normalCostShare: row?.normalCostShare ?? MEDIAN_NORMAL_COST_SHARE,
+    benefitShare: row?.benefitShare ?? MEDIAN_BENEFIT_SHARE,
+    normalCostBasis:
+      row?.normalCostShare === undefined
+        ? "estimated-from-average"
+        : "reported",
+    benefitBasis:
+      row?.benefitShare === undefined ? "estimated-from-average" : "reported",
+  };
 }
 
 /**

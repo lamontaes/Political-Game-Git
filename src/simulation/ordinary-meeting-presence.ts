@@ -1,28 +1,15 @@
 import { eventById } from "./event-index";
 import {
-  characterHistoryContextPersonId,
-  createCharacterHistoryContextPerson,
-} from "./character-history";
-import {
   ageOnDate,
   compareSimulationMoments,
-  isoDateFromParts,
   simulationMinutesBetween,
-  yearOf,
 } from "./dates";
 import {
   PUBLIC_MEETING_AGENDA,
   PUBLIC_MEETING_KEY,
 } from "./life-opportunities";
-import { nameCorpusVersionForWorld } from "./place-name-corpus";
-import {
-  drawCanonicalNameForGender,
-  personName,
-  DISTINCT_GIVEN_NAME_GENERATION_VERSION,
-} from "./people";
-import { generatePersonIdentity } from "./person-identity";
+import { personName } from "./people";
 import { recordEventKnowledge } from "./records";
-import { SeededRng } from "./rng";
 import { canPersonAccess, scheduledActivityState } from "./time-work";
 import type {
   EntityId,
@@ -36,6 +23,7 @@ import {
   postedMeetingVote,
   postedMeetingVoteSentence,
 } from "./living-world/local-council-meetings";
+import { activeOrganizationParticipationsAt } from "./life-queries";
 
 export const ORDINARY_MEETING_PRESENCE = "ordinary-meeting-presence-v1";
 
@@ -407,28 +395,22 @@ function writePresence(
   const councilChair = localCouncilChair(completed, jurisdictionId, personId);
   if (!chairId && councilChair && available(councilChair))
     chairId = councilChair;
-  if (!chairId) {
-    const key = `${baseKey}:chair`;
-    const rng = new SeededRng(completed.seed).fork(key);
-    const identity = generatePersonIdentity(rng.fork("identity"));
-    next = createCharacterHistoryContextPerson(completed, {
-      stableKey: key,
-      ...drawCanonicalNameForGender(
-        rng,
-        identity.gender,
-        nameCorpusVersionForWorld(completed, jurisdictionId),
-        DISTINCT_GIVEN_NAME_GENERATION_VERSION,
-      ),
-      identity,
-      birthDate: isoDateFromParts(
-        yearOf(completed.currentDate) - rng.integer(30, 66),
-        rng.integer(1, 13),
-        rng.integer(1, 29),
-      ),
-      homeJurisdictionId: jurisdictionId,
-    });
-    chairId = characterHistoryContextPersonId(next, key);
-  }
+  // Otherwise the neighbors already in the world who belong to the most
+  // groups come: a party, a congregation, a club, a board. Belonging is what
+  // brings people to a public meeting (Verba, Schlozman and Brady, "Voice and
+  // Equality", 1995), so the one who belongs most chairs, and nobody is made
+  // up for the evening. Ties go to whoever the world knew first.
+  const goers = completed.personOrder
+    .filter(available)
+    .map((id, order) => ({
+      id,
+      order,
+      belongs: activeOrganizationParticipationsAt(completed, id).length,
+    }))
+    .sort((a, b) => b.belongs - a.belongs || a.order - b.order)
+    .map((row) => row.id);
+  if (!chairId) chairId = goers[0];
+  if (!chairId) return completed;
   const recordedResidents = earlierEntry?.participants.filter(
     (actor) =>
       actor.role === "presence:participant" &&
@@ -437,35 +419,20 @@ function writePresence(
   );
   const residents = recordedResidents ?? [];
   if (!earlierEntry) {
-    // PLACEHOLDER(overnight): These two game-authored residents and exact words
-    // await English review. They are written as event participants before a
-    // scene can show them; no reader creates a person or a line.
+    // PLACEHOLDER(overnight): These two residents' exact words await English
+    // review. The residents are neighbors already in the world, written as
+    // event participants before a scene can show them; no reader creates a
+    // person or a line.
     const lines = [
       "I support opening this room one extra evening each week.",
       "What hours are proposed, and who would pay for them?",
     ];
+    const speakers = goers.filter((id) => id !== chairId);
     for (const [index, line] of lines.entries()) {
-      const key = `${baseKey}:resident:${index}`;
-      const rng = new SeededRng(completed.seed).fork(key);
-      const identity = generatePersonIdentity(rng.fork("identity"));
-      next = createCharacterHistoryContextPerson(next, {
-        stableKey: key,
-        ...drawCanonicalNameForGender(
-          rng,
-          identity.gender,
-          nameCorpusVersionForWorld(completed, jurisdictionId),
-          DISTINCT_GIVEN_NAME_GENERATION_VERSION,
-        ),
-        identity,
-        birthDate: isoDateFromParts(
-          yearOf(completed.currentDate) - rng.integer(30, 66),
-          rng.integer(1, 13),
-          rng.integer(1, 29),
-        ),
-        homeJurisdictionId: jurisdictionId,
-      });
+      const speaker = speakers[index];
+      if (!speaker) break;
       residents.push({
-        personId: characterHistoryContextPersonId(next, key),
+        personId: speaker,
         role: "presence:participant",
         detail: line,
       });

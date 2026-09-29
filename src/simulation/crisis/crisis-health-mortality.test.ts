@@ -32,7 +32,9 @@ import {
   latestHealthState,
   MORTALITY_CAUSE_KEY,
   mortalityCrossingDay,
+  OFFICIAL_FUNERAL_EVENT_TYPES,
   publicOfficesHeldBy,
+  UNRESEARCHED_OFFICIAL_FUNERAL,
 } from "./index";
 
 const REGISTRY = createCrisisTransitionRegistry();
@@ -562,6 +564,29 @@ describe("CRISIS K3 continuity notices for GOVERNING", () => {
             e.type === "world.office-tenure",
         ),
       ).toHaveLength(1);
+      // The funeral follows a week after the death, and a president who
+      // dies in office first lies in state in the Capitol Rotunda.
+      const later = advanceWorld(run!, 10, REGISTRY);
+      const funeral = later.history.events.find(
+        (e) =>
+          e.type === OFFICIAL_FUNERAL_EVENT_TYPES.funeral &&
+          e.participants.some(
+            (p) => p.personId === president && p.role === "focus:deceased",
+          ),
+      )!;
+      expect(funeral).toBeDefined();
+      expect(funeral.visibility).toBe("public");
+      expect(funeral.occurredAt).toBe(
+        addDays(death.diedAt, UNRESEARCHED_OFFICIAL_FUNERAL.daysToFuneral),
+      );
+      expect(funeral.summary).toMatch(
+        /^The funeral of .+, who died while serving as President of the United States, was held/,
+      );
+      const lay = later.history.events.find(
+        (e) => e.type === OFFICIAL_FUNERAL_EVENT_TYPES.layInState,
+      )!;
+      expect(lay.summary).toContain("the U.S. Capitol Rotunda");
+      expect(lay.occurredAt).toBe(addDays(funeral.occurredAt, -1));
     },
     SLOW,
   );
