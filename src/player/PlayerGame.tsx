@@ -2063,6 +2063,7 @@ function PlayingScreen({
    * Asked once, and kept: the same answer drives the Talk control AND the
    * sentence beside it, so the two cannot disagree.
    */
+  const talkingInTheRoom = conversation !== null && view.surface === "scene";
   const inspectTalkEntry = selectedDossier
     ? openConversationWith(
         session.world,
@@ -2730,9 +2731,13 @@ function PlayingScreen({
               ) : null}
               {/*
                 The recap and the morning note are for a life already under
-                way: neither opens over the first orientation tour.
+                way: neither opens over the first orientation tour. Nor do they
+                stand in the room while somebody is being spoken to there: the
+                conversation is the one surface in front of the people, and at
+                720 px tall a note beside it leaves the box no room for its
+                replies. Both come back, undismissed, when the talk ends.
               */}
-              {!showOrientation && dayRhythm.summary ? (
+              {!showOrientation && !talkingInTheRoom && dayRhythm.summary ? (
                 <WorldRecapPanel
                   summary={dayRhythm.summary}
                   onDismiss={(throughSequence, throughMoment) =>
@@ -2751,6 +2756,7 @@ function PlayingScreen({
                 />
               ) : null}
               {!showOrientation &&
+              !talkingInTheRoom &&
               !dayRhythm.summary &&
               dayRhythm.morningThought ? (
                 <MorningThoughtPanel
