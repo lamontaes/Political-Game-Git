@@ -383,6 +383,47 @@ test.describe("A life can stand for something", () => {
     expect(errors).toEqual([]);
   });
 
+  test("keeps standing campaign hours until the candidate stops them", async ({
+    page,
+  }) => {
+    const errors = watchForErrors(page);
+    await freshBrowser(page);
+    await beginAdultLifeIn(page, unreadStateLocality().displayName);
+    await fileCandidacy(page);
+
+    // D-11: the hours are set once and repeat; nothing runs until a day is
+    // ticked, so there is nothing to keep yet.
+    const hours = page.getByTestId("campaign-hours");
+    await expect(hours).toBeVisible();
+    await expect(page.getByTestId("campaign-hours-current")).toHaveText(
+      "You have no set campaign hours.",
+    );
+    const keep = page.getByTestId("campaign-hours-keep");
+    await expect(keep).toBeDisabled();
+
+    const doors = page.getByTestId("campaign-hours-outreach");
+    await doors.getByRole("checkbox", { name: "Mon" }).check();
+    await doors.getByRole("checkbox", { name: "Wed" }).check();
+    await keep.click();
+    await expect(page.getByTestId("campaign-hours-current")).toHaveText(
+      "Knocking on doors, Mon, Wed, 6 p.m. to 8 p.m.",
+    );
+    await expect(page.getByTestId("campaign-hours-message")).toContainText(
+      "They repeat every week until you change them.",
+    );
+
+    // The geography and "Do this now" controls sit below the hours.
+    await expect(page.getByTestId("campaign-strategy")).toBeVisible();
+    await expect(page.getByTestId("campaign-offers")).toBeVisible();
+
+    await page.getByTestId("campaign-hours-stop").click();
+    await expect(page.getByTestId("campaign-hours-current")).toHaveText(
+      "You have no set campaign hours.",
+    );
+    await expect(page.getByTestId("campaign-hours-stop")).toHaveCount(0);
+    expect(errors).toEqual([]);
+  });
+
   test("reaches election day by living the weeks, and carries on afterwards", async ({
     page,
   }) => {
