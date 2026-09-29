@@ -145,8 +145,14 @@ export const TOWN_FINANCE_POLICY = {
     cushionRebuildPerQuarter: 0.25,
     /** PLACEHOLDER: deposits a dollar of the town's yearly pay brings. */
     depositsPerDollarOfPay: 1.5,
-    /** PLACEHOLDER: the most the town's unemployment scales its losses. */
-    localLossFactorMax: 3,
+    /**
+     * REGULATION: a closed-end consumer loan is charged off once it is 120
+     * days past due (FFIEC Uniform Retail Credit Classification and Account
+     * Management Policy, 65 Fed. Reg. 36903, June 12, 2000). A borrower out
+     * of work that long, with no job since, is taken to have missed every
+     * payment since.
+     */
+    chargeOffDaysPastDue: 120,
   },
 } as const;
 
@@ -567,7 +573,6 @@ export function stepTownFinances(
   }[],
   exempt: ReadonlySet<EntityId>,
   round: string,
-  townUnemploymentPct: number | null,
 ): TownFinanceQuarter {
   const economy = economyOf(world);
   if (!economy) return { world, closing: [] };
@@ -912,16 +917,18 @@ export function stepTownFinances(
     }
   }
 
-  // The banks' quarter.
+  // The banks' quarter. A bank loses on its own borrowers: the town's
+  // businesses that closed owing it, and the town's households whose
+  // earners lost their jobs and have been out of work past the day a loan
+  // is charged off. Nothing is drawn, and no national rate is scaled.
   const B = TOWN_FINANCE_POLICY.bank;
-  const national = economy.nationalUnemploymentPct;
-  const localFactor =
-    townUnemploymentPct !== null && national !== null && national > 0
-      ? Math.min(
-          B.localLossFactorMax,
-          Math.max(0.5, townUnemploymentPct / national),
-        )
-      : 1;
+  const householdDefaults = townHouseholdDefaults(
+    world,
+    town,
+    bankIds,
+    books,
+    banks,
+  );
   const failing: {
     bankId: EntityId;
     cause: "insolvent" | "depositors-withdrew";
@@ -929,18 +936,20 @@ export function stepTownFinances(
   for (const bankId of bankIds) {
     const bank = banks[bankId];
     if (!bank || bank.failed || bank.lastRound === round) continue;
-    const lossRate = ((economy.chargeOffPct / 100) * localFactor) / 4;
-    const defaults =
-      (pendingDefaults.get(bankId) ?? 0) *
-      MACRO_CREDIT_POLICY.chargeOff.lossGivenDefault;
-    const losses = bank.loans * lossRate + defaults;
+    const businessDefaults = pendingDefaults.get(bankId) ?? 0;
+    const households = householdDefaults.get(bankId) ?? {
+      personIds: [],
+      owed: 0,
+    };
+    const defaulted = businessDefaults + households.owed;
+    const losses = defaulted * MACRO_CREDIT_POLICY.chargeOff.lossGivenDefault;
     const earnings = (bank.loans * MACRO_CREDIT_POLICY.bank.earningsRate) / 4;
     let capital = bank.capital + earnings - losses;
     const businessLoans = Object.values(books)
       .filter((row) => row.bankId === bankId && !pendingClosed(closing, row))
       .reduce((sum, row) => sum + row.debt, 0);
     const lending = lends(bank, economy);
-    let loans = bank.loans * (1 - lossRate) - defaults;
+    let loans = bank.loans - defaulted;
     if (lending)
       loans *= Math.exp(
         (economy.lendingGrowthPct - economy.inflationPct - economy.trendPct) /
@@ -975,6 +984,12 @@ export function stepTownFinances(
       capital,
       businessLoans: round2(businessLoans),
       lastQuarterLosses: round2(losses),
+      lastQuarterDefaults: {
+        businesses: round2(businessDefaults),
+        households: households.personIds.length,
+        householdsOwed: round2(households.owed),
+      },
+      chargedOff: [...(bank.chargedOff ?? []), ...households.personIds],
       runAt,
       lastRound: round,
     };
@@ -1006,7 +1021,7 @@ export function stepTownFinances(
     },
   };
   for (const { bankId, cause } of failing)
-    next = failTownBank(next, town, bankId, cause, localFactor, economy);
+    next = failTownBank(next, town, bankId, cause);
   return { world: next, closing };
 }
 
@@ -1158,13 +1173,104 @@ export function closeBusinessWithNobodyLeft(
   });
 }
 
+/**
+ * What each bank's household borrowers owe that is charged off this
+ * quarter. GAME ASSUMPTION: the part of a bank's loans that is not to the
+ * town's businesses is lent to the town's households, an equal part to each
+ * worker; a worker banks where their last employer banks, else at the
+ * town's first bank. A borrower whose last town job ended in a layoff or a
+ * closing, who has held no job since, and whose job ended at least
+ * `chargeOffDaysPastDue` days ago, defaults on their part, once.
+ */
+function townHouseholdDefaults(
+  world: World,
+  town: EntityId,
+  bankIds: readonly EntityId[],
+  books: Readonly<Record<EntityId, TownBusinessBooks>>,
+  banks: Readonly<Record<EntityId, TownBankBooks>>,
+): Map<EntityId, { personIds: EntityId[]; owed: number }> {
+  const result = new Map<EntityId, { personIds: EntityId[]; owed: number }>();
+  const open = bankIds.filter((id) => banks[id] && !banks[id]!.failed);
+  if (open.length === 0) return result;
+  const today = world.currentDate;
+  const dueBy = addDays(today, -TOWN_FINANCE_POLICY.bank.chargeOffDaysPastDue);
+  const stem = `${TOWN_EMPLOYMENT_VERSION}:${town}:job:`;
+  const latest = new Map<EntityId, WorkStatusRecord>();
+  for (const row of world.history.workStatuses)
+    if (row.effectiveAt <= today) latest.set(row.workRelationshipId, row);
+  const working = new Set<EntityId>();
+  const lastLost = new Map<
+    EntityId,
+    { at: IsoDate; organizationId: EntityId | null }
+  >();
+  for (const row of world.history.workRelationships) {
+    const status = latest.get(row.id);
+    if (!status) continue;
+    if (status.status === "active") {
+      working.add(row.personId);
+      continue;
+    }
+    if (
+      !row.stableKey.startsWith(stem) ||
+      (status.reason !== TOWN_JOB_END_REASONS.laidOff &&
+        status.reason !== TOWN_JOB_END_REASONS.businessClosed)
+    )
+      continue;
+    const before = lastLost.get(row.personId);
+    if (!before || before.at < status.effectiveAt)
+      lastLost.set(row.personId, {
+        at: status.effectiveAt,
+        organizationId: row.organizationId,
+      });
+  }
+  const charged = new Set(open.flatMap((id) => banks[id]!.chargedOff ?? []));
+  const dead = new Set(world.history.personDeaths.map((row) => row.personId));
+  const borrowers = activeTownJobs(world, town).length;
+  const defaulting = [...lastLost]
+    .filter(
+      ([personId, lost]) =>
+        !working.has(personId) &&
+        !charged.has(personId) &&
+        !dead.has(personId) &&
+        world.people[personId]?.homeJurisdictionId === town &&
+        lost.at <= dueBy,
+    )
+    .sort(([a], [b]) => a.localeCompare(b));
+  const everyone = borrowers + defaulting.length;
+  if (everyone === 0) return result;
+  for (const [personId, lost] of defaulting) {
+    const lender =
+      (lost.organizationId && books[lost.organizationId]?.bankId) || open[0]!;
+    const bankId = open.includes(lender) ? lender : open[0]!;
+    const bank = banks[bankId]!;
+    const householdLoans = Math.max(0, bank.loans - bank.businessLoans);
+    const entry = result.get(bankId) ?? { personIds: [], owed: 0 };
+    entry.personIds.push(personId);
+    entry.owed += householdLoans / everyone;
+    result.set(bankId, entry);
+  }
+  return result;
+}
+
+function lossesSentence(bank: TownBankBooks): string {
+  const d = bank.lastQuarterDefaults;
+  const parts: string[] = [];
+  if (d && d.households > 0)
+    parts.push(
+      `${d.households} ${d.households === 1 ? "household" : "households"} whose earners had been out of work ${TOWN_FINANCE_POLICY.bank.chargeOffDaysPastDue} days or more owed it ${formatDollars(d.householdsOwed)}`,
+    );
+  if (d && d.businesses > 0)
+    parts.push(`businesses that closed owed it ${formatDollars(d.businesses)}`);
+  return parts.length > 0
+    ? `It lost ${formatDollars(bank.lastQuarterLosses)} on loans last quarter: ${parts.join(", and ")}.`
+    : `It lost ${formatDollars(bank.lastQuarterLosses)} on loans last quarter.`;
+}
+
 function failTownBank(
   world: World,
   town: EntityId,
   bankId: EntityId,
   cause: "insolvent" | "depositors-withdrew",
-  localFactor: number,
-  economy: Economy,
 ): World {
   const bank = world.townFinances!.banks[bankId]!;
   const townJobs = activeTownJobs(world, town).length;
@@ -1185,7 +1291,7 @@ function failTownBank(
   const summary = [
     `${name} failed.`,
     why,
-    `It lost ${formatDollars(bank.lastQuarterLosses)} on loans last quarter, while lenders nationwide were writing off ${economy.chargeOffPct.toFixed(1)} percent of loans a year${localFactor > 1.05 ? ` and the town's unemployment ran ${localFactor >= TOWN_FINANCE_POLICY.bank.localLossFactorMax ? "at least " : ""}${localFactor.toFixed(1)} times the nation's` : ""}.`,
+    lossesSentence(bank),
     closed.jobsLost
       ? `${closed.jobsLost} people who worked there lost their jobs.`
       : "",
@@ -1208,7 +1314,8 @@ function failTownBank(
       `organization:${bankId}`,
       `capital-ratio:${round6(ratio)}`,
       `losses:${bank.lastQuarterLosses}`,
-      `local-loss-factor:${round6(localFactor)}`,
+      `household-defaults:${bank.lastQuarterDefaults?.households ?? 0}`,
+      `business-defaults:${bank.lastQuarterDefaults?.businesses ?? 0}`,
       `jobs:${closed.jobsLost}`,
       `town-jobs:${townJobs}`,
       `shape:${bank.shape.state ?? "national"}:${bank.shape.index}:${FDIC_SMALL_BANK_REPORT_DATE}`,

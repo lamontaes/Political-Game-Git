@@ -35,7 +35,6 @@ import {
 } from "./town-employment";
 import { TOWN_JOB_END_REASONS } from "./town-labor-market";
 import { TOWN_BUSINESS_WORKPLACES } from "./town-business-books";
-import { townUnemploymentRate } from "./town-economy-measures";
 import {
   closeBusinessesOutOfCash,
   closeBusinessWithNobodyLeft,
@@ -226,7 +225,6 @@ export function reviewTownBusinesses(
       );
   const running = businesses.filter((business) => business.jobs.length > 0);
   if (running.length === 0) return next;
-  const unemployment = townUnemploymentRate(next, town).value;
   const quarter = stepTownFinances(
     next,
     town,
@@ -237,7 +235,6 @@ export function reviewTownBusinesses(
     })),
     exempt,
     round,
-    unemployment,
   );
   next = closeBusinessesOutOfCash(quarter.world, town, quarter.closing, prefix);
 

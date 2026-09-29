@@ -74,6 +74,18 @@ export interface TownBankBooks {
   readonly businessLoans: number;
   /** Losses booked last quarter. */
   readonly lastQuarterLosses: number;
+  /**
+   * What defaulted last quarter: owed by businesses that closed, and the
+   * number of households charged off and what they owed. Absent in older
+   * saves.
+   */
+  readonly lastQuarterDefaults?: {
+    readonly businesses: number;
+    readonly households: number;
+    readonly householdsOwed: number;
+  };
+  /** Household borrowers already charged off, once each. */
+  readonly chargedOff?: readonly EntityId[];
   /** Set once depositors have pulled out after bad news. */
   readonly runAt: IsoDate | null;
   readonly failed: {

@@ -34,6 +34,12 @@ import {
 import { BUDGET_SOURCES } from "../../src/simulation/public-budgets/store";
 import { TOWN_FINANCE_ORIGIN_READER } from "../../src/simulation/macro-economy/sources";
 import type { World } from "../../src/simulation";
+import { addDays } from "../../src/simulation/dates";
+import { recordWorkStatus } from "../../src/simulation/life";
+import {
+  TOWN_JOB_END_REASONS,
+  activeTownJobs,
+} from "../../src/simulation/living-world/town-labor-market";
 
 const tagValue = (tags: readonly string[], prefix: string) =>
   tags.find((tag) => tag.startsWith(prefix))?.slice(prefix.length);
@@ -148,7 +154,6 @@ describe(
         })),
         new Set(),
         "business-broke",
-        null,
       );
       expect(quarter.closing.map((row) => row.organizationId)).toEqual([
         target.organizationId,
@@ -201,6 +206,69 @@ describe(
       ).toBeLessThanOrEqual(1);
     });
 
+    it("a bank loses on a household borrower out of work past the charge-off day, once", () => {
+      const store = world.townFinances!;
+      const bankId = Object.keys(store.banks).find(
+        (id) => !store.banks[id]!.failed,
+      )!;
+      // Marcus has one bank, so every borrower banks there.
+      expect(Object.keys(store.banks)).toHaveLength(1);
+      const job = activeTownJobs(world, town)[0]!;
+      const laidOff = recordWorkStatus(world, {
+        stableKey: "b19-test:laid-off",
+        workRelationshipId: job.relationshipId,
+        effectiveAt: world.currentDate,
+        status: "ended",
+        reason: TOWN_JOB_END_REASONS.laidOff,
+        supersedesStatusId: job.status.id,
+        provenance: { kind: "generated", generatorKey: "b19-test" },
+      });
+      const businesses = townBusinesses(laidOff, town).map((business) => ({
+        organizationId: business.organizationId,
+        kind: business.workplace.key,
+        newcomer: business.outlet >= business.workplace.outlets,
+      }));
+      const later = (from: World, days: number): World => ({
+        ...from,
+        currentDate: addDays(from.currentDate, days),
+      });
+      // Not yet 120 days out of work: nothing is charged off.
+      const early = stepTownFinances(
+        later(laidOff, 91),
+        town,
+        businesses,
+        new Set(),
+        "household-early",
+      ).world;
+      expect(early.townFinances!.banks[bankId]!.chargedOff ?? []).not.toContain(
+        job.personId,
+      );
+      const due = stepTownFinances(
+        later(early, 91),
+        town,
+        businesses,
+        new Set(),
+        "household-due",
+      ).world;
+      const bank = due.townFinances!.banks[bankId]!;
+      expect(bank.chargedOff).toContain(job.personId);
+      expect(bank.lastQuarterDefaults!.households).toBeGreaterThanOrEqual(1);
+      expect(bank.lastQuarterLosses).toBeGreaterThan(0);
+      // Charged off once: the next quarter does not count the same borrower.
+      const after = stepTownFinances(
+        later(due, 91),
+        town,
+        businesses,
+        new Set(),
+        "household-after",
+      ).world;
+      expect(
+        after.townFinances!.banks[bankId]!.chargedOff!.filter(
+          (id) => id === job.personId,
+        ),
+      ).toHaveLength(1);
+    });
+
     it("a bank whose capital is gone fails, is recorded, and tightens credit in its town", () => {
       const bankWorkplace = TOWN_WORKPLACES.find((row) => row.key === "bank")!;
       const withBank = writeTownEmployer(
@@ -221,7 +289,6 @@ describe(
         businesses,
         new Set(),
         "bank-opens",
-        null,
       ).world;
       const [bankId, bank] = Object.entries(first.townFinances!.banks).find(
         ([id]) => !world.townFinances!.banks[id],
@@ -244,7 +311,6 @@ describe(
         businesses,
         new Set(),
         "bank-fails",
-        null,
       ).world;
       const event = failed.history.events.at(-1)!;
       expect(event.type).toBe(BANK_FAILED_EVENT);
