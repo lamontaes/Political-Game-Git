@@ -913,20 +913,6 @@
       "code": "if (point < 0) return index;"
     },
     {
-      "file": "src/simulation/living-world/official-views.ts",
-      "kind": "fixed-share",
-      "build": "Build 22",
-      "count": 1,
-      "code": "const FRIEND_SHARE = 0.25;"
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "kind": "fixed-share",
-      "build": "Build 22",
-      "count": 1,
-      "code": "const FAMILY_SHARE = 0.5;"
-    },
-    {
       "file": "src/simulation/living-world/opening.ts",
       "kind": "roll",
       "build": "Build 7",
@@ -1254,13 +1240,6 @@
       "build": "Build 25",
       "count": 1,
       "code": "if (input.governmentKey !== \"us-va-charlottesville\") {"
-    },
-    {
-      "file": "src/simulation/names-data.ts",
-      "kind": "place-in-logic",
-      "build": "Build 7",
-      "count": 1,
-      "code": "return version === PLACE_NAMES_V1_VERSION && stateUsps === \"PR\""
     },
     {
       "file": "src/simulation/national-election-consumer.ts",
@@ -1681,41 +1660,6 @@
       "build": "Build 19",
       "count": 1,
       "code": "draw(next, [\"international\", matter, ordinal]) >="
-    },
-    {
-      "file": "src/simulation/public-budgets/opening.ts",
-      "kind": "fixed-share",
-      "build": "Build 12",
-      "count": 1,
-      "code": "const MEDIAN_RAINY_DAY_SHARE = 0.131;"
-    },
-    {
-      "file": "src/simulation/public-budgets/opening.ts",
-      "kind": "place-in-logic",
-      "build": "Build 12",
-      "count": 1,
-      "code": "if (place?.stateJurisdictionKey === \"US-DC\" && place.scope !== \"state\")"
-    },
-    {
-      "file": "src/simulation/public-budgets/opening.ts",
-      "kind": "place-in-logic",
-      "build": "Build 12",
-      "count": 1,
-      "code": "usps === \"DC\" && districtTown ? districtTown : jurisdiction.id,"
-    },
-    {
-      "file": "src/simulation/public-budgets/opening.ts",
-      "kind": "place-in-logic",
-      "build": "Build 12",
-      "count": 1,
-      "code": "candidate.key === \"US-DC\" ? base.local : (base.state ?? undefined);"
-    },
-    {
-      "file": "src/simulation/public-budgets/opening.ts",
-      "kind": "place-in-logic",
-      "build": "Build 12",
-      "count": 1,
-      "code": "candidate.key === \"US-DC\""
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",

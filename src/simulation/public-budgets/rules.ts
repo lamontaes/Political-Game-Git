@@ -112,9 +112,10 @@ export const TAX_QUESTION_EFFECTS: readonly {
     questionKey: "us-policy-positions:fiscal.adopt-income-tax",
     source: "individualIncomeTax",
     toYes: null,
-    toNo: null,
+    // A repeal ends the tax: a state with no income tax collects none.
+    toNo: -1,
     basis:
-      "Not researched: a state with no income tax collects none, so adopting one needs a level, not a share.",
+      "A repeal ends the tax, so the state collects none; adopting one needs a level, not a share, and is not researched.",
   },
   {
     questionKey: "us-policy-positions:fiscal.graduated-income-tax",

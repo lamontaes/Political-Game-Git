@@ -10,16 +10,19 @@ import { createPartnership } from "./life";
 import {
   lawExposuresFrom,
   lawExposuresOf,
+  recordHeardExposure,
   recordLawExposure,
 } from "./law-exposure";
 import {
   followsNewsClosely,
+  heardShare,
   knowsVote,
   officialsBehind,
   peopleKnownTo,
   townSupportFromViews,
   viewOfOfficial,
 } from "./living-world/official-views";
+import { recordRelationshipInteraction } from "./records";
 import { money } from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { advanceWorld, assertWorldIntegrity } from "./world";
@@ -290,6 +293,40 @@ describe("a law reaches a person", () => {
       expect(view.points).toBeLessThan(0);
     }
     assertWorldIntegrity(later);
+  });
+
+  it("a friend's story moves the hearer as much as they care about the teller", () => {
+    const { world, personId, spouseId } = collected();
+    const row = lawExposuresOf(world, personId)[0]!;
+    const heardFrom = (w: typeof world) =>
+      (w.history.lawExposures ?? []).find(
+        (exposure) =>
+          exposure.relation === "friend" && exposure.personId === spouseId,
+      )!;
+    const stranger = recordHeardExposure(world, row, spouseId);
+    let close = world;
+    for (const [i, day] of ["2019-01-07", "2019-03-04", "2019-06-03"].entries())
+      close = recordRelationshipInteraction(close, {
+        stableKey: `law-exposure-test:care:${i}`,
+        personIds: [personId, spouseId].sort() as [
+          typeof spouseId,
+          typeof spouseId,
+        ],
+        eventId: null,
+        occurredAt: day as typeof world.currentDate,
+        kind: "care:looked-after",
+        change: "strengthened",
+        significance: "major",
+        summary: "They looked after each other through a hard winter.",
+        tags: [],
+      });
+    close = recordHeardExposure(close, row, spouseId);
+    // Nobody's own money or household is discounted.
+    expect(heardShare(world, row)).toBe(1);
+    // A story from someone they have no warmth for reaches them faintly; the
+    // same story from someone who looked after them reaches them far more.
+    expect(heardShare(stranger, heardFrom(stranger))).toBe(1 / 8);
+    expect(heardShare(close, heardFrom(close))).toBeGreaterThan(1 / 8);
   });
 
   it("a close news follower knows a legislator's vote; someone who neither follows nor knows them does not", () => {

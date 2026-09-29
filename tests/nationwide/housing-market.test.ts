@@ -1,20 +1,27 @@
 import { describe, expect, it } from "vitest";
 
-import { homePriceLevels } from "../../src/simulation/living-world/housing-market";
+import {
+  homePriceLevel,
+  homePriceLevels,
+} from "../../src/simulation/living-world/housing-market";
 import type { MacroMonthRecord } from "../../src/simulation/macro-economy/types";
 
 /** Months whose real growth and inflation are the given annual rates. */
 function months(
   rates: readonly { growthPct: number; inflationPct: number }[],
+  scope = "national",
+  from = 0,
 ): MacroMonthRecord[] {
   let output = 100;
   let price = 100;
-  return rates.map((rate, index) => {
+  return rates.map((rate, at) => {
+    const index = at + from;
     output *= Math.exp(rate.growthPct / 100 / 12);
     price *= Math.exp(rate.inflationPct / 100 / 12);
     const month = String((index % 12) + 1).padStart(2, "0");
     const year = 2026 + Math.floor(index / 12);
     return {
+      scope,
       recordedAt: `${year}-${month}-01`,
       growthPct: rate.growthPct,
       inflationPct: rate.inflationPct,
@@ -53,5 +60,34 @@ describe("a town's home prices follow its economy, with no draw", () => {
     const yearly = (to: number) =>
       Math.log(levels[to]!.level / levels[to - 12]!.level);
     expect(yearly(47)).toBeLessThan(yearly(23));
+  });
+
+  it("reads the nation's months until the town keeps its own, then the town's, as months are added", () => {
+    const steady = { growthPct: 2, inflationPct: 2.5 };
+    const nation = months(Array.from({ length: 36 }, () => steady));
+    // The town's own layer begins in the thirteenth month, from its own base.
+    const own = months(
+      Array.from({ length: 24 }, () => steady),
+      "jurisdiction:town-1",
+      12,
+    ).map((month) => ({ ...month, realOutputIndex: 50, priceIndex: 70 }));
+    const early = { macroEconomy: { months: nation.slice(0, 12) } } as never;
+    const level = (world: never, date: string) =>
+      homePriceLevel(world, "town-1" as never, date as never);
+    expect(level(early, "2026-12-01")).toBeGreaterThan(1.03);
+    const all = [...nation, ...own];
+    const later = { macroEconomy: { months: all } } as never;
+    const year1 = level(later, "2026-12-01");
+    const year2 = level(later, "2027-12-01");
+    const year3 = level(later, "2028-12-01");
+    expect(year1).toBeCloseTo(level(early, "2026-12-01"));
+    // Steady growth carries on across the switch, with no jump.
+    expect(Math.log(year3 / year2)).toBeCloseTo(Math.log(year2 / year1), 2);
+    // A month added to the same array later is read.
+    const growing = all.slice(0, 30);
+    const world = { macroEconomy: { months: growing } } as never;
+    const before = level(world, "2031-01-01");
+    growing.push(...all.slice(30));
+    expect(level(world, "2031-01-01")).toBeGreaterThan(before);
   });
 });

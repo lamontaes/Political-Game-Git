@@ -197,7 +197,7 @@ export function billOnTheFloor(
         personId: member.personId,
         disposition: "yea" as const,
       })),
-    rationale: "The committee reported the bill.",
+    rationale: "The committee sent the bill to the floor.",
     provenance: AUTHORED,
   });
   world = placeMeasureOnCalendar(world, {

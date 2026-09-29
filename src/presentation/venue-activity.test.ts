@@ -124,15 +124,26 @@ it("Attend reports the actual event and rejects a repeated stale click", () => {
       activityId: entry.activity.id,
     },
   };
+  // Since #727 the first Attend walks in and opens the meeting room; staying
+  // through the discussion is the second, and that completes the meeting.
   const first = submitTimeCommand(world, request);
   expect(first.receipt.status).toBe("accepted");
-  expect(first.receipt.outcome).toBe(
-    `You completed ${entry.activity.title} at ${entry.activity.location.label}.`,
-  );
   expect(scheduledActivityState(first.world, entry.activity.id).status).toBe(
-    "completed",
+    "scheduled",
   );
   const again = submitTimeCommand(first.world, request);
   expect(again.world).toBe(first.world);
   expect(again.receipt.status).toBe("stale");
+  const stayed = submitTimeCommand(first.world, {
+    ...request,
+    requestId: "w-stay",
+    sourceMoment: first.world.currentMoment,
+  });
+  expect(stayed.receipt.status).toBe("accepted");
+  expect(stayed.receipt.outcome).toBe(
+    `You completed ${entry.activity.title} at ${entry.activity.location.label}.`,
+  );
+  expect(scheduledActivityState(stayed.world, entry.activity.id).status).toBe(
+    "completed",
+  );
 });

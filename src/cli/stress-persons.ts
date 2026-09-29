@@ -3,11 +3,13 @@ import {
   runPersonStressHarness,
   type PersonStressHarnessOptions,
 } from "../simulation/person-stress-harness";
+import { randomUUID } from "node:crypto";
 import { lifePlaceByKey } from "../simulation/life-places";
+import { drawRandomPlace } from "../../tests/support/random-place";
 import type { EntityId, PersonGenerationProfile } from "../simulation/types";
 
 const USAGE =
-  "usage: npm run stress:persons -- --place <place key, for example 3260600> [--seeds n] [--per-seed n] [--profile production|stress] [--seed s] [--json]";
+  "usage: npm run stress:persons -- [--place <place key, for example 3260600> | --place-seed s] [--seeds n] [--per-seed n] [--profile production|stress] [--seed s] [--json]";
 
 function parseArgs(): { options: PersonStressHarnessOptions; json: boolean } {
   const args = process.argv.slice(2);
@@ -16,6 +18,7 @@ function parseArgs(): { options: PersonStressHarnessOptions; json: boolean } {
   let profile: PersonGenerationProfile = "production";
   let json = false;
   let jurisdictionId: EntityId | null = null;
+  let placeSeed: string | null = null;
   const customSeeds: string[] = [];
 
   for (let i = 0; i < args.length; i += 1) {
@@ -37,6 +40,9 @@ function parseArgs(): { options: PersonStressHarnessOptions; json: boolean } {
       }
       jurisdictionId = place.context.jurisdiction.id;
       i += 1;
+    } else if (arg === "--place-seed" && i + 1 < args.length) {
+      placeSeed = args[i + 1] as string;
+      i += 1;
     } else if (arg === "--json") {
       json = true;
     } else if (arg === "--seed" && i + 1 < args.length) {
@@ -46,8 +52,14 @@ function parseArgs(): { options: PersonStressHarnessOptions; json: boolean } {
   }
 
   if (!jurisdictionId) {
-    console.error(`The harness needs a place; it has no default. ${USAGE}`);
-    process.exit(2);
+    // No place named: draw one from all 56 jurisdictions, then one of its
+    // towns, and name both the place and the seed so the run can be replayed.
+    const seed = placeSeed ?? randomUUID();
+    const place = drawRandomPlace(seed);
+    console.error(
+      `Place: ${place.displayName} (${place.key}), drawn with --place-seed ${seed}`,
+    );
+    jurisdictionId = place.context.jurisdiction.id;
   }
 
   return {
