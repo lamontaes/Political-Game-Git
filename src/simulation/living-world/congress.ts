@@ -1,6 +1,6 @@
 import { organizationParticipationStateAt } from "../life-queries";
 import { makeIsoDate } from "../dates";
-import { recordsByStringField } from "../history-index";
+import { recordsByStringField, recordsWithFieldValue } from "../history-index";
 import { personName } from "../people";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import {
@@ -257,9 +257,13 @@ export function projectCongress(
   if (!livingWorldEstablished(world)) return null;
   const asOf = readDate(world, options);
   const bySeat = new Map<string, HistoricalEvent>();
-  for (const event of world.history.events) {
+  // Read by type from an index: the latest record is the same whichever
+  // order the two kinds are read in, since no two share a sequence.
+  for (const event of [
+    ...recordsWithFieldValue(world.history.events, "type", SEAT_TENURE_EVENT),
+    ...recordsWithFieldValue(world.history.events, "type", SEAT_VACANCY_EVENT),
+  ]) {
     if (
-      (event.type !== SEAT_TENURE_EVENT && event.type !== SEAT_VACANCY_EVENT) ||
       !event.tags.includes(LIVING_WORLD_WRITER_VERSION) ||
       event.recordedAt > world.currentDate ||
       event.occurredAt > asOf

@@ -192,13 +192,47 @@ export function growingIndex<I>(
   return index;
 }
 
+/**
+ * Whether `records` begins with every record of `prefix`, by identity.
+ *
+ * A short list is compared record by record. A long one is compared at its
+ * last `PREFIX_TAIL` records and at `PREFIX_SAMPLES` places spread over the
+ * rest: comparing all of it made each growth of a long list cost as much as
+ * the list, so a world's tenth year spent seconds only confirming that its
+ * lists had grown (Build 18 profile, September 28, 2026). A long list that was
+ * rewritten away from its end, not appended to, would be missed only if the
+ * rewrite also kept its length, its last record and every sampled record;
+ * history lists that long are only appended to. Tests keep the full
+ * comparison (tests/support/deep-transition-guard.ts), so a writer that
+ * rewrote one in place would still be caught there.
+ */
 function beginsWith(
   records: readonly unknown[],
   prefix: readonly unknown[],
 ): boolean {
-  for (let at = prefix.length - 1; at >= 0; at -= 1)
+  const length = prefix.length;
+  if (length <= PREFIX_FULL_CHECK || fullPrefixCheck()) {
+    for (let at = length - 1; at >= 0; at -= 1)
+      if (records[at] !== prefix[at]) return false;
+    return true;
+  }
+  for (let at = length - 1; at >= length - PREFIX_TAIL; at -= 1)
+    if (records[at] !== prefix[at]) return false;
+  const stride = Math.floor((length - PREFIX_TAIL) / PREFIX_SAMPLES);
+  for (let at = 0; at < length - PREFIX_TAIL; at += stride)
     if (records[at] !== prefix[at]) return false;
   return true;
+}
+
+const PREFIX_FULL_CHECK = 2_048;
+const PREFIX_TAIL = 256;
+const PREFIX_SAMPLES = 256;
+
+function fullPrefixCheck(): boolean {
+  return (
+    (globalThis as { __civicFullHistoryPrefixCheck?: boolean })
+      .__civicFullHistoryPrefixCheck === true
+  );
 }
 
 const STABLE_KEYS: GrowingIndexKind<Set<unknown>> = {
@@ -214,6 +248,26 @@ export function hasStableKey(
   stableKey: string,
 ): boolean {
   return growingIndex(STABLE_KEYS, records).has(stableKey);
+}
+
+const FIRST_RECORD_BY_STABLE_KEY: GrowingIndexKind<Map<unknown, unknown>> = {
+  create: () => new Map(),
+  add: (index, record) => {
+    const key = (record as { readonly stableKey?: unknown }).stableKey;
+    if (!index.has(key)) index.set(key, record);
+  },
+};
+
+/**
+ * The first record in the list with this stable key, as
+ * `records.find((record) => record.stableKey === stableKey)` returns it.
+ */
+export function recordByStableKey<T extends { readonly stableKey: string }>(
+  records: readonly T[],
+  stableKey: string,
+): T | undefined {
+  return growingIndex(FIRST_RECORD_BY_STABLE_KEY, records).get(stableKey) as
+    T | undefined;
 }
 
 const FIRST_RECORD_BY_ID: GrowingIndexKind<Map<unknown, unknown>> = {

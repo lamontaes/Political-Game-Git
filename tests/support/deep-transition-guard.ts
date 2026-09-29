@@ -4,3 +4,9 @@
 (
   globalThis as { __civicDeepTransitionGuard?: boolean }
 ).__civicDeepTransitionGuard = true;
+
+// Tests also keep the full record-by-record check that a long history list
+// only grew before its lookup index follows it (history-index.ts).
+(
+  globalThis as { __civicFullHistoryPrefixCheck?: boolean }
+).__civicFullHistoryPrefixCheck = true;

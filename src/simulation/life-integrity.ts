@@ -1,9 +1,5 @@
 import { addDays, makeIsoDate } from "./dates";
-import {
-  addAvailability,
-  indexOverArrays,
-  type AvailabilityEntry,
-} from "./history-index";
+import { recordById, type AvailabilityEntry } from "./history-index";
 import { createStableId } from "./ids";
 import {
   assessLifeLoadAt,
@@ -79,137 +75,49 @@ export function lifeHistoryRecords(world: World): readonly {
 }
 
 /**
- * Below this many life records a scan is cheaper than keeping an index, and
- * short-lived worlds change these families on almost every write, so an index
- * would be rebuilt more often than it was read. Measured on Q47-006: indexing
- * unconditionally made a fresh-world suite slower while making an evolved
- * click much faster, so the size decides which is used.
+ * Where a life record first appears, and when it became available: each
+ * family is read in a fixed order, and within a family the first record with
+ * the id counts, as a scan from the start would find it. Each family is read
+ * through an index that follows the list as it grows, so a check after one
+ * new record reads that record, not every life record again.
  */
-const INDEX_THRESHOLD = 400;
-
-function lifeRecordCount(world: World): number {
-  const h = world.history;
-  return (
-    h.organizations.length +
-    h.workRelationships.length +
-    h.educationEnrollments.length +
-    h.organizationParticipations.length +
-    h.households.length +
-    h.householdMemberships.length +
-    h.kinshipRelationships.length +
-    h.partnerships.length +
-    h.careResponsibilities.length +
-    h.childAuthorities.length
-  );
-}
-
-function lifeScan(world: World, id: EntityId): AvailabilityEntry | undefined {
+function lifeEntry(world: World, id: EntityId): AvailabilityEntry | undefined {
   const h = world.history;
   const earliest = (started: string, recorded: string) =>
     started < recorded ? started : recorded;
-  for (const record of h.organizations)
-    if (record.id === id)
-      return { date: record.formedAt, sequence: record.sequence };
-  for (const record of h.workRelationships)
-    if (record.id === id)
-      return {
-        date: earliest(record.startedAt, record.recordedAt),
-        sequence: record.sequence,
-      };
-  for (const record of h.educationEnrollments)
-    if (record.id === id)
-      return {
-        date: earliest(record.startedAt, record.recordedAt),
-        sequence: record.sequence,
-      };
-  for (const record of h.organizationParticipations)
-    if (record.id === id)
-      return {
-        date: earliest(record.startedAt, record.recordedAt),
-        sequence: record.sequence,
-      };
-  for (const record of h.households)
-    if (record.id === id)
-      return { date: record.formedAt, sequence: record.sequence };
-  for (const record of h.householdMemberships)
-    if (record.id === id)
-      return { date: record.startedAt, sequence: record.sequence };
-  for (const record of h.kinshipRelationships)
-    if (record.id === id)
-      return { date: record.establishedAt, sequence: record.sequence };
-  for (const record of h.partnerships)
-    if (record.id === id)
-      return { date: record.startedAt, sequence: record.sequence };
-  for (const record of h.careResponsibilities)
-    if (record.id === id)
-      return { date: record.startedAt, sequence: record.sequence };
-  for (const record of h.childAuthorities)
-    if (record.id === id)
-      return { date: record.establishedAt, sequence: record.sequence };
-  return undefined;
-}
-
-function lifeEntry(world: World, id: EntityId): AvailabilityEntry | undefined {
-  return lifeRecordCount(world) < INDEX_THRESHOLD
-    ? lifeScan(world, id)
-    : lifeIndex(world).get(id);
-}
-
-function lifeIndex(world: World): Map<EntityId, AvailabilityEntry> {
-  const h = world.history;
-  const sources = [
-    h.organizations,
+  const organization = recordById(h.organizations, id);
+  if (organization)
+    return { date: organization.formedAt, sequence: organization.sequence };
+  for (const records of [
     h.workRelationships,
     h.educationEnrollments,
     h.organizationParticipations,
-    h.households,
-    h.householdMemberships,
-    h.kinshipRelationships,
-    h.partnerships,
-    h.careResponsibilities,
-    h.childAuthorities,
-  ];
-  return indexOverArrays(h.organizations, sources, () => {
-    const index = new Map<EntityId, AvailabilityEntry>();
-    const add = (
-      records: readonly { readonly id: EntityId; readonly sequence: number }[],
-      dateOf: (record: never) => string,
-    ) => {
-      for (const record of records)
-        addAvailability(
-          index,
-          record.id,
-          dateOf(record as never),
-          record.sequence,
-        );
-    };
-    const earliest = (started: string, recorded: string) =>
-      started < recorded ? started : recorded;
-    add(h.organizations, (r: { formedAt: string }) => r.formedAt);
-    add(h.workRelationships, (r: { startedAt: string; recordedAt: string }) =>
-      earliest(r.startedAt, r.recordedAt),
-    );
-    add(
-      h.educationEnrollments,
-      (r: { startedAt: string; recordedAt: string }) =>
-        earliest(r.startedAt, r.recordedAt),
-    );
-    add(
-      h.organizationParticipations,
-      (r: { startedAt: string; recordedAt: string }) =>
-        earliest(r.startedAt, r.recordedAt),
-    );
-    add(h.households, (r: { formedAt: string }) => r.formedAt);
-    add(h.householdMemberships, (r: { startedAt: string }) => r.startedAt);
-    add(
-      h.kinshipRelationships,
-      (r: { establishedAt: string }) => r.establishedAt,
-    );
-    add(h.partnerships, (r: { startedAt: string }) => r.startedAt);
-    add(h.careResponsibilities, (r: { startedAt: string }) => r.startedAt);
-    add(h.childAuthorities, (r: { establishedAt: string }) => r.establishedAt);
-    return index;
-  });
+  ] as const) {
+    const record = recordById<(typeof records)[number]>(records, id);
+    if (record)
+      return {
+        date: earliest(record.startedAt, record.recordedAt),
+        sequence: record.sequence,
+      };
+  }
+  const household = recordById(h.households, id);
+  if (household)
+    return { date: household.formedAt, sequence: household.sequence };
+  const membership = recordById(h.householdMemberships, id);
+  if (membership)
+    return { date: membership.startedAt, sequence: membership.sequence };
+  const kinship = recordById(h.kinshipRelationships, id);
+  if (kinship)
+    return { date: kinship.establishedAt, sequence: kinship.sequence };
+  const partnership = recordById(h.partnerships, id);
+  if (partnership)
+    return { date: partnership.startedAt, sequence: partnership.sequence };
+  const care = recordById(h.careResponsibilities, id);
+  if (care) return { date: care.startedAt, sequence: care.sequence };
+  const authority = recordById(h.childAuthorities, id);
+  if (authority)
+    return { date: authority.establishedAt, sequence: authority.sequence };
+  return undefined;
 }
 
 export function lifeEntityExists(world: World, id: EntityId): boolean {

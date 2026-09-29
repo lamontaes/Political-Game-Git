@@ -58,6 +58,7 @@ import {
   type FederalEmploymentRule,
 } from "./statutory-tax-rules";
 import { ensureTaxPublicAccount, publicOrganizationKey } from "./tax-policy";
+import { assertWorldIntegrity, withWorldIntegrityDeferred } from "./world";
 import type {
   StatutoryTaxLiabilityRecord,
   StatutoryTaxPaymentRecord,
@@ -100,7 +101,8 @@ export function assessPaycheckTaxes(world: World, outcomeId: EntityId): World {
   if (
     taxRowIdentity(world.history.statutoryTaxLiabilities ?? []).sources.has(
       outcome.id,
-    )
+    ) ||
+    pendingRows?.identity.sources.has(outcome.id)
   )
     return world;
 
@@ -112,10 +114,80 @@ export function assessPaycheckTaxes(world: World, outcomeId: EntityId): World {
     drafts,
   );
   const recorded = drafts.length
-    ? next.history.statutoryTaxLiabilities!.slice(-drafts.length)
+    ? pendingRows
+      ? pendingRows.statutoryTaxLiabilities.slice(-drafts.length)
+      : next.history.statutoryTaxLiabilities!.slice(-drafts.length)
     : [];
   return withhold(next, flow.recipient.personId, outcome, recorded);
 }
+
+/**
+ * Assesses a payday's pay transfers, in order, as `assessPaycheckTaxes` would
+ * one after another, and writes the two tax lists once at the end.
+ *
+ * Every paycheck adds about ten tax rows, and copying the whole list for each
+ * one made a payday cost more every year a world ran: after ten years the
+ * list holds well over a hundred thousand rows. Each row still takes the
+ * sequence number it would have taken, so the lists come out the same. No
+ * writer in between reads the tax lists: a paycheck's own rows reach its
+ * withholding directly, and the identity checks see the rows held back.
+ */
+export function assessPaychecksTaxes(
+  world: World,
+  outcomeIds: readonly EntityId[],
+): World {
+  if (outcomeIds.length < 2 || pendingRows)
+    return outcomeIds.reduce(assessPaycheckTaxes, world);
+  const held: PendingTaxRows = {
+    statutoryTaxLiabilities: [],
+    statutoryTaxPayments: [],
+    identity: { ids: new Set(), keys: new Set(), sources: new Set() },
+  };
+  pendingRows = held;
+  let next = world;
+  try {
+    next = withWorldIntegrityDeferred(() =>
+      outcomeIds.reduce(assessPaycheckTaxes, world),
+    );
+  } finally {
+    pendingRows = null;
+  }
+  let history = next.history;
+  for (const field of [
+    "statutoryTaxLiabilities",
+    "statutoryTaxPayments",
+  ] as const) {
+    const rows = held[field];
+    if (rows.length === 0) continue;
+    const before = history[field] ?? EMPTY_ROWS;
+    const after = [...before, ...rows] as NonNullable<
+      World["history"][typeof field]
+    >;
+    const identity = TAX_ROW_IDENTITIES.get(before);
+    if (identity && before !== EMPTY_ROWS) {
+      TAX_ROW_IDENTITIES.delete(before);
+      for (const row of rows) remember(identity, row);
+      TAX_ROW_IDENTITIES.set(after, identity);
+    }
+    history = { ...history, [field]: after };
+  }
+  if (history === next.history) return next;
+  const result = { ...next, history };
+  assertWorldIntegrity(result);
+  return result;
+}
+
+interface PendingTaxRows {
+  readonly statutoryTaxLiabilities: StatutoryTaxLiabilityRecord[];
+  readonly statutoryTaxPayments: NonNullable<
+    World["history"]["statutoryTaxPayments"]
+  >[number][];
+  /** Ids, keys and assessed pay of the rows held back. */
+  readonly identity: TaxRowIdentity;
+}
+
+/** While a payday is assessed as one batch, the rows it has written so far. */
+let pendingRows: PendingTaxRows | null = null;
 
 /** Every liability of one paycheck, in a fixed order. */
 function paycheckLiabilities(
@@ -808,12 +880,28 @@ function append<K extends "statutoryTaxLiabilities" | "statutoryTaxPayments">(
       liabilities.keys.has(record.stableKey) ||
       payments.ids.has(record.id) ||
       payments.keys.has(record.stableKey) ||
+      pendingRows?.identity.ids.has(record.id) ||
+      pendingRows?.identity.keys.has(record.stableKey) ||
       batchIds.has(record.id) ||
       batchKeys.has(record.stableKey)
     )
       throw new Error("Duplicate statutory tax identity.");
     batchIds.add(record.id);
     batchKeys.add(record.stableKey);
+  }
+  if (pendingRows) {
+    // Held for the payday's single write; only the sequence moves now.
+    for (const record of records) {
+      (pendingRows[field] as (typeof record)[]).push(record);
+      remember(pendingRows.identity, record);
+    }
+    return {
+      ...world,
+      history: {
+        ...world.history,
+        nextSequence: world.history.nextSequence + records.length,
+      },
+    };
   }
   const before = world.history[field] ?? EMPTY_ROWS;
   const after = [...before, ...records];

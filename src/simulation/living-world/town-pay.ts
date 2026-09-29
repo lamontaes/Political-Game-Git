@@ -46,6 +46,12 @@ import {
 } from "../enacted-rule-changes";
 import { countyGeoidsForPlace } from "../government-units";
 import {
+  growingIndex,
+  hasStableKey,
+  recordsWithFieldValue,
+  type GrowingIndexKind,
+} from "../history-index";
+import {
   currentLifeCutoff,
   organizationProfileAt,
   workStatusAt,
@@ -62,13 +68,14 @@ import {
   type CreateResourceFlowInput,
   type RecordResourceTransferOutcomeInput,
 } from "../resources";
-import { assessPaycheckTaxes } from "../statutory-tax";
+import { assessPaychecksTaxes } from "../statutory-tax";
 import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
   IsoDate,
   OrganizationClassification,
+  ResourceFlow,
   ResourceFlowTermsRecord,
   WorkRelationship,
   WorkRoleRecord,
@@ -515,12 +522,21 @@ function lastDayWorked(world: World, workId: EntityId): IsoDate | null {
   return addDays(status.effectiveAt, -1);
 }
 
-/** The day each person died, for everyone who has. */
-function deathDates(world: World): ReadonlyMap<EntityId, IsoDate> {
-  const dates = new Map<EntityId, IsoDate>();
-  for (const death of world.history.personDeaths)
+/**
+ * The day each person died, for everyone who has: the last death record of
+ * each person, as reading the list from the start gives it. Kept as an index
+ * that follows the list, so a payday reads only the deaths written since.
+ */
+const DEATH_DATES: GrowingIndexKind<Map<EntityId, IsoDate>> = {
+  create: () => new Map(),
+  add: (dates, record) => {
+    const death = record as World["history"]["personDeaths"][number];
     dates.set(death.personId, death.diedAt);
-  return dates;
+  },
+};
+
+function deathDates(world: World): ReadonlyMap<EntityId, IsoDate> {
+  return growingIndex(DEATH_DATES, world.history.personDeaths);
 }
 
 function latestRoles(world: World): ReadonlyMap<EntityId, WorkRoleRecord> {
@@ -536,21 +552,34 @@ function weeklyHoursOf(role: WorkRoleRecord): number {
   return (minimumHours + maximumHours) / 2;
 }
 
-/** Every town pay flow's terms, oldest first. */
+/** Every town pay flow, in the order the flows were written. */
+const PAY_FLOWS: GrowingIndexKind<ResourceFlow[]> = {
+  create: () => [],
+  add: (flows, record) => {
+    const flow = record as ResourceFlow;
+    if (flow.stableKey.startsWith(PAY_KEY_PREFIX)) flows.push(flow);
+  },
+};
+
+function townPayFlows(world: World): readonly ResourceFlow[] {
+  return growingIndex(PAY_FLOWS, world.history.resourceFlows);
+}
+
+/**
+ * Every town pay flow's terms, oldest first: each pay flow's own terms, read
+ * from an index of terms by flow rather than from every flow's terms.
+ */
 function termsByPayFlow(
   world: World,
 ): ReadonlyMap<EntityId, readonly ResourceFlowTermsRecord[]> {
-  const pay = new Set(
-    world.history.resourceFlows
-      .filter((flow) => flow.stableKey.startsWith(PAY_KEY_PREFIX))
-      .map((flow) => flow.id),
-  );
-  const byFlow = new Map<EntityId, ResourceFlowTermsRecord[]>();
-  for (const record of world.history.resourceFlowTerms) {
-    if (!pay.has(record.resourceFlowId)) continue;
-    const list = byFlow.get(record.resourceFlowId) ?? [];
-    list.push(record);
-    byFlow.set(record.resourceFlowId, list);
+  const byFlow = new Map<EntityId, readonly ResourceFlowTermsRecord[]>();
+  for (const flow of townPayFlows(world)) {
+    const terms = recordsWithFieldValue(
+      world.history.resourceFlowTerms,
+      "resourceFlowId",
+      flow.id,
+    );
+    if (terms.length > 0) byFlow.set(flow.id, terms);
   }
   return byFlow;
 }
@@ -833,16 +862,13 @@ export function payTownPaydays(
   since: IsoDate,
   exceptPersonId: EntityId | null,
 ): World {
-  const flows = world.history.resourceFlows.filter(
+  const flows = townPayFlows(world).filter(
     (flow) =>
-      flow.stableKey.startsWith(PAY_KEY_PREFIX) &&
       flow.recipient.kind === "person" &&
       flow.recipient.personId !== exceptPersonId,
   );
   if (flows.length === 0) return world;
-  const already = new Set(
-    world.history.resourceTransferOutcomes.map((outcome) => outcome.stableKey),
-  );
+  const outcomes = world.history.resourceTransferOutcomes;
   const earliest =
     daysBetween(since, world.currentDate) > CATCH_UP_LIMIT_DAYS
       ? addDays(world.currentDate, -CATCH_UP_LIMIT_DAYS)
@@ -879,7 +905,7 @@ export function payTownPaydays(
       if (window.startsAt < flow.startsAt) continue;
       if (lastDay !== null && lastDay < window.endsAt) continue;
       const stableKey = `${flow.stableKey}:${window.startsAt}`;
-      if (already.has(stableKey)) continue;
+      if (hasStableKey(outcomes, stableKey)) continue;
       // A raise takes effect on the first day of a period, and a period is
       // paid at the terms in force the day it began.
       const terms = termsOn(history, window.startsAt);
@@ -913,8 +939,7 @@ export function payTownPaydays(
   const ids = next.history.resourceTransferOutcomes
     .slice(first)
     .map((outcome) => outcome.id);
-  for (const id of ids) next = assessPaycheckTaxes(next, id);
-  return next;
+  return assessPaychecksTaxes(next, ids);
 }
 
 /**

@@ -56,6 +56,11 @@ import {
   listDistrictIdentities,
 } from "../../districts/query";
 import type { DistrictIdentity } from "../../districts/types";
+import {
+  hasStableKey,
+  recordById,
+  recordsWithFieldValue,
+} from "../history-index";
 
 /**
  * A state legislature with a real person in every seat.
@@ -227,8 +232,9 @@ export function stateLegislatureEstablished(
   world: World,
   packId: string,
 ): boolean {
-  return world.history.events.some(
-    (event) => event.stableKey === STATE_LEGISLATURE_KEYS.opening(packId),
+  return hasStableKey(
+    world.history.events,
+    STATE_LEGISLATURE_KEYS.opening(packId),
   );
 }
 
@@ -335,12 +341,12 @@ export function ensureStateLegislatureOpening(
     freedom += values.length - 1;
   }
   const spread = freedom > 0 ? Math.sqrt(squares / freedom) : 0;
-  const parties = ["democratic", "republican"].filter((party) =>
-    next.history.organizations.some(
-      (organization) =>
-        organization.id ===
+  const parties = ["democratic", "republican"].filter(
+    (party) =>
+      recordById(
+        next.history.organizations,
         livingWorldOrganizationId(next, LIVING_WORLD_KEYS.nationalParty(party)),
-    ),
+      ) !== undefined,
   );
 
   const generated: LifeRecordProvenance = {
@@ -356,8 +362,7 @@ export function ensureStateLegislatureOpening(
     name: string,
     classification: `${string}:${string}`,
   ) => {
-    if (next.history.organizations.some((o) => o.stableKey === stableKey))
-      return;
+    if (hasStableKey(next.history.organizations, stableKey)) return;
     if (
       transitions.some(
         (t) => t.kind === "organization" && t.input.stableKey === stableKey,
@@ -610,8 +615,11 @@ export function stateLegislators(
   );
   const prefix = `${V}:`;
   const views: StateLegislatorView[] = [];
-  for (const work of world.history.workRelationships) {
-    if (work.organizationId !== bodyId) continue;
+  for (const work of recordsWithFieldValue(
+    world.history.workRelationships,
+    "organizationId",
+    bodyId,
+  )) {
     if (work.kind !== "employment:legislative-member") continue;
     if (!world.people[work.personId]) continue;
     if (!isPersonAliveAt(world, work.personId, currentLifeCutoff(world)))
@@ -619,17 +627,19 @@ export function stateLegislators(
     if (workStatusAt(world, work.id)?.status !== "active") continue;
     const match = seatTenureMatch(work.stableKey);
     if (!match) continue;
+    const memberships = recordsWithFieldValue(
+      world.history.organizationParticipations,
+      "personId",
+      work.personId,
+    );
     const affiliation =
-      world.history.organizationParticipations.find(
+      memberships.find(
         (participation) =>
-          participation.personId === work.personId &&
           participation.stableKey ===
-            `${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
+          `${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
       ) ??
-      world.history.organizationParticipations.find(
-        (participation) =>
-          participation.personId === work.personId &&
-          participation.kind === PARTY_AFFILIATION_KIND,
+      memberships.find(
+        (participation) => participation.kind === PARTY_AFFILIATION_KIND,
       );
     views.push({
       personId: work.personId,
@@ -713,8 +723,11 @@ export function stateLegislativeSeats(
     string,
     { work: (typeof world.history.workRelationships)[number]; seat: string[] }
   >();
-  for (const work of world.history.workRelationships) {
-    if (work.organizationId !== bodyId) continue;
+  for (const work of recordsWithFieldValue(
+    world.history.workRelationships,
+    "organizationId",
+    bodyId,
+  )) {
     if (work.kind !== "employment:legislative-member") continue;
     const match = seatTenureMatch(work.stableKey);
     if (!match) continue;
@@ -749,9 +762,11 @@ export function stateLegislativeSeats(
         member,
         holderDiedOn: member
           ? null
-          : (world.history.personDeaths.find(
-              (death) => death.personId === work.personId,
-            )?.diedAt ?? null),
+          : (recordsWithFieldValue(
+              world.history.personDeaths,
+              "personId",
+              work.personId,
+            )[0]?.diedAt ?? null),
       };
     })
     .sort(
@@ -855,8 +870,12 @@ export function campaignSeatHolders(
         (entry.status === "expected" || entry.status === "active") &&
         entry.term?.contest.office.districtBinding &&
         // A member who has died holds no seat, whatever their record says.
-        !world.history.personDeaths.some(
-          (death) => death.personId === entry.work.personId,
+        !(
+          recordsWithFieldValue(
+            world.history.personDeaths,
+            "personId",
+            entry.work.personId,
+          ).length > 0
         ),
     )
     .sort(
