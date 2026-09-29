@@ -5,6 +5,7 @@ import {
   lateTermEntryRecorded,
 } from "./late-term-entry-events";
 import { recordWorldEvent } from "./world";
+import { recordsWithFieldValue } from "./history-index";
 import { candidacyPackById, candidacyPacks } from "./candidacy-packs";
 import { makeIsoDate } from "./dates";
 import {
@@ -477,8 +478,17 @@ function legacyLegislativeSeatForRelationship(
  */
 export function migrateLegacyLegislativeSeats(world: World): World {
   let next = world;
-  for (const relationship of world.history.workRelationships) {
-    if (relationship.kind !== "employment:legislative-member") continue;
+  // Runs before every stretch of days, so it reads legislative seats from an
+  // index instead of every job ever held. A copy: the index's own list grows
+  // if a later world's longer list is read while this loop runs.
+  const seats = [
+    ...recordsWithFieldValue(
+      world.history.workRelationships,
+      "kind",
+      "employment:legislative-member",
+    ),
+  ];
+  for (const relationship of seats) {
     const seat = legacyLegislativeSeatForRelationship(next, relationship);
     const status = seat && workStatusAt(next, relationship.id);
     if (!seat || seat.expiry || status?.status !== "active") continue;

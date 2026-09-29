@@ -1,17 +1,31 @@
 import {
   livingWorldOrganizationId,
   LIVING_WORLD_KEYS,
+  LIVING_WORLD_WRITER_VERSION,
+  SEAT_TENURE_EVENT,
+  SEAT_VACANCY_EVENT,
 } from "./living-world/opening";
+import { recordsWithFieldValue } from "./history-index";
 import { publicPartyAffiliation } from "./living-world/congress";
 import { chiefExecutiveJurisdictionId } from "./nationwide-world/government-jurisdiction";
 import { stateJurisdictionForKey } from "./life-places";
-import { politicalStartingConditions } from "./world-setup/conditions";
+import {
+  politicalStartingConditions,
+  seatStartingCondition,
+} from "./world-setup/conditions";
 import {
   applySwing,
+  calibrationRow,
   calibrationRows,
   ELECTORAL_CALIBRATION,
   sharedSwing,
 } from "./world-setup/political-start";
+import { candidacyPackById } from "./candidacy-packs";
+import {
+  stateGeneralCandidates,
+  stateSeatDemocraticShare,
+} from "./nationwide-world/state-legislature-candidates";
+import { stateLegislativeSeats } from "./nationwide-world/state-legislature-opening";
 import type { EntityId, IsoDate, World } from "./types";
 
 /**
@@ -119,4 +133,134 @@ export function majorPartyOf(
     )
       return party;
   return null;
+}
+
+/**
+ * Who votes for one seat in Congress, and how they lean.
+ *
+ * The ballots are the seat's own last certified count in the calibration
+ * source (the 2024 House race, or the Senate class's last race), and the lean
+ * is the two-party share this world generated for the seat at its start from
+ * that same result. Null for a seat whose printed figures give no two-party
+ * share (an uncontested or undetermined race): it has no count to divide.
+ * The vote for neither major party is the state's (see `neitherMajorShare`).
+ */
+export interface SeatElectorate extends StatewideElectorate {
+  readonly seatKey: string;
+  /** Who held the seat on the day asked, if anybody. */
+  readonly holderPersonId: EntityId | null;
+}
+
+export function congressSeatElectorate(
+  world: World,
+  seatKey: string,
+  asOf: IsoDate,
+): SeatElectorate | null {
+  if (!/^us-(house|senate):/.test(seatKey)) return null;
+  const row = calibrationRow(seatKey);
+  const share = seatStartingCondition(world, seatKey)?.generatedShare;
+  if (
+    !row ||
+    row.totalVotes === null ||
+    row.totalVotes <= 0 ||
+    share === null ||
+    share === undefined
+  )
+    return null;
+  return {
+    seatKey,
+    stateUsps: row.stateUsps,
+    democraticShare: share,
+    ballots: row.totalVotes,
+    neitherMajorShare: neitherMajorShareOf(row.stateUsps),
+    holderPersonId: seatHolderOn(world, seatKey, asOf),
+  };
+}
+
+function seatHolderOn(
+  world: World,
+  seatKey: string,
+  asOf: IsoDate,
+): EntityId | null {
+  let latest: World["history"]["events"][number] | undefined;
+  for (const type of [SEAT_TENURE_EVENT, SEAT_VACANCY_EVENT])
+    for (const event of recordsWithFieldValue(
+      world.history.events,
+      "type",
+      type,
+    )) {
+      if (
+        event.occurredAt > asOf ||
+        !event.tags.includes(LIVING_WORLD_WRITER_VERSION) ||
+        !event.tags.includes(`seat:${seatKey}`)
+      )
+        continue;
+      if (
+        !latest ||
+        event.occurredAt > latest.occurredAt ||
+        (event.occurredAt === latest.occurredAt &&
+          event.sequence > latest.sequence)
+      )
+        latest = event;
+    }
+  if (latest?.type !== SEAT_TENURE_EVENT) return null;
+  return (
+    latest.participants.find((p) => p.role === "focus:subject")?.personId ??
+    null
+  );
+}
+
+/**
+ * Who votes for one state legislative seat, and how they lean.
+ *
+ * The lean is the two-party share this world generated for the seat when it
+ * opened the legislature (the seat's `seat-share` record). ESTIMATED FROM
+ * AVERAGE: no source the game holds prints a vote count for every state
+ * legislative district, and districts are drawn to equal population
+ * (Reynolds v. Sims, 377 U.S. 533 (1964)), so the seat's ballots are the
+ * state's 2024 presidential ballots divided evenly among the chamber's seats.
+ * The parties are the ones the candidates filed under. Null for a key that
+ * is not a state legislative seat, or a seat with no recorded lean.
+ */
+export interface StateSeatElectorate extends SeatElectorate {
+  readonly holderParty: "democratic" | "republican" | null;
+  readonly parties: ReadonlyMap<EntityId, "democratic" | "republican" | null>;
+}
+
+export function stateSeatElectorate(
+  world: World,
+  seatKey: string,
+  year: number,
+): StateSeatElectorate | null {
+  const [packId, officeKey, ordinalText] = seatKey.split("|");
+  const ordinal = Number(ordinalText);
+  const pack = packId ? candidacyPackById(packId) : null;
+  if (!pack || !officeKey || !Number.isInteger(ordinal)) return null;
+  const share = stateSeatDemocraticShare(world, packId!, officeKey, ordinal);
+  const jurisdiction = stateJurisdictionForKey(pack.jurisdictionKey);
+  const state = jurisdiction
+    ? statewideElectorate(world, jurisdiction.id)
+    : null;
+  const chamber = stateLegislativeSeats(world, packId!).filter(
+    (seat) => seat.officeKey === officeKey,
+  );
+  if (share === null || !state || chamber.length === 0) return null;
+  const sitting = chamber.find((seat) => seat.ordinal === ordinal)?.member;
+  const major = (party: string | null) =>
+    party === "democratic" || party === "republican" ? party : null;
+  return {
+    seatKey,
+    stateUsps: state.stateUsps,
+    democraticShare: share,
+    ballots: Math.round(state.ballots / chamber.length),
+    neitherMajorShare: state.neitherMajorShare,
+    holderPersonId: sitting?.personId ?? null,
+    holderParty: major(sitting?.party ?? null),
+    parties: new Map(
+      stateGeneralCandidates(world, seatKey, year).map((candidate) => [
+        candidate.personId,
+        major(candidate.party),
+      ]),
+    ),
+  };
 }

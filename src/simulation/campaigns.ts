@@ -1904,7 +1904,11 @@ function seatOnLocalGoverningBody(
     );
   const campaignSeat = namedSeat
     ? null
-    : localCampaignSeat(unit, mayor, contest.electionDate);
+    : localCampaignSeat(unit, mayor, contest.electionDate, {
+        world: next,
+        town: campaign.jurisdictionId,
+        personId: winnerPersonId,
+      });
   const campaignHolder = namedSeat
     ? (namedHolder[0] ?? null)
     : campaignSeat === null

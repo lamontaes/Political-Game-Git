@@ -24,7 +24,10 @@ import { lawInForce } from "./law-in-force";
  * Where the catalog says UNKNOWN or "varies by state", the level may act and
  * its authority stays unsettled: unknown is neither permission nor refusal
  * (Decision Register, Sept. 22), and the research question in the catalog is
- * what settles it.
+ * what settles it. A county or city power the catalog leaves UNKNOWN to
+ * "home rule or Dillon's rule" is settled by the state's law in force on
+ * home rule (`broaden-local-authority`), so a state that adopts or repeals
+ * home rule widens or narrows what its towns may pass.
  *
  * One rule for every place. The 50 states answer through the catalog's state
  * column, D.C. through its own (the Council also holds the District's city
@@ -292,6 +295,22 @@ export function questionAuthority(
       dial,
       reason: gated.reason,
     };
+  const homeRule =
+    may === "unknown" &&
+    own.every(
+      (level) =>
+        (level === "county" || level === "city") &&
+        cells?.[level]?.may === "UNKNOWN",
+    )
+      ? homeRuleVerdict(world, jurisdictionId, onDate)
+      : null;
+  if (homeRule)
+    return {
+      may: homeRule.may,
+      levels,
+      dial,
+      reason: homeRule.reason,
+    };
   return {
     may,
     levels,
@@ -303,6 +322,52 @@ export function questionAuthority(
           ? `Whether ${own.join(" and ")} governments hold the ${dial} dial is not settled.`
           : `The powers catalog withholds the ${dial} dial from ${own.join(" and ")} governments.`,
   };
+}
+
+/** The state question on home rule: may localities act unless barred? */
+export const HOME_RULE_QUESTION =
+  "us-policy-positions:government-operations.broaden-local-authority";
+
+/**
+ * Whether a county or city holds a power the catalog leaves to "State law:
+ * home rule or Dillon's rule". Under home rule (the state's law in force on
+ * `broaden-local-authority` says yes), a locality may act on any local matter
+ * the state has not withdrawn. Under Dillon's rule (it says no), a locality
+ * holds only the powers the legislature grants it, and none is granted for
+ * this one. Null where the state's law is not known, which leaves the power
+ * unsettled. Starting answers for all 56 places are in the starting-law file.
+ */
+function homeRuleVerdict(
+  world: AuthorityWorld,
+  jurisdictionId: EntityId,
+  onDate: IsoDate | undefined,
+): { readonly may: QuestionAuthorityVerdict; readonly reason: string } | null {
+  const stateKey =
+    lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey;
+  const state = stateKey ? stateJurisdictionForKey(stateKey) : null;
+  const question = Object.values(world.policyCatalog?.propositions ?? {}).find(
+    (row) => row.stableKey === HOME_RULE_QUESTION,
+  );
+  if (!state || !question) return null;
+  const law = lawInForce(
+    {
+      ...world,
+      history: world.history ?? ({} as World["history"]),
+    } as World,
+    state.id,
+    question.id,
+    onDate ?? world.currentDate,
+  );
+  if (!law) return null;
+  return law.answer === "yes"
+    ? {
+        may: "yes",
+        reason: `${state.name}'s home rule lets its localities act on local matters it has not withdrawn.`,
+      }
+    : {
+        may: "no",
+        reason: `${state.name} follows Dillon's rule: its localities hold only the powers its legislature grants, and none is granted for this.`,
+      };
 }
 
 /**

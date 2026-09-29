@@ -301,7 +301,8 @@ export function assertLegislationIntegrity(
       const chamber = chamberByKey(pack, vote.forum.chamberKey);
       if (
         chamber.seats.kind === "known" &&
-        vote.eligibleMembers > chamber.seats.value
+        vote.eligibleMembers >
+          chamber.seats.value + (chamber.seatsMayGrowBy ?? 0)
       ) {
         throw new Error(
           `Vote ${vote.id} counts more members than the ${chamber.name} has formal seats.`,

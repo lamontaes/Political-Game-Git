@@ -86,6 +86,21 @@ export const SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS: readonly string[] = [
   "government.outlays",
   // T's exact paid physical contract quantity; not an empirical measurement.
   TRANSIT_METRIC_INPUT.stableKey,
+  // src/simulation/pressure/ladder.ts — PRESSURE_ANGER_METRIC_STABLE_KEY: the
+  // pressure layer's own anger reading, recorded where the ladder reads it.
+  "pressure.state-anger",
+];
+
+/**
+ * Incident definitions the simulation establishes itself, as it does the
+ * metrics above: conditions whose lines are the game's own placeholders, with
+ * no occurrence chance and no content describing somewhere real. Any other
+ * incident definition is still refused.
+ */
+export const SIMULATION_ESTABLISHED_INCIDENT_STABLE_KEYS: readonly string[] = [
+  // src/simulation/pressure/ladder.ts — PRESSURE_LADDER_INCIDENT_STABLE_KEYS.
+  "incident.pressure-unrest",
+  "incident.pressure-political-threat",
 ];
 
 /**
@@ -258,7 +273,15 @@ export function assertProductionCatalogBoundary(world: {
           }),
       ).length,
     ],
-    ["incident", world.incidentCatalog.definitionOrder.length],
+    [
+      "incident",
+      world.incidentCatalog.definitionOrder.filter(
+        (id) =>
+          !SIMULATION_ESTABLISHED_INCIDENT_STABLE_KEYS.includes(
+            world.incidentCatalog.definitions[id]!.stableKey,
+          ),
+      ).length,
+    ],
     ["mortality table", world.vitalityCatalog.mortalityTableOrder.length],
   ] as const;
   for (const [label, count] of populated) {

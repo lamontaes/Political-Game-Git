@@ -28,6 +28,10 @@ import {
   US_CONGRESS_PACK_ID,
   US_CONGRESS_RULE_PACK,
 } from "../simulation/congress-rule-pack";
+import {
+  statehoodPlace,
+  statehoodAdmittedOn,
+} from "../simulation/living-world/statehood-seats";
 import { organizationNameAt } from "../simulation/living-world/party-registry";
 import type {
   ChamberView,
@@ -950,7 +954,10 @@ function representedBy(
     : houseSeats.length === 1 && houseSeats[0]!.district === "00"
       ? houseSeats[0]
       : undefined;
-  if (nonvotingHouseMemberTitle(usps) !== null) {
+  // A place that has become a state is represented like one.
+  const becameState =
+    usps === statehoodPlace() && statehoodAdmittedOn(world) !== null;
+  if (nonvotingHouseMemberTitle(usps) !== null && !becameState) {
     // A territory or the District sends one nonvoting member to the House, elected
     // territory-wide, and has no seat in the Senate. The 435 voting seats are
     // the states' alone; this member holds a seat of their own.

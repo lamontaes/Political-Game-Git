@@ -93,6 +93,7 @@ import {
   schoolStageCalendarEnd,
   schoolStageCalendarStart,
 } from "./school-stages";
+import { householdMembershipsAt } from "./life-queries";
 import { recordPersonDeath } from "./vitality";
 import { personMortalityThreshold } from "./crisis/mortality";
 import { firstThresholdDay, thresholdUnits } from "./crisis/hazard";
@@ -1059,7 +1060,9 @@ function drawnAdultFamily(
  * the record shows the relative alive (the birth of their youngest recorded
  * child) up to the start. Nothing is rolled here beyond that nature value; no
  * cause is inferred. The 2023 table is applied to earlier decades too, which
- * slightly shortens lives the record places before it.
+ * slightly shortens lives the record places before it. A relative the opening
+ * already seats in a home at the start is living there, so is never given a
+ * death before it.
  */
 function recordRelativeDeaths(
   world: World,
@@ -1072,6 +1075,10 @@ function recordRelativeDeaths(
       next.history.personDeaths.some((death) => death.personId === relativeId)
     )
       continue;
+    // Somebody the opening already seats in a home today is alive today:
+    // that record is the later and stronger one, so the life table is not
+    // run over it. Only relatives with no present home can have died.
+    if (householdMembershipsAt(next, relativeId).length > 0) continue;
     const relative = next.people[relativeId]!;
     const knownAlive = next.history.kinshipRelationships
       .filter(

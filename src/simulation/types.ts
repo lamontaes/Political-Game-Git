@@ -2067,7 +2067,13 @@ export interface EffectActivationRecord {
 }
 
 export type IncidentSemanticKey = `${string}:${string}`;
-export type IncidentOccurrenceMode = "probabilistic" | "actor-initiated";
+/**
+ * `condition`: occurs whenever its prerequisites hold and no blocker does,
+ * with no draw and no actor. It is the mode for conditions that last, where
+ * the design sets how bad counts as bad but never the chance of an outcome.
+ */
+export type IncidentOccurrenceMode =
+  "probabilistic" | "actor-initiated" | "condition";
 export type IncidentStatus = "active" | "resolved";
 export type IncidentRuleComparison = "at-least" | "at-most";
 

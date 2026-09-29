@@ -49,6 +49,7 @@ export function NewsDesk({
   onModeChange,
   onOutletChange,
   onOpenPerson,
+  onOpenMeasure,
   around,
   directory,
   press,
@@ -61,6 +62,8 @@ export function NewsDesk({
   readonly onModeChange: (mode: NewsMode) => void;
   readonly onOutletChange: (outletKey: string) => void;
   readonly onOpenPerson: (personId: EntityId) => void;
+  /** Opens a law's own page from a story about it. */
+  readonly onOpenMeasure?: (measureId: EntityId) => void;
   readonly around: ReactNode;
   readonly directory: ReactNode;
   readonly press: ReactNode;
@@ -203,6 +206,7 @@ export function NewsDesk({
                 showOutlet
                 style={0}
                 onOpenPerson={onOpenPerson}
+                {...(onOpenMeasure ? { onOpenMeasure } : {})}
                 onRead={() => {}}
               />
             </section>
@@ -223,6 +227,7 @@ export function NewsDesk({
                     )?.style ?? 0
                   }
                   onOpenPerson={onOpenPerson}
+                  {...(onOpenMeasure ? { onOpenMeasure } : {})}
                   onRead={() => openArticle(page.lead!)}
                   readingLabel={reportReadingLabel(page.lead)}
                   readPending={
@@ -243,6 +248,7 @@ export function NewsDesk({
                         )?.style ?? 0
                       }
                       onOpenPerson={onOpenPerson}
+                      {...(onOpenMeasure ? { onOpenMeasure } : {})}
                       onRead={() => openArticle(story)}
                       readingLabel={reportReadingLabel(story)}
                       readPending={
@@ -298,6 +304,7 @@ function Story({
   showOutlet,
   style,
   onOpenPerson,
+  onOpenMeasure,
   onRead,
   readingLabel = null,
   readPending = false,
@@ -312,6 +319,8 @@ function Story({
   readonly showOutlet: boolean;
   readonly style: number;
   readonly onOpenPerson: (personId: EntityId) => void;
+  /** Opens a law's own page from a story about it. */
+  readonly onOpenMeasure?: (measureId: EntityId) => void;
 }) {
   return (
     <article
@@ -361,6 +370,20 @@ function Story({
               onClick={() => onOpenPerson(person.personId)}
             >
               {person.label}
+            </button>
+          ))}
+        </p>
+      ) : null}
+      {onOpenMeasure && story.laws.length > 0 ? (
+        <p className="pg-news-laws" data-testid="news-story-laws">
+          {story.laws.map((law) => (
+            <button
+              key={law.measureId}
+              type="button"
+              data-testid={`news-story-law-${law.measureId}`}
+              onClick={() => onOpenMeasure(law.measureId)}
+            >
+              {law.label}
             </button>
           ))}
         </p>

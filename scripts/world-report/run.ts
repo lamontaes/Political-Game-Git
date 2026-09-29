@@ -25,6 +25,7 @@
  * This is a development tool for reviewing the living world. It is never part
  * of play.
  */
+import { observerPlace } from "../../src/presentation/observer-world";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { ageOnDate, personName } from "../../src/simulation";
@@ -54,7 +55,9 @@ import {
   OUTCOME_LINKS,
   OUTCOMES_PRODUCED,
   outcomeFactor,
+  LAW_QUESTION_MEASURES,
   outcomeLinkStatus,
+  outcomeLinksFedByQuestion,
 } from "../../src/simulation/outcome-web";
 import {
   PLACE_OUTCOME_BASES,
@@ -66,6 +69,7 @@ import {
 import {
   lawEffectPaths,
   type LawEffectPath,
+  unwiredQuestions,
 } from "../../src/simulation/governing/law-effect-paths";
 import {
   anniversary,
@@ -407,13 +411,15 @@ export class WorldRecordReader {
     return person ? personName(person) : "someone the record does not name";
   }
 
-  party(personId: EntityId): string | null {
-    const partyId = publicPartyAffiliation(this.world, personId);
+  // A race reads each candidate's party on its own date: a party left or a
+  // life ended later does not rewrite who ran under which label.
+  party(personId: EntityId, asOf?: IsoDate): string | null {
+    const partyId = publicPartyAffiliation(this.world, personId, { asOf });
     return partyId ? organizationNameAt(this.world, partyId) : null;
   }
 
-  nameWithParty(personId: EntityId): string {
-    const party = this.party(personId);
+  nameWithParty(personId: EntityId, asOf?: IsoDate): string {
+    const party = this.party(personId, asOf);
     return party ? `${this.name(personId)} (${party})` : this.name(personId);
   }
 
@@ -552,16 +558,90 @@ function electionLines(
       .added("electionContests")
       .map((contest) => [contest.id, contest] as const),
   );
-  for (const contest of contests.values()) {
+  // Congress's seats are a national round of several hundred races: one line
+  // a day for the round, naming the place's own state's races in full.
+  // A state legislature's regular seats are a round too: their ballots carry
+  // the seat's own key and no campaign's district.
+  const roundOf = (
+    contest: AnyRecord | undefined,
+  ): "congress" | "legislature" | null => {
+    if (!contest) return null;
+    const office = contest.office as {
+      officeKey: string;
+      seatKey?: string;
+      districtBinding?: unknown;
+    };
+    if (/^us-(house|senate):/.test(office.officeKey)) return "congress";
+    return office.seatKey?.includes("|") && !office.districtBinding
+      ? "legislature"
+      : null;
+  };
+  const national = (contest: AnyRecord | undefined) =>
+    roundOf(contest) === "congress";
+  const ballotRounds = new Map<IsoDate, string[]>();
+  const ballotText = (contest: AnyRecord) => {
     const office = (contest.office as { title: string }).title;
     const candidates = contest.candidatePersonIds as readonly EntityId[];
+    return `The ballot for ${office} (${reader.jurisdictionName(contest.jurisdictionId as EntityId) || "no place recorded"}) closed with ${count(candidates.length, "candidate")}${candidates.length ? `: ${list(candidates.map((id) => reader.nameWithParty(id, contest.scheduledAt as IsoDate)))}` : ""}. Election day: ${proseDate(contest.electionDate as string)}.`;
+  };
+  const legislatureBallots = new Map<string, AnyRecord[]>();
+  for (const contest of contests.values()) {
+    if (roundOf(contest) === "legislature") {
+      const key = `${contest.scheduledAt}|${contest.jurisdictionId}`;
+      legislatureBallots.set(key, [
+        ...(legislatureBallots.get(key) ?? []),
+        contest,
+      ]);
+      continue;
+    }
+    if (national(contest)) {
+      const date = contest.scheduledAt as IsoDate;
+      ballotRounds.set(date, [...(ballotRounds.get(date) ?? []), contest.id]);
+      continue;
+    }
     lines.push({
       date: contest.scheduledAt as IsoDate,
       section: "elections",
-      text: `The ballot for ${office} (${reader.jurisdictionName(contest.jurisdictionId as EntityId) || "no place recorded"}) closed with ${count(candidates.length, "candidate")}${candidates.length ? `: ${list(candidates.map((id) => reader.nameWithParty(id)))}` : ""}. Election day: ${proseDate(contest.electionDate as string)}.`,
+      text: ballotText(contest),
       sources: [contest.id],
     });
   }
+  for (const [date, ids] of ballotRounds) {
+    const round = ids.map((id) => contests.get(id)!);
+    const home = round.filter((contest) =>
+      reader.mentionsState((contest.office as { title: string }).title),
+    );
+    lines.push({
+      date,
+      section: "elections",
+      text: `The ballots for ${count(round.length, "seat")} in Congress closed, each with its own nominees.${home.length > 0 ? ` In ${reader.stateName}:` : ""}`,
+      details: home.map(ballotText),
+      sources: ids.slice(0, 12),
+    });
+  }
+  for (const round of legislatureBallots.values()) {
+    const first = round[0]!;
+    lines.push({
+      date: first.scheduledAt as IsoDate,
+      section: "elections",
+      text: `The ballots for ${count(round.length, "seat")} in ${reader.jurisdictionName(first.jurisdictionId as EntityId) || "a state"}'s legislature closed, each with its own nominees.`,
+      sources: round.slice(0, 12).map((contest) => contest.id as string),
+    });
+  }
+  const legislatureCounts = new Map<
+    string,
+    {
+      text: string;
+      winnerParty: string;
+      incumbentLost: boolean;
+      place: string;
+      id: string;
+    }[]
+  >();
+  const countRounds = new Map<
+    IsoDate,
+    { text: string; home: boolean; winnerParty: string; id: string }[]
+  >();
   for (const result of reader.added("electionContestResults")) {
     const contest = (reader.history.electionContests ?? []).find(
       (row) => row.id === result.contestId,
@@ -583,13 +663,82 @@ function electionLines(
       .sort((left, right) => right.votes - left.votes)
       .map(
         (tally) =>
-          `${reader.nameWithParty(tally.candidatePersonId)}${incumbent?.personId === tally.candidatePersonId ? ", the incumbent," : ""} ${tally.votes.toLocaleString("en-US")} votes (${(tally.voteShare * 100).toFixed(1)}%)`,
+          `${reader.nameWithParty(tally.candidatePersonId, result.resolvedAt as IsoDate)}${incumbent?.personId === tally.candidatePersonId ? ", the incumbent," : ""} ${tally.votes.toLocaleString("en-US")} votes (${(tally.voteShare * 100).toFixed(1)}%)`,
       );
+    const text = `${office?.title ?? "A race"}: ${reader.name(result.winnerPersonId as EntityId)} won. ${tallies.join("; ")}.`;
+    if (roundOf(contest) === "legislature") {
+      const key = `${result.resolvedAt}|${contest!.jurisdictionId}`;
+      legislatureCounts.set(key, [
+        ...(legislatureCounts.get(key) ?? []),
+        {
+          text,
+          winnerParty: reader.nameWithParty(
+            result.winnerPersonId as EntityId,
+            result.resolvedAt as IsoDate,
+          ),
+          incumbentLost:
+            incumbent !== undefined &&
+            incumbent.personId !== result.winnerPersonId &&
+            (result.tallies as readonly { candidatePersonId: EntityId }[]).some(
+              (tally) => tally.candidatePersonId === incumbent.personId,
+            ),
+          place:
+            reader.jurisdictionName(contest!.jurisdictionId as EntityId) ||
+            "a state",
+          id: result.id as string,
+        },
+      ]);
+      continue;
+    }
+    if (national(contest)) {
+      const date = result.resolvedAt as IsoDate;
+      countRounds.set(date, [
+        ...(countRounds.get(date) ?? []),
+        {
+          text,
+          home: reader.mentionsState(office?.title ?? ""),
+          winnerParty: reader.nameWithParty(
+            result.winnerPersonId as EntityId,
+            date,
+          ),
+          id: result.id as string,
+        },
+      ]);
+      continue;
+    }
     lines.push({
       date: result.resolvedAt as IsoDate,
       section: "elections",
-      text: `${office?.title ?? "A race"}: ${reader.name(result.winnerPersonId as EntityId)} won. ${tallies.join("; ")}.`,
+      text,
       sources: [result.id, ...(contest ? [contest.id] : [])],
+    });
+  }
+  for (const [date, round] of countRounds) {
+    const won = (party: string) =>
+      round.filter((row) => row.winnerParty.includes(party)).length;
+    // A winner the record shows in neither party is named, wherever the seat.
+    const neither = (row: (typeof round)[number]) =>
+      !/Democratic|Republican/.test(row.winnerParty);
+    const named = round.filter((row) => row.home || neither(row));
+    const others = round.filter(neither).length;
+    lines.push({
+      date,
+      section: "elections",
+      text: `${count(round.length, "race")} for Congress were counted from each seat's own voters: ${won("Democratic")} Democrats${others > 0 ? `, ${won("Republican")} Republicans and ${count(others, "winner")} in neither party` : ` and ${won("Republican")} Republicans`} won.${named.length > 0 ? ` In ${reader.stateName}${named.length > round.filter((row) => row.home).length ? " and outside both parties" : ""}:` : ""}`,
+      details: named.map((row) => row.text),
+      sources: round.slice(0, 12).map((row) => row.id),
+    });
+  }
+  for (const [key, round] of legislatureCounts) {
+    const won = (party: string) =>
+      round.filter((row) => row.winnerParty.includes(party)).length;
+    const beaten = round.filter((row) => row.incumbentLost);
+    lines.push({
+      date: key.split("|")[0] as IsoDate,
+      section: "elections",
+      text: `${count(round.length, "race")} for ${round[0]!.place}'s legislature were counted from each seat's own voters: ${won("Democratic")} Democrats and ${won("Republican")} Republicans won, and ${count(beaten.length, "sitting member")} lost.${beaten.length > 0 ? " Where a sitting member lost:" : ""}`,
+      details: beaten.map((row) => row.text),
+      sources: round.slice(0, 12).map((row) => row.id),
     });
   }
   // Everything else under election.*, as the record words it.
@@ -1422,6 +1571,13 @@ export function neverChecks(
   const localContests = contests.filter((row) =>
     reader.isLocal(row.jurisdictionId as EntityId),
   );
+  const legislativeRaces = contests.filter((row) => {
+    const office = row.office as { officeKey: string; seatKey?: string };
+    return (
+      /us-house|us-senate|legislat/.test(office.officeKey) ||
+      Boolean(office.seatKey?.includes("|"))
+    );
+  });
   const aggregateResults = reader.newEvents.filter((event) =>
     /general-results$/.test(event.type),
   );
@@ -1673,12 +1829,8 @@ export function neverChecks(
       "named-legislative-races",
       "No congressional or state legislative race recorded its candidates or votes.",
       "Some congressional or state legislative races recorded their candidates.",
-      contests.some((row) =>
-        /us-house|us-senate|legislat/.test(
-          (row.office as { officeKey: string }).officeKey,
-        ),
-      ),
-      `${count(aggregateResults.length, "general election")} for Congress or a legislature reported only totals. No candidate or vote count was recorded for any of their seats.`,
+      legislativeRaces.length > 0,
+      `${count(legislativeRaces.length, "congressional or legislative race")} recorded ${legislativeRaces.length === 1 ? "its" : "their"} candidates and votes; ${count(aggregateResults.length, "general election")} for Congress or a legislature also wrote a totals record.`,
     ),
     check(
       "primary",
@@ -1962,9 +2114,8 @@ function powersLines(world: World): string[] {
           "";
         federal.push({
           key,
-          built: OUTCOME_LINKS.filter(
-            (link) =>
-              link.from === `law:${key}` && outcomeLinkStatus(link) === "built",
+          built: outcomeLinksFedByQuestion(key).filter(
+            (link) => outcomeLinkStatus(link) === "built",
           ).length,
         });
       }
@@ -1995,6 +2146,12 @@ function powersLines(world: World): string[] {
       `Congress's laws answered ${count(questions.size, "federal question")}; ${count(feeding.length, "law")} of ${federal.length} feed an outcome that acts in the world.`,
     );
   }
+  const total = world.policyCatalog.propositionOrder.length;
+  const unwired = unwiredQuestions(world.policyCatalog).length;
+  out.push(
+    "",
+    `Wired laws: ${total - unwired} of ${total} policy questions have a sized path that acts in the world, through the outcome web or a rule.`,
+  );
   return out;
 }
 
@@ -2044,7 +2201,9 @@ function startingLawAcrossPlaces(world: World): string[] {
 const DIRECT_PATH_WORDS: Readonly<Record<string, string>> = {
   paycheck: "paychecks",
   "state-revenue": "the state's revenue",
+  "state-spending": "a state program's spending",
   "rent-and-eviction": "rents and evictions",
+  "home-prices": "home prices and the rents that follow them",
   "seat-turnover": "who holds seats",
 };
 
@@ -2116,9 +2275,7 @@ function lawOutcomeLines(run: WorldReportRun): string[] {
     "",
   );
   for (const row of [...inPlay, ...atStart]) {
-    const links = OUTCOME_LINKS.filter(
-      (link) => link.from === `law:${row.stableKey}`,
-    );
+    const links = outcomeLinksFedByQuestion(row.stableKey);
     const acting = links.filter((link) => outcomeLinkStatus(link) === "built");
     out.push(
       `- **${row.name}**: ${row.answer}${row.origin === "enacted" ? `, ${row.designation}, in force from ${proseDate(row.since)}` : ", as the game began"}. ${links.length ? `Feeds ${count(links.length, "outcome")}; ${acting.length} ${acting.length === 1 ? "acts" : "act"} in the world today.` : "Feeds no outcome yet."}${directMoves(paths.get(row.stableKey) ?? [])}`,
@@ -2166,11 +2323,18 @@ function lawOutcomeLines(run: WorldReportRun): string[] {
  * outcome web reads, and what that law moved there at the end of the run.
  */
 function lawsMovingOutcomesEverywhere(world: World): string[] {
-  const lawLinks = OUTCOME_LINKS.filter(
-    (link) =>
-      link.from.startsWith("law:") && outcomeLinkStatus(link) === "built",
+  const questions = [
+    ...new Set([
+      ...OUTCOME_LINKS.filter((link) => link.from.startsWith("law:")).map(
+        (link) => link.from.slice(4),
+      ),
+      ...Object.keys(LAW_QUESTION_MEASURES),
+    ]),
+  ].filter((key) =>
+    outcomeLinksFedByQuestion(key).some(
+      (link) => outcomeLinkStatus(link) === "built",
+    ),
   );
-  const questions = [...new Set(lawLinks.map((link) => link.from.slice(4)))];
   const rows: string[] = [];
   const moving = new Set<string>();
   for (const questionKey of questions) {
@@ -2187,8 +2351,8 @@ function lawsMovingOutcomesEverywhere(world: World): string[] {
       const measure = world.history.legislativeMeasures?.find(
         (row) => row.id === law.measureId,
       );
-      const moved = lawLinks
-        .filter((link) => link.from === `law:${questionKey}`)
+      const moved = outcomeLinksFedByQuestion(questionKey)
+        .filter((link) => outcomeLinkStatus(link) === "built")
         .flatMap((link) => {
           const cause = outcomeFactor(
             world,
@@ -2202,7 +2366,16 @@ function lawsMovingOutcomesEverywhere(world: World): string[] {
         });
       if (moved.length) moving.add(questionKey);
       places.push(
-        `${usps} ${measure?.designation ?? ""} (${law.answer}): ${moved.length ? moved.join(", ") : "nothing yet (the law's lag, or the state's starting law already said so)"}`,
+        `${usps} ${measure?.designation ?? ""} (${law.answer}): ${moved.length ? moved.join(", ") : "nothing yet (the law's lag, or the state's starting law already said so)"}${lawEffectPaths()
+          .filter(
+            (path) =>
+              path.questionKey === questionKey && path.kind !== "outcome-web",
+          )
+          .map(
+            (path) =>
+              `, and it moves ${DIRECT_PATH_WORDS[path.kind] ?? path.kind}`,
+          )
+          .join("")}`,
       );
     }
     if (places.length)
@@ -2398,10 +2571,13 @@ async function main() {
     const saved = JSON.parse(readFileSync(from, "utf8")) as SavedRun;
     run = { ...saved, world: deserializeWorld(saved.world) };
   } else {
+    const seed = opt("seed", "round-1");
+    // With no place named, the seed draws one from all 56 places, the way the
+    // title screen's "Watch the world" does.
     const options: WorldReportOptions = {
       years: Number(opt("years", "5")),
-      seed: opt("seed", "round-1"),
-      placeKey: opt("place", "3918000"),
+      seed,
+      placeKey: opt("place", observerPlace(seed).key),
     };
     if (!Number.isInteger(options.years) || options.years < 1)
       throw new Error("Use --years N (1 or more).");

@@ -87,6 +87,7 @@ import { NewsDesk } from "./news/NewsDesk";
 import "./controls/controls.css";
 import { PinToggle } from "./controls/PinToggle";
 import { PlaceConditionsPanel } from "./PlaceConditions";
+import { MoneyLawsPanel } from "./MoneyLaws";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
 import { issuesPlaceForSelection } from "../presentation/politics-government";
 import {
@@ -3657,6 +3658,15 @@ function renderWorkspace({
             {...(view.section ? { section: view.section } : {})}
             onOpenPerson={openPerson}
           />
+          {view.section === "finances" && (
+            <MoneyLawsPanel
+              world={session.world}
+              personId={session.personId}
+              onOpenMeasure={(measureId) =>
+                openEntity({ kind: "measure", id: measureId })
+              }
+            />
+          )}
           <HomePurchasePanel
             world={session.world}
             personId={session.personId}
@@ -3824,6 +3834,9 @@ function renderWorkspace({
             })
           }
           onOpenPerson={openPerson}
+          onOpenMeasure={(measureId) =>
+            openEntity({ kind: "measure", id: measureId })
+          }
           around={
             <>
               <WorldOrientationEntry

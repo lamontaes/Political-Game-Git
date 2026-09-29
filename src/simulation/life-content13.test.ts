@@ -79,8 +79,11 @@ function life(options: LifeOptions) {
     seed: options.seed,
     depth: "summarize-earlier-life",
   });
+  // The other adult is alive: a start's family history can record deaths.
   const otherId = game.world.personOrder.find(
-    (id) => id !== game.playerPersonId,
+    (id) =>
+      id !== game.playerPersonId &&
+      !game.world.history.personDeaths.some((death) => death.personId === id),
   )!;
   const jurisdictionId =
     game.world.people[game.playerPersonId]!.homeJurisdictionId;
@@ -143,7 +146,7 @@ function life(options: LifeOptions) {
       },
     },
   });
-  const world = applyCharacterHistoryPlan(game.world, {
+  const world = applyCharacterHistoryPlan(endStartingJobs(game.world), {
     stableKey: `test:life-content13:${options.seed}`,
     mode: "quick-generated",
     personId: game.playerPersonId,
@@ -210,6 +213,30 @@ function life(options: LifeOptions) {
     ],
   }).world;
   return { world, playerId: game.playerPersonId, otherId };
+}
+
+/**
+ * A grown-up start already holds a job with its own supervisor. The fixture
+ * ends every job held at the start, so each proof sees only the jobs it names.
+ */
+function endStartingJobs(world: World): World {
+  let next = world;
+  for (const relationship of world.history.workRelationships) {
+    const latest = next.history.workStatuses
+      .filter((entry) => entry.workRelationshipId === relationship.id)
+      .at(-1);
+    if (!latest || latest.status === "ended") continue;
+    next = recordWorkStatus(next, {
+      stableKey: `test:life-content13:end:${relationship.id}`,
+      workRelationshipId: relationship.id,
+      effectiveAt: next.currentDate,
+      status: "ended",
+      reason: "Left before the proof's own records begin.",
+      provenance,
+      supersedesStatusId: latest.id,
+    });
+  }
+  return next;
 }
 
 /** A class session actually on the calendar, the only class timetable there is. */
@@ -834,7 +861,7 @@ describe("an open circumstance keeps speaking only while its premise holds", () 
       ),
     ).toBe(true);
     const relationship = world.history.workRelationships.find(
-      (entry) => entry.personId === fixture.otherId,
+      (entry) => entry.stableKey === `test:work:${fixture.otherId}`,
     )!;
     const left = recordWorkStatus(world, {
       stableKey: "test:supervisor-left",

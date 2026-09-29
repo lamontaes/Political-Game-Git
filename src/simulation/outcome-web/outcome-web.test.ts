@@ -11,11 +11,13 @@ import type {
 } from "../types";
 import {
   drawnLinkSize,
+  LAW_QUESTION_MEASURES,
   OUTCOME_LINKS,
   OUTCOME_WEB_CALIBRATED_AT,
   OUTCOMES_PRODUCED,
   outcomeFactor,
   outcomeLinkStatus,
+  outcomeLinksFedByQuestion,
   outcomeMeasure,
   outcomeWebStatus,
   shapedLinkFactor,
@@ -102,9 +104,10 @@ describe("the outcome web table", () => {
       expect(outcomeMeasure(row.from), row.key).not.toBeNull();
       expect(OUTCOMES_PRODUCED.has(row.to), row.key).toBe(true);
     }
-    // A ready link into an outcome nothing computes yet says so.
+    // A ready link into an outcome nothing computes yet says so: evictions
+    // are decided case by case in the rent code, never computed in the web.
     const ready = OUTCOME_LINKS.find(
-      (link) => link.key === "rent-control-to-rental-supply",
+      (link) => link.key === "right-to-counsel-to-evictions",
     )!;
     expect(outcomeLinkStatus(ready)).toBe("outcome-not-produced");
   });
@@ -156,6 +159,31 @@ describe("link shapes", () => {
         kind === "acute-decay" ? { kind, halfLifeDays: 7 } : { kind };
       expect(shapedLinkFactor({ shape, size: 0.5 }, 9, 0)).toBe(1);
     }
+  });
+});
+
+describe("questions fed by a bill term", () => {
+  it("the state minimum wage question feeds the links that read the wage its term sets", () => {
+    const fed = outcomeLinksFedByQuestion(
+      "us-policy-positions:labor-workforce.raise-minimum-wage",
+    );
+    expect(fed.map((link) => link.key)).toContain("minimum-wage-to-poverty");
+    expect(fed.some((link) => outcomeLinkStatus(link) === "built")).toBe(true);
+  });
+
+  it("a question with no bill term feeds only the links that read its answer", () => {
+    for (const link of outcomeLinksFedByQuestion(
+      "us-policy-positions:labor-workforce.right-to-work",
+    ))
+      expect(link.from).toBe(
+        "law:us-policy-positions:labor-workforce.right-to-work",
+      );
+  });
+
+  it("every measure a question names is one the web reads", () => {
+    for (const measures of Object.values(LAW_QUESTION_MEASURES))
+      for (const key of measures)
+        expect(outcomeMeasure(key), key).not.toBeNull();
   });
 });
 

@@ -238,6 +238,13 @@ describe("which question each level may answer", () => {
         // A gated question also reads the state's law; its own test covers it.
         if (row.gate) continue;
         const cells = own.map((level) => CELLS.get(row.dial)![level]!.may);
+        // A local power left to home rule or Dillon's rule reads the state's
+        // law on home rule; its own test covers it.
+        if (
+          own.every((level) => level === "county" || level === "city") &&
+          cells.every((may) => may === "UNKNOWN")
+        )
+          continue;
         const expected = cells.some((may) => may === "yes" || may === "limited")
           ? "yes"
           : cells.some((may) => may !== "no")

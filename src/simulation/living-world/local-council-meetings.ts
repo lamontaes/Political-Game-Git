@@ -31,10 +31,8 @@ import {
   localGovernmentDisplayName,
   localGovernmentJurisdiction,
 } from "../nationwide-world/local-governments";
-import {
-  countyGoverningBodyRules,
-  municipioUnit,
-} from "../nationwide-world/county-governing-body-rules";
+import { municipioUnit } from "../nationwide-world/county-governing-body-rules";
+import { boardGoverningBodyRules } from "../nationwide-world/township-governing-body-rules";
 import { ensureJurisdiction } from "../national-election-geography";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import { townCouncilProfilePackId } from "../town-council-profile";
@@ -123,7 +121,7 @@ function councilRules(unit: GovernmentUnitIdentity): CouncilRules | null {
         governmentKey: compiled.key,
       };
   }
-  if (!localGoverningBodyIdentity(unit) && !countyGoverningBodyRules(unit))
+  if (!localGoverningBodyIdentity(unit) && !boardGoverningBodyRules(unit))
     return null;
   return { packId: townCouncilProfilePackId(unit), governmentKey: null };
 }
@@ -137,23 +135,23 @@ function bodyNames(unit: GovernmentUnitIdentity): {
   if (town)
     return { bodyName: town.bodyName, governmentName: town.governmentName };
   return {
-    bodyName: countyGoverningBodyRules(unit)?.bodyName ?? "governing body",
+    bodyName: boardGoverningBodyRules(unit)?.bodyName ?? "governing body",
     governmentName: localGovernmentDisplayName(unit),
   };
 }
 
 /**
- * Where the body's ordinances are recorded: the town, or the county a place
- * with no town government lives under (`law-in-force.ts` reads the county's
- * ordinances for it). The county's jurisdiction is registered in the world
- * the first time its board acts.
+ * Where the body's ordinances are recorded: the town, or the town, township
+ * or county a place with no town government lives under (`law-in-force.ts`
+ * reads their ordinances for it). That jurisdiction is registered in the
+ * world the first time its board acts.
  */
 function lawJurisdiction(
   world: World,
   unit: GovernmentUnitIdentity,
   town: EntityId,
 ): { readonly world: World; readonly jurisdictionId: EntityId } {
-  if (unit.unitType !== "county") return { world, jurisdictionId: town };
+  if (unit.unitType === "municipality") return { world, jurisdictionId: town };
   const county = localGovernmentJurisdiction(unit);
   if (!county) return { world, jurisdictionId: town };
   return {
@@ -447,10 +445,20 @@ function seatedCouncil(
   // place (rare) keeps its seats but not a calendar.
   // Where the place has no town government, its county's board (or its
   // municipio's legislature) is the body that makes its local law.
+  // Inside a town or township, the town's board is that body, not the county's.
   const units = homeLocalGovernmentUnits(world, playerPersonId);
-  for (const unit of [...units.municipal, ...units.counties]) {
+  for (const unit of [
+    ...units.municipal,
+    ...units.townships,
+    ...units.counties,
+  ]) {
     if (!localGovernmentSeated(world, unit.id)) continue;
-    if (unit.unitType === "county" && units.municipal.length > 0) continue;
+    if (
+      unit.unitType === "county" &&
+      units.municipal.length + units.townships.length > 0
+    )
+      continue;
+    if (unit.unitType === "township" && units.municipal.length > 0) continue;
     const rules = councilRules(unit);
     if (rules) return { unit, town, rules };
   }

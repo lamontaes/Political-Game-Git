@@ -155,7 +155,7 @@ export function assertIncidentIntegrity(
     if (
       (definition.occurrenceMode === "actor-initiated" &&
         actorParticipants.length !== 1) ||
-      (definition.occurrenceMode === "probabilistic" &&
+      (definition.occurrenceMode !== "actor-initiated" &&
         actorParticipants.length !== 0)
     ) {
       throw new Error(
