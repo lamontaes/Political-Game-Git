@@ -176,10 +176,17 @@ const sha256 = (text: string) =>
  * AND AGAIN 2026-09-23 for the us-federal-positions pack: twenty authored
  * federal positions appended to `world.policyCatalog` after every existing
  * id. LEGACY_OPENING_SHAPE passed unchanged on the run that moved these.
+ *
+ * AND AGAIN 2026-09-28 for one federal position, "Work requirement for
+ * Medicaid" (#870), appended to `world.policyCatalog` after every existing id.
+ * Compared field by field with 8c2d28f's Kentucky opening, it is the only
+ * change outside `snapshotId`. LEGACY_OPENING_SHAPE passed unchanged on the run
+ * that moved these, after the legacy high-school completion record was
+ * restored (#818 had moved it).
  */
 const FED321F7_LEGACY = {
-  kentucky: "bfa032b826daf686fed0390631e00bbe1f1217aa9022379bce515b9423c35081",
-  peebles: "7f1b23886e4c6fd7e09d636cd3823060fde74efc3f6e49703a35ef7860c76128",
+  kentucky: "0738e96dcc725dc6452fd72ac8030517faa1617ef5b50eb0c173e2d1ccec78a1",
+  peebles: "cb5b8950da3e5087ccb9e8425b97531edaf7967acb92c719712271eb217514de",
 } as const;
 
 /**

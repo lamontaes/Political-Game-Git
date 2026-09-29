@@ -6,7 +6,7 @@
   border: 1px solid rgba(205, 174, 98, 0.46);
   border-radius: 0.65rem;
   padding: 1rem;
-  background: rgba(13, 24, 38, 0.72);
+  background: rgb(241 233 220 / 92%);
 }
 
 .game-campaign-strategy h3,
@@ -28,7 +28,7 @@
 
 .game-campaign-strategy legend {
   margin-bottom: 0.35rem;
-  color: #f4d68a;
+  color: #876a22;
   font-family: ui-sans-serif, system-ui, sans-serif;
   font-size: 0.72rem;
   font-weight: 750;
@@ -41,15 +41,15 @@
   grid-template-columns: auto minmax(0, 1fr);
   gap: 0.6rem;
   align-items: start;
-  border: 1px solid rgba(200, 212, 223, 0.18);
+  border: 1px solid rgb(111 85 42 / 28%);
   border-radius: 0.45rem;
   padding: 0.65rem 0.7rem;
   cursor: pointer;
 }
 
 .game-campaign-strategy label:has(input:checked) {
-  border-color: rgba(224, 189, 103, 0.88);
-  background: rgba(44, 58, 76, 0.72);
+  border-color: rgb(111 85 42 / 88%);
+  background: rgb(235 224 206 / 92%);
 }
 
 .game-campaign-strategy label:has(input:focus-visible) {
@@ -74,7 +74,7 @@
 
 .game-campaign-strategy label small {
   margin-top: 0.25rem;
-  color: rgba(225, 232, 238, 0.76);
+  color: rgb(50 41 27 / 76%);
   line-height: 1.4;
 }
 
@@ -118,7 +118,7 @@
 .game-campaign-office-body,
 .game-campaign-office-line {
   margin-top: 0.2rem;
-  color: rgba(225, 232, 238, 0.76);
+  color: rgb(50 41 27 / 76%);
   font-size: 0.88rem;
   line-height: 1.4;
 }
@@ -131,18 +131,18 @@
 .game-campaign-strategy
   label[data-eligible="false"]
   .game-campaign-office-status {
-  color: #f0c98a;
+  color: #8a6323;
 }
 
 .game-campaign-detail {
   margin-top: 0.35rem;
   font-size: 0.85rem;
-  color: rgba(225, 232, 238, 0.76);
+  color: rgb(50 41 27 / 76%);
 }
 
 .game-campaign-detail summary {
   cursor: pointer;
-  color: #f4d68a;
+  color: #876a22;
 }
 
 .game-campaign-detail ul {
@@ -187,7 +187,7 @@
 }
 
 .game-campaign-action[data-proposed="true"] {
-  border-color: rgba(224, 189, 103, 0.88);
+  border-color: rgb(111 85 42 / 88%);
 }
 
 @media (max-width: 720px) {
@@ -209,7 +209,7 @@
   border: 1px solid var(--pg-brass-dim, rgba(205, 174, 98, 0.46));
   border-radius: 0.65rem;
   padding: 1rem;
-  background: var(--pg-glass, rgba(13, 24, 38, 0.72));
+  background: var(--pg-glass, rgb(241 233 220 / 92%));
 }
 
 .game-campaign-life h3,
@@ -221,7 +221,7 @@
 }
 
 .game-campaign-life h4 {
-  color: var(--pg-brass, #f4d68a);
+  color: var(--pg-brass, #876a22);
   font-size: 0.8rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -240,20 +240,20 @@
 .game-campaign-week-sessions > li {
   display: grid;
   gap: 0.25rem;
-  border: 1px solid rgba(200, 212, 223, 0.18);
+  border: 1px solid rgb(111 85 42 / 28%);
   border-radius: 0.45rem;
   padding: 0.65rem 0.7rem;
 }
 
 .game-campaign-life-list > li[data-state="offered"],
 .game-campaign-week-sessions > li[data-holding="true"] {
-  border-color: rgba(224, 189, 103, 0.88);
+  border-color: rgb(111 85 42 / 88%);
 }
 
 .game-campaign-life-line,
 .game-campaign-week-sessions > li > span {
   display: block;
-  color: var(--pg-ivory-dim, rgba(225, 232, 238, 0.76));
+  color: var(--pg-ivory-dim, rgb(50 41 27 / 76%));
   font-size: 0.88rem;
   line-height: 1.4;
 }
@@ -269,7 +269,7 @@
   gap: 0.35rem;
   margin: 0;
   padding-left: 1.1rem;
-  color: var(--pg-ivory, #eef2f5);
+  color: var(--pg-ivory, #32291b);
   font-size: 0.9rem;
   line-height: 1.4;
 }
@@ -312,10 +312,10 @@
 .game-campaign-life-chapter {
   display: grid;
   gap: 0.45rem;
-  border: 1px solid rgba(200, 212, 223, 0.18);
+  border: 1px solid rgb(111 85 42 / 28%);
   border-radius: 0.45rem;
   padding: 0.6rem 0.7rem;
-  background: rgba(8, 14, 22, 0.35);
+  background: rgb(255 251 242 / 72%);
 }
 
 .game-campaign-life-chapter-name {
@@ -324,7 +324,7 @@
 }
 
 .game-campaign-life-chapter-name small {
-  color: var(--pg-ivory-dim, rgba(225, 232, 238, 0.76));
+  color: var(--pg-ivory-dim, rgb(50 41 27 / 76%));
   font-size: 0.8rem;
 }
 
@@ -366,7 +366,7 @@
   align-content: start;
   gap: 0.35rem;
   min-width: 0;
-  border: 1px solid rgba(200, 212, 223, 0.25);
+  border: 1px solid rgb(111 85 42 / 28%);
   border-radius: 0.45rem;
   padding: 0.7rem;
 }

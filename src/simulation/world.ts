@@ -601,6 +601,20 @@ export function advanceWithWorldIntegrityAtEnd(
   return result;
 }
 
+/**
+ * Runs a batch of writes to one World with each writer's check deferred, then
+ * checks the result once against its input. A batch that writes nothing is
+ * returned as it came, unchecked, as a writer that writes nothing would be.
+ */
+export function writeWithWorldIntegrityOnce(
+  previous: World,
+  run: () => World,
+): World {
+  const result = withWorldIntegrityDeferred(run);
+  if (result === previous) return previous;
+  return advanceWithWorldIntegrityAtEnd(() => result, previous);
+}
+
 /*
  * The newest World that passed a check. During play the next World to be
  * checked is almost always its descendant (a Day, a scene answer, a writer's

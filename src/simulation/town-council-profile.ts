@@ -195,7 +195,7 @@ export function townCouncilProfilePack(
     sources: [seatSource, PASSAGE, QUORUM, ORIGIN, EXECUTIVE, EFFECT],
     unresolvedGaps: [
       "This council has not been compiled from its town's own charter or ordinances. Only its name and seat count come from the game's research; its procedure is the game's own.",
-      "Committees, readings, public hearings, notice periods and the mayor's role are not modeled for this council.",
+      "Committees, readings, public hearings, notice periods and the mayor's role are not yet part of this council's procedure.",
     ],
   };
 }

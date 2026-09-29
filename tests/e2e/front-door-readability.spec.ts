@@ -43,6 +43,13 @@ function relativeLuminance(color: string): number {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
+function contrast(a: string, b: string): number {
+  const [hi, lo] = [relativeLuminance(a), relativeLuminance(b)].sort(
+    (x, y) => y - x,
+  );
+  return (hi! + 0.05) / (lo! + 0.05);
+}
+
 async function computed(page: Page, testId: string, selector?: string) {
   const locator = selector
     ? page.getByTestId(testId).locator(selector)
@@ -65,7 +72,7 @@ test.describe("The front door stays compact and readable over the room", () => {
     { name: "1440x900", width: 1440, height: 900 },
     { name: "1280x720", width: 1280, height: 720 },
   ]) {
-    test(`uses light type and a serif wordmark at ${viewport.name}`, async ({
+    test(`uses ink type on framed paper and a serif wordmark at ${viewport.name}`, async ({
       page,
     }) => {
       await page.setViewportSize(viewport);
@@ -76,19 +83,26 @@ test.describe("The front door stays compact and readable over the room", () => {
       );
       await expect(page.getByTestId("title-tableau")).toHaveClass(/front-door/);
 
+      /*
+       * The menu is one framed paper panel with ink type (UI overhaul,
+       * September 29, 2026), replacing ivory type over the room. Contrast is
+       * measured between the type and the panel's own paper.
+       */
+      const panel = await computed(page, "title-screen");
+      expect(relativeLuminance(panel.backgroundColor)).toBeGreaterThan(0.75);
+      expect(panel.backgroundColor).not.toMatch(/248,\s*249,\s*252/);
+
       const heading = await computed(page, "title-screen", "h1");
-      expect(relativeLuminance(heading.color)).toBeGreaterThan(0.7);
+      expect(contrast(heading.color, panel.backgroundColor)).toBeGreaterThan(7);
       expect(heading.fontSize).toBeGreaterThanOrEqual(22);
       expect(heading.fontFamily).toMatch(/Palatino|Georgia|serif/i);
-      expect(heading.backgroundColor).not.toMatch(/248,\s*249,\s*252/);
-
-      const panel = await computed(page, "title-screen");
-      expect(panel.backgroundColor).toMatch(/0,\s*0,\s*0,\s*0|transparent/i);
-      expect(relativeLuminance(panel.color)).toBeGreaterThan(0.7);
+      expect(contrast(panel.color, panel.backgroundColor)).toBeGreaterThan(7);
 
       const newGame = await computed(page, "new-game");
       expect(newGame.fontFamily).toMatch(/ui-sans-serif|system-ui|sans-serif/i);
-      expect(relativeLuminance(newGame.color)).toBeGreaterThan(0.7);
+      expect(contrast(newGame.color, panel.backgroundColor)).toBeGreaterThan(
+        4.5,
+      );
 
       const box = await page.getByTestId("title-screen").boundingBox();
       expect(box).not.toBeNull();
@@ -113,7 +127,8 @@ test.describe("The front door stays compact and readable over the room", () => {
     expect(box).not.toBeNull();
     expect(box!.y + box!.height / 2).toBeGreaterThan(844 / 2);
     const heading = await computed(page, "title-screen", "h1");
-    expect(relativeLuminance(heading.color)).toBeGreaterThan(0.7);
+    const panel = await computed(page, "title-screen");
+    expect(contrast(heading.color, panel.backgroundColor)).toBeGreaterThan(7);
   });
 
   test("keeps disabled Continue and Saved games readable, not merely dim", async ({
@@ -123,8 +138,10 @@ test.describe("The front door stays compact and readable over the room", () => {
     await freshBrowser(page);
 
     const cont = await computed(page, "continue");
+    const panel = await computed(page, "title-screen");
     expect(cont.opacity).toBe(1);
-    expect(relativeLuminance(cont.color)).toBeGreaterThan(0.28);
+    // Dimmed, but still readable on the paper: at least 3:1.
+    expect(contrast(cont.color, panel.backgroundColor)).toBeGreaterThan(3);
     await expect(page.getByTestId("continue")).toBeDisabled();
     // Saved games stays open with nothing saved: it is where an import lives.
     await expect(page.getByTestId("open-saves")).toBeEnabled();
@@ -161,7 +178,8 @@ test.describe("The front door stays compact and readable over the room", () => {
     // step heading below is the creator's leading heading now.
     await expect(page.getByTestId("setup-screen").locator("h1")).toHaveCount(0);
     const stage = await computed(page, "creator-stage-route", "h2");
-    expect(relativeLuminance(stage.color)).toBeGreaterThan(0.7);
+    const creator = await computed(page, "setup-screen");
+    expect(contrast(stage.color, creator.backgroundColor)).toBeGreaterThan(7);
     expect(stage.fontFamily).toMatch(/Palatino|Georgia|serif/i);
 
     const creatorBox = await page.getByTestId("setup-screen").boundingBox();
@@ -177,8 +195,9 @@ test.describe("The front door stays compact and readable over the room", () => {
         const style = getComputedStyle(node);
         return { color: style.color, backgroundColor: style.backgroundColor };
       });
-    expect(relativeLuminance(field.color)).toBeGreaterThan(0.7);
-    expect(relativeLuminance(field.backgroundColor)).toBeLessThan(0.2);
+    // A field is a light well on the paper, with ink type.
+    expect(relativeLuminance(field.backgroundColor)).toBeGreaterThan(0.8);
+    expect(contrast(field.color, field.backgroundColor)).toBeGreaterThan(7);
   });
 
   test("wraps a long saved name on Continue without covering the room", async ({
@@ -205,7 +224,8 @@ test.describe("The front door stays compact and readable over the room", () => {
     expect(box).not.toBeNull();
     expect(box!.width / 1440).toBeLessThan(0.34);
     const small = await computed(page, "continue", "small");
-    expect(relativeLuminance(small.color)).toBeGreaterThan(0.5);
+    const panel = await computed(page, "title-screen");
+    expect(contrast(small.color, panel.backgroundColor)).toBeGreaterThan(4.5);
   });
 
   test("holds the version stamp legible in the corner", async ({ page }) => {
@@ -232,7 +252,8 @@ test.describe("The front door stays compact and readable over the room", () => {
       "reduced",
     );
     const heading = await computed(page, "title-screen", "h1");
-    expect(relativeLuminance(heading.color)).toBeGreaterThan(0.7);
+    const panel = await computed(page, "title-screen");
+    expect(contrast(heading.color, panel.backgroundColor)).toBeGreaterThan(7);
     await context.close();
   });
 });

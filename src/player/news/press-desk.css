@@ -19,7 +19,7 @@
   display: grid;
   gap: var(--pg-space-2, 0.5rem);
   padding-top: var(--pg-space-2, 0.5rem);
-  border-top: 1px solid var(--pg-hairline, rgba(244, 236, 224, 0.16));
+  border-top: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
 }
 
 .pg-press-desk-group > h4 {
@@ -51,9 +51,9 @@
   display: grid;
   gap: var(--pg-space-2, 0.5rem);
   padding: var(--pg-space-3, 0.75rem);
-  border: 1px solid var(--pg-hairline, rgba(244, 236, 224, 0.16));
+  border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
   border-radius: var(--pg-radius, 3px);
-  background: rgba(11, 19, 32, 0.45);
+  background: rgb(255 251 242 / 72%);
 }
 
 .pg-press-desk-card blockquote,
@@ -69,7 +69,7 @@
   gap: var(--pg-space-1, 0.25rem);
   margin: 0;
   padding: var(--pg-space-2, 0.5rem);
-  border: 1px solid var(--pg-hairline, rgba(244, 236, 224, 0.16));
+  border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
   border-radius: var(--pg-radius, 3px);
 }
 
