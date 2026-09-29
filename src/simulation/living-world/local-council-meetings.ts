@@ -1,10 +1,17 @@
 import { addDays } from "../dates";
+import { councilBallotPartisanship } from "../governing/body-partisanship";
 import { applyEnactedLawEffects } from "../enacted-law-effects";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { mayAnswerQuestion } from "../governing/question-authority";
+import { ORDINANCE_EFFECTIVE_AFTER_DAYS } from "../governing/ordinance-effective-date";
 import { governmentUnit } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
-import { stableHash } from "../ids";
+import {
+  COUNCIL_VOTE_NOTE,
+  councilFilings,
+  decideCouncilVote,
+  ensureCouncilPrinciples,
+} from "../governing/council-lawmaking";
 import {
   enrollMeasure,
   introduceMeasure,
@@ -25,14 +32,12 @@ import { recordCouncilReadingVote } from "../municipal-ordinance-procedure";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
 import { homeLocalGovernmentUnits } from "../nationwide-world/local-governments";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
-import { SeededRng } from "../rng";
 import { townCouncilProfilePackId } from "../town-council-profile";
 import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
   LegislativeMeasureRecord,
-  LegislativeVoteDisposition,
   LegislativeVoteRecord,
   PolicyPropositionDefinition,
   World,
@@ -62,16 +67,16 @@ import { epidemicCouncilMeetingDecision } from "../crisis/epidemic";
  * (`recordCouncilReadingVote`). Every other council plays under the labeled
  * town profile (`town-council-profile.ts`).
  *
- * PLACEHOLDERS, pending `local-council-legislative-volume`:
- * - The council meets every `daysBetweenMeetings` days and one member
- *   introduces one ordinance each time. Neither is any town's schedule.
- * - A member's ballot is a game-authored stand-in drawn from a stable hash of
- *   the world, the ordinance and the member, disclosed on the vote as the
- *   District of Columbia's sittings disclose theirs. How a member decides is
- *   not modeled.
- * - An ordinance answers one question from the world's policy catalog that
- *   the town's own law may answer (`townQuestions`); what it does beyond
- *   being recorded goes through the one enacted-law effects step.
+ * Members file and vote for their own reasons (`council-lawmaking.ts`): a
+ * member files on the question their principles press hardest where the
+ * town's law does not already say what they want, and every member votes
+ * through the legislatures' vote engine with the town's voters as their
+ * constituents. An ordinance answers one question the town's own law may
+ * answer (`townQuestions`); what it does beyond being recorded goes through
+ * the one enacted-law effects step.
+ *
+ * PLACEHOLDER, pending `local-council-legislative-volume`: the council meets
+ * every `daysBetweenMeetings` days, which is not any town's schedule.
  */
 
 export const LOCAL_COUNCIL_MEETINGS_VERSION = "local-council-meetings/v1";
@@ -82,12 +87,9 @@ export const LOCAL_COUNCIL_MEETING = "civic:local-council-meeting" as const;
 export const LOCAL_COUNCIL_MEETING_PROFILE = {
   id: "ocd-local-council-meeting-placeholder/v1",
   daysBetweenMeetings: 14,
-  introductionsPerMeeting: 1,
 } as const;
 
 const P = LOCAL_COUNCIL_MEETING_PROFILE;
-
-export const LOCAL_COUNCIL_AUTHORED_BALLOT_NOTE = `${P.id}: each member's ballot is a stand-in the game draws, not any real council member's position; how a member decides is not yet part of the game.`;
 
 /** The ordinance the posted public meeting takes up, for one town. */
 export function postedMeetingOrdinanceKey(town: EntityId): string {
@@ -120,19 +122,6 @@ function councilRules(unit: GovernmentUnitIdentity): CouncilRules | null {
 
 function members(world: World, unit: GovernmentUnitIdentity) {
   return sittingLocalOfficers(world, unit).filter((seat) => !seat.mayor);
-}
-
-/** The member's ballot on one ordinance, the same at every reading. */
-export function localCouncilAuthoredBallot(
-  world: World,
-  measureStableKey: string,
-  personId: EntityId,
-): "yea" | "nay" {
-  const digest = stableHash(
-    `${world.id}:${measureStableKey}:authored-ballot:${personId}`,
-  );
-  // Most ordinances a council takes up pass; two ballots in three are yea.
-  return Number.parseInt(digest.slice(-2), 16) % 3 === 0 ? "nay" : "yea";
 }
 
 /* -------------------------------------------------------------------------- */
@@ -247,32 +236,39 @@ function introduce(
   });
 }
 
-function introduceOne(
+/**
+ * Members other than the player file what their principles press them to,
+ * at most one ordinance each (`councilFilings`).
+ */
+function fileOrdinances(
   world: World,
   unit: GovernmentUnitIdentity,
   town: EntityId,
   rules: CouncilRules,
   player: EntityId | null,
-  index: number,
 ): World {
-  const sponsors = members(world, unit).filter(
-    (seat) => seat.personId !== player,
-  );
-  const questions = townQuestions(world, town);
-  if (sponsors.length === 0 || questions.length === 0) return world;
-  const rng = new SeededRng(world.seed).fork(
-    `${V}:${unit.id}:${world.currentDate}:${index}`,
-  );
-  const sponsor = sponsors[rng.integer(0, sponsors.length)]!;
-  const question = questions[rng.integer(0, questions.length)]!;
-  const answer: "yes" | "no" = rng.integer(0, 2) === 0 ? "yes" : "no";
-  return introduce(world, unit, town, rules, {
-    sponsorPersonId: sponsor.personId,
-    shortTitle: ordinanceTitle(question.name),
-    summary: `Answers "${question.question}" with ${answer}.`,
-    proposition: question,
-    answer,
+  const seats = members(world, unit);
+  let next = ensureCouncilPrinciples(world, seats);
+  const filings = councilFilings(next, {
+    stableKey: `${V}:${unit.id}:${next.currentDate}:filings`,
+    jurisdictionId: town,
+    members: seats,
+    questions: townQuestions(next, town),
+    measures: councilMeasures(next, rules, town),
+    playerPersonId: player,
   });
+  for (const filing of filings)
+    next = introduce(next, unit, town, rules, {
+      sponsorPersonId: filing.sponsorPersonId,
+      shortTitle:
+        filing.answer === "yes"
+          ? ordinanceTitle(filing.proposition.name)
+          : `Repeal: ${ordinanceTitle(filing.proposition.name)}`,
+      summary: `Answers "${filing.proposition.question}" with ${filing.answer}.`,
+      proposition: filing.proposition,
+      answer: filing.answer,
+    });
+  return next;
 }
 
 function councilMeasures(
@@ -298,7 +294,8 @@ function afterAdoption(world: World, measure: LegislativeMeasureRecord): World {
     stableKey: `${measure.stableKey}:enactment`,
     measureId: measure.id,
     actDesignation: measure.designation,
-    effectiveAt: next.currentDate,
+    // ESTIMATED where the charter's rule is unread (`ordinance-effective-date.ts`).
+    effectiveAt: addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS),
   });
   return applyEnactedLawEffects(next, measure.id);
 }
@@ -328,23 +325,26 @@ function moveOrdinances(
     if (measure.introducedAt >= next.currentDate) continue;
     const seats = members(next, unit);
     if (seats.length === 0) continue;
-    const dispositions: LegislativeVoteDisposition[] = seats.map(
-      (seat, index) => ({
-        memberKey: `council:${index + 1}`,
-        personId: seat.personId,
-        disposition:
-          seat.personId === player
-            ? "absent"
-            : localCouncilAuthoredBallot(
-                next,
-                measure.stableKey,
-                seat.personId,
-              ),
-      }),
-    );
+    const mayor =
+      sittingLocalOfficers(next, unit).find((seat) => seat.mayor)?.personId ??
+      null;
+    next = ensureCouncilPrinciples(next, [
+      ...seats,
+      ...(mayor ? [{ personId: mayor }] : []),
+    ]);
+    const dispositions = decideCouncilVote(next, {
+      stableKey: `${measure.stableKey}:vote:${next.currentDate}`,
+      measureId: measure.id,
+      jurisdictionId: town,
+      members: seats,
+      playerPersonId: player,
+      questionLabel: `Adopt ${measure.designation}`,
+      executivePersonId: mayor,
+      nonpartisan: councilBallotPartisanship(unit).nonpartisan,
+    });
     const provenance = {
-      method: "authored-fixture" as const,
-      note: LOCAL_COUNCIL_AUTHORED_BALLOT_NOTE,
+      method: "member-decisions" as const,
+      note: COUNCIL_VOTE_NOTE,
       sourceEntityIds: [measure.id],
     };
     if (rules.governmentKey) {
@@ -512,7 +512,12 @@ export function postedMeetingVoteSentence(
   if (!found) return null;
   const { vote, measure, bodyName } = found;
   const adopted = vote.outcome === "passed";
-  return `The ${bodyName} voted ${vote.tally.yea}-${vote.tally.nay} ${adopted ? "to adopt" : "against"} ${measure.designation}, which would open the room one extra evening each week.`;
+  const present = vote.tally.presentNotVoting;
+  const abstained =
+    present === 0
+      ? ""
+      : `, with ${present} ${present === 1 ? "member" : "members"} answering present`;
+  return `The ${bodyName} voted ${vote.tally.yea}-${vote.tally.nay} ${adopted ? "to adopt" : "against"} ${measure.designation}${abstained}, which would open the room one extra evening each week.`;
 }
 
 /** Who chairs a meeting of the town's council: its mayor, or a member. */
@@ -590,8 +595,7 @@ export function localCouncilMeetingHandler(
   }
   const votesBefore = (world.history.legislativeVotes ?? []).length;
   let next = moveOrdinances(world, unit, town, rules, player);
-  for (let index = 0; index < P.introductionsPerMeeting; index += 1)
-    next = introduceOne(next, unit, town, rules, player, index);
+  next = fileOrdinances(next, unit, town, rules, player);
   const votes = (next.history.legislativeVotes ?? []).slice(votesBefore);
   const measuresById = new Map(
     (next.history.legislativeMeasures ?? []).map((row) => [row.id, row]),
