@@ -1,0 +1,10 @@
+{
+  "about": "The 2024 result in each place that sends a nonvoting member to the U.S. House, as percent of the vote won by the Democratic-caucus and the Republican-caucus candidates; independents and other parties are left out. Read from the 2024 U.S. House elections page (Wikipedia), which cites each territory's election office and the Clerk of the House; the Clerk's own tables were not read. Puerto Rico's Popular Democratic candidate stands for the Democratic caucus and the New Progressive candidate for the Republican caucus, and the Northern Marianas' two independents (24.4% together) are left out: both ESTIMATED FROM AVERAGE. American Samoa's race is nonpartisan, so it has no two-caucus vote.",
+  "places": {
+    "DC": { "democraticPercent": 80.1, "republicanPercent": 6.3 },
+    "GU": { "democraticPercent": 46.8, "republicanPercent": 52.7 },
+    "MP": { "democraticPercent": 33.3, "republicanPercent": 40.3 },
+    "PR": { "democraticPercent": 44.6, "republicanPercent": 35.0 },
+    "VI": { "democraticPercent": 73.4, "republicanPercent": 9.5 }
+  }
+}
