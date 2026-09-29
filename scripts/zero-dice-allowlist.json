@@ -1592,13 +1592,6 @@
       "code": "rng.fork(\"wave\").next() < drift.waveMonthlyChance"
     },
     {
-      "file": "src/simulation/people-contact.ts",
-      "kind": "fixed-share",
-      "build": "Build 20",
-      "count": 1,
-      "code": "const REACH_OUT_DAILY_SHARE = 0.25;"
-    },
-    {
       "file": "src/simulation/people-traits.ts",
       "kind": "roll",
       "build": "Build 22",
@@ -1954,20 +1947,6 @@
       "build": "Build 12",
       "count": 1,
       "code": "benefitShare: 0.08,"
-    },
-    {
-      "file": "src/simulation/public-budgets/rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 12",
-      "count": 1,
-      "code": "floorShareOfSpending: 0.05,"
-    },
-    {
-      "file": "src/simulation/public-budgets/rules.ts",
-      "kind": "fixed-share",
-      "build": "Build 12",
-      "count": 1,
-      "code": "yearlyDepositShareOfSpending: 0.01,"
     },
     {
       "file": "src/simulation/public-budgets/rules.ts",
