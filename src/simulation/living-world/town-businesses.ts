@@ -6,6 +6,7 @@ import {
   recordWorkStatus,
 } from "../life";
 import { createStableId } from "../ids";
+import { jailTermOn } from "../justice/jail-terms";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import {
   activeWorkRelationshipsAt,
@@ -290,13 +291,16 @@ export function reviewTownBusinesses(
         ?.minAge ?? WORKING_AGE_MIN;
     // The one who opens it: a resident old enough to run it, out of work if
     // anybody is; otherwise somebody who works for someone else quits to.
+    // Nobody serving a jail term opens one: their jobs are on leave, so they
+    // would otherwise count as out of work.
     const able = townResidents(next, town)
       .filter(
         (resident) =>
           resident.personId !== playerPersonId &&
           resident.age >= lead &&
           laborStatus(next, resident) !== "retired" &&
-          laborStatus(next, resident) !== "student",
+          laborStatus(next, resident) !== "student" &&
+          !jailTermOn(next, resident.personId),
       )
       .sort((a, b) => a.personId.localeCompare(b.personId));
     // Nobody leaves a business they run to open another: not whoever

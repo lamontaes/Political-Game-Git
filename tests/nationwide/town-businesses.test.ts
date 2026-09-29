@@ -32,10 +32,20 @@ import { BUSINESS_CLOSED_EVENT } from "../../src/simulation/living-world/town-fi
 import { openingTakesApplications } from "../../src/simulation/job-market";
 import type { JobOpeningRecord } from "../../src/simulation/types";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
-import { townWorkplaceWeights } from "../../src/simulation/living-world/town-employment";
+import {
+  TOWN_EMPLOYMENT_VERSION,
+  townWorkplaceWeights,
+} from "../../src/simulation/living-world/town-employment";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
 import type { World } from "../../src/simulation";
+import type { EntityId } from "../../src/simulation/types";
+import {
+  jailTermOn,
+  PROSECUTION_SENTENCED_EVENT,
+  SENTENCE_KIND_TAG,
+  SENTENCE_MONTHS_TAG,
+} from "../../src/simulation/justice/jail-terms";
 
 const QUARTERS = 20;
 
@@ -59,11 +69,14 @@ function openAt(placeKey: string, seed: string) {
  * The whole-world check is deferred because the world's other due items are
  * not run here; the watched-world report runs these reviews on the real clock.
  */
-function fiveYears(placeKey: string) {
+function fiveYears(
+  placeKey: string,
+  prepare: (world: World) => World = (world) => world,
+) {
   const opened = openAt(placeKey, `businesses-${placeKey}`);
   const { personId, town } = opened;
   const start = opened.world.currentDate;
-  let world: World = opened.world;
+  let world: World = prepare(opened.world);
   const before = townBusinesses(world, town).length;
   withWorldIntegrityDeferred(() => {
     for (let round = 0; round < QUARTERS; round += 1) {
@@ -192,6 +205,48 @@ describe("the town's businesses open and close", { timeout: 600_000 }, () => {
   it("a review run twice writes nothing new", () => {
     const { world, town, personId } = fiveYears("2146027");
     expect(reviewTownBusinesses(world, town, personId, "test-19")).toBe(world);
+  });
+
+  it("nobody serving a jail term opens a business", () => {
+    // Who opened each business in five years, when nobody is in jail.
+    const founded = (world: World, town: string, start: string) => {
+      const stem = `${TOWN_EMPLOYMENT_VERSION}:${town}:employer:`;
+      return world.history.organizations.flatMap((organization) => {
+        if (!organization.stableKey.startsWith(stem)) return [];
+        // A business open from the start has staff from before it.
+        const founder = world.history.workRelationships
+          .filter((row) => row.organizationId === organization.id)
+          .sort((a, b) => a.startedAt.localeCompare(b.startedAt))[0];
+        return founder && founder.startedAt > start ? [founder.personId] : [];
+      });
+    };
+    const free = fiveYears("2146027");
+    const first = founded(free.world, free.town, free.start)[0];
+    expect(first).toBeDefined();
+    // The same five years with that person sentenced to ten years in jail
+    // the day they begin.
+    const jailed = fiveYears("2146027", (world) => ({
+      ...world,
+      history: {
+        ...world.history,
+        events: [
+          ...world.history.events,
+          {
+            ...world.history.events[0]!,
+            id: "event:test-jail-term" as EntityId,
+            stableKey: "test-jail-term",
+            type: PROSECUTION_SENTENCED_EVENT,
+            occurredAt: world.currentDate,
+            participants: [{ personId: first!, role: "focus:defendant" }],
+            tags: [`${SENTENCE_KIND_TAG}jail`, `${SENTENCE_MONTHS_TAG}120`],
+          },
+        ],
+      },
+    }));
+    expect(jailTermOn(jailed.world, first!)).not.toBeNull();
+    expect(founded(jailed.world, jailed.town, jailed.start)).not.toContain(
+      first,
+    );
   });
 });
 
