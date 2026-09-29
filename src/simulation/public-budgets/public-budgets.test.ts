@@ -532,21 +532,33 @@ describe("public budgets", () => {
     expect(county.reserve.answer).toBe("unknown");
   });
 
-  it("a town the Census 2025 estimates leave out opens from its ACS population, and a Puerto Rico town from the national local average, marked as estimated", () => {
+  it("a place with no government of its own is served by its county's budget, or in Puerto Rico its municipio's, from ACS populations", () => {
     const world = opened(
       worldAt("2026-01-05", { places: ["7258365", "1004130"] }),
     );
     const store = world.publicBudgets!;
     expect(store.unknown).toEqual([]);
-    const palmas = store.governments.find(
-      (row) => row.key === "place:7258365",
+    // Palmas and Bear are census-designated places: neither keeps a budget.
+    expect(store.governments.map((row) => row.key)).not.toContain(
+      "place:7258365",
+    );
+    expect(store.governments.map((row) => row.key)).not.toContain(
+      "place:1004130",
+    );
+    // Palmas' residents live in Arroyo (1,097 of 1,119); Bear's in New Castle County.
+    const arroyo = store.governments.find((row) => row.key === "county:72015")!;
+    const newCastle = store.governments.find(
+      (row) => row.key === "county:10003",
     )!;
-    const bear = store.governments.find((row) => row.key === "place:1004130")!;
-    expect(palmas.population).toBe(1_119);
-    expect(bear.population).toBe(22_370);
-    expect(palmas.openingNotes[0]).toMatch(/^ESTIMATED FROM AVERAGE/);
-    expect(bear.openingNotes[0]).toMatch(/ACS 2020-2024 five-year population/);
-    expect(sum(palmas.years[0]!.appropriations)).toBeGreaterThan(0);
+    expect(arroyo.level).toBe("county");
+    expect(arroyo.population).toBe(15_341);
+    expect(arroyo.openingNotes[0]).toMatch(/^ESTIMATED FROM AVERAGE/);
+    expect(arroyo.openingNotes[0]).toMatch(
+      /ACS 2020-2024 five-year population/,
+    );
+    expect(sum(arroyo.years[0]!.appropriations)).toBeGreaterThan(0);
+    expect(newCastle.level).toBe("county");
+    expect(newCastle.openingNotes[0]).toMatch(/BEA 2024 population/);
     expect(
       store.governments.find((row) => row.key === "US-PR")!.population,
     ).toBe(3_184_835);
