@@ -12,6 +12,14 @@ import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
+import { senateSelectionRuleAt } from "../governing/senate-selection";
+import {
+  jointAssemblyCandidates,
+  jointAssemblyVote,
+  recordJointAssemblyVote,
+  seatedStateLegislators,
+  type JointAssemblyVote,
+} from "../governing/joint-assembly";
 import { seatStartingCondition } from "../world-setup/conditions";
 import { aggregateCongressAffiliation } from "./congress-aggregate-outcome";
 import {
@@ -174,6 +182,12 @@ interface SeatOutcome {
   readonly party: string;
   readonly caucus: string;
   readonly serviceSince: IsoDate;
+  /** Set when the state's legislature, not its voters, chose the senator. */
+  readonly chosenByLegislature?: boolean;
+  /** The joint assembly's roll call, where a seated legislature voted. */
+  readonly legislatureVote?: JointAssemblyVote;
+  /** Set when the legislature voted and no candidate won a majority. */
+  readonly deadlocked?: boolean;
 }
 
 /** The world's own contest for this seat and day, if one was scheduled. */
@@ -299,6 +313,13 @@ function prepareCongressIntake(
   const plans: CongressCandidateSeatPlan[] = [];
   for (const { seat, intakeDate } of due) {
     if (congressCandidateSlate(next, seat.seatKey, year)) continue;
+    // A seat the legislature fills has no slate; its recorded intent is
+    // the mark that it was already considered.
+    if (
+      legislatureChooses(next, seat, electionDay) &&
+      seatCandidacyIntent(next, seat.seatKey, year) !== null
+    )
+      continue;
     const record = recordOn(seat.seatKey, intakeDate);
     const incumbentPersonId =
       record?.type === SEAT_TENURE_EVENT
@@ -363,6 +384,9 @@ function prepareCongressIntake(
             : lowerFirst(reason),
       { occurredAt: intakeDate, decisionTraceId },
     );
+    // A seat the state's legislature fills has no candidates filing with
+    // the voters, and no primary.
+    if (legislatureChooses(next, seat, electionDay)) continue;
     plans.push({
       seat,
       incumbentPersonId,
@@ -372,6 +396,22 @@ function prepareCongressIntake(
     });
   }
   return prepareCongressCandidateSlates(next, year, plans);
+}
+
+/** Whether the law in force has this seat chosen by the state's legislature. */
+function legislatureChooses(
+  world: World,
+  seat: CongressSeat,
+  electionDay: IsoDate,
+): boolean {
+  return (
+    seat.chamberKey === "us-senate" &&
+    senateSelectionRuleAt(world, electionDay).method === "state-legislature"
+  );
+}
+
+function jointAssemblyKey(seat: CongressSeat, electionDay: IsoDate): string {
+  return `${LIVING_WORLD_KEYS.seat(seat.seatKey)}:joint-assembly:${electionDay}`;
 }
 
 /** Whether this is the person being played, whose seat only their own race decides. */
@@ -398,6 +438,89 @@ function decideSeat(
     incumbent !== undefined &&
     person !== undefined &&
     aliveOn(world, incumbent, electionDay);
+  // Where the legislatures choose senators, the members of both houses vote
+  // in joint assembly (Act of July 25, 1866), each by their own caucus,
+  // relationships and principles (`governing/joint-assembly.ts`). A sitting
+  // senator seeking another term, the player included, is one candidate
+  // among the caucus nominees. ESTIMATED where the state's legislature is
+  // not seated in this world: the state's own lean stands in for its
+  // majority. A contest recorded in this world (one the player filed, or one
+  // scheduled before the rule changed) keeps its own result below.
+  if (
+    legislatureChooses(world, seat, electionDay) &&
+    !recordedSeatContest(world, seat, electionDay)
+  ) {
+    const condition = seatStartingCondition(world, seat.seatKey);
+    const seeking =
+      eligible && seatCandidacyIntent(world, seat.seatKey, year) !== false;
+    const caucusOf = (party: string) =>
+      party === "democratic" || party === "republican"
+        ? party
+        : (condition?.caucus ?? recordedCaucus ?? "none");
+    const serviceSince = () =>
+      (record
+        ? (tagValue(record, "service-since:") as IsoDate | null)
+        : null) ??
+      record?.occurredAt ??
+      newStart;
+    const successorKey = `${LIVING_WORLD_KEYS.seat(seat.seatKey)}:term:${newStart}:member`;
+    const members = seatedStateLegislators(world, seat.stateUsps);
+    if (members) {
+      const vote = jointAssemblyVote(world, {
+        stableKey: jointAssemblyKey(seat, electionDay),
+        members,
+        candidates: jointAssemblyCandidates(
+          members,
+          seeking && incumbent && recordedParty
+            ? { personId: incumbent, party: recordedParty }
+            : null,
+        ),
+      });
+      if (!vote.winner)
+        return {
+          seat,
+          incumbentPersonId: null,
+          successorKey: null,
+          party: "none",
+          caucus: "none",
+          serviceSince: newStart,
+          chosenByLegislature: true,
+          legislatureVote: vote,
+          deadlocked: true,
+        };
+      const returns = vote.winner.personId === incumbent && incumbent;
+      return {
+        seat,
+        incumbentPersonId: returns ? incumbent! : null,
+        successorKey: vote.winner.personId ? null : successorKey,
+        ...(vote.winner.personId && !returns
+          ? { recordedWinnerPersonId: vote.winner.personId }
+          : {}),
+        party: vote.winner.party,
+        caucus: caucusOf(vote.winner.party),
+        serviceSince: returns ? serviceSince() : newStart,
+        chosenByLegislature: true,
+        legislatureVote: vote,
+      };
+    }
+    const party = aggregateCongressAffiliation({
+      democraticShare: condition?.generatedShare ?? null,
+      baselineAffiliation: condition?.affiliation ?? null,
+      incumbentAffiliation: recordedParty,
+      incumbentSeeking: seeking,
+    });
+    if (party === null) return null;
+    const returns = seeking && recordedParty === party && incumbent;
+    return {
+      seat,
+      incumbentPersonId: returns ? incumbent! : null,
+      successorKey: returns ? null : successorKey,
+      party,
+      caucus: caucusOf(party),
+      serviceSince: returns ? serviceSince() : newStart,
+      chosenByLegislature: true,
+    };
+  }
   // A contest this world actually scheduled decides its own seat. The
   // turnover profile is a fallback for seats nobody contested here, and it
   // never overwrites a recorded result.
@@ -578,7 +701,7 @@ function holdCongressElection(world: World, year: number): World {
   }
   // A seat whose own contest has not been decided yet is left undecided here:
   // no winner is invented to fill it.
-  const outcomes = seats.flatMap((seat) => {
+  const decisions = seats.flatMap((seat) => {
     const decided = decideSeat(
       intents,
       seat,
@@ -589,9 +712,13 @@ function holdCongressElection(world: World, year: number): World {
     );
     return decided ? [decided] : [];
   });
+  const outcomes = decisions.filter((decision) => !decision.deadlocked);
+  const deadlocked = decisions.filter((decision) => decision.deadlocked);
   // PLACEHOLDER(overnight): a slate with no living candidate produces no
   // winner. Write-ins and party substitution need their own admitted rules.
-  const decidedSeats = new Set(outcomes.map((outcome) => outcome.seat.seatKey));
+  const decidedSeats = new Set(
+    decisions.map((decision) => decision.seat.seatKey),
+  );
   const unfilledSlates = seats.filter(
     (seat) =>
       congressCandidateSlate(intents, seat.seatKey, year) &&
@@ -624,12 +751,26 @@ function holdCongressElection(world: World, year: number): World {
       ? createCharacterHistoryContextPeople(intents, inputs)
       : intents;
   const returning = outcomes.filter((o) => o.incumbentPersonId).length;
+  const byLegislature = outcomes.filter((o) => o.chosenByLegislature).length;
   const winnerIds = outcomes.map(
     (outcome) =>
       outcome.recordedWinnerPersonId ??
       outcome.incumbentPersonId ??
       characterHistoryContextPersonId(next, outcome.successorKey!),
   );
+  for (const decision of decisions) {
+    if (!decision.legislatureVote) continue;
+    const index = outcomes.indexOf(decision);
+    next = recordJointAssemblyVote(next, {
+      stableKey: jointAssemblyKey(decision.seat, electionDay),
+      seatKey: decision.seat.seatKey,
+      stateUsps: decision.seat.stateUsps,
+      title: congressSeatTitle(decision.seat),
+      occurredAt: electionDay,
+      vote: decision.legislatureVote,
+      winnerPersonId: index >= 0 ? winnerIds[index]! : null,
+    });
+  }
   next = recordWorldEvent(next, {
     stableKey: resultsKey(year),
     type: CONGRESS_RESULTS_EVENT,
@@ -659,8 +800,16 @@ function holdCongressElection(world: World, year: number): World {
       CONGRESS_TURNOVER_PROFILE.id,
       `term-start:${newStart}`,
       ...unfilledSlates.map((seat) => `unfilled:${seat.seatKey}`),
+      ...deadlocked.map((decision) => `deadlocked:${decision.seat.seatKey}`),
+      ...outcomes
+        .filter((outcome) => outcome.chosenByLegislature)
+        .map((outcome) => `chosen-by-legislature:${outcome.seat.seatKey}`),
     ],
-    summary: `Voters chose ${outcomes.length} members of Congress in the ${year} general election: ${returning} incumbents return and ${outcomes.length - returning} seats get new members.`,
+    summary: `${
+      byLegislature > 0
+        ? `Voters chose ${outcomes.length - byLegislature} members of Congress and the state legislatures chose ${byLegislature} senators`
+        : `Voters chose ${outcomes.length} members of Congress`
+    } in the ${year} general election: ${returning} incumbents return and ${outcomes.length - returning} seats get new members.`,
     context: {
       location: null,
       socialContext: null,
@@ -785,8 +934,9 @@ function seatCongressWinners(world: World, year: number): World {
       });
   }
   for (const tag of results.tags) {
-    if (!tag.startsWith("unfilled:")) continue;
-    const seatKey = tag.slice("unfilled:".length);
+    const deadlock = tag.startsWith("deadlocked:");
+    if (!tag.startsWith("unfilled:") && !deadlock) continue;
+    const seatKey = tag.slice(tag.indexOf(":") + 1);
     const seat = seatsByKey.get(seatKey);
     if (!seat) continue;
     const vacancyKey = `${LIVING_WORLD_KEYS.seat(seatKey)}:vacancy:${newStart}`;
@@ -819,9 +969,13 @@ function seatCongressWinners(world: World, year: number): World {
         `state:${seat.stateUsps}`,
         `term-start:${newStart}`,
         `term-end:${seatTermWindow(seat, newStart).endExclusive}`,
-        "vacancy-cause:no-living-candidate",
+        deadlock
+          ? "vacancy-cause:legislature-deadlocked"
+          : "vacancy-cause:no-living-candidate",
       ],
-      summary: `The seat of the ${congressSeatTitle(seat)} is vacant: no living candidate remained when the election was held.`,
+      summary: deadlock
+        ? `The seat of the ${congressSeatTitle(seat)} is vacant: the state legislature could not agree on a senator.`
+        : `The seat of the ${congressSeatTitle(seat)} is vacant: no living candidate remained when the election was held.`,
       context: {
         location: null,
         socialContext: null,

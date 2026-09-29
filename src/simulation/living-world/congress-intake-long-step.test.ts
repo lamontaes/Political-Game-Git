@@ -13,6 +13,7 @@ import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { addDays, daysBetween, makeIsoDate } from "../dates";
 import { applyOfficeContinuityNotices } from "../governing/office-continuity";
 import { lifePlaces } from "../life-places";
+import { senateVacancyLaw } from "../nationwide-world/senate-vacancy-law";
 import { SeededRng } from "../rng";
 import { recordPersonDeath } from "../vitality";
 import { advanceWorld } from "../world";
@@ -47,15 +48,17 @@ describe("Congress candidacy decisions in a long step", () => {
     const newStart = `${year + 1}-01-03`;
     const seats = congressSeats();
     const senate = projectCongress(world)!.senate.seats;
-    // A Senate seat up that year, held by someone other than the player. Its
-    // member dies a few days before the seat's filing day, and the appointee
-    // takes the seat after it.
+    // A Senate seat up that year, held by someone other than the player, in
+    // a state whose governor appoints a successor. Its member dies a few days
+    // before the seat's filing day, and the appointee takes the seat after it.
     const choice = senate.flatMap((view) => {
       if (view.occupant.kind !== "member") return [];
       const member = view.occupant.member;
       const index = seats.findIndex((seat) => seat.seatKey === view.seatKey);
+      const law = senateVacancyLaw(view.stateUsps);
       if (
         member.endExclusive !== newStart ||
+        !law?.appointment.startsWith("governor") ||
         (world.control.kind === "person" &&
           world.control.personId === member.personId)
       )

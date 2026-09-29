@@ -1,3 +1,4 @@
+import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { assertWorldContentPacks } from "./runtime-content-packs";
@@ -13,6 +14,7 @@ import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnov
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyConstitutionalReform } from "./living-world/constitutional-reform";
 import { applyFederalReform } from "./living-world/federal-reform";
+import { applyArticleV } from "./governing/article-v";
 import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { assertAppearanceMaterial } from "./appearance-material";
 import { applyNationalTermTransitions } from "./national-election-consumer";
@@ -1417,22 +1419,27 @@ function advanceWorldUnchecked(
   };
 
   const continued = applyCrisisRepairFunding(
-    applyCrisisOfficeContinuity(
-      applyCongressLawmaking(
-        world.currentDate,
-        applyFederalReform(
+    applyEnactedCourtSizes(
+      applyCrisisOfficeContinuity(
+        applyCongressLawmaking(
           world.currentDate,
-          applyConstitutionalReform(
+          applyFederalReform(
             world.currentDate,
-            applyPresidentialTurnover(
+            applyArticleV(
               world.currentDate,
-              applyGovernorTurnover(
+              applyConstitutionalReform(
                 world.currentDate,
-                applyCongressTurnover(
+                applyPresidentialTurnover(
                   world.currentDate,
-                  applyStateLegislatureTurnover(
+                  applyGovernorTurnover(
                     world.currentDate,
-                    applyNationalTermTransitions(advanced),
+                    applyCongressTurnover(
+                      world.currentDate,
+                      applyStateLegislatureTurnover(
+                        world.currentDate,
+                        applyNationalTermTransitions(advanced),
+                      ),
+                    ),
                   ),
                 ),
               ),

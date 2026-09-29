@@ -1,3 +1,4 @@
+import { decideAnotherTerm } from "../careers/another-term";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -149,10 +150,6 @@ export const PRESIDENTIAL_TURNOVER_PROFILE = {
   id: "ocd-presidential-turnover-game-profile/v1",
   /** The nominating field closes this many days before election day. */
   fieldClosesDaysBefore: 60,
-  /** Incumbents this old or older do not run. */
-  retirementAge: 78,
-  /** Chance an eligible incumbent runs again, per mille. */
-  incumbentRunsPermille: 800,
   /** Age range of a newly drawn nominee, inclusive of the minimum. */
   nomineeAge: { minimum: 45, maximumExclusive: 70 },
 } as const;
@@ -198,11 +195,6 @@ function cycleForDue(due: FutureDueItem): number | null {
 
 function pad(value: number): string {
   return value.toString().padStart(2, "0");
-}
-
-function ageOn(birthDate: IsoDate, date: IsoDate): number {
-  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
-  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
 }
 
 function done(world: World, context: string): FutureTransitionHandlerResult {
@@ -544,40 +536,66 @@ function recordPublicEvent(
 function incumbentStands(
   world: World,
   cycle: number,
-  electionDay: IsoDate,
-): { personId: EntityId | null; party: MajorParty | null; reason: string } {
+): {
+  world: World;
+  personId: EntityId | null;
+  party: MajorParty | null;
+  reason: string;
+} {
   const president = currentPresidentOf(world)?.personId ?? null;
   if (!president || !world.people[president])
-    return { personId: null, party: null, reason: "no sitting President." };
-  const person = world.people[president]!;
+    return {
+      world,
+      personId: null,
+      party: null,
+      reason: "no sitting President.",
+    };
   const party =
     partyOf(world, president) ??
     ((politicalStartingConditions(world)?.presidency.winner ??
       null) as MajorParty | null);
-  const rng = new SeededRng(world.seed).fork(`${cycleKey(cycle)}:incumbent`);
-  const bar = presidentialTermBar(
-    world,
-    president,
-    makeIsoDate(`${cycle + 1}-01-20`),
-  );
-  const reason =
+  const termStart = makeIsoDate(`${cycle + 1}-01-20`);
+  const bar = presidentialTermBar(world, president, termStart);
+  const fixed =
     bar !== null
       ? bar
-      : ageOn(person.birthDate, electionDay) >=
-          PRESIDENTIAL_TURNOVER_PROFILE.retirementAge
-        ? "they are retiring."
-        : world.control.kind === "person" &&
-            world.control.personId === president
-          ? "the player decides for themselves."
-          : party === null || !PARTIES.includes(party)
-            ? "no party is on record for them."
-            : rng.integer(0, 1000) >=
-                PRESIDENTIAL_TURNOVER_PROFILE.incumbentRunsPermille
-              ? "they are standing down."
-              : "";
-  return reason
-    ? { personId: president, party: null, reason }
-    : { personId: president, party, reason };
+      : world.control.kind === "person" && world.control.personId === president
+        ? "the player decides for themselves."
+        : party === null || !PARTIES.includes(party)
+          ? "no party is on record for them."
+          : "";
+  if (fixed) return { world, personId: president, party: null, reason: fixed };
+  // The President decides for themselves, from their age, health, temperament
+  // and family, as every officeholder does (careers/another-term.ts). No
+  // fixed retirement age and no draw.
+  const decided = decideAnotherTerm(world, {
+    personId: president,
+    stableKey: `${cycleKey(cycle)}:incumbent:decision`,
+    subjectKey: PRESIDENT_OFFICE_KEY,
+    decisionType: "election.consider-another-presidential-term",
+    onDate: world.currentDate,
+    termEnds: makeIsoDate(`${cycle + 5}-01-20`),
+    serving: [
+      {
+        stableKey: `${cycleKey(cycle)}:incumbent:decision:serving`,
+        optionKey: "seek",
+        sourceType: "context:current-office",
+        direction: "supports",
+        importance: "moderate",
+        confidence: "high",
+        explanation: "They are serving as President.",
+        sourceRefs: [],
+      },
+    ],
+  });
+  return decided.seeks
+    ? { world: decided.world, personId: president, party, reason: "" }
+    : {
+        world: decided.world,
+        personId: president,
+        party: null,
+        reason: `they are standing down. ${decided.reason}`,
+      };
 }
 
 /** The field closes: the parties' tickets are set and the election registered. */
@@ -592,7 +610,8 @@ export function presidentialFieldCloseHandler(
   const rules = nationalElectionRules(cycle);
   const key = cycleKey(cycle);
   let next = ensureNationalElectionJurisdiction(world);
-  const incumbent = incumbentStands(next, cycle, rules.electionDate);
+  const incumbent = incumbentStands(next, cycle);
+  next = incumbent.world;
   if (incumbent.personId)
     next = recordPublicEvent(next, {
       stableKey: `${key}:intent`,

@@ -5,7 +5,7 @@ import { nextMeasureNumbering } from "../measure-numbering";
 import { SeededRng } from "../rng";
 import type { EntityId, World } from "../types";
 import { seatedChamberForPack } from "./chamber-votes";
-import { lawInForce } from "./law-in-force";
+import { lawInForce, statuteAnswer } from "./law-in-force";
 import { mayAnswerQuestion } from "./question-authority";
 import {
   ensureOfficeholderPrinciples,
@@ -125,7 +125,7 @@ export function fileMemberAgendaBill(
   }
   // Read once per question, not once per member: nothing is filed until the
   // loop returns.
-  const lawAnswers = new Map<EntityId, "yes" | "no" | null>();
+  const lawAnswers = new Map<EntityId, "yes" | "no" | null | "closed">();
   const pending = new Map<EntityId, boolean>();
   for (const member of order) {
     let best: {
@@ -143,7 +143,7 @@ export function fileMemberAgendaBill(
       if (!lawAnswers.has(propositionId))
         lawAnswers.set(
           propositionId,
-          lawInForce(next, input.jurisdictionId, propositionId)?.answer ?? null,
+          statuteAnswer(lawInForce(next, input.jurisdictionId, propositionId)),
         );
       const lawAnswer = lawAnswers.get(propositionId);
       // Support files a bill to enact unless the law already says yes;
@@ -156,7 +156,7 @@ export function fileMemberAgendaBill(
           : lawAnswer === "yes"
             ? "no"
             : null;
-      if (!answer) continue;
+      if (!answer || lawAnswer === "closed") continue;
       if (!pending.has(propositionId))
         pending.set(
           propositionId,

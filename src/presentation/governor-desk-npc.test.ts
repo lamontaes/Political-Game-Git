@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { measurePosition, searchLifePlaces } from "../simulation";
+import { GOVERNOR_BILL_DECISION } from "../simulation/governing/governor-bill-decision";
 import { LEGISLATIVE_INTAKE_VERSION } from "../simulation/governing/legislative-clock";
 import { currentGoverningOffices } from "../simulation/governing/state-governing";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -16,6 +17,9 @@ import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
  * And a returned bill is put back to the members: before, no override was
  * ever attempted; after, the joint session voted on each of the three
  * vetoes (49-11, 47-11 and 47-11 against a threshold of 40 or 45 of 60).
+ *
+ * September 29, 2026: the governor now signs or vetoes for recorded reasons
+ * (governor-bill-decision.ts), not a staff pick three times in four.
  */
 describe("a governor the player does not control", () => {
   it("signs some bills into law, and the legislature votes on the vetoes", () => {
@@ -51,5 +55,26 @@ describe("a governor the player does not control", () => {
     );
     expect(overrides.length).toBeGreaterThan(0);
     expect(phases).not.toContain("awaiting-override");
+    // Every signature and veto is the governor's own decision, and it
+    // writes its reasons: no roll picks between the two.
+    const decisions = (world.history.decisionTraces ?? []).filter(
+      (trace) => trace.context.decisionType === GOVERNOR_BILL_DECISION,
+    );
+    const desk = world.history.events.filter(
+      (event) =>
+        event.tags.includes("matter-family:bill") &&
+        event.tags.includes("decided-by:officeholder"),
+    );
+    expect(desk.length).toBeGreaterThan(0);
+    expect(decisions.length).toBe(desk.length);
+    for (const trace of decisions) {
+      expect(trace.context.randomness).toBe("none");
+      expect(trace.selectedOptionKey).not.toBeNull();
+      expect(
+        trace.optionEvaluations.find(
+          (option) => option.optionKey === trace.selectedOptionKey,
+        )?.considerationKeys.length,
+      ).toBeGreaterThan(0);
+    }
   }, 900_000);
 });
