@@ -1,6 +1,12 @@
 import { makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
+import { canonicalStateJurisdictionId } from "../state-jurisdiction-id";
+import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import { SeededRng } from "../rng";
+import {
+  drawLegislativeStartingProcedures,
+  LEGISLATIVE_STARTING_PROCEDURES_VERSION,
+} from "../legislative-starting-procedures";
 import type { World } from "../types";
 import { assertWorldIntegrity } from "../world";
 import {
@@ -13,17 +19,39 @@ import {
 } from "./deterministic-math";
 import { WORLD_CONDITION_ID_KIND, worldConditionRecords } from "./integrity";
 import { CRUNCH46_POLICY } from "./policy";
+import { drawStateTaxServiceStartingConditions } from "./state-tax-service-profiles";
 import type {
   MacroStartingConditionsRecord,
+  LegislativeStartingProceduresRecord,
   PoliticalStartingConditionsRecord,
   StartingRegime,
   WorldConditionRecord,
   WorldOpeningRecord,
   WorldOpeningVersion,
+  PublicCashOpeningProfile,
 } from "./types";
-import { CRUNCH46_WORLD_OPENING_VERSION } from "./types";
+import {
+  CRUNCH46_WORLD_OPENING_VERSION,
+  PUBLIC_CASH_OPENING_PROFILE_VERSION,
+} from "./types";
 
 const KEY = "world-setup:crunch46-v1";
+
+/** A temporary game bank for operative bills, saved once at Begin. */
+export function drawPublicCashOpeningProfile(): PublicCashOpeningProfile {
+  return {
+    contractVersion: PUBLIC_CASH_OPENING_PROFILE_VERSION,
+    federalMinorUnits: 100_000_000_000, // $1 billion
+    stateByJurisdictionId: Object.fromEntries(
+      US_STATE_USPS.map((usps) => {
+        const id = canonicalStateJurisdictionId(`US-${usps}`);
+        if (!id) throw new Error(`Missing state identity for ${usps}.`);
+        return [id, 10_000_000_000]; // $100 million per state
+      }),
+    ),
+    localMinorUnits: 500_000_000, // $5 million per admitted local government
+  };
+}
 
 /** Streams are domain-separated forks of the world seed; UI never draws here. */
 export function worldSetupRng(world: World, purpose: string): SeededRng {
@@ -121,6 +149,18 @@ export function politicalStartingConditions(
     worldConditionRecords(world).find(
       (record): record is PoliticalStartingConditionsRecord =>
         record.kind === "political-starting-conditions",
+    ) ?? null
+  );
+}
+
+/** Null on saves created before the saved state procedure profile. */
+export function legislativeStartingProceduresCondition(
+  world: World,
+): LegislativeStartingProceduresRecord | null {
+  return (
+    worldConditionRecords(world).find(
+      (record): record is LegislativeStartingProceduresRecord =>
+        record.kind === "legislative-starting-procedures",
     ) ?? null
   );
 }
@@ -224,8 +264,16 @@ export function ensureWorldStartingConditions(
       stableKey: `${KEY}:opening`,
       openingVersion: options.openingVersion,
       regime,
+      publicCashOpening: drawPublicCashOpeningProfile(),
     },
     drawMacroStartingConditions(world, regime),
+    {
+      kind: "legislative-starting-procedures",
+      stableKey: `${KEY}:legislative-starting-procedures`,
+      contractVersion: LEGISLATIVE_STARTING_PROCEDURES_VERSION,
+      procedures: drawLegislativeStartingProcedures(world),
+    },
+    drawStateTaxServiceStartingConditions(world),
   ];
   if (options.political) drafts.push(options.political(world, regime));
   return appendWorldConditions(world, drafts);

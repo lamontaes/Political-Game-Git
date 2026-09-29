@@ -1,4 +1,8 @@
 import { crisisEnvelopesBetween, type CrisisEnvelope } from "../crisis/notices";
+import {
+  BANK_FAILED_EVENT,
+  BUSINESS_CLOSED_EVENT,
+} from "../living-world/town-finance-types";
 import { addDays, makeIsoDate } from "../dates";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import {
@@ -314,8 +318,68 @@ export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
   ends: () => [],
 };
 
+/**
+ * PLACEHOLDER: a closing that ends this many of every hundred jobs held in
+ * town is a full-strength local downturn; a smaller one is proportionally
+ * weaker.
+ */
+export const TOWN_CLOSING_FULL_INTENSITY_JOBS_PER_HUNDRED = 5;
+
+/**
+ * Build 19: town closings feed upward. A business that ran out of cash and
+ * a bank that failed are recorded events (`living-world/town-finances.ts`);
+ * each becomes a downturn on its town's own layer, sized by the share of the
+ * town's jobs it ended, which the town's unemployment then reads. A failed
+ * bank is also a credit squeeze in its town, at full strength (PLACEHOLDER).
+ * Each fades geometrically.
+ */
+export const TOWN_FINANCE_ORIGIN_READER: MacroOriginReader = {
+  key: "town-finances",
+  origins: (world, throughDate) =>
+    world.history.events.flatMap((event): readonly MacroShockOrigin[] => {
+      if (
+        (event.type !== BUSINESS_CLOSED_EVENT &&
+          event.type !== BANK_FAILED_EVENT) ||
+        event.occurredAt > throughDate ||
+        !event.jurisdictionId
+      )
+        return [];
+      const jobs = Number(tagValue(event, "jobs:"));
+      const townJobs = Number(tagValue(event, "town-jobs:"));
+      const jobShare = jobs > 0 && townJobs > 0 ? jobs / townJobs : 0;
+      const intensities = new Map<MacroShockKind, number>();
+      if (jobShare > 0)
+        intensities.set(
+          "regional-industry-downturn",
+          Math.min(
+            1,
+            (jobShare * 100) / TOWN_CLOSING_FULL_INTENSITY_JOBS_PER_HUNDRED,
+          ),
+        );
+      if (event.type === BANK_FAILED_EVENT)
+        intensities.set("credit-tightening", 1);
+      return [...intensities].map(([kind, intensity]) => ({
+        dedupeKey: `${MACRO_ECONOMY_CONTRACT_VERSION}:town-finances:${kind}:${event.id}`,
+        kind,
+        originEventId: event.id,
+        geographyIds: [event.jurisdictionId!],
+        scope: `jurisdiction:${event.jurisdictionId}` as const,
+        intensity,
+        beginsAt: event.occurredAt,
+        persistence: "geometric" as const,
+        observedState:
+          event.visibility === "public"
+            ? ("public" as const)
+            : ("not-public" as const),
+        causalParents: [event.id],
+      }));
+    }),
+  ends: () => [],
+};
+
 export const MACRO_ORIGIN_READERS: readonly MacroOriginReader[] = [
   W3_INTERNATIONAL_ORIGIN_READER,
   CRISIS_ORIGIN_READER,
   PUBLIC_MONEY_ORIGIN_READER,
+  TOWN_FINANCE_ORIGIN_READER,
 ];

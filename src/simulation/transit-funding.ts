@@ -1,7 +1,7 @@
 import { addDays } from "./dates";
+import { operativeDateInWorld } from "./governing/law-in-force";
 import { measurePosition } from "./legislation";
 import { currentMeasureProvisions } from "./legislative-politics";
-import { stateJurisdictionForKey } from "./life-places";
 import {
   draftLineageForMeasure,
   draftParameterValues,
@@ -12,17 +12,27 @@ import {
   TRANSIT_FAMILY_KEY,
   TRANSIT_FAMILY_VERSION,
   TRANSIT_PROGRAM_KEY,
+  STATE_TRANSIT_VARIANT_KEY,
   TRANSIT_VARIANT_KEY,
+  LEGACY_TRANSIT_COMPILED_STATE,
 } from "./legislation-transit-families";
 import { legislativeWorkKey } from "./legislative-work-key";
+import { stateJurisdictionForKey } from "./life-places";
 import { rulePackById } from "./legislature-rule-packs";
-import { money } from "./resources";
-import { PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY } from "./public-fiscal";
-import type { EntityId, IsoDate, MoneyAmount, World } from "./types";
+import { stateTransitServiceProfileForMeasure } from "./state-transit-service-profile";
+import { stateTransitAutomaticLawContext } from "./governing/automatic-legislation";
+import type {
+  EntityId,
+  IsoDate,
+  LegislativeProvisionRecord,
+  MoneyAmount,
+  World,
+} from "./types";
 
 export interface TransitFundingMandate {
   readonly version: "transit-funding-v1";
   readonly fundingId: EntityId;
+  readonly appropriationId: EntityId;
   readonly measureId: EntityId;
   readonly jurisdictionId: EntityId;
   readonly provisionIds: readonly EntityId[];
@@ -54,10 +64,19 @@ export function resolveTransitFunding(
     !lineage ||
     lineage.familyKey !== TRANSIT_FAMILY_KEY ||
     lineage.familyVersion !== TRANSIT_FAMILY_VERSION ||
-    lineage.variantKey !== TRANSIT_VARIANT_KEY
+    (lineage.variantKey !== TRANSIT_VARIANT_KEY &&
+      lineage.variantKey !== STATE_TRANSIT_VARIANT_KEY)
   )
     return no(
       "No supported pinned transit appropriation and administrative mandate is recorded.",
+    );
+  if (
+    lineage.variantKey === TRANSIT_VARIANT_KEY &&
+    measure.jurisdictionId !==
+      stateJurisdictionForKey(LEGACY_TRANSIT_COMPILED_STATE)?.id
+  )
+    return no(
+      "The explicit ninety-day transit clause is compiled only for Alaska.",
     );
   if (
     lineage.authorityKey !== TRANSIT_PROGRAM_KEY ||
@@ -73,18 +92,10 @@ export function resolveTransitFunding(
   );
   if (!enactment || measurePosition(world, measureId).outcome !== "enacted")
     return no("The transit appropriation has not become law.");
-  if (
-    measure.jurisdictionId !==
-    stateJurisdictionForKey(PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY)?.id
-  )
-    return no(
-      "No sourced effective-date and availability rule is compiled for this state's appropriations.",
-    );
-  const availableAt = addDays(enactment.resolvedAt, 90); // Explicit pinned prospective clause, not a generic default.
-  if (enactment.effectiveAt !== null && enactment.effectiveAt !== availableAt)
-    return no(
-      "The enacted effective date conflicts with this appropriation’s explicit clause.",
-    );
+  const operative = operativeDateInWorld(world, enactment);
+  if (!operative)
+    return no("This appropriation has no resolved operative date.");
+  const availableAt = operative.date;
   const endsAt = addDays(availableAt, 365);
   if (world.currentDate < availableAt)
     return no(`This appropriation takes effect on ${availableAt}.`);
@@ -110,11 +121,14 @@ export function resolveTransitFunding(
         (r) => r.id === other.measureId,
       )!;
       if (endingMeasure.jurisdictionId !== measure.jurisdictionId) continue;
-      if (repealing.effectiveAt === null)
+      // The same operative date every other reader of this law uses: its
+      // recorded date, or the game-default date its enactment carries.
+      const repealOperative = operativeDateInWorld(world, repealing);
+      if (!repealOperative)
         return no(
           "A recorded terminating authority has an unresolved operative date.",
         );
-      if (repealing.effectiveAt > world.currentDate) continue;
+      if (repealOperative.date > world.currentDate) continue;
       if (other.authorityMeasureId)
         return no(
           "The recorded authority change requires a supported adopted-term adapter.",
@@ -160,44 +174,64 @@ export function resolveTransitFunding(
       }
     }
   }
-  let draft;
-  try {
-    draft = compileBillDraft({
-      familyKey: lineage.familyKey,
-      variantKey: lineage.variantKey,
-      parameterValues: draftParameterValues(lineage),
-      scenarioKey: legislativeWorkKey(rulePackById(measure.rulePackId)),
-      jurisdictionId: measure.jurisdictionId,
-      rulePackId: measure.rulePackId,
-      designation: measure.designation,
-      filedOn: lineage.compiledAt,
-      predicateAuthority: authority,
-    });
-  } catch (e) {
-    return no((e as Error).message);
-  }
   const provisions = currentMeasureProvisions(world, measureId);
-  // Exact supported terms, no prose extraction or stale filed parameters. Changed terms require a new adapter.
+  // A state-wide bill a background lawmaker filed names the state's own
+  // game-profile transit program rather than the standing statute, so the
+  // terms are compared against the authority it could have been filed under.
+  const stateProfileAuthority =
+    lineage.variantKey === STATE_TRANSIT_VARIANT_KEY
+      ? stateTransitAutomaticLawContext(world, measure.jurisdictionId)
+          ?.predicateAuthority
+      : undefined;
+  const candidates = [
+    authority,
+    ...(stateProfileAuthority?.authorityKey === lineage.authorityKey
+      ? [stateProfileAuthority]
+      : []),
+  ];
+  let draft;
+  for (const candidate of candidates) {
+    try {
+      const compiled = compileBillDraft({
+        familyKey: lineage.familyKey,
+        variantKey: lineage.variantKey,
+        parameterValues: draftParameterValues(lineage),
+        scenarioKey: legislativeWorkKey(rulePackById(measure.rulePackId)),
+        jurisdictionId: measure.jurisdictionId,
+        rulePackId: measure.rulePackId,
+        designation: measure.designation,
+        filedOn: lineage.compiledAt,
+        predicateAuthority: candidate,
+      });
+      draft ??= compiled;
+      if (adoptedTermsMatch(compiled.clauses, provisions, measure)) {
+        draft = compiled;
+        break;
+      }
+    } catch (e) {
+      if (candidate === authority) return no((e as Error).message);
+    }
+  }
+  if (!draft) return no("The transit program authority is unavailable.");
+  const amountProvision = provisions.find(
+    (provision) => provision.provisionKey === "amount-provided",
+  );
+  const hasExplicitEffectIntents = provisions.some(
+    (provision) => provision.operativeEffect !== undefined,
+  );
   if (
-    provisions.length !== draft.clauses.length ||
-    draft.clauses.some(
-      (c) =>
-        !provisions.some(
-          (p) =>
-            p.provisionKey === c.provisionKey &&
-            p.text === c.text &&
-            p.fiscalExposureMinorUnits === c.fiscalExposureMinorUnits &&
-            p.applicationScope.jurisdictionId === measure.jurisdictionId &&
-            p.applicationScope.segmentKey === null,
-        ),
-    )
+    hasExplicitEffectIntents &&
+    amountProvision?.operativeEffect?.kind !== "public-program-appropriation"
   )
+    return no(
+      "The current transit amount clause does not carry an explicit supported appropriation effect.",
+    );
+  // Exact supported terms, no prose extraction or stale filed parameters. Changed terms require a new adapter.
+  if (!adoptedTermsMatch(draft.clauses, provisions, measure))
     return no(
       "The adopted transit terms differ from the supported configuration; implementation is unavailable.",
     );
-  const amount = provisions.find(
-    (p) => p.provisionKey === "amount-provided",
-  )?.fiscalExposureMinorUnits;
+  const amount = amountProvision?.fiscalExposureMinorUnits;
   const servicePeriod = draft.parameterValues["service-window"];
   if (
     amount === null ||
@@ -207,20 +241,65 @@ export function resolveTransitFunding(
     (servicePeriod.value !== "weekday" && servicePeriod.value !== "weekend")
   )
     return no("Transit amount or service period is unestablished.");
+  const profile = stateTransitServiceProfileForMeasure(world, measure);
+  const appropriations = (world.history.publicProgramRecords ?? []).filter(
+    (record) =>
+      record.kind === "appropriation" &&
+      record.sourceMeasureId === measureId &&
+      record.programKey === profile?.programKey,
+  );
+  const appropriation = appropriations[0];
+  if (
+    appropriations.length !== 1 ||
+    !appropriation ||
+    appropriation.kind !== "appropriation" ||
+    appropriation.amount.minorUnits !== amount ||
+    appropriation.availableFrom !== availableAt ||
+    appropriation.availableThrough > endsAt
+  )
+    return no("The transit program has no matching saved appropriation.");
+  if (world.currentDate > appropriation.availableThrough)
+    return no("The transit appropriation has expired.");
   return {
     kind: "available",
     mandate: {
       version: "transit-funding-v1",
       fundingId: enactment.id,
+      appropriationId: appropriation.id,
       measureId,
       jurisdictionId: measure.jurisdictionId,
       provisionIds: provisions.map((p) => p.id).sort(),
-      amount: money(amount, "USD"),
+      amount: appropriation.amount,
       availableAt,
-      endsAt,
+      endsAt: appropriation.availableThrough,
       administrativeEventId: enactment.outcomeEventId,
       programKey: TRANSIT_PROGRAM_KEY,
       serviceWindow: servicePeriod.value,
     },
   };
+}
+
+/** The adopted text is exactly the compiled text, clause for clause. */
+function adoptedTermsMatch(
+  clauses: readonly {
+    readonly provisionKey: string;
+    readonly text: string;
+    readonly fiscalExposureMinorUnits: number | null;
+  }[],
+  provisions: readonly LegislativeProvisionRecord[],
+  measure: { readonly jurisdictionId: EntityId },
+): boolean {
+  return (
+    provisions.length === clauses.length &&
+    clauses.every((c) =>
+      provisions.some(
+        (p) =>
+          p.provisionKey === c.provisionKey &&
+          p.text === c.text &&
+          p.fiscalExposureMinorUnits === c.fiscalExposureMinorUnits &&
+          p.applicationScope.jurisdictionId === measure.jurisdictionId &&
+          p.applicationScope.segmentKey === null,
+      ),
+    )
+  );
 }

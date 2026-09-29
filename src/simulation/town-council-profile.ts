@@ -11,6 +11,9 @@ import {
 } from "./legislature-rules";
 import { localGoverningBodyIdentity } from "./nationwide-world/local-governing-body-candidacy-packs";
 import { localGoverningBodyRules } from "./nationwide-world/local-governing-body-rules";
+import { municipioUnit } from "./nationwide-world/county-governing-body-rules";
+import { boardGoverningBodyRules } from "./nationwide-world/township-governing-body-rules";
+import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
 
 /**
  * A playable council for a town whose own charter the game has not read.
@@ -72,18 +75,55 @@ export function townCouncilProfilePackId(unit: GovernmentUnitIdentity): string {
   return `us-${unit.stateUsps.toLowerCase()}-town-council-profile-v1:${unit.id}`;
 }
 
+/**
+ * The body a profile council sits as: a town's council, or, for a place with
+ * no town government, the board of the town or township it lies in, or else
+ * its county's board (or a Puerto Rico municipio's municipal legislature), at
+ * the size the law or the estimate sets.
+ */
+function profileBody(unit: GovernmentUnitIdentity): {
+  readonly governmentName: string;
+  readonly bodyName: string;
+  readonly executiveTitle: string;
+  readonly seats: number;
+  readonly seatNote: string;
+} | null {
+  const identity = localGoverningBodyIdentity(unit);
+  const seats = localGoverningBodyRules(unit)?.seats;
+  if (identity && seats)
+    return {
+      governmentName: identity.governmentName,
+      bodyName: identity.bodyName,
+      executiveTitle: "Mayor",
+      seats: seats.value,
+      seatNote:
+        seats.basis === "read"
+          ? `The body seats ${seats.value} members, as the game's reading of this town records.`
+          : `The body seats ${seats.value} members, the typical size for a town of this kind in the ICMA survey.`,
+    };
+  const board = boardGoverningBodyRules(unit);
+  if (!board) return null;
+  return {
+    governmentName: governmentUnitDisplayName(unit),
+    bodyName: board.bodyName,
+    executiveTitle:
+      board.chiefTitle ??
+      (unit.unitType === "county" ? "County executive" : "Board chair"),
+    seats: board.seats,
+    seatNote:
+      board.basis === "estimated"
+        ? `The body seats ${board.seats} members, ESTIMATED FROM AVERAGE (${board.citation}).`
+        : `The body seats ${board.seats} members, as ${board.citation} sets.`,
+  };
+}
+
 export function townCouncilProfilePack(
   unit: GovernmentUnitIdentity,
 ): LegislativeRulePack | null {
-  const identity = localGoverningBodyIdentity(unit);
-  const seats = localGoverningBodyRules(unit)?.seats;
-  if (!identity || !seats) return null;
-  const seatSource = source(
-    "Seats",
-    seats.basis === "read"
-      ? `The body seats ${seats.value} members, as the game's reading of this town records.`
-      : `The body seats ${seats.value} members, the typical size for a town of this kind in the ICMA survey.`,
-  );
+  const identity = profileBody(unit);
+  if (!identity) return null;
+  const seats = { value: identity.seats };
+  const seatSource = source("Seats", identity.seatNote);
   return {
     packId: townCouncilProfilePackId(unit),
     jurisdictionKey: `US-${unit.stateUsps}`,
@@ -156,7 +196,7 @@ export function townCouncilProfilePack(
       note: "A town council sits as one chamber.",
     },
     executive: {
-      titleLabel: "Mayor",
+      titleLabel: identity.executiveTitle,
       presentmentRequired: knownRule(false, EXECUTIVE),
       actionWindowDaysInSession: notApplicableRule(
         "Nothing is presented to the mayor under this profile, so no period runs.",
@@ -195,7 +235,7 @@ export function townCouncilProfilePack(
     sources: [seatSource, PASSAGE, QUORUM, ORIGIN, EXECUTIVE, EFFECT],
     unresolvedGaps: [
       "This council has not been compiled from its town's own charter or ordinances. Only its name and seat count come from the game's research; its procedure is the game's own.",
-      "Committees, readings, public hearings, notice periods and the mayor's role are not modeled for this council.",
+      "Committees, readings, public hearings, notice periods and the mayor's role are not yet part of this council's procedure.",
     ],
   };
 }
@@ -205,7 +245,13 @@ export function townCouncilProfilePackById(
   packId: string,
 ): LegislativeRulePack | null {
   const matched = PACK_ID.exec(packId);
-  const unit = matched ? governmentUnit(matched[1]!) : null;
+  const id = matched?.[1] ?? null;
+  const unit = id
+    ? (governmentUnit(id) ??
+      (id.startsWith("municipio:")
+        ? municipioUnit(id.slice("municipio:".length))
+        : null))
+    : null;
   return unit && townCouncilProfilePackId(unit) === packId
     ? townCouncilProfilePack(unit)
     : null;

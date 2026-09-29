@@ -20,11 +20,13 @@ import type {
   LegislativeExchangeCharacter,
   LegislativeNegotiationDisposition,
   LegislativeNegotiationRecord,
+  LegislativeProvisionEffectIntent,
   LegislativeProvisionBeneficiary,
   LegislativeProvisionRecord,
   LegislativeQuestionIdentity,
   LegislativeVoteRecord,
   MetricScope,
+  PropositionAnswerRef,
   World,
 } from "./types";
 import { recordWorldEvent } from "./world";
@@ -66,6 +68,9 @@ export interface RecordFiledProvisionInput {
   readonly fiscalExposureLabel?: string | null;
   readonly fiscalExposureMinorUnits?: number | null;
   readonly fiscalPeriod?: "annual";
+  readonly operativeEffect?: LegislativeProvisionEffectIntent;
+  /** The catalog question this section answers, when it answers one. */
+  readonly answers?: PropositionAnswerRef;
 }
 
 export interface AdoptProvisionRevisionInput {
@@ -84,6 +89,10 @@ export interface AdoptProvisionRevisionInput {
   readonly fiscalExposureLabel?: string | null;
   readonly fiscalExposureMinorUnits?: number | null;
   readonly fiscalPeriod?: "annual";
+  /** Omit to clear any prior intent on the newly adopted revision. */
+  readonly operativeEffect?: LegislativeProvisionEffectIntent;
+  /** The catalog question this section answers, when it answers one. */
+  readonly answers?: PropositionAnswerRef;
 }
 
 /** Records a section of a measure as filed, before anyone has amended it. */
@@ -190,6 +199,24 @@ export function adoptProvisionRevisions(
     }
     sectionNumbers.add(input.sectionNumber);
     validateProvisionContent(world, input);
+    // What the chamber adopted is what was offered. An amendment that
+    // recorded its sections when it was put carries exactly those sections,
+    // answering the same questions the same way.
+    if (amendment.proposedSections) {
+      const offered = amendment.proposedSections.find(
+        (section) => section.provisionKey === input.provisionKey,
+      );
+      if (
+        !offered ||
+        offered.supersedesProvisionId !== input.supersedesProvisionId ||
+        offered.answers?.propositionId !== input.answers?.propositionId ||
+        offered.answers?.answer !== input.answers?.answer
+      ) {
+        throw new Error(
+          `Amendment ${amendment.stableKey} did not offer section '${input.provisionKey}' as written.`,
+        );
+      }
+    }
     if (input.supersedesProvisionId !== null) {
       const superseded = current.find(
         (record) => record.id === input.supersedesProvisionId,
@@ -1012,10 +1039,48 @@ function validateProvisionContent(
   if (exposure !== null && (!Number.isSafeInteger(exposure) || exposure < 0)) {
     throw new Error("Stated fiscal exposure must be a non-negative integer.");
   }
+  if (
+    input.operativeEffect?.kind === "tax-policy" &&
+    input.provisionKey !== "tax-levy"
+  ) {
+    throw new Error(
+      "A tax-policy effect must be attached to the tax-levy provision.",
+    );
+  }
+  if (
+    input.operativeEffect?.kind === "public-program-appropriation" &&
+    input.provisionKey !== "amount-provided" &&
+    !input.provisionKey.endsWith(":amount-provided")
+  ) {
+    throw new Error(
+      "A public-program appropriation effect must be attached to its amount-provided provision.",
+    );
+  }
+  if (
+    input.operativeEffect?.kind === "public-program-appropriation" &&
+    (exposure === null || exposure <= 0)
+  ) {
+    throw new Error(
+      "A public-program appropriation effect requires a positive stated amount.",
+    );
+  }
   if ((exposure === null) !== ((input.fiscalExposureLabel ?? null) === null)) {
     throw new Error(
       "A provision states its fiscal exposure both in words and as an amount, or not at all.",
     );
+  }
+  if (input.answers) assertAnswerRef(world, input.answers);
+}
+
+/** A section can only answer a question the world's catalog actually asks. */
+export function assertAnswerRef(world: World, ref: PropositionAnswerRef): void {
+  if (!world.policyCatalog.propositions[ref.propositionId]) {
+    throw new Error(
+      `A section answers a question the catalog does not hold: ${ref.propositionId}`,
+    );
+  }
+  if (ref.answer !== "yes" && ref.answer !== "no") {
+    throw new Error("A section answers a question yes or no.");
   }
 }
 
@@ -1095,6 +1160,9 @@ function appendProvision(world: World, input: AppendProvisionInput): World {
     applicationScope: { ...input.applicationScope },
     fiscalExposureLabel: input.fiscalExposureLabel ?? null,
     fiscalExposureMinorUnits: exposure,
+    ...(input.operativeEffect
+      ? { operativeEffect: { ...input.operativeEffect } }
+      : {}),
     ...(input.fiscalPeriod !== undefined
       ? { fiscalPeriod: input.fiscalPeriod }
       : {}),
@@ -1102,6 +1170,7 @@ function appendProvision(world: World, input: AppendProvisionInput): World {
     supersedesProvisionId: input.supersedesProvisionId,
     originAmendmentId: input.originAmendmentId,
     eventId: event.id,
+    ...(input.answers ? { answers: { ...input.answers } } : {}),
   };
   next = {
     ...next,
@@ -1420,28 +1489,52 @@ function laterRecordedVoteBy(
   world: World,
   commitment: LegislativeCommitmentRecord,
 ): LaterVote | null {
+  const vote = laterRecordedVoteOn(
+    world,
+    commitment.holderPersonId,
+    commitment.subject.question,
+    commitment.sequence,
+  );
+  return vote
+    ? { disposition: vote.disposition, questionLabel: vote.questionLabel }
+    : null;
+}
+
+/**
+ * The first yea or nay this person cast on exactly this question after a
+ * point in the record. Any undertaking about a vote, legislative or not, is
+ * answered by the same roll call.
+ */
+export function laterRecordedVoteOn(
+  world: World,
+  personId: EntityId,
+  question: LegislativeQuestionIdentity,
+  afterSequence: number,
+): {
+  readonly voteId: EntityId;
+  readonly disposition: "yea" | "nay";
+  readonly questionLabel: string;
+} | null {
   const votes = (world.history.legislativeVotes ?? [])
     .filter(
       (vote) =>
-        vote.sequence > commitment.sequence &&
-        legislativeQuestionAnswers(
-          commitment.subject.question,
-          questionPutByVote(world, vote),
-        ),
+        vote.sequence > afterSequence &&
+        legislativeQuestionAnswers(question, questionPutByVote(world, vote)),
     )
     .slice()
     .sort((a, b) => a.sequence - b.sequence);
   for (const vote of votes) {
     const disposition = vote.dispositions.find(
-      (record) => record.personId === commitment.holderPersonId,
+      (record) => record.personId === personId,
     );
     if (
       disposition &&
       (disposition.disposition === "yea" || disposition.disposition === "nay")
     ) {
       return {
+        voteId: vote.id,
         disposition: disposition.disposition,
-        questionLabel: questionInWords(commitment.subject.question),
+        questionLabel: questionInWords(question),
       };
     }
   }

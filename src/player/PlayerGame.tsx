@@ -86,6 +86,8 @@ import { PublicServicePanel } from "./politics/PublicServicePanel";
 import { NewsDesk } from "./news/NewsDesk";
 import "./controls/controls.css";
 import { PinToggle } from "./controls/PinToggle";
+import { PlaceConditionsPanel } from "./PlaceConditions";
+import { MoneyLawsPanel } from "./MoneyLaws";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
 import { issuesPlaceForSelection } from "../presentation/politics-government";
 import {
@@ -99,6 +101,7 @@ import { applyExecutivePlayTransition } from "../presentation/executive-entry";
 import { PublicInformationPanel } from "./PublicInformationPanel";
 import { projectPublicInformationPanel } from "../presentation/public-information-adapters";
 import { LifeStartTransition } from "./LifeStartTransition";
+import { createBackgroundSavePreparer } from "./background-save-preparation";
 import { VenueActivityPanel } from "./VenueActivityPanel";
 import { completedActivityHere } from "../presentation/scene-venues";
 import {
@@ -114,6 +117,7 @@ import { PressSourceDesk } from "./PressSourceDesk";
 import { RecallCardsPanel } from "./RecallCardsPanel";
 import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
 import { JudicialOfficeWork } from "./JudicialOfficeWork";
+import { LegalRecordPanel, SelfRecordTabs } from "./LegalRecord";
 import { judicialOfficeContexts } from "../simulation/judicial-office-work";
 import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
 import { GoverningBriefing } from "./GoverningBriefing";
@@ -144,6 +148,7 @@ import {
   BrowserSaveStore,
   SavesKeptByNewerBuildError,
   type BrowserWorldSummary,
+  type PreparedRecord,
   type QuarantinedSave,
 } from "../presentation/browser-world-repository";
 import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
@@ -185,7 +190,10 @@ import {
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
 import { SceneBackdrop } from "./SceneBackdrop";
-import { backdropForLocation } from "../presentation/place-backdrops";
+import {
+  backdropForLocation,
+  electionNightLocationKey,
+} from "../presentation/place-backdrops";
 import { placeBackdropPeople } from "../presentation/backdrop-people";
 import { projectBackdropSurfaces } from "../presentation/backdrop-surfaces";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
@@ -206,7 +214,7 @@ import {
   resolveSessionSeed,
 } from "../presentation/session-seed";
 import { readReplaySetup } from "../presentation/new-game-identity";
-import { personName } from "../simulation";
+import { ageOnDate, personName } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import {
   openLegislativeWork,
@@ -303,6 +311,7 @@ import {
 } from "./ShellWorkspaces";
 import { GuideWorkspace } from "./GuideWorkspace";
 import { GuideHelpProvider } from "./GuideTerm";
+import { GuideHighlighter } from "./GuideHighlighter";
 import { PlayerVersion } from "./PlayerVersion";
 import { ReturnToTitleAction } from "./ReturnToTitleAction";
 import {
@@ -313,6 +322,7 @@ import {
 import { HomePurchasePanel } from "./HomePurchasePanel";
 import { PersonalRoutinePanel } from "./PersonalRoutinePanel";
 import { ObserverClock, ObserverRecordWorkspace } from "./ObserverWorkspace";
+import { ObserverRunController } from "./observer-run-controller";
 import {
   observerSetup,
   openObserverWorld,
@@ -329,6 +339,11 @@ const PoliticalMap = lazy(() => import("../maps/PoliticalMap"));
  * pins change) instead of a fresh object on every render.
  */
 const mapFocusByPins = new WeakMap<readonly ShellPin[], PoliticalMapFocus>();
+/* The guide marks civic terms anywhere on the page while a life is open. */
+function documentBody(): Element | null {
+  return typeof document === "undefined" ? null : document.body;
+}
+
 function mapFocusForPins(pins: readonly ShellPin[]): PoliticalMapFocus {
   const cached = mapFocusByPins.get(pins);
   if (cached) return cached;
@@ -371,7 +386,6 @@ type Screen =
   | {
       readonly kind: "transition";
       readonly setup: NewGameSetup;
-      readonly controller: ReturnType<typeof createOpeningLifeController>;
     }
   | { readonly kind: "playing" };
 
@@ -423,6 +437,7 @@ export function PlayerGame() {
       // the ordinary save otherwise.
       return new BrowserSaveStore({
         databaseName: previewDatabaseName(previewMode),
+        prepareAutosave: createBackgroundSavePreparer(),
       });
     } catch {
       return null;
@@ -536,11 +551,13 @@ export function PlayerGame() {
   // could act, be told it was saved, leave, and lose it. Handing the store the
   // newest world and letting it coalesce and retry removes the whole class,
   // rather than making the gate cleverer.
+  const autosaveWorld = session?.world ?? null;
+  const autosaveId = session?.saveId ?? null;
   useEffect(() => {
-    if (!session || !store || session.saveId === null) return;
-    const saveId = session.saveId;
+    if (!autosaveWorld || !store || autosaveId === null) return;
+    const saveId = autosaveId;
     let watching = true;
-    void store.autosave(session.world, saveId).then((result) => {
+    void store.autosave(autosaveWorld, saveId).then((result) => {
       if (!watching) return;
       if (result.status === "saved") setProblem(null);
       else if (result.status === "failed") setProblem(result.reason);
@@ -566,7 +583,7 @@ export function PlayerGame() {
     return () => {
       watching = false;
     };
-  }, [session, store, refreshSaves]);
+  }, [autosaveWorld, autosaveId, store, refreshSaves]);
 
   // Closing the tab is a way of leaving, and it was the one nothing watched.
   useEffect(() => {
@@ -628,18 +645,22 @@ export function PlayerGame() {
   }, [screen.kind]);
 
   const saveInFlight = useRef(false);
-  async function keepThisWorld(shellState: StoredShellState): Promise<boolean> {
+  async function keepThisWorld(
+    shellState: StoredShellState,
+    observerCheckpoint?: World,
+  ): Promise<boolean> {
     if (!session || !store || saveInFlight.current) return false;
     saveInFlight.current = true;
     setNotice("Saving…");
+    const worldToSave = observerCheckpoint ?? session.world;
     // A slot of its own, so keeping this life never lands on top of another
     // save of the same world.
-    const saveId = session.saveId ?? store.newSaveId(session.world);
+    const saveId = session.saveId ?? store.newSaveId(worldToSave);
     try {
       // Persist presentation references first: a newly visible world slot must
       // already have its pins, even if the player reloads immediately afterward.
       const shellSaved = await shellStore.write(saveId, shellState);
-      const outcome = await store.save(session.world, saveId);
+      const outcome = await store.save(worldToSave, saveId);
       if (outcome.status !== "saved") {
         // A refused slot is not a broken browser, and saying so would send the
         // player looking for the wrong problem.
@@ -647,8 +668,13 @@ export function PlayerGame() {
         return false;
       }
       setSession((current) =>
-        current?.world.id === session.world.id
-          ? { ...current, unsavedSeed: null, saveId }
+        current?.world.id === worldToSave.id
+          ? {
+              ...current,
+              world: observerCheckpoint ?? current.world,
+              unsavedSeed: null,
+              saveId,
+            }
           : current,
       );
       setNotice(
@@ -926,7 +952,6 @@ export function PlayerGame() {
     setScreen({
       kind: "transition",
       setup,
-      controller: createOpeningLifeController(setup),
     });
   }
 
@@ -935,9 +960,18 @@ export function PlayerGame() {
       <AmbientTableau recent={saves[0] ?? null} still>
         {() => (
           <LifeStartTransition
-            onComplete={() => {
+            onPrepare={async (report, signal) => {
               try {
-                const game = screen.controller.finishTransition().game!;
+                report({ label: "Creating your life", completed: 0, total: 0 });
+                const game = (
+                  await createOpeningLifeController(
+                    screen.setup,
+                  ).finishTransitionWithProgress({
+                    signal,
+                    onProgress: report,
+                  })
+                ).game!;
+                if (signal.aborted) return;
                 startPlaying(
                   prepareCandidateOpeningWorld(
                     game.world,
@@ -949,6 +983,7 @@ export function PlayerGame() {
                   null,
                 );
               } catch (error) {
+                if (signal.aborted) return;
                 setProblem(
                   error instanceof Error
                     ? error.message
@@ -1065,7 +1100,7 @@ export function PlayerGame() {
             : current,
         );
       }}
-      onControlChange={(world, base, change) => {
+      onControlChange={(world, base, change, prepared) => {
         if (!worldGuard.current.admit(base)) {
           recordStaleWorldChange(base, world);
           return;
@@ -1079,6 +1114,7 @@ export function PlayerGame() {
                 openOrdinaryLife(world, change.personId),
               )
             : world;
+        if (prepared) store?.registerPreparedWorld(next, prepared);
         setNotice(null);
         setSession((current) => {
           if (!current) return current;
@@ -1090,8 +1126,9 @@ export function PlayerGame() {
       onKeep={keepThisWorld}
       onLeave={() => void leaveGame(true)}
       returnToTitleRequest={returnToTitleRequest}
-      onSaveAndLeave={async (shellState) => {
-        if (await keepThisWorld(shellState)) return leaveGame();
+      onSaveAndLeave={async (shellState, observerCheckpoint) => {
+        if (await keepThisWorld(shellState, observerCheckpoint))
+          return leaveGame();
         finishReturnToTitle("save-failed");
         return false;
       }}
@@ -1108,6 +1145,39 @@ export function PlayerGame() {
 /* -------------------------------------------------------------------------- */
 
 /* -------------------------------------------------------------------------- */
+
+/** The observer shell needs a date and scene, never a playable life choice. */
+function observerShellMoment(world: World, personId: EntityId): StoryMoment {
+  const person = world.people[personId];
+  if (!person) throw new Error("The watched world has no viewpoint resident.");
+  const age = ageOnDate(person.birthDate, world.currentDate);
+  return {
+    personName: personName(person),
+    age,
+    dateLabel: proseDate(world.currentDate),
+    placeName: null,
+    connective: {
+      sentences: [],
+      sources: [],
+      from: world.currentDate,
+      to: world.currentDate,
+      days: 0,
+      fromAge: age,
+      toAge: age,
+      opening: false,
+    },
+    scene: {
+      kind: "ordinary-stretch",
+      prose: "",
+      options: [],
+      withPeople: [],
+      presentPeople: [],
+    },
+    openThreads: [],
+    people: [],
+    formativeYears: false,
+  };
+}
 
 function PlayingScreen({
   session: storedSession,
@@ -1139,13 +1209,20 @@ function PlayingScreen({
       | { readonly kind: "continued"; readonly personId: EntityId }
       | { readonly kind: "observing" }
       | { readonly kind: "retired" },
+    prepared?: PreparedRecord,
   ) => void;
-  readonly onKeep: (shellState: StoredShellState) => Promise<boolean>;
+  readonly onKeep: (
+    shellState: StoredShellState,
+    observerCheckpoint?: World,
+  ) => Promise<boolean>;
   readonly onLeave: () => void;
   /** Set while a Return to title (Options or desktop hub) is in progress. */
   readonly returnToTitleRequest: { current: ReturnToTitleRequest | null };
   /** "Save first" during a Return to title: save, then go to the title. */
-  readonly onSaveAndLeave: (shellState: StoredShellState) => Promise<boolean>;
+  readonly onSaveAndLeave: (
+    shellState: StoredShellState,
+    observerCheckpoint?: World,
+  ) => Promise<boolean>;
   readonly onReturnToTitleCancelled: () => void;
   readonly savesUnavailable: boolean;
   /**
@@ -1167,6 +1244,17 @@ function PlayingScreen({
    * through the last life played; that lens is never committed or saved.
    */
   const observing = isObserving(storedSession.world);
+  const observerRunner = useMemo(
+    () => new ObserverRunController(storedSession.world),
+    [storedSession.world.id],
+  );
+  observerRunner.setCommit((next, base, prepared) =>
+    onControlChange(next, base, { kind: "observing" }, prepared),
+  );
+  useLayoutEffect(() => {
+    observerRunner.syncWorld(storedSession.world);
+  }, [observerRunner, storedSession.world]);
+  useEffect(() => () => observerRunner.dispose(), [observerRunner]);
   const readOnly = useMemo(
     () => shellReadOnly(storedSession.world),
     [storedSession.world],
@@ -1257,7 +1345,9 @@ function PlayingScreen({
    */
   const orientation = useWorldOrientation(session.world, session.personId);
   const showOrientation =
-    session.unsavedSeed !== null && !shell.progress.orientationSeen;
+    !observing &&
+    session.unsavedSeed !== null &&
+    !shell.progress.orientationSeen;
 
   const [assignment, setAssignment] = useState<LegislativeAssignment | null>(
     null,
@@ -1386,6 +1476,7 @@ function PlayingScreen({
     });
   }, [crisisStop, submitTime, session.world, session.personId, dispatch]);
   const passTargets = useMemo(() => {
+    if (observing) return undefined;
     const day = previewTimeCommand(session.world, session.personId, {
       kind: "days",
       days: 1,
@@ -1406,11 +1497,14 @@ function PlayingScreen({
             : null,
         }
       : undefined;
-  }, [session.world, session.personId]);
+  }, [observing, session.world, session.personId]);
 
   const projectedMoment = useMemo(
-    () => projectStoryMoment(session.world, session.personId),
-    [session.world, session.personId],
+    () =>
+      observing
+        ? observerShellMoment(session.world, session.personId)
+        : projectStoryMoment(session.world, session.personId),
+    [observing, session.world, session.personId],
   );
 
   const sceneVisuals = useMemo(
@@ -1519,7 +1613,12 @@ function PlayingScreen({
         : backdropForLocation(
             session.world,
             session.personId,
-            playScene.purpose === "home" ? "home" : playScene.locationKey,
+            // Election night wins over the home screen, never over an
+            // activity in progress.
+            (playScene.purpose !== "activity"
+              ? electionNightLocationKey(session.world, session.personId)
+              : null) ??
+              (playScene.purpose === "home" ? "home" : playScene.locationKey),
           ),
     [
       sceneHasPlate,
@@ -1626,14 +1725,36 @@ function PlayingScreen({
   );
 
   const renderSnapshots = useMemo(
-    () => savedRenderSnapshots(session.world, shell.personWardrobes),
-    [session.world, shell.personWardrobes],
+    () =>
+      savedRenderSnapshots(session.world, shell.personWardrobes, [
+        session.personId,
+        ...moment.scene.presentPeople.map((person) => person.personId),
+      ]),
+    [
+      session.world.people,
+      session.personId,
+      shell.personWardrobes,
+      moment.scene.presentPeople,
+    ],
   );
 
   const conversationSpeaker =
     conversation && conversation.addressee !== "everyone"
       ? conversation.addressee
       : null;
+  // The recorded turns of the open conversation: what faces react to.
+  const conversationTurns = useMemo(
+    () =>
+      conversation
+        ? conversationExchangeTurns(
+            session.world,
+            session.personId,
+            conversation.subject,
+            conversationSpeaker,
+          )
+        : [],
+    [conversation, conversationSpeaker, session.world, session.personId],
+  );
   const scenePeople = useMemo(
     () =>
       planLifeScenePeople(
@@ -1647,7 +1768,7 @@ function PlayingScreen({
           ...(artPreview ? { artPreview } : {}),
         },
         // The person the player is talking with answers; the rest listen.
-        { speakerId: conversationSpeaker },
+        { speakerId: conversationSpeaker, turns: conversationTurns },
       ),
     [
       session.world,
@@ -1657,6 +1778,7 @@ function PlayingScreen({
       renderSnapshots,
       artPreview,
       conversationSpeaker,
+      conversationTurns,
     ],
   );
 
@@ -1786,6 +1908,7 @@ function PlayingScreen({
       "politics",
       "transit",
       "tax",
+      "conditions",
       "candidacy",
     ];
     entries.push(
@@ -2063,6 +2186,7 @@ function PlayingScreen({
    * Asked once, and kept: the same answer drives the Talk control AND the
    * sentence beside it, so the two cannot disagree.
    */
+  const talkingInTheRoom = conversation !== null && view.surface === "scene";
   const inspectTalkEntry = selectedDossier
     ? openConversationWith(
         session.world,
@@ -2140,9 +2264,14 @@ function PlayingScreen({
     view.surface === "scene" &&
     (!observing || continuationOpen);
 
+  async function pauseAndKeep(shellState: StoredShellState): Promise<boolean> {
+    const checkpoint = observing ? await observerRunner.pause() : undefined;
+    return onKeep(shellState, checkpoint);
+  }
+
   const nativeSave = useRef(() => Promise.resolve(false));
   nativeSave.current = () =>
-    onKeep({
+    pauseAndKeep({
       pins: shell.pins,
       preferences: shell.preferences,
       journal: shell.legacyJournal,
@@ -2195,14 +2324,18 @@ function PlayingScreen({
     if (request) request.leaving = true;
     setSavingToTitle(true);
     try {
-      const saved = await onSaveAndLeave({
-        pins: shell.pins,
-        preferences: shell.preferences,
-        journal: shell.legacyJournal,
-        journals: shell.journals,
-        personWardrobes: shell.personWardrobes,
-        progress: shell.progress,
-      });
+      const checkpoint = observing ? await observerRunner.pause() : undefined;
+      const saved = await onSaveAndLeave(
+        {
+          pins: shell.pins,
+          preferences: shell.preferences,
+          journal: shell.legacyJournal,
+          journals: shell.journals,
+          personWardrobes: shell.personWardrobes,
+          progress: shell.progress,
+        },
+        checkpoint,
+      );
       if (!saved && request) {
         request.leaving = false;
         returnToTitleRequest.current = request;
@@ -2286,11 +2419,25 @@ function PlayingScreen({
 
   return (
     <TimeCommandProvider runner={timeRunner}>
+      <GuideHelpProvider
+        help={{
+          learnedKeys: shell.preferences.learnedGuideTermKeys,
+          setLearned: (semanticKey, learned) =>
+            dispatch({ type: "set-guide-term-learned", semanticKey, learned }),
+          openGuide: (semanticKey) => {
+            setGuideTermKey(semanticKey);
+            dispatch({ type: "go-to-surface", surface: "guide" });
+          },
+        }}
+      >
+        <GuideHighlighter root={documentBody} />
+      </GuideHelpProvider>
       <SavedAppearanceProvider value={shell.personWardrobes}>
         <SavedRenderSnapshotsProvider value={renderSnapshots}>
           <main
             className="life-shell"
             data-testid="play-screen"
+            data-observing={observing ? "true" : "false"}
             data-scene-id={sceneId ?? ""}
             data-scene-purpose={playScene.purpose}
           >
@@ -2581,6 +2728,11 @@ function PlayingScreen({
                 view={continuation}
                 observing={observing}
                 onCommit={(next, personId) => {
+                  if (
+                    observerRunner.getSnapshot().running ||
+                    observerRunner.getSnapshot().busy
+                  )
+                    return;
                   onControlChange(
                     next,
                     storedSession.world,
@@ -2610,12 +2762,12 @@ function PlayingScreen({
                 <strong>Observing</strong>
                 <span>Nobody is being played. You can look, not act.</span>
                 <ObserverClock
-                  world={storedSession.world}
-                  onAdvance={(next, base) =>
-                    onControlChange(next, base, { kind: "observing" })
-                  }
+                  runner={observerRunner}
                   onOpenRecord={() =>
-                    dispatch({ type: "go-to-surface", surface: "world-record" })
+                    dispatch({
+                      type: "go-to-surface",
+                      surface: "world-record",
+                    })
                   }
                 />
                 {continuation && !showContinuation ? (
@@ -2625,8 +2777,13 @@ function PlayingScreen({
                     className="ui-action ui-action--subtle"
                     data-testid="open-continuation"
                     onClick={() => {
-                      setContinuationOpen(true);
-                      dispatch({ type: "go-to-scene" });
+                      void observerRunner
+                        .pause()
+                        .then(() => {
+                          setContinuationOpen(true);
+                          dispatch({ type: "go-to-scene" });
+                        })
+                        .catch(() => undefined);
                     }}
                   >
                     Who could be played next
@@ -2730,9 +2887,13 @@ function PlayingScreen({
               ) : null}
               {/*
                 The recap and the morning note are for a life already under
-                way: neither opens over the first orientation tour.
+                way: neither opens over the first orientation tour. Nor do they
+                stand in the room while somebody is being spoken to there: the
+                conversation is the one surface in front of the people, and at
+                720 px tall a note beside it leaves the box no room for its
+                replies. Both come back, undismissed, when the talk ends.
               */}
-              {!showOrientation && dayRhythm.summary ? (
+              {!showOrientation && !talkingInTheRoom && dayRhythm.summary ? (
                 <WorldRecapPanel
                   summary={dayRhythm.summary}
                   onDismiss={(throughSequence, throughMoment) =>
@@ -2751,6 +2912,7 @@ function PlayingScreen({
                 />
               ) : null}
               {!showOrientation &&
+              !talkingInTheRoom &&
               !dayRhythm.summary &&
               dayRhythm.morningThought ? (
                 <MorningThoughtPanel
@@ -2814,7 +2976,7 @@ function PlayingScreen({
                     personWardrobes: shell.personWardrobes,
                     progress: shell.progress,
                   };
-                  void onKeep(shellState);
+                  void pauseAndKeep(shellState);
                 }}
                 onSaveAndLeave={() => void saveAndReturnToTitle()}
                 onLeave={leaveNow}
@@ -3094,7 +3256,14 @@ function renderWorkspace({
    */
   const politicsTabs = (
     active: PoliticsTab,
-    section?: "budget" | "transit" | "tax" | "overview" | "map" | "records",
+    section?:
+      | "budget"
+      | "conditions"
+      | "transit"
+      | "tax"
+      | "overview"
+      | "map"
+      | "records",
   ) => {
     const goTo = (tab: PoliticsTab) => {
       if (tab === "office")
@@ -3127,6 +3296,7 @@ function renderWorkspace({
       active === "issues"
         ? [
             { key: "budget", label: "Budget and constitution" },
+            { key: "conditions", label: "Conditions" },
             ...(access?.transit || section === "transit"
               ? [{ key: "transit", label: "Transit" }]
               : []),
@@ -3157,15 +3327,17 @@ function renderWorkspace({
           const surface =
             key === "budget"
               ? "politics"
-              : key === "records"
-                ? "municipal"
-                : key === "overview"
-                  ? "government"
-                  : key === "map"
-                    ? "government-map"
-                    : key === "transit"
-                      ? "transit"
-                      : "tax";
+              : key === "conditions"
+                ? "conditions"
+                : key === "records"
+                  ? "municipal"
+                  : key === "overview"
+                    ? "government"
+                    : key === "map"
+                      ? "government-map"
+                      : key === "transit"
+                        ? "transit"
+                        : "tax";
           dispatch({ type: "go-to-subroute", surface });
         }}
       />
@@ -3242,6 +3414,27 @@ function renderWorkspace({
         session.personId,
         dossier.personId,
       );
+      const fullDossier = (
+        <FullDossier
+          world={session.world}
+          playerId={session.personId}
+          dossier={dossier}
+          pinned={pinnedRef({ kind: "person", id: dossier.personId })}
+          onTogglePin={() =>
+            togglePin({ kind: "person", id: dossier.personId })
+          }
+          onTalk={() => talkTo(dossier.personId)}
+          {...(readOnly
+            ? {}
+            : { onContact: () => openContact(dossier.personId) })}
+          onMeet={() => dispatch({ type: "go-to-scene" })}
+          talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
+          onOpenLink={openEntity}
+          onOpenPerson={(personId) =>
+            openEntity({ kind: "person", id: personId })
+          }
+        />
+      );
       return frame(
         dossier.name,
         "person-workspace",
@@ -3255,25 +3448,21 @@ function renderWorkspace({
               dispatch({ type: "set-person-wardrobe", preference })
             }
           />
-          <FullDossier
-            world={session.world}
-            playerId={session.personId}
-            dossier={dossier}
-            pinned={pinnedRef({ kind: "person", id: dossier.personId })}
-            onTogglePin={() =>
-              togglePin({ kind: "person", id: dossier.personId })
-            }
-            onTalk={() => talkTo(dossier.personId)}
-            {...(readOnly
-              ? {}
-              : { onContact: () => openContact(dossier.personId) })}
-            onMeet={() => dispatch({ type: "go-to-scene" })}
-            talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
-            onOpenLink={openEntity}
-            onOpenPerson={(personId) =>
-              openEntity({ kind: "person", id: personId })
-            }
-          />
+          {dossier.personId === session.personId ? (
+            <SelfRecordTabs
+              record={fullDossier}
+              legal={
+                <LegalRecordPanel
+                  world={session.world}
+                  personId={session.personId}
+                  readOnly={readOnly}
+                  onWorldChange={onWorldChange}
+                />
+              }
+            />
+          ) : (
+            fullDossier
+          )}
         </>,
         "Record",
       );
@@ -3469,6 +3658,15 @@ function renderWorkspace({
             {...(view.section ? { section: view.section } : {})}
             onOpenPerson={openPerson}
           />
+          {view.section === "finances" && (
+            <MoneyLawsPanel
+              world={session.world}
+              personId={session.personId}
+              onOpenMeasure={(measureId) =>
+                openEntity({ kind: "measure", id: measureId })
+              }
+            />
+          )}
           <HomePurchasePanel
             world={session.world}
             personId={session.personId}
@@ -3636,6 +3834,9 @@ function renderWorkspace({
             })
           }
           onOpenPerson={openPerson}
+          onOpenMeasure={(measureId) =>
+            openEntity({ kind: "measure", id: measureId })
+          }
           around={
             <>
               <WorldOrientationEntry
@@ -3832,6 +4033,20 @@ function renderWorkspace({
               }}
             />
           )}
+        </>,
+        "Politics",
+      );
+
+    case "conditions":
+      return frame(
+        "How the state is doing",
+        "conditions-workspace",
+        <>
+          {politicsTabs("issues", "conditions")}
+          <PlaceConditionsPanel
+            world={session.world}
+            personId={session.personId}
+          />
         </>,
         "Politics",
       );
@@ -4412,10 +4627,9 @@ function renderWorkspace({
           : null;
       if (townSeat) {
         /*
-         * A seat on the town's own governing body. Where the game has read the
-         * town's government, its business is on the city's own screen; where
-         * it has not, the seat is real and the game says plainly what it does
-         * not yet know, rather than telling a winner they hold nothing.
+         * A seat on the town's own governing body. Sourced and disclosed game
+         * profiles both open the local screen; an otherwise unprofiled seat
+         * still reads as held instead of disappearing from the office panel.
          */
         sections.push({
           key: "office",

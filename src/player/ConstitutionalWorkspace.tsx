@@ -7,6 +7,8 @@ import {
   constitutionalMemberBody,
   constitutionalPosition,
   constitutionalProposalRuleAt,
+  constitutionalProposalRuleForWorld,
+  legislatureForState,
   proposeConstitutionalMeasure,
   recordConstitutionalPosition,
   assertWorldIntegrity,
@@ -14,6 +16,38 @@ import {
 import type { EntityId, World } from "../simulation";
 import { BudgetEconomyWorkspace } from "./BudgetEconomyWorkspace";
 import "./constitutional-workspace.css";
+
+/**
+ * The body the player sits in whose constitution this game can amend, and
+ * that constitution's key. The simulation's own rule lookup decides which
+ * places have a route (every state with a legislature, and Congress), so no
+ * place is named here. Pure.
+ */
+export function constitutionalSponsorRoute(
+  world: World,
+  personId: EntityId,
+): {
+  readonly jurisdictionId: EntityId;
+  readonly key: "US" | `US-${string}`;
+} | null {
+  return (
+    world.jurisdictionOrder.flatMap((id) => {
+      if (!constitutionalMemberBody(world, personId, id)) return [];
+      for (const processKind of [
+        "federal-amendment",
+        "state-amendment",
+      ] as const) {
+        const route = constitutionalProposalRuleForWorld(world, {
+          jurisdictionId: id,
+          processKind,
+        });
+        if (route.available)
+          return [{ jurisdictionId: id, key: route.jurisdictionKey }];
+      }
+      return [];
+    })[0] ?? null
+  );
+}
 
 export function ConstitutionalWorkspace({
   world,
@@ -35,12 +69,8 @@ export function ConstitutionalWorkspace({
   const measures = world.history.constitutionalMeasures ?? [];
   const measure = measures.find((m) => m.id === selected);
   const p = measure ? constitutionalPosition(world, measure.id) : null;
-  const ownJurisdiction = world.jurisdictionOrder.find(
-    (id) =>
-      ["california", "us-ca", "united-states", "us"].includes(
-        world.jurisdictions[id]!.slug,
-      ) && constitutionalMemberBody(world, personId, id),
-  );
+  const ownRoute = constitutionalSponsorRoute(world, personId);
+  const ownJurisdiction = ownRoute?.jurisdictionId ?? null;
   const commit = (next: () => World) => {
     try {
       if (!controlled)
@@ -54,12 +84,8 @@ export function ConstitutionalWorkspace({
     }
   };
   const sponsor = () => {
-    if (!ownJurisdiction || !draft || !fraction) return;
-    const key = ["us", "united-states"].includes(
-      world.jurisdictions[ownJurisdiction]!.slug,
-    )
-      ? "US"
-      : "US-CA";
+    if (!ownRoute || !ownJurisdiction || !draft || !fraction) return;
+    const key = ownRoute.key;
     const threshold = constitutionalProposalRuleAt(
       world,
       key,
@@ -83,7 +109,10 @@ export function ConstitutionalWorkspace({
         text: `Authored game proposal: For subsequent constitutional proposals, the required fraction of ${threshold.countedAgainst === "members-present" ? "members present, with a quorum" : "each house's membership"} shall be ${fraction.replaceAll("-", " ")}. Other ratification requirements remain unchanged.`,
         textVersion: "v1",
         sponsoringAuthority:
-          key === "US" ? "Congress" : "California Legislature",
+          key === "US"
+            ? "Congress"
+            : (legislatureForState(key)?.displayName ??
+              `${world.jurisdictions[ownJurisdiction]!.name} Legislature`),
         sponsorPersonId: personId,
         ratificationMode:
           key === "US" ? "state-legislatures" : "statewide-electors",
@@ -164,7 +193,7 @@ export function ConstitutionalWorkspace({
             </label>
           </fieldset>
           <fieldset>
-            <legend>California proposal kind</legend>
+            <legend>Proposal kind</legend>
             <label>
               <input
                 type="radio"

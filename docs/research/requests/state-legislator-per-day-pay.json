@@ -1,0 +1,22 @@
+{
+  "filedAt": "2026-09-29T01:50:00.000Z",
+  "impact": "shapes-design",
+  "lane": "state government",
+  "notes": [
+    "Filed at the CTO's 9:30 p.m. ruling on Build 15. Utah, Vermont and Virginia stay on the placeholder office salary until this is answered; New Mexico pays no salary."
+  ],
+  "priority": "P2",
+  "question": "How do the states that do not pay their legislators one annual salary pay them? For each such state (Utah, Vermont, Virginia by chamber, New Mexico, and any other that pays a per diem, a weekly or a per-day amount, or a different salary in each chamber), what is the amount, what does it count (a legislative day, a week in session, a session), and how many days does a legislature sit in a year, so that a year of pay can be worked out?",
+  "questionId": "state-legislator-per-day-pay",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Build 15 · Real Money Numbers",
+  "sourcesChecked": [
+    {
+      "source": "The Council of State Governments, The Book of the States 2023, table 3.9 (saved in data/source/book-of-the-states)",
+      "whatItDidNotSettle": "Gives one annual salary for 40 states; for Utah, Vermont, Virginia and New Mexico it gives a per-day, weekly, per-chamber amount or none, and not the days a legislature sits."
+    }
+  ],
+  "title": "What states pay legislators by the day, the week or the chamber",
+  "usableAnswer": "A table by state naming the pay unit, the amount, the number of paid days or weeks a year, and the resulting annual pay, each with a named public source (state statute or the legislature's own pay schedule) and its year.",
+  "whyItMatters": "Four states cannot be paid a legislator's published salary because no single annual figure exists; their legislators are paid the national placeholder instead."
+}

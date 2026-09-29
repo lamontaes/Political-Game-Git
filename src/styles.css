@@ -1,5 +1,5 @@
 :root {
-  color: #1c2522;
+  color: #32291b;
   background: #e8ece8;
   font-family:
     Inter,
@@ -63,15 +63,15 @@ button {
   border: 1px solid #183c34;
   border-radius: 0.42rem;
   padding: 0.68rem 0.95rem;
-  color: #fff;
-  background: #183c34;
+  color: #2e2619;
+  background: #eee5d5;
   font-weight: 750;
   cursor: pointer;
 }
 
 /* In play, controls.css gives unskinned buttons the game palette instead. */
 :where(body:not(.pg-game)) button:hover:not(:disabled) {
-  background: #24594d;
+  background: #eae0cd;
 }
 
 button:focus-visible,
@@ -88,7 +88,7 @@ button:disabled {
 
 code {
   overflow-wrap: anywhere;
-  color: #46534e;
+  color: #32291b;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.78em;
 }
@@ -150,7 +150,7 @@ h3 {
 .lede {
   max-width: 47rem;
   margin-bottom: 0;
-  color: #4a5752;
+  color: #32291b;
   font-size: 1.02rem;
   line-height: 1.55;
 }
@@ -161,7 +161,7 @@ h3 {
   border: 1px solid #88958f;
   border-radius: 999px;
   padding: 0.4rem 0.68rem;
-  color: #394641;
+  color: #32291b;
   background: rgba(255, 255, 255, 0.55);
   font-size: 0.76rem;
   font-weight: 750;
@@ -186,7 +186,7 @@ h3 {
   border-radius: 0.65rem;
   padding: 1rem;
   background: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0.35rem 1.5rem rgba(35, 47, 42, 0.06);
+  box-shadow: 0 0.35rem 1.5rem rgb(46 30 12 / 4%);
 }
 
 .control-title {
@@ -236,7 +236,7 @@ dt {
   border-right: 0;
   border-radius: 0.42rem 0 0 0.42rem;
   padding: 0.68rem 0.75rem;
-  color: #26332f;
+  color: #32291b;
   background: #fff;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
@@ -269,7 +269,7 @@ dt {
 
 .new-sim-button {
   border-color: #2b574c;
-  background: #2b574c;
+  background: #eadfcc;
   white-space: nowrap;
 }
 
@@ -340,7 +340,7 @@ dd {
   border-radius: 0.65rem;
   overflow: hidden;
   background: #b7c0ba;
-  box-shadow: 0 0.8rem 2rem rgba(35, 47, 42, 0.07);
+  box-shadow: 0 0.8rem 2rem rgb(46 30 12 / 5%);
 }
 
 .panel {
@@ -393,7 +393,7 @@ dd {
   min-height: 0;
   border-color: #c1c9c4;
   padding: 0.7rem;
-  color: #26332f;
+  color: #32291b;
   background: #fff;
   text-align: left;
 }
@@ -406,7 +406,7 @@ dd {
 .person-row[aria-current="true"] {
   border-color: #183c34;
   background: #e4eee9;
-  box-shadow: inset 3px 0 #183c34;
+  box-shadow: inset 3px 0 rgb(46 30 12 / 70%);
 }
 
 .person-row strong {
@@ -453,7 +453,7 @@ dd {
 
 .identity-grid dd,
 .generated-details dd {
-  color: #34413c;
+  color: #32291b;
   font-size: 0.8rem;
   line-height: 1.45;
 }
@@ -562,7 +562,7 @@ dd {
 }
 
 .event-meta time {
-  color: #3d4b45;
+  color: #32291b;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.72rem;
   font-weight: 750;
@@ -586,7 +586,7 @@ dd {
 }
 
 .event-card summary {
-  color: #4b5a54;
+  color: #32291b;
   font-size: 0.72rem;
   font-weight: 750;
   cursor: pointer;
@@ -599,7 +599,7 @@ dd {
 }
 
 .event-card details dd {
-  color: #4f5c57;
+  color: #32291b;
   font-size: 0.72rem;
   line-height: 1.45;
 }

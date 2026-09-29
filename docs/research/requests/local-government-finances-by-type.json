@@ -1,0 +1,20 @@
+{
+  "filedAt": "2026-09-29T01:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "public budgets",
+  "priority": "P1",
+  "question": "(1) For each state and D.C., from the Census Bureau's 2022 Census of Governments: Finance, local-government revenue by source and direct general expenditure by function, split by type of government: county, municipality, township, school district and special district. (2) The Individual Unit File (or the state-by-type tables) for the largest counties and cities, so a real county's or city's own totals can calibrate its budget. (3) The fiscal-year start of counties and of cities in each state, where the state sets one. Mark each figure with its table and line; UNKNOWN where not verified.",
+  "questionId": "local-government-finances-by-type",
+  "relatedQuestionIds": [],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "filed by Build 12 \u00b7 Public Budgets",
+  "sourcesChecked": [
+    {
+      "source": "data/research/money/state-local-finances-2022.json",
+      "whatItDidNotSettle": "Census Table 1 splits state from local but not local by type of government."
+    }
+  ],
+  "title": "How each state's local spending and revenue split between counties, cities and other local governments",
+  "usableAnswer": "One row per state and type of government with revenue by source and spending by function in dollars, the per-unit rows for the named counties and cities, and the fiscal-year start rule per state, each cited.",
+  "whyItMatters": "Every county and city budget in the game opens from its state's local totals times a PLACEHOLDER share per program (src/simulation/public-budgets/rules.ts, LOCAL_PROGRAM_SPLIT), and its revenue follows the state's local mix. The same PLACEHOLDER sets each local government's fiscal year to its state's and its opening balance and reserve to the state's shares."
+}

@@ -1,4 +1,5 @@
 import { makeIsoDate } from "../dates";
+import { eventIndexOf } from "../event-index";
 import type { IsoDate, World } from "../types";
 import {
   CHANGE_AUTHORED_IMPULSES_VERSION,
@@ -154,9 +155,7 @@ export function assertMacroEconomyIntegrity(world: World): void {
     throw new Error("Macro starting conditions are out of bounds.");
   }
 
-  const eventIds = new Map(
-    world.history.events.map((event) => [event.id, event]),
-  );
+  const eventIds = eventIndexOf(world.history.events);
   const startMonth = monthKeyOf(start.effectiveDate);
 
   const shockKeys = new Set<string>();
@@ -251,8 +250,32 @@ export function assertMacroEconomyIntegrity(world: World): void {
       month.policyRate.upperPct,
       ...Object.values(month.innovations),
       ...Object.values(month.impulses),
+      ...Object.values(month.drivers ?? {}),
     ]) {
       finite(value, `month value in ${month.key}`);
+    }
+    if (month.credit) {
+      const credit = month.credit;
+      for (const value of [
+        credit.debtRatio,
+        credit.debtRatePct,
+        credit.burden,
+        credit.chargeOffPct,
+        credit.bankCapitalRatio,
+        credit.lendingGrowthPct,
+        credit.tightness,
+        credit.priorUnemploymentPct,
+      ])
+        finite(value, `credit value in ${month.key}`);
+      if (
+        month.scope !== "national" ||
+        credit.debtRatio < 0 ||
+        credit.bankCapitalRatio < 0 ||
+        credit.chargeOffPct < 0
+      )
+        throw new Error(
+          `Macro month has an invalid credit record: ${month.key}`,
+        );
     }
     if (
       month.realOutputIndex <= 0 ||
@@ -304,4 +327,29 @@ export function assertMacroEconomyIntegrity(world: World): void {
     }
     if (release.value !== null) finite(release.value, "release value");
   }
+
+  const bank = store.centralBank;
+  if (bank) {
+    const seated = [
+      ...bank.seats.flatMap((seat) => (seat ? [seat] : [])),
+      ...(bank.presidents ?? []).flatMap((seat) => (seat ? [seat] : [])),
+    ];
+    if (
+      seated.some(
+        (seat) =>
+          !world.people[seat.personId] || !eventIds.has(seat.appointedEventId),
+      ) ||
+      new Set(seated.map((seat) => seat.personId)).size !== seated.length ||
+      (bank.chair !== null && !world.people[bank.chair.personId]) ||
+      bank.policyRate.lowerPct > bank.policyRate.upperPct ||
+      !Number.isFinite(bank.policyRate.lowerPct) ||
+      !Number.isFinite(bank.policyRate.upperPct) ||
+      (bank.policyRate.decisionEventId !== undefined &&
+        bank.policyRate.decisionEventId !== null &&
+        !eventIds.has(bank.policyRate.decisionEventId))
+    )
+      throw new Error("The central bank's record is invalid.");
+  }
+  if (store.cycle && store.cycle.eventId && !eventIds.has(store.cycle.eventId))
+    throw new Error("The business cycle cites an unknown event.");
 }

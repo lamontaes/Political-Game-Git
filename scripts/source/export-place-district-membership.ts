@@ -29,6 +29,12 @@ import {
 } from "../../src/source/domains/cd-place-relations/index";
 import type { CongressionalPlaceRelationRecord } from "../../src/source/domains/cd-place-relations/index";
 import { DISTRICT_IDENTITY_VINTAGE } from "../../src/districts/types";
+import {
+  loadEnactmentDates,
+  loadLines2026,
+  placeMembership,
+  statesByStartDate,
+} from "../maps/lines-2026-overlay";
 
 const ROOT = resolve(import.meta.dirname, "../..");
 const CORPUS = resolve(ROOT, "data/source/sld-place-relations/corpus.json");
@@ -80,6 +86,38 @@ for (const record of congressionalRecords) {
     );
 }
 
+// U.S. House lines for the 2026 elections: a dated set on top of the baseline
+// above. It holds only the states the Census republished for the 120th
+// Congress. Each state's lines start on the day that state's plan became law,
+// so states that share a day share a set, and a reader takes a state's set once
+// the game date reaches its `effectiveFrom`.
+const lines2026 = loadLines2026(ROOT);
+const enactment2026 = loadEnactmentDates(ROOT, lines2026);
+const datedSets = statesByStartDate(enactment2026).map(
+  ({ effectiveFrom, stateFips }) => {
+    const wholePlace: Record<string, string> = {};
+    const splitPlaceCandidates: Record<string, string[]> = {};
+    for (const fips of stateFips) {
+      const state = lines2026.states[fips];
+      if (!state) throw new Error(`No compiled lines for state ${fips}.`);
+      for (const [placeCode, lines] of Object.entries(state.places)) {
+        const geoid = `${fips}${placeCode}`;
+        const membership = placeMembership(fips, lines);
+        if (membership.whole) wholePlace[geoid] = membership.whole;
+        else splitPlaceCandidates[geoid] = [...membership.candidates];
+      }
+    }
+    return {
+      vintage: lines2026.vintage,
+      effectiveFrom,
+      asOf: lines2026.asOf,
+      stateFips,
+      wholePlace,
+      splitPlaceCandidates,
+    };
+  },
+);
+
 const payload = {
   relationVintage: SLD_PLACE_RELATION_VINTAGE,
   identityVintage: DISTRICT_IDENTITY_VINTAGE,
@@ -98,6 +136,7 @@ const payload = {
     splitPlaceCount: Object.keys(congressionalSplitCandidates).length,
     wholePlace: congressionalWholePlace,
     splitPlaceCandidates: congressionalSplitCandidates,
+    dated: datedSets,
   },
 };
 

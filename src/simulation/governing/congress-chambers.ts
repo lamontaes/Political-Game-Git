@@ -24,6 +24,8 @@ import type {
   LegislativeMeasureRecord,
   World,
 } from "../types";
+import { growingIndex, hasStableKey } from "../history-index";
+import type { GrowingIndexKind } from "../history-index";
 
 /**
  * Congress as a seated legislature: the real members the save already holds
@@ -162,9 +164,7 @@ export function congressBlueprint(world: World): LegislativeBlueprint {
 /**
  * The federal issue a Congress bill is about.
  *
- * TEMPORARY: read from the bill's stable key, which the intake writes as
- * `congress-intake/v1:<issue key>:…`. The Legislation thread is adding a
- * field for the policy question a bill answers; this switches to it then.
+ * Legacy fallback for saves that filed no catalog question on the measure.
  */
 export function federalIssueOfMeasure(
   measure: LegislativeMeasureRecord,
@@ -175,17 +175,35 @@ export function federalIssueOfMeasure(
   return match ? match[1]! : null;
 }
 
+/** The filed question is the subject; a stable-key naming convention is not. */
+function filedIssueOfMeasure(
+  world: World,
+  measure: LegislativeMeasureRecord,
+): string | null {
+  for (const propositionId of measure.propositionIds ?? []) {
+    const proposition = world.policyCatalog.propositions[propositionId];
+    const issue = proposition
+      ? world.policyCatalog.issues[proposition.issueId]
+      : null;
+    if (issue?.stableKey.startsWith("us-federal:"))
+      return issue.stableKey.slice("us-federal:".length);
+  }
+  // Older saves filed the subject only in the intake key.
+  return federalIssueOfMeasure(measure);
+}
+
 /**
  * The committee a Congress bill is referred to, by its policy field. Null
  * for a bill that is not a Congress bill or names no field, so the caller
  * keeps its own default.
  */
 export function congressReferralCommittee(
+  world: World,
   measure: LegislativeMeasureRecord,
   chamberKey: string,
 ): string | null {
   if (!isCongressMeasure(measure)) return null;
-  const issue = federalIssueOfMeasure(measure);
+  const issue = filedIssueOfMeasure(world, measure);
   const domain = issue?.split(".")[0];
   const entry = domain ? CONGRESS_COMMITTEE_BY_DOMAIN[domain] : undefined;
   if (!entry) return null;
@@ -203,19 +221,34 @@ export function measureCosponsors(
   world: World,
   measureId: EntityId,
 ): readonly EntityId[] {
-  const ids: EntityId[] = [];
-  for (const event of world.history.events) {
-    if (
-      event.type !== COSPONSOR_EVENT ||
-      !event.involvedEntityIds.includes(measureId)
-    )
-      continue;
-    for (const participant of event.participants)
-      if (participant.role === "agency:cosponsor")
-        ids.push(participant.personId);
-  }
-  return ids;
+  // A copy: the index's own list keeps growing with later events.
+  return [
+    ...(growingIndex(COSPONSORS_BY_MEASURE, world.history.events).get(
+      measureId,
+    ) ?? []),
+  ];
 }
+
+/**
+ * Each measure's cosponsors in the order they signed on, kept as the event
+ * list grows: every chamber vote asks, and reading every event each time cost
+ * more with each year a world ran.
+ */
+const COSPONSORS_BY_MEASURE: GrowingIndexKind<Map<EntityId, EntityId[]>> = {
+  create: () => new Map(),
+  add: (index, record) => {
+    const event = record as World["history"]["events"][number];
+    if (event.type !== COSPONSOR_EVENT) return;
+    const cosponsors = event.participants.flatMap((participant) =>
+      participant.role === "agency:cosponsor" ? [participant.personId] : [],
+    );
+    for (const measureId of new Set(event.involvedEntityIds)) {
+      const ids = index.get(measureId);
+      if (ids) ids.push(...cosponsors);
+      else index.set(measureId, [...cosponsors]);
+    }
+  },
+};
 
 /* ------------------------------------------------------------------ *
  * Sittings
@@ -247,8 +280,7 @@ export function nextCongressSitting(after: IsoDate): IsoDate {
 export function scheduleCongressSitting(world: World): World {
   const dueAt = nextCongressSitting(world.currentDate);
   const stableKey = `${CONGRESS_SITTING_VERSION}:${dueAt}`;
-  if (world.history.futureDueItems.some((due) => due.stableKey === stableKey))
-    return world;
+  if (hasStableKey(world.history.futureDueItems, stableKey)) return world;
   return scheduleFutureDueItem(ensureNationalElectionJurisdiction(world), {
     stableKey,
     dueAt,

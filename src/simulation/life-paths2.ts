@@ -61,6 +61,11 @@ import {
   recordResourceTransferOutcome,
   recordResourceFlowTerms,
 } from "./resources";
+import {
+  FEDERAL_MINIMUM_HOURLY_MINOR,
+  minimumWageSettingAt,
+} from "./minimum-wage";
+import { payAtHire, UNCOVERED_PAY_NOTE } from "./fairness-pay-law";
 import { resourcePositionAt, resourceFlowTermsAt } from "./resource-queries";
 import {
   createScheduledActivity,
@@ -427,6 +432,8 @@ function createPathWork(
     },
   });
   const work = next.history.workRelationships.at(-1)!;
+  const paid = shiftPayAtHire(world, personId, path, pay);
+  const provenance = { ...authored, note: `${authored.note}${paid.note}` };
   if (pay > 0)
     next = payerPersonId
       ? createResourceFlow(next, {
@@ -435,26 +442,55 @@ function createPathWork(
           recipient: { kind: "person", personId },
           startsAt: work.startedAt,
           initialStatus: expected ? "expected" : "active",
-          amount: money(pay, "USD"),
+          amount: money(paid.amountMinor, "USD"),
           cadenceKind: "work:completed-shift",
           basisKind: "compensation:work",
           basisReference: { kind: "work", workRelationshipId: work.id },
           restrictionKind: null,
           jurisdictionId: null,
-          provenance: authored,
+          provenance,
         })
       : createWorkCompensation(next, {
           stableKey: key(next, "pay"),
           workRelationshipId: work.id,
           startsAt: work.startedAt,
           initialStatus: expected ? "expected" : "active",
-          amount: money(pay, "USD"),
+          amount: money(paid.amountMinor, "USD"),
           cadenceKind: "work:completed-shift",
           restrictionKind: null,
           jurisdictionId: null,
-          provenance: authored,
+          provenance,
         });
   return next;
+}
+/**
+ * A paid path's pay for each shift under the fairness-law rule
+ * (`fairness-pay-law.ts`): a man partnered with a man whom no fairness law
+ * covers where he lives, hired today, is paid the shift's pay over 1.027,
+ * never below the minimum wage for the shift's length. The note says so, or
+ * is empty.
+ */
+export function shiftPayAtHire(
+  world: World,
+  personId: EntityId,
+  path: LifePathDefinition,
+  payMinor: number,
+): { readonly amountMinor: number; readonly note: string } {
+  const home = world.people[personId]?.homeJurisdictionId ?? null;
+  const hourly =
+    minimumWageSettingAt(world, home, world.currentDate)?.hourlyMinor ??
+    FEDERAL_MINIMUM_HOURLY_MINOR;
+  const paid = payAtHire(world, {
+    personId,
+    jobJurisdictionId: home,
+    date: world.currentDate,
+    amountMinor: payMinor,
+    floorMinor: (hourly * path.sessionMinutes) / 60,
+  });
+  return {
+    amountMinor: paid.amountMinor,
+    note: paid.belowRate ? ` Paid ${UNCOVERED_PAY_NOTE}.` : "",
+  };
 }
 function relationshipActor(world: World, id: EntityId): EntityId | undefined {
   return (
@@ -703,6 +739,61 @@ export function applyLifePathSessionCompletion(
     });
   }
   return next;
+}
+
+/**
+ * A completed shift is paid at least the minimum wage in force where the
+ * person lives on the day it was worked, for its length, when a law enacted in
+ * play set that floor and it is above the shift's terms. The rise is recorded
+ * as a change of the flow's pay terms that names the law, so later shifts are
+ * paid at it too; a law that lowers or repeals the floor cuts nobody's pay.
+ * The rate on file at the start sets nothing to raise to.
+ */
+function raiseShiftPayToMinimum(
+  world: World,
+  flow: World["history"]["resourceFlows"][number],
+  terms: NonNullable<ReturnType<typeof resourceFlowTermsAt>>,
+  worked: World["history"]["events"][number],
+): { world: World; terms: ReturnType<typeof money> } {
+  const unchanged = { world, terms: terms.amount };
+  if (flow.basisReference.kind !== "work" || flow.recipient.kind !== "person")
+    return unchanged;
+  const workId = flow.basisReference.workRelationshipId;
+  const path = pathForRelationship(world, workId);
+  if (!path || path.sessionPayMinor <= 0) return unchanged;
+  const setting = minimumWageSettingAt(
+    world,
+    world.people[flow.recipient.personId]?.homeJurisdictionId ?? null,
+    worked.occurredAt,
+  );
+  if (!setting || setting.measureId === null) return unchanged;
+  const floor = Math.round((setting.hourlyMinor * path.sessionMinutes) / 60);
+  if (floor <= terms.amount.minorUnits) return unchanged;
+  const amount = money(floor, terms.amount.currency);
+  const latest = resourceFlowTermsAt(world, flow.id);
+  if (!latest || latest.amount.minorUnits >= floor)
+    return { world, terms: amount };
+  const enactment = (world.history.legislativeEnactments ?? []).find(
+    (row) => row.measureId === setting.measureId,
+  );
+  const rate = `$${(setting.hourlyMinor / 100).toFixed(2)} an hour`;
+  const next = recordResourceFlowTerms(world, {
+    stableKey: `${flow.stableKey}:minimum-wage:${worked.occurredAt}`,
+    resourceFlowId: flow.id,
+    effectiveAt:
+      latest.effectiveAt > worked.occurredAt
+        ? latest.effectiveAt
+        : worked.occurredAt,
+    status: "active",
+    amount,
+    cadenceKind: latest.cadenceKind,
+    reason: `${setting.designation ?? "A law"} raised the ${setting.level === "local" ? "city" : setting.level} minimum wage to ${rate}.`,
+    provenance: enactment?.outcomeEventId
+      ? { kind: "simulated-event", eventId: enactment.outcomeEventId }
+      : authored,
+    supersedesTermsId: latest.id,
+  });
+  return { world: next, terms: amount };
 }
 
 export function performLifePathSession(
@@ -1000,14 +1091,16 @@ const LIFE_PATHS2_CORE_HANDLERS = createFutureTransitionHandlerRegistry(
           historySequenceExclusive: worked.sequence + 1,
         });
         if (!terms) throw new Error("Earned pay terms are missing.");
+        const raised = raiseShiftPayToMinimum(world, flow, terms, worked);
+        const paid = raised.terms;
         const funded =
           flow.recipient.kind === "person"
             ? ensureLifePathPersonalPosition(
-                world,
+                raised.world,
                 flow.recipient.personId,
-                terms.amount.currency,
+                paid.currency,
               )
-            : world;
+            : raised.world;
         const next = recordResourceTransferOutcome(funded, {
           stableKey: `${due.stableKey}:paid`,
           resourceFlowId: flow.id,
@@ -1015,8 +1108,8 @@ const LIFE_PATHS2_CORE_HANDLERS = createFutureTransitionHandlerRegistry(
           periodEndsAt: worked.occurredAt,
           occurredAt: world.currentDate,
           status: "completed",
-          attemptedAmount: terms.amount,
-          transferredAmount: terms.amount,
+          attemptedAmount: paid,
+          transferredAmount: paid,
           reasonKind: null,
           note: "Payment for the completed shift; advertised pay alone never posts money.",
           provenance: authored,

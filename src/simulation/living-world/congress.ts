@@ -1,6 +1,11 @@
 import { organizationParticipationStateAt } from "../life-queries";
 import { makeIsoDate } from "../dates";
-import { recordsByStringField } from "../history-index";
+import {
+  growingIndex,
+  recordsByStringField,
+  recordsWithFieldValue,
+  type GrowingIndexKind,
+} from "../history-index";
 import { personName } from "../people";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import {
@@ -12,11 +17,8 @@ import {
   type SeatOccupant,
   type SeatView,
 } from "./contract";
-import {
-  CONGRESS_SEAT_SOURCES,
-  congressSeats,
-  type CongressSeat,
-} from "./congress-seats";
+import { CONGRESS_SEAT_SOURCES, type CongressSeat } from "./congress-seats";
+import { congressSeatsIn } from "./statehood-seats";
 import { activePartyUnitsAt } from "./party-registry";
 import {
   CAUCUS_MEMBERSHIP_KIND,
@@ -169,30 +171,28 @@ function activeOrganization(
 }
 
 /** The person's in-term seat-roll record, if they hold a seat on `asOf`. */
-// History arrays are replaced on write, as in event-index.ts. One index serves
-// repeated party reads of the same saved world without changing as-of rules.
-const ROLL_EVENTS_BY_PERSON = new WeakMap<
-  readonly HistoricalEvent[],
+// Follows the event list as it grows: rebuilding this from every event on
+// each Congress sitting day grew with the save.
+const ROLL_EVENTS_BY_PERSON: GrowingIndexKind<
   Map<EntityId, HistoricalEvent[]>
->();
-
-function rollEventsByPerson(
-  events: readonly HistoricalEvent[],
-): Map<EntityId, HistoricalEvent[]> {
-  let indexed = ROLL_EVENTS_BY_PERSON.get(events);
-  if (indexed) return indexed;
-  indexed = new Map();
-  for (const event of events) {
-    if (event.type !== SEAT_TENURE_EVENT) continue;
+> = {
+  create: () => new Map(),
+  add: (indexed, entry) => {
+    const event = entry as HistoricalEvent;
+    if (event.type !== SEAT_TENURE_EVENT) return;
     for (const participant of event.participants) {
       if (participant.role !== "focus:subject") continue;
       const records = indexed.get(participant.personId) ?? [];
       records.push(event);
       indexed.set(participant.personId, records);
     }
-  }
-  ROLL_EVENTS_BY_PERSON.set(events, indexed);
-  return indexed;
+  },
+};
+
+function rollEventsByPerson(
+  events: readonly HistoricalEvent[],
+): Map<EntityId, HistoricalEvent[]> {
+  return growingIndex(ROLL_EVENTS_BY_PERSON, events);
 }
 
 function currentRollEvent(
@@ -257,9 +257,13 @@ export function projectCongress(
   if (!livingWorldEstablished(world)) return null;
   const asOf = readDate(world, options);
   const bySeat = new Map<string, HistoricalEvent>();
-  for (const event of world.history.events) {
+  // Read by type from an index: the latest record is the same whichever
+  // order the two kinds are read in, since no two share a sequence.
+  for (const event of [
+    ...recordsWithFieldValue(world.history.events, "type", SEAT_TENURE_EVENT),
+    ...recordsWithFieldValue(world.history.events, "type", SEAT_VACANCY_EVENT),
+  ]) {
     if (
-      (event.type !== SEAT_TENURE_EVENT && event.type !== SEAT_VACANCY_EVENT) ||
       !event.tags.includes(LIVING_WORLD_WRITER_VERSION) ||
       event.recordedAt > world.currentDate ||
       event.occurredAt > asOf
@@ -277,7 +281,7 @@ export function projectCongress(
       bySeat.set(seatKey, event);
   }
   const chamber = (chamberKey: ChamberKey): ChamberView => {
-    const seats = congressSeats()
+    const seats = congressSeatsIn(world, asOf)
       .filter((seat) => seat.chamberKey === chamberKey)
       .map((seat) => seatView(world, seat, bySeat.get(seat.seatKey), asOf));
     return {

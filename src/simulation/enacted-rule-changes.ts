@@ -14,8 +14,8 @@
  *
  * - an ordinary statute, through a rule-change provision filed on the measure
  *   before it is enacted (`fileRuleChangeProvision`), operative from the
- *   enactment's effective date, or the blanket default where the state's
- *   effective-date rule is not modeled;
+ *   enactment's effective date, else its state's effective-date rule, or the
+ *   blanket default where that rule does not date the act;
  * - a constitutional amendment carrying a `rule-field` delta
  *   (`ConstitutionalRuleDelta`), operative from its ratified operative date.
  *
@@ -32,11 +32,28 @@
 import { constitutionalPosition } from "./constitutional-process";
 import { addDays } from "./dates";
 import { createStableId } from "./ids";
+import {
+  stateStatuteOperativeAt,
+  statuteEffectiveDateEstimated,
+  type StatuteDateContext,
+} from "./governing/statute-effective-date";
+import { recordedSessionAdjournment } from "./governing/session-adjournments";
 import { requireMeasure } from "./legislation";
 import { lawLevelRank, type LawLevel } from "./law-hierarchy";
 import { rulePackById } from "./legislature-rule-packs";
+import { FEDERAL_COURTS_PROJECTION } from "./judiciary/generated/federal-courts";
 import type { MunicipalRecallDoctrine } from "./municipal-election-rules";
-import type { EntityId, IsoDate, World } from "./types";
+import {
+  describeElectionDateRule,
+  isElectionDateRule,
+  type ElectionDateRule,
+} from "./nominations/date-rules";
+import type {
+  EntityId,
+  IsoDate,
+  LegislativeEnactmentRecord,
+  World,
+} from "./types";
 
 /**
  * The rules a law in the game can change today, with the bounds a value must
@@ -109,7 +126,97 @@ export const AMENDABLE_RULE_FIELDS = {
     max: 100_000,
     family: "labor",
   },
+  /**
+   * How many judges a court has. The office key is the court's own id
+   * (`us-supreme-court`, `ca9`, `us-ky:highest_court`, `dc-court-of-appeals`).
+   * Congress sets the size of the federal courts; a state sets its own. Read
+   * by `judiciary/court-size-law.ts`, which opens new seats and retires only
+   * empty ones: a smaller court shrinks as judges leave, as in 1866. The
+   * bounds are game bounds; a real court has had from 1 to 15 or so seats.
+   */
+  "court.seats": { kind: "integer", min: 1, max: 99, family: "judiciary" },
+  /**
+   * How every state's U.S. senators are chosen. The office key is the Senate,
+   * `us-senate`. The Seventeenth Amendment (1913) has the people of each
+   * state elect them; before it, Article I, section 3 had each state's
+   * legislature choose. Only a federal constitutional amendment changes it.
+   * Read by `governing/senate-selection.ts`, which Congress turnover and
+   * Senate vacancies consult.
+   */
+  "senate.selection": {
+    kind: "choice",
+    options: ["popular-vote", "state-legislature"],
+    family: "senate",
+  },
+  /**
+   * What a state pays its governor, in whole dollars a year. The office key is
+   * the state's pay law, `us-xx-office-pay-law`. Read by office salaries
+   * (`office-pay.ts`), which pay the published salary until a law sets one.
+   */
+  "pay.governor.annualDollars": {
+    kind: "integer",
+    min: 0,
+    max: 10_000_000,
+    family: "pay",
+  },
+  /**
+   * What a state pays each member of its legislature, in whole dollars a year.
+   * One figure for both chambers: the salary tables the game holds give one.
+   * Office key `us-xx-office-pay-law`.
+   */
+  "pay.stateLegislator.annualDollars": {
+    kind: "integer",
+    min: 0,
+    max: 10_000_000,
+    family: "pay",
+  },
+  /**
+   * What a state pays a trial court judge, in whole dollars a year. Office key
+   * `us-xx-office-pay-law`. NOT MODELED: other courts; the game records no
+   * court level yet.
+   */
+  "pay.trialJudge.annualDollars": {
+    kind: "integer",
+    min: 0,
+    max: 10_000_000,
+    family: "pay",
+  },
+  /**
+   * The day a state's parties hold their nominating primary, as an
+   * `ElectionDateRule`. The office key is the state's election law,
+   * `us-xx-election-law`. Read by the nomination stage
+   * (`nominations/nomination-rules.ts`) for every partisan office it runs.
+   */
+  "nomination.primary.dateRule": { kind: "date-rule", family: "election" },
+  /**
+   * How a state's parties choose their general-election candidates: each
+   * party's own primary, an all-party primary that sends the top two or four
+   * on, or an all-party primary a majority wins outright. Office key
+   * `us-xx-election-law`.
+   */
+  "nomination.method": {
+    kind: "choice",
+    options: [
+      "party-primary",
+      "top-two",
+      "top-four",
+      "all-party-majority",
+    ] satisfies readonly NominationMethodChoice[],
+    family: "election",
+  },
 } as const;
+
+/** The office key the rule for choosing senators is recorded under. */
+export const SENATE_SELECTION_OFFICE_KEY = "us-senate";
+
+/** The nomination methods a law can choose among. */
+export type NominationMethodChoice =
+  "party-primary" | "top-two" | "top-four" | "all-party-majority";
+
+/** The office key a state's election law is recorded under. */
+export function electionLawOfficeKey(stateUsps: string): string {
+  return `us-${stateUsps.toLowerCase()}-election-law`;
+}
 
 /** The office key a state's law on its towns is recorded under. */
 export function municipalLawOfficeKey(stateUsps: string): string {
@@ -119,6 +226,11 @@ export function municipalLawOfficeKey(stateUsps: string): string {
 /** The office key a state's labor law is recorded under. */
 export function laborLawOfficeKey(stateUsps: string): string {
   return `us-${stateUsps.toLowerCase()}-labor-law`;
+}
+
+/** The office key a state's law on what its officials are paid is recorded under. */
+export function officePayLawOfficeKey(stateUsps: string): string {
+  return `us-${stateUsps.toLowerCase()}-office-pay-law`;
 }
 
 /** A term limit as a law states it; null in any part means the law is silent on it. */
@@ -132,7 +244,8 @@ export interface TermLimitRule {
  * A whole number for most rules; a term limit or null ("no limit") for one;
  * one of a fixed set of named choices for a choice rule.
  */
-export type RuleChangeValue = number | TermLimitRule | string | null;
+export type RuleChangeValue =
+  number | TermLimitRule | ElectionDateRule | string | null;
 
 /**
  * Whom a change reaches, as the law says. Null in either part means the law
@@ -184,6 +297,13 @@ const AMENDABLE_RULE_FIELD_LABELS: Readonly<
   "executive.term.limit": "the chief executive's term limit",
   "municipal.recall.doctrine": "how towns' voters may recall an official",
   "labor.minimumWage.hourlyCents": "state minimum wage",
+  "court.seats": "the number of judges on the court",
+  "senate.selection": "how each state's U.S. senators are chosen",
+  "pay.governor.annualDollars": "the governor's salary",
+  "pay.stateLegislator.annualDollars": "a state legislator's salary",
+  "pay.trialJudge.annualDollars": "a trial court judge's salary",
+  "nomination.primary.dateRule": "the day of the party primary",
+  "nomination.method": "how parties choose their candidates",
 };
 
 const CHOICE_WORDS: Readonly<Record<string, string>> = {
@@ -195,6 +315,13 @@ const CHOICE_WORDS: Readonly<Record<string, string>> = {
   "judicial-cause-removal-trial":
     "removal by a court for cause, with no recall vote",
   prohibited: "no recall of town officials",
+  "popular-vote": "election by the people of each state",
+  "state-legislature": "election by each state's legislature",
+  "party-primary": "a primary for each party",
+  "top-two": "one primary for all candidates, with the top two going on",
+  "top-four": "one primary for all candidates, with the top four going on",
+  "all-party-majority":
+    "one primary for all candidates, won outright by a majority",
 };
 
 /** Plain words for a changed value, for a player-facing sentence. */
@@ -204,9 +331,12 @@ export function describeRuleChangeValue(
 ): string {
   if (field === "labor.minimumWage.hourlyCents" && typeof value === "number")
     return `$${(value / 100).toFixed(2)} an hour`;
+  if (field?.startsWith("pay.") && typeof value === "number")
+    return `$${value.toLocaleString("en-US")} a year`;
   if (value === null) return "no limit";
   if (typeof value === "number") return String(value);
   if (typeof value === "string") return CHOICE_WORDS[value] ?? value;
+  if (isElectionDateRule(value)) return describeElectionDateRule(value);
   const parts = [
     value.maxConsecutiveTerms === null
       ? null
@@ -226,13 +356,50 @@ export function amendableRuleFieldLabel(field: AmendableRuleField): string {
   return AMENDABLE_RULE_FIELD_LABELS[field];
 }
 
+/** Whether the date the state's effective-date rule gives an act enacted on
+ * `enactedAt` was read or rests on an estimate (the rule, or the session end
+ * it counts from). */
+export function stateRuleBasis(
+  jurisdictionKey: string,
+  enactedAt: IsoDate,
+  context: StatuteDateContext = {},
+): "state-rule" | "estimated-state-rule" {
+  return statuteEffectiveDateEstimated(jurisdictionKey, enactedAt, context)
+    ? "estimated-state-rule"
+    : "state-rule";
+}
+
 /**
- * The blanket effective date for a statute whose state's effective-date rule is
- * not modeled: ninety days after the act is recorded. Ninety days is the most
+ * The blanket effective date for a statute whose state's effective-date rule
+ * does not date it, such as an act of a special session
+ * (`governing/statute-effective-date.ts`): ninety days after the act is recorded. Ninety days is the most
  * common default among the states the game has read (Alaska, Missouri, Ohio);
  * it is a game profile, not a claim about any other state's law.
  */
 export const STATUTE_EFFECTIVE_DEFAULT_DAYS = 90;
+
+/**
+ * The dates an act's record carries that a state's effective-date rule may
+ * count from: the final passage its enactment recorded, and the day its
+ * legislature's leaders adjourned the session, where they did.
+ */
+export function enactmentStatuteDateContext(
+  world: World,
+  enactment: LegislativeEnactmentRecord,
+): StatuteDateContext {
+  return {
+    finalPassageAt: () => enactment.finalPassageAt ?? null,
+    sessionEnds: (year) => {
+      const measure = (world.history.legislativeMeasures ?? []).find(
+        (row) => row.id === enactment.measureId,
+      );
+      const adjourned = measure
+        ? recordedSessionAdjournment(world, measure.rulePackId, year)
+        : null;
+      return adjourned ? [adjourned.adjournedOn] : null;
+    },
+  };
+}
 
 export function isAmendableRuleField(
   field: string,
@@ -268,10 +435,12 @@ export interface EnactedRuleChange {
   readonly applicability: RuleChangeApplicability;
   readonly operativeAt: IsoDate;
   /**
-   * `enacted-date` when the law's own record dates it; `game-default` when the
-   * state's effective-date rule is not modeled and the blanket rule applied.
+   * `enacted-date` when the law's own record dates it; `state-rule` when the
+   * state's own effective-date rule dates it; `game-default` when that rule is
+   * not researched and the blanket rule applied.
    */
-  readonly operativeBasis: "enacted-date" | "game-default";
+  readonly operativeBasis:
+    "enacted-date" | "state-rule" | "estimated-state-rule" | "game-default";
   readonly instrument: "statute" | "constitutional-amendment";
   /** Where the law ranks; see `law-hierarchy.ts`. */
   readonly level: LawLevel;
@@ -320,6 +489,10 @@ export function assertAmendableRuleValue(
         `${field} must be a whole number from ${spec.min} to ${spec.max}.`,
       );
     }
+  } else if (spec.kind === "date-rule") {
+    if (!isElectionDateRule(value) || value.kind === "days-after-primary") {
+      throw new Error(`${field} must be a date rule the game can read.`);
+    }
   } else if (spec.kind === "choice") {
     if (
       typeof value !== "string" ||
@@ -332,6 +505,7 @@ export function assertAmendableRuleValue(
       typeof value === "object" ? Object.keys(value).sort().join(",") : "";
     if (
       typeof value !== "object" ||
+      !("maxConsecutiveTerms" in value) ||
       keys !== "lookbackYears,maxConsecutiveTerms,maxLifetimeTerms" ||
       !wholeOrNull(value.maxConsecutiveTerms, 1) ||
       !wholeOrNull(value.maxLifetimeTerms, 1) ||
@@ -375,6 +549,17 @@ function officeBelongsToState(
   rulePackId: string | null,
 ): boolean {
   const lower = stateUsps.toLowerCase();
+  if (AMENDABLE_RULE_FIELDS[field].family === "judiciary") {
+    // Congress reaches the federal courts and nothing else; a state reaches
+    // only its own courts.
+    if (stateUsps === FEDERAL_JURISDICTION_KEY)
+      return FEDERAL_COURT_IDS.has(officeKey);
+    return (
+      officeKey.startsWith(`us-${lower}:`) || officeKey.startsWith(`${lower}-`)
+    );
+  }
+  // No state's own law reaches how the Senate is chosen.
+  if (AMENDABLE_RULE_FIELDS[field].family === "senate") return false;
   if (AMENDABLE_RULE_FIELDS[field].family === "legislature" && rulePackId) {
     // A statute names a chamber its own legislature actually has.
     const [packId, chamberKey] = officeKey.split(":");
@@ -393,9 +578,37 @@ function officeBelongsToState(
   );
 }
 
-function stateUspsForPack(rulePackId: string): string | null {
+function stateUspsForPack(
+  rulePackId: string,
+  field?: AmendableRuleField,
+): string | null {
   const key = rulePackById(rulePackId).jurisdictionKey;
+  // A Congress bill can change a rule of the federal government's own; the
+  // only such rule routed here is the size of a federal court.
+  if (
+    key === FEDERAL_JURISDICTION_KEY &&
+    field !== undefined &&
+    AMENDABLE_RULE_FIELDS[field].family === "judiciary"
+  )
+    return FEDERAL_JURISDICTION_KEY;
   return /^US-[A-Z]{2}$/.test(key) ? key.slice(3) : null;
+}
+
+/** Every federal court a Congress bill can resize. */
+const FEDERAL_COURT_IDS: ReadonlySet<string> = new Set([
+  "us-supreme-court",
+  ...FEDERAL_COURTS_PROJECTION.map((court) => court.courtId),
+]);
+
+/**
+ * Whether a statute may change this court's size, by the route the court's
+ * rules record. A court whose size its constitution fixes changes only by
+ * constitutional amendment; an unknown route does not block (it is recorded
+ * with the change, and the court's writer applies it).
+ */
+function statuteMayResizeCourt(world: World, courtId: string): boolean {
+  const route = world.judiciary?.courts[courtId]?.rules.amendmentRoute;
+  return !(route?.state === "known" && route.value === "constitution");
 }
 
 /**
@@ -442,7 +655,11 @@ export function fileRuleChangeProvision(
     input.officeKey,
     input.applicability,
   );
-  const stateUsps = stateUspsForPack(measure.rulePackId);
+  if (AMENDABLE_RULE_FIELDS[input.field].family === "senate")
+    throw new Error(
+      "How senators are chosen is set by the Seventeenth Amendment; only an amendment to the U.S. Constitution can change it.",
+    );
+  const stateUsps = stateUspsForPack(measure.rulePackId, input.field);
   if (!stateUsps) {
     // Local governments change these rules by charter, which is not routed
     // here yet; say so instead of recording a clause that could never act.
@@ -460,6 +677,14 @@ export function fileRuleChangeProvision(
   ) {
     throw new Error(
       `A ${stateUsps} bill can only change rules for ${stateUsps}'s own offices.`,
+    );
+  }
+  if (
+    input.field === "court.seats" &&
+    !statuteMayResizeCourt(world, input.officeKey)
+  ) {
+    throw new Error(
+      "This court's size is set by its constitution; only a constitutional amendment can change it.",
     );
   }
   if (firstFloorVoteSequence(world, measure.id) !== null) {
@@ -516,25 +741,46 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       (row) => row.measureId === provision.measureId,
     );
     if (!enactment || enactment.outcome !== "enacted") continue;
-    // NOT MODELED: a state's own default effective-date rule. The rule packs
-    // hold it as prose, nothing computes a date from it, and no caller in play
-    // passes one, so every enactment carries a null effective date. A null
-    // date is not "effective now". Blanket rule meanwhile: the change operates
-    // STATUTE_EFFECTIVE_DEFAULT_DAYS after the act was recorded, and says so.
+    // No caller in play passes an effective date, so an enactment's own date
+    // is usually null, and a null date is not "effective now". The state's
+    // own effective-date rule dates it where that rule is researched
+    // (`statute-effective-date.ts`). Blanket rule elsewhere: the change
+    // operates STATUTE_EFFECTIVE_DEFAULT_DAYS after the act was recorded, and
+    // says so.
     const explicit = enactment.effectiveAt;
+    const federal = provision.stateUsps === FEDERAL_JURISDICTION_KEY;
+    const stateRuleAt =
+      explicit || federal
+        ? null
+        : stateStatuteOperativeAt(
+            `US-${provision.stateUsps}`,
+            enactment.resolvedAt,
+            enactmentStatuteDateContext(world, enactment),
+          );
     changes.push({
       stateUsps: provision.stateUsps,
-      jurisdictionKey: `US-${provision.stateUsps}`,
+      jurisdictionKey: federal
+        ? FEDERAL_JURISDICTION_KEY
+        : `US-${provision.stateUsps}`,
       officeKey: provision.officeKey,
       field: provision.field,
       value: structuredClone(provision.value),
       applicability: { ...(provision.applicability ?? SILENT) },
       operativeAt:
         explicit ??
+        stateRuleAt ??
         addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS),
-      operativeBasis: explicit ? "enacted-date" : "game-default",
+      operativeBasis: explicit
+        ? "enacted-date"
+        : stateRuleAt
+          ? stateRuleBasis(
+              `US-${provision.stateUsps}`,
+              enactment.resolvedAt,
+              enactmentStatuteDateContext(world, enactment),
+            )
+          : "game-default",
       instrument: "statute",
-      level: "state-statute",
+      level: federal ? "federal-statute" : "state-statute",
       measureId: provision.measureId,
       designation:
         enactment.actDesignation ??
@@ -711,7 +957,7 @@ export function assertRuleChangeProvisionIntegrity(
       row.applicability,
     );
     if (
-      stateUspsForPack(measure.rulePackId) !== row.stateUsps ||
+      stateUspsForPack(measure.rulePackId, row.field) !== row.stateUsps ||
       !officeBelongsToState(
         row.field,
         row.officeKey,
@@ -752,6 +998,33 @@ export function assertConstitutionalRuleFieldDelta(
   },
 ): void {
   if (jurisdictionKey === FEDERAL_JURISDICTION_KEY) {
+    // An amendment may fix a federal court's size in the Constitution itself,
+    // as the "Keep Nine" proposals would.
+    if (delta.field === "court.seats") {
+      assertAmendableRuleValue(
+        delta.field,
+        delta.value,
+        delta.officeKey,
+        delta.applicability,
+      );
+      if (!FEDERAL_COURT_IDS.has(delta.officeKey))
+        throw new Error("The amendment names a court that is not federal.");
+      return;
+    }
+    // An amendment may return the choice of senators to the legislatures,
+    // as Article I, section 3 had it before 1913, or restore election by the
+    // people.
+    if (delta.field === "senate.selection") {
+      assertAmendableRuleValue(
+        delta.field,
+        delta.value,
+        delta.officeKey,
+        delta.applicability,
+      );
+      if (delta.officeKey !== SENATE_SELECTION_OFFICE_KEY)
+        throw new Error("How senators are chosen is a rule of the Senate.");
+      return;
+    }
     // An Article V amendment reaches the national offices only. NOT MODELED:
     // any other federal rule (House size, Senate terms, qualifications).
     if (

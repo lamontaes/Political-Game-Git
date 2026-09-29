@@ -30,7 +30,8 @@
  * is given its jobs when it is written out, never before.
  */
 
-import { ageOnDate, makeIsoDate } from "../dates";
+import { jailTermOn } from "../justice/jail-terms";
+import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
 import { createOrganization, createWorkRelationships } from "../life";
 import type { CreateWorkRelationshipInput } from "../life";
@@ -43,6 +44,7 @@ import {
 import { drawCanonicalNameForGender } from "../people";
 import { nameCorpusVersionForWorld } from "../place-name-corpus";
 import { SeededRng } from "../rng";
+import { townBusinessHasRoomToHire } from "./town-business-books";
 import type {
   EntityId,
   IsoDate,
@@ -51,6 +53,7 @@ import type {
   ScheduleRigidity,
   WorkAuthority,
   WorkRelationshipKind,
+  WorkRoleRecord,
   World,
 } from "../types";
 import {
@@ -215,9 +218,166 @@ export interface Role {
 interface NameContext {
   readonly town: string;
   readonly state: string;
+  /** Its founder's family name, or a family of the town's. */
   readonly family: string;
   /** The county government's name, such as "Humphreys County". */
   readonly county: string;
+  /** The street it stands on. */
+  readonly street: string;
+}
+
+/**
+ * GAME ASSUMPTION: streets a business may be named for, among the most
+ * common street names in American towns. The game has no street map yet.
+ */
+const TOWN_STREETS = [
+  "Main Street",
+  "Oak Street",
+  "Maple Avenue",
+  "Pine Street",
+  "Cedar Street",
+  "Elm Street",
+  "Park Avenue",
+  "Washington Street",
+  "Lake Street",
+  "Hill Street",
+  "Church Street",
+  "Mill Street",
+  "Depot Street",
+  "Front Street",
+  "Second Street",
+  "Railroad Avenue",
+] as const;
+
+/**
+ * Other names each kind of employer goes by, beside its own `name`: for
+ * its founder or a family of the town, for its street or county, or a
+ * plain trade name. One is chosen when the employer is written, so a town's
+ * inn, bank and clinic do not all carry the town's name.
+ */
+const MORE_NAMES: Readonly<
+  Record<string, readonly ((context: NameContext) => string)[]>
+> = {
+  farm: [
+    ({ family }) => `${family} Farms`,
+    ({ family }) => `${family} Brothers Farm`,
+  ],
+  quarry: [
+    ({ county }) => `${county} Aggregates`,
+    ({ family }) => `${family} Sand and Gravel`,
+  ],
+  utility: [
+    ({ county }) => `${county} Rural Electric Cooperative`,
+    ({ town }) => `${town} Municipal Utilities`,
+  ],
+  construction: [
+    ({ family }) => `${family} Builders`,
+    ({ county }) => `${county} Contracting`,
+    ({ family }) => `${family} Roofing and Remodeling`,
+  ],
+  manufacturing: [
+    ({ county }) => `${county} Machine Works`,
+    ({ family }) => `${family} Tool and Die`,
+    ({ family }) => `${family} Fabrication`,
+  ],
+  wholesale: [
+    ({ county }) => `${county} Farm Supply`,
+    ({ town }) => `${town} Feed and Grain`,
+    ({ family }) => `${family} Distributing`,
+  ],
+  retail: [
+    ({ family }) => `${family} Hardware`,
+    ({ street }) => `${street} Market`,
+    () => "Country Mercantile",
+    ({ family }) => `${family}'s Grocery`,
+  ],
+  trucking: [
+    ({ county }) => `${county} Freight`,
+    ({ family }) => `${family} Transport`,
+  ],
+  information: [
+    ({ county }) => `${county} Telephone Cooperative`,
+    ({ county }) => `${county} Communications`,
+  ],
+  bank: [
+    () => "Farmers and Merchants Bank",
+    ({ town }) => `First State Bank of ${town}`,
+    ({ county }) => `${county} Savings Bank`,
+    () => "Citizens Bank",
+    () => "Peoples Bank",
+  ],
+  insurance: [
+    ({ street }) => `${street} Insurance`,
+    ({ county }) => `${county} Insurance Services`,
+  ],
+  realty: [
+    ({ family }) => `${family} Real Estate`,
+    ({ county }) => `${county} Land and Homes`,
+  ],
+  professional: [
+    ({ family }) => `${family} Law Office`,
+    ({ family }) => `${family} Accounting`,
+    ({ street }) => `${street} Tax Service`,
+  ],
+  "building-services": [
+    ({ family }) => `${family} Cleaning`,
+    () => "Hometown Janitorial",
+  ],
+  "private-school": [
+    ({ county }) => `${county} Christian School`,
+    ({ family }) => `${family} Academy`,
+  ],
+  hospital: [
+    ({ county }) => `${county} Memorial Hospital`,
+    ({ family }) => `${family} Memorial Hospital`,
+  ],
+  clinic: [
+    ({ family }) => `${family} Family Medicine`,
+    ({ street }) => `${street} Medical Clinic`,
+    ({ county }) => `${county} Health Center`,
+    () => "Family Care Clinic",
+  ],
+  "care-home": [
+    ({ family }) => `${family} Manor`,
+    ({ street }) => `${street} Care Center`,
+    () => "Heritage Care Center",
+  ],
+  recreation: [
+    ({ family }) => `${family}'s Bowling Lanes`,
+    ({ street }) => `${street} Fitness`,
+    () => "Hometown Fitness",
+  ],
+  restaurant: [
+    ({ street }) => `${street} Diner`,
+    ({ family }) => `${family}'s Cafe`,
+    () => "Country Kitchen",
+    ({ town }) => `${town} Family Restaurant`,
+  ],
+  inn: [
+    ({ family }) => `The ${family} House`,
+    ({ street }) => `${street} Inn`,
+    ({ county }) => `${county} Motor Inn`,
+    () => "Travelers Rest Motel",
+  ],
+  repair: [
+    ({ street }) => `${street} Garage`,
+    ({ town }) => `${town} Tire and Auto`,
+  ],
+  "personal-care": [
+    ({ street }) => `${street} Barber Shop`,
+    ({ family }) => `${family}'s Beauty Salon`,
+  ],
+};
+
+/** The family name of each of the town's residents, in the world's order. */
+function townFamilyNames(world: World, town: EntityId): readonly string[] {
+  const names: string[] = [];
+  for (const personId of world.personOrder) {
+    const person = world.people[personId];
+    if (person?.homeJurisdictionId === town && person.familyName)
+      names.push(person.familyName);
+  }
+  return names;
 }
 
 export interface Workplace {
@@ -713,12 +873,36 @@ const FULL_TIME_HOURS = [35, 45] as const;
 const PART_TIME_HOURS = [16, 29] as const;
 
 /**
- * GAME ASSUMPTION: the chance a new hire at each workplace works part-time,
- * under 35 hours a week. Food service, stores and recreation run on
- * part-time staff; offices, plants and public agencies mostly do not. Jobs
- * written before this draw (a household's own job, civic roles) stay
- * full-time, so a town's share sits below the national one of about one
- * worker in six until those are drawn too.
+ * MEASURED: median years with the current employer by age, wage and salary
+ * workers, January 2026 (Bureau of Labor Statistics, Employee Tenure in
+ * 2026, Table 1, released September 24, 2026). At the opening each worker
+ * has held their job for the median of their age, never from before they
+ * turned 18: the table's spread is not drawn.
+ */
+export const TOWN_MEDIAN_TENURE_BY_AGE: readonly (readonly [number, number])[] =
+  [
+    [20, 0.8],
+    [25, 1.5],
+    [35, 3.0],
+    [45, 4.7],
+    [55, 7.0],
+    [65, 9.6],
+    [Infinity, 9.9],
+  ];
+
+function medianTenureYears(age: number): number {
+  return TOWN_MEDIAN_TENURE_BY_AGE.find(([below]) => age < below)![1];
+}
+
+/**
+ * GAME ASSUMPTION: the share of each workplace's staff that works
+ * part-time, under 35 hours a week. Food service, stores and recreation run
+ * on part-time staff; offices, plants and public agencies mostly do not. An
+ * employer hires part-time while its part-time staff are below this share,
+ * and a resident whose life asks for fewer hours (a student, a parent of a
+ * child under six, anyone 65 or older) works part-time wherever they work.
+ * Nothing is drawn. The national share of about one worker in six is the
+ * check.
  */
 export const TOWN_PART_TIME_SHARE: Readonly<Record<string, number>> = {
   restaurant: 0.45,
@@ -943,7 +1127,7 @@ function yearsBefore(date: IsoDate, years: number): IsoDate {
   return makeIsoDate(`${year}${rest === "-02-29" ? "-02-28" : rest}`);
 }
 
-function townOrganizationsOf(
+export function townOrganizationsOf(
   world: World,
   town: EntityId,
   classification: OrganizationClassification,
@@ -1007,20 +1191,6 @@ export function townResidents(
     });
   }
   return residents;
-}
-
-function pickWeighted<T>(
-  rng: SeededRng,
-  entries: readonly (readonly [T, number])[],
-): T | null {
-  const total = entries.reduce((sum, [, weight]) => sum + weight, 0);
-  if (total <= 0) return null;
-  let point = rng.next() * total;
-  for (const [value, weight] of entries) {
-    point -= weight;
-    if (point < 0) return value;
-  }
-  return entries.at(-1)![0];
 }
 
 export interface TownEmploymentSummary {
@@ -1106,6 +1276,8 @@ export function writeTownEmployer(
   workplace: Workplace,
   outlet: number,
   formedAt: IsoDate,
+  /** The resident who opens it, whose family it may be named for. */
+  founderPersonId: EntityId | null = null,
 ): World {
   const stableKey = `${TOWN_EMPLOYMENT_VERSION}:${town}:employer:${workplace.key}:${outlet}`;
   const id = createStableId("organization", `${world.id}:${stableKey}`);
@@ -1119,22 +1291,53 @@ export function writeTownEmployer(
     : undefined;
   const countyName = countyUnit ? countyDisplayName(countyUnit.name) : null;
   const rng = new SeededRng(world.seed).fork(stableKey);
+  // Named for its founder's family, or for the family of one of the town's
+  // residents, so a family with more members in town is on more doors. A
+  // town with no residents yet draws a family name for its place. No two of
+  // the town's employers share a name.
+  const founder = founderPersonId ? world.people[founderPersonId] : undefined;
+  const residents = townFamilyNames(world, town);
+  const taken = new Set(
+    world.history.organizations
+      .filter((row) =>
+        row.stableKey.startsWith(
+          `${TOWN_EMPLOYMENT_VERSION}:${town}:employer:`,
+        ),
+      )
+      .map((row) => organizationProfileAt(world, row.id)?.name),
+  );
+  const styles = [workplace.name, ...(MORE_NAMES[workplace.key] ?? [])];
+  const firstStyle = rng.fork("name-style").integer(0, styles.length);
+  let name = "";
+  for (let attempt = 0; attempt < styles.length * 4; attempt += 1) {
+    const draw = rng.fork(`name:${attempt}`);
+    const family =
+      (attempt === 0 && founder?.familyName) ||
+      (residents.length > 0
+        ? residents[draw.fork("family").integer(0, residents.length)]!
+        : drawCanonicalNameForGender(
+            draw.fork("family"),
+            "unstated",
+            nameCorpusVersionForWorld(world, town),
+          ).familyName);
+    const context: NameContext = {
+      town: townName,
+      state: stateName,
+      county: countyName ?? townName,
+      family,
+      street:
+        TOWN_STREETS[draw.fork("street").integer(0, TOWN_STREETS.length)]!,
+    };
+    name = styles[(firstStyle + attempt) % styles.length]!(context);
+    if (!taken.has(name)) break;
+  }
   return createOrganization(world, {
     stableKey,
     formedAt,
     detailLevel: "lightweight",
     provenance: PROVENANCE,
     initialProfile: {
-      name: workplace.name({
-        town: townName,
-        state: stateName,
-        county: countyName ?? townName,
-        family: drawCanonicalNameForGender(
-          rng.fork("family"),
-          "unstated",
-          nameCorpusVersionForWorld(world, town),
-        ).familyName,
-      }),
+      name,
       classification: workplace.classification,
       locationJurisdictionId: town,
     },
@@ -1161,10 +1364,15 @@ export function fillTownJobs(
     readonly into?: {
       readonly workplace: string;
       readonly organizationId: EntityId;
+      /** Hire everyone into this one role (a funded position), when named. */
+      readonly role?: string;
     };
   },
 ): World {
   const place = lifePlaceByJurisdictionId(town);
+  // Nobody serving a jail term is hired: a job they held is on leave, so they
+  // would otherwise count as out of work.
+  open = open.filter((resident) => !jailTermOn(world, resident.personId));
   if (!place || open.length === 0) return world;
   const today = world.currentDate;
   const prefix = `${TOWN_EMPLOYMENT_VERSION}:${town}`;
@@ -1173,10 +1381,6 @@ export function fillTownJobs(
     round === null
       ? `${prefix}:job:${personId}`
       : `${prefix}:job:${personId}:${round}`;
-  const drawKey = (kind: string, personId: EntityId) =>
-    round === null
-      ? `${prefix}:${kind}:${personId}`
-      : `${prefix}:${kind}:${personId}:${round}`;
 
   // The county government the town mostly lies in, when it has one.
   const countyUnit = place.sourceGeoid
@@ -1187,6 +1391,125 @@ export function fillTownJobs(
   let next = world;
   const organizations = new Map<string, EntityId>();
   const outletsOf = new Map<string, readonly number[]>();
+  // The town's jobs today, counting the hires made here: staff and
+  // part-time staff at each employer, staff and roles by kind of workplace,
+  // and the kinds of work each resident has done in town before.
+  interface Census {
+    readonly staff: Map<EntityId, number>;
+    readonly partTime: Map<EntityId, number>;
+    readonly byKind: Map<string, number>;
+    readonly byRole: Map<string, number>;
+    readonly pastKinds: Map<EntityId, Set<string>>;
+    readonly kindOf: Map<EntityId, string>;
+    total: number;
+  }
+  let census: Census | null = null;
+  const counted = (): Census => {
+    if (census) return census;
+    const kindOf = new Map<EntityId, string>();
+    for (const organization of next.history.organizations) {
+      const match = /:employer:([a-z-]+):\d+$/.exec(organization.stableKey);
+      if (match && organization.stableKey.startsWith(`${prefix}:`))
+        kindOf.set(organization.id, match[1]!);
+    }
+    for (const workplace of TOWN_WORKPLACES)
+      if (workplace.existing)
+        for (const id of townOrganizationsOf(next, town, workplace.existing))
+          if (!kindOf.has(id)) kindOf.set(id, workplace.key);
+    const orgOf = new Map<EntityId, EntityId>();
+    const pastKinds = new Map<EntityId, Set<string>>();
+    for (const row of next.history.workRelationships) {
+      if (!row.stableKey.startsWith(`${prefix}:job:`) || !row.organizationId)
+        continue;
+      orgOf.set(row.id, row.organizationId);
+      const kind = kindOf.get(row.organizationId);
+      if (kind) {
+        const kinds = pastKinds.get(row.personId) ?? new Set<string>();
+        kinds.add(kind);
+        pastKinds.set(row.personId, kinds);
+      }
+    }
+    const latest = new Map<EntityId, string>();
+    for (const row of next.history.workStatuses)
+      if (orgOf.has(row.workRelationshipId) && row.effectiveAt <= today)
+        latest.set(row.workRelationshipId, row.status);
+    const roleOf = new Map<EntityId, WorkRoleRecord>();
+    for (const row of next.history.workRoles)
+      if (orgOf.has(row.workRelationshipId) && row.effectiveAt <= today)
+        roleOf.set(row.workRelationshipId, row);
+    census = {
+      staff: new Map(),
+      partTime: new Map(),
+      byKind: new Map(),
+      byRole: new Map(),
+      pastKinds,
+      kindOf,
+      total: 0,
+    };
+    for (const [id, status] of latest) {
+      if (status !== "active") continue;
+      const role = roleOf.get(id);
+      const hours = role?.timeDemand.expectedWeekly?.maximumHours;
+      countHire(
+        census,
+        orgOf.get(id)!,
+        role?.title ?? null,
+        hours !== undefined && hours < FULL_TIME_HOURS[0],
+      );
+    }
+    return census;
+  };
+  const countHire = (
+    into: Census,
+    organizationId: EntityId,
+    title: string | null,
+    partTime: boolean,
+  ) => {
+    into.staff.set(organizationId, (into.staff.get(organizationId) ?? 0) + 1);
+    if (partTime)
+      into.partTime.set(
+        organizationId,
+        (into.partTime.get(organizationId) ?? 0) + 1,
+      );
+    const kind = into.kindOf.get(organizationId);
+    if (!kind) return;
+    into.byKind.set(kind, (into.byKind.get(kind) ?? 0) + 1);
+    if (title)
+      into.byRole.set(
+        `${kind}|${title}`,
+        (into.byRole.get(`${kind}|${title}`) ?? 0) + 1,
+      );
+    into.total += 1;
+  };
+  const staffAt = (organizationId: EntityId): number =>
+    counted().staff.get(organizationId) ?? 0;
+  /**
+   * The role a resident takes at a kind of workplace: of the roles they are
+   * old enough for, the one furthest below its share of the kind's staff
+   * in town, then by title. Nothing is drawn.
+   */
+  const roleFor = (
+    workplace: Workplace,
+    resident: Resident,
+    roles: readonly Role[] = workplace.roles,
+  ): Role | null => {
+    const fits = roles.filter(
+      (entry) => resident.age >= (entry.minAge ?? WORKING_AGE_MIN),
+    );
+    const total = fits.reduce((sum, entry) => sum + entry.weight, 0);
+    if (total <= 0) return null;
+    const held = fits.reduce(
+      (sum, entry) =>
+        sum + (counted().byRole.get(`${workplace.key}|${entry.title}`) ?? 0),
+      0,
+    );
+    const short = (entry: Role) =>
+      (entry.weight / total) * (held + 1) -
+      (counted().byRole.get(`${workplace.key}|${entry.title}`) ?? 0);
+    return [...fits].sort(
+      (a, b) => short(b) - short(a) || a.title.localeCompare(b.title),
+    )[0]!;
+  };
   const existing = new Map<string, readonly EntityId[]>();
   const existingOf = (workplace: Workplace) => {
     if (!workplace.existing) return [];
@@ -1206,17 +1529,43 @@ export function fillTownJobs(
    * when every employer of that kind in town has closed. An outlet that
    * closed is never written again; a business opened later is another outlet.
    */
-  const employer = (workplace: Workplace, slot: number): EntityId | null => {
+  const employer = (workplace: Workplace): EntityId | null => {
     const already = existingOf(workplace);
     if (workplace.existing)
-      return already.length > 0 ? already[slot % already.length]! : null;
+      return already.length > 0
+        ? [...already].sort(
+            (a, b) => staffAt(a) - staffAt(b) || a.localeCompare(b),
+          )[0]!
+        : null;
     let outlets = outletsOf.get(workplace.key);
     if (!outlets) {
       outlets = townEmployerOutlets(next, town, workplace);
       outletsOf.set(workplace.key, outlets);
     }
     if (outlets.length === 0) return null;
-    const outlet = outlets[slot % outlets.length]!;
+    // Of the outlets whose books have room for one more, the one with the
+    // fewest staff, then the lowest number; none has room, nobody is hired
+    // there (`town-business-books.ts`).
+    const books = next.townFinances?.businesses;
+    let outlet: number | null = null;
+    let fewest = Infinity;
+    for (const candidate of outlets) {
+      const key = `${prefix}:employer:${workplace.key}:${candidate}`;
+      const id =
+        organizations.get(key) ??
+        createStableId("organization", `${next.id}:${key}`);
+      if (staffAt(id) >= fewest) continue;
+      const market = next.townFinances?.markets[`${town}:${workplace.key}`];
+      const townAveragePay =
+        market?.townPay !== undefined && market.townJobs > 0
+          ? market.townPay / market.townJobs
+          : 0;
+      if (townBusinessHasRoomToHire(books?.[id], staffAt(id), townAveragePay)) {
+        outlet = candidate;
+        fewest = staffAt(id);
+      }
+    }
+    if (outlet === null) return null;
     const stableKey = `${prefix}:employer:${workplace.key}:${outlet}`;
     const cached = organizations.get(stableKey);
     if (cached) return cached;
@@ -1234,28 +1583,30 @@ export function fillTownJobs(
     at?: EntityId,
     civic = false,
   ) => {
-    const rng = new SeededRng(next.seed).fork(
-      drawKey("hire", resident.personId),
-    );
-    const organizationId =
-      at ?? employer(workplace, rng.fork("outlet").integer(0, 1_000));
+    const organizationId = at ?? employer(workplace);
     if (!organizationId) return false;
     const person = next.people[resident.personId]!;
     const adultSince = yearsBefore(person.birthDate, -WORKING_AGE_MIN);
-    const tenure =
+    const hired =
       round === null
-        ? rng
-            .fork("tenure")
-            .integer(0, Math.min(20, resident.age - WORKING_AGE_MIN) + 1)
-        : 0;
-    const hired = yearsBefore(today, tenure);
-    // Some jobs are part-time; a civic role and a job that directs others
-    // never are.
+        ? addDays(today, -Math.round(medianTenureYears(resident.age) * 365.25))
+        : today;
+    // A civic role and a job that directs others are never part-time.
+    // Otherwise the hire works part-time when their own life asks for fewer
+    // hours, or while the employer's part-time staff are below its share.
+    const staff = staffAt(organizationId);
     const partTime =
       !civic &&
       chosen.authority !== "directs-others" &&
-      rng.fork("part-time").next() <
-        (TOWN_PART_TIME_SHARE[workplace.key] ?? TOWN_PART_TIME_DEFAULT);
+      (resident.enrolled ||
+        resident.parentOfYoungChild ||
+        resident.age >= 65 ||
+        (counted().partTime.get(organizationId) ?? 0) <
+          (TOWN_PART_TIME_SHARE[workplace.key] ?? TOWN_PART_TIME_DEFAULT) *
+            (staff + 1) -
+            0.5);
+    counted().kindOf.set(organizationId, workplace.key);
+    countHire(counted(), organizationId, chosen.title, partTime);
     const [minimumHours, maximumHours] =
       chosen.hours ?? (partTime ? PART_TIME_HOURS : FULL_TIME_HOURS);
     jobs.push({
@@ -1289,6 +1640,16 @@ export function fillTownJobs(
   if (options.into) {
     const workplace = WORKPLACE.get(options.into.workplace);
     if (!workplace) return next;
+    const named = options.into.role
+      ? workplace.roles.find((entry) => entry.title === options.into!.role)
+      : undefined;
+    if (named) {
+      for (const resident of open)
+        if (resident.age >= (named.minAge ?? WORKING_AGE_MIN))
+          // A funded position is a full-time one.
+          hire(resident, workplace, named, options.into.organizationId, true);
+      return jobs.length === 0 ? next : createWorkRelationships(next, jobs);
+    }
     let lead = workplace.roles.find(
       (entry) => entry.authority === "directs-others",
     );
@@ -1299,11 +1660,10 @@ export function fillTownJobs(
       const chosen =
         lead && fits.includes(lead)
           ? lead
-          : pickWeighted(
-              new SeededRng(next.seed).fork(drawKey("role", resident.personId)),
-              fits
-                .filter((entry) => entry.authority !== "directs-others")
-                .map((entry) => [entry, entry.weight] as const),
+          : roleFor(
+              workplace,
+              resident,
+              fits.filter((entry) => entry.authority !== "directs-others"),
             );
       if (!chosen) continue;
       if (chosen === lead) lead = undefined;
@@ -1325,9 +1685,17 @@ export function fillTownJobs(
     pool.splice(pool.indexOf(pick), 1);
     return pick;
   };
+  // A role a budget staffs (police officers, teachers) is filled by the
+  // budget alone (`public-budgets/staffing.ts`), never by the town's mix.
+  const budgetStaffed = new Set(
+    (world.publicBudgets?.staffing ?? [])
+      .filter((row) => row.town === town)
+      .map((row) => `${row.workplace}|${row.role}`),
+  );
   const held = heldTownRoles(next, prefix);
   for (const [key, title] of CIVIC_MINIMUM) {
     if (key === "county-clerk" && !countyName) continue;
+    if (budgetStaffed.has(`${key}|${title}`)) continue;
     const workplace = WORKPLACE.get(key)!;
     const chosen = workplace.roles.find((entry) => entry.title === title)!;
     const organizationIds = existingOf(workplace);
@@ -1342,8 +1710,9 @@ export function fillTownJobs(
       const resident = take(chosen.minAge ?? WORKING_AGE_MIN);
       if (!resident) break;
       if (hire(resident, workplace, chosen, at ?? undefined, true)) continue;
-      // Every employer of that kind in town has closed: the resident goes
-      // back to the pool and draws from the town's mix instead.
+      // Every employer of that kind in town has closed, or none has room:
+      // the resident goes back to the pool and draws from the town's mix
+      // instead.
       pool.push(resident);
       pool.sort(
         (a, b) => b.age - a.age || a.personId.localeCompare(b.personId),
@@ -1352,25 +1721,43 @@ export function fillTownJobs(
     }
   }
 
-  // Everyone else by the town's own mix.
-  // A workplace whose every employer in town has closed hires nobody, and
-  // the resident draws again.
+  // Everyone else by the town's own mix, nothing drawn. Each resident, the
+  // oldest first, tries the kinds of work they have done in town before,
+  // then the kinds furthest below their share of the town's jobs. A kind at
+  // or above its share takes nobody more, and a business whose books have
+  // no room hires nobody: a resident no kind takes stays out of work.
+  const totalWeight = weights.reduce((sum, [, weight]) => sum + weight, 0);
   for (const resident of pool) {
-    const rng = new SeededRng(next.seed).fork(
-      drawKey("workplace", resident.personId),
-    );
-    for (let attempt = 0; attempt < 4; attempt += 1) {
-      const draw = attempt === 0 ? rng : rng.fork(`again:${attempt}`);
-      const key = pickWeighted(draw.fork("workplace"), weights);
-      const workplace = key ? WORKPLACE.get(key) : undefined;
-      if (!workplace) break;
-      const chosen = pickWeighted(
-        draw.fork("role"),
-        workplace.roles
-          .filter((entry) => resident.age >= (entry.minAge ?? WORKING_AGE_MIN))
-          .map((entry) => [entry, entry.weight] as const),
+    const census = counted();
+    const short = (key: string, weight: number) =>
+      (weight / totalWeight) * (census.total + 1) -
+      (census.byKind.get(key) ?? 0);
+    const past = census.pastKinds.get(resident.personId);
+    const order = weights
+      .map(([key, weight]) => [key, short(key, weight)] as const)
+      .filter(([, gap]) => gap > 0)
+      .sort(
+        (a, b) =>
+          Number(past?.has(b[0]) ?? false) - Number(past?.has(a[0]) ?? false) ||
+          b[1] - a[1] ||
+          a[0].localeCompare(b[0]),
       );
-      if (!chosen || hire(resident, workplace, chosen)) break;
+    for (const [key] of order) {
+      const workplace = WORKPLACE.get(key);
+      if (!workplace) continue;
+      // A role a budget staffs is never offered here. A congregation or
+      // school has one pastor or principal, hired above for each one in
+      // town; the mix never adds a second.
+      const chosen = roleFor(
+        workplace,
+        resident,
+        workplace.roles.filter(
+          (entry) =>
+            !budgetStaffed.has(`${workplace.key}|${entry.title}`) &&
+            !(workplace.existing && entry.authority === "directs-others"),
+        ),
+      );
+      if (chosen && hire(resident, workplace, chosen)) break;
     }
   }
   return jobs.length === 0 ? next : createWorkRelationships(next, jobs);

@@ -9,8 +9,10 @@ import type {
 } from "../character-history";
 import { candidacyPackById, stateCandidacyPack } from "../candidacy-packs";
 import { legislativeTermForRelationship } from "../legislative-office-terms";
+import { legislativeTermLimitInForce } from "./state-legislative-term-limits";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
 import { addDays, makeIsoDate } from "../dates";
+import { scheduleFutureDueItem } from "../future-transitions";
 import { createStableId } from "../ids";
 import { stateJurisdictionForKey } from "../life-places";
 import {
@@ -25,7 +27,16 @@ import {
 } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
-import type { EntityId, IsoDate, LifeRecordProvenance, World } from "../types";
+import type {
+  EntityId,
+  FutureDueItem,
+  FutureTransitionHandlerResult,
+  IsoDate,
+  LifeRecordProvenance,
+  OrganizationParticipation,
+  WorkRelationship,
+  World,
+} from "../types";
 import { recordWorldEvent } from "../world";
 import {
   createOrganizationParticipations,
@@ -44,29 +55,37 @@ import {
 } from "../life-queries";
 import { isPersonAliveAt } from "../vitality-integrity";
 import { politicalStartingConditions } from "../world-setup/conditions";
+import { US_STATE_USPS } from "./state-executive-candidacy-packs";
 import {
   clampShare,
   logistic,
   logit,
   standardNormal,
 } from "../world-setup/deterministic-math";
+import legislatorsTable from "../../../data/research/laws/legislators-2023.json" with { type: "json" };
 import { districtIdentityCatalog } from "../../districts/catalog";
 import {
   gazetteerChamberForOfficeChamberKey,
   listDistrictIdentities,
 } from "../../districts/query";
+import { seatsByDistrict } from "../../districts/members-per-district";
 import type { DistrictIdentity } from "../../districts/types";
+import {
+  hasStableKey,
+  recordById,
+  recordsWithFieldValue,
+} from "../history-index";
 
 /**
  * A state legislature with a real person in every seat.
  *
  * Until this, a state chamber started empty. Congress got 535 generated
- * members at the opening; the state house under the player's feet got none,
- * and every floor vote there was a head count written in advance and handed
- * out to "Member for District N". A seat got a person only when somebody won
- * a campaign for it. This fills the home state's chambers once, at the
- * opening, with people who have a seat, a district where one can be named, a
- * and a party, all through the same records a campaign winner gets:
+ * members at the opening; state chambers did not, and every floor vote there
+ * was a head count written in advance and handed out to "Member for District
+ * N". A seat got a person only when somebody won a campaign for it. Current
+ * new-game preparation fills all 50 states at the opening; older saves keep
+ * the dated calendar fallback. Members use the same records a campaign
+ * winner gets:
  * the seat is a `employment:legislative-member` work relationship in the body
  * `legislature:<candidacy pack>`, exactly the body `seatTheWinner` reuses, so
  * a player who later wins a seat joins the same chamber as these members.
@@ -86,14 +105,210 @@ import type { DistrictIdentity } from "../../districts/types";
  * and spread by how far House districts inside one state differ from each
  * other across the whole save. A state whose House seats carry no two-party
  * share is centered on its own statewide Senate contests; one with neither
- * seats its members without a party rather than guessing one.
+ * seats its members without a party rather than guessing one. Each chamber
+ * then holds the party balance the state recorded (The Book of the States
+ * 2023, Table 3.3): the seats leaning furthest toward each party take that
+ * party's count, and seats the record gives to neither party keep their lean.
  *
- * Only a current opening calls this, for the player's home state, once.
+ * The player's home state remains first in the opening history; other states
+ * follow in the deterministic jurisdiction order.
  */
+
+interface RecordedParties {
+  readonly democrats: number;
+  readonly republicans: number;
+  readonly other: number;
+  readonly vacancies: number;
+}
+
+interface LegislatorPartyRow {
+  readonly usps: string;
+  readonly lowerParties: RecordedParties | null;
+  readonly upperParties: RecordedParties | null;
+  readonly unicameralParties: RecordedParties | null;
+}
+
+const LEGISLATOR_PARTY_ROWS: readonly LegislatorPartyRow[] = (
+  legislatorsTable as { readonly rows: readonly LegislatorPartyRow[] }
+).rows;
+
+/**
+ * A chamber's members by party as The Council of State Governments recorded
+ * them in 2023 (The Book of the States 2023, Table 3.3), or null where the
+ * table gives none, as for a nonpartisan legislature.
+ */
+export function recordedChamberParties(
+  stateUsps: string,
+  chamberKey: string,
+): RecordedParties | null {
+  const row = LEGISLATOR_PARTY_ROWS.find(
+    (candidate) => candidate.usps === stateUsps,
+  );
+  if (!row) return null;
+  const chamber = gazetteerChamberForOfficeChamberKey(chamberKey);
+  if (chamber === "state-lower") return row.lowerParties;
+  if (chamber === "state-upper")
+    return row.upperParties ?? row.unicameralParties;
+  return null;
+}
 
 export const STATE_LEGISLATURE_OPENING_VERSION =
   "state-legislature-opening/v1" as const;
 const V = STATE_LEGISLATURE_OPENING_VERSION;
+export const STATE_LEGISLATURE_OPENING_TRANSITION =
+  "legislature:state-opening" as const;
+const NATIONWIDE_OPENING_CALENDAR = "state-legislature-opening-calendar/v1";
+
+/**
+ * Older saves still use two due states per day until their initial rosters
+ * exist. Current new games seat all states during opening preparation, so no
+ * later clock work is scheduled for them. This makes no claim about a state's
+ * convening day.
+ */
+export function scheduleNationwideStateLegislatureOpenings(
+  world: World,
+): World {
+  // New-game preparation has already seated every state roster at the
+  // opening date. The old calendar is still needed by saves that predate that
+  // preparation, but must not put completed new-game work back on the clock.
+  if (
+    US_STATE_USPS.every((usps) => {
+      const pack = stateCandidacyPack(`US-${usps}`);
+      return !!pack && stateLegislatureEstablished(world, pack.packId);
+    })
+  ) {
+    return world;
+  }
+  let next = world;
+  for (const [index, usps] of US_STATE_USPS.entries()) {
+    const stableKey = `${NATIONWIDE_OPENING_CALENDAR}:${usps}`;
+    if (next.history.futureDueItems.some((due) => due.stableKey === stableKey))
+      continue;
+    const jurisdiction = stateJurisdictionForKey(`US-${usps}`);
+    if (!jurisdiction) continue;
+    next = scheduleFutureDueItem(next, {
+      stableKey,
+      dueAt: addDays(world.currentDate, 1 + Math.floor(index / 2)),
+      transitionKey: STATE_LEGISLATURE_OPENING_TRANSITION,
+      entityIds: [jurisdiction.id],
+      jurisdictionId: jurisdiction.id,
+      provenance: {
+        kind: "authored",
+        note: `${NATIONWIDE_OPENING_CALENDAR}: spreading initial state roster construction across clock days; this is not a state's session rule.`,
+      },
+    });
+  }
+  return next;
+}
+
+export interface NationwideStateLegislatureOpeningChunk {
+  readonly world: World;
+  readonly completedStates: number;
+  readonly totalStates: number;
+  readonly firstStateUsps: string;
+  readonly lastStateUsps: string;
+  readonly done: boolean;
+}
+
+/**
+ * Prepare state rosters in deterministic, resumable chunks. A caller can
+ * yield between iterator steps to report real progress while each chunk
+ * remains an ordinary immutable World transition. The home state is first so
+ * the existing opening-history order is retained.
+ */
+export function* prepareNationwideStateLegislatureOpeningChunks(
+  world: World,
+  subjectPersonId: EntityId,
+  options: {
+    readonly preferredFirstStateUsps?: string | null;
+    readonly statesPerChunk?: number;
+  } = {},
+): Generator<NationwideStateLegislatureOpeningChunk, World, void> {
+  if (!world.people[subjectPersonId]) {
+    throw new Error("Nationwide state openings need an existing subject.");
+  }
+  const requestedSize = options.statesPerChunk ?? 2;
+  if (!Number.isInteger(requestedSize) || requestedSize < 1) {
+    throw new RangeError("statesPerChunk must be a positive integer.");
+  }
+  const preferred = options.preferredFirstStateUsps;
+  const stateCodes: readonly string[] = US_STATE_USPS;
+  const usps =
+    preferred && stateCodes.includes(preferred)
+      ? [preferred, ...US_STATE_USPS.filter((code) => code !== preferred)]
+      : [...US_STATE_USPS];
+  const openingDate = world.currentDate;
+  let next = world;
+
+  for (let start = 0; start < usps.length; start += requestedSize) {
+    const chunkStates = usps.slice(start, start + requestedSize);
+    for (const code of chunkStates) {
+      const pack = stateCandidacyPack(`US-${code}`);
+      if (!pack) {
+        throw new Error(`Missing state legislature pack for ${code}.`);
+      }
+      next = ensureStateLegislatureOpening(next, subjectPersonId, code);
+      if (!stateLegislatureEstablished(next, pack.packId)) {
+        throw new Error(`Could not prepare the state legislature for ${code}.`);
+      }
+      if (next.currentDate !== openingDate) {
+        throw new Error(
+          "State legislature preparation advanced the game date.",
+        );
+      }
+    }
+    yield {
+      world: next,
+      completedStates: Math.min(start + chunkStates.length, usps.length),
+      totalStates: usps.length,
+      firstStateUsps: chunkStates[0]!,
+      lastStateUsps: chunkStates.at(-1)!,
+      done: start + chunkStates.length >= usps.length,
+    };
+  }
+  return next;
+}
+
+/** Seat the people of one state's saved legislature when its opening is due. */
+export function stateLegislatureOpeningHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const usps = new RegExp(`^${NATIONWIDE_OPENING_CALENDAR}:([A-Z]{2})$`).exec(
+    due.stableKey,
+  )?.[1];
+  const subjectPersonId =
+    world.control.kind === "person"
+      ? world.control.personId
+      : world.personOrder.find((id) => !!world.people[id]);
+  if (!usps || !subjectPersonId || !world.people[subjectPersonId])
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "legislature:state-opening-unavailable",
+      context: "The state legislature lacks an opening subject.",
+      outcomeEventId: null,
+    };
+  const pack = stateCandidacyPack(`US-${usps}`);
+  const next = pack
+    ? ensureStateLegislatureOpening(world, subjectPersonId, usps)
+    : world;
+  return !pack || !stateLegislatureEstablished(next, pack.packId)
+    ? {
+        world,
+        status: "blocked",
+        reasonKey: "legislature:state-opening-unavailable",
+        context: `The legislature of ${usps} could not be seated from this world's saved conditions.`,
+        outcomeEventId: null,
+      }
+    : {
+        world: next,
+        status: "resolved",
+        reasonKey: null,
+        context: `The legislature of ${usps} is seated.`,
+        outcomeEventId: null,
+      };
+}
 
 export const STATE_LEGISLATURE_KEYS = {
   opening: (packId: string) => `${V}:${packId}:opening`,
@@ -103,7 +318,8 @@ export const STATE_LEGISLATURE_KEYS = {
 } as const;
 
 /** Where a seated chamber's size came from. */
-export type ChamberSizeBasis = "rule-pack" | "one-member-per-district";
+export type ChamberSizeBasis =
+  "rule-pack" | "one-member-per-district" | "members-per-district";
 
 export interface SeatedChamberPlan {
   readonly officeKey: string;
@@ -146,13 +362,15 @@ export function planStateChambers(pack: CandidacyPack): {
     let basis: ChamberSizeBasis;
     // PLACEHOLDER until research question
     // state-legislature-chamber-sizes-and-quorum is answered: a Census
-    // district is not a seat, and multi-member districts (Arizona's House)
-    // seat fewer members here than the chamber has.
+    // district is not a seat. How many members a district elects is read
+    // from `members-per-district.json`; a chamber it does not list elects
+    // one per district.
     //
     // A size read from law wins. A size the game drew for an unresearched
-    // state's profile gives way to the state's own Census districts, which
-    // are a record of that state rather than a range across others; the draw
-    // seats a chamber only where the Census has no districts for it.
+    // state's profile gives way to the state's own Census districts and their
+    // member counts, which are a record of that state rather than a range
+    // across others; the draw seats a chamber only where the Census has no
+    // districts for it.
     const drawn =
       office.seats.kind === "known" &&
       office.seats.source?.authority === "game-profile";
@@ -160,8 +378,11 @@ export function planStateChambers(pack: CandidacyPack): {
       size = office.seats.value;
       basis = "rule-pack";
     } else if (districts.length > 0) {
-      size = districts.length;
-      basis = "one-member-per-district";
+      size = seatsByDistrict(districts).length;
+      basis =
+        size === districts.length
+          ? "one-member-per-district"
+          : "members-per-district";
     } else {
       unseated.push({
         officeKey: office.officeKey,
@@ -200,16 +421,23 @@ const AT_LARGE_SEATS: Readonly<
 };
 
 /**
- * Seats to districts. One member each where the counts match, an equal number
- * each where the seats divide evenly, and none bound otherwise: a seat is
- * never put in a district the record cannot support. Seats past the district
- * seats are at-large seats, bound to no district.
+ * Seats to districts. Each district takes the members it elects, read from
+ * `members-per-district.json`, when those add up to the seats to bind. Failing
+ * that, an equal number each where the seats divide evenly, and none bound
+ * otherwise: a seat is never put in a district the record cannot support.
+ * Seats past the district seats are at-large seats, bound to no district.
  */
 function bindDistricts(
   districtSeats: number,
   districts: readonly DistrictIdentity[],
   size: number = districtSeats,
 ): readonly (DistrictIdentity | null)[] {
+  const counted = seatsByDistrict(districts);
+  if (districtSeats > 0 && counted.length === districtSeats) {
+    return Array.from({ length: size }, (_, index) =>
+      index < districtSeats ? counted[index]! : null,
+    );
+  }
   if (
     districtSeats <= 0 ||
     districts.length === 0 ||
@@ -227,8 +455,9 @@ export function stateLegislatureEstablished(
   world: World,
   packId: string,
 ): boolean {
-  return world.history.events.some(
-    (event) => event.stableKey === STATE_LEGISLATURE_KEYS.opening(packId),
+  return hasStableKey(
+    world.history.events,
+    STATE_LEGISLATURE_KEYS.opening(packId),
   );
 }
 
@@ -335,12 +564,12 @@ export function ensureStateLegislatureOpening(
     freedom += values.length - 1;
   }
   const spread = freedom > 0 ? Math.sqrt(squares / freedom) : 0;
-  const parties = ["democratic", "republican"].filter((party) =>
-    next.history.organizations.some(
-      (organization) =>
-        organization.id ===
+  const parties = ["democratic", "republican"].filter(
+    (party) =>
+      recordById(
+        next.history.organizations,
         livingWorldOrganizationId(next, LIVING_WORLD_KEYS.nationalParty(party)),
-    ),
+      ) !== undefined,
   );
 
   const generated: LifeRecordProvenance = {
@@ -356,8 +585,7 @@ export function ensureStateLegislatureOpening(
     name: string,
     classification: `${string}:${string}`,
   ) => {
-    if (next.history.organizations.some((o) => o.stableKey === stableKey))
-      return;
+    if (hasStableKey(next.history.organizations, stableKey)) return;
     if (
       transitions.some(
         (t) => t.kind === "organization" && t.input.stableKey === stableKey,
@@ -403,6 +631,13 @@ export function ensureStateLegislatureOpening(
       office.qualification.minimumAge.kind === "known"
         ? office.qualification.minimumAge.value
         : 18;
+    const limit = legislativeTermLimitInForce(next, stateUsps, date);
+    const limitYears = limit
+      ? Math.min(
+          limit.perChamberYears ?? Number.POSITIVE_INFINITY,
+          limit.totalYears ?? Number.POSITIVE_INFINITY,
+        )
+      : null;
     for (let ordinal = 1; ordinal <= chamber.size; ordinal += 1) {
       const seatKey = STATE_LEGISLATURE_KEYS.seat(chamber.officeKey, ordinal);
       const seatRng = rng.fork(`seat:${chamber.officeKey}:${ordinal}`);
@@ -414,8 +649,12 @@ export function ensureStateLegislatureOpening(
         party = democraticShare >= 0.5 ? "democratic" : "republican";
       }
       const age = seatRng.integer(minimumAge + 7, 81);
+      // A state that limits its legislators' terms has no sitting member
+      // past the limit: service so far is spread over the years under it
+      // (the current term is part of it), not piled at the limit.
+      const drawnYears = seatRng.integer(0, 13);
       const yearsServed = Math.min(
-        seatRng.integer(0, 13),
+        limitYears === null ? drawnYears : drawnYears % limitYears,
         Math.max(0, age - minimumAge - 1),
       );
       const year = Number(date.slice(0, 4));
@@ -449,6 +688,46 @@ export function ensureStateLegislatureOpening(
         },
       });
     }
+  }
+  // Each chamber's party balance is the state's own recorded one: the seats
+  // leaning furthest toward each party take that party's recorded count, and
+  // the seats the record gives to neither keep their own lean.
+  for (const chamber of chambers) {
+    const recorded = recordedChamberParties(stateUsps, chamber.chamberKey);
+    if (!recorded) continue;
+    const indices = members
+      .map((member, index) => ({ member, index }))
+      .filter(
+        ({ member }) =>
+          member.chamber === chamber && member.democraticShare !== null,
+      )
+      .sort(
+        (left, right) =>
+          right.member.democraticShare! - left.member.democraticShare! ||
+          left.member.ordinal - right.member.ordinal,
+      )
+      .map(({ index }) => index);
+    if (indices.length === 0) continue;
+    const total =
+      recorded.democrats +
+      recorded.republicans +
+      recorded.other +
+      recorded.vacancies;
+    if (total === 0) continue;
+    const democrats = Math.round((indices.length * recorded.democrats) / total);
+    const republicans = Math.min(
+      indices.length - democrats,
+      Math.round((indices.length * recorded.republicans) / total),
+    );
+    indices.forEach((index, rank) => {
+      const party =
+        rank < democrats
+          ? "democratic"
+          : rank >= indices.length - republicans
+            ? "republican"
+            : members[index]!.party;
+      members[index] = { ...members[index]!, party };
+    });
   }
   if (members.length === 0) return world;
 
@@ -604,43 +883,51 @@ export function stateLegislators(
   world: World,
   packId: string,
 ): readonly StateLegislatorView[] {
+  return perWorld(STATE_LEGISLATORS, world, packId, readStateLegislators);
+}
+
+/**
+ * Answers kept for each World, which is never edited: a day's turnover asks
+ * for the same chamber's seats once for every election year it checks, and
+ * each reading walks every tenure the chamber has ever had.
+ */
+function perWorld<T>(
+  cache: WeakMap<World, Map<string, T>>,
+  world: World,
+  packId: string,
+  read: (world: World, packId: string) => T,
+): T {
+  let byPack = cache.get(world);
+  if (!byPack) {
+    byPack = new Map();
+    cache.set(world, byPack);
+  }
+  if (!byPack.has(packId)) byPack.set(packId, read(world, packId));
+  return byPack.get(packId)!;
+}
+
+const STATE_LEGISLATORS = new WeakMap<
+  World,
+  Map<string, readonly StateLegislatorView[]>
+>();
+const STATE_LEGISLATIVE_SEATS = new WeakMap<
+  World,
+  Map<string, readonly StateLegislativeSeatView[]>
+>();
+
+function readStateLegislators(
+  world: World,
+  packId: string,
+): readonly StateLegislatorView[] {
   const bodyId = createStableId(
     "organization",
     `${world.id}:${STATE_LEGISLATURE_KEYS.body(packId)}`,
   );
-  const prefix = `${V}:`;
-  const views: StateLegislatorView[] = [];
-  for (const work of world.history.workRelationships) {
-    if (work.organizationId !== bodyId) continue;
-    if (work.kind !== "employment:legislative-member") continue;
-    if (!world.people[work.personId]) continue;
-    if (!isPersonAliveAt(world, work.personId, currentLifeCutoff(world)))
-      continue;
-    if (workStatusAt(world, work.id)?.status !== "active") continue;
-    const match = seatTenureMatch(work.stableKey);
-    if (!match) continue;
-    const affiliation =
-      world.history.organizationParticipations.find(
-        (participation) =>
-          participation.personId === work.personId &&
-          participation.stableKey ===
-            `${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
-      ) ??
-      world.history.organizationParticipations.find(
-        (participation) =>
-          participation.personId === work.personId &&
-          participation.kind === PARTY_AFFILIATION_KIND,
-      );
-    views.push({
-      personId: work.personId,
-      workRelationshipId: work.id,
-      officeKey: match[1]!,
-      ordinal: Number(match[2]),
-      title: workRoleAt(world, work.id)?.title ?? "",
-      party: nationalPartyKey(world, affiliation?.organizationId),
-      byCampaign: false,
-    });
-  }
+  const opening = openingSeatViews(world, bodyId);
+  // Most legislatures have no campaign-seated member yet; their list is the
+  // opening's, unchanged.
+  if (!opening.hasCampaignTerms) return opening.views;
+  const views: StateLegislatorView[] = [...opening.views];
   // A campaign's winner sits in their district's seat. The seat's earlier
   // holder left when the term began, so the two are never both listed.
   for (const holder of campaignSeatHolders(world, packId)) {
@@ -678,6 +965,146 @@ export function stateLegislators(
   );
 }
 
+/*
+ * The opening's seat holders change only when a member's job, role, party,
+ * life or the date changes, while a bill day reads every chamber many times
+ * between those changes. So the list is kept per legislature for as long as
+ * the records it reads are the same arrays (the same pattern as
+ * `indexOverArrays`), and read again the moment any of them is replaced.
+ */
+const OPENING_SEAT_VIEWS = new Map<
+  EntityId,
+  OpeningSeatViews & { readonly sources: readonly unknown[] }
+>();
+
+interface OpeningSeatViews {
+  readonly views: readonly StateLegislatorView[];
+  /** Whether any member of this body was seated by a campaign. */
+  readonly hasCampaignTerms: boolean;
+}
+
+function openingSeatViews(world: World, bodyId: EntityId): OpeningSeatViews {
+  const history = world.history;
+  const sources: readonly unknown[] = [
+    world.id,
+    world.currentDate,
+    world.people,
+    history.workRelationships,
+    history.workStatuses,
+    history.workRoles,
+    history.organizationParticipations,
+    history.personDeaths,
+  ];
+  const cached = OPENING_SEAT_VIEWS.get(bodyId);
+  if (
+    cached &&
+    cached.sources.length === sources.length &&
+    cached.sources.every((source, index) => source === sources[index])
+  )
+    return cached;
+  const prefix = `${V}:`;
+  const views: StateLegislatorView[] = [];
+  const { affiliationsByStableKey, firstPartyByPerson } = affiliationIndexes(
+    world.history.organizationParticipations,
+  );
+  for (const work of legislativeWorkForBody(world, bodyId)) {
+    if (!world.people[work.personId]) continue;
+    if (!isPersonAliveAt(world, work.personId, currentLifeCutoff(world)))
+      continue;
+    if (workStatusAt(world, work.id)?.status !== "active") continue;
+    const match = seatTenureMatch(work.stableKey);
+    if (!match) continue;
+    const namedAffiliation = affiliationsByStableKey.get(
+      `${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
+    );
+    const affiliation =
+      (namedAffiliation?.personId === work.personId
+        ? namedAffiliation
+        : undefined) ?? firstPartyByPerson.get(work.personId);
+    views.push({
+      personId: work.personId,
+      workRelationshipId: work.id,
+      officeKey: match[1]!,
+      ordinal: Number(match[2]),
+      title: workRoleAt(world, work.id)?.title ?? "",
+      party: nationalPartyKey(world, affiliation?.organizationId),
+      byCampaign: false,
+    });
+  }
+  const hasCampaignTerms = legislativeWorkForBody(world, bodyId).some(
+    (work) => !seatTenureMatch(work.stableKey),
+  );
+  const built = { sources, views, hasCampaignTerms };
+  OPENING_SEAT_VIEWS.set(bodyId, built);
+  return built;
+}
+
+const AFFILIATION_INDEXES = new WeakMap<
+  readonly OrganizationParticipation[],
+  {
+    readonly affiliationsByStableKey: ReadonlyMap<
+      string,
+      OrganizationParticipation
+    >;
+    readonly firstPartyByPerson: ReadonlyMap<
+      EntityId,
+      OrganizationParticipation
+    >;
+  }
+>();
+
+function affiliationIndexes(
+  participations: readonly OrganizationParticipation[],
+) {
+  const cached = AFFILIATION_INDEXES.get(participations);
+  if (cached) return cached;
+  const affiliationsByStableKey = new Map<string, OrganizationParticipation>();
+  const firstPartyByPerson = new Map<EntityId, OrganizationParticipation>();
+  for (const participation of participations) {
+    affiliationsByStableKey.set(participation.stableKey, participation);
+    if (
+      participation.kind === PARTY_AFFILIATION_KIND &&
+      !firstPartyByPerson.has(participation.personId)
+    )
+      firstPartyByPerson.set(participation.personId, participation);
+  }
+  const indexes = { affiliationsByStableKey, firstPartyByPerson };
+  AFFILIATION_INDEXES.set(participations, indexes);
+  return indexes;
+}
+
+// The nationwide opening appends thousands of relationships, then reuses the
+// immutable history array during ordinary bill steps. A chamber read should
+// visit its own seats rather than every other state's seats each time.
+const LEGISLATIVE_WORK_BY_BODY = new WeakMap<
+  readonly WorkRelationship[],
+  ReadonlyMap<EntityId, readonly WorkRelationship[]>
+>();
+
+function legislativeWorkForBody(
+  world: World,
+  bodyId: EntityId,
+): readonly WorkRelationship[] {
+  const records = world.history.workRelationships;
+  let indexed = LEGISLATIVE_WORK_BY_BODY.get(records);
+  if (!indexed) {
+    const byBody = new Map<EntityId, WorkRelationship[]>();
+    for (const work of records) {
+      if (
+        work.organizationId === null ||
+        work.kind !== "employment:legislative-member"
+      )
+        continue;
+      const body = byBody.get(work.organizationId);
+      if (body) body.push(work);
+      else byBody.set(work.organizationId, [work]);
+    }
+    indexed = byBody;
+    LEGISLATIVE_WORK_BY_BODY.set(records, indexed);
+  }
+  return indexed.get(bodyId) ?? [];
+}
+
 export interface StateLegislativeSeatView {
   readonly officeKey: string;
   readonly ordinal: number;
@@ -697,6 +1124,18 @@ export function stateLegislativeSeats(
   world: World,
   packId: string,
 ): readonly StateLegislativeSeatView[] {
+  return perWorld(
+    STATE_LEGISLATIVE_SEATS,
+    world,
+    packId,
+    readStateLegislativeSeats,
+  );
+}
+
+function readStateLegislativeSeats(
+  world: World,
+  packId: string,
+): readonly StateLegislativeSeatView[] {
   const bodyId = createStableId(
     "organization",
     `${world.id}:${STATE_LEGISLATURE_KEYS.body(packId)}`,
@@ -713,8 +1152,11 @@ export function stateLegislativeSeats(
     string,
     { work: (typeof world.history.workRelationships)[number]; seat: string[] }
   >();
-  for (const work of world.history.workRelationships) {
-    if (work.organizationId !== bodyId) continue;
+  for (const work of recordsWithFieldValue(
+    world.history.workRelationships,
+    "organizationId",
+    bodyId,
+  )) {
     if (work.kind !== "employment:legislative-member") continue;
     const match = seatTenureMatch(work.stableKey);
     if (!match) continue;
@@ -749,9 +1191,11 @@ export function stateLegislativeSeats(
         member,
         holderDiedOn: member
           ? null
-          : (world.history.personDeaths.find(
-              (death) => death.personId === work.personId,
-            )?.diedAt ?? null),
+          : (recordsWithFieldValue(
+              world.history.personDeaths,
+              "personId",
+              work.personId,
+            )[0]?.diedAt ?? null),
       };
     })
     .sort(
@@ -838,13 +1282,8 @@ export function campaignSeatHolders(
     "organization",
     `${world.id}:${STATE_LEGISLATURE_KEYS.body(packId)}`,
   );
-  const terms = world.history.workRelationships
-    .filter(
-      (work) =>
-        work.organizationId === bodyId &&
-        work.kind === "employment:legislative-member" &&
-        !seatTenureMatch(work.stableKey),
-    )
+  const terms = legislativeWorkForBody(world, bodyId)
+    .filter((work) => !seatTenureMatch(work.stableKey))
     .map((work) => ({
       work,
       status: workStatusAt(world, work.id)?.status,
@@ -853,10 +1292,22 @@ export function campaignSeatHolders(
     .filter(
       (entry) =>
         (entry.status === "expected" || entry.status === "active") &&
-        entry.term?.contest.office.districtBinding &&
+        entry.term &&
+        // Named contests and uniquely reconciled older contests use the
+        // same seat identity. An unresolved term falls back to contest.id.
+        entry.term.seatKey !== entry.term.contest.id &&
+        stateSeatsInDistrict(
+          packId,
+          entry.term.contest.office.officeKey,
+          entry.term.seatKey,
+        ).length > 0 &&
         // A member who has died holds no seat, whatever their record says.
-        !world.history.personDeaths.some(
-          (death) => death.personId === entry.work.personId,
+        !(
+          recordsWithFieldValue(
+            world.history.personDeaths,
+            "personId",
+            entry.work.personId,
+          ).length > 0
         ),
     )
     .sort(
@@ -868,11 +1319,7 @@ export function campaignSeatHolders(
   const holders: CampaignSeatHolder[] = [];
   for (const { work, status, term } of terms) {
     const officeKey = term!.contest.office.officeKey;
-    const seats = stateSeatsInDistrict(
-      packId,
-      officeKey,
-      term!.contest.office.districtBinding!.recordId,
-    );
+    const seats = stateSeatsInDistrict(packId, officeKey, term!.seatKey);
     const seat =
       seats.find(
         (s) => held.get(`${officeKey}|${s.ordinal}`) === work.personId,
@@ -927,8 +1374,16 @@ export function endOpeningMemberForWinner(
   );
   const status = work && workStatusAt(world, work.id);
   if (!work || status?.status !== "active") return world;
+  const replacementKey = `${V}:replaced-by:${input.winnerWorkRelationshipId}`;
+  // The original entry may already have ended an opening tenure. A saved
+  // stale successor in that seat needs its own append-only status identity.
+  const stableKey = world.history.workStatuses.some(
+    (record) => record.stableKey === replacementKey,
+  )
+    ? `${replacementKey}:tenure:${work.id}`
+    : replacementKey;
   return recordWorkStatus(world, {
-    stableKey: `${V}:replaced-by:${input.winnerWorkRelationshipId}`,
+    stableKey,
     workRelationshipId: work.id,
     effectiveAt: input.effectiveAt,
     status: "ended",

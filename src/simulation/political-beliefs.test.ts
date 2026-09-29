@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { recordPrinciples } from "./politics";
 
 import {
   SYNTHETIC_POLICY_IDS,
@@ -458,6 +459,54 @@ describe("sparse political beliefs and principles", () => {
       ),
     ).toBe(true);
     expect(world.history.privateBeliefs).toHaveLength(before);
+  });
+
+  it("keeps principle supersession independent when continuing older World snapshots", () => {
+    const initial = createDemoWorld("principle-branch-cache");
+    const id = personId(initial);
+    const input = {
+      stableKey: "principle:fork:first",
+      personId: id,
+      principleId: SYNTHETIC_POLICY_IDS.principles.institutionalStability,
+      formedAt: livedDate(initial, id, 18),
+      stance: "endorses" as const,
+      conviction: "strong" as const,
+      flexibility: "conditional" as const,
+      qualification: null,
+      formation: createFormationContext("reflection:initial"),
+      supersedesPrincipleRecordId: null,
+    };
+    const first = recordPrinciples(initial, [input]);
+    const prior = first.history.principles.at(-1)!;
+    const continuation = {
+      ...input,
+      stableKey: "principle:fork:next",
+      formedAt: livedDate(initial, id, 19),
+      supersedesPrincipleRecordId: prior.id,
+    };
+    const left = recordPrinciples(first, [continuation]);
+    const right = recordPrinciple(first, {
+      ...continuation,
+      stableKey: "principle:fork:right",
+      stance: "rejects",
+    });
+    expect(first.history.principles.at(-1)).toBe(prior);
+    expect(left.history.principles.at(-1)?.stance).toBe("endorses");
+    expect(right.history.principles.at(-1)?.stance).toBe("rejects");
+    expect(() =>
+      recordPrinciples(left, [
+        {
+          ...continuation,
+          stableKey: "principle:fork:stale",
+        },
+      ]),
+    ).toThrow(/supersession/i);
+    expect(recordPrinciples(initial, [input]).history.principles).toEqual(
+      first.history.principles,
+    );
+    expect(recordPrinciples(first, [continuation]).history.principles).toEqual(
+      left.history.principles,
+    );
   });
 
   it("resolves public positions, commitments, and principles through explicit supersession", () => {

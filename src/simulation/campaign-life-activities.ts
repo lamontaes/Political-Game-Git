@@ -6,6 +6,7 @@ import {
   CAMPAIGN_LIFE_CATALOG,
   CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE,
   campaignLifeCatalogEntry,
+  campaignLifeEntryForHost,
 } from "./campaign-life-catalog";
 import {
   CAMPAIGN_LIFE_CATALOG_VERSION,
@@ -85,6 +86,8 @@ import type {
   DecisionConsideration,
   DecisionOption,
   EntityId,
+  FavorKind,
+  FavorWeight,
   FutureDueItem,
   FutureTransitionHandlerResult,
   IsoDate,
@@ -93,6 +96,8 @@ import type {
   SimulationMoment,
   World,
 } from "./types";
+import { feltDebtConsiderations, recordFavor } from "./favors";
+import { heardOfRefusalConsiderations } from "./favor-collection";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
 
 /**
@@ -217,6 +222,17 @@ function momentAt(
 function organizationRecord(world: World, organizationId: EntityId) {
   return world.history.organizations.find(
     (organization) => organization.id === organizationId,
+  );
+}
+
+function hostClassification(
+  world: World,
+  organizationId: EntityId,
+): string | null {
+  return (
+    world.history.organizationProfiles
+      .filter((profile) => profile.organizationId === organizationId)
+      .at(-1)?.classification ?? null
   );
 }
 
@@ -562,7 +578,10 @@ function validateParties(
     );
   }
   return {
-    entry,
+    entry: campaignLifeEntryForHost(
+      entry,
+      hostClassification(world, input.hostOrganizationId),
+    ),
     campaign,
     hostName: personName(host),
     jurisdictionId: organizationJurisdiction(
@@ -1335,6 +1354,24 @@ function supportRequestDecision(
       sourceRefs: [],
     });
   }
+  // Help the candidate once gave the host is a reason to say yes now; having
+  // heard they turned down somebody who had helped them is a reason not to.
+  considerations.push(
+    ...feltDebtConsiderations(
+      world,
+      record.hostPersonId,
+      record.subjectPersonId,
+      decisionKey,
+      "grant",
+    ),
+    ...heardOfRefusalConsiderations(
+      world,
+      record.hostPersonId,
+      record.subjectPersonId,
+      decisionKey,
+      "grant",
+    ),
+  );
   for (const finding of rememberedAdverseFindingsAgainst(
     world,
     record.subjectPersonId,
@@ -1848,6 +1885,7 @@ export function recordCampaignLifeAttendance(
   }
 
   let recordedDecision: CampaignLifeOutcomeRecord["supportDecision"] = null;
+  let supportDecisionEventId: EntityId | null = null;
   if (supportDecision) {
     const said =
       supportDecision === "granted"
@@ -1896,6 +1934,7 @@ export function recordCampaignLifeAttendance(
       organizationId: record.hostOrganizationId,
       decision: supportDecision,
     };
+    supportDecisionEventId = next.history.events.at(-1)!.id;
   }
 
   // PEOPLE contract: only the people actually met, one interaction each.
@@ -1948,6 +1987,21 @@ export function recordCampaignLifeAttendance(
     }
   }
 
+  next = recordCampaignHelpAsFavors(next, {
+    keyBase,
+    form: record.form,
+    subjectPersonId: personId,
+    hostPersonId: record.hostPersonId,
+    contactPersonIds,
+    campaign: openCampaign,
+    outcomeEventId: outcomeEvent.id,
+    donated: raisedAmount !== null,
+    endorsed:
+      recordedDecision?.decision === "granted" ? supportDecisionEventId : null,
+    audience: record.form === "town-hall" ? "public" : "limited",
+    completedAt,
+  });
+
   const outcome: CampaignLifeOutcomeRecord = {
     id: outcomeId,
     stableKey: keyBase,
@@ -1981,6 +2035,117 @@ export function recordCampaignLifeAttendance(
   };
   next = ensureCampaignLifeOutreach(next, personId, record.hostOrganizationId);
   assertWorldIntegrity(next);
+  return next;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Campaign help is a favor                                                   */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The help a campaign evening gave somebody's campaign, written as favors.
+ *
+ * A donor who gave at the fundraiser, a chapter that agreed to back the
+ * campaign, and whoever knocked doors or made calls for a candidate other than
+ * themselves have each done that candidate a favor. The candidate may feel it,
+ * the helper may one day want something back, and neither is decided here. A
+ * candidate helping their own campaign does nobody a favor.
+ *
+ * SET BY HAND: the weights. A gift at a small fundraiser and an evening of
+ * doors are slight; a chapter's backing is moderate, because it is the whole
+ * chapter's name. The motive is shared belief: these are people at their own
+ * party's events, helping its candidate. None of this is shown as a number.
+ */
+function recordCampaignHelpAsFavors(
+  world: World,
+  input: {
+    readonly keyBase: string;
+    readonly form: CampaignLifeForm;
+    readonly subjectPersonId: EntityId;
+    readonly hostPersonId: EntityId;
+    readonly contactPersonIds: readonly EntityId[];
+    readonly campaign: CampaignRecord | null;
+    readonly outcomeEventId: EntityId;
+    readonly donated: boolean;
+    readonly endorsed: EntityId | null;
+    readonly audience: "limited" | "public";
+    readonly completedAt: IsoDate;
+  },
+): World {
+  const campaign = input.campaign;
+  if (!campaign) return world;
+  const candidate = campaign.candidatePersonId;
+  const present = [
+    input.subjectPersonId,
+    input.hostPersonId,
+    ...input.contactPersonIds,
+  ];
+  let next = world;
+  const favor = (
+    key: string,
+    giverPersonId: EntityId,
+    kind: FavorKind,
+    description: string,
+    weight: FavorWeight,
+    eventId: EntityId,
+  ) => {
+    if (giverPersonId === candidate || !next.people[giverPersonId]) return;
+    next = recordFavor(next, {
+      stableKey: `${input.keyBase}:favor:${key}`,
+      giverPersonId,
+      receiverPersonId: candidate,
+      kind,
+      description,
+      givenAt: input.completedAt,
+      eventId,
+      subject: {
+        kind: "organization",
+        organizationId: campaign.organizationId,
+      },
+      motive: "shared-belief",
+      weight,
+      audience: input.audience,
+      witnessPersonIds: present.filter(
+        (id) => id !== giverPersonId && id !== candidate,
+      ),
+      inReturnForFavorId: null,
+      undertakingId: null,
+    });
+  };
+  if (input.donated && input.contactPersonIds[0]) {
+    favor(
+      "donation",
+      input.contactPersonIds[0],
+      "political:campaign-donation",
+      "gave to the campaign at a small fundraiser",
+      "slight",
+      input.outcomeEventId,
+    );
+  }
+  if (input.endorsed !== null) {
+    favor(
+      "backing",
+      input.hostPersonId,
+      "political:chapter-backing",
+      "had the chapter back the campaign",
+      "moderate",
+      input.endorsed,
+    );
+  }
+  if (FIELD_FORMS.includes(input.form)) {
+    for (const helperId of [input.subjectPersonId, ...input.contactPersonIds]) {
+      favor(
+        `field:${helperId}`,
+        helperId,
+        "political:campaign-volunteering",
+        input.form === "phone-shift"
+          ? "made calls for the campaign"
+          : "knocked doors for the campaign",
+        "slight",
+        input.outcomeEventId,
+      );
+    }
+  }
   return next;
 }
 

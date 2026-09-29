@@ -1,77 +1,59 @@
 /**
  * What the pressure layer sets off. Runs once per quarter, right after
  * `stepPressure`, and reads only the readings and the records the world
- * already holds. Nothing here is scheduled for a date or fired at a fixed
- * chance: with no pressure over its line nothing can happen, and the chance
- * grows with how far over the line the pressure is.
+ * already holds. Nothing here is scheduled for a date.
  *
  * Political violence (ChatGPT C09: keep the threat-or-intent prerequisite,
- * no timer, abstract and non-operational):
- * 1. Anger over its line in a state gives a chance of unrest there, a public
- *    event.
- * 2. Unrest recorded this quarter and in an earlier recent quarter is lasting
- *    unrest. It gives a chance of a threat against a prominent political
- *    person in that state: the governor, a member of Congress from it, or a
- *    party chapter organizer who lives there, in office or not.
- * 3. A threat from an earlier quarter, while anger there is still over its
- *    line, gives a chance of an attempt through `recordViolenceAttempt`,
- *    citing the threat and the unrest as its evidence. An attempt feeds anger
- *    and fear back (`anger.ts`).
+ * no timer, abstract and non-operational) runs on the incident engine as
+ * conditions that last, with no chance of an outcome set anywhere: unrest
+ * while a state's anger is over its line, a threat once that unrest lasts,
+ * and an attempt when a threat's strain crosses its own line. See
+ * `ladder.ts`. An attempt feeds anger and fear back (`anger.ts`).
  *
  * International crises (ChatGPT C08: a development with escalation state
  * feeds the existing declaration route; one persistent crisis per
- * development):
- * 4. Each international development still open carries friction: what its
- *    reports added, plus the country's economic strain and anger since it was
- *    reported. Friction over its line gives a chance of an international
- *    crisis over that development, through `declareInternationalCrisis`. A
- *    development starts at most one crisis.
+ * development): each international development still open carries friction,
+ * what its reports added plus the country's economic strain and anger since
+ * it was reported. Friction over its line gives a chance of an international
+ * crisis over that development, through `declareInternationalCrisis`. A
+ * development starts at most one crisis. This is still a chance each quarter,
+ * and it is the next step to move onto the incident engine.
  *
- * Every number in `BLANKET_POLITICAL_VIOLENCE` and
- * `BLANKET_INTERNATIONAL_FRICTION` is a placeholder, filed with ChatGPT as
- * `political-violence-what-builds-to-an-attack` and
- * `international-crisis-what-escalates-a-dispute`.
+ * Every number in `BLANKET_INTERNATIONAL_FRICTION` is a placeholder, filed
+ * with ChatGPT as `international-crisis-what-escalates-a-dispute`.
  */
 
-import {
-  declareInternationalCrisis,
-  recordViolenceAttempt,
-} from "../crisis/international";
-import { currentGovernorOf } from "../crisis/offices";
+import { declareInternationalCrisis } from "../crisis/international";
 import { crisisRecords } from "../crisis/records";
-import { projectCongress } from "../living-world/congress";
-import { homePartyChapters } from "../living-world/party-chapters";
 import { macroReleasesAt } from "../macro-economy/readers";
-import { personName } from "../people";
 import { SeededRng } from "../rng";
-import type { EntityId, HistoricalEvent, World } from "../types";
-import { isPersonAliveAt } from "../vitality";
-import { recordWorldEvent } from "../world";
-import { homeStateKeyOf } from "./anger";
+import type { HistoricalEvent, World } from "../types";
 import type { PressureReading } from "./contract";
 import { latestReadings } from "./flows";
+import { stepPressureLadder } from "./ladder";
 import { worldStates } from "./step";
 
+export {
+  BLANKET_POLITICAL_VIOLENCE,
+  PRESSURE_ANGER_METRIC_STABLE_KEY,
+  PRESSURE_LADDER_INCIDENT_STABLE_KEYS,
+  THREAT_ATTEMPTED_PHASE,
+  THREAT_INCIDENT_STABLE_KEY,
+  THREAT_LAPSED_PHASE,
+  UNREST_CALMED_PHASE,
+  UNREST_INCIDENT_STABLE_KEY,
+  UNREST_LASTING_PHASE,
+  ensurePressureLadder,
+  prominentPeopleIn,
+  threatAttemptLine,
+  threatIncidentDefinition,
+  threatStrain,
+  unrestIncidentDefinition,
+} from "./ladder";
+
+/** Tags the ladder's unrest and threat onset events carry. */
 export const UNREST_EVENT = "pressure.unrest";
 export const POLITICAL_THREAT_EVENT = "pressure.political-threat";
-
-/** BLANKET placeholders; see the file comment. None is researched. */
-export const BLANKET_POLITICAL_VIOLENCE = Object.freeze({
-  /** Anger at or under this sets nothing off. */
-  angerLine: 0.3,
-  /** Chance of unrest per unit of anger over the line, each quarter. */
-  unrestPerExcess: 1.5,
-  /** Unrest is lasting when an earlier one came within this many quarters. */
-  lastingWithinQuarters: 4,
-  /** Chance of a threat per unit of anger over the line, in lasting unrest. */
-  threatPerExcess: 0.75,
-  /** Chance of an attempt per unit of anger over the line, on an open threat. */
-  attemptPerExcess: 0.5,
-  /** A threat with no attempt lapses after this many quarters. */
-  threatOpenQuarters: 4,
-  /** No chance here ever reaches certainty. */
-  chanceCap: 0.9,
-});
 
 export const BLANKET_INTERNATIONAL_FRICTION = Object.freeze({
   /** What each report of the development adds, by its importance. */
@@ -116,13 +98,6 @@ function tagValue(event: HistoricalEvent, prefix: string): string | null {
   return tag ? tag.slice(prefix.length) : null;
 }
 
-function alive(world: World, personId: EntityId): boolean {
-  return isPersonAliveAt(world, personId, {
-    asOfDate: world.currentDate,
-    historySequenceExclusive: world.history.nextSequence,
-  });
-}
-
 /** Steps everything the latest quarter's pressure can set off. */
 export function stepPressureEvents(world: World): World {
   const store = world.pressure;
@@ -131,170 +106,8 @@ export function stepPressureEvents(world: World): World {
   const readings = [...latestReadings(world).values()].sort((a, b) =>
     a.stateKey.localeCompare(b.stateKey),
   );
-  for (const reading of readings) next = stepStateViolence(next, reading);
+  next = stepPressureLadder(next, readings);
   return stepInternationalFriction(next, readings);
-}
-
-function stateEvents(world: World, type: string, stateKey: string) {
-  return world.history.events.filter(
-    (event) => event.type === type && event.tags.includes(`state:${stateKey}`),
-  );
-}
-
-function quarterOf(event: HistoricalEvent): number {
-  return Number(tagValue(event, "quarter:") ?? -1);
-}
-
-function stepStateViolence(world: World, reading: PressureReading): World {
-  const policy = BLANKET_POLITICAL_VIOLENCE;
-  const excess = reading.levels.anger - policy.angerLine;
-  if (excess <= 0) return world;
-  const { stateKey, ordinal } = reading;
-  const state = world.jurisdictions[reading.jurisdictionId];
-  if (!state) return world;
-  let next = world;
-
-  // 1. Unrest.
-  if (
-    draw(next, ["unrest", stateKey, ordinal]) <
-    chance(excess, policy.unrestPerExcess, policy.chanceCap)
-  )
-    next = recordWorldEvent(next, {
-      stableKey: `pressure:unrest:${stateKey}:${ordinal}`,
-      type: UNREST_EVENT,
-      occurredAt: next.currentDate,
-      recordedAt: next.currentDate,
-      jurisdictionId: state.id,
-      involvedEntityIds: [state.id],
-      participants: [],
-      personFactConstraints: [],
-      visibility: "public",
-      tags: [
-        "pressure",
-        UNREST_EVENT,
-        `state:${stateKey}`,
-        `quarter:${ordinal}`,
-      ],
-      summary: `Unrest broke out in ${state.name} as public anger ran high.`,
-      context: EMPTY_CONTEXT,
-    });
-
-  const unrest = stateEvents(next, UNREST_EVENT, stateKey);
-  const threats = stateEvents(next, POLITICAL_THREAT_EVENT, stateKey);
-  const attempted = new Set(
-    crisisRecords(next).flatMap((record) =>
-      record.kind === "violence-attempt" ? record.threatEvidenceIds : [],
-    ),
-  );
-
-  // 3. An attempt on a threat from an earlier quarter, before any new threat,
-  // so a threat never turns into an attempt in the quarter it was made.
-  for (const threat of threats) {
-    const made = quarterOf(threat);
-    const targetId = threat.involvedEntityIds.find((id) => next.people[id]);
-    if (
-      made >= ordinal ||
-      ordinal - made > policy.threatOpenQuarters ||
-      attempted.has(threat.id) ||
-      !targetId ||
-      !alive(next, targetId)
-    )
-      continue;
-    if (
-      draw(next, ["attempt", threat.id, ordinal]) >=
-      chance(excess, policy.attemptPerExcess, policy.chanceCap)
-    )
-      continue;
-    const evidence = [
-      threat.id,
-      ...unrest
-        .filter((event) => quarterOf(event) <= made)
-        .map((event) => event.id),
-    ];
-    next = recordViolenceAttempt(next, {
-      stableKey: `pressure:${stateKey}:${ordinal}:${targetId}`,
-      targetPersonId: targetId,
-      threatEvidenceIds: evidence,
-      basis: `Lasting unrest in ${state.name} and an earlier threat against the target.`,
-    });
-  }
-
-  // 2. A threat, in lasting unrest, when no threat there is still open.
-  const now = unrest.some((event) => quarterOf(event) === ordinal);
-  const earlier = unrest.some((event) => {
-    const quarter = quarterOf(event);
-    return (
-      quarter < ordinal && ordinal - quarter <= policy.lastingWithinQuarters
-    );
-  });
-  const open = threats.some(
-    (threat) =>
-      ordinal - quarterOf(threat) <= policy.threatOpenQuarters &&
-      !attempted.has(threat.id),
-  );
-  if (!now || !earlier || open) return next;
-  if (
-    draw(next, ["threat", stateKey, ordinal]) >=
-    chance(excess, policy.threatPerExcess, policy.chanceCap)
-  )
-    return next;
-  const candidates = prominentPeopleIn(next, stateKey);
-  if (candidates.length === 0) return next;
-  const targetId =
-    candidates[
-      new SeededRng("pressure-events-v1")
-        .fork(JSON.stringify(["target", next.seed, stateKey, ordinal]))
-        .integer(0, candidates.length)
-    ]!;
-  const target = next.people[targetId]!;
-  return recordWorldEvent(next, {
-    stableKey: `pressure:threat:${stateKey}:${ordinal}`,
-    type: POLITICAL_THREAT_EVENT,
-    occurredAt: next.currentDate,
-    recordedAt: next.currentDate,
-    jurisdictionId: state.id,
-    involvedEntityIds: [targetId],
-    participants: [
-      { personId: targetId, role: "impact:threatened", detail: null },
-    ],
-    personFactConstraints: [],
-    visibility: "limited",
-    tags: [
-      "pressure",
-      POLITICAL_THREAT_EVENT,
-      `state:${stateKey}`,
-      `quarter:${ordinal}`,
-    ],
-    summary: `${personName(target)} was threatened as unrest continued in ${state.name}.`,
-    context: EMPTY_CONTEXT,
-  });
-}
-
-/**
- * Prominent political people in a state, in office or not: its governor, its
- * members of Congress, and party chapter organizers who live there. Living
- * people only, in id order.
- */
-export function prominentPeopleIn(
-  world: World,
-  stateKey: string,
-): readonly EntityId[] {
-  const usps = stateKey.slice(3);
-  const ids = new Set<EntityId>();
-  const governor = currentGovernorOf(world, usps);
-  if (governor) ids.add(governor.personId);
-  const congress = projectCongress(world);
-  for (const chamber of congress ? [congress.house, congress.senate] : [])
-    for (const seat of chamber.seats)
-      if (seat.stateUsps === usps && seat.occupant.kind === "member")
-        ids.add(seat.occupant.member.personId);
-  for (const chapter of homePartyChapters(world))
-    if (
-      chapter.organizerPersonId &&
-      homeStateKeyOf(world, chapter.organizerPersonId) === stateKey
-    )
-      ids.add(chapter.organizerPersonId);
-  return [...ids].filter((id) => world.people[id] && alive(world, id)).sort();
 }
 
 /** Friction on each international development still open, by matter id. */
@@ -405,12 +218,3 @@ export function stepInternationalFriction(
   }
   return next;
 }
-
-const EMPTY_CONTEXT = {
-  location: null,
-  socialContext: null,
-  pressure: null,
-  choice: null,
-  motivation: null,
-  immediateReaction: null,
-} as const;

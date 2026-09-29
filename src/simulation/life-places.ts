@@ -857,6 +857,14 @@ export function searchLifePlaces(
     }
   }
 
+  // The first place alone needs no sort: the least under the same order.
+  if (limit === 1) {
+    let first: LifePlace | undefined;
+    for (const place of matches)
+      if (!first || compareLifePlaceSearchOrder(place, first, needle) < 0)
+        first = place;
+    return first ? [first] : [];
+  }
   matches.sort((left, right) =>
     compareLifePlaceSearchOrder(left, right, needle),
   );
@@ -945,6 +953,21 @@ export function lifePlaces(): readonly LifePlace[] {
  * granting any legislative capability.
  */
 export function stateJurisdictionForKey(key: string): Jurisdiction | null {
+  if (!STATE_JURISDICTIONS.has(key))
+    STATE_JURISDICTIONS.set(key, findStateJurisdiction(key));
+  return STATE_JURISDICTIONS.get(key)!;
+}
+
+/**
+ * Each state key's jurisdiction, found once. The law in force asks for every
+ * state's jurisdiction each time it places a law, and searching the place list
+ * for each was about a fifteenth of a late year's work. The place list is
+ * built once and never changes (`allPlaces`), so the answer for a key never
+ * changes either.
+ */
+const STATE_JURISDICTIONS = new Map<string, Jurisdiction | null>();
+
+function findStateJurisdiction(key: string): Jurisdiction | null {
   const established = lifePlaces().find(
     (place) => place.scope === "state" && place.stateJurisdictionKey === key,
   );

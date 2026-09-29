@@ -270,10 +270,11 @@ export const GAMEPLAY_SECTORS: readonly GameplaySectorKey[] = [
  * THE ECONOMY'S ERAS (04 SYSTEM SPECS part 6, "the entire world changes").
  *
  * The anchors the monthly step pulls toward are not fixed. Trend growth
- * wanders and now and then jumps into a new productivity era; recessions
- * start and end with drawn depths; the normal unemployment rate drifts and is
- * scarred by long slumps; the inflation anchor drifts and comes loose when
- * inflation runs hot. A century run is several different economies, not one
+ * wanders and now and then jumps into a new productivity era; the normal
+ * unemployment rate drifts and is scarred by long slumps; the inflation
+ * anchor drifts and comes loose when inflation runs hot. Recessions are not
+ * drawn here: since Build 19 they come from credit, demand and the central
+ * bank's decisions (`credit.ts`, `central-bank.ts`). A century run is several different economies, not one
  * number with noise around it.
  *
  * PROVISIONAL sizes, calibrated to the broad U.S. record rather than fitted:
@@ -299,22 +300,14 @@ export const MACRO_ERA_POLICY = {
     minPct: -0.5,
     maxPct: 6,
   },
-  cycle: {
-    minExpansionMonths: 12,
-    recessionStartMonthlyChance: 1 / 64,
-    /** Growth below trend while it lasts (points), and its average length. */
-    depths: [
-      { weight: 0.5, gapPp: 3, meanMonths: 8 },
-      { weight: 0.35, gapPp: 5, meanMonths: 12 },
-      { weight: 0.13, gapPp: 7, meanMonths: 18 },
-      { weight: 0.02, gapPp: 11, meanMonths: 40 },
-    ],
-  },
   natural: {
     longRunPct: 4.8,
     monthlyPull: 0.01,
     monthlySdPp: 0.03,
-    /** Rise per recession month for each point of depth (hysteresis). */
+    /**
+     * Rise per month for each point output runs below trend beyond
+     * MACRO_ERA_CONDITIONS.scarringAbovePp (hysteresis).
+     */
     scarringPerGapPp: 0.004,
     minPct: 3,
     maxPct: 9,
@@ -338,12 +331,20 @@ export const MACRO_ERA_POLICY = {
     shockMonthlyRetention: 0.96,
     /** Inflation given up per point of recession depth (disinflation). */
     recessionDisinflationPerGapPp: 0.3,
-    /**
-     * PLACEHOLDER until a central bank decides: the pull back to the long-run
-     * rate grows by this much for each point the anchor sits above
-     * `crackdownAbovePct`, as a Volcker-style crackdown would.
-     */
-    crackdownAbovePct: 4,
-    crackdownPullPerPp: 1.5,
   },
+} as const;
+
+/**
+ * Build 19: the era with no drawn recession (`stepEraConditions`). The
+ * 1-in-64 monthly recession start, its drawn depths and chance-based end, and
+ * the built-in inflation crackdown are gone; the central bank's members
+ * decide how hard to lean on inflation.
+ */
+export const MACRO_ERA_CONDITIONS = {
+  version: "macro-eras-conditions-v1",
+  /**
+   * PLACEHOLDER: growth this many points under trend before a month scars
+   * the normal unemployment rate, so ordinary monthly noise does not.
+   */
+  scarringAbovePp: 1,
 } as const;

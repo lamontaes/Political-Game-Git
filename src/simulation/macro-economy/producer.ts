@@ -13,12 +13,9 @@ import type { MacroStartingConditionsRecord } from "../world-setup/types";
 import { detExp } from "../world-setup/deterministic-math";
 import {
   annualizedQuarterlyGrowthPct,
-  drawInnovations,
   roundMacro,
   stepLocalMonth,
   START_ERA,
-  stepEra,
-  stepMonth,
   twelveMonthChangePct,
   type MacroImpulses,
   type MacroMonthlyState,
@@ -31,6 +28,15 @@ import {
   UNEMPLOYMENT_RECOVERY_RULE,
 } from "./policy";
 import { MACRO_ORIGIN_READERS, type MacroOriginReader } from "./sources";
+import {
+  ensureCentralBankSeated,
+  holdCentralBankMeeting,
+  isCentralBankMeetingMonth,
+  stepCentralBankSeats,
+} from "./central-bank";
+import { stepNationalConditions } from "./conditions";
+import { startCreditState } from "./credit";
+import { recordBusinessCycle } from "./cycle";
 import {
   classifyHousing,
   monthEnd,
@@ -292,12 +298,36 @@ function nationalMonth(
     .fork(`${MACRO_ECONOMY_CONTRACT_VERSION}:innovations`)
     .fork("national")
     .fork(monthKey);
-  const innovations = drawInnovations(rng);
-  const { impulses, shockKeys } = impulsesFor(store, "national", monthKey, 1);
-  // The era moves first, from last month's record, then the month steps
-  // toward the era's anchors.
-  const era = stepEra(previous?.era ?? START_ERA, prior, rng.fork("era"));
-  const next = stepMonth(prior, innovations, impulses, era);
+  const { impulses: shockImpulses, shockKeys } = impulsesFor(
+    store,
+    "national",
+    monthKey,
+    1,
+  );
+  // The rate the board last set is in force; before a board sits, the
+  // retained reference rate.
+  const policyRate = store.centralBank?.policyRate ??
+    previous?.policyRate ?? {
+      lowerPct: POLICY.baseline.policyRateRangePct.lower,
+      upperPct: POLICY.baseline.policyRateRangePct.upper,
+      basis: "retained-reference" as const,
+      decisionEventId: null,
+    };
+  const policyMidPct = (policyRate.lowerPct + policyRate.upperPct) / 2;
+  const startTightness = store.start.initial.creditTightness;
+  // Build 19: the era moves with no recession drawn, the credit stocks move
+  // from last month's record, and the month steps with every push recorded.
+  const stepped = stepNationalConditions({
+    previous: prior,
+    previousEra: previous?.era ?? START_ERA,
+    credit:
+      previous?.credit ??
+      startCreditState(policyMidPct, startTightness, prior.unemploymentPct),
+    policyMidPct,
+    startTightness,
+    shockImpulses,
+    rng,
+  });
   const ratio = previous?.housing
     ? previous.housing.supplyDemandRatio
     : store.start.initial.housingSupplyDemandRatio;
@@ -308,7 +338,7 @@ function nationalMonth(
     periodStart: monthStart(monthKey),
     periodEnd: monthEnd(monthKey),
     recordedAt: monthStart(nextMonthKey(monthKey)),
-    ...next,
+    ...stepped.state,
     realIncomeIndex: null,
     // Supply and demand move only through recorded construction, migration
     // and household events; none are modeled yet, so the ratio holds.
@@ -319,20 +349,15 @@ function nationalMonth(
       classification: classifyHousing(ratio),
     },
     exposure: null,
-    // Moves only when a modeled central-bank actor decides; none exists.
-    creditTightness:
-      previous?.creditTightness ?? store.start.initial.creditTightness,
-    policyRate: previous?.policyRate ?? {
-      lowerPct: POLICY.baseline.policyRateRangePct.lower,
-      upperPct: POLICY.baseline.policyRateRangePct.upper,
-      basis: "retained-reference",
-      decisionEventId: null,
-    },
-    innovations,
-    impulses,
+    creditTightness: stepped.credit.tightness,
+    policyRate,
+    innovations: stepped.innovations,
+    impulses: stepped.impulses,
     shockKeys,
-    era,
+    era: stepped.era,
     unemploymentRule: UNEMPLOYMENT_RECOVERY_RULE,
+    credit: stepped.credit,
+    drivers: stepped.drivers,
   };
 }
 
@@ -572,9 +597,10 @@ export function createMacroMonthlyStepHandler(
   readers: readonly MacroOriginReader[] = MACRO_ORIGIN_READERS,
 ) {
   return (
-    world: World,
+    incoming: World,
     dueItem: FutureDueItem,
   ): FutureTransitionHandlerResult => {
+    let world = incoming;
     if (
       dueItem.transitionKey !== MACRO_MONTHLY_STEP_KEY ||
       !dueItem.stableKey.startsWith(STEP_PREFIX)
@@ -605,7 +631,16 @@ export function createMacroMonthlyStepHandler(
         outcomeEventId: null,
       };
     }
-    let working = intakeShocks(store, world, monthKey, readers);
+    // The board sits (once), fills its seats, and its last rate is in force.
+    let seated = ensureCentralBankSeated(world, {
+      lowerPct: POLICY.baseline.policyRateRangePct.lower,
+      upperPct: POLICY.baseline.policyRateRangePct.upper,
+      basis: "retained-reference",
+      decisionEventId: null,
+    });
+    seated = stepCentralBankSeats(seated);
+    world = seated;
+    let working = intakeShocks(world.macroEconomy!, world, monthKey, readers);
     const previousNational = lastMonth(working, "national");
     const previousNationalState = previousNational
       ? stateOf(previousNational)
@@ -632,8 +667,13 @@ export function createMacroMonthlyStepHandler(
       { ...world, macroEconomy: working },
       monthKey,
     );
+    // The observer's word for what the month did, with its causes, then the
+    // board meets on the figures just published.
+    let closed = recordBusinessCycle(published.world, monthKey);
+    if (isCentralBankMeetingMonth(monthKey))
+      closed = holdCentralBankMeeting(closed, monthKey);
     return {
-      world: scheduleStep(published.world, nextMonthKey(monthKey)),
+      world: scheduleStep(closed, nextMonthKey(monthKey)),
       status: "resolved",
       reasonKey: "economy:month-recorded",
       context: `Economic conditions for ${monthLabel(monthKey)} were recorded.`,

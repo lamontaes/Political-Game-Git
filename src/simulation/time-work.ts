@@ -1,3 +1,6 @@
+import { applySpeechRetelling } from "./speech-retelling";
+import { applyEnactedCourtSizes } from "./governing/court-size-law";
+import { applyJudicialReview } from "./judiciary/judicial-review";
 import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
@@ -7,6 +10,7 @@ import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnov
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyConstitutionalReform } from "./living-world/constitutional-reform";
 import { applyFederalReform } from "./living-world/federal-reform";
+import { applyArticleV } from "./governing/article-v";
 import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { workStatusAt } from "./life-queries";
 import { eventById } from "./event-index";
@@ -1124,7 +1128,7 @@ export function advanceWorldMinutes(
       addSimulationMinutes(world.currentMoment, minutes),
       transitionHandlers,
     );
-  });
+  }, world);
 }
 
 /** Spend real time while joining one already-started commitment. The caller
@@ -1534,7 +1538,7 @@ function advanceCanonicalMinutes(
   const transitions: ExactTransition[] = [];
   for (
     let date = addDays(start.date, 1);
-    date <= target.date;
+    date < target.date;
     date = addDays(date, 1)
   ) {
     const boundary = simulationMomentAtLocalTime({
@@ -1610,7 +1614,7 @@ function advanceCanonicalMinutes(
       );
       world = setCurrentMoment(world, transition.at, crossedFrom);
     } else if (transition.kind === "work-completion" && transition.entityId) {
-      world = setCurrentMoment(world, transition.at);
+      world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
       world = completeStaffWork(
         world,
         transition.entityId,
@@ -1618,7 +1622,7 @@ function advanceCanonicalMinutes(
         inputWorld.actionSequence,
       );
     } else if (transition.kind === "work-progress" && transition.entityId) {
-      world = setCurrentMoment(world, transition.at);
+      world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
       world = recordStaffProgress(
         world,
         transition.entityId,
@@ -1629,7 +1633,7 @@ function advanceCanonicalMinutes(
       transition.kind === "activity-completion" &&
       transition.entityId
     ) {
-      world = setCurrentMoment(world, transition.at);
+      world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
       world = completeActivity(
         world,
         transition.entityId,
@@ -1642,7 +1646,7 @@ function advanceCanonicalMinutes(
         );
     }
   }
-  world = setCurrentMoment(world, target);
+  world = setCurrentMomentWithDue(world, target, transitionHandlers);
   const actionSequence = inputWorld.actionSequence;
   world = { ...world, actionSequence: actionSequence + 1 };
   world = recordWorldEvent(world, {
@@ -1961,6 +1965,20 @@ function appendWorkState(world: World, state: WorkItemStateRecord): World {
   return next;
 }
 
+function setCurrentMomentWithDue(
+  world: World,
+  moment: SimulationMoment,
+  transitionHandlers: FutureTransitionHandlerRegistry,
+): World {
+  if (moment.date === world.currentDate) return setCurrentMoment(world, moment);
+  const crossedFrom = world.currentDate;
+  return setCurrentMoment(
+    resolveFutureDueItemsThrough(world, moment.date, transitionHandlers),
+    moment,
+    crossedFrom,
+  );
+}
+
 function setCurrentMoment(
   world: World,
   moment: SimulationMoment,
@@ -1974,21 +1992,33 @@ function setCurrentMoment(
   // CRISIS records the death or capacity change; the office consequence is
   // GOVERNING's, and it runs on the same date boundary so a death reaches the
   // office the day it happens. The consumer applies each notice once.
-  return applyCrisisRepairFunding(
-    applyCrisisOfficeContinuity(
-      applyCongressLawmaking(
-        crossedFrom,
-        applyFederalReform(
-          crossedFrom,
-          applyConstitutionalReform(
-            crossedFrom,
-            applyPresidentialTurnover(
+  // D-3 step 7: a remembered speech is retold at each first of the month.
+  return applyJudicialReview(
+    crossedFrom,
+    applySpeechRetelling(
+      crossedFrom,
+      applyCrisisRepairFunding(
+        applyEnactedCourtSizes(
+          applyCrisisOfficeContinuity(
+            applyCongressLawmaking(
               crossedFrom,
-              applyGovernorTurnover(
+              applyFederalReform(
                 crossedFrom,
-                applyCongressTurnover(
+                applyArticleV(
                   crossedFrom,
-                  applyStateLegislatureTurnover(crossedFrom, moved),
+                  applyConstitutionalReform(
+                    crossedFrom,
+                    applyPresidentialTurnover(
+                      crossedFrom,
+                      applyGovernorTurnover(
+                        crossedFrom,
+                        applyCongressTurnover(
+                          crossedFrom,
+                          applyStateLegislatureTurnover(crossedFrom, moved),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

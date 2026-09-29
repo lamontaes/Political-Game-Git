@@ -9,6 +9,12 @@ import {
 import { ARTICLE_V_STATE_KEYS } from "../simulation/constitutional-process";
 import { makeIsoDate } from "../simulation/dates";
 import {
+  drawStateTaxServiceStartingConditions,
+  stateTaxServiceProfileForJurisdictionKey,
+} from "../simulation/world-setup/state-tax-service-profiles";
+import { ensureWorldStartingConditions } from "../simulation/world-setup/conditions";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../simulation/world-setup/types";
+import {
   RULES_CAPABILITY_VERSION,
   resolveCapability,
 } from "../simulation/rule-capability-resolver";
@@ -21,6 +27,11 @@ import {
 import { transitOffice } from "./transit-work";
 
 const ON = makeIsoDate("2027-02-01");
+const TEST_PROFILES = drawStateTaxServiceStartingConditions({
+  seed: "funded-service-capability-test",
+}).profiles;
+const profileFor = (key: string) =>
+  TEST_PROFILES.find((profile) => profile.jurisdictionKey === key) ?? null;
 
 describe("funded civic service capability across the registry", () => {
   it("admits every field for Alaska, taking its institution from rules-capability/v1", () => {
@@ -36,51 +47,93 @@ describe("funded civic service capability across the registry", () => {
     ).toContain(`${RULES_CAPABILITY_VERSION} institution.form`);
   });
 
-  it("follows RULES' institution answer and names the exact missing fields", () => {
+  it("distinguishes the compiled game-profile route from sourced institution law", () => {
     for (const key of ["US-NV", "US-WY"]) {
       const rules = resolveCapability({
         scope: { kind: "state", stateUsps: key.slice(3) },
         action: "inspect",
         onDate: ON,
       }).fields.find((entry) => entry.field === "institution.form")!;
-      const capability = resolveStateFundedServiceCapability(key, ON);
-      expect(capability.missing.includes("legislative-procedure")).toBe(
-        rules.state !== "ADMITTED",
+      const capability = resolveStateFundedServiceCapability(
+        key,
+        ON,
+        undefined,
+        profileFor(key),
       );
-      expect(capability.supported).toBe(false);
+      expect(capability.supported).toBe(true);
+      expect(capability.missing).toEqual([]);
+      if (rules.state !== "ADMITTED")
+        expect(
+          capability.readings.find(
+            (row) => row.field === "legislative-procedure",
+          )?.basis,
+        ).toContain("game profile");
     }
-    const nevada = resolveStateFundedServiceCapability("US-NV", ON);
-    expect(nevada.missing).toEqual(
-      expect.arrayContaining(["revenue-decision", "tax-power"]),
+    const missingSavedProfile = resolveStateFundedServiceCapability(
+      "US-KY",
+      ON,
     );
+    expect(missingSavedProfile.missing).toEqual(
+      expect.arrayContaining([
+        "tax-power",
+        "funding-effective-date",
+        "public-account",
+      ]),
+    );
+    const nevada = resolveStateFundedServiceCapability(
+      "US-NV",
+      ON,
+      undefined,
+      profileFor("US-NV"),
+    );
+    expect(
+      nevada.readings.find((row) => row.field === "tax-power")?.basis,
+    ).toContain("explicit fictional tax assumptions");
     const wyoming = resolveStateFundedServiceCapability("US-WY", ON);
-    expect(wyoming.missing).toContain("legislative-procedure");
+    expect(wyoming.missing).toContain("tax-power");
     expect(fundedServiceRefusal(wyoming)).toMatch(
-      /^Funded public service is not yet playable for Wyoming\. Missing: a compiled legislative institution;/,
+      /acquired tax-power evidence or an explicit fictional tax profile/,
     );
   });
 
-  it("covers all 50 states and every loaded local government, claiming none it cannot run", () => {
+  it("reports all fifty state field combinations without claiming a payment", () => {
     const coverage = nationwideFundedServiceCoverage(ON);
     expect(coverage.states.map((row) => row.jurisdictionKey)).toEqual([
       ...ARTICLE_V_STATE_KEYS,
     ]);
-    expect(coverage.states.filter((row) => row.supported)).toHaveLength(1);
+    expect(
+      coverage.states
+        .filter((row) => row.supported)
+        .map((row) => row.jurisdictionKey),
+    ).toEqual([...ARTICLE_V_STATE_KEYS]);
     expect(coverage.local.governments).toBeGreaterThan(0);
     expect(coverage.local.supported).toBe(0);
   });
 
   it("uses the same resolution at the player's office gate on the world's date", () => {
-    const kentucky = suppliedLegislativeSeat("US-KY", "house");
-    expect(transitOffice(kentucky.world, kentucky.personId)).toEqual({
-      kind: "unavailable",
-      reason: fundedServiceRefusal(
-        resolveStateFundedServiceCapability(
-          "US-KY",
-          kentucky.world.currentDate,
-        ),
-      ),
-    });
+    const suppliedKentucky = suppliedLegislativeSeat("US-KY", "house");
+    const kentucky = {
+      ...suppliedKentucky,
+      world: ensureWorldStartingConditions(suppliedKentucky.world, {
+        openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+      }),
+    };
+    const savedKentuckyProfile = stateTaxServiceProfileForJurisdictionKey(
+      kentucky.world,
+      "US-KY",
+    );
+    expect(savedKentuckyProfile).not.toBeNull();
+    expect(
+      resolveStateFundedServiceCapability(
+        "US-KY",
+        kentucky.world.currentDate,
+        undefined,
+        savedKentuckyProfile,
+      ).supported,
+    ).toBe(true);
+    expect(transitOffice(kentucky.world, kentucky.personId).kind).toBe(
+      "available",
+    );
     const alaska = suppliedLegislativeSeat("US-AK", "house");
     expect(transitOffice(alaska.world, alaska.personId).kind).toBe("available");
   });

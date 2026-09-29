@@ -27,19 +27,15 @@ export const GOVERNOR_TURNOVER_VERSION = "governor-turnover/v1";
  *
  * Whether an incumbent MAY stand again is the state's term limit, read per
  * state through `executive-term-limits.ts` (sourced, enacted in this World, or
- * the disclosed per-state draw), never a number here. What remains here is
- * choice, not law: how old an incumbent is when they stop wanting the job,
- * and how often an eligible one runs. Filed as
+ * the disclosed per-state draw), never a number here. Whether they WANT to is
+ * their own decision (`decideAnotherTerm`), with no age or chance here. What
+ * remains is when the field closes, filed as
  * executive-terms-and-incumbency-turnover.
  */
 export const GOVERNOR_TURNOVER_PROFILE = {
   id: "ocd-governor-turnover-game-profile/v2",
   /** The candidate field closes this many days before the general election. */
   fieldClosesDaysBefore: 60,
-  /** Incumbents this old or older do not run. */
-  retirementAge: 78,
-  /** Chance an eligible incumbent runs again, per mille. */
-  incumbentRunsPermille: 800,
 } as const;
 
 export function fieldClosingDate(electionDay: IsoDate): IsoDate {
@@ -124,7 +120,12 @@ export function scheduleNextFieldClose(
 export function applyGovernorTurnover(before: IsoDate, world: World): World {
   if (world.currentDate <= before) return world;
   let next = world;
-  for (const office of materializedOffices(world)) {
+  // Every governor and every state legislature is seated when a new game
+  // opens (opening-life.ts), so the clock no longer asks on each move whether
+  // all 50 exist. Saves from before that preparation are not supported
+  // (owner, 2026-09-26: old saves need not stay compatible yet).
+  const offices = materializedOffices(next);
+  for (const office of offices) {
     next = scheduleNextFieldClose(next, office.stateUsps, next.currentDate);
     next = scheduleGoverningSeasons(
       next,

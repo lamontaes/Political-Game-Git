@@ -56,6 +56,11 @@ import {
 } from "./records";
 import { editorialHeadline, editorialParagraphs } from "./editorial";
 import {
+  lawNewsReaders,
+  reportLawEffects,
+  reportLawOutcomes,
+} from "./law-effect-news";
+import {
   appendPressRecord,
   pressDispositionsForLead,
   pressRecordsOfKind,
@@ -1199,6 +1204,12 @@ function recordProfessionalReaders(
       readers.add(organizer);
     }
   }
+  // A story about a law's effect is read by the people it reached and the
+  // lawmakers answerable for it (law-effect-news.ts).
+  for (const basisId of lead.basisEventIds) {
+    const basis = eventById(world, basisId);
+    if (basis) for (const id of lawNewsReaders(world, basis)) readers.add(id);
+  }
   let next = world;
   for (const personId of [...readers].sort()) {
     next = recordEventKnowledge(next, {
@@ -1396,10 +1407,15 @@ export function pressDeskSweepHandler(
     throw new Error("The desk sweep handler received another transition.");
   }
   const frontier = dueItem.sequence;
-  const candidates = world.history.events.filter(
-    (event) => event.sequence > frontier && eventIsNewsCandidate(world, event),
+  // What the week's laws did to people in each town, and a year on what a law
+  // moved in a place, become records first, so this sweep can judge them
+  // (law-effect-news.ts).
+  const reported = reportLawOutcomes(reportLawEffects(world, frontier));
+  const candidates = reported.history.events.filter(
+    (event) =>
+      event.sequence > frontier && eventIsNewsCandidate(reported, event),
   );
-  let next = world;
+  let next = reported;
   for (const outlet of mediaOutlets(world)) {
     next = sweepOutlet(next, outlet, candidates);
   }
@@ -1461,11 +1477,11 @@ function sweepOutlet(
   // news the second time. Detroit's and Clarksdale's papers reprinted the same
   // interim fishing arrangement and the same withdrawn road-repair proposal
   // for ten years because each recurrence was a new record.
-  const coveredSummaries = new Set(
-    next.history.events
-      .filter((event) => covered.has(event.id))
-      .map((event) => event.summary),
-  );
+  const coveredSummaries = new Set<string>();
+  for (const id of covered) {
+    const event = eventById(next, id);
+    if (event) coveredSummaries.add(event.summary);
+  }
   // One matter, one open story: while this outlet is still working a story on
   // a matter, later developments on it wait for that story to run and then
   // become its follow-up, instead of a second reporter's question the same
@@ -1806,7 +1822,8 @@ function familyForEvent(event: HistoricalEvent): StoryFamily {
     event.type.startsWith("crisis.") ||
     event.type.startsWith("health.episode-disclosed") ||
     event.type.startsWith("disaster.") ||
-    event.type.startsWith("vitality.")
+    event.type.startsWith("vitality.") ||
+    event.type.startsWith("epidemic.outbreak")
   )
     return "breaking-crisis";
   return "scheduled-beat";
@@ -1825,6 +1842,8 @@ function beatForEventType(type: string): MediaBeat {
   )
     return "international";
   if (type.startsWith("civic.local-matter")) return "local-government";
+  // What a law did to a town's people is covered where they live.
+  if (type.startsWith("law.")) return "local-government";
   if (type.startsWith("congress.")) return "congress";
   if (type.startsWith("legislation.") || type.startsWith("legislative."))
     return "statehouse";
@@ -1832,6 +1851,7 @@ function beatForEventType(type: string): MediaBeat {
     type.startsWith("crisis.") ||
     type.startsWith("disaster.") ||
     type.startsWith("crime.") ||
+    type.startsWith("epidemic.") ||
     type.startsWith("health.episode-disclosed")
   )
     return "public-safety";

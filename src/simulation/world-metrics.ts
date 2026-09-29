@@ -118,6 +118,47 @@ export function createWorldMetricCatalog(
   return cloneWorldMetricCatalog(catalog);
 }
 
+/** Exact primitive fiscal-flow definitions produced by modeled transactions. */
+export function governmentFiscalMetricDefinitions(): readonly [
+  WorldMetricDefinition,
+  WorldMetricDefinition,
+] {
+  return [
+    createWorldMetricDefinition({
+      stableKey: "government.revenue",
+      name: "Government revenue",
+      description: "Exact aggregate government revenue over an interval.",
+      domainKey: "government.fiscal",
+      valueKind: "money",
+      quantityUnit: null,
+      measureNature: "flow",
+      referencePeriodKind: "interval",
+      denominatorMetricId: null,
+      aggregationKind: "sum-compatible",
+      aggregationNote:
+        "May be summed only for the same currency, interval, and nonoverlapping fiscal scopes.",
+      stateSemantics: "primitive",
+      tags: ["government.fiscal", "government.revenue"],
+    }),
+    createWorldMetricDefinition({
+      stableKey: "government.outlays",
+      name: "Government outlays",
+      description: "Exact aggregate government outlays over an interval.",
+      domainKey: "government.fiscal",
+      valueKind: "money",
+      quantityUnit: null,
+      measureNature: "flow",
+      referencePeriodKind: "interval",
+      denominatorMetricId: null,
+      aggregationKind: "sum-compatible",
+      aggregationNote:
+        "May be summed only for the same currency, interval, and nonoverlapping fiscal scopes.",
+      stateSemantics: "primitive",
+      tags: ["government.fiscal", "government.outlays"],
+    }),
+  ];
+}
+
 export function createSyntheticWorldMetricCatalog(): WorldMetricCatalog {
   const residentPopulation = createWorldMetricDefinition({
     stableKey: "population.resident-count",
@@ -313,38 +354,8 @@ export function createSyntheticWorldMetricCatalog(): WorldMetricCatalog {
     stateSemantics: "primitive",
     tags: ["housing.aggregate", "housing.pressure"],
   });
-  const governmentRevenue = createWorldMetricDefinition({
-    stableKey: "government.revenue",
-    name: "Government revenue",
-    description: "Exact aggregate government revenue over an interval.",
-    domainKey: "government.fiscal",
-    valueKind: "money",
-    quantityUnit: null,
-    measureNature: "flow",
-    referencePeriodKind: "interval",
-    denominatorMetricId: null,
-    aggregationKind: "sum-compatible",
-    aggregationNote:
-      "May be summed only for the same currency, interval, and nonoverlapping fiscal scopes.",
-    stateSemantics: "primitive",
-    tags: ["government.fiscal", "government.revenue"],
-  });
-  const governmentOutlays = createWorldMetricDefinition({
-    stableKey: "government.outlays",
-    name: "Government outlays",
-    description: "Exact aggregate government outlays over an interval.",
-    domainKey: "government.fiscal",
-    valueKind: "money",
-    quantityUnit: null,
-    measureNature: "flow",
-    referencePeriodKind: "interval",
-    denominatorMetricId: null,
-    aggregationKind: "sum-compatible",
-    aggregationNote:
-      "May be summed only for the same currency, interval, and nonoverlapping fiscal scopes.",
-    stateSemantics: "primitive",
-    tags: ["government.fiscal", "government.outlays"],
-  });
+  const [governmentRevenue, governmentOutlays] =
+    governmentFiscalMetricDefinitions();
   const governmentDebt = createWorldMetricDefinition({
     stableKey: "government.debt",
     name: "Government debt",

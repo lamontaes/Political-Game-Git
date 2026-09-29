@@ -1,3 +1,13 @@
+import { nationalMoodDemocraticShift } from "./national-mood";
+import { CONGRESS_INCUMBENCY_SHARE_BONUS } from "./living-world/congress-aggregate-outcome";
+import { STATE_LEGISLATURE_TURNOVER_PROFILE } from "./nationwide-world/state-legislature-turnover";
+import {
+  congressSeatElectorate,
+  stateSeatElectorate,
+  majorPartyOf,
+  statewideElectorate,
+  type StatewideElectorate,
+} from "./statewide-electorate";
 import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import {
@@ -154,6 +164,13 @@ export function evaluateDeterministicContestOutcome(
     );
   }
 
+  // A seat in Congress is counted from its own voters even with one name on
+  // the ballot, so an unopposed member's count is the seat's, not a token.
+  const seat =
+    congressSeatContestOutcome(world, contest) ??
+    stateSeatContestOutcome(world, contest);
+  if (seat) return seat;
+
   if (contest.candidatePersonIds.length === 1) {
     const winnerPersonId = contest.candidatePersonIds[0]!;
     return {
@@ -167,6 +184,9 @@ export function evaluateDeterministicContestOutcome(
       ],
     };
   }
+
+  const statewide = statewideContestOutcome(world, contest);
+  if (statewide) return statewide;
 
   const rng = new SeededRng(world.seed).fork(
     `election-contest:${contest.id}:${contest.stableKey}:${contest.electionDate}`,
@@ -197,6 +217,173 @@ export function evaluateDeterministicContestOutcome(
     winnerPersonId,
     tallies,
   };
+}
+
+/**
+ * A statewide race decided by the state's voters rather than by a draw: each
+ * major party's nominees split that party's share of the state's two-party
+ * vote, a candidate on neither line shares the state's vote for neither,
+ * and the ballots are the state's (see `statewide-electorate.ts`). Null for a
+ * contest that is not statewide, such as a territory's.
+ */
+function statewideContestOutcome(
+  world: World,
+  contest: ElectionContestRecord,
+): {
+  readonly winnerPersonId: EntityId;
+  readonly tallies: readonly CandidateTally[];
+} | null {
+  const electorate = statewideElectorate(world, contest.jurisdictionId);
+  if (!electorate) return null;
+  return countedByParty(world, contest, electorate, electorate.democraticShare);
+}
+
+/**
+ * A seat in Congress decided by the seat's own voters (see
+ * `congressSeatElectorate`). A sitting member on the ballot carries the same
+ * incumbency lift the unobserved seats use
+ * (`CONGRESS_INCUMBENCY_SHARE_BONUS`), so a watched seat and an unwatched one
+ * follow one rule. Null for anything that is not such a seat, or a seat whose
+ * printed result gives no two-party share.
+ */
+function congressSeatContestOutcome(
+  world: World,
+  contest: ElectionContestRecord,
+): {
+  readonly winnerPersonId: EntityId;
+  readonly tallies: readonly CandidateTally[];
+} | null {
+  const seatKey = contest.office.seatKey ?? contest.office.officeKey;
+  const electorate = congressSeatElectorate(
+    world,
+    seatKey,
+    contest.electionDate,
+  );
+  if (!electorate) return null;
+  const holder = electorate.holderPersonId;
+  const holderParty =
+    holder && contest.candidatePersonIds.includes(holder)
+      ? majorPartyOf(world, holder, contest.electionDate)
+      : null;
+  const lifted = Math.min(
+    1,
+    Math.max(
+      0,
+      electorate.democraticShare +
+        nationalMoodDemocraticShift(world, contest.electionDate) +
+        (holderParty === "democratic"
+          ? CONGRESS_INCUMBENCY_SHARE_BONUS
+          : holderParty === "republican"
+            ? -CONGRESS_INCUMBENCY_SHARE_BONUS
+            : 0),
+    ),
+  );
+  return countedByParty(world, contest, electorate, lifted);
+}
+
+/**
+ * A state legislative seat is counted from its own voters the same way
+ * (`stateSeatElectorate`): the seat's lean, the sitting member's usual edge in
+ * the same logit terms the legislature's turnover uses, and each candidate
+ * under the party they filed with.
+ */
+function stateSeatContestOutcome(
+  world: World,
+  contest: ElectionContestRecord,
+): {
+  readonly winnerPersonId: EntityId;
+  readonly tallies: readonly CandidateTally[];
+} | null {
+  if (!contest.office.seatKey || contest.office.districtBinding) return null;
+  const electorate = stateSeatElectorate(
+    world,
+    contest.office.seatKey,
+    Number(contest.electionDate.slice(0, 4)),
+  );
+  if (!electorate) return null;
+  const holderRuns =
+    electorate.holderPersonId !== null &&
+    contest.candidatePersonIds.includes(electorate.holderPersonId);
+  const bonus = holderRuns
+    ? electorate.holderParty === "democratic"
+      ? STATE_LEGISLATURE_TURNOVER_PROFILE.incumbencyBonusLogit
+      : electorate.holderParty === "republican"
+        ? -STATE_LEGISLATURE_TURNOVER_PROFILE.incumbencyBonusLogit
+        : 0
+    : 0;
+  const share = Math.min(
+    1 - 1e-6,
+    Math.max(
+      1e-6,
+      electorate.democraticShare +
+        nationalMoodDemocraticShift(world, contest.electionDate),
+    ),
+  );
+  const lifted = 1 / (1 + Math.exp(-(Math.log(share / (1 - share)) + bonus)));
+  return countedByParty(world, contest, electorate, lifted, electorate.parties);
+}
+
+/**
+ * The count itself: each major party's nominees split that party's share of
+ * the two-party vote, a candidate on neither line shares the vote for
+ * neither, and the ballots are the electorate's.
+ */
+function countedByParty(
+  world: World,
+  contest: ElectionContestRecord,
+  electorate: StatewideElectorate,
+  democraticShare: number,
+  /** The parties candidates filed under, where the record holds them. */
+  filed?: ReadonlyMap<EntityId, "democratic" | "republican" | null>,
+): {
+  readonly winnerPersonId: EntityId;
+  readonly tallies: readonly CandidateTally[];
+} | null {
+  const parties = new Map(
+    contest.candidatePersonIds.map((personId) => [
+      personId,
+      filed?.has(personId)
+        ? filed.get(personId)!
+        : majorPartyOf(world, personId, contest.electionDate),
+    ]),
+  );
+  // The state's lean splits the major-party vote; a candidate on neither
+  // line shares the part of the state's ballots that went to neither major
+  // party in the same count, so a sitting executive with no party on record
+  // is still judged by the place's own voters.
+  const count = (party: string | null) =>
+    [...parties.values()].filter((value) => value === party).length;
+  // A field of major-party nominees alone keeps its old arithmetic exactly.
+  const major = count(null) > 0 ? 1 - electorate.neitherMajorShare : 1;
+  const weightOf = (personId: EntityId): number => {
+    const party = parties.get(personId) ?? null;
+    if (party === "democratic")
+      return (major * democraticShare) / count("democratic");
+    if (party === "republican")
+      return (major * (1 - democraticShare)) / count("republican");
+    return electorate.neitherMajorShare / count(null);
+  };
+  const weights = contest.candidatePersonIds.map((personId) => ({
+    candidatePersonId: personId,
+    weight: weightOf(personId),
+  }));
+  const total = weights.reduce((sum, entry) => sum + entry.weight, 0);
+  if (!(total > 0)) return null;
+  const tallies: CandidateTally[] = weights
+    .map((entry) => {
+      const share = entry.weight / total;
+      return {
+        candidatePersonId: entry.candidatePersonId,
+        votes: Math.round(electorate.ballots * share),
+        voteShare: Number(share.toFixed(4)),
+      };
+    })
+    .sort(
+      (a, b) =>
+        b.votes - a.votes ||
+        a.candidatePersonId.localeCompare(b.candidatePersonId),
+    );
+  return { winnerPersonId: tallies[0]!.candidatePersonId, tallies };
 }
 
 export function resolveElectionContest(

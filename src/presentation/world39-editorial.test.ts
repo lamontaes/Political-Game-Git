@@ -132,7 +132,16 @@ describe("WORLD39 News editorial pass", () => {
     // does record. The school itself is proven below, where a life that is
     // actually in one can be asked about it.
     expect(after.standing.length).toBeGreaterThan(0);
-    for (const item of after.standing) {
+    // A government named for its form takes "the".
+    const government = after.standing.find(
+      (item) => item.kind === "government",
+    );
+    expect(government?.headline).toBe(
+      "Minneapolis, Minnesota is governed by the City of Minneapolis",
+    );
+    for (const item of after.standing.filter(
+      (entry) => entry.kind !== "government",
+    )) {
       expect(item.sentence, item.headline).toMatch(
         /^.+ is (?:a|an|the) [a-z ]+ in Minneapolis, Minnesota\.$/,
       );

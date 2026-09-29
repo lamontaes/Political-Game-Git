@@ -59,7 +59,7 @@
 .pg-guide-result:hover,
 .pg-guide-result[aria-pressed="true"] {
   border-color: var(--pg-hairline);
-  background: var(--pg-slate);
+  background: var(--pg-paper-deep);
 }
 
 .pg-guide-result[aria-pressed="true"] .pg-guide-result-term {
@@ -94,7 +94,7 @@
   padding: var(--pg-space-4);
   border: 1px solid var(--pg-hairline);
   border-radius: var(--pg-radius);
-  background: var(--pg-navy);
+  background: var(--pg-paper);
 }
 
 .pg-guide-entry h3 {
@@ -133,8 +133,13 @@
 
 /* ------------------------------------------------------- inline help */
 
+/*
+ * A civic word the player may not know (UI 2 orders, September 29, 2026).
+ * A translucent ink underline under the word, darker on hover, with no mark
+ * beside it, so a paragraph with three terms still reads as prose. Resting on
+ * the word or focusing it opens the card; "Got it" returns it to plain text.
+ */
 .pg-guide-term {
-  position: relative;
   display: inline;
 }
 
@@ -142,50 +147,91 @@
   display: inline;
   padding: 0;
   border: 0;
+  border-radius: 0.15em;
   background: none;
   font: inherit;
   color: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  text-transform: inherit;
   cursor: help;
   text-decoration-line: underline;
-  text-decoration-style: dotted;
+  text-decoration-style: solid;
+  text-decoration-thickness: 0.09em;
   text-underline-offset: 0.2em;
-  text-decoration-color: var(--pg-brass-dim);
+  text-decoration-color: rgb(90 62 24 / 45%);
+  text-decoration-skip-ink: auto;
+  transition:
+    text-decoration-color 0.15s ease,
+    background-color 0.15s ease;
 }
 
-/* A term the player has marked learned keeps the link and drops the nudge. */
-.pg-guide-term-trigger[data-learned="true"] {
-  text-decoration-line: none;
+body:where(.pg-game) button.pg-guide-term-trigger,
+body:where(.pg-game) button.pg-guide-term-trigger:hover {
+  min-height: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
 }
 
-.pg-guide-term-trigger[data-learned="true"] .pg-guide-term-mark {
-  opacity: 0;
+.pg-guide-term-trigger:hover,
+.pg-guide-term-trigger[aria-expanded="true"] {
+  text-decoration-color: rgb(122 46 42 / 85%);
 }
 
-.pg-guide-term-trigger:hover .pg-guide-term-mark,
-.pg-guide-term-trigger:focus-visible .pg-guide-term-mark {
-  opacity: 1;
+body:where(.pg-game) button.pg-guide-term-trigger[aria-expanded="true"] {
+  background: rgb(176 138 62 / 16%);
 }
 
-.pg-guide-term-mark {
-  margin-left: 0.15em;
-  font-size: 0.7em;
-  vertical-align: super;
-  color: var(--pg-brass);
+/*
+ * The same underline on a term found in any sentence on the page
+ * (GuideHighlighter). A highlight takes color and decoration only, so the
+ * offset is the browser's default.
+ */
+::highlight(pg-guide-term) {
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-thickness: 0.09em;
+  text-decoration-color: rgb(90 62 24 / 50%);
 }
 
+/* The card: framed paper with a brass rule, drawn over everything. */
 .pg-guide-popover {
-  position: absolute;
-  z-index: 40;
-  top: calc(100% + var(--pg-space-1));
+  position: fixed;
+  z-index: 2147482000;
+  top: 0;
   left: 0;
-  width: min(22rem, 78vw);
+  width: min(21rem, calc(100vw - 16px));
   display: flex;
   flex-direction: column;
-  gap: var(--pg-space-2);
-  padding: var(--pg-space-3);
-  border-radius: var(--pg-radius);
-  box-shadow: var(--pg-shadow);
+  gap: 0.45rem;
+  padding: 0.75rem 0.85rem 0.7rem;
+  border: 1px solid rgb(90 62 24 / 55%);
+  border-radius: 0.4rem;
+  background: var(--pg-paper-texture, none), rgb(248 242 229 / 97%);
+  box-shadow:
+    var(--pg-frame, 0 0 0 1px rgb(90 62 24 / 55%)),
+    0 12px 30px rgb(46 30 12 / 30%);
+  color: var(--run-a-ink, #2b2118);
+  font-family: var(--pg-font-ui, system-ui, sans-serif);
+  font-size: 0.9rem;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 1.4;
   text-align: left;
+  text-shadow: none;
+  text-transform: none;
+}
+
+.pg-guide-popover:focus {
+  outline: none;
+}
+
+.pg-guide-popover:focus-visible {
+  outline: 3px solid var(--run-a-focus, #7a2e2a);
+  outline-offset: 2px;
 }
 
 .pg-guide-popover p {
@@ -193,30 +239,66 @@
 }
 
 .pg-guide-popover-term {
-  font-family: var(--pg-font-display);
-  color: var(--pg-brass);
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid rgb(176 138 62 / 55%);
+  font-family: var(--pg-font-display, Georgia, serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--run-a-oxblood, #7a2e2a);
 }
 
 .pg-guide-popover-definition {
-  font-size: 0.9rem;
+  font-size: 0.92rem;
 }
 
 .pg-guide-popover-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pg-space-2);
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.15rem;
 }
 
-/*
- * The card opens under the word when there is room under it and above the word
- * when there is not, and shifts sideways rather than off a narrow screen. The
- * word it explains stays visible in both directions.
- */
-.pg-guide-popover {
-  translate: var(--pg-guide-popover-shift, 0) 0;
+body:where(.pg-game) button.pg-guide-popover-got-it,
+.pg-guide-popover-got-it {
+  min-height: 0;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid #5a1f1c;
+  border-radius: 0.3rem;
+  background: linear-gradient(180deg, #8c3a34, var(--run-a-oxblood, #7a2e2a));
+  color: #fbf3e2;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 650;
+  cursor: pointer;
 }
 
-.pg-guide-popover[data-placement="above"] {
-  top: auto;
-  bottom: calc(100% + var(--pg-space-1));
+body:where(.pg-game) button.pg-guide-popover-more,
+.pg-guide-popover-more {
+  min-height: 0;
+  padding: 0.3rem 0.2rem;
+  border: 0;
+  background: none;
+  color: var(--run-a-muted, #5f4e3b);
+  font: inherit;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  cursor: pointer;
+}
+
+body:where(.pg-game) button.pg-guide-popover-got-it:hover {
+  background: linear-gradient(180deg, #9c4740, #84342f);
+  border-color: #5a1f1c;
+}
+
+body:where(.pg-game) button.pg-guide-popover-more:hover {
+  background: none;
+  color: var(--run-a-ink, #2b2118);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pg-guide-term-trigger {
+    transition: none;
+  }
 }

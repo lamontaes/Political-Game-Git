@@ -6,7 +6,8 @@ import {
 } from "../life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { STATES } from "../state-reference";
-import type { EntityId, World } from "../types";
+import type { EntityId, IsoDate, World } from "../types";
+import { lawInForce } from "./law-in-force";
 
 /**
  * WHICH LEVEL MAY ANSWER A POLICY QUESTION.
@@ -23,7 +24,10 @@ import type { EntityId, World } from "../types";
  * Where the catalog says UNKNOWN or "varies by state", the level may act and
  * its authority stays unsettled: unknown is neither permission nor refusal
  * (Decision Register, Sept. 22), and the research question in the catalog is
- * what settles it.
+ * what settles it. A county or city power the catalog leaves UNKNOWN to
+ * "home rule or Dillon's rule" is settled by the state's law in force on
+ * home rule (`broaden-local-authority`), so a state that adopts or repeals
+ * home rule widens or narrows what its towns may pass.
  *
  * One rule for every place. The 50 states answer through the catalog's state
  * column, D.C. through its own (the Council also holds the District's city
@@ -31,6 +35,11 @@ import type { EntityId, World } from "../types";
  * government through the county or city column; a consolidated city-county
  * holds both. Every producer that files a bill on a question, and the law in
  * force that reads enacted ones, asks here.
+ *
+ * A local question may also be gated by a state question (`gate`): a city's
+ * own minimum wage waits on whether its state lets cities set one. The gate
+ * reads the state's law in force on that day, so a state that later bars its
+ * towns ends their ordinances' force, and one that frees them opens the way.
  */
 
 /** A column of the powers catalog. */
@@ -64,7 +73,21 @@ interface QuestionPowersRow {
   readonly dial: string;
   readonly levels: readonly QuestionReach[];
   readonly why?: string;
+  /**
+   * The state question that decides whether a county or city may act at
+   * all. "always": the question asks whether localities may act, so a state
+   * "no" bars them and a "yes" settles that they may. "when-preempting": only
+   * a state "no" that says it preempts bars them.
+   */
+  readonly gate?: {
+    readonly question: string;
+    readonly noBars: "always" | "when-preempting";
+  };
 }
+
+/** The world a gate reads: the catalog, the places, and the law's history. */
+type AuthorityWorld = Pick<World, "policyCatalog" | "jurisdictions"> &
+  Partial<Pick<World, "history" | "currentDate">>;
 
 interface CatalogCell {
   readonly may: string;
@@ -178,6 +201,7 @@ function questionReach(
   readonly reach: readonly QuestionReach[] | null;
   readonly dial: string | null;
   readonly stableKey: string | null;
+  readonly gate?: QuestionPowersRow["gate"];
 } {
   const catalogRow = world.policyCatalog?.propositions?.[propositionId];
   if (!catalogRow) return { reach: null, dial: null, stableKey: null };
@@ -187,6 +211,7 @@ function questionReach(
       reach: row.levels,
       dial: row.dial,
       stableKey: catalogRow.stableKey,
+      gate: row.gate,
     };
   // A question the powers file does not map (a fixture's, or a later pack's):
   // its issue's levels say whose it is, and no dial is known.
@@ -218,12 +243,13 @@ function cellVerdict(cell: CatalogCell | undefined): QuestionAuthorityVerdict {
  * the question belongs to another level or the catalog withholds the power.
  */
 export function questionAuthority(
-  world: Pick<World, "policyCatalog" | "jurisdictions">,
+  world: AuthorityWorld,
   jurisdictionId: EntityId,
   propositionId: EntityId,
+  onDate?: IsoDate,
 ): QuestionAuthority {
   const levels = jurisdictionPowersLevels(world, jurisdictionId);
-  const { reach, dial, stableKey } = questionReach(world, propositionId);
+  const { reach, dial, stableKey, gate } = questionReach(world, propositionId);
   if (reach === null || levels.length === 0)
     return {
       may: "unknown",
@@ -258,6 +284,33 @@ export function questionAuthority(
     : verdicts.includes("unknown")
       ? "unknown"
       : "no";
+  const gated =
+    gate && may !== "no" && own.every((l) => l === "county" || l === "city")
+      ? stateGate(world, jurisdictionId, gate, onDate)
+      : null;
+  if (gated)
+    return {
+      may: gated.may,
+      levels,
+      dial,
+      reason: gated.reason,
+    };
+  const homeRule =
+    may === "unknown" &&
+    own.every(
+      (level) =>
+        (level === "county" || level === "city") &&
+        cells?.[level]?.may === "UNKNOWN",
+    )
+      ? homeRuleVerdict(world, jurisdictionId, onDate)
+      : null;
+  if (homeRule)
+    return {
+      may: homeRule.may,
+      levels,
+      dial,
+      reason: homeRule.reason,
+    };
   return {
     may,
     levels,
@@ -271,13 +324,101 @@ export function questionAuthority(
   };
 }
 
+/** The state question on home rule: may localities act unless barred? */
+export const HOME_RULE_QUESTION =
+  "us-policy-positions:government-operations.broaden-local-authority";
+
+/**
+ * Whether a county or city holds a power the catalog leaves to "State law:
+ * home rule or Dillon's rule". Under home rule (the state's law in force on
+ * `broaden-local-authority` says yes), a locality may act on any local matter
+ * the state has not withdrawn. Under Dillon's rule (it says no), a locality
+ * holds only the powers the legislature grants it, and none is granted for
+ * this one. Null where the state's law is not known, which leaves the power
+ * unsettled. Starting answers for all 56 places are in the starting-law file.
+ */
+function homeRuleVerdict(
+  world: AuthorityWorld,
+  jurisdictionId: EntityId,
+  onDate: IsoDate | undefined,
+): { readonly may: QuestionAuthorityVerdict; readonly reason: string } | null {
+  const stateKey =
+    lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey;
+  const state = stateKey ? stateJurisdictionForKey(stateKey) : null;
+  const question = Object.values(world.policyCatalog?.propositions ?? {}).find(
+    (row) => row.stableKey === HOME_RULE_QUESTION,
+  );
+  if (!state || !question) return null;
+  const law = lawInForce(
+    {
+      ...world,
+      history: world.history ?? ({} as World["history"]),
+    } as World,
+    state.id,
+    question.id,
+    onDate ?? world.currentDate,
+  );
+  if (!law) return null;
+  return law.answer === "yes"
+    ? {
+        may: "yes",
+        reason: `${state.name}'s home rule lets its localities act on local matters it has not withdrawn.`,
+      }
+    : {
+        may: "no",
+        reason: `${state.name} follows Dillon's rule: its localities hold only the powers its legislature grants, and none is granted for this.`,
+      };
+}
+
+/**
+ * What the state's law in force on the gate question says about its
+ * localities acting, or null where it settles nothing either way.
+ */
+function stateGate(
+  world: AuthorityWorld,
+  jurisdictionId: EntityId,
+  gate: NonNullable<QuestionPowersRow["gate"]>,
+  onDate: IsoDate | undefined,
+): { readonly may: QuestionAuthorityVerdict; readonly reason: string } | null {
+  const stateKey =
+    lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey;
+  const state = stateKey ? stateJurisdictionForKey(stateKey) : null;
+  const question = Object.values(world.policyCatalog?.propositions ?? {}).find(
+    (row) => row.stableKey === gate.question,
+  );
+  if (!state || !question) return null;
+  const law = lawInForce(
+    {
+      ...world,
+      history: world.history ?? ({} as World["history"]),
+    } as World,
+    state.id,
+    question.id,
+    onDate ?? world.currentDate,
+  );
+  if (!law) return null;
+  if (law.answer === "yes")
+    return gate.noBars === "always"
+      ? { may: "yes", reason: `${state.name}'s law lets its localities act.` }
+      : null;
+  if (gate.noBars === "always" || law.preempts === true)
+    return {
+      may: "no",
+      reason: `${state.name}'s law bars its localities from acting on this.`,
+    };
+  return null;
+}
+
 /** Whether a jurisdiction's law may answer the question at all. */
 export function mayAnswerQuestion(
-  world: Pick<World, "policyCatalog" | "jurisdictions">,
+  world: AuthorityWorld,
   jurisdictionId: EntityId,
   propositionId: EntityId,
+  onDate?: IsoDate,
 ): boolean {
-  return questionAuthority(world, jurisdictionId, propositionId).may !== "no";
+  return (
+    questionAuthority(world, jurisdictionId, propositionId, onDate).may !== "no"
+  );
 }
 
 /** The mapped row for a qualified question key, for checks and reports. */

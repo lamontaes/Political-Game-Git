@@ -1,15 +1,32 @@
-import type { DemoJurisdictionContext } from "./demo-jurisdiction-context";
+import {
+  DEMO_START_DATE,
+  type DemoJurisdictionContext,
+} from "./demo-jurisdiction-context";
+import {
+  US_CONGRESS_PACK_ID,
+  US_CONGRESS_RULE_PACK,
+} from "./congress-rule-pack";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {
   legislatureForState,
   legislatureProfilePackById,
 } from "./legislature-game-profile";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import type { LegislativeRulePack } from "./legislature-rules";
+import {
+  localFiscalGameAuthorityForRulePackId,
+  localOrdinanceGameRulePackById,
+} from "./local-ordinance-game-profile";
 import { withCommitteeStandIns } from "./standing-committee";
+import {
+  localFiscalAuthorityScopeForRulePackId,
+  municipalRulePackById,
+} from "./municipal-government";
 import {
   lifePlaceByJurisdictionId,
   searchLifePlaces,
   stateJurisdictionForKey,
+  type LifePlace,
 } from "./life-places";
 import { STATES } from "./state-reference";
 import type { EntityId } from "./types";
@@ -27,6 +44,8 @@ export { legislativeWorkKey } from "./legislative-work-key";
 export function legislativePackForJurisdiction(
   jurisdictionId: EntityId,
 ): LegislativeRulePack | null {
+  if (jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id)
+    return US_CONGRESS_RULE_PACK;
   const compiled = LEGISLATIVE_RULE_PACKS.find(
     (pack) =>
       stateJurisdictionForKey(pack.jurisdictionKey)?.id === jurisdictionId,
@@ -41,23 +60,69 @@ export function legislativePackForJurisdiction(
 export function legislativePackForWorkKey(
   key: string,
 ): LegislativeRulePack | null {
+  if (key === `institution:${US_CONGRESS_PACK_ID}`)
+    return US_CONGRESS_RULE_PACK;
   const compiled = LEGISLATIVE_RULE_PACKS.find(
     (pack) =>
       legislativeWorkKey(pack) === key || `institution:${pack.packId}` === key,
   );
+  const institutionPackId = key.startsWith("institution:")
+    ? key.slice("institution:".length)
+    : null;
   // A researched chamber whose committees are unread refers its bills to the
   // stand-in standing committee, as `rulePackById` does.
-  return (
+  const statePack =
     (compiled ? withCommitteeStandIns(compiled) : null) ??
-    (key.startsWith("institution:")
-      ? legislatureProfilePackById(key.slice("institution:".length))
-      : null)
-  );
+    (institutionPackId
+      ? (legislatureProfilePackById(institutionPackId) ??
+        (localFiscalGameAuthorityForRulePackId(institutionPackId)
+          ? localOrdinanceGameRulePackById(institutionPackId)
+          : localFiscalAuthorityScopeForRulePackId(institutionPackId)
+            ? municipalRulePackById(institutionPackId)
+            : null))
+      : null);
+  return statePack;
+}
+
+/*
+ * The place list is fixed for a run, and this first locality was searched for
+ * again on every step of every bill; a Pennsylvania world spent about 9 seconds
+ * of its first year here.
+ */
+const STATE_LOCALITY = new Map<string, LifePlace | null>();
+
+function stateLocalityPlace(stateKey: string): LifePlace | null {
+  if (!STATE_LOCALITY.has(stateKey))
+    STATE_LOCALITY.set(
+      stateKey,
+      searchLifePlaces("", 1, {
+        stateJurisdictionKey: stateKey,
+        scope: "locality",
+      })[0] ?? null,
+    );
+  return STATE_LOCALITY.get(stateKey)!;
 }
 
 export function legislativeInstitutionContext(
   pack: LegislativeRulePack,
 ): DemoJurisdictionContext {
+  if (pack.packId === US_CONGRESS_PACK_ID)
+    return {
+      jurisdiction: NATIONAL_ELECTION_JURISDICTION,
+      // Only the static scenario blueprint reads this moment. A live Congress
+      // assignment uses the save's current moment through congressBlueprint.
+      initialMoment: {
+        date: DEMO_START_DATE,
+        minuteOfDay: 9 * 60,
+        timeZone: "America/New_York",
+        utcOffsetMinutes: -300,
+      },
+      creationSummary: "Legislative work in the Congress of the United States.",
+      goalScope: "United States",
+      householdLocationLabel: "Washington, D.C.",
+    };
+  const cached = STATE_INSTITUTION_CONTEXTS.get(pack.jurisdictionKey);
+  if (cached) return cached;
   const jurisdiction = stateJurisdictionForKey(pack.jurisdictionKey);
   if (!jurisdiction)
     throw new Error(`No jurisdiction identity for '${pack.packId}'.`);
@@ -65,17 +130,20 @@ export function legislativeInstitutionContext(
   // is read from a place inside it rather than refusing the member's workspace.
   const place =
     lifePlaceByJurisdictionId(jurisdiction.id) ??
-    searchLifePlaces("", 1, {
-      stateJurisdictionKey: pack.jurisdictionKey,
-      scope: "locality",
-    })[0] ??
-    null;
+    stateLocalityPlace(pack.jurisdictionKey);
   if (!place) throw new Error(`No clock/place context for '${pack.packId}'.`);
-  return {
+  const context = {
     jurisdiction,
     initialMoment: place.context.initialMoment,
     creationSummary: `Legislative work in ${jurisdiction.name}.`,
     goalScope: jurisdiction.name,
     householdLocationLabel: `${jurisdiction.name} home`,
   };
+  // Jurisdiction and place identities are static content. The clock can ask
+  // for this context many times during one bill; searching and sorting every
+  // locality each time adds no new information.
+  STATE_INSTITUTION_CONTEXTS.set(pack.jurisdictionKey, context);
+  return context;
 }
+
+const STATE_INSTITUTION_CONTEXTS = new Map<string, DemoJurisdictionContext>();

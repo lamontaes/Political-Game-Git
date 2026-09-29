@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "./dates";
 import { memberVoteConsiderations } from "./legislative-member-decisions";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
+import { createPortabilityFixture } from "./portability-fixture";
 import type { EntityId, PrivateBeliefRecord, World } from "./types";
 
 const memberId = "person_member" as EntityId;
@@ -133,7 +134,11 @@ describe("member votes read what constituents made of an existing law", () => {
   const federal = NATIONAL_ELECTION_JURISDICTION.id;
   const lawId = "measure_existing_law" as EntityId;
 
-  function withLaw(billAnswer: "yes" | "no", points: readonly number[]) {
+  function withLaw(
+    billAnswer: "yes" | "no",
+    points: readonly number[],
+    groupMembers = 0,
+  ) {
     return {
       currentDate: makeIsoDate("2026-06-01"),
       policyCatalog: {
@@ -179,11 +184,24 @@ describe("member votes read what constituents made of an existing law", () => {
         legislativeCommitments: [],
         privateBeliefs: [],
         relationshipInteractions: [],
+        organizations: groupMembers
+          ? [{ id: "org_group", stableKey: `law-interest:town_x:${lawId}` }]
+          : [],
+        organizationParticipations: Array.from(
+          { length: groupMembers },
+          (_, index) => ({
+            organizationId: "org_group",
+            personId: `person_member_${index}`,
+          }),
+        ),
       },
     } as unknown as World;
   }
 
-  function constituents(world: World) {
+  function constituents(
+    world: World,
+    sourceType = "context:constituents-view",
+  ) {
     return memberVoteConsiderations(world, {
       stableKey: "test:vote",
       personId: memberId,
@@ -198,7 +216,7 @@ describe("member votes read what constituents made of an existing law", () => {
         },
         questionLabel: "Pass this measure?",
       },
-    }).filter((row) => row.sourceType === "context:constituents-view");
+    }).filter((row) => row.sourceType === sourceType);
   }
 
   it("a member blamed for a law leans toward the bill that changes it, and away from one that keeps it", () => {
@@ -216,5 +234,97 @@ describe("member votes read what constituents made of an existing law", () => {
     ]);
     expect(constituents(withLaw("no", [10, -10]))).toEqual([]);
     expect(constituents(withLaw("no", []))).toEqual([]);
+  });
+
+  it("groups of people a law cost lobby every member to change it", () => {
+    const lobby = (world: World) =>
+      constituents(world, "context:organized-interest");
+    expect(lobby(withLaw("no", [], 12))).toMatchObject([
+      { optionKey: "vote-yea", importance: "moderate" },
+    ]);
+    expect(lobby(withLaw("yes", [], 3))).toMatchObject([
+      { optionKey: "vote-nay", importance: "slight" },
+    ]);
+    expect(lobby(withLaw("no", [], 0))).toEqual([]);
+  });
+});
+
+describe("member votes read what the member owes the bill's sponsor", () => {
+  const eventId = "event_appointed" as EntityId;
+
+  /** A made-up town's people, one of them carrying a bill the other votes on. */
+  function owingWorld(owes: boolean) {
+    const fixture = createPortabilityFixture();
+    const [member, sponsor] = fixture.personOrder as EntityId[];
+    const base = worldWith(null, []) as unknown as {
+      history: Record<string, unknown>;
+    } & World;
+    const measures = base.history.legislativeMeasures as readonly object[];
+    const world = {
+      ...fixture,
+      currentDate: base.currentDate,
+      policyCatalog: base.policyCatalog,
+      history: {
+        ...fixture.history,
+        ...base.history,
+        legislativeMeasures: [{ ...measures[0], sponsorPersonId: sponsor }],
+        favors: owes
+          ? [
+              {
+                id: "favor_appointed" as EntityId,
+                stableKey: "test:favor",
+                sequence: 1,
+                giverPersonId: sponsor,
+                receiverPersonId: member,
+                kind: "public:appointment",
+                description: "named them to the seat",
+                givenAt: makeIsoDate("2025-12-01"),
+                eventId,
+                subject: { kind: "none" },
+                motive: "trade",
+                weight: "life-changing",
+                audience: "public",
+                witnessPersonIds: [],
+                inReturnForFavorId: null,
+                undertakingId: null,
+              },
+            ]
+          : [],
+      },
+    } as unknown as World;
+    return { world, member: member! };
+  }
+
+  function owed(owes: boolean) {
+    const { world, member } = owingWorld(owes);
+    return memberVoteConsiderations(world, {
+      stableKey: "test:vote",
+      personId: member,
+      question: {
+        question: {
+          measureId,
+          purpose: "floor-stage",
+          forumKey: "house",
+          floorStageKey: null,
+          amendmentStableKey: null,
+          provisionKey: null,
+        },
+        questionLabel: "Pass this measure?",
+      },
+    }).filter((row) => row.stableKey === "member:owes-sponsor");
+  }
+
+  it("a member the sponsor appointed leans toward the sponsor's bill, citing the appointment", () => {
+    const [row] = owed(true);
+    expect(row).toMatchObject({
+      optionKey: "vote-yea",
+      direction: "supports",
+      importance: "strong",
+      sourceRefs: [{ kind: "historical-event", eventId }],
+    });
+  });
+
+  it("owes nothing to a sponsor who never helped them", () => {
+    expect(owed(false)).toEqual([]);
   });
 });

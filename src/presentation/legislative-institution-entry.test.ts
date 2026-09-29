@@ -131,6 +131,23 @@ describe("institutional entry independently of story fixtures", () => {
     expect(entry.assignment.procedure.committeeMemberCount).toBeNull();
     expect(entry.assignment.procedure.votePlan).toEqual({});
     expect(entry.assignment.procedure.governorAction).toBeNull();
+    expect(
+      legislativeProcedureRefusal(
+        filed.world,
+        entry.assignment.procedure,
+        "move-committee-report",
+      ),
+    ).toContain("no supplied member decisions");
+    expect(
+      legislativeProcedureRefusal(
+        filed.world,
+        {
+          ...entry.assignment.procedure,
+          memberDecisions: { playerPersonId: seat.personId },
+        },
+        "move-committee-report",
+      ),
+    ).toBeNull();
     const referred = applyLegislativeCommand(filed.world, entry.assignment, {
       kind: "take-step",
       step: "request-referral",

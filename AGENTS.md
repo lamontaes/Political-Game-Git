@@ -2,6 +2,65 @@
 
 A political and government RPG with supporting life simulation. Deliver the requested player experience through the existing systems; do not expand routine jobs, school administration, or tooling because a substrate exists.
 
+## Standing owner rules
+
+Owner's standing rules, binding on every session regardless of trigger. Detail and
+self-checks are in the matching `.claude/skills/<name>/SKILL.md`.
+
+- **No dice.** No seeded roll or fixed percentage decides what a person, business,
+  official or body does; the actor's traits, principles, relationships, money,
+  health, the law in force and the place's conditions decide. Real rates check
+  totals, they never pick one actor's outcome. See `no-dice` — a rolled outcome
+  erases the player agency the game exists to reward.
+- **Sliding scales, causes, births (owner, Sept 29).** Nothing flips at a
+  threshold; every factor bears on a decision smoothly. World events happen from
+  causes (a hazard record and season, a health record, a law, a price change),
+  never a monthly chance. A new person's looks, name and upbringing come from
+  their parents, real records and their family's circumstances; a seeded pick
+  is allowed only among real options. Starting values are realistic (real
+  averages with a per-world spread), not necessarily the real 2026 figure.
+- **Speed budget (owner, Sept 29).** No change may make a game year more than
+  20% slower than main; time a 3-year watched world before and after
+  (`docs/codex/06-speed.md` adds the script). Never scan the whole world or a
+  whole history list every day; use indexes or act on the day something changed.
+- **One rule, all 56 places.** Never name a state, city or GEOID in logic; place
+  facts live in data, and watched runs and tests draw a random place from all 56
+  (50 states, D.C., Puerto Rico, Guam, USVI, American Samoa, Northern Marianas),
+  naming place and seed. See `one-rule-all-places` — a fix proven in one place
+  only is a demo, not a fix.
+- **Estimate, never UNKNOWN.** An unread value a player can see starts from the
+  real average with a per-world spread, marked ESTIMATED FROM AVERAGE with
+  source; exact values are for things players actually recognize; finish simple
+  research instead of estimating around it. See `estimate-not-unknown` — a
+  visible gap breaks the world worse than a marked estimate does.
+- **Wire to the world.** Every new law or feature moves money, people or places
+  in the same PR, proven by a watched-world test; a bill carries its own terms
+  written from its sponsor's views, and a rule applies to its whole module, not
+  just the named example. Fix a known bug with a fast fix instead of only
+  reporting it. See `wire-to-the-world` — scaffolding nobody can see happen
+  isn't delivered.
+- **Emergence, reported.** Every hand-back opens `MERGED`, then `WHAT EMERGED`
+  with each outcome marked `DECIDED` (quote the recorded reason) or `HARDWIRED`
+  (file:line), then wider knock-on effects and missing links, then
+  `VITAL STATISTICS`. Report only what the simulation actually traced. See
+  `emergence-report` — the owner tracks the game by what it produced, not intent.
+- **Local gate, not the full suite.** Validate typecheck/eslint/prettier on
+  changed files, `release:check --mode pr`, `npm run zero-dice`, and the tests
+  for changed files (browser specs only if screens changed); a failure that's
+  also red on a clean `main` doesn't block. Never force-push, never a permanent delete. See
+  `local-gate` — a light gate that runs beats a heavy one everyone skips.
+- **Research before building.** Look up real examples of whatever the feature
+  touches across the country; real data checks the simulation and never decides
+  an outcome by itself, and player screens never show sources. See
+  `research-habit`.
+- **Scenes are places, not backdrops.** A scene is a background shaped by the
+  world's current state, narration that reads that state, anchors, and the real
+  people actually there, posed and clickable; places are multi-use by default.
+  See `scenes`.
+- **Lowest model/effort that works.** Sonnet Medium for agreed designs, Opus
+  Medium (not High) for judgment calls; escalate only after the lower tier
+  actually fails. See `model-effort`.
+
 ## Current assignment and evidence
 
 The assigned Google Doc and the current Assignment Board own product scope and ownership. Live GitHub, source and executed checks establish implementation state. Historical reports are evidence at their named heads, not current tasks. Read the assigned task once, check the Board's current dispatch and relevant decision entries, and fetch the working refs. Resume from that state; reread only when a dependency, scope or owner changes. Do not traverse the whole ledger and every past handoff for each edit.

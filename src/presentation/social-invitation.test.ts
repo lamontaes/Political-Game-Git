@@ -32,7 +32,7 @@ function start() {
     ...DEFAULT_NEW_GAME_SETUP,
     // A Kansas city whose world holds somebody with a birthday to mark in
     // the first year; an invitation needs a reason in the host's own life.
-    seed: "saturday-2015900-d",
+    seed: "saturday-2015900-a",
     startAge: 35,
     placeKey: "2015900",
     startKind: "custom",
@@ -74,20 +74,20 @@ describe("explicit personal invitation refusal", () => {
       }),
     );
     expect(markup).toContain(
-      "My birthday’s Tuesday. Do you want to come over Saturday?",
+      "My birthday’s Friday. Do you want to come over Saturday?",
     );
-    expect(markup).toContain("Saturday, September 5 · 3–6 p.m.");
+    expect(markup).toContain("Saturday, August 1 · 3–6 p.m.");
     expect(markup).toContain("Say you’ll come");
     expect(markup).toContain("Say you can’t make it");
     expect(markup).not.toContain("Attendance is optional");
     expect(markup).not.toContain("Decline invitation");
     expect(
       invitationOpening(world, invitation.invitationEventId, personId),
-    ).toBe("My birthday’s Tuesday. Do you want to come over Saturday?");
+    ).toBe("My birthday’s Friday. Do you want to come over Saturday?");
     const notice = projectWorldRecap(world, personId, 0, 100)?.entries.find(
       (entry) => entry.eventId === invitation.invitationEventId,
     );
-    expect(notice?.headline).toBe("Beth invited you over for Saturday.");
+    expect(notice?.headline).toBe("Imani invited you over for Saturday.");
     expect(notice?.directInvitation).toBe(true);
 
     const answered = acceptSocialInvitation(world, {

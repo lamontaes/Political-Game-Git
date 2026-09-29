@@ -51,6 +51,7 @@ import type {
 } from "../simulation";
 import type { ConversationRoomContext } from "./run-b-conversation";
 import { shortPersonName } from "./conversation-subjects";
+import { dayOpeningLine } from "./day-opening-english";
 import {
   lapseVenueActivity,
   releaseMissedHolds,
@@ -261,29 +262,31 @@ export function projectOrdinaryDay(
   const companion = companionPersonId
     ? world.people[companionPersonId]
     : undefined;
-  const pending = workPendingEntriesFor(world, personId)
-    .filter((entry) => entry.state.status !== "completed")
-    .map((entry) => {
-      const waitingOnSomeoneElse = entry.state.waitingOnPersonIds.length > 0;
-      const daysStanding = daysBetween(
-        entry.item.createdAt.date,
-        world.currentDate,
-      );
-      const answeredBy = calendarAnswer(world, entry.item);
-      return {
-        key: entry.item.stableKey,
-        sentence:
-          answeredBy === "declined"
-            ? `${entry.item.title}: you decided not to go.`
-            : answeredBy === "lapsed"
-              ? `${entry.item.title}: the time came and went without an answer.`
-              : `${entry.item.summary}${standingClause(daysStanding, waitingOnSomeoneElse)}`,
-        waitingOnSomeoneElse,
-        openedOn: entry.item.createdAt.date,
-        daysStanding,
-        answeredBy,
-      };
-    });
+  const open = workPendingEntriesFor(world, personId).filter(
+    (entry) => entry.state.status !== "completed",
+  );
+  const pendingIds = open.map((entry) => entry.item.id);
+  const pending = open.map((entry) => {
+    const waitingOnSomeoneElse = entry.state.waitingOnPersonIds.length > 0;
+    const daysStanding = daysBetween(
+      entry.item.createdAt.date,
+      world.currentDate,
+    );
+    const answeredBy = calendarAnswer(world, entry.item);
+    return {
+      key: entry.item.stableKey,
+      sentence:
+        answeredBy === "declined"
+          ? `${entry.item.title}: you decided not to go.`
+          : answeredBy === "lapsed"
+            ? `${entry.item.title}: the time came and went without an answer.`
+            : `${entry.item.summary}${standingClause(daysStanding, waitingOnSomeoneElse)}`,
+      waitingOnSomeoneElse,
+      openedOn: entry.item.createdAt.date,
+      daysStanding,
+      answeredBy,
+    };
+  });
 
   return {
     personName: personName(person),
@@ -294,11 +297,15 @@ export function projectOrdinaryDay(
     // The same name the conversation below uses. Calling one person "Emmanuel"
     // on one line and "Day" on the next leaves a player unable to tell they
     // are the same person.
-    opening: openingLine(
+    opening: dayOpeningLine(world, personId, {
       placeName,
-      pending.length,
-      companion ? shortPersonName(world, companion.id) : undefined,
-    ),
+      placeJurisdictionId: placeName ? person.homeJurisdictionId : null,
+      waitingIds: pendingIds,
+      housemateName: companion ? shortPersonName(world, companion.id) : null,
+      housemateSourceIds: companion
+        ? [companion.id, ...householdSourceIds(world, personId)]
+        : [],
+    }),
     pending,
     companionPersonId,
     companionName: companion ? personName(companion) : null,
@@ -374,8 +381,9 @@ export function passOrdinaryDays(
   days = 1,
   supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry = {},
 ): World {
-  return advanceWithWorldIntegrityAtEnd(() =>
-    passOrdinaryDaysUnchecked(world, days, supplied),
+  return advanceWithWorldIntegrityAtEnd(
+    () => passOrdinaryDaysUnchecked(world, days, supplied),
+    world,
   );
 }
 
@@ -621,19 +629,6 @@ function advanceOrdinaryDays(
   throw new Error("Ordinary time advancement did not converge.");
 }
 
-function openingLine(
-  placeName: string | null,
-  pendingCount: number,
-  companionName: string | undefined,
-): string {
-  const where = placeName ? ` in ${placeName}` : "";
-  const who = companionName ? ` ${companionName} is in the next room.` : "";
-  if (pendingCount === 0) {
-    return `A day${where} with nothing on it that anyone is waiting for.${who}`;
-  }
-  return `A day${where}, and a short list of things nobody else is going to do.${who}`;
-}
-
 function longDate(date: string): string {
   return new Intl.DateTimeFormat("en-US", {
     weekday: "long",
@@ -796,6 +791,13 @@ export function neighborhoodConversationRoom(
  * outcome, and better than putting somebody who moved out decades ago in the
  * next room.
  */
+/** The player's own household records, which put a housemate at home. */
+function householdSourceIds(world: World, personId: EntityId): EntityId[] {
+  return householdMembershipsAt(world, personId, currentLifeCutoff(world)).map(
+    (entry) => entry.membership.id,
+  );
+}
+
 function currentHouseholdCompanions(
   world: World,
   personId: EntityId,

@@ -72,6 +72,13 @@ export interface ConstitutionalMeasureRecord extends Pick<
   readonly ruleDelta: ConstitutionalRuleDelta;
   readonly ordinaryMeasureId: EntityId | null;
   readonly provenance: "authored-game-proposal";
+  /**
+   * Article V's second route: a convention Congress called on the
+   * applications of two-thirds of the states proposes the amendment, not
+   * Congress. Absent on every other measure, and on records written before
+   * the convention route existed.
+   */
+  readonly proposedBy?: "convention";
 }
 export interface ConstitutionalVoteRecord extends Omit<
   LegislativeVoteRecord,

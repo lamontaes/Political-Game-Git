@@ -939,6 +939,134 @@
       "textRevision": "7fb93f50bf03"
     },
     {
+      "anchor": "COMMIT_CONTRACTS-0122",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "Said they would answer on the staff document checklist once the third referral was checked.",
+      "occurrence": 0,
+      "textRevision": "13b1932b7e6a"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0123",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "Said they would back the staff document checklist at the briefing.",
+      "occurrence": 0,
+      "textRevision": "d6dba482607b"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0124",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "Said they would check the third county referral and report back before the briefing.",
+      "occurrence": 0,
+      "textRevision": "3e04d16a7844"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0125",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "Said they would do the part nobody had started.",
+      "occurrence": 0,
+      "textRevision": "8d2351977ae6"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0126",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "Said they would go to the posted public meeting.",
+      "occurrence": 0,
+      "textRevision": "023de5a23752"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0127",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "Said they would go to the posted public meeting.",
+      "occurrence": 1,
+      "textRevision": "023de5a23752"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0128",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "an answer on the staff document checklist",
+      "occurrence": 0,
+      "textRevision": "c53dedc76cb9"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0129",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "answer on the staff document checklist once the third referral is checked",
+      "occurrence": 0,
+      "textRevision": "45f8c85313ce"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0130",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "back the staff document checklist at the briefing",
+      "occurrence": 0,
+      "textRevision": "2ef540739611"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0131",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "backing the staff document checklist at the briefing",
+      "occurrence": 0,
+      "textRevision": "c1a4fb3d78e6"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0132",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "check whether the third county referral lacked the proof-of-income form",
+      "occurrence": 0,
+      "textRevision": "08b04c1791bd"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0133",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "checking the third county referral before the briefing",
+      "occurrence": 0,
+      "textRevision": "42fffdcdc645"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0134",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "do the part of the project nobody had started",
+      "occurrence": 0,
+      "textRevision": "2c342e4fe668"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0135",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "the neighborhood meeting they agreed to go to",
+      "occurrence": 0,
+      "textRevision": "5fdcb3abfcba"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0136",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "the posted public meeting",
+      "occurrence": 0,
+      "textRevision": "e799fcfcc8fa"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0137",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "the posted public meeting",
+      "occurrence": 1,
+      "textRevision": "e799fcfcc8fa"
+    },
+    {
       "anchor": "FAMILY_LABEL-0001",
       "sourcePath": "src/presentation/people-goals.ts",
       "symbol": "FAMILY_LABEL",
@@ -1121,6 +1249,14 @@
       "text": "Say it can wait",
       "occurrence": 0,
       "textRevision": "fa32565f4c95"
+    },
+    {
+      "anchor": "LIFE_TALK_INTENTS-0019",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Ask what they think of the people in office",
+      "occurrence": 0,
+      "textRevision": "59fd00172a41"
     },
     {
       "anchor": "MunicipalWorkspace-0001",
@@ -1769,6 +1905,14 @@
       "text": "{governing.executiveName.charAt(0).toUpperCase()+governing.executiveName.slice(1)} returned it, and it was not reenacted.",
       "occurrence": 0,
       "textRevision": "a3018b3eac3a"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0095",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Answered present",
+      "occurrence": 0,
+      "textRevision": "29784ba69830"
     },
     {
       "anchor": "OPTIONS-0001",
@@ -3673,6 +3817,14 @@
       "text": "Catching up",
       "occurrence": 0,
       "textRevision": "f21c57b2f30c"
+    },
+    {
+      "anchor": "favor-0014",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "{binding.facts.speakerGiven??\"Somebody\"} asks for help",
+      "occurrence": 0,
+      "textRevision": "590ee5fb4fc5"
     },
     {
       "anchor": "fileForOffice-0001",
@@ -6945,6 +7097,14 @@
       "text": "What were you going to say?",
       "occurrence": 0,
       "textRevision": "5fadd86fcab7"
+    },
+    {
+      "anchor": "replyFor-0067",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I don't have much to say about the people in office right now.",
+      "occurrence": 0,
+      "textRevision": "e5190f499741"
     },
     {
       "anchor": "reporterQuestion-0001",

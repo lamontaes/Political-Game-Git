@@ -17,11 +17,21 @@ import { createOrganization } from "../life";
 import {
   lifePlaceByJurisdictionId,
   lifePlaceByKey,
+  type LifePlace,
   residentNameForJurisdiction,
+  stateJurisdictionForKey,
 } from "../life-places";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
+import { municipalGovernmentForPlaceGeoid } from "../municipal-government";
+import { municipalOrganizationFor } from "../municipal-public-work";
 import type { EntityId, IsoDate, Jurisdiction, World } from "../types";
+import {
+  countyGoverningBodyRules,
+  municipioUnit,
+  municipiosForPlace,
+} from "./county-governing-body-rules";
 import { governingJurisdictionIdFor } from "./government-jurisdiction";
+import { townshipGovernmentUnitsForPlace } from "./township-governing-body-rules";
 import {
   resolveNationwideRuleCapability,
   unadmittedRuleFields,
@@ -47,6 +57,13 @@ export interface HomeLocalGovernmentUnits {
   readonly placeScope: "locality" | "county" | "state" | null;
   readonly municipal: readonly GovernmentUnitIdentity[];
   readonly counties: readonly GovernmentUnitIdentity[];
+  /**
+   * The town or township governments a place with no government of its own
+   * lies in (a census-designated place in a New England or New York town, or
+   * in a township), the one holding most of its residents first. Empty for a
+   * city, a county or a state, and where no town is a government.
+   */
+  readonly townships: readonly GovernmentUnitIdentity[];
   readonly countyStatus: CountyGovernmentStatus;
   readonly countyReason: string | null;
   /**
@@ -78,6 +95,13 @@ export function homeLocalGovernmentUnits(
   const place = person
     ? lifePlaceByJurisdictionId(person.homeJurisdictionId)
     : null;
+  return placeLocalGovernmentUnits(place);
+}
+
+/** Which government units serve one place. Reads only. */
+export function placeLocalGovernmentUnits(
+  place: LifePlace | null,
+): HomeLocalGovernmentUnits {
   const none = (
     placeScope: HomeLocalGovernmentUnits["placeScope"],
     countyStatus: CountyGovernmentStatus,
@@ -86,6 +110,7 @@ export function homeLocalGovernmentUnits(
     placeScope,
     municipal: [],
     counties: [],
+    townships: [],
     countyStatus,
     countyReason,
     countyShares: null,
@@ -97,12 +122,15 @@ export function homeLocalGovernmentUnits(
     const geoid = place.key.startsWith("county:")
       ? place.key.slice("county:".length)
       : (place.sourceGeoid ?? null);
-    const county = geoid ? countyGovernmentUnit(geoid) : null;
+    const county = geoid
+      ? (countyGovernmentUnit(geoid) ?? municipioUnit(geoid))
+      : null;
     return county
       ? {
           placeScope: "county",
           municipal: [],
           counties: [county],
+          townships: [],
           countyStatus: "established",
           countyReason: null,
           countyShares: null,
@@ -118,6 +146,10 @@ export function homeLocalGovernmentUnits(
         (unit) => unit.unitType === "municipality",
       )
     : [];
+  const townships =
+    place.sourceGeoid && municipal.length === 0
+      ? townshipGovernmentUnitsForPlace(place.sourceGeoid)
+      : [];
   // Every county government whose area the place lies in, with its share;
   // a place spanning counties keeps them all and none is chosen.
   const relation = place.sourceGeoid
@@ -128,6 +160,7 @@ export function homeLocalGovernmentUnits(
       placeScope: "locality",
       municipal,
       counties: relation.map((share) => share.unit),
+      townships,
       countyStatus: "established",
       countyReason: null,
       countyShares: relation.map((share) => ({
@@ -135,8 +168,26 @@ export function homeLocalGovernmentUnits(
         landAreaShare: share.landAreaShare,
       })),
     };
+  // A municipio is its own government under its place's municipal code,
+  // though the Census listing holds none: every one the place lies in.
+  const municipios = place.sourceGeoid
+    ? municipiosForPlace(place.sourceGeoid)
+    : [];
+  if (municipios.length > 0)
+    return {
+      placeScope: "locality",
+      municipal,
+      counties: municipios,
+      townships: [],
+      countyStatus: "established",
+      countyReason: null,
+      countyShares: null,
+    };
   if (municipal.length === 0)
-    return none("locality", "not-established", countyRelationEmpty(term));
+    return {
+      ...none("locality", "not-established", countyRelationEmpty(term)),
+      townships,
+    };
   const counties = new Map<string, GovernmentUnitIdentity>();
   for (const unit of municipal) {
     const county = unit.countyGeoid
@@ -148,6 +199,7 @@ export function homeLocalGovernmentUnits(
     placeScope: "locality",
     municipal,
     counties: [...counties.values()],
+    townships: [],
     countyStatus: counties.size > 0 ? "established" : "no-county-government",
     countyReason:
       counties.size > 0
@@ -282,9 +334,44 @@ export function localGovernmentOrganizationKey(
   return `local-government:${unit.id}`;
 }
 
+const UNINCORPORATED = new Map<EntityId, readonly EntityId[]>();
+
+/**
+ * The town, township and county governments whose ordinances govern a place
+ * with no municipal government of its own: an unincorporated place (a
+ * census-designated place, or a Puerto Rico place under its municipio) is
+ * governed by the law of the town or township it lies in and of its county,
+ * the most common rule in every state. Empty for an incorporated place, a
+ * county or a state, and for a place with no such government.
+ */
+export function unincorporatedCountyJurisdictionIds(
+  jurisdictionId: EntityId,
+): readonly EntityId[] {
+  const cached = UNINCORPORATED.get(jurisdictionId);
+  if (cached) return cached;
+  const place = lifePlaceByJurisdictionId(jurisdictionId);
+  const units = placeLocalGovernmentUnits(place);
+  const ids =
+    units.placeScope === "locality" && units.municipal.length === 0
+      ? [...units.townships, ...units.counties].flatMap(
+          (unit) => jurisdictionForUnit(unit)?.id ?? [],
+        )
+      : [];
+  UNINCORPORATED.set(jurisdictionId, ids);
+  return ids;
+}
+
+/** The jurisdiction a local government's own law is recorded under, or null. */
+export function localGovernmentJurisdiction(
+  unit: GovernmentUnitIdentity,
+): Jurisdiction | null {
+  return jurisdictionForUnit(unit);
+}
+
 function jurisdictionForUnit(
   unit: GovernmentUnitIdentity,
 ): Jurisdiction | null {
+  if (unit.unitType === "township") return townshipJurisdiction(unit);
   const place =
     unit.unitType === "county"
       ? unit.countyGeoid
@@ -302,8 +389,34 @@ function jurisdictionForUnit(
 }
 
 /**
+ * A town or township's own jurisdiction. The places corpus holds no county
+ * subdivisions, so the town is named here under the one identity every
+ * consumer shares (`governingJurisdictionIdFor`), and placed in its state.
+ */
+function townshipJurisdiction(
+  unit: GovernmentUnitIdentity,
+): Jurisdiction | null {
+  const id = governingJurisdictionIdFor({ kind: "local", unit });
+  const state = stateJurisdictionForKey(`US-${unit.stateUsps}`);
+  if (!id || !state) return null;
+  return {
+    id,
+    slug: `us-government-unit-${unit.publisherId}`,
+    name: governmentUnitDisplayName(unit),
+    kind: "government-township",
+    parentName: state.name,
+    provenance: {
+      asOf: unit.asOf as IsoDate,
+      source: `${GOVERNMENT_UNITS_META.artifactId} ${unit.id}`,
+      jurisdiction: id,
+      status: "approved",
+    },
+  };
+}
+
+/**
  * Records each actual government serving this person's home as an organization,
- * once. A government compiled from its own enacted text keeps the municipal
+ * once. A government with a sourced or game municipal workspace keeps that
  * workspace's install path and is not duplicated here. Nothing about members,
  * powers or form is recorded: those are RULES facts, reported by
  * `homeLocalGovernmentStatus` as missing until admitted.
@@ -314,11 +427,26 @@ export function ensureHomeLocalGovernments(
 ): World {
   const units = homeLocalGovernmentUnits(world, personId);
   let next = world;
-  for (const unit of [...units.municipal, ...units.counties]) {
-    if (municipalGovernmentForUnit(unit)) continue;
+  for (const unit of [
+    ...units.municipal,
+    ...units.townships,
+    ...units.counties,
+  ]) {
+    if (municipalWorkspaceGovernmentForUnit(unit)) continue;
     next = ensureLocalGovernmentOrganization(next, unit);
   }
   return next;
+}
+
+/** A matched city's game profile uses the same organization as a sourced city. */
+export function municipalWorkspaceGovernmentForUnit(
+  unit: GovernmentUnitIdentity,
+) {
+  const sourced = municipalGovernmentForUnit(unit);
+  if (sourced) return sourced;
+  if (unit.unitType !== "municipality" || !unit.placeGeoid) return null;
+  const matched = municipalGovernmentForPlaceGeoid(unit.placeGeoid);
+  return matched?.key === unit.id ? matched : null;
 }
 
 /**
@@ -345,6 +473,32 @@ export function ensureLocalGovernmentOrganization(
       },
       jurisdictionOrder: [...next.jurisdictionOrder, jurisdiction.id],
     };
+  }
+  // A municipio is not in the Census listing: its record is the municipal
+  // code that makes it a government.
+  const code =
+    unit.id === `municipio:${unit.countyGeoid}`
+      ? countyGoverningBodyRules(unit)
+      : null;
+  if (code) {
+    // On the books since the code took effect, so a matter the world dates
+    // before the opening can name it.
+    const since = (code.inForceSince ?? next.currentDate) as IsoDate;
+    return createOrganization(next, {
+      stableKey,
+      formedAt: since <= next.currentDate ? since : next.currentDate,
+      detailLevel: "lightweight",
+      provenance: {
+        kind: "source-record",
+        reference: `${code.citation} (${code.url})`,
+        asOf: since,
+      },
+      initialProfile: {
+        name: unit.name,
+        classification: "service:municipal-government",
+        locationJurisdictionId: jurisdiction.id,
+      },
+    });
   }
   const asOf = unit.asOf as IsoDate;
   const listed = asOf <= next.currentDate;
@@ -398,22 +552,29 @@ export function homeLocalGovernmentStatus(
   readonly governments: readonly LocalGovernmentStatus[];
 } {
   const units = homeLocalGovernmentUnits(world, personId);
-  const governments = [...units.municipal, ...units.counties].map((unit) => {
+  const governments = [
+    ...units.municipal,
+    ...units.townships,
+    ...units.counties,
+  ].map((unit) => {
     const resolution = resolveNationwideRuleCapability({
       scope: { kind: "local", unit },
       action: "inspect",
       onDate: world.currentDate,
       fields: MEMBERSHIP_FIELDS,
     });
-    const stableKey = localGovernmentOrganizationKey(unit);
+    const compiled = municipalWorkspaceGovernmentForUnit(unit);
+    const organization = compiled
+      ? municipalOrganizationFor(world, compiled.key)
+      : world.history.organizations.find(
+          (entry) => entry.stableKey === localGovernmentOrganizationKey(unit),
+        );
     return {
       unitId: unit.id,
       name: localGovernmentDisplayName(unit),
       unitType: unit.unitType,
-      compiledGovernmentKey: municipalGovernmentForUnit(unit)?.key ?? null,
-      organizationId:
-        world.history.organizations.find((o) => o.stableKey === stableKey)
-          ?.id ?? null,
+      compiledGovernmentKey: compiled?.key ?? null,
+      organizationId: organization?.id ?? null,
       membershipMissing: unadmittedRuleFields(resolution),
     };
   });

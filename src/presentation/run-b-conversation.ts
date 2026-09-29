@@ -1,7 +1,9 @@
 import type { ChoiceTruthDeclaration } from "./lie-marker";
+import { stableHash } from "../simulation/ids";
 import { isContextualSceneProgress } from "./contextual-scenes";
 import {
   assertNpcAutonomousApplication,
+  assessUndertaking,
   assertWorldIntegrity,
   currentHistoricalCutoff,
   evaluateDecision,
@@ -12,6 +14,7 @@ import {
   recordPerception,
   recordRelationshipInteraction,
   recordWorldEvent,
+  undertakingForLifeCommitment,
 } from "../simulation";
 import type {
   ClaimAudience,
@@ -39,7 +42,10 @@ import {
   scheduleConversationAftermath,
   writeConversationCommitment,
 } from "./conversation-consequences";
-import type { ConversationOutcome } from "./conversation-consequences";
+import type {
+  ConversationCommitmentSpec,
+  ConversationOutcome,
+} from "./conversation-consequences";
 import type { ConversationCommitContract } from "./conversation-subjects";
 import { commitLifeTalkConversationTurn } from "./life-talk-conversation";
 import {
@@ -111,6 +117,38 @@ export const RUN_B_CONVERSATION_INTENTS = [
 ] as const;
 
 export type ConversationAddressee = EntityId | "everyone";
+
+/**
+ * Whether the same person has already undertaken the same thing to the same
+ * person, and it is still open.
+ *
+ * Saying it again ("I've got the third referral") is not a second promise. A
+ * second record would count one undertaking twice, and would let one kept act
+ * look like two.
+ */
+function alreadyUndertaken(
+  world: World,
+  holderPersonId: EntityId,
+  owedToPersonId: EntityId,
+  spec: ConversationCommitmentSpec,
+): boolean {
+  if (!spec.undertaking) return false;
+  return world.history.lifeCommitments.some((record) => {
+    if (
+      record.personId !== holderPersonId ||
+      record.kind !== spec.kind ||
+      record.label !== spec.label ||
+      !record.undertaking?.owedToPersonIds.includes(owedToPersonId)
+    ) {
+      return false;
+    }
+    const undertaking = undertakingForLifeCommitment(world, record.id);
+    return (
+      undertaking !== null &&
+      assessUndertaking(world, undertaking).standing === "outstanding"
+    );
+  });
+}
 
 /**
  * The person playing a named part in this room.
@@ -884,18 +922,50 @@ export function commitConversationTurn(
   const commitmentSpec =
     resolved.speakerPersonId === null
       ? null
-      : (commit.commitment?.(input.intent, resolved.outcome) ?? null);
-  if (commitmentSpec !== null && resolved.speakerPersonId !== null) {
-    const holderId =
-      commitmentSpec.holder === "player"
+      : (commit.commitment?.(input.intent, resolved.outcome, {
+          speakerRole:
+            Object.entries(input.room.roles).find(
+              ([, personId]) => personId === resolved.speakerPersonId,
+            )?.[0] ?? null,
+        }) ?? null);
+  const commitmentHolderId =
+    commitmentSpec === null || resolved.speakerPersonId === null
+      ? null
+      : commitmentSpec.holder === "player"
         ? input.room.playerPersonId
         : resolved.speakerPersonId;
+  if (
+    commitmentSpec !== null &&
+    resolved.speakerPersonId !== null &&
+    commitmentHolderId !== null &&
+    !alreadyUndertaken(
+      world,
+      commitmentHolderId,
+      commitmentHolderId === input.room.playerPersonId
+        ? resolved.speakerPersonId
+        : input.room.playerPersonId,
+      commitmentSpec,
+    )
+  ) {
+    const holderId = commitmentHolderId;
     world = writeConversationCommitment(world, {
       personId: holderId,
       eventId: event.id,
       stableKey: turnKey,
       jurisdictionId: input.room.jurisdictionId,
       spec: commitmentSpec,
+      hearing: {
+        owedToPersonIds: [
+          holderId === input.room.playerPersonId
+            ? resolved.speakerPersonId
+            : input.room.playerPersonId,
+        ],
+        heardByPersonIds: canonicalPeople(input.room, [
+          input.room.playerPersonId,
+          ...actualListenerPersonIds,
+        ]),
+        audience: claimAudience ?? "limited",
+      },
     });
     commitmentId = world.history.lifeCommitments.at(-1)?.id ?? null;
   }
@@ -1172,12 +1242,27 @@ function resolveQuietRoom(
     dialogue: null,
     perception: null,
     durableDecisionRecorded: false,
-    roomNarration: selectAuthoredVariant(
-      world,
-      `quiet-room:${context.sceneKey}:${context.turnOrdinal}`,
-      QUIET_ROOM_LINES,
-    ),
+    roomNarration: quietRoomLine(world, context.sceneKey, context.turnOrdinal),
   };
+}
+
+/**
+ * What the room does when nobody answers. The lines are taken in turn, one
+ * step per silent turn, from a starting point that moves with the day, so the
+ * room never says the same thing two turns running and a visit on another day
+ * does not open the way the last one did. Nothing is drawn: the start is the
+ * hash of the world, the place and the date.
+ */
+export function quietRoomLine(
+  world: World,
+  sceneKey: string,
+  turnOrdinal: number,
+): string {
+  const hash = stableHash(
+    `${world.seed}:quiet-room:${sceneKey}:${world.currentDate}`,
+  );
+  const start = Number(BigInt(`0x${hash}`) % BigInt(QUIET_ROOM_LINES.length));
+  return QUIET_ROOM_LINES[(start + turnOrdinal) % QUIET_ROOM_LINES.length]!;
 }
 
 function resolveLegislativeProvisionResponse(

@@ -1,0 +1,15 @@
+{
+  "note": "Policy questions with no sized, built effect path on September 29, 2026 (Claude CTO's 8:00 a.m. all-hands). This list can only shrink: `npm run unwired-laws -- --update` removes a question once it is wired, and the test fails for any unwired question not listed here.",
+  "questions": [
+    "us-policy-positions:government-operations.require-photo-id-to-vote",
+    "us-policy-positions:government-operations.ban-lobbying-after-office",
+    "us-policy-positions:education.state-curriculum-standards",
+    "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
+    "us-policy-positions:civil-family-community.local-control-of-library-materials",
+    "us-federal-positions:immigration.admit-more-immigrants",
+    "us-federal-positions:education.forgive-student-loans",
+    "us-federal-positions:emergencies.states-share-disaster-costs",
+    "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+    "us-federal-positions:government.ban-congressional-stock-trading"
+  ]
+}

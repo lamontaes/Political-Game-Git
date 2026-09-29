@@ -66,9 +66,9 @@ export const CRIME_CAUSE_SEAMS: readonly CrimeCauseSeam[] = [
     key: "cause-offenders",
     connects:
       "A named person turning to crime from money trouble, grievance or habit.",
-    status: "not-built",
-    rule: "No named person commits a crime; see OFFENDERS_ARE_NOT_REPRESENTED. The lane that draws an offender refers them with referForProsecution, shaped by arrestReferral; the monthly crime pass cannot import the prosecution route without an import loop.",
-    where: "src/simulation/crime/contract.ts",
+    status: "built",
+    rule: "PLACEHOLDER weights: an offense the police log is laid at the door of the resident whose circumstances (age, being out of work, a past record, knowing the victim, a taste for risk) point to it most, when they reach the bar; police arrest them when the victim knows them, they have a record, or the circumstances point plainly; the arrest goes to prosecutors.",
+    where: "src/simulation/crime/offenders.ts",
   },
   {
     key: "effect-moving-away",

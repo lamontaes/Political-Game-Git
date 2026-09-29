@@ -55,10 +55,14 @@ export function useSavedRenderSnapshot(personId: string) {
 export function savedRenderSnapshots(
   world: World,
   wardrobes: Readonly<Record<string, PersonWardrobePreference>>,
+  personIds: readonly string[],
 ) {
   const snapshots: Record<string, PersonRenderSnapshot> = {};
-  for (const personId of world.personOrder) {
-    const person = world.people[personId]!;
+  // The world can hold every state's lightweight legislators. A portrait or
+  // room only needs a recipe for someone it is actually drawing now.
+  for (const personId of new Set(personIds)) {
+    const person = world.people[personId];
+    if (!person) continue;
     try {
       const wardrobe = wardrobes[personId]
         ? resolvePersonWardrobeContext(person, wardrobes[personId]!, {
@@ -163,7 +167,7 @@ export function SavedAppearanceControls(
               withEngineChoice(
                 props.world,
                 person.id,
-                choiceFromRecipe(recipe),
+                choiceFromRecipe(recipe, PEOPLE_PACK),
               ),
             )
           }

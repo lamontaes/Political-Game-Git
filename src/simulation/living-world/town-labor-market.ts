@@ -10,17 +10,19 @@
  * be working and is not can be hired:
  *
  * - a worker who died, or reached 67, leaves the job;
- * - a worker may quit, and most who quit move straight to another job;
- * - a worker may be laid off, more often when the town's or the nation's
- *   recorded unemployment is high;
- * - a resident of working age who is looking (including somebody laid off,
- *   a newcomer to town or someone who has just turned 18) may be hired, less
- *   often when unemployment is high.
+ * - some workers quit, and a quitter who knows somebody working for another
+ *   employer in town moves straight to a job;
+ * - some workers are laid off, more when the town's or the nation's recorded
+ *   unemployment is high;
+ * - some residents of working age who are looking (including somebody laid
+ *   off, a newcomer to town or someone who has just turned 18) are hired,
+ *   fewer when unemployment is high.
  *
- * Every change is a dated work-status record, with its reason, on the day of
- * the review. The rates are GAME ASSUMPTIONS near the national monthly rates
- * of the BLS Job Openings and Labor Turnover Survey (quits about 2%, layoffs
- * about 1% of jobs a month), not read from a source.
+ * Nothing is drawn. The national rates set how many leave or are hired in the
+ * town each quarter; who it is comes from the record: the most recently hired
+ * are laid off first, the youngest and newest quit first, and the seekers out
+ * of work the shortest time are hired first. Every change is a dated
+ * work-status record, with its reason, on the day of the review.
  */
 
 import { recordWorkStatus } from "../life";
@@ -28,24 +30,38 @@ import {
   macroConditionsAt,
   macroScopeForJurisdiction,
 } from "../macro-economy/readers";
-import { SeededRng } from "../rng";
+import { sharedPlaceAcquaintances } from "../shared-places";
+import {
+  TOWN_BUSINESS_WORKPLACES,
+  townBusinessLaysOff,
+} from "./town-business-books";
 import type { EntityId, WorkStatusRecord, World } from "../types";
 import {
   TOWN_EMPLOYMENT_VERSION,
   WORKING_AGE_MAX,
+  WORKING_AGE_MIN,
   fillTownJobs,
   laborStatus,
   townResidents,
 } from "./town-employment";
-import { ageOnDate } from "../dates";
+import { ageOnDate, dateAtAge } from "../dates";
 
-/** GAME ASSUMPTION: chances per quarter, before unemployment is weighed. */
+/**
+ * How much of the town's work turns over in a quarter, before unemployment
+ * is weighed. These set how many; the record decides who.
+ *
+ * MEASURED: quits were 2.0% and layoffs and discharges 1.1% of jobs a month
+ * in 2025 (Bureau of Labor Statistics, Job Openings and Labor Turnover
+ * Survey, series JTU000000000000000QUR and JTU000000000000000LDR, annual
+ * averages), three months to the quarter.
+ */
 export const TOWN_JOB_TURNOVER = {
-  quitPerQuarter: 0.06,
-  /** Of those who quit, the share who start another job the same day. */
-  quitToNewJob: 0.7,
-  layoffPerQuarter: 0.03,
-  /** A job seeker's chance of being hired in a quarter. */
+  quitPerQuarter: 3 * 0.02,
+  layoffPerQuarter: 3 * 0.011,
+  /**
+   * GAME ASSUMPTION, not read from a source: the part of the town's job
+   * seekers hired in a quarter.
+   */
   hirePerQuarter: 0.55,
   /** Unemployment the rates above are set for, in percent. */
   referenceUnemploymentPct: 4.2,
@@ -159,6 +175,51 @@ export function reviewTownJobs(
   )
     return world;
 
+  // A business that keeps books lays people off by its books, below; every
+  // other employer by the town's conditions.
+  const employerOf = new Map<EntityId, EntityId>();
+  for (const row of world.history.workRelationships)
+    if (row.organizationId) employerOf.set(row.id, row.organizationId);
+  const employerStem = `${TOWN_EMPLOYMENT_VERSION}:${town}:employer:`;
+  const isBusiness = new Set(
+    world.history.organizations
+      .filter(
+        (row) =>
+          row.stableKey.startsWith(employerStem) &&
+          TOWN_BUSINESS_WORKPLACES.has(
+            row.stableKey.slice(employerStem.length).split(":")[0]!,
+          ),
+      )
+      .map((row) => row.id),
+  );
+  const booksOf = (job: TownJob) => {
+    const organizationId = employerOf.get(job.relationshipId);
+    return organizationId
+      ? world.townFinances?.businesses[organizationId]
+      : undefined;
+  };
+  // Whoever runs a business is its owner: whoever directs it, or its one
+  // remaining worker. They do not quit it or lay themselves off; they leave
+  // when they retire, die or move. The count falls as people leave, so two
+  // workers never both walk out of a business in one quarter.
+  const authorityOf = new Map<EntityId, string>();
+  for (const row of world.history.workRelationships)
+    authorityOf.set(row.id, row.authority);
+  const staffAt = new Map<EntityId, number>();
+  for (const job of activeTownJobs(world, town)) {
+    const organizationId = employerOf.get(job.relationshipId);
+    if (organizationId)
+      staffAt.set(organizationId, (staffAt.get(organizationId) ?? 0) + 1);
+  }
+  const runsIt = (job: TownJob) => {
+    const organizationId = employerOf.get(job.relationshipId);
+    return (
+      organizationId !== undefined &&
+      isBusiness.has(organizationId) &&
+      (authorityOf.get(job.relationshipId) === "directs-others" ||
+        (staffAt.get(organizationId) ?? 0) <= 1)
+    );
+  };
   let next = world;
   const rehire = new Set<EntityId>();
   const end = (job: TownJob, reason: string) => {
@@ -174,7 +235,14 @@ export function reviewTownJobs(
         generatorKey: TOWN_EMPLOYMENT_VERSION,
       },
     });
+    const organizationId = employerOf.get(job.relationshipId);
+    if (organizationId)
+      staffAt.set(organizationId, (staffAt.get(organizationId) ?? 1) - 1);
   };
+  const startedAt = new Map<EntityId, string>();
+  for (const relationship of world.history.workRelationships)
+    startedAt.set(relationship.id, relationship.startedAt);
+  const staying: TownJob[] = [];
   for (const job of activeTownJobs(world, town)) {
     const person = world.people[job.personId];
     if (!person) continue;
@@ -188,21 +256,107 @@ export function reviewTownJobs(
       end(job, TOWN_JOB_END_REASONS.retired);
       continue;
     }
-    const rng = new SeededRng(world.seed).fork(
-      `${TOWN_EMPLOYMENT_VERSION}:turnover:${job.relationshipId}:${round}`,
+    staying.push(job);
+  }
+
+  // HARDWIRED: last hired, first let go, the usual order of a layoff. The
+  // town's conditions set how many of the jobs at employers without books
+  // end; a business that keeps books lays off by its books, below. Whoever
+  // runs a business is never laid off from it.
+  const byLatestHire = [...staying].sort(
+    (a, b) =>
+      startedAt
+        .get(b.relationshipId)!
+        .localeCompare(startedAt.get(a.relationshipId)!) ||
+      a.relationshipId.localeCompare(b.relationshipId),
+  );
+  const byConditions = byLatestHire.filter(
+    (job) => booksOf(job)?.lastQuarterPay === undefined,
+  );
+  let layoffs = Math.round(
+    byConditions.length * TOWN_JOB_TURNOVER.layoffPerQuarter * pressure,
+  );
+  const laidOff = new Set<EntityId>();
+  for (const job of byConditions) {
+    if (layoffs <= 0) break;
+    if (runsIt(job)) continue;
+    end(job, TOWN_JOB_END_REASONS.laidOff);
+    laidOff.add(job.relationshipId);
+    layoffs -= 1;
+  }
+
+  // HARDWIRED: the youngest quit first, then the newest in the job. Young
+  // workers change jobs most (Topel and Ward, "Job Mobility and the Careers
+  // of Young Men", Quarterly Journal of Economics, 1992). Whoever runs a
+  // business does not quit it.
+  const remaining = staying.filter((job) => !laidOff.has(job.relationshipId));
+  const byYouth = [...remaining].sort(
+    (a, b) =>
+      world.people[b.personId]!.birthDate.localeCompare(
+        world.people[a.personId]!.birthDate,
+      ) ||
+      startedAt
+        .get(b.relationshipId)!
+        .localeCompare(startedAt.get(a.relationshipId)!) ||
+      a.relationshipId.localeCompare(b.relationshipId),
+  );
+  let quits = Math.round(
+    (remaining.length * TOWN_JOB_TURNOVER.quitPerQuarter) / pressure,
+  );
+  const employerByPerson = new Map<EntityId, EntityId | null>(
+    remaining.map((job) => [
+      job.personId,
+      employerOf.get(job.relationshipId) ?? null,
+    ]),
+  );
+  for (const job of byYouth) {
+    if (quits <= 0) break;
+    if (runsIt(job)) continue;
+    end(job, TOWN_JOB_END_REASONS.quit);
+    quits -= 1;
+    // A quitter walks into another job when somebody they know from a shared
+    // room works for another employer in town.
+    const own = employerOf.get(job.relationshipId) ?? null;
+    const lead = sharedPlaceAcquaintances(world, job.personId).some(
+      (other) =>
+        employerByPerson.has(other) && employerByPerson.get(other) !== own,
     );
+    if (lead) rehire.add(job.personId);
+  }
+
+  // A business whose sales no longer cover its pay lets its most recent
+  // hire go, never whoever runs it.
+  const staffOf = new Map<EntityId, TownJob[]>();
+  for (const job of activeTownJobs(next, town)) {
+    const organizationId = employerOf.get(job.relationshipId);
+    if (!organizationId || !booksOf(job)) continue;
+    staffOf.set(organizationId, [...(staffOf.get(organizationId) ?? []), job]);
+  }
+  const relationships = new Map(
+    next.history.workRelationships.map((row) => [row.id, row]),
+  );
+  for (const [organizationId, staff] of [...staffOf].sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
     if (
-      rng.fork("layoff").next() <
-      TOWN_JOB_TURNOVER.layoffPerQuarter * pressure
-    ) {
-      end(job, TOWN_JOB_END_REASONS.laidOff);
+      !townBusinessLaysOff(
+        next.townFinances?.businesses[organizationId],
+        staff.length,
+      )
+    )
       continue;
-    }
-    if (rng.fork("quit").next() < TOWN_JOB_TURNOVER.quitPerQuarter / pressure) {
-      end(job, TOWN_JOB_END_REASONS.quit);
-      if (rng.fork("next-job").next() < TOWN_JOB_TURNOVER.quitToNewJob)
-        rehire.add(job.personId);
-    }
+    const [last] = staff
+      .filter(
+        (job) =>
+          relationships.get(job.relationshipId)?.authority !== "directs-others",
+      )
+      .sort(
+        (a, b) =>
+          (relationships.get(b.relationshipId)?.startedAt ?? "").localeCompare(
+            relationships.get(a.relationshipId)?.startedAt ?? "",
+          ) || a.relationshipId.localeCompare(b.relationshipId),
+      );
+    if (last) end(last, TOWN_JOB_END_REASONS.laidOff);
   }
 
   // Everyone of working age who should be working and holds no job today:
@@ -219,22 +373,82 @@ export function reviewTownJobs(
   for (const relationship of next.history.workRelationships)
     if (latest.get(relationship.id) === "active")
       heldElsewhere.add(relationship.personId);
-  const open = townResidents(next, town).filter((resident) => {
+  const seekers = townResidents(next, town).filter((resident) => {
     if (resident.personId === playerPersonId) return false;
     if (working.has(resident.personId) || heldElsewhere.has(resident.personId))
       return false;
-    if (rehire.has(resident.personId)) return true;
+    if (rehire.has(resident.personId)) return false;
     const status = laborStatus(next, resident);
-    if (status === "employed" || status === "looking-for-work")
-      return (
-        new SeededRng(next.seed)
-          .fork(
-            `${TOWN_EMPLOYMENT_VERSION}:hire-draw:${resident.personId}:${round}`,
-          )
-          .next() <
-        TOWN_JOB_TURNOVER.hirePerQuarter / pressure
-      );
-    return false;
+    return status === "employed" || status === "looking-for-work";
   });
+  // HARDWIRED: employers call back the seekers out of work the shortest time
+  // first (Kroft, Lange and Notowidigdo, "Duration Dependence and Labor
+  // Market Conditions", Quarterly Journal of Economics, 2013). Somebody with
+  // no job on the record has been out of work here since the later of moving
+  // into their home and turning 18: a newcomer's last job elsewhere is not
+  // known, so it is not read as never having worked.
+  const lastWorked = outOfWorkSince(
+    next,
+    seekers.map((resident) => resident.personId),
+  );
+  const hiredSeekers = [...seekers]
+    .sort(
+      (a, b) =>
+        (lastWorked.get(b.personId) ?? "").localeCompare(
+          lastWorked.get(a.personId) ?? "",
+        ) || a.personId.localeCompare(b.personId),
+    )
+    .slice(
+      0,
+      Math.round(
+        (seekers.length * TOWN_JOB_TURNOVER.hirePerQuarter) / pressure,
+      ),
+    );
+  const open = [
+    ...townResidents(next, town).filter((resident) =>
+      rehire.has(resident.personId),
+    ),
+    ...hiredSeekers,
+  ];
   return fillTownJobs(next, town, open, { round });
+}
+
+/**
+ * The date each seeker has been out of work since: their last town job's
+ * end, or, with no job on the record, the later of moving into their home
+ * and turning 18.
+ */
+export function outOfWorkSince(
+  world: World,
+  seekers: readonly EntityId[],
+): ReadonlyMap<EntityId, string> {
+  const today = world.currentDate;
+  const workerOf = new Map<EntityId, EntityId>();
+  for (const relationship of world.history.workRelationships)
+    workerOf.set(relationship.id, relationship.personId);
+  const since = new Map<EntityId, string>();
+  for (const row of world.history.workStatuses) {
+    if (row.status !== "ended" || row.effectiveAt > today) continue;
+    const worker = workerOf.get(row.workRelationshipId);
+    if (worker === undefined) continue;
+    const previous = since.get(worker);
+    if (previous === undefined || row.effectiveAt > previous)
+      since.set(worker, row.effectiveAt);
+  }
+  const seeking = new Set(seekers);
+  const movedIn = new Map<EntityId, string>();
+  for (const membership of world.history.householdMemberships) {
+    if (!seeking.has(membership.personId) || membership.startedAt > today)
+      continue;
+    const previous = movedIn.get(membership.personId);
+    if (previous === undefined || membership.startedAt > previous)
+      movedIn.set(membership.personId, membership.startedAt);
+  }
+  for (const personId of seeking) {
+    if (since.has(personId)) continue;
+    const adult = dateAtAge(world.people[personId]!.birthDate, WORKING_AGE_MIN);
+    const arrived = movedIn.get(personId) ?? "";
+    since.set(personId, arrived > adult ? arrived : adult);
+  }
+  return since;
 }

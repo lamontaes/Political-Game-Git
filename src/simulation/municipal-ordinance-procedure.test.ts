@@ -17,10 +17,15 @@ import {
 } from "./municipal-public-work";
 import {
   admitCouncilAction,
+  COUNCIL_ACT_HANDLERS,
   municipalOrdinanceStatus,
+  municipalReadingQuestion,
   passMunicipalOrdinance,
   placeMunicipalOrdinanceOnAgenda,
+  scheduleOrdinaryCouncilReading,
 } from "./municipal-ordinance-procedure";
+import { recordMemberBallot } from "./governing/member-ballots";
+import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { advanceWorld } from "./world";
 import { addDays, makeIsoDate } from "./dates";
@@ -100,6 +105,44 @@ function introduced(world: World, key: string, designation = "Ord. 26-1") {
 }
 
 describe("a Charlottesville general ordinance through the shared measure engine", () => {
+  it("resolves a scheduled council reading from saved member ballots and seated colleagues", () => {
+    const { world, key, member } = charlottesville();
+    const { world: onAgenda, measureId } = introduced(world, key);
+    const scheduled = scheduleOrdinaryCouncilReading(onAgenda, key, measureId);
+    const due = scheduled.history.futureDueItems.at(-1)!;
+    expect(due.dueAt).toBe(addDays(scheduled.currentDate, 4));
+    const question = municipalReadingQuestion(scheduled, key, measureId)!;
+    const decided = recordMemberBallot(scheduled, {
+      personId: member,
+      jurisdictionId: scheduled.history.legislativeMeasures!.find(
+        (measure) => measure.id === measureId,
+      )!.jurisdictionId,
+      question,
+      ballot: "yea",
+      summary: "The councilor decided to vote yea on this ordinance.",
+    });
+    const restored = deserializeWorld(serializeWorld(decided));
+    const finished = advanceWorld(
+      restored,
+      4,
+      createFutureTransitionHandlerRegistry([...COUNCIL_ACT_HANDLERS]),
+    );
+    expect(measurePosition(finished, measureId).phase).toBe("enacted");
+    const vote = finished.history.legislativeVotes!.find(
+      (entry) => entry.measureId === measureId,
+    )!;
+    expect(vote.provenance.method).toBe("member-decisions");
+    expect(
+      vote.dispositions.find((entry) => entry.personId === member),
+    ).toMatchObject({
+      disposition: "yea",
+      reason: "member:own-ballot",
+    });
+    expect(
+      deserializeWorld(serializeWorld(finished)).history.legislativeVotes,
+    ).toEqual(finished.history.legislativeVotes);
+  });
+
   it("waits the Code's three intervening days, passes by majority of those voting, and takes effect on passage", () => {
     const { world, key, council } = charlottesville();
     const { world: onAgenda, measureId } = introduced(world, key);
@@ -248,10 +291,10 @@ describe("explicit municipal passage interval bases", () => {
       const government = municipalGovernmentForLifePlace(
         requireLifePlace("5114968"),
       )!;
-      const reading = municipalGovernment.primaryReading(government);
+      const reading = municipalGovernment.municipalProcedureReading(government);
       // A bounded rule fixture exercises the existing writer; it does not admit Portland.
       const spy = vi
-        .spyOn(municipalGovernment, "primaryReading")
+        .spyOn(municipalGovernment, "municipalProcedureReading")
         .mockReturnValue({
           ...reading,
           procedure: {

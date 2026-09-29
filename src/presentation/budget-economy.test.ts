@@ -16,7 +16,10 @@ import {
 } from "../simulation";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { campaignUntilDecided } from "../../tests/fixtures/campaign-fixture";
+import {
+  campaignUntilDecided,
+  namedSeatForFixture,
+} from "../../tests/fixtures/campaign-fixture";
 import { openOrdinaryLife } from "./ordinary-life";
 import { fileForOffice, projectCampaign } from "./campaign-projection";
 import { buildProductionWorld } from "./production-world";
@@ -55,7 +58,11 @@ function seatedFiscalReader(): {
   world = fileForOffice(
     world,
     built.playerPersonId,
-    null,
+    namedSeatForFixture(
+      world,
+      built.playerPersonId,
+      "us-ky-general-assembly-v1:house",
+    ),
     "us-ky-general-assembly-v1:house",
     // A seated legislator is the subject here, not the calendar.
     addDays(world.currentDate, 28),
@@ -183,7 +190,7 @@ describe("Budget/economy read model", () => {
       graphCount: 1,
     });
     expect(graph).toMatchObject({
-      title: "Government revenue and outlays",
+      title: "Recorded tax receipts and program outlays",
       unit: "USD minor units",
       geography: {
         providerCode: world.jurisdictionOrder[0],
@@ -200,6 +207,26 @@ describe("Budget/economy read model", () => {
       ),
     ).toEqual([11_000, 9_000]);
     expect(JSON.stringify(result)).not.toContain("99000");
+  });
+
+  it("labels an exact one-day fiscal interval as a single date", () => {
+    let world = createDemoWorld("recovery25-budget:one-day-flow");
+    const date = world.currentDate;
+    world = fiscalState(
+      world,
+      "budget:one-day-receipt",
+      "government.revenue",
+      100,
+      interval(date, date),
+    );
+    const graph = projectBudgetEconomy(world, world.jurisdictionOrder[0]!)
+      .fiscalGraphs[0]!;
+    expect(graph.title).toBe("Recorded tax receipts and program outlays");
+    expect(
+      graph.series.flatMap((series) =>
+        series.points.map((point) => point.period),
+      ),
+    ).toEqual([date]);
   });
 
   it("reprojects the same public reading after a save round trip", () => {

@@ -1,4 +1,5 @@
 import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-term";
+import { compileBankConfigurationForTest } from "../../tests/fixtures/legislation-bank-draft";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -19,12 +20,7 @@ import { applyLegislativeStep } from "./legislation-session";
 import { openLegislativeBargaining } from "./legislative-bargaining-world";
 import { offerNegotiatedAmendment } from "./legislative-bargaining-actions";
 import { fileDraft, readDocket } from "./legislation-docket";
-import {
-  legalInstrumentRule,
-  programConfigurations,
-  programVariant,
-  standingAuthorities,
-} from "../simulation/legislation-program-families";
+import { programConfigurations } from "../simulation/legislation-program-families";
 import { compileBillDraft } from "../simulation/legislation-drafting";
 import { bargainingSubjectFactsForDraft } from "./legislative-bargaining-brief";
 import {
@@ -252,25 +248,7 @@ describe("every configuration produces a sitting about itself", () => {
    * needs one — as the docket does in play.
    */
   function compileAny(familyKey: string, variantKey: string) {
-    const { variant } = programVariant(familyKey, variantKey);
-    const rule = legalInstrumentRule(variant.instrument);
-    const authority = rule.requiresPredicateAuthority
-      ? standingAuthorities().find((candidate) =>
-          rule.predicateMustAuthorizeSpending
-            ? candidate.authorizesSpending
-            : true,
-        )
-      : undefined;
-    return compileBillDraft({
-      familyKey,
-      variantKey,
-      scenarioKey: "kentucky",
-      jurisdictionId: "jurisdiction_test" as never,
-      rulePackId: "us-ky-general-assembly",
-      designation: "HB 401",
-      filedOn: "2026-01-14" as never,
-      ...(authority ? { predicateAuthority: authority } : {}),
-    });
+    return compileBankConfigurationForTest(familyKey, variantKey, "HB 401");
   }
 
   it("gives every configuration in the bank its own requested section", () => {
@@ -322,7 +300,7 @@ describe("every configuration produces a sitting about itself", () => {
       variantKey: "inventory-and-plan",
       scenarioKey: "kentucky",
       jurisdictionId: "jurisdiction_test" as never,
-      rulePackId: "us-ky-general-assembly",
+      rulePackId: "us-ky-general-assembly-v1",
       designation: "HB 401",
       filedOn: "2026-01-14" as never,
     });

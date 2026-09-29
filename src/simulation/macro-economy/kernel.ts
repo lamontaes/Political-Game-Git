@@ -6,6 +6,7 @@ import {
   standardNormal,
 } from "../world-setup/deterministic-math";
 import {
+  MACRO_ERA_CONDITIONS as ERA_CONDITIONS,
   MACRO_ERA_POLICY as ERA,
   CRUNCH46_PROVISIONAL_POLICY as POLICY,
   UNRESEARCHED_UNEMPLOYMENT_RECOVERY as RECOVERY,
@@ -280,12 +281,16 @@ function bounded(value: number, min: number, max: number): number {
 }
 
 /**
- * One month of the era (MACRO_ERA_POLICY): trend growth wanders and can jump
- * into a new era; a recession can begin, with a drawn depth and length, or
- * end; the normal unemployment rate drifts and is scarred by slumps; the
- * inflation anchor drifts and follows inflation that stays far from it.
+ * One month of the era under Build 19's conditions (MACRO_ERA_CONDITIONS):
+ * trend growth wanders and can jump into a new era; the normal unemployment
+ * rate and the inflation anchor drift. No recession is drawn. A recession is not an era
+ * state any more; it is what the credit and demand stocks do
+ * (`credit.ts`), and `phase` only describes last month: "recession" while
+ * output shrank. The normal unemployment rate is scarred by output running
+ * well below trend, whatever caused it. The inflation anchor no longer has
+ * a built-in crackdown: the central bank's members decide that now.
  */
-export function stepEra(
+export function stepEraConditions(
   previous: MacroEra,
   lastMonth: MacroMonthlyState,
   rng: SeededRng,
@@ -297,46 +302,26 @@ export function stepEra(
     standardNormal(rng.fork("trend")) * t.monthlySdPp;
   if (rng.fork("era").next() < t.eraJumpMonthlyChance)
     trend += standardNormal(rng.fork("era-size")) * t.eraJumpSdPp;
-  let phase = previous.phase;
-  let phaseMonths = previous.phaseMonths + 1;
-  let gap = previous.recessionGapPp;
-  let meanMonths = previous.recessionMeanMonths;
-  const turn = rng.fork("turn").next();
-  if (
-    phase === "expansion" &&
-    phaseMonths >= ERA.cycle.minExpansionMonths &&
-    turn < ERA.cycle.recessionStartMonthlyChance
-  ) {
-    const pick = rng.fork("depth").next();
-    let cumulative = 0;
-    const depth =
-      ERA.cycle.depths.find((row) => (cumulative += row.weight) > pick) ??
-      ERA.cycle.depths[0]!;
-    phase = "recession";
-    phaseMonths = 0;
-    gap = depth.gapPp;
-    meanMonths = depth.meanMonths;
-  } else if (phase === "recession" && turn < 1 / Math.max(1, meanMonths)) {
-    phase = "expansion";
-    phaseMonths = 0;
-    gap = 0;
-    meanMonths = 0;
-  }
+  const shrinking = lastMonth.growthPct < 0;
+  const phase: MacroEra["phase"] = shrinking ? "recession" : "expansion";
+  const phaseMonths = phase === previous.phase ? previous.phaseMonths + 1 : 0;
   const n = ERA.natural;
+  const shortfall = Math.max(
+    0,
+    previous.trendGrowthPct -
+      lastMonth.growthPct -
+      ERA_CONDITIONS.scarringAbovePp,
+  );
   const natural =
     previous.naturalRatePct +
     n.monthlyPull * (n.longRunPct - previous.naturalRatePct) +
     standardNormal(rng.fork("natural")) * n.monthlySdPp +
-    (phase === "recession" ? n.scarringPerGapPp * gap : 0);
+    n.scarringPerGapPp * shortfall;
   const i = ERA.inflation;
   const inflationGap = lastMonth.inflationPct - previous.inflationAnchorPct;
-  const crackdown =
-    1 +
-    i.crackdownPullPerPp *
-      Math.max(0, previous.inflationAnchorPct - i.crackdownAbovePct);
   const inflationAnchor =
     previous.inflationAnchorPct +
-    i.monthlyPull * crackdown * (i.longRunPct - previous.inflationAnchorPct) +
+    i.monthlyPull * (i.longRunPct - previous.inflationAnchorPct) +
     standardNormal(rng.fork("inflation-anchor")) * i.monthlySdPp +
     (Math.abs(inflationGap) > i.deanchorGapPp
       ? i.deanchorRate * inflationGap
@@ -354,8 +339,8 @@ export function stepEra(
     inflationAnchorPct: bounded(inflationAnchor, i.minPct, i.maxPct),
     phase,
     phaseMonths,
-    recessionGapPp: gap,
-    recessionMeanMonths: meanMonths,
+    recessionGapPp: 0,
+    recessionMeanMonths: 0,
     priceShockPp: roundMacro(priceShock),
   };
 }

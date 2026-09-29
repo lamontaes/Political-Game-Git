@@ -151,11 +151,14 @@ describe("explicit recorded fictional Alaska appropriation sitting", () => {
         world = step(world, filed.measureId, filed.personId, action);
       }
       expect(measurePosition(world, filed.measureId).outcome).toBe("enacted");
-      expect(
-        world.history.legislativeEnactments!.find(
-          (entry) => entry.measureId === filed.measureId,
-        )!.effectiveAt,
-      ).toBeNull();
+      // Every enactment now carries the day it takes effect. This sitting
+      // states none of its own, so the recorded basis says where it came from.
+      const enactment = world.history.legislativeEnactments!.find(
+        (entry) => entry.measureId === filed.measureId,
+      )!;
+      expect(enactment.effectiveAt).not.toBeNull();
+      expect(enactment.effectiveAt! >= enactment.resolvedAt).toBe(true);
+      expect(enactment.effectiveDateBasis).toBeDefined();
       expect(
         world.history
           .legislativeVotes!.filter(

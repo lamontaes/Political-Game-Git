@@ -20,10 +20,10 @@
 .pg-politics-sub,
 .pg-government-scopes button,
 .pg-government-places button {
-  border: 1px solid var(--pg-hairline, rgba(244, 236, 224, 0.16));
+  border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
   border-radius: 3px;
   padding: 0.35rem 0.75rem;
-  background: rgba(11, 19, 32, 0.55);
+  background: rgb(255 251 242 / 72%);
   color: inherit;
   font: inherit;
   font-size: 0.88rem;
@@ -40,7 +40,7 @@
 .pg-government-scopes button[aria-pressed="true"],
 .pg-government-places button[aria-pressed="true"] {
   border-color: var(--pg-brass, #c29b48);
-  background: rgba(44, 58, 76, 0.85);
+  background: rgb(235 224 206 / 92%);
   font-weight: 650;
 }
 
@@ -69,7 +69,7 @@
   font-weight: 750;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #f4d68a;
+  color: #876a22;
 }
 
 .pg-government-place-note,
@@ -77,7 +77,7 @@
 .pg-government-note,
 .pg-government-absent,
 .pg-government-entry-detail {
-  color: rgba(225, 232, 238, 0.76);
+  color: rgb(50 41 27 / 76%);
   font-size: 0.88rem;
 }
 
@@ -99,10 +99,10 @@
 }
 
 .pg-government-branch {
-  border: 1px solid var(--pg-hairline, rgba(244, 236, 224, 0.16));
+  border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
   border-radius: 0.45rem;
   padding: 0.7rem 0.8rem;
-  background: rgba(13, 24, 38, 0.6);
+  background: rgb(255 251 242 / 72%);
 }
 
 .pg-government-branch h3 {
@@ -110,7 +110,7 @@
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #f4d68a;
+  color: #876a22;
 }
 
 .pg-government-branch ul {
@@ -135,7 +135,7 @@
   padding: 0;
   border: 0;
   background: none;
-  color: #f1dc9a;
+  color: #7d661f;
   font: inherit;
   text-align: left;
   text-decoration: underline;
@@ -148,10 +148,10 @@
 }
 
 .pg-government-represented {
-  border: 1px solid var(--pg-hairline, rgba(244, 236, 224, 0.16));
+  border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
   border-radius: 0.45rem;
   padding: 0.7rem 0.8rem;
-  background: rgba(13, 24, 38, 0.6);
+  background: rgb(255 251 242 / 72%);
 }
 
 .pg-government-represented h3 {
@@ -159,7 +159,7 @@
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #f4d68a;
+  color: #876a22;
 }
 
 .pg-government-represented ul,
@@ -190,7 +190,7 @@
 }
 
 .pg-government-seat-status {
-  color: rgba(225, 232, 238, 0.76);
+  color: rgb(50 41 27 / 76%);
   font-size: 0.86rem;
   font-style: italic;
 }
@@ -209,7 +209,7 @@
 }
 
 .pg-government-counts dt {
-  color: rgba(225, 232, 238, 0.76);
+  color: rgb(50 41 27 / 76%);
 }
 
 .pg-government-counts dd {
@@ -234,7 +234,7 @@
   padding: 0;
   border: 0;
   background: none;
-  color: #f1dc9a;
+  color: #7d661f;
   font: inherit;
   text-align: left;
   text-decoration: underline;
@@ -334,6 +334,6 @@
 
 .pg-government-crossing-move {
   display: block;
-  color: rgba(225, 232, 238, 0.76);
+  color: rgb(50 41 27 / 76%);
   font-size: 0.86rem;
 }

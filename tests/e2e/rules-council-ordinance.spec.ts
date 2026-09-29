@@ -24,8 +24,11 @@ import {
 import { deserializeWorld } from "../../src/simulation/serialization";
 import {
   installMunicipalGovernment,
+  municipalSeats,
   seatMunicipalMember,
 } from "../../src/simulation/municipal-public-work";
+import { recordOrganizationParticipationState } from "../../src/simulation/life";
+import { organizationParticipationStateAt } from "../../src/simulation/life-queries";
 import { municipalGovernmentForLifePlace } from "../../src/simulation/municipal-government";
 import { lifePlaceByJurisdictionId } from "../../src/simulation/life-places";
 import { measureEnactment } from "../../src/simulation/legislation";
@@ -103,20 +106,50 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
     jurisdictionId: home,
     formedAt: citizen.currentDate,
   });
-  const members = [
-    personId,
-    ...citizen.personOrder.filter((id) => id !== personId).slice(0, 4),
-  ];
-  expect(members.length).toBeGreaterThanOrEqual(3);
-  members.forEach((id, index) => {
+  // The opening seats the council at its charter's size, so the player
+  // takes one sitting member's seat; an unseated council is filled here.
+  const sitting = municipalSeats(seated, government.key).filter(
+    (seat) => seat.role === "member",
+  );
+  if (sitting.length > 0) {
+    const displaced = sitting[0]!;
+    const state = organizationParticipationStateAt(
+      seated,
+      displaced.participationId,
+    )!;
+    seated = recordOrganizationParticipationState(seated, {
+      stableKey: `e2e:${displaced.participationId}:ended`,
+      participationId: displaced.participationId,
+      effectiveAt: seated.currentDate,
+      status: "ended",
+      roleKind: state.roleKind,
+      context: "Succeeded",
+      provenance: { kind: "authored", note: "review scenario" },
+      supersedesStateId: state.id,
+    });
     seated = seatMunicipalMember(seated, {
       governmentKey: government.key,
-      personId: id,
+      personId,
       startedAt: seated.currentDate,
-      role: index === 1 ? "presiding-member" : "member",
+      role: "member",
       seatLabel: SEAT_LABEL,
     });
-  });
+  } else {
+    const members = [
+      personId,
+      ...citizen.personOrder.filter((id) => id !== personId).slice(0, 4),
+    ];
+    expect(members.length).toBeGreaterThanOrEqual(3);
+    members.forEach((id, index) => {
+      seated = seatMunicipalMember(seated, {
+        governmentKey: government.key,
+        personId: id,
+        startedAt: seated.currentDate,
+        role: index === 1 ? "presiding-member" : "member",
+        seatLabel: SEAT_LABEL,
+      });
+    });
+  }
   const record = createBrowserWorldRecord(
     seated,
     original.metadata.savedAt,
@@ -156,7 +189,12 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
   const title = panel.getByTestId("municipal-ordinance-title");
   await title.fill("Sidewalk dining permits");
   await title.press("Enter");
-  const ordinance = panel.getByTestId("municipal-ordinance");
+  // The council's own ordinances are listed too; follow the player's.
+  const mine = (region: typeof panel) =>
+    region
+      .getByTestId("municipal-ordinance")
+      .filter({ hasText: "Sidewalk dining permits" });
+  const ordinance = mine(panel);
   await expect(ordinance).toContainText("Ord. 26-1: Sidewalk dining permits");
   await expect(ordinance).toContainText("not yet on the council agenda");
 
@@ -164,38 +202,46 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
   await ordinance
     .getByRole("button", { name: "Put on the council agenda" })
     .press("Space");
-  await expect(ordinance).toContainText("On the council agenda for passage.");
+  await expect(ordinance).toContainText("On the council agenda.");
   await expect(ordinance).toContainText("City Code § 2-97");
   const record_ = ordinance.getByRole("button", {
     name: "Record the council vote",
   });
   await expect(record_).toBeDisabled();
   await expect(ordinance).toContainText("Not before");
-  await ordinance
-    .getByText("Other councilors' ballots (game-authored)")
-    .click();
-  await expect(ordinance).toContainText("game-authored stand-ins");
+  await ordinance.getByText("Other councilors' ballots").click();
+  await expect(ordinance).toContainText("decides their own ballot");
+  // No colleague weighs anything on a sidewalk permit, so each goes along
+  // with the ordinance before the council rather than sitting it out.
+  await expect(
+    ordinance.getByRole("listitem").filter({ hasText: "Answered present" }),
+  ).toHaveCount(0);
   await page.screenshot({
     path: info.outputPath("ordinance-too-early.png"),
     fullPage: false,
   });
 
-  // Four days on the shared clock, by the ordinary day control.
+  // Days pass on the shared clock, by the ordinary day control, until the
+  // charter's intervening days are over. A day can stop early for something
+  // that happens in the life, so the clock is passed until the vote opens.
   await page.keyboard.press("Escape");
-  for (let day = 0; day < 4; day += 1) {
+  let onFloor = mine(panel);
+  let vote = onFloor.getByRole("button", { name: "Record the council vote" });
+  for (let day = 0; day < 8; day += 1) {
     const runDay = page.getByTestId("shell-pass-day");
     await expect(runDay).toBeEnabled();
     await runDay.press("Enter");
     await page.waitForTimeout(500);
+    panel = await openLocalGovernment(page);
+    onFloor = mine(panel);
+    vote = onFloor.getByRole("button", { name: "Record the council vote" });
+    await onFloor.getByLabel("Yea").check();
+    if (await vote.isEnabled()) break;
+    await page.keyboard.press("Escape");
   }
-
-  panel = await openLocalGovernment(page);
-  const onFloor = panel.getByTestId("municipal-ordinance");
-  await onFloor.getByLabel("Yea").check();
-  const vote = onFloor.getByRole("button", { name: "Record the council vote" });
   await expect(vote).toBeEnabled();
   await vote.press("Enter");
-  const outcome = panel.getByTestId("municipal-ordinance-outcome");
+  const outcome = onFloor.getByTestId("municipal-ordinance-outcome");
   await expect(outcome).toBeVisible();
   const outcomeText = (await outcome.textContent()) ?? "";
   await page.screenshot({
@@ -220,9 +266,9 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
   await page.getByTestId("continue").click();
   await enterLife(page);
   panel = await openLocalGovernment(page);
-  await expect(panel.getByTestId("municipal-ordinance-outcome")).toHaveText(
-    outcomeText,
-  );
+  await expect(
+    mine(panel).getByTestId("municipal-ordinance-outcome"),
+  ).toHaveText(outcomeText);
   await info.attach("council-ordinance-proof", {
     contentType: "application/json",
     body: JSON.stringify({
