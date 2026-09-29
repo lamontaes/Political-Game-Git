@@ -1260,7 +1260,7 @@
       "kind": "roll",
       "build": "Build 10",
       "count": 1,
-      "code": "rng.fork(\"renter-move\").next() < TOWN_HOME_MOVES.renterMove"
+      "code": "rng.fork(\"renter-move\").next() <"
     },
     {
       "file": "src/simulation/living-world/town-labor-market.ts",
