@@ -25,7 +25,8 @@
  * - a household with children in an apartment may move to a house;
  * - an older owner with an empty house may sell and move to something
  *   smaller;
- * - a renter may move to another rental in town.
+ * - a renter may move to another rental in town, less often under rent
+ *   stabilization (`town-rent.ts`).
  *
  * Each move is a dated event with the ended occupancy and tenure and the new
  * ones, written through the same resource writers home buying uses. Moving
@@ -63,6 +64,7 @@ import { recordWorldEvent } from "../world";
 import { TOWN_RESIDENTS_VERSION, townRoster } from "./town-residents";
 import { townUnemploymentPressure } from "./town-labor-market";
 import { townWorkplaceWeights } from "./town-employment";
+import { renterMoveFactor } from "./town-rent";
 
 export const TOWN_HOMES_VERSION = "town-homes-v1";
 
@@ -762,7 +764,9 @@ export function reviewTownHomes(
       };
     } else if (
       renting &&
-      rng.fork("renter-move").next() < TOWN_HOME_MOVES.renterMove
+      rng.fork("renter-move").next() <
+        TOWN_HOME_MOVES.renterMove *
+          renterMoveFactor(writer.world, town, household.id)
     ) {
       const kind = chooseTownHomeKind(town, household, rng.fork("rent-kind"));
       move = {
