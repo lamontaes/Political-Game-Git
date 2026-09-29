@@ -111,8 +111,16 @@ describe("election-night speeches", () => {
     // Steps 4 to 6: the people who live with the speaker were in the room.
     // Each heard it firsthand, reacted in their own way, and remembers it.
     const speech = electionSpeechGiven(spoken, contest.id, personId)!;
-    const witnesses = householdmatesOf(spoken, personId);
-    expect(witnesses.length).toBeGreaterThan(0);
+    // Steps 4 to 6 (continued): the room holds the people the speaker lives
+    // with, family and close friends from the same place, and campaign staff.
+    const housemates = householdmatesOf(spoken, personId);
+    expect(housemates.length).toBeGreaterThan(0);
+    const witnesses = speechReception(spoken, speech)!
+      .event.participants.filter((row) => row.role === "observation:witness")
+      .map((row) => row.personId);
+    for (const housemate of housemates) expect(witnesses).toContain(housemate);
+    for (const witnessId of witnesses)
+      expect(spoken.people[witnessId]!.homeJurisdictionId).toBeDefined();
     for (const witnessId of witnesses) {
       expect(speech.involvedEntityIds).toContain(witnessId);
       expect(
@@ -138,13 +146,15 @@ describe("election-night speeches", () => {
 
     // Step 7: someone who remembers it well tells the people they live with
     // who were not there, and each of them remembers it one step less sharply.
-    const holderId = witnesses[0]!;
+    const holderId = housemates[0]!;
     const home = householdMembershipsAt(spoken, personId)[0]!.household;
     const newcomerId = spoken.personOrder.find(
       (id) =>
         !speech.involvedEntityIds.includes(id) &&
         ageOnDate(spoken.people[id]!.birthDate, spoken.currentDate) >= 5 &&
-        !spoken.history.knowledge.some((row) => row.personId === id),
+        !spoken.history.knowledge.some(
+          (row) => row.personId === id && row.eventId === speech.id,
+        ),
     )!;
     // Fixture: the witness's memory is strong, and someone who was not there
     // moves in afterwards.

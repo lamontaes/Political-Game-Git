@@ -1,7 +1,12 @@
 import { campaignForContest } from "./campaign-queries";
 import { evaluateDecision } from "./decisions";
 import { recordById, recordsByStringField } from "./history-index";
-import { householdMembershipsAt, workStatusAt } from "./life-queries";
+import {
+  activePartnershipsAt,
+  householdMembershipsAt,
+  kinshipRelationshipsAt,
+  workStatusAt,
+} from "./life-queries";
 import { personName } from "./people";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import { recordEventKnowledge } from "./records";
@@ -66,9 +71,46 @@ export function householdmatesOf(world: World, personId: EntityId): EntityId[] {
 }
 
 /**
+ * Family and close friends who live in the same place as the speaker: their
+ * parents, children, brothers and sisters, partner, and anyone whose recorded
+ * warmth toward them is marked or strong. These are people the records
+ * already hold, so a room is never filled with people the game makes up.
+ */
+export function familyAndFriendsNearby(
+  world: World,
+  speakerId: EntityId,
+): EntityId[] {
+  const home = world.people[speakerId]?.homeJurisdictionId;
+  if (!home) return [];
+  const ids = new Set<EntityId>();
+  for (const kinship of kinshipRelationshipsAt(world, speakerId))
+    if (
+      kinship.kind === "lineal:parent-child" ||
+      kinship.kind === "collateral:sibling"
+    )
+      ids.add(kinship.personIds.find((id) => id !== speakerId)!);
+  for (const partnership of activePartnershipsAt(world, speakerId))
+    for (const id of partnership.personIds) if (id !== speakerId) ids.add(id);
+  for (const interaction of world.history.relationshipInteractions)
+    if (interaction.personIds.includes(speakerId)) {
+      const other = interaction.personIds.find((id) => id !== speakerId);
+      if (!other || ids.has(other)) continue;
+      const warmth = readRelationshipStanding(world, other, speakerId).readings
+        .warmth;
+      if (
+        !warmth.adverse &&
+        (warmth.band === "marked" || warmth.band === "strong")
+      )
+        ids.add(other);
+    }
+  return [...ids].filter((id) => world.people[id]?.homeJurisdictionId === home);
+}
+
+/**
  * Who was in the room on election night, from the record: the people who
- * live with the candidate and the campaign's own staff. Nobody else is
- * placed there. A person who has died or is the speaker is not a witness.
+ * live with the candidate, family and close friends from the same place, and
+ * the campaign's own staff. Nobody else is placed there. A person who has
+ * died or is the speaker is not a witness.
  */
 export function electionNightWitnesses(
   world: World,
@@ -76,6 +118,7 @@ export function electionNightWitnesses(
   contestId: EntityId,
 ): EntityId[] {
   const household = householdmatesOf(world, speakerId);
+  const nearby = familyAndFriendsNearby(world, speakerId);
   const campaign = campaignForContest(world, contestId);
   const staff =
     campaign?.candidatePersonId === speakerId
@@ -86,7 +129,7 @@ export function electionNightWitnesses(
             : [];
         })
       : [];
-  return [...new Set([...household, ...staff])]
+  return [...new Set([...household, ...nearby, ...staff])]
     .filter(
       (id) =>
         world.people[id] !== undefined &&
