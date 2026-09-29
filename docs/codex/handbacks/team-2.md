@@ -4,7 +4,7 @@ The candidate makes a chamber bring up a bill supported by its majority caucus a
 
 ## MERGED
 
-Nothing from Team 2 is merged or published. The work is a local candidate. Claude retains merge authority and GitHub/browser validation.
+Nothing from Team 2 is merged. [Draft PR 1136](https://github.com/lamontaes/Political-Game-Git/pull/1136) preserves the candidate checkpoint at `1a17afe59090e12e011cbf5cb9427cd52d031e3e`. It is not ready for acceptance. Claude retains merge authority and GitHub/browser validation.
 
 ## WHAT EMERGED
 
@@ -59,7 +59,9 @@ The candidate preserves the existing filing threshold and intake cadence. Unmapp
 
 ## Sources and method
 
-The source workspace is `/Users/lamontae/.codex/worktrees/succession-complete/PG-LAND`, branch `codex/wave1-state-governing`, based on main `cdb6e4ab1d6a26aa876d99f6831570ed0c057d92`. The branch preserves a local candidate checkpoint; it is not a published or validated delivery. The owner's play folder, saves, and port were not changed. No browser suite or GitHub validation run was launched.
+The source workspace is `/Users/lamontae/.codex/worktrees/succession-complete/PG-LAND`, branch `codex/wave1-state-governing`, based on main `cdb6e4ab1d6a26aa876d99f6831570ed0c057d92`. The branch published a draft candidate checkpoint; it is not a validated delivery. 
+
+Before publication, a network fetch found main at `6183fb11992012844d8e8a4851b140b5a4c9b30a` after the art merge. No owned implementation or awaited law-core file changed in that range. The owner's play folder, saves, and port were not changed. No browser suite or GitHub validation run was launched.
 
 The January 31, 2025 [NCSL composition snapshot](https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf) covers all 50 states and six additional jurisdictions. It is sitting membership after the 2024 elections, not certified election results. Vermont's House has 87 Democratic, 56 Republican, and seven other seats; its Senate has 16 Democratic, 13 Republican, and one other seat. The dataset preserves Nebraska's nonpartisan chamber and Puerto Rico's local parties.
 
