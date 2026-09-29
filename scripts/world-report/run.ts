@@ -63,6 +63,7 @@ import {
   placeOutcomeRecords,
   placeOutcomeValueText,
 } from "../../src/simulation/outcome-web/place-outcomes";
+import { BUDGET_READ_QUESTIONS } from "../../src/simulation/public-budgets";
 import {
   anniversary,
   createObserverDayButton,
@@ -2080,13 +2081,33 @@ function lawOutcomeLines(run: WorldReportRun): string[] {
     "",
   );
   out.push(...startingLawAcrossPlaces(world), "");
+  const actingLinks = (stableKey: string) =>
+    OUTCOME_LINKS.filter(
+      (link) =>
+        link.from === `law:${stableKey}` && outcomeLinkStatus(link) === "built",
+    );
+  const throughOutcome = answered.filter(
+    (row) => actingLinks(row.stableKey).length > 0,
+  );
+  const throughBudget = answered.filter((row) =>
+    BUDGET_READ_QUESTIONS.has(row.stableKey),
+  );
+  const wired = answered.filter(
+    (row) =>
+      actingLinks(row.stableKey).length > 0 ||
+      BUDGET_READ_QUESTIONS.has(row.stableKey),
+  );
+  out.push(
+    `Of the ${count(answered.length, "law")} in force here, ${wired.length} act in the world today: ${throughOutcome.length} through an outcome the world computes, ${throughBudget.length} through the public budgets.`,
+    "",
+  );
   for (const row of [...inPlay, ...atStart]) {
     const links = OUTCOME_LINKS.filter(
       (link) => link.from === `law:${row.stableKey}`,
     );
     const acting = links.filter((link) => outcomeLinkStatus(link) === "built");
     out.push(
-      `- **${row.name}**: ${row.answer}${row.origin === "enacted" ? `, ${row.designation}, in force from ${proseDate(row.since)}` : ", as the game began"}. ${links.length ? `Feeds ${count(links.length, "outcome")}; ${acting.length} ${acting.length === 1 ? "acts" : "act"} in the world today.` : "Feeds no outcome yet."}`,
+      `- **${row.name}**: ${row.answer}${row.origin === "enacted" ? `, ${row.designation}, in force from ${proseDate(row.since)}` : ", as the game began"}. ${links.length ? `Feeds ${count(links.length, "outcome")}; ${acting.length} ${acting.length === 1 ? "acts" : "act"} in the world today.` : "Feeds no outcome yet."}${BUDGET_READ_QUESTIONS.has(row.stableKey) ? " Moves the public budgets." : ""}`,
     );
     for (const link of links)
       out.push(`  - ${link.to} (${link.strength}): ${outcomeLinkStatus(link)}`);
