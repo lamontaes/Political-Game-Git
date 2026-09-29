@@ -5,8 +5,11 @@ import {
   FAVOR_ASK_SPACING_DAYS,
   favorAsksOf,
   favorNeed,
+  heardOfRefusalConsiderations,
   openFavorAsk,
+  peopleTheyTalkTo,
   produceFavorCollection,
+  WORD_OF_MOUTH_LISTENERS,
 } from "./favor-collection";
 import {
   addDays,
@@ -86,9 +89,9 @@ function later(world: World, days: number): World {
 }
 
 /** Tries several demo towns so the test does not rest on one draw. */
-function firstAsk(motive: FavorMotive) {
+function firstAsk(motive: FavorMotive, weight: FavorWeight = "moderate") {
   for (let index = 0; index < 8; index += 1) {
-    const setup = helped(`favor-collect-${index}`, motive);
+    const setup = helped(`favor-collect-${index}`, motive, weight);
     const asked = produceFavorCollection(later(setup.world, 1), setup.player);
     const ask = openFavorAsk(asked, setup.player);
     if (ask) return { ...setup, world: asked, ask };
@@ -182,7 +185,9 @@ describe("People come to collect", () => {
   it("strains things between them when the player says no", () => {
     const { world, helper, player, ask } = firstAsk("trade")!;
     const refused = answerFavorAsk(world, ask.eventId, "refuse");
-    const strain = refused.history.relationshipInteractions.at(-1)!;
+    const strain = refused.history.relationshipInteractions.find(
+      (interaction) => interaction.kind === "conflict:favor-refused",
+    )!;
     expect(strain).toMatchObject({ change: "strained" });
     expect([...strain.personIds].sort()).toEqual([helper, player].sort());
     expect(
@@ -241,5 +246,79 @@ describe("What the person asked still feels they owe", () => {
         "accept",
       ),
     ).toEqual([]);
+  });
+
+  it("lets the one turned down decide to tell the people they talk to", () => {
+    let told = 0;
+    let kept = 0;
+    for (let index = 0; index < 8; index += 1) {
+      const setup = helped(`favor-word-${index}`, "trade", "great");
+      const asked = produceFavorCollection(later(setup.world, 1), setup.player);
+      const ask = openFavorAsk(asked, setup.player);
+      if (!ask) continue;
+      const refused = answerFavorAsk(asked, ask.eventId, "refuse");
+      const answerEvent = refused.history.events.find(
+        (event) =>
+          event.type === "favor.ask-answered" &&
+          event.tags.includes(`favor.ask:${ask.eventId}`),
+      )!;
+      const heard = refused.history.knowledge.filter(
+        (record) => record.eventId === answerEvent.id,
+      );
+      const circle = peopleTheyTalkTo(refused, setup.helper).filter(
+        (id) => id !== setup.player,
+      );
+      if (heard.length === 0) {
+        // Keeping it to themselves is their own choice, and leaves nobody
+        // holding it against the player.
+        kept += 1;
+        continue;
+      }
+      told += 1;
+      const claim = refused.history.claims.at(-1)!;
+      expect(claim).toMatchObject({
+        speakerPersonId: setup.helper,
+        eventId: answerEvent.id,
+        audience: "limited",
+      });
+      expect(heard.length).toBeLessThanOrEqual(WORD_OF_MOUTH_LISTENERS);
+      for (const record of heard) {
+        expect(record.personId).not.toBe(setup.player);
+        expect(circle).toContain(record.personId);
+        expect(record).toMatchObject({
+          confidence: "medium",
+          source: {
+            kind: "told-by",
+            sourcePersonId: setup.helper,
+            claimId: claim.id,
+          },
+        });
+        const reason = heardOfRefusalConsiderations(
+          refused,
+          record.personId,
+          setup.player,
+          "test",
+          "accept",
+        );
+        expect(reason).toHaveLength(1);
+        expect(reason[0]).toMatchObject({
+          direction: "opposes",
+          importance: "slight",
+        });
+        expect(reason[0]!.explanation).toMatch(
+          /^They heard that .+ would not help /,
+        );
+      }
+      const stranger = refused.personOrder.find(
+        (id) =>
+          id !== setup.player &&
+          id !== setup.helper &&
+          !heard.some((record) => record.personId === id),
+      )!;
+      expect(
+        heardOfRefusalConsiderations(refused, stranger, setup.player, "t", "a"),
+      ).toEqual([]);
+    }
+    expect(told, `told in ${told}, kept quiet in ${kept}`).toBeGreaterThan(0);
   });
 });
