@@ -16129,6 +16129,350 @@
           "note": "Weak: teachers are placed on each district's own salary schedule; no statewide minimum found."
         }
       }
+    },
+    "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
+      "source": "Transportation for America and the National Campaign for Transit Justice, Transit Report Card (2023), 'Legal restrictions on transit funding' column, read 9/29/2026 for the 50 states, D.C. and Puerto Rico; the Guam and Northern Mariana Islands codes for those territories.",
+      "note": "Yes: money raised for highways (the gas tax) may also be spent on transit. No: the state's constitution or statutes keep it on roads. Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "A state statute bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: statutory restriction)."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "A state statute bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: statutory restriction)."
+        },
+        "US-AS": {
+          "answer": "yes",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (2 answer yes), because this place's own law could not be read.",
+          "note": "Tried: American Samoa Code Annotated at https://asbar.org/, which refused this container (HTTP 403) on 9/29/2026."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "No constitutional or statutory restriction keeps gas tax revenue off public transit (Transportation for America, Transit Report Card, 2023: no restrictions)."
+        },
+        "US-CO": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-CT": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "No constitutional or statutory restriction keeps gas tax revenue off public transit (Transportation for America, Transit Report Card, 2023: no restrictions)."
+        },
+        "US-DC": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "No constitutional or statutory restriction keeps gas tax revenue off public transit (Transportation for America, Transit Report Card, 2023: no restrictions)."
+        },
+        "US-DE": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "No constitutional or statutory restriction keeps gas tax revenue off public transit (Transportation for America, Transit Report Card, 2023: no restrictions)."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "A state statute bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: statutory restriction)."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "5 GCA § 54102(e)",
+          "source": "https://col.guamcourts.gov/sites/default/files/5gc054.pdf",
+          "note": "No part of the Territorial Highway Fund, from whatever source derived, may be used for the maintenance or operation of a public transit system."
+        },
+        "US-HI": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "No constitutional or statutory restriction keeps gas tax revenue off public transit (Transportation for America, Transit Report Card, 2023: no restrictions)."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "A state statute bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: statutory restriction)."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "No constitutional or statutory restriction keeps gas tax revenue off public transit (Transportation for America, Transit Report Card, 2023: no restrictions)."
+        },
+        "US-ME": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-MP": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "4 CMC §§ 1403, 1803",
+          "source": "https://cnmilaw.org/pdf/cmc_section/T4/1803.pdf",
+          "note": "The fuel tax (§ 1403) is not dedicated to roads: the earmark once in § 1803(e)(ii) was repealed, and § 1803 now allots only the visitor and retirement shares of other taxes, so nothing keeps the revenue off transit."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "A state statute bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: statutory restriction)."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-NC": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "No constitutional or statutory restriction keeps gas tax revenue off public transit (Transportation for America, Transit Report Card, 2023: no restrictions)."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "A state statute bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: statutory restriction)."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "No constitutional or statutory restriction keeps gas tax revenue off public transit (Transportation for America, Transit Report Card, 2023: no restrictions)."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "A state statute bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: statutory restriction)."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-NY": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "No constitutional or statutory restriction keeps gas tax revenue off public transit (Transportation for America, Transit Report Card, 2023: no restrictions)."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-OR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-PR": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "No constitutional or statutory restriction keeps gas tax revenue off public transit (Transportation for America, Transit Report Card, 2023: no restrictions)."
+        },
+        "US-RI": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "No constitutional or statutory restriction keeps gas tax revenue off public transit (Transportation for America, Transit Report Card, 2023: no restrictions)."
+        },
+        "US-SC": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "No constitutional or statutory restriction keeps gas tax revenue off public transit (Transportation for America, Transit Report Card, 2023: no restrictions)."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "A state statute bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: statutory restriction)."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-VA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "No constitutional or statutory restriction keeps gas tax revenue off public transit (Transportation for America, Transit Report Card, 2023: no restrictions)."
+        },
+        "US-VI": {
+          "answer": "yes",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (2 answer yes), because this place's own law could not be read.",
+          "note": "Tried: 33 V.I.C. § 3003a (Transportation Trust Fund) at law.justia.com (HTTP 403) and through web.archive.org (connection reset), 9/29/2026."
+        },
+        "US-VT": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "No constitutional or statutory restriction keeps gas tax revenue off public transit (Transportation for America, Transit Report Card, 2023: no restrictions)."
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://t4america.org/transit-report-card/",
+          "note": "The state constitution bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: constitutional restriction)."
+        }
+      }
     }
   }
 }
