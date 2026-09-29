@@ -2172,16 +2172,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.32,
       "per": "law in force",
-      "lagMonths": 0,
+      "lagMonths": 12,
       "group": "borrowers",
       "owner": "B",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "Prohibiting payday loans goes with a 35% decline in their use (Urban Institute working paper, read); the published version reports 32%. A state rate cap of 36% APR ends storefront payday lending as a prohibition does. Cross-state survey evidence, not a trial. Read on the count of consumer lenders, a stand-in for use",
+      "source": "McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO)",
+      "evidence": "provisional",
       "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
-      "to": "finance.high-cost-loans"
+      "to": "finance.high-cost-loans",
+      "range": [-0.5, -0.2]
     },
     {
       "key": "paid-leave-to-mothers-work",
