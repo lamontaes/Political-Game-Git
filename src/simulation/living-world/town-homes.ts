@@ -185,11 +185,16 @@ export const TOWN_OWNERSHIP_BY_KIND: Readonly<Record<TownHomeKind, number>> = {
  * - `downsizeFromAge`: an owner this age or older, left alone in a house,
  *   sells and rents an apartment. HARDWIRED, a PLACEHOLDER(research:
  *   when-older-owners-sell).
+ * - `evictionOnRecordDays`: a household evicted within this many days rents
+ *   rather than buys. A credit report may carry a civil judgment for seven
+ *   years (15 U.S.C. 1681c(a)(2)); that a lender refuses for the whole
+ *   period is HARDWIRED, a PLACEHOLDER(research: mortgage-after-eviction).
  */
 export const TOWN_HOME_DECISIONS = {
   buyAtPayOfPayment: 1 / 0.28,
   severeRentBurden: 0.5,
   downsizeFromAge: 65,
+  evictionOnRecordDays: 7 * 365,
 } as const;
 
 /** Why a household moved, in the words its event records. */
@@ -204,7 +209,8 @@ export const TOWN_HOME_REASONS = {
 
 /**
  * Where a household with no home goes, decided from its record: a house it
- * buys when it has work and its pay carries the payments, otherwise a rented
+ * buys when it has work, its pay carries the payments and no recent eviction
+ * bars a loan (`mayBorrow`), otherwise a rented
  * apartment for one or two people and a rowhouse for more. HARDWIRED, a
  * PLACEHOLDER(research: first-home-by-household-size).
  */
@@ -213,9 +219,11 @@ export function homeForNewHousehold(
   working: boolean,
   payMinor: number | null,
   paymentMinor: number,
+  mayBorrow = true,
 ): { readonly kind: TownHomeKind; readonly tenure: HousingTenureKind } {
   const head = Math.max(0, ...household.members.map((member) => member.age));
   if (
+    mayBorrow &&
     working &&
     payMinor !== null &&
     payMinor >= paymentMinor * TOWN_HOME_DECISIONS.buyAtPayOfPayment
@@ -701,6 +709,7 @@ export function reviewTownHomes(
     const record = world.history.households.find(
       (row) => row.id === household.id,
     );
+    if (record && /'s household$/.test(record.label)) return record.label;
     return record
       ? `The ${record.label.replace(/ household$/, "")} household`
       : "A household";
@@ -752,17 +761,24 @@ export function reviewTownHomes(
       // Anyone else decides from its own record: it buys a house when its
       // pay carries the payments, and rents otherwise, an apartment for one
       // or two people and a rowhouse for more.
+      const evictions = world.history.events.filter(
+        (row) =>
+          row.type === RENT_EVENTS.evicted &&
+          row.involvedEntityIds.includes(household.id),
+      );
+      const evicted = evictions.some(
+        (row) => row.occurredAt > addDays(today, -REVIEW_INTERVAL_DAYS),
+      );
       const found = homeForNewHousehold(
         household,
         adults.some((adult) => view.working.has(adult.id)),
         factsNow.get(household.id)?.payMinor ?? null,
         paymentMinor,
-      );
-      const evicted = world.history.events.some(
-        (row) =>
-          row.type === RENT_EVENTS.evicted &&
-          row.occurredAt > addDays(today, -REVIEW_INTERVAL_DAYS) &&
-          row.involvedEntityIds.includes(household.id),
+        !evictions.some(
+          (row) =>
+            row.occurredAt >
+            addDays(today, -TOWN_HOME_DECISIONS.evictionOnRecordDays),
+        ),
       );
       const provenance = event(
         key,
