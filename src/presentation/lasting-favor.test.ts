@@ -3,8 +3,10 @@ import { describe, expect, it } from "vitest";
 import type { EntityId, FavorWeight, World } from "../simulation";
 import { addDays, ageOnDate } from "../simulation/dates";
 import { feltDebtConsiderations, recordFavor } from "../simulation/favors";
+import { currentLifeCutoff } from "../simulation/life-queries";
 import { recordWorldEvent } from "../simulation/world";
 import { npcContactAnswer, proposeContact } from "../simulation/people-contact";
+import { isPersonAliveAt } from "../simulation/vitality-integrity";
 import { explicitNewGameSetup } from "./new-game-geography";
 import { createOpeningLifeController } from "./opening-life";
 import { openOrdinaryLife } from "./ordinary-life";
@@ -112,6 +114,7 @@ describe("a favor years ago, in Billings, Montana", () => {
     .filter(
       (id) =>
         id !== playerId &&
+        isPersonAliveAt(world, id, currentLifeCutoff(world)) &&
         ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 21,
     )
     .slice(0, PEOPLE);
