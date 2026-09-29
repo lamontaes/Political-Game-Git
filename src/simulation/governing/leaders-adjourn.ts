@@ -36,6 +36,12 @@ import {
  * GAME ASSUMPTION: a session that passes no budget sits until its limit.
  * States that budget for two years at once pass none in the second year, so
  * their second session runs to the limit.
+ *
+ * GAME ASSUMPTION: the game files no general appropriations act yet; a
+ * state's yearly budget is adopted by the public-budgets store, not passed
+ * as a bill (its "call 3"). Until it is, any appropriation that passes both
+ * chambers stands in for the budget. A session whose members draft none, as
+ * a watched North Carolina world did in 2026 and 2027, sits until its limit.
  */
 
 /** Phases a bill reaches only after both chambers passed it. */
