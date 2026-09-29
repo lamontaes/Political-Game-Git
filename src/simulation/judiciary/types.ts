@@ -114,6 +114,8 @@ export interface JudicialSeatTenure {
     | "term-expired"
     | "election-loss"
     | "seat-retired"
+    /** Left for a higher court, as a judge confirmed to the Supreme Court. */
+    | "elevated"
     | null;
   readonly selection: JudicialSelectionProvenance;
   readonly termEndsAt: IsoDate | null;

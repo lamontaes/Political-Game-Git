@@ -61,6 +61,14 @@ import {
   confirmChiefJustice,
   openChiefJusticeVacancy,
 } from "./chief-justice-vacancy";
+import {
+  ASSOCIATE_JUSTICE_CONFIRMATION,
+  ASSOCIATE_JUSTICE_NOMINATION,
+  SUPREME_COURT_ID,
+  associateJusticeNominationHandler,
+  confirmAssociateJustice,
+  openAssociateJusticeVacancy,
+} from "./supreme-court-appointments";
 import type {
   EntityId,
   EventVisibility,
@@ -823,6 +831,24 @@ function rulingFor(
       },
     };
   }
+  if (office.officeKey.startsWith(`${SUPREME_COURT_ID}:seat:`)) {
+    const opened = openAssociateJusticeVacancy(world, {
+      seatId: office.officeKey,
+      vacancyDate: notice.effectiveDate,
+      formerHolderId: notice.personId,
+      reason: "death",
+    });
+    return {
+      world: opened.world,
+      ruling: {
+        ...base,
+        outcome: "vacant",
+        sentence: opened.presidentId
+          ? "The seat on the Supreme Court is vacant until the Senate confirms the President's nominee."
+          : "The seat on the Supreme Court is vacant, and with no sitting President there is nobody to nominate a successor.",
+      },
+    };
+  }
   const seat = seatFor(office.officeKey);
   if (seat) return vacateSeat(world, seat, MEMBER_DIED(notice.effectiveDate));
   const governorship = governorOffice(office.officeKey);
@@ -1126,6 +1152,23 @@ function congressSeatHeldBy(
     : undefined;
 }
 
+/** The Senate votes on an associate justice, who leaves any seat in Congress. */
+export function associateJusticeConfirmationHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  return confirmAssociateJustice(world, due, (next, personId) => {
+    const seat = congressSeatHeldBy(next, personId);
+    return seat
+      ? vacateSeat(next, seat, {
+          effectiveDate: next.currentDate,
+          key: "member-became-justice",
+          clause: "after the member joined the Supreme Court",
+        }).world
+      : next;
+  });
+}
+
 /** The Senate confirms a Chief Justice, who leaves any seat in Congress. */
 export function chiefJusticeConfirmationHandler(
   world: World,
@@ -1317,4 +1360,6 @@ export const OFFICE_CONTINUITY_HANDLERS = [
   [VICE_PRESIDENT_CONFIRMATION, vicePresidentConfirmationHandler],
   [CHIEF_JUSTICE_NOMINATION, chiefJusticeNominationHandler],
   [CHIEF_JUSTICE_CONFIRMATION, chiefJusticeConfirmationHandler],
+  [ASSOCIATE_JUSTICE_NOMINATION, associateJusticeNominationHandler],
+  [ASSOCIATE_JUSTICE_CONFIRMATION, associateJusticeConfirmationHandler],
 ] as const;
