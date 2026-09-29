@@ -17,6 +17,7 @@ import {
   type PublicBudgetStore,
 } from ".";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
+import { BUDGET_CALIBRATION, MEDIAN_INCOME_TAX_PER_RESIDENT } from "./opening";
 import {
   MEDIAN_BENEFIT_SHARE,
   MEDIAN_FUNDED_RATIO,
@@ -1038,6 +1039,58 @@ describe("public budgets", () => {
         sales
       ]!,
     ).toBeGreaterThan(0);
+  });
+
+  it("a state with no income tax that adopts one collects the median state's per resident from the next tax year, estimated", () => {
+    // Texas began with no tax on wages and collected none. A law adopting
+    // one takes effect May 12, 2026.
+    const texas = stateJurisdictionForKey("US-TX")!.id;
+    const world = worldAt("2026-01-05", {
+      laws: [{ question: INCOME_TAX, answer: "yes", jurisdictionId: texas }],
+      history: {
+        legislativeEnactments: [
+          {
+            id: "enactment_0" as EntityId,
+            sequence: 1000,
+            measureId: "measure_0" as EntityId,
+            resolvedAt: makeIsoDate("2026-05-12"),
+            outcome: "enacted",
+            effectiveAt: makeIsoDate("2026-05-12"),
+          },
+        ] as unknown as World["history"]["legislativeEnactments"],
+      },
+    });
+    const opening = publicBudgetFor(opened(world), texas)!;
+    const at = BUDGET_SOURCES.indexOf("individualIncomeTax");
+    expect(opening.years[0]!.expectedRevenue[at]).toBe(0);
+    expect(opening.openingNotes.join(" ")).toContain(
+      `Income tax if one is adopted: ESTIMATED FROM AVERAGE, $${Math.round(MEDIAN_INCOME_TAX_PER_RESIDENT)} per resident`,
+    );
+    const government = settleAlone(world, opening, "2027-12-01").government;
+    const month = (on: string) =>
+      government.months.find((row) => row.month === on)!.revenue[at]!;
+    // Paychecks start withholding with the next tax year, and so does the
+    // budget.
+    for (const on of ["2026-01-01", "2026-06-01", "2026-12-01"])
+      expect(month(on)).toBe(0);
+    // This test world records no economy, so the level is the median state's
+    // per resident times Texas's population and the calibration factor.
+    expect(month("2027-01-01")).toBe(
+      Math.round(
+        (MEDIAN_INCOME_TAX_PER_RESIDENT *
+          opening.population *
+          BUDGET_CALIBRATION) /
+          12,
+      ),
+    );
+    expect(month("2027-12-01")).toBe(month("2027-01-01"));
+    // Fiscal 2027 (from September 2026) expected none; fiscal 2028, adopted
+    // in September 2027, expects a year of it.
+    expect(government.years.at(-1)!.expectedRevenue[at]).toBeGreaterThan(0);
+    // The median is between the lowest and highest states that tax
+    // wages (Census Bureau 2022, per resident).
+    expect(MEDIAN_INCOME_TAX_PER_RESIDENT).toBeGreaterThan(599);
+    expect(MEDIAN_INCOME_TAX_PER_RESIDENT).toBeLessThan(3730);
   });
 
   it("maps an appropriation's program to its budget line", () => {

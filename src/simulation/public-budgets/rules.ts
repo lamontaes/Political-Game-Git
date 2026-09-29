@@ -115,7 +115,7 @@ export const TAX_QUESTION_EFFECTS: readonly {
     // A repeal ends the tax: a state with no income tax collects none.
     toNo: -1,
     basis:
-      "A repeal ends the tax, so the state collects none; adopting one needs a level, not a share, and is not researched.",
+      "A repeal ends the tax, so the state collects none. A state that had none and adopts one collects the median state income tax per resident, ESTIMATED FROM AVERAGE (Census Bureau 2022 state finances).",
   },
   {
     questionKey: "us-policy-positions:fiscal.graduated-income-tax",

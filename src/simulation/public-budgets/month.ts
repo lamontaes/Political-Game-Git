@@ -10,7 +10,7 @@ import {
   nominalEconomyIndex,
   propositionIdFor,
 } from "./fiscal";
-import { actuarialContribution } from "./opening";
+import { actuarialContribution, adoptedIncomeTaxLevel } from "./opening";
 import { pensionFlows, pensionPayment } from "./pension-share";
 import { reserveRule } from "./reserve-rule";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
@@ -276,6 +276,10 @@ function monthsInto(year: AdoptedBudget, month: IsoDate): number {
  * own taxes these state questions do not set. Income tax is read on January 1
  * of the date's year, the law paychecks withhold under for that tax year
  * (`stateIncomeTaxUnderLaw`), so the budget collects what paychecks withhold.
+ * A question whose "no" ends the source (`toNo` -1) also starts it: a state
+ * that began answering "no" and collected none of it collects none until a
+ * law answers "yes" (0 until then, 1 after), from the level
+ * `openingMonthLevel` gives it.
  */
 export function taxLawFactor(
   world: World,
@@ -306,6 +310,14 @@ export function taxLawFactor(
       propositionId,
       onDate,
     );
+    if (
+      effect.toNo === -1 &&
+      began === "no" &&
+      government.years[0]!.expectedRevenue[BUDGET_SOURCES.indexOf(source)] === 0
+    ) {
+      if (now !== "yes") factor = 0;
+      continue;
+    }
     if (began === "no" && now === "yes") factor *= 1 + (effect.toYes ?? 0);
     if (began === "yes" && now === "no") factor *= 1 + (effect.toNo ?? 0);
   }
@@ -316,7 +328,9 @@ export function taxLawFactor(
  * One month of a source at the level the government opened with, under the
  * law it began with, carried to the economy on `economyIndex`. A tax a law
  * ended collected nothing to scale from, so a law that restores it starts
- * again from this level.
+ * again from this level. A state that opened with no income tax starts one
+ * a law adopts at the median of the states that tax wages
+ * (`adoptedIncomeTaxLevel`, ESTIMATED FROM AVERAGE).
  */
 function openingMonthLevel(
   government: PublicBudgetGovernment,
@@ -329,9 +343,13 @@ function openingMonthLevel(
     economyIndex !== null && first.economyAtAdoption
       ? economyIndex / first.economyAtAdoption
       : 1;
+  const opening =
+    first.expectedRevenue[at]! ||
+    (government.level === "state" && source === "individualIncomeTax"
+      ? adoptedIncomeTaxLevel(government.population)
+      : 0);
   return (
-    (first.expectedRevenue[at]! / 12) *
-    Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (since - 1))
+    (opening / 12) * Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (since - 1))
   );
 }
 
