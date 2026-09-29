@@ -78,6 +78,7 @@ import { planOrdinaryStateExecutiveTerm } from "./nationwide-world/state-executi
 import {
   activeCampaignForCandidate,
   campaignActionById,
+  campaignActionForActivity,
   campaignActionResult,
   campaignActions,
   campaignById,
@@ -158,6 +159,12 @@ import {
   recordResourceTransferOutcome,
 } from "./resources";
 import { recordEventKnowledge } from "./records";
+import {
+  CAMPAIGN_ROUTINE_WORK,
+  campaignRoutineBlockAt,
+  campaignRoutineSlots,
+  routineIdOfActivity,
+} from "./campaign-routine";
 import { SeededRng } from "./rng";
 import {
   cancelScheduledActivity,
@@ -186,6 +193,8 @@ import type {
   FutureTransitionHandlerResult,
   MetricSegmentKey,
   MoneyAmount,
+  RoutineTimeHook,
+  RoutineWindow,
   ScheduledActivityRecord,
   SimulationMoment,
   World,
@@ -295,6 +304,8 @@ export interface ScheduleCampaignActionInput {
   readonly spend: MoneyAmount | null;
   /** Optional explicit approval context for the bounded strategy interaction. */
   readonly strategy?: CampaignActionStrategyRecord | null;
+  /** The event of the standing routine that booked this session (D-11). */
+  readonly routineEventId?: EntityId;
 }
 
 export interface ScheduledCampaignActionResult {
@@ -1048,7 +1059,10 @@ function bookCampaignAction(
     participantPersonIds: participants,
     responsiblePersonId: campaign.candidatePersonId,
     location: input.plan.location,
-    sourceEntityIds: [campaign.filingEventId],
+    sourceEntityIds: [
+      campaign.filingEventId,
+      ...(input.routineEventId ? [input.routineEventId] : []),
+    ],
     flexibility: { kind: "fixed" },
     access: { kind: "private", personIds: participants },
   });
@@ -1387,11 +1401,27 @@ function doCampaignAction(world: World, actionId: EntityId): World {
     }
   }
 
-  let next = performScheduledActivity(
+  const performed = performScheduledActivity(
     world,
     action.scheduledActivityId,
     createCampaignElectionTransitionRegistry(),
   );
+  // A session the standing routine booked was written up by the routine the
+  // moment it finished.
+  if (campaignActionResult(performed, action.id)) return performed;
+  return recordCampaignActionOutcome(performed, campaign, action);
+}
+
+/**
+ * Everything a finished campaign session writes once its hours are done: the
+ * money, the outcome, the candidate's support and the field memo.
+ */
+function recordCampaignActionOutcome(
+  world: World,
+  campaign: CampaignRecord,
+  action: CampaignActionRecord,
+): World {
+  let next = world;
   const completionEventId = actionCompletionEvent(
     next,
     action.scheduledActivityId,
@@ -2106,6 +2136,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
       ),
       createTaxTransitionHandlerRegistry(),
       LIFE_PATHS2_HANDLERS,
+      // D-11: the candidate's standing campaign hours, after the day job's.
+      createFutureTransitionHandlerRegistry([], createCampaignRoutineHook()),
       // CRUNCH46 CRISIS: mortality windows, deaths and health reviews.
       createCrisisTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
@@ -2198,4 +2230,156 @@ export function campaignActionIsStale(
     state.status === "scheduled" &&
     compareSimulationMoments(state.start, world.currentMoment) < 0
   );
+}
+
+/* -------------------------------------------------------------------------- */
+/* D-11: the standing campaign routine on the ordinary clock                   */
+/* -------------------------------------------------------------------------- */
+
+function scheduledRoutineActivity(
+  world: World,
+  routineEventId: EntityId,
+): ScheduledActivityRecord | undefined {
+  return world.history.scheduledActivities.find(
+    (activity) =>
+      activity.sourceEntityIds.includes(routineEventId) &&
+      scheduledActivityState(world, activity.id).status === "scheduled",
+  );
+}
+
+/**
+ * The clock hook for a candidate's standing campaign hours. It offers the
+ * routine's sessions as routine windows, books each one as an ordinary
+ * campaign action when the clock reaches it, and writes the session up when
+ * its hours are done. A session something else already holds the time for is
+ * not offered, and a session whose start has gone by is lost.
+ */
+export function createCampaignRoutineHook(): RoutineTimeHook {
+  return {
+    isAutoResolvableActivity(world, activityId) {
+      if (world.control.kind !== "person") return false;
+      const activity = world.history.scheduledActivities.find(
+        (candidate) => candidate.id === activityId,
+      );
+      if (
+        !activity ||
+        activity.responsiblePersonId !== world.control.personId ||
+        !routineIdOfActivity(world, activity.sourceEntityIds)
+      )
+        return false;
+      const action = campaignActionForActivity(world, activityId);
+      return Boolean(action) && !campaignActionResult(world, action!.id);
+    },
+    projectWindows(world, target) {
+      if (world.control.kind !== "person") return [];
+      const campaign = activeCampaignForCandidate(
+        world,
+        world.control.personId,
+      );
+      if (!campaign) return [];
+      if (electionContestStatus(world, campaign.contestId) !== "pending")
+        return [];
+      const slots = campaignRoutineSlots(
+        world,
+        campaign,
+        world.currentMoment,
+        target,
+      );
+      const routineEventId = slots[0]?.eventId;
+      const booked = routineEventId
+        ? scheduledRoutineActivity(world, routineEventId)
+        : undefined;
+      const windows: RoutineWindow[] = [];
+      if (booked) {
+        const state = scheduledActivityState(world, booked.id);
+        windows.push({
+          relationshipId: routineEventId!,
+          kind: "campaign",
+          start: state.start,
+          end: state.end,
+          autoResolvable: true,
+        });
+      }
+      for (const slot of slots) {
+        if (
+          booked &&
+          compareSimulationMoments(
+            slot.start,
+            scheduledActivityState(world, booked.id).start,
+          ) === 0
+        )
+          continue;
+        if (jailTermOn(world, campaign.candidatePersonId, slot.start.date))
+          continue;
+        windows.push({
+          relationshipId: slot.eventId,
+          kind: "campaign",
+          start: slot.start,
+          end: slot.end,
+          autoResolvable: true,
+        });
+      }
+      return windows;
+    },
+    ensureScheduled(world, slot) {
+      if (slot.kind !== "campaign" || world.control.kind !== "person")
+        return world;
+      if (scheduledRoutineActivity(world, slot.relationshipId)) return world;
+      const campaign = activeCampaignForCandidate(
+        world,
+        world.control.personId,
+      );
+      const block = campaignRoutineBlockAt(
+        world,
+        slot.relationshipId,
+        slot.start,
+      );
+      if (!campaign || !block) return world;
+      if (compareSimulationMoments(slot.start, world.currentMoment) < 0)
+        return world;
+      const work = CAMPAIGN_ROUTINE_WORK[block.work];
+      try {
+        return scheduleCampaignAction(world, {
+          campaignId: campaign.id,
+          kind: block.work,
+          plan: {
+            start: slot.start,
+            end: slot.end,
+            location: {
+              locationKey: work.locationKey,
+              label: work.locationLabel,
+              jurisdictionId: campaign.jurisdictionId,
+            },
+            title: work.title,
+            summary: work.summary,
+          },
+          spend: null,
+          routineEventId: slot.relationshipId,
+        }).world;
+      } catch (error) {
+        // Something else holds the time, or the candidate cannot campaign
+        // that day: the session is lost, not moved.
+        if (
+          error instanceof Error &&
+          (error.message.startsWith("Scheduled activity conflicts with") ||
+            error.message.includes("cannot campaign"))
+        )
+          return world;
+        throw error;
+      }
+    },
+    afterActivityCompleted(world, activityId) {
+      const activity = world.history.scheduledActivities.find(
+        (candidate) => candidate.id === activityId,
+      );
+      if (!activity || !routineIdOfActivity(world, activity.sourceEntityIds))
+        return world;
+      const action = campaignActionForActivity(world, activityId);
+      if (!action || campaignActionResult(world, action.id)) return world;
+      const campaign = campaignById(world, action.campaignId);
+      if (!campaign || campaignState(world, campaign.id).status !== "active")
+        return world;
+      return recordCampaignActionOutcome(world, campaign, action);
+    },
+  };
 }
