@@ -65,9 +65,9 @@ import {
   startingMinimumHourly,
 } from "../minimum-wage";
 import {
-  fairnessLawCovers,
   menPartneredWithMen,
-  UNCOVERED_PAY_SHARE,
+  payAtHire,
+  UNCOVERED_PAY_NOTE,
 } from "../fairness-pay-law";
 import { noticeLawPayChanges } from "../law-effects-noticed";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
@@ -726,18 +726,17 @@ export function startTownJobPay(
     // A man partnered with a man is hired below the job's rate where no
     // fairness law covers him (`fairness-pay-law.ts`), never below the floor.
     coveredMen ??= menPartneredWithMen(world, world.currentDate);
-    const gap =
-      coveredMen.has(work.personId) &&
-      !fairnessLawCovers(world, role.locationJurisdictionId, startsAt);
-    const rate = gap
-      ? {
-          ...offered,
-          hourlyMinor: Math.max(
-            Math.round(offered.hourlyMinor * UNCOVERED_PAY_SHARE),
-            Math.round((minimum ?? 0) * 100),
-          ),
-        }
-      : offered;
+    const paid = coveredMen.has(work.personId)
+      ? payAtHire(world, {
+          personId: work.personId,
+          jobJurisdictionId: role.locationJurisdictionId,
+          date: startsAt,
+          amountMinor: offered.hourlyMinor,
+          floorMinor: (minimum ?? 0) * 100,
+        })
+      : null;
+    const gap = paid?.belowRate === true;
+    const rate = gap ? { ...offered, hourlyMinor: paid.amountMinor } : offered;
     const organizationId = work.organizationId!;
     // A public school teacher is paid at least the state's minimum teacher
     // salary a law enacted in play set.
@@ -783,7 +782,7 @@ export function startTownJobPay(
       jurisdictionId: null,
       provenance: {
         kind: "authored",
-        note: `${TOWN_PAY_VERSION}: $${(hourlyMinor / 100).toFixed(2)} an hour${hourlyMinor > rate.hourlyMinor ? " (the state's minimum teacher salary)" : rate.floored ? " (the minimum wage)" : ""}${gap && hourlyMinor === rate.hourlyMinor ? `, ${((1 - UNCOVERED_PAY_SHARE) * 100).toFixed(1)}% below the job's rate: no fairness law covers him where he works` : ""} for ${weeklyHours} hours a week, paid ${period}; the ${Math.round(rate.percentile)}th percentile for SOC ${rate.soc} in OEWS area ${rate.area} (${TOWN_PAY_META.wages}).`,
+        note: `${TOWN_PAY_VERSION}: $${(hourlyMinor / 100).toFixed(2)} an hour${hourlyMinor > rate.hourlyMinor ? " (the state's minimum teacher salary)" : rate.floored ? " (the minimum wage)" : ""}${gap && hourlyMinor === rate.hourlyMinor ? `, ${UNCOVERED_PAY_NOTE}` : ""} for ${weeklyHours} hours a week, paid ${period}; the ${Math.round(rate.percentile)}th percentile for SOC ${rate.soc} in OEWS area ${rate.area} (${TOWN_PAY_META.wages}).`,
       },
     });
   }
