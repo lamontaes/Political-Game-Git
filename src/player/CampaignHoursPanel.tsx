@@ -10,6 +10,7 @@ import {
   type World,
 } from "../simulation";
 import { activeCampaignForCandidate } from "../simulation/campaign-queries";
+import { CAMPAIGN_HOURS_TEXT } from "../presentation/campaign-hours-text";
 
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
 const LENGTHS = [30, 60, 90, 120, 180, 240] as const;
@@ -107,10 +108,10 @@ export function CampaignHoursPanel({
       const next = setCampaignRoutine(world, personId, blocks);
       setMessage(
         next === world
-          ? "Those are already your hours."
+          ? CAMPAIGN_HOURS_TEXT.unchanged
           : blocks.length === 0
-            ? "Your campaign hours are stopped."
-            : "Your campaign hours are set. They repeat every week until you change them.",
+            ? CAMPAIGN_HOURS_TEXT.stopped
+            : CAMPAIGN_HOURS_TEXT.set,
       );
       if (next !== world) onWorldChange(next);
     } catch (error) {
@@ -137,12 +138,9 @@ export function CampaignHoursPanel({
       <p data-testid="campaign-hours-current">
         {keeping
           ? describeCampaignRoutine(routine!.blocks)
-          : "You have no set campaign hours."}
+          : CAMPAIGN_HOURS_TEXT.none}
       </p>
-      <p>
-        Set hours repeat every week until you change them. When something else
-        takes that time, that session is lost, not saved for later.
-      </p>
+      <p>{CAMPAIGN_HOURS_TEXT.explain}</p>
       {WORK.map((work) => (
         <fieldset key={work} data-testid={`campaign-hours-${work}`}>
           <legend>{CAMPAIGN_ROUTINE_WORK[work].label}</legend>

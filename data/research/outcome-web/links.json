@@ -3565,6 +3565,24 @@
       "source": "Pew Charitable Trusts 2017; Wagner 2004",
       "range": [-6, 0],
       "floor": -5
+    },
+    {
+      "key": "fare-free-transit-to-ridership",
+      "from": "law:us-policy-positions:transportation-infrastructure.fare-free-transit",
+      "to": "transit.ridership",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.42,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 1,
+      "group": "place",
+      "owner": "F",
+      "evidence": "researched",
+      "anchor": "Transit ridership's elasticity with respect to fares is -0.2 to -0.5 in the first year. A fare falling to zero is read on the semi-log curve the paper recommends for fares near zero, where ridership rises by e to the elasticity: 22% to 65%, 42% at the middle of the range. Long-run elasticities of -0.6 to -0.9 would give more, so this is the first year's effect, held.",
+      "source": "Litman 2025, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, Table 15 and page 9",
+      "range": [0.22, 0.65]
     }
   ],
   "calibratedAt": "2024-07-01"

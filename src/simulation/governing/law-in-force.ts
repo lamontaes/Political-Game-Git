@@ -138,7 +138,7 @@ export function lawInForce(
         : stateStatuteOperativeAt(
             placeKey,
             enactment.resolvedAt,
-            enactmentStatuteDateContext(enactment),
+            enactmentStatuteDateContext(world, enactment),
           );
     const operativeAt =
       enactment.effectiveAt ??
@@ -153,7 +153,11 @@ export function lawInForce(
       operativeBasis: enactment.effectiveAt
         ? ("enacted-date" as const)
         : stateRuleAt
-          ? stateRuleBasis(placeKey!, enactment.resolvedAt)
+          ? stateRuleBasis(
+              placeKey!,
+              enactment.resolvedAt,
+              enactmentStatuteDateContext(world, enactment),
+            )
           : ("game-default" as const),
       origin: "enacted" as const,
       sequence: enactment.sequence,
@@ -234,6 +238,15 @@ interface StartingLawRow {
    * blanket rank.
    */
   readonly preempts?: boolean;
+  /**
+   * What the place's law said before `operativeAt`, for a row whose answer
+   * takes effect after the game begins (a program enacted but not yet
+   * started). Unsaid: nothing is known before that date.
+   */
+  readonly before?: {
+    readonly answer: PropositionAnswer;
+    readonly preempts?: boolean;
+  };
 }
 
 const STARTING_LAW = startingLaw as unknown as {
@@ -285,11 +298,16 @@ function startingLawCandidate(
   if (starting) {
     for (const [placeId, level] of chain) {
       const placeKey = startingLawPlaceKey(placeId);
-      const row = placeKey ? starting.answers[placeKey] : undefined;
-      if (!row) continue;
-      const operativeAt = makeIsoDate(
-        row.operativeAt ?? STARTING_LAW.defaultOperativeAt,
-      );
+      const dated = placeKey ? starting.answers[placeKey] : undefined;
+      if (!dated) continue;
+      const defaultAt = makeIsoDate(STARTING_LAW.defaultOperativeAt);
+      const answerAt = makeIsoDate(dated.operativeAt ?? defaultAt);
+      // Before its answer takes effect, a row says what held until then.
+      const row =
+        answerAt > onDate && dated.before
+          ? { ...dated.before, operativeAt: undefined }
+          : dated;
+      const operativeAt = row === dated ? answerAt : defaultAt;
       if (operativeAt > onDate) continue;
       const candidate: Candidate = {
         answer: row.answer,

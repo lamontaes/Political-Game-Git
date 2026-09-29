@@ -3,19 +3,19 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 705,
+    "markers": 706,
     "byKind": {
       "unresearched": 221,
-      "placeholder": 374,
+      "placeholder": 375,
       "blanket": 126
     },
     "byPath": {
-      "other": 420,
+      "other": 421,
       "money": 74,
       "law": 123,
       "government": 88
     },
-    "withoutQuestion": 414,
+    "withoutQuestion": 415,
     "questionNotFiled": 12,
     "moneyOrLawQuestions": 56
   },
@@ -1750,7 +1750,7 @@
     },
     {
       "file": "src/simulation/enacted-rule-changes.ts",
-      "line": 352,
+      "line": 395,
       "text": "* not researched and the blanket rule applied.",
       "kinds": ["unresearched"],
       "path": "other",
@@ -2362,7 +2362,16 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 130,
+      "line": 152,
+      "text": "* PLACEHOLDER(research: job-market-calibration): a business this many days",
+      "kinds": ["placeholder"],
+      "path": "money",
+      "researchQuestionId": "job-market-calibration",
+      "researchQuestionFiled": true
+    },
+    {
+      "file": "src/simulation/job-market.ts",
+      "line": 159,
       "text": "* PLACEHOLDER(research: public-employer-roles-and-pay). One role for every",
       "kinds": ["placeholder"],
       "path": "money",
@@ -2371,7 +2380,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 136,
+      "line": 165,
       "text": "export const PUBLIC_BODY_ROLE_PLACEHOLDER = {",
       "kinds": ["placeholder"],
       "path": "money",
@@ -2380,7 +2389,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 241,
+      "line": 274,
       "text": "const role = PUBLIC_BODY_ROLE_PLACEHOLDER;",
       "kinds": ["placeholder"],
       "path": "money",
@@ -2389,7 +2398,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 298,
+      "line": 356,
       "text": "// PLACEHOLDER(research: job-market-calibration): which work is",
       "kinds": ["placeholder"],
       "path": "money",
@@ -2398,8 +2407,8 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 617,
-      "text": "const spread = 1 + (rng.next() * 2 - 1) * JOB_MARKET_PLACEHOLDER.offerSpread;",
+      "line": 739,
+      "text": "const spread = wentUnfilled ? 1 + JOB_MARKET_PLACEHOLDER.offerSpread : 1;",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -2407,8 +2416,8 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 619,
-      "text": "!role.salaried && rng.next() < JOB_MARKET_PLACEHOLDER.partTimeShare;",
+      "line": 785,
+      "text": "// PLACEHOLDER(research: job-market-calibration): salaried work is",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -2416,34 +2425,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 624,
-      "text": "JOB_MARKET_PLACEHOLDER.partTimeMinimumHours,",
-      "kinds": ["placeholder"],
-      "path": "money",
-      "researchQuestionId": "job-market-calibration",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "line": 629,
-      "text": "minimum + between(rng, JOB_MARKET_PLACEHOLDER.partTimeSpreadHours),",
-      "kinds": ["placeholder"],
-      "path": "money",
-      "researchQuestionId": "job-market-calibration",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "line": 675,
-      "text": "if (rng.next() >= JOB_MARKET_PLACEHOLDER.weeklyOpeningChance) continue;",
-      "kinds": ["placeholder"],
-      "path": "money",
-      "researchQuestionId": "job-market-calibration",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/job-market.ts",
-      "line": 702,
+      "line": 810,
       "text": "? `${PROVENANCE_NOTE} The role and its pay are the placeholder public-body profile (research: ${PUBLIC_BODY_ROLE_PLACEHOLDER.researchQuestionId}).`",
       "kinds": ["placeholder"],
       "path": "money",
@@ -2452,8 +2434,8 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 860,
-      "text": "between(rng, JOB_MARKET_PLACEHOLDER.decisionDays),",
+      "line": 968,
+      "text": "? JOB_MARKET_PLACEHOLDER.decisionDays.minimum",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -2461,7 +2443,16 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 985,
+      "line": 969,
+      "text": ": JOB_MARKET_PLACEHOLDER.decisionDays.maximum,",
+      "kinds": ["placeholder"],
+      "path": "money",
+      "researchQuestionId": "job-market-calibration",
+      "researchQuestionFiled": true
+    },
+    {
+      "file": "src/simulation/job-market.ts",
+      "line": 1094,
       "text": "JOB_MARKET_PLACEHOLDER.fullTimeHours,",
       "kinds": ["placeholder"],
       "path": "money",
@@ -2470,7 +2461,7 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 996,
+      "line": 1189,
       "text": "opening.weeklyHours.minimumHours >= JOB_MARKET_PLACEHOLDER.fullTimeHours &&",
       "kinds": ["placeholder"],
       "path": "money",
@@ -2479,8 +2470,8 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 1010,
-      "text": "if (rng.next() >= JOB_MARKET_PLACEHOLDER.hireChance[application.route])",
+      "line": 1221,
+      "text": "// PLACEHOLDER(research: job-market-calibration): salaried work gives the",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -2488,8 +2479,8 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 1022,
-      "text": "between(rng, JOB_MARKET_PLACEHOLDER.startLeadDays),",
+      "line": 1232,
+      "text": "? JOB_MARKET_PLACEHOLDER.startLeadDays.maximum",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -2497,7 +2488,16 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 1487,
+      "line": 1233,
+      "text": ": JOB_MARKET_PLACEHOLDER.startLeadDays.minimum,",
+      "kinds": ["placeholder"],
+      "path": "money",
+      "researchQuestionId": "job-market-calibration",
+      "researchQuestionFiled": true
+    },
+    {
+      "file": "src/simulation/job-market.ts",
+      "line": 1699,
       "text": "JOB_MARKET_PLACEHOLDER.missedStartGraceDays,",
       "kinds": ["placeholder"],
       "path": "money",
@@ -2506,8 +2506,8 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 1495,
-      "text": "rng.next() < JOB_MARKET_PLACEHOLDER.followUpChance);",
+      "line": 1713,
+      "text": "? JOB_MARKET_PLACEHOLDER.followUpStartDays.maximum",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -2515,8 +2515,8 @@
     },
     {
       "file": "src/simulation/job-market.ts",
-      "line": 1499,
-      "text": "between(rng, JOB_MARKET_PLACEHOLDER.followUpStartDays),",
+      "line": 1714,
+      "text": ": JOB_MARKET_PLACEHOLDER.followUpStartDays.minimum,",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -3243,6 +3243,15 @@
       "researchQuestionFiled": false
     },
     {
+      "file": "src/simulation/living-world/town-homes.ts",
+      "line": 182,
+      "text": "*   sells and rents an apartment. HARDWIRED, a PLACEHOLDER(research:",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
       "file": "src/simulation/living-world/town-rent.ts",
       "line": 171,
       "text": "* PLACEHOLDER(research: who-owns-rental-homes). Who owns a rented home of",
@@ -3289,7 +3298,7 @@
     },
     {
       "file": "src/simulation/living-world/town-rent.ts",
-      "line": 257,
+      "line": 266,
       "text": "* PLACEHOLDER(research: eviction-filing-and-outcome), set by hand:",
       "kinds": ["placeholder"],
       "path": "other",
@@ -3298,7 +3307,7 @@
     },
     {
       "file": "src/simulation/living-world/town-rent.ts",
-      "line": 529,
+      "line": 541,
       "text": "// the two are taken to offset. PLACEHOLDER(research:",
       "kinds": ["placeholder"],
       "path": "other",
@@ -4603,7 +4612,7 @@
     },
     {
       "file": "src/simulation/office-salary.ts",
-      "line": 28,
+      "line": 30,
       "text": "* PLACEHOLDER(research: what-public-officials-are-paid). A governor, a state",
       "kinds": ["placeholder"],
       "path": "money",
@@ -4612,7 +4621,7 @@
     },
     {
       "file": "src/simulation/office-salary.ts",
-      "line": 35,
+      "line": 37,
       "text": "export const OFFICE_SALARY_PLACEHOLDER = {",
       "kinds": ["placeholder"],
       "path": "money",
@@ -4621,7 +4630,7 @@
     },
     {
       "file": "src/simulation/office-salary.ts",
-      "line": 67,
+      "line": 80,
       "text": "annualMinor: OFFICE_SALARY_PLACEHOLDER.annualMinor,",
       "kinds": ["placeholder"],
       "path": "money",
@@ -4630,7 +4639,7 @@
     },
     {
       "file": "src/simulation/office-salary.ts",
-      "line": 68,
+      "line": 81,
       "text": "note: `Placeholder office salary pending research question ${OFFICE_SALARY_PLACEHOLDER.researchQuestionId}.`,",
       "kinds": ["placeholder"],
       "path": "money",
@@ -4639,7 +4648,7 @@
     },
     {
       "file": "src/simulation/office-salary.ts",
-      "line": 122,
+      "line": 135,
       "text": "money(0, OFFICE_SALARY_PLACEHOLDER.currency).currency,",
       "kinds": ["placeholder"],
       "path": "money",
@@ -4648,7 +4657,7 @@
     },
     {
       "file": "src/simulation/office-salary.ts",
-      "line": 131,
+      "line": 144,
       "text": "OFFICE_SALARY_PLACEHOLDER.currency,",
       "kinds": ["placeholder"],
       "path": "money",
