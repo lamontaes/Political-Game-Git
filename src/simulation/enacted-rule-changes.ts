@@ -34,7 +34,7 @@ import { addDays } from "./dates";
 import { createStableId } from "./ids";
 import {
   stateStatuteOperativeAt,
-  statuteEffectiveRuleEstimate,
+  statuteEffectiveDateEstimated,
   type StatuteDateContext,
 } from "./governing/statute-effective-date";
 import { requireMeasure } from "./legislation";
@@ -236,11 +236,12 @@ export function amendableRuleFieldLabel(field: AmendableRuleField): string {
   return AMENDABLE_RULE_FIELD_LABELS[field];
 }
 
-/** Whether the state's effective-date rule was read or estimated. */
+/** Whether the date the state's effective-date rule gives was read or rests
+ * on an estimate (the rule, or the session end it counts from). */
 export function stateRuleBasis(
   jurisdictionKey: string,
 ): "state-rule" | "estimated-state-rule" {
-  return statuteEffectiveRuleEstimate(jurisdictionKey)
+  return statuteEffectiveDateEstimated(jurisdictionKey)
     ? "estimated-state-rule"
     : "state-rule";
 }

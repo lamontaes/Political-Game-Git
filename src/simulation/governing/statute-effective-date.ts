@@ -20,9 +20,9 @@ import type { IsoDate } from "../types";
  *
  * NOT MODELED: acts that set their own date, emergency clauses, appropriation
  * acts where a state dates them differently (Minnesota, Missouri, Ohio), a
- * session that adjourns before its limit, and special sessions: an act
- * enacted after its regular session's rule would date it is left to the
- * caller's default.
+ * session that adjourns before its limit, and special sessions' own
+ * adjournments: an act enacted after its regular session's rule would date
+ * it is counted from the day it became law.
  */
 export type StatuteEffectiveRule =
   | { readonly kind: "days-after-enactment"; readonly days: number }
@@ -157,6 +157,20 @@ export function statuteEffectiveRule(
 }
 
 /**
+ * Whether the date a state's rule gives rests on an estimate: the rule
+ * itself, or, for a rule counted from a session's end, that end.
+ */
+export function statuteEffectiveDateEstimated(
+  jurisdictionKey: string,
+): boolean {
+  if (statuteEffectiveRuleEstimate(jurisdictionKey)) return true;
+  return (
+    statuteEffectiveRule(jurisdictionKey)?.kind === "days-after-session-end" &&
+    stateSessionEndEstimate(jurisdictionKey) !== null
+  );
+}
+
+/**
  * Where a state's rule is not read but estimated from places like it, what
  * it was estimated from; null for a rule read from the state's own law.
  */
@@ -252,24 +266,28 @@ export function stateStatuteOperativeAt(
     case "days-after-session-end": {
       // The regular session of the act's year whose end is nearest the act:
       // it passed during that session or was signed in the days after it.
-      // An act enacted on or after the date this gives came from a special
-      // session, whose own adjournment the game does not record, so the
-      // rule does not date it.
+      // GAME ASSUMPTION: an act the rule would date on or before the day it
+      // became law (signed long after the session's limit, a year with no
+      // regular session, a special session, or a legislature that sits all
+      // year) shows its session ran at least that long, so the count starts
+      // from the act instead.
+      const counted = (end: IsoDate): IsoDate => {
+        const operative = addDays(addMonths(end, rule.months ?? 0), rule.days);
+        return rule.notBefore
+          ? latest(
+              operative,
+              isoDateFromParts(year, rule.notBefore.month, rule.notBefore.day),
+            )
+          : operative;
+      };
       const sessionEnd = nearest(
         stateSessionEnds(jurisdictionKey, year),
         enactedAt,
       );
-      if (!sessionEnd) return null;
-      let operative = addDays(
-        addMonths(sessionEnd, rule.months ?? 0),
-        rule.days,
-      );
-      if (rule.notBefore)
-        operative = latest(
-          operative,
-          isoDateFromParts(year, rule.notBefore.month, rule.notBefore.day),
-        );
-      return operative > enactedAt ? operative : null;
+      const operative = sessionEnd ? counted(sessionEnd) : null;
+      return operative && operative > enactedAt
+        ? operative
+        : counted(enactedAt);
     }
     case "next-year-date-by-passage": {
       const passedAt = context.finalPassageAt?.();

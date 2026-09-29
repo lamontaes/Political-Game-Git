@@ -25,6 +25,7 @@ const OTHER = "proposition_other" as EntityId;
 const ohio = stateJurisdictionForKey("US-OH")!.id;
 const texas = stateJurisdictionForKey("US-TX")!.id;
 const kansas = stateJurisdictionForKey("US-KS")!.id;
+const illinois = stateJurisdictionForKey("US-IL")!.id;
 const federal = NATIONAL_ELECTION_JURISDICTION.id;
 
 let sequence = 0;
@@ -112,14 +113,14 @@ describe("the law in force on a question", () => {
     expect(
       lawInForce(worldWith("2026-05-30", [undated]), ohio, QUESTION),
     ).toMatchObject({ answer: "no", operativeBasis: "state-rule" });
-    // Texas holds no regular session in even years, so its rule does not
-    // date a 2026 act: the blanket ninety days, said so.
-    const texan = law(texas, "no", "2026-03-01");
+    // Illinois counts from final passage, which this record does not carry:
+    // the blanket ninety days, said so.
+    const illinoisan = law(illinois, "no", "2026-03-01");
     expect(
-      lawInForce(worldWith("2026-05-29", [texan]), texas, QUESTION),
+      lawInForce(worldWith("2026-05-29", [illinoisan]), illinois, QUESTION),
     ).toBeNull();
     expect(
-      lawInForce(worldWith("2026-05-30", [texan]), texas, QUESTION),
+      lawInForce(worldWith("2026-05-30", [illinoisan]), illinois, QUESTION),
     ).toMatchObject({ answer: "no", operativeBasis: "game-default" });
   });
 

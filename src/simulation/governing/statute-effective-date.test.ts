@@ -7,6 +7,7 @@ import {
   stateSessionEndEstimate,
   stateSessionEnds,
   stateStatuteOperativeAt,
+  statuteEffectiveDateEstimated,
   statuteEffectiveRule,
   statuteEffectiveRuleEstimate,
 } from "./statute-effective-date";
@@ -157,9 +158,12 @@ describe("when a state law takes effect by its state's own rule", () => {
     // to June 2), then the 91st day: September 1.
     expect(stateSessionEnds("US-TX", 2025)).toEqual(["2025-06-02"]);
     expect(at("US-TX", "2025-05-20")).toBe("2025-09-01");
-    // No regular session in even years: a special session's act is left
-    // to the caller's default.
-    expect(at("US-TX", "2026-08-01")).toBeNull();
+    // No regular session in even years: a special session's act counts
+    // from the day it became law.
+    expect(at("US-TX", "2026-08-01")).toBe("2026-10-31");
+    // Florida's governor signs weeks after the session: once the sixtieth
+    // day after the session has passed, the count starts from the act.
+    expect(at("US-FL", "2026-05-20")).toBe("2026-07-19");
     // Washington 2026: January 12 to March 12, effective June 11.
     expect(at("US-WA", "2026-03-20")).toBe("2026-06-11");
     // New Mexico 2025: January 21 to March 22, effective June 20.
@@ -181,6 +185,17 @@ describe("when a state law takes effect by its state's own rule", () => {
     expect(at("US-NE", "2026-03-01")).toBe("2026-07-16");
   });
 
+  it("marks a date as estimated when the rule or its session end is", () => {
+    // Michigan's rule is read; its session end, set by resolution, is not.
+    expect(statuteEffectiveRuleEstimate("US-MI")).toBeNull();
+    expect(statuteEffectiveDateEstimated("US-MI")).toBe(true);
+    // A legislature that sits all year: a fall act counts from itself.
+    expect(at("US-MI", "2026-10-01")).toBe("2026-12-31");
+    expect(statuteEffectiveDateEstimated("US-KS")).toBe(true);
+    expect(statuteEffectiveDateEstimated("US-KY")).toBe(false);
+    expect(statuteEffectiveDateEstimated("US-GA")).toBe(false);
+  });
+
   it("dates American Samoa from whichever of its two sessions the act came from", () => {
     // January 12 to February 25, 2026, then sixty days.
     expect(at("US-AS", "2026-03-01")).toBe("2026-04-26");
@@ -191,9 +206,9 @@ describe("when a state law takes effect by its state's own rule", () => {
   it("counts ninety days from Missouri's May 30 adjournment, so August 28", () => {
     expect(at("US-MO", "2026-04-02")).toBe("2026-08-28");
     expect(at("US-MO", "2026-07-10")).toBe("2026-08-28");
-    // Past the regular session's date: a special session the rule does not
-    // date, so the caller keeps its labeled default.
-    expect(at("US-MO", "2026-09-15")).toBeNull();
+    // Past the regular session's date: the session ran at least that long,
+    // so the count starts from the act.
+    expect(at("US-MO", "2026-09-15")).toBe("2026-12-14");
   });
 
   it("dates Kentucky from its session's end, the day after ninety full days", () => {

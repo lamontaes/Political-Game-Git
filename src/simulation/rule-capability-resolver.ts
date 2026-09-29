@@ -834,7 +834,7 @@ function enactedField(
           : change.operativeBasis === "state-rule"
             ? `${change.designation}, enacted in this game; in force on the date this state's law sets for an act that names none`
             : change.operativeBasis === "estimated-state-rule"
-              ? `${change.designation}, enacted in this game; in force on the date the most common state rule sets, estimated for this state`
+              ? `${change.designation}, enacted in this game; in force on a date estimated from similar places, because this state's own rule or session length was not read`
               : `${change.designation}, enacted in this game`,
       url: null,
       artifactId: null,
