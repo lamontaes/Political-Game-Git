@@ -30,6 +30,7 @@ import {
   ARTICLE_V_PROFILE,
   CONVENTION_APPLICATION_EVENT,
   CONVENTION_CALL_EVENT,
+  CONVENTION_RESCISSION_EVENT,
   conventionApplications,
 } from "./article-v";
 import { seatedCongressChamber } from "./congress-chambers";
@@ -61,28 +62,50 @@ function federalQuestion(world: World): EntityId {
   })!;
 }
 
-/** Every named person comes to hold, firmly, the principles behind the policy. */
+/** A federal question exactly one principle bears on. */
+function singlePrincipleQuestion(world: World): EntityId {
+  const catalog = world.policyCatalog;
+  return catalog.propositionOrder.find((id) => {
+    const proposition = catalog.propositions[id]!;
+    return (
+      (catalog.issues[proposition.issueId]?.levels ?? []).includes("federal") &&
+      proposition.principles?.length === 1 &&
+      lawInForce(world, NATIONAL_ELECTION_JURISDICTION.id, id)?.answer !== "yes"
+    );
+  })!;
+}
+
+/**
+ * Every named person comes to hold the principles behind the policy, firmly
+ * by default; `against` has them hold the opposite.
+ */
 function favor(
   world: World,
   personIds: readonly EntityId[],
   propositionId: EntityId,
+  options: {
+    readonly conviction?: "tentative" | "settled";
+    readonly against?: boolean;
+  } = {},
 ): World {
+  const conviction = options.conviction ?? "settled";
   let next = ensureOfficeholderPrinciples(world, personIds);
   const bearings = next.policyCatalog.propositions[propositionId]!.principles!;
   for (const personId of new Set(personIds)) {
     next = recordPrinciples(
       next,
       bearings.map((bearing) => ({
-        stableKey: `b27-test:${personId}:${bearing.principleId}`,
+        stableKey: `b27-test:${personId}:${bearing.principleId}:${next.currentDate}:${conviction}:${options.against ? "against" : "for"}`,
         personId,
         principleId: bearing.principleId,
         formedAt: next.currentDate,
         stance:
-          bearing.bearing === "consistent-with"
+          (bearing.bearing === "consistent-with") !== Boolean(options.against)
             ? ("endorses" as const)
             : ("rejects" as const),
-        conviction: "settled" as const,
-        flexibility: "firm" as const,
+        conviction,
+        flexibility:
+          conviction === "settled" ? ("firm" as const) : ("open" as const),
         qualification: null,
         formation: createFormationContext("other:drawn-before-play", {
           note: "Test fixture.",
@@ -279,5 +302,78 @@ describe("Build 27 step 5: amending the Constitution on any subject", () => {
     expect(position.operativeAt !== null).toBe(
       position.ratifiedStates.length >= 38,
     );
+  }, 1_800_000);
+
+  it("Congress does not propose again a question it rejected while nothing has changed", () => {
+    let world = openingWorld("b27-article-v-repeat");
+    const question = singlePrincipleQuestion(world);
+    const everyone = [
+      ...members(world, "house"),
+      ...members(world, "senate"),
+    ].map((member) => member.personId!);
+    // Every member leans toward it, but only tentatively: not enough to clear
+    // the bar of amending the Constitution.
+    world = favor(world, everyone, question, { conviction: "tentative" });
+    world = passTo(world, nextReview(world));
+    const proposals = (w: World) =>
+      (w.history.constitutionalMeasures ?? []).filter(
+        (row) =>
+          row.ruleDelta.kind === "policy-provision" &&
+          row.ruleDelta.propositionId === question &&
+          row.proposedBy !== "convention",
+      );
+    expect(proposals(world)).toHaveLength(1);
+    expect(constitutionalPosition(world, proposals(world)[0]!.id).phase).toBe(
+      "rejected",
+    );
+    // A year later the same members would vote the same way: no new proposal.
+    world = passTo(world, nextReview(world));
+    expect(proposals(world)).toHaveLength(1);
+  }, 1_800_000);
+
+  it("a state's convention application stands until its legislature rescinds it", () => {
+    let world = openingWorld("b27-article-v-rescind");
+    const question = federalQuestion(world);
+    // Ten states' voices favor the question: too few to call a convention.
+    const chosen = ARTICLE_V_STATE_KEYS.slice(0, 10);
+    const voices = (keys: readonly string[]) =>
+      keys.flatMap((key) => {
+        const usps = key.slice(3);
+        const pack = stateCandidacyPack(key);
+        const legislators =
+          pack && stateLegislatureEstablished(world, pack.packId)
+            ? stateLegislators(world, pack.packId).map((m) => m.personId)
+            : [];
+        const delegation = [
+          ...members(world, "house"),
+          ...members(world, "senate"),
+        ]
+          .filter((member) =>
+            new RegExp(`:us-(house|senate):${usps}[-:]`).test(member.memberKey),
+          )
+          .map((member) => member.personId!);
+        return [...legislators, ...delegation];
+      });
+    world = favor(world, voices(chosen), question);
+    world = passTo(world, nextReview(world));
+    const applied = conventionApplications(world, question);
+    for (const key of chosen) expect(applied).toContain(key);
+    // Three of those legislatures come to oppose it, and rescind.
+    const turned = chosen.slice(0, 3);
+    world = favor(world, voices(turned), question, { against: true });
+    world = passTo(world, nextReview(world));
+    const standing = conventionApplications(world, question);
+    for (const key of turned) expect(standing).not.toContain(key);
+    for (const key of chosen.slice(3)) expect(standing).toContain(key);
+    const rescissions = world.history.events.filter(
+      (event) =>
+        event.type === CONVENTION_RESCISSION_EVENT &&
+        event.tags.includes(`proposition:${question}`),
+    );
+    expect(
+      rescissions
+        .map((event) => event.tags.find((t) => t.startsWith("state:")))
+        .sort(),
+    ).toEqual(turned.map((key) => `state:${key}`).sort());
   }, 1_800_000);
 });

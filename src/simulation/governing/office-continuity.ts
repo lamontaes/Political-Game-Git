@@ -41,8 +41,13 @@ import { publicPartyOf } from "./chamber-votes";
 import {
   legislativeSenateElectionDay,
   senateSelectionRuleAt,
-  stateLegislatureMajority,
 } from "./senate-selection";
+import {
+  jointAssemblyCandidates,
+  jointAssemblyVote,
+  recordJointAssemblyVote,
+  seatedStateLegislators,
+} from "./joint-assembly";
 import {
   SENATE_APPOINTMENT_PLACEHOLDER_DAYS,
   SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS,
@@ -621,26 +626,68 @@ function seatNewMember(
     law?.appointment === "governor" && governorParty
       ? governorParty
       : priorParty;
-  // A legislature choosing senators elects its majority's candidate.
-  // ESTIMATED where the state's legislature is not seated in this world: the
-  // state's own lean stands in for its majority, as at a regular election
+  // A legislature choosing senators votes in joint assembly, each member
+  // by their own caucus, relationships and principles (joint-assembly.ts).
+  // A governor's appointee holding the seat stands as a candidate. ESTIMATED
+  // where the state's legislature is not seated in this world: the state's
+  // own lean stands in for its majority, as at a regular election
   // (congress-turnover.ts).
   const legislatureChooses =
     mode === "special-election" &&
     seat.chamberKey === "us-senate" &&
     senateSelectionRuleAt(world, vacancyDate).method === "state-legislature";
-  const condition = legislatureChooses
-    ? seatStartingCondition(world, seat.seatKey)
+  const legislators = legislatureChooses
+    ? seatedStateLegislators(world, seat.stateUsps)
     : null;
-  const legislatureParty = legislatureChooses
-    ? (stateLegislatureMajority(world, seat.stateUsps)?.party ??
-      aggregateCongressAffiliation({
-        democraticShare: condition?.generatedShare ?? null,
-        baselineAffiliation: condition?.affiliation ?? null,
-        incumbentAffiliation: priorParty,
-        incumbentSeeking: false,
-      }))
+  const sittingAppointee =
+    heldByAppointee && latest
+      ? latest.participants.find((row) => row.role === "focus:subject")
+          ?.personId
+      : undefined;
+  const sittingParty = latest ? tagValue(latest, SEAT_PARTY_TAG) : null;
+  const legislatureVote = legislators
+    ? jointAssemblyVote(world, {
+        stableKey: `${due.stableKey}:joint-assembly`,
+        members: legislators,
+        candidates: jointAssemblyCandidates(
+          legislators,
+          sittingAppointee && sittingParty
+            ? { personId: sittingAppointee, party: sittingParty }
+            : null,
+        ),
+      })
     : null;
+  if (legislatureVote && !legislatureVote.winner) {
+    const next = recordJointAssemblyVote(world, {
+      stableKey: `${due.stableKey}:joint-assembly`,
+      seatKey: seat.seatKey,
+      stateUsps: seat.stateUsps,
+      title: congressSeatTitle(seat),
+      occurredAt: world.currentDate,
+      vote: legislatureVote,
+      winnerPersonId: null,
+    });
+    return done(
+      next,
+      "The state legislature could not agree on a senator; the seat stays as it is.",
+      next.history.events.at(-1)!.id,
+    );
+  }
+  const condition =
+    legislatureChooses && !legislators
+      ? seatStartingCondition(world, seat.seatKey)
+      : null;
+  const legislatureParty = legislatureVote
+    ? legislatureVote.winner!.party
+    : legislatureChooses
+      ? aggregateCongressAffiliation({
+          democraticShare: condition?.generatedShare ?? null,
+          baselineAffiliation: condition?.affiliation ?? null,
+          incumbentAffiliation: priorParty,
+          incumbentSeeking: false,
+        })
+      : null;
+  const electedPersonId = legislatureVote?.winner?.personId ?? null;
   const party = legislatureParty
     ? legislatureParty
     : mode === "appointment" && appointeeParty
@@ -672,23 +719,25 @@ function seatNewMember(
   const year = Number(world.currentDate.slice(0, 4));
   let next = appointed
     ? appointed.world
-    : createCharacterHistoryContextPeople(world, [
-        {
-          stableKey: memberKey,
-          ...drawCanonicalNamedIdentity(
-            rng.fork("name"),
-            generatePersonIdentity(rng.fork("identity")),
-          ),
-          birthDate: makeIsoDate(
-            `${year - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
-          ),
-          homeJurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!
-            .id,
-        },
-      ]);
+    : electedPersonId
+      ? world
+      : createCharacterHistoryContextPeople(world, [
+          {
+            stableKey: memberKey,
+            ...drawCanonicalNamedIdentity(
+              rng.fork("name"),
+              generatePersonIdentity(rng.fork("identity")),
+            ),
+            birthDate: makeIsoDate(
+              `${year - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
+            ),
+            homeJurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!
+              .id,
+          },
+        ]);
   const winner = appointed
     ? appointed.personId
-    : characterHistoryContextPersonId(next, memberKey);
+    : (electedPersonId ?? characterHistoryContextPersonId(next, memberKey));
   const seatParty = appointedParty ?? party;
   const leftHouseSeat = appointed
     ? congressSeatHeldBy(appointed.world, appointed.personId)
@@ -729,6 +778,16 @@ function seatNewMember(
     context: CONTEXT,
   });
   const seatedEventId = next.history.events.at(-1)!.id;
+  if (legislatureVote)
+    next = recordJointAssemblyVote(next, {
+      stableKey: `${due.stableKey}:joint-assembly`,
+      seatKey: seat.seatKey,
+      stateUsps: seat.stateUsps,
+      title: congressSeatTitle(seat),
+      occurredAt: next.currentDate,
+      vote: legislatureVote,
+      winnerPersonId: winner,
+    });
   if (appointed) {
     next = recordAppointmentFavor(next, {
       stableKey: `${due.stableKey}:appointed`,

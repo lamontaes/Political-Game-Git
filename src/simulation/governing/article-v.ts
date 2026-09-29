@@ -4,8 +4,10 @@ import {
   constitutionalPosition,
   proposeConstitutionalMeasure,
   recordArticleVRatification,
+  constitutionalActions,
   recordConstitutionalProposalVote,
 } from "../constitutional-process";
+import { hasStableKey } from "../history-index";
 import { addDays, makeIsoDate } from "../dates";
 import { evaluateDecision } from "../decisions";
 import { currentHistoricalCutoff } from "../queries";
@@ -86,6 +88,8 @@ export const ARTICLE_V_STATE_ACTION =
   "governing:article-v-state-action" as const;
 export const CONVENTION_APPLICATION_EVENT =
   "governing.article-v-convention-application" as const;
+export const CONVENTION_RESCISSION_EVENT =
+  "governing.article-v-convention-rescission" as const;
 export const CONVENTION_CALL_EVENT =
   "governing.article-v-convention-called" as const;
 
@@ -279,6 +283,20 @@ function mostLeanYes(
   return yes * 2 > counted.length;
 }
 
+function mostLeanNo(
+  world: World,
+  personIds: readonly EntityId[],
+  propositionId: EntityId,
+): boolean {
+  const player = controlledPersonId(world);
+  const counted = personIds.filter((id) => id !== player);
+  if (counted.length === 0) return false;
+  const no = counted.filter(
+    (id) => principledLeaning(world, id, propositionId).score < 0,
+  ).length;
+  return no * 2 > counted.length;
+}
+
 function leanShare(
   world: World,
   voters: readonly Voter[],
@@ -443,7 +461,8 @@ function congressRoute(world: World, year: number): World {
   const house = congressVoters(world, "house");
   const senate = congressVoters(world, "senate");
   if (house.length === 0 || senate.length === 0) return world;
-  let best: { readonly id: EntityId; readonly share: number } | null = null;
+  const measureKey = `${ARTICLE_V_VERSION}:US:${year}:congress`;
+  const ranked: { readonly id: EntityId; readonly share: number }[] = [];
   for (const id of federalQuestions(world)) {
     if (settledOrPending(world, id)) continue;
     const share = Math.min(
@@ -451,10 +470,19 @@ function congressRoute(world: World, year: number): World {
       leanShare(world, senate, id),
     );
     if (share * 3 < 2) continue;
-    if (!best || share > best.share) best = { id, share };
+    ranked.push({ id, share });
   }
+  ranked.sort((a, b) => b.share - a.share);
+  // A member proposes again only when something has changed since Congress
+  // last turned the question down: the members, or how any of them would
+  // vote now. The same Congress voting the same way would only repeat the
+  // rejection.
+  const best =
+    ranked.find(
+      (row) =>
+        !repeatsLastRejection(world, row.id, measureKey, { house, senate }),
+    ) ?? null;
   if (!best) return world;
-  const measureKey = `${ARTICLE_V_VERSION}:US:${year}:congress`;
   const proposed = propose(world, {
     measureKey,
     propositionId: best.id,
@@ -505,6 +533,60 @@ function congressRoute(world: World, year: number): World {
   return scheduleStateActions(next, measureKey);
 }
 
+/**
+ * Whether Congress last rejected this question and every member who voted
+ * then would cast the same ballot now, with no member added or gone.
+ */
+function repeatsLastRejection(
+  world: World,
+  propositionId: EntityId,
+  measureKey: string,
+  voters: {
+    readonly house: readonly Voter[];
+    readonly senate: readonly Voter[];
+  },
+): boolean {
+  const last = (world.history.constitutionalMeasures ?? [])
+    .filter(
+      (measure) =>
+        measure.jurisdictionKey === "US" &&
+        measure.proposedBy !== "convention" &&
+        measure.ruleDelta.kind === "policy-provision" &&
+        measure.ruleDelta.propositionId === propositionId,
+    )
+    .at(-1);
+  if (!last || constitutionalPosition(world, last.id).phase !== "rejected")
+    return false;
+  const player = controlledPersonId(world);
+  for (const action of constitutionalActions(world, last.id)) {
+    if (action.detail.kind !== "proposal-vote") continue;
+    const bodyKey = action.detail.bodyKey;
+    const now = bodyKey === "house" ? voters.house : voters.senate;
+    const then = new Map(
+      action.detail.vote.dispositions.map((row) => [
+        row.personId,
+        row.disposition,
+      ]),
+    );
+    if (then.size !== now.length) return false;
+    for (const voter of now) {
+      const before = then.get(voter.personId);
+      if (before === undefined) return false;
+      const ballot =
+        voter.personId === player
+          ? "absent"
+          : memberBallot(
+              world,
+              `${measureKey}:${voter.memberKey}`,
+              voter.personId,
+              propositionId,
+            ).ballot;
+      if (ballot !== before) return false;
+    }
+  }
+  return true;
+}
+
 function applicationKey(stateKey: string, propositionId: EntityId): string {
   return `${ARTICLE_V_VERSION}:application:${stateKey}:${propositionId}`;
 }
@@ -513,22 +595,31 @@ function callKey(propositionId: EntityId): string {
   return `${ARTICLE_V_VERSION}:call:${propositionId}`;
 }
 
-/** The states that have applied for a convention on this question. */
+/**
+ * The states whose application for a convention on this question stands.
+ * An application stands until the state's legislature votes to rescind it,
+ * as real legislatures have done; a state may apply again afterward.
+ */
 export function conventionApplications(
   world: World,
   propositionId: EntityId,
 ): readonly string[] {
-  return world.history.events
-    .filter(
-      (event) =>
-        event.type === CONVENTION_APPLICATION_EVENT &&
-        event.tags.includes(`proposition:${propositionId}`),
+  const standing = new Map<string, boolean>();
+  for (const event of world.history.events) {
+    if (
+      event.type !== CONVENTION_APPLICATION_EVENT &&
+      event.type !== CONVENTION_RESCISSION_EVENT
     )
-    .flatMap((event) =>
-      event.tags
-        .filter((tag) => tag.startsWith("state:"))
-        .map((tag) => tag.slice("state:".length)),
-    );
+      continue;
+    if (!event.tags.includes(`proposition:${propositionId}`)) continue;
+    for (const tag of event.tags)
+      if (tag.startsWith("state:"))
+        standing.set(
+          tag.slice("state:".length),
+          event.type === CONVENTION_APPLICATION_EVENT,
+        );
+  }
+  return [...standing].flatMap(([state, stands]) => (stands ? [state] : []));
 }
 
 /** The states' route: applications, and a convention once 34 name one question. */
@@ -542,9 +633,40 @@ function conventionRoute(world: World): World {
     if (voice.personIds.length === 0) continue;
     next = ensureOfficeholderPrinciples(next, voice.personIds);
     for (const id of questions) {
-      const key = applicationKey(stateKey, id);
-      if (next.history.events.some((event) => event.stableKey === key))
+      const first = applicationKey(stateKey, id);
+      const stands =
+        hasStableKey(next.history.events, first) &&
+        conventionApplications(next, id).includes(stateKey);
+      if (stands) {
+        // The legislature rescinds once most of its members have come to
+        // lean against the question (their own principles, read today).
+        if (!mostLeanNo(next, voice.personIds, id)) continue;
+        const name = next.policyCatalog.propositions[id]?.name ?? "";
+        next = recordWorldEvent(next, {
+          stableKey: `${ARTICLE_V_VERSION}:rescission:${stateKey}:${id}:${next.currentDate}`,
+          type: CONVENTION_RESCISSION_EVENT,
+          occurredAt: next.currentDate,
+          recordedAt: next.currentDate,
+          jurisdictionId: federalId,
+          involvedEntityIds: [federalId],
+          participants: [],
+          personFactConstraints: [],
+          visibility: "public",
+          tags: [
+            ARTICLE_V_VERSION,
+            `state:${stateKey}`,
+            `proposition:${id}`,
+            ...(voice.estimated ? ["estimated:congress-delegation"] : []),
+          ],
+          summary: `The ${usps} legislature rescinded its application for a convention to propose an amendment: "${name}".`,
+          context: CONTEXT,
+        });
         continue;
+      }
+      const key = hasStableKey(next.history.events, first)
+        ? `${first}:${next.currentDate}`
+        : first;
+      if (hasStableKey(next.history.events, key)) continue;
       if (settledOrPending(next, id)) continue;
       if (lawInForce(next, federalId, id)?.answer === "yes") continue;
       if (!mostLeanYes(next, voice.personIds, id)) continue;

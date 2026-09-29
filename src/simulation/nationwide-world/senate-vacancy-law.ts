@@ -23,6 +23,10 @@
  * the statute's window is not recorded, `promptDays` is null and the window
  * is ESTIMATED FROM AVERAGE: the median of the windows the other states'
  * statutes set (`SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS`), marked as such.
+ *
+ * September 29, 2026: 44 rows are read from the statute and 6 stay from the
+ * 2017 summary (Arkansas, Georgia, Indiana, Mississippi, New Mexico and
+ * Tennessee), whose official codes could not be read.
  */
 
 export type SenateAppointmentRule =
@@ -138,53 +142,88 @@ const ROWS: readonly SenateVacancyLaw[] = [
   read("AK", "governor", 30, prompt(120), "AS 15.40.140, 15.40.145"),
   read("MA", "governor", null, prompt(145), "M.G.L. c.54 s.140"),
   read("WA", "governor", null, prompt(140), "RCW 29A.28.030, 29A.28.041"),
-  // Not readable by script in 2026 (TO READ): the 2017 summary stands.
-  crs("HI", "governor-from-party-list"),
-  crs("UT", "governor-same-party", NEXT_GENERAL, "Utah Code 20A-1-502"),
-  crs("TX", "governor", prompt(36)),
-  // Appointment, then a prompt special election (CRS 2017).
-  crs("AL", "governor", prompt(null), "Ala. Code 36-9-7"),
-  crs("LA", "governor", prompt(77)),
-  crs("MS", "governor", prompt(90)),
-  crs("VT", "governor", prompt(90)),
-  // Appointment until the next general election (CRS 2017).
-  ...[
-    "AR",
-    "CA",
-    "CO",
-    "DE",
-    "FL",
-    "GA",
-    "ID",
-    "IL",
-    "IN",
-    "IA",
-    "KS",
-    "ME",
-    "MI",
-    "MN",
-    "MO",
-    "MT",
-    "NE",
-    "NV",
-    "NH",
-    "NJ",
-    "NM",
-    "NY",
-    "OH",
-    "PA",
-    "SC",
-    "SD",
-    "TN",
-    "VA",
+  // Read September 28 and 29, 2026, by Research 9 (same file), loaded by
+  // Build 27. Where a statute switches rule by the date of the vacancy, the
+  // row gives its rule for a vacancy early in a term; the cutoffs are not
+  // modeled.
+  // Hawaii: three names from the departed senator's party.
+  read("HI", "governor-from-party-list", null, NEXT_GENERAL, "HRS 17-1"),
+  // Utah: the Legislature nominates three of the departed senator's party.
+  // The special primary and general fall on existing election dates, each
+  // more than 90 days after the step before it, with the proclamation due
+  // in 7 days: 187 days at the earliest.
+  read(
+    "UT",
+    "governor-from-party-list",
+    null,
+    prompt(187),
+    "Utah Code 20A-1-502",
+  ),
+  // Montana: the party's three names, and an election 85 to 100 days after.
+  read("MT", "governor-from-party-list", null, prompt(85), "MCA 13-25-206"),
+  // West Virginia: the party gives three names within 15 days, and the
+  // governor appoints within 5 days of receiving them.
+  read(
     "WV",
-  ].map((usps) => crs(usps, "governor")),
+    "governor-from-party-list",
+    20,
+    NEXT_GENERAL,
+    "W. Va. Code 3-10-4, 3-10-1",
+  ),
+  // Nevada: the appointee must share the former senator's party.
+  read("NV", "governor-same-party", null, NEXT_GENERAL, "NRS 304.030"),
+  // Kansas: the governor picks from three people a legislative committee
+  // recommends, of any party; the committee is not modeled.
+  read("KS", "governor", null, NEXT_GENERAL, "K.S.A. 25-322 to 25-325"),
+  // Appointment, then a special election on its own schedule. Texas's
+  // Chapter 203 dates are unread, so its 36 days stay the 2017 summary's.
+  // Vermont (within six months), Louisiana (a date the governor sets;
+  // appointment within 10 days) and Alabama ("forthwith") set no fixed
+  // window.
+  read("TX", "governor", null, prompt(36), "Tex. Elec. Code 204.001-204.005"),
+  read("VT", "governor", null, prompt(null), "17 V.S.A. 2621, 2622"),
+  read("LA", "governor", 10, prompt(null), "La. R.S. 18:1278"),
+  read("AL", "governor", null, prompt(null), "Ala. Code 36-9-7 to 36-9-9"),
+  // Appointment until the next general election. Pennsylvania also uses an
+  // odd-year municipal election, which the game does not hold for Congress.
+  // Missouri's election statute is unread; its timing is ESTIMATED FROM
+  // AVERAGE, the most common rule among the states read.
+  ...(
+    [
+      ["CA", "Cal. Elec. Code 10720"],
+      ["CO", "C.R.S. 1-12-201"],
+      ["DE", "15 Del. C. 7321"],
+      ["FL", "Fla. Stat. 100.161"],
+      ["ID", "Idaho Code 59-910"],
+      ["IL", "10 ILCS 5/25-8"],
+      ["IA", "Iowa Code 69.8, 69.11, 69.13"],
+      ["ME", "21-A M.R.S. 391"],
+      ["MI", "MCL 168.105"],
+      ["MN", "Minn. Stat. 204D.28"],
+      ["MO", "RSMo 105.040"],
+      ["NE", "Neb. Rev. Stat. 32-565"],
+      ["NH", "RSA 661:5"],
+      ["NJ", "N.J.S.A. 19:3-26"],
+      ["NY", "N.Y. Public Officers Law 42(4-a)"],
+      ["OH", "Ohio Rev. Code 3521.02"],
+      ["PA", "25 P.S. 2776"],
+      ["SC", "S.C. Code 7-19-20"],
+      ["SD", "SDCL 12-11-1, 12-11-4, 12-11-5"],
+      ["VA", "Va. Code 24.2-207"],
+    ] as const
+  ).map(([usps, citation]) =>
+    read(usps, "governor", null, NEXT_GENERAL, citation),
+  ),
+  // No official copy could be read in 2026 (captchas or script-only pages):
+  // the 2017 summary stands, a source for each.
+  crs("MS", "governor", prompt(90)),
+  ...["AR", "GA", "IN", "NM", "TN"].map((usps) => crs(usps, "governor")),
 ];
 
 /**
  * ESTIMATED FROM AVERAGE: the days to a prompt special election where the
  * state's statute gives no window, the median of the windows the recorded
- * statutes do give (10 states; 92 days as recorded September 28, 2026).
+ * statutes do give (10 states; 107 days as recorded September 29, 2026).
  * Affects when a vacant seat in such a state is filled.
  */
 export const SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS: number = (() => {

@@ -286,6 +286,61 @@ export function principleView(
   };
 }
 
+/**
+ * How far two people's principles agree: for each principle both hold (the
+ * latest record of each, formed by today), the viewer's conviction counts
+ * for agreement where the stances match and against where they differ. The
+ * importance uses the vote cut points above; null where nothing is shared.
+ */
+export function principleAgreement(
+  world: World,
+  viewerId: EntityId,
+  subjectId: EntityId,
+): {
+  readonly score: number;
+  readonly importance: "slight" | "moderate" | "strong" | "decisive" | null;
+  readonly recordIds: readonly EntityId[];
+} {
+  const latest = (personId: EntityId) => {
+    const map = new Map<EntityId, PrincipleRecord>();
+    for (const record of principlesByPerson(world).get(personId) ?? []) {
+      if (record.formedAt > world.currentDate) continue;
+      const prior = map.get(record.principleId);
+      if (!prior || prior.sequence < record.sequence)
+        map.set(record.principleId, record);
+    }
+    return map;
+  };
+  const own = latest(viewerId);
+  const theirs = latest(subjectId);
+  let score = 0;
+  const recordIds: EntityId[] = [];
+  for (const [principleId, mine] of own) {
+    const other = theirs.get(principleId);
+    if (!other || mine.stance === "conflicted" || other.stance === "conflicted")
+      continue;
+    score +=
+      (mine.stance === other.stance ? 1 : -1) *
+      CONVICTION_WEIGHT[mine.conviction];
+    recordIds.push(mine.id);
+  }
+  const size = Math.abs(score);
+  return {
+    score,
+    importance:
+      size === 0
+        ? null
+        : size >= VOTE_IMPORTANCE.decisive
+          ? "decisive"
+          : size >= VOTE_IMPORTANCE.strong
+            ? "strong"
+            : size >= VOTE_IMPORTANCE.moderate
+              ? "moderate"
+              : "slight",
+    recordIds,
+  };
+}
+
 /** Whether this person holds any principle at all. */
 export function holdsPrinciples(world: World, personId: EntityId): boolean {
   return (principlesByPerson(world).get(personId)?.length ?? 0) > 0;

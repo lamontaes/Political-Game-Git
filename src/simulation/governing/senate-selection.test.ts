@@ -44,6 +44,31 @@ import {
   senateSelectionRuleAt,
   stateLegislatureMajority,
 } from "./senate-selection";
+import { JOINT_ASSEMBLY_VOTE_EVENT } from "./joint-assembly";
+
+/** The joint assembly's roll call for a seat: every member's own reason, and a majority for the winner. */
+function expectElectedByMajority(world: World, seatKey: string): void {
+  const vote = world.history.events.find(
+    (event) =>
+      event.type === JOINT_ASSEMBLY_VOTE_EVENT &&
+      event.tags.includes(`seat:${seatKey}`),
+  )!;
+  expect(vote).toBeDefined();
+  const ballots = vote.participants.filter(
+    (row) => row.role === "agency:legislature-vote",
+  );
+  expect(ballots.length).toBeGreaterThan(0);
+  for (const row of ballots) expect(row.detail!.split("|")[1]).toBeTruthy();
+  if (vote.tags.includes("outcome:deadlocked")) return;
+  const winner = vote.participants.find((row) => row.role === "focus:subject")!;
+  const cast = ballots.filter((row) => !row.detail!.startsWith("none|"));
+  const tallies = vote.tags
+    .filter((tag) => tag.startsWith("votes:"))
+    .map((tag) => Number(tag.slice(tag.lastIndexOf(":") + 1)));
+  expect(Math.max(...tallies) * 2).toBeGreaterThan(cast.length);
+  expect(vote.summary).toContain("legislature elected");
+  expect(winner.personId).toBeTruthy();
+}
 
 /** A life in a place drawn by the seed from every place a life can start. */
 function openingWorld(seed: string): World {
@@ -141,7 +166,7 @@ describe("Build 27 step 4: how a state's senators are chosen", () => {
     );
   }, 300_000);
 
-  it("after the amendment, a state's legislature fills an empty Senate seat with its majority's senator", () => {
+  it("after the amendment, a state's legislature fills an empty Senate seat by its members' votes", () => {
     const world = ratify(
       openingWorld("b27-selection-vacancy"),
       "state-legislature",
@@ -211,16 +236,27 @@ describe("Build 27 step 4: how a state's senators are chosen", () => {
     const filled = projectCongress(next)!.senate.seats.find(
       (s) => s.seatKey === seat.seatKey,
     )!;
-    expect(filled.occupant.kind).toBe("member");
-    const majority = stateLegislatureMajority(next, seat.stateUsps);
-    expect(majority).not.toBeNull();
-    if (majority && filled.occupant.kind === "member") {
+    expect(stateLegislatureMajority(next, seat.stateUsps)).not.toBeNull();
+    expectElectedByMajority(next, seat.seatKey);
+    if (filled.occupant.kind === "member") {
       const term = next.history.events.find(
         (event) =>
           filled.occupant.kind === "member" &&
           event.id === filled.occupant.member.termId,
       )!;
-      expect(term.tags).toContain(`${SEAT_PARTY_TAG}${majority.party}`);
+      expect(term.tags.some((tag) => tag.startsWith(SEAT_PARTY_TAG))).toBe(
+        true,
+      );
+    } else {
+      // A deadlocked legislature leaves the seat empty.
+      expect(
+        next.history.events.some(
+          (event) =>
+            event.type === JOINT_ASSEMBLY_VOTE_EVENT &&
+            event.tags.includes(`seat:${seat.seatKey}`) &&
+            event.tags.includes("outcome:deadlocked"),
+        ),
+      ).toBe(true);
     }
   }, 900_000);
 
@@ -255,12 +291,13 @@ describe("Build 27 step 4: how a state's senators are chosen", () => {
       ).toBeFalsy();
     }
     expect(results.summary).toContain("the state legislatures chose");
-    // Where a state's legislature is seated, its majority's party holds the seat.
+    // Where a state's legislature is seated, its members elected the senator
+    // by a majority of the votes cast, each for their own reasons.
     for (const row of senateSeats) {
-      const [seatKey, party] = row.detail!.split("|");
-      const usps = seatKey!.split(":")[1]!;
-      const majority = stateLegislatureMajority(next, usps);
-      if (majority) expect(party).toBe(majority.party);
+      const seatKey = row.detail!.split("|")[0]!;
+      const usps = seatKey.split(":")[1]!;
+      if (stateLegislatureMajority(next, usps))
+        expectElectedByMajority(next, seatKey);
     }
   }, 1_800_000);
 });

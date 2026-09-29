@@ -29,11 +29,23 @@ describe("Build 27 step 3: each state's Senate vacancy law", () => {
       appointment: "governor",
       specialElection: { kind: "next-general" },
     });
+    expect(senateVacancyLaw("UT")).toMatchObject({
+      appointment: "governor-from-party-list",
+      specialElection: { kind: "prompt", promptDays: 187 },
+      source: "statute-read-2026",
+    });
+    // Six states whose official code could not be read keep the 2017 summary.
+    expect(
+      senateVacancyLawRows()
+        .filter((row) => row.source === "crs-r44781-2017")
+        .map((row) => row.stateUsps)
+        .sort(),
+    ).toEqual(["AR", "GA", "IN", "MS", "NM", "TN"]);
     // D.C. and the territories elect no senators.
     expect(senateVacancyLaw("DC")).toBeNull();
   });
 
   it("estimates an unrecorded special-election window from the other states' median", () => {
-    expect(SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS).toBe(92);
+    expect(SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS).toBe(107);
   });
 });
