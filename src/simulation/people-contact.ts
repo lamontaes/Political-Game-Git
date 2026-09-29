@@ -269,7 +269,11 @@ function contactChannels(
   if (basis.includes("works where you work")) {
     channels.push({ kind: "through-work", label: "At work", note: waiting });
   }
-  if (basis.includes("in the same group as you")) {
+  // A member of the organizer's own chapter reaches them through it once.
+  if (
+    basis.includes("in the same group as you") &&
+    !channels.some((channel) => channel.kind === "through-group")
+  ) {
     channels.push({
       kind: "through-group",
       label: "Through the group",
