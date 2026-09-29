@@ -541,6 +541,7 @@ export function canonicalHomeDistrictKnowledge(
     catalog: districtIdentityCatalog(),
     placeGeoid: canonicalHomePlaceGeoid(world, personId),
     chamber,
+    asOf: world.currentDate,
   });
   if (join.kind === "known") return "known";
   return join.kind === "conflicting" ? "split" : "unknown";
@@ -563,6 +564,7 @@ export function canonicalHomeDistrictCandidates(
     catalog: districtIdentityCatalog(),
     placeGeoid: canonicalHomePlaceGeoid(world, personId),
     chamber,
+    asOf: world.currentDate,
   });
   return join.kind === "conflicting" ? (join.candidateGeoids ?? []) : [];
 }
@@ -612,6 +614,7 @@ function confirmCanonicalHomeJoin(
     catalog: districtIdentityCatalog(),
     placeGeoid: canonicalHomePlaceGeoid(world, personId),
     chamber: binding.chamber,
+    asOf: world.currentDate,
   });
   if (join.kind !== "known" || join.binding.recordId !== binding.recordId) {
     return {
@@ -666,6 +669,7 @@ export function syncDistrictMembershipFromCanonicalHome(
       catalog: districtIdentityCatalog(),
       placeGeoid,
       chamber,
+      asOf: world.currentDate,
     });
     const open = districtResidenceIntervals(next).find(
       (interval) =>
@@ -714,7 +718,7 @@ export function syncDistrictMembershipFromCanonicalHome(
       provenance: {
         method: "canonical-home-join",
         sourceEventId: residence.id,
-        note: `Whole-place membership from ${placeRelationVintageFor(chamber)} for Census place ${placeGeoid}.`,
+        note: `Whole-place membership from ${placeRelationVintageFor(chamber, placeGeoid, world.currentDate)} for Census place ${placeGeoid}.`,
       },
     });
     if (recorded.kind === "recorded") next = recorded.world;
