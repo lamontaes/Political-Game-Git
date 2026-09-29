@@ -789,13 +789,13 @@
         "kind": "linear"
       },
       "size": -0.021,
-      "per": "percentage point of residents receiving SNAP, from where the place began",
+      "per": "percentage point of residents receiving SNAP that a law or other cause moved",
       "lagMonths": 0,
       "group": "place",
       "owner": "F",
-      "anchor": "SNAP cuts a household's chance of food insecurity about 30%. 51.1% of households that received SNAP in 2024 were food insecure, so without it about 73% would be: 21.9 points more for each household that loses SNAP. SNAP households average 1.9 people and all households 2.5, so a point of residents is 1.3% of households, and food insecurity rises 0.29 points, 2.1% of the 13.7% national rate. The low end reads the 30% against the rate with SNAP (15.3 points); the high end is a quarter above the center. A place's own drift in SNAP receipt is not tied to need, so it moves food insecurity a little too.",
+      "anchor": "SNAP cuts a household's chance of food insecurity about 30%. 51.1% of households that received SNAP in 2024 were food insecure, so without it about 73% would be: 21.9 points more for each household that loses SNAP. SNAP households average 1.9 people and all households 2.5, so a point of residents is 1.3% of households, and food insecurity rises 0.29 points, 2.1% of the 13.7% national rate. The low end reads the 30% against the rate with SNAP (15.3 points); the high end is a quarter above the center. Only the part of SNAP receipt that a law or other cause moved counts: the share's own drift stands for changes in need, which move food insecurity the other way.",
       "source": "Ratcliffe, McKernan and Zhang 2011, American Journal of Agricultural Economics 93(4); USDA ERS, Household Food Security in the United States in 2024 (ERR-358), table 8; USDA FNS, Characteristics of SNAP Households: Fiscal Year 2023; Census Bureau, America's Families and Living Arrangements: 2024",
-      "from": "program.snap-receipt",
+      "from": "program.snap-receipt:moved-by-causes",
       "evidence": "researched",
       "range": [-0.026, -0.015]
     },

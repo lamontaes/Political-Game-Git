@@ -82,7 +82,7 @@ describe("SNAP receipt", () => {
     }
   });
 
-  it("raises food insecurity about 2.1% for each point of residents who stop receiving SNAP", () => {
+  it("raises food insecurity about 2.1% for each point of residents a law takes off SNAP", () => {
     // 51.1% of SNAP households are food insecure (ERR-358); SNAP cuts that
     // chance about 30% (Ratcliffe, McKernan and Zhang 2011), so a household
     // that loses it goes to about 73%. A point of residents is 1.3% of
@@ -94,7 +94,7 @@ describe("SNAP receipt", () => {
     expect(outcomeLinkStatus(link)).toBe("built");
     const texas = stateJurisdictionForKey("US-TX")!.id;
     const base = PLACE_OUTCOME_BASES[MEASURE]!.places["US-TX"]!;
-    const withShare = (value: number): World =>
+    const withShare = (value: number, structural = base): World =>
       ({
         ...world("2026-03-01"),
         placeOutcomes: {
@@ -108,8 +108,8 @@ describe("SNAP receipt", () => {
                   jurisdictionId: texas,
                   month: makeIsoDate("2026-02-01"),
                   base,
-                  structural: base,
-                  multiplier: value / base,
+                  structural,
+                  multiplier: value / structural,
                   value,
                   causes: [],
                 },
@@ -118,9 +118,9 @@ describe("SNAP receipt", () => {
           ],
         },
       }) as unknown as World;
-    const cause = (value: number) =>
+    const cause = (value: number, structural = base) =>
       outcomeFactor(
-        withShare(value),
+        withShare(value, structural),
         texas,
         "household.food-insecurity",
         makeIsoDate("2026-03-01"),
@@ -128,5 +128,8 @@ describe("SNAP receipt", () => {
     expect(cause(base)?.factor).toBe(1);
     expect(cause(base - 1)?.factor).toBeCloseTo(1.021, 10);
     expect(cause(base + 1)?.factor).toBeCloseTo(0.979, 10);
+    // The share's own drift stands for changes in need, not for SNAP
+    // reaching fewer people who need it, so it does not move food insecurity.
+    expect(cause(base - 1, base - 1)?.factor).toBe(1);
   });
 });
