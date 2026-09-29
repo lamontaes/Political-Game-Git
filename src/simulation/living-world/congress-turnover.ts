@@ -13,6 +13,10 @@ import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
+import {
+  senateSelectionRuleAt,
+  stateLegislatureMajority,
+} from "../governing/senate-selection";
 import { seatStartingCondition } from "../world-setup/conditions";
 import { aggregateCongressAffiliation } from "./congress-aggregate-outcome";
 import {
@@ -149,6 +153,8 @@ interface SeatOutcome {
   readonly party: string;
   readonly caucus: string;
   readonly serviceSince: IsoDate;
+  /** Set when the state's legislature, not its voters, chose the senator. */
+  readonly chosenByLegislature?: boolean;
 }
 
 /** The world's own contest for this seat and day, if one was scheduled. */
@@ -271,6 +277,13 @@ function prepareCongressIntake(
   const plans: CongressCandidateSeatPlan[] = [];
   for (const { seat, intakeDate } of due) {
     if (congressCandidateSlate(next, seat.seatKey, year)) continue;
+    // A seat the legislature fills has no slate; its recorded intent is
+    // the mark that it was already considered.
+    if (
+      legislatureChooses(next, seat, electionDay) &&
+      seatCandidacyIntent(next, seat.seatKey, year) !== null
+    )
+      continue;
     const record = latest.get(seat.seatKey);
     const incumbentPersonId =
       record?.type === SEAT_TENURE_EVENT
@@ -370,6 +383,9 @@ function prepareCongressIntake(
             : "they decided to step down.",
       { occurredAt: intakeDate, decisionTraceId },
     );
+    // A seat the state's legislature fills has no candidates filing with
+    // the voters, and no primary.
+    if (legislatureChooses(next, seat, electionDay)) continue;
     plans.push({
       seat,
       incumbentPersonId,
@@ -379,6 +395,18 @@ function prepareCongressIntake(
     });
   }
   return prepareCongressCandidateSlates(next, year, plans);
+}
+
+/** Whether the law in force has this seat chosen by the state's legislature. */
+function legislatureChooses(
+  world: World,
+  seat: CongressSeat,
+  electionDay: IsoDate,
+): boolean {
+  return (
+    seat.chamberKey === "us-senate" &&
+    senateSelectionRuleAt(world, electionDay).method === "state-legislature"
+  );
 }
 
 /** Whether this is the person being played, whose seat only their own race decides. */
@@ -407,6 +435,50 @@ function decideSeat(
     aliveOn(world, incumbent, electionDay) &&
     ageOn(person.birthDate, electionDay) <
       CONGRESS_TURNOVER_PROFILE.retirementAge;
+  // Where the legislatures choose senators, the majority of the state's
+  // legislature, both houses in joint assembly, elects (Act of July 25,
+  // 1866). A seeking incumbent of that party is returned. ESTIMATED where
+  // the state's legislature is not seated in this world: the state's own
+  // lean stands in for its majority.
+  if (legislatureChooses(world, seat, electionDay)) {
+    const majority = stateLegislatureMajority(world, seat.stateUsps);
+    const condition = seatStartingCondition(world, seat.seatKey);
+    const seeking =
+      eligible &&
+      !isControlled(world, incumbent!) &&
+      seatCandidacyIntent(world, seat.seatKey, year) !== false;
+    const party =
+      majority?.party ??
+      aggregateCongressAffiliation({
+        democraticShare: condition?.generatedShare ?? null,
+        baselineAffiliation: condition?.affiliation ?? null,
+        incumbentAffiliation: recordedParty,
+        incumbentSeeking: seeking,
+      });
+    if (party === null) return null;
+    const caucus =
+      party === "democratic" || party === "republican"
+        ? party
+        : (condition?.caucus ?? recordedCaucus ?? "none");
+    const returns = seeking && recordedParty === party && incumbent;
+    return {
+      seat,
+      incumbentPersonId: returns ? incumbent! : null,
+      successorKey: returns
+        ? null
+        : `${LIVING_WORLD_KEYS.seat(seat.seatKey)}:term:${newStart}:member`,
+      party,
+      caucus,
+      serviceSince: returns
+        ? ((record
+            ? (tagValue(record, "service-since:") as IsoDate | null)
+            : null) ??
+          record?.occurredAt ??
+          newStart)
+        : newStart,
+      chosenByLegislature: true,
+    };
+  }
   // A contest this world actually scheduled decides its own seat. The
   // turnover profile is a fallback for seats nobody contested here, and it
   // never overwrites a recorded result.
@@ -638,6 +710,7 @@ function holdCongressElection(world: World, year: number): World {
       ? createCharacterHistoryContextPeople(intents, inputs)
       : intents;
   const returning = outcomes.filter((o) => o.incumbentPersonId).length;
+  const byLegislature = outcomes.filter((o) => o.chosenByLegislature).length;
   const winnerIds = outcomes.map(
     (outcome) =>
       outcome.recordedWinnerPersonId ??
@@ -673,8 +746,15 @@ function holdCongressElection(world: World, year: number): World {
       CONGRESS_TURNOVER_PROFILE.id,
       `term-start:${newStart}`,
       ...unfilledSlates.map((seat) => `unfilled:${seat.seatKey}`),
+      ...outcomes
+        .filter((outcome) => outcome.chosenByLegislature)
+        .map((outcome) => `chosen-by-legislature:${outcome.seat.seatKey}`),
     ],
-    summary: `Voters chose ${outcomes.length} members of Congress in the ${year} general election: ${returning} incumbents return and ${outcomes.length - returning} seats get new members.`,
+    summary: `${
+      byLegislature > 0
+        ? `Voters chose ${outcomes.length - byLegislature} members of Congress and the state legislatures chose ${byLegislature} senators`
+        : `Voters chose ${outcomes.length} members of Congress`
+    } in the ${year} general election: ${returning} incumbents return and ${outcomes.length - returning} seats get new members.`,
     context: {
       location: null,
       socialContext: null,

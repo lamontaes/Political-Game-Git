@@ -119,7 +119,23 @@ export const AMENDABLE_RULE_FIELDS = {
    * bounds are game bounds; a real court has had from 1 to 15 or so seats.
    */
   "court.seats": { kind: "integer", min: 1, max: 99, family: "judiciary" },
+  /**
+   * How every state's U.S. senators are chosen. The office key is the Senate,
+   * `us-senate`. The Seventeenth Amendment (1913) has the people of each
+   * state elect them; before it, Article I, section 3 had each state's
+   * legislature choose. Only a federal constitutional amendment changes it.
+   * Read by `governing/senate-selection.ts`, which Congress turnover and
+   * Senate vacancies consult.
+   */
+  "senate.selection": {
+    kind: "choice",
+    options: ["popular-vote", "state-legislature"],
+    family: "senate",
+  },
 } as const;
+
+/** The office key the rule for choosing senators is recorded under. */
+export const SENATE_SELECTION_OFFICE_KEY = "us-senate";
 
 /** The office key a state's law on its towns is recorded under. */
 export function municipalLawOfficeKey(stateUsps: string): string {
@@ -195,6 +211,7 @@ const AMENDABLE_RULE_FIELD_LABELS: Readonly<
   "municipal.recall.doctrine": "how towns' voters may recall an official",
   "labor.minimumWage.hourlyCents": "state minimum wage",
   "court.seats": "the number of judges on the court",
+  "senate.selection": "how each state's U.S. senators are chosen",
 };
 
 const CHOICE_WORDS: Readonly<Record<string, string>> = {
@@ -206,6 +223,8 @@ const CHOICE_WORDS: Readonly<Record<string, string>> = {
   "judicial-cause-removal-trial":
     "removal by a court for cause, with no recall vote",
   prohibited: "no recall of town officials",
+  "popular-vote": "election by the people of each state",
+  "state-legislature": "election by each state's legislature",
 };
 
 /** Plain words for a changed value, for a player-facing sentence. */
@@ -395,6 +414,8 @@ function officeBelongsToState(
       officeKey.startsWith(`us-${lower}:`) || officeKey.startsWith(`${lower}-`)
     );
   }
+  // No state's own law reaches how the Senate is chosen.
+  if (AMENDABLE_RULE_FIELDS[field].family === "senate") return false;
   if (AMENDABLE_RULE_FIELDS[field].family === "legislature" && rulePackId) {
     // A statute names a chamber its own legislature actually has.
     const [packId, chamberKey] = officeKey.split(":");
@@ -490,6 +511,10 @@ export function fileRuleChangeProvision(
     input.officeKey,
     input.applicability,
   );
+  if (AMENDABLE_RULE_FIELDS[input.field].family === "senate")
+    throw new Error(
+      "How senators are chosen is set by the Seventeenth Amendment; only an amendment to the U.S. Constitution can change it.",
+    );
   const stateUsps = stateUspsForPack(measure.rulePackId, input.field);
   if (!stateUsps) {
     // Local governments change these rules by charter, which is not routed
@@ -822,6 +847,20 @@ export function assertConstitutionalRuleFieldDelta(
       );
       if (!FEDERAL_COURT_IDS.has(delta.officeKey))
         throw new Error("The amendment names a court that is not federal.");
+      return;
+    }
+    // An amendment may return the choice of senators to the legislatures,
+    // as Article I, section 3 had it before 1913, or restore election by the
+    // people.
+    if (delta.field === "senate.selection") {
+      assertAmendableRuleValue(
+        delta.field,
+        delta.value,
+        delta.officeKey,
+        delta.applicability,
+      );
+      if (delta.officeKey !== SENATE_SELECTION_OFFICE_KEY)
+        throw new Error("How senators are chosen is a rule of the Senate.");
       return;
     }
     // An Article V amendment reaches the national offices only. NOT MODELED:

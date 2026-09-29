@@ -37,6 +37,11 @@ import {
 import { currentGovernorOf, currentPresidentOf } from "../crisis/offices";
 import { publicPartyOf } from "./chamber-votes";
 import {
+  legislativeSenateElectionDay,
+  senateSelectionRuleAt,
+  stateLegislatureMajority,
+} from "./senate-selection";
+import {
   SENATE_APPOINTMENT_PLACEHOLDER_DAYS,
   SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS,
   senateVacancyLaw,
@@ -408,10 +413,42 @@ function openSenateVacancy(
   stateId: EntityId,
 ): { world: World; ruling: OfficeContinuityRuling } {
   const title = congressSeatTitle(seat);
-  const law = senateVacancyLaw(seat.stateUsps);
-  const appoints = law ? law.appointment !== "none" : true;
   const from =
     world.currentDate > vacancyDate ? world.currentDate : vacancyDate;
+  // Where the Constitution in force has the legislatures choose senators,
+  // the state's legislature fills the seat (Act of July 25, 1866, sec. 2).
+  if (
+    senateSelectionRuleAt(world, vacancyDate).method === "state-legislature"
+  ) {
+    const day = legislativeSenateElectionDay(from);
+    const dueKey = specialElectionKey(seat, vacancyDate);
+    const next = world.history.futureDueItems.some(
+      (due) => due.stableKey === dueKey,
+    )
+      ? world
+      : scheduleFutureDueItem(world, {
+          stableKey: dueKey,
+          dueAt: day,
+          transitionKey: HOUSE_SPECIAL_ELECTION,
+          entityIds: [chamberId],
+          jurisdictionId: stateId,
+          provenance: {
+            kind: "authored",
+            note: "The state's legislature elects a senator in joint assembly on the second Tuesday after it has notice of the vacancy (Act of July 25, 1866, ch. 245, sec. 2).",
+          },
+        });
+    return {
+      world: next,
+      ruling: {
+        officeKey: seat.seatKey,
+        title,
+        outcome: "special-election",
+        sentence: `The seat is vacant. The state's legislature elects a senator in joint assembly on ${spokenDate(day)}.`,
+      },
+    };
+  }
+  const law = senateVacancyLaw(seat.stateUsps);
+  const appoints = law ? law.appointment !== "none" : true;
   const deadline = law?.appointmentDeadlineDays ?? null;
   const appointmentDay = addDays(
     from,
@@ -574,8 +611,16 @@ function seatNewMember(
     law?.appointment === "governor" && governorParty
       ? governorParty
       : priorParty;
-  const party =
-    mode === "appointment" && appointeeParty
+  // A legislature choosing senators elects its majority's candidate.
+  const legislatureParty =
+    mode === "special-election" &&
+    seat.chamberKey === "us-senate" &&
+    senateSelectionRuleAt(world, vacancyDate).method === "state-legislature"
+      ? (stateLegislatureMajority(world, seat.stateUsps)?.party ?? null)
+      : null;
+  const party = legislatureParty
+    ? legislatureParty
+    : mode === "appointment" && appointeeParty
       ? appointeeParty
       : priorParty && majors.includes(priorParty)
         ? rng.integer(0, 1000) <
