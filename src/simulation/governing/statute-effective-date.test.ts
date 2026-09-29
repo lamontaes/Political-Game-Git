@@ -29,8 +29,8 @@ describe("when a state law takes effect by its state's own rule", () => {
         continue;
       }
       researched += 1;
-      // Never before the act, and within a year and a half of it.
-      expect(operative! >= makeIsoDate("2026-03-15"), key).toBe(true);
+      // After the act, and within a year and a half of it.
+      expect(operative! > makeIsoDate("2026-03-15"), key).toBe(true);
       expect(operative! < makeIsoDate("2027-09-15"), key).toBe(true);
     }
     expect(researched).toBe(5);
@@ -53,7 +53,8 @@ describe("when a state law takes effect by its state's own rule", () => {
   it("counts ninety days from Missouri's May 30 adjournment, so August 28", () => {
     expect(at("US-MO", "2026-04-02")).toBe("2026-08-28");
     expect(at("US-MO", "2026-07-10")).toBe("2026-08-28");
-    // Past the regular session's date: never before the act itself.
-    expect(at("US-MO", "2026-09-15")).toBe("2026-09-15");
+    // Past the regular session's date: a special session the rule does not
+    // date, so the caller keeps its labeled default.
+    expect(at("US-MO", "2026-09-15")).toBeNull();
   });
 });

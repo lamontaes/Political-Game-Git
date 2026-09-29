@@ -374,8 +374,8 @@ describe("the law in force keeps to each level's powers", () => {
     const world = worldWith([ordinance]);
     // Kentucky's own starting law answers it; the ordinance never does.
     const state = lawInForce(world, kentucky, questionId(key));
+    expect(state?.origin).toBe("in-force-at-start");
     expect(lawInForce(world, lexington, questionId(key))).toEqual(state);
-    expect(state?.origin ?? "in-force-at-start").toBe("in-force-at-start");
     expect(world.history.legislativeMeasures).toHaveLength(1);
   });
 

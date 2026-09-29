@@ -43,8 +43,9 @@ export function statuteEffectiveRule(
 
 /**
  * The date a state statute enacted on `enactedAt` takes effect under its
- * state's rule, or null where the state's rule is not researched. Never
- * earlier than the enactment itself.
+ * state's rule, or null where the state's rule is not researched or does not
+ * reach the act (a Missouri act passed after its regular session, which only
+ * a special session can do).
  */
 export function stateStatuteOperativeAt(
   jurisdictionKey: string,
@@ -64,13 +65,14 @@ export function stateStatuteOperativeAt(
         : isoDateFromParts(year + 1, rule.month, rule.day);
     }
     case "days-after-session-end": {
-      // The regular session of the act's year; an act signed after the
-      // session ends counts from that same adjournment.
+      // The regular session of the act's year. An act passed after that
+      // date came from a special session, whose own adjournment the game
+      // does not record, so the rule does not date it.
       const operative = addDays(
         isoDateFromParts(year, rule.sessionEnds.month, rule.sessionEnds.day),
         rule.days,
       );
-      return operative > enactedAt ? operative : enactedAt;
+      return operative > enactedAt ? operative : null;
     }
   }
 }
