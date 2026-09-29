@@ -12,6 +12,17 @@ self-checks are in the matching `.claude/skills/<name>/SKILL.md`.
   health, the law in force and the place's conditions decide. Real rates check
   totals, they never pick one actor's outcome. See `no-dice` — a rolled outcome
   erases the player agency the game exists to reward.
+- **Sliding scales, causes, births (owner, Sept 29).** Nothing flips at a
+  threshold; every factor bears on a decision smoothly. World events happen from
+  causes (a hazard record and season, a health record, a law, a price change),
+  never a monthly chance. A new person's looks, name and upbringing come from
+  their parents, real records and their family's circumstances; a seeded pick
+  is allowed only among real options. Starting values are realistic (real
+  averages with a per-world spread), not necessarily the real 2026 figure.
+- **Speed budget (owner, Sept 29).** No change may make a game year more than
+  20% slower than main; time a 3-year watched world before and after
+  (`docs/codex/06-speed.md` adds the script). Never scan the whole world or a
+  whole history list every day; use indexes or act on the day something changed.
 - **One rule, all 56 places.** Never name a state, city or GEOID in logic; place
   facts live in data, and watched runs and tests draw a random place from all 56
   (50 states, D.C., Puerto Rico, Guam, USVI, American Samoa, Northern Marianas),
