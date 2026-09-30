@@ -2,6 +2,26 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30, 6:30 a.m. check-in
+
+### MERGED
+#1198 verified at2479c0b71207e7e81606219aae1f8ce9b7ddeae6. No additional landing verified. CTO6:04 queue is paused at1205: Merge reports7/7 tests but four new TS18048 test-root diagnostics. CTO owns the repair; no later merge inferred.
+
+### CONNECTIONS TABLE
+| Connection | Evidence | Action |
+| --- | --- | --- |
+| Law traces →7am table | Team1 JSON25 IDs at0d64e106a5c49645bc6904952c514e30d5919b96 | All25 need research;11 also feature gaps; pinned input retrieved |
+| School laws → table |1204 d1b1e1543e35b7b8de2558ba9edc731f657a7784 |11 catalog rows plus3 distinct instruments, not14 catalog questions |
+| Congress → introductions |1200 f31545c0f6fd86a293bcb7475d3dddfedaa9e2a6 |0→0 introductions/referrals;12→0 false summaries; producer unresolved |
+| Strength → real readers |1199 READY08dc54ac26032acffa273e8fab98030512589210 | Team1 reports99 focused tests/types; measurement review pending |
+| Opening records → scene | Team8 assigned state/county/family/English summary; Team5 schedule/day mount | Exact hunks requested before overlapping edits; onePR per fix |
+
+### BLOCKED
+1205 needs CTO-owned test fixture narrowing and renewed head approval.1174 no retry, morning list. Remaining law-owner packets needed for complete catalog compilation. Full Congress fix, watched eviction and five-year acceptance remain unproven.
+
+### EFFECTS
+No new coordinator-verified watched causal chain. Source outcomes and law-table classifications retain research/feature gaps. Team7 kids branchfb64b55559b484f348a82a2ad44a8602b690b55e is reported published candidate only; no approval/import.
+
 ## September 30, 6:00 a.m. check-in
 
 ### MERGED
