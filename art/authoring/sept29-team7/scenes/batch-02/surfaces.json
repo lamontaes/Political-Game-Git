@@ -1,0 +1,1017 @@
+{
+  "schema": "ocd-place-surfaces/v1",
+  "note": "Candidate quads in each source image native pixels, TL/TR/BR/BL. Independent source keys prevent accidental sharing across changed cameras. No enlargement. Job08 must remeasure full-size rasters or apply exact source mapping.",
+  "places": {
+    "place-campaign-office-storefron--3": {
+      "checked": [
+        "place-campaign-office-storefron--3.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-campaign-office-storefron--3-whiteboard",
+          "kind": "board",
+          "finish": "whiteboard",
+          "what": "Rear whiteboard",
+          "quad": [
+            [
+              266,
+              81
+            ],
+            [
+              398,
+              81
+            ],
+            [
+              398,
+              151
+            ],
+            [
+              266,
+              151
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans",
+            "candidates"
+          ]
+        },
+        {
+          "id": "place-campaign-office-storefron--3-easel",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Standing blank panel",
+          "quad": [
+            [
+              209,
+              158
+            ],
+            [
+              246,
+              158
+            ],
+            [
+              243,
+              186
+            ],
+            [
+              207,
+              186
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        },
+        {
+          "id": "place-campaign-office-storefron--3-leaning-panel1",
+          "kind": "board",
+          "finish": "panel",
+          "what": "First leaning panel",
+          "quad": [
+            [
+              384,
+              194
+            ],
+            [
+              411,
+              208
+            ],
+            [
+              401,
+              246
+            ],
+            [
+              372,
+              232
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        },
+        {
+          "id": "place-campaign-office-storefron--3-leaning-panel2",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Middle leaning panel",
+          "quad": [
+            [
+              484,
+              251
+            ],
+            [
+              511,
+              266
+            ],
+            [
+              499,
+              316
+            ],
+            [
+              469,
+              305
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        },
+        {
+          "id": "place-campaign-office-storefron--3-leaning-panel3",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Right leaning panel",
+          "quad": [
+            [
+              520,
+              261
+            ],
+            [
+              578,
+              255
+            ],
+            [
+              594,
+              322
+            ],
+            [
+              533,
+              327
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        }
+      ],
+      "skipped": [
+        "Laptop backs remain painted; small carton papers unresolved."
+      ]
+    },
+    "place-campaign-office-storefron--4": {
+      "checked": [
+        "place-campaign-office-storefron--4.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-campaign-office-storefron--4-whiteboard",
+          "kind": "board",
+          "finish": "whiteboard",
+          "what": "Rear whiteboard",
+          "quad": [
+            [
+              266,
+              81
+            ],
+            [
+              398,
+              81
+            ],
+            [
+              398,
+              151
+            ],
+            [
+              266,
+              151
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans",
+            "candidates"
+          ]
+        },
+        {
+          "id": "place-campaign-office-storefron--4-easel",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Standing blank panel",
+          "quad": [
+            [
+              209,
+              158
+            ],
+            [
+              246,
+              158
+            ],
+            [
+              243,
+              186
+            ],
+            [
+              207,
+              186
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        },
+        {
+          "id": "place-campaign-office-storefron--4-leaning-panel1",
+          "kind": "board",
+          "finish": "panel",
+          "what": "First leaning panel",
+          "quad": [
+            [
+              384,
+              194
+            ],
+            [
+              411,
+              208
+            ],
+            [
+              401,
+              246
+            ],
+            [
+              372,
+              232
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        },
+        {
+          "id": "place-campaign-office-storefron--4-leaning-panel2",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Middle leaning panel",
+          "quad": [
+            [
+              484,
+              251
+            ],
+            [
+              511,
+              266
+            ],
+            [
+              499,
+              316
+            ],
+            [
+              469,
+              305
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        },
+        {
+          "id": "place-campaign-office-storefron--4-leaning-panel3",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Right leaning panel",
+          "quad": [
+            [
+              520,
+              261
+            ],
+            [
+              578,
+              255
+            ],
+            [
+              594,
+              322
+            ],
+            [
+              533,
+              327
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        }
+      ],
+      "skipped": [
+        "Laptop backs remain painted; small carton papers unresolved."
+      ]
+    },
+    "place-campaign-rally-high-schoo": {
+      "checked": [
+        "place-campaign-rally-high-schoo.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-campaign-rally-high-schoo-stage-banner",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Flat campaign backdrop",
+          "quad": [
+            [
+              361,
+              73
+            ],
+            [
+              459,
+              77
+            ],
+            [
+              456,
+              154
+            ],
+            [
+              361,
+              151
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        }
+      ],
+      "skipped": [
+        "Scoreboard is fixed sports equipment; no civic display assigned.",
+        "Flags and fabric pennants remain painted."
+      ]
+    },
+    "place-campaign-rally-high-schoo--2": {
+      "checked": [
+        "place-campaign-rally-high-schoo--2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-campaign-rally-high-schoo--2-stage-banner",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Flat campaign backdrop",
+          "quad": [
+            [
+              361,
+              73
+            ],
+            [
+              459,
+              77
+            ],
+            [
+              456,
+              154
+            ],
+            [
+              361,
+              151
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        }
+      ],
+      "skipped": [
+        "Scoreboard is fixed sports equipment; no civic display assigned.",
+        "Flags and fabric pennants remain painted."
+      ]
+    },
+    "place-campaign-rally-high-schoo--3": {
+      "checked": [
+        "place-campaign-rally-high-schoo--3.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-campaign-rally-high-schoo--3-stage-banner",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Flat campaign backdrop",
+          "quad": [
+            [
+              361,
+              73
+            ],
+            [
+              459,
+              77
+            ],
+            [
+              456,
+              154
+            ],
+            [
+              361,
+              151
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        }
+      ],
+      "skipped": [
+        "Scoreboard is fixed sports equipment; no civic display assigned.",
+        "Flags and fabric pennants remain painted."
+      ]
+    },
+    "place-campaign-rally-high-schoo--4": {
+      "checked": [
+        "place-campaign-rally-high-schoo--4.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-campaign-rally-high-schoo--4-stage-banner",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Flat campaign backdrop",
+          "quad": [
+            [
+              361,
+              73
+            ],
+            [
+              459,
+              77
+            ],
+            [
+              456,
+              154
+            ],
+            [
+              361,
+              151
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        }
+      ],
+      "skipped": [
+        "Scoreboard is fixed sports equipment; no civic display assigned.",
+        "Flags and fabric pennants remain painted."
+      ]
+    },
+    "place-campaign-rally-town-squar": {
+      "checked": [
+        "place-campaign-rally-town-squar.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Flags, stage bunting and fixed architecture are not content faces."
+      ]
+    },
+    "place-capitol-hallway__midday": {
+      "checked": [
+        "place-capitol-hallway__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Statues, stone panels, doors and sconces retain paint."
+      ]
+    },
+    "place-capitol-hallway__morning": {
+      "checked": [
+        "place-capitol-hallway__morning.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Statues, stone panels, doors and sconces retain paint."
+      ]
+    },
+    "place-capitol-hallway__night": {
+      "checked": [
+        "place-capitol-hallway__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Statues, stone panels, doors and sconces retain paint."
+      ]
+    },
+    "place-capitol-hallway__rain": {
+      "checked": [
+        "place-capitol-hallway__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Statues, stone panels, doors and sconces retain paint."
+      ]
+    },
+    "place-cemetery-graveside__midda": {
+      "checked": [
+        "place-cemetery-graveside__midda.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Grave markers are memorial stone; no civic overlay or invented inscription.",
+        "Canopy cloth is not a notice."
+      ]
+    },
+    "place-cemetery-graveside__morni": {
+      "checked": [
+        "place-cemetery-graveside__morni.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Grave markers are memorial stone; no civic overlay or invented inscription.",
+        "Canopy cloth is not a notice."
+      ]
+    },
+    "place-cemetery-graveside__night": {
+      "checked": [
+        "place-cemetery-graveside__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Grave markers are memorial stone; no civic overlay or invented inscription.",
+        "Canopy cloth is not a notice."
+      ]
+    },
+    "place-cemetery-graveside__rain": {
+      "checked": [
+        "place-cemetery-graveside__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Grave markers are memorial stone; no civic overlay or invented inscription.",
+        "Canopy cloth is not a notice."
+      ]
+    },
+    "place-central-bank-board-room__": {
+      "checked": [
+        "place-central-bank-board-room__.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-central-bank-board-room__-paper-1",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Writing paper at board seat",
+          "quad": [
+            [
+              273,
+              284
+            ],
+            [
+              328,
+              284
+            ],
+            [
+              322,
+              309
+            ],
+            [
+              266,
+              309
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-central-bank-board-room__-paper-2",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Writing paper at board seat",
+          "quad": [
+            [
+              161,
+              257
+            ],
+            [
+              212,
+              251
+            ],
+            [
+              219,
+              259
+            ],
+            [
+              167,
+              267
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-central-bank-board-room__-paper-3",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Writing paper at board seat",
+          "quad": [
+            [
+              363,
+              262
+            ],
+            [
+              416,
+              267
+            ],
+            [
+              416,
+              278
+            ],
+            [
+              361,
+              272
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-central-bank-board-room__-paper-4",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Writing paper at board seat",
+          "quad": [
+            [
+              128,
+              229
+            ],
+            [
+              168,
+              223
+            ],
+            [
+              178,
+              231
+            ],
+            [
+              135,
+              239
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-central-bank-board-room__-paper-5",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Writing paper at board seat",
+          "quad": [
+            [
+              390,
+              234
+            ],
+            [
+              433,
+              239
+            ],
+            [
+              429,
+              249
+            ],
+            [
+              386,
+              243
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-central-bank-board-room__-paper-6",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Writing paper at board seat",
+          "quad": [
+            [
+              217,
+              193
+            ],
+            [
+              247,
+              188
+            ],
+            [
+              250,
+              195
+            ],
+            [
+              221,
+              200
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-central-bank-board-room__-paper-7",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Writing paper at board seat",
+          "quad": [
+            [
+              380,
+              201
+            ],
+            [
+              411,
+              205
+            ],
+            [
+              408,
+              213
+            ],
+            [
+              377,
+              208
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-central-bank-board-room__-paper-8",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Writing paper at board seat",
+          "quad": [
+            [
+              273,
+              168
+            ],
+            [
+              291,
+              167
+            ],
+            [
+              292,
+              172
+            ],
+            [
+              274,
+              174
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-central-bank-board-room__-paper-9",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Writing paper at board seat",
+          "quad": [
+            [
+              352,
+              168
+            ],
+            [
+              372,
+              170
+            ],
+            [
+              370,
+              175
+            ],
+            [
+              351,
+              173
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Water glasses, curtains and table finish retain paint."
+      ]
+    },
+    "place-central-bank-lobby__midda": {
+      "checked": [
+        "place-central-bank-lobby__midda.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Clock, architectural plaques, windows and door paneling retain paint."
+      ]
+    },
+    "place-church-sanctuary__midday--2": {
+      "checked": [
+        "place-church-sanctuary__midday--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Cross, circular wall decoration and stained glass remain painted."
+      ]
+    },
+    "place-church-sanctuary__midday--3": {
+      "checked": [
+        "place-church-sanctuary__midday--3.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Stained glass, cross and altar cloth are not civic content faces."
+      ]
+    },
+    "place-church-sanctuary__midday--4": {
+      "checked": [
+        "place-church-sanctuary__midday--4.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Stained glass and altar furnishings remain painted."
+      ]
+    },
+    "place-church-sanctuary__midday": {
+      "checked": [
+        "place-church-sanctuary__midday.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-church-sanctuary__midday-hymn-left",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Hymn number board",
+          "quad": [
+            [
+              186,
+              144
+            ],
+            [
+              211,
+              143
+            ],
+            [
+              211,
+              174
+            ],
+            [
+              187,
+              175
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-church-sanctuary__midday-hymn-right",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Hymn number board",
+          "quad": [
+            [
+              382,
+              145
+            ],
+            [
+              407,
+              146
+            ],
+            [
+              407,
+              176
+            ],
+            [
+              382,
+              175
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Cross, religious art and stained glass retain paint."
+      ]
+    },
+    "place-church-sanctuary__morning--2": {
+      "checked": [
+        "place-church-sanctuary__morning--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Stained glass, cross and altar cloth are not civic content faces."
+      ]
+    },
+    "place-church-sanctuary__morning": {
+      "checked": [
+        "place-church-sanctuary__morning.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Cross, circular wall decoration and stained glass remain painted."
+      ]
+    },
+    "place-church-sanctuary__night-v": {
+      "checked": [
+        "place-church-sanctuary__night-v.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Stained glass, cross and altar cloth are not civic content faces."
+      ]
+    },
+    "place-church-sanctuary__night": {
+      "checked": [
+        "place-church-sanctuary__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Cross, circular wall decoration and stained glass remain painted."
+      ]
+    },
+    "place-church-sanctuary__rain-v2": {
+      "checked": [
+        "place-church-sanctuary__rain-v2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Stained glass, cross and altar cloth are not civic content faces."
+      ]
+    },
+    "place-church-sanctuary__rain": {
+      "checked": [
+        "place-church-sanctuary__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Cross, circular wall decoration and stained glass remain painted."
+      ]
+    },
+    "place-city-council-chamber-larg": {
+      "checked": [
+        "place-city-council-chamber-larg.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Circular seal, microphones, windows and woodwork retain paint."
+      ]
+    },
+    "place-city-council-chamber-larg--2": {
+      "checked": [
+        "place-city-council-chamber-larg--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Circular seal, microphones, windows and woodwork retain paint."
+      ]
+    },
+    "place-city-council-chamber-larg--3": {
+      "checked": [
+        "place-city-council-chamber-larg--3.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Circular seal, microphones, windows and woodwork retain paint."
+      ]
+    },
+    "place-city-council-chamber-larg--4": {
+      "checked": [
+        "place-city-council-chamber-larg--4.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Circular seal, microphones, windows and woodwork retain paint."
+      ]
+    },
+    "place-city-council-chamber-smal": {
+      "checked": [
+        "place-city-council-chamber-smal.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Seal, flags, microphones and woodwork remain painted."
+      ]
+    },
+    "place-city-council-chamber-smal--2": {
+      "checked": [
+        "place-city-council-chamber-smal--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Seal, flags, microphones and woodwork remain painted."
+      ]
+    },
+    "place-city-council-chamber-smal--3": {
+      "checked": [
+        "place-city-council-chamber-smal--3.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Seal, flags, microphones and woodwork remain painted."
+      ]
+    },
+    "place-city-council-chamber-smal--4": {
+      "checked": [
+        "place-city-council-chamber-smal--4.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Seal, flags, microphones and woodwork remain painted."
+      ]
+    }
+  }
+}

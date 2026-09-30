@@ -1,0 +1,587 @@
+{
+  "schema": "team7-scene-measurements/v1",
+  "coordinateOrigin": "upper-left",
+  "coordinateUnit": "source-image-edge pixels",
+  "approval": "pending-cto-and-owner",
+  "baseHead": "4a2be71b13f5361ebedb4d49d63c0ce4deddb35f",
+  "sourceRoot": "/Users/lamontae/Documents/OCD-Art-Sept29",
+  "sourceGroups": 20,
+  "images": [
+    {
+      "sourceKey": "place-campaign-office-storefron--3",
+      "file": "places/place-campaign-office-storefron--3.png",
+      "kind": "campaign-office-storefront",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "4a81d66c164adf3f5275417d7072cd3250a0c0bd44cd8c890166e82c8af83671",
+      "group": "place-campaign-office-storefron--3",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Table199px to floor267px; assume0.75m.",
+      "unresolved": [
+        "Small paper edges require full-size review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-campaign-office-storefron--4",
+      "file": "places/place-campaign-office-storefron--4.png",
+      "kind": "campaign-office-storefront",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "5da0639310feb7899118419a4e078ae6f38ecc14410a41c369fa6445fd8589ad",
+      "group": "place-campaign-office-storefron--4",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Table199px to floor267px; assume0.75m.",
+      "unresolved": [
+        "Small paper edges require full-size review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-campaign-rally-high-schoo",
+      "file": "places/place-campaign-rally-high-schoo.png",
+      "kind": "campaign-rally-high-school",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "0e635730f2174a2c919ed302fd9faafe856a9da6a4738c21e032fb31c1780ae2",
+      "group": "place-campaign-rally-high-schoo",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front bleacher seat245px, floor274px; assume0.45m seat. Platform contact193px; scale separately under floors.",
+      "unresolved": [
+        "Bleacher benches admit several positions; capacity is not a simulation fact.",
+        "Away-facing seats are import-blocked.",
+        "Podium floor and clip are inferred; actor fit pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-campaign-rally-high-schoo--2",
+      "file": "places/place-campaign-rally-high-schoo--2.png",
+      "kind": "campaign-rally-high-school",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "89b53da8989bf06a8845892ef3d3b593749536b400cb08e53a3184d45a1cb32f",
+      "group": "place-campaign-rally-high-schoo--2",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front bleacher seat245px, floor274px; assume0.45m seat. Platform contact193px; scale separately under floors.",
+      "unresolved": [
+        "Bleacher benches admit several positions; capacity is not a simulation fact.",
+        "Away-facing seats are import-blocked.",
+        "Podium floor and clip are inferred; actor fit pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-campaign-rally-high-schoo--3",
+      "file": "places/place-campaign-rally-high-schoo--3.png",
+      "kind": "campaign-rally-high-school",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "9a498dabd9b38be9994a4087a107f95b9ce12a776100d8eed1516b2892178d3b",
+      "group": "place-campaign-rally-high-schoo--3",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front bleacher seat245px, floor274px; assume0.45m seat. Platform contact193px; scale separately under floors.",
+      "unresolved": [
+        "Bleacher benches admit several positions; capacity is not a simulation fact.",
+        "Away-facing seats are import-blocked.",
+        "Podium floor and clip are inferred; actor fit pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-campaign-rally-high-schoo--4",
+      "file": "places/place-campaign-rally-high-schoo--4.png",
+      "kind": "campaign-rally-high-school",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "8e4241c0d5b79d5e428c0a320436b9c6add9eef4599bc2a56f1219def58fa76c",
+      "group": "place-campaign-rally-high-schoo--4",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front bleacher seat245px, floor274px; assume0.45m seat. Platform contact193px; scale separately under floors.",
+      "unresolved": [
+        "Bleacher benches admit several positions; capacity is not a simulation fact.",
+        "Away-facing seats are import-blocked.",
+        "Podium floor and clip are inferred; actor fit pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-campaign-rally-town-squar",
+      "file": "places/place-campaign-rally-town-squar.png",
+      "kind": "campaign-rally-town-square",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "3e8c5cb1561f01417cd386541a940265bda20a44765fdcd5f1c2f8a518e486a2",
+      "group": "place-campaign-rally-town-squar",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Lectern top170px, stage230px; assume1.1m lectern; stage floor separate.",
+      "unresolved": [
+        "Stage foot contact behind lectern is estimated."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-capitol-hallway__midday",
+      "file": "places/place-capitol-hallway__midday.png",
+      "kind": "capitol-hallway",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "cdb751da19a77f28fdb6a695a645e8274227441735ef6a0f4b4c9445646f5bdf",
+      "group": "place-capitol-hallway",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near bench cushion232px, floor249px; assume0.45m seat.",
+      "unresolved": [
+        "Rain rear doorway differs; no surface is shared through a variant key."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-capitol-hallway__morning",
+      "file": "places/place-capitol-hallway__morning.png",
+      "kind": "capitol-hallway",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "5b9af9e1a808d03ee825be9c96c28dd0f5079a6455bd995bdd77be68717897ec",
+      "group": "place-capitol-hallway",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near bench cushion232px, floor249px; assume0.45m seat.",
+      "unresolved": [
+        "Rain rear doorway differs; no surface is shared through a variant key."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-capitol-hallway__night",
+      "file": "places/place-capitol-hallway__night.png",
+      "kind": "capitol-hallway",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "e6ebb5c1e041cf234301e703ae2c87ed574776f91037d26481a51ac97eb6a058",
+      "group": "place-capitol-hallway",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near bench cushion232px, floor249px; assume0.45m seat.",
+      "unresolved": [
+        "Rain rear doorway differs; no surface is shared through a variant key."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-capitol-hallway__rain",
+      "file": "places/place-capitol-hallway__rain.png",
+      "kind": "capitol-hallway",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "1c424c149fdc4ba43ef093848df2fd39cc4b61d46f103059a571177fd55ec5d4",
+      "group": "place-capitol-hallway",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near bench cushion232px, floor249px; assume0.45m seat.",
+      "unresolved": [
+        "Rain rear doorway differs; no surface is shared through a variant key."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-cemetery-graveside__midda",
+      "file": "places/place-cemetery-graveside__midda.png",
+      "kind": "cemetery-graveside",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "b59bec82d2ad4dacfd54afa9595d1092df8e101d47f8022ac8da585a90864743",
+      "group": "place-cemetery-graveside",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Folding-chair seat223px, ground237px; assume0.45m seat.",
+      "unresolved": [
+        "Chair direction and hidden cushions require full-size review; distant monuments are not seats."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-cemetery-graveside__morni",
+      "file": "places/place-cemetery-graveside__morni.png",
+      "kind": "cemetery-graveside",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "760bba863ea2df9e8f0054149307893d31208f157410f61920c195f53ee6bc02",
+      "group": "place-cemetery-graveside",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Folding-chair seat223px, ground237px; assume0.45m seat.",
+      "unresolved": [
+        "Chair direction and hidden cushions require full-size review; distant monuments are not seats."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-cemetery-graveside__night",
+      "file": "places/place-cemetery-graveside__night.png",
+      "kind": "cemetery-graveside",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "705a5b824bb1e806981cfc4bb17c6b65ef3ee58d13b258884e1042189383464e",
+      "group": "place-cemetery-graveside",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Folding-chair seat223px, ground237px; assume0.45m seat.",
+      "unresolved": [
+        "Chair direction and hidden cushions require full-size review; distant monuments are not seats."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-cemetery-graveside__rain",
+      "file": "places/place-cemetery-graveside__rain.png",
+      "kind": "cemetery-graveside",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "a64013a256ca344be47de2bc266056f4f2162d7c938ce1fe2048917f512260c5",
+      "group": "place-cemetery-graveside",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Folding-chair seat223px, ground237px; assume0.45m seat.",
+      "unresolved": [
+        "Chair direction and hidden cushions require full-size review; distant monuments are not seats."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-central-bank-board-room__",
+      "file": "places/place-central-bank-board-room__.png",
+      "kind": "central-bank-board-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "aa992210b9a28268b3d1bf11be6997c92e497f05b40a477c332ffe964efa72ba",
+      "group": "place-central-bank-board-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near seat252px, floor294px; assume0.45m seat.",
+      "unresolved": [
+        "Small rear papers and table occlusion require full-size confirmation.",
+        "No clear foreground standing floor: hero is a seated candidate; title/import routing requires CTO review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-central-bank-lobby__midda",
+      "file": "places/place-central-bank-lobby__midda.png",
+      "kind": "central-bank-lobby",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "7af28a6533bc4d6b277bbca0ea247c868eeb780e2eba2047bf479ce965e82970",
+      "group": "place-central-bank-lobby",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Central door height about100px, floor261px; assume2.1m door.",
+      "unresolved": [
+        "Stair contacts are not tagged until actual tread/crop fit can be verified; lobby ground only."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-church-sanctuary__midday--2",
+      "file": "places/place-church-sanctuary__midday--2.png",
+      "kind": "church-sanctuary",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "33f20afef13b30e628470852a47fc8185ab108a0b550f94dd42e92810f86dfba",
+      "group": "place-church-sanctuary",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front chair cushion284px, floor326px; assume0.45m seat.",
+      "unresolved": [
+        "All congregation seats face away and remain import-blocked."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-church-sanctuary__midday--3",
+      "file": "places/place-church-sanctuary__midday--3.png",
+      "kind": "church-sanctuary",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "1b91de1e476aee131322c39366197344f99eb021dfb697db1291ab870a3103e7",
+      "group": "place-church-sanctuary",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front pew cushion287px, floor322px; assume0.45m seat. Raised altar floor separate.",
+      "unresolved": [
+        "Pew backs hide cushions; every marked seat is import-blocked pending away-facing support."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-church-sanctuary__midday--4",
+      "file": "places/place-church-sanctuary__midday--4.png",
+      "kind": "church-sanctuary",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "67268b3a92a66b6050f2f919179577d86c81b355a3b93e26c4f5f4acaad49f1c",
+      "group": "place-church-sanctuary",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front chair cushion269px, floor309px; assume0.45m seat.",
+      "unresolved": [
+        "Different chair arrangement: corners and contacts estimated independently, pending overlay/full-size review.",
+        "All audience seats face away and remain import-blocked."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-church-sanctuary__midday",
+      "file": "places/place-church-sanctuary__midday.png",
+      "kind": "church-sanctuary",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "a2f01c7d00f862862aa7a6df82d42cc4f1595b6da0bc9d6a14f6e12bfe62549f",
+      "group": "place-church-sanctuary",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front pew cushion302px, floor327px; assume0.45m seat.",
+      "unresolved": [
+        "Away-facing pew seating remains import-blocked; cushions hidden."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-church-sanctuary__morning--2",
+      "file": "places/place-church-sanctuary__morning--2.png",
+      "kind": "church-sanctuary",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "7b3077376300ee844fb592aed873c154e95ab1abfd33aff5ff2bb7d58265a920",
+      "group": "place-church-sanctuary",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front pew cushion287px, floor322px; assume0.45m seat. Raised altar floor separate.",
+      "unresolved": [
+        "Pew backs hide cushions; every marked seat is import-blocked pending away-facing support."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-church-sanctuary__morning",
+      "file": "places/place-church-sanctuary__morning.png",
+      "kind": "church-sanctuary",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "738823ed72cced9806896c1afc1018f94cd8785af68b286e26819a62b4c82c8c",
+      "group": "place-church-sanctuary",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front chair cushion284px, floor326px; assume0.45m seat.",
+      "unresolved": [
+        "All congregation seats face away and remain import-blocked."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-church-sanctuary__night-v",
+      "file": "places/place-church-sanctuary__night-v.png",
+      "kind": "church-sanctuary",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "55971074dbd4c89c45c610c549a8bc322eec5a24d9948bfe91b91af60e426914",
+      "group": "place-church-sanctuary",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front pew cushion287px, floor322px; assume0.45m seat. Raised altar floor separate.",
+      "unresolved": [
+        "Pew backs hide cushions; every marked seat is import-blocked pending away-facing support."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-church-sanctuary__night",
+      "file": "places/place-church-sanctuary__night.png",
+      "kind": "church-sanctuary",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "0e01d234fcbbc9e442eb7c14d5c948a33780f56b95871ac43db55865b25591c8",
+      "group": "place-church-sanctuary",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front chair cushion284px, floor326px; assume0.45m seat.",
+      "unresolved": [
+        "All congregation seats face away and remain import-blocked."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-church-sanctuary__rain-v2",
+      "file": "places/place-church-sanctuary__rain-v2.png",
+      "kind": "church-sanctuary",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "9484076d182b2aac2d1dcd80f13aece550d7a9b97c555014d9a594691536d085",
+      "group": "place-church-sanctuary",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front pew cushion287px, floor322px; assume0.45m seat. Raised altar floor separate.",
+      "unresolved": [
+        "Pew backs hide cushions; every marked seat is import-blocked pending away-facing support."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-church-sanctuary__rain",
+      "file": "places/place-church-sanctuary__rain.png",
+      "kind": "church-sanctuary",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "c0ef66bdb2d955cdae240074fa2b9a2f0bdaa09d5b51fc65d4991b7d2e12d3fc",
+      "group": "place-church-sanctuary",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front chair cushion284px, floor326px; assume0.45m seat.",
+      "unresolved": [
+        "All congregation seats face away and remain import-blocked."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-city-council-chamber-larg",
+      "file": "places/place-city-council-chamber-larg.png",
+      "kind": "city-council-chamber-large",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "f2c3df044b2bc6b021861581b3803e08b00c93a09f081aab065690e16a5975f1",
+      "group": "place-city-council-chamber-larg",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Audience seat266px, floor310px; assume0.45m seat. Dais foot hidden behind front.",
+      "unresolved": [
+        "Dais feet and gallery seating estimated; audience seats face away and are import-blocked."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-city-council-chamber-larg--2",
+      "file": "places/place-city-council-chamber-larg--2.png",
+      "kind": "city-council-chamber-large",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "4eeece5de5be4e2bf9113de5eb4510bedc2144a40ea70f4a4d2a49de8a247717",
+      "group": "place-city-council-chamber-larg--2",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Audience seat266px, floor310px; assume0.45m seat. Dais foot hidden behind front.",
+      "unresolved": [
+        "Dais feet and gallery seating estimated; audience seats face away and are import-blocked."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-city-council-chamber-larg--3",
+      "file": "places/place-city-council-chamber-larg--3.png",
+      "kind": "city-council-chamber-large",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "be33634671005acb8e88f4709a13018885160cbfa30b6570eadd885b4ecd92db",
+      "group": "place-city-council-chamber-larg--3",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Audience seat266px, floor310px; assume0.45m seat. Dais foot hidden behind front.",
+      "unresolved": [
+        "Dais feet and gallery seating estimated; audience seats face away and are import-blocked."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-city-council-chamber-larg--4",
+      "file": "places/place-city-council-chamber-larg--4.png",
+      "kind": "city-council-chamber-large",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "6f6dca01e0dde5f0f27f987754fef8af4c5f68c4b2dd56ddcb65893eebd393e6",
+      "group": "place-city-council-chamber-larg--4",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Audience seat266px, floor310px; assume0.45m seat. Dais foot hidden behind front.",
+      "unresolved": [
+        "Dais feet and gallery seating estimated; audience seats face away and are import-blocked."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-city-council-chamber-smal",
+      "file": "places/place-city-council-chamber-smal.png",
+      "kind": "city-council-chamber-small",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "24d199550a4c32c695bfcfd67ad0530a86bfa799ab90f26a793b985b9a401312",
+      "group": "place-city-council-chamber-smal",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest folding seat284px, floor322px; assume0.45m seat.",
+      "unresolved": [
+        "Audience seats face away and remain import-blocked; dais feet hidden."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-city-council-chamber-smal--2",
+      "file": "places/place-city-council-chamber-smal--2.png",
+      "kind": "city-council-chamber-small",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "88eb8e30de469ca14fa19ab467d2e71ba621e6354d9362be6d6761c9f0ca5666",
+      "group": "place-city-council-chamber-smal--2",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest folding seat284px, floor322px; assume0.45m seat.",
+      "unresolved": [
+        "Audience seats face away and remain import-blocked; dais feet hidden."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-city-council-chamber-smal--3",
+      "file": "places/place-city-council-chamber-smal--3.png",
+      "kind": "city-council-chamber-small",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "7a819e832726f1d1d084ac1c7e5a87f8baa0f47215ba5f31c11e3a4855c7b95e",
+      "group": "place-city-council-chamber-smal--3",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest folding seat284px, floor322px; assume0.45m seat.",
+      "unresolved": [
+        "Audience seats face away and remain import-blocked; dais feet hidden."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-city-council-chamber-smal--4",
+      "file": "places/place-city-council-chamber-smal--4.png",
+      "kind": "city-council-chamber-small",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "764417404821513e933f0cfab8d694d594a6d902d9dccbeaacb65a7bd3b16ada",
+      "group": "place-city-council-chamber-smal--4",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest folding seat284px, floor322px; assume0.45m seat.",
+      "unresolved": [
+        "Audience seats face away and remain import-blocked; dais feet hidden."
+      ],
+      "approval": "pending"
+    }
+  ],
+  "limits": [
+    "No actual actor composites tested.",
+    "Hidden seat cushion and foot points are estimated from furniture; annotated as candidates.",
+    "No staging variant support exists in current v2 consumer; independent source keys must be mapped by job08.",
+    "No geometry claim about missing or full-size versions."
+  ]
+}
