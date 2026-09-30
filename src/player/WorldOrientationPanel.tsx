@@ -389,7 +389,11 @@ export function WorldOrientationPanel({
               data-testid="opening-office-staged"
             >
               <SceneBackdrop backdrop={backdrop} />
-              <PlacePeopleLayer people={officePeople} stageRef={officeStage} />
+              <PlacePeopleLayer
+                people={officePeople}
+                stageRef={officeStage}
+                nameplates
+              />
             </div>
           ) : step.key === "executive" && !plate && !establishingPlate ? (
             <SceneBackdrop backdrop={backdrop} />
