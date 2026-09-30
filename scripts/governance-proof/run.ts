@@ -1,12 +1,18 @@
-import { writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { performance } from "node:perf_hooks";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import { execFileSync } from "node:child_process";
-import { observerPlace } from "../../src/presentation/observer-world";
+import type * as Observer from "../../src/presentation/observer-world";
+import type * as LawEffects from "../../src/simulation/enacted-law-effects";
 import { anniversary } from "../dev-lab/world-aging";
 import type * as AgingClock from "../dev-lab/world-aging";
 import { pathToFileURL } from "node:url";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
+import {
+  collectSystemProof,
+  plainSystemReport,
+  type ProofSystem,
+} from "./systems";
 import {
   governanceStages,
   congressStages,
@@ -15,22 +21,43 @@ import {
 } from "./stages";
 
 if (process.argv.includes("--help")) {
-  console.log("run.ts SEED YEARS OUTPUT_JSON");
+  console.log(
+    "run.ts SEED YEARS OUTPUT_JSON [--system evictions|laws|filing|all --report REPORT_MD --max-minutes 120 --keep-world WORLD_JSON]\nSystem proof mode requires YEARS=1. Legacy stage mode is preserved. OCD_GOVERNANCE_SOURCE_ROOT selects the existing runtime checkout; it creates no checkout.",
+  );
   process.exit(0);
 }
 const seed = process.argv[2] ?? "wave1-team2-baseline-20260929";
 const years = Number(process.argv[3] ?? 5);
 if (!Number.isInteger(years) || years < 1)
   throw new Error("YEARS must be a positive integer.");
-const output = process.argv[4] ?? "/private/tmp/team2-governance-baseline.json";
-const place = observerPlace(seed);
+const output = process.argv[4] ?? "test-results/governance-proof/watched.json";
+const option = (name: string) => {
+  const at = process.argv.indexOf(`--${name}`);
+  if (at < 0) return null;
+  const value = process.argv[at + 1];
+  if (!value || value.startsWith("--"))
+    throw new Error(`--${name} requires a value.`);
+  return value;
+};
+const systemOption = option("system");
+if (
+  systemOption &&
+  !["evictions", "laws", "filing", "all"].includes(systemOption)
+)
+  throw new Error("Unknown proof system.");
+if (systemOption && years !== 1)
+  throw new Error(
+    "Named-system proof mode runs one watched year; use YEARS=1.",
+  );
 const start = performance.now();
 const sourceRoot = process.env.OCD_GOVERNANCE_SOURCE_ROOT ?? resolve(".");
+const observer = (await import(
+  pathToFileURL(resolve(sourceRoot, "src/presentation/observer-world.ts")).href
+)) as typeof Observer;
+const place = observer.observerPlace(seed);
 const clock = (await import(
   pathToFileURL(resolve(sourceRoot, "scripts/dev-lab/world-aging.ts")).href
 )) as typeof AgingClock;
-const watched = clock.openWatchedWorld(seed, place.key);
-const button = clock.createObserverDayButton(watched.world);
 const sourceHead = execFileSync("git", ["rev-parse", "HEAD"], {
   cwd: sourceRoot,
   encoding: "utf8",
@@ -40,7 +67,131 @@ const sourceDirty =
     cwd: sourceRoot,
     encoding: "utf8",
   }).trim().length > 0;
+const collectorHead = execFileSync("git", ["rev-parse", "HEAD"], {
+  encoding: "utf8",
+}).trim();
+console.log(
+  JSON.stringify({
+    status: "opening",
+    seed,
+    place: place.displayName,
+    placeKey: place.key,
+    sourceHead,
+    sourceDirty,
+    collectorHead,
+    system: systemOption ?? "stages",
+  }),
+);
+mkdirSync(dirname(output), { recursive: true });
+const watched = clock.openWatchedWorld(seed, place.key);
+const button = clock.createObserverDayButton(watched.world);
 const openingMs = performance.now() - start;
+if (systemOption) {
+  const maxMinutes = Number(option("max-minutes") ?? "120");
+  if (!Number.isFinite(maxMinutes) || maxMinutes <= 0)
+    throw new Error("--max-minutes must be positive.");
+  const reportPath = option("report") ?? `${output}.md`;
+  mkdirSync(dirname(reportPath), { recursive: true });
+  const until = anniversary(watched.world.currentDate, 1);
+  const openingSequence = watched.world.history.nextSequence;
+  let days = 0;
+  let problem: string | null = null;
+  let lastProgress = performance.now();
+  while (button.world.currentDate < until) {
+    if (performance.now() - start >= maxMinutes * 60_000) {
+      problem = `Time bound ${maxMinutes} minutes reached.`;
+      break;
+    }
+    const press = button.press();
+    if (press.status !== "moved") {
+      problem = press.problem;
+      break;
+    }
+    days += 1;
+    if (performance.now() - lastProgress >= 15_000) {
+      console.log(
+        JSON.stringify({
+          status: "advancing",
+          days,
+          currentDate: button.world.currentDate,
+        }),
+      );
+      lastProgress = performance.now();
+    }
+  }
+  const effects = (await import(
+    pathToFileURL(resolve(sourceRoot, "src/simulation/enacted-law-effects.ts"))
+      .href
+  )) as typeof LawEffects;
+  const proof = collectSystemProof(
+    button.world,
+    {
+      from: watched.world.currentDate,
+      through: button.world.currentDate,
+      openingSequence,
+    },
+    systemOption as ProofSystem,
+    effects.enactedLawsWithEffects,
+  );
+  let save: unknown = null;
+  try {
+    save = await clock.saveAndReopen(button.world);
+    if (!(save as { reopenedMatches: boolean }).reopenedMatches)
+      problem ??= "Save/Continue mismatch.";
+  } catch (error) {
+    problem ??= `Save/Continue failed: ${error instanceof Error ? error.message : String(error)}`;
+  }
+  const status =
+    button.world.currentDate >= until && !problem
+      ? "completed-year"
+      : "incomplete";
+  const context = {
+    seed,
+    place: place.displayName,
+    placeKey: place.key,
+    sourceHead,
+    collectorHead,
+    sourceDirty,
+    status,
+    days,
+    save,
+    problem,
+  };
+  writeFileSync(
+    output,
+    JSON.stringify(
+      {
+        ...context,
+        openingMs,
+        elapsedMs: performance.now() - start,
+        targetDate: until,
+        proof,
+      },
+      null,
+      2,
+    ),
+  );
+  writeFileSync(reportPath, plainSystemReport(proof, context));
+  const keep = option("keep-world");
+  if (keep) {
+    mkdirSync(dirname(keep), { recursive: true });
+    const { serializeWorld } = await import(
+      pathToFileURL(resolve(sourceRoot, "src/simulation/serialization.ts")).href
+    );
+    writeFileSync(keep, serializeWorld(button.world));
+  }
+  console.log(
+    JSON.stringify({
+      status,
+      days,
+      currentDate: button.world.currentDate,
+      output,
+      reportPath,
+      problem,
+    }),
+  );
+  process.exit(problem ? 1 : 0);
+}
 const yearly = [];
 let previous = performance.now();
 for (let year = 1; year <= years; year++) {
