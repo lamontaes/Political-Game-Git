@@ -2057,17 +2057,17 @@
     },
     {
       "id": "me-rail-acquisition-law",
-      "title": "Maine23MRSA7154 department rail acquisition authority",
+      "title": "Maine23MRSA7154 department rail acquisition authority; lead direct full read, own code extractedOctober20,2025",
       "url": "https://legislature.maine.gov/legis/statutes/23/title23sec7154.html",
-      "year": null,
+      "year": 2025,
       "accessed": "2026-09-29",
       "kind": "primary"
     },
     {
       "id": "me-rail-conditions-law",
-      "title": "Maine23MRSA7155 rail acquisition/operation/credit conditions",
+      "title": "Maine23MRSA7155 rail acquisition/operation/credit conditions; lead direct full read, own code extractedOctober20,2025",
       "url": "https://www.legislature.maine.gov/legis/statutes/23/title23sec7155.html",
-      "year": null,
+      "year": 2025,
       "accessed": "2026-09-29",
       "kind": "primary"
     },
@@ -3923,6 +3923,38 @@
       "id": "tx-water-sb740",
       "title": "Texas2025 enrolled SB740",
       "url": "https://capitol.texas.gov/tlodocs/89R/billtext/pdf/SB00740F.pdf",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ma-speed17c",
+      "title": "Massachusetts General Laws chapter90 section17C local 25mph acceptance route",
+      "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXIV/Chapter90/Section17C",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ma-speed2016-enacted",
+      "title": "Massachusetts2016 chapter218 section193 adds chapter90 section17C",
+      "url": "https://malegislature.gov/Laws/SessionLaws/Acts/2016/Chapter218",
+      "year": 2016,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "me-speed2073",
+      "title": "Maine29-A MRSA2073 state speed-setting authority; own code extractedOctober20,2025",
+      "url": "https://legislature.maine.gov/statutes/29-A/title29-Asec2073.html",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "me-speed2075",
+      "title": "Maine29-A MRSA2075(3) municipal speed-setting exceptions; own code extractedOctober20,2025",
+      "url": "https://legislature.maine.gov/statutes/29-A/title29-Asec2075.html",
       "year": 2025,
       "accessed": "2026-09-29",
       "kind": "primary"
@@ -8215,12 +8247,17 @@
               "differentLargeCityCharters": []
             },
             "ME": {
-              "status": "unresearched",
-              "scope": "city, state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "only some localities",
+              "scope": "Specific municipal road/park routes; state approval and qualifying municipality/road conditions",
+              "reason": "29-A2075(3) ordinarily bars municipal speed alteration but allows park-speed signs, approved through-way changes, and qualifying-town-way authority. A qualifying municipality has population2500+ or employs a Maine-licensed professional engineer; it must set all qualifying local-classified town-way limits after notice, investigation, ordinance and signs. Generally5mph increments:20\u201325mph business/residential/compact;30\u201350mph other areas;15mph exception on road-inaccessible islands or dead ends under1/4mile. Through ways and school zones require DOT/State Police approval. ExtractedOctober2025; complete January2026 history still open.",
+              "sources": ["me-speed2073", "me-speed2075"],
               "bars": [],
-              "localGrant": null,
+              "localGrant": {
+                "description": "29-A2075(3) ordinarily bars municipal speed alteration but allows park-speed signs, approved through-way changes, and qualifying-town-way authority. A qualifying municipality has population2500+ or employs a Maine-licensed professional engineer; it must set all qualifying local-classified town-way limits after notice, investigation, ordinance and signs. Generally5mph increments:20\u201325mph business/residential/compact;30\u201350mph other areas;15mph exception on road-inaccessible islands or dead ends under1/4mile. Through ways and school zones require DOT/State Police approval. ExtractedOctober2025; complete January2026 history still open.",
+                "lawKind": "state statute",
+                "changedBy": "State legislature amends statutory delegation; eligible municipal body exercises only the prescribed acceptance, investigation, approval and posting route.",
+                "sources": ["me-speed2073", "me-speed2075"]
+              },
               "differentLargeCityCharters": []
             },
             "MD": {
@@ -8233,13 +8270,24 @@
               "differentLargeCityCharters": []
             },
             "MA": {
-              "status": "unresearched",
-              "scope": "city, state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "only some localities",
+              "scope": "Accepting cities/towns; non-state-highway thickly settled or business districts",
+              "reason": "Chapter90 section17C permits an accepting city or town to establish25mph on non-state-highway ways inside thickly settled or business districts through the named local bodies. Department notice is required. Boston transportation commissioner is expressly named. This is not a universal20mph grant; January2026 amendment comparison and differing large-city charters remain unresearched.",
+              "sources": ["ma-speed17c", "ma-speed2016-enacted"],
               "bars": [],
-              "localGrant": null,
-              "differentLargeCityCharters": []
+              "localGrant": {
+                "description": "Chapter90 section17C permits an accepting city or town to establish25mph on non-state-highway ways inside thickly settled or business districts through the named local bodies. Department notice is required. Boston transportation commissioner is expressly named. This is not a universal20mph grant; January2026 amendment comparison and differing large-city charters remain unresearched.",
+                "lawKind": "state statute",
+                "changedBy": "State legislature amends statutory delegation; eligible municipal body exercises only the prescribed acceptance, investigation, approval and posting route.",
+                "sources": ["ma-speed17c", "ma-speed2016-enacted"]
+              },
+              "differentLargeCityCharters": [
+                {
+                  "city": "Boston",
+                  "rule": "State statute expressly names the transportation commissioner; separate charter variation not yet researched.",
+                  "sources": ["ma-speed17c"]
+                }
+              ]
             },
             "MI": {
               "status": "unresearched",
@@ -14274,9 +14322,9 @@
               "differentLargeCityCharters": []
             },
             "ME": {
-              "status": "unresearched",
-              "scope": "state, special-district",
-              "reason": "Jurisdiction-specific grant, bars, amendment procedure and charter exceptions not all researched. Current23MRSA7154\u20137155 permits department acquisition and leased/contracted operations, but prohibits direct state operation of chapter-acquired lines. State credit requires separate IX14 authorization; acquisition costs must be recovered through disposition/operating arrangements.",
+              "status": "yes",
+              "scope": "State DOT railroad-line acquisition under23MRSA7154; ownership with contracted operation",
+              "reason": "DOT may acquire a line when required report recommends it and acquisition protects the public interest, subject to legislative funding and federal approvals. Section7155 bars direct state operation of a line acquired under this chapter; sale/lease/operator contract must recover acquisition costs, with separate constitutional authorization for any state-credit pledge. This statutory acquisition route is not blanket permission for every financing structure. Complete January2026 amendment/constitutional comparison remains open.",
               "sources": ["me-rail-acquisition-law", "me-rail-conditions-law"],
               "bars": [],
               "localGrant": null,
@@ -34978,7 +35026,7 @@
       "id": "verify-16-item1",
       "promptClaim": "- Availability: every state may fund it. Old \"internal improvements\" clauses once barred state railroad investment (Michigan 1850, Wisconsin 1848). Wisconsin later amended its constitution to allow transportation appropriations (**verify** the year and article), and Michigan funds its routes through its transportation fund. **Research: each state's current constitutional credit, gift and internal-improvement clauses as they apply to rail.**",
       "status": "partially verified",
-      "finding": "Wisconsin ArticleVIII\u00a710(2)(e) rail appropriation exception and\u00a77(2)(a)1 debt authority were addedApril1992; highway exception1908 and ports1960 are separate. Proposed general transportation amendment was rejected1975 and1976. Historical primary text resolves year/article; live official consolidation and nationwide clause matrix remain gaps. Official2023 LRB text corroborates the rail exceptions without removing VIII3 private-credit bar. MichiganIII6 permits legislatively provided public improvements; IX18/19 credit/equity limits remain distinct. MinnesotaXI5(i) permits capped railway rehabilitation debt; Maine7155 explicitly bars direct state operation for chapter acquisitions. Some Michigan evidence is indexed official text with direct reads unavailable; full2026 and nationwide review remain incomplete.",
+      "finding": "Wisconsin ArticleVIII\u00a710(2)(e) rail appropriation exception and\u00a77(2)(a)1 debt authority were addedApril1992; highway exception1908 and ports1960 are separate. Proposed general transportation amendment was rejected1975 and1976. Historical primary text resolves year/article; live official consolidation and nationwide clause matrix remain gaps. Official2023 LRB text corroborates the rail exceptions without removing VIII3 private-credit bar. MichiganIII6 permits legislatively provided public improvements; IX18/19 credit/equity limits remain distinct. MinnesotaXI5(i) permits capped railway rehabilitation debt; Maine7155 explicitly bars direct state operation for chapter acquisitions. Some Michigan evidence is indexed official text with direct reads unavailable; full2026 and nationwide review remain incomplete. Cloud lead directly read Maine7154/7155 October2025 own-code snapshot: funded acquisition/federal approvals and contracted operation coexist with direct-state-operation bar and constitutionally conditioned credit. Nationwide clause matrix andJanuarycutoff still open.",
       "sources": [
         "wi-constitution-history",
         "wi-rail",

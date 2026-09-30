@@ -1268,6 +1268,195 @@
       "accessed": "2026-09-29",
       "readBy": "lead",
       "kind": "primary"
+    },
+    {
+      "id": "ak-session-statute2025",
+      "title": "Alaska2025 AS24.05.150 own-legislature print text",
+      "url": "https://www.akleg.gov/basis/statutes.asp?year=2025&media=print&secStart=24.05.150&secEnd=24.05.150",
+      "vintage": "Own2025 statutes; separate amendment/case inventory incomplete",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ma-cpa-tax-grant",
+      "title": "MassachusettsGL44B section3 community-preservation surcharge",
+      "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter44B/Section3",
+      "vintage": "Current own-code; complete January2026 history unverified",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ma-cpa-recreation-uses",
+      "title": "MassachusettsGL44B section5 community-preservation uses",
+      "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter44B/Section5",
+      "vintage": "Current own-code; recreation acquisition/creation/preservation/rehabilitation/restoration; maintenance prohibited",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ma-cpa-minimum-allocations",
+      "title": "MassachusettsGL44B section6 annual minimum allocations",
+      "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter44B/Section6",
+      "vintage": "Current own-code; open-space/history/housing floors are separate from recreation authority",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ma-cpa2012-enactment",
+      "title": "Massachusetts2012chapter139sections57-71 community-preservation amendments",
+      "url": "https://malegislature.gov/Laws/SessionLaws/Acts/2012/Chapter139",
+      "vintage": "2012 enacted amendments; full later-history review remains open",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "tx-parks-constitution2025",
+      "title": "TexasConstitutionVIII7-d; LegislativeCouncil consolidation throughNovember4,2025 election",
+      "url": "https://tlc.texas.gov/docs/legref/TxConst.pdf",
+      "vintage": "Includes amendments throughNovember4,2025;printedpages157-158",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "tx-parks-sjr24",
+      "title": "Texas2019SJR24 enrolled constitutional proposal withtransition",
+      "url": "https://capitol.texas.gov/tlodocs/86R/billtext/html/SJ00024F.htm",
+      "vintage": "2019 enrolled;section2setsSeptember1,2021 revenue commencement,conditional on voter adoption",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "tx-parks-prop5-adoption",
+      "title": "TexasParksWildlifeNovember6,2019 confirms voter adoption ofProp5",
+      "url": "https://tpwd.texas.gov/newsmedia/releases/?req=20191106a",
+      "vintage": "OwnagencydatedNovember6,2019 adoption receipt",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ut-county-rap-may2025",
+      "title": "Utah59-12-703 historical county recreation sales-tax text",
+      "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S703_2025050720250507.pdf",
+      "vintage": "ExplicitlyeffectiveMay7,2025 andsupersededNovember6,2025;notJanuary2026operative version",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ut-county-rap-distribution2025",
+      "title": "Utah59-12-704 distribution;May7,2025 version",
+      "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S704_2025050720250507.pdf",
+      "vintage": "Own-code historical datedversion;first-classcounty mixed-purpose30percent allocation",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ut-county-rap-current2026",
+      "title": "Utah59-12part7 currentcounty recreationtax",
+      "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-P7_1800010118000101.pdf",
+      "vintage": "Contains2026section703amendment;cannotfreezeasJanuary2026law",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "id-parks-fuel-allocation",
+      "title": "Idaho63-2412 gasoline-tax distribution",
+      "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH24/SECT63-2412/",
+      "vintage": "Current code includes2026chapter98; cannot freeze unadjusted at January2026",
+      "accessed": "2026-09-29",
+      "readBy": "helper; lead inspected cited excerpts",
+      "kind": "primary"
+    },
+    {
+      "id": "id-parks-h716-predecessor",
+      "title": "Idaho2026H716 enacted amendment with predecessor text",
+      "url": "https://legislature.idaho.gov/wp-content/uploads/sessioninfo/2026/legislation/H0716.pdf",
+      "vintage": "2026chapter98 amendment;July1,2026 effective; pre-amendment park proportions inspected",
+      "accessed": "2026-09-29",
+      "readBy": "helper; lead inspected cited excerpts",
+      "kind": "primary"
+    },
+    {
+      "id": "id-parks-capital-account",
+      "title": "Idaho57-1801 park/recreation capital improvement account",
+      "url": "https://legislature.idaho.gov/statutesrules/idstat/Title57/T57CH18/SECT57-1801/",
+      "vintage": "Current text; section history latest1988chapter253",
+      "accessed": "2026-09-29",
+      "readBy": "helper; lead inspected cited excerpts",
+      "kind": "primary"
+    },
+    {
+      "id": "nd-parks-oil-gas-allocation",
+      "title": "NorthDakota57-51-15 outdoor heritage allocation",
+      "url": "https://ndlegis.gov/cencode/t57c51.pdf",
+      "vintage": "Current undated own-code compilation;Januaryhistory not yet established",
+      "accessed": "2026-09-29",
+      "readBy": "helper; lead inspected cited excerpts",
+      "kind": "primary"
+    },
+    {
+      "id": "nd-parks-outdoor-heritage",
+      "title": "NorthDakota54-17.8 outdoor heritage purpose/appropriation",
+      "url": "https://ndlegis.gov/cencode/t54c17-8.pdf",
+      "vintage": "Current own-code compilation;parks share mixed with conservation",
+      "accessed": "2026-09-29",
+      "readBy": "helper; lead inspected cited excerpts",
+      "kind": "primary"
+    },
+    {
+      "id": "sd-parks-fuel-allocation",
+      "title": "SouthDakota10-47B motor-fuel allocation and boating purposes",
+      "url": "https://sdlegislature.gov/api/Statutes/10-47B.html?all=true",
+      "vintage": "Current official reader;2026 compilation;149boat provision history through2021;152cross-reference unresolved",
+      "accessed": "2026-09-29",
+      "readBy": "helper; lead inspected cited excerpts",
+      "kind": "primary"
+    },
+    {
+      "id": "wy-parks-gasoline-allocation",
+      "title": "Wyoming39-17-111(c)(ii)-(iv) gasoline-tax boating/trails allocation",
+      "url": "https://www.wyoleg.gov/statutes/compress/title39.pdf",
+      "vintage": "Current undated own-code compilation;completeJanuaryhistory open",
+      "accessed": "2026-09-29",
+      "readBy": "helper; lead inspected cited excerpts",
+      "kind": "primary"
+    },
+    {
+      "id": "nm-parks-lwcf-agency",
+      "title": "NewMexicoEMNRD LWCF assistance and linked bill-form documents",
+      "url": "https://www.emnrd.nm.gov/spd/land-and-water-conservation-fund/",
+      "vintage": "Current agency page includes2026 application material",
+      "accessed": "2026-09-29",
+      "readBy": "helper; lead inspected cited excerpts",
+      "kind": "primary"
+    },
+    {
+      "id": "nm-parks-sb169-form",
+      "title": "NewMexico own-agency linked SB169 section16-1-3 amendment form",
+      "url": "https://www.emnrd.nm.gov/spd/wp-content/uploads/sites/7/SB0169_LWCF_supplemental.pdf",
+      "vintage": "Bill-form text; adoption year/chapter/effective date not established",
+      "accessed": "2026-09-29",
+      "readBy": "helper; lead inspected cited excerpts",
+      "kind": "primary"
+    },
+    {
+      "id": "nm-parks-hb177-form",
+      "title": "NewMexico own-agency linked HB177 match fund form",
+      "url": "https://www.emnrd.nm.gov/spd/wp-content/uploads/sites/7/HB0177_state_match_funds.pdf",
+      "vintage": "Bill-form text; adoption year/chapter/effective date not established",
+      "accessed": "2026-09-29",
+      "readBy": "helper; lead inspected cited excerpts",
+      "kind": "primary"
     }
   ],
   "sessionEndLaw": {
@@ -1310,8 +1499,8 @@
     "US-AK": {
       "status": "partial-source",
       "legalRule": {
-        "kind": "constitutional-cap-with-statutory-gap",
-        "citation": "Alaska Constitution article II sections 8-10",
+        "kind": "constitutional-cap-and-statutory-duration",
+        "citation": "Alaska Constitution article II sections 8-10;AS24.05.150(a)-(b)",
         "constitutionalStart": "Fourth Monday in January unless changed by law",
         "limits": [
           {
@@ -1325,13 +1514,22 @@
           "unit": "days"
         },
         "recess": "Other house concurrence beyond three days; Governor may resolve certified disagreement on adjournment.",
-        "statutoryDuration": null
+        "statutoryDuration": {
+          "count": 90,
+          "unit": "consecutive calendar days",
+          "includesConveningDay": true,
+          "rule": "Legislature shall adjourn from a regular session within this statutory duration; distinct from constitutional wording/interpretation."
+        }
       },
-      "sources": ["ak-session-constitution", "ak-session-agency"],
+      "sources": [
+        "ak-session-constitution",
+        "ak-session-agency",
+        "ak-session-statute2025"
+      ],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "AS 24.05.150 operative text and history not retrieved. Agency distinguishes statutory 90 days and constitutional 121-day interpretation; constitutional wording is 120 days from convening. Do not silently substitute one rule or adopt introduced bills."
+        "Operative statutory90-day text now directly retrieved from own2025 statute endpoint. Complete January2026 amendment comparison and controlling constitutional/statutory interpretation remain open; retain constitutional120-day wording and agency121-day interpretation separately. No actual adjournment inferred."
       ]
     },
     "US-AZ": {
@@ -2957,15 +3155,23 @@
       ]
     },
     "US-ID": {
-      "status": "unresearched",
+      "status": "dedicated-tax-source",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "63-2412(1)(f)1-3,(2); 57-1801",
+        "revenue": "Two allocations each transfer 33% of 1.28% of the balance after statutory deductions to the park and recreation capital improvement account. A separate 0.44% of that balance is restricted to park roads, bridges and parking. Allocation applies only to 25 cents of each 32 cents of the specified gasoline-tax receipts.",
+        "scope": "State park/recreation capital account. The exact denominator and prior deductions matter. The 2026 H716 amendment retains the park proportions but changes preceding deductions and highway distribution."
+      },
+      "sources": [
+        "id-parks-fuel-allocation",
+        "id-parks-h716-predecessor",
+        "id-parks-capital-account"
+      ],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "The predecessor bridge deduction is $175,000, not the amended $300,000. Read 2020 chapter 48 and 2025 budget diversions before completing the January cutoff. Restricted capital/road question fit remains open; no local law is inherited."
       ]
     },
     "US-IL": {
@@ -3101,15 +3307,24 @@
       ]
     },
     "US-MA": {
-      "status": "unresearched",
+      "status": "conditional-local-authority",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "GL 44B sections 3, 5, 6; 2012 chapter 139",
+        "revenue": "Accepting cities/towns may adopt a voter-approved property surcharge of up to 3% of the real-estate tax levy. The alternative route uses at least a 1% surcharge plus other municipal revenues within a combined 3% limit.",
+        "scope": "Mixed community-preservation uses include recreation-land acquisition, creation, preservation, rehabilitation and restoration, open space, historic resources and housing. Maintenance is prohibited. Separate 10% minimums apply to open space, history and housing; no park-only minimum is inferred."
+      },
+      "sources": [
+        "ma-cpa-tax-grant",
+        "ma-cpa-recreation-uses",
+        "ma-cpa-minimum-allocations",
+        "ma-cpa2012-enactment"
+      ],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Complete January 2026 amendment comparison, local acceptance/rate/appropriation inventory and state-question fit remain open. Local authority is not an automatic statewide parks allocation."
       ]
     },
     "US-MI": {
@@ -3214,7 +3429,8 @@
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched.",
+        "Cloudhelper requested ownlegislature NRS407 overHTTPS andHTTP; both returnedHTTP403. Nolegaltext admitted andnoabsence finding. NRS365/funding archives remain research routes only."
       ]
     },
     "US-NH": {
@@ -3246,15 +3462,23 @@
       ]
     },
     "US-NM": {
-      "status": "unresearched",
+      "status": "partial-source",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "Agency-linked 16-1-3 SB169 form; HB177 match-fund form",
+        "revenue": "Reviewed documents concern supplemental LWCF assistance and a general match fund receiving distributions, appropriations, gifts, grants and donations. These sources do not establish an own-state tax, lottery or royalty dedication.",
+        "scope": "Federal matching and project assistance are distinct from dedicated state parks revenue. No absence finding."
+      },
+      "sources": [
+        "nm-parks-lwcf-agency",
+        "nm-parks-sb169-form",
+        "nm-parks-hb177-form"
+      ],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "The linked bill forms do not establish enactment year, chapter, signature or effective date. Read current 16-1-2 funding and the parks-funding/cutoff inventory. No no-law finding follows from these documents."
       ]
     },
     "US-NY": {
@@ -3294,15 +3518,19 @@
       ]
     },
     "US-ND": {
-      "status": "unresearched",
+      "status": "mixed-conservation-tax-source",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "57-51-15(1)(a); 54-17.8-02, -03, -05",
+        "revenue": "8% of the subsection base goes to the outdoor heritage fund, capped at $20 million per fiscal year. The base is 1% of gross oil value at the well plus one-fifth of the tax on gas; it is not all oil/gas receipts.",
+        "scope": "Continuously appropriated mixed conservation, access, agriculture, habitat and recreation grants include parks. No fixed park-only share."
+      },
+      "sources": ["nd-parks-oil-gas-allocation", "nd-parks-outdoor-heritage"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Complete January 2026 allocation history and budget-diversion audit remain open. Grant restrictions, match and mixed-fund question fit require further review."
       ]
     },
     "US-OH": {
@@ -3409,15 +3637,19 @@
       ]
     },
     "US-SD": {
-      "status": "unresearched",
+      "status": "dedicated-tax-source",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "10-47B-4.2, -149(6), -151, -152",
+        "revenue": "Each July the parks/recreation transfer equals the previous December 31 licensed motorized boat count times 140 gallons times the statutory motor-fuel tax rate. The retrieved rate is $0.28 per gallon; the formula does not measure observed spending.",
+        "scope": "Motor-fuel-tax-funded boating and water purposes. Concession promotion fees, entrance fees and bonds are separate."
+      },
+      "sources": ["sd-parks-fuel-allocation"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Section 152 references 149(5), but the current boat formula is 149(6). Preserve this statutory cross-reference discrepancy. The 2026 compilation needs a January cutoff/budget audit and restricted-boating question-fit review."
       ]
     },
     "US-TN": {
@@ -3438,27 +3670,43 @@
       ]
     },
     "US-TX": {
-      "status": "unresearched",
-      "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "status": "positive-route",
+      "proposedAnswer": true,
+      "legalRoute": {
+        "citation": "Texas Constitution VIII 7-d; 2019 SJR24 section 2",
+        "revenue": "Net state sales/use-tax revenue on defined sporting goods is automatically appropriated to Parks and Wildlife and the Historical Commission. General law determines the agency split. The adopted transition applies to revenue collected from September 1, 2021.",
+        "scope": "Mixed parks/historic purposes with statutory use limits. A two-thirds recorded vote of each house may reduce the appropriation by at most 50% for the resolution year or either following year. No agency ratio is supplied without its operative statute."
+      },
+      "sources": [
+        "tx-parks-constitution2025",
+        "tx-parks-sjr24",
+        "tx-parks-prop5-adoption"
+      ],
       "priorCandidateAnswer": "yes",
       "priorEstimated": false,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "The consolidation through November 2025 corroborates the constitutional route. Statutory agency allocation/use conditions and budget-reduction resolutions still need a January cutoff audit. Statute URLs returned HTML shells, not operative PDFs; no exact park-only share or actual receipts are inferred."
       ]
     },
     "US-UT": {
-      "status": "unresearched",
+      "status": "partial-source",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "59-12-702, -703, -704 county option",
+        "revenue": "Historical May 2025 section 703 permits a voter-approved 0.1% county sales/use tax for mixed recreation, cultural, botanical and zoological purposes. Eligible recreational facilities include public parks.",
+        "scope": "Local route with municipal-overlap exclusions, eligible purposes, operating expenses and periodic reauthorization. Historical section 704 gives first-class counties a 30% mixed cultural/recreation allocation, not a park-only share. The January section 703 version remains unread."
+      },
+      "sources": [
+        "ut-county-rap-may2025",
+        "ut-county-rap-distribution2025",
+        "ut-county-rap-current2026"
+      ],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "The May 2025 section 703 version was superseded November 6, 2025, while the current compilation includes a 2026 amendment. Retrieve the intervening version before accepting a January rule. Local voter/ordinance inventory, city-option part 14 and state-question fit remain open."
       ]
     },
     "US-VT": {
@@ -3543,15 +3791,19 @@
       ]
     },
     "US-WY": {
-      "status": "unresearched",
+      "status": "dedicated-tax-source",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "39-17-111(c)(ii)-(iv)",
+        "revenue": "Gasoline taxes fund an allocation equal to current-year numbered motorboats plus prior-year nonresident motorboats paying AIS fees, times $28.75. Snowmobile allocation uses specified registration counts times $28.75 plus commercial gallons times the 39-17-104(a)(i) rate. ORV registration count times $18.40 funds ORV trails.",
+        "scope": "Restricted boating facilities at state/public parks and grants, plus snowmobile and ORV trails. Registration counts calculate the tax allocation; registration fees are not its revenue source."
+      },
+      "sources": ["wy-parks-gasoline-allocation"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "The commercial snowmobile cross-reference currently uses the 23-cent component, not the 24-cent total gasoline tax. Enacted predecessor/history, January 2026 budget-diversion review and question fit remain open."
       ]
     },
     "US-DC": {

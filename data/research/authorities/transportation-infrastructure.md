@@ -1,6 +1,6 @@
 # Transportation rules need more jurisdiction evidence
 
-The first transportation research tranche records 33 legislative decisions across ten topics. It corrects several claims in the worked example and keeps unsupported effects unsized. It is a research draft. Transportation is not ready for approval: 1549 availability cells remain unresearched, and the remaining verification work is listed below. No game behavior has changed.
+The first transportation research tranche records 33 legislative decisions across ten topics. It corrects several claims in the worked example and keeps unsupported effects unsized. It is a research draft. Transportation is not ready for approval: 1546 availability cells remain unresearched, and the remaining verification work is listed below. No game behavior has changed.
 
 ## What the evidence establishes
 
@@ -16,14 +16,14 @@ Every admitted decision has 56 explicit availability cells and 56 separate start
 
 | Topic                                | Decisions | Sourced availability cells | Barred cells | Unresearched cells |
 | ------------------------------------ | --------: | -------------------------: | -----------: | -----------------: |
-| roads-and-bridges                    |         6 |                        109 |            5 |                222 |
+| roads-and-bridges                    |         6 |                        116 |            5 |                220 |
 | transit                              |         5 |                         10 |            0 |                270 |
-| rail                                 |         4 |                         11 |            0 |                213 |
+| rail                                 |         4 |                         12 |            0 |                212 |
 | airports-and-ports                   |         3 |                         58 |            0 |                110 |
-| water-and-sewer                      |         4 |                         16 |            2 |                206 |
+| water-and-sewer                      |         4 |                         18 |            2 |                206 |
 | stormwater                           |         2 |                          3 |            0 |                109 |
 | broadband                            |         2 |                         75 |            0 |                 37 |
-| utility-regulation                   |         3 |                          3 |            2 |                163 |
+| utility-regulation                   |         3 |                          5 |            2 |                163 |
 | public-facilities                    |         2 |                          3 |            0 |                109 |
 | capital-construction-and-maintenance |         2 |                          2 |            0 |                110 |
 
@@ -35,14 +35,14 @@ Nine barred cells record two fluoride operator restrictions, five ordinary local
 - `ev-registration`: `AK, CT, ME, MA, NV, NY, PR, GU, VI, AS, MP`.
 - `congestion-toll`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `speed-camera`: `AL, AK, AZ, AR, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, MD, MA, MI, MN, MS, MO, MT, NE, NV, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SD, TN, VT, VA, WA, WI, WY, DC, PR, GU, VI, AS, MP`.
-- `local-speed`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NC, ND, OH, OK, PA, RI, SC, SD, TN, TX, UT, VT, VA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
+- `local-speed`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, MD, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NC, ND, OH, OK, PA, RI, SC, SD, TN, TX, UT, VT, VA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `per-mile-charge`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `transit-sales-tax`: `AL, AK, AZ, AR, CO, CT, DE, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, ND, OH, OK, OR, PA, RI, SC, SD, UT, VT, VA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `transit-near-housing`: `AL, AK, AZ, AR, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `transit-aid`: `AL, AK, AZ, AR, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `bus-priority`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `transit-member-withdrawal`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
-- `rail-acquisition`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
+- `rail-acquisition`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `short-line-credit`: `AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KY, LA, ME, MD, MA, MI, MS, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WY, DC, PR, GU, VI, AS, MP`.
 - `rail-capital-appropriation`: `AL, AK, AZ, AR, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `rail-crew-minimum`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
@@ -157,3 +157,9 @@ Eight further EV charge routes admitted with future amendments excluded; Nevada/
 ## Superseding anchor rule
 
 Owner8:54/8:56 requires exact own-place legal values and all-game-place research for every non-law anchor, followed by realistic per-world variation and simulation evolution. Numeric study effects here are contextual results only until coverage is established; no runtime or seeded world parameter is implemented. One-place Manhattan/SFO/SanFrancisco/NYC evidence cannot become a national anchor. Existing compliant seeded estimates are retained. See Team6handback for exact fields,source coverage and unresolved gaps.
+
+## Cloud primary-source follow-up
+
+Massachusetts permits accepting municipalities to set 25 mph on eligible non-state-highway roads. Maine grants several municipal routes with population or engineer qualifications, road classes, approval, investigation and posting requirements. These sourced powers are narrower than a blanket local speed-limit grant. The lead read both operative sections and Massachusetts’ enacted delegation.
+
+Maine’s funded rail-acquisition statute permits ownership and contracted operation while barring direct state operation under that chapter. Federal approvals, acquisition funding, cost recovery and separately authorized credit remain distinct conditions. The nationwide constitutional matrix remains incomplete. No numerical outcome effect was added.
