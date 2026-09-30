@@ -1,5 +1,8 @@
 import { PLACE_NAMES_V1_VERSION } from "../simulation/names-data";
-import { SCHOOL_NAMES_V2_VERSION } from "../simulation/school-names";
+import {
+  type SCHOOL_NAMES_V2_VERSION,
+  SCHOOL_NAMES_V3_VERSION,
+} from "../simulation/school-names";
 import {
   SCHOOL_STAGES_V2,
   type SchoolStageVersion,
@@ -218,9 +221,11 @@ export interface NewGameSetup {
   readonly partyChapterNameVersion?: PartyChapterNameVersion;
   /**
    * Absent keeps the v1 school names an old replay drew. New Game declares the
-   * measured draw, where a small town's high school is usually named for it.
+   * measured draw with historical honorees; explicit v2 replays keep their
+   * original generated person/family names.
    */
-  readonly schoolNameVersion?: typeof SCHOOL_NAMES_V2_VERSION;
+  readonly schoolNameVersion?:
+    typeof SCHOOL_NAMES_V2_VERSION | typeof SCHOOL_NAMES_V3_VERSION;
   /**
    * Absent keeps the national name corpus everywhere. New Game names a life
    * begun in Puerto Rico from the island's own names, with two surnames.
@@ -303,7 +308,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   // fixed offset this replaces.
   childhoodGenerationVersion: CHILDHOOD_GENERATION_V2,
   partyChapterNameVersion: RESIDENT_CHAPTER_NAME_VERSION,
-  schoolNameVersion: SCHOOL_NAMES_V2_VERSION,
+  schoolNameVersion: SCHOOL_NAMES_V3_VERSION,
   placeNameVersion: PLACE_NAMES_V1_VERSION,
   schoolStageVersion: SCHOOL_STAGES_V2,
   familyBirthdayVersion: FAMILY_BIRTHDAYS_V1,
