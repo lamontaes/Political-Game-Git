@@ -1,3 +1,9 @@
+## Team7 Firefly handoff and calibration received
+
+Team7 reports additive1257 head b9e177a52db3d73cb355204177f42565a97a6b6a published. Firefly source brief: art/authoring/sept30-team7/kids-runtime/firefly-head-batch.json, with four crop IDs/native hashes/source hashes/head-neck frames and style-master hash. CDC raw CSV and stature-calibration.json accompany it; Team7 reports six medians recalculated and source SHA verified. Earlier source-README wording is stale: calibration is present and fresh Butte child repro authorized.
+
+Generation has not started; pixels not approved; child runtime gate unchanged. Seated contact metadata and heads remain incomplete. Team7 continues contact candidates/review. Newspaper exact-save hold unchanged. Owner Firefly sign-in is the remaining generation dependency.
+
 ## September 30, 2:57 actual-turn collection
 
 Observed idle: Teams1,5,6,8 and Merge. Specific continuations dispatched: Team1 federal batch; Team5 tuition/curriculum/library while pre-K contract waits; Team6 remaining stamp batch with1283 merge correction; Team8 mark CTO-approved1298 ready; Merge process approved1295/1298 and standing-category1290. Delivery is not resumed execution proof.
