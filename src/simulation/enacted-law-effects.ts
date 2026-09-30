@@ -1,6 +1,12 @@
-import { createLawConsequenceRegistry } from "./law-consequence-registry";
+import {
+  createLawConsequenceRegistry,
+  LAW_CONSEQUENCE_REGISTRATIONS,
+} from "./law-consequence-registry";
 import { validateLawConsequences } from "./law-consequence-validation";
-import type { LawConsequenceContext } from "./law-consequence-types";
+import type {
+  LawConsequenceContext,
+  LawConsequenceKindRegistration,
+} from "./law-consequence-types";
 import { appropriationFromEnactedMeasure } from "./governing/program-governing";
 import {
   applyEnactedDuties,
@@ -838,8 +844,9 @@ function levelOfGovernment(
 export function applyLawConsequences(
   world: World,
   context: LawConsequenceContext,
+  registrations: readonly LawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
 ): World {
-  const registry = createLawConsequenceRegistry();
+  const registry = createLawConsequenceRegistry(registrations);
   let next = world;
   for (const id of world.policyCatalog.propositionOrder) {
     const proposition = world.policyCatalog.propositions[id];
