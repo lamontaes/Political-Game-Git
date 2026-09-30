@@ -18,6 +18,8 @@ import {
 } from "./paid-leave-benefits";
 import type { EntityId, World } from "./types";
 import { advanceWorld } from "./world";
+import { isLawEffectStamp, type LawEffectStampedRecord } from "./law-effect-stamp";
+import { PAID_LEAVE_QUESTION } from "./state-paid-leave-law";
 
 const LONG = 900_000;
 /** Vernonia, Oregon: Paid Leave Oregon collects premiums in 2026. */
@@ -141,6 +143,17 @@ describe("a state paid leave program pays for a serious illness", () => {
       expect(withProgram.benefits.length).toBeGreaterThan(0);
       for (const benefit of withProgram.benefits) {
         expect(benefit.transferredAmount.minorUnits).toBeGreaterThan(0);
+        const stamps = (benefit as typeof benefit & LawEffectStampedRecord)
+          .lawEffectStamps;
+        expect(stamps).toHaveLength(1);
+        expect(isLawEffectStamp(stamps?.[0])).toBe(true);
+        expect(stamps?.[0]).toMatchObject({
+          source: "in-force-at-start",
+          effectKind: "paid-leave-benefit",
+          questionKey: PAID_LEAVE_QUESTION,
+          appliedAt: benefit.occurredAt,
+        });
+        expect(stamps?.[0]?.sourceRecordIds).toContain(benefit.resourceFlowId);
         expect(benefit.note).toMatch(
           /^State paid leave benefit for \d+ days? out with a serious illness, \d+% of the pay lost\./,
         );
