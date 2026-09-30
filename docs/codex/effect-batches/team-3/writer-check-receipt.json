@@ -1,0 +1,49 @@
+{
+  "baseHead": "23c6ed8fe13f9d4b49d9a71da8bac32adf080a0c",
+  "checkedFileBlobs": {
+    "src/simulation/living-world/town-pay.ts": "abba78839d4e3a0e73316466e9fbe66e50d34447",
+    "tests/nationwide/law-pay-reaches-people.test.ts": "396b688e5523491303272b745f61b7087654fdfd",
+    "src/simulation/state-income-tax-law.ts": "63b17e305234738dd437ccc89e1a90eb80912597",
+    "src/simulation/state-income-tax-law.test.ts": "9b288be4e16fa1363b8a8be29d3c17f921a47c3f"
+  },
+  "focusedTests": {
+    "passed": 17,
+    "total": 17,
+    "files": 2,
+    "durationSeconds": 20.4,
+    "wageCases": 5,
+    "wageCasesWithRaiseRecords": 3,
+    "wageCasesWithoutRaiseRecords": 2,
+    "taxReaderCases": 12,
+    "fiveStateTaxAdoptionCases": 5
+  },
+  "strictTypes": {
+    "roots": 4,
+    "diagnostics": 0
+  },
+  "scopedLint": {
+    "exitCode": 0
+  },
+  "format": {
+    "passed": true
+  },
+  "whitespace": {
+    "passed": true
+  },
+  "release": {
+    "exitCode": 1,
+    "finding": "unchanged docs/release/changes/wave1-playtest-copy.md lacks header"
+  },
+  "zeroDice": {
+    "exitCode": 1,
+    "new": 0,
+    "staleRemovals": 5
+  },
+  "notRun": [
+    "nationwide audit",
+    "canonical save/reopen",
+    "browser",
+    "performance"
+  ],
+  "limits": "Fixture source checks, not national law acceptance. The state shared assessment/payment hunk is a payload only."
+}
